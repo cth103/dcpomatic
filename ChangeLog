@@ -1,5 +1,7 @@
 2014-07-16  Carl Hetherington  <cth@carlh.net>
 
+	* Updates to de_DE from Carsten Kurz.
+
 	* Limit allowed KDM types based on Interop/SMPTE setting
 	of DCP (#385).
 

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-24 14:53+0100\n"
-"PO-Revision-Date: 2014-07-02 17:06+0100\n"
+"PO-Revision-Date: 2014-07-13 03:08+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -357,7 +357,7 @@ msgstr "Standard JPEG2000 Datenrate"
 
 #: src/wx/config_dialog.cc:288
 msgid "Default audio delay"
-msgstr "Standard Ton Verzögerung"
+msgstr "Standard Ton Verzögerung (+/-)"
 
 #: src/wx/config_dialog.cc:270
 msgid "Default container"
@@ -446,15 +446,15 @@ msgstr "Bearbeiten..."
 
 #: src/wx/cinema_dialog.cc:31
 msgid "Email address for KDM delivery"
-msgstr "Absender Email Adresse"
+msgstr "KDM Empfänger Email Adresse"
 
 #: src/wx/servers_list_dialog.cc:30
 msgid "Encoding Servers"
-msgstr "Enkodier Server"
+msgstr "Encoding Server"
 
 #: src/wx/film_editor.cc:162
 msgid "Encrypted"
-msgstr "Verschlüsselt (-> KDM Erstellung)"
+msgstr "Verschlüsselt (->für KDM Erstellung)"
 
 #: src/wx/config_dialog.cc:790
 msgid "Errors"
@@ -602,7 +602,7 @@ msgstr "Zeitfenster"
 
 #: src/wx/film_editor.cc:297
 msgid "Keep video in sequence"
-msgstr "Lücken automatisch schließen"
+msgstr "Lücken in Zeitleiste automatisch schließen"
 
 #: src/wx/audio_mapping_view.cc:277
 msgid "L"
@@ -662,7 +662,7 @@ msgstr "Matrix"
 
 #: src/wx/config_dialog.cc:772
 msgid "Maximum JPEG2000 bandwidth"
-msgstr "Maximale JPEG2000 Datenrate(Vorsicht!)"
+msgstr "Maximale JPEG2000 Datenrate (Vorsicht!)"
 
 #: src/wx/config_dialog.cc:283 src/wx/config_dialog.cc:776
 #: src/wx/film_editor.cc:185
@@ -836,11 +836,11 @@ msgstr "SMPTE"
 
 #: src/wx/subtitle_panel.cc:62
 msgid "Scale"
-msgstr "Skalierer"
+msgstr "Größe"
 
 #: src/wx/video_panel.cc:132
 msgid "Scale to"
-msgstr "Skaliere zu"
+msgstr "Skaliere auf"
 
 #: src/wx/video_panel.cc:316
 #, c-format
@@ -849,7 +849,7 @@ msgstr "Skaliert auf %dx%d (%.2f:1)\n"
 
 #: src/wx/film_editor.cc:195
 msgid "Scaler"
-msgstr "Skalierer"
+msgstr "Skalierverfahren"
 
 #: src/wx/kdm_dialog.cc:60
 msgid "Screens"
@@ -885,7 +885,7 @@ msgstr "Server Seriennummer"
 
 #: src/wx/config_dialog.cc:434
 msgid "Servers"
-msgstr "Server"
+msgstr "Encoding Server"
 
 #: src/wx/timecode.cc:65 src/wx/timing_panel.cc:61
 msgid "Set"
@@ -921,7 +921,7 @@ msgstr "Standard"
 
 #: src/wx/audio_panel.cc:81 src/wx/subtitle_panel.cc:70
 msgid "Stream"
-msgstr "Tonspur"
+msgstr "Spur"
 
 #: src/wx/isdcf_metadata_dialog.cc:47
 msgid "Studio (e.g. TCF)"
@@ -1171,7 +1171,7 @@ msgstr "Standbild"
 
 #: src/wx/repeat_dialog.cc:28
 msgid "times"
-msgstr "Zeiten"
+msgstr "mal"
 
 #: src/wx/timeline.cc:241
 msgid "video"
