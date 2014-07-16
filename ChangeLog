@@ -14,6 +14,12 @@
 
 2014-07-16  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.72.3 released.
+
+2014-07-16  Carl Hetherington  <cth@carlh.net>
+
+	* Improve approximate time reports a bit.
+
 	* Make KDM email subject configurable.
 
 	* Updates to de_DE from Carsten Kurz.
