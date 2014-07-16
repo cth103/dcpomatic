@@ -1,5 +1,7 @@
 2014-07-16  Carl Hetherington  <cth@carlh.net>
 
+	* Add default scaling setting to preferences (#384).
+
 	* Version 1.72.3 released.
 
 2014-07-16  Carl Hetherington  <cth@carlh.net>
