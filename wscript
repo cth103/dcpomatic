@@ -58,11 +58,7 @@ def dynamic_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.2', mandatory=True)
 
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
-<<<<<<< HEAD
-    conf.check_cfg(package='libdcp-1.0', atleast_version='0.95', args='--cflags', uselib_store='DCP', mandatory=True)
-=======
-    conf.check_cfg(package='libdcp', atleast_version='0.96', args='--cflags', uselib_store='DCP', mandatory=True)
->>>>>>> origin/master
+    conf.check_cfg(package='libdcp-1.0', atleast_version='0.96', args='--cflags', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
     conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-libdcp-1.0', 'kumu-libdcp-1.0']
     conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
