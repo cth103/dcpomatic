@@ -1,5 +1,7 @@
 2014-07-17  Carl Hetherington  <cth@carlh.net>
 
+	* Fix corrupted text in job descriptions in some cases.
+
 	* Speculative fix for failure to keep Windows
 	machines awake during encodes.
 
