@@ -29,7 +29,7 @@ def build(bld):
             obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../platform/windows/dcpomatic2.rc'
+                obj.source += ' ../../platform/windows/dcpomatic.rc'
             obj.target = t.replace('dcpomatic', 'dcpomatic2')
 
         i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)
