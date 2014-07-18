@@ -49,7 +49,6 @@
 #include <magick/version.h>
 #include <dcp/version.h>
 #include <dcp/util.h>
-#include <dcp/signer_chain.h>
 #include <dcp/signer.h>
 #include <dcp/raw_convert.h>
 extern "C" {

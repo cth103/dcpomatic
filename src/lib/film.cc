@@ -30,7 +30,6 @@
 #include <boost/lexical_cast.hpp>
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
-#include <dcp/signer_chain.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
 #include <dcp/util.h>
