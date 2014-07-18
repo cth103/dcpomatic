@@ -98,7 +98,7 @@ def build(bld):
     else:
         obj = bld(features = 'cxx cxxshlib')
 
-    obj.name = 'libdcpomatic'
+    obj.name = 'libdcpomatic2'
     obj.export_includes = ['..']
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
@@ -118,9 +118,9 @@ def build(bld):
     if bld.env.BUILD_STATIC:
         obj.uselib += ' XMLPP'
 
-    obj.target = 'dcpomatic'
+    obj.target = 'dcpomatic2'
 
-    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdcpomatic', bld)
+    i18n.po_to_mo(os.path.join('src', 'lib'), 'libdcpomatic2', bld)
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'lib'), sources, 'libdcpomatic')

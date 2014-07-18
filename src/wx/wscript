@@ -85,16 +85,16 @@ def build(bld):
     else:
         obj = bld(features = 'cxx cxxshlib')
 
-    obj.name   = 'libdcpomatic-wx'
+    obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
     obj.uselib = 'WXWIDGETS DCP'
     if bld.env.TARGET_LINUX:
         obj.uselib += ' GTK'
-    obj.use = 'libdcpomatic'
+    obj.use = 'libdcpomatic2'
     obj.source = sources
-    obj.target = 'dcpomatic-wx'
+    obj.target = 'dcpomatic2-wx'
 
-    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic-wx', bld)
+    i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic2-wx', bld)
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'wx'), sources + " editable_list.h", 'libdcpomatic-wx')

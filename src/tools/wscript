@@ -13,9 +13,9 @@ def build(bld):
         obj = bld(features = 'cxx cxxprogram')
         obj.uselib = 'BOOST_THREAD BOOST_DATETIME OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS QUICKMAIL'
         obj.includes = ['..']
-        obj.use    = ['libdcpomatic']
+        obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
-        obj.target = t
+        obj.target = t.replace('dcpomatic', 'dcpomatic2')
         if t == 'server_test':
             obj.install_path = None
 
@@ -26,13 +26,13 @@ def build(bld):
             if bld.env.BUILD_STATIC:
                 obj.uselib += ' GTK'
             obj.includes = ['..']
-            obj.use    = ['libdcpomatic', 'libdcpomatic-wx']
+            obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
             obj.source = '%s.cc' % t
             if bld.env.TARGET_WINDOWS:
-                obj.source += ' ../../platform/windows/dcpomatic.rc'
-            obj.target = t
+                obj.source += ' ../../platform/windows/dcpomatic2.rc'
+            obj.target = t.replace('dcpomatic', 'dcpomatic2')
 
-        i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic', bld)
+        i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'tools'), 'dcpomatic.cc dcpomatic_batch.cc', 'dcpomatic')
