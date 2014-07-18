@@ -248,7 +248,7 @@ int main (int argc, char* argv[])
 			error ("you must specify --output");
 		}
 		
-		shared_ptr<dcp::Certificate> certificate (new dcp::Certificate (boost::filesystem::path (certificate_file)));
+		shared_ptr<dcp::Certificate> certificate (new dcp::Certificate (dcp::file_to_string (certificate_file)));
 		dcp::EncryptedKDM kdm = film->make_kdm (certificate, cpl, valid_from.get(), valid_to.get(), formulation);
 		kdm.as_xml (output);
 		if (verbose) {

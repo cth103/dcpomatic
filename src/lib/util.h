@@ -32,7 +32,6 @@
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <dcp/util.h>
-#include <dcp/signer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -47,10 +46,6 @@ extern "C" {
 #define MAX_DCP_AUDIO_CHANNELS 12
 
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
-
-namespace dcp {
-	class Signer;
-}
 
 class Job;
 struct AVSubtitle;
@@ -71,7 +66,6 @@ extern bool valid_image_file (boost::filesystem::path);
 extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
-extern boost::shared_ptr<const dcp::Signer> make_signer ();
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 extern std::string entities_to_text (std::string e);
 extern std::map<std::string, std::string> split_get_request (std::string url);

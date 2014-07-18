@@ -43,7 +43,7 @@ public:
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (0, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, 8);
+		s->Add (table, 1, wxEXPAND);
 
 		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, height), wxLC_REPORT | wxLC_SINGLE_SEL);
 

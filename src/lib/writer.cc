@@ -30,6 +30,7 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
+#include <dcp/signer.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
@@ -122,6 +123,11 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		   of the DCP directory until the last minute.
 		*/
 		_sound_mxf_writer = _sound_mxf->start_write (_film->directory() / _film->audio_mxf_filename(), _film->interop() ? dcp::INTEROP : dcp::SMPTE);
+	}
+
+	/* Check that the signer is OK if we need one */
+	if (_film->is_signed() && !Config::instance()->signer()->valid ()) {
+		throw InvalidSignerError ();
 	}
 
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
@@ -484,7 +490,16 @@ Writer::finish ()
 	dcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
 	meta.set_issue_date_now ();
 
-	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, _film->is_signed() ? make_signer () : shared_ptr<const dcp::Signer> ());
+	shared_ptr<const dcp::Signer> signer;
+	if (_film->is_signed ()) {
+		signer = Config::instance()->signer ();
+		/* We did check earlier, but check again here to be on the safe side */
+		if (!signer->valid ()) {
+			throw InvalidSignerError ();
+		}
+	}
+
+	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer);
 
 	LOG_GENERAL (
 		N_("Wrote %1 FULL, %2 FAKE, %3 pushed to disk"), _full_written, _fake_written, _pushed_to_disk

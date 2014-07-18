@@ -29,6 +29,8 @@
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
 #include <dcp/metadata.h>
+#include <dcp/certificates.h>
+#include <dcp/signer.h>
 #include "isdcf_metadata.h"
 #include "colour_conversion.h"
 
@@ -186,6 +188,18 @@ public:
 	
 	std::string kdm_email () const {
 		return _kdm_email;
+	}
+
+	boost::shared_ptr<const dcp::Signer> signer () const {
+		return _signer;
+	}
+
+	dcp::Certificate decryption_certificate () const {
+		return _decryption_certificate;
+	}
+
+	std::string decryption_private_key () const {
+		return _decryption_private_key;
 	}
 
 	bool check_for_updates () const {
@@ -357,6 +371,21 @@ public:
 
 	void reset_kdm_email ();
 
+	void set_signer (boost::shared_ptr<const dcp::Signer> s) {
+		_signer = s;
+		changed ();
+	}
+
+	void set_decryption_certificate (dcp::Certificate c) {
+		_decryption_certificate = c;
+		changed ();
+	}
+
+	void set_decryption_private_key (std::string k) {
+		_decryption_private_key = k;
+		changed ();
+	}
+
 	void set_check_for_updates (bool c) {
 		_check_for_updates = c;
 		changed ();
@@ -377,8 +406,6 @@ public:
 		changed ();
 	}
 	
-	boost::filesystem::path signer_chain_directory () const;
-
 	void changed ();
 	boost::signals2::signal<void ()> Changed;
 
@@ -435,6 +462,9 @@ private:
 	std::string _kdm_from;
 	std::string _kdm_cc;
 	std::string _kdm_email;
+	boost::shared_ptr<const dcp::Signer> _signer;
+	dcp::Certificate _decryption_certificate;
+	std::string _decryption_private_key;
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;

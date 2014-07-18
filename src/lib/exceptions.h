@@ -253,6 +253,12 @@ public:
 	{}
 };
 
+class InvalidSignerError : public StringError
+{
+public:
+	InvalidSignerError ();
+};
+
 /** @class ExceptionStore
  *  @brief A parent class for classes which have a need to catch and
  *  re-throw exceptions.
@@ -294,7 +300,5 @@ private:
 	boost::exception_ptr _exception;
 	mutable boost::mutex _mutex;
 };
-
-	
 
 #endif

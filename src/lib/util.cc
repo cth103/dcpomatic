@@ -791,59 +791,6 @@ tidy_for_filename (string f)
 	return t;
 }
 
-shared_ptr<const dcp::Signer>
-make_signer ()
-{
-	boost::filesystem::path const sd = Config::instance()->signer_chain_directory ();
-
-	/* Remake the chain if any of it is missing */
-	
-	list<boost::filesystem::path> files;
-	files.push_back ("ca.self-signed.pem");
-	files.push_back ("intermediate.signed.pem");
-	files.push_back ("leaf.signed.pem");
-	files.push_back ("leaf.key");
-
-	list<boost::filesystem::path>::const_iterator i = files.begin();
-	while (i != files.end()) {
-		boost::filesystem::path p (sd);
-		p /= *i;
-		if (!boost::filesystem::exists (p)) {
-			boost::filesystem::remove_all (sd);
-			boost::filesystem::create_directories (sd);
-			dcp::make_signer_chain (sd, openssl_path ());
-			break;
-		}
-
-		++i;
-	}
-	
-	dcp::CertificateChain chain;
-
-	{
-		boost::filesystem::path p (sd);
-		p /= "ca.self-signed.pem";
-		chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate (p)));
-	}
-
-	{
-		boost::filesystem::path p (sd);
-		p /= "intermediate.signed.pem";
-		chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate (p)));
-	}
-
-	{
-		boost::filesystem::path p (sd);
-		p /= "leaf.signed.pem";
-		chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate (p)));
-	}
-
-	boost::filesystem::path signer_key (sd);
-	signer_key /= "leaf.key";
-
-	return shared_ptr<const dcp::Signer> (new dcp::Signer (chain, signer_key));
-}
-
 map<string, string>
 split_get_request (string url)
 {

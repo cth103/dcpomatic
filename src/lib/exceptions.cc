@@ -67,3 +67,9 @@ SubRipError::SubRipError (string saw, string expecting, boost::filesystem::path 
 {
 	
 }
+
+InvalidSignerError::InvalidSignerError ()
+	: StringError (_("The certificate chain for signing is invalid"))
+{
+
+}

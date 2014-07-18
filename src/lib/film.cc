@@ -1078,9 +1078,14 @@ Film::make_kdm (
 	) const
 {
 	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
+	shared_ptr<const dcp::Signer> signer = Config::instance()->signer();
+	if (!signer->valid ()) {
+		throw InvalidSignerError ();
+	}
+	
 	return dcp::DecryptedKDM (
 		cpl, from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (make_signer(), target, formulation);
+		).encrypt (signer, target, formulation);
 }
 
 list<dcp::EncryptedKDM>

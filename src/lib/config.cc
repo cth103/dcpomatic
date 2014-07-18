@@ -25,6 +25,8 @@
 #include <boost/algorithm/string.hpp>
 #include <dcp/colour_matrix.h>
 #include <dcp/raw_convert.h>
+#include <dcp/signer.h>
+#include <dcp/certificate_chain.h>
 #include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"
@@ -36,6 +38,7 @@
 #include "colour_conversion.h"
 #include "cinema.h"
 #include "util.h"
+#include "cross.h"
 
 #include "i18n.h"
 
@@ -207,6 +210,37 @@ Config::read ()
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR);
+
+	cxml::NodePtr signer = f.optional_node_child ("Signer");
+	dcp::CertificateChain signer_chain;
+	if (signer) {
+		/* Read the signing certificates and private key in from the config file */
+		list<cxml::NodePtr> certificates = signer->node_children ("Certificate");
+		for (list<cxml::NodePtr>::const_iterator i = certificates.begin(); i != certificates.end(); ++i) {
+			signer_chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate ((*i)->content ())));
+		}
+
+		_signer.reset (new dcp::Signer (signer_chain, signer->string_child ("PrivateKey")));
+	} else {
+		/* Make a new set of signing certificates and key */
+		_signer.reset (new dcp::Signer (openssl_path ()));
+	}
+
+	if (f.optional_string_child ("DecryptionCertificate")) {
+		_decryption_certificate = dcp::Certificate (f.string_child ("DecryptionCertificate"));
+	}
+
+	if (f.optional_string_child ("DecryptionPrivateKey")) {
+		_decryption_private_key = f.string_child ("DecryptionPrivateKey");
+	}
+
+	if (!f.optional_string_child ("DecryptionCertificate") || !f.optional_string_child ("DecryptionPrivateKey")) {
+		/* Generate our own decryption certificate and key if either is not present in config */
+		boost::filesystem::path p = dcp::make_certificate_chain (openssl_path ());
+		_decryption_certificate = dcp::Certificate (dcp::file_to_string (p / "leaf.signed.pem"));
+		_decryption_private_key = dcp::file_to_string (p / "leaf.key");
+		boost::filesystem::remove_all (p);
+	}
 }
 
 /** @return Filename to write configuration to */
@@ -224,17 +258,6 @@ Config::file (bool old) const
 		boost::filesystem::create_directory (p, ec);
 		p /= "config.xml";
 	}
-	return p;
-}
-
-boost::filesystem::path
-Config::signer_chain_directory () const
-{
-	boost::filesystem::path p;
-	p /= g_get_user_config_dir ();
-	p /= "dcpomatic";
-	p /= "crypt";
-	boost::filesystem::create_directories (p);
 	return p;
 }
 
@@ -326,7 +349,17 @@ Config::write () const
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
 	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
-	
+
+	xmlpp::Element* signer = root->add_child ("Signer");
+	dcp::CertificateChain::List certs = _signer->certificates().root_to_leaf ();
+	for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
+		signer->add_child("Certificate")->add_child_text ((*i)->certificate (true));
+	}
+	signer->add_child("PrivateKey")->add_child_text (_signer->key ());
+
+	root->add_child("DecryptionCertificate")->add_child_text (_decryption_certificate.certificate (true));
+	root->add_child("DecryptionPrivateKey")->add_child_text (_decryption_private_key);
+
 	doc.write_to_file_formatted (file(false).string ());
 }
 
