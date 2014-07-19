@@ -14,7 +14,7 @@ WORK=build/platform/osx
 ENV=/Users/carl/Environments/osx/10.6
 ROOT=$1
 
-appdir="DCP-o-matic.app"
+appdir="DCP-o-matic 2.app"
 approot=$appdir/Contents
 libs=$approot/lib
 macos=$approot/MacOS
@@ -38,14 +38,14 @@ function universal_copy {
     done
 }
 
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_cli $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_server_cli $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_batch $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic.dylib $WORK/$libs
-universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic-wx.dylib $WORK/$libs
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 $WORK/$macos
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli $WORK/$macos
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli $WORK/$macos
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch $WORK/$macos
+universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib $WORK/$libs
+universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib $WORK/$libs
 universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
-universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
+universal_copy $ROOT lib/libdcp1.dylib $WORK/$libs
 universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libkumu-libdcp.dylib $WORK/$libs
 universal_copy $ROOT lib/libopenjpeg*.dylib $WORK/$libs
@@ -88,7 +88,7 @@ universal_copy $ENV lib/libcurl*.dylib $WORK/$libs
 universal_copy $ENV lib/libffi*.dylib $WORK/$libs
 universal_copy $ENV lib/libiconv*.dylib $WORK/$libs
 
-for obj in $WORK/$macos/dcpomatic $WORK/$macos/dcpomatic_batch $WORK/$macos/dcpomatic_cli $WORK/$macos/dcpomatic_server_cli $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
+for obj in $WORK/$macos/dcpomatic2 $WORK/$macos/dcpomatic2_batch $WORK/$macos/dcpomatic2_cli $WORK/$macos/dcpomatic2_server_cli $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
   deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl|libxmlsec)"`
   changes=""
   for dep in $deps; do
@@ -109,6 +109,7 @@ cp icons/defaults.png $WORK/$resources
 cp icons/kdm_email.png $WORK/$resources
 cp icons/servers.png $WORK/$resources
 cp icons/tms.png $WORK/$resources
+cp icons/keys.png $WORK/$resources
 
 # i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
@@ -149,7 +150,7 @@ echo '
            set theViewOptions to the icon view options of container window
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
-           set position of item "DCP-o-matic.app" of container window to {90, 80}
+           set position of item "DCP-o-matic 2.app" of container window to {90, 80}
            set position of item "Applications" of container window to {310, 80}
            close
            open

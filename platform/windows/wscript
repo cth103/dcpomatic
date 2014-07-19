@@ -22,7 +22,7 @@ def write_installer(bits, version):
 !define MUI_SPECIALBITMAP "%resources%/dcpomatic.bmp"
 !include "Sections.nsh"
 
-InstallDir "$PROGRAMFILES\\DCP-o-matic"
+InstallDir "$PROGRAMFILES\\DCP-o-matic 2"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "../../../COPYING"
@@ -40,7 +40,7 @@ ${If} ${RunningX64}
    ; disable registry redirection (enable access to 64-bit portion of registry)
    SetRegView 64
    ; change install dir
-   StrCpy $INSTDIR "$PROGRAMFILES64\DCP-o-matic"
+   StrCpy $INSTDIR "$PROGRAMFILES64\DCP-o-matic 2"
 ${EndIf}
         """, file=f)
 
@@ -118,8 +118,8 @@ File "%cdist_deps%/bin/swscale-2.dll"
 File "%cdist_deps%/bin/cxml.dll"
 File "%cdist_deps%/bin/ffprobe.exe"
 
-File "%binaries%/src/wx/dcpomatic-wx.dll"
-File "%binaries%/src/lib/dcpomatic.dll"
+File "%binaries%/src/wx/dcpomatic2-wx.dll"
+File "%binaries%/src/lib/dcpomatic2.dll"
 
 # I don't know why, but sometimes it seems that 
 # delegates.xml must be in with the binaries, and
@@ -129,66 +129,66 @@ SetOutPath "$PROFILE\\.magick"
 File "%static_deps%/etc/ImageMagick-6/delegates.xml"
 
 SetOutPath "$INSTDIR\\locale\\fr\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/fr_FR/libdcpomatic.mo"
-File "%binaries%/src/wx/mo/fr_FR/libdcpomatic-wx.mo"
-File "%binaries%/src/tools/mo/fr_FR/dcpomatic.mo"
+File "%binaries%/src/lib/mo/fr_FR/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/fr_FR/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/fr_FR/dcpomatic2.mo"
 File "%static_deps%/share/locale/fr/LC_MESSAGES/wxstd.mo"
 SetOutPath "$INSTDIR\\locale\\it\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/it_IT/libdcpomatic.mo"
-File "%binaries%/src/wx/mo/it_IT/libdcpomatic-wx.mo"
-File "%binaries%/src/tools/mo/it_IT/dcpomatic.mo"
+File "%binaries%/src/lib/mo/it_IT/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/it_IT/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/it_IT/dcpomatic2.mo"
 File "%static_deps%/share/locale/it/LC_MESSAGES/wxstd.mo"
 SetOutPath "$INSTDIR\\locale\\es\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/es_ES/libdcpomatic.mo"
-File "%binaries%/src/wx/mo/es_ES/libdcpomatic-wx.mo"
-File "%binaries%/src/tools/mo/es_ES/dcpomatic.mo"
+File "%binaries%/src/lib/mo/es_ES/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/es_ES/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/es_ES/dcpomatic2.mo"
 File "%static_deps%/share/locale/es/LC_MESSAGES/wxstd.mo"
 SetOutPath "$INSTDIR\\locale\\sv\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/sv_SE/libdcpomatic.mo"
-File "%binaries%/src/wx/mo/sv_SE/libdcpomatic-wx.mo"
-File "%binaries%/src/tools/mo/sv_SE/dcpomatic.mo"
+File "%binaries%/src/lib/mo/sv_SE/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/sv_SE/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/sv_SE/dcpomatic2.mo"
 File "%static_deps%/share/locale/sv/LC_MESSAGES/wxstd.mo"
 SetOutPath "$INSTDIR\\locale\\de\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/de_DE/libdcpomatic.mo"
-File "%binaries%/src/wx/mo/de_DE/libdcpomatic-wx.mo"
-File "%binaries%/src/tools/mo/de_DE/dcpomatic.mo"
+File "%binaries%/src/lib/mo/de_DE/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/de_DE/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/de_DE/dcpomatic2.mo"
 File "%static_deps%/share/locale/de/LC_MESSAGES/wxstd.mo"
 SetOutPath "$INSTDIR\\locale\\nl\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/nl_NL/libdcpomatic.mo"
-File "%binaries%/src/wx/mo/nl_NL/libdcpomatic-wx.mo"
-File "%binaries%/src/tools/mo/nl_NL/dcpomatic.mo"
+File "%binaries%/src/lib/mo/nl_NL/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/nl_NL/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/nl_NL/dcpomatic2.mo"
 File "%static_deps%/share/locale/nl/LC_MESSAGES/wxstd.mo"
 
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "DisplayName" "DCP-o-matic (remove only)"
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "UninstallString" "$INSTDIR\\Uninstall.exe"
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
 
 SectionEnd
 
 Section "DCP-o-matic" SEC_MASTER
 SetOutPath "$INSTDIR\\bin"
-CreateDirectory "$SMPROGRAMS\\DCP-o-matic"
-File "%binaries%/src/tools/dcpomatic.exe"
-File "%binaries%/src/tools/dcpomatic_batch.exe"
-File "%binaries%/src/tools/dcpomatic_cli.exe"
-CreateShortCut "$DESKTOP\\DCP-o-matic.lnk" "$INSTDIR\\bin\\dcpomatic.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic.lnk" "$INSTDIR\\bin\\dcpomatic.exe" "" "$INSTDIR\\bin\\dcpomatic.exe" 0
-CreateShortCut "$DESKTOP\\DCP-o-matic batch converter.lnk" "$INSTDIR\\bin\\dcpomatic_batch.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic batch converter.lnk" "$INSTDIR\\bin\\dcpomatic.exe" "" "$INSTDIR\\bin\\dcpomatic_batch.exe" 0
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "DisplayName" "DCP-o-matic (remove only)"
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic" "UninstallString" "$INSTDIR\\Uninstall.exe"
+CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
+File "%binaries%/src/tools/dcpomatic2.exe"
+File "%binaries%/src/tools/dcpomatic2_batch.exe"
+File "%binaries%/src/tools/dcpomatic2_cli.exe"
+CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2.exe" 0
+CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe" ""
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2_batch.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"
+WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
 SectionEnd
 
 Section "Encode server" SEC_SERVER
 SetOutPath "$INSTDIR\\bin"
-CreateDirectory "$SMPROGRAMS\\DCP-o-matic"
-File "%binaries%/src/tools/dcpomatic_server_cli.exe"
-File "%binaries%/src/tools/dcpomatic_server.exe"
-CreateShortCut "$DESKTOP\\DCP-o-matic encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" "" "$INSTDIR\\bin\\dcpomatic_server.exe" 0
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
+File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
+File "%binaries%/src/tools/dcpomatic2_server.exe"
+CreateShortCut "$DESKTOP\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
 SectionEnd
 
 LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic"
@@ -211,13 +211,13 @@ LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic encode server"
 Section "Uninstall"
 RMDir /r "$INSTDIR\\*.*"    
 RMDir "$INSTDIR"
-Delete "$DESKTOP\\DCP-o-matic.lnk"
-Delete "$DESKTOP\\DCP-o-matic batch converter.lnk"
-Delete "$DESKTOP\\DCP-o-matic encode server.lnk"
-Delete "$SMPROGRAMS\\DCP-o-matic\\*.*"
-RmDir  "$SMPROGRAMS\\DCP-o-matic"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic"
+Delete "$DESKTOP\\DCP-o-matic 2.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 batch converter.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 encode server.lnk"
+Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"
+RmDir  "$SMPROGRAMS\\DCP-o-matic 2"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic2"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2"
  SectionEnd
     """, file=f)
     
