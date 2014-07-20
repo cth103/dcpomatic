@@ -58,6 +58,9 @@ DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int v
 	_has_subtitles = node->bool_child ("HasSubtitles");
 	_directory = node->string_child ("Directory");
 	_encrypted = node->bool_child ("Encrypted");
+	if (node->optional_node_child ("KDM")) {
+		_kdm = dcp::EncryptedKDM (node->string_child ("KDM"));
+	}
 	_kdm_valid = node->bool_child ("KDMValid");
 }
 
@@ -126,7 +129,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	node->add_child("HasSubtitles")->add_child_text (_has_subtitles ? "1" : "0");
 	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	node->add_child("Directory")->add_child_text (_directory.string ());
-	/* XXX: KDM */
+	if (_kdm) {
+		node->add_child("KDM")->add_child_text (_kdm->as_xml ());
+	}
 	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
 }
 

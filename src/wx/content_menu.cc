@@ -249,7 +249,7 @@ ContentMenu::kdm ()
 	wxFileDialog* d = new wxFileDialog (_parent, _("Select KDM"));
 		
 	if (d->ShowModal() == wxID_OK) {
-		dcp->add_kdm (dcp::EncryptedKDM (wx_to_std (d->GetPath ())));
+		dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()))));
 		shared_ptr<Film> film = _film.lock ();
 		assert (film);
 		film->examine_content (dcp);
