@@ -26,6 +26,7 @@
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
+#include "lib/dcp_content.h"
 #include "content_menu.h"
 #include "repeat_dialog.h"
 #include "wx_util.h"
@@ -40,6 +41,7 @@ enum {
 	ID_repeat = 1,
 	ID_join,
 	ID_find_missing,
+	ID_kdm,
 	ID_remove
 };
 
@@ -50,12 +52,14 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
 	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
+	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::repeat, this), ID_repeat);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::join, this), ID_join);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
+	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
 }
 
@@ -81,6 +85,14 @@ ContentMenu::popup (weak_ptr<Film> f, ContentList c, wxPoint p)
 	_join->Enable (n > 1);
 	
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
+
+	if (_content.size() == 1) {
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+		_kdm->Enable (dcp && dcp->encrypted ());
+	} else {
+		_kdm->Enable (false);
+	}
+	
 	_remove->Enable (!_content.empty ());
 	_parent->PopupMenu (_menu, p);
 }
@@ -225,4 +237,23 @@ ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_pt
 	}
 
 	old_content->set_path (new_content->path (0));
+}
+
+void
+ContentMenu::kdm ()
+{
+	assert (!_content.empty ());
+	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+	assert (dcp);
+	
+	wxFileDialog* d = new wxFileDialog (_parent, _("Select KDM"));
+		
+	if (d->ShowModal() == wxID_OK) {
+		dcp->add_kdm (dcp::EncryptedKDM (wx_to_std (d->GetPath ())));
+		shared_ptr<Film> film = _film.lock ();
+		assert (film);
+		film->examine_content (dcp);
+	}
+	
+	d->Destroy ();
 }

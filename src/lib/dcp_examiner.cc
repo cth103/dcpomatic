@@ -22,20 +22,37 @@
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
+#include <dcp/mono_picture_mxf.h>
+#include <dcp/mono_picture_frame.h>
+#include <dcp/stereo_picture_mxf.h>
+#include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_mxf.h>
 #include "dcp_examiner.h"
 #include "dcp_content.h"
 #include "exceptions.h"
+#include "image.h"
+#include "config.h"
 
 #include "i18n.h"
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
+	: _video_length (0)
+	, _audio_length (0)
+	, _has_subtitles (false)
+	, _encrypted (false)
+	, _kdm_valid (false)
 {
 	dcp::DCP dcp (content->directory ());
 	dcp.read ();
+
+	if (content->kdm ()) {
+		dcp.add (dcp::DecryptedKDM (content->kdm().get(), Config::instance()->decryption_private_key ()));
+	}
 
 	if (dcp.cpls().size() == 0) {
 		throw DCPError ("No CPLs found in DCP");
@@ -87,6 +104,33 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 
 		if ((*i)->main_subtitle ()) {
 			_has_subtitles = true;
+		}
+	}
+
+	_encrypted = dcp.encrypted ();
+	_kdm_valid = true;
+	
+	/* Check that we can read the first picture frame */
+	try {
+		if (!dcp.cpls().empty () && !dcp.cpls().front()->reels().empty ()) {
+			shared_ptr<dcp::PictureMXF> mxf = dcp.cpls().front()->reels().front()->main_picture()->mxf ();
+			shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (mxf);
+			shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (mxf);
+			
+			shared_ptr<Image> image (new Image (PIX_FMT_RGB24, _video_size.get(), false));
+			
+			if (mono) {
+				mono->get_frame(0)->rgb_frame (image->data()[0]);
+			} else {
+				stereo->get_frame(0)->rgb_frame (dcp::EYE_LEFT, image->data()[0]);
+			}
+			
+		}
+	} catch (dcp::DCPReadError& e) {
+		_kdm_valid = false;
+		if (_encrypted && content->kdm ()) {
+			/* XXX: maybe don't use an exception for this */
+			throw StringError (_("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL"));
 		}
 	}
 }

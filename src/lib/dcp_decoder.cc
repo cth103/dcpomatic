@@ -31,6 +31,7 @@
 #include "dcp_content.h"
 #include "j2k_image_proxy.h"
 #include "image.h"
+#include "config.h"
 
 using std::list;
 using std::cout;
@@ -46,6 +47,9 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 {
 	dcp::DCP dcp (c->directory ());
 	dcp.read ();
+	if (c->kdm ()) {
+		dcp.add (dcp::DecryptedKDM (c->kdm().get (), Config::instance()->decryption_private_key ()));
+	}
 	assert (dcp.cpls().size() == 1);
 	_reels = dcp.cpls().front()->reels ();
 	_reel = _reels.begin ();
@@ -54,7 +58,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 bool
 DCPDecoder::pass ()
 {
-	if (_reel == _reels.end ()) {
+	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
 		return true;
 	}
 

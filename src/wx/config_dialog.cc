@@ -39,6 +39,8 @@
 #include "lib/colour_conversion.h"
 #include "lib/log.h"
 #include "lib/util.h"
+#include "lib/cross.h"
+#include "lib/exceptions.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "editable_list.h"
@@ -656,6 +658,10 @@ public:
 			s->Add (_load_decryption_private_key, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 			table->Add (s, 0);
 		}
+
+		_export_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Export DCP decryption certificate..."));
+		table->Add (_export_decryption_certificate);
+		table->AddSpacer (0);
 		
 		_add_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::add_certificate, this));
 		_remove_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::remove_certificate, this));
@@ -664,6 +670,7 @@ public:
 		_load_signer_private_key->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_signer_private_key, this));
 		_load_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_decryption_certificate, this));
 		_load_decryption_private_key->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_decryption_private_key, this));
+		_export_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_certificate, this));
 
 		_signer.reset (new dcp::Signer (*Config::instance()->signer().get ()));
 
@@ -814,6 +821,26 @@ private:
 		_decryption_private_key->SetLabel (std_to_wx (dcp::private_key_fingerprint (Config::instance()->decryption_private_key())));
 	}
 
+	void export_decryption_certificate ()
+	{
+		wxFileDialog* d = new wxFileDialog (
+			_panel, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+			);
+		
+		if (d->ShowModal () == wxID_OK) {
+			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
+			if (!f) {
+				throw OpenFileError (wx_to_std (d->GetPath ()));
+			}
+
+			string const s = Config::instance()->decryption_certificate().certificate (true);
+			fwrite (s.c_str(), 1, s.length(), f);
+			fclose (f);
+		}
+		d->Destroy ();
+	}
+
 	wxPanel* _panel;
 	wxListCtrl* _certificates;
 	wxButton* _add_certificate;
@@ -824,6 +851,7 @@ private:
 	wxButton* _load_decryption_certificate;
 	wxStaticText* _decryption_private_key;
 	wxButton* _load_decryption_private_key;
+	wxButton* _export_decryption_certificate;
 	shared_ptr<dcp::Signer> _signer;
 };
 

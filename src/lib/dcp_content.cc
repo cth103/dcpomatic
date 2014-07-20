@@ -18,16 +18,22 @@
 */
 
 #include <dcp/dcp.h>
+#include <dcp/exceptions.h>
 #include "dcp_content.h"
 #include "dcp_examiner.h"
 #include "job.h"
 #include "film.h"
+#include "config.h"
 #include "compose.hpp"
 
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
+using boost::optional;
+
+int const DCPContentProperty::CAN_BE_PLAYED = 600;
 
 DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f)
@@ -35,7 +41,9 @@ DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, SingleStreamAudioContent (f)
 	, SubtitleContent (f)
 	, _has_subtitles (false)
+	, _encrypted (false)
 	, _directory (p)
+	, _kdm_valid (false)
 {
 	read_directory (p);
 }
@@ -49,6 +57,8 @@ DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int v
 	_name = node->string_child ("Name");
 	_has_subtitles = node->bool_child ("HasSubtitles");
 	_directory = node->string_child ("Directory");
+	_encrypted = node->bool_child ("Encrypted");
+	_kdm_valid = node->bool_child ("KDMValid");
 }
 
 void
@@ -66,6 +76,8 @@ DCPContent::read_directory (boost::filesystem::path p)
 void
 DCPContent::examine (shared_ptr<Job> job)
 {
+	bool const could_be_played = can_be_played ();
+		
 	job->set_progress_unknown ();
 	Content::examine (job);
 	
@@ -76,6 +88,12 @@ DCPContent::examine (shared_ptr<Job> job)
 	boost::mutex::scoped_lock lm (_mutex);
 	_name = examiner->name ();
 	_has_subtitles = examiner->has_subtitles ();
+	_encrypted = examiner->encrypted ();
+	_kdm_valid = examiner->kdm_valid ();
+
+	if (could_be_played != can_be_played ()) {
+		signal_changed (DCPContentProperty::CAN_BE_PLAYED);
+	}
 }
 
 string
@@ -106,7 +124,10 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
 	node->add_child("HasSubtitles")->add_child_text (_has_subtitles ? "1" : "0");
+	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	node->add_child("Directory")->add_child_text (_directory.string ());
+	/* XXX: KDM */
+	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
 }
 
 DCPTime
@@ -123,9 +144,14 @@ DCPContent::identifier () const
 	return SubtitleContent::identifier ();
 }
 
-bool
-DCPContent::has_subtitles () const
+void
+DCPContent::add_kdm (dcp::EncryptedKDM k)
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	return _has_subtitles;
+	_kdm = k;
+}
+
+bool
+DCPContent::can_be_played () const
+{
+	return !_encrypted || _kdm_valid;
 }

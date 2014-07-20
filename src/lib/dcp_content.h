@@ -17,14 +17,25 @@
 
 */
 
+#ifndef DCPOMATIC_DCP_CONTENT_H
+#define DCPOMATIC_DCP_CONTENT_H
+
 /** @file  src/lib/dcp_content.h
  *  @brief DCPContent class.
  */
 
 #include <libcxml/cxml.h>
+#include <dcp/encrypted_kdm.h>
+#include <dcp/decrypted_kdm.h>
 #include "video_content.h"
 #include "single_stream_audio_content.h"
 #include "subtitle_content.h"
+
+class DCPContentProperty
+{
+public:
+	static int const CAN_BE_PLAYED;
+};
 
 /** @class DCPContent
  *  @brief An existing DCP used as input.
@@ -48,17 +59,40 @@ public:
 	std::string identifier () const;
 
 	/* SubtitleContent */
-	bool has_subtitles () const;
+	bool has_subtitles () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _has_subtitles;
+	}
 	
 	boost::filesystem::path directory () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _directory;
 	}
 
+	bool encrypted () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _encrypted;
+	}
+
+	void add_kdm (dcp::EncryptedKDM);
+
+	boost::optional<dcp::EncryptedKDM> kdm () const {
+		return _kdm;
+	}
+
+	bool can_be_played () const;
+	
 private:
 	void read_directory (boost::filesystem::path);
 	
 	std::string _name;
 	bool _has_subtitles;
+	/** true if our DCP is encrypted */
+	bool _encrypted;
 	boost::filesystem::path _directory;
+	boost::optional<dcp::EncryptedKDM> _kdm;
+	/** true if _kdm successfully decrypts the first frame of our DCP */
+	bool _kdm_valid;
 };
+
+#endif

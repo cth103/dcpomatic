@@ -24,6 +24,7 @@
 #include <iostream>
 #include <iomanip>
 #include <wx/tglbtn.h>
+#include <dcp/exceptions.h>
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -153,9 +154,24 @@ FilmViewer::get (DCPTime p, bool accurate)
 
 	list<shared_ptr<PlayerVideo> > pvf = _player->get_video (p, accurate);
 	if (!pvf.empty ()) {
-		_frame = pvf.front()->image (true);
-		_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
-		_position = pvf.front()->time ();
+		try {
+			_frame = pvf.front()->image (true);
+			_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
+			_position = pvf.front()->time ();
+		} catch (dcp::DCPReadError& e) {
+			/* This can happen on the following sequence of events:
+			 * - load encrypted DCP
+			 * - add KDM
+			 * - DCP is examined again, which sets its "playable" flag to 1
+			 * - as a side effect of the exam, the viewer is updated using the old pieces
+			 * - the DCPDecoder in the old piece gives us an encrypted frame
+			 * - then, the pieces are re-made (but too late).
+			 *
+			 * I hope there's a better way to handle this ...
+			 */
+			_frame.reset ();
+			_position = p;
+		}
 	} else {
 		_frame.reset ();
 		_position = p;

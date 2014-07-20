@@ -940,6 +940,13 @@ Film::content () const
 }
 
 void
+Film::examine_content (shared_ptr<Content> c)
+{
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
+	JobManager::instance()->add (j);
+}
+
+void
 Film::examine_and_add_content (shared_ptr<Content> c)
 {
 	if (dynamic_pointer_cast<FFmpegContent> (c)) {
@@ -1083,7 +1090,7 @@ Film::make_kdm (
 	}
 	
 	return dcp::DecryptedKDM (
-		cpl, from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
+		cpl, key(), from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
 		).encrypt (signer, target, formulation);
 }
 

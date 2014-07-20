@@ -39,6 +39,7 @@ private:
 	void repeat ();
 	void join ();
 	void find_missing ();
+	void kdm ();
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 	
@@ -50,6 +51,7 @@ private:
 	wxMenuItem* _repeat;
 	wxMenuItem* _join;
 	wxMenuItem* _find_missing;
+	wxMenuItem* _kdm;
 	wxMenuItem* _remove;
 };
 

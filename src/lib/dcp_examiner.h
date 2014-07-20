@@ -47,6 +47,10 @@ public:
 		return _has_subtitles;
 	}
 
+	bool encrypted () const {
+		return _encrypted;
+	}
+
 	int audio_channels () const {
 		return _audio_channels.get_value_or (0);
 	}
@@ -59,6 +63,10 @@ public:
 		return _audio_frame_rate.get_value_or (48000);
 	}
 
+	bool kdm_valid () const {
+		return _kdm_valid;
+	}
+
 private:
 	boost::optional<float> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -68,4 +76,6 @@ private:
 	ContentTime _audio_length;
 	std::string _name;
 	bool _has_subtitles;
+	bool _encrypted;
+	bool _kdm_valid;
 };

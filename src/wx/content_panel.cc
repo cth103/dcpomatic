@@ -399,7 +399,7 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 void
 ContentPanel::film_content_changed (int property)
 {
-	if (property == ContentProperty::PATH || property == ContentProperty::POSITION) {
+	if (property == ContentProperty::PATH || property == ContentProperty::POSITION || property == DCPContentProperty::CAN_BE_PLAYED) {
 		setup ();
 	}
 		
@@ -425,10 +425,17 @@ ContentPanel::setup ()
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
 		bool const valid = (*i)->paths_valid ();
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (*i);
+		bool const needs_kdm = !dcp->can_be_played ();
 
 		string s = (*i)->summary ();
+		
 		if (!valid) {
 			s = _("MISSING: ") + s;
+		}
+
+		if (needs_kdm) {
+			s = _("NEEDS KDM: ") + s;
 		}
 
 		_content->InsertItem (t, std_to_wx (s));
@@ -437,7 +444,7 @@ ContentPanel::setup ()
 			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		}
 
-		if (!valid) {
+		if (!valid || needs_kdm) {
 			_content->SetItemTextColour (t, *wxRED);
 		}
 	}

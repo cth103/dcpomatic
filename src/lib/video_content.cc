@@ -192,7 +192,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	dcp::Size const vs = d->video_size ();
 	float const vfr = d->video_frame_rate ();
 	ContentTime vl = d->video_length ();
-	
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_size = vs;

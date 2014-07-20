@@ -31,6 +31,7 @@
 #include "subtitle_content.h"
 #include "subrip_decoder.h"
 #include "subrip_content.h"
+#include "dcp_content.h"
 #include "playlist.h"
 #include "job.h"
 #include "image.h"
@@ -189,7 +190,8 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == ContentProperty::TRIM_START ||
 		property == ContentProperty::TRIM_END ||
 		property == ContentProperty::PATH ||
-		property == VideoContentProperty::VIDEO_FRAME_TYPE
+		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
+		property == DCPContentProperty::CAN_BE_PLAYED
 		) {
 		
 		_have_valid_pieces = false;
