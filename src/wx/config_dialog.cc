@@ -690,7 +690,7 @@ private:
 		
 		if (d->ShowModal() == wxID_OK) {
 			try {
-				shared_ptr<dcp::Certificate> c (new dcp::Certificate (dcp::file_to_string (wx_to_std (d->GetPath ()))));
+				dcp::Certificate c (dcp::file_to_string (wx_to_std (d->GetPath ())));
 				_signer->certificates().add (c);
 				Config::instance()->set_signer (_signer);
 				update_certificate_list ();
@@ -727,7 +727,7 @@ private:
 			wxListItem item;
 			item.SetId (n);
 			_certificates->InsertItem (item);
-			_certificates->SetItem (n, 1, std_to_wx ((*i)->thumbprint ()));
+			_certificates->SetItem (n, 1, std_to_wx (i->thumbprint ()));
 
 			if (n == 0) {
 				_certificates->SetItem (n, 0, _("Root"));

@@ -217,7 +217,7 @@ Config::read ()
 		/* Read the signing certificates and private key in from the config file */
 		list<cxml::NodePtr> certificates = signer->node_children ("Certificate");
 		for (list<cxml::NodePtr>::const_iterator i = certificates.begin(); i != certificates.end(); ++i) {
-			signer_chain.add (shared_ptr<dcp::Certificate> (new dcp::Certificate ((*i)->content ())));
+			signer_chain.add (dcp::Certificate ((*i)->content ()));
 		}
 
 		_signer.reset (new dcp::Signer (signer_chain, signer->string_child ("PrivateKey")));
@@ -353,7 +353,7 @@ Config::write () const
 	xmlpp::Element* signer = root->add_child ("Signer");
 	dcp::CertificateChain::List certs = _signer->certificates().root_to_leaf ();
 	for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
-		signer->add_child("Certificate")->add_child_text ((*i)->certificate (true));
+		signer->add_child("Certificate")->add_child_text (i->certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer->key ());
 

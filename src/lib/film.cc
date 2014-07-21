@@ -1076,7 +1076,7 @@ Film::frame_size () const
 
 dcp::EncryptedKDM
 Film::make_kdm (
-	shared_ptr<dcp::Certificate> target,
+	dcp::Certificate target,
 	boost::filesystem::path cpl_file,
 	dcp::LocalTime from,
 	dcp::LocalTime until,
@@ -1106,7 +1106,9 @@ Film::make_kdms (
 	list<dcp::EncryptedKDM> kdms;
 
 	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		kdms.push_back (make_kdm ((*i)->certificate, dcp, from, until, formulation));
+		if ((*i)->certificate) {
+			kdms.push_back (make_kdm ((*i)->certificate.get(), dcp, from, until, formulation));
+		}
 	}
 
 	return kdms;

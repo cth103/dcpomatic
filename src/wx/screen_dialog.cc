@@ -29,9 +29,9 @@
 
 using std::string;
 using std::cout;
-using boost::shared_ptr;
+using boost::optional;
 
-ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, shared_ptr<dcp::Certificate> certificate)
+ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> certificate)
 	: TableDialog (parent, std_to_wx (title), 2, true)
 	, _certificate (certificate)
 {
@@ -79,7 +79,7 @@ ScreenDialog::name () const
 	return wx_to_std (_name->GetValue());
 }
 
-shared_ptr<dcp::Certificate>
+optional<dcp::Certificate>
 ScreenDialog::certificate () const
 {
 	return _certificate;
@@ -89,7 +89,7 @@ void
 ScreenDialog::load_certificate (boost::filesystem::path file)
 {
 	try {
-		_certificate.reset (new dcp::Certificate (dcp::file_to_string (file)));
+		_certificate = dcp::Certificate (dcp::file_to_string (file));
 		_certificate_text->SetValue (_certificate->certificate ());
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what()));
@@ -128,7 +128,7 @@ void
 ScreenDialog::setup_sensitivity ()
 {
 	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
-	ok->Enable (_certificate.get ());
+	ok->Enable (_certificate);
 
 	_download_certificate->Enable (
 		_manufacturer->GetStringSelection() == _("Doremi") ||

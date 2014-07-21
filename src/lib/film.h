@@ -121,7 +121,7 @@ public:
 
 	dcp::EncryptedKDM
 	make_kdm (
-		boost::shared_ptr<dcp::Certificate> target,
+		dcp::Certificate target,
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
 		dcp::LocalTime until,

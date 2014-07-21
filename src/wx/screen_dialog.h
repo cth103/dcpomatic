@@ -27,10 +27,10 @@ class Progress;
 class ScreenDialog : public TableDialog
 {
 public:
-	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::shared_ptr<dcp::Certificate> c = boost::shared_ptr<dcp::Certificate> ());
+	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> ());
 
 	std::string name () const;
-	boost::shared_ptr<dcp::Certificate> certificate () const;
+	boost::optional<dcp::Certificate> certificate () const;
 	
 private:
 	void select_certificate ();
@@ -44,5 +44,5 @@ private:
 	wxButton* _download_certificate;
 	wxTextCtrl* _certificate_text;
 
-	boost::shared_ptr<dcp::Certificate> _certificate;
+	boost::optional<dcp::Certificate> _certificate;
 };

@@ -70,14 +70,18 @@ Cinema::remove_screen (shared_ptr<Screen> s)
 Screen::Screen (cxml::ConstNodePtr node)
 {
 	name = node->string_child ("Name");
-	certificate = shared_ptr<dcp::Certificate> (new dcp::Certificate (node->string_child ("Certificate")));
+	if (node->optional_string_child ("Certificate")) {
+		certificate = dcp::Certificate (node->string_child ("Certificate"));
+	}
 }
 
 void
 Screen::as_xml (xmlpp::Element* parent) const
 {
 	parent->add_child("Name")->add_child_text (name);
-	parent->add_child("Certificate")->add_child_text (certificate->certificate (true));
+	if (certificate) {
+		parent->add_child("Certificate")->add_child_text (certificate->certificate (true));
+	}
 }
 
 		
