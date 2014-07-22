@@ -88,6 +88,8 @@ universal_copy $ENV lib/libquickmail*.dylib "$WORK/$libs"
 universal_copy $ENV lib/libcurl*.dylib "$WORK/$libs"
 universal_copy $ENV lib/libffi*.dylib "$WORK/$libs"
 universal_copy $ENV lib/libiconv*.dylib "$WORK/$libs"
+universal_copy $ENV lib/libpangomm*.dylib "$WORK/$libs"
+universal_copy $ENV lib/libcairomm*.dylib "$WORK/$libs"
 
 for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
   echo $WORK
