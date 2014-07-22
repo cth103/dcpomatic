@@ -300,6 +300,8 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		time = ContentTime (0);
 	}
 
+	/* XXX: it seems debatable whether PTS should be used here... */
+	
 	ContentTime const u = time - _pts_offset;
 	int64_t s = u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base);
 
