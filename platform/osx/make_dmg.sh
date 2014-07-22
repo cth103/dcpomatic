@@ -33,7 +33,6 @@ function universal_copy {
         else
           g=`echo $f | sed -e "s/\/32\//\/64\//g"`
 	  mkdir -p $3
-	  echo "lipo -create $f $g -output $3/`basename $f`"
           lipo -create $f $g -output "$3/`basename $f`"
         fi
     done
@@ -93,8 +92,6 @@ universal_copy $ENV lib/libcairomm*.dylib "$WORK/$libs"
 universal_copy $ENV lib/libpangocairo*.dylib "$WORK/$libs"
 
 for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
-  echo $WORK
-  echo $obj
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl|libxmlsec)"`
   changes=""
   for dep in $deps; do
