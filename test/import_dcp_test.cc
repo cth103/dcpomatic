@@ -69,4 +69,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	B->make_dcp ();
 	wait_for_jobs ();
+
+	check_dcp ("build/test/import_dcp_test2/" + B->dcp_name(), "test/data/import_dcp_test2");
 }
