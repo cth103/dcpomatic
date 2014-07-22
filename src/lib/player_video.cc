@@ -111,8 +111,6 @@ PlayerVideo::image (bool burn_subtitle) const
 		
 	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, true);
 
-	Position<int> const container_offset ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.width) / 2);
-
 	if (burn_subtitle && _subtitle.image) {
 		out->alpha_blend (_subtitle.image, _subtitle.position);
 	}
@@ -171,3 +169,11 @@ PlayerVideo::j2k () const
 	assert (j2k);
 	return j2k->j2k ();
 }
+
+Position<int>
+PlayerVideo::inter_position () const
+{
+	return Position<int> ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.height) / 2);
+}
+
+

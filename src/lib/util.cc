@@ -636,6 +636,17 @@ stride_round_up (int c, int const * stride, int t)
 	return a - (a % t);
 }
 
+/** @param n A number.
+ *  @param r Rounding `boundary' (must be a power of 2)
+ *  @return n rounded to the nearest r
+ */
+int
+round_to (float n, int r)
+{
+	assert (r == 1 || r == 2 || r == 4);
+	return int (n + float(r) / 2) &~ (r - 1);
+}
+
 /** Read a sequence of key / value pairs from a text stream;
  *  the keys are the first words on the line, and the values are
  *  the remainder of the line following the key.  Lines beginning
@@ -837,13 +848,13 @@ split_get_request (string url)
 }
 
 dcp::Size
-fit_ratio_within (float ratio, dcp::Size full_frame)
+fit_ratio_within (float ratio, dcp::Size full_frame, int round)
 {
 	if (ratio < full_frame.ratio ()) {
-		return dcp::Size (rint (full_frame.height * ratio), full_frame.height);
+		return dcp::Size (round_to (full_frame.height * ratio, round), full_frame.height);
 	}
 	
-	return dcp::Size (full_frame.width, rint (full_frame.width / ratio));
+	return dcp::Size (full_frame.width, round_to (full_frame.width / ratio, round));
 }
 
 void *

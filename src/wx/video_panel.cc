@@ -309,7 +309,7 @@ VideoPanel::setup_description ()
 	}
 
 	dcp::Size const container_size = _parent->film()->frame_size ();
-	dcp::Size const scaled = vcs->scale().size (vcs, container_size, container_size);
+	dcp::Size const scaled = vcs->scale().size (vcs, container_size, container_size, 1);
 
 	if (scaled != vcs->video_size_after_crop ()) {
 		d << wxString::Format (

@@ -62,6 +62,14 @@ public:
 		return _colour_conversion;
 	}
 
+	/** @return Position of the content within the overall image once it has been scaled up */
+	Position<int> inter_position () const;
+
+	/** @return Size of the content within the overall image once it has been scaled up */
+	dcp::Size inter_size () const {
+		return _inter_size;
+	}
+
 private:
 	boost::shared_ptr<const ImageProxy> _in;
 	DCPTime _time;

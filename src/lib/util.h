@@ -66,11 +66,12 @@ extern bool valid_image_file (boost::filesystem::path);
 extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
-extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
+extern dcp::Size fit_ratio_within (float ratio, dcp::Size, int);
 extern std::string entities_to_text (std::string e);
 extern std::map<std::string, std::string> split_get_request (std::string url);
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
+extern int round_to (float n, int r);
 extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
 extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
 extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);

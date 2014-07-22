@@ -58,6 +58,7 @@ using dcp::Size;
 FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
+	, _outline_content (new wxCheckBox (this, wxID_ANY, _("Outline content")))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
 	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
@@ -76,6 +77,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	SetSizer (_v_sizer);
 
 	_v_sizer->Add (_panel, 1, wxEXPAND);
+
+	_v_sizer->Add (_outline_content, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -97,6 +100,7 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 
 	_panel->Bind          (wxEVT_PAINT,                        boost::bind (&FilmViewer::paint_panel,     this));
 	_panel->Bind          (wxEVT_SIZE,                         boost::bind (&FilmViewer::panel_sized,     this, _1));
+	_outline_content->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&FilmViewer::refresh_panel,   this));
 	_slider->Bind         (wxEVT_SCROLL_THUMBTRACK,            boost::bind (&FilmViewer::slider_moved,    this));
 	_slider->Bind         (wxEVT_SCROLL_PAGEUP,                boost::bind (&FilmViewer::slider_moved,    this));
 	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,              boost::bind (&FilmViewer::slider_moved,    this));
@@ -146,6 +150,13 @@ FilmViewer::set_film (shared_ptr<Film> f)
 }
 
 void
+FilmViewer::refresh_panel ()
+{
+	_panel->Refresh ();
+	_panel->Update ();
+}
+
+void
 FilmViewer::get (DCPTime p, bool accurate)
 {
 	if (!_player) {
@@ -158,6 +169,8 @@ FilmViewer::get (DCPTime p, bool accurate)
 			_frame = pvf.front()->image (true);
 			_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
 			_position = pvf.front()->time ();
+			_inter_position = pvf.front()->inter_position ();
+			_inter_size = pvf.front()->inter_size ();
 		} catch (dcp::DCPReadError& e) {
 			/* This can happen on the following sequence of events:
 			 * - load encrypted DCP
@@ -178,8 +191,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 	}
 
 	set_position_text ();
-	_panel->Refresh ();
-	_panel->Update ();
+	refresh_panel ();
 
 	_last_get_accurate = accurate;
 }
@@ -228,9 +240,15 @@ FilmViewer::paint_panel ()
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
-	}		
-}
+	}
 
+	if (_outline_content->GetValue ()) {
+		wxPen p (wxColour (255, 0, 0), 2);
+		dc.SetPen (p);
+		dc.SetBrush (*wxTRANSPARENT_BRUSH);
+		dc.DrawRectangle (_inter_position.x, _inter_position.y, _inter_size.width, _inter_size.height);
+	}
+}
 
 void
 FilmViewer::slider_moved ()
@@ -252,6 +270,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 {
 	_panel_size.width = ev.GetSize().GetWidth();
 	_panel_size.height = ev.GetSize().GetHeight();
+
 	calculate_sizes ();
 	get (_position, _last_get_accurate);
 }
@@ -271,18 +290,18 @@ FilmViewer::calculate_sizes ()
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
 		_out_size.width = _panel_size.width;
-		_out_size.height = _out_size.width / film_ratio;
+		_out_size.height = rint (_out_size.width / film_ratio);
 	} else {
 		/* panel is more widescreen than the film; clamp height */
 		_out_size.height = _panel_size.height;
-		_out_size.width = _out_size.height * film_ratio;
+		_out_size.width = rint (_out_size.height * film_ratio);
 	}
 
 	/* Catch silly values */
 	_out_size.width = max (64, _out_size.width);
 	_out_size.height = max (64, _out_size.height);
 
-	/* The player will round its image down to the nearest 4 pixels
+	/* The player will round its image size down to the next lowest 4 pixels
 	   to speed up its scale, so do similar here to avoid black borders
 	   around things.  This is a bit of a hack.
 	*/

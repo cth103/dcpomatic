@@ -54,12 +54,14 @@ private:
 	void player_changed (bool);
 	void set_position_text ();
 	void get (DCPTime, bool);
+	void refresh_panel ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
 
 	wxSizer* _v_sizer;
 	wxPanel* _panel;
+	wxCheckBox* _outline_content;
 	wxSlider* _slider;
 	wxButton* _back_button;
 	wxButton* _forward_button;
@@ -70,6 +72,8 @@ private:
 
 	boost::shared_ptr<const Image> _frame;
 	DCPTime _position;
+	Position<int> _inter_position;
+	dcp::Size _inter_size;
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;
