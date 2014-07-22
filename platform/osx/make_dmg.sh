@@ -4,7 +4,8 @@
 #
 # e.g. make_dmg.sh /Users/carl/cdist
 
-set -e
+# Don't set -e here as egrep (used a few times) returns 1 if no matches
+# were found.
 
 version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 
@@ -26,7 +27,6 @@ mkdir -p "$WORK/$libs"
 mkdir -p "$WORK/$resources"
 
 function universal_copy {
-    echo $2
     for f in $1/32/$2; do
         if [ -h $f ]; then
 	    ln -s $(readlink $f) "$3/`basename $f`"
