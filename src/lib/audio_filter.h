@@ -22,7 +22,7 @@
 
 class AudioBuffers;
 class audio_filter_impulse_kernel_test;
-class audio_filter_impulse_input_test;
+struct audio_filter_impulse_input_test;
 
 class AudioFilter
 {

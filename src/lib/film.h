@@ -47,7 +47,7 @@ class Playlist;
 class AudioContent;
 class Scaler;
 class Screen;
-class isdcf_name_test;
+struct isdcf_name_test;
 
 /** @class Film
  *

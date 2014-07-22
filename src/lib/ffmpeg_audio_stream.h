@@ -21,7 +21,7 @@
 #include "audio_mapping.h"
 #include "dcpomatic_time.h"
 
-class ffmpeg_pts_offset_test;
+struct ffmpeg_pts_offset_test;
 
 class FFmpegAudioStream : public FFmpegStream
 {

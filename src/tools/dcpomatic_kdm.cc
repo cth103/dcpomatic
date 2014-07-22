@@ -177,7 +177,7 @@ int main (int argc, char* argv[])
 			} else if (string (optarg) == "dci-specific") {
 				formulation = dcp::DCI_SPECIFIC;
 			} else {
-				error ("unrecognised KDM formulation " + formulation);
+				error ("unrecognised KDM formulation " + string (optarg));
 			}
 		}
 	}

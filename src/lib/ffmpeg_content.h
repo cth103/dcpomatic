@@ -33,7 +33,7 @@ struct AVStream;
 class Filter;
 class FFmpegSubtitleStream;
 class FFmpegAudioStream;
-class ffmpeg_pts_offset_test;
+struct ffmpeg_pts_offset_test;
 
 class FFmpegContentProperty : public VideoContentProperty
 {
