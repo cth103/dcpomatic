@@ -46,8 +46,8 @@ universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib $WORK/$libs
 universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib $WORK/$libs
 universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
 universal_copy $ROOT lib/libdcp-1.0.dylib $WORK/$libs
-universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
-universal_copy $ROOT lib/libkumu-libdcp.dylib $WORK/$libs
+universal_copy $ROOT lib/libasdcp-libdcp-1.0.dylib $WORK/$libs
+universal_copy $ROOT lib/libkumu-libdcp-1.0.dylib $WORK/$libs
 universal_copy $ROOT lib/libopenjpeg*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavdevice*.dylib $WORK/$libs
 universal_copy $ROOT lib/libavformat*.dylib $WORK/$libs
