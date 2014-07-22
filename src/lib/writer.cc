@@ -466,7 +466,7 @@ Writer::finish ()
 				   new dcp::ReelSubtitleAsset (
 					   _subtitle_content,
 					   dcp::Fraction (_film->video_frame_rate(), 1),
-					   _subtitle_content->latest_subtitle_out().to_seconds() * _film->video_frame_rate(),
+					   _picture_mxf->intrinsic_duration (),
 					   0
 					   )
 				   ));

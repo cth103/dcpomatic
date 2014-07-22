@@ -62,7 +62,8 @@ Transcoder::go ()
 	_encoder->begin ();
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
-	for (DCPTime t; t < _film->length(); t += frame) {
+	DCPTime const length = _film->length ();
+	for (DCPTime t; t < length; t += frame) {
 		list<shared_ptr<PlayerVideo> > v = _player->get_video (t, true);
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {
 			_encoder->enqueue (*i);
