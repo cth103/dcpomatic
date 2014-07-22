@@ -39,10 +39,10 @@ protected:
 	std::vector<SubRipSubtitle> _subtitles;
 	
 private:
-	friend class subrip_time_test;
-	friend class subrip_coordinate_test;
-	friend class subrip_content_test;
-	friend class subrip_parse_test;
+	friend struct subrip_time_test;
+	friend struct subrip_coordinate_test;
+	friend struct subrip_content_test;
+	friend struct subrip_parse_test;
 	
 	static ContentTime convert_time (std::string);
 	static int convert_coordinate (std::string);

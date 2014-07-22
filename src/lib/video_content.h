@@ -182,10 +182,10 @@ protected:
 	float _video_frame_rate;
 
 private:
-	friend class ffmpeg_pts_offset_test;
-	friend class best_dcp_frame_rate_test_single;
-	friend class best_dcp_frame_rate_test_double;
-	friend class audio_sampling_rate_test;
+	friend struct ffmpeg_pts_offset_test;
+	friend struct best_dcp_frame_rate_test_single;
+	friend struct best_dcp_frame_rate_test_double;
+	friend struct audio_sampling_rate_test;
 
 	void setup_default_colour_conversion ();
 	

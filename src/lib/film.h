@@ -283,7 +283,7 @@ public:
 
 private:
 
-	friend class ::isdcf_name_test;
+	friend struct ::isdcf_name_test;
 
 	void signal_changed (Property);
 	std::string video_identifier () const;
@@ -339,8 +339,8 @@ private:
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
 
-	friend class paths_test;
-	friend class film_metadata_test;
+	friend struct paths_test;
+	friend struct film_metadata_test;
 };
 
 #endif

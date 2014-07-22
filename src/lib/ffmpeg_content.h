@@ -114,7 +114,7 @@ public:
 	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
 
 private:
-	friend class ffmpeg_pts_offset_test;
+	friend struct ffmpeg_pts_offset_test;
 	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;

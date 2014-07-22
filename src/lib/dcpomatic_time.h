@@ -97,7 +97,7 @@ public:
 	}
 
 protected:
-	friend class dcptime_round_up_test;
+	friend struct dcptime_round_up_test;
 	
 	Type _t;
 	static const int HZ = 96000;

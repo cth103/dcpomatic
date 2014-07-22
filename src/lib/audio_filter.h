@@ -40,8 +40,8 @@ public:
 	void flush ();
 
 protected:
-	friend class audio_filter_impulse_kernel_test;
-	friend class audio_filter_impulse_input_test;
+	friend struct audio_filter_impulse_kernel_test;
+	friend struct audio_filter_impulse_input_test;
 
 	std::vector<float> sinc_blackman (float cutoff, bool invert) const;
 

@@ -78,7 +78,7 @@ public:
 	std::string digest () const;
 
 private:
-	friend class pixel_formats_test;
+	friend struct pixel_formats_test;
 	
 	void allocate ();
 	void swap (Image &);

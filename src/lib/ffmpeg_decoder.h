@@ -50,7 +50,7 @@ public:
 	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>);
 
 private:
-	friend class ::ffmpeg_pts_offset_test;
+	friend struct ::ffmpeg_pts_offset_test;
 
 	void seek (ContentTime time, bool);
 	bool pass ();

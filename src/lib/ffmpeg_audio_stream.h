@@ -45,7 +45,7 @@ public:
 	boost::optional<ContentTime> first_audio;
 
 private:
-	friend class ffmpeg_pts_offset_test;
+	friend struct ffmpeg_pts_offset_test;
 
 	/* Constructor for tests */
 	FFmpegAudioStream ()

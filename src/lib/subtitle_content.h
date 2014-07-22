@@ -76,7 +76,7 @@ public:
 	}
 
 private:
-	friend class ffmpeg_pts_offset_test;
+	friend struct ffmpeg_pts_offset_test;
 
 	bool _use_subtitles;
 	/** x offset for placing subtitles, as a proportion of the container width;

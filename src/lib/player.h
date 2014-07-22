@@ -106,7 +106,7 @@ public:
 private:
 	friend class PlayerWrapper;
 	friend class Piece;
-	friend class player_overlaps_test;
+	friend struct player_overlaps_test;
 
 	void setup_pieces ();
 	void playlist_changed ();
