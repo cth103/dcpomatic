@@ -426,7 +426,7 @@ ContentPanel::setup ()
 		int const t = _content->GetItemCount ();
 		bool const valid = (*i)->paths_valid ();
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (*i);
-		bool const needs_kdm = !dcp->can_be_played ();
+		bool const needs_kdm = dcp && !dcp->can_be_played ();
 
 		string s = (*i)->summary ();
 		
