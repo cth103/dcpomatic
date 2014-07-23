@@ -42,7 +42,6 @@ private:
 	void show_clicked ();
 	void stream_changed ();
 	void mapping_changed (AudioMapping);
-	void setup_stream_description ();
 	void processor_changed ();
 	void setup_processors ();
 
@@ -51,7 +50,6 @@ private:
 	wxButton* _show;
 	ContentSpinCtrl<AudioContent>* _delay;
 	wxChoice* _stream;
-	wxStaticText* _description;
 	wxChoice* _processor;
 	AudioMappingView* _mapping;
 	AudioDialog* _audio_dialog;

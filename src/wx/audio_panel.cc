@@ -83,14 +83,13 @@ AudioPanel::AudioPanel (ContentPanel* p)
 
 	add_label_to_grid_bag_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
-	grid->Add (_stream, wxGBPosition (r, 1));
-	_description = add_label_to_grid_bag_sizer (grid, this, "", false, wxGBPosition (r, 2), wxGBSpan (1, 2));
+	grid->Add (_stream, wxGBPosition (r, 1), wxGBSpan (1, 3), wxEXPAND);
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Process with"), true, wxGBPosition (r, 0));
 	_processor = new wxChoice (this, wxID_ANY);
 	setup_processors ();
-	grid->Add (_processor, wxGBPosition (r, 1));
+	grid->Add (_processor, wxGBPosition (r, 1), wxGBSpan (1, 3), wxEXPAND);
 	++r;
 	
 	_mapping = new AudioMappingView (this);
@@ -138,7 +137,6 @@ AudioPanel::film_content_changed (int property)
 		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
 		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAM) {
-		setup_stream_description ();
 		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
 		_sizer->Layout ();
 	} else if (property == FFmpegContentProperty::AUDIO_STREAMS) {
@@ -151,7 +149,6 @@ AudioPanel::film_content_changed (int property)
 			
 			if (fcs->audio_stream()) {
 				checked_set (_stream, fcs->audio_stream()->identifier ());
-				setup_stream_description ();
 			}
 		}
 	} else if (property == AudioContentProperty::AUDIO_PROCESSOR) {
@@ -230,33 +227,6 @@ AudioPanel::stream_changed ()
 
 	if (i != a.end ()) {
 		fcs->set_audio_stream (*i);
-	}
-
-	setup_stream_description ();
-}
-
-void
-AudioPanel::setup_stream_description ()
-{
-	FFmpegContentList fc = _parent->selected_ffmpeg ();
-	if (fc.size() != 1) {
-		_description->SetLabel ("");
-		return;
-	}
-
-	shared_ptr<FFmpegContent> fcs = fc.front ();
-
-	if (!fcs->audio_stream ()) {
-		_description->SetLabel (wxT (""));
-	} else {
-		wxString s;
-		if (fcs->audio_channels() == 1) {
-			s << _("1 channel");
-		} else {
-			s << fcs->audio_channels() << wxT (" ") << _("channels");
-		}
-		s << wxT (", ") << fcs->audio_frame_rate() << _("Hz");
-		_description->SetLabel (s);
 	}
 }
 
