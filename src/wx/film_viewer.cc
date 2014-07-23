@@ -114,6 +114,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmViewer::active_jobs_changed, this, _1)
 		);
+
+	setup_sensitivity ();
 }
 
 void
@@ -142,8 +144,10 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		return;
 	}
 	
+	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
+
 	_player->set_approximate_size ();
-	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
+	_player_connection = _player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
 	get (_position, _last_get_accurate);
@@ -401,4 +405,25 @@ FilmViewer::player_changed (bool frequent)
 
 	calculate_sizes ();
 	get (_position, _last_get_accurate);
+}
+
+void
+FilmViewer::setup_sensitivity ()
+{
+	bool const c = !_film->content().empty ();
+	_slider->Enable (c);
+	_back_button->Enable (c);
+	_forward_button->Enable (c);
+	_play_button->Enable (c);
+	_outline_content->Enable (c);
+	_frame_number->Enable (c);
+	_timecode->Enable (c);
+}
+
+void
+FilmViewer::film_changed (Film::Property p)
+{
+	if (p == Film::CONTENT) {
+		setup_sensitivity ();
+	}
 }

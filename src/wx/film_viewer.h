@@ -55,6 +55,8 @@ private:
 	void set_position_text ();
 	void get (DCPTime, bool);
 	void refresh_panel ();
+	void setup_sensitivity ();
+	void film_changed (Film::Property);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -84,4 +86,7 @@ private:
 	 *  can get the same one that we got last time.
 	 */
 	bool _last_get_accurate;
+
+	boost::signals2::scoped_connection _film_connection;
+	boost::signals2::scoped_connection _player_connection;
 };
