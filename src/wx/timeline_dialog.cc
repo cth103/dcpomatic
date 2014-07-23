@@ -23,6 +23,7 @@
 #include "film_editor.h"
 #include "timeline_dialog.h"
 #include "wx_util.h"
+#include "content_panel.h"
 
 using std::list;
 using std::cout;

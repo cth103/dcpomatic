@@ -29,6 +29,7 @@
 #include "film_editor.h"
 #include "wx_util.h"
 #include "subtitle_view.h"
+#include "content_panel.h"
 
 using std::vector;
 using std::string;

@@ -28,9 +28,9 @@
 #include "filter_dialog.h"
 #include "video_panel.h"
 #include "wx_util.h"
-#include "film_editor.h"
 #include "content_colour_conversion_dialog.h"
 #include "content_widget.h"
+#include "content_panel.h"
 
 using std::vector;
 using std::string;

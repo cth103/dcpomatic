@@ -19,7 +19,7 @@
 
 #include <wx/notebook.h>
 #include "content_sub_panel.h"
-#include "film_editor.h"
+#include "content_panel.h"
 
 using boost::shared_ptr;
 

@@ -45,6 +45,7 @@
 #include "wx/servers_list_dialog.h"
 #include "wx/hints_dialog.h"
 #include "wx/update_dialog.h"
+#include "wx/content_panel.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"

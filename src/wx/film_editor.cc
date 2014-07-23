@@ -54,6 +54,7 @@
 #include "subtitle_panel.h"
 #include "audio_panel.h"
 #include "video_panel.h"
+#include "content_panel.h"
 
 using std::string;
 using std::cout;

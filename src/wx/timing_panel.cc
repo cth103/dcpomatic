@@ -23,7 +23,7 @@
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
-#include "film_editor.h"
+#include "content_panel.h"
 
 using std::cout;
 using std::string;

@@ -29,7 +29,7 @@
 #include "audio_mapping_view.h"
 #include "wx_util.h"
 #include "gain_calculator_dialog.h"
-#include "film_editor.h"
+#include "content_panel.h"
 
 using std::vector;
 using std::cout;

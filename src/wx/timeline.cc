@@ -25,6 +25,7 @@
 #include "lib/image_content.h"
 #include "film_editor.h"
 #include "timeline.h"
+#include "content_panel.h"
 #include "wx_util.h"
 
 using std::list;

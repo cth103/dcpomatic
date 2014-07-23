@@ -22,23 +22,14 @@
  */
 
 #include <wx/wx.h>
-#include <wx/spinctrl.h>
-#include <wx/filepicker.h>
-#include <wx/collpane.h>
 #include <boost/signals2.hpp>
 #include "lib/film.h"
-#include "content_menu.h"
-#include "content_panel.h"
 
 class wxNotebook;
-class wxListCtrl;
-class wxListEvent;
+class wxSpinCtrl;
 class Film;
-class TimelineDialog;
 class Ratio;
-class Timecode;
-class FilmEditorPanel;
-class SubtitleContent;
+class ContentPanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
