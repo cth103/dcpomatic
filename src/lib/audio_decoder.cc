@@ -19,12 +19,9 @@
 
 #include "audio_decoder.h"
 #include "audio_buffers.h"
-#include "exceptions.h"
-#include "log.h"
+#include "audio_processor.h"
 #include "resampler.h"
 #include "util.h"
-#include "film.h"
-#include "audio_processor.h"
 
 #include "i18n.h"
 
@@ -188,6 +185,15 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	/* Copy new data in */
 	_decoded_audio.audio->copy_from (data.get(), data->frames(), 0, _audio_position.get() - _decoded_audio.frame);
 	_audio_position = _audio_position.get() + data->frames ();
+
+	/* Limit the amount of data we keep in case nobody is asking for it */
+	int const max_frames = _audio_content->resampled_audio_frame_rate () * 10;
+	if (_decoded_audio.audio->frames() > max_frames) {
+		int const to_remove = _decoded_audio.audio->frames() - max_frames;
+		_decoded_audio.frame += to_remove;
+		_decoded_audio.audio->move (to_remove, 0, max_frames);
+		_decoded_audio.audio->set_frames (max_frames);
+	}
 }
 
 /* XXX: called? */
