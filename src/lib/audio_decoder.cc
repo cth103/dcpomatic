@@ -168,6 +168,12 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 
 	assert (_audio_position.get() >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
 
+	add (data);
+}
+
+void
+AudioDecoder::add (shared_ptr<const AudioBuffers> data)
+{
 	/* Resize _decoded_audio to fit the new data */
 	int new_size = 0;
 	if (_decoded_audio.audio->frames() == 0) {
@@ -196,7 +202,6 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 	}
 }
 
-/* XXX: called? */
 void
 AudioDecoder::flush ()
 {
@@ -204,13 +209,10 @@ AudioDecoder::flush ()
 		return;
 	}
 
-	/*
 	shared_ptr<const AudioBuffers> b = _resampler->flush ();
 	if (b) {
-		_pending.push_back (shared_ptr<DecodedAudio> (new DecodedAudio (b, _audio_position.get ())));
-		_audio_position = _audio_position.get() + b->frames ();
+		add (b);
 	}
-	*/
 }
 
 void

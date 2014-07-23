@@ -58,6 +58,7 @@ protected:
 	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
 	void reset_decoded_audio ();
+	void add (boost::shared_ptr<const AudioBuffers>);
 
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;
