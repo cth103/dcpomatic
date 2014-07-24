@@ -410,7 +410,8 @@ FilmViewer::player_changed (bool frequent)
 void
 FilmViewer::setup_sensitivity ()
 {
-	bool const c = !_film->content().empty ();
+	bool const c = _film && !_film->content().empty ();
+	
 	_slider->Enable (c);
 	_back_button->Enable (c);
 	_forward_button->Enable (c);
