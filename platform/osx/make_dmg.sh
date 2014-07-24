@@ -26,7 +26,7 @@ mkdir -p "$WORK/$macos"
 mkdir -p "$WORK/$libs"
 mkdir -p "$WORK/$resources"
 
-relink=""
+relink="dcpomatic|"
 
 function universal_copy {
     for f in $1/32/$2; do
@@ -102,9 +102,8 @@ universal_copy_lib $ENV libquickmail "$WORK/$libs"
 universal_copy_lib $ENV libcurl "$WORK/$libs"
 universal_copy_lib $ENV libffi "$WORK/$libs"
 universal_copy_lib $ENV libiconv "$WORK/$libs"
-universal_copy_lib $ENV libpangomm "$WORK/$libs"
-universal_copy_lib $ENV libcairomm "$WORK/$libs"
-universal_copy_lib $ENV libpangocairo "$WORK/$libs"
+universal_copy_lib $ENV libpango "$WORK/$libs"
+universal_copy_lib $ENV libcairo "$WORK/$libs"
 
 for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)"`
