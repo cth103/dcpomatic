@@ -26,7 +26,7 @@ mkdir -p "$WORK/$macos"
 mkdir -p "$WORK/$libs"
 mkdir -p "$WORK/$resources"
 
-relink="dcpomatic|"
+relink="dcpomatic"
 
 function universal_copy {
     for f in $1/32/$2; do
@@ -34,7 +34,7 @@ function universal_copy {
 	    ln -s $(readlink $f) "$3/`basename $f`"
         else
             g=`echo $f | sed -e "s/\/32\//\/64\//g"`
-	    mkdir -p $3
+	    mkdir -p "$3"
             lipo -create $f $g -output "$3/`basename $f`"
         fi
     done
@@ -46,7 +46,7 @@ function universal_copy_lib {
 	    ln -s $(readlink $f) "$3/`basename $f`"
         else
             g=`echo $f | sed -e "s/\/32\//\/64\//g"`
-	    mkdir -p $3
+	    mkdir -p "$3"
             lipo -create $f $g -output "$3/`basename $f`"
         fi
     done
@@ -77,7 +77,8 @@ universal_copy_lib $ENV libboost_system "$WORK/$libs"
 universal_copy_lib $ENV libboost_filesystem "$WORK/$libs"
 universal_copy_lib $ENV libboost_thread "$WORK/$libs"
 universal_copy_lib $ENV libboost_date_time "$WORK/$libs"
-universal_copy_lib $ENV libxml++-2.6 "$WORK/$libs"
+universal_copy_lib $ENV libxml++ "$WORK/$libs"
+universal_copy_lib $ENV libxslt "$WORK/$libs"
 universal_copy_lib $ENV libxml2 "$WORK/$libs"
 universal_copy_lib $ENV libglibmm-2.4 "$WORK/$libs"
 universal_copy_lib $ENV libgobject "$WORK/$libs"
@@ -105,14 +106,18 @@ universal_copy_lib $ENV libiconv "$WORK/$libs"
 universal_copy_lib $ENV libpango "$WORK/$libs"
 universal_copy_lib $ENV libcairo "$WORK/$libs"
 
+relink=`echo $relink | sed -e "s/\+//g"`
+
 for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)"`
   changes=""
   for dep in $deps; do
-    base=`basename $dep`
-    # $dep will be a path within 64/; make a 32/ path too
-    dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
-    changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
+      if [ ! -h "$dep" ]; then
+          base=`basename $dep`
+          # $dep will be a path within 64/; make a 32/ path too
+          dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
+          changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
+      fi
   done
   if test "x$changes" != "x"; then
     install_name_tool $changes "$obj"
@@ -147,7 +152,7 @@ dmg="$WORK/DCP-o-matic $version.dmg"
 vol_name=DCP-o-matic-$version
 
 mkdir -p $WORK/$vol_name
-cp -r "$WORK/$appdir" $WORK/$vol_name
+cp -ar "$WORK/$appdir" $WORK/$vol_name
 ln -s /Applications "$WORK/$vol_name/Applications"
 
 rm -f $tmp_dmg "$dmg"
