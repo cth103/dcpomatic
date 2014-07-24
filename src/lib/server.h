@@ -115,8 +115,6 @@ private:
 	boost::asio::io_service _io_service;
 	boost::asio::ip::tcp::acceptor _acceptor;
 
-	int _num_threads;
-
 	struct Broadcast {
 
 		Broadcast ()
