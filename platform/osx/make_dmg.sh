@@ -26,16 +26,31 @@ mkdir -p "$WORK/$macos"
 mkdir -p "$WORK/$libs"
 mkdir -p "$WORK/$resources"
 
+relink=""
+
 function universal_copy {
     for f in $1/32/$2; do
         if [ -h $f ]; then
 	    ln -s $(readlink $f) "$3/`basename $f`"
         else
-          g=`echo $f | sed -e "s/\/32\//\/64\//g"`
-	  mkdir -p $3
-          lipo -create $f $g -output "$3/`basename $f`"
+            g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+	    mkdir -p $3
+            lipo -create $f $g -output "$3/`basename $f`"
         fi
     done
+}
+
+function universal_copy_lib {
+    for f in $1/32/lib/$2*.dylib; do
+        if [ -h $f ]; then
+	    ln -s $(readlink $f) "$3/`basename $f`"
+        else
+            g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+	    mkdir -p $3
+            lipo -create $f $g -output "$3/`basename $f`"
+        fi
+    done
+    relink="$relink|$2"
 }
 
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$WORK/$macos"
@@ -44,55 +59,55 @@ universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$WORK/
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$WORK/$libs"
 universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libcxml.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libdcp-1.0.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libasdcp-libdcp-1.0.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libkumu-libdcp-1.0.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libopenjpeg*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libavdevice*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libavformat*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libavfilter*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libavutil*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libavcodec*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libswscale*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libswresample*.dylib "$WORK/$libs"
-universal_copy $ROOT lib/libpostproc*.dylib "$WORK/$libs"
+universal_copy_lib $ROOT libcxml "$WORK/$libs"
+universal_copy_lib $ROOT libdcp-1.0 "$WORK/$libs"
+universal_copy_lib $ROOT libasdcp-libdcp-1.0 "$WORK/$libs"
+universal_copy_lib $ROOT libkumu-libdcp-1.0 "$WORK/$libs"
+universal_copy_lib $ROOT libopenjpeg "$WORK/$libs"
+universal_copy_lib $ROOT libavdevice "$WORK/$libs"
+universal_copy_lib $ROOT libavformat "$WORK/$libs"
+universal_copy_lib $ROOT libavfilter "$WORK/$libs"
+universal_copy_lib $ROOT libavutil "$WORK/$libs"
+universal_copy_lib $ROOT libavcodec "$WORK/$libs"
+universal_copy_lib $ROOT libswscale "$WORK/$libs"
+universal_copy_lib $ROOT libswresample "$WORK/$libs"
+universal_copy_lib $ROOT libpostproc "$WORK/$libs"
 universal_copy $ROOT bin/ffprobe "$WORK/$macos"
-universal_copy $ENV lib/libboost_system.dylib "$WORK/$libs"
-universal_copy $ENV lib/libboost_filesystem.dylib "$WORK/$libs"
-universal_copy $ENV lib/libboost_thread.dylib "$WORK/$libs"
-universal_copy $ENV lib/libboost_date_time.dylib "$WORK/$libs"
-universal_copy $ENV lib/libxml++-2.6*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libxml2*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libglibmm-2.4*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libgobject*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libgthread*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libgmodule*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libsigc*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libglib-2*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libintl*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libsndfile*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libMagick++*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libMagickCore*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libMagickWand*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libssh*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libwx*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libfontconfig*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libfreetype*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libexpat*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libltdl*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libxmlsec1*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libzip*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libquickmail*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libcurl*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libffi*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libiconv*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libpangomm*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libcairomm*.dylib "$WORK/$libs"
-universal_copy $ENV lib/libpangocairo*.dylib "$WORK/$libs"
+universal_copy_lib $ENV libboost_system "$WORK/$libs"
+universal_copy_lib $ENV libboost_filesystem "$WORK/$libs"
+universal_copy_lib $ENV libboost_thread "$WORK/$libs"
+universal_copy_lib $ENV libboost_date_time "$WORK/$libs"
+universal_copy_lib $ENV libxml++-2.6 "$WORK/$libs"
+universal_copy_lib $ENV libxml2 "$WORK/$libs"
+universal_copy_lib $ENV libglibmm-2.4 "$WORK/$libs"
+universal_copy_lib $ENV libgobject "$WORK/$libs"
+universal_copy_lib $ENV libgthread "$WORK/$libs"
+universal_copy_lib $ENV libgmodule "$WORK/$libs"
+universal_copy_lib $ENV libsigc "$WORK/$libs"
+universal_copy_lib $ENV libglib-2 "$WORK/$libs"
+universal_copy_lib $ENV libintl "$WORK/$libs"
+universal_copy_lib $ENV libsndfile "$WORK/$libs"
+universal_copy_lib $ENV libMagick++ "$WORK/$libs"
+universal_copy_lib $ENV libMagickCore "$WORK/$libs"
+universal_copy_lib $ENV libMagickWand "$WORK/$libs"
+universal_copy_lib $ENV libssh "$WORK/$libs"
+universal_copy_lib $ENV libwx "$WORK/$libs"
+universal_copy_lib $ENV libfontconfig "$WORK/$libs"
+universal_copy_lib $ENV libfreetype "$WORK/$libs"
+universal_copy_lib $ENV libexpat "$WORK/$libs"
+universal_copy_lib $ENV libltdl "$WORK/$libs"
+universal_copy_lib $ENV libxmlsec1 "$WORK/$libs"
+universal_copy_lib $ENV libzip "$WORK/$libs"
+universal_copy_lib $ENV libquickmail "$WORK/$libs"
+universal_copy_lib $ENV libcurl "$WORK/$libs"
+universal_copy_lib $ENV libffi "$WORK/$libs"
+universal_copy_lib $ENV libiconv "$WORK/$libs"
+universal_copy_lib $ENV libpangomm "$WORK/$libs"
+universal_copy_lib $ENV libcairomm "$WORK/$libs"
+universal_copy_lib $ENV libpangocairo "$WORK/$libs"
 
 for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
-  deps=`otool -L "$obj" | awk '{print $1}' | egrep "(/tmp|libboost|libssh|libltdl|libxmlsec)"`
+  deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)"`
   changes=""
   for dep in $deps; do
     base=`basename $dep`
