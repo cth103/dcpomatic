@@ -40,7 +40,6 @@ public:
 
 	void as_xml (xmlpp::Node* node) const;
 
-	/* AudioContent */
 	int audio_channels () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_channels;
