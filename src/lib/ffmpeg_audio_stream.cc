@@ -27,10 +27,10 @@ using dcp::raw_convert;
 
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
-	, mapping (node->node_child ("Mapping"), version)
+	, _frame_rate (node->number_child<int> ("FrameRate"))
+	, _channels (node->number_child<int64_t> ("Channels"))
+	, _mapping (node->node_child ("Mapping"), version)
 {
-	frame_rate = node->number_child<int> ("FrameRate");
-	channels = node->number_child<int64_t> ("Channels");
 	first_audio = node->optional_number_child<double> ("FirstAudio");
 }
 
@@ -38,10 +38,10 @@ void
 FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
-	root->add_child("FrameRate")->add_child_text (raw_convert<string> (frame_rate));
-	root->add_child("Channels")->add_child_text (raw_convert<string> (channels));
+	root->add_child("FrameRate")->add_child_text (raw_convert<string> (_frame_rate));
+	root->add_child("Channels")->add_child_text (raw_convert<string> (_channels));
 	if (first_audio) {
 		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get().get()));
 	}
-	mapping.as_xml (root->add_child("Mapping"));
+	_mapping.as_xml (root->add_child("Mapping"));
 }

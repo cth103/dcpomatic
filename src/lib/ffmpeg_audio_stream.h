@@ -28,20 +28,33 @@ class FFmpegAudioStream : public FFmpegStream
 public:
 	FFmpegAudioStream (std::string n, int i, int f, int c)
 		: FFmpegStream (n, i)
-		, frame_rate (f)
-		, channels (c)
-		, mapping (c)
+		, _frame_rate (f)
+		, _channels (c)
+		, _mapping (c)
 	{
-		mapping.make_default ();
+		_mapping.make_default ();
 	}
 
 	FFmpegAudioStream (cxml::ConstNodePtr, int);
 
 	void as_xml (xmlpp::Node *) const;
 
-	int frame_rate;
-	int channels;
-	AudioMapping mapping;
+	int frame_rate () const {
+		return _frame_rate;
+	}
+	
+	int channels () const {
+		return _channels;
+	}
+	
+	AudioMapping mapping () const {
+		return _mapping;
+	}
+
+	void set_mapping (AudioMapping m) {
+		_mapping = m;
+	}
+	
 	boost::optional<ContentTime> first_audio;
 
 private:
@@ -50,8 +63,12 @@ private:
 	/* Constructor for tests */
 	FFmpegAudioStream ()
 		: FFmpegStream ("", 0)
-		, frame_rate (0)
-		, channels (0)
-		, mapping (1)
+		, _frame_rate (0)
+		, _channels (0)
+		, _mapping (1)
 	{}
+
+	int _frame_rate;
+	int _channels;
+	AudioMapping _mapping;
 };

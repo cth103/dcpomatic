@@ -284,7 +284,7 @@ FFmpegContent::audio_channels () const
 		return 0;
 	}
 
-	return _audio_stream->channels;
+	return _audio_stream->channels ();
 }
 
 int
@@ -296,7 +296,7 @@ FFmpegContent::audio_frame_rate () const
 		return 0;
 	}
 
-	return _audio_stream->frame_rate;
+	return _audio_stream->frame_rate ();
 }
 
 bool
@@ -328,7 +328,7 @@ FFmpegContent::audio_mapping () const
 		return AudioMapping ();
 	}
 
-	return _audio_stream->mapping;
+	return _audio_stream->mapping ();
 }
 
 void
@@ -345,7 +345,7 @@ FFmpegContent::set_filters (vector<Filter const *> const & filters)
 void
 FFmpegContent::set_audio_mapping (AudioMapping m)
 {
-	audio_stream()->mapping = m;
+	audio_stream()->set_mapping (m);
 	AudioContent::set_audio_mapping (m);
 }
 
