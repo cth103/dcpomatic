@@ -113,10 +113,13 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
   changes=""
   for dep in $deps; do
       if [ ! -h "$dep" ]; then
+	  echo "Relinking $dep into $obj"
           base=`basename $dep`
           # $dep will be a path within 64/; make a 32/ path too
           dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
           changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
+      else
+	  echo "Not relinking symlink $dep"
       fi
   done
   if test "x$changes" != "x"; then
