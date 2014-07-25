@@ -112,15 +112,11 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)"`
   changes=""
   for dep in $deps; do
-      if [ ! -h "$dep" ]; then
-	  echo "Relinking $dep into $obj"
-          base=`basename $dep`
-          # $dep will be a path within 64/; make a 32/ path too
-          dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
-          changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
-      else
-	  echo "Not relinking symlink $dep"
-      fi
+      echo "Relinking $dep into $obj"
+      base=`basename $dep`
+      # $dep will be a path within 64/; make a 32/ path too
+      dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
+      changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
   done
   if test "x$changes" != "x"; then
     install_name_tool $changes "$obj"
