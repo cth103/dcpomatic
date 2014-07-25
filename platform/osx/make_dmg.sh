@@ -152,7 +152,7 @@ dmg="$WORK/DCP-o-matic $version.dmg"
 vol_name=DCP-o-matic-$version
 
 mkdir -p $WORK/$vol_name
-cp -ar "$WORK/$appdir" $WORK/$vol_name
+cp -a "$WORK/$appdir" $WORK/$vol_name
 ln -s /Applications "$WORK/$vol_name/Applications"
 
 rm -f $tmp_dmg "$dmg"
