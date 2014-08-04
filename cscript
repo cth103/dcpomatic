@@ -223,17 +223,13 @@ def package_centos(target, cpu, version):
     os.makedirs('build/rpmbuild/SPECS')
     os.makedirs('build/rpmbuild/SRPMS')
 
-    f = open('build/rpmmacros', 'w')
-    print >>f,os.path.expanduser("%_topdir ~/build/rpmbuild")
-    f.close()
-
     target.command('./waf dist')
     shutil.copyfile(
         "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.directory, version),
         "build/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % version
         )
 
-    target.command('rpmbuild --rcfile build/rpmmacros -bb build/platform/linux/dcpomatic.spec')
+    target.command('rpmbuild --define \'_topdir build/rpmbuild\' -bb build/platform/linux/dcpomatic.spec')
     rpms = []
 
     if cpu == "amd64":
