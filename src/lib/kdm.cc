@@ -249,6 +249,9 @@ email_kdms (
 		if (!Config::instance()->kdm_cc().empty ()) {
 			quickmail_add_cc (mail, Config::instance()->kdm_cc().c_str ());
 		}
+		if (!Config::instance()->kdm_bcc().empty ()) {
+			quickmail_add_bcc (mail, Config::instance()->kdm_bcc().c_str ());
+		}
 		
 		string body = Config::instance()->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());

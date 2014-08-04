@@ -1,3 +1,7 @@
+2014-08-04  Carl Hetherington  <cth@carlh.net>
+
+	* Add BCC option for KDM emails.
+
 2014-07-29  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.72.5 released.
