@@ -184,7 +184,7 @@ def package_windows(target):
     shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
     target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
-    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
+    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, target.bits))
     target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
     target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
@@ -217,11 +217,11 @@ def package_debian(target, cpu, version):
     return debs
 
 def package_centos(target, cpu, version):
-    os.makedirs('%s/rpmbuild/BUILD' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/RPMS' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/SOURCES' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/SPECS' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/SRPMS' % target.work_dir_cdist())
+    os.makedirs('%s/rpmbuild/BUILD' % target.directory)
+    os.makedirs('%s/rpmbuild/RPMS' % target.directory)
+    os.makedirs('%s/rpmbuild/SOURCES' % target.directory)
+    os.makedirs('%s/rpmbuild/SPECS' % target.directory)
+    os.makedirs('%s/rpmbuild/SRPMS' % target.directory)
 
     f = open('%s/.rpmmacros' % target.dir_in_chroot, 'w')
     print >>f,"%%_topdir %srpmbuild" % target.dir_in_chroot
@@ -229,8 +229,8 @@ def package_centos(target, cpu, version):
 
     target.command('./waf dist')
     shutil.copyfile(
-        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version),
-        "%s/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version)
+        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.directory, version),
+        "%s/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % (target.directory, version)
         )
 
     target.command('rpmbuild -bb build/platform/linux/dcpomatic.spec')
@@ -239,7 +239,7 @@ def package_centos(target, cpu, version):
     if cpu == "amd64":
         cpu = "x86_64"
 
-    for p in glob.glob('%s/rpmbuild/RPMS/%s/*.rpm' % (target.work_dir_cdist(), cpu)):
+    for p in glob.glob('%s/rpmbuild/RPMS/%s/*.rpm' % (target.directory, cpu)):
         rpms.append(os.path.abspath(p))
 
     return rpms
@@ -258,7 +258,7 @@ def package(target, version):
         elif target.distro == 'centos':
             return package_centos(target, cpu, version)
     elif target.platform == 'osx':
-        target.command('bash platform/osx/make_dmg.sh %s' % target.work_dir_cscript())
+        target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
         return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])
 
 def make_pot(target):
