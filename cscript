@@ -217,29 +217,29 @@ def package_debian(target, cpu, version):
     return debs
 
 def package_centos(target, cpu, version):
-    os.makedirs('%s/rpmbuild/BUILD' % target.directory)
-    os.makedirs('%s/rpmbuild/RPMS' % target.directory)
-    os.makedirs('%s/rpmbuild/SOURCES' % target.directory)
-    os.makedirs('%s/rpmbuild/SPECS' % target.directory)
-    os.makedirs('%s/rpmbuild/SRPMS' % target.directory)
+    os.makedirs('build/rpmbuild/BUILD')
+    os.makedirs('build/rpmbuild/RPMS')
+    os.makedirs('build/rpmbuild/SOURCES')
+    os.makedirs('build/rpmbuild/SPECS')
+    os.makedirs('build/rpmbuild/SRPMS')
 
-    f = open(os.path.expanduser('~/.rpmmacros'), 'w')
-    print >>f,os.path.expanduser("%_topdir ~/rpmbuild")
+    f = open('build/rpmmacros', 'w')
+    print >>f,os.path.expanduser("%_topdir ~/build/rpmbuild")
     f.close()
 
     target.command('./waf dist')
     shutil.copyfile(
         "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.directory, version),
-        "%s/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % (target.directory, version)
+        "build/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % version
         )
 
-    target.command('rpmbuild -bb build/platform/linux/dcpomatic.spec')
+    target.command('rpmbuild --rcfile build/rpmmacros -bb build/platform/linux/dcpomatic.spec')
     rpms = []
 
     if cpu == "amd64":
         cpu = "x86_64"
 
-    for p in glob.glob('%s/rpmbuild/RPMS/%s/*.rpm' % (target.directory, cpu)):
+    for p in glob.glob('build/rpmbuild/RPMS/%s/*.rpm' % cpu):
         rpms.append(os.path.abspath(p))
 
     return rpms
