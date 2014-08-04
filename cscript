@@ -224,7 +224,7 @@ def package_centos(target, cpu, version):
     os.makedirs('%s/rpmbuild/SRPMS' % target.directory)
 
     f = open(os.path.expanduser('~/.rpmmacros'), 'w')
-    print >>f,os.path.expanduser("%_topdir ~/srpmbuild")
+    print >>f,os.path.expanduser("%_topdir ~/rpmbuild")
     f.close()
 
     target.command('./waf dist')
