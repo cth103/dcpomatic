@@ -1195,7 +1195,7 @@ more modern of the two).
 
 <para>
 Finally, the <guilabel>Scaler</guilabel> is the method that will be used to scale up
-your content to the required size for the DCP, if required.  Bicubic is a fine choice in
+your content for the DCP, if required.  Bicubic is a fine choice in
 most situations.
 </para>
 
