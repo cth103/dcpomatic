@@ -53,8 +53,8 @@ rm -rf $RPM_BUILD_DIR/dcpomatic-@VERSION@
 tar xjf $RPM_SOURCE_DIR/dcpomatic-@VERSION@.tar.bz2
 %build
 cd dcpomatic-@VERSION@
-export PKG_CONFIG_PATH=/home/carl/lib/pkgconfig:/usr/local/lib/pkgconfig
-CXXFLAGS="-I/home/carl/include" LDFLAGS="-L/home/carl/lib" ./waf configure --prefix=%{buildroot}/usr --install-prefix=/usr --target-centos-@CENTOS_VERSION@ --disable-tests
+export PKG_CONFIG_PATH=@INSTALL_PREFIX@/lib/pkgconfig:/usr/local/lib/pkgconfig
+CXXFLAGS="-I@INSTALL_PREFIX@/include" LDFLAGS="-L@INSTALL_PREFIX@/lib" ./waf configure --prefix=%{buildroot}/usr --install-prefix=/usr --target-centos-@CENTOS_VERSION@ --disable-tests
 ./waf
 %install
 cd dcpomatic-@VERSION@

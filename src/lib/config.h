@@ -185,6 +185,10 @@ public:
 	std::string kdm_cc () const {
 		return _kdm_cc;
 	}
+
+	std::string kdm_bcc () const {
+		return _kdm_bcc;
+	}
 	
 	std::string kdm_email () const {
 		return _kdm_email;
@@ -363,6 +367,11 @@ public:
 		_kdm_cc = f;
 		changed ();
 	}
+
+	void set_kdm_bcc (std::string f) {
+		_kdm_bcc = f;
+		changed ();
+	}
 	
 	void set_kdm_email (std::string e) {
 		_kdm_email = e;
@@ -461,6 +470,7 @@ private:
 	std::string _kdm_subject;
 	std::string _kdm_from;
 	std::string _kdm_cc;
+	std::string _kdm_bcc;
 	std::string _kdm_email;
 	boost::shared_ptr<const dcp::Signer> _signer;
 	dcp::Certificate _decryption_certificate;

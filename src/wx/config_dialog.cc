@@ -1006,6 +1006,10 @@ public:
 		add_label_to_sizer (table, panel, _("CC address"), true);
 		_kdm_cc = new wxTextCtrl (panel, wxID_ANY);
 		table->Add (_kdm_cc, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, panel, _("BCC address"), true);
+		_kdm_bcc = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_kdm_bcc, 1, wxEXPAND | wxALL);
 		
 		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
 		s->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
@@ -1026,6 +1030,8 @@ public:
 		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
 		_kdm_cc->SetValue (std_to_wx (config->kdm_cc ()));
 		_kdm_cc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_cc_changed, this));
+		_kdm_bcc->SetValue (std_to_wx (config->kdm_bcc ()));
+		_kdm_bcc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
 		_kdm_email->SetValue (std_to_wx (Config::instance()->kdm_email ()));
 		_reset_kdm_email->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMEmailPage::reset_kdm_email, this));
@@ -1063,6 +1069,11 @@ private:
 	{
 		Config::instance()->set_kdm_cc (wx_to_std (_kdm_cc->GetValue ()));
 	}
+
+	void kdm_bcc_changed ()
+	{
+		Config::instance()->set_kdm_bcc (wx_to_std (_kdm_bcc->GetValue ()));
+	}
 	
 	void kdm_email_changed ()
 	{
@@ -1081,6 +1092,7 @@ private:
 	wxTextCtrl* _kdm_subject;
 	wxTextCtrl* _kdm_from;
 	wxTextCtrl* _kdm_cc;
+	wxTextCtrl* _kdm_bcc;
 	wxTextCtrl* _kdm_email;
 	wxButton* _reset_kdm_email;
 };
