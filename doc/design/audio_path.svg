@@ -16,7 +16,21 @@
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="audio_path.svg">
   <defs
-     id="defs3117" />
+     id="defs3117">
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Mend"
+       style="overflow:visible;">
+      <path
+         id="path3860"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.6) rotate(180) translate(0,0)" />
+    </marker>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,9 +38,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="9.9811321"
-     inkscape:cx="878.75"
-     inkscape:cy="393.91682"
+     inkscape:zoom="0.88221578"
+     inkscape:cx="342.66212"
+     inkscape:cy="409.15497"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -36,8 +50,8 @@
      inkscape:snap-global="true"
      inkscape:window-width="1366"
      inkscape:window-height="714"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-x="1280"
+     inkscape:window-y="283"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="false"
      inkscape:snap-nodes="true"
@@ -135,13 +149,13 @@
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Latin Modern Mono;-inkscape-font-specification:Latin Modern Mono"
-       x="140"
+       x="118"
        y="656.36218"
        id="text3151"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3153"
-         x="140"
+         x="118"
          y="656.36218">FFmpegDecoder</tspan></text>
     <text
        xml:space="preserve"
@@ -369,5 +383,26 @@
        inkscape:connector-curvature="0"
        transform="translate(0,308.2677)"
        sodipodi:nodetypes="cc" />
+    <g
+       id="g4273"
+       transform="translate(165.08717,-48.74091)">
+      <text
+         transform="translate(0,308.2677)"
+         sodipodi:linespacing="125%"
+         id="text3036"
+         y="437.11526"
+         x="165.91304"
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Latin Modern Roman;-inkscape-font-specification:Latin Modern Roman"
+         xml:space="preserve"><tspan
+           y="437.11526"
+           x="165.91304"
+           id="tspan3038"
+           sodipodi:role="line">Data path </tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path3059"
+         d="m 223.62193,742.39257 183.54631,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend)" />
+    </g>
   </g>
 </svg>
