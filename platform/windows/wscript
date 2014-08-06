@@ -102,6 +102,8 @@ File "%static_deps%/bin/openssl.exe"
 File "%static_deps%/bin/libcurl-4.dll"
 File "%static_deps%/bin/ssleay32.dll"
 File "%static_deps%/bin/libzip-2.dll"
+File "%static_deps%/bin/libcairomm-1.0-1.dll"
+File "%static_deps%/bin/libpangomm-1.4-1.dll"
 
 File "%cdist_deps%/bin/asdcp-libdcp-1.0.dll"
 File "%cdist_deps%/bin/kumu-libdcp-1.0.dll"
