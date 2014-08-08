@@ -1,5 +1,7 @@
 2014-08-08  Carl Hetherington  <cth@carlh.net>
 
+	* Allow removal of multiple bits of content at the same time.
+
 	* Version 1.72.7 released.
 
 2014-08-04  Carl Hetherington  <cth@carlh.net>
