@@ -872,7 +872,7 @@ FilmEditor::setup_content_sensitivity ()
 	_video_panel->Enable	(!video_selection.empty() && _generally_sensitive);
 	_audio_panel->Enable	(!audio_selection.empty() && _generally_sensitive);
 	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<FFmpegContent> (selection.front()) && _generally_sensitive);
-	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
+	_timing_panel->Enable	(!selection.empty() && _generally_sensitive);
 }
 
 ContentList
@@ -880,6 +880,13 @@ FilmEditor::selected_content ()
 {
 	ContentList sel;
 	long int s = -1;
+
+	/* The list was populated using a sorted content list, so we must sort it here too
+	   so that we can look up by index and get the right thing.
+	*/
+	ContentList content = _film->content ();
+	sort (content.begin(), content.end(), ContentSorter ());
+	
 	while (true) {
 		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (s == -1) {
@@ -887,7 +894,7 @@ FilmEditor::selected_content ()
 		}
 
 		if (s < int (_film->content().size ())) {
-			sel.push_back (_film->content()[s]);
+			sel.push_back (content[s]);
 		}
 	}
 
