@@ -27,7 +27,6 @@
 #include "test.h"
 
 using std::string;
-using std::stringstream;
 using std::list;
 using boost::shared_ptr;
 

@@ -337,13 +337,12 @@ private:
 
 	void file_changed (boost::filesystem::path f)
 	{
-		stringstream s;
-		s << wx_to_std (_("DCP-o-matic"));
+		string s = wx_to_std (_("DCP-o-matic"));
 		if (!f.empty ()) {
-			s << " - " << f.string ();
+			s += " - " + f.string ();
 		}
 		
-		SetTitle (std_to_wx (s.str()));
+		SetTitle (std_to_wx (s));
 	}
 	
 	void file_new ()

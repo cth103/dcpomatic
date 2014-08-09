@@ -33,7 +33,6 @@
 #include "lib/log.h"
 #include "lib/ui_signaller.h"
 #include "lib/server_finder.h"
-#include "lib/json_server.h"
 
 using std::string;
 using std::cerr;
@@ -53,7 +52,6 @@ help (string n)
 	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
-	     << "  -j, --json <port>  run a JSON server on the specified port\n"
 	     << "  -k, --keep-going   keep running even when the job is complete\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
@@ -65,7 +63,6 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool progress = true;
 	bool no_remote = false;
-	int json_port = 0;
 	bool keep_going = false;
 
 	int option_index = 0;
@@ -77,12 +74,11 @@ main (int argc, char* argv[])
 			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
-			{ "json", required_argument, 0, 'j' },
 			{ "keep-going", no_argument, 0, 'k' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdfnrj:k", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhdfnrk", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -107,9 +103,6 @@ main (int argc, char* argv[])
 		case 'r':
 			no_remote = true;
 			break;
-		case 'j':
-			json_port = atoi (optarg);
-			break;
 		case 'k':
 			keep_going = true;
 			break;
@@ -130,10 +123,6 @@ main (int argc, char* argv[])
 		ServerFinder::instance()->disable ();
 	}
 
-	if (json_port) {
-		new JSONServer (json_port);
-	}
-
 	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;
 	char buf[256];
 	if (gethostname (buf, 256) == 0) {
@@ -151,9 +140,6 @@ main (int argc, char* argv[])
 	}
 
 	cout << "\nMaking DCP for " << film->name() << "\n";
-//	cout << "Content: " << film->content() << "\n";
-//	pair<string, string> const f = Filter::ffmpeg_strings (film->filters ());
-//	cout << "Filters: " << f.first << " " << f.second << "\n";
 
 	film->make_dcp ();
 

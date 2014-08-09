@@ -25,7 +25,6 @@
 
 #include "i18n.h"
 
-using std::stringstream;
 using std::list;
 using std::pair;
 using std::cout;

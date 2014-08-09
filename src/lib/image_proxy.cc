@@ -32,7 +32,6 @@
 
 using std::cout;
 using std::string;
-using std::stringstream;
 using boost::shared_ptr;
 
 ImageProxy::ImageProxy (shared_ptr<Log> log)
