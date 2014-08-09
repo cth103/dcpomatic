@@ -879,7 +879,10 @@ ContentList
 FilmEditor::selected_content ()
 {
 	ContentList sel;
-	long int s = -1;
+
+	if (!_film) {
+		return sel;
+	}
 
 	/* The list was populated using a sorted content list, so we must sort it here too
 	   so that we can look up by index and get the right thing.
@@ -887,6 +890,7 @@ FilmEditor::selected_content ()
 	ContentList content = _film->content ();
 	sort (content.begin(), content.end(), ContentSorter ());
 	
+	long int s = -1;
 	while (true) {
 		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (s == -1) {
