@@ -53,12 +53,6 @@ TranscodeJob::name () const
 	return String::compose (_("Transcode %1"), _film->name());
 }
 
-string
-TranscodeJob::json_name () const
-{
-	return N_("transcode");
-}
-
 void
 TranscodeJob::run ()
 {

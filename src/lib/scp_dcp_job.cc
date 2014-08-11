@@ -111,12 +111,6 @@ SCPDCPJob::name () const
 	return _("Copy DCP to TMS");
 }
 
-string
-SCPDCPJob::json_name () const
-{
-	return N_("scp_dcp");
-}
-
 void
 SCPDCPJob::run ()
 {
