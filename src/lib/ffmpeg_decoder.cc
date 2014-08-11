@@ -56,7 +56,6 @@ extern "C" {
 using std::cout;
 using std::string;
 using std::vector;
-using std::stringstream;
 using std::list;
 using std::min;
 using std::pair;

@@ -34,7 +34,6 @@ extern "C" {
 
 using std::string;
 using std::cout;
-using std::stringstream;
 using boost::shared_ptr;
 using dcp::raw_convert;
 

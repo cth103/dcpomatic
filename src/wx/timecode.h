@@ -28,6 +28,7 @@ public:
 
 	void set (DCPTime, int);
 	DCPTime get (int) const;
+	void clear ();
 
 	void set_editable (bool);
 

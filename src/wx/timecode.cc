@@ -116,6 +116,16 @@ Timecode::get (int fps) const
 }
 
 void
+Timecode::clear ()
+{
+	checked_set (_hours, "");
+	checked_set (_minutes, "");
+	checked_set (_seconds, "");
+	checked_set (_frames, "");
+	_fixed->SetLabel ("");
+}
+
+void
 Timecode::changed ()
 {
 	_set_button->Enable (true);

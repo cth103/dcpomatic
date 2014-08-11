@@ -53,6 +53,7 @@ function universal_copy_lib {
     relink="$relink|$2"
 }
 
+<<<<<<< HEAD
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$WORK/$macos"
@@ -63,6 +64,18 @@ universal_copy_lib $ROOT libcxml "$WORK/$libs"
 universal_copy_lib $ROOT libdcp-1.0 "$WORK/$libs"
 universal_copy_lib $ROOT libasdcp-libdcp-1.0 "$WORK/$libs"
 universal_copy_lib $ROOT libkumu-libdcp-1.0 "$WORK/$libs"
+=======
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_server_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_batch "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic.dylib "$WORK/$libs"
+universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic-wx.dylib "$WORK/$libs"
+universal_copy_lib $ROOT libcxml "$WORK/$libs"
+universal_copy_lib $ROOT libdcp "$WORK/$libs"
+universal_copy_lib $ROOT libasdcp-libdcp "$WORK/$libs"
+universal_copy_lib $ROOT libkumu-libdcp "$WORK/$libs"
+>>>>>>> origin/master
 universal_copy_lib $ROOT libopenjpeg "$WORK/$libs"
 universal_copy_lib $ROOT libavdevice "$WORK/$libs"
 universal_copy_lib $ROOT libavformat "$WORK/$libs"

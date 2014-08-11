@@ -58,10 +58,6 @@ public:
 	string name () const {
 		return "";
 	}
-
-	string json_name () const {
-		return "";
-	}
 };
 
 BOOST_AUTO_TEST_CASE (job_manager_test)

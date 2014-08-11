@@ -40,7 +40,6 @@
 #define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
 
 using std::string;
-using std::stringstream;
 using std::min;
 using boost::shared_ptr;
 
@@ -110,12 +109,6 @@ string
 SCPDCPJob::name () const
 {
 	return _("Copy DCP to TMS");
-}
-
-string
-SCPDCPJob::json_name () const
-{
-	return N_("scp_dcp");
 }
 
 void
@@ -217,12 +210,11 @@ string
 SCPDCPJob::status () const
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
-	stringstream s;
-	s << Job::status ();
+	string s = Job::status ();
 	if (!_status.empty ()) {
-		s << N_("; ") << _status;
+		s += N_("; ") + _status;
 	}
-	return s.str ();
+	return s;
 }
 
 void

@@ -42,7 +42,6 @@ public:
 	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<AudioContent>);
 
 	std::string name () const;
-	std::string json_name () const;
 	void run ();
 
 private:
