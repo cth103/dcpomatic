@@ -30,6 +30,7 @@ class wxSpinCtrl;
 class Film;
 class Ratio;
 class ContentPanel;
+class DCPPanel;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -54,69 +55,17 @@ public:
 	}
 
 private:
-	void make_dcp_panel ();
-	void connect_to_widgets ();
-	
-	/* Handle changes to the view */
-	void name_changed ();
-	void use_isdcf_name_toggled ();
-	void edit_isdcf_button_clicked ();
-	void container_changed ();
-	void dcp_content_type_changed ();
-	void scaler_changed ();
-	void j2k_bandwidth_changed ();
-	void frame_rate_choice_changed ();
-	void frame_rate_spin_changed ();
-	void best_frame_rate_clicked ();
-	void content_timeline_clicked ();
-	void audio_channels_changed ();
-	void resolution_changed ();
-	void three_d_changed ();
-	void standard_changed ();
-	void signed_toggled ();
-	void burn_subtitles_toggled ();
-	void encrypted_toggled ();
-
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
 	void film_content_changed (int);
 
 	void set_general_sensitivity (bool);
-	void setup_dcp_name ();
-	void setup_container ();
-	void setup_frame_rate_widget ();
-	
 	void active_jobs_changed (bool);
-	void config_changed ();
 
 	wxNotebook* _main_notebook;
-	wxPanel* _dcp_panel;
-	wxSizer* _dcp_sizer;
 	ContentPanel* _content_panel;
+	DCPPanel* _dcp_panel;
 
 	/** The film we are editing */
 	boost::shared_ptr<Film> _film;
-	wxTextCtrl* _name;
-	wxStaticText* _dcp_name;
-	wxCheckBox* _use_isdcf_name;
-	wxChoice* _container;
-	wxButton* _edit_isdcf_button;
-	wxChoice* _scaler;
- 	wxSpinCtrl* _j2k_bandwidth;
-	wxChoice* _dcp_content_type;
-	wxChoice* _frame_rate_choice;
-	wxSpinCtrl* _frame_rate_spin;
-	wxSizer* _frame_rate_sizer;
-	wxSpinCtrl* _audio_channels;
-	wxButton* _best_frame_rate;
-	wxCheckBox* _three_d;
-	wxChoice* _resolution;
-	wxChoice* _standard;
-	wxCheckBox* _signed;
-	wxCheckBox* _burn_subtitles;
-	wxCheckBox* _encrypted;
-
-	std::vector<Ratio const *> _ratios;
-
-	bool _generally_sensitive;
 };
