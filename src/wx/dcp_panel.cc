@@ -33,6 +33,7 @@
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
 
+using std::cout;
 using std::list;
 using std::string;
 using std::vector;
@@ -58,8 +59,8 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, _panel, _("DCP Name"), true, wxGBPosition (r, 0));
-	_dcp_name = new wxStaticText (_panel, wxID_ANY, wxT (""));
-	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	_dcp_name = new wxStaticText (_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
 	int flags = wxALIGN_CENTER_VERTICAL;
@@ -70,12 +71,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	_use_isdcf_name = new wxCheckBox (_panel, wxID_ANY, _("Use ISDCF name"));
 	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
-	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1), wxDefaultSpan);
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _panel, _("Container"), true, wxGBPosition (r, 0));
-	_container = new wxChoice (_panel, wxID_ANY);
-	grid->Add (_container, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
+	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _panel, _("Content Type"), true, wxGBPosition (r, 0));
@@ -83,24 +79,12 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
 
-	{
-		add_label_to_grid_bag_sizer (grid, _panel, _("Frame Rate"), true, wxGBPosition (r, 0));
-		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_frame_rate_choice = new wxChoice (_panel, wxID_ANY);
-		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
-		_frame_rate_spin = new wxSpinCtrl (_panel, wxID_ANY);
-		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
-		setup_frame_rate_widget ();
-		_best_frame_rate = new wxButton (_panel, wxID_ANY, _("Use best"));
-		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
-		grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
-	}
-	++r;
+	_notebook = new wxNotebook (_panel, wxID_ANY);
+	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
 
-	_burn_subtitles = new wxCheckBox (_panel, wxID_ANY, _("Burn subtitles into image"));
-	grid->Add (_burn_subtitles, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
+	_notebook->AddPage (make_video_panel (), _("Video"), false);
+	_notebook->AddPage (make_audio_panel (), _("Audio"), false);
+	
 	_signed = new wxCheckBox (_panel, wxID_ANY, _("Signed"));
 	grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
@@ -109,84 +93,23 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Audio channels"), true, wxGBPosition (r, 0));
-	_audio_channels = new wxSpinCtrl (_panel, wxID_ANY);
-	grid->Add (_audio_channels, wxGBPosition (r, 1));
-	++r;
-
-	_three_d = new wxCheckBox (_panel, wxID_ANY, _("3D"));
-	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
-	add_label_to_grid_bag_sizer (grid, _panel, _("Resolution"), true, wxGBPosition (r, 0));
-	_resolution = new wxChoice (_panel, wxID_ANY);
-	grid->Add (_resolution, wxGBPosition (r, 1));
-	++r;
-
-	{
-		add_label_to_grid_bag_sizer (grid, _panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_j2k_bandwidth = new wxSpinCtrl (_panel, wxID_ANY);
-		s->Add (_j2k_bandwidth, 1);
-		add_label_to_sizer (s, _panel, _("Mbit/s"), false);
-		grid->Add (s, wxGBPosition (r, 1));
-	}
-	++r;
-
 	add_label_to_grid_bag_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
 	_standard = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Scaler"), true, wxGBPosition (r, 0));
-	_scaler = new wxChoice (_panel, wxID_ANY);
-	grid->Add (_scaler, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
 	_name->Bind		(wxEVT_COMMAND_TEXT_UPDATED, 	      boost::bind (&DCPPanel::name_changed, this));
 	_use_isdcf_name->Bind	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
 	_edit_isdcf_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
-	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::container_changed, this));
-	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::scaler_changed, this));
 	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
-	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
-	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
-	_burn_subtitles->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::burn_subtitles_toggled, this));
 	_signed->Bind           (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::signed_toggled, this));
 	_encrypted->Bind        (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::encrypted_toggled, this));
-	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::audio_channels_changed, this));
-	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
-	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::resolution_changed, this));
-	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::three_d_changed, this));
 	_standard->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::standard_changed, this));
-
-	vector<Scaler const *> const sc = Scaler::all ();
-	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_scaler->Append (std_to_wx ((*i)->name()));
-	}
-
-	vector<Ratio const *> const ratio = Ratio::all ();
-	for (vector<Ratio const *>::const_iterator i = ratio.begin(); i != ratio.end(); ++i) {
-		_container->Append (std_to_wx ((*i)->nickname ()));
-	}
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
 		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 	}
-
-	list<int> const dfr = Config::instance()->allowed_dcp_frame_rates ();
-	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
-		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (*i)));
-	}
-
-	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
-	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
-	_frame_rate_spin->SetRange (1, 480);
-
-	_resolution->Append (_("2K"));
-	_resolution->Append (_("4K"));
 
 	_standard->Append (_("SMPTE"));
 	_standard->Append (_("Interop"));
@@ -584,4 +507,118 @@ DCPPanel::setup_frame_rate_widget ()
 	}
 
 	_frame_rate_sizer->Layout ();
+}
+
+wxPanel *
+DCPPanel::make_video_panel ()
+{
+	wxPanel* panel = new wxPanel (_notebook);
+	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	sizer->Add (grid, 0, wxALL, 8);
+	panel->SetSizer (sizer);
+
+	int r = 0;
+	
+	add_label_to_grid_bag_sizer (grid, panel, _("Container"), true, wxGBPosition (r, 0));
+	_container = new wxChoice (panel, wxID_ANY);
+	grid->Add (_container, wxGBPosition (r, 1));
+	++r;
+
+	{
+		add_label_to_grid_bag_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
+		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_frame_rate_choice = new wxChoice (panel, wxID_ANY);
+		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
+		_frame_rate_spin = new wxSpinCtrl (panel, wxID_ANY);
+		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
+		setup_frame_rate_widget ();
+		_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
+		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+		grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
+	}
+	++r;
+
+	_burn_subtitles = new wxCheckBox (panel, wxID_ANY, _("Burn subtitles into image"));
+	grid->Add (_burn_subtitles, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	_three_d = new wxCheckBox (panel, wxID_ANY, _("3D"));
+	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, panel, _("Resolution"), true, wxGBPosition (r, 0));
+	_resolution = new wxChoice (panel, wxID_ANY);
+	grid->Add (_resolution, wxGBPosition (r, 1));
+	++r;
+
+	{
+		add_label_to_grid_bag_sizer (grid, panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
+		s->Add (_j2k_bandwidth, 1);
+		add_label_to_sizer (s, panel, _("Mbit/s"), false);
+		grid->Add (s, wxGBPosition (r, 1));
+	}
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, panel, _("Scaler"), true, wxGBPosition (r, 0));
+	_scaler = new wxChoice (panel, wxID_ANY);
+	grid->Add (_scaler, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
+
+	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::container_changed, this));
+	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::scaler_changed, this));
+	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
+	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
+	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
+	_burn_subtitles->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::burn_subtitles_toggled, this));
+	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
+	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::resolution_changed, this));
+	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::three_d_changed, this));
+
+	vector<Scaler const *> const sc = Scaler::all ();
+	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
+		_scaler->Append (std_to_wx ((*i)->name()));
+	}
+
+	vector<Ratio const *> const ratio = Ratio::all ();
+	for (vector<Ratio const *>::const_iterator i = ratio.begin(); i != ratio.end(); ++i) {
+		_container->Append (std_to_wx ((*i)->nickname ()));
+	}
+
+	list<int> const dfr = Config::instance()->allowed_dcp_frame_rates ();
+	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
+		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (*i)));
+	}
+
+	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	_frame_rate_spin->SetRange (1, 480);
+
+	_resolution->Append (_("2K"));
+	_resolution->Append (_("4K"));
+
+	return panel;
+}
+
+wxPanel *
+DCPPanel::make_audio_panel ()
+{
+	wxPanel* panel = new wxPanel (_notebook);
+	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	sizer->Add (grid, 0, wxALL, 8);
+	panel->SetSizer (sizer);
+
+	int r = 0;
+	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
+	_audio_channels = new wxSpinCtrl (panel, wxID_ANY);
+	grid->Add (_audio_channels, wxGBPosition (r, 1));
+	++r;
+
+	_audio_channels->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DCPPanel::audio_channels_changed, this));
+
+	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
+
+	return panel;
 }

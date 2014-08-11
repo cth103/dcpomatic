@@ -71,9 +71,14 @@ private:
 	void setup_container ();
 	void setup_dcp_name ();
 
+	wxPanel* make_general_panel ();
+	wxPanel* make_video_panel ();
+	wxPanel* make_audio_panel ();
+
 	void config_changed ();
 
 	wxPanel* _panel;
+	wxNotebook* _notebook;
 	wxBoxSizer* _sizer;
 
 	wxTextCtrl* _name;
