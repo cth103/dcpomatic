@@ -703,7 +703,7 @@ public:
 		table->Add (_kdm_bcc, 1, wxEXPAND | wxALL);
 		
 		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
-		s->Add (_kdm_email, 1.5, wxEXPAND | wxALL, _border);
+		s->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
 
 		_reset_kdm_email = new wxButton (panel, wxID_ANY, _("Reset to default text"));
 		s->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
