@@ -166,9 +166,10 @@ TimingPanel::film_content_changed (int property)
 		set<float> check;
 		shared_ptr<VideoContent> vc;
 		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			vc = dynamic_pointer_cast<VideoContent> (*i);
-			if (vc) {
-				check.insert (vc->video_frame_rate ());
+			shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
+			if (t) {
+				check.insert (t->video_frame_rate ());
+				vc = t;
 			}
 		}
 		if (check.size() == 1) {
