@@ -18,7 +18,6 @@
 */
 
 #include <string>
-#include <sstream>
 #include <boost/algorithm/string.hpp>
 #include <curl/curl.h>
 #include <libcxml/cxml.h>
@@ -26,13 +25,13 @@
 #include "update.h"
 #include "version.h"
 #include "ui_signaller.h"
+#include "safe_stringstream.h"
 
 #define BUFFER_SIZE 1024
 
 using std::cout;
 using std::min;
 using std::string;
-using std::stringstream;
 using libdcp::raw_convert;
 
 UpdateChecker* UpdateChecker::_instance = 0;
@@ -103,10 +102,9 @@ UpdateChecker::thread ()
 			}
 			
 			_buffer[_offset] = '\0';
-			stringstream s;
-			s << _buffer;
+			string s (_buffer);
 			cxml::Document doc ("Update");
-			doc.read_stream (s);
+			doc.read_string (s);
 			
 			{
 				boost::mutex::scoped_lock lm (_data_mutex);

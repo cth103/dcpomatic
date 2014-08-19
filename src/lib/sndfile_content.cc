@@ -25,11 +25,11 @@
 #include "compose.hpp"
 #include "job.h"
 #include "util.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::cout;
 using boost::shared_ptr;
 using libdcp::raw_convert;
@@ -76,7 +76,7 @@ SndfileContent::information () const
 		return "";
 	}
 	
-	stringstream s;
+	SafeStringStream s;
 
 	s << String::compose (
 		_("%1 channels, %2kHz, %3 samples"),

@@ -17,7 +17,6 @@
 
 */
 
-#include <sstream>
 #include <cstdlib>
 #include <fstream>
 #include <glib.h>

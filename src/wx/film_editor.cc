@@ -45,6 +45,7 @@
 #include "lib/playlist.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/safe_stringstream.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -57,7 +58,6 @@
 
 using std::string;
 using std::cout;
-using std::stringstream;
 using std::pair;
 using std::fixed;
 using std::setprecision;
@@ -420,7 +420,7 @@ FilmEditor::film_changed (Film::Property p)
 		return;
 	}
 
-	stringstream s;
+	SafeStringStream s;
 
 	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
 		(*i)->film_changed (p);

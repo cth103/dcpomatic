@@ -27,7 +27,6 @@
 #include "ui_signaller.h"
 
 using std::string;
-using std::stringstream;
 using std::list;
 using std::vector;
 using std::cout;
@@ -116,9 +115,9 @@ try
 		scoped_array<char> buffer (new char[length]);
 		sock->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 		
-		stringstream s (buffer.get());
+		string s (buffer.get());
 		shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
-		xml->read_stream (s);
+		xml->read_string (s);
 
 		string const ip = sock->socket().remote_endpoint().address().to_string ();
 		if (!server_found (ip)) {

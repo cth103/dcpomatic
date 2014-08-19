@@ -48,6 +48,7 @@ sources = """
           playlist.cc
           ratio.cc
           resampler.cc
+          safe_stringstream.cc
           scp_dcp_job.cc
           scaler.cc
           send_kdm_email_job.cc

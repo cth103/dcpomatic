@@ -26,6 +26,7 @@
 #include "log.h"
 #include "cross.h"
 #include "config.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
@@ -63,7 +64,7 @@ Log::log (string message, int type)
 	time (&t);
 	string a = ctime (&t);
 
-	stringstream s;
+	SafeStringStream s;
 	s << a.substr (0, a.length() - 1) << N_(": ");
 
 	if (type & TYPE_ERROR) {
@@ -90,7 +91,7 @@ Log::microsecond_log (string m, int t)
 	struct timeval tv;
 	gettimeofday (&tv, 0);
 
-	stringstream s;
+	SafeStringStream s;
 	s << tv.tv_sec << N_(":") << tv.tv_usec << N_(" ") << m;
 	do_log (s.str ());
 }	

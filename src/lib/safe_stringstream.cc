@@ -17,46 +17,7 @@
 
 */
 
-#include <iomanip>
-#include <openssl/md5.h>
-#include "md5_digester.h"
+#include <boost/thread/mutex.hpp>
 #include "safe_stringstream.h"
 
-using std::string;
-using std::hex;
-using std::setfill;
-using std::setw;
-
-MD5Digester::MD5Digester ()
-{
-	MD5_Init (&_context);
-}
-
-MD5Digester::~MD5Digester ()
-{
-	get ();
-}
-
-void
-MD5Digester::add (void const * data, size_t size)
-{
-	MD5_Update (&_context, data, size);
-}
-
-string
-MD5Digester::get () const
-{
-	if (!_digest) {
-		unsigned char digest[MD5_DIGEST_LENGTH];
-		MD5_Final (digest, &_context);
-		
-		SafeStringStream s;
-		for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-			s << hex << setfill('0') << setw(2) << ((int) digest[i]);
-		}
-		
-		_digest = s.str ();
-	}
-	
-	return _digest.get ();
-}
+boost::mutex SafeStringStream::_mutex;

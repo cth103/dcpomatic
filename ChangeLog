@@ -1,3 +1,9 @@
+2014-08-19  Carl Hetherington  <cth@carlh.net>
+
+	* Attempt to fix random crashes on OS X (especially during encodes)
+	thought to be caused by multiple threads using (different) stringstreams
+	at the same time; see src/lib/safe_stringstream.h
+
 2014-08-09  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.72.10 released.

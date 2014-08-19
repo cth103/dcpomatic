@@ -28,10 +28,10 @@
 #include "util.h"
 #include "film.h"
 #include "config.h"
+#include "safe_stringstream.h"
 
 using std::list;
 using std::string;
-using std::stringstream;
 using std::cout;
 using boost::shared_ptr;
 
@@ -233,9 +233,9 @@ email_kdms (
 		
 		quickmail_initialize ();
 
-		stringstream start;
+		SafeStringStream start;
 		start << from.date() << " " << from.time_of_day();
-		stringstream end;
+		SafeStringStream end;
 		end << to.date() << " " << to.time_of_day();
 		
 		string subject = Config::instance()->kdm_subject();
@@ -259,7 +259,7 @@ email_kdms (
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i->cinema->name);
 		
-		stringstream screens;
+		SafeStringStream screens;
 		for (list<ScreenKDM>::const_iterator j = i->screen_kdms.begin(); j != i->screen_kdms.end(); ++j) {
 			screens << j->screen->name << ", ";
 		}

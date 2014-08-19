@@ -31,6 +31,7 @@
 #include "film.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
@@ -42,7 +43,6 @@ int const VideoContentProperty::VIDEO_SCALE	  = 4;
 int const VideoContentProperty::COLOUR_CONVERSION = 5;
 
 using std::string;
-using std::stringstream;
 using std::setprecision;
 using std::cout;
 using std::vector;
@@ -207,7 +207,7 @@ VideoContent::information () const
 		return "";
 	}
 	
-	stringstream s;
+	SafeStringStream s;
 
 	s << String::compose (
 		_("%1x%2 pixels (%3:1)"),
@@ -299,7 +299,7 @@ VideoContent::set_scale (VideoContentScale s)
 string
 VideoContent::identifier () const
 {
-	stringstream s;
+	SafeStringStream s;
 	s << Content::identifier()
 	  << "_" << crop().left
 	  << "_" << crop().right
@@ -473,7 +473,7 @@ VideoContentScale::as_xml (xmlpp::Node* node) const
 string
 VideoContentScale::id () const
 {
-	stringstream s;
+	SafeStringStream s;
 	
 	if (_ratio) {
 		s << _ratio->id () << "_";

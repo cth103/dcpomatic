@@ -25,12 +25,12 @@
 #include "film.h"
 #include "job.h"
 #include "frame_rate_change.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
-using std::stringstream;
 using boost::shared_ptr;
 
 ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
@@ -138,7 +138,7 @@ ImageContent::full_length () const
 string
 ImageContent::identifier () const
 {
-	stringstream s;
+	SafeStringStream s;
 	s << VideoContent::identifier ();
 	s << "_" << video_length();
 	return s.str ();

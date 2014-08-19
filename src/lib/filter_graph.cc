@@ -34,10 +34,10 @@ extern "C" {
 #include "exceptions.h"
 #include "image.h"
 #include "ffmpeg_content.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
-using std::stringstream;
 using std::string;
 using std::list;
 using std::pair;
@@ -80,7 +80,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, libdcp::Size 
 		throw DecodeError (N_("Could not create buffer sink filter"));
 	}
 
-	stringstream a;
+	SafeStringStream a;
 	a << "video_size=" << _size.width << "x" << _size.height << ":"
 	  << "pix_fmt=" << _pixel_format << ":"
 	  << "time_base=1/1:"

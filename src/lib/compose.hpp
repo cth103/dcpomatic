@@ -33,10 +33,10 @@
 #ifndef STRING_COMPOSE_H
 #define STRING_COMPOSE_H
 
-#include <sstream>
 #include <string>
 #include <list>
 #include <map>			// for multimap
+#include "safe_stringstream.h"
 
 namespace StringPrivate
 {
@@ -56,7 +56,7 @@ namespace StringPrivate
     std::string str() const;
 
   private:
-    std::ostringstream os;
+    SafeStringStream os;
     int arg_no;
 
     // we store the output as a list - when the output string is requested, the

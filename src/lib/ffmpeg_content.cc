@@ -32,13 +32,13 @@ extern "C" {
 #include "log.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 #define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
 using std::string;
-using std::stringstream;
 using std::vector;
 using std::list;
 using std::cout;
@@ -241,7 +241,7 @@ FFmpegContent::information () const
 		return "";
 	}
 	
-	stringstream s;
+	SafeStringStream s;
 	
 	s << String::compose (_("%1 frames; %2 frames per second"), video_length_after_3d_combine(), video_frame_rate()) << "\n";
 	s << VideoContent::information ();
@@ -445,7 +445,7 @@ FFmpegContent::set_audio_mapping (AudioMapping m)
 string
 FFmpegContent::identifier () const
 {
-	stringstream s;
+	SafeStringStream s;
 
 	s << VideoContent::identifier();
 

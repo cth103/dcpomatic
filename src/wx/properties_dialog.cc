@@ -22,11 +22,11 @@
 #include <boost/bind.hpp>
 #include "lib/film.h"
 #include "lib/config.h"
+#include "lib/safe_stringstream.h"
 #include "properties_dialog.h"
 #include "wx_util.h"
 
 using std::string;
-using std::stringstream;
 using std::fixed;
 using std::setprecision;
 using boost::shared_ptr;
@@ -48,7 +48,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->time_to_video_frames (_film->length()))));
 	double const disk = double (_film->required_disk_space()) / 1073741824.0f;
-	stringstream s;
+	SafeStringStream s;
 	s << fixed << setprecision (1) << disk << wx_to_std (_("Gb"));
 	_disk->SetLabel (std_to_wx (s.str ()));
 
@@ -58,7 +58,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 string
 PropertiesDialog::frames_already_encoded () const
 {
-	stringstream u;
+	SafeStringStream u;
 	try {
 		u << _film->encoded_frames ();
 	} catch (boost::thread_interrupted &) {
