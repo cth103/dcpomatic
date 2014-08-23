@@ -1,5 +1,9 @@
 2014-08-23  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.72.12 released.
+
+2014-08-23  Carl Hetherington  <cth@carlh.net>
+
 	* Revert previous use of AVFormatContext::start_time when
 	computing the length of video.  I think this is wrong, and
 	causes bits to be missed off the end of videos (and other
