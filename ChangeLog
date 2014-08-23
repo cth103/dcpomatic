@@ -1,3 +1,10 @@
+2014-08-23  Carl Hetherington  <cth@carlh.net>
+
+	* Revert previous use of AVFormatContext::start_time when
+	computing the length of video.  I think this is wrong, and
+	causes bits to be missed off the end of videos (and other
+	problems).
+
 2014-08-20  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.72.11 released.
@@ -6,7 +13,7 @@
 
 	* Attempt to fix random crashes on OS X (especially during encodes)
 	thought to be caused by multiple threads using (different) stringstreams
-	at the same time; see src/lib/safe_stringstream.h
+	at the same time; see src/lib/safe_stringstream.
 
 2014-08-09  Carl Hetherington  <cth@carlh.net>
 

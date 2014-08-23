@@ -137,7 +137,7 @@ FFmpegExaminer::video_size () const
 VideoContent::Frame
 FFmpegExaminer::video_length () const
 {
-	VideoContent::Frame const length = (double (_format_context->duration - _format_context->start_time) / AV_TIME_BASE) * video_frame_rate();
+	VideoContent::Frame const length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
 	return max (1, length);
 }
 
