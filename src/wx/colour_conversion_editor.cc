@@ -21,12 +21,12 @@
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
 #include "lib/colour_conversion.h"
+#include "lib/safe_stringstream.h"
 #include "wx_util.h"
 #include "colour_conversion_editor.h"
 
 using std::string;
 using std::cout;
-using std::stringstream;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -110,7 +110,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 	_input_gamma_linearised->SetValue (conversion.input_gamma_linearised);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			stringstream s;
+			SafeStringStream s;
 			s.setf (std::ios::fixed, std::ios::floatfield);
 			s.precision (7);
 			s << conversion.matrix (i, j);

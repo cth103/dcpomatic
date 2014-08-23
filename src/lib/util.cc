@@ -22,7 +22,6 @@
  *  @brief Some utility functions and classes.
  */
 
-#include <sstream>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
@@ -72,6 +71,7 @@ extern "C" {
 #include "rect.h"
 #include "md5_digester.h"
 #include "audio_processor.h"
+#include "safe_stringstream.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -79,7 +79,6 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::setfill;
 using std::ostream;
 using std::endl;
@@ -123,7 +122,7 @@ seconds_to_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	stringstream hms;
+	SafeStringStream hms;
 	hms << h << N_(":");
 	hms.width (2);
 	hms << std::setfill ('0') << m << N_(":");
@@ -144,7 +143,7 @@ seconds_to_approximate_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	stringstream ap;
+	SafeStringStream ap;
 
 	bool const hours = h > 0;
 	bool const minutes = h < 10 && m > 0;
@@ -263,7 +262,7 @@ stacktrace (ostream& out, int levels)
 static string
 ffmpeg_version_to_string (int v)
 {
-	stringstream s;
+	SafeStringStream s;
 	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
 	return s.str ();
 }
@@ -889,7 +888,7 @@ divide_with_round (int64_t a, int64_t b)
 string
 dependency_version_summary ()
 {
-	stringstream s;
+	SafeStringStream s;
 	s << N_("libopenjpeg ") << opj_version () << N_(", ")
 	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
 	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")

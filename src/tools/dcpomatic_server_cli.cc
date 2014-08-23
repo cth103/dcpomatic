@@ -20,7 +20,6 @@
 #include "lib/server.h"
 #include <iostream>
 #include <stdexcept>
-#include <sstream>
 #include <cstring>
 #include <vector>
 #include <unistd.h>

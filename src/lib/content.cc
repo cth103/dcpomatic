@@ -31,11 +31,11 @@
 #include "ui_signaller.h"
 #include "exceptions.h"
 #include "film.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::set;
 using std::list;
 using std::cout;
@@ -225,7 +225,7 @@ Content::length_after_trim () const
 string
 Content::identifier () const
 {
-	stringstream s;
+	SafeStringStream s;
 	
 	s << Content::digest()
 	  << "_" << position().get()

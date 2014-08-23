@@ -45,6 +45,7 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
+#include "lib/safe_stringstream.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -58,7 +59,6 @@
 
 using std::string;
 using std::cout;
-using std::stringstream;
 using std::pair;
 using std::fixed;
 using std::setprecision;
@@ -109,7 +109,6 @@ FilmEditor::film_changed (Film::Property p)
 
 	_content_panel->film_changed (p);
 	_dcp_panel->film_changed (p);
-
 }
 
 void
@@ -171,4 +170,3 @@ FilmEditor::active_jobs_changed (bool a)
 {
 	set_general_sensitivity (!a);
 }
-

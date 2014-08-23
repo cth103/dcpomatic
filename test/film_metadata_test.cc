@@ -21,7 +21,6 @@
  *  @brief Test some basic reading/writing of film metadata.
  */
 
-#include <sstream>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/date_time.hpp>

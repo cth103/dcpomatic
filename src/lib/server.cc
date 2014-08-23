@@ -24,7 +24,6 @@
 
 #include <string>
 #include <vector>
-#include <sstream>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
@@ -39,6 +38,7 @@
 #include "cross.h"
 #include "player_video.h"
 #include "encoded_data.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
@@ -48,7 +48,6 @@
 #define LOG_ERROR_NC(...)   _log->log (__VA_ARGS__, Log::TYPE_ERROR);
 
 using std::string;
-using std::stringstream;
 using std::multimap;
 using std::vector;
 using std::list;
@@ -104,9 +103,9 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	scoped_array<char> buffer (new char[length]);
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 
-	stringstream s (buffer.get());
+	string s (buffer.get());
 	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
-	xml->read_stream (s);
+	xml->read_string (s);
 	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
 		cerr << "Mismatched server/client versions\n";
 		LOG_ERROR_NC ("Mismatched server/client versions");
@@ -180,7 +179,7 @@ Server::worker_thread ()
 			struct timeval end;
 			gettimeofday (&end, 0);
 
-			stringstream message;
+			SafeStringStream message;
 			message.precision (2);
 			message << fixed
 				<< "Encoded frame " << frame << " from " << ip << ": "
@@ -251,14 +250,13 @@ Server::broadcast_received ()
 		xmlpp::Document doc;
 		xmlpp::Element* root = doc.create_root_node ("ServerAvailable");
 		root->add_child("Threads")->add_child_text (raw_convert<string> (_worker_threads.size ()));
-		stringstream xml;
-		doc.write_to_stream (xml, "UTF-8");
+		string xml = doc.write_to_string ("UTF-8");
 
 		shared_ptr<Socket> socket (new Socket);
 		try {
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), Config::instance()->server_port_base() + 1));
-			socket->write (xml.str().length() + 1);
-			socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
+			socket->write (xml.length() + 1);
+			socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
 		} catch (...) {
 
 		}

@@ -37,7 +37,6 @@
 using std::string;
 using std::list;
 using std::cout;
-using std::stringstream;
 using boost::shared_ptr;
 
 Job::Job (shared_ptr<const Film> f)
@@ -309,7 +308,7 @@ Job::status () const
 		pc = 99;
 	}
 
-	stringstream s;
+	SafeStringStream s;
 	if (!finished ()) {
 		s << pc << N_("%");
 		if (p >= 0 && t > 10 && r > 0) {

@@ -24,11 +24,11 @@
 #include <curl/curl.h>
 #include <zip.h>
 #include "util.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::list;
 using boost::optional;
 using boost::function;
@@ -130,11 +130,10 @@ ftp_ls (string url)
 		return list<string> ();
 	}
 
-	stringstream s (ls_raw);
-	string line;
+	SafeStringStream s (ls_raw);
 	list<string> ls;
 	while (s.good ()) {
-		getline (s, line);
+		string const line = s.getline ();
 		if (line.length() > 55) {
 			string const file = line.substr (55);
 			if (file != "." && file != "..") {
