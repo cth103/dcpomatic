@@ -22,11 +22,11 @@
 #include "subtitle_content.h"
 #include "util.h"
 #include "exceptions.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::vector;
 using std::cout;
 using boost::shared_ptr;
@@ -160,7 +160,7 @@ SubtitleContent::set_subtitle_scale (double s)
 string
 SubtitleContent::identifier () const
 {
-	stringstream s;
+	SafeStringStream s;
 	s << Content::identifier()
 	  << "_" << raw_convert<string> (subtitle_scale())
 	  << "_" << raw_convert<string> (subtitle_x_offset())

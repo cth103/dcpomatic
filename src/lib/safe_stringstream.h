@@ -84,6 +84,11 @@ public:
 		_stream.width (w);
 	}
 
+	void fill (int f)
+	{
+		_stream.fill (f);
+	}
+	
 	void precision (int p)
 	{
 		_stream.precision (p);

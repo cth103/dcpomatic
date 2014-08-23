@@ -32,7 +32,6 @@
 using std::cout;
 using std::min;
 using std::string;
-using std::stringstream;
 using dcp::raw_convert;
 
 /** Singleton instance */

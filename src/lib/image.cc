@@ -41,7 +41,6 @@ using std::min;
 using std::cout;
 using std::cerr;
 using std::list;
-using std::stringstream;
 using boost::shared_ptr;
 using dcp::Size;
 

@@ -25,7 +25,6 @@
 
 #include "i18n.h"
 
-using std::stringstream;
 using std::string;
 using std::cout;
 using dcp::raw_convert;

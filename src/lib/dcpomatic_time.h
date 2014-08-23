@@ -26,6 +26,7 @@
 #include <iomanip>
 #include <stdint.h>
 #include "frame_rate_change.h"
+#include "safe_stringstream.h"
 
 class dcpomatic_round_up_test;
 
@@ -86,7 +87,7 @@ public:
 		int f;
 		split (r, h, m, s, f);
 
-		std::ostringstream o;
+		SafeStringStream o;
 		o.width (2);
 		o.fill ('0');
 		o << std::setw(2) << std::setfill('0') << h << ":"
