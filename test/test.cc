@@ -24,6 +24,7 @@
 #include <vector>
 #include <list>
 #include <Magick++.h>
+#include <sndfile.h>
 #include <libxml++/libxml++.h>
 #include <dcp/dcp.h>
 #include "lib/config.h"
@@ -109,6 +110,45 @@ new_test_film (string name)
 }
 
 void
+check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
+{
+	SF_INFO ref_info;
+	ref_info.format = 0;
+	SNDFILE* ref_file = sf_open (ref.string().c_str(), SFM_READ, &ref_info);
+	BOOST_CHECK (ref_file);
+	
+	SF_INFO check_info;
+	check_info.format = 0;
+	SNDFILE* check_file = sf_open (check.string().c_str(), SFM_READ, &check_info);
+	BOOST_CHECK (check_file);
+
+	BOOST_CHECK_EQUAL (ref_info.frames, check_info.frames);
+	BOOST_CHECK_EQUAL (ref_info.samplerate, check_info.samplerate);
+	BOOST_CHECK_EQUAL (ref_info.channels, check_info.channels);
+	BOOST_CHECK_EQUAL (ref_info.format, check_info.format);
+
+	/* buffer_size is in frames */
+	sf_count_t const buffer_size = 65536 * ref_info.channels;
+	int32_t* ref_buffer = new int32_t[buffer_size];
+	int32_t* check_buffer = new int32_t[buffer_size];
+	
+	sf_count_t N = ref_info.frames;
+	while (N) {
+		sf_count_t this_time = min (buffer_size, N);
+		sf_count_t r = sf_readf_int (ref_file, ref_buffer, this_time);
+		BOOST_CHECK_EQUAL (r, this_time);
+		r = sf_readf_int (check_file, check_buffer, this_time);
+		BOOST_CHECK_EQUAL (r, this_time);
+
+		for (sf_count_t i = 0; i < this_time; ++i) {
+			BOOST_CHECK (fabs (ref_buffer[i] - check_buffer[i]) <= 65536);
+		}
+
+		N -= this_time;
+	}
+}
+
+void
 check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	uintmax_t N = boost::filesystem::file_size (ref);
@@ -122,6 +162,9 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	uint8_t* ref_buffer = new uint8_t[buffer_size];
 	uint8_t* check_buffer = new uint8_t[buffer_size];
 
+	SafeStringStream error;
+	error << "File " << check.string() << " differs from reference " << ref.string();
+	
 	while (N) {
 		uintmax_t this_time = min (uintmax_t (buffer_size), N);
 		size_t r = fread (ref_buffer, 1, this_time, ref_file);
@@ -129,7 +172,11 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 		r = fread (check_buffer, 1, this_time, check_file);
 		BOOST_CHECK_EQUAL (r, this_time);
 
-		BOOST_CHECK_EQUAL (memcmp (ref_buffer, check_buffer, this_time), 0);
+		BOOST_CHECK_MESSAGE (memcmp (ref_buffer, check_buffer, this_time) == 0, error.str ());
+		if (memcmp (ref_buffer, check_buffer, this_time)) {
+			break;
+		}
+		
 		N -= this_time;
 	}
 

@@ -71,10 +71,10 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	sf_close (Ls);
 	sf_close (Rs);
 
-	check_file ("test/data/upmixer_a_test/L.wav", "build/test/upmixer_a_test/L.wav");
-	check_file ("test/data/upmixer_a_test/R.wav", "build/test/upmixer_a_test/R.wav");
-	check_file ("test/data/upmixer_a_test/C.wav", "build/test/upmixer_a_test/C.wav");
-	check_file ("test/data/upmixer_a_test/Lfe.wav", "build/test/upmixer_a_test/Lfe.wav");
-	check_file ("test/data/upmixer_a_test/Ls.wav", "build/test/upmixer_a_test/Ls.wav");
-	check_file ("test/data/upmixer_a_test/Rs.wav", "build/test/upmixer_a_test/Rs.wav");
+	check_audio_file ("test/data/upmixer_a_test/L.wav", "build/test/upmixer_a_test/L.wav");
+	check_audio_file ("test/data/upmixer_a_test/R.wav", "build/test/upmixer_a_test/R.wav");
+	check_audio_file ("test/data/upmixer_a_test/C.wav", "build/test/upmixer_a_test/C.wav");
+	check_audio_file ("test/data/upmixer_a_test/Lfe.wav", "build/test/upmixer_a_test/Lfe.wav");
+	check_audio_file ("test/data/upmixer_a_test/Ls.wav", "build/test/upmixer_a_test/Ls.wav");
+	check_audio_file ("test/data/upmixer_a_test/Rs.wav", "build/test/upmixer_a_test/Rs.wav");
 }

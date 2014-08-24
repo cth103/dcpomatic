@@ -1,0 +1,30 @@
+\documentclass{article}
+\begin{document}
+
+There is a lot of dancing about to handle potential gaps and sync
+problems in the FFmpeg decoder.  It might be nicer if
+\texttt{FFmpegDecoder} could just spit out video and audio with
+timestamps and let the player sort it out, since the player must
+already handle insertion of black and silence.
+
+The first question would be what time unit the decoder should use to
+stamp its output.  Initially we have the PTS, in some time base, and
+we can convert that to seconds at the content's frame rate; this is
+basically a \texttt{Time}.  So we could emit video and audio content
+with \texttt{Time} stamps.
+
+Then the player receives video frames, and can fill in gaps.
+
+The FFmpeg decoder would still have to account for non-zero initial
+PTS, as it is expected that such `dead time' is trimmed from the
+source implicitly.
+
+The snag with this is that hitherto \texttt{Time} has meant DCP time,
+not time at a content's rates (before the content is potentially sped
+up).  As it stands, seek takes a \texttt{Time} in the DCP and the
+content class converts it to content frames.  This is then (rather
+grottily) converted back to time again via the content frame rate.
+All a bit grim.  Everything should probably work in time rather than
+frame rates.
+
+\end{document}

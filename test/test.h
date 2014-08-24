@@ -28,6 +28,7 @@ extern void wait_for_jobs ();
 extern boost::shared_ptr<Film> new_test_film (std::string);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
 extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
+extern void check_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_xml (boost::filesystem::path, boost::filesystem::path, std::list<std::string>);
 extern void check_file (boost::filesystem::path, boost::filesystem::path);
 extern boost::filesystem::path test_film_dir (std::string);
