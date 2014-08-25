@@ -71,22 +71,16 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-static shared_ptr<Film> film;
-static std::string film_to_load;
-static std::string film_to_create;
-static std::string content_to_add;
-static wxMenu* jobs_menu = 0;
-
 // #define DCPOMATIC_WINDOWS_CONSOLE 1
 
 class FilmChangedDialog
 {
 public:
-	FilmChangedDialog ()
+	FilmChangedDialog (string name)
 	{
 		_dialog = new wxMessageDialog (
 			0,
-			wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (film->name ()).data()),
+			wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (name).data()),
 			_("Film changed"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
@@ -109,51 +103,6 @@ private:
 	wxMessageDialog* _dialog;
 };
 
-
-static void
-maybe_save_then_delete_film ()
-{
-	if (!film) {
-		return;
-	}
-			
-	if (film->dirty ()) {
-		FilmChangedDialog d;
-		switch (d.run ()) {
-		case wxID_NO:
-			break;
-		case wxID_YES:
-			film->write_metadata ();
-			break;
-		}
-	}
-	
-	film.reset ();
-}
-
-static void
-check_film_state_version (int v)
-{
-	if (v == 4) {
-		error_dialog (
-			0,
-			_("This film was created with an old version of DVD-o-matic and may not load correctly "
-			  "in this version.  Please check the film's settings carefully.")
-			);
-	}
-}
-
-static void
-load_film (boost::filesystem::path file)
-{
-	film.reset (new Film (file));
-	list<string> const notes = film->read_metadata ();
-	check_film_state_version (film->state_version ());
-	for (list<string>::const_iterator i = notes.begin(); i != notes.end(); ++i) {
-		error_dialog (0, std_to_wx (*i));
-	}
-}
-
 #define ALWAYS                       0x0
 #define NEEDS_FILM                   0x1
 #define NOT_DURING_DCP_CREATION      0x2
@@ -162,13 +111,6 @@ load_film (boost::filesystem::path file)
 
 map<wxMenuItem*, int> menu_items;
 	
-static void
-add_item (wxMenu* menu, wxString text, int id, int sens)
-{
-	wxMenuItem* item = menu->Append (id, text);
-	menu_items.insert (make_pair (item, sens));
-}
-
 enum {
 	ID_file_new = 1,
 	ID_file_open,
@@ -184,66 +126,6 @@ enum {
 	ID_tools_encoding_servers,
 	ID_tools_check_for_updates
 };
-
-static void
-setup_menu (wxMenuBar* m)
-{
-	wxMenu* file = new wxMenu;
-	add_item (file, _("New..."), ID_file_new, ALWAYS);
-	add_item (file, _("&Open..."), ID_file_open, ALWAYS);
-	file->AppendSeparator ();
-	add_item (file, _("&Save"), ID_file_save, NEEDS_FILM);
-	file->AppendSeparator ();
-	add_item (file, _("&Properties..."), ID_file_properties, NEEDS_FILM);
-#ifndef __WXOSX__	
-	file->AppendSeparator ();
-#endif
-
-#ifdef __WXOSX__	
-	add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
-#else
-	add_item (file, _("&Quit"), wxID_EXIT, ALWAYS);
-#endif	
-	
-
-#ifdef __WXOSX__	
-	add_item (file, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
-#else
-	wxMenu* edit = new wxMenu;
-	add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
-#endif
-
-	wxMenu* content = new wxMenu;
-	add_item (content, _("Scale to fit &width"), ID_content_scale_to_fit_width, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
-	add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
-
-	jobs_menu = new wxMenu;
-	add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
-	add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM);
-	add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
-	add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
-
-	wxMenu* tools = new wxMenu;
-	add_item (tools, _("Hints..."), ID_tools_hints, 0);
-	add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
-	add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
-
-	wxMenu* help = new wxMenu;
-#ifdef __WXOSX__	
-	add_item (help, _("About DCP-o-matic"), wxID_ABOUT, ALWAYS);
-#else	
-	add_item (help, _("About"), wxID_ABOUT, ALWAYS);
-#endif	
-
-	m->Append (file, _("&File"));
-#ifndef __WXOSX__	
-	m->Append (edit, _("&Edit"));
-#endif
-	m->Append (content, _("&Content"));
-	m->Append (jobs_menu, _("&Jobs"));
-	m->Append (tools, _("&Tools"));
-	m->Append (help, _("&Help"));
-}
 
 class Frame : public wxFrame
 {
@@ -298,8 +180,8 @@ public:
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
-		_film_editor = new FilmEditor (film, overall_panel);
-		_film_viewer = new FilmViewer (film, overall_panel);
+		_film_editor = new FilmEditor (overall_panel);
+		_film_viewer = new FilmViewer (overall_panel);
 		JobManagerView* job_manager_view = new JobManagerView (overall_panel, static_cast<JobManagerView::Buttons> (0));
 
 		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
@@ -313,26 +195,54 @@ public:
 		set_menu_sensitivity ();
 
 		_film_editor->FileChanged.connect (bind (&Frame::file_changed, this, _1));
-		if (film) {
-			file_changed (film->directory ());
-		} else {
-			file_changed ("");
-		}
+		file_changed ("");
 
 		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&Frame::set_menu_sensitivity, this));
 
-		set_film ();
 		overall_panel->SetSizer (main_sizer);
 	}
 
-private:
-
-	void set_film ()
+	void new_film (boost::filesystem::path path)
 	{
-		_film_viewer->set_film (film);
-		_film_editor->set_film (film);
+		shared_ptr<Film> film (new Film (path));
+		film->write_metadata ();
+		film->set_name (path.filename().generic_string());
+		set_film (film);
+	}
+
+	void load_film (boost::filesystem::path file)
+	{
+		shared_ptr<Film> film (new Film (file));
+		list<string> const notes = film->read_metadata ();
+
+		if (film->state_version() == 4) {
+			error_dialog (
+				0,
+				_("This film was created with an old version of DVD-o-matic and may not load correctly "
+				  "in this version.  Please check the film's settings carefully.")
+				);
+		}
+		
+		for (list<string>::const_iterator i = notes.begin(); i != notes.end(); ++i) {
+			error_dialog (0, std_to_wx (*i));
+		}
+		
+		set_film (film);
+	}
+
+	void set_film (shared_ptr<Film> film)
+	{
+		_film = film;
+		_film_viewer->set_film (_film);
+		_film_editor->set_film (_film);
 		set_menu_sensitivity ();
 	}
+
+	shared_ptr<Film> film () const {
+		return _film;
+	}
+	
+private:
 
 	void file_changed (boost::filesystem::path f)
 	{
@@ -371,10 +281,7 @@ private:
 			}
 			
 			maybe_save_then_delete_film ();
-			film.reset (new Film (d->get_path ()));
-			film->write_metadata ();
-			film->set_name (boost::filesystem::path (d->get_path()).filename().generic_string());
-			set_film ();
+			new_film (d->get_path ());
 		}
 		
 		d->Destroy ();
@@ -403,7 +310,6 @@ private:
 			maybe_save_then_delete_film ();
 			try {
 				load_film (wx_to_std (c->GetPath ()));
-				set_film ();
 			} catch (std::exception& e) {
 				wxString p = c->GetPath ();
 				wxCharBuffer b = p.ToUTF8 ();
@@ -416,12 +322,12 @@ private:
 
 	void file_save ()
 	{
-		film->write_metadata ();
+		_film->write_metadata ();
 	}
 
 	void file_properties ()
 	{
-		PropertiesDialog* d = new PropertiesDialog (this, film);
+		PropertiesDialog* d = new PropertiesDialog (this, _film);
 		d->ShowModal ();
 		d->Destroy ();
 	}
@@ -445,22 +351,22 @@ private:
 		double required;
 		double available;
 
-		if (!film->should_be_enough_disk_space (required, available)) {
+		if (!_film->should_be_enough_disk_space (required, available)) {
 			if (!confirm_dialog (this, wxString::Format (_("The DCP for this film will take up about %.1f Gb, and the disk that you are using only has %.1f Gb available.  Do you want to continue anyway?"), required, available))) {
 				return;
 			}
 		}
 		
-		JobWrapper::make_dcp (this, film);
+		JobWrapper::make_dcp (this, _film);
 	}
 
 	void jobs_make_kdms ()
 	{
-		if (!film) {
+		if (!_film) {
 			return;
 		}
 		
-		KDMDialog* d = new KDMDialog (this, film);
+		KDMDialog* d = new KDMDialog (this, _film);
 		if (d->ShowModal () != wxID_OK) {
 			d->Destroy ();
 			return;
@@ -468,10 +374,10 @@ private:
 
 		try {
 			if (d->write_to ()) {
-				write_kdm_files (film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation (), d->directory ());
+				write_kdm_files (_film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation (), d->directory ());
 			} else {
 				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation ()))
+					shared_ptr<Job> (new SendKDMEmailJob (_film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation ()))
 					);
 			}
 		} catch (libdcp::NotEncryptedError& e) {
@@ -503,27 +409,27 @@ private:
 	
 	void jobs_send_dcp_to_tms ()
 	{
-		film->send_dcp_to_tms ();
+		_film->send_dcp_to_tms ();
 	}
 
 	void jobs_show_dcp ()
 	{
 #ifdef __WXMSW__
-		string d = film->directory().string ();
+		string d = _film->directory().string ();
 		wstring w;
 		w.assign (d.begin(), d.end());
 		ShellExecute (0, L"open", w.c_str(), 0, 0, SW_SHOWDEFAULT);
 #else
 		int r = system ("which nautilus");
 		if (WEXITSTATUS (r) == 0) {
-			r = system (string ("nautilus " + film->directory().string()).c_str ());
+			r = system (string ("nautilus " + _film->directory().string()).c_str ());
 			if (WEXITSTATUS (r)) {
 				error_dialog (this, _("Could not show DCP (could not run nautilus)"));
 			}
 		} else {
 			int r = system ("which konqueror");
 			if (WEXITSTATUS (r) == 0) {
-				r = system (string ("konqueror " + film->directory().string()).c_str ());
+				r = system (string ("konqueror " + _film->directory().string()).c_str ());
 				if (WEXITSTATUS (r)) {
 					error_dialog (this, _("Could not show DCP (could not run konqueror)"));
 				}
@@ -535,7 +441,7 @@ private:
 	void tools_hints ()
 	{
 		if (!_hints_dialog) {
-			_hints_dialog = new HintsDialog (this, film);
+			_hints_dialog = new HintsDialog (this, _film);
 		}
 
 		_hints_dialog->Show ();
@@ -600,14 +506,14 @@ private:
 			++i;
 		}
 		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
-		bool const have_cpl = film && !film->cpls().empty ();
+		bool const have_cpl = _film && !_film->cpls().empty ();
 		bool const have_selected_video_content = !_film_editor->selected_video_content().empty();
 		
 		for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
 			
 			bool enabled = true;
 			
-			if ((j->second & NEEDS_FILM) && film == 0) {
+			if ((j->second & NEEDS_FILM) && !_film) {
 				enabled = false;
 			}
 			
@@ -626,12 +532,97 @@ private:
 			j->first->Enable (enabled);
 		}
 	}
+
+	void maybe_save_then_delete_film ()
+	{
+		if (!_film) {
+			return;
+		}
+		
+		if (_film->dirty ()) {
+			FilmChangedDialog d (_film->name ());
+			switch (d.run ()) {
+			case wxID_NO:
+				break;
+			case wxID_YES:
+				_film->write_metadata ();
+				break;
+			}
+		}
+		
+		_film.reset ();
+	}
+
+	void add_item (wxMenu* menu, wxString text, int id, int sens)
+	{
+		wxMenuItem* item = menu->Append (id, text);
+		menu_items.insert (make_pair (item, sens));
+	}
+	
+	void setup_menu (wxMenuBar* m)
+	{
+		wxMenu* file = new wxMenu;
+		add_item (file, _("New..."), ID_file_new, ALWAYS);
+		add_item (file, _("&Open..."), ID_file_open, ALWAYS);
+		file->AppendSeparator ();
+		add_item (file, _("&Save"), ID_file_save, NEEDS_FILM);
+		file->AppendSeparator ();
+		add_item (file, _("&Properties..."), ID_file_properties, NEEDS_FILM);
+#ifndef __WXOSX__	
+		file->AppendSeparator ();
+#endif
+	
+#ifdef __WXOSX__	
+		add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
+#else
+		add_item (file, _("&Quit"), wxID_EXIT, ALWAYS);
+#endif	
+	
+#ifdef __WXOSX__	
+		add_item (file, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+#else
+		wxMenu* edit = new wxMenu;
+		add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+#endif
+
+		wxMenu* content = new wxMenu;
+		add_item (content, _("Scale to fit &width"), ID_content_scale_to_fit_width, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
+		add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
+		
+		wxMenu* jobs_menu = new wxMenu;
+		add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+		add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM);
+		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
+		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
+
+		wxMenu* tools = new wxMenu;
+		add_item (tools, _("Hints..."), ID_tools_hints, 0);
+		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
+		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
+		
+		wxMenu* help = new wxMenu;
+#ifdef __WXOSX__	
+		add_item (help, _("About DCP-o-matic"), wxID_ABOUT, ALWAYS);
+#else	
+		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
+#endif	
+		
+		m->Append (file, _("&File"));
+#ifndef __WXOSX__	
+		m->Append (edit, _("&Edit"));
+#endif
+		m->Append (content, _("&Content"));
+		m->Append (jobs_menu, _("&Jobs"));
+		m->Append (tools, _("&Tools"));
+		m->Append (help, _("&Help"));
+	}
 	
 	FilmEditor* _film_editor;
 	FilmViewer* _film_viewer;
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;
+	shared_ptr<Film> _film;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
@@ -682,28 +673,25 @@ class App : public wxApp
 		*/
 		Config::drop ();
 
-		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
-			try {
-				load_film (film_to_load);
-			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load, e.what())));
-			}
-		}
-
-		if (!film_to_create.empty ()) {
-			film.reset (new Film (film_to_create));
-			film->write_metadata ();
-			film->set_name (boost::filesystem::path (film_to_create).filename().generic_string ());
-		}
-
-		if (!content_to_add.empty ()) {
-			film->examine_and_add_content (content_factory (film, content_to_add));
-		}
-
 		_frame = new Frame (_("DCP-o-matic"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
 		_frame->Show ();
+
+		if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {
+			try {
+				_frame->load_film (_film_to_load);
+			} catch (exception& e) {
+				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), _film_to_load, e.what())));
+			}
+		}
+
+		if (!_film_to_create.empty ()) {
+			_frame->new_film (_film_to_create);
+			if (!_content_to_add.empty ()) {
+				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add));
+			}
+		}
 
 		ui_signaller = new wxUISignaller (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
@@ -711,10 +699,6 @@ class App : public wxApp
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
-
-		if (film) {
-			check_film_state_version (film->state_version ());
-		}
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
 		if (Config::instance()->check_for_updates ()) {
@@ -739,15 +723,15 @@ class App : public wxApp
 	{
 		if (parser.GetParamCount() > 0) {
 			if (parser.Found (wxT ("new"))) {
-				film_to_create = wx_to_std (parser.GetParam (0));
+				_film_to_create = wx_to_std (parser.GetParam (0));
 			} else {
-				film_to_load = wx_to_std (parser.GetParam (0));
+				_film_to_load = wx_to_std (parser.GetParam (0));
 			}
 		}
 
 		wxString content;
 		if (parser.Found (wxT ("content"), &content)) {
-			content_to_add = wx_to_std (content);
+			_content_to_add = wx_to_std (content);
 		}
 
 		return true;
@@ -808,6 +792,9 @@ class App : public wxApp
 
 	Frame* _frame;
 	shared_ptr<wxTimer> _timer;
+	string _film_to_load;
+	string _film_to_create;
+	string _content_to_add;
 };
 
 IMPLEMENT_APP (App)

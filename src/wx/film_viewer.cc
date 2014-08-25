@@ -53,7 +53,7 @@ using boost::dynamic_pointer_cast;
 using boost::weak_ptr;
 using libdcp::Size;
 
-FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
+FilmViewer::FilmViewer (wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
@@ -103,8 +103,8 @@ FilmViewer::FilmViewer (shared_ptr<Film> f, wxWindow* p)
 	_back_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::back_clicked,    this));
 	_forward_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::forward_clicked, this));
 
-	set_film (f);
-
+	set_film (shared_ptr<Film> ());
+	
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmViewer::active_jobs_changed, this, _1)
 		);

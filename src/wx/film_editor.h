@@ -45,7 +45,7 @@ class SubtitleContent;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
+	FilmEditor (wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
 	void set_selection (boost::weak_ptr<Content>);
