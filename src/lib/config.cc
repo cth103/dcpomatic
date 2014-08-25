@@ -39,10 +39,12 @@
 #include "i18n.h"
 
 using std::vector;
+using std::cout;
 using std::ifstream;
 using std::string;
 using std::list;
 using std::max;
+using std::remove;
 using std::exception;
 using std::cerr;
 using boost::shared_ptr;
@@ -204,6 +206,11 @@ Config::read ()
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR);
+
+	list<cxml::NodePtr> his = f.node_children ("History");
+	for (list<cxml::NodePtr>::const_iterator i = his.begin(); i != his.end(); ++i) {
+		_history.push_back ((*i)->content ());
+	}
 }
 
 void
@@ -388,6 +395,10 @@ Config::write () const
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
 	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
+
+	for (vector<boost::filesystem::path>::const_iterator i = _history.begin(); i != _history.end(); ++i) {
+		root->add_child("History")->add_child_text (i->string ());
+	}
 	
 	doc.write_to_file_formatted (file(false).string ());
 }
@@ -433,4 +444,18 @@ Config::reset_kdm_email ()
 		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
 		"Best regards,\nDCP-o-matic"
 		);
+}
+
+void
+Config::add_to_history (boost::filesystem::path p)
+{
+	/* Remove existing instances of this path in the history */
+	_history.erase (remove (_history.begin(), _history.end(), p), _history.end ());
+	
+	_history.insert (_history.begin (), p);
+	if (_history.size() > HISTORY_SIZE) {
+		_history.pop_back ();
+	}
+
+	changed ();
 }

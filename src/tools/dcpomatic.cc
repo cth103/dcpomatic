@@ -63,6 +63,7 @@
 
 using std::cout;
 using std::string;
+using std::vector;
 using std::wstring;
 using std::map;
 using std::make_pair;
@@ -116,7 +117,9 @@ enum {
 	ID_file_open,
 	ID_file_save,
 	ID_file_properties,
-	ID_content_scale_to_fit_width,
+	ID_file_history,
+	/* Allow spare IDs after _history for the recent files list */
+	ID_content_scale_to_fit_width = 100,
 	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_kdms,
@@ -135,6 +138,10 @@ public:
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
 		, _config_dialog (0)
+		, _file_menu (0)
+		, _history_items (0)
+		, _history_position (0)
+		, _history_separator (0)
 	{
 #if defined(DCPOMATIC_WINDOWS) && defined(DCPOMATIC_WINDOWS_CONSOLE)
                 AllocConsole();
@@ -156,10 +163,14 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
+		Config::instance()->Changed.connect (boost::bind (&Frame::config_changed, this));
+		config_changed ();
+
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),                ID_file_new);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),               ID_file_open);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),               ID_file_save);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),         ID_file_properties);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
@@ -211,7 +222,10 @@ public:
 	}
 
 	void load_film (boost::filesystem::path file)
+	try
 	{
+		maybe_save_then_delete_film ();
+		
 		shared_ptr<Film> film (new Film (file));
 		list<string> const notes = film->read_metadata ();
 
@@ -229,6 +243,11 @@ public:
 		
 		set_film (film);
 	}
+	catch (std::exception& e) {
+		wxString p = std_to_wx (file.string ());
+		wxCharBuffer b = p.ToUTF8 ();
+		error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
+	}
 
 	void set_film (shared_ptr<Film> film)
 	{
@@ -236,6 +255,7 @@ public:
 		_film_viewer->set_film (_film);
 		_film_editor->set_film (_film);
 		set_menu_sensitivity ();
+		Config::instance()->add_to_history (_film->directory ());
 	}
 
 	shared_ptr<Film> film () const {
@@ -307,14 +327,7 @@ private:
 		}
 			
 		if (r == wxID_OK) {
-			maybe_save_then_delete_film ();
-			try {
-				load_film (wx_to_std (c->GetPath ()));
-			} catch (std::exception& e) {
-				wxString p = c->GetPath ();
-				wxCharBuffer b = p.ToUTF8 ();
-				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
-			}
+			load_film (wx_to_std (c->GetPath ()));
 		}
 
 		c->Destroy ();
@@ -330,6 +343,15 @@ private:
 		PropertiesDialog* d = new PropertiesDialog (this, _film);
 		d->ShowModal ();
 		d->Destroy ();
+	}
+
+	void file_history (wxCommandEvent& event)
+	{
+		vector<boost::filesystem::path> history = Config::instance()->history ();
+		int n = event.GetId() - ID_file_history;
+		if (n >= 0 && n < static_cast<int> (history.size ())) {
+			load_film (history[n]);
+		}
 	}
 	
 	void file_exit ()
@@ -561,25 +583,28 @@ private:
 	
 	void setup_menu (wxMenuBar* m)
 	{
-		wxMenu* file = new wxMenu;
-		add_item (file, _("New..."), ID_file_new, ALWAYS);
-		add_item (file, _("&Open..."), ID_file_open, ALWAYS);
-		file->AppendSeparator ();
-		add_item (file, _("&Save"), ID_file_save, NEEDS_FILM);
-		file->AppendSeparator ();
-		add_item (file, _("&Properties..."), ID_file_properties, NEEDS_FILM);
+		_file_menu = new wxMenu;
+		add_item (_file_menu, _("New..."), ID_file_new, ALWAYS);
+		add_item (_file_menu, _("&Open..."), ID_file_open, ALWAYS);
+		_file_menu->AppendSeparator ();
+		add_item (_file_menu, _("&Save"), ID_file_save, NEEDS_FILM);
+		_file_menu->AppendSeparator ();
+		add_item (_file_menu, _("&Properties..."), ID_file_properties, NEEDS_FILM);
+
+		_history_position = _file_menu->GetMenuItems().GetCount();
+
 #ifndef __WXOSX__	
-		file->AppendSeparator ();
+		_file_menu->AppendSeparator ();
 #endif
 	
 #ifdef __WXOSX__	
-		add_item (file, _("&Exit"), wxID_EXIT, ALWAYS);
+		add_item (_file_menu, _("&Exit"), wxID_EXIT, ALWAYS);
 #else
-		add_item (file, _("&Quit"), wxID_EXIT, ALWAYS);
+		add_item (_file_menu, _("&Quit"), wxID_EXIT, ALWAYS);
 #endif	
 	
 #ifdef __WXOSX__	
-		add_item (file, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+		add_item (_file_menu, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
 #else
 		wxMenu* edit = new wxMenu;
 		add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
@@ -607,7 +632,7 @@ private:
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif	
 		
-		m->Append (file, _("&File"));
+		m->Append (_file_menu, _("&File"));
 #ifndef __WXOSX__	
 		m->Append (edit, _("&Edit"));
 #endif
@@ -616,13 +641,49 @@ private:
 		m->Append (tools, _("&Tools"));
 		m->Append (help, _("&Help"));
 	}
+
+	void config_changed ()
+	{
+		for (int i = 0; i < _history_items; ++i) {
+			delete _file_menu->Remove (ID_file_history + i);
+		}
+
+		if (_history_separator) {
+			_file_menu->Remove (_history_separator);
+		}
+		delete _history_separator;
+		_history_separator = 0;
+		
+		int pos = _history_position;
+		
+		vector<boost::filesystem::path> history = Config::instance()->history ();
+		
+		if (!history.empty ()) {
+			_history_separator = _file_menu->InsertSeparator (pos++);
+		}
+		
+		for (size_t i = 0; i < history.size(); ++i) {
+			SafeStringStream s;
+			if (i < 9) {
+				s << "&" << (i + 1) << " ";
+			}
+			s << history[i].string();
+			_file_menu->Insert (pos++, ID_file_history + i, std_to_wx (s.str ()));
+		}
+
+		_history_items = history.size ();
+	}
 	
 	FilmEditor* _film_editor;
 	FilmViewer* _film_viewer;
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;
+	wxMenu* _file_menu;
 	shared_ptr<Film> _film;
+	int _history_items;
+	int _history_position;
+	wxMenuItem* _history_separator;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

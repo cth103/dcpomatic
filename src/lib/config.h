@@ -208,7 +208,11 @@ public:
 	int log_types () const {
 		return _log_types;
 	}
-	
+
+	std::vector<boost::filesystem::path> history () const {
+		return _history;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -386,6 +390,13 @@ public:
 		_log_types = t;
 		changed ();
 	}
+
+	void clear_history () {
+		_history.clear ();
+		changed ();
+	}
+
+	void add_to_history (boost::filesystem::path p);
 	
 	boost::filesystem::path signer_chain_directory () const;
 
@@ -453,7 +464,8 @@ private:
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
 	int _log_types;
-
+	std::vector<boost::filesystem::path> _history;
+	
 	/** Singleton instance, or 0 */
 	static Config* _instance;
 };

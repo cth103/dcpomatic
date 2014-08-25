@@ -44,8 +44,8 @@ extern "C" {
 
 /** The maximum number of audio channels that we can have in a DCP */
 #define MAX_DCP_AUDIO_CHANNELS 12
-
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
+#define HISTORY_SIZE 10
 
 namespace libdcp {
 	class Signer;
