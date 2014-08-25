@@ -93,6 +93,8 @@ void
 Config::read ()
 {
 	if (!boost::filesystem::exists (file (false))) {
+		/* Make a new set of signing certificates and key */
+		_signer.reset (new dcp::Signer (openssl_path ()));
 		return;
 	}
 
