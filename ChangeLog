@@ -24,6 +24,10 @@
 
 	* Add subtitle view.
 
+2014-08-25  Carl Hetherington  <cth@carlh.net>
+
+	* Basic recent files list in the File menu.
+
 2014-08-23  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.72.12 released.

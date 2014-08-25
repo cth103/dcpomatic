@@ -71,7 +71,7 @@ using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 
 /** @param f Film to edit */
-FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
+FilmEditor::FilmEditor (wxWindow* parent)
 	: wxPanel (parent)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
@@ -84,12 +84,12 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	_dcp_panel = new DCPPanel (_main_notebook, _film);
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
 	
-	set_film (f);
-
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmEditor::active_jobs_changed, this, _1)
 		);
 
+	set_film (shared_ptr<Film> ());
+	
 	SetSizerAndFit (s);
 }
 

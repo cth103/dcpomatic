@@ -36,7 +36,7 @@ class PlayerVideo;
 class FilmViewer : public wxPanel
 {
 public:
-	FilmViewer (boost::shared_ptr<Film>, wxWindow *);
+	FilmViewer (wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
 
