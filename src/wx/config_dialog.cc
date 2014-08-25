@@ -1097,6 +1097,9 @@ private:
 	wxButton* _reset_kdm_email;
 };
 
+/** @class AdvancedPage
+ *  @brief Advanced page of the preferences dialog.
+ */
 class AdvancedPage : public wxStockPreferencesPage, public Page
 {
 public:

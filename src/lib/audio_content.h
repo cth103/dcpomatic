@@ -33,6 +33,9 @@ namespace cxml {
 
 class AudioProcessor;
 
+/** @class AudioContentProperty
+ *  @brief Names for properties of AudioContent.
+ */
 class AudioContentProperty
 {
 public:

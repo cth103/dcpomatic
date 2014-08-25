@@ -213,6 +213,9 @@ private:
 	boost::signals2::scoped_connection _content_connection;
 };
 
+/** @class AudioContentView
+ *  @brief Timeline view for AudioContent.
+ */
 class AudioContentView : public ContentView
 {
 public:
@@ -237,6 +240,9 @@ private:
 	}
 };
 
+/** @class AudioContentView
+ *  @brief Timeline view for VideoContent.
+ */
 class VideoContentView : public ContentView
 {
 public:
@@ -266,6 +272,9 @@ private:
 	}
 };
 
+/** @class AudioContentView
+ *  @brief Timeline view for SubtitleContent.
+ */
 class SubtitleContentView : public ContentView
 {
 public:
