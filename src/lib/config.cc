@@ -95,6 +95,8 @@ Config::read ()
 	if (!boost::filesystem::exists (file (false))) {
 		/* Make a new set of signing certificates and key */
 		_signer.reset (new dcp::Signer (openssl_path ()));
+		/* And decryption keys */
+		make_decryption_keys ();
 		return;
 	}
 
@@ -238,11 +240,17 @@ Config::read ()
 
 	if (!f.optional_string_child ("DecryptionCertificate") || !f.optional_string_child ("DecryptionPrivateKey")) {
 		/* Generate our own decryption certificate and key if either is not present in config */
-		boost::filesystem::path p = dcp::make_certificate_chain (openssl_path ());
-		_decryption_certificate = dcp::Certificate (dcp::file_to_string (p / "leaf.signed.pem"));
-		_decryption_private_key = dcp::file_to_string (p / "leaf.key");
-		boost::filesystem::remove_all (p);
+		make_decryption_keys ();
 	}
+}
+
+void
+Config::make_decryption_keys ()
+{
+	boost::filesystem::path p = dcp::make_certificate_chain (openssl_path ());
+	_decryption_certificate = dcp::Certificate (dcp::file_to_string (p / "leaf.signed.pem"));
+	_decryption_private_key = dcp::file_to_string (p / "leaf.key");
+	boost::filesystem::remove_all (p);
 }
 
 /** @return Filename to write configuration to */

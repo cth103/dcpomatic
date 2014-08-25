@@ -426,6 +426,7 @@ private:
 	boost::filesystem::path file (bool) const;
 	void read ();
 	void write () const;
+	void make_decryption_keys ();
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
