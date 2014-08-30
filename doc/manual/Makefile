@@ -7,9 +7,9 @@ DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg timecode.svg 
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
-               calculate-audio-gain.png add-file.png dcp-tab.png \
-               prefs-kdm-email.png prefs-colour-conversions.png prefs-metadata.png prefs-misc.png prefs-tms.png \
-               prefs-advanced.png \
+               calculate-audio-gain.png add-file.png dcp-tab.png colour-conversion.png \
+               prefs-kdm-email.png prefs-colour-conversions.png prefs-metadata.png prefs-general.png prefs-tms.png \
+               prefs-advanced.png prefs-defaults.png prefs-servers.png \
                making-dcp.png filters.png video-tab.png audio-tab.png subtitles-tab.png timing-tab.png \
                audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png
 
