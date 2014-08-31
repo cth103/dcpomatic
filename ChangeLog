@@ -1,3 +1,7 @@
+2014-09-01  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.73.1 released.
+
 2014-08-31  Carl Hetherington  <cth@carlh.net>
 
 	* Remove configurable CPL <Creator> and use "DCP-o-matic (version) (git)"
