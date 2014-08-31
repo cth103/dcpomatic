@@ -1,5 +1,8 @@
 2014-08-31  Carl Hetherington  <cth@carlh.net>
 
+	* Give a hint when content and container aspect ratios are not
+	the same (#392).
+
 	* Add "copy" button to colour conversion presets editor (#399).
 
 	* Allow drag-and-drop of files onto the content list (#395).
