@@ -38,6 +38,7 @@
 #include "job.h"
 #include "cross.h"
 #include "md5_digester.h"
+#include "version.h"
 
 #include "i18n.h"
 
@@ -471,7 +472,9 @@ Writer::finish ()
 		_sound_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
 	}
 
-	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
+	libdcp::XMLMetadata meta;
+	meta.issuer = Config::instance()->dcp_issuer ();
+	meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	meta.set_issue_date_now ();
 	dcp.write_xml (_film->interop (), meta, _film->is_signed() ? make_signer () : shared_ptr<const libdcp::Signer> ());
 

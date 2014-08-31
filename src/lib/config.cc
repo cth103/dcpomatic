@@ -150,9 +150,12 @@ Config::read ()
 		_default_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
 	}
 
-	_dcp_metadata.issuer = f.optional_string_child ("DCPMetadataIssuer").get_value_or ("");
-	_dcp_metadata.creator = f.optional_string_child ("DCPMetadataCreator").get_value_or ("");
-
+	if (f.optional_string_child ("DCPMetadataIssuer")) {
+		_dcp_issuer = f.string_child ("DCPMetadataIssuer");
+	} else if (f.optional_string_child ("DCPIssuer")) {
+		_dcp_issuer = f.string_child ("DCPIssuer");
+	}
+	
 	if (version && version.get() >= 2) {
 		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
 	} else {
@@ -266,11 +269,7 @@ Config::read_old_metadata ()
 		} else if (k == "default_dcp_content_type") {
 			_default_dcp_content_type = DCPContentType::from_isdcf_name (v);
 		} else if (k == "dcp_metadata_issuer") {
-			_dcp_metadata.issuer = v;
-		} else if (k == "dcp_metadata_creator") {
-			_dcp_metadata.creator = v;
-		} else if (k == "dcp_metadata_issue_date") {
-			_dcp_metadata.issue_date = v;
+			_dcp_issuer = v;
 		}
 
 		_default_isdcf_metadata.read_old_metadata (k, v);
@@ -363,8 +362,7 @@ Config::write () const
 	if (_default_dcp_content_type) {
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
 	}
-	root->add_child("DCPMetadataIssuer")->add_child_text (_dcp_metadata.issuer);
-	root->add_child("DCPMetadataCreator")->add_child_text (_dcp_metadata.creator);
+	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 
 	_default_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 
