@@ -64,10 +64,10 @@ if [ `uname -s` == "Darwin" ]; then
   cp icons/kdm_email.png $resources
 
   for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
-    mkdir "$resources/$lang"
-    cp build/src/lib/mo/$lang/*.mo "$resources/$lang"
-    cp build/src/wx/mo/$lang/*.mo "$resources/$lang"
-    cp build/src/tools/mo/$lang/*.mo "$resources/$lang"
+    mkdir "$resources/$lang/LC_MESSAGES"
+    cp build/src/lib/mo/$lang/*.mo "$resources/$lang/LC_MESSAGES"
+    cp build/src/wx/mo/$lang/*.mo "$resources/$lang/LC_MESSAGES"
+    cp build/src/tools/mo/$lang/*.mo "$resources/$lang/LC_MESSAGES"
   done
  
   sed -e "s/@VERSION@/test/g" platform/osx/Info.plist.in > $app/Contents/Info.plist
