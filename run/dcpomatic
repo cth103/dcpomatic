@@ -4,8 +4,8 @@ if [ `uname -s` == "Darwin" ]; then
   # Some time ago we could start DCP-o-matic on OS X just by running the executable, in
   # the same way as Linux.  This doesn't work any more.
   
-  ENV=$HOME/Environments/osx/64/lib
-  DEP=$HOME/cdist/64/lib
+  ENV=$HOME/Environments/osx/10.6/64/lib
+  DEP=$HOME/dcpomatic-deps/lib
  
   app=build/platform/osx/DCP-o-matic.app
   macos=$app/Contents/MacOS
@@ -56,11 +56,19 @@ if [ `uname -s` == "Darwin" ]; then
   cp $ENV/libquickmail*.dylib $lib
   cp $ENV/libcurl*.dylib $lib
   cp $ENV/libffi*.dylib $lib
+  cp $ENV/libiconv*.dylib $lib
   cp icons/defaults.png $resources
   cp icons/servers.png $resources
   cp icons/tms.png $resources
   cp icons/colour_conversions.png $resources
   cp icons/kdm_email.png $resources
+
+  for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
+    mkdir "$resources/$lang"
+    cp build/src/lib/mo/$lang/*.mo "$resources/$lang"
+    cp build/src/wx/mo/$lang/*.mo "$resources/$lang"
+    cp build/src/tools/mo/$lang/*.mo "$resources/$lang"
+  done
  
   sed -e "s/@VERSION@/test/g" platform/osx/Info.plist.in > $app/Contents/Info.plist
 
@@ -76,8 +84,7 @@ if [ `uname -s` == "Darwin" ]; then
     fi
   done  
   
-  cd build/platform/osx/DCP-o-matic.app/Contents/MacOS
-  ./dcpomatic $*
+  open build/platform/osx/DCP-o-matic.app
 
 else
   export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH

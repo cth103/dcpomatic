@@ -2,8 +2,8 @@
 
 set -e
 
-ENV=/Users/carl/Environments/osx/64
-DEPS=/Users/carl/cdist/64
+ENV=/Users/carl/Environments/osx/10.6/64
+DEPS=/Users/carl/dcpomatic-deps
 
 export PKG_CONFIG_PATH=$DEPS/lib/pkgconfig:$ENV/lib/pkgconfig:/usr/lib/pkgconfig
 export LINKFLAGS="-L$ENV/lib"
