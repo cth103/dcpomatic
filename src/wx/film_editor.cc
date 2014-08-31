@@ -238,6 +238,7 @@ FilmEditor::connect_to_widgets ()
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_SELECTED,    boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_DESELECTED,  boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind          (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&FilmEditor::content_right_click, this, _1));
+	_content->Bind          (wxEVT_DROP_FILES,                    boost::bind (&FilmEditor::content_files_dropped, this, _1));
 	_content_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED,        boost::bind (&FilmEditor::content_add_file_clicked, this));
 	_content_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED,      boost::bind (&FilmEditor::content_add_folder_clicked, this));
 	_content_remove->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_remove_clicked, this));
@@ -308,6 +309,8 @@ FilmEditor::make_content_panel ()
 	_panels.push_back (_subtitle_panel);
 	_timing_panel = new TimingPanel (this);
 	_panels.push_back (_timing_panel);
+
+	_content->DragAcceptFiles (true);
 }
 
 /** Called when the name widget has been changed */
@@ -1059,4 +1062,17 @@ FilmEditor::setup_frame_rate_widget ()
 	}
 
 	_frame_rate_sizer->Layout ();
+}
+
+void
+FilmEditor::content_files_dropped (wxDropFilesEvent& event)
+{
+	if (!_film) {
+		return;
+	}
+	
+	wxString* paths = event.GetFiles ();
+	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+	}
 }

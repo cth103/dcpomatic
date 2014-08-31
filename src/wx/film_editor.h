@@ -83,6 +83,7 @@ private:
 	void content_remove_clicked ();
 	void content_earlier_clicked ();
 	void content_later_clicked ();
+	void content_files_dropped (wxDropFilesEvent& event);
 	void container_changed ();
 	void dcp_content_type_changed ();
 	void scaler_changed ();

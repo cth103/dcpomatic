@@ -1,3 +1,7 @@
+2014-08-31  Carl Hetherington  <cth@carlh.net>
+
+	* Allow drag-and-drop of files onto the content list (#395).
+
 2014-08-29  Carl Hetherington  <cth@carlh.net>
 
 	* Some improvements to the manual.
