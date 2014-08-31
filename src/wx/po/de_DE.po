@@ -170,9 +170,8 @@ msgstr ""
 "weitergegeben."
 
 #: src/wx/config_dialog.cc:701
-#, fuzzy
 msgid "BCC address"
-msgstr "CC: Adresse"
+msgstr "BCC: Adresse"
 
 #: src/wx/job_wrapper.cc:37
 #, c-format

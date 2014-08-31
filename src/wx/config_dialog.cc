@@ -306,10 +306,6 @@ public:
 		_issuer = new wxTextCtrl (panel, wxID_ANY);
 		table->Add (_issuer, 1, wxEXPAND);
 
-		add_label_to_sizer (table, panel, _("Default creator"), true);
-		_creator = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_creator, 1, wxEXPAND);
-		
 		Config* config = Config::instance ();
 		
 		_still_length->SetRange (1, 3600);
@@ -358,10 +354,8 @@ public:
 		_audio_delay->SetValue (config->default_audio_delay ());
 		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
 
-		_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
+		_issuer->SetValue (std_to_wx (config->dcp_issuer ()));
 		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::issuer_changed, this));
-		_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
-		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::creator_changed, this));
 
 		return panel;
 	}
@@ -415,16 +409,7 @@ private:
 
 	void issuer_changed ()
 	{
-		dcp::XMLMetadata m = Config::instance()->dcp_metadata ();
-		m.issuer = wx_to_std (_issuer->GetValue ());
-		Config::instance()->set_dcp_metadata (m);
-	}
-	
-	void creator_changed ()
-	{
-		dcp::XMLMetadata m = Config::instance()->dcp_metadata ();
-		m.creator = wx_to_std (_creator->GetValue ());
-		Config::instance()->set_dcp_metadata (m);
+		Config::instance()->set_dcp_issuer (wx_to_std (_issuer->GetValue ()));
 	}
 	
 	wxSpinCtrl* _j2k_bandwidth;
@@ -440,7 +425,6 @@ private:
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxTextCtrl* _issuer;
-	wxTextCtrl* _creator;
 };
 
 class EncodingServersPage : public wxPreferencesPage, public Page

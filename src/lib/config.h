@@ -146,8 +146,8 @@ public:
 		return _default_dcp_content_type;
 	}
 
-	dcp::XMLMetadata dcp_metadata () const {
-		return _dcp_metadata;
+	std::string dcp_issuer () const {
+		return _dcp_issuer;
 	}
 
 	int default_j2k_bandwidth () const {
@@ -322,8 +322,8 @@ public:
 		changed ();
 	}
 
-	void set_dcp_metadata (dcp::XMLMetadata m) {
-		_dcp_metadata = m;
+	void set_dcp_issuer (std::string i) {
+		_dcp_issuer = i;
 		changed ();
 	}
 
@@ -471,7 +471,7 @@ private:
 	Ratio const * _default_scale;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
-	dcp::XMLMetadata _dcp_metadata;
+	std::string _dcp_issuer;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	std::vector<PresetColourConversion> _colour_conversions;

@@ -383,35 +383,42 @@ mo_path ()
 }
 #endif
 
+#ifdef DCPOMATIC_OSX
+boost::filesystem::path
+mo_path ()
+{
+	return "DCP-o-matic.app/Contents/Resources";
+}
+#endif
+
 void
 dcpomatic_setup_gettext_i18n (string lang)
 {
-#ifdef DCPOMATIC_POSIX
+#ifdef DCPOMATIC_LINUX
 	lang += ".UTF8";
 #endif
 
 	if (!lang.empty ()) {
-		/* Override our environment language; this is essential on
-		   Windows.
+		/* Override our environment language.  Note that the caller must not
+		   free the string passed into putenv().
 		*/
-		char cmd[64];
-		snprintf (cmd, sizeof(cmd), "LANGUAGE=%s", lang.c_str ());
-		putenv (cmd);
-		snprintf (cmd, sizeof(cmd), "LANG=%s", lang.c_str ());
-		putenv (cmd);
-		snprintf (cmd, sizeof(cmd), "LC_ALL=%s", lang.c_str ());
-		putenv (cmd);
+		string s = String::compose ("LANGUAGE=%1", lang);
+		putenv (strdup (s.c_str ()));
+		s = String::compose ("LANG=%1", lang);
+		putenv (strdup (s.c_str ()));
+		s = String::compose ("LC_ALL=%1", lang);
+		putenv (strdup (s.c_str ()));
 	}
 
 	setlocale (LC_ALL, "");
 	textdomain ("libdcpomatic");
 
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	bindtextdomain ("libdcpomatic", mo_path().string().c_str());
 	bind_textdomain_codeset ("libdcpomatic", "UTF8");
 #endif	
 
-#ifdef DCPOMATIC_POSIX
+#ifdef DCPOMATIC_LINUX
 	bindtextdomain ("libdcpomatic", POSIX_LOCALE_PREFIX);
 #endif
 }

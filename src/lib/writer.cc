@@ -45,6 +45,7 @@
 #include "audio_buffers.h"
 #include "md5_digester.h"
 #include "encoded_data.h"
+#include "version.h"
 
 #include "i18n.h"
 
@@ -486,7 +487,9 @@ Writer::finish ()
 		_sound_mxf->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
 	}
 
-	dcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
+	dcp::XMLMetadata meta;
+	meta.issuer = Config::instance()->dcp_issuer ();
+	meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	meta.set_issue_date_now ();
 
 	shared_ptr<const dcp::Signer> signer;
