@@ -20,7 +20,11 @@
 #include <boost/algorithm/string.hpp>
 #include <wx/richtext/richtextctrl.h>
 #include "lib/film.h"
+#include "lib/ratio.h"
 #include "hints_dialog.h"
+
+using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> f)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
@@ -44,6 +48,7 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> f)
 	boost::shared_ptr<Film> film = _film.lock ();
 	if (film) {
 		film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
+		film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
 	}
 
 	film_changed ();
@@ -71,13 +76,39 @@ HintsDialog::film_changed ()
 		_text->Newline ();
 	}
 
+	ContentList content = film->content ();
+	int flat_or_narrower = 0;
+	int scope = 0;
+	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+		if (vc) {
+			Ratio const * r = vc->scale().ratio ();
+			if (r && r->id() == "239") {
+				++scope;
+			} else if (r && r->id() != "239" && r->id() != "full-frame") {
+				++flat_or_narrower;
+			}
+		}
+	}
+
+	if (scope && !flat_or_narrower && film->container()->id() == "185") {
+		hint = true;
+		_text->WriteText (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
+		_text->Newline ();
+	}
+
+	if (!scope && flat_or_narrower && film->container()->id() == "239") {
+		hint = true;
+		_text->WriteText (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
+		_text->Newline ();
+	}
+	
 	if (film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
 		hint = true;
 		_text->WriteText (wxString::Format (_("Your DCP frame rate (%d fps) may cause problems in a few (mostly older) projectors.  Use 24 or 48 frames per second to be on the safe side."), film->video_frame_rate()));
 		_text->Newline ();
 	}
 
-	ContentList content = film->content ();
 	int vob = 0;
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
 		if (boost::algorithm::starts_with ((*i)->path(0).filename().string(), "VTS_")) {

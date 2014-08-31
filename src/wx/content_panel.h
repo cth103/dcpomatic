@@ -72,6 +72,7 @@ private:
 	void earlier_clicked ();
 	void later_clicked ();
 	void right_click (wxListEvent &);
+	void files_dropped (wxDropFilesEvent &);
 	void timeline_clicked ();
 
 	void setup ();

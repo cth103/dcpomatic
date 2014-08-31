@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-26 21:47+0100\n"
+"POT-Creation-Date: 2014-08-31 17:20+0100\n"
 "PO-Revision-Date: 2014-03-30 19:40+0100\n"
 "Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
 "Language-Team: UniversalDV <TKooijmans@universaldv.nl>\n"
@@ -107,17 +107,33 @@ msgstr "Voeg Bioscoop toe..."
 msgid "Add Screen..."
 msgstr "Voeg Scherm toe..."
 
-#: src/wx/film_editor.cc:279
+#: src/wx/film_editor.cc:280
 msgid "Add file(s)..."
 msgstr "Voeg bestande(n) toe..."
 
-#: src/wx/film_editor.cc:281
+#: src/wx/film_editor.cc:282
 msgid "Add folder..."
 msgstr "Voeg map toe..."
 
 #: src/wx/editable_list.h:62
 msgid "Add..."
 msgstr "Toevoegen.."
+
+#: src/wx/hints_dialog.cc:102
+msgid ""
+"All of your content is at 1.85:1 or narrower but your DCP's container is "
+"Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
+"frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
+"\"DCP\" tab."
+msgstr ""
+
+#: src/wx/hints_dialog.cc:96
+msgid ""
+"All of your content is in Scope (2.39:1) but your DCP's container is Flat "
+"(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
+"You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
+"tab."
+msgstr ""
 
 #: src/wx/config_dialog.cc:820
 #, fuzzy
@@ -251,11 +267,11 @@ msgstr "Selecteer voor updates controle bij startup"
 msgid "Choose a file"
 msgstr "Kies een bestand"
 
-#: src/wx/film_editor.cc:792
+#: src/wx/film_editor.cc:795
 msgid "Choose a file or files"
 msgstr "Kies bestand(en)"
 
-#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:815
+#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:818
 msgid "Choose a folder"
 msgstr "Kies map"
 
@@ -302,6 +318,10 @@ msgstr "Content versie"
 #, c-format
 msgid "Content video is %dx%d (%.2f:1)\n"
 msgstr "Content video is %dx%d (%.2f:1)\n"
+
+#: src/wx/editable_list.h:64
+msgid "Copy..."
+msgstr ""
 
 #: src/wx/audio_dialog.cc:151
 msgid "Could not analyse audio."
@@ -433,7 +453,7 @@ msgstr "Doremi"
 msgid "Doremi serial numbers must have 6 digits"
 msgstr "Doremi serial numbers moeten bestaan uit 6 digits"
 
-#: src/wx/film_editor.cc:287
+#: src/wx/film_editor.cc:288
 msgid "Down"
 msgstr "Naar beneden"
 
@@ -460,7 +480,7 @@ msgstr "Edit scherm"
 
 #: src/wx/audio_mapping_view.cc:135 src/wx/config_dialog.cc:267
 #: src/wx/video_panel.cc:155 src/wx/video_panel.cc:172
-#: src/wx/editable_list.h:64
+#: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Edit..."
 
@@ -563,7 +583,7 @@ msgstr ""
 msgid "HI"
 msgstr "HI"
 
-#: src/wx/hints_dialog.cc:26
+#: src/wx/hints_dialog.cc:30
 msgid "Hints"
 msgstr "Tips"
 
@@ -625,7 +645,7 @@ msgstr ""
 msgid "KDM|Timing"
 msgstr "Timing"
 
-#: src/wx/film_editor.cc:297
+#: src/wx/film_editor.cc:298
 msgid "Keep video in sequence"
 msgstr "Behoud video in tijdlijn"
 
@@ -661,7 +681,7 @@ msgstr ""
 msgid "Ls"
 msgstr "Ls"
 
-#: src/wx/film_editor.cc:766
+#: src/wx/film_editor.cc:769
 msgid "MISSING: "
 msgstr "ONTBREEKT:"
 
@@ -809,8 +829,8 @@ msgstr "Rc"
 msgid "Red band"
 msgstr ""
 
-#: src/wx/content_menu.cc:54 src/wx/film_editor.cc:283
-#: src/wx/editable_list.h:66
+#: src/wx/content_menu.cc:54 src/wx/film_editor.cc:284
+#: src/wx/editable_list.h:68
 msgid "Remove"
 msgstr "Verwijder"
 
@@ -971,7 +991,7 @@ msgstr "Ondertitel Taal (vb  NL)"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:157
+#: src/wx/about_dialog.cc:158
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -996,7 +1016,7 @@ msgstr "Grondgebied (vb NL)"
 msgid "Test version "
 msgstr "Test Versie"
 
-#: src/wx/about_dialog.cc:202
+#: src/wx/about_dialog.cc:203
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1010,7 +1030,7 @@ msgstr ""
 "ontbrekende bestanden.  Probeer opnieuw met de goede content of verwijder de "
 "ontbrekende content. "
 
-#: src/wx/hints_dialog.cc:97
+#: src/wx/hints_dialog.cc:128
 msgid "There are no hints: everything looks good!"
 msgstr "Er zijn geen tips, alles lijkt goed!"
 
@@ -1038,7 +1058,7 @@ msgstr "Tijd"
 msgid "Timeline"
 msgstr "Tijdlijn"
 
-#: src/wx/film_editor.cc:289
+#: src/wx/film_editor.cc:290
 msgid "Timeline..."
 msgstr "Tijdlijn..."
 
@@ -1079,7 +1099,7 @@ msgstr "Onbekend"
 msgid "Until"
 msgstr "Totdat"
 
-#: src/wx/film_editor.cc:285
+#: src/wx/film_editor.cc:286
 msgid "Up"
 msgstr "Omhoog"
 
@@ -1144,7 +1164,7 @@ msgstr "X offset"
 msgid "Y Offset"
 msgstr "Y offset"
 
-#: src/wx/hints_dialog.cc:90
+#: src/wx/hints_dialog.cc:121
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1153,7 +1173,7 @@ msgstr ""
 "U hebt %d bestanden die lijken op VOB bestanden van DVD. U moet deze "
 "samenvoegen om soepele weergave mogelijk te maken."
 
-#: src/wx/hints_dialog.cc:76
+#: src/wx/hints_dialog.cc:108
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1162,7 +1182,7 @@ msgstr ""
 "Uw DCP frame rate (%d fps) kan mogelijk problemen veroorzaken met oudere "
 "projectors. Gebruik 24 of 48 frames per seconde voor zekerheid."
 
-#: src/wx/hints_dialog.cc:66
+#: src/wx/hints_dialog.cc:71
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
@@ -1170,7 +1190,7 @@ msgstr ""
 "Uw DCP heeft een oneven aantal audio kanalen. Dit geeft hoogstwaarschijnlijk "
 "problemen met weergave."
 
-#: src/wx/hints_dialog.cc:70
+#: src/wx/hints_dialog.cc:75
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."

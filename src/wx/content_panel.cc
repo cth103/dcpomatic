@@ -100,6 +100,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	_content->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
 	_content->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::selection_changed, this));
 	_content->Bind (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&ContentPanel::right_click, this, _1));
+	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
 	_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::add_file_clicked, this));
 	_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::add_folder_clicked, this));
 	_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::remove_clicked, this));
@@ -456,3 +457,15 @@ ContentPanel::setup ()
 	}
 }
 
+void
+ContentPanel::files_dropped (wxDropFilesEvent& event)
+{
+	if (!_film) {
+		return;
+	}
+	
+	wxString* paths = event.GetFiles ();
+	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+	}
+}
