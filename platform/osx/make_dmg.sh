@@ -134,10 +134,10 @@ cp icons/keys.png "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
-  mkdir "$WORK/$resources/$lang"
-  cp build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang"
-  cp build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang"
-  cp build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang"
+  mkdir "$WORK/$resources/$lang/LC_MESSAGES"
+  cp build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
 done
 
 # i18n: wxWidgets .mo files
