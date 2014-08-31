@@ -387,7 +387,7 @@ mo_path ()
 boost::filesystem::path
 mo_path ()
 {
-	return "DCP-o-matic.app/Contents/Resources";
+	return "DCP-o-matic 2.app/Contents/Resources";
 }
 #endif
 
