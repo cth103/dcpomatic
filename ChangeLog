@@ -1,5 +1,7 @@
 2014-08-31  Carl Hetherington  <cth@carlh.net>
 
+	* Fix lack of i18n of strings from src/lib/po on OS X.
+
 	* Give a hint when content and container aspect ratios are not
 	the same (#392).
 
