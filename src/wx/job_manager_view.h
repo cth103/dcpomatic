@@ -43,6 +43,7 @@ public:
 private:
 	void job_added (boost::weak_ptr<Job>);
 	void periodic ();
+	void sized (wxSizeEvent &);
 
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
