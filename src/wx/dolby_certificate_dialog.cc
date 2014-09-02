@@ -21,6 +21,7 @@
 #include <curl/curl.h>
 #include "lib/compose.hpp"
 #include "lib/internet.h"
+#include "lib/ui_signaller.h"
 #include "dolby_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -74,8 +75,17 @@ DolbyCertificateDialog::setup_countries ()
 	
 	_country->Append (_("Fetching..."));
 	_country->SetSelection (0);
-	run_gui_loop ();
-	
+
+#ifdef DCPOMATIC_OSX
+	/* See DoremiCertificateDialog for discussion about this daft delay */
+	wxMilliSleep (200);
+#endif
+	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
+}
+
+void
+DolbyCertificateDialog::finish_setup_countries ()
+{
 	list<string> const countries = get_dir ("");
 	_country->Clear ();
 	for (list<string>::const_iterator i = countries.begin(); i != countries.end(); ++i) {
@@ -89,8 +99,16 @@ DolbyCertificateDialog::country_selected ()
 	_cinema->Clear ();
 	_cinema->Append (_("Fetching..."));
 	_cinema->SetSelection (0);
-	run_gui_loop ();
-	
+
+#ifdef DCPOMATIC_OSX
+	wxMilliSleep (200);
+#endif	
+	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
+}
+
+void
+DolbyCertificateDialog::finish_country_selected ()
+{
 	list<string> const cinemas = get_dir (wx_to_std (_country->GetStringSelection()));
 	_cinema->Clear ();
 	for (list<string>::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
@@ -104,8 +122,16 @@ DolbyCertificateDialog::cinema_selected ()
 	_serial->Clear ();
 	_serial->Append (_("Fetching..."));
 	_serial->SetSelection (0);
-	run_gui_loop ();
 
+#ifdef DCPOMATIC_OSX
+	wxMilliSleep (200);
+#endif
+	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_cinema_selected, this));
+}
+
+void
+DolbyCertificateDialog::finish_cinema_selected ()
+{
 	string const dir = String::compose ("%1/%2", wx_to_std (_country->GetStringSelection()), wx_to_std (_cinema->GetStringSelection()));
 	list<string> const zips = get_dir (dir);
 
@@ -129,8 +155,17 @@ void
 DolbyCertificateDialog::download ()
 {
 	_message->SetLabel (_("Downloading certificate"));
-	run_gui_loop ();
 
+#ifdef DCPOMATIC_OSX
+	wxMilliSleep (200);
+#endif
+
+	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_download, this));
+}
+
+void
+DolbyCertificateDialog::finish_download ()
+{
 	string const zip = string_client_data (_serial->GetClientObject (_serial->GetSelection ()));
 
 	string const file = String::compose (

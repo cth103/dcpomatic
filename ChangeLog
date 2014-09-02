@@ -1,3 +1,7 @@
+2014-09-03  Carl Hetherington  <cth@carlh.net>
+
+	* Fix server certificate downloads on OS X (#376).
+
 2014-09-02  Carl Hetherington  <cth@carlh.net>
 
 	* Improve behaviour of batch converter window when it is shrunk (#338).

@@ -27,9 +27,13 @@ public:
 
 private:
 	void download ();
+	void finish_download ();
 	void setup_countries ();
+	void finish_setup_countries ();
 	void country_selected ();
+	void finish_country_selected ();
 	void cinema_selected ();
+	void finish_cinema_selected ();
 	void serial_selected ();
 	std::list<std::string> get_dir (std::string) const;
 
