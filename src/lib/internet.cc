@@ -56,6 +56,8 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_zip_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
+	/* Maximum time is 20s */
+	curl_easy_setopt (curl, CURLOPT_TIMEOUT, 20);
 
 	CURLcode const cr = curl_easy_perform (curl);
 
@@ -117,6 +119,8 @@ ftp_ls (string url)
 		url += "/";
 	}
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str ());
+	/* 20s timeout */
+	curl_easy_setopt (curl, CURLOPT_TIMEOUT, 20);
 
 	string ls_raw;
 	struct curl_slist* commands = 0;
