@@ -54,8 +54,15 @@ public:
 		}
 	}
 
+	/* Do something next time the UI is idle */
+	template <typename T>
+	void when_idle (T f) {
+		_service.post (f);
+	}
+
 	/** Call this in the UI when it is idle */
 	size_t ui_idle () {
+		/* This executes any functors that have been post()ed to _service */
 		return _service.poll ();
 	}
 
