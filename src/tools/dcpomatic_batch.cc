@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "wx/wx_util.h"
+#include "wx/about_dialog.h"
 #include "wx/wx_ui_signaller.h"
 #include "wx/job_manager_view.h"
 
@@ -135,34 +136,9 @@ private:
 
 	void help_about ()
 	{
-		wxAboutDialogInfo info;
-		info.SetName (_("DCP-o-matic Batch Converter"));
-		if (strcmp (dcpomatic_git_commit, "release") == 0) {
-			info.SetVersion (std_to_wx (String::compose ("version %1", dcpomatic_version)));
-		} else {
-			info.SetVersion (std_to_wx (String::compose ("version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
-		}
-		info.SetDescription (_("Free, open-source DCP generation from almost anything."));
-		info.SetCopyright (_("(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"));
-
-		wxArrayString authors;
-		authors.Add (wxT ("Carl Hetherington"));
-		authors.Add (wxT ("Terrence Meiczinger"));
-		authors.Add (wxT ("Paul Davis"));
-		authors.Add (wxT ("Ole Laursen"));
-		info.SetDevelopers (authors);
-
-		wxArrayString translators;
-		translators.Add (wxT ("Olivier Perriere"));
-		translators.Add (wxT ("Lilian Lefranc"));
-		translators.Add (wxT ("Thierry Journet"));
-		translators.Add (wxT ("Massimiliano Broggi"));
-		translators.Add (wxT ("Manuel AC"));
-		translators.Add (wxT ("Adam Klotblixt"));
-		info.SetTranslators (translators);
-		
-		info.SetWebSite (wxT ("http://carlh.net/software/dcpomatic"));
-		wxAboutBox (info);
+		AboutDialog* d = new AboutDialog (this);
+		d->ShowModal ();
+		d->Destroy ();
 	}
 
 	void add_film ()
