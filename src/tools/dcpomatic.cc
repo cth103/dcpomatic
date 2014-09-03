@@ -798,12 +798,21 @@ class App : public wxApp
 		return true;
 	}
 
+	/* An unhandled exception has occurred inside the main event loop */
 	bool OnExceptionInMainLoop ()
 	{
-		error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
+		try {
+			throw;
+		} catch (exception& e) {
+			error_dialog (0, wxString::Format (_("An exception occurred (%s).  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."), e.what ()));
+		} catch (...) {
+			error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
+		}
+
+		/* This will terminate the program */
 		return false;
 	}
-		
+	
 	void OnUnhandledException ()
 	{
 		error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
