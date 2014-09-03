@@ -202,12 +202,22 @@ JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
 	_panel->SetSizer (_table);
 
 	SetScrollRate (0, 32);
+	EnableScrolling (false, true);
 
 	Bind (wxEVT_TIMER, boost::bind (&JobManagerView::periodic, this));
 	_timer.reset (new wxTimer (this));
 	_timer->Start (1000);
-	
+
+	Bind (wxEVT_SIZE, boost::bind (&JobManagerView::sized, this, _1));
 	JobManager::instance()->JobAdded.connect (bind (&JobManagerView::job_added, this, _1));
+}
+
+void
+JobManagerView::sized (wxSizeEvent& ev)
+{
+	_table->FitInside (_panel);
+	_table->Layout ();
+	ev.Skip ();
 }
 
 void

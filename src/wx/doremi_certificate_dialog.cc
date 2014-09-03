@@ -21,6 +21,7 @@
 #include <zip.h>
 #include "lib/compose.hpp"
 #include "lib/util.h"
+#include "lib/ui_signaller.h"
 #include "lib/internet.h"
 #include "doremi_certificate_dialog.h"
 #include "wx_util.h"
@@ -51,8 +52,18 @@ DoremiCertificateDialog::download ()
 	}
 
 	_message->SetLabel (_("Downloading certificate"));
-	run_gui_loop ();
 
+#ifdef DCPOMATIC_OSX	
+	/* This is necessary on OS X, otherwise the SetLabel() above has no visible effect */
+	wxMilliSleep (200);
+#endif	
+
+	ui_signaller->when_idle (boost::bind (&DoremiCertificateDialog::finish_download, this, serial));
+}
+
+void
+DoremiCertificateDialog::finish_download (string serial)
+{
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
 	optional<string> error = get_from_zip_url (

@@ -1,3 +1,19 @@
+2014-09-03  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.73.2 released.
+
+2014-09-03  Carl Hetherington  <cth@carlh.net>
+
+	* Fix server certificate downloads on OS X (#376).
+
+2014-09-02  Carl Hetherington  <cth@carlh.net>
+
+	* Improve behaviour of batch converter window when it is shrunk (#338).
+
+2014-09-01  Carl Hetherington  <cth@carlh.net>
+
+	* Version 1.73.1 released.
+
 2014-08-31  Carl Hetherington  <cth@carlh.net>
 
 	* Remove configurable CPL <Creator> and use "DCP-o-matic (version) (git)"

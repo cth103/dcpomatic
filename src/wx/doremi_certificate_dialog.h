@@ -28,5 +28,7 @@ private:
 	void download ();
         void set_sensitivity ();
 
+	void finish_download (std::string serial);
+
 	wxTextCtrl* _serial;
 };
