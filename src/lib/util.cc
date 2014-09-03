@@ -472,7 +472,10 @@ md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
 
 		while (remaining > 0) {
 			int const t = min (remaining, buffer_size);
-			fread (buffer, 1, t, f);
+			int const r = fread (buffer, 1, t, f);
+			if (r != t) {
+				throw ReadFileError (files[i], errno);
+			}
 			digester.add (buffer, t);
 			remaining -= t;
 
