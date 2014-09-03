@@ -580,18 +580,22 @@ Film::isdcf_name (bool if_created_now) const
 		d << "_" << container()->isdcf_name();
 	}
 
-	/* XXX: this only works for content which has been scaled to a given ratio,
-	   and uses the first bit of content only.
-	*/
+	/* XXX: this uses the first bit of content only */
 
 	/* The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != libdcp::TRAILER) {
-		ContentList cl = content ();
 		Ratio const * content_ratio = 0;
-		for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+		ContentList cl = content ();
+		for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
-			if (vc && (content_ratio == 0 || vc->scale().ratio() != content_ratio)) {
-				content_ratio = vc->scale().ratio();
+			if (vc) {
+				/* Here's the first piece of video content */
+				if (vc->scale().ratio ()) {
+					content_ratio = vc->scale().ratio ();
+				} else {
+					content_ratio = Ratio::from_ratio (vc->video_size().ratio ());
+				}
+				break;
 			}
 		}
 		
