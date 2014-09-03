@@ -537,6 +537,8 @@ FilmEditor::film_content_changed (int property)
 		setup_content ();
 	} else if (property == ContentProperty::POSITION) {
 		setup_content ();
+	} else if (property == VideoContentProperty::VIDEO_SCALE) {
+		setup_dcp_name ();
 	}
 }
 
