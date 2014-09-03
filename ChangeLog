@@ -1,5 +1,9 @@
 2014-09-03  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.73.2 released.
+
+2014-09-03  Carl Hetherington  <cth@carlh.net>
+
 	* Fix server certificate downloads on OS X (#376).
 
 2014-09-02  Carl Hetherington  <cth@carlh.net>
