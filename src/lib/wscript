@@ -68,6 +68,7 @@ sources = """
           update.cc
           util.cc
           video_content.cc
+          video_content_scale.cc
           video_decoder.cc
           writer.cc
           """
