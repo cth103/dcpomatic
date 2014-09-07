@@ -312,31 +312,31 @@ public:
 		
 		_isdcf_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this, parent));
 		
-		vector<Ratio const *> ratio = Ratio::all ();
-		int n = 0;
-		for (vector<Ratio const *>::iterator i = ratio.begin(); i != ratio.end(); ++i) {
-			_scale->Append (std_to_wx ((*i)->nickname ()));
-			if (*i == config->default_scale ()) {
-				_scale->SetSelection (n);
+		vector<VideoContentScale> scales = VideoContentScale::all ();
+		for (size_t i = 0; i < scales.size(); ++i) {
+			_scale->Append (std_to_wx (scales[i].name ()));
+			if (scales[i] == config->default_scale ()) {
+				_scale->SetSelection (i);
 			}
-			_container->Append (std_to_wx ((*i)->nickname ()));
-			if (*i == config->default_container ()) {
-				_container->SetSelection (n);
+		}
+
+		vector<Ratio const *> ratios = Ratio::all ();
+		for (size_t i = 0; i < ratios.size(); ++i) {
+			_container->Append (std_to_wx (ratios[i]->nickname ()));
+			if (ratios[i] == config->default_container ()) {
+				_container->SetSelection (i);
 			}
-			++n;
 		}
 		
 		_scale->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::scale_changed, this));
 		_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::container_changed, this));
 		
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
-		n = 0;
-		for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
-			_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
-			if (*i == config->default_dcp_content_type ()) {
-				_dcp_content_type->SetSelection (n);
+		for (size_t i = 0; i < ct.size(); ++i) {
+			_dcp_content_type->Append (std_to_wx (ct[i]->pretty_name ()));
+			if (ct[i] == config->default_dcp_content_type ()) {
+				_dcp_content_type->SetSelection (i);
 			}
-			++n;
 		}
 		
 		_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
@@ -386,8 +386,8 @@ private:
 
 	void scale_changed ()
 	{
-		vector<Ratio const *> ratio = Ratio::all ();
-		Config::instance()->set_default_scale (ratio[_scale->GetSelection()]);
+		vector<VideoContentScale> scale = VideoContentScale::all ();
+		Config::instance()->set_default_scale (scale[_scale->GetSelection()]);
 	}
 	
 	void container_changed ()

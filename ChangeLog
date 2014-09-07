@@ -1,3 +1,10 @@
+2014-09-07  Carl Hetherington  <cth@carlh.net>
+
+	* Put no stretch / no scale in the set of choices for default
+	scale to.
+
+	* Fix a few bad fuzzy translations from the preferences dialog.
+
 2014-09-03  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.73.2 released.

@@ -31,6 +31,7 @@
 #include "isdcf_metadata.h"
 #include "colour_conversion.h"
 #include "server.h"
+#include "video_content.h"
 
 class ServerDescription;
 class Scaler;
@@ -132,7 +133,7 @@ public:
 		return _default_still_length;
 	}
 
-	Ratio const * default_scale () const {
+	VideoContentScale default_scale () const {
 		return _default_scale;
 	}
 
@@ -293,7 +294,7 @@ public:
 		changed ();
 	}
 
-	void set_default_scale (Ratio const * s) {
+	void set_default_scale (VideoContentScale s) {
 		_default_scale = s;
 		changed ();
 	}
@@ -441,7 +442,7 @@ private:
 	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;
 	int _default_still_length;
-	Ratio const * _default_scale;
+	VideoContentScale _default_scale;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
 	std::string _dcp_issuer;

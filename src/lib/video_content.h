@@ -62,6 +62,7 @@ public:
 	static std::vector<VideoContentScale> all () {
 		return _scales;
 	}
+	static VideoContentScale from_id (std::string id);
 
 private:
 	/** a ratio to stretch the content to, or 0 for no stretch */
