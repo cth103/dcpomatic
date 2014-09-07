@@ -412,9 +412,8 @@ msgid "Default issuer"
 msgstr "Emisor por defecto"
 
 #: src/wx/config_dialog.cc:270
-#, fuzzy
 msgid "Default scale to"
-msgstr "Creador por defecto"
+msgstr ""
 
 #: src/wx/config_dialog.cc:229
 msgid "Defaults"

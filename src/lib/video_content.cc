@@ -482,7 +482,7 @@ VideoContentScale::id () const
 	SafeStringStream s;
 	
 	if (_ratio) {
-		s << _ratio->id () << "_";
+		s << _ratio->id ();
 	} else {
 		s << (_scale ? "S1" : "S0");
 	}
@@ -504,6 +504,21 @@ VideoContentScale::name () const
 	return _("No scale");
 }
 
+VideoContentScale
+VideoContentScale::from_id (string id)
+{
+	Ratio const * r = Ratio::from_id (id);
+	if (r) {
+		return VideoContentScale (r);
+	}
+
+	if (id == "S0") {
+		return VideoContentScale (false);
+	}
+
+	return VideoContentScale (true);
+}
+		
 /** @param display_container Size of the container that we are displaying this content in.
  *  @param film_container The size of the film's image.
  */
