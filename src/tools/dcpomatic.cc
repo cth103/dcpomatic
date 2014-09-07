@@ -163,7 +163,7 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Config::instance()->Changed.connect (boost::bind (&Frame::config_changed, this));
+		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&Frame::config_changed, this));
 		config_changed ();
 
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),                ID_file_new);
@@ -515,8 +515,13 @@ private:
 			return;
 		}
 
+		/* We don't want to hear about any more configuration changes, since they
+		   cause the File menu to be altered, which itself will be deleted around
+		   now (without, as far as I can see, any way for us to find out).
+		*/
+		_config_changed_connection.disconnect ();
+		
 		maybe_save_then_delete_film ();
-
 		ev.Skip ();
 	}
 
@@ -684,6 +689,7 @@ private:
 	int _history_items;
 	int _history_position;
 	wxMenuItem* _history_separator;
+	boost::signals2::scoped_connection _config_changed_connection;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
