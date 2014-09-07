@@ -418,9 +418,8 @@ msgid "Default issuer"
 msgstr "Standaard uitgever"
 
 #: src/wx/config_dialog.cc:270
-#, fuzzy
 msgid "Default scale to"
-msgstr "Standaard maker"
+msgstr ""
 
 #: src/wx/config_dialog.cc:229
 msgid "Defaults"

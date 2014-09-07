@@ -424,9 +424,8 @@ msgid "Default issuer"
 msgstr "Standardval"
 
 #: src/wx/config_dialog.cc:270
-#, fuzzy
 msgid "Default scale to"
-msgstr "Förvald innehållstyp"
+msgstr ""
 
 #: src/wx/config_dialog.cc:229
 msgid "Defaults"

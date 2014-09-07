@@ -418,9 +418,8 @@ msgid "Default issuer"
 msgstr "Predefiniti"
 
 #: src/wx/config_dialog.cc:270
-#, fuzzy
 msgid "Default scale to"
-msgstr "Contenitore predefinito"
+msgstr ""
 
 #: src/wx/config_dialog.cc:229
 msgid "Defaults"

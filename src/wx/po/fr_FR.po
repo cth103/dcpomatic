@@ -409,9 +409,8 @@ msgid "Default issuer"
 msgstr "Labo par défaut"
 
 #: src/wx/config_dialog.cc:270
-#, fuzzy
 msgid "Default scale to"
-msgstr "Créateur par défaut"
+msgstr ""
 
 #: src/wx/config_dialog.cc:229
 msgid "Defaults"
