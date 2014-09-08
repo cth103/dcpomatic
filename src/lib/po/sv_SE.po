@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 17:20+0100\n"
+"POT-Creation-Date: 2014-09-08 23:05+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -33,7 +33,7 @@ msgstr "%1 kanaler, %2kHz, %3 sampel"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 bilder; %2 bilder per sekund"
 
-#: src/lib/video_content.cc:213
+#: src/lib/video_content.cc:211
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixlar (%3:1)"
 
@@ -97,15 +97,15 @@ msgstr "Avbruten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/util.cc:779
+#: src/lib/util.cc:786
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/writer.cc:81
+#: src/lib/writer.cc:82
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintligt bilddata"
 
-#: src/lib/writer.cc:470
+#: src/lib/writer.cc:471
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
@@ -113,7 +113,7 @@ msgstr "Beräknar audiosammanfattning"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/writer.cc:466
+#: src/lib/writer.cc:467
 msgid "Computing image digest"
 msgstr "Beräknar bildsammanfattning"
 
@@ -129,19 +129,19 @@ msgstr "Innehåll som ska sammanfogas måste använda samma audiofördröjning."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Innehåll som ska sammanfogas måste använda samma audioförstärkning."
 
-#: src/lib/video_content.cc:148
+#: src/lib/video_content.cc:146
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Innehåll som ska sammanfogas måste använda samma färgkonvertering."
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:138
 msgid "Content to be joined must have the same crop."
 msgstr "Innehåll som ska sammanfogas måste använda samma beskärning."
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:126
 msgid "Content to be joined must have the same picture size."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildstorlek."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:142
 #, fuzzy
 msgid "Content to be joined must have the same scale setting."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "Innehåll som ska sammanfogas måste använda samma skala på undertexten."
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:130
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildhastighet."
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:134
 msgid "Content to be joined must have the same video frame type."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildtyp."
 
@@ -190,9 +190,9 @@ msgstr "Kunde inte ansluta till server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunde inte skapa fjärrkatalog %1 (%2)"
 
-#: src/lib/image_proxy.cc:127
+#: src/lib/image_proxy.cc:147
 #, fuzzy
-msgid "Could not decode image file"
+msgid "Could not decode image file (%1)"
 msgstr "kunde inte skapa fil %1"
 
 #: src/lib/job.cc:90
@@ -203,7 +203,7 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/internet.cc:72
+#: src/lib/internet.cc:74
 #, fuzzy
 msgid "Could not open downloaded ZIP file"
 msgstr "kunde inte öppna fil %1"
@@ -242,7 +242,7 @@ msgid "De-interlacing"
 msgstr "Avflätning"
 
 # svåröversatt
-#: src/lib/config.cc:440
+#: src/lib/config.cc:436
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -268,7 +268,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 och CP750"
 
-#: src/lib/internet.cc:65
+#: src/lib/internet.cc:67
 msgid "Download failed (%1/%2 error %3)"
 msgstr ""
 
@@ -285,7 +285,7 @@ msgstr ""
 msgid "Email KDMs for %1"
 msgstr "E-posta KDM:er för %1"
 
-#: src/lib/writer.cc:124
+#: src/lib/writer.cc:125
 msgid "Encoding image data"
 msgstr "Kodar bild-data"
 
@@ -325,7 +325,7 @@ msgstr "Gaussisk"
 msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
-#: src/lib/util.cc:783
+#: src/lib/util.cc:790
 msgid "Hearing impaired"
 msgstr ""
 
@@ -342,7 +342,7 @@ msgstr ""
 "Det är inte känt vad som orsakade detta fel. Bästa sättet att rapportera "
 "problemet är till DCP-o-matics mejl-lista (carl@dcpomatic.com)"
 
-#: src/lib/config.cc:196
+#: src/lib/config.cc:199
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -354,24 +354,24 @@ msgstr "Kernel-avflätare"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:777
+#: src/lib/util.cc:784
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:785
+#: src/lib/util.cc:792
 msgid "Left centre"
 msgstr ""
 
-#: src/lib/util.cc:787
+#: src/lib/util.cc:794
 #, fuzzy
 msgid "Left rear surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:781
+#: src/lib/util.cc:788
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:780
+#: src/lib/util.cc:787
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -383,11 +383,11 @@ msgstr "Diverse"
 msgid "Motion compensating deinterlacer"
 msgstr "Rörelsekompenserande avflätare"
 
-#: src/lib/video_content.cc:498
+#: src/lib/video_content_scale.cc:105
 msgid "No scale"
 msgstr ""
 
-#: src/lib/video_content.cc:495
+#: src/lib/video_content_scale.cc:102
 #, fuzzy
 msgid "No stretch"
 msgstr "Flat utan utsträckning"
@@ -433,24 +433,24 @@ msgstr "Public Service Announcement"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/config.cc:86 src/lib/config.cc:180
+#: src/lib/config.cc:86 src/lib/config.cc:183
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:778
+#: src/lib/util.cc:785
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:786
+#: src/lib/util.cc:793
 msgid "Right centre"
 msgstr ""
 
-#: src/lib/util.cc:788
+#: src/lib/util.cc:795
 #, fuzzy
 msgid "Right rear surround"
 msgstr "Höger surround"
 
-#: src/lib/util.cc:782
+#: src/lib/util.cc:789
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -530,11 +530,11 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:79
 msgid "Unexpected ZIP file contents"
 msgstr ""
 
-#: src/lib/image_proxy.cc:173
+#: src/lib/image_proxy.cc:193
 msgid "Unexpected image type received by server"
 msgstr ""
 
@@ -555,7 +555,7 @@ msgstr "Oskärpemask och Gaussisk suddighet"
 msgid "Untitled"
 msgstr "Utan titel"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:791
 msgid "Visually impaired"
 msgstr ""
 
@@ -589,7 +589,7 @@ msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
 # Svengelska
-#: src/lib/util.cc:558
+#: src/lib/util.cc:565
 msgid "connect timed out"
 msgstr "uppkopplingen tajmade ur"
 
@@ -625,7 +625,7 @@ msgstr "kunde inte hitta information om strömmen"
 msgid "could not find video decoder"
 msgstr "kunde inte hitta video-avkodare"
 
-#: src/lib/writer.cc:434
+#: src/lib/writer.cc:435
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "kunde inte flytta audio-MXF in i DCP:n (%1)"
 
@@ -670,19 +670,19 @@ msgstr "kunde inte starta SSH-session"
 msgid "could not write to file %1 (%2)"
 msgstr "kunde inte skriva till fil %1 (%2)"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:585
 msgid "error during async_accept (%1)"
 msgstr "fel vid async_accept (%1)"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:561
 msgid "error during async_connect (%1)"
 msgstr "fel vid async_connect (%1)"
 
-#: src/lib/util.cc:627
+#: src/lib/util.cc:634
 msgid "error during async_read (%1)"
 msgstr "fel vid async_read (%1)"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:606
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
@@ -706,7 +706,7 @@ msgstr "minut"
 msgid "minutes"
 msgstr "minuter"
 
-#: src/lib/util.cc:699
+#: src/lib/util.cc:706
 msgid "missing key %1 in key-value set"
 msgstr "saknad nyckel %1 i nyckel-värde grupp"
 
@@ -737,7 +737,7 @@ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/config.cc:84 src/lib/video_content.cc:181
+#: src/lib/config.cc:84 src/lib/video_content.cc:179
 msgid "sRGB"
 msgstr "sRGB"
 
