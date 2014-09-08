@@ -22,6 +22,7 @@
 
 #include "content.h"
 #include "colour_conversion.h"
+#include "video_content_scale.h"
 
 class VideoExaminer;
 class Ratio;
@@ -36,45 +37,6 @@ public:
 	static int const VIDEO_SCALE;
 	static int const COLOUR_CONVERSION;
 };
-
-class VideoContentScale
-{
-public:
-	VideoContentScale ();
-	VideoContentScale (Ratio const *);
-	VideoContentScale (bool);
-	VideoContentScale (cxml::NodePtr);
-
-	dcp::Size size (boost::shared_ptr<const VideoContent>, dcp::Size, dcp::Size, int round) const;
-	std::string id () const;
-	std::string name () const;
-	void as_xml (xmlpp::Node *) const;
-
-	Ratio const * ratio () const {
-		return _ratio;
-	}
-
-	bool scale () const {
-		return _scale;
-	}
-
-	static void setup_scales ();
-	static std::vector<VideoContentScale> all () {
-		return _scales;
-	}
-	static VideoContentScale from_id (std::string id);
-
-private:
-	/** a ratio to stretch the content to, or 0 for no stretch */
-	Ratio const * _ratio;
-	/** true if we want to scale the content */
-	bool _scale;
-
-	static std::vector<VideoContentScale> _scales;
-};
-
-bool operator== (VideoContentScale const & a, VideoContentScale const & b);
-bool operator!= (VideoContentScale const & a, VideoContentScale const & b);
 
 class VideoContent : public virtual Content
 {
