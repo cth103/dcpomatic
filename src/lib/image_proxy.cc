@@ -121,10 +121,30 @@ MagickImageProxy::image () const
 	LOG_TIMING ("[%1] MagickImageProxy begins decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
 	Magick::Image* magick_image = 0;
+	string error;
 	try {
 		magick_image = new Magick::Image (_blob);
-	} catch (...) {
-		throw DecodeError (_("Could not decode image file"));
+	} catch (Magick::Exception& e) {
+		error = e.what ();
+	}
+
+	if (!magick_image) {
+		/* ImageMagick cannot auto-detect Targa files, it seems, so try here with an
+		   explicit format.  I can't find it documented that passing a (0, 0) geometry
+		   is allowed, but it seems to work.
+		*/
+		try {
+			magick_image = new Magick::Image (_blob, Magick::Geometry (0, 0), "TGA");
+		} catch (...) {
+
+		}
+	}
+
+	if (!magick_image) {
+		/* If we failed both an auto-detect and a forced-Targa we give the error from
+		   the auto-detect.
+		*/
+		throw DecodeError (String::compose (_("Could not decode image file (%1)"), error));
 	}
 
 	LOG_TIMING ("[%1] MagickImageProxy decode finished", boost::this_thread::get_id ());

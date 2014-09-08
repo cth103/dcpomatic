@@ -1,3 +1,7 @@
+2014-09-08  Carl Hetherington  <cth@carlh.net>
+
+	* Fix failure to load Targa files.
+
 2014-09-07  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.73.3 released.
