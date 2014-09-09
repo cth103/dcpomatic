@@ -1,5 +1,5 @@
 Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files
-Name:dcpomatic
+Name:dcpomatic2
 Version:@VERSION@
 Release:1%{?dist}
 License:GPL
