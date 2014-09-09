@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 17:20+0100\n"
+"POT-Creation-Date: 2014-09-08 23:05+0100\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "(C) 2012-2014 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
-#: src/wx/config_dialog.cc:682
+#: src/wx/config_dialog.cc:666
 msgid "(password will be stored on disk in plaintext)"
 msgstr "(lösenord sparas på disk i klartext)"
 
@@ -134,7 +134,7 @@ msgid ""
 "tab."
 msgstr ""
 
-#: src/wx/config_dialog.cc:820
+#: src/wx/config_dialog.cc:804
 #, fuzzy
 msgid "Allow any DCP frame rate"
 msgstr "bildhastighet"
@@ -172,7 +172,7 @@ msgstr ""
 "Audio kommer att överföras från innehållskanal %d till DCP-kanal %d med "
 "förstärkning %.1fdB."
 
-#: src/wx/config_dialog.cc:701
+#: src/wx/config_dialog.cc:685
 #, fuzzy
 msgid "BCC address"
 msgstr "IP-adress"
@@ -206,7 +206,7 @@ msgstr "Men jag måste använda mixervolym"
 msgid "C"
 msgstr "C"
 
-#: src/wx/config_dialog.cc:697
+#: src/wx/config_dialog.cc:681
 #, fuzzy
 msgid "CC address"
 msgstr "IP-adress"
@@ -237,8 +237,8 @@ msgstr "Avbryt"
 msgid "Certificate"
 msgstr "Välj certifikatfil"
 
-#: src/wx/dolby_certificate_dialog.cc:156
-#: src/wx/doremi_certificate_dialog.cc:92
+#: src/wx/dolby_certificate_dialog.cc:191
+#: src/wx/doremi_certificate_dialog.cc:103
 #, fuzzy
 msgid "Certificate downloaded"
 msgstr "Välj certifikatfil"
@@ -267,20 +267,20 @@ msgstr "Sök efter uppdateringar vid start"
 msgid "Choose a file"
 msgstr "Välj en fil"
 
-#: src/wx/film_editor.cc:795
+#: src/wx/film_editor.cc:797
 msgid "Choose a file or files"
 msgstr "Välj en fil eller filer"
 
-#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:818
+#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:820
 msgid "Choose a folder"
 msgstr "Välj en folder"
 
-#: src/wx/dolby_certificate_dialog.cc:42
+#: src/wx/dolby_certificate_dialog.cc:43
 #, fuzzy
 msgid "Cinema"
 msgstr "Lägg till Cinema..."
 
-#: src/wx/config_dialog.cc:512
+#: src/wx/config_dialog.cc:496
 #, fuzzy
 msgid "Colour Conversions"
 msgstr "Färgkonverteringar"
@@ -291,7 +291,7 @@ msgid "Colour conversion"
 msgstr "Färgkonvertering"
 
 # Svengelska
-#: src/wx/config_dialog.cc:833
+#: src/wx/config_dialog.cc:817
 #, fuzzy
 msgid "Config|Timing"
 msgstr "Tajming"
@@ -345,7 +345,7 @@ msgstr "Kunde inte skapa DCP: %s"
 msgid "Could not read certificate file (%s)"
 msgstr "Kunde inte öppna innehållsfilen (%s)"
 
-#: src/wx/dolby_certificate_dialog.cc:38
+#: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
 msgstr ""
 
@@ -405,11 +405,6 @@ msgstr "Förvald innehållstyp"
 msgid "Default content type"
 msgstr "Förvald innehållstyp"
 
-#: src/wx/config_dialog.cc:304
-#, fuzzy
-msgid "Default creator"
-msgstr "Förvald innehållstyp"
-
 #: src/wx/config_dialog.cc:258
 msgid "Default directory for new films"
 msgstr "Förvald katalog för nya filmer"
@@ -454,7 +449,7 @@ msgstr ""
 msgid "Doremi"
 msgstr ""
 
-#: src/wx/doremi_certificate_dialog.cc:49
+#: src/wx/doremi_certificate_dialog.cc:50
 msgid "Doremi serial numbers must have 6 digits"
 msgstr ""
 
@@ -471,8 +466,8 @@ msgstr "Ner"
 msgid "Download certificate"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:131
-#: src/wx/doremi_certificate_dialog.cc:53
+#: src/wx/dolby_certificate_dialog.cc:157
+#: src/wx/doremi_certificate_dialog.cc:54
 msgid "Downloading certificate"
 msgstr ""
 
@@ -502,7 +497,7 @@ msgstr "Kodningsservrar"
 msgid "Encrypted"
 msgstr "Krypterad"
 
-#: src/wx/config_dialog.cc:830
+#: src/wx/config_dialog.cc:814
 msgid "Errors"
 msgstr ""
 
@@ -510,8 +505,9 @@ msgstr ""
 msgid "Facility (e.g. DLA)"
 msgstr "Företag (ex. DLA)"
 
-#: src/wx/dolby_certificate_dialog.cc:75 src/wx/dolby_certificate_dialog.cc:90
-#: src/wx/dolby_certificate_dialog.cc:105
+#: src/wx/dolby_certificate_dialog.cc:76
+#: src/wx/dolby_certificate_dialog.cc:100
+#: src/wx/dolby_certificate_dialog.cc:123
 #, fuzzy
 msgid "Fetching..."
 msgstr "räknar..."
@@ -553,7 +549,7 @@ msgstr "Fri, öppen-källkods DCP-generering från nästan vad som helst."
 msgid "From"
 msgstr "Avsändare"
 
-#: src/wx/config_dialog.cc:693
+#: src/wx/config_dialog.cc:677
 #, fuzzy
 msgid "From address"
 msgstr "IP-adress"
@@ -583,7 +579,7 @@ msgstr "Förstärkning för innehållskanal %d i DCP-kanal %d"
 msgid "Gb"
 msgstr "Gb"
 
-#: src/wx/config_dialog.cc:825
+#: src/wx/config_dialog.cc:809
 msgid "General"
 msgstr ""
 
@@ -611,11 +607,11 @@ msgstr "Hz"
 msgid "I want to play this back at fader"
 msgstr "Jag vill spela upp detta med mixervolym"
 
-#: src/wx/config_dialog.cc:578
+#: src/wx/config_dialog.cc:562
 msgid "IP address"
 msgstr "IP-adress"
 
-#: src/wx/config_dialog.cc:470
+#: src/wx/config_dialog.cc:454
 msgid "IP address / host name"
 msgstr "IP-adress / datornamn"
 
@@ -640,7 +636,7 @@ msgstr "JPEG2000-bandbredd"
 msgid "Join"
 msgstr "Anslut"
 
-#: src/wx/config_dialog.cc:645
+#: src/wx/config_dialog.cc:629
 #, fuzzy
 msgid "KDM Email"
 msgstr "KDM mejl"
@@ -684,7 +680,7 @@ msgstr "Linjärisera indatas gammakurva för låga värden"
 msgid "Load from file..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:824
+#: src/wx/config_dialog.cc:808
 msgid "Log"
 msgstr ""
 
@@ -692,15 +688,15 @@ msgstr ""
 msgid "Ls"
 msgstr "Vs"
 
-#: src/wx/film_editor.cc:769
+#: src/wx/film_editor.cc:771
 msgid "MISSING: "
 msgstr "SAKNAS:"
 
-#: src/wx/config_dialog.cc:678
+#: src/wx/config_dialog.cc:662
 msgid "Mail password"
 msgstr "Mejl-lösenord"
 
-#: src/wx/config_dialog.cc:674
+#: src/wx/config_dialog.cc:658
 msgid "Mail user name"
 msgstr "Mejl-användarnamn"
 
@@ -716,12 +712,12 @@ msgstr ""
 msgid "Matrix"
 msgstr "Matris"
 
-#: src/wx/config_dialog.cc:812
+#: src/wx/config_dialog.cc:796
 #, fuzzy
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "JPEG2000-bandbredd"
 
-#: src/wx/config_dialog.cc:287 src/wx/config_dialog.cc:816
+#: src/wx/config_dialog.cc:287 src/wx/config_dialog.cc:800
 #: src/wx/film_editor.cc:185
 msgid "Mbit/s"
 msgstr ""
@@ -735,7 +731,7 @@ msgstr "Flera innehåll valda"
 msgid "My Documents"
 msgstr "Mina Dokument"
 
-#: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:528
+#: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:512
 #: src/wx/film_editor.cc:113 src/wx/preset_colour_conversion_dialog.cc:38
 #: src/wx/screen_dialog.cc:38
 msgid "Name"
@@ -768,7 +764,7 @@ msgstr "Av"
 msgid "Other"
 msgstr ""
 
-#: src/wx/config_dialog.cc:670
+#: src/wx/config_dialog.cc:654
 msgid "Outgoing mail server"
 msgstr "Utgående mejlserver"
 
@@ -790,7 +786,7 @@ msgstr "Förpackningstyp (ex. OV)"
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
 
-#: src/wx/config_dialog.cc:590
+#: src/wx/config_dialog.cc:574
 msgid "Password"
 msgstr "Lösenord"
 
@@ -868,7 +864,7 @@ msgstr "Repetera Innehåll"
 msgid "Repeat..."
 msgstr "Upprepa..."
 
-#: src/wx/config_dialog.cc:708
+#: src/wx/config_dialog.cc:692
 msgid "Reset to default text"
 msgstr ""
 
@@ -932,7 +928,7 @@ msgstr "Välj certifikatfil"
 msgid "Send by email"
 msgstr "Skicka med mejl"
 
-#: src/wx/dolby_certificate_dialog.cc:46
+#: src/wx/dolby_certificate_dialog.cc:47
 msgid "Serial number"
 msgstr ""
 
@@ -944,11 +940,11 @@ msgstr "Server"
 msgid "Server manufacturer"
 msgstr ""
 
-#: src/wx/doremi_certificate_dialog.cc:36
+#: src/wx/doremi_certificate_dialog.cc:37
 msgid "Server serial number"
 msgstr ""
 
-#: src/wx/config_dialog.cc:450
+#: src/wx/config_dialog.cc:434
 #, fuzzy
 msgid "Servers"
 msgstr "Server"
@@ -995,7 +991,7 @@ msgstr "Audioström"
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (ex. TCF)"
 
-#: src/wx/config_dialog.cc:689
+#: src/wx/config_dialog.cc:673
 msgid "Subject"
 msgstr ""
 
@@ -1007,15 +1003,15 @@ msgstr "Undertextspråk (ex. SV)"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:158
+#: src/wx/about_dialog.cc:160
 msgid "Supported by"
 msgstr "Stöd från"
 
-#: src/wx/config_dialog.cc:558
+#: src/wx/config_dialog.cc:542
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:582
+#: src/wx/config_dialog.cc:566
 msgid "Target path"
 msgstr "Målsökväg"
 
@@ -1032,7 +1028,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:203
+#: src/wx/about_dialog.cc:205
 #, fuzzy
 msgid "Tested by"
 msgstr "Översatt av"
@@ -1104,7 +1100,7 @@ msgstr "Trimma från start"
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/dolby_certificate_dialog.cc:147
+#: src/wx/dolby_certificate_dialog.cc:182
 #, fuzzy
 msgid "Unexpected certificate filename form"
 msgstr "Välj certifikatfil"
@@ -1132,7 +1128,7 @@ msgstr "Uppdatera"
 msgid "Use ISDCF name"
 msgstr "Använd DCI-namnet"
 
-#: src/wx/config_dialog.cc:466
+#: src/wx/config_dialog.cc:450
 msgid "Use all servers"
 msgstr "Använd alla servrar"
 
@@ -1144,7 +1140,7 @@ msgstr "Använd bästa"
 msgid "Use preset"
 msgstr "Använd förhandsinställning"
 
-#: src/wx/config_dialog.cc:586
+#: src/wx/config_dialog.cc:570
 msgid "User name"
 msgstr "Användarnamn"
 
@@ -1160,7 +1156,7 @@ msgstr "Video"
 msgid "Video frame rate"
 msgstr "bildhastighet"
 
-#: src/wx/config_dialog.cc:827
+#: src/wx/config_dialog.cc:811
 msgid "Warnings"
 msgstr ""
 
@@ -1257,6 +1253,10 @@ msgstr "tider"
 #: src/wx/timeline.cc:241
 msgid "video"
 msgstr "video"
+
+#, fuzzy
+#~ msgid "Default creator"
+#~ msgstr "Förvald innehållstyp"
 
 #~ msgid "Audio Gain"
 #~ msgstr "Audio Förstärkning"

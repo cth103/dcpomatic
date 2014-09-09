@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 17:20+0100\n"
+"POT-Creation-Date: 2014-09-08 23:05+0100\n"
 "PO-Revision-Date: 2014-07-13 02:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "%1 Kanäle, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 Bilder; %2 Bilder pro Sekunde"
 
-#: src/lib/video_content.cc:213
+#: src/lib/video_content.cc:211
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixel (%3:1)"
 
@@ -98,15 +98,15 @@ msgstr "Abgebrochen"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:779
+#: src/lib/util.cc:786
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/writer.cc:81
+#: src/lib/writer.cc:82
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
-#: src/lib/writer.cc:470
+#: src/lib/writer.cc:471
 msgid "Computing audio digest"
 msgstr "Tonübersicht berechnen"
 
@@ -114,7 +114,7 @@ msgstr "Tonübersicht berechnen"
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
-#: src/lib/writer.cc:466
+#: src/lib/writer.cc:467
 msgid "Computing image digest"
 msgstr "Bildübersicht berechnen"
 
@@ -131,19 +131,19 @@ msgid "Content to be joined must have the same audio gain."
 msgstr ""
 "Zu verbindende Inhalte müssen die gleichen Tonpegeleinstellungen verwenden."
 
-#: src/lib/video_content.cc:148
+#: src/lib/video_content.cc:146
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Zu verbindende Inhalte müssen die gleiche Farbumwandlung verwenden."
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:138
 msgid "Content to be joined must have the same crop."
 msgstr "Zu verbindende Inhalte müssen gleichen Beschnitt verwenden."
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:126
 msgid "Content to be joined must have the same picture size."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildgröße haben."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:142
 msgid "Content to be joined must have the same scale setting."
 msgstr "Zu verbindende Inhalte müssen die gleiche Skalierung verwenden."
 
@@ -163,11 +163,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelgröße verwenden."
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:130
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildrate haben."
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:134
 msgid "Content to be joined must have the same video frame type."
 msgstr "Zu verbindende Inhalte müssen den gleichen Bildtyp (z.B. 2D) haben."
 
@@ -192,8 +192,9 @@ msgstr "Keine Verbindung zu Server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 
-#: src/lib/image_proxy.cc:127
-msgid "Could not decode image file"
+#: src/lib/image_proxy.cc:147
+#, fuzzy
+msgid "Could not decode image file (%1)"
 msgstr "Bilddatei konnte nicht dekodiert werden"
 
 #: src/lib/job.cc:90
@@ -204,7 +205,7 @@ msgstr "%1 konnte nicht geöffnet werden."
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum Senden geöffnet werden"
 
-#: src/lib/internet.cc:72
+#: src/lib/internet.cc:74
 msgid "Could not open downloaded ZIP file"
 msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden."
 
@@ -242,7 +243,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:440
+#: src/lib/config.cc:436
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -272,7 +273,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 und CP750"
 
-#: src/lib/internet.cc:65
+#: src/lib/internet.cc:67
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Herunterladen fehlgeschlagen (%1/%2 Fehler %3)"
 
@@ -288,7 +289,7 @@ msgstr "Jedes Bild der Quelle wird %1 mal im DCP wiederholt.\n"
 msgid "Email KDMs for %1"
 msgstr "Email KDMs für %1"
 
-#: src/lib/writer.cc:124
+#: src/lib/writer.cc:125
 msgid "Encoding image data"
 msgstr "Kodiere Bilddaten"
 
@@ -328,7 +329,7 @@ msgstr "Gauss Filter"
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/util.cc:783
+#: src/lib/util.cc:790
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -344,7 +345,7 @@ msgstr ""
 "Ein unbekannter Fehler ist aufgetreten. Bitte schicken Sie eine Nachricht an "
 "den DCP-o-matic Autor (carl@dcpomatic.com)."
 
-#: src/lib/config.cc:196
+#: src/lib/config.cc:199
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM Zustellung: $CPL_NAME"
 
@@ -356,23 +357,23 @@ msgstr "Kernel De-Interlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:777
+#: src/lib/util.cc:784
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:785
+#: src/lib/util.cc:792
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:787
+#: src/lib/util.cc:794
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:781
+#: src/lib/util.cc:788
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/util.cc:780
+#: src/lib/util.cc:787
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -384,11 +385,11 @@ msgstr "Verschiedenes"
 msgid "Motion compensating deinterlacer"
 msgstr "Bewegungskompensierender De-Interlacer"
 
-#: src/lib/video_content.cc:498
+#: src/lib/video_content_scale.cc:105
 msgid "No scale"
 msgstr "Unskaliert"
 
-#: src/lib/video_content.cc:495
+#: src/lib/video_content_scale.cc:102
 msgid "No stretch"
 msgstr "Nicht verzerrt"
 
@@ -436,23 +437,23 @@ msgstr "Hinweis"
 msgid "Rating"
 msgstr "Freigabehinweis"
 
-#: src/lib/config.cc:86 src/lib/config.cc:180
+#: src/lib/config.cc:86 src/lib/config.cc:183
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:778
+#: src/lib/util.cc:785
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:786
+#: src/lib/util.cc:793
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:788
+#: src/lib/util.cc:795
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:782
+#: src/lib/util.cc:789
 msgid "Right surround"
 msgstr "Surround rechts"
 
@@ -531,11 +532,11 @@ msgstr "Wandle %1 um"
 msgid "Transitional"
 msgstr "Überleitung"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:79
 msgid "Unexpected ZIP file contents"
 msgstr "Ungültiger ZIP Inhalt"
 
-#: src/lib/image_proxy.cc:173
+#: src/lib/image_proxy.cc:193
 msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
@@ -555,7 +556,7 @@ msgstr "Unscharf Maskieren mit Gaußschem Unschärfefilter"
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:791
 msgid "Visually impaired"
 msgstr "VI"
 
@@ -587,7 +588,7 @@ msgstr "[Standbild]"
 msgid "cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:565
 msgid "connect timed out"
 msgstr "Zeit für Verbindung abgelaufen"
 
@@ -623,7 +624,7 @@ msgstr "Keine Spur-Information gefunden"
 msgid "could not find video decoder"
 msgstr "Bild-Dekoder nicht gefunden"
 
-#: src/lib/writer.cc:434
+#: src/lib/writer.cc:435
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "Ton MXF kann nicht in das DCP verschoben werden (%1)"
 
@@ -667,19 +668,19 @@ msgstr "SSH Session konnte nicht gestartet werden"
 msgid "could not write to file %1 (%2)"
 msgstr "Datei %1 konnte nicht geschrieben werden (%2)"
 
-#: src/lib/util.cc:578
+#: src/lib/util.cc:585
 msgid "error during async_accept (%1)"
 msgstr "error during async_accept (%1)"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:561
 msgid "error during async_connect (%1)"
 msgstr "error during async_connect (%1)"
 
-#: src/lib/util.cc:627
+#: src/lib/util.cc:634
 msgid "error during async_read (%1)"
 msgstr "error during async_read (%1)"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:606
 msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
 
@@ -703,7 +704,7 @@ msgstr "Minute"
 msgid "minutes"
 msgstr "Minuten"
 
-#: src/lib/util.cc:699
+#: src/lib/util.cc:706
 msgid "missing key %1 in key-value set"
 msgstr "Key %1 in Key-value set fehlt"
 
@@ -733,7 +734,7 @@ msgstr "Nur Bitmap Untertitel werden unterstützt"
 msgid "remaining"
 msgstr "verbleibend"
 
-#: src/lib/config.cc:84 src/lib/video_content.cc:181
+#: src/lib/config.cc:84 src/lib/video_content.cc:179
 msgid "sRGB"
 msgstr "sRGB"
 

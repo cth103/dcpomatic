@@ -251,7 +251,7 @@ def configure(conf):
     #
 
     if conf.env.TARGET_DEBIAN:
-        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libcxml', atleast_version='0.11', args='--cflags', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml']
         conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
