@@ -45,8 +45,8 @@ public:
 	}
 
 	/** Try to fetch some audio from a specific place in this content.
-	 *  @param frame Frame to start from.
-	 *  @param length Frames to get.
+	 *  @param frame Frame to start from (after resampling, if applicable)
+	 *  @param length Frames to get (after resampling, if applicable)
 	 *  @param accurate true to try hard to return frames from exactly `frame', false if we don't mind nearby frames.
 	 *  @return Time-stamped audio data which may or may not be from the location (and of the length) requested.
 	 */
