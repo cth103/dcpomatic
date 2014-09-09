@@ -94,7 +94,7 @@ Config::Config ()
 void
 Config::read ()
 {
-	if (!boost::filesystem::exists (file (false))) {
+	if (!boost::filesystem::exists (file ())) {
 		/* Make a new set of signing certificates and key */
 		_signer.reset (new dcp::Signer (openssl_path ()));
 		/* And decryption keys */
@@ -103,7 +103,7 @@ Config::read ()
 	}
 
 	cxml::Document f ("Config");
-	f.read_file (file (false));
+	f.read_file (file ());
 	optional<string> c;
 
 	optional<int> version = f.optional_number_child<int> ("Version");
@@ -265,19 +265,15 @@ Config::make_decryption_keys ()
 
 /** @return Filename to write configuration to */
 boost::filesystem::path
-Config::file (bool old) const
+Config::file () const
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
 	boost::system::error_code ec;
 	boost::filesystem::create_directory (p, ec);
-	if (old) {
-		p /= ".dvdomatic";
-	} else {
-		p /= "dcpomatic";
-		boost::filesystem::create_directory (p, ec);
-		p /= "config.xml";
-	}
+	p /= "dcpomatic2";
+	boost::filesystem::create_directory (p, ec);
+	p /= "config.xml";
 	return p;
 }
 
@@ -382,7 +378,7 @@ Config::write () const
 		root->add_child("History")->add_child_text (i->string ());
 	}
 	
-	doc.write_to_file_formatted (file(false).string ());
+	doc.write_to_file_formatted (file().string ());
 }
 
 boost::filesystem::path

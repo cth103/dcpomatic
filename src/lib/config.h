@@ -435,7 +435,7 @@ public:
 
 private:
 	Config ();
-	boost::filesystem::path file (bool) const;
+	boost::filesystem::path file () const;
 	void read ();
 	void write () const;
 	void make_decryption_keys ();
