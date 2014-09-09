@@ -342,6 +342,8 @@ void
 ContentPanel::set_film (shared_ptr<Film> f)
 {
 	_film = f;
+
+	film_changed (Film::CONTENT);
 	selection_changed ();
 }
 
@@ -423,7 +425,7 @@ ContentPanel::setup ()
 
 	ContentList content = _film->content ();
 	sort (content.begin(), content.end(), ContentSorter ());
-	
+
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
 		bool const valid = (*i)->paths_valid ();
