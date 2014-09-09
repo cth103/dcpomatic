@@ -174,10 +174,10 @@ File "%binaries%/src/tools/dcpomatic2.exe"
 File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
 CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2.exe" 0
 CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2_batch.exe" 0
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2_batch.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
 WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"
 WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
@@ -189,8 +189,8 @@ CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
 File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_server.exe"
 CreateShortCut "$DESKTOP\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
+CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
 SectionEnd
 
 LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic"
