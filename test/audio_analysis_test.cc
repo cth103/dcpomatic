@@ -18,11 +18,18 @@
 */
 
 /** @file  test/audio_analysis_test.cc
- *  @brief Check serialisation of audio analyses.
+ *  @brief Check audio analysis code.
  */
 
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_analysis.h"
+#include "lib/film.h"
+#include "lib/sndfile_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
+#include "test.h"
+
+using boost::shared_ptr;
 
 static float
 random_float ()
@@ -30,7 +37,7 @@ random_float ()
 	return (float (rand ()) / RAND_MAX) * 2 - 1;
 }
 
-BOOST_AUTO_TEST_CASE (audio_analysis_test)
+BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 {
 	int const channels = 3;
 	int const points = 4096;
@@ -47,11 +54,11 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 		}
 	}
 
-	a.write ("build/test/audio_analysis_test");
+	a.write ("build/test/audio_analysis_serialisation_test");
 
 	srand (1);
 
-	AudioAnalysis b ("build/test/audio_analysis_test");
+	AudioAnalysis b ("build/test/audio_analysis_serialisation_test");
 	for (int i = 0; i < channels; ++i) {
 		BOOST_CHECK_EQUAL (b.points(i), points);
 		for (int j = 0; j < points; ++j) {
@@ -60,4 +67,26 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  random_float (), 1);
 		}
 	}
+}
+
+void
+finished ()
+{
+
+}
+
+BOOST_AUTO_TEST_CASE (audio_analysis_test)
+{
+	shared_ptr<Film> film = new_test_film ("audio_analysis_test");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_name ("audio_analysis_test");
+	boost::filesystem::path p = private_data / "betty_L.wav";
+
+	shared_ptr<SndfileContent> c (new SndfileContent (film, p));
+	film->examine_and_add_content (c);
+	wait_for_jobs ();
+
+	c->analyse_audio (boost::bind (&finished));
+	wait_for_jobs ();
 }
