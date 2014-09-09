@@ -105,6 +105,7 @@ universal_copy_lib $ENV libffi "$WORK/$libs"
 universal_copy_lib $ENV libiconv "$WORK/$libs"
 universal_copy_lib $ENV libpango "$WORK/$libs"
 universal_copy_lib $ENV libcairo "$WORK/$libs"
+universal_copy_lib $ENV libpixman "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
