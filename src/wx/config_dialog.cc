@@ -805,13 +805,13 @@ public:
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		int flags = wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL;
 #ifdef __WXOSX__
-		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
-#endif	
+		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log:"));
+		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL | wxALIGN_RIGHT, 6);
+#else		
 		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log"));
-		table->Add (m, 0, flags, 6);
+		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL, 6);
+#endif		
 		
 		{
 			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
