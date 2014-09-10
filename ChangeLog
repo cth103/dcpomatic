@@ -1,5 +1,7 @@
 2014-09-10  Carl Hetherington  <cth@carlh.net>
 
+	* Fix loading of 1.x films.
+
 	* Fix crash on audio analysis in some cases.
 
 2014-09-09  Carl Hetherington  <cth@carlh.net>

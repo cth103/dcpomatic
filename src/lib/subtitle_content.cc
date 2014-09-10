@@ -65,8 +65,13 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	, _subtitle_y_offset (0)
 	, _subtitle_scale (1)
 {
-	if (version >= 7) {
+	if (version >= 32) {
 		_use_subtitles = node->bool_child ("UseSubtitles");
+	} else {
+		_use_subtitles = false;
+	}
+	
+	if (version >= 7) {
 		_subtitle_x_offset = node->number_child<float> ("SubtitleXOffset");
 		_subtitle_y_offset = node->number_child<float> ("SubtitleYOffset");
 	} else {
