@@ -72,6 +72,7 @@ struct TestConfig
 		Config::instance()->set_default_container (static_cast<Ratio*> (0));
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 		Config::instance()->set_default_audio_delay (0);
+		Config::instance()->set_default_j2k_bandwidth (100000000);
 
 		ServerFinder::instance()->disable ();
 
