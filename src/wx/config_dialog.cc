@@ -67,6 +67,14 @@ public:
 	{}
 
 protected:
+	wxPanel* make_panel (wxWindow* parent)
+	{
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
+		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+		panel->SetSizer (s);
+		return panel;
+	}
+	
 	wxSize _panel_size;
 	int _border;
 };
@@ -81,13 +89,11 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		_set_language = new wxCheckBox (panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, 1);
@@ -243,13 +249,11 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		{
 			add_label_to_sizer (table, panel, _("Default duration of still images"), true);
@@ -448,12 +452,10 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 		
 		_use_any_servers = new wxCheckBox (panel, wxID_ANY, _("Use all servers"));
-		s->Add (_use_any_servers, 0, wxALL, _border);
+		panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
 		
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("IP address / host name")));
@@ -465,7 +467,7 @@ public:
 			boost::bind (&EncodingServersPage::server_column, this, _1)
 			);
 		
-		s->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 		
 		_use_any_servers->SetValue (Config::instance()->use_any_servers ());
 		_use_any_servers->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
@@ -509,9 +511,7 @@ public:
 #endif	
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("Name")));
@@ -524,7 +524,7 @@ public:
 			300
 			);
 
-		s->Add (list, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (list, 1, wxEXPAND | wxALL, _border);
 		return panel;
 	}
 
@@ -860,13 +860,11 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		add_label_to_sizer (table, panel, _("IP address"), true);
 		_tms_ip = new wxTextCtrl (panel, wxID_ANY);
@@ -947,18 +945,18 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
+#ifdef DCPOMATIC_OSX		
 		/* We have to force both width and height of this one */
-#ifdef DCPOMATIC_OSX
 		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, wxSize (480, 128));
-#else		
+#else
 		wxPanel* panel = new wxPanel (parent);
-#endif		
+#endif
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
@@ -996,10 +994,10 @@ public:
 		table->Add (_kdm_bcc, 1, wxEXPAND | wxALL);
 		
 		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
-		s->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
 
 		_reset_kdm_email = new wxButton (panel, wxID_ANY, _("Reset to default text"));
-		s->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
 
 		Config* config = Config::instance ();
 		_mail_server->SetValue (std_to_wx (config->mail_server ()));
@@ -1095,14 +1093,11 @@ public:
 	
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
-
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		{
 			add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
@@ -1117,13 +1112,13 @@ public:
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		int flags = wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL;
 #ifdef __WXOSX__
-		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
-#endif	
+		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log:"));
+		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL | wxALIGN_RIGHT, 6);
+#else		
 		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log"));
-		table->Add (m, 0, flags, 6);
+		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL, 6);
+#endif		
 		
 		{
 			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
@@ -1205,7 +1200,7 @@ create_config_dialog ()
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	wxSize ps = wxSize (480, -1);
+	wxSize ps = wxSize (520, -1);
 	int const border = 16;
 #else
 	wxSize ps = wxSize (-1, -1);
