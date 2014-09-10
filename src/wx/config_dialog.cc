@@ -893,7 +893,7 @@ create_config_dialog ()
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	wxSize ps = wxSize (480, -1);
+	wxSize ps = wxSize (520, -1);
 	int const border = 16;
 #else
 	wxSize ps = wxSize (-1, -1);
