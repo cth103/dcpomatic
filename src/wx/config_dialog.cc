@@ -805,18 +805,26 @@ public:
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		add_label_to_sizer (table, panel, _("Log"), true);
-		_log_general = new wxCheckBox (panel, wxID_ANY, _("General"));
-		table->Add (_log_general, 1, wxEXPAND | wxALL);
-		_log_warning = new wxCheckBox (panel, wxID_ANY, _("Warnings"));
-		table->AddSpacer (0);
-		table->Add (_log_warning, 1, wxEXPAND | wxALL);
-		_log_error = new wxCheckBox (panel, wxID_ANY, _("Errors"));
-		table->AddSpacer (0);
-		table->Add (_log_error, 1, wxEXPAND | wxALL);
-		_log_timing = new wxCheckBox (panel, wxID_ANY, S_("Config|Timing"));
-		table->AddSpacer (0);
-		table->Add (_log_timing, 1, wxEXPAND | wxALL);
+		int flags = wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL;
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+#endif	
+		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log"));
+		table->Add (m, 0, flags, 6);
+		
+		{
+			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
+			_log_general = new wxCheckBox (panel, wxID_ANY, _("General"));
+			t->Add (_log_general, 1, wxEXPAND | wxALL);
+			_log_warning = new wxCheckBox (panel, wxID_ANY, _("Warnings"));
+			t->Add (_log_warning, 1, wxEXPAND | wxALL);
+			_log_error = new wxCheckBox (panel, wxID_ANY, _("Errors"));
+			t->Add (_log_error, 1, wxEXPAND | wxALL);
+			_log_timing = new wxCheckBox (panel, wxID_ANY, S_("Config|Timing"));
+			t->Add (_log_timing, 1, wxEXPAND | wxALL);
+			table->Add (t, 0, wxALL, 6);
+		}
 
 		Config* config = Config::instance ();
 		
