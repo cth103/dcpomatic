@@ -32,6 +32,7 @@
 class wxNotebook;
 class wxListCtrl;
 class wxListEvent;
+class wxGridBagSizer;
 class Film;
 class TimelineDialog;
 class Ratio;
@@ -104,6 +105,7 @@ private:
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
 	void film_content_changed (int);
+	void use_isdcf_name_changed ();
 
 	void set_general_sensitivity (bool);
 	void setup_dcp_name ();

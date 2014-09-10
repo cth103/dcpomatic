@@ -115,11 +115,6 @@ FilmEditor::make_dcp_panel ()
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), true, wxGBPosition (r, 0));
-	_dcp_name = new wxStaticText (_dcp_panel, wxID_ANY, wxT (""));
-	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
 	int flags = wxALIGN_CENTER_VERTICAL;
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
@@ -129,6 +124,11 @@ FilmEditor::make_dcp_panel ()
 	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	_edit_isdcf_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1), wxDefaultSpan);
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), true, wxGBPosition (r, 0));
+	_dcp_name = new wxStaticText (_dcp_panel, wxID_ANY, wxT (""));
+	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Container"), true, wxGBPosition (r, 0));
@@ -474,6 +474,7 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::USE_ISDCF_NAME:
 		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
 		setup_dcp_name ();
+		use_isdcf_name_changed ();
 		break;
 	case Film::ISDCF_METADATA:
 		setup_dcp_name ();
@@ -705,6 +706,18 @@ FilmEditor::use_isdcf_name_toggled ()
 	}
 
 	_film->set_use_isdcf_name (_use_isdcf_name->GetValue ());
+}
+
+void
+FilmEditor::use_isdcf_name_changed ()
+{
+	bool const i = _film->use_isdcf_name ();
+
+	if (!i) {
+		_film->set_name (_film->isdcf_name (true));
+	}
+
+	_edit_isdcf_button->Enable (i);
 }
 
 void
