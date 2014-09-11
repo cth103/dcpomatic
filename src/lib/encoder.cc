@@ -177,7 +177,7 @@ Encoder::frame_done ()
 }
 
 void
-Encoder::enqueue (shared_ptr<PlayerVideo> pvf)
+Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 {
 	_waker.nudge ();
 	
@@ -204,16 +204,18 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pvf)
 	rethrow ();
 
 	if (_writer->can_fake_write (_video_frames_out)) {
-		_writer->fake_write (_video_frames_out, pvf->eyes ());
+		/* We can fake-write this frame */
+		_writer->fake_write (_video_frames_out, pv->eyes ());
 		frame_done ();
-	} else if (pvf->has_j2k ()) {
-		_writer->write (pvf->j2k(), _video_frames_out, pvf->eyes ());
+	} else if (pv->has_j2k ()) {
+		/* This frame already has JPEG2000 data, so just write it */
+		_writer->write (pv->j2k(), _video_frames_out, pv->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideo> (
 					  new DCPVideo (
-						  pvf,
+						  pv,
 						  _video_frames_out,
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
@@ -229,7 +231,7 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pvf)
 		_empty_condition.notify_all ();
 	}
 
-	if (pvf->eyes() != EYES_LEFT) {
+	if (pv->eyes() != EYES_LEFT) {
 		++_video_frames_out;
 	}
 }
