@@ -49,6 +49,7 @@
 #include "isdcf_metadata_dialog.h"
 #include "preset_colour_conversion_dialog.h"
 #include "server_dialog.h"
+#include "make_signer_chain_dialog.h"
 
 using std::vector;
 using std::string;
@@ -604,6 +605,10 @@ public:
 		table->AddGrowableCol (1, 1);
 		overall_sizer->Add (table, 1, wxALL | wxEXPAND, _border);
 
+		_remake_certificates = new wxButton (_panel, wxID_ANY, _("Re-make certificates..."));
+		table->Add (_remake_certificates, 0);
+		table->AddSpacer (0);
+
 		add_label_to_sizer (table, _panel, _("Private key for leaf certificate"), true);
 		{
 			wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -651,6 +656,7 @@ public:
 		_remove_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::remove_certificate, this));
 		_certificates->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&KeysPage::update_sensitivity, this));
 		_certificates->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&KeysPage::update_sensitivity, this));
+		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::remake_certificates, this));
 		_load_signer_private_key->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_signer_private_key, this));
 		_load_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_decryption_certificate, this));
 		_load_decryption_private_key->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_decryption_private_key, this));
@@ -723,6 +729,29 @@ private:
 
 			++n;
 		}
+	}
+
+	void remake_certificates ()
+	{
+		MakeSignerChainDialog* d = new MakeSignerChainDialog (_panel);
+		if (d->ShowModal () == wxID_OK) {
+			_signer.reset (
+				new dcp::Signer (
+					openssl_path (),
+					d->organisation (),
+					d->organisational_unit (),
+					d->root_common_name (),
+					d->intermediate_common_name (),
+					d->leaf_common_name ()
+					)
+				);
+
+			Config::instance()->set_signer (_signer);
+			update_certificate_list ();
+			update_signer_private_key ();
+		}
+		
+		d->Destroy ();
 	}
 
 	void update_sensitivity ()
@@ -829,6 +858,7 @@ private:
 	wxListCtrl* _certificates;
 	wxButton* _add_certificate;
 	wxButton* _remove_certificate;
+	wxButton* _remake_certificates;
 	wxStaticText* _signer_private_key;
 	wxButton* _load_signer_private_key;
 	wxStaticText* _decryption_certificate;
