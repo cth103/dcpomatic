@@ -79,7 +79,7 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 	 */
 	if (accurate) {
 		/* Keep stuffing data into _decoded_audio until we have enough data, or the subclass does not want to give us any more */
-		while (_decoded_audio.frame > frame || (_decoded_audio.frame + _decoded_audio.audio->frames()) < end && !pass ()) {}
+		while ((_decoded_audio.frame > frame || (_decoded_audio.frame + _decoded_audio.audio->frames()) < end) && !pass ()) {}
 		decoded_offset = frame - _decoded_audio.frame;
 	} else {
 		while (_decoded_audio.audio->frames() < length && !pass ()) {}
