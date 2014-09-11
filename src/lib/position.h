@@ -64,4 +64,11 @@ operator== (Position<T> const & a, Position<T> const & b)
 	return a.x == b.x && a.y == b.y;
 }
 
+template<class T>
+bool
+operator!= (Position<T> const & a, Position<T> const & b)
+{
+	return a.x != b.x || a.y != b.y;
+}
+
 #endif

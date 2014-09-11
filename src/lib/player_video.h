@@ -70,6 +70,8 @@ public:
 		return _inter_size;
 	}
 
+	bool same (boost::shared_ptr<const PlayerVideo> other) const;
+
 private:
 	boost::shared_ptr<const ImageProxy> _in;
 	DCPTime _time;

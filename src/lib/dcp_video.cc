@@ -315,3 +315,18 @@ DCPVideo::eyes () const
 	return _frame->eyes ();
 }
 
+/** @return true if this DCPVideo is definitely the same as another;
+ *  (apart from the frame index), false if it is probably not.
+ */
+bool
+DCPVideo::same (shared_ptr<const DCPVideo> other) const
+{
+	if (_frames_per_second != other->_frames_per_second ||
+	    _j2k_bandwidth != other->_j2k_bandwidth ||
+	    _resolution != other->_resolution ||
+	    _burn_subtitles != other->_burn_subtitles) {
+		return false;
+	}
+
+	return _frame->same (other->_frame);
+}

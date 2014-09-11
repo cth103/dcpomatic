@@ -31,7 +31,9 @@
 #define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 MagickImageProxy::MagickImageProxy (boost::filesystem::path path, shared_ptr<Log> log)
 	: ImageProxy (log)
@@ -132,4 +134,19 @@ MagickImageProxy::send_binary (shared_ptr<Socket> socket) const
 {
 	socket->write (_blob.length ());
 	socket->write ((uint8_t *) _blob.data (), _blob.length ());
+}
+
+bool
+MagickImageProxy::same (shared_ptr<const ImageProxy> other) const
+{
+	shared_ptr<const MagickImageProxy> mp = dynamic_pointer_cast<const MagickImageProxy> (other);
+	if (!mp) {
+		return false;
+	}
+
+	if (_blob.length() != mp->_blob.length()) {
+		return false;
+	}
+	
+	return memcmp (_blob.data(), mp->_blob.data(), _blob.length()) == 0;
 }

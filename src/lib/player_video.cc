@@ -176,4 +176,23 @@ PlayerVideo::inter_position () const
 	return Position<int> ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.height) / 2);
 }
 
+/** @return true if this PlayerVideo is definitely the same as another
+ * (apart from _time), false if it is probably not
+ */
+bool
+PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
+{
+	if (_in != other->_in ||
+	    _crop != other->_crop ||
+	    _inter_size != other->_inter_size ||
+	    _out_size != other->_out_size ||
+	    _scaler != other->_scaler ||
+	    _eyes != other->_eyes ||
+	    _part != other->_part ||
+	    _colour_conversion != other->_colour_conversion ||
+	    !_subtitle.same (other->_subtitle)) {
+		return false;
+	}
 
+	return _in->same (other->_in);
+}

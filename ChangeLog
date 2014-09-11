@@ -1,5 +1,7 @@
 2014-09-11  Carl Hetherington  <cth@carlh.net>
 
+	* Restore encoding optimisations for still-image sources.
+
 	* Add option to re-make signing chain with specified organisation,
 	common names etc. (#354)
 

@@ -176,6 +176,9 @@ Encoder::frame_done ()
 	}
 }
 
+/** Called in order, so each time this is called the supplied frame is the one
+ *  after the previous one.
+ */
 void
 Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 {
@@ -265,6 +268,8 @@ try
 	   encodings.
 	*/
 	int remote_backoff = 0;
+	shared_ptr<DCPVideo> last_dcp_video;
+	shared_ptr<EncodedData> last_encoded;
 	
 	while (true) {
 
@@ -287,37 +292,46 @@ try
 
 		shared_ptr<EncodedData> encoded;
 
-		if (server) {
-			try {
-				encoded = vf->encode_remotely (server.get ());
-
-				if (remote_backoff > 0) {
-					LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
-				}
-				
-				/* This job succeeded, so remove any backoff */
-				remote_backoff = 0;
-				
-			} catch (std::exception& e) {
-				if (remote_backoff < 60) {
-					/* back off more */
-					remote_backoff += 10;
-				}
-				LOG_ERROR (
-					N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
-					vf->index(), server->host_name(), e.what(), remote_backoff
-					);
-			}
-				
+		if (last_dcp_video && vf->same (last_dcp_video)) {
+			/* We already have encoded data for the same input as this one, so take a short-cut */
+			encoded = last_encoded;
 		} else {
-			try {
-				LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());
-				encoded = vf->encode_locally ();
-				LOG_TIMING ("[%1] encoder thread finishes local encode of %2", boost::this_thread::get_id(), vf->index());
-			} catch (std::exception& e) {
-				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
+			/* We need to encode this input */
+			if (server) {
+				try {
+					encoded = vf->encode_remotely (server.get ());
+					
+					if (remote_backoff > 0) {
+						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
+					}
+					
+					/* This job succeeded, so remove any backoff */
+					remote_backoff = 0;
+					
+				} catch (std::exception& e) {
+					if (remote_backoff < 60) {
+						/* back off more */
+						remote_backoff += 10;
+					}
+					LOG_ERROR (
+						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
+						vf->index(), server->host_name(), e.what(), remote_backoff
+						);
+				}
+				
+			} else {
+				try {
+					LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());
+					encoded = vf->encode_locally ();
+					LOG_TIMING ("[%1] encoder thread finishes local encode of %2", boost::this_thread::get_id(), vf->index());
+				} catch (std::exception& e) {
+					LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
+				}
 			}
 		}
+
+		last_dcp_video = vf;
+		last_encoded = encoded;
 
 		if (encoded) {
 			_writer->write (encoded, vf->index (), vf->eyes ());

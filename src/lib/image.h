@@ -94,5 +94,6 @@ private:
 };
 
 extern PositionImage merge (std::list<PositionImage> images);
+extern bool operator== (Image const & a, Image const & b);
 
 #endif

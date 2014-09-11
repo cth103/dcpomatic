@@ -57,6 +57,8 @@ public:
 	}
 
 	Eyes eyes () const;
+
+	bool same (boost::shared_ptr<const DCPVideo> other) const;
 	
 private:
 

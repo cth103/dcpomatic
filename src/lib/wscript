@@ -61,6 +61,7 @@ sources = """
           player.cc
           player_video.cc
           playlist.cc
+          position_image.cc
           ratio.cc
           raw_image_proxy.cc
           render_subtitles.cc

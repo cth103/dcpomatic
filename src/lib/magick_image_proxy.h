@@ -28,6 +28,7 @@ public:
 	boost::shared_ptr<Image> image () const;
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
+	bool same (boost::shared_ptr<const ImageProxy> other) const;
 
 private:	
 	Magick::Blob _blob;

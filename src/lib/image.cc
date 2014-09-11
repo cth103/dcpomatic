@@ -690,3 +690,30 @@ Image::digest () const
 
 	return digester.get ();
 }
+
+bool
+operator== (Image const & a, Image const & b)
+{
+	if (a.components() != b.components() || a.pixel_format() != b.pixel_format() || a.aligned() != b.aligned()) {
+		return false;
+	}
+
+	for (int c = 0; c < a.components(); ++c) {
+		if (a.lines(c) != b.lines(c) || a.line_size()[c] != b.line_size()[c] || a.stride()[c] != b.stride()[c]) {
+			return false;
+		}
+
+		uint8_t* p = a.data()[c];
+		uint8_t* q = b.data()[c];
+		for (int y = 0; y < a.lines(c); ++y) {
+			if (memcmp (p, q, a.line_size()[c]) != 0) {
+				return false;
+			}
+
+			p += a.stride()[c];
+			q += b.stride()[c];
+		}
+	}
+
+	return true;
+}

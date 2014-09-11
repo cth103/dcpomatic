@@ -50,7 +50,7 @@ namespace dcp {
  *  of happening in a single-threaded decoder.
  *
  *  For example, large TIFFs are slow to decode, so this class will keep
- *  the TIFF data TIFF until such a time that the actual image is needed.
+ *  the TIFF data compressed until the decompressed image is needed.
  *  At this point, the class decodes the TIFF to an Image.
  */
 class ImageProxy : public boost::noncopyable
@@ -63,6 +63,10 @@ public:
 	virtual boost::shared_ptr<Image> image () const = 0;
 	virtual void add_metadata (xmlpp::Node *) const = 0;
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
+	/** @return true if our image is definitely the same as another, false if it is probably not */
+	virtual bool same (boost::shared_ptr<const ImageProxy>) const {
+		return false;
+	}
 
 protected:
 	boost::shared_ptr<Log> _log;
