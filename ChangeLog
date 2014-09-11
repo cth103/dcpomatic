@@ -1,3 +1,7 @@
+2014-09-12  Carl Hetherington  <cth@carlh.net>
+
+	* Add "re-examine" option to content context menu (#339).
+
 2014-09-11  Carl Hetherington  <cth@carlh.net>
 
 	* Restore encoding optimisations for still-image sources.

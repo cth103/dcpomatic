@@ -41,6 +41,7 @@ enum {
 	ID_repeat = 1,
 	ID_join,
 	ID_find_missing,
+	ID_re_examine,
 	ID_kdm,
 	ID_remove
 };
@@ -52,6 +53,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
 	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
+	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
 	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
@@ -59,6 +61,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::repeat, this), ID_repeat);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::join, this), ID_join);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
+	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
 }
@@ -85,6 +88,7 @@ ContentMenu::popup (weak_ptr<Film> f, ContentList c, wxPoint p)
 	_join->Enable (n > 1);
 	
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
+	_re_examine->Enable (!_content.empty ());
 
 	if (_content.size() == 1) {
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
@@ -216,6 +220,19 @@ ContentMenu::find_missing ()
 		);
 	
 	JobManager::instance()->add (j);
+}
+
+void
+ContentMenu::re_examine ()
+{
+	shared_ptr<Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
+		film->examine_content (*i);
+	}
 }
 
 void

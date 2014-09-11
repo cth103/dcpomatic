@@ -173,6 +173,13 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 void
 AudioDecoder::add (shared_ptr<const AudioBuffers> data)
 {
+	if (!_audio_position) {
+		/* This should only happen when there is a seek followed by a flush, but
+		   we need to cope with it.
+		*/
+		return;
+	}
+	
 	/* Resize _decoded_audio to fit the new data */
 	int new_size = 0;
 	if (_decoded_audio.audio->frames() == 0) {
