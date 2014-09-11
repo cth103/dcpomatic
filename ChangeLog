@@ -5,6 +5,11 @@
 
 2014-09-10  Carl Hetherington  <cth@carlh.net>
 
+	* Allow DCP names to be created using the ISDCF template and then
+	edited afterwards (#401).
+
+	* Fix hidden advanced preferences button in some locales.
+
 	* Version 2.0.8 released.
 
 2014-09-10  Carl Hetherington  <cth@carlh.net>

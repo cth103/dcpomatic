@@ -58,11 +58,6 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _panel, _("DCP Name"), true, wxGBPosition (r, 0));
-	_dcp_name = new wxStaticText (_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
-	++r;
-
 	int flags = wxALIGN_CENTER_VERTICAL;
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
@@ -72,6 +67,11 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _panel, _("DCP Name"), true, wxGBPosition (r, 0));
+	_dcp_name = new wxStaticText (_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _panel, _("Content Type"), true, wxGBPosition (r, 0));
@@ -266,9 +266,16 @@ DCPPanel::film_changed (int p)
 		checked_set (_j2k_bandwidth, _film->j2k_bandwidth() / 1000000);
 		break;
 	case Film::USE_ISDCF_NAME:
+	{
 		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
 		setup_dcp_name ();
+		bool const i = _film->use_isdcf_name ();
+		if (!i) {
+			_film->set_name (_film->isdcf_name (true));
+		}
+		_edit_isdcf_button->Enable (i);
 		break;
+	}
 	case Film::ISDCF_METADATA:
 		setup_dcp_name ();
 		break;

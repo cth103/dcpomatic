@@ -25,8 +25,8 @@
 #include <boost/signals2.hpp>
 #include "lib/film.h"
 
-class wxNotebook;
 class wxSpinCtrl;
+class wxNotebook;
 class Film;
 class Ratio;
 class ContentPanel;
