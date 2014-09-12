@@ -92,6 +92,8 @@ using dcp::raw_convert;
  * Use <Scale> tag in <VideoContent> rather than <Ratio>.
  * 8 -> 9
  * DCI -> ISDCF
+ * 9 -> 10
+ * Subtitle X and Y scale.
  *
  * Bumped to 32 for 2.0 branch; some times are expressed in Times rather
  * than frames now.

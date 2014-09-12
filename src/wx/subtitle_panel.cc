@@ -67,14 +67,23 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	}
 	
 	{
-		add_label_to_sizer (grid, this, _("Scale"), true);
+		add_label_to_sizer (grid, this, _("X Scale"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_scale = new wxSpinCtrl (this);
-		s->Add (_scale);
+		_x_scale = new wxSpinCtrl (this);
+		s->Add (_x_scale);
 		add_label_to_sizer (s, this, _("%"), false);
 		grid->Add (s);
 	}
 
+	{
+		add_label_to_sizer (grid, this, _("Y Scale"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_y_scale = new wxSpinCtrl (this);
+		s->Add (_y_scale);
+		add_label_to_sizer (s, this, _("%"), false);
+		grid->Add (s);
+	}
+	
 	add_label_to_sizer (grid, this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, 1, wxEXPAND);
@@ -84,13 +93,14 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
-	_scale->SetRange (1, 1000);
-	_scale->SetValue (100);
+	_x_scale->SetRange (10, 1000);
+	_y_scale->SetRange (10, 1000);
 
 	_use->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
 	_x_offset->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
 	_y_offset->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_scale->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::scale_changed, this));
+	_x_scale->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
+	_y_scale->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
 	_stream->Bind      (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
 	_view_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::view_clicked, this));
 }
@@ -141,8 +151,10 @@ SubtitlePanel::film_content_changed (int property)
 		checked_set (_x_offset, scs ? (scs->subtitle_x_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_OFFSET) {
 		checked_set (_y_offset, scs ? (scs->subtitle_y_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
-		checked_set (_scale, scs ? (scs->subtitle_scale() * 100) : 100);
+	} else if (property == SubtitleContentProperty::SUBTITLE_X_SCALE) {
+		checked_set (_x_scale, scs ? int (rint (scs->subtitle_x_scale() * 100)) : 100);
+	} else if (property == SubtitleContentProperty::SUBTITLE_Y_SCALE) {
+		checked_set (_y_scale, scs ? int (rint (scs->subtitle_y_scale() * 100)) : 100);
 	}
 }
 
@@ -184,7 +196,8 @@ SubtitlePanel::setup_sensitivity ()
 	
 	_x_offset->Enable (any_subs > 0 && use);
 	_y_offset->Enable (any_subs > 0 && use);
-	_scale->Enable (any_subs > 0 && use);
+	_x_scale->Enable (any_subs > 0 && use);
+	_y_scale->Enable (any_subs > 0 && use);
 	_stream->Enable (ffmpeg_subs == 1);
 	_view_button->Enable (subrip_or_dcp_subs == 1);
 }
@@ -230,11 +243,20 @@ SubtitlePanel::y_offset_changed ()
 }
 
 void
-SubtitlePanel::scale_changed ()
+SubtitlePanel::x_scale_changed ()
+{
+	SubtitleContentList c = _parent->selected_subtitle ();
+	if (c.size() == 1) {
+		c.front()->set_subtitle_x_scale (_x_scale->GetValue() / 100.0);
+	}
+}
+
+void
+SubtitlePanel::y_scale_changed ()
 {
 	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_subtitle_scale (_scale->GetValue() / 100.0);
+		(*i)->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
@@ -245,7 +267,8 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (SubtitleContentProperty::USE_SUBTITLES);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_SCALE);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 }
 
 void

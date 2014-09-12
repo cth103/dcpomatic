@@ -201,7 +201,8 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == SubtitleContentProperty::USE_SUBTITLES ||
 		property == SubtitleContentProperty::SUBTITLE_X_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
-		property == SubtitleContentProperty::SUBTITLE_SCALE ||
+		property == SubtitleContentProperty::SUBTITLE_X_SCALE ||
+		property == SubtitleContentProperty::SUBTITLE_Y_SCALE ||
 		property == VideoContentProperty::VIDEO_CROP ||
 		property == VideoContentProperty::VIDEO_SCALE ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE
@@ -260,8 +261,8 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 		 *     rect.x * _video_container_size.width and rect.y * _video_container_size.height.
 		 *
 		 * 2.  that to shift the origin of the scale by subtitle_scale to the centre of the subtitle; this will be
-		 *     (width_before_subtitle_scale * (1 - subtitle_scale) / 2) and
-		 *     (height_before_subtitle_scale * (1 - subtitle_scale) / 2).
+		 *     (width_before_subtitle_scale * (1 - subtitle_x_scale) / 2) and
+		 *     (height_before_subtitle_scale * (1 - subtitle_y_scale) / 2).
 		 *
 		 * Combining these two translations gives these expressions.
 		 */
@@ -558,12 +559,12 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 			i->sub.rectangle.y += subtitle_content->subtitle_y_offset ();
 
 			/* Apply content's subtitle scale */
-			i->sub.rectangle.width *= subtitle_content->subtitle_scale ();
-			i->sub.rectangle.height *= subtitle_content->subtitle_scale ();
+			i->sub.rectangle.width *= subtitle_content->subtitle_x_scale ();
+			i->sub.rectangle.height *= subtitle_content->subtitle_y_scale ();
 
 			/* Apply a corrective translation to keep the subtitle centred after that scale */
-			i->sub.rectangle.x -= i->sub.rectangle.width * (subtitle_content->subtitle_scale() - 1);
-			i->sub.rectangle.y -= i->sub.rectangle.height * (subtitle_content->subtitle_scale() - 1);
+			i->sub.rectangle.x -= i->sub.rectangle.width * (subtitle_content->subtitle_x_scale() - 1);
+			i->sub.rectangle.y -= i->sub.rectangle.height * (subtitle_content->subtitle_y_scale() - 1);
 			
 			ps.image.push_back (i->sub);
 		}

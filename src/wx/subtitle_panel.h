@@ -36,7 +36,8 @@ private:
 	void use_toggled ();
 	void x_offset_changed ();
 	void y_offset_changed ();
-	void scale_changed ();
+	void x_scale_changed ();
+	void y_scale_changed ();
 	void stream_changed ();
 	void view_clicked ();
 
@@ -45,7 +46,8 @@ private:
 	wxCheckBox* _use;
 	wxSpinCtrl* _x_offset;
 	wxSpinCtrl* _y_offset;
-	wxSpinCtrl* _scale;
+	wxSpinCtrl* _x_scale;
+	wxSpinCtrl* _y_scale;
 	wxChoice* _stream;
 	wxButton* _view_button;
 	SubtitleView* _view;

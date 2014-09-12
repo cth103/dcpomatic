@@ -35,15 +35,17 @@ using dcp::raw_convert;
 
 int const SubtitleContentProperty::SUBTITLE_X_OFFSET = 500;
 int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
-int const SubtitleContentProperty::SUBTITLE_SCALE = 502;
-int const SubtitleContentProperty::USE_SUBTITLES = 503;
+int const SubtitleContentProperty::SUBTITLE_X_SCALE = 502;
+int const SubtitleContentProperty::SUBTITLE_Y_SCALE = 503;
+int const SubtitleContentProperty::USE_SUBTITLES = 504;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f)
 	: Content (f)
 	, _use_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
-	, _subtitle_scale (1)
+	, _subtitle_x_scale (1)
+	, _subtitle_y_scale (1)
 {
 
 }
@@ -53,7 +55,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::p
 	, _use_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
-	, _subtitle_scale (1)
+	, _subtitle_x_scale (1)
+	, _subtitle_y_scale (1)
 {
 
 }
@@ -63,7 +66,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	, _use_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
-	, _subtitle_scale (1)
+	, _subtitle_x_scale (1)
+	, _subtitle_y_scale (1)
 {
 	if (version >= 32) {
 		_use_subtitles = node->bool_child ("UseSubtitles");
@@ -77,8 +81,13 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	} else {
 		_subtitle_y_offset = node->number_child<float> ("SubtitleOffset");
 	}
-	
-	_subtitle_scale = node->number_child<float> ("SubtitleScale");
+
+	if (version >= 10) {
+		_subtitle_x_scale = node->number_child<float> ("SubtitleXScale");
+		_subtitle_y_scale = node->number_child<float> ("SubtitleYScale");
+	} else {
+		_subtitle_x_scale = _subtitle_y_scale = node->number_child<float> ("SubtitleScale");
+	}
 }
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -102,15 +111,20 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
 
-		if (sc->subtitle_scale() != ref->subtitle_scale()) {
-			throw JoinError (_("Content to be joined must have the same subtitle scale."));
+		if (sc->subtitle_x_scale() != ref->subtitle_x_scale()) {
+			throw JoinError (_("Content to be joined must have the same subtitle X scale."));
+		}
+
+		if (sc->subtitle_y_scale() != ref->subtitle_y_scale()) {
+			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
 	}
 
 	_use_subtitles = ref->use_subtitles ();
 	_subtitle_x_offset = ref->subtitle_x_offset ();
 	_subtitle_y_offset = ref->subtitle_y_offset ();
-	_subtitle_scale = ref->subtitle_scale ();
+	_subtitle_x_scale = ref->subtitle_x_scale ();
+	_subtitle_y_scale = ref->subtitle_y_scale ();
 }
 
 void
@@ -119,7 +133,8 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use_subtitles));
 	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
-	root->add_child("SubtitleScale")->add_child_text (raw_convert<string> (_subtitle_scale));
+	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
+	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_subtitle_y_scale));
 }
 
 void
@@ -153,13 +168,23 @@ SubtitleContent::set_subtitle_y_offset (double o)
 }
 
 void
-SubtitleContent::set_subtitle_scale (double s)
+SubtitleContent::set_subtitle_x_scale (double s)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_scale = s;
+		_subtitle_x_scale = s;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_SCALE);
+	signal_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
+}
+
+void
+SubtitleContent::set_subtitle_y_scale (double s)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_subtitle_y_scale = s;
+	}
+	signal_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 }
 
 string
@@ -167,7 +192,8 @@ SubtitleContent::identifier () const
 {
 	SafeStringStream s;
 	s << Content::identifier()
-	  << "_" << raw_convert<string> (subtitle_scale())
+	  << "_" << raw_convert<string> (subtitle_x_scale())
+	  << "_" << raw_convert<string> (subtitle_y_scale())
 	  << "_" << raw_convert<string> (subtitle_x_offset())
 	  << "_" << raw_convert<string> (subtitle_y_offset());
 

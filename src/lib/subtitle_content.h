@@ -27,7 +27,8 @@ class SubtitleContentProperty
 public:
 	static int const SUBTITLE_X_OFFSET;
 	static int const SUBTITLE_Y_OFFSET;
-	static int const SUBTITLE_SCALE;
+	static int const SUBTITLE_X_SCALE;
+	static int const SUBTITLE_Y_SCALE;
 	static int const USE_SUBTITLES;
 };
 
@@ -53,7 +54,8 @@ public:
 	void set_use_subtitles (bool);
 	void set_subtitle_x_offset (double);
 	void set_subtitle_y_offset (double);
-	void set_subtitle_scale (double);
+	void set_subtitle_x_scale (double);
+	void set_subtitle_y_scale (double);
 
 	bool use_subtitles () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -70,9 +72,14 @@ public:
 		return _subtitle_y_offset;
 	}
 
-	double subtitle_scale () const {
+	double subtitle_x_scale () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_scale;
+		return _subtitle_x_scale;
+	}
+
+	double subtitle_y_scale () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _subtitle_y_scale;
 	}
 
 private:
@@ -87,8 +94,10 @@ private:
 	 *  +ve is further down the frame, -ve is further up.
 	 */
 	double _subtitle_y_offset;
-	/** scale factor to apply to subtitles */
-	double _subtitle_scale;
+	/** x scale factor to apply to subtitles */
+	double _subtitle_x_scale;
+	/** y scale factor to apply to subtitles */
+	double _subtitle_y_scale;
 };
 
 #endif

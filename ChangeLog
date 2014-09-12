@@ -13,6 +13,8 @@
 	* Add option to re-make signing chain with specified organisation,
 	common names etc. (#354)
 
+	* Allow separate X and Y scale for subtitles (#337).
+
 2014-09-10  Carl Hetherington  <cth@carlh.net>
 
 	* Allow DCP names to be created using the ISDCF template and then
