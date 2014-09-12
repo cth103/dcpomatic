@@ -91,9 +91,11 @@ using libdcp::raw_convert;
  * 7 -> 8
  * Use <Scale> tag in <VideoContent> rather than <Ratio>.
  * 8 -> 9
- * DCI -> ISDCF
+ * DCI -> ISDCF.
+ * 9 -> 10
+ * Subtitle X and Y scale.
  */
-int const Film::current_state_version = 9;
+int const Film::current_state_version = 10;
 
 /** Construct a Film object in a given directory.
  *

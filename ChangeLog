@@ -1,3 +1,7 @@
+2014-09-12  Carl Hetherington  <cth@carlh.net>
+
+	* Allow separate X and Y scale for subtitles (#337).
+
 2014-09-10  Carl Hetherington  <cth@carlh.net>
 
 	* Allow DCP names to be created using the ISDCF template and then
