@@ -115,7 +115,7 @@ File "%cdist_deps%/bin/dcp.dll"
 File "%cdist_deps%/bin/libopenjpeg-1.dll"
 File "%cdist_deps%/bin/swresample-0.dll"
 File "%cdist_deps%/bin/swscale-2.dll"
-File "%cdist_deps%/bin/cxml.dll"
+File "%cdist_deps%/bin/cxml-0.dll"
 File "%cdist_deps%/bin/ffprobe.exe"
 
 File "%binaries%/src/wx/dcpomatic-wx.dll"
