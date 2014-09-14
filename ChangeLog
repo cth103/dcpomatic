@@ -1,3 +1,7 @@
+2014-09-14  Carl Hetherington  <cth@carlh.net>
+
+	* Update to nl_NL translation from Cherif Ben Brahim.
+
 2014-09-12  Carl Hetherington  <cth@carlh.net>
 
 	* Allow separate X and Y scale for subtitles (#337).
