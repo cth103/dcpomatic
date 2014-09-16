@@ -1,5 +1,9 @@
 2014-09-16  Carl Hetherington  <cth@carlh.net>
 
+	* Version 1.73.7 released.
+
+2014-09-16  Carl Hetherington  <cth@carlh.net>
+
 	* Fix non-update of audio gain when changing selected content.
 
 2014-09-14  Carl Hetherington  <cth@carlh.net>
