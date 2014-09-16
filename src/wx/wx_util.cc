@@ -193,7 +193,7 @@ void
 checked_set (wxSpinCtrlDouble* widget, double value)
 {
 	/* XXX: completely arbitrary epsilon */
-	if (fabs (widget->GetValue() - value) < 1e-16) {
+	if (fabs (widget->GetValue() - value) > 1e-16) {
 		widget->SetValue (value);
 	}
 }
