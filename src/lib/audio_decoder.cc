@@ -17,6 +17,7 @@
 
 */
 
+#include <iostream>
 #include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "audio_processor.h"

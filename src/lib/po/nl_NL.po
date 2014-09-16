@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-08 23:05+0100\n"
-"PO-Revision-Date: 2014-03-30 19:39+0100\n"
-"Last-Translator: Theo Kooijmans <tkooijmans@universaldv.nl>\n"
+"POT-Creation-Date: 2014-08-31 17:20+0100\n"
+"PO-Revision-Date: 2014-09-04 20:34+0100\n"
+"Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.9\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/sndfile_content.cc:61
@@ -34,7 +34,7 @@ msgstr "%1 kanalen, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 frames; %2 frames per seconde"
 
-#: src/lib/video_content.cc:211
+#: src/lib/video_content.cc:213
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixels (%3:1)"
 
@@ -98,15 +98,15 @@ msgstr "Afgebroken"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Fout met pixel formaat %1 tijdens %2"
 
-#: src/lib/util.cc:786
+#: src/lib/util.cc:779
 msgid "Centre"
 msgstr "Midden"
 
-#: src/lib/writer.cc:82
+#: src/lib/writer.cc:81
 msgid "Checking existing image data"
 msgstr "Controleer bestaande videodata"
 
-#: src/lib/writer.cc:471
+#: src/lib/writer.cc:470
 msgid "Computing audio digest"
 msgstr "Verwerk audio data"
 
@@ -114,7 +114,7 @@ msgstr "Verwerk audio data"
 msgid "Computing digest"
 msgstr "Verwerken..."
 
-#: src/lib/writer.cc:467
+#: src/lib/writer.cc:466
 msgid "Computing image digest"
 msgstr "Verwerk video data"
 
@@ -130,19 +130,19 @@ msgstr "Toegevoegde bestanden moeten dezelfde audio vertraging hebben."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Toegevoegde bestanden moeten dezelfde audio gain hebben."
 
-#: src/lib/video_content.cc:146
+#: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Toegevoegde bestanden moeten dezelfde kleurindeling hebben."
 
-#: src/lib/video_content.cc:138
+#: src/lib/video_content.cc:140
 msgid "Content to be joined must have the same crop."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
-#: src/lib/video_content.cc:126
+#: src/lib/video_content.cc:128
 msgid "Content to be joined must have the same picture size."
 msgstr "Toegevoegde bestanden moeten dezelfde grootte hebben."
 
-#: src/lib/video_content.cc:142
+#: src/lib/video_content.cc:144
 msgid "Content to be joined must have the same scale setting."
 msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
 
@@ -158,11 +158,11 @@ msgstr "Toegevoegde bestanden moeten dezelfde ondertitel Y offset hebben."
 msgid "Content to be joined must have the same subtitle scale."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel grootte hebben."
 
-#: src/lib/video_content.cc:130
+#: src/lib/video_content.cc:132
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Toegevoegde bestanden moeten dezelfde video frame rate hebben."
 
-#: src/lib/video_content.cc:134
+#: src/lib/video_content.cc:136
 msgid "Content to be joined must have the same video frame type."
 msgstr "Toegevoegde bestanden moeten dezelfde video formaat hebben."
 
@@ -186,10 +186,9 @@ msgstr "Kan niet verbinden met server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kan geen remote map maken %1 (%2)"
 
-#: src/lib/image_proxy.cc:147
-#, fuzzy
-msgid "Could not decode image file (%1)"
-msgstr "kan geen bestand maken %1"
+#: src/lib/image_proxy.cc:127
+msgid "Could not decode image file"
+msgstr "Kan beeldbestand niet decoderen"
 
 #: src/lib/job.cc:90
 msgid "Could not open %1"
@@ -199,7 +198,7 @@ msgstr "Kan niet openen %1"
 msgid "Could not open %1 to send"
 msgstr "Kan niet openen %1 om te verzenden"
 
-#: src/lib/internet.cc:74
+#: src/lib/internet.cc:72
 msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownloade ZIP bestand niet openen"
 
@@ -238,8 +237,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:436
-#, fuzzy
+#: src/lib/config.cc:440
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -256,6 +254,8 @@ msgstr ""
 "Geachte operator\n"
 "\n"
 "Bijgevoegd zijn KDMs voor $CPL_NAME.\n"
+"Bioscoop: $CINEMA_NAME\n"
+"Zaal/Zalen: $SCREENS\n"
 "\n"
 "De KDMs zijn geldig van $START_TIME tot $END_TIME.\n"
 "\n"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 and CP750"
 
-#: src/lib/internet.cc:67
+#: src/lib/internet.cc:65
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Fout met download(%1/%2 error %3)"
 
@@ -282,7 +282,7 @@ msgstr "Elk content frame zal %1  herhaald worden in de DCP.\n"
 msgid "Email KDMs for %1"
 msgstr "Email KDMs voor %1"
 
-#: src/lib/writer.cc:125
+#: src/lib/writer.cc:124
 msgid "Encoding image data"
 msgstr "Encoding bestandsdata"
 
@@ -322,7 +322,7 @@ msgstr "Gaussian"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:790
+#: src/lib/util.cc:783
 msgid "Hearing impaired"
 msgstr "Slechthorenden"
 
@@ -331,17 +331,16 @@ msgid "High quality 3D denoiser"
 msgstr "High quality 3D denoiser"
 
 #: src/lib/job.cc:111 src/lib/job.cc:121
-#, fuzzy
 msgid ""
 "It is not known what caused this error.  Please report the problem to the "
 "DCP-o-matic author (carl@dcpomatic.com)."
 msgstr ""
 "Dit is een onbekende fout. U kunt deze het beste melden bij de DCP-o-matic "
-"mailing lijst (carl@dcpomatic.com)"
+"maker (carl@dcpomatic.com)"
 
-#: src/lib/config.cc:199
+#: src/lib/config.cc:196
 msgid "KDM delivery: $CPL_NAME"
-msgstr ""
+msgstr "KDM levering: $CPL_NAME"
 
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
@@ -351,23 +350,23 @@ msgstr "Kernel deinterlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:777
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:792
+#: src/lib/util.cc:785
 msgid "Left centre"
 msgstr "Links midden"
 
-#: src/lib/util.cc:794
+#: src/lib/util.cc:787
 msgid "Left rear surround"
 msgstr "Links achter surround"
 
-#: src/lib/util.cc:788
+#: src/lib/util.cc:781
 msgid "Left surround"
 msgstr "links surround"
 
-#: src/lib/util.cc:787
+#: src/lib/util.cc:780
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -379,17 +378,17 @@ msgstr "Diverse"
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
 
-#: src/lib/video_content_scale.cc:105
+#: src/lib/video_content.cc:498
 msgid "No scale"
 msgstr "Niet vergroten of verkleinen"
 
-#: src/lib/video_content_scale.cc:102
+#: src/lib/video_content.cc:495
 msgid "No stretch"
 msgstr "Niet uitvullen"
 
 #: src/lib/image_content.cc:50
 msgid "No valid image files were found in the folder."
-msgstr ""
+msgstr "Geen geldige beeldbestanden gevonden in deze map."
 
 #: src/lib/filter.cc:70 src/lib/filter.cc:71 src/lib/filter.cc:73
 msgid "Noise reduction"
@@ -431,23 +430,23 @@ msgstr "Publieke Service aankondiging"
 msgid "Rating"
 msgstr "Beoordeling"
 
-#: src/lib/config.cc:86 src/lib/config.cc:183
+#: src/lib/config.cc:86 src/lib/config.cc:180
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:785
+#: src/lib/util.cc:778
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:793
+#: src/lib/util.cc:786
 msgid "Right centre"
 msgstr "Rechts midden"
 
-#: src/lib/util.cc:795
+#: src/lib/util.cc:788
 msgid "Right rear surround"
 msgstr "Rechtsachter surround"
 
-#: src/lib/util.cc:789
+#: src/lib/util.cc:782
 msgid "Right surround"
 msgstr "Rechts surround"
 
@@ -525,13 +524,13 @@ msgstr "Omzetten %1"
 msgid "Transitional"
 msgstr "Bumper"
 
-#: src/lib/internet.cc:79
+#: src/lib/internet.cc:77
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte ZIP file inhoud"
 
-#: src/lib/image_proxy.cc:193
+#: src/lib/image_proxy.cc:173
 msgid "Unexpected image type received by server"
-msgstr ""
+msgstr "Onverwacht beeldtype ontvangen door server"
 
 #: src/lib/job.cc:120
 msgid "Unknown error"
@@ -549,7 +548,7 @@ msgstr "Unsharp mask and Gaussian blur"
 msgid "Untitled"
 msgstr "Niet benoemd"
 
-#: src/lib/util.cc:791
+#: src/lib/util.cc:784
 msgid "Visually impaired"
 msgstr "Slechtzienden"
 
@@ -581,7 +580,7 @@ msgstr "[still]"
 msgid "cannot contain slashes"
 msgstr "er mag geen '\" gebruikt worden"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:558
 msgid "connect timed out"
 msgstr "verbinding timeout"
 
@@ -617,7 +616,7 @@ msgstr "kan geen stream informatie vinden"
 msgid "could not find video decoder"
 msgstr "kan geen videodecoder vinden"
 
-#: src/lib/writer.cc:435
+#: src/lib/writer.cc:434
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "kan MXF audio niet plaatsen in DCP (%1)"
 
@@ -661,19 +660,19 @@ msgstr "kan SSH sessie niet starten"
 msgid "could not write to file %1 (%2)"
 msgstr "kan niet schrijven naar bestand %1 (%2)"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:578
 msgid "error during async_accept (%1)"
 msgstr "fout met async_accepteren (FTP) (%1)"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:554
 msgid "error during async_connect (%1)"
 msgstr "fout met async_verbinden (FTP) (%1)"
 
-#: src/lib/util.cc:634
+#: src/lib/util.cc:627
 msgid "error during async_read (%1)"
 msgstr "fout met async_lezen (FTP) (%1)"
 
-#: src/lib/util.cc:606
+#: src/lib/util.cc:599
 msgid "error during async_write (%1)"
 msgstr "fout met async_schrijven (FTP) (%1)"
 
@@ -697,7 +696,7 @@ msgstr "minuut"
 msgid "minutes"
 msgstr "minuten"
 
-#: src/lib/util.cc:706
+#: src/lib/util.cc:699
 msgid "missing key %1 in key-value set"
 msgstr "ontbrekende key %1 in key-value set"
 
@@ -727,7 +726,7 @@ msgstr "non-bitmap ondertitels worden nog niet ondersteund"
 msgid "remaining"
 msgstr "resterend"
 
-#: src/lib/config.cc:84 src/lib/video_content.cc:179
+#: src/lib/config.cc:84 src/lib/video_content.cc:181
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -736,7 +735,6 @@ msgid "sRGB non-linearised"
 msgstr "sRGB non-linearised"
 
 #: src/lib/util.cc:189
-#, fuzzy
 msgid "second"
 msgstr "secondes"
 

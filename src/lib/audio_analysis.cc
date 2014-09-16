@@ -21,6 +21,7 @@
 #include <cmath>
 #include <cassert>
 #include <cstdio>
+#include <iostream>
 #include <boost/filesystem.hpp>
 #include "audio_analysis.h"
 #include "cross.h"
