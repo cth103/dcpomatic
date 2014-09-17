@@ -223,6 +223,12 @@ public:
 		return _log_types;
 	}
 
+#ifdef DCPOMATIC_WINDOWS	
+	bool win32_console () const {
+		return _win32_console;
+	}
+#endif	
+
 	std::vector<boost::filesystem::path> history () const {
 		return _history;
 	}
@@ -420,6 +426,13 @@ public:
 		changed ();
 	}
 
+#ifdef DCPOMATIC_WINDOWS	
+	void set_win32_console (bool c) {
+		_win32_console = c;
+		changed ();
+	}
+#endif	
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -494,6 +507,9 @@ private:
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
 	int _log_types;
+#ifdef DCPOMATIC_WINDOWS	
+	bool _win32_console;
+#endif	
 	std::vector<boost::filesystem::path> _history;
 	
 	/** Singleton instance, or 0 */

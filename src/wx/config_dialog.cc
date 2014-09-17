@@ -1163,6 +1163,12 @@ public:
 			table->Add (t, 0, wxALL, 6);
 		}
 
+#ifdef DCPOMATIC_WINDOWS		
+		_win32_console = new wxCheckBox (panel, wxID_ANY, _("Open console window"));
+		table->Add (_win32_console, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+#endif		
+		
 		Config* config = Config::instance ();
 		
 		_maximum_j2k_bandwidth->SetRange (1, 500);
@@ -1178,6 +1184,10 @@ public:
 		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_timing->SetValue (config->log_types() & Log::TYPE_TIMING);
 		_log_timing->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+#ifdef DCPOMATIC_WINDOWS
+		_win32_console->SetValue (config->win32_console());
+		_win32_console->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::win32_console_changed, this));
+#endif		
 		
 		return panel;
 	}
@@ -1211,6 +1221,13 @@ private:
 		}
 		Config::instance()->set_log_types (types);
 	}
+
+#ifdef DCPOMATIC_WINDOWS	
+	void win32_console_changed ()
+	{
+		Config::instance()->set_win32_console (_win32_console->GetValue ());
+	}
+#endif	
 	
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxCheckBox* _allow_any_dcp_frame_rate;
@@ -1218,6 +1235,9 @@ private:
 	wxCheckBox* _log_warning;
 	wxCheckBox* _log_error;
 	wxCheckBox* _log_timing;
+#ifdef DCPOMATIC_WINDOWS	
+	wxCheckBox* _win32_console;
+#endif	
 };
 	
 wxPreferencesEditor*
