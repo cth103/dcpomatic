@@ -151,6 +151,8 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	calculate_sizes ();
 	get (_position, _last_get_accurate);
+
+	setup_sensitivity ();
 }
 
 void
