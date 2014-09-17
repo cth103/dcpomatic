@@ -1533,6 +1533,9 @@ generate the KDMs.
 
 
 <!-- ============================================================== -->
+<!-- PREFERENCES                                                    -->
+<!-- ============================================================== -->
+
 <chapter xml:id="ch-preferences" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Preferences</title>
 
@@ -1549,7 +1552,7 @@ behaviour.  This chapter explains those options.
 <para>
 The preferences dialogue is opened by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  The dialogue is split into seven tabs.
+menu.  The dialogue is split into eight tabs.
 </para>
 
 <!-- ============================================================== -->
@@ -1687,6 +1690,61 @@ converting from common input colour spaces to XYZ.
 
 </section>
 
+
+<!-- ============================================================== -->
+<section>
+<title>Keys</title>
+
+<para>
+The Keys tab (shown in <xref linkend="fig-prefs-keys"/>) holds options
+related to the keys and certificates used in some parts of DCP
+creation.
+</para>
+
+<figure id="fig-prefs-keys"> 
+  <title>Keys preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-keys&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+At the top of the tab is the chain of certificates that will be used
+to sign DCPs and KDMs.  DCP-o-matic creates a random chain when you
+first run it, so if you are happy to use a randomly-generated chain
+you can ignore the preferences.  Otherwise, you can add or remove
+certificates from the chain using the <guilabel>Add...</guilabel> and
+<guilabel>Remove</guilabel> buttons.
+</para>
+
+<para>
+If you want DCP-o-matic to re-create the certificate chain (using new,
+random, certificates) click <guilabel>Re-make
+certificates...</guilabel> and specify the organisation and common
+names that you want to use in the dialogue box that opens.
+</para>
+
+<para>
+Underneath the certificate chain is the private key that corresponds
+to the leaf certificate in the chain.  You can specify your own
+private key by clicking <guilabel>Load...</guilabel>.  You must do
+this if you change the leaf certificate, so that the leaf private key
+corresponds to the public key held in the leaf certificate.
+</para>
+
+<para>
+The bottom of the tab specifies the certificate and private key that
+is used to decrypt DCPs if they are imported as sources to
+DCP-o-matic.  If you want to import an encrypted DCP you will need to
+give the decryption certificate to the distributor of the DCP so that
+they can generate a DKDM for you.  As with the certificate chain,
+DCP-o-matic will create a certificate and private key for you.  You
+can also choose to load your own certificate and key.
+</para>
+
+</section>
 
 <!-- ============================================================== -->
 <section xml:id="sec-prefs-tms">
