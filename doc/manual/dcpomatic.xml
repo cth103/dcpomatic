@@ -1376,7 +1376,7 @@ methods to understand it.
 
 <para>
 We suppose that we are trying to distribute a DCP to
-Alice's cinema, without a troublemaker called Mallory being able to
+Alice's cinema without a troublemaker called Mallory being able to
 watch it himself.
 </para>
 
@@ -1622,7 +1622,7 @@ available
 <para>
 The <guilabel>Check for testing updates as well as stable
 ones</guilabel> option will also check for test updates as well as
-those that are formally &lsquo;released&rsquo; This is useful if you
+those that are formally &lsquo;released&rsquo;. This is useful if you
 like to live on the bleeding edge!
 </para>
 </section>
@@ -1721,9 +1721,9 @@ certificates from the chain using the <guilabel>Add...</guilabel> and
 
 <para>
 If you want DCP-o-matic to re-create the certificate chain (using new,
-random, certificates) click <guilabel>Re-make
-certificates...</guilabel> and specify the organisation and common
-names that you want to use in the dialogue box that opens.
+random certificates) click <guilabel>Re-make
+certificates...</guilabel> and specify your organisation and common
+names in the dialogue box that opens.
 </para>
 
 <para>
@@ -1947,12 +1947,12 @@ with minimal loss in quality.
 </para>
 
 <para>
-Video rate conversion is harder.  DCP-o-matic's basic strategy to deal
+Video rate conversion is harder.  DCP-o-matic's strategy to deal
 with a non-supported content rate is to run it at the wrong speed, and
 to adjust the audio to keep it in sync.
 </para>
 
-<para>Let us consider the example of a 25fps source for which you want
+<para>Consider the example of a 25fps source for which you want
 to create a 24fps DCP.  DCP-o-matic will put the frames from the
 source directly into the DCP without modification, but will tell the
 projector to play them back at 24fps.  This means that the DCP's video
@@ -1984,7 +1984,7 @@ For very low or high frame rates, DCP-o-matic can also skip or duplicate frames.
 The <guilabel>Frame Rate</guilabel> control in the
 <guilabel>DCP</guilabel> tab sets the video frame rate that the DCP
 will use.  Clicking <guilabel>Use best</guilabel> sets the rate to
-what DVD-o-matic thinks is the best for your content.  With this
+what DCP-o-matic thinks is the best for your content.  With this
 button, DCP-o-matic assumes that the whole range of frame rates (24,
 25, 30 and 48fps) are allowable.
 </para>
