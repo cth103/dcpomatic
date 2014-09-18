@@ -73,8 +73,6 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-// #define DCPOMATIC_WINDOWS_CONSOLE 1
-
 class FilmChangedDialog
 {
 public:
@@ -159,6 +157,8 @@ public:
 			FILE* hf_in = _fdopen(hCrt, "r");
 			setvbuf(hf_in, NULL, _IONBF, 128);
 			*stdin = *hf_in;
+
+			cout << "DCP-o-matic is starting." << "\n";
 		}
 #endif
 
