@@ -125,9 +125,9 @@ File "%binaries%/src/wx/dcpomatic2-wx.dll"
 File "%binaries%/src/lib/dcpomatic2.dll"
 
 SetOutPath "$INSTDIR\\lib"
-File "%static_deps/lib/pango/1.8.0/modules/pango-arabic-lang.dll"
-File "%static_deps/lib/pango/1.8.0/modules/pango-basic-win32.dll"
-File "%static_deps/lib/pango/1.8.0/modules/pango-indic-lang.dll"
+File "%static_deps%/lib/pango/1.8.0/modules/pango-arabic-lang.dll"
+File "%static_deps%/lib/pango/1.8.0/modules/pango-basic-win32.dll"
+File "%static_deps%/lib/pango/1.8.0/modules/pango-indic-lang.dll"
 
 SetOutPath "$INSTDIR\\bin"
 # I don't know why, but sometimes it seems that 
