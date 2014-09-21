@@ -172,6 +172,7 @@ WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o
 WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
 
+CreateDirectory "$INSTDIR\etc\pango"
 ReadEnvStr $0 COMSPEC
 SetOutPath "$INSTDIR"
 nsExec::ExecToLog '$0 /C bin\pango-querymodules.exe > etc\pango\pango.modules'
