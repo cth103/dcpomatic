@@ -124,7 +124,7 @@ File "%cdist_deps%/bin/ffprobe.exe"
 File "%binaries%/src/wx/dcpomatic2-wx.dll"
 File "%binaries%/src/lib/dcpomatic2.dll"
 
-SetOutPath "$INSTDIR\\lib"
+SetOutPath "$INSTDIR\\lib\\pango\\1.8.0\\modules"
 File "%static_deps%/lib/pango/1.8.0/modules/pango-arabic-lang.dll"
 File "%static_deps%/lib/pango/1.8.0/modules/pango-basic-win32.dll"
 File "%static_deps%/lib/pango/1.8.0/modules/pango-indic-lang.dll"
