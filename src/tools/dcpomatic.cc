@@ -589,10 +589,10 @@ private:
 	void setup_menu (wxMenuBar* m)
 	{
 		_file_menu = new wxMenu;
-		add_item (_file_menu, _("New..."), ID_file_new, ALWAYS);
-		add_item (_file_menu, _("&Open..."), ID_file_open, ALWAYS);
+		add_item (_file_menu, _("New...\tCtrl-N"), ID_file_new, ALWAYS);
+		add_item (_file_menu, _("&Open...\tCtrl-O"), ID_file_open, ALWAYS);
 		_file_menu->AppendSeparator ();
-		add_item (_file_menu, _("&Save"), ID_file_save, NEEDS_FILM);
+		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("&Properties..."), ID_file_properties, NEEDS_FILM);
 
@@ -620,13 +620,13 @@ private:
 		add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
 		
 		wxMenu* jobs_menu = new wxMenu;
-		add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
-		add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM);
+		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
 		wxMenu* tools = new wxMenu;
-		add_item (tools, _("Hints..."), ID_tools_hints, 0);
+		add_item (tools, _("Hints...\tCtrl-H"), ID_tools_hints, 0);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
 		
