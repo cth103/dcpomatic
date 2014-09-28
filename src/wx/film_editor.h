@@ -68,6 +68,8 @@ public:
 	AudioContentList selected_audio_content ();
 	SubtitleContentList selected_subtitle_content ();
 	FFmpegContentList selected_ffmpeg_content ();
+
+	void content_add_file_clicked ();
 	
 private:
 	void make_dcp_panel ();
@@ -79,7 +81,6 @@ private:
 	void use_isdcf_name_toggled ();
 	void edit_isdcf_button_clicked ();
 	void content_selection_changed ();
-	void content_add_file_clicked ();
 	void content_add_folder_clicked ();
 	void content_remove_clicked ();
 	void content_earlier_clicked ();

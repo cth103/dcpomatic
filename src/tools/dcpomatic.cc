@@ -127,7 +127,9 @@ enum {
 	ID_jobs_show_dcp,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
-	ID_tools_check_for_updates
+	ID_tools_check_for_updates,
+	/* IDs for shortcuts (with no associated menu item) */
+	ID_add_file
 };
 
 class Frame : public wxFrame
@@ -185,6 +187,12 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
+
+		wxAcceleratorEntry accel[1];
+		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
+		Bind (wxEVT_MENU, boost::bind (&FilmEditor::content_add_file_clicked, _film_editor), ID_add_file);
+		wxAcceleratorTable accel_table (1, accel);
+		SetAcceleratorTable (accel_table);
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
