@@ -617,10 +617,10 @@ private:
 #endif	
 	
 #ifdef __WXOSX__	
-		add_item (_file_menu, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #else
 		wxMenu* edit = new wxMenu;
-		add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #endif
 
 		wxMenu* content = new wxMenu;
