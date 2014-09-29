@@ -63,10 +63,11 @@ public:
 	SubtitleContentList selected_subtitle ();
 	FFmpegContentList selected_ffmpeg ();
 
+	void add_file_clicked ();
+	
 private:	
 	void sequence_video_changed ();
 	void selection_changed ();
-	void add_file_clicked ();
 	void add_folder_clicked ();
 	void remove_clicked ();
 	void earlier_clicked ();

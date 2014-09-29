@@ -52,6 +52,7 @@
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 #define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
+#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
 
 /* OS X strikes again */
 #undef set_key
@@ -406,9 +407,12 @@ Writer::finish ()
 	boost::system::error_code ec;
 	boost::filesystem::create_hard_link (video_from, video_to, ec);
 	if (ec) {
-		/* hard link failed; copy instead */
-		boost::filesystem::copy_file (video_from, video_to);
-		LOG_WARNING_NC ("Hard-link failed; fell back to copying");
+		LOG_WARNING_NC ("Hard-link failed; copying instead");
+		boost::filesystem::copy_file (video_from, video_to, ec);
+		if (ec) {
+			LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
+			throw FileError (ec.message(), video_from);
+		}
 	}
 
 	_picture_mxf->set_file (video_to);

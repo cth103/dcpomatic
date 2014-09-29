@@ -126,7 +126,9 @@ enum {
 	ID_jobs_show_dcp,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
-	ID_tools_check_for_updates
+	ID_tools_check_for_updates,
+	/* IDs for shortcuts (with no associated menu item) */
+	ID_add_file
 };
 
 class Frame : public wxFrame
@@ -188,6 +190,12 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
+
+		wxAcceleratorEntry accel[1];
+		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
+		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
+		wxAcceleratorTable accel_table (1, accel);
+		SetAcceleratorTable (accel_table);
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -592,10 +600,10 @@ private:
 	void setup_menu (wxMenuBar* m)
 	{
 		_file_menu = new wxMenu;
-		add_item (_file_menu, _("New..."), ID_file_new, ALWAYS);
-		add_item (_file_menu, _("&Open..."), ID_file_open, ALWAYS);
+		add_item (_file_menu, _("New...\tCtrl-N"), ID_file_new, ALWAYS);
+		add_item (_file_menu, _("&Open...\tCtrl-O"), ID_file_open, ALWAYS);
 		_file_menu->AppendSeparator ();
-		add_item (_file_menu, _("&Save"), ID_file_save, NEEDS_FILM);
+		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("&Properties..."), ID_file_properties, NEEDS_FILM);
 
@@ -612,10 +620,10 @@ private:
 #endif	
 	
 #ifdef __WXOSX__	
-		add_item (_file_menu, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #else
 		wxMenu* edit = new wxMenu;
-		add_item (edit, _("&Preferences..."), wxID_PREFERENCES, ALWAYS);
+		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #endif
 
 		wxMenu* content = new wxMenu;
@@ -623,13 +631,13 @@ private:
 		add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
 		
 		wxMenu* jobs_menu = new wxMenu;
-		add_item (jobs_menu, _("&Make DCP"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
-		add_item (jobs_menu, _("Make &KDMs..."), ID_jobs_make_kdms, NEEDS_FILM);
+		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
 		wxMenu* tools = new wxMenu;
-		add_item (tools, _("Hints..."), ID_tools_hints, 0);
+		add_item (tools, _("Hints...\tCtrl-H"), ID_tools_hints, 0);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
 		

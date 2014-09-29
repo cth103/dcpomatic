@@ -54,7 +54,6 @@ public:
 		return _film;
 	}
 
-private:
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
 	void film_content_changed (int);
