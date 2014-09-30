@@ -117,7 +117,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	inputs->pad_idx = 0;
 	inputs->next = 0;
 
-	if (avfilter_graph_parse (graph, filters.c_str(), &inputs, &outputs, 0) < 0) {
+	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
 		throw DecodeError (N_("could not set up filter graph."));
 	}
 	
