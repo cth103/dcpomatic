@@ -21,9 +21,10 @@
  *  @brief VideoPanel class.
  */
 
-#include "lib/film.h"
 #include "content_sub_panel.h"
 #include "content_widget.h"
+#include "timecode.h"
+#include "lib/film.h"
 
 class wxChoice;
 class wxStaticText;
@@ -45,6 +46,8 @@ public:
 private:
 	void edit_filters_clicked ();
 	void edit_colour_conversion_clicked ();
+	void fade_in_changed ();
+	void fade_out_changed ();
 
 	void setup_description ();
 
@@ -53,6 +56,8 @@ private:
 	ContentSpinCtrl<VideoContent>*                  _right_crop;
 	ContentSpinCtrl<VideoContent>*                  _top_crop;
 	ContentSpinCtrl<VideoContent>*                  _bottom_crop;
+	Timecode<ContentTime>*                          _fade_in;
+	Timecode<ContentTime>*                          _fade_out;
 	ContentChoice<VideoContent, VideoContentScale>* _scale;
 	wxStaticText* _description;
 	wxStaticText* _filters;

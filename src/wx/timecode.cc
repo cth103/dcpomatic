@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@
 
 */
 
-#include <boost/lexical_cast.hpp>
 #include "lib/util.h"
 #include "timecode.h"
 #include "wx_util.h"
+#include <boost/lexical_cast.hpp>
 
 using std::string;
 using std::cout;
 using boost::lexical_cast;
 
-Timecode::Timecode (wxWindow* parent)
+TimecodeBase::TimecodeBase (wxWindow* parent)
 	: wxPanel (parent)
 {
 	wxClientDC dc (parent);
@@ -69,11 +69,11 @@ Timecode::Timecode (wxWindow* parent)
 
 	_fixed = add_label_to_sizer (_sizer, this, wxT ("42"), false);
 	
-	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
-	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
-	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
-	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&Timecode::changed, this));
-	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&Timecode::set_clicked, this));
+	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
+	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
+	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
+	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
+	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimecodeBase::set_clicked, this));
 
 	_set_button->Enable (false);
 
@@ -83,40 +83,7 @@ Timecode::Timecode (wxWindow* parent)
 }
 
 void
-Timecode::set (DCPTime t, int fps)
-{
-	int h;
-	int m;
-	int s;
-	int f;
-	t.split (fps, h, m, s, f);
-
-	checked_set (_hours, lexical_cast<string> (h));
-	checked_set (_minutes, lexical_cast<string> (m));
-	checked_set (_seconds, lexical_cast<string> (s));
-	checked_set (_frames, lexical_cast<string> (f));
-
-	_fixed->SetLabel (std_to_wx (t.timecode (fps)));
-}
-
-DCPTime
-Timecode::get (int fps) const
-{
-	DCPTime t;
-	string const h = wx_to_std (_hours->GetValue ());
-	t += DCPTime::from_seconds (lexical_cast<int> (h.empty() ? "0" : h) * 3600);
-	string const m = wx_to_std (_minutes->GetValue());
-	t += DCPTime::from_seconds (lexical_cast<int> (m.empty() ? "0" : m) * 60);
-	string const s = wx_to_std (_seconds->GetValue());
-	t += DCPTime::from_seconds (lexical_cast<int> (s.empty() ? "0" : s));
-	string const f = wx_to_std (_frames->GetValue());
-	t += DCPTime::from_seconds (lexical_cast<double> (f.empty() ? "0" : f) / fps);
-
-	return t;
-}
-
-void
-Timecode::clear ()
+TimecodeBase::clear ()
 {
 	checked_set (_hours, "");
 	checked_set (_minutes, "");
@@ -126,20 +93,20 @@ Timecode::clear ()
 }
 
 void
-Timecode::changed ()
+TimecodeBase::changed ()
 {
 	_set_button->Enable (true);
 }
 
 void
-Timecode::set_clicked ()
+TimecodeBase::set_clicked ()
 {
 	Changed ();
 	_set_button->Enable (false);
 }
 
 void
-Timecode::set_editable (bool e)
+TimecodeBase::set_editable (bool e)
 {
 	_editable->Show (e);
 	_fixed->Show (!e);

@@ -36,6 +36,8 @@ public:
 	static int const VIDEO_CROP;
 	static int const VIDEO_SCALE;
 	static int const COLOUR_CONVERSION;
+	static int const VIDEO_FADE_IN;
+	static int const VIDEO_FADE_OUT;
 };
 
 class VideoContent : public virtual Content
@@ -88,6 +90,9 @@ public:
 
 	void set_scale (VideoContentScale);
 	void set_colour_conversion (ColourConversion);
+
+	void set_fade_in (ContentTime);
+	void set_fade_out (ContentTime);
 	
 	VideoFrameType video_frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -130,10 +135,22 @@ public:
 		return _colour_conversion;
 	}
 
+	ContentTime fade_in () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fade_in;
+	}
+
+	ContentTime fade_out () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fade_out;
+	}
+	
 	dcp::Size video_size_after_3d_split () const;
 	dcp::Size video_size_after_crop () const;
 
 	ContentTime dcp_time_to_content_time (DCPTime) const;
+
+	boost::optional<float> fade (VideoFrame) const;
 
 	void scale_and_crop_to_fit_width ();
 	void scale_and_crop_to_fit_height ();
@@ -157,6 +174,8 @@ private:
 	Crop _crop;
 	VideoContentScale _scale;
 	ColourConversion _colour_conversion;
+	ContentTime _fade_in;
+	ContentTime _fade_out;
 };
 
 #endif

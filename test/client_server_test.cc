@@ -39,6 +39,7 @@
 using std::list;
 using boost::shared_ptr;
 using boost::thread;
+using boost::optional;
 
 void
 do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, shared_ptr<EncodedData> locally_encoded)
@@ -86,6 +87,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
 			DCPTime (),
 			Crop (),
+			optional<float> (),
 			dcp::Size (1998, 1080),
 			dcp::Size (1998, 1080),
 			Scaler::from_id ("bicubic"),
@@ -169,6 +171,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
 			DCPTime (),
 			Crop (),
+			optional<float> (),
 			dcp::Size (1998, 1080),
 			dcp::Size (1998, 1080),
 			Scaler::from_id ("bicubic"),

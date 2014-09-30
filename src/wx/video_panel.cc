@@ -37,6 +37,7 @@ using std::string;
 using std::pair;
 using std::cout;
 using std::list;
+using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
@@ -82,7 +83,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		&caster<int, VideoFrameType>,
 		&caster<VideoFrameType, int>
 		);
-	_frame_type->add (grid, wxGBPosition (r, 1));
+	_frame_type->add (grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Left crop"), true, wxGBPosition (r, 0));
@@ -94,9 +95,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::set_left_crop)
 		);
 	_left_crop->add (grid, wxGBPosition (r, 1));
-	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Right crop"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Right crop"), true, wxGBPosition (r, 2));
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -104,7 +104,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::right_crop),
 		boost::mem_fn (&VideoContent::set_right_crop)
 		);
-	_right_crop->add (grid, wxGBPosition (r, 1));
+	_right_crop->add (grid, wxGBPosition (r, 3));
+	
 	++r;
 	
 	add_label_to_grid_bag_sizer (grid, this, _("Top crop"), true, wxGBPosition (r, 0));
@@ -115,10 +116,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::top_crop),
 		boost::mem_fn (&VideoContent::set_top_crop)
 		);
-	_top_crop->add (grid, wxGBPosition (r,1 ));
-	++r;
+	_top_crop->add (grid, wxGBPosition (r, 1));
 	
-	add_label_to_grid_bag_sizer (grid, this, _("Bottom crop"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (grid, this, _("Bottom crop"), true, wxGBPosition (r, 2));
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -126,9 +126,20 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::bottom_crop),
 		boost::mem_fn (&VideoContent::set_bottom_crop)
 		);
-	_bottom_crop->add (grid, wxGBPosition (r, 1));
+	_bottom_crop->add (grid, wxGBPosition (r, 3));
+	
 	++r;
 
+	add_label_to_grid_bag_sizer (grid, this, _("Fade in"), true, wxGBPosition (r, 0));
+	_fade_in = new Timecode<ContentTime> (this);
+	grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, this, _("Fade out"), true, wxGBPosition (r, 0));
+	_fade_out = new Timecode<ContentTime> (this);
+	grid->Add (_fade_out, wxGBPosition (r, 1), wxGBSpan (1, 3));
+	++r;
+	
 	add_label_to_grid_bag_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
 	_scale = new ContentChoice<VideoContent, VideoContentScale> (
 		this,
@@ -139,44 +150,29 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		&index_to_scale,
 		&scale_to_index
 		);
-	_scale->add (grid, wxGBPosition (r, 1));
+	_scale->add (grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
 
-	{
-		add_label_to_grid_bag_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-
-		wxClientDC dc (this);
-		wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
-		size.SetHeight (-1);
-		
-		_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
-		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-		_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
-		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
-		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	}
+	wxClientDC dc (this);
+	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+	size.SetHeight (-1);
+	
+	add_label_to_grid_bag_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
+	_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
+	grid->Add (_filters, wxGBPosition (r, 1), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
+	_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
+	grid->Add (_filters_button, wxGBPosition (r, 3), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 	
-	{
-		add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-
-		wxClientDC dc (this);
-		wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
-		size.SetHeight (-1);
-		
-		_colour_conversion = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
-
-		s->Add (_colour_conversion, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-		_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
-		s->Add (_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
-		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	}
+	add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
+	_colour_conversion = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
+	grid->Add (_colour_conversion, wxGBPosition (r, 1), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
+	_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
+	grid->Add (_colour_conversion_button, wxGBPosition (r, 3), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	_description = new wxStaticText (this, wxID_ANY, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
-	grid->Add (_description, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+	grid->Add (_description, wxGBPosition (r, 0), wxGBSpan (1, 4), wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	wxFont font = _description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
@@ -201,6 +197,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_frame_type->wrapped()->Append (_("3D left only"));
 	_frame_type->wrapped()->Append (_("3D right only"));
 
+	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
+	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
+	
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
@@ -250,6 +249,28 @@ VideoPanel::film_content_changed (int property)
 			} else {
 				_filters->SetLabel (std_to_wx (p));
 			}
+		}
+	} else if (property == VideoContentProperty::VIDEO_FADE_IN) {
+		set<ContentTime> check;
+		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
+			check.insert ((*i)->fade_in ());
+		}
+		
+		if (check.size() == 1) {
+			_fade_in->set (vc.front()->fade_in (), vc.front()->video_frame_rate ());
+		} else {
+			_fade_in->clear ();
+		}
+	} else if (property == VideoContentProperty::VIDEO_FADE_OUT) {
+		set<ContentTime> check;
+		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
+			check.insert ((*i)->fade_out ());
+		}
+		
+		if (check.size() == 1) {
+			_fade_out->set (vc.front()->fade_out (), vc.front()->video_frame_rate ());
+		} else {
+			_fade_out->clear ();
 		}
 	}
 }
@@ -381,5 +402,25 @@ VideoPanel::content_selection_changed ()
 	film_content_changed (VideoContentProperty::VIDEO_CROP);
 	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
+	film_content_changed (VideoContentProperty::VIDEO_FADE_IN);
+	film_content_changed (VideoContentProperty::VIDEO_FADE_OUT);
 	film_content_changed (FFmpegContentProperty::FILTERS);
+}
+
+void
+VideoPanel::fade_in_changed ()
+{
+	VideoContentList vc = _parent->selected_video ();
+	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
+		(*i)->set_fade_in (_fade_in->get (_parent->film()->video_frame_rate ()));
+	}
+}
+
+void
+VideoPanel::fade_out_changed ()
+{
+	VideoContentList vc = _parent->selected_video ();
+	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
+		(*i)->set_fade_out (_fade_out->get (_parent->film()->video_frame_rate ()));
+	}
 }

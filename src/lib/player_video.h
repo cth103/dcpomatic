@@ -37,7 +37,19 @@ class EncodedData;
 class PlayerVideo
 {
 public:
-	PlayerVideo (boost::shared_ptr<const ImageProxy>, DCPTime, Crop, dcp::Size, dcp::Size, Scaler const *, Eyes, Part, ColourConversion);
+	PlayerVideo (
+		boost::shared_ptr<const ImageProxy>,
+		DCPTime,
+		Crop,
+		boost::optional<float>,
+		dcp::Size,
+		dcp::Size,
+		Scaler const *,
+		Eyes,
+		Part,
+		ColourConversion
+		);
+	
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
 
 	void set_subtitle (PositionImage);
@@ -76,6 +88,7 @@ private:
 	boost::shared_ptr<const ImageProxy> _in;
 	DCPTime _time;
 	Crop _crop;
+	boost::optional<float> _fade;
 	dcp::Size _inter_size;
 	dcp::Size _out_size;
 	Scaler const * _scaler;

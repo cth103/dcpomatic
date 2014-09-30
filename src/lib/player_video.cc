@@ -34,6 +34,7 @@ PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
 	DCPTime time,
 	Crop crop,
+	boost::optional<float> fade,
 	dcp::Size inter_size,
 	dcp::Size out_size,
 	Scaler const * scaler,
@@ -44,6 +45,7 @@ PlayerVideo::PlayerVideo (
 	: _in (in)
 	, _time (time)
 	, _crop (crop)
+	, _fade (fade)
 	, _inter_size (inter_size)
 	, _out_size (out_size)
 	, _scaler (scaler)
@@ -58,6 +60,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 {
 	_time = DCPTime (node->number_child<DCPTime::Type> ("Time"));
 	_crop = Crop (node);
+	_fade = node->optional_number_child<float> ("Fade");
 
 	_inter_size = dcp::Size (node->number_child<int> ("InterWidth"), node->number_child<int> ("InterHeight"));
 	_out_size = dcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));
@@ -115,6 +118,10 @@ PlayerVideo::image (bool burn_subtitle) const
 		out->alpha_blend (_subtitle.image, _subtitle.position);
 	}
 
+	if (_fade) {
+		out->fade (_fade.get ());
+	}
+
 	return out;
 }
 
@@ -123,6 +130,9 @@ PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
 {
 	node->add_child("Time")->add_child_text (raw_convert<string> (_time.get ()));
 	_crop.as_xml (node);
+	if (_fade) {
+		node->add_child("Fade")->add_child_text (raw_convert<string> (_fade.get ()));
+	}
 	_in->add_metadata (node->add_child ("In"));
 	node->add_child("InterWidth")->add_child_text (raw_convert<string> (_inter_size.width));
 	node->add_child("InterHeight")->add_child_text (raw_convert<string> (_inter_size.height));
@@ -184,6 +194,7 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 {
 	if (_in != other->_in ||
 	    _crop != other->_crop ||
+	    _fade.get_value_or(0) != other->_fade.get_value_or(0) ||
 	    _inter_size != other->_inter_size ||
 	    _out_size != other->_out_size ||
 	    _scaler != other->_scaler ||

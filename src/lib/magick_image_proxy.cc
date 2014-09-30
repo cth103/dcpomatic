@@ -119,7 +119,7 @@ MagickImageProxy::image () const
 	delete magick_image;
 
 	LOG_TIMING ("[%1] MagickImageProxy completes decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
-
+	
 	return _image;
 }
 

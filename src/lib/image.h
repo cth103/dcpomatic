@@ -67,6 +67,7 @@ public:
 	void make_transparent ();
 	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
 	void copy (boost::shared_ptr<const Image> image, Position<int> pos);
+	void fade (float);
 
 	void read_from_socket (boost::shared_ptr<Socket>);
 	void write_to_socket (boost::shared_ptr<Socket>) const;

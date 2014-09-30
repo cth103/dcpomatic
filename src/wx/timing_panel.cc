@@ -40,19 +40,19 @@ TimingPanel::TimingPanel (ContentPanel* p)
 	_sizer->Add (grid, 0, wxALL, 8);
 
 	add_label_to_sizer (grid, this, _("Position"), true);
-	_position = new Timecode (this);
+	_position = new Timecode<DCPTime> (this);
 	grid->Add (_position);
 	add_label_to_sizer (grid, this, _("Full length"), true);
-	_full_length = new Timecode (this);
+	_full_length = new Timecode<DCPTime> (this);
 	grid->Add (_full_length);
 	add_label_to_sizer (grid, this, _("Trim from start"), true);
-	_trim_start = new Timecode (this);
+	_trim_start = new Timecode<DCPTime> (this);
 	grid->Add (_trim_start);
 	add_label_to_sizer (grid, this, _("Trim from end"), true);
-	_trim_end = new Timecode (this);
+	_trim_end = new Timecode<DCPTime> (this);
 	grid->Add (_trim_end);
 	add_label_to_sizer (grid, this, _("Play length"), true);
-	_play_length = new Timecode (this);
+	_play_length = new Timecode<DCPTime> (this);
 	grid->Add (_play_length);
 
 	{

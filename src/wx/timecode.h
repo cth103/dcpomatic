@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,24 +17,27 @@
 
 */
 
-#include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include "lib/types.h"
+#ifndef DCPOMATIC_WX_TIMECODE_H
+#define DCPOMATIC_WX_TIMECODE_H
 
-class Timecode : public wxPanel
+#include "wx_util.h"
+#include "lib/types.h"
+#include <wx/wx.h>
+#include <boost/signals2.hpp>
+#include <boost/lexical_cast.hpp>
+
+class TimecodeBase : public wxPanel
 {
 public:
-	Timecode (wxWindow *);
+	TimecodeBase (wxWindow *);
 
-	void set (DCPTime, int);
-	DCPTime get (int) const;
 	void clear ();
 
 	void set_editable (bool);
 
 	boost::signals2::signal<void ()> Changed;
 
-private:
+protected:
 	void changed ();
 	void set_clicked ();
 	
@@ -48,3 +51,46 @@ private:
 	wxStaticText* _fixed;
 };
 
+template <class T>
+class Timecode : public TimecodeBase
+{
+public:
+	Timecode (wxWindow* parent)
+		: TimecodeBase (parent)
+	{
+
+	}
+
+	void set (T t, int fps)
+	{
+		int h;
+		int m;
+		int s;
+		int f;
+		t.split (fps, h, m, s, f);
+		
+		checked_set (_hours, boost::lexical_cast<std::string> (h));
+		checked_set (_minutes, boost::lexical_cast<std::string> (m));
+		checked_set (_seconds, boost::lexical_cast<std::string> (s));
+		checked_set (_frames, boost::lexical_cast<std::string> (f));
+		
+		_fixed->SetLabel (std_to_wx (t.timecode (fps)));
+	}
+
+	T get (int fps) const
+	{
+		T t;
+		std::string const h = wx_to_std (_hours->GetValue ());
+		t += T::from_seconds (boost::lexical_cast<int> (h.empty() ? "0" : h) * 3600);
+		std::string const m = wx_to_std (_minutes->GetValue());
+		t += T::from_seconds (boost::lexical_cast<int> (m.empty() ? "0" : m) * 60);
+		std::string const s = wx_to_std (_seconds->GetValue());
+		t += T::from_seconds (boost::lexical_cast<int> (s.empty() ? "0" : s));
+		std::string const f = wx_to_std (_frames->GetValue());
+		t += T::from_seconds (boost::lexical_cast<double> (f.empty() ? "0" : f) / fps);
+		
+		return t;
+	}
+};
+
+#endif

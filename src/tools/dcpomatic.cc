@@ -191,12 +191,6 @@ public:
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
-		wxAcceleratorEntry accel[1];
-		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
-		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
-		wxAcceleratorTable accel_table (1, accel);
-		SetAcceleratorTable (accel_table);
-
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
@@ -222,6 +216,12 @@ public:
 		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&Frame::set_menu_sensitivity, this));
 
 		overall_panel->SetSizer (main_sizer);
+
+		wxAcceleratorEntry accel[1];
+		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
+		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
+		wxAcceleratorTable accel_table (1, accel);
+		SetAcceleratorTable (accel_table);
 	}
 
 	void new_film (boost::filesystem::path path)

@@ -19,12 +19,14 @@
 
 #include "video_decoder.h"
 #include "image.h"
+#include "image_proxy.h"
 #include "content_video.h"
 
 #include "i18n.h"
 
 using std::cout;
 using std::list;
+using std::max;
 using boost::shared_ptr;
 using boost::optional;
 

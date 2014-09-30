@@ -103,11 +103,12 @@ public:
 	}
 
 	/** Add this widget to a wxGridBagSizer */
-	void add (wxGridBagSizer* sizer, wxGBPosition position)
+	void add (wxGridBagSizer* sizer, wxGBPosition position, wxGBSpan span = wxDefaultSpan)
 	{
 		_sizer = sizer;
 		_position = position;
-		_sizer->Add (_wrapped, _position);
+		_span = span;
+		_sizer->Add (_wrapped, _position, _span);
 	}
 
 	/** Update the view from the model */
@@ -151,7 +152,7 @@ private:
 
 		_sizer->Detach (_button);
 		_button->Hide ();
-		_sizer->Add (_wrapped, _position);
+		_sizer->Add (_wrapped, _position, _span);
 		_wrapped->Show ();
 		_sizer->Layout ();
 	}
@@ -165,7 +166,7 @@ private:
 		_wrapped->Hide ();
 		_sizer->Detach (_wrapped);
 		_button->Show ();
-		_sizer->Add (_button, _position);
+		_sizer->Add (_button, _position, _span);
 		_sizer->Layout ();
 	}
 
@@ -187,6 +188,7 @@ private:
 	T* _wrapped;
 	wxGridBagSizer* _sizer;
 	wxGBPosition _position;
+	wxGBSpan _span;
 	wxButton* _button;
 	List _content;
 	int _property;

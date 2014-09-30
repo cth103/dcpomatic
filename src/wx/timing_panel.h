@@ -18,8 +18,7 @@
 */
 
 #include "content_sub_panel.h"
-
-class Timecode;
+#include "timecode.h"
 
 class TimingPanel : public ContentSubPanel
 {
@@ -38,11 +37,11 @@ private:
 	void video_frame_rate_changed ();
 	void set_video_frame_rate ();
 	
-	Timecode* _position;
-	Timecode* _full_length;
-	Timecode* _trim_start;
-	Timecode* _trim_end;
-	Timecode* _play_length;
+	Timecode<DCPTime>* _position;
+	Timecode<DCPTime>* _full_length;
+	Timecode<DCPTime>* _trim_start;
+	Timecode<DCPTime>* _trim_end;
+	Timecode<DCPTime>* _play_length;
 	wxTextCtrl* _video_frame_rate;
 	wxButton* _set_video_frame_rate;
 };

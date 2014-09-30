@@ -44,6 +44,8 @@ int const VideoContentProperty::VIDEO_FRAME_TYPE  = 2;
 int const VideoContentProperty::VIDEO_CROP	  = 3;
 int const VideoContentProperty::VIDEO_SCALE	  = 4;
 int const VideoContentProperty::COLOUR_CONVERSION = 5;
+int const VideoContentProperty::VIDEO_FADE_IN     = 6;
+int const VideoContentProperty::VIDEO_FADE_OUT    = 7;
 
 using std::string;
 using std::setprecision;
@@ -116,6 +118,10 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 	}
 	
 	_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
+	if (version >= 32) {
+		_fade_in = ContentTime (node->number_child<int64_t> ("FadeIn"));
+		_fade_out = ContentTime (node->number_child<int64_t> ("FadeOut"));
+	}
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -152,6 +158,10 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 			throw JoinError (_("Content to be joined must have the same colour conversion."));
 		}
 
+		if (vc->fade_in() != ref->fade_in() || vc->fade_out() != ref->fade_out()) {
+			throw JoinError (_("Content to be joined must have the same fades."));
+		}
+		
 		_video_length += vc->video_length ();
 	}
 
@@ -161,6 +171,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 	_crop = ref->crop ();
 	_scale = ref->scale ();
 	_colour_conversion = ref->colour_conversion ();
+	_fade_in = ref->fade_in ();
+	_fade_out = ref->fade_out ();
 }
 
 void
@@ -175,6 +187,8 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	_crop.as_xml (node);
 	_scale.as_xml (node->add_child("Scale"));
 	_colour_conversion.as_xml (node->add_child("ColourConversion"));
+	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in.get ()));
+	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out.get ()));
 }
 
 void
@@ -372,6 +386,28 @@ VideoContent::set_colour_conversion (ColourConversion c)
 	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
 }
 
+void
+VideoContent::set_fade_in (ContentTime t)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_fade_in = t;
+	}
+
+	signal_changed (VideoContentProperty::VIDEO_FADE_IN);
+}
+
+void
+VideoContent::set_fade_out (ContentTime t)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_fade_out = t;
+	}
+
+	signal_changed (VideoContentProperty::VIDEO_FADE_OUT);
+}
+
 /** @return Video size after 3D split and crop */
 dcp::Size
 VideoContent::video_size_after_crop () const
@@ -431,3 +467,19 @@ VideoContent::set_video_frame_rate (float r)
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
+optional<float>
+VideoContent::fade (VideoFrame f) const
+{
+	assert (f >= 0);
+	
+	if (f < fade_in().frames (video_frame_rate ())) {
+		return float (f) / _fade_in.frames (video_frame_rate ());
+	}
+
+	VideoFrame fade_out_start = ContentTime (video_length() - fade_out()).frames (video_frame_rate ());
+	if (f >= fade_out_start) {
+		return 1 - float (f - fade_out_start) / fade_out().frames (video_frame_rate ());
+	}
+
+	return optional<float> ();
+}
