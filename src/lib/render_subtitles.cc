@@ -37,11 +37,11 @@ calculate_position (dcp::VAlign v_align, double v_position, int target_height, i
 {
 	switch (v_align) {
 	case dcp::TOP:
-		return (v_position / 100) * target_height - offset;
+		return v_position * target_height - offset;
 	case dcp::CENTER:
-		return (0.5 + v_position / 100) * target_height - offset;
+		return (0.5 + v_position) * target_height - offset;
 	case dcp::BOTTOM:
-		return (1.0 - v_position / 100) * target_height - offset;
+		return (1.0 - v_position) * target_height - offset;
 	}
 
 	return 0;
