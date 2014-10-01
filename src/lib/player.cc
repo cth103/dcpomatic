@@ -17,8 +17,6 @@
 
 */
 
-#include <stdint.h>
-#include <algorithm>
 #include "player.h"
 #include "film.h"
 #include "ffmpeg_decoder.h"
@@ -48,6 +46,9 @@
 #include "dcp_decoder.h"
 #include "dcp_subtitle_content.h"
 #include "dcp_subtitle_decoder.h"
+#include <boost/foreach.hpp>
+#include <stdint.h>
+#include <algorithm>
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
@@ -572,8 +573,11 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 		}
 
 		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting);
-		for (list<ContentTextSubtitle>::const_iterator i = text.begin(); i != text.end(); ++i) {
-			copy (i->subs.begin(), i->subs.end(), back_inserter (ps.text));
+		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
+			BOOST_FOREACH (dcp::SubtitleString& s, ts.subs) {
+				s.set_v_position (s.v_position() + subtitle_content->subtitle_y_offset ());
+				ps.text.push_back (s);
+			}
 		}
 	}
 
