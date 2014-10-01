@@ -236,6 +236,10 @@ def configure(conf):
     if conf.env.TARGET_DEBIAN:
         # libxml2 seems to be linked against this on Ubuntu but it doesn't mention it in its .pc file
         conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
+
+    if conf.env.TARGET_CENTOS_6 or conf.env.TARGET_CENTOS_7:
+        # libavcodec seems to be linked against this on Centos
+        conf.check_cfg(package='liblzma', args='--cflags --libs', uselib_store='LZMA', mandatory=True)
         
     if not conf.env.DISABLE_GUI and conf.env.TARGET_LINUX:
         conf.check_cfg(package='gtk+-2.0', args='--cflags --libs', uselib_store='GTK', mandatory=True)
