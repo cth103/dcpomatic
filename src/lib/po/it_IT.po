@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-08 23:05+0100\n"
+"POT-Creation-Date: 2014-10-03 22:31+0100\n"
 "PO-Revision-Date: 2014-02-03 10:48+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -102,11 +102,11 @@ msgstr "Non posso gestire il formato di pixel %1 durante %2"
 msgid "Centre"
 msgstr "Centro"
 
-#: src/lib/writer.cc:82
+#: src/lib/writer.cc:83
 msgid "Checking existing image data"
 msgstr ""
 
-#: src/lib/writer.cc:471
+#: src/lib/writer.cc:475
 msgid "Computing audio digest"
 msgstr ""
 
@@ -114,7 +114,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr ""
 
-#: src/lib/writer.cc:467
+#: src/lib/writer.cc:471
 msgid "Computing image digest"
 msgstr ""
 
@@ -149,19 +149,27 @@ msgid "Content to be joined must have the same scale setting."
 msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
-#: src/lib/subtitle_content.cc:73
+#: src/lib/subtitle_content.cc:81
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
-#: src/lib/subtitle_content.cc:77
+#: src/lib/subtitle_content.cc:89
+#, fuzzy
+msgid "Content to be joined must have the same subtitle X scale."
+msgstr ""
+"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
+
+#: src/lib/subtitle_content.cc:85
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento Y dei sottotitoli."
 
-#: src/lib/subtitle_content.cc:81
-msgid "Content to be joined must have the same subtitle scale."
+#: src/lib/subtitle_content.cc:93
+#, fuzzy
+msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
+"Il contenuto da unire deve avere lo stesso spostamento Y dei sottotitoli."
 
 #: src/lib/video_content.cc:130
 msgid "Content to be joined must have the same video frame rate."
@@ -289,7 +297,7 @@ msgstr "Ogni fotogramma del sorgente sarà ripetuto %1 volte nel DCP.\n"
 msgid "Email KDMs for %1"
 msgstr ""
 
-#: src/lib/writer.cc:125
+#: src/lib/writer.cc:126
 msgid "Encoding image data"
 msgstr ""
 
@@ -502,7 +510,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:412
+#: src/lib/film.cc:414
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -513,7 +521,7 @@ msgstr ""
 "un nuovo film, ri-aggiungere i tuoi contenuti e configurarlo di nuovo. Ci "
 "dispiace!"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:406
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -576,7 +584,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:311
 msgid "You must add some content to the DCP before creating it"
 msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
@@ -589,7 +597,7 @@ msgstr ""
 msgid "[still]"
 msgstr "ancora"
 
-#: src/lib/film.cc:257
+#: src/lib/film.cc:259
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
@@ -601,11 +609,11 @@ msgstr "connessione scaduta"
 msgid "connecting"
 msgstr "mi sto connettendo"
 
-#: src/lib/film.cc:305
+#: src/lib/film.cc:307
 msgid "container"
 msgstr "contenitore"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:315
 msgid "content type"
 msgstr "tipo di contenuto"
 
@@ -629,7 +637,7 @@ msgstr "non riesco a trovare informazioni sullo streaming"
 msgid "could not find video decoder"
 msgstr "non riesco a trovare il decoder video"
 
-#: src/lib/writer.cc:435
+#: src/lib/writer.cc:439
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr ""
 
@@ -727,7 +735,7 @@ msgstr ""
 msgid "multi-part subtitles not yet supported"
 msgstr "sottotitoli multi-part non ancora supportati"
 
-#: src/lib/film.cc:257 src/lib/film.cc:317
+#: src/lib/film.cc:259 src/lib/film.cc:319
 msgid "name"
 msgstr "nome"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-08 23:05+0100\n"
+"POT-Creation-Date: 2014-10-03 22:31+0100\n"
 "PO-Revision-Date: 2014-04-20 10:12-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -101,11 +101,11 @@ msgstr "No se puede usar el formato de pixel %1 para %2"
 msgid "Centre"
 msgstr "Centro"
 
-#: src/lib/writer.cc:82
+#: src/lib/writer.cc:83
 msgid "Checking existing image data"
 msgstr "Comprobando las imágenes existentes"
 
-#: src/lib/writer.cc:471
+#: src/lib/writer.cc:475
 msgid "Computing audio digest"
 msgstr "Calculando la firma resumen del audio"
 
@@ -113,7 +113,7 @@ msgstr "Calculando la firma resumen del audio"
 msgid "Computing digest"
 msgstr "Calculando la firma resumen"
 
-#: src/lib/writer.cc:467
+#: src/lib/writer.cc:471
 msgid "Computing image digest"
 msgstr "Calculando la firma resumen de imagen"
 
@@ -145,18 +145,24 @@ msgstr "Para unir contenido debe tener el mismo tamaño de imagen."
 msgid "Content to be joined must have the same scale setting."
 msgstr "Para unir contenido debe tener la misma redimensión."
 
-#: src/lib/subtitle_content.cc:73
+#: src/lib/subtitle_content.cc:81
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Para unir contenido debe tener el mismo desplazamiento de subtítulo en X."
 
-#: src/lib/subtitle_content.cc:77
+#: src/lib/subtitle_content.cc:89
+#, fuzzy
+msgid "Content to be joined must have the same subtitle X scale."
+msgstr "Para unir contenido debe tener el mismo tamaño de subtítulo."
+
+#: src/lib/subtitle_content.cc:85
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Para unir contenido debe tener el mismo desplazamiento de subtítulo en Y."
 
-#: src/lib/subtitle_content.cc:81
-msgid "Content to be joined must have the same subtitle scale."
+#: src/lib/subtitle_content.cc:93
+#, fuzzy
+msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Para unir contenido debe tener el mismo tamaño de subtítulo."
 
 #: src/lib/video_content.cc:130
@@ -281,7 +287,7 @@ msgstr "Cada imagen será repetida otras %1 veces en el DCP.\n"
 msgid "Email KDMs for %1"
 msgstr "Enviar por email las KDM para %1"
 
-#: src/lib/writer.cc:125
+#: src/lib/writer.cc:126
 msgid "Encoding image data"
 msgstr "Codificando imagen"
 
@@ -491,7 +497,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr "No hubo suficiente memoria para hacer esto."
 
-#: src/lib/film.cc:412
+#: src/lib/film.cc:414
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -500,7 +506,7 @@ msgstr ""
 "desgraciadamente no s puede cargar. Necesitas crear una nueva película, "
 "volver a añadir y configurar ton contenido. ¡Lo siento!"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:406
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -562,7 +568,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:309
+#: src/lib/film.cc:311
 msgid "You must add some content to the DCP before creating it"
 msgstr "Tienes que añadir contenido al DCP antes de crearlo."
 
@@ -574,7 +580,7 @@ msgstr "[imágenes en movimiento]"
 msgid "[still]"
 msgstr "[imagen fija]"
 
-#: src/lib/film.cc:257
+#: src/lib/film.cc:259
 msgid "cannot contain slashes"
 msgstr "no puede contener barras"
 
@@ -586,11 +592,11 @@ msgstr "tiempo de conexión agotado"
 msgid "connecting"
 msgstr "conectando"
 
-#: src/lib/film.cc:305
+#: src/lib/film.cc:307
 msgid "container"
 msgstr "continente"
 
-#: src/lib/film.cc:313
+#: src/lib/film.cc:315
 msgid "content type"
 msgstr "tipo de contenido"
 
@@ -614,7 +620,7 @@ msgstr "no se pudo encontrar información del flujo"
 msgid "could not find video decoder"
 msgstr "no se pudo encontrar decodificador de vídeo"
 
-#: src/lib/writer.cc:435
+#: src/lib/writer.cc:439
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "no s puedo mover el audio MXF en el DCP (%1)"
 
@@ -710,7 +716,7 @@ msgstr "moviendo"
 msgid "multi-part subtitles not yet supported"
 msgstr "todavía no se soportan subtítulos en múltiples partes"
 
-#: src/lib/film.cc:257 src/lib/film.cc:317
+#: src/lib/film.cc:259 src/lib/film.cc:319
 msgid "name"
 msgstr "nombre"
 
