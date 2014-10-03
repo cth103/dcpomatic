@@ -49,20 +49,19 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 	} state = COUNTER;
 
 	char buffer[256];
-	int next_count = 1;
 
 	boost::optional<SubRipSubtitle> current;
 	list<string> lines;
-	
+
 	while (!feof (f)) {
 		fgets (buffer, sizeof (buffer), f);
 		if (feof (f)) {
 			break;
 		}
-		
+
 		string line (buffer);
 		trim_right_if (line, boost::is_any_of ("\n\r"));
-		
+
 		switch (state) {
 		case COUNTER:
 		{
@@ -70,21 +69,9 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 				/* a blank line at the start is ok */
 				break;
 			}
-			
-			int x = 0;
-			try {
-				x = lexical_cast<int> (line);
-			} catch (...) {
 
-			}
-
-			if (x == next_count) {
-				state = METADATA;
-				++next_count;
-				current = SubRipSubtitle ();
-			} else {
-				throw SubRipError (line, _("a subtitle count"), content->path (0));
-			}
+			state = METADATA;
+			current = SubRipSubtitle ();
 		}
 		break;
 		case METADATA:

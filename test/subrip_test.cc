@@ -202,11 +202,18 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 	check_file ("build/test/subrip_render_test.png", "test/data/subrip_render_test.png");
 }
 
-/** Test of reading a typical .srt */
+static void
+test (boost::filesystem::path p)
+{
+	shared_ptr<Film> film = new_test_film ("subrip_read_test_" + p.string ());
+	boost::filesystem::path t = private_data / p;
+	shared_ptr<SubRipContent> s (new SubRipContent (film, t));
+	s->examine (shared_ptr<Job> ());
+}
+
+/** Test of reading some typical .srt files */
 BOOST_AUTO_TEST_CASE (subrip_read_test)
 {
-	shared_ptr<Film> film = new_test_film ("subrip_read_test");
-	boost::filesystem::path p = private_data / "sintel_en.srt";
-	shared_ptr<SubRipContent> s (new SubRipContent (film, p));
-	s->examine (shared_ptr<Job> ());
+	test ("sintel_en.srt");
+	test ("Fight.Club.1999.720p.BRRip.x264-x0r.srt");
 }
