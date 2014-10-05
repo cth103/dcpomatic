@@ -52,6 +52,8 @@ SubRipDecoder::pass ()
 	if (_next >= _subtitles.size ()) {
 		return true;
 	}
+
+	/* XXX: we are ignoring positioning specified in the file */
 	
 	list<dcp::SubtitleString> out;
 	for (list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin(); i != _subtitles[_next].pieces.end(); ++i) {
@@ -60,10 +62,11 @@ SubRipDecoder::pass ()
 				"Arial",
 				i->italic,
 				dcp::Color (255, 255, 255),
-				72,
+				/* .srt files don't specify size, so this is an arbitrary value */
+				48,
 				dcp::Time (rint (_subtitles[_next].period.from.seconds() * 250)),
 				dcp::Time (rint (_subtitles[_next].period.to.seconds() * 250)),
-				0.9,
+				0.2,
 				dcp::BOTTOM,
 				i->text,
 				dcp::NONE,
