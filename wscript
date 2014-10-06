@@ -57,6 +57,11 @@ def dynamic_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags --libs', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
     conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.2', mandatory=True)
 
+def static_sub(conf):
+    conf.check_cfg(package='libsub', atleast_version='0.01.0', args='--cflags', uselib_store='SUB', mandatory=True)
+    conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
+    conf.env.STLIB_SUB = ['sub']
+
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
     conf.check_cfg(package='libdcp-1.0', atleast_version='0.96', args='--cflags', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
@@ -86,6 +91,10 @@ def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
 def dynamic_dcp(conf):
     conf.check_cfg(package='libdcp-1.0', atleast_version='0.92', args='--cflags --libs', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
+
+def dynamic_sub(conf):
+    conf.check_cfg(package='libsub', atleast_version='0.01.0', args='--cflags --libs', uselib_store='SUB', mandatory=True)
+    conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
 def dynamic_ssh(conf):
     conf.check_cc(fragment="""
@@ -262,6 +271,7 @@ def configure(conf):
         conf.env.STLIB_QUICKMAIL = ['quickmail']
         static_ffmpeg(conf)
         static_openjpeg(conf)
+        static_sub(conf)
         static_dcp(conf, False, False, False, False)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
 
@@ -276,6 +286,7 @@ def configure(conf):
         conf.env.LIB_QUICKMAIL = ['ssh2', 'idn']
         static_ffmpeg(conf)
         static_openjpeg(conf)
+        static_sub(conf)
         static_dcp(conf, True, True, True, True)
         static_boost(conf, boost_lib_suffix)
 
@@ -290,6 +301,7 @@ def configure(conf):
         conf.env.LIB_XMLSEC = ['ltdl']
         static_ffmpeg(conf)
         static_openjpeg(conf)
+        static_sub(conf)
         static_dcp(conf, False, True, True, True)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
 
@@ -308,6 +320,7 @@ def configure(conf):
         dynamic_ffmpeg(conf)
         dynamic_openjpeg(conf)
         dynamic_dcp(conf)
+        dynamic_sub(conf)
         dynamic_ssh(conf)
 
     # Not packaging; just a straight build
@@ -319,6 +332,7 @@ def configure(conf):
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
         dynamic_ffmpeg(conf)
         dynamic_dcp(conf)
+        dynamic_sub(conf)
         dynamic_openjpeg(conf)
         dynamic_ssh(conf)
 

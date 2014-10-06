@@ -39,11 +39,9 @@ SubRipDecoder::seek (ContentTime time, bool accurate)
 	SubtitleDecoder::seek (time, accurate);
 	
 	_next = 0;
-	list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin();
-	while (i != _subtitles[_next].pieces.end() && _subtitles[_next].period.from < time) {
-		++i;
+	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.metric().get().all_as_seconds ()) < time) {
+		++_next;
 	}
-	
 }
 
 bool
@@ -56,25 +54,27 @@ SubRipDecoder::pass ()
 	/* XXX: we are ignoring positioning specified in the file */
 	
 	list<dcp::SubtitleString> out;
-	for (list<SubRipSubtitlePiece>::const_iterator i = _subtitles[_next].pieces.begin(); i != _subtitles[_next].pieces.end(); ++i) {
-		out.push_back (
-			dcp::SubtitleString (
-				"Arial",
-				i->italic,
-				dcp::Color (255, 255, 255),
-				/* .srt files don't specify size, so this is an arbitrary value */
-				48,
-				dcp::Time (rint (_subtitles[_next].period.from.seconds() * 250)),
-				dcp::Time (rint (_subtitles[_next].period.to.seconds() * 250)),
-				0.2,
-				dcp::BOTTOM,
-				i->text,
-				dcp::NONE,
-				dcp::Color (255, 255, 255),
-				0,
-				0
-				)
-			);
+	for (list<sub::Line>::const_iterator i = _subtitles[_next].lines.begin(); i != _subtitles[_next].lines.end(); ++i) {
+		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {
+			out.push_back (
+				dcp::SubtitleString (
+					"Arial",
+					j->italic,
+					dcp::Color (255, 255, 255),
+					/* .srt files don't specify size, so this is an arbitrary value */
+					48,
+					dcp::Time (rint (_subtitles[_next].from.metric().get().all_as_milliseconds() / 4)),
+					dcp::Time (rint (_subtitles[_next].to.metric().get().all_as_milliseconds() / 4)),
+					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
+					dcp::TOP,
+					j->text,
+					dcp::NONE,
+					dcp::Color (255, 255, 255),
+					0,
+					0
+					)
+				);
+		}
 	}
 
 	text_subtitle (out);
@@ -89,9 +89,15 @@ SubRipDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
 
 	list<ContentTimePeriod> d;
 
-	for (vector<SubRipSubtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		if ((starting && p.contains (i->period.from)) || (!starting && p.overlaps (i->period))) {
-			d.push_back (i->period);
+	for (vector<sub::Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+
+		ContentTimePeriod t (
+			ContentTime::from_seconds (i->from.metric().get().all_as_seconds()),
+			ContentTime::from_seconds (i->to.metric().get().all_as_seconds())
+			);
+		
+		if ((starting && p.contains (t.from)) || (!starting && p.overlaps (t))) {
+			d.push_back (t);
 		}
 	}
 

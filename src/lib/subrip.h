@@ -21,6 +21,7 @@
 #define DCPOMATIC_SUBRIP_H
 
 #include "subrip_subtitle.h"
+#include <libsub/subtitle.h>
 
 class SubRipContent;
 class subrip_time_test;
@@ -36,18 +37,7 @@ public:
 	ContentTime length () const;
 
 protected:
-	std::vector<SubRipSubtitle> _subtitles;
-	
-private:
-	friend struct subrip_time_test;
-	friend struct subrip_coordinate_test;
-	friend struct subrip_content_test;
-	friend struct subrip_parse_test;
-	
-	static ContentTime convert_time (std::string);
-	static int convert_coordinate (std::string);
-	static std::list<SubRipSubtitlePiece> convert_content (std::list<std::string>);
-	static void maybe_content (std::list<SubRipSubtitlePiece> &, SubRipSubtitlePiece &);
+	std::vector<sub::Subtitle> _subtitles;
 };
 
 #endif
