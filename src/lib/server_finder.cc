@@ -111,10 +111,9 @@ try
 		tcp::socket socket (io_service);
 		acceptor.accept (socket);
 
-		/* XXX: does this deadline work with synchronous reads? */
-
-		boost::asio::deadline_timer deadline (io_service);
-		deadline.expires_from_now (boost::posix_time::seconds (10));
+		/* XXX: these reads should have timeouts, otherwise we will stop finding servers
+		   if one dies during this conversation
+		*/
 
 		uint32_t length = 0;
 		boost::asio::read (socket, boost::asio::buffer (&length, sizeof (uint32_t)));
