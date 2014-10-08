@@ -208,7 +208,7 @@ def package_debian(target, cpu, version):
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
     if target.version == 'unstable':
         target.set('CDIST_EXTRA_CONFIGURE', '--debian-unstable')
-    target.command('dpkg-buildpackage')
+    target.command('dpkg-buildpackage -uc -us')
     
     debs = []
     for p in glob.glob('../*.deb'):
