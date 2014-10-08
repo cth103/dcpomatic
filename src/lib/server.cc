@@ -247,6 +247,9 @@ Server::broadcast_received ()
 		root->add_child("Threads")->add_child_text (raw_convert<string> (_worker_threads.size ()));
 		string xml = doc.write_to_string ("UTF-8");
 
+		if (_verbose) {
+			cout << "Offering services to master " << _broadcast.send_endpoint.address().to_string () << "\n";
+		}
 		shared_ptr<Socket> socket (new Socket);
 		try {
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), Config::instance()->server_port_base() + 1));
