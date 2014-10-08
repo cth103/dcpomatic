@@ -191,7 +191,7 @@ def configure(conf):
 
     # Common CXXFLAGS
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS', '-D__STDC_LIMIT_MACROS', '-msse', '-ffast-math', '-fno-strict-aliasing',
-                                       '-Wall', '-Wno-attributes', '-Wextra', '-D_FILE_OFFSET_BITS=64'])
+                                       '-Wall', '-Wno-attributes', '-Wextra', '-Wno-unused-result', '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG'])
