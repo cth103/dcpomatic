@@ -576,7 +576,7 @@ Socket::accept (int port)
 	_acceptor->async_accept (_socket, boost::lambda::var(ec) = boost::lambda::_1);
 	do {
 		_io_service.run_one ();
-	} while (ec == boost::asio::error::would_block );
+	} while (ec == boost::asio::error::would_block);
 
 	delete _acceptor;
 	_acceptor = 0;
