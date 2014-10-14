@@ -21,12 +21,17 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	./waf --nocache install --destdir=debian/dcpomatic
-	mkdir -p debian/dcpomatic/usr/share/locale/{de,es,fr,it,sv,nl}/LC_MESSAGES/
+	mkdir -p debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/
 	cp -a /usr/local/share/locale/de/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/dcpomatic-wxstd.mo
+	mkdir -p debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/
 	cp -a /usr/local/share/locale/es/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/dcpomatic-wxstd.mo
+	mkdir -p debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/
 	cp -a /usr/local/share/locale/fr/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/dcpomatic-wxstd.mo
+	mkdir -p debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/
 	cp -a /usr/local/share/locale/it/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/dcpomatic-wxstd.mo
+	mkdir -p debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/
 	cp -a /usr/local/share/locale/sv/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/dcpomatic-wxstd.mo
+	mkdir -p debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/
 	cp -a /usr/local/share/locale/nl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/dcpomatic-wxstd.mo
 
 .PHONY: override_dh_strip
