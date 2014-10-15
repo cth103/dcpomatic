@@ -1,12 +1,16 @@
-2014-10-05  Carl Hetherington  <cth@carlh.net>
+2014-10-14  Carl Hetherington  <cth@carlh.net>
 
-	* Use a more sensible default position and size for
-	.srt subs.
+	* Version 1.74.3 released.
 
 2014-10-08  c.hetherington  <cth@carlh.net>
 
 	* Make server finding more reliable when
 	there are more than a few servers.
+
+2014-10-05  Carl Hetherington  <cth@carlh.net>
+
+	* Use a more sensible default position and size for
+	.srt subs.
 
 2014-10-03  Carl Hetherington  <cth@carlh.net>
 
