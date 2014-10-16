@@ -51,7 +51,7 @@ public:
 	{
 		Video v;
 		v.content = _player->_last_video;
-		v.image = i->image ();
+		v.image = i->image (PIX_FMT_RGB24);
 		v.time = t;
 		_queue.push_front (v);
 	}
