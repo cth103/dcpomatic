@@ -29,8 +29,8 @@ def static_ffmpeg(conf):
     conf.env.STLIB_AVFILTER = ['avfilter', 'swresample']
     conf.check_cfg(package='libavcodec', args='--cflags', uselib_store='AVCODEC', mandatory=True)
     # lzma link is needed by Centos 7, at least
-    conf.env.STLIB_AVCODEC = ['avcodec', 'lzma']
-    conf.env.LIB_AVCODEC = ['z']
+    conf.env.STLIB_AVCODEC = ['avcodec']
+    conf.env.LIB_AVCODEC = ['z', 'lzma']
     conf.check_cfg(package='libavutil', args='--cflags', uselib_store='AVUTIL', mandatory=True)
     conf.env.STLIB_AVUTIL = ['avutil']
     conf.check_cfg(package='libswscale', args='--cflags', uselib_store='SWSCALE', mandatory=True)
