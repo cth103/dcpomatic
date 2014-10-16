@@ -38,7 +38,6 @@ using std::string;
 using std::min;
 using std::cout;
 using std::cerr;
-using std::stringstream;
 using boost::shared_ptr;
 using libdcp::Size;
 

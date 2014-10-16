@@ -4,7 +4,8 @@
 #
 # e.g. make_dmg.sh /Users/carl/cdist
 
-set -e
+# Don't set -e here as egrep (used a few times) returns 1 if no matches
+# were found.
 
 version=`cat wscript | egrep ^VERSION | awk '{print $3}' | sed -e "s/'//g"`
 
@@ -15,107 +16,132 @@ ENV=/Users/carl/Environments/osx/10.6
 ROOT=$1
 
 appdir="DCP-o-matic.app"
-approot=$appdir/Contents
-libs=$approot/lib
-macos=$approot/MacOS
-resources=$approot/Resources
+approot="$appdir/Contents"
+libs="$approot/lib"
+macos="$approot/MacOS"
+resources="$approot/Resources"
 
-rm -rf $WORK/$appdir
-mkdir -p $WORK/$macos
-mkdir -p $WORK/$libs
-mkdir -p $WORK/$resources
+rm -rf "$WORK/$appdir"
+mkdir -p "$WORK/$macos"
+mkdir -p "$WORK/$libs"
+mkdir -p "$WORK/$resources"
+
+relink="dcpomatic"
 
 function universal_copy {
-    echo $2
     for f in $1/32/$2; do
         if [ -h $f ]; then
-	    ln -s $(readlink $f) $3/`basename $f`
+	    ln -s $(readlink $f) "$3/`basename $f`"
         else
-          g=`echo $f | sed -e "s/\/32\//\/64\//g"`
-	  mkdir -p $3
-          lipo -create $f $g -output $3/`basename $f`
+            g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+	    mkdir -p "$3"
+            lipo -create $f $g -output "$3/`basename $f`"
         fi
     done
 }
 
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_cli $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_server_cli $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_batch $WORK/$macos
-universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic.dylib $WORK/$libs
-universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic-wx.dylib $WORK/$libs
-universal_copy $ROOT lib/libcxml.dylib $WORK/$libs
-universal_copy $ROOT lib/libdcp.dylib $WORK/$libs
-universal_copy $ROOT lib/libasdcp-libdcp.dylib $WORK/$libs
-universal_copy $ROOT lib/libkumu-libdcp.dylib $WORK/$libs
-universal_copy $ROOT lib/libopenjpeg*.dylib $WORK/$libs
-universal_copy $ROOT lib/libavdevice*.dylib $WORK/$libs
-universal_copy $ROOT lib/libavformat*.dylib $WORK/$libs
-universal_copy $ROOT lib/libavfilter*.dylib $WORK/$libs
-universal_copy $ROOT lib/libavutil*.dylib $WORK/$libs
-universal_copy $ROOT lib/libavcodec*.dylib $WORK/$libs
-universal_copy $ROOT lib/libswscale*.dylib $WORK/$libs
-universal_copy $ROOT lib/libswresample*.dylib $WORK/$libs
-universal_copy $ROOT lib/libpostproc*.dylib $WORK/$libs
-universal_copy $ROOT bin/ffprobe $WORK/$macos
-universal_copy $ENV lib/libboost_system.dylib $WORK/$libs
-universal_copy $ENV lib/libboost_filesystem.dylib $WORK/$libs
-universal_copy $ENV lib/libboost_thread.dylib $WORK/$libs
-universal_copy $ENV lib/libboost_date_time.dylib $WORK/$libs
-universal_copy $ENV lib/libxml++-2.6*.dylib $WORK/$libs
-universal_copy $ENV lib/libxml2*.dylib $WORK/$libs
-universal_copy $ENV lib/libglibmm-2.4*.dylib $WORK/$libs
-universal_copy $ENV lib/libgobject*.dylib $WORK/$libs
-universal_copy $ENV lib/libgthread*.dylib $WORK/$libs
-universal_copy $ENV lib/libgmodule*.dylib $WORK/$libs
-universal_copy $ENV lib/libsigc*.dylib $WORK/$libs
-universal_copy $ENV lib/libglib-2*.dylib $WORK/$libs
-universal_copy $ENV lib/libintl*.dylib $WORK/$libs
-universal_copy $ENV lib/libsndfile*.dylib $WORK/$libs
-universal_copy $ENV lib/libMagick++*.dylib $WORK/$libs
-universal_copy $ENV lib/libMagickCore*.dylib $WORK/$libs
-universal_copy $ENV lib/libMagickWand*.dylib $WORK/$libs
-universal_copy $ENV lib/libssh*.dylib $WORK/$libs
-universal_copy $ENV lib/libwx*.dylib $WORK/$libs
-universal_copy $ENV lib/libfontconfig*.dylib $WORK/$libs
-universal_copy $ENV lib/libfreetype*.dylib $WORK/$libs
-universal_copy $ENV lib/libexpat*.dylib $WORK/$libs
-universal_copy $ENV lib/libltdl*.dylib $WORK/$libs
-universal_copy $ENV lib/libxmlsec1*.dylib $WORK/$libs
-universal_copy $ENV lib/libzip*.dylib $WORK/$libs
-universal_copy $ENV lib/libquickmail*.dylib $WORK/$libs
-universal_copy $ENV lib/libcurl*.dylib $WORK/$libs
-universal_copy $ENV lib/libffi*.dylib $WORK/$libs
-universal_copy $ENV lib/libiconv*.dylib $WORK/$libs
+function universal_copy_lib {
+    for f in $1/32/lib/$2*.dylib; do
+        if [ -h $f ]; then
+	    ln -s $(readlink $f) "$3/`basename $f`"
+        else
+            g=`echo $f | sed -e "s/\/32\//\/64\//g"`
+	    mkdir -p "$3"
+            lipo -create $f $g -output "$3/`basename $f`"
+        fi
+    done
+    relink="$relink|$2"
+}
 
-for obj in $WORK/$macos/dcpomatic $WORK/$macos/dcpomatic_batch $WORK/$macos/dcpomatic_cli $WORK/$macos/dcpomatic_server_cli $WORK/$macos/ffprobe $WORK/$libs/*.dylib; do
-  deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl|libxmlsec)"`
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_server_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic_batch "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic.dylib "$WORK/$libs"
+universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic-wx.dylib "$WORK/$libs"
+universal_copy_lib $ROOT libcxml "$WORK/$libs"
+universal_copy_lib $ROOT libdcp "$WORK/$libs"
+universal_copy_lib $ROOT libasdcp-libdcp "$WORK/$libs"
+universal_copy_lib $ROOT libkumu-libdcp "$WORK/$libs"
+universal_copy_lib $ROOT libopenjpeg "$WORK/$libs"
+universal_copy_lib $ROOT libavdevice "$WORK/$libs"
+universal_copy_lib $ROOT libavformat "$WORK/$libs"
+universal_copy_lib $ROOT libavfilter "$WORK/$libs"
+universal_copy_lib $ROOT libavutil "$WORK/$libs"
+universal_copy_lib $ROOT libavcodec "$WORK/$libs"
+universal_copy_lib $ROOT libswscale "$WORK/$libs"
+universal_copy_lib $ROOT libswresample "$WORK/$libs"
+universal_copy_lib $ROOT libpostproc "$WORK/$libs"
+universal_copy $ROOT bin/ffprobe "$WORK/$macos"
+universal_copy_lib $ENV libboost_system "$WORK/$libs"
+universal_copy_lib $ENV libboost_filesystem "$WORK/$libs"
+universal_copy_lib $ENV libboost_thread "$WORK/$libs"
+universal_copy_lib $ENV libboost_date_time "$WORK/$libs"
+universal_copy_lib $ENV libxml++ "$WORK/$libs"
+universal_copy_lib $ENV libxslt "$WORK/$libs"
+universal_copy_lib $ENV libxml2 "$WORK/$libs"
+universal_copy_lib $ENV libglibmm-2.4 "$WORK/$libs"
+universal_copy_lib $ENV libgobject "$WORK/$libs"
+universal_copy_lib $ENV libgthread "$WORK/$libs"
+universal_copy_lib $ENV libgmodule "$WORK/$libs"
+universal_copy_lib $ENV libsigc "$WORK/$libs"
+universal_copy_lib $ENV libglib-2 "$WORK/$libs"
+universal_copy_lib $ENV libintl "$WORK/$libs"
+universal_copy_lib $ENV libsndfile "$WORK/$libs"
+universal_copy_lib $ENV libMagick++ "$WORK/$libs"
+universal_copy_lib $ENV libMagickCore "$WORK/$libs"
+universal_copy_lib $ENV libMagickWand "$WORK/$libs"
+universal_copy_lib $ENV libssh "$WORK/$libs"
+universal_copy_lib $ENV libwx "$WORK/$libs"
+universal_copy_lib $ENV libfontconfig "$WORK/$libs"
+universal_copy_lib $ENV libfreetype "$WORK/$libs"
+universal_copy_lib $ENV libexpat "$WORK/$libs"
+universal_copy_lib $ENV libltdl "$WORK/$libs"
+universal_copy_lib $ENV libxmlsec1 "$WORK/$libs"
+universal_copy_lib $ENV libzip "$WORK/$libs"
+universal_copy_lib $ENV libquickmail "$WORK/$libs"
+universal_copy_lib $ENV libcurl "$WORK/$libs"
+universal_copy_lib $ENV libffi "$WORK/$libs"
+universal_copy_lib $ENV libiconv "$WORK/$libs"
+universal_copy_lib $ENV libpango "$WORK/$libs"
+universal_copy_lib $ENV libcairo "$WORK/$libs"
+
+relink=`echo $relink | sed -e "s/\+//g"`
+
+for obj in "$WORK/$macos/dcpomatic" "$WORK/$macos/dcpomatic_batch" "$WORK/$macos/dcpomatic_cli" "$WORK/$macos/dcpomatic_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
+  deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)" | egrep "($ENV|$ROOT|boost)"`
   changes=""
   for dep in $deps; do
-    base=`basename $dep`
-    # $dep will be a path within 64/; make a 32/ path too
-    dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
-    changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
+      base=`basename $dep`
+      # $dep will be a path within 64/; make a 32/ path too
+      dep32=`echo $dep | sed -e "s/\/64\//\/32\//g"`
+      changes="$changes -change $dep @executable_path/../lib/$base -change $dep32 @executable_path/../lib/$base"
   done
   if test "x$changes" != "x"; then
-    install_name_tool $changes $obj
+    install_name_tool $changes "$obj"
   fi
 done
 
-cp build/platform/osx/Info.plist $WORK/$approot
-cp icons/dcpomatic.icns $WORK/$resources/DCP-o-matic.icns
-cp icons/colour_conversions.png $WORK/$resources
-cp icons/defaults.png $WORK/$resources
-cp icons/kdm_email.png $WORK/$resources
-cp icons/servers.png $WORK/$resources
-cp icons/tms.png $WORK/$resources
+cp build/platform/osx/Info.plist "$WORK/$approot"
+cp icons/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
+cp icons/colour_conversions.png "$WORK/$resources"
+cp icons/defaults.png "$WORK/$resources"
+cp icons/kdm_email.png "$WORK/$resources"
+cp icons/servers.png "$WORK/$resources"
+cp icons/tms.png "$WORK/$resources"
 
-# i18n: .mo files
+# i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
-  mkdir $WORK/$resources/$lang
-  cp build/src/lib/mo/$lang/*.mo $WORK/$resources/$lang
-  cp build/src/wx/mo/$lang/*.mo $WORK/$resources/$lang
-  cp build/src/tools/mo/$lang/*.mo $WORK/$resources/$lang
+  mkdir -p "$WORK/$resources/$lang/LC_MESSAGES"
+  cp build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+done
+
+# i18n: wxWidgets .mo files
+for lang in de es fr it sv nl; do
+  mkdir "$WORK/$resources/$lang"
+  cp $ENV/64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$WORK/$resources/$lang"
 done
 
 tmp_dmg=$WORK/dcpomatic_tmp.dmg
@@ -123,8 +149,8 @@ dmg="$WORK/DCP-o-matic $version.dmg"
 vol_name=DCP-o-matic-$version
 
 mkdir -p $WORK/$vol_name
-cp -r $WORK/$appdir $WORK/$vol_name
-ln -s /Applications $WORK/$vol_name/Applications
+cp -a "$WORK/$appdir" $WORK/$vol_name
+ln -s /Applications "$WORK/$vol_name/Applications"
 
 rm -f $tmp_dmg "$dmg"
 hdiutil create -srcfolder $WORK/$vol_name -volname $vol_name -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $DMG_SIZE $tmp_dmg
@@ -153,13 +179,12 @@ echo '
    end tell
 ' | osascript
 
-chmod -Rf go-w /Volumes/"$vol_name"/$appdir
+chmod -Rf go-w /Volumes/"$vol_name"/"$appdir"
 sync
 
 hdiutil eject $device
 hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
-sips -i $WORK/$resources/DCP-o-matic.icns
-DeRez -only icns $WORK/$resources/DCP-o-matic.icns > $WORK/$resources/DCP-o-matic.rsrc
-Rez -append $WORK/$resources/DCP-o-matic.rsrc -o "$dmg"
+sips -i "$WORK/$resources/DCP-o-matic.icns"
+DeRez -only icns "$WORK/$resources/DCP-o-matic.icns" > "$WORK/$resources/DCP-o-matic.rsrc"
+Rez -append "$WORK/$resources/DCP-o-matic.rsrc" -o "$dmg"
 SetFile -a C "$dmg"
-

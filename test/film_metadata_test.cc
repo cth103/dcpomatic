@@ -17,7 +17,6 @@
 
 */
 
-#include <sstream>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/date_time.hpp>
@@ -27,7 +26,6 @@
 #include "test.h"
 
 using std::string;
-using std::stringstream;
 using std::list;
 using boost::shared_ptr;
 

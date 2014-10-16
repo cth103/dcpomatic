@@ -22,6 +22,7 @@
 
 #include "content.h"
 #include "colour_conversion.h"
+#include "video_content_scale.h"
 
 class VideoExaminer;
 class Ratio;
@@ -36,44 +37,6 @@ public:
 	static int const VIDEO_SCALE;
 	static int const COLOUR_CONVERSION;
 };
-
-class VideoContentScale
-{
-public:
-	VideoContentScale ();
-	VideoContentScale (Ratio const *);
-	VideoContentScale (bool);
-	VideoContentScale (boost::shared_ptr<cxml::Node>);
-
-	libdcp::Size size (boost::shared_ptr<const VideoContent>, libdcp::Size, libdcp::Size) const;
-	std::string id () const;
-	std::string name () const;
-	void as_xml (xmlpp::Node *) const;
-
-	Ratio const * ratio () const {
-		return _ratio;
-	}
-
-	bool scale () const {
-		return _scale;
-	}
-
-	static void setup_scales ();
-	static std::vector<VideoContentScale> all () {
-		return _scales;
-	}
-
-private:
-	/** a ratio to stretch the content to, or 0 for no stretch */
-	Ratio const * _ratio;
-	/** true if we want to scale the content */
-	bool _scale;
-
-	static std::vector<VideoContentScale> _scales;
-};
-
-bool operator== (VideoContentScale const & a, VideoContentScale const & b);
-bool operator!= (VideoContentScale const & a, VideoContentScale const & b);
 
 class VideoContent : public virtual Content
 {
@@ -115,6 +78,11 @@ public:
 		return _video_frame_rate;
 	}
 
+	float original_video_frame_rate () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _original_video_frame_rate;
+	}
+	
 	void set_video_frame_type (VideoFrameType);
 	void set_video_frame_rate (float);
 
@@ -179,6 +147,7 @@ protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
 	VideoContent::Frame _video_length;
+	float _original_video_frame_rate;
 	float _video_frame_rate;
 
 private:

@@ -1,6 +1,6 @@
 Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files
 Name:dcpomatic
-Version:@version@
+Version:@VERSION@
 Release:1%{?dist}
 License:GPL
 Group:Applications/Multimedia
@@ -49,15 +49,15 @@ digital projectors.
 %{_datadir}/locale/nl_NL/LC_MESSAGES/libdcpomatic.mo
 
 %prep
-rm -rf $RPM_BUILD_DIR/dcpomatic-@version@
-tar xjf $RPM_SOURCE_DIR/dcpomatic-@version@.tar.bz2
+rm -rf $RPM_BUILD_DIR/dcpomatic-@VERSION@
+tar xjf $RPM_SOURCE_DIR/dcpomatic-@VERSION@.tar.bz2
 %build
-cd dcpomatic-@version@
-export PKG_CONFIG_PATH=/home/carl/lib/pkgconfig:/usr/local/lib/pkgconfig
-CXXFLAGS="-I/home/carl/include" LDFLAGS="-L/home/carl/lib" ./waf configure --prefix=%{buildroot}/usr --install-prefix=/usr --target-centos
+cd dcpomatic-@VERSION@
+export PKG_CONFIG_PATH=@INSTALL_PREFIX@/lib/pkgconfig:/usr/local/lib/pkgconfig
+CXXFLAGS="-I@INSTALL_PREFIX@/include" LDFLAGS="-L@INSTALL_PREFIX@/lib" ./waf configure --prefix=%{buildroot}/usr --install-prefix=/usr --target-centos-@CENTOS_VERSION@ --disable-tests
 ./waf
 %install
-cd dcpomatic-@version@
+cd dcpomatic-@VERSION@
 ./waf install
 
 %post

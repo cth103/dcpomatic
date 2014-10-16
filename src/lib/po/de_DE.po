@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-24 14:53+0100\n"
-"PO-Revision-Date: 2014-07-02 17:01+0100\n"
+"POT-Creation-Date: 2014-10-03 22:31+0100\n"
+"PO-Revision-Date: 2014-07-13 02:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -34,23 +34,23 @@ msgstr "%1 Kanäle, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 Bilder; %2 Bilder pro Sekunde"
 
-#: src/lib/video_content.cc:206
+#: src/lib/video_content.cc:211
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixel (%3:1)"
 
-#: src/lib/ratio.cc:35
+#: src/lib/ratio.cc:34
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/ratio.cc:38
+#: src/lib/ratio.cc:37
 msgid "1.375"
 msgstr "1.375"
 
-#: src/lib/ratio.cc:39
+#: src/lib/ratio.cc:38
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:40
+#: src/lib/ratio.cc:39
 msgid "16:9"
 msgstr "16:9"
 
@@ -58,11 +58,11 @@ msgstr "16:9"
 msgid "3D denoiser"
 msgstr "3D Rauschunterdrückung"
 
-#: src/lib/ratio.cc:36
+#: src/lib/ratio.cc:35
 msgid "4:3"
 msgstr "4:3"
 
-#: src/lib/ratio.cc:37
+#: src/lib/ratio.cc:36
 msgid "Academy"
 msgstr "Academy"
 
@@ -98,15 +98,15 @@ msgstr "Abgebrochen"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:751
+#: src/lib/util.cc:786
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/writer.cc:82
+#: src/lib/writer.cc:83
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
-#: src/lib/writer.cc:471
+#: src/lib/writer.cc:475
 msgid "Computing audio digest"
 msgstr "Tonübersicht berechnen"
 
@@ -114,11 +114,11 @@ msgstr "Tonübersicht berechnen"
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
-#: src/lib/writer.cc:467
+#: src/lib/writer.cc:471
 msgid "Computing image digest"
 msgstr "Bildübersicht berechnen"
 
-#: src/lib/frame_rate_change.cc:78
+#: src/lib/frame_rate_change.cc:86
 msgid "Content and DCP have the same rate.\n"
 msgstr "Quelle und DCP haben dieselbe Bildrate. Gut ;-)\n"
 
@@ -131,95 +131,103 @@ msgid "Content to be joined must have the same audio gain."
 msgstr ""
 "Zu verbindende Inhalte müssen die gleichen Tonpegeleinstellungen verwenden."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:146
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Zu verbindende Inhalte müssen die gleiche Farbumwandlung verwenden."
 
-#: src/lib/video_content.cc:136
+#: src/lib/video_content.cc:138
 msgid "Content to be joined must have the same crop."
 msgstr "Zu verbindende Inhalte müssen gleichen Beschnitt verwenden."
 
-#: src/lib/video_content.cc:124
+#: src/lib/video_content.cc:126
 msgid "Content to be joined must have the same picture size."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildgröße haben."
 
-#: src/lib/video_content.cc:140
+#: src/lib/video_content.cc:142
 msgid "Content to be joined must have the same scale setting."
 msgstr "Zu verbindende Inhalte müssen die gleiche Skalierung verwenden."
 
-#: src/lib/subtitle_content.cc:73
+#: src/lib/subtitle_content.cc:81
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Zu verbindende Inhalte müssen den gleichen horizontalen Untertitelversatz "
 "verwenden."
 
-#: src/lib/subtitle_content.cc:77
+#: src/lib/subtitle_content.cc:89
+#, fuzzy
+msgid "Content to be joined must have the same subtitle X scale."
+msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelgröße verwenden."
+
+#: src/lib/subtitle_content.cc:85
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Zu verbindende Inhalte müssen den gleichen vertikalen Untertitelversatz "
 "verwenden."
 
-#: src/lib/subtitle_content.cc:81
-msgid "Content to be joined must have the same subtitle scale."
+#: src/lib/subtitle_content.cc:93
+#, fuzzy
+msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelgröße verwenden."
 
-#: src/lib/video_content.cc:128
+#: src/lib/video_content.cc:130
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildrate haben."
 
-#: src/lib/video_content.cc:132
+#: src/lib/video_content.cc:134
 msgid "Content to be joined must have the same video frame type."
-msgstr "Zu verbindende Inhalte müssen die gleiche Bildart (z.B. 2D) haben."
+msgstr "Zu verbindende Inhalte müssen den gleichen Bildtyp (z.B. 2D) haben."
 
 #: src/lib/ffmpeg_content.cc:116
 msgid "Content to be joined must use the same audio stream."
-msgstr "Zu verbindende Inhalte müssen die gleiche Tonspurart verwenden."
+msgstr ""
+"Zu verbindende Inhalte müssen die gleiche Tonspurkonfiguration verwenden."
 
 #: src/lib/ffmpeg_content.cc:112
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelspur verwenden."
 
-#: src/lib/scp_dcp_job.cc:112
+#: src/lib/scp_dcp_job.cc:111
 msgid "Copy DCP to TMS"
 msgstr "DCP zu TMS übertragen"
 
-#: src/lib/scp_dcp_job.cc:137
+#: src/lib/scp_dcp_job.cc:130
 msgid "Could not connect to server %1 (%2)"
 msgstr "Keine Verbindung zu Server %1 (%2)"
 
-#: src/lib/scp_dcp_job.cc:159
+#: src/lib/scp_dcp_job.cc:152
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 
-#: src/lib/image_proxy.cc:128
-msgid "Could not decode image file"
+#: src/lib/image_proxy.cc:147
+#, fuzzy
+msgid "Could not decode image file (%1)"
 msgstr "Bilddatei konnte nicht dekodiert werden"
 
 #: src/lib/job.cc:90
 msgid "Could not open %1"
 msgstr "%1 konnte nicht geöffnet werden."
 
-#: src/lib/scp_dcp_job.cc:184
+#: src/lib/scp_dcp_job.cc:177
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum Senden geöffnet werden"
 
-#: src/lib/internet.cc:72
+#: src/lib/internet.cc:74
 msgid "Could not open downloaded ZIP file"
 msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden."
 
-#: src/lib/scp_dcp_job.cc:154
+#: src/lib/scp_dcp_job.cc:147
 msgid "Could not start SCP session (%1)"
 msgstr "SCP Session (%1) konnte nicht gestartet werden"
 
-#: src/lib/scp_dcp_job.cc:198
+#: src/lib/scp_dcp_job.cc:191
 msgid "Could not write to remote file (%1)"
 msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
 
-#: src/lib/frame_rate_change.cc:90
+#: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
 msgstr "DCP läuft mit %1% der Original Geschwindigkeit der Quelle.\n"
 
-#: src/lib/frame_rate_change.cc:81
+#: src/lib/frame_rate_change.cc:89
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP verwendet nur jedes zweite Bild des Quelle.\n"
 
@@ -241,7 +249,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:417
+#: src/lib/config.cc:436
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -257,7 +265,7 @@ msgid ""
 msgstr ""
 "Sehr geehrter Vorfuehrer,\n"
 "\n"
-"Im Anhang finden Sie die KDM für den Film $CPL_NAME.\n"
+"Im Anhang finden Sie die KDM fuer den Film $CPL_NAME.\n"
 "\n"
 "Der Schluessel ist vom $START_TIME bis zum $END_TIME gueltig fuer:\n"
 "\n"
@@ -271,23 +279,23 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 und CP750"
 
-#: src/lib/internet.cc:65
+#: src/lib/internet.cc:67
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Herunterladen fehlgeschlagen (%1/%2 Fehler %3)"
 
-#: src/lib/frame_rate_change.cc:83
+#: src/lib/frame_rate_change.cc:91
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Jedes Bild der Quelle wird im DCP verdoppelt.\n"
 
-#: src/lib/frame_rate_change.cc:85
+#: src/lib/frame_rate_change.cc:93
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Jedes Bild der Quelle wird %1 mal im DCP wiederholt.\n"
 
-#: src/lib/send_kdm_email_job.cc:50
+#: src/lib/send_kdm_email_job.cc:52
 msgid "Email KDMs for %1"
 msgstr "Email KDMs für %1"
 
-#: src/lib/writer.cc:125
+#: src/lib/writer.cc:126
 msgid "Encoding image data"
 msgstr "Kodiere Bilddaten"
 
@@ -299,7 +307,7 @@ msgstr "Fehler (%1)"
 msgid "Examine content"
 msgstr "Inhalt wird überprüft"
 
-#: src/lib/scp_dcp_job.cc:147
+#: src/lib/scp_dcp_job.cc:140
 msgid "Failed to authenticate with server (%1)"
 msgstr "Authentifizierung mit Server (%1) fehlgeschlagen"
 
@@ -311,11 +319,11 @@ msgstr "Schneller Bilinearer Filter"
 msgid "Feature"
 msgstr "Hauptfilm"
 
-#: src/lib/ratio.cc:41
+#: src/lib/ratio.cc:40
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/ratio.cc:43
+#: src/lib/ratio.cc:42
 msgid "Full frame"
 msgstr "Ganzes Bild"
 
@@ -327,7 +335,7 @@ msgstr "Gauss Filter"
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/util.cc:755
+#: src/lib/util.cc:790
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -343,6 +351,10 @@ msgstr ""
 "Ein unbekannter Fehler ist aufgetreten. Bitte schicken Sie eine Nachricht an "
 "den DCP-o-matic Autor (carl@dcpomatic.com)."
 
+#: src/lib/config.cc:199
+msgid "KDM delivery: $CPL_NAME"
+msgstr "KDM Zustellung: $CPL_NAME"
+
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
@@ -351,23 +363,23 @@ msgstr "Kernel De-Interlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:749
+#: src/lib/util.cc:784
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:757
+#: src/lib/util.cc:792
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:759
+#: src/lib/util.cc:794
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:753
+#: src/lib/util.cc:788
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/util.cc:752
+#: src/lib/util.cc:787
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -379,11 +391,11 @@ msgstr "Verschiedenes"
 msgid "Motion compensating deinterlacer"
 msgstr "Bewegungskompensierender De-Interlacer"
 
-#: src/lib/video_content.cc:476
+#: src/lib/video_content_scale.cc:105
 msgid "No scale"
 msgstr "Unskaliert"
 
-#: src/lib/video_content.cc:473
+#: src/lib/video_content_scale.cc:102
 msgid "No stretch"
 msgstr "Nicht verzerrt"
 
@@ -431,31 +443,31 @@ msgstr "Hinweis"
 msgid "Rating"
 msgstr "Freigabehinweis"
 
-#: src/lib/config.cc:84 src/lib/config.cc:173
+#: src/lib/config.cc:86 src/lib/config.cc:183
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:750
+#: src/lib/util.cc:785
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:758
+#: src/lib/util.cc:793
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:760
+#: src/lib/util.cc:795
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:754
+#: src/lib/util.cc:789
 msgid "Right surround"
 msgstr "Surround rechts"
 
-#: src/lib/scp_dcp_job.cc:142
+#: src/lib/scp_dcp_job.cc:135
 msgid "SSH error (%1)"
 msgstr "SSH Fehler (%1)"
 
-#: src/lib/ratio.cc:42
+#: src/lib/ratio.cc:41
 msgid "Scope"
 msgstr "Scope"
 
@@ -495,7 +507,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr "Zu wenig Speicher für diese Operation."
 
-#: src/lib/film.cc:413
+#: src/lib/film.cc:414
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -504,7 +516,7 @@ msgstr ""
 "kann leider nicht mit dieser älteren Version geladen werden. Sie müssen den "
 "Film neu erstellen. Sorry!"
 
-#: src/lib/film.cc:405
+#: src/lib/film.cc:406
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -526,11 +538,11 @@ msgstr "Wandle %1 um"
 msgid "Transitional"
 msgstr "Überleitung"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:79
 msgid "Unexpected ZIP file contents"
 msgstr "Ungültiger ZIP Inhalt"
 
-#: src/lib/image_proxy.cc:174
+#: src/lib/image_proxy.cc:193
 msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
@@ -538,7 +550,7 @@ msgstr "Ungültiges Bildformat vom Server erhalten"
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: src/lib/ffmpeg_decoder.cc:295
+#: src/lib/ffmpeg_decoder.cc:293
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Ton Sample Format (%1) nicht erkannt."
 
@@ -546,15 +558,15 @@ msgstr "Ton Sample Format (%1) nicht erkannt."
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Unscharf Maskieren mit Gaußschem Unschärfefilter"
 
-#: src/lib/colour_conversion.cc:140
+#: src/lib/colour_conversion.cc:139
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: src/lib/util.cc:756
+#: src/lib/util.cc:791
 msgid "Visually impaired"
 msgstr "VI"
 
-#: src/lib/scp_dcp_job.cc:104
+#: src/lib/scp_dcp_job.cc:103
 msgid "Waiting"
 msgstr "Warte..."
 
@@ -566,7 +578,7 @@ msgstr "X"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer..."
 
-#: src/lib/film.cc:310
+#: src/lib/film.cc:311
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 
@@ -578,27 +590,27 @@ msgstr "[Bewegte Bilder]"
 msgid "[still]"
 msgstr "[Standbild]"
 
-#: src/lib/film.cc:258
+#: src/lib/film.cc:259
 msgid "cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:565
 msgid "connect timed out"
-msgstr "Zeit zur Verbindung abgelaufen"
+msgstr "Zeit für Verbindung abgelaufen"
 
-#: src/lib/scp_dcp_job.cc:128
+#: src/lib/scp_dcp_job.cc:121
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:306
+#: src/lib/film.cc:307
 msgid "container"
 msgstr "Containerformat"
 
-#: src/lib/film.cc:314
+#: src/lib/film.cc:315
 msgid "content type"
 msgstr "Inhaltsbeschreibung"
 
-#: src/lib/scp_dcp_job.cc:177
+#: src/lib/scp_dcp_job.cc:170
 msgid "copying %1"
 msgstr "kopiere %1"
 
@@ -606,19 +618,19 @@ msgstr "kopiere %1"
 msgid "could not create file %1"
 msgstr "Datei %1 konnte nicht erstellt werden."
 
-#: src/lib/ffmpeg.cc:177
+#: src/lib/ffmpeg.cc:176
 msgid "could not find audio decoder"
 msgstr "Ton Dekoder nicht gefunden."
 
-#: src/lib/ffmpeg.cc:106
+#: src/lib/ffmpeg.cc:105
 msgid "could not find stream information"
 msgstr "Keine Spur-Information gefunden"
 
-#: src/lib/ffmpeg.cc:156
+#: src/lib/ffmpeg.cc:155
 msgid "could not find video decoder"
 msgstr "Bild-Dekoder nicht gefunden"
 
-#: src/lib/writer.cc:435
+#: src/lib/writer.cc:439
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "Ton MXF kann nicht in das DCP verschoben werden (%1)"
 
@@ -630,11 +642,11 @@ msgstr "Tondatei kann nicht zum Lesen geöffnet werden."
 msgid "could not open file %1"
 msgstr "Datei %1 konnte nicht geöffnet werden."
 
-#: src/lib/dcp_video_frame.cc:334
+#: src/lib/dcp_video_frame.cc:331
 msgid "could not open file for reading"
 msgstr "Datei konnte nicht zum Lesen geöffnet werden."
 
-#: src/lib/dcp_video_frame.cc:340
+#: src/lib/dcp_video_frame.cc:337
 msgid "could not read encoded data"
 msgstr "Kodierte Daten nicht gefunden."
 
@@ -650,11 +662,11 @@ msgstr "Sample-Rate konnte nicht gewandelt werden"
 msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
 msgstr "Sample-Rate für %1 samples konnte nicht gewandelt werden (%2)(%3)"
 
-#: src/lib/scp_dcp_job.cc:89
+#: src/lib/scp_dcp_job.cc:88
 msgid "could not start SCP session (%1)"
 msgstr "SCP Session konnte nicht gestartet werden (%1)"
 
-#: src/lib/scp_dcp_job.cc:55
+#: src/lib/scp_dcp_job.cc:54
 msgid "could not start SSH session"
 msgstr "SSH Session konnte nicht gestartet werden"
 
@@ -662,43 +674,43 @@ msgstr "SSH Session konnte nicht gestartet werden"
 msgid "could not write to file %1 (%2)"
 msgstr "Datei %1 konnte nicht geschrieben werden (%2)"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:585
 msgid "error during async_accept (%1)"
 msgstr "error during async_accept (%1)"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:561
 msgid "error during async_connect (%1)"
 msgstr "error during async_connect (%1)"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:634
 msgid "error during async_read (%1)"
 msgstr "error during async_read (%1)"
 
-#: src/lib/util.cc:571
+#: src/lib/util.cc:606
 msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
 
-#: src/lib/transcode_job.cc:103
+#: src/lib/transcode_job.cc:97
 msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
-#: src/lib/util.cc:152
+#: src/lib/util.cc:156
 msgid "hour"
 msgstr "Stunde"
 
-#: src/lib/util.cc:149 src/lib/util.cc:154
+#: src/lib/util.cc:152 src/lib/util.cc:158
 msgid "hours"
 msgstr "Stunden"
 
-#: src/lib/util.cc:159
+#: src/lib/util.cc:174
 msgid "minute"
 msgstr "Minute"
 
-#: src/lib/util.cc:161
+#: src/lib/util.cc:170 src/lib/util.cc:176
 msgid "minutes"
 msgstr "Minuten"
 
-#: src/lib/util.cc:671
+#: src/lib/util.cc:706
 msgid "missing key %1 in key-value set"
 msgstr "Key %1 in Key-value set fehlt"
 
@@ -710,15 +722,15 @@ msgstr "Benötigte Einstellung %1 fehlt"
 msgid "moving"
 msgstr "wird verschoben"
 
-#: src/lib/ffmpeg_decoder.cc:591
+#: src/lib/ffmpeg_decoder.cc:589
 msgid "multi-part subtitles not yet supported"
 msgstr "Mehr-Segment Untertitel werden noch nicht unterstützt"
 
-#: src/lib/film.cc:258 src/lib/film.cc:318
+#: src/lib/film.cc:259 src/lib/film.cc:319
 msgid "name"
 msgstr "Name"
 
-#: src/lib/ffmpeg_decoder.cc:606
+#: src/lib/ffmpeg_decoder.cc:604
 msgid "non-bitmap subtitles not yet supported"
 msgstr "Nur Bitmap Untertitel werden unterstützt"
 
@@ -728,15 +740,20 @@ msgstr "Nur Bitmap Untertitel werden unterstützt"
 msgid "remaining"
 msgstr "verbleibend"
 
-#: src/lib/config.cc:82 src/lib/video_content.cc:175
+#: src/lib/config.cc:84 src/lib/video_content.cc:179
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/config.cc:83
+#: src/lib/config.cc:85
 msgid "sRGB non-linearised"
 msgstr "sRGB nicht linearisiert"
 
-#: src/lib/util.cc:164
+#: src/lib/util.cc:189
+#, fuzzy
+msgid "second"
+msgstr "Sekunden"
+
+#: src/lib/util.cc:191
 msgid "seconds"
 msgstr "Sekunden"
 

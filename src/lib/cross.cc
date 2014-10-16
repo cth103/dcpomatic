@@ -310,7 +310,7 @@ void
 Waker::nudge ()
 {
 #ifdef DCPOMATIC_WINDOWS
-	SetThreadExecutionState (ES_CONTINUOUS);
+	SetThreadExecutionState (ES_SYSTEM_REQUIRED);
 #endif	
 }
 

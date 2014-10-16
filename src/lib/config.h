@@ -28,10 +28,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
-#include <libdcp/metadata.h>
 #include "isdcf_metadata.h"
 #include "colour_conversion.h"
 #include "server.h"
+#include "video_content.h"
 
 class ServerDescription;
 class Scaler;
@@ -133,6 +133,10 @@ public:
 		return _default_still_length;
 	}
 
+	VideoContentScale default_scale () const {
+		return _default_scale;
+	}
+
 	Ratio const * default_container () const {
 		return _default_container;
 	}
@@ -141,8 +145,8 @@ public:
 		return _default_dcp_content_type;
 	}
 
-	libdcp::XMLMetadata dcp_metadata () const {
-		return _dcp_metadata;
+	std::string dcp_issuer () const {
+		return _dcp_issuer;
 	}
 
 	int default_j2k_bandwidth () const {
@@ -169,12 +173,20 @@ public:
 		return _mail_password;
 	}
 
+	std::string kdm_subject () const {
+		return _kdm_subject;
+	}
+
 	std::string kdm_from () const {
 		return _kdm_from;
 	}
 
 	std::string kdm_cc () const {
 		return _kdm_cc;
+	}
+
+	std::string kdm_bcc () const {
+		return _kdm_bcc;
 	}
 	
 	std::string kdm_email () const {
@@ -196,7 +208,11 @@ public:
 	int log_types () const {
 		return _log_types;
 	}
-	
+
+	std::vector<boost::filesystem::path> history () const {
+		return _history;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		_num_local_encoding_threads = n;
@@ -278,6 +294,11 @@ public:
 		changed ();
 	}
 
+	void set_default_scale (VideoContentScale s) {
+		_default_scale = s;
+		changed ();
+	}
+
 	void set_default_container (Ratio const * c) {
 		_default_container = c;
 		changed ();
@@ -288,8 +309,8 @@ public:
 		changed ();
 	}
 
-	void set_dcp_metadata (libdcp::XMLMetadata m) {
-		_dcp_metadata = m;
+	void set_dcp_issuer (std::string i) {
+		_dcp_issuer = i;
 		changed ();
 	}
 
@@ -323,6 +344,11 @@ public:
 		changed ();
 	}
 
+	void set_kdm_subject (std::string s) {
+		_kdm_subject = s;
+		changed ();
+	}
+
 	void set_kdm_from (std::string f) {
 		_kdm_from = f;
 		changed ();
@@ -330,6 +356,11 @@ public:
 
 	void set_kdm_cc (std::string f) {
 		_kdm_cc = f;
+		changed ();
+	}
+
+	void set_kdm_bcc (std::string f) {
+		_kdm_bcc = f;
 		changed ();
 	}
 	
@@ -359,6 +390,13 @@ public:
 		_log_types = t;
 		changed ();
 	}
+
+	void clear_history () {
+		_history.clear ();
+		changed ();
+	}
+
+	void add_to_history (boost::filesystem::path p);
 	
 	boost::filesystem::path signer_chain_directory () const;
 
@@ -404,9 +442,10 @@ private:
 	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;
 	int _default_still_length;
+	VideoContentScale _default_scale;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
-	libdcp::XMLMetadata _dcp_metadata;
+	std::string _dcp_issuer;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	std::vector<PresetColourConversion> _colour_conversions;
@@ -414,8 +453,10 @@ private:
 	std::string _mail_server;
 	std::string _mail_user;
 	std::string _mail_password;
+	std::string _kdm_subject;
 	std::string _kdm_from;
 	std::string _kdm_cc;
+	std::string _kdm_bcc;
 	std::string _kdm_email;
 	/** true to check for updates on startup */
 	bool _check_for_updates;
@@ -423,7 +464,8 @@ private:
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
 	int _log_types;
-
+	std::vector<boost::filesystem::path> _history;
+	
 	/** Singleton instance, or 0 */
 	static Config* _instance;
 };

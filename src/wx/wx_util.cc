@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -193,7 +193,7 @@ void
 checked_set (wxSpinCtrlDouble* widget, double value)
 {
 	/* XXX: completely arbitrary epsilon */
-	if (fabs (widget->GetValue() - value) < 1e-16) {
+	if (fabs (widget->GetValue() - value) > 1e-16) {
 		widget->SetValue (value);
 	}
 }
@@ -280,6 +280,14 @@ dcpomatic_setup_i18n ()
 		locale->AddCatalogLookupPathPrefix (POSIX_LOCALE_PREFIX);
 #endif
 
+#ifdef DCPOMATIC_LINUX
+		/* We have to include the wxWidgets .mo in our distribution,
+		   so we rename it to avoid clashes with any other installation
+		   of wxWidgets.
+		*/
+		locale->AddCatalog (wxT ("dcpomatic-wxstd"));
+#endif		
+		
 		locale->AddCatalog (wxT ("libdcpomatic-wx"));
 		locale->AddCatalog (wxT ("dcpomatic"));
 		
@@ -310,14 +318,6 @@ double
 wx_get (wxSpinCtrlDouble* w)
 {
 	return w->GetValue ();
-}
-
-void
-run_gui_loop ()
-{
-	while (wxTheApp->Pending ()) {
-		wxTheApp->Dispatch ();
-	}
 }
 
 /** @param s String of the form Context|String

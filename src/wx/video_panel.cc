@@ -332,7 +332,7 @@ VideoPanel::setup_description ()
 	d << wxString::Format (_("Content frame rate %.4f\n"), vcs->video_frame_rate ());
 	++lines;
 	FrameRateChange frc (vcs->video_frame_rate(), _editor->film()->video_frame_rate ());
-	d << std_to_wx (frc.description) << "\n";
+	d << std_to_wx (frc.description ()) << "\n";
 	++lines;
 
 	for (int i = lines; i < 6; ++i) {
@@ -363,18 +363,19 @@ VideoPanel::edit_colour_conversion_clicked ()
 void
 VideoPanel::content_selection_changed ()
 {
-	VideoContentList sel = _editor->selected_video_content ();
-	bool const single = sel.size() == 1;
+	VideoContentList video_sel = _editor->selected_video_content ();
+	FFmpegContentList ffmpeg_sel = _editor->selected_ffmpeg_content ();
+	
+	bool const single = video_sel.size() == 1;
 
-	_left_crop->set_content (sel);
-	_right_crop->set_content (sel);
-	_top_crop->set_content (sel);
-	_bottom_crop->set_content (sel);
-	_frame_type->set_content (sel);
-	_scale->set_content (sel);
+	_left_crop->set_content (video_sel);
+	_right_crop->set_content (video_sel);
+	_top_crop->set_content (video_sel);
+	_bottom_crop->set_content (video_sel);
+	_frame_type->set_content (video_sel);
+	_scale->set_content (video_sel);
 
-	/* Things that are only allowed with single selections */
-	_filters_button->Enable (single);
+	_filters_button->Enable (single && !ffmpeg_sel.empty ());
 	_colour_conversion_button->Enable (single);
 
 	film_content_changed (VideoContentProperty::VIDEO_CROP);

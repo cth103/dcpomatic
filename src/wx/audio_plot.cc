@@ -159,7 +159,7 @@ AudioPlot::paint ()
 		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), 0, y - (db_label_height / 2));
 	}
 
-	gc->SetPen (*wxLIGHT_GREY_PEN);
+	gc->SetPen (wxPen (wxColour (200, 200, 200)));
 	gc->StrokePath (grid);
 
 	gc->DrawText (_("Time"), data_width, metrics.height - metrics.y_origin + db_label_height / 2);
@@ -171,7 +171,7 @@ AudioPlot::paint ()
 				plot_peak (p, c, metrics);
 			}
 			wxColour const col = _colours[c];
-			gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxPENSTYLE_SOLID));
+			gc->SetPen (wxPen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxPENSTYLE_SOLID));
 			gc->StrokePath (p);
 		}
 	}
@@ -183,7 +183,7 @@ AudioPlot::paint ()
 				plot_rms (p, c, metrics);
 			}
 			wxColour const col = _colours[c];
-			gc->SetPen (*wxThePenList->FindOrCreatePen (col, 1, wxPENSTYLE_SOLID));
+			gc->SetPen (wxPen (col, 1, wxPENSTYLE_SOLID));
 			gc->StrokePath (p);
 		}
 	}
@@ -192,7 +192,7 @@ AudioPlot::paint ()
 	axes.MoveToPoint (metrics.db_label_width, 0);
 	axes.AddLineToPoint (metrics.db_label_width, metrics.height - metrics.y_origin);
 	axes.AddLineToPoint (metrics.db_label_width + data_width, metrics.height - metrics.y_origin);
-	gc->SetPen (*wxBLACK_PEN);
+	gc->SetPen (wxPen (wxColour (0, 0, 0)));
 	gc->StrokePath (axes);
 
 	delete gc;

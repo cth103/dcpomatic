@@ -61,6 +61,14 @@ public:
 	{}
 
 protected:
+	wxPanel* make_panel (wxWindow* parent)
+	{
+		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
+		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+		panel->SetSizer (s);
+		return panel;
+	}
+	
 	wxSize _panel_size;
 	int _border;
 };
@@ -75,13 +83,11 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		_set_language = new wxCheckBox (panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, 1);
@@ -238,13 +244,11 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		{
 			add_label_to_sizer (table, panel, _("Default duration of still images"), true);
@@ -266,6 +270,10 @@ public:
 		add_label_to_sizer (table, panel, _("Default ISDCF name details"), true);
 		_isdcf_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
 		table->Add (_isdcf_metadata_button);
+
+		add_label_to_sizer (table, panel, _("Default scale to"), true);
+		_scale = new wxChoice (panel, wxID_ANY);
+		table->Add (_scale);
 		
 		add_label_to_sizer (table, panel, _("Default container"), true);
 		_container = new wxChoice (panel, wxID_ANY);
@@ -297,10 +305,6 @@ public:
 		_issuer = new wxTextCtrl (panel, wxID_ANY);
 		table->Add (_issuer, 1, wxEXPAND);
 
-		add_label_to_sizer (table, panel, _("Default creator"), true);
-		_creator = new wxTextCtrl (panel, wxID_ANY);
-		table->Add (_creator, 1, wxEXPAND);
-		
 		Config* config = Config::instance ();
 		
 		_still_length->SetRange (1, 3600);
@@ -312,26 +316,31 @@ public:
 		
 		_isdcf_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this, parent));
 		
-		vector<Ratio const *> ratio = Ratio::all ();
-		int n = 0;
-		for (vector<Ratio const *>::iterator i = ratio.begin(); i != ratio.end(); ++i) {
-			_container->Append (std_to_wx ((*i)->nickname ()));
-			if (*i == config->default_container ()) {
-				_container->SetSelection (n);
+		vector<VideoContentScale> scales = VideoContentScale::all ();
+		for (size_t i = 0; i < scales.size(); ++i) {
+			_scale->Append (std_to_wx (scales[i].name ()));
+			if (scales[i] == config->default_scale ()) {
+				_scale->SetSelection (i);
 			}
-			++n;
+		}
+
+		vector<Ratio const *> ratios = Ratio::all ();
+		for (size_t i = 0; i < ratios.size(); ++i) {
+			_container->Append (std_to_wx (ratios[i]->nickname ()));
+			if (ratios[i] == config->default_container ()) {
+				_container->SetSelection (i);
+			}
 		}
 		
+		_scale->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::scale_changed, this));
 		_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::container_changed, this));
 		
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
-		n = 0;
-		for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
-			_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
-			if (*i == config->default_dcp_content_type ()) {
-				_dcp_content_type->SetSelection (n);
+		for (size_t i = 0; i < ct.size(); ++i) {
+			_dcp_content_type->Append (std_to_wx (ct[i]->pretty_name ()));
+			if (ct[i] == config->default_dcp_content_type ()) {
+				_dcp_content_type->SetSelection (i);
 			}
-			++n;
 		}
 		
 		_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
@@ -344,10 +353,8 @@ public:
 		_audio_delay->SetValue (config->default_audio_delay ());
 		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
 
-		_issuer->SetValue (std_to_wx (config->dcp_metadata().issuer));
+		_issuer->SetValue (std_to_wx (config->dcp_issuer ()));
 		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::issuer_changed, this));
-		_creator->SetValue (std_to_wx (config->dcp_metadata().creator));
-		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::creator_changed, this));
 
 		return panel;
 	}
@@ -380,6 +387,12 @@ private:
 	{
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
+
+	void scale_changed ()
+	{
+		vector<VideoContentScale> scale = VideoContentScale::all ();
+		Config::instance()->set_default_scale (scale[_scale->GetSelection()]);
+	}
 	
 	void container_changed ()
 	{
@@ -395,16 +408,7 @@ private:
 
 	void issuer_changed ()
 	{
-		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
-		m.issuer = wx_to_std (_issuer->GetValue ());
-		Config::instance()->set_dcp_metadata (m);
-	}
-	
-	void creator_changed ()
-	{
-		libdcp::XMLMetadata m = Config::instance()->dcp_metadata ();
-		m.creator = wx_to_std (_creator->GetValue ());
-		Config::instance()->set_dcp_metadata (m);
+		Config::instance()->set_dcp_issuer (wx_to_std (_issuer->GetValue ()));
 	}
 	
 	wxSpinCtrl* _j2k_bandwidth;
@@ -416,10 +420,10 @@ private:
 #else
 	wxDirPickerCtrl* _directory;
 #endif
+	wxChoice* _scale;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxTextCtrl* _issuer;
-	wxTextCtrl* _creator;
 };
 
 class EncodingServersPage : public wxPreferencesPage, public Page
@@ -443,12 +447,10 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 		
 		_use_any_servers = new wxCheckBox (panel, wxID_ANY, _("Use all servers"));
-		s->Add (_use_any_servers, 0, wxALL, _border);
+		panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
 		
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("IP address / host name")));
@@ -460,7 +462,7 @@ public:
 			boost::bind (&EncodingServersPage::server_column, this, _1)
 			);
 		
-		s->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 		
 		_use_any_servers->SetValue (Config::instance()->use_any_servers ());
 		_use_any_servers->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
@@ -504,9 +506,7 @@ public:
 #endif	
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("Name")));
@@ -519,7 +519,7 @@ public:
 			300
 			);
 
-		s->Add (list, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (list, 1, wxEXPAND | wxALL, _border);
 		return panel;
 	}
 
@@ -551,13 +551,11 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 		
 		add_label_to_sizer (table, panel, _("IP address"), true);
 		_tms_ip = new wxTextCtrl (panel, wxID_ANY);
@@ -638,18 +636,18 @@ public:
 
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
+#ifdef DCPOMATIC_OSX		
 		/* We have to force both width and height of this one */
-#ifdef DCPOMATIC_OSX
 		wxPanel* panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, wxSize (480, 128));
-#else		
+#else
 		wxPanel* panel = new wxPanel (parent);
-#endif		
+#endif
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		panel->SetSizer (s);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
 		add_label_to_sizer (table, panel, _("Outgoing mail server"), true);
 		_mail_server = new wxTextCtrl (panel, wxID_ANY);
@@ -669,6 +667,10 @@ public:
 		font.SetPointSize (font.GetPointSize() - 1);
 		plain->SetFont (font);
 		table->AddSpacer (0);
+
+		add_label_to_sizer (table, panel, _("Subject"), true);
+		_kdm_subject = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_kdm_subject, 1, wxEXPAND | wxALL);
 		
 		add_label_to_sizer (table, panel, _("From address"), true);
 		_kdm_from = new wxTextCtrl (panel, wxID_ANY);
@@ -677,12 +679,16 @@ public:
 		add_label_to_sizer (table, panel, _("CC address"), true);
 		_kdm_cc = new wxTextCtrl (panel, wxID_ANY);
 		table->Add (_kdm_cc, 1, wxEXPAND | wxALL);
+
+		add_label_to_sizer (table, panel, _("BCC address"), true);
+		_kdm_bcc = new wxTextCtrl (panel, wxID_ANY);
+		table->Add (_kdm_bcc, 1, wxEXPAND | wxALL);
 		
 		_kdm_email = new wxTextCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
-		s->Add (_kdm_email, 1.5, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
 
 		_reset_kdm_email = new wxButton (panel, wxID_ANY, _("Reset to default text"));
-		s->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
+		panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
 
 		Config* config = Config::instance ();
 		_mail_server->SetValue (std_to_wx (config->mail_server ()));
@@ -691,12 +697,16 @@ public:
 		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_user_changed, this));
 		_mail_password->SetValue (std_to_wx (config->mail_password ()));
 		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_password_changed, this));
+		_kdm_subject->SetValue (std_to_wx (config->kdm_subject ()));
+		_kdm_subject->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
 		_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
 		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
 		_kdm_cc->SetValue (std_to_wx (config->kdm_cc ()));
 		_kdm_cc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_cc_changed, this));
+		_kdm_bcc->SetValue (std_to_wx (config->kdm_bcc ()));
+		_kdm_bcc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
-		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
+		_kdm_email->SetValue (std_to_wx (Config::instance()->kdm_email ()));
 		_reset_kdm_email->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMEmailPage::reset_kdm_email, this));
 
 		return panel;
@@ -717,6 +727,11 @@ private:
 	{
 		Config::instance()->set_mail_password (wx_to_std (_mail_password->GetValue ()));
 	}
+
+	void kdm_subject_changed ()
+	{
+		Config::instance()->set_kdm_subject (wx_to_std (_kdm_subject->GetValue ()));
+	}
 	
 	void kdm_from_changed ()
 	{
@@ -726,6 +741,11 @@ private:
 	void kdm_cc_changed ()
 	{
 		Config::instance()->set_kdm_cc (wx_to_std (_kdm_cc->GetValue ()));
+	}
+
+	void kdm_bcc_changed ()
+	{
+		Config::instance()->set_kdm_bcc (wx_to_std (_kdm_bcc->GetValue ()));
 	}
 	
 	void kdm_email_changed ()
@@ -742,8 +762,10 @@ private:
 	wxTextCtrl* _mail_server;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;
+	wxTextCtrl* _kdm_subject;
 	wxTextCtrl* _kdm_from;
 	wxTextCtrl* _kdm_cc;
+	wxTextCtrl* _kdm_bcc;
 	wxTextCtrl* _kdm_email;
 	wxButton* _reset_kdm_email;
 };
@@ -759,14 +781,11 @@ public:
 	
 	wxWindow* CreateWindow (wxWindow* parent)
 	{
-		wxPanel* panel = new wxPanel (parent);
-
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		panel->SetSizer (s);
+		wxPanel* panel = make_panel (parent);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		s->Add (table, 1, wxALL | wxEXPAND, _border);
+		panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		{
 			add_label_to_sizer (table, panel, _("Maximum JPEG2000 bandwidth"), true);
@@ -781,18 +800,26 @@ public:
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
-		add_label_to_sizer (table, panel, _("Log"), true);
-		_log_general = new wxCheckBox (panel, wxID_ANY, _("General"));
-		table->Add (_log_general, 1, wxEXPAND | wxALL);
-		_log_warning = new wxCheckBox (panel, wxID_ANY, _("Warnings"));
-		table->AddSpacer (0);
-		table->Add (_log_warning, 1, wxEXPAND | wxALL);
-		_log_error = new wxCheckBox (panel, wxID_ANY, _("Errors"));
-		table->AddSpacer (0);
-		table->Add (_log_error, 1, wxEXPAND | wxALL);
-		_log_timing = new wxCheckBox (panel, wxID_ANY, S_("Config|Timing"));
-		table->AddSpacer (0);
-		table->Add (_log_timing, 1, wxEXPAND | wxALL);
+#ifdef __WXOSX__
+		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log:"));
+		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL | wxALIGN_RIGHT, 6);
+#else		
+		wxStaticText* m = new wxStaticText (panel, wxID_ANY, _("Log"));
+		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL, 6);
+#endif		
+		
+		{
+			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
+			_log_general = new wxCheckBox (panel, wxID_ANY, _("General"));
+			t->Add (_log_general, 1, wxEXPAND | wxALL);
+			_log_warning = new wxCheckBox (panel, wxID_ANY, _("Warnings"));
+			t->Add (_log_warning, 1, wxEXPAND | wxALL);
+			_log_error = new wxCheckBox (panel, wxID_ANY, _("Errors"));
+			t->Add (_log_error, 1, wxEXPAND | wxALL);
+			_log_timing = new wxCheckBox (panel, wxID_ANY, S_("Config|Timing"));
+			t->Add (_log_timing, 1, wxEXPAND | wxALL);
+			table->Add (t, 0, wxALL, 6);
+		}
 
 		Config* config = Config::instance ();
 		
@@ -861,7 +888,7 @@ create_config_dialog ()
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	wxSize ps = wxSize (480, -1);
+	wxSize ps = wxSize (520, -1);
 	int const border = 16;
 #else
 	wxSize ps = wxSize (-1, -1);

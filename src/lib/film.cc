@@ -22,7 +22,6 @@
 #include <algorithm>
 #include <fstream>
 #include <cstdlib>
-#include <sstream>
 #include <iomanip>
 #include <unistd.h>
 #include <boost/filesystem.hpp>
@@ -55,11 +54,11 @@
 #include "ratio.h"
 #include "cross.h"
 #include "cinema.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::multimap;
 using std::pair;
 using std::map;
@@ -92,9 +91,11 @@ using libdcp::raw_convert;
  * 7 -> 8
  * Use <Scale> tag in <VideoContent> rather than <Ratio>.
  * 8 -> 9
- * DCI -> ISDCF
+ * DCI -> ISDCF.
+ * 9 -> 10
+ * Subtitle X and Y scale.
  */
-int const Film::current_state_version = 9;
+int const Film::current_state_version = 10;
 
 /** Construct a Film object in a given directory.
  *
@@ -159,7 +160,7 @@ Film::video_identifier () const
 {
 	assert (container ());
 
-	stringstream s;
+	SafeStringStream s;
 	s.imbue (std::locale::classic ());
 	
 	s << container()->id()
@@ -493,7 +494,7 @@ Film::file (boost::filesystem::path f) const
 string
 Film::isdcf_name (bool if_created_now) const
 {
-	stringstream d;
+	SafeStringStream d;
 
 	string raw_name = name ();
 
@@ -581,18 +582,22 @@ Film::isdcf_name (bool if_created_now) const
 		d << "_" << container()->isdcf_name();
 	}
 
-	/* XXX: this only works for content which has been scaled to a given ratio,
-	   and uses the first bit of content only.
-	*/
+	/* XXX: this uses the first bit of content only */
 
 	/* The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != libdcp::TRAILER) {
-		ContentList cl = content ();
 		Ratio const * content_ratio = 0;
-		for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+		ContentList cl = content ();
+		for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
-			if (vc && (content_ratio == 0 || vc->scale().ratio() != content_ratio)) {
-				content_ratio = vc->scale().ratio();
+			if (vc) {
+				/* Here's the first piece of video content */
+				if (vc->scale().ratio ()) {
+					content_ratio = vc->scale().ratio ();
+				} else {
+					content_ratio = Ratio::from_ratio (vc->video_size().ratio ());
+				}
+				break;
 			}
 		}
 		
@@ -817,7 +822,7 @@ Film::info_path (int f, Eyes e) const
 	boost::filesystem::path p;
 	p /= info_dir ();
 
-	stringstream s;
+	SafeStringStream s;
 	s.width (8);
 	s << setfill('0') << f;
 
@@ -844,7 +849,7 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	p /= "j2c";
 	p /= video_identifier ();
 
-	stringstream s;
+	SafeStringStream s;
 	s.width (8);
 	s << setfill('0') << f;
 

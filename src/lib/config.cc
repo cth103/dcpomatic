@@ -17,7 +17,6 @@
 
 */
 
-#include <sstream>
 #include <cstdlib>
 #include <fstream>
 #include <glib.h>
@@ -40,10 +39,12 @@
 #include "i18n.h"
 
 using std::vector;
+using std::cout;
 using std::ifstream;
 using std::string;
 using std::list;
 using std::max;
+using std::remove;
 using std::exception;
 using std::cerr;
 using boost::shared_ptr;
@@ -63,6 +64,7 @@ Config::Config ()
 	, _sound_processor (SoundProcessor::from_id (N_("dolby_cp750")))
 	, _allow_any_dcp_frame_rate (false)
 	, _default_still_length (10)
+	, _default_scale (VideoContentScale (Ratio::from_id ("185")))
 	, _default_container (Ratio::from_id ("185"))
 	, _default_dcp_content_type (DCPContentType::from_isdcf_name ("TST"))
 	, _default_j2k_bandwidth (100000000)
@@ -133,6 +135,11 @@ Config::read ()
 
 	_language = f.optional_string_child ("Language");
 
+	c = f.optional_string_child ("DefaultScale");
+	if (c) {
+		_default_scale = VideoContentScale::from_id (c.get ());
+	}
+
 	c = f.optional_string_child ("DefaultContainer");
 	if (c) {
 		_default_container = Ratio::from_id (c.get ());
@@ -143,9 +150,12 @@ Config::read ()
 		_default_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
 	}
 
-	_dcp_metadata.issuer = f.optional_string_child ("DCPMetadataIssuer").get_value_or ("");
-	_dcp_metadata.creator = f.optional_string_child ("DCPMetadataCreator").get_value_or ("");
-
+	if (f.optional_string_child ("DCPMetadataIssuer")) {
+		_dcp_issuer = f.string_child ("DCPMetadataIssuer");
+	} else if (f.optional_string_child ("DCPIssuer")) {
+		_dcp_issuer = f.string_child ("DCPIssuer");
+	}
+	
 	if (version && version.get() >= 2) {
 		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
 	} else {
@@ -186,8 +196,10 @@ Config::read ()
 	_mail_server = f.string_child ("MailServer");
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
+	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
 	_kdm_from = f.string_child ("KDMFrom");
 	_kdm_cc = f.optional_string_child ("KDMCC").get_value_or ("");
+	_kdm_bcc = f.optional_string_child ("KDMBCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
 
 	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
@@ -197,6 +209,11 @@ Config::read ()
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR);
+
+	list<cxml::NodePtr> his = f.node_children ("History");
+	for (list<cxml::NodePtr>::const_iterator i = his.begin(); i != his.end(); ++i) {
+		_history.push_back ((*i)->content ());
+	}
 }
 
 void
@@ -252,11 +269,7 @@ Config::read_old_metadata ()
 		} else if (k == "default_dcp_content_type") {
 			_default_dcp_content_type = DCPContentType::from_isdcf_name (v);
 		} else if (k == "dcp_metadata_issuer") {
-			_dcp_metadata.issuer = v;
-		} else if (k == "dcp_metadata_creator") {
-			_dcp_metadata.creator = v;
-		} else if (k == "dcp_metadata_issue_date") {
-			_dcp_metadata.issue_date = v;
+			_dcp_issuer = v;
 		}
 
 		_default_isdcf_metadata.read_old_metadata (k, v);
@@ -340,14 +353,14 @@ Config::write () const
 	if (_language) {
 		root->add_child("Language")->add_child_text (_language.get());
 	}
+	root->add_child("DefaultScale")->add_child_text (_default_scale.id ());
 	if (_default_container) {
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
 	if (_default_dcp_content_type) {
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
 	}
-	root->add_child("DCPMetadataIssuer")->add_child_text (_dcp_metadata.issuer);
-	root->add_child("DCPMetadataCreator")->add_child_text (_dcp_metadata.creator);
+	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 
 	_default_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 
@@ -366,8 +379,10 @@ Config::write () const
 	root->add_child("MailServer")->add_child_text (_mail_server);
 	root->add_child("MailUser")->add_child_text (_mail_user);
 	root->add_child("MailPassword")->add_child_text (_mail_password);
+	root->add_child("KDMSubject")->add_child_text (_kdm_subject);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 	root->add_child("KDMCC")->add_child_text (_kdm_cc);
+	root->add_child("KDMBCC")->add_child_text (_kdm_bcc);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
@@ -376,6 +391,10 @@ Config::write () const
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
 	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
+
+	for (vector<boost::filesystem::path>::const_iterator i = _history.begin(); i != _history.end(); ++i) {
+		root->add_child("History")->add_child_text (i->string ());
+	}
 	
 	doc.write_to_file_formatted (file(false).string ());
 }
@@ -421,4 +440,18 @@ Config::reset_kdm_email ()
 		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
 		"Best regards,\nDCP-o-matic"
 		);
+}
+
+void
+Config::add_to_history (boost::filesystem::path p)
+{
+	/* Remove existing instances of this path in the history */
+	_history.erase (remove (_history.begin(), _history.end(), p), _history.end ());
+	
+	_history.insert (_history.begin (), p);
+	if (_history.size() > HISTORY_SIZE) {
+		_history.pop_back ();
+	}
+
+	changed ();
 }

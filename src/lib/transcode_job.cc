@@ -27,6 +27,7 @@
 #include "film.h"
 #include "transcoder.h"
 #include "log.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
@@ -34,7 +35,6 @@
 #define LOG_ERROR_NC(...)   _film->log()->log (__VA_ARGS__, Log::TYPE_ERROR);
 
 using std::string;
-using std::stringstream;
 using std::fixed;
 using std::setprecision;
 using boost::shared_ptr;
@@ -51,12 +51,6 @@ string
 TranscodeJob::name () const
 {
 	return String::compose (_("Transcode %1"), _film->name());
-}
-
-string
-TranscodeJob::json_name () const
-{
-	return N_("transcode");
 }
 
 void
@@ -95,7 +89,7 @@ TranscodeJob::status () const
 		return Job::status ();
 	}
 
-	stringstream s;
+	SafeStringStream s;
 
 	s << Job::status ();
 

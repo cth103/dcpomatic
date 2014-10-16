@@ -27,6 +27,7 @@
 Hello, and welcome to DCP-o-matic!
 </para>
 
+<!-- ============================================================== -->
 <section>
 <title>What is DCP-o-matic?</title>
 
@@ -46,6 +47,8 @@ your cinema.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Licence</title>
 
@@ -55,6 +58,8 @@ DCP-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-li
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Acknowledgements</title>
 
@@ -68,6 +73,8 @@ This manual uses icons from the <ulink url="http://tango.freedesktop.org/">Tango
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Installation</title>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Windows</title>
 
@@ -89,12 +96,14 @@ version.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Mac OS X</title>
 
 <para>
 DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
-higher.  To install it, download the <code>DMG</code> from <ulink
+higher.  To install it, download the <code>.dmg</code> from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and double
 click to open it.  Then drag the DCP-o-matic icon to your
 <guilabel>Applications</guilabel> folder or wherever else you would
@@ -108,8 +117,7 @@ like to install it.
 
 <para>
 You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
-Pangolin&rsquo;), 12.10 (&lsquo;Quantal Quetzal&rsquo;), 13.10 (&lsquo;Saucy
-Salamander&rsquo;) or 14.04 (&lsquo;Trusty Tahr&rsquo;) using <code>.deb</code> packages: download the
+Pangolin&rsquo;) or 14.04 (&lsquo;Trusty Tahr&rsquo;) using <code>.deb</code> packages: download the
 appropriate package from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
@@ -118,22 +126,28 @@ and set DCP-o-matic up for you.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Debian Linux</title>
 <para>
-Packages are available for Debian 7 (squeeze) from <ulink
+Packages are available for Debian 7 (squeeze) and unstable (sid) from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
 </para>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Centos Linux</title>
 <para>
-Packages are available for Centos 6.5 from <ulink
+Packages are available for Centos 6.5 and 7 from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
 </para>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Arch Linux</title>
 <para>
@@ -143,6 +157,8 @@ thanks to Stefan Karner.
 </para>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Other Linux distributions</title>
 
@@ -150,8 +166,7 @@ thanks to Stefan Karner.
 Installation on non-Ubuntu Linux is currently a little involved, as
 there are no packages available (yet); you will have to compile it
 from source.  If you are using a non-Ubuntu distribution, do let me
-know via the <ulink url="mailto:carl@dcpomatic.com">mailing
-list</ulink> and I will see about building some packages.
+know by <ulink url="mailto:carl@dcpomatic.com">email</ulink> and I will see about building some packages.
 </para>
 
 <para>
@@ -205,6 +220,8 @@ in a shell.
 </section>
 </chapter>
 
+
+<!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Creating a video DCP</title>
 
@@ -270,6 +287,8 @@ will write its working files.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Adding content</title>
 
@@ -339,6 +358,8 @@ url="http://www.mplayerhq.hu/design7/news.html">mplayer</ulink> or
 
 
 
+
+<!-- ============================================================== -->
 <section>
 <title>Making the DCP</title>
 
@@ -381,6 +402,8 @@ DCP-o-matic.  See the <xref linkend="sec-prefs-tms" endterm="sec-prefs-tms-short
 </section>
 </chapter>
 
+
+<!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Creating a still-image DCP</title>
 
@@ -454,6 +477,8 @@ to encode a single frame which it can then repeat.
 
 </chapter>
 
+
+<!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Content settings</title>
 
@@ -504,6 +529,9 @@ clicking the <guilabel>Remove</guilabel> button.
 </para>
 
 </section>
+
+
+<!-- ============================================================== -->
 <section>
 <title>Content Properties</title>
 
@@ -524,6 +552,8 @@ in each section are described below.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Video</title>
 
@@ -540,6 +570,8 @@ The <guilabel>Video</guilabel> tab controls properties of the image, as shown in
   </mediaobject>
 </figure>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Image type</title>
 
@@ -576,6 +608,18 @@ linkend="fig-3d-top-bottom"/>.
   </mediaobject>
 </figure>
 
+<para>
+Another option is <guilabel>3D alternate</guilabel> which takes the
+first frame of the content as for the left eye, the second for the
+right eye, the third for the left, and so on.  Finally, you can
+specify <guilabel>3D left only</guilabel> or <guilabel>3D right
+only</guilabel> if this content contains only the the left or right
+eye images.  This is useful when you have the left and right eye image
+sets in different files; you can specify one content as <guilabel>3D
+left only</guilabel> and another as <guilabel>3D right only</guilabel>
+and DCP-o-matic will pick up the appropriate frames from each.
+</para>
+
 </section>
 
 
@@ -610,6 +654,52 @@ image is much smaller and of lower resolution than a projected image!
 </section>
 
 
+
+<!-- ============================================================== -->
+<section>
+<title>Colour conversion</title>
+
+<para>
+The <guilabel>Colour conversion</guilabel> setting specifies what
+colour transforms and gamma correction DCP-o-matic will use when
+converting the selected content into the XYZ colourspace for the DCP.
+</para>
+
+<para>
+Clicking <guilabel>Edit...</guilabel> will open the colour conversion
+dialogue box, as shown in <xref linkend="fig-colour-conversion"/>.
+</para>
+
+<figure id="fig-colour-conversion">
+  <title>Dialogue box for setting colour conversion</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/colour-conversion&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+In most cases, it is only necessary to select one of DCP-o-matic's
+presets.  DCP-o-matic knows how to convert from two common
+colourspaces: sRGB and Rec. 709, so if your content was graded using
+one of those you can select the appropriate preset.
+</para>
+
+<para>
+For other colour spaces you can edit the values in the lower half of
+the dialogue box as you wish.  Alternatively, create a new colour
+conversion preset using the preferences dialog, as described in <xref
+linkend="sec-prefs-colour"/>.
+</para>
+
+<para>
+Colour conversion is discussed in more detail in a separate document
+<ulink url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
+</para>
+
+</section>
+
 <!-- ============================================================== -->
 <section>
 <title>Other settings</title>
@@ -629,6 +719,8 @@ ratio that your content should be presented in.
 </para>
 
 </section>
+
+<!-- ============================================================== -->
 <section>
 <title>Video description</title>
 
@@ -652,6 +744,8 @@ will happen to it when it is played at the DCP's frame rate.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Audio</title>
 
@@ -668,6 +762,8 @@ The <guilabel>Audio</guilabel> tab controls properties of the image, as shown in
   </mediaobject>
 </figure>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Show audio</title>
 
@@ -717,6 +813,8 @@ auditorium, but it can be useful to get levels in the right rough area.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>The audio map</title>
 
@@ -729,8 +827,33 @@ in the DCP.
 <para>
 Down the left-hand side of the map is the list of audio channels in
 the currently-selected piece of content.  Along the top is each
-channel in the DCP.  A checked box means that the corresponding
+channel in the DCP.  A green box means that the corresponding
 content channel will be copied into the corresponding DCP channel.
+</para>
+
+<para>
+When content channels are copied into DCP channels they can be done
+with variable gain.  If, for example, you want to copy a channel
+as-is, you can set a gain of 0dB.  Alternatively, if you want to mix
+two channels into one, you may want to use a gain of -6dB on each one
+to prevent clipping when the two channels are added.
+</para>
+
+<para>
+The green boxes of the audio mapping view tell you (very roughly) how
+much gain is applied to each channel.  A full-height box means 0dB
+(i.e. unity) gain.  Any less height indicates lower gain.
+</para>
+
+<para>
+To map one channel to another with 0dB gain, click in the empty box
+and it will turn green to reflect the mapping.  A second click will
+turn the mapping back off.  To set some other gain, right-click on the
+box to open the gain menu.  This allows you to set
+<guilabel>Off</guilabel> (no mapping or negative infinity gain),
+<guilabel>Full</guilabel> (0dB gain), -6dB gain or
+<guilabel>Edit</guilabel> which allows you to set the required gain
+precisely.
 </para>
 
 <para>
@@ -748,8 +871,9 @@ Consider, for example, the case in <xref linkend="fig-audio-map-eg1"/>.
 
 <para>
 Here, we have two channels in the source which are mapped to left and
-right, respectively, in the DCP.  If we modify that as in <xref
-linkend="fig-audio-map-eg2"/>
+right, respectively, in the DCP.  The full green boxes show that the
+mapping is at unity gain (0dB) in each case.  Imagine that we modify
+the settings to those shown in <xref linkend="fig-audio-map-eg2"/>
 </para>
 
 <figure id="fig-audio-map-eg2">
@@ -762,8 +886,13 @@ linkend="fig-audio-map-eg2"/>
 </figure>
 
 <para>
-we now have the content's streams mapped to left and right and also
-mixed together and placed in the DCP's centre channel.
+We now have the content's streams mapped to left and right and also
+mixed together and placed in the DCP's centre channel.  The smaller
+green boxes on the centre mappings show that those channels are added
+with some non-unity gain; you can see by hovering the mouse pointer
+over those boxes that the gain for content channels 1 and 2 is -6dB
+when being sent to the centre channel and 0dB when being sent to left
+and right.
 </para>
 
 <figure id="fig-audio-map-eg3">
@@ -782,6 +911,8 @@ shows the mapping of a 5.1 source into a 5.1 DCP.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Other controls</title>
 
@@ -842,6 +973,7 @@ might be different soundtrack languages, for example.
 </section>
 
 
+<!-- ============================================================== -->
 <section>
 <title>Subtitles</title>
 
@@ -866,9 +998,11 @@ included in the image and not overlaid by the projector).  Note that
 DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
 (automatically) to use non-burnt-in subtitles with these sources.
 Select the <guilabel>With Subtitles</guilabel> check-box to enable
-subtitles.  The <guilabel>offset</guilabel> control moves the
-subtitles up and down the image, and the <guilabel>scale</guilabel>
-control changes their size.
+subtitles.  The <guilabel>X Offset</guilabel> and <guilabel>Y
+Offset</guilabel> controls move the subtitles around within the image,
+and the <guilabel>scale</guilabel> control changes their size.  The
+<guilabel>Stream</guilabel> control changes the subtitle stream that
+is used when the content has more than one.
 </para>
 
 <para>
@@ -879,6 +1013,8 @@ DCPs).
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Timing</title>
 
@@ -953,6 +1089,8 @@ any changes to the corresponding timecode.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Video processing pipeline</title>
 
@@ -1195,7 +1333,7 @@ more modern of the two).
 
 <para>
 Finally, the <guilabel>Scaler</guilabel> is the method that will be used to scale up
-your content to the required size for the DCP, if required.  Bicubic is a fine choice in
+your content for the DCP, if required.  Bicubic is a fine choice in
 most situations.
 </para>
 
@@ -1210,6 +1348,8 @@ chapter discusses the basic principles of DCP encryption, and how
 DCP-o-matic can create encrypted DCPs and KDMs for them.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Basics</title>
 
@@ -1223,6 +1363,8 @@ way that he can play it.  Only those cinemas who receive a correct key
 delivery message (KDM) can play the DCP.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>How it works (in a nutshell)</title>
 
@@ -1298,6 +1440,8 @@ does not).
 </section>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Encryption using DCP-o-matic</title>
 
@@ -1387,6 +1531,8 @@ generate the KDMs.
 </chapter>
 
 
+
+<!-- ============================================================== -->
 <chapter xml:id="ch-preferences" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Preferences</title>
 
@@ -1395,31 +1541,36 @@ DCP-o-matic provides a few preferences which can be used to modify its
 behaviour.  This chapter explains those options.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>The preferences dialogue</title>
 
 <para>
 The preferences dialogue is opened by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  The dialogue is split into five tabs.
+menu.  The dialogue is split into seven tabs.
 </para>
 
+<!-- ============================================================== -->
 <section>
-<title>Miscellaneous</title>
+<title>General</title>
 
 <para>
-The miscellaneous tab is shown in <xref linkend="fig-prefs-misc"/>.
+The general tab is shown in <xref linkend="fig-prefs-general"/>.
 </para>
 
-<figure id="fig-prefs-misc"> 
-  <title>Miscellaneous preferences</title> 
+<figure id="fig-prefs-general"> 
+  <title>General preferences</title> 
   <mediaobject>
     <imageobject> 
-      <imagedata fileref="screenshots/prefs-misc&scs;"/>
+      <imagedata fileref="screenshots/prefs-general&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Language</title>
 
@@ -1437,6 +1588,8 @@ read about how to contribute a translation.
 </para>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Threads</title>
 
@@ -1450,30 +1603,57 @@ to set this up correctly when you run it for the first time.
 
 </section>
 
+<!-- ============================================================== -->
 <section>
-<title>KDM emails</title>
+<title>Updates</title>
 
 <para>
-DCP-o-matic can send KDMs (see <xref linkend="ch-encryption"/>) to
-cinemas (or anywhere else) via email.  To make this work, enter a
-suitable outgoing mail (SMTP) server and &lsquo;from&rsquo; address
-for these emails.
+The <guilabel>Check for updates on startup</guilabel> option, if
+enabled, will tell DCP-o-matic to check on <ulink
+url="http://dcpomatic.com/">dcpomatic.com</ulink> to see if there any
+newer versions of DCP-o-matic then the one you are running.  If so, a
+dialogue box will open with a link to download the new version.
+available
 </para>
+
+<para>
+The <guilabel>Check for testing updates as well as stable
+ones</guilabel> option will also check for test updates as well as
+those that are formally &lsquo;released&rsquo; This is useful if you
+like to live on the bleeding edge!
+</para>
+</section>
 
 </section>
 
+<!-- ============================================================== -->
 <section>
 <title>Defaults</title>
 
 <para>
-The next few options allow you to set up default values for several
-properties of new films that you create.
+The defaults tab is shown in <xref linkend="fig-prefs-defaults"/>.
+</para>
+
+<figure id="fig-prefs-defaults">
+  <title>Defaults preferences</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/prefs-defaults&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The options in this tab simply allow you to set up default values for
+various properties of new films.
 </para>
 
 </section>
-</section>
 
-<section>
+<!-- XXX: servers -->
+
+<!-- ============================================================== -->
+<section xml:id="sec-prefs-colour">
 <title>Colour conversions</title>
 
 <para>
@@ -1507,29 +1687,8 @@ converting from common input colour spaces to XYZ.
 
 </section>
 
-<section>
-<title>Metadata</title>
 
-<para>
-The metadata tab is shown in <xref linkend="fig-prefs-metadata"/>.
-</para>
-
-<figure id="fig-prefs-metadata"> 
-  <title>Metadata preferences</title> 
-  <mediaobject>
-    <imageobject> 
-      <imagedata fileref="screenshots/prefs-metadata&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-This allows you to set up a couple of identifiers that are written
-into the DCP.  The default values should cause no problems.
-</para>
-
-</section>
-
+<!-- ============================================================== -->
 <section xml:id="sec-prefs-tms">
 <title>TMS</title>
 <titleabbrev xml:id="sec-prefs-tms-short">TMS preferences</titleabbrev>
@@ -1561,6 +1720,8 @@ credentials required to log into the TMS via SSH.
 </para>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>KDM email</title>
 
@@ -1579,13 +1740,42 @@ The KDM email is shown in <xref linkend="fig-prefs-kdm-email"/>.
 
 <para>
 This is a template for the email that is used to send KDMs out to
-cinemas.  You can change it to say whatever you like.  The
-&lsquo;magic&rsquo; string <code>$CPL_NAME</code> will be replaced by
-DCP's title.
+cinemas.  You can change it to say whatever you like.  A few
+&lsquo;magic&rsquo; strings will be replaced by information from the
+KDM that is being sent:
+</para>
+
+<table>
+<title>&lsquo;Magic&rsquo; KDM strings</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+<row>
+<entry><code>$CPL_NAME</code></entry><entry>DCP title</entry>
+</row>
+<row>
+<entry><code>$CINEMA_NAME</code></entry><entry>Cinema name</entry>
+</row>
+<row>
+<entry><code>$SCREENS</code></entry><entry>Name of screen or screens that KDMs are being generated for</entry>
+</row>
+<row>
+<entry><code>$START_TIME</code></entry><entry>The time from which the KDMs are valid</entry>
+</row>
+<row>
+<entry><code>$END_TIME</code></entry><entry>The time until which the KDMs are valid</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<para>
+The <guilabel>Reset to default text</guilabel> will replace the current KDM email with DCP-o-matic's default.
 </para>
 
 </section>
 
+
+<!-- ============================================================== -->
 <section xml:id="sec-prefs-advanced">
 <title>Advanced</title>
 <titleabbrev xml:id="sec-prefs-advanced-short">Advanced preferences</titleabbrev>
@@ -1646,6 +1836,8 @@ video frame and audio sampling rates as the DCP.  This is not,
 however, always possible.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>DCP frame rate limitations</title>
 
@@ -1657,6 +1849,8 @@ play fine, but another (of a different type) will refuse to play, or
 even refuse to ingest.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Guaranteed rates</title>
 
@@ -1669,6 +1863,8 @@ consider using these rates if at all possible.
 
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Other often-supported rates</title>
 <para>
@@ -1677,6 +1873,8 @@ Many projectors now in the wild support additional video frame rates:
 </para>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Adapting content to fit the DCP rate</title>
 
@@ -1719,6 +1917,8 @@ For very low or high frame rates, DCP-o-matic can also skip or duplicate frames.
 </section>
 </section>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Setting up</title>
 
@@ -1768,6 +1968,8 @@ The master and server machines do not need to be the same type, so you
 can mix Windows PCs, Macs and Linux machines as you wish.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Running the servers</title>
 
@@ -1822,6 +2024,8 @@ without touching your standard operating system install.
 </para>
 
 </section>
+
+<!-- ============================================================== -->
 <section>
 <title>Setting up DCP-o-matic</title>
 
@@ -1834,6 +2038,8 @@ servers that DCP-o-matic has found.
 </para>
 
 </section>
+
+<!-- ============================================================== -->
 <section>
 <title>Some notes about encode servers</title>
 
@@ -1916,6 +2122,8 @@ to the cinema which is showing your DCP.
 This chapter collects a few notes on bits of DCP-o-matic that do not fit elsewhere in the manual.
 </para>
 
+
+<!-- ============================================================== -->
 <section>
 <title>Resuming encodes</title>
 

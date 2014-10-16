@@ -40,7 +40,6 @@ using std::vector;
 using std::min;
 using std::max;
 using std::string;
-using std::stringstream;
 using std::pair;
 using boost::optional;
 using boost::shared_ptr;
@@ -389,7 +388,6 @@ Playlist::move_later (shared_ptr<Content> c)
 		return;
 	}
 
-	Time const p = (*next)->position ();
 	(*next)->set_position (c->position ());
 	c->set_position (c->position() + c->length_after_trim ());
 	sort (_content.begin(), _content.end(), ContentSorter ());

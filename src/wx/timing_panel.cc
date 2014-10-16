@@ -27,6 +27,7 @@
 
 using std::cout;
 using std::string;
+using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using libdcp::raw_convert;
@@ -78,67 +79,118 @@ void
 TimingPanel::film_content_changed (int property)
 {
 	ContentList cl = _editor->selected_content ();
-	shared_ptr<Content> content;
-	if (cl.size() == 1) {
-		content = cl.front ();
-	}
-
 	int const film_video_frame_rate = _editor->film()->video_frame_rate ();
+
+	/* Here we check to see if we have exactly one different value of various
+	   properties, and fill the controls with that value if so.
+	*/
 	
 	if (property == ContentProperty::POSITION) {
-		if (content) {
-			_position->set (content->position (), film_video_frame_rate);
-		} else {
-			_position->set (0, 24);
+
+		set<Time> check;
+		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+			check.insert ((*i)->position ());
 		}
+
+		if (check.size() == 1) {
+			_position->set (cl.front()->position(), film_video_frame_rate);
+		} else {
+			_position->clear ();
+		}
+		
 	} else if (
 		property == ContentProperty::LENGTH ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE ||
 		property == VideoContentProperty::VIDEO_FRAME_TYPE
 		) {
-		if (content) {
-			_full_length->set (content->full_length (), film_video_frame_rate);
-			_play_length->set (content->length_after_trim (), film_video_frame_rate);
-		} else {
-			_full_length->set (0, 24);
-			_play_length->set (0, 24);
+
+		set<Time> check;
+		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+			check.insert ((*i)->full_length ());
 		}
+		
+		if (check.size() == 1) {
+			_full_length->set (cl.front()->full_length (), film_video_frame_rate);
+		} else {
+			_full_length->clear ();
+		}
+
 	} else if (property == ContentProperty::TRIM_START) {
-		if (content) {
-			_trim_start->set (content->trim_start (), film_video_frame_rate);
-			_play_length->set (content->length_after_trim (), film_video_frame_rate);
-		} else {
-			_trim_start->set (0, 24);
-			_play_length->set (0, 24);
+
+		set<Time> check;
+		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+			check.insert ((*i)->trim_start ());
 		}
+		
+		if (check.size() == 1) {
+			_trim_start->set (cl.front()->trim_start (), film_video_frame_rate);
+		} else {
+			_trim_start->clear ();
+		}
+		
 	} else if (property == ContentProperty::TRIM_END) {
-		if (content) {
-			_trim_end->set (content->trim_end (), film_video_frame_rate);
-			_play_length->set (content->length_after_trim (), film_video_frame_rate);
+
+		set<Time> check;
+		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+			check.insert ((*i)->trim_end ());
+		}
+		
+		if (check.size() == 1) {
+			_trim_end->set (cl.front()->trim_end (), film_video_frame_rate);
 		} else {
 			_trim_end->set (0, 24);
-			_play_length->set (0, 24);
+		}
+	}
+
+	if (
+		property == ContentProperty::LENGTH ||
+		property == ContentProperty::TRIM_START ||
+		property == ContentProperty::TRIM_END ||
+		property == VideoContentProperty::VIDEO_FRAME_RATE ||
+		property == VideoContentProperty::VIDEO_FRAME_TYPE
+		) {
+
+		set<Time> check;
+		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+			check.insert ((*i)->length_after_trim ());
+		}
+		
+		if (check.size() == 1) {
+			_play_length->set (cl.front()->length_after_trim (), film_video_frame_rate);
+		} else {
+			_play_length->clear ();
 		}
 	}
 
 	if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
-		if (content) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (content);
-			if (vc) {
-				_video_frame_rate->SetValue (std_to_wx (raw_convert<string> (vc->video_frame_rate (), 5)));
-			} else {
-				_video_frame_rate->SetValue ("24");
+		set<float> check;
+		shared_ptr<VideoContent> vc;
+		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+			shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
+			if (t) {
+				check.insert (t->video_frame_rate ());
+				vc = t;
 			}
+		}
+		if (check.size() == 1) {
+			_video_frame_rate->SetValue (std_to_wx (raw_convert<string> (vc->video_frame_rate (), 5)));
+			_video_frame_rate->Enable (true);
 		} else {
-			_video_frame_rate->SetValue ("24");
+			_video_frame_rate->SetValue ("");
+			_video_frame_rate->Enable (false);
 		}
 	}
 
-	shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (content);
-	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
-	_full_length->set_editable (ic && ic->still ());
-	_play_length->set_editable (!ic || !ic->still ());
-	_video_frame_rate->Enable (vc);
+	bool have_still = false;
+	for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
+		if (ic && ic->still ()) {
+			have_still = true;
+		}
+	}
+
+	_full_length->set_editable (have_still);
+	_play_length->set_editable (!have_still);
 	_set_video_frame_rate->Enable (false);
 }
 
@@ -146,8 +198,8 @@ void
 TimingPanel::position_changed ()
 {
 	ContentList c = _editor->selected_content ();
-	if (c.size() == 1) {
-		c.front()->set_position (_position->get (_editor->film()->video_frame_rate ()));
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_position (_position->get (_editor->film()->video_frame_rate ()));
 	}
 }
 
@@ -155,8 +207,8 @@ void
 TimingPanel::full_length_changed ()
 {
 	ContentList c = _editor->selected_content ();
-	if (c.size() == 1) {
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c.front ());
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
 		if (ic && ic->still ()) {
 			ic->set_video_length (rint (_full_length->get (_editor->film()->video_frame_rate()) * ic->video_frame_rate() / TIME_HZ));
 		}
@@ -167,8 +219,8 @@ void
 TimingPanel::trim_start_changed ()
 {
 	ContentList c = _editor->selected_content ();
-	if (c.size() == 1) {
-		c.front()->set_trim_start (_trim_start->get (_editor->film()->video_frame_rate ()));
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_trim_start (_trim_start->get (_editor->film()->video_frame_rate ()));
 	}
 }
 
@@ -177,8 +229,8 @@ void
 TimingPanel::trim_end_changed ()
 {
 	ContentList c = _editor->selected_content ();
-	if (c.size() == 1) {
-		c.front()->set_trim_end (_trim_end->get (_editor->film()->video_frame_rate ()));
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_trim_end (_trim_end->get (_editor->film()->video_frame_rate ()));
 	}
 }
 
@@ -186,8 +238,8 @@ void
 TimingPanel::play_length_changed ()
 {
 	ContentList c = _editor->selected_content ();
-	if (c.size() == 1) {
-		c.front()->set_trim_end (c.front()->full_length() - _play_length->get (_editor->film()->video_frame_rate()) - c.front()->trim_start());
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_trim_end ((*i)->full_length() - _play_length->get (_editor->film()->video_frame_rate()) - (*i)->trim_start());
 	}
 }
 
@@ -201,8 +253,8 @@ void
 TimingPanel::set_video_frame_rate ()
 {
 	ContentList c = _editor->selected_content ();
-	if (c.size() == 1) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c.front ());
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
 		if (vc) {
 			vc->set_video_frame_rate (raw_convert<float> (wx_to_std (_video_frame_rate->GetValue ())));
 		}
@@ -213,16 +265,14 @@ TimingPanel::set_video_frame_rate ()
 void
 TimingPanel::content_selection_changed ()
 {
-	ContentList sel = _editor->selected_content ();
-	bool const single = sel.size() == 1;
+	bool const e = !_editor->selected_content().empty ();
 
-	/* Things that are only allowed with single selections */
-	_position->Enable (single);
-	_full_length->Enable (single);
-	_trim_start->Enable (single);
-	_trim_end->Enable (single);
-	_play_length->Enable (single);
-	_video_frame_rate->Enable (single);
+	_position->Enable (e);
+	_full_length->Enable (e);
+	_trim_start->Enable (e);
+	_trim_end->Enable (e);
+	_play_length->Enable (e);
+	_video_frame_rate->Enable (e);
 	
 	film_content_changed (ContentProperty::POSITION);
 	film_content_changed (ContentProperty::LENGTH);

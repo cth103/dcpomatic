@@ -23,7 +23,6 @@
 
 #include <stdexcept>
 #include <vector>
-#include <sstream>
 #include <iomanip>
 #include <iostream>
 #include <stdint.h>
@@ -53,7 +52,6 @@ extern "C" {
 using std::cout;
 using std::string;
 using std::vector;
-using std::stringstream;
 using std::list;
 using std::min;
 using std::pair;
@@ -334,7 +332,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 	}
 
 	/* Initial seek time in the stream's timebase */
-	int64_t const initial_vt = ((initial / _ffmpeg_content->video_frame_rate()) - _pts_offset) / time_base;
+	int64_t const initial_vt = ((initial / _ffmpeg_content->original_video_frame_rate()) - _pts_offset) / time_base;
 
 	av_seek_frame (_format_context, _video_stream, initial_vt, AVSEEK_FLAG_BACKWARD);
 
@@ -375,7 +373,7 @@ FFmpegDecoder::seek (VideoContent::Frame frame, bool accurate)
 		r = avcodec_decode_video2 (video_codec_context(), _frame, &finished, &_packet);
 		if (r >= 0 && finished) {
 			_video_position = rint (
-				(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * _ffmpeg_content->video_frame_rate()
+				(av_frame_get_best_effort_timestamp (_frame) * time_base + _pts_offset) * _ffmpeg_content->original_video_frame_rate()
 				);
 
 			if (_video_position >= (frame - 1)) {
@@ -495,12 +493,12 @@ FFmpegDecoder::decode_video_packet ()
 				/* We just did a seek, so disable any attempts to correct for where we
 				   are / should be.
 				*/
-				_video_position = rint (pts * _ffmpeg_content->video_frame_rate ());
+				_video_position = rint (pts * _ffmpeg_content->original_video_frame_rate ());
 				_just_sought = false;
 			}
 
-			double const next = _video_position / _ffmpeg_content->video_frame_rate();
-			double const one_frame = 1 / _ffmpeg_content->video_frame_rate ();
+			double const next = _video_position / _ffmpeg_content->original_video_frame_rate();
+			double const one_frame = 1 / _ffmpeg_content->original_video_frame_rate ();
 			double delta = pts - next;
 
 			while (delta > one_frame) {

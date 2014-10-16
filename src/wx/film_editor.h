@@ -32,6 +32,7 @@
 class wxNotebook;
 class wxListCtrl;
 class wxListEvent;
+class wxGridBagSizer;
 class Film;
 class TimelineDialog;
 class Ratio;
@@ -45,7 +46,7 @@ class SubtitleContent;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (boost::shared_ptr<Film>, wxWindow *);
+	FilmEditor (wxWindow *);
 
 	void set_film (boost::shared_ptr<Film>);
 	void set_selection (boost::weak_ptr<Content>);
@@ -67,6 +68,8 @@ public:
 	AudioContentList selected_audio_content ();
 	SubtitleContentList selected_subtitle_content ();
 	FFmpegContentList selected_ffmpeg_content ();
+
+	void content_add_file_clicked ();
 	
 private:
 	void make_dcp_panel ();
@@ -78,11 +81,11 @@ private:
 	void use_isdcf_name_toggled ();
 	void edit_isdcf_button_clicked ();
 	void content_selection_changed ();
-	void content_add_file_clicked ();
 	void content_add_folder_clicked ();
 	void content_remove_clicked ();
 	void content_earlier_clicked ();
 	void content_later_clicked ();
+	void content_files_dropped (wxDropFilesEvent& event);
 	void container_changed ();
 	void dcp_content_type_changed ();
 	void scaler_changed ();
@@ -103,6 +106,7 @@ private:
 	/* Handle changes to the model */
 	void film_changed (Film::Property);
 	void film_content_changed (int);
+	void use_isdcf_name_changed ();
 
 	void set_general_sensitivity (bool);
 	void setup_dcp_name ();

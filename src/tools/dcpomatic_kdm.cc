@@ -24,9 +24,9 @@
 #include "lib/kdm.h"
 #include "lib/config.h"
 #include "lib/exceptions.h"
+#include "lib/safe_stringstream.h"
 
 using std::string;
-using std::stringstream;
 using std::cout;
 using std::cerr;
 using std::list;
@@ -76,7 +76,7 @@ time_from_string (string t)
 static boost::posix_time::time_duration
 duration_from_string (string d)
 {
-	stringstream s (d);
+	SafeStringStream s (d);
 	int N;
 	string unit;
 	s >> N >> unit;

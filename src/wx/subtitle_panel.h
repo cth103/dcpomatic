@@ -35,7 +35,8 @@ private:
 	void with_subtitles_toggled ();
 	void x_offset_changed ();
 	void y_offset_changed ();
-	void scale_changed ();
+	void x_scale_changed ();
+	void y_scale_changed ();
 	void stream_changed ();
 
 	void setup_sensitivity ();
@@ -43,6 +44,7 @@ private:
 	wxCheckBox* _with_subtitles;
 	wxSpinCtrl* _x_offset;
 	wxSpinCtrl* _y_offset;
-	wxSpinCtrl* _scale;
+	wxSpinCtrl* _x_scale;
+	wxSpinCtrl* _y_scale;
 	wxChoice* _stream;
 };

@@ -28,6 +28,7 @@ public:
 
 	void set (Time, int);
 	Time get (int) const;
+	void clear ();
 
 	void set_editable (bool);
 

@@ -49,6 +49,7 @@ class ImageProxy : public boost::noncopyable
 {
 public:
 	ImageProxy (boost::shared_ptr<Log> log);
+	virtual ~ImageProxy () {}
 
 	/** @return Image (which must be aligned) */
 	virtual boost::shared_ptr<Image> image () const = 0;

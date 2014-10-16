@@ -60,9 +60,9 @@ Subtitle::update (shared_ptr<const Film> film, libdcp::Size video_container_size
 	in_rect.x += sc->subtitle_x_offset ();
 	in_rect.y += sc->subtitle_y_offset ();
 
-	/* We will scale the subtitle up to fit _video_container_size, and also by the additional subtitle_scale */
-	scaled_size.width = in_rect.width * video_container_size.width * sc->subtitle_scale ();
-	scaled_size.height = in_rect.height * video_container_size.height * sc->subtitle_scale ();
+	/* We will scale the subtitle up to fit _video_container_size, and also by the additional subtitle scale */
+	scaled_size.width = in_rect.width * video_container_size.width * sc->subtitle_x_scale ();
+	scaled_size.height = in_rect.height * video_container_size.height * sc->subtitle_y_scale ();
 
 	/* Then we need a corrective translation, consisting of two parts:
 	 *
@@ -70,14 +70,14 @@ Subtitle::update (shared_ptr<const Film> film, libdcp::Size video_container_size
 	 *     rect.x * _video_container_size.width and rect.y * _video_container_size.height.
 	 *
 	 * 2.  that to shift the origin of the scale by subtitle_scale to the centre of the subtitle; this will be
-	 *     (width_before_subtitle_scale * (1 - subtitle_scale) / 2) and
-	 *     (height_before_subtitle_scale * (1 - subtitle_scale) / 2).
+	 *     (width_before_subtitle_scale * (1 - subtitle_x_scale) / 2) and
+	 *     (height_before_subtitle_scale * (1 - subtitle_y_scale) / 2).
 	 *
 	 * Combining these two translations gives these expressions.
 	 */
 	
-	_out_position.x = rint (video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_scale ()) / 2)));
-	_out_position.y = rint (video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_scale ()) / 2)));
+	_out_position.x = rint (video_container_size.width * (in_rect.x + (in_rect.width * (1 - sc->subtitle_x_scale ()) / 2)));
+	_out_position.y = rint (video_container_size.height * (in_rect.y + (in_rect.height * (1 - sc->subtitle_y_scale ()) / 2)));
 	
 	_out_image = _in_image->scale (
 		scaled_size,

@@ -17,6 +17,7 @@
 
 */
 
+#include <iostream>
 #include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "exceptions.h"
@@ -25,7 +26,6 @@
 
 #include "i18n.h"
 
-using std::stringstream;
 using std::list;
 using std::pair;
 using std::cout;

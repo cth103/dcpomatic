@@ -49,7 +49,8 @@ public:
 		int n = 0;
 		
 		_name = new wxStaticText (panel, wxID_ANY, "");
-		_name->SetLabelMarkup ("<b>" + _job->name () + "</b>");
+		string const jn = "<b>" + _job->name () + "</b>";
+		_name->SetLabelMarkup (std_to_wx (jn));
 		table->Insert (n, _name, 0, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 		++n;
 	
@@ -201,12 +202,22 @@ JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
 	_panel->SetSizer (_table);
 
 	SetScrollRate (0, 32);
+	EnableScrolling (false, true);
 
 	Bind (wxEVT_TIMER, boost::bind (&JobManagerView::periodic, this));
 	_timer.reset (new wxTimer (this));
 	_timer->Start (1000);
-	
+
+	Bind (wxEVT_SIZE, boost::bind (&JobManagerView::sized, this, _1));
 	JobManager::instance()->JobAdded.connect (bind (&JobManagerView::job_added, this, _1));
+}
+
+void
+JobManagerView::sized (wxSizeEvent& ev)
+{
+	_table->FitInside (_panel);
+	_table->Layout ();
+	ev.Skip ();
 }
 
 void

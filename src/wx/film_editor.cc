@@ -45,6 +45,7 @@
 #include "lib/playlist.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/safe_stringstream.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
@@ -57,7 +58,6 @@
 
 using std::string;
 using std::cout;
-using std::stringstream;
 using std::pair;
 using std::fixed;
 using std::setprecision;
@@ -70,7 +70,7 @@ using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 
 /** @param f Film to edit */
-FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
+FilmEditor::FilmEditor (wxWindow* parent)
 	: wxPanel (parent)
 	, _menu (this)
 	, _generally_sensitive (true)
@@ -86,7 +86,6 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 	make_dcp_panel ();
 	_main_notebook->AddPage (_dcp_panel, _("DCP"), false);
 	
-	set_film (f);
 	connect_to_widgets ();
 
 	JobManager::instance()->ActiveJobsChanged.connect (
@@ -94,7 +93,8 @@ FilmEditor::FilmEditor (shared_ptr<Film> f, wxWindow* parent)
 		);
 
 	Config::instance()->Changed.connect (boost::bind (&FilmEditor::config_changed, this));
-	
+
+	set_film (shared_ptr<Film> ());
 	SetSizerAndFit (s);
 }
 
@@ -115,11 +115,6 @@ FilmEditor::make_dcp_panel ()
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), true, wxGBPosition (r, 0));
-	_dcp_name = new wxStaticText (_dcp_panel, wxID_ANY, wxT (""));
-	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
 	int flags = wxALIGN_CENTER_VERTICAL;
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
@@ -129,6 +124,11 @@ FilmEditor::make_dcp_panel ()
 	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	_edit_isdcf_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
 	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1), wxDefaultSpan);
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("DCP Name"), true, wxGBPosition (r, 0));
+	_dcp_name = new wxStaticText (_dcp_panel, wxID_ANY, wxT (""));
+	grid->Add (_dcp_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, _dcp_panel, _("Container"), true, wxGBPosition (r, 0));
@@ -238,6 +238,7 @@ FilmEditor::connect_to_widgets ()
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_SELECTED,    boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind		(wxEVT_COMMAND_LIST_ITEM_DESELECTED,  boost::bind (&FilmEditor::content_selection_changed, this));
 	_content->Bind          (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&FilmEditor::content_right_click, this, _1));
+	_content->Bind          (wxEVT_DROP_FILES,                    boost::bind (&FilmEditor::content_files_dropped, this, _1));
 	_content_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED,        boost::bind (&FilmEditor::content_add_file_clicked, this));
 	_content_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED,      boost::bind (&FilmEditor::content_add_folder_clicked, this));
 	_content_remove->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&FilmEditor::content_remove_clicked, this));
@@ -308,6 +309,8 @@ FilmEditor::make_content_panel ()
 	_panels.push_back (_subtitle_panel);
 	_timing_panel = new TimingPanel (this);
 	_panels.push_back (_timing_panel);
+
+	_content->DragAcceptFiles (true);
 }
 
 /** Called when the name widget has been changed */
@@ -420,7 +423,7 @@ FilmEditor::film_changed (Film::Property p)
 		return;
 	}
 
-	stringstream s;
+	SafeStringStream s;
 
 	for (list<FilmEditorPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
 		(*i)->film_changed (p);
@@ -471,6 +474,7 @@ FilmEditor::film_changed (Film::Property p)
 	case Film::USE_ISDCF_NAME:
 		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
 		setup_dcp_name ();
+		use_isdcf_name_changed ();
 		break;
 	case Film::ISDCF_METADATA:
 		setup_dcp_name ();
@@ -534,6 +538,8 @@ FilmEditor::film_content_changed (int property)
 		setup_content ();
 	} else if (property == ContentProperty::POSITION) {
 		setup_content ();
+	} else if (property == VideoContentProperty::VIDEO_SCALE) {
+		setup_dcp_name ();
 	}
 }
 
@@ -703,6 +709,18 @@ FilmEditor::use_isdcf_name_toggled ()
 }
 
 void
+FilmEditor::use_isdcf_name_changed ()
+{
+	bool const i = _film->use_isdcf_name ();
+
+	if (!i) {
+		_film->set_name (_film->isdcf_name (true));
+	}
+
+	_edit_isdcf_button->Enable (i);
+}
+
+void
 FilmEditor::edit_isdcf_button_clicked ()
 {
 	if (!_film) {
@@ -836,8 +854,8 @@ void
 FilmEditor::content_remove_clicked ()
 {
 	ContentList c = selected_content ();
-	if (c.size() == 1) {
-		_film->remove_content (c.front ());
+	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		_film->remove_content (*i);
 	}
 
 	content_selection_changed ();
@@ -864,21 +882,32 @@ FilmEditor::setup_content_sensitivity ()
 	VideoContentList video_selection = selected_video_content ();
 	AudioContentList audio_selection = selected_audio_content ();
 
-	_content_remove->Enable   (selection.size() == 1 && _generally_sensitive);
+	_content_remove->Enable   (!selection.empty() && _generally_sensitive);
 	_content_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
 	_content_later->Enable    (selection.size() == 1 && _generally_sensitive);
 	_content_timeline->Enable (!_film->content().empty() && _generally_sensitive);
 
-	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
-	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
+	_video_panel->Enable	(!video_selection.empty() && _generally_sensitive);
+	_audio_panel->Enable	(!audio_selection.empty() && _generally_sensitive);
 	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<FFmpegContent> (selection.front()) && _generally_sensitive);
-	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
+	_timing_panel->Enable	(!selection.empty() && _generally_sensitive);
 }
 
 ContentList
 FilmEditor::selected_content ()
 {
 	ContentList sel;
+
+	if (!_film) {
+		return sel;
+	}
+
+	/* The list was populated using a sorted content list, so we must sort it here too
+	   so that we can look up by index and get the right thing.
+	*/
+	ContentList content = _film->content ();
+	sort (content.begin(), content.end(), ContentSorter ());
+	
 	long int s = -1;
 	while (true) {
 		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
@@ -887,7 +916,7 @@ FilmEditor::selected_content ()
 		}
 
 		if (s < int (_film->content().size ())) {
-			sel.push_back (_film->content()[s]);
+			sel.push_back (content[s]);
 		}
 	}
 
@@ -978,7 +1007,7 @@ FilmEditor::set_selection (weak_ptr<Content> wc)
 		if (content[i] == wc.lock ()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		} else {
-			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED | wxLIST_STATE_FOCUSED);
+			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
 		}
 	}
 }
@@ -1048,4 +1077,17 @@ FilmEditor::setup_frame_rate_widget ()
 	}
 
 	_frame_rate_sizer->Layout ();
+}
+
+void
+FilmEditor::content_files_dropped (wxDropFilesEvent& event)
+{
+	if (!_film) {
+		return;
+	}
+	
+	wxString* paths = event.GetFiles ();
+	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+	}
 }

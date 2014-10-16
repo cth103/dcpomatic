@@ -27,7 +27,6 @@
 #include "ui_signaller.h"
 
 using std::string;
-using std::stringstream;
 using std::list;
 using std::vector;
 using std::cout;
@@ -103,24 +102,31 @@ void
 ServerFinder::listen_thread ()
 try
 {
+	using namespace boost::asio::ip;
+
+	boost::asio::io_service io_service;
+	tcp::acceptor acceptor (io_service, tcp::endpoint (tcp::v4(), Config::instance()->server_port_base() + 1));
+
 	while (true) {
-		shared_ptr<Socket> sock (new Socket (60));
+		tcp::socket socket (io_service);
+		acceptor.accept (socket);
 
-		try {
-			sock->accept (Config::instance()->server_port_base() + 1);
-		} catch (std::exception& e) {
-			continue;
-		}
+		/* XXX: these reads should have timeouts, otherwise we will stop finding servers
+		   if one dies during this conversation
+		*/
 
-		uint32_t length = sock->read_uint32 ();
+		uint32_t length = 0;
+		boost::asio::read (socket, boost::asio::buffer (&length, sizeof (uint32_t)));
+		length = ntohl (length);
+
 		scoped_array<char> buffer (new char[length]);
-		sock->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+		boost::asio::read (socket, boost::asio::buffer (reinterpret_cast<uint8_t*> (buffer.get ()), length));
 		
-		stringstream s (buffer.get());
+		string s (buffer.get());
 		shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
-		xml->read_stream (s);
-
-		string const ip = sock->socket().remote_endpoint().address().to_string ();
+		xml->read_string (s);
+		
+		string const ip = socket.remote_endpoint().address().to_string ();
 		if (!server_found (ip)) {
 			ServerDescription sd (ip, xml->number_child<int> ("Threads"));
 			_servers.push_back (sd);

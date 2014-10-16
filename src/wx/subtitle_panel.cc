@@ -59,27 +59,37 @@ SubtitlePanel::SubtitlePanel (FilmEditor* e)
 	}
 	
 	{
-		add_label_to_sizer (grid, this, _("Scale"), true);
+		add_label_to_sizer (grid, this, _("X Scale"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_scale = new wxSpinCtrl (this);
-		s->Add (_scale);
+		_x_scale = new wxSpinCtrl (this);
+		s->Add (_x_scale);
 		add_label_to_sizer (s, this, _("%"), false);
 		grid->Add (s);
 	}
 
+	{
+		add_label_to_sizer (grid, this, _("Y Scale"), true);
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_y_scale = new wxSpinCtrl (this);
+		s->Add (_y_scale);
+		add_label_to_sizer (s, this, _("%"), false);
+		grid->Add (s);
+	}
+	
 	add_label_to_sizer (grid, this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, 1, wxEXPAND);
 	
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
-	_scale->SetRange (1, 1000);
-	_scale->SetValue (100);
+	_x_scale->SetRange (10, 1000);
+	_y_scale->SetRange (10, 1000);
 
 	_with_subtitles->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::with_subtitles_toggled, this));
 	_x_offset->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
 	_y_offset->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_scale->Bind          (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::scale_changed, this));
+	_x_scale->Bind        (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
+	_y_scale->Bind        (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
 	_stream->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
 }
 
@@ -134,8 +144,10 @@ SubtitlePanel::film_content_changed (int property)
 		checked_set (_x_offset, scs ? (scs->subtitle_x_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_OFFSET) {
 		checked_set (_y_offset, scs ? (scs->subtitle_y_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::SUBTITLE_SCALE) {
-		checked_set (_scale, scs ? (scs->subtitle_scale() * 100) : 100);
+	} else if (property == SubtitleContentProperty::SUBTITLE_X_SCALE) {
+		checked_set (_x_scale, scs ? int (rint (scs->subtitle_x_scale() * 100)) : 100);
+	} else if (property == SubtitleContentProperty::SUBTITLE_Y_SCALE) {
+		checked_set (_y_scale, scs ? int (rint (scs->subtitle_y_scale() * 100)) : 100);
 	}
 }
 
@@ -162,7 +174,8 @@ SubtitlePanel::setup_sensitivity ()
 	_with_subtitles->Enable (h);
 	_x_offset->Enable (j);
 	_y_offset->Enable (j);
-	_scale->Enable (j);
+	_x_scale->Enable (j);
+	_y_scale->Enable (j);
 	_stream->Enable (j);
 }
 
@@ -207,11 +220,20 @@ SubtitlePanel::y_offset_changed ()
 }
 
 void
-SubtitlePanel::scale_changed ()
+SubtitlePanel::x_scale_changed ()
 {
 	SubtitleContentList c = _editor->selected_subtitle_content ();
 	if (c.size() == 1) {
-		c.front()->set_subtitle_scale (_scale->GetValue() / 100.0);
+		c.front()->set_subtitle_x_scale (_x_scale->GetValue() / 100.0);
+	}
+}
+
+void
+SubtitlePanel::y_scale_changed ()
+{
+	SubtitleContentList c = _editor->selected_subtitle_content ();
+	if (c.size() == 1) {
+		c.front()->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
@@ -221,5 +243,6 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_SCALE);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 }

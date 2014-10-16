@@ -156,11 +156,11 @@ def make_control(debian_version, bits, filename, debug):
         print >>f,''
 
 def dependencies(target):
-    return (('ffmpeg-cdist', '67dc770'),
-            ('libdcp', '7103135'))
+    return (('ffmpeg-cdist', '2dffa11'),
+            ('libdcp', '2001bef5b3a6256eedf1cada4977a3ba8a3732cd'))
 
 def build(target, options):
-    cmd = './waf configure --prefix=%s' % target.work_dir_cscript()
+    cmd = './waf configure --prefix=%s' % target.directory
     if target.platform == 'windows':
         cmd += ' --target-windows'
     elif target.platform == 'linux':
@@ -169,7 +169,10 @@ def build(target, options):
             if target.version == 'unstable':
                 cmd += ' --debian-unstable'
         elif target.distro == 'centos':
-            cmd += ' --target-centos'
+            if target.version == '6.5':
+                cmd += ' --target-centos-6 --disable-tests'
+            elif target.version == '7':
+                cmd += ' --target-centos-7 --disable-tests'
 
     target.command(cmd)
     target.command('./waf')
@@ -181,7 +184,7 @@ def package_windows(target):
     shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
     target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
-    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.work_dir_cscript(), target.bits))
+    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, target.bits))
     target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
     target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
@@ -205,7 +208,7 @@ def package_debian(target, cpu, version):
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
     if target.version == 'unstable':
         target.set('CDIST_EXTRA_CONFIGURE', '--debian-unstable')
-    target.command('dpkg-buildpackage')
+    target.command('dpkg-buildpackage -uc -us')
     
     debs = []
     for p in glob.glob('../*.deb'):
@@ -214,29 +217,26 @@ def package_debian(target, cpu, version):
     return debs
 
 def package_centos(target, cpu, version):
-    os.makedirs('%s/rpmbuild/BUILD' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/RPMS' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/SOURCES' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/SPECS' % target.work_dir_cdist())
-    os.makedirs('%s/rpmbuild/SRPMS' % target.work_dir_cdist())
-
-    f = open('%s/.rpmmacros' % target.dir_in_chroot, 'w')
-    print >>f,"%%_topdir %srpmbuild" % target.dir_in_chroot
-    f.close()
+    topdir = os.path.realpath('build/rpmbuild')
+    os.makedirs('%s/BUILD' % topdir)
+    os.makedirs('%s/RPMS' % topdir)
+    os.makedirs('%s/SOURCES' % topdir)
+    os.makedirs('%s/SPECS' % topdir)
+    os.makedirs('%s/SRPMS' % topdir)
 
     target.command('./waf dist')
     shutil.copyfile(
-        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version),
-        "%s/rpmbuild/SOURCES/dcpomatic-%s.tar.bz2" % (target.work_dir_cdist(), version)
+        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.directory, version),
+        "%s/SOURCES/dcpomatic-%s.tar.bz2" % (topdir, version)
         )
 
-    target.command('rpmbuild -bb build/platform/linux/dcpomatic.spec')
+    target.command('rpmbuild --define \'_topdir %s\' -bb build/platform/linux/dcpomatic.spec' % topdir)
     rpms = []
 
     if cpu == "amd64":
         cpu = "x86_64"
 
-    for p in glob.glob('%s/rpmbuild/RPMS/%s/*.rpm' % (target.work_dir_cdist(), cpu)):
+    for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
         rpms.append(os.path.abspath(p))
 
     return rpms
@@ -255,7 +255,7 @@ def package(target, version):
         elif target.distro == 'centos':
             return package_centos(target, cpu, version)
     elif target.platform == 'osx':
-        target.command('bash platform/osx/make_dmg.sh %s' % target.work_dir_cscript())
+        target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
         return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])
 
 def make_pot(target):

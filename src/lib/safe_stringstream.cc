@@ -17,15 +17,7 @@
 
 */
 
-class JSONServer
-{
-public:
-	JSONServer (int port);
+#include <boost/thread/mutex.hpp>
+#include "safe_stringstream.h"
 
-private:
-	void run (int port);
-	void handle (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
-	void request (std::string url, boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
-};
-
-	
+boost::mutex SafeStringStream::_mutex;

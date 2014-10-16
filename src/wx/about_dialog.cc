@@ -102,6 +102,8 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Theo Kooijmans"));
 	translated_by.Add (wxT ("Max Aeschlimann"));
 	translated_by.Add (wxT ("Carsten Kurz"));
+	translated_by.Add (wxT ("Grégoire Ausina"));
+	translated_by.Add (wxT ("Cherif Ben Brahim"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString artwork_by;
@@ -111,22 +113,29 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxArrayString supported_by;
 	supported_by.Add (wxT ("Manual AC"));
 	supported_by.Add (wxT ("Kambiz Afshar"));
+	supported_by.Add (wxT ("Alex Asp"));
 	supported_by.Add (wxT ("Louis Belloisy"));
 	supported_by.Add (wxT ("Mike Blakesley"));
 	supported_by.Add (wxT ("Jeff Boot"));
 	supported_by.Add (wxT ("Kieran Carroll"));
+	supported_by.Add (wxT ("Matt Carter"));
 	supported_by.Add (wxT ("Frank Cianciolo"));
 	supported_by.Add (wxT ("Cinema Clarici"));
 	supported_by.Add (wxT ("Adam Colt"));
 	supported_by.Add (wxT ("Matthias Damm"));
+	supported_by.Add (wxT ("Alexey Derevyanko"));
+	supported_by.Add (wxT ("Unwana Essien"));
 	supported_by.Add (wxT ("Andres Fink"));
 	supported_by.Add (wxT ("Evan Freeze"));
 	supported_by.Add (wxT ("Silvio Giuliano"));
+	supported_by.Add (wxT ("Alan Gouger"));
 	supported_by.Add (wxT ("Flor Guillaume"));
+	supported_by.Add (wxT ("Antonio Ruiz Hernandez"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
 	supported_by.Add (wxT ("Chris Kay"));
 	supported_by.Add (wxT ("Adam Klotblixt"));
 	supported_by.Add (wxT ("Filip Kovcin"));
+	supported_by.Add (wxT ("Cihan Kulaber"));
 	supported_by.Add (wxT ("Carsten Kurz"));
 	supported_by.Add (wxT ("Lilian Lefranc"));
 	supported_by.Add (wxT ("Sean Leigh"));
@@ -141,15 +150,18 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Tim O'Brien"));
 	supported_by.Add (wxT ("Ivan Pullman"));
 	supported_by.Add (wxT ("Mark Rolfe"));
+	supported_by.Add (wxT ("David Rozenthal"));
 	supported_by.Add (wxT ("Andrä Steiner"));
 	supported_by.Add (wxT ("Jussi Siponen"));
 	supported_by.Add (wxT ("Lasse Salling"));
 	supported_by.Add (wxT ("Mike Stiebing"));
 	supported_by.Add (wxT ("Randy Stankey"));
+	supported_by.Add (wxT ("Bruce Taylor"));
 	supported_by.Add (wxT ("Wolfgang Woehl"));
 	supported_by.Add (wxT ("Wolfram Weber"));
 	supported_by.Add (wxT ("Frank de Wulf"));
 	supported_by.Add (wxT ("Pavel Zhdanko"));
+	supported_by.Add (wxT ("Daniel Židek"));
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;

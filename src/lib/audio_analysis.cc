@@ -21,6 +21,7 @@
 #include <cmath>
 #include <cassert>
 #include <cstdio>
+#include <iostream>
 #include <boost/filesystem.hpp>
 #include "audio_analysis.h"
 #include "cross.h"
@@ -43,7 +44,10 @@ AudioPoint::AudioPoint ()
 AudioPoint::AudioPoint (FILE* f)
 {
 	for (int i = 0; i < COUNT; ++i) {
-		fscanf (f, "%f", &_data[i]);
+		int n = fscanf (f, "%f", &_data[i]);
+		if (n != 1) {
+			_data[i] = 0;
+		}
 	}
 }
 
@@ -86,7 +90,7 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
 	FILE* f = fopen_boost (filename, "r");
 
-	int channels;
+	int channels = 0;
 	fscanf (f, "%d", &channels);
 	_data.resize (channels);
 

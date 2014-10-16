@@ -29,13 +29,13 @@
 #include "cross.h"
 #include "ui_signaller.h"
 #include "exceptions.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::list;
 using std::cout;
-using std::stringstream;
 using boost::shared_ptr;
 
 Job::Job (shared_ptr<const Film> f)
@@ -306,7 +306,7 @@ Job::status () const
 		pc = 99;
 	}
 
-	stringstream s;
+	SafeStringStream s;
 	if (!finished ()) {
 		s << pc << N_("%");
 		if (p >= 0 && t > 10 && r > 0) {
@@ -323,29 +323,6 @@ Job::status () const
 	}
 
 	return s.str ();
-}
-
-string
-Job::json_status () const
-{
-	boost::mutex::scoped_lock lm (_state_mutex);
-
-	switch (_state) {
-	case NEW:
-		return N_("new");
-	case RUNNING:
-		return N_("running");
-	case PAUSED:
-		return N_("paused");
-	case FINISHED_OK:
-		return N_("finished_ok");
-	case FINISHED_ERROR:
-		return N_("finished_error");
-	case FINISHED_CANCELLED:
-		return N_("finished_cancelled");
-	}
-
-	return "";
 }
 
 /** @return An estimate of the remaining time for this sub-job, in seconds */

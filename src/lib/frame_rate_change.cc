@@ -23,6 +23,8 @@
 
 #include "i18n.h"
 
+using std::string;
+
 static bool
 about_equal (float a, float b)
 {
@@ -73,7 +75,13 @@ FrameRateChange::FrameRateChange (float source_, int dcp_)
 
 	speed_up = dcp / (source * factor());
 	change_speed = !about_equal (speed_up, 1.0);
+}
 
+string
+FrameRateChange::description () const
+{
+	string description;
+	
 	if (!skip && repeat == 1 && !change_speed) {
 		description = _("Content and DCP have the same rate.\n");
 	} else {
@@ -90,4 +98,6 @@ FrameRateChange::FrameRateChange (float source_, int dcp_)
 			description += String::compose (_("DCP will run at %1%% of the content speed.\n"), pc);
 		}
 	}
+
+	return description;
 }

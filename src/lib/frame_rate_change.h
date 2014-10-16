@@ -60,7 +60,7 @@ struct FrameRateChange
 	 */
 	float speed_up;
 
-	std::string description;
+	std::string description () const;
 };
 
 #endif

@@ -22,7 +22,6 @@
  *  @brief Some utility functions and classes.
  */
 
-#include <sstream>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
@@ -70,6 +69,7 @@ extern "C" {
 #include "cross.h"
 #include "video_content.h"
 #include "md5_digester.h"
+#include "safe_stringstream.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
 #endif
@@ -77,7 +77,6 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::setfill;
 using std::ostream;
 using std::endl;
@@ -121,7 +120,7 @@ seconds_to_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	stringstream hms;
+	SafeStringStream hms;
 	hms << h << N_(":");
 	hms.width (2);
 	hms << std::setfill ('0') << m << N_(":");
@@ -142,26 +141,55 @@ seconds_to_approximate_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	stringstream ap;
-	
-	if (h > 0) {
-		if (m > 30) {
+	SafeStringStream ap;
+
+	bool const hours = h > 0;
+	bool const minutes = h < 10 && m > 0;
+	bool const seconds = m < 10 && s > 0;
+
+	if (hours) {
+		if (m > 30 && !minutes) {
 			ap << (h + 1) << N_(" ") << _("hours");
 		} else {
+			ap << h << N_(" ");
 			if (h == 1) {
-				ap << N_("1 ") << _("hour");
+				ap << _("hour");
 			} else {
-				ap << h << N_(" ") << _("hours");
+				ap << _("hours");
 			}
 		}
-	} else if (m > 0) {
-		if (m == 1) {
-			ap << N_("1 ") << _("minute");
-		} else {
-			ap << m << N_(" ") << _("minutes");
+
+		if (minutes | seconds) {
+			ap << N_(" ");
 		}
-	} else {
-		ap << s << N_(" ") << _("seconds");
+	}
+
+	if (minutes) {
+		/* Minutes */
+		if (s > 30 && !seconds) {
+			ap << (m + 1) << N_(" ") << _("minutes");
+		} else {
+			ap << m << N_(" ");
+			if (m == 1) {
+				ap << _("minute");
+			} else {
+				ap << _("minutes");
+			}
+		}
+
+		if (seconds) {
+			ap << N_(" ");
+		}
+	}
+
+	if (seconds) {
+		/* Seconds */
+		ap << s << N_(" ");
+		if (s == 1) {
+			ap << _("second");
+		} else {
+			ap << _("seconds");
+		}
 	}
 
 	return ap.str ();
@@ -232,7 +260,7 @@ stacktrace (ostream& out, int levels)
 static string
 ffmpeg_version_to_string (int v)
 {
-	stringstream s;
+	SafeStringStream s;
 	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
 	return s.str ();
 }
@@ -241,7 +269,7 @@ ffmpeg_version_to_string (int v)
 string
 dependency_version_summary ()
 {
-	stringstream s;
+	SafeStringStream s;
 	s << N_("libopenjpeg ") << opj_version () << N_(", ")
 	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
 	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
@@ -369,35 +397,42 @@ mo_path ()
 }
 #endif
 
+#ifdef DCPOMATIC_OSX
+boost::filesystem::path
+mo_path ()
+{
+	return "DCP-o-matic.app/Contents/Resources";
+}
+#endif
+
 void
 dcpomatic_setup_gettext_i18n (string lang)
 {
-#ifdef DCPOMATIC_POSIX
+#ifdef DCPOMATIC_LINUX
 	lang += ".UTF8";
 #endif
 
 	if (!lang.empty ()) {
-		/* Override our environment language; this is essential on
-		   Windows.
+		/* Override our environment language.  Note that the caller must not
+		   free the string passed into putenv().
 		*/
-		char cmd[64];
-		snprintf (cmd, sizeof(cmd), "LANGUAGE=%s", lang.c_str ());
-		putenv (cmd);
-		snprintf (cmd, sizeof(cmd), "LANG=%s", lang.c_str ());
-		putenv (cmd);
-		snprintf (cmd, sizeof(cmd), "LC_ALL=%s", lang.c_str ());
-		putenv (cmd);
+		string s = String::compose ("LANGUAGE=%1", lang);
+		putenv (strdup (s.c_str ()));
+		s = String::compose ("LANG=%1", lang);
+		putenv (strdup (s.c_str ()));
+		s = String::compose ("LC_ALL=%1", lang);
+		putenv (strdup (s.c_str ()));
 	}
 
 	setlocale (LC_ALL, "");
 	textdomain ("libdcpomatic");
 
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	bindtextdomain ("libdcpomatic", mo_path().string().c_str());
 	bind_textdomain_codeset ("libdcpomatic", "UTF8");
 #endif	
 
-#ifdef DCPOMATIC_POSIX
+#ifdef DCPOMATIC_LINUX
 	bindtextdomain ("libdcpomatic", POSIX_LOCALE_PREFIX);
 #endif
 }
@@ -541,7 +576,7 @@ Socket::accept (int port)
 	_acceptor->async_accept (_socket, boost::lambda::var(ec) = boost::lambda::_1);
 	do {
 		_io_service.run_one ();
-	} while (ec == boost::asio::error::would_block );
+	} while (ec == boost::asio::error::would_block);
 
 	delete _acceptor;
 	_acceptor = 0;

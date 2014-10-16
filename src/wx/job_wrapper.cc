@@ -17,7 +17,6 @@
 
 */
 
-#include <sstream>
 #include "lib/film.h"
 #include "lib/exceptions.h"
 #include "job_wrapper.h"

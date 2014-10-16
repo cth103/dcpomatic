@@ -38,12 +38,14 @@
 #include "job.h"
 #include "cross.h"
 #include "md5_digester.h"
+#include "version.h"
 
 #include "i18n.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 #define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
+#define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
 
 /* OS X strikes again */
 #undef set_key
@@ -53,7 +55,6 @@ using std::pair;
 using std::string;
 using std::list;
 using std::cout;
-using std::stringstream;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
@@ -412,9 +413,12 @@ Writer::finish ()
 	boost::system::error_code ec;
 	boost::filesystem::create_hard_link (video_from, video_to, ec);
 	if (ec) {
-		/* hard link failed; copy instead */
-		boost::filesystem::copy_file (video_from, video_to);
-		LOG_WARNING_NC ("Hard-link failed; fell back to copying");
+		LOG_WARNING_NC ("Hard-link failed; copying instead");
+		boost::filesystem::copy_file (video_from, video_to, ec);
+		if (ec) {
+			LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
+			throw FileError (ec.message(), video_from);
+		}
 	}
 
 	/* And update the asset */
@@ -472,7 +476,9 @@ Writer::finish ()
 		_sound_asset->compute_digest (boost::bind (&Job::set_progress, job.get(), _1, false));
 	}
 
-	libdcp::XMLMetadata meta = Config::instance()->dcp_metadata ();
+	libdcp::XMLMetadata meta;
+	meta.issuer = Config::instance()->dcp_issuer ();
+	meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	meta.set_issue_date_now ();
 	dcp.write_xml (_film->interop (), meta, _film->is_signed() ? make_signer () : shared_ptr<const libdcp::Signer> ());
 

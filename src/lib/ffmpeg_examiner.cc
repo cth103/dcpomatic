@@ -23,13 +23,13 @@ extern "C" {
 }
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_content.h"
+#include "safe_stringstream.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
 using std::max;
-using std::stringstream;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -137,14 +137,14 @@ FFmpegExaminer::video_size () const
 VideoContent::Frame
 FFmpegExaminer::video_length () const
 {
-	VideoContent::Frame const length = (double (_format_context->duration - _format_context->start_time) / AV_TIME_BASE) * video_frame_rate();
+	VideoContent::Frame const length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate();
 	return max (1, length);
 }
 
 string
 FFmpegExaminer::audio_stream_name (AVStream* s) const
 {
-	stringstream n;
+	SafeStringStream n;
 
 	n << stream_name (s);
 
@@ -160,7 +160,7 @@ FFmpegExaminer::audio_stream_name (AVStream* s) const
 string
 FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 {
-	stringstream n;
+	SafeStringStream n;
 
 	n << stream_name (s);
 
@@ -174,7 +174,7 @@ FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 string
 FFmpegExaminer::stream_name (AVStream* s) const
 {
-	stringstream n;
+	SafeStringStream n;
 
 	if (s->metadata) {
 		AVDictionaryEntry const * lang = av_dict_get (s->metadata, "language", 0, 0);

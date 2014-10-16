@@ -34,7 +34,6 @@
 #include <stdexcept>
 #include <cstdio>
 #include <iomanip>
-#include <sstream>
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
@@ -67,7 +66,6 @@
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::cout;
 using boost::shared_ptr;
 using libdcp::Size;
@@ -282,10 +280,9 @@ DCPVideoFrame::encode_remotely (ServerDescription serv)
 	LOG_GENERAL (N_("Sending frame %1 to remote"), _index);
 	
 	/* Send XML metadata */
-	stringstream xml;
-	doc.write_to_stream (xml, "UTF-8");
-	socket->write (xml.str().length() + 1);
-	socket->write ((uint8_t *) xml.str().c_str(), xml.str().length() + 1);
+	string xml = doc.write_to_string ("UTF-8");
+	socket->write (xml.length() + 1);
+	socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
 
 	/* Send binary data */
 	_frame->send_binary (socket);

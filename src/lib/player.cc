@@ -497,7 +497,8 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 	} else if (
 		property == SubtitleContentProperty::SUBTITLE_X_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
-		property == SubtitleContentProperty::SUBTITLE_SCALE
+		property == SubtitleContentProperty::SUBTITLE_X_SCALE ||
+		property == SubtitleContentProperty::SUBTITLE_Y_SCALE
 		) {
 
 		for (list<Subtitle>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {

@@ -24,7 +24,6 @@
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::vector;
 
 vector<Ratio const *> Ratio::_ratios;
@@ -57,3 +56,20 @@ Ratio::from_id (string i)
 
 	return *j;
 }
+
+/** @return Ratio corresponding to a given fractional ratio (+/- 0.01), or 0 */
+Ratio const *
+Ratio::from_ratio (float r)
+{
+	vector<Ratio const *>::iterator j = _ratios.begin ();
+	while (j != _ratios.end() && fabs ((*j)->ratio() - r) > 0.01) {
+		++j;
+	}
+
+	if (j == _ratios.end ()) {
+		return 0;
+	}
+
+	return *j;
+}
+   
