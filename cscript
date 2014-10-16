@@ -172,7 +172,7 @@ def build(target, options):
             if target.version == '6.5':
                 cmd += ' --target-centos-6 --disable-tests'
             elif target.version == '7':
-                cmd += ' --target-centos-7'
+                cmd += ' --target-centos-7 --disable-tests'
 
     target.command(cmd)
     target.command('./waf')
