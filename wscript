@@ -328,7 +328,7 @@ def configure(conf):
         conf.check_cfg(package='', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_IMAGE_MAGICK')
     else:
-        conf.check_cfg(package='GraphicsMagick++', args='--cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+        conf.check_cfg(package='GraphicsMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=True)
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GRAPHICS_MAGICK')
         
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
