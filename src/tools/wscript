@@ -11,7 +11,7 @@ def configure(conf):
 def build(bld):
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm', 'dcpomatic_create']:
         obj = bld(features = 'cxx cxxprogram')
-        obj.uselib = 'BOOST_THREAD BOOST_DATETIME OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS QUICKMAIL'
+        obj.uselib = 'BOOST_THREAD BOOST_DATETIME OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC QUICKMAIL'
         obj.includes = ['..']
         obj.use    = ['libdcpomatic']
         obj.source = '%s.cc' % t

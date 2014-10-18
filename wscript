@@ -1,6 +1,8 @@
 import subprocess
 import os
 import sys
+import distutils
+import distutils.spawn
 
 APPNAME = 'dcpomatic'
 VERSION = '1.75.1devel'
@@ -322,7 +324,13 @@ def configure(conf):
     # Dependencies which are always dynamically linked
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
     conf.check_cfg(package='glib-2.0', args='--cflags --libs', uselib_store='GLIB', mandatory=True)
-    conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+    if distutils.spawn.find_executable(conf.options.magickpp_config):
+        conf.check_cfg(package='', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_IMAGE_MAGICK')
+    else:
+        conf.check_cfg(package='GraphicsMagick++', args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GRAPHICS_MAGICK')
+        
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
 
     conf.check_cc(fragment="""

@@ -43,7 +43,12 @@
 #endif
 #include <glib.h>
 #include <openjpeg.h>
+#ifdef DCPOMATIC_IMAGE_MAGICK
 #include <magick/MagickCore.h>
+#else
+#include <magick/common.h>
+#include <magick/magick_config.h>
+#endif
 #include <magick/version.h>
 #include <libdcp/version.h>
 #include <libdcp/util.h>
