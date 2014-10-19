@@ -1,3 +1,8 @@
+2014-10-19  Carl Hetherington  <cth@carlh.net>
+
+	* Add simple note of what audio resampling
+	will be done to the audio panel.
+
 2014-10-16  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.75.2 released.
