@@ -26,6 +26,8 @@
 #include "cross.h"
 #include "ui_signaller.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::list;
 using std::vector;
@@ -105,11 +107,16 @@ try
 	using namespace boost::asio::ip;
 
 	boost::asio::io_service io_service;
-	tcp::acceptor acceptor (io_service, tcp::endpoint (tcp::v4(), Config::instance()->server_port_base() + 1));
+	boost::scoped_ptr<tcp::acceptor> acceptor;
+	try {
+		acceptor.reset (new tcp::acceptor (io_service, tcp::endpoint (tcp::v4(), Config::instance()->server_port_base() + 1)));
+	} catch (...) {
+		boost::throw_exception (NetworkError (_("Could not listen for remote encode servers.  Perhaps another instance of DCP-o-matic is running.")));
+	}
 
 	while (true) {
 		tcp::socket socket (io_service);
-		acceptor.accept (socket);
+		acceptor->accept (socket);
 
 		/* XXX: these reads should have timeouts, otherwise we will stop finding servers
 		   if one dies during this conversation
