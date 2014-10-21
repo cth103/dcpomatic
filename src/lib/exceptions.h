@@ -252,8 +252,9 @@ public:
 	void rethrow () {
 		boost::mutex::scoped_lock lm (_mutex);
 		if (_exception) {
-			boost::rethrow_exception (_exception);
+			boost::exception_ptr tmp = _exception;
 			_exception = boost::exception_ptr ();
+			boost::rethrow_exception (tmp);
 		}
 	}
 
