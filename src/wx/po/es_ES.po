@@ -1109,7 +1109,7 @@ msgstr "Idioma del subtítulo (ej. EN)"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:168
+#: src/wx/about_dialog.cc:165
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1134,7 +1134,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:210
 msgid "Tested by"
 msgstr "Comprobado por"
 

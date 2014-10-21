@@ -1,6 +1,8 @@
 import subprocess
 import os
 import sys
+import distutils
+import distutils.spawn
 
 APPNAME = 'dcpomatic'
 VERSION = '2.0.14devel'
@@ -28,8 +30,9 @@ def static_ffmpeg(conf):
     conf.check_cfg(package='libavfilter', args='--cflags', uselib_store='AVFILTER', mandatory=True)
     conf.env.STLIB_AVFILTER = ['avfilter', 'swresample']
     conf.check_cfg(package='libavcodec', args='--cflags', uselib_store='AVCODEC', mandatory=True)
+    # lzma link is needed by Centos 7, at least
     conf.env.STLIB_AVCODEC = ['avcodec']
-    conf.env.LIB_AVCODEC = ['z']
+    conf.env.LIB_AVCODEC = ['z', 'lzma']
     conf.check_cfg(package='libavutil', args='--cflags', uselib_store='AVUTIL', mandatory=True)
     conf.env.STLIB_AVUTIL = ['avutil']
     conf.check_cfg(package='libswscale', args='--cflags', uselib_store='SWSCALE', mandatory=True)
@@ -63,7 +66,7 @@ def static_sub(conf):
     conf.env.STLIB_SUB = ['sub']
 
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
-    conf.check_cfg(package='libdcp-1.0', atleast_version='0.96', args='--cflags', uselib_store='DCP', mandatory=True)
+    conf.check_cfg(package='libdcp-1.0', atleast_version='1.0', args='--cflags', uselib_store='DCP', mandatory=True)
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
     conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-libdcp-1.0', 'kumu-libdcp-1.0']
     conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
@@ -339,7 +342,13 @@ def configure(conf):
     # Dependencies which are always dynamically linked
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
     conf.check_cfg(package='glib-2.0', args='--cflags --libs', uselib_store='GLIB', mandatory=True)
-    conf.check_cfg(package= '', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+    if distutils.spawn.find_executable(conf.options.magickpp_config):
+        conf.check_cfg(package='', path=conf.options.magickpp_config, args='--cppflags --cxxflags --libs', uselib_store='MAGICK', mandatory=True)
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_IMAGE_MAGICK')
+    else:
+        conf.check_cfg(package='GraphicsMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=True)
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GRAPHICS_MAGICK')
+        
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
     conf.check_cfg(package='pangomm-1.4', args='--cflags --libs', uselib_store='PANGOMM', mandatory=True)
     conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)

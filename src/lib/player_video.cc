@@ -90,7 +90,7 @@ PlayerVideo::set_subtitle (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (bool burn_subtitle) const
+PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle) const
 {
 	shared_ptr<Image> im = _in->image ();
 	
@@ -112,7 +112,7 @@ PlayerVideo::image (bool burn_subtitle) const
 		break;
 	}
 		
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, PIX_FMT_RGB24, true);
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, pixel_format, true);
 
 	if (burn_subtitle && _subtitle.image) {
 		out->alpha_blend (_subtitle.image, _subtitle.position);

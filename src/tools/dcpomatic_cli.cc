@@ -139,6 +139,17 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
+	ContentList content = film->content ();
+	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
+		vector<boost::filesystem::path> paths = (*i)->paths ();
+		for (vector<boost::filesystem::path>::const_iterator j = paths.begin(); j != paths.end(); ++j) {
+			if (!boost::filesystem::exists (*j)) {
+				cerr << argv[0] << ": content file " << *j << " not found.\n";
+				exit (EXIT_FAILURE);
+			}
+		}
+	}
+		
 	cout << "\nMaking DCP for " << film->name() << "\n";
 
 	film->make_dcp ();

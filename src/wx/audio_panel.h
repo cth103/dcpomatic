@@ -44,6 +44,7 @@ private:
 	void mapping_changed (AudioMapping);
 	void processor_changed ();
 	void setup_processors ();
+	void setup_description ();
 
 	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;
@@ -51,6 +52,8 @@ private:
 	ContentSpinCtrl<AudioContent>* _delay;
 	wxChoice* _stream;
 	wxChoice* _processor;
+	wxStaticText* _stream_description;
 	AudioMappingView* _mapping;
+	wxStaticText* _description;
 	AudioDialog* _audio_dialog;
 };

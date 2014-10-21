@@ -68,7 +68,6 @@ def configure(conf):
                                     'wx_gtk2u_adv-3.0', 'wx_gtk2u_core-3.0', 'wx_baseu_xml-3.0', 'wx_baseu-3.0']
         conf.env.LIB_WXWIDGETS = ['tiff', 'SM', 'dl', 'jpeg', 'png', 'X11', 'expat']
         if conf.env.TARGET_DEBIAN and conf.env.DEBIAN_UNSTABLE:
-            conf.env.LIB_WXWIDGETS.append('Xxf86vm')
             conf.env.LIB_WXWIDGETS.append('Xext')
             conf.env.LIB_WXWIDGETS.append('X11')
 

@@ -125,7 +125,7 @@ DCPVideo::encode_locally ()
 	}
 
 	shared_ptr<dcp::XYZFrame> xyz = dcp::rgb_to_xyz (
-		_frame->image (_burn_subtitles),
+		_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles),
 		in_lut,
 		dcp::GammaLUT::cache.get (16, 1 / _frame->colour_conversion().output_gamma, false),
 		matrix

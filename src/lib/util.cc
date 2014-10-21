@@ -44,7 +44,12 @@
 #include <glib.h>
 #include <openjpeg.h>
 #include <pangomm/init.h>
+#ifdef DCPOMATIC_IMAGE_MAGICK
 #include <magick/MagickCore.h>
+#else
+#include <magick/common.h>
+#include <magick/magick_config.h>
+#endif
 #include <magick/version.h>
 #include <dcp/version.h>
 #include <dcp/util.h>

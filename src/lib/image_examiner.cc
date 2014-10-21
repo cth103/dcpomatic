@@ -37,7 +37,9 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	: _film (film)
 	, _image_content (content)
 {
+#ifdef DCPOMATIC_IMAGE_MAGICK	
 	using namespace MagickCore;
+#endif	
 	Magick::Image* image = new Magick::Image (content->path(0).string());
 	_video_size = dcp::Size (image->columns(), image->rows());
 	delete image;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-15 09:37+0100\n"
+"POT-Creation-Date: 2014-10-16 16:38+0100\n"
 "PO-Revision-Date: 2014-09-04 20:17+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <TKooijmans@universaldv.nl>\n"
@@ -1104,7 +1104,7 @@ msgstr "Ondertitel Taal (vb  NL)"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:168
+#: src/wx/about_dialog.cc:165
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1128,7 +1128,7 @@ msgstr "Grondgebied (vb NL)"
 msgid "Test version "
 msgstr "Test Versie"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:210
 msgid "Tested by"
 msgstr "Getest door"
 

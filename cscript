@@ -8,7 +8,6 @@ deb_build_depends = {'debhelper': '8.0.0',
                      'pkg-config': '0.26',
                      'libssh-dev': '0.5.2',
                      'libsndfile1-dev': '1.0.25',
-                     'libmagick++-dev': '8:6.6.9.7',
                      'libgtk2.0-dev': '2.24.10'}
 
 deb_depends = dict()
@@ -173,7 +172,7 @@ def build(target, options):
             if target.version == '6.5':
                 cmd += ' --target-centos-6 --disable-tests'
             elif target.version == '7':
-                cmd += ' --target-centos-7'
+                cmd += ' --target-centos-7 --disable-tests'
 
     target.command(cmd)
     target.command('./waf')
