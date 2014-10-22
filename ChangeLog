@@ -1,3 +1,8 @@
+2014-10-22  Carl Hetherington  <cth@carlh.net>
+
+	* Fix bug where some files from iTunes would
+	be read as being at 90,000fps.
+
 2014-10-20  Carl Hetherington  <cth@carlh.net>
 
 	* Version 1.76.2 released.

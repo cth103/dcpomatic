@@ -109,7 +109,10 @@ FFmpeg::setup_general ()
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
-		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+		/* Files from iTunes sometimes have two video streams, one with the avg_frame_rate.num and .den set
+		   to zero.  Ignore these streams.
+		*/
+		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO && s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
 			_video_stream = i;
 		}
 	}
