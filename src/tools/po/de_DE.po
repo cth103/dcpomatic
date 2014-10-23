@@ -117,7 +117,7 @@ msgstr ""
 "den Autor von DCP-o-matic (carl@dcpomatic.com)!"
 
 #: src/tools/dcpomatic.cc:418
-msgid "An unknown exeception occurred."
+msgid "An unknown exception occurred."
 msgstr "Ein unbekannter Fehler ist aufgetreten."
 
 #: src/tools/dcpomatic.cc:414

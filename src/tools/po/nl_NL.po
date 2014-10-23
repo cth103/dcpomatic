@@ -114,7 +114,7 @@ msgstr ""
 "(carl@dcpomatic.com)."
 
 #: src/tools/dcpomatic.cc:418
-msgid "An unknown exeception occurred."
+msgid "An unknown exception occurred."
 msgstr "Er is een onbekende fout opgetreden."
 
 #: src/tools/dcpomatic.cc:414

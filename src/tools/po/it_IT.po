@@ -107,7 +107,7 @@ msgid ""
 msgstr ""
 
 #: src/tools/dcpomatic.cc:418
-msgid "An unknown exeception occurred."
+msgid "An unknown exception occurred."
 msgstr ""
 
 #: src/tools/dcpomatic.cc:414
