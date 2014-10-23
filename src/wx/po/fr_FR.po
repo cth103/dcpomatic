@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-07-14 11:27+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -45,7 +45,7 @@ msgstr "-6dB"
 msgid "1 / "
 msgstr "1/"
 
-#: src/wx/audio_panel.cc:238
+#: src/wx/audio_panel.cc:273
 msgid "1 channel"
 msgstr "1 canal"
 
@@ -105,13 +105,24 @@ msgstr "Ajout cinéma"
 msgid "Add Screen..."
 msgstr "Ajout une salle"
 
+#: src/wx/film_editor.cc:285
+msgid ""
+"Add a directory of image files which will be used as a moving image sequence."
+msgstr ""
+
 #: src/wx/film_editor.cc:280
 msgid "Add file(s)..."
 msgstr "Ajout fichier(s)..."
 
-#: src/wx/film_editor.cc:282
-msgid "Add folder..."
-msgstr "Ajout dossier..."
+#: src/wx/film_editor.cc:284
+msgid ""
+"Add image\n"
+"sequence..."
+msgstr ""
+
+#: src/wx/film_editor.cc:281
+msgid "Add video, image or sound files to the film."
+msgstr ""
 
 #: src/wx/editable_list.h:62
 msgid "Add..."
@@ -168,6 +179,16 @@ msgid ""
 msgstr ""
 "Le son du canal audio %d sera transféré au canal %d du DCP avec un gain de "
 "%.1fdB."
+
+#: src/wx/audio_panel.cc:248
+#, fuzzy, c-format
+msgid "Audio will be resampled from %.3fkHz to %.3fkHz."
+msgstr "L'audio sera rééchantillonné de %dHz à %dHz\n"
+
+#: src/wx/audio_panel.cc:253
+#, fuzzy
+msgid "Audio will not be resampled."
+msgstr "L'audio sera rééchantillonné de %dHz à %dHz\n"
 
 #: src/wx/config_dialog.cc:683
 #, fuzzy
@@ -260,11 +281,11 @@ msgstr "Recherche de mises à jour au démarrage."
 msgid "Choose a file"
 msgstr "Choisissez un fichier"
 
-#: src/wx/film_editor.cc:810
+#: src/wx/film_editor.cc:815
 msgid "Choose a file or files"
 msgstr "Choisissez un ou plusieurs fichiers"
 
-#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:833
+#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:838
 msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
@@ -438,7 +459,7 @@ msgstr "Doremi"
 msgid "Doremi serial numbers must have 6 digits"
 msgstr "Les numéros de série Doremi doivent être composés de 6 chiffres"
 
-#: src/wx/film_editor.cc:288
+#: src/wx/film_editor.cc:296
 msgid "Down"
 msgstr "Descendre"
 
@@ -580,7 +601,7 @@ msgstr "Hôtes"
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
-#: src/wx/audio_panel.cc:242
+#: src/wx/audio_panel.cc:277
 msgid "Hz"
 msgstr "Hz"
 
@@ -628,7 +649,7 @@ msgstr ""
 msgid "KDM|Timing"
 msgstr "Temps"
 
-#: src/wx/film_editor.cc:298
+#: src/wx/timeline_dialog.cc:41
 msgid "Keep video in sequence"
 msgstr "Conserver la vidéo dans la séquence"
 
@@ -668,7 +689,7 @@ msgstr ""
 msgid "Ls"
 msgstr "Sr.G"
 
-#: src/wx/film_editor.cc:784
+#: src/wx/film_editor.cc:789
 msgid "MISSING: "
 msgstr "MANQUANT:"
 
@@ -700,6 +721,14 @@ msgstr "Qualité JPEG2000 Maxi"
 #: src/wx/film_editor.cc:185
 msgid "Mbit/s"
 msgstr "Mbit/s"
+
+#: src/wx/film_editor.cc:293
+msgid "Move the selected piece of content earlier in the film."
+msgstr ""
+
+#: src/wx/film_editor.cc:297
+msgid "Move the selected piece of content later in the film."
+msgstr ""
 
 #: src/wx/video_panel.cc:280
 msgid "Multiple content selected"
@@ -735,6 +764,10 @@ msgstr "Aucun"
 #: src/wx/audio_mapping_view.cc:132
 msgid "Off"
 msgstr "Eteint"
+
+#: src/wx/film_editor.cc:301
+msgid "Open the timeline for the film."
+msgstr ""
 
 #: src/wx/screen_dialog.cc:65
 msgid "Other"
@@ -813,7 +846,7 @@ msgstr "CD"
 msgid "Red band"
 msgstr "Red Band"
 
-#: src/wx/content_menu.cc:54 src/wx/film_editor.cc:284
+#: src/wx/content_menu.cc:54 src/wx/film_editor.cc:288
 #: src/wx/editable_list.h:68
 msgid "Remove"
 msgstr "Supprimer"
@@ -825,6 +858,10 @@ msgstr "Supprimer le cinéma"
 #: src/wx/kdm_dialog.cc:90
 msgid "Remove Screen"
 msgstr "Supprimer la salle"
+
+#: src/wx/film_editor.cc:289
+msgid "Remove the selected piece of content from the film."
+msgstr ""
 
 #: src/wx/repeat_dialog.cc:26
 msgid "Repeat"
@@ -935,7 +972,7 @@ msgstr "Signé"
 msgid "Smoothing"
 msgstr "Lissage"
 
-#: src/wx/timeline_dialog.cc:38
+#: src/wx/timeline_dialog.cc:39
 msgid "Snap"
 msgstr "Magnetisme"
 
@@ -967,7 +1004,7 @@ msgstr "Langue de sous-titres (ex. FR)"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:165
+#: src/wx/about_dialog.cc:166
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -991,7 +1028,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:210
+#: src/wx/about_dialog.cc:211
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -1033,7 +1070,7 @@ msgstr "Durée"
 msgid "Timeline"
 msgstr "Timeline"
 
-#: src/wx/film_editor.cc:290
+#: src/wx/film_editor.cc:300
 msgid "Timeline..."
 msgstr "Timeline..."
 
@@ -1073,7 +1110,7 @@ msgstr "inconnu."
 msgid "Until"
 msgstr "Jusqu'au"
 
-#: src/wx/film_editor.cc:286
+#: src/wx/film_editor.cc:292
 msgid "Up"
 msgstr "Monter"
 
@@ -1186,7 +1223,7 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/audio_panel.cc:240
+#: src/wx/audio_panel.cc:275
 msgid "channels"
 msgstr "canaux"
 
@@ -1218,6 +1255,9 @@ msgstr "fois"
 #: src/wx/timeline.cc:241
 msgid "video"
 msgstr "vidéo"
+
+#~ msgid "Add folder..."
+#~ msgstr "Ajout dossier..."
 
 #~ msgid "Default creator"
 #~ msgstr "Créateur par défaut"
@@ -1299,9 +1339,6 @@ msgstr "vidéo"
 
 #~ msgid "A/B mode"
 #~ msgstr "A/B mode"
-
-#~ msgid "Audio will be resampled from %dHz to %dHz\n"
-#~ msgstr "L'audio sera rééchantillonné de %dHz à %dHz\n"
 
 #~ msgid "Colour look-up table"
 #~ msgstr "Espace colorimétrique"

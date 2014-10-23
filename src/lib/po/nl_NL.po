@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-09-04 20:34+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -98,7 +98,7 @@ msgstr "Afgebroken"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Fout met pixel formaat %1 tijdens %2"
 
-#: src/lib/util.cc:786
+#: src/lib/util.cc:791
 msgid "Centre"
 msgstr "Midden"
 
@@ -196,6 +196,12 @@ msgstr "Kan geen remote map maken %1 (%2)"
 #, fuzzy
 msgid "Could not decode image file (%1)"
 msgstr "Kan beeldbestand niet decoderen"
+
+#: src/lib/server_finder.cc:114
+msgid ""
+"Could not listen for remote encode servers.  Perhaps another instance of DCP-"
+"o-matic is running."
+msgstr ""
 
 #: src/lib/job.cc:90
 msgid "Could not open %1"
@@ -329,7 +335,7 @@ msgstr "Gaussian"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:790
+#: src/lib/util.cc:795
 msgid "Hearing impaired"
 msgstr "Slechthorenden"
 
@@ -357,23 +363,23 @@ msgstr "Kernel deinterlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:789
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:792
+#: src/lib/util.cc:797
 msgid "Left centre"
 msgstr "Links midden"
 
-#: src/lib/util.cc:794
+#: src/lib/util.cc:799
 msgid "Left rear surround"
 msgstr "Links achter surround"
 
-#: src/lib/util.cc:788
+#: src/lib/util.cc:793
 msgid "Left surround"
 msgstr "links surround"
 
-#: src/lib/util.cc:787
+#: src/lib/util.cc:792
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -441,19 +447,19 @@ msgstr "Beoordeling"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:785
+#: src/lib/util.cc:790
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:793
+#: src/lib/util.cc:798
 msgid "Right centre"
 msgstr "Rechts midden"
 
-#: src/lib/util.cc:795
+#: src/lib/util.cc:800
 msgid "Right rear surround"
 msgstr "Rechtsachter surround"
 
-#: src/lib/util.cc:789
+#: src/lib/util.cc:794
 msgid "Right surround"
 msgstr "Rechts surround"
 
@@ -535,7 +541,7 @@ msgstr "Bumper"
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte ZIP file inhoud"
 
-#: src/lib/image_proxy.cc:193
+#: src/lib/image_proxy.cc:197
 msgid "Unexpected image type received by server"
 msgstr "Onverwacht beeldtype ontvangen door server"
 
@@ -555,7 +561,7 @@ msgstr "Unsharp mask and Gaussian blur"
 msgid "Untitled"
 msgstr "Niet benoemd"
 
-#: src/lib/util.cc:791
+#: src/lib/util.cc:796
 msgid "Visually impaired"
 msgstr "Slechtzienden"
 
@@ -587,7 +593,7 @@ msgstr "[still]"
 msgid "cannot contain slashes"
 msgstr "er mag geen '\" gebruikt worden"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:570
 msgid "connect timed out"
 msgstr "verbinding timeout"
 
@@ -611,7 +617,7 @@ msgstr "kopieeren %1"
 msgid "could not create file %1"
 msgstr "kan geen bestand maken %1"
 
-#: src/lib/ffmpeg.cc:176
+#: src/lib/ffmpeg.cc:179
 msgid "could not find audio decoder"
 msgstr "kan geen audio decoder vinden"
 
@@ -619,7 +625,7 @@ msgstr "kan geen audio decoder vinden"
 msgid "could not find stream information"
 msgstr "kan geen stream informatie vinden"
 
-#: src/lib/ffmpeg.cc:155
+#: src/lib/ffmpeg.cc:158
 msgid "could not find video decoder"
 msgstr "kan geen videodecoder vinden"
 
@@ -667,19 +673,19 @@ msgstr "kan SSH sessie niet starten"
 msgid "could not write to file %1 (%2)"
 msgstr "kan niet schrijven naar bestand %1 (%2)"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:590
 msgid "error during async_accept (%1)"
 msgstr "fout met async_accepteren (FTP) (%1)"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:566
 msgid "error during async_connect (%1)"
 msgstr "fout met async_verbinden (FTP) (%1)"
 
-#: src/lib/util.cc:634
+#: src/lib/util.cc:639
 msgid "error during async_read (%1)"
 msgstr "fout met async_lezen (FTP) (%1)"
 
-#: src/lib/util.cc:606
+#: src/lib/util.cc:611
 msgid "error during async_write (%1)"
 msgstr "fout met async_schrijven (FTP) (%1)"
 
@@ -687,23 +693,23 @@ msgstr "fout met async_schrijven (FTP) (%1)"
 msgid "frames per second"
 msgstr "frames per seconde"
 
-#: src/lib/util.cc:156
+#: src/lib/util.cc:161
 msgid "hour"
 msgstr "uur"
 
-#: src/lib/util.cc:152 src/lib/util.cc:158
+#: src/lib/util.cc:157 src/lib/util.cc:163
 msgid "hours"
 msgstr "uren"
 
-#: src/lib/util.cc:174
+#: src/lib/util.cc:179
 msgid "minute"
 msgstr "minuut"
 
-#: src/lib/util.cc:170 src/lib/util.cc:176
+#: src/lib/util.cc:175 src/lib/util.cc:181
 msgid "minutes"
 msgstr "minuten"
 
-#: src/lib/util.cc:706
+#: src/lib/util.cc:711
 msgid "missing key %1 in key-value set"
 msgstr "ontbrekende key %1 in key-value set"
 
@@ -741,11 +747,11 @@ msgstr "sRGB"
 msgid "sRGB non-linearised"
 msgstr "sRGB non-linearised"
 
-#: src/lib/util.cc:189
+#: src/lib/util.cc:194
 msgid "second"
 msgstr "secondes"
 
-#: src/lib/util.cc:191
+#: src/lib/util.cc:196
 msgid "seconds"
 msgstr "secondes"
 
