@@ -1,5 +1,8 @@
 2014-10-23  Carl Hetherington  <cth@carlh.net>
 
+	* Rename 'Add folder' to 'Add image sequence'
+	and add some tooltips.
+
 	* Move the "keep video in sequence" button into
 	the timeline dialogue.
 
