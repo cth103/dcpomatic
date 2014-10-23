@@ -395,7 +395,7 @@ Playlist::move_later (shared_ptr<Content> c)
 	}
 
 	(*next)->set_position (c->position ());
-	c->set_position (c->position() + c->length_after_trim ());
+	c->set_position (c->position() + (*next)->length_after_trim ());
 	sort (_content.begin(), _content.end(), ContentSorter ());
 }
 
