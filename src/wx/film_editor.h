@@ -96,7 +96,6 @@ private:
 	void content_timeline_clicked ();
 	void audio_channels_changed ();
 	void resolution_changed ();
-	void sequence_video_changed ();
 	void content_right_click (wxListEvent &);
 	void three_d_changed ();
 	void standard_changed ();
@@ -144,7 +143,6 @@ private:
 	wxButton* _content_earlier;
 	wxButton* _content_later;
 	wxButton* _content_timeline;
-	wxCheckBox* _sequence_video;
 	wxButton* _edit_isdcf_button;
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;

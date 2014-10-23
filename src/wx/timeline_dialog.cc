@@ -30,6 +30,7 @@ using boost::shared_ptr;
 
 TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
 	: wxDialog (ed, wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+	, _film (film)
 	, _timeline (this, ed, film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
@@ -37,6 +38,8 @@ TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
 	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
 	_snap = new wxCheckBox (this, wxID_ANY, _("Snap"));
 	controls->Add (_snap);
+	_sequence_video = new wxCheckBox (this, wxID_ANY, _("Keep video in sequence"));
+	controls->Add (_sequence_video, 1, wxLEFT, 12);
 
 	sizer->Add (controls, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
@@ -47,10 +50,38 @@ TimelineDialog::TimelineDialog (FilmEditor* ed, shared_ptr<Film> film)
 
 	_snap->SetValue (_timeline.snap ());
 	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::snap_toggled, this));
+	film_changed (Film::SEQUENCE_VIDEO);
+	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::sequence_video_toggled, this));
+
+	film->Changed.connect (bind (&TimelineDialog::film_changed, this, _1));
 }
 
 void
 TimelineDialog::snap_toggled ()
 {
 	_timeline.set_snap (_snap->GetValue ());
+}
+
+void
+TimelineDialog::sequence_video_toggled ()
+{
+	shared_ptr<Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+		
+	film->set_sequence_video (_sequence_video->GetValue ());
+}
+
+void
+TimelineDialog::film_changed (Film::Property p)
+{
+	shared_ptr<Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	if (p == Film::SEQUENCE_VIDEO) {
+		_sequence_video->SetValue (film->sequence_video ());
+	}
 }

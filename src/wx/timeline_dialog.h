@@ -31,7 +31,11 @@ public:
 
 private:
 	void snap_toggled ();
+	void sequence_video_toggled ();
+	void film_changed (Film::Property);
 	
+	boost::weak_ptr<Film> _film;
 	Timeline _timeline;
 	wxCheckBox* _snap;
+	wxCheckBox* _sequence_video;
 };
