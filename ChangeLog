@@ -1,5 +1,7 @@
 2014-10-24  Carl Hetherington  <cth@carlh.net>
 
+	* Add a pause button for jobs.
+
 	* Experimental support for bypassing colourspace conversion (#266).
 
 	* Version 1.76.6 released.
