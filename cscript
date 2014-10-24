@@ -156,7 +156,7 @@ def make_control(debian_version, bits, filename, debug):
 
 def dependencies(target):
     return (('ffmpeg-cdist', '2dffa11'),
-            ('libdcp', 'd5accd6'))
+            ('libdcp', '0073935'))
 
 def build(target, options):
     cmd = './waf configure --prefix=%s' % target.directory

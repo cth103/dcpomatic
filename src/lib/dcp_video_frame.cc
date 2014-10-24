@@ -108,28 +108,35 @@ DCPVideoFrame::DCPVideoFrame (shared_ptr<const PlayerVideoFrame> frame, shared_p
 shared_ptr<EncodedData>
 DCPVideoFrame::encode_locally ()
 {
-	shared_ptr<libdcp::LUT> in_lut;
-	if (_frame->colour_conversion().input_gamma_linearised) {
-		in_lut = libdcp::SRGBLinearisedGammaLUT::cache.get (12, _frame->colour_conversion().input_gamma);
-	} else {
-		in_lut = libdcp::GammaLUT::cache.get (12, _frame->colour_conversion().input_gamma);
-	}
+	shared_ptr<libdcp::XYZFrame> xyz;
 
-	/* XXX: libdcp should probably use boost */
-	
-	double matrix[3][3];
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			matrix[i][j] = _frame->colour_conversion().matrix (i, j);
+	if (_frame->colour_conversion()) {
+		ColourConversion conversion = _frame->colour_conversion().get ();
+		shared_ptr<libdcp::LUT> in_lut;
+		if (conversion.input_gamma_linearised) {
+			in_lut = libdcp::SRGBLinearisedGammaLUT::cache.get (12, conversion.input_gamma);
+		} else {
+			in_lut = libdcp::GammaLUT::cache.get (12, conversion.input_gamma);
 		}
+		
+		/* XXX: libdcp should probably use boost */
+		
+		double matrix[3][3];
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				matrix[i][j] = conversion.matrix (i, j);
+			}
+		}
+		
+		xyz = libdcp::rgb_to_xyz (
+			_frame->image(AV_PIX_FMT_RGB48LE),
+			in_lut,
+			libdcp::GammaLUT::cache.get (16, 1 / conversion.output_gamma),
+			matrix
+			);
+	} else {
+		xyz = libdcp::xyz_to_xyz (_frame->image (AV_PIX_FMT_RGB48LE));
 	}
-
-	shared_ptr<libdcp::XYZFrame> xyz = libdcp::rgb_to_xyz (
-		_frame->image(AV_PIX_FMT_RGB48LE),
-		in_lut,
-		libdcp::GammaLUT::cache.get (16, 1 / _frame->colour_conversion().output_gamma),
-		matrix
-		);
 
 	/* Set the max image and component sizes based on frame_rate */
 	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;

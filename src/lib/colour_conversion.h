@@ -46,6 +46,8 @@ public:
 
 	boost::optional<size_t> preset () const;
 
+	static boost::optional<ColourConversion> from_xml (cxml::NodePtr);
+
 	double input_gamma;
 	bool input_gamma_linearised;
 	boost::numeric::ublas::matrix<double> matrix;

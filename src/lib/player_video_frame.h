@@ -38,7 +38,7 @@ class Log;
 class PlayerVideoFrame
 {
 public:
-	PlayerVideoFrame (boost::shared_ptr<const ImageProxy>, Crop, libdcp::Size, libdcp::Size, Scaler const *, Eyes, Part, ColourConversion);
+	PlayerVideoFrame (boost::shared_ptr<const ImageProxy>, Crop, libdcp::Size, libdcp::Size, Scaler const *, Eyes, Part, boost::optional<ColourConversion>);
 	PlayerVideoFrame (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
 
 	void set_subtitle (boost::shared_ptr<const Image>, Position<int>);
@@ -52,7 +52,7 @@ public:
 		return _eyes;
 	}
 
-	ColourConversion colour_conversion () const {
+	boost::optional<ColourConversion> colour_conversion () const {
 		return _colour_conversion;
 	}
 
@@ -64,7 +64,7 @@ private:
 	Scaler const * _scaler;
 	Eyes _eyes;
 	Part _part;
-	ColourConversion _colour_conversion;
+	boost::optional<ColourConversion> _colour_conversion;
 	boost::shared_ptr<const Image> _subtitle_image;
 	Position<int> _subtitle_position;
 };

@@ -84,6 +84,16 @@ ColourConversion::ColourConversion (cxml::NodePtr node)
 	output_gamma = node->number_child<double> ("OutputGamma");
 }
 
+boost::optional<ColourConversion>
+ColourConversion::from_xml (cxml::NodePtr node)
+{
+	if (!node->optional_node_child ("InputGamma")) {
+		return boost::optional<ColourConversion> ();
+	}
+
+	return ColourConversion (node);
+}
+
 void
 ColourConversion::as_xml (xmlpp::Node* node) const
 {

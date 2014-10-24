@@ -92,7 +92,9 @@ public:
 	void set_bottom_crop (int);
 
 	void set_scale (VideoContentScale);
+	void unset_colour_conversion ();
 	void set_colour_conversion (ColourConversion);
+	void set_default_colour_conversion ();
 	
 	VideoFrameType video_frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -130,7 +132,7 @@ public:
 		return _scale;
 	}
 
-	ColourConversion colour_conversion () const {
+	boost::optional<ColourConversion> colour_conversion () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _colour_conversion;
 	}
@@ -156,13 +158,11 @@ private:
 	friend class best_dcp_frame_rate_test_double;
 	friend class audio_sampling_rate_test;
 
-	void setup_default_colour_conversion ();
-	
 	libdcp::Size _video_size;
 	VideoFrameType _video_frame_type;
 	Crop _crop;
 	VideoContentScale _scale;
-	ColourConversion _colour_conversion;
+	boost::optional<ColourConversion> _colour_conversion;
 };
 
 #endif
