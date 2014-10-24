@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -103,14 +103,14 @@ msgid ""
 "author (carl@dcpomatic.com)."
 msgstr ""
 
+#: src/tools/dcpomatic.cc:418
+msgid "An unknown exception occurred."
+msgstr ""
+
 #: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
-msgstr ""
-
-#: src/tools/dcpomatic.cc:418
-msgid "An unknown exeception occurred."
 msgstr ""
 
 #: src/tools/dcpomatic.cc:414

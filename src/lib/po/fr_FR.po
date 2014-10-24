@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-07-14 12:04+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -97,7 +97,7 @@ msgstr "Annulé"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Format du pixel %1 non géré par %2"
 
-#: src/lib/util.cc:786
+#: src/lib/util.cc:791
 msgid "Centre"
 msgstr "Centre"
 
@@ -200,6 +200,12 @@ msgstr "Création du dossier distant %1 (%2) impossible"
 #, fuzzy
 msgid "Could not decode image file (%1)"
 msgstr "Impossible de décoder le ficher image"
+
+#: src/lib/server_finder.cc:114
+msgid ""
+"Could not listen for remote encode servers.  Perhaps another instance of DCP-"
+"o-matic is running."
+msgstr ""
 
 #: src/lib/job.cc:90
 msgid "Could not open %1"
@@ -332,7 +338,7 @@ msgstr "Gaussien"
 msgid "Gradient debander"
 msgstr "Corrections des bandes par dégradé"
 
-#: src/lib/util.cc:790
+#: src/lib/util.cc:795
 msgid "Hearing impaired"
 msgstr "Déficients Auditifs"
 
@@ -360,23 +366,23 @@ msgstr "Désentrelaceur noyau"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:789
 msgid "Left"
 msgstr "Gauche"
 
-#: src/lib/util.cc:792
+#: src/lib/util.cc:797
 msgid "Left centre"
 msgstr "Centre Gauche"
 
-#: src/lib/util.cc:794
+#: src/lib/util.cc:799
 msgid "Left rear surround"
 msgstr "Surround arrière gauche"
 
-#: src/lib/util.cc:788
+#: src/lib/util.cc:793
 msgid "Left surround"
 msgstr "Arrière gauche"
 
-#: src/lib/util.cc:787
+#: src/lib/util.cc:792
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
@@ -440,19 +446,19 @@ msgstr "Classification"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:785
+#: src/lib/util.cc:790
 msgid "Right"
 msgstr "Droite"
 
-#: src/lib/util.cc:793
+#: src/lib/util.cc:798
 msgid "Right centre"
 msgstr "Centre Droit"
 
-#: src/lib/util.cc:795
+#: src/lib/util.cc:800
 msgid "Right rear surround"
 msgstr "Surround arrière droite"
 
-#: src/lib/util.cc:789
+#: src/lib/util.cc:794
 msgid "Right surround"
 msgstr "Arrière droite"
 
@@ -534,7 +540,7 @@ msgstr "Transitional"
 msgid "Unexpected ZIP file contents"
 msgstr "Contenu de fichier ZIP non géré."
 
-#: src/lib/image_proxy.cc:193
+#: src/lib/image_proxy.cc:197
 msgid "Unexpected image type received by server"
 msgstr "Type d'image non conforme reçu par le serveur"
 
@@ -554,7 +560,7 @@ msgstr "Adoucissement et flou Gaussien"
 msgid "Untitled"
 msgstr "Sans titre"
 
-#: src/lib/util.cc:791
+#: src/lib/util.cc:796
 msgid "Visually impaired"
 msgstr "Déficients Visuels"
 
@@ -586,7 +592,7 @@ msgstr "[restant]"
 msgid "cannot contain slashes"
 msgstr "slash interdit"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:570
 msgid "connect timed out"
 msgstr "temps de connexion expiré"
 
@@ -610,7 +616,7 @@ msgstr "copie de %1"
 msgid "could not create file %1"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
-#: src/lib/ffmpeg.cc:176
+#: src/lib/ffmpeg.cc:179
 msgid "could not find audio decoder"
 msgstr "décodeur audio introuvable"
 
@@ -618,7 +624,7 @@ msgstr "décodeur audio introuvable"
 msgid "could not find stream information"
 msgstr "information du flux introuvable"
 
-#: src/lib/ffmpeg.cc:155
+#: src/lib/ffmpeg.cc:158
 msgid "could not find video decoder"
 msgstr "décodeur vidéo introuvable"
 
@@ -668,19 +674,19 @@ msgstr "démarrage de session SSH impossible"
 msgid "could not write to file %1 (%2)"
 msgstr "Écriture vers fichier distant (%1) impossible (%2)"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:590
 msgid "error during async_accept (%1)"
 msgstr "erreur pendant async_accept (%1)"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:566
 msgid "error during async_connect (%1)"
 msgstr "erreur pendant async_connect (%1)"
 
-#: src/lib/util.cc:634
+#: src/lib/util.cc:639
 msgid "error during async_read (%1)"
 msgstr "erreur pendant async_read (%1)"
 
-#: src/lib/util.cc:606
+#: src/lib/util.cc:611
 msgid "error during async_write (%1)"
 msgstr "erreur pendant async_write (%1)"
 
@@ -688,23 +694,23 @@ msgstr "erreur pendant async_write (%1)"
 msgid "frames per second"
 msgstr "images par seconde"
 
-#: src/lib/util.cc:156
+#: src/lib/util.cc:161
 msgid "hour"
 msgstr "heure"
 
-#: src/lib/util.cc:152 src/lib/util.cc:158
+#: src/lib/util.cc:157 src/lib/util.cc:163
 msgid "hours"
 msgstr "heures"
 
-#: src/lib/util.cc:174
+#: src/lib/util.cc:179
 msgid "minute"
 msgstr "minute"
 
-#: src/lib/util.cc:170 src/lib/util.cc:176
+#: src/lib/util.cc:175 src/lib/util.cc:181
 msgid "minutes"
 msgstr "minutes"
 
-#: src/lib/util.cc:706
+#: src/lib/util.cc:711
 msgid "missing key %1 in key-value set"
 msgstr "clé %1 manquante dans le réglage"
 
@@ -742,12 +748,12 @@ msgstr "sRGB"
 msgid "sRGB non-linearised"
 msgstr "sRGB non linéarisé"
 
-#: src/lib/util.cc:189
+#: src/lib/util.cc:194
 #, fuzzy
 msgid "second"
 msgstr "secondes"
 
-#: src/lib/util.cc:191
+#: src/lib/util.cc:196
 msgid "seconds"
 msgstr "secondes"
 

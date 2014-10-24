@@ -415,7 +415,7 @@ private:
 		} catch (exception& e) {
 			error_dialog (this, e.what ());
 		} catch (...) {
-			error_dialog (this, _("An unknown exeception occurred."));
+			error_dialog (this, _("An unknown exception occurred."));
 		}
 	
 		d->Destroy ();

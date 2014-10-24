@@ -255,7 +255,6 @@ FilmEditor::connect_to_widgets ()
 	_audio_channels->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::audio_channels_changed, this));
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&FilmEditor::j2k_bandwidth_changed, this));
 	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::resolution_changed, this));
-	_sequence_video->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::sequence_video_changed, this));
 	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&FilmEditor::three_d_changed, this));
 	_standard->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&FilmEditor::standard_changed, this));
 }
@@ -277,26 +276,35 @@ FilmEditor::make_content_panel ()
 		_content->SetColumnWidth (0, 512);
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
+
 		_content_add_file = new wxButton (_content_panel, wxID_ANY, _("Add file(s)..."));
-		b->Add (_content_add_file, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add folder..."));
+		_content_add_file->SetToolTip (_("Add video, image or sound files to the film."));
+		b->Add (_content_add_file,   0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		
+		_content_add_folder = new wxButton (_content_panel, wxID_ANY, _("Add image\nsequence..."));
+		_content_add_folder->SetToolTip (_("Add a directory of image files which will be used as a moving image sequence."));
 		b->Add (_content_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		
 		_content_remove = new wxButton (_content_panel, wxID_ANY, _("Remove"));
-		b->Add (_content_remove, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_content_remove->SetToolTip (_("Remove the selected piece of content from the film."));
+		b->Add (_content_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		
 		_content_earlier = new wxButton (_content_panel, wxID_ANY, _("Up"));
-		b->Add (_content_earlier, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_content_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
+		b->Add (_content_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		
 		_content_later = new wxButton (_content_panel, wxID_ANY, _("Down"));
-		b->Add (_content_later, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_content_later->SetToolTip (_("Move the selected piece of content later in the film."));
+		b->Add (_content_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+
 		_content_timeline = new wxButton (_content_panel, wxID_ANY, _("Timeline..."));
-		b->Add (_content_timeline, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_content_timeline->SetToolTip (_("Open the timeline for the film."));
+		b->Add (_content_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		s->Add (b, 0, wxALL, 4);
 
 		_content_sizer->Add (s, 0, wxEXPAND | wxALL, 6);
 	}
-
-	_sequence_video = new wxCheckBox (_content_panel, wxID_ANY, _("Keep video in sequence"));
-	_content_sizer->Add (_sequence_video);
 
 	_content_notebook = new wxNotebook (_content_panel, wxID_ANY);
 	_content_sizer->Add (_content_notebook, 1, wxEXPAND | wxTOP, 6);
@@ -503,15 +511,14 @@ FilmEditor::film_changed (Film::Property p)
 		checked_set (_audio_channels, _film->audio_channels ());
 		setup_dcp_name ();
 		break;
-	case Film::SEQUENCE_VIDEO:
-		checked_set (_sequence_video, _film->sequence_video ());
-		break;
 	case Film::THREE_D:
 		checked_set (_three_d, _film->three_d ());
 		setup_dcp_name ();
 		break;
 	case Film::INTEROP:
 		checked_set (_standard, _film->interop() ? 1 : 0);
+		break;
+	default:
 		break;
 	}
 }
@@ -630,7 +637,6 @@ FilmEditor::set_film (shared_ptr<Film> f)
 	film_changed (Film::ISDCF_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
 	film_changed (Film::AUDIO_CHANNELS);
-	film_changed (Film::SEQUENCE_VIDEO);
 	film_changed (Film::THREE_D);
 	film_changed (Film::INTEROP);
 
@@ -672,7 +678,6 @@ FilmEditor::set_general_sensitivity (bool s)
 	_j2k_bandwidth->Enable (s);
 	_container->Enable (s);
 	_best_frame_rate->Enable (s && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
-	_sequence_video->Enable (s);
 	_resolution->Enable (s);
 	_scaler->Enable (s);
 	_three_d->Enable (s);
@@ -1010,16 +1015,6 @@ FilmEditor::set_selection (weak_ptr<Content> wc)
 			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
 		}
 	}
-}
-
-void
-FilmEditor::sequence_video_changed ()
-{
-	if (!_film) {
-		return;
-	}
-	
-	_film->set_sequence_video (_sequence_video->GetValue ());
 }
 
 void

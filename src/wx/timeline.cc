@@ -647,7 +647,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 				Time const d = abs (cv->content()->end() - new_position);
 				if (first || d < nearest_distance) {
 					nearest_distance = d;
-					nearest_new_position = cv->content()->end();
+					nearest_new_position = cv->content()->end() + 1;
 				}
 			}
 			
@@ -656,7 +656,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 				Time const d = abs (cv->content()->position() - (new_position + _down_view->content()->length_after_trim()));
 				if (d < nearest_distance) {
 					nearest_distance = d;
-					nearest_new_position = cv->content()->position() - _down_view->content()->length_after_trim ();
+					nearest_new_position = cv->content()->position() - _down_view->content()->length_after_trim () - 1;
 				}
 			}
 			

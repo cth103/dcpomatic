@@ -62,6 +62,12 @@ Playlist::~Playlist ()
 void
 Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
 {
+	/* Don't respond to position changes here, as:
+	   - sequencing after earlier/later changes is handled by move_earlier/move_later
+	   - any other position changes will be timeline drags which should not result in content
+	   being sequenced.
+	*/
+	
 	if (property == ContentProperty::LENGTH || property == VideoContentProperty::VIDEO_FRAME_TYPE) {
 		maybe_sequence_video ();
 	}
@@ -389,7 +395,7 @@ Playlist::move_later (shared_ptr<Content> c)
 	}
 
 	(*next)->set_position (c->position ());
-	c->set_position (c->position() + c->length_after_trim ());
+	c->set_position (c->position() + (*next)->length_after_trim ());
 	sort (_content.begin(), _content.end(), ContentSorter ());
 }
 

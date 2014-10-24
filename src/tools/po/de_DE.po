@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-07-13 03:04+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,6 +108,10 @@ msgstr ""
 "Ein unbekannter Fehler ist aufgetreten. Bitte melden Sie dieses Problem an "
 "den Autor von DCP-o-matic (carl@dcpomatic.com)!"
 
+#: src/tools/dcpomatic.cc:418
+msgid "An unknown exception occurred."
+msgstr "Ein unbekannter Fehler ist aufgetreten."
+
 #: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
@@ -115,10 +119,6 @@ msgid ""
 msgstr ""
 "Ein unbekannter Fehler ist aufgetreten. Bitte melden Sie dieses Problem an "
 "den Autor von DCP-o-matic (carl@dcpomatic.com)!"
-
-#: src/tools/dcpomatic.cc:418
-msgid "An unknown exeception occurred."
-msgstr "Ein unbekannter Fehler ist aufgetreten."
 
 #: src/tools/dcpomatic.cc:414
 msgid "CPL's content is not encrypted."
