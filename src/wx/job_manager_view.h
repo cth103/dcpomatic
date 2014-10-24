@@ -34,11 +34,7 @@ class JobRecord;
 class JobManagerView : public wxScrolledWindow
 {
 public:
-	enum Buttons {
-		PAUSE = 0x1,
-	};
-		
-	JobManagerView (wxWindow *, Buttons);
+	JobManagerView (wxWindow *);
 
 private:
 	void job_added (boost::weak_ptr<Job>);
@@ -50,5 +46,4 @@ private:
 	boost::shared_ptr<wxTimer> _timer;
 		
 	std::list<boost::shared_ptr<JobRecord> > _job_records;
-	Buttons _buttons;
 };

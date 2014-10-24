@@ -39,12 +39,11 @@ using boost::weak_ptr;
 class JobRecord
 {
 public:
-	JobRecord (shared_ptr<Job> job, wxScrolledWindow* window, wxPanel* panel, wxFlexGridSizer* table, bool pause)
+	JobRecord (shared_ptr<Job> job, wxScrolledWindow* window, wxPanel* panel, wxFlexGridSizer* table)
 		: _job (job)
 		, _window (window)
 		, _panel (panel)
 		, _table (table)
-		, _pause (0)
 	{
 		int n = 0;
 		
@@ -69,12 +68,10 @@ public:
 		table->Insert (n, _cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 		++n;
 	
-		if (pause) {
-			_pause = new wxButton (_panel, wxID_ANY, _("Pause"));
-			_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::pause_clicked, this);
-			table->Insert (n, _pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
-			++n;
-		}
+		_pause = new wxButton (_panel, wxID_ANY, _("Pause"));
+		_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::pause_clicked, this);
+		table->Insert (n, _pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
+		++n;
 	
 		_details = new wxButton (_panel, wxID_ANY, _("Details..."));
 		_details->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::details_clicked, this);
@@ -135,9 +132,7 @@ private:
 		}
 		
 		_cancel->Enable (false);
-		if (_pause) {
-			_pause->Enable (false);
-		}
+		_pause->Enable (false);
 		if (!_job->error_details().empty ()) {
 			_details->Enable (true);
 		}
@@ -183,21 +178,15 @@ private:
 };
 
 /** Must be called in the GUI thread */
-JobManagerView::JobManagerView (wxWindow* parent, Buttons buttons)
+JobManagerView::JobManagerView (wxWindow* parent)
 	: wxScrolledWindow (parent)
-	, _buttons (buttons)
 {
 	_panel = new wxPanel (this);
 	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_panel, 1, wxEXPAND);
 	SetSizer (sizer);
 
-	int N = 5;
-	if (buttons & PAUSE) {
-		++N;
-	}
-	
-	_table = new wxFlexGridSizer (N, 6, 6);
+	_table = new wxFlexGridSizer (6, 6, 6);
 	_table->AddGrowableCol (1, 1);
 	_panel->SetSizer (_table);
 
@@ -225,7 +214,7 @@ JobManagerView::job_added (weak_ptr<Job> j)
 {
 	shared_ptr<Job> job = j.lock ();
 	if (job) {
-		_job_records.push_back (shared_ptr<JobRecord> (new JobRecord (job, this, _panel, _table, _buttons & PAUSE)));
+		_job_records.push_back (shared_ptr<JobRecord> (new JobRecord (job, this, _panel, _table)));
 	}
 }
 

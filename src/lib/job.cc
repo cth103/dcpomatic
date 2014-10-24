@@ -230,8 +230,9 @@ Job::set_progress (float p, bool force)
 	_progress = p;
 	boost::this_thread::interruption_point ();
 
-	if (paused ()) {
-		dcpomatic_sleep (1);
+	boost::mutex::scoped_lock lm2 (_state_mutex);
+	while (_state == PAUSED) {
+		_pause_changed.wait (lm2);
 	}
 
 	if (ui_signaller) {
@@ -348,6 +349,7 @@ Job::pause ()
 {
 	if (running ()) {
 		set_state (PAUSED);
+		_pause_changed.notify_all ();
 	}
 }
 
@@ -356,5 +358,6 @@ Job::resume ()
 {
 	if (paused ()) {
 		set_state (RUNNING);
+		_pause_changed.notify_all ();
 	}
 }

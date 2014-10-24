@@ -125,6 +125,11 @@ private:
 	mutable boost::mutex _progress_mutex;
 	boost::optional<float> _progress;
 
+	/** condition to signal changes to pause/resume so that we know when to wake;
+	    this could be a general _state_change if it made more sense.
+	*/
+	boost::condition_variable _pause_changed;
+
 	int _ran_for;
 };
 
