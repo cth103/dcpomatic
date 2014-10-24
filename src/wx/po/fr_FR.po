@@ -183,12 +183,12 @@ msgstr ""
 #: src/wx/audio_panel.cc:248
 #, fuzzy, c-format
 msgid "Audio will be resampled from %.3fkHz to %.3fkHz."
-msgstr "L'audio sera rééchantillonné de %dHz à %dHz\n"
+msgstr "L'audio sera rééchantillonné de %dHz à %dHz."
 
 #: src/wx/audio_panel.cc:253
 #, fuzzy
 msgid "Audio will not be resampled."
-msgstr "L'audio sera rééchantillonné de %dHz à %dHz\n"
+msgstr "L'audio sera rééchantillonné de %dHz à %dHz."
 
 #: src/wx/config_dialog.cc:683
 #, fuzzy
