@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-09-04 20:17+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <TKooijmans@universaldv.nl>\n"
@@ -45,7 +45,11 @@ msgstr "-6dB"
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/video_panel.cc:193
+#: src/wx/audio_panel.cc:273
+msgid "1 channel"
+msgstr "1 channel"
+
+#: src/wx/video_panel.cc:197
 msgid "2D"
 msgstr "2D"
 
@@ -106,13 +110,24 @@ msgstr "Voeg Bioscoop toe..."
 msgid "Add Screen..."
 msgstr "Voeg Scherm toe..."
 
-#: src/wx/content_panel.cc:67
+#: src/wx/film_editor.cc:285
+msgid ""
+"Add a directory of image files which will be used as a moving image sequence."
+msgstr ""
+
+#: src/wx/film_editor.cc:280
 msgid "Add file(s)..."
 msgstr "Voeg bestande(n) toe..."
 
-#: src/wx/content_panel.cc:69
-msgid "Add folder..."
-msgstr "Voeg map toe..."
+#: src/wx/film_editor.cc:284
+msgid ""
+"Add image\n"
+"sequence..."
+msgstr ""
+
+#: src/wx/film_editor.cc:281
+msgid "Add video, image or sound files to the film."
+msgstr ""
 
 #: src/wx/config_dialog.cc:597 src/wx/editable_list.h:62
 msgid "Add..."
@@ -175,7 +190,16 @@ msgstr ""
 "Audio wordt doorgestuurd van content kanaal %d naar DCP kanaal %d met gain "
 "%1fdB."
 
-#: src/wx/config_dialog.cc:1022
+#: src/wx/audio_panel.cc:248
+#, c-format
+msgid "Audio will be resampled from %.3fkHz to %.3fkHz."
+msgstr ""
+
+#: src/wx/audio_panel.cc:253
+msgid "Audio will not be resampled."
+msgstr ""
+
+#: src/wx/config_dialog.cc:683
 msgid "BCC address"
 msgstr "BCC adres"
 
@@ -277,11 +301,11 @@ msgstr "Selecteer voor updates controle bij startup"
 msgid "Choose a file"
 msgstr "Kies een bestand"
 
-#: src/wx/content_panel.cc:241
+#: src/wx/film_editor.cc:815
 msgid "Choose a file or files"
 msgstr "Kies bestand(en)"
 
-#: src/wx/content_menu.cc:191 src/wx/content_panel.cc:264
+#: src/wx/content_menu.cc:175 src/wx/film_editor.cc:838
 msgid "Choose a folder"
 msgstr "Kies map"
 
@@ -460,7 +484,7 @@ msgstr "Doremi"
 msgid "Doremi serial numbers must have 6 digits"
 msgstr "Doremi serial numbers moeten bestaan uit 6 digits"
 
-#: src/wx/content_panel.cc:75
+#: src/wx/film_editor.cc:296
 msgid "Down"
 msgstr "Naar beneden"
 
@@ -618,6 +642,10 @@ msgstr "Host"
 msgid "Host name or IP address"
 msgstr "Host naam of IP address"
 
+#: src/wx/audio_panel.cc:277
+msgid "Hz"
+msgstr "Hz"
+
 #: src/wx/gain_calculator_dialog.cc:29
 msgid "I want to play this back at fader"
 msgstr "Ik wil dit afspelen met fader"
@@ -728,7 +756,7 @@ msgstr ""
 msgid "Ls"
 msgstr "Ls"
 
-#: src/wx/content_panel.cc:438
+#: src/wx/film_editor.cc:789
 msgid "MISSING: "
 msgstr "ONTBREEKT:"
 
@@ -766,7 +794,15 @@ msgstr "Maximum JPEG2000 bandbreedte"
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/video_panel.cc:301
+#: src/wx/film_editor.cc:293
+msgid "Move the selected piece of content earlier in the film."
+msgstr ""
+
+#: src/wx/film_editor.cc:297
+msgid "Move the selected piece of content later in the film."
+msgstr ""
+
+#: src/wx/video_panel.cc:280
 msgid "Multiple content selected"
 msgstr "Meedere content geselecteerd"
 
@@ -818,6 +854,10 @@ msgstr ""
 
 #: src/wx/make_signer_chain_dialog.cc:27
 msgid "Organisational unit"
+msgstr ""
+
+#: src/wx/film_editor.cc:301
+msgid "Open the timeline for the film."
 msgstr ""
 
 #: src/wx/screen_dialog.cc:65
@@ -935,6 +975,10 @@ msgstr "Verwijder Bioscoop"
 #: src/wx/kdm_dialog.cc:90
 msgid "Remove Screen"
 msgstr "Verwijder Scherm"
+
+#: src/wx/film_editor.cc:289
+msgid "Remove the selected piece of content from the film."
+msgstr ""
 
 #: src/wx/repeat_dialog.cc:26
 msgid "Repeat"
@@ -1104,7 +1148,7 @@ msgstr "Ondertitel Taal (vb  NL)"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:165
+#: src/wx/about_dialog.cc:166
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1128,7 +1172,7 @@ msgstr "Grondgebied (vb NL)"
 msgid "Test version "
 msgstr "Test Versie"
 
-#: src/wx/about_dialog.cc:210
+#: src/wx/about_dialog.cc:211
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1332,6 +1376,10 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
+#: src/wx/audio_panel.cc:275
+msgid "channels"
+msgstr "kanalen"
+
 #: src/wx/properties_dialog.cc:46
 msgid "counting..."
 msgstr "tellen..."
@@ -1365,24 +1413,6 @@ msgstr "tijden"
 #: src/wx/timeline.cc:260
 msgid "video"
 msgstr "video"
-
-#~ msgid "1 channel"
-#~ msgstr "1 channel"
-
-#~ msgid "Audio channels"
-#~ msgstr "Audio kanalen"
-
-#~ msgid "Could not decode video for view (%s)"
-#~ msgstr "Kan video niet decoderen voor preview (%s)"
-
-#~ msgid "Hz"
-#~ msgstr "Hz"
-
-#~ msgid "With Subtitles"
-#~ msgstr "Met ondertiteling"
-
-#~ msgid "channels"
-#~ msgstr "kanalen"
 
 #~ msgid "Default creator"
 #~ msgstr "Standaard maker"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-15 09:37+0100\n"
+"POT-Creation-Date: 2014-10-23 22:03+0100\n"
 "PO-Revision-Date: 2014-07-13 02:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr "Abgebrochen"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:775
+#: src/lib/util.cc:791
 msgid "Centre"
 msgstr "Center"
 
@@ -217,7 +217,13 @@ msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 msgid "Could not decode image file (%1)"
 msgstr "Bilddatei konnte nicht dekodiert werden"
 
-#: src/lib/job.cc:91
+#: src/lib/server_finder.cc:114
+msgid ""
+"Could not listen for remote encode servers.  Perhaps another instance of DCP-"
+"o-matic is running."
+msgstr ""
+
+#: src/lib/job.cc:90
 msgid "Could not open %1"
 msgstr "%1 konnte nicht geöffnet werden."
 
@@ -357,7 +363,7 @@ msgstr "Gauss Filter"
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/util.cc:779
+#: src/lib/util.cc:795
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -385,23 +391,23 @@ msgstr "Kernel De-Interlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:773
+#: src/lib/util.cc:789
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:781
+#: src/lib/util.cc:797
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:783
+#: src/lib/util.cc:799
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:777
+#: src/lib/util.cc:793
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/util.cc:776
+#: src/lib/util.cc:792
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -489,19 +495,19 @@ msgstr "Freigabehinweis"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:774
+#: src/lib/util.cc:790
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:782
+#: src/lib/util.cc:798
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:800
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:778
+#: src/lib/util.cc:794
 msgid "Right surround"
 msgstr "Surround rechts"
 
@@ -601,7 +607,7 @@ msgstr "Überleitung"
 msgid "Unexpected ZIP file contents"
 msgstr "Ungültiger ZIP Inhalt"
 
-#: src/lib/image_proxy.cc:56
+#: src/lib/image_proxy.cc:197
 msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
@@ -621,7 +627,7 @@ msgstr "Unscharf Maskieren mit Gaußschem Unschärfefilter"
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: src/lib/util.cc:780
+#: src/lib/util.cc:796
 msgid "Visually impaired"
 msgstr "VI"
 
@@ -657,7 +663,7 @@ msgstr ""
 msgid "cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
-#: src/lib/util.cc:554
+#: src/lib/util.cc:570
 msgid "connect timed out"
 msgstr "Zeit für Verbindung abgelaufen"
 
@@ -685,7 +691,15 @@ msgstr "Datei %1 konnte nicht erstellt werden."
 msgid "could not find stream information"
 msgstr "Keine Spur-Information gefunden"
 
-#: src/lib/writer.cc:430
+#: src/lib/ffmpeg.cc:179
+msgid "could not find audio decoder"
+msgstr "Ton Dekoder nicht gefunden."
+
+#: src/lib/ffmpeg.cc:158
+msgid "could not find video decoder"
+msgstr "Bild-Dekoder nicht gefunden"
+
+#: src/lib/writer.cc:439
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "Ton MXF kann nicht in das DCP verschoben werden (%1)"
 
@@ -729,19 +743,19 @@ msgstr "SSH Session konnte nicht gestartet werden"
 msgid "could not write to file %1 (%2)"
 msgstr "Datei %1 konnte nicht geschrieben werden (%2)"
 
-#: src/lib/util.cc:574
+#: src/lib/util.cc:590
 msgid "error during async_accept (%1)"
 msgstr "error during async_accept (%1)"
 
-#: src/lib/util.cc:550
+#: src/lib/util.cc:566
 msgid "error during async_connect (%1)"
 msgstr "error during async_connect (%1)"
 
-#: src/lib/util.cc:623
+#: src/lib/util.cc:639
 msgid "error during async_read (%1)"
 msgstr "error during async_read (%1)"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:611
 msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
 
@@ -749,23 +763,23 @@ msgstr "error during async_write (%1)"
 msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
-#: src/lib/util.cc:158
+#: src/lib/util.cc:161
 msgid "hour"
 msgstr "Stunde"
 
-#: src/lib/util.cc:154 src/lib/util.cc:160
+#: src/lib/util.cc:157 src/lib/util.cc:163
 msgid "hours"
 msgstr "Stunden"
 
-#: src/lib/util.cc:176
+#: src/lib/util.cc:179
 msgid "minute"
 msgstr "Minute"
 
-#: src/lib/util.cc:172 src/lib/util.cc:178
+#: src/lib/util.cc:175 src/lib/util.cc:181
 msgid "minutes"
 msgstr "Minuten"
 
-#: src/lib/util.cc:706
+#: src/lib/util.cc:711
 msgid "missing key %1 in key-value set"
 msgstr "Key %1 in Key-value set fehlt"
 
@@ -799,12 +813,12 @@ msgstr "sRGB"
 msgid "sRGB non-linearised"
 msgstr "sRGB nicht linearisiert"
 
-#: src/lib/util.cc:191
+#: src/lib/util.cc:194
 #, fuzzy
 msgid "second"
 msgstr "Sekunden"
 
-#: src/lib/util.cc:193
+#: src/lib/util.cc:196
 msgid "seconds"
 msgstr "Sekunden"
 
@@ -815,12 +829,6 @@ msgstr "Standbild"
 #: src/lib/ffmpeg_examiner.cc:207
 msgid "unknown"
 msgstr "unbekannt"
-
-#~ msgid "could not find audio decoder"
-#~ msgstr "Ton Dekoder nicht gefunden."
-
-#~ msgid "could not find video decoder"
-#~ msgstr "Bild-Dekoder nicht gefunden"
 
 #~ msgid "non-bitmap subtitles not yet supported"
 #~ msgstr "Nur Bitmap Untertitel werden unterstützt"

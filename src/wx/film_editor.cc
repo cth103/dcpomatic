@@ -89,8 +89,6 @@ FilmEditor::FilmEditor (wxWindow* parent)
 		);
 
 	set_film (shared_ptr<Film> ());
-	
-	SetSizerAndFit (s);
 }
 
 

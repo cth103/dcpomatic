@@ -45,6 +45,7 @@ public:
 
 private:
 	void edit_filters_clicked ();
+	void enable_colour_conversion_clicked ();
 	void edit_colour_conversion_clicked ();
 	void fade_in_changed ();
 	void fade_out_changed ();
@@ -62,6 +63,7 @@ private:
 	wxStaticText* _description;
 	wxStaticText* _filters;
 	wxButton* _filters_button;
+	wxCheckBox* _enable_colour_conversion;
 	wxStaticText* _colour_conversion;
 	wxButton* _colour_conversion_button;
 };

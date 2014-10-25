@@ -65,7 +65,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Config::instance()->default_scale ())
 {
-	setup_default_colour_conversion ();
+	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len)
@@ -75,7 +75,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Config::instance()->default_scale ())
 {
-	setup_default_colour_conversion ();
+	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
@@ -85,7 +85,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Config::instance()->default_scale ())
 {
-	setup_default_colour_conversion ();
+	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
@@ -116,8 +116,11 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 	} else {
 		_scale = VideoContentScale (node->node_child ("Scale"));
 	}
+
 	
-	_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
+	if (node->optional_node_child ("ColourConversion")) {
+		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
+	}
 	if (version >= 32) {
 		_fade_in = ContentTime (node->number_child<int64_t> ("FadeIn"));
 		_fade_out = ContentTime (node->number_child<int64_t> ("FadeOut"));
@@ -186,15 +189,17 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_video_frame_type)));
 	_crop.as_xml (node);
 	_scale.as_xml (node->add_child("Scale"));
-	_colour_conversion.as_xml (node->add_child("ColourConversion"));
+	if (_colour_conversion) {
+		_colour_conversion.get().as_xml (node->add_child("ColourConversion"));
+	}
 	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in.get ()));
 	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out.get ()));
 }
 
 void
-VideoContent::setup_default_colour_conversion ()
+VideoContent::set_default_colour_conversion ()
 {
-	_colour_conversion = PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6).conversion;
+	set_colour_conversion (PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6).conversion);
 }
 
 void
@@ -327,8 +332,11 @@ VideoContent::identifier () const
 	  << "_" << crop().right
 	  << "_" << crop().top
 	  << "_" << crop().bottom
-	  << "_" << scale().id()
-	  << "_" << colour_conversion().identifier ();
+	  << "_" << scale().id();
+
+	if (colour_conversion()) {
+		s << "_" << colour_conversion().get().identifier ();
+	}
 
 	return s.str ();
 }
@@ -373,6 +381,17 @@ VideoContent::video_size_after_3d_split () const
 	}
 
 	assert (false);
+}
+
+void
+VideoContent::unset_colour_conversion ()
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_colour_conversion = boost::optional<ColourConversion> ();
+	}
+
+	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
 }
 
 void

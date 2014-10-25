@@ -89,7 +89,9 @@ public:
 	void set_bottom_crop (int);
 
 	void set_scale (VideoContentScale);
+	void unset_colour_conversion ();
 	void set_colour_conversion (ColourConversion);
+	void set_default_colour_conversion ();
 
 	void set_fade_in (ContentTime);
 	void set_fade_out (ContentTime);
@@ -130,7 +132,7 @@ public:
 		return _scale;
 	}
 
-	ColourConversion colour_conversion () const {
+	boost::optional<ColourConversion> colour_conversion () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _colour_conversion;
 	}
@@ -173,7 +175,7 @@ private:
 	VideoFrameType _video_frame_type;
 	Crop _crop;
 	VideoContentScale _scale;
-	ColourConversion _colour_conversion;
+	boost::optional<ColourConversion> _colour_conversion;
 	ContentTime _fade_in;
 	ContentTime _fade_out;
 };

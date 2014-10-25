@@ -164,7 +164,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	grid->Add (_filters_button, wxGBPosition (r, 3), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 	
-	add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
+	_enable_colour_conversion = new wxCheckBox (this, wxID_ANY, _("Colour conversion"));
+	grid->Add (_enable_colour_conversion, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_colour_conversion = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
 	grid->Add (_colour_conversion, wxGBPosition (r, 1), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
 	_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
@@ -201,6 +202,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 	
 	_filters_button->Bind           (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	_enable_colour_conversion->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&VideoPanel::enable_colour_conversion_clicked, this));
 	_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
 
@@ -238,9 +240,21 @@ VideoPanel::film_content_changed (int property)
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
-		optional<size_t> preset = vcs ? vcs->colour_conversion().preset () : optional<size_t> ();
-		vector<PresetColourConversion> cc = Config::instance()->colour_conversions ();
-		_colour_conversion->SetLabel (preset ? std_to_wx (cc[preset.get()].name) : _("Custom"));
+		if (!vcs) {
+			_colour_conversion->SetLabel (wxT (""));
+		} else if (vcs->colour_conversion ()) {
+			optional<size_t> preset = vcs->colour_conversion().get().preset ();
+			vector<PresetColourConversion> cc = Config::instance()->colour_conversions ();
+			_colour_conversion->SetLabel (preset ? std_to_wx (cc[preset.get()].name) : _("Custom"));
+			_enable_colour_conversion->SetValue (true);
+			_colour_conversion->Enable (true);
+			_colour_conversion_button->Enable (true);
+		} else {
+			_colour_conversion->SetLabel (_("None"));
+			_enable_colour_conversion->SetValue (false);
+			_colour_conversion->Enable (false);
+			_colour_conversion_button->Enable (false);
+		}
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (fcs) {
 			string const p = Filter::ffmpeg_string (fcs->filters ());
@@ -372,7 +386,11 @@ VideoPanel::edit_colour_conversion_clicked ()
 		return;
 	}
 
-	ColourConversion conversion = vc.front()->colour_conversion ();
+	if (!vc.front()->colour_conversion ()) {
+		return;
+	}
+
+	ColourConversion conversion = vc.front()->colour_conversion().get ();
 	ContentColourConversionDialog* d = new ContentColourConversionDialog (this);
 	d->set (conversion);
 	d->ShowModal ();
@@ -422,5 +440,20 @@ VideoPanel::fade_out_changed ()
 	VideoContentList vc = _parent->selected_video ();
 	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
 		(*i)->set_fade_out (_fade_out->get (_parent->film()->video_frame_rate ()));
+	}
+}
+
+void
+VideoPanel::enable_colour_conversion_clicked ()
+{
+	VideoContentList vc = _parent->selected_video ();
+	if (vc.size() != 1) {
+		return;
+	}
+
+	if (_enable_colour_conversion->GetValue()) {
+		vc.front()->set_default_colour_conversion ();
+	} else {
+		vc.front()->unset_colour_conversion ();
 	}
 }

@@ -50,7 +50,7 @@ public:
 		Scaler const *,
 		Eyes,
 		Part,
-		ColourConversion
+		boost::optional<ColourConversion>
 		);
 	
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
@@ -73,7 +73,7 @@ public:
 		return _eyes;
 	}
 
-	ColourConversion colour_conversion () const {
+	boost::optional<ColourConversion> colour_conversion () const {
 		return _colour_conversion;
 	}
 
@@ -97,6 +97,6 @@ private:
 	Scaler const * _scaler;
 	Eyes _eyes;
 	Part _part;
-	ColourConversion _colour_conversion;
+	boost::optional<ColourConversion> _colour_conversion;
 	PositionImage _subtitle;
 };

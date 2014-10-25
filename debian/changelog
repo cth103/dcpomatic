@@ -195,8 +195,15 @@ dcpomatic (2.0.15-1) UNRELEASED; urgency=low
   * New upstream release.
   * New upstream release.
   * New upstream release.
+<<<<<<< HEAD
 
  -- Carl Hetherington <carl@d1stkfactory>  Wed, 22 Oct 2014 14:24:53 +0100
+=======
+  * New upstream release.
+  * New upstream release.
+
+ -- Carl Hetherington <carl@d1stkfactory>  Fri, 24 Oct 2014 01:19:26 +0100
+>>>>>>> origin/master
 
 dcpomatic (0.87-1) UNRELEASED; urgency=low
 

@@ -29,6 +29,7 @@ using std::cout;
 using dcp::raw_convert;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
@@ -40,7 +41,7 @@ PlayerVideo::PlayerVideo (
 	Scaler const * scaler,
 	Eyes eyes,
 	Part part,
-	ColourConversion colour_conversion
+	optional<ColourConversion> colour_conversion
 	)
 	: _in (in)
 	, _time (time)
@@ -67,7 +68,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	_scaler = Scaler::from_id (node->string_child ("Scaler"));
 	_eyes = (Eyes) node->number_child<int> ("Eyes");
 	_part = (Part) node->number_child<int> ("Part");
-	_colour_conversion = ColourConversion (node);
+	_colour_conversion = ColourConversion::from_xml (node);
 
 	_in = image_proxy_factory (node->node_child ("In"), socket, log);
 
@@ -141,7 +142,9 @@ PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
 	node->add_child("Scaler")->add_child_text (_scaler->id ());
 	node->add_child("Eyes")->add_child_text (raw_convert<string> (_eyes));
 	node->add_child("Part")->add_child_text (raw_convert<string> (_part));
-	_colour_conversion.as_xml (node);
+	if (_colour_conversion) {
+		_colour_conversion.get().as_xml (node);
+	}
 	if (send_subtitles && _subtitle.image) {
 		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_subtitle.image->size().width));
 		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_subtitle.image->size().height));

@@ -103,17 +103,17 @@ msgid ""
 "author (carl@dcpomatic.com)."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:829 src/tools/dcpomatic.cc:838
+#: src/tools/dcpomatic.cc:418
+msgid "An unknown exception occurred."
+msgstr ""
+
+#: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:421
-msgid "An unknown exeception occurred."
-msgstr ""
-
-#: src/tools/dcpomatic.cc:417
+#: src/tools/dcpomatic.cc:414
 msgid "CPL's content is not encrypted."
 msgstr ""
 
