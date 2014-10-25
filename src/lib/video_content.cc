@@ -65,7 +65,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Config::instance()->default_scale ())
 {
-	set_default_colour_conversion ();
+	set_default_colour_conversion (false);
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len)
@@ -75,7 +75,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Config::instance()->default_scale ())
 {
-	set_default_colour_conversion ();
+	set_default_colour_conversion (false);
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
@@ -85,7 +85,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (Config::instance()->default_scale ())
 {
-	set_default_colour_conversion ();
+	set_default_colour_conversion (false);
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
@@ -197,9 +197,16 @@ VideoContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-VideoContent::set_default_colour_conversion ()
+VideoContent::set_default_colour_conversion (bool signal)
 {
-	set_colour_conversion (PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6).conversion);
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_colour_conversion = PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6).conversion;
+	}
+
+	if (signal) {
+		signal_changed (VideoContentProperty::COLOUR_CONVERSION);
+	}
 }
 
 void
