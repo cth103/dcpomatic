@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 22:03+0100\n"
-"PO-Revision-Date: 2014-04-20 10:21-0500\n"
+"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"PO-Revision-Date: 2014-10-24 20:18-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #: src/tools/dcpomatic.cc:309
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -27,7 +27,7 @@ msgstr "&Añadir película..."
 
 #: src/tools/dcpomatic.cc:655
 msgid "&Content"
-msgstr ""
+msgstr "&Contenido"
 
 #: src/tools/dcpomatic.cc:653
 msgid "&Edit"
@@ -50,17 +50,14 @@ msgid "&Jobs"
 msgstr "&Tareas"
 
 #: src/tools/dcpomatic.cc:634
-#, fuzzy
 msgid "&Make DCP\tCtrl-M"
 msgstr "&Crear DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:604
-#, fuzzy
 msgid "&Open...\tCtrl-O"
 msgstr "&Abrir...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:623 src/tools/dcpomatic.cc:626
-#, fuzzy
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Preferencias...\tCtrl-P"
 
@@ -74,7 +71,7 @@ msgstr "&Salir"
 
 #: src/tools/dcpomatic.cc:606
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "&Guardar\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:636
 msgid "&Send DCP to TMS"
@@ -102,20 +99,24 @@ msgid ""
 "An exception occurred (%s).  Please report this problem to the DCP-o-matic "
 "author (carl@dcpomatic.com)."
 msgstr ""
+"Ha ocurrido una excepción (%s). Por favor informe del problema al creador de "
+"DCP-o-matic (carl@dcpomatic.com)"
 
-#: src/tools/dcpomatic.cc:418
-msgid "An unknown exception occurred."
-msgstr "Ha ocurrido un error desconocido."
-
-#: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
+#: src/tools/dcpomatic.cc:829 src/tools/dcpomatic.cc:838
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
 msgstr ""
+"Ha ocurrido una excepción desconocida. Por favor informe del problema al "
+"creador de DCP-o-matic (carl@dcpomatic.com)"
 
-#: src/tools/dcpomatic.cc:414
+#: src/tools/dcpomatic.cc:421
+msgid "An unknown exeception occurred."
+msgstr "Ha ocurrido un error desconocido."
+
+#: src/tools/dcpomatic.cc:417
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "El contenido del CPL no está encriptado."
 
 #: src/tools/dcpomatic.cc:642
 msgid "Check for updates"
@@ -156,17 +157,14 @@ msgid "Film changed"
 msgstr "Película cambiada"
 
 #: src/tools/dcpomatic.cc:640
-#, fuzzy
 msgid "Hints...\tCtrl-H"
 msgstr "Pistas...\tCtrl-H"
 
 #: src/tools/dcpomatic.cc:635
-#, fuzzy
 msgid "Make &KDMs...\tCtrl-K"
 msgstr "Crear &KDMs...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:603
-#, fuzzy
 msgid "New...\tCtrl-N"
 msgstr "Nuevo...\tCtrl-N"
 
@@ -181,11 +179,11 @@ msgstr "Guardar cambios de la película \"%s\" antes de cerrar?"
 
 #: src/tools/dcpomatic.cc:631
 msgid "Scale to fit &height"
-msgstr ""
+msgstr "Redimensionar ajustando &altura"
 
 #: src/tools/dcpomatic.cc:630
 msgid "Scale to fit &width"
-msgstr ""
+msgstr "Redimensionar ajustando &anchura"
 
 #: src/tools/dcpomatic.cc:325 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
