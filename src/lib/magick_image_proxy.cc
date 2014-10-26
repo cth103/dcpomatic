@@ -111,7 +111,11 @@ MagickImageProxy::image () const
 	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
 	uint8_t* p = _image->data()[0];
 	for (int i = 0; i < size.height; ++i) {
+#ifdef DCPOMATIC_IMAGE_MAGICK
 		using namespace MagickCore;
+#else
+		using namespace MagickLib;
+#endif		
 		magick_image->write (0, i, size.width, 1, "RGB", CharPixel, p);
 		p += _image->stride()[0];
 	}
