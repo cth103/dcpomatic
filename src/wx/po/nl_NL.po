@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-26 12:15+0000\n"
+"POT-Creation-Date: 2014-10-26 23:31+0000\n"
 "PO-Revision-Date: 2014-09-04 20:17+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <TKooijmans@universaldv.nl>\n"
@@ -760,7 +760,8 @@ msgid "Make certificate chain"
 msgstr "Selecteer Certificaat bestand"
 
 #: src/wx/isdcf_metadata_dialog.cc:71
-msgid "Mastered luminance (e.g. 4fl)"
+#, fuzzy
+msgid "Mastered luminance (e.g. 14fl)"
 msgstr "Gemasterde helderheid (bv. 4fl)"
 
 #: src/wx/colour_conversion_editor.cc:67
