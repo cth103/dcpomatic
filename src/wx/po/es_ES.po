@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-15 09:37+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-10-24 23:00-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -44,7 +44,7 @@ msgstr "-6dB"
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/video_panel.cc:193
+#: src/wx/video_panel.cc:194
 msgid "2D"
 msgstr "2D"
 
@@ -60,23 +60,23 @@ msgstr "2K"
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:197
 msgid "3D alternate"
 msgstr "3D alterno"
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:198
 msgid "3D left only"
 msgstr "3D sólo izquierda"
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:195
 msgid "3D left/right"
 msgstr "3D izquierda/derecha"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:199
 msgid "3D right only"
 msgstr "3D sólo derecha"
 
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:196
 msgid "3D top/bottom"
 msgstr "3D arriba/abajo"
 
@@ -169,6 +169,15 @@ msgid ""
 "%.1fdB."
 msgstr "El audio del canal %d pasará al canal %d del DCP con ganancia %.1fdB."
 
+#: src/wx/audio_panel.cc:274
+#, c-format
+msgid "Audio will be resampled from %.3fkHz to %.3fkHz."
+msgstr ""
+
+#: src/wx/audio_panel.cc:279
+msgid "Audio will not be resampled."
+msgstr ""
+
 #: src/wx/config_dialog.cc:1022
 msgid "BCC address"
 msgstr "Dirección CCO"
@@ -226,7 +235,7 @@ msgstr "Texto de anotación DCP"
 msgid "Calculate..."
 msgstr "Calcular..."
 
-#: src/wx/job_manager_view.cc:67
+#: src/wx/job_manager_view.cc:66
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -308,7 +317,7 @@ msgstr "Contenido"
 msgid "Content Type"
 msgstr "Tipo de contenido"
 
-#: src/wx/video_panel.cc:353
+#: src/wx/video_panel.cc:367
 #, c-format
 msgid "Content frame rate %.4f\n"
 msgstr "Velocidad del contenido %.4f\n"
@@ -317,7 +326,7 @@ msgstr "Velocidad del contenido %.4f\n"
 msgid "Content version"
 msgstr "Versión del contenido"
 
-#: src/wx/video_panel.cc:313
+#: src/wx/video_panel.cc:327
 #, c-format
 msgid "Content video is %dx%d (%.2f:1)\n"
 msgstr "El video es %dx%d (%.2f:1)\n"
@@ -358,12 +367,12 @@ msgstr "País"
 msgid "Create in folder"
 msgstr "Crear en carpeta"
 
-#: src/wx/video_panel.cc:325
+#: src/wx/video_panel.cc:339
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
 msgstr "Recortado a %dx%d (%.2f:1)\n"
 
-#: src/wx/video_panel.cc:243
+#: src/wx/video_panel.cc:248
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -432,7 +441,7 @@ msgstr "Por defecto"
 msgid "Delay"
 msgstr "Retardo"
 
-#: src/wx/dcp_panel.cc:68 src/wx/job_manager_view.cc:79
+#: src/wx/dcp_panel.cc:68 src/wx/job_manager_view.cc:76
 msgid "Details..."
 msgstr "Detalles..."
 
@@ -480,7 +489,7 @@ msgid "Edit Screen..."
 msgstr "Editar pantalla..."
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:277
-#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:170
+#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:171
 #: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Editar..."
@@ -665,7 +674,7 @@ msgstr "Tipo de KDM"
 msgid "KDM|Timing"
 msgstr "KDM|Tiempo"
 
-#: src/wx/content_panel.cc:85
+#: src/wx/content_panel.cc:85 src/wx/timeline_dialog.cc:42
 msgid "Keep video in sequence"
 msgstr "Mantener el video secuencia"
 
@@ -759,7 +768,7 @@ msgstr "Ancho de banda JPEG2000 máximo"
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/video_panel.cc:301
+#: src/wx/video_panel.cc:315
 msgid "Multiple content selected"
 msgstr "Varios contenidos seleccionados"
 
@@ -790,8 +799,8 @@ msgstr "Nuevas versiones disponibles de DCP-o-matic."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "No pasará audio del canal de origen %d al canal %d del DCP."
 
-#: src/wx/audio_panel.cc:290 src/wx/video_panel.cc:161
-#: src/wx/video_panel.cc:248
+#: src/wx/audio_panel.cc:326 src/wx/video_panel.cc:161
+#: src/wx/video_panel.cc:253 src/wx/video_panel.cc:262
 msgid "None"
 msgstr "Ninguno"
 
@@ -835,7 +844,7 @@ msgstr "Gamma de salida"
 msgid "Package Type (e.g. OV)"
 msgstr "Tipo de paquete (ej. OV)"
 
-#: src/wx/video_panel.cc:346
+#: src/wx/video_panel.cc:360
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Completado con negro hasta %dx%d (%.2f:1)\n"
@@ -844,7 +853,7 @@ msgstr "Completado con negro hasta %dx%d (%.2f:1)\n"
 msgid "Password"
 msgstr "Clave"
 
-#: src/wx/job_manager_view.cc:73 src/wx/job_manager_view.cc:165
+#: src/wx/job_manager_view.cc:71 src/wx/job_manager_view.cc:160
 msgid "Pause"
 msgstr "Pausa"
 
@@ -945,7 +954,7 @@ msgstr "Restablecer el texto par defecto"
 msgid "Resolution"
 msgstr "Resolución"
 
-#: src/wx/job_manager_view.cc:168
+#: src/wx/job_manager_view.cc:163
 msgid "Resume"
 msgstr "Continuar"
 
@@ -977,7 +986,7 @@ msgstr "SMPTE"
 msgid "Scale to"
 msgstr "Redimensionar a"
 
-#: src/wx/video_panel.cc:337
+#: src/wx/video_panel.cc:351
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
 msgstr "Redimensionado a %dx%d (%.2f:1)\n"
@@ -1051,7 +1060,7 @@ msgstr "Firmado"
 msgid "Smoothing"
 msgstr "Suavizado"
 
-#: src/wx/timeline_dialog.cc:39
+#: src/wx/timeline_dialog.cc:40
 msgid "Snap"
 msgstr "Acoplar"
 
@@ -1091,7 +1100,7 @@ msgstr "Idioma del subtítulo (ej. EN)"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:165
+#: src/wx/about_dialog.cc:171
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1115,7 +1124,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:210
+#: src/wx/about_dialog.cc:216
 msgid "Tested by"
 msgstr "Comprobado por"
 

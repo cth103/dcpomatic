@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-16 16:38+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-10-24 20:18-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -102,6 +102,11 @@ msgstr ""
 "Ha ocurrido una excepción (%s). Por favor informe del problema al creador de "
 "DCP-o-matic (carl@dcpomatic.com)"
 
+#: src/tools/dcpomatic.cc:421
+#, fuzzy
+msgid "An unknown exception occurred."
+msgstr "Ha ocurrido un error desconocido."
+
 #: src/tools/dcpomatic.cc:829 src/tools/dcpomatic.cc:838
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
@@ -109,10 +114,6 @@ msgid ""
 msgstr ""
 "Ha ocurrido una excepción desconocida. Por favor informe del problema al "
 "creador de DCP-o-matic (carl@dcpomatic.com)"
-
-#: src/tools/dcpomatic.cc:421
-msgid "An unknown exeception occurred."
-msgstr "Ha ocurrido un error desconocido."
 
 #: src/tools/dcpomatic.cc:417
 msgid "CPL's content is not encrypted."

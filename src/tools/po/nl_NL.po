@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 22:03+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-09-04 20:29+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -52,7 +52,7 @@ msgstr "&Help"
 msgid "&Jobs"
 msgstr "&Projecten"
 
-#: src/tools/dcpomatic.cc:631
+#: src/tools/dcpomatic.cc:634
 msgid "&Make DCP\tCtrl-M"
 msgstr "&Maak een DCP\tCtrl-M"
 
@@ -105,11 +105,11 @@ msgstr ""
 "Een ongekende fout is opgetreden. AUB meld deze aan de maker van DCP-o-matic "
 "(carl@dcpomatic.com)."
 
-#: src/tools/dcpomatic.cc:418
+#: src/tools/dcpomatic.cc:421
 msgid "An unknown exception occurred."
 msgstr "Er is een onbekende fout opgetreden."
 
-#: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
+#: src/tools/dcpomatic.cc:829 src/tools/dcpomatic.cc:838
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
@@ -117,7 +117,7 @@ msgstr ""
 "Een ongekende fout is opgetreden. AUB meld deze aan de maker van DCP-o-matic "
 "(carl@dcpomatic.com)."
 
-#: src/tools/dcpomatic.cc:414
+#: src/tools/dcpomatic.cc:417
 msgid "CPL's content is not encrypted."
 msgstr "De inhoud van de CPL is niet geëncrypteerd."
 

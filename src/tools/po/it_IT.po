@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 22:03+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-02-03 09:36+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -100,17 +100,17 @@ msgid ""
 "author (carl@dcpomatic.com)."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:418
+#: src/tools/dcpomatic.cc:421
 msgid "An unknown exception occurred."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
+#: src/tools/dcpomatic.cc:829 src/tools/dcpomatic.cc:838
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:414
+#: src/tools/dcpomatic.cc:417
 msgid "CPL's content is not encrypted."
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 22:03+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -44,11 +44,7 @@ msgstr ""
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/audio_panel.cc:273
-msgid "1 channel"
-msgstr "1 kanal"
-
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:194
 msgid "2D"
 msgstr "2D"
 
@@ -65,24 +61,24 @@ msgstr "2K"
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:197
 msgid "3D alternate"
 msgstr ""
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:198
 msgid "3D left only"
 msgstr ""
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:195
 msgid "3D left/right"
 msgstr "3D left/right"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:199
 #, fuzzy
 msgid "3D right only"
 msgstr "3D left/right"
 
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:196
 msgid "3D top/bottom"
 msgstr "3D top/bottom"
 
@@ -111,24 +107,13 @@ msgstr "Lägg till Cinema..."
 msgid "Add Screen..."
 msgstr "Lägg till Skärm..."
 
-#: src/wx/film_editor.cc:285
-msgid ""
-"Add a directory of image files which will be used as a moving image sequence."
-msgstr ""
-
-#: src/wx/film_editor.cc:280
+#: src/wx/content_panel.cc:67
 msgid "Add file(s)..."
 msgstr "Lägg till fil(er)..."
 
-#: src/wx/film_editor.cc:284
-msgid ""
-"Add image\n"
-"sequence..."
-msgstr ""
-
-#: src/wx/film_editor.cc:281
-msgid "Add video, image or sound files to the film."
-msgstr ""
+#: src/wx/content_panel.cc:69
+msgid "Add folder..."
+msgstr "Lägg till folder..."
 
 #: src/wx/config_dialog.cc:597 src/wx/editable_list.h:62
 msgid "Add..."
@@ -184,17 +169,17 @@ msgstr ""
 "Audio kommer att överföras från innehållskanal %d till DCP-kanal %d med "
 "förstärkning %.1fdB."
 
-#: src/wx/audio_panel.cc:248
+#: src/wx/audio_panel.cc:274
 #, fuzzy, c-format
 msgid "Audio will be resampled from %.3fkHz to %.3fkHz."
 msgstr "Audio kommer att samplas om från %dHz till %dHz."
 
-#: src/wx/audio_panel.cc:253
+#: src/wx/audio_panel.cc:279
 #, fuzzy
 msgid "Audio will not be resampled."
 msgstr "Audio kommer att samplas om från %dHz till %dHz."
 
-#: src/wx/config_dialog.cc:683
+#: src/wx/config_dialog.cc:1022
 #, fuzzy
 msgid "BCC address"
 msgstr "IP-adress"
@@ -254,7 +239,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Beräkna..."
 
-#: src/wx/job_manager_view.cc:67
+#: src/wx/job_manager_view.cc:66
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -342,7 +327,7 @@ msgstr "Innehåll"
 msgid "Content Type"
 msgstr "Innehållstyp"
 
-#: src/wx/video_panel.cc:353
+#: src/wx/video_panel.cc:367
 #, c-format
 msgid "Content frame rate %.4f\n"
 msgstr "Innehållets bildhastighet %.4f\n"
@@ -351,7 +336,7 @@ msgstr "Innehållets bildhastighet %.4f\n"
 msgid "Content version"
 msgstr "Innehållsversion"
 
-#: src/wx/video_panel.cc:313
+#: src/wx/video_panel.cc:327
 #, c-format
 msgid "Content video is %dx%d (%.2f:1)\n"
 msgstr "Original-videon är %dx%d (%.2f:1)\n"
@@ -392,13 +377,13 @@ msgstr ""
 msgid "Create in folder"
 msgstr "Skapa i katalog"
 
-#: src/wx/video_panel.cc:325
+#: src/wx/video_panel.cc:339
 #, c-format
 msgid "Cropped to %dx%d (%.2f:1)\n"
 msgstr "Beskuren till %dx%d (%.2f:1)\n"
 
 # sammanhang?
-#: src/wx/video_panel.cc:243
+#: src/wx/video_panel.cc:248
 msgid "Custom"
 msgstr "Special"
 
@@ -470,7 +455,7 @@ msgstr "Standardval"
 msgid "Delay"
 msgstr "Audio Fördröjning"
 
-#: src/wx/dcp_panel.cc:68 src/wx/job_manager_view.cc:79
+#: src/wx/dcp_panel.cc:68 src/wx/job_manager_view.cc:76
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -492,7 +477,7 @@ msgstr ""
 msgid "Doremi serial numbers must have 6 digits"
 msgstr ""
 
-#: src/wx/film_editor.cc:296
+#: src/wx/content_panel.cc:75
 msgid "Down"
 msgstr "Ner"
 
@@ -519,7 +504,7 @@ msgid "Edit Screen..."
 msgstr "Redigera Skärm..."
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:277
-#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:170
+#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:171
 #: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Redigera..."
@@ -654,10 +639,6 @@ msgstr "Dator"
 msgid "Host name or IP address"
 msgstr "Datornamn eller IP-adress"
 
-#: src/wx/audio_panel.cc:277
-msgid "Hz"
-msgstr "Hz"
-
 #: src/wx/gain_calculator_dialog.cc:29
 msgid "I want to play this back at fader"
 msgstr "Jag vill spela upp detta med mixervolym"
@@ -715,7 +696,7 @@ msgid "KDM|Timing"
 msgstr "Tajming"
 
 # "sekvens" eller "ordning"?
-#: src/wx/content_panel.cc:85
+#: src/wx/content_panel.cc:85 src/wx/timeline_dialog.cc:42
 msgid "Keep video in sequence"
 msgstr "Behåll video i sekvens"
 
@@ -773,7 +754,7 @@ msgstr ""
 msgid "Ls"
 msgstr "Vs"
 
-#: src/wx/film_editor.cc:789
+#: src/wx/content_panel.cc:438
 msgid "MISSING: "
 msgstr "SAKNAS:"
 
@@ -812,16 +793,8 @@ msgstr "JPEG2000-bandbredd"
 msgid "Mbit/s"
 msgstr ""
 
-#: src/wx/film_editor.cc:293
-msgid "Move the selected piece of content earlier in the film."
-msgstr ""
-
-#: src/wx/film_editor.cc:297
-msgid "Move the selected piece of content later in the film."
-msgstr ""
-
 # Låter mysko
-#: src/wx/video_panel.cc:301
+#: src/wx/video_panel.cc:315
 msgid "Multiple content selected"
 msgstr "Flera innehåll valda"
 
@@ -854,8 +827,8 @@ msgstr ""
 "Ingen audio kommer att överföras från innehållskanalen %d till DCP-kanalen "
 "%d."
 
-#: src/wx/audio_panel.cc:290 src/wx/video_panel.cc:161
-#: src/wx/video_panel.cc:248
+#: src/wx/audio_panel.cc:326 src/wx/video_panel.cc:161
+#: src/wx/video_panel.cc:253 src/wx/video_panel.cc:262
 msgid "None"
 msgstr "Inget"
 
@@ -874,10 +847,6 @@ msgstr "Längd"
 
 #: src/wx/make_signer_chain_dialog.cc:27
 msgid "Organisational unit"
-msgstr ""
-
-#: src/wx/film_editor.cc:301
-msgid "Open the timeline for the film."
 msgstr ""
 
 #: src/wx/screen_dialog.cc:65
@@ -907,7 +876,7 @@ msgstr "Utdata gamma"
 msgid "Package Type (e.g. OV)"
 msgstr "Förpackningstyp (ex. OV)"
 
-#: src/wx/video_panel.cc:346
+#: src/wx/video_panel.cc:360
 #, c-format
 msgid "Padded with black to %dx%d (%.2f:1)\n"
 msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
@@ -916,7 +885,7 @@ msgstr "Svarta kanter tillagda för %dx%d (%.2f:1)\n"
 msgid "Password"
 msgstr "Lösenord"
 
-#: src/wx/job_manager_view.cc:73 src/wx/job_manager_view.cc:165
+#: src/wx/job_manager_view.cc:71 src/wx/job_manager_view.cc:160
 msgid "Pause"
 msgstr "Pausa"
 
@@ -998,10 +967,6 @@ msgstr "Ta bort Cinema"
 msgid "Remove Screen"
 msgstr "Ta bort Skärm"
 
-#: src/wx/film_editor.cc:289
-msgid "Remove the selected piece of content from the film."
-msgstr ""
-
 #: src/wx/repeat_dialog.cc:26
 msgid "Repeat"
 msgstr "Upprepa"
@@ -1022,7 +987,7 @@ msgstr ""
 msgid "Resolution"
 msgstr "Upplösning"
 
-#: src/wx/job_manager_view.cc:168
+#: src/wx/job_manager_view.cc:163
 msgid "Resume"
 msgstr "Fortsätt"
 
@@ -1054,7 +1019,7 @@ msgstr "SMPTE"
 msgid "Scale to"
 msgstr "Skala om till"
 
-#: src/wx/video_panel.cc:337
+#: src/wx/video_panel.cc:351
 #, c-format
 msgid "Scaled to %dx%d (%.2f:1)\n"
 msgstr "Skalad till %dx%d (%.2f:1)\n"
@@ -1133,7 +1098,7 @@ msgid "Smoothing"
 msgstr "Utjämning"
 
 # sammanhang?
-#: src/wx/timeline_dialog.cc:39
+#: src/wx/timeline_dialog.cc:40
 msgid "Snap"
 msgstr "Snap"
 
@@ -1176,7 +1141,7 @@ msgstr "Undertextspråk (ex. SV)"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:166
+#: src/wx/about_dialog.cc:171
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1201,7 +1166,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:211
+#: src/wx/about_dialog.cc:216
 #, fuzzy
 msgid "Tested by"
 msgstr "Översatt av"
@@ -1247,7 +1212,7 @@ msgstr "Tid"
 msgid "Timeline"
 msgstr "Tidslinje"
 
-#: src/wx/film_editor.cc:300
+#: src/wx/content_panel.cc:77
 msgid "Timeline..."
 msgstr "Tidslinje..."
 
@@ -1293,7 +1258,7 @@ msgstr "okänt"
 msgid "Until"
 msgstr "Tills"
 
-#: src/wx/film_editor.cc:292
+#: src/wx/content_panel.cc:73
 msgid "Up"
 msgstr "Upp"
 
@@ -1413,10 +1378,6 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/audio_panel.cc:275
-msgid "channels"
-msgstr "kanaler"
-
 #: src/wx/properties_dialog.cc:46
 msgid "counting..."
 msgstr "räknar..."
@@ -1452,8 +1413,14 @@ msgstr "tider"
 msgid "video"
 msgstr "video"
 
-#~ msgid "Add folder..."
-#~ msgstr "Lägg till folder..."
+#~ msgid "1 channel"
+#~ msgstr "1 kanal"
+
+#~ msgid "Hz"
+#~ msgstr "Hz"
+
+#~ msgid "channels"
+#~ msgstr "kanaler"
 
 #, fuzzy
 #~ msgid "Default creator"

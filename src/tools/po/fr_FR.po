@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 22:03+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-07-14 10:43+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -106,11 +106,11 @@ msgstr ""
 "Erreur indéterminée. Merci de rapporter le problème à l'auteur de DCP-o-"
 "matic (carl@dcpomatic.com)."
 
-#: src/tools/dcpomatic.cc:418
+#: src/tools/dcpomatic.cc:421
 msgid "An unknown exception occurred."
 msgstr "Exception inconnue"
 
-#: src/tools/dcpomatic.cc:823 src/tools/dcpomatic.cc:832
+#: src/tools/dcpomatic.cc:829 src/tools/dcpomatic.cc:838
 msgid ""
 "An unknown exception occurred.  Please report this problem to the DCP-o-"
 "matic author (carl@dcpomatic.com)."
@@ -118,7 +118,7 @@ msgstr ""
 "Erreur indéterminée. Merci de rapporter le problème à l'auteur de DCP-o-"
 "matic (carl@dcpomatic.com)."
 
-#: src/tools/dcpomatic.cc:414
+#: src/tools/dcpomatic.cc:417
 msgid "CPL's content is not encrypted."
 msgstr "Le contenu du CPL n'est pas crypté."
 

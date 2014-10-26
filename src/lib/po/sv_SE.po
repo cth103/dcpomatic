@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-23 22:03+0100\n"
+"POT-Creation-Date: 2014-10-26 12:15+0000\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -37,7 +37,7 @@ msgstr "%1 kanaler, %2kHz, %3 sampel"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 bilder; %2 bilder per sekund"
 
-#: src/lib/video_content.cc:235
+#: src/lib/video_content.cc:247
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixlar (%3:1)"
 
@@ -93,7 +93,7 @@ msgstr "Bikubisk"
 msgid "Bilinear"
 msgstr "Bilinjär"
 
-#: src/lib/job.cc:324
+#: src/lib/job.cc:325
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -101,7 +101,7 @@ msgstr "Avbruten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/util.cc:791
+#: src/lib/util.cc:780
 msgid "Centre"
 msgstr "Center"
 
@@ -138,24 +138,24 @@ msgstr "Innehåll som ska sammanfogas måste använda samma audiofördröjning."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Innehåll som ska sammanfogas måste använda samma audioförstärkning."
 
-#: src/lib/video_content.cc:158
+#: src/lib/video_content.cc:161
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Innehåll som ska sammanfogas måste använda samma färgkonvertering."
 
-#: src/lib/video_content.cc:150
+#: src/lib/video_content.cc:153
 msgid "Content to be joined must have the same crop."
 msgstr "Innehåll som ska sammanfogas måste använda samma beskärning."
 
-#: src/lib/video_content.cc:162
+#: src/lib/video_content.cc:165
 #, fuzzy
 msgid "Content to be joined must have the same fades."
 msgstr "Innehåll som ska sammanfogas måste använda samma beskärning."
 
-#: src/lib/video_content.cc:138
+#: src/lib/video_content.cc:141
 msgid "Content to be joined must have the same picture size."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildstorlek."
 
-#: src/lib/video_content.cc:154
+#: src/lib/video_content.cc:157
 #, fuzzy
 msgid "Content to be joined must have the same scale setting."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
@@ -182,11 +182,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Innehåll som ska sammanfogas måste använda samma skala på undertexten."
 
-#: src/lib/video_content.cc:142
+#: src/lib/video_content.cc:145
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildhastighet."
 
-#: src/lib/video_content.cc:146
+#: src/lib/video_content.cc:149
 msgid "Content to be joined must have the same video frame type."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildtyp."
 
@@ -221,7 +221,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:90
+#: src/lib/job.cc:91
 msgid "Could not open %1"
 msgstr "Kunde inte öppna %1"
 
@@ -319,7 +319,7 @@ msgstr "E-posta KDM:er för %1"
 msgid "Encoding image data"
 msgstr "Kodar bild-data"
 
-#: src/lib/job.cc:322
+#: src/lib/job.cc:323
 msgid "Error (%1)"
 msgstr "Fel (%1)"
 
@@ -359,7 +359,7 @@ msgstr "Gaussisk"
 msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
-#: src/lib/util.cc:795
+#: src/lib/util.cc:784
 msgid "Hearing impaired"
 msgstr ""
 
@@ -388,24 +388,24 @@ msgstr "Kernel-avflätare"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:789
+#: src/lib/util.cc:778
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:797
+#: src/lib/util.cc:786
 msgid "Left centre"
 msgstr ""
 
-#: src/lib/util.cc:799
+#: src/lib/util.cc:788
 #, fuzzy
 msgid "Left rear surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:793
+#: src/lib/util.cc:782
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:792
+#: src/lib/util.cc:781
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -454,7 +454,7 @@ msgstr ""
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/job.cc:320
+#: src/lib/job.cc:321
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
@@ -491,20 +491,20 @@ msgstr "Rating"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:790
+#: src/lib/util.cc:779
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:798
+#: src/lib/util.cc:787
 msgid "Right centre"
 msgstr ""
 
-#: src/lib/util.cc:800
+#: src/lib/util.cc:789
 #, fuzzy
 msgid "Right rear surround"
 msgstr "Höger surround"
 
-#: src/lib/util.cc:794
+#: src/lib/util.cc:783
 msgid "Right surround"
 msgstr "Höger surround"
 
@@ -605,7 +605,7 @@ msgstr "Transitional"
 msgid "Unexpected ZIP file contents"
 msgstr ""
 
-#: src/lib/image_proxy.cc:197
+#: src/lib/image_proxy.cc:56
 msgid "Unexpected image type received by server"
 msgstr ""
 
@@ -622,11 +622,11 @@ msgstr "Okänt audio-sampelformat (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Oskärpemask och Gaussisk suddighet"
 
-#: src/lib/colour_conversion.cc:139
+#: src/lib/colour_conversion.cc:149
 msgid "Untitled"
 msgstr "Utan titel"
 
-#: src/lib/util.cc:796
+#: src/lib/util.cc:785
 msgid "Visually impaired"
 msgstr ""
 
@@ -664,7 +664,7 @@ msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
 # Svengelska
-#: src/lib/util.cc:570
+#: src/lib/util.cc:559
 msgid "connect timed out"
 msgstr "uppkopplingen tajmade ur"
 
@@ -688,19 +688,11 @@ msgstr "kopierar %1"
 msgid "could not create file %1"
 msgstr "kunde inte skapa fil %1"
 
-#: src/lib/ffmpeg.cc:179
-msgid "could not find audio decoder"
-msgstr "kunde inte hitta audio-avkodare"
-
-#: src/lib/ffmpeg.cc:105
+#: src/lib/ffmpeg.cc:102
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/ffmpeg.cc:158
-msgid "could not find video decoder"
-msgstr "kunde inte hitta video-avkodare"
-
-#: src/lib/writer.cc:439
+#: src/lib/writer.cc:430
 msgid "could not move audio MXF into the DCP (%1)"
 msgstr "kunde inte flytta audio-MXF in i DCP:n (%1)"
 
@@ -745,19 +737,19 @@ msgstr "kunde inte starta SSH-session"
 msgid "could not write to file %1 (%2)"
 msgstr "kunde inte skriva till fil %1 (%2)"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:579
 msgid "error during async_accept (%1)"
 msgstr "fel vid async_accept (%1)"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:555
 msgid "error during async_connect (%1)"
 msgstr "fel vid async_connect (%1)"
 
-#: src/lib/util.cc:639
+#: src/lib/util.cc:628
 msgid "error during async_read (%1)"
 msgstr "fel vid async_read (%1)"
 
-#: src/lib/util.cc:611
+#: src/lib/util.cc:600
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
@@ -765,19 +757,19 @@ msgstr "fel vid async_write (%1)"
 msgid "frames per second"
 msgstr "bilder per sekund"
 
-#: src/lib/util.cc:161
+#: src/lib/util.cc:163
 msgid "hour"
 msgstr "timme"
 
-#: src/lib/util.cc:157 src/lib/util.cc:163
+#: src/lib/util.cc:159 src/lib/util.cc:165
 msgid "hours"
 msgstr "timmar"
 
-#: src/lib/util.cc:179
+#: src/lib/util.cc:181
 msgid "minute"
 msgstr "minut"
 
-#: src/lib/util.cc:175 src/lib/util.cc:181
+#: src/lib/util.cc:177 src/lib/util.cc:183
 msgid "minutes"
 msgstr "minuter"
 
@@ -804,11 +796,11 @@ msgstr "namn"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:317
+#: src/lib/job.cc:318
 msgid "remaining"
 msgstr "återstående tid"
 
-#: src/lib/config.cc:90 src/lib/video_content.cc:197
+#: src/lib/config.cc:90 src/lib/video_content.cc:204
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -816,12 +808,12 @@ msgstr "sRGB"
 msgid "sRGB non-linearised"
 msgstr "sRGB icke-linjär"
 
-#: src/lib/util.cc:194
+#: src/lib/util.cc:196
 #, fuzzy
 msgid "second"
 msgstr "sekunder"
 
-#: src/lib/util.cc:196
+#: src/lib/util.cc:198
 msgid "seconds"
 msgstr "sekunder"
 
@@ -832,6 +824,12 @@ msgstr "stillbild"
 #: src/lib/ffmpeg_examiner.cc:207
 msgid "unknown"
 msgstr "okänd"
+
+#~ msgid "could not find audio decoder"
+#~ msgstr "kunde inte hitta audio-avkodare"
+
+#~ msgid "could not find video decoder"
+#~ msgstr "kunde inte hitta video-avkodare"
 
 #~ msgid "non-bitmap subtitles not yet supported"
 #~ msgstr "icke-rastergrafiska undertexter stöds inte ännu"
