@@ -309,7 +309,11 @@ wait_for_jobs ()
 void
 write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 {
-	using namespace MagickCore;
+#ifdef DCPOMATIC_IMAGE_MAGICK
+		using namespace MagickCore;
+#else
+		using namespace MagickLib;
+#endif		
 
 	Magick::Image m (image->size().width, image->size().height, "ARGB", CharPixel, (void *) image->data()[0]);
 	m.write (file.string ());
