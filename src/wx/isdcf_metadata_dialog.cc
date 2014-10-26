@@ -68,7 +68,7 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 	_two_d_version_of_three_d = add (new wxCheckBox (this, wxID_ANY, _("2D version of content available in 3D")));
 	add_spacer ();
 
-	add (_("Mastered luminance (e.g. 4fl)"), true);
+	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
 	
 	_content_version->SetRange (1, 1024);
