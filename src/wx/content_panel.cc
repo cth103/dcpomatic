@@ -82,9 +82,6 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 		_sizer->Add (s, 0, wxEXPAND | wxALL, 6);
 	}
 
-	_sequence_video = new wxCheckBox (_panel, wxID_ANY, _("Keep video in sequence"));
-	_sizer->Add (_sequence_video);
-
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
 
@@ -107,7 +104,6 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	_earlier->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::earlier_clicked, this));
 	_later->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::later_clicked, this));
 	_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::timeline_clicked, this));
-	_sequence_video->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ContentPanel::sequence_video_changed, this));
 }
 
 ContentList
@@ -194,24 +190,11 @@ ContentPanel::selected_ffmpeg ()
 }
 
 void
-ContentPanel::sequence_video_changed ()
-{
-	if (!_film) {
-		return;
-	}
-	
-	_film->set_sequence_video (_sequence_video->GetValue ());
-}
-
-void
 ContentPanel::film_changed (Film::Property p)
 {
 	switch (p) {
 	case Film::CONTENT:
 		setup ();
-		break;
-	case Film::SEQUENCE_VIDEO:
-		checked_set (_sequence_video, _film->sequence_video ());
 		break;
 	default:
 		break;
@@ -359,7 +342,6 @@ ContentPanel::set_general_sensitivity (bool s)
 	_earlier->Enable (s);
 	_later->Enable (s);
 	_timeline->Enable (s);
-	_sequence_video->Enable (s);
 
 	/* Set the panels in the content notebook */
 	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {

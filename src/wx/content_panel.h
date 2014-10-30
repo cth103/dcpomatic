@@ -66,7 +66,6 @@ public:
 	void add_file_clicked ();
 	
 private:	
-	void sequence_video_changed ();
 	void selection_changed ();
 	void add_folder_clicked ();
 	void remove_clicked ();
@@ -89,7 +88,6 @@ private:
 	wxButton* _earlier;
 	wxButton* _later;
 	wxButton* _timeline;
-	wxCheckBox* _sequence_video;
 	ContentSubPanel* _video_panel;
 	ContentSubPanel* _audio_panel;
 	ContentSubPanel* _subtitle_panel;
