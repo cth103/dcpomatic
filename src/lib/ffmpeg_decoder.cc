@@ -50,7 +50,8 @@ extern "C" {
 
 #define LOG_GENERAL(...) _video_content->film()->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_ERROR(...) _video_content->film()->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
-#define LOG_WARNING(...) _video_content->film()->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
+#define LOG_WARNING_NC(...) _video_content->film()->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
+#define LOG_WARNING(...) _video_content->film()->log()->log (String::compose (__VA_ARGS__), Log::TYPE_WARNING);
 
 using std::cout;
 using std::string;
@@ -331,11 +332,24 @@ FFmpegDecoder::decode_audio_packet ()
 	while (copy_packet.size > 0) {
 
 		int frame_finished;
-		int const decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
-
+		int decode_result = avcodec_decode_audio4 (audio_codec_context(), _frame, &frame_finished, &copy_packet);
 		if (decode_result < 0) {
-			LOG_ERROR ("avcodec_decode_audio4 failed (%1)", decode_result);
-			return;
+			/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
+			   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
+			   if it overreads the auxiliary data.  ffplay carries on if frame_finished is true,
+			   even in the face of such an error, so I think we should too.
+
+			   Returning from the method here caused mantis #352.
+			*/
+			
+			shared_ptr<const Film> film = _film.lock ();
+			assert (film);
+			LOG_WARNING ("avcodec_decode_audio4 failed (%1)", decode_result);
+
+			/* Fudge decode_result so that we come out of the while loop when
+			   we've processed this data.
+			*/
+			decode_result = copy_packet.size;
 		}
 
 		if (frame_finished) {
@@ -394,7 +408,7 @@ FFmpegDecoder::decode_video_packet ()
 				rint (pts * _ffmpeg_content->video_frame_rate ())
 				);
 		} else {
-			LOG_WARNING ("Dropping frame without PTS");
+			LOG_WARNING_NC ("Dropping frame without PTS");
 		}
 	}
 
