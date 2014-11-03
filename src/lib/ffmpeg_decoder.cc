@@ -341,9 +341,6 @@ FFmpegDecoder::decode_audio_packet ()
 
 			   Returning from the method here caused mantis #352.
 			*/
-			
-			shared_ptr<const Film> film = _film.lock ();
-			assert (film);
 			LOG_WARNING ("avcodec_decode_audio4 failed (%1)", decode_result);
 
 			/* Fudge decode_result so that we come out of the while loop when
