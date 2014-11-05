@@ -71,6 +71,7 @@ HintsDialog::film_changed ()
 		_text->WriteText (_("Your DCP has an odd number of audio channels.  This is very likely to cause problems on playback."));
 		_text->Newline ();
 	} else if (film->audio_channels() < 6) {
+		hint = true;
 		_text->WriteText (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
 		_text->Newline ();
 	} else if (film->audio_channels() == 0) {
