@@ -71,8 +71,12 @@ HintsDialog::film_changed ()
 		_text->WriteText (_("Your DCP has an odd number of audio channels.  This is very likely to cause problems on playback."));
 		_text->Newline ();
 	} else if (film->audio_channels() < 6) {
-		hint = true;
 		_text->WriteText (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
+		_text->Newline ();
+	} else if (film->audio_channels() == 0) {
+		/* Carsten Kurz reckons having no audio can be a problem */
+		hint = true;
+		_text->WriteText (_("Your DCP has no audio channels.  This is likely to cause problems on playback."));
 		_text->Newline ();
 	}
 
@@ -106,6 +110,12 @@ HintsDialog::film_changed ()
 	if (film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
 		hint = true;
 		_text->WriteText (wxString::Format (_("Your DCP frame rate (%d fps) may cause problems in a few (mostly older) projectors.  Use 24 or 48 frames per second to be on the safe side."), film->video_frame_rate()));
+		_text->Newline ();
+	}
+
+	if (film->j2k_bandwidth() >= 245000000) {
+		hint = true;
+		_text->WriteText (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 		_text->Newline ();
 	}
 
