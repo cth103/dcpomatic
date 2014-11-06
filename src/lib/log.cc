@@ -151,7 +151,7 @@ FileLog::head_and_tail (int amount) const
 	out += string (buffer);
 
 	if (tail_amount > 0) {
-		out +=  "\n.\n.\n.\n";
+		out +=  "\n .\n .\n .\n";
 
 		fseek (f, - tail_amount - 1, SEEK_END);
 		
