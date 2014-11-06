@@ -46,6 +46,7 @@
 #include "wx/hints_dialog.h"
 #include "wx/update_dialog.h"
 #include "wx/content_panel.h"
+#include "wx/report_problem_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -127,6 +128,7 @@ enum {
 	ID_tools_hints,
 	ID_tools_encoding_servers,
 	ID_tools_check_for_updates,
+	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_add_file
 };
@@ -188,6 +190,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_check_for_updates, this), ID_tools_check_for_updates);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_report_a_problem, this),   ID_help_report_a_problem);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
 
@@ -501,6 +504,15 @@ private:
 		d->Destroy ();
 	}
 
+	void help_report_a_problem ()
+	{
+		ReportProblemDialog* d = new ReportProblemDialog (this, _film);
+		if (d->ShowModal () == wxID_OK) {
+			d->report ();
+		}
+		d->Destroy ();
+	}
+
 	bool should_close ()
 	{
 		if (!JobManager::instance()->work_to_do ()) {
@@ -647,6 +659,7 @@ private:
 #else	
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif	
+		add_item (help, _("Report a problem..."), ID_help_report_a_problem, ALWAYS);
 		
 		m->Append (_file_menu, _("&File"));
 #ifndef __WXOSX__	
@@ -824,9 +837,8 @@ class App : public wxApp
 		try {
 			throw;
 		} catch (exception& e) {
-			error_dialog (0, wxString::Format (_("An exception occurred (%s).  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."), e.what ()));
-		} catch (...) {
-			error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
+			error_dialog (0, wxString::Format (_("An exception occurred (%s)."), e.what ()) + "  " + REPORT_PROBLEM);		} catch (...) {
+			error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 		}
 
 		/* This will terminate the program */
@@ -835,7 +847,7 @@ class App : public wxApp
 	
 	void OnUnhandledException ()
 	{
-		error_dialog (0, _("An unknown exception occurred.  Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."));
+		error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 	}
 
 	void idle ()

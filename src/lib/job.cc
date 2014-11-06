@@ -109,7 +109,7 @@ Job::run_wrapper ()
 
 		set_error (
 			e.what (),
-			_("It is not known what caused this error.  Please report the problem to the DCP-o-matic author (carl@dcpomatic.com).")
+			string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
 			);
 
 		set_progress (1);
@@ -119,7 +119,7 @@ Job::run_wrapper ()
 
 		set_error (
 			_("Unknown error"),
-			_("It is not known what caused this error.  Please report the problem to the DCP-o-matic author (carl@dcpomatic.com).")
+			string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
 			);
 
 		set_progress (1);

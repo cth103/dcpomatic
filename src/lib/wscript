@@ -70,6 +70,7 @@ sources = """
           scp_dcp_job.cc
           scaler.cc
           send_kdm_email_job.cc
+          send_problem_report_job.cc
           server.cc
           server_finder.cc
           single_stream_audio_content.cc

@@ -34,6 +34,7 @@ def build(bld):
                  ffmpeg_examiner_test.cc
                  ffmpeg_pts_offset_test.cc
                  file_group_test.cc
+                 file_log_test.cc
                  film_metadata_test.cc
                  frame_rate_test.cc
                  image_test.cc

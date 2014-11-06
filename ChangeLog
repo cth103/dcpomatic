@@ -1,3 +1,8 @@
+2014-11-06  Carl Hetherington  <cth@carlh.net>
+
+	* Basic support for emailing a report of
+	a problem (#43).
+
 2014-11-05  c.hetherington  <cth@carlh.net>
 
 	* Add a few more hints.

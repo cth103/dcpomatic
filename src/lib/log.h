@@ -48,12 +48,17 @@ public:
 
 	void set_types (int types);
 
+	virtual std::string head_and_tail () const = 0;
+
+protected:
+	
+	/** mutex to protect the log */
+	mutable boost::mutex _mutex;
+	
 private:
 	virtual void do_log (std::string m) = 0;
 	void config_changed ();
 	
-	/** mutex to protect the log */
-	boost::mutex _mutex;
 	/** bit-field of log types which should be put into the log (others are ignored) */
 	int _types;
 	boost::signals2::scoped_connection _config_connection;
@@ -64,6 +69,8 @@ class FileLog : public Log
 public:
 	FileLog (boost::filesystem::path file);
 
+	std::string head_and_tail () const;
+
 private:
 	void do_log (std::string m);
 	/** filename to write to */
@@ -73,6 +80,9 @@ private:
 class NullLog : public Log
 {
 public:
+	std::string head_and_tail () const {
+		return "";
+	}
 
 private:	
 	void do_log (std::string) {}

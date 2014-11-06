@@ -47,6 +47,14 @@ public:
 		return _log;
 	}
 
+	string head_and_tail () const {
+		if (_log.size () < 2048) {
+			return _log;
+		}
+
+		return _log.substr (0, 1024) + _log.substr (_log.size() - 1025, 1024);
+	}
+
 private:
 	void do_log (string m)
 	{

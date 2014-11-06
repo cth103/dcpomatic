@@ -37,6 +37,7 @@ sources = """
           preset_colour_conversion_dialog.cc
           properties_dialog.cc
           repeat_dialog.cc
+          report_problem_dialog.cc
           screen_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc

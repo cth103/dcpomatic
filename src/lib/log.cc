@@ -123,3 +123,42 @@ FileLog::do_log (string m)
 	fclose (f);
 }
 
+string
+FileLog::head_and_tail () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	uintmax_t head_amount = 1024;
+	uintmax_t tail_amount = 1024;
+	uintmax_t size = boost::filesystem::file_size (_file);
+
+	if (size < (head_amount + tail_amount)) {
+		head_amount = size;
+		tail_amount = 0;
+	}
+	
+	FILE* f = fopen_boost (_file, "r");
+	if (!f) {
+		return "";
+	}
+
+	string out;
+
+	char* buffer = new char[max(head_amount, tail_amount) + 1];
+	
+	int N = fread (buffer, 1, head_amount, f);
+	buffer[N] = '\0';
+	out += buffer;
+
+	fseek (f, tail_amount, SEEK_END);
+	
+	N = fread (buffer, 1, tail_amount, f);
+	buffer[N] = '\0';
+	out += buffer;
+
+	delete[] buffer;
+
+	fclose (f);
+
+	return out;
+}

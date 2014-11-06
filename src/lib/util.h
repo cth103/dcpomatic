@@ -46,6 +46,7 @@ extern "C" {
 #define MAX_DCP_AUDIO_CHANNELS 12
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
 #define HISTORY_SIZE 10
+#define REPORT_PROBLEM _("Please report this problem by using Help -> Report a problem or via email to carl@dcpomatic.com")
 
 class Job;
 struct AVSubtitle;
