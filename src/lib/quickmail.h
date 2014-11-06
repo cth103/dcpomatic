@@ -85,92 +85,92 @@ typedef void (*quickmail_list_attachment_callback_fn)(quickmail mailobj, const c
 /*! \brief get version quickmail library
  * \return library version
  */
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_get_version ();
+const char* quickmail_get_version ();
 
 /*! \brief initialize quickmail library
  * \return zero on success
  */
-DLL_EXPORT_LIBQUICKMAIL int quickmail_initialize ();
+int quickmail_initialize ();
 
 /*! \brief create a new quickmail object
  * \param  from        sender e-mail address
  * \param  subject     e-mail subject
  * \return quickmail object or NULL on error
  */
-DLL_EXPORT_LIBQUICKMAIL quickmail quickmail_create (const char* from, const char* subject);
+quickmail quickmail_create (const char* from, const char* subject);
 
 /*! \brief clean up a quickmail object
  * \param  mailobj     quickmail object
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_destroy (quickmail mailobj);
+void quickmail_destroy (quickmail mailobj);
 
 /*! \brief set the sender (from) e-mail address of a quickmail object
  * \param  mailobj     quickmail object
  * \param  from        sender e-mail address
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_from (quickmail mailobj, const char* from);
+void quickmail_set_from (quickmail mailobj, const char* from);
 
 /*! \brief get the sender (from) e-mail address of a quickmail object
  * \param  mailobj     quickmail object
  * \return sender e-mail address
  */
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_get_from (quickmail mailobj);
+const char* quickmail_get_from (quickmail mailobj);
 
 /*! \brief add a recipient (to) e-mail address to a quickmail object
  * \param  mailobj     quickmail object
  * \param  e-mail      recipient e-mail address
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_to (quickmail mailobj, const char* email);
+void quickmail_add_to (quickmail mailobj, const char* email);
 
 /*! \brief add a carbon copy recipient (cc) e-mail address to a quickmail object
  * \param  mailobj     quickmail object
  * \param  e-mail      recipient e-mail address
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_cc (quickmail mailobj, const char* email);
+void quickmail_add_cc (quickmail mailobj, const char* email);
 
 /*! \brief add a blind carbon copy recipient (bcc) e-mail address to a quickmail object
  * \param  mailobj     quickmail object
  * \param  e-mail      recipient e-mail address
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_bcc (quickmail mailobj, const char* email);
+void quickmail_add_bcc (quickmail mailobj, const char* email);
 
 /*! \brief set the subject of a quickmail object
  * \param  mailobj     quickmail object
  * \param  subject     e-mail subject
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_subject (quickmail mailobj, const char* subject);
+void quickmail_set_subject (quickmail mailobj, const char* subject);
 
 /*! \brief set the subject of a quickmail object
  * \param  mailobj     quickmail object
  * \return e-mail subject
  */
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_get_subject (quickmail mailobj);
+const char* quickmail_get_subject (quickmail mailobj);
 
 /*! \brief add an e-mail header to a quickmail object
  * \param  mailobj     quickmail object
  * \param  headerline  header line to add
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_header (quickmail mailobj, const char* headerline);
+void quickmail_add_header (quickmail mailobj, const char* headerline);
 
 /*! \brief set the body of a quickmail object
  * \param  mailobj     quickmail object
  * \param  body        e-mail body
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_body (quickmail mailobj, const char* body);
+void quickmail_set_body (quickmail mailobj, const char* body);
 
 /*! \brief set the body of a quickmail object
  * any existing bodies will be removed and a single plain text body will be added
  * \param  mailobj     quickmail object
  * \return e-mail body or NULL on error (caller must free result)
  */
-DLL_EXPORT_LIBQUICKMAIL char* quickmail_get_body (quickmail mailobj);
+char* quickmail_get_body (quickmail mailobj);
 
 /*! \brief add a body file to a quickmail object (deprecated)
  * \param  mailobj     quickmail object
  * \param  mimetype    MIME type (text/plain will be used if set to NULL)
  * \param  path        path of file with body data
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_file (quickmail mailobj, const char* mimetype, const char* path);
+void quickmail_add_body_file (quickmail mailobj, const char* mimetype, const char* path);
 
 /*! \brief add a body from memory to a quickmail object
  * \param  mailobj     quickmail object
@@ -179,7 +179,7 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_file (quickmail mailobj, const c
  * \param  datalen     size of data in bytes
  * \param  mustfree    non-zero if data must be freed by quickmail_destroy
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_memory (quickmail mailobj, const char* mimetype, char* data, size_t datalen, int mustfree);
+void quickmail_add_body_memory (quickmail mailobj, const char* mimetype, char* data, size_t datalen, int mustfree);
 
 /*! \brief add a body with custom read functions to a quickmail object
  * \param  mailobj                        quickmail object
@@ -190,14 +190,14 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_memory (quickmail mailobj, const
  * \param  attachment_data_close          function for closing attachment data (optional, free() will be used if NULL)
  * \param  attachment_data_filedata_free  function for cleaning up custom data in quickmail_destroy (optional, free() will be used if NULL)
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_custom (quickmail mailobj, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free);
+void quickmail_add_body_custom (quickmail mailobj, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free);
 
 /*! \brief remove body from quickmail object
  * \param  mailobj     quickmail object
  * \param  mimetype    MIME type (text/plain will be used if set to NULL)
  * \return zero on success
  */
-DLL_EXPORT_LIBQUICKMAIL int quickmail_remove_body (quickmail mailobj, const char* mimetype);
+int quickmail_remove_body (quickmail mailobj, const char* mimetype);
 
 /*! \brief list bodies by calling a callback function for each body
  * \param  mailobj                        quickmail object
@@ -205,14 +205,14 @@ DLL_EXPORT_LIBQUICKMAIL int quickmail_remove_body (quickmail mailobj, const char
  * \param  callbackdata                   custom data to pass to the callback function
  * \sa     quickmail_list_attachment_callback_fn
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_list_bodies (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata);
+void quickmail_list_bodies (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata);
 
 /*! \brief add a file attachment to a quickmail object
  * \param  mailobj     quickmail object
  * \param  path        path of file to attach
  * \param  mimetype    MIME type of file to attach (application/octet-stream will be used if set to NULL)
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_file (quickmail mailobj, const char* path, const char* mimetype);
+void quickmail_add_attachment_file (quickmail mailobj, const char* path, const char* mimetype);
 
 /*! \brief add an attachment from memory to a quickmail object
  * \param  mailobj     quickmail object
@@ -222,7 +222,7 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_file (quickmail mailobj, c
  * \param  datalen     size of data in bytes
  * \param  mustfree    non-zero if data must be freed by quickmail_destroy
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_memory (quickmail mailobj, const char* filename, const char* mimetype, char* data, size_t datalen, int mustfree);
+void quickmail_add_attachment_memory (quickmail mailobj, const char* filename, const char* mimetype, char* data, size_t datalen, int mustfree);
 
 /*! \brief add an attachment with custom read functions to a quickmail object
  * \param  mailobj                        quickmail object
@@ -234,14 +234,14 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_memory (quickmail mailobj,
  * \param  attachment_data_close          function for closing attachment data (optional, free() will be used if NULL)
  * \param  attachment_data_filedata_free  function for cleaning up custom data in quickmail_destroy (optional, free() will be used if NULL)
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_custom (quickmail mailobj, const char* filename, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free);
+void quickmail_add_attachment_custom (quickmail mailobj, const char* filename, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free);
 
 /*! \brief remove attachment from quickmail object
  * \param  mailobj     quickmail object
  * \param  filename    name of file to attach (must not include full path)
  * \return zero on success
  */
-DLL_EXPORT_LIBQUICKMAIL int quickmail_remove_attachment (quickmail mailobj, const char* filename);
+int quickmail_remove_attachment (quickmail mailobj, const char* filename);
 
 /*! \brief list attachments by calling a callback function for each attachment
  * \param  mailobj                        quickmail object
@@ -249,19 +249,19 @@ DLL_EXPORT_LIBQUICKMAIL int quickmail_remove_attachment (quickmail mailobj, cons
  * \param  callbackdata                   custom data to pass to the callback function
  * \sa     quickmail_list_attachment_callback_fn
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_list_attachments (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata);
+void quickmail_list_attachments (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata);
 
 /*! \brief set the debug logging destination of a quickmail object
  * \param  mailobj     quickmail object
  * \param  filehandle  file handle of logging destination (or NULL for no logging)
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_debug_log (quickmail mailobj, FILE* filehandle);
+void quickmail_set_debug_log (quickmail mailobj, FILE* filehandle);
 
 /*! \brief save the generated e-mail to a file
  * \param  mailobj     quickmail object
  * \param  filehandle  file handle to write the e-mail contents to
  */
-DLL_EXPORT_LIBQUICKMAIL void quickmail_fsave (quickmail mailobj, FILE* filehandle);
+void quickmail_fsave (quickmail mailobj, FILE* filehandle);
 
 /*! \brief read data the next data from the e-mail contents (can be used as CURLOPT_READFUNCTION callback function)
  * \param  buffer      buffer to copy data to (bust be able to hold size * nmemb bytes)
@@ -270,7 +270,7 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_fsave (quickmail mailobj, FILE* filehandl
  * \param  mailobj     quickmail object
  * \return number of bytes copied to \p buffer or 0 if at end
  */
-DLL_EXPORT_LIBQUICKMAIL size_t quickmail_get_data (void* buffer, size_t size, size_t nmemb, void* mailobj);
+size_t quickmail_get_data (void* buffer, size_t size, size_t nmemb, void* mailobj);
 
 /*! \brief send the e-mail via SMTP
  * \param  mailobj     quickmail object
@@ -280,7 +280,7 @@ DLL_EXPORT_LIBQUICKMAIL size_t quickmail_get_data (void* buffer, size_t size, si
  * \param  password    password to use for authentication (or NULL if not needed)
  * \return NULL on success or error message on error
  */
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_send (quickmail mailobj, const char* smtpserver, unsigned int smtpport, const char* username, const char* password);
+const char* quickmail_send (quickmail mailobj, const char* smtpserver, unsigned int smtpport, const char* username, const char* password);
 
 #ifdef __cplusplus
 }
