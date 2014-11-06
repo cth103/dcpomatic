@@ -316,65 +316,14 @@ VideoPanel::setup_description ()
 		return;
 	}
 
-	shared_ptr<VideoContent> vcs = vc.front ();
-
-	wxString d;
-
-	int lines = 0;
-
-	if (vcs->video_size().width && vcs->video_size().height) {
-		d << wxString::Format (
-			_("Content video is %dx%d (%.2f:1)\n"),
-			vcs->video_size_after_3d_split().width,
-			vcs->video_size_after_3d_split().height,
-			vcs->video_size_after_3d_split().ratio ()
-			);
-		++lines;
-	}
-
-	Crop const crop = vcs->crop ();
-	if ((crop.left || crop.right || crop.top || crop.bottom) && vcs->video_size() != dcp::Size (0, 0)) {
-		dcp::Size cropped = vcs->video_size_after_crop ();
-		d << wxString::Format (
-			_("Cropped to %dx%d (%.2f:1)\n"),
-			cropped.width, cropped.height,
-			cropped.ratio ()
-			);
-		++lines;
-	}
-
-	dcp::Size const container_size = _parent->film()->frame_size ();
-	dcp::Size const scaled = vcs->scale().size (vcs, container_size, container_size, 1);
-
-	if (scaled != vcs->video_size_after_crop ()) {
-		d << wxString::Format (
-			_("Scaled to %dx%d (%.2f:1)\n"),
-			scaled.width, scaled.height,
-			scaled.ratio ()
-			);
-		++lines;
-	}
-	
-	if (scaled != container_size) {
-		d << wxString::Format (
-			_("Padded with black to %dx%d (%.2f:1)\n"),
-			container_size.width, container_size.height,
-			container_size.ratio ()
-			);
-		++lines;
-	}
-
-	d << wxString::Format (_("Content frame rate %.4f\n"), vcs->video_frame_rate ());
-	++lines;
-	FrameRateChange frc (vcs->video_frame_rate(), _parent->film()->video_frame_rate ());
-	d << std_to_wx (frc.description ()) << "\n";
-	++lines;
+	string d = vc.front()->processing_description ();
+	size_t lines = count (d.begin(), d.end(), '\n');
 
 	for (int i = lines; i < 6; ++i) {
-		d << wxT ("\n ");
+		d += "\n ";
 	}
 
-	_description->SetLabel (d);
+	_description->SetLabel (std_to_wx (d));
 	_sizer->Layout ();
 }
 

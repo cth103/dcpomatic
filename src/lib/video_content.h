@@ -157,6 +157,8 @@ public:
 	void scale_and_crop_to_fit_width ();
 	void scale_and_crop_to_fit_height ();
 
+	std::string processing_description () const;
+
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
