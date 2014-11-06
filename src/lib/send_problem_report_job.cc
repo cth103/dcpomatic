@@ -23,7 +23,7 @@
 #include "cross.h"
 #include "film.h"
 #include "log.h"
-#include <quickmail.h>
+#include "quickmail.h"
 
 #include "i18n.h"
 
@@ -58,27 +58,16 @@ SendProblemReportJob::run ()
 	
 	quickmail_add_to (mail, "carl@dcpomatic.com");
 	
-	string body = _summary;
+	string body = _summary + "\n\n";
 	
 	body += "log head and tail:\n";
 	body += "---<8----\n";
 	body += _film->log()->head_and_tail ();
 	body += "---<8----\n\n";
-	
-	FILE* ffprobe = fopen_boost (_film->file ("ffprobe.log"), "r");
-	if (ffprobe) {
-		body += "ffprobe.log:\n";
-		body += "---<8----\n";
-		uintmax_t const size = boost::filesystem::file_size (_film->file ("ffprobe.log"));
-		char* buffer = new char[size + 1];
-		int const N = fread (buffer, size, 1, ffprobe);
-		buffer[N] = '\0';
-		body += buffer;
-		delete[] buffer;
-		body += "---<8----\n\n";
-		fclose (ffprobe);
-	}
-	
+
+	add_file (body, "ffprobe.log");
+	add_file (body, "metadata.xml");
+
 	quickmail_set_body (mail, body.c_str());
 	
 	char const* error = quickmail_send (mail, "main.carlh.net", 2525, 0, 0);
@@ -93,4 +82,24 @@ SendProblemReportJob::run ()
 	quickmail_destroy (mail);
 
 	set_progress (1);
+}
+
+void
+SendProblemReportJob::add_file (string& body, boost::filesystem::path file) const
+{
+	FILE* f = fopen_boost (_film->file (file), "r");
+	if (!f) {
+		return;
+	}
+	
+	body += file.string() + ":\n";
+	body += "---<8----\n";
+	uintmax_t const size = boost::filesystem::file_size (_film->file (file));
+	char* buffer = new char[size + 1];
+	int const N = fread (buffer, 1, size, f);
+	buffer[N] = '\0';
+	body += buffer;
+	delete[] buffer;
+	body += "---<8----\n\n";
+	fclose (f);
 }

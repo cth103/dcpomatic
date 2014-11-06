@@ -158,17 +158,6 @@ def static_boost(conf, lib_suffix):
     conf.env.STLIB_BOOST_DATETIME = ['boost_date_time%s' % lib_suffix, 'boost_system%s' % lib_suffix]
     conf.env.STLIB_BOOST_SIGNALS2 = ['boost_signals2']
 
-def dynamic_quickmail(conf):
-    conf.check_cxx(fragment="""
-                            #include <quickmail.h>
-                            int main(void) { quickmail_initialize (); }
-                            """,
-                   mandatory=True,
-                   msg='Checking for libquickmail',
-                   libpath='/usr/local/lib',
-                   lib=['quickmail', 'curl'],
-                   uselib_store='QUICKMAIL')
-
 def configure(conf):
     conf.load('compiler_cxx')
     if conf.options.target_windows:
@@ -271,7 +260,6 @@ def configure(conf):
         conf.env.STLIB_CXML = ['cxml']
         conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
-        conf.env.STLIB_QUICKMAIL = ['quickmail']
         static_ffmpeg(conf)
         static_openjpeg(conf)
         static_sub(conf)
@@ -285,8 +273,6 @@ def configure(conf):
         conf.check_cfg(package='libcurl', args='--cflags --libs-only-L', uselib_store='CURL', mandatory=True)
         conf.env.STLIB_CURL = ['curl']
         conf.env.LIB_CURL = ['ssh2', 'idn']
-        conf.env.STLIB_QUICKMAIL = ['quickmail', 'curl']
-        conf.env.LIB_QUICKMAIL = ['ssh2', 'idn']
         static_ffmpeg(conf)
         static_openjpeg(conf)
         static_sub(conf)
@@ -298,7 +284,6 @@ def configure(conf):
         conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml']
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
-        conf.env.STLIB_QUICKMAIL = ['quickmail']
         conf.env.LIB_SSH = ['gssapi_krb5']
         conf.env.LIB_XMLPP = ['xml2']
         conf.env.LIB_XMLSEC = ['ltdl']
@@ -318,7 +303,6 @@ def configure(conf):
                                 libpath='/usr/local/lib',
                                 lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                                 uselib_store='BOOST_LOCALE')
-        dynamic_quickmail(conf)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
         dynamic_ffmpeg(conf)
         dynamic_openjpeg(conf)
@@ -331,7 +315,6 @@ def configure(conf):
         conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags --libs', uselib_store='CXML', mandatory=True)
         conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
-        dynamic_quickmail(conf)
         dynamic_boost(conf, boost_lib_suffix, boost_thread)
         dynamic_ffmpeg(conf)
         dynamic_dcp(conf)

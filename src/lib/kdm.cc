@@ -19,7 +19,6 @@
 
 #include <list>
 #include <boost/shared_ptr.hpp>
-#include <quickmail.h>
 #include <zip.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/types.h>
@@ -30,6 +29,7 @@
 #include "film.h"
 #include "config.h"
 #include "safe_stringstream.h"
+#include "quickmail.h"
 
 using std::list;
 using std::string;

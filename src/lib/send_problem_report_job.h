@@ -34,6 +34,8 @@ public:
 	void run ();
 
 private:
+	void add_file (std::string& body, boost::filesystem::path file) const;
+
 	std::string _from;
 	std::string _summary;
 };

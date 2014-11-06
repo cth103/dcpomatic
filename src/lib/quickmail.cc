@@ -250,7 +250,7 @@ void email_info_attachment_list_close_handles (struct email_info_attachment_list
 
 void* email_info_attachment_open_dummy (void* filedata)
 {
-  return &email_info_attachment_open_dummy;
+	return (void *) &email_info_attachment_open_dummy;
 }
 
 size_t email_info_attachment_read_dummy (void* handle, void* buf, size_t len)
@@ -606,7 +606,7 @@ size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
       //generate header part
       char** p = &mailobj->buf;
       mailobj->buf = NULL;
-      str_append(p, "User-Agent: libquickmail v" LIBQUICKMAIL_VERSION NEWLINE);
+      str_append(p, "User-Agent: libquickmail");
       if (mailobj->timestamp != 0) {
         char timestamptext[32];
         if (strftime(timestamptext, sizeof(timestamptext), "%a, %d %b %Y %H:%M:%S %z", localtime(&mailobj->timestamp))) {
@@ -701,7 +701,7 @@ size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
         }
         if (mailobj->buflen == 0 && mailobj->current_attachment && mailobj->current_attachment->handle) {
           //read body data
-          if ((mailobj->buf = malloc(BODY_BUFFER_SIZE)) == NULL) {
+	if ((mailobj->buf = (char *) malloc(BODY_BUFFER_SIZE)) == NULL) {
             DEBUG_ERROR(ERRMSG_MEMORY_ALLOCATION_ERROR)
           }
           if (mailobj->buf == NULL || (mailobj->buflen = mailobj->current_attachment->email_info_attachment_read(mailobj->current_attachment->handle, mailobj->buf, BODY_BUFFER_SIZE)) <= 0) {
@@ -829,7 +829,7 @@ size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
     int len = (mailobj->buflen > size * nmemb ? size * nmemb : mailobj->buflen);
     memcpy(ptr, mailobj->buf, len);
     if (len < mailobj->buflen) {
-      mailobj->buf = memmove(mailobj->buf, mailobj->buf + len, mailobj->buflen - len);
+      mailobj->buf = (char *) memmove(mailobj->buf, mailobj->buf + len, mailobj->buflen - len);
       mailobj->buflen -= len;
     } else {
       free(mailobj->buf);

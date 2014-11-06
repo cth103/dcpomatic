@@ -62,6 +62,7 @@ sources = """
           player_video.cc
           playlist.cc
           position_image.cc
+          quickmail.cc
           ratio.cc
           raw_image_proxy.cc
           render_subtitles.cc
@@ -107,7 +108,7 @@ def build(bld):
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
-                 CURL ZIP QUICKMAIL PANGOMM CAIROMM XMLSEC SUB
+                 CURL ZIP PANGOMM CAIROMM XMLSEC SUB
                  """
 
     if bld.env.TARGET_OSX:
