@@ -15,9 +15,6 @@
     along with libquickmail.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if defined(_WIN32) && defined(DLL_EXPORT) && !defined(BUILD_QUICKMAIL_DLL)
-#define BUILD_QUICKMAIL_DLL
-#endif
 #include "quickmail.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,32 +23,10 @@
 #ifndef _WIN32
 #include <unistd.h>
 #endif
-#if _MSC_VER
-#define snprintf _snprintf
-#define strdup _strdup
-#endif
-#ifndef NOCURL
-#if (defined(STATIC) || defined(BUILD_QUICKMAIL_STATIC)) && !defined(CURL_STATICLIB)
-#define CURL_STATICLIB
-#endif
 #include <curl/curl.h>
-#else
-#include "smtpsocket.h"
-#endif
-
-#define LIBQUICKMAIL_VERSION_MAJOR 0
-#define LIBQUICKMAIL_VERSION_MINOR 1
-#define LIBQUICKMAIL_VERSION_MICRO 18
-
-#define VERSION_STRINGIZE_(major, minor, micro) #major"."#minor"."#micro
-#define VERSION_STRINGIZE(major, minor, micro) VERSION_STRINGIZE_(major, minor, micro)
-
-#define LIBQUICKMAIL_VERSION VERSION_STRINGIZE(LIBQUICKMAIL_VERSION_MAJOR,LIBQUICKMAIL_VERSION_MINOR,LIBQUICKMAIL_VERSION_MICRO)
 
 #define NEWLINE "\r\n"
 #define NEWLINELENGTH 2
-//#define NEWLINE "\n"
-//#define NEWLINELENGTH 1
 
 #define MIME_LINE_WIDTH 72
 #define BODY_BUFFER_SIZE 256
@@ -395,28 +370,12 @@ struct email_info_attachment_list_struct* email_info_attachment_list_add_memory 
 
 ////////////////////////////////////////////////////////////////////////
 
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_get_version ()
+int quickmail_initialize ()
 {
-  return VERSION_STRINGIZE(LIBQUICKMAIL_VERSION_MAJOR, LIBQUICKMAIL_VERSION_MINOR, LIBQUICKMAIL_VERSION_MICRO)
-#if defined(NOCURL)
-    "-light"
-#endif
-  ;
-}
-
-DLL_EXPORT_LIBQUICKMAIL int quickmail_initialize ()
-{
-#if defined(NOCURL) && defined(_WIN32)
-  static WSADATA wsaData;
-  int wsaerr = WSAStartup(MAKEWORD(1, 0), &wsaData);
-  if (wsaerr)
-    return -1;
-  atexit((void(*)())WSACleanup);
-#endif
   return 0;
 }
 
-DLL_EXPORT_LIBQUICKMAIL quickmail quickmail_create (const char* from, const char* subject)
+quickmail quickmail_create (const char* from, const char* subject)
 {
   int i;
   struct email_info_struct* mailobj;
@@ -453,7 +412,7 @@ DLL_EXPORT_LIBQUICKMAIL quickmail quickmail_create (const char* from, const char
   return mailobj;
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_destroy (quickmail mailobj)
+void quickmail_destroy (quickmail mailobj)
 {
   free(mailobj->from);
   email_info_string_list_free(&mailobj->to);
@@ -469,57 +428,57 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_destroy (quickmail mailobj)
   free(mailobj);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_from (quickmail mailobj, const char* from)
+void quickmail_set_from (quickmail mailobj, const char* from)
 {
   free(mailobj->from);
   mailobj->from = strdup(from);
 }
 
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_get_from (quickmail mailobj)
+const char* quickmail_get_from (quickmail mailobj)
 {
   return mailobj->from;
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_to (quickmail mailobj, const char* email)
+void quickmail_add_to (quickmail mailobj, const char* email)
 {
   email_info_string_list_add(&mailobj->to, email);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_cc (quickmail mailobj, const char* email)
+void quickmail_add_cc (quickmail mailobj, const char* email)
 {
   email_info_string_list_add(&mailobj->cc, email);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_bcc (quickmail mailobj, const char* email)
+void quickmail_add_bcc (quickmail mailobj, const char* email)
 {
   email_info_string_list_add(&mailobj->bcc, email);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_subject (quickmail mailobj, const char* subject)
+void quickmail_set_subject (quickmail mailobj, const char* subject)
 {
   free(mailobj->subject);
   mailobj->subject = (subject ? strdup(subject) : NULL);
 }
 
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_get_subject (quickmail mailobj)
+const char* quickmail_get_subject (quickmail mailobj)
 {
   return mailobj->subject;
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_header (quickmail mailobj, const char* headerline)
+void quickmail_add_header (quickmail mailobj, const char* headerline)
 {
   str_append(&mailobj->header, headerline);
   str_append(&mailobj->header, NEWLINE);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_body (quickmail mailobj, const char* body)
+void quickmail_set_body (quickmail mailobj, const char* body)
 {
   email_info_attachment_list_free(&mailobj->bodylist);
   if (body)
     email_info_attachment_list_add_memory(&mailobj->bodylist, default_mime_type, default_mime_type, strdup(body), strlen(body), 1);
 }
 
-DLL_EXPORT_LIBQUICKMAIL char* quickmail_get_body (quickmail mailobj)
+char* quickmail_get_body (quickmail mailobj)
 {
   size_t n;
   char* p;
@@ -545,27 +504,27 @@ DLL_EXPORT_LIBQUICKMAIL char* quickmail_get_body (quickmail mailobj)
   return result;
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_file (quickmail mailobj, const char* mimetype, const char* path)
+void quickmail_add_body_file (quickmail mailobj, const char* mimetype, const char* path)
 {
   email_info_attachment_list_add(&mailobj->bodylist, (mimetype ? mimetype : default_mime_type), (mimetype ? mimetype : default_mime_type), (void*)strdup(path), email_info_attachment_open_file, email_info_attachment_read_file, email_info_attachment_close_file, NULL);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_memory (quickmail mailobj, const char* mimetype, char* data, size_t datalen, int mustfree)
+void quickmail_add_body_memory (quickmail mailobj, const char* mimetype, char* data, size_t datalen, int mustfree)
 {
   email_info_attachment_list_add_memory(&mailobj->bodylist, (mimetype ? mimetype : default_mime_type), (mimetype ? mimetype : default_mime_type), data, datalen, mustfree);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_body_custom (quickmail mailobj, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free)
+void quickmail_add_body_custom (quickmail mailobj, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free)
 {
   email_info_attachment_list_add(&mailobj->bodylist, (mimetype ? mimetype : default_mime_type), (mimetype ? mimetype : default_mime_type), data, (attachment_data_open ? attachment_data_open : email_info_attachment_open_dummy), (attachment_data_read ? attachment_data_read : email_info_attachment_read_dummy), attachment_data_close, attachment_data_filedata_free);
 }
 
-DLL_EXPORT_LIBQUICKMAIL int quickmail_remove_body (quickmail mailobj, const char* mimetype)
+int quickmail_remove_body (quickmail mailobj, const char* mimetype)
 {
   return email_info_attachment_list_delete(&mailobj->bodylist, mimetype);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_list_bodies (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata)
+void quickmail_list_bodies (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata)
 {
   struct email_info_attachment_list_struct* p = mailobj->bodylist;
   while (p) {
@@ -574,27 +533,27 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_list_bodies (quickmail mailobj, quickmail
   }
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_file (quickmail mailobj, const char* path, const char* mimetype)
+void quickmail_add_attachment_file (quickmail mailobj, const char* path, const char* mimetype)
 {
   email_info_attachment_list_add_file(&mailobj->attachmentlist, path, mimetype);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_memory (quickmail mailobj, const char* filename, const char* mimetype, char* data, size_t datalen, int mustfree)
+void quickmail_add_attachment_memory (quickmail mailobj, const char* filename, const char* mimetype, char* data, size_t datalen, int mustfree)
 {
   email_info_attachment_list_add_memory(&mailobj->attachmentlist, filename, mimetype, data, datalen, mustfree);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_add_attachment_custom (quickmail mailobj, const char* filename, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free)
+void quickmail_add_attachment_custom (quickmail mailobj, const char* filename, const char* mimetype, char* data, quickmail_attachment_open_fn attachment_data_open, quickmail_attachment_read_fn attachment_data_read, quickmail_attachment_close_fn attachment_data_close, quickmail_attachment_free_filedata_fn attachment_data_filedata_free)
 {
   email_info_attachment_list_add(&mailobj->attachmentlist, filename, mimetype, data, (attachment_data_open ? attachment_data_open : email_info_attachment_open_dummy), (attachment_data_read ? attachment_data_read : email_info_attachment_read_dummy), attachment_data_close, attachment_data_filedata_free);
 }
 
-DLL_EXPORT_LIBQUICKMAIL int quickmail_remove_attachment (quickmail mailobj, const char* filename)
+int quickmail_remove_attachment (quickmail mailobj, const char* filename)
 {
   return email_info_attachment_list_delete(&mailobj->attachmentlist, filename);
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_list_attachments (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata)
+void quickmail_list_attachments (quickmail mailobj, quickmail_list_attachment_callback_fn callback, void* callbackdata)
 {
   struct email_info_attachment_list_struct* p = mailobj->attachmentlist;
   while (p) {
@@ -603,12 +562,12 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_list_attachments (quickmail mailobj, quic
   }
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_set_debug_log (quickmail mailobj, FILE* filehandle)
+void quickmail_set_debug_log (quickmail mailobj, FILE* filehandle)
 {
   mailobj->debuglog = filehandle;
 }
 
-DLL_EXPORT_LIBQUICKMAIL void quickmail_fsave (quickmail mailobj, FILE* filehandle)
+void quickmail_fsave (quickmail mailobj, FILE* filehandle)
 {
   int i;
   size_t n;
@@ -619,7 +578,7 @@ DLL_EXPORT_LIBQUICKMAIL void quickmail_fsave (quickmail mailobj, FILE* filehandl
   }
 }
 
-DLL_EXPORT_LIBQUICKMAIL size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
+size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
 {
   struct email_info_struct* mailobj = (struct email_info_struct*)userp;
 
@@ -886,7 +845,6 @@ DLL_EXPORT_LIBQUICKMAIL size_t quickmail_get_data (void* ptr, size_t size, size_
   return 0;
 }
 
-#ifndef NOCURL
 char* add_angle_brackets (const char* data)
 {
   size_t datalen = strlen(data);
@@ -901,11 +859,9 @@ char* add_angle_brackets (const char* data)
   result[datalen + 2] = 0;
   return result;
 }
-#endif
 
-DLL_EXPORT_LIBQUICKMAIL const char* quickmail_send (quickmail mailobj, const char* smtpserver, unsigned int smtpport, const char* username, const char* password)
+const char* quickmail_send (quickmail mailobj, const char* smtpserver, unsigned int smtpport, const char* username, const char* password)
 {
-#ifndef NOCURL
   //libcurl based sending
   CURL *curl;
   CURLcode result = CURLE_FAILED_INIT;
@@ -986,136 +942,4 @@ DLL_EXPORT_LIBQUICKMAIL const char* quickmail_send (quickmail mailobj, const cha
     curl_easy_cleanup(curl);
   }
   return (result == CURLE_OK ? NULL : curl_easy_strerror(result));
-#else
-  //minimal implementation without libcurl
-  SOCKET sock;
-  char* errmsg = NULL;
-  struct email_info_email_list_struct* listentry;
-  char local_hostname[64];
-  int statuscode;
-  //determine local host name
-  if (gethostname(local_hostname, sizeof(local_hostname)) != 0)
-		strcpy(local_hostname, "localhost");
-  //connect
-  if ((sock = socket_open(smtpserver, smtpport, &errmsg)) != INVALID_SOCKET) {
-    //talk with SMTP server
-    if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, NULL)) >= 400) {
-      errmsg = "SMTP server returned an error on connection";
-    } else {
-      size_t n;
-      char buf[WRITE_BUFFER_CHUNK_SIZE];
-      do {
-        if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "EHLO %s", local_hostname)) >= 400) {
-          if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "HELO %s", local_hostname)) >= 400) {
-            errmsg = "SMTP EHLO/HELO returned error";
-            break;
-          }
-        }
-        //authenticate if needed
-        if (username || password) {
-          int len;
-          int inpos = 0;
-          int outpos = 0;
-          size_t usernamelen = (username ? strlen(username) : 0);
-          size_t passwordlen = (password ? strlen(password) : 0);
-          char* auth;
-          char* base64auth;
-          if ((auth = (char*)malloc(usernamelen + passwordlen + 4)) == NULL) {
-            DEBUG_ERROR(ERRMSG_MEMORY_ALLOCATION_ERROR)
-            return ERRMSG_MEMORY_ALLOCATION_ERROR;
-          }
-          if ((base64auth = (char*)malloc(((usernamelen + passwordlen + 2) + 2) / 3 * 4 + 1)) == NULL) {
-            DEBUG_ERROR(ERRMSG_MEMORY_ALLOCATION_ERROR)
-            return ERRMSG_MEMORY_ALLOCATION_ERROR;
-          }
-          //leave the authorization identity empty to indicate it's the same the as authentication identity
-          auth[0] = 0;
-          len = 1;
-          //set the authentication identity
-          memcpy(auth + len, (username ? username : ""), usernamelen + 1);
-          len += usernamelen + 1;
-          //set the password
-          memcpy(auth + len, (password ? password : ""), passwordlen + 1);
-          len += passwordlen;
-          //padd with extra zero so groups of 3 bytes can be read
-          auth[usernamelen + len + 1] = 0;
-          //encode in base64
-          while (inpos < len) {
-            //encode data
-            base64auth[outpos + 0] = mailobj->dtable[auth[inpos + 0] >> 2];
-            base64auth[outpos + 1] = mailobj->dtable[((auth[inpos + 0] & 3) << 4) | (auth[inpos + 1] >> 4)];
-            base64auth[outpos + 2] = mailobj->dtable[((auth[inpos + 1] & 0xF) << 2) | (auth[inpos + 2] >> 6)];
-            base64auth[outpos + 3] = mailobj->dtable[auth[inpos + 2] & 0x3F];
-            //padd with "=" characters if less than 3 characters were read
-            if (inpos + 1 >= len) {
-              base64auth[outpos + 3] = '=';
-              if (inpos + 2 >= len)
-                base64auth[outpos + 2] = '=';
-            }
-            //advance to next position
-            inpos += 3;
-            outpos += 4;
-          }
-          base64auth[outpos] = 0;
-          //send originator e-mail address
-          if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "AUTH PLAIN %s", base64auth)) >= 400) {
-            errmsg = "SMTP authentication failed";
-            break;
-          }
-        }
-        //send originator e-mail address
-        if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "MAIL FROM:<%s>", mailobj->from)) >= 400) {
-          errmsg = "SMTP server did not accept sender";
-          break;
-        }
-        //send recipient e-mail addresses
-        listentry = mailobj->to;
-        while (!errmsg && listentry) {
-          if (listentry->data && *listentry->data) {
-            if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "RCPT TO:<%s>", listentry->data)) >= 400)
-              errmsg = "SMTP server did not accept e-mail address (To)";
-          }
-          listentry = listentry->next;
-        }
-        listentry = mailobj->cc;
-        while (!errmsg && listentry) {
-          if (listentry->data && *listentry->data) {
-            if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "RCPT TO:<%s>", listentry->data)) >= 400)
-              errmsg = "SMTP server did not accept e-mail address (CC)";
-          }
-          listentry = listentry->next;
-        }
-        listentry = mailobj->bcc;
-        while (!errmsg && listentry) {
-          if (listentry->data && *listentry->data) {
-            if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "RCPT TO:<%s>", listentry->data)) >= 400)
-              errmsg = "SMTP server did not accept e-mail address (BCC)";
-          }
-          listentry = listentry->next;
-        }
-        if (errmsg)
-          break;
-        //prepare to send mail body
-        if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "DATA")) >= 400) {
-          errmsg = "SMTP DATA returned error";
-          break;
-        }
-        //send mail body data
-        while ((n = quickmail_get_data(buf, sizeof(buf), 1, mailobj)) > 0) {
-          socket_send(sock, buf, n);
-        }
-        //send end of data
-        if ((statuscode = socket_smtp_command(sock, mailobj->debuglog, "\r\n.")) >= 400) {
-          errmsg = "SMTP error after sending message data";
-          break;
-        }
-      } while (0);
-      //log out
-      socket_smtp_command(sock, mailobj->debuglog, "QUIT");
-    }
-  }
-  //close socket
-  socket_close(sock);
-  return errmsg;
-#endif
 }
