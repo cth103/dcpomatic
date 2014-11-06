@@ -248,12 +248,12 @@ void email_info_attachment_list_close_handles (struct email_info_attachment_list
 
 //dummy attachment functions
 
-void* email_info_attachment_open_dummy (void* filedata)
+void* email_info_attachment_open_dummy (void *)
 {
 	return (void *) &email_info_attachment_open_dummy;
 }
 
-size_t email_info_attachment_read_dummy (void* handle, void* buf, size_t len)
+size_t email_info_attachment_read_dummy (void *, void *, size_t)
 {
   return 0;
 }
@@ -569,11 +569,10 @@ void quickmail_set_debug_log (quickmail mailobj, FILE* filehandle)
 
 void quickmail_fsave (quickmail mailobj, FILE* filehandle)
 {
-  int i;
   size_t n;
   char buf[80];
   while ((n = quickmail_get_data(buf, sizeof(buf), 1, mailobj)) > 0) {
-    for (i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++)
       fprintf(filehandle, "%c", buf[i]);
   }
 }
@@ -826,7 +825,7 @@ size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
 
   //flush pending data if any
   if (mailobj->buflen > 0) {
-    int len = (mailobj->buflen > size * nmemb ? size * nmemb : mailobj->buflen);
+	  int len = ((size_t) mailobj->buflen > size * nmemb ? size * nmemb : mailobj->buflen);
     memcpy(ptr, mailobj->buf, len);
     if (len < mailobj->buflen) {
       mailobj->buf = (char *) memmove(mailobj->buf, mailobj->buf + len, mailobj->buflen - len);
