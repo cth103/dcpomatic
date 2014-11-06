@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-26 23:31+0000\n"
+"POT-Creation-Date: 2014-11-06 11:37+0000\n"
 "PO-Revision-Date: 2014-02-03 10:46+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -52,11 +52,11 @@ msgstr ""
 msgid "2D version of content available in 3D"
 msgstr "Una nuova versione di DCP-o-matic è disponibile."
 
-#: src/wx/dcp_panel.cc:607
+#: src/wx/dcp_panel.cc:617
 msgid "2K"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:555
+#: src/wx/dcp_panel.cc:565
 msgid "3D"
 msgstr ""
 
@@ -80,8 +80,15 @@ msgstr ""
 msgid "3D top/bottom"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:608
+#: src/wx/dcp_panel.cc:618
 msgid "4K"
+msgstr ""
+
+#: src/wx/hints_dialog.cc:119
+msgid ""
+"A few projectors have problems playing back very high bit-rate DCPs.  It is "
+"a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
+"unlikely to have any visible effect on the image."
 msgstr ""
 
 #: src/wx/update_dialog.cc:34
@@ -105,20 +112,30 @@ msgstr "Aggiungi Cinema"
 msgid "Add Screen..."
 msgstr "Aggiungi Schermo"
 
-#: src/wx/content_panel.cc:67
+#: src/wx/content_panel.cc:73
+msgid ""
+"Add a directory of image files which will be used as a moving image sequence."
+msgstr ""
+
+#: src/wx/content_panel.cc:68
 msgid "Add file(s)..."
 msgstr "Aggiungi File"
 
+#: src/wx/content_panel.cc:72
+msgid ""
+"Add image\n"
+"sequence..."
+msgstr ""
+
 #: src/wx/content_panel.cc:69
-#, fuzzy
-msgid "Add folder..."
-msgstr "Aggiungi File"
+msgid "Add video, image or sound files to the film."
+msgstr ""
 
 #: src/wx/config_dialog.cc:597 src/wx/editable_list.h:62
 msgid "Add..."
 msgstr "Aggiungi..."
 
-#: src/wx/hints_dialog.cc:102
+#: src/wx/hints_dialog.cc:107
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -126,7 +143,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr ""
 
-#: src/wx/hints_dialog.cc:96
+#: src/wx/hints_dialog.cc:101
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -167,16 +184,6 @@ msgstr ""
 "L' audio sarà trasferito dal canale %d sorgente al canale %d DCP con "
 "guadagno di %.1fdB."
 
-#: src/wx/audio_panel.cc:274
-#, fuzzy, c-format
-msgid "Audio will be resampled from %.3fkHz to %.3fkHz."
-msgstr "L'Audio sarà ricampionato da %dHz a %dHz"
-
-#: src/wx/audio_panel.cc:279
-#, fuzzy
-msgid "Audio will not be resampled."
-msgstr "L'Audio sarà ricampionato da %dHz a %dHz."
-
 #: src/wx/config_dialog.cc:1022
 #, fuzzy
 msgid "BCC address"
@@ -203,7 +210,7 @@ msgstr "BsL"
 msgid "BsR"
 msgstr "BsR"
 
-#: src/wx/dcp_panel.cc:551
+#: src/wx/dcp_panel.cc:561
 msgid "Burn subtitles into image"
 msgstr ""
 
@@ -267,7 +274,7 @@ msgstr ""
 msgid "Channel gain"
 msgstr "Guadagno audio"
 
-#: src/wx/audio_dialog.cc:44 src/wx/dcp_panel.cc:623
+#: src/wx/audio_dialog.cc:44 src/wx/dcp_panel.cc:633
 msgid "Channels"
 msgstr "Canali"
 
@@ -283,11 +290,11 @@ msgstr "Controlla gli aggiornamentio alla partenza"
 msgid "Choose a file"
 msgstr "Scegli un file"
 
-#: src/wx/content_panel.cc:241
+#: src/wx/content_panel.cc:236
 msgid "Choose a file or files"
 msgstr "Scegli uno o più file"
 
-#: src/wx/content_menu.cc:191 src/wx/content_panel.cc:264
+#: src/wx/content_menu.cc:191 src/wx/content_panel.cc:259
 msgid "Choose a folder"
 msgstr "Scegli una cartella"
 
@@ -310,7 +317,7 @@ msgstr "Conversione colore"
 msgid "Config|Timing"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:532
+#: src/wx/dcp_panel.cc:542
 msgid "Container"
 msgstr "Contenitore"
 
@@ -322,19 +329,9 @@ msgstr "Sorgente"
 msgid "Content Type"
 msgstr "Tipo di sorgente"
 
-#: src/wx/video_panel.cc:367
-#, c-format
-msgid "Content frame rate %.4f\n"
-msgstr "Freq. fotogrammi sorgente %.4f\n"
-
 #: src/wx/isdcf_metadata_dialog.cc:32
 msgid "Content version"
 msgstr "Tipo di sorgente"
-
-#: src/wx/video_panel.cc:327
-#, fuzzy, c-format
-msgid "Content video is %dx%d (%.2f:1)\n"
-msgstr "Il video originale è %dx%d (%.2f:1)\n"
 
 #: src/wx/editable_list.h:64
 msgid "Copy..."
@@ -344,7 +341,7 @@ msgstr ""
 msgid "Could not analyse audio."
 msgstr "Non posso analizzare l'audio."
 
-#: src/wx/content_panel.cc:280
+#: src/wx/content_panel.cc:275
 msgid "Could not find any images nor a DCP in that folder"
 msgstr ""
 
@@ -371,11 +368,6 @@ msgstr ""
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
 msgstr "Crea nella cartella"
-
-#: src/wx/video_panel.cc:339
-#, c-format
-msgid "Cropped to %dx%d (%.2f:1)\n"
-msgstr "Tagliato da %dx%d (%.2f:1)\n"
 
 #: src/wx/video_panel.cc:248
 msgid "Custom"
@@ -472,7 +464,7 @@ msgstr ""
 msgid "Doremi serial numbers must have 6 digits"
 msgstr ""
 
-#: src/wx/content_panel.cc:75
+#: src/wx/content_panel.cc:84
 msgid "Down"
 msgstr ""
 
@@ -563,7 +555,7 @@ msgstr "Filtri"
 msgid "Find missing..."
 msgstr "Trova mancante..."
 
-#: src/wx/dcp_panel.cc:538
+#: src/wx/dcp_panel.cc:548
 msgid "Frame Rate"
 msgstr "Frequenza fotogrammi"
 
@@ -667,7 +659,7 @@ msgstr ""
 msgid "Interop"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:565
+#: src/wx/dcp_panel.cc:575
 msgid "JPEG2000 bandwidth"
 msgstr "Banda passante JPEG2000"
 
@@ -687,7 +679,7 @@ msgstr ""
 msgid "KDM|Timing"
 msgstr ""
 
-#: src/wx/content_panel.cc:85 src/wx/timeline_dialog.cc:42
+#: src/wx/timeline_dialog.cc:42
 msgid "Keep video in sequence"
 msgstr "Tieni i video in sequenza"
 
@@ -745,7 +737,7 @@ msgstr ""
 msgid "Ls"
 msgstr "Ls"
 
-#: src/wx/content_panel.cc:438
+#: src/wx/content_panel.cc:432
 msgid "MISSING: "
 msgstr "MANCANTE:"
 
@@ -782,8 +774,16 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Banda passante JPEG2000"
 
 #: src/wx/config_dialog.cc:297 src/wx/config_dialog.cc:1137
-#: src/wx/dcp_panel.cc:569
+#: src/wx/dcp_panel.cc:579
 msgid "Mbit/s"
+msgstr ""
+
+#: src/wx/content_panel.cc:81
+msgid "Move the selected piece of content earlier in the film."
+msgstr ""
+
+#: src/wx/content_panel.cc:85
+msgid "Move the selected piece of content later in the film."
 msgstr ""
 
 #: src/wx/video_panel.cc:315
@@ -794,7 +794,7 @@ msgstr "Molteplici sorgenti selezionate"
 msgid "My Documents"
 msgstr "Documenti"
 
-#: src/wx/content_panel.cc:442
+#: src/wx/content_panel.cc:436
 msgid "NEEDS KDM: "
 msgstr ""
 
@@ -817,7 +817,7 @@ msgstr "Una nuova versione di DCP-o-matic è disponibile."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Nessun audio sarà passato dal canale %d sorgente al canale %d del DCP"
 
-#: src/wx/audio_panel.cc:326 src/wx/video_panel.cc:161
+#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:161
 #: src/wx/video_panel.cc:253 src/wx/video_panel.cc:262
 msgid "None"
 msgstr "Nessuno"
@@ -828,6 +828,10 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:1167
 msgid "Open console window"
+msgstr ""
+
+#: src/wx/content_panel.cc:89
+msgid "Open the timeline for the film."
 msgstr ""
 
 #: src/wx/make_signer_chain_dialog.cc:25
@@ -864,11 +868,6 @@ msgstr "Gamma in uscita"
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Package Type (e.g. OV)"
 msgstr "Tipo di Package (es. OV)"
-
-#: src/wx/video_panel.cc:360
-#, c-format
-msgid "Padded with black to %dx%d (%.2f:1)\n"
-msgstr "Riempito con nero a %dx%d (%.2f:1)\n"
 
 #: src/wx/config_dialog.cc:911
 #, fuzzy
@@ -944,7 +943,7 @@ msgid "Red band"
 msgstr ""
 
 #: src/wx/config_dialog.cc:599 src/wx/content_menu.cc:59
-#: src/wx/content_panel.cc:71 src/wx/editable_list.h:68
+#: src/wx/content_panel.cc:76 src/wx/editable_list.h:68
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -955,6 +954,10 @@ msgstr "Rimuovi Cinema"
 #: src/wx/kdm_dialog.cc:90
 msgid "Remove Screen"
 msgstr "Rimuovi Schermo"
+
+#: src/wx/content_panel.cc:77
+msgid "Remove the selected piece of content from the film."
+msgstr ""
 
 #: src/wx/repeat_dialog.cc:26
 msgid "Repeat"
@@ -972,7 +975,7 @@ msgstr ""
 msgid "Reset to default text"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:559
+#: src/wx/dcp_panel.cc:569
 msgid "Resolution"
 msgstr "Risoluzione"
 
@@ -1008,12 +1011,7 @@ msgstr ""
 msgid "Scale to"
 msgstr "Scala a"
 
-#: src/wx/video_panel.cc:351
-#, c-format
-msgid "Scaled to %dx%d (%.2f:1)\n"
-msgstr "Scalato a %dx%d (%.2f:1)\n"
-
-#: src/wx/dcp_panel.cc:574
+#: src/wx/dcp_panel.cc:584
 msgid "Scaler"
 msgstr "Scaler"
 
@@ -1168,7 +1166,7 @@ msgstr ""
 "Il/i file sorgenteo che hai specificato sono diversi da quelli mancanti. "
 "Riprova oppure rimuovi la sorgente mancante."
 
-#: src/wx/hints_dialog.cc:128
+#: src/wx/hints_dialog.cc:139
 msgid "There are no hints: everything looks good!"
 msgstr "Non ci sono suggerimenti: sembra tutto a posto!"
 
@@ -1200,7 +1198,7 @@ msgstr "Tempo"
 msgid "Timeline"
 msgstr "Timeline"
 
-#: src/wx/content_panel.cc:77
+#: src/wx/content_panel.cc:88
 msgid "Timeline..."
 msgstr ""
 
@@ -1243,7 +1241,7 @@ msgstr "sconosciuto"
 msgid "Until"
 msgstr "Fino a"
 
-#: src/wx/content_panel.cc:73
+#: src/wx/content_panel.cc:80
 msgid "Up"
 msgstr "Su"
 
@@ -1260,7 +1258,7 @@ msgstr "Usa nome DCI"
 msgid "Use all servers"
 msgstr "Usa tutti i server"
 
-#: src/wx/dcp_panel.cc:545
+#: src/wx/dcp_panel.cc:555
 msgid "Use best"
 msgstr "Usa la migliore"
 
@@ -1323,7 +1321,7 @@ msgstr "Spostamento Y"
 msgid "Y Scale"
 msgstr "Scaler"
 
-#: src/wx/hints_dialog.cc:121
+#: src/wx/hints_dialog.cc:132
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1332,7 +1330,7 @@ msgstr ""
 "Ci sono %d file che sembrano essere DVD VOB. Dovresti unirli per assicurare "
 "una giunta senza interruzioni tra i file."
 
-#: src/wx/hints_dialog.cc:108
+#: src/wx/hints_dialog.cc:113
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1357,6 +1355,15 @@ msgid ""
 msgstr ""
 "Il vostro DCP ha meno di 6 canali audio. Questo può causare problemi su "
 "alcuni proiettori."
+
+#: src/wx/hints_dialog.cc:80
+#, fuzzy
+msgid ""
+"Your DCP has no audio channels.  This is likely to cause problems on "
+"playback."
+msgstr ""
+"Il vostro DCP ha un numero dispari di canali audio. Questo può causare "
+"problemi durante la riproduzione."
 
 #: src/wx/timeline.cc:229
 #, fuzzy
@@ -1397,6 +1404,13 @@ msgstr ""
 #, fuzzy
 msgid "video"
 msgstr "Video"
+
+#, fuzzy
+#~ msgid "Add folder..."
+#~ msgstr "Aggiungi File"
+
+#~ msgid "Content frame rate %.4f\n"
+#~ msgstr "Freq. fotogrammi sorgente %.4f\n"
 
 #~ msgid "1 channel"
 #~ msgstr "1 canale"

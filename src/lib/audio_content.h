@@ -98,6 +98,8 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_processor;
 	}
+
+	std::string processing_description () const;
 	
 private:
 	/** Gain to apply to audio in dB */

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-26 23:31+0000\n"
+"POT-Creation-Date: 2014-11-06 11:37+0000\n"
 "PO-Revision-Date: 2014-09-04 20:34+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -38,7 +38,7 @@ msgstr "%1 kanalen, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 frames; %2 frames per seconde"
 
-#: src/lib/video_content.cc:247
+#: src/lib/video_content.cc:250
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixels (%3:1)"
 
@@ -86,6 +86,14 @@ msgstr "Analyseer audio"
 msgid "Area"
 msgstr "Gebied"
 
+#: src/lib/audio_content.cc:253
+msgid "Audio will be resampled from %1kHz to %2kHz."
+msgstr ""
+
+#: src/lib/audio_content.cc:255
+msgid "Audio will not be resampled."
+msgstr ""
+
 #: src/lib/scaler.cc:62
 msgid "Bicubic"
 msgstr "Bicubic"
@@ -126,37 +134,41 @@ msgstr "Verwerk video data"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Inhoud en DCP hebben dezelfde framerate .\n"
 
+#: src/lib/video_content.cc:566
+msgid "Content frame rate"
+msgstr "Content frame rate"
+
 #: src/lib/subtitle_content.cc:103
 #, fuzzy
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
 
-#: src/lib/audio_content.cc:100
+#: src/lib/audio_content.cc:103
 msgid "Content to be joined must have the same audio delay."
 msgstr "Toegevoegde bestanden moeten dezelfde audio vertraging hebben."
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:99
 msgid "Content to be joined must have the same audio gain."
 msgstr "Toegevoegde bestanden moeten dezelfde audio gain hebben."
 
-#: src/lib/video_content.cc:161
+#: src/lib/video_content.cc:164
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Toegevoegde bestanden moeten dezelfde kleurindeling hebben."
 
-#: src/lib/video_content.cc:153
+#: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same crop."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
-#: src/lib/video_content.cc:165
+#: src/lib/video_content.cc:168
 #, fuzzy
 msgid "Content to be joined must have the same fades."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
-#: src/lib/video_content.cc:141
+#: src/lib/video_content.cc:144
 msgid "Content to be joined must have the same picture size."
 msgstr "Toegevoegde bestanden moeten dezelfde grootte hebben."
 
-#: src/lib/video_content.cc:157
+#: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same scale setting."
 msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
 
@@ -178,11 +190,11 @@ msgstr "Toegevoegde bestanden moeten dezelfde ondertitel Y offset hebben."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel grootte hebben."
 
-#: src/lib/video_content.cc:145
+#: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Toegevoegde bestanden moeten dezelfde video frame rate hebben."
 
-#: src/lib/video_content.cc:149
+#: src/lib/video_content.cc:152
 msgid "Content to be joined must have the same video frame type."
 msgstr "Toegevoegde bestanden moeten dezelfde video formaat hebben."
 
@@ -193,6 +205,10 @@ msgstr "Toegevoegde bestanden moeten dezelfde audio stream gebruiken."
 #: src/lib/ffmpeg_content.cc:114
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel stream gebruiken."
+
+#: src/lib/video_content.cc:524
+msgid "Content video is %1x%2"
+msgstr "Content video is %1x%2"
 
 #: src/lib/scp_dcp_job.cc:111
 msgid "Copy DCP to TMS"
@@ -236,6 +252,10 @@ msgstr "Kan SCP sessie niet starten (%1)"
 #: src/lib/scp_dcp_job.cc:191
 msgid "Could not write to remote file (%1)"
 msgstr "Kan niet schrijven naar bestand op FTP server"
+
+#: src/lib/video_content.cc:535
+msgid "Cropped to %1x%2"
+msgstr "Cropped naar %1x%2"
 
 #: src/lib/dcp_subtitle_content.cc:72
 msgid "DCP XML subtitles"
@@ -473,6 +493,10 @@ msgstr "Te weinig geheugen"
 msgid "Overcomplete wavelet denoiser"
 msgstr "Overcomplete wavelet denoiser"
 
+#: src/lib/video_content.cc:559
+msgid "Padded with black to %1x%2"
+msgstr "Opgevuld met zwart tot %1x%2"
+
 #: src/lib/dcp_content_type.cc:51
 msgid "Policy"
 msgstr "Beleid"
@@ -508,6 +532,10 @@ msgstr "Rechts surround"
 #: src/lib/scp_dcp_job.cc:135
 msgid "SSH error (%1)"
 msgstr "SSH fout (%1)"
+
+#: src/lib/video_content.cc:550
+msgid "Scaled to %1x%2"
+msgstr "Geschaald naar %1x%2"
 
 #: src/lib/ratio.cc:41
 msgid "Scope"
@@ -608,7 +636,7 @@ msgstr "Onverwacht beeldtype ontvangen door server"
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
-#: src/lib/ffmpeg_decoder.cc:263
+#: src/lib/ffmpeg_decoder.cc:264
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Niet herkenbaar audio sample formaat (%1)"
 
@@ -776,7 +804,7 @@ msgstr "ontbrekende verplichte setting %1"
 msgid "moving"
 msgstr "bewegend"
 
-#: src/lib/ffmpeg_decoder.cc:420
+#: src/lib/ffmpeg_decoder.cc:431
 msgid "multi-part subtitles not yet supported"
 msgstr "ondertitels met meerdere delen worden nog niet ondersteund."
 
@@ -790,7 +818,7 @@ msgstr "naam"
 msgid "remaining"
 msgstr "resterend"
 
-#: src/lib/config.cc:90 src/lib/video_content.cc:204
+#: src/lib/config.cc:90 src/lib/video_content.cc:207
 msgid "sRGB"
 msgstr "sRGB"
 
