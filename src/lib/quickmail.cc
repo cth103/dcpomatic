@@ -930,6 +930,10 @@ const char* quickmail_send (quickmail mailobj, const char* smtpserver, unsigned 
     //set callback function for getting message body
     curl_easy_setopt(curl, CURLOPT_READFUNCTION, quickmail_get_data);
     curl_easy_setopt(curl, CURLOPT_READDATA, mailobj);
+    /* Without this curl sends VRFY, which exim errors on
+       (at least on main.carlh.net)
+    */
+    curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
     //enable debugging if requested
     if (mailobj->debuglog) {
       curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
