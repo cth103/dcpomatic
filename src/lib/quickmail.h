@@ -26,19 +26,6 @@
 
 #include <stdio.h>
 
-/*! \brief define for exporting/importing functions in/from shared library */
-#ifdef _WIN32
-#if defined(BUILD_QUICKMAIL_DLL)
-#define DLL_EXPORT_LIBQUICKMAIL __declspec(dllexport)
-#elif !defined(STATIC) && !defined(BUILD_QUICKMAIL_STATIC)
-#define DLL_EXPORT_LIBQUICKMAIL __declspec(dllimport)
-#else
-#define DLL_EXPORT_LIBQUICKMAIL
-#endif
-#else
-#define DLL_EXPORT_LIBQUICKMAIL
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
