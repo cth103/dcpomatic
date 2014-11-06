@@ -47,12 +47,12 @@ public:
 		return _log;
 	}
 
-	string head_and_tail () const {
-		if (_log.size () < 2048) {
+	string head_and_tail (int amount = 1024) const {
+		if (_log.size () < (2 * amount)) {
 			return _log;
 		}
 
-		return _log.substr (0, 1024) + _log.substr (_log.size() - 1025, 1024);
+		return _log.substr (0, amount) + _log.substr (_log.size() - amount - 1, amount);
 	}
 
 private:

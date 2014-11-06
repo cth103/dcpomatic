@@ -48,7 +48,7 @@ public:
 
 	void set_types (int types);
 
-	virtual std::string head_and_tail () const = 0;
+	virtual std::string head_and_tail (int amount = 1024) const = 0;
 
 protected:
 	
@@ -69,7 +69,7 @@ class FileLog : public Log
 public:
 	FileLog (boost::filesystem::path file);
 
-	std::string head_and_tail () const;
+	std::string head_and_tail (int amount = 1024) const;
 
 private:
 	void do_log (std::string m);
@@ -80,7 +80,7 @@ private:
 class NullLog : public Log
 {
 public:
-	std::string head_and_tail () const {
+	std::string head_and_tail (int) const {
 		return "";
 	}
 

@@ -25,5 +25,6 @@ using std::cout;
 BOOST_AUTO_TEST_CASE (file_log_test)
 {
 	FileLog log ("test/data/short.log");
-	BOOST_CHECK_EQUAL (log.head_and_tail(), "This is a short log.\nWith only two lines.\n");
+	BOOST_CHECK_EQUAL (log.head_and_tail (1024), "This is a short log.\nWith only two lines.\n");
+	BOOST_CHECK_EQUAL (log.head_and_tail (8), "This is \n.\n.\n.\no lines.\n");
 }

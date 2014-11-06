@@ -124,12 +124,12 @@ FileLog::do_log (string m)
 }
 
 string
-FileLog::head_and_tail () const
+FileLog::head_and_tail (int amount) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	uintmax_t head_amount = 1024;
-	uintmax_t tail_amount = 1024;
+	uintmax_t head_amount = amount;
+	uintmax_t tail_amount = amount;
 	uintmax_t size = boost::filesystem::file_size (_file);
 
 	if (size < (head_amount + tail_amount)) {
@@ -148,16 +148,19 @@ FileLog::head_and_tail () const
 	
 	int N = fread (buffer, 1, head_amount, f);
 	buffer[N] = '\0';
-	out += buffer;
+	out += string (buffer);
 
-	fseek (f, tail_amount, SEEK_END);
-	
-	N = fread (buffer, 1, tail_amount, f);
-	buffer[N] = '\0';
-	out += buffer;
+	if (tail_amount > 0) {
+		out +=  "\n.\n.\n.\n";
+
+		fseek (f, - tail_amount - 1, SEEK_END);
+		
+		N = fread (buffer, 1, tail_amount, f);
+		buffer[N] = '\0';
+		out += string (buffer) + "\n";
+	}
 
 	delete[] buffer;
-
 	fclose (f);
 
 	return out;
