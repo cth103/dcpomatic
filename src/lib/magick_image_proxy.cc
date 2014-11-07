@@ -22,21 +22,16 @@
 #include "cross.h"
 #include "exceptions.h"
 #include "util.h"
-#include "log.h"
 #include "image.h"
-#include "log.h"
 
 #include "i18n.h"
-
-#define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-MagickImageProxy::MagickImageProxy (boost::filesystem::path path, shared_ptr<Log> log)
-	: ImageProxy (log)
+MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
 {
 	/* Read the file into a Blob */
 	
@@ -57,8 +52,7 @@ MagickImageProxy::MagickImageProxy (boost::filesystem::path path, shared_ptr<Log
 	delete[] data;
 }
 
-MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> socket, shared_ptr<Log> log)
-	: ImageProxy (log)
+MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> socket)
 {
 	uint32_t const size = socket->read_uint32 ();
 	uint8_t* data = new uint8_t[size];
@@ -73,8 +67,6 @@ MagickImageProxy::image () const
 	if (_image) {
 		return _image;
 	}
-
-	LOG_TIMING ("[%1] MagickImageProxy begins decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
 
 	Magick::Image* magick_image = 0;
 	string error;
@@ -104,7 +96,6 @@ MagickImageProxy::image () const
 	}
 
 	dcp::Size size (magick_image->columns(), magick_image->rows());
-	LOG_TIMING ("[%1] MagickImageProxy decode finished", boost::this_thread::get_id ());
 
 	_image.reset (new Image (PIX_FMT_RGB24, size, true));
 
@@ -122,8 +113,6 @@ MagickImageProxy::image () const
 
 	delete magick_image;
 
-	LOG_TIMING ("[%1] MagickImageProxy completes decode and convert of %2 bytes", boost::this_thread::get_id(), _blob.length());
-	
 	return _image;
 }
 

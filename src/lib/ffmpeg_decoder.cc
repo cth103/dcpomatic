@@ -401,7 +401,7 @@ FFmpegDecoder::decode_video_packet ()
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset.seconds ();
 			video (
-				shared_ptr<ImageProxy> (new RawImageProxy (image, _video_content->film()->log())),
+				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				rint (pts * _ffmpeg_content->video_frame_rate ())
 				);
 		} else {

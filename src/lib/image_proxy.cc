@@ -26,31 +26,22 @@
 #include "image.h"
 #include "exceptions.h"
 #include "cross.h"
-#include "log.h"
 
 #include "i18n.h"
-
-#define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
 using std::cout;
 using std::string;
 using boost::shared_ptr;
 
-ImageProxy::ImageProxy (shared_ptr<Log> log)
-	: _log (log)
-{
-
-}
-
 shared_ptr<ImageProxy>
-image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket, shared_ptr<Log> log)
+image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	if (xml->string_child("Type") == N_("Raw")) {
-		return shared_ptr<ImageProxy> (new RawImageProxy (xml, socket, log));
+		return shared_ptr<ImageProxy> (new RawImageProxy (xml, socket));
 	} else if (xml->string_child("Type") == N_("Magick")) {
-		return shared_ptr<MagickImageProxy> (new MagickImageProxy (xml, socket, log));
+		return shared_ptr<MagickImageProxy> (new MagickImageProxy (xml, socket));
 	} else if (xml->string_child("Type") == N_("J2K")) {
-		return shared_ptr<J2KImageProxy> (new J2KImageProxy (xml, socket, log));
+		return shared_ptr<J2KImageProxy> (new J2KImageProxy (xml, socket));
 	}
 
 	throw NetworkError (_("Unexpected image type received by server"));

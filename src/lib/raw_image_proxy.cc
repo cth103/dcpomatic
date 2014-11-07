@@ -31,15 +31,13 @@ extern "C" {
 using std::string;
 using boost::shared_ptr;
 
-RawImageProxy::RawImageProxy (shared_ptr<Image> image, shared_ptr<Log> log)
-	: ImageProxy (log)
-	, _image (image)
+RawImageProxy::RawImageProxy (shared_ptr<Image> image)
+	: _image (image)
 {
 
 }
 
-RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket, shared_ptr<Log> log)
-	: ImageProxy (log)
+RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	dcp::Size size (
 		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")

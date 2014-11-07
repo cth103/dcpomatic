@@ -112,7 +112,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 		return -1;
 	}
 
-	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket, _log));
+	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket));
 
 	DCPVideo dcp_video_frame (pvf, xml, _log);
 

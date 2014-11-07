@@ -31,7 +31,6 @@
 
 class Image;
 class Socket;
-class Log;
 
 namespace cxml {
 	class Node;
@@ -56,7 +55,6 @@ namespace dcp {
 class ImageProxy : public boost::noncopyable
 {
 public:
-	ImageProxy (boost::shared_ptr<Log> log);
 	virtual ~ImageProxy () {}
 
 	/** @return Image (which must be aligned) */
@@ -67,11 +65,8 @@ public:
 	virtual bool same (boost::shared_ptr<const ImageProxy>) const {
 		return false;
 	}
-
-protected:
-	boost::shared_ptr<Log> _log;
 };
 
-boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);
+boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 #endif

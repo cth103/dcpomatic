@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
+			shared_ptr<ImageProxy> (new RawImageProxy (image)),
 			DCPTime (),
 			Crop (),
 			optional<float> (),
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image, log)),
+			shared_ptr<ImageProxy> (new RawImageProxy (image)),
 			DCPTime (),
 			Crop (),
 			optional<float> (),

@@ -128,7 +128,7 @@ Player::setup_pieces ()
 
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (*i);
 		if (dc) {
-			decoder.reset (new DCPDecoder (dc, _film->log ()));
+			decoder.reset (new DCPDecoder (dc));
 			frc = FrameRateChange (dc->video_frame_rate(), _film->video_frame_rate());
 		}
 
@@ -298,7 +298,7 @@ Player::black_player_video_frame (DCPTime time) const
 {
 	return shared_ptr<PlayerVideo> (
 		new PlayerVideo (
-			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image, _film->log ())),
+			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
 			time,
 			Crop (),
 			optional<float> (),

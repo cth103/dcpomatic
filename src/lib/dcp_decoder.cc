@@ -38,11 +38,10 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
+DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c)
 	: VideoDecoder (c)
 	, AudioDecoder (c)
 	, SubtitleDecoder (c)
-	, _log (log)
 	, _dcp_content (c)
 {
 	dcp::DCP dcp (c->directory ());
@@ -71,15 +70,15 @@ DCPDecoder::pass ()
 		shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (mxf);
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (mono) {
-			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), mxf->size(), _log)), frame);
+			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), mxf->size())), frame);
 		} else {
 			video (
-				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), mxf->size(), dcp::EYE_LEFT, _log)),
+				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), mxf->size(), dcp::EYE_LEFT)),
 				frame
 				);
 			
 			video (
-				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), mxf->size(), dcp::EYE_RIGHT, _log)),
+				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), mxf->size(), dcp::EYE_RIGHT)),
 				frame
 				);
 		}
