@@ -95,7 +95,8 @@ TranscodeJob::status () const
 	s << Job::status ();
 
 	if (!finished () && !_transcoder->finishing ()) {
-		s << "; " << fixed << setprecision (1) << fps << " " << _("frames per second");
+		/* TRANSLATORS: fps here is an abbreviation for frames per second */
+		s << "; " << fixed << setprecision (1) << fps << " " << _("fps");
 	}
 	
 	return s.str ();

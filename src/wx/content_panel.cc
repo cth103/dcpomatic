@@ -339,6 +339,7 @@ ContentPanel::set_film (shared_ptr<Film> f)
 	_film = f;
 
 	film_changed (Film::CONTENT);
+	film_changed (Film::AUDIO_CHANNELS);
 	selection_changed ();
 }
 

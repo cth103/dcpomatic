@@ -156,14 +156,11 @@ seconds_to_approximate_hms (int s)
 
 	if (hours) {
 		if (m > 30 && !minutes) {
-			ap << (h + 1) << N_(" ") << _("hours");
+			/* TRANSLATORS: h here is an abbreviation for hours */
+			ap << (h + 1) << _("h");
 		} else {
-			ap << h << N_(" ");
-			if (h == 1) {
-				ap << _("hour");
-			} else {
-				ap << _("hours");
-			}
+			/* TRANSLATORS: h here is an abbreviation for hours */
+			ap << h << _("h");
 		}
 
 		if (minutes | seconds) {
@@ -174,14 +171,11 @@ seconds_to_approximate_hms (int s)
 	if (minutes) {
 		/* Minutes */
 		if (s > 30 && !seconds) {
-			ap << (m + 1) << N_(" ") << _("minutes");
+			/* TRANSLATORS: m here is an abbreviation for minutes */
+			ap << (m + 1) << _("m");
 		} else {
-			ap << m << N_(" ");
-			if (m == 1) {
-				ap << _("minute");
-			} else {
-				ap << _("minutes");
-			}
+			/* TRANSLATORS: m here is an abbreviation for minutes */
+			ap << m << _("m");
 		}
 
 		if (seconds) {
@@ -191,12 +185,8 @@ seconds_to_approximate_hms (int s)
 
 	if (seconds) {
 		/* Seconds */
-		ap << s << N_(" ");
-		if (s == 1) {
-			ap << _("second");
-		} else {
-			ap << _("seconds");
-		}
+		/* TRANSLATORS: s here is an abbreviation for seconds */
+		ap << s << _("s");
 	}
 
 	return ap.str ();
