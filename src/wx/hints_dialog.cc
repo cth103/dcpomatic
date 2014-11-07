@@ -133,6 +133,20 @@ HintsDialog::film_changed ()
 		_text->Newline ();
 	}
 
+	int three_d = 0;
+	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
+		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
+		if (vc && vc->video_frame_type() != VIDEO_FRAME_TYPE_2D) {
+			++three_d;
+		}
+	}
+
+	if (three_d > 0) {
+		hint = true;
+		_text->WriteText (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g.\ Real-D, MasterImage etc.)"));
+		_text->Newline ();
+	}
+
 	_text->EndSymbolBullet ();
 
 	if (!hint) {
