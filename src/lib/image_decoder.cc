@@ -49,7 +49,7 @@ ImageDecoder::pass ()
 
 	if (!_image_content->still() || !_image) {
 		/* Either we need an image or we are using moving images, so load one */
-		_image.reset (new MagickImageProxy (_image_content->path (_image_content->still() ? 0 : _video_position), _image_content->film()->log ()));
+		_image.reset (new MagickImageProxy (_image_content->path (_image_content->still() ? 0 : _video_position)));
 	}
 		
 	video (_image, _video_position);

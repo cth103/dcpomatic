@@ -30,7 +30,6 @@ class Image;
 class ImageProxy;
 class Scaler;
 class Socket;
-class Log;
 class EncodedData;
 
 /** Everything needed to describe a video frame coming out of the player, but with the
@@ -53,7 +52,7 @@ public:
 		boost::optional<ColourConversion>
 		);
 	
-	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>, boost::shared_ptr<Log>);
+	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
 
 	void set_subtitle (PositionImage);
 	

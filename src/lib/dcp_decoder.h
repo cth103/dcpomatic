@@ -31,7 +31,7 @@ class Log;
 class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder
 {
 public:
-	DCPDecoder (boost::shared_ptr<const DCPContent>, boost::shared_ptr<Log>);
+	DCPDecoder (boost::shared_ptr<const DCPContent>);
 
 private:
 	void seek (ContentTime t, bool accurate);
@@ -41,6 +41,5 @@ private:
 	ContentTime _next;
 	std::list<boost::shared_ptr<dcp::Reel> > _reels;
 	std::list<boost::shared_ptr<dcp::Reel> >::iterator _reel;
-	boost::shared_ptr<Log> _log;
 	boost::shared_ptr<const DCPContent> _dcp_content;
 };

@@ -25,9 +25,9 @@ class EncodedData;
 class J2KImageProxy : public ImageProxy
 {
 public:
-	J2KImageProxy (boost::shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size, boost::shared_ptr<Log> log);
-	J2KImageProxy (boost::shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size, dcp::Eye, boost::shared_ptr<Log> log);
-	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket, boost::shared_ptr<Log> log);
+	J2KImageProxy (boost::shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size);
+	J2KImageProxy (boost::shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size, dcp::Eye);
+	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	boost::shared_ptr<Image> image () const;
 	void add_metadata (xmlpp::Node *) const;

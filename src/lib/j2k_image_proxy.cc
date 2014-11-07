@@ -31,25 +31,22 @@
 using std::string;
 using boost::shared_ptr;
 
-J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size, shared_ptr<Log> log)
-	: ImageProxy (log)
-	, _mono (frame)
+J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size)
+	: _mono (frame)
 	, _size (size)
 {
 	
 }
 
-J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye, shared_ptr<Log> log)
-	: ImageProxy (log)
-	, _stereo (frame)
+J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye)
+	: _stereo (frame)
 	, _size (size)
 	, _eye (eye)
 {
 
 }
 
-J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket, shared_ptr<Log> log)
-	: ImageProxy (log)
+J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	_size = dcp::Size (xml->number_child<int> ("Width"), xml->number_child<int> ("Height"));
 	if (xml->optional_number_child<int> ("Eye")) {

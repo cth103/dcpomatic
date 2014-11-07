@@ -57,7 +57,7 @@ PlayerVideo::PlayerVideo (
 
 }
 
-PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket, shared_ptr<Log> log)
+PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
 {
 	_time = DCPTime (node->number_child<DCPTime::Type> ("Time"));
 	_crop = Crop (node);
@@ -70,7 +70,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	_part = (Part) node->number_child<int> ("Part");
 	_colour_conversion = ColourConversion::from_xml (node);
 
-	_in = image_proxy_factory (node->node_child ("In"), socket, log);
+	_in = image_proxy_factory (node->node_child ("In"), socket);
 
 	if (node->optional_number_child<int> ("SubtitleX")) {
 		
