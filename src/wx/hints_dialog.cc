@@ -143,7 +143,7 @@ HintsDialog::film_changed ()
 
 	if (three_d > 0) {
 		hint = true;
-		_text->WriteText (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g.\ Real-D, MasterImage etc.)"));
+		_text->WriteText (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
 		_text->Newline ();
 	}
 
