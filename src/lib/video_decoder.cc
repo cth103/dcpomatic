@@ -20,6 +20,7 @@
 #include "video_decoder.h"
 #include "image.h"
 #include "image_proxy.h"
+#include "raw_image_proxy.h"
 #include "content_video.h"
 
 #include "i18n.h"
@@ -27,6 +28,7 @@
 using std::cout;
 using std::list;
 using std::max;
+using std::back_inserter;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -39,7 +41,8 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 #endif
 	, _same (false)
 {
-
+	_black_image.reset (new Image (PIX_FMT_RGB24, _video_content->video_size(), true));
+	_black_image->make_black ();
 }
 
 list<ContentVideo>
@@ -113,7 +116,8 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 		}
 	}
 
-	/* Clean up _decoded_video; keep the frame we are returning, but nothing before that */
+	/* Clean up _decoded_video; keep the frame we are returning (which may have two images
+	   for 3D), but nothing before that */
 	while (!_decoded_video.empty() && _decoded_video.front().frame < dec.front().frame) {
 		_decoded_video.pop_front ();
 	}
@@ -121,7 +125,108 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 	return dec;
 }
 
+/** Fill _decoded_video up to, but not including, the specified frame */
+void
+VideoDecoder::fill_up_to_2d (VideoFrame frame)
+{
+	if (frame == 0) {
+		/* Already OK */
+		return;
+	}
 
+	/* Fill with black... */
+	boost::shared_ptr<const ImageProxy> filler_image (new RawImageProxy (_black_image));
+	Part filler_part = PART_WHOLE;
+
+	/* ...unless there's some video we can fill with */
+	if (!_decoded_video.empty ()) {
+		filler_image = _decoded_video.back().image;
+		filler_part = _decoded_video.back().part;
+	}
+
+	VideoFrame filler_frame = _decoded_video.empty() ? 0 : (_decoded_video.back().frame + 1);
+	while (filler_frame < frame) {
+
+#ifdef DCPOMATIC_DEBUG
+		test_gaps++;
+#endif
+
+		_decoded_video.push_back (
+			ContentVideo (filler_image, EYES_BOTH, filler_part, filler_frame)
+			);
+		
+		++filler_frame;
+	}
+}
+
+/** Fill _decoded_video up to, but not including, the specified frame and eye */
+void
+VideoDecoder::fill_up_to_3d (VideoFrame frame, Eyes eye)
+{
+	if (frame == 0 && eye == EYES_LEFT) {
+		/* Already OK */
+		return;
+	}
+
+	/* Fill with black... */
+	boost::shared_ptr<const ImageProxy> filler_left_image (new RawImageProxy (_black_image));
+	boost::shared_ptr<const ImageProxy> filler_right_image (new RawImageProxy (_black_image));
+	Part filler_left_part = PART_WHOLE;
+	Part filler_right_part = PART_WHOLE;
+
+	/* ...unless there's some video we can fill with */
+	for (list<ContentVideo>::const_reverse_iterator i = _decoded_video.rbegin(); i != _decoded_video.rend(); ++i) {
+		if (i->eyes == EYES_LEFT && !filler_left_image) {
+			filler_left_image = i->image;
+			filler_left_part = i->part;
+		} else if (i->eyes == EYES_RIGHT && !filler_right_image) {
+			filler_right_image = i->image;
+			filler_right_part = i->part;
+		}
+
+		if (filler_left_image && filler_right_image) {
+			break;
+		}
+	}
+
+	VideoFrame filler_frame = _decoded_video.empty() ? 0 : _decoded_video.back().frame;
+	Eyes filler_eye = _decoded_video.empty() ? EYES_LEFT : _decoded_video.back().eyes;
+
+	if (_decoded_video.empty ()) {
+		filler_frame = 0;
+		filler_eye = EYES_LEFT;
+	} else if (_decoded_video.back().eyes == EYES_LEFT) {
+		filler_frame = _decoded_video.back().frame;
+		filler_eye = EYES_RIGHT;
+	} else if (_decoded_video.back().eyes == EYES_RIGHT) {
+		filler_frame = _decoded_video.back().frame + 1;
+		filler_eye = EYES_LEFT;
+	}
+
+	while (filler_frame != frame || filler_eye != eye) {
+
+#ifdef DCPOMATIC_DEBUG
+		test_gaps++;
+#endif
+
+		_decoded_video.push_back (
+			ContentVideo (
+				filler_eye == EYES_LEFT ? filler_left_image : filler_right_image,
+				filler_eye,
+				filler_eye == EYES_LEFT ? filler_left_part : filler_right_part,
+				filler_frame
+				)
+			);
+
+		if (filler_eye == EYES_LEFT) {
+			filler_eye = EYES_RIGHT;
+		} else {
+			filler_eye = EYES_LEFT;
+			++filler_frame;
+		}
+	}
+}
+	
 /** Called by subclasses when they have a video frame ready */
 void
 VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
@@ -131,47 +236,45 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	*/
 	_same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
 
-	/* Fill in gaps */
-	/* XXX: 3D */
-
-	while (!_decoded_video.empty () && (_decoded_video.back().frame + 1) < frame) {
-#ifdef DCPOMATIC_DEBUG
-		test_gaps++;
-#endif
-		_decoded_video.push_back (
-			ContentVideo (
-				_decoded_video.back().image,
-				_decoded_video.back().eyes,
-				_decoded_video.back().part,
-				_decoded_video.back().frame + 1
-				)
-			);
-	}
-	
+	/* Work out what we are going to push into _decoded_video next */
+	list<ContentVideo> to_push;
 	switch (_video_content->video_frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		_decoded_video.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		_decoded_video.push_back (ContentVideo (image, _same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, _same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));
-		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, PART_RIGHT_HALF, frame));
+		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));
+		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_RIGHT_HALF, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_TOP_HALF, frame));
-		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, PART_BOTTOM_HALF, frame));
+		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_TOP_HALF, frame));
+		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_BOTTOM_HALF, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT:
-		_decoded_video.push_back (ContentVideo (image, EYES_LEFT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		_decoded_video.push_back (ContentVideo (image, EYES_RIGHT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_WHOLE, frame));
 		break;
 	default:
 		assert (false);
 	}
+
+	/* Now VideoDecoder is required never to have gaps in the frames that it presents
+	   via get_video().  Hence we need to fill in any gap between the last thing in _decoded_video
+	   and the things we are about to push.
+	*/
+
+	if (_video_content->video_frame_type() == VIDEO_FRAME_TYPE_2D) {
+		fill_up_to_2d (to_push.front().frame);
+	} else {
+		fill_up_to_3d (to_push.front().frame, to_push.front().eyes);
+	}
+
+	copy (to_push.begin(), to_push.end(), back_inserter (_decoded_video));
 }
 
 void

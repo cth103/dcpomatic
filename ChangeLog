@@ -1,3 +1,9 @@
+2014-11-10  Carl Hetherington  <cth@carlh.net>
+
+	* Guess initial scale from the size of video
+	content images, taking pixel aspect ratio into
+	account where possible.
+
 2014-11-07  c.hetherington  <cth@carlh.net>
 
 	* Add a hint if there is 3D content in a proposed 2D DCP.

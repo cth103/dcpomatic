@@ -180,6 +180,13 @@ FFmpegExaminer::video_length () const
 	return ContentTime (max (ContentTime::Type (1), length.get ()));
 }
 
+optional<float>
+FFmpegExaminer::sample_aspect_ratio () const
+{
+	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream], 0);
+	return float (sar.num) / sar.den;
+}
+
 string
 FFmpegExaminer::audio_stream_name (AVStream* s) const
 {

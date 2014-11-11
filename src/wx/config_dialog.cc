@@ -277,10 +277,6 @@ public:
 		_isdcf_metadata_button = new wxButton (panel, wxID_ANY, _("Edit..."));
 		table->Add (_isdcf_metadata_button);
 
-		add_label_to_sizer (table, panel, _("Default scale to"), true);
-		_scale = new wxChoice (panel, wxID_ANY);
-		table->Add (_scale);
-		
 		add_label_to_sizer (table, panel, _("Default container"), true);
 		_container = new wxChoice (panel, wxID_ANY);
 		table->Add (_container);
@@ -322,14 +318,6 @@ public:
 		
 		_isdcf_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this, parent));
 		
-		vector<VideoContentScale> scales = VideoContentScale::all ();
-		for (size_t i = 0; i < scales.size(); ++i) {
-			_scale->Append (std_to_wx (scales[i].name ()));
-			if (scales[i] == config->default_scale ()) {
-				_scale->SetSelection (i);
-			}
-		}
-
 		vector<Ratio const *> ratios = Ratio::all ();
 		for (size_t i = 0; i < ratios.size(); ++i) {
 			_container->Append (std_to_wx (ratios[i]->nickname ()));
@@ -338,7 +326,6 @@ public:
 			}
 		}
 		
-		_scale->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::scale_changed, this));
 		_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::container_changed, this));
 		
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -394,12 +381,6 @@ private:
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
 
-	void scale_changed ()
-	{
-		vector<VideoContentScale> scale = VideoContentScale::all ();
-		Config::instance()->set_default_scale (scale[_scale->GetSelection()]);
-	}
-	
 	void container_changed ()
 	{
 		vector<Ratio const *> ratio = Ratio::all ();
@@ -426,7 +407,6 @@ private:
 #else
 	wxDirPickerCtrl* _directory;
 #endif
-	wxChoice* _scale;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxTextCtrl* _issuer;

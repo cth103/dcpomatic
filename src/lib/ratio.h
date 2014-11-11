@@ -53,6 +53,7 @@ public:
 	static void setup_ratios ();
 	static Ratio const * from_id (std::string i);
 	static Ratio const * from_ratio (float r);
+	static Ratio const * nearest_from_ratio (float r);
 	static std::vector<Ratio const *> all () {
 		return _ratios;
 	}

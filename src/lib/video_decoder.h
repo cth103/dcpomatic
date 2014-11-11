@@ -33,6 +33,7 @@
 
 class VideoContent;
 class ImageProxy;
+class Image;
 
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
@@ -53,14 +54,19 @@ public:
 #endif
 
 protected:
+	friend struct video_decoder_fill_test1;
+	friend struct video_decoder_fill_test2;
 
 	void seek (ContentTime time, bool accurate);
 	void video (boost::shared_ptr<const ImageProxy>, VideoFrame frame);
 	std::list<ContentVideo> decoded_video (VideoFrame frame);
+	void fill_up_to_2d (VideoFrame);
+	void fill_up_to_3d (VideoFrame, Eyes);
 
 	boost::shared_ptr<const VideoContent> _video_content;
 	std::list<ContentVideo> _decoded_video;
 	bool _same;
+	boost::shared_ptr<Image> _black_image;
 };
 
 #endif

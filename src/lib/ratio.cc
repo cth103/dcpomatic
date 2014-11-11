@@ -73,3 +73,19 @@ Ratio::from_ratio (float r)
 	return *j;
 }
    
+Ratio const *
+Ratio::nearest_from_ratio (float r)
+{
+	Ratio const * nearest = 0;
+	float distance = FLT_MAX;
+	
+	for (vector<Ratio const *>::iterator i = _ratios.begin (); i != _ratios.end(); ++i) {
+		float const d = fabs ((*i)->ratio() - r);
+		if (d < distance) {
+			distance = d;
+			nearest = *i;
+		}
+	}
+
+	return nearest;
+}

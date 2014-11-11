@@ -137,6 +137,11 @@ public:
 		return _colour_conversion;
 	}
 
+	boost::optional<float> sample_aspect_ratio () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _sample_aspect_ratio;
+	}
+
 	ContentTime fade_in () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_in;
@@ -178,6 +183,10 @@ private:
 	Crop _crop;
 	VideoContentScale _scale;
 	boost::optional<ColourConversion> _colour_conversion;
+	/** Sample aspect ratio obtained from the content file's header,
+	    if there is one.
+	*/
+	boost::optional<float> _sample_aspect_ratio;
 	ContentTime _fade_in;
 	ContentTime _fade_out;
 };
