@@ -47,10 +47,8 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	wxString t = _("My problem is");
 	int flags = wxALIGN_TOP | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
-	if (left) {
-		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
-	}
+	flags |= wxALIGN_RIGHT;
+	t += wxT (":");
 #endif	
 	wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
 	_table->Add (m, 1, flags, 6);
