@@ -82,6 +82,7 @@ extern std::string get_optional_string (std::multimap<std::string, std::string> 
 extern void* wrapped_av_malloc (size_t);
 extern int64_t divide_with_round (int64_t a, int64_t b);
 extern ContentTimePeriod subtitle_period (AVSubtitle const &);
+extern void set_backtrace_file (boost::filesystem::path);
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things

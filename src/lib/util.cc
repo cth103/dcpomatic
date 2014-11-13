@@ -282,6 +282,12 @@ LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 }
 #endif
 
+void
+set_backtrace_file (boost::filesystem::path p)
+{
+	backtrace_file = p;
+}
+
 /* From http://stackoverflow.com/questions/2443135/how-do-i-find-where-an-exception-was-thrown-in-c */
 void
 terminate ()
@@ -317,8 +323,9 @@ void
 dcpomatic_setup ()
 {
 #ifdef DCPOMATIC_WINDOWS
-	backtrace_file /= g_get_user_config_dir ();
-	backtrace_file /= "backtrace.txt";
+	boost::filesystem::path p = g_get_user_config_dir ();
+	p /= "backtrace.txt";
+	set_backtrace_file (p);
 	SetUnhandledExceptionFilter(exception_handler);
 
 	/* Dark voodoo which, I think, gets boost::filesystem::path to

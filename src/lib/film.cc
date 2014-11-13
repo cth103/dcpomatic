@@ -467,6 +467,9 @@ Film::read_metadata ()
 	/* This method is the only one that can return notes (so far) */
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
+	/* Write backtraces to this film's directory, until another film is loaded */
+	set_backtrace_file (file ("backtrace.txt"));
+
 	_dirty = false;
 	return notes;
 }
