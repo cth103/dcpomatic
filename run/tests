@@ -10,6 +10,6 @@ elif [ "$1" == "--valgrind" ]; then
     shift;
     valgrind --tool="memcheck" --leak-check=full build/test/unit-tests $*
 else
-    build/test/unit-tests --catch_system_errors=no $* 3>&1 1>&2 2>&3 | grep -v "No accelerated colorspace conversion" | grep -v "full chroma interpolation"
+    build/test/unit-tests --catch_system_errors=no $*
 fi
 
