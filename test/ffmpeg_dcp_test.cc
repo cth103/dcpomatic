@@ -38,10 +38,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 	shared_ptr<Film> film = new_test_film ("ffmpeg_dcp_test");
 	film->set_name ("test_film2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
-	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
+	
+	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));

@@ -36,11 +36,12 @@ BOOST_AUTO_TEST_CASE (threed_test)
 	shared_ptr<Film> film = new_test_film ("threed_test");
 	film->set_name ("test_film2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
-	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	c->set_video_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
+
+	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));

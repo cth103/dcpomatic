@@ -40,10 +40,11 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/count300bd48.m2ts"));
-	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
+
+	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	film->write_metadata ();
 
 	film->set_video_frame_rate (24);
