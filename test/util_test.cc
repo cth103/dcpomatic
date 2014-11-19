@@ -97,13 +97,13 @@ BOOST_AUTO_TEST_CASE (timecode_test)
 
 BOOST_AUTO_TEST_CASE (seconds_to_approximate_hms_test)
 {
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1), "1 second");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2), "2 seconds");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (60), "1 minute");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1.5 * 60), "1 minute 30 seconds");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 60), "2 minutes");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (17 * 60 + 20), "17 minutes");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1 * 3600), "1 hour");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (3600 + 40 * 60), "1 hour 40 minutes");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14 hours");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1), "1s");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2), "2s");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (60), "1m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1.5 * 60), "1m 30s");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 60), "2m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (17 * 60 + 20), "17m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1 * 3600), "1h");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (3600 + 40 * 60), "1h 40m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14h");
 }
