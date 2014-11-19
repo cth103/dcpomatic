@@ -184,6 +184,10 @@ optional<float>
 FFmpegExaminer::sample_aspect_ratio () const
 {
 	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream], 0);
+	if (sar.num == 0) {
+		/* I assume this means that we don't know */
+		return optional<float> ();
+	}
 	return float (sar.num) / sar.den;
 }
 
