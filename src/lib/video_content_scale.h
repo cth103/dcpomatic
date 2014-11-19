@@ -65,8 +65,12 @@ public:
 private:
 	/** a ratio to stretch the content to, or 0 for no stretch */
 	Ratio const * _ratio;
-	/** true if we want to scale the content */
+	/** true if we want to change the size of the content in any way */
 	bool _scale;
+
+	/* If _ratio is 0 and _scale is false there is no scale at all (i.e.
+	   the content is used at its original size)
+	*/
 
 	static std::vector<VideoContentScale> _scales;
 };
