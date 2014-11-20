@@ -63,7 +63,7 @@ test (boost::filesystem::path file, float fps, int first)
 		list<ContentVideo> v;
 		v = decoder.get_video (i, true);
 		if (i < first) {
-			BOOST_CHECK (v.empty ());
+			BOOST_CHECK_MESSAGE (v.empty (), "Request for " << i << " in " << file << " returned " << v.size());
 		} else {
 			BOOST_CHECK (v.size() == 1);
 			BOOST_CHECK_EQUAL (v.front().frame, i);
