@@ -36,9 +36,8 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-/** @param black Frame index of first frame in the video */ 
 static void
-test (boost::filesystem::path file, float fps, int first)
+test (boost::filesystem::path file, float fps, int gaps)
 {
 	boost::filesystem::path path = private_data / file;
 	if (!boost::filesystem::exists (path)) {
@@ -62,15 +61,11 @@ test (boost::filesystem::path file, float fps, int first)
 	for (VideoFrame i = 0; i < N; ++i) {
 		list<ContentVideo> v;
 		v = decoder.get_video (i, true);
-		if (i < first) {
-			BOOST_CHECK_MESSAGE (v.empty (), "Request for " << i << " in " << file << " returned " << v.size());
-		} else {
-			BOOST_CHECK (v.size() == 1);
-			BOOST_CHECK_EQUAL (v.front().frame, i);
-		}
+		BOOST_CHECK (v.size() == 1);
+		BOOST_CHECK_EQUAL (v.front().frame, i);
 	}
 #ifdef DCPOMATIC_DEBUG	
-	BOOST_CHECK_EQUAL (decoder.test_gaps, 0);
+	BOOST_CHECK_EQUAL (decoder.test_gaps, gaps);
 #endif
 }
 
@@ -78,6 +73,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {
 	test ("boon_telly.mkv", 29.97, 0);
 	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 0);
+	/* The first video frame is 12 here, so VideoDecoder should see 12 gaps
+	   (at the start of the file)
+	*/
 	test ("prophet_clip.mkv", 23.976, 12);
 }
 
