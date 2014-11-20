@@ -61,6 +61,7 @@ public:
 		return rint (_t * r / HZ);
 	}
 
+	/** @param r Frames per second */
 	template <typename T>
 	void split (T r, int& h, int& m, int& s, int& f) const
 	{
