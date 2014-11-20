@@ -48,7 +48,7 @@ public:
 	}
 
 	string head_and_tail (int amount = 1024) const {
-		if (_log.size () < (2 * amount)) {
+		if (int (_log.size ()) < (2 * amount)) {
 			return _log;
 		}
 
