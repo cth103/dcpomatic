@@ -994,21 +994,38 @@ content, as shown in <xref linkend="fig-subtitles-tab"/>.
 <para>
 DCP-o-matic will extract subtitles from the content, if present, and
 they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
-included in the image and not overlaid by the projector).  Note that
-DVD and Blu-Ray subtitles are stored as bitmaps, so it is not possible
-(automatically) to use non-burnt-in subtitles with these sources.
-Select the <guilabel>With Subtitles</guilabel> check-box to enable
-subtitles.  The <guilabel>X Offset</guilabel> and <guilabel>Y
-Offset</guilabel> controls move the subtitles around within the image,
-and the <guilabel>scale</guilabel> control changes their size.  The
-<guilabel>Stream</guilabel> control changes the subtitle stream that
-is used when the content has more than one.
+included in the image and not overlaid by the projector).
 </para>
 
 <para>
-All being well, future versions of DCP-o-matic will include the option to
-use text subtitles (as is the norm with most professionally-mastered
-DCPs).
+Select the <guilabel>With Subtitles</guilabel> check-box to enable
+subtitles.
+</para>
+
+<para>
+The <guilabel>X Offset</guilabel> and <guilabel>Y Offset</guilabel>
+controls move the subtitles around within the image.  The offsets are
+expressed as a percentage of the video frame size; 100% X offset is
+the entire width of the frame, and 100% Y offset is the entire height.
+Hence, to move the subtitles down by half the frame height you would
+use a Y offset of 50%.
+</para>
+
+<para>
+The <guilabel>X Scale</guilabel> and <guilabel>Y Scale</guilabel>
+controls scale the subtitles.  Scale values of 1 make the subtitles
+the same size (relative to the size of the image) as they are on the
+original.  Values lower than 1 make them smaller, and values higher
+make them larger.  You can stretch the subtitles in either direction
+by specifying different values for X and Y scale.  Subtitles from DVD
+and Blu Ray sources are frequently larger (relative to the video
+frame) than those typically used for DCP, so it is often useful to
+scale such subtitles down using these controls.
+</para>
+
+<para>
+The <guilabel>Stream</guilabel> control changes the subtitle stream
+that is used when the content has more than one.
 </para>
 
 </section>
