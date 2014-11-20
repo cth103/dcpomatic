@@ -61,7 +61,7 @@ public:
 
 	}
 
-	void set (T t, int fps)
+	void set (T t, float fps)
 	{
 		int h;
 		int m;
