@@ -40,6 +40,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 	: _video_content (c)
 #endif
 	, _same (false)
+	, _last_seek_accurate (true)
 {
 	_black_image.reset (new Image (PIX_FMT_RGB24, _video_content->video_size(), true));
 	_black_image->make_black ();
@@ -71,7 +72,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
 	   one after the end of _decoded_video we need to seek.
 	*/
-	   
+
 	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
 		seek (ContentTime::from_frames (frame, _video_content->video_frame_rate()), accurate);
 	}
@@ -125,11 +126,11 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 	return dec;
 }
 
-/** Fill _decoded_video up to, but not including, the specified frame */
+/** Fill _decoded_video from `from' up to, but not including, `to' */
 void
-VideoDecoder::fill_up_to_2d (VideoFrame frame)
+VideoDecoder::fill_2d (VideoFrame from, VideoFrame to)
 {
-	if (frame == 0) {
+	if (to == 0) {
 		/* Already OK */
 		return;
 	}
@@ -144,13 +145,13 @@ VideoDecoder::fill_up_to_2d (VideoFrame frame)
 		filler_part = _decoded_video.back().part;
 	}
 
-	VideoFrame filler_frame = _decoded_video.empty() ? 0 : (_decoded_video.back().frame + 1);
-	while (filler_frame < frame) {
+	VideoFrame filler_frame = from;
+	
+	while (filler_frame < (to - 1)) {
 
 #ifdef DCPOMATIC_DEBUG
 		test_gaps++;
 #endif
-
 		_decoded_video.push_back (
 			ContentVideo (filler_image, EYES_BOTH, filler_part, filler_frame)
 			);
@@ -159,11 +160,11 @@ VideoDecoder::fill_up_to_2d (VideoFrame frame)
 	}
 }
 
-/** Fill _decoded_video up to, but not including, the specified frame and eye */
+/** Fill _decoded_video from `from' up to, but not including, `to' */
 void
-VideoDecoder::fill_up_to_3d (VideoFrame frame, Eyes eye)
+VideoDecoder::fill_3d (VideoFrame from, VideoFrame to, Eyes eye)
 {
-	if (frame == 0 && eye == EYES_LEFT) {
+	if (to == 0 && eye == EYES_LEFT) {
 		/* Already OK */
 		return;
 	}
@@ -189,7 +190,7 @@ VideoDecoder::fill_up_to_3d (VideoFrame frame, Eyes eye)
 		}
 	}
 
-	VideoFrame filler_frame = _decoded_video.empty() ? 0 : _decoded_video.back().frame;
+	VideoFrame filler_frame = from;
 	Eyes filler_eye = _decoded_video.empty() ? EYES_LEFT : _decoded_video.back().eyes;
 
 	if (_decoded_video.empty ()) {
@@ -203,7 +204,7 @@ VideoDecoder::fill_up_to_3d (VideoFrame frame, Eyes eye)
 		filler_eye = EYES_LEFT;
 	}
 
-	while (filler_frame != frame || filler_eye != eye) {
+	while (filler_frame != to || filler_eye != eye) {
 
 #ifdef DCPOMATIC_DEBUG
 		test_gaps++;
@@ -268,18 +269,32 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	   and the things we are about to push.
 	*/
 
-	if (_video_content->video_frame_type() == VIDEO_FRAME_TYPE_2D) {
-		fill_up_to_2d (to_push.front().frame);
-	} else {
-		fill_up_to_3d (to_push.front().frame, to_push.front().eyes);
+	boost::optional<VideoFrame> from;
+	boost::optional<VideoFrame> to;
+	
+	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
+		from = _last_seek_time->frames (_video_content->video_frame_rate ());
+		to = to_push.front().frame;
+	} else if (!_decoded_video.empty ()) {
+		from = _decoded_video.back().frame + 1;
+		to = to_push.front().frame;
+	}
+
+	if (from) {
+		if (_video_content->video_frame_type() == VIDEO_FRAME_TYPE_2D) {
+			fill_2d (from.get(), to.get ());
+		} else {
+			fill_3d (from.get(), to.get(), to_push.front().eyes);
+		}
 	}
 
 	copy (to_push.begin(), to_push.end(), back_inserter (_decoded_video));
 }
 
 void
-VideoDecoder::seek (ContentTime, bool)
+VideoDecoder::seek (ContentTime s, bool accurate)
 {
 	_decoded_video.clear ();
+	_last_seek_time = s;
+	_last_seek_accurate = accurate;
 }
-

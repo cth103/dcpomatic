@@ -60,13 +60,15 @@ protected:
 	void seek (ContentTime time, bool accurate);
 	void video (boost::shared_ptr<const ImageProxy>, VideoFrame frame);
 	std::list<ContentVideo> decoded_video (VideoFrame frame);
-	void fill_up_to_2d (VideoFrame);
-	void fill_up_to_3d (VideoFrame, Eyes);
+	void fill_2d (VideoFrame from, VideoFrame to);
+	void fill_3d (VideoFrame from, VideoFrame to, Eyes);
 
 	boost::shared_ptr<const VideoContent> _video_content;
 	std::list<ContentVideo> _decoded_video;
 	bool _same;
 	boost::shared_ptr<Image> _black_image;
+	boost::optional<ContentTime> _last_seek_time;
+	bool _last_seek_accurate;
 };
 
 #endif
