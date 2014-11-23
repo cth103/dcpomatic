@@ -31,6 +31,14 @@
 using std::string;
 using boost::shared_ptr;
 
+/** Construct a J2KImageProxy from a JPEG2000 file */
+J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
+	: _mono (new dcp::MonoPictureFrame (path))
+	, _size (size)
+{
+
+}
+
 J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size)
 	: _mono (frame)
 	, _size (size)

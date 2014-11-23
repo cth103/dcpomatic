@@ -797,6 +797,14 @@ valid_image_file (boost::filesystem::path f)
 	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx");
 }
 
+bool
+valid_j2k_file (boost::filesystem::path f)
+{
+	string ext = f.extension().string();
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	return (ext == ".j2k" || ext == ".j2c");
+}
+
 string
 tidy_for_filename (string f)
 {

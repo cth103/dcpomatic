@@ -17,14 +17,16 @@
 
 */
 
-#include <iostream>
-#include <Magick++.h>
 #include "image_content.h"
 #include "image_examiner.h"
 #include "film.h"
 #include "job.h"
 #include "exceptions.h"
 #include "config.h"
+#include "cross.h"
+#include <dcp/xyz_frame.h>
+#include <Magick++.h>
+#include <iostream>
 
 #include "i18n.h"
 
@@ -39,10 +41,24 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 {
 #ifdef DCPOMATIC_IMAGE_MAGICK	
 	using namespace MagickCore;
-#endif	
-	Magick::Image* image = new Magick::Image (content->path(0).string());
-	_video_size = dcp::Size (image->columns(), image->rows());
-	delete image;
+#endif
+	boost::filesystem::path path = content->path(0).string ();
+	if (valid_j2k_file (path)) {
+		boost::uintmax_t size = boost::filesystem::file_size (path);
+		uint8_t* buffer = new uint8_t[size];
+		FILE* f = fopen_boost (path, "r");
+		if (!f) {
+			throw FileError ("Could not open file for reading", path);
+		}
+		fread (buffer, 1, size, f);
+		fclose (f);
+		_video_size = dcp::decompress_j2k (buffer, size, 0)->size ();
+		delete[] buffer;
+	} else {
+		Magick::Image* image = new Magick::Image (content->path(0).string());
+		_video_size = dcp::Size (image->columns(), image->rows());
+		delete image;
+	}
 
 	if (content->still ()) {
 		_video_length = ContentTime::from_seconds (Config::instance()->default_still_length());

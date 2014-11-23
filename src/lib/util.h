@@ -63,6 +63,7 @@ extern std::string md5_digest (std::vector<boost::filesystem::path>, boost::shar
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
 extern bool valid_image_file (boost::filesystem::path);
+extern bool valid_j2k_file (boost::filesystem::path);
 #ifdef DCPOMATIC_WINDOWS
 extern boost::filesystem::path mo_path ();
 #endif

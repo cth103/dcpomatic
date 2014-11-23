@@ -24,6 +24,7 @@
 #include "image_decoder.h"
 #include "image.h"
 #include "magick_image_proxy.h"
+#include "j2k_image_proxy.h"
 #include "film.h"
 #include "exceptions.h"
 
@@ -49,7 +50,15 @@ ImageDecoder::pass ()
 
 	if (!_image_content->still() || !_image) {
 		/* Either we need an image or we are using moving images, so load one */
-		_image.reset (new MagickImageProxy (_image_content->path (_image_content->still() ? 0 : _video_position)));
+		boost::filesystem::path path = _image_content->path (_image_content->still() ? 0 : _video_position);
+		if (valid_j2k_file (path)) {
+			/* We can't extract image size from a JPEG2000 codestream without decoding it,
+			   so pass in the image content's size here.
+			*/
+			_image.reset (new J2KImageProxy (path, _image_content->video_size ()));
+		} else {
+			_image.reset (new MagickImageProxy (path));
+		}
 	}
 		
 	video (_image, _video_position);
