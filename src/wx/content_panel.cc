@@ -69,8 +69,8 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 		_add_file->SetToolTip (_("Add video, image or sound files to the film."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 		
-		_add_folder = new wxButton (_panel, wxID_ANY, _("Add image\nsequence..."));
-		_add_folder->SetToolTip (_("Add a directory of image files which will be used as a moving image sequence."));
+		_add_folder = new wxButton (_panel, wxID_ANY, _("Add folder..."));
+		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a DCP."));
 		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 		
 		_remove = new wxButton (_panel, wxID_ANY, _("Remove"));
