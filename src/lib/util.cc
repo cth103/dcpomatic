@@ -794,7 +794,11 @@ valid_image_file (boost::filesystem::path f)
 {
 	string ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
-	return (ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx");
+	return (
+		ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" ||
+		ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx" ||
+		ext == ".j2c" || ext == ".j2k"
+		);
 }
 
 bool
