@@ -77,9 +77,8 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 
 	add_label_to_grid_bag_sizer (table, this, _("Output gamma"), true, wxGBPosition (r, 0));
 	wxBoxSizer* output_sizer = new wxBoxSizer (wxHORIZONTAL);
-	/* TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
-	   comes after it.
-	*/
+	/// TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
+	/// comes after it.
 	add_label_to_sizer (output_sizer, this, _("1 / "), false);
 	_output_gamma = new wxSpinCtrlDouble (this);
 	output_sizer->Add (_output_gamma);

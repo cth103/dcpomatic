@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-06 11:37+0000\n"
+"POT-Creation-Date: 2014-11-24 12:04+0000\n"
 "PO-Revision-Date: 2014-09-04 20:34+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.9\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/lib/video_content.cc:269
+msgid " sample aspect ratio %1:1"
+msgstr ""
 
 #: src/lib/dcp_content.cc:106
 msgid "%1 [DCP]"
@@ -38,9 +42,13 @@ msgstr "%1 kanalen, %2kHz, %3 samples"
 msgid "%1 frames; %2 frames per second"
 msgstr "%1 frames; %2 frames per seconde"
 
-#: src/lib/video_content.cc:250
+#: src/lib/video_content.cc:262
 msgid "%1x%2 pixels (%3:1)"
 msgstr "%1x%2 pixels (%3:1)"
+
+#: src/lib/video_content.cc:393
+msgid ", sample aspect ratio %1"
+msgstr ""
 
 #: src/lib/ratio.cc:34
 msgid "1.19"
@@ -110,7 +118,7 @@ msgstr "Afgebroken"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Fout met pixel formaat %1 tijdens %2"
 
-#: src/lib/util.cc:780
+#: src/lib/util.cc:776
 msgid "Centre"
 msgstr "Midden"
 
@@ -134,7 +142,7 @@ msgstr "Verwerk video data"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Inhoud en DCP hebben dezelfde framerate .\n"
 
-#: src/lib/video_content.cc:566
+#: src/lib/video_content.cc:588
 msgid "Content frame rate"
 msgstr "Content frame rate"
 
@@ -151,24 +159,24 @@ msgstr "Toegevoegde bestanden moeten dezelfde audio vertraging hebben."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Toegevoegde bestanden moeten dezelfde audio gain hebben."
 
-#: src/lib/video_content.cc:164
+#: src/lib/video_content.cc:165
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Toegevoegde bestanden moeten dezelfde kleurindeling hebben."
 
-#: src/lib/video_content.cc:156
+#: src/lib/video_content.cc:157
 msgid "Content to be joined must have the same crop."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
-#: src/lib/video_content.cc:168
+#: src/lib/video_content.cc:169
 #, fuzzy
 msgid "Content to be joined must have the same fades."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:145
 msgid "Content to be joined must have the same picture size."
 msgstr "Toegevoegde bestanden moeten dezelfde grootte hebben."
 
-#: src/lib/video_content.cc:160
+#: src/lib/video_content.cc:161
 msgid "Content to be joined must have the same scale setting."
 msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
 
@@ -190,11 +198,11 @@ msgstr "Toegevoegde bestanden moeten dezelfde ondertitel Y offset hebben."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel grootte hebben."
 
-#: src/lib/video_content.cc:148
+#: src/lib/video_content.cc:149
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Toegevoegde bestanden moeten dezelfde video frame rate hebben."
 
-#: src/lib/video_content.cc:152
+#: src/lib/video_content.cc:153
 msgid "Content to be joined must have the same video frame type."
 msgstr "Toegevoegde bestanden moeten dezelfde video formaat hebben."
 
@@ -206,7 +214,7 @@ msgstr "Toegevoegde bestanden moeten dezelfde audio stream gebruiken."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel stream gebruiken."
 
-#: src/lib/video_content.cc:524
+#: src/lib/video_content.cc:546
 msgid "Content video is %1x%2"
 msgstr "Content video is %1x%2"
 
@@ -222,7 +230,7 @@ msgstr "Kan niet verbinden met server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kan geen remote map maken %1 (%2)"
 
-#: src/lib/magick_image_proxy.cc:103
+#: src/lib/magick_image_proxy.cc:95
 #, fuzzy
 msgid "Could not decode image file (%1)"
 msgstr "Kan beeldbestand niet decoderen"
@@ -253,7 +261,7 @@ msgstr "Kan SCP sessie niet starten (%1)"
 msgid "Could not write to remote file (%1)"
 msgstr "Kan niet schrijven naar bestand op FTP server"
 
-#: src/lib/video_content.cc:535
+#: src/lib/video_content.cc:557
 msgid "Cropped to %1x%2"
 msgstr "Cropped naar %1x%2"
 
@@ -288,7 +296,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:427
+#: src/lib/config.cc:420
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -332,6 +340,10 @@ msgstr "Elk content frame zal %1  herhaald worden in de DCP.\n"
 #: src/lib/send_kdm_email_job.cc:52
 msgid "Email KDMs for %1"
 msgstr "Email KDMs voor %1"
+
+#: src/lib/send_problem_report_job.cc:49
+msgid "Email problem report for %1"
+msgstr ""
 
 #: src/lib/writer.cc:136
 msgid "Encoding image data"
@@ -377,7 +389,7 @@ msgstr "Gaussian"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:784
+#: src/lib/util.cc:780
 msgid "Hearing impaired"
 msgstr "Slechthorenden"
 
@@ -386,14 +398,10 @@ msgid "High quality 3D denoiser"
 msgstr "High quality 3D denoiser"
 
 #: src/lib/job.cc:112 src/lib/job.cc:122
-msgid ""
-"It is not known what caused this error.  Please report the problem to the "
-"DCP-o-matic author (carl@dcpomatic.com)."
+msgid "It is not known what caused this error."
 msgstr ""
-"Dit is een onbekende fout. U kunt deze het beste melden bij de DCP-o-matic "
-"maker (carl@dcpomatic.com)"
 
-#: src/lib/config.cc:212
+#: src/lib/config.cc:206
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM levering: $CPL_NAME"
 
@@ -405,23 +413,23 @@ msgstr "Kernel deinterlacer"
 msgid "Lanczos"
 msgstr "Lanczos"
 
-#: src/lib/util.cc:778
+#: src/lib/util.cc:774
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:786
+#: src/lib/util.cc:782
 msgid "Left centre"
 msgstr "Links midden"
 
-#: src/lib/util.cc:788
+#: src/lib/util.cc:784
 msgid "Left rear surround"
 msgstr "Links achter surround"
 
-#: src/lib/util.cc:782
+#: src/lib/util.cc:778
 msgid "Left surround"
 msgstr "links surround"
 
-#: src/lib/util.cc:781
+#: src/lib/util.cc:777
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -493,7 +501,7 @@ msgstr "Te weinig geheugen"
 msgid "Overcomplete wavelet denoiser"
 msgstr "Overcomplete wavelet denoiser"
 
-#: src/lib/video_content.cc:559
+#: src/lib/video_content.cc:581
 msgid "Padded with black to %1x%2"
 msgstr "Opgevuld met zwart tot %1x%2"
 
@@ -509,23 +517,23 @@ msgstr "Publieke Service aankondiging"
 msgid "Rating"
 msgstr "Beoordeling"
 
-#: src/lib/config.cc:92 src/lib/config.cc:196
+#: src/lib/config.cc:91 src/lib/config.cc:190
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/util.cc:779
+#: src/lib/util.cc:775
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:787
+#: src/lib/util.cc:783
 msgid "Right centre"
 msgstr "Rechts midden"
 
-#: src/lib/util.cc:789
+#: src/lib/util.cc:785
 msgid "Right rear surround"
 msgstr "Rechtsachter surround"
 
-#: src/lib/util.cc:783
+#: src/lib/util.cc:779
 msgid "Right surround"
 msgstr "Rechts surround"
 
@@ -533,7 +541,7 @@ msgstr "Rechts surround"
 msgid "SSH error (%1)"
 msgstr "SSH fout (%1)"
 
-#: src/lib/video_content.cc:550
+#: src/lib/video_content.cc:572
 msgid "Scaled to %1x%2"
 msgstr "Geschaald naar %1x%2"
 
@@ -628,7 +636,7 @@ msgstr "Bumper"
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte ZIP file inhoud"
 
-#: src/lib/image_proxy.cc:56
+#: src/lib/image_proxy.cc:47
 msgid "Unexpected image type received by server"
 msgstr "Onverwacht beeldtype ontvangen door server"
 
@@ -648,7 +656,7 @@ msgstr "Unsharp mask and Gaussian blur"
 msgid "Untitled"
 msgstr "Niet benoemd"
 
-#: src/lib/util.cc:785
+#: src/lib/util.cc:781
 msgid "Visually impaired"
 msgstr "Slechtzienden"
 
@@ -684,7 +692,7 @@ msgstr ""
 msgid "cannot contain slashes"
 msgstr "er mag geen '\" gebruikt worden"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:556
 msgid "connect timed out"
 msgstr "verbinding timeout"
 
@@ -756,43 +764,38 @@ msgstr "kan SSH sessie niet starten"
 msgid "could not write to file %1 (%2)"
 msgstr "kan niet schrijven naar bestand %1 (%2)"
 
-#: src/lib/util.cc:579
+#: src/lib/util.cc:576
 msgid "error during async_accept (%1)"
 msgstr "fout met async_accepteren (FTP) (%1)"
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:552
 msgid "error during async_connect (%1)"
 msgstr "fout met async_verbinden (FTP) (%1)"
 
-#: src/lib/util.cc:628
+#: src/lib/util.cc:625
 msgid "error during async_read (%1)"
 msgstr "fout met async_lezen (FTP) (%1)"
 
-#: src/lib/util.cc:600
+#: src/lib/util.cc:597
 msgid "error during async_write (%1)"
 msgstr "fout met async_schrijven (FTP) (%1)"
 
-#: src/lib/transcode_job.cc:98
-msgid "frames per second"
-msgstr "frames per seconde"
+#. / TRANSLATORS: fps here is an abbreviation for frames per second
+#: src/lib/transcode_job.cc:99
+msgid "fps"
+msgstr ""
 
-#: src/lib/util.cc:163
-msgid "hour"
-msgstr "uur"
+#. / TRANSLATORS: h here is an abbreviation for hours
+#: src/lib/util.cc:160 src/lib/util.cc:163
+msgid "h"
+msgstr ""
 
-#: src/lib/util.cc:159 src/lib/util.cc:165
-msgid "hours"
-msgstr "uren"
+#. / TRANSLATORS: m here is an abbreviation for minutes
+#: src/lib/util.cc:175 src/lib/util.cc:178
+msgid "m"
+msgstr ""
 
-#: src/lib/util.cc:181
-msgid "minute"
-msgstr "minuut"
-
-#: src/lib/util.cc:177 src/lib/util.cc:183
-msgid "minutes"
-msgstr "minuten"
-
-#: src/lib/util.cc:711
+#: src/lib/util.cc:708
 msgid "missing key %1 in key-value set"
 msgstr "ontbrekende key %1 in key-value set"
 
@@ -818,29 +821,54 @@ msgstr "naam"
 msgid "remaining"
 msgstr "resterend"
 
-#: src/lib/config.cc:90 src/lib/video_content.cc:207
+#. / TRANSLATORS: s here is an abbreviation for seconds
+#: src/lib/util.cc:189
+msgid "s"
+msgstr ""
+
+#: src/lib/config.cc:89 src/lib/video_content.cc:211
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/config.cc:91
+#: src/lib/config.cc:90
 msgid "sRGB non-linearised"
 msgstr "sRGB non-linearised"
-
-#: src/lib/util.cc:196
-msgid "second"
-msgstr "secondes"
-
-#: src/lib/util.cc:198
-msgid "seconds"
-msgstr "secondes"
 
 #: src/lib/image_content.cc:86
 msgid "still"
 msgstr "still"
 
-#: src/lib/ffmpeg_examiner.cc:207
+#: src/lib/ffmpeg_examiner.cc:218
 msgid "unknown"
 msgstr "onbekend"
+
+#~ msgid ""
+#~ "It is not known what caused this error.  Please report the problem to the "
+#~ "DCP-o-matic author (carl@dcpomatic.com)."
+#~ msgstr ""
+#~ "Dit is een onbekende fout. U kunt deze het beste melden bij de DCP-o-"
+#~ "matic maker (carl@dcpomatic.com)"
+
+#~ msgid "frames per second"
+#~ msgstr "frames per seconde"
+
+#~ msgid "hour"
+#~ msgstr "uur"
+
+#~ msgid "hours"
+#~ msgstr "uren"
+
+#~ msgid "minute"
+#~ msgstr "minuut"
+
+#~ msgid "minutes"
+#~ msgstr "minuten"
+
+#~ msgid "second"
+#~ msgstr "secondes"
+
+#~ msgid "seconds"
+#~ msgstr "secondes"
 
 #~ msgid "could not find audio decoder"
 #~ msgstr "kan geen audio decoder vinden"
