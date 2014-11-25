@@ -156,10 +156,10 @@ seconds_to_approximate_hms (int s)
 
 	if (hours) {
 		if (m > 30 && !minutes) {
-			/* TRANSLATORS: h here is an abbreviation for hours */
+			/// TRANSLATORS: h here is an abbreviation for hours
 			ap << (h + 1) << _("h");
 		} else {
-			/* TRANSLATORS: h here is an abbreviation for hours */
+			/// TRANSLATORS: h here is an abbreviation for hours
 			ap << h << _("h");
 		}
 
@@ -171,10 +171,10 @@ seconds_to_approximate_hms (int s)
 	if (minutes) {
 		/* Minutes */
 		if (s > 30 && !seconds) {
-			/* TRANSLATORS: m here is an abbreviation for minutes */
+			/// TRANSLATORS: m here is an abbreviation for minutes
 			ap << (m + 1) << _("m");
 		} else {
-			/* TRANSLATORS: m here is an abbreviation for minutes */
+			/// TRANSLATORS: m here is an abbreviation for minutes
 			ap << m << _("m");
 		}
 
@@ -185,7 +185,7 @@ seconds_to_approximate_hms (int s)
 
 	if (seconds) {
 		/* Seconds */
-		/* TRANSLATORS: s here is an abbreviation for seconds */
+		/// TRANSLATORS: s here is an abbreviation for seconds
 		ap << s << _("s");
 	}
 
@@ -767,10 +767,9 @@ audio_channel_name (int c)
 {
 	assert (MAX_DCP_AUDIO_CHANNELS == 12);
 
-	/* TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	   enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
-	   VI is the visually-impaired audio track (audio describe).
-	*/
+	/// TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
+	/// enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
+	/// VI is the visually-impaired audio track (audio describe).
 	string const channels[] = {
 		_("Left"),
 		_("Right"),
