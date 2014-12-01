@@ -85,8 +85,11 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		);
 	_frame_type->add (grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
-	
-	add_label_to_grid_bag_sizer (grid, this, _("Left crop"), true, wxGBPosition (r, 0));
+
+	int cr = 0;
+	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+
+	add_label_to_grid_bag_sizer (crop, this, _("Left crop"), true, wxGBPosition (cr, 0));
 	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -94,9 +97,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::left_crop),
 		boost::mem_fn (&VideoContent::set_left_crop)
 		);
-	_left_crop->add (grid, wxGBPosition (r, 1));
+	_left_crop->add (crop, wxGBPosition (cr, 1));
 
-	add_label_to_grid_bag_sizer (grid, this, _("Right crop"), true, wxGBPosition (r, 2));
+	add_label_to_grid_bag_sizer (crop, this, _("Right crop"), true, wxGBPosition (cr, 2));
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -104,11 +107,11 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::right_crop),
 		boost::mem_fn (&VideoContent::set_right_crop)
 		);
-	_right_crop->add (grid, wxGBPosition (r, 3));
+	_right_crop->add (crop, wxGBPosition (cr, 3));
+
+	++cr;
 	
-	++r;
-	
-	add_label_to_grid_bag_sizer (grid, this, _("Top crop"), true, wxGBPosition (r, 0));
+	add_label_to_grid_bag_sizer (crop, this, _("Top crop"), true, wxGBPosition (cr, 0));
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -116,9 +119,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::top_crop),
 		boost::mem_fn (&VideoContent::set_top_crop)
 		);
-	_top_crop->add (grid, wxGBPosition (r, 1));
-	
-	add_label_to_grid_bag_sizer (grid, this, _("Bottom crop"), true, wxGBPosition (r, 2));
+	_top_crop->add (crop, wxGBPosition (cr, 1));
+
+	add_label_to_grid_bag_sizer (crop, this, _("Bottom crop"), true, wxGBPosition (cr, 2));
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -126,9 +129,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		boost::mem_fn (&VideoContent::bottom_crop),
 		boost::mem_fn (&VideoContent::set_bottom_crop)
 		);
-	_bottom_crop->add (grid, wxGBPosition (r, 3));
-	
-	++r;
+	_bottom_crop->add (crop, wxGBPosition (cr, 3));
+
+	grid->Add (crop, wxGBPosition (r, 0), wxGBSpan (2, 3));
+	r += 2;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Fade in"), true, wxGBPosition (r, 0));
 	_fade_in = new Timecode<ContentTime> (this);
@@ -165,9 +169,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	++r;
 	
 	_enable_colour_conversion = new wxCheckBox (this, wxID_ANY, _("Colour conversion"));
-	grid->Add (_enable_colour_conversion, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	grid->Add (_enable_colour_conversion, wxGBPosition (r, 0), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
 	_colour_conversion = new wxStaticText (this, wxID_ANY, wxT (""), wxDefaultPosition, size);
-	grid->Add (_colour_conversion, wxGBPosition (r, 1), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
+	grid->Add (_colour_conversion, wxGBPosition (r, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
 	grid->Add (_colour_conversion_button, wxGBPosition (r, 3), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
