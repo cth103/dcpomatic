@@ -82,6 +82,9 @@ public:
 		_dialog = new wxMessageDialog (
 			0,
 			wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (name).data()),
+			/* TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
+			   project (Film) has been changed since it was last saved.
+			*/
 			_("Film changed"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
