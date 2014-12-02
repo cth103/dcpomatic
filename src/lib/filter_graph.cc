@@ -147,8 +147,9 @@ FilterGraph::process (AVFrame* frame)
 	if (_copy) {
 		images.push_back (make_pair (shared_ptr<Image> (new Image (frame)), av_frame_get_best_effort_timestamp (frame)));
 	} else {
-		if (av_buffersrc_write_frame (_buffer_src_context, frame) < 0) {
-			throw DecodeError (N_("could not push buffer into filter chain."));
+		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
+		if (r < 0) {
+			throw DecodeError (N_("could not push buffer into filter chain (%1)."), r);
 		}
 		
 		while (true) {
