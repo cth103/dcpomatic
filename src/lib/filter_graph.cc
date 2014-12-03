@@ -149,7 +149,7 @@ FilterGraph::process (AVFrame* frame)
 	} else {
 		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
 		if (r < 0) {
-			throw DecodeError (N_("could not push buffer into filter chain (%1)."), r);
+			throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)."), r));
 		}
 		
 		while (true) {
