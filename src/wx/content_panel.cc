@@ -258,6 +258,7 @@ ContentPanel::add_folder_clicked ()
 {
 	wxDirDialog* d = new wxDirDialog (_panel, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
 	int const r = d->ShowModal ();
+	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
 	
 	if (r != wxID_OK) {
@@ -267,10 +268,10 @@ ContentPanel::add_folder_clicked ()
 	shared_ptr<Content> content;
 	
 	try {
-		content.reset (new ImageContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
+		content.reset (new ImageContent (_film, path));
 	} catch (...) {
 		try {
-			content.reset (new DCPContent (_film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
+			content.reset (new DCPContent (_film, path));
 		} catch (...) {
 			error_dialog (_panel, _("Could not find any images nor a DCP in that folder"));
 			return;
