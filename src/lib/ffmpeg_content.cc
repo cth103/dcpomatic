@@ -382,7 +382,7 @@ FFmpegContent::audio_analysis_path () const
 	*/
 
 	boost::filesystem::path p = film->audio_analysis_dir ();
-	string name = digest ();
+	string name = digest().get_value_or ("X");
 	if (audio_stream ()) {
 		name += "_" + audio_stream()->identifier ();
 	}

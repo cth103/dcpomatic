@@ -181,7 +181,7 @@ AudioContent::audio_analysis_path () const
 	}
 
 	boost::filesystem::path p = film->audio_analysis_dir ();
-	p /= digest() + "_" + audio_mapping().digest();
+	p /= digest().get_value_or ("X") + "_" + audio_mapping().digest();
 	return p;
 }
 

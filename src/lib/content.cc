@@ -89,7 +89,7 @@ Content::Content (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	for (list<cxml::NodePtr>::const_iterator i = path_children.begin(); i != path_children.end(); ++i) {
 		_paths.push_back ((*i)->content ());
 	}
-	_digest = node->string_child ("Digest");
+	_digest = node->optional_string_child ("Digest");
 	_position = DCPTime (node->number_child<double> ("Position"));
 	_trim_start = DCPTime (node->number_child<double> ("TrimStart"));
 	_trim_end = DCPTime (node->number_child<double> ("TrimEnd"));
@@ -125,7 +125,9 @@ Content::as_xml (xmlpp::Node* node) const
 	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
 		node->add_child("Path")->add_child_text (i->string ());
 	}
-	node->add_child("Digest")->add_child_text (_digest);
+	if (_digest) {
+		node->add_child("Digest")->add_child_text (_digest.get ());
+	}
 	node->add_child("Position")->add_child_text (raw_convert<string> (_position.get ()));
 	node->add_child("TrimStart")->add_child_text (raw_convert<string> (_trim_start.get ()));
 	node->add_child("TrimEnd")->add_child_text (raw_convert<string> (_trim_end.get ()));

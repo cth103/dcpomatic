@@ -110,7 +110,7 @@ public:
 	bool paths_valid () const;
 
 	/** @return MD5 digest of the content's file(s) */
-	std::string digest () const {
+	boost::optional<std::string> digest () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _digest;
 	}
@@ -169,7 +169,7 @@ protected:
 	std::vector<boost::filesystem::path> _paths;
 	
 private:
-	std::string _digest;
+	boost::optional<std::string> _digest;
 	DCPTime _position;
 	DCPTime _trim_start;
 	DCPTime _trim_end;
