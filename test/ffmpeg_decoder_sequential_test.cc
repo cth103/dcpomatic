@@ -47,7 +47,7 @@ test (boost::filesystem::path file, float fps, int gaps)
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path)); 
-	film->examine_and_add_content (content);
+	film->examine_and_add_content (content, true);
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
 	FFmpegDecoder decoder (content, log);

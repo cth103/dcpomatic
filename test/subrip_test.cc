@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (subrip_render_test)
 {
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
 	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip.srt"));
-	content->examine (shared_ptr<Job> ());
+	content->examine (shared_ptr<Job> (), true);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
 	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));

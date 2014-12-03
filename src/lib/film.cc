@@ -948,20 +948,20 @@ Film::content () const
 }
 
 void
-Film::examine_content (shared_ptr<Content> c)
+Film::examine_content (shared_ptr<Content> c, bool calculate_digest)
 {
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, calculate_digest));
 	JobManager::instance()->add (j);
 }
 
 void
-Film::examine_and_add_content (shared_ptr<Content> c)
+Film::examine_and_add_content (shared_ptr<Content> c, bool calculate_digest)
 {
 	if (dynamic_pointer_cast<FFmpegContent> (c)) {
 		run_ffprobe (c->path(0), file ("ffprobe.log"), _log);
 	}
 			
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c, calculate_digest));
 	j->Finished.connect (bind (&Film::maybe_add_content, this, boost::weak_ptr<Job> (j), boost::weak_ptr<Content> (c)));
 	JobManager::instance()->add (j);
 }

@@ -221,14 +221,16 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	dcp::Size const vs = d->video_size ();
-	float const vfr = d->video_frame_rate ();
+	optional<float> const vfr = d->video_frame_rate ();
 	ContentTime vl = d->video_length ();
 	optional<float> const ar = d->sample_aspect_ratio ();
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_size = vs;
-		_video_frame_rate = vfr;
+		if (vfr) {
+			_video_frame_rate = vfr.get ();
+		}
 		_video_length = vl;
 		_sample_aspect_ratio = ar;
 

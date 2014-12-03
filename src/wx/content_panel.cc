@@ -35,6 +35,7 @@
 #include "subtitle_panel.h"
 #include "timing_panel.h"
 #include "timeline_dialog.h"
+#include "image_sequence_dialog.h"
 
 using std::list;
 using std::string;
@@ -247,7 +248,7 @@ ContentPanel::add_file_clicked ()
 	/* XXX: check for lots of files here and do something */
 
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])), true);
 	}
 
 	d->Destroy ();
@@ -257,7 +258,7 @@ void
 ContentPanel::add_folder_clicked ()
 {
 	wxDirDialog* d = new wxDirDialog (_panel, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
-	int const r = d->ShowModal ();
+	int r = d->ShowModal ();
 	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
 	
@@ -265,21 +266,47 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	shared_ptr<Content> content;
-	
-	try {
-		content.reset (new ImageContent (_film, path));
-	} catch (...) {
-		try {
-			content.reset (new DCPContent (_film, path));
-		} catch (...) {
-			error_dialog (_panel, _("Could not find any images nor a DCP in that folder"));
-			return;
+	/* Guess if this is a DCP or a set of images: read the first ten filenames and if they
+	   are all valid image files we assume it is a set of images.
+	*/
+
+	bool is_dcp = false;
+	int read = 0;
+	for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i, ++read) {
+		if (!boost::filesystem::is_regular_file (i->path()) || !valid_image_file (i->path())) {
+			is_dcp = true;
 		}
 	}
 
-	if (content) {
-		_film->examine_and_add_content (content);
+	if (is_dcp) {
+		try {
+			shared_ptr<DCPContent> content (new DCPContent (_film, path));
+			_film->examine_and_add_content (content, true);
+		} catch (...) {
+			error_dialog (_panel, _("Could not find a DCP in that folder."));
+		}
+	} else {
+		
+		ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
+		r = e->ShowModal ();
+		float const frame_rate = e->frame_rate ();
+		bool const digest = e->digest ();
+		e->Destroy ();
+
+		if (r != wxID_OK) {
+			return;
+		}
+
+		shared_ptr<Content> content;
+		
+		try {
+			shared_ptr<ImageContent> content (new ImageContent (_film, path));
+			content->set_video_frame_rate (frame_rate);
+			_film->examine_and_add_content (content, digest);
+		} catch (...) {
+			error_dialog (_panel, _("Could not find any images in that folder"));
+			return;
+		}
 	}
 }
 
@@ -464,6 +491,6 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 	
 	wxString* paths = event.GetFiles ();
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])), true);
 	}
 }

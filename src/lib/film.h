@@ -250,8 +250,8 @@ public:
 	void set_directory (boost::filesystem::path);
 	void set_name (std::string);
 	void set_use_isdcf_name (bool);
-	void examine_content (boost::shared_ptr<Content>);
-	void examine_and_add_content (boost::shared_ptr<Content>);
+	void examine_content (boost::shared_ptr<Content>, bool calculate_digest);
+	void examine_and_add_content (boost::shared_ptr<Content>, bool calculate_digest);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void move_content_earlier (boost::shared_ptr<Content>);

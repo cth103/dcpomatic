@@ -44,9 +44,9 @@ DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::Const
 }
 
 void
-DCPSubtitleContent::examine (shared_ptr<Job> job)
+DCPSubtitleContent::examine (shared_ptr<Job> job, bool calculate_digest)
 {
-	Content::examine (job);
+	Content::examine (job, calculate_digest);
 	dcp::SubtitleContent sc (path (0), false);
 	_length = DCPTime::from_seconds (sc.latest_subtitle_out().to_seconds ());
 }

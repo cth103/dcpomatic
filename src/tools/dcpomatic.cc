@@ -786,7 +786,7 @@ class App : public wxApp
 		if (!_film_to_create.empty ()) {
 			_frame->new_film (_film_to_create);
 			if (!_content_to_add.empty ()) {
-				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add));
+				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add), true);
 			}
 		}
 

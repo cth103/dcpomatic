@@ -77,12 +77,12 @@ DCPContent::read_directory (boost::filesystem::path p)
 }
 
 void
-DCPContent::examine (shared_ptr<Job> job)
+DCPContent::examine (shared_ptr<Job> job, bool calculate_digest)
 {
 	bool const could_be_played = can_be_played ();
 		
 	job->set_progress_unknown ();
-	Content::examine (job);
+	Content::examine (job, calculate_digest);
 	
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);

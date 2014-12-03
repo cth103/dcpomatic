@@ -56,7 +56,7 @@ public:
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
 	}
 	
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<Job>, bool calculate_digest);
 	std::string summary () const;
 	std::string technical_summary () const;
 	std::string information () const;

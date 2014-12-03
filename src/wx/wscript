@@ -18,6 +18,7 @@ sources = """
           content_panel.cc
           content_sub_panel.cc
           dcp_panel.cc
+          image_sequence_dialog.cc
           isdcf_metadata_dialog.cc
           dir_picker_ctrl.cc
           dolby_certificate_dialog.cc

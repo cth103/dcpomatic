@@ -26,7 +26,7 @@ public:
 	DCPSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
 	/* Content */
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<Job>, bool calculate_digest);
 	std::string summary () const;
 	std::string technical_summary () const;
 	std::string information () const;

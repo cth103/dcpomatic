@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,28 +17,18 @@
 
 */
 
-#include "video_examiner.h"
+#include <wx/wx.h>
+#include "table_dialog.h"
 
-namespace Magick {
-	class Image;
-}
-
-class ImageContent;
-
-class ImageExaminer : public VideoExaminer
+class ImageSequenceDialog : public TableDialog
 {
 public:
-	ImageExaminer (boost::shared_ptr<const Film>, boost::shared_ptr<const ImageContent>, boost::shared_ptr<Job>);
+	ImageSequenceDialog (wxWindow* parent);
 
-	boost::optional<float> video_frame_rate () const;
-	dcp::Size video_size () const;
-	ContentTime video_length () const {
-		return _video_length;
-	}
+	float frame_rate () const;
+	bool digest () const;
 
 private:
-	boost::weak_ptr<const Film> _film;
-	boost::shared_ptr<const ImageContent> _image_content;
-	boost::optional<dcp::Size> _video_size;
-	ContentTime _video_length;
+	wxTextCtrl* _frame_rate;
+	wxCheckBox* _digest;
 };

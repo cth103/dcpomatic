@@ -32,7 +32,7 @@ class VideoExaminer
 {
 public:
 	virtual ~VideoExaminer () {}
-	virtual float video_frame_rate () const = 0;
+	virtual boost::optional<float> video_frame_rate () const = 0;
 	virtual dcp::Size video_size () const = 0;
 	virtual ContentTime video_length () const = 0;
 	virtual boost::optional<float> sample_aspect_ratio () const {

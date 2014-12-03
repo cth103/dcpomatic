@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	film->set_name ("frobozz");
 	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/white.wav"));
 	content->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
-	film->examine_and_add_content (content);
+	film->examine_and_add_content (content, true);
 
 	wait_for_jobs ();
 

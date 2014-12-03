@@ -29,9 +29,10 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-ExamineContentJob::ExamineContentJob (shared_ptr<const Film> f, shared_ptr<Content> c)
+ExamineContentJob::ExamineContentJob (shared_ptr<const Film> f, shared_ptr<Content> c, bool calculate_digest)
 	: Job (f)
 	, _content (c)
+	, _calculate_digest (calculate_digest)
 {
 
 }
@@ -49,7 +50,7 @@ ExamineContentJob::name () const
 void
 ExamineContentJob::run ()
 {
-	_content->examine (shared_from_this ());
+	_content->examine (shared_from_this (), _calculate_digest);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

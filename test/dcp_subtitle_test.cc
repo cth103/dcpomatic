@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
-	film->examine_and_add_content (content);
+	film->examine_and_add_content (content, true);
 	wait_for_jobs ();
 
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (2));

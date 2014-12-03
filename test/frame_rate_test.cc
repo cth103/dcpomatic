@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	shared_ptr<Film> film = new_test_film ("audio_sampling_rate_test");
 	/* Get any piece of content, it doesn't matter what */
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
-	film->examine_and_add_content (content);
+	film->examine_and_add_content (content, true);
 	wait_for_jobs ();
 	
 	std::list<int> afr;

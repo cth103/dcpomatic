@@ -67,8 +67,9 @@ public:
 	/** Examine the content to establish digest, frame rates and any other
 	 *  useful metadata.
 	 *  @param job Job to use to report progress, or 0.
+	 *  @param calculate_digest True to calculate a digest for the content's file(s).
 	 */
-	virtual void examine (boost::shared_ptr<Job> job);
+	virtual void examine (boost::shared_ptr<Job> job, bool calculate_digest);
 	
 	/** @return Quick one-line summary of the content, as will be presented in the
 	 *  film editor.

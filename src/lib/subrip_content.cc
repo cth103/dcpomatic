@@ -47,9 +47,9 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 }
 
 void
-SubRipContent::examine (boost::shared_ptr<Job> job)
+SubRipContent::examine (boost::shared_ptr<Job> job, bool calculate_digest)
 {
-	Content::examine (job);
+	Content::examine (job, calculate_digest);
 	SubRip s (shared_from_this ());
 
 	shared_ptr<const Film> film = _film.lock ();

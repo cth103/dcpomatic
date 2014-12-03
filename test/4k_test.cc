@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 	film->set_resolution (RESOLUTION_4K);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
-	film->examine_and_add_content (c);
+	film->examine_and_add_content (c, true);
 	wait_for_jobs ();
 
 	film->make_dcp ();

@@ -52,7 +52,7 @@ public:
 
 	DCPTime full_length () const;
 	
-	void examine (boost::shared_ptr<Job>);
+	void examine (boost::shared_ptr<Job>, bool calculate_digest);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *) const;

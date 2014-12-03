@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	film->set_burn_subtitles (true);
 	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
 	content->set_use_subtitles (true);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content (content, true);
 	wait_for_jobs ();
 	film->make_dcp ();
 	wait_for_jobs ();
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	film->set_burn_subtitles (true);
 	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
 	content->set_use_subtitles (true);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content (content, true);
 	wait_for_jobs ();
 	film->make_dcp ();
 	wait_for_jobs ();

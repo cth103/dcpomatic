@@ -32,6 +32,7 @@
 #include "exceptions.h"
 #include "film.h"
 #include "safe_stringstream.h"
+#include "job.h"
 
 #include "i18n.h"
 
@@ -131,8 +132,14 @@ Content::as_xml (xmlpp::Node* node) const
 }
 
 void
-Content::examine (shared_ptr<Job> job)
+Content::examine (shared_ptr<Job> job, bool calculate_digest)
 {
+	if (!calculate_digest) {
+		return;
+	}
+
+	job->sub (_("Computing digest"));
+	
 	boost::mutex::scoped_lock lm (_mutex);
 	vector<boost::filesystem::path> p = _paths;
 	lm.unlock ();

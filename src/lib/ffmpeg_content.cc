@@ -163,11 +163,11 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-FFmpegContent::examine (shared_ptr<Job> job)
+FFmpegContent::examine (shared_ptr<Job> job, bool calculate_digest)
 {
 	job->set_progress_unknown ();
 
-	Content::examine (job);
+	Content::examine (job, calculate_digest);
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);

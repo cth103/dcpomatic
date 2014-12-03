@@ -29,7 +29,7 @@ class FFmpegExaminer : public FFmpeg, public VideoExaminer
 public:
 	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>);
 	
-	float video_frame_rate () const;
+	boost::optional<float> video_frame_rate () const;
 	dcp::Size video_size () const;
 	ContentTime video_length () const;
 	boost::optional<float> sample_aspect_ratio () const;

@@ -156,7 +156,7 @@ FFmpegExaminer::frame_time (AVStream* s) const
 	return t;
 }
 
-float
+optional<float>
 FFmpegExaminer::video_frame_rate () const
 {
 	/* This use of r_frame_rate is debateable; there's a few different
