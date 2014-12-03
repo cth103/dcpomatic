@@ -151,6 +151,7 @@ private:
 	bool _have_valid_pieces;
 	std::list<boost::shared_ptr<Piece> > _pieces;
 
+	/** Size of the image in the DCP (e.g. 1990x1080 for flat) */
 	dcp::Size _video_container_size;
 	boost::shared_ptr<Image> _black_image;
 

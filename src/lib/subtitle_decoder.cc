@@ -34,6 +34,9 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const SubtitleContent> c)
 
 /** Called by subclasses when an image subtitle is ready.
  *  Image may be 0 to say that there is no current subtitle.
+ *  @param rect Area expressed as a fraction of the video frame that this subtitle
+ *  is for (e.g. a width of 0.5 means the width of the subtitle is half the width
+ *  of the video frame)
  */
 void
 SubtitleDecoder::image_subtitle (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
