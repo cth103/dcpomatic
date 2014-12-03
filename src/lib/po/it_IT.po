@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-02-03 10:48+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -81,7 +81,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Pubblicità"
 
-#: src/lib/job.cc:72
+#: src/lib/job.cc:74
 msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
@@ -110,7 +110,7 @@ msgstr "Bicubica"
 msgid "Bilinear"
 msgstr "Bilineare"
 
-#: src/lib/job.cc:325
+#: src/lib/job.cc:330
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -251,7 +251,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:91
+#: src/lib/job.cc:93
 msgid "Could not open %1"
 msgstr "Non riesco ad aprire %1"
 
@@ -290,7 +290,7 @@ msgstr "Il DCP andrà al %1%% della velocità del sorgente.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "Il DCP userà ogni altro fotogramma del sorgente.\n"
 
-#: src/lib/job.cc:92
+#: src/lib/job.cc:94
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -360,7 +360,7 @@ msgstr ""
 msgid "Encoding image data"
 msgstr ""
 
-#: src/lib/job.cc:323
+#: src/lib/job.cc:328
 msgid "Error (%1)"
 msgstr "Errore (%1)"
 
@@ -408,7 +408,7 @@ msgstr ""
 msgid "High quality 3D denoiser"
 msgstr "Riduttore di rumore 3D di alta qualità"
 
-#: src/lib/job.cc:112 src/lib/job.cc:122
+#: src/lib/job.cc:114 src/lib/job.cc:124
 msgid "It is not known what caused this error."
 msgstr ""
 
@@ -490,7 +490,7 @@ msgstr ""
 msgid "Noise reduction"
 msgstr "Riduzione del rumore"
 
-#: src/lib/job.cc:321
+#: src/lib/job.cc:326
 msgid "OK (ran for %1)"
 msgstr "OK (eseguito in %1)"
 
@@ -502,7 +502,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "Out of memory"
 msgstr ""
 
@@ -601,7 +601,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/job.cc:78
+#: src/lib/job.cc:80
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -609,7 +609,7 @@ msgstr ""
 "Sul disco dove è memorizzato il film non c'è abbastanza spazio. Liberare "
 "altro spazio e riprovare."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "There was not enough memory to do this."
 msgstr ""
 
@@ -655,7 +655,7 @@ msgstr ""
 msgid "Unexpected image type received by server"
 msgstr ""
 
-#: src/lib/job.cc:121
+#: src/lib/job.cc:123
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
@@ -835,7 +835,7 @@ msgstr "nome"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:318
+#: src/lib/job.cc:323
 msgid "remaining"
 msgstr "restano"
 

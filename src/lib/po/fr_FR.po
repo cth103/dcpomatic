@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-07-14 12:04+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -81,7 +81,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Advertisement"
 
-#: src/lib/job.cc:72
+#: src/lib/job.cc:74
 msgid "An error occurred whilst handling the file %1."
 msgstr "Une erreur s'est produite lors du traitement du fichier %1."
 
@@ -109,7 +109,7 @@ msgstr "Bicubique"
 msgid "Bilinear"
 msgstr "Bilinéaire"
 
-#: src/lib/job.cc:325
+#: src/lib/job.cc:330
 msgid "Cancelled"
 msgstr "Annulé"
 
@@ -246,7 +246,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:91
+#: src/lib/job.cc:93
 msgid "Could not open %1"
 msgstr "lecture du fichier %1 impossible"
 
@@ -282,7 +282,7 @@ msgstr "Le DCP sera lu à %1%% de la vitesse du contenu source.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "Le DCP utilisera les autres images de la source.\n"
 
-#: src/lib/job.cc:92
+#: src/lib/job.cc:94
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -353,7 +353,7 @@ msgstr ""
 msgid "Encoding image data"
 msgstr "encodage des données image"
 
-#: src/lib/job.cc:323
+#: src/lib/job.cc:328
 msgid "Error (%1)"
 msgstr "Erreur (%1)"
 
@@ -401,7 +401,7 @@ msgstr "Déficients Auditifs"
 msgid "High quality 3D denoiser"
 msgstr "Débruiteur 3D haute qualité"
 
-#: src/lib/job.cc:112 src/lib/job.cc:122
+#: src/lib/job.cc:114 src/lib/job.cc:124
 msgid "It is not known what caused this error."
 msgstr ""
 
@@ -481,7 +481,7 @@ msgstr "Aucun fichier image valide dans ce dossier."
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
 
-#: src/lib/job.cc:321
+#: src/lib/job.cc:326
 msgid "OK (ran for %1)"
 msgstr "OK (processus %1)"
 
@@ -493,7 +493,7 @@ msgstr "Seul le premier contenu à ajouter peut être rogné au point d'entrée.
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Seul le dernier contenu à ajouter peut être rogné au point de sortie."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "Out of memory"
 msgstr "Hors capacité mémoire"
 
@@ -590,7 +590,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/job.cc:78
+#: src/lib/job.cc:80
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -598,7 +598,7 @@ msgstr ""
 "Le disque contenant le film est presque plein. Libérez de l'espace et "
 "essayez à nouveau."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "There was not enough memory to do this."
 msgstr "Il n'y avait pas assez de mémoire pour faire cela."
 
@@ -640,7 +640,7 @@ msgstr "Contenu de fichier ZIP non géré."
 msgid "Unexpected image type received by server"
 msgstr "Type d'image non conforme reçu par le serveur"
 
-#: src/lib/job.cc:121
+#: src/lib/job.cc:123
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -819,7 +819,7 @@ msgstr "nom"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:318
+#: src/lib/job.cc:323
 msgid "remaining"
 msgstr "restant"
 

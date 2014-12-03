@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-09-04 20:34+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -82,7 +82,7 @@ msgstr "Academie"
 msgid "Advertisement"
 msgstr "Advertentie"
 
-#: src/lib/job.cc:72
+#: src/lib/job.cc:74
 msgid "An error occurred whilst handling the file %1."
 msgstr "Er is een fout opgetreden met bestand %1."
 
@@ -110,7 +110,7 @@ msgstr "Bicubic"
 msgid "Bilinear"
 msgstr "Bilinear"
 
-#: src/lib/job.cc:325
+#: src/lib/job.cc:330
 msgid "Cancelled"
 msgstr "Afgebroken"
 
@@ -241,7 +241,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:91
+#: src/lib/job.cc:93
 msgid "Could not open %1"
 msgstr "Kan niet openen %1"
 
@@ -277,7 +277,7 @@ msgstr "DCP renderd met %1%% van de content framerate.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP zal alleen elk ander frame van de content gebruiken.\n"
 
-#: src/lib/job.cc:92
+#: src/lib/job.cc:94
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Encoding image data"
 msgstr "Encoding bestandsdata"
 
-#: src/lib/job.cc:323
+#: src/lib/job.cc:328
 msgid "Error (%1)"
 msgstr "Fout (%1)"
 
@@ -397,7 +397,7 @@ msgstr "Slechthorenden"
 msgid "High quality 3D denoiser"
 msgstr "High quality 3D denoiser"
 
-#: src/lib/job.cc:112 src/lib/job.cc:122
+#: src/lib/job.cc:114 src/lib/job.cc:124
 msgid "It is not known what caused this error."
 msgstr ""
 
@@ -477,7 +477,7 @@ msgstr "Geen geldige beeldbestanden gevonden in deze map."
 msgid "Noise reduction"
 msgstr "Ruis reductie"
 
-#: src/lib/job.cc:321
+#: src/lib/job.cc:326
 msgid "OK (ran for %1)"
 msgstr "OK (bezig.. %1)"
 
@@ -493,7 +493,7 @@ msgstr ""
 "Alleen het laatste deel van de toegevoegde content kan een eind trim "
 "bevatten."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "Out of memory"
 msgstr "Te weinig geheugen"
 
@@ -590,7 +590,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/job.cc:78
+#: src/lib/job.cc:80
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -598,7 +598,7 @@ msgstr ""
 "De harddisk waar de film is opgeslagen heeft te weinig ruimte.  Maak rumte "
 "en probeer opnieuw."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "There was not enough memory to do this."
 msgstr "Er was niet genoeg geheugen om dit uit te voeren."
 
@@ -640,7 +640,7 @@ msgstr "Onverwachte ZIP file inhoud"
 msgid "Unexpected image type received by server"
 msgstr "Onverwacht beeldtype ontvangen door server"
 
-#: src/lib/job.cc:121
+#: src/lib/job.cc:123
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -817,7 +817,7 @@ msgstr "naam"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:318
+#: src/lib/job.cc:323
 msgid "remaining"
 msgstr "resterend"
 

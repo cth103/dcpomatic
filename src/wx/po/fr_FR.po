@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-07-14 11:27+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -49,7 +49,7 @@ msgstr "-6dB"
 msgid "1 / "
 msgstr "1/"
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:198
 msgid "2D"
 msgstr "2D"
 
@@ -65,23 +65,23 @@ msgstr "2K"
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:201
 msgid "3D alternate"
 msgstr "3D alternatif"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:202
 msgid "3D left only"
 msgstr "3D gauche"
 
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:199
 msgid "3D left/right"
 msgstr "3D gauche/droite"
 
-#: src/wx/video_panel.cc:199
+#: src/wx/video_panel.cc:203
 msgid "3D right only"
 msgstr "3D droite"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:200
 msgid "3D top/bottom"
 msgstr "3D dessus/dessous"
 
@@ -198,7 +198,7 @@ msgstr "Adresse CC"
 msgid "Bad setting for %s (%s)"
 msgstr "Mauvais réglage pour %s (%s)"
 
-#: src/wx/video_panel.cc:121
+#: src/wx/video_panel.cc:124
 msgid "Bottom crop"
 msgstr "Rogner en bas"
 
@@ -308,7 +308,7 @@ msgid "Colour Conversions"
 msgstr "Conversions Couleurs"
 
 #: src/wx/content_colour_conversion_dialog.cc:34
-#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:167
+#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:171
 msgid "Colour conversion"
 msgstr "Espace Couleurs"
 
@@ -372,7 +372,7 @@ msgstr "Pays"
 msgid "Create in folder"
 msgstr "Créer dans le dossier"
 
-#: src/wx/video_panel.cc:248
+#: src/wx/video_panel.cc:252
 msgid "Custom"
 msgstr "Personnalisé"
 
@@ -485,7 +485,7 @@ msgid "Edit Screen..."
 msgstr "Éditer la salle"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:277
-#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:171
+#: src/wx/video_panel.cc:167 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Éditer..."
@@ -518,11 +518,11 @@ msgstr ""
 msgid "Facility (e.g. DLA)"
 msgstr "Laboratoire (ex. DLA)"
 
-#: src/wx/video_panel.cc:133
+#: src/wx/video_panel.cc:137
 msgid "Fade in"
 msgstr ""
 
-#: src/wx/video_panel.cc:138
+#: src/wx/video_panel.cc:142
 msgid "Fade out"
 msgstr ""
 
@@ -540,7 +540,7 @@ msgstr "Propriétés du film"
 msgid "Film name"
 msgstr "Nom du Film"
 
-#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:160
+#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:164
 msgid "Filters"
 msgstr "Filtres"
 
@@ -693,7 +693,7 @@ msgstr ""
 msgid "Leaf common name"
 msgstr ""
 
-#: src/wx/video_panel.cc:89
+#: src/wx/video_panel.cc:92
 msgid "Left crop"
 msgstr "Rogner à gauche"
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Move the selected piece of content later in the film."
 msgstr ""
 
-#: src/wx/video_panel.cc:315
+#: src/wx/video_panel.cc:319
 msgid "Multiple content selected"
 msgstr "Contenus multiples sélectionnés"
 
@@ -809,8 +809,8 @@ msgstr "De nouvelles versions de DCP-o-matic sont disponibles."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Aucun son ne passera du canal audio %d au canal %d du DCP."
 
-#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:161
-#: src/wx/video_panel.cc:253 src/wx/video_panel.cc:262
+#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:165
+#: src/wx/video_panel.cc:257 src/wx/video_panel.cc:266
 msgid "None"
 msgstr "Aucun"
 
@@ -988,7 +988,7 @@ msgstr "Reprendre"
 msgid "Right click to change gain."
 msgstr "Cliquez droit pour modifier le gain."
 
-#: src/wx/video_panel.cc:99
+#: src/wx/video_panel.cc:102
 msgid "Right crop"
 msgstr "Rogner à droite"
 
@@ -1008,7 +1008,7 @@ msgstr "Sr.D"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/video_panel.cc:143
+#: src/wx/video_panel.cc:147
 msgid "Scale to"
 msgstr "Mise à l'échelle"
 
@@ -1206,7 +1206,7 @@ msgstr "Timeline..."
 msgid "Timing|Timing"
 msgstr "Temps"
 
-#: src/wx/video_panel.cc:111
+#: src/wx/video_panel.cc:114
 msgid "Top crop"
 msgstr "Rogner en haut"
 

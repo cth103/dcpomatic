@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-10-24 23:00-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -48,7 +48,7 @@ msgstr "-6dB"
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:198
 msgid "2D"
 msgstr "2D"
 
@@ -64,23 +64,23 @@ msgstr "2K"
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:201
 msgid "3D alternate"
 msgstr "3D alterno"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:202
 msgid "3D left only"
 msgstr "3D sólo izquierda"
 
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:199
 msgid "3D left/right"
 msgstr "3D izquierda/derecha"
 
-#: src/wx/video_panel.cc:199
+#: src/wx/video_panel.cc:203
 msgid "3D right only"
 msgstr "3D sólo derecha"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:200
 msgid "3D top/bottom"
 msgstr "3D arriba/abajo"
 
@@ -199,7 +199,7 @@ msgstr "Dirección CCO"
 msgid "Bad setting for %s (%s)"
 msgstr "Configuración erronea para %s (%s)"
 
-#: src/wx/video_panel.cc:121
+#: src/wx/video_panel.cc:124
 msgid "Bottom crop"
 msgstr "Recortar abajo"
 
@@ -309,7 +309,7 @@ msgid "Colour Conversions"
 msgstr "Conversiones de color"
 
 #: src/wx/content_colour_conversion_dialog.cc:34
-#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:167
+#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:171
 msgid "Colour conversion"
 msgstr "Conversión de color"
 
@@ -373,7 +373,7 @@ msgstr "País"
 msgid "Create in folder"
 msgstr "Crear en carpeta"
 
-#: src/wx/video_panel.cc:248
+#: src/wx/video_panel.cc:252
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -486,7 +486,7 @@ msgid "Edit Screen..."
 msgstr "Editar pantalla..."
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:277
-#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:171
+#: src/wx/video_panel.cc:167 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Editar..."
@@ -519,11 +519,11 @@ msgstr "Exportar el certificado de desencriptación de DCP..."
 msgid "Facility (e.g. DLA)"
 msgstr "Compañía (ej. DLA)"
 
-#: src/wx/video_panel.cc:133
+#: src/wx/video_panel.cc:137
 msgid "Fade in"
 msgstr "Fundido de entrada"
 
-#: src/wx/video_panel.cc:138
+#: src/wx/video_panel.cc:142
 msgid "Fade out"
 msgstr "Fundido de salida"
 
@@ -541,7 +541,7 @@ msgstr "Propiedades de la película"
 msgid "Film name"
 msgstr "Nombre de la película"
 
-#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:160
+#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:164
 msgid "Filters"
 msgstr "Filtros"
 
@@ -695,7 +695,7 @@ msgstr "Hoja"
 msgid "Leaf common name"
 msgstr "Nombre común de hoja"
 
-#: src/wx/video_panel.cc:89
+#: src/wx/video_panel.cc:92
 msgid "Left crop"
 msgstr "Recorte izquierda"
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Move the selected piece of content later in the film."
 msgstr ""
 
-#: src/wx/video_panel.cc:315
+#: src/wx/video_panel.cc:319
 msgid "Multiple content selected"
 msgstr "Varios contenidos seleccionados"
 
@@ -809,8 +809,8 @@ msgstr "Nuevas versiones disponibles de DCP-o-matic."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "No pasará audio del canal de origen %d al canal %d del DCP."
 
-#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:161
-#: src/wx/video_panel.cc:253 src/wx/video_panel.cc:262
+#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:165
+#: src/wx/video_panel.cc:257 src/wx/video_panel.cc:266
 msgid "None"
 msgstr "Ninguno"
 
@@ -985,7 +985,7 @@ msgstr "Continuar"
 msgid "Right click to change gain."
 msgstr "Click derecho para cambiar la ganancia."
 
-#: src/wx/video_panel.cc:99
+#: src/wx/video_panel.cc:102
 msgid "Right crop"
 msgstr "Recorte derecha"
 
@@ -1005,7 +1005,7 @@ msgstr "Rs"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/video_panel.cc:143
+#: src/wx/video_panel.cc:147
 msgid "Scale to"
 msgstr "Redimensionar a"
 
@@ -1199,7 +1199,7 @@ msgstr "Linea de tiempo..."
 msgid "Timing|Timing"
 msgstr "Tiempo|Tiempo"
 
-#: src/wx/video_panel.cc:111
+#: src/wx/video_panel.cc:114
 msgid "Top crop"
 msgstr "Recortar arriba"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-10-24 16:11-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -81,7 +81,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Publicidad"
 
-#: src/lib/job.cc:72
+#: src/lib/job.cc:74
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ha ocurrido un error con el fichero %1."
 
@@ -109,7 +109,7 @@ msgstr "Bicúbico"
 msgid "Bilinear"
 msgstr "Bilineal"
 
-#: src/lib/job.cc:325
+#: src/lib/job.cc:330
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -238,7 +238,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:91
+#: src/lib/job.cc:93
 msgid "Could not open %1"
 msgstr "No se pudo abrir %1"
 
@@ -274,7 +274,7 @@ msgstr "El DCP se reproducirá al %1%% de la velocidad de la fuente.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "El DCP usará imágenes alternas de la fuente.\n"
 
-#: src/lib/job.cc:92
+#: src/lib/job.cc:94
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -345,7 +345,7 @@ msgstr ""
 msgid "Encoding image data"
 msgstr "Codificando imagen"
 
-#: src/lib/job.cc:323
+#: src/lib/job.cc:328
 msgid "Error (%1)"
 msgstr "Error (%1)"
 
@@ -393,7 +393,7 @@ msgstr "Sordos"
 msgid "High quality 3D denoiser"
 msgstr "Reductor de ruido 3D de alta calidad"
 
-#: src/lib/job.cc:112 src/lib/job.cc:122
+#: src/lib/job.cc:114 src/lib/job.cc:124
 msgid "It is not known what caused this error."
 msgstr ""
 
@@ -473,7 +473,7 @@ msgstr "No se encontraron imágenes válidas en la carpeta."
 msgid "Noise reduction"
 msgstr "Reducción de ruido"
 
-#: src/lib/job.cc:321
+#: src/lib/job.cc:326
 msgid "OK (ran for %1)"
 msgstr "OK (ejecución %1)"
 
@@ -486,7 +486,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Solo la última pieza a ser unida puede tener un recorte en su final."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "Out of memory"
 msgstr "Falta de memoria"
 
@@ -585,7 +585,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr "La cadena de certificados para firmar no es válida"
 
-#: src/lib/job.cc:78
+#: src/lib/job.cc:80
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -593,7 +593,7 @@ msgstr ""
 "En el dispositivo donde se encuentra la película queda poco espacio. Libere "
 "espacio en el disco y pruebe de nuevo."
 
-#: src/lib/job.cc:104
+#: src/lib/job.cc:106
 msgid "There was not enough memory to do this."
 msgstr "No hubo suficiente memoria para hacer esto."
 
@@ -636,7 +636,7 @@ msgstr "Contenidos inesperados del fichero ZIP"
 msgid "Unexpected image type received by server"
 msgstr "El servidor recibió un tipo de imagen inesperada"
 
-#: src/lib/job.cc:121
+#: src/lib/job.cc:123
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -813,7 +813,7 @@ msgstr "nombre"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:318
+#: src/lib/job.cc:323
 msgid "remaining"
 msgstr "pendiente"
 

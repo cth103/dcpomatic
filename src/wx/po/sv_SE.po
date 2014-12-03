@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-24 12:04+0000\n"
+"POT-Creation-Date: 2014-12-03 09:24+0000\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:198
 msgid "2D"
 msgstr "2D"
 
@@ -65,24 +65,24 @@ msgstr "2K"
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:201
 msgid "3D alternate"
 msgstr ""
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:202
 msgid "3D left only"
 msgstr ""
 
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:199
 msgid "3D left/right"
 msgstr "3D left/right"
 
-#: src/wx/video_panel.cc:199
+#: src/wx/video_panel.cc:203
 #, fuzzy
 msgid "3D right only"
 msgstr "3D left/right"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:200
 msgid "3D top/bottom"
 msgstr "3D top/bottom"
 
@@ -200,7 +200,7 @@ msgstr "IP-adress"
 msgid "Bad setting for %s (%s)"
 msgstr "Felaktig inställning för %s (%s)"
 
-#: src/wx/video_panel.cc:121
+#: src/wx/video_panel.cc:124
 msgid "Bottom crop"
 msgstr "Nedre beskärning"
 
@@ -316,7 +316,7 @@ msgid "Colour Conversions"
 msgstr "Färgkonverteringar"
 
 #: src/wx/content_colour_conversion_dialog.cc:34
-#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:167
+#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:171
 msgid "Colour conversion"
 msgstr "Färgkonvertering"
 
@@ -383,7 +383,7 @@ msgid "Create in folder"
 msgstr "Skapa i katalog"
 
 # sammanhang?
-#: src/wx/video_panel.cc:248
+#: src/wx/video_panel.cc:252
 msgid "Custom"
 msgstr "Special"
 
@@ -500,7 +500,7 @@ msgid "Edit Screen..."
 msgstr "Redigera Skärm..."
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:277
-#: src/wx/video_panel.cc:163 src/wx/video_panel.cc:171
+#: src/wx/video_panel.cc:167 src/wx/video_panel.cc:175
 #: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Redigera..."
@@ -533,11 +533,11 @@ msgstr ""
 msgid "Facility (e.g. DLA)"
 msgstr "Företag (ex. DLA)"
 
-#: src/wx/video_panel.cc:133
+#: src/wx/video_panel.cc:137
 msgid "Fade in"
 msgstr ""
 
-#: src/wx/video_panel.cc:138
+#: src/wx/video_panel.cc:142
 msgid "Fade out"
 msgstr ""
 
@@ -556,7 +556,7 @@ msgstr "Film Egenskaper"
 msgid "Film name"
 msgstr "Filmnamn"
 
-#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:160
+#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:164
 msgid "Filters"
 msgstr "Filter"
 
@@ -716,7 +716,7 @@ msgstr ""
 msgid "Leaf common name"
 msgstr ""
 
-#: src/wx/video_panel.cc:89
+#: src/wx/video_panel.cc:92
 msgid "Left crop"
 msgstr "Vänster beskärning"
 
@@ -798,7 +798,7 @@ msgid "Move the selected piece of content later in the film."
 msgstr ""
 
 # Låter mysko
-#: src/wx/video_panel.cc:315
+#: src/wx/video_panel.cc:319
 msgid "Multiple content selected"
 msgstr "Flera innehåll valda"
 
@@ -835,8 +835,8 @@ msgstr ""
 "Ingen audio kommer att överföras från innehållskanalen %d till DCP-kanalen "
 "%d."
 
-#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:161
-#: src/wx/video_panel.cc:253 src/wx/video_panel.cc:262
+#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:165
+#: src/wx/video_panel.cc:257 src/wx/video_panel.cc:266
 msgid "None"
 msgstr "Inget"
 
@@ -1016,7 +1016,7 @@ msgstr "Fortsätt"
 msgid "Right click to change gain."
 msgstr "Högerklicka för att ändra förstärkning."
 
-#: src/wx/video_panel.cc:99
+#: src/wx/video_panel.cc:102
 msgid "Right crop"
 msgstr "Höger beskärning"
 
@@ -1036,7 +1036,7 @@ msgstr "Hs"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/video_panel.cc:143
+#: src/wx/video_panel.cc:147
 msgid "Scale to"
 msgstr "Skala om till"
 
@@ -1242,7 +1242,7 @@ msgstr "Tidslinje..."
 msgid "Timing|Timing"
 msgstr "Tajming"
 
-#: src/wx/video_panel.cc:111
+#: src/wx/video_panel.cc:114
 msgid "Top crop"
 msgstr "Övre beskärning"
 
