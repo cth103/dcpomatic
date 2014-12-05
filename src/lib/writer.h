@@ -21,14 +21,14 @@
  *  @brief Writer class.
  */
 
-#include <list>
-#include <boost/shared_ptr.hpp>
-#include <boost/thread.hpp>
-#include <boost/thread/condition.hpp>
-#include <dcp/subtitle_content.h>
 #include "exceptions.h"
 #include "types.h"
 #include "player_subtitles.h"
+#include <dcp/subtitle_content.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/condition.hpp>
+#include <list>
 
 class Film;
 class EncodedData;

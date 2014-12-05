@@ -24,9 +24,9 @@
 #ifndef DCPOMATIC_CINEMA_SOUND_PROCESSOR_H
 #define DCPOMATIC_CINEMA_SOUND_PROCESSOR_H
 
+#include <boost/utility.hpp>
 #include <string>
 #include <vector>
-#include <boost/utility.hpp>
 
 /** @class CinemaSoundProcessor
  *  @brief Class to describe a cimema's sound processor.

@@ -21,9 +21,9 @@
  *  @brief VideoExaminer class.
  */
 
-#include <dcp/types.h>
 #include "types.h"
 #include "video_content.h"
+#include <dcp/types.h>
 
 /** @class VideoExaminer
  *  @brief Parent for classes which examine video sources and obtain information about them.

@@ -20,11 +20,11 @@
 #ifndef DCPOMATIC_SUBTITLE_DECODER_H
 #define DCPOMATIC_SUBTITLE_DECODER_H
 
-#include <dcp/subtitle_string.h>
 #include "decoder.h"
 #include "rect.h"
 #include "types.h"
 #include "content_subtitle.h"
+#include <dcp/subtitle_string.h>
 
 class Film;
 class DCPTimedSubtitle;

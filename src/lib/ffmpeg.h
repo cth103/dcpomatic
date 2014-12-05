@@ -20,13 +20,13 @@
 #ifndef DCPOMATIC_FFMPEG_H
 #define DCPOMATIC_FFMPEG_H
 
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <boost/thread/mutex.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
 #include "file_group.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <vector>
 
 struct AVFilterGraph;
 struct AVCodecContext;

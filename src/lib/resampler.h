@@ -17,13 +17,13 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
-#include <boost/utility.hpp>
+#include "types.h"
+#include "audio_content.h"
 extern "C" {
 #include <libswresample/swresample.h>
 }
-#include "types.h"
-#include "audio_content.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/utility.hpp>
 
 class AudioBuffers;
 

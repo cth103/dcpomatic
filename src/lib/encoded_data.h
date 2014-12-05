@@ -17,10 +17,10 @@
 
 */
 
+#include "types.h"
+#include <dcp/picture_mxf_writer.h>
 #include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
-#include <dcp/picture_mxf_writer.h>
-#include "types.h"
 
 class Socket;
 class Film;

@@ -24,15 +24,14 @@
 #ifndef DCPOMATIC_CONTENT_H
 #define DCPOMATIC_CONTENT_H
 
-#include <set>
+#include "types.h"
+#include "dcpomatic_time.h"
+#include <libxml++/libxml++.h>
+#include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
-#include "types.h"
-#include "dcpomatic_time.h"
 
 namespace cxml {
 	class Node;

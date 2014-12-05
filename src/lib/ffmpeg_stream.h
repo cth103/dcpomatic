@@ -20,8 +20,8 @@
 #ifndef DCPOMATIC_FFMPEG_STREAM_H
 #define DCPOMATIC_FFMPEG_STREAM_H
 
-#include <boost/lexical_cast.hpp>
 #include <libcxml/cxml.h>
+#include <boost/lexical_cast.hpp>
 
 struct AVFormatContext;
 struct AVStream;

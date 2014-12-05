@@ -20,8 +20,8 @@
 #ifndef DCPOMATIC_IMAGE_CONTENT_H
 #define DCPOMATIC_IMAGE_CONTENT_H
 
-#include <boost/enable_shared_from_this.hpp>
 #include "video_content.h"
+#include <boost/enable_shared_from_this.hpp>
 
 namespace cxml {
 	class Node;

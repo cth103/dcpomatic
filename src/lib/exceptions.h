@@ -24,14 +24,14 @@
 #ifndef DCPOMATIC_EXCEPTIONS_H
 #define DCPOMATIC_EXCEPTIONS_H
 
-#include <stdexcept>
-#include <cstring>
-#include <boost/exception/all.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
+#include <boost/exception/all.hpp>
+#include <boost/filesystem.hpp>
+#include <stdexcept>
+#include <cstring>
 
 /** @class StringError
  *  @brief A parent class for exceptions using messages held in a std::string

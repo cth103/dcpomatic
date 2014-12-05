@@ -21,11 +21,11 @@
  *  @brief UpdateChecker class.
  */
 
+#include <curl/curl.h>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
-#include <curl/curl.h>
 
 /** Class to check for the existance of an update for DCP-o-matic on a remote server */
 class UpdateChecker

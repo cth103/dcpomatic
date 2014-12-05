@@ -25,10 +25,10 @@
 #undef check
 #endif
 
+#include <libcxml/cxml.h>
 #include <boost/utility.hpp>
 #include <boost/optional.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
-#include <libcxml/cxml.h>
 
 namespace xmlpp {
 	class Node;

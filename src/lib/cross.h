@@ -24,10 +24,10 @@
 #ifndef DCPOMATIC_CROSS_H
 #define DCPOMATIC_CROSS_H
 
-#include <boost/filesystem.hpp>
 #ifdef DCPOMATIC_OSX
 #include <IOKit/pwr_mgt/IOPMLib.h>
 #endif
+#include <boost/filesystem.hpp>
 
 #ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)

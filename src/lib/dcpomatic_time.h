@@ -20,13 +20,13 @@
 #ifndef DCPOMATIC_TIME_H
 #define DCPOMATIC_TIME_H
 
+#include "frame_rate_change.h"
+#include "safe_stringstream.h"
+#include <stdint.h>
 #include <cmath>
 #include <ostream>
 #include <sstream>
 #include <iomanip>
-#include <stdint.h>
-#include "frame_rate_change.h"
-#include "safe_stringstream.h"
 
 class dcpomatic_round_up_test;
 

@@ -20,9 +20,9 @@
 #ifndef DCPOMATIC_RATIO_H
 #define DCPOMATIC_RATIO_H
 
-#include <vector>
-#include <boost/utility.hpp>
 #include <dcp/util.h>
+#include <boost/utility.hpp>
+#include <vector>
 
 class Ratio : public boost::noncopyable
 {

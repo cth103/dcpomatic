@@ -24,9 +24,9 @@
 #ifndef DCPOMATIC_SCALER_H
 #define DCPOMATIC_SCALER_H
 
+#include <boost/utility.hpp>
 #include <string>
 #include <vector>
-#include <boost/utility.hpp>
 
 /** @class Scaler
  *  @brief Class to describe one of FFmpeg's software scalers

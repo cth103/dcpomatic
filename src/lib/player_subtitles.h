@@ -20,8 +20,8 @@
 #ifndef DCPOMATIC_PLAYER_SUBTITLES_H
 #define DCPOMATIC_PLAYER_SUBTITLES_H
 
-#include <dcp/subtitle_string.h>
 #include "image_subtitle.h"
+#include <dcp/subtitle_string.h>
 
 class PlayerSubtitles
 {

@@ -20,9 +20,9 @@
 #ifndef DCPOMATIC_VIDEO_CONTENT_SCALE_H
 #define DCPOMATIC_VIDEO_CONTENT_SCALE_H
 
-#include <vector>
-#include <boost/shared_ptr.hpp>
 #include <dcp/util.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
 namespace cxml {
 	class Node;

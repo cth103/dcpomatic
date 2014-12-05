@@ -20,11 +20,11 @@
 #ifndef DCPOMATIC_CONTENT_SUBTITLE_H
 #define DCPOMATIC_CONTENT_SUBTITLE_H
 
-#include <list>
-#include <dcp/subtitle_string.h>
 #include "dcpomatic_time.h"
 #include "rect.h"
 #include "image_subtitle.h"
+#include <dcp/subtitle_string.h>
+#include <list>
 
 class Image;
 

@@ -24,16 +24,16 @@
 #ifndef DCPOMATIC_CONFIG_H
 #define DCPOMATIC_CONFIG_H
 
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <boost/signals2.hpp>
-#include <boost/filesystem.hpp>
-#include <dcp/metadata.h>
-#include <dcp/certificates.h>
-#include <dcp/signer.h>
 #include "isdcf_metadata.h"
 #include "colour_conversion.h"
 #include "video_content.h"
+#include <dcp/metadata.h>
+#include <dcp/certificates.h>
+#include <dcp/signer.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
+#include <boost/filesystem.hpp>
+#include <vector>
 
 class ServerDescription;
 class Scaler;

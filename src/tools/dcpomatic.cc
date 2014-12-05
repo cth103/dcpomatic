@@ -17,20 +17,21 @@
 
 */
 
-#include <iostream>
-#include <fstream>
-#include <boost/filesystem.hpp>
-#ifdef __WXMSW__
-#include <shellapi.h>
-#endif
-#ifdef __WXOSX__
-#include <ApplicationServices/ApplicationServices.h>
-#endif
-#include <wx/generic/aboutdlgg.h>
-#include <wx/stdpaths.h>
-#include <wx/cmdline.h>
-#include <wx/preferences.h>
-#include <dcp/exceptions.h>
+#include "lib/film.h"
+#include "lib/config.h"
+#include "lib/util.h"
+#include "lib/version.h"
+#include "lib/ui_signaller.h"
+#include "lib/log.h"
+#include "lib/job_manager.h"
+#include "lib/transcode_job.h"
+#include "lib/exceptions.h"
+#include "lib/cinema.h"
+#include "lib/kdm.h"
+#include "lib/send_kdm_email_job.h"
+#include "lib/server_finder.h"
+#include "lib/update.h"
+#include "lib/content_factory.h"
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
@@ -47,21 +48,20 @@
 #include "wx/update_dialog.h"
 #include "wx/content_panel.h"
 #include "wx/report_problem_dialog.h"
-#include "lib/film.h"
-#include "lib/config.h"
-#include "lib/util.h"
-#include "lib/version.h"
-#include "lib/ui_signaller.h"
-#include "lib/log.h"
-#include "lib/job_manager.h"
-#include "lib/transcode_job.h"
-#include "lib/exceptions.h"
-#include "lib/cinema.h"
-#include "lib/kdm.h"
-#include "lib/send_kdm_email_job.h"
-#include "lib/server_finder.h"
-#include "lib/update.h"
-#include "lib/content_factory.h"
+#include <dcp/exceptions.h>
+#include <wx/generic/aboutdlgg.h>
+#include <wx/stdpaths.h>
+#include <wx/cmdline.h>
+#include <wx/preferences.h>
+#ifdef __WXMSW__
+#include <shellapi.h>
+#endif
+#ifdef __WXOSX__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
+#include <boost/filesystem.hpp>
+#include <iostream>
+#include <fstream>
 
 using std::cout;
 using std::string;

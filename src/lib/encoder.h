@@ -24,6 +24,14 @@
  *  @brief Encoder to J2K and WAV for DCP.
  */
 
+#include "util.h"
+#include "config.h"
+#include "cross.h"
+#include "exceptions.h"
+extern "C" {
+#include <libavutil/samplefmt.h>
+#include <libswresample/swresample.h>
+}
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
@@ -31,14 +39,6 @@
 #include <boost/optional.hpp>
 #include <list>
 #include <stdint.h>
-extern "C" {
-#include <libavutil/samplefmt.h>
-#include <libswresample/swresample.h>
-}
-#include "util.h"
-#include "config.h"
-#include "cross.h"
-#include "exceptions.h"
 
 class Image;
 class AudioBuffers;

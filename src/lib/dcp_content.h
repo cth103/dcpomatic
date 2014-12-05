@@ -24,12 +24,12 @@
  *  @brief DCPContent class.
  */
 
-#include <libcxml/cxml.h>
-#include <dcp/encrypted_kdm.h>
-#include <dcp/decrypted_kdm.h>
 #include "video_content.h"
 #include "single_stream_audio_content.h"
 #include "subtitle_content.h"
+#include <libcxml/cxml.h>
+#include <dcp/encrypted_kdm.h>
+#include <dcp/decrypted_kdm.h>
 
 class DCPContentProperty
 {

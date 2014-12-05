@@ -21,9 +21,9 @@
  *  @brief Screen and Cinema classes.
  */
 
-#include <boost/enable_shared_from_this.hpp>
-#include <dcp/certificates.h>
 #include <libcxml/cxml.h>
+#include <dcp/certificates.h>
+#include <boost/enable_shared_from_this.hpp>
 
 class Cinema;
 

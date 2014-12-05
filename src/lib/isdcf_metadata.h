@@ -20,9 +20,9 @@
 #ifndef DCPOMATIC_ISDCF_METADATA_H
 #define DCPOMATIC_ISDCF_METADATA_H
 
-#include <string>
-#include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
+#include <string>
 
 class ISDCFMetadata
 {

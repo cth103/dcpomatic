@@ -17,8 +17,8 @@
 
 */
 
-#include <vector>
 #include <boost/shared_ptr.hpp>
+#include <vector>
 
 class AudioBuffers;
 class audio_filter_impulse_kernel_test;

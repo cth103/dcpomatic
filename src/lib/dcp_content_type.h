@@ -24,9 +24,9 @@
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
  */
 
+#include <dcp/dcp.h>
 #include <string>
 #include <vector>
-#include <dcp/dcp.h>
 
 /** @class DCPContentType
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)

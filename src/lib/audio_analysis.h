@@ -24,9 +24,8 @@
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
-#include <vector>
-#include <list>
 #include <boost/filesystem.hpp>
+#include <vector>
 
 /** @class AudioPoint
  *  @brief A single point of an audio analysis for one portion of one channel.

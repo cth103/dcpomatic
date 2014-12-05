@@ -25,19 +25,18 @@
 #ifndef DCPOMATIC_FILM_H
 #define DCPOMATIC_FILM_H
 
-#include <string>
-#include <vector>
-#include <inttypes.h>
-#include <boost/signals2.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/filesystem.hpp>
-#include <dcp/key.h>
-#include <dcp/decrypted_kdm.h>
-#include <dcp/encrypted_kdm.h>
 #include "util.h"
 #include "types.h"
 #include "isdcf_metadata.h"
 #include "frame_rate_change.h"
+#include <dcp/key.h>
+#include <dcp/encrypted_kdm.h>
+#include <boost/signals2.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/filesystem.hpp>
+#include <string>
+#include <vector>
+#include <inttypes.h>
 
 class DCPContentType;
 class Log;

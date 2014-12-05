@@ -24,10 +24,10 @@
  *  @brief ImageProxy and subclasses.
  */
 
-#include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
 #include <Magick++.h>
 #include <libxml++/libxml++.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/filesystem.hpp>
 
 class Image;
 class Socket;

@@ -20,12 +20,12 @@
 #ifndef DCPOMATIC_TYPES_H
 #define DCPOMATIC_TYPES_H
 
-#include <vector>
-#include <stdint.h>
-#include <boost/shared_ptr.hpp>
-#include <dcp/util.h>
 #include "dcpomatic_time.h"
 #include "position.h"
+#include <dcp/util.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
+#include <stdint.h>
 
 class Content;
 class VideoContent;

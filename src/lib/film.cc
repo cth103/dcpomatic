@@ -17,23 +17,6 @@
 
 */
 
-#include <stdexcept>
-#include <iostream>
-#include <algorithm>
-#include <fstream>
-#include <cstdlib>
-#include <iomanip>
-#include <unistd.h>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
-#include <dcp/cpl.h>
-#include <dcp/signer.h>
-#include <dcp/util.h>
-#include <dcp/local_time.h>
-#include <dcp/raw_convert.h>
 #include "film.h"
 #include "job.h"
 #include "util.h"
@@ -54,6 +37,25 @@
 #include "cross.h"
 #include "cinema.h"
 #include "safe_stringstream.h"
+#include <libcxml/cxml.h>
+#include <dcp/cpl.h>
+#include <dcp/signer.h>
+#include <dcp/util.h>
+#include <dcp/local_time.h>
+#include <dcp/raw_convert.h>
+#include <dcp/decrypted_kdm.h>
+#include <libxml++/libxml++.h>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+#include <unistd.h>
+#include <stdexcept>
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+#include <cstdlib>
+#include <iomanip>
+
 
 #include "i18n.h"
 

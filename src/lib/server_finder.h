@@ -17,8 +17,8 @@
 
 */
 
-#include <boost/signals2.hpp>
 #include "server.h"
+#include <boost/signals2.hpp>
 
 class ServerFinder : public ExceptionStore
 {

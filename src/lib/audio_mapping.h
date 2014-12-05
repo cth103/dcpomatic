@@ -24,10 +24,10 @@
 #ifndef DCPOMATIC_AUDIO_MAPPING_H
 #define DCPOMATIC_AUDIO_MAPPING_H
 
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <dcp/types.h>
 #include <libcxml/cxml.h>
+#include <dcp/types.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
 namespace xmlpp {
 	class Node;

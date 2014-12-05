@@ -24,12 +24,12 @@
 #ifndef DCPOMATIC_VIDEO_DECODER_H
 #define DCPOMATIC_VIDEO_DECODER_H
 
-#include <boost/signals2.hpp>
-#include <boost/shared_ptr.hpp>
 #include "decoder.h"
 #include "video_content.h"
 #include "util.h"
 #include "content_video.h"
+#include <boost/signals2.hpp>
+#include <boost/shared_ptr.hpp>
 
 class VideoContent;
 class ImageProxy;

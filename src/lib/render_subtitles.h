@@ -17,8 +17,8 @@
 
 */
 
+#include "position_image.h"
 #include <dcp/subtitle_string.h>
 #include <dcp/util.h>
-#include "position_image.h"
 
 PositionImage render_subtitles (std::list<dcp::SubtitleString>, dcp::Size);

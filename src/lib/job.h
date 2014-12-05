@@ -24,11 +24,11 @@
 #ifndef DCPOMATIC_JOB_H
 #define DCPOMATIC_JOB_H
 
-#include <string>
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
+#include <string>
 
 class Film;
 

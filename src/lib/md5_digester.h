@@ -17,10 +17,10 @@
 
 */
 
-#include <string>
+#include <openssl/md5.h>
 #include <boost/noncopyable.hpp>
 #include <boost/optional.hpp>
-#include <openssl/md5.h>
+#include <string>
 
 class MD5Digester : public boost::noncopyable
 {

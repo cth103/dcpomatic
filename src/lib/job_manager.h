@@ -21,10 +21,10 @@
  *  @brief A simple scheduler for jobs.
  */
 
-#include <list>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
+#include <list>
 
 class Job;
 extern void wait_for_jobs ();

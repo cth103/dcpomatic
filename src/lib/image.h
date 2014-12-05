@@ -24,17 +24,17 @@
 #ifndef DCPOMATIC_IMAGE_H
 #define DCPOMATIC_IMAGE_H
 
-#include <string>
-#include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
+#include "util.h"
+#include "position.h"
+#include "position_image.h"
+#include <dcp/image.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
-#include <dcp/image.h>
-#include "util.h"
-#include "position.h"
-#include "position_image.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
+#include <string>
 
 class Scaler;
 

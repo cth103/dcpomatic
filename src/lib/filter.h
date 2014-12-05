@@ -24,9 +24,9 @@
 #ifndef DCPOMATIC_FILTER_H
 #define DCPOMATIC_FILTER_H
 
+#include <boost/utility.hpp>
 #include <string>
 #include <vector>
-#include <boost/utility.hpp>
 
 /** @class Filter
  *  @brief A class to describe one of FFmpeg's video filters.

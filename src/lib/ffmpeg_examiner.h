@@ -17,9 +17,9 @@
 
 */
 
-#include <boost/optional.hpp>
 #include "ffmpeg.h"
 #include "video_examiner.h"
+#include <boost/optional.hpp>
 
 class FFmpegAudioStream;
 class FFmpegSubtitleStream;

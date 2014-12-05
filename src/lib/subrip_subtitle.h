@@ -20,10 +20,10 @@
 #ifndef DCPOMATIC_SUBRIP_SUBTITLE_H
 #define DCPOMATIC_SUBRIP_SUBTITLE_H
 
-#include <boost/optional.hpp>
-#include <dcp/types.h>
 #include "types.h"
 #include "dcpomatic_time.h"
+#include <dcp/types.h>
+#include <boost/optional.hpp>
 
 struct SubRipSubtitlePiece
 {

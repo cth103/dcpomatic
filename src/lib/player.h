@@ -20,9 +20,6 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include <list>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include "playlist.h"
 #include "content.h"
 #include "film.h"
@@ -34,6 +31,9 @@
 #include "piece.h"
 #include "content_video.h"
 #include "player_subtitles.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <list>
 
 class Job;
 class Film;

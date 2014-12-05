@@ -25,9 +25,9 @@
 #ifndef DCPOMATIC_TIMER_H
 #define DCPOMATIC_TIMER_H
 
+#include <sys/time.h>
 #include <string>
 #include <map>
-#include <sys/time.h>
 
 /** @class PeriodTimer
  *  @brief A class to allow timing of a period within the caller.

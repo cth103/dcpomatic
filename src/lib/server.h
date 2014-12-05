@@ -25,14 +25,14 @@
  *  encoding work, and a class to implement such a server.
  */
 
-#include <string>
+#include "log.h"
+#include "exceptions.h"
+#include <libxml++/libxml++.h>
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/optional.hpp>
-#include <libxml++/libxml++.h>
-#include "log.h"
-#include "exceptions.h"
+#include <string>
 
 class Socket;
 

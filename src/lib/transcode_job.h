@@ -21,8 +21,8 @@
  *  @brief A job which transcodes from one format to another.
  */
 
-#include <boost/shared_ptr.hpp>
 #include "job.h"
+#include <boost/shared_ptr.hpp>
 
 class Transcoder;
 

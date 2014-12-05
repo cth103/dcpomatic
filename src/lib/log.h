@@ -24,10 +24,10 @@
  *  @brief A very simple logging class.
  */
 
-#include <string>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
+#include <string>
 
 /** @class Log
  *  @brief A very simple logging class.

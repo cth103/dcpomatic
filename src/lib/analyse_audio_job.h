@@ -24,7 +24,6 @@
 #include "job.h"
 #include "audio_analysis.h"
 #include "types.h"
-#include "dcpomatic_time.h"
 
 class AudioBuffers;
 class AudioContent;

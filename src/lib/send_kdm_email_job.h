@@ -17,9 +17,9 @@
 
 */
 
-#include <boost/filesystem.hpp>
-#include <dcp/types.h>
 #include "job.h"
+#include <dcp/types.h>
+#include <boost/filesystem.hpp>
 
 class Screen;
 

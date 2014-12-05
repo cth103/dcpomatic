@@ -17,10 +17,10 @@
 
 */
 
-#include <sndfile.h>
 #include "decoder.h"
 #include "audio_decoder.h"
 #include "audio_examiner.h"
+#include <sndfile.h>
 
 class SndfileContent;
 

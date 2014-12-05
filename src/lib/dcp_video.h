@@ -18,8 +18,8 @@
 
 */
 
-#include <dcp/picture_mxf_writer.h>
 #include "util.h"
+#include <dcp/picture_mxf_writer.h>
 
 /** @file  src/dcp_video_frame.h
  *  @brief A single frame of video destined for a DCP.

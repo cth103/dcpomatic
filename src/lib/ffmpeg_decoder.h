@@ -21,21 +21,21 @@
  *  @brief A decoder using FFmpeg to decode content.
  */
 
-#include <vector>
-#include <string>
-#include <stdint.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/optional.hpp>
-#include <boost/thread/mutex.hpp>
-extern "C" {
-#include <libavcodec/avcodec.h>
-}
 #include "util.h"
 #include "decoder.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "subtitle_decoder.h"
 #include "ffmpeg.h"
+extern "C" {
+#include <libavcodec/avcodec.h>
+}
+#include <boost/shared_ptr.hpp>
+#include <boost/optional.hpp>
+#include <boost/thread/mutex.hpp>
+#include <stdint.h>
+#include <vector>
+#include <string>
 
 class Log;
 class FilterGraph;

@@ -17,8 +17,8 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
 #include "job.h"
+#include <boost/shared_ptr.hpp>
 
 class Content;
 class Log;

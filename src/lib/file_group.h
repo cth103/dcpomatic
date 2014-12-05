@@ -24,8 +24,8 @@
 #ifndef DCPOMATIC_FILE_GROUP_H
 #define DCPOMATIC_FILE_GROUP_H
 
-#include <vector>
 #include <boost/filesystem.hpp>
+#include <vector>
 
 /** @class FileGroup
  *  @brief A class to make a list of files behave like they were concatenated.

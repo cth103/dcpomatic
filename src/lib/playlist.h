@@ -20,13 +20,13 @@
 #ifndef DCPOMATIC_PLAYLIST_H
 #define DCPOMATIC_PLAYLIST_H
 
-#include <list>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include "ffmpeg_content.h"
 #include "audio_mapping.h"
 #include "util.h"
 #include "frame_rate_change.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <list>
 
 class Content;
 class FFmpegContent;

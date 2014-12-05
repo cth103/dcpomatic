@@ -20,10 +20,10 @@
 #ifndef DCPOMATIC_SNDFILE_CONTENT_H
 #define DCPOMATIC_SNDFILE_CONTENT_H
 
+#include "single_stream_audio_content.h"
 extern "C" {
 #include <libavutil/audioconvert.h>
 }
-#include "single_stream_audio_content.h"
 
 namespace cxml {
 	class Node;

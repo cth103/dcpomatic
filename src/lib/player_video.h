@@ -17,14 +17,14 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
-extern "C" {
-#include <libavutil/pixfmt.h>
-}
 #include "types.h"
 #include "position.h"
 #include "colour_conversion.h"
 #include "position_image.h"
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
+#include <boost/shared_ptr.hpp>
 
 class Image;
 class ImageProxy;

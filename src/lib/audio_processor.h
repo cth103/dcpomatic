@@ -20,10 +20,10 @@
 #ifndef DCPOMATIC_AUDIO_PROCESSOR_H
 #define DCPOMATIC_AUDIO_PROCESSOR_H
 
+#include "channel_count.h"
+#include <boost/shared_ptr.hpp>
 #include <list>
 #include <string>
-#include <boost/shared_ptr.hpp>
-#include "channel_count.h"
 
 class AudioBuffers;
 

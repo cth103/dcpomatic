@@ -25,20 +25,20 @@
 #ifndef DCPOMATIC_UTIL_H
 #define DCPOMATIC_UTIL_H
 
-#include <string>
-#include <vector>
-#include <boost/shared_ptr.hpp>
-#include <boost/asio.hpp>
-#include <boost/optional.hpp>
-#include <boost/filesystem.hpp>
+#include "compose.hpp"
+#include "types.h"
+#include "video_content.h"
 #include <dcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
 }
-#include "compose.hpp"
-#include "types.h"
-#include "video_content.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/asio.hpp>
+#include <boost/optional.hpp>
+#include <boost/filesystem.hpp>
+#include <string>
+#include <vector>
 
 #undef check
 

@@ -17,8 +17,8 @@
 
 */
 
-#include <dcp/util.h>
 #include "image_proxy.h"
+#include <dcp/util.h>
 
 class EncodedData;
 

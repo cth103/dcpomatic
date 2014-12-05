@@ -24,11 +24,11 @@
 #ifndef DCPOMATIC_DECODER_H
 #define DCPOMATIC_DECODER_H
 
+#include "types.h"
+#include "dcpomatic_time.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>
-#include "types.h"
-#include "dcpomatic_time.h"
 
 class Decoded;
 
