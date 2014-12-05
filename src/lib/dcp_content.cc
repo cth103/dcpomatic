@@ -17,14 +17,14 @@
 
 */
 
-#include <dcp/dcp.h>
-#include <dcp/exceptions.h>
 #include "dcp_content.h"
 #include "dcp_examiner.h"
 #include "job.h"
 #include "film.h"
 #include "config.h"
 #include "compose.hpp"
+#include <dcp/dcp.h>
+#include <dcp/exceptions.h>
 
 #include "i18n.h"
 

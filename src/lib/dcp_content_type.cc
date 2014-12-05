@@ -21,8 +21,8 @@
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
  */
 
-#include <cassert>
 #include "dcp_content_type.h"
+#include <cassert>
 
 #include "i18n.h"
 

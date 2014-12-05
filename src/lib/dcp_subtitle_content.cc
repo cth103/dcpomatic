@@ -17,9 +17,9 @@
 
 */
 
+#include "dcp_subtitle_content.h"
 #include <dcp/subtitle_content.h>
 #include <dcp/raw_convert.h>
-#include "dcp_subtitle_content.h"
 
 #include "i18n.h"
 

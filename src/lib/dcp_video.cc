@@ -28,26 +28,6 @@
  *  of images that require encoding.
  */
 
-#include <stdint.h>
-#include <cstring>
-#include <cstdlib>
-#include <stdexcept>
-#include <cstdio>
-#include <iomanip>
-#include <iostream>
-#include <fstream>
-#include <unistd.h>
-#include <errno.h>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/lexical_cast.hpp>
-#include <dcp/gamma_lut.h>
-#include <dcp/xyz_frame.h>
-#include <dcp/rgb_xyz.h>
-#include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
-#include <libcxml/cxml.h>
 #include "film.h"
 #include "dcp_video.h"
 #include "config.h"
@@ -60,6 +40,26 @@
 #include "cross.h"
 #include "player_video.h"
 #include "encoded_data.h"
+#include <libcxml/cxml.h>
+#include <dcp/gamma_lut.h>
+#include <dcp/xyz_frame.h>
+#include <dcp/rgb_xyz.h>
+#include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
+#include <stdint.h>
+#include <cstring>
+#include <cstdlib>
+#include <stdexcept>
+#include <cstdio>
+#include <iomanip>
+#include <iostream>
+#include <fstream>
+#include <unistd.h>
+#include <errno.h>
 
 #define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 

@@ -17,12 +17,12 @@
 
 */
 
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "audio_mapping.h"
 #include "util.h"
 #include "md5_digester.h"
+#include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
+#include <libxml++/libxml++.h>
 
 using std::list;
 using std::cout;

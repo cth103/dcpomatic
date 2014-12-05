@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import sys
+
+for a in sys.argv[1:]:
+    includes = []
+    for line in open(a, 'r'):
+        if line.startswith('#include'):
+            includes.append(line.strip()[9:])
+
+    std = ['<cstdio>', '<unistd.h>', '<stdexcept>', '<iostream>', '<algorithm>', '<fstream>', '<cstdlib>', '<iomanip>', '<stdint.h>', '<cmath>', '<cassert>', '<cstring>', '<mntent.h>', '<windows.h>', '<shlwapi.h>', '<sys/sysctl.h>', '<mach-o/dyld.h>', '<IOKit/pwr_mgt/IOPMLib.h>', '<sys/types.h>', '<ifaddrs.h>', '<netinet/in.h>', '<arpa/inet.h>']
+
+    current_group = 0
+    for i in includes:
+        if i == '"i18n.h"':
+            continue
+
+        if i in std:
+            group = 5
+        elif i.find("<boost/") != -1:
+            group = 4
+        elif i.find("<libxml++/") != -1 or i == '<glib.h>':
+            group = 3
+        elif i.find("<libcxml/") != -1 or i.find("<dcp/") != -1:
+            group = 2
+        elif i.find("\"wx/") != -1:
+            group = 1
+        else:
+            group = 0
+
+        print '%s: %d' % (i, group)
+
+        if group < current_group:
+            print '%s: first wrong order is %s' % (a, i)
+            sys.exit(1)
+
+        current_group = group
+
+
+

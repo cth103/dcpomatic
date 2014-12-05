@@ -21,9 +21,6 @@
  *  @brief Parent class for classes which can encode video and audio frames.
  */
 
-#include <iostream>
-#include <boost/lambda/lambda.hpp>
-#include <libcxml/cxml.h>
 #include "encoder.h"
 #include "util.h"
 #include "film.h"
@@ -36,6 +33,9 @@
 #include "server_finder.h"
 #include "player.h"
 #include "player_video.h"
+#include <libcxml/cxml.h>
+#include <boost/lambda/lambda.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

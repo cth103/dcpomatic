@@ -17,6 +17,11 @@
 
 */
 
+#include "dcp_decoder.h"
+#include "dcp_content.h"
+#include "j2k_image_proxy.h"
+#include "image.h"
+#include "config.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -27,11 +32,6 @@
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_frame.h>
-#include "dcp_decoder.h"
-#include "dcp_content.h"
-#include "j2k_image_proxy.h"
-#include "image.h"
-#include "config.h"
 
 using std::list;
 using std::cout;

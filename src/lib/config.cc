@@ -17,16 +17,6 @@
 
 */
 
-#include <cstdlib>
-#include <fstream>
-#include <glib.h>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-#include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
-#include <dcp/signer.h>
-#include <dcp/certificate_chain.h>
-#include <libcxml/cxml.h>
 #include "config.h"
 #include "server.h"
 #include "scaler.h"
@@ -38,6 +28,16 @@
 #include "cinema.h"
 #include "util.h"
 #include "cross.h"
+#include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
+#include <dcp/signer.h>
+#include <dcp/certificate_chain.h>
+#include <libcxml/cxml.h>
+#include <glib.h>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
+#include <cstdlib>
+#include <fstream>
 
 #include "i18n.h"
 

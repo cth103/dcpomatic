@@ -17,6 +17,11 @@
 
 */
 
+#include "dcp_examiner.h"
+#include "dcp_content.h"
+#include "exceptions.h"
+#include "image.h"
+#include "config.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -27,11 +32,6 @@
 #include <dcp/stereo_picture_mxf.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_mxf.h>
-#include "dcp_examiner.h"
-#include "dcp_content.h"
-#include "exceptions.h"
-#include "image.h"
-#include "config.h"
 
 #include "i18n.h"
 

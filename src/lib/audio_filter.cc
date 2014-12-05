@@ -17,9 +17,9 @@
 
 */
 
-#include <cmath>
 #include "audio_filter.h"
 #include "audio_buffers.h"
+#include <cmath>
 
 using std::vector;
 using std::min;

@@ -17,9 +17,9 @@
 
 */
 
-#include <dcp/subtitle_content.h>
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
+#include <dcp/subtitle_content.h>
 
 using std::list;
 using std::cout;

@@ -17,8 +17,6 @@
 
 */
 
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "audio_content.h"
 #include "analyse_audio_job.h"
 #include "job_manager.h"
@@ -27,6 +25,8 @@
 #include "config.h"
 #include "frame_rate_change.h"
 #include "audio_processor.h"
+#include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 
 #include "i18n.h"
 

@@ -56,7 +56,6 @@
 #include <cstdlib>
 #include <iomanip>
 
-
 #include "i18n.h"
 
 using std::string;

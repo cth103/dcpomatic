@@ -17,12 +17,12 @@
 
 */
 
-#include <iostream>
 #include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "audio_processor.h"
 #include "resampler.h"
 #include "util.h"
+#include <iostream>
 
 #include "i18n.h"
 

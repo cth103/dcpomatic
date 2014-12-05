@@ -21,10 +21,6 @@
  *  @brief Content class.
  */
 
-#include <boost/thread/mutex.hpp>
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "content.h"
 #include "util.h"
 #include "content_factory.h"
@@ -33,6 +29,10 @@
 #include "film.h"
 #include "safe_stringstream.h"
 #include "job.h"
+#include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
+#include <libxml++/libxml++.h>
+#include <boost/thread/mutex.hpp>
 
 #include "i18n.h"
 

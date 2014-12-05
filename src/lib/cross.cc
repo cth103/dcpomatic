@@ -17,11 +17,11 @@
 
 */
 
-#include <fstream>
-#include <boost/algorithm/string.hpp>
 #include "cross.h"
 #include "compose.hpp"
 #include "log.h"
+#include "exceptions.h"
+#include <boost/algorithm/string.hpp>
 #ifdef DCPOMATIC_LINUX
 #include <unistd.h>
 #include <mntent.h>
@@ -42,7 +42,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
-#include "exceptions.h"
+#include <fstream>
 
 #include "i18n.h"
 

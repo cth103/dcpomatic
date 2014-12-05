@@ -21,7 +21,6 @@
  *  @brief Methods to create content objects.
  */
 
-#include <libcxml/cxml.h>
 #include "ffmpeg_content.h"
 #include "image_content.h"
 #include "sndfile_content.h"
@@ -29,6 +28,7 @@
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "util.h"
+#include <libcxml/cxml.h>
 
 using std::string;
 using std::list;

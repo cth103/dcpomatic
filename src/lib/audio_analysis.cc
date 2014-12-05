@@ -17,14 +17,14 @@
 
 */
 
+#include "audio_analysis.h"
+#include "cross.h"
+#include <boost/filesystem.hpp>
 #include <stdint.h>
 #include <cmath>
 #include <cassert>
 #include <cstdio>
 #include <iostream>
-#include <boost/filesystem.hpp>
-#include "audio_analysis.h"
-#include "cross.h"
 
 using std::ostream;
 using std::istream;

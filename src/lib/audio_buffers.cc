@@ -17,11 +17,11 @@
 
 */
 
+#include "audio_buffers.h"
 #include <cassert>
 #include <cstring>
 #include <cmath>
 #include <stdexcept>
-#include "audio_buffers.h"
 
 using std::bad_alloc;
 using boost::shared_ptr;

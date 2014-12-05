@@ -17,14 +17,14 @@
 
 */
 
-#include <libxml++/libxml++.h>
-#include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
-#include <libcxml/cxml.h>
 #include "config.h"
 #include "colour_conversion.h"
 #include "util.h"
 #include "md5_digester.h"
+#include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
+#include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 

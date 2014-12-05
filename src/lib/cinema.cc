@@ -17,9 +17,9 @@
 
 */
 
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
 #include "cinema.h"
+#include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 
 using std::list;
 using boost::shared_ptr;

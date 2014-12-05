@@ -21,10 +21,10 @@
  *  @brief CinemaSoundProcessor class.
  */
 
-#include <iostream>
-#include <cassert>
 #include "cinema_sound_processor.h"
 #include "dolby_cp750.h"
+#include <iostream>
+#include <cassert>
 
 using namespace std;
 
