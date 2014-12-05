@@ -17,20 +17,6 @@
 
 */
 
-#include <fstream>
-#include <cerrno>
-#include <dcp/mono_picture_mxf.h>
-#include <dcp/stereo_picture_mxf.h>
-#include <dcp/sound_mxf.h>
-#include <dcp/sound_mxf_writer.h>
-#include <dcp/reel.h>
-#include <dcp/reel_mono_picture_asset.h>
-#include <dcp/reel_stereo_picture_asset.h>
-#include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/dcp.h>
-#include <dcp/cpl.h>
-#include <dcp/signer.h>
 #include "writer.h"
 #include "compose.hpp"
 #include "film.h"
@@ -46,6 +32,20 @@
 #include "md5_digester.h"
 #include "encoded_data.h"
 #include "version.h"
+#include <dcp/mono_picture_mxf.h>
+#include <dcp/stereo_picture_mxf.h>
+#include <dcp/sound_mxf.h>
+#include <dcp/sound_mxf_writer.h>
+#include <dcp/reel.h>
+#include <dcp/reel_mono_picture_asset.h>
+#include <dcp/reel_stereo_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/reel_subtitle_asset.h>
+#include <dcp/dcp.h>
+#include <dcp/cpl.h>
+#include <dcp/signer.h>
+#include <fstream>
+#include <cerrno>
 
 #include "i18n.h"
 

@@ -17,10 +17,6 @@
 
 */
 
-#include <iomanip>
-#include <libcxml/cxml.h>
-#include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
 #include "video_content.h"
 #include "video_examiner.h"
 #include "compose.hpp"
@@ -33,6 +29,10 @@
 #include "frame_rate_change.h"
 #include "log.h"
 #include "safe_stringstream.h"
+#include <libcxml/cxml.h>
+#include <dcp/colour_matrix.h>
+#include <dcp/raw_convert.h>
+#include <iomanip>
 
 #include "i18n.h"
 

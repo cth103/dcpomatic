@@ -22,46 +22,6 @@
  *  @brief Some utility functions and classes.
  */
 
-#include <iomanip>
-#include <iostream>
-#include <fstream>
-#include <climits>
-#include <stdexcept>
-#ifdef DCPOMATIC_POSIX
-#include <execinfo.h>
-#include <cxxabi.h>
-#endif
-#include <libssh/libssh.h>
-#include <signal.h>
-#include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
-#include <boost/lambda/lambda.hpp>
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
-#ifdef DCPOMATIC_WINDOWS
-#include <boost/locale.hpp>
-#endif
-#include <glib.h>
-#include <openjpeg.h>
-#include <pangomm/init.h>
-#ifdef DCPOMATIC_IMAGE_MAGICK
-#include <magick/MagickCore.h>
-#else
-#include <magick/common.h>
-#include <magick/magick_config.h>
-#endif
-#include <magick/version.h>
-#include <dcp/version.h>
-#include <dcp/util.h>
-#include <dcp/signer.h>
-#include <dcp/raw_convert.h>
-extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-#include <libavfilter/avfiltergraph.h>
-#include <libavutil/pixfmt.h>
-}
 #include "util.h"
 #include "exceptions.h"
 #include "scaler.h"
@@ -79,6 +39,46 @@ extern "C" {
 #include "safe_stringstream.h"
 #ifdef DCPOMATIC_WINDOWS
 #include "stack.hpp"
+#endif
+#include <dcp/version.h>
+#include <dcp/util.h>
+#include <dcp/signer.h>
+#include <dcp/raw_convert.h>
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+#include <libavfilter/avfiltergraph.h>
+#include <libavutil/pixfmt.h>
+}
+#include <glib.h>
+#include <openjpeg.h>
+#include <pangomm/init.h>
+#ifdef DCPOMATIC_IMAGE_MAGICK
+#include <magick/MagickCore.h>
+#else
+#include <magick/common.h>
+#include <magick/magick_config.h>
+#endif
+#include <magick/version.h>
+#include <libssh/libssh.h>
+#include <boost/algorithm/string.hpp>
+#include <boost/bind.hpp>
+#include <boost/lambda/lambda.hpp>
+#include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
+#ifdef DCPOMATIC_WINDOWS
+#include <boost/locale.hpp>
+#endif
+#include <signal.h>
+#include <iomanip>
+#include <iostream>
+#include <fstream>
+#include <climits>
+#include <stdexcept>
+#ifdef DCPOMATIC_POSIX
+#include <execinfo.h>
+#include <cxxabi.h>
 #endif
 
 #include "i18n.h"

@@ -8,7 +8,7 @@ for a in sys.argv[1:]:
         if line.startswith('#include'):
             includes.append(line.strip()[9:])
 
-    std = ['<cstdio>', '<unistd.h>', '<stdexcept>', '<iostream>', '<algorithm>', '<fstream>', '<cstdlib>', '<iomanip>', '<stdint.h>', '<cmath>', '<cassert>', '<cstring>', '<mntent.h>', '<windows.h>', '<shlwapi.h>', '<sys/sysctl.h>', '<mach-o/dyld.h>', '<IOKit/pwr_mgt/IOPMLib.h>', '<sys/types.h>', '<ifaddrs.h>', '<netinet/in.h>', '<arpa/inet.h>']
+    std = ['<cstdio>', '<unistd.h>', '<stdexcept>', '<iostream>', '<algorithm>', '<fstream>', '<cstdlib>', '<iomanip>', '<stdint.h>', '<cmath>', '<cassert>', '<cstring>', '<mntent.h>', '<windows.h>', '<shlwapi.h>', '<sys/sysctl.h>', '<mach-o/dyld.h>', '<IOKit/pwr_mgt/IOPMLib.h>', '<sys/types.h>', '<ifaddrs.h>', '<netinet/in.h>', '<arpa/inet.h>', '<cerrno>']
 
     current_group = 0
     for i in includes:
@@ -28,11 +28,9 @@ for a in sys.argv[1:]:
         else:
             group = 0
 
-        print '%s: %d' % (i, group)
-
         if group < current_group:
             print '%s: first wrong order is %s' % (a, i)
-            sys.exit(1)
+            break
 
         current_group = group
 

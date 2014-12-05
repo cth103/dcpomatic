@@ -17,13 +17,13 @@
 
 */
 
-#include <boost/optional.hpp>
-#include <libxml++/libxml++.h>
-#include <libcxml/cxml.h>
 #include "video_content_scale.h"
 #include "ratio.h"
 #include "safe_stringstream.h"
 #include "util.h"
+#include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
+#include <boost/optional.hpp>
 
 #include "i18n.h"
 

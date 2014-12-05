@@ -21,12 +21,12 @@
  *  @brief A very simple logging class.
  */
 
-#include <time.h>
-#include <cstdio>
 #include "log.h"
 #include "cross.h"
 #include "config.h"
 #include "safe_stringstream.h"
+#include <time.h>
+#include <cstdio>
 
 #include "i18n.h"
 
