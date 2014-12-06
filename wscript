@@ -206,6 +206,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DUNICODE')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
+        conf.env.append_value('CXXFLAGS', '-Wno-deprecated-declarations')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:

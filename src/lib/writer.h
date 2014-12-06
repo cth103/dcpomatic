@@ -26,6 +26,7 @@
 #include "player_subtitles.h"
 #include <dcp/subtitle_content.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <list>
