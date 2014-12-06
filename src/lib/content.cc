@@ -37,7 +37,6 @@
 #include "i18n.h"
 
 using std::string;
-using std::set;
 using std::list;
 using std::cout;
 using std::vector;
