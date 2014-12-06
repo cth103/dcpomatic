@@ -17,7 +17,6 @@
 
 */
 
-#include <wx/spinctrl.h>
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/colour_conversion.h"
@@ -31,6 +30,8 @@
 #include "content_colour_conversion_dialog.h"
 #include "content_widget.h"
 #include "content_panel.h"
+#include <wx/spinctrl.h>
+#include <set>
 
 using std::vector;
 using std::string;

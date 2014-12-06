@@ -17,13 +17,14 @@
 
 */
 
-#include <dcp/raw_convert.h>
 #include "lib/content.h"
 #include "lib/image_content.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
 #include "content_panel.h"
+#include <dcp/raw_convert.h>
+#include <set>
 
 using std::cout;
 using std::string;
