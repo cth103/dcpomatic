@@ -218,7 +218,7 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
+	return String::compose ("%1 %2 %3", path_summary(), digest().get_value_or("X"), position().seconds());
 }
 
 DCPTime
@@ -235,7 +235,7 @@ Content::identifier () const
 {
 	SafeStringStream s;
 	
-	s << Content::digest()
+	s << Content::digest().get_value_or("X")
 	  << "_" << position().get()
 	  << "_" << trim_start().get()
 	  << "_" << trim_end().get();
