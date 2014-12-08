@@ -349,10 +349,17 @@ public:
 		_issuer->SetValue (std_to_wx (config->dcp_issuer ()));
 		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::issuer_changed, this));
 
+		config->Changed.connect (boost::bind (&DefaultsPage::config_changed, this));
+
 		return panel;
 	}
 
 private:
+	void config_changed ()
+	{
+		_j2k_bandwidth->SetRange (50, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	}
+		
 	void j2k_bandwidth_changed ()
 	{
 		Config::instance()->set_default_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
@@ -1151,7 +1158,7 @@ public:
 		
 		Config* config = Config::instance ();
 		
-		_maximum_j2k_bandwidth->SetRange (1, 500);
+		_maximum_j2k_bandwidth->SetRange (1, 1000);
 		_maximum_j2k_bandwidth->SetValue (config->maximum_j2k_bandwidth() / 1000000);
 		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->SetValue (config->allow_any_dcp_frame_rate ());
