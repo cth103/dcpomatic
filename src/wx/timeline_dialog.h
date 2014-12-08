@@ -38,4 +38,5 @@ private:
 	Timeline _timeline;
 	wxCheckBox* _snap;
 	wxCheckBox* _sequence_video;
+	boost::signals2::scoped_connection _film_changed_connection;
 };
