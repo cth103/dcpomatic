@@ -65,7 +65,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		_video_length = ContentTime::from_seconds (Config::instance()->default_still_length());
 	} else {
 		_video_length = ContentTime::from_frames (
-			_image_content->number_of_paths (), video_frame_rate().get_value_or (0)
+			_image_content->number_of_paths (), video_frame_rate().get_value_or (24)
 			);
 	}
 }

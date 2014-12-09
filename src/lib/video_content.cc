@@ -228,9 +228,8 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_size = vs;
-		if (vfr) {
-			_video_frame_rate = vfr.get ();
-		}
+		/* Default video frame rate to 24fps if the examiner doesn't know */
+		_video_frame_rate = vfr.get_value_or (24);
 		_video_length = vl;
 		_sample_aspect_ratio = ar;
 

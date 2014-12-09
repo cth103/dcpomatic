@@ -248,12 +248,7 @@ ContentPanel::add_file_clicked ()
 	/* XXX: check for lots of files here and do something */
 
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		shared_ptr<Content> c = content_factory (_film, wx_to_std (paths[i]));
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c);
-		if (ic) {
-			ic->set_video_frame_rate (24);
-		}
-		_film->examine_and_add_content (c, true);
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])), true);
 	}
 
 	d->Destroy ();

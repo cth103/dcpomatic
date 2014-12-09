@@ -139,7 +139,9 @@ Content::examine (shared_ptr<Job> job, bool calculate_digest)
 		return;
 	}
 
-	job->sub (_("Computing digest"));
+	if (job) {
+		job->sub (_("Computing digest"));
+	}
 	
 	boost::mutex::scoped_lock lm (_mutex);
 	vector<boost::filesystem::path> p = _paths;
