@@ -23,7 +23,6 @@ def build(bld):
                  audio_filter_test.cc
                  audio_mapping_test.cc
                  black_fill_test.cc
-                 burnt_subtitle_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc
                  dcp_subtitle_test.cc
@@ -53,7 +52,6 @@ def build(bld):
                  silence_padding_test.cc
                  skip_frame_test.cc
                  stream_test.cc
-                 subrip_test.cc
                  test.cc
                  threed_test.cc
                  upmixer_a_test.cc
@@ -61,6 +59,10 @@ def build(bld):
                  video_decoder_fill_test.cc
                  xml_subtitle_test.cc
                  """
+
+    # Disabled tests: some difference in font rendering between the test machine
+    # and others...
+    # subrip_test.cc burnt_subtitle_test.cc
 
     obj.target = 'unit-tests'
     obj.install_path = ''
