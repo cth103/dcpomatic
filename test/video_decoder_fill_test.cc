@@ -40,6 +40,8 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 		++i;
 	}
 
+	decoder._decoded_video.clear ();
+
 	decoder.fill_2d (0, 7);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 7);
 	i = decoder._decoded_video.begin();	
