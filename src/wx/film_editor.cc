@@ -21,54 +21,20 @@
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
  */
 
-#include <iostream>
-#include <iomanip>
-#include <wx/wx.h>
-#include <wx/notebook.h>
-#include <wx/listctrl.h>
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/lexical_cast.hpp>
 #include "lib/film.h"
-#include "lib/transcode_job.h"
-#include "lib/exceptions.h"
 #include "lib/job_manager.h"
-#include "lib/filter.h"
-#include "lib/ratio.h"
-#include "lib/config.h"
-#include "lib/image_content.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/sndfile_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/scaler.h"
-#include "lib/playlist.h"
 #include "lib/content.h"
-#include "lib/content_factory.h"
 #include "lib/dcp_content.h"
-#include "lib/safe_stringstream.h"
-#include "timecode.h"
 #include "wx_util.h"
 #include "film_editor.h"
-#include "timeline_dialog.h"
-#include "timing_panel.h"
-#include "subtitle_panel.h"
-#include "audio_panel.h"
-#include "video_panel.h"
-#include "content_panel.h"
 #include "dcp_panel.h"
+#include "content_panel.h"
+#include <wx/wx.h>
+#include <wx/notebook.h>
+#include <iostream>
 
-using std::string;
 using std::cout;
-using std::pair;
-using std::fixed;
-using std::setprecision;
-using std::list;
-using std::vector;
-using std::max;
 using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
-using boost::lexical_cast;
 
 /** @param f Film to edit */
 FilmEditor::FilmEditor (wxWindow* parent)
