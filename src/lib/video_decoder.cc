@@ -147,7 +147,7 @@ VideoDecoder::fill_2d (VideoFrame from, VideoFrame to)
 
 	VideoFrame filler_frame = from;
 	
-	while (filler_frame < (to - 1)) {
+	while (filler_frame < to) {
 
 #ifdef DCPOMATIC_DEBUG
 		test_gaps++;
