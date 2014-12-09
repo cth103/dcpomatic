@@ -52,8 +52,7 @@ using std::exception;
 using std::cerr;
 using boost::shared_ptr;
 using boost::optional;
-using boost::algorithm::is_any_of;
-using boost::algorithm::split;
+using boost::algorithm::trim;
 using dcp::raw_convert;
 
 Config* Config::_instance = 0;
@@ -379,8 +378,14 @@ Config::write () const
 	for (vector<boost::filesystem::path>::const_iterator i = _history.begin(); i != _history.end(); ++i) {
 		root->add_child("History")->add_child_text (i->string ());
 	}
-	
-	doc.write_to_file_formatted (file().string ());
+
+	try {
+		doc.write_to_file_formatted (file().string ());
+	} catch (xmlpp::exception& e) {
+		string s = e.what ();
+		trim (s);
+		throw FileError (s, file ());
+	}
 }
 
 boost::filesystem::path
