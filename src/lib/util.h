@@ -70,7 +70,6 @@ extern boost::filesystem::path mo_path ();
 extern std::string tidy_for_filename (std::string);
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size, int);
 extern std::string entities_to_text (std::string e);
-extern std::map<std::string, std::string> split_get_request (std::string url);
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
 extern int round_to (float n, int r);
