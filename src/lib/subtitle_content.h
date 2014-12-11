@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ public:
 	static int const SUBTITLE_X_SCALE;
 	static int const SUBTITLE_Y_SCALE;
 	static int const USE_SUBTITLES;
+	static int const SUBTITLE_LANGUAGE;
 };
 
 /** @class SubtitleContent
@@ -56,6 +57,7 @@ public:
 	void set_subtitle_y_offset (double);
 	void set_subtitle_x_scale (double);
 	void set_subtitle_y_scale (double);
+	void set_subtitle_language (std::string language);
 
 	bool use_subtitles () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -82,6 +84,10 @@ public:
 		return _subtitle_y_scale;
 	}
 
+	boost::optional<std::string> subtitle_language () const {
+		return _subtitle_language;
+	}
+
 private:
 	friend struct ffmpeg_pts_offset_test;
 
@@ -98,6 +104,8 @@ private:
 	double _subtitle_x_scale;
 	/** y scale factor to apply to subtitles */
 	double _subtitle_y_scale;
+
+	boost::optional<std::string> _subtitle_language;
 };
 
 #endif

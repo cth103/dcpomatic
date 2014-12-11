@@ -83,6 +83,10 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 		add_label_to_sizer (s, this, _("%"), false);
 		grid->Add (s);
 	}
+
+	add_label_to_sizer (grid, this, _("Language"), true);
+	_language = new wxTextCtrl (this, wxID_ANY);
+	grid->Add (_language, 1, wxEXPAND);
 	
 	add_label_to_sizer (grid, this, _("Stream"), true);
 	_stream = new wxChoice (this, wxID_ANY);
@@ -99,8 +103,9 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_use->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
 	_x_offset->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
 	_y_offset->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_x_scale->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
-	_y_scale->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
+	_x_scale->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
+	_y_scale->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
+	_language->Bind    (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
 	_stream->Bind      (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
 	_view_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::view_clicked, this));
 }
@@ -261,6 +266,15 @@ SubtitlePanel::y_scale_changed ()
 }
 
 void
+SubtitlePanel::language_changed ()
+{
+	SubtitleContentList c = _parent->selected_subtitle ();
+	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_subtitle_language (wx_to_std (_language->GetValue()));
+	}
+}
+
+void
 SubtitlePanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
@@ -269,6 +283,7 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
 }
 
 void
