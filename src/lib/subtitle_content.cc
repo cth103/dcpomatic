@@ -139,13 +139,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
 	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_subtitle_y_scale));
-<<<<<<< HEAD
-	if (_subtitle_language) {
-		root->add_child("SubtitleLanguage")->add_child_text (_subtitle_language.get ());
-	}
-=======
 	root->add_child("SubtitleLanguage")->add_child_text (_subtitle_language);
->>>>>>> 30a2bb95980d74a33baeb18d18f2e4ac72d66845
 }
 
 void

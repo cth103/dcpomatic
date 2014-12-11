@@ -108,8 +108,6 @@ private:
 	double _subtitle_x_scale;
 	/** y scale factor to apply to subtitles */
 	double _subtitle_y_scale;
-
-	boost::optional<std::string> _subtitle_language;
 };
 
 #endif
