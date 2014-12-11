@@ -48,6 +48,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job, bool calculate_digest)
 {
 	Content::examine (job, calculate_digest);
 	dcp::SubtitleContent sc (path (0), false);
+	_subtitle_language = sc.language ();
 	_length = DCPTime::from_seconds (sc.latest_subtitle_out().to_seconds ());
 }
 

@@ -84,10 +84,14 @@ public:
 		return _subtitle_y_scale;
 	}
 
-	boost::optional<std::string> subtitle_language () const {
+	std::string subtitle_language () const {
 		return _subtitle_language;
 	}
 
+protected:
+	/** subtitle language (e.g. "German") or empty if it is not known */
+	std::string _subtitle_language;
+	
 private:
 	friend struct ffmpeg_pts_offset_test;
 

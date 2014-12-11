@@ -160,6 +160,8 @@ SubtitlePanel::film_content_changed (int property)
 		checked_set (_x_scale, scs ? int (rint (scs->subtitle_x_scale() * 100)) : 100);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_SCALE) {
 		checked_set (_y_scale, scs ? int (rint (scs->subtitle_y_scale() * 100)) : 100);
+	} else if (property == SubtitleContentProperty::SUBTITLE_LANGUAGE) {
+		checked_set (_language, scs ? scs->subtitle_language() : "");
 	}
 }
 
@@ -203,6 +205,7 @@ SubtitlePanel::setup_sensitivity ()
 	_y_offset->Enable (any_subs > 0 && use);
 	_x_scale->Enable (any_subs > 0 && use);
 	_y_scale->Enable (any_subs > 0 && use);
+	_language->Enable (any_subs > 0 && use);
 	_stream->Enable (ffmpeg_subs == 1);
 	_view_button->Enable (subrip_or_dcp_subs == 1);
 }

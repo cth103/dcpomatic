@@ -50,6 +50,8 @@
 #include <stdint.h>
 #include <algorithm>
 
+#include "i18n.h"
+
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 
 using std::list;
@@ -547,6 +549,12 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
 		if (!subtitle_content->use_subtitles ()) {
 			continue;
+		}
+
+		/* XXX: this will break down if we have multiple subtitle content */
+		ps.language = subtitle_content->subtitle_language();
+		if (ps.language.empty ()) {
+			ps.language = _("Unknown");
 		}
 
 		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
