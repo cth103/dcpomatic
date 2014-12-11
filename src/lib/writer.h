@@ -94,7 +94,7 @@ public:
 	void write (boost::shared_ptr<const EncodedData>, int, Eyes);
 	void fake_write (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
-	void write (PlayerSubtitles);
+	void write (PlayerSubtitles subs);
 	void repeat (int f, Eyes);
 	void finish ();
 

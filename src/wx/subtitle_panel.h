@@ -38,6 +38,7 @@ private:
 	void y_offset_changed ();
 	void x_scale_changed ();
 	void y_scale_changed ();
+	void language_changed ();
 	void stream_changed ();
 	void view_clicked ();
 
@@ -48,6 +49,7 @@ private:
 	wxSpinCtrl* _y_offset;
 	wxSpinCtrl* _x_scale;
 	wxSpinCtrl* _y_scale;
+	wxTextCtrl* _language;
 	wxChoice* _stream;
 	wxButton* _view_button;
 	SubtitleView* _view;

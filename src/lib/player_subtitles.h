@@ -36,7 +36,9 @@ public:
 
 	/** ImageSubtitles, with their rectangles transformed as specified by their content */
 	std::list<ImageSubtitle> image;
-	std::list<dcp::SubtitleString> text; 
+	std::list<dcp::SubtitleString> text;
+
+	std::string language;
 };
 
 #endif

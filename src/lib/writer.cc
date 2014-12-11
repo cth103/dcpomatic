@@ -615,9 +615,7 @@ Writer::write (PlayerSubtitles subs)
 	}
 	
 	if (!_subtitle_content) {
-		_subtitle_content.reset (
-			new dcp::SubtitleContent (_film->name(), _film->isdcf_metadata().subtitle_language)
-			);
+		_subtitle_content.reset (new dcp::SubtitleContent (_film->name(), subs.language));
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {

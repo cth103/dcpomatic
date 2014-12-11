@@ -38,6 +38,7 @@ int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
 int const SubtitleContentProperty::SUBTITLE_X_SCALE = 502;
 int const SubtitleContentProperty::SUBTITLE_Y_SCALE = 503;
 int const SubtitleContentProperty::USE_SUBTITLES = 504;
+int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 505;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f)
 	: Content (f)
@@ -88,6 +89,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	} else {
 		_subtitle_x_scale = _subtitle_y_scale = node->number_child<float> ("SubtitleScale");
 	}
+
+	_subtitle_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
 }
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -125,6 +128,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 	_subtitle_y_offset = ref->subtitle_y_offset ();
 	_subtitle_x_scale = ref->subtitle_x_scale ();
 	_subtitle_y_scale = ref->subtitle_y_scale ();
+	_subtitle_language = ref->subtitle_language ();
 }
 
 void
@@ -135,6 +139,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
 	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_subtitle_y_scale));
+	root->add_child("SubtitleLanguage")->add_child_text (_subtitle_language);
 }
 
 void
@@ -187,6 +192,16 @@ SubtitleContent::set_subtitle_y_scale (double s)
 	signal_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 }
 
+void
+SubtitleContent::set_subtitle_language (string language)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_subtitle_language = language;
+	}
+	signal_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
+}
+
 string
 SubtitleContent::identifier () const
 {
@@ -196,6 +211,10 @@ SubtitleContent::identifier () const
 	  << "_" << raw_convert<string> (subtitle_y_scale())
 	  << "_" << raw_convert<string> (subtitle_x_offset())
 	  << "_" << raw_convert<string> (subtitle_y_offset());
+
+	/* The language is for metadata only, and doesn't affect
+	   how this content looks.
+	*/
 
 	return s.str ();
 }
