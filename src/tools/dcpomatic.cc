@@ -63,6 +63,10 @@
 #include <iostream>
 #include <fstream>
 
+#ifdef check
+#undef check
+#endif
+
 using std::cout;
 using std::string;
 using std::vector;
