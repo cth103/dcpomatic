@@ -547,7 +547,7 @@ DCPPanel::make_video_panel ()
 		_frame_rate_sizer->Add (_frame_rate_spin, 1, wxALIGN_CENTER_VERTICAL);
 		setup_frame_rate_widget ();
 		_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
-		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL | wxEXPAND);
+		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 		grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
 	}
 	++r;
