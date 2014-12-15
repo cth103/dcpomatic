@@ -178,9 +178,9 @@ void
 AudioPanel::gain_calculate_button_clicked ()
 {
 	GainCalculatorDialog* d = new GainCalculatorDialog (this);
-	d->ShowModal ();
+	int const r = d->ShowModal ();
 
-	if (d->wanted_fader() == 0 || d->actual_fader() == 0) {
+	if (r == wxID_CANCEL || d->wanted_fader() == 0 || d->actual_fader() == 0) {
 		d->Destroy ();
 		return;
 	}

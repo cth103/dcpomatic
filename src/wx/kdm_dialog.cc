@@ -309,11 +309,11 @@ void
 KDMDialog::add_cinema_clicked ()
 {
 	CinemaDialog* d = new CinemaDialog (this, "Add Cinema");
-	d->ShowModal ();
-
-	shared_ptr<Cinema> c (new Cinema (d->name(), d->email()));
-	Config::instance()->add_cinema (c);
-	add_cinema (c);
+	if (d->ShowModal () == wxID_OK) {
+		shared_ptr<Cinema> c (new Cinema (d->name(), d->email()));
+		Config::instance()->add_cinema (c);
+		add_cinema (c);
+	}
 
 	d->Destroy ();
 }
@@ -328,13 +328,12 @@ KDMDialog::edit_cinema_clicked ()
 	pair<wxTreeItemId, shared_ptr<Cinema> > c = selected_cinemas().front();
 	
 	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->email);
-	d->ShowModal ();
-
-	c.second->name = d->name ();
-	c.second->email = d->email ();
-	_targets->SetItemText (c.first, std_to_wx (d->name()));
-
-	Config::instance()->changed ();
+	if (d->ShowModal () == wxID_OK) {
+		c.second->name = d->name ();
+		c.second->email = d->email ();
+		_targets->SetItemText (c.first, std_to_wx (d->name()));
+		Config::instance()->changed ();
+	}
 
 	d->Destroy ();	
 }
@@ -385,13 +384,12 @@ KDMDialog::edit_screen_clicked ()
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 	
 	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->certificate);
-	d->ShowModal ();
-
-	s.second->name = d->name ();
-	s.second->certificate = d->certificate ();
-	_targets->SetItemText (s.first, std_to_wx (d->name()));
-
-	Config::instance()->changed ();
+	if (d->ShowModal () == wxID_OK) {
+		s.second->name = d->name ();
+		s.second->certificate = d->certificate ();
+		_targets->SetItemText (s.first, std_to_wx (d->name()));
+		Config::instance()->changed ();
+	}
 
 	d->Destroy ();
 }
@@ -528,13 +526,16 @@ KDMDialog::update_cpl_summary ()
 void
 KDMDialog::cpl_browse_clicked ()
 {
-	wxFileDialog d (this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, "*.xml");
-	if (d.ShowModal() == wxID_CANCEL) {
+	wxFileDialog* d = new wxFileDialog (this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, "*.xml");
+	if (d->ShowModal() == wxID_CANCEL) {
+		d->Destroy ();
 		return;
 	}
 
-	boost::filesystem::path cpl_file (wx_to_std (d.GetPath ()));
+	boost::filesystem::path cpl_file (wx_to_std (d->GetPath ()));
 	boost::filesystem::path dcp_dir = cpl_file.parent_path ();
+
+	d->Destroy ();
 
 	/* XXX: hack alert */
 	cxml::Document cpl_document ("CompositionPlaylist");
