@@ -101,8 +101,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	   I don't think we ever want to do that, as it seems things at -ve PTS are not meant
 	   to be seen (use for alignment bars etc.); see mantis #418.
 	*/
-	if (_pts_offset > 0) {
-		_pts_offset = 0;
+	if (_pts_offset > ContentTime ()) {
+		_pts_offset = ContentTime ();
 	}
 
 	/* Now adjust both so that the video pts starts on a frame */
