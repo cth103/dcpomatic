@@ -51,6 +51,7 @@ private:
 	void name_changed ();
 	void use_isdcf_name_toggled ();
 	void edit_isdcf_button_clicked ();
+	void copy_isdcf_name_button_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
 	void scaler_changed ();
@@ -86,6 +87,7 @@ private:
 	wxCheckBox* _use_isdcf_name;
 	wxChoice* _container;
 	wxButton* _edit_isdcf_button;
+	wxButton* _copy_isdcf_name_button;
 	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;

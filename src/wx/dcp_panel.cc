@@ -65,9 +65,16 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 
 	_use_isdcf_name = new wxCheckBox (_panel, wxID_ANY, _("Use ISDCF name"));
 	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
-	_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
-	grid->Add (_edit_isdcf_button, wxGBPosition (r, 1));
-	++r;
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_edit_isdcf_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
+		s->Add (_edit_isdcf_button, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		_copy_isdcf_name_button = new wxButton (_dcp_panel, wxID_ANY, _("Copy as name"));
+		s->Add (_copy_isdcf_name_button, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+	}
 
 	add_label_to_grid_bag_sizer (grid, _panel, _("DCP Name"), true, wxGBPosition (r, 0));
 	_dcp_name = new wxStaticText (_panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
@@ -98,13 +105,14 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	_name->Bind		(wxEVT_COMMAND_TEXT_UPDATED, 	      boost::bind (&DCPPanel::name_changed, this));
-	_use_isdcf_name->Bind	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
-	_edit_isdcf_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
-	_dcp_content_type->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_signed->Bind           (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::signed_toggled, this));
-	_encrypted->Bind        (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::encrypted_toggled, this));
-	_standard->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::standard_changed, this));
+	_name->Bind		 (wxEVT_COMMAND_TEXT_UPDATED, 	      boost::bind (&DCPPanel::name_changed, this));
+	_use_isdcf_name->Bind	 (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
+	_edit_isdcf_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
+	_copy_isdcf_name_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
+	_dcp_content_type->Bind	 (wxEVT_COMMAND_CHOICE_SELECTED,      boost::bind (&DCPPanel::dcp_content_type_changed, this));
+	_signed->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::signed_toggled, this));
+	_encrypted->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::encrypted_toggled, this));
+	_standard->Bind          (wxEVT_COMMAND_CHOICE_SELECTED,      boost::bind (&DCPPanel::standard_changed, this));
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -269,21 +277,7 @@ DCPPanel::film_changed (int p)
 	{
 		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
 		setup_dcp_name ();
-		bool const i = _film->use_isdcf_name ();
-		if (i) {
-			/* We just chose to use the ISDCF name.  The user has probably unticked and re-ticked the box,
-			   so it's fairly likey that the film's name will now be a full ISDCF one.  Based on this guess,
-			   remove anything after the first _ in the film's name here.
-			*/
-			string const n = _film->name ();
-			if (n.find ("_") != string::npos) {
-				_film->set_name (n.substr (0, n.find ("_")));
-			}
-		} else {
-			/* Otherwise set the name to the full ISDCF name */
-			_film->set_name (_film->isdcf_name (true));
-		}
-		_edit_isdcf_button->Enable (i);
+		_edit_isdcf_button->Enable (_film->use_isdcf_name ());
 		break;
 	}
 	case Film::ISDCF_METADATA:
@@ -640,4 +634,11 @@ DCPPanel::make_audio_panel ()
 	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
 
 	return panel;
+}
+
+void
+DCPPanel::copy_isdcf_name_button_clicked ()
+{
+	_film->set_name (_film->isdcf_name (false));
+	_film->set_use_isdcf_name (false);
 }
