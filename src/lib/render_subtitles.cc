@@ -88,11 +88,7 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 	context->set_line_width (1);
 
 	for (list<dcp::SubtitleString>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
-		string f = i->font ();
-		if (f.empty ()) {
-			f = "Arial";
-		}
-		Pango::FontDescription font (f);
+		Pango::FontDescription font (i->font().get_value_or ("Arial"));
 		font.set_absolute_size (i->size_in_pixels (target.height) * PANGO_SCALE);
 		if (i->italic ()) {
 			font.set_style (Pango::STYLE_ITALIC);

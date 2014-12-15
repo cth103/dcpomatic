@@ -23,7 +23,9 @@
 
 using std::list;
 using std::vector;
+using std::string;
 using boost::shared_ptr;
+using boost::optional;
 
 SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
 	: SubtitleDecoder (content)
@@ -58,7 +60,7 @@ SubRipDecoder::pass ()
 		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {
 			out.push_back (
 				dcp::SubtitleString (
-					"Arial",
+					optional<string> (),
 					j->italic,
 					dcp::Color (255, 255, 255),
 					/* .srt files don't specify size, so this is an arbitrary value */

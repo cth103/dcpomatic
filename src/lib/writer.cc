@@ -44,6 +44,7 @@
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
+#include <dcp/interop_subtitle_content.h>
 #include <fstream>
 #include <cerrno>
 
@@ -615,7 +616,7 @@ Writer::write (PlayerSubtitles subs)
 	}
 	
 	if (!_subtitle_content) {
-		_subtitle_content.reset (new dcp::SubtitleContent (_film->name(), subs.language));
+		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), subs.language));
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
