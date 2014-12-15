@@ -97,6 +97,14 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 		_pts_offset = - c->audio_stream()->first_audio.get();
 	}
 
+	/* If _pts_offset is positive we would be pushing things from a -ve PTS to be played.
+	   I don't think we ever want to do that, as it seems things at -ve PTS are not meant
+	   to be seen (use for alignment bars etc.); see mantis #418.
+	*/
+	if (_pts_offset > 0) {
+		_pts_offset = 0;
+	}
+
 	/* Now adjust both so that the video pts starts on a frame */
 	if (have_video && have_audio) {
 		ContentTime first_video = c->first_video().get() + _pts_offset;
