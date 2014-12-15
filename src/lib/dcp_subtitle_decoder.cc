@@ -19,7 +19,7 @@
 
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
-#include <dcp/subtitle_content.h>
+#include <dcp/interop_subtitle_content.h>
 
 using std::list;
 using std::cout;
@@ -28,7 +28,7 @@ using boost::shared_ptr;
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
 	: SubtitleDecoder (content)
 {
-	dcp::SubtitleContent c (content->path (0), false);
+	dcp::InteropSubtitleContent c (content->path (0));
 	_subtitles = c.subtitles ();
 	_next = _subtitles.begin ();
 }

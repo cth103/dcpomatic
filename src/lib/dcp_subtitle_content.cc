@@ -18,7 +18,7 @@
 */
 
 #include "dcp_subtitle_content.h"
-#include <dcp/subtitle_content.h>
+#include <dcp/interop_subtitle_content.h>
 #include <dcp/raw_convert.h>
 
 #include "i18n.h"
@@ -47,7 +47,7 @@ void
 DCPSubtitleContent::examine (shared_ptr<Job> job, bool calculate_digest)
 {
 	Content::examine (job, calculate_digest);
-	dcp::SubtitleContent sc (path (0), false);
+	dcp::InteropSubtitleContent sc (path (0));
 	_subtitle_language = sc.language ();
 	_length = DCPTime::from_seconds (sc.latest_subtitle_out().to_seconds ());
 }
