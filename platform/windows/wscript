@@ -266,7 +266,7 @@ SectionEnd
         print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
         print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 encode server"', file=f)
 
-    printf("""
+    print("""
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER} $(DESC_SEC_MASTER)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER} $(DESC_SEC_SERVER)
