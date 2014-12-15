@@ -37,9 +37,6 @@
 #include "md5_digester.h"
 #include "audio_processor.h"
 #include "safe_stringstream.h"
-#ifdef DCPOMATIC_WINDOWS
-#include "stack.hpp"
-#endif
 #include <dcp/version.h>
 #include <dcp/util.h>
 #include <dcp/signer.h>
@@ -69,6 +66,7 @@ extern "C" {
 #include <boost/filesystem.hpp>
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
+#include <dbghelp.h>
 #endif
 #include <signal.h>
 #include <iomanip>
@@ -103,6 +101,10 @@ using boost::optional;
 using dcp::Size;
 using dcp::raw_convert;
 
+/** Path to our executable, required by the stacktrace stuff and filled
+ *  in during App::onInit().
+ */
+string program_name;
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
 
@@ -263,15 +265,69 @@ seconds (struct timeval t)
 }
 
 #ifdef DCPOMATIC_WINDOWS
+
+/** Resolve symbol name and source location given the path to the executable */
+int
+addr2line (void const * const adr)
+{
+	char addr2line_cmd[512] = { 0 };
+	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str()); 
+	return system(addr2line_cmd);
+}
+
+/** This is called when C signals occur on Windows (e.g. SIGSEGV)
+ *  (NOT C++ exceptions!).  We write a backtrace to backtrace_file by dark means.
+ *  Adapted from code here: http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
+ */
 LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
 {
-	dbg::stack s;
 	FILE* f = fopen_boost (backtrace_file, "w");
-	fprintf (f, "Exception thrown:");
-	for (dbg::stack::const_iterator i = s.begin(); i != s.end(); ++i) {
-		fprintf (f, "%p %s %d %s\n", i->instruction, i->function.c_str(), i->line, i->module.c_str());
+	fprintf (f, "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
+	fclose(f);
+	
+	if (info->ExceptionRecord->ExceptionCode != EXCEPTION_STACK_OVERFLOW) {
+		CONTEXT* context = info->ContextRecord;
+		SymInitialize (GetCurrentProcess (), 0, true);
+		
+		STACKFRAME frame = { 0 };
+		
+		/* setup initial stack frame */
+#if _WIN64
+		frame.AddrPC.Offset    = context->Rip;
+		frame.AddrStack.Offset = context->Rsp;
+		frame.AddrFrame.Offset = context->Rbp;
+#else  
+		frame.AddrPC.Offset    = context->Eip;
+		frame.AddrStack.Offset = context->Esp;
+		frame.AddrFrame.Offset = context->Ebp;
+#endif
+		frame.AddrPC.Mode      = AddrModeFlat;
+		frame.AddrStack.Mode   = AddrModeFlat;
+		frame.AddrFrame.Mode   = AddrModeFlat;
+		
+		while (
+			StackWalk (
+				IMAGE_FILE_MACHINE_I386,
+				GetCurrentProcess (),
+				GetCurrentThread (),
+				&frame,
+				context,
+				0,
+				SymFunctionTableAccess,
+				SymGetModuleBase,
+				0
+				)
+			) {
+			addr2line((void *) frame.AddrPC.Offset);
+		}
+	} else {
+#ifdef _WIN64          
+		addr2line ((void *) info->ContextRecord->Rip);
+#else          
+		addr2line ((void *) info->ContextRecord->Eip);
+#endif         
 	}
-	fclose (f);
+	
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif
@@ -282,7 +338,11 @@ set_backtrace_file (boost::filesystem::path p)
 	backtrace_file = p;
 }
 
-/* From http://stackoverflow.com/questions/2443135/how-do-i-find-where-an-exception-was-thrown-in-c */
+/** This is called when there is an unhandled exception.  Any
+ *  backtrace in this function is useless on Windows as the stack has
+ *  already been unwound from the throw; we have the gdb wrap hack to
+ *  cope with that.
+ */
 void
 terminate ()
 {

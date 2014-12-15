@@ -161,6 +161,8 @@ def dependencies(target):
 
 def build(target, options):
     cmd = './waf configure --prefix=%s' % target.directory
+    if target.debug:
+        cmd += ' --enable-debug'
     if target.platform == 'windows':
         cmd += ' --target-windows'
     elif target.platform == 'linux':
@@ -185,6 +187,7 @@ def package_windows(target):
     target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
     target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, target.bits))
+    target.command('sed -i "s~%%mingw%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.mingw_path, target.bits))
     target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
     target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)

@@ -118,7 +118,6 @@ def build(bld):
 
     if bld.env.TARGET_WINDOWS:
         obj.uselib += ' WINSOCK2 BFD DBGHELP IBERTY SHLWAPI MSWSOCK BOOST_LOCALE'
-        obj.source += ' stack.cpp'
     if bld.env.BUILD_STATIC:
         obj.uselib += ' XMLPP'
 

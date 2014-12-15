@@ -48,6 +48,8 @@ extern "C" {
 #define HISTORY_SIZE 10
 #define REPORT_PROBLEM _("Please report this problem by using Help -> Report a problem or via email to carl@dcpomatic.com")
 
+extern std::string program_name;
+
 class Job;
 struct AVSubtitle;
 

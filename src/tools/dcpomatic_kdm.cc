@@ -33,8 +33,6 @@ using std::list;
 using std::vector;
 using boost::shared_ptr;
 
-static string program_name;
-
 static void
 help ()
 {

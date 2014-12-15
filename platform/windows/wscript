@@ -1,7 +1,7 @@
 from __future__ import print_function
 import os
 
-def write_installer(bits, version):
+def write_installer(bits, version, debug):
     try:
         os.makedirs('build/platform/windows')
     except:
@@ -12,18 +12,31 @@ def write_installer(bits, version):
     if bits == 64:
         print('!include "x64.nsh"', file=f)
 
-    print('Name "DCP-o-matic"', file=f)
+    if debug:
+        print('Name "DCP-o-matic Debug"', file=f)
+    else:
+        print('Name "DCP-o-matic"', file=f)
+
     print('RequestExecutionLevel admin', file=f)
 
-    print('outFile "DCP-o-matic %s %d-bit Installer.exe"' % (version, bits), file=f)
+    if debug:
+        print('outFile "DCP-o-matic Debug %s %d-bit Installer.exe"' % (version, bits), file=f)
+    else:
+        print('outFile "DCP-o-matic %s %d-bit Installer.exe"' % (version, bits), file=f)
+
     print("""
 !define MUI_ICON "%resources%/dcpomatic.ico"
 !define MUI_UNICON "%resources%/dcpomatic.ico"
 !define MUI_SPECIALBITMAP "%resources%/dcpomatic.bmp"
 !include "Sections.nsh"
+    """, file=f)
 
-InstallDir "$PROGRAMFILES\\DCP-o-matic 2"
+    if debug:
+        print('InstallDir "$PROGRAMFILES\\DCP-o-matic 2 Debug"', file=f)
+    else:
+        print('InstallDir "$PROGRAMFILES\\DCP-o-matic 2"', file=f)
 
+    print("""
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "../../../COPYING"
 !insertmacro MUI_PAGE_DIRECTORY
@@ -121,10 +134,18 @@ File "%cdist_deps%/bin/swscale-3.dll"
 File "%cdist_deps%/bin/cxml-0.dll"
 File "%cdist_deps%/bin/sub.dll"
 File "%cdist_deps%/bin/ffprobe.exe"
+    """, file=f)
 
-File "%binaries%/src/wx/dcpomatic2-wx.dll"
-File "%binaries%/src/lib/dcpomatic2.dll"
+    if debug:
+        print('File "%resources%/gdb_script"', file=f)
+        print('File "%resources%/debug.bat"', file=f)
+        print('File "%mingw%/gdb.exe"', file=f)
+        print('File "%mingw%/addr2line.exe"', file=f)
+    else:
+        print('File "%binaries%/src/wx/dcpomatic2-wx.dll"', file=f)
+        print('File "%binaries%/src/lib/dcpomatic2.dll"', file=f)
 
+    print("""
 SetOutPath "$INSTDIR\\lib\\pango\\1.8.0\\modules"
 File "%static_deps%/lib/pango/1.8.0/modules/pango-arabic-lang.dll"
 File "%static_deps%/lib/pango/1.8.0/modules/pango-basic-win32.dll"
@@ -168,9 +189,16 @@ File "%binaries%/src/lib/mo/nl_NL/libdcpomatic2.mo"
 File "%binaries%/src/wx/mo/nl_NL/libdcpomatic2-wx.mo"
 File "%binaries%/src/tools/mo/nl_NL/dcpomatic2.mo"
 File "%static_deps%/share/locale/nl/LC_MESSAGES/wxstd.mo"
+    """, file=f)
 
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"
+    if debug:
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "DisplayName" "DCP-o-matic 2 Debug (remove only)"', file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
+    else:
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
+
+    print("""
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
 
 CreateDirectory "$INSTDIR\etc\pango"
@@ -179,23 +207,48 @@ SetOutPath "$INSTDIR"
 nsExec::ExecToLog '$0 /C bin\pango-querymodules.exe > etc\pango\pango.modules'
 
 SectionEnd
+    """, file=f)
 
-Section "DCP-o-matic" SEC_MASTER
-SetOutPath "$INSTDIR\\bin"
-CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
+    if debug:
+        print('Section "DCP-o-matic 2 Debug" SEC_MASTER', file=f)
+    else:
+        print('Section "DCP-o-matic 2" SEC_MASTER', file=f)
+    
+    print('SetOutPath "$INSTDIR\\bin"', file=f)
+
+    if debug:
+        print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2 Debug"', file=f)
+    else:
+        print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+
+    print("""
 File "%binaries%/src/tools/dcpomatic2.exe"
 File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
-CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2.exe" 0
-CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe" ""
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" "" "$INSTDIR\\bin\\dcpomatic2_batch.exe" 0
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"
-WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"
+    """, file=f)
+
+    if debug:
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Debug.lnk" "$INSTDIR\\bin\\debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 Debug\\DCP-o-matic 2 Debug.lnk" "$INSTDIR\\bin\\debug.bat"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2 Debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "DisplayName" "DCP-o-matic 2 Debug (remove only)"', file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
+    else:
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
+
+    print("""
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
 SectionEnd
+    """, file=f)
 
+    if not debug:
+        print("""
 Section "Encode server" SEC_SERVER
 SetOutPath "$INSTDIR\\bin"
 CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
@@ -205,10 +258,15 @@ CreateShortCut "$DESKTOP\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpom
 CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 encode server.lnk" "$INSTDIR\\bin\\dcpomatic_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
 CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
 SectionEnd
+    """, file=f)
 
-LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic"
-LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic encode server"
+    if debug:
+        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2 Debug"', file=f)
+    else:
+        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
+        print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 encode server"', file=f)
 
+    printf("""
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER} $(DESC_SEC_MASTER)
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER} $(DESC_SEC_SERVER)
@@ -222,7 +280,22 @@ LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic encode server"
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 !insertmacro MUI_LANGUAGE "English"
+    """, file=f)
 
+    if debug:
+        print("""
+Section "Uninstall"
+RMDir /r "$INSTDIR\\*.*"    
+RMDir "$INSTDIR"
+Delete "$DESKTOP\\DCP-o-matic 2 Debug.lnk"
+Delete "$SMPROGRAMS\\DCP-o-matic 2 Debug\\*.*"
+RmDir  "$SMPROGRAMS\\DCP-o-matic 2 Debug"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2 Debug"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug"
+ SectionEnd
+        """, file=f)
+    else:
+        print("""
 Section "Uninstall"
 RMDir /r "$INSTDIR\\*.*"    
 RMDir "$INSTDIR"
@@ -231,12 +304,12 @@ Delete "$DESKTOP\\DCP-o-matic 2 batch converter.lnk"
 Delete "$DESKTOP\\DCP-o-matic 2 encode server.lnk"
 Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"
 RmDir  "$SMPROGRAMS\\DCP-o-matic 2"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic2"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2"
  SectionEnd
     """, file=f)
     
 
 def build(bld):
-    write_installer(32, bld.env.VERSION)
-    write_installer(64, bld.env.VERSION)
+    write_installer(32, bld.env.VERSION, bld.env.DEBUG)
+    write_installer(64, bld.env.VERSION, bld.env.DEBUG)
