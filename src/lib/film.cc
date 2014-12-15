@@ -269,11 +269,6 @@ Film::make_dcp ()
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
 
-	/* It seems to make sense to auto-save metadata here, since the make DCP may last
-	   a long time, and crashes/power failures are moderately likely.
-	 */
-	write_metadata ();
-
 	LOG_GENERAL ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary());
 
 	{

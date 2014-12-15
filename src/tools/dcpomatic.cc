@@ -400,6 +400,10 @@ private:
 		}
 
 		try {
+			/* It seems to make sense to auto-save metadata here, since the make DCP may last
+			   a long time, and crashes/power failures are moderately likely.
+			*/
+			_film->write_metadata ();
 			_film->make_dcp ();
 		} catch (BadSettingError& e) {
 			error_dialog (this, wxString::Format (_("Bad setting for %s (%s)"), std_to_wx(e.setting()).data(), std_to_wx(e.what()).data()));
