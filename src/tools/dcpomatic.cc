@@ -36,7 +36,6 @@
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
 #include "wx/config_dialog.h"
-#include "wx/job_wrapper.h"
 #include "wx/wx_util.h"
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
@@ -399,8 +398,14 @@ private:
 				return;
 			}
 		}
-		
-		JobWrapper::make_dcp (this, _film);
+
+		try {
+			_film->make_dcp ();
+		} catch (BadSettingError& e) {
+			error_dialog (this, wxString::Format (_("Bad setting for %s (%s)"), std_to_wx(e.setting()).data(), std_to_wx(e.what()).data()));
+		} catch (std::exception& e) {
+			error_dialog (this, wxString::Format (_("Could not make DCP: %s"), std_to_wx(e.what()).data()));
+		}
 	}
 
 	void jobs_make_kdms ()

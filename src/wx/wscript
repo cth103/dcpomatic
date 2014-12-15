@@ -31,7 +31,6 @@ sources = """
           gain_calculator_dialog.cc
           hints_dialog.cc
           job_manager_view.cc
-          job_wrapper.cc
           kdm_dialog.cc
           make_signer_chain_dialog.cc
           new_film_dialog.cc
