@@ -50,6 +50,7 @@ using std::cout;
 using std::list;
 using std::bad_alloc;
 using std::make_pair;
+using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::weak_ptr;
@@ -169,7 +170,13 @@ FilmViewer::get (DCPTime p, bool accurate)
 		return;
 	}
 
-	list<shared_ptr<PlayerVideo> > pvf = _player->get_video (p, accurate);
+	list<shared_ptr<PlayerVideo> > pvf;
+	try {
+		pvf = _player->get_video (p, accurate);
+	} catch (exception& e) {
+		error_dialog (this, wxString::Format (_("Could not get video for view (%s)"), std_to_wx(e.what()).data()));
+	}
+	
 	if (!pvf.empty ()) {
 		try {
 			_frame = pvf.front()->image (PIX_FMT_RGB24, true);

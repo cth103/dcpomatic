@@ -68,9 +68,9 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_edit_isdcf_button = new wxButton (_dcp_panel, wxID_ANY, _("Details..."));
+		_edit_isdcf_button = new wxButton (_panel, wxID_ANY, _("Details..."));
 		s->Add (_edit_isdcf_button, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-		_copy_isdcf_name_button = new wxButton (_dcp_panel, wxID_ANY, _("Copy as name"));
+		_copy_isdcf_name_button = new wxButton (_panel, wxID_ANY, _("Copy as name"));
 		s->Add (_copy_isdcf_name_button, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 		++r;
