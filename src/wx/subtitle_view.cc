@@ -58,7 +58,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 	}
 
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	sizer->Add (_list, 1, wxEXPAND);
+	sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {

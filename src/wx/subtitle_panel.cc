@@ -30,6 +30,7 @@
 #include "wx_util.h"
 #include "subtitle_view.h"
 #include "content_panel.h"
+#include "fonts_dialog.h"
 
 using std::vector;
 using std::string;
@@ -39,7 +40,8 @@ using boost::dynamic_pointer_cast;
 
 SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Subtitles"))
-	, _view (0)
+	, _subtitle_view (0)
+	, _fonts_dialog (0)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
@@ -92,22 +94,28 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, 1, wxEXPAND);
 
-	_view_button = new wxButton (this, wxID_ANY, _("View..."));
-	grid->Add (_view_button);
+	_subtitle_view_button = new wxButton (this, wxID_ANY, _("View..."));
+	grid->Add (_subtitle_view_button);
+	grid->AddSpacer (0);
+
+	_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
+	grid->Add (_fonts_dialog_button);
+	grid->AddSpacer (0);
 	
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
 	_x_scale->SetRange (10, 1000);
 	_y_scale->SetRange (10, 1000);
 
-	_use->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
-	_x_offset->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
-	_y_offset->Bind    (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_x_scale->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
-	_y_scale->Bind     (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
-	_language->Bind    (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
-	_stream->Bind      (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
-	_view_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::view_clicked, this));
+	_use->Bind                  (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
+	_x_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
+	_y_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
+	_x_scale->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
+	_y_scale->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
+	_language->Bind             (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
+	_stream->Bind               (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
+	_subtitle_view_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
+	_fonts_dialog_button->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
 }
 
 void
@@ -207,7 +215,8 @@ SubtitlePanel::setup_sensitivity ()
 	_y_scale->Enable (any_subs > 0 && use);
 	_language->Enable (any_subs > 0 && use);
 	_stream->Enable (ffmpeg_subs == 1);
-	_view_button->Enable (subrip_or_dcp_subs == 1);
+	_subtitle_view_button->Enable (subrip_or_dcp_subs == 1);
+	_fonts_dialog_button->Enable (subrip_or_dcp_subs == 1);
 }
 
 void
@@ -287,14 +296,15 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
+	film_content_changed (SubtitleContentProperty::FONTS);
 }
 
 void
-SubtitlePanel::view_clicked ()
+SubtitlePanel::subtitle_view_clicked ()
 {
-	if (_view) {
-		_view->Destroy ();
-		_view = 0;
+	if (_subtitle_view) {
+		_subtitle_view->Destroy ();
+		_subtitle_view = 0;
 	}
 
 	SubtitleContentList c = _parent->selected_subtitle ();
@@ -313,7 +323,22 @@ SubtitlePanel::view_clicked ()
 	}
 	
 	if (decoder) {
-		_view = new SubtitleView (this, _parent->film(), decoder, c.front()->position ());
-		_view->Show ();
+		_subtitle_view = new SubtitleView (this, _parent->film(), decoder, c.front()->position ());
+		_subtitle_view->Show ();
 	}
+}
+
+void
+SubtitlePanel::fonts_dialog_clicked ()
+{
+	if (_fonts_dialog) {
+		_fonts_dialog->Destroy ();
+		_fonts_dialog = 0;
+	}
+
+	SubtitleContentList c = _parent->selected_subtitle ();
+	assert (c.size() == 1);
+
+	_fonts_dialog = new FontsDialog (this, c.front ());
+	_fonts_dialog->Show ();
 }

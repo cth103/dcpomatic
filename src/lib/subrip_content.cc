@@ -21,6 +21,7 @@
 #include "util.h"
 #include "subrip.h"
 #include "film.h"
+#include "font.h"
 #include <dcp/raw_convert.h>
 
 #include "i18n.h"
@@ -59,6 +60,7 @@ SubRipContent::examine (boost::shared_ptr<Job> job, bool calculate_digest)
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = len;
+	_fonts.push_back (shared_ptr<Font> (new Font ()));
 }
 
 string

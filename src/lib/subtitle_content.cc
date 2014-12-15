@@ -39,6 +39,7 @@ int const SubtitleContentProperty::SUBTITLE_X_SCALE = 502;
 int const SubtitleContentProperty::SUBTITLE_Y_SCALE = 503;
 int const SubtitleContentProperty::USE_SUBTITLES = 504;
 int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 505;
+int const SubtitleContentProperty::FONTS = 506;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f)
 	: Content (f)

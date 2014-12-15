@@ -22,6 +22,7 @@
 class wxCheckBox;
 class wxSpinCtrl;
 class SubtitleView;
+class FontsDialog;
 
 class SubtitlePanel : public ContentSubPanel
 {
@@ -40,7 +41,8 @@ private:
 	void y_scale_changed ();
 	void language_changed ();
 	void stream_changed ();
-	void view_clicked ();
+	void subtitle_view_clicked ();
+	void fonts_dialog_clicked ();
 
 	void setup_sensitivity ();
 	
@@ -51,6 +53,8 @@ private:
 	wxSpinCtrl* _y_scale;
 	wxTextCtrl* _language;
 	wxChoice* _stream;
-	wxButton* _view_button;
-	SubtitleView* _view;
+	wxButton* _subtitle_view_button;
+	SubtitleView* _subtitle_view;
+	wxButton* _fonts_dialog_button;
+	FontsDialog* _fonts_dialog;
 };

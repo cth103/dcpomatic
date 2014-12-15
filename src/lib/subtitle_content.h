@@ -22,6 +22,8 @@
 
 #include "content.h"
 
+class Font;
+
 class SubtitleContentProperty
 {
 public:
@@ -31,6 +33,7 @@ public:
 	static int const SUBTITLE_Y_SCALE;
 	static int const USE_SUBTITLES;
 	static int const SUBTITLE_LANGUAGE;
+	static int const FONTS;
 };
 
 /** @class SubtitleContent
@@ -84,13 +87,20 @@ public:
 		return _subtitle_y_scale;
 	}
 
+	std::list<boost::shared_ptr<Font> > fonts () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fonts;
+	}
+
 	std::string subtitle_language () const {
+		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_language;
 	}
 
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _subtitle_language;
+	std::list<boost::shared_ptr<Font> > _fonts;
 	
 private:
 	friend struct ffmpeg_pts_offset_test;

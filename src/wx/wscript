@@ -28,6 +28,7 @@ sources = """
           film_viewer.cc
           filter_dialog.cc
           filter_editor.cc
+          fonts_dialog.cc
           gain_calculator_dialog.cc
           hints_dialog.cc
           job_manager_view.cc
