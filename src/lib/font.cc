@@ -17,27 +17,29 @@
 
 */
 
-#include <libcxml/cxml.h>
-#include <boost/optional.hpp>
-#include <boost/filesystem.hpp>
-#include <string>
+#include "font.h"
+#include <libxml++/libxml++.h>
 
-class Font
+Font::Font (cxml::NodePtr node)
 {
-public:
-	Font () {}
+	id = node->optional_string_child ("Id");
+	file = node->optional_string_child ("File");
+}
 
-	Font (std::string id_)
-		: id (id_) {}
+void
+Font::as_xml (xmlpp::Node* node)
+{
+	if (id) {
+		node->add_child("Id")->add_child_text (id.get ());
+	}
 
-	Font (cxml::NodePtr node);
-
-	void as_xml (xmlpp::Node* node);
-	
-	/** Font ID, or empty for the default font */
-	boost::optional<std::string> id;
-	boost::optional<boost::filesystem::path> file;
-};
+	if (file) {
+		node->add_child("File")->add_child_text (file.get().string ());
+	}
+}
 
 bool
-operator!= (Font const & a, Font const & b);
+operator!= (Font const & a, Font const & b)
+{
+	return (a.id != b.id || a.file != b.file);
+}

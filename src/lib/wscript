@@ -42,6 +42,7 @@ sources = """
           ffmpeg_subtitle_stream.cc
           film.cc
           filter.cc
+          font.cc
           frame_rate_change.cc
           internet.cc
           image.cc

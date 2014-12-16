@@ -23,12 +23,14 @@
 #include "util.h"
 #include "exceptions.h"
 #include "safe_stringstream.h"
+#include "font.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::vector;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
@@ -92,6 +94,11 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	}
 
 	_subtitle_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
+
+	list<cxml::NodePtr> fonts = node->node_children ("Font");
+	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
+		_fonts.push_back (shared_ptr<Font> (new Font (*i)));
+	}
 }
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -99,6 +106,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 {
 	shared_ptr<SubtitleContent> ref = dynamic_pointer_cast<SubtitleContent> (c[0]);
 	assert (ref);
+	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
 	
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c[i]);
@@ -122,6 +130,22 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 		if (sc->subtitle_y_scale() != ref->subtitle_y_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
+
+		list<shared_ptr<Font> > fonts = sc->fonts ();
+		if (fonts.size() != ref_fonts.size()) {
+			throw JoinError (_("Content to be joined must use the same fonts."));
+		}
+
+		list<shared_ptr<Font> >::const_iterator j = ref_fonts.begin ();
+		list<shared_ptr<Font> >::const_iterator k = fonts.begin ();
+
+		while (j != ref_fonts.end ()) {
+			if (**j != **k) {
+				throw JoinError (_("Content to be joined must use the same fonts."));
+			}
+			++j;
+			++k;
+		}
 	}
 
 	_use_subtitles = ref->use_subtitles ();
@@ -130,17 +154,25 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 	_subtitle_x_scale = ref->subtitle_x_scale ();
 	_subtitle_y_scale = ref->subtitle_y_scale ();
 	_subtitle_language = ref->subtitle_language ();
+	_fonts = ref_fonts;
 }
 
+/** _mutex must not be held on entry */
 void
 SubtitleContent::as_xml (xmlpp::Node* root) const
 {
+	boost::mutex::scoped_lock lm (_mutex);
+	
 	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use_subtitles));
 	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
 	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_subtitle_y_scale));
 	root->add_child("SubtitleLanguage")->add_child_text (_subtitle_language);
+
+	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
+		(*i)->as_xml (root->add_child("Font"));
+	}
 }
 
 void
