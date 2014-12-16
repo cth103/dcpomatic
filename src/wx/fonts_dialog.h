@@ -29,6 +29,10 @@ public:
 	FontsDialog (wxWindow* parent, boost::shared_ptr<SubtitleContent>);
 
 private:
+	void setup ();
+	void set_file_clicked ();
+	
+	boost::weak_ptr<SubtitleContent> _content;
 	wxListCtrl* _fonts;
-	wxButton* _edit;
+	wxButton* _set_file;
 };
