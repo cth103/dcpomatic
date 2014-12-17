@@ -411,6 +411,7 @@ DCPPanel::set_general_sensitivity (bool s)
 	_use_isdcf_name->Enable (s);
 	_edit_isdcf_button->Enable (s);
 	_dcp_content_type->Enable (s);
+	_copy_isdcf_name_button->Enable (s);
 
 	bool si = s;
 	if (_film && _film->encrypted ()) {
