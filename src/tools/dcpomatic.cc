@@ -61,15 +61,18 @@
 #include <boost/filesystem.hpp>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #ifdef check
 #undef check
 #endif
 
 using std::cout;
+using std::wcout;
 using std::string;
 using std::vector;
 using std::wstring;
+using std::wstringstream;
 using std::map;
 using std::make_pair;
 using std::list;
@@ -466,12 +469,13 @@ private:
 
 	void jobs_show_dcp ()
 	{
-#ifdef __WXMSW__
-		string d = _film->directory().string ();
-		wstring w;
-		w.assign (d.begin(), d.end());
-		ShellExecute (0, L"open", w.c_str(), 0, 0, SW_SHOWDEFAULT);
-#else
+#ifdef DCPOMATIC_WINDOWS
+		wstringstream args;
+		args << "/select," << _film->dir (_film->dcp_name(false));
+		ShellExecute (0, L"open", L"explorer.exe", args.str().c_str(), 0, SW_SHOWDEFAULT);
+#endif
+
+#ifdef DCPOMATIC_LINUX
 		int r = system ("which nautilus");
 		if (WEXITSTATUS (r) == 0) {
 			r = system (string ("nautilus " + _film->directory().string()).c_str ());
@@ -488,6 +492,13 @@ private:
 			}
 		}
 #endif		
+
+#ifdef DCPOMATIC_OSX
+		int r = system (string ("open -R " + _film->dir (_film->dcp_name (false)).string ()).c_str ());
+		if (WEXITSTATUS (r)) {
+			error_dialog (this, _("Could not show DCP"));
+		}
+#endif		       
 	}
 
 	void tools_hints ()

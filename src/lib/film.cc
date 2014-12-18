@@ -149,7 +149,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 		}
 	}
 
-	set_directory (result);
+	set_directory (result.make_preferred ());
 	if (log) {
 		_log.reset (new FileLog (file ("log")));
 	} else {
