@@ -361,7 +361,7 @@ DCPPanel::container_changed ()
 	int const n = _container->GetSelection ();
 	if (n >= 0) {
 		vector<Ratio const *> ratios = Ratio::all ();
-		assert (n < int (ratios.size()));
+		DCPOMATIC_ASSERT (n < int (ratios.size()));
 		_film->set_container (ratios[n]);
 	}
 }

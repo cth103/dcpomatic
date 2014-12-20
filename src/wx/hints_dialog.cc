@@ -17,11 +17,12 @@
 
 */
 
-#include <boost/algorithm/string.hpp>
-#include <wx/richtext/richtextctrl.h>
 #include "lib/film.h"
 #include "lib/ratio.h"
+#include "lib/video_content.h"
 #include "hints_dialog.h"
+#include <boost/algorithm/string.hpp>
+#include <wx/richtext/richtextctrl.h>
 
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;

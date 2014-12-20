@@ -179,7 +179,7 @@ shared_ptr<EncodedData>
 PlayerVideo::j2k () const
 {
 	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
-	assert (j2k);
+	DCPOMATIC_ASSERT (j2k);
 	return j2k->j2k ();
 }
 

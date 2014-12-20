@@ -308,7 +308,7 @@ SubtitlePanel::subtitle_view_clicked ()
 	}
 
 	SubtitleContentList c = _parent->selected_subtitle ();
-	assert (c.size() == 1);
+	DCPOMATIC_ASSERT (c.size() == 1);
 
 	shared_ptr<SubtitleDecoder> decoder;
 	
@@ -337,7 +337,7 @@ SubtitlePanel::fonts_dialog_clicked ()
 	}
 
 	SubtitleContentList c = _parent->selected_subtitle ();
-	assert (c.size() == 1);
+	DCPOMATIC_ASSERT (c.size() == 1);
 
 	_fonts_dialog = new FontsDialog (this, c.front ());
 	_fonts_dialog->Show ();

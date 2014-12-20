@@ -22,6 +22,7 @@
  */
 
 #include "dcp_content_type.h"
+#include "dcpomatic_assert.h"
 #include <cassert>
 
 #include "i18n.h"
@@ -80,7 +81,7 @@ DCPContentType::from_isdcf_name (string n)
 DCPContentType const *
 DCPContentType::from_index (int n)
 {
-	assert (n >= 0 && n < int (_dcp_content_types.size ()));
+	DCPOMATIC_ASSERT (n >= 0 && n < int (_dcp_content_types.size ()));
 	return _dcp_content_types[n];
 }
 

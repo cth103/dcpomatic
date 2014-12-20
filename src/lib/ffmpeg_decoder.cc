@@ -168,12 +168,12 @@ FFmpegDecoder::pass ()
 shared_ptr<AudioBuffers>
 FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 {
-	assert (_ffmpeg_content->audio_channels());
-	assert (bytes_per_audio_sample());
+	DCPOMATIC_ASSERT (_ffmpeg_content->audio_channels());
+	DCPOMATIC_ASSERT (bytes_per_audio_sample());
 
 	/* Deinterleave and convert to float */
 
-	assert ((size % (bytes_per_audio_sample() * _ffmpeg_content->audio_channels())) == 0);
+	DCPOMATIC_ASSERT ((size % (bytes_per_audio_sample() * _ffmpeg_content->audio_channels())) == 0);
 
 	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _ffmpeg_content->audio_channels();

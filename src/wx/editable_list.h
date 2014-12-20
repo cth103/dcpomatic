@@ -132,7 +132,7 @@ private:
 		}
 
 		std::vector<T> all = _get ();
-		assert (item >= 0 && item < int (all.size ()));
+		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 
 		T copy (all[item]);
 		add_to_control (copy);
@@ -149,7 +149,7 @@ private:
 		}
 
 		std::vector<T> all = _get ();
-		assert (item >= 0 && item < int (all.size ()));
+		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 
 		S* dialog = new S (this);
 		dialog->set (all[item]);

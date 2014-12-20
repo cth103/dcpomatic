@@ -49,7 +49,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c)
 	if (c->kdm ()) {
 		dcp.add (dcp::DecryptedKDM (c->kdm().get (), Config::instance()->decryption_private_key ()));
 	}
-	assert (dcp.cpls().size() == 1);
+	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
 	_reels = dcp.cpls().front()->reels ();
 	_reel = _reels.begin ();
 }

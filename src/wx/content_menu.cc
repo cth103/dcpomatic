@@ -136,7 +136,7 @@ ContentMenu::join ()
 		}
 	}
 
-	assert (fc.size() > 1);
+	DCPOMATIC_ASSERT (fc.size() > 1);
 
 	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
@@ -245,8 +245,8 @@ ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_pt
 
 	shared_ptr<Content> old_content = oc.lock ();
 	shared_ptr<Content> new_content = nc.lock ();
-	assert (old_content);
-	assert (new_content);
+	DCPOMATIC_ASSERT (old_content);
+	DCPOMATIC_ASSERT (new_content);
 
 	if (new_content->digest() != old_content->digest()) {
 		error_dialog (0, _("The content file(s) you specified are not the same as those that are missing.  Either try again with the correct content file or remove the missing content."));
@@ -259,16 +259,16 @@ ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_pt
 void
 ContentMenu::kdm ()
 {
-	assert (!_content.empty ());
+	DCPOMATIC_ASSERT (!_content.empty ());
 	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
-	assert (dcp);
+	DCPOMATIC_ASSERT (dcp);
 	
 	wxFileDialog* d = new wxFileDialog (_parent, _("Select KDM"));
 		
 	if (d->ShowModal() == wxID_OK) {
 		dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()))));
 		shared_ptr<Film> film = _film.lock ();
-		assert (film);
+		DCPOMATIC_ASSERT (film);
 		film->examine_content (dcp, true);
 	}
 	

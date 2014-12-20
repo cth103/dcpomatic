@@ -139,7 +139,7 @@ DCPTime
 DCPContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	return DCPTime (video_length (), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
 }
 

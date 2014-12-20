@@ -21,12 +21,13 @@
  *  @brief A class to describe one of FFmpeg's software scalers.
  */
 
-#include <iostream>
-#include <cassert>
+#include "dcpomatic_assert.h"
+#include "scaler.h"
 extern "C" {
 #include <libswscale/swscale.h>
 }
-#include "scaler.h"
+#include <iostream>
+#include <cassert>
 
 #include "i18n.h"
 
@@ -112,6 +113,6 @@ Scaler::as_index (Scaler const * s)
 Scaler const *
 Scaler::from_index (int i)
 {
-	assert (i <= int(_scalers.size ()));
+	DCPOMATIC_ASSERT (i <= int(_scalers.size ()));
 	return _scalers[i];
 }

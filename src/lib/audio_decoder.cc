@@ -166,7 +166,7 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 		_audio_position = time.frames (frame_rate);
 	}
 
-	assert (_audio_position.get() >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
+	DCPOMATIC_ASSERT (_audio_position.get() >= (_decoded_audio.frame + _decoded_audio.audio->frames()));
 
 	add (data);
 }

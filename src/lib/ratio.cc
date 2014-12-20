@@ -17,9 +17,10 @@
 
 */
 
-#include <dcp/types.h>
 #include "ratio.h"
 #include "util.h"
+#include <dcp/types.h>
+#include <cfloat>
 
 #include "i18n.h"
 

@@ -27,7 +27,8 @@
 
 #include "compose.hpp"
 #include "types.h"
-#include "video_content.h"
+#include "exceptions.h"
+#include "dcpomatic_time.h"
 #include <dcp/util.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -125,7 +126,7 @@ private:
 	int _timeout;
 };
 
-extern int64_t video_frames_to_audio_frames (VideoContent::Frame v, float audio_sample_rate, float frames_per_second);
+extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
 
 /** @class ScopedTemporary
  *  @brief A temporary file which is deleted when the ScopedTemporary object goes out of scope.

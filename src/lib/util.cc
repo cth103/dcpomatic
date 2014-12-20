@@ -708,7 +708,7 @@ stride_round_up (int c, int const * stride, int t)
 int
 round_to (float n, int r)
 {
-	assert (r == 1 || r == 2 || r == 4);
+	DCPOMATIC_ASSERT (r == 1 || r == 2 || r == 4);
 	return int (n + float(r) / 2) &~ (r - 1);
 }
 
@@ -813,13 +813,13 @@ get_optional_int (multimap<string, string> const & kv, string k)
 void
 ensure_ui_thread ()
 {
-	assert (boost::this_thread::get_id() == ui_thread);
+	DCPOMATIC_ASSERT (boost::this_thread::get_id() == ui_thread);
 }
 
 string
 audio_channel_name (int c)
 {
-	assert (MAX_DCP_AUDIO_CHANNELS == 12);
+	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 12);
 
 	/// TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
 	/// enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and

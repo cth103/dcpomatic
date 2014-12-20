@@ -106,7 +106,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, vector<boost::shared_ptr
 	, SubtitleContent (f, c)
 {
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
-	assert (ref);
+	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
@@ -173,7 +173,7 @@ FFmpegContent::examine (shared_ptr<Job> job, bool calculate_digest)
 	take_from_video_examiner (examiner);
 
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -315,7 +315,7 @@ DCPTime
 FFmpegContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	return DCPTime (video_length_after_3d_combine(), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
 }
 

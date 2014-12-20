@@ -51,7 +51,7 @@ resolution_to_string (Resolution r)
 		return "4K";
 	}
 
-	assert (false);
+	DCPOMATIC_ASSERT (false);
 	return "";
 }
 
@@ -67,7 +67,7 @@ string_to_resolution (string s)
 		return RESOLUTION_4K;
 	}
 
-	assert (false);
+	DCPOMATIC_ASSERT (false);
 	return RESOLUTION_2K;
 }
 

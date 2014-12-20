@@ -56,7 +56,7 @@ SubRipContent::examine (boost::shared_ptr<Job> job, bool calculate_digest)
 	SubRip s (shared_from_this ());
 
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	
 	DCPTime len (s.length (), film->active_frame_rate_change (position ()));
 
@@ -80,7 +80,7 @@ SubRipContent::technical_summary () const
 string
 SubRipContent::information () const
 {
-
+	
 }
 	
 void

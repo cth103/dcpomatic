@@ -23,6 +23,7 @@
 
 #include "cinema_sound_processor.h"
 #include "dolby_cp750.h"
+#include "dcpomatic_assert.h"
 #include <iostream>
 #include <cassert>
 
@@ -98,6 +99,6 @@ CinemaSoundProcessor::as_index (CinemaSoundProcessor const * s)
 CinemaSoundProcessor const *
 CinemaSoundProcessor::from_index (int i)
 {
-	assert (i <= int(_cinema_sound_processors.size ()));
+	DCPOMATIC_ASSERT (i <= int(_cinema_sound_processors.size ()));
 	return _cinema_sound_processors[i];
 }

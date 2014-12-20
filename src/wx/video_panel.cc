@@ -48,8 +48,8 @@ static VideoContentScale
 index_to_scale (int n)
 {
 	vector<VideoContentScale> scales = VideoContentScale::all ();
-	assert (n >= 0);
-	assert (n < int (scales.size ()));
+	DCPOMATIC_ASSERT (n >= 0);
+	DCPOMATIC_ASSERT (n < int (scales.size ()));
 	return scales[n];
 }
 
@@ -63,7 +63,7 @@ scale_to_index (VideoContentScale scale)
 		}
 	}
 
-	assert (false);
+	DCPOMATIC_ASSERT (false);
 }
 
 VideoPanel::VideoPanel (ContentPanel* p)

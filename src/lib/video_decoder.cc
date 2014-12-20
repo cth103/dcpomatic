@@ -261,7 +261,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_WHOLE, frame));
 		break;
 	default:
-		assert (false);
+		DCPOMATIC_ASSERT (false);
 	}
 
 	/* Now VideoDecoder is required never to have gaps in the frames that it presents

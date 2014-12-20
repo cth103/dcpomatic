@@ -136,7 +136,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 	, _video_length (0)
 {
 	shared_ptr<VideoContent> ref = dynamic_pointer_cast<VideoContent> (c[0]);
-	assert (ref);
+	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c[i]);
@@ -240,7 +240,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	}
 
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length.frames (_video_frame_rate));
 	
 	signal_changed (VideoContentProperty::VIDEO_SIZE);
@@ -413,7 +413,7 @@ VideoContent::video_size_after_3d_split () const
 		return dcp::Size (s.width, s.height / 2);
 	}
 
-	assert (false);
+	DCPOMATIC_ASSERT (false);
 }
 
 void
@@ -474,7 +474,7 @@ ContentTime
 VideoContent::dcp_time_to_content_time (DCPTime t) const
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	return ContentTime (t, FrameRateChange (video_frame_rate(), film->video_frame_rate()));
 }
 
@@ -482,7 +482,7 @@ void
 VideoContent::scale_and_crop_to_fit_width ()
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 
 	set_scale (VideoContentScale (film->container ()));
 
@@ -495,7 +495,7 @@ void
 VideoContent::scale_and_crop_to_fit_height ()
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 
 	set_scale (VideoContentScale (film->container ()));
 
@@ -522,7 +522,7 @@ VideoContent::set_video_frame_rate (float r)
 optional<float>
 VideoContent::fade (VideoFrame f) const
 {
-	assert (f >= 0);
+	DCPOMATIC_ASSERT (f >= 0);
 	
 	if (f < fade_in().frames (video_frame_rate ())) {
 		return float (f) / _fade_in.frames (video_frame_rate ());
@@ -563,7 +563,7 @@ VideoContent::processing_description () const
 	}
 
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 
 	dcp::Size const container_size = film->frame_size ();
 	dcp::Size const scaled = scale().size (dynamic_pointer_cast<const VideoContent> (shared_from_this ()), container_size, container_size, 1);

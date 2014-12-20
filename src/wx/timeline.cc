@@ -96,7 +96,7 @@ public:
 
 	dcpomatic::Rect<int> bbox () const
 	{
-		assert (_track);
+		DCPOMATIC_ASSERT (_track);
 
 		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> content = _content.lock ();
@@ -145,7 +145,7 @@ private:
 
 	void do_paint (wxGraphicsContext* gc)
 	{
-		assert (_track);
+		DCPOMATIC_ASSERT (_track);
 
 		shared_ptr<const Film> film = _timeline.film ();
 		shared_ptr<const Content> cont = content ();
@@ -749,7 +749,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 	_down_view->content()->set_position (new_position);
 	
 	shared_ptr<Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	film->set_sequence_video (false);
 }
 

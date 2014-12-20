@@ -337,9 +337,9 @@ Player::get_video (DCPTime time, bool accurate)
 
 		shared_ptr<Piece> piece = ov.back ();
 		shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
-		assert (decoder);
+		DCPOMATIC_ASSERT (decoder);
 		shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
-		assert (content);
+		DCPOMATIC_ASSERT (content);
 
 		list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
 		if (content_video.empty ()) {
@@ -415,9 +415,9 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 	for (list<shared_ptr<Piece> >::iterator i = ov.begin(); i != ov.end(); ++i) {
 
 		shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> ((*i)->content);
-		assert (content);
+		DCPOMATIC_ASSERT (content);
 		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> ((*i)->decoder);
-		assert (decoder);
+		DCPOMATIC_ASSERT (decoder);
 
 		if (content->audio_frame_rate() == 0) {
 			/* This AudioContent has no audio (e.g. if it is an FFmpegContent with no

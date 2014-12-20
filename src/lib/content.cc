@@ -270,7 +270,7 @@ Content::path_summary () const
 {
 	/* XXX: should handle multiple paths more gracefully */
 
-	assert (number_of_paths ());
+	DCPOMATIC_ASSERT (number_of_paths ());
 
 	string s = path(0).filename().string ();
 	if (number_of_paths() > 1) {

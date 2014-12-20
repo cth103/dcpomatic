@@ -43,8 +43,6 @@ public:
 class VideoContent : public virtual Content
 {
 public:
-	typedef int Frame;
-
 	VideoContent (boost::shared_ptr<const Film>);
 	VideoContent (boost::shared_ptr<const Film>, DCPTime, ContentTime);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);

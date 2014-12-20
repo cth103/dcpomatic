@@ -472,7 +472,7 @@ boost::filesystem::path
 KDMDialog::cpl () const
 {
 	int const item = _cpl->GetSelection ();
-	assert (item >= 0);
+	DCPOMATIC_ASSERT (item >= 0);
 	return _cpls[item].cpl_file;
 }
 

@@ -22,6 +22,7 @@
 
 #include "frame_rate_change.h"
 #include "safe_stringstream.h"
+#include "dcpomatic_assert.h"
 #include <stdint.h>
 #include <cmath>
 #include <ostream>
@@ -177,7 +178,7 @@ public:
 
 	template <class T>
 	static ContentTime from_frames (int64_t f, T r) {
-		assert (r > 0);
+		DCPOMATIC_ASSERT (r > 0);
 		return ContentTime (f * HZ / r);
 	}
 
@@ -281,7 +282,7 @@ public:
 
 	template <class T>
 	static DCPTime from_frames (int64_t f, T r) {
-		assert (r > 0);
+		DCPOMATIC_ASSERT (r > 0);
 		return DCPTime (f * HZ / r);
 	}
 

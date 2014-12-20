@@ -18,6 +18,7 @@
 */
 
 #include "audio_buffers.h"
+#include "dcpomatic_assert.h"
 #include <cassert>
 #include <cstring>
 #include <cmath>
@@ -73,8 +74,8 @@ AudioBuffers::~AudioBuffers ()
 void
 AudioBuffers::allocate (int channels, int frames)
 {
-	assert (frames >= 0);
-	assert (channels >= 0);
+	DCPOMATIC_ASSERT (frames >= 0);
+	DCPOMATIC_ASSERT (channels >= 0);
 
 	_channels = channels;
 	_frames = frames;
@@ -109,7 +110,7 @@ AudioBuffers::deallocate ()
 float*
 AudioBuffers::data (int c) const
 {
-	assert (c >= 0 && c < _channels);
+	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
 	return _data[c];
 }
 
@@ -121,7 +122,7 @@ AudioBuffers::data (int c) const
 void
 AudioBuffers::set_frames (int f)
 {
-	assert (f <= _allocated_frames);
+	DCPOMATIC_ASSERT (f <= _allocated_frames);
 
 	for (int c = 0; c < _channels; ++c) {
 		for (int i = f; i < _frames; ++i) {
@@ -147,7 +148,7 @@ AudioBuffers::make_silent ()
 void
 AudioBuffers::make_silent (int c)
 {
-	assert (c >= 0 && c < _channels);
+	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
 	
 	for (int i = 0; i < _frames; ++i) {
 		_data[c][i] = 0;
@@ -157,7 +158,7 @@ AudioBuffers::make_silent (int c)
 void
 AudioBuffers::make_silent (int from, int frames)
 {
-	assert ((from + frames) <= _allocated_frames);
+	DCPOMATIC_ASSERT ((from + frames) <= _allocated_frames);
 
 	for (int c = 0; c < _channels; ++c) {
 		for (int i = from; i < (from + frames); ++i) {
@@ -180,11 +181,11 @@ AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read
 		return;
 	}
 	
-	assert (from->channels() == channels());
+	DCPOMATIC_ASSERT (from->channels() == channels());
 
-	assert (from);
-	assert (read_offset >= 0 && (read_offset + frames_to_copy) <= from->_allocated_frames);
-	assert (write_offset >= 0 && (write_offset + frames_to_copy) <= _allocated_frames);
+	DCPOMATIC_ASSERT (from);
+	DCPOMATIC_ASSERT (read_offset >= 0 && (read_offset + frames_to_copy) <= from->_allocated_frames);
+	DCPOMATIC_ASSERT (write_offset >= 0 && (write_offset + frames_to_copy) <= _allocated_frames);
 
 	for (int i = 0; i < _channels; ++i) {
 		memcpy (_data[i] + write_offset, from->_data[i] + read_offset, frames_to_copy * sizeof(float));
@@ -204,14 +205,14 @@ AudioBuffers::move (int from, int to, int frames)
 		return;
 	}
 	
-	assert (from >= 0);
-	assert (from < _frames);
-	assert (to >= 0);
-	assert (to < _frames);
-	assert (frames > 0);
-	assert (frames <= _frames);
-	assert ((from + frames) <= _frames);
-	assert ((to + frames) <= _allocated_frames);
+	DCPOMATIC_ASSERT (from >= 0);
+	DCPOMATIC_ASSERT (from < _frames);
+	DCPOMATIC_ASSERT (to >= 0);
+	DCPOMATIC_ASSERT (to < _frames);
+	DCPOMATIC_ASSERT (frames > 0);
+	DCPOMATIC_ASSERT (frames <= _frames);
+	DCPOMATIC_ASSERT ((from + frames) <= _frames);
+	DCPOMATIC_ASSERT ((to + frames) <= _allocated_frames);
 	
 	for (int i = 0; i < _channels; ++i) {
 		memmove (_data[i] + to, _data[i] + from, frames * sizeof(float));
@@ -225,8 +226,8 @@ void
 AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain)
 {
 	int const N = frames ();
-	assert (from->frames() == N);
-	assert (to_channel <= _channels);
+	DCPOMATIC_ASSERT (from->frames() == N);
+	DCPOMATIC_ASSERT (to_channel <= _channels);
 
 	float* s = from->data (from_channel);
 	float* d = _data[to_channel];
@@ -262,9 +263,9 @@ AudioBuffers::ensure_size (int frames)
 void
 AudioBuffers::accumulate_frames (AudioBuffers const * from, int read_offset, int write_offset, int frames)
 {
-	assert (_channels == from->channels ());
-	assert (read_offset >= 0);
-	assert (write_offset >= 0);
+	DCPOMATIC_ASSERT (_channels == from->channels ());
+	DCPOMATIC_ASSERT (read_offset >= 0);
+	DCPOMATIC_ASSERT (write_offset >= 0);
 
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < frames; ++j) {
@@ -300,7 +301,7 @@ AudioBuffers::channel (int c) const
 void
 AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel)
 {
-	assert (from->frames() == frames());
+	DCPOMATIC_ASSERT (from->frames() == frames());
 	memcpy (data(to_channel), from->data(from_channel), frames() * sizeof (float));
 }
 

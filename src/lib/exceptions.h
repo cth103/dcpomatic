@@ -259,6 +259,12 @@ public:
 	InvalidSignerError ();
 };
 
+class ProgrammingError : public StringError
+{
+public:
+	ProgrammingError (std::string file, int line);
+};
+
 /** @class ExceptionStore
  *  @brief A parent class for classes which have a need to catch and
  *  re-throw exceptions.

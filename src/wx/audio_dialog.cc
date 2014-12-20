@@ -163,7 +163,7 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 		++c;
 	}
 
-	assert (c < MAX_DCP_AUDIO_CHANNELS);
+	DCPOMATIC_ASSERT (c < MAX_DCP_AUDIO_CHANNELS);
 
 	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
 }
@@ -186,7 +186,7 @@ AudioDialog::type_clicked (wxCommandEvent& ev)
 		++t;
 	}
 
-	assert (t < AudioPoint::COUNT);
+	DCPOMATIC_ASSERT (t < AudioPoint::COUNT);
 
 	_plot->set_type_visible (t, _type_checkbox[t]->GetValue ());
 }

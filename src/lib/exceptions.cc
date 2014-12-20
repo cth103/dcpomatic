@@ -73,3 +73,9 @@ InvalidSignerError::InvalidSignerError ()
 {
 
 }
+
+ProgrammingError::ProgrammingError (string file, int line)
+	: StringError (String::compose (_("Programming error at %1:%2"), file, line))
+{
+
+}

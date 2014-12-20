@@ -29,6 +29,7 @@
 #include "types.h"
 #include "isdcf_metadata.h"
 #include "frame_rate_change.h"
+#include "ratio.h"
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/signals2.hpp>

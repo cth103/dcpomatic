@@ -105,7 +105,7 @@ ImageContent::examine (shared_ptr<Job> job, bool calculate_digest)
 	Content::examine (job, calculate_digest);
 
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	
 	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
 	take_from_video_examiner (examiner);
@@ -126,7 +126,7 @@ DCPTime
 ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	return DCPTime (video_length_after_3d_combine(), FrameRateChange (video_frame_rate(), film->video_frame_rate()));
 }
 

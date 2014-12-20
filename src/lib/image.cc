@@ -88,14 +88,14 @@ Image::components () const
 shared_ptr<Image>
 Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
 {
-	assert (scaler);
+	DCPOMATIC_ASSERT (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
 	*/
-	assert (aligned ());
+	DCPOMATIC_ASSERT (aligned ());
 
-	assert (out_size.width >= inter_size.width);
-	assert (out_size.height >= inter_size.height);
+	DCPOMATIC_ASSERT (out_size.width >= inter_size.width);
+	DCPOMATIC_ASSERT (out_size.height >= inter_size.height);
 
 	/* Here's an image of out_size */
 	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned));
@@ -144,11 +144,11 @@ Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, S
 shared_ptr<Image>
 Image::scale (dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
 {
-	assert (scaler);
+	DCPOMATIC_ASSERT (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
 	*/
-	assert (aligned ());
+	DCPOMATIC_ASSERT (aligned ());
 
 	shared_ptr<Image> scaled (new Image (out_format, out_size, out_aligned));
 
@@ -361,7 +361,7 @@ Image::make_transparent ()
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
-	assert (other->pixel_format() == PIX_FMT_RGBA);
+	DCPOMATIC_ASSERT (other->pixel_format() == PIX_FMT_RGBA);
 	int const other_bpp = 4;
 
 	int start_tx = position.x;
@@ -439,7 +439,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	}
 	default:
-		assert (false);
+		DCPOMATIC_ASSERT (false);
 	}
 }
 	
@@ -447,8 +447,8 @@ void
 Image::copy (shared_ptr<const Image> other, Position<int> position)
 {
 	/* Only implemented for RGB24 onto RGB24 so far */
-	assert (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGB24);
-	assert (position.x >= 0 && position.y >= 0);
+	DCPOMATIC_ASSERT (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGB24);
+	DCPOMATIC_ASSERT (position.x >= 0 && position.y >= 0);
 
 	int const N = min (position.x + other->size().width, size().width) - position.x;
 	for (int ty = position.y, oy = 0; ty < size().height && oy < other->size().height; ++ty, ++oy) {
@@ -609,7 +609,7 @@ Image::Image (shared_ptr<const Image> other, bool aligned)
 	allocate ();
 
 	for (int i = 0; i < components(); ++i) {
-		assert(line_size()[i] == other->line_size()[i]);
+		DCPOMATIC_ASSERT (line_size()[i] == other->line_size()[i]);
 		uint8_t* p = _data[i];
 		uint8_t* q = other->data()[i];
 		for (int j = 0; j < lines(i); ++j) {

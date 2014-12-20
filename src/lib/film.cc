@@ -164,7 +164,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 string
 Film::video_identifier () const
 {
-	assert (container ());
+	DCPOMATIC_ASSERT (container ());
 
 	SafeStringStream s;
 	s.imbue (std::locale::classic ());
@@ -1069,7 +1069,7 @@ Film::full_frame () const
 		return dcp::Size (4096, 2160);
 	}
 
-	assert (false);
+	DCPOMATIC_ASSERT (false);
 	return dcp::Size ();
 }
 

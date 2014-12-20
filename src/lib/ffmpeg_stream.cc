@@ -17,12 +17,13 @@
 
 */
 
+#include "ffmpeg_stream.h"
+#include "dcpomatic_assert.h"
+#include <dcp/raw_convert.h>
+#include <libxml++/libxml++.h>
 extern "C" {
 #include <libavformat/avformat.h>
 }
-#include <libxml++/libxml++.h>
-#include <dcp/raw_convert.h>
-#include "ffmpeg_stream.h"
 
 using std::string;
 using dcp::raw_convert;
@@ -66,6 +67,6 @@ FFmpegStream::stream (AVFormatContext const * fc) const
 		++i;
 	}
 
-	assert (false);
+	DCPOMATIC_ASSERT (false);
 	return 0;
 }

@@ -367,7 +367,7 @@ Playlist::move_earlier (shared_ptr<Content> c)
 		++i;
 	}
 
-	assert (i != _content.end ());
+	DCPOMATIC_ASSERT (i != _content.end ());
 	if (previous == _content.end ()) {
 		return;
 	}
@@ -389,7 +389,7 @@ Playlist::move_later (shared_ptr<Content> c)
 		++i;
 	}
 
-	assert (i != _content.end ());
+	DCPOMATIC_ASSERT (i != _content.end ());
 
 	ContentList::iterator next = i;
 	++next;

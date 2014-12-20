@@ -18,6 +18,7 @@
 */
 
 #include "video_content_scale.h"
+#include "video_content.h"
 #include "ratio.h"
 #include "safe_stringstream.h"
 #include "util.h"

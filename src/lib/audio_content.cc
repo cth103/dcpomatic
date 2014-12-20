@@ -90,7 +90,7 @@ AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 	: Content (f, c)
 {
 	shared_ptr<AudioContent> ref = dynamic_pointer_cast<AudioContent> (c[0]);
-	assert (ref);
+	DCPOMATIC_ASSERT (ref);
 	
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c[i]);
@@ -163,7 +163,7 @@ boost::signals2::connection
 AudioContent::analyse_audio (boost::function<void()> finished)
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, dynamic_pointer_cast<AudioContent> (shared_from_this())));
 	boost::signals2::connection c = job->Finished.connect (finished);
@@ -210,7 +210,7 @@ int
 AudioContent::resampled_audio_frame_rate () const
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	
 	/* Resample to a DCI-approved sample rate */
 	double t = dcp_audio_frame_rate (audio_frame_rate ());

@@ -113,7 +113,7 @@ DCPTime
 SndfileContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
-	assert (film);
+	DCPOMATIC_ASSERT (film);
 	return DCPTime (audio_length(), film->active_frame_rate_change (position ()));
 }
 

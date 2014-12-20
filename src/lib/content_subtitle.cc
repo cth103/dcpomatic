@@ -23,7 +23,7 @@ ContentTimePeriod
 ContentTextSubtitle::period () const
 {
 	/* XXX: assuming we have some subs and they are all at the same time */
-	assert (!subs.empty ());
+	DCPOMATIC_ASSERT (!subs.empty ());
 	return ContentTimePeriod (
 		ContentTime::from_seconds (double (subs.front().in().to_ticks()) / 250),
 		ContentTime::from_seconds (double (subs.front().out().to_ticks()) / 250)
