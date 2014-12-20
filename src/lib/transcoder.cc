@@ -63,6 +63,11 @@ Transcoder::go ()
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	DCPTime const length = _film->length ();
+
+	if (!_film->burn_subtitles ()) {
+		_writer->write (_player->get_subtitle_fonts ());
+	}
+	
 	for (DCPTime t; t < length; t += frame) {
 		list<shared_ptr<PlayerVideo> > v = _player->get_video (t, true);
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {

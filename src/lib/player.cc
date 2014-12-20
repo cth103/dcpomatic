@@ -551,12 +551,6 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 			continue;
 		}
 
-		/* XXX: this will break down if we have multiple subtitle content */
-		ps.language = subtitle_content->subtitle_language();
-		if (ps.language.empty ()) {
-			ps.language = _("Unknown");
-		}
-
 		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
 		ContentTime const from = dcp_to_content_subtitle (*j, time);
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
@@ -591,4 +585,26 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 	}
 
 	return ps;
+}
+
+list<shared_ptr<Font> >
+Player::get_subtitle_fonts ()
+{
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+	}
+
+	list<shared_ptr<Font> > fonts;
+	BOOST_FOREACH (shared_ptr<Piece>& p, _pieces) {
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (p->content);
+		if (sc) {
+			/* XXX: things may go wrong if there are duplicate font IDs
+			   with different font files.
+			*/
+			list<shared_ptr<Font> > f = sc->fonts ();
+			copy (f.begin(), f.end(), back_inserter (fonts));
+		}
+	}
+
+	return fonts;
 }

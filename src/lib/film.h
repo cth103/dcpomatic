@@ -143,6 +143,8 @@ public:
 		return _state_version;
 	}
 
+	std::string subtitle_language () const;
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/

@@ -60,7 +60,7 @@ SubRipDecoder::pass ()
 		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {
 			out.push_back (
 				dcp::SubtitleString (
-					optional<string> (),
+					SubRipContent::font_id,
 					j->italic,
 					dcp::Color (255, 255, 255),
 					/* .srt files don't specify size, so this is an arbitrary value */

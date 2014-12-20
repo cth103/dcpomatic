@@ -24,7 +24,6 @@
 #include "exceptions.h"
 #include "types.h"
 #include "player_subtitles.h"
-#include <dcp/subtitle_content.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -35,6 +34,7 @@ class Film;
 class EncodedData;
 class AudioBuffers;
 class Job;
+class Font;
 
 namespace dcp {
 	class MonoPictureMXF;
@@ -45,6 +45,7 @@ namespace dcp {
 	class PictureMXFWriter;
 	class SoundMXF;
 	class SoundMXFWriter;
+	class InteropSubtitleContent;
 }
 
 struct QueueItem
@@ -95,6 +96,7 @@ public:
 	void fake_write (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
+	void write (std::list<boost::shared_ptr<Font> > fonts);
 	void repeat (int f, Eyes);
 	void finish ();
 
@@ -149,5 +151,5 @@ private:
 	boost::shared_ptr<dcp::PictureMXFWriter> _picture_mxf_writer;
 	boost::shared_ptr<dcp::SoundMXF> _sound_mxf;
 	boost::shared_ptr<dcp::SoundMXFWriter> _sound_mxf_writer;
-	boost::shared_ptr<dcp::SubtitleContent> _subtitle_content;
+	boost::shared_ptr<dcp::InteropSubtitleContent> _subtitle_content;
 };

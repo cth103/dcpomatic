@@ -32,6 +32,7 @@
 #include "md5_digester.h"
 #include "encoded_data.h"
 #include "version.h"
+#include "font.h"
 #include <dcp/mono_picture_mxf.h>
 #include <dcp/stereo_picture_mxf.h>
 #include <dcp/sound_mxf.h>
@@ -616,11 +617,24 @@ Writer::write (PlayerSubtitles subs)
 	}
 	
 	if (!_subtitle_content) {
-		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), subs.language));
+		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
 		_subtitle_content->add (*i);
+	}
+}
+
+void
+Writer::write (list<shared_ptr<Font> > fonts)
+{
+	if (!_subtitle_content) {
+		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
+	}
+	
+	for (list<shared_ptr<Font> >::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
+		/* XXX: this LiberationSans-Regular needs to be a path to a DCP-o-matic-distributed copy */
+		_subtitle_content->add_font ((*i)->id, (*i)->file.get_value_or ("LiberationSans-Regular.ttf").leaf().string ());
 	}
 }
 

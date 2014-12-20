@@ -42,6 +42,8 @@ public:
 		return true;
 	}
 
+	static std::string const font_id;
+	
 private:
 	DCPTime _length;
 };

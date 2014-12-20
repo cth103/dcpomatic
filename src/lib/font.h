@@ -25,8 +25,6 @@
 class Font
 {
 public:
-	Font () {}
-
 	Font (std::string id_)
 		: id (id_) {}
 
@@ -34,8 +32,8 @@ public:
 
 	void as_xml (xmlpp::Node* node);
 	
-	/** Font ID, or empty for the default font */
-	boost::optional<std::string> id;
+	/** Font ID */
+	std::string id;
 	boost::optional<boost::filesystem::path> file;
 };
 

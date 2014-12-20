@@ -89,7 +89,7 @@ FontsDialog::setup ()
 		wxListItem item;
 		item.SetId (n);
 		_fonts->InsertItem (item);
-		_fonts->SetItem (n, 0, (*i)->id.get_value_or (wx_to_std (_("[Default]"))));
+		_fonts->SetItem (n, 0, std_to_wx ((*i)->id));
 		if ((*i)->file) {
 			_fonts->SetItem (n, 1, (*i)->file.get().leaf().string ());
 		}

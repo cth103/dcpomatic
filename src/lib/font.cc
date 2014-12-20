@@ -22,17 +22,14 @@
 
 Font::Font (cxml::NodePtr node)
 {
-	id = node->optional_string_child ("Id");
+	id = node->string_child ("Id");
 	file = node->optional_string_child ("File");
 }
 
 void
 Font::as_xml (xmlpp::Node* node)
 {
-	if (id) {
-		node->add_child("Id")->add_child_text (id.get ());
-	}
-
+	node->add_child("Id")->add_child_text (id);
 	if (file) {
 		node->add_child("File")->add_child_text (file.get().string ());
 	}

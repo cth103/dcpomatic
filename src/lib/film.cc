@@ -48,6 +48,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 #include <unistd.h>
 #include <stdexcept>
 #include <iostream>
@@ -69,6 +70,7 @@ using std::make_pair;
 using std::endl;
 using std::cout;
 using std::list;
+using std::set;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -1141,4 +1143,29 @@ Film::should_be_enough_disk_space (double& required, double& available) const
 	required = double (required_disk_space ()) / 1073741824.0f;
 	available = double (s.available) / 1073741824.0f;
 	return (available - required) > 1;
+}
+
+string
+Film::subtitle_language () const
+{
+	set<string> languages;
+	
+	ContentList cl = content ();
+	BOOST_FOREACH (shared_ptr<Content>& c, cl) {
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c);
+		if (sc) {
+			languages.insert (sc->subtitle_language ());
+		}
+	}
+
+	string all;
+	BOOST_FOREACH (string s, languages) {
+		if (!all.empty ()) {
+			all += "/" + s;
+		} else {
+			all += s;
+		}
+	}
+
+	return all;
 }

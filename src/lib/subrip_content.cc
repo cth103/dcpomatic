@@ -32,6 +32,8 @@ using dcp::raw_convert;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
+std::string const SubRipContent::font_id = "font";
+
 SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 	, SubtitleContent (film, path)
@@ -60,7 +62,7 @@ SubRipContent::examine (boost::shared_ptr<Job> job, bool calculate_digest)
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = len;
-	_fonts.push_back (shared_ptr<Font> (new Font ()));
+	_fonts.push_back (shared_ptr<Font> (new Font (font_id)));
 }
 
 string
