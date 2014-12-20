@@ -56,6 +56,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <iomanip>
+#include <set>
 
 #include "i18n.h"
 
