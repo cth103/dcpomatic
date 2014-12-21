@@ -268,7 +268,7 @@ seconds (struct timeval t)
 
 /** Resolve symbol name and source location given the path to the executable */
 int
-addr2line (void const * const adr)
+addr2line (void const * const addr)
 {
 	char addr2line_cmd[512] = { 0 };
 	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str()); 
@@ -279,7 +279,8 @@ addr2line (void const * const adr)
  *  (NOT C++ exceptions!).  We write a backtrace to backtrace_file by dark means.
  *  Adapted from code here: http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
  */
-LONG WINAPI exception_handler(struct _EXCEPTION_POINTERS *)
+LONG WINAPI
+exception_handler(struct _EXCEPTION_POINTERS * info)
 {
 	FILE* f = fopen_boost (backtrace_file, "w");
 	fprintf (f, "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
