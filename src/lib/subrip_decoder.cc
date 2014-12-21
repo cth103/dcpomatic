@@ -63,8 +63,7 @@ SubRipDecoder::pass ()
 					SubRipContent::font_id,
 					j->italic,
 					dcp::Color (255, 255, 255),
-					/* .srt files don't specify size, so this is an arbitrary value */
-					48,
+					j->font_size,
 					dcp::Time (rint (_subtitles[_next].from.metric().get().all_as_milliseconds() / 4)),
 					dcp::Time (rint (_subtitles[_next].to.metric().get().all_as_milliseconds() / 4)),
 					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
