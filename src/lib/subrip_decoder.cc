@@ -63,7 +63,7 @@ SubRipDecoder::pass ()
 					SubRipContent::font_id,
 					j->italic,
 					dcp::Color (255, 255, 255),
-					j->font_size,
+					j->font_size.points (72 * 11),
 					dcp::Time (rint (_subtitles[_next].from.metric().get().all_as_milliseconds() / 4)),
 					dcp::Time (rint (_subtitles[_next].to.metric().get().all_as_milliseconds() / 4)),
 					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
