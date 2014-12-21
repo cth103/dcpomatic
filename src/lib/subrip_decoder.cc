@@ -53,24 +53,11 @@ SubRipDecoder::pass ()
 		return true;
 	}
 
+	/* XXX: we are ignoring positioning specified in the file */
+	
 	list<dcp::SubtitleString> out;
 	for (list<sub::Line>::const_iterator i = _subtitles[_next].lines.begin(); i != _subtitles[_next].lines.end(); ++i) {
 		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {
-
-			dcp::VAlign va = dcp::TOP;
-			if (i->vertical_position.reference) {
-				switch (i->vertical_position.reference.get ()) {
-				case sub::TOP_OF_SCREEN:
-					va = dcp::TOP;
-					break;
-				case sub::CENTRE_OF_SCREEN:
-					va = dcp::CENTER;
-					break;
-				case sub::BOTTOM_OF_SCREEN:
-					va = dcp::BOTTOM;
-				}
-			}
-			
 			out.push_back (
 				dcp::SubtitleString (
 					SubRipContent::font_id,
@@ -80,7 +67,7 @@ SubRipDecoder::pass ()
 					dcp::Time (rint (_subtitles[_next].from.metric().get().all_as_milliseconds() / 4)),
 					dcp::Time (rint (_subtitles[_next].to.metric().get().all_as_milliseconds() / 4)),
 					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
-					va,
+					dcp::TOP,
 					j->text,
 					dcp::NONE,
 					dcp::Color (255, 255, 255),
