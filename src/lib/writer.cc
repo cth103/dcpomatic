@@ -628,6 +628,10 @@ Writer::write (PlayerSubtitles subs)
 void
 Writer::write (list<shared_ptr<Font> > fonts)
 {
+	if (fonts.empty ()) {
+		return;
+	}
+	
 	if (!_subtitle_content) {
 		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
 	}
