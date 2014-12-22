@@ -63,7 +63,7 @@ def dynamic_openjpeg(conf):
 def static_sub(conf):
     conf.check_cfg(package='libsub-1.0', atleast_version='1.0.0', args='--cflags', uselib_store='SUB', mandatory=True)
     conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
-    conf.env.STLIB_SUB = ['sub']
+    conf.env.STLIB_SUB = ['sub-1.0']
 
 def static_dcp(conf, static_boost, static_xmlpp, static_xmlsec, static_ssh):
     conf.check_cfg(package='libdcp-1.0', atleast_version='1.0', args='--cflags', uselib_store='DCP', mandatory=True)
