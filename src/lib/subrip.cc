@@ -21,8 +21,8 @@
 #include "cross.h"
 #include "exceptions.h"
 #include "subrip_content.h"
-#include <libsub/subrip_reader.h>
-#include <libsub/collect.h>
+#include <sub/subrip_reader.h>
+#include <sub/collect.h>
 
 #include "i18n.h"
 

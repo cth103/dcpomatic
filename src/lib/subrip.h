@@ -21,7 +21,7 @@
 #define DCPOMATIC_SUBRIP_H
 
 #include "subrip_subtitle.h"
-#include <libsub/subtitle.h>
+#include <sub/subtitle.h>
 
 class SubRipContent;
 class subrip_time_test;
