@@ -61,7 +61,7 @@ def dynamic_openjpeg(conf):
     conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.2', mandatory=True)
 
 def static_sub(conf):
-    conf.check_cfg(package='libsub-1.0', atleast_version='0.01.0', args='--cflags', uselib_store='SUB', mandatory=True)
+    conf.check_cfg(package='libsub-1.0', atleast_version='1.0.0', args='--cflags', uselib_store='SUB', mandatory=True)
     conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
     conf.env.STLIB_SUB = ['sub']
 
@@ -96,7 +96,7 @@ def dynamic_dcp(conf):
     conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
 def dynamic_sub(conf):
-    conf.check_cfg(package='libsub', atleast_version='0.01.0', args='--cflags --libs', uselib_store='SUB', mandatory=True)
+    conf.check_cfg(package='libsub-1.0', atleast_version='1.0.0', args='--cflags --libs', uselib_store='SUB', mandatory=True)
     conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
 def dynamic_ssh(conf):
