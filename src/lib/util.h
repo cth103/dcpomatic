@@ -61,7 +61,6 @@ extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
 extern void dcpomatic_setup ();
 extern void dcpomatic_setup_gettext_i18n (std::string);
-extern std::vector<std::string> split_at_spaces_considering_quotes (std::string);
 extern std::string md5_digest (std::vector<boost::filesystem::path>, boost::shared_ptr<Job>);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
@@ -72,18 +71,10 @@ extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size, int);
-extern std::string entities_to_text (std::string e);
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
 extern int round_to (float n, int r);
-extern std::multimap<std::string, std::string> read_key_value (std::istream& s);
-extern int get_required_int (std::multimap<std::string, std::string> const & kv, std::string k);
-extern float get_required_float (std::multimap<std::string, std::string> const & kv, std::string k);
-extern std::string get_required_string (std::multimap<std::string, std::string> const & kv, std::string k);
-extern int get_optional_int (std::multimap<std::string, std::string> const & kv, std::string k);
-extern std::string get_optional_string (std::multimap<std::string, std::string> const & kv, std::string k);
 extern void* wrapped_av_malloc (size_t);
-extern int64_t divide_with_round (int64_t a, int64_t b);
 extern ContentTimePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
 

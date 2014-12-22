@@ -1,6 +1,5 @@
 /*
     Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
-    Copyright (C) 2000-2007 Paul Davis
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -418,30 +417,6 @@ dcpomatic_setup_gettext_i18n (string lang)
 #endif
 }
 
-/** @param s A string.
- *  @return Parts of the string split at spaces, except when a space is within quotation marks.
- */
-vector<string>
-split_at_spaces_considering_quotes (string s)
-{
-	vector<string> out;
-	bool in_quotes = false;
-	string c;
-	for (string::size_type i = 0; i < s.length(); ++i) {
-		if (s[i] == ' ' && !in_quotes) {
-			out.push_back (c);
-			c = N_("");
-		} else if (s[i] == '"') {
-			in_quotes = !in_quotes;
-		} else {
-			c += s[i];
-		}
-	}
-
-	out.push_back (c);
-	return out;
-}
-
 /** @param job Optional job for which to report progress */
 string
 md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
@@ -651,103 +626,6 @@ round_to (float n, int r)
 	return int (n + float(r) / 2) &~ (r - 1);
 }
 
-/** Read a sequence of key / value pairs from a text stream;
- *  the keys are the first words on the line, and the values are
- *  the remainder of the line following the key.  Lines beginning
- *  with # are ignored.
- *  @param s Stream to read.
- *  @return key/value pairs.
- */
-multimap<string, string>
-read_key_value (istream &s) 
-{
-	multimap<string, string> kv;
-	
-	string line;
-	while (getline (s, line)) {
-		if (line.empty ()) {
-			continue;
-		}
-
-		if (line[0] == '#') {
-			continue;
-		}
-
-		if (line[line.size() - 1] == '\r') {
-			line = line.substr (0, line.size() - 1);
-		}
-
-		size_t const s = line.find (' ');
-		if (s == string::npos) {
-			continue;
-		}
-
-		kv.insert (make_pair (line.substr (0, s), line.substr (s + 1)));
-	}
-
-	return kv;
-}
-
-string
-get_required_string (multimap<string, string> const & kv, string k)
-{
-	if (kv.count (k) > 1) {
-		throw StringError (N_("unexpected multiple keys in key-value set"));
-	}
-
-	multimap<string, string>::const_iterator i = kv.find (k);
-	
-	if (i == kv.end ()) {
-		throw StringError (String::compose (_("missing key %1 in key-value set"), k));
-	}
-
-	return i->second;
-}
-
-int
-get_required_int (multimap<string, string> const & kv, string k)
-{
-	string const v = get_required_string (kv, k);
-	return raw_convert<int> (v);
-}
-
-float
-get_required_float (multimap<string, string> const & kv, string k)
-{
-	string const v = get_required_string (kv, k);
-	return raw_convert<float> (v);
-}
-
-string
-get_optional_string (multimap<string, string> const & kv, string k)
-{
-	if (kv.count (k) > 1) {
-		throw StringError (N_("unexpected multiple keys in key-value set"));
-	}
-
-	multimap<string, string>::const_iterator i = kv.find (k);
-	if (i == kv.end ()) {
-		return N_("");
-	}
-
-	return i->second;
-}
-
-int
-get_optional_int (multimap<string, string> const & kv, string k)
-{
-	if (kv.count (k) > 1) {
-		throw StringError (N_("unexpected multiple keys in key-value set"));
-	}
-
-	multimap<string, string>::const_iterator i = kv.find (k);
-	if (i == kv.end ()) {
-		return 0;
-	}
-
-	return raw_convert<int> (i->second);
-}
-
 /** Trip an assert if the caller is not in the UI thread */
 void
 ensure_ui_thread ()
@@ -836,24 +714,6 @@ wrapped_av_malloc (size_t s)
 	return p;
 }
 		
-string
-entities_to_text (string e)
-{
-	boost::algorithm::replace_all (e, "%3A", ":");
-	boost::algorithm::replace_all (e, "%2F", "/");
-	return e;
-}
-
-int64_t
-divide_with_round (int64_t a, int64_t b)
-{
-	if (a % b >= (b / 2)) {
-		return (a + b - 1) / b;
-	} else {
-		return a / b;
-	}
-}
-
 /** Return a user-readable string summarising the versions of our dependencies */
 string
 dependency_version_summary ()

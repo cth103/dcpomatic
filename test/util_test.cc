@@ -29,23 +29,6 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (split_at_spaces_considering_quotes_test)
-{
-	string t = "Hello this is a string \"with quotes\" and indeed without them";
-	vector<string> b = split_at_spaces_considering_quotes (t);
-	vector<string>::iterator i = b.begin ();
-	BOOST_CHECK_EQUAL (*i++, "Hello");
-	BOOST_CHECK_EQUAL (*i++, "this");
-	BOOST_CHECK_EQUAL (*i++, "is");
-	BOOST_CHECK_EQUAL (*i++, "a");
-	BOOST_CHECK_EQUAL (*i++, "string");
-	BOOST_CHECK_EQUAL (*i++, "with quotes");
-	BOOST_CHECK_EQUAL (*i++, "and");
-	BOOST_CHECK_EQUAL (*i++, "indeed");
-	BOOST_CHECK_EQUAL (*i++, "without");
-	BOOST_CHECK_EQUAL (*i++, "them");
-}
-
 BOOST_AUTO_TEST_CASE (md5_digest_test)
 {
 	vector<boost::filesystem::path> p;
@@ -73,20 +56,6 @@ BOOST_AUTO_TEST_CASE (dcptime_round_up_test)
 
 	/* Check that rounding up to non-integer frame rates works */
 	BOOST_CHECK_EQUAL (DCPTime (45312).round_up (29.976), DCPTime (48045));
-}
-
-
-BOOST_AUTO_TEST_CASE (divide_with_round_test)
-{
-	BOOST_CHECK_EQUAL (divide_with_round (0, 4), 0);
-	BOOST_CHECK_EQUAL (divide_with_round (1, 4), 0);
-	BOOST_CHECK_EQUAL (divide_with_round (2, 4), 1);
-	BOOST_CHECK_EQUAL (divide_with_round (3, 4), 1);
-	BOOST_CHECK_EQUAL (divide_with_round (4, 4), 1);
-	BOOST_CHECK_EQUAL (divide_with_round (5, 4), 1);
-	BOOST_CHECK_EQUAL (divide_with_round (6, 4), 2);
-
-	BOOST_CHECK_EQUAL (divide_with_round (1000, 500), 2);
 }
 
 BOOST_AUTO_TEST_CASE (timecode_test)
