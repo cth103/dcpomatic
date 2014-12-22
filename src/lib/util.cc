@@ -188,65 +188,6 @@ seconds_to_approximate_hms (int s)
 	return ap.str ();
 }
 
-#ifdef DCPOMATIC_POSIX
-/** @param l Mangled C++ identifier.
- *  @return Demangled version.
- */
-static string
-demangle (string l)
-{
-	string::size_type const b = l.find_first_of (N_("("));
-	if (b == string::npos) {
-		return l;
-	}
-
-	string::size_type const p = l.find_last_of (N_("+"));
-	if (p == string::npos) {
-		return l;
-	}
-
-	if ((p - b) <= 1) {
-		return l;
-	}
-	
-	string const fn = l.substr (b + 1, p - b - 1);
-
-	int status;
-	try {
-		
-		char* realname = abi::__cxa_demangle (fn.c_str(), 0, 0, &status);
-		string d (realname);
-		free (realname);
-		return d;
-		
-	} catch (std::exception) {
-		
-	}
-	
-	return l;
-}
-
-/** Write a stacktrace to an ostream.
- *  @param out Stream to write to.
- *  @param levels Number of levels to go up the call stack.
- */
-void
-stacktrace (ostream& out, int levels)
-{
-	void *array[200];
-	size_t size = backtrace (array, 200);
-	char** strings = backtrace_symbols (array, size);
-     
-	if (strings) {
-		for (size_t i = 0; i < size && (levels == 0 || i < size_t(levels)); i++) {
-			out << N_("  ") << demangle (strings[i]) << "\n";
-		}
-		
-		free (strings);
-	}
-}
-#endif
-
 /** @param v Version as used by FFmpeg.
  *  @return A string representation of v.
  */
@@ -365,9 +306,6 @@ terminate ()
 			  << std::endl;
 	}
 
-#ifdef DCPOMATIC_POSIX
-	stacktrace (cout, 50);
-#endif
 	abort();
 }
 
@@ -932,50 +870,6 @@ dependency_version_summary ()
 	  << N_("libdcp ") << dcp::version << N_(" git ") << dcp::git_commit;
 
 	return s.str ();
-}
-
-/** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened
- *  until ::open() is called.
- */
-ScopedTemporary::ScopedTemporary ()
-	: _open (0)
-{
-	_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path ();
-}
-
-/** Close and delete the temporary file */
-ScopedTemporary::~ScopedTemporary ()
-{
-	close ();	
-	boost::system::error_code ec;
-	boost::filesystem::remove (_file, ec);
-}
-
-/** @return temporary filename */
-char const *
-ScopedTemporary::c_str () const
-{
-	return _file.string().c_str ();
-}
-
-/** Open the temporary file.
- *  @return File's FILE pointer.
- */
-FILE*
-ScopedTemporary::open (char const * params)
-{
-	_open = fopen (c_str(), params);
-	return _open;
-}
-
-/** Close the file */
-void
-ScopedTemporary::close ()
-{
-	if (_open) {
-		fclose (_open);
-		_open = 0;
-	}
 }
 
 ContentTimePeriod

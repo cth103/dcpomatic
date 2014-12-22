@@ -23,7 +23,8 @@
 #include <boost/filesystem.hpp>
 #include <curl/curl.h>
 #include <zip.h>
-#include "util.h"
+#include "scoped_temporary.h"
+#include "compose.hpp"
 #include "safe_stringstream.h"
 
 #include "i18n.h"

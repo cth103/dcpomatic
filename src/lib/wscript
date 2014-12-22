@@ -71,6 +71,7 @@ sources = """
           safe_stringstream.cc
           scp_dcp_job.cc
           scaler.cc
+          scoped_temporary.cc
           send_kdm_email_job.cc
           send_problem_report_job.cc
           server.cc

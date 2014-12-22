@@ -1,6 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
-    Copyright (C) 2000-2007 Paul Davis
+    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,7 +44,9 @@ extern "C" {
 
 /** The maximum number of audio channels that we can have in a DCP */
 #define MAX_DCP_AUDIO_CHANNELS 12
+/** Message broadcast to find possible encoding servers */
 #define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
+/** Number of films to keep in history */
 #define HISTORY_SIZE 10
 #define REPORT_PROBLEM _("Please report this problem by using Help -> Report a problem or via email to carl@dcpomatic.com")
 
@@ -56,7 +57,6 @@ struct AVSubtitle;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
-extern void stacktrace (std::ostream &, int);
 extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
 extern void dcpomatic_setup ();
@@ -127,29 +127,6 @@ private:
 };
 
 extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
-
-/** @class ScopedTemporary
- *  @brief A temporary file which is deleted when the ScopedTemporary object goes out of scope.
- */
-class ScopedTemporary
-{
-public:
-	ScopedTemporary ();
-	~ScopedTemporary ();
-
-	/** @return temporary filename */
-	boost::filesystem::path file () const {
-		return _file;
-	}
-
-	char const * c_str () const;
-	FILE* open (char const *);
-	void close ();
-
-private:
-	boost::filesystem::path _file;
-	FILE* _open;
-};
 
 #endif
 
