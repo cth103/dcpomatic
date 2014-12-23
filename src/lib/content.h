@@ -80,7 +80,6 @@ public:
 	 */
 	virtual std::string technical_summary () const;
 	
-	virtual std::string information () const = 0;
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual DCPTime full_length () const = 0;
 	virtual std::string identifier () const;

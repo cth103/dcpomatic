@@ -51,7 +51,6 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
-	virtual std::string information () const;
 	virtual std::string identifier () const;
 
 	ContentTime video_length () const {

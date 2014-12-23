@@ -228,21 +228,6 @@ FFmpegContent::technical_summary () const
 			);
 }
 
-string
-FFmpegContent::information () const
-{
-	if (video_length() == ContentTime (0) || video_frame_rate() == 0) {
-		return "";
-	}
-	
-	SafeStringStream s;
-	
-	s << String::compose (_("%1 frames; %2 frames per second"), video_length_after_3d_combine().frames (video_frame_rate()), video_frame_rate()) << "\n";
-	s << VideoContent::information ();
-
-	return s.str ();
-}
-
 void
 FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 {

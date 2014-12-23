@@ -84,12 +84,6 @@ DCPSubtitleContent::technical_summary () const
 	return Content::technical_summary() + " - " + _("DCP XML subtitles");
 }
       
-string
-DCPSubtitleContent::information () const
-{
-
-}
-
 void
 DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 {

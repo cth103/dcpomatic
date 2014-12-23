@@ -77,12 +77,6 @@ SubRipContent::technical_summary () const
 	return Content::technical_summary() + " - " + _("SubRip subtitles");
 }
 
-string
-SubRipContent::information () const
-{
-	
-}
-	
 void
 SubRipContent::as_xml (xmlpp::Node* node) const
 {
