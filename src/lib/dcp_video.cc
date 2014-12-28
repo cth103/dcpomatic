@@ -41,7 +41,6 @@
 #include "player_video.h"
 #include "encoded_data.h"
 #include <libcxml/cxml.h>
-#include <dcp/gamma_lut.h>
 #include <dcp/xyz_frame.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
@@ -114,25 +113,9 @@ DCPVideo::encode_locally ()
 	shared_ptr<dcp::XYZFrame> xyz;
 
 	if (_frame->colour_conversion()) {
-		ColourConversion conversion = _frame->colour_conversion().get ();
-		shared_ptr<dcp::GammaLUT> in_lut = dcp::GammaLUT::cache.get (
-			12, conversion.input_gamma, conversion.input_gamma_linearised
-			);
-		
-		/* XXX: dcp should probably use boost */
-		
-		double matrix[3][3];
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 3; ++j) {
-				matrix[i][j] = conversion.matrix (i, j);
-			}
-		}
-		
 		xyz = dcp::rgb_to_xyz (
 			_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles),
-			in_lut,
-			dcp::GammaLUT::cache.get (16, 1 / conversion.output_gamma, false),
-			matrix
+			_frame->colour_conversion().get()
 			);
 	} else {
 		xyz = dcp::xyz_to_xyz (_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles));

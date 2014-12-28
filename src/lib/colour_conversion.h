@@ -25,20 +25,19 @@
 #undef check
 #endif
 
+#include <dcp/colour_conversion.h>
 #include <libcxml/cxml.h>
 #include <boost/utility.hpp>
-#include <boost/optional.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
 
 namespace xmlpp {
 	class Node;
 }
 
-class ColourConversion
+class ColourConversion : public dcp::ColourConversion
 {
 public:
 	ColourConversion ();
-	ColourConversion (double, bool, double const matrix[3][3], double);
+	ColourConversion (dcp::ColourConversion);
 	ColourConversion (cxml::NodePtr);
 
 	virtual void as_xml (xmlpp::Node *) const;
@@ -47,18 +46,13 @@ public:
 	boost::optional<size_t> preset () const;
 
 	static boost::optional<ColourConversion> from_xml (cxml::NodePtr);
-
-	double input_gamma;
-	bool input_gamma_linearised;
-	boost::numeric::ublas::matrix<double> matrix;
-	double output_gamma;
 };
 
 class PresetColourConversion
 {
 public:
 	PresetColourConversion ();
-	PresetColourConversion (std::string, double, bool, double const matrix[3][3], double);
+	PresetColourConversion (std::string, dcp::ColourConversion);
 	PresetColourConversion (cxml::NodePtr);
 
 	void as_xml (xmlpp::Node *) const;

@@ -23,6 +23,8 @@
 #include "md5_digester.h"
 #include <dcp/colour_matrix.h>
 #include <dcp/raw_convert.h>
+#include <dcp/gamma_transfer_function.h>
+#include <dcp/modified_gamma_transfer_function.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 
@@ -34,60 +36,52 @@ using std::cout;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
 ColourConversion::ColourConversion ()
-	: input_gamma (2.4)
-	, input_gamma_linearised (true)
-	, matrix (3, 3)
-	, output_gamma (2.6)
+	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz)
 {
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			matrix (i, j) = dcp::colour_matrix::srgb_to_xyz[i][j];
-		}
-	}
+	
 }
 
-ColourConversion::ColourConversion (double i, bool il, double const m[3][3], double o)
-	: input_gamma (i)
-	, input_gamma_linearised (il)
-	, matrix (3, 3)
-	, output_gamma (o)
+ColourConversion::ColourConversion (dcp::ColourConversion conversion_)
+	: dcp::ColourConversion (conversion_)
 {
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			matrix (i, j) = m[i][j];
-		}
-	}
+	
 }
 
 ColourConversion::ColourConversion (cxml::NodePtr node)
-	: matrix (3, 3)
 {
-	input_gamma = node->number_child<double> ("InputGamma");
-	input_gamma_linearised = node->bool_child ("InputGammaLinearised");
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			matrix (i, j) = 0;
-		}
+	shared_ptr<dcp::TransferFunction> in;
+	
+	cxml::ConstNodePtr in_node = node->node_child ("InputTransferFunction");
+	string in_type = in_node->string_child ("Type");
+	if (in_type == "Gamma") {
+		_in.reset (new dcp::GammaTransferFunction (in_node->number_child<double> ("Gamma")));
+	} else if (in_type == "ModifiedGamma") {
+		_in.reset (new dcp::ModifiedGammaTransferFunction (
+				  in_node->number_child<double> ("Power"),
+				  in_node->number_child<double> ("Threshold"),
+				  in_node->number_child<double> ("A"),
+				  in_node->number_child<double> ("B")
+				  ));
 	}
 
 	list<cxml::NodePtr> m = node->node_children ("Matrix");
 	for (list<cxml::NodePtr>::iterator i = m.begin(); i != m.end(); ++i) {
 		int const ti = (*i)->number_attribute<int> ("i");
 		int const tj = (*i)->number_attribute<int> ("j");
-		matrix(ti, tj) = raw_convert<double> ((*i)->content ());
+		_matrix(ti, tj) = raw_convert<double> ((*i)->content ());
 	}
 
-	output_gamma = node->number_child<double> ("OutputGamma");
+	_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
 }
 
 boost::optional<ColourConversion>
 ColourConversion::from_xml (cxml::NodePtr node)
 {
-	if (!node->optional_node_child ("InputGamma")) {
+	if (!node->optional_node_child ("InputTransferFunction")) {
 		return boost::optional<ColourConversion> ();
 	}
 
@@ -97,9 +91,21 @@ ColourConversion::from_xml (cxml::NodePtr node)
 void
 ColourConversion::as_xml (xmlpp::Node* node) const
 {
-	node->add_child("InputGamma")->add_child_text (raw_convert<string> (input_gamma));
-	node->add_child("InputGammaLinearised")->add_child_text (input_gamma_linearised ? "1" : "0");
+	xmlpp::Node* in_node = node->add_child ("InputTransferFunction");
+	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in)) {
+		shared_ptr<const dcp::GammaTransferFunction> tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);
+		in_node->add_child("Type")->add_child_text ("Gamma");
+		in_node->add_child("Gamma")->add_child_text (raw_convert<string> (tf->gamma ()));
+	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in)) {
+		shared_ptr<const dcp::ModifiedGammaTransferFunction> tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in);
+		in_node->add_child("Type")->add_child_text ("ModifiedGamma");
+		in_node->add_child("Power")->add_child_text (raw_convert<string> (tf->power ()));
+		in_node->add_child("Threshold")->add_child_text (raw_convert<string> (tf->threshold ()));
+		in_node->add_child("A")->add_child_text (raw_convert<string> (tf->A ()));
+		in_node->add_child("B")->add_child_text (raw_convert<string> (tf->B ()));
+	}
 
+	boost::numeric::ublas::matrix<double> matrix = _matrix;
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			xmlpp::Element* m = node->add_child("Matrix");
@@ -109,7 +115,7 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 		}
 	}
 
-	node->add_child("OutputGamma")->add_child_text (raw_convert<string> (output_gamma));
+	node->add_child("OutputGamma")->add_child_text (raw_convert<string> (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ()));
 }
 
 optional<size_t>
@@ -132,15 +138,26 @@ string
 ColourConversion::identifier () const
 {
 	MD5Digester digester;
-	
-	digester.add (input_gamma);
-	digester.add (input_gamma_linearised);
+
+	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in)) {
+		shared_ptr<const dcp::GammaTransferFunction> tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);
+		digester.add (tf->gamma ());
+	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in)) {
+		shared_ptr<const dcp::ModifiedGammaTransferFunction> tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in);
+		digester.add (tf->power ());
+		digester.add (tf->threshold ());
+		digester.add (tf->A ());
+		digester.add (tf->B ());
+	}
+
+	boost::numeric::ublas::matrix<double> matrix = _matrix;
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			digester.add (matrix (i, j));
 		}
 	}
-	digester.add (output_gamma);
+
+	digester.add (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ());
 	
 	return digester.get ();
 }
@@ -151,9 +168,9 @@ PresetColourConversion::PresetColourConversion ()
 
 }
 
-PresetColourConversion::PresetColourConversion (string n, double i, bool il, double const m[3][3], double o)
+PresetColourConversion::PresetColourConversion (string n, dcp::ColourConversion conversion_)
 	: name (n)
-	, conversion (i, il, m, o)
+	, conversion (conversion_)
 {
 
 }
@@ -171,32 +188,10 @@ PresetColourConversion::as_xml (xmlpp::Node* node) const
 	node->add_child("Name")->add_child_text (name);
 }
 
-static bool
-about_equal (double a, double b)
-{
-	static const double eps = 1e-6;
-	return fabs (a - b) < eps;
-}
-
 bool
 operator== (ColourConversion const & a, ColourConversion const & b)
 {
-	if (
-		!about_equal (a.input_gamma, b.input_gamma) ||
-		a.input_gamma_linearised != b.input_gamma_linearised ||
-		!about_equal (a.output_gamma, b.output_gamma)) {
-		return false;
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			if (!about_equal (a.matrix (i, j), b.matrix (i, j))) {
-				return false;
-			}
-		}
-	}
-
-	return true;
+	return a.about_equal (b, 1e-6);
 }
 
 bool

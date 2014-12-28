@@ -18,20 +18,85 @@
 */
 
 /** @file  test/colour_conversion_test.cc
- *  @brief Basic test of identifier() for ColourConversion (i.e. a hash of the numbers)
+ *  @brief Various tests of ColourConversion.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <dcp/colour_matrix.h>
 #include "lib/colour_conversion.h"
+#include <dcp/colour_matrix.h>
+#include <dcp/gamma_transfer_function.h>
+#include <libxml++/libxml++.h>
+#include <boost/test/unit_test.hpp>
 
 using std::cout;
+using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (colour_conversion_test)
+BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 {
-	ColourConversion A (2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6);
-	ColourConversion B (2.4, false, dcp::colour_matrix::srgb_to_xyz, 2.6);
+	ColourConversion A (dcp::ColourConversion::srgb_to_xyz);
+	ColourConversion B (dcp::ColourConversion::rec709_to_xyz);
 
-	BOOST_CHECK_EQUAL (A.identifier(), "1e720d2d99add654d7816f3b72da815e");
-	BOOST_CHECK_EQUAL (B.identifier(), "18751a247b22682b725bf9c4caf71522");
+	BOOST_CHECK_EQUAL (A.identifier(), "8b5a265a7c63c22a6a8fc871c64d6116");
+	BOOST_CHECK_EQUAL (B.identifier(), "bc82e69f700d0426f2ae1848d05ed006");
+}
+
+BOOST_AUTO_TEST_CASE (colour_conversion_test2)
+{
+	ColourConversion A (dcp::ColourConversion::srgb_to_xyz);
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Test");
+	A.as_xml (root);
+	BOOST_CHECK_EQUAL (
+		doc.write_to_string_formatted ("UTF-8"),
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+		"<Test>\n"
+		"  <InputTransferFunction>\n"
+		"    <Type>ModifiedGamma</Type>\n"
+		"    <Power>2.400000095367432</Power>\n"
+		"    <Threshold>0.04044999927282333</Threshold>\n"
+		"    <A>0.05499999970197678</A>\n"
+		"    <B>12.92000007629395</B>\n"
+		"  </InputTransferFunction>\n"
+		"  <Matrix i=\"0\" j=\"0\">0.4124564</Matrix>\n"
+		"  <Matrix i=\"0\" j=\"1\">0.3575761</Matrix>\n"
+		"  <Matrix i=\"0\" j=\"2\">0.1804375</Matrix>\n"
+		"  <Matrix i=\"1\" j=\"0\">0.2126729</Matrix>\n"
+		"  <Matrix i=\"1\" j=\"1\">0.7151522</Matrix>\n"
+		"  <Matrix i=\"1\" j=\"2\">0.072175</Matrix>\n"
+		"  <Matrix i=\"2\" j=\"0\">0.0193339</Matrix>\n"
+		"  <Matrix i=\"2\" j=\"1\">0.119192</Matrix>\n"
+		"  <Matrix i=\"2\" j=\"2\">0.9503041</Matrix>\n"
+		"  <OutputGamma>2.599999904632568</OutputGamma>\n"
+		"</Test>\n"
+		);
+}
+
+BOOST_AUTO_TEST_CASE (colour_conversion_test3)
+{
+	ColourConversion A (dcp::ColourConversion::rec709_to_xyz);
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Test");
+	A.as_xml (root);
+	BOOST_CHECK_EQUAL (
+		doc.write_to_string_formatted ("UTF-8"),
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+		"<Test>\n"
+		"  <InputTransferFunction>\n"
+		"    <Type>ModifiedGamma</Type>\n"
+		"    <Power>2.400000095367432</Power>\n"
+		"    <Threshold>0.08100000023841858</Threshold>\n"
+		"    <A>0.0989999994635582</A>\n"
+		"    <B>4.5</B>\n"
+		"  </InputTransferFunction>\n"
+		"  <Matrix i=\"0\" j=\"0\">0.4124564</Matrix>\n"
+		"  <Matrix i=\"0\" j=\"1\">0.3575761</Matrix>\n"
+		"  <Matrix i=\"0\" j=\"2\">0.1804375</Matrix>\n"
+		"  <Matrix i=\"1\" j=\"0\">0.2126729</Matrix>\n"
+		"  <Matrix i=\"1\" j=\"1\">0.7151522</Matrix>\n"
+		"  <Matrix i=\"1\" j=\"2\">0.072175</Matrix>\n"
+		"  <Matrix i=\"2\" j=\"0\">0.0193339</Matrix>\n"
+		"  <Matrix i=\"2\" j=\"1\">0.119192</Matrix>\n"
+		"  <Matrix i=\"2\" j=\"2\">0.9503041</Matrix>\n"
+		"  <OutputGamma>2.599999904632568</OutputGamma>\n"
+		"</Test>\n"
+		);
 }

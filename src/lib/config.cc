@@ -85,9 +85,8 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
-	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), 2.4, true, dcp::colour_matrix::srgb_to_xyz, 2.6));
-	_colour_conversions.push_back (PresetColourConversion (_("sRGB non-linearised"), 2.4, false, dcp::colour_matrix::srgb_to_xyz, 2.6));
-	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), 2.2, false, dcp::colour_matrix::rec709_to_xyz, 2.6));
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz));
+	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz));
 
 	reset_kdm_email ();
 }
@@ -177,16 +176,15 @@ Config::read ()
 	if (!cc.empty ()) {
 		_colour_conversions.clear ();
 	}
-	
-	for (list<cxml::NodePtr>::iterator i = cc.begin(); i != cc.end(); ++i) {
-		_colour_conversions.push_back (PresetColourConversion (*i));
-	}
 
-	if (!version) {
-		/* Loading version 0 (before Rec. 709 was added as a preset).
-		   Add it in.
-		*/
-		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), 2.2, false, dcp::colour_matrix::rec709_to_xyz, 2.6));
+	try {
+		for (list<cxml::NodePtr>::iterator i = cc.begin(); i != cc.end(); ++i) {
+			_colour_conversions.push_back (PresetColourConversion (*i));
+		}
+	} catch (cxml::Error) {
+		/* Probably failed to load an old-style ColourConversion tag; just give up */
+		_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz));
+		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz));
 	}
 
 	list<cxml::NodePtr> cin = f.node_children ("Cinema");

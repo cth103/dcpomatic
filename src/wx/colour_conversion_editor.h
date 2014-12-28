@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,11 +40,16 @@ private:
 	void changed ();
 	void changed (wxSpinCtrlDouble *);
 
+	void set_text_ctrl (wxTextCtrl *, double);
 	void set_spin_ctrl (wxSpinCtrlDouble *, double);
 
 	std::map<wxSpinCtrlDouble*, double> _last_spin_ctrl_value;
 	
 	wxSpinCtrlDouble* _input_gamma;
+	wxSpinCtrlDouble* _input_power;
+	wxTextCtrl* _input_threshold;
+	wxTextCtrl* _input_A;
+	wxTextCtrl* _input_B;
 	wxCheckBox* _input_gamma_linearised;
 	wxTextCtrl* _matrix[3][3];
 	wxSpinCtrlDouble* _output_gamma;
