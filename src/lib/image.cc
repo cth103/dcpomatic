@@ -660,7 +660,7 @@ Image::~Image ()
 	av_free (_stride);
 }
 
-uint8_t **
+uint8_t * const *
 Image::data () const
 {
 	return _data;
@@ -672,7 +672,7 @@ Image::line_size () const
 	return _line_size;
 }
 
-int *
+int const *
 Image::stride () const
 {
 	return _stride;

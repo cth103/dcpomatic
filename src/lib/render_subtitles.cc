@@ -119,7 +119,7 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 
 		if (i->effect() == dcp::SHADOW) {
 			/* Drop-shadow effect */
-			dcp::Color const ec = i->effect_color ();
+			dcp::Colour const ec = i->effect_colour ();
 			context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 			context->move_to (x + 4, y + 4);
 			layout->add_to_cairo_context (context);
@@ -128,7 +128,7 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 
 		/* The actual subtitle */
 		context->move_to (x, y);
-		dcp::Color const c = i->color ();
+		dcp::Colour const c = i->colour ();
 		context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
 		layout->add_to_cairo_context (context);
 		context->fill ();
@@ -136,7 +136,7 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 		if (i->effect() == dcp::BORDER) {
 			/* Border effect */
 			context->move_to (x, y);
-			dcp::Color ec = i->effect_color ();
+			dcp::Colour ec = i->effect_colour ();
 			context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 			layout->add_to_cairo_context (context);
 			context->stroke ();

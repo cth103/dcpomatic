@@ -58,14 +58,15 @@ ColourConversion::ColourConversion (cxml::NodePtr node)
 	cxml::ConstNodePtr in_node = node->node_child ("InputTransferFunction");
 	string in_type = in_node->string_child ("Type");
 	if (in_type == "Gamma") {
-		_in.reset (new dcp::GammaTransferFunction (in_node->number_child<double> ("Gamma")));
+		_in.reset (new dcp::GammaTransferFunction (false, in_node->number_child<double> ("Gamma")));
 	} else if (in_type == "ModifiedGamma") {
 		_in.reset (new dcp::ModifiedGammaTransferFunction (
-				  in_node->number_child<double> ("Power"),
-				  in_node->number_child<double> ("Threshold"),
-				  in_node->number_child<double> ("A"),
-				  in_node->number_child<double> ("B")
-				  ));
+				   false,
+				   in_node->number_child<double> ("Power"),
+				   in_node->number_child<double> ("Threshold"),
+				   in_node->number_child<double> ("A"),
+				   in_node->number_child<double> ("B")
+				   ));
 	}
 
 	list<cxml::NodePtr> m = node->node_children ("Matrix");
@@ -75,7 +76,7 @@ ColourConversion::ColourConversion (cxml::NodePtr node)
 		_matrix(ti, tj) = raw_convert<double> ((*i)->content ());
 	}
 
-	_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
+	_out.reset (new dcp::GammaTransferFunction (true, node->number_child<double> ("OutputGamma")));
 }
 
 boost::optional<ColourConversion>

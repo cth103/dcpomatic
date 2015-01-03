@@ -48,9 +48,9 @@ public:
 	Image& operator= (Image const &);
 	~Image ();
 	
-	uint8_t ** data () const;
+	uint8_t * const * data () const;
 	int * line_size () const;
-	int * stride () const;
+	int const * stride () const;
 	dcp::Size size () const;
 	bool aligned () const;
 

@@ -171,6 +171,7 @@ ColourConversionEditor::get () const
 		conversion.set_in (
 			shared_ptr<dcp::ModifiedGammaTransferFunction> (
 				new dcp::ModifiedGammaTransferFunction (
+					false,
 					_input_power->GetValue (),
 					raw_convert<double> (wx_to_std (_input_threshold->GetValue ())),
 					raw_convert<double> (wx_to_std (_input_A->GetValue ())),
@@ -182,6 +183,7 @@ ColourConversionEditor::get () const
 		conversion.set_in (
 			shared_ptr<dcp::GammaTransferFunction> (
 				new dcp::GammaTransferFunction (
+					false,
 					_input_gamma->GetValue ()
 					)
 				)
@@ -202,7 +204,7 @@ ColourConversionEditor::get () const
 
 	conversion.set_matrix (matrix);
 
-	conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (_output_gamma->GetValue ())));
+	conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (true, _output_gamma->GetValue ())));
 
 	return conversion;
 }

@@ -76,12 +76,12 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 shared_ptr<Image>
 J2KImageProxy::image () const
 {
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, _size, false));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, false));
 
 	if (_mono) {
-		_mono->rgb_frame (image->data()[0]);
+		_mono->rgb_frame (reinterpret_cast<uint16_t*> (image->data()[0]));
 	} else {
-		_stereo->rgb_frame (_eye, image->data()[0]);
+		_stereo->rgb_frame (_eye, reinterpret_cast<uint16_t*> (image->data()[0]));
 	}
 
 	return shared_ptr<Image> (new Image (image, true));

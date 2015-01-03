@@ -37,7 +37,7 @@ struct SubRipSubtitlePiece
 	bool bold;
 	bool italic;
 	bool underline;
-	dcp::Color color;
+	dcp::Colour color;
 };
 
 struct SubRipSubtitle
