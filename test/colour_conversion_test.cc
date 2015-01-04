@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 	ColourConversion A (dcp::ColourConversion::srgb_to_xyz ());
 	ColourConversion B (dcp::ColourConversion::rec709_to_xyz ());
 
-	BOOST_CHECK_EQUAL (A.identifier(), "8b5a265a7c63c22a6a8fc871c64d6116");
-	BOOST_CHECK_EQUAL (B.identifier(), "bc82e69f700d0426f2ae1848d05ed006");
+	BOOST_CHECK_EQUAL (A.identifier(), "751dd37378fb52502d356ec334a104c8");
+	BOOST_CHECK_EQUAL (B.identifier(), "149bc864d969ad7446fa18d62d1690b2");
 }
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test2)
@@ -51,10 +51,10 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 		"<Test>\n"
 		"  <InputTransferFunction>\n"
 		"    <Type>ModifiedGamma</Type>\n"
-		"    <Power>2.400000095367432</Power>\n"
-		"    <Threshold>0.04044999927282333</Threshold>\n"
-		"    <A>0.05499999970197678</A>\n"
-		"    <B>12.92000007629395</B>\n"
+		"    <Power>2.4</Power>\n"
+		"    <Threshold>0.04045</Threshold>\n"
+		"    <A>0.055</A>\n"
+		"    <B>12.92</B>\n"
 		"  </InputTransferFunction>\n"
 		"  <Matrix i=\"0\" j=\"0\">0.4124564</Matrix>\n"
 		"  <Matrix i=\"0\" j=\"1\">0.3575761</Matrix>\n"
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 		"  <Matrix i=\"2\" j=\"0\">0.0193339</Matrix>\n"
 		"  <Matrix i=\"2\" j=\"1\">0.119192</Matrix>\n"
 		"  <Matrix i=\"2\" j=\"2\">0.9503041</Matrix>\n"
-		"  <OutputGamma>2.599999904632568</OutputGamma>\n"
+		"  <OutputGamma>2.6</OutputGamma>\n"
 		"</Test>\n"
 		);
 }
@@ -82,9 +82,9 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		"<Test>\n"
 		"  <InputTransferFunction>\n"
 		"    <Type>ModifiedGamma</Type>\n"
-		"    <Power>2.400000095367432</Power>\n"
-		"    <Threshold>0.08100000023841858</Threshold>\n"
-		"    <A>0.0989999994635582</A>\n"
+		"    <Power>2.4</Power>\n"
+		"    <Threshold>0.081</Threshold>\n"
+		"    <A>0.099</A>\n"
 		"    <B>4.5</B>\n"
 		"  </InputTransferFunction>\n"
 		"  <Matrix i=\"0\" j=\"0\">0.4124564</Matrix>\n"
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		"  <Matrix i=\"2\" j=\"0\">0.0193339</Matrix>\n"
 		"  <Matrix i=\"2\" j=\"1\">0.119192</Matrix>\n"
 		"  <Matrix i=\"2\" j=\"2\">0.9503041</Matrix>\n"
-		"  <OutputGamma>2.599999904632568</OutputGamma>\n"
+		"  <OutputGamma>2.6</OutputGamma>\n"
 		"</Test>\n"
 		);
 }
