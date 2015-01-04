@@ -18,8 +18,9 @@
 */
 
 #include "subtitle_content.h"
+#include "dcp_subtitle.h"
 
-class DCPSubtitleContent : public SubtitleContent
+class DCPSubtitleContent : public SubtitleContent, public DCPSubtitle
 {
 public:
 	DCPSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);

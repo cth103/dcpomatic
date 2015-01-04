@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,23 +17,20 @@
 
 */
 
-#include "subtitle_decoder.h"
-#include "dcp_subtitle.h"
+#ifndef DCPOMATIC_SRC_LIB_DCP_SUBTITLE_H
+#define DCPOMATIC_SRC_LIB_DCP_SUBTITLE_H
 
-class DCPSubtitleContent;
+#include <boost/shared_ptr.hpp>
+#include <boost/filesystem.hpp>
 
-class DCPSubtitleDecoder : public SubtitleDecoder, public DCPSubtitle
+namespace dcp {
+	class SubtitleContent;
+}
+
+class DCPSubtitle
 {
-public:
-	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
-
 protected:
-	void seek (ContentTime time, bool accurate);
-	bool pass ();
-
-private:
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
-
-	std::list<dcp::SubtitleString> _subtitles;
-	std::list<dcp::SubtitleString>::const_iterator _next;
+	boost::shared_ptr<dcp::SubtitleContent> load (boost::filesystem::path) const;
 };
+
+#endif

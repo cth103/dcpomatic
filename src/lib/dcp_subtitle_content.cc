@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #include "font.h"
 #include "dcp_subtitle_content.h"
 #include <dcp/interop_subtitle_content.h>
+#include <dcp/smpte_subtitle_content.h>
 #include <dcp/interop_load_font.h>
 #include <dcp/raw_convert.h>
 
@@ -49,16 +50,16 @@ void
 DCPSubtitleContent::examine (shared_ptr<Job> job, bool calculate_digest)
 {
 	Content::examine (job, calculate_digest);
-	
-	dcp::InteropSubtitleContent sc (path (0));
 
+	shared_ptr<dcp::SubtitleContent> sc = load (path (0));
+	
 	boost::mutex::scoped_lock lm (_mutex);
 	
-	_subtitle_language = sc.language ();
-	_length = DCPTime::from_seconds (sc.latest_subtitle_out().to_seconds ());
+	_subtitle_language = sc->language ();
+	_length = DCPTime::from_seconds (sc->latest_subtitle_out().to_seconds ());
 
-	list<shared_ptr<dcp::InteropLoadFont> > fonts = sc.load_font_nodes ();
-	for (list<shared_ptr<dcp::InteropLoadFont> >::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
+	list<shared_ptr<dcp::LoadFont> > fonts = sc->load_font_nodes ();
+	for (list<shared_ptr<dcp::LoadFont> >::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
 		_fonts.push_back (shared_ptr<Font> (new Font ((*i)->id)));
 	}
 }

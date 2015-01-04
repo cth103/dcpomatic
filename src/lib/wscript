@@ -22,6 +22,7 @@ sources = """
           dcp_content_type.cc
           dcp_decoder.cc
           dcp_examiner.cc
+          dcp_subtitle.cc
           dcp_subtitle_content.cc
           dcp_subtitle_decoder.cc
           dcp_video.cc

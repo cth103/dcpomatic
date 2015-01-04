@@ -28,8 +28,8 @@ using boost::shared_ptr;
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
 	: SubtitleDecoder (content)
 {
-	dcp::InteropSubtitleContent c (content->path (0));
-	_subtitles = c.subtitles ();
+	shared_ptr<dcp::SubtitleContent> c (load (content->path (0)));
+	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
 }
 

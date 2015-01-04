@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,23 +17,45 @@
 
 */
 
-#include "subtitle_decoder.h"
 #include "dcp_subtitle.h"
+#include "exceptions.h"
+#include <dcp/interop_subtitle_content.h>
+#include <dcp/smpte_subtitle_content.h>
 
-class DCPSubtitleContent;
+#include "i18n.h"
 
-class DCPSubtitleDecoder : public SubtitleDecoder, public DCPSubtitle
+using boost::shared_ptr;
+
+shared_ptr<dcp::SubtitleContent>
+DCPSubtitle::load (boost::filesystem::path file) const
 {
-public:
-	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
+	shared_ptr<dcp::SubtitleContent> sc;
+	
+	try {
+		sc.reset (new dcp::InteropSubtitleContent (file));
+	} catch (...) {
+		
+	}
 
-protected:
-	void seek (ContentTime time, bool accurate);
-	bool pass ();
+	if (!sc) {
+		try {
+			sc.reset (new dcp::SMPTESubtitleContent (file, true));
+		} catch (...) {
 
-private:
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
+		}
+	}
 
-	std::list<dcp::SubtitleString> _subtitles;
-	std::list<dcp::SubtitleString>::const_iterator _next;
-};
+	if (!sc) {
+		try {
+			sc.reset (new dcp::SMPTESubtitleContent (file, false));
+		} catch (...) {
+
+		}
+	}
+
+	if (!sc) {
+		throw FileError (_("Could not read subtitles"), file);
+	}
+
+	return sc;
+}

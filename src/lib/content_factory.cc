@@ -77,7 +77,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 
 	string ext = path.extension().string ();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
-		
+
 	if (valid_image_file (path)) {
 		content.reset (new ImageContent (film, path));
 	} else if (SndfileContent::valid_file (path)) {
@@ -86,7 +86,18 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		content.reset (new SubRipContent (film, path));
 	} else if (ext == ".xml") {
 		content.reset (new DCPSubtitleContent (film, path));
-	} else {
+	} else if (ext == ".mxf") {
+		/* Try to read this .mxf as a subtitle file; if we fail, we fall back
+		   to using FFmpeg below.
+		*/
+		try {
+			content.reset (new DCPSubtitleContent (film, path));
+		} catch (...) {
+
+		}
+	}
+
+	if (!content) {
 		content.reset (new FFmpegContent (film, path));
 	}
 
