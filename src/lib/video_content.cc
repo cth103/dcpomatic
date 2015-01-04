@@ -123,7 +123,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 
 	
 	if (node->optional_node_child ("ColourConversion")) {
-		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"));
+		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"), version);
 	}
 	if (version >= 32) {
 		_fade_in = ContentTime (node->number_child<int64_t> ("FadeIn"));

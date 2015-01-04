@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
 #include "scaler.h"
+#include "film.h"
 
 using std::string;
 using std::cout;
@@ -68,7 +69,9 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	_scaler = Scaler::from_id (node->string_child ("Scaler"));
 	_eyes = (Eyes) node->number_child<int> ("Eyes");
 	_part = (Part) node->number_child<int> ("Part");
-	_colour_conversion = ColourConversion::from_xml (node);
+
+	/* Assume that the ColourConversion uses the current state version */
+	_colour_conversion = ColourConversion::from_xml (node, Film::current_state_version);
 
 	_in = image_proxy_factory (node->node_child ("In"), socket);
 

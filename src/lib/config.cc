@@ -179,7 +179,10 @@ Config::read ()
 
 	try {
 		for (list<cxml::NodePtr>::iterator i = cc.begin(); i != cc.end(); ++i) {
-			_colour_conversions.push_back (PresetColourConversion (*i));
+			/* This is a bit of a hack; use 32 (the first Film state file version for the 2.x branch)
+			   for version 2 and 10 (the current Film state version for the 1.x branch) for version 1.
+			*/
+			_colour_conversions.push_back (PresetColourConversion (*i, version == 2 ? 32 : 10));
 		}
 	} catch (cxml::Error) {
 		/* Probably failed to load an old-style ColourConversion tag; just give up */

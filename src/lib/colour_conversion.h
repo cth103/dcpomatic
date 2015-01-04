@@ -38,14 +38,14 @@ class ColourConversion : public dcp::ColourConversion
 public:
 	ColourConversion ();
 	ColourConversion (dcp::ColourConversion);
-	ColourConversion (cxml::NodePtr);
+	ColourConversion (cxml::NodePtr, int version);
 
 	virtual void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
 	boost::optional<size_t> preset () const;
 
-	static boost::optional<ColourConversion> from_xml (cxml::NodePtr);
+	static boost::optional<ColourConversion> from_xml (cxml::NodePtr, int version);
 };
 
 class PresetColourConversion
@@ -53,7 +53,7 @@ class PresetColourConversion
 public:
 	PresetColourConversion ();
 	PresetColourConversion (std::string, dcp::ColourConversion);
-	PresetColourConversion (cxml::NodePtr);
+	PresetColourConversion (cxml::NodePtr node, int version);
 
 	void as_xml (xmlpp::Node *) const;
 

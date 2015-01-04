@@ -51,22 +51,37 @@ ColourConversion::ColourConversion (dcp::ColourConversion conversion_)
 	
 }
 
-ColourConversion::ColourConversion (cxml::NodePtr node)
+ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 {
 	shared_ptr<dcp::TransferFunction> in;
-	
-	cxml::ConstNodePtr in_node = node->node_child ("InputTransferFunction");
-	string in_type = in_node->string_child ("Type");
-	if (in_type == "Gamma") {
-		_in.reset (new dcp::GammaTransferFunction (false, in_node->number_child<double> ("Gamma")));
-	} else if (in_type == "ModifiedGamma") {
-		_in.reset (new dcp::ModifiedGammaTransferFunction (
-				   false,
-				   in_node->number_child<double> ("Power"),
-				   in_node->number_child<double> ("Threshold"),
-				   in_node->number_child<double> ("A"),
-				   in_node->number_child<double> ("B")
-				   ));
+
+	if (version >= 32) {
+
+		/* Version 2.x */
+
+		cxml::ConstNodePtr in_node = node->node_child ("InputTransferFunction");
+		string in_type = in_node->string_child ("Type");
+		if (in_type == "Gamma") {
+			_in.reset (new dcp::GammaTransferFunction (false, in_node->number_child<double> ("Gamma")));
+		} else if (in_type == "ModifiedGamma") {
+			_in.reset (new dcp::ModifiedGammaTransferFunction (
+					   false,
+					   in_node->number_child<double> ("Power"),
+					   in_node->number_child<double> ("Threshold"),
+					   in_node->number_child<double> ("A"),
+					   in_node->number_child<double> ("B")
+					   ));
+		}
+
+	} else {
+
+		/* Version 1.x */
+		
+		if (node->bool_child ("InputGammaLinearised")) {
+			_in.reset (new dcp::ModifiedGammaTransferFunction (false, node->number_child<float> ("InputGamma"), 0.04045, 0.055, 12.92));
+		} else {
+			_in.reset (new dcp::GammaTransferFunction (false, node->number_child<float> ("InputGamma")));
+		}
 	}
 
 	list<cxml::NodePtr> m = node->node_children ("Matrix");
@@ -75,18 +90,18 @@ ColourConversion::ColourConversion (cxml::NodePtr node)
 		int const tj = (*i)->number_attribute<int> ("j");
 		_matrix(ti, tj) = raw_convert<double> ((*i)->content ());
 	}
-
+	
 	_out.reset (new dcp::GammaTransferFunction (true, node->number_child<double> ("OutputGamma")));
 }
 
 boost::optional<ColourConversion>
-ColourConversion::from_xml (cxml::NodePtr node)
+ColourConversion::from_xml (cxml::NodePtr node, int version)
 {
 	if (!node->optional_node_child ("InputTransferFunction")) {
 		return boost::optional<ColourConversion> ();
 	}
 
-	return ColourConversion (node);
+	return ColourConversion (node, version);
 }
 
 void
@@ -176,8 +191,8 @@ PresetColourConversion::PresetColourConversion (string n, dcp::ColourConversion 
 
 }
 
-PresetColourConversion::PresetColourConversion (cxml::NodePtr node)
-	: conversion (node)
+PresetColourConversion::PresetColourConversion (cxml::NodePtr node, int version)
+	: conversion (node, version)
 {
 	name = node->string_child ("Name");
 }
