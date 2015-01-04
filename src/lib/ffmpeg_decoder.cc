@@ -136,14 +136,18 @@ FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
 
-	if (r < 0) {
+	/* AVERROR_INVALIDDATA can apparently be returned sometimes even when av_read_frame
+	   has pretty-much succeeded (and hence generated data which should be processed).
+	   Hence it makes sense to continue here in that case.
+	*/
+	if (r < 0 && r != AVERROR_INVALIDDATA) {
 		if (r != AVERROR_EOF) {
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
 			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), buf, r);
 		}
-
+		
 		flush ();
 		return true;
 	}
