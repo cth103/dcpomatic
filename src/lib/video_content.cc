@@ -208,7 +208,7 @@ VideoContent::set_default_colour_conversion (bool signal)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_colour_conversion = ColourConversion (dcp::ColourConversion::srgb_to_xyz);
+		_colour_conversion = ColourConversion (dcp::ColourConversion::srgb_to_xyz ());
 	}
 
 	if (signal) {

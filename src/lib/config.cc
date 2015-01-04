@@ -85,8 +85,8 @@ Config::Config ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
-	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz));
-	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz));
+	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
+	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
 
 	reset_kdm_email ();
 }
@@ -183,8 +183,8 @@ Config::read ()
 		}
 	} catch (cxml::Error) {
 		/* Probably failed to load an old-style ColourConversion tag; just give up */
-		_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz));
-		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz));
+		_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
+		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
 	}
 
 	list<cxml::NodePtr> cin = f.node_children ("Cinema");

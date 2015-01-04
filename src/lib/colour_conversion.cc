@@ -40,7 +40,7 @@ using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
 ColourConversion::ColourConversion ()
-	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz)
+	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz ())
 {
 	
 }

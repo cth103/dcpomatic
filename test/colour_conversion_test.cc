@@ -32,8 +32,8 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 {
-	ColourConversion A (dcp::ColourConversion::srgb_to_xyz);
-	ColourConversion B (dcp::ColourConversion::rec709_to_xyz);
+	ColourConversion A (dcp::ColourConversion::srgb_to_xyz ());
+	ColourConversion B (dcp::ColourConversion::rec709_to_xyz ());
 
 	BOOST_CHECK_EQUAL (A.identifier(), "8b5a265a7c63c22a6a8fc871c64d6116");
 	BOOST_CHECK_EQUAL (B.identifier(), "bc82e69f700d0426f2ae1848d05ed006");
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 {
-	ColourConversion A (dcp::ColourConversion::srgb_to_xyz);
+	ColourConversion A (dcp::ColourConversion::srgb_to_xyz ());
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Test");
 	A.as_xml (root);
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 {
-	ColourConversion A (dcp::ColourConversion::rec709_to_xyz);
+	ColourConversion A (dcp::ColourConversion::rec709_to_xyz ());
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Test");
 	A.as_xml (root);
