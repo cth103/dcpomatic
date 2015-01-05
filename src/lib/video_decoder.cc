@@ -290,8 +290,10 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 
 	copy (to_push.begin(), to_push.end(), back_inserter (_decoded_video));
 
-	/* We can't let this build up too much or we will run out of memory */
-	DCPOMATIC_ASSERT (_decoded_video.size() < 32);
+	/* We can't let this build up too much or we will run out of memory.  We need to allow
+	   the most frames that can exist between blocks of sound in a multiplexed file.
+	*/
+	DCPOMATIC_ASSERT (_decoded_video.size() <= 96);
 }
 
 void
