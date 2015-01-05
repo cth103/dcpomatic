@@ -321,7 +321,7 @@ Player::get_video (DCPTime time, bool accurate)
 	if (!_have_valid_pieces) {
 		setup_pieces ();
 	}
-	
+
 	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
 		time,
 		time + DCPTime::from_frames (1, _film->video_frame_rate ())
@@ -488,13 +488,13 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
 	/* Convert this to the content frame */
-	return DCPTime (s + piece->content->trim_start()).frames (_film->video_frame_rate()) * piece->frc.factor ();
+	return DCPTime (s + piece->content->trim_start()).frames (_film->video_frame_rate()) / piece->frc.factor ();
 }
 
 DCPTime
 Player::content_video_to_dcp (shared_ptr<const Piece> piece, VideoFrame f) const
 {
-	DCPTime t = DCPTime::from_frames (f / piece->frc.factor (), _film->video_frame_rate()) - piece->content->trim_start () + piece->content->position ();
+	DCPTime t = DCPTime::from_frames (f * piece->frc.factor (), _film->video_frame_rate()) - piece->content->trim_start () + piece->content->position ();
 	if (t < DCPTime ()) {
 		t = DCPTime ();
 	}
