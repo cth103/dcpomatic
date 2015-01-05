@@ -70,9 +70,6 @@ TranscodeJob::run ()
 		_transcoder.reset ();
 
 	} catch (...) {
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-		LOG_ERROR_NC (N_("Transcode job failed or cancelled"));
 		_transcoder.reset ();
 		throw;
 	}
