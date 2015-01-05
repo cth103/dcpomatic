@@ -289,6 +289,9 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	}
 
 	copy (to_push.begin(), to_push.end(), back_inserter (_decoded_video));
+
+	/* We can't let this build up too much or we will run out of memory */
+	DCPOMATIC_ASSERT (_decoded_video.size() < 32);
 }
 
 void
