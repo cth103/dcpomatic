@@ -3,10 +3,10 @@
 export LD_LIBRARY_PATH=build/src/lib:$LD_LIBRARY_PATH
 if [ "$1" == "--debug" ]; then
     shift
-    gdb --args build/src/tools/dcpomatic_server_cli $*
+    gdb --args build/src/tools/dcpomatic2_server_cli $*
 elif [ "$1" == "--valgrind" ]; then
     shift
-    valgrind --tool="memcheck" build/src/tools/dcpomatic_server_cli $*
+    valgrind --tool="memcheck" build/src/tools/dcpomatic2_server_cli $*
 else
-    build/src/tools/dcpomatic_server_cli $*
+    build/src/tools/dcpomatic2_server_cli $*
 fi
