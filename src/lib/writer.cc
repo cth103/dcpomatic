@@ -54,7 +54,10 @@
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 #define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
+#define LOG_WARNING(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_WARNING);
 #define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
+#define LOG_DEBUG(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_DEBUG);
+#define LOG_DEBUG_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_DEBUG);
 
 /* OS X strikes again */
 #undef set_key
@@ -255,6 +258,9 @@ try
 	{
 		boost::mutex::scoped_lock lock (_mutex);
 
+		/* This is for debugging only */
+		bool done_something = false;
+
 		while (true) {
 			
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
@@ -272,8 +278,26 @@ try
 			return;
 		}
 
+		/* We stop here if we have been asked to finish, and if either the queue
+		   is empty or we do not have a sequenced image at its head (if this is the
+		   case we will never terminate as no new frames will be sent once
+		   _finish is true).
+		*/
+		if (_finish && (!have_sequenced_image_at_queue_head() || _queue.empty())) {
+			done_something = true;
+			/* (Hopefully temporarily) log anything that was not written */
+			if (!_queue.empty() && !have_sequenced_image_at_queue_head()) {
+				LOG_WARNING (N_("Finishing writer with a left-over queue of %1:"), _queue.size());
+				for (list<QueueItem>::const_iterator i = _queue.begin(); i != _queue.end(); ++i) {
+					LOG_WARNING (N_("- type %1, size %2, frame %3, eyes %4"), i->type, i->size, i->frame, i->eyes);
+				}
+				LOG_WARNING (N_("Last written frame %1, last written eyes %2"), _last_written_frame, _last_written_eyes);
+			}
+			return;
+		}
 		/* Write any frames that we can write; i.e. those that are in sequence. */
 		while (have_sequenced_image_at_queue_head ()) {
+			done_something = true;
 			QueueItem qi = _queue.front ();
 			_queue.pop_front ();
 			if (qi.type == QueueItem::FULL && qi.encoded) {
@@ -322,6 +346,7 @@ try
 		}
 
 		while (_queued_full_in_memory > _maximum_frames_in_memory) {
+			done_something = true;
 			/* Too many frames in memory which can't yet be written to the stream.
 			   Write some FULL frames to disk.
 			*/
@@ -350,6 +375,14 @@ try
 			lock.lock ();
 			qi.encoded.reset ();
 			--_queued_full_in_memory;
+		}
+
+		if (!done_something) {
+			LOG_DEBUG_NC ("Writer loop ran without doing anything");
+			LOG_DEBUG ("_queued_full_in_memory=%1", _queued_full_in_memory);
+			LOG_DEBUG ("_queue_size=%1", _queue.size ());
+			LOG_DEBUG ("_finish=%1", _finish);
+			LOG_DEBUG ("_last_written_frame=%1", _last_written_frame);
 		}
 
 		/* The queue has probably just gone down a bit; notify anything wait()ing on _full_condition */

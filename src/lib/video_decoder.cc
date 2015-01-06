@@ -21,7 +21,9 @@
 #include "image.h"
 #include "image_proxy.h"
 #include "raw_image_proxy.h"
-#include "content_video.h"
+#include "raw_image_proxy.h"
+#include "film.h"
+#include "log.h"
 
 #include "i18n.h"
 
@@ -278,6 +280,17 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	} else if (!_decoded_video.empty ()) {
 		from = _decoded_video.back().frame + 1;
 		to = to_push.front().frame;
+	}
+
+	/* It has been known that this method receives frames out of order; at this
+	   point I'm not sure why, but we'll just ignore them.
+	*/
+
+	if (from && to && from.get() > to.get()) {
+		_video_content->film()->log()->log (
+			String::compose ("Ignoring out-of-order decoded frame %1 after %2", to.get(), from.get()), Log::TYPE_WARNING
+			);
+		return;
 	}
 
 	if (from) {
