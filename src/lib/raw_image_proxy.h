@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_RAW_IMAGE_PROXY_H
+#define DCPOMATIC_RAW_IMAGE_PROXY_H
+
 #include "image_proxy.h"
 
 class RawImageProxy : public ImageProxy
@@ -32,3 +35,5 @@ public:
 private:
 	boost::shared_ptr<Image> _image;
 };
+
+#endif
