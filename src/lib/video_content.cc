@@ -359,7 +359,7 @@ string
 VideoContent::technical_summary () const
 {
 	string s = String::compose (
-		"video: length %1, size %2x%3, rate %4",
+		N_("video: length %1, size %2x%3, rate %4"),
 		video_length_after_3d_combine().seconds(),
 		video_size().width,
 		video_size().height,
@@ -367,7 +367,7 @@ VideoContent::technical_summary () const
 		);
 
 	if (sample_aspect_ratio ()) {
-		s += String::compose (_(", sample aspect ratio %1"), (sample_aspect_ratio().get ()));
+		s += String::compose (N_(", sample aspect ratio %1"), (sample_aspect_ratio().get ()));
 	}
 
 	return s;
