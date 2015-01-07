@@ -118,7 +118,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 
 	gettimeofday (&after_read, 0);
 	
-	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally ();
+	shared_ptr<EncodedData> encoded = dcp_video_frame.encode_locally (boost::bind (&Log::dcp_log, _log.get(), _1, _2));
 
 	gettimeofday (&after_encode, 0);
 	

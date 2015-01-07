@@ -127,7 +127,11 @@ Encoder::end ()
 	for (list<shared_ptr<DCPVideo> >::iterator i = _queue.begin(); i != _queue.end(); ++i) {
 		LOG_GENERAL (N_("Encode left-over frame %1"), (*i)->index ());
 		try {
-			_writer->write ((*i)->encode_locally(), (*i)->index (), (*i)->eyes ());
+			_writer->write (
+				(*i)->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2)),
+				(*i)->index (),
+				(*i)->eyes ()
+				);
 			frame_done ();
 		} catch (std::exception& e) {
 			LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
@@ -322,7 +326,7 @@ try
 			} else {
 				try {
 					LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());
-					encoded = vf->encode_locally ();
+					encoded = vf->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
 					LOG_TIMING ("[%1] encoder thread finishes local encode of %2", boost::this_thread::get_id(), vf->index());
 				} catch (std::exception& e) {
 					LOG_ERROR (N_("Local encode failed (%1)"), e.what ());

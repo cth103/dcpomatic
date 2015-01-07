@@ -29,6 +29,7 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::optional;
 using boost::dynamic_pointer_cast;
 
 MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
@@ -62,7 +63,7 @@ MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> s
 }
 
 shared_ptr<Image>
-MagickImageProxy::image () const
+MagickImageProxy::image (optional<dcp::NoteHandler>) const
 {
 	if (_image) {
 		return _image;

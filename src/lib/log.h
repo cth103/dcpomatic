@@ -24,6 +24,7 @@
  *  @brief A very simple logging class.
  */
 
+#include <dcp/types.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
@@ -46,6 +47,7 @@ public:
 
 	void log (std::string message, int type);
 	void microsecond_log (std::string message, int type);
+	void dcp_log (dcp::NoteType type, std::string message);
 
 	void set_types (int types);
 

@@ -21,10 +21,6 @@
  *  @brief A wx widget to view a preview of a Film.
  */
 
-#include <iostream>
-#include <iomanip>
-#include <wx/tglbtn.h>
-#include <dcp/exceptions.h>
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -39,8 +35,13 @@
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
 #include "lib/timer.h"
+#include "lib/log.h"
 #include "film_viewer.h"
 #include "wx_util.h"
+#include <dcp/exceptions.h>
+#include <wx/tglbtn.h>
+#include <iostream>
+#include <iomanip>
 
 using std::string;
 using std::pair;
@@ -179,7 +180,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 	
 	if (!pvf.empty ()) {
 		try {
-			_frame = pvf.front()->image (PIX_FMT_RGB24, true);
+			_frame = pvf.front()->image (PIX_FMT_RGB24, true, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
 			_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
 			_position = pvf.front()->time ();
 			_inter_position = pvf.front()->inter_position ();

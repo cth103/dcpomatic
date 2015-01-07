@@ -59,7 +59,7 @@ process_video (shared_ptr<PlayerVideo> pvf)
 
 	++frame_count;
 
-	shared_ptr<EncodedData> local_encoded = local->encode_locally ();
+	shared_ptr<EncodedData> local_encoded = local->encode_locally (boost::bind (&Log::dcp_log, log_.get(), _1, _2));
 	shared_ptr<EncodedData> remote_encoded;
 
 	string remote_error;

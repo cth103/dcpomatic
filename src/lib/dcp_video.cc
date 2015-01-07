@@ -28,7 +28,6 @@
  *  of images that require encoding.
  */
 
-#include "film.h"
 #include "dcp_video.h"
 #include "config.h"
 #include "exceptions.h"
@@ -108,17 +107,17 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
  *  @return Encoded data.
  */
 shared_ptr<EncodedData>
-DCPVideo::encode_locally ()
+DCPVideo::encode_locally (dcp::NoteHandler note)
 {
 	shared_ptr<dcp::XYZFrame> xyz;
 
 	if (_frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz (
-			_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles),
+			_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles, note),
 			_frame->colour_conversion().get()
 			);
 	} else {
-		xyz = dcp::xyz_to_xyz (_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles));
+		xyz = dcp::xyz_to_xyz (_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles, note));
 	}
 
 	/* Set the max image and component sizes based on frame_rate */

@@ -30,7 +30,7 @@ public:
 	J2KImageProxy (boost::shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size, dcp::Eye);
 	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
-	boost::shared_ptr<Image> image () const;
+	boost::shared_ptr<Image> image (boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> ()) const;
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
 

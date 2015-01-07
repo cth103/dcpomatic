@@ -95,7 +95,23 @@ Log::microsecond_log (string m, int t)
 	SafeStringStream s;
 	s << tv.tv_sec << N_(":") << tv.tv_usec << N_(" ") << m;
 	do_log (s.str ());
-}	
+}
+
+void
+Log::dcp_log (dcp::NoteType type, string m)
+{
+	switch (type) {
+	case dcp::DCP_PROGRESS:
+		log (m, TYPE_GENERAL);
+		break;
+	case dcp::DCP_ERROR:
+		log (m, TYPE_ERROR);
+		break;
+	case dcp::DCP_NOTE:
+		log (m, TYPE_WARNING);
+		break;
+	}
+}
 
 void
 Log::set_types (int t)

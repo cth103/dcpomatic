@@ -30,6 +30,7 @@ extern "C" {
 
 using std::string;
 using boost::shared_ptr;
+using boost::optional;
 
 RawImageProxy::RawImageProxy (shared_ptr<Image> image)
 	: _image (image)
@@ -48,7 +49,7 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 }
 
 shared_ptr<Image>
-RawImageProxy::image () const
+RawImageProxy::image (optional<dcp::NoteHandler>) const
 {
 	return _image;
 }

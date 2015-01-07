@@ -24,9 +24,11 @@
  *  @brief ImageProxy and subclasses.
  */
 
+#include <dcp/types.h>
 #include <Magick++.h>
 #include <libxml++/libxml++.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 
 class Image;
@@ -58,7 +60,7 @@ public:
 	virtual ~ImageProxy () {}
 
 	/** @return Image (which must be aligned) */
-	virtual boost::shared_ptr<Image> image () const = 0;
+	virtual boost::shared_ptr<Image> image (boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> ()) const = 0;
 	virtual void add_metadata (xmlpp::Node *) const = 0;
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */

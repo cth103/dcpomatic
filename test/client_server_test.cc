@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			)
 		);
 
-	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
+	shared_ptr<EncodedData> locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 	BOOST_ASSERT (locally_encoded);
 	
 	Server* server = new Server (log, true);
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			)
 		);
 
-	shared_ptr<EncodedData> locally_encoded = frame->encode_locally ();
+	shared_ptr<EncodedData> locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 	BOOST_ASSERT (locally_encoded);
 	
 	Server* server = new Server (log, true);
