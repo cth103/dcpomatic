@@ -32,4 +32,8 @@ MakeSignerChainDialog::MakeSignerChainDialog (wxWindow* parent)
 	add (_intermediate_common_name = new wxTextCtrl (this, wxID_ANY));
 	add (_("Leaf common name"), true);
 	add (_leaf_common_name = new wxTextCtrl (this, wxID_ANY));
+
+	layout ();
+
+	SetSize (640, -1);
 }
