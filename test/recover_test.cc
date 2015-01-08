@@ -73,6 +73,6 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	shared_ptr<dcp::StereoPictureMXF> B (new dcp::StereoPictureMXF (video));
 
 	dcp::EqualityOptions eq;
-	eq.mxf_names_can_differ = true;
+	eq.mxf_filenames_can_differ = true;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
 }
