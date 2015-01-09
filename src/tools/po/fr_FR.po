@@ -102,14 +102,14 @@ msgstr "Ajouter Film..."
 msgid ""
 "An exception occurred: %s in %s.\n"
 "\n"
-msgstr "Exception inconnue"
+msgstr "Exception inconnue: %s (%s).\n\n"
 
 #: src/tools/dcpomatic.cc:869
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s.\n"
 "\n"
-msgstr "Exception inconnue"
+msgstr "Exception inconnue: %s (%s).\n\n"
 
 #: src/tools/dcpomatic.cc:443 src/tools/dcpomatic.cc:871
 #: src/tools/dcpomatic.cc:880
