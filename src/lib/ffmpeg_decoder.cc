@@ -177,8 +177,9 @@ FFmpegDecoder::deinterleave_audio (uint8_t** data, int size)
 
 	/* Deinterleave and convert to float */
 
-	DCPOMATIC_ASSERT ((size % (bytes_per_audio_sample() * _ffmpeg_content->audio_channels())) == 0);
-
+	/* total_samples and frames will be rounded down here, so if there are stray samples at the end
+	   of the block that do not form a complete sample or frame they will be dropped.
+	*/
 	int const total_samples = size / bytes_per_audio_sample();
 	int const frames = total_samples / _ffmpeg_content->audio_channels();
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_ffmpeg_content->audio_channels(), frames));
