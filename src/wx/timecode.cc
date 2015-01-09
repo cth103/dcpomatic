@@ -29,10 +29,8 @@ using boost::lexical_cast;
 TimecodeBase::TimecodeBase (wxWindow* parent)
 	: wxPanel (parent)
 {
-	wxClientDC dc (parent);
-	wxSize size = dc.GetTextExtent (wxT ("9999"));
-	size.SetHeight (-1);
-
+	wxSize const s = TimecodeBase::size (parent);
+	
 	wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
 	wxArrayString list;
 
@@ -47,19 +45,19 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 	
 	_editable = new wxPanel (this);
 	wxSizer* editable_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_hours = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_hours = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_hours->SetMaxLength (2);
 	editable_sizer->Add (_hours);
 	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
-	_minutes = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_minutes = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_minutes->SetMaxLength (2);
 	editable_sizer->Add (_minutes);
 	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
-	_seconds = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_seconds = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_seconds->SetMaxLength (2);
 	editable_sizer->Add (_seconds);
 	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false);
-	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, size, 0, validator);
+	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_frames->SetMaxLength (2);
 	editable_sizer->Add (_frames);
 	_set_button = new wxButton (_editable, wxID_ANY, _("Set"));
@@ -112,3 +110,14 @@ TimecodeBase::set_editable (bool e)
 	_fixed->Show (!e);
 	_sizer->Layout ();
 }
+
+wxSize
+TimecodeBase::size (wxWindow* parent)
+{
+	wxClientDC dc (parent);
+	wxSize size = dc.GetTextExtent (wxT ("9999"));
+	size.SetHeight (-1);
+	return size;
+}
+
+
