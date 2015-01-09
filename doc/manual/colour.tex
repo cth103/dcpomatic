@@ -28,6 +28,8 @@ r' &= \begin{dcases}
 \end{dcases}
 \end{align*}
 
+and similarly for $g$ and $b$.
+
 Next, the colour transformation matrix is used to convert to XYZ:
 
 \begin{align*}
@@ -47,6 +49,8 @@ g' \\
 b'
 \end{array}\right]
 \end{align*}
+
+Note: some tools apply a white-point correction here, but DCP-o-matic currently does not do that.
 
 Finally, the output gamma $\gamma_o$ is applied to give our final XYZ values $(x', y', z')$:
 
