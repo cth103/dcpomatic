@@ -127,21 +127,21 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
   fi
 done
 
-cp build/platform/osx/Info.plist "$WORK/$approot"
-cp icons/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
-cp icons/colour_conversions.png "$WORK/$resources"
-cp icons/defaults.png "$WORK/$resources"
-cp icons/kdm_email.png "$WORK/$resources"
-cp icons/servers.png "$WORK/$resources"
-cp icons/tms.png "$WORK/$resources"
-cp icons/keys.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/build/platform/osx/Info.plist "$WORK/$approot"
+cp $ROOT/32/src/dcpomatic/icons/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
+cp $ROOT/32/src/dcpomatic/icons/colour_conversions.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/icons/defaults.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/icons/kdm_email.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/icons/servers.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/icons/tms.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/icons/keys.png "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
   mkdir -p "$WORK/$resources/$lang/LC_MESSAGES"
-  cp build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
-  cp build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
-  cp build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp $ROOT/32/src/dcpomatic/build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp $ROOT/32/src/dcpomatic/build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp $ROOT/32/src/dcpomatic/build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
 done
 
 # i18n: wxWidgets .mo files
