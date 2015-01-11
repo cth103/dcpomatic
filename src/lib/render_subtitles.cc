@@ -99,16 +99,6 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 		/* Compute fade factor */
 		/* XXX */
 		float fade_factor = 1;
-#if 0		
-		dcp::Time now (time * 1000 / (4 * TIME_HZ));
-		dcp::Time end_fade_up = i->in() + i->fade_up_time ();
-		dcp::Time start_fade_down = i->out() - i->fade_down_time ();
-		if (now < end_fade_up) {
-			fade_factor = (now - i->in()) / i->fade_up_time();
-		} else if (now > start_fade_down) {
-			fade_factor = 1.0 - ((now - start_fade_down) / i->fade_down_time ());
-		}
-#endif		
 
 		layout->update_from_cairo_context (context);
 		
