@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/dcp_examiner.h
+ *  @brief DCPExaminer class.
+ */
+
 #include "video_examiner.h"
 #include "audio_examiner.h"
 
