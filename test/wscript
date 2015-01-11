@@ -12,7 +12,7 @@ def configure(conf):
 def build(bld):
     obj = bld(features='cxx cxxprogram')
     obj.name   = 'unit-tests'
-    obj.uselib = 'BOOST_TEST BOOST_THREAD DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML MAGICK SUB'
+    obj.uselib = 'BOOST_TEST BOOST_THREAD BOOST_FILESYSTEM SNDFILE DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML MAGICK SUB'
     obj.use    = 'libdcpomatic2'
     obj.source = """
                  4k_test.cc
@@ -65,15 +65,4 @@ def build(bld):
     # subrip_test.cc burnt_subtitle_test.cc
 
     obj.target = 'unit-tests'
-    obj.install_path = ''
-
-    obj = bld(features='cxx cxxprogram')
-    obj.name   = 'long-unit-tests'
-    obj.uselib = 'BOOST_TEST DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML SUB'
-    obj.use    = 'libdcpomatic2'
-    obj.source = """
-                 test.cc
-                 """
-
-    obj.target = 'long-unit-tests'
     obj.install_path = ''
