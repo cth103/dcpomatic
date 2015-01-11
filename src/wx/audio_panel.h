@@ -52,7 +52,6 @@ private:
 	ContentSpinCtrl<AudioContent>* _delay;
 	wxChoice* _stream;
 	wxChoice* _processor;
-	wxStaticText* _stream_description;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
 	AudioDialog* _audio_dialog;
