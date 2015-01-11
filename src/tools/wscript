@@ -9,9 +9,12 @@ def configure(conf):
         conf.env.append_value('LINKFLAGS', ['-mconsole'])
 
 def build(bld):
+
+    uselib = 'BOOST_THREAD BOOST_DATETIME BOOST_FILESYSTEM OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS SUB CURL GLIB'
+
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm', 'dcpomatic_create']:
         obj = bld(features = 'cxx cxxprogram')
-        obj.uselib = 'BOOST_THREAD BOOST_DATETIME BOOST_FILESYSTEM OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS SUB CURL'
+        obj.uselib = uselib
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
@@ -22,7 +25,7 @@ def build(bld):
     if not bld.env.DISABLE_GUI:
         for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server']:
             obj = bld(features = 'cxx cxxprogram')
-            obj.uselib = 'BOOST_THREAD BOOST_DATETIME BOOST_FILESYSTEM OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML WXWIDGETS SUB CURL'
+            obj.uselib = uselib
             if bld.env.BUILD_STATIC or bld.env.TARGET_LINUX:
                 obj.uselib += ' GTK'
             obj.includes = ['..']
