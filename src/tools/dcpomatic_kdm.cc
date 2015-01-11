@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/tools/dcpomatic_kdm.cc
+ *  @brief Command-line program to generate KDMs.
+ */
+
 #include <getopt.h>
 #include <dcp/certificates.h>
 #include "lib/film.h"
