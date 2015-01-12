@@ -17,10 +17,10 @@ override_dh_auto_configure:
 		 ./waf configure --prefix=/usr --target-debian --enable-debug $(CDIST_EXTRA_CONFIGURE)
 
 override_dh_auto_build:
-	./waf --nocache build
+	./waf build
 
 override_dh_auto_install:
-	./waf --nocache install --destdir=debian/dcpomatic
+	./waf install --destdir=debian/dcpomatic
 	mkdir -p debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/
 	cp -a /usr/local/share/locale/de/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/dcpomatic-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/
