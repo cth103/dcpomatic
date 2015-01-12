@@ -13,7 +13,9 @@ def build(bld):
     obj = bld(features='cxx cxxprogram')
     obj.name   = 'unit-tests'
     obj.uselib =  'BOOST_TEST BOOST_THREAD BOOST_FILESYSTEM BOOST_DATETIME SNDFILE DCP OPENJPEG CAIROMM PANGOMM XMLPP '
-    obj.uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML MAGICK SUB GLIB'
+    obj.uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML MAGICK SUB GLIB '
+    if bld.env.TARGET_WINDOWS:
+        obj.uselib += 'WINSOCK2'
     obj.use    = 'libdcpomatic2'
     obj.source = """
                  4k_test.cc
