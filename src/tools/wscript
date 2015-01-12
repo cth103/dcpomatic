@@ -10,7 +10,8 @@ def configure(conf):
 
 def build(bld):
 
-    uselib = 'BOOST_THREAD BOOST_DATETIME BOOST_FILESYSTEM OPENJPEG DCP CXML AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS SUB CURL GLIB'
+    uselib =  'BOOST_THREAD BOOST_DATETIME BOOST_FILESYSTEM OPENJPEG DCP CXML SNDFILE ZIP '
+    uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC WXWIDGETS SUB CURL GLIB CAIROMM PANGOMM MAGICK '
 
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm', 'dcpomatic_create']:
         obj = bld(features = 'cxx cxxprogram')
