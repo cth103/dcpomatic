@@ -90,9 +90,11 @@ def build(bld):
 
     obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
-    obj.uselib = 'WXWIDGETS DCP SUB ZIP'
+    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD WXWIDGETS DCP SUB ZIP '
     if bld.env.TARGET_LINUX:
-        obj.uselib += ' GTK'
+        obj.uselib += 'GTK '
+    if bld.env.TARGET_WINDOWS:
+        obj.uselib += 'WINSOCK2 '
     obj.use = 'libdcpomatic2'
     obj.source = sources
     obj.target = 'dcpomatic2-wx'
