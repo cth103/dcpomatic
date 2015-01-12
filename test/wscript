@@ -12,7 +12,8 @@ def configure(conf):
 def build(bld):
     obj = bld(features='cxx cxxprogram')
     obj.name   = 'unit-tests'
-    obj.uselib = 'BOOST_TEST BOOST_THREAD BOOST_FILESYSTEM SNDFILE DCP OPENJPEG AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML MAGICK SUB GLIB'
+    obj.uselib =  'BOOST_TEST BOOST_THREAD BOOST_FILESYSTEM SNDFILE DCP OPENJPEG CAIROMM PANGOMM XMLPP '
+    obj.uselib += 'AVFORMAT AVFILTER AVCODEC AVUTIL SWSCALE POSTPROC CXML MAGICK SUB GLIB'
     obj.use    = 'libdcpomatic2'
     obj.source = """
                  4k_test.cc
