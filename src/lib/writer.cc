@@ -649,8 +649,6 @@ Writer::write (PlayerSubtitles subs)
 		return;
 	}
 
-	cout << "write " << subs.text.size() << " " << subs.from << " " << subs.to << "\n";
-	
 	if (!_subtitle_content) {
 		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
 	}
