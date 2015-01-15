@@ -39,7 +39,7 @@ extern "C" {
 
 class Log;
 class FilterGraph;
-class ffmpeg_pts_offset_test;
+struct ffmpeg_pts_offset_test;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
