@@ -1,2 +1,2 @@
 def build(bld):
-    bld.new_task_gen(features='subst', source='Info.plist.in', target='Info.plist', version=bld.env.VERSION)
+    obj = bld(features='subst', source='Info.plist.in', target='Info.plist', version=bld.env.VERSION)
