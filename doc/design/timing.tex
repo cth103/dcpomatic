@@ -8,7 +8,8 @@ We are trying to implement full-ish playlist based content specification.  The t
 Frame rates of things can vary a lot; content can be in pretty much
 anything, and DCP video and audio frame rates may change on a whim
 depending on what is best for a given set of content.  This suggests
-(albeit without strong justification) the need for a frame-rate-independent unit of time.
+(albeit without strong justification) the need for a
+frame-rate-independent unit of time.
 
 So far we've been using a time type called \texttt{Time} expressed in
 $\mathtt{TIME\_HZ}^{-1}$; e.g. \texttt{TIME\_HZ} units is 1 second.
@@ -73,5 +74,21 @@ will obviate the need for things to be recalculated when DCP rate changes.
 
 On the plus side, lengths in \texttt{Time} are computed on-demand from
 lengths kept as source frames.
+
+
+\section{More musings}
+
+In version 2 things we changed, and a problem appeared.  We have / had
+\texttt{ContentTime} which is a metric time type, and it is used to
+describe video content length (amongst other things).  However if we
+load a set of TIFFs and then change the frame rate we don't have the
+length in frames i order to work out the new rate.
+
+This suggests that the content lengths, at least, should be described
+in frames.  Then to get metric lengths you would need to specify a
+timecode.
+
+I will probably have to try a frame-based ContentTime and see what
+problems arise.
 
 \end{document}
