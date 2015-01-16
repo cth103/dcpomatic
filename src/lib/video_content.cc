@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -525,7 +525,15 @@ VideoContent::processing_description () const
 			video_size_after_3d_split().height
 			);
 
-		d << " (" << fixed << setprecision(2) << video_size_after_3d_split().ratio() << ":1)\n";
+
+		float ratio = video_size_after_3d_split().ratio ();
+
+		if (sample_aspect_ratio ()) {
+			d << ", " << _("pixel aspect ratio") << " " << fixed << setprecision(2) << sample_aspect_ratio().get () << ":1";
+			ratio *= sample_aspect_ratio().get ();
+		}
+
+		d << "\n" << _("Display aspect ratio") << " " << fixed << setprecision(2) << ratio << ":1\n";
 	}
 
 	if ((crop().left || crop().right || crop().top || crop().bottom) && video_size() != dcp::Size (0, 0)) {
@@ -570,3 +578,4 @@ VideoContent::processing_description () const
 
 	return d.str ();
 }
+

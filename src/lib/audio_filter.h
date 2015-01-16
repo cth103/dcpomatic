@@ -21,7 +21,6 @@
 #include <vector>
 
 class AudioBuffers;
-class audio_filter_impulse_kernel_test;
 struct audio_filter_impulse_input_test;
 
 class AudioFilter

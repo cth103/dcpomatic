@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include <boost/function.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include <curl/curl.h>
 #include <zip.h>
 #include "scoped_temporary.h"
@@ -33,6 +34,7 @@ using std::string;
 using std::list;
 using boost::optional;
 using boost::function;
+using boost::algorithm::trim;
 
 static size_t
 get_from_zip_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
@@ -138,7 +140,8 @@ ftp_ls (string url)
 	SafeStringStream s (ls_raw);
 	list<string> ls;
 	while (s.good ()) {
-		string const line = s.getline ();
+		string line = s.getline ();
+		trim (line);
 		if (line.length() > 55) {
 			string const file = line.substr (55);
 			if (file != "." && file != "..") {
