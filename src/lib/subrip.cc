@@ -47,5 +47,5 @@ SubRip::length () const
 		return ContentTime ();
 	}
 
-	return ContentTime::from_seconds (_subtitles.back().to.metric().get().all_as_seconds ());
+	return ContentTime::from_seconds (_subtitles.back().to.all_as_seconds ());
 }

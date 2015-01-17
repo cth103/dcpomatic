@@ -42,7 +42,7 @@ SubRipDecoder::seek (ContentTime time, bool accurate)
 	SubtitleDecoder::seek (time, accurate);
 	
 	_next = 0;
-	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.metric().get().all_as_seconds ()) < time) {
+	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
 		++_next;
 	}
 }
@@ -65,8 +65,8 @@ SubRipDecoder::pass ()
 					j->italic,
 					dcp::Colour (255, 255, 255),
 					j->font_size.points (72 * 11),
-					dcp::Time (rint (_subtitles[_next].from.metric().get().all_as_seconds())),
-					dcp::Time (rint (_subtitles[_next].to.metric().get().all_as_seconds())),
+					dcp::Time (rint (_subtitles[_next].from.all_as_seconds())),
+					dcp::Time (rint (_subtitles[_next].to.all_as_seconds())),
 					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
 					dcp::TOP,
 					j->text,
@@ -94,8 +94,8 @@ SubRipDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
 	for (vector<sub::Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 
 		ContentTimePeriod t (
-			ContentTime::from_seconds (i->from.metric().get().all_as_seconds()),
-			ContentTime::from_seconds (i->to.metric().get().all_as_seconds())
+			ContentTime::from_seconds (i->from.all_as_seconds()),
+			ContentTime::from_seconds (i->to.all_as_seconds())
 			);
 
 		if ((starting && p.contains (t.from)) || (!starting && p.overlaps (t))) {
