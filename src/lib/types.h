@@ -57,22 +57,6 @@ typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 typedef int64_t VideoFrame;
 typedef int64_t AudioFrame;
 
-/* XXX -> DCPAudio */
-struct TimedAudioBuffers
-{
-	TimedAudioBuffers ()
-		: time (0)
-	{}
-	
-	TimedAudioBuffers (boost::shared_ptr<AudioBuffers> a, DCPTime t)
-		: audio (a)
-		, time (t)
-	{}
-	
-	boost::shared_ptr<AudioBuffers> audio;
-	DCPTime time;
-};
-
 enum VideoFrameType
 {
 	VIDEO_FRAME_TYPE_2D,
