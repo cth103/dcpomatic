@@ -157,7 +157,6 @@ private:
 	boost::shared_ptr<Image> _black_image;
 
 	bool _approximate_size;
-	bool _burn_subtitles;
 
 	PlayerStatistics _statistics;
 
