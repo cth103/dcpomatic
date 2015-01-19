@@ -41,7 +41,6 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 #else
 	: _video_content (c)
 #endif
-	, _same (false)
 	, _last_seek_accurate (true)
 {
 	_black_image.reset (new Image (PIX_FMT_RGB24, _video_content->video_size(), true));
@@ -237,7 +236,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.
 	*/
-	_same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
+	bool const same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
 
 	/* Work out what we are going to push into _decoded_video next */
 	list<ContentVideo> to_push;
@@ -246,7 +245,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 		to_push.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		to_push.push_back (ContentVideo (image, _same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));

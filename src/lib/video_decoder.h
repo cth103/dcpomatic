@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -65,7 +65,6 @@ protected:
 
 	boost::shared_ptr<const VideoContent> _video_content;
 	std::list<ContentVideo> _decoded_video;
-	bool _same;
 	boost::shared_ptr<Image> _black_image;
 	boost::optional<ContentTime> _last_seek_time;
 	bool _last_seek_accurate;
