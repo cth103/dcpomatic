@@ -42,6 +42,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 	: _video_content (c)
 #endif
 	, _last_seek_accurate (true)
+	, _ignore_video (false)
 {
 	_black_image.reset (new Image (PIX_FMT_RGB24, _video_content->video_size(), true));
 	_black_image->make_black ();
@@ -233,6 +234,10 @@ VideoDecoder::fill_3d (VideoFrame from, VideoFrame to, Eyes eye)
 void
 VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 {
+	if (_ignore_video) {
+		return;
+	}
+	
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.
 	*/
@@ -314,4 +319,11 @@ VideoDecoder::seek (ContentTime s, bool accurate)
 	_decoded_video.clear ();
 	_last_seek_time = s;
 	_last_seek_accurate = accurate;
+}
+
+/** Set this player never to produce any video data */
+void
+VideoDecoder::set_ignore_video ()
+{
+	_ignore_video = true;
 }

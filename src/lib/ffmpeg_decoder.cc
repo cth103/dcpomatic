@@ -154,7 +154,7 @@ FFmpegDecoder::pass ()
 
 	int const si = _packet.stream_index;
 
-	if (si == _video_stream) {
+	if (si == _video_stream && !_ignore_video) {
 		decode_video_packet ();
 	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si)) {
 		decode_audio_packet ();

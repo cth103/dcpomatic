@@ -73,6 +73,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _playlist (p)
 	, _have_valid_pieces (false)
 	, _approximate_size (false)
+	, _ignore_video (false)
 {
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
@@ -171,6 +172,11 @@ Player::setup_pieces ()
 		if (dsc) {
 			decoder.reset (new DCPSubtitleDecoder (dsc));
 			frc = best_overlap_frc;
+		}
+
+		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
+		if (vd && _ignore_video) {
+			vd->set_ignore_video ();
 		}
 
 		_pieces.push_back (shared_ptr<Piece> (new Piece (*i, decoder, frc.get ())));
@@ -607,4 +613,11 @@ Player::get_subtitle_fonts ()
 	}
 
 	return fonts;
+}
+
+/** Set this player never to produce any video data */
+void
+Player::set_ignore_video ()
+{
+	_ignore_video = true;
 }

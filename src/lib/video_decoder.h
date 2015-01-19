@@ -49,6 +49,8 @@ public:
 		return _video_content;
 	}
 
+	void set_ignore_video ();
+
 #ifdef DCPOMATIC_DEBUG
 	int test_gaps;
 #endif
@@ -68,6 +70,9 @@ protected:
 	boost::shared_ptr<Image> _black_image;
 	boost::optional<ContentTime> _last_seek_time;
 	bool _last_seek_accurate;
+
+	/** true if this decoder should ignore all video; i.e. never produce any */
+	bool _ignore_video;
 };
 
 #endif
