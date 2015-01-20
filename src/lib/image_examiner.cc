@@ -25,6 +25,7 @@
 #include "config.h"
 #include "cross.h"
 #include <dcp/xyz_frame.h>
+#include <dcp/exceptions.h>
 #include <Magick++.h>
 #include <iostream>
 
@@ -53,7 +54,12 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		}
 		fread (buffer, 1, size, f);
 		fclose (f);
-		_video_size = dcp::decompress_j2k (buffer, size, 0)->size ();
+		try {
+			_video_size = dcp::decompress_j2k (buffer, size, 0)->size ();
+		} catch (dcp::DCPReadError& e) {
+			delete[] buffer;
+			throw DecodeError (String::compose (_("Could not decode JPEG2000 file %1 (%2)"), path, e.what ()));
+		}
 		delete[] buffer;
 	} else {
 		Magick::Image* image = new Magick::Image (content->path(0).string());
