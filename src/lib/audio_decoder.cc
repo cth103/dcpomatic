@@ -63,7 +63,7 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 		
 	if (frame < _decoded_audio.frame || end > (_decoded_audio.frame + length * 4)) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
-		seek (ContentTime::from_frames (frame, _audio_content->audio_frame_rate()), accurate);
+		seek (ContentTime::from_frames (frame, _audio_content->resampled_audio_frame_rate()), accurate);
 	}
 
 	/* Offset of the data that we want from the start of _decoded_audio.audio
