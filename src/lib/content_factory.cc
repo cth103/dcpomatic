@@ -29,6 +29,7 @@
 #include "dcp_subtitle_content.h"
 #include "util.h"
 #include <libcxml/cxml.h>
+#include <dcp/smpte_subtitle_content.h>
 
 using std::string;
 using std::list;
@@ -86,15 +87,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		content.reset (new SubRipContent (film, path));
 	} else if (ext == ".xml") {
 		content.reset (new DCPSubtitleContent (film, path));
-	} else if (ext == ".mxf") {
-		/* Try to read this .mxf as a subtitle file; if we fail, we fall back
-		   to using FFmpeg below.
-		*/
-		try {
-			content.reset (new DCPSubtitleContent (film, path));
-		} catch (...) {
-
-		}
+	} else if (ext == ".mxf" && dcp::SMPTESubtitleContent::valid_mxf (path)) {
+		content.reset (new DCPSubtitleContent (film, path));
 	}
 
 	if (!content) {
