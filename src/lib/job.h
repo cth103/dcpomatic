@@ -71,10 +71,7 @@ public:
 	void set_progress_unknown ();
 	void set_progress (float, bool force = false);
 	void sub (std::string);
-	float progress () const;
-	bool progress_unknown () const {
-		return !_progress;
-	}
+	boost::optional<float> progress () const;
 
 	boost::shared_ptr<const Film> film () const {
 		return _film;

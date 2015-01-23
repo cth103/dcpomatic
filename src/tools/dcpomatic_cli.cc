@@ -177,9 +177,7 @@ main (int argc, char* argv[])
 			if (progress) {
 				cout << (*i)->name() << ": ";
 				
-				float const p = (*i)->progress ();
-				
-				if (p >= 0) {
+				if ((*i)->progress ()) {
 					cout << (*i)->status() << "			    \n";
 				} else {
 					cout << ": Running	     \n";

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ class FFmpegSubtitleStream;
 class FFmpegExaminer : public FFmpeg, public VideoExaminer
 {
 public:
-	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>);
+	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Job> job = boost::shared_ptr<Job> ());
 	
 	boost::optional<float> video_frame_rate () const;
 	dcp::Size video_size () const;

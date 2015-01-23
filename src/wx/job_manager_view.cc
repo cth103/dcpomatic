@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ public:
 
 	void maybe_pulse ()
 	{
-		if (_job->running() && _job->progress_unknown ()) {
+		if (_job->running() && !_job->progress ()) {
 			_gauge->Pulse ();
 		}
 	}
@@ -110,14 +110,11 @@ private:
 
 	void progress ()
 	{
-		float const p = _job->progress ();
-		if (p >= 0) {
-			checked_set (_message, _job->status ());
-			update_job_name ();
-			int const pp = min (100.0f, p * 100);
-			_gauge->SetValue (pp);
-		}
-
+		checked_set (_message, _job->status ());
+		update_job_name ();
+		if (_job->progress ()) {
+			_gauge->SetValue (min (100.0f, _job->progress().get() * 100));
+ 		}
 		_table->Layout ();
 		_window->FitInside ();
 	}

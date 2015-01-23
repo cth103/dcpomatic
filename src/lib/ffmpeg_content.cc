@@ -169,7 +169,7 @@ FFmpegContent::examine (shared_ptr<Job> job, bool calculate_digest)
 
 	Content::examine (job, calculate_digest);
 
-	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this ()));
+	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
 	take_from_video_examiner (examiner);
 
 	shared_ptr<const Film> film = _film.lock ();
