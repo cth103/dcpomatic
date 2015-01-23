@@ -133,6 +133,8 @@ File "%cdist_deps%/bin/swresample-1.dll"
 File "%cdist_deps%/bin/swscale-3.dll"
 File "%cdist_deps%/bin/cxml-0.dll"
 File "%cdist_deps%/bin/sub-1.0.dll"
+File "%cdist_deps%/bin/asdcp-libsub-1.0.dll"
+File "%cdist_deps%/bin/kumu-libsub-1.0.dll"
 File "%cdist_deps%/bin/ffprobe.exe"
     """, file=f)
 
