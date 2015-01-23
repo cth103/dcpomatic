@@ -1,5 +1,8 @@
 2015-01-23  Carl Hetherington  <cth@carlh.net>
 
+	* Scan a whole FFmpeg file if no duration is given
+	in its header.
+
 	* Fix flicker of SubRip subtitles in some cases.
 
 	* Version 2.0.37 released.

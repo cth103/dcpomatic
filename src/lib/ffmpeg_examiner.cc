@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ using boost::optional;
 
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 	: FFmpeg (c)
+	, _need_video_length (false)
 {
 	/* Find audio and subtitle streams */
 
@@ -62,6 +63,12 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
 			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (subtitle_stream_name (s), s->id)));
 		}
+	}
+
+	/* See if the header has duration information in it */
+	_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
+	if (!_need_video_length) {
+		_video_length = ContentTime::from_seconds (double (_format_context->duration) / AV_TIME_BASE);
 	}
 
 	/* Run through until we find:
@@ -104,13 +111,18 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c)
 void
 FFmpegExaminer::video_packet (AVCodecContext* context)
 {
-	if (_first_video) {
+	if (_first_video && !_need_video_length) {
 		return;
 	}
 
 	int frame_finished;
 	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
-		_first_video = frame_time (_format_context->streams[_video_stream]);
+		if (!_first_video) {
+			_first_video = frame_time (_format_context->streams[_video_stream]);
+		}
+		if (_need_video_length) {
+			_video_length = frame_time (_format_context->streams[_video_stream]).get_value_or (ContentTime ());
+		}
 	}
 }
 
@@ -177,7 +189,7 @@ ContentTime
 FFmpegExaminer::video_length () const
 {
 	ContentTime const length = ContentTime::from_seconds (double (_format_context->duration) / AV_TIME_BASE);
-	return ContentTime (max (ContentTime::Type (1), length.get ()));
+	return ContentTime (max (ContentTime (1), _video_length));
 }
 
 optional<float>
