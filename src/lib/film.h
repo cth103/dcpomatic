@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -252,8 +252,8 @@ public:
 	void set_directory (boost::filesystem::path);
 	void set_name (std::string);
 	void set_use_isdcf_name (bool);
-	void examine_content (boost::shared_ptr<Content>, bool calculate_digest);
-	void examine_and_add_content (boost::shared_ptr<Content>, bool calculate_digest);
+	void examine_content (boost::shared_ptr<Content>);
+	void examine_and_add_content (boost::shared_ptr<Content>);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void move_content_earlier (boost::shared_ptr<Content>);

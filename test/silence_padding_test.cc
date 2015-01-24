@@ -48,7 +48,7 @@ test_silence_padding (int channels)
 	film->set_name (film_name);
 
 	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/staircase.wav"));
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
 	film->set_audio_channels (channels);

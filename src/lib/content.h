@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,9 +66,8 @@ public:
 	/** Examine the content to establish digest, frame rates and any other
 	 *  useful metadata.
 	 *  @param job Job to use to report progress, or 0.
-	 *  @param calculate_digest True to calculate a digest for the content's file(s).
 	 */
-	virtual void examine (boost::shared_ptr<Job> job, bool calculate_digest);
+	virtual void examine (boost::shared_ptr<Job> job);
 	
 	/** @return Quick one-line summary of the content, as will be presented in the
 	 *  film editor.
@@ -107,8 +106,11 @@ public:
 	
 	bool paths_valid () const;
 
-	/** @return MD5 digest of the content's file(s) */
-	boost::optional<std::string> digest () const {
+       /** @return Digest of the content's file(s).  Note: this is
+        *  not a complete MD5-or-whatever hash, but a sort of poor
+        *  man' version (see comments in ::examine).
+        */
+	std::string digest () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _digest;
 	}
@@ -167,7 +169,7 @@ protected:
 	std::vector<boost::filesystem::path> _paths;
 	
 private:
-	boost::optional<std::string> _digest;
+	std::string _digest;
 	DCPTime _position;
 	DCPTime _trim_start;
 	DCPTime _trim_end;

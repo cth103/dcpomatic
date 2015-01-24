@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	film->set_name ("frobozz");
 	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/white.wav"));
 	content->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 
 	wait_for_jobs ();
 

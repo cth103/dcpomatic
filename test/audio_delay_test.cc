@@ -51,7 +51,7 @@ void test_audio_delay (int delay_in_ms)
 
 	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/staircase.wav"));
 	content->set_audio_delay (delay_in_ms);
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
 	film->make_dcp ();

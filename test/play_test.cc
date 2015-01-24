@@ -87,13 +87,13 @@ BOOST_AUTO_TEST_CASE (play_test)
 	film->set_name ("play_test");
 
 	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/red_24.mp4"));
-	film->examine_and_add_content (A, true);
+	film->examine_and_add_content (A);
 	wait_for_jobs ();
 
 	BOOST_CHECK_EQUAL (A->video_length_after_3d_combine(), 16);
 
 	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/red_30.mp4"));
-	film->examine_and_add_content (B, true);
+	film->examine_and_add_content (B);
 	wait_for_jobs ();
 
 	BOOST_CHECK_EQUAL (B->video_length_after_3d_combine(), 16);

@@ -100,9 +100,9 @@ ImageContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-ImageContent::examine (shared_ptr<Job> job, bool calculate_digest)
+ImageContent::examine (shared_ptr<Job> job)
 {
-	Content::examine (job, calculate_digest);
+	Content::examine (job);
 
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);

@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	boost::filesystem::path p = private_data / "betty_L.wav";
 
 	shared_ptr<SndfileContent> c (new SndfileContent (film, p));
-	film->examine_and_add_content (c, true);
+	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
 	c->analyse_audio (boost::bind (&finished));

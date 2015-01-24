@@ -178,7 +178,7 @@ main (int argc, char* argv[])
 			if (vc) {
 				vc->set_scale (VideoContentScale (content_ratio));
 			}
-			film->examine_and_add_content (c, true);
+			film->examine_and_add_content (c);
 		}
 		
 		JobManager* jm = JobManager::instance ();

@@ -248,7 +248,7 @@ ContentPanel::add_file_clicked ()
 	/* XXX: check for lots of files here and do something */
 
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])), true);
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
 	}
 
 	d->Destroy ();
@@ -281,7 +281,7 @@ ContentPanel::add_folder_clicked ()
 	if (is_dcp) {
 		try {
 			shared_ptr<DCPContent> content (new DCPContent (_film, path));
-			_film->examine_and_add_content (content, true);
+			_film->examine_and_add_content (content);
 		} catch (...) {
 			error_dialog (_panel, _("Could not find a DCP in that folder."));
 		}
@@ -290,7 +290,6 @@ ContentPanel::add_folder_clicked ()
 		ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
 		r = e->ShowModal ();
 		float const frame_rate = e->frame_rate ();
-		bool const digest = e->digest ();
 		e->Destroy ();
 
 		if (r != wxID_OK) {
@@ -302,7 +301,7 @@ ContentPanel::add_folder_clicked ()
 		try {
 			shared_ptr<ImageContent> content (new ImageContent (_film, path));
 			content->set_video_frame_rate (frame_rate);
-			_film->examine_and_add_content (content, digest);
+			_film->examine_and_add_content (content);
 		} catch (...) {
 			error_dialog (_panel, _("Could not find any images in that folder"));
 			return;
@@ -491,6 +490,6 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 	
 	wxString* paths = event.GetFiles ();
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])), true);
+		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
 	}
 }

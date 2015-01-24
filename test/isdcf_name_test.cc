@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
 
 	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->set_scale (VideoContentScale (Ratio::from_id ("133")));
 	film->set_container (Ratio::from_id ("185"));

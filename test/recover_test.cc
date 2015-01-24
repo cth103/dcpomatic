@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (recover_test)
 
 	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/3d_test"));
 	content->set_video_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
 	film->make_dcp ();

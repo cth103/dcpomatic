@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,9 +50,9 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 }
 
 void
-SubRipContent::examine (boost::shared_ptr<Job> job, bool calculate_digest)
+SubRipContent::examine (boost::shared_ptr<Job> job)
 {
-	Content::examine (job, calculate_digest);
+	Content::examine (job);
 	SubRip s (shared_from_this ());
 
 	shared_ptr<const Film> film = _film.lock ();

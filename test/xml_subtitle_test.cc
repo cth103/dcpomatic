@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->set_burn_subtitles (false);
 	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
 	content->set_use_subtitles (true);
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	film->make_dcp ();
 	wait_for_jobs ();

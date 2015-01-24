@@ -44,9 +44,9 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
 	shared_ptr<FFmpegContent> C (new FFmpegContent (film, "test/data/test.mp4"));
 
-	film->examine_and_add_content (A, true);
-	film->examine_and_add_content (B, true);
-	film->examine_and_add_content (C, true);
+	film->examine_and_add_content (A);
+	film->examine_and_add_content (B);
+	film->examine_and_add_content (C);
 	wait_for_jobs ();
 
 	BOOST_CHECK_EQUAL (A->full_length(), DCPTime (288000));
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 	
-	film->examine_and_add_content (c, true);
+	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
 	shared_ptr<Player> player = film->make_player ();

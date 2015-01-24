@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,9 +26,7 @@ public:
 	ImageSequenceDialog (wxWindow* parent);
 
 	float frame_rate () const;
-	bool digest () const;
 
 private:
 	wxTextCtrl* _frame_rate;
-	wxCheckBox* _digest;
 };

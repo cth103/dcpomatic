@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,11 +28,6 @@ ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
 {
 	add (_("Frame rate"), true);
 	_frame_rate = add (new wxTextCtrl (this, wxID_ANY, N_("24")));
-	_digest = new wxCheckBox (this, wxID_ANY, _("Calculate digests"));
-	_digest->SetValue (true);
-	_digest->SetToolTip (_("By default DCP-o-matic will calculate digests (hashes) of your image files so that it knows if they change.  Turning this off will speed up import but you must not alter the image files after import or strange things may happen."));
-	add (_digest);
-
 	layout ();
 }
 
@@ -46,10 +41,4 @@ ImageSequenceDialog::frame_rate () const
 	}
 
 	return 0;
-}
-
-bool
-ImageSequenceDialog::digest () const
-{
-	return _digest->GetValue ();
 }

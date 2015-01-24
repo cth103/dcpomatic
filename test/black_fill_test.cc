@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 
-	film->examine_and_add_content (contentA, true);
-	film->examine_and_add_content (contentB, true);
+	film->examine_and_add_content (contentA);
+	film->examine_and_add_content (contentB);
 	wait_for_jobs ();
 
 	contentA->set_scale (VideoContentScale (Ratio::from_id ("185")));

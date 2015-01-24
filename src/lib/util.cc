@@ -417,45 +417,53 @@ dcpomatic_setup_gettext_i18n (string lang)
 #endif
 }
 
-/** @param job Optional job for which to report progress */
+/** Compute a digest of the first and last `size' bytes of a set of files. */
 string
-md5_digest (vector<boost::filesystem::path> files, shared_ptr<Job> job)
+md5_digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 {
-	boost::uintmax_t const buffer_size = 64 * 1024;
-	char buffer[buffer_size];
-
+	boost::scoped_array<char> buffer (new char[size]);
 	MD5Digester digester;
 
-	vector<int64_t> sizes;
-	for (size_t i = 0; i < files.size(); ++i) {
-		sizes.push_back (boost::filesystem::file_size (files[i]));
-	}
-
-	for (size_t i = 0; i < files.size(); ++i) {
+	/* Head */
+	boost::uintmax_t to_do = size;
+	char* p = buffer.get ();
+	int i = 0;
+	while (i < int64_t (files.size()) && to_do > 0) {
 		FILE* f = fopen_boost (files[i], "rb");
 		if (!f) {
 			throw OpenFileError (files[i].string());
 		}
 
-		boost::uintmax_t const bytes = boost::filesystem::file_size (files[i]);
-		boost::uintmax_t remaining = bytes;
+		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
+		fread (p, 1, this_time, f);
+		p += this_time;
+ 		to_do -= this_time;
+		fclose (f);
 
-		while (remaining > 0) {
-			int const t = min (remaining, buffer_size);
-			int const r = fread (buffer, 1, t, f);
-			if (r != t) {
-				throw ReadFileError (files[i], errno);
-			}
-			digester.add (buffer, t);
-			remaining -= t;
+		++i;
+	}
+	digester.add (buffer.get(), size - to_do);
 
-			if (job) {
-				job->set_progress ((float (i) + 1 - float(remaining) / bytes) / files.size ());
-			}
+	/* Tail */
+	to_do = size;
+	p = buffer.get ();
+	i = files.size() - 1;
+	while (i >= 0 && to_do > 0) {
+		FILE* f = fopen_boost (files[i], "rb");
+		if (!f) {
+			throw OpenFileError (files[i].string());
 		}
 
+		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
+		fseek (f, -this_time, SEEK_END);
+		fread (p, 1, this_time, f);
+		p += this_time;
+		to_do -= this_time;
 		fclose (f);
-	}
+
+		--i;
+	}		
+	digester.add (buffer.get(), size - to_do);
 
 	return digester.get ();
 }

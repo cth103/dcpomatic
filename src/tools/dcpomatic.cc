@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -810,7 +810,7 @@ class App : public wxApp
 		if (!_film_to_create.empty ()) {
 			_frame->new_film (_film_to_create);
 			if (!_content_to_add.empty ()) {
-				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add), true);
+				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add));
 			}
 		}
 
@@ -903,7 +903,7 @@ class App : public wxApp
 			dialog->Destroy ();
 		} else if (uc->state() == UpdateChecker::FAILED) {
 			if (!UpdateChecker::instance()->last_emit_was_first ()) {
-				error_dialog (_frame, _("The DCP-o-matic download server could not be contaced."));
+				error_dialog (_frame, _("The DCP-o-matic download server could not be contacted."));
 			}
 		} else {
 			if (!UpdateChecker::instance()->last_emit_was_first ()) {

@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	film->set_name ("scaling_test");
 	shared_ptr<ImageContent> imc (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 
-	film->examine_and_add_content (imc, true);
+	film->examine_and_add_content (imc);
 
 	wait_for_jobs ();
 	

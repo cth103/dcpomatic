@@ -33,12 +33,21 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 {
 	vector<boost::filesystem::path> p;
 	p.push_back ("test/data/md5.test");
-	string const t = md5_digest (p, shared_ptr<Job> ());
-	BOOST_CHECK_EQUAL (t, "15058685ba99decdc4398c7634796eb0");
+	BOOST_CHECK_EQUAL (md5_digest_head_tail (p, 1024), "57497ef84a0487f2bb0939a1f5703912");
+
+	p.push_back ("test/data/md5.test2");
+	BOOST_CHECK_EQUAL (md5_digest_head_tail (p, 1024), "5a3a89857b931755ae728a518224a05c");
 
 	p.clear ();
+	p.push_back ("test/data/md5.test3");
+	p.push_back ("test/data/md5.test");
+	p.push_back ("test/data/md5.test2");
+	p.push_back ("test/data/md5.test4");
+	BOOST_CHECK_EQUAL (md5_digest_head_tail (p, 1024), "52ccf111e4e72b58bb7b2aaa6bd45ea5");
+	
+	p.clear ();
 	p.push_back ("foobar");
-	BOOST_CHECK_THROW (md5_digest (p, shared_ptr<Job> ()), std::runtime_error);
+	BOOST_CHECK_THROW (md5_digest_head_tail (p, 1024), OpenFileError);
 }
 
 /* Straightforward test of DCPTime::round_up */

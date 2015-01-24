@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd48.m2ts"));
-	film->examine_and_add_content (content, true);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->set_scale (VideoContentScale (Ratio::from_id ("185")));
 	

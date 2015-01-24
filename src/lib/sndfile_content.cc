@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -82,10 +82,10 @@ SndfileContent::valid_file (boost::filesystem::path f)
 }
 
 void
-SndfileContent::examine (shared_ptr<Job> job, bool calculate_digest)
+SndfileContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
-	Content::examine (job, calculate_digest);
+	Content::examine (job);
 	shared_ptr<AudioExaminer> dec (new SndfileDecoder (shared_from_this()));
 	take_from_audio_examiner (dec);
 }

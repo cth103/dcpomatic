@@ -88,7 +88,7 @@ Content::Content (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	for (list<cxml::NodePtr>::const_iterator i = path_children.begin(); i != path_children.end(); ++i) {
 		_paths.push_back ((*i)->content ());
 	}
-	_digest = node->optional_string_child ("Digest");
+	_digest = node->optional_string_child ("Digest").get_value_or ("X");
 	_position = DCPTime (node->number_child<double> ("Position"));
 	_trim_start = DCPTime (node->number_child<double> ("TrimStart"));
 	_trim_end = DCPTime (node->number_child<double> ("TrimEnd"));
@@ -124,21 +124,15 @@ Content::as_xml (xmlpp::Node* node) const
 	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
 		node->add_child("Path")->add_child_text (i->string ());
 	}
-	if (_digest) {
-		node->add_child("Digest")->add_child_text (_digest.get ());
-	}
+	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Position")->add_child_text (raw_convert<string> (_position.get ()));
 	node->add_child("TrimStart")->add_child_text (raw_convert<string> (_trim_start.get ()));
 	node->add_child("TrimEnd")->add_child_text (raw_convert<string> (_trim_end.get ()));
 }
 
 void
-Content::examine (shared_ptr<Job> job, bool calculate_digest)
+Content::examine (shared_ptr<Job> job)
 {
-	if (!calculate_digest) {
-		return;
-	}
-
 	if (job) {
 		job->sub (_("Computing digest"));
 	}
@@ -146,8 +140,12 @@ Content::examine (shared_ptr<Job> job, bool calculate_digest)
 	boost::mutex::scoped_lock lm (_mutex);
 	vector<boost::filesystem::path> p = _paths;
 	lm.unlock ();
-	
-	string const d = md5_digest (p, job);
+
+	/* Some content files are very big, so we use a poor's
+	   digest here: a MD5 of the first and last 1e6 bytes with the
+	   size of the first file tacked on the end as a string.
+	*/
+	string const d = md5_digest_head_tail (p, 1000000) + dcp::raw_convert<string> (boost::filesystem::file_size (p.front ()));
 
 	lm.lock ();
 	_digest = d;
@@ -220,7 +218,7 @@ Content::clone () const
 string
 Content::technical_summary () const
 {
-	return String::compose ("%1 %2 %3", path_summary(), digest().get_value_or("X"), position().seconds());
+	return String::compose ("%1 %2 %3", path_summary(), digest(), position().seconds());
 }
 
 DCPTime
@@ -237,7 +235,7 @@ Content::identifier () const
 {
 	SafeStringStream s;
 	
-	s << Content::digest().get_value_or("X")
+	s << Content::digest()
 	  << "_" << position().get()
 	  << "_" << trim_start().get()
 	  << "_" << trim_end().get();

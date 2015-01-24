@@ -47,9 +47,9 @@ DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::Const
 }
 
 void
-DCPSubtitleContent::examine (shared_ptr<Job> job, bool calculate_digest)
+DCPSubtitleContent::examine (shared_ptr<Job> job)
 {
-	Content::examine (job, calculate_digest);
+	Content::examine (job);
 
 	shared_ptr<dcp::SubtitleContent> sc = load (path (0));
 	

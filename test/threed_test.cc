@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (threed_test)
 	film->set_name ("test_film2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	c->set_video_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
-	film->examine_and_add_content (c, true);
+	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
 

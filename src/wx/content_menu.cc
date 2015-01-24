@@ -207,7 +207,7 @@ ContentMenu::find_missing ()
 		return;
 	}
 
-	shared_ptr<Job> j (new ExamineContentJob (film, content, true));
+	shared_ptr<Job> j (new ExamineContentJob (film, content));
 	
 	j->Finished.connect (
 		bind (
@@ -231,7 +231,7 @@ ContentMenu::re_examine ()
 	}
 
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		film->examine_content (*i, true);
+		film->examine_content (*i);
 	}
 }
 
@@ -269,7 +269,7 @@ ContentMenu::kdm ()
 		dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()))));
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
-		film->examine_content (dcp, true);
+		film->examine_content (dcp);
 	}
 	
 	d->Destroy ();
