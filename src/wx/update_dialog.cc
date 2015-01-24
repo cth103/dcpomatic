@@ -22,15 +22,16 @@
 #include "wx_util.h"
 
 using std::string;
+using boost::optional;
 
-UpdateDialog::UpdateDialog (wxWindow* parent, string stable, string test)
+UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<string> test)
 	: wxDialog (parent, wxID_ANY, _("Update"))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxStaticText* message;
 
-	if (test.empty ()) {
+	if ((stable || test) && !(stable && test)) {
 		message = new wxStaticText (this, wxID_ANY, _("A new version of DCP-o-matic is available."));
 	} else {
 		message = new wxStaticText (this, wxID_ANY, _("New versions of DCP-o-matic are available."));
@@ -40,17 +41,19 @@ UpdateDialog::UpdateDialog (wxWindow* parent, string stable, string test)
 
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	add_label_to_sizer (table, this, _("Stable version ") + std_to_wx (stable), true);
-	wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/download", "http://dcpomatic.com/download");
-	table->Add (h);
+	if (stable) {
+		add_label_to_sizer (table, this, _("Stable version ") + std_to_wx (stable.get ()), true);
+		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/download", "http://dcpomatic.com/download");
+		table->Add (h);
+	}
 	
-	if (!test.empty ()) {
-		add_label_to_sizer (table, this, _("Test version ") + std_to_wx (test), true);
+	if (test) {
+		add_label_to_sizer (table, this, _("Test version ") + std_to_wx (test.get ()), true);
 		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/test-download", "http://dcpomatic.com/test-download");
 		table->Add (h);
 	}
 	
-	overall_sizer->Add (table, 1, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
+	overall_sizer->Add (table, 1, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateButtonSizer (wxOK);
 	if (buttons) {

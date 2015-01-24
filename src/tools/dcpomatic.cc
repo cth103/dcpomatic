@@ -896,29 +896,19 @@ class App : public wxApp
 
 	void update_checker_state_changed ()
 	{
-		switch (UpdateChecker::instance()->state ()) {
-		case UpdateChecker::YES:
-		{
-			string test;
-			if (Config::instance()->check_for_test_updates ()) {
-				test = UpdateChecker::instance()->test ();
-			}
-			UpdateDialog* dialog = new UpdateDialog (_frame, UpdateChecker::instance()->stable (), test);
+		UpdateChecker* uc = UpdateChecker::instance ();
+		if (uc->state() == UpdateChecker::YES && (uc->stable() || uc->test())) {
+			UpdateDialog* dialog = new UpdateDialog (_frame, uc->stable (), uc->test ());
 			dialog->ShowModal ();
 			dialog->Destroy ();
-			break;
-		}
-		case UpdateChecker::NO:
+		} else if (uc->state() == UpdateChecker::FAILED) {
+			if (!UpdateChecker::instance()->last_emit_was_first ()) {
+				error_dialog (_frame, _("The DCP-o-matic download server could not be contaced."));
+			}
+		} else {
 			if (!UpdateChecker::instance()->last_emit_was_first ()) {
 				error_dialog (_frame, _("There are no new versions of DCP-o-matic available."));
 			}
-			break;
-		case UpdateChecker::FAILED:
-			if (!UpdateChecker::instance()->last_emit_was_first ()) {
-				error_dialog (_frame, _("The DCP-o-matic download server could not be contacted."));
-			}
-		default:
-			break;
 		}
 	}
 

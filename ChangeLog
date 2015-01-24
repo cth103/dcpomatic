@@ -1,5 +1,7 @@
 2015-01-23  Carl Hetherington  <cth@carlh.net>
 
+	* Fix update checker.
+
 	* Scan a whole FFmpeg file if no duration is given
 	in its header.
 

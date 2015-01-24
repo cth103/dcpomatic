@@ -17,12 +17,20 @@
 
 */
 
-#include <wx/wx.h>
-#include <boost/optional.hpp>
+#include <boost/test/unit_test.hpp>
+#include "lib/update.h"
 
-class UpdateDialog : public wxDialog
+BOOST_AUTO_TEST_CASE (update_checker_test)
 {
-public:
-	UpdateDialog (wxWindow *, boost::optional<std::string>, boost::optional<std::string>);
-};
+	BOOST_CHECK (UpdateChecker::version_less_than ("0.0.1", "0.0.2"));
+	BOOST_CHECK (UpdateChecker::version_less_than ("1.0.1", "2.0.2"));
+	BOOST_CHECK (UpdateChecker::version_less_than ("0.1.1", "1.5.2"));
+	BOOST_CHECK (UpdateChecker::version_less_than ("1.9.45", "1.9.46"));
 
+	BOOST_CHECK (!UpdateChecker::version_less_than ("0.0.1", "0.0.1"));
+	BOOST_CHECK (!UpdateChecker::version_less_than ("2.0.2", "1.0.1"));
+	BOOST_CHECK (!UpdateChecker::version_less_than ("1.5.2", "0.1.1"));
+	BOOST_CHECK (!UpdateChecker::version_less_than ("1.9.46", "1.9.45"));
+
+	BOOST_CHECK (!UpdateChecker::version_less_than ("1.9.46devel", "1.9.46"));
+}
