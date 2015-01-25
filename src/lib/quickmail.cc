@@ -605,7 +605,7 @@ size_t quickmail_get_data (void* ptr, size_t size, size_t nmemb, void* userp)
       //generate header part
       char** p = &mailobj->buf;
       mailobj->buf = NULL;
-      str_append(p, "User-Agent: libquickmail");
+      str_append(p, "User-Agent: libquickmail\n");
       if (mailobj->timestamp != 0) {
         char timestamptext[32];
         if (strftime(timestamptext, sizeof(timestamptext), "%a, %d %b %Y %H:%M:%S %z", localtime(&mailobj->timestamp))) {
