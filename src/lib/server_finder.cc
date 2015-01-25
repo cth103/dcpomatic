@@ -136,7 +136,10 @@ try
 		string const ip = socket.remote_endpoint().address().to_string ();
 		if (!server_found (ip)) {
 			ServerDescription sd (ip, xml->number_child<int> ("Threads"));
-			_servers.push_back (sd);
+			{
+				boost::mutex::scoped_lock lm (_mutex);
+				_servers.push_back (sd);
+			}
 			ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
 		}
 	}
