@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -670,6 +670,15 @@ Timeline::right_down (wxMouseEvent& ev)
 }
 
 void
+Timeline::maybe_snap (DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance) const
+{
+	DCPTime const d = a - b;
+	if (!nearest_distance || d.abs() < nearest_distance.get().abs()) {
+		nearest_distance = d;
+	}
+}
+
+void
 Timeline::set_position_from_event (wxMouseEvent& ev)
 {
 	if (!_pixels_per_second) {
@@ -698,10 +707,12 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 	DCPTime new_position = _down_view_position + DCPTime::from_seconds ((p.x - _down_point.x) / pps);
 	
 	if (_snap) {
-		
-		bool first = true;
-		DCPTime nearest_distance = DCPTime::max ();
-		DCPTime nearest_new_position = DCPTime::max ();
+
+		DCPTime const new_end = new_position + _down_view->content()->length_after_trim ();
+		/* Signed `distance' to nearest thing (i.e. negative is left on the timeline,
+		   positive is right).
+		*/
+		optional<DCPTime> nearest_distance;
 		
 		/* Find the nearest content edge; this is inefficient */
 		for (ViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
@@ -709,35 +720,17 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 			if (!cv || cv == _down_view) {
 				continue;
 			}
-			
-			{
-				/* Snap starts to ends */
-				DCPTime const d = DCPTime (cv->content()->end() - new_position).abs ();
-				if (first || d < nearest_distance) {
-					nearest_distance = d;
-					nearest_new_position = cv->content()->end() + DCPTime::delta ();
-				}
-			}
-			
-			{
-				/* Snap ends to starts */
-				DCPTime const d = DCPTime (
-					cv->content()->position() - (new_position + _down_view->content()->length_after_trim())
-					).abs ();
-				
-				if (d < nearest_distance) {
-					nearest_distance = d;
-					nearest_new_position = cv->content()->position() - _down_view->content()->length_after_trim () - DCPTime::delta();
-				}
-			}
-			
-			first = false;
+
+			maybe_snap (cv->content()->position(), new_position, nearest_distance);
+			maybe_snap (cv->content()->position(), new_end, nearest_distance);
+			maybe_snap (cv->content()->end(), new_position, nearest_distance);
+			maybe_snap (cv->content()->end(), new_end, nearest_distance);
 		}
 		
-		if (!first) {
+		if (nearest_distance) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
-			if (nearest_distance < DCPTime::from_seconds ((width() / pps) / 32)) {
-				new_position = nearest_new_position;
+			if (nearest_distance.get().abs() < DCPTime::from_seconds ((width() / pps) / 64)) {
+				new_position += nearest_distance.get ();
 			}
 		}
 	}
