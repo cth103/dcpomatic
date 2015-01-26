@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/dcp_decoder.h
+ *  @brief A decoder of existing DCPs.
+ */
+
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "subtitle_decoder.h"
