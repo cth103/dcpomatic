@@ -84,7 +84,6 @@ Playlist::maybe_sequence_video ()
 	
 	_sequencing_video = true;
 	
-	ContentList cl = _content;
 	DCPTime next_left;
 	DCPTime next_right;
 	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {

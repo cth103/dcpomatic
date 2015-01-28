@@ -30,7 +30,7 @@
 struct update_checker_test;
 
 /** Class to check for the existance of an update for DCP-o-matic on a remote server */
-class UpdateChecker
+class UpdateChecker : public boost::noncopyable
 {
 public:
 	UpdateChecker ();

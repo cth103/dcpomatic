@@ -29,23 +29,23 @@ using boost::shared_ptr;
 using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
-{
-	content_version = node->number_child<int> ("ContentVersion");
-	audio_language = node->string_child ("AudioLanguage");
-	subtitle_language = node->string_child ("SubtitleLanguage");
-	territory = node->string_child ("Territory");
-	rating = node->string_child ("Rating");
-	studio = node->string_child ("Studio");
-	facility = node->string_child ("Facility");
-	package_type = node->string_child ("PackageType");
-
+	: content_version (node->number_child<int> ("ContentVersion"))
+	, audio_language (node->string_child ("AudioLanguage"))
+	, subtitle_language (node->string_child ("SubtitleLanguage"))
+	, territory (node->string_child ("Territory"))
+	, rating (node->string_child ("Rating"))
+	, studio (node->string_child ("Studio"))
+	, facility (node->string_child ("Facility"))
+	, package_type (node->string_child ("PackageType"))
 	/* This stuff was added later */
-	temp_version = node->optional_bool_child ("TempVersion").get_value_or (false);
-	pre_release = node->optional_bool_child ("PreRelease").get_value_or (false);
-	red_band = node->optional_bool_child ("RedBand").get_value_or (false);
-	chain = node->optional_string_child ("Chain").get_value_or ("");
-	two_d_version_of_three_d = node->optional_bool_child ("TwoDVersionOfThreeD").get_value_or (false);
-	mastered_luminance = node->optional_string_child ("MasteredLuminance").get_value_or ("");
+	, temp_version (node->optional_bool_child ("TempVersion").get_value_or (false))
+	, pre_release (node->optional_bool_child ("PreRelease").get_value_or (false))
+	, red_band (node->optional_bool_child ("RedBand").get_value_or (false))
+	, chain (node->optional_string_child ("Chain").get_value_or (""))
+	, two_d_version_of_three_d (node->optional_bool_child ("TwoDVersionOfThreeD").get_value_or (false))
+	, mastered_luminance (node->optional_string_child ("MasteredLuminance").get_value_or (""))
+{
+	
 }
 
 void
@@ -66,23 +66,3 @@ ISDCFMetadata::as_xml (xmlpp::Node* root) const
 	root->add_child("TwoDVersionOfThreeD")->add_child_text (two_d_version_of_three_d ? "1" : "0");
 	root->add_child("MasteredLuminance")->add_child_text (mastered_luminance);
 }
-
-void
-ISDCFMetadata::read_old_metadata (string k, string v)
-{
-	if (k == N_("audio_language")) {
-		audio_language = v;
-	} else if (k == N_("subtitle_language")) {
-		subtitle_language = v;
-	} else if (k == N_("territory")) {
-		territory = v;
-	} else if (k == N_("rating")) {
-		rating = v;
-	} else if (k == N_("studio")) {
-		studio = v;
-	} else if (k == N_("facility")) {
-		facility = v;
-	} else if (k == N_("package_type")) {
-		package_type = v;
-	}
-}	

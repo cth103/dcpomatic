@@ -35,8 +35,6 @@ resampler_test_one (int from, int to)
 {
 	Resampler resamp (from, to, 1);
 
-	int total_out = 0;
-
 	/* 3 hours */
 	int64_t const N = int64_t (from) * 60 * 60 * 3;
 		
@@ -45,7 +43,6 @@ resampler_test_one (int from, int to)
 		shared_ptr<AudioBuffers> a (new AudioBuffers (1, 1000));
 		a->make_silent ();
 		shared_ptr<const AudioBuffers> r = resamp.run (a);
-		total_out += r->frames ();
 	}
 }	
 		

@@ -287,9 +287,8 @@ set_backtrace_file (boost::filesystem::path p)
 void
 terminate ()
 {
-	static bool tried_throw = false;
-
 	try {
+		static bool tried_throw = false;
 		// try once to re-throw currently active exception
 		if (!tried_throw) {
 			tried_throw = true;

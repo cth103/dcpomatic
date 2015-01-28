@@ -18,6 +18,7 @@
 */
 
 #include <boost/shared_ptr.hpp>
+#include <boost/noncopyable.hpp>
 
 class wxNotebook;
 class wxPanel;
@@ -32,7 +33,7 @@ class wxSizer;
 
 class Film;
 
-class DCPPanel
+class DCPPanel : public boost::noncopyable
 {
 public:
 	DCPPanel (wxNotebook *, boost::shared_ptr<Film>);
