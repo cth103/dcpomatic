@@ -1,4 +1,8 @@
 language: cpp
+before_script:
+ - wget http://carlh.net/software/libcxml/libcxml-0.11.0.tar.bz2
+ - tar xjf libcxml-0.11.0.tar.bz2
+ - cd libcxml-0.11.0 && ./waf configure --prefix=/usr && ./waf install
 script:
  - python waf configure
  - python waf build
