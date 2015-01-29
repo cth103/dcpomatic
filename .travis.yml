@@ -1,6 +1,6 @@
 language: cpp
 before_script:
- - sudo apt-get install libxml++2.6-dev libboost-filesystem-dev
+ - sudo apt-get install libxml++2.6-dev libboost-filesystem-dev libboost-test-dev
  - wget http://carlh.net/software/libcxml/libcxml-0.11.0.tar.bz2
  - tar xjf libcxml-0.11.0.tar.bz2
  - cd libcxml-0.11.0 && ./waf configure --prefix=/usr && ./waf install
