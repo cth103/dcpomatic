@@ -1,9 +1,65 @@
 language: cpp
+
 before_script:
- - sudo apt-get install libxml++2.6-dev libboost-filesystem-dev libboost-test-dev
- - wget http://carlh.net/software/libcxml/libcxml-0.11.0.tar.bz2
- - tar xjf libcxml-0.11.0.tar.bz2
- - cd libcxml-0.11.0 && ./waf configure --prefix=/usr && ./waf install
+ - sudo apt-get update
+ - sudo apt-get install libxml++2.6-dev libboost-filesystem1.48-dev libboost-test1.48-dev libboost-thread1.48-dev libboost-locale1.48-dev libxmlsec1-dev libsndfile-dev libmagick++-dev libssh-dev libzip-dev libpangomm-1.4-dev
+ - git clone http://git.carlh.net/git/libcxml.git
+ - cd libcxml
+ - ./waf configure --prefix=/usr
+ - ./waf
+ - sudo ./waf install
+ - cd ..
+ - wget http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+ - tar xzf yasm-1.3.0.tar.gz
+ - cd yasm-1.3.0
+ - ./configure
+ - make
+ - sudo make install
+ - cd ..
+ - git clone http://git.carlh.net/git/ffmpeg-cdist.git
+ - cd ffmpeg-cdist
+ - git checkout carl
+ - bash carl-configure /usr
+ - make
+ - sudo make install
+ - cd ..
+ - git clone http://git.carlh.net/git/openjpeg-cdist.git
+ - cd openjpeg-cdist
+ - ./configure --prefix=/usr
+ - make
+ - sudo make install
+ - cd ..
+ - git clone http://git.carlh.net/git/libdcp.git
+ - cd libdcp
+ - git checkout 1.0
+ - ./waf configure --prefix=/usr
+ - ./waf -j1
+ - sudo ./waf install
+ - cd ..
+ - git clone http://git.carlh.net/git/libsub.git
+ - cd libsub
+ - git checkout 1.0
+ - ./waf configure --prefix=/usr
+ - ./waf -j1
+ - sudo ./waf install
+ - cd ..
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "bxMzDLe+8Dr0obNntZWsN4ipt1q8EieCwdnEC1e1P5G5aXrrqegHyvyS+Ykq476yex9bgMT3bmnqe1vbwHPvbxRgGO9KeBV3GUc0SgdghnSGikMCGU46TNM5ob9Ia/eFgvR36j01w3dq570MzSsOb3KxmyhjIAlj3Xm4XaVsVO8="
+
+addons:
+  coverity_scan:
+    project:
+      name: "cth103/dcpomatic"
+      description: "DCP-o-matic"
+    notification_email: cth@carlh.net
+    build_command_prepend: 
+    build_command:   "./waf"
+    branch_pattern: 2.0-coverity
+
 script:
- - python waf configure
- - python waf build
+ - ./waf configure --disable-gui
+ - ./waf build -j1
