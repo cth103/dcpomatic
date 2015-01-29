@@ -33,7 +33,7 @@ class FilmEditor;
 class ContentSubPanel;
 class Film;
 
-class ContentPanel
+class ContentPanel : public boost::noncopyable
 {
 public:
 	ContentPanel (wxNotebook *, boost::shared_ptr<Film>);

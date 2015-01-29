@@ -280,7 +280,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 			p += pow (*j, 2);
 		}
 
-		if (smoothing.size() > 0) {
+		if (!smoothing.empty ()) {
 			p = sqrt (p / smoothing.size ());
 		}
 

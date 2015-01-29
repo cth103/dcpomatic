@@ -443,17 +443,6 @@ VideoContent::video_size_after_crop () const
 	return crop().apply (video_size_after_3d_split ());
 }
 
-/** @param t A time offset from the start of this piece of content.
- *  @return Corresponding time with respect to the content.
- */
-ContentTime
-VideoContent::dcp_time_to_content_time (DCPTime t) const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return ContentTime (t, FrameRateChange (video_frame_rate(), film->video_frame_rate()));
-}
-
 void
 VideoContent::scale_and_crop_to_fit_width ()
 {

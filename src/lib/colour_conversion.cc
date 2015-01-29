@@ -185,16 +185,17 @@ PresetColourConversion::PresetColourConversion ()
 }
 
 PresetColourConversion::PresetColourConversion (string n, dcp::ColourConversion conversion_)
-	: name (n)
-	, conversion (conversion_)
+	: conversion (conversion_)
+	, name (n)
 {
 
 }
 
 PresetColourConversion::PresetColourConversion (cxml::NodePtr node, int version)
 	: conversion (node, version)
+	, name (node->string_child ("Name"))
 {
-	name = node->string_child ("Name");
+
 }
 
 void

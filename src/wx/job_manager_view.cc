@@ -36,7 +36,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-class JobRecord
+class JobRecord : public boost::noncopyable
 {
 public:
 	JobRecord (shared_ptr<Job> job, wxScrolledWindow* window, wxPanel* panel, wxFlexGridSizer* table)

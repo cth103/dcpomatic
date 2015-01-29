@@ -40,9 +40,9 @@ class StringError : public std::exception
 {
 public:
 	/** @param w Error message */
-	StringError (std::string w) {
-		_what = w;
-	}
+	StringError (std::string w)
+		: _what (w)
+	{}
 
 	virtual ~StringError () throw () {}
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,14 +17,16 @@
 
 */
 
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "server_finder.h"
 #include "exceptions.h"
 #include "util.h"
 #include "config.h"
 #include "cross.h"
 #include "ui_signaller.h"
+#include "dcpomatic_socket.h"
+#include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
+#include <boost/lambda/lambda.hpp>
 
 #include "i18n.h"
 
@@ -34,6 +36,7 @@ using std::vector;
 using std::cout;
 using boost::shared_ptr;
 using boost::scoped_array;
+using boost::weak_ptr;
 using dcp::raw_convert;
 
 ServerFinder* ServerFinder::_instance = 0;
@@ -42,9 +45,21 @@ ServerFinder::ServerFinder ()
 	: _disabled (false)
 	, _broadcast_thread (0)
 	, _listen_thread (0)
+	, _stop (false)
 {
 	_broadcast_thread = new boost::thread (boost::bind (&ServerFinder::broadcast_thread, this));
 	_listen_thread = new boost::thread (boost::bind (&ServerFinder::listen_thread, this));
+}
+
+ServerFinder::~ServerFinder ()
+{
+	_stop = true;
+
+	_broadcast_thread->interrupt ();
+	_broadcast_thread->join ();
+
+	_listen_io_service.stop ();
+	_listen_thread->join ();
 }
 
 void
@@ -64,7 +79,7 @@ try
 
 	string const data = DCPOMATIC_HELLO;
 	
-	while (true) {
+	while (!_stop) {
 		if (Config::instance()->use_any_servers ()) {
 			/* Broadcast to look for servers */
 			try {
@@ -91,8 +106,12 @@ try
 
 			}
 		}
-		
-		dcpomatic_sleep (10);
+
+		try {
+			boost::thread::sleep (boost::get_system_time() + boost::posix_time::seconds (10));
+		} catch (boost::thread_interrupted& e) {
+			return;
+		}
 	}
 }
 catch (...)
@@ -102,51 +121,63 @@ catch (...)
 
 void
 ServerFinder::listen_thread ()
-try
-{
+try {
 	using namespace boost::asio::ip;
 
-	boost::asio::io_service io_service;
-	boost::scoped_ptr<tcp::acceptor> acceptor;
 	try {
-		acceptor.reset (new tcp::acceptor (io_service, tcp::endpoint (tcp::v4(), Config::instance()->server_port_base() + 1)));
+		_listen_acceptor.reset (new tcp::acceptor (_listen_io_service, tcp::endpoint (tcp::v4(), Config::instance()->server_port_base() + 1)));
 	} catch (...) {
 		boost::throw_exception (NetworkError (_("Could not listen for remote encode servers.  Perhaps another instance of DCP-o-matic is running.")));
 	}
 
-	while (true) {
-		tcp::socket socket (io_service);
-		acceptor->accept (socket);
-
-		/* XXX: these reads should have timeouts, otherwise we will stop finding servers
-		   if one dies during this conversation
-		*/
-
-		uint32_t length = 0;
-		boost::asio::read (socket, boost::asio::buffer (&length, sizeof (uint32_t)));
-		length = ntohl (length);
-
-		scoped_array<char> buffer (new char[length]);
-		boost::asio::read (socket, boost::asio::buffer (reinterpret_cast<uint8_t*> (buffer.get ()), length));
-		
-		string s (buffer.get());
-		shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
-		xml->read_string (s);
-		
-		string const ip = socket.remote_endpoint().address().to_string ();
-		if (!server_found (ip)) {
-			ServerDescription sd (ip, xml->number_child<int> ("Threads"));
-			{
-				boost::mutex::scoped_lock lm (_mutex);
-				_servers.push_back (sd);
-			}
-			ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
-		}
-	}
+	start_accept ();
+	_listen_io_service.run ();
 }
 catch (...)
 {
 	store_current ();
+}
+
+void
+ServerFinder::start_accept ()
+{
+	shared_ptr<Socket> socket (new Socket ());
+	_listen_acceptor->async_accept (
+		socket->socket(),
+		boost::bind (&ServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
+		);
+}
+
+void
+ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> socket)
+{
+	if (ec) {
+		start_accept ();
+		return;
+	}
+	
+	uint32_t length;
+	socket->read (reinterpret_cast<uint8_t*> (&length), sizeof (uint32_t));
+	length = ntohl (length);
+	
+	scoped_array<char> buffer (new char[length]);
+	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+	
+	string s (buffer.get());
+	shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
+	xml->read_string (s);
+	
+	string const ip = socket->socket().remote_endpoint().address().to_string ();
+	if (!server_found (ip)) {
+		ServerDescription sd (ip, xml->number_child<int> ("Threads"));
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			_servers.push_back (sd);
+		}
+		ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
+	}
+
+	start_accept ();
 }
 
 bool
@@ -188,5 +219,9 @@ ServerFinder::instance ()
 	return _instance;
 }
 
-	
-       
+void
+ServerFinder::drop ()
+{
+	delete _instance;
+	_instance = 0;
+}

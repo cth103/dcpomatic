@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,8 +21,9 @@
 #include "magick_image_proxy.h"
 #include "cross.h"
 #include "exceptions.h"
-#include "util.h"
+#include "dcpomatic_socket.h"
 #include "image.h"
+#include "compose.hpp"
 
 #include "i18n.h"
 

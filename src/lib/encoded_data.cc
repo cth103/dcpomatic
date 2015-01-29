@@ -21,6 +21,7 @@
 #include "cross.h"
 #include "exceptions.h"
 #include "film.h"
+#include "dcpomatic_socket.h"
 
 #include "i18n.h"
 

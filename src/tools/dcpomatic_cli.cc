@@ -216,6 +216,8 @@ main (int argc, char* argv[])
 	   indirectly holding onto codecs.
 	*/
 	JobManager::drop ();
+
+	ServerFinder::drop ();
 	
 	return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }

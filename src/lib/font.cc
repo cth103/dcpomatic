@@ -21,9 +21,10 @@
 #include <libxml++/libxml++.h>
 
 Font::Font (cxml::NodePtr node)
+	: id (node->string_child ("Id"))
+	, file (node->optional_string_child ("File"))
 {
-	id = node->string_child ("Id");
-	file = node->optional_string_child ("File");
+	
 }
 
 void

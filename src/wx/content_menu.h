@@ -27,7 +27,7 @@
 
 class Film;
 
-class ContentMenu
+class ContentMenu : public boost::noncopyable
 {
 public:
 	ContentMenu (wxWindow* p);

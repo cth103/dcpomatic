@@ -41,7 +41,7 @@
  *  @param V Data type of state as used by the view.
  */
 template <class S, class T, typename U, typename V>
-class ContentWidget
+class ContentWidget : public boost::noncopyable
 {
 public:
 	/** @param parent Parent window.

@@ -22,7 +22,7 @@
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include "j2k_image_proxy.h"
-#include "util.h"
+#include "dcpomatic_socket.h"
 #include "image.h"
 #include "encoded_data.h"
 

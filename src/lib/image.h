@@ -24,9 +24,9 @@
 #ifndef DCPOMATIC_IMAGE_H
 #define DCPOMATIC_IMAGE_H
 
-#include "util.h"
 #include "position.h"
 #include "position_image.h"
+#include "types.h"
 #include <dcp/image.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -37,6 +37,7 @@ extern "C" {
 #include <string>
 
 class Scaler;
+class Socket;
 
 class Image : public dcp::Image
 {

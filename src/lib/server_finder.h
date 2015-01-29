@@ -26,6 +26,7 @@ public:
 	void connect (boost::function<void (ServerDescription)>);
 
 	static ServerFinder* instance ();
+	static void drop ();
 
 	void disable () {
 		_disabled = true;
@@ -33,11 +34,14 @@ public:
 
 private:
 	ServerFinder ();
+	~ServerFinder ();
 
 	void broadcast_thread ();
 	void listen_thread ();
 
 	bool server_found (std::string) const;
+	void start_accept ();
+	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
 
 	boost::signals2::signal<void (ServerDescription)> ServerFound;
 
@@ -50,6 +54,10 @@ private:
 
 	std::list<ServerDescription> _servers;
 	mutable boost::mutex _mutex;
+
+	boost::asio::io_service _listen_io_service;
+	boost::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
+	bool _stop;
 
 	static ServerFinder* _instance;
 };
