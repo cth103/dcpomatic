@@ -1,0 +1,4 @@
+language: cpp
+script:
+	- python waf configure
+	- python waf build
