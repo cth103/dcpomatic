@@ -32,7 +32,7 @@
 #include "config.h"
 #include "exceptions.h"
 #include "server.h"
-#include "util.h"
+#include "dcpomatic_socket.h"
 #include "scaler.h"
 #include "image.h"
 #include "log.h"

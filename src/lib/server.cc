@@ -22,15 +22,8 @@
  *  encoding work, and a class to implement such a server.
  */
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <boost/algorithm/string.hpp>
-#include <boost/scoped_array.hpp>
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "server.h"
-#include "util.h"
+#include "dcpomatic_socket.h"
 #include "scaler.h"
 #include "image.h"
 #include "dcp_video.h"
@@ -39,6 +32,13 @@
 #include "player_video.h"
 #include "encoded_data.h"
 #include "safe_stringstream.h"
+#include <dcp/raw_convert.h>
+#include <libcxml/cxml.h>
+#include <boost/algorithm/string.hpp>
+#include <boost/scoped_array.hpp>
+#include <string>
+#include <vector>
+#include <iostream>
 
 #include "i18n.h"
 

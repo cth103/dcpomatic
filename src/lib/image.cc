@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,18 +21,20 @@
  *  @brief A class to describe a video image.
  */
 
-#include <iostream>
-extern "C" {
-#include <libswscale/swscale.h>
-#include <libavutil/pixfmt.h>
-#include <libavutil/pixdesc.h>
-}
 #include "image.h"
 #include "exceptions.h"
 #include "scaler.h"
 #include "timer.h"
 #include "rect.h"
+#include "util.h"
 #include "md5_digester.h"
+#include "dcpomatic_socket.h"
+extern "C" {
+#include <libswscale/swscale.h>
+#include <libavutil/pixfmt.h>
+#include <libavutil/pixdesc.h>
+}
+#include <iostream>
 
 #include "i18n.h"
 

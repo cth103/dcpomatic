@@ -185,8 +185,8 @@ PresetColourConversion::PresetColourConversion ()
 }
 
 PresetColourConversion::PresetColourConversion (string n, dcp::ColourConversion conversion_)
-	: name (n)
-	, conversion (conversion_)
+	: conversion (conversion_)
+	, name (n)
 {
 
 }

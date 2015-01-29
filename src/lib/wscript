@@ -26,6 +26,7 @@ sources = """
           dcp_subtitle_content.cc
           dcp_subtitle_decoder.cc
           dcp_video.cc
+          dcpomatic_socket.cc
           dcpomatic_time.cc
           dolby_cp750.cc
           encoder.cc

@@ -34,7 +34,6 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 #include <boost/shared_ptr.hpp>
-#include <boost/asio.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <string>
@@ -77,46 +76,6 @@ extern int round_to (float n, int r);
 extern void* wrapped_av_malloc (size_t);
 extern ContentTimePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
-
-/** @class Socket
- *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
- *  that are useful for DCP-o-matic.
- *
- *  This class wraps some things that I could not work out how to do with boost;
- *  most notably, sync read/write calls with timeouts.
- */
-class Socket
-{
-public:
-	Socket (int timeout = 30);
-	~Socket ();
-
-	/** @return Our underlying socket */
-	boost::asio::ip::tcp::socket& socket () {
-		return _socket;
-	}
-
-	void connect (boost::asio::ip::tcp::endpoint);
-	void accept (int);
-
-	void write (uint32_t n);
-	void write (uint8_t const * data, int size);
-	
-	void read (uint8_t* data, int size);
-	uint32_t read_uint32 ();
-	
-private:
-	void check ();
-
-	Socket (Socket const &);
-
-	boost::asio::io_service _io_service;
-	boost::asio::deadline_timer _deadline;
-	boost::asio::ip::tcp::socket _socket;
-	boost::asio::ip::tcp::acceptor* _acceptor;
-	int _timeout;
-};
-
 extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
 
 #endif

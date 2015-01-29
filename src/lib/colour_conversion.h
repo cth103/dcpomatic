@@ -57,8 +57,8 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 
-	std::string name;
 	ColourConversion conversion;
+	std::string name;
 };
 
 bool operator== (ColourConversion const &, ColourConversion const &);
