@@ -2,3 +2,9 @@
 ./waf clean
 ~/src/cov-analysis-linux64-7.6.0/bin/cov-build --dir cov-int ./waf
 tar czvf dcpomatic2.tar.gz cov-int
+curl --form token=OrnQ8l5pxA29SbacB7iL1Q \
+  --form email=cth@carlh.net \
+  --form file=@dcpomatic2.tar.gz \
+  --form version="Version" \
+  --form description="Description" \
+  https://scan.coverity.com/builds?project=cth103%2Fdcpomatic
