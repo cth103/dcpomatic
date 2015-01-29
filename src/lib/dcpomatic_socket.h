@@ -23,10 +23,10 @@
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
  *  that are useful for DCP-o-matic.
  *
- *  This class wraps some things that I could not work out how to do with boost;
+ *  This class wraps some things that I could not work out how to do easily with boost;
  *  most notably, sync read/write calls with timeouts.
  */
-class Socket
+class Socket : public boost::noncopyable
 {
 public:
 	Socket (int timeout = 30);
