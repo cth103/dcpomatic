@@ -1,0 +1,4 @@
+#!/bin/bash
+./waf clean
+~/src/cov-analysis-linux64-7.6.0/bin/cov-build --dir cov-int ./waf
+tar czvf dcpomatic2.tar.gz cov-int
