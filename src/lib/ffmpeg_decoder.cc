@@ -301,7 +301,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
 	VideoDecoder::seek (time, accurate);
 	AudioDecoder::seek (time, accurate);
-	
+
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.
 	*/
@@ -314,15 +314,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	*/
 	
 	ContentTime const u = time - _pts_offset;
-	int64_t s = u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base);
-
-	if (_ffmpeg_content->audio_stream ()) {
-		s = min (
-			s, int64_t (u.seconds() / av_q2d (_ffmpeg_content->audio_stream()->stream(_format_context)->time_base))
-			);
-	}
-
-	av_seek_frame (_format_context, _video_stream, s, 0);
+	av_seek_frame (_format_context, _video_stream, u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base), 0);
 
 	avcodec_flush_buffers (video_codec_context());
 	if (audio_codec_context ()) {
