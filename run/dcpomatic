@@ -1,113 +1,25 @@
 #!/bin/bash
 
-if [ `uname -s` == "Darwin" ]; then
-  # Some time ago we could start DCP-o-matic on OS X just by running the executable, in
-  # the same way as Linux.  This doesn't work any more.
-  
-  ENV=$HOME/Environments/osx/10.6/64/lib
-  DEP=$HOME/dcpomatic-deps/lib
- 
-  app=build/platform/osx/DCP-o-matic.app
-  macos=$app/Contents/MacOS
-  lib=$app/Contents/lib
-  resources=$app/Contents/Resources
-  mkdir -p $macos $lib $resources
-
-  cp build/src/tools/dcpomatic $macos
-  cp build/src/lib/libdcpomatic.dylib $lib
-  cp build/src/wx/libdcpomatic-wx.dylib $lib
-  cp $DEP/libcxml.dylib $lib
-  cp $DEP/libdcp.dylib $lib
-  cp $DEP/libasdcp-libdcp.dylib $lib
-  cp $DEP/libkumu-libdcp.dylib $lib
-  cp $DEP/libopenjpeg*.dylib $lib
-  cp $DEP/libavdevice*.dylib $lib
-  cp $DEP/libavformat*.dylib $lib
-  cp $DEP/libavfilter*.dylib $lib
-  cp $DEP/libavutil*.dylib $lib
-  cp $DEP/libavcodec*.dylib $lib
-  cp $DEP/libswscale*.dylib $lib
-  cp $DEP/libswresample*.dylib $lib
-  cp $ENV/libboost_system.dylib $lib
-  cp $ENV/libboost_filesystem.dylib $lib
-  cp $ENV/libboost_thread.dylib $lib
-  cp $ENV/libboost_date_time.dylib $lib
-  cp $ENV/libxml++-2.6*.dylib $lib
-  cp $ENV/libxml2*.dylib $lib
-  cp $ENV/libglibmm-2.4*.dylib $lib
-  cp $ENV/libgobject*.dylib $lib
-  cp $ENV/libgthread*.dylib $lib
-  cp $ENV/libgmodule*.dylib $lib
-  cp $ENV/libsigc*.dylib $lib
-  cp $ENV/libglib-2*.dylib $lib
-  cp $ENV/libintl*.dylib $lib
-  cp $ENV/libsndfile*.dylib $lib
-  cp $ENV/libMagick++*.dylib $lib
-  cp $ENV/libMagickCore*.dylib $lib
-  cp $ENV/libMagickWand*.dylib $lib
-  cp $ENV/libssh*.dylib $lib
-  cp $ENV/libwx*.dylib $lib
-  cp $ENV/libfontconfig*.dylib $lib
-  cp $ENV/libfreetype*.dylib $lib
-  cp $ENV/libexpat*.dylib $lib
-  cp $ENV/libltdl*.dylib $lib
-  cp $ENV/libxmlsec1*.dylib $lib
-  cp $ENV/libzip*.dylib $lib
-  cp $ENV/libquickmail*.dylib $lib
-  cp $ENV/libcurl*.dylib $lib
-  cp $ENV/libffi*.dylib $lib
-  cp $ENV/libiconv*.dylib $lib
-  cp icons/defaults.png $resources
-  cp icons/servers.png $resources
-  cp icons/tms.png $resources
-  cp icons/colour_conversions.png $resources
-  cp icons/kdm_email.png $resources
-
-  for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
-    mkdir -p "$resources/$lang/LC_MESSAGES"
-    cp build/src/lib/mo/$lang/*.mo "$resources/$lang/LC_MESSAGES"
-    cp build/src/wx/mo/$lang/*.mo "$resources/$lang/LC_MESSAGES"
-    cp build/src/tools/mo/$lang/*.mo "$resources/$lang/LC_MESSAGES"
-  done
- 
-  sed -e "s/@VERSION@/test/g" platform/osx/Info.plist.in > $app/Contents/Info.plist
-
-  for obj in $macos/dcpomatic $lib/*.dylib; do
-    deps=`otool -L $obj | awk '{print $1}' | egrep "(/Users/carl|libboost|libssh|libltdl)"`
-    changes=""
-    for dep in $deps; do
-      base=`basename $dep`
-      changes="$changes -change $dep @executable_path/../lib/$base"
-    done
-    if test "x$changes" != "x"; then
-      install_name_tool $changes $obj
-    fi
-  done  
-  
-  open build/platform/osx/DCP-o-matic.app
-
+export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/carl/Environment/64/lib
+if [ "$1" == "--debug" ]; then
+    shift
+    gdb --args build/src/tools/dcpomatic2 $*
+elif [ "$1" == "--valgrind" ]; then
+    shift
+    valgrind --tool="memcheck" build/src/tools/dcpomatic2 $*
+elif [ "$1" == "--callgrind" ]; then
+    shift
+    valgrind --tool="callgrind" build/src/tools/dcpomatic2 $*
+elif [ "$1" == "--massif" ]; then
+    shift
+    valgrind --tool="massif" build/src/tools/dcpomatic2 $*
+elif [ "$1" == "--i18n" ]; then
+    shift
+    LANGUAGE=fr_FR.UTF8 LANG=fr_FR.UTF8 LC_ALL=fr_FR.UTF8 build/src/tools/dcpomatic2 "$*"
+elif [ "$1" == "--perf" ]; then
+    shift
+    perf record build/src/tools/dcpomatic2 $*
 else
-  export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
-  if [ "$1" == "--debug" ]; then
-      shift
-      gdb --args build/src/tools/dcpomatic2 $*
-  elif [ "$1" == "--valgrind" ]; then
-      shift
-      valgrind --tool="memcheck" build/src/tools/dcpomatic2 $*
-  elif [ "$1" == "--callgrind" ]; then
-      shift
-      valgrind --tool="callgrind" build/src/tools/dcpomatic2 $*
-  elif [ "$1" == "--massif" ]; then
-      shift
-      valgrind --tool="massif" build/src/tools/dcpomatic2 $*
-  elif [ "$1" == "--i18n" ]; then
-      shift
-      LANGUAGE=fr_FR.UTF8 LANG=fr_FR.UTF8 LC_ALL=fr_FR.UTF8 build/src/tools/dcpomatic2 "$*"
-  elif [ "$1" == "--perf" ]; then
-      shift
-      perf record build/src/tools/dcpomatic2 $*
-  else
-      build/src/tools/dcpomatic2 $*
-  fi
+    build/src/tools/dcpomatic2 $*
 fi
-
