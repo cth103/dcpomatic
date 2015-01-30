@@ -1,5 +1,7 @@
 2015-01-30  Carl Hetherington  <cth@carlh.net>
 
+	* Fix update of preview when video fade changes.
+
 	* Hopefully fix black borders round the preview in
 	some cases.
 

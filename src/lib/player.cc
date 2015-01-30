@@ -214,7 +214,9 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == SubtitleContentProperty::SUBTITLE_Y_SCALE ||
 		property == VideoContentProperty::VIDEO_CROP ||
 		property == VideoContentProperty::VIDEO_SCALE ||
-		property == VideoContentProperty::VIDEO_FRAME_RATE
+		property == VideoContentProperty::VIDEO_FRAME_RATE ||
+		property == VideoContentProperty::VIDEO_FADE_IN ||
+		property == VideoContentProperty::VIDEO_FADE_OUT
 		) {
 		
 		Changed (frequent);
@@ -358,7 +360,7 @@ Player::get_video (DCPTime time, bool accurate)
 			image_size.width &= ~3;
 			image_size.height &= ~3;
 		}
-		
+
 		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
 			pvf.push_back (
 				shared_ptr<PlayerVideo> (
