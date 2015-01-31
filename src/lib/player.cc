@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -436,19 +436,24 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 		/* The time that we should request from the content */
 		DCPTime request = time - DCPTime::from_seconds (content->audio_delay() / 1000.0);
+		AudioFrame request_frames = length_frames;
 		DCPTime offset;
 		if (request < DCPTime ()) {
 			/* We went off the start of the content, so we will need to offset
 			   the stuff we get back.
 			*/
 			offset = -request;
+			request_frames += request.frames (_film->audio_frame_rate ());
+			if (request_frames < 0) {
+				request_frames = 0;
+			}
 			request = DCPTime ();
 		}
 
 		AudioFrame const content_frame = dcp_to_content_audio (*i, request);
 
 		/* Audio from this piece's decoder (which might be more or less than what we asked for) */
-		shared_ptr<ContentAudio> all = decoder->get_audio (content_frame, length_frames, accurate);
+		shared_ptr<ContentAudio> all = decoder->get_audio (content_frame, request_frames, accurate);
 
 		/* Gain */
 		if (content->audio_gain() != 0) {
@@ -480,7 +485,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			all->audio.get(),
 			content_frame - all->frame,
 			offset.frames (_film->audio_frame_rate()),
-			min (AudioFrame (all->audio->frames()), length_frames) - offset.frames (_film->audio_frame_rate ())
+			min (AudioFrame (all->audio->frames()), request_frames)
 			);
 	}
 
