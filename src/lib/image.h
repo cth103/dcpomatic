@@ -27,7 +27,6 @@
 #include "position.h"
 #include "position_image.h"
 #include "types.h"
-#include <dcp/image.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -39,7 +38,7 @@ extern "C" {
 class Scaler;
 class Socket;
 
-class Image : public dcp::Image
+class Image
 {
 public:
 	Image (AVPixelFormat, dcp::Size, bool);
@@ -87,7 +86,8 @@ private:
 	float bytes_per_pixel (int) const;
 	void yuv_16_black (uint16_t, bool);
 	static uint16_t swap_16 (uint16_t);
-	
+
+	dcp::Size _size;
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)

@@ -40,7 +40,7 @@
 #include "player_video.h"
 #include "encoded_data.h"
 #include <libcxml/cxml.h>
-#include <dcp/xyz_frame.h>
+#include <dcp/xyz_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
 #include <dcp/raw_convert.h>
@@ -109,15 +109,18 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 shared_ptr<EncodedData>
 DCPVideo::encode_locally (dcp::NoteHandler note)
 {
-	shared_ptr<dcp::XYZFrame> xyz;
+	shared_ptr<dcp::XYZImage> xyz;
 
+	shared_ptr<Image> image = _frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles, note);
 	if (_frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz (
-			_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles, note),
+			image->data()[0],
+			image->size(),
+			image->stride()[0],
 			_frame->colour_conversion().get()
 			);
 	} else {
-		xyz = dcp::xyz_to_xyz (_frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles, note));
+		xyz = dcp::xyz_to_xyz (image->data()[0], image->size(), image->stride()[0]);
 	}
 
 	/* Set the max image and component sizes based on frame_rate */

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,14 +17,16 @@
 
 */
 
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
-#include <dcp/mono_picture_frame.h>
-#include <dcp/stereo_picture_frame.h>
 #include "j2k_image_proxy.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "encoded_data.h"
+#include <dcp/raw_convert.h>
+#include <dcp/mono_picture_frame.h>
+#include <dcp/stereo_picture_frame.h>
+#include <dcp/colour_conversion.h>
+#include <dcp/rgb_xyz.h>
+#include <libcxml/cxml.h>
 
 #include "i18n.h"
 
@@ -80,9 +82,9 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
 
 	if (_mono) {
-		_mono->rgb_frame (image, note);
+		dcp::xyz_to_rgb (_mono->xyz_image (), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
 	} else {
-		_stereo->rgb_frame (_eye, image);
+		dcp::xyz_to_rgb (_stereo->xyz_image (_eye), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
 	}
 
 	return image;

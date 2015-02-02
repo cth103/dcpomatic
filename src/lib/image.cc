@@ -525,7 +525,7 @@ Image::bytes_per_pixel (int c) const
  *  @param s Size in pixels.
  */
 Image::Image (AVPixelFormat p, dcp::Size s, bool aligned)
-	: dcp::Image (s)
+	: _size (s)
 	, _pixel_format (p)
 	, _aligned (aligned)
 {
@@ -567,8 +567,8 @@ Image::allocate ()
 }
 
 Image::Image (Image const & other)
-	: dcp::Image (other)
-	,  _pixel_format (other._pixel_format)
+	: _size (other._size)
+	, _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
 {
 	allocate ();
@@ -585,7 +585,7 @@ Image::Image (Image const & other)
 }
 
 Image::Image (AVFrame* frame)
-	: dcp::Image (dcp::Size (frame->width, frame->height))
+	: _size (frame->width, frame->height)
 	, _pixel_format (static_cast<AVPixelFormat> (frame->format))
 	, _aligned (true)
 {
@@ -604,7 +604,7 @@ Image::Image (AVFrame* frame)
 }
 
 Image::Image (shared_ptr<const Image> other, bool aligned)
-	: dcp::Image (other)
+	: _size (other->_size)
 	, _pixel_format (other->_pixel_format)
 	, _aligned (aligned)
 {
@@ -637,8 +637,7 @@ Image::operator= (Image const & other)
 void
 Image::swap (Image & other)
 {
-	dcp::Image::swap (other);
-	
+	std::swap (_size, other._size);
 	std::swap (_pixel_format, other._pixel_format);
 
 	for (int i = 0; i < 4; ++i) {

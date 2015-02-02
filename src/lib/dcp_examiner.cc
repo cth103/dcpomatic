@@ -117,12 +117,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (mxf);
 			shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (mxf);
 			
-			shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _video_size.get(), false));
-			
 			if (mono) {
-				mono->get_frame(0)->rgb_frame (image);
+				mono->get_frame(0)->xyz_image ();
 			} else {
-				stereo->get_frame(0)->rgb_frame (dcp::EYE_LEFT, image);
+				stereo->get_frame(0)->xyz_image (dcp::EYE_LEFT);
 			}
 			
 		}
