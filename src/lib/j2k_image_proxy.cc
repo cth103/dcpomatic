@@ -77,15 +77,15 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 shared_ptr<Image>
 J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 {
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, false));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
 
 	if (_mono) {
-		_mono->rgb_frame (reinterpret_cast<uint16_t*> (image->data()[0]), note);
+		_mono->rgb_frame (image, note);
 	} else {
-		_stereo->rgb_frame (_eye, reinterpret_cast<uint16_t*> (image->data()[0]));
+		_stereo->rgb_frame (_eye, image);
 	}
 
-	return shared_ptr<Image> (new Image (image, true));
+	return image;
 }
 
 void

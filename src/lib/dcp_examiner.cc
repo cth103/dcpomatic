@@ -120,9 +120,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _video_size.get(), false));
 			
 			if (mono) {
-				mono->get_frame(0)->rgb_frame (reinterpret_cast<uint16_t*> (image->data()[0]));
+				mono->get_frame(0)->rgb_frame (image);
 			} else {
-				stereo->get_frame(0)->rgb_frame (dcp::EYE_LEFT, reinterpret_cast<uint16_t*> (image->data()[0]));
+				stereo->get_frame(0)->rgb_frame (dcp::EYE_LEFT, image);
 			}
 			
 		}
