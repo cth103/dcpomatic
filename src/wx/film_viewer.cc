@@ -315,14 +315,14 @@ FilmViewer::calculate_sizes ()
 	_out_size.width = max (64, _out_size.width);
 	_out_size.height = max (64, _out_size.height);
 
-	_player->set_video_container_size (_out_size);
-
 	/* The player will round its image size down to the next lowest 4 pixels
 	   to speed up its scale, so do similar here to avoid black borders
 	   around things.  This is a bit of a hack.
 	*/
 	_out_size.width &= ~3;
 	_out_size.height &= ~3;
+
+	_player->set_video_container_size (_out_size);
 }
 
 void
