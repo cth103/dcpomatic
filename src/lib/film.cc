@@ -309,6 +309,14 @@ Film::make_dcp ()
 	GetVersionEx (&info);
 	LOG_GENERAL ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion);
 #endif	
+
+#if __GNUC__
+#if __x86_64__
+	LOG_GENERAL_NC ("Built for 64-bit");
+#else
+	LOG_GENERAL_NC ("Built for 32-bit");
+#endif
+#endif
 	
 	LOG_GENERAL ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ());
 	list<pair<string, string> > const m = mount_info ();
