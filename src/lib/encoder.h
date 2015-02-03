@@ -21,7 +21,7 @@
 #define DCPOMATIC_ENCODER_H
 
 /** @file src/encoder.h
- *  @brief Encoder to J2K and WAV for DCP.
+ *  @brief Encoder class.
  */
 
 #include "util.h"
