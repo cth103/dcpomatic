@@ -36,28 +36,11 @@
 #include "md5_digester.h"
 #include "audio_processor.h"
 #include "safe_stringstream.h"
-#include <dcp/version.h>
 #include <dcp/util.h>
 #include <dcp/signer.h>
 #include <dcp/raw_convert.h>
-extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-#include <libavfilter/avfiltergraph.h>
-#include <libavutil/pixfmt.h>
-}
 #include <glib.h>
-#include <openjpeg.h>
 #include <pangomm/init.h>
-#ifdef DCPOMATIC_IMAGE_MAGICK
-#include <magick/MagickCore.h>
-#else
-#include <magick/common.h>
-#include <magick/magick_config.h>
-#endif
-#include <magick/version.h>
-#include <libssh/libssh.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
@@ -185,17 +168,6 @@ seconds_to_approximate_hms (int s)
 	}
 
 	return ap.str ();
-}
-
-/** @param v Version as used by FFmpeg.
- *  @return A string representation of v.
- */
-static string
-ffmpeg_version_to_string (int v)
-{
-	SafeStringStream s;
-	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
-	return s.str ();
 }
 
 double
@@ -592,24 +564,6 @@ wrapped_av_malloc (size_t s)
 	return p;
 }
 		
-/** Return a user-readable string summarising the versions of our dependencies */
-string
-dependency_version_summary ()
-{
-	SafeStringStream s;
-	s << N_("libopenjpeg ") << opj_version () << N_(", ")
-	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
-	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
-	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
-	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
-	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
-	  << MagickVersion << N_(", ")
-	  << N_("libssh ") << ssh_version (0) << N_(", ")
-	  << N_("libdcp ") << dcp::version << N_(" git ") << dcp::git_commit;
-
-	return s.str ();
-}
-
 ContentTimePeriod
 subtitle_period (AVSubtitle const & sub)
 {

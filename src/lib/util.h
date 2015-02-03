@@ -56,7 +56,6 @@ struct AVSubtitle;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
-extern std::string dependency_version_summary ();
 extern double seconds (struct timeval);
 extern void dcpomatic_setup ();
 extern void dcpomatic_setup_gettext_i18n (std::string);

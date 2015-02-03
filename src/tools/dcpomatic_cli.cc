@@ -48,7 +48,6 @@ help (string n)
 	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
 	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help         show this help\n"
-	     << "  -d, --deps         list DCP-o-matic dependency details and quit\n"
 	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
@@ -70,7 +69,6 @@ main (int argc, char* argv[])
 		static struct option long_options[] = {
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
-			{ "deps", no_argument, 0, 'd'},
 			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
@@ -78,7 +76,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhdfnrk", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrk", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -90,9 +88,6 @@ main (int argc, char* argv[])
 			exit (EXIT_SUCCESS);
 		case 'h':
 			help (argv[0]);
-			exit (EXIT_SUCCESS);
-		case 'd':
-			cout << dependency_version_summary () << "\n";
 			exit (EXIT_SUCCESS);
 		case 'f':
 			cout << dcpomatic_cxx_flags << "\n";

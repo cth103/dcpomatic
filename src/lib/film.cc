@@ -33,7 +33,6 @@
 #include "examine_content_job.h"
 #include "scaler.h"
 #include "config.h"
-#include "version.h"
 #include "ui_signaller.h"
 #include "playlist.h"
 #include "player.h"
@@ -42,6 +41,7 @@
 #include "cross.h"
 #include "cinema.h"
 #include "safe_stringstream.h"
+#include "environment_info.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
@@ -277,13 +277,7 @@ Film::make_dcp ()
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
 
-	LOG_GENERAL ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary());
-
-	{
-		char buffer[128];
-		gethostname (buffer, sizeof (buffer));
-		LOG_GENERAL ("Starting to make DCP on %1", buffer);
-	}
+	environment_info (log ());
 
 	ContentList cl = content ();
 	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
@@ -292,37 +286,6 @@ Film::make_dcp ()
 	LOG_GENERAL ("DCP video rate %1 fps", video_frame_rate());
 	LOG_GENERAL ("%1 threads", Config::instance()->num_local_encoding_threads());
 	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
-#ifdef DCPOMATIC_DEBUG
-	LOG_GENERAL_NC ("DCP-o-matic built in debug mode.");
-#else
-	LOG_GENERAL_NC ("DCP-o-matic built in optimised mode.");
-#endif
-#ifdef LIBDCP_DEBUG
-	LOG_GENERAL_NC ("libdcp built in debug mode.");
-#else
-	LOG_GENERAL_NC ("libdcp built in optimised mode.");
-#endif
-
-#ifdef DCPOMATIC_WINDOWS
-	OSVERSIONINFO info;
-	info.dwOSVersionInfoSize = sizeof (info);
-	GetVersionEx (&info);
-	LOG_GENERAL ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion);
-#endif	
-
-#if __GNUC__
-#if __x86_64__
-	LOG_GENERAL_NC ("Built for 64-bit");
-#else
-	LOG_GENERAL_NC ("Built for 32-bit");
-#endif
-#endif
-	
-	LOG_GENERAL ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ());
-	list<pair<string, string> > const m = mount_info ();
-	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
-		LOG_GENERAL ("Mount: %1 %2", i->first, i->second);
-	}
 	
 	if (container() == 0) {
 		throw MissingSettingError (_("container"));

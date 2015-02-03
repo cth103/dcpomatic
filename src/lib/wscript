@@ -31,6 +31,7 @@ sources = """
           dolby_cp750.cc
           encoder.cc
           encoded_data.cc
+          environment_info.cc
           examine_content_job.cc
           exceptions.cc
           file_group.cc
