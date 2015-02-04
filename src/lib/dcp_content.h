@@ -64,10 +64,7 @@ public:
 		return _has_subtitles;
 	}
 	
-	boost::filesystem::path directory () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _directory;
-	}
+	boost::filesystem::path directory () const;
 
 	bool encrypted () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -89,7 +86,6 @@ private:
 	bool _has_subtitles;
 	/** true if our DCP is encrypted */
 	bool _encrypted;
-	boost::filesystem::path _directory;
 	boost::optional<dcp::EncryptedKDM> _kdm;
 	/** true if _kdm successfully decrypts the first frame of our DCP */
 	bool _kdm_valid;

@@ -25,11 +25,13 @@
 #include "compose.hpp"
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
+#include <iterator>
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
+using std::distance;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -42,7 +44,6 @@ DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, SubtitleContent (f)
 	, _has_subtitles (false)
 	, _encrypted (false)
-	, _directory (p)
 	, _kdm_valid (false)
 {
 	read_directory (p);
@@ -56,7 +57,6 @@ DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int v
 {
 	_name = node->string_child ("Name");
 	_has_subtitles = node->bool_child ("HasSubtitles");
-	_directory = node->string_child ("Directory");
 	_encrypted = node->bool_child ("Encrypted");
 	if (node->optional_node_child ("KDM")) {
 		_kdm = dcp::EncryptedKDM (node->string_child ("KDM"));
@@ -128,7 +128,6 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Name")->add_child_text (_name);
 	node->add_child("HasSubtitles")->add_child_text (_has_subtitles ? "1" : "0");
 	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
-	node->add_child("Directory")->add_child_text (_directory.string ());
 	if (_kdm) {
 		node->add_child("KDM")->add_child_text (_kdm->as_xml ());
 	}
@@ -159,4 +158,20 @@ bool
 DCPContent::can_be_played () const
 {
 	return !_encrypted || _kdm_valid;
+}
+
+boost::filesystem::path
+DCPContent::directory () const
+{
+	optional<size_t> smallest;
+	boost::filesystem::path dir;
+	for (size_t i = 0; i < number_of_paths(); ++i) {
+		boost::filesystem::path const p = path (i).parent_path ();
+		size_t const d = distance (p.begin(), p.end());
+		if (!smallest || d < smallest.get ()) {
+			dir = p;
+		}
+	}
+
+	return dir;
 }
