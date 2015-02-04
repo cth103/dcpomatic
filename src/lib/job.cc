@@ -332,11 +332,7 @@ Job::status () const
 	} else if (finished_ok ()) {
 		s << String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
 	} else if (finished_in_error ()) {
-		string es = error_summary ();
-		if (es.length() > 25) {
-			es = es.substr (0, 25) + "...";
-		}
-		s << String::compose (_("Error (%1)"), es);
+		s << String::compose (_("Error (%1)"), error_summary ());
 	} else if (finished_cancelled ()) {
 		s << _("Cancelled");
 	}

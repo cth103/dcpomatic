@@ -108,9 +108,18 @@ private:
 		}
 	}
 
+	void update_status ()
+	{
+		string s = _job->status ();
+		if (s.length() > 25) {
+			s = s.substr (0, 25) + "...";
+		}
+		checked_set (_message, s);
+	}
+
 	void progress ()
 	{
-		checked_set (_message, _job->status ());
+		update_status ();
 		update_job_name ();
 		if (_job->progress ()) {
 			_gauge->SetValue (min (100.0f, _job->progress().get() * 100));
@@ -121,7 +130,7 @@ private:
 
 	void finished ()
 	{
-		checked_set (_message, _job->status ());
+		update_status ();
 		update_job_name ();
 		
 		if (!_job->finished_cancelled ()) {
