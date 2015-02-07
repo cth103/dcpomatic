@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ public:
 private:
 	void setup ();
 	void set_file_clicked ();
+	void update_sensitivity ();
+	void selection_changed ();
 	
 	boost::weak_ptr<SubtitleContent> _content;
 	wxListCtrl* _fonts;

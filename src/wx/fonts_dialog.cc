@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,8 +70,11 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 	SetSizerAndFit (overall_sizer);
 
 	_set_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FontsDialog::set_file_clicked, this));
+	_fonts->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&FontsDialog::selection_changed, this));
+	_fonts->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&FontsDialog::selection_changed, this));
 
 	setup ();
+	update_sensitivity ();
 }
 
 void
@@ -133,4 +136,17 @@ FontsDialog::set_file_clicked ()
 	d->Destroy ();
 
 	setup ();
+}
+
+void
+FontsDialog::selection_changed ()
+{
+	update_sensitivity ();
+}
+
+void
+FontsDialog::update_sensitivity ()
+{
+	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	_set_file->Enable (item != -1);
 }
