@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ public:
 	VideoContentScale (bool);
 	VideoContentScale (boost::shared_ptr<cxml::Node>);
 
-	dcp::Size size (boost::shared_ptr<const VideoContent>, dcp::Size, dcp::Size, int round) const;
+	dcp::Size size (boost::shared_ptr<const VideoContent>, dcp::Size display_container, dcp::Size film_container, int round) const;
 	std::string id () const;
 	std::string name () const;
 	void as_xml (xmlpp::Node *) const;

@@ -60,6 +60,7 @@ def build(bld):
                  update_checker_test.cc
                  upmixer_a_test.cc
                  util_test.cc
+                 video_content_scale_test.cc
                  video_decoder_fill_test.cc
                  xml_subtitle_test.cc
                  """
