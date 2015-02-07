@@ -356,10 +356,6 @@ Player::get_video (DCPTime time, bool accurate)
 		}
 		
 		dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size (), _approximate_size ? 4 : 1);
-		if (_approximate_size) {
-			image_size.width &= ~3;
-			image_size.height &= ~3;
-		}
 
 		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
 			pvf.push_back (
