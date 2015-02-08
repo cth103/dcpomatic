@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ using std::cout;
 using std::cerr;
 using std::list;
 using boost::shared_ptr;
+using boost::scoped_array;
 
 boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
@@ -130,15 +131,15 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 
 	/* buffer_size is in frames */
 	sf_count_t const buffer_size = 65536 * ref_info.channels;
-	int32_t* ref_buffer = new int32_t[buffer_size];
-	int32_t* check_buffer = new int32_t[buffer_size];
+	scoped_array<int32_t> ref_buffer (new int32_t[buffer_size]);
+	scoped_array<int32_t> check_buffer (new int32_t[buffer_size]);
 	
 	sf_count_t N = ref_info.frames;
 	while (N) {
 		sf_count_t this_time = min (buffer_size, N);
-		sf_count_t r = sf_readf_int (ref_file, ref_buffer, this_time);
+		sf_count_t r = sf_readf_int (ref_file, ref_buffer.get(), this_time);
 		BOOST_CHECK_EQUAL (r, this_time);
-		r = sf_readf_int (check_file, check_buffer, this_time);
+		r = sf_readf_int (check_file, check_buffer.get(), this_time);
 		BOOST_CHECK_EQUAL (r, this_time);
 
 		for (sf_count_t i = 0; i < this_time; ++i) {
