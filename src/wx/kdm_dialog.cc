@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -274,7 +274,9 @@ KDMDialog::setup_sensitivity ()
 	_remove_screen->Enable (ss);
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
-	ok->Enable ((selected_cinemas().size() > 0 || selected_screens().size() > 0) && sd);
+	if (ok) {
+		ok->Enable ((selected_cinemas().size() > 0 || selected_screens().size() > 0) && sd);
+	}
 
 	_folder->Enable (_write_to->GetValue ());
 }

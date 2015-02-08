@@ -755,6 +755,14 @@ static const wxCmdLineEntryDesc command_line_description[] = {
  */
 class App : public wxApp
 {
+public:
+	App ()
+		: wxApp ()
+		, _frame (0)
+	{}
+
+private:	
+		
 	bool OnInit ()
 	try
 	{

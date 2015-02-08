@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -86,6 +86,11 @@ public:
 	GeneralPage (wxSize panel_size, int border)
 		: wxStockPreferencesPage (Kind_General)
 		, Page (panel_size, border)
+		, _set_language (0)
+		, _language (0)
+		, _num_local_encoding_threads (0)
+		, _check_for_updates (0)
+		, _check_for_test_updates (0)
 	{}
 
 	wxWindow* CreateWindow (wxWindow* parent)
@@ -234,6 +239,14 @@ class DefaultsPage : public wxPreferencesPage, public Page
 public:
 	DefaultsPage (wxSize panel_size, int border)
 		: Page (panel_size, border)
+		, _j2k_bandwidth (0)
+		, _audio_delay (0)
+		, _isdcf_metadata_button (0)
+		, _still_length (0)
+		, _directory (0)
+		, _container (0)
+		, _dcp_content_type (0)
+		, _issuer (0)
 	{}
 	
 	wxString GetName () const
@@ -424,6 +437,8 @@ class EncodingServersPage : public wxPreferencesPage, public Page
 public:
 	EncodingServersPage (wxSize panel_size, int border)
 		: Page (panel_size, border)
+		, _use_any_servers (0)
+		, _servers_list (0)
 	{}
 	
 	wxString GetName () const
@@ -528,6 +543,18 @@ class KeysPage : public wxPreferencesPage, public Page
 public:
 	KeysPage (wxSize panel_size, int border)
 		: Page (panel_size, border)
+		, _panel (0)
+		, _certificates (0)
+		, _add_certificate (0)
+		, _remove_certificate (0)
+		, _remake_certificates (0)
+		, _signer_private_key (0)
+		, _load_signer_private_key (0)
+		, _decryption_certificate (0)
+		, _load_decryption_certificate (0)
+		, _decryption_private_key (0)
+		, _load_decryption_private_key (0)
+		, _export_decryption_certificate (0)
 	{}
 
 	wxString GetName () const
@@ -861,6 +888,10 @@ class TMSPage : public wxPreferencesPage, public Page
 public:
 	TMSPage (wxSize panel_size, int border)
 		: Page (panel_size, border)
+		, _tms_ip (0)
+		, _tms_path (0)
+		, _tms_user (0)
+		, _tms_password (0)
 	{}
 
 	wxString GetName () const
@@ -946,6 +977,15 @@ public:
 
 	KDMEmailPage (wxSize panel_size, int border)
 		: Page (panel_size, border)
+		, _mail_server (0)
+		, _mail_user (0)
+		, _mail_password (0)
+		, _kdm_subject (0)
+		, _kdm_from (0)
+		, _kdm_cc (0)
+		, _kdm_bcc (0)
+		, _kdm_email (0)
+		, _reset_kdm_email (0)
 	{}
 	
 	wxString GetName () const
@@ -1106,6 +1146,12 @@ public:
 	AdvancedPage (wxSize panel_size, int border)
 		: wxStockPreferencesPage (Kind_Advanced)
 		, Page (panel_size, border)
+		, _maximum_j2k_bandwidth (0)
+		, _allow_any_dcp_frame_rate (0)
+		, _log_general (0)
+		, _log_warning (0)
+		, _log_error (0)
+		, _log_timing (0)
 	{}
 	
 	wxWindow* CreateWindow (wxWindow* parent)

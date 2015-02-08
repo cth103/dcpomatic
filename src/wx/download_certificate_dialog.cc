@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ using boost::function;
 DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
 	: TableDialog (parent, _("Download certificate"), 2, true)
 	, _load (load)
+	, _message (0)
+	, _download (0)
 {
 
 }
