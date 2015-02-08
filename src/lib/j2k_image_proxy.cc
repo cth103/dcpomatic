@@ -38,7 +38,7 @@ using boost::optional;
 J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
 	: _mono (new dcp::MonoPictureFrame (path))
 	, _size (size)
-	, _eye (EYE_BOTH)
+	, _eye (EYES_BOTH)
 {
 
 }
@@ -46,7 +46,7 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
 J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size)
 	: _mono (frame)
 	, _size (size)
-	, _eye (EYE_BOTH)
+	, _eye (EYES_BOTH)
 {
 	
 }
