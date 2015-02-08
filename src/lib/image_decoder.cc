@@ -37,6 +37,7 @@ using dcp::Size;
 ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
 	: VideoDecoder (c)
 	, _image_content (c)
+	, _video_position (0)
 {
 
 }
