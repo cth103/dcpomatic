@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,15 +45,7 @@ FFmpegStream::as_xml (xmlpp::Node* root) const
 bool
 FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
 {
-	size_t i = 0;
-	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == _id) {
-			return int (i) == index;
-		}
-		++i;
-	}
-
-	return false;
+	return fc->streams[index]->id == _id;
 }
 
 AVStream *
