@@ -488,6 +488,7 @@ char* quickmail_get_body (quickmail mailobj)
     do {
       if ((p = (char*)realloc(result, resultlen + BODY_BUFFER_SIZE)) == NULL) {
         free(result);
+	result = NULL;
         DEBUG_ERROR(ERRMSG_MEMORY_ALLOCATION_ERROR)
         break;
       }
