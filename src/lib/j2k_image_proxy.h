@@ -43,5 +43,5 @@ private:
 	boost::shared_ptr<const dcp::MonoPictureFrame> _mono;
 	boost::shared_ptr<const dcp::StereoPictureFrame> _stereo;
 	dcp::Size _size;
-	dcp::Eye _eye;
+	boost::optional<dcp::Eye> _eye;
 };

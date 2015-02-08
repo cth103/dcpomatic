@@ -38,7 +38,6 @@ using boost::optional;
 J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
 	: _mono (new dcp::MonoPictureFrame (path))
 	, _size (size)
-	, _eye (EYES_BOTH)
 {
 
 }
@@ -46,7 +45,6 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
 J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size)
 	: _mono (frame)
 	, _size (size)
-	, _eye (EYES_BOTH)
 {
 	
 }
@@ -86,7 +84,7 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 	if (_mono) {
 		dcp::xyz_to_rgb (_mono->xyz_image (), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
 	} else {
-		dcp::xyz_to_rgb (_stereo->xyz_image (_eye), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
+		dcp::xyz_to_rgb (_stereo->xyz_image (_eye.get ()), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
 	}
 
 	return image;
@@ -99,7 +97,7 @@ J2KImageProxy::add_metadata (xmlpp::Node* node) const
 	node->add_child("Width")->add_child_text (dcp::raw_convert<string> (_size.width));
 	node->add_child("Height")->add_child_text (dcp::raw_convert<string> (_size.height));
 	if (_stereo) {
-		node->add_child("Eye")->add_child_text (dcp::raw_convert<string> (_eye));
+		node->add_child("Eye")->add_child_text (dcp::raw_convert<string> (_eye.get ()));
 		node->add_child("LeftSize")->add_child_text (dcp::raw_convert<string> (_stereo->left_j2k_size ()));
 		node->add_child("RightSize")->add_child_text (dcp::raw_convert<string> (_stereo->right_j2k_size ()));
 	} else {
@@ -124,7 +122,7 @@ J2KImageProxy::j2k () const
 	if (_mono) {
 		return shared_ptr<EncodedData> (new EncodedData (_mono->j2k_data(), _mono->j2k_size()));
 	} else {
-		if (_eye == dcp::EYE_LEFT) {
+		if (_eye.get() == dcp::EYE_LEFT) {
 			return shared_ptr<EncodedData> (new EncodedData (_stereo->left_j2k_data(), _stereo->left_j2k_size()));
 		} else {
 			return shared_ptr<EncodedData> (new EncodedData (_stereo->right_j2k_data(), _stereo->right_j2k_size()));
