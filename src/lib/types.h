@@ -46,7 +46,7 @@ namespace xmlpp {
  *  with servers.  Intended to be bumped when incompatibilities
  *  are introduced.
  */
-#define SERVER_LINK_VERSION 2
+#define SERVER_LINK_VERSION 3
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<VideoContent> > VideoContentList;
