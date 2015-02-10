@@ -393,14 +393,16 @@ VideoContent::video_size_after_3d_split () const
 }
 
 void
-VideoContent::unset_colour_conversion ()
+VideoContent::unset_colour_conversion (bool signal)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_colour_conversion = boost::optional<ColourConversion> ();
 	}
 
-	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
+	if (signal) {
+		signal_changed (VideoContentProperty::COLOUR_CONVERSION);
+	}
 }
 
 void
