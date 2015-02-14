@@ -37,12 +37,19 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f)
 	, VideoContent (f)
 {
+	bool have_j2k = false;
 	if (boost::filesystem::is_regular_file (p)) {
 		_paths.push_back (p);
+		if (valid_j2k_file (p)) {
+			have_j2k = true;
+		}
 	} else {
 		for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
 			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
 				_paths.push_back (i->path ());
+				if (valid_j2k_file (i->path ())) {
+					have_j2k = true;
+				}
 			}
 		}
 
@@ -51,6 +58,11 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 		}
 		       		
 		sort (_paths.begin(), _paths.end());
+	}
+
+	if (have_j2k) {
+		/* We default to no colour conversion if we have JPEG2000 files */
+		unset_colour_conversion ();
 	}
 }
 

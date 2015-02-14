@@ -47,6 +47,8 @@ DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _kdm_valid (false)
 {
 	read_directory (p);
+	/* Default to no colour conversion for DCPs */
+	unset_colour_conversion (false);
 }
 
 DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
