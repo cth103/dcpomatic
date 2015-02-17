@@ -131,6 +131,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Alexey Derevyanko"));
 	supported_by.Add (wxT ("Unwana Essien"));
 	supported_by.Add (wxT ("Maxime Estoppey"));
+	supported_by.Add (wxT ("Jose Angel Velasco Fernandez"));
 	supported_by.Add (wxT ("Andres Fink"));
 	supported_by.Add (wxT ("Evan Freeze"));
 	supported_by.Add (wxT ("Silvio Giuliano"));
