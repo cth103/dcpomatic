@@ -62,7 +62,7 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 
 	if (have_j2k) {
 		/* We default to no colour conversion if we have JPEG2000 files */
-		unset_colour_conversion ();
+		unset_colour_conversion (false);
 	}
 }
 
