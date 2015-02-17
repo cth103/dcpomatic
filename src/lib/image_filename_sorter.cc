@@ -20,7 +20,7 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
-#include <libdcp/raw_convert.h>
+#include <dcp/raw_convert.h>
 
 class ImageFilenameSorter
 {
