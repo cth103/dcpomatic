@@ -29,6 +29,8 @@
 
 #include "i18n.h"
 
+#include "image_filename_sorter.cc"
+
 using std::string;
 using std::cout;
 using boost::shared_ptr;
@@ -57,7 +59,7 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 			throw FileError (_("No valid image files were found in the folder."), p);
 		}
 		       		
-		sort (_paths.begin(), _paths.end());
+		sort (_paths.begin(), _paths.end(), ImageFilenameSorter ());
 	}
 
 	if (have_j2k) {

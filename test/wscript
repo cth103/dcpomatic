@@ -39,6 +39,7 @@ def build(bld):
                  file_log_test.cc
                  film_metadata_test.cc
                  frame_rate_test.cc
+                 image_filename_sorter_test.cc
                  image_test.cc
                  import_dcp_test.cc
                  isdcf_name_test.cc
