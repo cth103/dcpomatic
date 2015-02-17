@@ -180,3 +180,18 @@ BOOST_AUTO_TEST_CASE (video_content_scale_test_to_ratio)
 		dcp::Size (185, 100)
 		);
 }
+
+/* Test no scale */
+BOOST_AUTO_TEST_CASE (video_content_scale_no_scale)
+{
+       /* No scale where the content is bigger than even the film container */
+       test (
+               dcp::Size (1920, 1080),
+               dcp::Size (887, 371),
+               dcp::Size (2048, 858),
+               Crop (),
+               0,
+               false,
+               dcp::Size (659, 371)
+               );
+}
