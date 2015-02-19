@@ -385,7 +385,6 @@ def git_revision():
 
     cmd = "LANG= git log --abbrev HEAD^..HEAD ."
     output = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).communicate()[0].splitlines()
-    print output
     o = output[0].decode('utf-8')
     return o.replace("commit ", "")[0:10]
 
