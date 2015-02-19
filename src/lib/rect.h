@@ -21,6 +21,7 @@
 #define DCPOMATIC_RECT_H
 
 #include "position.h"
+#include <algorithm>
 
 /* Put this inside a namespace as Apple put a Rect in the global namespace */
 

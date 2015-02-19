@@ -57,6 +57,6 @@ private:
 			return boost::optional<int> ();
 		}
 
-		return libdcp::raw_convert<int> (number);
+		return dcp::raw_convert<int> (number);
 	}
 };

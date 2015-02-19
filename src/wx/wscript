@@ -47,7 +47,13 @@ sources = """
           table_dialog.cc
           timecode.cc
           timeline.cc
+          timeline_content_view.cc
           timeline_dialog.cc
+          timeline_audio_content_view.cc
+          timeline_subtitle_content_view.cc
+          timeline_time_axis_view.cc
+          timeline_video_content_view.cc
+          timeline_view.cc
           timing_panel.cc
           update_dialog.cc
           video_panel.cc

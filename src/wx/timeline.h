@@ -24,12 +24,12 @@
 #include "lib/util.h"
 #include "lib/rect.h"
 #include "content_menu.h"
+#include "timeline_content_view.h"
 
 class Film;
-class View;
-class ContentView;
 class ContentPanel;
-class TimeAxisView;
+class TimelineView;
+class TimelineTimeAxisView;
 
 class Timeline : public wxPanel
 {
@@ -85,23 +85,20 @@ private:
 	void set_position_from_event (wxMouseEvent &);
 	void clear_selection ();
 
-	typedef std::vector<boost::shared_ptr<View> > ViewList;
-	typedef std::vector<boost::shared_ptr<ContentView> > ContentViewList;
-
-	boost::shared_ptr<View> event_to_view (wxMouseEvent &);
-	ContentViewList selected_views () const;
+	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
+	TimelineContentViewList selected_views () const;
 	ContentList selected_content () const;
 	void maybe_snap (DCPTime a, DCPTime b, boost::optional<DCPTime>& nearest_distance) const;
 
 	ContentPanel* _content_panel;
 	boost::weak_ptr<Film> _film;
-	ViewList _views;
-	boost::shared_ptr<TimeAxisView> _time_axis_view;
+	TimelineViewList _views;
+	boost::shared_ptr<TimelineTimeAxisView> _time_axis_view;
 	int _tracks;
 	boost::optional<double> _pixels_per_second;
 	bool _left_down;
 	wxPoint _down_point;
-	boost::shared_ptr<ContentView> _down_view;
+	boost::shared_ptr<TimelineContentView> _down_view;
 	DCPTime _down_view_position;
 	bool _first_move;
 	ContentMenu _menu;
