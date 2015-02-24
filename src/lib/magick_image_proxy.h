@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 */
 
 #include "image_proxy.h"
+#include <boost/thread/mutex.hpp>
 
 class MagickImageProxy : public ImageProxy
 {
@@ -33,4 +34,5 @@ public:
 private:	
 	Magick::Blob _blob;
 	mutable boost::shared_ptr<Image> _image;
+	mutable boost::mutex _mutex;
 };
