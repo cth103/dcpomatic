@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -209,7 +209,7 @@ ContentMenu::find_missing ()
 
 	shared_ptr<Job> j (new ExamineContentJob (film, content));
 	
-	j->Finished.connect (
+	_job_connection = j->Finished.connect (
 		bind (
 			&ContentMenu::maybe_found_missing,
 			this,

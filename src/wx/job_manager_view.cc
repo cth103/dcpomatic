@@ -79,8 +79,8 @@ public:
 		table->Insert (n, _details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 6);
 		++n;
 	
-		job->Progress.connect (boost::bind (&JobRecord::progress, this));
-		job->Finished.connect (boost::bind (&JobRecord::finished, this));
+		_progress_connection = job->Progress.connect (boost::bind (&JobRecord::progress, this));
+		_finished_connection = job->Finished.connect (boost::bind (&JobRecord::finished, this));
 	
 		table->Layout ();
 		panel->FitInside ();
@@ -181,6 +181,9 @@ private:
 	wxButton* _pause;
 	wxButton* _details;
 	std::string _last_name;
+
+	boost::signals2::scoped_connection _progress_connection;
+	boost::signals2::scoped_connection _finished_connection;
 };
 
 /** Must be called in the GUI thread */

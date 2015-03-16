@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,6 +55,8 @@ private:
 	wxMenuItem* _re_examine;
 	wxMenuItem* _kdm;
 	wxMenuItem* _remove;
+
+	boost::signals2::scoped_connection _job_connection;
 };
 
 #endif

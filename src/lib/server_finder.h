@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,13 +23,17 @@
 class ServerFinder : public ExceptionStore
 {
 public:
-	void connect (boost::function<void (ServerDescription)>);
+	boost::signals2::connection connect (boost::function<void (ServerDescription)>);
 
 	static ServerFinder* instance ();
 	static void drop ();
 
 	void disable () {
 		_disabled = true;
+	}
+
+	bool disabled () const {
+		return _disabled;
 	}
 
 private:

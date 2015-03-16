@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent)
 	_preset_check->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ContentColourConversionDialog::preset_check_clicked, this));
 	_preset_choice->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ContentColourConversionDialog::preset_choice_changed, this));
 
-	_editor->Changed.connect (boost::bind (&ContentColourConversionDialog::check_for_preset, this));
+	_editor_connection = _editor->Changed.connect (boost::bind (&ContentColourConversionDialog::check_for_preset, this));
 
 	vector<PresetColourConversion> presets = Config::instance()->colour_conversions ();
 	for (vector<PresetColourConversion>::const_iterator i = presets.begin(); i != presets.end(); ++i) {

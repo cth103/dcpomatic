@@ -93,7 +93,9 @@ Encoder::begin ()
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
 	}
 
-	ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
+	if (!ServerFinder::instance()->disabled ()) {
+		_server_found_connection = ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
+	}
 }
 
 void

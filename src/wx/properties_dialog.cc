@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 
 	add (_("Frames already encoded"), true);
 	_encoded = add (new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this)));
-	_encoded->Finished.connect (boost::bind (&PropertiesDialog::layout, this));
+	_encoded_connection = _encoded->Finished.connect (boost::bind (&PropertiesDialog::layout, this));
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length().frames (_film->video_frame_rate ()))));
 	double const disk = double (_film->required_disk_space()) / 1073741824.0f;
 	SafeStringStream s;

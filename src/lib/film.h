@@ -60,6 +60,7 @@ class Film : public boost::enable_shared_from_this<Film>, public boost::noncopya
 {
 public:
 	Film (boost::filesystem::path, bool log = true);
+	~Film ();
 
 	boost::filesystem::path info_dir () const;
 	boost::filesystem::path j2c_path (int, Eyes, bool) const;
@@ -340,6 +341,10 @@ private:
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
+
+	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_changed_connection;
+	std::list<boost::signals2::connection> _job_connections;
 
 	friend struct paths_test;
 	friend struct film_metadata_test;

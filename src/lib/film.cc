@@ -136,8 +136,8 @@ Film::Film (boost::filesystem::path dir, bool log)
 {
 	set_isdcf_date_today ();
 
-	_playlist->Changed.connect (bind (&Film::playlist_changed, this));
-	_playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
+	_playlist_changed_connection = _playlist->Changed.connect (bind (&Film::playlist_changed, this));
+	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
 	
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
@@ -166,6 +166,13 @@ Film::Film (boost::filesystem::path dir, bool log)
 
 	_playlist->set_sequence_video (_sequence_video);
 }
+
+Film::~Film ()
+{
+	for (list<boost::signals2::connection>::const_iterator i = _job_connections.begin(); i != _job_connections.end(); ++i) {
+		i->disconnect ();
+	}
+}	
 
 string
 Film::video_identifier () const
@@ -937,7 +944,11 @@ Film::examine_and_add_content (shared_ptr<Content> c)
 	}
 			
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
-	j->Finished.connect (bind (&Film::maybe_add_content, this, boost::weak_ptr<Job> (j), boost::weak_ptr<Content> (c)));
+
+	_job_connections.push_back (
+		j->Finished.connect (bind (&Film::maybe_add_content, this, boost::weak_ptr<Job> (j), boost::weak_ptr<Content> (c)))
+		);
+	
 	JobManager::instance()->add (j);
 }
 

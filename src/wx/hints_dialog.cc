@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,8 +48,8 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> f)
 
 	boost::shared_ptr<Film> film = _film.lock ();
 	if (film) {
-		film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
-		film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
+		_film_changed_connection = film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
+		_film_content_changed_connection = film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
 	}
 
 	film_changed ();

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 	s->Layout ();
 	s->SetSizeHints (this);
 	
-	ServerFinder::instance()->connect (boost::bind (&ServersListDialog::server_found, this, _1));
+	_server_finder_connection = ServerFinder::instance()->connect (boost::bind (&ServersListDialog::server_found, this, _1));
 }
 
 void

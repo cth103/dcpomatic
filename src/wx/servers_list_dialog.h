@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,4 +31,6 @@ private:
 
 	std::list<ServerDescription> _servers;
 	wxListCtrl* _list;
+
+	boost::signals2::scoped_connection _server_finder_connection;
 };

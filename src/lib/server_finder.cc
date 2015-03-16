@@ -192,13 +192,9 @@ ServerFinder::server_found (string ip) const
 	return i != _servers.end ();
 }
 
-void
+boost::signals2::connection
 ServerFinder::connect (boost::function<void (ServerDescription)> fn)
 {
-	if (_disabled) {
-		return;
-	}
-	
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Emit the current list of servers */
@@ -206,7 +202,7 @@ ServerFinder::connect (boost::function<void (ServerDescription)> fn)
 		fn (*i);
 	}
 
-	ServerFound.connect (fn);
+	return ServerFound.connect (fn);
 }
 
 ServerFinder*
