@@ -93,7 +93,12 @@ void
 Timeline::playlist_changed ()
 {
 	ensure_ui_thread ();
-	
+	recreate_views ();
+}
+
+void
+Timeline::recreate_views ()
+{
 	shared_ptr<const Film> fl = _film.lock ();
 	if (!fl) {
 		return;
@@ -108,7 +113,9 @@ Timeline::playlist_changed ()
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, *i)));
 		}
-		if (dynamic_pointer_cast<AudioContent> (*i)) {
+
+		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (*i);
+		if (ac && !ac->audio_mapping().mapped_dcp_channels().empty ()) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, *i)));
 		}
 
@@ -132,6 +139,8 @@ Timeline::playlist_content_changed (int property)
 		assign_tracks ();
 		setup_pixels_per_second ();
 		Refresh ();
+	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
+		recreate_views ();
 	}
 }
 
@@ -303,7 +312,7 @@ Timeline::right_down (wxMouseEvent& ev)
 		cv->set_selected (true);
 	}
 
-	_menu.popup (_film, selected_content (), ev.GetPosition ());
+	_menu.popup (_film, selected_content (), selected_views (), ev.GetPosition ());
 }
 
 void

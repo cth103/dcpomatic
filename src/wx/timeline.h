@@ -84,6 +84,7 @@ private:
 	void assign_tracks ();
 	void set_position_from_event (wxMouseEvent &);
 	void clear_selection ();
+	void recreate_views ();
 
 	boost::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;

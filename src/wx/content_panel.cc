@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -335,7 +335,7 @@ ContentPanel::timeline_clicked ()
 void
 ContentPanel::right_click (wxListEvent& ev)
 {
-	_menu->popup (_film, selected (), ev.GetPoint ());
+	_menu->popup (_film, selected (), TimelineContentViewList (), ev.GetPoint ());
 }
 
 /** Set up broad sensitivity based on the type of content that is selected */

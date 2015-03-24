@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ using std::make_pair;
 using std::pair;
 using std::string;
 using std::min;
+using std::vector;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
@@ -144,3 +145,35 @@ AudioMapping::digest () const
 
 	return digester.get ();
 }
+
+list<dcp::Channel>
+AudioMapping::mapped_dcp_channels () const
+{
+	static float const minus_96_db = 0.000015849;
+
+	list<dcp::Channel> mapped;
+	
+	for (vector<vector<float> >::const_iterator i = _gain.begin(); i != _gain.end(); ++i) {
+		for (size_t j = 0; j < i->size(); ++j) {
+			if (abs ((*i)[j]) > minus_96_db) {
+				mapped.push_back ((dcp::Channel) j);
+			}
+		}
+	}
+
+	mapped.sort ();
+	mapped.unique ();
+	
+	return mapped;
+}
+
+void
+AudioMapping::unmap_all ()
+{
+	for (vector<vector<float> >::iterator i = _gain.begin(); i != _gain.end(); ++i) {
+		for (vector<float>::iterator j = i->begin(); j != i->end(); ++j) {
+			*j = 0;
+		}
+	}
+}
+

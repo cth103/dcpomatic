@@ -30,6 +30,8 @@
 #include "content_menu.h"
 #include "repeat_dialog.h"
 #include "wx_util.h"
+#include "timeline_video_content_view.h"
+#include "timeline_audio_content_view.h"
 
 using std::cout;
 using std::vector;
@@ -72,10 +74,11 @@ ContentMenu::~ContentMenu ()
 }
 
 void
-ContentMenu::popup (weak_ptr<Film> f, ContentList c, wxPoint p)
+ContentMenu::popup (weak_ptr<Film> f, ContentList c, TimelineContentViewList v, wxPoint p)
 {
 	_film = f;
 	_content = c;
+	_views = v;
 	_repeat->Enable (!_content.empty ());
 
 	int n = 0;
@@ -123,6 +126,7 @@ ContentMenu::repeat ()
 	d->Destroy ();
 
 	_content.clear ();
+	_views.clear ();
 }
 
 void
@@ -166,9 +170,46 @@ ContentMenu::remove ()
 		return;
 	}
 
-	film->playlist()->remove (_content);
+	/* We are removing from the timeline if _views is not empty */
+	bool handled = false;
+	if (!_views.empty ()) {
+		/* Special case: we only remove FFmpegContent if its video view is selected;
+		   if not, and its audio view is selected, we unmap the audio.
+		*/
+		for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
+			shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
+			if (!fc) {
+				continue;
+			}
+			
+			shared_ptr<TimelineVideoContentView> video;
+			shared_ptr<TimelineAudioContentView> audio;
+
+			for (TimelineContentViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
+				shared_ptr<TimelineVideoContentView> v = dynamic_pointer_cast<TimelineVideoContentView> (*i);
+				shared_ptr<TimelineAudioContentView> a = dynamic_pointer_cast<TimelineAudioContentView> (*i);
+				if (v && v->content() == fc) {
+					video = v;
+				} else if (a && a->content() == fc) {
+					audio = a;
+				}
+			}
+
+			if (!video && audio) {
+				AudioMapping m = fc->audio_mapping ();
+				m.unmap_all ();
+				fc->set_audio_mapping (m);
+				handled = true;
+			}
+		}
+	}
+
+	if (!handled) {
+		film->playlist()->remove (_content);
+	}
 
 	_content.clear ();
+	_views.clear ();
 }
 
 void
