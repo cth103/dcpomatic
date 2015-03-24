@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@ using std::endl;
 using std::vector;
 using std::min;
 using std::max;
+using std::map;
 using std::list;
 using std::multimap;
 using std::istream;
@@ -575,4 +576,50 @@ subtitle_period (AVSubtitle const & sub)
 		);
 
 	return period;
+}
+
+map<string, string>
+split_get_request (string url)
+{
+	enum {
+		AWAITING_QUESTION_MARK,
+		KEY,
+		VALUE
+	} state = AWAITING_QUESTION_MARK;
+	
+	map<string, string> r;
+	string k;
+	string v;
+	for (size_t i = 0; i < url.length(); ++i) {
+		switch (state) {
+		case AWAITING_QUESTION_MARK:
+			if (url[i] == '?') {
+				state = KEY;
+			}
+			break;
+		case KEY:
+			if (url[i] == '=') {
+				v.clear ();
+				state = VALUE;
+			} else {
+				k += url[i];
+			}
+			break;
+		case VALUE:
+			if (url[i] == '&') {
+				r.insert (make_pair (k, v));
+				k.clear ();
+				state = KEY;
+			} else {
+				v += url[i];
+			}
+			break;
+		}
+	}
+
+	if (state == VALUE) {
+		r.insert (make_pair (k, v));
+	}
+
+	return r;
 }

@@ -76,6 +76,7 @@ extern void* wrapped_av_malloc (size_t);
 extern ContentTimePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
 extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
+extern std::map<std::string, std::string> split_get_request (std::string url);
 
 #endif
 

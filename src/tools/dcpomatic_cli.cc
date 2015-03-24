@@ -33,6 +33,7 @@
 #include "lib/log.h"
 #include "lib/ui_signaller.h"
 #include "lib/server_finder.h"
+#include "lib/json_server.h"
 
 using std::string;
 using std::cerr;
@@ -41,6 +42,7 @@ using std::vector;
 using std::pair;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
 
 static void
 help (string n)
@@ -51,6 +53,7 @@ help (string n)
 	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
+	     << "  -j, --json <port>  run a JSON server on the specified port\n"
 	     << "  -k, --keep-going   keep running even when the job is complete\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
@@ -62,6 +65,7 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool progress = true;
 	bool no_remote = false;
+	optional<int> json_port;
 	bool keep_going = false;
 
 	int option_index = 0;
@@ -72,11 +76,12 @@ main (int argc, char* argv[])
 			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
+			{ "json", required_argument, 0, 'j'},
 			{ "keep-going", no_argument, 0, 'k' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrk", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrj:k", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -98,6 +103,9 @@ main (int argc, char* argv[])
 		case 'r':
 			no_remote = true;
 			break;
+		case 'j':
+			json_port = atoi (optarg);
+			break;
 		case 'k':
 			keep_going = true;
 			break;
@@ -113,9 +121,13 @@ main (int argc, char* argv[])
 			
 	dcpomatic_setup ();
 	ui_signaller = new UISignaller ();
-
+	
 	if (no_remote) {
 		ServerFinder::instance()->disable ();
+	}
+
+	if (json_port) {
+		new JSONServer (json_port.get ());
 	}
 
 	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;

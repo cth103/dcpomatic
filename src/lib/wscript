@@ -58,6 +58,7 @@ sources = """
           job.cc
           job_manager.cc
           kdm.cc
+          json_server.cc
           log.cc
           magick_image_proxy.cc
           md5_digester.cc

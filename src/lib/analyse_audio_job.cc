@@ -49,6 +49,12 @@ AnalyseAudioJob::name () const
 	return _("Analyse audio");
 }
 
+string
+AnalyseAudioJob::json_name () const
+{
+	return N_("analyse_audio");
+}
+
 void
 AnalyseAudioJob::run ()
 {

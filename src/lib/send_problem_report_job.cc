@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,6 +47,12 @@ string
 SendProblemReportJob::name () const
 {
 	return String::compose (_("Email problem report for %1"), _film->name());
+}
+
+string
+SendProblemReportJob::json_name () const
+{
+	return N_("send_problem_report");
 }
 
 void

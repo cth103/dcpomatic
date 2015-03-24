@@ -52,6 +52,12 @@ SendKDMEmailJob::name () const
 	return String::compose (_("Email KDMs for %1"), _film->name());
 }
 
+string
+SendKDMEmailJob::json_name () const
+{
+	return N_("send_kdm_email");
+}
+
 void
 SendKDMEmailJob::run ()
 {

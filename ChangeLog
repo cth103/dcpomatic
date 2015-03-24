@@ -1,5 +1,7 @@
 2015-03-24  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply e30fd8d; resurrect JSON server code.
+
 	* Hand-apply 7ba9dcdbfe8f0d94ad9887843995c152c45dfe9e from master;
 	allow "deletion" of the audio part of a FFmpeg file from the
 	timeline; delete unmaps the audio (#316).
