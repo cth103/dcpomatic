@@ -135,6 +135,40 @@ TimingPanel::TimingPanel (ContentPanel* p)
 }
 
 void
+TimingPanel::update_full_length ()
+{
+	ContentList cl = _parent->selected ();
+
+	set<DCPTime> check;
+	for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+		check.insert ((*i)->full_length ());
+	}
+	
+	if (check.size() == 1) {
+		_full_length->set (cl.front()->full_length (), _parent->film()->video_frame_rate ());
+	} else {
+		_full_length->clear ();
+	}
+}
+
+void
+TimingPanel::update_play_length ()
+{
+	ContentList cl = _parent->selected ();
+
+	set<DCPTime> check;
+	for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
+		check.insert ((*i)->length_after_trim ());
+	}
+	
+	if (check.size() == 1) {
+		_play_length->set (cl.front()->length_after_trim (), _parent->film()->video_frame_rate ());
+	} else {
+		_play_length->clear ();
+	}
+}
+
+void
 TimingPanel::film_content_changed (int property)
 {
 	ContentList cl = _parent->selected ();
@@ -163,16 +197,7 @@ TimingPanel::film_content_changed (int property)
 		property == VideoContentProperty::VIDEO_FRAME_TYPE
 		) {
 
-		set<DCPTime> check;
-		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			check.insert ((*i)->full_length ());
-		}
-		
-		if (check.size() == 1) {
-			_full_length->set (cl.front()->full_length (), film_video_frame_rate);
-		} else {
-			_full_length->clear ();
-		}
+		update_full_length ();
 
 	} else if (property == ContentProperty::TRIM_START) {
 
@@ -209,16 +234,7 @@ TimingPanel::film_content_changed (int property)
 		property == VideoContentProperty::VIDEO_FRAME_TYPE
 		) {
 
-		set<DCPTime> check;
-		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			check.insert ((*i)->length_after_trim ());
-		}
-		
-		if (check.size() == 1) {
-			_play_length->set (cl.front()->length_after_trim (), film_video_frame_rate);
-		} else {
-			_play_length->clear ();
-		}
+		update_play_length ();
 	}
 
 	if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
@@ -339,4 +355,13 @@ TimingPanel::content_selection_changed ()
 	film_content_changed (ContentProperty::TRIM_START);
 	film_content_changed (ContentProperty::TRIM_END);
 	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+}
+
+void
+TimingPanel::film_changed (Film::Property p)
+{
+	if (p == Film::VIDEO_FRAME_RATE) {
+		update_full_length ();
+		update_play_length ();
+	}
 }

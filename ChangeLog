@@ -1,3 +1,9 @@
+2015-03-25  Carl Hetherington  <cth@carlh.net>
+
+	* Hand-apply 3e3d3e46a74af7b3e6431033c7c80bd058c02cf6update;
+	full/play length in the timing panel when the DCP frame rate is
+	changed.
+
 2015-03-24  Carl Hetherington  <cth@carlh.net>
 
 	* Hand-apply 31eafa8a121b8d341d198e4fe426ee843cc70167; add a note
