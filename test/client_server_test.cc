@@ -31,7 +31,6 @@
 #include "lib/image.h"
 #include "lib/cross.h"
 #include "lib/dcp_video.h"
-#include "lib/scaler.h"
 #include "lib/player_video.h"
 #include "lib/raw_image_proxy.h"
 #include "lib/encoded_data.h"
@@ -90,7 +89,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			optional<float> (),
 			dcp::Size (1998, 1080),
 			dcp::Size (1998, 1080),
-			Scaler::from_id ("bicubic"),
 			EYES_BOTH,
 			PART_WHOLE,
 			ColourConversion ()
@@ -174,7 +172,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			optional<float> (),
 			dcp::Size (1998, 1080),
 			dcp::Size (1998, 1080),
-			Scaler::from_id ("bicubic"),
 			EYES_BOTH,
 			PART_WHOLE,
 			ColourConversion ()

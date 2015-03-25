@@ -31,7 +31,6 @@
 #include "log.h"
 #include "exceptions.h"
 #include "examine_content_job.h"
-#include "scaler.h"
 #include "config.h"
 #include "ui_signaller.h"
 #include "playlist.h"
@@ -120,7 +119,6 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
 	, _resolution (RESOLUTION_2K)
-	, _scaler (Scaler::from_id ("bicubic"))
 	, _signed (true)
 	, _encrypted (false)
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
@@ -186,7 +184,6 @@ Film::video_identifier () const
 	  << "_" << resolution_to_string (_resolution)
 	  << "_" << _playlist->video_identifier()
 	  << "_" << _video_frame_rate
-	  << "_" << scaler()->id()
 	  << "_" << j2k_bandwidth();
 
 	if (encrypted ()) {
@@ -359,7 +356,6 @@ Film::metadata () const
 	}
 
 	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
-	root->add_child("Scaler")->add_child_text (_scaler->id ());
 	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
 	_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
@@ -431,7 +427,6 @@ Film::read_metadata ()
 	}
 
 	_resolution = string_to_resolution (f.string_child ("Resolution"));
-	_scaler = Scaler::from_id (f.string_child ("Scaler"));
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
 	_signed = f.optional_bool_child("Signed").get_value_or (true);
@@ -733,13 +728,6 @@ Film::set_resolution (Resolution r)
 {
 	_resolution = r;
 	signal_changed (RESOLUTION);
-}
-
-void
-Film::set_scaler (Scaler const * s)
-{
-	_scaler = s;
-	signal_changed (SCALER);
 }
 
 void

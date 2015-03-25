@@ -36,7 +36,6 @@
 #include "raw_image_proxy.h"
 #include "ratio.h"
 #include "log.h"
-#include "scaler.h"
 #include "render_subtitles.h"
 #include "config.h"
 #include "content_video.h"
@@ -247,7 +246,7 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::SCALER || p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
+	if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
 	}
 }
@@ -281,7 +280,6 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 			PositionImage (
 				i->image->scale (
 					scaled_size,
-					Scaler::from_id ("bicubic"),
 					i->image->pixel_format (),
 					true
 					),
@@ -313,7 +311,6 @@ Player::black_player_video_frame (DCPTime time) const
 			optional<float> (),
 			_video_container_size,
 			_video_container_size,
-			Scaler::from_id ("bicubic"),
 			EYES_BOTH,
 			PART_WHOLE,
 			Config::instance()->colour_conversions().front().conversion
@@ -366,7 +363,6 @@ Player::get_video (DCPTime time, bool accurate)
 						content->fade (i->frame),
 						image_size,
 						_video_container_size,
-						_film->scaler(),
 						i->eyes,
 						i->part,
 						content->colour_conversion ()

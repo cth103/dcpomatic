@@ -26,7 +26,6 @@
 #include <boost/test/unit_test.hpp>
 #include <Magick++.h>
 #include "lib/image.h"
-#include "lib/scaler.h"
 
 using std::string;
 using std::list;
@@ -157,7 +156,7 @@ BOOST_AUTO_TEST_CASE (crop_image_test2)
 	image = image->crop (crop, true);
 
 	/* Convert it back to RGB to make comparison to black easier */
-	image = image->scale (image->size(), Scaler::from_id ("bicubic"), PIX_FMT_RGB24, true);
+	image = image->scale (image->size(), PIX_FMT_RGB24, true);
 
 	/* Check that its still black after the crop */
 	uint8_t* p = image->data()[0];
@@ -251,13 +250,13 @@ crop_scale_window_single (AVPixelFormat in_format, dcp::Size in_size, Crop crop,
 				
 	/* Convert using separate methods */
 	boost::shared_ptr<Image> sep = test->crop (crop, true);
-	sep = sep->scale (inter_size, Scaler::from_id ("bicubic"), PIX_FMT_RGB24, true);
+	sep = sep->scale (inter_size, PIX_FMT_RGB24, true);
 	boost::shared_ptr<Image> sep_container (new Image (PIX_FMT_RGB24, out_size, true));
 	sep_container->make_black ();
 	sep_container->copy (sep, Position<int> ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2));
 
 	/* Convert using the all-in-one method */
-	shared_ptr<Image> all = test->crop_scale_window (crop, inter_size, out_size, Scaler::from_id ("bicubic"), PIX_FMT_RGB24, true);
+	shared_ptr<Image> all = test->crop_scale_window (crop, inter_size, out_size, PIX_FMT_RGB24, true);
 
 	/* Compare */
 	BOOST_CHECK_EQUAL (sep_container->size().width, all->size().width);

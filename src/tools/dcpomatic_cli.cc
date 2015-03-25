@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@
 #include "lib/transcode_job.h"
 #include "lib/job_manager.h"
 #include "lib/util.h"
-#include "lib/scaler.h"
 #include "lib/version.h"
 #include "lib/cross.h"
 #include "lib/config.h"

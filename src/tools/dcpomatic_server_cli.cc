@@ -36,7 +36,6 @@
 #include "lib/exceptions.h"
 #include "lib/util.h"
 #include "lib/config.h"
-#include "lib/scaler.h"
 #include "lib/image.h"
 #include "lib/log.h"
 #include "lib/version.h"
@@ -100,7 +99,6 @@ main (int argc, char* argv[])
 		}
 	}
 
-	Scaler::setup_scalers ();
 	shared_ptr<Log> log;
 	if (write_log) {
 		log.reset (new FileLog ("dcpomatic_server_cli.log"));

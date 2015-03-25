@@ -26,7 +26,6 @@
 #include "lib/util.h"
 #include "lib/job_manager.h"
 #include "lib/image.h"
-#include "lib/scaler.h"
 #include "lib/exceptions.h"
 #include "lib/examine_content_job.h"
 #include "lib/filter.h"
@@ -181,7 +180,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 	if (!pvf.empty ()) {
 		try {
 			_frame = pvf.front()->image (PIX_FMT_RGB24, true, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
-			_frame = _frame->scale (_frame->size(), Scaler::from_id ("fastbilinear"), PIX_FMT_RGB24, false);
+			_frame = _frame->scale (_frame->size(), PIX_FMT_RGB24, false);
 			_position = pvf.front()->time ();
 			_inter_position = pvf.front()->inter_position ();
 			_inter_size = pvf.front()->inter_size ();

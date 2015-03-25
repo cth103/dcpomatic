@@ -23,7 +23,6 @@
 
 #include "util.h"
 #include "exceptions.h"
-#include "scaler.h"
 #include "dcp_content_type.h"
 #include "filter.h"
 #include "cinema_sound_processor.h"
@@ -327,7 +326,6 @@ dcpomatic_setup ()
 	Ratio::setup_ratios ();
 	VideoContentScale::setup_scales ();
 	DCPContentType::setup_dcp_content_types ();
-	Scaler::setup_scalers ();
 	Filter::setup_filters ();
 	CinemaSoundProcessor::setup_cinema_sound_processors ();
 	AudioProcessor::setup_audio_processors ();

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -205,12 +205,12 @@ class App : public wxApp
 		/* Enable i18n; this will create a Config object
 		   to look for a force-configured language.  This Config
 		   object will be wrong, however, because dcpomatic_setup
-		   hasn't yet been called and there aren't any scalers, filters etc.
+		   hasn't yet been called and there aren't any filters etc.
 		   set up yet.
 		*/
 		dcpomatic_setup_i18n ();
 
-		/* Set things up, including scalers / filters etc.
+		/* Set things up, including filters etc.
 		   which will now be internationalised correctly.
 		*/
 		dcpomatic_setup ();

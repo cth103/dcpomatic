@@ -33,7 +33,6 @@
 #include <dcp/signer.h>
 #include "lib/config.h"
 #include "lib/ratio.h"
-#include "lib/scaler.h"
 #include "lib/filter.h"
 #include "lib/dcp_content_type.h"
 #include "lib/colour_conversion.h"

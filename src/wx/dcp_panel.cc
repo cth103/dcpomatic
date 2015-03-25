@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 #include "wx_util.h"
 #include "isdcf_metadata_dialog.h"
 #include "lib/ratio.h"
-#include "lib/scaler.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
 #include "lib/util.h"
@@ -248,9 +247,6 @@ DCPPanel::film_changed (int p)
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
 		break;
-	case Film::SCALER:
-		checked_set (_scaler, Scaler::as_index (_film->scaler ()));
-		break;
 	case Film::BURN_SUBTITLES:
 		checked_set (_burn_subtitles, _film->burn_subtitles ());
 		break;
@@ -391,7 +387,6 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::DCP_CONTENT_TYPE);
 	film_changed (Film::CONTAINER);
 	film_changed (Film::RESOLUTION);
-	film_changed (Film::SCALER);
 	film_changed (Film::SIGNED);
 	film_changed (Film::BURN_SUBTITLES);
 	film_changed (Film::ENCRYPTED);
@@ -428,23 +423,8 @@ DCPPanel::set_general_sensitivity (bool s)
 	_container->Enable (s);
 	_best_frame_rate->Enable (s && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
 	_resolution->Enable (s);
-	_scaler->Enable (s);
 	_three_d->Enable (s);
 	_standard->Enable (s);
-}
-
-/** Called when the scaler widget has been changed */
-void
-DCPPanel::scaler_changed ()
-{
-	if (!_film) {
-		return;
-	}
-
-	int const n = _scaler->GetSelection ();
-	if (n >= 0) {
-		_film->set_scaler (Scaler::from_index (n));
-	}
 }
 
 void
@@ -576,13 +556,7 @@ DCPPanel::make_video_panel ()
 	}
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, panel, _("Scaler"), true, wxGBPosition (r, 0));
-	_scaler = new wxChoice (panel, wxID_ANY);
-	grid->Add (_scaler, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
 	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::container_changed, this));
-	_scaler->Bind		(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::scaler_changed, this));
 	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
 	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
@@ -590,11 +564,6 @@ DCPPanel::make_video_panel ()
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
 	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::resolution_changed, this));
 	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::three_d_changed, this));
-
-	vector<Scaler const *> const sc = Scaler::all ();
-	for (vector<Scaler const *>::const_iterator i = sc.begin(); i != sc.end(); ++i) {
-		_scaler->Append (std_to_wx ((*i)->name()));
-	}
 
 	vector<Ratio const *> const ratio = Ratio::all ();
 	for (vector<Ratio const *>::const_iterator i = ratio.begin(); i != ratio.end(); ++i) {

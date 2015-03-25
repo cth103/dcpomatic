@@ -23,7 +23,6 @@
 
 #include "image.h"
 #include "exceptions.h"
-#include "scaler.h"
 #include "timer.h"
 #include "rect.h"
 #include "util.h"
@@ -88,9 +87,8 @@ Image::components () const
 
 /** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size' */
 shared_ptr<Image>
-Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
+Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, AVPixelFormat out_format, bool out_aligned) const
 {
-	DCPOMATIC_ASSERT (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
 	*/
@@ -110,7 +108,7 @@ Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, S
 	struct SwsContext* scale_context = sws_getContext (
 			cropped_size.width, cropped_size.height, pixel_format(),
 			inter_size.width, inter_size.height, out_format,
-			scaler->ffmpeg_id (), 0, 0, 0
+			SWS_BICUBIC, 0, 0, 0
 		);
 
 	if (!scale_context) {
@@ -144,9 +142,8 @@ Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, S
 }
 
 shared_ptr<Image>
-Image::scale (dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_format, bool out_aligned) const
+Image::scale (dcp::Size out_size, AVPixelFormat out_format, bool out_aligned) const
 {
-	DCPOMATIC_ASSERT (scaler);
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
 	*/
@@ -157,7 +154,7 @@ Image::scale (dcp::Size out_size, Scaler const * scaler, AVPixelFormat out_forma
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		out_size.width, out_size.height, out_format,
-		scaler->ffmpeg_id (), 0, 0, 0
+		SWS_BICUBIC, 0, 0, 0
 		);
 
 	sws_scale (

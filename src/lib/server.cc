@@ -24,7 +24,6 @@
 
 #include "server.h"
 #include "dcpomatic_socket.h"
-#include "scaler.h"
 #include "image.h"
 #include "dcp_video.h"
 #include "config.h"

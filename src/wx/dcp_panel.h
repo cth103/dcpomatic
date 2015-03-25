@@ -55,7 +55,6 @@ private:
 	void copy_isdcf_name_button_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
-	void scaler_changed ();
 	void j2k_bandwidth_changed ();
 	void frame_rate_choice_changed ();
 	void frame_rate_spin_changed ();
@@ -89,7 +88,6 @@ private:
 	wxChoice* _container;
 	wxButton* _edit_isdcf_button;
 	wxButton* _copy_isdcf_name_button;
-	wxChoice* _scaler;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxChoice* _dcp_content_type;
 	wxChoice* _frame_rate_choice;

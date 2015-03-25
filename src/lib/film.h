@@ -45,7 +45,6 @@ class Content;
 class Player;
 class Playlist;
 class AudioContent;
-class Scaler;
 class Screen;
 struct isdcf_name_test;
 
@@ -159,7 +158,6 @@ public:
 		DCP_CONTENT_TYPE,
 		CONTAINER,
 		RESOLUTION,
-		SCALER,
 		SIGNED,
 		ENCRYPTED,
 		J2K_BANDWIDTH,
@@ -199,10 +197,6 @@ public:
 
 	Resolution resolution () const {
 		return _resolution;
-	}
-
-	Scaler const * scaler () const {
-		return _scaler;
 	}
 
 	/* signed is a reserved word */
@@ -262,7 +256,6 @@ public:
 	void set_dcp_content_type (DCPContentType const *);
 	void set_container (Ratio const *);
 	void set_resolution (Resolution);
-	void set_scaler (Scaler const *);
 	void set_signed (bool);
 	void set_encrypted (bool);
 	void set_j2k_bandwidth (int);
@@ -314,8 +307,6 @@ private:
 	Ratio const * _container;
 	/** DCP resolution (2K or 4K) */
 	Resolution _resolution;
-	/** Scaler algorithm to use */
-	Scaler const * _scaler;
 	bool _signed;
 	bool _encrypted;
 	/** bandwidth for J2K files in bits per second */

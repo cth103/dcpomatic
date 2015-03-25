@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,12 +25,10 @@
 #include "lib/film.h"
 #include "lib/filter.h"
 #include "lib/util.h"
-#include "lib/scaler.h"
 #include "lib/server.h"
 #include "lib/dcp_video.h"
 #include "lib/decoder.h"
 #include "lib/exceptions.h"
-#include "lib/scaler.h"
 #include "lib/log.h"
 #include "lib/video_decoder.h"
 #include "lib/player.h"

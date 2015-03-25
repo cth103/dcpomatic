@@ -28,7 +28,6 @@ extern "C" {
 
 class Image;
 class ImageProxy;
-class Scaler;
 class Socket;
 class EncodedData;
 
@@ -46,7 +45,6 @@ public:
 		boost::optional<float>,
 		dcp::Size,
 		dcp::Size,
-		Scaler const *,
 		Eyes,
 		Part,
 		boost::optional<ColourConversion>
@@ -93,7 +91,6 @@ private:
 	boost::optional<float> _fade;
 	dcp::Size _inter_size;
 	dcp::Size _out_size;
-	Scaler const * _scaler;
 	Eyes _eyes;
 	Part _part;
 	boost::optional<ColourConversion> _colour_conversion;

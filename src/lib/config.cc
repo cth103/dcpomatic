@@ -19,7 +19,6 @@
 
 #include "config.h"
 #include "server.h"
-#include "scaler.h"
 #include "filter.h"
 #include "ratio.h"
 #include "dcp_content_type.h"

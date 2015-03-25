@@ -1,5 +1,7 @@
 2015-03-25  Carl Hetherington  <cth@carlh.net>
 
+	* Remove scaler settings and just uses SWS_BICUBIC all round.
+
 	* Hand-apply ec3e6abf817b84d589f0782b01f5059dd3bf0953; only allow
 	even DCP audio channel counts between 2 and 16 inclusive.
 

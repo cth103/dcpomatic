@@ -22,7 +22,6 @@
 #include "image.h"
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
-#include "scaler.h"
 #include "film.h"
 
 using std::string;
@@ -39,7 +38,6 @@ PlayerVideo::PlayerVideo (
 	boost::optional<float> fade,
 	dcp::Size inter_size,
 	dcp::Size out_size,
-	Scaler const * scaler,
 	Eyes eyes,
 	Part part,
 	optional<ColourConversion> colour_conversion
@@ -50,7 +48,6 @@ PlayerVideo::PlayerVideo (
 	, _fade (fade)
 	, _inter_size (inter_size)
 	, _out_size (out_size)
-	, _scaler (scaler)
 	, _eyes (eyes)
 	, _part (part)
 	, _colour_conversion (colour_conversion)
@@ -66,7 +63,6 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 
 	_inter_size = dcp::Size (node->number_child<int> ("InterWidth"), node->number_child<int> ("InterHeight"));
 	_out_size = dcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));
-	_scaler = Scaler::from_id (node->string_child ("Scaler"));
 	_eyes = (Eyes) node->number_child<int> ("Eyes");
 	_part = (Part) node->number_child<int> ("Part");
 
@@ -116,7 +112,7 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 		break;
 	}
 		
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, _scaler, pixel_format, true);
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, pixel_format, true);
 
 	if (burn_subtitle && _subtitle.image) {
 		out->alpha_blend (_subtitle.image, _subtitle.position);
@@ -142,7 +138,6 @@ PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
 	node->add_child("InterHeight")->add_child_text (raw_convert<string> (_inter_size.height));
 	node->add_child("OutWidth")->add_child_text (raw_convert<string> (_out_size.width));
 	node->add_child("OutHeight")->add_child_text (raw_convert<string> (_out_size.height));
-	node->add_child("Scaler")->add_child_text (_scaler->id ());
 	node->add_child("Eyes")->add_child_text (raw_convert<string> (_eyes));
 	node->add_child("Part")->add_child_text (raw_convert<string> (_part));
 	if (_colour_conversion) {
@@ -203,7 +198,6 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 	    _fade.get_value_or(0) != other->_fade.get_value_or(0) ||
 	    _inter_size != other->_inter_size ||
 	    _out_size != other->_out_size ||
-	    _scaler != other->_scaler ||
 	    _eyes != other->_eyes ||
 	    _part != other->_part ||
 	    _colour_conversion != other->_colour_conversion ||

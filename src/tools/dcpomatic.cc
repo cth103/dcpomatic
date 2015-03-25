@@ -787,12 +787,12 @@ private:
 		/* Enable i18n; this will create a Config object
 		   to look for a force-configured language.  This Config
 		   object will be wrong, however, because dcpomatic_setup
-		   hasn't yet been called and there aren't any scalers, filters etc.
+		   hasn't yet been called and there aren't any filters etc.
 		   set up yet.
 		*/
 		dcpomatic_setup_i18n ();
 
-		/* Set things up, including scalers / filters etc.
+		/* Set things up, including filters etc.
 		   which will now be internationalised correctly.
 		*/
 		dcpomatic_setup ();
