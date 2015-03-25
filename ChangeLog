@@ -1,5 +1,9 @@
 2015-03-24  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply 31eafa8a121b8d341d198e4fe426ee843cc70167; add a note
+	to the timing panel to try to stop people changing the video frame
+	rate in the wrong circumstances.
+
 	* Hand-apply e30fd8d; resurrect JSON server code.
 
 	* Hand-apply 7ba9dcdbfe8f0d94ad9887843995c152c45dfe9e from master;

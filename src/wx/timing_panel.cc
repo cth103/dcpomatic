@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -100,6 +100,30 @@ TimingPanel::TimingPanel (ContentPanel* p)
 		s->Add (_set_video_frame_rate, 0, wxLEFT | wxRIGHT, 8);
 		grid->Add (s, 1, wxEXPAND);
 	}
+
+	grid->AddSpacer (0);
+
+	/* We can't use Wrap() here as it doesn't work with markup:
+	 * http://trac.wxwidgets.org/ticket/13389
+	 */
+
+	wxString in = _("<i>Only change this if it the content's frame rate has been read incorrectly.</i>");
+	wxString out;
+	int const width = 20;
+	int current = 0;
+	for (size_t i = 0; i < in.Length(); ++i) {
+		if (in[i] == ' ' && current >= width) {
+			out += '\n';
+			current = 0;
+		} else {
+			out += in[i];
+			++current;
+		}
+	}
+	
+	t = new wxStaticText (this, wxID_ANY, wxT (""));
+	t->SetLabelMarkup (out);
+	grid->Add (t, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
 
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
