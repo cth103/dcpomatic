@@ -437,6 +437,14 @@ Film::read_metadata ()
 	_signed = f.optional_bool_child("Signed").get_value_or (true);
 	_encrypted = f.bool_child ("Encrypted");
 	_audio_channels = f.number_child<int> ("AudioChannels");
+	/* We used to allow odd numbers (and zero) channels, but it's just not worth
+	   the pain.
+	*/
+	if (_audio_channels == 0) {
+		_audio_channels = 2;
+	} else if ((_audio_channels % 2) == 1) {
+		_audio_channels++;
+	}
 	_sequence_video = f.bool_child ("SequenceVideo");
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");

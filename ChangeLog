@@ -1,5 +1,8 @@
 2015-03-25  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply ec3e6abf817b84d589f0782b01f5059dd3bf0953; only allow
+	even DCP audio channel counts between 2 and 16 inclusive.
+
 	* Hand-apply 3e3d3e46a74af7b3e6431033c7c80bd058c02cf6update;
 	full/play length in the timing panel when the DCP frame rate is
 	changed.

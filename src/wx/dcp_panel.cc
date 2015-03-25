@@ -208,7 +208,7 @@ DCPPanel::audio_channels_changed ()
 		return;
 	}
 
-	_film->set_audio_channels (_audio_channels->GetValue ());
+	_film->set_audio_channels ((_audio_channels->GetSelection () + 1) * 2);
 }
 
 void
@@ -304,7 +304,7 @@ DCPPanel::film_changed (int p)
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
-		checked_set (_audio_channels, _film->audio_channels ());
+		checked_set (_audio_channels, (_film->audio_channels () / 2) - 1);
 		setup_dcp_name ();
 		break;
 	case Film::THREE_D:
@@ -626,13 +626,14 @@ DCPPanel::make_audio_panel ()
 
 	int r = 0;
 	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
-	_audio_channels = new wxSpinCtrl (panel, wxID_ANY);
+	_audio_channels = new wxChoice (panel, wxID_ANY);
+	for (int i = 2; i <= 16; i += 2) {
+		_audio_channels->Append (wxString::Format ("%d", i));
+	}
 	grid->Add (_audio_channels, wxGBPosition (r, 1));
 	++r;
 
-	_audio_channels->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DCPPanel::audio_channels_changed, this));
-
-	_audio_channels->SetRange (0, MAX_DCP_AUDIO_CHANNELS);
+	_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_channels_changed, this));
 
 	return panel;
 }

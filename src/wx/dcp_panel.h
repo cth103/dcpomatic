@@ -95,7 +95,7 @@ private:
 	wxChoice* _frame_rate_choice;
 	wxSpinCtrl* _frame_rate_spin;
 	wxSizer* _frame_rate_sizer;
-	wxSpinCtrl* _audio_channels;
+	wxChoice* _audio_channels;
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
 	wxChoice* _resolution;
