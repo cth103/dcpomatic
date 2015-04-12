@@ -1,5 +1,8 @@
 2015-04-12  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply c0e0b90d987af2586323d4a67bd67330256da51d from master;
+	remove 1.37 ratio and set Academy to 1.375.
+
 	* Hand-apply 83f1ea8eacb4d56860ccdb9db5acdf12c6e71dfb from master;
 	ellipsize filters strings if it is long.
 

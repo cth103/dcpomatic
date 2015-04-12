@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,8 +34,7 @@ Ratio::setup_ratios ()
 {
 	_ratios.push_back (new Ratio (float(1290) / 1080, "119", _("1.19"), "119"));
 	_ratios.push_back (new Ratio (float(1440) / 1080, "133", _("4:3"), "133"));
-	_ratios.push_back (new Ratio (float(1480) / 1080, "137", _("Academy"), "137"));
-	_ratios.push_back (new Ratio (float(1485) / 1080, "138", _("1.375"), "137"));
+	_ratios.push_back (new Ratio (float(1485) / 1080, "138", _("Academy"), "137"));
 	_ratios.push_back (new Ratio (float(1800) / 1080, "166", _("1.66"), "166"));
 	_ratios.push_back (new Ratio (float(1920) / 1080, "178", _("16:9"), "178"));
 	_ratios.push_back (new Ratio (float(1998) / 1080, "185", _("Flat"), "F"));
