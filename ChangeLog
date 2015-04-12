@@ -1,3 +1,9 @@
+2015-04-12  Carl Hetherington  <cth@carlh.net>
+
+	* Hand-apply 24ae3a8f0a68529b50c34079e643caf6b9327523 from master;
+	use the number of mapped audio channels for the DCP name, not the
+	number of DCP channels (#479).
+
 2015-03-25  Carl Hetherington  <cth@carlh.net>
 
 	* Remove scaler settings and just uses SWS_BICUBIC all round.

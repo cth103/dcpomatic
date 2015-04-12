@@ -581,11 +581,12 @@ Film::isdcf_name (bool if_created_now) const
 		d << "_" << container()->isdcf_name();
 	}
 
+	ContentList cl = content ();
+	
 	/* XXX: this uses the first bit of content only */
 
 	/* The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
-		ContentList cl = content ();
 		Ratio const * content_ratio = 0;
 		for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
@@ -621,25 +622,34 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	switch (audio_channels ()) {
-	case 1:
-		d << "_10";
-		break;
-	case 2:
-		d << "_20";
-		break;
-	case 3:
-		d << "_30";
-		break;
-	case 4:
-		d << "_40";
-		break;
-	case 5:
-		d << "_50";
-		break;
-	case 6:
-		d << "_51";
-		break;
+	/* Find all mapped channels */
+
+	list<dcp::Channel> mapped;
+	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*i);
+		if (ac) {
+			list<dcp::Channel> c = ac->audio_mapping().mapped_dcp_channels ();
+			copy (c.begin(), c.end(), back_inserter (mapped));
+		}
+	}
+
+	mapped.sort ();
+	mapped.unique ();
+	
+	/* Count them */
+			
+	int non_lfe = 0;
+	int lfe = 0;
+	for (list<dcp::Channel>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
+		if ((*i) == dcp::LFE) {
+			++lfe;
+		} else {
+			++non_lfe;
+		}
+	}
+
+	if (non_lfe) {
+		d << "_" << non_lfe << lfe;
 	}
 
 	/* XXX: HI/VI */
@@ -1014,7 +1024,11 @@ Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
-	} 
+	} else if (
+		p == AudioContentProperty::AUDIO_MAPPING ||
+		p == AudioContentProperty::AUDIO_CHANNELS) {
+		signal_changed (NAME);
+	}
 
 	if (ui_signaller) {
 		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), c, p));
@@ -1025,6 +1039,7 @@ void
 Film::playlist_changed ()
 {
 	signal_changed (CONTENT);
+	signal_changed (NAME);
 }	
 
 int
