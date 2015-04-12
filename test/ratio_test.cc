@@ -41,10 +41,6 @@ BOOST_AUTO_TEST_CASE (ratio_test)
 	BOOST_CHECK (r);
 	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080), 1), dcp::Size (1440, 1080));
 
-	r = Ratio::from_id ("137");
-	BOOST_CHECK (r);
-	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080), 1), dcp::Size (1480, 1080));
-
 	r = Ratio::from_id ("138");
 	BOOST_CHECK (r);
 	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080), 1), dcp::Size (1485, 1080));
