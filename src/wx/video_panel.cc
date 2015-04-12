@@ -262,10 +262,13 @@ VideoPanel::film_content_changed (int property)
 		}
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (fcs) {
-			string const p = Filter::ffmpeg_string (fcs->filters ());
+			string p = Filter::ffmpeg_string (fcs->filters ());
 			if (p.empty ()) {
 				_filters->SetLabel (_("None"));
 			} else {
+				if (p.length() > 25) {
+					p = p.substr (0, 25) + "...";
+				}
 				_filters->SetLabel (std_to_wx (p));
 			}
 		}

@@ -1,5 +1,8 @@
 2015-04-12  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply 83f1ea8eacb4d56860ccdb9db5acdf12c6e71dfb from master;
+	ellipsize filters strings if it is long.
+
 	* Hand-apply 24ae3a8f0a68529b50c34079e643caf6b9327523 from master;
 	use the number of mapped audio channels for the DCP name, not the
 	number of DCP channels (#479).
