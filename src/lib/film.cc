@@ -641,6 +641,11 @@ Film::isdcf_name (bool if_created_now) const
 	int non_lfe = 0;
 	int lfe = 0;
 	for (list<dcp::Channel>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
+		if (static_cast<int> (*i) >= audio_channels()) {
+			/* This channel is mapped but is not included in the DCP */
+			continue;
+		}
+		
 		if ((*i) == dcp::LFE) {
 			++lfe;
 		} else {
