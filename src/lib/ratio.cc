@@ -45,6 +45,11 @@ Ratio::setup_ratios ()
 Ratio const *
 Ratio::from_id (string i)
 {
+	/* We removed the ratio with id 137; replace it with 138 */
+	if (i == "137") {
+		i = "138";
+	}
+	
 	vector<Ratio const *>::iterator j = _ratios.begin ();
 	while (j != _ratios.end() && (*j)->id() != i) {
 		++j;

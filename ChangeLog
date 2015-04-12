@@ -1,5 +1,8 @@
 2015-04-12  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply 69866d9ba972d21375081c313ac245535ac55be9 from master;
+	handle removed ratio if it occurs in old files.
+
 	* Hand-apply c0e0b90d987af2586323d4a67bd67330256da51d from master;
 	remove 1.37 ratio and set Academy to 1.375.
 
