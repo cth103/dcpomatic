@@ -78,6 +78,8 @@ private:
 	void setup ();
 	void setup_sensitivity ();
 
+	void add_files (std::list<boost::filesystem::path>);
+
 	wxPanel* _panel;
 	wxSizer* _sizer;
 	wxNotebook* _notebook;
