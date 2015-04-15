@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,11 +70,6 @@ public:
 			table->Add (s, 0);
 		}
 
-		std::vector<T> current = _get ();
-		for (typename std::vector<T>::iterator i = current.begin (); i != current.end(); ++i) {
-			add_to_control (*i);
-		}
-
 		_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
 		_copy->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::copy_clicked, this));
 		_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::edit_clicked, this));
@@ -86,6 +81,16 @@ public:
 		selection_changed ();
 
 	}
+
+	void refresh ()
+	{
+		_list->DeleteAllItems ();
+		
+		std::vector<T> current = _get ();
+		for (typename std::vector<T>::iterator i = current.begin (); i != current.end(); ++i) {
+			add_to_control (*i);
+		}
+	}		
 
 private:	
 

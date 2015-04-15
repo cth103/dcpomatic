@@ -58,25 +58,32 @@ Config* Config::_instance = 0;
 
 /** Construct default configuration */
 Config::Config ()
-	: _num_local_encoding_threads (max (2U, boost::thread::hardware_concurrency()))
-	, _server_port_base (6192)
-	, _use_any_servers (true)
-	, _tms_path (".")
-	, _cinema_sound_processor (CinemaSoundProcessor::from_id (N_("dolby_cp750")))
-	, _allow_any_dcp_frame_rate (false)
-	, _default_still_length (10)
-	, _default_container (Ratio::from_id ("185"))
-	, _default_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"))
-	, _default_j2k_bandwidth (100000000)
-	, _default_audio_delay (0)
-	, _check_for_updates (false)
-	, _check_for_test_updates (false)
-	, _maximum_j2k_bandwidth (250000000)
-	, _log_types (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR | Log::TYPE_DEBUG)
-#ifdef DCPOMATIC_WINDOWS	  
-	, _win32_console (false)
-#endif	  
 {
+	set_defaults ();
+}
+
+void
+Config::set_defaults ()
+{
+	_num_local_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
+	_server_port_base = 6192;
+	_use_any_servers = true;
+	_tms_path = ".";
+	_cinema_sound_processor = CinemaSoundProcessor::from_id (N_("dolby_cp750"));
+	_allow_any_dcp_frame_rate = false;
+	_default_still_length = 10;
+	_default_container = Ratio::from_id ("185");
+	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
+	_default_j2k_bandwidth = 100000000;
+	_default_audio_delay = 0;
+	_check_for_updates = false;
+	_check_for_test_updates = false;
+	_maximum_j2k_bandwidth = 250000000;
+	_log_types = Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR | Log::TYPE_DEBUG;
+#ifdef DCPOMATIC_WINDOWS	  
+	_win32_console = false;
+#endif	  
+
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
 	_allowed_dcp_frame_rates.push_back (30);
@@ -87,7 +94,14 @@ Config::Config ()
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
 	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
 
-	reset_kdm_email ();
+	set_kdm_email_to_default ();
+}
+
+void
+Config::restore_defaults ()
+{
+	Config::instance()->set_defaults ();
+	Config::instance()->changed ();
 }
 
 void
@@ -419,7 +433,7 @@ Config::changed ()
 }
 
 void
-Config::reset_kdm_email ()
+Config::set_kdm_email_to_default ()
 {
 	_kdm_email = _(
 		"Dear Projectionist\n\n"
@@ -429,6 +443,13 @@ Config::reset_kdm_email ()
 		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
 		"Best regards,\nDCP-o-matic"
 		);
+}
+
+void
+Config::reset_kdm_email ()
+{
+	set_kdm_email_to_default ();
+	changed ();
 }
 
 void

@@ -1,3 +1,8 @@
+2015-04-15  c.hetherington  <cth@carlh.net>
+
+	* Hand-apply 94998e12d117f3f1781dfb1318939debfbf34546 from master;
+	add option to restore the default configuration.
+
 2015-04-12  Carl Hetherington  <cth@carlh.net>
 
 	* Hand-apply 69866d9ba972d21375081c313ac245535ac55be9 from master;

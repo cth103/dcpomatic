@@ -63,5 +63,6 @@ public:
 
 bool operator== (ColourConversion const &, ColourConversion const &);
 bool operator!= (ColourConversion const &, ColourConversion const &);
+bool operator== (PresetColourConversion const &, PresetColourConversion const &);
 
 #endif
