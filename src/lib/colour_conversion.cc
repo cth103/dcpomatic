@@ -216,3 +216,9 @@ operator!= (ColourConversion const & a, ColourConversion const & b)
 {
 	return !(a == b);
 }
+
+bool
+operator== (PresetColourConversion const & a, PresetColourConversion const & b)
+{
+	return a.name == b.name && a.conversion == b.conversion;
+}

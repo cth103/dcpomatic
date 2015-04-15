@@ -127,6 +127,7 @@ enum {
 	ID_file_save,
 	ID_file_properties,
 	ID_file_history,
+	ID_edit_restore_default_preferences,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_content_scale_to_fit_width = 100,
 	ID_content_scale_to_fit_height,
@@ -189,6 +190,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_restore_default_preferences, this), ID_edit_restore_default_preferences);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),           ID_jobs_make_dcp);
@@ -389,6 +391,11 @@ private:
 			_config_dialog = create_config_dialog ();
 		}
 		_config_dialog->Show (this);
+	}
+
+	void edit_restore_default_preferences ()
+	{
+		Config::restore_defaults ();
 	}
 
 	void jobs_make_dcp ()
@@ -660,9 +667,11 @@ private:
 	
 #ifdef __WXOSX__	
 		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
+		add_item (_file_menu, _("Restore default preferences"), ID_edit_restore_default_preferences, ALWAYS);
 #else
 		wxMenu* edit = new wxMenu;
 		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
+		add_item (edit, _("Restore default preferences"), ID_edit_restore_default_preferences, ALWAYS);
 #endif
 
 		wxMenu* content = new wxMenu;

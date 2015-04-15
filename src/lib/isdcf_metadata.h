@@ -62,4 +62,6 @@ public:
 	std::string mastered_luminance;
 };
 
+bool operator== (ISDCFMetadata const & a, ISDCFMetadata const & b);
+
 #endif

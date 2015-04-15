@@ -49,7 +49,6 @@ class Cinema;
 class Config : public boost::noncopyable
 {
 public:
-
 	/** @return number of threads to use for J2K encoding on the local machine */
 	int num_local_encoding_threads () const {
 		return _num_local_encoding_threads;
@@ -231,43 +230,36 @@ public:
 
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
-		_num_local_encoding_threads = n;
-		changed ();
+		maybe_set (_num_local_encoding_threads, n);
 	}
 
 	void set_default_directory (boost::filesystem::path d) {
-		_default_directory = d;
-		changed ();
+		maybe_set (_default_directory, d);
 	}
 
 	/** @param p New server port */
 	void set_server_port_base (int p) {
-		_server_port_base = p;
-		changed ();
+		maybe_set (_server_port_base, p);
 	}
 
 	/** @param i IP address of a TMS that we can copy DCPs to */
 	void set_tms_ip (std::string i) {
-		_tms_ip = i;
-		changed ();
+		maybe_set (_tms_ip, i);
 	}
 
 	/** @param p Path on a TMS that we should changed DCPs to */
 	void set_tms_path (std::string p) {
-		_tms_path = p;
-		changed ();
+		maybe_set (_tms_path, p);
 	}
 
 	/** @param u User name to log into the TMS with */
 	void set_tms_user (std::string u) {
-		_tms_user = u;
-		changed ();
+		maybe_set (_tms_user, u);
 	}
 
 	/** @param p Password to log into the TMS with */
 	void set_tms_password (std::string p) {
-		_tms_password = p;
-		changed ();
+		maybe_set (_tms_password, p);
 	}
 
 	void add_cinema (boost::shared_ptr<Cinema> c) {
@@ -281,146 +273,127 @@ public:
 	}
 
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
-		_allowed_dcp_frame_rates = r;
-		changed ();
+		maybe_set (_allowed_dcp_frame_rates, r);
 	}
 
 	void set_allow_any_dcp_frame_rate (bool a) {
-		_allow_any_dcp_frame_rate = a;
-		changed ();
+		maybe_set (_allow_any_dcp_frame_rate, a);
 	}
 
 	void set_default_isdcf_metadata (ISDCFMetadata d) {
-		_default_isdcf_metadata = d;
-		changed ();
+		maybe_set (_default_isdcf_metadata, d);
 	}
 
 	void set_language (std::string l) {
+		if (_language && _language.get() == l) {
+			return;
+		}
 		_language = l;
 		changed ();
 	}
 
 	void unset_language () {
+		if (!_language) {
+			return;
+		}
+			
 		_language = boost::none;
 		changed ();
 	}
 
 	void set_default_still_length (int s) {
-		_default_still_length = s;
-		changed ();
+		maybe_set (_default_still_length, s);
 	}
 
 	void set_default_container (Ratio const * c) {
-		_default_container = c;
-		changed ();
+		maybe_set (_default_container, c);
 	}
 
 	void set_default_dcp_content_type (DCPContentType const * t) {
-		_default_dcp_content_type = t;
-		changed ();
+		maybe_set (_default_dcp_content_type, t);
 	}
 
 	void set_dcp_issuer (std::string i) {
-		_dcp_issuer = i;
-		changed ();
+		maybe_set (_dcp_issuer, i);
 	}
 
 	void set_default_j2k_bandwidth (int b) {
-		_default_j2k_bandwidth = b;
-		changed ();
+		maybe_set (_default_j2k_bandwidth, b);
 	}
 
 	void set_default_audio_delay (int d) {
-		_default_audio_delay = d;
-		changed ();
+		maybe_set (_default_audio_delay, d);
 	}
 
 	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
-		_colour_conversions = c;
-		changed ();
+		maybe_set (_colour_conversions, c);
 	}
 
 	void set_mail_server (std::string s) {
-		_mail_server = s;
-		changed ();
+		maybe_set (_mail_server, s);
 	}
 
 	void set_mail_user (std::string u) {
-		_mail_user = u;
-		changed ();
+		maybe_set (_mail_user, u);
 	}
 
 	void set_mail_password (std::string p) {
-		_mail_password = p;
-		changed ();
+		maybe_set (_mail_password, p);
 	}
 
 	void set_kdm_subject (std::string s) {
-		_kdm_subject = s;
-		changed ();
+		maybe_set (_kdm_subject, s);
 	}
 
 	void set_kdm_from (std::string f) {
-		_kdm_from = f;
-		changed ();
+		maybe_set (_kdm_from, f);
 	}
 
 	void set_kdm_cc (std::string f) {
-		_kdm_cc = f;
-		changed ();
+		maybe_set (_kdm_cc, f);
 	}
 
 	void set_kdm_bcc (std::string f) {
-		_kdm_bcc = f;
-		changed ();
+		maybe_set (_kdm_bcc, f);
 	}
 	
 	void set_kdm_email (std::string e) {
-		_kdm_email = e;
-		changed ();
+		maybe_set (_kdm_email, e);
 	}
 
 	void reset_kdm_email ();
 
 	void set_signer (boost::shared_ptr<const dcp::Signer> s) {
-		_signer = s;
-		changed ();
+		maybe_set (_signer, s);
 	}
 
 	void set_decryption_certificate (dcp::Certificate c) {
-		_decryption_certificate = c;
-		changed ();
+		maybe_set (_decryption_certificate, c);
 	}
 
 	void set_decryption_private_key (std::string k) {
-		_decryption_private_key = k;
-		changed ();
+		maybe_set (_decryption_private_key, k);
 	}
 
 	void set_check_for_updates (bool c) {
-		_check_for_updates = c;
-		changed ();
+		maybe_set (_check_for_updates, c);
 	}
 
 	void set_check_for_test_updates (bool c) {
-		_check_for_test_updates = c;
-		changed ();
+		maybe_set (_check_for_test_updates, c);
 	}
 
 	void set_maximum_j2k_bandwidth (int b) {
-		_maximum_j2k_bandwidth = b;
-		changed ();
+		maybe_set (_maximum_j2k_bandwidth, b);
 	}
 
 	void set_log_types (int t) {
-		_log_types = t;
-		changed ();
+		maybe_set (_log_types, t);
 	}
 
 #ifdef DCPOMATIC_WINDOWS	
 	void set_win32_console (bool c) {
-		_win32_console = c;
-		changed ();
+		maybe_set (_win32_console, c);
 	}
 #endif	
 
@@ -436,6 +409,7 @@ public:
 
 	static Config* instance ();
 	static void drop ();
+	static void restore_defaults ();
 
 private:
 	Config ();
@@ -443,6 +417,17 @@ private:
 	void read ();
 	void write () const;
 	void make_decryption_keys ();
+	void set_defaults ();
+	void set_kdm_email_to_default ();
+
+	template <class T>
+	void maybe_set (T& member, T new_value) {
+		if (member == new_value) {
+			return;
+		}
+		member = new_value;
+		changed ();
+	}
 
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
