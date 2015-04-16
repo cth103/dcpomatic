@@ -25,8 +25,8 @@
 #include "config.h"
 #include "frame_rate_change.h"
 #include "audio_processor.h"
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 
 #include "i18n.h"
 
@@ -38,7 +38,6 @@ using std::fixed;
 using std::setprecision;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 int const AudioContentProperty::AUDIO_CHANNELS = 200;
 int const AudioContentProperty::AUDIO_LENGTH = 201;

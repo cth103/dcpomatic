@@ -37,12 +37,12 @@
 #include "log.h"
 #include "cross.h"
 #include "player_video.h"
+#include "raw_convert.h"
 #include "encoded_data.h"
 #include <libcxml/cxml.h>
 #include <dcp/xyz_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
@@ -67,7 +67,6 @@ using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using dcp::Size;
-using dcp::raw_convert;
 
 #define DCI_COEFFICENT (48.0 / 52.37)
 

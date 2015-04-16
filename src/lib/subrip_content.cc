@@ -22,13 +22,12 @@
 #include "subrip.h"
 #include "film.h"
 #include "font.h"
-#include <dcp/raw_convert.h>
+#include "raw_convert.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
-using dcp::raw_convert;
 using boost::shared_ptr;
 using boost::lexical_cast;
 

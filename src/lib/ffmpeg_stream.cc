@@ -19,14 +19,13 @@
 
 #include "ffmpeg_stream.h"
 #include "dcpomatic_assert.h"
-#include <dcp/raw_convert.h>
+#include "raw_convert.h"
 #include <libxml++/libxml++.h>
 extern "C" {
 #include <libavformat/avformat.h>
 }
 
 using std::string;
-using dcp::raw_convert;
 
 FFmpegStream::FFmpegStream (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))

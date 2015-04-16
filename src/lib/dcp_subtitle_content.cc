@@ -19,17 +19,16 @@
 
 #include "font.h"
 #include "dcp_subtitle_content.h"
+#include "raw_convert.h"
 #include <dcp/interop_subtitle_content.h>
 #include <dcp/smpte_subtitle_content.h>
 #include <dcp/interop_load_font.h>
-#include <dcp/raw_convert.h>
 
 #include "i18n.h"
 
 using std::string;
 using std::list;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)

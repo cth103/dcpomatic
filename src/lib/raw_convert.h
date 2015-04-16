@@ -17,26 +17,21 @@
 
 */
 
-#include "wx_util.h"
-#include "image_sequence_dialog.h"
-#include "lib/raw_convert.h"
+#include <iomanip>
+#include "safe_stringstream.h"
 
-ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
-	: TableDialog (parent, _("Add image sequence"), 2, true)
+/** A sort-of version of boost::lexical_cast that does uses the "C"
+ *  locale (i.e. no thousands separators and a . for the decimal separator).
+ */
+template <typename P, typename Q>
+P
+raw_convert (Q v, int precision = 16)
 {
-	add (_("Frame rate"), true);
-	_frame_rate = add (new wxTextCtrl (this, wxID_ANY, N_("24")));
-	layout ();
-}
-
-float
-ImageSequenceDialog::frame_rate () const
-{
-	try {
-		return raw_convert<float> (wx_to_std (_frame_rate->GetValue ()));
-	} catch (...) {
-
-	}
-
-	return 0;
+	SafeStringStream s;
+	s.imbue (std::locale::classic ());
+	s << std::setprecision (precision);
+	s << v;
+	P r;
+	s >> r;
+	return r;
 }

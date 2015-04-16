@@ -24,8 +24,8 @@
 #include "cross.h"
 #include "ui_signaller.h"
 #include "dcpomatic_socket.h"
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include <boost/lambda/lambda.hpp>
 
 #include "i18n.h"
@@ -37,7 +37,6 @@ using std::cout;
 using boost::shared_ptr;
 using boost::scoped_array;
 using boost::weak_ptr;
-using dcp::raw_convert;
 
 ServerFinder* ServerFinder::_instance = 0;
 

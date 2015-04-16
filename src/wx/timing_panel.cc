@@ -19,11 +19,11 @@
 
 #include "lib/content.h"
 #include "lib/image_content.h"
+#include "lib/raw_convert.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "timecode.h"
 #include "content_panel.h"
-#include <dcp/raw_convert.h>
 #include <set>
 
 using std::cout;
@@ -31,7 +31,6 @@ using std::string;
 using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 TimingPanel::TimingPanel (ContentPanel* p)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */

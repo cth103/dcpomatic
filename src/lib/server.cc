@@ -31,7 +31,7 @@
 #include "player_video.h"
 #include "encoded_data.h"
 #include "safe_stringstream.h"
-#include <dcp/raw_convert.h>
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
@@ -62,7 +62,6 @@ using boost::bind;
 using boost::scoped_array;
 using boost::optional;
 using dcp::Size;
-using dcp::raw_convert;
 
 Server::Server (shared_ptr<Log> log, bool verbose)
 	: _terminate (false)

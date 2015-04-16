@@ -22,20 +22,19 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 }
-#include <dcp/raw_convert.h>
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "exceptions.h"
 #include "util.h"
+#include "raw_convert.h"
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 boost::mutex FFmpeg::_mutex;
 

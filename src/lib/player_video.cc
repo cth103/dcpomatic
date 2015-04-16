@@ -17,16 +17,15 @@
 
 */
 
-#include <dcp/raw_convert.h>
 #include "player_video.h"
 #include "image.h"
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
 #include "film.h"
+#include "raw_convert.h"
 
 using std::string;
 using std::cout;
-using dcp::raw_convert;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;

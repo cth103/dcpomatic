@@ -29,9 +29,9 @@
 #include "frame_rate_change.h"
 #include "log.h"
 #include "safe_stringstream.h"
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
 #include <iomanip>
 
 #include "i18n.h"
@@ -59,7 +59,6 @@ using std::setprecision;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 VideoContent::VideoContent (shared_ptr<const Film> f)
 	: Content (f)

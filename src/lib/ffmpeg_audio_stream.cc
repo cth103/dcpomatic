@@ -17,13 +17,12 @@
 
 */
 
+#include "ffmpeg_audio_stream.h"
+#include "raw_convert.h"
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
-#include "ffmpeg_audio_stream.h"
 
 using std::string;
-using dcp::raw_convert;
 
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)

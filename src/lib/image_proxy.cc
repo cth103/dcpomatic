@@ -25,7 +25,6 @@
 #include "exceptions.h"
 #include "cross.h"
 #include <dcp/util.h>
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 
 #include "i18n.h"

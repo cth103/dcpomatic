@@ -19,11 +19,11 @@
 
 #include "lib/colour_conversion.h"
 #include "lib/safe_stringstream.h"
+#include "lib/raw_convert.h"
 #include "wx_util.h"
 #include "colour_conversion_editor.h"
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
-#include <dcp/raw_convert.h>
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
 #include <boost/lexical_cast.hpp>
@@ -33,7 +33,6 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
-using dcp::raw_convert;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)

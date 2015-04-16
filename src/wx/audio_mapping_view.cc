@@ -21,16 +21,16 @@
  *  @brief AudioMappingView class and helpers.
  */
 
-#include <wx/wx.h>
-#include <wx/renderer.h>
-#include <wx/grid.h>
-#include <dcp/types.h>
-#include <dcp/raw_convert.h>
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
+#include "lib/raw_convert.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
 #include "audio_gain_dialog.h"
+#include <dcp/types.h>
+#include <wx/wx.h>
+#include <wx/renderer.h>
+#include <wx/grid.h>
 #include <boost/lexical_cast.hpp>
 
 using std::cout;
@@ -247,7 +247,7 @@ AudioMappingView::update_cells ()
 		_grid->SetCellValue (i, 0, wxString::Format (wxT("%d"), i + 1));
 
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			_grid->SetCellValue (i, j, std_to_wx (dcp::raw_convert<string> (_map.get (i, static_cast<dcp::Channel> (j - 1)))));
+			_grid->SetCellValue (i, j, std_to_wx (raw_convert<string> (_map.get (i, static_cast<dcp::Channel> (j - 1)))));
 		}
 	}
 

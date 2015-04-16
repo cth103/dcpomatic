@@ -17,15 +17,14 @@
 
 */
 
-#include <dcp/raw_convert.h>
 #include "single_stream_audio_content.h"
 #include "audio_examiner.h"
 #include "film.h"
+#include "raw_convert.h"
 
 using std::string;
 using std::cout;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f)
 	: Content (f)

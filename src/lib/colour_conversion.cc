@@ -21,8 +21,8 @@
 #include "colour_conversion.h"
 #include "util.h"
 #include "md5_digester.h"
+#include "raw_convert.h"
 #include <dcp/colour_matrix.h>
-#include <dcp/raw_convert.h>
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <libcxml/cxml.h>
@@ -37,7 +37,6 @@ using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 ColourConversion::ColourConversion ()
 	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz ())

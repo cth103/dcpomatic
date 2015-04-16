@@ -41,12 +41,12 @@
 #include "cinema.h"
 #include "safe_stringstream.h"
 #include "environment_info.h"
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
 #include <dcp/util.h>
 #include <dcp/local_time.h>
-#include <dcp/raw_convert.h>
 #include <dcp/decrypted_kdm.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
@@ -86,8 +86,6 @@ using boost::optional;
 using boost::is_any_of;
 using dcp::Size;
 using dcp::Signer;
-using dcp::raw_convert;
-using dcp::raw_convert;
 
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::TYPE_GENERAL);

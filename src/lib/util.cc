@@ -37,7 +37,6 @@
 #include "safe_stringstream.h"
 #include <dcp/util.h>
 #include <dcp/signer.h>
-#include <dcp/raw_convert.h>
 #include <glib.h>
 #include <pangomm/init.h>
 #include <boost/algorithm/string.hpp>
@@ -81,7 +80,6 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::optional;
 using dcp::Size;
-using dcp::raw_convert;
 
 /** Path to our executable, required by the stacktrace stuff and filled
  *  in during App::onInit().

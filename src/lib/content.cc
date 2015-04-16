@@ -29,8 +29,8 @@
 #include "film.h"
 #include "safe_stringstream.h"
 #include "job.h"
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/thread/mutex.hpp>
 
@@ -42,7 +42,6 @@ using std::cout;
 using std::vector;
 using std::max;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 int const ContentProperty::PATH = 400;
 int const ContentProperty::POSITION = 401;
@@ -145,7 +144,7 @@ Content::examine (shared_ptr<Job> job)
 	   digest here: a MD5 of the first and last 1e6 bytes with the
 	   size of the first file tacked on the end as a string.
 	*/
-	string const d = md5_digest_head_tail (p, 1000000) + dcp::raw_convert<string> (boost::filesystem::file_size (p.front ()));
+	string const d = md5_digest_head_tail (p, 1000000) + raw_convert<string> (boost::filesystem::file_size (p.front ()));
 
 	lm.lock ();
 	_digest = d;

@@ -17,14 +17,14 @@
 
 */
 
+#include "raw_image_proxy.h"
+#include "image.h"
+#include "raw_convert.h"
+#include <dcp/util.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <libcxml/cxml.h>
-#include <dcp/util.h>
-#include <dcp/raw_convert.h>
-#include "raw_image_proxy.h"
-#include "image.h"
 
 #include "i18n.h"
 
@@ -58,9 +58,9 @@ void
 RawImageProxy::add_metadata (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text (N_("Raw"));
-	node->add_child("Width")->add_child_text (dcp::raw_convert<string> (_image->size().width));
-	node->add_child("Height")->add_child_text (dcp::raw_convert<string> (_image->size().height));
-	node->add_child("PixelFormat")->add_child_text (dcp::raw_convert<string> (_image->pixel_format ()));
+	node->add_child("Width")->add_child_text (raw_convert<string> (_image->size().width));
+	node->add_child("Height")->add_child_text (raw_convert<string> (_image->size().height));
+	node->add_child("PixelFormat")->add_child_text (raw_convert<string> (_image->pixel_format ()));
 }
 
 void

@@ -21,7 +21,7 @@
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "encoded_data.h"
-#include <dcp/raw_convert.h>
+#include "raw_convert.h"
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/colour_conversion.h>
@@ -94,14 +94,14 @@ void
 J2KImageProxy::add_metadata (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text (N_("J2K"));
-	node->add_child("Width")->add_child_text (dcp::raw_convert<string> (_size.width));
-	node->add_child("Height")->add_child_text (dcp::raw_convert<string> (_size.height));
+	node->add_child("Width")->add_child_text (raw_convert<string> (_size.width));
+	node->add_child("Height")->add_child_text (raw_convert<string> (_size.height));
 	if (_stereo) {
-		node->add_child("Eye")->add_child_text (dcp::raw_convert<string> (_eye.get ()));
-		node->add_child("LeftSize")->add_child_text (dcp::raw_convert<string> (_stereo->left_j2k_size ()));
-		node->add_child("RightSize")->add_child_text (dcp::raw_convert<string> (_stereo->right_j2k_size ()));
+		node->add_child("Eye")->add_child_text (raw_convert<string> (_eye.get ()));
+		node->add_child("LeftSize")->add_child_text (raw_convert<string> (_stereo->left_j2k_size ()));
+		node->add_child("RightSize")->add_child_text (raw_convert<string> (_stereo->right_j2k_size ()));
 	} else {
-		node->add_child("Size")->add_child_text (dcp::raw_convert<string> (_mono->j2k_size ()));
+		node->add_child("Size")->add_child_text (raw_convert<string> (_mono->j2k_size ()));
 	}
 }
 

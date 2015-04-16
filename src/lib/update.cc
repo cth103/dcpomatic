@@ -17,17 +17,17 @@
 
 */
 
-#include <string>
-#include <boost/algorithm/string.hpp>
-#include <curl/curl.h>
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "update.h"
 #include "version.h"
 #include "ui_signaller.h"
 #include "safe_stringstream.h"
 #include "config.h"
 #include "util.h"
+#include "raw_convert.h"
+#include <libcxml/cxml.h>
+#include <curl/curl.h>
+#include <boost/algorithm/string.hpp>
+#include <string>
 
 #define BUFFER_SIZE 1024
 
@@ -35,7 +35,6 @@ using std::cout;
 using std::min;
 using std::string;
 using std::vector;
-using dcp::raw_convert;
 using boost::is_any_of;
 using boost::ends_with;
 

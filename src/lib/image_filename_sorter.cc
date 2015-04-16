@@ -17,10 +17,10 @@
 
 */
 
-#include <iostream>
+#include "raw_convert.h"
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
-#include <dcp/raw_convert.h>
+#include <iostream>
 
 class ImageFilenameSorter
 {
@@ -57,6 +57,6 @@ private:
 			return boost::optional<int> ();
 		}
 
-		return dcp::raw_convert<int> (number);
+		return raw_convert<int> (number);
 	}
 };

@@ -18,7 +18,6 @@
 */
 
 #include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "film.h"
@@ -32,7 +31,6 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)

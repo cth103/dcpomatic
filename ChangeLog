@@ -1,3 +1,8 @@
+2015-04-16  Carl Hetherington  <cth@carlh.net>
+
+	* Fix potential OS X crashes due to another incarnation
+	of the bizarre multi-thread stringstream bug.
+
 2015-04-15  c.hetherington  <cth@carlh.net>
 
 	* Hand-apply 94998e12d117f3f1781dfb1318939debfbf34546 from master;

@@ -17,16 +17,15 @@
 
 */
 
-#include <iostream>
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "isdcf_metadata.h"
+#include "raw_convert.h"
+#include <libcxml/cxml.h>
+#include <iostream>
 
 #include "i18n.h"
 
 using std::string;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 	: content_version (node->number_child<int> ("ContentVersion"))

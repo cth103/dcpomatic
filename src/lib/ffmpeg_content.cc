@@ -17,11 +17,6 @@
 
 */
 
-extern "C" {
-#include <libavformat/avformat.h>
-}
-#include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include "ffmpeg_content.h"
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_subtitle_stream.h"
@@ -35,6 +30,11 @@ extern "C" {
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "safe_stringstream.h"
+#include "raw_convert.h"
+#include <libcxml/cxml.h>
+extern "C" {
+#include <libavformat/avformat.h>
+}
 
 #include "i18n.h"
 
@@ -47,7 +47,6 @@ using std::cout;
 using std::pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
