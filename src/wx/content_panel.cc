@@ -17,9 +17,6 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/notebook.h>
-#include <wx/listctrl.h>
 #include "lib/audio_content.h"
 #include "lib/subtitle_content.h"
 #include "lib/video_content.h"
@@ -36,6 +33,12 @@
 #include "timing_panel.h"
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
+#include <wx/wx.h>
+#include <wx/notebook.h>
+#include <wx/listctrl.h>
+#include <boost/filesystem.hpp>
+
+#include "lib/image_filename_sorter.cc"
 
 using std::list;
 using std::string;
@@ -59,6 +62,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		
 		_content = new wxListCtrl (_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
+		_content->DragAcceptFiles (true);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
 		_content->InsertColumn (0, wxT(""));
@@ -244,12 +248,11 @@ ContentPanel::add_file_clicked ()
 
 	wxArrayString paths;
 	d->GetPaths (paths);
-
-	/* XXX: check for lots of files here and do something */
-
+	list<boost::filesystem::path> path_list;
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+		path_list.push_back (wx_to_std (paths[i]));
 	}
+	add_files (path_list);
 
 	d->Destroy ();
 }
@@ -484,12 +487,38 @@ ContentPanel::setup ()
 void
 ContentPanel::files_dropped (wxDropFilesEvent& event)
 {
+	cout << "SHIT!\n";
+	
 	if (!_film) {
 		return;
 	}
 	
 	wxString* paths = event.GetFiles ();
+	list<boost::filesystem::path> path_list;
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
-		_film->examine_and_add_content (content_factory (_film, wx_to_std (paths[i])));
+		path_list.push_back (wx_to_std (paths[i]));
+	}
+
+	add_files (path_list);
+}
+
+void
+ContentPanel::add_files (list<boost::filesystem::path> paths)
+{
+	/* It has been reported that the paths returned from e.g. wxFileDialog are not always sorted;
+	   I can't reproduce that, but sort them anyway.
+	*/
+	
+	paths.sort (ImageFilenameSorter ());
+
+	/* XXX: check for lots of files here and do something */
+
+	for (list<boost::filesystem::path>::const_iterator i = paths.begin(); i != paths.end(); ++i) {
+		shared_ptr<Content> c = content_factory (_film, *i);
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c);
+		if (ic) {
+			ic->set_video_frame_rate (24);
+		}
+		_film->examine_and_add_content (c);
 	}
 }
