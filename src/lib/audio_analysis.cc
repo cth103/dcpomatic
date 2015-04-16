@@ -90,6 +90,9 @@ AudioAnalysis::AudioAnalysis (int channels)
 AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
 	FILE* f = fopen_boost (filename, "r");
+	if (!f) {
+		throw OpenFileError (filename);
+	}
 
 	int channels = 0;
 	fscanf (f, "%d", &channels);
@@ -149,6 +152,9 @@ AudioAnalysis::write (boost::filesystem::path filename)
 	tmp.replace_extension (".tmp");
 
 	FILE* f = fopen_boost (tmp, "w");
+	if (!f) {
+		throw OpenFileError (tmp);
+	}
 
 	fprintf (f, "%ld\n", _data.size ());
 	for (vector<vector<AudioPoint> >::iterator i = _data.begin(); i != _data.end(); ++i) {

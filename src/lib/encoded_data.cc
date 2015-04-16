@@ -95,6 +95,9 @@ EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, dcp:
 {
 	boost::filesystem::path const info = film->info_path (frame, eyes);
 	FILE* h = fopen_boost (info, "w");
+	if (!h) {
+		throw OpenFileError (info);
+	}
 	fin.write (h);
 	fclose (h);
 }
