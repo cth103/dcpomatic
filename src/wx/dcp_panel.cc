@@ -562,6 +562,8 @@ DCPPanel::make_video_panel ()
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
 	_burn_subtitles->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::burn_subtitles_toggled, this));
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
+	/* Also listen to wxEVT_COMMAND_TEXT_UPDATED so that typing numbers directly in is always noticed */
+	_j2k_bandwidth->Bind	(wxEVT_COMMAND_TEXT_UPDATED,          boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
 	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::resolution_changed, this));
 	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::three_d_changed, this));
 
