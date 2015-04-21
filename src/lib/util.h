@@ -29,6 +29,7 @@
 #include "exceptions.h"
 #include "dcpomatic_time.h"
 #include <dcp/util.h>
+#include <dcp/picture_mxf_writer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -75,6 +76,8 @@ extern int round_to (float n, int r);
 extern void* wrapped_av_malloc (size_t);
 extern ContentTimePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
+extern dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes);
+extern void write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info);
 extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
 extern std::map<std::string, std::string> split_get_request (std::string url);
 

@@ -207,14 +207,14 @@ Film::video_identifier () const
 	return s.str ();
 }
 	  
-/** @return The path to the directory to write video frame info files to */
+/** @return The file to write video frame info to */
 boost::filesystem::path
-Film::info_dir () const
+Film::info_file () const
 {
 	boost::filesystem::path p;
 	p /= "info";
 	p /= video_identifier ();
-	return dir (p);
+	return file (p);
 }
 
 boost::filesystem::path
@@ -314,25 +314,6 @@ Film::send_dcp_to_tms ()
 {
 	shared_ptr<Job> j (new SCPDCPJob (shared_from_this()));
 	JobManager::instance()->add (j);
-}
-
-/** Count the number of frames that have been encoded for this film.
- *  @return frame count.
- */
-int
-Film::encoded_frames () const
-{
-	if (container() == 0) {
-		return 0;
-	}
-
-	int N = 0;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (info_dir ()); i != boost::filesystem::directory_iterator(); ++i) {
-		++N;
-		boost::this_thread::interruption_point ();
-	}
-
-	return N;
 }
 
 shared_ptr<xmlpp::Document>
@@ -818,32 +799,6 @@ void
 Film::set_isdcf_date_today ()
 {
 	_isdcf_date = boost::gregorian::day_clock::local_day ();
-}
-
-boost::filesystem::path
-Film::info_path (int f, Eyes e) const
-{
-	boost::filesystem::path p;
-	p /= info_dir ();
-
-	SafeStringStream s;
-	s.width (8);
-	s << setfill('0') << f;
-
-	if (e == EYES_LEFT) {
-		s << ".L";
-	} else if (e == EYES_RIGHT) {
-		s << ".R";
-	}
-
-	s << ".md5";
-	
-	p /= s.str();
-
-	/* info_dir() will already have added any initial bit of the path,
-	   so don't call file() on this.
-	*/
-	return p;
 }
 
 boost::filesystem::path

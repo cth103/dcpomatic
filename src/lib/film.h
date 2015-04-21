@@ -61,9 +61,8 @@ public:
 	Film (boost::filesystem::path, bool log = true);
 	~Film ();
 
-	boost::filesystem::path info_dir () const;
+	boost::filesystem::path info_file () const;
 	boost::filesystem::path j2c_path (int, Eyes, bool) const;
-	boost::filesystem::path info_path (int, Eyes) const;
 	boost::filesystem::path internal_video_mxf_dir () const;
 	boost::filesystem::path internal_video_mxf_filename () const;
 	boost::filesystem::path audio_analysis_dir () const;
@@ -82,8 +81,6 @@ public:
 		return _log;
 	}
 
-	int encoded_frames () const;
-	
 	boost::filesystem::path file (boost::filesystem::path f) const;
 	boost::filesystem::path dir (boost::filesystem::path d) const;
 

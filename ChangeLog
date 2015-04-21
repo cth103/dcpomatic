@@ -1,5 +1,8 @@
 2015-04-20  Carl Hetherington  <cth@carlh.net>
 
+	* Hand-apply 47770097cf6a5d7dbbdded8977da5f3de53dfd33;
+	single-file hashes.
+
 	* Hand-apply e1d0d24146592e311d46781a1961fe080f6357cf;
 	attempt to fix confusion with the JPEG2000 bandwidth
 	control when a user enters a value directly rather than

@@ -42,9 +42,6 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	add (_("Disk space required"), true);
 	_disk = add (new wxStaticText (this, wxID_ANY, wxT ("")));
 
-	add (_("Frames already encoded"), true);
-	_encoded = add (new ThreadedStaticText (this, _("counting..."), boost::bind (&PropertiesDialog::frames_already_encoded, this)));
-	_encoded_connection = _encoded->Finished.connect (boost::bind (&PropertiesDialog::layout, this));
 	_frames->SetLabel (std_to_wx (lexical_cast<string> (_film->length().frames (_film->video_frame_rate ()))));
 	double const disk = double (_film->required_disk_space()) / 1073741824.0f;
 	SafeStringStream s;
@@ -52,22 +49,4 @@ PropertiesDialog::PropertiesDialog (wxWindow* parent, shared_ptr<Film> film)
 	_disk->SetLabel (std_to_wx (s.str ()));
 
 	layout ();
-}
-
-string
-PropertiesDialog::frames_already_encoded () const
-{
-	SafeStringStream u;
-	try {
-		u << _film->encoded_frames ();
-	} catch (boost::thread_interrupted &) {
-		return "";
-	}
-
-	uint64_t const frames = _film->length().frames (_film->video_frame_rate ());
-	if (frames) {
-		/* XXX: encoded_frames() should check which frames have been encoded */
-		u << " (" << (_film->encoded_frames() * 100 / frames) << "%)";
-	}
-	return u.str ();
 }

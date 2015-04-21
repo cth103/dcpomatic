@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -91,15 +91,14 @@ EncodedData::write (shared_ptr<const Film> film, int frame, Eyes eyes) const
 }
 
 void
-EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, dcp::FrameInfo fin) const
+EncodedData::write_info (shared_ptr<const Film> film, int frame, Eyes eyes, dcp::FrameInfo info) const
 {
-	boost::filesystem::path const info = film->info_path (frame, eyes);
-	FILE* h = fopen_boost (info, "w");
-	if (!h) {
-		throw OpenFileError (info);
+	FILE* file = fopen_boost (film->info_file(), "ab");
+	if (!file) {
+		throw OpenFileError (film->info_file ());
 	}
-	fin.write (h);
-	fclose (h);
+	write_frame_info (file, frame, eyes, info);
+	fclose (file);
 }
 
 /** Send this data to a socket.

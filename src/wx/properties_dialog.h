@@ -21,7 +21,6 @@
 #include "table_dialog.h"
 
 class Film;
-class ThreadedStaticText;
 
 class PropertiesDialog : public TableDialog
 {
@@ -29,12 +28,9 @@ public:
 	PropertiesDialog (wxWindow *, boost::shared_ptr<Film>);
 
 private:
-	std::string frames_already_encoded () const;
-
 	boost::shared_ptr<Film> _film;
 	wxStaticText* _frames;
 	wxStaticText* _disk;
-	ThreadedStaticText* _encoded;
 
 	boost::signals2::scoped_connection _encoded_connection;
 };
