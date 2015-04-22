@@ -95,6 +95,7 @@ Config::set_defaults ()
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
 	_colour_conversions.push_back (PresetColourConversion (_("Rec. 601"), dcp::ColourConversion::rec601_to_xyz ()));
 	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
+	_colour_conversions.push_back (PresetColourConversion (_("P3 (from SMPTE RP 431-2)"), dcp::ColourConversion::p3_to_xyz ()));
 
 	set_kdm_email_to_default ();
 }

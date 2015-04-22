@@ -1,5 +1,7 @@
 2015-04-22  c.hetherington  <cth@carlh.net>
 
+	* Add P3 colour conversion preset.
+
 	* Hand-apply all changes relating to colour specification
 	as chromaticity.
 
