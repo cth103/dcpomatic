@@ -87,7 +87,9 @@ Image::components () const
 
 /** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size' */
 shared_ptr<Image>
-Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, AVPixelFormat out_format, bool out_aligned) const
+Image::crop_scale_window (
+	Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned
+	) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
@@ -115,6 +117,19 @@ Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, A
 		throw StringError (N_("Could not allocate SwsContext"));
 	}
 
+	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);
+	int const lut[dcp::YUV_TO_RGB_COUNT] = {
+		SWS_CS_ITU601,
+		SWS_CS_ITU709
+	};
+
+	sws_setColorspaceDetails (
+		scale_context,
+		sws_getCoefficients (lut[yuv_to_rgb]), 0,
+		sws_getCoefficients (lut[yuv_to_rgb]), 0,
+		0, 1 << 16, 1 << 16
+		);
+	
 	/* Prepare input data pointers with crop */
 	uint8_t* scale_in_data[components()];
 	for (int c = 0; c < components(); ++c) {
@@ -142,7 +157,7 @@ Image::crop_scale_window (Crop crop, dcp::Size inter_size, dcp::Size out_size, A
 }
 
 shared_ptr<Image>
-Image::scale (dcp::Size out_size, AVPixelFormat out_format, bool out_aligned) const
+Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
@@ -157,6 +172,19 @@ Image::scale (dcp::Size out_size, AVPixelFormat out_format, bool out_aligned) co
 		SWS_BICUBIC, 0, 0, 0
 		);
 
+	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);
+	int const lut[dcp::YUV_TO_RGB_COUNT] = {
+		SWS_CS_ITU601,
+		SWS_CS_ITU709
+	};
+
+	sws_setColorspaceDetails (
+		scale_context,
+		sws_getCoefficients (lut[yuv_to_rgb]), 0,
+		sws_getCoefficients (lut[yuv_to_rgb]), 0,
+		0, 1 << 16, 1 << 16
+		);
+	
 	sws_scale (
 		scale_context,
 		data(), stride(),
