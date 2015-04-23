@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 	ColourConversion A (dcp::ColourConversion::srgb_to_xyz ());
 	ColourConversion B (dcp::ColourConversion::rec709_to_xyz ());
 
-	BOOST_CHECK_EQUAL (A.identifier(), "751dd37378fb52502d356ec334a104c8");
-	BOOST_CHECK_EQUAL (B.identifier(), "621cf5bdd8de7e8adc3f4b8d77dc708a");
+	BOOST_CHECK_EQUAL (A.identifier(), "9840c601d2775bf1b3847254bbaa36a9");
+	BOOST_CHECK_EQUAL (B.identifier(), "0778fbc5c87470f58820604a66992579");
 }
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test2)
@@ -56,15 +56,14 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 		"    <A>0.055</A>\n"
 		"    <B>12.92</B>\n"
 		"  </InputTransferFunction>\n"
-		"  <Matrix i=\"0\" j=\"0\">0.4124564</Matrix>\n"
-		"  <Matrix i=\"0\" j=\"1\">0.3575761</Matrix>\n"
-		"  <Matrix i=\"0\" j=\"2\">0.1804375</Matrix>\n"
-		"  <Matrix i=\"1\" j=\"0\">0.2126729</Matrix>\n"
-		"  <Matrix i=\"1\" j=\"1\">0.7151522</Matrix>\n"
-		"  <Matrix i=\"1\" j=\"2\">0.072175</Matrix>\n"
-		"  <Matrix i=\"2\" j=\"0\">0.0193339</Matrix>\n"
-		"  <Matrix i=\"2\" j=\"1\">0.119192</Matrix>\n"
-		"  <Matrix i=\"2\" j=\"2\">0.9503041</Matrix>\n"
+		"  <RedX>0.64</RedX>\n"
+		"  <RedY>0.33</RedY>\n"
+		"  <GreenX>0.3</GreenX>\n"
+		"  <GreenY>0.6</GreenY>\n"
+		"  <BlueX>0.15</BlueX>\n"
+		"  <BlueY>0.06</BlueY>\n"
+		"  <WhiteX>0.3127</WhiteX>\n"
+		"  <WhiteY>0.329</WhiteY>\n"
 		"  <OutputGamma>2.6</OutputGamma>\n"
 		"</Test>\n"
 		);
@@ -87,15 +86,14 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		"    <A>0.099</A>\n"
 		"    <B>4.5</B>\n"
 		"  </InputTransferFunction>\n"
-		"  <Matrix i=\"0\" j=\"0\">0.4124564</Matrix>\n"
-		"  <Matrix i=\"0\" j=\"1\">0.3575761</Matrix>\n"
-		"  <Matrix i=\"0\" j=\"2\">0.1804375</Matrix>\n"
-		"  <Matrix i=\"1\" j=\"0\">0.2126729</Matrix>\n"
-		"  <Matrix i=\"1\" j=\"1\">0.7151522</Matrix>\n"
-		"  <Matrix i=\"1\" j=\"2\">0.072175</Matrix>\n"
-		"  <Matrix i=\"2\" j=\"0\">0.0193339</Matrix>\n"
-		"  <Matrix i=\"2\" j=\"1\">0.119192</Matrix>\n"
-		"  <Matrix i=\"2\" j=\"2\">0.9503041</Matrix>\n"
+		"  <RedX>0.64</RedX>\n"
+		"  <RedY>0.33</RedY>\n"
+		"  <GreenX>0.3</GreenX>\n"
+		"  <GreenY>0.6</GreenY>\n"
+		"  <BlueX>0.15</BlueX>\n"
+		"  <BlueY>0.06</BlueY>\n"
+		"  <WhiteX>0.3127</WhiteX>\n"
+		"  <WhiteY>0.329</WhiteY>\n"
 		"  <OutputGamma>2.6</OutputGamma>\n"
 		"</Test>\n"
 		);
