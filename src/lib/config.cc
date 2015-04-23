@@ -83,6 +83,7 @@ Config::set_defaults ()
 	_win32_console = false;
 #endif	  
 
+	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
 	_allowed_dcp_frame_rates.push_back (30);
@@ -90,8 +91,11 @@ Config::set_defaults ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
+	_colour_conversions.clear ();
 	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
+	_colour_conversions.push_back (PresetColourConversion (_("Rec. 601"), dcp::ColourConversion::rec601_to_xyz ()));
 	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
+	_colour_conversions.push_back (PresetColourConversion (_("P3 (from SMPTE RP 431-2)"), dcp::ColourConversion::p3_to_xyz ()));
 
 	set_kdm_email_to_default ();
 }

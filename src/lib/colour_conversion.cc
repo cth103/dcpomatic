@@ -22,6 +22,7 @@
 #include "util.h"
 #include "md5_digester.h"
 #include "raw_convert.h"
+#include <dcp/chromaticity.h>
 #include <dcp/colour_matrix.h>
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
@@ -61,10 +62,9 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 		cxml::ConstNodePtr in_node = node->node_child ("InputTransferFunction");
 		string in_type = in_node->string_child ("Type");
 		if (in_type == "Gamma") {
-			_in.reset (new dcp::GammaTransferFunction (false, in_node->number_child<double> ("Gamma")));
+			_in.reset (new dcp::GammaTransferFunction (in_node->number_child<double> ("Gamma")));
 		} else if (in_type == "ModifiedGamma") {
 			_in.reset (new dcp::ModifiedGammaTransferFunction (
-					   false,
 					   in_node->number_child<double> ("Power"),
 					   in_node->number_child<double> ("Threshold"),
 					   in_node->number_child<double> ("A"),
@@ -77,20 +77,46 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 		/* Version 1.x */
 		
 		if (node->bool_child ("InputGammaLinearised")) {
-			_in.reset (new dcp::ModifiedGammaTransferFunction (false, node->number_child<float> ("InputGamma"), 0.04045, 0.055, 12.92));
+			_in.reset (new dcp::ModifiedGammaTransferFunction (node->number_child<float> ("InputGamma"), 0.04045, 0.055, 12.92));
 		} else {
-			_in.reset (new dcp::GammaTransferFunction (false, node->number_child<float> ("InputGamma")));
+			_in.reset (new dcp::GammaTransferFunction (node->number_child<float> ("InputGamma")));
 		}
 	}
 
-	list<cxml::NodePtr> m = node->node_children ("Matrix");
-	for (list<cxml::NodePtr>::iterator i = m.begin(); i != m.end(); ++i) {
-		int const ti = (*i)->number_attribute<int> ("i");
-		int const tj = (*i)->number_attribute<int> ("j");
-		_matrix(ti, tj) = raw_convert<double> ((*i)->content ());
-	}
+	_yuv_to_rgb = static_cast<dcp::YUVToRGB> (node->optional_number_child<int>("YUVToRGB").get_value_or (dcp::YUV_TO_RGB_REC601));
 	
-	_out.reset (new dcp::GammaTransferFunction (true, node->number_child<double> ("OutputGamma")));
+	list<cxml::NodePtr> m = node->node_children ("Matrix");
+	if (!m.empty ()) {
+		/* Read in old <Matrix> nodes and convert them to chromaticities */
+		boost::numeric::ublas::matrix<double> C (3, 3);
+		for (list<cxml::NodePtr>::iterator i = m.begin(); i != m.end(); ++i) {
+			int const ti = (*i)->number_attribute<int> ("i");
+			int const tj = (*i)->number_attribute<int> ("j");
+			C(ti, tj) = raw_convert<double> ((*i)->content ());
+		}
+
+		double const rd = C(0, 0) + C(1, 0) + C(2, 0);
+		_red = dcp::Chromaticity (C(0, 0) / rd, C(1, 0) / rd);
+		double const gd = C(0, 1) + C(1, 1) + C(2, 1);
+		_green = dcp::Chromaticity (C(0, 1) / gd, C(1, 1) / gd);
+		double const bd = C(0, 2) + C(1, 2) + C(2, 2);
+		_blue = dcp::Chromaticity (C(0, 2) / bd, C(1, 2) / bd);
+		double const wd = C(0, 0) + C(0, 1) + C(0, 2) + C(1, 0) + C(1, 1) + C(1, 2) + C(2, 0) + C(2, 1) + C(2, 2);
+		_white = dcp::Chromaticity ((C(0, 0) + C(0, 1) + C(0, 2)) / wd, (C(1, 0) + C(1, 1) + C(1, 2)) / wd);
+	} else {
+		/* New-style chromaticities */
+		_red = dcp::Chromaticity (node->number_child<double> ("RedX"), node->number_child<double> ("RedY"));
+		_green = dcp::Chromaticity (node->number_child<double> ("GreenX"), node->number_child<double> ("GreenY"));
+		_blue = dcp::Chromaticity (node->number_child<double> ("BlueX"), node->number_child<double> ("BlueY"));
+		_white = dcp::Chromaticity (node->number_child<double> ("WhiteX"), node->number_child<double> ("WhiteY"));
+		if (node->optional_node_child ("AdjustedWhiteX")) {
+			_adjusted_white = dcp::Chromaticity (
+				node->number_child<double> ("AdjustedWhiteX"), node->number_child<double> ("AdjustedWhiteY")
+				);
+		}
+	}	
+	
+	_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
 }
 
 boost::optional<ColourConversion>
@@ -120,14 +146,17 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 		in_node->add_child("B")->add_child_text (raw_convert<string> (tf->B ()));
 	}
 
-	boost::numeric::ublas::matrix<double> matrix = _matrix;
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			xmlpp::Element* m = node->add_child("Matrix");
-			m->set_attribute ("i", raw_convert<string> (i));
-			m->set_attribute ("j", raw_convert<string> (j));
-			m->add_child_text (raw_convert<string> (matrix (i, j)));
-		}
+	node->add_child("RedX")->add_child_text (raw_convert<string> (_red.x));
+	node->add_child("RedY")->add_child_text (raw_convert<string> (_red.y));
+	node->add_child("GreenX")->add_child_text (raw_convert<string> (_green.x));
+	node->add_child("GreenY")->add_child_text (raw_convert<string> (_green.y));
+	node->add_child("BlueX")->add_child_text (raw_convert<string> (_blue.x));
+	node->add_child("BlueY")->add_child_text (raw_convert<string> (_blue.y));
+	node->add_child("WhiteX")->add_child_text (raw_convert<string> (_white.x));
+	node->add_child("WhiteY")->add_child_text (raw_convert<string> (_white.y));
+	if (_adjusted_white) {
+		node->add_child("AdjustedWhiteX")->add_child_text (raw_convert<string> (_adjusted_white.get().x));
+		node->add_child("AdjustedWhiteY")->add_child_text (raw_convert<string> (_adjusted_white.get().y));
 	}
 
 	node->add_child("OutputGamma")->add_child_text (raw_convert<string> (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ()));
@@ -165,11 +194,18 @@ ColourConversion::identifier () const
 		digester.add (tf->B ());
 	}
 
-	boost::numeric::ublas::matrix<double> matrix = _matrix;
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			digester.add (matrix (i, j));
-		}
+	digester.add (_red.x);
+	digester.add (_red.y);
+	digester.add (_green.x);
+	digester.add (_green.y);
+	digester.add (_blue.x);
+	digester.add (_blue.y);
+	digester.add (_white.x);
+	digester.add (_white.y);
+
+	if (_adjusted_white) {
+		digester.add (_adjusted_white.get().x);
+		digester.add (_adjusted_white.get().y);
 	}
 
 	digester.add (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ());
