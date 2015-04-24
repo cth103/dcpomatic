@@ -92,6 +92,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	written_by.Add (wxT ("Terrence Meiczinger"));
 	written_by.Add (wxT ("Ole Laursen"));
 	written_by.Add (wxT ("Brecht Sanders"));
+	written_by.Add (wxT ("Jianguo Huang"));
 	add_section (_("Written by"), written_by);
 
 	wxArrayString translated_by;
@@ -131,6 +132,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Alexey Derevyanko"));
 	supported_by.Add (wxT ("Unwana Essien"));
 	supported_by.Add (wxT ("Maxime Estoppey"));
+	supported_by.Add (wxT ("Frechen-Film e.V."));
 	supported_by.Add (wxT ("Jose Angel Velasco Fernandez"));
 	supported_by.Add (wxT ("Andres Fink"));
 	supported_by.Add (wxT ("Evan Freeze"));
@@ -172,6 +174,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Bruce Taylor"));
 	supported_by.Add (wxT ("Lawrence Towers"));
 	supported_by.Add (wxT ("Richard Turner"));
+	supported_by.Add (wxT ("Raoul Walzer"));
 	supported_by.Add (wxT ("Frank Wenz"));
 	supported_by.Add (wxT ("Roland Wirtz"));
 	supported_by.Add (wxT ("Wolfgang Woehl"));

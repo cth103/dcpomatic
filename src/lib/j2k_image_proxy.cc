@@ -82,9 +82,9 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
 
 	if (_mono) {
-		dcp::xyz_to_rgb (_mono->xyz_image (), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
+		dcp::xyz_to_rgb (_mono->xyz_image (), dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
 	} else {
-		dcp::xyz_to_rgb (_stereo->xyz_image (_eye.get ()), dcp::ColourConversion::xyz_to_srgb(), image->data()[0], image->stride()[0], note);
+		dcp::xyz_to_rgb (_stereo->xyz_image (_eye.get ()), dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
 	}
 
 	return image;

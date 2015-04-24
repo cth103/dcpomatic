@@ -127,9 +127,9 @@ enum {
 	ID_file_save,
 	ID_file_properties,
 	ID_file_history,
-	ID_edit_restore_default_preferences,
 	/* Allow spare IDs after _history for the recent files list */
-	ID_content_scale_to_fit_width = 100,
+	ID_edit_restore_default_preferences = 100,
+	ID_content_scale_to_fit_width,
 	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_kdms,

@@ -110,8 +110,13 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 	default:
 		break;
 	}
+
+	dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
+	if (_colour_conversion) {
+		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
+	}
 		
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, pixel_format, true);
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format, true);
 
 	if (burn_subtitle && _subtitle.image) {
 		out->alpha_blend (_subtitle.image, _subtitle.position);

@@ -280,6 +280,7 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 			PositionImage (
 				i->image->scale (
 					scaled_size,
+					dcp::YUV_TO_RGB_REC601,
 					i->image->pixel_format (),
 					true
 					),
