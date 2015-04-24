@@ -71,8 +71,6 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-int const Writer::_maximum_frames_in_memory = Config::instance()->num_local_encoding_threads() + 4;
-
 Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	: _film (f)
 	, _job (j)
@@ -151,7 +149,7 @@ Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
-	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+	while (_queued_full_in_memory > maximum_frames_in_memory ()) {
 		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
@@ -184,7 +182,7 @@ Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
-	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+	while (_queued_full_in_memory > maximum_frames_in_memory ()) {
 		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
@@ -266,7 +264,7 @@ try
 
 		while (true) {
 			
-			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
+			if (_finish || _queued_full_in_memory > maximum_frames_in_memory () || have_sequenced_image_at_queue_head ()) {
 				/* We've got something to do: go and do it */
 				break;
 			}
@@ -352,7 +350,7 @@ try
 			}
 		}
 
-		while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		while (_queued_full_in_memory > maximum_frames_in_memory ()) {
 			done_something = true;
 			/* Too many frames in memory which can't yet be written to the stream.
 			   Write some FULL frames to disk.
@@ -684,4 +682,10 @@ bool
 operator== (QueueItem const & a, QueueItem const & b)
 {
 	return a.frame == b.frame && a.eyes == b.eyes;
+}
+
+int
+Writer::maximum_frames_in_memory () const
+{
+	return Config::instance()->num_local_encoding_threads() + 4;
 }
