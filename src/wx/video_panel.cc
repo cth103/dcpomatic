@@ -368,14 +368,17 @@ VideoPanel::content_selection_changed ()
 	
 	bool const single = video_sel.size() == 1;
 
+	_frame_type->set_content (video_sel);
 	_left_crop->set_content (video_sel);
 	_right_crop->set_content (video_sel);
 	_top_crop->set_content (video_sel);
 	_bottom_crop->set_content (video_sel);
-	_frame_type->set_content (video_sel);
+	_fade_in->Enable (!video_sel.empty ());
+	_fade_out->Enable (!video_sel.empty ());
 	_scale->set_content (video_sel);
 
 	_filters_button->Enable (single && !ffmpeg_sel.empty ());
+	_enable_colour_conversion->Enable (single);
 	_colour_conversion_button->Enable (single);
 
 	film_content_changed (VideoContentProperty::VIDEO_CROP);
