@@ -1,3 +1,8 @@
+2015-04-29  Carl Hetherington  <cth@carlh.net>
+
+	* Various fixes to bad timeline drag behaviour when
+	snapping (from master).
+
 2015-04-29  c.hetherington  <cth@carlh.net>
 
 	* Hand-apply 291179175729b62e17a9c322cd27ae134d1310d9,
