@@ -44,9 +44,9 @@ namespace xmlpp {
 
 /** The version number of the protocol used to communicate
  *  with servers.  Intended to be bumped when incompatibilities
- *  are introduced.
+ *  are introduced.  v2 uses 64+n
  */
-#define SERVER_LINK_VERSION 3
+#define SERVER_LINK_VERSION (64+0)
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<VideoContent> > VideoContentList;
