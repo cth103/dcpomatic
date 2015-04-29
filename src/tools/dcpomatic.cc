@@ -402,9 +402,16 @@ private:
 	{
 		double required;
 		double available;
+		bool can_hard_link;
 
-		if (!_film->should_be_enough_disk_space (required, available)) {
-			if (!confirm_dialog (this, wxString::Format (_("The DCP for this film will take up about %.1f Gb, and the disk that you are using only has %.1f Gb available.  Do you want to continue anyway?"), required, available))) {
+		if (!_film->should_be_enough_disk_space (required, available, can_hard_link)) {
+			wxString message;
+			if (can_hard_link) {
+				message = wxString::Format (_("The DCP for this film will take up about %.1f Gb, and the disk that you are using only has %.1f Gb available.  Do you want to continue anyway?"), required, available);
+			} else {
+				message = wxString::Format (_("The DCP and intermediate files for this film will take up about %.1f Gb, and the disk that you are using only has %.1f Gb available.  You would need half as much space if the filesystem supported hard links, but it does not.  Do you want to continue anyway?"), required, available);
+			}
+			if (!confirm_dialog (this, message)) {
 				return;
 			}
 		}

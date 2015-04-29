@@ -1101,10 +1101,29 @@ Film::required_disk_space () const
  *  Note: the decision made by this method isn't, of course, 100% reliable.
  */
 bool
-Film::should_be_enough_disk_space (double& required, double& available) const
+Film::should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const
 {
+	/* Create a test file and see if we can hard-link it */
+	boost::filesystem::path test = internal_video_mxf_dir() / "test";
+	boost::filesystem::path test2 = internal_video_mxf_dir() / "test2";
+	can_hard_link = true;
+	FILE* f = fopen_boost (test, "w");
+	if (f) {
+		fclose (f);
+		boost::system::error_code ec;
+		boost::filesystem::create_hard_link (test, test2, ec);
+		if (ec) {
+			can_hard_link = false;
+		}
+		boost::filesystem::remove (test);
+		boost::filesystem::remove (test2);
+	}
+
 	boost::filesystem::space_info s = boost::filesystem::space (internal_video_mxf_dir ());
 	required = double (required_disk_space ()) / 1073741824.0f;
+	if (!can_hard_link) {
+		required *= 2;
+	}
 	available = double (s.available) / 1073741824.0f;
 	return (available - required) > 1;
 }

@@ -107,7 +107,7 @@ public:
 	int audio_frame_rate () const;
 
 	uint64_t required_disk_space () const;
-	bool should_be_enough_disk_space (double &, double &) const;
+	bool should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const;
 	
 	/* Proxies for some Playlist methods */
 

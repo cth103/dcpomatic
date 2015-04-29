@@ -1,5 +1,8 @@
 2015-04-29  Carl Hetherington  <cth@carlh.net>
 
+	* Make disk space check take account of whether hard links
+	are supported by the target filesystem (#511).
+
 	* Allow configuration of the encryption key (from master).
 
 	* Various fixes to bad timeline drag behaviour when
