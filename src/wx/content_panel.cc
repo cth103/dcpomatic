@@ -43,6 +43,7 @@
 using std::list;
 using std::string;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -440,6 +441,36 @@ ContentPanel::film_content_changed (int property)
 void
 ContentPanel::setup ()
 {
+	ContentList content = _film->content ();
+	sort (content.begin(), content.end(), ContentSorter ());
+       
+	/* First, check to see if anything has changed and bail if not; this avoids
+	   flickering on OS X.
+	*/
+
+	vector<string> existing;
+	for (int i = 0; i < _content->GetItemCount(); ++i) {
+		existing.push_back (wx_to_std (_content->GetItemText (i)));
+	}
+
+	vector<string> proposed;
+	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+               bool const valid = (*i)->paths_valid ();
+
+               string s = (*i)->summary ();
+               if (!valid) {
+                       s = _("MISSING: ") + s;
+               }
+	       
+               proposed.push_back (s);
+	}
+       
+	if (existing == proposed) {
+		return;
+	}
+      
+	/* Something has changed: set up the control */
+	
 	string selected_summary;
 	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s != -1) {
@@ -447,9 +478,6 @@ ContentPanel::setup ()
 	}
 	
 	_content->DeleteAllItems ();
-
-	ContentList content = _film->content ();
-	sort (content.begin(), content.end(), ContentSorter ());
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		int const t = _content->GetItemCount ();
@@ -487,8 +515,6 @@ ContentPanel::setup ()
 void
 ContentPanel::files_dropped (wxDropFilesEvent& event)
 {
-	cout << "SHIT!\n";
-	
 	if (!_film) {
 		return;
 	}
