@@ -83,11 +83,11 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 void
 TimecodeBase::clear ()
 {
-	checked_set (_hours, "");
-	checked_set (_minutes, "");
-	checked_set (_seconds, "");
-	checked_set (_frames, "");
-	_fixed->SetLabel ("");
+	checked_set (_hours, wxT (""));
+	checked_set (_minutes, wxT (""));
+	checked_set (_seconds, wxT (""));
+	checked_set (_frames, wxT (""));
+	checked_set (_fixed, wxT (""));
 }
 
 void

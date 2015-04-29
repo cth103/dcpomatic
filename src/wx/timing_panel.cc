@@ -247,10 +247,10 @@ TimingPanel::film_content_changed (int property)
 			}
 		}
 		if (check.size() == 1) {
-			_video_frame_rate->SetValue (std_to_wx (raw_convert<string> (vc->video_frame_rate (), 5)));
+			checked_set (_video_frame_rate, raw_convert<string> (vc->video_frame_rate (), 5));
 			_video_frame_rate->Enable (true);
 		} else {
-			_video_frame_rate->SetValue ("");
+			checked_set (_video_frame_rate, wxT (""));
 			_video_frame_rate->Enable (false);
 		}
 	}

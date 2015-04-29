@@ -180,10 +180,41 @@ checked_set (wxChoice* widget, string value)
 }
 
 void
+checked_set (wxChoice* widget, vector<pair<string, string> > items)
+{
+       vector<pair<string, string> > current;
+       for (unsigned int i = 0; i < widget->GetCount(); ++i) {
+               current.push_back (
+                       make_pair (
+                               wx_to_std (widget->GetString (i)),
+                               string_client_data (widget->GetClientObject (i))
+                               )
+                       );
+       }
+
+       if (current == items) {
+               return;
+       }
+
+       widget->Clear ();
+       for (vector<pair<string, string> >::const_iterator i = items.begin(); i != items.end(); ++i) {
+               widget->Append (std_to_wx (i->first), new wxStringClientData (std_to_wx (i->second)));
+       }
+}
+
+void
 checked_set (wxTextCtrl* widget, string value)
 {
 	if (widget->GetValue() != std_to_wx (value)) {
 		widget->ChangeValue (std_to_wx (value));
+	}
+}
+
+void
+checked_set (wxTextCtrl* widget, wxString value)
+{
+	if (widget->GetValue() != value) {
+		widget->ChangeValue (value);
 	}
 }
 

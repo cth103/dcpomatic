@@ -76,7 +76,7 @@ public:
 		checked_set (_seconds, boost::lexical_cast<std::string> (s));
 		checked_set (_frames, boost::lexical_cast<std::string> (f));
 		
-		_fixed->SetLabel (std_to_wx (t.timecode (fps)));
+		checked_set (_fixed, t.timecode (fps));
 	}
 
 	T get (int fps) const
