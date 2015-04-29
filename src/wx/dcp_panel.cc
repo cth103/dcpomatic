@@ -19,6 +19,7 @@
 
 #include "dcp_panel.h"
 #include "wx_util.h"
+#include "key_dialog.h"
 #include "isdcf_metadata_dialog.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
@@ -26,6 +27,7 @@
 #include "lib/util.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include <dcp/key.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/gbsizer.h>
@@ -99,6 +101,21 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
+        wxClientDC dc (_panel);
+        wxSize size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
+        size.SetHeight (-1);
+
+	{
+               add_label_to_grid_bag_sizer (grid, _panel, _("Key"), true, wxGBPosition (r, 0));
+               wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+               _key = new wxStaticText (_panel, wxID_ANY, "", wxDefaultPosition, size);
+               s->Add (_key, 1, wxALIGN_CENTER_VERTICAL);
+               _edit_key = new wxButton (_panel, wxID_ANY, _("Edit..."));
+               s->Add (_edit_key);
+               grid->Add (s, wxGBPosition (r, 1));
+               ++r;
+	}
+	
 	add_label_to_grid_bag_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
 	_standard = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -111,6 +128,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	_dcp_content_type->Bind	 (wxEVT_COMMAND_CHOICE_SELECTED,      boost::bind (&DCPPanel::dcp_content_type_changed, this));
 	_signed->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::signed_toggled, this));
 	_encrypted->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::encrypted_toggled, this));
+	_edit_key->Bind          (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&DCPPanel::edit_key_clicked, this));
 	_standard->Bind          (wxEVT_COMMAND_CHOICE_SELECTED,      boost::bind (&DCPPanel::standard_changed, this));
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
@@ -122,6 +140,16 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	_standard->Append (_("Interop"));
 
 	Config::instance()->Changed.connect (boost::bind (&DCPPanel::config_changed, this));
+}
+
+void
+DCPPanel::edit_key_clicked ()
+{
+	KeyDialog* d = new KeyDialog (_panel, _film->key ());
+	if (d->ShowModal () == wxID_OK) {
+		_film->set_key (d->key ());
+	}
+	d->Destroy ();
 }
 
 void
@@ -258,9 +286,16 @@ DCPPanel::film_changed (int p)
 		if (_film->encrypted ()) {
 			_film->set_signed (true);
 			_signed->Enable (false);
+			_key->Enable (_generally_sensitive);
+			_edit_key->Enable (_generally_sensitive);
 		} else {
 			_signed->Enable (_generally_sensitive);
+			_key->Enable (false);
+			_edit_key->Enable (false);
 		}
+		break;
+	case Film::KEY:
+		checked_set (_key, _film->key().hex().substr (0, 8) + "...");
 		break;
 	case Film::RESOLUTION:
 		checked_set (_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
@@ -390,6 +425,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::SIGNED);
 	film_changed (Film::BURN_SUBTITLES);
 	film_changed (Film::ENCRYPTED);
+	film_changed (Film::KEY);
 	film_changed (Film::J2K_BANDWIDTH);
 	film_changed (Film::ISDCF_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
@@ -416,6 +452,8 @@ DCPPanel::set_general_sensitivity (bool s)
 	_signed->Enable (si);
 	
 	_encrypted->Enable (s);
+	_key->Enable (s && _film && _film->encrypted ());
+	_edit_key->Enable (s && _film && _film->encrypted ());
 	_frame_rate_choice->Enable (s);
 	_frame_rate_spin->Enable (s);
 	_audio_channels->Enable (s);

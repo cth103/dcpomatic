@@ -33,6 +33,7 @@ sources = """
           hints_dialog.cc
           job_manager_view.cc
           kdm_dialog.cc
+          key_dialog.cc
           make_signer_chain_dialog.cc
           new_film_dialog.cc
           preset_colour_conversion_dialog.cc

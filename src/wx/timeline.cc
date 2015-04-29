@@ -363,7 +363,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 	
 	if (_snap) {
 
-		DCPTime const new_end = new_position + _down_view->content()->length_after_trim () - 1;
+		DCPTime const new_end = new_position + _down_view->content()->length_after_trim () - DCPTime (1);
 		/* Signed `distance' to nearest thing (i.e. negative is left on the timeline,
 		   positive is right).
 		*/
@@ -377,9 +377,9 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 			}
 
 			maybe_snap (cv->content()->position(), new_position, nearest_distance);
-			maybe_snap (cv->content()->position(), new_end + 1, nearest_distance);
-			maybe_snap (cv->content()->end() + 1, new_position, nearest_distance);
-			maybe_snap (cv->content()->end() + 1, new_end, nearest_distance);
+			maybe_snap (cv->content()->position(), new_end + DCPTime (1), nearest_distance);
+			maybe_snap (cv->content()->end() + DCPTime (1), new_position, nearest_distance);
+			maybe_snap (cv->content()->end() + DCPTime (1), new_end, nearest_distance);
 		}
 		
 		if (nearest_distance) {

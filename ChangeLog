@@ -1,5 +1,7 @@
 2015-04-29  Carl Hetherington  <cth@carlh.net>
 
+	* Allow configuration of the encryption key (from master).
+
 	* Various fixes to bad timeline drag behaviour when
 	snapping (from master).
 

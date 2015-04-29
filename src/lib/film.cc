@@ -881,6 +881,13 @@ Film::set_encrypted (bool e)
 	signal_changed (ENCRYPTED);
 }
 
+void
+Film::set_key (dcp::Key key)
+{
+	_key = key;
+	signal_changed (KEY);
+}
+
 shared_ptr<Playlist>
 Film::playlist () const
 {

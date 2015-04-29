@@ -133,10 +133,6 @@ public:
 		dcp::Formulation formulation
 		) const;
 
-	dcp::Key key () const {
-		return _key;
-	}
-
 	int state_version () const {
 		return _state_version;
 	}
@@ -157,6 +153,7 @@ public:
 		RESOLUTION,
 		SIGNED,
 		ENCRYPTED,
+		KEY,
 		J2K_BANDWIDTH,
 		ISDCF_METADATA,
 		VIDEO_FRAME_RATE,
@@ -203,6 +200,10 @@ public:
 	
 	bool encrypted () const {
 		return _encrypted;
+	}
+
+	dcp::Key key () const {
+		return _key;
 	}
 
 	int j2k_bandwidth () const {
@@ -255,6 +256,7 @@ public:
 	void set_resolution (Resolution);
 	void set_signed (bool);
 	void set_encrypted (bool);
+	void set_key (dcp::Key key);
 	void set_j2k_bandwidth (int);
 	void set_isdcf_metadata (ISDCFMetadata);
 	void set_video_frame_rate (int);

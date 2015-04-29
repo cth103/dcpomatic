@@ -67,6 +67,7 @@ private:
 	void signed_toggled ();
 	void burn_subtitles_toggled ();
 	void encrypted_toggled ();
+	void edit_key_clicked ();
 
 	void setup_frame_rate_widget ();
 	void setup_container ();
@@ -101,6 +102,8 @@ private:
 	wxCheckBox* _signed;
 	wxCheckBox* _burn_subtitles;
 	wxCheckBox* _encrypted;
+	wxStaticText* _key;
+	wxButton* _edit_key;
 
 	boost::shared_ptr<Film> _film;
 	bool _generally_sensitive;
