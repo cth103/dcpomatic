@@ -1,3 +1,8 @@
+2015-04-29  c.hetherington  <cth@carlh.net>
+
+	* Hand-apply 291179175729b62e17a9c322cd27ae134d1310d9 from master;
+	stop more flickering when dragging in the timeline on OS X.
+
 2015-04-22  c.hetherington  <cth@carlh.net>
 
 	* Add P3 colour conversion preset.

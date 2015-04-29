@@ -246,16 +246,20 @@ VideoPanel::film_content_changed (int property)
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
 		if (!vcs) {
-			_colour_conversion->SetLabel (wxT (""));
+			checked_set (_colour_conversion, wxT (""));
 		} else if (vcs->colour_conversion ()) {
 			optional<size_t> preset = vcs->colour_conversion().get().preset ();
 			vector<PresetColourConversion> cc = Config::instance()->colour_conversions ();
-			_colour_conversion->SetLabel (preset ? std_to_wx (cc[preset.get()].name) : _("Custom"));
+			if (preset) {
+				checked_set (_colour_conversion, std_to_wx (cc[preset.get()].name));
+			} else {
+				checked_set (_colour_conversion, _("Custom"));
+			}
 			_enable_colour_conversion->SetValue (true);
 			_colour_conversion->Enable (true);
 			_colour_conversion_button->Enable (true);
 		} else {
-			_colour_conversion->SetLabel (_("None"));
+			checked_set (_colour_conversion, _("None"));
 			_enable_colour_conversion->SetValue (false);
 			_colour_conversion->Enable (false);
 			_colour_conversion_button->Enable (false);
@@ -264,12 +268,12 @@ VideoPanel::film_content_changed (int property)
 		if (fcs) {
 			string p = Filter::ffmpeg_string (fcs->filters ());
 			if (p.empty ()) {
-				_filters->SetLabel (_("None"));
+				checked_set (_filters, _("None"));
 			} else {
 				if (p.length() > 25) {
 					p = p.substr (0, 25) + "...";
 				}
-				_filters->SetLabel (std_to_wx (p));
+				checked_set (_filters, p);
 			}
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_IN) {
@@ -317,10 +321,10 @@ VideoPanel::setup_description ()
 {
 	VideoContentList vc = _parent->selected_video ();
 	if (vc.empty ()) {
-		_description->SetLabel ("");
+		checked_set (_description, wxT (""));
 		return;
 	} else if (vc.size() > 1) {
-		_description->SetLabel (_("Multiple content selected"));
+		checked_set (_description, _("Multiple content selected"));
 		return;
 	}
 
@@ -331,7 +335,7 @@ VideoPanel::setup_description ()
 		d += "\n ";
 	}
 
-	_description->SetLabel (std_to_wx (d));
+	checked_set (_description, d);
 	_sizer->Layout ();
 }
 
