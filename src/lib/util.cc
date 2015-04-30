@@ -381,7 +381,7 @@ dcpomatic_setup_gettext_i18n (string lang)
 #endif	
 
 #ifdef DCPOMATIC_LINUX
-	bindtextdomain ("libdcpomatic", POSIX_LOCALE_PREFIX);
+	bindtextdomain ("libdcpomatic", LINUX_LOCALE_PREFIX);
 #endif
 }
 

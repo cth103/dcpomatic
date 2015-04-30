@@ -152,4 +152,6 @@ private:
 	boost::shared_ptr<dcp::SoundMXF> _sound_mxf;
 	boost::shared_ptr<dcp::SoundMXFWriter> _sound_mxf_writer;
 	boost::shared_ptr<dcp::InteropSubtitleContent> _subtitle_content;
+
+	std::list<boost::shared_ptr<Font> > _fonts;
 };

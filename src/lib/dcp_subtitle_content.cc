@@ -22,7 +22,8 @@
 #include "raw_convert.h"
 #include <dcp/interop_subtitle_content.h>
 #include <dcp/smpte_subtitle_content.h>
-#include <dcp/interop_load_font.h>
+#include <dcp/interop_load_font_node.h>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -57,9 +58,8 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	_subtitle_language = sc->language ();
 	_length = DCPTime::from_seconds (sc->latest_subtitle_out().to_seconds ());
 
-	list<shared_ptr<dcp::LoadFont> > fonts = sc->load_font_nodes ();
-	for (list<shared_ptr<dcp::LoadFont> >::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
-		_fonts.push_back (shared_ptr<Font> (new Font ((*i)->id)));
+	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
+		_fonts.push_back (shared_ptr<Font> (new Font (i->id)));
 	}
 }
 

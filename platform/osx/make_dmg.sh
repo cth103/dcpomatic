@@ -137,6 +137,7 @@ cp $ROOT/32/src/dcpomatic/icons/kdm_email.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/icons/servers.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/icons/tms.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/icons/keys.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic/LiberationSans-Regular.ttf "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do

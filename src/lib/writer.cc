@@ -46,6 +46,8 @@
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
 #include <dcp/interop_subtitle_content.h>
+#include <dcp/font.h>
+#include <boost/foreach.hpp>
 #include <fstream>
 #include <cerrno>
 
@@ -514,6 +516,24 @@ Writer::finish ()
 				   ));
 		
 		dcp.add (_subtitle_content);
+
+		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
+
+		/* Add all the fonts to the subtitle content and as assets to the DCP */
+		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
+			boost::filesystem::path const from = i->file.get_value_or (liberation);
+			_subtitle_content->add_font (i->id, from.leaf().string ());
+
+			boost::filesystem::path to = _film->dir (_film->dcp_name ()) / from.leaf();
+
+			boost::system::error_code ec;
+			boost::filesystem::copy_file (from, to, ec);
+			if (!ec) {
+				dcp.add (shared_ptr<dcp::Font> (new dcp::Font (to)));
+			} else {
+				LOG_WARNING_NC (String::compose ("Could not copy font %1 to DCP", from.string ()));
+			}
+		}
 	}
 	
 	cpl->add (reel);
@@ -654,18 +674,8 @@ Writer::write (PlayerSubtitles subs)
 void
 Writer::write (list<shared_ptr<Font> > fonts)
 {
-	if (fonts.empty ()) {
-		return;
-	}
-	
-	if (!_subtitle_content) {
-		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
-	}
-	
-	for (list<shared_ptr<Font> >::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
-		/* XXX: this LiberationSans-Regular needs to be a path to a DCP-o-matic-distributed copy */
-		_subtitle_content->add_font ((*i)->id, (*i)->file.get_value_or ("LiberationSans-Regular.ttf").leaf().string ());
-	}
+	/* Just keep a list of fonts and we'll deal with them in ::finish */
+	copy (fonts.begin (), fonts.end (), back_inserter (_fonts));
 }
 
 bool

@@ -272,7 +272,7 @@ dcpomatic_setup_i18n ()
 #endif		
 
 #ifdef DCPOMATIC_POSIX
-		locale->AddCatalogLookupPathPrefix (POSIX_LOCALE_PREFIX);
+		locale->AddCatalogLookupPathPrefix (LINUX_LOCALE_PREFIX);
 #endif
 
 #ifdef DCPOMATIC_LINUX

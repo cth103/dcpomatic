@@ -191,6 +191,9 @@ File "%binaries%/src/lib/mo/nl_NL/libdcpomatic2.mo"
 File "%binaries%/src/wx/mo/nl_NL/libdcpomatic2-wx.mo"
 File "%binaries%/src/tools/mo/nl_NL/dcpomatic2.mo"
 File "%static_deps%/share/locale/nl/LC_MESSAGES/wxstd.mo"
+
+SetOutPath "$INSTDIR"
+File "%resources%/../../LiberationSans-Regular.ttf"
     """, file=f)
 
     if debug:

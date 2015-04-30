@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ extern boost::filesystem::path openssl_path ();
 #ifdef DCPOMATIC_OSX
 extern boost::filesystem::path app_contents ();
 #endif
+extern boost::filesystem::path shared_path ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
 

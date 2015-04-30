@@ -224,8 +224,6 @@ def configure(conf):
     # POSIX
     if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
-        conf.env.append_value('CXXFLAGS', '-DPOSIX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
-        conf.env.append_value('CXXFLAGS', '-DPOSIX_ICON_PREFIX="%s/share/dcpomatic2"' % conf.env['INSTALL_PREFIX'])
         boost_lib_suffix = ''
         boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
@@ -233,6 +231,8 @@ def configure(conf):
     # Linux
     if conf.env.TARGET_LINUX:
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
+        conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
+        conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share/dcpomatic2"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')
 
     if conf.env.TARGET_DEBIAN:
@@ -374,8 +374,9 @@ def build(bld):
     for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dcpomatic2.png' % r)
 
-    if not bld.env.TARGET_WINDOWS:
+    if bld.env.TARGET_LINUX:
         bld.install_files('${PREFIX}/share/dcpomatic2', 'icons/taskbar_icon.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'LiberationSans-Regular.ttf')
 
     bld.add_post_fun(post)
 

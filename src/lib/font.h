@@ -35,7 +35,7 @@ public:
 
 	void as_xml (xmlpp::Node* node);
 	
-	/** Font ID */
+	/** Font ID, used to describe it in the subtitle content */
 	std::string id;
 	boost::optional<boost::filesystem::path> file;
 };

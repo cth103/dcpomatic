@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -150,6 +150,23 @@ app_contents ()
 	return path;
 }
 #endif
+
+boost::filesystem::path
+shared_path ()
+{
+#ifdef DCPOMATIC_LINUX
+	return boost::filesystem::canonical (LINUX_SHARE_PREFIX);
+#endif
+#ifdef DCPOMATIC_WINDOWS
+	wchar_t dir[512];
+	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
+	PathRemoveFileSpec (dir);
+	return dir.parent_path();
+#endif
+#ifdef DCPOMATIC_OSX
+	return app_contents();
+#endif	
+}
 
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, shared_ptr<Log> log)
