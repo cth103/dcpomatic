@@ -161,7 +161,8 @@ shared_path ()
 	wchar_t dir[512];
 	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
 	PathRemoveFileSpec (dir);
-	return dir.parent_path();
+	boost::filesystem::path path = dir;
+	return path.parent_path();
 #endif
 #ifdef DCPOMATIC_OSX
 	return app_contents();
