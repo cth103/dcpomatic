@@ -509,6 +509,10 @@ audio_channel_name (int c)
 bool
 valid_image_file (boost::filesystem::path f)
 {
+	if (boost::starts_with (f.string(), "._")) {
+		return false;
+	}
+		
 	string ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (

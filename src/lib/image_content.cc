@@ -40,7 +40,7 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, VideoContent (f)
 {
 	bool have_j2k = false;
-	if (boost::filesystem::is_regular_file (p)) {
+	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		_paths.push_back (p);
 		if (valid_j2k_file (p)) {
 			have_j2k = true;
