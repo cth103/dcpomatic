@@ -24,6 +24,7 @@ digital projectors.
 %{_datadir}/applications/dcpomatic2_batch.desktop
 %{_datadir}/applications/dcpomatic2_server.desktop
 %{_datadir}/dcpomatic2/taskbar_icon.png
+%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf
 %{_datadir}/icons/hicolor/128x128/apps/dcpomatic2.png
 %{_datadir}/icons/hicolor/22x22/apps/dcpomatic2.png
 %{_datadir}/icons/hicolor/32x32/apps/dcpomatic2.png
