@@ -1041,7 +1041,7 @@ Film::full_frame () const
 dcp::Size
 Film::frame_size () const
 {
-	return fit_ratio_within (container()->ratio(), full_frame (), 1);
+	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
 dcp::EncryptedKDM

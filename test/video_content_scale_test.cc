@@ -97,7 +97,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 		sc = VideoContentScale (scale);
 	}
 
-	dcp::Size answer = sc.get().size (vc, display_size, film_size, 1);
+	dcp::Size answer = sc.get().size (vc, display_size, film_size);
 	if (answer != correct) {
 		cerr << "Testing " << vc->video_size().width << "x" << vc->video_size().height << "\n";
 		cerr << "Testing " << display_size.width << "x" << display_size.height << "\n";

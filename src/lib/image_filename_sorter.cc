@@ -30,7 +30,6 @@ public:
 		boost::optional<int> na = extract_number (a);
 		boost::optional<int> nb = extract_number (b);
 		if (!na || !nb) {
-			std::cout << a << " " << b << " " << (a.string() < b.string()) << "\n";
 			return a.string() < b.string();
 		}
 

@@ -540,7 +540,7 @@ VideoContent::processing_description () const
 	DCPOMATIC_ASSERT (film);
 
 	dcp::Size const container_size = film->frame_size ();
-	dcp::Size const scaled = scale().size (dynamic_pointer_cast<const VideoContent> (shared_from_this ()), container_size, container_size, 1);
+	dcp::Size const scaled = scale().size (dynamic_pointer_cast<const VideoContent> (shared_from_this ()), container_size, container_size);
 
 	if (scaled != video_size_after_crop ()) {
 		d << String::compose (

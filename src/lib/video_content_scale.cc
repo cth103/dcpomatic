@@ -127,22 +127,22 @@ VideoContentScale::from_id (string id)
  *  @param film_container The size of the film's image.
  */
 dcp::Size
-VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size display_container, dcp::Size film_container, int round) const
+VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size display_container, dcp::Size film_container) const
 {
 	/* Work out the size of the content if it were put inside film_container */
 
-	dcp::Size video_size_after_crop = c->video_size_after_crop ();
-	
+	dcp::Size const video_size_after_crop = c->video_size_after_crop ();
+
 	dcp::Size size;
 
 	if (_ratio) {
 		/* Stretch to fit the requested ratio */
-		size = fit_ratio_within (_ratio->ratio (), film_container, round);
+		size = fit_ratio_within (_ratio->ratio (), film_container);
 	} else if (_scale || video_size_after_crop.width > film_container.width || video_size_after_crop.height > film_container.height) {
 		/* Scale, preserving aspect ratio; this is either if we have been asked to scale with no stretch
 		   or if the unscaled content is too big for film_container.
 		*/
-		size = fit_ratio_within (video_size_after_crop.ratio(), film_container, round);
+		size = fit_ratio_within (video_size_after_crop.ratio(), film_container);
 	} else {
 		/* No stretch nor scale */
 		size = video_size_after_crop;

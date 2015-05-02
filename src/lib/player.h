@@ -92,7 +92,6 @@ public:
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 
 	void set_video_container_size (dcp::Size);
-	void set_approximate_size ();
 	void set_ignore_video ();
 
 	PlayerStatistics const & statistics () const;
@@ -157,7 +156,6 @@ private:
 	dcp::Size _video_container_size;
 	boost::shared_ptr<Image> _black_image;
 
-	bool _approximate_size;
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
 

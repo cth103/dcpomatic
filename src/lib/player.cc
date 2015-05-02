@@ -71,7 +71,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	: _film (f)
 	, _playlist (p)
 	, _have_valid_pieces (false)
-	, _approximate_size (false)
 	, _ignore_video (false)
 {
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -295,12 +294,6 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 	return all;
 }
 
-void
-Player::set_approximate_size ()
-{
-	_approximate_size = true;
-}
-
 shared_ptr<PlayerVideo>
 Player::black_player_video_frame (DCPTime time) const
 {
@@ -352,7 +345,7 @@ Player::get_video (DCPTime time, bool accurate)
 			return pvf;
 		}
 		
-		dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size (), _approximate_size ? 4 : 1);
+		dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 
 		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
 			pvf.push_back (

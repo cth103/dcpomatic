@@ -546,13 +546,13 @@ tidy_for_filename (string f)
 }
 
 dcp::Size
-fit_ratio_within (float ratio, dcp::Size full_frame, int round)
+fit_ratio_within (float ratio, dcp::Size full_frame)
 {
 	if (ratio < full_frame.ratio ()) {
-		return dcp::Size (round_to (full_frame.height * ratio, round), full_frame.height);
+		return dcp::Size (rint (full_frame.height * ratio), full_frame.height);
 	}
 	
-	return dcp::Size (full_frame.width, round_to (full_frame.width / ratio, round));
+	return dcp::Size (full_frame.width, rint (full_frame.width / ratio));
 }
 
 void *

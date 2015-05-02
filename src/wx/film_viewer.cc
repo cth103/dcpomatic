@@ -147,7 +147,6 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	
 	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
-	_player->set_approximate_size ();
 	_player_connection = _player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
@@ -319,13 +318,6 @@ FilmViewer::calculate_sizes ()
 	/* Catch silly values */
 	_out_size.width = max (64, _out_size.width);
 	_out_size.height = max (64, _out_size.height);
-
-	/* The player will round its image size down to the next lowest 4 pixels
-	   to speed up its scale, so do similar here to avoid black borders
-	   around things.  This is a bit of a hack.
-	*/
-	_out_size.width &= ~3;
-	_out_size.height &= ~3;
 
 	_player->set_video_container_size (_out_size);
 }

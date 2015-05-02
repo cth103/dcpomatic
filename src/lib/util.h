@@ -69,7 +69,7 @@ extern bool valid_j2k_file (boost::filesystem::path);
 extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
-extern dcp::Size fit_ratio_within (float ratio, dcp::Size, int);
+extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
 extern int round_to (float n, int r);
