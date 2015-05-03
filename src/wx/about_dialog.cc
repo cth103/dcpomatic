@@ -62,7 +62,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	t = new wxStaticText (
 		this, wxID_ANY,
-		_("Free, open-source DCP generation from almost anything."),
+		_("Free, open-source DCP creation from almost anything."),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
 	t->SetFont (subtitle_font);
