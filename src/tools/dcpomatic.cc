@@ -128,8 +128,7 @@ enum {
 	ID_file_properties,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
-	ID_edit_restore_default_preferences = 100,
-	ID_content_scale_to_fit_width,
+	ID_content_scale_to_fit_width = 100,
 	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_kdms,
@@ -138,6 +137,7 @@ enum {
 	ID_tools_hints,
 	ID_tools_encoding_servers,
 	ID_tools_check_for_updates,
+	ID_tools_restore_default_preferences,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_add_file
@@ -190,7 +190,6 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_restore_default_preferences, this), ID_edit_restore_default_preferences);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),           ID_jobs_make_dcp);
@@ -200,6 +199,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),             ID_tools_hints);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_report_a_problem, this),   ID_help_report_a_problem);
 
@@ -393,7 +393,7 @@ private:
 		_config_dialog->Show (this);
 	}
 
-	void edit_restore_default_preferences ()
+	void tools_restore_default_preferences ()
 	{
 		Config::restore_defaults ();
 	}
@@ -674,11 +674,9 @@ private:
 	
 #ifdef __WXOSX__	
 		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
-		add_item (_file_menu, _("Restore default preferences"), ID_edit_restore_default_preferences, ALWAYS);
 #else
 		wxMenu* edit = new wxMenu;
 		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
-		add_item (edit, _("Restore default preferences"), ID_edit_restore_default_preferences, ALWAYS);
 #endif
 
 		wxMenu* content = new wxMenu;
@@ -695,6 +693,8 @@ private:
 		add_item (tools, _("Hints..."), ID_tools_hints, 0);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
+		tools->AppendSeparator ();
+		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
 		
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__	

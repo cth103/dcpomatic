@@ -1,5 +1,7 @@
 2015-05-04  Carl Hetherington  <cth@carlh.net>
 
+	* Move restore-default-prefs option (#537).
+
 	* Don't try to update config dialog when its window has been
 	destroyed.  Fixes various crashes on Windows (from master).
 
