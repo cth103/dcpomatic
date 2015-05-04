@@ -1,5 +1,8 @@
 2015-05-04  Carl Hetherington  <cth@carlh.net>
 
+	* Don't try to update config dialog when its window has been
+	destroyed.  Fixes various crashes on Windows (from master).
+
 	* Add a simple content properties dialog (#554).
 
 2015-05-01  carl  <cth@carlh.net>
