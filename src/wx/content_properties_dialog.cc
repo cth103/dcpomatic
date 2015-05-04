@@ -23,6 +23,7 @@
 #include "lib/content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
+#include <boost/algorithm/string.hpp>
 
 using std::string;
 using boost::shared_ptr;
