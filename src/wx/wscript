@@ -16,6 +16,7 @@ sources = """
           content_colour_conversion_dialog.cc
           content_menu.cc
           content_panel.cc
+          content_properties_dialog.cc
           content_sub_panel.cc
           dcp_panel.cc
           image_sequence_dialog.cc

@@ -17,8 +17,12 @@
 
 */
 
-#include <wx/wx.h>
-#include <wx/dirdlg.h>
+#include "content_menu.h"
+#include "repeat_dialog.h"
+#include "wx_util.h"
+#include "timeline_video_content_view.h"
+#include "timeline_audio_content_view.h"
+#include "content_properties_dialog.h"
 #include "lib/playlist.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
@@ -27,11 +31,8 @@
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
 #include "lib/dcp_content.h"
-#include "content_menu.h"
-#include "repeat_dialog.h"
-#include "wx_util.h"
-#include "timeline_video_content_view.h"
-#include "timeline_audio_content_view.h"
+#include <wx/wx.h>
+#include <wx/dirdlg.h>
 
 using std::cout;
 using std::vector;
@@ -43,6 +44,7 @@ enum {
 	ID_repeat = 1,
 	ID_join,
 	ID_find_missing,
+	ID_properties,
 	ID_re_examine,
 	ID_kdm,
 	ID_remove
@@ -55,6 +57,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
 	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
+	_properties = _menu->Append (ID_properties, _("Properties..."));
 	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
 	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
 	_menu->AppendSeparator ();
@@ -63,6 +66,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::repeat, this), ID_repeat);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::join, this), ID_join);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
+	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::properties, this), ID_properties);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
@@ -91,6 +95,7 @@ ContentMenu::popup (weak_ptr<Film> f, ContentList c, TimelineContentViewList v, 
 	_join->Enable (n > 1);
 	
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
+	_properties->Enable (_content.size() == 1);
 	_re_examine->Enable (!_content.empty ());
 
 	if (_content.size() == 1) {
@@ -313,5 +318,13 @@ ContentMenu::kdm ()
 		film->examine_content (dcp);
 	}
 	
+	d->Destroy ();
+}
+
+void
+ContentMenu::properties ()
+{
+	ContentPropertiesDialog* d = new ContentPropertiesDialog (_parent, _content.front ());
+	d->ShowModal ();
 	d->Destroy ();
 }

@@ -1,3 +1,7 @@
+2015-05-04  Carl Hetherington  <cth@carlh.net>
+
+	* Add a simple content properties dialog (#554).
+
 2015-05-01  carl  <cth@carlh.net>
 
 	* Don't load image files whose names start with ._ as they

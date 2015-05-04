@@ -20,13 +20,14 @@
 #ifndef DCPOMATIC_CONTENT_MENU_H
 #define DCPOMATIC_CONTENT_MENU_H
 
+#include "timeline_content_view.h"
+#include "lib/types.h"
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
-#include "timeline_content_view.h"
-#include "lib/types.h"
 
 class Film;
+class Job;
 
 class ContentMenu : public boost::noncopyable
 {
@@ -40,6 +41,7 @@ private:
 	void repeat ();
 	void join ();
 	void find_missing ();
+	void properties ();
 	void re_examine ();
 	void kdm ();
 	void remove ();
@@ -54,6 +56,7 @@ private:
 	wxMenuItem* _repeat;
 	wxMenuItem* _join;
 	wxMenuItem* _find_missing;
+	wxMenuItem* _properties;
 	wxMenuItem* _re_examine;
 	wxMenuItem* _kdm;
 	wxMenuItem* _remove;
