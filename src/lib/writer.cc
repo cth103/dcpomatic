@@ -505,18 +505,6 @@ Writer::finish ()
 	}
 
 	if (_subtitle_content) {
-		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _film->subtitle_xml_filename ());
-		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
-				   new dcp::ReelSubtitleAsset (
-					   _subtitle_content,
-					   dcp::Fraction (_film->video_frame_rate(), 1),
-					   _picture_mxf->intrinsic_duration (),
-					   0
-					   )
-				   ));
-		
-		dcp.add (_subtitle_content);
-
 		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
 
 		/* Add all the fonts to the subtitle content and as assets to the DCP */
@@ -534,6 +522,18 @@ Writer::finish ()
 				LOG_WARNING_NC (String::compose ("Could not copy font %1 to DCP", from.string ()));
 			}
 		}
+
+		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _film->subtitle_xml_filename ());
+		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
+				   new dcp::ReelSubtitleAsset (
+					   _subtitle_content,
+					   dcp::Fraction (_film->video_frame_rate(), 1),
+					   _picture_mxf->intrinsic_duration (),
+					   0
+					   )
+				   ));
+		
+		dcp.add (_subtitle_content);
 	}
 	
 	cpl->add (reel);
