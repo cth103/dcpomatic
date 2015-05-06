@@ -663,7 +663,11 @@ Writer::write (PlayerSubtitles subs)
 	}
 
 	if (!_subtitle_content) {
-		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
+		string lang = _film->subtitle_language ();
+		if (lang.empty ()) {
+			lang = "Unknown";
+		}
+		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), lang));
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
