@@ -198,7 +198,7 @@ private:
 	{
 		Config* config = Config::instance ();
 		
-		_set_language->SetValue (config->language ());
+		checked_set (_set_language, config->language ());
 		
 		if (config->language().get_value_or ("") == "fr") {
 			_language->SetSelection (3);
@@ -218,9 +218,9 @@ private:
 
 		setup_language_sensitivity ();
 		
-		_num_local_encoding_threads->SetValue (config->num_local_encoding_threads ());
-		_check_for_updates->SetValue (config->check_for_updates ());
-		_check_for_test_updates->SetValue (config->check_for_test_updates ());
+		checked_set (_num_local_encoding_threads, config->num_local_encoding_threads ());
+		checked_set (_check_for_updates, config->check_for_updates ());
+		checked_set (_check_for_test_updates, config->check_for_test_updates ());
 	}
 
 	void setup_language_sensitivity ()
@@ -412,12 +412,12 @@ private:
 			}
 		}
 		
-		_still_length->SetValue (config->default_still_length ());
+		checked_set (_still_length, config->default_still_length ());
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
-		_j2k_bandwidth->SetValue (config->default_j2k_bandwidth() / 1000000);
+		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
-		_audio_delay->SetValue (config->default_audio_delay ());
-		_issuer->SetValue (std_to_wx (config->dcp_issuer ()));
+		checked_set (_audio_delay, config->default_audio_delay ());
+		checked_set (_issuer, config->dcp_issuer ());
 	}
 		
 	void j2k_bandwidth_changed ()
@@ -521,7 +521,7 @@ private:
 
 	void config_changed ()
 	{
-		_use_any_servers->SetValue (Config::instance()->use_any_servers ());
+		checked_set (_use_any_servers, Config::instance()->use_any_servers ());
 		_servers_list->refresh ();
 	}
 	
@@ -810,7 +810,7 @@ private:
 
 	void update_signer_private_key ()
 	{
-		_signer_private_key->SetLabel (std_to_wx (dcp::private_key_fingerprint (_signer->key ())));
+		checked_set (_signer_private_key, dcp::private_key_fingerprint (_signer->key ()));
 	}	
 
 	void load_signer_private_key ()
@@ -858,7 +858,7 @@ private:
 
 	void update_decryption_certificate ()
 	{
-		_decryption_certificate->SetLabel (std_to_wx (Config::instance()->decryption_certificate().thumbprint ()));
+		checked_set (_decryption_certificate, Config::instance()->decryption_certificate().thumbprint ());
 	}
 
 	void load_decryption_private_key ()
@@ -880,7 +880,7 @@ private:
 
 	void update_decryption_private_key ()
 	{
-		_decryption_private_key->SetLabel (std_to_wx (dcp::private_key_fingerprint (Config::instance()->decryption_private_key())));
+		checked_set (_decryption_private_key, dcp::private_key_fingerprint (Config::instance()->decryption_private_key()));
 	}
 
 	void export_decryption_certificate ()
@@ -969,10 +969,10 @@ private:
 	{
 		Config* config = Config::instance ();
 		
-		_tms_ip->SetValue (std_to_wx (config->tms_ip ()));
-		_tms_path->SetValue (std_to_wx (config->tms_path ()));
-		_tms_user->SetValue (std_to_wx (config->tms_user ()));
-		_tms_password->SetValue (std_to_wx (config->tms_password ()));
+		checked_set (_tms_ip, config->tms_ip ());
+		checked_set (_tms_path, config->tms_path ());
+		checked_set (_tms_user, config->tms_user ());
+		checked_set (_tms_password, config->tms_password ());
 	}
 	
 	void tms_ip_changed ()
@@ -1089,14 +1089,14 @@ private:
 	{
 		Config* config = Config::instance ();
 		
-		_mail_server->SetValue (std_to_wx (config->mail_server ()));
-		_mail_user->SetValue (std_to_wx (config->mail_user ()));
-		_mail_password->SetValue (std_to_wx (config->mail_password ()));
-		_kdm_subject->SetValue (std_to_wx (config->kdm_subject ()));
-		_kdm_from->SetValue (std_to_wx (config->kdm_from ()));
-		_kdm_cc->SetValue (std_to_wx (config->kdm_cc ()));
-		_kdm_bcc->SetValue (std_to_wx (config->kdm_bcc ()));
-		_kdm_email->SetValue (std_to_wx (Config::instance()->kdm_email ()));
+		checked_set (_mail_server, config->mail_server ());
+		checked_set (_mail_user, config->mail_user ());
+		checked_set (_mail_password, config->mail_password ());
+		checked_set (_kdm_subject, config->kdm_subject ());
+		checked_set (_kdm_from, config->kdm_from ());
+		checked_set (_kdm_cc, config->kdm_cc ());
+		checked_set (_kdm_bcc, config->kdm_bcc ());
+		checked_set (_kdm_email, Config::instance()->kdm_email ());
 	}
 	
 	void mail_server_changed ()
@@ -1148,7 +1148,7 @@ private:
 	void reset_kdm_email ()
 	{
 		Config::instance()->reset_kdm_email ();
-		_kdm_email->SetValue (wx_to_std (Config::instance()->kdm_email ()));
+		checked_set (_kdm_email, Config::instance()->kdm_email ());
 	}
 
 	wxTextCtrl* _mail_server;
@@ -1241,14 +1241,14 @@ private:
 	{
 		Config* config = Config::instance ();
 		
-		_maximum_j2k_bandwidth->SetValue (config->maximum_j2k_bandwidth() / 1000000);
-		_allow_any_dcp_frame_rate->SetValue (config->allow_any_dcp_frame_rate ());
-		_log_general->SetValue (config->log_types() & Log::TYPE_GENERAL);
-		_log_warning->SetValue (config->log_types() & Log::TYPE_WARNING);
-		_log_error->SetValue (config->log_types() & Log::TYPE_ERROR);
-		_log_timing->SetValue (config->log_types() & Log::TYPE_TIMING);
+		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
+		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
+		checked_set (_log_general, config->log_types() & Log::TYPE_GENERAL);
+		checked_set (_log_warning, config->log_types() & Log::TYPE_WARNING);
+		checked_set (_log_error, config->log_types() & Log::TYPE_ERROR);
+		checked_set (_log_timing, config->log_types() & Log::TYPE_TIMING);
 #ifdef DCPOMATIC_WINDOWS
-		_win32_console->SetValue (config->win32_console());
+		checked_set (_win32_console, config->win32_console());
 #endif
 	}
 
