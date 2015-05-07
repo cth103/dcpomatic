@@ -431,7 +431,6 @@ Config::drop ()
 void
 Config::changed ()
 {
-	write ();
 	Changed ();
 }
 

@@ -407,6 +407,8 @@ public:
 	void changed ();
 	boost::signals2::signal<void ()> Changed;
 
+	void write () const;
+	
 	static Config* instance ();
 	static void drop ();
 	static void restore_defaults ();
@@ -415,7 +417,6 @@ private:
 	Config ();
 	boost::filesystem::path file () const;
 	void read ();
-	void write () const;
 	void make_decryption_keys ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();

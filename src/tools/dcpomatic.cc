@@ -236,6 +236,9 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
 		wxAcceleratorTable accel_table (1, accel);
 		SetAcceleratorTable (accel_table);
+
+		/* Instantly save any config changes when using the DCP-o-matic GUI */
+		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
 	}
 
 	void new_film (boost::filesystem::path path)
