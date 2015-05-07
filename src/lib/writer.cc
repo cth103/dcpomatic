@@ -505,7 +505,31 @@ Writer::finish ()
 	}
 
 	if (_subtitle_content) {
-		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _film->subtitle_xml_filename ());
+		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
+
+		/* Add all the fonts to the subtitle content and as assets to the DCP */
+		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
+			boost::filesystem::path const from = i->file.get_value_or (liberation);
+			_subtitle_content->add_font (i->id, from.leaf().string ());
+
+			boost::filesystem::path to = _film->dir (_film->dcp_name ()) / _subtitle_content->id ();
+			boost::filesystem::create_directories (to, ec);
+			if (ec) {
+				throw FileError (_("Could not create directory"), to);
+			}
+
+			to /= from.leaf();
+
+			boost::system::error_code ec;
+			boost::filesystem::copy_file (from, to, ec);
+			if (ec) {
+				throw FileError ("Could not copy font to DCP", from);
+			}
+
+			dcp.add (shared_ptr<dcp::Font> (new dcp::Font (to)));
+		}
+
+		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _subtitle_content->id () / _film->subtitle_xml_filename ());
 		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
 				   new dcp::ReelSubtitleAsset (
 					   _subtitle_content,
@@ -516,24 +540,6 @@ Writer::finish ()
 				   ));
 		
 		dcp.add (_subtitle_content);
-
-		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
-
-		/* Add all the fonts to the subtitle content and as assets to the DCP */
-		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
-			boost::filesystem::path const from = i->file.get_value_or (liberation);
-			_subtitle_content->add_font (i->id, from.leaf().string ());
-
-			boost::filesystem::path to = _film->dir (_film->dcp_name ()) / from.leaf();
-
-			boost::system::error_code ec;
-			boost::filesystem::copy_file (from, to, ec);
-			if (!ec) {
-				dcp.add (shared_ptr<dcp::Font> (new dcp::Font (to)));
-			} else {
-				LOG_WARNING_NC (String::compose ("Could not copy font %1 to DCP", from.string ()));
-			}
-		}
 	}
 	
 	cpl->add (reel);
@@ -663,7 +669,11 @@ Writer::write (PlayerSubtitles subs)
 	}
 
 	if (!_subtitle_content) {
-		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), _film->subtitle_language ()));
+		string lang = _film->subtitle_language ();
+		if (lang.empty ()) {
+			lang = "Unknown";
+		}
+		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), lang));
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
