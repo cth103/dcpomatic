@@ -305,9 +305,10 @@ wait_for_jobs ()
 		}
 	}
 
+	ui_signaller->ui_idle ();
+
 	/* Discard all jobs so we lose any we just reported an error in */
 	JobManager::drop ();
-	ui_signaller->ui_idle ();
 }
 
 void
