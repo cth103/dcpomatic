@@ -1,3 +1,7 @@
+2015-05-10  Carl Hetherington  <cth@carlh.net>
+
+	* Fix sometimes-missing channel labels on OS X audio analysis.
+
 2015-05-09  Carl Hetherington  <cth@carlh.net>
 
 	* Efficiency fix for cases where there is a lot of processing
