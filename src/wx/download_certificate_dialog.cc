@@ -17,9 +17,9 @@
 
 */
 
-#include <boost/bind.hpp>
-#include "download_certificate_dialog.h"
 #include "wx_util.h"
+#include "download_certificate_dialog.h"
+#include <boost/bind.hpp>
 
 using boost::function;
 
@@ -50,4 +50,16 @@ DownloadCertificateDialog::add_common_widgets ()
 	_download->Enable (false);
 
 	layout ();
+
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	ok->Enable (false);
 }
+
+void
+DownloadCertificateDialog::downloaded (bool done)
+{
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	ok->Enable (done);
+}
+
+	

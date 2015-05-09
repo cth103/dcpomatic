@@ -32,6 +32,7 @@ public:
 
 protected:
 	void add_common_widgets ();
+	void downloaded (bool done);
 	
 	boost::function<void (boost::filesystem::path)> _load;
 	wxStaticText* _message;
