@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,9 @@
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
+#include "types.h"
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <vector>
 
 /** @class AudioPoint
@@ -69,15 +71,29 @@ public:
 	AudioAnalysis (boost::filesystem::path);
 
 	void add_point (int c, AudioPoint const & p);
+	void set_peak (float peak, DCPTime time) {
+		_peak = peak;
+		_peak_time = time;
+	}
 	
 	AudioPoint get_point (int c, int p) const;
 	int points (int c) const;
 	int channels () const;
 
+	boost::optional<float> peak () const {
+		return _peak;
+	}
+
+	boost::optional<DCPTime> peak_time () const {
+		return _peak_time;
+	}
+
 	void write (boost::filesystem::path);
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;
+	boost::optional<float> _peak;
+	boost::optional<DCPTime> _peak_time;
 };
 
 #endif

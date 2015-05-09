@@ -52,6 +52,9 @@ private:
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;
 
+	float _overall_peak;
+	AudioFrame _overall_peak_frame;
+
 	boost::shared_ptr<AudioAnalysis> _analysis;
 
 	static const int _num_points;

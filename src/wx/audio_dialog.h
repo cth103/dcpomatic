@@ -29,7 +29,7 @@ class Film;
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog (wxWindow *);
+	AudioDialog (wxWindow *, boost::shared_ptr<Film> film);
 
 	void set_content (boost::shared_ptr<AudioContent>);
 
@@ -40,9 +40,13 @@ private:
 	void smoothing_changed ();
 	void try_to_load_analysis ();
 	void analysis_finished ();
+	void setup_peak_time ();
 
 	boost::shared_ptr<AudioContent> _content;
+	boost::shared_ptr<AudioAnalysis> _analysis;
+	boost::weak_ptr<Film> _film;
 	AudioPlot* _plot;
+	wxStaticText* _peak_time;
 	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;

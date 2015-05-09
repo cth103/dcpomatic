@@ -22,6 +22,7 @@
 #include "cross.h"
 #include <boost/filesystem.hpp>
 #include <stdint.h>
+#include <inttypes.h>
 #include <cmath>
 #include <cassert>
 #include <cstdio>
@@ -115,6 +116,17 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 		}
 	}
 
+	/* These may not exist in old analysis files, so be careful
+	   about reading them.
+	*/
+	
+	float peak;
+	DCPTime::Type peak_time;
+	if (fscanf (f, "%f%" SCNd64, &peak, &peak_time) == 2) {
+		_peak = peak;
+		_peak_time = DCPTime (peak_time);
+	}
+	
 	fclose (f);
 }
 
@@ -162,6 +174,10 @@ AudioAnalysis::write (boost::filesystem::path filename)
 		for (vector<AudioPoint>::iterator j = i->begin(); j != i->end(); ++j) {
 			j->write (f);
 		}
+	}
+
+	if (_peak) {
+		fprintf (f, "%f%" PRId64, _peak.get (), _peak_time.get().get ());
 	}
 
 	fclose (f);

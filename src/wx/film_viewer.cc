@@ -354,16 +354,7 @@ FilmViewer::set_position_text ()
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
 	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (_position.seconds() * fps)) + 1));
-	
-	double w = _position.seconds ();
-	int const h = (w / 3600);
-	w -= h * 3600;
-	int const m = (w / 60);
-	w -= m * 60;
-	int const s = floor (w);
-	w -= s;
-	int const f = rint (w * fps);
-	_timecode->SetLabel (wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f));
+	_timecode->SetLabel (time_to_timecode (_position, fps));
 }
 
 void

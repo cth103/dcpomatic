@@ -330,3 +330,17 @@ context_translation (wxString s)
 
 	return t;
 }
+
+wxString
+time_to_timecode (DCPTime t, float fps)
+{
+	double w = t.seconds ();
+	int const h = (w / 3600);
+	w -= h * 3600;
+	int const m = (w / 60);
+	w -= m * 60;
+	int const s = floor (w);
+	w -= s;
+	int const f = rint (w * fps);
+	return wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f);
+}
