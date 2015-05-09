@@ -1,5 +1,8 @@
 2015-05-09  Carl Hetherington  <cth@carlh.net>
 
+	* Efficiency fix for cases where there is a lot of processing
+	power.
+
 	* Add UTF-8 content type to KDM emails to try to fix #549.
 
 	* Disable OK until a download succeeds in the certificate

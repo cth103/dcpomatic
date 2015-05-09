@@ -366,21 +366,24 @@ try
 			}
 
 			DCPOMATIC_ASSERT (i != _queue.rend());
-			QueueItem qi = *i;
-
 			++_pushed_to_disk;
-			
 			lock.unlock ();
+
+			/* i is valid here, even though we don't hold a lock on the mutex,
+			   since list iterators are unaffected by insertion and only this
+			   thread could erase the last item in the list.
+			*/
 
 			LOG_GENERAL (
 				"Writer full (awaiting %1 [last eye was %2]); pushes %3 to disk",
 				_last_written_frame + 1,
-				_last_written_eyes, qi.frame
+				_last_written_eyes, i->frame
 				);
 			
-			qi.encoded->write (_film, qi.frame, qi.eyes);
+			i->encoded->write (_film, i->frame, i->eyes);
+			
 			lock.lock ();
-			qi.encoded.reset ();
+			i->encoded.reset ();
 			--_queued_full_in_memory;
 		}
 
