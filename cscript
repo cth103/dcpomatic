@@ -148,7 +148,7 @@ def make_spec(filename, version, target):
     """Make a .spec file for a RPM build"""
     f = open(filename, 'w')
     print >>f,'Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files'
-    print >>f,'Name:dcpomatic'
+    print >>f,'Name:dcpomatic2'
     print >>f,'Version:%s' % version
     print >>f,'Release:1%{?dist}'
     print >>f,'License:GPL'
