@@ -147,14 +147,14 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	mapping.set (0, dcp::RS, 1.0);
 	sound->set_audio_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-FR_US-R_51_4K_DI_20140704_PP_SMPTE_VF");
-	mapping.set (0, dcp::CHANNEL_7, 1.0);
+	mapping.set (0, dcp::HI, 1.0);
 	sound->set_audio_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-FR_US-R_51_4K_DI_20140704_PP_SMPTE_VF");
 	film->set_audio_channels (8);
-	mapping.set (0, dcp::CHANNEL_7, 1.0);
+	mapping.set (0, dcp::HI, 1.0);
 	sound->set_audio_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-FR_US-R_61_4K_DI_20140704_PP_SMPTE_VF");
-	mapping.set (0, dcp::CHANNEL_8, 1.0);
+	mapping.set (0, dcp::VI, 1.0);
 	sound->set_audio_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-FR_US-R_71_4K_DI_20140704_PP_SMPTE_VF");
 }
