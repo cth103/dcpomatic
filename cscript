@@ -1,3 +1,21 @@
+#
+#    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
 import glob
 import shutil
 import os
@@ -26,48 +44,6 @@ deb_depends['12.04'] = {'libc6': '2.15',
                         'libcurl3': '7.22.0-3ubuntu4',
                         'libzip2': '0.10-1ubuntu1'}
 
-deb_depends['12.10'] = {'libc6': '2.15',
-                        'libssh-4': '0.5.2',
-                        'libboost-filesystem1.49.0': '1.49.0',
-                        'libboost-thread1.49.0': '1.49.0',
-                        'libsndfile1': '1.0.25',
-                        'libmagick++5': '8:6.7.7.10',
-                        'libxml++2.6-2': '2.34.2',
-                        'libgtk2.0-0': '2.24.13',
-                        'libxmlsec1': '1.2.18-2',
-                        'libxmlsec1-openssl': '1.2.18-2',
-                        'libboost-date-time1.49.0': '1.49.0',
-                        'libcurl3': '7.27.0-1ubuntu1',
-                        'libzip2': '0.10.1-1.1'}
-
-deb_depends['13.04'] = {'libc6': '2.15',
-                        'libssh-4': '0.5.2',
-                        'libboost-filesystem1.49.0': '1.49.0',
-                        'libboost-thread1.49.0': '1.49.0',
-                        'libsndfile1': '1.0.25',
-                        'libmagick++5': '8:6.7.7.10',
-                        'libxml++2.6-2': '2.34.2',
-                        'libgtk2.0-0': '2.24.13',
-                        'libxmlsec1': '1.2.18-2',
-                        'libxmlsec1-openssl': '1.2.18-2',
-                        'libboost-date-time1.49.0': '1.49.0',
-                        'libcurl3': '7.29.0-1ubuntu3',
-                        'libzip2': '0.10.1-1.1'}
-
-deb_depends['13.10'] = {'libc6': '2.17-93',
-                        'libssh-4': '0.5.4',
-                        'libboost-filesystem1.53.0': '1.53.0',
-                        'libboost-thread1.53.0': '1.53.0',
-                        'libsndfile1': '1.0.25',
-                        'libmagick++5': '8:6.7.7.10',
-                        'libxml++2.6-2': '2.36.0',
-                        'libgtk2.0-0': '2.24.20',
-                        'libxmlsec1': '1.2.18-2',
-                        'libxmlsec1-openssl': '1.2.18-2',
-                        'libboost-date-time1.49.0': '1.49.0',
-                        'libcurl3': '7.29.0-1ubuntu3',
-                        'libzip2': '0.10.1-1.1'}
-
 deb_depends['14.04'] = {'libc6': '2.19-0ubuntu6',
                         'libssh-4': '0.6.1-0ubuntu3',
                         'libboost-filesystem1.54.0': '1.54.0-4ubuntu3',
@@ -81,6 +57,20 @@ deb_depends['14.04'] = {'libc6': '2.19-0ubuntu6',
                         'libboost-date-time1.54.0': '1.54.0-4ubuntu3',
                         'libcurl3': '7.35.0-1ubuntu2',
                         'libzip2': '0.10.1-1.2'}
+
+deb_depends['15.04'] = {'libc6': '2.21-0ubuntu4',
+                        'libssh-4': '0.6.3-3ubuntu3',
+                        'libboost-filesystem1.55.0': '1.55.0+dfsg-3ubuntu2',
+                        'libboost-thread1.55.0': '1.55.0+dfsg-3ubuntu2',
+                        'libsndfile1': '1.0.25-9.1',
+                        'libmagick++-6.q16-5': '8:6.8.9.9-5',
+                        'libxml++2.6-2': '2.36.0-2.1',
+                        'libgtk2.0-0': '2.24.27-0ubuntu1',
+                        'libxmlsec1': '1.2.20-2ubuntu2',
+                        'libxmlsec1-openssl': '1.2.20-2ubuntu2',
+                        'libboost-date-time1.55.0': '1.55.0+dfsg-3ubuntu2',
+                        'libcurl3': '7.38.0-3ubuntu2',
+                        'libzip2': '0.11.2-1.2'}
 
 deb_depends['7'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
@@ -159,24 +149,85 @@ def dependencies(target):
             ('libdcp', '8e7f9e4'),
             ('libsub', 'f66b11f'))
 
-def build(target, options):
-    cmd = './waf configure --prefix=%s' % target.directory
+def configure_options(target):
+    opt = ''
     if target.debug:
-        cmd += ' --enable-debug'
+        opt += ' --enable-debug'
     if target.platform == 'windows':
-        cmd += ' --target-windows'
+        opt += ' --target-windows'
     elif target.platform == 'linux':
-        if target.distro == 'debian' or target.distro == 'ubuntu':
-            cmd += ' --target-debian'
-            if target.version == 'unstable':
-                cmd += ' --debian-unstable'
-        elif target.distro == 'centos':
+        opt += ' --static-dcpomatic --static-openjpeg --static-wxwidgets --static-ffmpeg --static-dcp --static-sub --static-cxml'
+        if target.distro == 'centos':
+            opt += ' --static-xmlsec --static-ssh --disable-tests'
             if target.version == '6.5':
-                cmd += ' --target-centos-6 --disable-tests'
+                opt += ' --static-boost --static-xmlpp'
             elif target.version == '7':
-                cmd += ' --target-centos-7 --disable-tests'
+                opt += ' --workaround-gssapi'
 
-    target.command(cmd)
+    return opt
+
+def make_spec(filename, version, target):
+    """Make a .spec file for a RPM build"""
+    f = open(filename, 'w')
+    print >>f,'Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files'
+    print >>f,'Name:dcpomatic'
+    print >>f,'Version:%s' % version
+    print >>f,'Release:1%{?dist}'
+    print >>f,'License:GPL'
+    print >>f,'Group:Applications/Multimedia'
+    print >>f,'URL:http://dcpomatic.com/'
+    print >>f,'Requires: ImageMagick-c++, glibmm24, libzip'
+    print >>f,''
+    print >>f,'%description'
+    print >>f,'DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio '
+    print >>f,'files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant '
+    print >>f,'digital projectors.'
+    print >>f,''
+    print >>f,'%files'
+    print >>f,'%{_bindir}/dcpomatic2'
+    print >>f,'%{_bindir}/dcpomatic2_batch'
+    print >>f,'%{_bindir}/dcpomatic2_cli'
+    print >>f,'%{_bindir}/dcpomatic2_create'
+    print >>f,'%{_bindir}/dcpomatic2_kdm'
+    print >>f,'%{_bindir}/dcpomatic2_server'
+    print >>f,'%{_bindir}/dcpomatic2_server_cli'
+    print >>f,'%{_datadir}/applications/dcpomatic2.desktop'
+    print >>f,'%{_datadir}/applications/dcpomatic2_batch.desktop'
+    print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
+    print >>f,'%{_datadir}/dcpomatic2/taskbar_icon.png'
+    for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
+        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
+    for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU']:
+        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l
+        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l
+        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l
+    print >>f,''
+    print >>f,'%prep'
+    print >>f,'rm -rf $RPM_BUILD_DIR/dcpomatic-%s' % version
+    print >>f,'tar xjf $RPM_SOURCE_DIR/dcpomatic-%s.tar.bz2' % version
+    print >>f,'%build'
+    print >>f,'cd dcpomatic-%s' % version
+    print >>f,'export PKG_CONFIG_PATH=%s/lib/pkgconfig:/usr/local/lib/pkgconfig' % target.directory
+    print >>f,'CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' % (target.directory, target.directory, configure_options(target))
+    print >>f,'./waf'
+    print >>f,'%install'
+    print >>f,'cd dcpomatic-%s' % version
+    print >>f,'./waf install'
+    print >>f,''
+    print >>f,'%post'
+    print >>f,'/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :'
+    print >>f,''
+    print >>f,'%postun'
+    print >>f,'if [ $1 -eq 0 ] ; then'
+    print >>f,'    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null'
+    print >>f,'    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
+    print >>f,'fi'
+    print >>f,''
+    print >>f,'%posttrans'
+    print >>f,'/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
+
+def build(target, options):
+    target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target)))
     target.command('./waf')
 
     if target.platform == 'linux' or target.platform == 'osx':

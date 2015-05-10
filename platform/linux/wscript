@@ -17,14 +17,4 @@ def build(bld):
     obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
     obj.VERSION = bld.env.VERSION
 
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic.spec.in'
-    obj.target = 'dcpomatic2.spec'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    if bld.env.TARGET_CENTOS_6:
-        obj.CENTOS_VERSION = '6'
-    elif bld.env.TARGET_CENTOS_7:
-        obj.CENTOS_VERSION = '7'
-
     bld.install_files('${PREFIX}/share/applications', ['dcpomatic2.desktop', 'dcpomatic2_batch.desktop', 'dcpomatic2_server.desktop'])
