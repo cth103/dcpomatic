@@ -175,7 +175,7 @@ def make_spec(filename, version, target):
     print >>f,'%{_datadir}/dcpomatic/taskbar_icon.png'
     for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
         print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
-    for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU']:
+    for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL']:
         print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l
         print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l
         print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l
