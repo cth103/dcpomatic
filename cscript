@@ -226,66 +226,6 @@ def configure_options(target):
 
     return opt
 
-def make_spec(filename, version, target):
-    """Make a .spec file for a RPM build"""
-    f = open(filename, 'w')
-    print >>f,'Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files'
-    print >>f,'Name:dcpomatic'
-    print >>f,'Version:%s' % version
-    print >>f,'Release:1%{?dist}'
-    print >>f,'License:GPL'
-    print >>f,'Group:Applications/Multimedia'
-    print >>f,'URL:http://dcpomatic.com/'
-    print >>f,'Requires: ImageMagick-c++, glibmm24, libzip'
-    print >>f,''
-    print >>f,'%description'
-    print >>f,'DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio '
-    print >>f,'files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant '
-    print >>f,'digital projectors.'
-    print >>f,''
-    print >>f,'%files'
-    print >>f,'%{_bindir}/dcpomatic2'
-    print >>f,'%{_bindir}/dcpomatic2_batch'
-    print >>f,'%{_bindir}/dcpomatic2_cli'
-    print >>f,'%{_bindir}/dcpomatic2_create'
-    print >>f,'%{_bindir}/dcpomatic2_kdm'
-    print >>f,'%{_bindir}/dcpomatic2_server'
-    print >>f,'%{_bindir}/dcpomatic2_server_cli'
-    print >>f,'%{_datadir}/applications/dcpomatic2.desktop'
-    print >>f,'%{_datadir}/applications/dcpomatic2_batch.desktop'
-    print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
-    print >>f,'%{_datadir}/dcpomatic2/taskbar_icon.png'
-    for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
-        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
-    for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU']:
-        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l
-        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l
-        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l
-    print >>f,''
-    print >>f,'%prep'
-    print >>f,'rm -rf $RPM_BUILD_DIR/dcpomatic-%s' % version
-    print >>f,'tar xjf $RPM_SOURCE_DIR/dcpomatic-%s.tar.bz2' % version
-    print >>f,'%build'
-    print >>f,'cd dcpomatic-%s' % version
-    print >>f,'export PKG_CONFIG_PATH=%s/lib/pkgconfig:/usr/local/lib/pkgconfig' % target.directory
-    print >>f,'CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' % (target.directory, target.directory, configure_options(target))
-    print >>f,'./waf'
-    print >>f,'%install'
-    print >>f,'cd dcpomatic-%s' % version
-    print >>f,'./waf install'
-    print >>f,''
-    print >>f,'%post'
-    print >>f,'/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :'
-    print >>f,''
-    print >>f,'%postun'
-    print >>f,'if [ $1 -eq 0 ] ; then'
-    print >>f,'    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null'
-    print >>f,'    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
-    print >>f,'fi'
-    print >>f,''
-    print >>f,'%posttrans'
-    print >>f,'/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
-
 def build(target, options):
     target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target)))
     target.command('./waf')
