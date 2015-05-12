@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -377,21 +377,12 @@ FFmpegContent::audio_analysis_path () const
 list<ContentTimePeriod>
 FFmpegContent::subtitles_during (ContentTimePeriod period, bool starting) const
 {
-	list<ContentTimePeriod> d;
-	
 	shared_ptr<FFmpegSubtitleStream> stream = subtitle_stream ();
 	if (!stream) {
-		return d;
+		return list<ContentTimePeriod> ();
 	}
 
-	/* XXX: inefficient */
-	for (vector<ContentTimePeriod>::const_iterator i = stream->periods.begin(); i != stream->periods.end(); ++i) {
-		if ((starting && period.contains (i->from)) || (!starting && period.overlaps (*i))) {
-			d.push_back (*i);
-		}
-	}
-
-	return d;
+	return stream->subtitles_during (period, starting);
 }
 
 bool

@@ -152,11 +152,11 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 	if (avcodec_decode_subtitle2 (context, &sub, &frame_finished, &_packet) >= 0 && frame_finished) {
 		FFmpegSubtitlePeriod const period = subtitle_period (sub);
 		if (sub.num_rects <= 0 && _last_subtitle_start) {
-			stream->periods.push_back (ContentTimePeriod (_last_subtitle_start.get (), period.from));
+			stream->add_subtitle (ContentTimePeriod (_last_subtitle_start.get (), period.from));
 			_last_subtitle_start = optional<ContentTime> ();
 		} else if (sub.num_rects == 1) {
 			if (period.to) {
-				stream->periods.push_back (ContentTimePeriod (period.from, period.to.get ()));
+				stream->add_subtitle (ContentTimePeriod (period.from, period.to.get ()));
 			} else {
 				_last_subtitle_start = period.from;
 			}

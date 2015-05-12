@@ -426,35 +426,30 @@ FFmpegDecoder::decode_subtitle_packet ()
 	if (avcodec_decode_subtitle2 (subtitle_codec_context(), &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
 		return;
 	}
-
-	/* Subtitle PTS (within the source, not taking into account any of the
-	   source that we may have chopped off for the DCP)
-	*/
-	FFmpegSubtitlePeriod period = subtitle_period (sub);
-	period.from += _pts_offset;
-	if (period.to) {
-		period.to = period.to.get() + _pts_offset;
-	}
 	
 	if (sub.num_rects <= 0) {
 		/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
-		   indicate that the previous subtitle should stop.  Emit the pending one.
+		   indicate that the previous subtitle should stop.  We can ignore it here.
 		*/
-		if (_pending_subtitle_from && _pending_subtitle_image && _pending_subtitle_rect) {
-			image_subtitle (
-				ContentTimePeriod (_pending_subtitle_from.get(), period.from),
-				_pending_subtitle_image,
-				_pending_subtitle_rect.get ()
-				);
-			_pending_subtitle_from = optional<ContentTime> ();
-			_pending_subtitle_image.reset ();
-			_pending_subtitle_rect = optional<dcpomatic::Rect<double> > ();
-		}			
 		return;
 	} else if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
 	}
-		
+
+	/* Subtitle PTS (within the source, not taking into account any of the
+	   source that we may have chopped off for the DCP).
+	*/
+	FFmpegSubtitlePeriod sub_period = subtitle_period (sub);
+	ContentTimePeriod period;
+	period.from = sub_period.from + _pts_offset;
+	if (sub_period.to) {
+		/* We already know the subtitle period `to' time */
+		period.to = sub_period.to.get() + _pts_offset;
+	} else {
+		/* We have to look up the `to' time in the stream's records */
+		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (sub_period.from);
+	}
+	
 	AVSubtitleRect const * rect = sub.rects[0];
 
 	if (rect->type != SUBTITLE_BITMAP) {
@@ -494,14 +489,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		static_cast<double> (rect->h) / vs.height
 		);
 
-	if (period.to) {
-		image_subtitle (ContentTimePeriod (period.from, period.to.get()), image, scaled_rect);
-	} else {
-		/* We don't know when this subtitle stops, so store it until we find out */
-		_pending_subtitle_from = period.from;
-		_pending_subtitle_image = image;
-		_pending_subtitle_rect = scaled_rect;
-	}
+	image_subtitle (ContentTimePeriod (period.from, period.to), image, scaled_rect);
 	
 	avsubtitle_free (&sub);
 }

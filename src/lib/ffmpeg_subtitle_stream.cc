@@ -23,6 +23,8 @@
 #include <boost/foreach.hpp>
 
 using std::string;
+using std::map;
+using std::list;
 
 /** Construct a SubtitleStream from a value returned from to_string().
  *  @param t String returned from to_string().
@@ -32,7 +34,7 @@ FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node)
 	: FFmpegStream (node)
 {
 	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Period")) {
-		periods.push_back (
+		add_subtitle (
 			ContentTimePeriod (
 				ContentTime (node->number_child<ContentTime::Type> ("From")),
 				ContentTime (node->number_child<ContentTime::Type> ("To"))
@@ -46,9 +48,39 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
 
-	BOOST_FOREACH (ContentTimePeriod const & i, periods) {
-		xmlpp::Node* node = root->add_child ("Period");
-		node->add_child("From")->add_child_text (raw_convert<string> (i.from.get ()));
-		node->add_child("To")->add_child_text (raw_convert<string> (i.to.get ()));
+	for (map<ContentTime, ContentTime>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		xmlpp::Node* node = root->add_child ("Subtitle");
+		node->add_child("From")->add_child_text (raw_convert<string> (i->first.get ()));
+		node->add_child("To")->add_child_text (raw_convert<string> (i->second.get ()));
 	}
+}
+
+void
+FFmpegSubtitleStream::add_subtitle (ContentTimePeriod period)
+{
+	DCPOMATIC_ASSERT (_subtitles.find (period.from) == _subtitles.end ());
+	_subtitles[period.from] = period.to;
+}
+
+list<ContentTimePeriod> 
+FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting) const
+{
+	list<ContentTimePeriod> d;
+	
+	/* XXX: inefficient */
+	for (map<ContentTime, ContentTime>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		if ((starting && period.contains (i->first)) || (!starting && period.overlaps (ContentTimePeriod (i->first, i->second)))) {
+			d.push_back (ContentTimePeriod (i->first, i->second));
+		}
+	}
+
+	return d;
+}
+
+ContentTime
+FFmpegSubtitleStream::find_subtitle_to (ContentTime from) const
+{
+	map<ContentTime, ContentTime>::const_iterator i = _subtitles.find (from);
+	DCPOMATIC_ASSERT (i != _subtitles.end ());
+	return i->second;
 }

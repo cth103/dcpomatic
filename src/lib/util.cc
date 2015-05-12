@@ -670,3 +670,4 @@ write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info)
 	fwrite (&info.size, sizeof (info.size), 1, file);
 	fwrite (info.hash.c_str(), 1, info.hash.size(), file);
 }
+

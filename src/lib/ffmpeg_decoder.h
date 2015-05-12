@@ -67,10 +67,6 @@ private:
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
-	boost::optional<ContentTime> _pending_subtitle_from;
-	boost::shared_ptr<Image> _pending_subtitle_image;
-	boost::optional<dcpomatic::Rect<double> > _pending_subtitle_rect;
-
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 	
