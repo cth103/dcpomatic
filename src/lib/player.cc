@@ -376,9 +376,11 @@ Player::get_video (DCPTime time, bool accurate)
 	list<PositionImage> c = transform_image_subtitles (ps.image);
 	copy (c.begin(), c.end(), back_inserter (sub_images));
 
-	/* Text subtitles (rendered to images) */
-	sub_images.push_back (render_subtitles (ps.text, _video_container_size));
-	
+	/* Text subtitles (rendered to an image) */
+	if (!ps.text.empty ()) {
+		sub_images.push_back (render_subtitles (ps.text, _video_container_size));
+	}
+
 	if (!sub_images.empty ()) {
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
 			(*i)->set_subtitle (merge (sub_images));

@@ -85,7 +85,13 @@ SubRipDecoder::pass ()
 }
 
 list<ContentTimePeriod>
-SubRipDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
+SubRipDecoder::image_subtitles_during (ContentTimePeriod, bool) const
+{
+	return list<ContentTimePeriod> ();
+}
+
+list<ContentTimePeriod>
+SubRipDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 {
 	/* XXX: inefficient */
 

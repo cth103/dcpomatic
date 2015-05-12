@@ -55,7 +55,7 @@ private:
 	std::string audio_stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
 	boost::optional<ContentTime> frame_time (AVStream* s) const;
-	
+
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::optional<ContentTime> _first_video;
@@ -64,4 +64,6 @@ private:
 	 */
 	ContentTime _video_length;
 	bool _need_video_length;
+
+	boost::optional<ContentTime> _last_subtitle_start;
 };

@@ -133,7 +133,13 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 
 list<ContentTimePeriod>
-DCPDecoder::subtitles_during (ContentTimePeriod, bool) const
+DCPDecoder::image_subtitles_during (ContentTimePeriod, bool) const
+{
+	return list<ContentTimePeriod> ();
+}
+
+list<ContentTimePeriod>
+DCPDecoder::text_subtitles_during (ContentTimePeriod, bool) const
 {
 	/* XXX */
 	return list<ContentTimePeriod> ();

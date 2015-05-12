@@ -301,6 +301,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
 	VideoDecoder::seek (time, accurate);
 	AudioDecoder::seek (time, accurate);
+	SubtitleDecoder::seek (time, accurate);
 
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.
@@ -426,27 +427,38 @@ FFmpegDecoder::decode_subtitle_packet ()
 		return;
 	}
 
-	/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
-	   indicate that the previous subtitle should stop.
+	/* Subtitle PTS (within the source, not taking into account any of the
+	   source that we may have chopped off for the DCP)
 	*/
+	FFmpegSubtitlePeriod period = subtitle_period (sub);
+	period.from += _pts_offset;
+	if (period.to) {
+		period.to = period.to.get() + _pts_offset;
+	}
+	
 	if (sub.num_rects <= 0) {
-		image_subtitle (ContentTimePeriod (), shared_ptr<Image> (), dcpomatic::Rect<double> ());
+		/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
+		   indicate that the previous subtitle should stop.  Emit the pending one.
+		*/
+		if (_pending_subtitle_from && _pending_subtitle_image && _pending_subtitle_rect) {
+			image_subtitle (
+				ContentTimePeriod (_pending_subtitle_from.get(), period.from),
+				_pending_subtitle_image,
+				_pending_subtitle_rect.get ()
+				);
+			_pending_subtitle_from = optional<ContentTime> ();
+			_pending_subtitle_image.reset ();
+			_pending_subtitle_rect = optional<dcpomatic::Rect<double> > ();
+		}			
 		return;
 	} else if (sub.num_rects > 1) {
 		throw DecodeError (_("multi-part subtitles not yet supported"));
 	}
 		
-	/* Subtitle PTS (within the source, not taking into account any of the
-	   source that we may have chopped off for the DCP)
-	*/
-	ContentTimePeriod period = subtitle_period (sub) + _pts_offset;
-
 	AVSubtitleRect const * rect = sub.rects[0];
 
 	if (rect->type != SUBTITLE_BITMAP) {
-		/* XXX */
-		// throw DecodeError (_("non-bitmap subtitles not yet supported"));
-		return;
+		throw DecodeError (_("non-bitmap subtitles not yet supported"));
 	}
 
 	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
@@ -475,23 +487,33 @@ FFmpegDecoder::decode_subtitle_packet ()
 	}
 
 	dcp::Size const vs = _ffmpeg_content->video_size ();
-
-	image_subtitle (
-		period,
-		image,
-		dcpomatic::Rect<double> (
-			static_cast<double> (rect->x) / vs.width,
-			static_cast<double> (rect->y) / vs.height,
-			static_cast<double> (rect->w) / vs.width,
-			static_cast<double> (rect->h) / vs.height
-			)
+	dcpomatic::Rect<double> const scaled_rect (
+		static_cast<double> (rect->x) / vs.width,
+		static_cast<double> (rect->y) / vs.height,
+		static_cast<double> (rect->w) / vs.width,
+		static_cast<double> (rect->h) / vs.height
 		);
+
+	if (period.to) {
+		image_subtitle (ContentTimePeriod (period.from, period.to.get()), image, scaled_rect);
+	} else {
+		/* We don't know when this subtitle stops, so store it until we find out */
+		_pending_subtitle_from = period.from;
+		_pending_subtitle_image = image;
+		_pending_subtitle_rect = scaled_rect;
+	}
 	
 	avsubtitle_free (&sub);
 }
 
 list<ContentTimePeriod>
-FFmpegDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
+FFmpegDecoder::image_subtitles_during (ContentTimePeriod p, bool starting) const
 {
 	return _ffmpeg_content->subtitles_during (p, starting);
+}
+
+list<ContentTimePeriod>
+FFmpegDecoder::text_subtitles_during (ContentTimePeriod, bool) const
+{
+	return list<ContentTimePeriod> ();
 }

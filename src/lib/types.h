@@ -22,6 +22,7 @@
 
 #include "dcpomatic_time.h"
 #include "position.h"
+#include "rect.h"
 #include <dcp/util.h>
 #include <boost/shared_ptr.hpp>
 #include <vector>

@@ -32,7 +32,8 @@ protected:
 	bool pass ();
 
 private:
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
+	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
+	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
 	std::list<dcp::SubtitleString> _subtitles;
 	std::list<dcp::SubtitleString>::const_iterator _next;

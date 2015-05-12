@@ -193,6 +193,7 @@ class ContentTimePeriod
 {
 public:
 	ContentTimePeriod () {}
+	
 	ContentTimePeriod (ContentTime f, ContentTime t)
 		: from (f)
 		, to (t)
