@@ -155,6 +155,12 @@ boost::filesystem::path
 shared_path ()
 {
 #ifdef DCPOMATIC_LINUX
+#ifdef DCPOMATIC_DEBUG
+	char const * p = getenv ("DCPOMATIC_LINUX_SHARE_PREFIX");
+	if (p) {
+		return p;
+	}
+#endif
 	return boost::filesystem::canonical (LINUX_SHARE_PREFIX);
 #endif
 #ifdef DCPOMATIC_WINDOWS
