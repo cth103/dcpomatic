@@ -28,7 +28,7 @@
 #include "lib/util.h"
 #include "lib/content_factory.h"
 #include "lib/job_manager.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "lib/job.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
@@ -59,11 +59,11 @@ help (string n)
 	     << "  -o, --output <dir>            output directory\n";
 }
 
-class SimpleUISignaller : public UISignaller
+class SimpleSignalManager : public SignalManager
 {
 public:
 	/* Do nothing in this method so that UI events happen in our thread
-	   when we call UISignaller::ui_idle().
+	   when we call SignalManager::ui_idle().
 	*/
 	void wake_ui () {}
 };
@@ -161,7 +161,7 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	ui_signaller = new SimpleUISignaller ();
+	signal_manager = new SimpleSignalManager ();
 
 	try {
 		shared_ptr<Film> film (new Film (output, false));
@@ -184,7 +184,7 @@ main (int argc, char* argv[])
 		JobManager* jm = JobManager::instance ();
 
 		while (jm->work_to_do ()) {}
-		while (ui_signaller->ui_idle() > 0) {}
+		while (signal_manager->ui_idle() > 0) {}
 
 		ContentList content = film->content ();
 		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {

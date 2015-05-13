@@ -21,7 +21,7 @@
 #include <zip.h>
 #include "lib/compose.hpp"
 #include "lib/util.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "lib/internet.h"
 #include "doremi_certificate_dialog.h"
 #include "wx_util.h"
@@ -59,7 +59,7 @@ DoremiCertificateDialog::download ()
 	wxMilliSleep (200);
 #endif	
 
-	ui_signaller->when_idle (boost::bind (&DoremiCertificateDialog::finish_download, this, serial));
+	signal_manager->when_idle (boost::bind (&DoremiCertificateDialog::finish_download, this, serial));
 }
 
 void

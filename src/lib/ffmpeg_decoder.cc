@@ -453,44 +453,19 @@ FFmpegDecoder::decode_subtitle_packet ()
 	
 	AVSubtitleRect const * rect = sub.rects[0];
 
-	if (rect->type != SUBTITLE_BITMAP) {
-		throw DecodeError (_("non-bitmap subtitles not yet supported"));
+	switch (rect->type) {
+	case SUBTITLE_NONE:
+		break;
+	case SUBTITLE_BITMAP:
+		decode_bitmap_subtitle (rect, period);
+		break;
+	case SUBTITLE_TEXT:
+		cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
+		break;
+	case SUBTITLE_ASS:
+		cout << "XXX: SUBTITLE_ASS " << rect->ass << "\n";
+		break;
 	}
-
-	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
-	   G, third B, fourth A.
-	*/
-	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
-
-	/* Start of the first line in the subtitle */
-	uint8_t* sub_p = rect->pict.data[0];
-	/* sub_p looks up into a BGRA palette which is here
-	   (i.e. first byte B, second G, third R, fourth A)
-	*/
-	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
-	/* Start of the output data */
-	uint32_t* out_p = (uint32_t *) image->data()[0];
-
-	for (int y = 0; y < rect->h; ++y) {
-		uint8_t* sub_line_p = sub_p;
-		uint32_t* out_line_p = out_p;
-		for (int x = 0; x < rect->w; ++x) {
-			uint32_t const p = palette[*sub_line_p++];
-			*out_line_p++ = ((p & 0xff) << 16) | (p & 0xff00) | ((p & 0xff0000) >> 16) | (p & 0xff000000);
-		}
-		sub_p += rect->pict.linesize[0];
-		out_p += image->stride()[0] / sizeof (uint32_t);
-	}
-
-	dcp::Size const vs = _ffmpeg_content->video_size ();
-	dcpomatic::Rect<double> const scaled_rect (
-		static_cast<double> (rect->x) / vs.width,
-		static_cast<double> (rect->y) / vs.height,
-		static_cast<double> (rect->w) / vs.width,
-		static_cast<double> (rect->h) / vs.height
-		);
-
-	image_subtitle (ContentTimePeriod (period.from, period.to), image, scaled_rect);
 	
 	avsubtitle_free (&sub);
 }
@@ -506,3 +481,43 @@ FFmpegDecoder::text_subtitles_during (ContentTimePeriod, bool) const
 {
 	return list<ContentTimePeriod> ();
 }
+
+void
+FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimePeriod period)
+{
+	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
+	   G, third B, fourth A.
+	*/
+	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
+	
+	/* Start of the first line in the subtitle */
+	uint8_t* sub_p = rect->pict.data[0];
+	/* sub_p looks up into a BGRA palette which is here
+	   (i.e. first byte B, second G, third R, fourth A)
+	*/
+	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+	/* Start of the output data */
+	uint32_t* out_p = (uint32_t *) image->data()[0];
+	
+	for (int y = 0; y < rect->h; ++y) {
+		uint8_t* sub_line_p = sub_p;
+		uint32_t* out_line_p = out_p;
+		for (int x = 0; x < rect->w; ++x) {
+			uint32_t const p = palette[*sub_line_p++];
+			*out_line_p++ = ((p & 0xff) << 16) | (p & 0xff00) | ((p & 0xff0000) >> 16) | (p & 0xff000000);
+		}
+		sub_p += rect->pict.linesize[0];
+		out_p += image->stride()[0] / sizeof (uint32_t);
+	}
+	
+	dcp::Size const vs = _ffmpeg_content->video_size ();
+	dcpomatic::Rect<double> const scaled_rect (
+		static_cast<double> (rect->x) / vs.width,
+		static_cast<double> (rect->y) / vs.height,
+		static_cast<double> (rect->w) / vs.width,
+		static_cast<double> (rect->h) / vs.height
+		);
+	
+	image_subtitle (period, image, scaled_rect);
+}
+

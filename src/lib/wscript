@@ -109,7 +109,7 @@ sources = """
           transcode_job.cc
           transcoder.cc
           types.cc
-          ui_signaller.cc
+          signal_manager.cc
           update.cc
           upmixer_a.cc
           util.cc

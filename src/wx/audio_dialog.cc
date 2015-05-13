@@ -124,8 +124,15 @@ AudioDialog::try_to_load_analysis ()
 		_analysis_finished_connection = _content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
 		return;
 	}
+
+	try {
+		_analysis.reset (new AudioAnalysis (_content->audio_analysis_path ()));
+	} catch (xmlpp::exception& e) {
+		/* Probably an old-style analysis file: recreate it */
+		_analysis_finished_connection = _content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
+		return;
+        }
 	
-	_analysis.reset (new AudioAnalysis (_content->audio_analysis_path ()));
 	_plot->set_analysis (_analysis);
 	setup_peak_time ();
 

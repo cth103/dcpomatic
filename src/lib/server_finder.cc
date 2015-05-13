@@ -22,7 +22,6 @@
 #include "util.h"
 #include "config.h"
 #include "cross.h"
-#include "ui_signaller.h"
 #include "dcpomatic_socket.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
