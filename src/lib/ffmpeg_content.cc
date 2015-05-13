@@ -367,7 +367,7 @@ FFmpegContent::audio_analysis_path () const
 
 	boost::filesystem::path p = AudioContent::audio_analysis_path ();
 	if (audio_stream ()) {
-		p += "_" + audio_stream()->identifier ();
+		p = p.string() + "_" + audio_stream()->identifier ();
 	}
 	return p;
 }
