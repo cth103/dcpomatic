@@ -365,12 +365,10 @@ FFmpegContent::audio_analysis_path () const
 	   analyses for each stream.
 	*/
 
-	boost::filesystem::path p = film->audio_analysis_dir ();
-	string name = digest();
+	boost::filesystem::path p = AudioContent::audio_analysis_path ();
 	if (audio_stream ()) {
-		name += "_" + audio_stream()->identifier ();
+		p += "_" + audio_stream()->identifier ();
 	}
-	p /= name;
 	return p;
 }
 
