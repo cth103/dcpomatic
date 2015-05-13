@@ -17,21 +17,16 @@
 
 */
 
-/** @file  src/lib/audio_analysis.h
- *  @brief AudioAnalysis and AudioPoint classes.
- */
-
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
-#include "types.h"
+#include <vector>
+#include <list>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
-#include <vector>
+#include <libcxml/cxml.h>
+#include "types.h"
 
-/** @class AudioPoint
- *  @brief A single point of an audio analysis for one portion of one channel.
- */
 class AudioPoint
 {
 public:
@@ -42,11 +37,11 @@ public:
 	};
 
 	AudioPoint ();
-	AudioPoint (FILE *);
+	AudioPoint (cxml::ConstNodePtr node);
 	AudioPoint (AudioPoint const &);
 	AudioPoint& operator= (AudioPoint const &);
 
-	void write (FILE *) const;
+	void as_xml (xmlpp::Element *) const;
 	
 	float& operator[] (int t) {
 		return _data[t];
@@ -56,14 +51,6 @@ private:
 	float _data[COUNT];
 };
 
-/** @class AudioAnalysis
- *  @brief An analysis of the audio data in a piece of AudioContent.
- *
- *  This is a set of AudioPoints for each channel.  The AudioPoints
- *  each represent some measurement of the audio over a portion of the
- *  content.  For example each AudioPoint may give the RMS level of
- *  a 1-minute portion of the audio.
- */
 class AudioAnalysis : public boost::noncopyable
 {
 public:

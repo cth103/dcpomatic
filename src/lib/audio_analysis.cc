@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,15 +18,17 @@
 */
 
 #include "audio_analysis.h"
-#include "dcpomatic_assert.h"
 #include "cross.h"
+#include "util.h"
+#include "raw_convert.h"
+#include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 #include <stdint.h>
-#include <inttypes.h>
 #include <cmath>
-#include <cassert>
 #include <cstdio>
 #include <iostream>
+#include <inttypes.h>
 
 using std::ostream;
 using std::istream;
@@ -35,6 +37,7 @@ using std::vector;
 using std::cout;
 using std::max;
 using std::list;
+using boost::shared_ptr;
 
 AudioPoint::AudioPoint ()
 {
@@ -43,14 +46,10 @@ AudioPoint::AudioPoint ()
 	}
 }
 
-AudioPoint::AudioPoint (FILE* f)
+AudioPoint::AudioPoint (cxml::ConstNodePtr node)
 {
-	for (int i = 0; i < COUNT; ++i) {
-		int n = fscanf (f, "%f", &_data[i]);
-		if (n != 1) {
-			_data[i] = 0;
-		}
-	}
+	_data[PEAK] = node->number_child<float> ("Peak");
+	_data[RMS] = node->number_child<float> ("RMS");
 }
 
 AudioPoint::AudioPoint (AudioPoint const & other)
@@ -75,14 +74,12 @@ AudioPoint::operator= (AudioPoint const & other)
 }
 
 void
-AudioPoint::write (FILE* f) const
+AudioPoint::as_xml (xmlpp::Element* parent) const
 {
-	for (int i = 0; i < COUNT; ++i) {
-		fprintf (f, "%f\n", _data[i]);
-	}
+	parent->add_child ("Peak")->add_child_text (raw_convert<string> (_data[PEAK]));
+	parent->add_child ("RMS")->add_child_text (raw_convert<string> (_data[RMS]));
 }
 	
-
 AudioAnalysis::AudioAnalysis (int channels)
 {
 	_data.resize (channels);
@@ -90,44 +87,21 @@ AudioAnalysis::AudioAnalysis (int channels)
 
 AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
-	FILE* f = fopen_boost (filename, "r");
-	if (!f) {
-		throw OpenFileError (filename);
-	}
+	cxml::Document f ("AudioAnalysis");
+	f.read_file (filename);
 
-	int channels = 0;
-	fscanf (f, "%d", &channels);
-	_data.resize (channels);
+	BOOST_FOREACH (cxml::NodePtr i, f.node_children ("Channel")) {
+		vector<AudioPoint> channel;
 
-	for (int i = 0; i < channels; ++i) {
-		int points;
-		fscanf (f, "%d", &points);
-		if (feof (f)) {
-			fclose (f);
-			return;
+		BOOST_FOREACH (cxml::NodePtr j, i->node_children ("Point")) {
+			channel.push_back (AudioPoint (j));
 		}
-		
-		for (int j = 0; j < points; ++j) {
-			_data[i].push_back (AudioPoint (f));
-			if (feof (f)) {
-				fclose (f);
-				return;
-			}
-		}
+
+		_data.push_back (channel);
 	}
 
-	/* These may not exist in old analysis files, so be careful
-	   about reading them.
-	*/
-	
-	float peak;
-	DCPTime::Type peak_time;
-	if (fscanf (f, "%f%" SCNd64, &peak, &peak_time) == 2) {
-		_peak = peak;
-		_peak_time = DCPTime (peak_time);
-	}
-	
-	fclose (f);
+	_peak = f.number_child<float> ("Peak");
+	_peak_time = DCPTime (f.number_child<DCPTime::Type> ("PeakTime"));
 }
 
 void
@@ -160,26 +134,20 @@ AudioAnalysis::points (int c) const
 void
 AudioAnalysis::write (boost::filesystem::path filename)
 {
-	boost::filesystem::path tmp = filename;
-	tmp.replace_extension (".tmp");
+	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
+	xmlpp::Element* root = doc->create_root_node ("AudioAnalysis");
 
-	FILE* f = fopen_boost (tmp, "w");
-	if (!f) {
-		throw OpenFileError (tmp);
-	}
-
-	fprintf (f, "%ld\n", _data.size ());
-	for (vector<vector<AudioPoint> >::iterator i = _data.begin(); i != _data.end(); ++i) {
-		fprintf (f, "%ld\n", i->size ());
-		for (vector<AudioPoint>::iterator j = i->begin(); j != i->end(); ++j) {
-			j->write (f);
+	BOOST_FOREACH (vector<AudioPoint>& i, _data) {
+		xmlpp::Element* channel = root->add_child ("Channel");
+		BOOST_FOREACH (AudioPoint& j, i) {
+			j.as_xml (channel->add_child ("Point"));
 		}
 	}
 
 	if (_peak) {
-		fprintf (f, "%f%" PRId64, _peak.get (), _peak_time.get().get ());
+		root->add_child("Peak")->add_child_text (raw_convert<string> (_peak.get ()));
+		root->add_child("PeakTime")->add_child_text (raw_convert<string> (_peak_time.get().get ()));
 	}
 
-	fclose (f);
-	boost::filesystem::rename (tmp, filename);
+	doc->write_to_file_formatted (filename.string ());
 }
