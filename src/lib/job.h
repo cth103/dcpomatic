@@ -24,6 +24,7 @@
 #ifndef DCPOMATIC_JOB_H
 #define DCPOMATIC_JOB_H
 
+#include "signaller.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/signals2.hpp>
@@ -35,7 +36,7 @@ class Film;
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
-class Job : public boost::enable_shared_from_this<Job>, public boost::noncopyable
+class Job : public boost::enable_shared_from_this<Job>, public Signaller, public boost::noncopyable
 {
 public:
 	Job (boost::shared_ptr<const Film>);

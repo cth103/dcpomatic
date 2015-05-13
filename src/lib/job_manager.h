@@ -21,6 +21,7 @@
  *  @brief A simple scheduler for jobs.
  */
 
+#include "signaller.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
@@ -32,7 +33,7 @@ extern void wait_for_jobs ();
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
  */
-class JobManager : public boost::noncopyable
+class JobManager : public Signaller, public boost::noncopyable
 {
 public:
 

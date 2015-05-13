@@ -64,9 +64,7 @@ JobManager::add (shared_ptr<Job> j)
 		_jobs.push_back (j);
 	}
 
-	if (ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
-	}
+	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (j)));
 	
 	return j;
 }
@@ -138,9 +136,7 @@ JobManager::scheduler ()
 
 		if (active_jobs != _last_active_jobs) {
 			_last_active_jobs = active_jobs;
-			if (ui_signaller) {
-				ui_signaller->emit (boost::bind (boost::ref (ActiveJobsChanged), active_jobs));
-			}
+			emit (boost::bind (boost::ref (ActiveJobsChanged), active_jobs));
 		}
 
 		dcpomatic_sleep (1);

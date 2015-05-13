@@ -21,6 +21,7 @@
  *  @brief UpdateChecker class.
  */
 
+#include "signaller.h"
 #include <curl/curl.h>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
@@ -30,7 +31,7 @@
 struct update_checker_test;
 
 /** Class to check for the existance of an update for DCP-o-matic on a remote server */
-class UpdateChecker : public boost::noncopyable
+class UpdateChecker : public Signaller, public boost::noncopyable
 {
 public:
 	UpdateChecker ();

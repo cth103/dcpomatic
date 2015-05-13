@@ -168,7 +168,7 @@ UpdateChecker::set_state (State s)
 		_emits++;
 	}
 
-	ui_signaller->emit (boost::bind (boost::ref (StateChanged)));
+	emit (boost::bind (boost::ref (StateChanged)));
 }
 
 UpdateChecker *

@@ -25,6 +25,7 @@
 #define DCPOMATIC_CONTENT_H
 
 #include "types.h"
+#include "signaller.h"
 #include "dcpomatic_time.h"
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
@@ -53,7 +54,7 @@ public:
 /** @class Content
  *  @brief A piece of content represented by one or more files on disk.
  */
-class Content : public boost::enable_shared_from_this<Content>, public boost::noncopyable
+class Content : public boost::enable_shared_from_this<Content>, public Signaller, public boost::noncopyable
 {
 public:
 	Content (boost::shared_ptr<const Film>);

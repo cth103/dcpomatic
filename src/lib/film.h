@@ -29,6 +29,7 @@
 #include "types.h"
 #include "isdcf_metadata.h"
 #include "frame_rate_change.h"
+#include "signaller.h"
 #include "ratio.h"
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
@@ -55,7 +56,7 @@ struct isdcf_name_test;
  *
  *  The content of a Film is held in a Playlist (created and managed by the Film).
  */
-class Film : public boost::enable_shared_from_this<Film>, public boost::noncopyable
+class Film : public boost::enable_shared_from_this<Film>, public Signaller, public boost::noncopyable
 {
 public:
 	Film (boost::filesystem::path, bool log = true);

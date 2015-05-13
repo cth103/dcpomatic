@@ -24,6 +24,8 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
+class Signaller;
+
 /** A class to allow signals to be emitted from non-UI threads and handled
  *  by a UI thread.
  */
@@ -35,23 +37,6 @@ public:
 		: _work (_service)
 	{
 		_ui_thread = boost::this_thread::get_id ();
-	}
-
-	/** Emit a signal from any thread whose handlers will be called in the UI
-	 *  thread.  Use something like:
-	 *
-	 *  ui_signaller->emit (boost::bind (boost::ref (SomeSignal), parameter));
-	 */
-	template <typename T>
-	void emit (T f) {
-		if (boost::this_thread::get_id() == _ui_thread) {
-			/* already in the UI thread */
-			f ();
-		} else {
-			/* non-UI thread; post to the service and wake up the UI */
-			_service.post (f);
-			wake_ui ();
-		}
 	}
 
 	/* Do something next time the UI is idle */
@@ -73,6 +58,25 @@ public:
 	}
 
 private:
+	/** Emit a signal from any thread whose handlers will be called in the UI
+	 *  thread.  Use something like:
+	 *
+	 *  ui_signaller->emit (boost::bind (boost::ref (SomeSignal), parameter));
+	 */
+	template <typename T>
+	void emit (T f) {
+		if (boost::this_thread::get_id() == _ui_thread) {
+			/* already in the UI thread */
+			f ();
+		} else {
+			/* non-UI thread; post to the service and wake up the UI */
+			_service.post (f);
+			wake_ui ();
+		}
+	}
+
+	friend class Signaller;
+	
 	/** A io_service which is used as the conduit for messages */
 	boost::asio::io_service _service;
 	/** Object required to keep io_service from stopping when it has nothing to do */

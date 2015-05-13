@@ -173,7 +173,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 			boost::mutex::scoped_lock lm (_mutex);
 			_servers.push_back (sd);
 		}
-		ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
+		emit (boost::bind (boost::ref (ServerFound), sd));
 	}
 
 	start_accept ();

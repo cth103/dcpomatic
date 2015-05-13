@@ -203,8 +203,8 @@ Job::set_state (State s)
 		}
 	}
 
-	if (finished && ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (Finished)));
+	if (finished) {
+		emit (boost::bind (boost::ref (Finished)));
 	}	
 }
 
@@ -239,9 +239,7 @@ Job::set_progress (float p, bool force)
 		_pause_changed.wait (lm2);
 	}
 
-	if (ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (Progress)));
-	}
+	emit (boost::bind (boost::ref (Progress)));
 }
 
 /** @return fractional progress of the current sub-job, if known */
@@ -301,9 +299,7 @@ Job::set_progress_unknown ()
 	_progress.reset ();
 	lm.unlock ();
 
-	if (ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (Progress)));
-	}
+	emit (boost::bind (boost::ref (Progress)));
 }
 
 /** @return Human-readable status of this job */
