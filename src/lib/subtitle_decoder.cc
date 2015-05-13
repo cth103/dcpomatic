@@ -82,7 +82,22 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 		}
 	}
 
-	/* XXX: should clear out _decoded_* at some point */
+	/* Discard anything in _decoded_image_subtitles that is outside 5 seconds either side of period */
+	
+	list<ContentImageSubtitle>::iterator i = _decoded_image_subtitles.begin();
+	while (i != _decoded_image_subtitles.end()) {
+		list<ContentImageSubtitle>::iterator tmp = i;
+		++tmp;
+
+		if (
+			i->period().to < (period.from - ContentTime::from_seconds (5)) ||
+			i->period().from > (period.to + ContentTime::from_seconds (5))
+			) {
+			_decoded_image_subtitles.erase (i);
+		}
+
+		i = tmp;
+	}
 
 	return out;
 }
