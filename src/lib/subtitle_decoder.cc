@@ -70,7 +70,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
-	while (!pass() && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
+	while (!pass(PASS_REASON_SUBTITLE) && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
@@ -81,6 +81,8 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 			out.push_back (*i);
 		}
 	}
+
+	/* XXX: should clear out _decoded_* at some point */
 
 	return out;
 }

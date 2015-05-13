@@ -40,7 +40,7 @@ public:
 		, _position (0)
 	{}
 
-	bool pass ()
+	bool pass (PassReason)
 	{
 		AudioFrame const N = min (
 			AudioFrame (2000),

@@ -96,7 +96,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 				break;
 			}
 
-			if (pass ()) {
+			if (pass (PASS_REASON_VIDEO)) {
 				/* The decoder has nothing more for us */
 				break;
 			}
@@ -113,7 +113,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 		dec = decoded_video (frame);
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
-		while (_decoded_video.empty() && !pass ()) {}
+		while (_decoded_video.empty() && !pass (PASS_REASON_VIDEO)) {}
 		if (!_decoded_video.empty ()) {
 			dec.push_back (_decoded_video.front ());
 		}
@@ -237,7 +237,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	if (_ignore_video) {
 		return;
 	}
-	
+
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.
 	*/

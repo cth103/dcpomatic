@@ -53,8 +53,8 @@ public:
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
+	bool pass (PassReason reason);
 	void seek (ContentTime time, bool);
-	bool pass ();
 	void flush ();
 
 	AVSampleFormat audio_sample_format () const;

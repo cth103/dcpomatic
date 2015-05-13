@@ -34,10 +34,9 @@ public:
 		return _image_content;
 	}
 
-	void seek (ContentTime, bool);
-
 private:
-	bool pass ();
+	bool pass (PassReason);
+	void seek (ContentTime, bool);
 	
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::shared_ptr<ImageProxy> _image;

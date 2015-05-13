@@ -46,7 +46,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-DCPSubtitleDecoder::pass ()
+DCPSubtitleDecoder::pass (PassReason)
 {
 	if (_next == _subtitles.end ()) {
 		return true;

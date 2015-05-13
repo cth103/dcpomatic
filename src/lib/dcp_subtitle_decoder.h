@@ -28,8 +28,8 @@ public:
 	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
 
 protected:
+	bool pass (PassReason);
 	void seek (ContentTime time, bool accurate);
-	bool pass ();
 
 private:
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;

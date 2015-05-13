@@ -132,7 +132,7 @@ FFmpegDecoder::flush ()
 }
 
 bool
-FFmpegDecoder::pass ()
+FFmpegDecoder::pass (PassReason reason)
 {
 	int r = av_read_frame (_format_context, &_packet);
 
@@ -153,12 +153,13 @@ FFmpegDecoder::pass ()
 	}
 
 	int const si = _packet.stream_index;
+	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (si == _video_stream && !_ignore_video) {
+	if (si == _video_stream && !_ignore_video && reason != PASS_REASON_SUBTITLE) {
 		decode_video_packet ();
-	} else if (_ffmpeg_content->audio_stream() && _ffmpeg_content->audio_stream()->uses_index (_format_context, si)) {
+	} else if (fc->audio_stream() && fc->audio_stream()->uses_index (_format_context, si) && reason != PASS_REASON_SUBTITLE) {
 		decode_audio_packet ();
-	} else if (_ffmpeg_content->subtitle_stream() && _ffmpeg_content->subtitle_stream()->uses_index (_format_context, si)) {
+	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
 	}
 

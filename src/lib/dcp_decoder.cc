@@ -55,7 +55,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c)
 }
 
 bool
-DCPDecoder::pass ()
+DCPDecoder::pass (PassReason)
 {
 	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
 		return true;

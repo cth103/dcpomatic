@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ public:
 	virtual ~Decoder () {}
 
 protected:	
+
 	/** Seek so that the next pass() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
 	 *  time.  Pass accurate = true to try harder to ensure that, at worst,
@@ -50,7 +51,14 @@ protected:
 	 *  it may seek to just the right spot.
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
-	virtual bool pass () = 0;
+
+	enum PassReason {
+		PASS_REASON_VIDEO,
+		PASS_REASON_AUDIO,
+		PASS_REASON_SUBTITLE
+	};
+	
+	virtual bool pass (PassReason reason) = 0;
 };
 
 #endif
