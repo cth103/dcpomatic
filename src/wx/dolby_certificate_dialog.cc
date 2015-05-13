@@ -21,7 +21,7 @@
 #include <curl/curl.h>
 #include "lib/compose.hpp"
 #include "lib/internet.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "dolby_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -80,7 +80,7 @@ DolbyCertificateDialog::setup_countries ()
 	/* See DoremiCertificateDialog for discussion about this daft delay */
 	wxMilliSleep (200);
 #endif
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
 }
 
 void
@@ -103,7 +103,7 @@ DolbyCertificateDialog::country_selected ()
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif	
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
 }
 
 void
@@ -126,7 +126,7 @@ DolbyCertificateDialog::cinema_selected ()
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_cinema_selected, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_cinema_selected, this));
 }
 
 void
@@ -161,7 +161,7 @@ DolbyCertificateDialog::download ()
 	wxMilliSleep (200);
 #endif
 
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_download, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_download, this));
 }
 
 void

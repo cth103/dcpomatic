@@ -27,7 +27,6 @@
 #include "job.h"
 #include "util.h"
 #include "cross.h"
-#include "ui_signaller.h"
 #include "exceptions.h"
 #include "film.h"
 #include "log.h"

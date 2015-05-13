@@ -80,7 +80,7 @@ sources = """
           update_dialog.cc
           video_panel.cc
           wx_util.cc
-          wx_ui_signaller.cc
+          wx_signal_manager.cc
           """
 
 def configure(conf):

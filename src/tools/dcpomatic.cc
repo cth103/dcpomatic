@@ -21,7 +21,7 @@
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/version.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "lib/log.h"
 #include "lib/job_manager.h"
 #include "lib/transcode_job.h"
@@ -39,7 +39,7 @@
 #include "wx/wx_util.h"
 #include "wx/new_film_dialog.h"
 #include "wx/properties_dialog.h"
-#include "wx/wx_ui_signaller.h"
+#include "wx/wx_signal_manager.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
 #include "wx/servers_list_dialog.h"
@@ -841,7 +841,7 @@ private:
 			}
 		}
 
-		ui_signaller = new wxUISignaller (this);
+		signal_manager = new wxSignalManager (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
@@ -909,7 +909,7 @@ private:
 
 	void idle ()
 	{
-		ui_signaller->ui_idle ();
+		signal_manager->ui_idle ();
 	}
 
 	void check ()

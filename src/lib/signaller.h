@@ -20,7 +20,7 @@
 #ifndef DCPOMATIC_SIGNALLER_H
 #define DCPOMATIC_SIGNALLER_H
 
-#include "ui_signaller.h"
+#include "signal_manager.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/signals2.hpp>
 
@@ -100,8 +100,8 @@ public:
 	void emit (T signal)
 	{
 		Wrapper<T>* w = new Wrapper<T> (signal);
-		if (ui_signaller) {
-			ui_signaller->emit (boost::bind (&Wrapper<T>::signal, w));
+		if (signal_manager) {
+			signal_manager->emit (boost::bind (&Wrapper<T>::signal, w));
 		}
 		
 		boost::mutex::scoped_lock lm (_mutex);

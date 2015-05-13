@@ -19,7 +19,6 @@
 
 #include "update.h"
 #include "version.h"
-#include "ui_signaller.h"
 #include "safe_stringstream.h"
 #include "config.h"
 #include "util.h"

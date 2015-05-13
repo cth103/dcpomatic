@@ -26,7 +26,6 @@
 #include "job_manager.h"
 #include "job.h"
 #include "cross.h"
-#include "ui_signaller.h"
 
 using std::string;
 using std::list;
