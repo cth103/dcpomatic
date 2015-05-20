@@ -104,6 +104,9 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	string s (buffer.get());
 	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
 	xml->read_string (s);
+	/* This is a double-check; the server shouldn't even be on the candidate list
+	   if it is the wrong version, but it doesn't hurt to make sure here.
+	*/
 	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
 		cerr << "Mismatched server/client versions\n";
 		LOG_ERROR_NC ("Mismatched server/client versions");
@@ -248,6 +251,7 @@ Server::broadcast_received ()
 		xmlpp::Document doc;
 		xmlpp::Element* root = doc.create_root_node ("ServerAvailable");
 		root->add_child("Threads")->add_child_text (raw_convert<string> (_worker_threads.size ()));
+		root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
 		string xml = doc.write_to_string ("UTF-8");
 
 		if (_verbose) {

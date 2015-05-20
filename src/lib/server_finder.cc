@@ -167,7 +167,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 	xml->read_string (s);
 	
 	string const ip = socket->socket().remote_endpoint().address().to_string ();
-	if (!server_found (ip)) {
+	if (!server_found (ip) && xml->optional_number_child<int>("Version").get_value_or (0) == SERVER_LINK_VERSION) {
 		ServerDescription sd (ip, xml->number_child<int> ("Threads"));
 		{
 			boost::mutex::scoped_lock lm (_mutex);
