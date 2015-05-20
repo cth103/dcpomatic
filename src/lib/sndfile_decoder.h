@@ -30,14 +30,13 @@ public:
 	SndfileDecoder (boost::shared_ptr<const SndfileContent> c);
 	~SndfileDecoder ();
 
-	void seek (ContentTime, bool);
-
 	int audio_channels () const;
 	ContentTime audio_length () const;
 	int audio_frame_rate () const;
 
 private:
-	bool pass ();
+	bool pass (PassReason);
+	void seek (ContentTime, bool);
 	
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;

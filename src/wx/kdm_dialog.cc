@@ -273,7 +273,7 @@ KDMDialog::setup_sensitivity ()
 	_edit_screen->Enable (ss);
 	_remove_screen->Enable (ss);
 
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	if (ok) {
 		ok->Enable ((selected_cinemas().size() > 0 || selected_screens().size() > 0) && sd);
 	}

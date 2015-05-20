@@ -564,18 +564,21 @@ wrapped_av_malloc (size_t s)
 	}
 	return p;
 }
-		
-ContentTimePeriod
+
+FFmpegSubtitlePeriod
 subtitle_period (AVSubtitle const & sub)
 {
 	ContentTime const packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE);
 
-	ContentTimePeriod period (
+	if (sub.end_display_time == static_cast<uint32_t> (-1)) {
+		/* End time is not known */
+		return FFmpegSubtitlePeriod (packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3));
+	}
+	
+	return FFmpegSubtitlePeriod (
 		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
 		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
 		);
-
-	return period;
 }
 
 map<string, string>
@@ -667,3 +670,4 @@ write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info)
 	fwrite (&info.size, sizeof (info.size), 1, file);
 	fwrite (info.hash.c_str(), 1, info.hash.size(), file);
 }
+

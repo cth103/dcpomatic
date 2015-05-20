@@ -29,7 +29,7 @@
 #include <dcp/dcp.h>
 #include "lib/config.h"
 #include "lib/util.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
@@ -51,7 +51,7 @@ using boost::scoped_array;
 
 boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
-class TestUISignaller : public UISignaller
+class TestSignalManager : public SignalManager
 {
 public:
 	/* No wakes in tests: we call ui_idle ourselves */
@@ -70,14 +70,14 @@ struct TestConfig
 		Config::instance()->set_num_local_encoding_threads (1);
 		Config::instance()->set_server_port_base (61920);
 		Config::instance()->set_default_isdcf_metadata (ISDCFMetadata ());
-		Config::instance()->set_default_container (static_cast<Ratio*> (0));
+		Config::instance()->set_default_container (Ratio::from_id ("185"));
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 		Config::instance()->set_default_audio_delay (0);
 		Config::instance()->set_default_j2k_bandwidth (100000000);
 
 		ServerFinder::instance()->disable ();
 
-		ui_signaller = new TestUISignaller ();
+		signal_manager = new TestSignalManager ();
 	}
 
 	~TestConfig ()
@@ -285,7 +285,7 @@ wait_for_jobs ()
 {
 	JobManager* jm = JobManager::instance ();
 	while (jm->work_to_do ()) {
-		ui_signaller->ui_idle ();
+		signal_manager->ui_idle ();
 	}
 	if (jm->errors ()) {
 		int N = 0;
@@ -305,7 +305,7 @@ wait_for_jobs ()
 		}
 	}
 
-	ui_signaller->ui_idle ();
+	signal_manager->ui_idle ();
 
 	/* Discard all jobs so we lose any we just reported an error in */
 	JobManager::drop ();

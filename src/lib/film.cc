@@ -32,7 +32,6 @@
 #include "exceptions.h"
 #include "examine_content_job.h"
 #include "config.h"
-#include "ui_signaller.h"
 #include "playlist.h"
 #include "player.h"
 #include "dcp_content_type.h"
@@ -790,9 +789,7 @@ Film::signal_changed (Property p)
 		break;
 	}
 
-	if (ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (Changed), p));
-	}
+	emit (boost::bind (boost::ref (Changed), p));
 }
 
 void
@@ -995,9 +992,7 @@ Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 		signal_changed (NAME);
 	}
 
-	if (ui_signaller) {
-		ui_signaller->emit (boost::bind (boost::ref (ContentChanged), c, p));
-	}
+	emit (boost::bind (boost::ref (ContentChanged), c, p));
 }
 
 void

@@ -27,6 +27,7 @@
 #include "audio_decoder.h"
 #include "subtitle_decoder.h"
 #include "ffmpeg.h"
+#include "rect.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
@@ -52,8 +53,8 @@ public:
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
+	bool pass (PassReason reason);
 	void seek (ContentTime time, bool);
-	bool pass ();
 	void flush ();
 
 	AVSampleFormat audio_sample_format () const;
@@ -63,10 +64,13 @@ private:
 	void decode_audio_packet ();
 	void decode_subtitle_packet ();
 
+	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimePeriod period);
+
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
 
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
+	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
+	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 	
 	boost::shared_ptr<Log> _log;
 	

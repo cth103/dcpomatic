@@ -172,67 +172,6 @@ BOOST_AUTO_TEST_CASE (crop_image_test2)
 }
 
 static
-boost::shared_ptr<Image>
-read_file (string file)
-{
-	Magick::Image magick_image (file.c_str ());
-	dcp::Size size (magick_image.columns(), magick_image.rows());
-
-	boost::shared_ptr<Image> image (new Image (PIX_FMT_RGB24, size, true));
-
-#ifdef DCPOMATIC_IMAGE_MAGICK	
-	using namespace MagickCore;
-#endif	
-	
-	uint8_t* p = image->data()[0];
-	for (int y = 0; y < size.height; ++y) {
-		uint8_t* q = p;
-		for (int x = 0; x < size.width; ++x) {
-			Magick::Color c = magick_image.pixelColor (x, y);
-#ifdef DCPOMATIC_IMAGE_MAGICK			
-			*q++ = c.redQuantum() * 255 / QuantumRange;
-			*q++ = c.greenQuantum() * 255 / QuantumRange;
-			*q++ = c.blueQuantum() * 255 / QuantumRange;
-#else			
-			*q++ = c.redQuantum() * 255 / MaxRGB;
-			*q++ = c.greenQuantum() * 255 / MaxRGB;
-			*q++ = c.blueQuantum() * 255 / MaxRGB;
-#endif			
-		}
-		p += image->stride()[0];
-	}
-
-	return image;
-}
-
-static
-void
-write_file (shared_ptr<Image> image, string file)
-{
-#ifdef DCPOMATIC_IMAGE_MAGICK	
-	using namespace MagickCore;
-#endif	
-	
-	Magick::Image magick_image (Magick::Geometry (image->size().width, image->size().height), Magick::Color (0, 0, 0));
-	uint8_t*p = image->data()[0];
-	for (int y = 0; y < image->size().height; ++y) {
-		uint8_t* q = p;
-		for (int x = 0; x < image->size().width; ++x) {
-#ifdef DCPOMATIC_IMAGE_MAGICK
-			Magick::Color c (q[0] * QuantumRange / 256, q[1] * QuantumRange / 256, q[2] * QuantumRange / 256);
-#else			
-			Magick::Color c (q[0] * MaxRGB / 256, q[1] * MaxRGB / 256, q[2] * MaxRGB / 256);
-#endif			
-			magick_image.pixelColor (x, y, c);
-			q += 3;
-		}
-		p += image->stride()[0];
-	}
-	
-	magick_image.write (file.c_str ());
-}
-
-static
 void
 crop_scale_window_single (AVPixelFormat in_format, dcp::Size in_size, Crop crop, dcp::Size inter_size, dcp::Size out_size)
 {

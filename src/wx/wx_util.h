@@ -24,6 +24,7 @@
 #ifndef DCPOMATIC_WX_UTIL_H
 #define DCPOMATIC_WX_UTIL_H
 
+#include "lib/dcpomatic_time.h"
 #include <wx/wx.h>
 #include <wx/gbsizer.h>
 #include <boost/function.hpp>
@@ -65,6 +66,7 @@ extern wxString std_to_wx (std::string);
 extern void dcpomatic_setup_i18n ();
 extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
+extern wxString time_to_timecode (DCPTime t, float fps);
 
 extern void checked_set (wxFilePickerCtrl* widget, std::string value);
 extern void checked_set (wxSpinCtrl* widget, int value);

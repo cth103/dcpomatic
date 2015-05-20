@@ -55,7 +55,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c)
 }
 
 bool
-DCPDecoder::pass ()
+DCPDecoder::pass (PassReason)
 {
 	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
 		return true;
@@ -133,7 +133,13 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 
 list<ContentTimePeriod>
-DCPDecoder::subtitles_during (ContentTimePeriod, bool) const
+DCPDecoder::image_subtitles_during (ContentTimePeriod, bool) const
+{
+	return list<ContentTimePeriod> ();
+}
+
+list<ContentTimePeriod>
+DCPDecoder::text_subtitles_during (ContentTimePeriod, bool) const
 {
 	/* XXX */
 	return list<ContentTimePeriod> ();

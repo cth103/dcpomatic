@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,7 +33,8 @@ SubtitleDecoder::SubtitleDecoder (shared_ptr<const SubtitleContent> c)
 }
 
 /** Called by subclasses when an image subtitle is ready.
- *  Image may be 0 to say that there is no current subtitle.
+ *  @param period Period of the subtitle.
+ *  @param image Subtitle image.
  *  @param rect Area expressed as a fraction of the video frame that this subtitle
  *  is for (e.g. a width of 0.5 means the width of the subtitle is half the width
  *  of the video frame)
@@ -50,12 +51,11 @@ SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
 	_decoded_text_subtitles.push_back (ContentTextSubtitle (s));
 }
 
+/** @param sp Full periods of subtitles that are showing or starting during the specified period */
 template <class T>
 list<T>
-SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period, bool starting)
+SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting)
 {
-	/* Get the full periods of the subtitles that are showing or starting during the specified period */
-	list<ContentTimePeriod> sp = subtitles_during (period, starting);
 	if (sp.empty ()) {
 		/* Nothing in this period */
 		return list<T> ();
@@ -70,7 +70,7 @@ SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period, bool start
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
-	while (!pass() && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
+	while (!pass(PASS_REASON_SUBTITLE) && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
@@ -82,19 +82,36 @@ SubtitleDecoder::get (list<T> const & subs, ContentTimePeriod period, bool start
 		}
 	}
 
+	/* Discard anything in _decoded_image_subtitles that is outside 5 seconds either side of period */
+	
+	list<ContentImageSubtitle>::iterator i = _decoded_image_subtitles.begin();
+	while (i != _decoded_image_subtitles.end()) {
+		list<ContentImageSubtitle>::iterator tmp = i;
+		++tmp;
+
+		if (
+			i->period().to < (period.from - ContentTime::from_seconds (5)) ||
+			i->period().from > (period.to + ContentTime::from_seconds (5))
+			) {
+			_decoded_image_subtitles.erase (i);
+		}
+
+		i = tmp;
+	}
+
 	return out;
 }
 
 list<ContentTextSubtitle>
 SubtitleDecoder::get_text_subtitles (ContentTimePeriod period, bool starting)
 {
-	return get<ContentTextSubtitle> (_decoded_text_subtitles, period, starting);
+	return get<ContentTextSubtitle> (_decoded_text_subtitles, text_subtitles_during (period, starting), period, starting);
 }
 
 list<ContentImageSubtitle>
 SubtitleDecoder::get_image_subtitles (ContentTimePeriod period, bool starting)
 {
-	return get<ContentImageSubtitle> (_decoded_image_subtitles, period, starting);
+	return get<ContentImageSubtitle> (_decoded_image_subtitles, image_subtitles_during (period, starting), period, starting);
 }
 
 void

@@ -46,7 +46,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-DCPSubtitleDecoder::pass ()
+DCPSubtitleDecoder::pass (PassReason)
 {
 	if (_next == _subtitles.end ()) {
 		return true;
@@ -61,7 +61,13 @@ DCPSubtitleDecoder::pass ()
 }
 
 list<ContentTimePeriod>
-DCPSubtitleDecoder::subtitles_during (ContentTimePeriod p, bool starting) const
+DCPSubtitleDecoder::image_subtitles_during (ContentTimePeriod, bool) const
+{
+	return list<ContentTimePeriod> ();
+}
+	
+list<ContentTimePeriod>
+DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 {
 	/* XXX: inefficient */
 

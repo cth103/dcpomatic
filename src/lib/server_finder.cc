@@ -22,7 +22,6 @@
 #include "util.h"
 #include "config.h"
 #include "cross.h"
-#include "ui_signaller.h"
 #include "dcpomatic_socket.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
@@ -173,7 +172,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 			boost::mutex::scoped_lock lm (_mutex);
 			_servers.push_back (sd);
 		}
-		ui_signaller->emit (boost::bind (boost::ref (ServerFound), sd));
+		emit (boost::bind (boost::ref (ServerFound), sd));
 	}
 
 	start_accept ();

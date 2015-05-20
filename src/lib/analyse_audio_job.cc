@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f, shared_ptr<AudioCont
 	, _content (c)
 	, _done (0)
 	, _samples_per_point (1)
+	, _overall_peak (0)
+	, _overall_peak_frame (0)
 {
 
 }
@@ -81,6 +83,7 @@ AnalyseAudioJob::run ()
 		set_progress (t.seconds() / _film->length().seconds());
 	}
 
+	_analysis->set_peak (_overall_peak, DCPTime::from_frames (_overall_peak_frame, _film->audio_frame_rate ()));
 	_analysis->write (content->audio_analysis_path ());
 	
 	set_progress (1);
@@ -100,6 +103,15 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 			}
 			_current[j][AudioPoint::RMS] += pow (s, 2);
 			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], fabsf (s));
+
+			float const as = fabs (s);
+
+			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], as);
+
+			if (as > _overall_peak) {
+				_overall_peak = as;
+				_overall_peak_frame = _done + i;
+			}
 
 			if ((_done % _samples_per_point) == 0) {
 				_current[j][AudioPoint::RMS] = sqrt (_current[j][AudioPoint::RMS] / _samples_per_point);

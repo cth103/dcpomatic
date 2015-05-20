@@ -253,6 +253,8 @@ email_kdms (
 		if (!Config::instance()->kdm_bcc().empty ()) {
 			quickmail_add_bcc (mail, Config::instance()->kdm_bcc().c_str ());
 		}
+
+		quickmail_add_header (mail, "Content-Type: text/plain; charset=UTF-8");
 		
 		string body = Config::instance()->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());

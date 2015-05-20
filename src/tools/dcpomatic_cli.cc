@@ -30,7 +30,7 @@
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/log.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "lib/server_finder.h"
 #include "lib/json_server.h"
 
@@ -119,7 +119,7 @@ main (int argc, char* argv[])
 	film_dir = argv[optind];
 			
 	dcpomatic_setup ();
-	ui_signaller = new UISignaller ();
+	signal_manager = new SignalManager ();
 	
 	if (no_remote) {
 		ServerFinder::instance()->disable ();

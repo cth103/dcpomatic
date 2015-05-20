@@ -344,6 +344,7 @@ DCPPanel::film_changed (int p)
 		break;
 	case Film::INTEROP:
 		checked_set (_standard, _film->interop() ? 1 : 0);
+		setup_dcp_name ();
 		break;
 	default:
 		break;
@@ -636,7 +637,7 @@ DCPPanel::make_audio_panel ()
 	int r = 0;
 	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
 	_audio_channels = new wxChoice (panel, wxID_ANY);
-	for (int i = 2; i <= 16; i += 2) {
+	for (int i = 2; i <= 12; i += 2) {
 		_audio_channels->Append (wxString::Format ("%d", i));
 	}
 	grid->Add (_audio_channels, wxGBPosition (r, 1));

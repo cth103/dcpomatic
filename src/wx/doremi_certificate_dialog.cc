@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <zip.h>
 #include "lib/compose.hpp"
 #include "lib/util.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "lib/internet.h"
 #include "doremi_certificate_dialog.h"
 #include "wx_util.h"
@@ -51,6 +51,7 @@ DoremiCertificateDialog::download ()
 		return;
 	}
 
+	downloaded (false);
 	_message->SetLabel (_("Downloading certificate"));
 
 #ifdef DCPOMATIC_OSX	
@@ -58,7 +59,7 @@ DoremiCertificateDialog::download ()
 	wxMilliSleep (200);
 #endif	
 
-	ui_signaller->when_idle (boost::bind (&DoremiCertificateDialog::finish_download, this, serial));
+	signal_manager->when_idle (boost::bind (&DoremiCertificateDialog::finish_download, this, serial));
 }
 
 void
@@ -101,6 +102,7 @@ DoremiCertificateDialog::finish_download (string serial)
 		error_dialog (this, std_to_wx (error.get ()));
 	} else {
 		_message->SetLabel (_("Certificate downloaded"));
+		downloaded (true);
 	}
 }
 

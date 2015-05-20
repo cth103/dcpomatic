@@ -62,7 +62,7 @@ KeyDialog::key () const
 void
 KeyDialog::key_changed ()
 {
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK));
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	ok->Enable (_key->GetValue().Length() == 32);
 }
 

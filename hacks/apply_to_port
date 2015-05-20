@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+  echo "Syntax: $0 commit-message"
+  exit 1
+fi
+
+commit=`head -n 1 TO_PORT`
+msg="$commit from master; $*"
+echo $msg
+
+read -p "Commit? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    sed -i '1d' TO_PORT
+    git commit -a -m "$msg"
+fi

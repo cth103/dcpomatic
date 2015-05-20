@@ -1,4 +1,24 @@
+#
+#    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
 import os
+import subprocess
+import shlex
 import glob
 from waflib import Logs
 import i18n
@@ -60,38 +80,44 @@ sources = """
           update_dialog.cc
           video_panel.cc
           wx_util.cc
-          wx_ui_signaller.cc
+          wx_signal_manager.cc
           """
 
 def configure(conf):
-    args = '--cppflags --cxxflags'
-    if not conf.env.BUILD_STATIC:
-        args += ' --libs std,richtext'
+    conf.check_cfg(msg='Checking for wxWidgets',
+                   package='',
+                   path='wx-config',
+                   args='--cppflags --cxxflags --libs std,richtext',
+                   uselib_store='WXWIDGETS',
+                   mandatory=True)
 
-    conf.check_cfg(msg='Checking for wxWidgets', package='', path=conf.options.wx_config, args=args,
-                   uselib_store='WXWIDGETS', mandatory=True)
-
-    if conf.env.BUILD_STATIC:
+    if conf.options.static_wxwidgets:
 	# wx-config returns its static libraries as full paths, without -l prefixes, which confuses
-        # check_cfg(), so just hard-code it all.
-        conf.env.STLIB_WXWIDGETS = ['wx_gtk2u_richtext-3.0', 'wx_gtk2u_xrc-3.0', 'wx_gtk2u_qa-3.0', 'wx_baseu_net-3.0', 'wx_gtk2u_html-3.0',
-                                    'wx_gtk2u_adv-3.0', 'wx_gtk2u_core-3.0', 'wx_baseu_xml-3.0', 'wx_baseu-3.0']
-        conf.env.LIB_WXWIDGETS = ['tiff', 'SM', 'dl', 'jpeg', 'png', 'X11', 'expat']
-        if conf.env.TARGET_DEBIAN and conf.env.DEBIAN_UNSTABLE:
-            conf.env.LIB_WXWIDGETS.append('Xext')
-            conf.env.LIB_WXWIDGETS.append('X11')
-
-        if conf.env.TARGET_CENTOS_7:
-            conf.env.LIB_WXWIDGETS.append('Xxf86vm')
+        # check_cfg().  It puts the static libraries into LINKFLAGS_WXWIDGETS, so fish them out.
+        stlibs = []
+        new_linkflags = []
+        stlib_paths = []
+        for f in conf.env.LINKFLAGS_WXWIDGETS:
+            if f.startswith('/'):
+                d = os.path.dirname(f)
+                if not d in stlib_paths:
+                    stlib_paths.append(d)
+                stlibs.append(os.path.basename(f)[3:-2])
+            else:
+                new_linkflags.append(f)
+        
+        conf.env.STLIB_WXWIDGETS = stlibs
+        conf.env.LINKFLAGS_WXWIDGETS = new_linkflags
+        conf.env.STLIBPATH_WXWIDGETS = stlib_paths
  
     conf.in_msg = 1
-    wx_version = conf.check_cfg(package='', path=conf.options.wx_config, args='--version').strip()
+    wx_version = conf.check_cfg(package='', path='wx-config', args='--version').strip()
     conf.im_msg = 0
     if not wx_version.startswith('3.0.'):
         conf.fatal('wxwidgets version 3.0.x is required; %s found' % wx_version)
 
 def build(bld):
-    if bld.env.BUILD_STATIC:
+    if bld.env.STATIC_DCPOMATIC:
         obj = bld(features = 'cxx cxxstlib')
     else:
         obj = bld(features = 'cxx cxxshlib')

@@ -74,7 +74,24 @@ extern int dcp_audio_frame_rate (int);
 extern int stride_round_up (int, int const *, int);
 extern int round_to (float n, int r);
 extern void* wrapped_av_malloc (size_t);
-extern ContentTimePeriod subtitle_period (AVSubtitle const &);
+
+class FFmpegSubtitlePeriod
+{
+public:
+	FFmpegSubtitlePeriod (ContentTime f)
+		: from (f)
+	{}
+
+	FFmpegSubtitlePeriod (ContentTime f, ContentTime t)
+		: from (f)
+		, to (t)
+	{}
+
+	ContentTime from;
+	boost::optional<ContentTime> to;
+};
+
+extern FFmpegSubtitlePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
 extern dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes);
 extern void write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info);

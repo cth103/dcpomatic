@@ -50,10 +50,6 @@ calculate_position (dcp::VAlign v_align, double v_position, int target_height, i
 PositionImage
 render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 {
-	if (subtitles.empty ()) {
-		return PositionImage ();
-	}
-
 	/* Estimate height that the subtitle image needs to be */
 	optional<int> top;
 	optional<int> bottom;

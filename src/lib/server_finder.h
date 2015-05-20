@@ -18,9 +18,10 @@
 */
 
 #include "server.h"
+#include "signaller.h"
 #include <boost/signals2.hpp>
 
-class ServerFinder : public ExceptionStore
+class ServerFinder : public Signaller, public ExceptionStore
 {
 public:
 	boost::signals2::connection connect (boost::function<void (ServerDescription)>);

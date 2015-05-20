@@ -29,7 +29,7 @@
 #include "lib/job_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
-#include "wx/wx_ui_signaller.h"
+#include "wx/wx_signal_manager.h"
 #include "wx/job_manager_view.h"
 
 using std::exception;
@@ -225,7 +225,7 @@ class App : public wxApp
 		f->Maximize ();
 		f->Show ();
 
-		ui_signaller = new wxUISignaller (this);
+		signal_manager = new wxSignalManager (this);
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		shared_ptr<Film> film;
@@ -244,7 +244,7 @@ class App : public wxApp
 
 	void idle ()
 	{
-		ui_signaller->ui_idle ();
+		signal_manager->ui_idle ();
 	}
 
 	void OnInitCmdLine (wxCmdLineParser& parser)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,18 @@
 
 */
 
-#include "ui_signaller.h"
+#include <wx/wx.h>
+#include "wx_signal_manager.h"
 
-/** Global UISignaller instance */
-UISignaller* ui_signaller = 0;
+wxSignalManager::wxSignalManager (wxEvtHandler* h)
+	: _handler (h)
+{
 
+}
+
+void
+wxSignalManager::wake_ui ()
+{
+	wxCommandEvent event (-1, -1);
+	_handler->AddPendingEvent (event);
+}

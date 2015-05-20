@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include "lib/film.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "test.h"
 
@@ -54,6 +55,10 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 		}
 	}
 
+	float const peak = random_float ();
+	DCPTime const peak_time = DCPTime (rand ());
+	a.set_peak (peak, peak_time);
+
 	a.write ("build/test/audio_analysis_serialisation_test");
 
 	srand (1);
@@ -67,9 +72,14 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  random_float (), 1);
 		}
 	}
+	
+	BOOST_CHECK (b.peak ());
+	BOOST_CHECK_CLOSE (b.peak().get(), peak, 1);
+	BOOST_CHECK (b.peak_time ());
+	BOOST_CHECK_EQUAL (b.peak_time().get(), peak_time);
 }
 
-void
+static void
 finished ()
 {
 
@@ -87,6 +97,20 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
+	c->analyse_audio (boost::bind (&finished));
+	wait_for_jobs ();
+}
+
+/* Check that audio analysis works (i.e. runs without error) with a -ve delay */
+BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
+{
+	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
+	film->set_name ("audio_analysis_negative_delay_test");
+	shared_ptr<AudioContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
+	c->set_audio_delay (-250);
+	film->examine_and_add_content (c);
+	wait_for_jobs ();
+	
 	c->analyse_audio (boost::bind (&finished));
 	wait_for_jobs ();
 }

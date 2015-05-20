@@ -49,12 +49,13 @@ protected:
 
 private:
 	template <class T>
-	std::list<T> get (std::list<T> const & subs, ContentTimePeriod period, bool starting);
+	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting);
 
 	/** @param starting true if we want only subtitles that start during the period, otherwise
 	 *  we want subtitles that overlap the period.
 	 */
-	virtual std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod period, bool starting) const = 0;
+	virtual std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
+	virtual std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
 	
 	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 };

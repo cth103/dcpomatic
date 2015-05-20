@@ -19,7 +19,6 @@
 
 #include "update.h"
 #include "version.h"
-#include "ui_signaller.h"
 #include "safe_stringstream.h"
 #include "config.h"
 #include "util.h"
@@ -168,7 +167,7 @@ UpdateChecker::set_state (State s)
 		_emits++;
 	}
 
-	ui_signaller->emit (boost::bind (boost::ref (StateChanged)));
+	emit (boost::bind (boost::ref (StateChanged)));
 }
 
 UpdateChecker *

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <curl/curl.h>
 #include "lib/compose.hpp"
 #include "lib/internet.h"
-#include "lib/ui_signaller.h"
+#include "lib/signal_manager.h"
 #include "dolby_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -80,7 +80,7 @@ DolbyCertificateDialog::setup_countries ()
 	/* See DoremiCertificateDialog for discussion about this daft delay */
 	wxMilliSleep (200);
 #endif
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
 }
 
 void
@@ -103,7 +103,7 @@ DolbyCertificateDialog::country_selected ()
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif	
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
 }
 
 void
@@ -126,7 +126,7 @@ DolbyCertificateDialog::cinema_selected ()
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_cinema_selected, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_cinema_selected, this));
 }
 
 void
@@ -154,13 +154,14 @@ DolbyCertificateDialog::serial_selected ()
 void
 DolbyCertificateDialog::download ()
 {
+	downloaded (false);
 	_message->SetLabel (_("Downloading certificate"));
 
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif
 
-	ui_signaller->when_idle (boost::bind (&DolbyCertificateDialog::finish_download, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_download, this));
 }
 
 void
@@ -189,5 +190,6 @@ DolbyCertificateDialog::finish_download ()
 		_message->SetLabel (std_to_wx (error.get ()));
 	} else {
 		_message->SetLabel (_("Certificate downloaded"));
+		downloaded (true);
 	}
 }
