@@ -124,9 +124,6 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	if (avfilter_graph_config (graph, 0) < 0) {
 		throw DecodeError (N_("could not configure filter graph."));
 	}
-
-	avfilter_inout_free (&inputs);
-	avfilter_inout_free (&outputs);
 }
 
 FilterGraph::~FilterGraph ()
