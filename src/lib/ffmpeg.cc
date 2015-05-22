@@ -103,16 +103,31 @@ FFmpeg::setup_general ()
 
 	/* Find video stream */
 
+	int video_stream_undefined_frame_rate = -1;
+
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
 		/* Files from iTunes sometimes have two video streams, one with the avg_frame_rate.num and .den set
 		   to zero.  Ignore these streams.
 		*/
-		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO && s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
-			_video_stream = i;
+		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+			if (s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
+				/* This is definitely our video stream */
+				_video_stream = i;
+			} else {
+				/* This is our video stream if we don't get a better offer */
+				video_stream_undefined_frame_rate = i;
+			}
 		}
 	}
 
+	/* Files from iTunes sometimes have two video streams, one with the avg_frame_rate.num and .den set
+	   to zero.  Only use such a stream if there is no alternative.
+	*/
+	if (_video_stream == -1 && video_stream_undefined_frame_rate != -1) {
+		_video_stream = video_stream_undefined_frame_rate;
+	}	
+	
 	if (_video_stream < 0) {
 		throw DecodeError (N_("could not find video stream"));
 	}

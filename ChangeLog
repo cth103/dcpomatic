@@ -1,6 +1,10 @@
+2015-05-23  Carl Hetherington  <cth@carlh.net>
+
+	* Fix failure to import some video MXFs (#566).
+
 2015-05-17  Carl Hetherington  <cth@carlh.net>
 
-	* Fix Update DCP name on changing DCP standard (#570).
+	* Update DCP name on changing DCP standard (#570).
 
 2015-05-14  Carl Hetherington  <cth@carlh.net>
 
