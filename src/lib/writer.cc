@@ -103,9 +103,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		_picture_mxf.reset (new dcp::MonoPictureMXF (dcp::Fraction (_film->video_frame_rate (), 1)));
 	}
 
-	job->sub (_("Checking existing image data"));
-	check_existing_picture_mxf ();
-
 	_picture_mxf->set_size (_film->frame_size ());
 
 	if (_film->encrypted ()) {
@@ -136,6 +133,9 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		throw InvalidSignerError ();
 	}
 
+	job->sub (_("Checking existing image data"));
+	check_existing_picture_mxf ();
+	
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
 	job->sub (_("Encoding image data"));
