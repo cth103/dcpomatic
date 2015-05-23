@@ -238,6 +238,9 @@ Job::set_progress (float p, bool force)
 		_pause_changed.wait (lm2);
 	}
 
+	lm.unlock ();
+	lm2.unlock ();
+
 	emit (boost::bind (boost::ref (Progress)));
 }
 
