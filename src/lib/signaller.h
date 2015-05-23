@@ -89,7 +89,7 @@ class Signaller
 public:
 	/* Can be called from any thread */
 	virtual ~Signaller () {
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm (_signaller_mutex);
 		for (std::list<WrapperBase*>::iterator i = _wrappers.begin(); i != _wrappers.end(); ++i) {
 			(*i)->invalidate ();
 		}
@@ -104,7 +104,7 @@ public:
 			signal_manager->emit (boost::bind (&Wrapper<T>::signal, w));
 		}
 		
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm (_signaller_mutex);
 
 		/* Clean up finished Wrappers */
 		std::list<WrapperBase*>::iterator i = _wrappers.begin ();
@@ -124,7 +124,7 @@ public:
 
 private:
 	/* Protect _wrappers */
-	boost::mutex _mutex;
+	boost::mutex _signaller_mutex;
 	std::list<WrapperBase*> _wrappers;
 };
 
