@@ -67,7 +67,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
 {
-	set_default_colour_conversion (false);
+	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len)
@@ -77,7 +77,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
 {
-	set_default_colour_conversion (false);
+	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
@@ -87,7 +87,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
 {
-	set_default_colour_conversion (false);
+	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
@@ -203,16 +203,10 @@ VideoContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-VideoContent::set_default_colour_conversion (bool signal)
+VideoContent::set_default_colour_conversion ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_colour_conversion = ColourConversion (dcp::ColourConversion::srgb_to_xyz ());
-	}
-
-	if (signal) {
-		signal_changed (VideoContentProperty::COLOUR_CONVERSION);
-	}
+	boost::mutex::scoped_lock lm (_mutex);
+	_colour_conversion = ColourConversion (dcp::ColourConversion::srgb_to_xyz ());
 }
 
 void
