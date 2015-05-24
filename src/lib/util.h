@@ -42,6 +42,12 @@ extern "C" {
 
 #undef check
 
+namespace dcp {
+	class PictureMXF;
+	class SoundMXF;
+	class SubtitleContent;
+}
+
 /** The maximum number of audio channels that we can have in a DCP */
 #define MAX_DCP_AUDIO_CHANNELS 12
 /** Message broadcast to find possible encoding servers */
@@ -97,6 +103,9 @@ extern dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes);
 extern void write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info);
 extern int64_t video_frames_to_audio_frames (VideoFrame v, float audio_sample_rate, float frames_per_second);
 extern std::map<std::string, std::string> split_get_request (std::string url);
+extern std::string video_mxf_filename (boost::shared_ptr<dcp::PictureMXF> mxf);
+extern std::string audio_mxf_filename (boost::shared_ptr<dcp::SoundMXF> mxf);
+extern std::string subtitle_content_filename (boost::shared_ptr<dcp::SubtitleContent> content);
 
 #endif
 

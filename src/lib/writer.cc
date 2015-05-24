@@ -33,6 +33,7 @@
 #include "encoded_data.h"
 #include "version.h"
 #include "font.h"
+#include "util.h"
 #include <dcp/mono_picture_mxf.h>
 #include <dcp/stereo_picture_mxf.h>
 #include <dcp/sound_mxf.h>
@@ -125,7 +126,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		/* Write the sound MXF into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
-		_sound_mxf_writer = _sound_mxf->start_write (_film->directory() / _film->audio_mxf_filename(), _film->interop() ? dcp::INTEROP : dcp::SMPTE);
+		_sound_mxf_writer = _sound_mxf->start_write (_film->directory() / audio_mxf_filename (_sound_mxf), _film->interop() ? dcp::INTEROP : dcp::SMPTE);
 	}
 
 	/* Check that the signer is OK if we need one */
@@ -445,7 +446,7 @@ Writer::finish ()
 	
 	boost::filesystem::path video_to;
 	video_to /= _film->dir (_film->dcp_name());
-	video_to /= _film->video_mxf_filename ();
+	video_to /= video_mxf_filename (_picture_mxf);
 
 	boost::system::error_code ec;
 	boost::filesystem::create_hard_link (video_from, video_to, ec);
@@ -465,12 +466,12 @@ Writer::finish ()
 	if (_sound_mxf) {
 		boost::filesystem::path audio_to;
 		audio_to /= _film->dir (_film->dcp_name ());
-		audio_to /= _film->audio_mxf_filename ();
+		audio_to /= audio_mxf_filename (_sound_mxf);
 		
-		boost::filesystem::rename (_film->file (_film->audio_mxf_filename ()), audio_to, ec);
+		boost::filesystem::rename (_film->file (audio_mxf_filename (_sound_mxf)), audio_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), _film->file (_film->audio_mxf_filename ())
+				String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), audio_mxf_filename (_sound_mxf)
 				);
 		}
 
@@ -532,7 +533,7 @@ Writer::finish ()
 			dcp.add (shared_ptr<dcp::Font> (new dcp::Font (to)));
 		}
 
-		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _subtitle_content->id () / _film->subtitle_xml_filename ());
+		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _subtitle_content->id () / subtitle_content_filename (_subtitle_content));
 		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
 				   new dcp::ReelSubtitleAsset (
 					   _subtitle_content,

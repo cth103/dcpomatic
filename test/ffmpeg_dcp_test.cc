@@ -25,6 +25,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
@@ -61,7 +62,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 	BOOST_CHECK (!f->cpls().empty());
 
 	p /= f->dcp_name();
-	p /= f->video_mxf_filename();
-	boost::filesystem::remove (p);
+	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (p); i != boost::filesystem::directory_iterator(); ++i) {
+		if (boost::algorithm::starts_with (i->path().string(), "j2c")) {
+			p /= i->path ();
+			boost::filesystem::remove (p);
+		}
+	}
 	BOOST_CHECK (f->cpls().empty());
 }

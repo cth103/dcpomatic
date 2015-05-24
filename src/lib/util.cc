@@ -37,6 +37,9 @@
 #include "safe_stringstream.h"
 #include <dcp/util.h>
 #include <dcp/signer.h>
+#include <dcp/picture_mxf.h>
+#include <dcp/sound_mxf.h>
+#include <dcp/subtitle_content.h>
 #include <glib.h>
 #include <pangomm/init.h>
 #include <boost/algorithm/string.hpp>
@@ -671,3 +674,20 @@ write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info)
 	fwrite (info.hash.c_str(), 1, info.hash.size(), file);
 }
 
+string
+video_mxf_filename (shared_ptr<dcp::PictureMXF> mxf)
+{
+	return "j2c_" + mxf->id() + ".mxf";
+}
+
+string
+audio_mxf_filename (shared_ptr<dcp::SoundMXF> mxf)
+{
+	return "pcm_" + mxf->id() + ".mxf";
+}
+
+string
+subtitle_content_filename (shared_ptr<dcp::SubtitleContent> content)
+{
+	return "sub_" + content->id() + ".xml";
+}
