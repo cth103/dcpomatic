@@ -129,13 +129,6 @@ main (int argc, char* argv[])
 		new JSONServer (json_port.get ());
 	}
 
-	cout << "DCP-o-matic " << dcpomatic_version << " git " << dcpomatic_git_commit;
-	char buf[256];
-	if (gethostname (buf, 256) == 0) {
-		cout << " on " << buf;
-	}
-	cout << "\n";
-
 	shared_ptr<Film> film;
 	try {
 		film.reset (new Film (film_dir));
@@ -155,8 +148,10 @@ main (int argc, char* argv[])
 			}
 		}
 	}
-		
-	cout << "\nMaking DCP for " << film->name() << "\n";
+
+	if (progress) {
+		cout << "\nMaking DCP for " << film->name() << "\n";
+	}
 
 	film->make_dcp ();
 
