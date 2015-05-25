@@ -28,14 +28,12 @@
 #include <wx/preferences.h>
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
-#include <dcp/colour_matrix.h>
 #include <dcp/exceptions.h>
 #include <dcp/signer.h>
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
 #include "lib/dcp_content_type.h"
-#include "lib/colour_conversion.h"
 #include "lib/log.h"
 #include "lib/util.h"
 #include "lib/cross.h"
@@ -46,7 +44,6 @@
 #include "filter_dialog.h"
 #include "dir_picker_ctrl.h"
 #include "isdcf_metadata_dialog.h"
-#include "preset_colour_conversion_dialog.h"
 #include "server_dialog.h"
 #include "make_signer_chain_dialog.h"
 
@@ -537,55 +534,6 @@ private:
 
 	wxCheckBox* _use_any_servers;
 	EditableList<string, ServerDialog>* _servers_list;
-};
-
-class ColourConversionsPage : public StandardPage
-{
-public:
-	ColourConversionsPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
-	{}
-	
-	wxString GetName () const
-	{
-		return _("Colour Conversions");
-	}
-
-#ifdef DCPOMATIC_OSX	
-	wxBitmap GetLargeIcon () const
-	{
-		return wxBitmap ("colour_conversions", wxBITMAP_TYPE_PNG_RESOURCE);
-	}
-#endif
-
-private:	
-	void setup ()
-	{
-		vector<string> columns;
-		columns.push_back (wx_to_std (_("Name")));
-		_list = new EditableList<PresetColourConversion, PresetColourConversionDialog> (
-			_panel,
-			columns,
-			boost::bind (&Config::colour_conversions, Config::instance()),
-			boost::bind (&Config::set_colour_conversions, Config::instance(), _1),
-			boost::bind (&ColourConversionsPage::colour_conversion_column, this, _1),
-			300
-			);
-
-		_panel->GetSizer()->Add (_list, 1, wxEXPAND | wxALL, _border);
-	}
-
-	void config_changed ()
-	{
-		_list->refresh ();
-	}
-
-	string colour_conversion_column (PresetColourConversion c)
-	{
-		return c.name;
-	}
-
-	EditableList<PresetColourConversion, PresetColourConversionDialog>* _list;
 };
 
 class KeysPage : public StandardPage
@@ -1318,7 +1266,6 @@ create_config_dialog ()
 	e->AddPage (new GeneralPage (ps, border));
 	e->AddPage (new DefaultsPage (ps, border));
 	e->AddPage (new EncodingServersPage (ps, border));
-	e->AddPage (new ColourConversionsPage (ps, border));
 	e->AddPage (new KeysPage (ps, border));
 	e->AddPage (new TMSPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));

@@ -197,7 +197,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	_input_gamma->SetDigits (2);
 	_input_gamma->SetIncrement (0.1);
 	_input_power->SetRange (0.1, 4.0);
-	_input_power->SetDigits (2);
+	_input_power->SetDigits (6);
 	_input_power->SetIncrement (0.1);
 	_output_gamma->SetRange (0.1, 4.0);
 	_output_gamma->SetDigits (2);

@@ -55,10 +55,17 @@ public:
 	PresetColourConversion (std::string, dcp::ColourConversion);
 	PresetColourConversion (cxml::NodePtr node, int version);
 
-	void as_xml (xmlpp::Node *) const;
-
 	ColourConversion conversion;
 	std::string name;
+
+	static std::vector<PresetColourConversion> all () {
+		return _presets;
+	}
+
+	static void setup_colour_conversion_presets ();
+	
+private:
+	static std::vector<PresetColourConversion> _presets;
 };
 
 bool operator== (ColourConversion const &, ColourConversion const &);

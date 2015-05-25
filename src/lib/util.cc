@@ -325,6 +325,7 @@ dcpomatic_setup ()
 	dcp::init ();
 	
 	Ratio::setup_ratios ();
+	PresetColourConversion::setup_colour_conversion_presets ();
 	VideoContentScale::setup_scales ();
 	DCPContentType::setup_dcp_content_types ();
 	Filter::setup_filters ();

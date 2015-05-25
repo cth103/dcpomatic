@@ -249,7 +249,7 @@ VideoPanel::film_content_changed (int property)
 			checked_set (_colour_conversion, wxT (""));
 		} else if (vcs->colour_conversion ()) {
 			optional<size_t> preset = vcs->colour_conversion().get().preset ();
-			vector<PresetColourConversion> cc = Config::instance()->colour_conversions ();
+			vector<PresetColourConversion> cc = PresetColourConversion::all ();
 			if (preset) {
 				checked_set (_colour_conversion, std_to_wx (cc[preset.get()].name));
 			} else {

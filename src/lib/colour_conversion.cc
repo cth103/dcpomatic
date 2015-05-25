@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <dcp/modified_gamma_transfer_function.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -38,6 +39,8 @@ using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+
+vector<PresetColourConversion> PresetColourConversion::_presets;
 
 ColourConversion::ColourConversion ()
 	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz ())
@@ -165,7 +168,7 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 optional<size_t>
 ColourConversion::preset () const
 {
-	vector<PresetColourConversion> presets = Config::instance()->colour_conversions ();
+	vector<PresetColourConversion> presets = PresetColourConversion::all ();
 	size_t i = 0;
 	while (i < presets.size() && (presets[i].conversion != *this)) {
 		++i;
@@ -233,13 +236,6 @@ PresetColourConversion::PresetColourConversion (cxml::NodePtr node, int version)
 
 }
 
-void
-PresetColourConversion::as_xml (xmlpp::Node* node) const
-{
-	conversion.as_xml (node);
-	node->add_child("Name")->add_child_text (name);
-}
-
 bool
 operator== (ColourConversion const & a, ColourConversion const & b)
 {
@@ -256,4 +252,13 @@ bool
 operator== (PresetColourConversion const & a, PresetColourConversion const & b)
 {
 	return a.name == b.name && a.conversion == b.conversion;
+}
+
+void
+PresetColourConversion::setup_colour_conversion_presets ()
+{
+	_presets.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("Rec. 601"), dcp::ColourConversion::rec601_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("P3"), dcp::ColourConversion::p3_to_xyz ()));
 }

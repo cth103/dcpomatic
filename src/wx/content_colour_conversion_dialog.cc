@@ -17,13 +17,14 @@
 
 */
 
-#include <wx/statline.h>
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "wx_util.h"
 #include "content_colour_conversion_dialog.h"
 #include "colour_conversion_editor.h"
+#include <wx/statline.h>
+#include <boost/foreach.hpp>
 
 using std::string;
 using std::vector;
@@ -61,9 +62,8 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent)
 
 	_editor_connection = _editor->Changed.connect (boost::bind (&ContentColourConversionDialog::check_for_preset, this));
 
-	vector<PresetColourConversion> presets = Config::instance()->colour_conversions ();
-	for (vector<PresetColourConversion>::const_iterator i = presets.begin(); i != presets.end(); ++i) {
-		_preset_choice->Append (std_to_wx (i->name));
+	BOOST_FOREACH (PresetColourConversion const &i, PresetColourConversion::all ()) {
+		_preset_choice->Append (std_to_wx (i.name));
 	}
 }
 
@@ -116,7 +116,7 @@ ContentColourConversionDialog::preset_check_clicked ()
 void
 ContentColourConversionDialog::preset_choice_changed ()
 {
-	vector<PresetColourConversion> presets = Config::instance()->colour_conversions ();
+	vector<PresetColourConversion> presets = PresetColourConversion::all ();
 	int const s = _preset_choice->GetCurrentSelection();
 	if (s != -1) {
 		set (presets[s].conversion);

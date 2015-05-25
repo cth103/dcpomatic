@@ -91,12 +91,6 @@ Config::set_defaults ()
 	_allowed_dcp_frame_rates.push_back (50);
 	_allowed_dcp_frame_rates.push_back (60);
 
-	_colour_conversions.clear ();
-	_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
-	_colour_conversions.push_back (PresetColourConversion (_("Rec. 601"), dcp::ColourConversion::rec601_to_xyz ()));
-	_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
-	_colour_conversions.push_back (PresetColourConversion (_("P3 (from SMPTE RP 431-2)"), dcp::ColourConversion::p3_to_xyz ()));
-
 	set_kdm_email_to_default ();
 }
 
@@ -186,25 +180,6 @@ Config::read ()
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
-
-	list<cxml::NodePtr> cc = f.node_children ("ColourConversion");
-
-	if (!cc.empty ()) {
-		_colour_conversions.clear ();
-	}
-
-	try {
-		for (list<cxml::NodePtr>::iterator i = cc.begin(); i != cc.end(); ++i) {
-			/* This is a bit of a hack; use 32 (the first Film state file version for the 2.x branch)
-			   for version 2 and 10 (the current Film state version for the 1.x branch) for version 1.
-			*/
-			_colour_conversions.push_back (PresetColourConversion (*i, version == 2 ? 32 : 10));
-		}
-	} catch (cxml::Error) {
-		/* Probably failed to load an old-style ColourConversion tag; just give up */
-		_colour_conversions.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
-		_colour_conversions.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
-	}
 
 	list<cxml::NodePtr> cin = f.node_children ("Cinema");
 	for (list<cxml::NodePtr>::iterator i = cin.begin(); i != cin.end(); ++i) {
@@ -354,10 +329,6 @@ Config::write () const
 	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
-
-	for (vector<PresetColourConversion>::const_iterator i = _colour_conversions.begin(); i != _colour_conversions.end(); ++i) {
-		i->as_xml (root->add_child ("ColourConversion"));
-	}
 
 	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Cinema"));

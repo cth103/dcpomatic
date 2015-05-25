@@ -25,7 +25,6 @@
 #define DCPOMATIC_CONFIG_H
 
 #include "isdcf_metadata.h"
-#include "colour_conversion.h"
 #include "video_content.h"
 #include <dcp/metadata.h>
 #include <dcp/certificates.h>
@@ -152,10 +151,6 @@ public:
 
 	int default_audio_delay () const {
 		return _default_audio_delay;
-	}
-
-	std::vector<PresetColourConversion> colour_conversions () const {
-		return _colour_conversions;
 	}
 
 	std::string mail_server () const {
@@ -325,10 +320,6 @@ public:
 		maybe_set (_default_audio_delay, d);
 	}
 
-	void set_colour_conversions (std::vector<PresetColourConversion> const & c) {
-		maybe_set (_colour_conversions, c);
-	}
-
 	void set_mail_server (std::string s) {
 		maybe_set (_mail_server, s);
 	}
@@ -464,7 +455,6 @@ private:
 	std::string _dcp_issuer;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
-	std::vector<PresetColourConversion> _colour_conversions;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
 	std::string _mail_user;

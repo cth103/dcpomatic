@@ -307,7 +307,7 @@ Player::black_player_video_frame (DCPTime time) const
 			_video_container_size,
 			EYES_BOTH,
 			PART_WHOLE,
-			Config::instance()->colour_conversions().front().conversion
+			PresetColourConversion::all().front().conversion
 		)
 	);
 }
