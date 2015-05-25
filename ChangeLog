@@ -1,5 +1,8 @@
 2015-05-25  Carl Hetherington  <cth@carlh.net>
 
+	* Display DCP container size beside the choice
+	in the DCP tab.
+
 	* Try to set up useful default colour conversions
 	depending on the type and resolution of content (#565).
 

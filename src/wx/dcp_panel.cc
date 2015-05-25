@@ -299,6 +299,7 @@ DCPPanel::film_changed (int p)
 		break;
 	case Film::RESOLUTION:
 		checked_set (_resolution, _film->resolution() == RESOLUTION_2K ? 0 : 1);
+		setup_container ();
 		setup_dcp_name ();
 		break;
 	case Film::J2K_BANDWIDTH:
@@ -375,8 +376,11 @@ DCPPanel::setup_container ()
 	
 	if (i == ratios.end()) {
 		checked_set (_container, -1);
+		checked_set (_container_size, wxT (""));
 	} else {
 		checked_set (_container, n);
+		dcp::Size const size = fit_ratio_within (_film->container()->ratio(), _film->full_frame ());
+		checked_set (_container_size, wxString::Format ("%dx%d", size.width, size.height));
 	}
 	
 	setup_dcp_name ();
@@ -554,9 +558,15 @@ DCPPanel::make_video_panel ()
 	int r = 0;
 	
 	add_label_to_grid_bag_sizer (grid, panel, _("Container"), true, wxGBPosition (r, 0));
-	_container = new wxChoice (panel, wxID_ANY);
-	grid->Add (_container, wxGBPosition (r, 1));
-	++r;
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_container = new wxChoice (panel, wxID_ANY);
+		s->Add (_container, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		_container_size = new wxStaticText (panel, wxID_ANY, wxT (""));
+		s->Add (_container_size, 1, wxLEFT | wxALIGN_CENTER_VERTICAL);
+		grid->Add (s, wxGBPosition (r,1 ), wxDefaultSpan, wxEXPAND);
+		++r;
+	}
 
 	{
 		add_label_to_grid_bag_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));

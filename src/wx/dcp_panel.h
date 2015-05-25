@@ -87,6 +87,7 @@ private:
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_isdcf_name;
 	wxChoice* _container;
+	wxStaticText* _container_size;
 	wxButton* _edit_isdcf_button;
 	wxButton* _copy_isdcf_name_button;
  	wxSpinCtrl* _j2k_bandwidth;
