@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,14 +40,14 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
-	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_Y_GAP - 3, DCPOMATIC_SIZER_X_GAP);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	int r = 0;
 
 	subhead (table, this, _("Input gamma correction"), r);
 
-	_input_gamma_linearised = new wxCheckBox (this, wxID_ANY, _("Linearise input gamma curve for low values"));
+	_input_gamma_linearised = new wxCheckBox (this, wxID_ANY, _("Linearise input gamma curve for small values"));
 	table->Add (_input_gamma_linearised, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
@@ -57,23 +57,21 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	++r;
 
 	add_label_to_grid_bag_sizer (table, this, _("Input power"), true, wxGBPosition (r, 0));
-	_input_power = new wxSpinCtrlDouble (this);
-	table->Add (_input_power, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_grid_bag_sizer (table, this, _("Input threshold"), true, wxGBPosition (r, 0));
-	_input_threshold = new wxTextCtrl (this, wxID_ANY, wxT (""));
-	table->Add (_input_threshold, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_grid_bag_sizer (table, this, _("Input A value"), true, wxGBPosition (r, 0));
-	_input_A = new wxTextCtrl (this, wxID_ANY, wxT (""));
-	table->Add (_input_A, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_grid_bag_sizer (table, this, _("Input B value"), true, wxGBPosition (r, 0));
-	_input_B = new wxTextCtrl (this, wxID_ANY, wxT (""));
-	table->Add (_input_B, wxGBPosition (r, 1));
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_input_power = new wxSpinCtrlDouble (this);
+		s->Add (_input_power, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		add_label_to_sizer (s, this, _("threshold"), true);
+		_input_threshold = new wxTextCtrl (this, wxID_ANY, wxT (""));
+		s->Add (_input_threshold, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		add_label_to_sizer (s, this, _("A"), true);
+		_input_A = new wxTextCtrl (this, wxID_ANY, wxT (""));
+		s->Add (_input_A, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		add_label_to_sizer (s, this, _("B"), true);
+		_input_B = new wxTextCtrl (this, wxID_ANY, wxT (""));
+		s->Add (_input_B, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		table->Add (s, wxGBPosition (r, 1), wxGBSpan (1, 3));
+	}		
 	++r;
 	
         wxClientDC dc (parent);

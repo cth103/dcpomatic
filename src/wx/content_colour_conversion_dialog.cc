@@ -39,7 +39,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent)
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_Y_GAP - 2, DCPOMATIC_SIZER_X_GAP);
 	_preset_check = new wxCheckBox (this, wxID_ANY, _("Use preset"));
 	table->Add (_preset_check, 0, wxALIGN_CENTER_VERTICAL);
 	_preset_choice = new wxChoice (this, wxID_ANY);
