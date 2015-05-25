@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -84,6 +84,8 @@ Encoder::add_worker_threads (ServerDescription d)
 	for (int i = 0; i < d.threads(); ++i) {
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)));
 	}
+
+	_writer->set_encoder_threads (_threads.size ());
 }
 
 void
@@ -92,6 +94,8 @@ Encoder::begin ()
 	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
 		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
 	}
+
+	_writer->set_encoder_threads (_threads.size ());
 
 	if (!ServerFinder::instance()->disabled ()) {
 		_server_found_connection = ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));

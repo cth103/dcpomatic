@@ -100,6 +100,8 @@ public:
 	void repeat (int f, Eyes);
 	void finish ();
 
+	void set_encoder_threads (int threads);
+
 private:
 
 	void thread ();
@@ -107,10 +109,6 @@ private:
 	void check_existing_picture_mxf ();
 	bool check_existing_picture_mxf_frame (FILE *, int, Eyes);
 	bool have_sequenced_image_at_queue_head ();
-	/** maximum number of frames to hold in memory, for when we are managing
-	 *  ordering
-	 */
-	int maximum_frames_in_memory () const;
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
@@ -137,7 +135,11 @@ private:
 	/** the index of the last written frame */
 	int _last_written_frame;
 	Eyes _last_written_eyes;
-
+	/** maximum number of frames to hold in memory, for when we are managing
+	 *  ordering
+	 */
+	int _maximum_frames_in_memory;
+	
 	/** number of FULL written frames */
 	int _full_written;
 	/** number of FAKE written frames */
