@@ -656,11 +656,26 @@ Film::isdcf_name (bool if_created_now) const
 string
 Film::dcp_name (bool if_created_now) const
 {
+	string unfiltered;
 	if (use_isdcf_name()) {
-		return isdcf_name (if_created_now);
+		unfiltered = isdcf_name (if_created_now);
+	} else {
+		unfiltered = name ();
 	}
 
-	return name();
+	/* Filter out `bad' characters which cause problems with some systems.
+	   There's no apparent list of what really is allowed, so this is a guess.
+	*/
+
+	string filtered;
+	string const allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
+	for (size_t i = 0; i < unfiltered.size(); ++i) {
+		if (allowed.find (unfiltered[i]) != string::npos) {
+			filtered += unfiltered[i];
+		}
+	}
+	
+	return filtered;
 }
 
 void

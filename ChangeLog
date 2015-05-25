@@ -1,5 +1,10 @@
 2015-05-25  Carl Hetherington  <cth@carlh.net>
 
+	* Block all but alphanumeric characters with a few bits
+	of punctuation from DCP names.
+
+	* Improve view of jobs in various ways.
+
 	* Increase the number of images that DCP-o-matic will
 	keep around in memory before resorting to pushing them
 	to disk.
