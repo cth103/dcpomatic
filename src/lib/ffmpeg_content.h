@@ -63,6 +63,9 @@ public:
 	DCPTime full_length () const;
 
 	std::string identifier () const;
+
+	/* VideoContent */
+	void set_default_colour_conversion ();
 	
 	/* AudioContent */
 	int audio_channels () const;

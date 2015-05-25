@@ -53,6 +53,8 @@ public:
 	std::string technical_summary () const;
 	virtual std::string identifier () const;
 
+	virtual void set_default_colour_conversion ();
+	
 	ContentTime video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;
@@ -88,7 +90,6 @@ public:
 	void set_scale (VideoContentScale);
 	void unset_colour_conversion (bool signal = true);
 	void set_colour_conversion (ColourConversion);
-	void set_default_colour_conversion ();
 
 	void set_fade_in (ContentTime);
 	void set_fade_out (ContentTime);
@@ -166,6 +167,7 @@ protected:
 
 	ContentTime _video_length;
 	float _video_frame_rate;
+	boost::optional<ColourConversion> _colour_conversion;
 
 private:
 	friend struct ffmpeg_pts_offset_test;
@@ -179,7 +181,6 @@ private:
 	VideoFrameType _video_frame_type;
 	Crop _crop;
 	VideoContentScale _scale;
-	boost::optional<ColourConversion> _colour_conversion;
 	/** Sample aspect ratio obtained from the content file's header,
 	    if there is one.
 	*/

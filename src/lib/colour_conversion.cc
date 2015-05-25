@@ -222,9 +222,10 @@ PresetColourConversion::PresetColourConversion ()
 
 }
 
-PresetColourConversion::PresetColourConversion (string n, dcp::ColourConversion conversion_)
+PresetColourConversion::PresetColourConversion (string n, string i, dcp::ColourConversion conversion_)
 	: conversion (conversion_)
 	, name (n)
+	, id (i)
 {
 
 }
@@ -257,8 +258,21 @@ operator== (PresetColourConversion const & a, PresetColourConversion const & b)
 void
 PresetColourConversion::setup_colour_conversion_presets ()
 {
-	_presets.push_back (PresetColourConversion (_("sRGB"), dcp::ColourConversion::srgb_to_xyz ()));
-	_presets.push_back (PresetColourConversion (_("Rec. 601"), dcp::ColourConversion::rec601_to_xyz ()));
-	_presets.push_back (PresetColourConversion (_("Rec. 709"), dcp::ColourConversion::rec709_to_xyz ()));
-	_presets.push_back (PresetColourConversion (_("P3"), dcp::ColourConversion::p3_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("sRGB"), "rgb", dcp::ColourConversion::srgb_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("Rec. 601"), "rec601", dcp::ColourConversion::rec601_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("Rec. 709"), "rec709", dcp::ColourConversion::rec709_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("P3"), "p3", dcp::ColourConversion::p3_to_xyz ()));
 }
+
+PresetColourConversion
+PresetColourConversion::from_id (string s)
+{
+	BOOST_FOREACH (PresetColourConversion const& i, _presets) {
+		if (i.id == s) {
+			return i;
+		}
+	}
+
+	DCPOMATIC_ASSERT (false);
+}
+

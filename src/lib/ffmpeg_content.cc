@@ -388,3 +388,19 @@ FFmpegContent::has_subtitles () const
 {
 	return !subtitle_streams().empty ();
 }
+
+void
+FFmpegContent::set_default_colour_conversion ()
+{
+	dcp::Size const s = video_size ();
+
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if (s.width < 1080) {
+		_colour_conversion = PresetColourConversion::from_id ("rec601").conversion;
+	} else {
+		_colour_conversion = PresetColourConversion::from_id ("rec709").conversion;
+	}
+}
+
+

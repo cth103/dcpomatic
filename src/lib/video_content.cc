@@ -205,8 +205,9 @@ VideoContent::as_xml (xmlpp::Node* node) const
 void
 VideoContent::set_default_colour_conversion ()
 {
+	/* If there's no better offer we'll use Rec. 709 */
 	boost::mutex::scoped_lock lm (_mutex);
-	_colour_conversion = ColourConversion (dcp::ColourConversion::srgb_to_xyz ());
+	_colour_conversion = PresetColourConversion::from_id ("rec709").conversion;
 }
 
 void
@@ -235,6 +236,8 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length.frames (_video_frame_rate));
+
+	set_default_colour_conversion ();
 	
 	signal_changed (VideoContentProperty::VIDEO_SIZE);
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
@@ -562,4 +565,3 @@ VideoContent::processing_description () const
 
 	return d.str ();
 }
-

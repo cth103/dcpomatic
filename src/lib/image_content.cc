@@ -174,3 +174,16 @@ ImageContent::set_video_frame_rate (float r)
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
+void
+ImageContent::set_default_colour_conversion ()
+{
+	bool const s = still ();
+
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if (s) {
+		_colour_conversion = PresetColourConversion::from_id ("srgb").conversion;
+	} else {
+		_colour_conversion = PresetColourConversion::from_id ("rec709").conversion;
+	}
+}

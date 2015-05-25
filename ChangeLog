@@ -1,3 +1,8 @@
+2015-05-25  Carl Hetherington  <cth@carlh.net>
+
+	* Try to set up useful default colour conversions
+	depending on the type and resolution of content (#565).
+
 2015-05-23  Carl Hetherington  <cth@carlh.net>
 
 	* Fix failure to import some video MXFs (#566).

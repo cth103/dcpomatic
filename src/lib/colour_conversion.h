@@ -52,15 +52,19 @@ class PresetColourConversion
 {
 public:
 	PresetColourConversion ();
-	PresetColourConversion (std::string, dcp::ColourConversion);
+	PresetColourConversion (std::string n, std::string i, dcp::ColourConversion);
 	PresetColourConversion (cxml::NodePtr node, int version);
 
 	ColourConversion conversion;
 	std::string name;
-
+	/** an internal short (non-internationalised) name for this preset */
+	std::string id;
+	
 	static std::vector<PresetColourConversion> all () {
 		return _presets;
 	}
+
+	static PresetColourConversion from_id (std::string id);
 
 	static void setup_colour_conversion_presets ();
 	
