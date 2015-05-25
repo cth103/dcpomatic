@@ -550,7 +550,8 @@ VideoContent::processing_description () const
 	
 	if (scaled != container_size) {
 		d << String::compose (
-			_("Padded with black to %1x%2"),
+			_("Padded with black to fit container %1 (%2x%3)"),
+			film->container()->nickname (),
 			container_size.width, container_size.height
 			);
 
