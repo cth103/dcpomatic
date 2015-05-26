@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ public:
 
 	bool pass (PassReason)
 	{
-		AudioFrame const N = min (
-			AudioFrame (2000),
+		Frame const N = min (
+			Frame (2000),
 			_audio_content->audio_length().frames (_audio_content->resampled_audio_frame_rate ()) - _position
 			);
 
@@ -67,7 +67,7 @@ public:
 	}
 
 private:
-	AudioFrame _position;
+	Frame _position;
 };
 
 class TestAudioContent : public AudioContent
@@ -113,7 +113,7 @@ shared_ptr<TestAudioContent> content;
 shared_ptr<TestAudioDecoder> decoder;
 
 static shared_ptr<ContentAudio>
-get (AudioFrame from, AudioFrame length)
+get (Frame from, Frame length)
 {
 	decoder->seek (ContentTime::from_frames (from, content->resampled_audio_frame_rate ()), true);
 	shared_ptr<ContentAudio> ca = decoder->get_audio (from, length, true);
@@ -122,7 +122,7 @@ get (AudioFrame from, AudioFrame length)
 }
 
 static void
-check (AudioFrame from, AudioFrame length)
+check (Frame from, Frame length)
 {
 	shared_ptr<ContentAudio> ca = get (from, length);
 	for (int i = 0; i < content->audio_channels(); ++i) {
@@ -148,8 +148,8 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 
 	/* Read off the end */
 
-	AudioFrame const from = content->resampled_audio_frame_rate() * 61;
-	AudioFrame const length = content->resampled_audio_frame_rate() * 4;
+	Frame const from = content->resampled_audio_frame_rate() * 61;
+	Frame const length = content->resampled_audio_frame_rate() * 4;
 	shared_ptr<ContentAudio> ca = get (from, length);
 	
 	for (int i = 0; i < content->audio_channels(); ++i) {

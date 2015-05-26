@@ -50,7 +50,7 @@ public:
 	 *  @param accurate true to try hard to return frames from exactly `frame', false if we don't mind nearby frames.
 	 *  @return Time-stamped audio data which may or may not be from the location (and of the length) requested.
 	 */
-	boost::shared_ptr<ContentAudio> get_audio (AudioFrame time, AudioFrame length, bool accurate);
+	boost::shared_ptr<ContentAudio> get_audio (Frame time, Frame length, bool accurate);
 	
 protected:
 
@@ -63,7 +63,7 @@ protected:
 	boost::shared_ptr<const AudioContent> _audio_content;
 	boost::shared_ptr<Resampler> _resampler;
 	boost::shared_ptr<AudioProcessor> _processor;
-	boost::optional<AudioFrame> _audio_position;
+	boost::optional<Frame> _audio_position;
 	/** Currently-available decoded audio data */
 	ContentAudio _decoded_audio;
 	/** The time of an accurate seek after which we have not yet received any actual

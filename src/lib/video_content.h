@@ -155,7 +155,7 @@ public:
 
 	ContentTime dcp_time_to_content_time (DCPTime) const;
 
-	boost::optional<float> fade (VideoFrame) const;
+	boost::optional<float> fade (Frame) const;
 
 	void scale_and_crop_to_fit_width ();
 	void scale_and_crop_to_fit_height ();

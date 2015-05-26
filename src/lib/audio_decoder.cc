@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,11 +55,11 @@ AudioDecoder::reset_decoded_audio ()
 }
 
 shared_ptr<ContentAudio>
-AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
+AudioDecoder::get_audio (Frame frame, Frame length, bool accurate)
 {
 	shared_ptr<ContentAudio> dec;
 
-	AudioFrame const end = frame + length - 1;
+	Frame const end = frame + length - 1;
 		
 	if (frame < _decoded_audio.frame || end > (_decoded_audio.frame + length * 4)) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
@@ -69,7 +69,7 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 	/* Offset of the data that we want from the start of _decoded_audio.audio
 	   (to be set up shortly)
 	*/
-	AudioFrame decoded_offset = 0;
+	Frame decoded_offset = 0;
 	
 	/* Now enough pass() calls will either:
 	 *  (a) give us what we want, or
@@ -90,16 +90,16 @@ AudioDecoder::get_audio (AudioFrame frame, AudioFrame length, bool accurate)
 	/* The amount of data available in _decoded_audio.audio starting from `frame'.  This could be -ve
 	   if pass() returned true before we got enough data.
 	*/
-	AudioFrame const available = _decoded_audio.audio->frames() - decoded_offset;
+	Frame const available = _decoded_audio.audio->frames() - decoded_offset;
 
 	/* We will return either that, or the requested amount, whichever is smaller */
-	AudioFrame const to_return = max ((AudioFrame) 0, min (available, length));
+	Frame const to_return = max ((Frame) 0, min (available, length));
 
 	/* Copy our data to the output */
 	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded_audio.audio->channels(), to_return));
 	out->copy_from (_decoded_audio.audio.get(), to_return, decoded_offset, 0);
 
-	AudioFrame const remaining = max ((AudioFrame) 0, available - to_return);
+	Frame const remaining = max ((Frame) 0, available - to_return);
 
 	/* Clean up decoded; first, move the data after what we just returned to the start of the buffer */
 	_decoded_audio.audio->move (decoded_offset + to_return, 0, remaining);
@@ -131,12 +131,12 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 		data = _processor->run (data);
 	}
 
-	AudioFrame const frame_rate = _audio_content->resampled_audio_frame_rate ();
+	Frame const frame_rate = _audio_content->resampled_audio_frame_rate ();
 
 	if (_seek_reference) {
 		/* We've had an accurate seek and now we're seeing some data */
 		ContentTime const delta = time - _seek_reference.get ();
-		AudioFrame const delta_frames = delta.frames (frame_rate);
+		Frame const delta_frames = delta.frames (frame_rate);
 		if (delta_frames > 0) {
 			/* This data comes after the seek time.  Pad the data with some silence. */
 			shared_ptr<AudioBuffers> padded (new AudioBuffers (data->channels(), data->frames() + delta_frames));
@@ -146,8 +146,8 @@ AudioDecoder::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 			time -= delta;
 		} else if (delta_frames < 0) {
 			/* This data comes before the seek time.  Throw some data away */
-			AudioFrame const to_discard = min (-delta_frames, static_cast<AudioFrame> (data->frames()));
-			AudioFrame const to_keep = data->frames() - to_discard;
+			Frame const to_discard = min (-delta_frames, static_cast<Frame> (data->frames()));
+			Frame const to_keep = data->frames() - to_discard;
 			if (to_keep == 0) {
 				/* We have to throw all this data away, so keep _seek_reference and
 				   try again next time some data arrives.

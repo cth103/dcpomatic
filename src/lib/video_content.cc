@@ -483,7 +483,7 @@ VideoContent::set_video_frame_rate (float r)
 }
 
 optional<float>
-VideoContent::fade (VideoFrame f) const
+VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 	
@@ -491,7 +491,7 @@ VideoContent::fade (VideoFrame f) const
 		return float (f) / _fade_in.frames (video_frame_rate ());
 	}
 
-	VideoFrame fade_out_start = ContentTime (video_length() - fade_out()).frames (video_frame_rate ());
+	Frame fade_out_start = ContentTime (video_length() - fade_out()).frames (video_frame_rate ());
 	if (f >= fade_out_start) {
 		return 1 - float (f - fade_out_start) / fade_out().frames (video_frame_rate ());
 	}

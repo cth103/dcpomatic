@@ -49,7 +49,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 }
 
 list<ContentVideo>
-VideoDecoder::decoded_video (VideoFrame frame)
+VideoDecoder::decoded_video (Frame frame)
 {
 	list<ContentVideo> output;
 	
@@ -68,7 +68,7 @@ VideoDecoder::decoded_video (VideoFrame frame)
  *  @return Frames; there may be none (if there is no video there), 1 for 2D or 2 for 3D.
  */
 list<ContentVideo>
-VideoDecoder::get_video (VideoFrame frame, bool accurate)
+VideoDecoder::get_video (Frame frame, bool accurate)
 {
 	/* At this stage, if we have get_video()ed before, _decoded_video will contain the last frame that this
 	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
@@ -130,7 +130,7 @@ VideoDecoder::get_video (VideoFrame frame, bool accurate)
 
 /** Fill _decoded_video from `from' up to, but not including, `to' */
 void
-VideoDecoder::fill_2d (VideoFrame from, VideoFrame to)
+VideoDecoder::fill_2d (Frame from, Frame to)
 {
 	if (to == 0) {
 		/* Already OK */
@@ -147,7 +147,7 @@ VideoDecoder::fill_2d (VideoFrame from, VideoFrame to)
 		filler_part = _decoded_video.back().part;
 	}
 
-	VideoFrame filler_frame = from;
+	Frame filler_frame = from;
 	
 	while (filler_frame < to) {
 
@@ -164,7 +164,7 @@ VideoDecoder::fill_2d (VideoFrame from, VideoFrame to)
 
 /** Fill _decoded_video from `from' up to, but not including, `to' */
 void
-VideoDecoder::fill_3d (VideoFrame from, VideoFrame to, Eyes eye)
+VideoDecoder::fill_3d (Frame from, Frame to, Eyes eye)
 {
 	if (to == 0 && eye == EYES_LEFT) {
 		/* Already OK */
@@ -192,7 +192,7 @@ VideoDecoder::fill_3d (VideoFrame from, VideoFrame to, Eyes eye)
 		}
 	}
 
-	VideoFrame filler_frame = from;
+	Frame filler_frame = from;
 	Eyes filler_eye = _decoded_video.empty() ? EYES_LEFT : _decoded_video.back().eyes;
 
 	if (_decoded_video.empty ()) {
@@ -232,7 +232,7 @@ VideoDecoder::fill_3d (VideoFrame from, VideoFrame to, Eyes eye)
 	
 /** Called by subclasses when they have a video frame ready */
 void
-VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
+VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 {
 	if (_ignore_video) {
 		return;
@@ -275,8 +275,8 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, VideoFrame frame)
 	   and the things we are about to push.
 	*/
 
-	boost::optional<VideoFrame> from;
-	boost::optional<VideoFrame> to;
+	boost::optional<Frame> from;
+	boost::optional<Frame> to;
 	
 	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
 		from = _last_seek_time->frames (_video_content->video_frame_rate ());

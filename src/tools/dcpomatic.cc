@@ -147,10 +147,10 @@ enum {
 	ID_add_file
 };
 
-class Frame : public wxFrame
+class DOMFrame : public wxFrame
 {
 public:
-	Frame (wxString const & title)
+	DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
@@ -184,30 +184,30 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&Frame::config_changed, this));
+		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
 		config_changed ();
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_new, this),                ID_file_new);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_open, this),               ID_file_open);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_save, this),               ID_file_save);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_properties, this),         ID_file_properties);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_exit, this),               wxID_EXIT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::edit_preferences, this),        wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_dcp, this),           ID_jobs_make_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_make_kdms, this),          ID_jobs_make_kdms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::jobs_show_dcp, this),           ID_jobs_show_dcp);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_hints, this),             ID_tools_hints);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_encoding_servers, this),  ID_tools_encoding_servers);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_check_for_updates, this), ID_tools_check_for_updates);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),              wxID_ABOUT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_report_a_problem, this),   ID_help_report_a_problem);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_new, this),                ID_file_new);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_open, this),               ID_file_open);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_save, this),               ID_file_save);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_properties, this),         ID_file_properties);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::content_scale_to_fit_width, this), ID_content_scale_to_fit_width);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_dcp, this),           ID_jobs_make_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
 
-		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
+		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -228,10 +228,10 @@ public:
 
 		set_menu_sensitivity ();
 
-		_film_editor->FileChanged.connect (bind (&Frame::file_changed, this, _1));
+		_film_editor->FileChanged.connect (bind (&DOMFrame::file_changed, this, _1));
 		file_changed ("");
 
-		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&Frame::set_menu_sensitivity, this));
+		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
 
 		overall_panel->SetSizer (main_sizer);
 
@@ -825,7 +825,7 @@ private:
 		*/
 		Config::drop ();
 
-		_frame = new Frame (_("DCP-o-matic"));
+		_frame = new DOMFrame (_("DCP-o-matic"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
 		_frame->Show ();
@@ -943,7 +943,7 @@ private:
 		}
 	}
 
-	Frame* _frame;
+	DOMFrame* _frame;
 	shared_ptr<wxTimer> _timer;
 	string _film_to_load;
 	string _film_to_create;

@@ -43,7 +43,7 @@ class VideoDecoder : public virtual Decoder
 public:
 	VideoDecoder (boost::shared_ptr<const VideoContent> c);
 
-	std::list<ContentVideo> get_video (VideoFrame frame, bool accurate);
+	std::list<ContentVideo> get_video (Frame frame, bool accurate);
 
 	boost::shared_ptr<const VideoContent> video_content () const {
 		return _video_content;
@@ -60,10 +60,10 @@ protected:
 	friend struct video_decoder_fill_test2;
 
 	void seek (ContentTime time, bool accurate);
-	void video (boost::shared_ptr<const ImageProxy>, VideoFrame frame);
-	std::list<ContentVideo> decoded_video (VideoFrame frame);
-	void fill_2d (VideoFrame from, VideoFrame to);
-	void fill_3d (VideoFrame from, VideoFrame to, Eyes);
+	void video (boost::shared_ptr<const ImageProxy>, Frame frame);
+	std::list<ContentVideo> decoded_video (Frame frame);
+	void fill_2d (Frame from, Frame to);
+	void fill_3d (Frame from, Frame to, Eyes);
 
 	boost::shared_ptr<const VideoContent> _video_content;
 	std::list<ContentVideo> _decoded_video;

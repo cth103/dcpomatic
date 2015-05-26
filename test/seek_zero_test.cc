@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 		video_delay = ContentTime ();
 	}
 
-	VideoFrame const first_frame = video_delay.round_up (content->video_frame_rate ()).frames (content->video_frame_rate ());
+	Frame const first_frame = video_delay.round_up (content->video_frame_rate ()).frames (content->video_frame_rate ());
 
 	FFmpegDecoder decoder (content, film->log());
 	list<ContentVideo> a = decoder.get_video (first_frame, true);

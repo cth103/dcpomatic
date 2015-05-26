@@ -55,8 +55,7 @@ typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
 typedef std::vector<boost::shared_ptr<SubtitleContent> > SubtitleContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 
-typedef int64_t VideoFrame;
-typedef int64_t AudioFrame;
+typedef int64_t Frame;
 
 enum VideoFrameType
 {

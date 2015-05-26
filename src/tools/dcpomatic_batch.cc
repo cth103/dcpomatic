@@ -57,10 +57,10 @@ setup_menu (wxMenuBar* m)
 	m->Append (help, _("&Help"));
 }
 
-class Frame : public wxFrame
+class DOMFrame : public wxFrame
 {
 public:
-	Frame (wxString const & title)
+	DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _sizer (new wxBoxSizer (wxVERTICAL))
 	{
@@ -68,9 +68,9 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_add_film, this), ID_file_add_film);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::file_quit, this),     ID_file_quit);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&Frame::help_about, this),    ID_help_about);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_add_film, this), ID_file_add_film);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_quit, this),     ID_file_quit);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),    ID_help_about);
 
 		wxPanel* panel = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -82,15 +82,15 @@ public:
 
 		wxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
 		wxButton* add = new wxButton (panel, wxID_ANY, _("Add Film..."));
-		add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&Frame::add_film, this));
+		add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DOMFrame::add_film, this));
 		buttons->Add (add, 1, wxALL, 6);
 
 		_sizer->Add (buttons, 0, wxALL, 6);
 
 		panel->SetSizer (_sizer);
 
-		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&Frame::close, this, _1));
-		Bind (wxEVT_SIZE, boost::bind (&Frame::sized, this, _1));
+		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
+		Bind (wxEVT_SIZE, boost::bind (&DOMFrame::sized, this, _1));
 	}
 
 private:
@@ -220,7 +220,7 @@ class App : public wxApp
 		*/
 		Config::drop ();
 
-		Frame* f = new Frame (_("DCP-o-matic Batch Converter"));
+		DOMFrame* f = new DOMFrame (_("DCP-o-matic Batch Converter"));
 		SetTopWindow (f);
 		f->Maximize ();
 		f->Show ();

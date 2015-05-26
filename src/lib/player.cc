@@ -397,7 +397,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		setup_pieces ();
 	}
 
-	AudioFrame const length_frames = length.frames (_film->audio_frame_rate ());
+	Frame const length_frames = length.frames (_film->audio_frame_rate ());
 
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
 	audio->make_silent ();
@@ -423,7 +423,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 		/* The time that we should request from the content */
 		DCPTime request = time - DCPTime::from_seconds (content->audio_delay() / 1000.0);
-		AudioFrame request_frames = length_frames;
+		Frame request_frames = length_frames;
 		DCPTime offset;
 		if (request < DCPTime ()) {
 			/* We went off the start of the content, so we will need to offset
@@ -437,7 +437,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			request = DCPTime ();
 		}
 
-		AudioFrame const content_frame = dcp_to_content_audio (*i, request);
+		Frame const content_frame = dcp_to_content_audio (*i, request);
 
 		/* Audio from this piece's decoder (which might be more or less than what we asked for) */
 		shared_ptr<ContentAudio> all = decoder->get_audio (content_frame, request_frames, accurate);
@@ -472,14 +472,14 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			all->audio.get(),
 			content_frame - all->frame,
 			offset.frames (_film->audio_frame_rate()),
-			min (AudioFrame (all->audio->frames()), request_frames)
+			min (Frame (all->audio->frames()), request_frames)
 			);
 	}
 
 	return audio;
 }
 
-VideoFrame
+Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	/* s is the offset of t from the start position of this content */
@@ -492,7 +492,7 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 }
 
 DCPTime
-Player::content_video_to_dcp (shared_ptr<const Piece> piece, VideoFrame f) const
+Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
 	DCPTime t = DCPTime::from_frames (f * piece->frc.factor (), _film->video_frame_rate()) - piece->content->trim_start () + piece->content->position ();
 	if (t < DCPTime ()) {
@@ -502,7 +502,7 @@ Player::content_video_to_dcp (shared_ptr<const Piece> piece, VideoFrame f) const
 	return t;
 }
 
-AudioFrame
+Frame
 Player::dcp_to_content_audio (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	/* s is the offset of t from the start position of this content */
