@@ -317,7 +317,7 @@ try
 			switch (qi.type) {
 			case QueueItem::FULL:
 			{
-				LOG_GENERAL (N_("Writer FULL-writes %1 to MXF"), qi.frame);
+				LOG_GENERAL (N_("Writer FULL-writes %1 (%2) to MXF"), qi.frame, qi.eyes);
 				if (!qi.encoded) {
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
