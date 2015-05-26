@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/dcpomatic_time.h
+ *  @brief Types to describe time.
+ */
+
 #ifndef DCPOMATIC_TIME_H
 #define DCPOMATIC_TIME_H
 
@@ -31,9 +35,14 @@
 
 class dcpomatic_round_up_test;
 
-class Time;
-
-/** A time in seconds, expressed as a number scaled up by Time::HZ. */
+/** A time in seconds, expressed as a number scaled up by Time::HZ.  We want two different
+ *  versions of this class, ContentTime and DCPTime, and we want it to be impossible to
+ *  convert implicitly between the two.  Hence there's this template hack.  I'm not
+ *  sure if it's the best way to do it.
+ *
+ *  S is the name of `this' class and O is its opposite (see the typedefs below).
+ */
+template <class S, class O>
 class Time
 {
 public:
@@ -47,14 +56,79 @@ public:
 		: _t (t)
 	{}
 
-	virtual ~Time () {}
+	explicit Time (Type n, Type d)
+		: _t (n * HZ / d)
+	{}
 
+	/* Explicit conversion from type O */
+	Time (Time<O, S> d, FrameRateChange f);
+	
 	Type get () const {
 		return _t;
 	}
 
+	bool operator< (Time<S, O> const & o) const {
+		return _t < o._t;
+	}
+
+	bool operator<= (Time<S, O> const & o) const {
+		return _t <= o._t;
+	}
+
+	bool operator== (Time<S, O> const & o) const {
+		return _t == o._t;
+	}
+
+	bool operator!= (Time<S, O> const & o) const {
+		return _t != o._t;
+	}
+
+	bool operator>= (Time<S, O> const & o) const {
+		return _t >= o._t;
+	}
+
+	bool operator> (Time<S, O> const & o) const {
+		return _t > o._t;
+	}
+
+	Time<S, O> operator+ (Time<S, O> const & o) const {
+		return Time<S, O> (_t + o._t);
+	}
+
+	Time<S, O> & operator+= (Time<S, O> const & o) {
+		_t += o._t;
+		return *this;
+	}
+
+	Time<S, O> operator- () const {
+		return Time<S, O> (-_t);
+	}
+
+	Time<S, O> operator- (Time<S, O> const & o) const {
+		return Time<S, O> (_t - o._t);
+	}
+
+	Time<S, O> & operator-= (Time<S, O> const & o) {
+		_t -= o._t;
+		return *this;
+	}
+
+	/** Round up to the nearest sampling interval
+	 *  at some sampling rate.
+	 *  @param r Sampling rate.
+	 */
+	Time<S, O> round_up (float r) {
+		Type const n = rint (HZ / r);
+		Type const a = _t + n - 1;
+		return Time<S, O> (a - (a % n));
+	}
+
 	double seconds () const {
 		return double (_t) / HZ;
+	}
+
+	Time<S, O> abs () const {
+		return Time<S, O> (std::abs (_t));
 	}
 
 	template <typename T>
@@ -99,95 +173,47 @@ public:
 		return o.str ();
 	}
 
-protected:
+	
+	static Time<S, O> from_seconds (double s) {
+		return Time<S, O> (s * HZ);
+	}
+
+	template <class T>
+	static Time<S, O> from_frames (int64_t f, T r) {
+		DCPOMATIC_ASSERT (r > 0);
+		return Time<S, O> (f * HZ / r);
+	}
+
+	static Time<S, O> delta () {
+		return Time<S, O> (1);
+	}
+
+	static Time<S, O> max () {
+		return Time<S, O> (INT64_MAX);
+	}
+	
+private:
 	friend struct dcptime_round_up_test;
 	
 	Type _t;
 	static const int HZ = 96000;
 };
 
-class DCPTime;
+class ContentTimeDifferentiator {};
+class DCPTimeDifferentiator {};
 
-class ContentTime : public Time
-{
-public:
-	ContentTime () : Time () {}
-	explicit ContentTime (Type t) : Time (t) {}
-	ContentTime (Type n, Type d) : Time (n * HZ / d) {}
-	ContentTime (DCPTime d, FrameRateChange f);
+/* Specializations for the two allowed explicit conversions */
 
-	bool operator< (ContentTime const & o) const {
-		return _t < o._t;
-	}
+template<>
+Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (Time<DCPTimeDifferentiator, ContentTimeDifferentiator> d, FrameRateChange f);
 
-	bool operator<= (ContentTime const & o) const {
-		return _t <= o._t;
-	}
+template<>
+Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (Time<ContentTimeDifferentiator, DCPTimeDifferentiator> d, FrameRateChange f);
 
-	bool operator== (ContentTime const & o) const {
-		return _t == o._t;
-	}
-
-	bool operator!= (ContentTime const & o) const {
-		return _t != o._t;
-	}
-
-	bool operator>= (ContentTime const & o) const {
-		return _t >= o._t;
-	}
-
-	bool operator> (ContentTime const & o) const {
-		return _t > o._t;
-	}
-
-	ContentTime operator+ (ContentTime const & o) const {
-		return ContentTime (_t + o._t);
-	}
-
-	ContentTime & operator+= (ContentTime const & o) {
-		_t += o._t;
-		return *this;
-	}
-
-	ContentTime operator- () const {
-		return ContentTime (-_t);
-	}
-
-	ContentTime operator- (ContentTime const & o) const {
-		return ContentTime (_t - o._t);
-	}
-
-	ContentTime & operator-= (ContentTime const & o) {
-		_t -= o._t;
-		return *this;
-	}
-
-	/** Round up to the nearest sampling interval
-	 *  at some sampling rate.
-	 *  @param r Sampling rate.
-	 */
-	ContentTime round_up (float r) {
-		Type const n = rint (HZ / r);
-		Type const a = _t + n - 1;
-		return ContentTime (a - (a % n));
-	}
-
-	static ContentTime from_seconds (double s) {
-		return ContentTime (s * HZ);
-	}
-
-	template <class T>
-	static ContentTime from_frames (int64_t f, T r) {
-		DCPOMATIC_ASSERT (r > 0);
-		return ContentTime (f * HZ / r);
-	}
-
-	static ContentTime max () {
-		return ContentTime (INT64_MAX);
-	}
-};
-
-std::ostream& operator<< (std::ostream& s, ContentTime t);
+/** Time relative to the start or position of a piece of content in its native frame rate */
+typedef Time<ContentTimeDifferentiator, DCPTimeDifferentiator> ContentTime;
+/** Time relative to the start of the output DCP in its frame rate */
+typedef Time<DCPTimeDifferentiator, ContentTimeDifferentiator> DCPTime;
 
 class ContentTimePeriod
 {
@@ -210,93 +236,8 @@ public:
 	bool contains (ContentTime const & o) const;
 };
 
-class DCPTime : public Time
-{
-public:
-	DCPTime () : Time () {}
-	explicit DCPTime (Type t) : Time (t) {}
-	DCPTime (ContentTime t, FrameRateChange c) : Time (rint (t.get() / c.speed_up)) {}
-
-	bool operator< (DCPTime const & o) const {
-		return _t < o._t;
-	}
-
-	bool operator<= (DCPTime const & o) const {
-		return _t <= o._t;
-	}
-
-	bool operator== (DCPTime const & o) const {
-		return _t == o._t;
-	}
-
-	bool operator!= (DCPTime const & o) const {
-		return _t != o._t;
-	}
-
-	bool operator>= (DCPTime const & o) const {
-		return _t >= o._t;
-	}
-
-	bool operator> (DCPTime const & o) const {
-		return _t > o._t;
-	}
-
-	DCPTime operator+ (DCPTime const & o) const {
-		return DCPTime (_t + o._t);
-	}
-
-	DCPTime & operator+= (DCPTime const & o) {
-		_t += o._t;
-		return *this;
-	}
-
-	DCPTime operator- () const {
-		return DCPTime (-_t);
-	}
-
-	DCPTime operator- (DCPTime const & o) const {
-		return DCPTime (_t - o._t);
-	}
-
-	DCPTime & operator-= (DCPTime const & o) {
-		_t -= o._t;
-		return *this;
-	}
-
-	/** Round up to the nearest sampling interval
-	 *  at some sampling rate.
-	 *  @param r Sampling rate.
-	 */
-	DCPTime round_up (float r) {
-		Type const n = rint (HZ / r);
-		Type const a = _t + n - 1;
-		return DCPTime (a - (a % n));
-	}
-
-	DCPTime abs () const {
-		return DCPTime (std::abs (_t));
-	}
-
-	static DCPTime from_seconds (double s) {
-		return DCPTime (s * HZ);
-	}
-
-	template <class T>
-	static DCPTime from_frames (int64_t f, T r) {
-		DCPOMATIC_ASSERT (r > 0);
-		return DCPTime (f * HZ / r);
-	}
-
-	static DCPTime delta () {
-		return DCPTime (1);
-	}
-
-	static DCPTime max () {
-		return DCPTime (INT64_MAX);
-	}
-};
-
 DCPTime min (DCPTime a, DCPTime b);
+std::ostream& operator<< (std::ostream& s, ContentTime t);
 std::ostream& operator<< (std::ostream& s, DCPTime t);
 
 #endif

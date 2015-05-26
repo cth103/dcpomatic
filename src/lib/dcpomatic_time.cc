@@ -21,13 +21,22 @@
 
 using std::ostream;
 
-ContentTime::ContentTime (DCPTime d, FrameRateChange f)
-	: Time (rint (d.get() * f.speed_up))
+template <>
+Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
+	: _t (rint (d.get() * f.speed_up))
 {
 
 }
 
-DCPTime min (DCPTime a, DCPTime b)
+template <>
+Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (ContentTime d, FrameRateChange f)
+	: _t (rint (d.get() / f.speed_up))
+{
+
+}
+
+DCPTime
+min (DCPTime a, DCPTime b)
 {
 	if (a < b) {
 		return a;
