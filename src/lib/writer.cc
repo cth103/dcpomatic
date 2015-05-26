@@ -110,6 +110,13 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	if (_film->encrypted ()) {
 		_picture_mxf->set_key (_film->key ());
 	}
+
+	_picture_mxf->set_file (
+		_film->internal_video_mxf_dir() / _film->internal_video_mxf_filename()
+		);
+
+	job->sub (_("Checking existing image data"));
+	check_existing_picture_mxf ();
 	
 	_picture_mxf_writer = _picture_mxf->start_write (
 		_film->internal_video_mxf_dir() / _film->internal_video_mxf_filename(),
@@ -135,9 +142,6 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 		throw InvalidSignerError ();
 	}
 
-	job->sub (_("Checking existing image data"));
-	check_existing_picture_mxf ();
-	
 	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 
 	job->sub (_("Encoding image data"));
