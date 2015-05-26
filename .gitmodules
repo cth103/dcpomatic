@@ -1,0 +1,3 @@
+[submodule "test/data"]
+	path = test/data
+	url = ssh://carl@git.carlh.net/home/carl/git/dcpomatic-test-data.git
