@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/tools/dcpomatic.cc
+ *  @brief The main DCP-o-matic GUI.
+ */
+
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
