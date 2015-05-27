@@ -52,7 +52,7 @@ SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f, cx
 	, _audio_mapping (node->node_child ("AudioMapping"), version)
 {
 	_audio_channels = node->number_child<int> ("AudioChannels");
-	_audio_length = ContentTime (node->number_child<ContentTime::Type> ("AudioLength"));
+	_audio_length = node->number_child<Frame> ("AudioLength");
 	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
 }
 
@@ -73,7 +73,7 @@ SingleStreamAudioContent::as_xml (xmlpp::Node* node) const
 {
 	AudioContent::as_xml (node);
 	node->add_child("AudioChannels")->add_child_text (raw_convert<string> (audio_channels ()));
-	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length().get ()));
+	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
 	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_frame_rate ()));
 	_audio_mapping.as_xml (node->add_child("AudioMapping"));
 }

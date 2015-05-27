@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ public:
 	virtual ~VideoExaminer () {}
 	virtual boost::optional<float> video_frame_rate () const = 0;
 	virtual dcp::Size video_size () const = 0;
-	virtual ContentTime video_length () const = 0;
+	virtual Frame video_length () const = 0;
 	virtual boost::optional<float> sample_aspect_ratio () const {
 		return boost::optional<float> ();
 	}

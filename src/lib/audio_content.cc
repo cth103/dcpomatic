@@ -188,9 +188,9 @@ string
 AudioContent::technical_summary () const
 {
 	return String::compose (
-		"audio: channels %1, length %2, content rate %3, resampled rate %4",
+		"audio: channels %1, length %2 frames, content rate %3, resampled rate %4",
 		audio_channels(),
-		audio_length().seconds(),
+		audio_length(),
 		audio_frame_rate(),
 		resampled_audio_frame_rate()
 		);

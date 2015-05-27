@@ -31,7 +31,7 @@ public:
 	
 	boost::optional<float> video_frame_rate () const;
 	dcp::Size video_size () const;
-	ContentTime video_length () const;
+	Frame video_length () const;
 	boost::optional<float> sample_aspect_ratio () const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
@@ -62,7 +62,7 @@ private:
 	/** Video length, either obtained from the header or derived by running
 	 *  through the whole file.
 	 */
-	ContentTime _video_length;
+	Frame _video_length;
 	bool _need_video_length;
 
 	boost::optional<ContentTime> _last_subtitle_start;

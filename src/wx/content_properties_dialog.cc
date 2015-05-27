@@ -40,7 +40,7 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 	if (video) {
 		add_property (
 			_("Video length"),
-			std_to_wx (raw_convert<string> (video->video_length ().frames (video->video_frame_rate ()))) + " " + _("video frames")
+			std_to_wx (raw_convert<string> (video->video_length ())) + " " + _("video frames")
 			);
 		add_property (
 			_("Video size"),
@@ -60,7 +60,7 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 			);
 		add_property (
 			_("Audio length"),
-			std_to_wx (raw_convert<string> (audio->audio_length().frames (audio->audio_frame_rate ()))) + " " + _("audio frames")
+			std_to_wx (raw_convert<string> (audio->audio_length())) + " " + _("audio frames")
 			);
 	}
 	

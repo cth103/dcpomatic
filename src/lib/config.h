@@ -449,6 +449,7 @@ private:
 	/** Default ISDCF metadata for newly-created Films */
 	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;
+ 	/** Default length of still image content (seconds) */
 	int _default_still_length;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;

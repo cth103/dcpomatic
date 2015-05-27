@@ -70,7 +70,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	set_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, ContentTime len)
+VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, Frame len)
 	: Content (f, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
@@ -96,14 +96,7 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
 	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
-
-	if (version < 32) {
-		/* DCP-o-matic 1.0 branch */
-		_video_length = ContentTime::from_frames (node->number_child<int64_t> ("VideoLength"), _video_frame_rate);
-	} else {
-		_video_length = ContentTime (node->number_child<ContentTime::Type> ("VideoLength"));
-	}
-	
+	_video_length = node->number_child<Frame> ("VideoLength");
 	_video_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
 	_sample_aspect_ratio = node->optional_number_child<float> ("SampleAspectRatio");
 	_crop.left = node->number_child<int> ("LeftCrop");
@@ -125,8 +118,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"), version);
 	}
 	if (version >= 32) {
-		_fade_in = ContentTime (node->number_child<int64_t> ("FadeIn"));
-		_fade_out = ContentTime (node->number_child<int64_t> ("FadeOut"));
+		_fade_in = node->number_child<Frame> ("FadeIn");
+		_fade_out = node->number_child<Frame> ("FadeOut");
 	}
 }
 
@@ -185,7 +178,7 @@ void
 VideoContent::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_video_length.get ()));
+	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_video_length));
 	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_video_size.width));
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_video_size.height));
 	node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
@@ -198,8 +191,8 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node->add_child("ColourConversion"));
 	}
-	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in.get ()));
-	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out.get ()));
+	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
+	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
 }
 
 void
@@ -216,7 +209,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	dcp::Size const vs = d->video_size ();
 	optional<float> const vfr = d->video_frame_rate ();
-	ContentTime vl = d->video_length ();
+	Frame vl = d->video_length ();
 	optional<float> const ar = d->sample_aspect_ratio ();
 
 	{
@@ -235,7 +228,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length.frames (_video_frame_rate));
+	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length);
 
 	set_default_colour_conversion ();
 	
@@ -355,8 +348,8 @@ string
 VideoContent::technical_summary () const
 {
 	string s = String::compose (
-		N_("video: length %1, size %2x%3, rate %4"),
-		video_length_after_3d_combine().seconds(),
+		N_("video: length %1 frames, size %2x%3, rate %4"),
+		video_length_after_3d_combine(),
 		video_size().width,
 		video_size().height,
 		video_frame_rate()
@@ -413,7 +406,7 @@ VideoContent::set_colour_conversion (ColourConversion c)
 }
 
 void
-VideoContent::set_fade_in (ContentTime t)
+VideoContent::set_fade_in (Frame t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -424,7 +417,7 @@ VideoContent::set_fade_in (ContentTime t)
 }
 
 void
-VideoContent::set_fade_out (ContentTime t)
+VideoContent::set_fade_out (Frame t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -487,13 +480,13 @@ VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 	
-	if (f < fade_in().frames (video_frame_rate ())) {
-		return float (f) / _fade_in.frames (video_frame_rate ());
+	if (f < fade_in()) {
+		return float (f) / fade_in();
 	}
 
-	Frame fade_out_start = ContentTime (video_length() - fade_out()).frames (video_frame_rate ());
+	Frame fade_out_start = video_length() - fade_out();
 	if (f >= fade_out_start) {
-		return 1 - float (f - fade_out_start) / fade_out().frames (video_frame_rate ());
+		return 1 - float (f - fade_out_start) / fade_out();
 	}
 
 	return optional<float> ();

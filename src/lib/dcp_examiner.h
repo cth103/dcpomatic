@@ -39,7 +39,7 @@ public:
 		return _video_size.get_value_or (dcp::Size (1998, 1080));
 	}
 	
-	ContentTime video_length () const {
+	Frame video_length () const {
 		return _video_length;
 	}
 
@@ -59,7 +59,7 @@ public:
 		return _audio_channels.get_value_or (0);
 	}
 	
-	ContentTime audio_length () const {
+	Frame audio_length () const {
 		return _audio_length;
 	}
 	
@@ -74,10 +74,10 @@ public:
 private:
 	boost::optional<float> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
-	ContentTime _video_length;
+	Frame _video_length;
 	boost::optional<int> _audio_channels;
 	boost::optional<int> _audio_frame_rate;
-	ContentTime _audio_length;
+	Frame _audio_length;
 	std::string _name;
 	bool _has_subtitles;
 	bool _encrypted;

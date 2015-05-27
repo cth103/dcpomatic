@@ -44,7 +44,7 @@ class VideoContent : public virtual Content
 {
 public:
 	VideoContent (boost::shared_ptr<const Film>);
-	VideoContent (boost::shared_ptr<const Film>, DCPTime, ContentTime);
+	VideoContent (boost::shared_ptr<const Film>, DCPTime, Frame);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
@@ -55,15 +55,15 @@ public:
 
 	virtual void set_default_colour_conversion ();
 	
-	ContentTime video_length () const {
+	Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;
 	}
 
-	ContentTime video_length_after_3d_combine () const {
+	Frame video_length_after_3d_combine () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		if (_video_frame_type == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
-			return ContentTime (_video_length.get() / 2);
+			return _video_length / 2;
 		}
 		
 		return _video_length;
@@ -91,8 +91,8 @@ public:
 	void unset_colour_conversion (bool signal = true);
 	void set_colour_conversion (ColourConversion);
 
-	void set_fade_in (ContentTime);
-	void set_fade_out (ContentTime);
+	void set_fade_in (Frame);
+	void set_fade_out (Frame);
 	
 	VideoFrameType video_frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -140,12 +140,12 @@ public:
 		return _sample_aspect_ratio;
 	}
 
-	ContentTime fade_in () const {
+	Frame fade_in () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_in;
 	}
 
-	ContentTime fade_out () const {
+	Frame fade_out () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_out;
 	}
@@ -165,7 +165,7 @@ public:
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 
-	ContentTime _video_length;
+	Frame _video_length;
 	float _video_frame_rate;
 	boost::optional<ColourConversion> _colour_conversion;
 
@@ -185,8 +185,8 @@ private:
 	    if there is one.
 	*/
 	boost::optional<float> _sample_aspect_ratio;
-	ContentTime _fade_in;
-	ContentTime _fade_out;
+	Frame _fade_in;
+	Frame _fade_out;
 };
 
 #endif

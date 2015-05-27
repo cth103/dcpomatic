@@ -81,7 +81,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched video sizes in DCP"));
 			}
 
-			_video_length += ContentTime::from_frames ((*i)->main_picture()->duration(), _video_frame_rate.get ());
+			_video_length += (*i)->main_picture()->duration();
 		}
 			
 		if ((*i)->main_sound ()) {
@@ -99,7 +99,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched audio frame rates in DCP"));
 			}
 
-			_audio_length += ContentTime::from_frames ((*i)->main_sound()->duration(), _video_frame_rate.get ());
+			_audio_length += (*i)->main_sound()->duration();
 		}
 
 		if ((*i)->main_subtitle ()) {

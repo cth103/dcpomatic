@@ -284,8 +284,8 @@ TimingPanel::full_length_changed ()
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
 		if (ic && ic->still ()) {
-			/* XXX: No effective FRC here... is this right? */
-			ic->set_video_length (ContentTime (_full_length->get (_parent->film()->video_frame_rate()), FrameRateChange (1, 1)));
+			int const vfr = _parent->film()->video_frame_rate ();
+			ic->set_video_length (_full_length->get (vfr).frames (vfr));
 		}
 	}
 }

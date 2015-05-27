@@ -277,24 +277,24 @@ VideoPanel::film_content_changed (int property)
 			}
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_IN) {
-		set<ContentTime> check;
+		set<Frame> check;
 		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
 			check.insert ((*i)->fade_in ());
 		}
 		
 		if (check.size() == 1) {
-			_fade_in->set (vc.front()->fade_in (), vc.front()->video_frame_rate ());
+			_fade_in->set (ContentTime::from_frames (vc.front()->fade_in (), vc.front()->video_frame_rate ()), vc.front()->video_frame_rate ());
 		} else {
 			_fade_in->clear ();
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_OUT) {
-		set<ContentTime> check;
+		set<Frame> check;
 		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
 			check.insert ((*i)->fade_out ());
 		}
 		
 		if (check.size() == 1) {
-			_fade_out->set (vc.front()->fade_out (), vc.front()->video_frame_rate ());
+			_fade_out->set (ContentTime::from_frames (vc.front()->fade_out (), vc.front()->video_frame_rate ()), vc.front()->video_frame_rate ());
 		} else {
 			_fade_out->clear ();
 		}
@@ -394,7 +394,8 @@ VideoPanel::fade_in_changed ()
 {
 	VideoContentList vc = _parent->selected_video ();
 	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
-		(*i)->set_fade_in (_fade_in->get (_parent->film()->video_frame_rate ()));
+		int const vfr = _parent->film()->video_frame_rate ();
+		(*i)->set_fade_in (_fade_in->get (vfr).frames (vfr));
 	}
 }
 
@@ -403,7 +404,8 @@ VideoPanel::fade_out_changed ()
 {
 	VideoContentList vc = _parent->selected_video ();
 	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
-		(*i)->set_fade_out (_fade_out->get (_parent->film()->video_frame_rate ()));
+		int const vfr = _parent->film()->video_frame_rate ();
+		(*i)->set_fade_out (_fade_out->get (vfr).frames (vfr));
 	}
 }
 

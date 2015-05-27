@@ -44,7 +44,7 @@ public:
 	{
 		Frame const N = min (
 			Frame (2000),
-			_audio_content->audio_length().frames (_audio_content->resampled_audio_frame_rate ()) - _position
+			_audio_content->audio_length() - _position
 			);
 
 		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_audio_content->audio_channels(), N));
@@ -87,15 +87,15 @@ public:
 	}
 
 	DCPTime full_length () const {
-		return DCPTime (audio_length().get ());
+		return DCPTime::from_seconds (float (audio_length()) / audio_frame_rate ());
 	}
 
 	int audio_channels () const {
 		return 2;
 	}
 
-	ContentTime audio_length () const {
-		return ContentTime::from_seconds (61.2942);
+	Frame audio_length () const {
+		return rint (61.2942 * audio_frame_rate ());
 	}
 
 	int audio_frame_rate () const {

@@ -45,10 +45,10 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	wait_for_jobs ();
 
 	contentA->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	contentA->set_video_length (ContentTime::from_frames (3, 24));
+	contentA->set_video_length (3);
 	contentA->set_position (DCPTime::from_frames (2, film->video_frame_rate ()));
 	contentB->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	contentB->set_video_length (ContentTime::from_frames (1, 24));
+	contentB->set_video_length (1);
 	contentB->set_position (DCPTime::from_frames (7, film->video_frame_rate ()));
 
 	film->make_dcp ();

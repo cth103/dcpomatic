@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -126,7 +126,7 @@ ImageContent::examine (shared_ptr<Job> job)
 }
 
 void
-ImageContent::set_video_length (ContentTime len)
+ImageContent::set_video_length (Frame len)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -141,7 +141,8 @@ ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	return DCPTime (video_length_after_3d_combine(), FrameRateChange (video_frame_rate(), film->video_frame_rate()));
+	FrameRateChange const frc (video_frame_rate(), film->video_frame_rate());
+	return DCPTime::from_frames (rint (video_length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
 }
 
 string
@@ -149,7 +150,7 @@ ImageContent::identifier () const
 {
 	SafeStringStream s;
 	s << VideoContent::identifier ();
-	s << "_" << video_length().get();
+	s << "_" << video_length();
 	return s.str ();
 }
 

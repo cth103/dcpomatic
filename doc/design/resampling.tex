@@ -53,4 +53,11 @@ and $C_A$, resample the audio to $R_A$ where
 R_A &= \frac{C_V F_A}{F_V}
 \end{align*}
 
+Once this is done, consider 1 second's worth of content samples ($C_A$
+samples).  We have turned them into $R_A$ samples which should still
+last 1 second.  These samples are then played back at $F_A$ samples
+per second, so they last $R_A / F_A$ seconds.  Hence there is a
+scaling between some content time and some DCP time of $R_A / F_A$
+i.e. $C_V / F_V$.
+
 \end{document}

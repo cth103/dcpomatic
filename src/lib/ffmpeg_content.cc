@@ -249,14 +249,18 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
-ContentTime
+Frame
 FFmpegContent::audio_length () const
 {
 	if (!audio_stream ()) {
-		return ContentTime ();
+		return 0;
 	}
 
-	return video_length ();
+	/* We're talking about the content's audio length here, at the content's frame
+	   rate.  We assume it's the same as the video's length, and we can just convert
+	   using the content's rates.
+	*/
+	return (video_length () / video_frame_rate ()) * audio_frame_rate ();
 }
 
 int
@@ -300,7 +304,8 @@ FFmpegContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	return DCPTime (video_length_after_3d_combine(), FrameRateChange (video_frame_rate (), film->video_frame_rate ()));
+	FrameRateChange const frc (video_frame_rate (), film->video_frame_rate ());
+	return DCPTime::from_frames (rint (video_length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
 AudioMapping

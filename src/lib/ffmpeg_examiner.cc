@@ -70,7 +70,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	/* See if the header has duration information in it */
 	_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
 	if (!_need_video_length) {
-		_video_length = ContentTime::from_seconds (double (_format_context->duration) / AV_TIME_BASE);
+		_video_length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get ();
 	} else if (job) {
 		job->sub (_("Finding length"));
 		job->set_progress_unknown ();
@@ -126,7 +126,9 @@ FFmpegExaminer::video_packet (AVCodecContext* context)
 			_first_video = frame_time (_format_context->streams[_video_stream]);
 		}
 		if (_need_video_length) {
-			_video_length = frame_time (_format_context->streams[_video_stream]).get_value_or (ContentTime ());
+			_video_length = frame_time (
+				_format_context->streams[_video_stream]
+				).get_value_or (ContentTime ()).frames (video_frame_rate().get ());
 		}
 	}
 }
@@ -195,11 +197,10 @@ FFmpegExaminer::video_size () const
 }
 
 /** @return Length according to our content's header */
-ContentTime
+Frame
 FFmpegExaminer::video_length () const
 {
-	ContentTime const length = ContentTime::from_seconds (double (_format_context->duration) / AV_TIME_BASE);
-	return ContentTime (max (ContentTime (1), _video_length));
+	return max (Frame (1), _video_length);
 }
 
 optional<float>

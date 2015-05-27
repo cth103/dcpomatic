@@ -54,7 +54,7 @@ test (boost::filesystem::path file, float fps, int gaps)
 
 	BOOST_CHECK_CLOSE (decoder.video_content()->video_frame_rate(), fps, 0.01);
 	
-	Frame const N = decoder.video_content()->video_length().frames (decoder.video_content()->video_frame_rate ());
+	Frame const N = decoder.video_content()->video_length();
 #ifdef DCPOMATIC_DEBUG	
 	decoder.test_gaps = 0;
 #endif	
