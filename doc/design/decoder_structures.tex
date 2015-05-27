@@ -1,0 +1,53 @@
+\documentclass{article}
+\title{Decoder structures}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+At the time of writing we have a get-stuff-at-this-time API which
+hides a decode-some-and-see-what-comes-out approach.
+
+\section{Easy and hard extraction of particular pieces of content}
+
+With most decoders it is quick, easy and reliable to get a particular
+piece of content from a particular timecode.  This applies to the DCP,
+DCP subtitle, Sndfile and Image decoders.  With FFmpeg, however, this is not easy.
+
+This suggests that it would make more sense to keep the
+decode-and-see-what-comes-out code within the FFmpeg decoder and not
+use it anywhere else.
+
+However resampling screws this up, as it means all audio requires
+decode-and-see.  I don't think you can't resample in neat blocks as
+there are fractional samples other complications.  You can't postpone
+resampling to the end of the player since different audio may be
+coming in at different rates.
+
+This suggests that decode-and-see is a better match, even if it feels
+a bit ridiculous when most of the decoders have slightly clunky seek
+and pass methods.
+
+\section{Multiple streams}
+
+Another thing unique to FFmpeg is multiple audio streams, possibly at
+different sample rates.
+
+There seem to be two approaches to handling this:
+
+\begin{enumerate}
+\item Every audio decoder has one or more `streams'.  The player loops
+  content and streams within content, and the audio decoder resamples
+  each stream individually.
+\item Every audio decoder just returns audio data, and the FFmpeg
+  decoder returns all its streams' data in one block.
+\end{enumerate}
+
+The second approach has the disadvantage that the FFmpeg decoder must
+resample and merge its audio streams into one block.  This is in
+addition to the resampling that must be done for the other decoders,
+and the merging of all audio content inside the player.
+
+These disadvantages suggest that the first approach is better.
+
+\end{document}
