@@ -154,8 +154,7 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 	
 	for (int i = 0; i < content->audio_channels(); ++i) {
 		for (int j = 0; j < ca->audio->frames(); ++j) {
-			BOOST_CHECK_EQUAL (ca->audio->data(i)[j], j + from);
-			assert (ca->audio->data(i)[j] == j + from);
+			BOOST_REQUIRE_EQUAL (ca->audio->data(i)[j], j + from);
 		}
 	}
 }
