@@ -66,6 +66,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
+	, _fade_in (0)
+	, _fade_out (0)
 {
 	set_default_colour_conversion ();
 }
@@ -76,6 +78,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, Frame len)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
+	, _fade_in (0)
+	, _fade_out (0)
 {
 	set_default_colour_conversion ();
 }
@@ -86,6 +90,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
+	, _fade_in (0)
+	, _fade_out (0)
 {
 	set_default_colour_conversion ();
 }
@@ -120,6 +126,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 	if (version >= 32) {
 		_fade_in = node->number_child<Frame> ("FadeIn");
 		_fade_out = node->number_child<Frame> ("FadeOut");
+	} else {
+		_fade_in = _fade_out = 0;
 	}
 }
 
