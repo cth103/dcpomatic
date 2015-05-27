@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,13 +25,12 @@
 #define DCPOMATIC_AUDIO_CONTENT_H
 
 #include "content.h"
+#include "audio_stream.h"
 #include "audio_mapping.h"
 
 namespace cxml {
 	class Node;
 }
-
-class AudioProcessor;
 
 /** @class AudioContentProperty
  *  @brief Names for properties of AudioContent.
@@ -39,12 +38,9 @@ class AudioProcessor;
 class AudioContentProperty
 {
 public:
-	static int const AUDIO_CHANNELS;
-	static int const AUDIO_FRAME_RATE;
+	static int const AUDIO_STREAMS;
 	static int const AUDIO_GAIN;
 	static int const AUDIO_DELAY;
-	static int const AUDIO_MAPPING;
-	static int const AUDIO_PROCESSOR;
 };
 
 /** @class AudioContent
@@ -62,22 +58,18 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
 
-	/** @return number of audio channels in the content */
-	virtual int audio_channels () const = 0;
-	/** @return the frame rate of the content */
-	virtual int audio_frame_rate () const = 0;
-	virtual AudioMapping audio_mapping () const = 0;
-	virtual void set_audio_mapping (AudioMapping);
-	virtual boost::filesystem::path audio_analysis_path () const;
+	virtual std::vector<AudioStreamPtr> audio_streams () const = 0;
 
+	AudioMapping audio_mapping () const;
+	void set_audio_mapping (AudioMapping);
+	boost::filesystem::path audio_analysis_path () const;
 	int resampled_audio_frame_rate () const;
-	int processed_audio_channels () const;
+	bool has_rate_above_48k () const;
 
 	boost::signals2::connection analyse_audio (boost::function<void()>);
 
 	void set_audio_gain (double);
 	void set_audio_delay (int);
-	void set_audio_processor (AudioProcessor const *);
 	
 	double audio_gain () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -89,11 +81,6 @@ public:
 		return _audio_delay;
 	}
 
-	AudioProcessor const * audio_processor () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_processor;
-	}
-
 	std::string processing_description () const;
 	
 private:
@@ -101,7 +88,6 @@ private:
 	double _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _audio_delay;
-	AudioProcessor const * _audio_processor;
 };
 
 #endif

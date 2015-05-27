@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,34 +17,15 @@
 
 */
 
-#ifndef DCPOMATIC_CONTENT_AUDIO_H
-#define DCPOMATIC_CONTENT_AUDIO_H
+#include "sndfile_base.h"
+#include "audio_examiner.h"
 
-/** @file  src/lib/content_audio.h
- *  @brief ContentAudio class.
- */
-
-#include "audio_buffers.h"
-#include "types.h"
-
-/** @class ContentAudio
- *  @brief A block of audio from a piece of content, with a timestamp as a frame within that content.
- */
-class ContentAudio
+class SndfileExaminer : public Sndfile, public AudioExaminer
 {
 public:
-	ContentAudio ()
-		: audio (new AudioBuffers (0, 0))
-		, frame (0)
-	{}
-		
-	ContentAudio (boost::shared_ptr<AudioBuffers> a, Frame f)
-		: audio (a)
-		, frame (f)
-	{}
-
-	boost::shared_ptr<AudioBuffers> audio;
-	Frame frame;
+	SndfileExaminer (boost::shared_ptr<const SndfileContent> content);
+	
+	int audio_channels () const;
+	Frame audio_length () const;
+	int audio_frame_rate () const;
 };
-
-#endif

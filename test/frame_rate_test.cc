@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -237,7 +237,6 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 	BOOST_CHECK_EQUAL (film->playlist()->best_dcp_frame_rate(), 25);
 }
 
-
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_sampling_rate_test");
@@ -252,46 +251,47 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	afr.push_back (30);
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
+	shared_ptr<FFmpegAudioStream> stream (new FFmpegAudioStream ("foo", 0, 0, 0));
+	content->_audio_streams.push_back (stream);
 	content->_video_frame_rate = 24;
 	film->set_video_frame_rate (24);
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	stream->_frame_rate = 48000;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 48000);
 
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
+	stream->_frame_rate = 44100;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 48000);
 
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 80000, 0)));
+	stream->_frame_rate = 80000;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 96000);
 
 	content->_video_frame_rate = 23.976;
 	film->set_video_frame_rate (24);
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	stream->_frame_rate = 48000;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 47952);
 
 	content->_video_frame_rate = 29.97;
 	film->set_video_frame_rate (30);
 	BOOST_CHECK_EQUAL (film->video_frame_rate (), 30);
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	stream->_frame_rate = 48000;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 47952);
 
 	content->_video_frame_rate = 25;
 	film->set_video_frame_rate (24);
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 48000, 0)));
+	stream->_frame_rate = 48000;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 50000);
 
 	content->_video_frame_rate = 25;
 	film->set_video_frame_rate (24);
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 44100, 0)));
+	stream->_frame_rate = 44100;
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 50000);
 
 	/* Check some out-there conversions (not the best) */
 	
 	content->_video_frame_rate = 14.99;
 	film->set_video_frame_rate (25);
-	content->set_audio_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream ("a", 42, 16000, 0)));
+	stream->_frame_rate = 16000;
 	/* The FrameRateChange within resampled_audio_frame_rate should choose to double-up
 	   the 14.99 fps video to 30 and then run it slow at 25.
 	*/
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), rint (48000 * 2 * 14.99 / 25));
 }
-

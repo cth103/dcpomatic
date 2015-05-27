@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,34 +17,39 @@
 
 */
 
-#ifndef DCPOMATIC_CONTENT_AUDIO_H
-#define DCPOMATIC_CONTENT_AUDIO_H
+#include "audio_stream.h"
+#include "audio_mapping.h"
 
-/** @file  src/lib/content_audio.h
- *  @brief ContentAudio class.
- */
-
-#include "audio_buffers.h"
-#include "types.h"
-
-/** @class ContentAudio
- *  @brief A block of audio from a piece of content, with a timestamp as a frame within that content.
- */
-class ContentAudio
+AudioStream::AudioStream (int frame_rate, int channels)
+	: _frame_rate (frame_rate)
 {
-public:
-	ContentAudio ()
-		: audio (new AudioBuffers (0, 0))
-		, frame (0)
-	{}
-		
-	ContentAudio (boost::shared_ptr<AudioBuffers> a, Frame f)
-		: audio (a)
-		, frame (f)
-	{}
+	_mapping = AudioMapping (channels);
+}
 
-	boost::shared_ptr<AudioBuffers> audio;
-	Frame frame;
-};
+AudioStream::AudioStream (int frame_rate, AudioMapping mapping)
+	: _frame_rate (frame_rate)
+	, _mapping (mapping)
+{
 
-#endif
+}
+
+void
+AudioStream::set_mapping (AudioMapping mapping)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_mapping = mapping;
+}
+
+void
+AudioStream::set_frame_rate (int frame_rate)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_frame_rate = frame_rate;
+}
+
+int
+AudioStream::channels () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _mapping.content_channels ();
+}

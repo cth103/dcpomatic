@@ -19,41 +19,24 @@
 
 #include "ffmpeg_stream.h"
 #include "audio_mapping.h"
+#include "audio_stream.h"
 #include "dcpomatic_time.h"
 
 struct ffmpeg_pts_offset_test;
 
-class FFmpegAudioStream : public FFmpegStream
+class FFmpegAudioStream : public FFmpegStream, public AudioStream
 {
 public:
-	FFmpegAudioStream (std::string n, int i, int f, int c)
-		: FFmpegStream (n, i)
-		, _frame_rate (f)
-		, _channels (c)
-		, _mapping (c)
-	{
-		_mapping.make_default ();
-	}
+	FFmpegAudioStream (std::string name, int id, int frame_rate, int channels)
+		: FFmpegStream (name, id)
+		, AudioStream (frame_rate, channels)
+	{}
 
 	FFmpegAudioStream (cxml::ConstNodePtr, int);
 
 	void as_xml (xmlpp::Node *) const;
 
-	int frame_rate () const {
-		return _frame_rate;
-	}
-	
-	int channels () const {
-		return _channels;
-	}
-	
-	AudioMapping mapping () const {
-		return _mapping;
-	}
-
-	void set_mapping (AudioMapping m) {
-		_mapping = m;
-	}
+	/* XXX: should probably be locked */
 	
 	boost::optional<ContentTime> first_audio;
 
@@ -63,12 +46,6 @@ private:
 	/* Constructor for tests */
 	FFmpegAudioStream ()
 		: FFmpegStream ("", 0)
-		, _frame_rate (0)
-		, _channels (0)
-		, _mapping (1)
+		, AudioStream (0, 0)
 	{}
-
-	int _frame_rate;
-	int _channels;
-	AudioMapping _mapping;
 };

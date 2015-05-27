@@ -89,7 +89,7 @@ DCPDecoder::pass (PassReason)
 		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->mxf()->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
 
-		int const channels = _dcp_content->audio_channels ();
+		int const channels = _dcp_content->audio_stream()->channels ();
 		int const frames = sf->size() / (3 * channels);
 		shared_ptr<AudioBuffers> data (new AudioBuffers (channels, frames));
 		for (int i = 0; i < frames; ++i) {
@@ -99,7 +99,7 @@ DCPDecoder::pass (PassReason)
 			}
 		}
 
-		audio (data, _next);
+		audio (_dcp_content->audio_stream(), data, _next);
 	}
 
 	/* XXX: subtitle */

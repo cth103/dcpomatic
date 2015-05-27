@@ -25,9 +25,11 @@ sources = """
           audio_buffers.cc
           audio_content.cc
           audio_decoder.cc
+          audio_decoder_stream.cc
           audio_filter.cc
           audio_mapping.cc
           audio_processor.cc
+          audio_stream.cc
           cinema.cc
           cinema_sound_processor.cc
           colour_conversion.cc
@@ -98,8 +100,10 @@ sources = """
           server.cc
           server_finder.cc
           single_stream_audio_content.cc
+          sndfile_base.cc
           sndfile_content.cc
           sndfile_decoder.cc
+          sndfile_examiner.cc
           subrip.cc
           subrip_content.cc
           subrip_decoder.cc

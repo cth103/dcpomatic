@@ -983,9 +983,7 @@ Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
-	} else if (
-		p == AudioContentProperty::AUDIO_MAPPING ||
-		p == AudioContentProperty::AUDIO_CHANNELS) {
+	} else if (p == AudioContentProperty::AUDIO_STREAMS) {
 		signal_changed (NAME);
 	}
 

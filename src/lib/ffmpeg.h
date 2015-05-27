@@ -55,7 +55,6 @@ public:
 
 protected:
 	AVCodecContext* video_codec_context () const;
-	AVCodecContext* audio_codec_context () const;
 	AVCodecContext* subtitle_codec_context () const;
 	
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;

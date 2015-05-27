@@ -11,6 +11,6 @@ elif [ "$1" == "--valgrind" ]; then
     shift;
     valgrind --tool="memcheck" --leak-check=full build/test/unit-tests $*
 else
-    build/test/unit-tests --catch_system_errors=no $*
+    build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
 fi
 

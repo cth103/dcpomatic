@@ -34,6 +34,7 @@ class Filter;
 class FFmpegSubtitleStream;
 class FFmpegAudioStream;
 struct ffmpeg_pts_offset_test;
+struct audio_sampling_rate_test;
 
 class FFmpegContentProperty : public VideoContentProperty
 {
@@ -41,7 +42,6 @@ public:
 	static int const SUBTITLE_STREAMS;
 	static int const SUBTITLE_STREAM;
 	static int const AUDIO_STREAMS;
-	static int const AUDIO_STREAM;
 	static int const FILTERS;
 };
 
@@ -68,11 +68,7 @@ public:
 	void set_default_colour_conversion ();
 	
 	/* AudioContent */
-	int audio_channels () const;
-	int audio_frame_rate () const;
-	AudioMapping audio_mapping () const;
-	void set_audio_mapping (AudioMapping);
-	boost::filesystem::path audio_analysis_path () const;
+	std::vector<AudioStreamPtr> audio_streams () const;
 
 	/* SubtitleContent */
 	bool has_subtitles () const;
@@ -89,14 +85,9 @@ public:
 		return _subtitle_stream;
 	}
 
-	std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams () const {
+	std::vector<boost::shared_ptr<FFmpegAudioStream> > ffmpeg_audio_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_streams;
-	}
-	
-	boost::shared_ptr<FFmpegAudioStream> audio_stream () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_stream;
 	}
 
 	std::vector<Filter const *> filters () const {
@@ -105,7 +96,6 @@ public:
 	}
 
 	void set_subtitle_stream (boost::shared_ptr<FFmpegSubtitleStream>);
-	void set_audio_stream (boost::shared_ptr<FFmpegAudioStream>);
 
 	boost::optional<ContentTime> first_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -116,11 +106,11 @@ public:
 
 private:
 	friend struct ffmpeg_pts_offset_test;
+	friend struct audio_sampling_rate_test;
 	
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
-	boost::shared_ptr<FFmpegAudioStream> _audio_stream;
 	boost::optional<ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;

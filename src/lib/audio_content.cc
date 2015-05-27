@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,9 +24,9 @@
 #include "exceptions.h"
 #include "config.h"
 #include "frame_rate_change.h"
-#include "audio_processor.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -38,19 +38,17 @@ using std::fixed;
 using std::setprecision;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
-int const AudioContentProperty::AUDIO_CHANNELS = 200;
-int const AudioContentProperty::AUDIO_FRAME_RATE = 201;
-int const AudioContentProperty::AUDIO_GAIN = 202;
-int const AudioContentProperty::AUDIO_DELAY = 203;
-int const AudioContentProperty::AUDIO_MAPPING = 204;
-int const AudioContentProperty::AUDIO_PROCESSOR = 205;
+/** Something stream-related has changed */
+int const AudioContentProperty::AUDIO_STREAMS = 200;
+int const AudioContentProperty::AUDIO_GAIN = 201;
+int const AudioContentProperty::AUDIO_DELAY = 202;
 
 AudioContent::AudioContent (shared_ptr<const Film> f)
 	: Content (f)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
-	, _audio_processor (0)
 {
 
 }
@@ -59,7 +57,6 @@ AudioContent::AudioContent (shared_ptr<const Film> f, DCPTime s)
 	: Content (f, s)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
-	, _audio_processor (0)
 {
 
 }
@@ -68,20 +65,15 @@ AudioContent::AudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
-	, _audio_processor (0)
 {
 
 }
 
 AudioContent::AudioContent (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	: Content (f, node)
-	, _audio_processor (0)
 {
 	_audio_gain = node->number_child<float> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
-	if (node->optional_string_child ("AudioProcessor")) {
-		_audio_processor = AudioProcessor::from_id (node->string_child ("AudioProcessor"));
-	}
 }
 
 AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -104,7 +96,6 @@ AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content>
 
 	_audio_gain = ref->audio_gain ();
 	_audio_delay = ref->audio_delay ();
-	_audio_processor = ref->audio_processor ();
 }
 
 void
@@ -113,9 +104,6 @@ AudioContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("AudioGain")->add_child_text (raw_convert<string> (_audio_gain));
 	node->add_child("AudioDelay")->add_child_text (raw_convert<string> (_audio_delay));
-	if (_audio_processor) {
-		node->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
-	}
 }
 
 
@@ -139,22 +127,6 @@ AudioContent::set_audio_delay (int d)
 	}
 	
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
-}
-
-void
-AudioContent::set_audio_processor (AudioProcessor const * p)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_audio_processor = p;
-	}
-
-	/* The channel count might have changed, so reset the mapping */
-	AudioMapping m (processed_audio_channels ());
-	m.make_default ();
-	set_audio_mapping (m);
-
-	signal_changed (AudioContentProperty::AUDIO_PROCESSOR);
 }
 
 boost::signals2::connection
@@ -186,18 +158,57 @@ AudioContent::audio_analysis_path () const
 string
 AudioContent::technical_summary () const
 {
-	return String::compose (
-		"audio: channels %1, content rate %2, resampled rate %3",
-		audio_channels(),
-		audio_frame_rate(),
-		resampled_audio_frame_rate()
-		);
+	string s = "audio :";
+	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
+		s += String::compose ("stream channels %1 rate %2", i->channels(), i->frame_rate());
+	}
+
+	return s;
 }
 
 void
-AudioContent::set_audio_mapping (AudioMapping)
+AudioContent::set_audio_mapping (AudioMapping mapping)
 {
-	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+	int c = 0;
+	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
+		AudioMapping stream_mapping (i->channels ());
+		for (int j = 0; j < i->channels(); ++j) {
+			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
+				stream_mapping.set (j, static_cast<dcp::Channel> (k), mapping.get (c, static_cast<dcp::Channel> (k)));
+			}
+			++c;
+		}
+		i->set_mapping (stream_mapping);
+	}
+		
+	signal_changed (AudioContentProperty::AUDIO_STREAMS);
+}
+
+AudioMapping
+AudioContent::audio_mapping () const
+{
+	int channels = 0;
+	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
+		channels += i->channels ();
+	}
+	
+	AudioMapping merged (channels);
+	
+	int c = 0;
+	int s = 0;
+	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
+		AudioMapping mapping = i->mapping ();
+		for (int j = 0; j < mapping.content_channels(); ++j) {
+			merged.set_name (c, String::compose ("%1:%2", s + 1, j + 1));
+			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
+				merged.set (c, static_cast<dcp::Channel> (k), mapping.get (j, static_cast<dcp::Channel> (k)));
+			}
+			++c;
+		}
+		++s;
+	}
+
+	return merged;
 }
 
 /** @return the frame rate that this content should be resampled to in order
@@ -210,7 +221,7 @@ AudioContent::resampled_audio_frame_rate () const
 	DCPOMATIC_ASSERT (film);
 	
 	/* Resample to a DCI-approved sample rate */
-	double t = dcp_audio_frame_rate (audio_frame_rate ());
+	double t = has_rate_above_48k() ? 96000 : 48000;
 
 	FrameRateChange frc = film->active_frame_rate_change (position ());
 
@@ -226,32 +237,66 @@ AudioContent::resampled_audio_frame_rate () const
 	return rint (t);
 }
 
-int
-AudioContent::processed_audio_channels () const
-{
-	if (!audio_processor ()) {
-		return audio_channels ();
-	}
-
-	return audio_processor()->out_channels (audio_channels ());
-}
-
 string
 AudioContent::processing_description () const
 {
-	stringstream d;
-	
-	if (audio_frame_rate() != resampled_audio_frame_rate ()) {
-		stringstream from;
-		from << fixed << setprecision(3) << (audio_frame_rate() / 1000.0);
-		stringstream to;
-		to << fixed << setprecision(3) << (resampled_audio_frame_rate() / 1000.0);
-
-		d << String::compose (_("Audio will be resampled from %1kHz to %2kHz."), from.str(), to.str());
-	} else {
-		d << _("Audio will not be resampled.");
+	vector<AudioStreamPtr> streams = audio_streams ();
+	if (streams.empty ()) {
+		return "";
 	}
 
-	return d.str ();
+	/* Possible answers are:
+	   1. all audio will be resampled from x to y.
+	   2. all audio will be resampled to y (from a variety of rates)
+	   3. some audio will be resampled to y (from a variety of rates)
+	   4. nothing will be resampled.
+	*/
+
+	bool not_resampled = false;
+	bool resampled = false;
+	bool same = true;
+
+	optional<int> common_frame_rate;
+	BOOST_FOREACH (AudioStreamPtr i, streams) {
+		if (i->frame_rate() != resampled_audio_frame_rate()) {
+			resampled = true;
+		} else {
+			not_resampled = true;
+		}
+
+		if (common_frame_rate && common_frame_rate != i->frame_rate ()) {
+			same = false;
+		}
+		common_frame_rate = i->frame_rate ();
+	}
+
+	if (not_resampled && !resampled) {
+		return _("Audio will not be resampled");
+	}
+
+	if (not_resampled && resampled) {
+		return String::compose (_("Some audio will be resampled to %1kHz"), resampled_audio_frame_rate ());
+	}
+
+	if (!not_resampled && resampled) {
+		if (same) {
+			return String::compose (_("Audio will be resampled from %1kHz to %2kHz"), common_frame_rate.get(), resampled_audio_frame_rate ());
+		} else {
+			return String::compose (_("Audio will be resampled to %1kHz"), resampled_audio_frame_rate ());
+		}
+	}
+
+	return "";
 }
 
+bool
+AudioContent::has_rate_above_48k () const
+{
+	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
+		if (i->frame_rate() > 48000) {
+			return true;
+		}
+	}
+
+	return false;
+}

@@ -139,7 +139,7 @@ Content::examine (shared_ptr<Job> job)
 	vector<boost::filesystem::path> p = _paths;
 	lm.unlock ();
 
-	/* Some content files are very big, so we use a poor's
+	/* Some content files are very big, so we use a poor man's
 	   digest here: a MD5 of the first and last 1e6 bytes with the
 	   size of the first file tacked on the end as a string.
 	*/

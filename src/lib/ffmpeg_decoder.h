@@ -40,6 +40,7 @@ extern "C" {
 
 class Log;
 class FilterGraph;
+class FFmpegAudioStream;
 struct ffmpeg_pts_offset_test;
 
 /** @class FFmpegDecoder
@@ -57,8 +58,8 @@ private:
 	void seek (ContentTime time, bool);
 	void flush ();
 
-	AVSampleFormat audio_sample_format () const;
-	int bytes_per_audio_sample () const;
+	AVSampleFormat audio_sample_format (boost::shared_ptr<FFmpegAudioStream> stream) const;
+	int bytes_per_audio_sample (boost::shared_ptr<FFmpegAudioStream> stream) const;
 
 	bool decode_video_packet ();
 	void decode_audio_packet ();
@@ -67,7 +68,7 @@ private:
 	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimePeriod period);
 
 	void maybe_add_subtitle ();
-	boost::shared_ptr<AudioBuffers> deinterleave_audio (uint8_t** data, int size);
+	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream, uint8_t** data, int size);
 
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;

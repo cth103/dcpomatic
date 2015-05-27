@@ -17,14 +17,16 @@
 
 */
 
-#include <libcxml/cxml.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
+#include "sndfile_examiner.h"
 #include "film.h"
 #include "compose.hpp"
 #include "job.h"
 #include "util.h"
 #include "safe_stringstream.h"
+#include "raw_convert.h"
+#include <libcxml/cxml.h>
 
 #include "i18n.h"
 
@@ -42,8 +44,9 @@ SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::pat
 SndfileContent::SndfileContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
 	: Content (f, node)
 	, SingleStreamAudioContent (f, node, version)
+	, _audio_length (node->number_child<int64_t> ("AudioLength"))
 {
-	
+
 }
 
 void
@@ -52,6 +55,7 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("Sndfile");
 	Content::as_xml (node);
 	SingleStreamAudioContent::as_xml (node);
+	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
 }
 
 
@@ -84,8 +88,17 @@ SndfileContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 	Content::examine (job);
-	shared_ptr<AudioExaminer> dec (new SndfileDecoder (shared_from_this()));
+	shared_ptr<AudioExaminer> dec (new SndfileExaminer (shared_from_this ()));
 	take_from_audio_examiner (dec);
+}
+
+void
+SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
+{
+	SingleStreamAudioContent::take_from_audio_examiner (examiner);
+
+	boost::mutex::scoped_lock lm (_mutex);
+	_audio_length = examiner->audio_length ();
 }
 
 DCPTime
@@ -94,6 +107,6 @@ SndfileContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	FrameRateChange const frc = film->active_frame_rate_change (position ());
-	return DCPTime::from_frames (audio_length() / frc.speed_up, audio_frame_rate ());
+	return DCPTime::from_frames (audio_length() / frc.speed_up, audio_stream()->frame_rate ());
 }
 

@@ -41,7 +41,8 @@ public:
 	virtual ~Decoder () {}
 
 protected:	
-
+	friend class AudioDecoderStream;
+	
 	/** Seek so that the next pass() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
 	 *  time.  Pass accurate = true to try harder to ensure that, at worst,

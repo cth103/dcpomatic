@@ -196,7 +196,7 @@ AudioDialog::content_changed (int p)
 	if (p == AudioContentProperty::AUDIO_GAIN) {
 		_plot->set_gain (_content->audio_gain ());
 		setup_peak_time ();
-	} else if (p == AudioContentProperty::AUDIO_MAPPING) {
+	} else if (p == AudioContentProperty::AUDIO_STREAMS) {
 		try_to_load_analysis ();
 	}
 }

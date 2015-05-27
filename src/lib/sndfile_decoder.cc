@@ -37,30 +37,17 @@ using std::cout;
 using boost::shared_ptr;
 
 SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c)
-	: AudioDecoder (c)
-	, _sndfile_content (c)
+	: Sndfile (c)
+	, AudioDecoder (c)
+	, _done (0)
+	, _remaining (_info.frames)
 	, _deinterleave_buffer (0)
 {
-	_info.format = 0;
-
-	/* Here be monsters.  See fopen_boost for similar shenanigans */
-#ifdef DCPOMATIC_WINDOWS
-	_sndfile = sf_wchar_open (_sndfile_content->path(0).c_str(), SFM_READ, &_info);
-#else	
-	_sndfile = sf_open (_sndfile_content->path(0).string().c_str(), SFM_READ, &_info);
-#endif
 	
-	if (!_sndfile) {
-		throw DecodeError (_("could not open audio file for reading"));
-	}
-
-	_done = 0;
-	_remaining = _info.frames;
 }
 
 SndfileDecoder::~SndfileDecoder ()
 {
-	sf_close (_sndfile);
 	delete[] _deinterleave_buffer;
 }
 
@@ -74,14 +61,14 @@ SndfileDecoder::pass (PassReason)
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
-	sf_count_t const block = _sndfile_content->audio_frame_rate() / 2;
+	sf_count_t const block = _sndfile_content->audio_stream()->frame_rate() / 2;
 	sf_count_t const this_time = min (block, _remaining);
 
-	int const channels = _sndfile_content->audio_channels ();
+	int const channels = _sndfile_content->audio_stream()->channels ();
 	
 	shared_ptr<AudioBuffers> data (new AudioBuffers (channels, this_time));
 
-	if (_sndfile_content->audio_channels() == 1) {
+	if (_sndfile_content->audio_stream()->channels() == 1) {
 		/* No de-interleaving required */
 		sf_read_float (_sndfile, data->data(0), this_time);
 	} else {
@@ -103,29 +90,11 @@ SndfileDecoder::pass (PassReason)
 	}
 		
 	data->set_frames (this_time);
-	audio (data, ContentTime::from_frames (_done, audio_frame_rate ()));
+	audio (_sndfile_content->audio_stream (), data, ContentTime::from_frames (_done, _info.samplerate));
 	_done += this_time;
 	_remaining -= this_time;
 
 	return _remaining == 0;
-}
-
-int
-SndfileDecoder::audio_channels () const
-{
-	return _info.channels;
-}
-
-Frame
-SndfileDecoder::audio_length () const
-{
-	return _info.frames;
-}
-
-int
-SndfileDecoder::audio_frame_rate () const
-{
-	return _info.samplerate;
 }
 
 void
@@ -133,6 +102,6 @@ SndfileDecoder::seek (ContentTime t, bool accurate)
 {
 	AudioDecoder::seek (t, accurate);
 
-	_done = t.frames (audio_frame_rate ());
+	_done = t.frames (_info.samplerate);
 	_remaining = _info.frames - _done;
 }

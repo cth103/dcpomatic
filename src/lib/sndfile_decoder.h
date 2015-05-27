@@ -20,27 +20,20 @@
 #include "decoder.h"
 #include "audio_decoder.h"
 #include "audio_examiner.h"
-#include <sndfile.h>
+#include "sndfile_base.h"
 
 class SndfileContent;
 
-class SndfileDecoder : public AudioDecoder, public AudioExaminer
+class SndfileDecoder : public Sndfile, public AudioDecoder
 {
 public:
 	SndfileDecoder (boost::shared_ptr<const SndfileContent> c);
 	~SndfileDecoder ();
 
-	int audio_channels () const;
-	Frame audio_length () const;
-	int audio_frame_rate () const;
-
 private:
 	bool pass (PassReason);
 	void seek (ContentTime, bool);
 	
-	boost::shared_ptr<const SndfileContent> _sndfile_content;
-	SNDFILE* _sndfile;
-	SF_INFO _info;
 	int64_t _done;
 	int64_t _remaining;
 	float* _deinterleave_buffer;

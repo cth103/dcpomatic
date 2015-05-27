@@ -50,22 +50,22 @@ test (boost::filesystem::path file, float fps, int gaps)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
-	FFmpegDecoder decoder (content, log);
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log));
 
-	BOOST_CHECK_CLOSE (decoder.video_content()->video_frame_rate(), fps, 0.01);
+	BOOST_CHECK_CLOSE (decoder->video_content()->video_frame_rate(), fps, 0.01);
 	
-	Frame const N = decoder.video_content()->video_length();
+	Frame const N = decoder->video_content()->video_length();
 #ifdef DCPOMATIC_DEBUG	
-	decoder.test_gaps = 0;
+	decoder->test_gaps = 0;
 #endif	
 	for (Frame i = 0; i < N; ++i) {
 		list<ContentVideo> v;
-		v = decoder.get_video (i, true);
+		v = decoder->get_video (i, true);
 		BOOST_CHECK_EQUAL (v.size(), 1);
 		BOOST_CHECK_EQUAL (v.front().frame, i);
 	}
 #ifdef DCPOMATIC_DEBUG	
-	BOOST_CHECK_EQUAL (decoder.test_gaps, gaps);
+	BOOST_CHECK_EQUAL (decoder->test_gaps, gaps);
 #endif
 }
 

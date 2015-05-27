@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,14 +24,12 @@
 
 using std::string;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 
 SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f)
 	: Content (f)
 	, AudioContent (f)
-	, _audio_channels (0)
-	, _audio_length (0)
-	, _audio_frame_rate (0)
 {
 
 }
@@ -39,9 +37,6 @@ SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f)
 SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
 	, AudioContent (f, p)
-	, _audio_channels (0)
-	, _audio_length (0)
-	, _audio_frame_rate (0)
 {
 
 }
@@ -49,33 +44,17 @@ SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f, bo
 SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
 	: Content (f, node)
 	, AudioContent (f, node)
-	, _audio_mapping (node->node_child ("AudioMapping"), version)
+	, _audio_stream (new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
 {
-	_audio_channels = node->number_child<int> ("AudioChannels");
-	_audio_length = node->number_child<Frame> ("AudioLength");
-	_audio_frame_rate = node->number_child<int> ("AudioFrameRate");
+
 }
-
-void
-SingleStreamAudioContent::set_audio_mapping (AudioMapping m)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_audio_mapping = m;
-	}
-
-	AudioContent::set_audio_mapping (m);
-}
-
 
 void
 SingleStreamAudioContent::as_xml (xmlpp::Node* node) const
 {
 	AudioContent::as_xml (node);
-	node->add_child("AudioChannels")->add_child_text (raw_convert<string> (audio_channels ()));
-	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
-	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_frame_rate ()));
-	_audio_mapping.as_xml (node->add_child("AudioMapping"));
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_stream()->frame_rate ()));
+	audio_stream()->mapping().as_xml (node->add_child("AudioMapping"));
 }
 
 void
@@ -83,22 +62,17 @@ SingleStreamAudioContent::take_from_audio_examiner (shared_ptr<AudioExaminer> ex
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_audio_channels = examiner->audio_channels ();
-		_audio_length = examiner->audio_length ();
-		_audio_frame_rate = examiner->audio_frame_rate ();
+		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		_audio_stream->mapping().make_default ();
 	}
 
-	signal_changed (AudioContentProperty::AUDIO_CHANNELS);
-	signal_changed (AudioContentProperty::AUDIO_FRAME_RATE);
+	signal_changed (AudioContentProperty::AUDIO_STREAMS);
+}
 
-	int const p = processed_audio_channels ();
-
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		/* XXX: do this in signal_changed...? */
-		_audio_mapping = AudioMapping (p);
-		_audio_mapping.make_default ();
-	}
-	
-	signal_changed (AudioContentProperty::AUDIO_MAPPING);
+vector<AudioStreamPtr>
+SingleStreamAudioContent::audio_streams () const
+{
+	vector<AudioStreamPtr> s;
+	s.push_back (_audio_stream);
+	return s;
 }

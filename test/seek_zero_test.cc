@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	/* Work out the first video frame index that we will be given, taking into account
 	 * the difference between first video and first audio.
 	 */
-	ContentTime video_delay = content->first_video().get() - content->audio_stream()->first_audio.get();
+	ContentTime video_delay = content->first_video().get() - content->ffmpeg_audio_streams().front()->first_audio.get();
 	if (video_delay < ContentTime ()) {
 		video_delay = ContentTime ();
 	}

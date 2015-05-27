@@ -414,13 +414,6 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> ((*i)->decoder);
 		DCPOMATIC_ASSERT (decoder);
 
-		if (content->audio_frame_rate() == 0) {
-			/* This AudioContent has no audio (e.g. if it is an FFmpegContent with no
-			 * audio stream).
-			 */
-			continue;
-		}
-
 		/* The time that we should request from the content */
 		DCPTime request = time - DCPTime::from_seconds (content->audio_delay() / 1000.0);
 		Frame request_frames = length_frames;
@@ -439,41 +432,44 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 		Frame const content_frame = dcp_to_content_audio (*i, request);
 
-		/* Audio from this piece's decoder (which might be more or less than what we asked for) */
-		shared_ptr<ContentAudio> all = decoder->get_audio (content_frame, request_frames, accurate);
+		BOOST_FOREACH (AudioStreamPtr j, content->audio_streams ()) {
+			
+			/* Audio from this piece's decoder stream (which might be more or less than what we asked for) */
+			ContentAudio all = decoder->get_audio (j, content_frame, request_frames, accurate);
 
-		/* Gain */
-		if (content->audio_gain() != 0) {
-			shared_ptr<AudioBuffers> gain (new AudioBuffers (all->audio));
-			gain->apply_gain (content->audio_gain ());
-			all->audio = gain;
-		}
+			/* Gain */
+			if (content->audio_gain() != 0) {
+				shared_ptr<AudioBuffers> gain (new AudioBuffers (all.audio));
+				gain->apply_gain (content->audio_gain ());
+				all.audio = gain;
+			}
 
-		/* Remap channels */
-		shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), all->audio->frames()));
-		dcp_mapped->make_silent ();
-		AudioMapping map = content->audio_mapping ();
-		for (int i = 0; i < map.content_channels(); ++i) {
-			for (int j = 0; j < _film->audio_channels(); ++j) {
-				if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
-					dcp_mapped->accumulate_channel (
-						all->audio.get(),
-						i,
-						j,
-						map.get (i, static_cast<dcp::Channel> (j))
-						);
+			/* Remap channels */
+			shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), all.audio->frames()));
+			dcp_mapped->make_silent ();
+			AudioMapping map = j->mapping ();
+			for (int i = 0; i < map.content_channels(); ++i) {
+				for (int j = 0; j < _film->audio_channels(); ++j) {
+					if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
+						dcp_mapped->accumulate_channel (
+							all.audio.get(),
+							i,
+							j,
+							map.get (i, static_cast<dcp::Channel> (j))
+							);
+					}
 				}
 			}
-		}
 		
-		all->audio = dcp_mapped;
+			all.audio = dcp_mapped;
 
-		audio->accumulate_frames (
-			all->audio.get(),
-			content_frame - all->frame,
-			offset.frames (_film->audio_frame_rate()),
-			min (Frame (all->audio->frames()), request_frames)
-			);
+			audio->accumulate_frames (
+				all.audio.get(),
+				content_frame - all.frame,
+				offset.frames (_film->audio_frame_rate()),
+				min (Frame (all.audio->frames()), request_frames)
+				);
+		}
 	}
 
 	return audio;

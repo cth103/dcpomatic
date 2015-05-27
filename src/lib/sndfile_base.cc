@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,34 +17,32 @@
 
 */
 
-#ifndef DCPOMATIC_CONTENT_AUDIO_H
-#define DCPOMATIC_CONTENT_AUDIO_H
+#include "sndfile_base.h"
+#include "sndfile_content.h"
+#include "exceptions.h"
 
-/** @file  src/lib/content_audio.h
- *  @brief ContentAudio class.
- */
+#include "i18n.h"
 
-#include "audio_buffers.h"
-#include "types.h"
+using boost::shared_ptr;
 
-/** @class ContentAudio
- *  @brief A block of audio from a piece of content, with a timestamp as a frame within that content.
- */
-class ContentAudio
+Sndfile::Sndfile (shared_ptr<const SndfileContent> c)
+	: _sndfile_content (c)
 {
-public:
-	ContentAudio ()
-		: audio (new AudioBuffers (0, 0))
-		, frame (0)
-	{}
-		
-	ContentAudio (boost::shared_ptr<AudioBuffers> a, Frame f)
-		: audio (a)
-		, frame (f)
-	{}
+	_info.format = 0;
 
-	boost::shared_ptr<AudioBuffers> audio;
-	Frame frame;
-};
-
+	/* Here be monsters.  See fopen_boost for similar shenanigans */
+#ifdef DCPOMATIC_WINDOWS
+	_sndfile = sf_wchar_open (_sndfile_content->path(0).c_str(), SFM_READ, &_info);
+#else	
+	_sndfile = sf_open (_sndfile_content->path(0).string().c_str(), SFM_READ, &_info);
 #endif
+	
+	if (!_sndfile) {
+		throw DecodeError (_("could not open audio file for reading"));
+	}
+}
+
+Sndfile::~Sndfile ()
+{
+	sf_close (_sndfile);
+}

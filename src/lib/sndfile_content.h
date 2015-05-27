@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -46,8 +46,18 @@ public:
 	std::string technical_summary () const;
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
+
+	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
 	
 	static bool valid_file (boost::filesystem::path);
+
+private:
+	Frame audio_length () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _audio_length;
+	}
+	
+	Frame _audio_length;
 };
 
 #endif

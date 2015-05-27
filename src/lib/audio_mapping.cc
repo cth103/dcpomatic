@@ -57,16 +57,26 @@ AudioMapping::setup (int c)
 	for (int i = 0; i < _content_channels; ++i) {
 		_gain[i].resize (MAX_DCP_AUDIO_CHANNELS);
 	}
+
+	_name.resize (_content_channels);
+
+	make_zero ();
 }
 
 void
-AudioMapping::make_default ()
+AudioMapping::make_zero ()
 {
 	for (int i = 0; i < _content_channels; ++i) {
 		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
 			_gain[i][j] = 0;
 		}
 	}
+}
+
+void
+AudioMapping::make_default ()
+{
+	make_zero ();
 
 	if (_content_channels == 1) {
 		/* Mono -> Centre */
@@ -176,3 +186,8 @@ AudioMapping::unmap_all ()
 	}
 }
 
+void
+AudioMapping::set_name (int channel, string name)
+{
+	_name[channel] = name;
+}

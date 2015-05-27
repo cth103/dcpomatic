@@ -28,6 +28,7 @@ This suggests that decode-and-see is a better match, even if it feels
 a bit ridiculous when most of the decoders have slightly clunky seek
 and pass methods.
 
+
 \section{Multiple streams}
 
 Another thing unique to FFmpeg is multiple audio streams, possibly at
@@ -49,5 +50,9 @@ addition to the resampling that must be done for the other decoders,
 and the merging of all audio content inside the player.
 
 These disadvantages suggest that the first approach is better.
+
+One might think that the logical conclusion is to take streams all the
+way back to the player and resample them there, but the resampling
+must occur on the other side of the get-stuff-at-time API.
 
 \end{document}

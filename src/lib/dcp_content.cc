@@ -90,11 +90,13 @@ DCPContent::examine (shared_ptr<Job> job)
 	take_from_video_examiner (examiner);
 	take_from_audio_examiner (examiner);
 
-	boost::mutex::scoped_lock lm (_mutex);
-	_name = examiner->name ();
-	_has_subtitles = examiner->has_subtitles ();
-	_encrypted = examiner->encrypted ();
-	_kdm_valid = examiner->kdm_valid ();
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_name = examiner->name ();
+		_has_subtitles = examiner->has_subtitles ();
+		_encrypted = examiner->encrypted ();
+		_kdm_valid = examiner->kdm_valid ();
+	}
 
 	if (could_be_played != can_be_played ()) {
 		signal_changed (DCPContentProperty::CAN_BE_PLAYED);
@@ -160,6 +162,7 @@ DCPContent::add_kdm (dcp::EncryptedKDM k)
 bool
 DCPContent::can_be_played () const
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	return !_encrypted || _kdm_valid;
 }
 

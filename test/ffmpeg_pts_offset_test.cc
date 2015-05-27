@@ -34,13 +34,13 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_pts_offset_test");
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
-	content->_audio_stream.reset (new FFmpegAudioStream);
+	content->_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream));
 	content->_video_frame_rate = 24;
 
 	{
 		/* Sound == video so no offset required */
 		content->_first_video = ContentTime ();
-		content->_audio_stream->first_audio = ContentTime ();
+		content->_audio_streams.front()->first_audio = ContentTime ();
 		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_EQUAL (decoder._pts_offset, ContentTime ());
 	}
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 	{
 		/* Common offset should be removed */
 		content->_first_video = ContentTime::from_seconds (600);
-		content->_audio_stream->first_audio = ContentTime::from_seconds (600);
+		content->_audio_streams.front()->first_audio = ContentTime::from_seconds (600);
 		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_EQUAL (decoder._pts_offset, ContentTime::from_seconds (-600));
 	}
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 	{
 		/* Video is on a frame boundary */
 		content->_first_video = ContentTime::from_frames (1, 24);
-		content->_audio_stream->first_audio = ContentTime ();
+		content->_audio_streams.front()->first_audio = ContentTime ();
 		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_EQUAL (decoder._pts_offset, ContentTime ());
 	}
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		/* Video is off a frame boundary */
 		double const frame = 1.0 / 24.0;
 		content->_first_video = ContentTime::from_seconds (frame + 0.0215);
-		content->_audio_stream->first_audio = ContentTime ();
+		content->_audio_streams.front()->first_audio = ContentTime ();
 		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_CLOSE (decoder._pts_offset.seconds(), (frame - 0.0215), 0.00001);
 	}
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		/* Video is off a frame boundary and both have a common offset */
 		double const frame = 1.0 / 24.0;
 		content->_first_video = ContentTime::from_seconds (frame + 0.0215 + 4.1);
-		content->_audio_stream->first_audio = ContentTime::from_seconds (4.1);
+		content->_audio_streams.front()->first_audio = ContentTime::from_seconds (4.1);
 		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_CLOSE (decoder._pts_offset.seconds(), (frame - 0.0215) - 4.1, 0.1);
 	}

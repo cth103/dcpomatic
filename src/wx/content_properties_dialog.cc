@@ -53,19 +53,13 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 			);
 	}
 
-	shared_ptr<AudioContent> audio = dynamic_pointer_cast<AudioContent> (content);
-	if (audio) {
-		add_property (
-			_("Audio channels"),
-			std_to_wx (raw_convert<string> (audio->audio_channels ()))
-			);
-	}
-
+	/* XXX: this could be better wrt audio streams */
+	
 	shared_ptr<SingleStreamAudioContent> single = dynamic_pointer_cast<SingleStreamAudioContent> (content);
 	if (single) {
 		add_property (
-			_("Audio length"),
-			std_to_wx (raw_convert<string> (single->audio_length())) + " " + _("audio frames")
+			_("Audio channels"),
+			std_to_wx (raw_convert<string> (single->audio_stream()->channels ()))
 			);
 	}
 	

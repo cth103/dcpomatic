@@ -30,6 +30,8 @@
 
 using boost::shared_ptr;
 
+#if 0
+/* XXX: no audio processors in content any more */
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
 	shared_ptr<Film> film = new_test_film ("upmixer_a_test");
@@ -78,3 +80,4 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	check_audio_file ("test/data/upmixer_a_test/Ls.wav", "build/test/upmixer_a_test/Ls.wav");
 	check_audio_file ("test/data/upmixer_a_test/Rs.wav", "build/test/upmixer_a_test/Rs.wav");
 }
+#endif

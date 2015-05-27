@@ -188,6 +188,10 @@ public:
 		return Time<S, O> (1);
 	}
 
+	static Time<S, O> min () {
+		return Time<S, O> (-INT64_MAX);
+	}
+	
 	static Time<S, O> max () {
 		return Time<S, O> (INT64_MAX);
 	}

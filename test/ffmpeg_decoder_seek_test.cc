@@ -41,10 +41,10 @@ using boost::shared_ptr;
 using boost::optional;
 
 static void
-check (FFmpegDecoder& decoder, int frame)
+check (shared_ptr<FFmpegDecoder> decoder, int frame)
 {
 	list<ContentVideo> v;
-	v = decoder.get_video (frame, true);
+	v = decoder->get_video (frame, true);
 	BOOST_CHECK (v.size() == 1);
 	BOOST_CHECK_EQUAL (v.front().frame, frame);
 }
@@ -63,7 +63,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
-	FFmpegDecoder decoder (content, log);
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log));
 
 	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
 		check (decoder, *i);

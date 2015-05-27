@@ -25,50 +25,34 @@
 #include <boost/test/unit_test.hpp>
 #include "test.h"
 #include "lib/audio_decoder.h"
-#include "lib/audio_content.h"
+#include "lib/single_stream_audio_content.h"
 
 using std::string;
 using std::cout;
 using std::min;
 using boost::shared_ptr;
 
-class TestAudioContent : public AudioContent
+class TestAudioContent : public SingleStreamAudioContent
 {
 public:
-	TestAudioContent (shared_ptr<Film> film)
+	TestAudioContent (shared_ptr<const Film> film)
 		: Content (film)
-		, AudioContent (film, DCPTime ())
-	{}
-
-	string summary () const {
-		return "";
+		, SingleStreamAudioContent (film)
+ 	{
+		_audio_stream.reset (new AudioStream (48000, 2));
 	}
 
-	string information () const {
+	std::string summary () const {
 		return "";
 	}
 
 	DCPTime full_length () const {
-		return DCPTime::from_seconds (float (audio_length()) / audio_frame_rate ());
+		return DCPTime::from_seconds (float (audio_length()) / audio_stream()->frame_rate ());
 	}
-
-	int audio_channels () const {
-		return 2;
-	}
-
+	
 	Frame audio_length () const {
-		return rint (61.2942 * audio_frame_rate ());
+		return rint (61.2942 * audio_stream()->frame_rate ());
 	}
-
-	int audio_frame_rate () const {
-		return 48000;
-	}
-
-	AudioMapping audio_mapping () const {
-		return AudioMapping (audio_channels ());
-	}
-
-	void set_audio_mapping (AudioMapping) {}
 };
 
 class TestAudioDecoder : public AudioDecoder
@@ -87,14 +71,14 @@ public:
 			_test_audio_content->audio_length() - _position
 			);
 
-		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_audio_content->audio_channels(), N));
-		for (int i = 0; i < _audio_content->audio_channels(); ++i) {
+		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_test_audio_content->audio_stream()->channels(), N));
+		for (int i = 0; i < _test_audio_content->audio_stream()->channels(); ++i) {
 			for (int j = 0; j < N; ++j) {
 				buffers->data(i)[j] = j + _position;
 			}
 		}
 
-		audio (buffers, ContentTime::from_frames (_position, _audio_content->resampled_audio_frame_rate ()));
+		audio (_test_audio_content->audio_stream(), buffers, ContentTime::from_frames (_position, 48000));
 		_position += N;
 
 		return N < 2000;
@@ -103,7 +87,7 @@ public:
 	void seek (ContentTime t, bool accurate)
 	{
 		AudioDecoder::seek (t, accurate);
-		_position = t.frames (_audio_content->resampled_audio_frame_rate ());
+		_position = t.frames (_test_audio_content->resampled_audio_frame_rate ());
 	}
 
 private:
@@ -114,23 +98,22 @@ private:
 shared_ptr<TestAudioContent> content;
 shared_ptr<TestAudioDecoder> decoder;
 
-static shared_ptr<ContentAudio>
+static ContentAudio
 get (Frame from, Frame length)
 {
 	decoder->seek (ContentTime::from_frames (from, content->resampled_audio_frame_rate ()), true);
-	shared_ptr<ContentAudio> ca = decoder->get_audio (from, length, true);
-	BOOST_CHECK_EQUAL (ca->frame, from);
+	ContentAudio ca = decoder->get_audio (content->audio_stream(), from, length, true);
+	BOOST_CHECK_EQUAL (ca.frame, from);
 	return ca;
 }
 
 static void
 check (Frame from, Frame length)
 {
-	shared_ptr<ContentAudio> ca = get (from, length);
-	for (int i = 0; i < content->audio_channels(); ++i) {
+	ContentAudio ca = get (from, length);
+	for (int i = 0; i < content->audio_stream()->channels(); ++i) {
 		for (int j = 0; j < length; ++j) {
-			BOOST_CHECK_EQUAL (ca->audio->data(i)[j], j + from);
-			assert (ca->audio->data(i)[j] == j + from);
+			BOOST_REQUIRE_EQUAL (ca.audio->data(i)[j], j + from);
 		}
 	}
 }
@@ -152,11 +135,11 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 
 	Frame const from = content->resampled_audio_frame_rate() * 61;
 	Frame const length = content->resampled_audio_frame_rate() * 4;
-	shared_ptr<ContentAudio> ca = get (from, length);
+	ContentAudio ca = get (from, length);
 	
-	for (int i = 0; i < content->audio_channels(); ++i) {
-		for (int j = 0; j < ca->audio->frames(); ++j) {
-			BOOST_REQUIRE_EQUAL (ca->audio->data(i)[j], j + from);
+	for (int i = 0; i < content->audio_stream()->channels(); ++i) {
+		for (int j = 0; j < ca.audio->frames(); ++j) {
+			BOOST_REQUIRE_EQUAL (ca.audio->data(i)[j], j + from);
 		}
 	}
 }

@@ -40,35 +40,16 @@ public:
 
 	void as_xml (xmlpp::Node* node) const;
 
-	int audio_channels () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_channels;
-	}
+	std::vector<AudioStreamPtr> audio_streams () const;
 
-	Frame audio_length () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_length;
+	AudioStreamPtr audio_stream () const {
+		return _audio_stream;
 	}
-	
-	int audio_frame_rate () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_frame_rate;
-	}
-
-	AudioMapping audio_mapping () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_mapping;
-	}
-
-	void set_audio_mapping (AudioMapping);
-
+		
 	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
 
 protected:
-	int _audio_channels;
-	Frame _audio_length;
-	int _audio_frame_rate;
-	AudioMapping _audio_mapping;
+	boost::shared_ptr<AudioStream> _audio_stream;
 };
 
 #endif

@@ -28,14 +28,15 @@
 #include "content.h"
 #include "audio_content.h"
 #include "content_audio.h"
+#include <boost/enable_shared_from_this.hpp>
 
 class AudioBuffers;
-class Resampler;
+class AudioDecoderStream;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public virtual Decoder
+class AudioDecoder : public virtual Decoder, public boost::enable_shared_from_this<AudioDecoder>
 {
 public:
 	AudioDecoder (boost::shared_ptr<const AudioContent>);
@@ -50,26 +51,17 @@ public:
 	 *  @param accurate true to try hard to return frames from exactly `frame', false if we don't mind nearby frames.
 	 *  @return Time-stamped audio data which may or may not be from the location (and of the length) requested.
 	 */
-	boost::shared_ptr<ContentAudio> get_audio (Frame time, Frame length, bool accurate);
-	
+	ContentAudio get_audio (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
+
 protected:
-
-	void seek (ContentTime time, bool accurate);
-	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
+	void audio (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
-	void reset_decoded_audio ();
-	void add (boost::shared_ptr<const AudioBuffers>);
-
+	void seek (ContentTime t, bool accurate);
+	
+private:	
 	boost::shared_ptr<const AudioContent> _audio_content;
-	boost::shared_ptr<Resampler> _resampler;
-	boost::shared_ptr<AudioProcessor> _processor;
-	boost::optional<Frame> _audio_position;
-	/** Currently-available decoded audio data */
-	ContentAudio _decoded_audio;
-	/** The time of an accurate seek after which we have not yet received any actual
-	    data at the seek time.
-	*/
-	boost::optional<ContentTime> _seek_reference;
+	/** An AudioDecoderStream object to manage each stream in _audio_content */
+	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
 };
 
 #endif

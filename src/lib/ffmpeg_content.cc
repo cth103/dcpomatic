@@ -35,6 +35,7 @@
 extern "C" {
 #include <libavformat/avformat.h>
 }
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -51,8 +52,7 @@ using boost::dynamic_pointer_cast;
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::AUDIO_STREAMS = 102;
-int const FFmpegContentProperty::AUDIO_STREAM = 103;
-int const FFmpegContentProperty::FILTERS = 104;
+int const FFmpegContentProperty::FILTERS = 103;
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
@@ -80,9 +80,6 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, cxml::ConstNodePtr node,
 	c = node->node_children ("AudioStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i, version)));
-		if ((*i)->optional_number_child<int> ("Selected")) {
-			_audio_stream = _audio_streams.back ();
-		}
 	}
 
 	c = node->node_children ("Filter");
@@ -112,16 +109,11 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, vector<boost::shared_ptr
 		if (fc->use_subtitles() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
-
-		if (*(fc->_audio_stream.get()) != *(ref->_audio_stream.get())) {
-			throw JoinError (_("Content to be joined must use the same audio stream."));
-		}
 	}
 
 	_subtitle_streams = ref->subtitle_streams ();
 	_subtitle_stream = ref->subtitle_stream ();
-	_audio_streams = ref->audio_streams ();
-	_audio_stream = ref->audio_stream ();
+	_audio_streams = ref->ffmpeg_audio_streams ();
 	_first_video = ref->_first_video;
 }
 
@@ -145,11 +137,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	}
 
 	for (vector<shared_ptr<FFmpegAudioStream> >::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
-		xmlpp::Node* t = node->add_child("AudioStream");
-		if (_audio_stream && *i == _audio_stream) {
-			t->add_child("Selected")->add_child_text("1");
-		}
-		(*i)->as_xml (t);
+		(*i)->as_xml (node->add_child("AudioStream"));
 	}
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
@@ -183,8 +171,9 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		}
 		
 		_audio_streams = examiner->audio_streams ();
+
 		if (!_audio_streams.empty ()) {
-			_audio_stream = _audio_streams.front ();
+			_audio_streams.front()->mapping().make_default ();
 		}
 
 		_first_video = examiner->first_video ();
@@ -193,8 +182,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 	signal_changed (FFmpegContentProperty::AUDIO_STREAMS);
-	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
-	signal_changed (AudioContentProperty::AUDIO_CHANNELS);
 }
 
 string
@@ -207,9 +194,13 @@ FFmpegContent::summary () const
 string
 FFmpegContent::technical_summary () const
 {
-	string as = "none";
-	if (_audio_stream) {
-		as = _audio_stream->technical_summary ();
+	string as = "";
+	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, ffmpeg_audio_streams ()) {
+		as += i->technical_summary () + " " ;
+	}
+
+	if (as.empty ()) {
+		as = "none";
 	}
 
 	string ss = "none";
@@ -223,7 +214,7 @@ FFmpegContent::technical_summary () const
 		+ VideoContent::technical_summary() + " - "
 		+ AudioContent::technical_summary() + " - "
 		+ String::compose (
-			"ffmpeg: audio %1, subtitle %2, filters %3", as, ss, filt
+			"ffmpeg: audio %1 subtitle %2 filters %3", as, ss, filt
 			);
 }
 
@@ -236,41 +227,6 @@ FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 	}
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
-}
-
-void
-FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_audio_stream = s;
-	}
-
-	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
-}
-
-int
-FFmpegContent::audio_channels () const
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	
-	if (!_audio_stream) {
-		return 0;
-	}
-
-	return _audio_stream->channels ();
-}
-
-int
-FFmpegContent::audio_frame_rate () const
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	if (!_audio_stream) {
-		return 0;
-	}
-
-	return _audio_stream->frame_rate ();
 }
 
 bool
@@ -294,18 +250,6 @@ FFmpegContent::full_length () const
 	return DCPTime::from_frames (rint (video_length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
-AudioMapping
-FFmpegContent::audio_mapping () const
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	if (!_audio_stream) {
-		return AudioMapping ();
-	}
-
-	return _audio_stream->mapping ();
-}
-
 void
 FFmpegContent::set_filters (vector<Filter const *> const & filters)
 {
@@ -315,13 +259,6 @@ FFmpegContent::set_filters (vector<Filter const *> const & filters)
 	}
 
 	signal_changed (FFmpegContentProperty::FILTERS);
-}
-
-void
-FFmpegContent::set_audio_mapping (AudioMapping m)
-{
-	audio_stream()->set_mapping (m);
-	AudioContent::set_audio_mapping (m);
 }
 
 string
@@ -342,25 +279,6 @@ FFmpegContent::identifier () const
 	}
 
 	return s.str ();
-}
-
-boost::filesystem::path
-FFmpegContent::audio_analysis_path () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
-		return boost::filesystem::path ();
-	}
-
-	/* We need to include the stream ID in this path so that we get different
-	   analyses for each stream.
-	*/
-
-	boost::filesystem::path p = AudioContent::audio_analysis_path ();
-	if (audio_stream ()) {
-		p = p.string() + "_" + audio_stream()->identifier ();
-	}
-	return p;
 }
 
 list<ContentTimePeriod>
@@ -394,4 +312,12 @@ FFmpegContent::set_default_colour_conversion ()
 	}
 }
 
-
+vector<AudioStreamPtr>
+FFmpegContent::audio_streams () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	
+	vector<AudioStreamPtr> s;
+	copy (_audio_streams.begin(), _audio_streams.end(), back_inserter (s));
+	return s;
+}

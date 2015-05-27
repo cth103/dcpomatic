@@ -142,7 +142,7 @@ Timeline::playlist_content_changed (int property)
 			setup_pixels_per_second ();
 		}
 		Refresh ();
-	} else if (property == AudioContentProperty::AUDIO_MAPPING) {
+	} else if (property == AudioContentProperty::AUDIO_STREAMS) {
 		recreate_views ();
 	}
 }

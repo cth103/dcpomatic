@@ -17,9 +17,14 @@
 
 */
 
+#ifndef DCPOMATIC_AUDIO_EXAMINER_H
+#define DCPOMATIC_AUDIO_EXAMINER_H
+
 /** @file  src/lib/audio_examiner.h
  *  @brief AudioExaminer class.
  */
+
+#include "types.h"
 
 /** @class AudioExaminer
  *  @brief Parent for classes which examine AudioContent for their pertinent details.
@@ -33,3 +38,5 @@ public:
 	virtual Frame audio_length () const = 0;
 	virtual int audio_frame_rate () const = 0;
 };
+
+#endif
