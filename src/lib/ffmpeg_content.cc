@@ -249,20 +249,6 @@ FFmpegContent::set_audio_stream (shared_ptr<FFmpegAudioStream> s)
 	signal_changed (FFmpegContentProperty::AUDIO_STREAM);
 }
 
-Frame
-FFmpegContent::audio_length () const
-{
-	if (!audio_stream ()) {
-		return 0;
-	}
-
-	/* We're talking about the content's audio length here, at the content's frame
-	   rate.  We assume it's the same as the video's length, and we can just convert
-	   using the content's rates.
-	*/
-	return (video_length () / video_frame_rate ()) * audio_frame_rate ();
-}
-
 int
 FFmpegContent::audio_channels () const
 {

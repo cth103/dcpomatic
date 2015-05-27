@@ -69,7 +69,6 @@ public:
 	
 	/* AudioContent */
 	int audio_channels () const;
-	Frame audio_length () const;
 	int audio_frame_rate () const;
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);

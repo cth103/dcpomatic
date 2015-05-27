@@ -44,7 +44,7 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_channels;
 	}
-	
+
 	Frame audio_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_length;

@@ -32,44 +32,6 @@ using std::cout;
 using std::min;
 using boost::shared_ptr;
 
-class TestAudioDecoder : public AudioDecoder
-{
-public:
-	TestAudioDecoder (shared_ptr<AudioContent> content)
-		: AudioDecoder (content)
-		, _position (0)
-	{}
-
-	bool pass (PassReason)
-	{
-		Frame const N = min (
-			Frame (2000),
-			_audio_content->audio_length() - _position
-			);
-
-		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_audio_content->audio_channels(), N));
-		for (int i = 0; i < _audio_content->audio_channels(); ++i) {
-			for (int j = 0; j < N; ++j) {
-				buffers->data(i)[j] = j + _position;
-			}
-		}
-
-		audio (buffers, ContentTime::from_frames (_position, _audio_content->resampled_audio_frame_rate ()));
-		_position += N;
-
-		return N < 2000;
-	}
-
-	void seek (ContentTime t, bool accurate)
-	{
-		AudioDecoder::seek (t, accurate);
-		_position = t.frames (_audio_content->resampled_audio_frame_rate ());
-	}
-
-private:
-	Frame _position;
-};
-
 class TestAudioContent : public AudioContent
 {
 public:
@@ -107,6 +69,46 @@ public:
 	}
 
 	void set_audio_mapping (AudioMapping) {}
+};
+
+class TestAudioDecoder : public AudioDecoder
+{
+public:
+	TestAudioDecoder (shared_ptr<TestAudioContent> content)
+		: AudioDecoder (content)
+		, _test_audio_content (content)
+		, _position (0)
+	{}
+
+	bool pass (PassReason)
+	{
+		Frame const N = min (
+			Frame (2000),
+			_test_audio_content->audio_length() - _position
+			);
+
+		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_audio_content->audio_channels(), N));
+		for (int i = 0; i < _audio_content->audio_channels(); ++i) {
+			for (int j = 0; j < N; ++j) {
+				buffers->data(i)[j] = j + _position;
+			}
+		}
+
+		audio (buffers, ContentTime::from_frames (_position, _audio_content->resampled_audio_frame_rate ()));
+		_position += N;
+
+		return N < 2000;
+	}
+
+	void seek (ContentTime t, bool accurate)
+	{
+		AudioDecoder::seek (t, accurate);
+		_position = t.frames (_audio_content->resampled_audio_frame_rate ());
+	}
+
+private:
+	boost::shared_ptr<TestAudioContent> _test_audio_content;
+	Frame _position;
 };
 
 shared_ptr<TestAudioContent> content;

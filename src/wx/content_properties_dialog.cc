@@ -23,6 +23,7 @@
 #include "lib/content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
+#include "lib/single_stream_audio_content.h"
 #include <boost/algorithm/string.hpp>
 
 using std::string;
@@ -58,9 +59,13 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 			_("Audio channels"),
 			std_to_wx (raw_convert<string> (audio->audio_channels ()))
 			);
+	}
+
+	shared_ptr<SingleStreamAudioContent> single = dynamic_pointer_cast<SingleStreamAudioContent> (content);
+	if (single) {
 		add_property (
 			_("Audio length"),
-			std_to_wx (raw_convert<string> (audio->audio_length())) + " " + _("audio frames")
+			std_to_wx (raw_convert<string> (single->audio_length())) + " " + _("audio frames")
 			);
 	}
 	

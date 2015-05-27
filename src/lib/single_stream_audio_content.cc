@@ -89,7 +89,6 @@ SingleStreamAudioContent::take_from_audio_examiner (shared_ptr<AudioExaminer> ex
 	}
 
 	signal_changed (AudioContentProperty::AUDIO_CHANNELS);
-	signal_changed (AudioContentProperty::AUDIO_LENGTH);
 	signal_changed (AudioContentProperty::AUDIO_FRAME_RATE);
 
 	int const p = processed_audio_channels ();

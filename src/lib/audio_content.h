@@ -40,7 +40,6 @@ class AudioContentProperty
 {
 public:
 	static int const AUDIO_CHANNELS;
-	static int const AUDIO_LENGTH;
 	static int const AUDIO_FRAME_RATE;
 	static int const AUDIO_GAIN;
 	static int const AUDIO_DELAY;
@@ -65,8 +64,6 @@ public:
 
 	/** @return number of audio channels in the content */
 	virtual int audio_channels () const = 0;
-	/** @return the length of the audio in the content */
-	virtual Frame audio_length () const = 0;
 	/** @return the frame rate of the content */
 	virtual int audio_frame_rate () const = 0;
 	virtual AudioMapping audio_mapping () const = 0;

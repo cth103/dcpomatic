@@ -40,12 +40,11 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 int const AudioContentProperty::AUDIO_CHANNELS = 200;
-int const AudioContentProperty::AUDIO_LENGTH = 201;
-int const AudioContentProperty::AUDIO_FRAME_RATE = 202;
-int const AudioContentProperty::AUDIO_GAIN = 203;
-int const AudioContentProperty::AUDIO_DELAY = 204;
-int const AudioContentProperty::AUDIO_MAPPING = 205;
-int const AudioContentProperty::AUDIO_PROCESSOR = 206;
+int const AudioContentProperty::AUDIO_FRAME_RATE = 201;
+int const AudioContentProperty::AUDIO_GAIN = 202;
+int const AudioContentProperty::AUDIO_DELAY = 203;
+int const AudioContentProperty::AUDIO_MAPPING = 204;
+int const AudioContentProperty::AUDIO_PROCESSOR = 205;
 
 AudioContent::AudioContent (shared_ptr<const Film> f)
 	: Content (f)
@@ -188,9 +187,8 @@ string
 AudioContent::technical_summary () const
 {
 	return String::compose (
-		"audio: channels %1, length %2 frames, content rate %3, resampled rate %4",
+		"audio: channels %1, content rate %2, resampled rate %3",
 		audio_channels(),
-		audio_length(),
 		audio_frame_rate(),
 		resampled_audio_frame_rate()
 		);
