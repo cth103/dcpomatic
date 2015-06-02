@@ -20,6 +20,10 @@
 #include "sndfile_base.h"
 #include "sndfile_content.h"
 #include "exceptions.h"
+#ifdef DCPOMATIC_WINDOWS
+#include <windows.h>
+#define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
+#endif
 
 #include "i18n.h"
 

@@ -18,10 +18,6 @@
 */
 
 #include <iostream>
-#ifdef DCPOMATIC_WINDOWS
-#include <windows.h>
-#define ENABLE_SNDFILE_WINDOWS_PROTOTYPES 1
-#endif
 #include <sndfile.h>
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
