@@ -1,3 +1,11 @@
+2015-06-02  c.hetherington  <cth@carlh.net>
+
+	* Allow use of all content audio streams, not just
+	the selected one.
+
+	* Tweak colour conversion controls so that it's easier
+	to use a preset without seeing the details.
+
 2015-05-25  Carl Hetherington  <cth@carlh.net>
 
 	* Block all but alphanumeric characters with a few bits
