@@ -34,16 +34,11 @@ public:
 	void set_mapping (AudioMapping mapping);
 	void set_frame_rate (int frame_rate);
 
-	AudioMapping const & mapping () const {
+	AudioMapping mapping () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _mapping;
 	}
 
-	AudioMapping & mapping () {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _mapping;
-	}
-	
 	int frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _frame_rate;

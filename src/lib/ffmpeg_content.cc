@@ -173,7 +173,9 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		_audio_streams = examiner->audio_streams ();
 
 		if (!_audio_streams.empty ()) {
-			_audio_streams.front()->mapping().make_default ();
+			AudioMapping m = _audio_streams.front()->mapping ();
+			m.make_default ();
+			_audio_streams.front()->set_mapping (m);
 		}
 
 		_first_video = examiner->first_video ();

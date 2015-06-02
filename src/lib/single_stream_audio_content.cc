@@ -63,7 +63,9 @@ SingleStreamAudioContent::take_from_audio_examiner (shared_ptr<AudioExaminer> ex
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
-		_audio_stream->mapping().make_default ();
+		AudioMapping m = _audio_stream->mapping ();
+		m.make_default ();
+		_audio_stream->set_mapping (m);
 	}
 
 	signal_changed (AudioContentProperty::AUDIO_STREAMS);
