@@ -41,6 +41,7 @@
 #include "safe_stringstream.h"
 #include "environment_info.h"
 #include "raw_convert.h"
+#include "audio_processor.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
@@ -126,6 +127,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _sequence_video (true)
 	, _interop (false)
 	, _burn_subtitles (false)
+	, _audio_processor (0)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
@@ -328,6 +330,9 @@ Film::metadata () const
 	root->add_child("Signed")->add_child_text (_signed ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	root->add_child("Key")->add_child_text (_key.hex ());
+	if (_audio_processor) {
+		root->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
+	}
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	return doc;
@@ -407,6 +412,12 @@ Film::read_metadata ()
 		_burn_subtitles = f.bool_child ("BurnSubtitles");
 	}
 	_key = dcp::Key (f.string_child ("Key"));
+
+	if (f.optional_string_child ("AudioProcessor")) {
+		_audio_processor = AudioProcessor::from_id (f.string_child ("AudioProcessor"));
+	} else {
+		_audio_processor = 0;
+	}
 
 	list<string> notes;
 	/* This method is the only one that can return notes (so far) */
@@ -767,6 +778,13 @@ Film::set_burn_subtitles (bool b)
 {
 	_burn_subtitles = b;
 	signal_changed (BURN_SUBTITLES);
+}
+
+void
+Film::set_audio_processor (AudioProcessor const * processor)
+{
+	_audio_processor = processor;
+	signal_changed (AUDIO_PROCESSOR);
 }
 
 void

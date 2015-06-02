@@ -45,6 +45,7 @@
 #include "dcp_decoder.h"
 #include "dcp_subtitle_content.h"
 #include "dcp_subtitle_decoder.h"
+#include "audio_processor.h"
 #include <boost/foreach.hpp>
 #include <stdint.h>
 #include <algorithm>
@@ -77,6 +78,8 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	set_video_container_size (_film->frame_size ());
+
+	film_changed (Film::AUDIO_PROCESSOR);
 }
 
 void
@@ -247,6 +250,10 @@ Player::film_changed (Film::Property p)
 
 	if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
+	} else if (p == Film::AUDIO_PROCESSOR) {
+		if (_film->audio_processor ()) {
+			_audio_processor = _film->audio_processor()->clone (_film->audio_frame_rate ());
+		}
 	}
 }
 
@@ -459,6 +466,10 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 							);
 					}
 				}
+			}
+
+			if (_audio_processor) {
+				dcp_mapped = _audio_processor->run (dcp_mapped);
 			}
 		
 			all.audio = dcp_mapped;

@@ -30,16 +30,14 @@
 
 using boost::shared_ptr;
 
-#if 0
-/* XXX: no audio processors in content any more */
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
 	shared_ptr<Film> film = new_test_film ("upmixer_a_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
+	film->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
 	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/white.wav"));
-	content->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
 	film->examine_and_add_content (content);
 
 	wait_for_jobs ();
@@ -80,4 +78,3 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	check_audio_file ("test/data/upmixer_a_test/Ls.wav", "build/test/upmixer_a_test/Ls.wav");
 	check_audio_file ("test/data/upmixer_a_test/Rs.wav", "build/test/upmixer_a_test/Rs.wav");
 }
-#endif

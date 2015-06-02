@@ -68,7 +68,8 @@ private:
 	void burn_subtitles_toggled ();
 	void encrypted_toggled ();
 	void edit_key_clicked ();
-
+	void audio_processor_changed ();
+	
 	void setup_frame_rate_widget ();
 	void setup_container ();
 	void setup_dcp_name ();
@@ -96,6 +97,7 @@ private:
 	wxSpinCtrl* _frame_rate_spin;
 	wxSizer* _frame_rate_sizer;
 	wxChoice* _audio_channels;
+	wxChoice* _audio_processor;
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
 	wxChoice* _resolution;

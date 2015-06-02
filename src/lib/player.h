@@ -159,6 +159,8 @@ private:
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
 
+	boost::shared_ptr<AudioProcessor> _audio_processor;
+
 	PlayerStatistics _statistics;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;

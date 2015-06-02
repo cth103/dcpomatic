@@ -47,6 +47,7 @@ class Player;
 class Playlist;
 class AudioContent;
 class Screen;
+class AudioProcessor;
 struct isdcf_name_test;
 
 /** @class Film
@@ -161,6 +162,7 @@ public:
 		INTEROP,
 		/** The setting of _burn_subtitles has changed */
 		BURN_SUBTITLES,
+		AUDIO_PROCESSOR,
 	};
 
 
@@ -235,6 +237,10 @@ public:
 	bool burn_subtitles () const {
 		return _burn_subtitles;
 	}
+
+	AudioProcessor const * audio_processor () const {
+		return _audio_processor;
+	}
 	
 
 	/* SET */
@@ -263,6 +269,7 @@ public:
 	void set_sequence_video (bool);
 	void set_interop (bool);
 	void set_burn_subtitles (bool);
+	void set_audio_processor (AudioProcessor const * processor);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -305,6 +312,7 @@ private:
 	Resolution _resolution;
 	bool _signed;
 	bool _encrypted;
+	dcp::Key _key;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
 	/** ISDCF naming stuff */
@@ -322,7 +330,7 @@ private:
 	bool _sequence_video;
 	bool _interop;
 	bool _burn_subtitles;
-	dcp::Key _key;
+	AudioProcessor const * _audio_processor;
 
 	int _state_version;
 

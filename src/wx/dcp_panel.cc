@@ -27,12 +27,14 @@
 #include "lib/util.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/audio_processor.h"
 #include <dcp/key.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 using std::cout;
 using std::list;
@@ -468,6 +470,7 @@ DCPPanel::set_general_sensitivity (bool s)
 	_frame_rate_choice->Enable (s);
 	_frame_rate_spin->Enable (s);
 	_audio_channels->Enable (s);
+	_audio_processor->Enable (s);
 	_j2k_bandwidth->Enable (s);
 	_container->Enable (s);
 	_best_frame_rate->Enable (s && _film && _film->best_video_frame_rate () != _film->video_frame_rate ());
@@ -645,15 +648,26 @@ DCPPanel::make_audio_panel ()
 	panel->SetSizer (sizer);
 
 	int r = 0;
+	
 	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
 	_audio_channels = new wxChoice (panel, wxID_ANY);
 	for (int i = 2; i <= 12; i += 2) {
 		_audio_channels->Append (wxString::Format ("%d", i));
 	}
 	grid->Add (_audio_channels, wxGBPosition (r, 1));
+
+	add_label_to_grid_bag_sizer (grid, panel, _("Processor"), true, wxGBPosition (r, 0));
+	_audio_processor = new wxChoice (panel, wxID_ANY);
+	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
+	BOOST_FOREACH (AudioProcessor const * ap, AudioProcessor::all ()) {
+		_audio_processor->Append (std_to_wx (ap->name ()), new wxStringClientData (std_to_wx (ap->id ())));
+	}
+	grid->Add (_audio_processor, wxGBPosition (r, 1));
+	
 	++r;
 
 	_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_channels_changed, this));
+	_audio_processor->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_processor_changed, this));
 
 	return panel;
 }
@@ -663,4 +677,17 @@ DCPPanel::copy_isdcf_name_button_clicked ()
 {
 	_film->set_name (_film->isdcf_name (false));
 	_film->set_use_isdcf_name (false);
+}
+
+void
+DCPPanel::audio_processor_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	string const s = string_client_data (_audio_processor->GetClientObject (_audio_processor->GetSelection ()));
+	if (s != "none") {
+		_film->set_audio_processor (AudioProcessor::from_id (s));
+	}
 }
