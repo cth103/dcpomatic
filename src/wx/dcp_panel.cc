@@ -571,8 +571,8 @@ DCPPanel::make_video_panel ()
 		++r;
 	}
 
+	add_label_to_grid_bag_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
 	{
-		add_label_to_grid_bag_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
 		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_frame_rate_choice = new wxChoice (panel, wxID_ANY);
 		_frame_rate_sizer->Add (_frame_rate_choice, 1, wxALIGN_CENTER_VERTICAL);
@@ -582,8 +582,8 @@ DCPPanel::make_video_panel ()
 		_best_frame_rate = new wxButton (panel, wxID_ANY, _("Use best"));
 		_frame_rate_sizer->Add (_best_frame_rate, 1, wxALIGN_CENTER_VERTICAL);
 		grid->Add (_frame_rate_sizer, wxGBPosition (r, 1));
+		++r;
 	}
-	++r;
 
 	_burn_subtitles = new wxCheckBox (panel, wxID_ANY, _("Burn subtitles into image"));
 	grid->Add (_burn_subtitles, wxGBPosition (r, 0), wxGBSpan (1, 2));
