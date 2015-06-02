@@ -655,6 +655,7 @@ DCPPanel::make_audio_panel ()
 		_audio_channels->Append (wxString::Format ("%d", i));
 	}
 	grid->Add (_audio_channels, wxGBPosition (r, 1));
+	++r;
 
 	add_label_to_grid_bag_sizer (grid, panel, _("Processor"), true, wxGBPosition (r, 0));
 	_audio_processor = new wxChoice (panel, wxID_ANY);
