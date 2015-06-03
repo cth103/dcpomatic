@@ -21,6 +21,7 @@
 #include "wx_util.h"
 #include "key_dialog.h"
 #include "isdcf_metadata_dialog.h"
+#include "audio_dialog.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -44,7 +45,8 @@ using boost::lexical_cast;
 using boost::shared_ptr;
 
 DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
-	: _film (f)
+	: _audio_dialog (0)
+	, _film (f)
 	, _generally_sensitive (true)
 {
 	_panel = new wxPanel (n);
@@ -672,11 +674,15 @@ DCPPanel::make_audio_panel ()
 		_audio_processor->Append (std_to_wx (ap->name ()), new wxStringClientData (std_to_wx (ap->id ())));
 	}
 	grid->Add (_audio_processor, wxGBPosition (r, 1));
-	
+	++r;
+
+	_show_audio = new wxButton (panel, wxID_ANY, _("Show audio..."));
+	grid->Add (_show_audio, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
 	_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_channels_changed, this));
 	_audio_processor->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_processor_changed, this));
+	_show_audio->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DCPPanel::show_audio_clicked, this));
 
 	return panel;
 }
@@ -697,4 +703,21 @@ DCPPanel::audio_processor_changed ()
 
 	string const s = string_client_data (_audio_processor->GetClientObject (_audio_processor->GetSelection ()));
 	_film->set_audio_processor (AudioProcessor::from_id (s));
+}
+
+void
+DCPPanel::show_audio_clicked ()
+{
+	if (!_film) {
+		return;
+	}
+
+	if (_audio_dialog) {
+		_audio_dialog->Destroy ();
+		_audio_dialog = 0;
+	}
+	
+	AudioDialog* d = new AudioDialog (_panel, _film);
+	d->Show ();
+	d->set_playlist (_film->playlist ());
 }

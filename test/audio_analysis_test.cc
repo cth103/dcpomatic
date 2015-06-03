@@ -23,11 +23,13 @@
 
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_analysis.h"
+#include "lib/analyse_audio_job.h"
 #include "lib/film.h"
 #include "lib/sndfile_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
+#include "lib/job_manager.h"
 #include "test.h"
 
 using boost::shared_ptr;
@@ -97,7 +99,9 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	c->analyse_audio (boost::bind (&finished));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	job->Finished.connect (boost::bind (&finished));
+	JobManager::instance()->add (job);
 	wait_for_jobs ();
 }
 
@@ -111,6 +115,8 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 	
-	c->analyse_audio (boost::bind (&finished));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	job->Finished.connect (boost::bind (&finished));
+	JobManager::instance()->add (job);
 	wait_for_jobs ();
 }

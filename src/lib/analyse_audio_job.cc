@@ -34,9 +34,9 @@ using boost::shared_ptr;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f, shared_ptr<AudioContent> c)
+AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	: Job (f)
-	, _content (c)
+	, _playlist (p)
 	, _done (0)
 	, _samples_per_point (1)
 	, _overall_peak (0)
@@ -60,14 +60,7 @@ AnalyseAudioJob::json_name () const
 void
 AnalyseAudioJob::run ()
 {
-	shared_ptr<AudioContent> content = _content.lock ();
-	if (!content) {
-		return;
-	}
-
-	shared_ptr<Playlist> playlist (new Playlist);
-	playlist->add (content);
-	shared_ptr<Player> player (new Player (_film, playlist));
+	shared_ptr<Player> player (new Player (_film, _playlist));
 	player->set_ignore_video ();
 	
 	int64_t const len = _film->length().frames (_film->audio_frame_rate());
@@ -84,7 +77,7 @@ AnalyseAudioJob::run ()
 	}
 
 	_analysis->set_peak (_overall_peak, DCPTime::from_frames (_overall_peak_frame, _film->audio_frame_rate ()));
-	_analysis->write (content->audio_analysis_path ());
+	_analysis->write (_film->audio_analysis_path (_playlist));
 	
 	set_progress (1);
 	set_state (FINISHED_OK);

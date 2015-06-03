@@ -33,7 +33,6 @@ public:
 	void set_analysis (boost::shared_ptr<AudioAnalysis>);
 	void set_channel_visible (int c, bool v);
 	void set_type_visible (int t, bool v);
-	void set_gain (float);
 	void set_smoothing (int);
 	void set_message (wxString);
 
@@ -48,8 +47,6 @@ private:
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
 	bool _type_visible[AudioPoint::COUNT];
-	/** gain to apply in dB */
-	float _gain;
 	int _smoothing;
 	std::vector<wxColour> _colours;
 

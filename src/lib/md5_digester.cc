@@ -43,6 +43,12 @@ MD5Digester::add (void const * data, size_t size)
 	MD5_Update (&_context, data, size);
 }
 
+void
+MD5Digester::add (string const & s)
+{
+	add (s.c_str (), s.length ());
+}
+
 string
 MD5Digester::get () const
 {

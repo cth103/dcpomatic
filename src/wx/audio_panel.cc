@@ -20,7 +20,6 @@
 #include "lib/config.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/cinema_sound_processor.h"
-#include "audio_dialog.h"
 #include "audio_panel.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
@@ -41,16 +40,11 @@ using boost::shared_ptr;
 
 AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
-	, _audio_dialog (0)
 {
 	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
-
-	_show = new wxButton (this, wxID_ANY, _("Show Audio..."));
-	grid->Add (_show, wxGBPosition (r, 0));
-	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
@@ -98,7 +92,6 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain->wrapped()->SetIncrement (0.5);
 	_delay->wrapped()->SetRange (-1000, 1000);
 
-	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&AudioPanel::show_clicked, this));
 	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
@@ -163,24 +156,6 @@ AudioPanel::gain_calculate_button_clicked ()
 }
 
 void
-AudioPanel::show_clicked ()
-{
-	if (_audio_dialog) {
-		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
-	}
-
-	AudioContentList ac = _parent->selected_audio ();
-	if (ac.size() != 1) {
-		return;
-	}
-	
-	_audio_dialog = new AudioDialog (this, _parent->film ());
-	_audio_dialog->Show ();
-	_audio_dialog->set_content (ac.front ());
-}
-
-void
 AudioPanel::setup_description ()
 {
 	AudioContentList ac = _parent->selected_audio ();
@@ -206,15 +181,10 @@ AudioPanel::content_selection_changed ()
 {
 	AudioContentList sel = _parent->selected_audio ();
 
-	if (_audio_dialog && sel.size() == 1) {
-		_audio_dialog->set_content (sel.front ());
-	}
-	
 	_gain->set_content (sel);
 	_delay->set_content (sel);
 
 	_gain_calculate_button->Enable (sel.size() == 1);
-	_show->Enable (sel.size() == 1);
 	_mapping->Enable (sel.size() == 1);
 
 	film_content_changed (AudioContentProperty::AUDIO_STREAMS);

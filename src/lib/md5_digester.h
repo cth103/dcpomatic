@@ -34,6 +34,8 @@ public:
 	void add (T data) {
 		add (&data, sizeof (T));
 	}
+
+	void add (std::string const & s);
 	
 	std::string get () const;
 

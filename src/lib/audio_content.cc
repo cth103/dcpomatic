@@ -25,6 +25,7 @@
 #include "config.h"
 #include "frame_rate_change.h"
 #include "raw_convert.h"
+#include "playlist.h"
 #include <libcxml/cxml.h>
 #include <boost/foreach.hpp>
 
@@ -127,32 +128,6 @@ AudioContent::set_audio_delay (int d)
 	}
 	
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
-}
-
-boost::signals2::connection
-AudioContent::analyse_audio (boost::function<void()> finished)
-{
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, dynamic_pointer_cast<AudioContent> (shared_from_this())));
-	boost::signals2::connection c = job->Finished.connect (finished);
-	JobManager::instance()->add (job);
-
-	return c;
-}
-
-boost::filesystem::path
-AudioContent::audio_analysis_path () const
-{
-	shared_ptr<const Film> film = _film.lock ();
-	if (!film) {
-		return boost::filesystem::path ();
-	}
-
-	boost::filesystem::path p = film->audio_analysis_dir ();
-	p /= digest() + "_" + audio_mapping().digest();
-	return p;
 }
 
 string

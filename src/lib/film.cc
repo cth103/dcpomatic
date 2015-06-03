@@ -42,6 +42,7 @@
 #include "environment_info.h"
 #include "raw_convert.h"
 #include "audio_processor.h"
+#include "md5_digester.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
@@ -247,9 +248,28 @@ Film::filename_safe_name () const
 }
 
 boost::filesystem::path
-Film::audio_analysis_dir () const
+Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 {
-	return dir ("analysis");
+	boost::filesystem::path p = dir ("analysis");
+
+	MD5Digester digester;
+	BOOST_FOREACH (shared_ptr<Content> i, playlist->content ()) {
+		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (i);
+		if (!ac) {
+			continue;
+		}
+		
+		digester.add (ac->digest ());
+		digester.add (ac->audio_mapping().digest ());
+		digester.add (ac->audio_gain ());
+	}
+
+	if (audio_processor ()) {
+		digester.add (audio_processor()->id ());
+	}
+
+	p /= digester.get ();
+	return p;
 }
 
 /** Add suitable Jobs to the JobManager to create a DCP for this Film */

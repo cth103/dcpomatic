@@ -62,12 +62,9 @@ public:
 
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);
-	boost::filesystem::path audio_analysis_path () const;
 	int resampled_audio_frame_rate () const;
 	bool has_rate_above_48k () const;
 	std::vector<std::string> audio_channel_names () const;
-
-	boost::signals2::connection analyse_audio (boost::function<void()>);
 
 	void set_audio_gain (double);
 	void set_audio_delay (int);

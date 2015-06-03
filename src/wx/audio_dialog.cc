@@ -17,13 +17,15 @@
 
 */
 
-#include <boost/filesystem.hpp>
-#include "lib/audio_analysis.h"
-#include "lib/film.h"
-#include "lib/audio_content.h"
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "wx_util.h"
+#include "lib/audio_analysis.h"
+#include "lib/film.h"
+#include "lib/analyse_audio_job.h"
+#include "lib/job_manager.h"
+#include "lib/playlist.h"
+#include <boost/filesystem.hpp>
 
 using boost::shared_ptr;
 using boost::bind;
@@ -97,18 +99,13 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 }
 
 void
-AudioDialog::set_content (shared_ptr<AudioContent> c)
+AudioDialog::set_playlist (shared_ptr<const Playlist> p)
 {
-	_content_changed_connection.disconnect ();
-
-	_content = c;
-
+	_playlist_connection.disconnect ();
+	_playlist = p;
+	_playlist_connection = _playlist->ContentChanged.connect (boost::bind (&AudioDialog::try_to_load_analysis, this));
 	try_to_load_analysis ();
-	_plot->set_gain (_content->audio_gain ());
-
-	_content_changed_connection = _content->Changed.connect (bind (&AudioDialog::content_changed, this, _2));
-
-	SetTitle (wxString::Format (_("DCP-o-matic audio - %s"), std_to_wx(_content->path_summary()).data()));
+	SetTitle (_("DCP-o-matic audio"));
 }
 
 void
@@ -118,18 +115,27 @@ AudioDialog::try_to_load_analysis ()
 		return;
 	}
 
-	if (!boost::filesystem::exists (_content->audio_analysis_path())) {
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
+	boost::filesystem::path path = film->audio_analysis_path (_playlist);
+
+	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
-		_analysis_finished_connection = _content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
+		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
+		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
+		JobManager::instance()->add (job);
 		return;
 	}
 
 	try {
-		_analysis.reset (new AudioAnalysis (_content->audio_analysis_path ()));
+		_analysis.reset (new AudioAnalysis (path));
 	} catch (xmlpp::exception& e) {
 		/* Probably an old-style analysis file: recreate it */
-		_analysis_finished_connection = _content->analyse_audio (bind (&AudioDialog::analysis_finished, this));
+		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
+		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
+		JobManager::instance()->add (job);
 		return;
         }
 	
@@ -166,7 +172,10 @@ AudioDialog::try_to_load_analysis ()
 void
 AudioDialog::analysis_finished ()
 {
-	if (!boost::filesystem::exists (_content->audio_analysis_path())) {
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	
+	if (!boost::filesystem::exists (film->audio_analysis_path (_playlist))) {
 		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
 		   Give up.
 		*/
@@ -193,10 +202,7 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 void
 AudioDialog::content_changed (int p)
 {
-	if (p == AudioContentProperty::AUDIO_GAIN) {
-		_plot->set_gain (_content->audio_gain ());
-		setup_peak_time ();
-	} else if (p == AudioContentProperty::AUDIO_STREAMS) {
+	if (p == AudioContentProperty::AUDIO_GAIN || p == AudioContentProperty::AUDIO_STREAMS) {
 		try_to_load_analysis ();
 	}
 }
@@ -232,7 +238,7 @@ AudioDialog::setup_peak_time ()
 		return;
 	}
 	
-	float peak_dB = 20 * log10 (_analysis->peak().get()) + _content->audio_gain();
+	float peak_dB = 20 * log10 (_analysis->peak().get());
 	
 	_peak_time->SetLabel (
 		wxString::Format (

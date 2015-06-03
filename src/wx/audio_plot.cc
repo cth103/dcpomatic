@@ -38,7 +38,6 @@ int const AudioPlot::max_smoothing = 128;
 
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
-	, _gain (0)
 	, _smoothing (max_smoothing / 2)
 {
 #ifndef __WXOSX__	
@@ -205,7 +204,7 @@ AudioPlot::y_for_linear (float p, Metrics const & metrics) const
 		p = 1e-4;
 	}
 	
-	return metrics.height - (20 * log10(p) - _minimum + _gain) * metrics.y_scale - metrics.y_origin;
+	return metrics.height - (20 * log10(p) - _minimum) * metrics.y_scale - metrics.y_origin;
 }
 
 void
@@ -286,13 +285,6 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 
 		path.AddLineToPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (p, metrics));
 	}
-}
-
-void
-AudioPlot::set_gain (float g)
-{
-	_gain = g;
-	Refresh ();
 }
 
 void
