@@ -171,10 +171,10 @@ AudioContent::set_audio_mapping (AudioMapping mapping)
 {
 	int c = 0;
 	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
-		AudioMapping stream_mapping (i->channels ());
+		AudioMapping stream_mapping (i->channels (), MAX_DCP_AUDIO_CHANNELS);
 		for (int j = 0; j < i->channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
-				stream_mapping.set (j, static_cast<dcp::Channel> (k), mapping.get (c, static_cast<dcp::Channel> (k)));
+				stream_mapping.set (j, k, mapping.get (c, k));
 			}
 			++c;
 		}
@@ -192,16 +192,15 @@ AudioContent::audio_mapping () const
 		channels += i->channels ();
 	}
 	
-	AudioMapping merged (channels);
+	AudioMapping merged (channels, MAX_DCP_AUDIO_CHANNELS);
 	
 	int c = 0;
 	int s = 0;
 	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
 		AudioMapping mapping = i->mapping ();
-		for (int j = 0; j < mapping.content_channels(); ++j) {
-			merged.set_name (c, String::compose ("%1:%2", s + 1, j + 1));
+		for (int j = 0; j < mapping.input_channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
-				merged.set (c, static_cast<dcp::Channel> (k), mapping.get (j, static_cast<dcp::Channel> (k)));
+				merged.set (c, k, mapping.get (j, k));
 			}
 			++c;
 		}
@@ -289,6 +288,7 @@ AudioContent::processing_description () const
 	return "";
 }
 
+/** @return true if any stream in this content has a sampling rate of more than 48kHz */
 bool
 AudioContent::has_rate_above_48k () const
 {
@@ -299,4 +299,21 @@ AudioContent::has_rate_above_48k () const
 	}
 
 	return false;
+}
+
+/** @return User-visible names of each of our audio channels */
+vector<string>
+AudioContent::audio_channel_names () const
+{
+	vector<string> n;
+
+	int t = 1;
+	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
+		for (int j = 0; j < i->channels(); ++j) {
+			n.push_back (String::compose ("%1:%2", t, j + 1));
+		}
+		++t;
+	}
+
+	return n;
 }

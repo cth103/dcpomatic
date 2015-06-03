@@ -595,11 +595,11 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Find all mapped channels */
 
-	list<dcp::Channel> mapped;
+	list<int> mapped;
 	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
 		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*i);
 		if (ac) {
-			list<dcp::Channel> c = ac->audio_mapping().mapped_dcp_channels ();
+			list<int> c = ac->audio_mapping().mapped_output_channels ();
 			copy (c.begin(), c.end(), back_inserter (mapped));
 		}
 	}
@@ -611,13 +611,13 @@ Film::isdcf_name (bool if_created_now) const
 			
 	int non_lfe = 0;
 	int lfe = 0;
-	for (list<dcp::Channel>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
-		if (static_cast<int> (*i) >= audio_channels()) {
+	for (list<int>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
+		if (*i >= audio_channels()) {
 			/* This channel is mapped but is not included in the DCP */
 			continue;
 		}
 		
-		if ((*i) == dcp::LFE) {
+		if (static_cast<dcp::Channel> (*i) == dcp::LFE) {
 			++lfe;
 		} else {
 			++non_lfe;
@@ -1159,4 +1159,54 @@ Film::subtitle_language () const
 	}
 
 	return all;
+}
+
+/** Change the gains of the supplied AudioMapping to make it a default
+ *  for this film.  The defaults are guessed based on what processor (if any)
+ *  is in use and the number of input channels.
+ */
+void
+Film::make_audio_mapping_default (AudioMapping& mapping) const
+{
+	if (audio_processor ()) {
+		audio_processor()->make_audio_mapping_default (mapping);
+	} else {
+		mapping.make_zero ();
+		if (mapping.input_channels() == 1) {
+			/* Mono -> Centre */
+			mapping.set (0, static_cast<int> (dcp::CENTRE), 1);
+		} else {
+			/* 1:1 mapping */
+			for (int i = 0; i < min (mapping.input_channels(), mapping.output_channels()); ++i) {
+				mapping.set (i, i, 1);
+			}
+		}
+	}
+}
+
+/** @return The names of the channels that audio contents' outputs are passed into;
+ *  this is either the DCP or a AudioProcessor.
+ */
+vector<string>
+Film::audio_output_names () const
+{
+	if (audio_processor ()) {
+		return audio_processor()->input_names ();
+	}
+	
+	vector<string> n;
+	n.push_back (_("L"));
+	n.push_back (_("R"));
+	n.push_back (_("C"));
+	n.push_back (_("Lfe"));
+	n.push_back (_("Ls"));
+	n.push_back (_("Rs"));
+	n.push_back (_("HI"));
+	n.push_back (_("VI"));
+	n.push_back (_("Lc"));
+	n.push_back (_("Rc"));
+	n.push_back (_("BsL"));
+	n.push_back (_("BsR"));
+
+	return vector<string> (n.begin(), n.begin() + audio_channels ());
 }

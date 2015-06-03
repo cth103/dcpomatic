@@ -28,10 +28,12 @@ public:
 	std::string name () const;
 	std::string id () const;
 	ChannelCount in_channels () const;
-	int out_channels (int) const;
+	int out_channels () const;
 	boost::shared_ptr<AudioProcessor> clone (int) const;
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
 	void flush ();
+	void make_audio_mapping_default (AudioMapping& mapping) const;
+	std::vector<std::string> input_names () const;
 
 private:
 	BandPassAudioFilter _left;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ using std::cout;
 using std::list;
 using std::string;
 using std::max;
+using std::vector;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
@@ -125,8 +126,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_grid->EnableEditing (false);
 	_grid->SetCellHighlightPenWidth (0);
 	_grid->SetDefaultRenderer (new NoSelectionStringRenderer);
-
-	set_column_labels ();
+	_grid->AutoSize ();
 
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	_sizer->Add (_grid, 1, wxEXPAND | wxALL);
@@ -148,8 +148,9 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::edit, this), ID_edit);
 }
 
+/** Called when any gain value has changed */
 void
-AudioMappingView::map_changed ()
+AudioMappingView::map_values_changed ()
 {
 	update_cells ();
 	Changed (_map);
@@ -163,7 +164,7 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		return;
 	}
 
-	dcp::Channel d = static_cast<dcp::Channel> (ev.GetCol() - 1);
+	int const d = ev.GetCol() - 1;
 	
 	if (_map.get (ev.GetRow(), d) > 0) {
 		_map.set (ev.GetRow(), d, 0);
@@ -171,7 +172,7 @@ AudioMappingView::left_click (wxGridEvent& ev)
 		_map.set (ev.GetRow(), d, 1);
 	}
 
-	map_changed ();
+	map_values_changed ();
 }
 
 void
@@ -189,33 +190,33 @@ AudioMappingView::right_click (wxGridEvent& ev)
 void
 AudioMappingView::off ()
 {
-	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), 0);
-	map_changed ();
+	_map.set (_menu_row, _menu_column - 1, 0);
+	map_values_changed ();
 }
 
 void
 AudioMappingView::full ()
 {
-	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), 1);
-	map_changed ();
+	_map.set (_menu_row, _menu_column - 1, 1);
+	map_values_changed ();
 }
 
 void
 AudioMappingView::minus6dB ()
 {
-	_map.set (_menu_row, static_cast<dcp::Channel> (_menu_column - 1), pow (10, -6.0 / 20));
-	map_changed ();
+	_map.set (_menu_row, _menu_column - 1, pow (10, -6.0 / 20));
+	map_values_changed ();
 }
 
 void
 AudioMappingView::edit ()
 {
-	dcp::Channel d = static_cast<dcp::Channel> (_menu_column - 1);
+	int const d = _menu_column - 1;
 	
 	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_row, _menu_column - 1, _map.get (_menu_row, d));
 	if (dialog->ShowModal () == wxID_OK) {
 		_map.set (_menu_row, d, dialog->value ());
-		map_changed ();
+		map_values_changed ();
 	}
 	
 	dialog->Destroy ();
@@ -229,104 +230,51 @@ AudioMappingView::set (AudioMapping map)
 }
 
 void
-AudioMappingView::update_cells ()
+AudioMappingView::set_input_channels (vector<string> const & names)
 {
-	if (_grid->GetNumberRows ()) {
-		_grid->DeleteRows (0, _grid->GetNumberRows ());
+	for (int i = 0; i < _grid->GetNumberRows(); ++i) {
+		_grid->SetCellValue (i, 0, std_to_wx (names[i]));
 	}
-
-	_grid->InsertRows (0, _map.content_channels ());
-
-	for (int i = 0; i < _map.content_channels(); ++i) {
-		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
-			_grid->SetCellRenderer (i, j + 1, new ValueRenderer);
-		}
-	}
-	
-	for (int i = 0; i < _map.content_channels(); ++i) {
-		_grid->SetCellValue (i, 0, wxString::Format (wxT("%d"), i + 1));
-
-		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			_grid->SetCellValue (i, j, std_to_wx (raw_convert<string> (_map.get (i, static_cast<dcp::Channel> (j - 1)))));
-		}
-	}
-
-	_grid->AutoSize ();
 }
 
-/** @param c Number of DCP channels */
 void
-AudioMappingView::set_channels (int c)
+AudioMappingView::set_output_channels (vector<string> const & names)
 {
-	c++;
+	int const o = names.size() + 1;
+	if (o < _grid->GetNumberCols ()) {
+		_grid->DeleteCols (o, _grid->GetNumberCols() - o);
+	} else if (o > _grid->GetNumberCols ()) {
+		_grid->InsertCols (_grid->GetNumberCols(), o - _grid->GetNumberCols());
+	}
 
-	if (c < _grid->GetNumberCols ()) {
-		_grid->DeleteCols (c, _grid->GetNumberCols() - c);
-	} else if (c > _grid->GetNumberCols ()) {
-		_grid->InsertCols (_grid->GetNumberCols(), c - _grid->GetNumberCols());
-		set_column_labels ();
+	_grid->SetColLabelValue (0, _("Content"));
+
+	for (size_t i = 0; i < names.size(); ++i) {
+		_grid->SetColLabelValue (i + 1, std_to_wx (names[i]));
 	}
 
 	update_cells ();
 }
 
 void
-AudioMappingView::set_column_labels ()
+AudioMappingView::update_cells ()
 {
-	int const c = _grid->GetNumberCols ();
-	
-	_grid->SetColLabelValue (0, _("Content"));
-
-#if MAX_DCP_AUDIO_CHANNELS != 12
-#warning AudioMappingView::set_column_labels() is expecting the wrong MAX_DCP_AUDIO_CHANNELS
-#endif	
-	
-	if (c > 0) {
-		_grid->SetColLabelValue (1, _("L"));
-	}
-	
-	if (c > 1) {
-		_grid->SetColLabelValue (2, _("R"));
-	}
-	
-	if (c > 2) {
-		_grid->SetColLabelValue (3, _("C"));
-	}
-	
-	if (c > 3) {
-		_grid->SetColLabelValue (4, _("Lfe"));
-	}
-	
-	if (c > 4) {
-		_grid->SetColLabelValue (5, _("Ls"));
-	}
-	
-	if (c > 5) {
-		_grid->SetColLabelValue (6, _("Rs"));
+	if (_grid->GetNumberRows ()) {
+		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}
 
-	if (c > 6) {
-		_grid->SetColLabelValue (7, _("HI"));
-	}
+	_grid->InsertRows (0, _map.input_channels ());
 
-	if (c > 7) {
-		_grid->SetColLabelValue (8, _("VI"));
+	for (int i = 0; i < _map.input_channels(); ++i) {
+		for (int j = 0; j < _map.output_channels(); ++j) {
+			_grid->SetCellRenderer (i, j + 1, new ValueRenderer);
+		}
 	}
-
-	if (c > 8) {
-		_grid->SetColLabelValue (9, _("Lc"));
-	}
-
-	if (c > 9) {
-		_grid->SetColLabelValue (10, _("Rc"));
-	}
-
-	if (c > 10) {
-		_grid->SetColLabelValue (11, _("BsL"));
-	}
-
-	if (c > 11) {
-		_grid->SetColLabelValue (12, _("BsR"));
+	
+	for (int i = 0; i < _map.input_channels(); ++i) {
+		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
+			_grid->SetCellValue (i, j, std_to_wx (raw_convert<string> (_map.get (i, j - 1))));
+		}
 	}
 
 	_grid->AutoSize ();
@@ -351,7 +299,7 @@ AudioMappingView::mouse_moved (wxMouseEvent& ev)
 	if (row != _last_tooltip_row || column != _last_tooltip_column) {
 
 		wxString s;
-		float const gain = _map.get (row, static_cast<dcp::Channel> (column - 1));
+		float const gain = _map.get (row, column - 1);
 		if (gain == 0) {
 			s = wxString::Format (_("No audio will be passed from content channel %d to DCP channel %d."), row + 1, column);
 		} else if (gain == 1) {

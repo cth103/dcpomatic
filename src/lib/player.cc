@@ -455,14 +455,14 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), all.audio->frames()));
 			dcp_mapped->make_silent ();
 			AudioMapping map = j->mapping ();
-			for (int i = 0; i < map.content_channels(); ++i) {
+			for (int i = 0; i < map.input_channels(); ++i) {
 				for (int j = 0; j < _film->audio_channels(); ++j) {
-					if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
+					if (map.get (i, j) > 0) {
 						dcp_mapped->accumulate_channel (
 							all.audio.get(),
 							i,
 							j,
-							map.get (i, static_cast<dcp::Channel> (j))
+							map.get (i, j)
 							);
 					}
 				}

@@ -28,18 +28,11 @@
 BOOST_AUTO_TEST_CASE (audio_mapping_test)
 {
 	AudioMapping none;
-	BOOST_CHECK_EQUAL (none.content_channels(), 0);
+	BOOST_CHECK_EQUAL (none.input_channels(), 0);
 
-	AudioMapping four (4);
-	BOOST_CHECK_EQUAL (four.content_channels(), 4);
-	four.make_default ();
+	AudioMapping four (4, MAX_DCP_AUDIO_CHANNELS);
+	BOOST_CHECK_EQUAL (four.input_channels(), 4);
 
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
-			BOOST_CHECK_EQUAL (four.get (i, static_cast<dcp::Channel> (j)), i == j ? 1 : 0);
-		}
-	}
-
-	four.set (0, dcp::RIGHT, 1);
-	BOOST_CHECK_EQUAL (four.get (0, dcp::RIGHT), 1);
+	four.set (0, 1, 1);
+	BOOST_CHECK_EQUAL (four.get (0, 1), 1);
 }

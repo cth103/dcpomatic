@@ -38,49 +38,43 @@ namespace cxml {
 }
 
 /** @class AudioMapping.
- *  @brief A many-to-many mapping from some content channels to DCP channels.
- *
- *  The number of content channels is set on construction and fixed,
- *  and then each of those content channels are mapped to each DCP channel
- *  by a linear gain.
+ *  @brief A many-to-many mapping of audio channels.
  */
 class AudioMapping
 {
 public:
 	AudioMapping ();
-	AudioMapping (int channels);
+	AudioMapping (int input_channels, int output_channels);
 	AudioMapping (cxml::ConstNodePtr, int);
 
 	/* Default copy constructor is fine */
 	
 	void as_xml (xmlpp::Node *) const;
 
-	void make_default ();
+	void make_zero ();
 
-	void set (int, dcp::Channel, float);
-	float get (int, dcp::Channel) const;
+	void set (int input_channel, int output_channel, float);
+	float get (int input_channel, int output_channel) const;
 
-	int content_channels () const {
-		return _content_channels;
+	int input_channels () const {
+		return _input_channels;
 	}
 
-	void set_name (int channel, std::string name);
-	std::string name (int channel) const {
-		return _name[channel];
+	int output_channels () const {
+		return _output_channels;
 	}
-
+	
 	std::string digest () const;
 
-	std::list<dcp::Channel> mapped_dcp_channels () const;
+	std::list<int> mapped_output_channels () const;
 	void unmap_all ();
 	
 private:
-	void setup (int);
-	void make_zero ();
-	
-	int _content_channels;
+	void setup (int input_channels, int output_channels);
+
+	int _input_channels;
+	int _output_channels;
 	std::vector<std::vector<float> > _gain;
-	std::vector<std::string> _name;
 };
 
 #endif

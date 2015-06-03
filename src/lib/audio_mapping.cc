@@ -35,30 +35,31 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 AudioMapping::AudioMapping ()
-	: _content_channels (0)
+	: _input_channels (0)
+	, _output_channels (0)
 {
 
 }
 
-/** Create an empty AudioMapping for a given channel count.
- *  @param channels Number of channels.
+/** Create an empty AudioMapping.
+ *  @param input_channels Number of input channels.
+ *  @param output_channels Number of output channels.
  */
-AudioMapping::AudioMapping (int channels)
+AudioMapping::AudioMapping (int input_channels, int output_channels)
 {
-	setup (channels);
+	setup (input_channels, output_channels);
 }
 
 void
-AudioMapping::setup (int c)
+AudioMapping::setup (int input_channels, int output_channels)
 {
-	_content_channels = c;
+	_input_channels = input_channels;
+	_output_channels = output_channels;
 	
-	_gain.resize (_content_channels);
-	for (int i = 0; i < _content_channels; ++i) {
-		_gain[i].resize (MAX_DCP_AUDIO_CHANNELS);
+	_gain.resize (_input_channels);
+	for (int i = 0; i < _input_channels; ++i) {
+		_gain[i].resize (_output_channels);
 	}
-
-	_name.resize (_content_channels);
 
 	make_zero ();
 }
@@ -66,32 +67,20 @@ AudioMapping::setup (int c)
 void
 AudioMapping::make_zero ()
 {
-	for (int i = 0; i < _content_channels; ++i) {
-		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
+	for (int i = 0; i < _input_channels; ++i) {
+		for (int j = 0; j < _output_channels; ++j) {
 			_gain[i][j] = 0;
-		}
-	}
-}
-
-void
-AudioMapping::make_default ()
-{
-	make_zero ();
-
-	if (_content_channels == 1) {
-		/* Mono -> Centre */
-		set (0, dcp::CENTRE, 1);
-	} else {
-		/* 1:1 mapping */
-		for (int i = 0; i < min (_content_channels, MAX_DCP_AUDIO_CHANNELS); ++i) {
-			set (i, static_cast<dcp::Channel> (i), 1);
 		}
 	}
 }
 
 AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 {
-	setup (node->number_child<int> ("ContentChannels"));
+	if (state_version < 32) {
+		setup (node->number_child<int> ("ContentChannels"), MAX_DCP_AUDIO_CHANNELS);
+	} else {
+		setup (node->number_child<int> ("InputChannels"), node->number_child<int> ("OutputChannels"));
+	}
 
 	if (state_version <= 5) {
 		/* Old-style: on/off mapping */
@@ -102,38 +91,47 @@ AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 	} else {
 		list<cxml::NodePtr> const c = node->node_children ("Gain");
 		for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-			set (
-				(*i)->number_attribute<int> ("Content"),
-				static_cast<dcp::Channel> ((*i)->number_attribute<int> ("DCP")),
-				raw_convert<float> ((*i)->content ())
-				);
+			if (state_version < 32) {
+				set (
+					(*i)->number_attribute<int> ("Content"),
+					static_cast<dcp::Channel> ((*i)->number_attribute<int> ("DCP")),
+					raw_convert<float> ((*i)->content ())
+					);
+			} else {
+				set (
+					(*i)->number_attribute<int> ("Input"),
+					(*i)->number_attribute<int> ("Output"),
+					raw_convert<float> ((*i)->content ())
+					);
+			}
 		}
 	}
 }
 
 void
-AudioMapping::set (int c, dcp::Channel d, float g)
+AudioMapping::set (int input_channel, int output_channel, float g)
 {
-	_gain[c][d] = g;
+	_gain[input_channel][output_channel] = g;
 }
 
 float
-AudioMapping::get (int c, dcp::Channel d) const
+AudioMapping::get (int input_channel, int output_channel) const
 {
-	return _gain[c][d];
+	return _gain[input_channel][output_channel];
 }
 
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
-	node->add_child ("ContentChannels")->add_child_text (raw_convert<string> (_content_channels));
+	node->add_child ("InputChannels")->add_child_text (raw_convert<string> (_input_channels));
+	node->add_child ("OutputChannels")->add_child_text (raw_convert<string> (_output_channels));
 
-	for (int c = 0; c < _content_channels; ++c) {
-		for (int d = 0; d < MAX_DCP_AUDIO_CHANNELS; ++d) {
+	for (int c = 0; c < _input_channels; ++c) {
+		for (int d = 0; d < _output_channels; ++d) {
 			xmlpp::Element* t = node->add_child ("Gain");
-			t->set_attribute ("Content", raw_convert<string> (c));
-			t->set_attribute ("DCP", raw_convert<string> (d));
-			t->add_child_text (raw_convert<string> (get (c, static_cast<dcp::Channel> (d))));
+			t->set_attribute ("Input", raw_convert<string> (c));
+			t->set_attribute ("Output", raw_convert<string> (d));
+			t->add_child_text (raw_convert<string> (get (c, d)));
 		}
 	}
 }
@@ -145,9 +143,10 @@ string
 AudioMapping::digest () const
 {
 	MD5Digester digester;
-	digester.add (_content_channels);
-	for (int i = 0; i < _content_channels; ++i) {
-		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
+	digester.add (_input_channels);
+	digester.add (_output_channels);
+	for (int i = 0; i < _input_channels; ++i) {
+		for (int j = 0; j < _output_channels; ++j) {
 			digester.add (_gain[i][j]);
 		}
 	}
@@ -155,17 +154,17 @@ AudioMapping::digest () const
 	return digester.get ();
 }
 
-list<dcp::Channel>
-AudioMapping::mapped_dcp_channels () const
+list<int>
+AudioMapping::mapped_output_channels () const
 {
 	static float const minus_96_db = 0.000015849;
 
-	list<dcp::Channel> mapped;
+	list<int> mapped;
 	
 	for (vector<vector<float> >::const_iterator i = _gain.begin(); i != _gain.end(); ++i) {
 		for (size_t j = 0; j < i->size(); ++j) {
 			if (abs ((*i)[j]) > minus_96_db) {
-				mapped.push_back ((dcp::Channel) j);
+				mapped.push_back (j);
 			}
 		}
 	}
@@ -184,10 +183,4 @@ AudioMapping::unmap_all ()
 			*j = 0;
 		}
 	}
-}
-
-void
-AudioMapping::set_name (int channel, string name)
-{
-	_name[channel] = name;
 }

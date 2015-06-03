@@ -173,7 +173,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 		if (!_audio_streams.empty ()) {
 			AudioMapping m = _audio_streams.front()->mapping ();
-			m.make_default ();
+			film->make_audio_mapping_default (m);
 			_audio_streams.front()->set_mapping (m);
 		}
 

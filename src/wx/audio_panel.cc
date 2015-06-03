@@ -110,8 +110,8 @@ AudioPanel::film_changed (Film::Property property)
 {
 	switch (property) {
 	case Film::AUDIO_CHANNELS:
-		_mapping->set_channels (_parent->film()->audio_channels ());
-		_sizer->Layout ();
+	case Film::AUDIO_PROCESSOR:
+		_mapping->set_output_channels (_parent->film()->audio_output_names ());
 		break;
 	case Film::VIDEO_FRAME_RATE:
 		setup_description ();
@@ -124,17 +124,14 @@ AudioPanel::film_changed (Film::Property property)
 void
 AudioPanel::film_content_changed (int property)
 {
-	AudioContentList ac = _parent->selected_audio ();
-	shared_ptr<AudioContent> acs;
-	shared_ptr<FFmpegContent> fcs;
-	if (ac.size() == 1) {
-		acs = ac.front ();
-		fcs = dynamic_pointer_cast<FFmpegContent> (acs);
-	}
-	
 	if (property == AudioContentProperty::AUDIO_STREAMS) {
-		_mapping->set (acs ? acs->audio_mapping () : AudioMapping ());
-		_sizer->Layout ();
+		AudioContentList ac = _parent->selected_audio ();
+		if (ac.size() == 1) {
+			_mapping->set (ac.front()->audio_mapping());
+			_mapping->set_input_channels (ac.front()->audio_channel_names ());
+		} else {
+			_mapping->set (AudioMapping ());
+		}
 		setup_description ();
 	}
 }

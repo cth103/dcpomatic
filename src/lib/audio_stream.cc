@@ -19,11 +19,12 @@
 
 #include "audio_stream.h"
 #include "audio_mapping.h"
+#include "util.h"
 
 AudioStream::AudioStream (int frame_rate, int channels)
 	: _frame_rate (frame_rate)
 {
-	_mapping = AudioMapping (channels);
+	_mapping = AudioMapping (channels, MAX_DCP_AUDIO_CHANNELS);
 }
 
 AudioStream::AudioStream (int frame_rate, AudioMapping mapping)
@@ -51,5 +52,5 @@ int
 AudioStream::channels () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	return _mapping.content_channels ();
+	return _mapping.input_channels ();
 }

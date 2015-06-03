@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,10 +18,8 @@
 */
 
 /** @file  src/wx/audio_mapping_view.h
- *  @brief AudioMappingView class
+ *  @brief AudioMappingView class.
  *
- *  This class displays the mapping of one set of audio channels to another,
- *  with gain values on each node of the map.
  */
 
 #include <boost/signals2.hpp>
@@ -29,13 +27,29 @@
 #include <wx/grid.h>
 #include "lib/audio_mapping.h"
 
+/** @class AudioMappingView
+ *  @brief This class displays the mapping of one set of audio channels to another,
+ *  with gain values on each node of the map.
+ *
+ *  The AudioMapping passed to set() describes the actual channel mapping,
+ *  and the names passed to set_input_channels() and set_output_channels() are
+ *  used to label the rows and columns.
+ *
+ *  The display's row count is equal to the AudioMapping's input channel count,
+ *  and the column count is equal to the number of name passed to
+ *  set_output_channels().  Any other output channels in the AudioMapping are
+ *  hidden from view.  Thus input channels are never hidden but output channels
+ *  might be.
+ */
+
 class AudioMappingView : public wxPanel
 {
 public:
 	AudioMappingView (wxWindow *);
 
 	void set (AudioMapping);
-	void set_channels (int);
+	void set_input_channels (std::vector<std::string> const & names);
+	void set_output_channels (std::vector<std::string> const & names);
 
 	boost::signals2::signal<void (AudioMapping)> Changed;
 
@@ -43,9 +57,8 @@ private:
 	void left_click (wxGridEvent &);
 	void right_click (wxGridEvent &);
 	void mouse_moved (wxMouseEvent &);
-	void set_column_labels ();
 	void update_cells ();
-	void map_changed ();
+	void map_values_changed ();
 
 	void off ();
 	void full ();

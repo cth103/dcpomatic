@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,10 +19,13 @@
 
 #include "upmixer_a.h"
 #include "audio_buffers.h"
+#include "audio_mapping.h"
 
 #include "i18n.h"
 
 using std::string;
+using std::min;
+using std::vector;
 using boost::shared_ptr;
 
 UpmixerA::UpmixerA (int sampling_rate)
@@ -56,7 +59,7 @@ UpmixerA::in_channels () const
 }
 
 int
-UpmixerA::out_channels (int) const
+UpmixerA::out_channels () const
 {
 	return 6;
 }
@@ -106,4 +109,23 @@ UpmixerA::flush ()
 	_lfe.flush ();
 	_ls.flush ();
 	_rs.flush ();
+}
+
+void
+UpmixerA::make_audio_mapping_default (AudioMapping& mapping) const
+{
+	/* Just map the first two input channels to our L/R */
+	mapping.make_zero ();
+	for (int i = 0; i < min (2, mapping.input_channels()); ++i) {
+		mapping.set (i, i, 1);
+	}
+}
+
+vector<string>
+UpmixerA::input_names () const
+{
+	vector<string> n;
+	n.push_back (_("Upmix L"));
+	n.push_back (_("Upmix R"));
+	return n;
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@ public:
 	std::string name () const;
 	std::string id () const;
 	ChannelCount in_channels () const;
-	int out_channels (int) const;
+	int out_channels () const;
 	boost::shared_ptr<AudioProcessor> clone (int) const;
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
+	void make_audio_mapping_default (AudioMapping& mapping) const;
+	std::vector<std::string> input_names () const;
 };
-
-       

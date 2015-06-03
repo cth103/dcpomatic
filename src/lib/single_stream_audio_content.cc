@@ -60,11 +60,14 @@ SingleStreamAudioContent::as_xml (xmlpp::Node* node) const
 void
 SingleStreamAudioContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
 {
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
 		AudioMapping m = _audio_stream->mapping ();
-		m.make_default ();
+		film->make_audio_mapping_default (m);
 		_audio_stream->set_mapping (m);
 	}
 

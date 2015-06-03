@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,10 +19,13 @@
 
 #include "mid_side_decoder.h"
 #include "audio_buffers.h"
+#include "audio_mapping.h"
 
 #include "i18n.h"
 
 using std::string;
+using std::min;
+using std::vector;
 using boost::shared_ptr;
 
 string
@@ -44,7 +47,7 @@ MidSideDecoder::in_channels () const
 }
 
 int
-MidSideDecoder::out_channels (int) const
+MidSideDecoder::out_channels () const
 {
 	return 3;
 }
@@ -69,4 +72,27 @@ MidSideDecoder::run (shared_ptr<const AudioBuffers> in)
 	}
 
 	return out;
+}
+
+void
+MidSideDecoder::make_audio_mapping_default (AudioMapping& mapping) const
+{
+	/* Just map the first two input channels to our M/S */
+	mapping.make_zero ();
+	for (int i = 0; i < min (2, mapping.input_channels()); ++i) {
+		mapping.set (i, i, 1);
+	}
+}
+
+vector<string>
+MidSideDecoder::input_names () const
+{
+	vector<string> n;
+
+	/// TRANSLATORS: this is the name of the `mid' channel for mid-side decoding
+	n.push_back (_("Mid"));
+	/// TRANSLATORS: this is the name of the `side' channel for mid-side decoding
+	n.push_back (_("Side"));
+
+	return n;
 }

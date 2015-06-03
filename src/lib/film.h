@@ -48,6 +48,7 @@ class Playlist;
 class AudioContent;
 class Screen;
 class AudioProcessor;
+class AudioMapping;
 struct isdcf_name_test;
 
 /** @class Film
@@ -136,6 +137,9 @@ public:
 	}
 
 	std::string subtitle_language () const;
+
+	void make_audio_mapping_default (AudioMapping & mapping) const;
+	std::vector<std::string> audio_output_names () const;
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
