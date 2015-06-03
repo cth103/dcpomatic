@@ -259,6 +259,11 @@ AudioMappingView::set_output_channels (vector<string> const & names)
 void
 AudioMappingView::update_cells ()
 {
+	vector<string> row_names;
+	for (int i = 0; i < _grid->GetNumberRows (); ++i) {
+		row_names.push_back (wx_to_std (_grid->GetCellValue (i, 0)));
+	}
+	
 	if (_grid->GetNumberRows ()) {
 		_grid->DeleteRows (0, _grid->GetNumberRows ());
 	}
@@ -272,6 +277,9 @@ AudioMappingView::update_cells ()
 	}
 	
 	for (int i = 0; i < _map.input_channels(); ++i) {
+		if (i < int (row_names.size ())) {
+			_grid->SetCellValue (i, 0, std_to_wx (row_names[i]));
+		}
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
 			_grid->SetCellValue (i, j, std_to_wx (raw_convert<string> (_map.get (i, j - 1))));
 		}
