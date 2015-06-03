@@ -370,7 +370,7 @@ DCPPanel::film_changed (int p)
 void
 DCPPanel::film_content_changed (int property)
 {
-	if (property == FFmpegContentProperty::AUDIO_STREAMS ||
+	if (property == AudioContentProperty::AUDIO_STREAMS ||
 	    property == SubtitleContentProperty::USE_SUBTITLES ||
 	    property == VideoContentProperty::VIDEO_SCALE) {
 		setup_dcp_name ();

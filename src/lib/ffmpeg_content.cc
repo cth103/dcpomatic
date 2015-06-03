@@ -51,8 +51,7 @@ using boost::dynamic_pointer_cast;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
-int const FFmpegContentProperty::AUDIO_STREAMS = 102;
-int const FFmpegContentProperty::FILTERS = 103;
+int const FFmpegContentProperty::FILTERS = 102;
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	: Content (f, p)
@@ -183,7 +182,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
-	signal_changed (FFmpegContentProperty::AUDIO_STREAMS);
+	signal_changed (AudioContentProperty::AUDIO_STREAMS);
 }
 
 string

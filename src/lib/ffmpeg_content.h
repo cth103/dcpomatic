@@ -41,7 +41,6 @@ class FFmpegContentProperty : public VideoContentProperty
 public:
 	static int const SUBTITLE_STREAMS;
 	static int const SUBTITLE_STREAM;
-	static int const AUDIO_STREAMS;
 	static int const FILTERS;
 };
 

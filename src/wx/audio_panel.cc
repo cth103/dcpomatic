@@ -220,5 +220,5 @@ AudioPanel::content_selection_changed ()
 	_show->Enable (sel.size() == 1);
 	_mapping->Enable (sel.size() == 1);
 
-	film_content_changed (FFmpegContentProperty::AUDIO_STREAMS);
+	film_content_changed (AudioContentProperty::AUDIO_STREAMS);
 }
