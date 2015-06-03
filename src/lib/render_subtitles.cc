@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,11 +17,12 @@
 
 */
 
-#include <cairomm/cairomm.h>
-#include <pangomm.h>
 #include "render_subtitles.h"
 #include "types.h"
 #include "image.h"
+#include <cairomm/cairomm.h>
+#include <pangomm.h>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::cout;
@@ -32,39 +33,36 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 
-static int
-calculate_position (dcp::VAlign v_align, double v_position, int target_height, int offset)
+static PositionImage
+render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 {
-	switch (v_align) {
-	case dcp::TOP:
-		return v_position * target_height - offset;
-	case dcp::CENTER:
-		return (0.5 + v_position) * target_height - offset;
-	case dcp::BOTTOM:
-		return (1.0 - v_position) * target_height - offset;
+	/* Calculate x and y scale factors.  These are only used to stretch
+	   the font away from its normal aspect ratio.
+	*/
+	float xscale = 1;
+	float yscale = 1;
+	if (fabs (subtitle.aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
+		if (subtitle.aspect_adjust() < 1) {
+			xscale = max (0.25f, subtitle.aspect_adjust ());
+			yscale = 1;
+		} else {
+			xscale = 1;
+			yscale = 1 / min (4.0f, subtitle.aspect_adjust ());
+		}
 	}
 
-	return 0;
-}
+	/* Make an empty bitmap as wide as target and at
+	   least tall enough for this subtitle.
+	*/
 
-PositionImage
-render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
-{
-	/* Estimate height that the subtitle image needs to be */
-	optional<int> top;
-	optional<int> bottom;
-	for (list<dcp::SubtitleString>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
-		int const b = calculate_position (i->v_align(), i->v_position(), target.height, 0);
-		int const t = b - i->size() * target.height / (11 * 72);
+	/* Basic guess on height... */
+	int height = subtitle.size() * target.height / (11 * 72);
+	/* ...scaled... */
+	height *= yscale;
+	/* ...and add a bit more for luck */
+	height += target.height / 11;
 
-		top = min (top.get_value_or (t), t);
-		bottom = max (bottom.get_value_or (b), b);
-	}
-
-	top = top.get() - 32;
-	bottom = bottom.get() + 32;
-
-	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (target.width, bottom.get() - top.get ()), false));
+	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (target.width, height), false));
 	image->make_black ();
 
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
@@ -78,57 +76,83 @@ render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
 	Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create (context);
 
-	layout->set_width (image->size().width * PANGO_SCALE);
-	layout->set_alignment (Pango::ALIGN_CENTER);
+	layout->set_alignment (Pango::ALIGN_LEFT);
 
 	context->set_line_width (1);
 
-	for (list<dcp::SubtitleString>::const_iterator i = subtitles.begin(); i != subtitles.end(); ++i) {
-		Pango::FontDescription font (i->font().get_value_or ("Arial"));
-		font.set_absolute_size (i->size_in_pixels (target.height) * PANGO_SCALE);
-		if (i->italic ()) {
-			font.set_style (Pango::STYLE_ITALIC);
-		}
-		layout->set_font_description (font);
-		layout->set_text (i->text ());
+	/* Render the subtitle at the top left-hand corner of image */
 
-		/* Compute fade factor */
-		/* XXX */
-		float fade_factor = 1;
+	Pango::FontDescription font (subtitle.font().get_value_or ("Arial"));
+	font.set_absolute_size (subtitle.size_in_pixels (target.height) * PANGO_SCALE);
+	if (subtitle.italic ()) {
+		font.set_style (Pango::STYLE_ITALIC);
+	}
+	layout->set_font_description (font);
+	layout->set_text (subtitle.text ());
+	
+	/* Compute fade factor */
+	/* XXX */
+	float fade_factor = 1;
 
-		layout->update_from_cairo_context (context);
+	layout->update_from_cairo_context (context);
 		
-		/* Work out position */
+	context->scale (xscale, yscale);
 
-		int const x = 0;
-		int const y = calculate_position (i->v_align (), i->v_position (), target.height, (layout->get_baseline() / PANGO_SCALE) + top.get ());
-
-		if (i->effect() == dcp::SHADOW) {
-			/* Drop-shadow effect */
-			dcp::Colour const ec = i->effect_colour ();
-			context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
-			context->move_to (x + 4, y + 4);
-			layout->add_to_cairo_context (context);
-			context->fill ();
-		}
-
-		/* The actual subtitle */
-		context->move_to (x, y);
-		dcp::Colour const c = i->colour ();
-		context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
+	if (subtitle.effect() == dcp::SHADOW) {
+		/* Drop-shadow effect */
+		dcp::Colour const ec = subtitle.effect_colour ();
+		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
+		context->move_to (4, 4);
 		layout->add_to_cairo_context (context);
 		context->fill ();
-
-		if (i->effect() == dcp::BORDER) {
-			/* Border effect */
-			context->move_to (x, y);
-			dcp::Colour ec = i->effect_colour ();
-			context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
-			layout->add_to_cairo_context (context);
-			context->stroke ();
-		}
 	}
 
-	return PositionImage (image, Position<int> (0, top.get ()));
+	/* The actual subtitle */
+
+	dcp::Colour const c = subtitle.colour ();
+	context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
+	context->move_to (0, 0);
+	layout->add_to_cairo_context (context);
+	context->fill ();
+
+	if (subtitle.effect() == dcp::BORDER) {
+		/* Border effect */
+		dcp::Colour ec = subtitle.effect_colour ();
+		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
+		context->move_to (0, 0);
+		layout->add_to_cairo_context (context);
+		context->stroke ();
+	}
+	
+	int layout_width;
+	int layout_height;
+	layout->get_size (layout_width, layout_height);
+
+	int y = 0;
+	switch (subtitle.v_align ()) {
+	case dcp::TOP:
+		/* v_position is distance between top of frame and top of subtitle */
+		y = subtitle.v_position() * target.height;
+		break;
+	case dcp::CENTER:
+		/* v_position is distance between centre of frame and centre of subtitle */
+		y = 0.5 + subtitle.v_position() * target.height - (layout_height / (PANGO_SCALE * 2));
+		break;
+	case dcp::BOTTOM:
+		/* v_position is distance between bottom of frame and bottom of subtitle */
+		y = (1.0 - subtitle.v_position()) * target.height - layout_height / PANGO_SCALE;
+		break;
+	}
+
+	return PositionImage (image, Position<int> ((image->size().width - layout_width * xscale / PANGO_SCALE) / 2, y));
 }
 
+list<PositionImage>
+render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
+{
+	list<PositionImage> images;
+	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+		images.push_back (render_subtitle (i, target));
+	}
+	return images;
+}

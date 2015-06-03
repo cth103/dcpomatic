@@ -1,3 +1,8 @@
+2015-06-03  Carl Hetherington  <cth@carlh.net>
+
+	* Various fixes to subtitle rendering, including independent
+	x and y scale of text subs (#489).
+
 2015-06-02  c.hetherington  <cth@carlh.net>
 
 	* Allow use of all content audio streams, not just

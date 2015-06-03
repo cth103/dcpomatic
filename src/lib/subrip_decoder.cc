@@ -65,6 +65,7 @@ SubRipDecoder::pass (PassReason)
 					j->italic,
 					dcp::Colour (255, 255, 255),
 					j->font_size.points (72 * 11),
+					1.0,
 					dcp::Time (_subtitles[_next].from.all_as_seconds()),
 					dcp::Time (_subtitles[_next].to.all_as_seconds()),
 					i->vertical_position.line.get() * (1.5 / 22) + 0.8,

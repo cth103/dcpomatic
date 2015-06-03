@@ -63,6 +63,7 @@ using std::vector;
 using std::pair;
 using std::map;
 using std::make_pair;
+using std::copy;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -385,7 +386,8 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Text subtitles (rendered to an image) */
 	if (!ps.text.empty ()) {
-		sub_images.push_back (render_subtitles (ps.text, _video_container_size));
+		list<PositionImage> s = render_subtitles (ps.text, _video_container_size);
+		copy (s.begin (), s.end (), back_inserter (sub_images));
 	}
 
 	if (!sub_images.empty ()) {
@@ -585,7 +587,13 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
 			BOOST_FOREACH (dcp::SubtitleString& s, ts.subs) {
 				s.set_v_position (s.v_position() + subtitle_content->subtitle_y_offset ());
-				s.set_size (s.size() * max (subtitle_content->subtitle_x_scale(), subtitle_content->subtitle_y_scale()));
+				float const xs = subtitle_content->subtitle_x_scale();
+				float const ys = subtitle_content->subtitle_y_scale();
+				float const average = s.size() * (xs + ys) / 2;
+				s.set_size (average);
+				if (fabs (1.0 - xs / ys) > dcp::ASPECT_ADJUST_EPSILON) {
+					s.set_aspect_adjust (xs / ys);
+				}
 				ps.text.push_back (s);
 			}
 		}
