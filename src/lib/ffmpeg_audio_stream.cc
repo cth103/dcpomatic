@@ -28,7 +28,7 @@ FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
 	, AudioStream (node->number_child<int> ("FrameRate"), AudioMapping (node->node_child ("Mapping"), version))
 {
-	first_audio = node->optional_number_child<double> ("FirstAudio");
+	first_audio = node->optional_number_child<int64_t> ("FirstAudio");
 }
 
 void
@@ -38,6 +38,6 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	root->add_child("FrameRate")->add_child_text (raw_convert<string> (frame_rate ()));
 	mapping().as_xml (root->add_child("Mapping"));
 	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get ()));
+		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get().get ()));
 	}
 }
