@@ -355,6 +355,13 @@ DCPPanel::film_changed (int p)
 		checked_set (_standard, _film->interop() ? 1 : 0);
 		setup_dcp_name ();
 		break;
+	case Film::AUDIO_PROCESSOR:
+		if (_film->audio_processor ()) {
+			checked_set (_audio_processor, _film->audio_processor()->id());
+		} else {
+			checked_set (_audio_processor, 0);
+		}
+		break;
 	default:
 		break;
 	}
@@ -446,6 +453,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::SEQUENCE_VIDEO);
 	film_changed (Film::THREE_D);
 	film_changed (Film::INTEROP);
+	film_changed (Film::AUDIO_PROCESSOR);
 }
 
 void
