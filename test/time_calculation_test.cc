@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 		"<Channels>2</Channels>"
 		"<FirstAudio>0</FirstAudio>"
 		"<Mapping>"
-		"<ContentChannels>2</ContentChannels>"
+		"<InputChannels>2</InputChannels>"
 		"<OutputChannels>12</OutputChannels>"
 		"<Gain Content=\"0\" DCP=\"0\">1</Gain>"
 		"<Gain Content=\"0\" DCP=\"1\">0</Gain>"
