@@ -109,7 +109,7 @@ public:
 
        /** @return Digest of the content's file(s).  Note: this is
         *  not a complete MD5-or-whatever hash, but a sort of poor
-        *  man' version (see comments in ::examine).
+        *  man's version (see comments in ::examine).
         */
 	std::string digest () const {
 		boost::mutex::scoped_lock lm (_mutex);
