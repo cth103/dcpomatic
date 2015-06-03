@@ -259,11 +259,18 @@ boost::filesystem::path
 Config::file () const
 {
 	boost::filesystem::path p;
+#ifdef DCPOMATIC_OSX
+	p /= g_get_home_dir ();
+	p /= "Library";
+	p /= "Preferences";
+	p /= "com.dcpomatic";
+	p /= "2";
+#else
 	p /= g_get_user_config_dir ();
-	boost::system::error_code ec;
-	boost::filesystem::create_directory (p, ec);
 	p /= "dcpomatic2";
-	boost::filesystem::create_directory (p, ec);
+#endif
+	boost::system::error_code ec;
+	boost::filesystem::create_directories (p, ec);
 	p /= "config.xml";
 	return p;
 }
