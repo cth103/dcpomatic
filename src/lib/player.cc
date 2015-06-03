@@ -586,6 +586,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting);
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
 			BOOST_FOREACH (dcp::SubtitleString& s, ts.subs) {
+				s.set_h_position (s.h_position() + subtitle_content->subtitle_x_offset ());
 				s.set_v_position (s.v_position() + subtitle_content->subtitle_y_offset ());
 				float const xs = subtitle_content->subtitle_x_scale();
 				float const ys = subtitle_content->subtitle_y_scale();

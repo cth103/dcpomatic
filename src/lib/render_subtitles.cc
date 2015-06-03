@@ -128,23 +128,39 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 	int layout_height;
 	layout->get_size (layout_width, layout_height);
 
+	int x = 0;
+	switch (subtitle.h_align ()) {
+	case dcp::HALIGN_LEFT:
+		/* h_position is distance between left of frame and left of subtitle */
+		x = subtitle.h_position() * target.width;
+		break;
+	case dcp::HALIGN_CENTER:
+		/* h_position is distance between centre of frame and centre of subtitle */
+		x = (0.5 + subtitle.h_position()) * target.width - layout_width / (PANGO_SCALE * 2);
+		break;
+	case dcp::HALIGN_RIGHT:
+		/* h_position is distance between right of frame and right of subtitle */
+		x = (1.0 - subtitle.h_position()) * target.width - layout_width / PANGO_SCALE;
+		break;
+	}
+
 	int y = 0;
 	switch (subtitle.v_align ()) {
-	case dcp::TOP:
+	case dcp::VALIGN_TOP:
 		/* v_position is distance between top of frame and top of subtitle */
 		y = subtitle.v_position() * target.height;
 		break;
-	case dcp::CENTER:
+	case dcp::VALIGN_CENTER:
 		/* v_position is distance between centre of frame and centre of subtitle */
-		y = 0.5 + subtitle.v_position() * target.height - (layout_height / (PANGO_SCALE * 2));
+		y = (0.5 + subtitle.v_position()) * target.height - layout_height / (PANGO_SCALE * 2);
 		break;
-	case dcp::BOTTOM:
+	case dcp::VALIGN_BOTTOM:
 		/* v_position is distance between bottom of frame and bottom of subtitle */
 		y = (1.0 - subtitle.v_position()) * target.height - layout_height / PANGO_SCALE;
 		break;
 	}
 
-	return PositionImage (image, Position<int> ((image->size().width - layout_width * xscale / PANGO_SCALE) / 2, y));
+	return PositionImage (image, Position<int> (x, y));
 }
 
 list<PositionImage>
