@@ -288,6 +288,7 @@ wait_for_jobs ()
 	while (jm->work_to_do ()) {
 		signal_manager->ui_idle ();
 	}
+	
 	if (jm->errors ()) {
 		int N = 0;
 		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
@@ -306,16 +307,11 @@ wait_for_jobs ()
 		}
 	}
 
-	/* Wait for a little to make sure that examine-content jobs have had time to
-	   signal the UI to do the content addition.
-	   XXX: nasty
-	*/
-	dcpomatic_sleep (1);
-
 	signal_manager->ui_idle ();
 
-	/* Discard all jobs so we lose any we just reported an error in */
-	JobManager::drop ();
+	if (jm->errors ()) {
+		JobManager::drop ();
+	}
 }
 
 void
