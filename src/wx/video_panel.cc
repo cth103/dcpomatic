@@ -88,10 +88,12 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_frame_type->add (grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
 
+	add_label_to_grid_bag_sizer (grid, this, _("Crop"), true, wxGBPosition (r, 0));
+
 	int cr = 0;
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	add_label_to_grid_bag_sizer (crop, this, _("Left crop"), true, wxGBPosition (cr, 0));
+	add_label_to_grid_bag_sizer (crop, this, _("Left"), true, wxGBPosition (cr, 0));
 	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -101,7 +103,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		);
 	_left_crop->add (crop, wxGBPosition (cr, 1));
 
-	add_label_to_grid_bag_sizer (crop, this, _("Right crop"), true, wxGBPosition (cr, 2));
+	add_label_to_grid_bag_sizer (crop, this, _("Right"), true, wxGBPosition (cr, 2));
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -113,7 +115,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	++cr;
 	
-	add_label_to_grid_bag_sizer (crop, this, _("Top crop"), true, wxGBPosition (cr, 0));
+	add_label_to_grid_bag_sizer (crop, this, _("Top"), true, wxGBPosition (cr, 0));
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -123,7 +125,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		);
 	_top_crop->add (crop, wxGBPosition (cr, 1));
 
-	add_label_to_grid_bag_sizer (crop, this, _("Bottom crop"), true, wxGBPosition (cr, 2));
+	add_label_to_grid_bag_sizer (crop, this, _("Bottom"), true, wxGBPosition (cr, 2));
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -133,7 +135,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		);
 	_bottom_crop->add (crop, wxGBPosition (cr, 3));
 
-	grid->Add (crop, wxGBPosition (r, 0), wxGBSpan (2, 3));
+	grid->Add (crop, wxGBPosition (r, 1), wxGBSpan (2, 3));
 	r += 2;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Fade in"), true, wxGBPosition (r, 0));
@@ -162,22 +164,24 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	wxClientDC dc (this);
 	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
 	size.SetHeight (-1);
-	
+
 	add_label_to_grid_bag_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
-	_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
-	grid->Add (_filters, wxGBPosition (r, 1), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
-	_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
-	grid->Add (_filters_button, wxGBPosition (r, 3), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	{
+		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+
+		_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
+		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
+		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
+
+		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	}
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-		wxClientDC dc (this);
-		wxSize size = dc.GetTextExtent (wxT ("A quite long-ish name"));
-		size.SetHeight (-1);
-		
 		_colour_conversion = new wxChoice (this, wxID_ANY, wxDefaultPosition, size);
 		_colour_conversion->Append (_("None"));
 		BOOST_FOREACH (PresetColourConversion const & i, PresetColourConversion::all()) {
