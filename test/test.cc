@@ -306,6 +306,12 @@ wait_for_jobs ()
 		}
 	}
 
+	/* Wait for a little to make sure that examine-content jobs have had time to
+	   signal the UI to do the content addition.
+	   XXX: nasty
+	*/
+	dcpomatic_sleep (1);
+
 	signal_manager->ui_idle ();
 
 	/* Discard all jobs so we lose any we just reported an error in */
