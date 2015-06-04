@@ -53,12 +53,12 @@ function universal_copy_lib {
     relink="$relink|$2"
 }
 
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$WORK/$macos"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$WORK/$macos"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$WORK/$macos"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$WORK/$macos"
-universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$WORK/$libs"
-universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$WORK/$libs"
+universal_copy $ROOT src/dcpomatic2/build/src/tools/dcpomatic2 "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic2/build/src/tools/dcpomatic2_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic2/build/src/tools/dcpomatic2_server_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic2/build/src/tools/dcpomatic2_batch "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic2/build/src/lib/libdcpomatic2.dylib "$WORK/$libs"
+universal_copy $ROOT src/dcpomatic2/build/src/wx/libdcpomatic2-wx.dylib "$WORK/$libs"
 universal_copy_lib $ROOT libcxml "$WORK/$libs"
 universal_copy_lib $ROOT libdcp-1.0 "$WORK/$libs"
 universal_copy_lib $ROOT libasdcp-libdcp-1.0 "$WORK/$libs"
@@ -129,22 +129,22 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
   fi
 done
 
-cp $ROOT/32/src/dcpomatic/build/platform/osx/Info.plist "$WORK/$approot"
-cp $ROOT/32/src/dcpomatic/icons/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
-cp $ROOT/32/src/dcpomatic/icons/colour_conversions.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic/icons/defaults.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic/icons/kdm_email.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic/icons/servers.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic/icons/tms.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic/icons/keys.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic/LiberationSans-Regular.ttf "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/build/platform/osx/Info.plist "$WORK/$approot"
+cp $ROOT/32/src/dcpomatic2/icons/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
+cp $ROOT/32/src/dcpomatic2/icons/colour_conversions.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/icons/defaults.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/icons/kdm_email.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/icons/servers.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/icons/tms.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/icons/keys.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/LiberationSans-Regular.ttf "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL; do
   mkdir -p "$WORK/$resources/$lang/LC_MESSAGES"
-  cp $ROOT/32/src/dcpomatic/build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
-  cp $ROOT/32/src/dcpomatic/build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
-  cp $ROOT/32/src/dcpomatic/build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp $ROOT/32/src/dcpomatic2/build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp $ROOT/32/src/dcpomatic2/build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
+  cp $ROOT/32/src/dcpomatic2/build/src/tools/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
 done
 
 # i18n: wxWidgets .mo files
