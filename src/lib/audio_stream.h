@@ -50,7 +50,7 @@ protected:
 	mutable boost::mutex _mutex;
 
 private:
-	friend class audio_sampling_rate_test;
+	friend struct audio_sampling_rate_test;
 	
 	int _frame_rate;
 	AudioMapping _mapping;
