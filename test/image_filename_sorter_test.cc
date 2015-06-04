@@ -24,18 +24,18 @@
 BOOST_AUTO_TEST_CASE (image_filename_sorter_test)
 {
 	ImageFilenameSorter x;
-	BOOST_ASSERT (x ("abc0000000001", "abc0000000002"));
-	BOOST_ASSERT (x ("1", "2"));
-	BOOST_ASSERT (x ("1", "0002"));
-	BOOST_ASSERT (x ("0001", "2"));
-	BOOST_ASSERT (x ("1", "999"));
-	BOOST_ASSERT (x ("00057.tif", "00166.tif"));
-	BOOST_ASSERT (x ("/my/numeric999/path/00057.tif", "/my/numeric999/path/00166.tif"));
+	BOOST_CHECK (x ("abc0000000001", "abc0000000002"));
+	BOOST_CHECK (x ("1", "2"));
+	BOOST_CHECK (x ("1", "0002"));
+	BOOST_CHECK (x ("0001", "2"));
+	BOOST_CHECK (x ("1", "999"));
+	BOOST_CHECK (x ("00057.tif", "00166.tif"));
+	BOOST_CHECK (x ("/my/numeric999/path/00057.tif", "/my/numeric999/path/00166.tif"));
 
-	BOOST_ASSERT (!x ("abc0000000002", "abc0000000001"));
-	BOOST_ASSERT (!x ("2", "1"));
-	BOOST_ASSERT (!x ("0002", "1"));
-	BOOST_ASSERT (!x ("2", "0001"));
-	BOOST_ASSERT (!x ("999", "1"));
-	BOOST_ASSERT (!x ("/my/numeric999/path/00166.tif", "/my/numeric999/path/00057.tif"));
+	BOOST_CHECK (!x ("abc0000000002", "abc0000000001"));
+	BOOST_CHECK (!x ("2", "1"));
+	BOOST_CHECK (!x ("0002", "1"));
+	BOOST_CHECK (!x ("2", "0001"));
+	BOOST_CHECK (!x ("999", "1"));
+	BOOST_CHECK (!x ("/my/numeric999/path/00166.tif", "/my/numeric999/path/00057.tif"));
 }
