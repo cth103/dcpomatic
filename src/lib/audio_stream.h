@@ -23,7 +23,7 @@
 #include "audio_mapping.h"
 #include <boost/thread/mutex.hpp>
 
-class audio_sampling_rate_test;
+struct audio_sampling_rate_test;
 
 class AudioStream
 {

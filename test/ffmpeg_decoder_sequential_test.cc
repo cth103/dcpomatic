@@ -61,7 +61,7 @@ test (boost::filesystem::path file, float fps, int gaps)
 	for (Frame i = 0; i < N; ++i) {
 		list<ContentVideo> v;
 		v = decoder->get_video (i, true);
-		BOOST_CHECK_EQUAL (v.size(), 1);
+		BOOST_CHECK_EQUAL (v.size(), 1U);
 		BOOST_CHECK_EQUAL (v.front().frame, i);
 	}
 #ifdef DCPOMATIC_DEBUG	

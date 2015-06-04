@@ -31,6 +31,7 @@ using std::pair;
 using std::string;
 using std::min;
 using std::vector;
+using std::abs;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
