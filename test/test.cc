@@ -288,6 +288,8 @@ wait_for_jobs ()
 	while (jm->work_to_do ()) {
 		signal_manager->ui_idle ();
 	}
+
+	cout << "Waiting for jobs: all finished; errors=" << jm->errors() << ".\n";
 	
 	if (jm->errors ()) {
 		int N = 0;
@@ -310,7 +312,10 @@ wait_for_jobs ()
 	signal_manager->ui_idle ();
 
 	if (jm->errors ()) {
+		cout << "Dropping JobManager\n";
 		JobManager::drop ();
+	} else {
+		cout << "Not dropping JobManager\n";
 	}
 }
 
