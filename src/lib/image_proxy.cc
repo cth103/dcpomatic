@@ -46,3 +46,9 @@ image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 
 	throw NetworkError (_("Unexpected image type received by server"));
 }
+
+bool
+ImageProxy::same (shared_ptr<const ImageProxy> other) const
+{
+	return image()->digest() == other->image()->digest();
+}
