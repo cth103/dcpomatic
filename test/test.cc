@@ -210,7 +210,6 @@ check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 	options.max_std_dev_pixel_error = 5;
 	options.max_audio_sample_error = 255;
 	options.cpl_annotation_texts_can_differ = true;
-	options.mxf_filenames_can_differ = true;
 	options.reel_annotation_texts_can_differ = true;
 	options.reel_hashes_can_differ = true;
 	

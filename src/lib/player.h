@@ -93,6 +93,8 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
+	void set_enable_subtitles (bool enable);
+	void set_burn_subtitles (bool burn);
 
 	PlayerStatistics const & statistics () const;
 	
@@ -158,6 +160,8 @@ private:
 
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
+	/** true if the player should burn subtitles into the video */
+	bool _burn_subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 

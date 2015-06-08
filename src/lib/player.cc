@@ -74,6 +74,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _playlist (p)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
+	, _burn_subtitles (f->burn_subtitles ())
 {
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
@@ -385,7 +386,7 @@ Player::get_video (DCPTime time, bool accurate)
 	copy (c.begin(), c.end(), back_inserter (sub_images));
 
 	/* Text subtitles (rendered to an image) */
-	if (!ps.text.empty ()) {
+	if (_burn_subtitles && !ps.text.empty ()) {
 		list<PositionImage> s = render_subtitles (ps.text, _video_container_size);
 		copy (s.begin (), s.end (), back_inserter (sub_images));
 	}
@@ -630,4 +631,13 @@ void
 Player::set_ignore_video ()
 {
 	_ignore_video = true;
+}
+
+/** Set whether or not this player should burn text subtitles into the image.
+ *  @param burn true to burn subtitles, false to not.
+ */
+void
+Player::set_burn_subtitles (bool burn)
+{
+	_burn_subtitles = burn;
 }

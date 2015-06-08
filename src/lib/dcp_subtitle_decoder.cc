@@ -19,7 +19,7 @@
 
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
-#include <dcp/interop_subtitle_content.h>
+#include <dcp/interop_subtitle_asset.h>
 
 using std::list;
 using std::cout;
@@ -28,7 +28,7 @@ using boost::shared_ptr;
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
 	: SubtitleDecoder (content)
 {
-	shared_ptr<dcp::SubtitleContent> c (load (content->path (0)));
+	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
 }
@@ -40,7 +40,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 
 	_next = _subtitles.begin ();
 	list<dcp::SubtitleString>::const_iterator i = _subtitles.begin ();
-	while (i != _subtitles.end() && ContentTime::from_seconds (_next->in().to_seconds()) < time) {
+	while (i != _subtitles.end() && ContentTime::from_seconds (_next->in().as_seconds()) < time) {
 		++i;
 	}
 }
@@ -75,8 +75,8 @@ DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) c
 
 	for (list<dcp::SubtitleString>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 		ContentTimePeriod period (
-			ContentTime::from_seconds (i->in().to_seconds ()),
-			ContentTime::from_seconds (i->out().to_seconds ())
+			ContentTime::from_seconds (i->in().as_seconds ()),
+			ContentTime::from_seconds (i->out().as_seconds ())
 			);
 		
 		if ((starting && p.contains (period.from)) || (!starting && p.overlaps (period))) {

@@ -64,9 +64,7 @@ public:
 	virtual void add_metadata (xmlpp::Node *) const = 0;
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
-	virtual bool same (boost::shared_ptr<const ImageProxy>) const {
-		return false;
-	}
+	virtual bool same (boost::shared_ptr<const ImageProxy>) const;
 };
 
 boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);

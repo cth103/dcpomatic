@@ -66,8 +66,8 @@ public:
 
 	boost::filesystem::path info_file () const;
 	boost::filesystem::path j2c_path (int, Eyes, bool) const;
-	boost::filesystem::path internal_video_mxf_dir () const;
-	boost::filesystem::path internal_video_mxf_filename () const;
+	boost::filesystem::path internal_video_asset_dir () const;
+	boost::filesystem::path internal_video_asset_filename () const;
 
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const Playlist>) const;
 

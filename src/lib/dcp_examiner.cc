@@ -27,11 +27,11 @@
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/mono_picture_mxf.h>
+#include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_frame.h>
-#include <dcp/stereo_picture_mxf.h>
+#include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_frame.h>
-#include <dcp/sound_mxf.h>
+#include <dcp/sound_asset.h>
 
 #include "i18n.h"
 
@@ -74,10 +74,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched frame rates in DCP"));
 			}
 
-			shared_ptr<dcp::PictureMXF> mxf = (*i)->main_picture()->mxf ();
+			shared_ptr<dcp::PictureAsset> asset = (*i)->main_picture()->asset ();
 			if (!_video_size) {
-				_video_size = mxf->size ();
-			} else if (_video_size.get() != mxf->size ()) {
+				_video_size = asset->size ();
+			} else if (_video_size.get() != asset->size ()) {
 				throw DCPError (_("Mismatched video sizes in DCP"));
 			}
 
@@ -85,17 +85,17 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		}
 			
 		if ((*i)->main_sound ()) {
-			shared_ptr<dcp::SoundMXF> mxf = (*i)->main_sound()->mxf ();
+			shared_ptr<dcp::SoundAsset> asset = (*i)->main_sound()->asset ();
 
 			if (!_audio_channels) {
-				_audio_channels = mxf->channels ();
-			} else if (_audio_channels.get() != mxf->channels ()) {
+				_audio_channels = asset->channels ();
+			} else if (_audio_channels.get() != asset->channels ()) {
 				throw DCPError (_("Mismatched audio channel counts in DCP"));
 			}
 
 			if (!_audio_frame_rate) {
-				_audio_frame_rate = mxf->sampling_rate ();
-			} else if (_audio_frame_rate.get() != mxf->sampling_rate ()) {
+				_audio_frame_rate = asset->sampling_rate ();
+			} else if (_audio_frame_rate.get() != asset->sampling_rate ()) {
 				throw DCPError (_("Mismatched audio frame rates in DCP"));
 			}
 
@@ -113,9 +113,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	/* Check that we can read the first picture frame */
 	try {
 		if (!dcp.cpls().empty () && !dcp.cpls().front()->reels().empty ()) {
-			shared_ptr<dcp::PictureMXF> mxf = dcp.cpls().front()->reels().front()->main_picture()->mxf ();
-			shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (mxf);
-			shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (mxf);
+			shared_ptr<dcp::PictureAsset> asset = dcp.cpls().front()->reels().front()->main_picture()->asset ();
+			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
+			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 			
 			if (mono) {
 				mono->get_frame(0)->xyz_image ();

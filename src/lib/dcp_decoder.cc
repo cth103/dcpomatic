@@ -25,8 +25,8 @@
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
-#include <dcp/mono_picture_mxf.h>
-#include <dcp/stereo_picture_mxf.h>
+#include <dcp/mono_picture_asset.h>
+#include <dcp/stereo_picture_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/mono_picture_frame.h>
@@ -65,20 +65,20 @@ DCPDecoder::pass (PassReason)
 	int64_t const frame = _next.frames (vfr);
 	
 	if ((*_reel)->main_picture ()) {
-		shared_ptr<dcp::PictureMXF> mxf = (*_reel)->main_picture()->mxf ();
-		shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (mxf);
-		shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (mxf);
+		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
+		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
+		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (mono) {
-			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), mxf->size())), frame);
+			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), frame);
 		} else {
 			video (
-				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), mxf->size(), dcp::EYE_LEFT)),
+				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
 				frame
 				);
 			
 			video (
-				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), mxf->size(), dcp::EYE_RIGHT)),
+				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
 				frame
 				);
 		}
@@ -86,7 +86,7 @@ DCPDecoder::pass (PassReason)
 
 	if ((*_reel)->main_sound ()) {
 		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
-		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->mxf()->get_frame (entry_point + frame);
+		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->asset()->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
 
 		int const channels = _dcp_content->audio_stream()->channels ();

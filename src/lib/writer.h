@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,15 +37,15 @@ class Job;
 class Font;
 
 namespace dcp {
-	class MonoPictureMXF;
-	class MonoPictureMXFWriter;
-	class StereoPictureMXF;
-	class StereoPictureMXFWriter;
-	class PictureMXF;
-	class PictureMXFWriter;
-	class SoundMXF;
-	class SoundMXFWriter;
-	class InteropSubtitleContent;
+	class MonoPictureAsset;
+	class MonoPictureAssetWriter;
+	class StereoPictureAsset;
+	class StereoPictureAssetWriter;
+	class PictureAsset;
+	class PictureAssetWriter;
+	class SoundAsset;
+	class SoundAssetWriter;
+	class SubtitleAsset;
 }
 
 struct QueueItem
@@ -74,11 +74,11 @@ bool operator< (QueueItem const & a, QueueItem const & b);
 bool operator== (QueueItem const & a, QueueItem const & b);
 
 /** @class Writer
- *  @brief Class to manage writing JPEG2000 and audio data to MXFs on disk.
+ *  @brief Class to manage writing JPEG2000 and audio data to assets on disk.
  *
- *  This class creates sound and picture MXFs, then takes EncodedData
+ *  This class creates sound and picture assets, then takes EncodedData
  *  or AudioBuffers objects (containing image or sound data respectively)
- *  and writes them to the MXFs.
+ *  and writes them to the assets.
  *
  *  ::write() for EncodedData can be called out of order, and the Writer
  *  will sort it out.  write() for AudioBuffers must be called in order.
@@ -106,8 +106,8 @@ private:
 
 	void thread ();
 	void terminate_thread (bool);
-	void check_existing_picture_mxf ();
-	bool check_existing_picture_mxf_frame (FILE *, int, Eyes);
+	void check_existing_picture_asset ();
+	bool check_existing_picture_asset_frame (FILE *, int, Eyes);
 	bool have_sequenced_image_at_queue_head ();
 
 	/** our Film */
@@ -149,11 +149,11 @@ private:
 	*/
 	int _pushed_to_disk;
 	
-	boost::shared_ptr<dcp::PictureMXF> _picture_mxf;
-	boost::shared_ptr<dcp::PictureMXFWriter> _picture_mxf_writer;
-	boost::shared_ptr<dcp::SoundMXF> _sound_mxf;
-	boost::shared_ptr<dcp::SoundMXFWriter> _sound_mxf_writer;
-	boost::shared_ptr<dcp::InteropSubtitleContent> _subtitle_content;
+	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
+	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
+	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
+	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
+	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
 };

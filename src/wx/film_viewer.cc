@@ -144,6 +144,11 @@ FilmViewer::set_film (shared_ptr<Film> f)
 		_film.reset ();
 		return;
 	}
+
+	/* Always burn in subtitles, even if we are set not to, otherwise we won't see them
+	   in the preview.
+	*/
+	_player->set_burn_subtitles (true);
 	
 	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 

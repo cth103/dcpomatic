@@ -220,13 +220,13 @@ Film::info_file () const
 }
 
 boost::filesystem::path
-Film::internal_video_mxf_dir () const
+Film::internal_video_asset_dir () const
 {
 	return dir ("video");
 }
 
 boost::filesystem::path
-Film::internal_video_mxf_filename () const
+Film::internal_video_asset_filename () const
 {
 	return video_identifier() + ".mxf";
 }
@@ -1132,8 +1132,8 @@ bool
 Film::should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const
 {
 	/* Create a test file and see if we can hard-link it */
-	boost::filesystem::path test = internal_video_mxf_dir() / "test";
-	boost::filesystem::path test2 = internal_video_mxf_dir() / "test2";
+	boost::filesystem::path test = internal_video_asset_dir() / "test";
+	boost::filesystem::path test2 = internal_video_asset_dir() / "test2";
 	can_hard_link = true;
 	FILE* f = fopen_boost (test, "w");
 	if (f) {
@@ -1147,7 +1147,7 @@ Film::should_be_enough_disk_space (double& required, double& available, bool& ca
 		boost::filesystem::remove (test2);
 	}
 
-	boost::filesystem::space_info s = boost::filesystem::space (internal_video_mxf_dir ());
+	boost::filesystem::space_info s = boost::filesystem::space (internal_video_asset_dir ());
 	required = double (required_disk_space ()) / 1073741824.0f;
 	if (!can_hard_link) {
 		required *= 2;

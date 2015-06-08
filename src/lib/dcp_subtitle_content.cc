@@ -20,8 +20,8 @@
 #include "font.h"
 #include "dcp_subtitle_content.h"
 #include "raw_convert.h"
-#include <dcp/interop_subtitle_content.h>
-#include <dcp/smpte_subtitle_content.h>
+#include <dcp/interop_subtitle_asset.h>
+#include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
 #include <boost/foreach.hpp>
 
@@ -30,6 +30,7 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
@@ -51,12 +52,23 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 {
 	Content::examine (job);
 
-	shared_ptr<dcp::SubtitleContent> sc = load (path (0));
+	shared_ptr<dcp::SubtitleAsset> sc = load (path (0));
+
+	/* Default to turning these subtitles on */
+	set_use_subtitles (true);
 	
 	boost::mutex::scoped_lock lm (_mutex);
-	
-	_subtitle_language = sc->language ();
-	_length = DCPTime::from_seconds (sc->latest_subtitle_out().to_seconds ());
+
+	shared_ptr<dcp::InteropSubtitleAsset> iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset> (sc);
+	if (iop) {
+		_subtitle_language = iop->language ();
+	}
+	shared_ptr<dcp::SMPTESubtitleAsset> smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset> (sc);
+	if (smpte) {
+		_subtitle_language = smpte->language().get_value_or ("");
+	}
+
+	_length = DCPTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
 		_fonts.push_back (shared_ptr<Font> (new Font (i->id)));

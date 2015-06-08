@@ -34,10 +34,10 @@
 #include "version.h"
 #include "font.h"
 #include "util.h"
-#include <dcp/mono_picture_mxf.h>
-#include <dcp/stereo_picture_mxf.h>
-#include <dcp/sound_mxf.h>
-#include <dcp/sound_mxf_writer.h>
+#include <dcp/mono_picture_asset.h>
+#include <dcp/stereo_picture_asset.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset_writer.h>
 #include <dcp/reel.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_stereo_picture_asset.h>
@@ -46,7 +46,8 @@
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
-#include <dcp/interop_subtitle_content.h>
+#include <dcp/interop_subtitle_asset.h>
+#include <dcp/smpte_subtitle_asset.h>
 #include <dcp/font.h>
 #include <boost/foreach.hpp>
 #include <fstream>
@@ -100,41 +101,46 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	*/
 
 	if (_film->three_d ()) {
-		_picture_mxf.reset (new dcp::StereoPictureMXF (dcp::Fraction (_film->video_frame_rate (), 1)));
+		_picture_asset.reset (new dcp::StereoPictureAsset (dcp::Fraction (_film->video_frame_rate (), 1)));
 	} else {
-		_picture_mxf.reset (new dcp::MonoPictureMXF (dcp::Fraction (_film->video_frame_rate (), 1)));
+		_picture_asset.reset (new dcp::MonoPictureAsset (dcp::Fraction (_film->video_frame_rate (), 1)));
 	}
 
-	_picture_mxf->set_size (_film->frame_size ());
+	_picture_asset->set_size (_film->frame_size ());
 
 	if (_film->encrypted ()) {
-		_picture_mxf->set_key (_film->key ());
+		_picture_asset->set_key (_film->key ());
 	}
 
-	_picture_mxf->set_file (
-		_film->internal_video_mxf_dir() / _film->internal_video_mxf_filename()
+	_picture_asset->set_file (
+		_film->internal_video_asset_dir() / _film->internal_video_asset_filename()
 		);
 
 	job->sub (_("Checking existing image data"));
-	check_existing_picture_mxf ();
+	check_existing_picture_asset ();
 	
-	_picture_mxf_writer = _picture_mxf->start_write (
-		_film->internal_video_mxf_dir() / _film->internal_video_mxf_filename(),
+	_picture_asset_writer = _picture_asset->start_write (
+		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(),
 		_film->interop() ? dcp::INTEROP : dcp::SMPTE,
 		_first_nonexistant_frame > 0
 		);
 
 	if (_film->audio_channels ()) {
-		_sound_mxf.reset (new dcp::SoundMXF (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels ()));
+		_sound_asset.reset (
+			new dcp::SoundAsset (dcp::Fraction (_film->video_frame_rate(), 1), _film->audio_frame_rate (), _film->audio_channels ())
+			);
 
 		if (_film->encrypted ()) {
-			_sound_mxf->set_key (_film->key ());
+			_sound_asset->set_key (_film->key ());
 		}
 	
-		/* Write the sound MXF into the film directory so that we leave the creation
+		/* Write the sound asset into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
-		_sound_mxf_writer = _sound_mxf->start_write (_film->directory() / audio_mxf_filename (_sound_mxf), _film->interop() ? dcp::INTEROP : dcp::SMPTE);
+		_sound_asset_writer = _sound_asset->start_write (
+			_film->directory() / audio_asset_filename (_sound_asset),
+			_film->interop() ? dcp::INTEROP : dcp::SMPTE
+			);
 	}
 
 	/* Check that the signer is OK if we need one */
@@ -224,8 +230,8 @@ Writer::fake_write (int frame, Eyes eyes)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
-	if (_sound_mxf_writer) {
-		_sound_mxf_writer->write (audio->data(), audio->frames());
+	if (_sound_asset_writer) {
+		_sound_asset_writer->write (audio->data(), audio->frames());
 	}
 }
 
@@ -321,20 +327,20 @@ try
 			switch (qi.type) {
 			case QueueItem::FULL:
 			{
-				LOG_GENERAL (N_("Writer FULL-writes %1 (%2) to MXF"), qi.frame, qi.eyes);
+				LOG_GENERAL (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
 				if (!qi.encoded) {
 					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
 
-				dcp::FrameInfo fin = _picture_mxf_writer->write (qi.encoded->data(), qi.encoded->size());
+				dcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
 				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
 				_last_written[qi.eyes] = qi.encoded;
 				++_full_written;
 				break;
 			}
 			case QueueItem::FAKE:
-				LOG_GENERAL (N_("Writer FAKE-writes %1 to MXF"), qi.frame);
-				_picture_mxf_writer->fake_write (qi.size);
+				LOG_GENERAL (N_("Writer FAKE-writes %1"), qi.frame);
+				_picture_asset_writer->fake_write (qi.size);
 				_last_written[qi.eyes].reset ();
 				++_fake_written;
 				break;
@@ -441,17 +447,17 @@ Writer::finish ()
 	
 	terminate_thread (true);
 
-	_picture_mxf_writer->finalize ();
-	if (_sound_mxf_writer) {
-		_sound_mxf_writer->finalize ();
+	_picture_asset_writer->finalize ();
+	if (_sound_asset_writer) {
+		_sound_asset_writer->finalize ();
 	}
 	
-	/* Hard-link the video MXF into the DCP */
-	boost::filesystem::path video_from = _picture_mxf->file ();
+	/* Hard-link the video asset into the DCP */
+	boost::filesystem::path video_from = _picture_asset->file ();
 	
 	boost::filesystem::path video_to;
 	video_to /= _film->dir (_film->dcp_name());
-	video_to /= video_mxf_filename (_picture_mxf);
+	video_to /= video_asset_filename (_picture_asset);
 
 	boost::system::error_code ec;
 	boost::filesystem::create_hard_link (video_from, video_to, ec);
@@ -464,23 +470,23 @@ Writer::finish ()
 		}
 	}
 
-	_picture_mxf->set_file (video_to);
+	_picture_asset->set_file (video_to);
 
-	/* Move the audio MXF into the DCP */
+	/* Move the audio asset into the DCP */
 
-	if (_sound_mxf) {
+	if (_sound_asset) {
 		boost::filesystem::path audio_to;
 		audio_to /= _film->dir (_film->dcp_name ());
-		audio_to /= audio_mxf_filename (_sound_mxf);
+		audio_to /= audio_asset_filename (_sound_asset);
 		
-		boost::filesystem::rename (_film->file (audio_mxf_filename (_sound_mxf)), audio_to, ec);
+		boost::filesystem::rename (_film->file (audio_asset_filename (_sound_asset)), audio_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move audio MXF into the DCP (%1)"), ec.value ()), audio_mxf_filename (_sound_mxf)
+				String::compose (_("could not move audio asset into the DCP (%1)"), ec.value ()), audio_asset_filename (_sound_asset)
 				);
 		}
 
-		_sound_mxf->set_file (audio_to);
+		_sound_asset->set_file (audio_to);
 	}
 
 	dcp::DCP dcp (_film->dir (_film->dcp_name()));
@@ -496,32 +502,32 @@ Writer::finish ()
 
 	shared_ptr<dcp::Reel> reel (new dcp::Reel ());
 
-	shared_ptr<dcp::MonoPictureMXF> mono = dynamic_pointer_cast<dcp::MonoPictureMXF> (_picture_mxf);
+	shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
 	if (mono) {
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelMonoPictureAsset (mono, 0)));
 		dcp.add (mono);
 	}
 
-	shared_ptr<dcp::StereoPictureMXF> stereo = dynamic_pointer_cast<dcp::StereoPictureMXF> (_picture_mxf);
+	shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
 	if (stereo) {
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelStereoPictureAsset (stereo, 0)));
 		dcp.add (stereo);
 	}
 
-	if (_sound_mxf) {
-		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_mxf, 0)));
-		dcp.add (_sound_mxf);
+	if (_sound_asset) {
+		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_asset, 0)));
+		dcp.add (_sound_asset);
 	}
 
-	if (_subtitle_content) {
+	if (_subtitle_asset) {
 		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
 
 		/* Add all the fonts to the subtitle content and as assets to the DCP */
 		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
 			boost::filesystem::path const from = i->file.get_value_or (liberation);
-			_subtitle_content->add_font (i->id, from.leaf().string ());
+			_subtitle_asset->add_font (i->id, from.leaf().string ());
 
-			boost::filesystem::path to = _film->dir (_film->dcp_name ()) / _subtitle_content->id ();
+			boost::filesystem::path to = _film->dir (_film->dcp_name ()) / _subtitle_asset->id ();
 			boost::filesystem::create_directories (to, ec);
 			if (ec) {
 				throw FileError (_("Could not create directory"), to);
@@ -538,17 +544,20 @@ Writer::finish ()
 			dcp.add (shared_ptr<dcp::Font> (new dcp::Font (to)));
 		}
 
-		_subtitle_content->write_xml (_film->dir (_film->dcp_name ()) / _subtitle_content->id () / subtitle_content_filename (_subtitle_content));
+		_subtitle_asset->write (
+			_film->dir (_film->dcp_name ()) / _subtitle_asset->id () / subtitle_content_filename (_subtitle_asset)
+			);
+		
 		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
 				   new dcp::ReelSubtitleAsset (
-					   _subtitle_content,
+					   _subtitle_asset,
 					   dcp::Fraction (_film->video_frame_rate(), 1),
-					   _picture_mxf->intrinsic_duration (),
+					   _picture_asset->intrinsic_duration (),
 					   0
 					   )
 				   ));
 		
-		dcp.add (_subtitle_content);
+		dcp.add (_subtitle_asset);
 	}
 	
 	cpl->add (reel);
@@ -557,11 +566,11 @@ Writer::finish ()
 	DCPOMATIC_ASSERT (job);
 
 	job->sub (_("Computing image digest"));
-	_picture_mxf->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+	_picture_asset->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
 
-	if (_sound_mxf) {
+	if (_sound_asset) {
 		job->sub (_("Computing audio digest"));
-		_sound_mxf->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+		_sound_asset->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
 	}
 
 	dcp::XMLMetadata meta;
@@ -586,7 +595,7 @@ Writer::finish ()
 }
 
 bool
-Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
+Writer::check_existing_picture_asset_frame (FILE* asset, int f, Eyes eyes)
 {
 	/* Read the frame info as written */
 	FILE* file = fopen_boost (_film->info_file (), "rb");
@@ -602,10 +611,10 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 		return false;
 	}
 	
-	/* Read the data from the MXF and hash it */
-	dcpomatic_fseek (mxf, info.offset, SEEK_SET);
+	/* Read the data from the asset and hash it */
+	dcpomatic_fseek (asset, info.offset, SEEK_SET);
 	EncodedData data (info.size);
-	size_t const read = fread (data.data(), 1, data.size(), mxf);
+	size_t const read = fread (data.data(), 1, data.size(), asset);
 	if (read != static_cast<size_t> (data.size ())) {
 		LOG_GENERAL ("Existing frame %1 is incomplete", f);
 		return false;
@@ -622,12 +631,12 @@ Writer::check_existing_picture_mxf_frame (FILE* mxf, int f, Eyes eyes)
 }
 
 void
-Writer::check_existing_picture_mxf ()
+Writer::check_existing_picture_asset ()
 {
-	/* Try to open the existing MXF */
-	FILE* mxf = fopen_boost (_picture_mxf->file(), "rb");
-	if (!mxf) {
-		LOG_GENERAL ("Could not open existing MXF at %1 (errno=%2)", _picture_mxf->file().string(), errno);
+	/* Try to open the existing asset */
+	FILE* asset = fopen_boost (_picture_asset->file(), "rb");
+	if (!asset) {
+		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file().string(), errno);
 		return;
 	}
 
@@ -639,14 +648,14 @@ Writer::check_existing_picture_mxf ()
 		job->set_progress_unknown ();
 
 		if (_film->three_d ()) {
-			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_LEFT)) {
+			if (!check_existing_picture_asset_frame (asset, _first_nonexistant_frame, EYES_LEFT)) {
 				break;
 			}
-			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_RIGHT)) {
+			if (!check_existing_picture_asset_frame (asset, _first_nonexistant_frame, EYES_RIGHT)) {
 				break;
 			}
 		} else {
-			if (!check_existing_picture_mxf_frame (mxf, _first_nonexistant_frame, EYES_BOTH)) {
+			if (!check_existing_picture_asset_frame (asset, _first_nonexistant_frame, EYES_BOTH)) {
 				break;
 			}
 		}
@@ -655,7 +664,7 @@ Writer::check_existing_picture_mxf ()
 		++_first_nonexistant_frame;
 	}
 
-	fclose (mxf);
+	fclose (asset);
 }
 
 /** @param frame Frame index.
@@ -665,7 +674,7 @@ bool
 Writer::can_fake_write (int frame) const
 {
 	/* We have to do a proper write of the first frame so that we can set up the JPEG2000
-	   parameters in the MXF writer.
+	   parameters in the asset writer.
 	*/
 	return (frame != 0 && frame < _first_nonexistant_frame);
 }
@@ -677,16 +686,29 @@ Writer::write (PlayerSubtitles subs)
 		return;
 	}
 
-	if (!_subtitle_content) {
+	if (!_subtitle_asset) {
 		string lang = _film->subtitle_language ();
 		if (lang.empty ()) {
 			lang = "Unknown";
 		}
-		_subtitle_content.reset (new dcp::InteropSubtitleContent (_film->name(), lang));
+		if (_film->interop ()) {
+			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
+			s->set_movie_title (_film->name ());
+			s->set_language (lang);
+			s->set_reel_number ("1");
+			_subtitle_asset = s;
+		} else {
+			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
+			s->set_content_title_text (_film->name ());
+			s->set_language (lang);
+			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
+			s->set_time_code_rate (_film->video_frame_rate ());
+			_subtitle_asset = s;
+		}			
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
-		_subtitle_content->add (*i);
+		_subtitle_asset->add (*i);
 	}
 }
 
