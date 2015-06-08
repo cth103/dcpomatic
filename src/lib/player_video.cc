@@ -197,8 +197,7 @@ PlayerVideo::inter_position () const
 bool
 PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 {
-	if (_in != other->_in ||
-	    _crop != other->_crop ||
+	if (_crop != other->_crop ||
 	    _fade.get_value_or(0) != other->_fade.get_value_or(0) ||
 	    _inter_size != other->_inter_size ||
 	    _out_size != other->_out_size ||
@@ -206,6 +205,7 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 	    _part != other->_part ||
 	    _colour_conversion != other->_colour_conversion ||
 	    !_subtitle.same (other->_subtitle)) {
+
 		return false;
 	}
 
