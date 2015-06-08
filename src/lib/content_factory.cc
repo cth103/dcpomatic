@@ -29,7 +29,7 @@
 #include "dcp_subtitle_content.h"
 #include "util.h"
 #include <libcxml/cxml.h>
-#include <dcp/smpte_subtitle_content.h>
+#include <dcp/smpte_subtitle_asset.h>
 
 using std::string;
 using std::list;
@@ -87,7 +87,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		content.reset (new SubRipContent (film, path));
 	} else if (ext == ".xml") {
 		content.reset (new DCPSubtitleContent (film, path));
-	} else if (ext == ".mxf" && dcp::SMPTESubtitleContent::valid_mxf (path)) {
+	} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
 		content.reset (new DCPSubtitleContent (film, path));
 	}
 

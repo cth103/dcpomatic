@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  */
 
 #include <boost/test/unit_test.hpp>
-#include <dcp/stereo_picture_mxf.h>
+#include <dcp/stereo_picture_asset.h>
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"
@@ -69,10 +69,9 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<dcp::StereoPictureMXF> A (new dcp::StereoPictureMXF ("build/test/recover_test/original.mxf"));
-	shared_ptr<dcp::StereoPictureMXF> B (new dcp::StereoPictureMXF (video));
+	shared_ptr<dcp::StereoPictureAsset> A (new dcp::StereoPictureAsset ("build/test/recover_test/original.mxf"));
+	shared_ptr<dcp::StereoPictureAsset> B (new dcp::StereoPictureAsset (video));
 
 	dcp::EqualityOptions eq;
-	eq.mxf_filenames_can_differ = true;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
 }

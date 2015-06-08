@@ -29,7 +29,7 @@
 #include "exceptions.h"
 #include "dcpomatic_time.h"
 #include <dcp/util.h>
-#include <dcp/picture_mxf_writer.h>
+#include <dcp/picture_asset_writer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavfilter/avfilter.h>
@@ -43,9 +43,9 @@ extern "C" {
 #undef check
 
 namespace dcp {
-	class PictureMXF;
-	class SoundMXF;
-	class SubtitleContent;
+	class PictureAsset;
+	class SoundAsset;
+	class SubtitleAsset;
 }
 
 /** The maximum number of audio channels that we can have in a DCP */
@@ -102,9 +102,9 @@ extern void set_backtrace_file (boost::filesystem::path);
 extern dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes);
 extern void write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info);
 extern std::map<std::string, std::string> split_get_request (std::string url);
-extern std::string video_mxf_filename (boost::shared_ptr<dcp::PictureMXF> mxf);
-extern std::string audio_mxf_filename (boost::shared_ptr<dcp::SoundMXF> mxf);
-extern std::string subtitle_content_filename (boost::shared_ptr<dcp::SubtitleContent> content);
+extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset);
+extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset);
+extern std::string subtitle_content_filename (boost::shared_ptr<dcp::SubtitleAsset> content);
 
 #endif
 

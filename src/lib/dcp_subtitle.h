@@ -24,13 +24,13 @@
 #include <boost/filesystem.hpp>
 
 namespace dcp {
-	class SubtitleContent;
+	class SubtitleAsset;
 }
 
 class DCPSubtitle
 {
 protected:
-	boost::shared_ptr<dcp::SubtitleContent> load (boost::filesystem::path) const;
+	boost::shared_ptr<dcp::SubtitleAsset> load (boost::filesystem::path) const;
 };
 
 #endif

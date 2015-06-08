@@ -19,27 +19,27 @@
 
 #include "dcp_subtitle.h"
 #include "exceptions.h"
-#include <dcp/interop_subtitle_content.h>
-#include <dcp/smpte_subtitle_content.h>
+#include <dcp/interop_subtitle_asset.h>
+#include <dcp/smpte_subtitle_asset.h>
 
 #include "i18n.h"
 
 using boost::shared_ptr;
 
-shared_ptr<dcp::SubtitleContent>
+shared_ptr<dcp::SubtitleAsset>
 DCPSubtitle::load (boost::filesystem::path file) const
 {
-	shared_ptr<dcp::SubtitleContent> sc;
+	shared_ptr<dcp::SubtitleAsset> sc;
 	
 	try {
-		sc.reset (new dcp::InteropSubtitleContent (file));
+		sc.reset (new dcp::InteropSubtitleAsset (file));
 	} catch (...) {
 		
 	}
 
 	if (!sc) {
 		try {
-			sc.reset (new dcp::SMPTESubtitleContent (file, true));
+			sc.reset (new dcp::SMPTESubtitleAsset (file, true));
 		} catch (...) {
 
 		}
@@ -47,7 +47,7 @@ DCPSubtitle::load (boost::filesystem::path file) const
 
 	if (!sc) {
 		try {
-			sc.reset (new dcp::SMPTESubtitleContent (file, false));
+			sc.reset (new dcp::SMPTESubtitleAsset (file, false));
 		} catch (...) {
 
 		}

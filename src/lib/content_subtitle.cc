@@ -25,7 +25,7 @@ ContentTextSubtitle::period () const
 	/* XXX: assuming we have some subs and they are all at the same time */
 	DCPOMATIC_ASSERT (!subs.empty ());
 	return ContentTimePeriod (
-		ContentTime::from_seconds (subs.front().in().to_seconds()),
-		ContentTime::from_seconds (subs.front().out().to_seconds())
+		ContentTime::from_seconds (subs.front().in().as_seconds()),
+		ContentTime::from_seconds (subs.front().out().as_seconds())
 		);
 }

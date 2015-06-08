@@ -18,7 +18,7 @@
 */
 
 #include "types.h"
-#include <dcp/picture_mxf_writer.h>
+#include <dcp/picture_asset_writer.h>
 #include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
 
