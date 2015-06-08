@@ -59,6 +59,9 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 	
 	DCPTime len (s.length (), film->active_frame_rate_change (position ()));
 
+	/* Default to turning these subtitles on */
+	set_use_subtitles (true);
+
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = len;
 	_fonts.push_back (shared_ptr<Font> (new Font (font_id)));

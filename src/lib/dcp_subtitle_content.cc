@@ -53,6 +53,9 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<dcp::SubtitleAsset> sc = load (path (0));
+
+	/* Default to turning these subtitles on */
+	set_use_subtitles (true);
 	
 	boost::mutex::scoped_lock lm (_mutex);
 
