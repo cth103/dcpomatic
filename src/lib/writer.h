@@ -45,7 +45,7 @@ namespace dcp {
 	class PictureAssetWriter;
 	class SoundAsset;
 	class SoundAssetWriter;
-	class InteropSubtitleAsset;
+	class SubtitleAsset;
 }
 
 struct QueueItem
@@ -153,7 +153,7 @@ private:
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
 	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
-	boost::shared_ptr<dcp::InteropSubtitleAsset> _subtitle_asset;
+	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
 };

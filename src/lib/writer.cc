@@ -47,6 +47,7 @@
 #include <dcp/cpl.h>
 #include <dcp/signer.h>
 #include <dcp/interop_subtitle_asset.h>
+#include <dcp/smpte_subtitle_asset.h>
 #include <dcp/font.h>
 #include <boost/foreach.hpp>
 #include <fstream>
@@ -690,7 +691,20 @@ Writer::write (PlayerSubtitles subs)
 		if (lang.empty ()) {
 			lang = "Unknown";
 		}
-		_subtitle_asset.reset (new dcp::InteropSubtitleAsset (_film->name(), lang));
+		if (_film->interop ()) {
+			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
+			s->set_movie_title (_film->name ());
+			s->set_language (lang);
+			s->set_reel_number ("1");
+			_subtitle_asset = s;
+		} else {
+			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
+			s->set_content_title_text (_film->name ());
+			s->set_language (lang);
+			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
+			s->set_time_code_rate (_film->video_frame_rate ());
+			_subtitle_asset = s;
+		}			
 	}
 	
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
