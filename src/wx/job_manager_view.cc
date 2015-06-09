@@ -43,7 +43,6 @@ public:
 		: _job (job)
 		, _window (window)
 		, _panel (panel)
-		, _table (table)
 	{
 		int n = 0;
 
@@ -141,7 +140,6 @@ private:
 	boost::shared_ptr<Job> _job;
 	wxScrolledWindow* _window;
 	wxPanel* _panel;
-	wxFlexGridSizer* _table;
 	wxGauge* _gauge;
 	wxStaticText* _message;
 	wxButton* _cancel;
