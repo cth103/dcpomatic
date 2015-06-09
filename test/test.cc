@@ -46,6 +46,7 @@ using std::min;
 using std::cout;
 using std::cerr;
 using std::list;
+using std::abs;
 using boost::shared_ptr;
 using boost::scoped_array;
 
@@ -143,7 +144,7 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 		BOOST_CHECK_EQUAL (r, this_time);
 
 		for (sf_count_t i = 0; i < this_time; ++i) {
-			BOOST_REQUIRE (fabs (ref_buffer[i] - check_buffer[i]) <= 65536);
+			BOOST_REQUIRE (abs (ref_buffer[i] - check_buffer[i]) <= 65536);
 		}
 
 		N -= this_time;

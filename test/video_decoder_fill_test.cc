@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 	ImageDecoder decoder (c);
 
 	decoder.fill_2d (0, 4);
-	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 4);
+	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 4U);
 	list<ContentVideo>::iterator i = decoder._decoded_video.begin();	
 	for (int j = 0; j < 4; ++j) {
 		BOOST_CHECK_EQUAL (i->frame, j);
