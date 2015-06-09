@@ -598,56 +598,44 @@ private:
 			certificates_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol (1, 1);
+		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
+		int r = 0;
+		
 		_remake_certificates = new wxButton (_panel, wxID_ANY, _("Re-make certificates..."));
-		table->Add (_remake_certificates, 0);
-		table->AddSpacer (0);
+		table->Add (_remake_certificates, wxGBPosition (r, 0), wxGBSpan (1, 3));
+		++r;
 
-		add_label_to_sizer (table, _panel, _("Private key for leaf certificate"), true);
-		{
-			wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_signer_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
-			wxFont font = _signer_private_key->GetFont ();
-			font.SetFamily (wxFONTFAMILY_TELETYPE);
-			_signer_private_key->SetFont (font);
-			s->Add (_signer_private_key, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-			_load_signer_private_key = new wxButton (_panel, wxID_ANY, _("Load..."));
-			s->Add (_load_signer_private_key, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
-			table->Add (s, 0);
-		}
+		add_label_to_grid_bag_sizer (table, _panel, _("Private key for leaf certificate"), true, wxGBPosition (r, 0));
+		_signer_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
+		wxFont font = _signer_private_key->GetFont ();
+		font.SetFamily (wxFONTFAMILY_TELETYPE);
+		_signer_private_key->SetFont (font);
+		table->Add (_signer_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		_load_signer_private_key = new wxButton (_panel, wxID_ANY, _("Load..."));
+		table->Add (_load_signer_private_key, wxGBPosition (r, 2));
+		++r;
 
-		add_label_to_sizer (table, _panel, _("Certificate for decrypting DCPs"), true);
-		{
-			wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_decryption_certificate = new wxStaticText (_panel, wxID_ANY, wxT (""));
-			wxFont font = _decryption_certificate->GetFont ();
-			font.SetFamily (wxFONTFAMILY_TELETYPE);
-			_decryption_certificate->SetFont (font);
-			s->Add (_decryption_certificate, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-			_load_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Load..."));
-			s->Add (_load_decryption_certificate, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
-			table->Add (s, 0);
-		}
+		add_label_to_grid_bag_sizer (table, _panel, _("Certificate for decrypting DCPs"), true, wxGBPosition (r, 0));
+		_decryption_certificate = new wxStaticText (_panel, wxID_ANY, wxT (""));
+		_decryption_certificate->SetFont (font);
+		table->Add (_decryption_certificate, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		_load_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Load..."));
+		table->Add (_load_decryption_certificate, wxGBPosition (r, 2));
+		++r;
 
-		add_label_to_sizer (table, _panel, _("Private key for decrypting DCPs"), true);
-		{
-			wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_decryption_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
-			wxFont font = _decryption_private_key->GetFont ();
-			font.SetFamily (wxFONTFAMILY_TELETYPE);
-			_decryption_private_key->SetFont (font);
-			s->Add (_decryption_private_key, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-			_load_decryption_private_key = new wxButton (_panel, wxID_ANY, _("Load..."));
-			s->Add (_load_decryption_private_key, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
-			table->Add (s, 0);
-		}
+		add_label_to_grid_bag_sizer (table, _panel, _("Private key for decrypting DCPs"), true, wxGBPosition (r, 0));
+		_decryption_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
+		_decryption_private_key->SetFont (font);
+		table->Add (_decryption_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		_load_decryption_private_key = new wxButton (_panel, wxID_ANY, _("Load..."));
+		table->Add (_load_decryption_private_key, wxGBPosition (r, 2));
+		++r;
 
 		_export_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Export DCP decryption certificate..."));
-		table->Add (_export_decryption_certificate);
-		table->AddSpacer (0);
+		table->Add (_export_decryption_certificate, wxGBPosition (r, 0), wxGBSpan (1, 3));
+		++r;
 		
 		_add_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::add_certificate, this));
 		_remove_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::remove_certificate, this));
