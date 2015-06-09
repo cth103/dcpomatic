@@ -71,7 +71,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	_length = DCPTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
-		_fonts.push_back (shared_ptr<Font> (new Font (i->id)));
+		add_font (shared_ptr<Font> (new Font (i->id)));
 	}
 }
 

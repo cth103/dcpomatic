@@ -22,6 +22,7 @@
 
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
+#include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
 #include <string>
 
@@ -45,7 +46,10 @@ public:
 
 	void set_file (boost::filesystem::path file) {
 		_file = file;
+		Changed ();
 	}
+
+	boost::signals2::signal<void()> Changed;
 
 private:	
 	/** Font ID, used to describe it in the subtitle content */

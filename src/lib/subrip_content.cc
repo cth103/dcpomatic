@@ -64,7 +64,7 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = len;
-	_fonts.push_back (shared_ptr<Font> (new Font (font_id)));
+	add_font (shared_ptr<Font> (new Font (font_id)));
 }
 
 string

@@ -24,6 +24,7 @@
 #include "font.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -98,6 +99,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
 		_fonts.push_back (shared_ptr<Font> (new Font (*i)));
 	}
+
+	connect_to_fonts ();
 }
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
@@ -154,6 +157,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Co
 	_subtitle_y_scale = ref->subtitle_y_scale ();
 	_subtitle_language = ref->subtitle_language ();
 	_fonts = ref_fonts;
+
+	connect_to_fonts ();
 }
 
 /** _mutex must not be held on entry */
@@ -250,3 +255,31 @@ SubtitleContent::identifier () const
 
 	return s.str ();
 }
+
+void
+SubtitleContent::add_font (shared_ptr<Font> font)
+{
+	_fonts.push_back (font);
+	connect_to_fonts ();
+}
+
+void
+SubtitleContent::connect_to_fonts ()
+{
+	BOOST_FOREACH (boost::signals2::connection& i, _font_connections) {
+		i.disconnect ();
+	}
+
+	_font_connections.clear ();
+
+	BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
+		_font_connections.push_back (i->Changed.connect (boost::bind (&SubtitleContent::font_changed, this)));
+	}
+}
+
+void
+SubtitleContent::font_changed ()
+{
+	signal_changed (SubtitleContentProperty::FONTS);
+}
+

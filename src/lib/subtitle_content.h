@@ -55,6 +55,8 @@ public:
 
 	virtual bool has_subtitles () const = 0;
 
+	void add_font (boost::shared_ptr<Font> font);
+
 	void set_use_subtitles (bool);
 	void set_subtitle_x_offset (double);
 	void set_subtitle_y_offset (double);
@@ -100,10 +102,11 @@ public:
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _subtitle_language;
-	std::list<boost::shared_ptr<Font> > _fonts;
 	
 private:
 	friend struct ffmpeg_pts_offset_test;
+	void font_changed ();
+	void connect_to_fonts ();
 
 	bool _use_subtitles;
 	/** x offset for placing subtitles, as a proportion of the container width;
@@ -118,6 +121,8 @@ private:
 	double _subtitle_x_scale;
 	/** y scale factor to apply to subtitles */
 	double _subtitle_y_scale;
+	std::list<boost::shared_ptr<Font> > _fonts;
+	std::list<boost::signals2::connection> _font_connections;
 };
 
 #endif
