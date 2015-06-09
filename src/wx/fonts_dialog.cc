@@ -25,6 +25,7 @@
 
 using std::list;
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 
 FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)

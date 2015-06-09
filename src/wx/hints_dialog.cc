@@ -20,9 +20,12 @@
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
+#include "lib/subtitle_content.h"
+#include "lib/font.h"
 #include "hints_dialog.h"
-#include <boost/algorithm/string.hpp>
 #include <wx/richtext/richtextctrl.h>
+#include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
@@ -66,7 +69,29 @@ HintsDialog::film_changed ()
 		return;
 	}
 
+	ContentList content = film->content ();
+	
 	_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
+
+	bool big_font_files = false;
+	if (film->interop ()) {
+		BOOST_FOREACH (shared_ptr<Content> i, content) {
+			shared_ptr<SubtitleContent> s = dynamic_pointer_cast<SubtitleContent> (i);
+			if (s) {
+				BOOST_FOREACH (shared_ptr<Font> j, s->fonts ()) {
+					if (j->file && boost::filesystem::file_size (j->file.get ()) >= (640 * 1024)) {
+						big_font_files = true;
+					}
+				}
+			}
+		}
+	}
+
+	if (big_font_files) {
+		hint = true;
+		_text->WriteText (_("You have specified a font file which is larger than 640kB.  This is very likely to cause problems on playback."));
+	}
+
 	if (film->audio_channels() % 2) {
 		hint = true;
 		_text->WriteText (_("Your DCP has an odd number of audio channels.  This is very likely to cause problems on playback."));
@@ -82,7 +107,6 @@ HintsDialog::film_changed ()
 		_text->Newline ();
 	}
 
-	ContentList content = film->content ();
 	int flat_or_narrower = 0;
 	int scope = 0;
 	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
