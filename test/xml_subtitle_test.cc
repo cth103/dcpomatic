@@ -39,6 +39,7 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_burn_subtitles (false);
+	film->set_interop (true);
 	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
 	content->set_use_subtitles (true);
 	film->examine_and_add_content (content);
