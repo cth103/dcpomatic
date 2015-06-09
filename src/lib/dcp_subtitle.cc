@@ -39,15 +39,7 @@ DCPSubtitle::load (boost::filesystem::path file) const
 
 	if (!sc) {
 		try {
-			sc.reset (new dcp::SMPTESubtitleAsset (file, true));
-		} catch (...) {
-
-		}
-	}
-
-	if (!sc) {
-		try {
-			sc.reset (new dcp::SMPTESubtitleAsset (file, false));
+			sc.reset (new dcp::SMPTESubtitleAsset (file));
 		} catch (...) {
 
 		}

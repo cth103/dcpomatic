@@ -505,43 +505,23 @@ Writer::finish ()
 	shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
 	if (mono) {
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelMonoPictureAsset (mono, 0)));
-		dcp.add (mono);
 	}
 
 	shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
 	if (stereo) {
 		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelStereoPictureAsset (stereo, 0)));
-		dcp.add (stereo);
 	}
 
 	if (_sound_asset) {
 		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_asset, 0)));
-		dcp.add (_sound_asset);
 	}
 
 	if (_subtitle_asset) {
 		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
 
-		/* Add all the fonts to the subtitle content and as assets to the DCP */
+		/* Add all the fonts to the subtitle content */
 		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
-			boost::filesystem::path const from = i->file.get_value_or (liberation);
-			_subtitle_asset->add_font (i->id, from.leaf().string ());
-
-			boost::filesystem::path to = _film->dir (_film->dcp_name ()) / _subtitle_asset->id ();
-			boost::filesystem::create_directories (to, ec);
-			if (ec) {
-				throw FileError (_("Could not create directory"), to);
-			}
-
-			to /= from.leaf();
-
-			boost::system::error_code ec;
-			boost::filesystem::copy_file (from, to, ec);
-			if (ec) {
-				throw FileError ("Could not copy font to DCP", from);
-			}
-
-			dcp.add (shared_ptr<dcp::Font> (new dcp::Font (to)));
+			_subtitle_asset->add_font (i->id, i->file.get_value_or (liberation));
 		}
 
 		_subtitle_asset->write (
@@ -556,8 +536,6 @@ Writer::finish ()
 					   0
 					   )
 				   ));
-		
-		dcp.add (_subtitle_asset);
 	}
 	
 	cpl->add (reel);
