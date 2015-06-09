@@ -28,16 +28,29 @@
 class Font
 {
 public:
-	Font (std::string id_)
-		: id (id_) {}
+	Font (std::string id)
+		: _id (id) {}
 
 	Font (cxml::NodePtr node);
 
 	void as_xml (xmlpp::Node* node);
-	
+
+	std::string id () const {
+		return _id;
+	}
+
+	boost::optional<boost::filesystem::path> file () const {
+		return _file;
+	}
+
+	void set_file (boost::filesystem::path file) {
+		_file = file;
+	}
+
+private:	
 	/** Font ID, used to describe it in the subtitle content */
-	std::string id;
-	boost::optional<boost::filesystem::path> file;
+	std::string _id;
+	boost::optional<boost::filesystem::path> _file;
 };
 
 bool

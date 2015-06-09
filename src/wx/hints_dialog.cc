@@ -79,7 +79,7 @@ HintsDialog::film_changed ()
 			shared_ptr<SubtitleContent> s = dynamic_pointer_cast<SubtitleContent> (i);
 			if (s) {
 				BOOST_FOREACH (shared_ptr<Font> j, s->fonts ()) {
-					if (j->file && boost::filesystem::file_size (j->file.get ()) >= (640 * 1024)) {
+					if (j->file() && boost::filesystem::file_size (j->file().get ()) >= (640 * 1024)) {
 						big_font_files = true;
 					}
 				}

@@ -93,9 +93,9 @@ FontsDialog::setup ()
 		wxListItem item;
 		item.SetId (n);
 		_fonts->InsertItem (item);
-		_fonts->SetItem (n, 0, std_to_wx ((*i)->id));
-		if ((*i)->file) {
-			_fonts->SetItem (n, 1, (*i)->file.get().leaf().string ());
+		_fonts->SetItem (n, 0, std_to_wx ((*i)->id ()));
+		if ((*i)->file ()) {
+			_fonts->SetItem (n, 1, (*i)->file().get().leaf().string ());
 		}
 		++n;
 	}
@@ -129,8 +129,8 @@ FontsDialog::set_file_clicked ()
 
 	list<shared_ptr<Font> > fonts = content->fonts ();
 	for (list<shared_ptr<Font> >::iterator i = fonts.begin(); i != fonts.end(); ++i) {
-		if ((*i)->id == id) {
-			(*i)->file = wx_to_std (d->GetPath ());
+		if ((*i)->id() == id) {
+			(*i)->set_file (wx_to_std (d->GetPath ()));
 		}
 	}
 

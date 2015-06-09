@@ -521,7 +521,7 @@ Writer::finish ()
 
 		/* Add all the fonts to the subtitle content */
 		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
-			_subtitle_asset->add_font (i->id, i->file.get_value_or (liberation));
+			_subtitle_asset->add_font (i->id(), i->file().get_value_or (liberation));
 		}
 
 		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (_subtitle_asset)) {

@@ -21,8 +21,8 @@
 #include <libxml++/libxml++.h>
 
 Font::Font (cxml::NodePtr node)
-	: id (node->string_child ("Id"))
-	, file (node->optional_string_child ("File"))
+	: _id (node->string_child ("Id"))
+	, _file (node->optional_string_child ("File"))
 {
 	
 }
@@ -30,14 +30,14 @@ Font::Font (cxml::NodePtr node)
 void
 Font::as_xml (xmlpp::Node* node)
 {
-	node->add_child("Id")->add_child_text (id);
-	if (file) {
-		node->add_child("File")->add_child_text (file.get().string ());
+	node->add_child("Id")->add_child_text (_id);
+	if (_file) {
+		node->add_child("File")->add_child_text (_file.get().string ());
 	}
 }
 
 bool
 operator!= (Font const & a, Font const & b)
 {
-	return (a.id != b.id || a.file != b.file);
+	return (a.id() != b.id() || a.file() != b.file());
 }
