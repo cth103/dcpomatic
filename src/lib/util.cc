@@ -686,9 +686,3 @@ audio_asset_filename (shared_ptr<dcp::SoundAsset> asset)
 {
 	return "pcm_" + asset->id() + ".mxf";
 }
-
-string
-subtitle_content_filename (shared_ptr<dcp::SubtitleAsset> asset)
-{
-	return "sub_" + asset->id() + ".xml";
-}

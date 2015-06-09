@@ -104,7 +104,6 @@ extern void write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo i
 extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset);
 extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset);
-extern std::string subtitle_content_filename (boost::shared_ptr<dcp::SubtitleAsset> content);
 
 #endif
 

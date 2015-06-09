@@ -524,9 +524,15 @@ Writer::finish ()
 			_subtitle_asset->add_font (i->id, i->file.get_value_or (liberation));
 		}
 
-		_subtitle_asset->write (
-			_film->dir (_film->dcp_name ()) / _subtitle_asset->id () / subtitle_content_filename (_subtitle_asset)
-			);
+		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (_subtitle_asset)) {
+			boost::filesystem::path directory = _film->dir (_film->dcp_name ()) / _subtitle_asset->id ();
+			boost::filesystem::create_directories (directory);
+			_subtitle_asset->write (directory / ("sub_" + _subtitle_asset->id() + ".xml"));
+		} else {
+			_subtitle_asset->write (
+				_film->dir (_film->dcp_name ()) / ("sub_" + _subtitle_asset->id() + ".mxf")
+				);
+		}
 		
 		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
 				   new dcp::ReelSubtitleAsset (
