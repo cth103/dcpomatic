@@ -98,8 +98,8 @@ private:
 	/** Number of frames that we should keep history for */
 	static int const _history_size;
 
-	/** Number of video frames written for the DCP so far */
-	int _video_frames_out;
+	/** Number of video frames enqueued so far */
+	int _video_frames_enqueued;
 
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideo> > _queue;
@@ -112,6 +112,8 @@ private:
 
 	boost::shared_ptr<Writer> _writer;
 	Waker _waker;
+
+	boost::shared_ptr<PlayerVideo> _last_player_video;
 
 	boost::signals2::scoped_connection _server_found_connection;
 };

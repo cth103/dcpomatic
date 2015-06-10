@@ -86,6 +86,7 @@ Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
 	, _maximum_frames_in_memory (0)
 	, _full_written (0)
 	, _fake_written (0)
+	, _repeat_written (0)
 	, _pushed_to_disk (0)
 {
 	/* Remove any old DCP */
@@ -191,6 +192,33 @@ Writer::write (Data encoded, int frame, Eyes eyes)
 }
 
 void
+Writer::repeat (int frame, Eyes eyes)
+{
+	boost::mutex::scoped_lock lock (_mutex);
+
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		/* The queue is too big; wait until that is sorted out */
+		_full_condition.wait (lock);
+	}
+
+	QueueItem qi;
+	qi.type = QueueItem::REPEAT;
+	qi.frame = frame;
+	if (_film->three_d() && eyes == EYES_BOTH) {
+		qi.eyes = EYES_LEFT;
+		_queue.push_back (qi);
+		qi.eyes = EYES_RIGHT;
+		_queue.push_back (qi);
+	} else {
+		qi.eyes = eyes;
+		_queue.push_back (qi);
+	}
+
+	/* Now there's something to do: wake anything wait()ing on _empty_condition */
+	_empty_condition.notify_all ();
+}
+
+void
 Writer::fake_write (int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
@@ -265,6 +293,20 @@ Writer::have_sequenced_image_at_queue_head ()
 }
 
 void
+Writer::write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const
+{
+	FILE* file = fopen_boost (_film->info_file(), "ab");
+	if (!file) {
+		throw OpenFileError (_film->info_file ());
+	}
+	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
+	fwrite (&info.offset, sizeof (info.offset), 1, file);
+	fwrite (&info.size, sizeof (info.size), 1, file);
+	fwrite (info.hash.c_str(), 1, info.hash.size(), file);
+	fclose (file);
+}
+
+void
 Writer::thread ()
 try
 {
@@ -332,12 +374,7 @@ try
 				}
 
 				dcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data().get (), qi.encoded->size());
-				FILE* file = fopen_boost (_film->info_file(), "ab");
-				if (!file) {
-					throw OpenFileError (_film->info_file ());
-				}
-				write_frame_info (file, qi.frame, qi.eyes, fin);
-				fclose (file);
+				write_frame_info (qi.frame, qi.eyes, fin);
 				_last_written[qi.eyes] = qi.encoded;
 				++_full_written;
 				break;
@@ -347,6 +384,15 @@ try
 				_picture_asset_writer->fake_write (qi.size);
 				_last_written[qi.eyes].reset ();
 				++_fake_written;
+				break;
+			case QueueItem::REPEAT:
+				LOG_GENERAL (N_("Writer REPEAT-writes %1"), qi.frame);
+				dcp::FrameInfo fin = _picture_asset_writer->write (
+					_last_written[qi.eyes]->data().get(),
+					_last_written[qi.eyes]->size()
+					);
+				write_frame_info (qi.frame, qi.eyes, fin);
+				++_repeat_written;
 				break;
 			}
 			lock.lock ();
@@ -578,7 +624,7 @@ Writer::finish ()
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer);
 
 	LOG_GENERAL (
-		N_("Wrote %1 FULL, %2 FAKE, %3 pushed to disk"), _full_written, _fake_written, _pushed_to_disk
+		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 }
 
@@ -727,4 +773,40 @@ void
 Writer::set_encoder_threads (int threads)
 {
 	_maximum_frames_in_memory = rint (threads * 1.1);
+}
+
+long
+Writer::frame_info_position (int frame, Eyes eyes) const
+{
+	static int const info_size = 48;
+	
+	switch (eyes) {
+	case EYES_BOTH:
+		return frame * info_size;
+	case EYES_LEFT:
+		return frame * info_size * 2;
+	case EYES_RIGHT:
+		return frame * info_size * 2 + info_size;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+	
+
+	DCPOMATIC_ASSERT (false);
+}
+
+dcp::FrameInfo
+Writer::read_frame_info (FILE* file, int frame, Eyes eyes) const
+{
+	dcp::FrameInfo info;
+	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
+	fread (&info.offset, sizeof (info.offset), 1, file);
+	fread (&info.size, sizeof (info.size), 1, file);
+	
+	char hash_buffer[33];
+	fread (hash_buffer, 1, 32, file);
+	hash_buffer[32] = '\0';
+	info.hash = hash_buffer;
+
+	return info;
 }

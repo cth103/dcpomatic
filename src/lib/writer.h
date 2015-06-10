@@ -25,6 +25,7 @@
 #include "types.h"
 #include "player_subtitles.h"
 #include "data.h"
+#include <dcp/picture_asset_writer.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -52,6 +53,10 @@ namespace dcp {
 struct QueueItem
 {
 public:
+	QueueItem ()
+		: size (0)
+	{}
+	
 	enum Type {
 		/** a normal frame with some JPEG200 data */
 		FULL,
@@ -60,6 +65,7 @@ public:
 		    state but we use the data that is already on disk.
 		*/
 		FAKE,
+		REPEAT,
 	} type;
 
 	/** encoded data for FULL */
@@ -95,6 +101,7 @@ public:
 	
 	void write (Data, int, Eyes);
 	void fake_write (int, Eyes);
+	void repeat (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
@@ -109,6 +116,9 @@ private:
 	void check_existing_picture_asset ();
 	bool check_existing_picture_asset_frame (FILE *, int, Eyes);
 	bool have_sequenced_image_at_queue_head ();
+	void write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const;
+	long frame_info_position (int frame, Eyes eyes) const;
+	dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes) const;
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
@@ -144,6 +154,7 @@ private:
 	int _full_written;
 	/** number of FAKE written frames */
 	int _fake_written;
+	int _repeat_written;
 	/** number of frames pushed to disk and then recovered
 	    due to the limit of frames to be held in memory.
 	*/

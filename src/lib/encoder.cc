@@ -62,7 +62,7 @@ int const Encoder::_history_size = 25;
 Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j, shared_ptr<Writer> writer)
 	: _film (f)
 	, _job (j)
-	, _video_frames_out (0)
+	, _video_frames_enqueued (0)
 	, _terminate (false)
 	, _writer (writer)
 {
@@ -168,7 +168,7 @@ int
 Encoder::video_frames_out () const
 {
 	boost::mutex::scoped_lock (_state_mutex);
-	return _video_frames_out;
+	return _video_frames_enqueued;
 }
 
 /** Should be called when a frame has been encoded successfully.
@@ -217,20 +217,22 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	*/
 	rethrow ();
 
-	if (_writer->can_fake_write (_video_frames_out)) {
+	if (_writer->can_fake_write (_video_frames_enqueued)) {
 		/* We can fake-write this frame */
-		_writer->fake_write (_video_frames_out, pv->eyes ());
+		_writer->fake_write (_video_frames_enqueued, pv->eyes ());
 		frame_done ();
+	} else if (_last_player_video && pv->same (_last_player_video)) {
+		_writer->repeat (_video_frames_enqueued, pv->eyes ());
 	} else if (pv->has_j2k ()) {
 		/* This frame already has JPEG2000 data, so just write it */
-		_writer->write (pv->j2k(), _video_frames_out, pv->eyes ());
+		_writer->write (pv->j2k(), _video_frames_enqueued, pv->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("adding to queue of %1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideo> (
 					  new DCPVideo (
 						  pv,
-						  _video_frames_out,
+						  _video_frames_enqueued,
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
 						  _film->resolution(),
@@ -246,8 +248,10 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	}
 
 	if (pv->eyes() != EYES_LEFT) {
-		++_video_frames_out;
+		++_video_frames_enqueued;
 	}
+
+	_last_player_video = pv;
 }
 
 void
@@ -279,8 +283,6 @@ try
 	   encodings.
 	*/
 	int remote_backoff = 0;
-	shared_ptr<DCPVideo> last_dcp_video;
-	optional<Data> last_encoded;
 	
 	while (true) {
 
@@ -303,46 +305,38 @@ try
 
 		optional<Data> encoded;
 
-		if (last_dcp_video && vf->same (last_dcp_video)) {
-			/* We already have encoded data for the same input as this one, so take a short-cut */
-			encoded = last_encoded;
-		} else {
-			/* We need to encode this input */
-			if (server) {
-				try {
-					encoded = vf->encode_remotely (server.get ());
-					
-					if (remote_backoff > 0) {
-						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
-					}
-					
-					/* This job succeeded, so remove any backoff */
-					remote_backoff = 0;
-					
-				} catch (std::exception& e) {
-					if (remote_backoff < 60) {
-						/* back off more */
-						remote_backoff += 10;
-					}
-					LOG_ERROR (
-						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
-						vf->index(), server->host_name(), e.what(), remote_backoff
-						);
+		/* We need to encode this input */
+		if (server) {
+			try {
+				encoded = vf->encode_remotely (server.get ());
+				
+				if (remote_backoff > 0) {
+					LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
 				}
 				
-			} else {
-				try {
-					LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());
-					encoded = vf->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
-					LOG_TIMING ("[%1] encoder thread finishes local encode of %2", boost::this_thread::get_id(), vf->index());
-				} catch (std::exception& e) {
-					LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
+				/* This job succeeded, so remove any backoff */
+				remote_backoff = 0;
+				
+			} catch (std::exception& e) {
+				if (remote_backoff < 60) {
+					/* back off more */
+					remote_backoff += 10;
 				}
+				LOG_ERROR (
+					N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
+					vf->index(), server->host_name(), e.what(), remote_backoff
+					);
+			}
+			
+		} else {
+			try {
+				LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());
+				encoded = vf->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+				LOG_TIMING ("[%1] encoder thread finishes local encode of %2", boost::this_thread::get_id(), vf->index());
+			} catch (std::exception& e) {
+				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 			}
 		}
-
-		last_dcp_video = vf;
-		last_encoded = encoded;
 
 		if (encoded) {
 			_writer->write (encoded.get(), vf->index (), vf->eyes ());

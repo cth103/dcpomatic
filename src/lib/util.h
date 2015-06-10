@@ -99,8 +99,6 @@ public:
 
 extern FFmpegSubtitlePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
-extern dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes);
-extern void write_frame_info (FILE* file, int frame, Eyes eyes, dcp::FrameInfo info);
 extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset);
 extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset);
