@@ -23,6 +23,7 @@
 #include "compose.hpp"
 #include "film.h"
 #include "player.h"
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -31,6 +32,7 @@ using std::max;
 using std::min;
 using std::cout;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
@@ -69,11 +71,20 @@ AnalyseAudioJob::run ()
 	_current.resize (_film->audio_channels ());
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
-	_done = 0;
-	DCPTime const block = DCPTime::from_seconds (1.0 / 8);
-	for (DCPTime t; t < _film->length(); t += block) {
-		analyse (player->get_audio (t, block, false));
-		set_progress (t.seconds() / _film->length().seconds());
+	bool has_any_audio = false;
+	BOOST_FOREACH (shared_ptr<Content> c, _film->content ()) {
+		if (dynamic_pointer_cast<AudioContent> (c)) {
+			has_any_audio = true;
+		}
+	}
+
+	if (has_any_audio) {
+		_done = 0;
+		DCPTime const block = DCPTime::from_seconds (1.0 / 8);
+		for (DCPTime t; t < _film->length(); t += block) {
+			analyse (player->get_audio (t, block, false));
+			set_progress (t.seconds() / _film->length().seconds());
+		}
 	}
 
 	_analysis->set_peak (_overall_peak, DCPTime::from_frames (_overall_peak_frame, _film->audio_frame_rate ()));
