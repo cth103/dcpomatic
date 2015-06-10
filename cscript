@@ -87,6 +87,23 @@ deb_depends['7'] = {'libc6': '2.13',
                     'libcurl3': '7.26.0',
                     'libzip2': '0.10.1'}
 
+deb_depends['8'] = {'libc6': '2.19-18',
+                    'libssh-4': '0.6.3-4',
+                    'libboost-filesystem1.55.0': '1.55.0',
+                    'libboost-thread1.55.0': '1.55.0',
+                    'libboost-date-time1.55.0': '1.55.0',
+                    'libsndfile1': '1.0.25-9.1',
+                    'libmagick++-6.q16-5': '8:6.8.9.9-5',
+                    'libxml++2.6-2': '2.36.0',
+                    'libgtk2.0-0': '2.24.25',
+                    'libxmlsec1': '1.2.20',
+                    'libxmlsec1-openssl': '1.2.20',
+                    'libcurl3': '7.38.0',
+                    'libzip2': '0.11.2',
+                    'libwxgtk3.0-0': '3.0.2',
+                    'libxcb-xfixes0': '1.10',
+                    'libxcb-shape0': '1.10'}
+
 deb_depends['unstable'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
                     'libboost-filesystem1.55.0': '1.55.0',
