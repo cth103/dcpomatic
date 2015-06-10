@@ -98,7 +98,6 @@ public:
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
-	void repeat (int f, Eyes);
 	void finish ();
 
 	void set_encoder_threads (int threads);
