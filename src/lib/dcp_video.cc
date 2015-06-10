@@ -40,7 +40,7 @@
 #include "raw_convert.h"
 #include "data.h"
 #include <libcxml/cxml.h>
-#include <dcp/xyz_image.h>
+#include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
 #include <boost/array.hpp>
@@ -107,7 +107,7 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 Data
 DCPVideo::encode_locally (dcp::NoteHandler note)
 {
-	shared_ptr<dcp::XYZImage> xyz;
+	shared_ptr<dcp::OpenJPEGImage> xyz;
 
 	shared_ptr<Image> image = _frame->image (AV_PIX_FMT_RGB48LE, _burn_subtitles, note);
 	if (_frame->colour_conversion()) {

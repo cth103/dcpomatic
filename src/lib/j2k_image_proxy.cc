@@ -22,7 +22,7 @@
 #include "image.h"
 #include "data.h"
 #include "raw_convert.h"
-#include <dcp/xyz_image.h>
+#include <dcp/openjpeg_image.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/colour_conversion.h>
@@ -82,21 +82,35 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 {
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
 
-	shared_ptr<dcp::XYZImage> xyz = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
+	shared_ptr<dcp::OpenJPEGImage> oj = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
 
-	if (xyz->opj_image()->comps[0].prec < 12) {
-		int const shift = 12 - xyz->opj_image()->comps[0].prec;
+	if (oj->opj_image()->comps[0].prec < 12) {
+		int const shift = 12 - oj->opj_image()->comps[0].prec;
 		for (int c = 0; c < 3; ++c) {
-			int* p = xyz->data (c);
-			for (int y = 0; y < xyz->size().height; ++y) {
-				for (int x = 0; x < xyz->size().width; ++x) {
+			int* p = oj->data (c);
+			for (int y = 0; y < oj->size().height; ++y) {
+				for (int x = 0; x < oj->size().width; ++x) {
 					*p++ <<= shift;
 				}
 			}
 		}
 	}
 
-	dcp::xyz_to_rgb (xyz, dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
+	if (oj->opj_image()->color_space == CLRSPC_SRGB) {
+		/* No XYZ -> RGB conversion necessary; just copy and interleave the values */
+		int p = 0;
+		for (int y = 0; y < oj->size().height; ++y) {
+			uint16_t* q = (uint16_t *) (image->data()[0] + y * image->stride()[0]);
+			for (int x = 0; x < oj->size().width; ++x) {
+				for (int c = 0; c < 3; ++c) {
+					*q++ = oj->data(c)[p] << 4;
+				}
+				++p;
+			}
+		}
+	} else {
+		dcp::xyz_to_rgb (oj, dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
+	}
 	
 	return image;
 }
