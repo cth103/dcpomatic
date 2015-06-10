@@ -287,7 +287,7 @@ ContentPanel::add_folder_clicked ()
 			shared_ptr<DCPContent> content (new DCPContent (_film, path));
 			_film->examine_and_add_content (content);
 		} catch (...) {
-			error_dialog (_panel, _("Could not find a DCP in that folder."));
+			error_dialog (_panel, _("Could not find a DCP nor a set of images in that folder."));
 		}
 	} else {
 		
