@@ -47,7 +47,9 @@ cinema projectors.
 <title>Licence</title>
 
 <para>
-DCP-o-matic is licensed under the <ulink url="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL</ulink>.
+DCP-o-matic is free and open-source and is licensed under the <ulink
+url="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
+GPL</ulink>.
 </para>
 
 </section>
@@ -113,8 +115,9 @@ like to install it.
 
 <para>
 You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
-Pangolin&rsquo;) or 14.04 (&lsquo;Trusty Tahr&rsquo;) using <code>.deb</code> packages: download the
-appropriate package from <ulink
+Pangolin&rsquo;), 14.04 (&lsquo;Trusty Tahr&rsquo;) or 15.04
+(&lsquo;Vivid Vervet&rsquo;) using <code>.deb</code> packages:
+download the appropriate package from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
 double-click it.  Ubuntu will install the necessary bits and pieces
 and set DCP-o-matic up for you.
@@ -127,7 +130,7 @@ and set DCP-o-matic up for you.
 <section>
 <title>Debian Linux</title>
 <para>
-Packages are available for Debian 7 (squeeze) and unstable (sid) from <ulink
+Packages are available for Debian 7 (squeeze), 8 (jessie) and unstable (sid) from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
 </para>
 </section>
@@ -159,10 +162,11 @@ thanks to Stefan Karner.
 <title>Other Linux distributions</title>
 
 <para>
-Installation on non-Ubuntu Linux is currently a little involved, as
-there are no packages available (yet); you will have to compile it
-from source.  If you are using a non-Ubuntu distribution, do let me
-know by <ulink url="mailto:carl@dcpomatic.com">email</ulink> and I will see about building some packages.
+Installation on other Linux systems (for which no packages are
+available) is quite hard; you will have to compile it from source.  If
+you are using distribution for which no packages are available, do let
+me know by <ulink url="mailto:carl@dcpomatic.com">email</ulink> and I
+will look into providing packages on the website.
 </para>
 
 <para>
@@ -205,7 +209,7 @@ With any luck, this will build and install DCP-o-matic on your system.  To run i
 </para>
 
 <programlisting>
-dcpomatic
+dcpomatic2
 </programlisting>
 
 <para>
@@ -389,9 +393,10 @@ linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 </para>
 
 <para>
-Alternatively, if you have a projector or TMS that is accessible via
-SCP across your network, you can upload the content directly from
-DCP-o-matic.  See the <xref linkend="sec-prefs-tms" endterm="sec-prefs-tms-short"/>.
+Alternatively, if  you have a  projector or Theatre  Management System
+(TMS) that is accessible via SCP across your network, you can upload
+the content directly from DCP-o-matic.  See the <xref
+linkend="sec-prefs-tms" endterm="sec-prefs-tms-short"/> in <xref linkend="sec-prefs-tms"/>.
 </para>
 
 </section>
@@ -495,7 +500,7 @@ content as you like, and they can be of the following types:
 
 <itemizedlist>
 <listitem>Movie &mdash; a file containing some video, probably some
-audio and possibly some subtitles; for example, a MOV, MP4 or VOB.
+audio and possibly some embedded subtitles; for example, a MOV, MP4 or VOB.
 </listitem>
 
 <listitem>Sound &mdash; a file containing one or more channels of
@@ -509,10 +514,15 @@ example, a JPEG, PNG or TIFF file.
 <listitem>Moving image &mdash; a directory containing many still
 images which should be treated as the frames of a video.
 </listitem>
+
+<listitem>Subtitle &mdash; a file containing subtitle which will be
+superimposed on the image of the DCP.  These can be
+<guilabel>.srt</guilabel> or <guilabel>.xml</guilabel>
+files.</listitem>
 </itemizedlist>
 
 <para>
-To add one or more movie, sound or still-image files, select
+To add one or more movie, sound, still-image or subtitle files, select
 <guilabel>Add file(s)...</guilabel> and choose them from the selector.
 </para>
 
@@ -673,24 +683,10 @@ converting the selected content into the XYZ colourspace for the DCP.
 </para>
 
 <para>
-Clicking <guilabel>Edit...</guilabel> will open the colour conversion
-dialogue box, as shown in <xref linkend="fig-colour-conversion"/>.
-</para>
-
-<figure id="fig-colour-conversion">
-  <title>Dialogue box for setting colour conversion</title> 
-  <mediaobject>
-    <imageobject> 
-      <imagedata fileref="screenshots/colour-conversion&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-In most cases, it is only necessary to select one of DCP-o-matic's
-presets.  DCP-o-matic knows how to convert from four common
-colourspaces: sRGB, Rec. 601, Rec. 709 and P3.  If you do not know
-which preset you should use, refer to the suggestions in <xref
+The easiest way to select the required conversion is to choose one of
+DCP-o-matic's presets.  DCP-o-matic knows how to convert from four
+common colourspaces: sRGB, Rec. 601, Rec. 709 and P3.  If you do not
+know which preset you should use, refer to the suggestions in <xref
 linkend="tab-colour-conversion"/>.
 </para>
 
@@ -701,7 +697,7 @@ linkend="tab-colour-conversion"/>.
 <colspec colwidth='5*'/>
 <tbody>
 <row>
-<entry>sRGB</entry><entry>Still images in RGB, e.g. photographs</entry>
+<entry>sRGB</entry><entry>Still images in RGB, e.g. photographs</entry>.
 </row>
 <row>
 <entry>Rec. 601</entry><entry>Standard-definition content (lower than about 1000 pixels across) including DVD rips.</entry>
@@ -717,13 +713,28 @@ linkend="tab-colour-conversion"/>.
 </table>
 
 <para>
-For other required colour conversion, and if you know what you are
-doing, you can edit the values in the lower half of the dialogue box.
+For other required colour conversions, and if you know what you are
+doing, you can choose <guilabel>Custom</guilabel> which will open the full
+colour conversion editing dialogue box:
+</para>
+
+<figure id="fig-colour-conversion">
+  <title>Dialogue box for custom colour conversion</title> 
+  <mediaobject>
+    <imageobject> 
+      <imagedata fileref="screenshots/colour-conversion&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+Alternatively, choose <guilabel>None</guilabel> if your source files
+are already in the XYZ colour space and require no conversion.
 </para>
 
 <para>
-Colour conversion is discussed in much more detail in a separate
-document <ulink
+DCP-o-matic's colour conversion processes are discussed in much more
+detail in a separate document <ulink
 url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
 </para>
 
@@ -734,11 +745,18 @@ url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
 <title>Other settings</title>
 
 <para>
-The &lsquo;crop&rsquo; settings can be used to crop your content,
+The <guilabel>crop</guilabel> settings can be used to crop your content,
 which can be used to remove black borders from round the edges of DVD
 images, for example.  The specified number of pixels will be trimmed
 from each edge, and the content image in the right of the window will
 be updated to show the effect of the crop.
+</para>
+
+<para>
+The <guilabel>fade in</guilabel> and <guilabel>fade out</guilabel>
+settings can be used to apply linear fades into and out of a piece of
+content.  Specify the time for each, clicking <guilabel>Set</guilabel>
+after making any changes.
 </para>
 
 <para>
@@ -791,57 +809,6 @@ The <guilabel>Audio</guilabel> tab controls properties of the image, as shown in
     </imageobject> 
   </mediaobject>
 </figure>
-
-
-<!-- ============================================================== -->
-<section>
-<title>Show audio</title>
-
-<para>
-The <guilabel>Show Audio</guilabel> button will instruct DCP-o-matic
-to examine the audio in your content and plot a graph of its level
-over time.  This can be useful for getting a rough idea of how loud
-the sound will be in the cinema auditorium.  A typical plot is shown
-in <xref linkend="fig-audio-plot"/>
-</para>
-
-<figure id="fig-audio-plot"> 
-  <title>Audio plot</title>
-  <mediaobject>
-    <imageobject> 
-       <imagedata fileref="screenshots/audio-plot&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-The plot gives the audio level (vertical axis, in dB) with time
-(horizontal axis).  0dB represents full scale, so if there is anything
-near this you are in danger of clipping the projector's audio outputs.
-</para>
-
-<para>
-There are two plot types: the peak level and the RMS, which can be
-shown or hidden using the check-boxes on the right hand side of the
-window.
-</para>
-
-<para>
-The channel check-boxes will show or hide the plot(s) for
-the corresponding channels in the DCP.
-</para>
-
-<para>
-The smoothing slider applies a variable degree of temporal smoothing
-to the plots, which can make them easier to read in some cases.
-</para>
-
-<para>
-Obviously the audio plot is no substitute for listening in an
-auditorium, but it can be useful to get levels in the right rough area.
-</para>
-
-</section>
 
 
 <!-- ============================================================== -->
@@ -1405,6 +1372,56 @@ your content for the DCP, if required.  Bicubic is a fine choice in
 most situations.
 </para>
 
+<!-- ============================================================== -->
+<section>
+<title>Show audio</title>
+
+<para>
+The <guilabel>Show Audio</guilabel> button will instruct DCP-o-matic
+to examine the audio in your content and plot a graph of its level
+over time.  This can be useful for getting a rough idea of how loud
+the sound will be in the cinema auditorium.  A typical plot is shown
+in <xref linkend="fig-audio-plot"/>
+</para>
+
+<figure id="fig-audio-plot"> 
+  <title>Audio plot</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata fileref="screenshots/audio-plot&scs;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The plot gives the audio level (vertical axis, in dB) with time
+(horizontal axis).  0dB represents full scale, so if there is anything
+near this you are in danger of clipping the projector's audio outputs.
+</para>
+
+<para>
+There are two plot types: the peak level and the RMS, which can be
+shown or hidden using the check-boxes on the right hand side of the
+window.
+</para>
+
+<para>
+The channel check-boxes will show or hide the plot(s) for
+the corresponding channels in the DCP.
+</para>
+
+<para>
+The smoothing slider applies a variable degree of temporal smoothing
+to the plots, which can make them easier to read in some cases.
+</para>
+
+<para>
+Obviously the audio plot is no substitute for listening in an
+auditorium, but it can be useful to get levels in the right rough area.
+</para>
+
+</section>
+
 </chapter>
 
 <chapter xml:id="ch-encryption" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
@@ -1769,7 +1786,7 @@ The servers tab is shown in <xref linkend="fig-prefs-servers"/>.
 <para>
 If <guilabel>Use all servers</guilabel> is ticked DCP-o-matic will
 locate encoding servers automatically (see <xref
-linkend="ch:servers"/>).
+linkend="ch-servers"/>).
 </para>
 
 <para>
@@ -2039,7 +2056,7 @@ even refuse to ingest.
 
 <para>
 The only rates that are (pretty much) guaranteed to work on all DCI
-projectors is 24 frames per second (fps) for video and 48kHz or 96kHz
+projectors are 24 frames per second (fps) for video and 48kHz or 96kHz
 for audio.  If you are sending your DCPs to unknown places it wise to
 consider using these rates if at all possible.
 </para>
@@ -2170,7 +2187,7 @@ To run the command line version, simply enter:
 </para>
 
 <programlisting>
-dcpomatic_server_cli
+dcpomatic2_server_cli
 </programlisting>
 
 <para>
@@ -2180,7 +2197,7 @@ by doing something like:
 </para>
 
 <programlisting>
-dcpomatic_server_cli -t 4
+dcpomatic2_server_cli -t 4
 </programlisting>
 
 <para>
