@@ -22,6 +22,7 @@
 #include "image.h"
 #include "data.h"
 #include "raw_convert.h"
+#include <dcp/xyz_image.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/colour_conversion.h>
@@ -31,6 +32,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -80,14 +82,22 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 {
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
 
-	dcp::xyz_to_rgb (
-		dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0),
-		dcp::ColourConversion::srgb_to_xyz(),
-		image->data()[0],
-		image->stride()[0],
-		note
-		);
+	shared_ptr<dcp::XYZImage> xyz = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
 
+	if (xyz->opj_image()->comps[0].prec < 12) {
+		int const shift = 12 - xyz->opj_image()->comps[0].prec;
+		for (int c = 0; c < 3; ++c) {
+			int* p = xyz->data (c);
+			for (int y = 0; y < xyz->size().height; ++y) {
+				for (int x = 0; x < xyz->size().width; ++x) {
+					*p++ <<= shift;
+				}
+			}
+		}
+	}
+
+	dcp::xyz_to_rgb (xyz, dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
+	
 	return image;
 }
 
