@@ -48,7 +48,6 @@
 #include <dcp/signer.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
-#include <dcp/font.h>
 #include <boost/foreach.hpp>
 #include <fstream>
 #include <cerrno>
