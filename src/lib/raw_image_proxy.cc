@@ -30,6 +30,7 @@ extern "C" {
 
 using std::string;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 using boost::optional;
 
 RawImageProxy::RawImageProxy (shared_ptr<Image> image)
@@ -67,4 +68,15 @@ void
 RawImageProxy::send_binary (shared_ptr<Socket> socket) const
 {
 	_image->write_to_socket (socket);
+}
+
+bool
+RawImageProxy::same (shared_ptr<const ImageProxy> other) const
+{
+	shared_ptr<const RawImageProxy> rp = dynamic_pointer_cast<const RawImageProxy> (other);
+	if (!rp) {
+		return false;
+	}
+
+	return (*_image.get()) == (*rp->image().get());
 }
