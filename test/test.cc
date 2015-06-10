@@ -213,6 +213,7 @@ check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 	options.cpl_annotation_texts_can_differ = true;
 	options.reel_annotation_texts_can_differ = true;
 	options.reel_hashes_can_differ = true;
+	options.issue_dates_can_differ = true;
 	
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }
