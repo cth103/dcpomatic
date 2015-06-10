@@ -158,7 +158,7 @@ Writer::~Writer ()
 }
 
 void
-Writer::write (shared_ptr<const Data> encoded, int frame, Eyes eyes)
+Writer::write (Data encoded, int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -328,7 +328,7 @@ try
 			{
 				LOG_GENERAL (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
 				if (!qi.encoded) {
-					qi.encoded.reset (new Data (_film->j2c_path (qi.frame, qi.eyes, false)));
+					qi.encoded = Data (_film->j2c_path (qi.frame, qi.eyes, false));
 				}
 
 				dcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data().get (), qi.encoded->size());

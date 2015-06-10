@@ -25,6 +25,12 @@
 
 using boost::shared_array;
 
+Data::Data ()
+	: _size (0)
+{
+
+}
+
 Data::Data (int size)
 	: _data (new uint8_t[size])
 	, _size (size)

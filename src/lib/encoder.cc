@@ -33,6 +33,7 @@
 #include "server_finder.h"
 #include "player.h"
 #include "player_video.h"
+#include "data.h"
 #include <libcxml/cxml.h>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
@@ -279,7 +280,7 @@ try
 	*/
 	int remote_backoff = 0;
 	shared_ptr<DCPVideo> last_dcp_video;
-	shared_ptr<Data> last_encoded;
+	optional<Data> last_encoded;
 	
 	while (true) {
 
@@ -300,7 +301,7 @@ try
 		
 		lock.unlock ();
 
-		shared_ptr<Data> encoded;
+		optional<Data> encoded;
 
 		if (last_dcp_video && vf->same (last_dcp_video)) {
 			/* We already have encoded data for the same input as this one, so take a short-cut */
@@ -344,7 +345,7 @@ try
 		last_encoded = encoded;
 
 		if (encoded) {
-			_writer->write (encoded, vf->index (), vf->eyes ());
+			_writer->write (encoded.get(), vf->index (), vf->eyes ());
 			frame_done ();
 		} else {
 			lock.lock ();

@@ -60,7 +60,7 @@ public:
 	void send_binary (boost::shared_ptr<Socket> socket, bool send_subtitles) const;
 
 	bool has_j2k () const;
-	boost::shared_ptr<Data> j2k () const;
+	Data j2k () const;
 
 	DCPTime time () const {
 		return _time;

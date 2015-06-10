@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_DATA_H
+#define DCPOMATIC_DATA_H
+
 #include <boost/shared_array.hpp>
 #include <boost/filesystem.hpp>
 #include <stdint.h>
@@ -24,6 +27,7 @@
 class Data
 {
 public:
+	Data ();
 	Data (int size);
 	Data (uint8_t const * data, int size);
 	Data (boost::filesystem::path file);
@@ -45,3 +49,5 @@ private:
 	boost::shared_array<uint8_t> _data;
 	int _size;
 };
+
+#endif

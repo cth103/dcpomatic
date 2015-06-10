@@ -57,8 +57,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
 
 	++frame_count;
 
-	shared_ptr<Data> local_encoded = local->encode_locally (boost::bind (&Log::dcp_log, log_.get(), _1, _2));
-	shared_ptr<Data> remote_encoded;
+	Data local_encoded = local->encode_locally (boost::bind (&Log::dcp_log, log_.get(), _1, _2));
+	Data remote_encoded;
 
 	string remote_error;
 	try {
@@ -72,14 +72,14 @@ process_video (shared_ptr<PlayerVideo> pvf)
 		return;
 	}
 
-	if (local_encoded->size() != remote_encoded->size()) {
+	if (local_encoded.size() != remote_encoded.size()) {
 		cout << "\033[0;31msizes differ\033[0m\n";
 		return;
 	}
 		
-	uint8_t* p = local_encoded->data().get ();
-	uint8_t* q = remote_encoded->data().get ();
-	for (int i = 0; i < local_encoded->size(); ++i) {
+	uint8_t* p = local_encoded.data().get ();
+	uint8_t* q = remote_encoded.data().get ();
+	for (int i = 0; i < local_encoded.size(); ++i) {
 		if (*p++ != *q++) {
 			cout << "\033[0;31mdata differ\033[0m at byte " << i << "\n";
 			return;

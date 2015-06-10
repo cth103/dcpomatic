@@ -18,6 +18,7 @@
 */
 
 #include "image_proxy.h"
+#include "data.h"
 #include <dcp/util.h>
 
 class Data;
@@ -34,14 +35,16 @@ public:
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
 
-	boost::shared_ptr<Data> j2k () const;
+	Data j2k () const {
+		return _data;
+	}
+	
 	dcp::Size size () const {
 		return _size;
 	}
 	
 private:
-	boost::shared_ptr<const dcp::MonoPictureFrame> _mono;
-	boost::shared_ptr<const dcp::StereoPictureFrame> _stereo;
+	Data _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;
 };

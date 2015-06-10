@@ -119,13 +119,13 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 
 	gettimeofday (&after_read, 0);
 	
-	shared_ptr<Data> encoded = dcp_video_frame.encode_locally (boost::bind (&Log::dcp_log, _log.get(), _1, _2));
+	Data encoded = dcp_video_frame.encode_locally (boost::bind (&Log::dcp_log, _log.get(), _1, _2));
 
 	gettimeofday (&after_encode, 0);
 	
 	try {
-		socket->write (encoded->size ());
-		socket->write (encoded->data ().get (), encoded->size ());
+		socket->write (encoded.size ());
+		socket->write (encoded.data ().get (), encoded.size ());
 	} catch (std::exception& e) {
 		cerr << "Send failed; frame " << dcp_video_frame.index() << "\n";
 		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());

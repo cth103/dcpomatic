@@ -177,7 +177,7 @@ PlayerVideo::has_j2k () const
 	return _crop == Crop () && _inter_size == j2k->size();
 }
 
-shared_ptr<Data>
+Data
 PlayerVideo::j2k () const
 {
 	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);

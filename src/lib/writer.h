@@ -24,6 +24,7 @@
 #include "exceptions.h"
 #include "types.h"
 #include "player_subtitles.h"
+#include "data.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -62,7 +63,7 @@ public:
 	} type;
 
 	/** encoded data for FULL */
-	boost::shared_ptr<const Data> encoded;
+	boost::optional<Data> encoded;
 	/** size of data for FAKE */
 	int size;
 	/** frame index */
@@ -92,7 +93,7 @@ public:
 
 	bool can_fake_write (int) const;
 	
-	void write (boost::shared_ptr<const Data>, int, Eyes);
+	void write (Data, int, Eyes);
 	void fake_write (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
@@ -130,8 +131,8 @@ private:
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */
 	boost::condition _full_condition;
-	/** the data of the last written frame, or 0 if there isn't one */
-	boost::shared_ptr<const Data> _last_written[EYES_COUNT];
+	/** the data of the last written frame, if there is one */
+	boost::optional<Data> _last_written[EYES_COUNT];
 	/** the index of the last written frame */
 	int _last_written_frame;
 	Eyes _last_written_eyes;

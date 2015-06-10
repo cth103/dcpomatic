@@ -36,25 +36,33 @@ using boost::optional;
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
 J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
-	: _mono (new dcp::MonoPictureFrame (path))
+	: _data (path)
 	, _size (size)
 {
 
 }
 
 J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size)
-	: _mono (frame)
+	: _data (frame->j2k_size ())
 	, _size (size)
 {
-	
+	memcpy (_data.data().get(), frame->j2k_data(), _data.size ());
 }
 
 J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye)
-	: _stereo (frame)
-	, _size (size)
+	: _size (size)
 	, _eye (eye)
 {
-
+	switch (eye) {
+	case dcp::EYE_LEFT:
+		_data = Data (frame->left_j2k_size ());
+		memcpy (_data.data().get(), frame->left_j2k_data(), _data.size ());
+		break;
+	case dcp::EYE_RIGHT:
+		_data = Data (frame->right_j2k_size ());
+		memcpy (_data.data().get(), frame->right_j2k_data(), _data.size ());
+		break;
+	}
 }
 
 J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
@@ -62,18 +70,9 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	_size = dcp::Size (xml->number_child<int> ("Width"), xml->number_child<int> ("Height"));
 	if (xml->optional_number_child<int> ("Eye")) {
 		_eye = static_cast<dcp::Eye> (xml->number_child<int> ("Eye"));
-		int const left_size = xml->number_child<int> ("LeftSize");
-		int const right_size = xml->number_child<int> ("RightSize");
-		shared_ptr<dcp::StereoPictureFrame> f (new dcp::StereoPictureFrame ());
-		socket->read (f->left_j2k_data(), left_size);
-		socket->read (f->right_j2k_data(), right_size);
-		_stereo = f;
-	} else {
-		int const size = xml->number_child<int> ("Size");
-		shared_ptr<dcp::MonoPictureFrame> f (new dcp::MonoPictureFrame ());
-		socket->read (f->j2k_data (), size);
-		_mono = f;
 	}
+	_data = Data (xml->number_child<int> ("Size"));
+	socket->read (_data.data().get (), _data.size ());
 }
 
 shared_ptr<Image>
@@ -81,11 +80,13 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 {
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
 
-	if (_mono) {
-		dcp::xyz_to_rgb (_mono->xyz_image (), dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
-	} else {
-		dcp::xyz_to_rgb (_stereo->xyz_image (_eye.get ()), dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
-	}
+	dcp::xyz_to_rgb (
+		dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0),
+		dcp::ColourConversion::srgb_to_xyz(),
+		image->data()[0],
+		image->stride()[0],
+		note
+		);
 
 	return image;
 }
@@ -96,36 +97,14 @@ J2KImageProxy::add_metadata (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text (N_("J2K"));
 	node->add_child("Width")->add_child_text (raw_convert<string> (_size.width));
 	node->add_child("Height")->add_child_text (raw_convert<string> (_size.height));
-	if (_stereo) {
+	if (_eye) {
 		node->add_child("Eye")->add_child_text (raw_convert<string> (_eye.get ()));
-		node->add_child("LeftSize")->add_child_text (raw_convert<string> (_stereo->left_j2k_size ()));
-		node->add_child("RightSize")->add_child_text (raw_convert<string> (_stereo->right_j2k_size ()));
-	} else {
-		node->add_child("Size")->add_child_text (raw_convert<string> (_mono->j2k_size ()));
 	}
+	node->add_child("Size")->add_child_text (raw_convert<string> (_data.size ()));
 }
 
 void
 J2KImageProxy::send_binary (shared_ptr<Socket> socket) const
 {
-	if (_mono) {
-		socket->write (_mono->j2k_data(), _mono->j2k_size ());
-	} else {
-		socket->write (_stereo->left_j2k_data(), _stereo->left_j2k_size ());
-		socket->write (_stereo->right_j2k_data(), _stereo->right_j2k_size ());
-	}
-}
-
-shared_ptr<Data>
-J2KImageProxy::j2k () const
-{
-	if (_mono) {
-		return shared_ptr<Data> (new Data (_mono->j2k_data(), _mono->j2k_size()));
-	} else {
-		if (_eye.get() == dcp::EYE_LEFT) {
-			return shared_ptr<Data> (new Data (_stereo->left_j2k_data(), _stereo->left_j2k_size()));
-		} else {
-			return shared_ptr<Data> (new Data (_stereo->right_j2k_data(), _stereo->right_j2k_size()));
-		}
-	}
+	socket->write (_data.data().get(), _data.size());
 }
