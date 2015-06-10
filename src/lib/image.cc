@@ -747,7 +747,11 @@ Image::digest () const
 	MD5Digester digester;
 
 	for (int i = 0; i < components(); ++i) {
-		digester.add (data()[i], line_size()[i]);
+		uint8_t* p = data()[i];
+		for (int y = 0; y < lines(i); ++y) {
+			digester.add (p, line_size()[i]);
+			p += stride()[i];
+		}
 	}
 
 	return digester.get ();
