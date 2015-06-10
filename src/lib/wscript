@@ -38,6 +38,7 @@ sources = """
           content_factory.cc
           content_subtitle.cc
           cross.cc
+          data.cc
           dcp_content.cc
           dcp_content_type.cc
           dcp_decoder.cc
@@ -50,7 +51,6 @@ sources = """
           dcpomatic_time.cc
           dolby_cp750.cc
           encoder.cc
-          encoded_data.cc
           environment_info.cc
           examine_content_job.cc
           exceptions.cc

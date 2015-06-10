@@ -20,7 +20,7 @@
 #include "j2k_image_proxy.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
-#include "encoded_data.h"
+#include "data.h"
 #include "raw_convert.h"
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
@@ -116,16 +116,16 @@ J2KImageProxy::send_binary (shared_ptr<Socket> socket) const
 	}
 }
 
-shared_ptr<EncodedData>
+shared_ptr<Data>
 J2KImageProxy::j2k () const
 {
 	if (_mono) {
-		return shared_ptr<EncodedData> (new EncodedData (_mono->j2k_data(), _mono->j2k_size()));
+		return shared_ptr<Data> (new Data (_mono->j2k_data(), _mono->j2k_size()));
 	} else {
 		if (_eye.get() == dcp::EYE_LEFT) {
-			return shared_ptr<EncodedData> (new EncodedData (_stereo->left_j2k_data(), _stereo->left_j2k_size()));
+			return shared_ptr<Data> (new Data (_stereo->left_j2k_data(), _stereo->left_j2k_size()));
 		} else {
-			return shared_ptr<EncodedData> (new EncodedData (_stereo->right_j2k_data(), _stereo->right_j2k_size()));
+			return shared_ptr<Data> (new Data (_stereo->right_j2k_data(), _stereo->right_j2k_size()));
 		}
 	}
 }

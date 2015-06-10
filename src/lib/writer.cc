@@ -30,7 +30,7 @@
 #include "cross.h"
 #include "audio_buffers.h"
 #include "md5_digester.h"
-#include "encoded_data.h"
+#include "data.h"
 #include "version.h"
 #include "font.h"
 #include "util.h"
@@ -158,7 +158,7 @@ Writer::~Writer ()
 }
 
 void
-Writer::write (shared_ptr<const EncodedData> encoded, int frame, Eyes eyes)
+Writer::write (shared_ptr<const Data> encoded, int frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_mutex);
 
@@ -328,11 +328,16 @@ try
 			{
 				LOG_GENERAL (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
 				if (!qi.encoded) {
-					qi.encoded.reset (new EncodedData (_film->j2c_path (qi.frame, qi.eyes, false)));
+					qi.encoded.reset (new Data (_film->j2c_path (qi.frame, qi.eyes, false)));
 				}
 
-				dcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data(), qi.encoded->size());
-				qi.encoded->write_info (_film, qi.frame, qi.eyes, fin);
+				dcp::FrameInfo fin = _picture_asset_writer->write (qi.encoded->data().get (), qi.encoded->size());
+				FILE* file = fopen_boost (_film->info_file(), "ab");
+				if (!file) {
+					throw OpenFileError (_film->info_file ());
+				}
+				write_frame_info (file, qi.frame, qi.eyes, fin);
+				fclose (file);
 				_last_written[qi.eyes] = qi.encoded;
 				++_full_written;
 				break;
@@ -390,8 +395,8 @@ try
 				_last_written_frame + 1,
 				_last_written_eyes, i->frame
 				);
-			
-			i->encoded->write (_film, i->frame, i->eyes);
+
+			i->encoded->write_via_temp (_film->j2c_path (i->frame, i->eyes, true), _film->j2c_path (i->frame, i->eyes, false));
 			
 			lock.lock ();
 			i->encoded.reset ();
@@ -596,15 +601,15 @@ Writer::check_existing_picture_asset_frame (FILE* asset, int f, Eyes eyes)
 	
 	/* Read the data from the asset and hash it */
 	dcpomatic_fseek (asset, info.offset, SEEK_SET);
-	EncodedData data (info.size);
-	size_t const read = fread (data.data(), 1, data.size(), asset);
+	Data data (info.size);
+	size_t const read = fread (data.data().get(), 1, data.size(), asset);
 	if (read != static_cast<size_t> (data.size ())) {
 		LOG_GENERAL ("Existing frame %1 is incomplete", f);
 		return false;
 	}
 
 	MD5Digester digester;
-	digester.add (data.data(), data.size());
+	digester.add (data.data().get(), data.size());
 	if (digester.get() != info.hash) {
 		LOG_GENERAL ("Existing frame %1 failed hash check", f);
 		return false;

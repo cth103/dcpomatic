@@ -32,7 +32,7 @@ class Image;
 class Log;
 class Subtitle;
 class PlayerVideo;
-class EncodedData;
+class Data;
 
 /** @class DCPVideo
  *  @brief A single frame of video destined for a DCP.
@@ -49,8 +49,8 @@ public:
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, int, int, int, Resolution, bool b, boost::shared_ptr<Log>);
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
-	boost::shared_ptr<EncodedData> encode_locally (dcp::NoteHandler note);
-	boost::shared_ptr<EncodedData> encode_remotely (ServerDescription);
+	boost::shared_ptr<Data> encode_locally (dcp::NoteHandler note);
+	boost::shared_ptr<Data> encode_remotely (ServerDescription);
 
 	int index () const {
 		return _index;

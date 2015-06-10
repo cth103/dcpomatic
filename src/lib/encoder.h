@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,10 +45,8 @@ class AudioBuffers;
 class Film;
 class ServerDescription;
 class DCPVideo;
-class EncodedData;
 class Writer;
 class Job;
-class ServerFinder;
 class PlayerVideo;
 
 /** @class Encoder

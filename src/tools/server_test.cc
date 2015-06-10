@@ -33,7 +33,7 @@
 #include "lib/video_decoder.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
-#include "lib/encoded_data.h"
+#include "lib/data.h"
 
 using std::cout;
 using std::cerr;
@@ -57,8 +57,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
 
 	++frame_count;
 
-	shared_ptr<EncodedData> local_encoded = local->encode_locally (boost::bind (&Log::dcp_log, log_.get(), _1, _2));
-	shared_ptr<EncodedData> remote_encoded;
+	shared_ptr<Data> local_encoded = local->encode_locally (boost::bind (&Log::dcp_log, log_.get(), _1, _2));
+	shared_ptr<Data> remote_encoded;
 
 	string remote_error;
 	try {
@@ -77,8 +77,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
 		return;
 	}
 		
-	uint8_t* p = local_encoded->data();
-	uint8_t* q = remote_encoded->data();
+	uint8_t* p = local_encoded->data().get ();
+	uint8_t* q = remote_encoded->data().get ();
 	for (int i = 0; i < local_encoded->size(); ++i) {
 		if (*p++ != *q++) {
 			cout << "\033[0;31mdata differ\033[0m at byte " << i << "\n";

@@ -279,7 +279,7 @@ try
 	*/
 	int remote_backoff = 0;
 	shared_ptr<DCPVideo> last_dcp_video;
-	shared_ptr<EncodedData> last_encoded;
+	shared_ptr<Data> last_encoded;
 	
 	while (true) {
 
@@ -300,7 +300,7 @@ try
 		
 		lock.unlock ();
 
-		shared_ptr<EncodedData> encoded;
+		shared_ptr<Data> encoded;
 
 		if (last_dcp_video && vf->same (last_dcp_video)) {
 			/* We already have encoded data for the same input as this one, so take a short-cut */

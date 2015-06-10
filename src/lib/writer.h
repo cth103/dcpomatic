@@ -31,7 +31,7 @@
 #include <list>
 
 class Film;
-class EncodedData;
+class Data;
 class AudioBuffers;
 class Job;
 class Font;
@@ -62,7 +62,7 @@ public:
 	} type;
 
 	/** encoded data for FULL */
-	boost::shared_ptr<const EncodedData> encoded;
+	boost::shared_ptr<const Data> encoded;
 	/** size of data for FAKE */
 	int size;
 	/** frame index */
@@ -76,11 +76,11 @@ bool operator== (QueueItem const & a, QueueItem const & b);
 /** @class Writer
  *  @brief Class to manage writing JPEG2000 and audio data to assets on disk.
  *
- *  This class creates sound and picture assets, then takes EncodedData
+ *  This class creates sound and picture assets, then takes Data
  *  or AudioBuffers objects (containing image or sound data respectively)
  *  and writes them to the assets.
  *
- *  ::write() for EncodedData can be called out of order, and the Writer
+ *  ::write() for Data can be called out of order, and the Writer
  *  will sort it out.  write() for AudioBuffers must be called in order.
  */
 
@@ -92,7 +92,7 @@ public:
 
 	bool can_fake_write (int) const;
 	
-	void write (boost::shared_ptr<const EncodedData>, int, Eyes);
+	void write (boost::shared_ptr<const Data>, int, Eyes);
 	void fake_write (int, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
@@ -131,7 +131,7 @@ private:
 	/** condition to manage thread wakeups when we have too much to do */
 	boost::condition _full_condition;
 	/** the data of the last written frame, or 0 if there isn't one */
-	boost::shared_ptr<const EncodedData> _last_written[EYES_COUNT];
+	boost::shared_ptr<const Data> _last_written[EYES_COUNT];
 	/** the index of the last written frame */
 	int _last_written_frame;
 	Eyes _last_written_eyes;

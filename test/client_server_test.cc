@@ -33,7 +33,7 @@
 #include "lib/dcp_video.h"
 #include "lib/player_video.h"
 #include "lib/raw_image_proxy.h"
-#include "lib/encoded_data.h"
+#include "lib/data.h"
 
 using std::list;
 using boost::shared_ptr;
@@ -41,14 +41,14 @@ using boost::thread;
 using boost::optional;
 
 void
-do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, shared_ptr<EncodedData> locally_encoded)
+do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, shared_ptr<Data> locally_encoded)
 {
-	shared_ptr<EncodedData> remotely_encoded;
+	shared_ptr<Data> remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
 	BOOST_CHECK (remotely_encoded);
 	
 	BOOST_CHECK_EQUAL (locally_encoded->size(), remotely_encoded->size());
-	BOOST_CHECK_EQUAL (memcmp (locally_encoded->data(), remotely_encoded->data(), locally_encoded->size()), 0);
+	BOOST_CHECK_EQUAL (memcmp (locally_encoded->data().get(), remotely_encoded->data().get(), locally_encoded->size()), 0);
 }
 
 BOOST_AUTO_TEST_CASE (client_server_test_rgb)
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 			)
 		);
 
-	shared_ptr<EncodedData> locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+	shared_ptr<Data> locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 	BOOST_ASSERT (locally_encoded);
 	
 	Server* server = new Server (log, true);
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 			)
 		);
 
-	shared_ptr<EncodedData> locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+	shared_ptr<Data> locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 	BOOST_ASSERT (locally_encoded);
 	
 	Server* server = new Server (log, true);

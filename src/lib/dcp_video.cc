@@ -38,7 +38,7 @@
 #include "cross.h"
 #include "player_video.h"
 #include "raw_convert.h"
-#include "encoded_data.h"
+#include "data.h"
 #include <libcxml/cxml.h>
 #include <dcp/xyz_image.h>
 #include <dcp/rgb_xyz.h>
@@ -104,7 +104,7 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 /** J2K-encode this frame on the local host.
  *  @return Encoded data.
  */
-shared_ptr<EncodedData>
+shared_ptr<Data>
 DCPVideo::encode_locally (dcp::NoteHandler note)
 {
 	shared_ptr<dcp::XYZImage> xyz;
@@ -236,7 +236,7 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
 		break;
 	}
 
-	shared_ptr<EncodedData> enc (new LocallyEncodedData (cio->buffer, cio_tell (cio)));
+	shared_ptr<Data> enc (new Data (cio->buffer, cio_tell (cio)));
 
 	opj_cio_close (cio);
 	free (parameters.cp_comment);
@@ -249,7 +249,7 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
  *  @param serv Server to send to.
  *  @return Encoded data.
  */
-shared_ptr<EncodedData>
+shared_ptr<Data>
 DCPVideo::encode_remotely (ServerDescription serv)
 {
 	boost::asio::io_service io_service;
@@ -280,8 +280,8 @@ DCPVideo::encode_remotely (ServerDescription serv)
 	/* Read the response (JPEG2000-encoded data); this blocks until the data
 	   is ready and sent back.
 	*/
-	shared_ptr<EncodedData> e (new RemotelyEncodedData (socket->read_uint32 ()));
-	socket->read (e->data(), e->size());
+	shared_ptr<Data> e (new Data (socket->read_uint32 ()));
+	socket->read (e->data().get(), e->size());
 
 	LOG_GENERAL (N_("Finished remotely-encoded frame %1"), _index);
 	

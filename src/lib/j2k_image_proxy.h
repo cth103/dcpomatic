@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include "image_proxy.h"
 #include <dcp/util.h>
 
-class EncodedData;
+class Data;
 
 class J2KImageProxy : public ImageProxy
 {
@@ -34,7 +34,7 @@ public:
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
 
-	boost::shared_ptr<EncodedData> j2k () const;
+	boost::shared_ptr<Data> j2k () const;
 	dcp::Size size () const {
 		return _size;
 	}
