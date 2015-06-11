@@ -132,18 +132,22 @@ FFmpeg::setup_general ()
 		throw DecodeError (N_("could not find video stream"));
 	}
 
-	/* Hack: if the AVStreams have zero IDs, put some in.  We
-	   use the IDs so that we can cope with VOBs, in which streams
+	/* Hack: if the AVStreams have duplicate IDs, replace them with our
+	   own.  We use the IDs so that we can cope with VOBs, in which streams
 	   move about in index but remain with the same ID in different
-	   VOBs.  However, some files have all-zero IDs, hence this hack.
+	   VOBs.  However, some files have duplicate IDs, hence this hack.
 	*/
-	   
-	uint32_t i = 0;
-	while (i < _format_context->nb_streams && _format_context->streams[i]->id == 0) {
-		++i;
-	}
 
-	if (i == _format_context->nb_streams) {
+	bool duplicates = false;
+	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
+		for (uint32_t j = i + 1; j < _format_context->nb_streams; ++j) {
+			if (_format_context->streams[i]->id == _format_context->streams[j]->id) {
+				duplicates = true;
+			}
+		}
+	}
+	
+	if (duplicates) {
 		/* Put in our own IDs */
 		for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 			_format_context->streams[i]->id = i;
