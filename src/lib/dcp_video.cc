@@ -115,7 +115,8 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
 			image->data()[0],
 			image->size(),
 			image->stride()[0],
-			_frame->colour_conversion().get()
+			_frame->colour_conversion().get(),
+			note
 			);
 	} else {
 		xyz = dcp::xyz_to_xyz (image->data()[0], image->size(), image->stride()[0]);
