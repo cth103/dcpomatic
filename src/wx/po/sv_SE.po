@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/key_dialog.cc:44
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-09 15:45+0000\n"
+"POT-Creation-Date: 2015-06-11 12:38+0100\n"
 "PO-Revision-Date: 2014-01-19 09:14+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -30,11 +31,11 @@ msgid ""
 msgstr ""
 "(C) 2012-2014 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole Laursen"
 
-#: src/wx/config_dialog.cc:990
+#: src/wx/config_dialog.cc:984
 msgid "(password will be stored on disk in plaintext)"
 msgstr "(lösenord sparas på disk i klartext)"
 
-#: src/wx/config_dialog.cc:111
+#: src/wx/config_dialog.cc:165
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(starta om DCP-o-matic för att se språkändringar)"
 
@@ -44,11 +45,11 @@ msgstr ""
 
 #. / TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
 #. / comes after it.
-#: src/wx/colour_conversion_editor.cc:107
+#: src/wx/colour_conversion_editor.cc:188
 msgid "1 / "
 msgstr "1 / "
 
-#: src/wx/video_panel.cc:199
+#: src/wx/video_panel.cc:219
 msgid "2D"
 msgstr "2D"
 
@@ -57,47 +58,57 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "Nya versioner av DCP-o-matic finns tillgängligt."
 
-#: src/wx/dcp_panel.cc:612
+#: src/wx/dcp_panel.cc:645
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:560
+#: src/wx/dcp_panel.cc:602
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:202
+#: src/wx/video_panel.cc:222
 msgid "3D alternate"
 msgstr ""
 
-#: src/wx/video_panel.cc:203
+#: src/wx/video_panel.cc:223
 msgid "3D left only"
 msgstr ""
 
-#: src/wx/video_panel.cc:200
+#: src/wx/video_panel.cc:220
 msgid "3D left/right"
 msgstr "3D left/right"
 
-#: src/wx/video_panel.cc:204
+#: src/wx/video_panel.cc:224
 #, fuzzy
 msgid "3D right only"
 msgstr "3D left/right"
 
-#: src/wx/video_panel.cc:201
+#: src/wx/video_panel.cc:221
 msgid "3D top/bottom"
 msgstr "3D top/bottom"
 
-#: src/wx/dcp_panel.cc:613
+#: src/wx/dcp_panel.cc:646
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/hints_dialog.cc:120
+#: src/wx/timing_panel.cc:109
+msgid ""
+"<i>Only change this if it the content's frame rate has been read incorrectly."
+"</i>"
+msgstr ""
+
+#: src/wx/colour_conversion_editor.cc:67
+msgid "A"
+msgstr ""
+
+#: src/wx/hints_dialog.cc:144
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
 
-#: src/wx/update_dialog.cc:34
+#: src/wx/update_dialog.cc:35
 msgid "A new version of DCP-o-matic is available."
 msgstr "En ny version av DCP-o-matic finns tillgänglig."
 
@@ -109,7 +120,7 @@ msgstr "Om DCP-o-matic"
 msgid "Add Cinema..."
 msgstr "Lägg till Cinema..."
 
-#: src/wx/content_menu.cc:57
+#: src/wx/content_menu.cc:62
 #, fuzzy
 msgid "Add KDM..."
 msgstr "Lägg till Cinema..."
@@ -118,35 +129,39 @@ msgstr "Lägg till Cinema..."
 msgid "Add Screen..."
 msgstr "Lägg till Skärm..."
 
-#: src/wx/content_panel.cc:74
+#: src/wx/content_panel.cc:79
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
 msgstr ""
 
-#: src/wx/content_panel.cc:69
+#: src/wx/content_panel.cc:74
 msgid "Add file(s)..."
 msgstr "Lägg till fil(er)..."
 
-#: src/wx/content_panel.cc:73
+#: src/wx/content_panel.cc:78
 msgid "Add folder..."
 msgstr "Lägg till folder..."
 
 # "sekvens" eller "ordning"?
-#: src/wx/image_sequence_dialog.cc:27
+#: src/wx/image_sequence_dialog.cc:25
 #, fuzzy
 msgid "Add image sequence"
 msgstr "Behåll video i sekvens"
 
-#: src/wx/content_panel.cc:70
+#: src/wx/content_panel.cc:75
 msgid "Add video, image or sound files to the film."
 msgstr ""
 
-#: src/wx/config_dialog.cc:584 src/wx/editable_list.h:62
+#: src/wx/config_dialog.cc:594 src/wx/editable_list.h:62
 msgid "Add..."
 msgstr "Lägg till..."
 
-#: src/wx/hints_dialog.cc:108
+#: src/wx/colour_conversion_editor.cc:159
+msgid "Adjust white point to"
+msgstr ""
+
+#: src/wx/hints_dialog.cc:132
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -154,7 +169,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr ""
 
-#: src/wx/hints_dialog.cc:102
+#: src/wx/hints_dialog.cc:126
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -162,16 +177,16 @@ msgid ""
 "tab."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1128
+#: src/wx/config_dialog.cc:1133
 #, fuzzy
 msgid "Allow any DCP frame rate"
 msgstr "bildhastighet"
 
-#: src/wx/about_dialog.cc:115
+#: src/wx/about_dialog.cc:116
 msgid "Artwork by"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:33 src/wx/audio_panel.cc:43 src/wx/dcp_panel.cc:93
+#: src/wx/audio_dialog.cc:35 src/wx/audio_panel.cc:42 src/wx/dcp_panel.cc:104
 msgid "Audio"
 msgstr "Audio"
 
@@ -179,7 +194,12 @@ msgstr "Audio"
 msgid "Audio Language (e.g. EN)"
 msgstr "Audiospråk (ex. SV)"
 
-#: src/wx/audio_mapping_view.cc:358
+#: src/wx/content_properties_dialog.cc:61
+#, fuzzy
+msgid "Audio channels"
+msgstr "kanaler"
+
+#: src/wx/audio_mapping_view.cc:314
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
@@ -187,7 +207,7 @@ msgstr ""
 "Audio kommer att överföras från innehållskanal %d till DCP-kanal %d "
 "oförändrad."
 
-#: src/wx/audio_mapping_view.cc:361
+#: src/wx/audio_mapping_view.cc:317
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -196,28 +216,30 @@ msgstr ""
 "Audio kommer att överföras från innehållskanal %d till DCP-kanal %d med "
 "förstärkning %.1fdB."
 
-#: src/wx/config_dialog.cc:1009
+#: src/wx/colour_conversion_editor.cc:70
+#, fuzzy
+msgid "B"
+msgstr "dB"
+
+#: src/wx/config_dialog.cc:1003
 #, fuzzy
 msgid "BCC address"
 msgstr "IP-adress"
 
-#: src/wx/video_panel.cc:125
-msgid "Bottom crop"
+#: src/wx/colour_conversion_editor.cc:126
+msgid "Blue chromaticity"
+msgstr ""
+
+#: src/wx/video_panel.cc:128
+#, fuzzy
+msgid "Bottom"
 msgstr "Nedre beskärning"
 
 #: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:134
 msgid "Browse..."
 msgstr "Bläddra..."
 
-#: src/wx/audio_mapping_view.cc:325
-msgid "BsL"
-msgstr "BsL"
-
-#: src/wx/audio_mapping_view.cc:329
-msgid "BsR"
-msgstr "BsR"
-
-#: src/wx/dcp_panel.cc:556
+#: src/wx/dcp_panel.cc:598
 msgid "Burn subtitles into image"
 msgstr ""
 
@@ -225,18 +247,7 @@ msgstr ""
 msgid "But I have to use fader"
 msgstr "Men jag måste använda mixervolym"
 
-#: src/wx/image_sequence_dialog.cc:33
-msgid ""
-"By default DCP-o-matic will calculate digests (hashes) of your image files "
-"so that it knows if they change.  Turning this off will speed up import but "
-"you must not alter the image files after import or strange things may happen."
-msgstr ""
-
-#: src/wx/audio_mapping_view.cc:293
-msgid "C"
-msgstr "C"
-
-#: src/wx/config_dialog.cc:1005
+#: src/wx/config_dialog.cc:999
 #, fuzzy
 msgid "CC address"
 msgstr "IP-adress"
@@ -254,16 +265,11 @@ msgstr ""
 msgid "CPL annotation text"
 msgstr ""
 
-#: src/wx/image_sequence_dialog.cc:31
-#, fuzzy
-msgid "Calculate digests"
-msgstr "Beräkna..."
-
-#: src/wx/audio_panel.cc:66
+#: src/wx/audio_panel.cc:60
 msgid "Calculate..."
 msgstr "Beräkna..."
 
-#: src/wx/job_manager_view.cc:66
+#: src/wx/job_manager_view.cc:59
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -272,17 +278,17 @@ msgstr "Avbryt"
 msgid "Certificate"
 msgstr "Välj certifikatfil"
 
-#: src/wx/config_dialog.cc:551
+#: src/wx/config_dialog.cc:561
 msgid "Certificate chain for signing DCPs and KDMs:"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:191
-#: src/wx/doremi_certificate_dialog.cc:103
+#: src/wx/dolby_certificate_dialog.cc:192
+#: src/wx/doremi_certificate_dialog.cc:104
 #, fuzzy
 msgid "Certificate downloaded"
 msgstr "Välj certifikatfil"
 
-#: src/wx/config_dialog.cc:612
+#: src/wx/config_dialog.cc:620
 msgid "Certificate for decrypting DCPs"
 msgstr ""
 
@@ -294,31 +300,31 @@ msgstr ""
 msgid "Channel gain"
 msgstr "Kanalförstärkning"
 
-#: src/wx/audio_dialog.cc:44 src/wx/dcp_panel.cc:628
+#: src/wx/audio_dialog.cc:56 src/wx/dcp_panel.cc:662
 msgid "Channels"
 msgstr "Kanaler"
 
-#: src/wx/config_dialog.cc:126
+#: src/wx/config_dialog.cc:180
 msgid "Check for testing updates as well as stable ones"
 msgstr "sök efter både test- och stabila uppdateringar"
 
-#: src/wx/config_dialog.cc:122
+#: src/wx/config_dialog.cc:176
 msgid "Check for updates on startup"
 msgstr "Sök efter uppdateringar vid start"
 
-#: src/wx/content_menu.cc:198
+#: src/wx/content_menu.cc:244
 msgid "Choose a file"
 msgstr "Välj en fil"
 
-#: src/wx/content_panel.cc:237
+#: src/wx/content_panel.cc:242
 msgid "Choose a file or files"
 msgstr "Välj en fil eller filer"
 
-#: src/wx/content_menu.cc:191 src/wx/content_panel.cc:260
+#: src/wx/content_menu.cc:237 src/wx/content_panel.cc:264
 msgid "Choose a folder"
 msgstr "Välj en folder"
 
-#: src/wx/fonts_dialog.cc:116
+#: src/wx/fonts_dialog.cc:120
 #, fuzzy
 msgid "Choose a font file"
 msgstr "Välj en fil"
@@ -328,18 +334,13 @@ msgstr "Välj en fil"
 msgid "Cinema"
 msgstr "Lägg till Cinema..."
 
-#: src/wx/config_dialog.cc:491
-#, fuzzy
-msgid "Colour Conversions"
-msgstr "Färgkonverteringar"
-
-#: src/wx/content_colour_conversion_dialog.cc:34
-#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:172
+#: src/wx/content_colour_conversion_dialog.cc:35
+#: src/wx/preset_colour_conversion_dialog.cc:30 src/wx/video_panel.cc:181
 msgid "Colour conversion"
 msgstr "Färgkonvertering"
 
 # Svengelska
-#: src/wx/config_dialog.cc:1148
+#: src/wx/config_dialog.cc:1153
 #, fuzzy
 msgid "Config|Timing"
 msgstr "Tajming"
@@ -348,15 +349,20 @@ msgstr "Tajming"
 msgid "Contact email"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:537
+#: src/wx/dcp_panel.cc:573
 msgid "Container"
 msgstr "Innehåll"
 
-#: src/wx/audio_mapping_view.cc:278 src/wx/film_editor.cc:49
+#: src/wx/audio_mapping_view.cc:250 src/wx/film_editor.cc:49
 msgid "Content"
 msgstr "Innehåll"
 
-#: src/wx/dcp_panel.cc:84
+#: src/wx/content_properties_dialog.cc:34
+#, fuzzy
+msgid "Content Properties"
+msgstr "Film Egenskaper"
+
+#: src/wx/dcp_panel.cc:95
 msgid "Content Type"
 msgstr "Innehållstyp"
 
@@ -364,7 +370,7 @@ msgstr "Innehållstyp"
 msgid "Content version"
 msgstr "Innehållsversion"
 
-#: src/wx/dcp_panel.cc:73
+#: src/wx/dcp_panel.cc:78
 msgid "Copy as name"
 msgstr ""
 
@@ -372,30 +378,30 @@ msgstr ""
 msgid "Copy..."
 msgstr ""
 
-#: src/wx/audio_dialog.cc:151
+#: src/wx/audio_dialog.cc:182
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
-#: src/wx/content_panel.cc:286
-msgid "Could not find a DCP in that folder."
+#: src/wx/content_panel.cc:290
+msgid "Could not find a DCP nor a set of images in that folder."
 msgstr ""
 
-#: src/wx/content_panel.cc:307
+#: src/wx/content_panel.cc:310
 msgid "Could not find any images in that folder"
 msgstr ""
 
-#: src/wx/film_viewer.cc:178
+#: src/wx/film_viewer.cc:181
 #, fuzzy, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Kunde inte öppna innehållsfilen (%s)"
 
-#: src/wx/config_dialog.cc:675 src/wx/config_dialog.cc:770
-#: src/wx/config_dialog.cc:790 src/wx/screen_dialog.cc:95
+#: src/wx/config_dialog.cc:673 src/wx/config_dialog.cc:768
+#: src/wx/config_dialog.cc:788 src/wx/screen_dialog.cc:95
 #, fuzzy, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Kunde inte öppna innehållsfilen (%s)"
 
-#: src/wx/config_dialog.cc:762 src/wx/config_dialog.cc:812
+#: src/wx/config_dialog.cc:760 src/wx/config_dialog.cc:810
 #, fuzzy, c-format
 msgid "Could not read key file (%s)"
 msgstr "Kunde inte öppna innehållsfilen (%s)"
@@ -408,18 +414,18 @@ msgstr ""
 msgid "Create in folder"
 msgstr "Skapa i katalog"
 
+#: src/wx/video_panel.cc:91
+msgid "Crop"
+msgstr ""
+
 # sammanhang?
-#: src/wx/video_panel.cc:253
+#: src/wx/video_panel.cc:190
 msgid "Custom"
 msgstr "Special"
 
 #: src/wx/film_editor.cc:51
 msgid "DCP"
 msgstr "DCP"
-
-#: src/wx/dcp_panel.cc:79
-msgid "DCP Name"
-msgstr "DCP-namn"
 
 #: src/wx/kdm_dialog.cc:140
 msgid "DCP directory"
@@ -429,55 +435,55 @@ msgstr ""
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:98
-#, c-format
-msgid "DCP-o-matic audio - %s"
+#: src/wx/audio_dialog.cc:108
+#, fuzzy
+msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic audio - %s"
 
-#: src/wx/config_dialog.cc:276
+#: src/wx/config_dialog.cc:330
 #, fuzzy
 msgid "Default ISDCF name details"
 msgstr "Detaljer om förvalda DCI-namn"
 
-#: src/wx/config_dialog.cc:289
+#: src/wx/config_dialog.cc:343
 msgid "Default JPEG2000 bandwidth"
 msgstr "Förvald JPEG2000-bandbredd"
 
-#: src/wx/config_dialog.cc:298
+#: src/wx/config_dialog.cc:352
 msgid "Default audio delay"
 msgstr "Förvald audiofördröjning"
 
-#: src/wx/config_dialog.cc:280
+#: src/wx/config_dialog.cc:334
 msgid "Default container"
 msgstr "Förvald innehållstyp"
 
-#: src/wx/config_dialog.cc:284
+#: src/wx/config_dialog.cc:338
 msgid "Default content type"
 msgstr "Förvald innehållstyp"
 
-#: src/wx/config_dialog.cc:268
+#: src/wx/config_dialog.cc:322
 msgid "Default directory for new films"
 msgstr "Förvald katalog för nya filmer"
 
-#: src/wx/config_dialog.cc:260
+#: src/wx/config_dialog.cc:314
 msgid "Default duration of still images"
 msgstr "Förvald varaktighet på stillbilder"
 
-#: src/wx/config_dialog.cc:306
+#: src/wx/config_dialog.cc:360
 #, fuzzy
 msgid "Default issuer"
 msgstr "Standardval"
 
-#: src/wx/config_dialog.cc:241
+#: src/wx/config_dialog.cc:296
 msgid "Defaults"
 msgstr "Standardval"
 
-#: src/wx/audio_panel.cc:70
+#: src/wx/audio_panel.cc:64
 #, fuzzy
 msgid "Delay"
 msgstr "Audio Fördröjning"
 
-#: src/wx/dcp_panel.cc:71 src/wx/job_manager_view.cc:76
+#: src/wx/dcp_panel.cc:76 src/wx/job_manager_view.cc:69
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -486,12 +492,12 @@ msgid "Disk space required"
 msgstr "Diskutrymme som krävs"
 
 #: src/wx/screen_dialog.cc:64 src/wx/screen_dialog.cc:118
-#: src/wx/screen_dialog.cc:135
+#: src/wx/screen_dialog.cc:137
 msgid "Dolby"
 msgstr ""
 
 #: src/wx/screen_dialog.cc:63 src/wx/screen_dialog.cc:114
-#: src/wx/screen_dialog.cc:134
+#: src/wx/screen_dialog.cc:136
 msgid "Doremi"
 msgstr ""
 
@@ -499,11 +505,11 @@ msgstr ""
 msgid "Doremi serial numbers must have 6 digits"
 msgstr ""
 
-#: src/wx/content_panel.cc:85
+#: src/wx/content_panel.cc:90
 msgid "Down"
 msgstr "Ner"
 
-#: src/wx/download_certificate_dialog.cc:37 src/wx/screen_dialog.cc:47
+#: src/wx/download_certificate_dialog.cc:39 src/wx/screen_dialog.cc:47
 #, fuzzy
 msgid "Download"
 msgstr "Ner"
@@ -512,8 +518,8 @@ msgstr "Ner"
 msgid "Download certificate"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:157
-#: src/wx/doremi_certificate_dialog.cc:54
+#: src/wx/dolby_certificate_dialog.cc:158
+#: src/wx/doremi_certificate_dialog.cc:55
 msgid "Downloading certificate"
 msgstr ""
 
@@ -525,8 +531,8 @@ msgstr "Redigera Cinema..."
 msgid "Edit Screen..."
 msgstr "Redigera Skärm..."
 
-#: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:277
-#: src/wx/video_panel.cc:168 src/wx/video_panel.cc:176
+#: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:331
+#: src/wx/dcp_panel.cc:123 src/wx/video_panel.cc:174 src/wx/video_panel.cc:193
 #: src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Redigera..."
@@ -539,7 +545,7 @@ msgstr "Mejladress för KDM-leverans"
 msgid "Encoding Servers"
 msgstr "Kodningsservrar"
 
-#: src/wx/dcp_panel.cc:99
+#: src/wx/dcp_panel.cc:110
 msgid "Encrypted"
 msgstr "Krypterad"
 
@@ -547,11 +553,11 @@ msgstr "Krypterad"
 msgid "End"
 msgstr "Slut"
 
-#: src/wx/config_dialog.cc:1146
+#: src/wx/config_dialog.cc:1151
 msgid "Errors"
 msgstr ""
 
-#: src/wx/config_dialog.cc:638
+#: src/wx/config_dialog.cc:636
 msgid "Export DCP decryption certificate..."
 msgstr ""
 
@@ -559,11 +565,11 @@ msgstr ""
 msgid "Facility (e.g. DLA)"
 msgstr "Företag (ex. DLA)"
 
-#: src/wx/video_panel.cc:138
+#: src/wx/video_panel.cc:141
 msgid "Fade in"
 msgstr ""
 
-#: src/wx/video_panel.cc:143
+#: src/wx/video_panel.cc:146
 msgid "Fade out"
 msgstr ""
 
@@ -574,6 +580,11 @@ msgstr ""
 msgid "Fetching..."
 msgstr "räknar..."
 
+#: src/wx/content_properties_dialog.cc:38
+#, fuzzy
+msgid "Filename"
+msgstr "Filmnamn"
+
 #: src/wx/properties_dialog.cc:36
 msgid "Film Properties"
 msgstr "Film Egenskaper"
@@ -582,19 +593,19 @@ msgstr "Film Egenskaper"
 msgid "Film name"
 msgstr "Filmnamn"
 
-#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:165
+#: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:168
 msgid "Filters"
 msgstr "Filter"
 
-#: src/wx/content_menu.cc:55
+#: src/wx/content_menu.cc:59
 msgid "Find missing..."
 msgstr "Hitta saknade..."
 
-#: src/wx/fonts_dialog.cc:47
+#: src/wx/fonts_dialog.cc:48
 msgid "Font file"
 msgstr ""
 
-#: src/wx/fonts_dialog.cc:31
+#: src/wx/fonts_dialog.cc:32
 msgid "Fonts"
 msgstr ""
 
@@ -602,11 +613,11 @@ msgstr ""
 msgid "Fonts..."
 msgstr ""
 
-#: src/wx/dcp_panel.cc:543
+#: src/wx/dcp_panel.cc:584
 msgid "Frame Rate"
 msgstr "Bildhastighet"
 
-#: src/wx/image_sequence_dialog.cc:29
+#: src/wx/image_sequence_dialog.cc:27
 #, fuzzy
 msgid "Frame rate"
 msgstr "Bildhastighet"
@@ -615,12 +626,9 @@ msgstr "Bildhastighet"
 msgid "Frames"
 msgstr "Bildrutor"
 
-#: src/wx/properties_dialog.cc:45
-msgid "Frames already encoded"
-msgstr "Bildrutor redan kodade"
-
 #: src/wx/about_dialog.cc:65
-msgid "Free, open-source DCP generation from almost anything."
+#, fuzzy
+msgid "Free, open-source DCP creation from almost anything."
 msgstr "Fri, öppen-källkods DCP-generering från nästan vad som helst."
 
 # Sammanhang?
@@ -628,7 +636,7 @@ msgstr "Fri, öppen-källkods DCP-generering från nästan vad som helst."
 msgid "From"
 msgstr "Avsändare"
 
-#: src/wx/config_dialog.cc:1001
+#: src/wx/config_dialog.cc:995
 #, fuzzy
 msgid "From address"
 msgstr "IP-adress"
@@ -637,11 +645,11 @@ msgstr "IP-adress"
 msgid "Full"
 msgstr "Full"
 
-#: src/wx/timing_panel.cc:46
+#: src/wx/timing_panel.cc:79
 msgid "Full length"
 msgstr "Full längd"
 
-#: src/wx/audio_panel.cc:55
+#: src/wx/audio_panel.cc:49
 msgid "Gain"
 msgstr ""
 
@@ -654,19 +662,19 @@ msgstr "Volym Kalkylator"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Förstärkning för innehållskanal %d i DCP-kanal %d"
 
-#: src/wx/properties_dialog.cc:51
+#: src/wx/properties_dialog.cc:48
 msgid "Gb"
 msgstr "Gb"
 
-#: src/wx/config_dialog.cc:1142
+#: src/wx/config_dialog.cc:1147
 msgid "General"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:309
-msgid "HI"
-msgstr "HI"
+#: src/wx/colour_conversion_editor.cc:119
+msgid "Green chromaticity"
+msgstr ""
 
-#: src/wx/hints_dialog.cc:31
+#: src/wx/hints_dialog.cc:34
 msgid "Hints"
 msgstr "Råd"
 
@@ -682,15 +690,15 @@ msgstr "Datornamn eller IP-adress"
 msgid "I want to play this back at fader"
 msgstr "Jag vill spela upp detta med mixervolym"
 
-#: src/wx/fonts_dialog.cc:39
+#: src/wx/fonts_dialog.cc:40
 msgid "ID"
 msgstr ""
 
-#: src/wx/config_dialog.cc:886
+#: src/wx/config_dialog.cc:882
 msgid "IP address"
 msgstr "IP-adress"
 
-#: src/wx/config_dialog.cc:449
+#: src/wx/config_dialog.cc:505
 msgid "IP address / host name"
 msgstr "IP-adress / datornamn"
 
@@ -699,27 +707,20 @@ msgstr "IP-adress / datornamn"
 msgid "ISDCF name"
 msgstr "DCI namn"
 
-#: src/wx/colour_conversion_editor.cc:68
-msgid "Input A value"
-msgstr ""
-
-#: src/wx/colour_conversion_editor.cc:73
-msgid "Input B value"
-msgstr ""
-
-#: src/wx/colour_conversion_editor.cc:53
+#: src/wx/colour_conversion_editor.cc:54
 msgid "Input gamma"
 msgstr "Indata gamma"
 
-#: src/wx/colour_conversion_editor.cc:58
+#: src/wx/colour_conversion_editor.cc:48
+#, fuzzy
+msgid "Input gamma correction"
+msgstr "Indata gamma"
+
+#: src/wx/colour_conversion_editor.cc:59
 msgid "Input power"
 msgstr ""
 
-#: src/wx/colour_conversion_editor.cc:63
-msgid "Input threshold"
-msgstr ""
-
-#: src/wx/config_dialog.cc:714
+#: src/wx/config_dialog.cc:712
 msgid "Intermediate"
 msgstr ""
 
@@ -727,19 +728,19 @@ msgstr ""
 msgid "Intermediate common name"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:123
+#: src/wx/dcp_panel.cc:150
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/dcp_panel.cc:570
+#: src/wx/dcp_panel.cc:612
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000-bandbredd"
 
-#: src/wx/content_menu.cc:54
+#: src/wx/content_menu.cc:58
 msgid "Join"
 msgstr "Anslut"
 
-#: src/wx/config_dialog.cc:953
+#: src/wx/config_dialog.cc:955
 #, fuzzy
 msgid "KDM Email"
 msgstr "KDM mejl"
@@ -759,24 +760,20 @@ msgstr "Tajming"
 msgid "Keep video in sequence"
 msgstr "Behåll video i sekvens"
 
-#: src/wx/config_dialog.cc:535
-msgid "Keys"
+#: src/wx/dcp_panel.cc:119 src/wx/key_dialog.cc:26 src/wx/key_dialog.cc:28
+msgid "Key"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:285
-msgid "L"
-msgstr "V"
+#: src/wx/config_dialog.cc:548
+msgid "Keys"
+msgstr ""
 
 #: src/wx/subtitle_panel.cc:89
 #, fuzzy
 msgid "Language"
 msgstr "Välj språk"
 
-#: src/wx/audio_mapping_view.cc:317
-msgid "Lc"
-msgstr "Vc"
-
-#: src/wx/config_dialog.cc:712
+#: src/wx/config_dialog.cc:710
 msgid "Leaf"
 msgstr ""
 
@@ -784,49 +781,43 @@ msgstr ""
 msgid "Leaf common name"
 msgstr ""
 
-#: src/wx/video_panel.cc:93
-msgid "Left crop"
+#: src/wx/video_panel.cc:96
+#, fuzzy
+msgid "Left"
 msgstr "Vänster beskärning"
 
-#: src/wx/audio_mapping_view.cc:297
-msgid "Lfe"
-msgstr "Lfe"
-
-#: src/wx/colour_conversion_editor.cc:49
-msgid "Linearise input gamma curve for low values"
+#: src/wx/colour_conversion_editor.cc:50
+#, fuzzy
+msgid "Linearise input gamma curve for small values"
 msgstr "Linjärisera indatas gammakurva för låga värden"
 
 #: src/wx/screen_dialog.cc:46
 msgid "Load from file..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:607 src/wx/config_dialog.cc:620
-#: src/wx/config_dialog.cc:633
+#: src/wx/config_dialog.cc:616 src/wx/config_dialog.cc:624
+#: src/wx/config_dialog.cc:632
 #, fuzzy
 msgid "Load..."
 msgstr "Lägg till..."
 
-#: src/wx/config_dialog.cc:1136
+#: src/wx/config_dialog.cc:1141
 msgid "Log"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1133
+#: src/wx/config_dialog.cc:1138
 msgid "Log:"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:301
-msgid "Ls"
-msgstr "Vs"
-
-#: src/wx/content_panel.cc:461
+#: src/wx/content_panel.cc:462 src/wx/content_panel.cc:491
 msgid "MISSING: "
 msgstr "SAKNAS:"
 
-#: src/wx/config_dialog.cc:986
+#: src/wx/config_dialog.cc:980
 msgid "Mail password"
 msgstr "Mejl-lösenord"
 
-#: src/wx/config_dialog.cc:982
+#: src/wx/config_dialog.cc:976
 msgid "Mail user name"
 msgstr "Mejl-användarnamn"
 
@@ -843,30 +834,30 @@ msgstr "Välj certifikatfil"
 msgid "Mastered luminance (e.g. 14fl)"
 msgstr ""
 
-#: src/wx/colour_conversion_editor.cc:92
+#: src/wx/colour_conversion_editor.cc:109
 msgid "Matrix"
 msgstr "Matris"
 
-#: src/wx/config_dialog.cc:1120
+#: src/wx/config_dialog.cc:1125
 #, fuzzy
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "JPEG2000-bandbredd"
 
-#: src/wx/config_dialog.cc:293 src/wx/config_dialog.cc:1124
-#: src/wx/dcp_panel.cc:574
+#: src/wx/config_dialog.cc:347 src/wx/config_dialog.cc:1129
+#: src/wx/dcp_panel.cc:616
 msgid "Mbit/s"
 msgstr ""
 
-#: src/wx/content_panel.cc:82
+#: src/wx/content_panel.cc:87
 msgid "Move the selected piece of content earlier in the film."
 msgstr ""
 
-#: src/wx/content_panel.cc:86
+#: src/wx/content_panel.cc:91
 msgid "Move the selected piece of content later in the film."
 msgstr ""
 
 # Låter mysko
-#: src/wx/video_panel.cc:320
+#: src/wx/video_panel.cc:345
 msgid "Multiple content selected"
 msgstr "Flera innehåll valda"
 
@@ -878,13 +869,12 @@ msgstr "Mina Dokument"
 msgid "My problem is"
 msgstr ""
 
-#: src/wx/content_panel.cc:465
+#: src/wx/content_panel.cc:495
 msgid "NEEDS KDM: "
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:28 src/wx/config_dialog.cc:505
-#: src/wx/dcp_panel.cc:56 src/wx/preset_colour_conversion_dialog.cc:38
-#: src/wx/screen_dialog.cc:38
+#: src/wx/cinema_dialog.cc:28 src/wx/dcp_panel.cc:61
+#: src/wx/preset_colour_conversion_dialog.cc:38 src/wx/screen_dialog.cc:38
 msgid "Name"
 msgstr "Namn"
 
@@ -892,19 +882,19 @@ msgstr "Namn"
 msgid "New Film"
 msgstr "Ny Film"
 
-#: src/wx/update_dialog.cc:36
+#: src/wx/update_dialog.cc:37
 msgid "New versions of DCP-o-matic are available."
 msgstr "Nya versioner av DCP-o-matic finns tillgängligt."
 
-#: src/wx/audio_mapping_view.cc:356
+#: src/wx/audio_mapping_view.cc:312
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 "Ingen audio kommer att överföras från innehållskanalen %d till DCP-kanalen "
 "%d."
 
-#: src/wx/audio_panel.cc:317 src/wx/video_panel.cc:166
-#: src/wx/video_panel.cc:258 src/wx/video_panel.cc:267
+#: src/wx/dcp_panel.cc:672 src/wx/video_panel.cc:172 src/wx/video_panel.cc:186
+#: src/wx/video_panel.cc:289
 msgid "None"
 msgstr "Inget"
 
@@ -912,11 +902,11 @@ msgstr "Inget"
 msgid "Off"
 msgstr "Av"
 
-#: src/wx/config_dialog.cc:1154
+#: src/wx/config_dialog.cc:1159
 msgid "Open console window"
 msgstr ""
 
-#: src/wx/content_panel.cc:90
+#: src/wx/content_panel.cc:95
 msgid "Open the timeline for the film."
 msgstr ""
 
@@ -933,12 +923,12 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/wx/config_dialog.cc:978
+#: src/wx/config_dialog.cc:972
 msgid "Outgoing mail server"
 msgstr "Utgående mejlserver"
 
 # Låter mysko
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:62
 #, fuzzy
 msgid "Outline content"
 msgstr "Flera innehåll valda"
@@ -948,31 +938,41 @@ msgstr "Flera innehåll valda"
 msgid "Output"
 msgstr "Utdata gamma"
 
-#: src/wx/colour_conversion_editor.cc:103
+#: src/wx/colour_conversion_editor.cc:184
 msgid "Output gamma"
+msgstr "Utdata gamma"
+
+#: src/wx/colour_conversion_editor.cc:182
+#, fuzzy
+msgid "Output gamma correction"
 msgstr "Utdata gamma"
 
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Package Type (e.g. OV)"
 msgstr "Förpackningstyp (ex. OV)"
 
-#: src/wx/config_dialog.cc:898
+#: src/wx/config_dialog.cc:894
 msgid "Password"
 msgstr "Lösenord"
 
-#: src/wx/job_manager_view.cc:71 src/wx/job_manager_view.cc:160
+#: src/wx/job_manager_view.cc:64 src/wx/job_manager_view.cc:133
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/wx/audio_dialog.cc:60
+#: src/wx/audio_dialog.cc:74
 msgid "Peak"
 msgstr "Topp"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/audio_dialog.cc:245
+#, c-format
+msgid "Peak is %.2fdB at %s"
+msgstr ""
+
+#: src/wx/film_viewer.cc:68
 msgid "Play"
 msgstr "Spela"
 
-#: src/wx/timing_panel.cc:55
+#: src/wx/timing_panel.cc:88
 msgid "Play length"
 msgstr "Spellängd"
 
@@ -982,11 +982,11 @@ msgid ""
 "about the problem."
 msgstr ""
 
-#: src/wx/audio_plot.cc:86
+#: src/wx/audio_plot.cc:85
 msgid "Please wait; audio is being analysed..."
 msgstr "Vänligen vänta; audio analyseras..."
 
-#: src/wx/timing_panel.cc:43
+#: src/wx/timing_panel.cc:76
 msgid "Position"
 msgstr "Position"
 
@@ -994,48 +994,66 @@ msgstr "Position"
 msgid "Pre-release"
 msgstr ""
 
-#: src/wx/config_dialog.cc:625
+#: src/wx/config_dialog.cc:628
 msgid "Private key for decrypting DCPs"
 msgstr ""
 
-#: src/wx/config_dialog.cc:599
+#: src/wx/config_dialog.cc:610
 msgid "Private key for leaf certificate"
 msgstr ""
 
-#: src/wx/audio_panel.cc:89
-msgid "Process with"
+#: src/wx/dcp_panel.cc:670
+msgid "Processor"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:289
-msgid "R"
-msgstr "H"
+#: src/wx/content_menu.cc:60
+#, fuzzy
+msgid "Properties..."
+msgstr "Film Egenskaper"
 
-#: src/wx/audio_dialog.cc:61
+#: src/wx/colour_conversion_editor.cc:105
+#, fuzzy
+msgid "RGB to XYZ conversion"
+msgstr "Färgkonvertering"
+
+#: src/wx/audio_dialog.cc:75
 msgid "RMS"
 msgstr "RMS"
+
+#: src/wx/key_dialog.cc:48
+msgid "Random"
+msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:44
 msgid "Rating (e.g. 15)"
 msgstr "Klassificering (ex. 15)"
 
-#: src/wx/audio_mapping_view.cc:321
-msgid "Rc"
-msgstr "Hc"
-
-#: src/wx/content_menu.cc:56
+#: src/wx/content_menu.cc:61
 msgid "Re-examine..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:595
+#: src/wx/config_dialog.cc:606
 msgid "Re-make certificates..."
+msgstr ""
+
+#: src/wx/colour_conversion_editor.cc:98
+msgid "Rec. 601"
+msgstr ""
+
+#: src/wx/colour_conversion_editor.cc:99
+msgid "Rec. 709"
 msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:62
 msgid "Red band"
 msgstr ""
 
-#: src/wx/config_dialog.cc:586 src/wx/content_menu.cc:59
-#: src/wx/content_panel.cc:77 src/wx/editable_list.h:68
+#: src/wx/colour_conversion_editor.cc:112
+msgid "Red chromaticity"
+msgstr ""
+
+#: src/wx/config_dialog.cc:596 src/wx/content_menu.cc:64
+#: src/wx/content_panel.cc:82 src/wx/editable_list.h:68
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -1048,7 +1066,7 @@ msgstr "Ta bort Cinema"
 msgid "Remove Screen"
 msgstr "Ta bort Skärm"
 
-#: src/wx/content_panel.cc:78
+#: src/wx/content_panel.cc:83
 msgid "Remove the selected piece of content from the film."
 msgstr ""
 
@@ -1060,7 +1078,7 @@ msgstr "Upprepa"
 msgid "Repeat Content"
 msgstr "Repetera Innehåll"
 
-#: src/wx/content_menu.cc:53
+#: src/wx/content_menu.cc:57
 msgid "Repeat..."
 msgstr "Upprepa..."
 
@@ -1068,27 +1086,28 @@ msgstr "Upprepa..."
 msgid "Report A Problem"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1016
+#: src/wx/config_dialog.cc:1010
 msgid "Reset to default text"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:564
+#: src/wx/dcp_panel.cc:606
 msgid "Resolution"
 msgstr "Upplösning"
 
-#: src/wx/job_manager_view.cc:163
+#: src/wx/job_manager_view.cc:136
 msgid "Resume"
 msgstr "Fortsätt"
 
-#: src/wx/audio_mapping_view.cc:364
+#: src/wx/video_panel.cc:106
+#, fuzzy
+msgid "Right"
+msgstr "Höger beskärning"
+
+#: src/wx/audio_mapping_view.cc:320
 msgid "Right click to change gain."
 msgstr "Högerklicka för att ändra förstärkning."
 
-#: src/wx/video_panel.cc:103
-msgid "Right crop"
-msgstr "Höger beskärning"
-
-#: src/wx/config_dialog.cc:710
+#: src/wx/config_dialog.cc:708
 msgid "Root"
 msgstr ""
 
@@ -1096,42 +1115,34 @@ msgstr ""
 msgid "Root common name"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:305
-msgid "Rs"
-msgstr "Hs"
-
-#: src/wx/dcp_panel.cc:122
+#: src/wx/dcp_panel.cc:149
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/video_panel.cc:148
+#: src/wx/video_panel.cc:151
 msgid "Scale to"
 msgstr "Skala om till"
-
-#: src/wx/dcp_panel.cc:579
-msgid "Scaler"
-msgstr "Omskalare"
 
 #: src/wx/kdm_dialog.cc:60
 #, fuzzy
 msgid "Screens"
 msgstr "Lägg till Skärm..."
 
-#: src/wx/kdm_dialog.cc:529
+#: src/wx/kdm_dialog.cc:531
 #, fuzzy
 msgid "Select CPL XML file"
 msgstr "Välj audiofil"
 
-#: src/wx/config_dialog.cc:666 src/wx/config_dialog.cc:782
-#: src/wx/config_dialog.cc:827 src/wx/screen_dialog.cc:102
+#: src/wx/config_dialog.cc:664 src/wx/config_dialog.cc:780
+#: src/wx/config_dialog.cc:825 src/wx/screen_dialog.cc:102
 msgid "Select Certificate File"
 msgstr "Välj certifikatfil"
 
-#: src/wx/content_menu.cc:266
+#: src/wx/content_menu.cc:312
 msgid "Select KDM"
 msgstr ""
 
-#: src/wx/config_dialog.cc:756 src/wx/config_dialog.cc:804
+#: src/wx/config_dialog.cc:754 src/wx/config_dialog.cc:802
 #, fuzzy
 msgid "Select Key File"
 msgstr "Välj certifikatfil"
@@ -1160,33 +1171,34 @@ msgstr ""
 msgid "Server serial number"
 msgstr ""
 
-#: src/wx/config_dialog.cc:431
+#: src/wx/config_dialog.cc:488
 #, fuzzy
 msgid "Servers"
 msgstr "Server"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:64
+#: src/wx/timecode.cc:63 src/wx/timing_panel.cc:97
 msgid "Set"
 msgstr "Sätt"
 
-#: src/wx/fonts_dialog.cc:57
+#: src/wx/fonts_dialog.cc:58
 #, fuzzy
 msgid "Set file..."
 msgstr "Lägg till fil(er)..."
 
-#: src/wx/config_dialog.cc:99
+#: src/wx/config_dialog.cc:153
 msgid "Set language"
 msgstr "Välj språk"
 
-#: src/wx/audio_panel.cc:51
-msgid "Show Audio..."
+#: src/wx/dcp_panel.cc:679
+#, fuzzy
+msgid "Show audio..."
 msgstr "Visa Audio..."
 
-#: src/wx/dcp_panel.cc:95
+#: src/wx/dcp_panel.cc:106
 msgid "Signed"
 msgstr "Signerad"
 
-#: src/wx/audio_dialog.cc:71
+#: src/wx/audio_dialog.cc:85
 msgid "Smoothing"
 msgstr "Utjämning"
 
@@ -1195,11 +1207,11 @@ msgstr "Utjämning"
 msgid "Snap"
 msgstr "Snap"
 
-#: src/wx/update_dialog.cc:43
+#: src/wx/update_dialog.cc:45
 msgid "Stable version "
 msgstr "Stabil version"
 
-#: src/wx/dcp_panel.cc:103
+#: src/wx/dcp_panel.cc:129
 msgid "Standard"
 msgstr "Standard"
 
@@ -1208,7 +1220,7 @@ msgstr "Standard"
 msgid "Start"
 msgstr "Start"
 
-#: src/wx/audio_panel.cc:84 src/wx/subtitle_panel.cc:93
+#: src/wx/subtitle_panel.cc:93
 #, fuzzy
 msgid "Stream"
 msgstr "Audioström"
@@ -1217,7 +1229,7 @@ msgstr "Audioström"
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (ex. TCF)"
 
-#: src/wx/config_dialog.cc:997
+#: src/wx/config_dialog.cc:991
 msgid "Subject"
 msgstr ""
 
@@ -1234,15 +1246,15 @@ msgstr "Undertextspråk (ex. SV)"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:174
+#: src/wx/about_dialog.cc:187
 msgid "Supported by"
 msgstr "Stöd från"
 
-#: src/wx/config_dialog.cc:868
+#: src/wx/config_dialog.cc:865
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:890
+#: src/wx/config_dialog.cc:886
 msgid "Target path"
 msgstr "Målsökväg"
 
@@ -1255,16 +1267,16 @@ msgstr "Testversion"
 msgid "Territory (e.g. UK)"
 msgstr "Område (ex. SV)"
 
-#: src/wx/update_dialog.cc:48
+#: src/wx/update_dialog.cc:51
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:220
+#: src/wx/about_dialog.cc:235
 #, fuzzy
 msgid "Tested by"
 msgstr "Översatt av"
 
-#: src/wx/content_menu.cc:252
+#: src/wx/content_menu.cc:298
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1273,15 +1285,15 @@ msgstr ""
 "Innehållsfilerna du angav är inte samma som de som saknas. Försök igen med "
 "rätt innehållsfiler eller ta bort det saknade innehållet."
 
-#: src/wx/hints_dialog.cc:154
+#: src/wx/hints_dialog.cc:178
 msgid "There are no hints: everything looks good!"
 msgstr "Det finns inga råd: allt verkar bra!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:143
 msgid "There is not enough free memory to do that."
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:554
+#: src/wx/kdm_dialog.cc:556
 msgid "This is not a valid CPL file"
 msgstr ""
 
@@ -1289,15 +1301,15 @@ msgstr ""
 msgid "Threads"
 msgstr "Trådar"
 
-#: src/wx/config_dialog.cc:118
+#: src/wx/config_dialog.cc:172
 msgid "Threads to use for encoding on this host"
 msgstr "Antal trådar att använda vid kodning på denna maskin"
 
-#: src/wx/config_dialog.cc:570
+#: src/wx/config_dialog.cc:580
 msgid "Thumbprint"
 msgstr ""
 
-#: src/wx/audio_plot.cc:165
+#: src/wx/audio_plot.cc:164
 msgid "Time"
 msgstr "Tid"
 
@@ -1305,38 +1317,38 @@ msgstr "Tid"
 msgid "Timeline"
 msgstr "Tidslinje"
 
-#: src/wx/content_panel.cc:89
+#: src/wx/content_panel.cc:94
 msgid "Timeline..."
 msgstr "Tidslinje..."
 
 # Svengelska
-#: src/wx/timing_panel.cc:38
+#: src/wx/timing_panel.cc:37
 #, fuzzy
 msgid "Timing|Timing"
 msgstr "Tajming"
 
-#: src/wx/video_panel.cc:115
-msgid "Top crop"
-msgstr "Övre beskärning"
+#: src/wx/video_panel.cc:118
+msgid "Top"
+msgstr ""
 
-#: src/wx/about_dialog.cc:111
+#: src/wx/about_dialog.cc:112
 msgid "Translated by"
 msgstr "Översatt av"
 
-#: src/wx/timing_panel.cc:52
+#: src/wx/timing_panel.cc:85
 msgid "Trim from end"
 msgstr "Trimma från slut"
 
-#: src/wx/timing_panel.cc:49
+#: src/wx/timing_panel.cc:82
 msgid "Trim from start"
 msgstr "Trimma från start"
 
-#: src/wx/audio_dialog.cc:55 src/wx/config_dialog.cc:562
-#: src/wx/video_panel.cc:77
+#: src/wx/audio_dialog.cc:68 src/wx/config_dialog.cc:572
+#: src/wx/video_panel.cc:78
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/dolby_certificate_dialog.cc:182
+#: src/wx/dolby_certificate_dialog.cc:183
 #, fuzzy
 msgid "Unexpected certificate filename form"
 msgstr "Välj certifikatfil"
@@ -1351,28 +1363,28 @@ msgstr "okänt"
 msgid "Until"
 msgstr "Tills"
 
-#: src/wx/content_panel.cc:81
+#: src/wx/content_panel.cc:86
 msgid "Up"
 msgstr "Upp"
 
-#: src/wx/update_dialog.cc:27
+#: src/wx/update_dialog.cc:28
 msgid "Update"
 msgstr "Uppdatera"
 
-#: src/wx/dcp_panel.cc:66
+#: src/wx/dcp_panel.cc:71
 #, fuzzy
 msgid "Use ISDCF name"
 msgstr "Använd DCI-namnet"
 
-#: src/wx/config_dialog.cc:445
+#: src/wx/config_dialog.cc:501
 msgid "Use all servers"
 msgstr "Använd alla servrar"
 
-#: src/wx/dcp_panel.cc:550
+#: src/wx/dcp_panel.cc:592
 msgid "Use best"
 msgstr "Använd bästa"
 
-#: src/wx/content_colour_conversion_dialog.cc:42
+#: src/wx/content_colour_conversion_dialog.cc:43
 msgid "Use preset"
 msgstr "Använd förhandsinställning"
 
@@ -1381,35 +1393,50 @@ msgstr "Använd förhandsinställning"
 msgid "Use subtitles"
 msgstr "Undertexter"
 
-#: src/wx/config_dialog.cc:894
+#: src/wx/config_dialog.cc:890
 msgid "User name"
 msgstr "Användarnamn"
 
-#: src/wx/audio_mapping_view.cc:313
-msgid "VI"
-msgstr "VI"
-
-#: src/wx/dcp_panel.cc:92 src/wx/video_panel.cc:70
+#: src/wx/dcp_panel.cc:103 src/wx/video_panel.cc:71
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/timing_panel.cc:60
+#: src/wx/content_properties_dialog.cc:51 src/wx/timing_panel.cc:93
 msgid "Video frame rate"
 msgstr "bildhastighet"
+
+#: src/wx/content_properties_dialog.cc:43
+#, fuzzy
+msgid "Video length"
+msgstr "Full längd"
+
+#: src/wx/content_properties_dialog.cc:47
+#, fuzzy
+msgid "Video size"
+msgstr "Video"
 
 #: src/wx/subtitle_panel.cc:97
 msgid "View..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1144
+#: src/wx/config_dialog.cc:1149
 msgid "Warnings"
+msgstr ""
+
+#: src/wx/colour_conversion_editor.cc:133
+#, fuzzy
+msgid "White point"
+msgstr "Skriv till"
+
+#: src/wx/colour_conversion_editor.cc:157
+msgid "White point adjustment"
 msgstr ""
 
 #: src/wx/kdm_dialog.cc:172
 msgid "Write to"
 msgstr "Skriv till"
 
-#: src/wx/about_dialog.cc:95
+#: src/wx/about_dialog.cc:96
 msgid "Written by"
 msgstr "Skriven av"
 
@@ -1433,13 +1460,22 @@ msgstr "Undertext Förskjutning"
 msgid "Y Scale"
 msgstr "Omskalare"
 
-#: src/wx/hints_dialog.cc:147
+#: src/wx/colour_conversion_editor.cc:94
+#, fuzzy
+msgid "YUV to RGB conversion"
+msgstr "Färgkonvertering"
+
+#: src/wx/colour_conversion_editor.cc:96
+msgid "YUV to RGB matrix"
+msgstr ""
+
+#: src/wx/hints_dialog.cc:171
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:133
+#: src/wx/hints_dialog.cc:157
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1448,7 +1484,16 @@ msgstr ""
 "Du har %d filer som verkar vara VOB-filer från DVD. Du borde sammanfoga dom "
 "för att säkerställa jämna övergångar mellan filerna."
 
-#: src/wx/hints_dialog.cc:114
+#: src/wx/hints_dialog.cc:92
+#, fuzzy
+msgid ""
+"You have specified a font file which is larger than 640kB.  This is very "
+"likely to cause problems on playback."
+msgstr ""
+"Din DCP har udda antal audiokanaler. Detta kommer troligen att ge problem "
+"vid uppspelning."
+
+#: src/wx/hints_dialog.cc:138
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1457,7 +1502,7 @@ msgstr ""
 "Din DCP-bildhastighet (%d bps) kan orsaka problem i några få (äldre) "
 "projektorer. Använd 24 eller 48 bilder per sekund för att vara säker."
 
-#: src/wx/hints_dialog.cc:72
+#: src/wx/hints_dialog.cc:97
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
@@ -1465,7 +1510,7 @@ msgstr ""
 "Din DCP har udda antal audiokanaler. Detta kommer troligen att ge problem "
 "vid uppspelning."
 
-#: src/wx/hints_dialog.cc:76
+#: src/wx/hints_dialog.cc:101
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1473,7 +1518,7 @@ msgstr ""
 "Din DCP har mindre än 6 audiokanaler. Detta kan medföra problem på vissa "
 "projektorer."
 
-#: src/wx/hints_dialog.cc:81
+#: src/wx/hints_dialog.cc:106
 #, fuzzy
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
@@ -1482,44 +1527,135 @@ msgstr ""
 "Din DCP har udda antal audiokanaler. Detta kommer troligen att ge problem "
 "vid uppspelning."
 
-#: src/wx/timeline.cc:229
+#: src/wx/timeline_audio_content_view.cc:37
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/properties_dialog.cc:46
-msgid "counting..."
-msgstr "räknar..."
-
-#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:65
+#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:59
 msgid "dB"
 msgstr "dB"
 
+#. // TRANSLATORS: this is an abbreviation for "frames"
+#: src/wx/timing_panel.cc:68
+msgid "f"
+msgstr ""
+
+#: src/wx/content_properties_dialog.cc:52
+#, fuzzy
+msgid "frames per second"
+msgstr "Bildrutor redan kodade"
+
+#. // TRANSLATORS: this is an abbreviation for "hours"
+#: src/wx/timing_panel.cc:46
+msgid "h"
+msgstr ""
+
+#. // TRANSLATORS: this is an abbreviation for "minutes"
+#: src/wx/timing_panel.cc:54
+#, fuzzy
+msgid "m"
+msgstr "ms"
+
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:81 src/wx/config_dialog.cc:302
+#: src/wx/audio_panel.cc:75 src/wx/config_dialog.cc:356
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/config_dialog.cc:264
+#. // TRANSLATORS: this is an abbreviation for "seconds"
+#: src/wx/config_dialog.cc:318 src/wx/timing_panel.cc:61
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline.cc:258
+#: src/wx/timeline_video_content_view.cc:36
 msgid "still"
 msgstr "stillbild"
 
-#: src/wx/timeline.cc:289
+#: src/wx/timeline_subtitle_content_view.cc:35
 #, fuzzy
 msgid "subtitles"
 msgstr "Undertexter"
+
+#: src/wx/colour_conversion_editor.cc:64
+msgid "threshold"
+msgstr ""
 
 # Sammanhang?
 #: src/wx/repeat_dialog.cc:28
 msgid "times"
 msgstr "tider"
 
-#: src/wx/timeline.cc:260
+#: src/wx/timeline_video_content_view.cc:38
 msgid "video"
 msgstr "video"
+
+#: src/wx/content_properties_dialog.cc:44
+#, fuzzy
+msgid "video frames"
+msgstr "bildhastighet"
+
+#: src/wx/colour_conversion_editor.cc:107
+msgid "x"
+msgstr ""
+
+#: src/wx/colour_conversion_editor.cc:108
+msgid "y"
+msgstr ""
+
+#~ msgid "BsL"
+#~ msgstr "BsL"
+
+#~ msgid "BsR"
+#~ msgstr "BsR"
+
+#~ msgid "C"
+#~ msgstr "C"
+
+#, fuzzy
+#~ msgid "Calculate digests"
+#~ msgstr "Beräkna..."
+
+#, fuzzy
+#~ msgid "Colour Conversions"
+#~ msgstr "Färgkonverteringar"
+
+#~ msgid "DCP Name"
+#~ msgstr "DCP-namn"
+
+#~ msgid "HI"
+#~ msgstr "HI"
+
+#~ msgid "L"
+#~ msgstr "V"
+
+#~ msgid "Lc"
+#~ msgstr "Vc"
+
+#~ msgid "Lfe"
+#~ msgstr "Lfe"
+
+#~ msgid "Ls"
+#~ msgstr "Vs"
+
+#~ msgid "R"
+#~ msgstr "H"
+
+#~ msgid "Rc"
+#~ msgstr "Hc"
+
+#~ msgid "Rs"
+#~ msgstr "Hs"
+
+#~ msgid "Scaler"
+#~ msgstr "Omskalare"
+
+#~ msgid "Top crop"
+#~ msgstr "Övre beskärning"
+
+#~ msgid "VI"
+#~ msgstr "VI"
+
+#~ msgid "counting..."
+#~ msgstr "räknar..."
 
 #~ msgid "Bad setting for %s (%s)"
 #~ msgstr "Felaktig inställning för %s (%s)"
@@ -1536,9 +1672,6 @@ msgstr "video"
 
 #~ msgid "Hz"
 #~ msgstr "Hz"
-
-#~ msgid "channels"
-#~ msgstr "kanaler"
 
 #, fuzzy
 #~ msgid "Default creator"
