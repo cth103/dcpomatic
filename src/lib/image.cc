@@ -741,22 +741,6 @@ merge (list<PositionImage> images)
 	return PositionImage (merged, all.position ());
 }
 
-string
-Image::digest () const
-{
-	MD5Digester digester;
-
-	for (int i = 0; i < components(); ++i) {
-		uint8_t* p = data()[i];
-		for (int y = 0; y < lines(i); ++y) {
-			digester.add (p, line_size()[i]);
-			p += stride()[i];
-		}
-	}
-
-	return digester.get ();
-}
-
 bool
 operator== (Image const & a, Image const & b)
 {
