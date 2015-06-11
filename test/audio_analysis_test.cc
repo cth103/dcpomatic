@@ -105,13 +105,28 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	wait_for_jobs ();
 }
 
-/* Check that audio analysis works (i.e. runs without error) with a -ve delay */
+/** Check that audio analysis works (i.e. runs without error) with a -ve delay */
 BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
 	shared_ptr<AudioContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
 	c->set_audio_delay (-250);
+	film->examine_and_add_content (c);
+	wait_for_jobs ();
+	
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	job->Finished.connect (boost::bind (&finished));
+	JobManager::instance()->add (job);
+	wait_for_jobs ();
+}
+
+/** Check audio analysis that is incorrect in 2e98263 */
+BOOST_AUTO_TEST_CASE (audio_analysis_test2)
+{
+	shared_ptr<Film> film = new_test_film ("audio_analysis_test2");
+	film->set_name ("audio_analysis_test2");
+	shared_ptr<AudioContent> c (new FFmpegContent (film, private_data / "3d_thx_broadway_2010_lossless.m2ts"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 	
