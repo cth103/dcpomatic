@@ -35,6 +35,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
 J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
@@ -131,4 +132,19 @@ void
 J2KImageProxy::send_binary (shared_ptr<Socket> socket) const
 {
 	socket->write (_data.data().get(), _data.size());
+}
+
+bool
+J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
+{
+	shared_ptr<const J2KImageProxy> jp = dynamic_pointer_cast<const J2KImageProxy> (other);
+	if (!jp) {
+		return false;
+	}
+
+	if (_data.size() != jp->_data.size()) {
+		return false;
+	}
+
+	return memcmp (_data.data().get(), jp->_data.data().get(), _data.size()) == 0;
 }

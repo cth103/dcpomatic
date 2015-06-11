@@ -34,6 +34,8 @@ public:
 	boost::shared_ptr<Image> image (boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> ()) const;
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
+	/** @return true if our image is definitely the same as another, false if it is probably not */
+	virtual bool same (boost::shared_ptr<const ImageProxy>) const;
 
 	Data j2k () const {
 		return _data;
