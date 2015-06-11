@@ -1,5 +1,7 @@
 2015-06-11  c.hetherington  <cth@carlh.net>
 
+	* Fix massive slowdown of direct J2K->DCP encodes (#599).
+
 	* Fix hang on audio analysis in some cases (#598).
 
 	* Fix never-ending encode when XYZ values are clamped (#600).

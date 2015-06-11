@@ -221,11 +221,11 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 		/* We can fake-write this frame */
 		_writer->fake_write (_video_frames_enqueued, pv->eyes ());
 		frame_done ();
-	} else if (_last_player_video && pv->same (_last_player_video)) {
-		_writer->repeat (_video_frames_enqueued, pv->eyes ());
 	} else if (pv->has_j2k ()) {
 		/* This frame already has JPEG2000 data, so just write it */
 		_writer->write (pv->j2k(), _video_frames_enqueued, pv->eyes ());
+	} else if (_last_player_video && pv->same (_last_player_video)) {
+		_writer->repeat (_video_frames_enqueued, pv->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("adding to queue of %1", _queue.size ());
