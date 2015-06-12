@@ -12,6 +12,7 @@
     <locale map-from='sv_SE'>sv</locale>
     <locale map-from='it_IT'>it</locale>
     <locale map-from='es_ES'>es-ES</locale>
+    <locale map-from='ru_RU'>ru</locale>
   </locales>
 
   <rules>

@@ -1,3 +1,7 @@
+2015-06-12  Carl Hetherington  <cth@carlh.net>
+
+	* New ru_RU translation from Igor Voytovich.
+
 2015-06-12  c.hetherington  <cth@carlh.net>
 
 	* Fix for every audio stream being mapped to the DCP when loading
