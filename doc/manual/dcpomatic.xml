@@ -342,8 +342,8 @@ the right of the window, as shown in <xref linkend="fig-examine-content"/>.
 
 <para>
 Dragging the slider will move through your video.  You can also click
-the <guilabel>Play</guilabel> button to play the content back.  Note
-that there will be no sound, and playback might not be entirely
+the <guilabel>Play</guilabel> button to play the content back.  <emphasis>Note
+that there will be no sound</emphasis>, and playback might not be entirely
 accurate (it may be slightly slower or faster than it should be, for
 example).  This player is really only intended for brief inspection of
 content; if you need to check it more thoroughly, use another player
@@ -380,7 +380,7 @@ linkend="fig-making-dcp"/>.
   <title>Making the DCP</title>
   <mediaobject>
     <imageobject> 
-      <imagedata scale="30" fileref="screenshots/making-dcp&scs;"/>
+      <imagedata scale="50" fileref="screenshots/making-dcp&scs;"/>
     </imageobject> 
   </mediaobject>
 </figure>
@@ -449,7 +449,7 @@ linkend="fig-still-select-content-file"/>.
 As with video DCPs, most of the default settings will be fine for a
 simple test.  The one thing that you might wish to change is the
 length of the still.  Select the <guilabel>Timing</guilabel> tab and
-you will see a <guilabel>Length</guilabel> setting, as shown in <xref
+you will see a <guilabel>Play length</guilabel> setting, as shown in <xref
 linkend="fig-timing-tab"/>.
 </para>
 
@@ -519,6 +519,8 @@ images which should be treated as the frames of a video.
 superimposed on the image of the DCP.  These can be
 <guilabel>.srt</guilabel> or <guilabel>.xml</guilabel>
 files.</listitem>
+
+<listitem>DCP &mdash; an existing DCP.</listitem>
 </itemizedlist>
 
 <para>
@@ -527,10 +529,11 @@ To add one or more movie, sound, still-image or subtitle files, select
 </para>
 
 <para>
-To add a directory (folder) of images, choose <guilabel>Add
-folder...</guilabel> and choose the directory from the selector.
-DCP-o-matic will open a small dialogue box where you can enter the
-frame rate that your image sequence should be run at.
+To add a directory (folder) of images or a DCP, choose <guilabel>Add
+folder...</guilabel> and choose the directory from the selector.  If
+you select a folder of images DCP-o-matic will open a small dialogue
+box where you can enter the frame rate that the image sequence should
+be run at.
 </para>
 
 <para>
@@ -540,6 +543,30 @@ clicking the <guilabel>Remove</guilabel> button.
 
 </section>
 
+<!-- ============================================================== -->
+<section>
+<title>Adding existing DCPs</title>
+
+<para>Adding existing DCPs to a DCP-o-matic film is a little different
+to adding other types of content.  Most content has to be converted to
+JPEG2000, the compression scheme used by DCPs, which is a very
+time-consuming process.  Existing DCPs are already in JPEG2000 format
+so do not require conversion.  This means that, provided no settings
+such as crop are used on the DCP content, picture and sound data will
+be passed from existing to new DCP unaltered.
+</para>
+
+<para>Encrypted DCPs that are added as content will require a KDM
+targeted at DCP-o-matic so that DCP-o-matic can decrypt them.  You
+should ask the creator of the imported DCP to provide a KDM for
+DCP-o-matic's decryption certificate, which can be obtained by
+clicking <guilabel>Export DCP decryption certificate...</guilabel>
+from the <guilabel>Keys</guilabel> tab of the
+<guilabel>Preferences</guilabel> dialog (see <xref
+linkend="sec-prefs-keys"/>).
+</para>
+
+</section>
 
 <!-- ============================================================== -->
 <section>
@@ -700,7 +727,7 @@ linkend="tab-colour-conversion"/>.
 <entry>sRGB</entry><entry>Still images in RGB, e.g. photographs</entry>.
 </row>
 <row>
-<entry>Rec. 601</entry><entry>Standard-definition content (lower than about 1000 pixels across) including DVD rips.</entry>
+<entry>Rec. 601</entry><entry>Standard-definition content (fewer than about 1000 pixels across) including DVD rips.</entry>
 </row>
 <row>
 <entry>Rec. 709</entry><entry>High-definition content including Blu-Ray rips.</entry>
@@ -784,8 +811,9 @@ does not scale the image but pads it to the DCP's container ratio of
 
 <para>
 This description also gives the frame rate of the content and what
-will happen to it when it is played at the DCP's frame rate.
-<!-- XXX: link to more detailed discussion of this -->
+will happen to it when it is played at the DCP's frame rate.  See
+<xref linkend="ch-frame-rates"/> for details of DCP-o-matic's
+frame-rate conversion.
 </para>
 
 </section>
@@ -823,9 +851,13 @@ in the DCP.
 
 <para>
 Down the left-hand side of the map is the list of audio channels in
-the currently-selected piece of content.  Along the top is each
-channel in the DCP.  A green box means that the corresponding
-content channel will be copied into the corresponding DCP channel.
+the currently-selected piece of content.  These are labelled with two
+numbers; the first is the stream index within the content and the
+second is the channel number within that stream.  Some content will
+have different streams for different languages or audio mixes.  Along
+the top is each channel in the DCP.  A green box means that the
+corresponding content channel will be copied into the corresponding
+DCP channel.
 </para>
 
 <para>
@@ -960,12 +992,6 @@ between audio and video.  A positive delay will move the audio later
 with respect to the video, and a negative delay will move it earlier.
 </para>
 
-<para>
-The <guilabel>Audio Stream</guilabel> option allows you to select the
-audio stream to use, if the content contains more than one.  There
-might be different soundtrack languages, for example.
-</para>
-
 </section>
 </section>
 
@@ -991,7 +1017,47 @@ content, as shown in <xref linkend="fig-subtitles-tab"/>.
 <para>
 DCP-o-matic will extract subtitles from the content, if present, and
 they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
-included in the image and not overlaid by the projector).
+included in the image and not overlaid by the projector) or included
+as a separate subtitle &lsquo;asset&rsquo; within your DCP (in which
+case the projector overlays them onto the image on playback).  The
+difference between these two arrangements is illustrated by <xref
+linkend="fig-burn-in"/> and <xref linkend="fig-discrete"/>
+</para>
+
+<figure id="fig-burn-in">
+  <title>Burnt-in subtitles</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="80" fileref="diagrams/burn-in&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<figure id="fig-discrete">
+  <title>Separate subtitles</title>
+  <mediaobject>
+    <imageobject> 
+       <imagedata scale="80" fileref="diagrams/discrete&dia;"/>
+    </imageobject> 
+  </mediaobject>
+</figure>
+
+<para>
+The advantage of separate subtitles is that the same video content can
+be used for DCPs in many different languages.  This means that only a
+small text file needs to be changed for each target language, rather
+than a large video file.  It also means that the time-consuming video
+encoding need only be done once for the project rather than once for
+every language.
+</para>
+
+<para>
+Note that subtitles come in two types: text and bitmap.  Text
+subtitles are expressed as plain text and can be either burnt into the
+image or included as a separate subtitle asset within the DCP.  Bitmap
+subtitles, on the other hand, are expressed as pre-rendered bitmaps.
+They cannot (yet) be added to the DCP as a separate asset and must be
+burnt into the image.
 </para>
 
 <para>
@@ -1091,7 +1157,9 @@ to the full length minus <guilabel>trim-from-start</guilabel> and minus <guilabe
 </para>
 
 <para>
-<guilabel>Video frame rate</guilabel> specifies the frame rate for still-image content.
+<guilabel>Video frame rate</guilabel> specifies the frame rate for
+still-image content.  It can also be used to override the detected
+frame rate of other content if DCP-o-matic has got it wrong.
 </para>
 
 <para>
@@ -1275,39 +1343,11 @@ scheme as it makes it easier to identify details of the content.
 </para>
 
 <para>
-If the DCP name is long, it may not all be visible.  You can see the
-full name by hovering the mouse pointer over the partial name.
-</para>
-
-<para>
-The <guilabel>Container</guilabel> option sets the ratio of the image
-in the DCP.  If this ratio is different to the ratio used for any
-content, DCP-o-matic will pad the content with black.  In simple cases
-this should be set to the same ratio as that for the the primary piece
-of video content.  Alternatively, you might want to pillarbox a small
-format into a Flat container: in this case, select the small format
-for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
-</para>
-
-<para>
-Next up is the content type.  This can be
+The <guilabel>Content Type</guilabel> option can be
 &lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
-required type from the drop-down list.
-</para>
-
-<para>
-The <guilabel>Frame Rate</guilabel> control sets the frame rate of
-your DCP.  This can be a little tricky to get right.  Ideally, you
-want it to be the same as the video content that you are using.  If it
-is not the same, DCP-o-matic must resort to some tricks to alter your
-content to fit the specified frame rate.  Frame rates are discussed in
-more detail in <xref linkend="ch-frame-rates"/>.
-</para>
-
-<para>
-The <guilabel>Use best</guilabel> button sets the DCP video frame rate
-to what DCP-o-matic thinks is the best given the content that you have
-added.
+required type from the drop-down list.  On some projection systems
+this will affect where your content appears in the projector's server
+user interface, so take care to select an appropriate type.
 </para>
 
 <para>
@@ -1329,13 +1369,46 @@ key for you.  To specify your own key, click the
 </para>
 
 <para>
-The <guilabel>Audio Channels</guilabel> control sets the number of
-audio channels that the DCP will have.  If the DCP has any channels
-for which there is no content audio they will be replaced by silence.
-You can only set an even number of channels here, since that is
-required by the DCI standard.  If you want an odd number of channels,
-set the DCP channel count to one greater than you need and the
-unused channel will be filled with silence.
+The <guilabel>Standard</guilabel> option specifies which of the two
+DCP standards DCP-o-matic should use.  If in doubt, use SMPTE (the
+more modern of the two).
+</para>
+
+<para>
+At the bottom of the DCP tab are a further two tabs, one each to
+contain the settings for the DCP's video and audio parts.
+</para>
+
+<para>
+The <guilabel>Container</guilabel> option sets the ratio of the image
+in the DCP.  If this ratio is different to the ratio used for any
+content, DCP-o-matic will pad the content with black.  In simple cases
+this should be set to the same ratio as that for the the primary piece
+of video content.  Alternatively, you might want to pillarbox a small
+format into a Flat container: in this case, select the small format
+for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
+</para>
+
+<para>
+The <guilabel>Frame Rate</guilabel> control sets the frame rate of
+your DCP.  This can be a little tricky to get right.  Ideally, you
+want it to be the same as the video content that you are using.  If it
+is not the same, DCP-o-matic must resort to some tricks to alter your
+content to fit the specified frame rate.  Frame rates are discussed in
+more detail in <xref linkend="ch-frame-rates"/>.
+</para>
+
+<para>
+The <guilabel>Use best</guilabel> button sets the DCP video frame rate
+to what DCP-o-matic thinks is the best given the content that you have
+added.
+</para>
+
+<para>
+<guilabel>Burn subtitles into image</guilabel> should be selected if
+you want DCP-o-matic to overlay the subtitles onto the video frame
+before encoding.  Leave this un-ticked to include the subtitles
+separately in the DCP.
 </para>
 
 <para>
@@ -1361,16 +1434,43 @@ Most commercial DCPs use bit rates between 75 and 125 MBit/s.
 </para>
 
 <para>
-The <guilabel>Standard</guilabel> option specifies which of the two
-DCP standards DCP-o-matic should use.  If in doubt, use SMPTE (the
-more modern of the two).
+The <guilabel>Audio Channels</guilabel> control sets the number of
+audio channels that the DCP will have.  If the DCP has any channels
+for which there is no content audio they will be replaced by silence.
+You can only set an even number of channels here, since that is
+required by the DCI standard.  If you want an odd number of channels,
+set the DCP channel count to one greater than you need and the
+unused channel will be filled with silence.
 </para>
 
 <para>
-Finally, the <guilabel>Scaler</guilabel> is the method that will be used to scale up
-your content for the DCP, if required.  Bicubic is a fine choice in
-most situations.
+The <guilabel>Processor</guilabel> control allows you to select a
+process to apply to the audio before it goes into the DCP.  Two processes are currently provided: 
 </para>
+
+<itemizedlist>
+<listitem>Mid-side decode &mdash; this will take a L/R
+stereo input and extract the common part (corresponding to the
+&lsquo;Mid&rsquo; in a mid-side signal) into the DCP's centre channel.
+The remaining L/R parts will be kept in the L/R channels of the DCP.
+This may be useful to make near-field L/R mixes more compatible with
+cinema audio systems.</listitem>
+<listitem>Stereo to 5.1 up-mixer A &mdash; this will take a stereo input and up-mix it to &lsquo;fake&rsquo; 5.1.  The input L/R are treated as follows:
+<itemizedlist>
+<listitem>DCP L is input L bandpass-filtered between 1.9kHz and 4.8kHz.</listitem>
+<listitem>DCP R is input R bandpass-filtered between 1.9kHz and 4.8kHz.</listitem>
+<listitem>DCP C is input L mixed with input R, taken down by 3dB and then bandpass-filtered between 150Hz and 1.9kHz.</listitem>
+<listitem>DCP Lfe is input L mixed with input R, taken down by 3dB and then bandpass-filtered between 20Hz and 150Hz.</listitem>
+<listitem>DCP Ls is input L bandpass-filtered between 4.8kHz and 20kHz.</listitem>
+<listitem>DCP Rs is input R bandpass-filtered between 4.8kHz and 20kHz.</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+
+<para>
+This upmixing algorithm is due to Gérald Maruccia.
+</para>
+
 
 <!-- ============================================================== -->
 <section>
@@ -1797,44 +1897,9 @@ name or IP address of the server to use.
 
 </section>
 
-<!-- ============================================================== -->
-<section xml:id="sec-prefs-colour">
-<title>Colour conversions</title>
-
-<para>
-The colour conversions tab is shown in <xref linkend="fig-prefs-colour-conversions"/>.
-</para>
-
-<figure id="fig-prefs-colour-conversions">
-  <title>Colour conversions preferences</title> 
-  <mediaobject>
-    <imageobject> 
-      <imagedata fileref="screenshots/prefs-colour-conversions&scs;"/>
-    </imageobject> 
-  </mediaobject>
-</figure>
-
-<para>
-As part of the encoding process, DCP-o-matic has to convert the colour
-space of the source files that you use into XYZ, the colour space used
-by the DCI standard.
-</para>
-
-<para>
-Colour conversion is discussed in more detail in a separate document
-<ulink url="http://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
-</para>
-
-<para>
-These preferences control a list of presets which are suitable for
-converting from common input colour spaces to XYZ.
-</para>
-
-</section>
-
 
 <!-- ============================================================== -->
-<section>
+<section xml:id="sec-prefs-keys">
 <title>Keys</title>
 
 <para>
