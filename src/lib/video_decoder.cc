@@ -147,18 +147,13 @@ VideoDecoder::fill_2d (Frame from, Frame to)
 		filler_part = _decoded_video.back().part;
 	}
 
-	Frame filler_frame = from;
-	
-	while (filler_frame < to) {
-
+	for (Frame i = from; i < to; ++i) {
 #ifdef DCPOMATIC_DEBUG
 		test_gaps++;
 #endif
 		_decoded_video.push_back (
-			ContentVideo (filler_image, EYES_BOTH, filler_part, filler_frame)
+			ContentVideo (filler_image, EYES_BOTH, filler_part, i)
 			);
-		
-		++filler_frame;
 	}
 }
 
