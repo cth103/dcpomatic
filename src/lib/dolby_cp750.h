@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/dolby_cp750.h
+ *  @brief DolbyCP750 class.
+ */
+
 #include "cinema_sound_processor.h"
 
 class DolbyCP750 : public CinemaSoundProcessor
