@@ -111,9 +111,11 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Cherif Ben Brahim"));
 	add_section (_("Translated by"), translated_by);
 
-	wxArrayString artwork_by;
-	artwork_by.Add (wxT ("David Vignoni"));
-	add_section (_("Artwork by"), artwork_by);
+	wxArrayString with_help_from;
+	with_help_from.Add (wxT ("David Vignoni"));
+	with_help_from.Add (wxT ("Dennis Couzin"));
+	with_help_from.Add (wxT ("Gérald Maruccia"));
+	add_section (_("With help from"), with_help_from);
 
 	wxArrayString supported_by;
 	supported_by.Add (wxT ("Manual AC"));
