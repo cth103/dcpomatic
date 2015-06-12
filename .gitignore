@@ -31,3 +31,4 @@ GSYMS
 GTAGS
 TAGS
 .*.swp
+.zanata-cache

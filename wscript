@@ -20,6 +20,7 @@ import subprocess
 import os
 import shlex
 import sys
+import glob
 import distutils
 import distutils.spawn
 from waflib import Logs
@@ -469,3 +470,11 @@ def pot_merge(bld):
 
 def tags(bld):
     os.system('etags src/lib/*.cc src/lib/*.h src/wx/*.cc src/wx/*.h src/tools/*.cc src/tools/*.h')
+
+def zanata_pull(bld):
+    os.system('zanata-cli -B -q pull -t .')
+    for f in glob.glob('src/lib/po/*.po'):
+        l = os.path.basename(f)
+        os.rename('dcpomatic_%s' % l, 'src/tools/po/%s' % l)
+        os.rename('libdcpomatic_%s' % l, 'src/lib/po/%s' % l)
+        os.rename('libdcpomatic-wx_%s' % l, 'src/wx/po/%s' % l)
