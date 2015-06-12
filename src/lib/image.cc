@@ -811,6 +811,7 @@ Image::fade (float f)
 	case AV_PIX_FMT_YUVA420P10LE:
 	case AV_PIX_FMT_YUVA422P10LE:
 	case AV_PIX_FMT_YUVA444P10LE:
+	case AV_PIX_FMT_RGB48LE:
 		/* 16-bit little-endian */
 		for (int c = 0; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;
@@ -840,6 +841,7 @@ Image::fade (float f)
 	case AV_PIX_FMT_YUVA420P16BE:
 	case AV_PIX_FMT_YUVA422P16BE:
 	case AV_PIX_FMT_YUVA444P16BE:
+	case AV_PIX_FMT_RGB48BE:
 		/* 16-bit big-endian */
 		for (int c = 0; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;
