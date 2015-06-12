@@ -1,3 +1,8 @@
+2015-06-12  c.hetherington  <cth@carlh.net>
+
+	* Fix for every audio stream being mapped to the DCP when loading
+	old films.
+
 2015-06-11  c.hetherington  <cth@carlh.net>
 
 	* Fix massive slowdown of direct J2K->DCP encodes (#599).

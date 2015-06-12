@@ -79,6 +79,10 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, cxml::ConstNodePtr node,
 	c = node->node_children ("AudioStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i, version)));
+		if (version < 11 && !(*i)->optional_node_child ("Selected")) {
+			/* This is an old file and this stream is not selected, so un-map it */
+			_audio_streams.back()->set_mapping (AudioMapping (_audio_streams.back()->channels (), MAX_DCP_AUDIO_CHANNELS));
+		}
 	}
 
 	c = node->node_children ("Filter");
