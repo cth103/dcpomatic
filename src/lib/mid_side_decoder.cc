@@ -89,10 +89,8 @@ MidSideDecoder::input_names () const
 {
 	vector<string> n;
 
-	/// TRANSLATORS: this is the name of the `mid' channel for mid-side decoding
-	n.push_back (_("Mid"));
-	/// TRANSLATORS: this is the name of the `side' channel for mid-side decoding
-	n.push_back (_("Side"));
+	n.push_back (_("Left"));
+	n.push_back (_("Right"));
 
 	return n;
 }
