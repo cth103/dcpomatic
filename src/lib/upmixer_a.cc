@@ -42,7 +42,7 @@ UpmixerA::UpmixerA (int sampling_rate)
 string
 UpmixerA::name () const
 {
-	return _("Stereo to 5.1 up-mixer A (Gérald Maruccia)");
+	return _("Stereo to 5.1 up-mixer A");
 }
 
 
