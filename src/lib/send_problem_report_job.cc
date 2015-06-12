@@ -58,8 +58,9 @@ SendProblemReportJob::json_name () const
 void
 SendProblemReportJob::run ()
 {
+	sub (_("Sending email"));
 	set_progress_unknown ();
-	
+
 	quickmail mail = quickmail_create (_from.c_str(), "DCP-o-matic problem report");
 	
 	quickmail_add_to (mail, "carl@dcpomatic.com");
