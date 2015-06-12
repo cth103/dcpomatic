@@ -36,8 +36,8 @@ FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node)
 	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Period")) {
 		add_subtitle (
 			ContentTimePeriod (
-				ContentTime (node->number_child<ContentTime::Type> ("From")),
-				ContentTime (node->number_child<ContentTime::Type> ("To"))
+				ContentTime (i->number_child<ContentTime::Type> ("From")),
+				ContentTime (i->number_child<ContentTime::Type> ("To"))
 				)
 			);
 	}
@@ -49,7 +49,7 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 	FFmpegStream::as_xml (root);
 
 	for (map<ContentTime, ContentTime>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		xmlpp::Node* node = root->add_child ("Subtitle");
+		xmlpp::Node* node = root->add_child ("Period");
 		node->add_child("From")->add_child_text (raw_convert<string> (i->first.get ()));
 		node->add_child("To")->add_child_text (raw_convert<string> (i->second.get ()));
 	}
