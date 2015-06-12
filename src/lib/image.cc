@@ -768,6 +768,9 @@ operator== (Image const & a, Image const & b)
 	return true;
 }
 
+/** Fade the image.
+ *  @param f Amount to fade by; 0 is black, 1 is no fade.
+ */
 void
 Image::fade (float f)
 {
