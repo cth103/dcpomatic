@@ -43,7 +43,7 @@ ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
 }
 
 bool
-ImageDecoder::pass (PassReason)
+ImageDecoder::pass ()
 {
 	if (_video_position >= _image_content->video_length()) {
 		return true;

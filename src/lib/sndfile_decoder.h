@@ -31,7 +31,7 @@ public:
 	~SndfileDecoder ();
 
 private:
-	bool pass (PassReason);
+	bool pass ();
 	void seek (ContentTime, bool);
 	
 	int64_t _done;

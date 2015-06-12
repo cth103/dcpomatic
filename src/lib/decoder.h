@@ -53,13 +53,7 @@ protected:
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
 
-	enum PassReason {
-		PASS_REASON_VIDEO,
-		PASS_REASON_AUDIO,
-		PASS_REASON_SUBTITLE
-	};
-	
-	virtual bool pass (PassReason reason) = 0;
+	virtual bool pass () = 0;
 };
 
 #endif

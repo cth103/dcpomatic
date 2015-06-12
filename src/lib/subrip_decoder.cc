@@ -48,7 +48,7 @@ SubRipDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-SubRipDecoder::pass (PassReason)
+SubRipDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
 		return true;

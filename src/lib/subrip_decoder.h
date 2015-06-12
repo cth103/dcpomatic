@@ -32,7 +32,7 @@ public:
 
 protected:
 	void seek (ContentTime time, bool accurate);
-	bool pass (PassReason);
+	bool pass ();
 
 private:
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;

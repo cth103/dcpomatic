@@ -137,7 +137,7 @@ FFmpegDecoder::flush ()
 }
 
 bool
-FFmpegDecoder::pass (PassReason reason)
+FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
 
@@ -160,11 +160,11 @@ FFmpegDecoder::pass (PassReason reason)
 	int const si = _packet.stream_index;
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (si == _video_stream && !_ignore_video && reason != PASS_REASON_SUBTITLE) {
+	if (si == _video_stream && !_ignore_video) {
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
-	} else if (reason != PASS_REASON_SUBTITLE) {
+	} else {
 		decode_audio_packet ();
 	}
 

@@ -38,7 +38,7 @@ public:
 	DCPDecoder (boost::shared_ptr<const DCPContent>);
 
 private:
-	bool pass (PassReason);
+	bool pass ();
 	void seek (ContentTime t, bool accurate);
 	
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;

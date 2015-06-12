@@ -64,7 +64,7 @@ public:
 		, _position (0)
 	{}
 
-	bool pass (PassReason)
+	bool pass ()
 	{
 		Frame const N = min (
 			Frame (2000),
