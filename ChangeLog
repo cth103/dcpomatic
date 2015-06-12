@@ -1,5 +1,7 @@
 2015-06-12  Carl Hetherington  <cth@carlh.net>
 
+	* Add a close button to the audio plot on Linux (#602).
+
 	* Version 2.0.51 released.
 
 2015-06-12  Carl Hetherington  <cth@carlh.net>

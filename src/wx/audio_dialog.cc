@@ -39,7 +39,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	wxBoxSizer* lr_sizer = new wxBoxSizer (wxHORIZONTAL);
 	
 	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
 
@@ -48,7 +49,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 	_peak_time = new wxStaticText (this, wxID_ANY, wxT (""));
 	left->Add (_peak_time, 0, wxALL, 12);
 
-	sizer->Add (left, 1, wxALL, 12);
+	lr_sizer->Add (left, 1, wxALL, 12);
 
 	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
 
@@ -91,11 +92,20 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 	_smoothing->Bind (wxEVT_SCROLL_THUMBTRACK, boost::bind (&AudioDialog::smoothing_changed, this));
 	right->Add (_smoothing, 0, wxEXPAND);
 
-	sizer->Add (right, 0, wxALL, 12);
+	lr_sizer->Add (right, 0, wxALL, 12);
 
-	SetSizer (sizer);
-	sizer->Layout ();
-	sizer->SetSizeHints (this);
+	overall_sizer->Add (lr_sizer);
+
+#ifdef DCPOMATIC_LINUX	
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	if (buttons) {
+		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+#endif	
+
+	SetSizer (overall_sizer);
+	overall_sizer->Layout ();
+	overall_sizer->SetSizeHints (this);
 }
 
 void
