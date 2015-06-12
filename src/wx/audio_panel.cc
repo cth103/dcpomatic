@@ -126,6 +126,7 @@ AudioPanel::film_content_changed (int property)
 			_mapping->set (AudioMapping ());
 		}
 		setup_description ();
+		_sizer->Layout ();
 	}
 }
 

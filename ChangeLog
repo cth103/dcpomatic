@@ -1,3 +1,7 @@
+2015-06-13  Carl Hetherington  <cth@carlh.net>
+
+	* Make sure audio mapping view is scrollable when necessary (#597).
+
 2015-06-12  Carl Hetherington  <cth@carlh.net>
 
 	* Add a close button to the audio plot on Linux (#602).
