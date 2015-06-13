@@ -1,5 +1,7 @@
 2015-06-13  Carl Hetherington  <cth@carlh.net>
 
+	* Make ru_RU translation actually work.
+
 	* Update progress bar (sort-of) when finding subtitles (#603).
 
 	* Make sure audio mapping view is scrollable when necessary (#597).
