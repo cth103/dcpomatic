@@ -377,15 +377,15 @@ dcpomatic_setup_gettext_i18n (string lang)
 	}
 
 	setlocale (LC_ALL, "");
-	textdomain ("libdcpomatic");
+	textdomain ("libdcpomatic2");
 
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
-	bindtextdomain ("libdcpomatic", mo_path().string().c_str());
-	bind_textdomain_codeset ("libdcpomatic", "UTF8");
+	bindtextdomain ("libdcpomatic2", mo_path().string().c_str());
+	bind_textdomain_codeset ("libdcpomatic2", "UTF8");
 #endif	
 
 #ifdef DCPOMATIC_LINUX
-	bindtextdomain ("libdcpomatic", LINUX_LOCALE_PREFIX);
+	bindtextdomain ("libdcpomatic2", LINUX_LOCALE_PREFIX);
 #endif
 }
 

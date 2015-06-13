@@ -278,11 +278,11 @@ dcpomatic_setup_i18n ()
 		   so we rename it to avoid clashes with any other installation
 		   of wxWidgets.
 		*/
-		locale->AddCatalog (wxT ("dcpomatic-wxstd"));
+		locale->AddCatalog (wxT ("dcpomatic2-wxstd"));
 #endif		
 		
-		locale->AddCatalog (wxT ("libdcpomatic-wx"));
-		locale->AddCatalog (wxT ("dcpomatic"));
+		locale->AddCatalog (wxT ("libdcpomatic2-wx"));
+		locale->AddCatalog (wxT ("dcpomatic2"));
 		
 		if (!locale->IsOk()) {
 			delete locale;
