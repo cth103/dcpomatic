@@ -77,7 +77,9 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		job->set_progress_unknown ();
 	}
 
-	job->sub (_("Finding subtitles"));
+	if (job) {
+		job->sub (_("Finding subtitles"));
+	}
 
 	/* Run through until we find:
 	 *   - the first video.
@@ -94,7 +96,9 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			break;
 		}
 
-		job->set_progress_unknown ();
+		if (job) {
+			job->set_progress_unknown ();
+		}
 
 		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
 
