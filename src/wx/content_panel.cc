@@ -48,7 +48,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
+ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f, FilmViewer* viewer)
 	: _timeline_dialog (0)
 	, _film (f)
 	, _generally_sensitive (true)
@@ -109,7 +109,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f)
 	_panels.push_back (_audio_panel);
 	_subtitle_panel = new SubtitlePanel (this);
 	_panels.push_back (_subtitle_panel);
-	_timing_panel = new TimingPanel (this);
+	_timing_panel = new TimingPanel (this, viewer);
 	_panels.push_back (_timing_panel);
 
 	_content->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));

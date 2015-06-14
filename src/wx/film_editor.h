@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,20 +17,19 @@
 
 */
  
-/** @file src/film_editor.h
- *  @brief A wx widget to edit a film's metadata, and perform various functions.
+/** @file src/wx/film_editor.h
+ *  @brief FilmEditor class.
  */
 
+#include "lib/film.h"
 #include <wx/wx.h>
 #include <boost/signals2.hpp>
-#include "lib/film.h"
 
-class wxSpinCtrl;
 class wxNotebook;
 class Film;
-class Ratio;
 class ContentPanel;
 class DCPPanel;
+class FilmViewer;
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.
@@ -38,7 +37,7 @@ class DCPPanel;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (wxWindow *);
+	FilmEditor (wxWindow *, FilmViewer* viewer);
 
 	void set_film (boost::shared_ptr<Film>);
 

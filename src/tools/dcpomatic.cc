@@ -214,8 +214,8 @@ public:
 		*/
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
-		_film_editor = new FilmEditor (overall_panel);
 		_film_viewer = new FilmViewer (overall_panel);
+		_film_editor = new FilmEditor (overall_panel, _film_viewer);
 		JobManagerView* job_manager_view = new JobManagerView (overall_panel);
 
 		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);

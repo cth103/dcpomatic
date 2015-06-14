@@ -22,8 +22,10 @@
 #include "lib/raw_convert.h"
 #include "timing_panel.h"
 #include "wx_util.h"
+#include "film_viewer.h"
 #include "timecode.h"
 #include "content_panel.h"
+#include <boost/foreach.hpp>
 #include <set>
 
 using std::cout;
@@ -32,9 +34,10 @@ using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-TimingPanel::TimingPanel (ContentPanel* p)
+TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
 	: ContentSubPanel (p, S_("Timing|Timing"))
+	, _viewer (viewer)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, 4, 4);
 	_sizer->Add (grid, 0, wxALL, 8);
@@ -82,9 +85,15 @@ TimingPanel::TimingPanel (ContentPanel* p)
 	add_label_to_sizer (grid, this, _("Trim from start"), true);
 	_trim_start = new Timecode<DCPTime> (this);
 	grid->Add (_trim_start);
+	_trim_start_to_playhead = new wxButton (this, wxID_ANY, _("Trim up to current position"));
+	grid->AddSpacer (0);
+	grid->Add (_trim_start_to_playhead);
 	add_label_to_sizer (grid, this, _("Trim from end"), true);
 	_trim_end = new Timecode<DCPTime> (this);
 	grid->Add (_trim_end);
+	_trim_end_to_playhead = new wxButton (this, wxID_ANY, _("Trim after current position"));
+	grid->AddSpacer (0);
+	grid->Add (_trim_end_to_playhead);
 	add_label_to_sizer (grid, this, _("Play length"), true);
 	_play_length = new Timecode<DCPTime> (this);
 	grid->Add (_play_length);
@@ -127,7 +136,9 @@ TimingPanel::TimingPanel (ContentPanel* p)
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
 	_trim_start->Changed.connect  (boost::bind (&TimingPanel::trim_start_changed, this));
+	_trim_start_to_playhead->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::trim_start_to_playhead_clicked, this));
 	_trim_end->Changed.connect    (boost::bind (&TimingPanel::trim_end_changed, this));
+	_trim_end_to_playhead->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::trim_end_to_playhead_clicked, this));
 	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
 	_video_frame_rate->Bind       (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TimingPanel::video_frame_rate_changed, this));
 	_set_video_frame_rate->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::set_video_frame_rate, this));
@@ -362,5 +373,28 @@ TimingPanel::film_changed (Film::Property p)
 	if (p == Film::VIDEO_FRAME_RATE) {
 		update_full_length ();
 		update_play_length ();
+	}
+}
+
+void
+TimingPanel::trim_start_to_playhead_clicked ()
+{
+	DCPTime const ph = _viewer->position ();
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		if (i->position() < ph && ph < i->end ()) {
+			i->set_trim_start (i->trim_start() + ph - i->position ());
+		}
+	}
+}
+
+void
+TimingPanel::trim_end_to_playhead_clicked ()
+{
+	DCPTime const ph = _viewer->position ();
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		if (i->position() < ph && ph < i->end ()) {
+			i->set_trim_end (i->position() + i->full_length() - i->trim_start() - ph);
+		}
+		
 	}
 }

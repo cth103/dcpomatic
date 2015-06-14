@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,10 +20,12 @@
 #include "content_sub_panel.h"
 #include "timecode.h"
 
+class FilmViewer;
+
 class TimingPanel : public ContentSubPanel
 {
 public:
-	TimingPanel (ContentPanel *);
+	TimingPanel (ContentPanel *, FilmViewer* viewer);
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
@@ -33,16 +35,22 @@ private:
 	void position_changed ();
 	void full_length_changed ();
 	void trim_start_changed ();
+	void trim_start_to_playhead_clicked ();
 	void trim_end_changed ();
+	void trim_end_to_playhead_clicked ();
 	void play_length_changed ();
 	void video_frame_rate_changed ();
 	void set_video_frame_rate ();
 	void update_full_length ();
 	void update_play_length ();
+
+	FilmViewer* _viewer;
 	
 	Timecode<DCPTime>* _position;
 	Timecode<DCPTime>* _full_length;
 	Timecode<DCPTime>* _trim_start;
+	wxButton* _trim_start_to_playhead;
+	wxButton* _trim_end_to_playhead;
 	Timecode<DCPTime>* _trim_end;
 	Timecode<DCPTime>* _play_length;
 	wxTextCtrl* _video_frame_rate;

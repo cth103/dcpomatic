@@ -17,8 +17,8 @@
 
 */
 
-/** @file src/film_editor.cc
- *  @brief A wx widget to edit a film's metadata, and perform various functions.
+/** @file src/wx/film_editor.cc
+ *  @brief FilmEditor class.
  */
 
 #include "lib/film.h"
@@ -37,7 +37,7 @@ using std::cout;
 using boost::shared_ptr;
 
 /** @param f Film to edit */
-FilmEditor::FilmEditor (wxWindow* parent)
+FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
 	: wxPanel (parent)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
@@ -45,7 +45,7 @@ FilmEditor::FilmEditor (wxWindow* parent)
 	_main_notebook = new wxNotebook (this, wxID_ANY);
 	s->Add (_main_notebook, 1);
 
-	_content_panel = new ContentPanel (_main_notebook, _film);
+	_content_panel = new ContentPanel (_main_notebook, _film, viewer);
 	_main_notebook->AddPage (_content_panel->panel (), _("Content"), true);
 	_dcp_panel = new DCPPanel (_main_notebook, _film);
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);

@@ -40,6 +40,10 @@ public:
 
 	void set_film (boost::shared_ptr<Film>);
 
+	DCPTime position () const {
+		return _position;
+	}
+
 private:
 	void paint_panel ();
 	void panel_sized (wxSizeEvent &);
@@ -52,7 +56,7 @@ private:
 	void back_clicked ();
 	void forward_clicked ();
 	void player_changed (bool);
-	void set_position_text ();
+	void update_position ();
 	void get (DCPTime, bool);
 	void refresh_panel ();
 	void setup_sensitivity ();

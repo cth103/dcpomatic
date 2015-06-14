@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,11 +32,12 @@ class TimelineDialog;
 class FilmEditor;
 class ContentSubPanel;
 class Film;
+class FilmViewer;
 
 class ContentPanel : public boost::noncopyable
 {
 public:
-	ContentPanel (wxNotebook *, boost::shared_ptr<Film>);
+	ContentPanel (wxNotebook *, boost::shared_ptr<Film>, FilmViewer* viewer);
 
 	boost::shared_ptr<Film> film () const {
 		return _film;

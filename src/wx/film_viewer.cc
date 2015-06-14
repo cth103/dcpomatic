@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -130,8 +130,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_frame.reset ();
 	
-	_slider->SetValue (0);
-	set_position_text ();
+	update_position ();
 	
 	if (!_film) {
 		return;
@@ -213,7 +212,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 		_position = p;
 	}
 
-	set_position_text ();
+	update_position ();
 	refresh_panel ();
 
 	_last_get_accurate = accurate;
@@ -223,17 +222,7 @@ void
 FilmViewer::timer ()
 {
 	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
-
-	DCPTime const len = _film->length ();
-
-	if (len.get ()) {
-		int const new_slider_position = 4096 * _position.get() / len.get();
-		if (new_slider_position != _slider->GetValue()) {
-			_slider->SetValue (new_slider_position);
-		}
-	}
 }
-
 
 void
 FilmViewer::paint_panel ()
@@ -348,12 +337,22 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::set_position_text ()
+FilmViewer::update_position ()
 {
 	if (!_film) {
+		_slider->SetValue (0);
 		_frame_number->SetLabel ("0");
 		_timecode->SetLabel ("0:0:0.0");
 		return;
+	}
+
+	DCPTime const len = _film->length ();
+
+	if (len.get ()) {
+		int const new_slider_position = 4096 * _position.get() / len.get();
+		if (new_slider_position != _slider->GetValue()) {
+			_slider->SetValue (new_slider_position);
+		}
 	}
 		
 	double const fps = _film->video_frame_rate ();
