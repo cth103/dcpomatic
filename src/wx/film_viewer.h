@@ -56,7 +56,8 @@ private:
 	void back_clicked ();
 	void forward_clicked ();
 	void player_changed (bool);
-	void update_position ();
+	void update_position_label ();
+	void update_position_slider ();
 	void get (DCPTime, bool);
 	void refresh_panel ();
 	void setup_sensitivity ();

@@ -130,7 +130,8 @@ FilmViewer::set_film (shared_ptr<Film> f)
 
 	_frame.reset ();
 	
-	update_position ();
+	update_position_slider ();
+	update_position_label ();
 	
 	if (!_film) {
 		return;
@@ -212,7 +213,6 @@ FilmViewer::get (DCPTime p, bool accurate)
 		_position = p;
 	}
 
-	update_position ();
 	refresh_panel ();
 
 	_last_get_accurate = accurate;
@@ -222,6 +222,8 @@ void
 FilmViewer::timer ()
 {
 	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
+	update_position_label ();
+	update_position_slider ();
 }
 
 void
@@ -275,6 +277,7 @@ FilmViewer::slider_moved ()
 		t = _film->length() - DCPTime::from_frames (1, _film->video_frame_rate ());
 	}
 	get (t, false);
+	update_position_label ();
 }
 
 void
@@ -285,6 +288,8 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 
 	calculate_sizes ();
 	get (_position, _last_get_accurate);
+	update_position_label ();
+	update_position_slider ();
 }
 
 void
@@ -337,15 +342,13 @@ FilmViewer::check_play_state ()
 }
 
 void
-FilmViewer::update_position ()
+FilmViewer::update_position_slider ()
 {
 	if (!_film) {
 		_slider->SetValue (0);
-		_frame_number->SetLabel ("0");
-		_timecode->SetLabel ("0:0:0.0");
 		return;
 	}
-
+	
 	DCPTime const len = _film->length ();
 
 	if (len.get ()) {
@@ -354,7 +357,17 @@ FilmViewer::update_position ()
 			_slider->SetValue (new_slider_position);
 		}
 	}
-		
+}
+
+void
+FilmViewer::update_position_label ()
+{
+	if (!_film) {
+		_frame_number->SetLabel ("0");
+		_timecode->SetLabel ("0:0:0.0");
+		return;
+	}
+
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
 	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (_position.seconds() * fps)) + 1));
@@ -390,12 +403,16 @@ FilmViewer::back_clicked ()
 	}
 
 	get (p, true);
+	update_position_label ();
+	update_position_slider ();
 }
 
 void
 FilmViewer::forward_clicked ()
 {
 	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
+	update_position_label ();
+	update_position_slider ();
 }
 
 void
@@ -407,6 +424,8 @@ FilmViewer::player_changed (bool frequent)
 
 	calculate_sizes ();
 	get (_position, _last_get_accurate);
+	update_position_label ();
+	update_position_slider ();
 }
 
 void
