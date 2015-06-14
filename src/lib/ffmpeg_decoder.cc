@@ -316,7 +316,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	*/
 	
 	ContentTime const u = time - _pts_offset;
-	av_seek_frame (_format_context, _video_stream, u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base), 0);
+	av_seek_frame (_format_context, _video_stream, u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base), AVSEEK_FLAG_BACKWARD);
 
 	avcodec_flush_buffers (video_codec_context());
 
