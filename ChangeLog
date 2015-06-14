@@ -1,5 +1,8 @@
 2015-06-14  Carl Hetherington  <cth@carlh.net>
 
+	* Fix parsing of .srt files with a Unicode
+	byte-order-mark.
+
 	* Add buttons to set trim from current `playhead'
 	position (#372).
 
