@@ -74,6 +74,11 @@ FilmEditor::film_changed (Film::Property p)
 
 	_content_panel->film_changed (p);
 	_dcp_panel->film_changed (p);
+
+	if (p == Film::CONTENT && !_film->content().empty ()) {
+		/* Select newly-added content */
+		_content_panel->set_selection (_film->content().back ());
+	}
 }
 
 void
