@@ -76,6 +76,7 @@ private:
 	void setup_frame_rate_widget ();
 	void setup_container ();
 	void setup_dcp_name ();
+	void setup_audio_channels_choice ();
 
 	wxPanel* make_general_panel ();
 	wxPanel* make_video_panel ();

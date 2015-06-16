@@ -1,3 +1,8 @@
+2015-06-16  c.hetherington  <cth@carlh.net>
+
+	* Prevent selection of fewer DCP channels than
+	are present in the output of an active processor (#611).
+
 2015-06-15  Carl Hetherington  <cth@carlh.net>
 
 	* Select newly-added content (#455).

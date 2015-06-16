@@ -30,6 +30,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_processor.h"
 #include <dcp/key.h>
+#include <dcp/raw_convert.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/gbsizer.h>
@@ -41,6 +42,8 @@ using std::cout;
 using std::list;
 using std::string;
 using std::vector;
+using std::pair;
+using std::make_pair;
 using boost::lexical_cast;
 using boost::shared_ptr;
 
@@ -245,7 +248,7 @@ DCPPanel::audio_channels_changed ()
 		return;
 	}
 
-	_film->set_audio_channels ((_audio_channels->GetSelection () + 1) * 2);
+	_film->set_audio_channels (dcp::raw_convert<int> (string_client_data (_audio_channels->GetClientObject (_audio_channels->GetSelection ()))));
 }
 
 void
@@ -346,7 +349,7 @@ DCPPanel::film_changed (int p)
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
-		checked_set (_audio_channels, (_film->audio_channels () / 2) - 1);
+		checked_set (_audio_channels, dcp::raw_convert<string> (_film->audio_channels ()));
 		setup_dcp_name ();
 		break;
 	case Film::THREE_D:
@@ -363,6 +366,8 @@ DCPPanel::film_changed (int p)
 		} else {
 			checked_set (_audio_processor, 0);
 		}
+		setup_audio_channels_choice ();
+		film_changed (Film::AUDIO_CHANNELS);
 		break;
 	default:
 		break;
@@ -648,6 +653,26 @@ DCPPanel::make_video_panel ()
 	return panel;
 }
 
+void
+DCPPanel::setup_audio_channels_choice ()
+{
+	int min = 2;
+	if (_film && _film->audio_processor ()) {
+		min = _film->audio_processor()->out_channels ();
+	}
+
+	if (min % 2 == 1) {
+		++min;
+	}
+
+	vector<pair<string, string> > items;
+	for (int i = min; i <= 12; i += 2) {
+		items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
+	}
+
+	checked_set (_audio_channels, items);
+}
+
 wxPanel *
 DCPPanel::make_audio_panel ()
 {
@@ -661,9 +686,7 @@ DCPPanel::make_audio_panel ()
 	
 	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
 	_audio_channels = new wxChoice (panel, wxID_ANY);
-	for (int i = 2; i <= 12; i += 2) {
-		_audio_channels->Append (wxString::Format ("%d", i));
-	}
+	setup_audio_channels_choice ();
 	grid->Add (_audio_channels, wxGBPosition (r, 1));
 	++r;
 

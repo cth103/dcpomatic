@@ -72,6 +72,7 @@ using std::map;
 using std::vector;
 using std::setfill;
 using std::min;
+using std::max;
 using std::make_pair;
 using std::endl;
 using std::cout;
@@ -805,6 +806,7 @@ Film::set_audio_processor (AudioProcessor const * processor)
 {
 	_audio_processor = processor;
 	signal_changed (AUDIO_PROCESSOR);
+	signal_changed (AUDIO_CHANNELS);
 }
 
 void
@@ -1229,4 +1231,19 @@ Film::audio_output_names () const
 	n.push_back (_("BsR"));
 
 	return vector<string> (n.begin(), n.begin() + audio_channels ());
+}
+
+int
+Film::audio_channels () const
+{
+	int minimum = 0;
+	if (_audio_processor) {
+		minimum = _audio_processor->out_channels ();
+	}
+
+	if (minimum % 2 == 1) {
+		++minimum;
+	}
+
+	return max (minimum, _audio_channels);
 }
