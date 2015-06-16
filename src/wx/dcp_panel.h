@@ -78,6 +78,8 @@ private:
 	void setup_dcp_name ();
 	void setup_audio_channels_choice ();
 
+	int minimum_allowed_audio_channels () const;
+
 	wxPanel* make_general_panel ();
 	wxPanel* make_video_panel ();
 	wxPanel* make_audio_panel ();

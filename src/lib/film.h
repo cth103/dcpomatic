@@ -223,7 +223,9 @@ public:
 		return _video_frame_rate;
 	}
 
-	int audio_channels () const;
+	int audio_channels () const {
+		return _audio_channels;
+	}
 
 	bool three_d () const {
 		return _three_d;
@@ -324,9 +326,7 @@ private:
 	int _video_frame_rate;
 	/** The date that we should use in a ISDCF name */
 	boost::gregorian::date _isdcf_date;
-	/** Number of audio channels requested for the DCP; this will be overridden
-	    if we are using an audio processor which outputs more channels.
-	*/
+	/** Number of audio channels requested for the DCP */
 	int _audio_channels;
 	/** If true, the DCP will be written in 3D mode; otherwise in 2D.
 	    This will be regardless of what content is on the playlist.

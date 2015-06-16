@@ -43,6 +43,7 @@ using std::list;
 using std::string;
 using std::vector;
 using std::pair;
+using std::max;
 using std::make_pair;
 using boost::lexical_cast;
 using boost::shared_ptr;
@@ -349,8 +350,12 @@ DCPPanel::film_changed (int p)
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
-		checked_set (_audio_channels, dcp::raw_convert<string> (_film->audio_channels ()));
-		setup_dcp_name ();
+		if (_film->audio_channels () < minimum_allowed_audio_channels ()) {
+			_film->set_audio_channels (minimum_allowed_audio_channels ());
+		} else {
+			checked_set (_audio_channels, dcp::raw_convert<string> (max (minimum_allowed_audio_channels(), _film->audio_channels ())));
+			setup_dcp_name ();
+		}
 		break;
 	case Film::THREE_D:
 		checked_set (_three_d, _film->three_d ());
@@ -653,8 +658,8 @@ DCPPanel::make_video_panel ()
 	return panel;
 }
 
-void
-DCPPanel::setup_audio_channels_choice ()
+int
+DCPPanel::minimum_allowed_audio_channels () const
 {
 	int min = 2;
 	if (_film && _film->audio_processor ()) {
@@ -665,8 +670,14 @@ DCPPanel::setup_audio_channels_choice ()
 		++min;
 	}
 
+	return min;
+}	
+
+void
+DCPPanel::setup_audio_channels_choice ()
+{
 	vector<pair<string, string> > items;
-	for (int i = min; i <= 12; i += 2) {
+	for (int i = minimum_allowed_audio_channels(); i <= 12; i += 2) {
 		items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
 	}
 

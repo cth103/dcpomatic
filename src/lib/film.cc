@@ -1232,18 +1232,3 @@ Film::audio_output_names () const
 
 	return vector<string> (n.begin(), n.begin() + audio_channels ());
 }
-
-int
-Film::audio_channels () const
-{
-	int minimum = 0;
-	if (_audio_processor) {
-		minimum = _audio_processor->out_channels ();
-	}
-
-	if (minimum % 2 == 1) {
-		++minimum;
-	}
-
-	return max (minimum, _audio_channels);
-}
