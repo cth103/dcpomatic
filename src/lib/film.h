@@ -280,7 +280,7 @@ public:
 	mutable boost::signals2::signal<void (Property)> Changed;
 
 	/** Emitted when some property of our content has changed */
-	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int)> ContentChanged;
+	mutable boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> ContentChanged;
 
 	/** Current version number of the state file */
 	static int const current_state_version;
@@ -292,7 +292,7 @@ private:
 	void signal_changed (Property);
 	std::string video_identifier () const;
 	void playlist_changed ();
-	void playlist_content_changed (boost::weak_ptr<Content>, int);
+	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
 	std::string filename_safe_name () const;
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
 

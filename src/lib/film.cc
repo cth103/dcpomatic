@@ -136,7 +136,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	set_isdcf_date_today ();
 
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Film::playlist_changed, this));
-	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2));
+	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2, _3));
 	
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
@@ -1019,7 +1019,7 @@ Film::active_frame_rate_change (DCPTime t) const
 }
 
 void
-Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
+Film::playlist_content_changed (boost::weak_ptr<Content> c, int p, bool frequent)
 {
 	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
@@ -1027,7 +1027,7 @@ Film::playlist_content_changed (boost::weak_ptr<Content> c, int p)
 		signal_changed (NAME);
 	}
 
-	emit (boost::bind (boost::ref (ContentChanged), c, p));
+	emit (boost::bind (boost::ref (ContentChanged), c, p, frequent));
 }
 
 void
