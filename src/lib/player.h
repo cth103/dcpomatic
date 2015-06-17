@@ -20,7 +20,6 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include "playlist.h"
 #include "content.h"
 #include "film.h"
 #include "rect.h"
@@ -37,7 +36,6 @@
 
 class Job;
 class Film;
-class Playlist;
 class AudioContent;
 class Piece;
 class Image;
@@ -45,6 +43,7 @@ class Decoder;
 class Resampler;
 class PlayerVideo;
 class ImageProxy;
+class Font;
  
 class PlayerStatistics
 {
@@ -79,12 +78,12 @@ public:
 };
 
 /** @class Player
- *  @brief A class which can `play' a Playlist.
+ *  @brief A class which can `play' a Film.
  */
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
-	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
+	Player (boost::shared_ptr<const Film>);
 
 	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
@@ -147,7 +146,6 @@ private:
 	}
 	
 	boost::shared_ptr<const Film> _film;
-	boost::shared_ptr<const Playlist> _playlist;
 
 	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */
 	bool _have_valid_pieces;

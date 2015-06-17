@@ -62,7 +62,7 @@ AnalyseAudioJob::json_name () const
 void
 AnalyseAudioJob::run ()
 {
-	shared_ptr<Player> player (new Player (_film, _playlist));
+	shared_ptr<Player> player (new Player (_film));
 	player->set_ignore_video ();
 	
 	int64_t const len = _film->length().frames (_film->audio_frame_rate());

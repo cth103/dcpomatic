@@ -30,7 +30,6 @@
 #include "subrip_decoder.h"
 #include "subrip_content.h"
 #include "dcp_content.h"
-#include "playlist.h"
 #include "job.h"
 #include "image.h"
 #include "raw_image_proxy.h"
@@ -69,9 +68,8 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
+Player::Player (shared_ptr<const Film> f)
 	: _film (f)
-	, _playlist (p)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
 	, _burn_subtitles (f->burn_subtitles ())
@@ -89,7 +87,7 @@ Player::setup_pieces ()
 	list<shared_ptr<Piece> > old_pieces = _pieces;
 	_pieces.clear ();
 
-	ContentList content = _playlist->content ();
+	ContentList content = _film->content ();
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 

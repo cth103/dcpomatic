@@ -898,7 +898,7 @@ Film::cpls () const
 shared_ptr<Player>
 Film::make_player () const
 {
-	return shared_ptr<Player> (new Player (shared_from_this (), _playlist));
+	return shared_ptr<Player> (new Player (shared_from_this ()));
 }
 
 void
