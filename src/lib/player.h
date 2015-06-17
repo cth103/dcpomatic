@@ -166,7 +166,7 @@ private:
 
 	PlayerStatistics _statistics;
 
-	boost::signals2::scoped_connection _playlist_content_changed_connection;
+	boost::signals2::scoped_connection _film_content_changed_connection;
 	boost::signals2::scoped_connection _film_changed_connection;
 };
 

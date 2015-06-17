@@ -76,7 +76,7 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _ignore_video (false)
 	, _burn_subtitles (f->burn_subtitles ())
 {
-	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
+	_film_content_changed_connection = _film->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	set_video_container_size (_film->frame_size ());
 
