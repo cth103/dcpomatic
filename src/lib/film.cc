@@ -895,12 +895,6 @@ Film::cpls () const
 	return out;
 }
 
-shared_ptr<Player>
-Film::make_player () const
-{
-	return shared_ptr<Player> (new Player (shared_from_this ()));
-}
-
 void
 Film::set_signed (bool s)
 {

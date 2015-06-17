@@ -138,7 +138,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 
 	try {
-		_player = f->make_player ();
+		_player.reset (new Player (f));
 	} catch (bad_alloc) {
 		error_dialog (this, _("There is not enough free memory to do that."));
 		_film.reset ();

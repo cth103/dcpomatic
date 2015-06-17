@@ -142,7 +142,7 @@ main (int argc, char* argv[])
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 		
-		shared_ptr<Player> player = film->make_player ();
+		shared_ptr<Player> player (new Player (film));
 
 		DCPTime const frame = DCPTime::from_frames (1, film->video_frame_rate ());
 		for (DCPTime t; t < film->length(); t += frame) {

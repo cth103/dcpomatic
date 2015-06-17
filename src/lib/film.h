@@ -101,7 +101,6 @@ public:
 
 	std::vector<CPLSummary> cpls () const;
 
-	boost::shared_ptr<Player> make_player () const;
 	boost::shared_ptr<Playlist> playlist () const;
 
 	int audio_frame_rate () const;
