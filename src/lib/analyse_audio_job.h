@@ -26,19 +26,18 @@
 #include "types.h"
 
 class AudioBuffers;
-class Playlist;
 
 /** @class AnalyseAudioJob
- *  @brief A job to analyse the audio of a playlist and make a note of its
+ *  @brief A job to analyse the audio of a film and make a note of its
  *  broad peak and RMS levels.
  *
  *  After computing the peak and RMS levels the job will write a file
- *  to Playlist::audio_analysis_path.
+ *  to Film::audio_analysis_path.
  */
 class AnalyseAudioJob : public Job
 {
 public:
-	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
+	AnalyseAudioJob (boost::shared_ptr<const Film>);
 
 	std::string name () const;
 	std::string json_name () const;
@@ -47,7 +46,6 @@ public:
 private:
 	void analyse (boost::shared_ptr<const AudioBuffers>);
 
-	boost::shared_ptr<const Playlist> _playlist;
 	int64_t _done;
 	int64_t _samples_per_point;
 	std::vector<AudioPoint> _current;

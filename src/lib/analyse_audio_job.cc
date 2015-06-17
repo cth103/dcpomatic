@@ -36,9 +36,8 @@ using boost::dynamic_pointer_cast;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
+AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> f)
 	: Job (f)
-	, _playlist (p)
 	, _done (0)
 	, _samples_per_point (1)
 	, _overall_peak (0)

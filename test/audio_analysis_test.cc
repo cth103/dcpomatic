@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 	
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 	
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();

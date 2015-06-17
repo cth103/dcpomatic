@@ -133,7 +133,7 @@ AudioDialog::try_to_load_analysis ()
 	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
-		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
+		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
 		JobManager::instance()->add (job);
 		return;
@@ -143,7 +143,7 @@ AudioDialog::try_to_load_analysis ()
 		_analysis.reset (new AudioAnalysis (path));
 	} catch (xmlpp::exception& e) {
 		/* Probably an old-style analysis file: recreate it */
-		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
+		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
 		JobManager::instance()->add (job);
 		return;
