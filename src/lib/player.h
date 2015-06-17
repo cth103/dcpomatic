@@ -112,7 +112,6 @@ private:
 	friend struct player_overlaps_test;
 
 	void setup_pieces ();
-	void playlist_changed ();
 	void content_changed (boost::weak_ptr<Content>, int, bool);
 	void flush ();
 	void film_changed (Film::Property);
@@ -167,7 +166,6 @@ private:
 
 	PlayerStatistics _statistics;
 
-	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;
 	boost::signals2::scoped_connection _film_changed_connection;
 };

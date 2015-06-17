@@ -76,7 +76,6 @@ Player::Player (shared_ptr<const Film> f, shared_ptr<const Playlist> p)
 	, _ignore_video (false)
 	, _burn_subtitles (f->burn_subtitles ())
 {
-	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	set_video_container_size (_film->frame_size ());
@@ -227,13 +226,6 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 }
 
 void
-Player::playlist_changed ()
-{
-	_have_valid_pieces = false;
-	Changed (false);
-}
-
-void
 Player::set_video_container_size (dcp::Size s)
 {
 	_video_container_size = s;
@@ -250,7 +242,10 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
+	if (p == Film::CONTENT) {
+		_have_valid_pieces = false;
+		Changed (false);
+	} else if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {
