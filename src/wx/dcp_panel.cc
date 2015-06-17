@@ -753,5 +753,4 @@ DCPPanel::show_audio_clicked ()
 	
 	AudioDialog* d = new AudioDialog (_panel, _film);
 	d->Show ();
-	d->set_playlist (_film->playlist ());
 }

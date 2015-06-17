@@ -31,8 +31,6 @@ class AudioDialog : public wxDialog
 public:
 	AudioDialog (wxWindow *, boost::shared_ptr<Film> film);
 
-	void set_playlist (boost::shared_ptr<const Playlist>);
-
 private:
 	void content_changed (int);
 	void channel_clicked (wxCommandEvent &);
@@ -42,7 +40,6 @@ private:
 	void analysis_finished ();
 	void setup_peak_time ();
 
-	boost::shared_ptr<const Playlist> _playlist;
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
 	AudioPlot* _plot;
@@ -50,6 +47,6 @@ private:
 	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;
-	boost::signals2::scoped_connection _playlist_connection;
+	boost::signals2::scoped_connection _film_connection;
 	boost::signals2::scoped_connection _analysis_finished_connection;
 };

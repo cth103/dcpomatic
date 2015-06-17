@@ -23,8 +23,8 @@
 #include "lib/audio_analysis.h"
 #include "lib/film.h"
 #include "lib/analyse_audio_job.h"
+#include "lib/audio_content.h"
 #include "lib/job_manager.h"
-#include "lib/playlist.h"
 #include <boost/filesystem.hpp>
 
 using boost::shared_ptr;
@@ -106,14 +106,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
-}
 
-void
-AudioDialog::set_playlist (shared_ptr<const Playlist> p)
-{
-	_playlist_connection.disconnect ();
-	_playlist = p;
-	_playlist_connection = _playlist->ContentChanged.connect (boost::bind (&AudioDialog::try_to_load_analysis, this));
+	_film_connection = film->ContentChanged.connect (boost::bind (&AudioDialog::try_to_load_analysis, this));
 	try_to_load_analysis ();
 	SetTitle (_("DCP-o-matic audio"));
 }
