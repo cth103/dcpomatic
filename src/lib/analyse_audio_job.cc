@@ -88,7 +88,7 @@ AnalyseAudioJob::run ()
 	}
 
 	_analysis->set_peak (_overall_peak, DCPTime::from_frames (_overall_peak_frame, _film->audio_frame_rate ()));
-	_analysis->write (_film->audio_analysis_path (_playlist));
+	_analysis->write (_film->audio_analysis_path ());
 	
 	set_progress (1);
 	set_state (FINISHED_OK);

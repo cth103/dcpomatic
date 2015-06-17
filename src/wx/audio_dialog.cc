@@ -128,7 +128,7 @@ AudioDialog::try_to_load_analysis ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	boost::filesystem::path path = film->audio_analysis_path (_playlist);
+	boost::filesystem::path path = film->audio_analysis_path ();
 
 	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
@@ -185,7 +185,7 @@ AudioDialog::analysis_finished ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	
-	if (!boost::filesystem::exists (film->audio_analysis_path (_playlist))) {
+	if (!boost::filesystem::exists (film->audio_analysis_path ())) {
 		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
 		   Give up.
 		*/
