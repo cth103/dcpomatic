@@ -17,14 +17,15 @@
 
 */
 
+#include "content_menu.h"
+#include "timeline_content_view.h"
+#include "lib/util.h"
+#include "lib/rect.h"
+#include "lib/film.h"
+#include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/signals2.hpp>
-#include <wx/wx.h>
-#include "lib/util.h"
-#include "lib/rect.h"
-#include "content_menu.h"
-#include "timeline_content_view.h"
 
 class Film;
 class ContentPanel;
@@ -78,8 +79,8 @@ private:
 	void left_up (wxMouseEvent &);
 	void right_down (wxMouseEvent &);
 	void mouse_moved (wxMouseEvent &);
-	void playlist_changed ();
-	void playlist_content_changed (int);
+	void film_changed (Film::Property);
+	void film_content_changed (int);
 	void resized ();
 	void assign_tracks ();
 	void set_position_from_event (wxMouseEvent &);
@@ -105,6 +106,6 @@ private:
 	ContentMenu _menu;
 	bool _snap;
 
-	boost::signals2::scoped_connection _playlist_changed_connection;
-	boost::signals2::scoped_connection _playlist_content_changed_connection;
+	boost::signals2::scoped_connection _film_changed_connection;
+	boost::signals2::scoped_connection _film_content_changed_connection;
 };

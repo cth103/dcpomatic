@@ -122,12 +122,12 @@ ContentMenu::repeat ()
 		return;
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
+	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	film->playlist()->repeat (_content, d->number ());
+	film->repeat_content (_content, d->number ());
 	d->Destroy ();
 
 	_content.clear ();
@@ -170,7 +170,7 @@ ContentMenu::remove ()
 		return;
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
+	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
@@ -210,7 +210,7 @@ ContentMenu::remove ()
 	}
 
 	if (!handled) {
-		film->playlist()->remove (_content);
+		film->remove_content (_content);
 	}
 
 	_content.clear ();

@@ -64,12 +64,12 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	Bind (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved, this, _1));
 	Bind (wxEVT_SIZE,       boost::bind (&Timeline::resized,     this));
 
-	playlist_changed ();
+	film_changed (Film::CONTENT);
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
-	_playlist_changed_connection = film->playlist()->Changed.connect (bind (&Timeline::playlist_changed, this));
-	_playlist_content_changed_connection = film->playlist()->ContentChanged.connect (bind (&Timeline::playlist_content_changed, this, _2));
+	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
+	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2));
 }
 
 void
@@ -90,10 +90,12 @@ Timeline::paint ()
 }
 
 void
-Timeline::playlist_changed ()
+Timeline::film_changed (Film::Property p)
 {
-	ensure_ui_thread ();
-	recreate_views ();
+	if (p == Film::CONTENT) {
+		ensure_ui_thread ();
+		recreate_views ();
+	}
 }
 
 void
@@ -107,7 +109,7 @@ Timeline::recreate_views ()
 	_views.clear ();
 	_views.push_back (_time_axis_view);
 
-	ContentList content = fl->playlist()->content ();
+	ContentList content = fl->content ();
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {
@@ -131,7 +133,7 @@ Timeline::recreate_views ()
 }
 
 void
-Timeline::playlist_content_changed (int property)
+Timeline::film_content_changed (int property)
 {
 	ensure_ui_thread ();
 

@@ -101,8 +101,6 @@ public:
 
 	std::vector<CPLSummary> cpls () const;
 
-	boost::shared_ptr<Playlist> playlist () const;
-
 	int audio_frame_rate () const;
 
 	uint64_t required_disk_space () const;
@@ -141,6 +139,8 @@ public:
 	void make_audio_mapping_default (AudioMapping & mapping) const;
 	std::vector<std::string> audio_output_names () const;
 
+	void repeat_content (ContentList, int);
+	
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -256,6 +256,7 @@ public:
 	void examine_and_add_content (boost::shared_ptr<Content>);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
+	void remove_content (ContentList);
 	void move_content_earlier (boost::shared_ptr<Content>);
 	void move_content_later (boost::shared_ptr<Content>);
 	void set_dcp_content_type (DCPContentType const *);

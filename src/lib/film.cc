@@ -916,12 +916,6 @@ Film::set_key (dcp::Key key)
 	signal_changed (KEY);
 }
 
-shared_ptr<Playlist>
-Film::playlist () const
-{
-	return _playlist;
-}
-
 ContentList
 Film::content () const
 {
@@ -1225,4 +1219,16 @@ Film::audio_output_names () const
 	n.push_back (_("BsR"));
 
 	return vector<string> (n.begin(), n.begin() + audio_channels ());
+}
+
+void
+Film::repeat_content (ContentList c, int n)
+{
+	_playlist->repeat (c, n);
+}
+
+void
+Film::remove_content (ContentList c)
+{
+	_playlist->remove (c);
 }
