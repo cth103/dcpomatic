@@ -40,6 +40,8 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 {
 	shared_ptr<Film> film = new_test_film ("player_overlaps_test");
 	film->set_container (Ratio::from_id ("185"));
+
+	/* This content is 3s long */
 	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
 	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
 	shared_ptr<FFmpegContent> C (new FFmpegContent (film, "test/data/test.mp4"));
