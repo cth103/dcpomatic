@@ -616,35 +616,47 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Find all mapped channels */
 
-	list<int> mapped;
-	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
-		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*i);
-		if (ac) {
-			list<int> c = ac->audio_mapping().mapped_output_channels ();
-			copy (c.begin(), c.end(), back_inserter (mapped));
-		}
-	}
-
-	mapped.sort ();
-	mapped.unique ();
-	
-	/* Count them */
-			
 	int non_lfe = 0;
 	int lfe = 0;
-	for (list<int>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
-		if (*i >= audio_channels()) {
-			/* This channel is mapped but is not included in the DCP */
-			continue;
+
+	if (audio_processor ()) {
+		/* Processors are mapped 1:1 to DCP outputs so we can guess the number of LFE/
+		   non-LFE from the channel counts.
+		*/
+		non_lfe = audio_processor()->out_channels ();
+		if (non_lfe >= 4) {
+			--non_lfe;
+			++lfe;
+		}
+	} else {
+		list<int> mapped;
+		for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
+			shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*i);
+			if (ac) {
+				list<int> c = ac->audio_mapping().mapped_output_channels ();
+				copy (c.begin(), c.end(), back_inserter (mapped));
+			}
 		}
 		
-		if (static_cast<dcp::Channel> (*i) == dcp::LFE) {
-			++lfe;
-		} else {
-			++non_lfe;
+		mapped.sort ();
+		mapped.unique ();
+		
+		/* Count them */
+		
+		for (list<int>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
+			if (*i >= audio_channels()) {
+				/* This channel is mapped but is not included in the DCP */
+				continue;
+			}
+			
+			if (static_cast<dcp::Channel> (*i) == dcp::LFE) {
+				++lfe;
+			} else {
+				++non_lfe;
+			}
 		}
 	}
-
+	
 	if (non_lfe) {
 		d << "_" << non_lfe << lfe;
 	}
