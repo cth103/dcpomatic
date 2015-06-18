@@ -1,5 +1,7 @@
 2015-06-18  Carl Hetherington  <cth@carlh.net>
 
+	* Fixes to Linux .desktop files.
+
 	* Stop playback when we reach the end of the film.
 
 2015-06-16  c.hetherington  <cth@carlh.net>

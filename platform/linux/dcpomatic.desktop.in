@@ -5,6 +5,6 @@ Type=Application
 Terminal=false
 Exec=@INSTALL_PREFIX@/bin/dcpomatic2
 Name=DCP-o-matic 2
-Icon=dcpomatic
+Icon=dcpomatic2
 Comment=DCP generator
 Categories=AudioVideo;Video
