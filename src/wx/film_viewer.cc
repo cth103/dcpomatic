@@ -221,7 +221,15 @@ FilmViewer::get (DCPTime p, bool accurate)
 void
 FilmViewer::timer ()
 {
-	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
+	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
+
+	if ((_position + frame) >= _film->length ()) {
+		_play_button->SetValue (false);
+		check_play_state ();
+	} else {
+		get (_position + frame, true);
+	}
+	
 	update_position_label ();
 	update_position_slider ();
 }

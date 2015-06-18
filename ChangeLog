@@ -1,3 +1,7 @@
+2015-06-18  Carl Hetherington  <cth@carlh.net>
+
+	* Stop playback when we reach the end of the film.
+
 2015-06-16  c.hetherington  <cth@carlh.net>
 
 	* Prevent selection of fewer DCP channels than
