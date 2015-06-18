@@ -332,7 +332,9 @@ VideoContent::identifier () const
 	  << "_" << crop().right
 	  << "_" << crop().top
 	  << "_" << crop().bottom
-	  << "_" << scale().id();
+	  << "_" << scale().id()
+	  << "_" << _fade_in
+	  << "_" << _fade_out;
 
 	if (colour_conversion()) {
 		s << "_" << colour_conversion().get().identifier ();
