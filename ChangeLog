@@ -1,5 +1,7 @@
 2015-06-18  c.hetherington  <cth@carlh.net>
 
+	* Split job status onto two lines (#610).
+
 	* Fix audio channel counts in DCP names when
 	processors are in use (#609).
 

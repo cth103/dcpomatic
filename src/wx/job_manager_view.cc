@@ -50,8 +50,8 @@ public:
 		_gauge = new wxGauge (panel, wxID_ANY, 100);
 		/* This seems to be required to allow the gauge to shrink under OS X */
 		_gauge->SetMinSize (wxSize (0, -1));
-		gauge_message->Add (_gauge, 1, wxEXPAND | wxLEFT | wxRIGHT);
-		_message = new wxStaticText (panel, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+		gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
+		_message = new wxStaticText (panel, wxID_ANY, wxT (" \n "), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 		gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 		table->Insert (n, gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		++n;
@@ -89,7 +89,11 @@ private:
 
 	void progress ()
 	{
-		string whole = "<b>" + _job->name () + "</b>: " + _job->sub_name() + " " + _job->status ();
+		string whole = "<b>" + _job->name () + "</b>\n";
+		if (!_job->sub_name().empty ()) {
+			whole += _job->sub_name() + " ";
+		}
+		whole += _job->status ();
 		if (whole != _last_message) {
 			_message->SetLabelMarkup (whole);
 			_last_message = whole;
