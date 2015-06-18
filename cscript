@@ -225,7 +225,7 @@ def make_spec(filename, version, target):
 def dependencies(target):
     return (('ffmpeg-cdist', '0492ad2'),
             ('libdcp', '13db82c'),
-            ('libsub', 'a002558'))
+            ('libsub', 'e607d5e'))
 
 def configure_options(target):
     opt = ''
