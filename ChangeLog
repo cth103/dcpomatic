@@ -1,5 +1,8 @@
 2015-06-18  c.hetherington  <cth@carlh.net>
 
+	* Fix error when copying fonts into subtitles
+	on Windows (#612).
+
 	* Split job status onto two lines (#610).
 
 	* Fix audio channel counts in DCP names when
