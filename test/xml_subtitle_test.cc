@@ -46,5 +46,6 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
+	/* Should be blank video with MXF subtitles */
 	check_dcp ("test/data/xml_subtitle_test", film->dir (film->dcp_name ()));
 }

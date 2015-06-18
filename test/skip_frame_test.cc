@@ -51,6 +51,9 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
+	/* Should be white numbers on a black background counting up from 2 in steps of 2
+	   up to 300.
+	*/
 	check_dcp ("test/data/skip_frame_test", film->dir (film->dcp_name ()));
 }
 

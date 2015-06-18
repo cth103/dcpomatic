@@ -46,6 +46,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
+	/* Should be blank video with a subtitle MXF */
 	check_dcp ("test/data/srt_subtitle_test", film->dir (film->dcp_name ()));
 }
 
@@ -68,6 +69,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->make_dcp ();
 	wait_for_jobs ();
 
+	/* Should be blank video with a subtitle MXF */
 	check_dcp ("test/data/srt_subtitle_test2", film->dir (film->dcp_name ()));
 }
 
