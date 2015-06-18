@@ -47,7 +47,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	boost::filesystem::path path = content->path(0).string ();
 	if (valid_j2k_file (path)) {
 		boost::uintmax_t size = boost::filesystem::file_size (path);
-		FILE* f = fopen_boost (path, "r");
+		FILE* f = fopen_boost (path, "rb");
 		if (!f) {
 			throw FileError ("Could not open file for reading", path);
 		}
