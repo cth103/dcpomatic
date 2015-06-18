@@ -258,7 +258,7 @@ Playlist::length () const
 {
 	DCPTime len;
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		len = max (len, (*i)->end() + DCPTime::delta ());
+		len = max (len, (*i)->end());
 	}
 
 	return len;
