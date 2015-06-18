@@ -139,7 +139,8 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_end;
 	}
-	
+
+	/** @return Time immediately after the last thing in this content */
 	DCPTime end () const {
 		return position() + length_after_trim();
 	}
