@@ -29,8 +29,8 @@ msgid ""
 "(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2014 par Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-"Laursen"
+"(C) 2012-2015 par Carl Hetherington, Terrence Meiczinger\n"
+" Ole Laursen, Brecht Sanders"
 
 #: src/wx/config_dialog.cc:984
 msgid "(password will be stored on disk in plaintext)"
@@ -120,9 +120,8 @@ msgid "Add Cinema..."
 msgstr "Ajout cinéma"
 
 #: src/wx/content_menu.cc:62
-#, fuzzy
 msgid "Add KDM..."
-msgstr "Ajout cinéma"
+msgstr ""
 
 #: src/wx/kdm_dialog.cc:86
 msgid "Add Screen..."
@@ -144,9 +143,8 @@ msgid "Add folder..."
 msgstr "Ajout fichier(s)..."
 
 #: src/wx/image_sequence_dialog.cc:25
-#, fuzzy
 msgid "Add image sequence"
-msgstr "Conserver la vidéo dans la séquence"
+msgstr ""
 
 #: src/wx/content_panel.cc:75
 msgid "Add video, image or sound files to the film."
@@ -214,14 +212,12 @@ msgstr ""
 "%.1fdB."
 
 #: src/wx/colour_conversion_editor.cc:70
-#, fuzzy
 msgid "B"
-msgstr "dB"
+msgstr ""
 
 #: src/wx/config_dialog.cc:1003
-#, fuzzy
 msgid "BCC address"
-msgstr "Adresse CC"
+msgstr "Adresse BCC"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Blue chromaticity"
@@ -318,9 +314,8 @@ msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
 #: src/wx/fonts_dialog.cc:120
-#, fuzzy
 msgid "Choose a font file"
-msgstr "Choisissez un fichier"
+msgstr ""
 
 #: src/wx/dolby_certificate_dialog.cc:43
 msgid "Cinema"
@@ -348,9 +343,8 @@ msgid "Content"
 msgstr "Contenu"
 
 #: src/wx/content_properties_dialog.cc:34
-#, fuzzy
 msgid "Content Properties"
-msgstr "Propriétés du film"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:95
 msgid "Content Type"
@@ -381,9 +375,8 @@ msgid "Could not find any images in that folder"
 msgstr ""
 
 #: src/wx/film_viewer.cc:181
-#, fuzzy, c-format
 msgid "Could not get video for view (%s)"
-msgstr "Lecture du ficher de certificat (%s) impossible"
+msgstr ""
 
 #: src/wx/config_dialog.cc:673 src/wx/config_dialog.cc:768
 #: src/wx/config_dialog.cc:788 src/wx/screen_dialog.cc:95
@@ -392,9 +385,8 @@ msgid "Could not read certificate file (%s)"
 msgstr "Lecture du ficher de certificat (%s) impossible"
 
 #: src/wx/config_dialog.cc:760 src/wx/config_dialog.cc:810
-#, fuzzy, c-format
 msgid "Could not read key file (%s)"
-msgstr "Lecture du ficher de certificat (%s) impossible"
+msgstr ""
 
 #: src/wx/dolby_certificate_dialog.cc:39
 msgid "Country"
@@ -425,9 +417,8 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/wx/audio_dialog.cc:108
-#, fuzzy
 msgid "DCP-o-matic audio"
-msgstr "Son DCP-o-matic  - %s"
+msgstr "Son DCP-o-matic"
 
 #: src/wx/config_dialog.cc:330
 msgid "Default ISDCF name details"
@@ -565,9 +556,8 @@ msgid "Fetching..."
 msgstr "Obtention..."
 
 #: src/wx/content_properties_dialog.cc:38
-#, fuzzy
 msgid "Filename"
-msgstr "Nom du Film"
+msgstr ""
 
 #: src/wx/properties_dialog.cc:36
 msgid "Film Properties"
@@ -693,9 +683,8 @@ msgid "Input gamma"
 msgstr "gamma source"
 
 #: src/wx/colour_conversion_editor.cc:48
-#, fuzzy
 msgid "Input gamma correction"
-msgstr "gamma source"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:59
 msgid "Input power"
@@ -759,9 +748,8 @@ msgid "Leaf common name"
 msgstr ""
 
 #: src/wx/video_panel.cc:96
-#, fuzzy
 msgid "Left"
-msgstr "Rogner à gauche"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:50
 #, fuzzy
@@ -810,7 +798,7 @@ msgstr "Sélectionner le certificat"
 #: src/wx/isdcf_metadata_dialog.cc:71
 #, fuzzy
 msgid "Mastered luminance (e.g. 14fl)"
-msgstr "Luminance masterisée (ex: 4fl)"
+msgstr "Luminance masterisée (ex: 14fl)"
 
 #: src/wx/colour_conversion_editor.cc:109
 msgid "Matrix"
@@ -885,9 +873,8 @@ msgid "Open the timeline for the film."
 msgstr ""
 
 #: src/wx/make_signer_chain_dialog.cc:25
-#, fuzzy
 msgid "Organisation"
-msgstr "Durée"
+msgstr ""
 
 #: src/wx/make_signer_chain_dialog.cc:27
 msgid "Organisational unit"
@@ -902,9 +889,8 @@ msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortant"
 
 #: src/wx/film_viewer.cc:62
-#, fuzzy
 msgid "Outline content"
-msgstr "Contenus multiples sélectionnés"
+msgstr ""
 
 #: src/wx/kdm_dialog.cc:156
 msgid "Output"
@@ -984,9 +970,8 @@ msgid "Properties..."
 msgstr "Propriétés du film"
 
 #: src/wx/colour_conversion_editor.cc:105
-#, fuzzy
 msgid "RGB to XYZ conversion"
-msgstr "Espace Couleurs"
+msgstr ""
 
 #: src/wx/audio_dialog.cc:75
 msgid "RMS"
@@ -1005,9 +990,8 @@ msgid "Re-examine..."
 msgstr ""
 
 #: src/wx/config_dialog.cc:606
-#, fuzzy
 msgid "Re-make certificates..."
-msgstr "Téléchargement Certificat"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:98
 msgid "Rec. 601"
@@ -1113,9 +1097,8 @@ msgid "Select KDM"
 msgstr ""
 
 #: src/wx/config_dialog.cc:754 src/wx/config_dialog.cc:802
-#, fuzzy
 msgid "Select Key File"
-msgstr "Sélectionner le certificat"
+msgstr ""
 
 #: src/wx/kdm_dialog.cc:185
 msgid "Send by email"
