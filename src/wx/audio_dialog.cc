@@ -108,7 +108,6 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 	overall_sizer->SetSizeHints (this);
 
 	_film_connection = film->ContentChanged.connect (boost::bind (&AudioDialog::try_to_load_analysis, this));
-	try_to_load_analysis ();
 	SetTitle (_("DCP-o-matic audio"));
 }
 
@@ -258,3 +257,12 @@ AudioDialog::setup_peak_time ()
 		_peak_time->SetForegroundColour (wxColour (0, 0, 0));
 	}
 }
+
+void
+AudioDialog::Show ()
+{
+	wxDialog::Show ();
+	try_to_load_analysis ();
+}
+
+	

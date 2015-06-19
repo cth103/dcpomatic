@@ -31,6 +31,8 @@ class AudioDialog : public wxDialog
 public:
 	AudioDialog (wxWindow *, boost::shared_ptr<Film> film);
 
+	void Show ();
+
 private:
 	void content_changed (int);
 	void channel_clicked (wxCommandEvent &);
