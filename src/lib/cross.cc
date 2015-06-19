@@ -169,7 +169,7 @@ shared_path ()
 	return path.parent_path();
 #endif
 #ifdef DCPOMATIC_OSX
-	return app_contents() / ".." / "Resources";
+	return app_contents() / "Resources";
 #endif	
 }
 
