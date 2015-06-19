@@ -36,7 +36,7 @@ class SingleStreamAudioContent : public AudioContent
 public:
 	SingleStreamAudioContent (boost::shared_ptr<const Film>);
 	SingleStreamAudioContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	SingleStreamAudioContent (boost::shared_ptr<const Film> f, cxml::ConstNodePtr node, int version);
+	SingleStreamAudioContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr node, int version);
 
 	void as_xml (xmlpp::Node* node) const;
 

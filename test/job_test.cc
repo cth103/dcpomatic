@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,8 +32,8 @@ using boost::shared_ptr;
 class TestJob : public Job
 {
 public:
-	TestJob (shared_ptr<Film> f)
-		: Job (f)
+	TestJob (shared_ptr<Film> film)
+		: Job (film)
 	{
 
 	}
@@ -66,10 +66,10 @@ public:
 
 BOOST_AUTO_TEST_CASE (job_manager_test)
 {
-	shared_ptr<Film> f;
+	shared_ptr<Film> film;
 
 	/* Single job */
-	shared_ptr<TestJob> a (new TestJob (f));
+	shared_ptr<TestJob> a (new TestJob (film));
 
 	JobManager::instance()->add (a);
 	dcpomatic_sleep (1);

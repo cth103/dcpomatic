@@ -43,7 +43,7 @@ public:
 		return _film;
 	}
 
-	void set_film (boost::shared_ptr<Film> f);
+	void set_film (boost::shared_ptr<Film>);
 	void set_general_sensitivity (bool s);
 	void set_selection (boost::weak_ptr<Content>);
 

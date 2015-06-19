@@ -78,9 +78,9 @@ ContentMenu::~ContentMenu ()
 }
 
 void
-ContentMenu::popup (weak_ptr<Film> f, ContentList c, TimelineContentViewList v, wxPoint p)
+ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList v, wxPoint p)
 {
-	_film = f;
+	_film = film;
 	_content = c;
 	_views = v;
 	_repeat->Enable (!_content.empty ());

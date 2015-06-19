@@ -53,20 +53,20 @@ int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::FILTERS = 102;
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
-	, VideoContent (f, p)
-	, AudioContent (f, p)
-	, SubtitleContent (f, p)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film, p)
+	, VideoContent (film, p)
+	, AudioContent (film, p)
+	, SubtitleContent (film, p)
 {
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version, list<string>& notes)
-	: Content (f, node)
-	, VideoContent (f, node, version)
-	, AudioContent (f, node)
-	, SubtitleContent (f, node, version)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
+	: Content (film, node)
+	, VideoContent (film, node, version)
+	, AudioContent (film, node)
+	, SubtitleContent (film, node, version)
 {
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -98,11 +98,11 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> f, cxml::ConstNodePtr node,
 	_first_video = node->optional_number_child<double> ("FirstVideo");
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> f, vector<boost::shared_ptr<Content> > c)
-	: Content (f, c)
-	, VideoContent (f, c)
-	, AudioContent (f, c)
-	, SubtitleContent (f, c)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
+	: Content (film, c)
+	, VideoContent (film, c)
+	, AudioContent (film, c)
+	, SubtitleContent (film, c)
 {
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);

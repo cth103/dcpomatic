@@ -101,15 +101,15 @@ Timeline::film_changed (Film::Property p)
 void
 Timeline::recreate_views ()
 {
-	shared_ptr<const Film> fl = _film.lock ();
-	if (!fl) {
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
 		return;
 	}
 
 	_views.clear ();
 	_views.push_back (_time_axis_view);
 
-	ContentList content = fl->content ();
+	ContentList content = film->content ();
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 		if (dynamic_pointer_cast<VideoContent> (*i)) {

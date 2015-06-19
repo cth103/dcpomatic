@@ -74,8 +74,8 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-Writer::Writer (shared_ptr<const Film> f, weak_ptr<Job> j)
-	: _film (f)
+Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
+	: _film (film)
 	, _job (j)
 	, _first_nonexistant_frame (0)
 	, _thread (0)

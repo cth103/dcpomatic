@@ -120,13 +120,13 @@ FilmViewer::FilmViewer (wxWindow* p)
 }
 
 void
-FilmViewer::set_film (shared_ptr<Film> f)
+FilmViewer::set_film (shared_ptr<Film> film)
 {
-	if (_film == f) {
+	if (_film == film) {
 		return;
 	}
 
-	_film = f;
+	_film = film;
 
 	_frame.reset ();
 	
@@ -138,7 +138,7 @@ FilmViewer::set_film (shared_ptr<Film> f)
 	}
 
 	try {
-		_player.reset (new Player (f));
+		_player.reset (new Player (_film));
 	} catch (bad_alloc) {
 		error_dialog (this, _("There is not enough free memory to do that."));
 		_film.reset ();

@@ -46,39 +46,39 @@ int const AudioContentProperty::AUDIO_STREAMS = 200;
 int const AudioContentProperty::AUDIO_GAIN = 201;
 int const AudioContentProperty::AUDIO_DELAY = 202;
 
-AudioContent::AudioContent (shared_ptr<const Film> f)
-	: Content (f)
+AudioContent::AudioContent (shared_ptr<const Film> film)
+	: Content (film)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
 {
 
 }
 
-AudioContent::AudioContent (shared_ptr<const Film> f, DCPTime s)
-	: Content (f, s)
+AudioContent::AudioContent (shared_ptr<const Film> film, DCPTime s)
+	: Content (film, s)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
 {
 
 }
 
-AudioContent::AudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
+AudioContent::AudioContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film, p)
 	, _audio_gain (0)
 	, _audio_delay (Config::instance()->default_audio_delay ())
 {
 
 }
 
-AudioContent::AudioContent (shared_ptr<const Film> f, cxml::ConstNodePtr node)
-	: Content (f, node)
+AudioContent::AudioContent (shared_ptr<const Film> film, cxml::ConstNodePtr node)
+	: Content (film, node)
 {
 	_audio_gain = node->number_child<float> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
 }
 
-AudioContent::AudioContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
-	: Content (f, c)
+AudioContent::AudioContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
+	: Content (film, c)
 {
 	shared_ptr<AudioContent> ref = dynamic_pointer_cast<AudioContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);

@@ -29,8 +29,8 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-ExamineContentJob::ExamineContentJob (shared_ptr<const Film> f, shared_ptr<Content> c)
-	: Job (f)
+ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Content> c)
+	: Job (film)
 	, _content (c)
 {
 

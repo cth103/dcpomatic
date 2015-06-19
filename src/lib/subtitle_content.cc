@@ -43,8 +43,8 @@ int const SubtitleContentProperty::USE_SUBTITLES = 504;
 int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 505;
 int const SubtitleContentProperty::FONTS = 506;
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> f)
-	: Content (f)
+SubtitleContent::SubtitleContent (shared_ptr<const Film> film)
+	: Content (film)
 	, _use_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
@@ -54,8 +54,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f)
 
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
+SubtitleContent::SubtitleContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film, p)
 	, _use_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
@@ -65,8 +65,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, boost::filesystem::p
 
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
-	: Content (f, node)
+SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: Content (film, node)
 	, _use_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
@@ -103,8 +103,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> f, cxml::ConstNodePtr n
 	connect_to_fonts ();
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
-	: Content (f, c)
+SubtitleContent::SubtitleContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
+	: Content (film, c)
 {
 	shared_ptr<SubtitleContent> ref = dynamic_pointer_cast<SubtitleContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);

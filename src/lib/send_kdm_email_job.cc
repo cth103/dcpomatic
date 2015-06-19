@@ -29,14 +29,14 @@ using std::list;
 using boost::shared_ptr;
 
 SendKDMEmailJob::SendKDMEmailJob (
-	shared_ptr<const Film> f,
+	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime to,
 	dcp::Formulation formulation
 	)
-	: Job (f)
+	: Job (film)
 	, _screens (screens)
 	, _dcp (dcp)
 	, _from (from)

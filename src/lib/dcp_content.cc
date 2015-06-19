@@ -37,11 +37,11 @@ using boost::optional;
 
 int const DCPContentProperty::CAN_BE_PLAYED = 600;
 
-DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f)
-	, VideoContent (f)
-	, SingleStreamAudioContent (f)
-	, SubtitleContent (f)
+DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film)
+	, VideoContent (film)
+	, SingleStreamAudioContent (film)
+	, SubtitleContent (film)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
@@ -51,11 +51,11 @@ DCPContent::DCPContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	unset_colour_conversion (false);
 }
 
-DCPContent::DCPContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
-	: Content (f, node)
-	, VideoContent (f, node, version)
-	, SingleStreamAudioContent (f, node, version)
-	, SubtitleContent (f, node, version)
+DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: Content (film, node)
+	, VideoContent (film, node, version)
+	, SingleStreamAudioContent (film, node, version)
+	, SubtitleContent (film, node, version)
 {
 	_name = node->string_child ("Name");
 	_has_subtitles = node->bool_child ("HasSubtitles");

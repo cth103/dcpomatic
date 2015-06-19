@@ -43,8 +43,8 @@ public:
 class DCPContent : public VideoContent, public SingleStreamAudioContent, public SubtitleContent
 {
 public:
-	DCPContent (boost::shared_ptr<const Film> f, boost::filesystem::path p);
-	DCPContent (boost::shared_ptr<const Film> f, cxml::ConstNodePtr, int version);
+	DCPContent (boost::shared_ptr<const Film>, boost::filesystem::path p);
+	DCPContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version);
 
 	boost::shared_ptr<DCPContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<DCPContent> (Content::shared_from_this ());

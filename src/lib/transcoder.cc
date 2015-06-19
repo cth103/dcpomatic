@@ -46,11 +46,11 @@ using boost::dynamic_pointer_cast;
  *  @param f Film that we are transcoding.
  *  @param j Job that this transcoder is being used in.
  */
-Transcoder::Transcoder (shared_ptr<const Film> f, shared_ptr<Job> j)
-	: _film (f)
-	, _player (new Player (f))
-	, _writer (new Writer (f, j))
-	, _encoder (new Encoder (f, j, _writer))
+Transcoder::Transcoder (shared_ptr<const Film> film, shared_ptr<Job> j)
+	: _film (film)
+	, _player (new Player (film))
+	, _writer (new Writer (film, j))
+	, _encoder (new Encoder (film, j, _writer))
 	, _finishing (false)
 {
 

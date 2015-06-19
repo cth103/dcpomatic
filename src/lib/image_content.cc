@@ -35,9 +35,9 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f)
-	, VideoContent (f)
+ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film)
+	, VideoContent (film)
 {
 	bool have_j2k = false;
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
@@ -69,9 +69,9 @@ ImageContent::ImageContent (shared_ptr<const Film> f, boost::filesystem::path p)
 }
 
 
-ImageContent::ImageContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
-	: Content (f, node)
-	, VideoContent (f, node, version)
+ImageContent::ImageContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: Content (film, node)
+	, VideoContent (film, node, version)
 {
 	
 }

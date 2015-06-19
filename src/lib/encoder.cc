@@ -59,8 +59,8 @@ using boost::scoped_array;
 int const Encoder::_history_size = 25;
 
 /** @param f Film that we are encoding */
-Encoder::Encoder (shared_ptr<const Film> f, weak_ptr<Job> j, shared_ptr<Writer> writer)
-	: _film (f)
+Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Writer> writer)
+	: _film (film)
 	, _job (j)
 	, _video_frames_enqueued (0)
 	, _terminate (false)

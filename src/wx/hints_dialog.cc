@@ -30,9 +30,9 @@
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> f)
+HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
-	, _film (f)
+	, _film (film)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	_text = new wxRichTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (400, 300), wxRE_READONLY);
@@ -49,10 +49,10 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> f)
 
 	_text->GetCaret()->Hide ();
 
-	boost::shared_ptr<Film> film = _film.lock ();
-	if (film) {
-		_film_changed_connection = film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
-		_film_content_changed_connection = film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
+	boost::shared_ptr<Film> locked_film = _film.lock ();
+	if (locked_film) {
+		_film_changed_connection = locked_film->Changed.connect (boost::bind (&HintsDialog::film_changed, this));
+		_film_content_changed_connection = locked_film->ContentChanged.connect (boost::bind (&HintsDialog::film_changed, this));
 	}
 
 	film_changed ();

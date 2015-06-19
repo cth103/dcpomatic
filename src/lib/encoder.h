@@ -59,7 +59,7 @@ class PlayerVideo;
 class Encoder : public boost::noncopyable, public ExceptionStore
 {
 public:
-	Encoder (boost::shared_ptr<const Film> f, boost::weak_ptr<Job>, boost::shared_ptr<Writer>);
+	Encoder (boost::shared_ptr<const Film>, boost::weak_ptr<Job>, boost::shared_ptr<Writer>);
 	virtual ~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */

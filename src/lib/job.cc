@@ -41,8 +41,8 @@ using boost::optional;
 
 #define LOG_ERROR_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_ERROR);
 
-Job::Job (shared_ptr<const Film> f)
-	: _film (f)
+Job::Job (shared_ptr<const Film> film)
+	: _film (film)
 	, _thread (0)
 	, _state (NEW)
 	, _start_time (0)

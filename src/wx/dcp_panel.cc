@@ -48,9 +48,9 @@ using std::make_pair;
 using boost::lexical_cast;
 using boost::shared_ptr;
 
-DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> f)
+DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	: _audio_dialog (0)
-	, _film (f)
+	, _film (film)
 	, _generally_sensitive (true)
 {
 	_panel = new wxPanel (n);

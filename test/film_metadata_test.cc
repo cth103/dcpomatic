@@ -35,18 +35,18 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
-	shared_ptr<Film> f = new_test_film ("film_metadata_test");
+	shared_ptr<Film> film = new_test_film ("film_metadata_test");
 	boost::filesystem::path dir = test_film_dir ("film_metadata_test");
 
-	f->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
-	BOOST_CHECK (f->container() == Ratio::from_id ("185"));
-	BOOST_CHECK (f->dcp_content_type() == 0);
+	film->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
+	BOOST_CHECK (film->container() == Ratio::from_id ("185"));
+	BOOST_CHECK (film->dcp_content_type() == 0);
 
-	f->set_name ("fred");
-	f->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
-	f->set_container (Ratio::from_id ("185"));
-	f->set_j2k_bandwidth (200000000);
-	f->write_metadata ();
+	film->set_name ("fred");
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_j2k_bandwidth (200000000);
+	film->write_metadata ();
 
 	list<string> ignore;
 	ignore.push_back ("Key");

@@ -34,16 +34,16 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-SndfileContent::SndfileContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
-	, SingleStreamAudioContent (f, p)
+SndfileContent::SndfileContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film, p)
+	, SingleStreamAudioContent (film, p)
 {
 
 }
 
-SndfileContent::SndfileContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
-	: Content (f, node)
-	, SingleStreamAudioContent (f, node, version)
+SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: Content (film, node)
+	, SingleStreamAudioContent (film, node, version)
 	, _audio_length (node->number_child<int64_t> ("AudioLength"))
 {
 

@@ -99,15 +99,15 @@ FilmEditor::film_content_changed (int property)
 
 /** Sets the Film that we are editing */
 void
-FilmEditor::set_film (shared_ptr<Film> f)
+FilmEditor::set_film (shared_ptr<Film> film)
 {
-	set_general_sensitivity (f != 0);
+	set_general_sensitivity (film != 0);
 
-	if (_film == f) {
+	if (_film == film) {
 		return;
 	}
 	
-	_film = f;
+	_film = film;
 
 	_content_panel->set_film (_film);
 	_dcp_panel->set_film (_film);

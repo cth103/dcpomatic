@@ -60,8 +60,8 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-VideoContent::VideoContent (shared_ptr<const Film> f)
-	: Content (f)
+VideoContent::VideoContent (shared_ptr<const Film> film)
+	: Content (film)
 	, _video_length (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
@@ -72,8 +72,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f)
 	set_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, Frame len)
-	: Content (f, s)
+VideoContent::VideoContent (shared_ptr<const Film> film, DCPTime s, Frame len)
+	: Content (film, s)
 	, _video_length (len)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
@@ -84,8 +84,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, DCPTime s, Frame len)
 	set_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
+VideoContent::VideoContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film, p)
 	, _video_length (0)
 	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
@@ -96,8 +96,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, boost::filesystem::path p)
 	set_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
-	: Content (f, node)
+VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: Content (film, node)
 {
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
@@ -131,8 +131,8 @@ VideoContent::VideoContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, i
 	}
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
-	: Content (f, c)
+VideoContent::VideoContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
+	: Content (film, c)
 	, _video_length (0)
 {
 	shared_ptr<VideoContent> ref = dynamic_pointer_cast<VideoContent> (c[0]);

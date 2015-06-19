@@ -68,11 +68,11 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-Player::Player (shared_ptr<const Film> f)
-	: _film (f)
+Player::Player (shared_ptr<const Film> film)
+	: _film (film)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
-	, _burn_subtitles (f->burn_subtitles ())
+	, _burn_subtitles (film->burn_subtitles ())
 {
 	_film_content_changed_connection = _film->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));

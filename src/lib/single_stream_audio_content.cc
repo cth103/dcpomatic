@@ -27,23 +27,23 @@ using std::cout;
 using std::vector;
 using boost::shared_ptr;
 
-SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f)
-	: Content (f)
-	, AudioContent (f)
+SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> film)
+	: Content (film)
+	, AudioContent (film)
 {
 
 }
 
-SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f, boost::filesystem::path p)
-	: Content (f, p)
-	, AudioContent (f, p)
+SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> film, boost::filesystem::path p)
+	: Content (film, p)
+	, AudioContent (film, p)
 {
 
 }
 
-SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> f, cxml::ConstNodePtr node, int version)
-	: Content (f, node)
-	, AudioContent (f, node)
+SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: Content (film, node)
+	, AudioContent (film, node)
 	, _audio_stream (new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
 {
 

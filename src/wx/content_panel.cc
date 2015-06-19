@@ -48,9 +48,9 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> f, FilmViewer* viewer)
+ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
 	: _timeline_dialog (0)
-	, _film (f)
+	, _film (film)
 	, _generally_sensitive (true)
 {
 	_panel = new wxPanel (n);
@@ -365,9 +365,9 @@ ContentPanel::setup_sensitivity ()
 }
 
 void
-ContentPanel::set_film (shared_ptr<Film> f)
+ContentPanel::set_film (shared_ptr<Film> film)
 {
-	_film = f;
+	_film = film;
 
 	film_changed (Film::CONTENT);
 	film_changed (Film::AUDIO_CHANNELS);

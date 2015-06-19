@@ -48,8 +48,8 @@ int const ContentProperty::LENGTH = 402;
 int const ContentProperty::TRIM_START = 403;
 int const ContentProperty::TRIM_END = 404;
 
-Content::Content (shared_ptr<const Film> f)
-	: _film (f)
+Content::Content (shared_ptr<const Film> film)
+	: _film (film)
 	, _position (0)
 	, _trim_start (0)
 	, _trim_end (0)
@@ -58,8 +58,8 @@ Content::Content (shared_ptr<const Film> f)
 
 }
 
-Content::Content (shared_ptr<const Film> f, DCPTime p)
-	: _film (f)
+Content::Content (shared_ptr<const Film> film, DCPTime p)
+	: _film (film)
 	, _position (p)
 	, _trim_start (0)
 	, _trim_end (0)
@@ -68,8 +68,8 @@ Content::Content (shared_ptr<const Film> f, DCPTime p)
 
 }
 
-Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
-	: _film (f)
+Content::Content (shared_ptr<const Film> film, boost::filesystem::path p)
+	: _film (film)
 	, _position (0)
 	, _trim_start (0)
 	, _trim_end (0)
@@ -78,8 +78,8 @@ Content::Content (shared_ptr<const Film> f, boost::filesystem::path p)
 	_paths.push_back (p);
 }
 
-Content::Content (shared_ptr<const Film> f, cxml::ConstNodePtr node)
-	: _film (f)
+Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
+	: _film (film)
 	, _change_signals_frequent (false)
 {
 	list<cxml::NodePtr> path_children = node->node_children ("Path");
@@ -92,8 +92,8 @@ Content::Content (shared_ptr<const Film> f, cxml::ConstNodePtr node)
 	_trim_end = DCPTime (node->number_child<double> ("TrimEnd"));
 }
 
-Content::Content (shared_ptr<const Film> f, vector<shared_ptr<Content> > c)
-	: _film (f)
+Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
+	: _film (film)
 	, _position (c.front()->position ())
 	, _trim_start (c.front()->trim_start ())
 	, _trim_end (c.back()->trim_end ())
