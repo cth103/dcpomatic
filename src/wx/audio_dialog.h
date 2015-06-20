@@ -31,7 +31,7 @@ class AudioDialog : public wxDialog
 public:
 	AudioDialog (wxWindow *, boost::shared_ptr<Film> film);
 
-	void Show ();
+	bool Show (bool show = true);
 
 private:
 	void content_changed (int);

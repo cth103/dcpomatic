@@ -258,11 +258,12 @@ AudioDialog::setup_peak_time ()
 	}
 }
 
-void
-AudioDialog::Show ()
+bool
+AudioDialog::Show (bool show)
 {
-	wxDialog::Show ();
+	bool const r = wxDialog::Show (show);
 	try_to_load_analysis ();
+	return r;
 }
 
 	
