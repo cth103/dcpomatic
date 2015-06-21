@@ -409,6 +409,7 @@ VideoPanel::content_selection_changed ()
 	_fade_out->Enable (!video_sel.empty ());
 	_scale->set_content (video_sel);
 
+	_colour_conversion->Enable (single && !video_sel.empty ());
 	_filters_button->Enable (single && !ffmpeg_sel.empty ());
 
 	film_content_changed (VideoContentProperty::VIDEO_CROP);
