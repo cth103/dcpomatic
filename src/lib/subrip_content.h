@@ -37,8 +37,13 @@ public:
 	DCPTime full_length () const;
 
 	/* SubtitleContent */
-	bool has_subtitles () const {
+
+	bool has_text_subtitles () const {
 		return true;
+	}
+
+	bool has_image_subtitles () const {
+		return false;
 	}
 
 	static std::string const font_id;

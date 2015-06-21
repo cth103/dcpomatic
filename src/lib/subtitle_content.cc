@@ -283,3 +283,8 @@ SubtitleContent::font_changed ()
 	signal_changed (SubtitleContentProperty::FONTS);
 }
 
+bool
+SubtitleContent::has_subtitles () const
+{
+	return has_text_subtitles() || has_image_subtitles();
+}

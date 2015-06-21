@@ -1,5 +1,8 @@
 2015-06-21  Carl Hetherington  <cth@carlh.net>
 
+	* Prevent DCP creation if the project is set up to request
+	non-burnt-in subtitles with text-subtitle content (#606).
+
 	* Fix status message appearance on OS X (#615).
 
 2015-06-19  Carl Hetherington  <cth@carlh.net>

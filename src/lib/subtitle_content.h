@@ -53,7 +53,9 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
-	virtual bool has_subtitles () const = 0;
+	bool has_subtitles () const;
+	virtual bool has_text_subtitles () const = 0;
+	virtual bool has_image_subtitles () const = 0;
 
 	void add_font (boost::shared_ptr<Font> font);
 

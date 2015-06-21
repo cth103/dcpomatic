@@ -277,15 +277,27 @@ Film::audio_analysis_path () const
 void
 Film::make_dcp ()
 {
-	set_isdcf_date_today ();
-
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
 
+	bool must_burn = false;
+	ContentList cl = content ();
+	BOOST_FOREACH (shared_ptr<Content> c, cl) {
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c);
+		if (sc && sc->has_image_subtitles() && sc->use_subtitles() && !burn_subtitles()) {
+			must_burn = true;
+		}
+	}
+
+	if (must_burn) {
+		throw EncodeError (_("this project has content with image-based subtitles, which this version of DCP-o-matic cannot include as separate DCP subtitles.  To use subtitles with this project you must burn them into the image (tick the box on the DCP Video tab)."));
+	}
+
+	set_isdcf_date_today ();
+
 	environment_info (log ());
 
-	ContentList cl = content ();
 	for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
 		LOG_GENERAL ("Content: %1", (*i)->technical_summary());
 	}

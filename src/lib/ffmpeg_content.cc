@@ -298,7 +298,13 @@ FFmpegContent::subtitles_during (ContentTimePeriod period, bool starting) const
 }
 
 bool
-FFmpegContent::has_subtitles () const
+FFmpegContent::has_text_subtitles () const
+{
+	return false;
+}
+
+bool
+FFmpegContent::has_image_subtitles () const
 {
 	return !subtitle_streams().empty ();
 }

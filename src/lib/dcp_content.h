@@ -59,9 +59,14 @@ public:
 	std::string identifier () const;
 
 	/* SubtitleContent */
-	bool has_subtitles () const {
+
+	bool has_text_subtitles () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _has_subtitles;
+	}
+
+	bool has_image_subtitles () const {
+		return false;
 	}
 
 	boost::filesystem::path directory () const;

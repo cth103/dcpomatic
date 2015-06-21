@@ -70,7 +70,8 @@ public:
 	std::vector<AudioStreamPtr> audio_streams () const;
 
 	/* SubtitleContent */
-	bool has_subtitles () const;
+	bool has_text_subtitles () const;
+	bool has_image_subtitles () const;
 
 	void set_filters (std::vector<Filter const *> const &);
 
