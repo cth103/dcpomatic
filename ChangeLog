@@ -1,7 +1,11 @@
+2015-06-21  Carl Hetherington  <cth@carlh.net>
+
+	* Fix status message appearance on OS X (#615).
+
 2015-06-19  Carl Hetherington  <cth@carlh.net>
 
 	* Fix non-working audio analysis dialogue.
-	
+
 	* Version 2.1.6 released.
 
 2015-06-18  Carl Hetherington  <cth@carlh.net>
@@ -1249,7 +1253,7 @@
 
 2014-04-07  Carl Hetherington  <cth@carlh.net>
 
-	* Updated fr_FR translation from Thierry Journet. 
+	* Updated fr_FR translation from Thierry Journet.
 
 2014-04-02  Carl Hetherington  <cth@carlh.net>
 
@@ -2302,4 +2306,3 @@
 2013-08-28  Carl Hetherington  <cth@carlh.net>
 
 	* Initial DCP-o-matic release.
-
