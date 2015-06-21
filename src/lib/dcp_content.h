@@ -84,6 +84,9 @@ public:
 
 	bool can_be_played () const;
 
+protected:
+	void add_properties (std::list<std::pair<std::string, std::string> >& p) const;
+
 private:
 	void read_directory (boost::filesystem::path);
 

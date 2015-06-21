@@ -26,8 +26,4 @@ class ContentPropertiesDialog : public TableDialog
 {
 public:
 	ContentPropertiesDialog (wxWindow* parent, boost::shared_ptr<Content> content);
-
-private:
-	void add_property (wxString k, wxString v);
 };
-

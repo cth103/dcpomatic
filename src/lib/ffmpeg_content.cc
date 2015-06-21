@@ -34,6 +34,7 @@
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavformat/avformat.h>
+#include <libavutil/pixdesc.h>
 }
 #include <boost/foreach.hpp>
 
@@ -46,6 +47,7 @@ using std::vector;
 using std::list;
 using std::cout;
 using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -96,6 +98,15 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 	}
 
 	_first_video = node->optional_number_child<double> ("FirstVideo");
+
+
+	_color_range = static_cast<AVColorRange> (node->optional_number_child<int>("ColorRange").get_value_or (AVCOL_RANGE_UNSPECIFIED));
+	_color_primaries = static_cast<AVColorPrimaries> (node->optional_number_child<int>("ColorPrimaries").get_value_or (AVCOL_PRI_UNSPECIFIED));
+	_color_trc = static_cast<AVColorTransferCharacteristic> (
+		node->optional_number_child<int>("ColorTransferCharacteristic").get_value_or (AVCOL_TRC_UNSPECIFIED)
+		);
+	_colorspace = static_cast<AVColorSpace> (node->optional_number_child<int>("Colorspace").get_value_or (AVCOL_SPC_UNSPECIFIED));
+
 }
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
@@ -150,6 +161,11 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	if (_first_video) {
 		node->add_child("FirstVideo")->add_child_text (raw_convert<string> (_first_video.get().get()));
 	}
+
+	node->add_child("ColorRange")->add_child_text (raw_convert<string> (_color_range));
+	node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (_color_primaries));
+	node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (_color_trc));
+	node->add_child("Colorspace")->add_child_text (raw_convert<string> (_colorspace));
 }
 
 void
@@ -182,6 +198,11 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		}
 
 		_first_video = examiner->first_video ();
+
+		_color_range = examiner->color_range ();
+		_color_primaries = examiner->color_primaries ();
+		_color_trc = examiner->color_trc ();
+		_colorspace = examiner->colorspace ();
 	}
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
@@ -331,4 +352,78 @@ FFmpegContent::audio_streams () const
 	vector<AudioStreamPtr> s;
 	copy (_audio_streams.begin(), _audio_streams.end(), back_inserter (s));
 	return s;
+}
+
+void
+FFmpegContent::add_properties (list<pair<string, string> >& p) const
+{
+	VideoContent::add_properties (p);
+
+	/* I tried av_*_name for these but they are not the most
+	   nicely formatted.
+	*/
+
+	char const * ranges[] = {
+		_("Unspecified"),
+		_("MPEG (0-219 or equivalent)"),
+		_("JPEG (0-255 or equivalent)")
+	};
+
+	DCPOMATIC_ASSERT (AVCOL_RANGE_NB == 3);
+	p.push_back (make_pair (_("Colour range"), ranges[_color_range]));
+
+	char const * primaries[] = {
+		_("Unspecified"),
+		_("BT709"),
+		_("Unspecified"),
+		_("Unspecified"),
+		_("BT470M"),
+		_("BT470BG"),
+		_("SMPTE 170M (BT601)"),
+		_("SMPTE 240M"),
+		_("Film"),
+		_("BT2020")
+	};
+
+	DCPOMATIC_ASSERT (AVCOL_PRI_NB == 10);
+	p.push_back (make_pair (_("Color primaries"), primaries[_color_primaries]));
+
+	char const * transfers[] = {
+		_("Unspecified"),
+		_("BT709"),
+		_("Unspecified"),
+		_("Unspecified"),
+		_("Gamma 22 (BT470M)"),
+		_("Gamma 28 (BT470BG)"),
+		_("SMPTE 170M (BT601)"),
+		_("SMPTE 240M"),
+		_("Linear"),
+		_("Logarithmic (100:1 range)"),
+		_("Logarithmic (316:1 range)"),
+		_("IEC61966-2-4"),
+		_("BT1361 extended colour gamut"),
+		_("IEC61966-2-1 (sRGB or sYCC)"),
+		_("BT2020 for a 10-bit system"),
+		_("BT2020 for a 12-bit system")
+	};
+
+	DCPOMATIC_ASSERT (AVCOL_TRC_NB == 16);
+	p.push_back (make_pair (_("Colour transfer characteristic"), transfers[_color_trc]));
+
+	char const * spaces[] = {
+		_("RGB / sRGB (IEC61966-2-1)"),
+		_("BT709"),
+		_("Unspecified"),
+		_("Unspecified"),
+		_("FCC"),
+		_("BT470BG (BT601-6)"),
+		_("SMPTE 170M (BT601-6)"),
+		_("SMPTE 240M"),
+		_("YCOCG"),
+		_("BT2020 non-constant luminance"),
+		_("BT2020 constant luminance"),
+	};
+
+	DCPOMATIC_ASSERT (AVCOL_SPC_NB == 11);
+	p.push_back (make_pair (_("Colourspace"), spaces[_colorspace]));
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@
 using std::string;
 using std::cout;
 using std::distance;
+using std::pair;
+using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -180,4 +182,10 @@ DCPContent::directory () const
 	}
 
 	return dir;
+}
+
+void
+DCPContent::add_properties (list<pair<string, string> >& p) const
+{
+	SingleStreamAudioContent::add_properties (p);
 }

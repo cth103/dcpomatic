@@ -46,6 +46,22 @@ public:
 		return _first_video;
 	}
 
+	AVColorRange color_range () const {
+		return video_codec_context()->color_range;
+	}
+
+	AVColorPrimaries color_primaries () const {
+		return video_codec_context()->color_primaries;
+	}
+
+	AVColorTransferCharacteristic color_trc () const {
+		return video_codec_context()->color_trc;
+	}
+
+	AVColorSpace colorspace () const {
+		return video_codec_context()->colorspace;
+	}
+
 private:
 	void video_packet (AVCodecContext *);
 	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);

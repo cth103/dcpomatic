@@ -27,6 +27,8 @@
 #include <boost/algorithm/string.hpp>
 
 using std::string;
+using std::list;
+using std::pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -35,40 +37,14 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 {
 	string n = content->path(0).string();
 	boost::algorithm::replace_all (n, "&", "&&");
-	add_property (_("Filename"), std_to_wx (n));
+	add (_("Filename"), true);
+	add (new wxStaticText (this, wxID_ANY, std_to_wx (n)));
 
-	shared_ptr<VideoContent> video = dynamic_pointer_cast<VideoContent> (content);
-	if (video) {
-		add_property (
-			_("Video length"),
-			std_to_wx (raw_convert<string> (video->video_length ())) + " " + _("video frames")
-			);
-		add_property (
-			_("Video size"),
-			std_to_wx (raw_convert<string> (video->video_size().width) + "x" + raw_convert<string> (video->video_size().height))
-			);
-		add_property (
-			_("Video frame rate"),
-			std_to_wx (raw_convert<string> (video->video_frame_rate())) + " " + _("frames per second")
-			);
-	}
-
-	/* XXX: this could be better wrt audio streams */
-
-	shared_ptr<SingleStreamAudioContent> single = dynamic_pointer_cast<SingleStreamAudioContent> (content);
-	if (single) {
-		add_property (
-			_("Audio channels"),
-			std_to_wx (raw_convert<string> (single->audio_stream()->channels ()))
-			);
+	list<pair<string, string> > properties = content->properties ();
+	for (list<pair<string, string> >::const_iterator i = properties.begin(); i != properties.end(); ++i) {
+		add (std_to_wx (i->first), true);
+		add (new wxStaticText (this, wxID_ANY, std_to_wx (i->second)));
 	}
 
 	layout ();
-}
-
-void
-ContentPropertiesDialog::add_property (wxString k, wxString v)
-{
-	add (k, true);
-	add (new wxStaticText (this, wxID_ANY, v));
 }

@@ -22,9 +22,13 @@
 #include "film.h"
 #include "raw_convert.h"
 
+#include "i18n.h"
+
 using std::string;
 using std::cout;
 using std::vector;
+using std::list;
+using std::pair;
 using boost::shared_ptr;
 
 SingleStreamAudioContent::SingleStreamAudioContent (shared_ptr<const Film> film)
@@ -80,4 +84,11 @@ SingleStreamAudioContent::audio_streams () const
 	vector<AudioStreamPtr> s;
 	s.push_back (_audio_stream);
 	return s;
+}
+
+void
+SingleStreamAudioContent::add_properties (list<pair<string, string> >& p) const
+{
+	/* XXX: this could be better wrt audio streams */
+	p.push_back (make_pair (_("Audio channels"), raw_convert<string> (audio_stream()->channels ())));
 }

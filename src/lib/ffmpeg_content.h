@@ -104,6 +104,9 @@ public:
 
 	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
 
+protected:
+	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
+
 private:
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;
@@ -114,6 +117,11 @@ private:
 	boost::optional<ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;
+
+	AVColorRange _color_range;
+	AVColorPrimaries _color_primaries;
+	AVColorTransferCharacteristic _color_trc;
+	AVColorSpace _colorspace;
 };
 
 #endif

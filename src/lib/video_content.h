@@ -164,6 +164,7 @@ public:
 
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
+	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
 
 	Frame _video_length;
 	float _video_frame_rate;

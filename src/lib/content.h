@@ -84,6 +84,8 @@ public:
 	virtual DCPTime full_length () const = 0;
 	virtual std::string identifier () const;
 
+	std::list<std::pair<std::string, std::string> > properties () const;
+
 	boost::shared_ptr<Content> clone () const;
 
 	void set_path (boost::filesystem::path);
@@ -159,6 +161,7 @@ public:
 
 protected:
 	void signal_changed (int);
+	virtual void add_properties (std::list<std::pair<std::string, std::string> > &) const {}
 
 	boost::weak_ptr<const Film> _film;
 

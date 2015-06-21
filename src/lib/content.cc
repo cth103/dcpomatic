@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ using std::list;
 using std::cout;
 using std::vector;
 using std::max;
+using std::pair;
 using boost::shared_ptr;
 
 int const ContentProperty::PATH = 400;
@@ -272,4 +273,15 @@ Content::path_summary () const
 	}
 
 	return s;
+}
+
+/** @return a list of properties that might be interesting to the user; first string is the property name,
+ *  second is the value.
+ */
+list<pair<string, string> >
+Content::properties () const
+{
+	list<pair<string, string> > p;
+	add_properties (p);
+	return p;
 }

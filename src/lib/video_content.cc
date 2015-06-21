@@ -56,6 +56,8 @@ using std::max;
 using std::stringstream;
 using std::fixed;
 using std::setprecision;
+using std::list;
+using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -568,4 +570,12 @@ VideoContent::processing_description () const
 	d << frc.description () << "\n";
 
 	return d.str ();
+}
+
+void
+VideoContent::add_properties (list<pair<string, string> >& p) const
+{
+	p.push_back (make_pair (_("Video length"), raw_convert<string> (video_length ()) + " " + _("video frames")));
+	p.push_back (make_pair (_("Video size"), raw_convert<string> (video_size().width) + "x" + raw_convert<string> (video_size().height)));
+	p.push_back (make_pair (_("Video frame rate"), raw_convert<string> (video_frame_rate()) + " " + _("frames per second")));
 }
