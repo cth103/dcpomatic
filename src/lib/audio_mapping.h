@@ -48,7 +48,7 @@ public:
 	AudioMapping (cxml::ConstNodePtr, int);
 
 	/* Default copy constructor is fine */
-	
+
 	void as_xml (xmlpp::Node *) const;
 
 	void make_zero ();
@@ -63,12 +63,12 @@ public:
 	int output_channels () const {
 		return _output_channels;
 	}
-	
+
 	std::string digest () const;
 
 	std::list<int> mapped_output_channels () const;
 	void unmap_all ();
-	
+
 private:
 	void setup (int input_channels, int output_channels);
 

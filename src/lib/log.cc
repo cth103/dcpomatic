@@ -75,7 +75,7 @@ Log::log (string message, int type)
 	if (type & TYPE_WARNING) {
 		s << "WARNING: ";
 	}
-	
+
 	s << message;
 	do_log (s.str ());
 }
@@ -153,7 +153,7 @@ FileLog::head_and_tail (int amount) const
 		head_amount = size;
 		tail_amount = 0;
 	}
-	
+
 	FILE* f = fopen_boost (_file, "r");
 	if (!f) {
 		return "";
@@ -162,7 +162,7 @@ FileLog::head_and_tail (int amount) const
 	string out;
 
 	char* buffer = new char[max(head_amount, tail_amount) + 1];
-	
+
 	int N = fread (buffer, 1, head_amount, f);
 	buffer[N] = '\0';
 	out += string (buffer);
@@ -171,7 +171,7 @@ FileLog::head_and_tail (int amount) const
 		out +=  "\n .\n .\n .\n";
 
 		fseek (f, - tail_amount - 1, SEEK_END);
-		
+
 		N = fread (buffer, 1, tail_amount, f);
 		buffer[N] = '\0';
 		out += string (buffer) + "\n";

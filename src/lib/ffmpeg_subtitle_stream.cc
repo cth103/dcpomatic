@@ -62,11 +62,11 @@ FFmpegSubtitleStream::add_subtitle (ContentTimePeriod period)
 	_subtitles[period.from] = period.to;
 }
 
-list<ContentTimePeriod> 
+list<ContentTimePeriod>
 FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting) const
 {
 	list<ContentTimePeriod> d;
-	
+
 	/* XXX: inefficient */
 	for (map<ContentTime, ContentTime>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 		if ((starting && period.contains (i->first)) || (!starting && period.overlaps (ContentTimePeriod (i->first, i->second)))) {

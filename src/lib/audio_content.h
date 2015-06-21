@@ -68,7 +68,7 @@ public:
 
 	void set_audio_gain (double);
 	void set_audio_delay (int);
-	
+
 	double audio_gain () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_gain;
@@ -80,7 +80,7 @@ public:
 	}
 
 	std::string processing_description () const;
-	
+
 private:
 	/** Gain to apply to audio in dB */
 	double _audio_gain;

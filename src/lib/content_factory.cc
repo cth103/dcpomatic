@@ -48,7 +48,7 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 	string const type = node->string_child ("Type");
 
 	boost::shared_ptr<Content> content;
-	
+
 	if (type == "FFmpeg") {
 		content.reset (new FFmpegContent (film, node, version, notes));
 	} else if (type == "Image") {

@@ -40,7 +40,7 @@ void
 SubRipDecoder::seek (ContentTime time, bool accurate)
 {
 	SubtitleDecoder::seek (time, accurate);
-	
+
 	_next = 0;
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
 		++_next;
@@ -55,7 +55,7 @@ SubRipDecoder::pass ()
 	}
 
 	/* XXX: we are ignoring positioning specified in the file */
-	
+
 	list<dcp::SubtitleString> out;
 	for (list<sub::Line>::const_iterator i = _subtitles[_next].lines.begin(); i != _subtitles[_next].lines.end(); ++i) {
 		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {

@@ -39,7 +39,7 @@ DolbyCP750::db_for_fader_change (float from, float to) const
 			float const t = min (to, 4.0f);
 			db += (t - from) * 20;
 		}
-		
+
 		if (to > 4) {
 			float const t = max (from, 4.0f);
 			db += (to - t) * 3.33333333333333333;

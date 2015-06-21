@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (file_group_test)
 	for (int i = 0; i < 65536; ++i) {
 		data[i] = rand() & 0xff;
 	}
-	
+
 	int const num_files = 4;
 
 	int length[] = {

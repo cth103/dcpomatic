@@ -51,7 +51,7 @@ public:
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _state;
 	}
-	
+
 	/** @return new stable version, if there is one */
 	boost::optional<std::string> stable () {
 		boost::mutex::scoped_lock lm (_data_mutex);
@@ -63,7 +63,7 @@ public:
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _test;
 	}
-	
+
 	/** @return true if the last signal emission was the first */
 	bool last_emit_was_first () const {
 		boost::mutex::scoped_lock lm (_data_mutex);
@@ -78,7 +78,7 @@ public:
 
 private:
 	friend struct update_checker_test;
-	
+
 	static UpdateChecker* _instance;
 
 	static bool version_less_than (std::string const & a, std::string const & b);

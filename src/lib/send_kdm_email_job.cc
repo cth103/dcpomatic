@@ -62,12 +62,12 @@ void
 SendKDMEmailJob::run ()
 {
 	try {
-		
+
 		set_progress_unknown ();
 		email_kdms (_film, _screens, _dcp, _from, _to, _formulation);
 		set_progress (1);
 		set_state (FINISHED_OK);
-		
+
 	} catch (std::exception& e) {
 
 		set_progress (1);

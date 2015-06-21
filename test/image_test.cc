@@ -186,7 +186,7 @@ crop_scale_window_single (AVPixelFormat in_format, dcp::Size in_size, Crop crop,
 			}
 		}
 	}
-				
+
 	/* Convert using separate methods */
 	boost::shared_ptr<Image> sep = test->crop (crop, true);
 	sep = sep->scale (inter_size, dcp::YUV_TO_RGB_REC601, PIX_FMT_RGB24, true);
@@ -235,7 +235,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 BOOST_AUTO_TEST_CASE (alpha_blend_test)
 {
 	int const stride = 48 * 4;
-	
+
 	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
 	A->make_black ();
 	uint8_t* a = A->data()[0];
@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 BOOST_AUTO_TEST_CASE (merge_test1)
 {
 	int const stride = 48 * 4;
-	
+
 	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
 	A->make_transparent ();
 	uint8_t* a = A->data()[0];

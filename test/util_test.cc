@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (md5_digest_test)
 	p.push_back ("test/data/md5.test2");
 	p.push_back ("test/data/md5.test4");
 	BOOST_CHECK_EQUAL (md5_digest_head_tail (p, 1024), "52ccf111e4e72b58bb7b2aaa6bd45ea5");
-	
+
 	p.clear ();
 	p.push_back ("foobar");
 	BOOST_CHECK_THROW (md5_digest_head_tail (p, 1024), OpenFileError);
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (dcptime_round_up_test)
 	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 2), DCPTime (2));
 	BOOST_CHECK_EQUAL (DCPTime (2).round_up (DCPTime::HZ / 2), DCPTime (2));
 	BOOST_CHECK_EQUAL (DCPTime (3).round_up (DCPTime::HZ / 2), DCPTime (4));
-	
+
 	BOOST_CHECK_EQUAL (DCPTime (0).round_up (DCPTime::HZ / 42), DCPTime (0));
 	BOOST_CHECK_EQUAL (DCPTime (1).round_up (DCPTime::HZ / 42), DCPTime (42));
 	BOOST_CHECK_EQUAL (DCPTime (42).round_up (DCPTime::HZ / 42), DCPTime (42));

@@ -30,7 +30,7 @@ public:
 	void film_changed (Film::Property);
 	void film_content_changed (int);
 	void content_selection_changed ();
-	
+
 private:
 	void position_changed ();
 	void full_length_changed ();
@@ -45,7 +45,7 @@ private:
 	void update_play_length ();
 
 	FilmViewer* _viewer;
-	
+
 	Timecode<DCPTime>* _position;
 	Timecode<DCPTime>* _full_length;
 	Timecode<DCPTime>* _trim_start;

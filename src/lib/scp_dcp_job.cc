@@ -74,7 +74,7 @@ public:
 
 	ssh_session session;
 
-private:	
+private:
 	bool _connected;
 };
 
@@ -121,60 +121,60 @@ void
 SCPDCPJob::run ()
 {
 	LOG_GENERAL_NC (N_("SCP DCP job starting"));
-	
+
 	SSHSession ss;
-	
+
 	set_status (_("connecting"));
-	
+
 	ssh_options_set (ss.session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
 	ssh_options_set (ss.session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
 	int const port = 22;
 	ssh_options_set (ss.session, SSH_OPTIONS_PORT, &port);
-	
+
 	int r = ss.connect ();
 	if (r != SSH_OK) {
 		throw NetworkError (String::compose (_("Could not connect to server %1 (%2)"), Config::instance()->tms_ip(), ssh_get_error (ss.session)));
 	}
-	
+
 	int const state = ssh_is_server_known (ss.session);
 	if (state == SSH_SERVER_ERROR) {
 		throw NetworkError (String::compose (_("SSH error (%1)"), ssh_get_error (ss.session)));
 	}
-	
+
 	r = ssh_userauth_password (ss.session, 0, Config::instance()->tms_password().c_str ());
 	if (r != SSH_AUTH_SUCCESS) {
 		throw NetworkError (String::compose (_("Failed to authenticate with server (%1)"), ssh_get_error (ss.session)));
 	}
-	
+
 	SSHSCP sc (ss.session);
-	
+
 	r = ssh_scp_init (sc.scp);
 	if (r != SSH_OK) {
 		throw NetworkError (String::compose (_("Could not start SCP session (%1)"), ssh_get_error (ss.session)));
 	}
-	
+
 	r = ssh_scp_push_directory (sc.scp, _film->dcp_name().c_str(), S_IRWXU);
 	if (r != SSH_OK) {
 		throw NetworkError (String::compose (_("Could not create remote directory %1 (%2)"), _film->dcp_name(), ssh_get_error (ss.session)));
 	}
-	
+
 	boost::filesystem::path const dcp_dir = _film->dir (_film->dcp_name());
-	
+
 	boost::uintmax_t bytes_to_transfer = 0;
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
 		bytes_to_transfer += boost::filesystem::file_size (*i);
 	}
-	
+
 	boost::uintmax_t buffer_size = 64 * 1024;
 	char buffer[buffer_size];
 	boost::uintmax_t bytes_transferred = 0;
-	
+
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
-		
+
 		string const leaf = boost::filesystem::path(*i).leaf().generic_string ();
-		
+
 		set_status (String::compose (_("copying %1"), leaf));
-		
+
 		boost::uintmax_t to_do = boost::filesystem::file_size (*i);
 		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
 
@@ -190,7 +190,7 @@ SCPDCPJob::run ()
 				fclose (f);
 				throw ReadFileError (boost::filesystem::path (*i).string());
 			}
-			
+
 			r = ssh_scp_write (sc.scp, buffer, t);
 			if (r != SSH_OK) {
 				fclose (f);
@@ -206,7 +206,7 @@ SCPDCPJob::run ()
 
 		fclose (f);
 	}
-	
+
 	set_progress (1);
 	set_status (N_(""));
 	set_state (FINISHED_OK);

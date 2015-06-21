@@ -76,7 +76,7 @@ private:
 	}
 
 	friend class Signaller;
-	
+
 	/** A io_service which is used as the conduit for messages */
 	boost::asio::io_service _service;
 	/** Object required to keep io_service from stopping when it has nothing to do */

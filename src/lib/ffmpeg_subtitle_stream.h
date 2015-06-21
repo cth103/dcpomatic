@@ -26,7 +26,7 @@ public:
 	FFmpegSubtitleStream (std::string n, int i)
 		: FFmpegStream (n, i)
 	{}
-	
+
 	FFmpegSubtitleStream (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;

@@ -77,9 +77,9 @@ public:
 	int video_frames_out () const;
 
 private:
-	
+
 	void frame_done ();
-	
+
 	void encoder_thread (boost::optional<ServerDescription>);
 	void terminate_threads ();
 	void add_worker_threads (ServerDescription);

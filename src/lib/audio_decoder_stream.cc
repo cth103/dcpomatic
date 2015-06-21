@@ -59,7 +59,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	shared_ptr<ContentAudio> dec;
 
 	Frame const end = frame + length - 1;
-		
+
 	if (frame < _decoded.frame || end > (_decoded.frame + length * 4)) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
 		seek (ContentTime::from_frames (frame, _content->resampled_audio_frame_rate()), accurate);
@@ -69,7 +69,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	   (to be set up shortly)
 	*/
 	Frame decoded_offset = 0;
-	
+
 	/* Now enough pass() calls will either:
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
@@ -84,7 +84,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 			!_decoder->pass ()
 			)
 		{}
-		
+
 		decoded_offset = frame - _decoded.frame;
 	} else {
 		while (
@@ -92,7 +92,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 			!_decoder->pass ()
 			)
 		{}
-		
+
 		/* Use decoded_offset of 0, as we don't really care what frames we return */
 	}
 
@@ -183,7 +183,7 @@ AudioDecoderStream::add (shared_ptr<const AudioBuffers> data)
 		*/
 		return;
 	}
-	
+
 	/* Resize _decoded to fit the new data */
 	int new_size = 0;
 	if (_decoded.audio->frames() == 0) {
@@ -194,7 +194,7 @@ AudioDecoderStream::add (shared_ptr<const AudioBuffers> data)
 		/* Otherwise we need to extend _decoded to include the new stuff */
 		new_size = _position.get() + data->frames() - _decoded.frame;
 	}
-	
+
 	_decoded.audio->ensure_size (new_size);
 	_decoded.audio->set_frames (new_size);
 

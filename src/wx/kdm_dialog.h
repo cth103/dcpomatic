@@ -44,7 +44,7 @@ public:
 	boost::posix_time::ptime from () const;
 	/** @return KDM until time in local time */
 	boost::posix_time::ptime until () const;
-	
+
 	boost::filesystem::path cpl () const;
 	boost::filesystem::path directory () const;
 	bool write_to () const;
@@ -67,7 +67,7 @@ private:
 	void cpl_browse_clicked ();
 
 	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, wxTimePickerCtrl *);
-	
+
 	wxTreeCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;

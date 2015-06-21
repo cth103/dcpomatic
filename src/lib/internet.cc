@@ -53,7 +53,7 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	/* Download the ZIP file to temp_zip */
 	CURL* curl = curl_easy_init ();
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str ());
-	
+
 	ScopedTemporary temp_zip;
 	FILE* f = temp_zip.open ("wb");
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_zip_url_data);
@@ -71,17 +71,17 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	}
 
 	/* Open the ZIP file and read `file' out of it */
-	
+
 	struct zip* zip = zip_open (temp_zip.c_str(), 0, 0);
 	if (!zip) {
 		return optional<string> (_("Could not open downloaded ZIP file"));
 	}
-	
+
 	struct zip_file* zip_file = zip_fopen (zip, file.c_str(), 0);
 	if (!zip_file) {
 		return optional<string> (_("Unexpected ZIP file contents"));
 	}
-	
+
 	ScopedTemporary temp_cert;
 	f = temp_cert.open ("wb");
 	char buffer[4096];
@@ -93,7 +93,7 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 		}
 	}
 	temp_cert.close ();
-	
+
 	load (temp_cert.file ());
 	return optional<string> ();
 }

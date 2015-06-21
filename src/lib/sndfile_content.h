@@ -38,9 +38,9 @@ public:
 	boost::shared_ptr<SndfileContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<SndfileContent> (Content::shared_from_this ());
 	}
-	
+
 	DCPTime full_length () const;
-	
+
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
@@ -48,7 +48,7 @@ public:
 	void as_xml (xmlpp::Node *) const;
 
 	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
-	
+
 	static bool valid_file (boost::filesystem::path);
 
 private:
@@ -56,7 +56,7 @@ private:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _audio_length;
 	}
-	
+
 	Frame _audio_length;
 };
 

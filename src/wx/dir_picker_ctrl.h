@@ -29,7 +29,7 @@ public:
 
 private:
 	void browse_clicked ();
-	
+
 	wxStaticText* _folder;
 	wxButton* _browse;
 	wxString _path;

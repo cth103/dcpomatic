@@ -40,7 +40,7 @@ public:
 
 protected:
 	void seek (ContentTime, bool);
-	
+
 	void image_subtitle (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void text_subtitle (std::list<dcp::SubtitleString>);
 
@@ -56,7 +56,7 @@ private:
 	 */
 	virtual std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
 	virtual std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
-	
+
 	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 };
 

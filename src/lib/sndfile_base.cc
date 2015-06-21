@@ -39,10 +39,10 @@ Sndfile::Sndfile (shared_ptr<const SndfileContent> c)
 	/* Here be monsters.  See fopen_boost for similar shenanigans */
 #ifdef DCPOMATIC_WINDOWS
 	_sndfile = sf_wchar_open (_sndfile_content->path(0).c_str(), SFM_READ, &_info);
-#else	
+#else
 	_sndfile = sf_open (_sndfile_content->path(0).string().c_str(), SFM_READ, &_info);
 #endif
-	
+
 	if (!_sndfile) {
 		throw DecodeError (_("could not open audio file for reading"));
 	}

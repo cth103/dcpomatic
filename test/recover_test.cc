@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (recover_test)
 		video,
 		"build/test/recover_test/original.mxf"
 		);
-	
+
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
 	film->make_dcp ();

@@ -31,7 +31,7 @@ public:
 	void send_binary (boost::shared_ptr<Socket>) const;
 	bool same (boost::shared_ptr<const ImageProxy> other) const;
 
-private:	
+private:
 	Magick::Blob _blob;
 	mutable boost::shared_ptr<Image> _image;
 	mutable boost::mutex _mutex;

@@ -67,7 +67,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	}
 
 	_frame = av_frame_alloc ();
-	
+
 	AVFilterGraph* graph = avfilter_graph_alloc();
 	if (graph == 0) {
 		throw DecodeError (N_("could not create filter graph."));
@@ -98,7 +98,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	pixel_fmts[0] = _pixel_format;
 	pixel_fmts[1] = PIX_FMT_NONE;
 	sink_params->pixel_fmts = pixel_fmts;
-	
+
 	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), 0, sink_params, graph) < 0) {
 		throw DecodeError (N_("could not create buffer sink."));
 	}
@@ -120,7 +120,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
 		throw DecodeError (N_("could not set up filter graph."));
 	}
-	
+
 	if (avfilter_graph_config (graph, 0) < 0) {
 		throw DecodeError (N_("could not configure filter graph."));
 	}
@@ -148,17 +148,17 @@ FilterGraph::process (AVFrame* frame)
 		if (r < 0) {
 			throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)."), r));
 		}
-		
+
 		while (true) {
 			if (av_buffersink_get_frame (_buffer_sink_context, _frame) < 0) {
 				break;
 			}
-			
+
 			images.push_back (make_pair (shared_ptr<Image> (new Image (_frame)), av_frame_get_best_effort_timestamp (_frame)));
 			av_frame_unref (_frame);
 		}
 	}
-		
+
 	return images;
 }
 

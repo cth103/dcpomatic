@@ -35,7 +35,7 @@ class TimelineView : public boost::noncopyable
 public:
 	TimelineView (Timeline& t);
 	virtual ~TimelineView () {}
-		
+
 	void paint (wxGraphicsContext* g);
 	void force_redraw ();
 
@@ -43,9 +43,9 @@ public:
 
 protected:
 	virtual void do_paint (wxGraphicsContext *) = 0;
-	
+
 	int time_x (DCPTime t) const;
-	
+
 	Timeline& _timeline;
 
 private:

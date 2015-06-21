@@ -40,9 +40,9 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _smoothing (max_smoothing / 2)
 {
-#ifndef __WXOSX__	
+#ifndef __WXOSX__
 	SetDoubleBuffered (true);
-#endif	
+#endif
 
 	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		_channel_visible[i] = false;
@@ -69,10 +69,10 @@ AudioPlot::AudioPlot (wxWindow* parent)
 
 #if MAX_DCP_AUDIO_CHANNELS != 12
 #warning AudioPlot::AudioPlot is expecting the wrong MAX_DCP_AUDIO_CHANNELS
-#endif	
-	
+#endif
+
 	Bind (wxEVT_PAINT, boost::bind (&AudioPlot::paint, this));
-	
+
 	SetMinSize (wxSize (640, 512));
 }
 
@@ -143,7 +143,7 @@ AudioPlot::paint ()
 	gc->GetTextExtent (wxT ("-80dB"), &metrics.db_label_width, &db_label_height, &db_label_descent, &db_label_leading);
 
 	metrics.db_label_width += 8;
-	
+
 	int const data_width = GetSize().GetWidth() - metrics.db_label_width;
 	/* Assume all channels have the same number of points */
 	metrics.x_scale = data_width / float (_analysis->points (0));
@@ -162,7 +162,7 @@ AudioPlot::paint ()
 	gc->StrokePath (grid);
 
 	gc->DrawText (_("Time"), data_width, metrics.height - metrics.y_origin + db_label_height / 2);
-	
+
 	if (_type_visible[AudioPoint::PEAK]) {
 		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
 			wxGraphicsPath p = gc->CreatePath ();
@@ -203,7 +203,7 @@ AudioPlot::y_for_linear (float p, Metrics const & metrics) const
 	if (p < 1e-4) {
 		p = 1e-4;
 	}
-	
+
 	return metrics.height - (20 * log10(p) - _minimum) * metrics.y_scale - metrics.y_origin;
 }
 
@@ -213,7 +213,7 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics
 	if (_analysis->points (channel) == 0) {
 		return;
 	}
-	
+
 	path.MoveToPoint (metrics.db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::PEAK], metrics));
 
 	float peak = 0;
@@ -237,7 +237,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 	if (_analysis->points (channel) == 0) {
 		return;
 	}
-	
+
 	path.MoveToPoint (metrics.db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::RMS], metrics));
 
 	list<float> smoothing;
@@ -249,7 +249,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 
 	int const before = _smoothing / 2;
 	int const after = _smoothing - before;
-	
+
 	/* Pre-load the smoothing list */
 	for (int i = 0; i < before; ++i) {
 		smoothing.push_back (first);

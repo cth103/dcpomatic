@@ -40,6 +40,6 @@ public:
 
 private:
 	void active_changed ();
-	
+
 	FilterEditor* _filters;
 };

@@ -99,7 +99,7 @@ private:
 		_sizer->Layout ();
 		ev.Skip ();
 	}
-	
+
 	bool should_close ()
 	{
 		if (!JobManager::instance()->work_to_do ()) {
@@ -117,7 +117,7 @@ private:
 		d->Destroy ();
 		return r;
 	}
-		
+
 	void close (wxCloseEvent& ev)
 	{
 		if (!should_close ()) {
@@ -132,7 +132,7 @@ private:
 	{
 		add_film ();
 	}
-	
+
 	void file_quit ()
 	{
 		if (should_close ()) {
@@ -153,7 +153,7 @@ private:
 		if (_last_parent) {
 			c->SetPath (std_to_wx (_last_parent.get().string ()));
 		}
-		
+
 		int r;
 		while (true) {
 			r = c->ShowModal ();
@@ -163,7 +163,7 @@ private:
 				break;
 			}
 		}
-			
+
 		if (r == wxID_OK) {
 			try {
 				shared_ptr<Film> film (new Film (wx_to_std (c->GetPath ())));
@@ -197,10 +197,10 @@ class App : public wxApp
 		if (!wxApp::OnInit()) {
 			return false;
 		}
-		
-#ifdef DCPOMATIC_LINUX		
+
+#ifdef DCPOMATIC_LINUX
 		unsetenv ("UBUNTU_MENUPROXY");
-#endif		
+#endif
 
 		/* Enable i18n; this will create a Config object
 		   to look for a force-configured language.  This Config

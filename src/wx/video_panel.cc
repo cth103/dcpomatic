@@ -114,7 +114,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_right_crop->add (crop, wxGBPosition (cr, 3));
 
 	++cr;
-	
+
 	add_label_to_grid_bag_sizer (crop, this, _("Top"), true, wxGBPosition (cr, 0));
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
@@ -147,7 +147,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_out = new Timecode<ContentTime> (this);
 	grid->Add (_fade_out, wxGBPosition (r, 1), wxGBSpan (1, 3));
 	++r;
-	
+
 	add_label_to_grid_bag_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
 	_scale = new ContentChoice<VideoContent, VideoContentScale> (
 		this,
@@ -189,10 +189,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		}
 		_colour_conversion->Append (_("Custom"));
 		s->Add (_colour_conversion, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
-		
+
 		_edit_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
 		s->Add (_edit_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
-		
+
 		grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	}
 	++r;
@@ -225,7 +225,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
-	
+
 	_filters_button->Bind                (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&VideoPanel::edit_filters_clicked, this));
 	_colour_conversion->Bind             (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&VideoPanel::colour_conversion_changed, this));
 	_edit_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
@@ -255,7 +255,7 @@ VideoPanel::film_content_changed (int property)
 		vcs = vc.front ();
 		fcs = dynamic_pointer_cast<FFmpegContent> (vcs);
 	}
-	
+
 	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::VIDEO_CROP) {
@@ -299,7 +299,7 @@ VideoPanel::film_content_changed (int property)
 		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
 			check.insert ((*i)->fade_in ());
 		}
-		
+
 		if (check.size() == 1) {
 			_fade_in->set (ContentTime::from_frames (vc.front()->fade_in (), vc.front()->video_frame_rate ()), vc.front()->video_frame_rate ());
 		} else {
@@ -310,7 +310,7 @@ VideoPanel::film_content_changed (int property)
 		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
 			check.insert ((*i)->fade_out ());
 		}
-		
+
 		if (check.size() == 1) {
 			_fade_out->set (ContentTime::from_frames (vc.front()->fade_out (), vc.front()->video_frame_rate ()), vc.front()->video_frame_rate ());
 		} else {
@@ -397,7 +397,7 @@ VideoPanel::content_selection_changed ()
 {
 	VideoContentList video_sel = _parent->selected_video ();
 	FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
-	
+
 	bool const single = video_sel.size() == 1;
 
 	_frame_type->set_content (video_sel);

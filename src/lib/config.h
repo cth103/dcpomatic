@@ -88,7 +88,7 @@ public:
 	std::string tms_ip () const {
 		return _tms_ip;
 	}
-	
+
 	/** @return The path on a TMS that we should changed DCPs to */
 	std::string tms_path () const {
 		return _tms_path;
@@ -112,7 +112,7 @@ public:
 	std::list<boost::shared_ptr<Cinema> > cinemas () const {
 		return _cinemas;
 	}
-	
+
 	std::list<int> allowed_dcp_frame_rates () const {
 		return _allowed_dcp_frame_rates;
 	}
@@ -120,7 +120,7 @@ public:
 	bool allow_any_dcp_frame_rate () const {
 		return _allow_any_dcp_frame_rate;
 	}
-	
+
 	ISDCFMetadata default_isdcf_metadata () const {
 		return _default_isdcf_metadata;
 	}
@@ -180,7 +180,7 @@ public:
 	std::string kdm_bcc () const {
 		return _kdm_bcc;
 	}
-	
+
 	std::string kdm_email () const {
 		return _kdm_email;
 	}
@@ -213,11 +213,11 @@ public:
 		return _log_types;
 	}
 
-#ifdef DCPOMATIC_WINDOWS	
+#ifdef DCPOMATIC_WINDOWS
 	bool win32_console () const {
 		return _win32_console;
 	}
-#endif	
+#endif
 
 	std::vector<boost::filesystem::path> history () const {
 		return _history;
@@ -291,7 +291,7 @@ public:
 		if (!_language) {
 			return;
 		}
-			
+
 		_language = boost::none;
 		changed ();
 	}
@@ -347,7 +347,7 @@ public:
 	void set_kdm_bcc (std::string f) {
 		maybe_set (_kdm_bcc, f);
 	}
-	
+
 	void set_kdm_email (std::string e) {
 		maybe_set (_kdm_email, e);
 	}
@@ -382,11 +382,11 @@ public:
 		maybe_set (_log_types, t);
 	}
 
-#ifdef DCPOMATIC_WINDOWS	
+#ifdef DCPOMATIC_WINDOWS
 	void set_win32_console (bool c) {
 		maybe_set (_win32_console, c);
 	}
-#endif	
+#endif
 
 	void clear_history () {
 		_history.clear ();
@@ -394,12 +394,12 @@ public:
 	}
 
 	void add_to_history (boost::filesystem::path p);
-	
+
 	void changed ();
 	boost::signals2::signal<void ()> Changed;
 
 	void write () const;
-	
+
 	static Config* instance ();
 	static void drop ();
 	static void restore_defaults ();
@@ -474,11 +474,11 @@ private:
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
 	int _log_types;
-#ifdef DCPOMATIC_WINDOWS	
+#ifdef DCPOMATIC_WINDOWS
 	bool _win32_console;
-#endif	
+#endif
 	std::vector<boost::filesystem::path> _history;
-	
+
 	/** Singleton instance, or 0 */
 	static Config* _instance;
 };

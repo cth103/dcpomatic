@@ -63,7 +63,7 @@ DCPDecoder::pass ()
 
 	float const vfr = _dcp_content->video_frame_rate ();
 	int64_t const frame = _next.frames (vfr);
-	
+
 	if ((*_reel)->main_picture ()) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
@@ -76,7 +76,7 @@ DCPDecoder::pass ()
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
 				frame
 				);
-			
+
 			video (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
 				frame
@@ -111,7 +111,7 @@ DCPDecoder::pass ()
 			++_reel;
 		}
 	}
-	
+
 	return false;
 }
 

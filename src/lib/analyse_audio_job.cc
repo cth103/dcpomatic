@@ -63,7 +63,7 @@ AnalyseAudioJob::run ()
 {
 	shared_ptr<Player> player (new Player (_film));
 	player->set_ignore_video ();
-	
+
 	int64_t const len = _film->length().frames (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
 
@@ -88,7 +88,7 @@ AnalyseAudioJob::run ()
 
 	_analysis->set_peak (_overall_peak, DCPTime::from_frames (_overall_peak_frame, _film->audio_frame_rate ()));
 	_analysis->write (_film->audio_analysis_path ());
-	
+
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

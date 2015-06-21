@@ -32,7 +32,7 @@ public:
 	void film_changed (Film::Property);
 	void film_content_changed (int);
 	void content_selection_changed ();
-	
+
 private:
 	void use_toggled ();
 	void x_offset_changed ();
@@ -45,7 +45,7 @@ private:
 	void fonts_dialog_clicked ();
 
 	void setup_sensitivity ();
-	
+
 	wxCheckBox* _use;
 	wxSpinCtrl* _x_offset;
 	wxSpinCtrl* _y_offset;

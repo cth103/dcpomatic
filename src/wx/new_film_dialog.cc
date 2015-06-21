@@ -40,15 +40,15 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	add (_("Create in folder"), true);
 
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-	_folder = new DirPickerCtrl (this); 
-#else	
+	_folder = new DirPickerCtrl (this);
+#else
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
 	if (!_directory) {
 		_directory = Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()));
 	}
-	
+
 	_folder->SetPath (std_to_wx (_directory.get().string()));
 	add (_folder);
 

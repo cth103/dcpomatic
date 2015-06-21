@@ -84,13 +84,13 @@ string
 VideoContentScale::id () const
 {
 	SafeStringStream s;
-	
+
 	if (_ratio) {
 		s << _ratio->id ();
 	} else {
 		s << (_scale ? "S1" : "S0");
 	}
-	
+
 	return s.str ();
 }
 
@@ -122,7 +122,7 @@ VideoContentScale::from_id (string id)
 
 	return VideoContentScale (true);
 }
-		
+
 /** @param display_container Size of the container that we are displaying this content in.
  *  @param film_container The size of the film's image.
  */
@@ -154,7 +154,7 @@ VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size display_con
 			float (display_container.width) / film_container.width,
 			float (display_container.height) / film_container.height
 			);
-		
+
 		size.width = rint (size.width * scale);
 		size.height = rint (size.height * scale);
 	}

@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	wait_for_jobs ();
 
 	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	
+
 	film->set_video_frame_rate (48);
 	film->make_dcp ();
 	wait_for_jobs ();

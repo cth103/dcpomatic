@@ -62,7 +62,7 @@ SingleStreamAudioContent::take_from_audio_examiner (shared_ptr<AudioExaminer> ex
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));

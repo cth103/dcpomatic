@@ -47,7 +47,7 @@ public:
 
 	/* VideoContent */
 	void set_default_colour_conversion ();
-	
+
 	void set_video_length (Frame);
 	bool still () const;
 	void set_video_frame_rate (float);

@@ -106,7 +106,7 @@ new_test_film (string name)
 	if (boost::filesystem::exists (p)) {
 		boost::filesystem::remove_all (p);
 	}
-	
+
 	shared_ptr<Film> film = shared_ptr<Film> (new Film (p.string()));
 	film->write_metadata ();
 	return film;
@@ -119,7 +119,7 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 	ref_info.format = 0;
 	SNDFILE* ref_file = sf_open (ref.string().c_str(), SFM_READ, &ref_info);
 	BOOST_CHECK (ref_file);
-	
+
 	SF_INFO check_info;
 	check_info.format = 0;
 	SNDFILE* check_file = sf_open (check.string().c_str(), SFM_READ, &check_info);
@@ -134,7 +134,7 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 	sf_count_t const buffer_size = 65536 * ref_info.channels;
 	scoped_array<int32_t> ref_buffer (new int32_t[buffer_size]);
 	scoped_array<int32_t> check_buffer (new int32_t[buffer_size]);
-	
+
 	sf_count_t N = ref_info.frames;
 	while (N) {
 		sf_count_t this_time = min (buffer_size, N);
@@ -160,14 +160,14 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	BOOST_CHECK (ref_file);
 	FILE* check_file = fopen_boost (check, "rb");
 	BOOST_CHECK (check_file);
-	
+
 	int const buffer_size = 65536;
 	uint8_t* ref_buffer = new uint8_t[buffer_size];
 	uint8_t* check_buffer = new uint8_t[buffer_size];
 
 	SafeStringStream error;
 	error << "File " << check.string() << " differs from reference " << ref.string();
-	
+
 	while (N) {
 		uintmax_t this_time = min (uintmax_t (buffer_size), N);
 		size_t r = fread (ref_buffer, 1, this_time, ref_file);
@@ -179,7 +179,7 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 		if (memcmp (ref_buffer, check_buffer, this_time)) {
 			break;
 		}
-		
+
 		N -= this_time;
 	}
 
@@ -214,7 +214,7 @@ check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 	options.reel_annotation_texts_can_differ = true;
 	options.reel_hashes_can_differ = true;
 	options.issue_dates_can_differ = true;
-	
+
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }
 
@@ -291,7 +291,7 @@ wait_for_jobs ()
 	}
 
 	cout << "Waiting for jobs: all finished; errors=" << jm->errors() << ".\n";
-	
+
 	if (jm->errors ()) {
 		int N = 0;
 		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
@@ -327,7 +327,7 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 		using namespace MagickCore;
 #else
 		using namespace MagickLib;
-#endif		
+#endif
 
 	Magick::Image m (image->size().width, image->size().height, "ARGB", CharPixel, (void *) image->data()[0]);
 	m.write (file.string ());

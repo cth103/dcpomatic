@@ -24,7 +24,7 @@ Font::Font (cxml::NodePtr node)
 	: _id (node->string_child ("Id"))
 	, _file (node->optional_string_child ("File"))
 {
-	
+
 }
 
 void

@@ -105,9 +105,9 @@ main (int argc, char* argv[])
 	} else {
 		log.reset (new NullLog);
 	}
-	
+
 	Server server (log, verbose);
-	
+
 	try {
 		server.run (num_threads);
 	} catch (boost::system::system_error& e) {

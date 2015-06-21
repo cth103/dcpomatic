@@ -37,7 +37,7 @@ public:
 		: audio (new AudioBuffers (0, 0))
 		, frame (0)
 	{}
-		
+
 	ContentAudio (boost::shared_ptr<AudioBuffers> a, Frame f)
 		: audio (a)
 		, frame (f)

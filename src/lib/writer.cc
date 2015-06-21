@@ -118,7 +118,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 
 	job->sub (_("Checking existing image data"));
 	check_existing_picture_asset ();
-	
+
 	_picture_asset_writer = _picture_asset->start_write (
 		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(),
 		_film->interop() ? dcp::INTEROP : dcp::SMPTE,
@@ -133,7 +133,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 		if (_film->encrypted ()) {
 			_sound_asset->set_key (_film->key ());
 		}
-	
+
 		/* Write the sound asset into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
@@ -227,14 +227,14 @@ Writer::fake_write (int frame, Eyes eyes)
 		/* The queue is too big; wait until that is sorted out */
 		_full_condition.wait (lock);
 	}
-	
+
 	FILE* file = fopen_boost (_film->info_file (), "rb");
 	if (!file) {
 		throw ReadFileError (_film->info_file ());
 	}
 	dcp::FrameInfo info = read_frame_info (file, frame, eyes);
 	fclose (file);
-	
+
 	QueueItem qi;
 	qi.type = QueueItem::FAKE;
 	qi.size = info.size;
@@ -318,7 +318,7 @@ try
 		bool done_something = false;
 
 		while (true) {
-			
+
 			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
 				/* We've got something to do: go and do it */
 				break;
@@ -349,7 +349,7 @@ try
 						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i->frame, i->eyes);
 					} else {
 						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i->size, i->frame, i->eyes);
-					}						
+					}
 				}
 				LOG_WARNING (N_("Last written frame %1, last written eyes %2"), _last_written_frame, _last_written_eyes);
 			}
@@ -399,7 +399,7 @@ try
 
 			_last_written_frame = qi.frame;
 			_last_written_eyes = qi.eyes;
-			
+
 			shared_ptr<Job> job = _job.lock ();
 			DCPOMATIC_ASSERT (job);
 			int64_t total = _film->length().frames (_film->video_frame_rate ());
@@ -443,7 +443,7 @@ try
 				);
 
 			i->encoded->write_via_temp (_film->j2c_path (i->frame, i->eyes, true), _film->j2c_path (i->frame, i->eyes, false));
-			
+
 			lock.lock ();
 			i->encoded.reset ();
 			--_queued_full_in_memory;
@@ -473,7 +473,7 @@ Writer::terminate_thread (bool can_throw)
 	if (_thread == 0) {
 		return;
 	}
-	
+
 	_finish = true;
 	_empty_condition.notify_all ();
 	_full_condition.notify_all ();
@@ -483,10 +483,10 @@ Writer::terminate_thread (bool can_throw)
 	if (can_throw) {
 		rethrow ();
 	}
-	
+
 	delete _thread;
 	_thread = 0;
-}	
+}
 
 void
 Writer::finish ()
@@ -494,17 +494,17 @@ Writer::finish ()
 	if (!_thread) {
 		return;
 	}
-	
+
 	terminate_thread (true);
 
 	_picture_asset_writer->finalize ();
 	if (_sound_asset_writer) {
 		_sound_asset_writer->finalize ();
 	}
-	
+
 	/* Hard-link the video asset into the DCP */
 	boost::filesystem::path video_from = _picture_asset->file ();
-	
+
 	boost::filesystem::path video_to;
 	video_to /= _film->dir (_film->dcp_name());
 	video_to /= video_asset_filename (_picture_asset);
@@ -528,7 +528,7 @@ Writer::finish ()
 		boost::filesystem::path audio_to;
 		audio_to /= _film->dir (_film->dcp_name ());
 		audio_to /= audio_asset_filename (_sound_asset);
-		
+
 		boost::filesystem::rename (_film->file (audio_asset_filename (_sound_asset)), audio_to, ec);
 		if (ec) {
 			throw FileError (
@@ -547,7 +547,7 @@ Writer::finish ()
 			_film->dcp_content_type()->libdcp_kind ()
 			)
 		);
-	
+
 	dcp.add (cpl);
 
 	shared_ptr<dcp::Reel> reel (new dcp::Reel ());
@@ -583,7 +583,7 @@ Writer::finish ()
 				_film->dir (_film->dcp_name ()) / ("sub_" + _subtitle_asset->id() + ".mxf")
 				);
 		}
-		
+
 		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
 				   new dcp::ReelSubtitleAsset (
 					   _subtitle_asset,
@@ -593,7 +593,7 @@ Writer::finish ()
 					   )
 				   ));
 	}
-	
+
 	cpl->add (reel);
 
 	shared_ptr<Job> job = _job.lock ();
@@ -637,14 +637,14 @@ Writer::check_existing_picture_asset_frame (FILE* asset, int f, Eyes eyes)
 		LOG_GENERAL ("Existing frame %1 has no info file", f);
 		return false;
 	}
-	
+
 	dcp::FrameInfo info = read_frame_info (file, f, eyes);
 	fclose (file);
 	if (info.size == 0) {
 		LOG_GENERAL ("Existing frame %1 has no info file", f);
 		return false;
 	}
-	
+
 	/* Read the data from the asset and hash it */
 	dcpomatic_fseek (asset, info.offset, SEEK_SET);
 	Data data (info.size);
@@ -738,9 +738,9 @@ Writer::write (PlayerSubtitles subs)
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
 			s->set_time_code_rate (_film->video_frame_rate ());
 			_subtitle_asset = s;
-		}			
+		}
 	}
-	
+
 	for (list<dcp::SubtitleString>::const_iterator i = subs.text.begin(); i != subs.text.end(); ++i) {
 		_subtitle_asset->add (*i);
 	}
@@ -779,7 +779,7 @@ long
 Writer::frame_info_position (int frame, Eyes eyes) const
 {
 	static int const info_size = 48;
-	
+
 	switch (eyes) {
 	case EYES_BOTH:
 		return frame * info_size;
@@ -790,7 +790,7 @@ Writer::frame_info_position (int frame, Eyes eyes) const
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
-	
+
 
 	DCPOMATIC_ASSERT (false);
 }
@@ -802,7 +802,7 @@ Writer::read_frame_info (FILE* file, int frame, Eyes eyes) const
 	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
 	fread (&info.offset, sizeof (info.offset), 1, file);
 	fread (&info.size, sizeof (info.size), 1, file);
-	
+
 	char hash_buffer[33];
 	fread (hash_buffer, 1, 32, file);
 	hash_buffer[32] = '\0';

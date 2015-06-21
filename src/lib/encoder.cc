@@ -117,7 +117,7 @@ Encoder::end ()
 	}
 
 	lock.unlock ();
-	
+
 	terminate_threads ();
 
 	LOG_GENERAL (N_("Mopping up %1"), _queue.size());
@@ -144,7 +144,7 @@ Encoder::end ()
 			LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 		}
 	}
-}	
+}
 
 /** @return an estimate of the current number of frames we are encoding per second,
  *  or 0 if not known.
@@ -178,7 +178,7 @@ void
 Encoder::frame_done ()
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
-	
+
 	struct timeval tv;
 	gettimeofday (&tv, 0);
 	_time_history.push_front (tv);
@@ -194,7 +194,7 @@ void
 Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 {
 	_waker.nudge ();
-	
+
 	boost::mutex::scoped_lock lock (_mutex);
 
 	/* XXX: discard 3D here if required */
@@ -283,7 +283,7 @@ try
 	   encodings.
 	*/
 	int remote_backoff = 0;
-	
+
 	while (true) {
 
 		LOG_TIMING ("[%1] encoder thread sleeps", boost::this_thread::get_id());
@@ -300,7 +300,7 @@ try
 		shared_ptr<DCPVideo> vf = _queue.front ();
 		LOG_TIMING ("[%1] encoder thread pops frame %2 (%3) from queue", boost::this_thread::get_id(), vf->index(), vf->eyes ());
 		_queue.pop_front ();
-		
+
 		lock.unlock ();
 
 		optional<Data> encoded;
@@ -309,14 +309,14 @@ try
 		if (server) {
 			try {
 				encoded = vf->encode_remotely (server.get ());
-				
+
 				if (remote_backoff > 0) {
 					LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
 				}
-				
+
 				/* This job succeeded, so remove any backoff */
 				remote_backoff = 0;
-				
+
 			} catch (std::exception& e) {
 				if (remote_backoff < 60) {
 					/* back off more */
@@ -327,7 +327,7 @@ try
 					vf->index(), server->host_name(), e.what(), remote_backoff
 					);
 			}
-			
+
 		} else {
 			try {
 				LOG_TIMING ("[%1] encoder thread begins local encode of %2", boost::this_thread::get_id(), vf->index());

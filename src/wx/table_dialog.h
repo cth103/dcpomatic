@@ -36,10 +36,10 @@ protected:
 
 	void add (wxString text, bool label);
 	void add_spacer ();
-	
+
 	void layout ();
 
-private:	
+private:
 	wxSizer* _overall_sizer;
 	wxFlexGridSizer* _table;
 };

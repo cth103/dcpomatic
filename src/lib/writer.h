@@ -56,7 +56,7 @@ public:
 	QueueItem ()
 		: size (0)
 	{}
-	
+
 	enum Type {
 		/** a normal frame with some JPEG200 data */
 		FULL,
@@ -98,7 +98,7 @@ public:
 	~Writer ();
 
 	bool can_fake_write (int) const;
-	
+
 	void write (Data, int, Eyes);
 	void fake_write (int, Eyes);
 	void repeat (int, Eyes);
@@ -149,7 +149,7 @@ private:
 	 *  ordering
 	 */
 	int _maximum_frames_in_memory;
-	
+
 	/** number of FULL written frames */
 	int _full_written;
 	/** number of FAKE written frames */
@@ -159,7 +159,7 @@ private:
 	    due to the limit of frames to be held in memory.
 	*/
 	int _pushed_to_disk;
-	
+
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
 	boost::shared_ptr<dcp::SoundAsset> _sound_asset;

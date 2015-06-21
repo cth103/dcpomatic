@@ -45,7 +45,7 @@ using boost::shared_ptr;
 TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 	: Job (film)
 {
-	
+
 }
 
 string
@@ -101,7 +101,7 @@ TranscodeJob::status () const
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
 		s << "; " << fixed << setprecision (1) << fps << " " << _("fps");
 	}
-	
+
 	return s.str ();
 }
 
@@ -111,11 +111,11 @@ TranscodeJob::remaining_time () const
 {
 	/* _transcoder might be destroyed by the job-runner thread */
 	shared_ptr<Transcoder> t = _transcoder;
-	
+
 	if (!t) {
 		return 0;
 	}
-	
+
 	float fps = t->current_encoding_rate ();
 
 	if (fps == 0) {

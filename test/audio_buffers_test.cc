@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_make_silent_test)
 	random_fill (buffers);
 
 	buffers.make_silent ();
-	
+
 	for (int i = 0; i < 9933; ++i) {
 		for (int c = 0; c < 9; ++c) {
 			BOOST_CHECK_EQUAL (buffers.data(c)[i], 0);
@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_move)
 	for (int i = 0; i < from * 7; ++i) {
 		random_float ();
 	}
-	
+
 	random_check (buffers, to, frames);
 }
 
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_accumulate_channel)
 	AudioBuffers a (3, 256);
 	srand (38);
 	random_fill (a);
-	
+
 	AudioBuffers b (3, 256);
 	random_fill (b);
 
@@ -283,7 +283,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_accumulate_frames)
 	AudioBuffers a (3, 256);
 	srand (38);
 	random_fill (a);
-	
+
 	AudioBuffers b (3, 256);
 	random_fill (b);
 

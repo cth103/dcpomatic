@@ -40,7 +40,7 @@ audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)
 		}
 
 		shared_ptr<AudioBuffers> out = f.run (in);
-		
+
 		for (int j = 0; j < out->frames(); ++j) {
 			BOOST_CHECK_EQUAL (out->data()[0][j], c + j);
 		}
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_input_test)
 	shared_ptr<AudioBuffers> in (new AudioBuffers (1, 1751));
 	in->make_silent ();
 	in->data(0)[0] = 1;
-	
+
 	shared_ptr<AudioBuffers> out = lpf.run (in);
 	for (int j = 0; j < out->frames(); ++j) {
 		if (j <= lpf._M) {
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_input_test)
 	in.reset (new AudioBuffers (1, 9133));
 	in->make_silent ();
 	in->data(0)[0] = 1;
-	
+
 	out = hpf.run (in);
 	for (int j = 0; j < out->frames(); ++j) {
 		if (j <= hpf._M) {

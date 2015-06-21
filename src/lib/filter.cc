@@ -61,7 +61,7 @@ void
 Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
-	   
+
 	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"),	      _("De-interlacing"),  N_("mcdeint"));
 	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),			      _("De-interlacing"),  N_("kerndeint"));
 	maybe_add (N_("yadif"),	    _("Yet Another Deinterlacing Filter"),	      _("De-interlacing"),  N_("yadif"));

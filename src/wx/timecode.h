@@ -42,7 +42,7 @@ public:
 protected:
 	void changed ();
 	void set_clicked ();
-	
+
 	wxSizer* _sizer;
 	wxPanel* _editable;
 	wxTextCtrl* _hours;
@@ -70,12 +70,12 @@ public:
 		int s;
 		int f;
 		t.split (fps, h, m, s, f);
-		
+
 		checked_set (_hours, boost::lexical_cast<std::string> (h));
 		checked_set (_minutes, boost::lexical_cast<std::string> (m));
 		checked_set (_seconds, boost::lexical_cast<std::string> (s));
 		checked_set (_frames, boost::lexical_cast<std::string> (f));
-		
+
 		checked_set (_fixed, t.timecode (fps));
 	}
 
@@ -90,7 +90,7 @@ public:
 		t += T::from_seconds (boost::lexical_cast<int> (s.empty() ? "0" : s));
 		std::string const f = wx_to_std (_frames->GetValue());
 		t += T::from_seconds (boost::lexical_cast<double> (f.empty() ? "0" : f) / fps);
-		
+
 		return t;
 	}
 };

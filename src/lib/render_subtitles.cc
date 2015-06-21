@@ -72,7 +72,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 		image->size().height,
 		Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, image->size().width)
 		);
-	
+
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
 	Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create (context);
 
@@ -89,13 +89,13 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 	}
 	layout->set_font_description (font);
 	layout->set_text (subtitle.text ());
-	
+
 	/* Compute fade factor */
 	/* XXX */
 	float fade_factor = 1;
 
 	layout->update_from_cairo_context (context);
-		
+
 	context->scale (xscale, yscale);
 
 	if (subtitle.effect() == dcp::SHADOW) {
@@ -123,7 +123,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 		layout->add_to_cairo_context (context);
 		context->stroke ();
 	}
-	
+
 	int layout_width;
 	int layout_height;
 	layout->get_size (layout_width, layout_height);

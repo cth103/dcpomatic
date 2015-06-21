@@ -32,7 +32,7 @@ struct SubRipSubtitlePiece
 		, italic (false)
 		, underline (false)
 	{}
-	
+
 	std::string text;
 	bool bold;
 	bool italic;

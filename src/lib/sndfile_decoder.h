@@ -33,7 +33,7 @@ public:
 private:
 	bool pass ();
 	void seek (ContentTime, bool);
-	
+
 	int64_t _done;
 	int64_t _remaining;
 	float* _deinterleave_buffer;

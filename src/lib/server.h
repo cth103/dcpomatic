@@ -50,7 +50,7 @@ public:
 		: _host_name ("")
 		, _threads (1)
 	{}
-	
+
 	/** @param h Server host name or IP address in string form.
 	 *  @param t Number of threads to use on the server.
 	 */
@@ -60,7 +60,7 @@ public:
 	{}
 
 	/* Default copy constructor is fine */
-	
+
 	/** @return server's host name or IP address in string form */
 	std::string host_name () const {
 		return _host_name;
@@ -121,13 +121,13 @@ private:
 			: thread (0)
 			, socket (0)
 		{}
-		
+
 		boost::thread* thread;
 		boost::asio::ip::udp::socket* socket;
 		char buffer[64];
 		boost::asio::ip::udp::endpoint send_endpoint;
 		boost::asio::io_service io_service;
-		
+
 	} _broadcast;
 };
 

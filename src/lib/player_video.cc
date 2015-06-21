@@ -71,13 +71,13 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	_in = image_proxy_factory (node->node_child ("In"), socket);
 
 	if (node->optional_number_child<int> ("SubtitleX")) {
-		
+
 		_subtitle.position = Position<int> (node->number_child<int> ("SubtitleX"), node->number_child<int> ("SubtitleY"));
 
 		_subtitle.image.reset (
 			new Image (PIX_FMT_RGBA, dcp::Size (node->number_child<int> ("SubtitleWidth"), node->number_child<int> ("SubtitleHeight")), true)
 			);
-		
+
 		_subtitle.image->read_from_socket (socket);
 	}
 }
@@ -92,7 +92,7 @@ shared_ptr<Image>
 PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHandler note) const
 {
 	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note));
-	
+
 	Crop total_crop = _crop;
 	switch (_part) {
 	case PART_LEFT_HALF:
@@ -115,7 +115,7 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 	if (_colour_conversion) {
 		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
 	}
-		
+
 	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format, true);
 
 	if (burn_subtitle && _subtitle.image) {
@@ -168,12 +168,12 @@ bool
 PlayerVideo::has_j2k () const
 {
 	/* XXX: burnt-in subtitle; maybe other things */
-	
+
 	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
 	if (!j2k) {
 		return false;
 	}
-	
+
 	return _crop == Crop () && _inter_size == j2k->size();
 }
 

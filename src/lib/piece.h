@@ -34,7 +34,7 @@ public:
 		, decoder (d)
 		, frc (f)
 	{}
-	
+
 	boost::shared_ptr<Content> content;
 	boost::shared_ptr<Decoder> decoder;
 	FrameRateChange frc;

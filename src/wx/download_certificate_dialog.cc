@@ -45,7 +45,7 @@ DownloadCertificateDialog::add_common_widgets ()
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
 	_message->SetFont (font);
-	
+
 	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
 
@@ -62,4 +62,4 @@ DownloadCertificateDialog::downloaded (bool done)
 	ok->Enable (done);
 }
 
-	
+

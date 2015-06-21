@@ -33,7 +33,7 @@ public:
 		: name (n)
 		, _id (i)
 	{}
-				
+
 	FFmpegStream (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;
@@ -57,7 +57,7 @@ public:
 
 	friend bool operator== (FFmpegStream const & a, FFmpegStream const & b);
 	friend bool operator!= (FFmpegStream const & a, FFmpegStream const & b);
-	
+
 private:
 	int _id;
 };

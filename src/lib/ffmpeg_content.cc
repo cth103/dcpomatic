@@ -172,7 +172,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		if (!_subtitle_streams.empty ()) {
 			_subtitle_stream = _subtitle_streams.front ();
 		}
-		
+
 		_audio_streams = examiner->audio_streams ();
 
 		if (!_audio_streams.empty ()) {
@@ -214,7 +214,7 @@ FFmpegContent::technical_summary () const
 	}
 
 	string filt = Filter::ffmpeg_string (_filters);
-	
+
 	return Content::technical_summary() + " - "
 		+ VideoContent::technical_summary() + " - "
 		+ AudioContent::technical_summary() + " - "
@@ -321,7 +321,7 @@ vector<AudioStreamPtr>
 FFmpegContent::audio_streams () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
+
 	vector<AudioStreamPtr> s;
 	copy (_audio_streams.begin(), _audio_streams.end(), back_inserter (s));
 	return s;

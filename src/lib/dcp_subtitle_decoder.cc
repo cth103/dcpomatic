@@ -65,7 +65,7 @@ DCPSubtitleDecoder::image_subtitles_during (ContentTimePeriod, bool) const
 {
 	return list<ContentTimePeriod> ();
 }
-	
+
 list<ContentTimePeriod>
 DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 {
@@ -78,7 +78,7 @@ DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) c
 			ContentTime::from_seconds (i->in().as_seconds ()),
 			ContentTime::from_seconds (i->out().as_seconds ())
 			);
-		
+
 		if ((starting && p.contains (period.from)) || (!starting && p.overlaps (period))) {
 			d.push_back (period);
 		}

@@ -61,7 +61,7 @@ public:
 	{}
 
 	ContentTimePeriod period () const;
-	
+
 	std::list<dcp::SubtitleString> subs;
 };
 

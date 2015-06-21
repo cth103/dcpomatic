@@ -52,7 +52,7 @@ list<ContentVideo>
 VideoDecoder::decoded_video (Frame frame)
 {
 	list<ContentVideo> output;
-	
+
 	for (list<ContentVideo>::const_iterator i = _decoded_video.begin(); i != _decoded_video.end(); ++i) {
 		if (i->frame == frame) {
 			output.push_back (*i);
@@ -224,7 +224,7 @@ VideoDecoder::fill_3d (Frame from, Frame to, Eyes eye)
 		}
 	}
 }
-	
+
 /** Called by subclasses when they have a video frame ready */
 void
 VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
@@ -272,7 +272,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 
 	boost::optional<Frame> from;
 	boost::optional<Frame> to;
-	
+
 	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
 		from = _last_seek_time->frames (_video_content->video_frame_rate ());
 		to = to_push.front().frame;

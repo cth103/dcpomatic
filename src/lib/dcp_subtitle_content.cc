@@ -36,7 +36,7 @@ DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::file
 	: Content (film, path)
 	, SubtitleContent (film, path)
 {
-	
+
 }
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
@@ -56,7 +56,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 
 	/* Default to turning these subtitles on */
 	set_use_subtitles (true);
-	
+
 	boost::mutex::scoped_lock lm (_mutex);
 
 	shared_ptr<dcp::InteropSubtitleAsset> iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset> (sc);
@@ -95,7 +95,7 @@ DCPSubtitleContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("DCP XML subtitles");
 }
-      
+
 void
 DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 {

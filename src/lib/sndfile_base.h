@@ -31,7 +31,7 @@ public:
 	Sndfile (boost::shared_ptr<const SndfileContent> content);
 	virtual ~Sndfile ();
 
-protected:	
+protected:
 	boost::shared_ptr<const SndfileContent> _sndfile_content;
 	SNDFILE* _sndfile;
 	SF_INFO _info;

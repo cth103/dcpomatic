@@ -49,7 +49,7 @@ FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
 	_main_notebook->AddPage (_content_panel->panel (), _("Content"), true);
 	_dcp_panel = new DCPPanel (_main_notebook, _film);
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
-	
+
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmEditor::active_jobs_changed, this, _1)
 		);
@@ -67,7 +67,7 @@ void
 FilmEditor::film_changed (Film::Property p)
 {
 	ensure_ui_thread ();
-	
+
 	if (!_film) {
 		return;
 	}
@@ -85,7 +85,7 @@ void
 FilmEditor::film_content_changed (int property)
 {
 	ensure_ui_thread ();
-	
+
 	if (!_film) {
 		/* We call this method ourselves (as well as using it as a signal handler)
 		   so _film can be 0.
@@ -106,7 +106,7 @@ FilmEditor::set_film (shared_ptr<Film> film)
 	if (_film == film) {
 		return;
 	}
-	
+
 	_film = film;
 
 	_content_panel->set_film (_film);

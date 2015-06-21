@@ -34,7 +34,7 @@ FilterEditor::FilterEditor (wxWindow* parent, vector<Filter const *> const & act
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (sizer);
-	
+
 	vector<Filter const *> filters = Filter::all ();
 
 	typedef map<string, list<Filter const *> > CategoryMap;

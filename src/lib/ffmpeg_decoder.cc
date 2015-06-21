@@ -124,14 +124,14 @@ void
 FFmpegDecoder::flush ()
 {
 	/* Get any remaining frames */
-	
+
 	_packet.data = 0;
 	_packet.size = 0;
-	
+
 	/* XXX: should we reset _packet.data and size after each *_decode_* call? */
-	
+
 	while (decode_video_packet ()) {}
-	
+
 	decode_audio_packet ();
 	AudioDecoder::flush ();
 }
@@ -152,7 +152,7 @@ FFmpegDecoder::pass ()
 			av_strerror (r, buf, sizeof(buf));
 			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), buf, r);
 		}
-		
+
 		flush ();
 		return true;
 	}
@@ -206,7 +206,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 		}
 	}
 	break;
-	
+
 	case AV_SAMPLE_FMT_S16:
 	{
 		int16_t* p = reinterpret_cast<int16_t *> (data[0]);
@@ -234,7 +234,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 		}
 	}
 	break;
-	
+
 	case AV_SAMPLE_FMT_S32:
 	{
 		int32_t* p = reinterpret_cast<int32_t *> (data[0]);
@@ -268,7 +268,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 		}
 	}
 	break;
-		
+
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		float** p = reinterpret_cast<float**> (data);
@@ -314,7 +314,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	/* XXX: it seems debatable whether PTS should be used here...
 	   http://www.mjbshaw.com/2012/04/seeking-in-ffmpeg-know-your-timestamp.html
 	*/
-	
+
 	ContentTime u = time - _pts_offset;
 	if (u < ContentTime ()) {
 		u = ContentTime ();
@@ -324,7 +324,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	avcodec_flush_buffers (video_codec_context());
 
 	/* XXX: should be flushing audio buffers? */
-	
+
 	if (subtitle_codec_context ()) {
 		avcodec_flush_buffers (subtitle_codec_context ());
 	}
@@ -336,7 +336,7 @@ FFmpegDecoder::decode_audio_packet ()
 	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
 	   several times.
 	*/
-	
+
 	AVPacket copy_packet = _packet;
 
 	/* XXX: inefficient */
@@ -350,7 +350,7 @@ FFmpegDecoder::decode_audio_packet ()
 		/* The packet's stream may not be an audio one; just ignore it in this method if so */
 		return;
 	}
-	
+
 	while (copy_packet.size > 0) {
 
 		int frame_finished;
@@ -376,14 +376,14 @@ FFmpegDecoder::decode_audio_packet ()
 				av_frame_get_best_effort_timestamp (_frame) *
 				av_q2d ((*stream)->stream (_format_context)->time_base))
 				+ _pts_offset;
-			
+
 			int const data_size = av_samples_get_buffer_size (
 				0, (*stream)->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (*stream), 1
 				);
 
 			audio (*stream, deinterleave_audio (*stream, _frame->data, data_size), ct);
 		}
-			
+
 		copy_packet.data += decode_result;
 		copy_packet.size -= decode_result;
 	}
@@ -400,7 +400,7 @@ FFmpegDecoder::decode_video_packet ()
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 
 	shared_ptr<FilterGraph> graph;
-	
+
 	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
 	while (i != _filter_graphs.end() && !(*i)->can_process (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
 		++i;
@@ -419,7 +419,7 @@ FFmpegDecoder::decode_video_packet ()
 	for (list<pair<shared_ptr<Image>, int64_t> >::iterator i = images.begin(); i != images.end(); ++i) {
 
 		shared_ptr<Image> image = i->first;
-		
+
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset.seconds ();
 			video (
@@ -433,7 +433,7 @@ FFmpegDecoder::decode_video_packet ()
 
 	return true;
 }
-	
+
 void
 FFmpegDecoder::decode_subtitle_packet ()
 {
@@ -442,7 +442,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	if (avcodec_decode_subtitle2 (subtitle_codec_context(), &sub, &got_subtitle, &_packet) < 0 || !got_subtitle) {
 		return;
 	}
-	
+
 	if (sub.num_rects <= 0) {
 		/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
 		   indicate that the previous subtitle should stop.  We can ignore it here.
@@ -465,7 +465,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		/* We have to look up the `to' time in the stream's records */
 		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (sub_period.from);
 	}
-	
+
 	AVSubtitleRect const * rect = sub.rects[0];
 
 	switch (rect->type) {
@@ -481,7 +481,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		cout << "XXX: SUBTITLE_ASS " << rect->ass << "\n";
 		break;
 	}
-	
+
 	avsubtitle_free (&sub);
 }
 
@@ -504,7 +504,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	   G, third B, fourth A.
 	*/
 	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
-	
+
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];
 	/* sub_p looks up into a BGRA palette which is here
@@ -513,7 +513,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
 	/* Start of the output data */
 	uint32_t* out_p = (uint32_t *) image->data()[0];
-	
+
 	for (int y = 0; y < rect->h; ++y) {
 		uint8_t* sub_line_p = sub_p;
 		uint32_t* out_line_p = out_p;
@@ -524,7 +524,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		sub_p += rect->pict.linesize[0];
 		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
-	
+
 	dcp::Size const vs = _ffmpeg_content->video_size ();
 	dcpomatic::Rect<double> const scaled_rect (
 		static_cast<double> (rect->x) / vs.width,
@@ -532,7 +532,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		static_cast<double> (rect->w) / vs.width,
 		static_cast<double> (rect->h) / vs.height
 		);
-	
+
 	image_subtitle (period, image, scaled_rect);
 }
 

@@ -42,7 +42,7 @@ TimelineSubtitleContentView::background_colour () const
 	if (!sc || !sc->use_subtitles ()) {
 		return wxColour (210, 210, 210, 128);
 	}
-	
+
 	return wxColour (163, 255, 154, 255);
 }
 
@@ -53,6 +53,6 @@ TimelineSubtitleContentView::foreground_colour () const
 	if (!sc || !sc->use_subtitles ()) {
 		return wxColour (180, 180, 180, 128);
 	}
-	
+
 	return wxColour (0, 0, 0, 255);
 }

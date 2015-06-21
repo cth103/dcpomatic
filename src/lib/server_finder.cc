@@ -76,7 +76,7 @@ try
         socket.set_option (boost::asio::socket_base::broadcast (true));
 
 	string const data = DCPOMATIC_HELLO;
-	
+
 	while (!_stop) {
 		if (Config::instance()->use_any_servers ()) {
 			/* Broadcast to look for servers */
@@ -153,18 +153,18 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 		start_accept ();
 		return;
 	}
-	
+
 	uint32_t length;
 	socket->read (reinterpret_cast<uint8_t*> (&length), sizeof (uint32_t));
 	length = ntohl (length);
-	
+
 	scoped_array<char> buffer (new char[length]);
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
-	
+
 	string s (buffer.get());
 	shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
 	xml->read_string (s);
-	
+
 	string const ip = socket->socket().remote_endpoint().address().to_string ();
 	if (!server_found (ip) && xml->optional_number_child<int>("Version").get_value_or (0) == SERVER_LINK_VERSION) {
 		ServerDescription sd (ip, xml->number_child<int> ("Threads"));

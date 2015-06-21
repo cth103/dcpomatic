@@ -62,11 +62,11 @@ SendProblemReportJob::run ()
 	set_progress_unknown ();
 
 	quickmail mail = quickmail_create (_from.c_str(), "DCP-o-matic problem report");
-	
+
 	quickmail_add_to (mail, "carl@dcpomatic.com");
-	
+
 	string body = _summary + "\n\n";
-	
+
 	body += "log head and tail:\n";
 	body += "---<8----\n";
 	body += _film->log()->head_and_tail ();
@@ -76,16 +76,16 @@ SendProblemReportJob::run ()
 	add_file (body, "metadata.xml");
 
 	quickmail_set_body (mail, body.c_str());
-	
+
 	char const* error = quickmail_send (mail, "main.carlh.net", 2525, 0, 0);
-	
+
 	if (error) {
 		set_state (FINISHED_ERROR);
 		set_error (error, "");
 	} else {
 		set_state (FINISHED_OK);
 	}
-	
+
 	quickmail_destroy (mail);
 
 	set_progress (1);
@@ -98,7 +98,7 @@ SendProblemReportJob::add_file (string& body, boost::filesystem::path file) cons
 	if (!f) {
 		return;
 	}
-	
+
 	body += file.string() + ":\n";
 	body += "---<8----\n";
 	uintmax_t const size = boost::filesystem::file_size (_film->file (file));

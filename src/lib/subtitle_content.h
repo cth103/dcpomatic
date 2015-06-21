@@ -102,7 +102,7 @@ public:
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _subtitle_language;
-	
+
 private:
 	friend struct ffmpeg_pts_offset_test;
 	void font_changed ();

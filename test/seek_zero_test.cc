@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	
+
 	/* Work out the first video frame index that we will be given, taking into account
 	 * the difference between first video and first audio.
 	 */

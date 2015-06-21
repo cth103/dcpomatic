@@ -84,4 +84,4 @@ Screen::as_xml (xmlpp::Element* parent) const
 	}
 }
 
-		
+

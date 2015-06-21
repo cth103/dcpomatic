@@ -54,7 +54,7 @@ public:
 	boost::shared_ptr<FFmpegContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
 	}
-	
+
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
@@ -65,7 +65,7 @@ public:
 
 	/* VideoContent */
 	void set_default_colour_conversion ();
-	
+
 	/* AudioContent */
 	std::vector<AudioStreamPtr> audio_streams () const;
 
@@ -73,7 +73,7 @@ public:
 	bool has_subtitles () const;
 
 	void set_filters (std::vector<Filter const *> const &);
-	
+
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_streams;
@@ -106,7 +106,7 @@ public:
 private:
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;
-	
+
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;

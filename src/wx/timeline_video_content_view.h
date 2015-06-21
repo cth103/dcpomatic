@@ -27,7 +27,7 @@ class TimelineVideoContentView : public TimelineContentView
 public:
 	TimelineVideoContentView (Timeline& tl, boost::shared_ptr<Content> c);
 
-private:	
+private:
 	wxString type () const;
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;

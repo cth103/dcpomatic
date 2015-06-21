@@ -105,7 +105,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 	}
 	BOOST_CHECK (answer == correct);
 }
-      
+
 /* Test scale and stretch to specified ratio */
 BOOST_AUTO_TEST_CASE (video_content_scale_test_to_ratio)
 {
@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_CASE (video_content_scale_test_to_ratio)
 		true,
 		dcp::Size (1998, 837)
 		);
-	
+
 	// Flat in scope container
 	test (
 		dcp::Size (400, 200),
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE (video_content_scale_test_to_ratio)
 		dcp::Size (1587, 858)
 		);
 
-	
+
 	/* To player */
 
 	// Flat in flat container
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE (video_content_scale_test_to_ratio)
 		true,
 		dcp::Size (185, 78)
 		);
-	
+
 	// Flat in scope container
 	test (
 		dcp::Size (400, 200),

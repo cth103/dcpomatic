@@ -42,7 +42,7 @@ public:
 	AudioPoint& operator= (AudioPoint const &);
 
 	void as_xml (xmlpp::Element *) const;
-	
+
 	float& operator[] (int t) {
 		return _data[t];
 	}
@@ -62,7 +62,7 @@ public:
 		_peak = peak;
 		_peak_time = time;
 	}
-	
+
 	AudioPoint get_point (int c, int p) const;
 	int points (int c) const;
 	int channels () const;

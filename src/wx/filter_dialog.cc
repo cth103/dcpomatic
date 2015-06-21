@@ -46,7 +46,7 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & f)
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
 }
-	
+
 
 void
 FilterDialog::active_changed ()

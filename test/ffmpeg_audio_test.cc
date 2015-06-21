@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
-	
+
 	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_container (Ratio::from_id ("185"));
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	while (n < sound_asset->asset()->intrinsic_duration()) {
 		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
-		
+
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
 
 			if (sound_asset->asset()->channels() > 0) {
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 				int const sample = d[i + 2] | (d[i + 3] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
-			
+
 			if (sound_asset->asset()->channels() > 2) {
 				/* Mono input so it will appear on centre */
 				int const sample = d[i + 7] | (d[i + 8] << 8);

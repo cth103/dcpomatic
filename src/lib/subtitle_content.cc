@@ -78,7 +78,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePt
 	} else {
 		_use_subtitles = false;
 	}
-	
+
 	if (version >= 7) {
 		_subtitle_x_offset = node->number_child<float> ("SubtitleXOffset");
 		_subtitle_y_offset = node->number_child<float> ("SubtitleYOffset");
@@ -109,7 +109,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, vector<shared_ptr
 	shared_ptr<SubtitleContent> ref = dynamic_pointer_cast<SubtitleContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
 	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
-	
+
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c[i]);
 
@@ -120,7 +120,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, vector<shared_ptr
 		if (sc->subtitle_x_offset() != ref->subtitle_x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
-		
+
 		if (sc->subtitle_y_offset() != ref->subtitle_y_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
@@ -166,7 +166,7 @@ void
 SubtitleContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
+
 	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use_subtitles));
 	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
@@ -188,7 +188,7 @@ SubtitleContent::set_use_subtitles (bool u)
 	}
 	signal_changed (SubtitleContentProperty::USE_SUBTITLES);
 }
-	
+
 void
 SubtitleContent::set_subtitle_x_offset (double o)
 {

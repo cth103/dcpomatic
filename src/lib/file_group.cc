@@ -82,7 +82,7 @@ FileGroup::ensure_open_path (size_t p) const
 		/* Already open */
 		return;
 	}
-	
+
 	if (_current_file) {
 		fclose (_current_file);
 	}
@@ -111,9 +111,9 @@ FileGroup::seek (int64_t pos, int whence) const
 		}
 #ifdef DCPOMATIC_WINDOWS
 		full_pos += _ftelli64 (_current_file);
-#else		
+#else
 		full_pos += ftell (_current_file);
-#endif		
+#endif
 		full_pos += pos;
 		break;
 	case SEEK_END:

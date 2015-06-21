@@ -43,6 +43,6 @@ private:
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
 	boost::shared_ptr<wxTimer> _timer;
-		
+
 	std::list<boost::shared_ptr<JobRecord> > _job_records;
 };

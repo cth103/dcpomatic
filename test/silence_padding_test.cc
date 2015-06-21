@@ -73,7 +73,7 @@ test_silence_padding (int channels)
 	while (n < sound_asset->asset()->intrinsic_duration()) {
 		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
-		
+
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
 
 			if (sound_asset->asset()->channels() > 0) {
@@ -87,7 +87,7 @@ test_silence_padding (int channels)
 				int const sample = d[i + 2] | (d[i + 3] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
-			
+
 			if (sound_asset->asset()->channels() > 2) {
 				/* Mono input so it will appear on centre */
 				int const sample = d[i + 7] | (d[i + 8] << 8);
@@ -116,7 +116,7 @@ test_silence_padding (int channels)
 			++n;
 		}
 	}
-	
+
 }
 
 BOOST_AUTO_TEST_CASE (silence_padding_test)

@@ -54,13 +54,13 @@ Data::Data (boost::filesystem::path file)
 	if (!f) {
 		throw FileError (_("could not open file for reading"), file);
 	}
-	
+
 	size_t const r = fread (_data.get(), 1, _size, f);
 	if (r != size_t (_size)) {
 		fclose (f);
 		throw FileError (_("could not read from file"), file);
 	}
-		
+
 	fclose (f);
 }
 

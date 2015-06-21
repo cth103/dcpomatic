@@ -47,7 +47,7 @@ public:
 	Image (boost::shared_ptr<const Image>, bool);
 	Image& operator= (Image const &);
 	~Image ();
-	
+
 	uint8_t * const * data () const;
 	int * line_size () const;
 	int const * stride () const;
@@ -61,7 +61,7 @@ public:
 	boost::shared_ptr<Image> scale (dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned) const;
 	boost::shared_ptr<Image> crop (Crop c, bool aligned) const;
 	boost::shared_ptr<Image> crop_scale_window (Crop c, dcp::Size, dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned) const;
-	
+
 	void make_black ();
 	void make_transparent ();
 	void alpha_blend (boost::shared_ptr<const Image> image, Position<int> pos);
@@ -70,14 +70,14 @@ public:
 
 	void read_from_socket (boost::shared_ptr<Socket>);
 	void write_to_socket (boost::shared_ptr<Socket>) const;
-	
+
 	AVPixelFormat pixel_format () const {
 		return _pixel_format;
 	}
 
 private:
 	friend struct pixel_formats_test;
-	
+
 	void allocate ();
 	void swap (Image &);
 	float bytes_per_pixel (int) const;

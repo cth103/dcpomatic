@@ -74,7 +74,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
-	
+
 	list<T> out;
 	for (typename list<T>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		if ((starting && period.contains (i->period().from)) || (!starting && period.overlaps (i->period ()))) {
@@ -83,7 +83,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 	}
 
 	/* Discard anything in _decoded_image_subtitles that is outside 5 seconds either side of period */
-	
+
 	list<ContentImageSubtitle>::iterator i = _decoded_image_subtitles.begin();
 	while (i != _decoded_image_subtitles.end()) {
 		list<ContentImageSubtitle>::iterator tmp = i;

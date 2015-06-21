@@ -40,11 +40,11 @@ public:
 	Data j2k () const {
 		return _data;
 	}
-	
+
 	dcp::Size size () const {
 		return _size;
 	}
-	
+
 private:
 	Data _data;
 	dcp::Size _size;

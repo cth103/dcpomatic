@@ -27,15 +27,15 @@
 
 namespace dcpomatic
 {
-	
+
 /** @struct Rect
  *  @brief A rectangle.
  */
-template <class T>	
+template <class T>
 class Rect
 {
 public:
-	
+
 	Rect ()
 		: x (0)
 		, y (0)
@@ -71,7 +71,7 @@ public:
 	{
 		T const tx = max (x, other.x);
 		T const ty = max (y, other.y);
-	
+
 		return Rect (
 			tx, ty,
 			min (x + width, other.x + other.width) - tx,

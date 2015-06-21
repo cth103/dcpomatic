@@ -44,9 +44,9 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 {
 	int const channels = 3;
 	int const points = 4096;
-	
+
 	srand (1);
-	
+
 	AudioAnalysis a (3);
 	for (int i = 0; i < channels; ++i) {
 		for (int j = 0; j < points; ++j) {
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  random_float (), 1);
 		}
 	}
-	
+
 	BOOST_CHECK (b.peak ());
 	BOOST_CHECK_CLOSE (b.peak().get(), peak, 1);
 	BOOST_CHECK (b.peak_time ());
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 	c->set_audio_delay (-250);
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
-	
+
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 	shared_ptr<AudioContent> c (new FFmpegContent (film, private_data / "3d_thx_broadway_2010_lossless.m2ts"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
-	
+
 	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film));
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);

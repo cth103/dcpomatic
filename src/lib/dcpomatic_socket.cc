@@ -78,7 +78,7 @@ Socket::write (uint8_t const * data, int size)
 	boost::system::error_code ec = boost::asio::error::would_block;
 
 	boost::asio::async_write (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
-	
+
 	do {
 		_io_service.run_one ();
 	} while (ec == boost::asio::error::would_block);
@@ -110,7 +110,7 @@ Socket::read (uint8_t* data, int size)
 	do {
 		_io_service.run_one ();
 	} while (ec == boost::asio::error::would_block);
-	
+
 	if (ec) {
 		throw NetworkError (String::compose (_("error during async_read (%1)"), ec.value ()));
 	}

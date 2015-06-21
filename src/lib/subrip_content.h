@@ -28,7 +28,7 @@ public:
 	boost::shared_ptr<SubRipContent> shared_from_this () {
 		return boost::dynamic_pointer_cast<SubRipContent> (Content::shared_from_this ());
 	}
-	
+
 	/* Content */
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
@@ -42,7 +42,7 @@ public:
 	}
 
 	static std::string const font_id;
-	
+
 private:
 	DCPTime _length;
 };

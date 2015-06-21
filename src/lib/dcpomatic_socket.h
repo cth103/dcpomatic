@@ -40,10 +40,10 @@ public:
 
 	void write (uint32_t n);
 	void write (uint8_t const * data, int size);
-	
+
 	void read (uint8_t* data, int size);
 	uint32_t read_uint32 ();
-	
+
 private:
 	void check ();
 

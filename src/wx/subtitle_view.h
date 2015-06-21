@@ -28,6 +28,6 @@ class SubtitleView : public wxDialog
 public:
 	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<SubtitleDecoder>, DCPTime position);
 
-private:	
+private:
 	wxListCtrl* _list;
 };

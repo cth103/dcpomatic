@@ -35,7 +35,7 @@ TableDialog::TableDialog (wxWindow* parent, wxString title, int columns, bool ca
 	if (cancel) {
 		flags |= wxCANCEL;
 	}
-	
+
 	wxSizer* buttons = CreateSeparatedButtonSizer (flags);
 	if (buttons) {
 		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());

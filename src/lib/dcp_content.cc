@@ -82,10 +82,10 @@ void
 DCPContent::examine (shared_ptr<Job> job)
 {
 	bool const could_be_played = can_be_played ();
-		
+
 	job->set_progress_unknown ();
 	Content::examine (job);
-	
+
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
 	take_from_audio_examiner (examiner);

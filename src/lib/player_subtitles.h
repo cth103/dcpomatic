@@ -30,7 +30,7 @@ public:
 		: from (f)
 		, to (t)
 	{}
-	
+
 	DCPTime from;
 	DCPTime to;
 

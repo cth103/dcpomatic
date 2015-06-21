@@ -31,13 +31,13 @@ public:
 
 	std::string name () const;
 	boost::optional<dcp::Certificate> certificate () const;
-	
+
 private:
 	void select_certificate ();
 	void load_certificate (boost::filesystem::path);
 	void download_certificate ();
 	void setup_sensitivity ();
-	
+
 	wxTextCtrl* _name;
 	wxChoice* _manufacturer;
 	wxButton* _load_certificate;

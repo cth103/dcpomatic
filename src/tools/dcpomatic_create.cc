@@ -79,7 +79,7 @@ main (int argc, char* argv[])
 	Ratio const * content_ratio = 0;
 	int still_length = 10;
 	boost::filesystem::path output;
-	
+
 	int option_index = 0;
 	while (true) {
 		static struct option long_options[] = {
@@ -171,7 +171,7 @@ main (int argc, char* argv[])
 
 		film->set_container (container_ratio);
 		film->set_dcp_content_type (dcp_content_type);
-		
+
 		for (int i = optind; i < argc; ++i) {
 			shared_ptr<Content> c = content_factory (film, argv[i]);
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
@@ -180,7 +180,7 @@ main (int argc, char* argv[])
 			}
 			film->examine_and_add_content (c);
 		}
-		
+
 		JobManager* jm = JobManager::instance ();
 
 		while (jm->work_to_do ()) {}
@@ -214,6 +214,6 @@ main (int argc, char* argv[])
 		cerr << argv[0] << ": " << e.what() << "\n";
 		exit (EXIT_FAILURE);
 	}
-		
+
 	return 0;
 }

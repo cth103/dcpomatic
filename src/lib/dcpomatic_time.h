@@ -62,7 +62,7 @@ public:
 
 	/* Explicit conversion from type O */
 	Time (Time<O, S> d, FrameRateChange f);
-	
+
 	Type get () const {
 		return _t;
 	}
@@ -144,7 +144,7 @@ public:
 		   to a frame boundary at the start rather than the end.
 		*/
 		int64_t ff = frames (r);
-		
+
 		h = ff / (3600 * r);
 		ff -= h * 3600 * r;
 		m = ff / (60 * r);
@@ -173,7 +173,7 @@ public:
 		return o.str ();
 	}
 
-	
+
 	static Time<S, O> from_seconds (double s) {
 		return Time<S, O> (s * HZ);
 	}
@@ -191,14 +191,14 @@ public:
 	static Time<S, O> min () {
 		return Time<S, O> (-INT64_MAX);
 	}
-	
+
 	static Time<S, O> max () {
 		return Time<S, O> (INT64_MAX);
 	}
-	
+
 private:
 	friend struct dcptime_round_up_test;
-	
+
 	Type _t;
 	static const int HZ = 96000;
 };
@@ -223,7 +223,7 @@ class ContentTimePeriod
 {
 public:
 	ContentTimePeriod () {}
-	
+
 	ContentTimePeriod (ContentTime f, ContentTime t)
 		: from (f)
 		, to (t)

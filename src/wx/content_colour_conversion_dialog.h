@@ -33,7 +33,7 @@ private:
 	void check_for_preset ();
 	void preset_check_clicked ();
 	void preset_choice_changed ();
-	
+
 	wxCheckBox* _preset_check;
 	wxChoice* _preset_choice;
 	ColourConversionEditor* _editor;

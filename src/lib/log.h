@@ -54,14 +54,14 @@ public:
 	virtual std::string head_and_tail (int amount = 1024) const = 0;
 
 protected:
-	
+
 	/** mutex to protect the log */
 	mutable boost::mutex _mutex;
-	
+
 private:
 	virtual void do_log (std::string m) = 0;
 	void config_changed ();
-	
+
 	/** bit-field of log types which should be put into the log (others are ignored) */
 	int _types;
 	boost::signals2::scoped_connection _config_connection;
@@ -87,7 +87,7 @@ public:
 		return "";
 	}
 
-private:	
+private:
 	void do_log (std::string) {}
 };
 

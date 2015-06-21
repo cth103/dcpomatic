@@ -49,7 +49,7 @@ Ratio::from_id (string i)
 	if (i == "137") {
 		i = "138";
 	}
-	
+
 	vector<Ratio const *>::iterator j = _ratios.begin ();
 	while (j != _ratios.end() && (*j)->id() != i) {
 		++j;
@@ -77,13 +77,13 @@ Ratio::from_ratio (float r)
 
 	return *j;
 }
-   
+
 Ratio const *
 Ratio::nearest_from_ratio (float r)
 {
 	Ratio const * nearest = 0;
 	float distance = FLT_MAX;
-	
+
 	for (vector<Ratio const *>::iterator i = _ratios.begin (); i != _ratios.end(); ++i) {
 		float const d = fabs ((*i)->ratio() - r);
 		if (d < distance) {

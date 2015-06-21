@@ -51,7 +51,7 @@ public:
 	}
 
 	DCPTime full_length () const;
-	
+
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
@@ -63,7 +63,7 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _has_subtitles;
 	}
-	
+
 	boost::filesystem::path directory () const;
 
 	bool encrypted () const {
@@ -78,10 +78,10 @@ public:
 	}
 
 	bool can_be_played () const;
-	
+
 private:
 	void read_directory (boost::filesystem::path);
-	
+
 	std::string _name;
 	bool _has_subtitles;
 	/** true if our DCP is encrypted */

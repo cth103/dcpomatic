@@ -66,7 +66,7 @@ private:
 	std::string _nickname;
 	std::string _isdcf_name;
 
-	static std::vector<Ratio const *> _ratios;	
+	static std::vector<Ratio const *> _ratios;
 };
 
 #endif

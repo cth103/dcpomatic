@@ -49,11 +49,11 @@ public:
 		Part,
 		boost::optional<ColourConversion>
 		);
-	
+
 	PlayerVideo (boost::shared_ptr<cxml::Node>, boost::shared_ptr<Socket>);
 
 	void set_subtitle (PositionImage);
-	
+
 	boost::shared_ptr<Image> image (AVPixelFormat pix_fmt, bool burn_subtitle, dcp::NoteHandler note) const;
 
 	void add_metadata (xmlpp::Node* node, bool send_subtitles) const;

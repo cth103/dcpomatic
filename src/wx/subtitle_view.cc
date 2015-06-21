@@ -47,7 +47,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 		ip.SetText (_("End"));
 		ip.SetWidth (100);
 		_list->InsertColumn (1, ip);
-	}		
+	}
 
 	{
 		wxListItem ip;

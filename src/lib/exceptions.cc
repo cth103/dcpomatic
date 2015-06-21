@@ -47,7 +47,7 @@ ReadFileError::ReadFileError (boost::filesystem::path f, int e)
 WriteFileError::WriteFileError (boost::filesystem::path f, int e)
 	: FileError (String::compose (_("could not write to file %1 (%2)"), f.string(), strerror (e)), f)
 {
-	
+
 }
 
 MissingSettingError::MissingSettingError (string s)
@@ -65,7 +65,7 @@ PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
 SubRipError::SubRipError (string saw, string expecting, boost::filesystem::path f)
 	: FileError (String::compose (_("Error in SubRip file: saw %1 while expecting %2"), saw.empty() ? "[nothing]" : saw, expecting), f)
 {
-	
+
 }
 
 InvalidSignerError::InvalidSignerError ()

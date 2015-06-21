@@ -139,22 +139,22 @@ void
 JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 {
 	cout << "request: " << url << "\n";
-	
+
 	map<string, string> r = split_get_request (url);
 	for (map<string, string>::iterator i = r.begin(); i != r.end(); ++i) {
 		cout << i->first << " => " << i->second << "\n";
 	}
-	
+
 	string action;
 	if (r.find ("action") != r.end ()) {
 		action = r["action"];
 	}
-	
+
 	stringstream json;
 	if (action == "status") {
-		
+
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-		
+
 		json << "{ \"jobs\": [";
 		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 
@@ -163,7 +163,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 			if ((*i)->film()) {
 				json << "\"dcp\": \"" << (*i)->film()->dcp_name() << "\", ";
 			}
-			
+
 			json << "\"name\": \""   << (*i)->json_name() << "\", ";
 			if ((*i)->progress ()) {
 				json << "\"progress\": " << (*i)->progress().get() << ", ";
@@ -172,7 +172,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 			}
 			json << "\"status\": \"" << (*i)->json_status() << "\"";
 			json << " }";
-			
+
 			list<shared_ptr<Job> >::iterator j = i;
 			++j;
 			if (j != jobs.end ()) {
@@ -180,12 +180,12 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 			}
 		}
 		json << "] }";
-		
+
 		if (json.str().empty ()) {
 			json << "{ }";
 		}
 	}
-	
+
 	stringstream reply;
 	reply << "HTTP/1.1 200 OK\r\n"
 	      << "Content-Length: " << json.str().length() << "\r\n"

@@ -29,9 +29,9 @@ vector<float>
 AudioFilter::sinc_blackman (float cutoff, bool invert) const
 {
 	vector<float> ir (_M + 1);
-	
+
 	/* Impulse response */
-	
+
 	for (int i = 0; i <= _M; ++i) {
 		if (i == (_M / 2)) {
 			ir[i] = 2 * M_PI * cutoff;
@@ -42,27 +42,27 @@ AudioFilter::sinc_blackman (float cutoff, bool invert) const
 			ir[i] *= (0.42 - 0.5 * cos (2 * M_PI * i / _M) + 0.08 * cos (4 * M_PI * i / _M));
 		}
 	}
-	
+
 	/* Normalise */
-	
+
 	float sum = 0;
 	for (int i = 0; i <= _M; ++i) {
 		sum += ir[i];
 	}
-	
+
 	for (int i = 0; i <= _M; ++i) {
 		ir[i] /= sum;
 	}
-	
+
 	/* Frequency inversion (swapping low-pass for high-pass, or whatever) */
-	
+
 	if (invert) {
 		for (int i = 0; i <= _M; ++i) {
 			ir[i] = -ir[i];
 		}
 		ir[_M / 2] += 1;
 	}
-	
+
 	return ir;
 }
 
@@ -70,12 +70,12 @@ shared_ptr<AudioBuffers>
 AudioFilter::run (shared_ptr<AudioBuffers> in)
 {
 	shared_ptr<AudioBuffers> out (new AudioBuffers (in->channels(), in->frames()));
-	
+
 	if (!_tail) {
 		_tail.reset (new AudioBuffers (in->channels(), _M + 1));
 		_tail->make_silent ();
 	}
-	
+
 	for (int i = 0; i < in->channels(); ++i) {
 		for (int j = 0; j < in->frames(); ++j) {
 			float s = 0;
@@ -86,17 +86,17 @@ AudioFilter::run (shared_ptr<AudioBuffers> in)
 					s += in->data(i)[j - k] * _ir[k];
 				}
 			}
-			
+
 			out->data(i)[j] = s;
 		}
 	}
-	
+
 	int const amount = min (in->frames(), _tail->frames());
 	if (amount < _tail->frames ()) {
 		_tail->move (amount, 0, _tail->frames() - amount);
 	}
 	_tail->copy_from (in.get(), amount, in->frames() - amount, _tail->frames () - amount);
-	
+
 	return out;
 }
 
@@ -124,16 +124,16 @@ BandPassAudioFilter::BandPassAudioFilter (float transition_bandwidth, float lowe
 {
 	vector<float> lpf = sinc_blackman (lower, false);
 	vector<float> hpf = sinc_blackman (higher, true);
-	
+
 	_ir.resize (_M + 1);
 	for (int i = 0; i <= _M; ++i) {
 		_ir[i] = lpf[i] + hpf[i];
 	}
-	
+
 	/* We now have a band-stop, so invert for band-pass */
 	for (int i = 0; i <= _M; ++i) {
 		_ir[i] = -_ir[i];
 	}
-	
+
 	_ir[_M / 2] += 1;
 }

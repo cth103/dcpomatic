@@ -36,8 +36,8 @@ private:
 	wxTextCtrl* _name;
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 	DirPickerCtrl* _folder;
-#else	
+#else
 	wxDirPickerCtrl* _folder;
-#endif	
+#endif
 	static boost::optional<boost::filesystem::path> _directory;
 };

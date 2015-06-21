@@ -34,7 +34,7 @@ public:
 		, red_band (false)
 		, two_d_version_of_three_d (false)
 	{}
-	
+
 	ISDCFMetadata (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;

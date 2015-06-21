@@ -32,7 +32,7 @@ public:
 		: min (n)
 		, max (n)
 	{}
-	
+
 	ChannelCount (int min_, int max_)
 		: min (min_)
 		, max (max_)

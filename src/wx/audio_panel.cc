@@ -54,7 +54,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		boost::mem_fn (&AudioContent::audio_gain),
 		boost::mem_fn (&AudioContent::set_audio_gain)
 		);
-	
+
 	_gain->add (grid, wxGBPosition (r, 1));
 	add_label_to_grid_bag_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
 	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
@@ -69,7 +69,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		boost::mem_fn (&AudioContent::audio_delay),
 		boost::mem_fn (&AudioContent::set_audio_delay)
 		);
-	
+
 	_delay->add (grid, wxGBPosition (r, 1));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
@@ -140,7 +140,7 @@ AudioPanel::gain_calculate_button_clicked ()
 		d->Destroy ();
 		return;
 	}
-	
+
 	_gain->wrapped()->SetValue (
 		Config::instance()->cinema_sound_processor()->db_for_fader_change (
 			d->wanted_fader (),
@@ -152,7 +152,7 @@ AudioPanel::gain_calculate_button_clicked ()
 	   I think.
 	*/
 	_gain->view_changed ();
-	
+
 	d->Destroy ();
 }
 

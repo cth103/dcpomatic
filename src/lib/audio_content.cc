@@ -82,7 +82,7 @@ AudioContent::AudioContent (shared_ptr<const Film> film, vector<shared_ptr<Conte
 {
 	shared_ptr<AudioContent> ref = dynamic_pointer_cast<AudioContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
-	
+
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (c[i]);
 
@@ -115,7 +115,7 @@ AudioContent::set_audio_gain (double g)
 		boost::mutex::scoped_lock lm (_mutex);
 		_audio_gain = g;
 	}
-	
+
 	signal_changed (AudioContentProperty::AUDIO_GAIN);
 }
 
@@ -126,7 +126,7 @@ AudioContent::set_audio_delay (int d)
 		boost::mutex::scoped_lock lm (_mutex);
 		_audio_delay = d;
 	}
-	
+
 	signal_changed (AudioContentProperty::AUDIO_DELAY);
 }
 
@@ -155,7 +155,7 @@ AudioContent::set_audio_mapping (AudioMapping mapping)
 		}
 		i->set_mapping (stream_mapping);
 	}
-		
+
 	signal_changed (AudioContentProperty::AUDIO_STREAMS);
 }
 
@@ -166,9 +166,9 @@ AudioContent::audio_mapping () const
 	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
 		channels += i->channels ();
 	}
-	
+
 	AudioMapping merged (channels, MAX_DCP_AUDIO_CHANNELS);
-	
+
 	int c = 0;
 	int s = 0;
 	BOOST_FOREACH (AudioStreamPtr i, audio_streams ()) {
@@ -193,7 +193,7 @@ AudioContent::resampled_audio_frame_rate () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	
+
 	/* Resample to a DCI-approved sample rate */
 	double t = has_rate_above_48k() ? 96000 : 48000;
 

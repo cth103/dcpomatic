@@ -44,6 +44,6 @@ AudioGainDialog::value () const
 	if (_gain->GetValue() <= -144) {
 		return 0;
 	}
-	
+
 	return pow (10, _gain->GetValue () / 20);
 }

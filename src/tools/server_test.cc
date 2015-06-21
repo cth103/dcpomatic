@@ -76,7 +76,7 @@ process_video (shared_ptr<PlayerVideo> pvf)
 		cout << "\033[0;31msizes differ\033[0m\n";
 		return;
 	}
-		
+
 	uint8_t* p = local_encoded.data().get ();
 	uint8_t* q = remote_encoded.data().get ();
 	for (int i = 0; i < local_encoded.size(); ++i) {
@@ -129,7 +129,7 @@ main (int argc, char* argv[])
 			break;
 		}
 	}
-	
+
 	if (server_host.empty() || film_dir.empty()) {
 		help (argv[0]);
 		exit (EXIT_FAILURE);
@@ -141,7 +141,7 @@ main (int argc, char* argv[])
 		server = new ServerDescription (server_host, 1);
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
-		
+
 		shared_ptr<Player> player (new Player (film));
 
 		DCPTime const frame = DCPTime::from_frames (1, film->video_frame_rate ());

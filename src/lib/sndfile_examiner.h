@@ -24,7 +24,7 @@ class SndfileExaminer : public Sndfile, public AudioExaminer
 {
 public:
 	SndfileExaminer (boost::shared_ptr<const SndfileContent> content);
-	
+
 	int audio_channels () const;
 	Frame audio_length () const;
 	int audio_frame_rate () const;

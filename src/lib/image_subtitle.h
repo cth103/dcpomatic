@@ -31,7 +31,7 @@ public:
 		: image (i)
 		, rectangle (r)
 	{}
-	
+
 	boost::shared_ptr<Image> image;
 	/** Area that the subtitle covers on its corresponding video, expressed in
 	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that

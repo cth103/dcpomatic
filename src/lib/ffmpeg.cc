@@ -85,14 +85,14 @@ FFmpeg::setup_general ()
 	_avio_context = avio_alloc_context (_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
 	_format_context = avformat_alloc_context ();
 	_format_context->pb = _avio_context;
-	
+
 	AVDictionary* options = 0;
 	/* These durations are in microseconds, and represent how far into the content file
 	   we will look for streams.
 	*/
 	av_dict_set (&options, "analyzeduration", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
 	av_dict_set (&options, "probesize", raw_convert<string> (5 * 60 * 1000000).c_str(), 0);
-	
+
 	if (avformat_open_input (&_format_context, 0, 0, &options) < 0) {
 		throw OpenFileError (_ffmpeg_content->path(0).string ());
 	}
@@ -126,8 +126,8 @@ FFmpeg::setup_general ()
 	*/
 	if (_video_stream == -1 && video_stream_undefined_frame_rate != -1) {
 		_video_stream = video_stream_undefined_frame_rate;
-	}	
-	
+	}
+
 	if (_video_stream < 0) {
 		throw DecodeError (N_("could not find video stream"));
 	}
@@ -146,7 +146,7 @@ FFmpeg::setup_general ()
 			}
 		}
 	}
-	
+
 	if (duplicates) {
 		/* Put in our own IDs */
 		for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
@@ -167,7 +167,7 @@ FFmpeg::setup_decoders ()
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVCodecContext* context = _format_context->streams[i]->codec;
-		
+
 		AVCodec* codec = avcodec_find_decoder (context->codec_id);
 		if (codec) {
 
@@ -177,7 +177,7 @@ FFmpeg::setup_decoders ()
 			*/
 			AVDictionary* options = 0;
 			av_dict_set (&options, "disable_footer", "1", 0);
-			
+
 			if (avcodec_open2 (context, codec, &options) < 0) {
 				throw DecodeError (N_("could not open decoder"));
 			}
@@ -199,7 +199,7 @@ FFmpeg::subtitle_codec_context () const
 	if (!_ffmpeg_content->subtitle_stream ()) {
 		return 0;
 	}
-	
+
 	return _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
 }
 
@@ -215,6 +215,6 @@ FFmpeg::avio_seek (int64_t const pos, int whence)
 	if (whence == AVSEEK_SIZE) {
 		return _file_group.length ();
 	}
-	
+
 	return _file_group.seek (pos, whence);
 }

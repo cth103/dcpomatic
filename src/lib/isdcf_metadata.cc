@@ -44,7 +44,7 @@ ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 	, two_d_version_of_three_d (node->optional_bool_child ("TwoDVersionOfThreeD").get_value_or (false))
 	, mastered_luminance (node->optional_string_child ("MasteredLuminance").get_value_or (""))
 {
-	
+
 }
 
 void

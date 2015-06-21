@@ -28,4 +28,4 @@ private:
 	void request (std::string url, boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
 };
 
-	
+

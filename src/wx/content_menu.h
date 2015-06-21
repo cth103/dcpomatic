@@ -34,7 +34,7 @@ class ContentMenu : public boost::noncopyable
 public:
 	ContentMenu (wxWindow* p);
 	~ContentMenu ();
-	
+
 	void popup (boost::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
 
 private:
@@ -46,7 +46,7 @@ private:
 	void kdm ();
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
-	
+
 	wxMenu* _menu;
 	/** Film that we are working with; set up by popup() */
 	boost::weak_ptr<Film> _film;

@@ -75,7 +75,7 @@ string
 cpu_info ()
 {
 	string info;
-	
+
 #ifdef DCPOMATIC_LINUX
 	/* This use of ifstream is ok; the filename can never
 	   be non-Latin
@@ -99,7 +99,7 @@ cpu_info ()
 	if (sysctlbyname ("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
 		info = buffer;
 	}
-#endif		
+#endif
 
 #ifdef DCPOMATIC_WINDOWS
 	HKEY key;
@@ -124,11 +124,11 @@ cpu_info ()
 	}
 
 	info = string (value.begin(), value.end());
-	
+
 	RegCloseKey (key);
 
-#endif	
-	
+#endif
+
 	return info;
 }
 
@@ -142,7 +142,7 @@ app_contents ()
 	if (_NSGetExecutablePath (buffer, &size)) {
 		throw StringError ("_NSGetExecutablePath failed");
 	}
-	
+
 	boost::filesystem::path path (buffer);
 	path = boost::filesystem::canonical (path);
 	path = path.parent_path ();
@@ -170,7 +170,7 @@ shared_path ()
 #endif
 #ifdef DCPOMATIC_OSX
 	return app_contents() / "Resources";
-#endif	
+#endif
 }
 
 void
@@ -241,7 +241,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	CloseHandle (child_stderr_read);
 #endif
 
-#ifdef DCPOMATIC_LINUX 
+#ifdef DCPOMATIC_LINUX
 	string ffprobe = "ffprobe \"" + content.string() + "\" 2> \"" + out.string() + "\"";
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
         system (ffprobe.c_str ());
@@ -251,7 +251,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	boost::filesystem::path path = app_contents();
 	path /= "MacOS";
 	path /= "ffprobe";
-	
+
 	string ffprobe = path.string() + " \"" + content.string() + "\" 2> \"" + out.string() + "\"";
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
 	system (ffprobe.c_str ());
@@ -262,13 +262,13 @@ list<pair<string, string> >
 mount_info ()
 {
 	list<pair<string, string> > m;
-	
+
 #ifdef DCPOMATIC_LINUX
 	FILE* f = setmntent ("/etc/mtab", "r");
 	if (!f) {
 		return m;
 	}
-	
+
 	while (true) {
 		struct mntent* mnt = getmntent (f);
 		if (!mnt) {
@@ -291,11 +291,11 @@ openssl_path ()
 	wchar_t dir[512];
 	GetModuleFileName (GetModuleHandle (0), dir, sizeof (dir));
 	PathRemoveFileSpec (dir);
-	
+
 	boost::filesystem::path path = dir;
 	path /= "openssl.exe";
 	return path;
-#else	
+#else
 	/* We assume that it's on the path for Linux and OS X */
 	return "openssl";
 #endif
@@ -323,9 +323,9 @@ dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
 {
 #ifdef DCPOMATIC_WINDOWS
 	return _fseeki64 (stream, offset, whence);
-#else	
+#else
 	return fseek (stream, offset, whence);
-#endif	
+#endif
 }
 
 void
@@ -333,7 +333,7 @@ Waker::nudge ()
 {
 #ifdef DCPOMATIC_WINDOWS
 	SetThreadExecutionState (ES_SYSTEM_REQUIRED);
-#endif	
+#endif
 }
 
 Waker::Waker ()
@@ -343,12 +343,12 @@ Waker::Waker ()
         // IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
 	/* but it's not available on 10.5, so we use this */
         IOPMAssertionCreate (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, &_assertion_id);
-#endif	
+#endif
 }
 
 Waker::~Waker ()
 {
-#ifdef DCPOMATIC_OSX	
+#ifdef DCPOMATIC_OSX
 	IOPMAssertionRelease (_assertion_id);
-#endif	
+#endif
 }

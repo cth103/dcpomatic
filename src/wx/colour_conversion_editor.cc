@@ -71,9 +71,9 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 		_input_B = new wxTextCtrl (this, wxID_ANY, wxT (""));
 		s->Add (_input_B, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		table->Add (s, wxGBPosition (r, 1), wxGBSpan (1, 3));
-	}		
+	}
 	++r;
-	
+
         wxClientDC dc (parent);
         wxSize size = dc.GetTextExtent (wxT ("-0.12345678901"));
         size.SetHeight (-1);
@@ -92,7 +92,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	/* YUV to RGB conversion */
 
 	subhead (table, this, _("YUV to RGB conversion"), r);
-	
+
 	add_label_to_grid_bag_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
 	_yuv_to_rgb = new wxChoice (this, wxID_ANY);
 	_yuv_to_rgb->Append (_("Rec. 601"));
@@ -139,7 +139,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 
         size = dc.GetTextExtent (wxT ("0.12345678"));
         size.SetHeight (-1);
-	
+
 	wxFlexGridSizer* rgb_to_xyz_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
@@ -169,7 +169,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 
         size = dc.GetTextExtent (wxT ("0.12345678"));
         size.SetHeight (-1);
-	
+
 	wxFlexGridSizer* bradford_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
@@ -180,7 +180,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	table->Add (bradford_sizer, wxGBPosition (r - 2, 3), wxGBSpan (2, 1));
 
 	subhead (table, this, _("Output gamma correction"), r);
-	
+
 	add_label_to_grid_bag_sizer (table, this, _("Output gamma"), true, wxGBPosition (r, 0));
 	wxBoxSizer* output_sizer = new wxBoxSizer (wxHORIZONTAL);
 	/// TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
@@ -300,7 +300,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 
 	update_rgb_to_xyz ();
 	update_bradford ();
-	
+
 	set_spin_ctrl (_output_gamma, dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.out ())->gamma ());
 }
 
@@ -366,7 +366,7 @@ ColourConversionEditor::changed ()
 	_input_threshold->Enable (lin);
 	_input_A->Enable (lin);
 	_input_B->Enable (lin);
-	
+
 	Changed ();
 }
 
@@ -389,7 +389,7 @@ ColourConversionEditor::update_bradford ()
 {
 	_adjusted_white_x->Enable (_adjust_white->GetValue ());
 	_adjusted_white_y->Enable (_adjust_white->GetValue ());
-	
+
 	boost::numeric::ublas::matrix<double> m = get().bradford ();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
@@ -427,7 +427,7 @@ ColourConversionEditor::changed (wxSpinCtrlDouble* sc)
 	if (fabs (_last_spin_ctrl_value[sc] - sc->GetValue()) < 1e-3) {
 		return;
 	}
-	
+
 	Changed ();
 }
 

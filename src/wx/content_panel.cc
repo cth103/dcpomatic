@@ -61,7 +61,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		
+
 		_content = new wxListCtrl (_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
 		_content->DragAcceptFiles (true);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
@@ -70,27 +70,27 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 		_content->SetColumnWidth (0, 512);
 
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
-		
+
 		_add_file = new wxButton (_panel, wxID_ANY, _("Add file(s)..."));
 		_add_file->SetToolTip (_("Add video, image or sound files to the film."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		
+
 		_add_folder = new wxButton (_panel, wxID_ANY, _("Add folder..."));
 		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a DCP."));
 		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		
+
 		_remove = new wxButton (_panel, wxID_ANY, _("Remove"));
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
 		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		
+
 		_earlier = new wxButton (_panel, wxID_ANY, _("Up"));
 		_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
 		b->Add (_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		
+
 		_later = new wxButton (_panel, wxID_ANY, _("Down"));
 		_later->SetToolTip (_("Move the selected piece of content later in the film."));
 		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-		
+
 		_timeline = new wxButton (_panel, wxID_ANY, _("Timeline..."));
 		_timeline->SetToolTip (_("Open the timeline for the film."));
 		b->Add (_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
@@ -148,7 +148,7 @@ ContentPanel::selected_video ()
 {
 	ContentList c = selected ();
 	VideoContentList vc;
-	
+
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
 		if (t) {
@@ -164,7 +164,7 @@ ContentPanel::selected_audio ()
 {
 	ContentList c = selected ();
 	AudioContentList ac;
-	
+
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<AudioContent> t = dynamic_pointer_cast<AudioContent> (*i);
 		if (t) {
@@ -180,7 +180,7 @@ ContentPanel::selected_subtitle ()
 {
 	ContentList c = selected ();
 	SubtitleContentList sc;
-	
+
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<SubtitleContent> t = dynamic_pointer_cast<SubtitleContent> (*i);
 		if (t) {
@@ -196,7 +196,7 @@ ContentPanel::selected_ffmpeg ()
 {
 	ContentList c = selected ();
 	FFmpegContentList sc;
-	
+
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (*i);
 		if (t) {
@@ -221,7 +221,7 @@ ContentPanel::film_changed (Film::Property p)
 	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
 		(*i)->film_changed (p);
 	}
-}	
+}
 
 void
 ContentPanel::selection_changed ()
@@ -265,7 +265,7 @@ ContentPanel::add_folder_clicked ()
 	int r = d->ShowModal ();
 	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
 	d->Destroy ();
-	
+
 	if (r != wxID_OK) {
 		return;
 	}
@@ -290,7 +290,7 @@ ContentPanel::add_folder_clicked ()
 			error_dialog (_panel, _("Could not find a DCP nor a set of images in that folder."));
 		}
 	} else {
-		
+
 		ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
 		r = e->ShowModal ();
 		float const frame_rate = e->frame_rate ();
@@ -301,7 +301,7 @@ ContentPanel::add_folder_clicked ()
 		}
 
 		shared_ptr<Content> content;
-		
+
 		try {
 			shared_ptr<ImageContent> content (new ImageContent (_film, path));
 			content->set_video_frame_rate (frame_rate);
@@ -331,7 +331,7 @@ ContentPanel::timeline_clicked ()
 		_timeline_dialog->Destroy ();
 		_timeline_dialog = 0;
 	}
-	
+
 	_timeline_dialog = new TimelineDialog (this, _film);
 	_timeline_dialog->Show ();
 }
@@ -432,7 +432,7 @@ ContentPanel::film_content_changed (int property)
 	if (property == ContentProperty::PATH || property == ContentProperty::POSITION || property == DCPContentProperty::CAN_BE_PLAYED) {
 		setup ();
 	}
-		
+
 	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
 		(*i)->film_content_changed (property);
 	}
@@ -443,7 +443,7 @@ ContentPanel::setup ()
 {
 	ContentList content = _film->content ();
 	sort (content.begin(), content.end(), ContentSorter ());
-       
+
 	/* First, check to see if anything has changed and bail if not; this avoids
 	   flickering on OS X.
 	*/
@@ -461,22 +461,22 @@ ContentPanel::setup ()
                if (!valid) {
                        s = _("MISSING: ") + s;
                }
-	       
+
                proposed.push_back (s);
 	}
-       
+
 	if (existing == proposed) {
 		return;
 	}
-      
+
 	/* Something has changed: set up the control */
-	
+
 	string selected_summary;
 	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s != -1) {
 		selected_summary = wx_to_std (_content->GetItemText (s));
 	}
-	
+
 	_content->DeleteAllItems ();
 
 	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
@@ -486,7 +486,7 @@ ContentPanel::setup ()
 		bool const needs_kdm = dcp && !dcp->can_be_played ();
 
 		string s = (*i)->summary ();
-		
+
 		if (!valid) {
 			s = _("MISSING: ") + s;
 		}
@@ -518,7 +518,7 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 	if (!_film) {
 		return;
 	}
-	
+
 	wxString* paths = event.GetFiles ();
 	list<boost::filesystem::path> path_list;
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
@@ -534,7 +534,7 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 	/* It has been reported that the paths returned from e.g. wxFileDialog are not always sorted;
 	   I can't reproduce that, but sort them anyway.
 	*/
-	
+
 	paths.sort (ImageFilenameSorter ());
 
 	/* XXX: check for lots of files here and do something */

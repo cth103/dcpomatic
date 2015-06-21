@@ -37,7 +37,7 @@ public:
 	void as_xml (xmlpp::Node *) const;
 
 	/* XXX: should probably be locked */
-	
+
 	boost::optional<ContentTime> first_audio;
 
 private:

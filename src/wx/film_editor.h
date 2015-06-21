@@ -16,7 +16,7 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
- 
+
 /** @file src/wx/film_editor.h
  *  @brief FilmEditor class.
  */
@@ -48,7 +48,7 @@ public:
 	ContentPanel* content_panel () const {
 		return _content_panel;
 	}
-	
+
 	boost::shared_ptr<Film> film () const {
 		return _film;
 	}

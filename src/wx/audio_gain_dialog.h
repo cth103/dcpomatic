@@ -27,7 +27,7 @@ public:
 	AudioGainDialog (wxWindow *, int, int, float);
 
 	float value () const;
-	
+
 private:
 	wxSpinCtrlDouble* _gain;
 };

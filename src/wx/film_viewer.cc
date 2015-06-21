@@ -71,9 +71,9 @@ FilmViewer::FilmViewer (wxWindow* p)
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
 #endif
-	
+
 	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-	
+
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_v_sizer);
 
@@ -111,7 +111,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_forward_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::forward_clicked, this));
 
 	set_film (shared_ptr<Film> ());
-	
+
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&FilmViewer::active_jobs_changed, this, _1)
 		);
@@ -129,10 +129,10 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_film = film;
 
 	_frame.reset ();
-	
+
 	update_position_slider ();
 	update_position_label ();
-	
+
 	if (!_film) {
 		return;
 	}
@@ -149,7 +149,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	   in the preview.
 	*/
 	_player->set_burn_subtitles (true);
-	
+
 	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
 	_player_connection = _player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
@@ -180,7 +180,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 	} catch (exception& e) {
 		error_dialog (this, wxString::Format (_("Could not get video for view (%s)"), std_to_wx(e.what()).data()));
 	}
-	
+
 	if (!pvf.empty ()) {
 		try {
 			_frame = pvf.front()->image (PIX_FMT_RGB24, true, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
@@ -189,7 +189,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 			if (pvf.front()->colour_conversion()) {
 				yuv_to_rgb = pvf.front()->colour_conversion().get().yuv_to_rgb();
 			}
-			
+
 			_frame = _frame->scale (_frame->size(), yuv_to_rgb, PIX_FMT_RGB24, false);
 			_position = pvf.front()->time ();
 			_inter_position = pvf.front()->inter_position ();
@@ -229,7 +229,7 @@ FilmViewer::timer ()
 	} else {
 		get (_position + frame, true);
 	}
-	
+
 	update_position_label ();
 	update_position_slider ();
 }
@@ -308,10 +308,10 @@ FilmViewer::calculate_sizes ()
 	}
 
 	Ratio const * container = _film->container ();
-	
+
 	float const panel_ratio = _panel_size.ratio ();
 	float const film_ratio = container ? container->ratio () : 1.78;
-			
+
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
 		_out_size.width = _panel_size.width;
@@ -341,7 +341,7 @@ FilmViewer::check_play_state ()
 	if (!_film || _film->video_frame_rate() == 0) {
 		return;
 	}
-	
+
 	if (_play_button->GetValue()) {
 		_timer.Start (1000 / _film->video_frame_rate());
 	} else {
@@ -356,7 +356,7 @@ FilmViewer::update_position_slider ()
 		_slider->SetValue (0);
 		return;
 	}
-	
+
 	DCPTime const len = _film->length ();
 
 	if (len.get ()) {
@@ -387,17 +387,17 @@ FilmViewer::active_jobs_changed (bool a)
 {
 	if (a) {
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-		list<shared_ptr<Job> >::iterator i = jobs.begin ();		
+		list<shared_ptr<Job> >::iterator i = jobs.begin ();
 		while (i != jobs.end() && boost::dynamic_pointer_cast<ExamineContentJob> (*i) == 0) {
 			++i;
 		}
-		
+
 		if (i == jobs.end() || (*i)->finished()) {
 			/* no examine content job running, so we're ok to use the viewer */
 			a = false;
 		}
 	}
-			
+
 	_slider->Enable (!a);
 	_play_button->Enable (!a);
 }
@@ -440,7 +440,7 @@ void
 FilmViewer::setup_sensitivity ()
 {
 	bool const c = _film && !_film->content().empty ();
-	
+
 	_slider->Enable (c);
 	_back_button->Enable (c);
 	_forward_button->Enable (c);

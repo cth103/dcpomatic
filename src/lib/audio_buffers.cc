@@ -57,7 +57,7 @@ AudioBuffers::operator= (AudioBuffers const & other)
 	if (this == &other) {
 		return *this;
 	}
-		
+
 	deallocate ();
 	allocate (other._channels, other._frames);
 	copy_from (&other, other._frames, 0, 0);
@@ -80,12 +80,12 @@ AudioBuffers::allocate (int channels, int frames)
 	_channels = channels;
 	_frames = frames;
 	_allocated_frames = frames;
-	
+
 	_data = static_cast<float**> (malloc (_channels * sizeof (float *)));
 	if (!_data) {
 		throw bad_alloc ();
 	}
-	
+
 	for (int i = 0; i < _channels; ++i) {
 		_data[i] = static_cast<float*> (malloc (frames * sizeof (float)));
 		if (!_data[i]) {
@@ -129,7 +129,7 @@ AudioBuffers::set_frames (int f)
 			_data[c][i] = 0;
 		}
 	}
-	
+
 	_frames = f;
 }
 
@@ -149,7 +149,7 @@ void
 AudioBuffers::make_silent (int c)
 {
 	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
-	
+
 	for (int i = 0; i < _frames; ++i) {
 		_data[c][i] = 0;
 	}
@@ -180,7 +180,7 @@ AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read
 		/* Prevent the asserts from firing if there is nothing to do */
 		return;
 	}
-	
+
 	DCPOMATIC_ASSERT (from->channels() == channels());
 
 	DCPOMATIC_ASSERT (from);
@@ -197,14 +197,14 @@ AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read
  *  @param to Offset to move to.
  *  @param frames Number of frames to move.
  */
-    
+
 void
 AudioBuffers::move (int from, int to, int frames)
 {
 	if (frames == 0) {
 		return;
 	}
-	
+
 	DCPOMATIC_ASSERT (from >= 0);
 	DCPOMATIC_ASSERT (from < _frames);
 	DCPOMATIC_ASSERT (to >= 0);
@@ -213,7 +213,7 @@ AudioBuffers::move (int from, int to, int frames)
 	DCPOMATIC_ASSERT (frames <= _frames);
 	DCPOMATIC_ASSERT ((from + frames) <= _frames);
 	DCPOMATIC_ASSERT ((to + frames) <= _allocated_frames);
-	
+
 	for (int i = 0; i < _channels; ++i) {
 		memmove (_data[i] + to, _data[i] + from, frames * sizeof(float));
 	}
@@ -279,7 +279,7 @@ void
 AudioBuffers::apply_gain (float dB)
 {
 	float const linear = pow (10, dB / 20);
-	
+
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < _frames; ++j) {
 			_data[i][j] *= linear;

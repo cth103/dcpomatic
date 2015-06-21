@@ -44,7 +44,7 @@ public:
 	std::string leaf_common_name () const {
 		return wx_to_std (_leaf_common_name->GetValue ());
 	}
-	
+
 
 private:
 	wxTextCtrl* _organisation;
@@ -53,4 +53,4 @@ private:
 	wxTextCtrl* _intermediate_common_name;
 	wxTextCtrl* _leaf_common_name;
 };
-	
+

@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("XSN"));
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-133_DE-FR_US-R_4K_DI_20140704_PP_SMPTE_VF");
-	
+
 	/* Test 3D */
 
 	film->set_three_d (true);
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-FR_US-R_4K_DI_20140704_PP_SMPTE_VF");
 
 	/* Test audio channel markup */
-	
+
 	film->set_audio_channels (6);
 	shared_ptr<SndfileContent> sound (new SndfileContent (film, "test/data/sine_440.wav"));
 	film->examine_and_add_content (sound);

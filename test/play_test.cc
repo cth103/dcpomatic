@@ -62,7 +62,7 @@ public:
 		if (_queue.empty ()) {
 			return optional<Video> ();
 		}
-		
+
 		Video v = _queue.back ();
 		_queue.pop_back ();
 		return v;
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (play_test)
 	wait_for_jobs ();
 
 	BOOST_CHECK_EQUAL (B->video_length_after_3d_combine(), 16);
-	
+
 	/* Film should have been set to 25fps */
 	BOOST_CHECK_EQUAL (film->video_frame_rate(), 25);
 

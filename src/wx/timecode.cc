@@ -30,7 +30,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 	: wxPanel (parent)
 {
 	wxSize const s = TimecodeBase::size (parent);
-	
+
 	wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
 	wxArrayString list;
 
@@ -42,7 +42,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 	validator.SetIncludes (list);
 
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
-	
+
 	_editable = new wxPanel (this);
 	wxSizer* editable_sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
@@ -66,7 +66,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 	_sizer->Add (_editable);
 
 	_fixed = add_label_to_sizer (_sizer, this, wxT ("42"), false);
-	
+
 	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
 	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
 	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));

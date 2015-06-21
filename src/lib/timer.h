@@ -39,7 +39,7 @@ class PeriodTimer
 public:
 	PeriodTimer (std::string n);
 	~PeriodTimer ();
-	
+
 private:
 
 	/** name to use when giving output */

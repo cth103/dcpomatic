@@ -89,7 +89,7 @@ ContentColourConversionDialog::check_for_preset ()
 	if (_setting) {
 		return;
 	}
-	
+
 	optional<size_t> preset = _editor->get().preset ();
 
 	_preset_check->SetValue (preset);
@@ -123,4 +123,4 @@ ContentColourConversionDialog::preset_choice_changed ()
 	}
 }
 
-	
+

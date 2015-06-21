@@ -55,14 +55,14 @@ MD5Digester::get () const
 	if (!_digest) {
 		unsigned char digest[MD5_DIGEST_LENGTH];
 		MD5_Final (digest, &_context);
-		
+
 		SafeStringStream s;
 		for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
 			s << hex << setfill('0') << setw(2) << ((int) digest[i]);
 		}
-		
+
 		_digest = s.str ();
 	}
-	
+
 	return _digest.get ();
 }

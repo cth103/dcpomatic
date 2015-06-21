@@ -40,7 +40,7 @@ public:
 		, part (p)
 		, frame (f)
 	{}
-	
+
 	boost::shared_ptr<const ImageProxy> image;
 	Eyes eyes;
 	Part part;

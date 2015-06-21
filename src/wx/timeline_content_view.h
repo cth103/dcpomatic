@@ -46,7 +46,7 @@ public:
 	virtual wxString type () const = 0;
 	virtual wxColour background_colour () const = 0;
 	virtual wxColour foreground_colour () const = 0;
-	
+
 private:
 
 	void do_paint (wxGraphicsContext* gc);

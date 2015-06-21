@@ -184,7 +184,7 @@ int
 addr2line (void const * const addr)
 {
 	char addr2line_cmd[512] = { 0 };
-	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str()); 
+	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str());
 	return system(addr2line_cmd);
 }
 
@@ -198,19 +198,19 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 	FILE* f = fopen_boost (backtrace_file, "w");
 	fprintf (f, "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
 	fclose(f);
-	
+
 	if (info->ExceptionRecord->ExceptionCode != EXCEPTION_STACK_OVERFLOW) {
 		CONTEXT* context = info->ContextRecord;
 		SymInitialize (GetCurrentProcess (), 0, true);
-		
+
 		STACKFRAME frame = { 0 };
-		
+
 		/* setup initial stack frame */
 #if _WIN64
 		frame.AddrPC.Offset    = context->Rip;
 		frame.AddrStack.Offset = context->Rsp;
 		frame.AddrFrame.Offset = context->Rbp;
-#else  
+#else
 		frame.AddrPC.Offset    = context->Eip;
 		frame.AddrStack.Offset = context->Esp;
 		frame.AddrFrame.Offset = context->Ebp;
@@ -218,7 +218,7 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 		frame.AddrPC.Mode      = AddrModeFlat;
 		frame.AddrStack.Mode   = AddrModeFlat;
 		frame.AddrFrame.Mode   = AddrModeFlat;
-		
+
 		while (
 			StackWalk (
 				IMAGE_FILE_MACHINE_I386,
@@ -235,13 +235,13 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 			addr2line((void *) frame.AddrPC.Offset);
 		}
 	} else {
-#ifdef _WIN64          
+#ifdef _WIN64
 		addr2line ((void *) info->ContextRecord->Rip);
-#else          
+#else
 		addr2line ((void *) info->ContextRecord->Eip);
-#endif         
+#endif
 	}
-	
+
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif
@@ -273,7 +273,7 @@ terminate ()
 			  << e.what() << std::endl;
 	}
 	catch (...) {
-		std::cerr << __FUNCTION__ << " caught unknown/unhandled exception." 
+		std::cerr << __FUNCTION__ << " caught unknown/unhandled exception."
 			  << std::endl;
 	}
 
@@ -306,8 +306,8 @@ dcpomatic_setup ()
 	*/
 	std::locale::global (boost::locale::generator().generate (""));
 	boost::filesystem::path::imbue (std::locale ());
-#endif	
-	
+#endif
+
 	avfilter_register_all ();
 
 #ifdef DCPOMATIC_OSX
@@ -323,7 +323,7 @@ dcpomatic_setup ()
 
 	Pango::init ();
 	dcp::init ();
-	
+
 	Ratio::setup_ratios ();
 	PresetColourConversion::setup_colour_conversion_presets ();
 	VideoContentScale::setup_scales ();
@@ -382,7 +382,7 @@ dcpomatic_setup_gettext_i18n (string lang)
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	bindtextdomain ("libdcpomatic2", mo_path().string().c_str());
 	bind_textdomain_codeset ("libdcpomatic2", "UTF8");
-#endif	
+#endif
 
 #ifdef DCPOMATIC_LINUX
 	bindtextdomain ("libdcpomatic2", LINUX_LOCALE_PREFIX);
@@ -434,7 +434,7 @@ md5_digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t si
 		fclose (f);
 
 		--i;
-	}		
+	}
 	digester.add (buffer.get(), size - to_do);
 
 	return digester.get ();
@@ -516,7 +516,7 @@ valid_image_file (boost::filesystem::path f)
 	if (boost::starts_with (f.leaf().string(), "._")) {
 		return false;
 	}
-		
+
 	string ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (
@@ -555,7 +555,7 @@ fit_ratio_within (float ratio, dcp::Size full_frame)
 	if (ratio < full_frame.ratio ()) {
 		return dcp::Size (rint (full_frame.height * ratio), full_frame.height);
 	}
-	
+
 	return dcp::Size (full_frame.width, rint (full_frame.width / ratio));
 }
 
@@ -578,7 +578,7 @@ subtitle_period (AVSubtitle const & sub)
 		/* End time is not known */
 		return FFmpegSubtitlePeriod (packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3));
 	}
-	
+
 	return FFmpegSubtitlePeriod (
 		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
 		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
@@ -593,7 +593,7 @@ split_get_request (string url)
 		KEY,
 		VALUE
 	} state = AWAITING_QUESTION_MARK;
-	
+
 	map<string, string> r;
 	string k;
 	string v;

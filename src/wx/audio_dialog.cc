@@ -41,7 +41,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	wxBoxSizer* lr_sizer = new wxBoxSizer (wxHORIZONTAL);
-	
+
 	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
 
 	_plot = new AudioPlot (this);
@@ -70,7 +70,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
-	
+
 	wxString const types[] = {
 		_("Peak"),
 		_("RMS")
@@ -87,7 +87,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 		m->SetFont (subheading_font);
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP, 16);
 	}
-	
+
 	_smoothing = new wxSlider (this, wxID_ANY, AudioPlot::max_smoothing / 2, 1, AudioPlot::max_smoothing);
 	_smoothing->Bind (wxEVT_SCROLL_THUMBTRACK, boost::bind (&AudioDialog::smoothing_changed, this));
 	right->Add (_smoothing, 0, wxEXPAND);
@@ -96,12 +96,12 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 
 	overall_sizer->Add (lr_sizer);
 
-#ifdef DCPOMATIC_LINUX	
+#ifdef DCPOMATIC_LINUX
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
-#endif	
+#endif
 
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
@@ -141,12 +141,12 @@ AudioDialog::try_to_load_analysis ()
 		JobManager::instance()->add (job);
 		return;
         }
-	
+
 	_plot->set_analysis (_analysis);
 	setup_peak_time ();
 
 	/* Set up some defaults if no check boxes are checked */
-	
+
 	int i = 0;
 	while (i < MAX_DCP_AUDIO_CHANNELS && (!_channel_checkbox[i] || !_channel_checkbox[i]->GetValue ())) {
 		++i;
@@ -177,7 +177,7 @@ AudioDialog::analysis_finished ()
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	
+
 	if (!boost::filesystem::exists (film->audio_analysis_path ())) {
 		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
 		   Give up.
@@ -235,14 +235,14 @@ AudioDialog::setup_peak_time ()
 	if (!_analysis || !_analysis->peak ()) {
 		return;
 	}
-	
+
 	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
-	
+
 	float peak_dB = 20 * log10 (_analysis->peak().get());
-	
+
 	_peak_time->SetLabel (
 		wxString::Format (
 			_("Peak is %.2fdB at %s"),
@@ -250,7 +250,7 @@ AudioDialog::setup_peak_time ()
 			time_to_timecode (_analysis->peak_time().get(), film->video_frame_rate ()).data ()
 			)
 		);
-	
+
 	if (peak_dB > -3) {
 		_peak_time->SetForegroundColour (wxColour (255, 0, 0));
 	} else {
@@ -266,4 +266,4 @@ AudioDialog::Show (bool show)
 	return r;
 }
 
-	
+

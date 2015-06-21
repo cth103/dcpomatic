@@ -64,5 +64,5 @@ private:
 	/** All available DCP content types */
 	static std::vector<DCPContentType const *> _dcp_content_types;
 };
-     
+
 #endif

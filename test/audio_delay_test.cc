@@ -44,7 +44,7 @@ static
 void test_audio_delay (int delay_in_ms)
 {
 	BOOST_TEST_MESSAGE ("Testing delay of " << delay_in_ms);
-	
+
 	string const film_name = "audio_delay_test_" + lexical_cast<string> (delay_in_ms);
 	shared_ptr<Film> film = new_test_film (film_name);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
@@ -78,7 +78,7 @@ void test_audio_delay (int delay_in_ms)
 	while (n < sound_asset->asset()->intrinsic_duration()) {
 		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
-		
+
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
 
 			/* Mono input so it will appear on centre */

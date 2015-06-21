@@ -70,7 +70,7 @@ TimelineDialog::sequence_video_toggled ()
 	if (!film) {
 		return;
 	}
-		
+
 	film->set_sequence_video (_sequence_video->GetValue ());
 }
 

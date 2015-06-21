@@ -56,14 +56,14 @@ public:
 protected:
 	AVCodecContext* video_codec_context () const;
 	AVCodecContext* subtitle_codec_context () const;
-	
+
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
 	uint8_t* _avio_buffer;
 	int _avio_buffer_size;
 	AVIOContext* _avio_context;
 	FileGroup _file_group;
-	
+
 	AVFormatContext* _format_context;
 	AVPacket _packet;
 	AVFrame* _frame;

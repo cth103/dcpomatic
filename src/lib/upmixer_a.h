@@ -31,7 +31,7 @@ class UpmixerA : public AudioProcessor
 {
 public:
 	UpmixerA (int sampling_rate);
-	
+
 	std::string name () const;
 	std::string id () const;
 	ChannelCount in_channels () const;

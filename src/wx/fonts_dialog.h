@@ -33,7 +33,7 @@ private:
 	void set_file_clicked ();
 	void update_sensitivity ();
 	void selection_changed ();
-	
+
 	boost::weak_ptr<SubtitleContent> _content;
 	wxListCtrl* _fonts;
 	wxButton* _set_file;

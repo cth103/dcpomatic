@@ -56,7 +56,7 @@ AudioMapping::setup (int input_channels, int output_channels)
 {
 	_input_channels = input_channels;
 	_output_channels = output_channels;
-	
+
 	_gain.resize (_input_channels);
 	for (int i = 0; i < _input_channels; ++i) {
 		_gain[i].resize (_output_channels);
@@ -161,7 +161,7 @@ AudioMapping::mapped_output_channels () const
 	static float const minus_96_db = 0.000015849;
 
 	list<int> mapped;
-	
+
 	for (vector<vector<float> >::const_iterator i = _gain.begin(); i != _gain.end(); ++i) {
 		for (size_t j = 0; j < i->size(); ++j) {
 			if (abs ((*i)[j]) > minus_96_db) {
@@ -172,7 +172,7 @@ AudioMapping::mapped_output_channels () const
 
 	mapped.sort ();
 	mapped.unique ();
-	
+
 	return mapped;
 }
 

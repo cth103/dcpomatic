@@ -37,14 +37,14 @@ about_equal (float a, float b)
 	    = Ff + Fd - Ff frames
 	    = Fd frames
 	    = Fd/f seconds
- 
+
 	   So if we accept a difference of 1 frame, ie 1/f seconds, we can
 	   say that
 
 	   1/f = Fd/f
 	ie 1 = Fd
 	ie d = 1/F
- 
+
 	   So for a 3hr film, ie F = 3 * 60 * 60 = 10800, the acceptable
 	   FPS error is 1/F ~= 0.0001 ~= 10-e4
 	*/
@@ -81,7 +81,7 @@ string
 FrameRateChange::description () const
 {
 	string description;
-	
+
 	if (!skip && repeat == 1 && !change_speed) {
 		description = _("Content and DCP have the same rate.\n");
 	} else {

@@ -36,19 +36,19 @@ using boost::dynamic_pointer_cast;
 MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
 {
 	/* Read the file into a Blob */
-	
+
 	boost::uintmax_t const size = boost::filesystem::file_size (path);
 	FILE* f = fopen_boost (path, "rb");
 	if (!f) {
 		throw OpenFileError (path);
 	}
-		
+
 	uint8_t* data = new uint8_t[size];
 	if (fread (data, 1, size, f) != size) {
 		delete[] data;
 		throw ReadFileError (path);
 	}
-	
+
 	fclose (f);
 	_blob.update (data, size);
 	delete[] data;
@@ -67,7 +67,7 @@ shared_ptr<Image>
 MagickImageProxy::image (optional<dcp::NoteHandler>) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	
+
 	if (_image) {
 		return _image;
 	}
@@ -110,7 +110,7 @@ MagickImageProxy::image (optional<dcp::NoteHandler>) const
 		using namespace MagickCore;
 #else
 		using namespace MagickLib;
-#endif		
+#endif
 		magick_image->write (0, i, size.width, 1, "RGB", CharPixel, p);
 		p += _image->stride()[0];
 	}
@@ -144,6 +144,6 @@ MagickImageProxy::same (shared_ptr<const ImageProxy> other) const
 	if (_blob.length() != mp->_blob.length()) {
 		return false;
 	}
-	
+
 	return memcmp (_blob.data(), mp->_blob.data(), _blob.length()) == 0;
 }

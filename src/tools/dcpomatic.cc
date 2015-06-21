@@ -113,7 +113,7 @@ public:
 private:
 	/* Not defined */
 	FilmChangedDialog (FilmChangedDialog const &);
-	
+
 	wxMessageDialog* _dialog;
 };
 
@@ -124,7 +124,7 @@ private:
 #define NEEDS_SELECTED_VIDEO_CONTENT 0x8
 
 map<wxMenuItem*, int> menu_items;
-	
+
 enum {
 	ID_file_new = 1,
 	ID_file_open,
@@ -163,13 +163,13 @@ public:
 #if defined(DCPOMATIC_WINDOWS)
 		if (Config::instance()->win32_console ()) {
 			AllocConsole();
-			
+
 			HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
 			int hCrt = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
 			FILE* hf_out = _fdopen(hCrt, "w");
 			setvbuf(hf_out, NULL, _IONBF, 1);
 			*stdout = *hf_out;
-			
+
 			HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
 			hCrt = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
 			FILE* hf_in = _fdopen(hCrt, "r");
@@ -257,7 +257,7 @@ public:
 	try
 	{
 		maybe_save_then_delete_film ();
-		
+
 		shared_ptr<Film> film (new Film (file));
 		list<string> const notes = film->read_metadata ();
 
@@ -268,11 +268,11 @@ public:
 				  "in this version.  Please check the film's settings carefully.")
 				);
 		}
-		
+
 		for (list<string>::const_iterator i = notes.begin(); i != notes.end(); ++i) {
 			error_dialog (0, std_to_wx (*i));
 		}
-		
+
 		set_film (film);
 	}
 	catch (std::exception& e) {
@@ -293,7 +293,7 @@ public:
 	shared_ptr<Film> film () const {
 		return _film;
 	}
-	
+
 private:
 
 	void file_changed (boost::filesystem::path f)
@@ -302,15 +302,15 @@ private:
 		if (!f.empty ()) {
 			s += " - " + f.string ();
 		}
-		
+
 		SetTitle (std_to_wx (s));
 	}
-	
+
 	void file_new ()
 	{
 		NewFilmDialog* d = new NewFilmDialog (this);
 		int const r = d->ShowModal ();
-		
+
 		if (r == wxID_OK) {
 
 			if (boost::filesystem::is_directory (d->get_path()) && !boost::filesystem::is_empty(d->get_path())) {
@@ -331,11 +331,11 @@ private:
 					);
 				return;
 			}
-			
+
 			maybe_save_then_delete_film ();
 			new_film (d->get_path ());
 		}
-		
+
 		d->Destroy ();
 	}
 
@@ -347,7 +347,7 @@ private:
 			std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()),
 			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
 			);
-		
+
 		int r;
 		while (true) {
 			r = c->ShowModal ();
@@ -357,7 +357,7 @@ private:
 				break;
 			}
 		}
-			
+
 		if (r == wxID_OK) {
 			load_film (wx_to_std (c->GetPath ()));
 		}
@@ -385,7 +385,7 @@ private:
 			load_film (history[n]);
 		}
 	}
-	
+
 	void file_exit ()
 	{
 		/* false here allows the close handler to veto the close request */
@@ -441,7 +441,7 @@ private:
 		if (!_film) {
 			return;
 		}
-		
+
 		KDMDialog* d = new KDMDialog (this, _film);
 		if (d->ShowModal () != wxID_OK) {
 			d->Destroy ();
@@ -463,7 +463,7 @@ private:
 		} catch (...) {
 			error_dialog (this, _("An unknown exception occurred."));
 		}
-	
+
 		d->Destroy ();
 	}
 
@@ -482,7 +482,7 @@ private:
 			(*i)->scale_and_crop_to_fit_height ();
 		}
 	}
-	
+
 	void jobs_send_dcp_to_tms ()
 	{
 		_film->send_dcp_to_tms ();
@@ -512,14 +512,14 @@ private:
 				}
 			}
 		}
-#endif		
+#endif
 
 #ifdef DCPOMATIC_OSX
 		int r = system (string ("open -R " + _film->dir (_film->dcp_name (false)).string ()).c_str ());
 		if (WEXITSTATUS (r)) {
 			error_dialog (this, _("Could not show DCP"));
 		}
-#endif		       
+#endif
 	}
 
 	void tools_hints ()
@@ -578,7 +578,7 @@ private:
 		d->Destroy ();
 		return r;
 	}
-		
+
 	void close (wxCloseEvent& ev)
 	{
 		if (!should_close ()) {
@@ -591,7 +591,7 @@ private:
 		   now (without, as far as I can see, any way for us to find out).
 		*/
 		_config_changed_connection.disconnect ();
-		
+
 		maybe_save_then_delete_film ();
 		ev.Skip ();
 	}
@@ -606,27 +606,27 @@ private:
 		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
 		bool const have_cpl = _film && !_film->cpls().empty ();
 		bool const have_selected_video_content = !_film_editor->content_panel()->selected_video().empty();
-		
+
 		for (map<wxMenuItem*, int>::iterator j = menu_items.begin(); j != menu_items.end(); ++j) {
-			
+
 			bool enabled = true;
-			
+
 			if ((j->second & NEEDS_FILM) && !_film) {
 				enabled = false;
 			}
-			
+
 			if ((j->second & NOT_DURING_DCP_CREATION) && dcp_creation) {
 				enabled = false;
 			}
-			
+
 			if ((j->second & NEEDS_CPL) && !have_cpl) {
 				enabled = false;
 			}
-			
+
 			if ((j->second & NEEDS_SELECTED_VIDEO_CONTENT) && !have_selected_video_content) {
 				enabled = false;
 			}
-			
+
 			j->first->Enable (enabled);
 		}
 	}
@@ -636,7 +636,7 @@ private:
 		if (!_film) {
 			return;
 		}
-		
+
 		if (_film->dirty ()) {
 			FilmChangedDialog d (_film->name ());
 			switch (d.run ()) {
@@ -647,7 +647,7 @@ private:
 				break;
 			}
 		}
-		
+
 		_film.reset ();
 	}
 
@@ -656,7 +656,7 @@ private:
 		wxMenuItem* item = menu->Append (id, text);
 		menu_items.insert (make_pair (item, sens));
 	}
-	
+
 	void setup_menu (wxMenuBar* m)
 	{
 		_file_menu = new wxMenu;
@@ -669,17 +669,17 @@ private:
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
-#ifndef __WXOSX__	
+#ifndef __WXOSX__
 		_file_menu->AppendSeparator ();
 #endif
-	
-#ifdef __WXOSX__	
+
+#ifdef __WXOSX__
 		add_item (_file_menu, _("&Exit"), wxID_EXIT, ALWAYS);
 #else
 		add_item (_file_menu, _("&Quit"), wxID_EXIT, ALWAYS);
-#endif	
-	
-#ifdef __WXOSX__	
+#endif
+
+#ifdef __WXOSX__
 		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #else
 		wxMenu* edit = new wxMenu;
@@ -689,7 +689,7 @@ private:
 		wxMenu* content = new wxMenu;
 		add_item (content, _("Scale to fit &width"), ID_content_scale_to_fit_width, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
 		add_item (content, _("Scale to fit &height"), ID_content_scale_to_fit_height, NEEDS_FILM | NEEDS_SELECTED_VIDEO_CONTENT);
-		
+
 		wxMenu* jobs_menu = new wxMenu;
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
@@ -702,17 +702,17 @@ private:
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
 		tools->AppendSeparator ();
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
-		
+
 		wxMenu* help = new wxMenu;
-#ifdef __WXOSX__	
+#ifdef __WXOSX__
 		add_item (help, _("About DCP-o-matic"), wxID_ABOUT, ALWAYS);
-#else	
+#else
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
-#endif	
+#endif
 		add_item (help, _("Report a problem..."), ID_help_report_a_problem, ALWAYS);
-		
+
 		m->Append (_file_menu, _("&File"));
-#ifndef __WXOSX__	
+#ifndef __WXOSX__
 		m->Append (edit, _("&Edit"));
 #endif
 		m->Append (content, _("&Content"));
@@ -732,15 +732,15 @@ private:
 		}
 		delete _history_separator;
 		_history_separator = 0;
-		
+
 		int pos = _history_position;
-		
+
 		vector<boost::filesystem::path> history = Config::instance()->history ();
-		
+
 		if (!history.empty ()) {
 			_history_separator = _file_menu->InsertSeparator (pos++);
 		}
-		
+
 		for (size_t i = 0; i < history.size(); ++i) {
 			SafeStringStream s;
 			if (i < 9) {
@@ -752,7 +752,7 @@ private:
 
 		_history_items = history.size ();
 	}
-	
+
 	FilmEditor* _film_editor;
 	FilmViewer* _film_viewer;
 	HintsDialog* _hints_dialog;
@@ -784,26 +784,26 @@ public:
 		, _frame (0)
 	{}
 
-private:	
-		
+private:
+
 	bool OnInit ()
 	try
 	{
 		SetAppName (_("DCP-o-matic"));
-		
+
 		if (!wxApp::OnInit()) {
 			return false;
 		}
-		
-#ifdef DCPOMATIC_LINUX	
+
+#ifdef DCPOMATIC_LINUX
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
-#ifdef __WXOSX__		
+#ifdef __WXOSX__
 		ProcessSerialNumber serial;
 		GetCurrentProcess (&serial);
 		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
-#endif		
+#endif
 
 		wxInitAllImageHandlers ();
 
@@ -905,7 +905,7 @@ private:
 		/* This will terminate the program */
 		return false;
 	}
-	
+
 	void OnUnhandledException ()
 	{
 		error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);

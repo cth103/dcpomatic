@@ -59,11 +59,11 @@ public:
 	Eyes eyes () const;
 
 	bool same (boost::shared_ptr<const DCPVideo> other) const;
-	
+
 private:
 
 	void add_metadata (xmlpp::Element *) const;
-	
+
 	boost::shared_ptr<const PlayerVideo> _frame;
 	int _index;			 ///< frame index within the DCP's intrinsic duration
 	int _frames_per_second;		 ///< Frames per second that we will use for the DCP

@@ -37,13 +37,13 @@ dcpomatic::Rect<int>
 TimelineContentView::bbox () const
 {
 	DCPOMATIC_ASSERT (_track);
-	
+
 	shared_ptr<const Film> film = _timeline.film ();
 	shared_ptr<const Content> content = _content.lock ();
 	if (!film || !content) {
 		return dcpomatic::Rect<int> ();
 	}
-	
+
 	return dcpomatic::Rect<int> (
 		time_x (content->position ()) - 8,
 		y_pos (_track.get()) - 8,
@@ -93,18 +93,18 @@ void
 TimelineContentView::do_paint (wxGraphicsContext* gc)
 {
 	DCPOMATIC_ASSERT (_track);
-	
+
 	shared_ptr<const Film> film = _timeline.film ();
 	shared_ptr<const Content> cont = content ();
 	if (!film || !cont) {
 		return;
 	}
-	
+
 	DCPTime const position = cont->position ();
 	DCPTime const len = cont->length_after_trim ();
-	
+
 	wxColour selected (background_colour().Red() / 2, background_colour().Green() / 2, background_colour().Blue() / 2);
-	
+
 	gc->SetPen (*wxThePenList->FindOrCreatePen (foreground_colour(), 4, wxPENSTYLE_SOLID));
 	if (_selected) {
 		gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (selected, wxBRUSHSTYLE_SOLID));
@@ -120,14 +120,14 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 	path.AddLineToPoint (time_x (position),	      y_pos (_track.get()) + 4);
 	gc->StrokePath (path);
 	gc->FillPath (path);
-	
+
 	wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->summary()).data(), type().data());
 	wxDouble name_width;
 	wxDouble name_height;
 	wxDouble name_descent;
 	wxDouble name_leading;
 	gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
-	
+
 	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.track_height()));
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, foreground_colour ()));
 	gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
@@ -144,11 +144,11 @@ void
 TimelineContentView::content_changed (int p, bool frequent)
 {
 	ensure_ui_thread ();
-	
+
 	if (p == ContentProperty::POSITION || p == ContentProperty::LENGTH) {
 		force_redraw ();
 	}
-	
+
 	if (!frequent) {
 		_timeline.setup_pixels_per_second ();
 		_timeline.Refresh ();

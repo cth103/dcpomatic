@@ -105,7 +105,7 @@ public:
 
 	uint64_t required_disk_space () const;
 	bool should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const;
-	
+
 	/* Proxies for some Playlist methods */
 
 	ContentList content () const;
@@ -121,7 +121,7 @@ public:
 		dcp::LocalTime until,
 		dcp::Formulation formulation
 		) const;
-	
+
 	std::list<dcp::EncryptedKDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path cpl_file,
@@ -140,7 +140,7 @@ public:
 	std::vector<std::string> audio_output_names () const;
 
 	void repeat_content (ContentList, int);
-	
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -200,7 +200,7 @@ public:
 	bool is_signed () const {
 		return _signed;
 	}
-	
+
 	bool encrypted () const {
 		return _encrypted;
 	}
@@ -245,7 +245,7 @@ public:
 	AudioProcessor const * audio_processor () const {
 		return _audio_processor;
 	}
-	
+
 
 	/* SET */
 
@@ -304,7 +304,7 @@ private:
 	 *  must not be relative.
 	 */
 	boost::filesystem::path _directory;
-	
+
 	/** Name for DCP-o-matic */
 	std::string _name;
 	/** True if a auto-generated ISDCF-compliant name should be used for our DCP */

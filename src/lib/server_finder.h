@@ -51,7 +51,7 @@ private:
 	boost::signals2::signal<void (ServerDescription)> ServerFound;
 
 	bool _disabled;
-	
+
 	/** Thread to periodically issue broadcasts to find encoding servers */
 	boost::thread* _broadcast_thread;
 	/** Thread to listen to the responses from servers */

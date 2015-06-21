@@ -30,7 +30,7 @@ public:
 
 private:
 	void film_changed ();
-	
+
 	boost::weak_ptr<Film> _film;
 	wxRichTextCtrl* _text;
 

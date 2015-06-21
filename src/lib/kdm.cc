@@ -42,7 +42,7 @@ struct ScreenKDM
 		: screen (s)
 		, kdm (k)
 	{}
-	
+
 	shared_ptr<Screen> screen;
 	dcp::EncryptedKDM kdm;
 };
@@ -68,23 +68,23 @@ struct CinemaKDMs
 			}
 			throw FileError ("could not create ZIP file", zip_file);
 		}
-		
+
 		list<shared_ptr<string> > kdm_strings;
-		
+
 		for (list<ScreenKDM>::const_iterator i = screen_kdms.begin(); i != screen_kdms.end(); ++i) {
 			shared_ptr<string> kdm (new string (i->kdm.as_xml ()));
 			kdm_strings.push_back (kdm);
-			
+
 			struct zip_source* source = zip_source_buffer (zip, kdm->c_str(), kdm->length(), 0);
 			if (!source) {
 				throw StringError ("could not create ZIP source");
 			}
-			
+
 			if (zip_add (zip, kdm_filename (film, *i).c_str(), source) == -1) {
 				throw StringError ("failed to add KDM to ZIP archive");
 			}
 		}
-		
+
 		if (zip_close (zip) == -1) {
 			throw StringError ("failed to close ZIP archive");
 		}
@@ -111,9 +111,9 @@ make_screen_kdms (
 	)
 {
 	list<dcp::EncryptedKDM> kdms = film->make_kdms (screens, cpl, from, to, formulation);
-	   
+
 	list<ScreenKDM> screen_kdms;
-	
+
 	list<shared_ptr<Screen> >::iterator i = screens.begin ();
 	list<dcp::EncryptedKDM>::iterator j = kdms.begin ();
 	while (i != screens.end() && j != kdms.end ()) {
@@ -139,18 +139,18 @@ make_cinema_kdms (
 	list<CinemaKDMs> cinema_kdms;
 
 	while (!screen_kdms.empty ()) {
-		
+
 		/* Get all the screens from a single cinema */
 
 		CinemaKDMs ck;
-		
+
 		list<ScreenKDM>::iterator i = screen_kdms.begin ();
 		ck.cinema = i->screen->cinema;
 		ck.screen_kdms.push_back (*i);
 		list<ScreenKDM>::iterator j = i;
 		++i;
 		screen_kdms.remove (*j);
-		
+
 		while (i != screen_kdms.end ()) {
 			if (i->screen->cinema == ck.cinema) {
 				ck.screen_kdms.push_back (*i);
@@ -225,27 +225,27 @@ email_kdms (
 	list<CinemaKDMs> cinema_kdms = make_cinema_kdms (film, screens, cpl, from, to, formulation);
 
 	for (list<CinemaKDMs>::const_iterator i = cinema_kdms.begin(); i != cinema_kdms.end(); ++i) {
-		
+
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 		zip_file /= boost::filesystem::unique_path().string() + ".zip";
 		i->make_zip_file (film, zip_file);
-		
+
 		/* Send email */
-		
+
 		quickmail_initialize ();
 
 		SafeStringStream start;
 		start << from.date() << " " << from.time_of_day();
 		SafeStringStream end;
 		end << to.date() << " " << to.time_of_day();
-		
+
 		string subject = Config::instance()->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", film->dcp_name ());
 		boost::algorithm::replace_all (subject, "$START_TIME", start.str ());
 		boost::algorithm::replace_all (subject, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i->cinema->name);
 		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), subject.c_str ());
-		
+
 		quickmail_add_to (mail, i->cinema->email.c_str ());
 		if (!Config::instance()->kdm_cc().empty ()) {
 			quickmail_add_cc (mail, Config::instance()->kdm_cc().c_str ());
@@ -255,13 +255,13 @@ email_kdms (
 		}
 
 		quickmail_add_header (mail, "Content-Type: text/plain; charset=UTF-8");
-		
+
 		string body = Config::instance()->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());
 		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i->cinema->name);
-		
+
 		SafeStringStream screens;
 		for (list<ScreenKDM>::const_iterator j = i->screen_kdms.begin(); j != i->screen_kdms.end(); ++j) {
 			screens << j->screen->name << ", ";
@@ -280,7 +280,7 @@ email_kdms (
 			Config::instance()->mail_user().c_str(),
 			Config::instance()->mail_password().c_str()
 			);
-		
+
 		if (error) {
 			quickmail_destroy (mail);
 			throw KDMError (String::compose ("Failed to send KDM email (%1)", error));

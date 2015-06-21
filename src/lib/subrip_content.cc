@@ -56,7 +56,7 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	
+
 	DCPTime len (s.length (), film->active_frame_rate_change (position ()));
 
 	/* Default to turning these subtitles on */

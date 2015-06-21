@@ -55,26 +55,26 @@ public:
 		gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 		table->Insert (n, gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		++n;
-	
+
 		_cancel = new wxButton (panel, wxID_ANY, _("Cancel"));
 		_cancel->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::cancel_clicked, this);
 		table->Insert (n, _cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 		++n;
-	
+
 		_pause = new wxButton (_panel, wxID_ANY, _("Pause"));
 		_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::pause_clicked, this);
 		table->Insert (n, _pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 		++n;
-	
+
 		_details = new wxButton (_panel, wxID_ANY, _("Details..."));
 		_details->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::details_clicked, this);
 		_details->Enable (false);
 		table->Insert (n, _details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 		++n;
-	
+
 		_progress_connection = job->Progress.connect (boost::bind (&JobRecord::progress, this));
 		_finished_connection = job->Finished.connect (boost::bind (&JobRecord::finished, this));
-	
+
 		table->Layout ();
 	}
 
@@ -106,11 +106,11 @@ private:
 	void finished ()
 	{
 		progress ();
-		
+
 		if (!_job->finished_cancelled ()) {
 			_gauge->SetValue (100);
 		}
-		
+
 		_cancel->Enable (false);
 		_pause->Enable (false);
 		if (!_job->error_details().empty ()) {
@@ -124,7 +124,7 @@ private:
 		s[0] = toupper (s[0]);
 		error_dialog (_window, std_to_wx (String::compose ("%1.\n\n%2", s, _job->error_details())));
 	}
-	
+
 	void cancel_clicked (wxCommandEvent &)
 	{
 		_job->cancel ();
@@ -140,7 +140,7 @@ private:
 			_pause->SetLabel (_("Resume"));
 		}
 	}
-	
+
 	boost::shared_ptr<Job> _job;
 	wxScrolledWindow* _window;
 	wxPanel* _panel;

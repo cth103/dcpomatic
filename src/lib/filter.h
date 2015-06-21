@@ -54,11 +54,11 @@ public:
 	std::string vf () const {
 		return _vf;
 	}
-	
+
 	std::string category () const {
 		return _category;
 	}
-	
+
 	static std::vector<Filter const *> all ();
 	static Filter const * from_id (std::string);
 	static void setup_filters ();

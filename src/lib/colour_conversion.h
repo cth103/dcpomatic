@@ -59,7 +59,7 @@ public:
 	std::string name;
 	/** an internal short (non-internationalised) name for this preset */
 	std::string id;
-	
+
 	static std::vector<PresetColourConversion> all () {
 		return _presets;
 	}
@@ -67,7 +67,7 @@ public:
 	static PresetColourConversion from_id (std::string id);
 
 	static void setup_colour_conversion_presets ();
-	
+
 private:
 	static std::vector<PresetColourConversion> _presets;
 };

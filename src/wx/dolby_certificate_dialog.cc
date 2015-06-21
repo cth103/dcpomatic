@@ -39,7 +39,7 @@ DolbyCertificateDialog::DolbyCertificateDialog (wxWindow* parent, boost::functio
 	add (_("Country"), true);
 	_country = add (new wxChoice (this, wxID_ANY));
 	_country->Append (N_("Hashemite Kingdom of Jordan"));
-	
+
 	add (_("Cinema"), true);
 	_cinema = add (new wxChoice (this, wxID_ANY));
 	_cinema->Append (N_("Motion Picture Solutions London Mobile & QC"));
@@ -72,7 +72,7 @@ DolbyCertificateDialog::setup_countries ()
 		/* Already set up */
 		return;
 	}
-	
+
 	_country->Append (_("Fetching..."));
 	_country->SetSelection (0);
 
@@ -102,7 +102,7 @@ DolbyCertificateDialog::country_selected ()
 
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
-#endif	
+#endif
 	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
 }
 

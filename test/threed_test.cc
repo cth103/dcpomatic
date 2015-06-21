@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (threed_test)
 	wait_for_jobs ();
 
 	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	
+
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->set_three_d (true);

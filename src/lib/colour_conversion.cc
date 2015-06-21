@@ -45,13 +45,13 @@ vector<PresetColourConversion> PresetColourConversion::_presets;
 ColourConversion::ColourConversion ()
 	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz ())
 {
-	
+
 }
 
 ColourConversion::ColourConversion (dcp::ColourConversion conversion_)
 	: dcp::ColourConversion (conversion_)
 {
-	
+
 }
 
 ColourConversion::ColourConversion (cxml::NodePtr node, int version)
@@ -78,7 +78,7 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 	} else {
 
 		/* Version 1.x */
-		
+
 		if (node->bool_child ("InputGammaLinearised")) {
 			_in.reset (new dcp::ModifiedGammaTransferFunction (node->number_child<float> ("InputGamma"), 0.04045, 0.055, 12.92));
 		} else {
@@ -87,7 +87,7 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 	}
 
 	_yuv_to_rgb = static_cast<dcp::YUVToRGB> (node->optional_number_child<int>("YUVToRGB").get_value_or (dcp::YUV_TO_RGB_REC601));
-	
+
 	list<cxml::NodePtr> m = node->node_children ("Matrix");
 	if (!m.empty ()) {
 		/* Read in old <Matrix> nodes and convert them to chromaticities */
@@ -117,8 +117,8 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 				node->number_child<double> ("AdjustedWhiteX"), node->number_child<double> ("AdjustedWhiteY")
 				);
 		}
-	}	
-	
+	}
+
 	_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
 }
 
@@ -212,7 +212,7 @@ ColourConversion::identifier () const
 	}
 
 	digester.add (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ());
-	
+
 	return digester.get ();
 }
 

@@ -49,7 +49,7 @@ private:
 	void set_spin_ctrl (wxSpinCtrlDouble *, double);
 
 	std::map<wxSpinCtrlDouble*, double> _last_spin_ctrl_value;
-	
+
 	wxSpinCtrlDouble* _input_gamma;
 	wxSpinCtrlDouble* _input_power;
 	wxTextCtrl* _input_threshold;

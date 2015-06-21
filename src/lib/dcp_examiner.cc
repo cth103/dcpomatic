@@ -83,7 +83,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 
 			_video_length += (*i)->main_picture()->duration();
 		}
-			
+
 		if ((*i)->main_sound ()) {
 			shared_ptr<dcp::SoundAsset> asset = (*i)->main_sound()->asset ();
 
@@ -109,20 +109,20 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 
 	_encrypted = dcp.encrypted ();
 	_kdm_valid = true;
-	
+
 	/* Check that we can read the first picture frame */
 	try {
 		if (!dcp.cpls().empty () && !dcp.cpls().front()->reels().empty ()) {
 			shared_ptr<dcp::PictureAsset> asset = dcp.cpls().front()->reels().front()->main_picture()->asset ();
 			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
 			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
-			
+
 			if (mono) {
 				mono->get_frame(0)->xyz_image ();
 			} else {
 				stereo->get_frame(0)->xyz_image (dcp::EYE_LEFT);
 			}
-			
+
 		}
 	} catch (dcp::DCPReadError& e) {
 		_kdm_valid = false;

@@ -42,9 +42,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
-	
+
 	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	
+
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->make_dcp ();
@@ -70,6 +70,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 	if (i != boost::filesystem::directory_iterator ()) {
 		boost::filesystem::remove (i->path ());
 	}
-	
+
 	BOOST_CHECK (film->cpls().empty());
 }

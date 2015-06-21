@@ -119,7 +119,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 		_scale = VideoContentScale (node->node_child ("Scale"));
 	}
 
-	
+
 	if (node->optional_node_child ("ColourConversion")) {
 		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"), version);
 	}
@@ -168,7 +168,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, vector<shared_ptr<Conte
 		if (vc->fade_in() != ref->fade_in() || vc->fade_out() != ref->fade_out()) {
 			throw JoinError (_("Content to be joined must have the same fades."));
 		}
-		
+
 		_video_length += vc->video_length ();
 	}
 
@@ -239,7 +239,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length);
 
 	set_default_colour_conversion ();
-	
+
 	signal_changed (VideoContentProperty::VIDEO_SIZE);
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 	signal_changed (VideoContentProperty::VIDEO_SCALE);
@@ -251,14 +251,14 @@ VideoContent::set_left_crop (int c)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		
+
 		if (_crop.left == c) {
 			return;
 		}
-		
+
 		_crop.left = c;
 	}
-	
+
 	signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
@@ -270,10 +270,10 @@ VideoContent::set_right_crop (int c)
 		if (_crop.right == c) {
 			return;
 		}
-		
+
 		_crop.right = c;
 	}
-	
+
 	signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
@@ -285,10 +285,10 @@ VideoContent::set_top_crop (int c)
 		if (_crop.top == c) {
 			return;
 		}
-		
+
 		_crop.top = c;
 	}
-	
+
 	signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
@@ -300,7 +300,7 @@ VideoContent::set_bottom_crop (int c)
 		if (_crop.bottom == c) {
 			return;
 		}
-		
+
 		_crop.bottom = c;
 	}
 
@@ -478,10 +478,10 @@ VideoContent::set_video_frame_rate (float r)
 		if (_video_frame_rate == r) {
 			return;
 		}
-		
+
 		_video_frame_rate = r;
 	}
-	
+
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
@@ -489,7 +489,7 @@ optional<float>
 VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
-	
+
 	if (f < fade_in()) {
 		return float (f) / fade_in();
 	}
@@ -550,7 +550,7 @@ VideoContent::processing_description () const
 
 		d << " (" << fixed << setprecision(2) << scaled.ratio() << ":1)\n";
 	}
-	
+
 	if (scaled != container_size) {
 		d << String::compose (
 			_("Padded with black to fit container %1 (%2x%3)"),
@@ -563,7 +563,7 @@ VideoContent::processing_description () const
 
 	d << _("Content frame rate");
 	d << " " << fixed << setprecision(4) << video_frame_rate() << "\n";
-	
+
 	FrameRateChange frc (video_frame_rate(), film->video_frame_rate ());
 	d << frc.description () << "\n";
 

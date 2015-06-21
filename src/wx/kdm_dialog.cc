@@ -60,7 +60,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("Screens"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
-	
+
 	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS);
 	targets->Add (_targets, 1, wxEXPAND | wxTOP | wxRIGHT, DCPOMATIC_SIZER_GAP);
@@ -82,7 +82,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	target_buttons->Add (_edit_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	_remove_cinema = new wxButton (this, wxID_ANY, _("Remove Cinema"));
 	target_buttons->Add (_remove_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	
+
 	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
 	target_buttons->Add (_add_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
@@ -99,7 +99,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-	
+
 	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("From"), true);
 	wxDateTime from;
@@ -125,7 +125,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	h = new wxStaticText (this, wxID_ANY, _("CPL"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-	
+
 	/* CPL choice */
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (s, this, _("CPL"), true);
@@ -147,16 +147,16 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	_cpl_annotation_text = new wxStaticText (this, wxID_ANY, "");
 	table->Add (_cpl_annotation_text);
 	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
-	
+
 	_cpls = film->cpls ();
 	update_cpl_choice ();
-	
+
 
 	/* Sub-heading: Output */
 	h = new wxStaticText (this, wxID_ANY, _("Output"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-	
+
 	table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 
 	add_label_to_sizer (table, this, _("KDM type"), true);
@@ -173,19 +173,19 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	table->Add (_write_to, 1, wxEXPAND);
 
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-	_folder = new DirPickerCtrl (this); 
-#else	
+	_folder = new DirPickerCtrl (this);
+#else
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
 	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
-	
+
 	table->Add (_folder, 1, wxEXPAND);
 
 	_email = new wxRadioButton (this, wxID_ANY, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
-	
+
 	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
 	/* Make an overall sizer to get a nice border, and put some buttons in */
@@ -265,10 +265,10 @@ KDMDialog::setup_sensitivity ()
 	bool const sc = selected_cinemas().size() == 1;
 	bool const ss = selected_screens().size() == 1;
 	bool const sd = _cpl->GetSelection() != -1;
-	
+
 	_edit_cinema->Enable (sc);
 	_remove_cinema->Enable (sc);
-	
+
 	_add_screen->Enable (sc);
 	_edit_screen->Enable (ss);
 	_remove_screen->Enable (ss);
@@ -328,7 +328,7 @@ KDMDialog::edit_cinema_clicked ()
 	}
 
 	pair<wxTreeItemId, shared_ptr<Cinema> > c = selected_cinemas().front();
-	
+
 	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->email);
 	if (d->ShowModal () == wxID_OK) {
 		c.second->name = d->name ();
@@ -337,7 +337,7 @@ KDMDialog::edit_cinema_clicked ()
 		Config::instance()->changed ();
 	}
 
-	d->Destroy ();	
+	d->Destroy ();
 }
 
 void
@@ -361,7 +361,7 @@ KDMDialog::add_screen_clicked ()
 	}
 
 	shared_ptr<Cinema> c = selected_cinemas().front().second;
-	
+
 	ScreenDialog* d = new ScreenDialog (this, "Add Screen");
 	if (d->ShowModal () != wxID_OK) {
 		return;
@@ -384,7 +384,7 @@ KDMDialog::edit_screen_clicked ()
 	}
 
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
-	
+
 	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->certificate);
 	if (d->ShowModal () == wxID_OK) {
 		s.second->name = d->name ();
@@ -500,7 +500,7 @@ void
 KDMDialog::update_cpl_choice ()
 {
 	_cpl->Clear ();
-	
+
 	for (vector<CPLSummary>::const_iterator i = _cpls.begin(); i != _cpls.end(); ++i) {
 		_cpl->Append (std_to_wx (i->cpl_id));
 
@@ -556,7 +556,7 @@ KDMDialog::cpl_browse_clicked ()
 		error_dialog (this, _("This is not a valid CPL file"));
 		return;
 	}
-	
+
 	update_cpl_choice ();
 	_cpl->SetSelection (_cpls.size() - 1);
 	update_cpl_summary ();

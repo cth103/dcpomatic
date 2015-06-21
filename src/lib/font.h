@@ -51,7 +51,7 @@ public:
 
 	boost::signals2::signal<void()> Changed;
 
-private:	
+private:
 	/** Font ID, used to describe it in the subtitle content */
 	std::string _id;
 	boost::optional<boost::filesystem::path> _file;

@@ -54,7 +54,7 @@ public:
 	virtual std::string identifier () const;
 
 	virtual void set_default_colour_conversion ();
-	
+
 	Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;
@@ -65,7 +65,7 @@ public:
 		if (_video_frame_type == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			return _video_length / 2;
 		}
-		
+
 		return _video_length;
 	}
 
@@ -73,7 +73,7 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_size;
 	}
-	
+
 	float video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_rate;
@@ -93,7 +93,7 @@ public:
 
 	void set_fade_in (Frame);
 	void set_fade_out (Frame);
-	
+
 	VideoFrameType video_frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_type;
@@ -149,7 +149,7 @@ public:
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_out;
 	}
-	
+
 	dcp::Size video_size_after_3d_split () const;
 	dcp::Size video_size_after_crop () const;
 
@@ -176,7 +176,7 @@ private:
 	friend struct audio_sampling_rate_test;
 
 	void setup_default_colour_conversion ();
-	
+
 	dcp::Size _video_size;
 	VideoFrameType _video_frame_type;
 	Crop _crop;

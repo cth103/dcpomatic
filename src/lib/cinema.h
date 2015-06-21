@@ -44,7 +44,7 @@ public:
 	Screen (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Element *) const;
-	
+
 	boost::shared_ptr<Cinema> cinema;
 	std::string name;
 	boost::optional<dcp::Certificate> certificate;
@@ -72,13 +72,13 @@ public:
 
 	void add_screen (boost::shared_ptr<Screen>);
 	void remove_screen (boost::shared_ptr<Screen>);
-	
+
 	std::string name;
 	std::string email;
 	std::list<boost::shared_ptr<Screen> > screens () const {
 		return _screens;
 	}
 
-private:	
+private:
 	std::list<boost::shared_ptr<Screen> > _screens;
 };

@@ -27,7 +27,7 @@ public:
 
 	std::string name () const;
 	std::string email () const;
-	
+
 private:
 	wxTextCtrl* _name;
 	wxTextCtrl* _email;

@@ -50,7 +50,7 @@ public:
 	std::string name () const {
 		return _name;
 	}
-	
+
 	static std::vector<CinemaSoundProcessor const *> all ();
 	static void setup_cinema_sound_processors ();
 	static CinemaSoundProcessor const * from_id (std::string id);

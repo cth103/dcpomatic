@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
 	film->add_content (content);
 	wait_for_jobs ();
-	
+
 	/* Run some tests with a limited range of allowed rates */
-	
+
 	std::list<int> afr;
 	afr.push_back (24);
 	afr.push_back (25);
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_EQUAL (frc.repeat, 1);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 	BOOST_CHECK_CLOSE (frc.speed_up, 1, 0.1);
-	
+
 	content->_video_frame_rate = 50;
 	best = film->best_video_frame_rate ();
 	frc = FrameRateChange (50, best);
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_EQUAL (frc.repeat, 1);
 	BOOST_CHECK_EQUAL (frc.change_speed, true);
 	BOOST_CHECK_CLOSE (frc.speed_up, 30 / 29.97, 0.1);
-	
+
 	content->_video_frame_rate = 25;
 	best = film->best_video_frame_rate ();
 	frc = FrameRateChange (25, best);
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_EQUAL (frc.repeat, 1);
 	BOOST_CHECK_EQUAL (frc.change_speed, false);
 	BOOST_CHECK_CLOSE (frc.speed_up, 1, 0.1);
-	
+
 	content->_video_frame_rate = 50;
 	best = film->best_video_frame_rate ();
 	frc = FrameRateChange (50, best);
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	BOOST_CHECK_CLOSE (frc.speed_up, 1, 0.1);
 
 	/* Check some out-there conversions (not the best) */
-	
+
 	frc = FrameRateChange (14.99, 24);
 	BOOST_CHECK_EQUAL (frc.skip, false);
 	BOOST_CHECK_EQUAL (frc.repeat, 2);
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 	wait_for_jobs ();
 
 	/* Run some tests with a limited range of allowed rates */
-	
+
 	std::list<int> afr;
 	afr.push_back (24);
 	afr.push_back (25);
@@ -244,7 +244,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	
+
 	std::list<int> afr;
 	afr.push_back (24);
 	afr.push_back (25);
@@ -286,7 +286,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), 50000);
 
 	/* Check some out-there conversions (not the best) */
-	
+
 	content->_video_frame_rate = 14.99;
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 16000;

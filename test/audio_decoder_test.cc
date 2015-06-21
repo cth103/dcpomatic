@@ -49,7 +49,7 @@ public:
 	DCPTime full_length () const {
 		return DCPTime::from_seconds (float (audio_length()) / audio_stream()->frame_rate ());
 	}
-	
+
 	Frame audio_length () const {
 		return rint (61.2942 * audio_stream()->frame_rate ());
 	}
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 
 	content.reset (new TestAudioContent (film));
 	decoder.reset (new TestAudioDecoder (content));
-	
+
 	/* Simple reads */
 	check (0, 48000);
 	check (44, 9123);
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 	Frame const from = content->resampled_audio_frame_rate() * 61;
 	Frame const length = content->resampled_audio_frame_rate() * 4;
 	ContentAudio ca = get (from, length);
-	
+
 	for (int i = 0; i < content->audio_stream()->channels(); ++i) {
 		for (int j = 0; j < ca.audio->frames(); ++j) {
 			BOOST_REQUIRE_EQUAL (ca.audio->data(i)[j], j + from);

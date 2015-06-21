@@ -112,7 +112,7 @@ J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 	} else {
 		dcp::xyz_to_rgb (oj, dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
 	}
-	
+
 	return image;
 }
 

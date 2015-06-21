@@ -59,7 +59,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	}
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path)); 
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
@@ -73,7 +73,7 @@ test (boost::filesystem::path file, vector<int> frames)
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 {
 	vector<int> frames;
-	
+
 	frames.clear ();
 	frames.push_back (0);
 	frames.push_back (42);
@@ -82,13 +82,13 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 
 	test ("boon_telly.mkv", frames);
 	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", frames);
-	
+
 	frames.clear ();
 	frames.push_back (15);
 	frames.push_back (42);
 	frames.push_back (999);
 	frames.push_back (15);
-	
+
 	test ("prophet_clip.mkv", frames);
 }
 

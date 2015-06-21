@@ -30,7 +30,7 @@ public:
 private:
 	void key_changed ();
 	void random ();
-	
+
 	wxTextCtrl* _key;
 	wxButton* _random;
 };

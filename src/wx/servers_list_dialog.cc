@@ -31,7 +31,7 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 {
 	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 	SetSizer (s);
-	
+
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 	{
@@ -60,7 +60,7 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 	SetSizer (s);
 	s->Layout ();
 	s->SetSizeHints (this);
-	
+
 	_server_finder_connection = ServerFinder::instance()->connect (boost::bind (&ServersListDialog::server_found, this, _1));
 }
 

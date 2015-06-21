@@ -40,7 +40,7 @@ private:
 	boost::optional<int> extract_number (boost::filesystem::path p)
 	{
 		p = p.leaf ();
-		
+
 		std::string number;
 		for (size_t i = 0; i < p.string().size(); ++i) {
 			if (isdigit (p.string()[i])) {

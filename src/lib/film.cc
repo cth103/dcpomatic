@@ -137,11 +137,11 @@ Film::Film (boost::filesystem::path dir, bool log)
 
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Film::playlist_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2, _3));
-	
+
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
 	*/
-	
+
 	boost::filesystem::path p (boost::filesystem::system_complete (dir));
 	boost::filesystem::path result;
 	for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
@@ -171,7 +171,7 @@ Film::~Film ()
 	for (list<boost::signals2::connection>::const_iterator i = _job_connections.begin(); i != _job_connections.end(); ++i) {
 		i->disconnect ();
 	}
-}	
+}
 
 string
 Film::video_identifier () const
@@ -180,7 +180,7 @@ Film::video_identifier () const
 
 	SafeStringStream s;
 	s.imbue (std::locale::classic ());
-	
+
 	s << container()->id()
 	  << "_" << resolution_to_string (_resolution)
 	  << "_" << _playlist->video_identifier()
@@ -209,7 +209,7 @@ Film::video_identifier () const
 
 	return s.str ();
 }
-	  
+
 /** @return The file to write video frame info to */
 boost::filesystem::path
 Film::info_file () const
@@ -259,7 +259,7 @@ Film::audio_analysis_path () const
 		if (!ac) {
 			continue;
 		}
-		
+
 		digester.add (ac->digest ());
 		digester.add (ac->audio_mapping().digest ());
 		digester.add (ac->audio_gain ());
@@ -278,7 +278,7 @@ void
 Film::make_dcp ()
 {
 	set_isdcf_date_today ();
-	
+
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
@@ -292,7 +292,7 @@ Film::make_dcp ()
 	LOG_GENERAL ("DCP video rate %1 fps", video_frame_rate());
 	LOG_GENERAL ("%1 threads", Config::instance()->num_local_encoding_threads());
 	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
-	
+
 	if (container() == 0) {
 		throw MissingSettingError (_("container"));
 	}
@@ -386,7 +386,7 @@ Film::read_metadata ()
 	if (_state_version > current_state_version) {
 		throw StringError (_("This film was created with a newer version of DCP-o-matic, and it cannot be loaded into this version.  Sorry!"));
 	}
-	
+
 	_name = f.string_child ("Name");
 	if (_state_version >= 9) {
 		_use_isdcf_name = f.bool_child ("UseISDCFName");
@@ -460,9 +460,9 @@ Film::dir (boost::filesystem::path d) const
 	boost::filesystem::path p;
 	p /= _directory;
 	p /= d;
-	
+
 	boost::filesystem::create_directories (p);
-	
+
 	return p;
 }
 
@@ -477,7 +477,7 @@ Film::file (boost::filesystem::path f) const
 	p /= f;
 
 	boost::filesystem::create_directories (p.parent_path ());
-	
+
 	return p;
 }
 
@@ -494,7 +494,7 @@ Film::isdcf_name (bool if_created_now) const
 	split (words, raw_name, is_any_of (" "));
 
 	string fixed_name;
-	
+
 	/* Add each word to fixed_name */
 	for (vector<string>::const_iterator i = words.begin(); i != words.end(); ++i) {
 		string w = *i;
@@ -509,7 +509,7 @@ Film::isdcf_name (bool if_created_now) const
 				++caps;
 			}
 		}
-		
+
 		/* If w is all caps make the rest of it lower case, otherwise
 		   leave it alone.
 		*/
@@ -540,15 +540,15 @@ Film::isdcf_name (bool if_created_now) const
 	if (dm.temp_version) {
 		d << "-Temp";
 	}
-	
+
 	if (dm.pre_release) {
 		d << "-Pre";
 	}
-	
+
 	if (dm.red_band) {
 		d << "-RedBand";
 	}
-	
+
 	if (!dm.chain.empty ()) {
 		d << "-" << dm.chain;
 	}
@@ -568,13 +568,13 @@ Film::isdcf_name (bool if_created_now) const
 	if (video_frame_rate() != 24) {
 		d << "-" << video_frame_rate();
 	}
-	
+
 	if (container()) {
 		d << "_" << container()->isdcf_name();
 	}
 
 	ContentList cl = content ();
-	
+
 	/* XXX: this uses the first bit of content only */
 
 	/* The standard says we don't do this for trailers, for some strange reason */
@@ -592,7 +592,7 @@ Film::isdcf_name (bool if_created_now) const
 				break;
 			}
 		}
-		
+
 		if (content_ratio && content_ratio != container()) {
 			d << "-" << content_ratio->isdcf_name();
 		}
@@ -637,18 +637,18 @@ Film::isdcf_name (bool if_created_now) const
 				copy (c.begin(), c.end(), back_inserter (mapped));
 			}
 		}
-		
+
 		mapped.sort ();
 		mapped.unique ();
-		
+
 		/* Count them */
-		
+
 		for (list<int>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
 			if (*i >= audio_channels()) {
 				/* This channel is mapped but is not included in the DCP */
 				continue;
 			}
-			
+
 			if (static_cast<dcp::Channel> (*i) == dcp::LFE) {
 				++lfe;
 			} else {
@@ -656,7 +656,7 @@ Film::isdcf_name (bool if_created_now) const
 			}
 		}
 	}
-	
+
 	if (non_lfe) {
 		d << "_" << non_lfe << lfe;
 	}
@@ -664,7 +664,7 @@ Film::isdcf_name (bool if_created_now) const
 	/* XXX: HI/VI */
 
 	d << "_" << resolution_to_string (_resolution);
-	
+
 	if (!dm.studio.empty ()) {
 		d << "_" << dm.studio;
 	}
@@ -684,7 +684,7 @@ Film::isdcf_name (bool if_created_now) const
 	} else {
 		d << "_SMPTE";
 	}
-	
+
 	if (three_d ()) {
 		d << "-3D";
 	}
@@ -718,7 +718,7 @@ Film::dcp_name (bool if_created_now) const
 			filtered += unfiltered[i];
 		}
 	}
-	
+
 	return filtered;
 }
 
@@ -863,7 +863,7 @@ Film::j2c_path (int f, Eyes e, bool t) const
 	} else if (e == EYES_RIGHT) {
 		s << ".R";
 	}
-	
+
 	s << ".j2c";
 
 	if (t) {
@@ -879,7 +879,7 @@ vector<CPLSummary>
 Film::cpls () const
 {
 	vector<CPLSummary> out;
-	
+
 	boost::filesystem::path const dir = directory ();
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
 		if (
@@ -903,7 +903,7 @@ Film::cpls () const
 			}
 		}
 	}
-	
+
 	return out;
 }
 
@@ -947,13 +947,13 @@ Film::examine_and_add_content (shared_ptr<Content> c)
 	if (dynamic_pointer_cast<FFmpegContent> (c)) {
 		run_ffprobe (c->path(0), file ("ffprobe.log"), _log);
 	}
-			
+
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
 
 	_job_connections.push_back (
 		j->Finished.connect (bind (&Film::maybe_add_content, this, boost::weak_ptr<Job> (j), boost::weak_ptr<Content> (c)))
 		);
-	
+
 	JobManager::instance()->add (j);
 }
 
@@ -964,7 +964,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 	if (!job || !job->finished_ok ()) {
 		return;
 	}
-	
+
 	shared_ptr<Content> content = c.lock ();
 	if (content) {
 		add_content (content);
@@ -1035,7 +1035,7 @@ Film::playlist_changed ()
 {
 	signal_changed (CONTENT);
 	signal_changed (NAME);
-}	
+}
 
 int
 Film::audio_frame_rate () const
@@ -1088,7 +1088,7 @@ Film::make_kdm (
 	if (!signer->valid ()) {
 		throw InvalidSignerError ();
 	}
-	
+
 	return dcp::DecryptedKDM (
 		cpl, key(), from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
 		).encrypt (signer, target, formulation);
@@ -1162,7 +1162,7 @@ string
 Film::subtitle_language () const
 {
 	set<string> languages;
-	
+
 	ContentList cl = content ();
 	BOOST_FOREACH (shared_ptr<Content>& c, cl) {
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c);
@@ -1215,7 +1215,7 @@ Film::audio_output_names () const
 	if (audio_processor ()) {
 		return audio_processor()->input_names ();
 	}
-	
+
 	vector<string> n;
 	n.push_back (_("L"));
 	n.push_back (_("R"));

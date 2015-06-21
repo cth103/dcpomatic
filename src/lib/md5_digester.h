@@ -36,7 +36,7 @@ public:
 	}
 
 	void add (std::string const & s);
-	
+
 	std::string get () const;
 
 private:

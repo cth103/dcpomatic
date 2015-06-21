@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
-	
+
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 

@@ -55,7 +55,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
-#endif	
+#endif
 
 	Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint,       this));
 	Bind (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,   this, _1));
@@ -176,21 +176,21 @@ Timeline::assign_tracks ()
 					++j;
 					continue;
 				}
-				
+
 				shared_ptr<Content> test_content = test->content();
-					
+
 				if (test && test->track() && test->track().get() == t) {
 					bool const no_overlap =
 						(content->position() < test_content->position() && content->end() < test_content->position()) ||
 						(content->position() > test_content->end()      && content->end() > test_content->end());
-					
+
 					if (!no_overlap) {
 						/* we have an overlap on track `t' */
 						++t;
 						break;
 					}
 				}
-				
+
 				++j;
 			}
 
@@ -258,11 +258,11 @@ Timeline::left_down (wxMouseEvent& ev)
 		if (!cv) {
 			continue;
 		}
-		
+
 		if (!ev.ShiftDown ()) {
 			cv->set_selected (view == *i);
 		}
-		
+
 		if (view == *i) {
 			_content_panel->set_selection (cv->content ());
 		}
@@ -360,9 +360,9 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 	if (!_down_view) {
 		return;
 	}
-	
+
 	DCPTime new_position = _down_view_position + DCPTime::from_seconds ((p.x - _down_point.x) / pps);
-	
+
 	if (_snap) {
 
 		DCPTime const new_end = new_position + _down_view->content()->length_after_trim () - DCPTime (1);
@@ -370,7 +370,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		   positive is right).
 		*/
 		optional<DCPTime> nearest_distance;
-		
+
 		/* Find the nearest content edge; this is inefficient */
 		for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 			shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
@@ -383,7 +383,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 			maybe_snap (cv->content()->end() + DCPTime (1), new_position, nearest_distance);
 			maybe_snap (cv->content()->end() + DCPTime (1), new_end, nearest_distance);
 		}
-		
+
 		if (nearest_distance) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
 			if (nearest_distance.get().abs() < DCPTime::from_seconds ((width() / pps) / 64)) {
@@ -391,13 +391,13 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 			}
 		}
 	}
-	
+
 	if (new_position < DCPTime ()) {
 		new_position = DCPTime ();
 	}
 
 	_down_view->content()->set_position (new_position);
-	
+
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	film->set_sequence_video (false);
@@ -436,7 +436,7 @@ TimelineContentViewList
 Timeline::selected_views () const
 {
 	TimelineContentViewList sel;
-	
+
 	for (TimelineViewList::const_iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
 		if (cv && cv->selected()) {
@@ -452,7 +452,7 @@ Timeline::selected_content () const
 {
 	ContentList sel;
 	TimelineContentViewList views = selected_views ();
-	
+
 	for (TimelineContentViewList::const_iterator i = views.begin(); i != views.end(); ++i) {
 		sel.push_back ((*i)->content ());
 	}

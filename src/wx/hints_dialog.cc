@@ -63,14 +63,14 @@ HintsDialog::film_changed ()
 {
 	_text->Clear ();
 	bool hint = false;
-	
+
 	boost::shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
 	ContentList content = film->content ();
-	
+
 	_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
 
 	bool big_font_files = false;
@@ -132,7 +132,7 @@ HintsDialog::film_changed ()
 		_text->WriteText (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
 		_text->Newline ();
 	}
-	
+
 	if (film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
 		hint = true;
 		_text->WriteText (wxString::Format (_("Your DCP frame rate (%d fps) may cause problems in a few (mostly older) projectors.  Use 24 or 48 frames per second to be on the safe side."), film->video_frame_rate()));

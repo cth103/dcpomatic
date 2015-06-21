@@ -39,7 +39,7 @@ SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c)
 	, _remaining (_info.frames)
 	, _deinterleave_buffer (0)
 {
-	
+
 }
 
 SndfileDecoder::~SndfileDecoder ()
@@ -53,7 +53,7 @@ SndfileDecoder::pass ()
 	if (_remaining == 0) {
 		return true;
 	}
-	
+
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
@@ -61,7 +61,7 @@ SndfileDecoder::pass ()
 	sf_count_t const this_time = min (block, _remaining);
 
 	int const channels = _sndfile_content->audio_stream()->channels ();
-	
+
 	shared_ptr<AudioBuffers> data (new AudioBuffers (channels, this_time));
 
 	if (_sndfile_content->audio_stream()->channels() == 1) {
@@ -84,7 +84,7 @@ SndfileDecoder::pass ()
 			}
 		}
 	}
-		
+
 	data->set_frames (this_time);
 	audio (_sndfile_content->audio_stream (), data, ContentTime::from_frames (_done, _info.samplerate));
 	_done += this_time;

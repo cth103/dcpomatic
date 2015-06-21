@@ -27,7 +27,7 @@ public:
 	dcpomatic::Rect<int> bbox () const;
 	void set_y (int y);
 
-private:	
+private:
 	void do_paint (wxGraphicsContext* gc);
 
 private:

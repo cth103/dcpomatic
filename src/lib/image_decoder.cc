@@ -61,7 +61,7 @@ ImageDecoder::pass ()
 			_image.reset (new MagickImageProxy (path));
 		}
 	}
-		
+
 	video (_image, _video_position);
 	++_video_position;
 	return false;

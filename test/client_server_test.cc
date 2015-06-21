@@ -45,7 +45,7 @@ do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, Dat
 {
 	Data remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
-	
+
 	BOOST_CHECK_EQUAL (locally_encoded.size(), remotely_encoded.size());
 	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data().get(), remotely_encoded.data().get(), locally_encoded.size()), 0);
 }
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 {
 	shared_ptr<Image> image (new Image (PIX_FMT_RGB24, dcp::Size (1998, 1080), true));
 	uint8_t* p = image->data()[0];
-	
+
 	for (int y = 0; y < 1080; ++y) {
 		uint8_t* q = p;
 		for (int x = 0; x < 1998; ++x) {
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		);
 
 	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
-	
+
 	Server* server = new Server (log, true);
 
 	new thread (boost::bind (&Server::run, server, 2));
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		);
 
 	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
-	
+
 	Server* server = new Server (log, true);
 
 	new thread (boost::bind (&Server::run, server, 2));

@@ -30,15 +30,15 @@ class DCPExaminer : public VideoExaminer, public AudioExaminer
 {
 public:
 	DCPExaminer (boost::shared_ptr<const DCPContent>);
-	
+
 	boost::optional<float> video_frame_rate () const {
 		return _video_frame_rate;
 	}
-	
+
 	dcp::Size video_size () const {
 		return _video_size.get_value_or (dcp::Size (1998, 1080));
 	}
-	
+
 	Frame video_length () const {
 		return _video_length;
 	}
@@ -58,11 +58,11 @@ public:
 	int audio_channels () const {
 		return _audio_channels.get_value_or (0);
 	}
-	
+
 	Frame audio_length () const {
 		return _audio_length;
 	}
-	
+
 	int audio_frame_rate () const {
 		return _audio_frame_rate.get_value_or (48000);
 	}

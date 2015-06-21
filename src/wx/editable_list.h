@@ -85,14 +85,14 @@ public:
 	void refresh ()
 	{
 		_list->DeleteAllItems ();
-		
+
 		std::vector<T> current = _get ();
 		for (typename std::vector<T>::iterator i = current.begin (); i != current.end(); ++i) {
 			add_to_control (*i);
 		}
-	}		
+	}
 
-private:	
+private:
 
 	void add_to_control (T item)
 	{
@@ -121,11 +121,11 @@ private:
 		dialog->ShowModal ();
 
 		add_to_control (dialog->get ());
-		
+
 		std::vector<T> all = _get ();
 		all.push_back (dialog->get ());
 		_set (all);
-		
+
 		dialog->Destroy ();
 	}
 
@@ -141,7 +141,7 @@ private:
 
 		T copy (all[item]);
 		add_to_control (copy);
-		
+
 		all.push_back (copy);
 		_set (all);
 	}
@@ -161,7 +161,7 @@ private:
 		dialog->ShowModal ();
 		all[item] = dialog->get ();
 		dialog->Destroy ();
-		
+
 		for (int i = 0; i < _columns; ++i) {
 			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));
 		}
@@ -175,7 +175,7 @@ private:
 		if (i == -1) {
 			return;
 		}
-		
+
 		_list->DeleteItem (i);
 		std::vector<T> all = _get ();
 		all.erase (all.begin() + i);

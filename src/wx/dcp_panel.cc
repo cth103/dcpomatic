@@ -61,16 +61,16 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_sizer->Add (grid, 0, wxEXPAND | wxALL, 8);
 
 	int r = 0;
-	
+
 	add_label_to_grid_bag_sizer (grid, _panel, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_panel, wxID_ANY);
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
-	
+
 	int flags = wxALIGN_CENTER_VERTICAL;
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
-#endif	
+#endif
 
 	_use_isdcf_name = new wxCheckBox (_panel, wxID_ANY, _("Use ISDCF name"));
 	grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
@@ -106,11 +106,11 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 
 	_notebook->AddPage (make_video_panel (), _("Video"), false);
 	_notebook->AddPage (make_audio_panel (), _("Audio"), false);
-	
+
 	_signed = new wxCheckBox (_panel, wxID_ANY, _("Signed"));
 	grid->Add (_signed, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
-	
+
 	_encrypted = new wxCheckBox (_panel, wxID_ANY, _("Encrypted"));
 	grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
@@ -129,7 +129,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
                grid->Add (s, wxGBPosition (r, 1));
                ++r;
 	}
-	
+
 	add_label_to_grid_bag_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
 	_standard = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -182,7 +182,7 @@ DCPPanel::j2k_bandwidth_changed ()
 	if (!_film) {
 		return;
 	}
-	
+
 	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
 }
 
@@ -215,7 +215,7 @@ DCPPanel::encrypted_toggled ()
 
 	_film->set_encrypted (_encrypted->GetValue ());
 }
-			       
+
 /** Called when the frame rate choice widget has been changed */
 void
 DCPPanel::frame_rate_choice_changed ()
@@ -400,7 +400,7 @@ DCPPanel::setup_container ()
 		++i;
 		++n;
 	}
-	
+
 	if (i == ratios.end()) {
 		checked_set (_container, -1);
 		checked_set (_container_size, wxT (""));
@@ -409,9 +409,9 @@ DCPPanel::setup_container ()
 		dcp::Size const size = fit_ratio_within (_film->container()->ratio(), _film->full_frame ());
 		checked_set (_container_size, wxString::Format ("%dx%d", size.width, size.height));
 	}
-	
+
 	setup_dcp_name ();
-}	
+}
 
 /** Called when the container widget has been changed */
 void
@@ -447,7 +447,7 @@ void
 DCPPanel::set_film (shared_ptr<Film> film)
 {
 	_film = film;
-	
+
 	film_changed (Film::NAME);
 	film_changed (Film::USE_ISDCF_NAME);
 	film_changed (Film::CONTENT);
@@ -483,7 +483,7 @@ DCPPanel::set_general_sensitivity (bool s)
 	}
 	_burn_subtitles->Enable (s);
 	_signed->Enable (si);
-	
+
 	_encrypted->Enable (s);
 	_key->Enable (s && _film && _film->encrypted ());
 	_edit_key->Enable (s && _film && _film->encrypted ());
@@ -534,7 +534,7 @@ DCPPanel::best_frame_rate_clicked ()
 	if (!_film) {
 		return;
 	}
-	
+
 	_film->set_video_frame_rate (_film->best_video_frame_rate ());
 }
 
@@ -579,7 +579,7 @@ DCPPanel::make_video_panel ()
 	panel->SetSizer (sizer);
 
 	int r = 0;
-	
+
 	add_label_to_grid_bag_sizer (grid, panel, _("Container"), true, wxGBPosition (r, 0));
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -671,7 +671,7 @@ DCPPanel::minimum_allowed_audio_channels () const
 	}
 
 	return min;
-}	
+}
 
 void
 DCPPanel::setup_audio_channels_choice ()
@@ -694,7 +694,7 @@ DCPPanel::make_audio_panel ()
 	panel->SetSizer (sizer);
 
 	int r = 0;
-	
+
 	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
 	_audio_channels = new wxChoice (panel, wxID_ANY);
 	setup_audio_channels_choice ();
@@ -750,7 +750,7 @@ DCPPanel::show_audio_clicked ()
 		_audio_dialog->Destroy ();
 		_audio_dialog = 0;
 	}
-	
+
 	AudioDialog* d = new AudioDialog (_panel, _film);
 	d->Show ();
 }

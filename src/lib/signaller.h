@@ -103,7 +103,7 @@ public:
 		if (signal_manager) {
 			signal_manager->emit (boost::bind (&Wrapper<T>::signal, w));
 		}
-		
+
 		boost::mutex::scoped_lock lm (_signaller_mutex);
 
 		/* Clean up finished Wrappers */

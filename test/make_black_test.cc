@@ -75,13 +75,13 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	pix_fmts.push_back (AV_PIX_FMT_YUVA422P16LE);
 	pix_fmts.push_back (AV_PIX_FMT_YUVA444P16LE);
 	pix_fmts.push_back (AV_PIX_FMT_RGB555LE); // 46
-	
+
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
 		boost::shared_ptr<Image> foo (new Image (*i, in_size, true));
 		foo->make_black ();
 		boost::shared_ptr<Image> bar = foo->scale (out_size, dcp::YUV_TO_RGB_REC601, PIX_FMT_RGB24, true);
-		
+
 		uint8_t* p = bar->data()[0];
 		for (int y = 0; y < bar->size().height; ++y) {
 			uint8_t* q = p;

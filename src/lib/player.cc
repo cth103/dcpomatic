@@ -94,7 +94,7 @@ Player::setup_pieces ()
 		if (!(*i)->paths_valid ()) {
 			continue;
 		}
-		
+
 		shared_ptr<Decoder> decoder;
 		optional<FrameRateChange> frc;
 
@@ -106,7 +106,7 @@ Player::setup_pieces ()
 			if (!vc) {
 				continue;
 			}
-			
+
 			DCPTime const overlap = max (vc->position(), (*i)->position()) - min (vc->end(), (*i)->end());
 			if (overlap > best_overlap_t) {
 				best_overlap = vc;
@@ -202,7 +202,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
 		property == DCPContentProperty::CAN_BE_PLAYED
 		) {
-		
+
 		_have_valid_pieces = false;
 		Changed (frequent);
 
@@ -218,7 +218,7 @@ Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
 		property == VideoContentProperty::VIDEO_FADE_IN ||
 		property == VideoContentProperty::VIDEO_FADE_OUT
 		) {
-		
+
 		Changed (frequent);
 	}
 }
@@ -256,7 +256,7 @@ list<PositionImage>
 Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 {
 	list<PositionImage> all;
-	
+
 	for (list<ImageSubtitle>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
 		if (!i->image) {
 			continue;
@@ -264,7 +264,7 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 
 		/* We will scale the subtitle up to fit _video_container_size */
 		dcp::Size scaled_size (i->rectangle.width * _video_container_size.width, i->rectangle.height * _video_container_size.height);
-		
+
 		/* Then we need a corrective translation, consisting of two parts:
 		 *
 		 * 1.  that which is the result of the scaling of the subtitle by _video_container_size; this will be
@@ -346,7 +346,7 @@ Player::get_video (DCPTime time, bool accurate)
 			pvf.push_back (black_player_video_frame (time));
 			return pvf;
 		}
-		
+
 		dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
 
 		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
@@ -388,8 +388,8 @@ Player::get_video (DCPTime time, bool accurate)
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
 			(*i)->set_subtitle (merge (sub_images));
 		}
-	}	
-		
+	}
+
 	return pvf;
 }
 
@@ -404,7 +404,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
 	audio->make_silent ();
-	
+
 	list<shared_ptr<Piece> > ov = overlaps<AudioContent> (time, time + length);
 	if (ov.empty ()) {
 		return audio;
@@ -436,7 +436,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		Frame const content_frame = dcp_to_content_audio (*i, request);
 
 		BOOST_FOREACH (AudioStreamPtr j, content->audio_streams ()) {
-			
+
 			/* Audio from this piece's decoder stream (which might be more or less than what we asked for) */
 			ContentAudio all = decoder->get_audio (j, content_frame, request_frames, accurate);
 
@@ -467,7 +467,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			if (_audio_processor) {
 				dcp_mapped = _audio_processor->run (dcp_mapped);
 			}
-		
+
 			all.audio = dcp_mapped;
 
 			audio->accumulate_frames (
@@ -561,7 +561,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 
 		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to), starting);
 		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
-			
+
 			/* Apply content's subtitle offsets */
 			i->sub.rectangle.x += subtitle_content->subtitle_x_offset ();
 			i->sub.rectangle.y += subtitle_content->subtitle_y_offset ();
@@ -573,7 +573,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 			/* Apply a corrective translation to keep the subtitle centred after that scale */
 			i->sub.rectangle.x -= i->sub.rectangle.width * (subtitle_content->subtitle_x_scale() - 1);
 			i->sub.rectangle.y -= i->sub.rectangle.height * (subtitle_content->subtitle_y_scale() - 1);
-			
+
 			ps.image.push_back (i->sub);
 		}
 

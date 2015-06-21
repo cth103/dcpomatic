@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 
 	decoder.fill_2d (0, 4);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 4U);
-	list<ContentVideo>::iterator i = decoder._decoded_video.begin();	
+	list<ContentVideo>::iterator i = decoder._decoded_video.begin();
 	for (int j = 0; j < 4; ++j) {
 		BOOST_CHECK_EQUAL (i->frame, j);
 		++i;
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 
 	decoder.fill_2d (0, 7);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 7);
-	i = decoder._decoded_video.begin();	
+	i = decoder._decoded_video.begin();
 	for (int j = 0; j < 7; ++j) {
 		BOOST_CHECK_EQUAL (i->frame, j);
 		++i;
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 
 	decoder.fill_3d (0, 4, EYES_LEFT);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 8);
-	list<ContentVideo>::iterator i = decoder._decoded_video.begin();	
+	list<ContentVideo>::iterator i = decoder._decoded_video.begin();
 	for (int j = 0; j < 8; ++j) {
 		BOOST_CHECK_EQUAL (i->frame, j / 2);
 		BOOST_CHECK_EQUAL (i->eyes, (j % 2) == 0 ? EYES_LEFT : EYES_RIGHT);
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 
 	decoder.fill_3d (0, 7, EYES_RIGHT);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 15);
-	i = decoder._decoded_video.begin();	
+	i = decoder._decoded_video.begin();
 	for (int j = 0; j < 15; ++j) {
 		BOOST_CHECK_EQUAL (i->frame, j / 2);
 		BOOST_CHECK_EQUAL (i->eyes, (j % 2) == 0 ? EYES_LEFT : EYES_RIGHT);

@@ -86,7 +86,7 @@ Job::run_wrapper ()
 		set_error (e.what(), m);
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		
+
 	} catch (OpenFileError& e) {
 
 		set_error (
@@ -106,7 +106,7 @@ Job::run_wrapper ()
 		set_error (_("Out of memory"), _("There was not enough memory to do this."));
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		
+
 	} catch (std::exception& e) {
 
 		set_error (
@@ -116,7 +116,7 @@ Job::run_wrapper ()
 
 		set_progress (1);
 		set_state (FINISHED_ERROR);
-		
+
 	} catch (...) {
 
 		set_error (
@@ -182,7 +182,7 @@ Job::paused () const
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _state == PAUSED;
 }
-	
+
 /** Set the state of this job.
  *  @param s New state.
  */
@@ -204,7 +204,7 @@ Job::set_state (State s)
 
 	if (finished) {
 		emit (boost::bind (boost::ref (Finished)));
-	}	
+	}
 }
 
 /** @return DCPTime (in seconds) that this sub-job has been running */
@@ -214,7 +214,7 @@ Job::elapsed_time () const
 	if (_start_time == 0) {
 		return 0;
 	}
-	
+
 	return time (0) - _start_time;
 }
 
@@ -259,7 +259,7 @@ Job::sub (string n)
 		boost::mutex::scoped_lock lm (_progress_mutex);
 		_sub_name = n;
 	}
-	
+
 	set_progress (0, true);
 }
 
@@ -286,7 +286,7 @@ Job::set_error (string s, string d)
 {
 	LOG_ERROR_NC (s);
 	LOG_ERROR_NC (d);
-	
+
 	_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d), Log::TYPE_ERROR);
 	boost::mutex::scoped_lock lm (_state_mutex);
 	_error_summary = s;
@@ -319,9 +319,9 @@ Job::status () const
 			/* 100% makes it sound like we've finished when we haven't */
 			pc = 99;
 		}
-		
+
 		s << pc << N_("%");
-		
+
 		if (t > 10 && r > 0) {
 			/// TRANSLATORS: remaining here follows an amount of time that is remaining
 			/// on an operation.
@@ -368,7 +368,7 @@ Job::remaining_time () const
 	if (progress().get_value_or(0) == 0) {
 		return elapsed_time ();
 	}
-	
+
 	return elapsed_time() / progress().get() - elapsed_time();
 }
 

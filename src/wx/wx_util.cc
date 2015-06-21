@@ -52,7 +52,7 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop)
 		flags |= wxALIGN_RIGHT;
 		t += wxT (":");
 	}
-#endif	
+#endif
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
 	s->Add (m, prop, flags, 6);
 	return m;
@@ -71,7 +71,7 @@ add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, w
 		flags |= wxALIGN_RIGHT;
 		t += wxT (":");
 	}
-#endif	
+#endif
 	wxStaticText* m = new wxStaticText (p, wxID_ANY, t);
 	s->Add (m, pos, span, flags);
 	return m;
@@ -97,7 +97,7 @@ confirm_dialog (wxWindow* parent, wxString m)
 	d->Destroy ();
 	return r == wxID_YES;
 }
-	
+
 
 /** @param s wxWidgets string.
  *  @return Corresponding STL string.
@@ -169,7 +169,7 @@ checked_set (wxChoice* widget, string value)
 	if (widget->GetSelection() != -1) {
 		o = widget->GetClientObject (widget->GetSelection ());
 	}
-	
+
 	if (!o || string_client_data(o) != value) {
 		for (unsigned int i = 0; i < widget->GetCount(); ++i) {
 			if (string_client_data (widget->GetClientObject (i)) == value) {
@@ -269,7 +269,7 @@ dcpomatic_setup_i18n ()
 
 #ifdef DCPOMATIC_WINDOWS
 		locale->AddCatalogLookupPathPrefix (std_to_wx (mo_path().string()));
-#endif		
+#endif
 
 #ifdef DCPOMATIC_LINUX
 		locale->AddCatalogLookupPathPrefix (LINUX_LOCALE_PREFIX);
@@ -279,11 +279,11 @@ dcpomatic_setup_i18n ()
 		   of wxWidgets.
 		*/
 		locale->AddCatalog (wxT ("dcpomatic2-wxstd"));
-#endif		
-		
+#endif
+
 		locale->AddCatalog (wxT ("libdcpomatic2-wx"));
 		locale->AddCatalog (wxT ("dcpomatic2"));
-		
+
 		if (!locale->IsOk()) {
 			delete locale;
 			locale = new wxLocale (wxLANGUAGE_ENGLISH);

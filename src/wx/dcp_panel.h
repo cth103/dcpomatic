@@ -72,7 +72,7 @@ private:
 	void edit_key_clicked ();
 	void audio_processor_changed ();
 	void show_audio_clicked ();
-	
+
 	void setup_frame_rate_widget ();
 	void setup_container ();
 	void setup_dcp_name ();

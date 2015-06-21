@@ -41,7 +41,7 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 		ip.SetWidth (100);
 		_fonts->InsertColumn (0, ip);
 	}
-	
+
 	{
 		wxListItem ip;
 		ip.SetId (1);
@@ -85,7 +85,7 @@ FontsDialog::setup ()
 	if (!content) {
 		return;
 	}
-	
+
 	_fonts->DeleteAllItems ();
 	list<shared_ptr<Font> > fonts = content->fonts ();
 	size_t n = 0;
@@ -113,7 +113,7 @@ FontsDialog::set_file_clicked ()
 	if (item == -1) {
 		return;
 	}
-	
+
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/

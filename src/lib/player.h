@@ -44,7 +44,7 @@ class Resampler;
 class PlayerVideo;
 class ImageProxy;
 class Font;
- 
+
 class PlayerStatistics
 {
 public:
@@ -55,7 +55,7 @@ public:
 			, good (0)
 			, skip (0)
 		{}
-		
+
 		int black;
 		int repeat;
 		int good;
@@ -68,7 +68,7 @@ public:
 			, good (0)
 			, skip (0)
 		{}
-		
+
 		DCPTime silence;
 		int64_t good;
 		int64_t skip;
@@ -96,7 +96,7 @@ public:
 	void set_burn_subtitles (bool burn);
 
 	PlayerStatistics const & statistics () const;
-	
+
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
 	 *  a seek.
@@ -141,10 +141,10 @@ private:
 				overlaps.push_back (*i);
 			}
 		}
-		
+
 		return overlaps;
 	}
-	
+
 	boost::shared_ptr<const Film> _film;
 
 	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */

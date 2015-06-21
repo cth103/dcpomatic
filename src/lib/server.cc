@@ -118,11 +118,11 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 	DCPVideo dcp_video_frame (pvf, xml, _log);
 
 	gettimeofday (&after_read, 0);
-	
+
 	Data encoded = dcp_video_frame.encode_locally (boost::bind (&Log::dcp_log, _log.get(), _1, _2));
 
 	gettimeofday (&after_encode, 0);
-	
+
 	try {
 		socket->write (encoded.size ());
 		socket->write (encoded.data ().get (), encoded.size ());
@@ -150,7 +150,7 @@ Server::worker_thread ()
 
 		shared_ptr<Socket> socket = _queue.front ();
 		_queue.pop_front ();
-		
+
 		lock.unlock ();
 
 		int frame = -1;
@@ -160,9 +160,9 @@ Server::worker_thread ()
 		struct timeval after_read;
 		struct timeval after_encode;
 		struct timeval end;
-		
+
 		gettimeofday (&start, 0);
-		
+
 		try {
 			frame = process (socket, after_read, after_encode);
 			ip = socket->socket().remote_endpoint().address().to_string();
@@ -174,7 +174,7 @@ Server::worker_thread ()
 		gettimeofday (&end, 0);
 
 		socket.reset ();
-		
+
 		lock.lock ();
 
 		if (frame >= 0) {
@@ -188,14 +188,14 @@ Server::worker_thread ()
 				<< "receive " << (seconds(after_read) - seconds(start)) << "s "
 				<< "encode " << (seconds(after_encode) - seconds(after_read)) << "s "
 				<< "send " << (seconds(end) - seconds(after_encode)) << "s.";
-						   
+
 			if (_verbose) {
 				cout << message.str() << "\n";
 			}
 
 			LOG_GENERAL_NC (message.str ());
 		}
-		
+
 		_full_condition.notify_all ();
 	}
 }
@@ -207,13 +207,13 @@ Server::run (int num_threads)
 	if (_verbose) {
 		cout << "DCP-o-matic server starting with " << num_threads << " threads.\n";
 	}
-	
+
 	for (int i = 0; i < num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));
 	}
 
 	_broadcast.thread = new thread (bind (&Server::broadcast_thread, this));
-	
+
 	start_accept ();
 	_io_service.run ();
 }
@@ -267,7 +267,7 @@ Server::broadcast_received ()
 
 		}
 	}
-		
+
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
 		_broadcast.send_endpoint, boost::bind (&Server::broadcast_received, this)
@@ -293,15 +293,15 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 	}
 
 	boost::mutex::scoped_lock lock (_worker_mutex);
-	
+
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _worker_threads.size() * 2 && !_terminate) {
 		_full_condition.wait (lock);
 	}
-	
+
 	_queue.push_back (socket);
 	_empty_condition.notify_all ();
 
 	start_accept ();
 }
-	
+

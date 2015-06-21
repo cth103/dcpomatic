@@ -46,19 +46,19 @@ UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<
 		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/download", "http://dcpomatic.com/download");
 		table->Add (h);
 	}
-	
+
 	if (test) {
 		add_label_to_sizer (table, this, _("Test version ") + std_to_wx (test.get ()), true);
 		wxHyperlinkCtrl* h = new wxHyperlinkCtrl (this, wxID_ANY, "dcpomatic.com/test-download", "http://dcpomatic.com/test-download");
 		table->Add (h);
 	}
-	
+
 	overall_sizer->Add (table, 1, wxEXPAND | wxLEFT | wxRIGHT | wxTOP, DCPOMATIC_DIALOG_BORDER);
 
 	wxSizer* buttons = CreateButtonSizer (wxOK);
 	if (buttons) {
 		overall_sizer->Add (buttons, 1, wxEXPAND | wxALL);
 	}
-	
+
 	SetSizerAndFit (overall_sizer);
 }

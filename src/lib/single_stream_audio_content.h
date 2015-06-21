@@ -45,7 +45,7 @@ public:
 	AudioStreamPtr audio_stream () const {
 		return _audio_stream;
 	}
-		
+
 	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
 
 protected:

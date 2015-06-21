@@ -46,7 +46,7 @@ void
 DirPickerCtrl::SetPath (wxString p)
 {
 	_path = p;
-		
+
 	if (_path == wxStandardPaths::Get().GetDocumentsDir()) {
 		_folder->SetLabel (_("My Documents"));
 	} else {

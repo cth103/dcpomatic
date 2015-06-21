@@ -79,9 +79,9 @@ Config::set_defaults ()
 	_check_for_test_updates = false;
 	_maximum_j2k_bandwidth = 250000000;
 	_log_types = Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR | Log::TYPE_DEBUG;
-#ifdef DCPOMATIC_WINDOWS	  
+#ifdef DCPOMATIC_WINDOWS
 	_win32_console = false;
-#endif	  
+#endif
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -138,7 +138,7 @@ Config::read ()
 			_servers.push_back ((*i)->content ());
 		}
 	}
-	
+
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
 	_tms_user = f.string_child ("TMSUser");
@@ -170,13 +170,13 @@ Config::read ()
 	} else if (f.optional_string_child ("DCPIssuer")) {
 		_dcp_issuer = f.string_child ("DCPIssuer");
 	}
-	
+
 	if (version && version.get() >= 2) {
 		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
 	} else {
 		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("DCIMetadata"));
 	}
-	
+
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
@@ -207,9 +207,9 @@ Config::read ()
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR);
-#ifdef DCPOMATIC_WINDOWS	
+#ifdef DCPOMATIC_WINDOWS
 	_win32_console = f.optional_bool_child ("Win32Console").get_value_or (false);
-#endif	
+#endif
 
 	list<cxml::NodePtr> his = f.node_children ("History");
 	for (list<cxml::NodePtr>::const_iterator i = his.begin(); i != his.end(); ++i) {
@@ -308,7 +308,7 @@ Config::write () const
 	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
 	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
 	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
-	
+
 	for (vector<string>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
 		root->add_child("Server")->add_child_text (*i);
 	}
@@ -356,9 +356,9 @@ Config::write () const
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
 	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
-#ifdef DCPOMATIC_WINDOWS	
+#ifdef DCPOMATIC_WINDOWS
 	root->add_child("Win32Console")->add_child_text (_win32_console ? "1" : "0");
-#endif	
+#endif
 
 	xmlpp::Element* signer = root->add_child ("Signer");
 	dcp::CertificateChain::List certs = _signer->certificates().root_to_leaf ();
@@ -437,7 +437,7 @@ Config::add_to_history (boost::filesystem::path p)
 {
 	/* Remove existing instances of this path in the history */
 	_history.erase (remove (_history.begin(), _history.end(), p), _history.end ());
-	
+
 	_history.insert (_history.begin (), p);
 	if (_history.size() > HISTORY_SIZE) {
 		_history.pop_back ();

@@ -30,11 +30,11 @@ shared_ptr<dcp::SubtitleAsset>
 DCPSubtitle::load (boost::filesystem::path file) const
 {
 	shared_ptr<dcp::SubtitleAsset> sc;
-	
+
 	try {
 		sc.reset (new dcp::InteropSubtitleAsset (file));
 	} catch (...) {
-		
+
 	}
 
 	if (!sc) {

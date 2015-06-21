@@ -65,7 +65,7 @@ AudioPoint::operator= (AudioPoint const & other)
 	if (this == &other) {
 		return *this;
 	}
-	
+
 	for (int i = 0; i < COUNT; ++i) {
 		_data[i] = other._data[i];
 	}
@@ -79,7 +79,7 @@ AudioPoint::as_xml (xmlpp::Element* parent) const
 	parent->add_child ("Peak")->add_child_text (raw_convert<string> (_data[PEAK]));
 	parent->add_child ("RMS")->add_child_text (raw_convert<string> (_data[RMS]));
 }
-	
+
 AudioAnalysis::AudioAnalysis (int channels)
 {
 	_data.resize (channels);

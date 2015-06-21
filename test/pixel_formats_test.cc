@@ -51,7 +51,7 @@ struct Case
 		bpp[1] = b1;
 		bpp[2] = b2;
 	}
-	
+
 	AVPixelFormat format;
 	int components;
 	int lines[3];

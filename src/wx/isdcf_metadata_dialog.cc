@@ -37,7 +37,7 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 
 	add (_("Subtitle Language (e.g. FR)"), true);
 	_subtitle_language = add (new wxTextCtrl (this, wxID_ANY));
-	
+
 	add (_("Territory (e.g. UK)"), true);
 	_territory = add (new wxTextCtrl (this, wxID_ANY));
 
@@ -70,7 +70,7 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 
 	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
-	
+
 	_content_version->SetRange (1, 1024);
 
 	_content_version->SetValue (dm.content_version);

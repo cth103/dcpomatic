@@ -91,9 +91,9 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			++n;
 		}
 	}
-	
+
 	_join->Enable (n > 1);
-	
+
 	_find_missing->Enable (_content.size() == 1 && !_content.front()->paths_valid ());
 	_properties->Enable (_content.size() == 1);
 	_re_examine->Enable (!_content.empty ());
@@ -104,7 +104,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	} else {
 		_kdm->Enable (false);
 	}
-	
+
 	_remove->Enable (!_content.empty ());
 	_parent->PopupMenu (_menu, p);
 }
@@ -115,7 +115,7 @@ ContentMenu::repeat ()
 	if (_content.empty ()) {
 		return;
 	}
-		
+
 	RepeatDialog* d = new RepeatDialog (_parent);
 	if (d->ShowModal() != wxID_OK) {
 		d->Destroy ();
@@ -186,7 +186,7 @@ ContentMenu::remove ()
 			if (!fc) {
 				continue;
 			}
-			
+
 			shared_ptr<TimelineVideoContentView> video;
 			shared_ptr<TimelineAudioContentView> audio;
 
@@ -228,7 +228,7 @@ ContentMenu::find_missing ()
 	if (!film) {
 		return;
 	}
-	
+
 	shared_ptr<Content> content;
 
 	/* XXX: a bit nasty */
@@ -254,7 +254,7 @@ ContentMenu::find_missing ()
 	}
 
 	shared_ptr<Job> j (new ExamineContentJob (film, content));
-	
+
 	_job_connection = j->Finished.connect (
 		bind (
 			&ContentMenu::maybe_found_missing,
@@ -264,7 +264,7 @@ ContentMenu::find_missing ()
 			boost::weak_ptr<Content> (content)
 			)
 		);
-	
+
 	JobManager::instance()->add (j);
 }
 
@@ -308,16 +308,16 @@ ContentMenu::kdm ()
 	DCPOMATIC_ASSERT (!_content.empty ());
 	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
 	DCPOMATIC_ASSERT (dcp);
-	
+
 	wxFileDialog* d = new wxFileDialog (_parent, _("Select KDM"));
-		
+
 	if (d->ShowModal() == wxID_OK) {
 		dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()))));
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
 		film->examine_content (dcp);
 	}
-	
+
 	d->Destroy ();
 }
 

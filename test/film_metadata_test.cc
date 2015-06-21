@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK_EQUAL (g->name(), "fred");
 	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
 	BOOST_CHECK_EQUAL (g->container(), Ratio::from_id ("185"));
-	
+
 	g->write_metadata ();
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 }

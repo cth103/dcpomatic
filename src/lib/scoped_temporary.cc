@@ -31,7 +31,7 @@ ScopedTemporary::ScopedTemporary ()
 /** Close and delete the temporary file */
 ScopedTemporary::~ScopedTemporary ()
 {
-	close ();	
+	close ();
 	boost::system::error_code ec;
 	boost::filesystem::remove (_file, ec);
 }

@@ -47,7 +47,7 @@ public:
 	virtual std::string json_name () const = 0;
 	/** Run this job in the current thread. */
 	virtual void run () = 0;
-	
+
 	void start ();
 	void pause ();
 	void resume ();
@@ -97,7 +97,7 @@ protected:
 		FINISHED_ERROR, ///< the job has finished in error
 		FINISHED_CANCELLED ///< the job was cancelled
 	};
-	
+
 	void set_state (State);
 	void set_error (std::string s, std::string d);
 

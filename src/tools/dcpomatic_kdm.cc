@@ -116,7 +116,7 @@ int main (int argc, char* argv[])
 	dcp::Formulation formulation = dcp::MODIFIED_TRANSITIONAL_1;
 
 	program_name = argv[0];
-	
+
 	int option_index = 0;
 	while (true) {
 		static struct option long_options[] = {
@@ -215,7 +215,7 @@ int main (int argc, char* argv[])
 	}
 
 	string const film_dir = argv[optind];
-			
+
 	dcpomatic_setup ();
 
 	shared_ptr<Film> film;
@@ -249,7 +249,7 @@ int main (int argc, char* argv[])
 		if (output.empty ()) {
 			error ("you must specify --output");
 		}
-		
+
 		dcp::Certificate certificate (dcp::file_to_string (certificate_file));
 		dcp::EncryptedKDM kdm = film->make_kdm (certificate, cpl, valid_from.get(), valid_to.get(), formulation);
 		kdm.as_xml (output);
@@ -278,7 +278,7 @@ int main (int argc, char* argv[])
 				write_kdm_zip_files (
 					film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation, output
 					);
-				
+
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
@@ -286,7 +286,7 @@ int main (int argc, char* argv[])
 				write_kdm_files (
 					film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation, output
 					);
-				
+
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";
 				}

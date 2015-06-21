@@ -30,7 +30,7 @@ class AudioStream
 public:
 	AudioStream (int frame_rate, int channels);
 	AudioStream (int frame_rate, AudioMapping mapping);
-	
+
 	void set_mapping (AudioMapping mapping);
 	void set_frame_rate (int frame_rate);
 
@@ -51,7 +51,7 @@ protected:
 
 private:
 	friend struct audio_sampling_rate_test;
-	
+
 	int _frame_rate;
 	AudioMapping _mapping;
 };
