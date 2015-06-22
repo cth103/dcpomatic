@@ -149,6 +149,7 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 		in_node->add_child("B")->add_child_text (raw_convert<string> (tf->B ()));
 	}
 
+	node->add_child("YUVToRGB")->add_child_text (raw_convert<string> (_yuv_to_rgb));
 	node->add_child("RedX")->add_child_text (raw_convert<string> (_red.x));
 	node->add_child("RedY")->add_child_text (raw_convert<string> (_red.y));
 	node->add_child("GreenX")->add_child_text (raw_convert<string> (_green.x));
@@ -170,7 +171,7 @@ ColourConversion::preset () const
 {
 	vector<PresetColourConversion> presets = PresetColourConversion::all ();
 	size_t i = 0;
-	while (i < presets.size() && (presets[i].conversion != *this)) {
+	while (i < presets.size() && presets[i].conversion != *this) {
 		++i;
 	}
 
@@ -275,4 +276,3 @@ PresetColourConversion::from_id (string s)
 
 	DCPOMATIC_ASSERT (false);
 }
-
