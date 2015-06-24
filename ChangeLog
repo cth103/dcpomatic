@@ -1,3 +1,7 @@
+2015-06-24  c.hetherington  <cth@carlh.net>
+
+	* Bump libdcp for probable fix to various font ID problems (#620).
+
 2015-06-23  Carl Hetherington  <cth@carlh.net>
 
 	* Fix incorrect saving of colour conversion settings (#618).
