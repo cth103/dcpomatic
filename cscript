@@ -190,7 +190,7 @@ def make_spec(filename, version, target):
     print >>f,'%{_datadir}/applications/dcpomatic2.desktop'
     print >>f,'%{_datadir}/applications/dcpomatic2_batch.desktop'
     print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
-    print >>f,'%{_datadir}/dcpomatic/taskbar_icon.png'
+    print >>f,'%{_datadir}/dcpomatic2/taskbar_icon.png'
     for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
         print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
     for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU']:
@@ -268,7 +268,7 @@ def package_debian(target, cpu, version):
     f = open('debian/files', 'w')
     print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
     shutil.rmtree('build/deb', ignore_errors=True)
-    
+
     os.makedirs('build/deb')
     os.chdir('build/deb')
     shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
@@ -288,11 +288,11 @@ def package_debian(target, cpu, version):
         target.set('CDIST_LOCALE_PREFIX', '/usr/local/share/locale')
 
     target.command('dpkg-buildpackage -uc -us')
-    
+
     debs = []
     for p in glob.glob('../*.deb'):
         debs.append(os.path.abspath(p))
-    
+
     return debs
 
 def package_centos(target, cpu, version):
@@ -327,7 +327,7 @@ def package(target, version):
     elif target.platform == 'linux':
         if target.bits == 32:
     	    cpu = 'i386'
-        else:	
+        else:
             cpu	= 'amd64'
 
 	if target.distro == 'debian' or target.distro == 'ubuntu':
