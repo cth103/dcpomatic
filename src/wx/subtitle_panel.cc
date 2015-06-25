@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,20 +17,21 @@
 
 */
 
-#include <boost/lexical_cast.hpp>
-#include <wx/spinctrl.h>
-#include "lib/ffmpeg_content.h"
-#include "lib/subrip_content.h"
-#include "lib/ffmpeg_subtitle_stream.h"
-#include "lib/dcp_subtitle_content.h"
-#include "lib/subrip_decoder.h"
-#include "lib/dcp_subtitle_decoder.h"
 #include "subtitle_panel.h"
 #include "film_editor.h"
 #include "wx_util.h"
 #include "subtitle_view.h"
 #include "content_panel.h"
 #include "fonts_dialog.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/subrip_content.h"
+#include "lib/ffmpeg_subtitle_stream.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/subrip_decoder.h"
+#include "lib/dcp_subtitle_decoder.h"
+#include <wx/spinctrl.h>
+#include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 using std::vector;
 using std::string;
@@ -204,11 +205,11 @@ SubtitlePanel::setup_sensitivity ()
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
 	int subrip_or_dcp_subs = 0;
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::const_iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (*i);
-		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (*i);
-		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (*i);
+	int image_subs = 0;
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
+		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (i);
+		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (fc->has_subtitles ()) {
 				++ffmpeg_subs;
@@ -220,12 +221,17 @@ SubtitlePanel::setup_sensitivity ()
 		} else {
 			++any_subs;
 		}
+
+		if (i->has_image_subtitles ()) {
+			++image_subs;
+			/* We must burn image subtitles at the moment */
+			i->set_burn_subtitles (true);
+		}
 	}
 
 	_use->Enable (any_subs > 0);
 	bool const use = _use->GetValue ();
-
-	_burn->Enable (any_subs > 0 && use);
+	_burn->Enable (any_subs > 0 && use && image_subs == 0);
 	_x_offset->Enable (any_subs > 0 && use);
 	_y_offset->Enable (any_subs > 0 && use);
 	_x_scale->Enable (any_subs > 0 && use);
