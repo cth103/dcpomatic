@@ -32,6 +32,7 @@ public:
 	static int const SUBTITLE_X_SCALE;
 	static int const SUBTITLE_Y_SCALE;
 	static int const USE_SUBTITLES;
+	static int const BURN_SUBTITLES;
 	static int const SUBTITLE_LANGUAGE;
 	static int const FONTS;
 };
@@ -60,6 +61,7 @@ public:
 	void add_font (boost::shared_ptr<Font> font);
 
 	void set_use_subtitles (bool);
+	void set_burn_subtitles (bool);
 	void set_subtitle_x_offset (double);
 	void set_subtitle_y_offset (double);
 	void set_subtitle_x_scale (double);
@@ -69,6 +71,11 @@ public:
 	bool use_subtitles () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _use_subtitles;
+	}
+
+	bool burn_subtitles () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _burn_subtitles;
 	}
 
 	double subtitle_x_offset () const {
@@ -111,6 +118,7 @@ private:
 	void connect_to_fonts ();
 
 	bool _use_subtitles;
+	bool _burn_subtitles;
 	/** x offset for placing subtitles, as a proportion of the container width;
 	 * +ve is further right, -ve is further left.
 	 */

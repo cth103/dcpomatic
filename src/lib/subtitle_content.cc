@@ -40,12 +40,14 @@ int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
 int const SubtitleContentProperty::SUBTITLE_X_SCALE = 502;
 int const SubtitleContentProperty::SUBTITLE_Y_SCALE = 503;
 int const SubtitleContentProperty::USE_SUBTITLES = 504;
-int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 505;
-int const SubtitleContentProperty::FONTS = 506;
+int const SubtitleContentProperty::BURN_SUBTITLES = 505;
+int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 506;
+int const SubtitleContentProperty::FONTS = 507;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> film)
 	: Content (film)
 	, _use_subtitles (false)
+	, _burn_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
 	, _subtitle_x_scale (1)
@@ -57,6 +59,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film)
 SubtitleContent::SubtitleContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
 	, _use_subtitles (false)
+	, _burn_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
 	, _subtitle_x_scale (1)
@@ -68,6 +71,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, boost::filesystem
 SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _use_subtitles (false)
+	, _burn_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
 	, _subtitle_x_scale (1)
@@ -75,8 +79,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePt
 {
 	if (version >= 32) {
 		_use_subtitles = node->bool_child ("UseSubtitles");
-	} else {
-		_use_subtitles = false;
+		_burn_subtitles = node->bool_child ("BurnSubtitles");
 	}
 
 	if (version >= 7) {
@@ -117,6 +120,10 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, vector<shared_ptr
 			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
 		}
 
+		if (sc->burn_subtitles() != ref->burn_subtitles()) {
+			throw JoinError (_("Content to be joined must have the same 'burn subtitles' setting."));
+		}
+
 		if (sc->subtitle_x_offset() != ref->subtitle_x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
@@ -151,6 +158,7 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, vector<shared_ptr
 	}
 
 	_use_subtitles = ref->use_subtitles ();
+	_burn_subtitles = ref->burn_subtitles ();
 	_subtitle_x_offset = ref->subtitle_x_offset ();
 	_subtitle_y_offset = ref->subtitle_y_offset ();
 	_subtitle_x_scale = ref->subtitle_x_scale ();
@@ -168,6 +176,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	boost::mutex::scoped_lock lm (_mutex);
 
 	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use_subtitles));
+	root->add_child("BurnSubtitles")->add_child_text (raw_convert<string> (_burn_subtitles));
 	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
@@ -187,6 +196,16 @@ SubtitleContent::set_use_subtitles (bool u)
 		_use_subtitles = u;
 	}
 	signal_changed (SubtitleContentProperty::USE_SUBTITLES);
+}
+
+void
+SubtitleContent::set_burn_subtitles (bool b)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_burn_subtitles = b;
+	}
+	signal_changed (SubtitleContentProperty::BURN_SUBTITLES);
 }
 
 void
