@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -74,6 +74,8 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
 	   one after the end of _decoded_video we need to seek.
 	*/
+
+	_video_content->film()->log()->log (String::compose ("VD has request for %1", frame), Log::TYPE_DEBUG_DECODE);
 
 	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
 		seek (ContentTime::from_frames (frame, _video_content->video_frame_rate()), accurate);
@@ -232,6 +234,8 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	if (_ignore_video) {
 		return;
 	}
+
+	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), Log::TYPE_DEBUG_DECODE);
 
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.

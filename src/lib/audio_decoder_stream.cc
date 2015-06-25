@@ -23,6 +23,8 @@
 #include "audio_decoder.h"
 #include "resampler.h"
 #include "util.h"
+#include "film.h"
+#include "log.h"
 #include <iostream>
 
 #include "i18n.h"
@@ -57,6 +59,8 @@ ContentAudio
 AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 {
 	shared_ptr<ContentAudio> dec;
+
+	_content->film()->log()->log (String::compose ("ADS has request for %1 %2", frame, length), Log::TYPE_DEBUG_DECODE);
 
 	Frame const end = frame + length - 1;
 
@@ -130,6 +134,8 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 void
 AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 {
+	_content->film()->log()->log (String::compose ("ADS receives %1 %2", time, data->frames ()), Log::TYPE_DEBUG_DECODE);
+
 	if (_resampler) {
 		data = _resampler->run (data);
 	}

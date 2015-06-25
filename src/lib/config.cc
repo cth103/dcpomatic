@@ -78,7 +78,7 @@ Config::set_defaults ()
 	_check_for_updates = false;
 	_check_for_test_updates = false;
 	_maximum_j2k_bandwidth = 250000000;
-	_log_types = Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR | Log::TYPE_DEBUG;
+	_log_types = Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR;
 #ifdef DCPOMATIC_WINDOWS
 	_win32_console = false;
 #endif

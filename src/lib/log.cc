@@ -32,11 +32,11 @@
 
 using namespace std;
 
-int const Log::TYPE_GENERAL = 0x1;
-int const Log::TYPE_WARNING = 0x2;
-int const Log::TYPE_ERROR   = 0x4;
-int const Log::TYPE_DEBUG   = 0x8;
-int const Log::TYPE_TIMING  = 0x10;
+int const Log::TYPE_GENERAL      = 0x1;
+int const Log::TYPE_WARNING      = 0x2;
+int const Log::TYPE_ERROR        = 0x4;
+int const Log::TYPE_DEBUG_DECODE = 0x8;
+int const Log::TYPE_TIMING       = 0x10;
 
 Log::Log ()
 	: _types (0)
