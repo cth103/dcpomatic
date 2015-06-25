@@ -26,7 +26,7 @@ import distutils.spawn
 from waflib import Logs
 
 APPNAME = 'dcpomatic'
-VERSION = '2.1.7devel'
+VERSION = '2.1.9devel'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -404,7 +404,8 @@ def build(bld):
         bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'icons/%s/dcpomatic2.png' % r)
 
     if not bld.env.TARGET_WINDOWS:
-        bld.install_files('${PREFIX}/share/dcpomatic', 'icons/taskbar_icon.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'icons/taskbar_icon.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'LiberationSans-Regular.ttf')
 
     bld.add_post_fun(post)
 

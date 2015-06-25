@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 		"    <A>0.055</A>\n"
 		"    <B>12.92</B>\n"
 		"  </InputTransferFunction>\n"
+		"  <YUVToRGB>0</YUVToRGB>\n"
 		"  <RedX>0.64</RedX>\n"
 		"  <RedY>0.33</RedY>\n"
 		"  <GreenX>0.3</GreenX>\n"
@@ -86,6 +87,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		"    <A>0.099</A>\n"
 		"    <B>4.5</B>\n"
 		"  </InputTransferFunction>\n"
+		"  <YUVToRGB>1</YUVToRGB>\n"
 		"  <RedX>0.64</RedX>\n"
 		"  <RedY>0.33</RedY>\n"
 		"  <GreenX>0.3</GreenX>\n"
