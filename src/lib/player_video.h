@@ -94,5 +94,5 @@ private:
 	Eyes _eyes;
 	Part _part;
 	boost::optional<ColourConversion> _colour_conversion;
-	PositionImage _subtitle;
+	boost::optional<PositionImage> _subtitle;
 };
