@@ -89,7 +89,7 @@ PlayerVideo::set_subtitle (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHandler note) const
+PlayerVideo::image (AVPixelFormat pixel_format, dcp::NoteHandler note) const
 {
 	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note));
 
@@ -118,7 +118,7 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 
 	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format, true);
 
-	if (burn_subtitle && _subtitle) {
+	if (_subtitle) {
 		out->alpha_blend (_subtitle->image, _subtitle->position);
 	}
 
@@ -130,7 +130,7 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 }
 
 void
-PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
+PlayerVideo::add_metadata (xmlpp::Node* node) const
 {
 	node->add_child("Time")->add_child_text (raw_convert<string> (_time.get ()));
 	_crop.as_xml (node);
@@ -147,7 +147,7 @@ PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node);
 	}
-	if (send_subtitles && _subtitle) {
+	if (_subtitle) {
 		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_subtitle->image->size().width));
 		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_subtitle->image->size().height));
 		node->add_child ("SubtitleX")->add_child_text (raw_convert<string> (_subtitle->position.x));
@@ -156,10 +156,10 @@ PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
 }
 
 void
-PlayerVideo::send_binary (shared_ptr<Socket> socket, bool send_subtitles) const
+PlayerVideo::send_binary (shared_ptr<Socket> socket) const
 {
 	_in->send_binary (socket);
-	if (send_subtitles && _subtitle) {
+	if (_subtitle) {
 		_subtitle->image->write_to_socket (socket);
 	}
 }

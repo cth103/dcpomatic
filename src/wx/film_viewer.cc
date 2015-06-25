@@ -145,10 +145,10 @@ FilmViewer::set_film (shared_ptr<Film> film)
 		return;
 	}
 
-	/* Always burn in subtitles, even if we are set not to, otherwise we won't see them
+	/* Always burn in subtitles, even if content is set not to, otherwise we won't see them
 	   in the preview.
 	*/
-	_player->set_burn_subtitles (true);
+	_player->set_always_burn_subtitles (true);
 
 	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
@@ -183,7 +183,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 
 	if (!pvf.empty ()) {
 		try {
-			_frame = pvf.front()->image (PIX_FMT_RGB24, true, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+			_frame = pvf.front()->image (PIX_FMT_RGB24, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
 
 			dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
 			if (pvf.front()->colour_conversion()) {

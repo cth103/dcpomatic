@@ -164,8 +164,6 @@ public:
 		THREE_D,
 		SEQUENCE_VIDEO,
 		INTEROP,
-		/** The setting of _burn_subtitles has changed */
-		BURN_SUBTITLES,
 		AUDIO_PROCESSOR,
 	};
 
@@ -238,10 +236,6 @@ public:
 		return _interop;
 	}
 
-	bool burn_subtitles () const {
-		return _burn_subtitles;
-	}
-
 	AudioProcessor const * audio_processor () const {
 		return _audio_processor;
 	}
@@ -273,7 +267,6 @@ public:
 	void set_isdcf_date_today ();
 	void set_sequence_video (bool);
 	void set_interop (bool);
-	void set_burn_subtitles (bool);
 	void set_audio_processor (AudioProcessor const * processor);
 
 	/** Emitted when some property has of the Film has changed */
@@ -334,7 +327,6 @@ private:
 	bool _three_d;
 	bool _sequence_video;
 	bool _interop;
-	bool _burn_subtitles;
 	AudioProcessor const * _audio_processor;
 
 	int _state_version;

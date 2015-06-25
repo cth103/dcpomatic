@@ -72,7 +72,7 @@ Player::Player (shared_ptr<const Film> film)
 	: _film (film)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
-	, _burn_subtitles (film->burn_subtitles ())
+	, _always_burn_subtitles (false)
 {
 	_film_content_changed_connection = _film->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
@@ -322,6 +322,29 @@ Player::get_video (DCPTime time, bool accurate)
 		setup_pieces ();
 	}
 
+	/* Find subtitles for possible burn-in */
+
+	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()), false, true);
+
+	list<PositionImage> sub_images;
+
+	/* Image subtitles */
+	list<PositionImage> c = transform_image_subtitles (ps.image);
+	copy (c.begin(), c.end(), back_inserter (sub_images));
+
+	/* Text subtitles (rendered to an image) */
+	if (!ps.text.empty ()) {
+		list<PositionImage> s = render_subtitles (ps.text, _video_container_size);
+		copy (s.begin (), s.end (), back_inserter (sub_images));
+	}
+
+	optional<PositionImage> subtitles;
+	if (!sub_images.empty ()) {
+		subtitles = merge (sub_images);
+	}
+
+	/* Find video */
+
 	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
 		time,
 		time + DCPTime::from_frames (1, _film->video_frame_rate ()) - DCPTime::delta()
@@ -338,8 +361,8 @@ Player::get_video (DCPTime time, bool accurate)
 		shared_ptr<Piece> piece = ov.back ();
 		shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
 		DCPOMATIC_ASSERT (decoder);
-		shared_ptr<VideoContent> content = dynamic_pointer_cast<VideoContent> (piece->content);
-		DCPOMATIC_ASSERT (content);
+		shared_ptr<VideoContent> video_content = dynamic_pointer_cast<VideoContent> (piece->content);
+		DCPOMATIC_ASSERT (video_content);
 
 		list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
 		if (content_video.empty ()) {
@@ -347,7 +370,7 @@ Player::get_video (DCPTime time, bool accurate)
 			return pvf;
 		}
 
-		dcp::Size image_size = content->scale().size (content, _video_container_size, _film->frame_size ());
+		dcp::Size image_size = video_content->scale().size (video_content, _video_container_size, _film->frame_size ());
 
 		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
 			pvf.push_back (
@@ -355,38 +378,22 @@ Player::get_video (DCPTime time, bool accurate)
 					new PlayerVideo (
 						i->image,
 						content_video_to_dcp (piece, i->frame),
-						content->crop (),
-						content->fade (i->frame),
+						video_content->crop (),
+						video_content->fade (i->frame),
 						image_size,
 						_video_container_size,
 						i->eyes,
 						i->part,
-						content->colour_conversion ()
+						video_content->colour_conversion ()
 						)
 					)
 				);
 		}
 	}
 
-	/* Add subtitles (for possible burn-in) to whatever PlayerVideos we got */
-
-	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()), false);
-
-	list<PositionImage> sub_images;
-
-	/* Image subtitles */
-	list<PositionImage> c = transform_image_subtitles (ps.image);
-	copy (c.begin(), c.end(), back_inserter (sub_images));
-
-	/* Text subtitles (rendered to an image) */
-	if (_burn_subtitles && !ps.text.empty ()) {
-		list<PositionImage> s = render_subtitles (ps.text, _video_container_size);
-		copy (s.begin (), s.end (), back_inserter (sub_images));
-	}
-
-	if (!sub_images.empty ()) {
-		for (list<shared_ptr<PlayerVideo> >::const_iterator i = pvf.begin(); i != pvf.end(); ++i) {
-			(*i)->set_subtitle (merge (sub_images));
+	if (subtitles) {
+		BOOST_FOREACH (shared_ptr<PlayerVideo> p, pvf) {
+			p->set_subtitle (subtitles.get ());
 		}
 	}
 
@@ -541,8 +548,12 @@ Player::statistics () const
 	return _statistics;
 }
 
+/** @param burnt true to return only subtitles to be burnt, false to return only
+ *  subtitles that should not be burnt.  This parameter will be ignored if
+ *  _always_burn_subtitles is true; in this case, all subtitles will be returned.
+ */
 PlayerSubtitles
-Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
+Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 {
 	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (time, time + length);
 
@@ -550,7 +561,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting)
 
 	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
 		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
-		if (!subtitle_content->use_subtitles ()) {
+		if (!subtitle_content->use_subtitles () || (!_always_burn_subtitles && (burnt != subtitle_content->burn_subtitles ()))) {
 			continue;
 		}
 
@@ -626,11 +637,12 @@ Player::set_ignore_video ()
 	_ignore_video = true;
 }
 
-/** Set whether or not this player should burn text subtitles into the image.
- *  @param burn true to burn subtitles, false to not.
+/** Set whether or not this player should always burn text subtitles into the image,
+ *  regardless of the content settings.
+ *  @param burn true to always burn subtitles, false to obey content settings.
  */
 void
-Player::set_burn_subtitles (bool burn)
+Player::set_always_burn_subtitles (bool burn)
 {
-	_burn_subtitles = burn;
+	_always_burn_subtitles = burn;
 }

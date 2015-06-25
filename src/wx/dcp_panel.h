@@ -67,7 +67,6 @@ private:
 	void three_d_changed ();
 	void standard_changed ();
 	void signed_toggled ();
-	void burn_subtitles_toggled ();
 	void encrypted_toggled ();
 	void edit_key_clicked ();
 	void audio_processor_changed ();
@@ -110,7 +109,6 @@ private:
 	wxChoice* _resolution;
 	wxChoice* _standard;
 	wxCheckBox* _signed;
-	wxCheckBox* _burn_subtitles;
 	wxCheckBox* _encrypted;
 	wxStaticText* _key;
 	wxButton* _edit_key;

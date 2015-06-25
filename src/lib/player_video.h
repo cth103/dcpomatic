@@ -54,10 +54,10 @@ public:
 
 	void set_subtitle (PositionImage);
 
-	boost::shared_ptr<Image> image (AVPixelFormat pix_fmt, bool burn_subtitle, dcp::NoteHandler note) const;
+	boost::shared_ptr<Image> image (AVPixelFormat pix_fmt, dcp::NoteHandler note) const;
 
-	void add_metadata (xmlpp::Node* node, bool send_subtitles) const;
-	void send_binary (boost::shared_ptr<Socket> socket, bool send_subtitles) const;
+	void add_metadata (xmlpp::Node* node) const;
+	void send_binary (boost::shared_ptr<Socket> socket) const;
 
 	bool has_j2k () const;
 	Data j2k () const;

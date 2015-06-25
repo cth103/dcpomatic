@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,8 +24,6 @@
  *  as a parameter to the constructor.
  */
 
-#include <iostream>
-#include <boost/signals2.hpp>
 #include "transcoder.h"
 #include "encoder.h"
 #include "film.h"
@@ -34,6 +32,10 @@
 #include "player.h"
 #include "job.h"
 #include "writer.h"
+#include "subtitle_content.h"
+#include <boost/signals2.hpp>
+#include <boost/foreach.hpp>
+#include <iostream>
 
 using std::string;
 using std::cout;
@@ -64,7 +66,20 @@ Transcoder::go ()
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	DCPTime const length = _film->length ();
 
-	if (!_film->burn_subtitles ()) {
+	int burnt_subtitles = 0;
+	int non_burnt_subtitles = 0;
+	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
+		shared_ptr<const SubtitleContent> sc = dynamic_pointer_cast<const SubtitleContent> (c);
+		if (sc && sc->use_subtitles()) {
+			if (sc->burn_subtitles()) {
+				++burnt_subtitles;
+			} else {
+				++non_burnt_subtitles;
+			}
+		}
+	}
+
+	if (non_burnt_subtitles) {
 		_writer->write (_player->get_subtitle_fonts ());
 	}
 
@@ -74,8 +89,8 @@ Transcoder::go ()
 			_encoder->enqueue (*i);
 		}
 		_writer->write (_player->get_audio (t, frame, true));
-		if (!_film->burn_subtitles ()) {
-			_writer->write (_player->get_subtitles (t, frame, true));
+		if (non_burnt_subtitles) {
+			_writer->write (_player->get_subtitles (t, frame, true, false));
 		}
 	}
 
