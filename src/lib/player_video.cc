@@ -72,13 +72,13 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 
 	if (node->optional_number_child<int> ("SubtitleX")) {
 
-		_subtitle.position = Position<int> (node->number_child<int> ("SubtitleX"), node->number_child<int> ("SubtitleY"));
-
-		_subtitle.image.reset (
+		shared_ptr<Image> image (
 			new Image (PIX_FMT_RGBA, dcp::Size (node->number_child<int> ("SubtitleWidth"), node->number_child<int> ("SubtitleHeight")), true)
 			);
 
-		_subtitle.image->read_from_socket (socket);
+		image->read_from_socket (socket);
+
+		_subtitle = PositionImage (image, Position<int> (node->number_child<int> ("SubtitleX"), node->number_child<int> ("SubtitleY")));
 	}
 }
 
@@ -89,7 +89,7 @@ PlayerVideo::set_subtitle (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHandler note) const
+PlayerVideo::image (AVPixelFormat pixel_format, dcp::NoteHandler note) const
 {
 	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note));
 
@@ -118,8 +118,8 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 
 	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format, true);
 
-	if (burn_subtitle && _subtitle.image) {
-		out->alpha_blend (_subtitle.image, _subtitle.position);
+	if (_subtitle) {
+		out->alpha_blend (_subtitle->image, _subtitle->position);
 	}
 
 	if (_fade) {
@@ -130,7 +130,7 @@ PlayerVideo::image (AVPixelFormat pixel_format, bool burn_subtitle, dcp::NoteHan
 }
 
 void
-PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
+PlayerVideo::add_metadata (xmlpp::Node* node) const
 {
 	node->add_child("Time")->add_child_text (raw_convert<string> (_time.get ()));
 	_crop.as_xml (node);
@@ -147,20 +147,20 @@ PlayerVideo::add_metadata (xmlpp::Node* node, bool send_subtitles) const
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node);
 	}
-	if (send_subtitles && _subtitle.image) {
-		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_subtitle.image->size().width));
-		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_subtitle.image->size().height));
-		node->add_child ("SubtitleX")->add_child_text (raw_convert<string> (_subtitle.position.x));
-		node->add_child ("SubtitleY")->add_child_text (raw_convert<string> (_subtitle.position.y));
+	if (_subtitle) {
+		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_subtitle->image->size().width));
+		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_subtitle->image->size().height));
+		node->add_child ("SubtitleX")->add_child_text (raw_convert<string> (_subtitle->position.x));
+		node->add_child ("SubtitleY")->add_child_text (raw_convert<string> (_subtitle->position.y));
 	}
 }
 
 void
-PlayerVideo::send_binary (shared_ptr<Socket> socket, bool send_subtitles) const
+PlayerVideo::send_binary (shared_ptr<Socket> socket) const
 {
 	_in->send_binary (socket);
-	if (send_subtitles && _subtitle.image) {
-		_subtitle.image->write_to_socket (socket);
+	if (_subtitle) {
+		_subtitle->image->write_to_socket (socket);
 	}
 }
 
@@ -203,11 +203,21 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 	    _out_size != other->_out_size ||
 	    _eyes != other->_eyes ||
 	    _part != other->_part ||
-	    _colour_conversion != other->_colour_conversion ||
-	    !_subtitle.same (other->_subtitle)) {
-
+	    _colour_conversion != other->_colour_conversion) {
 		return false;
 	}
+
+	if ((!_subtitle && other->_subtitle) || (_subtitle && !other->_subtitle)) {
+		/* One has a subtitle and the other doesn't */
+		return false;
+	}
+
+	if (_subtitle && other->_subtitle && !_subtitle->same (other->_subtitle.get ())) {
+		/* They both have subtitles but they are different */
+		return false;
+	}
+
+	/* Now neither has subtitles */
 
 	return _in->same (other->_in);
 }

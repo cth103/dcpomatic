@@ -197,16 +197,6 @@ DCPPanel::signed_toggled ()
 }
 
 void
-DCPPanel::burn_subtitles_toggled ()
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->set_burn_subtitles (_burn_subtitles->GetValue ());
-}
-
-void
 DCPPanel::encrypted_toggled ()
 {
 	if (!_film) {
@@ -288,9 +278,6 @@ DCPPanel::film_changed (int p)
 	case Film::DCP_CONTENT_TYPE:
 		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
 		setup_dcp_name ();
-		break;
-	case Film::BURN_SUBTITLES:
-		checked_set (_burn_subtitles, _film->burn_subtitles ());
 		break;
 	case Film::SIGNED:
 		checked_set (_signed, _film->is_signed ());
@@ -455,7 +442,6 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::CONTAINER);
 	film_changed (Film::RESOLUTION);
 	film_changed (Film::SIGNED);
-	film_changed (Film::BURN_SUBTITLES);
 	film_changed (Film::ENCRYPTED);
 	film_changed (Film::KEY);
 	film_changed (Film::J2K_BANDWIDTH);
@@ -481,7 +467,6 @@ DCPPanel::set_general_sensitivity (bool s)
 	if (_film && _film->encrypted ()) {
 		si = false;
 	}
-	_burn_subtitles->Enable (s);
 	_signed->Enable (si);
 
 	_encrypted->Enable (s);
@@ -605,10 +590,6 @@ DCPPanel::make_video_panel ()
 		++r;
 	}
 
-	_burn_subtitles = new wxCheckBox (panel, wxID_ANY, _("Burn subtitles into image"));
-	grid->Add (_burn_subtitles, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
 	_three_d = new wxCheckBox (panel, wxID_ANY, _("3D"));
 	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
@@ -632,7 +613,6 @@ DCPPanel::make_video_panel ()
 	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
 	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
 	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
-	_burn_subtitles->Bind   (wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::burn_subtitles_toggled, this));
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
 	/* Also listen to wxEVT_COMMAND_TEXT_UPDATED so that typing numbers directly in is always noticed */
 	_j2k_bandwidth->Bind	(wxEVT_COMMAND_TEXT_UPDATED,          boost::bind (&DCPPanel::j2k_bandwidth_changed, this));

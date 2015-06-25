@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -87,13 +87,13 @@ public:
 
 	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
-	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting);
+	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt);
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
 	void set_enable_subtitles (bool enable);
-	void set_burn_subtitles (bool burn);
+	void set_always_burn_subtitles (bool burn);
 
 	PlayerStatistics const & statistics () const;
 
@@ -157,8 +157,10 @@ private:
 
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
-	/** true if the player should burn subtitles into the video */
-	bool _burn_subtitles;
+	/** true if the player should always burn subtitles into the video regardless
+	    of content settings
+	*/
+	bool _always_burn_subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
