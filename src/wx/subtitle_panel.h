@@ -35,6 +35,7 @@ public:
 
 private:
 	void use_toggled ();
+	void burn_toggled ();
 	void x_offset_changed ();
 	void y_offset_changed ();
 	void x_scale_changed ();
@@ -47,6 +48,7 @@ private:
 	void setup_sensitivity ();
 
 	wxCheckBox* _use;
+	wxCheckBox* _burn;
 	wxSpinCtrl* _x_offset;
 	wxSpinCtrl* _y_offset;
 	wxSpinCtrl* _x_scale;

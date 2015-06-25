@@ -50,6 +50,10 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	grid->Add (_use);
 	grid->AddSpacer (0);
 
+	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles"));
+	grid->Add (_burn);
+	grid->AddSpacer (0);
+
 	{
 		add_label_to_sizer (grid, this, _("X Offset"), true);
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -108,6 +112,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_y_scale->SetRange (10, 1000);
 
 	_use->Bind                  (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
+	_burn->Bind                 (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::burn_toggled, this));
 	_x_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
 	_y_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
 	_x_scale->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
@@ -160,6 +165,8 @@ SubtitlePanel::film_content_changed (int property)
 	} else if (property == SubtitleContentProperty::USE_SUBTITLES) {
 		checked_set (_use, scs ? scs->use_subtitles() : false);
 		setup_sensitivity ();
+	} else if (property == SubtitleContentProperty::BURN_SUBTITLES) {
+		checked_set (_burn, scs ? scs->burn_subtitles() : false);
 	} else if (property == SubtitleContentProperty::SUBTITLE_X_OFFSET) {
 		checked_set (_x_offset, scs ? (scs->subtitle_x_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_OFFSET) {
@@ -179,6 +186,15 @@ SubtitlePanel::use_toggled ()
 	SubtitleContentList c = _parent->selected_subtitle ();
 	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		(*i)->set_use_subtitles (_use->GetValue());
+	}
+}
+
+void
+SubtitlePanel::burn_toggled ()
+{
+	SubtitleContentList c = _parent->selected_subtitle ();
+	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
+		(*i)->set_burn_subtitles (_burn->GetValue());
 	}
 }
 
@@ -209,6 +225,7 @@ SubtitlePanel::setup_sensitivity ()
 	_use->Enable (any_subs > 0);
 	bool const use = _use->GetValue ();
 
+	_burn->Enable (any_subs > 0 && use);
 	_x_offset->Enable (any_subs > 0 && use);
 	_y_offset->Enable (any_subs > 0 && use);
 	_x_scale->Enable (any_subs > 0 && use);
@@ -291,6 +308,7 @@ SubtitlePanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	film_content_changed (SubtitleContentProperty::USE_SUBTITLES);
+	film_content_changed (SubtitleContentProperty::BURN_SUBTITLES);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
