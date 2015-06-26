@@ -31,36 +31,41 @@ class Image;
 class ContentSubtitle
 {
 public:
-	virtual ContentTimePeriod period () const = 0;
-};
-
-class ContentImageSubtitle : public ContentSubtitle
-{
-public:
-	ContentImageSubtitle (ContentTimePeriod p, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
-		: sub (im, r)
-		, _period (p)
+	ContentSubtitle (ContentTimePeriod p)
+		: _period (p)
 	{}
 
 	ContentTimePeriod period () const {
 		return _period;
 	}
 
-	/* Our subtitle, with its rectangle unmodified by any offsets or scales that the content specifies */
-	ImageSubtitle sub;
-
 private:
 	ContentTimePeriod _period;
 };
 
+class ContentImageSubtitle : public ContentSubtitle
+{
+public:
+	ContentImageSubtitle (ContentTimePeriod p, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+		: ContentSubtitle (p)
+		, sub (im, r)
+	{}
+
+	/* Our subtitle, with its rectangle unmodified by any offsets or scales that the content specifies */
+	ImageSubtitle sub;
+};
+
+/** A text subtitle.  We store the time period separately (as well as in the dcp::SubtitleStrings)
+ *  as the dcp::SubtitleString timings are sometimes quite heavily quantised and this causes problems
+ *  when we want to compare the quantised periods to the unquantised ones.
+ */
 class ContentTextSubtitle : public ContentSubtitle
 {
 public:
-	ContentTextSubtitle (std::list<dcp::SubtitleString> s)
-		: subs (s)
+	ContentTextSubtitle (ContentTimePeriod p, std::list<dcp::SubtitleString> s)
+		: ContentSubtitle (p)
+		, subs (s)
 	{}
-
-	ContentTimePeriod period () const;
 
 	std::list<dcp::SubtitleString> subs;
 };

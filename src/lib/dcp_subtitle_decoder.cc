@@ -54,7 +54,7 @@ DCPSubtitleDecoder::pass ()
 
 	list<dcp::SubtitleString> s;
 	s.push_back (*_next);
-	text_subtitle (s);
+	text_subtitle (content_time_period (*_next), s);
 	++_next;
 
 	return false;
@@ -74,11 +74,7 @@ DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) c
 	list<ContentTimePeriod> d;
 
 	for (list<dcp::SubtitleString>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		ContentTimePeriod period (
-			ContentTime::from_seconds (i->in().as_seconds ()),
-			ContentTime::from_seconds (i->out().as_seconds ())
-			);
-
+		ContentTimePeriod period = content_time_period (*i);
 		if ((starting && p.contains (period.from)) || (!starting && p.overlaps (period))) {
 			d.push_back (period);
 		}
@@ -87,3 +83,11 @@ DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) c
 	return d;
 }
 
+ContentTimePeriod
+DCPSubtitleDecoder::content_time_period (dcp::SubtitleString s) const
+{
+	return ContentTimePeriod (
+		ContentTime::from_seconds (s.in().as_seconds ()),
+		ContentTime::from_seconds (s.out().as_seconds ())
+		);
+}

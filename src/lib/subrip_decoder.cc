@@ -82,7 +82,8 @@ SubRipDecoder::pass ()
 		}
 	}
 
-	text_subtitle (out);
+	text_subtitle (content_time_period (_subtitles[_next]), out);
+
 	++_next;
 	return false;
 }
@@ -101,16 +102,20 @@ SubRipDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 	list<ContentTimePeriod> d;
 
 	for (vector<sub::Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-
-		ContentTimePeriod t (
-			ContentTime::from_seconds (i->from.all_as_seconds()),
-			ContentTime::from_seconds (i->to.all_as_seconds())
-			);
-
+		ContentTimePeriod t = content_time_period (*i);
 		if ((starting && p.contains (t.from)) || (!starting && p.overlaps (t))) {
 			d.push_back (t);
 		}
 	}
 
 	return d;
+}
+
+ContentTimePeriod
+SubRipDecoder::content_time_period (sub::Subtitle s) const
+{
+	return ContentTimePeriod (
+		ContentTime::from_seconds (s.from.all_as_seconds()),
+		ContentTime::from_seconds (s.to.all_as_seconds())
+		);
 }

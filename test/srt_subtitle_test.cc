@@ -27,7 +27,11 @@
 #include "lib/font.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/algorithm/string.hpp>
+#include <list>
 
+using std::string;
+using std::list;
 using boost::shared_ptr;
 
 /** Make a very short DCP with a single subtitle from .srt with no specified fonts */
@@ -73,3 +77,45 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	check_dcp ("test/data/srt_subtitle_test2", film->dir (film->dcp_name ()));
 }
 
+/** Make another DCP with a longer .srt file */
+BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
+{
+	shared_ptr<Film> film = new_test_film ("srt_subtitle_test3");
+
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	film->set_interop (true);
+	shared_ptr<SubRipContent> content (new SubRipContent (film, private_data / "Ankoemmling.srt"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	content->set_use_subtitles (true);
+	content->set_burn_subtitles (false);
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	/* Find the subtitle file and check it */
+	for (
+		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory() / film->dcp_name (false));
+		i != boost::filesystem::directory_iterator ();
+		++i) {
+
+		if (boost::filesystem::is_directory (i->path ())) {
+			for (
+				boost::filesystem::directory_iterator j = boost::filesystem::directory_iterator (i->path ());
+				j != boost::filesystem::directory_iterator ();
+				++j) {
+
+				std::cout << j->path().string() << "\n";
+
+				if (boost::algorithm::starts_with (j->path().leaf().string(), "sub_")) {
+					list<string> ignore;
+					ignore.push_back ("SubtitleID");
+					check_xml (*j, private_data / "Ankoemmling.xml", ignore);
+				}
+			}
+		}
+	}
+}

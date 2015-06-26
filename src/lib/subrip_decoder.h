@@ -37,6 +37,7 @@ protected:
 private:
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
+	ContentTimePeriod content_time_period (sub::Subtitle s) const;
 
 	size_t _next;
 };

@@ -17,9 +17,10 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
 #include "subtitle_decoder.h"
 #include "subtitle_content.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::cout;
@@ -46,9 +47,9 @@ SubtitleDecoder::image_subtitle (ContentTimePeriod period, shared_ptr<Image> ima
 }
 
 void
-SubtitleDecoder::text_subtitle (list<dcp::SubtitleString> s)
+SubtitleDecoder::text_subtitle (ContentTimePeriod period, list<dcp::SubtitleString> s)
 {
-	_decoded_text_subtitles.push_back (ContentTextSubtitle (s));
+	_decoded_text_subtitles.push_back (ContentTextSubtitle (period, s));
 }
 
 /** @param sp Full periods of subtitles that are showing or starting during the specified period */

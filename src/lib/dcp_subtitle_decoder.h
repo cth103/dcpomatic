@@ -34,6 +34,7 @@ protected:
 private:
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
+	ContentTimePeriod content_time_period (dcp::SubtitleString s) const;
 
 	std::list<dcp::SubtitleString> _subtitles;
 	std::list<dcp::SubtitleString>::const_iterator _next;
