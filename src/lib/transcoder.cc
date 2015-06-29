@@ -50,7 +50,7 @@ using boost::dynamic_pointer_cast;
  */
 Transcoder::Transcoder (shared_ptr<const Film> film, shared_ptr<Job> j)
 	: _film (film)
-	, _player (new Player (film))
+	, _player (new Player (film, film->playlist ()))
 	, _writer (new Writer (film, j))
 	, _encoder (new Encoder (film, j, _writer))
 	, _finishing (false)
@@ -112,4 +112,3 @@ Transcoder::video_frames_out () const
 {
 	return _encoder->video_frames_out ();
 }
-

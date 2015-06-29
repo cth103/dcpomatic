@@ -45,6 +45,7 @@
 #include "dcp_subtitle_content.h"
 #include "dcp_subtitle_decoder.h"
 #include "audio_processor.h"
+#include "playlist.h"
 #include <boost/foreach.hpp>
 #include <stdint.h>
 #include <algorithm>
@@ -68,14 +69,16 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
-Player::Player (shared_ptr<const Film> film)
+Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
+	, _playlist (playlist)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
 	, _always_burn_subtitles (false)
 {
-	_film_content_changed_connection = _film->ContentChanged.connect (bind (&Player::content_changed, this, _1, _2, _3));
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
+	_playlist_changed_connection = _playlist->ContentChanged.connect (bind (&Player::playlist_changed, this));
+	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Player::playlist_content_changed, this, _1, _2, _3));
 	set_video_container_size (_film->frame_size ());
 
 	film_changed (Film::AUDIO_PROCESSOR);
@@ -87,11 +90,9 @@ Player::setup_pieces ()
 	list<shared_ptr<Piece> > old_pieces = _pieces;
 	_pieces.clear ();
 
-	ContentList content = _film->content ();
+	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
 
-	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-
-		if (!(*i)->paths_valid ()) {
+		if (!i->paths_valid ()) {
 			continue;
 		}
 
@@ -101,13 +102,13 @@ Player::setup_pieces ()
 		/* Work out a FrameRateChange for the best overlap video for this content, in case we need it below */
 		DCPTime best_overlap_t;
 		shared_ptr<VideoContent> best_overlap;
-		for (ContentList::iterator j = content.begin(); j != content.end(); ++j) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*j);
+		BOOST_FOREACH (shared_ptr<Content> j, _playlist->content ()) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
 			if (!vc) {
 				continue;
 			}
 
-			DCPTime const overlap = max (vc->position(), (*i)->position()) - min (vc->end(), (*i)->end());
+			DCPTime const overlap = max (vc->position(), i->position()) - min (vc->end(), i->end());
 			if (overlap > best_overlap_t) {
 				best_overlap = vc;
 				best_overlap_t = overlap;
@@ -123,20 +124,20 @@ Player::setup_pieces ()
 		}
 
 		/* FFmpeg */
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (*i);
+		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
 		if (fc) {
 			decoder.reset (new FFmpegDecoder (fc, _film->log()));
 			frc = FrameRateChange (fc->video_frame_rate(), _film->video_frame_rate());
 		}
 
-		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (*i);
+		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
 		if (dc) {
 			decoder.reset (new DCPDecoder (dc));
 			frc = FrameRateChange (dc->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* ImageContent */
-		shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (*i);
+		shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (i);
 		if (ic) {
 			/* See if we can re-use an old ImageDecoder */
 			for (list<shared_ptr<Piece> >::const_iterator j = old_pieces.begin(); j != old_pieces.end(); ++j) {
@@ -154,21 +155,21 @@ Player::setup_pieces ()
 		}
 
 		/* SndfileContent */
-		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (*i);
+		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (i);
 		if (sc) {
 			decoder.reset (new SndfileDecoder (sc));
 			frc = best_overlap_frc;
 		}
 
 		/* SubRipContent */
-		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (*i);
+		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (i);
 		if (rc) {
 			decoder.reset (new SubRipDecoder (rc));
 			frc = best_overlap_frc;
 		}
 
 		/* DCPSubtitleContent */
-		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (*i);
+		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (dsc) {
 			decoder.reset (new DCPSubtitleDecoder (dsc));
 			frc = best_overlap_frc;
@@ -179,14 +180,14 @@ Player::setup_pieces ()
 			vd->set_ignore_video ();
 		}
 
-		_pieces.push_back (shared_ptr<Piece> (new Piece (*i, decoder, frc.get ())));
+		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc.get ())));
 	}
 
 	_have_valid_pieces = true;
 }
 
 void
-Player::content_changed (weak_ptr<Content> w, int property, bool frequent)
+Player::playlist_content_changed (weak_ptr<Content> w, int property, bool frequent)
 {
 	shared_ptr<Content> c = w.lock ();
 	if (!c) {
@@ -233,6 +234,13 @@ Player::set_video_container_size (dcp::Size s)
 }
 
 void
+Player::playlist_changed ()
+{
+	_have_valid_pieces = false;
+	Changed (false);
+}
+
+void
 Player::film_changed (Film::Property p)
 {
 	/* Here we should notice Film properties that affect our output, and
@@ -240,10 +248,7 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::CONTENT) {
-		_have_valid_pieces = false;
-		Changed (false);
-	} else if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
+	if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
 		Changed (false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {

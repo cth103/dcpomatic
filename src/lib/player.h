@@ -78,12 +78,12 @@ public:
 };
 
 /** @class Player
- *  @brief A class which can `play' a Film.
+ *  @brief A class which can `play' a Playlist.
  */
 class Player : public boost::enable_shared_from_this<Player>, public boost::noncopyable
 {
 public:
-	Player (boost::shared_ptr<const Film>);
+	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist);
 
 	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
@@ -111,9 +111,10 @@ private:
 	friend struct player_overlaps_test;
 
 	void setup_pieces ();
-	void content_changed (boost::weak_ptr<Content>, int, bool);
 	void flush ();
 	void film_changed (Film::Property);
+	void playlist_changed ();
+	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
 	std::list<PositionImage> transform_image_subtitles (std::list<ImageSubtitle>) const;
 	void update_subtitle_from_text ();
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
@@ -146,6 +147,7 @@ private:
 	}
 
 	boost::shared_ptr<const Film> _film;
+	boost::shared_ptr<const Playlist> _playlist;
 
 	/** Our pieces are ready to go; if this is false the pieces must be (re-)created before they are used */
 	bool _have_valid_pieces;
@@ -166,8 +168,9 @@ private:
 
 	PlayerStatistics _statistics;
 
-	boost::signals2::scoped_connection _film_content_changed_connection;
 	boost::signals2::scoped_connection _film_changed_connection;
+	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_content_changed_connection;
 };
 
 #endif

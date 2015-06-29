@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 	B->set_position (DCPTime::from_seconds (10));
 	C->set_position (DCPTime::from_seconds (20));
 
-	shared_ptr<Player> player (new Player (film));
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
 
 	list<shared_ptr<Piece> > o = player->overlaps<FFmpegContent> (DCPTime::from_seconds (0), DCPTime::from_seconds (5));
 	BOOST_CHECK_EQUAL (o.size(), 1U);
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<Player> player (new Player (film));
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
 	shared_ptr<AudioBuffers> test = player->get_audio (DCPTime (0), DCPTime::from_seconds (1), true);
 	BOOST_CHECK_EQUAL (test->frames(), 48000);
 	BOOST_CHECK_EQUAL (test->channels(), film->audio_channels ());
@@ -103,4 +103,3 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 		}
 	}
 }
-

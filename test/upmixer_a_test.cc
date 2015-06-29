@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	SNDFILE* Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
 	SNDFILE* Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
 
-	shared_ptr<Player> player (new Player (film));
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
 	for (DCPTime t; t < film->length(); t += DCPTime::from_seconds (1)) {
 		shared_ptr<AudioBuffers> b = player->get_audio (t, DCPTime::from_seconds (1), true);
 		sf_write_float (L, b->data(0), b->frames());

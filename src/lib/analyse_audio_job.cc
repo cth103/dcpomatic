@@ -23,6 +23,7 @@
 #include "compose.hpp"
 #include "film.h"
 #include "player.h"
+#include "playlist.h"
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
@@ -36,8 +37,9 @@ using boost::dynamic_pointer_cast;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film)
+AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: Job (film)
+	, _playlist (playlist)
 	, _done (0)
 	, _samples_per_point (1)
 	, _overall_peak (0)
@@ -61,17 +63,17 @@ AnalyseAudioJob::json_name () const
 void
 AnalyseAudioJob::run ()
 {
-	shared_ptr<Player> player (new Player (_film));
+	shared_ptr<Player> player (new Player (_film, _playlist));
 	player->set_ignore_video ();
 
-	int64_t const len = _film->length().frames (_film->audio_frame_rate());
+	int64_t const len = _playlist->length().frames (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
 
 	_current.resize (_film->audio_channels ());
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	bool has_any_audio = false;
-	BOOST_FOREACH (shared_ptr<Content> c, _film->content ()) {
+	BOOST_FOREACH (shared_ptr<Content> c, _playlist->content ()) {
 		if (dynamic_pointer_cast<AudioContent> (c)) {
 			has_any_audio = true;
 		}
@@ -127,4 +129,3 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 		++_done;
 	}
 }
-

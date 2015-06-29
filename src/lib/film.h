@@ -141,6 +141,10 @@ public:
 
 	void repeat_content (ContentList, int);
 
+	boost::shared_ptr<const Playlist> playlist () const {
+		return _playlist;
+	}
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
