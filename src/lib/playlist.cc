@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -113,8 +113,11 @@ Playlist::video_identifier () const
 
 	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
 		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
+		shared_ptr<const SubtitleContent> sc = dynamic_pointer_cast<const SubtitleContent> (*i);
 		if (vc) {
 			t += vc->identifier ();
+		} else if (sc && sc->burn_subtitles ()) {
+			t += sc->identifier ();
 		}
 	}
 

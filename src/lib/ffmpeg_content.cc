@@ -292,7 +292,8 @@ FFmpegContent::identifier () const
 {
 	SafeStringStream s;
 
-	s << VideoContent::identifier();
+	s << VideoContent::identifier() << "_"
+	  << SubtitleContent::identifier();
 
 	boost::mutex::scoped_lock lm (_mutex);
 

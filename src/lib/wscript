@@ -36,7 +36,6 @@ sources = """
           config.cc
           content.cc
           content_factory.cc
-          content_subtitle.cc
           cross.cc
           data.cc
           dcp_content.cc
@@ -132,7 +131,7 @@ def build(bld):
     obj.name = 'libdcpomatic2'
     obj.export_includes = ['..']
     obj.uselib = """
-                 AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE 
+                 AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE SWRESAMPLE
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2
                  SNDFILE OPENJPEG POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
                  CURL ZIP PANGOMM CAIROMM XMLSEC SUB

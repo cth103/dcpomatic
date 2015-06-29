@@ -42,7 +42,7 @@ protected:
 	void seek (ContentTime, bool);
 
 	void image_subtitle (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
-	void text_subtitle (std::list<dcp::SubtitleString>);
+	void text_subtitle (ContentTimePeriod period, std::list<dcp::SubtitleString>);
 
 	std::list<ContentImageSubtitle> _decoded_image_subtitles;
 	std::list<ContentTextSubtitle> _decoded_text_subtitles;

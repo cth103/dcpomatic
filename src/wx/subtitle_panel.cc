@@ -51,7 +51,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	grid->Add (_use);
 	grid->AddSpacer (0);
 
-	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles"));
+	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles into image"));
 	grid->Add (_burn);
 	grid->AddSpacer (0);
 

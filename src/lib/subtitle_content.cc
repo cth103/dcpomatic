@@ -268,6 +268,13 @@ SubtitleContent::identifier () const
 	  << "_" << raw_convert<string> (subtitle_x_offset())
 	  << "_" << raw_convert<string> (subtitle_y_offset());
 
+	/* XXX: I suppose really _fonts shouldn't be in here, since not all
+	   types of subtitle content involve fonts.
+	*/
+	BOOST_FOREACH (shared_ptr<Font> f, _fonts) {
+		s << f->file().get_value_or ("Default");
+	}
+
 	/* The language is for metadata only, and doesn't affect
 	   how this content looks.
 	*/
