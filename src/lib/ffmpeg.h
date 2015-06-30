@@ -26,19 +26,13 @@ extern "C" {
 #include "file_group.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
-#include <vector>
 
-struct AVFilterGraph;
-struct AVCodecContext;
-struct AVFilterContext;
 struct AVFormatContext;
 struct AVFrame;
-struct AVBufferContext;
-struct AVCodec;
-struct AVStream;
 struct AVIOContext;
 
 class FFmpegContent;
+class Log;
 
 class FFmpeg
 {
@@ -80,6 +74,9 @@ protected:
 private:
 	void setup_general ();
 	void setup_decoders ();
+
+	static void ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl);
+	static boost::weak_ptr<Log> _ffmpeg_log;
 };
 
 #endif

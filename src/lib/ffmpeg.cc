@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,26 +17,31 @@
 
 */
 
-extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-}
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
+#include "film.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "exceptions.h"
 #include "util.h"
 #include "raw_convert.h"
+#include "log.h"
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+}
+#include <boost/algorithm/string.hpp>
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
+using std::cerr;
 using boost::shared_ptr;
 
 boost::mutex FFmpeg::_mutex;
+boost::weak_ptr<Log> FFmpeg::_ffmpeg_log;
 
 FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	: _ffmpeg_content (c)
@@ -76,9 +81,35 @@ avio_seek_wrapper (void* data, int64_t offset, int whence)
 }
 
 void
+FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
+{
+	if (level > AV_LOG_WARNING) {
+		return;
+	}
+
+	char line[1024];
+	static int prefix = 0;
+	av_log_format_line (ptr, level, fmt, vl, line, sizeof (line), &prefix);
+	shared_ptr<Log> log = _ffmpeg_log.lock ();
+	if (log) {
+		string str (line);
+		boost::algorithm::trim (str);
+		log->log (String::compose ("FFmpeg: %1", str), Log::TYPE_GENERAL);
+	} else {
+		cerr << line;
+	}
+}
+
+void
 FFmpeg::setup_general ()
 {
 	av_register_all ();
+
+	/* This might not work too well in some cases of multiple FFmpeg decoders,
+	   but it's probably good enough.
+	*/
+	_ffmpeg_log = _ffmpeg_content->film()->log ();
+	av_log_set_callback (FFmpeg::ffmpeg_log_callback);
 
 	_file_group.set_paths (_ffmpeg_content->paths ());
 	_avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc (_avio_buffer_size));
