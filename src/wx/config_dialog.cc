@@ -1119,6 +1119,7 @@ public:
 		, _log_error (0)
 		, _log_timing (0)
 		, _log_debug_decode (0)
+		, _log_debug_encode (0)
 	{}
 
 private:
@@ -1161,6 +1162,8 @@ private:
 			t->Add (_log_timing, 1, wxEXPAND | wxALL);
 			_log_debug_decode = new wxCheckBox (_panel, wxID_ANY, _("Debug: decode"));
 			t->Add (_log_debug_decode, 1, wxEXPAND | wxALL);
+			_log_debug_encode = new wxCheckBox (_panel, wxID_ANY, _("Debug: encode"));
+			t->Add (_log_debug_encode, 1, wxEXPAND | wxALL);
 			table->Add (t, 0, wxALL, 6);
 		}
 
@@ -1178,6 +1181,7 @@ private:
 		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_timing->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_debug_decode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+		_log_debug_encode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 #ifdef DCPOMATIC_WINDOWS
 		_win32_console->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::win32_console_changed, this));
 #endif
@@ -1194,6 +1198,7 @@ private:
 		checked_set (_log_error, config->log_types() & Log::TYPE_ERROR);
 		checked_set (_log_timing, config->log_types() & Log::TYPE_TIMING);
 		checked_set (_log_debug_decode, config->log_types() & Log::TYPE_DEBUG_DECODE);
+		checked_set (_log_debug_encode, config->log_types() & Log::TYPE_DEBUG_ENCODE);
 #ifdef DCPOMATIC_WINDOWS
 		checked_set (_win32_console, config->win32_console());
 #endif
@@ -1227,6 +1232,9 @@ private:
 		if (_log_debug_decode->GetValue ()) {
 			types |= Log::TYPE_DEBUG_DECODE;
 		}
+		if (_log_debug_encode->GetValue ()) {
+			types |= Log::TYPE_DEBUG_ENCODE;
+		}
 		Config::instance()->set_log_types (types);
 	}
 
@@ -1244,6 +1252,7 @@ private:
 	wxCheckBox* _log_error;
 	wxCheckBox* _log_timing;
 	wxCheckBox* _log_debug_decode;
+	wxCheckBox* _log_debug_encode;
 #ifdef DCPOMATIC_WINDOWS
 	wxCheckBox* _win32_console;
 #endif

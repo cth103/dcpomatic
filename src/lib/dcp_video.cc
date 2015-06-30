@@ -59,6 +59,7 @@
 #include <errno.h>
 
 #define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_DEBUG_ENCODE(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_DEBUG_ENCODE);
 
 #include "i18n.h"
 
@@ -223,13 +224,13 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
 
 	switch (_frame->eyes()) {
 	case EYES_BOTH:
-		LOG_GENERAL (N_("Finished locally-encoded frame %1 for mono"), _index);
+		LOG_DEBUG_ENCODE (N_("Finished locally-encoded frame %1 for mono"), _index);
 		break;
 	case EYES_LEFT:
-		LOG_GENERAL (N_("Finished locally-encoded frame %1 for L"), _index);
+		LOG_DEBUG_ENCODE (N_("Finished locally-encoded frame %1 for L"), _index);
 		break;
 	case EYES_RIGHT:
-		LOG_GENERAL (N_("Finished locally-encoded frame %1 for R"), _index);
+		LOG_DEBUG_ENCODE (N_("Finished locally-encoded frame %1 for R"), _index);
 		break;
 	default:
 		break;
@@ -266,7 +267,7 @@ DCPVideo::encode_remotely (ServerDescription serv)
 	root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
 	add_metadata (root);
 
-	LOG_GENERAL (N_("Sending frame %1 to remote"), _index);
+	LOG_DEBUG_ENCODE (N_("Sending frame %1 to remote"), _index);
 
 	/* Send XML metadata */
 	string xml = doc.write_to_string ("UTF-8");
@@ -282,7 +283,7 @@ DCPVideo::encode_remotely (ServerDescription serv)
 	Data e (socket->read_uint32 ());
 	socket->read (e.data().get(), e.size());
 
-	LOG_GENERAL (N_("Finished remotely-encoded frame %1"), _index);
+	LOG_DEBUG_ENCODE (N_("Finished remotely-encoded frame %1"), _index);
 
 	return e;
 }

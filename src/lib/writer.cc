@@ -55,6 +55,7 @@
 #include "i18n.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_DEBUG_ENCODE(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_DEBUG_ENCODE);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 #define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
 #define LOG_WARNING(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_WARNING);
@@ -361,7 +362,7 @@ try
 			switch (qi.type) {
 			case QueueItem::FULL:
 			{
-				LOG_GENERAL (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
+				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
 				if (!qi.encoded) {
 					qi.encoded = Data (_film->j2c_path (qi.frame, qi.eyes, false));
 				}
@@ -373,13 +374,13 @@ try
 				break;
 			}
 			case QueueItem::FAKE:
-				LOG_GENERAL (N_("Writer FAKE-writes %1"), qi.frame);
+				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
 				_picture_asset_writer->fake_write (qi.size);
 				_last_written[qi.eyes].reset ();
 				++_fake_written;
 				break;
 			case QueueItem::REPEAT:
-				LOG_GENERAL (N_("Writer REPEAT-writes %1"), qi.frame);
+				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes %1"), qi.frame);
 				dcp::FrameInfo fin = _picture_asset_writer->write (
 					_last_written[qi.eyes]->data().get(),
 					_last_written[qi.eyes]->size()
@@ -678,7 +679,7 @@ Writer::check_existing_picture_asset ()
 			}
 		}
 
-		LOG_GENERAL ("Have existing frame %1", _first_nonexistant_frame);
+		LOG_DEBUG_ENCODE ("Have existing frame %1", _first_nonexistant_frame);
 		++_first_nonexistant_frame;
 	}
 

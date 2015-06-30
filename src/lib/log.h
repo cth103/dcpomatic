@@ -43,6 +43,7 @@ public:
 	static const int TYPE_WARNING;
 	static const int TYPE_ERROR;
 	static const int TYPE_DEBUG_DECODE;
+	static const int TYPE_DEBUG_ENCODE;
 	static const int TYPE_TIMING;
 
 	void log (std::string message, int type);
