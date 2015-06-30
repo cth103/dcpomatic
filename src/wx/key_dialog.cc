@@ -41,7 +41,7 @@ KeyDialog::KeyDialog (wxWindow* parent, dcp::Key key)
 
         validator.SetIncludes (list);
 
-	_key = add (new wxTextCtrl (this, wxID_ANY, _(""), wxDefaultPosition, size, 0, validator));
+	_key = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator));
 	_key->SetValue (std_to_wx (key.hex ()));
 	_key->SetMaxLength (32);
 
