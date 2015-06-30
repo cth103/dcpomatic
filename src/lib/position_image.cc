@@ -25,11 +25,12 @@ using std::cout;
 bool
 PositionImage::same (PositionImage const & other) const
 {
-	if (image != other.image || position != other.position) {
+	if ((!image && other.image) || (image && !other.image) || position != other.position) {
 		return false;
 	}
 
 	if (!image) {
+		/* Neither has image and the positions are the same */
 		return true;
 	}
 
