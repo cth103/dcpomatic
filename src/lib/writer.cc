@@ -404,7 +404,7 @@ try
 				total *= 2;
 			}
 			if (total) {
-				job->set_progress (float (_full_written + _fake_written) / total);
+				job->set_progress (float (_full_written + _fake_written + _repeat_written) / total);
 			}
 		}
 
