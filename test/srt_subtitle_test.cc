@@ -108,8 +108,6 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 				j != boost::filesystem::directory_iterator ();
 				++j) {
 
-				std::cout << j->path().string() << "\n";
-
 				if (boost::algorithm::starts_with (j->path().leaf().string(), "sub_")) {
 					list<string> ignore;
 					ignore.push_back ("SubtitleID");

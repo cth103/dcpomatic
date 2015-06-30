@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 	ColourConversion B (dcp::ColourConversion::rec709_to_xyz ());
 
 	BOOST_CHECK_EQUAL (A.identifier(), "9840c601d2775bf1b3847254bbaa36a9");
-	BOOST_CHECK_EQUAL (B.identifier(), "0778fbc5c87470f58820604a66992579");
+	BOOST_CHECK_EQUAL (B.identifier(), "58151ac92fdf333663a62c9a8ba5c5f4");
 }
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test2)
@@ -81,11 +81,8 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 		"<Test>\n"
 		"  <InputTransferFunction>\n"
-		"    <Type>ModifiedGamma</Type>\n"
-		"    <Power>2.222222222222222</Power>\n"
-		"    <Threshold>0.081</Threshold>\n"
-		"    <A>0.099</A>\n"
-		"    <B>4.5</B>\n"
+		"    <Type>Gamma</Type>\n"
+		"    <Gamma>2.2</Gamma>\n"
 		"  </InputTransferFunction>\n"
 		"  <YUVToRGB>1</YUVToRGB>\n"
 		"  <RedX>0.64</RedX>\n"
