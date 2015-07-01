@@ -32,7 +32,6 @@ public:
 	AudioStream (int frame_rate, AudioMapping mapping);
 
 	void set_mapping (AudioMapping mapping);
-	void set_frame_rate (int frame_rate);
 
 	AudioMapping mapping () const {
 		boost::mutex::scoped_lock lm (_mutex);

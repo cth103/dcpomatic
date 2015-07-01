@@ -227,22 +227,6 @@ Film::internal_video_asset_filename () const
 	return video_identifier() + ".mxf";
 }
 
-string
-Film::filename_safe_name () const
-{
-	string const n = name ();
-	string o;
-	for (size_t i = 0; i < n.length(); ++i) {
-		if (isalnum (n[i])) {
-			o += n[i];
-		} else {
-			o += "_";
-		}
-	}
-
-	return o;
-}
-
 boost::filesystem::path
 Film::audio_analysis_path () const
 {

@@ -41,13 +41,6 @@ AudioStream::set_mapping (AudioMapping mapping)
 	_mapping = mapping;
 }
 
-void
-AudioStream::set_frame_rate (int frame_rate)
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	_frame_rate = frame_rate;
-}
-
 int
 AudioStream::channels () const
 {

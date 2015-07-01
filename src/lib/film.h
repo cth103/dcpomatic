@@ -286,7 +286,6 @@ private:
 	std::string video_identifier () const;
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
-	std::string filename_safe_name () const;
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
 
 	/** Log to write to */

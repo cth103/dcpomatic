@@ -440,19 +440,6 @@ md5_digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t si
 	return digester.get ();
 }
 
-/** @param An arbitrary audio frame rate.
- *  @return The appropriate DCP-approved frame rate (48kHz or 96kHz).
- */
-int
-dcp_audio_frame_rate (int fs)
-{
-	if (fs <= 48000) {
-		return 48000;
-	}
-
-	return 96000;
-}
-
 /** Round a number up to the nearest multiple of another number.
  *  @param c Index.
  *  @param s Array of numbers to round, indexed by c.
@@ -464,17 +451,6 @@ stride_round_up (int c, int const * stride, int t)
 {
 	int const a = stride[c] + (t - 1);
 	return a - (a % t);
-}
-
-/** @param n A number.
- *  @param r Rounding `boundary' (must be a power of 2)
- *  @return n rounded to the nearest r
- */
-int
-round_to (float n, int r)
-{
-	DCPOMATIC_ASSERT (r == 1 || r == 2 || r == 4);
-	return int (n + float(r) / 2) &~ (r - 1);
 }
 
 /** Trip an assert if the caller is not in the UI thread */
