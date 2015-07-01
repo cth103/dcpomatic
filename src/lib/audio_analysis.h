@@ -75,12 +75,25 @@ public:
 		return _peak_time;
 	}
 
+	boost::optional<double> analysis_gain () const {
+		return _analysis_gain;
+	}
+
+	void set_analysis_gain (double gain) {
+		_analysis_gain = gain;
+	}
+
 	void write (boost::filesystem::path);
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;
 	boost::optional<float> _peak;
 	boost::optional<DCPTime> _peak_time;
+	/** If this analysis was run on a single piece of
+	 *  content we store its gain in dB when the analysis
+	 *  happened.
+	 */
+	boost::optional<double> _analysis_gain;
 };
 
 #endif

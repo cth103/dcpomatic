@@ -102,6 +102,7 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 
 	_peak = f.number_child<float> ("Peak");
 	_peak_time = DCPTime (f.number_child<DCPTime::Type> ("PeakTime"));
+	_analysis_gain = f.optional_number_child<double> ("AnalysisGain");
 }
 
 void
@@ -147,6 +148,10 @@ AudioAnalysis::write (boost::filesystem::path filename)
 	if (_peak) {
 		root->add_child("Peak")->add_child_text (raw_convert<string> (_peak.get ()));
 		root->add_child("PeakTime")->add_child_text (raw_convert<string> (_peak_time.get().get ()));
+	}
+
+	if (_analysis_gain) {
+		root->add_child("AnalysisGain")->add_child_text (raw_convert<string> (_analysis_gain.get ()));
 	}
 
 	doc->write_to_file_formatted (filename.string ());

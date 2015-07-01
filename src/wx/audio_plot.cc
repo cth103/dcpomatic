@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
 
 */
 
-#include <iostream>
-#include <boost/bind.hpp>
-#include <wx/graphics.h>
 #include "audio_plot.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
 #include "wx/wx_util.h"
+#include <wx/graphics.h>
+#include <boost/bind.hpp>
+#include <iostream>
 
 using std::cout;
 using std::vector;
@@ -39,6 +39,7 @@ int const AudioPlot::max_smoothing = 128;
 AudioPlot::AudioPlot (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _smoothing (max_smoothing / 2)
+	, _gain_correction (0)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
@@ -214,12 +215,12 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics
 		return;
 	}
 
-	path.MoveToPoint (metrics.db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::PEAK], metrics));
+	path.MoveToPoint (metrics.db_label_width, y_for_linear (get_point(channel, 0)[AudioPoint::PEAK], metrics));
 
 	float peak = 0;
 	int const N = _analysis->points(channel);
 	for (int i = 0; i < N; ++i) {
-		float const p = _analysis->get_point(channel, i)[AudioPoint::PEAK];
+		float const p = get_point(channel, i)[AudioPoint::PEAK];
 		peak -= 0.01f * (1 - log10 (_smoothing) / log10 (max_smoothing));
 		if (p > peak) {
 			peak = p;
@@ -238,14 +239,14 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 		return;
 	}
 
-	path.MoveToPoint (metrics.db_label_width, y_for_linear (_analysis->get_point(channel, 0)[AudioPoint::RMS], metrics));
+	path.MoveToPoint (metrics.db_label_width, y_for_linear (get_point(channel, 0)[AudioPoint::RMS], metrics));
 
 	list<float> smoothing;
 
 	int const N = _analysis->points(channel);
 
-	float const first = _analysis->get_point(channel, 0)[AudioPoint::RMS];
-	float const last = _analysis->get_point(channel, N - 1)[AudioPoint::RMS];
+	float const first = get_point(channel, 0)[AudioPoint::RMS];
+	float const last = get_point(channel, N - 1)[AudioPoint::RMS];
 
 	int const before = _smoothing / 2;
 	int const after = _smoothing - before;
@@ -256,7 +257,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 	}
 	for (int i = 0; i < after; ++i) {
 		if (i < N) {
-			smoothing.push_back (_analysis->get_point(channel, i)[AudioPoint::RMS]);
+			smoothing.push_back (get_point(channel, i)[AudioPoint::RMS]);
 		} else {
 			smoothing.push_back (last);
 		}
@@ -267,7 +268,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 		int const next_for_window = i + after;
 
 		if (next_for_window < N) {
-			smoothing.push_back (_analysis->get_point(channel, i)[AudioPoint::RMS]);
+			smoothing.push_back (get_point(channel, i)[AudioPoint::RMS]);
 		} else {
 			smoothing.push_back (last);
 		}
@@ -292,4 +293,22 @@ AudioPlot::set_smoothing (int s)
 {
 	_smoothing = s;
 	Refresh ();
+}
+
+void
+AudioPlot::set_gain_correction (double gain)
+{
+	_gain_correction = gain;
+	Refresh ();
+}
+
+AudioPoint
+AudioPlot::get_point (int channel, int point) const
+{
+	AudioPoint p = _analysis->get_point (channel, point);
+	for (int i = 0; i < AudioPoint::COUNT; ++i) {
+		p[i] *= pow (10, _gain_correction / 20);
+	}
+
+	return p;
 }

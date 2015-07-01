@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ public:
 	void set_type_visible (int t, bool v);
 	void set_smoothing (int);
 	void set_message (wxString);
+	void set_gain_correction (double gain);
 
 	static const int max_smoothing;
 
@@ -43,14 +44,15 @@ private:
 	void plot_peak (wxGraphicsPath &, int, Metrics const &) const;
 	void plot_rms (wxGraphicsPath &, int, Metrics const &) const;
 	float y_for_linear (float, Metrics const &) const;
+	AudioPoint get_point (int channel, int point) const;
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
 	bool _type_visible[AudioPoint::COUNT];
 	int _smoothing;
 	std::vector<wxColour> _colours;
-
 	wxString _message;
+	float _gain_correction;
 
 	static const int _minimum;
 };

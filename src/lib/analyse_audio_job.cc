@@ -89,6 +89,16 @@ AnalyseAudioJob::run ()
 	}
 
 	_analysis->set_peak (_overall_peak, DCPTime::from_frames (_overall_peak_frame, _film->audio_frame_rate ()));
+
+	if (_playlist->content().size() == 1) {
+		/* If there was only one piece of content in this analysis we may later need to know what its
+		   gain was when we analysed it.
+		*/
+		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (_playlist->content().front ());
+		DCPOMATIC_ASSERT (ac);
+		_analysis->set_analysis_gain (ac->audio_gain ());
+	}
+
 	_analysis->write (_film->audio_analysis_path (_playlist));
 
 	set_progress (1);
