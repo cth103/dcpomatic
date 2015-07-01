@@ -1,3 +1,8 @@
+2015-07-02  Carl Hetherington  <cth@carlh.net>
+
+	* Restore audio analysis button for individual
+	sources (#607 and #622).
+
 2015-06-30  c.hetherington  <cth@carlh.net>
 
 	* Write FFmpeg messages of AV_LOG_WARNING and
