@@ -17,11 +17,12 @@
 
 */
 
-#include <boost/shared_ptr.hpp>
-#include <boost/signals2.hpp>
-#include <wx/wx.h>
 #include "lib/film.h"
 #include "lib/audio_analysis.h"
+#include "lib/playlist.h"
+#include <wx/wx.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
 
 class AudioPlot;
 class Film;
@@ -29,7 +30,7 @@ class Film;
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog (wxWindow *, boost::shared_ptr<Film> film);
+	AudioDialog (wxWindow *, boost::shared_ptr<Film> film, boost::shared_ptr<AudioContent> content = boost::shared_ptr<AudioContent> ());
 
 	bool Show (bool show = true);
 
@@ -44,6 +45,7 @@ private:
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
+	boost::shared_ptr<const Playlist> _playlist;
 	AudioPlot* _plot;
 	wxStaticText* _peak_time;
 	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];

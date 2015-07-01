@@ -30,8 +30,10 @@
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
+using boost::const_pointer_cast;
 
-AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
+/** @param content Content to analyse, or 0 to analyse all of the film's audio */
+AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<AudioContent> content)
 	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
 	, _plot (0)
@@ -109,6 +111,13 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film)
 
 	_film_connection = film->ContentChanged.connect (boost::bind (&AudioDialog::try_to_load_analysis, this));
 	SetTitle (_("DCP-o-matic audio"));
+
+	if (content) {
+		_playlist.reset (new Playlist ());
+		const_pointer_cast<Playlist> (_playlist)->add (content);
+	} else {
+		_playlist = film->playlist ();
+	}
 }
 
 void
@@ -121,12 +130,12 @@ AudioDialog::try_to_load_analysis ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	boost::filesystem::path path = film->audio_analysis_path ();
+	boost::filesystem::path path = film->audio_analysis_path (_playlist);
 
 	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
-		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
 		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
 		JobManager::instance()->add (job);
 		return;
@@ -136,7 +145,7 @@ AudioDialog::try_to_load_analysis ()
 		_analysis.reset (new AudioAnalysis (path));
 	} catch (xmlpp::exception& e) {
 		/* Probably an old-style analysis file: recreate it */
-		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
 		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
 		JobManager::instance()->add (job);
 		return;
@@ -178,7 +187,7 @@ AudioDialog::analysis_finished ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	if (!boost::filesystem::exists (film->audio_analysis_path ())) {
+	if (!boost::filesystem::exists (film->audio_analysis_path (_playlist))) {
 		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
 		   Give up.
 		*/

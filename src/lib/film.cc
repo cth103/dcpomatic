@@ -228,12 +228,12 @@ Film::internal_video_asset_filename () const
 }
 
 boost::filesystem::path
-Film::audio_analysis_path () const
+Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 {
 	boost::filesystem::path p = dir ("analysis");
 
 	MD5Digester digester;
-	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+	BOOST_FOREACH (shared_ptr<Content> i, playlist->content ()) {
 		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (i);
 		if (!ac) {
 			continue;

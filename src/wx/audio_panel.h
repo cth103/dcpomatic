@@ -26,26 +26,31 @@ class wxButton;
 class wxChoice;
 class wxStaticText;
 class AudioMappingView;
+class AudioDialog;
 
 class AudioPanel : public ContentSubPanel
 {
 public:
 	AudioPanel (ContentPanel *);
+	~AudioPanel ();
 
 	void film_changed (Film::Property);
 	void film_content_changed (int);
 	void content_selection_changed ();
 
 private:
+	void show_clicked ();
 	void gain_calculate_button_clicked ();
 	void mapping_changed (AudioMapping);
 	void setup_description ();
 
+	wxButton* _show;
 	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;
 	ContentSpinCtrl<AudioContent>* _delay;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
+	AudioDialog* _audio_dialog;
 
 	boost::signals2::scoped_connection _mapping_connection;
 };
