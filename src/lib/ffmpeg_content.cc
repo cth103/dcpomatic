@@ -99,13 +99,13 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 	_first_video = node->optional_number_child<double> ("FirstVideo");
 
-
 	_color_range = static_cast<AVColorRange> (node->optional_number_child<int>("ColorRange").get_value_or (AVCOL_RANGE_UNSPECIFIED));
 	_color_primaries = static_cast<AVColorPrimaries> (node->optional_number_child<int>("ColorPrimaries").get_value_or (AVCOL_PRI_UNSPECIFIED));
 	_color_trc = static_cast<AVColorTransferCharacteristic> (
 		node->optional_number_child<int>("ColorTransferCharacteristic").get_value_or (AVCOL_TRC_UNSPECIFIED)
 		);
 	_colorspace = static_cast<AVColorSpace> (node->optional_number_child<int>("Colorspace").get_value_or (AVCOL_SPC_UNSPECIFIED));
+	_bits_per_pixel = static_cast<int> (node->number_child<int> ("BitsPerPixel"));
 
 }
 
@@ -166,6 +166,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (_color_primaries));
 	node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (_color_trc));
 	node->add_child("Colorspace")->add_child_text (raw_convert<string> (_colorspace));
+	node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (_bits_per_pixel));
 }
 
 void
@@ -203,6 +204,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		_color_primaries = examiner->color_primaries ();
 		_color_trc = examiner->color_trc ();
 		_colorspace = examiner->colorspace ();
+		_bits_per_pixel = examiner->bits_per_pixel ();
 	}
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
@@ -360,18 +362,22 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 {
 	VideoContent::add_properties (p);
 
-	/* I tried av_*_name for these but they are not the most
-	   nicely formatted.
-	*/
+	int const sub = 219 * pow (2, _bits_per_pixel - 8);
+	int const total = pow (2, _bits_per_pixel);
 
-	char const * ranges[] = {
-		_("Unspecified"),
-		_("MPEG (0-219 or equivalent)"),
-		_("JPEG (0-255 or equivalent)")
-	};
-
-	DCPOMATIC_ASSERT (AVCOL_RANGE_NB == 3);
-	p.push_back (make_pair (_("Colour range"), ranges[_color_range]));
+	switch (_color_range) {
+	case AVCOL_RANGE_UNSPECIFIED:
+		p.push_back (make_pair (_("Colour range"), _("Unspecified")));
+		break;
+	case AVCOL_RANGE_MPEG:
+		p.push_back (make_pair (_("Colour range"), String::compose ("Limited (%1-%2)", (total - sub) / 2, (total + sub) / 2)));
+		break;
+	case AVCOL_RANGE_JPEG:
+		p.push_back (make_pair (_("Colour range"), String::compose ("Full (0-total)", (total - sub) / 2, (total + sub) / 2)));
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
 
 	char const * primaries[] = {
 		_("Unspecified"),
@@ -427,4 +433,6 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 
 	DCPOMATIC_ASSERT (AVCOL_SPC_NB == 11);
 	p.push_back (make_pair (_("Colourspace"), spaces[_colorspace]));
+
+	p.push_back (make_pair (_("Bits per pixel"), raw_convert<string> (_bits_per_pixel)));
 }

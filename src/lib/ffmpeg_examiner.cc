@@ -20,6 +20,8 @@
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libavutil/pixfmt.h>
+#include <libavutil/pixdesc.h>
 }
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_content.h"
@@ -274,4 +276,10 @@ FFmpegExaminer::stream_name (AVStream* s) const
 	}
 
 	return n.str ();
+}
+
+int
+FFmpegExaminer::bits_per_pixel () const
+{
+	return av_get_bits_per_pixel (av_pix_fmt_desc_get (video_codec_context()->pix_fmt));
 }

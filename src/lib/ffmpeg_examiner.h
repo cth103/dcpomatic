@@ -64,6 +64,8 @@ public:
 		return video_codec_context()->colorspace;
 	}
 
+	int bits_per_pixel () const;
+
 private:
 	void video_packet (AVCodecContext *);
 	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);
