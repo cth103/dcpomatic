@@ -1,5 +1,7 @@
 2015-07-02  c.hetherington  <cth@carlh.net>
 
+	* Support <font color="#abcdef"> tags in SubRip files.
+
 	* Fix failure to burn subs over existing DCP sources.
 
 	* Remove output gamma configuration option.
