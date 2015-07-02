@@ -295,6 +295,7 @@ def configure(conf):
         conf.env.STLIB_BOOST_DATETIME = ['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix]
         conf.env.STLIB_BOOST_SIGNALS2 = ['boost_signals2']
         conf.env.STLIB_BOOST_SYSTEM = ['boost_system']
+        conf.env.STLIB_BOOST_REGEX = ['boost_regex']
     else:
         conf.check_cxx(fragment="""
                             #include <boost/version.hpp>\n

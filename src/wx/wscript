@@ -105,11 +105,11 @@ def configure(conf):
                 stlibs.append(os.path.basename(f)[3:-2])
             else:
                 new_linkflags.append(f)
-        
+
         conf.env.STLIB_WXWIDGETS = stlibs
         conf.env.LINKFLAGS_WXWIDGETS = new_linkflags
         conf.env.STLIBPATH_WXWIDGETS = stlib_paths
- 
+
     conf.in_msg = 1
     wx_version = conf.check_cfg(package='', path='wx-config', args='--version').strip()
     conf.im_msg = 0
@@ -124,7 +124,7 @@ def build(bld):
 
     obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
-    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD WXWIDGETS DCP SUB ZIP '
+    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP '
     if bld.env.TARGET_LINUX:
         obj.uselib += 'GTK '
     if bld.env.TARGET_WINDOWS:
