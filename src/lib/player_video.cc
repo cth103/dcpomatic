@@ -167,14 +167,14 @@ PlayerVideo::send_binary (shared_ptr<Socket> socket) const
 bool
 PlayerVideo::has_j2k () const
 {
-	/* XXX: burnt-in subtitle; maybe other things */
+	/* XXX: maybe other things */
 
 	shared_ptr<const J2KImageProxy> j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
 	if (!j2k) {
 		return false;
 	}
 
-	return _crop == Crop () && _inter_size == j2k->size();
+	return _crop == Crop () && _inter_size == j2k->size() && !_subtitle && !_fade;
 }
 
 Data
