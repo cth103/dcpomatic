@@ -343,6 +343,14 @@ def configure(conf):
                        msg='Checking for boost signals2 library',
                        uselib_store='BOOST_SIGNALS2')
 
+        conf.check_cxx(fragment="""
+    			    #include <boost/regex.hpp>\n
+    			    int main() { boost::regex re ("foo"); }\n
+			    """,
+                       msg='Checking for boost regex library',
+                       lib=['boost_regex%s' % boost_lib_suffix],
+                       uselib_store='BOOST_REGEX')
+
     # Other stuff
 
     conf.find_program('msgfmt', var='MSGFMT')
