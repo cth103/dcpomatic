@@ -70,7 +70,6 @@ private:
 	wxTextCtrl* _adjusted_white_y;
 	wxStaticText* _rgb_to_xyz[3][3];
 	wxStaticText* _bradford[3][3];
-	wxSpinCtrlDouble* _output_gamma;
 };
 
 #endif

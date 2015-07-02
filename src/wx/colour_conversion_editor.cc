@@ -179,27 +179,12 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	}
 	table->Add (bradford_sizer, wxGBPosition (r - 2, 3), wxGBSpan (2, 1));
 
-	subhead (table, this, _("Output gamma correction"), r);
-
-	add_label_to_grid_bag_sizer (table, this, _("Output gamma"), true, wxGBPosition (r, 0));
-	wxBoxSizer* output_sizer = new wxBoxSizer (wxHORIZONTAL);
-	/// TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
-	/// comes after it.
-	add_label_to_sizer (output_sizer, this, _("1 / "), false);
-	_output_gamma = new wxSpinCtrlDouble (this);
-	output_sizer->Add (_output_gamma);
-	table->Add (output_sizer, wxGBPosition (r, 1), wxGBSpan (1, 2));
-	++r;
-
 	_input_gamma->SetRange (0.1, 4.0);
 	_input_gamma->SetDigits (2);
 	_input_gamma->SetIncrement (0.1);
 	_input_power->SetRange (0.1, 4.0);
 	_input_power->SetDigits (6);
 	_input_power->SetIncrement (0.1);
-	_output_gamma->SetRange (0.1, 4.0);
-	_output_gamma->SetDigits (2);
-	_output_gamma->SetIncrement (0.1);
 
 	_input_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this, _input_gamma));
 	_input_gamma_linearised->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ColourConversionEditor::changed, this));
@@ -219,7 +204,6 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	_adjusted_white_x->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
 	_adjusted_white_y->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
 	_yuv_to_rgb->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ColourConversionEditor::changed, this));
-	_output_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this, _output_gamma));
 }
 
 void
@@ -300,8 +284,6 @@ ColourConversionEditor::set (ColourConversion conversion)
 
 	update_rgb_to_xyz ();
 	update_bradford ();
-
-	set_spin_ctrl (_output_gamma, dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.out ())->gamma ());
 }
 
 ColourConversion
@@ -352,7 +334,7 @@ ColourConversionEditor::get () const
 		conversion.unset_adjusted_white ();
 	}
 
-	conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (_output_gamma->GetValue ())));
+	conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (2.6)));
 
 	return conversion;
 }
