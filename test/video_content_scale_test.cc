@@ -49,6 +49,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 		"<OriginalVideoFrameRate>23.97602462768555</OriginalVideoFrameRate>"
 		"<VideoFrameType>0</VideoFrameType>"
 		"<SampleAspectRatio>1</SampleAspectRatio>"
+		"<BitsPerPixel>12</BitsPerPixel>"
 		"<LeftCrop>" << crop.left << "</LeftCrop>"
 		"<RightCrop>" << crop.right << "</RightCrop>"
 		"<TopCrop>" << crop.top << "</TopCrop>"

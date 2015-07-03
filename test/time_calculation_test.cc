@@ -33,6 +33,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 	string const xml = "<Content>"
 		"<Type>FFmpeg</Type>"
 		"<BurnSubtitles>0</BurnSubtitles>"
+		"<BitsPerPixel>8</BitsPerPixel>"
 		"<Path>/home/c.hetherington/DCP/clapperboard.mp4</Path>"
 		"<Digest>2760e03c7251480f7f02c01a907792673784335</Digest>"
 		"<Position>0</Position>"
