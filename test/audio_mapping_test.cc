@@ -25,6 +25,8 @@
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
 
+using std::list;
+
 BOOST_AUTO_TEST_CASE (audio_mapping_test)
 {
 	AudioMapping none;
@@ -34,5 +36,22 @@ BOOST_AUTO_TEST_CASE (audio_mapping_test)
 	BOOST_CHECK_EQUAL (four.input_channels(), 4);
 
 	four.set (0, 1, 1);
-	BOOST_CHECK_EQUAL (four.get (0, 1), 1);
+
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
+			BOOST_CHECK_EQUAL (four.get (i, j), (i == 0 && j == 1) ? 1 : 0);
+		}
+	}
+
+	list<int> mapped = four.mapped_output_channels ();
+	BOOST_CHECK_EQUAL (mapped.size(), 1);
+	BOOST_CHECK_EQUAL (mapped.front(), 1);
+
+	four.make_zero ();
+
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
+			BOOST_CHECK_EQUAL (four.get (i, j), 0);
+		}
+	}
 }
