@@ -31,6 +31,7 @@ namespace dcp {
 
 class DCPContent;
 class Log;
+struct dcp_subtitle_within_dcp_test;
 
 class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder
 {
@@ -38,6 +39,8 @@ public:
 	DCPDecoder (boost::shared_ptr<const DCPContent>);
 
 private:
+	friend struct dcp_subtitle_within_dcp_test;
+
 	bool pass ();
 	void seek (ContentTime t, bool accurate);
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,9 +29,11 @@
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
+#include <dcp/reel_subtitle_asset.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_frame.h>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::cout;
@@ -102,7 +104,25 @@ DCPDecoder::pass ()
 		audio (_dcp_content->audio_stream(), data, _next);
 	}
 
-	/* XXX: subtitle */
+	if ((*_reel)->main_subtitle ()) {
+		int64_t const entry_point = (*_reel)->main_subtitle()->entry_point ();
+		list<dcp::SubtitleString> subs = (*_reel)->main_subtitle()->subtitle_asset()->subtitles_during (
+			dcp::Time (entry_point + frame, vfr, vfr),
+			dcp::Time (entry_point + frame + 1, vfr, vfr),
+			true
+			);
+
+		if (!subs.empty ()) {
+			/* XXX: assuming that all `subs' are at the same time; maybe this is ok */
+			text_subtitle (
+				ContentTimePeriod (
+					ContentTime::from_seconds (subs.front().in().as_seconds ()),
+					ContentTime::from_seconds (subs.front().out().as_seconds ())
+					),
+				subs
+				);
+		}
+	}
 
 	_next += ContentTime::from_frames (1, vfr);
 
@@ -139,8 +159,35 @@ DCPDecoder::image_subtitles_during (ContentTimePeriod, bool) const
 }
 
 list<ContentTimePeriod>
-DCPDecoder::text_subtitles_during (ContentTimePeriod, bool) const
+DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) const
 {
-	/* XXX */
-	return list<ContentTimePeriod> ();
+	/* XXX: inefficient */
+
+	list<ContentTimePeriod> ctp;
+	float const vfr = _dcp_content->video_frame_rate ();
+
+	BOOST_FOREACH (shared_ptr<dcp::Reel> r, _reels) {
+		if (!r->main_subtitle ()) {
+			continue;
+		}
+
+		int64_t const entry_point = r->main_subtitle()->entry_point ();
+
+		list<dcp::SubtitleString> subs = r->main_subtitle()->subtitle_asset()->subtitles_during (
+			dcp::Time (period.from.seconds ()) - dcp::Time (entry_point, vfr, vfr),
+			dcp::Time (period.to.seconds ()) - dcp::Time (entry_point, vfr, vfr),
+			starting
+			);
+
+		BOOST_FOREACH (dcp::SubtitleString const & s, subs) {
+			ctp.push_back (
+				ContentTimePeriod (
+					ContentTime::from_seconds (s.in().as_seconds ()),
+					ContentTime::from_seconds (s.out().as_seconds ())
+					)
+				);
+		}
+	}
+
+	return ctp;
 }
