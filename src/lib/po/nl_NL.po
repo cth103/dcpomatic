@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-30 22:20+0100\n"
+"POT-Creation-Date: 2015-07-06 16:13+0100\n"
 "PO-Revision-Date: 2015-07-06 16:07+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "%1 [audio]"
 msgstr "%1 [audio]"
 
-#: src/lib/ffmpeg_content.cc:217
+#: src/lib/ffmpeg_content.cc:219
 msgid "%1 [movie]"
 msgstr "%1 [film]"
 
@@ -62,7 +62,7 @@ msgstr "Advertentie"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Er is een fout opgetreden met bestand %1."
 
-#: src/lib/analyse_audio_job.cc:52
+#: src/lib/analyse_audio_job.cc:54
 msgid "Analyse audio"
 msgstr "Analyseer audio"
 
@@ -82,56 +82,60 @@ msgstr ""
 msgid "Audio will not be resampled"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:405
+#: src/lib/ffmpeg_content.cc:411
 msgid "BT1361 extended colour gamut"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:386
+#: src/lib/ffmpeg_content.cc:392
 msgid "BT2020"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:425
+#: src/lib/ffmpeg_content.cc:431
 msgid "BT2020 constant luminance"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:407
+#: src/lib/ffmpeg_content.cc:413
 msgid "BT2020 for a 10-bit system"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:408
+#: src/lib/ffmpeg_content.cc:414
 msgid "BT2020 for a 12-bit system"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:424
+#: src/lib/ffmpeg_content.cc:430
 msgid "BT2020 non-constant luminance"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:382
+#: src/lib/ffmpeg_content.cc:388
 msgid "BT470BG"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:420
+#: src/lib/ffmpeg_content.cc:426
 msgid "BT470BG (BT601-6)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:381
+#: src/lib/ffmpeg_content.cc:387
 msgid "BT470M"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:378 src/lib/ffmpeg_content.cc:394
-#: src/lib/ffmpeg_content.cc:416
+#: src/lib/ffmpeg_content.cc:384 src/lib/ffmpeg_content.cc:400
+#: src/lib/ffmpeg_content.cc:422
 msgid "BT709"
 msgstr ""
 
-#: src/lib/film.cc:1213
-msgid "BsL"
-msgstr ""
-
-#: src/lib/film.cc:1214
-msgid "BsR"
+#: src/lib/ffmpeg_content.cc:437
+msgid "Bits per pixel"
 msgstr ""
 
 #: src/lib/film.cc:1205
+msgid "BsL"
+msgstr ""
+
+#: src/lib/film.cc:1206
+msgid "BsR"
+msgstr ""
+
+#: src/lib/film.cc:1197
 msgid "C"
 msgstr ""
 
@@ -143,7 +147,7 @@ msgstr "Afgebroken"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Fout met pixel formaat %1 tijdens %2"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:474
 msgid "Centre"
 msgstr "Midden"
 
@@ -151,19 +155,20 @@ msgstr "Midden"
 msgid "Checking existing image data"
 msgstr "Controleer bestaande videodata"
 
-#: src/lib/ffmpeg_content.cc:390
-msgid "Color primaries"
+#: src/lib/ffmpeg_content.cc:396
+msgid "Colour primaries"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:374
+#: src/lib/ffmpeg_content.cc:370 src/lib/ffmpeg_content.cc:373
+#: src/lib/ffmpeg_content.cc:376
 msgid "Colour range"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:412
+#: src/lib/ffmpeg_content.cc:418
 msgid "Colour transfer characteristic"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:429
+#: src/lib/ffmpeg_content.cc:435
 msgid "Colourspace"
 msgstr ""
 
@@ -279,7 +284,7 @@ msgstr ""
 msgid "Could not decode image file (%1)"
 msgstr ""
 
-#: src/lib/server_finder.cc:128
+#: src/lib/server_finder.cc:126
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -413,7 +418,7 @@ msgstr ""
 msgid "Examine content"
 msgstr "Controleer content"
 
-#: src/lib/ffmpeg_content.cc:419
+#: src/lib/ffmpeg_content.cc:425
 msgid "FCC"
 msgstr ""
 
@@ -425,15 +430,15 @@ msgstr "Inlog fout met server (%1)"
 msgid "Feature"
 msgstr "Kenmerken"
 
-#: src/lib/ffmpeg_content.cc:385
+#: src/lib/ffmpeg_content.cc:391
 msgid "Film"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:76
+#: src/lib/ffmpeg_examiner.cc:78
 msgid "Finding length"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:81
+#: src/lib/ffmpeg_examiner.cc:83
 msgid "Finding subtitles"
 msgstr ""
 
@@ -445,11 +450,11 @@ msgstr "Onbewerkt"
 msgid "Full frame"
 msgstr "Full frame"
 
-#: src/lib/ffmpeg_content.cc:397
+#: src/lib/ffmpeg_content.cc:403
 msgid "Gamma 22 (BT470M)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:398
+#: src/lib/ffmpeg_content.cc:404
 msgid "Gamma 28 (BT470BG)"
 msgstr ""
 
@@ -457,11 +462,11 @@ msgstr ""
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/film.cc:1209
+#: src/lib/film.cc:1201
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:478
 msgid "Hearing impaired"
 msgstr "Slechthorenden"
 
@@ -469,20 +474,16 @@ msgstr "Slechthorenden"
 msgid "High quality 3D denoiser"
 msgstr "High quality 3D denoiser"
 
-#: src/lib/ffmpeg_content.cc:406
+#: src/lib/ffmpeg_content.cc:412
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:404
+#: src/lib/ffmpeg_content.cc:410
 msgid "IEC61966-2-4"
 msgstr ""
 
 #: src/lib/job.cc:114 src/lib/job.cc:124
 msgid "It is not known what caused this error."
-msgstr ""
-
-#: src/lib/ffmpeg_content.cc:370
-msgid "JPEG (0-255 or equivalent)"
 msgstr ""
 
 #: src/lib/config.cc:197
@@ -493,56 +494,52 @@ msgstr "KDM levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/film.cc:1203
+#: src/lib/film.cc:1195
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1211
+#: src/lib/film.cc:1203
 msgid "Lc"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:496
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:472
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:480
 msgid "Left centre"
 msgstr "Links midden"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:482
 msgid "Left rear surround"
 msgstr "Links achter surround"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:476
 msgid "Left surround"
 msgstr "links surround"
 
-#: src/lib/film.cc:1206
+#: src/lib/film.cc:1198
 msgid "Lfe"
 msgstr ""
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:475
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
-#: src/lib/ffmpeg_content.cc:401
+#: src/lib/ffmpeg_content.cc:407
 msgid "Linear"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:402
+#: src/lib/ffmpeg_content.cc:408
 msgid "Logarithmic (100:1 range)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:403
+#: src/lib/ffmpeg_content.cc:409
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1207
+#: src/lib/film.cc:1199
 msgid "Ls"
-msgstr ""
-
-#: src/lib/ffmpeg_content.cc:369
-msgid "MPEG (0-219 or equivalent)"
 msgstr ""
 
 #: src/lib/mid_side_decoder.cc:34
@@ -633,11 +630,11 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Publieke Service aankondiging"
 
-#: src/lib/film.cc:1204
+#: src/lib/film.cc:1196
 msgid "R"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:415
+#: src/lib/ffmpeg_content.cc:421
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr ""
 
@@ -645,7 +642,7 @@ msgstr ""
 msgid "Rating"
 msgstr "Beoordeling"
 
-#: src/lib/film.cc:1212
+#: src/lib/film.cc:1204
 msgid "Rc"
 msgstr ""
 
@@ -657,36 +654,36 @@ msgstr ""
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:497
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:473
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:481
 msgid "Right centre"
 msgstr "Rechts midden"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:483
 msgid "Right rear surround"
 msgstr "Rechtsachter surround"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:477
 msgid "Right surround"
 msgstr "Rechts surround"
 
-#: src/lib/film.cc:1208
+#: src/lib/film.cc:1200
 msgid "Rs"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:383 src/lib/ffmpeg_content.cc:399
+#: src/lib/ffmpeg_content.cc:389 src/lib/ffmpeg_content.cc:405
 msgid "SMPTE 170M (BT601)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:421
+#: src/lib/ffmpeg_content.cc:427
 msgid "SMPTE 170M (BT601-6)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:384 src/lib/ffmpeg_content.cc:400
-#: src/lib/ffmpeg_content.cc:422
+#: src/lib/ffmpeg_content.cc:390 src/lib/ffmpeg_content.cc:406
+#: src/lib/ffmpeg_content.cc:428
 msgid "SMPTE 240M"
 msgstr ""
 
@@ -736,7 +733,7 @@ msgstr "Test"
 
 #: src/lib/dcp_examiner.cc:131
 msgid ""
-"The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL"
+"The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
 
 #: src/lib/exceptions.cc:72
@@ -755,7 +752,7 @@ msgstr ""
 msgid "There was not enough memory to do this."
 msgstr "Er was niet genoeg geheugen om dit uit te voeren."
 
-#: src/lib/film.cc:380
+#: src/lib/film.cc:372
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -763,7 +760,7 @@ msgstr ""
 "Deze film is gemaakt met een nieuwere versie van DCP-o-matic en kan niet "
 "geopend worden. Sorry!"
 
-#: src/lib/film.cc:372
+#: src/lib/film.cc:364
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -805,11 +802,11 @@ msgstr "Niet herkenbaar audio sample formaat (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Unsharp mask and Gaussian blur"
 
-#: src/lib/ffmpeg_content.cc:368 src/lib/ffmpeg_content.cc:377
-#: src/lib/ffmpeg_content.cc:379 src/lib/ffmpeg_content.cc:380
-#: src/lib/ffmpeg_content.cc:393 src/lib/ffmpeg_content.cc:395
-#: src/lib/ffmpeg_content.cc:396 src/lib/ffmpeg_content.cc:417
-#: src/lib/ffmpeg_content.cc:418
+#: src/lib/ffmpeg_content.cc:370 src/lib/ffmpeg_content.cc:383
+#: src/lib/ffmpeg_content.cc:385 src/lib/ffmpeg_content.cc:386
+#: src/lib/ffmpeg_content.cc:399 src/lib/ffmpeg_content.cc:401
+#: src/lib/ffmpeg_content.cc:402 src/lib/ffmpeg_content.cc:423
+#: src/lib/ffmpeg_content.cc:424
 msgid "Unspecified"
 msgstr ""
 
@@ -825,7 +822,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1210
+#: src/lib/film.cc:1202
 msgid "VI"
 msgstr ""
 
@@ -841,7 +838,7 @@ msgstr ""
 msgid "Video size"
 msgstr ""
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:479
 msgid "Visually impaired"
 msgstr "Slechtzienden"
 
@@ -849,7 +846,7 @@ msgstr "Slechtzienden"
 msgid "Waiting"
 msgstr "Wachten"
 
-#: src/lib/ffmpeg_content.cc:423
+#: src/lib/ffmpeg_content.cc:429
 msgid "YCOCG"
 msgstr ""
 
@@ -857,7 +854,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:295
+#: src/lib/film.cc:287
 msgid "You must add some content to the DCP before creating it"
 msgstr "U moet wat content toevoegen voor het maken van de DCP"
 
@@ -873,7 +870,7 @@ msgstr "[still]"
 msgid "[subtitles]"
 msgstr ""
 
-#: src/lib/film.cc:276
+#: src/lib/film.cc:268
 msgid "cannot contain slashes"
 msgstr "er mag geen '\" gebruikt worden"
 
@@ -885,11 +882,11 @@ msgstr "verbinding timeout"
 msgid "connecting"
 msgstr "verbinden"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:283
 msgid "container"
 msgstr "container"
 
-#: src/lib/film.cc:299
+#: src/lib/film.cc:291
 msgid "content type"
 msgstr "content type"
 
@@ -992,7 +989,7 @@ msgstr "bewegend"
 msgid "multi-part subtitles not yet supported"
 msgstr "ondertitels met meerdere delen worden nog niet ondersteund."
 
-#: src/lib/film.cc:276 src/lib/film.cc:303
+#: src/lib/film.cc:268 src/lib/film.cc:295
 msgid "name"
 msgstr "naam"
 
@@ -1019,7 +1016,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "still"
 
-#: src/lib/ffmpeg_examiner.cc:250
+#: src/lib/ffmpeg_examiner.cc:252
 msgid "unknown"
 msgstr "onbekend"
 

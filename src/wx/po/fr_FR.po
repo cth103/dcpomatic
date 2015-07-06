@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-30 22:20+0100\n"
+"POT-Creation-Date: 2015-07-06 16:13+0100\n"
 "PO-Revision-Date: 2015-07-06 14:47+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -41,12 +41,6 @@ msgstr "(redémarrez DCP-o-matic pour appliquer le changement de langue)"
 #: src/wx/audio_mapping_view.cc:142
 msgid "-6dB"
 msgstr "-6dB"
-
-#. / TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
-#. / comes after it.
-#: src/wx/colour_conversion_editor.cc:188
-msgid "1 / "
-msgstr "1/"
 
 #: src/wx/video_panel.cc:219
 msgid "2D"
@@ -88,8 +82,6 @@ msgstr "3D dessus/dessous"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:118
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -190,7 +182,7 @@ msgstr ""
 msgid "Allow any DCP frame rate"
 msgstr "Autoriser toutes cadences"
 
-#: src/wx/audio_dialog.cc:35 src/wx/audio_panel.cc:42 src/wx/dcp_panel.cc:108
+#: src/wx/audio_dialog.cc:39 src/wx/audio_panel.cc:43 src/wx/dcp_panel.cc:108
 msgid "Audio"
 msgstr "Audio"
 
@@ -258,7 +250,7 @@ msgstr "Id du CPL"
 msgid "CPL annotation text"
 msgstr "Commentaire CPL"
 
-#: src/wx/audio_panel.cc:60
+#: src/wx/audio_panel.cc:66
 msgid "Calculate..."
 msgstr "Calcul..."
 
@@ -291,7 +283,7 @@ msgstr "Chaîne"
 msgid "Channel gain"
 msgstr "Gain Canal"
 
-#: src/wx/audio_dialog.cc:57 src/wx/dcp_panel.cc:678
+#: src/wx/audio_dialog.cc:61 src/wx/dcp_panel.cc:678
 msgid "Channels"
 msgstr "Canaux"
 
@@ -364,7 +356,7 @@ msgstr ""
 msgid "Copy..."
 msgstr ""
 
-#: src/wx/audio_dialog.cc:185
+#: src/wx/audio_dialog.cc:197
 msgid "Could not analyse audio."
 msgstr "Analyse du son impossible"
 
@@ -420,7 +412,7 @@ msgstr "Répertoire du DCP"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:111
+#: src/wx/audio_dialog.cc:115
 msgid "DCP-o-matic audio"
 msgstr "Son DCP-o-matic"
 
@@ -468,7 +460,7 @@ msgstr "Labo par défaut"
 msgid "Defaults"
 msgstr "Par défaut"
 
-#: src/wx/audio_panel.cc:64
+#: src/wx/audio_panel.cc:70
 msgid "Delay"
 msgstr "Délai"
 
@@ -529,7 +521,7 @@ msgstr "Éditer..."
 msgid "Email address for KDM delivery"
 msgstr "Adresse email pour l'envoi de KDM"
 
-#: src/wx/servers_list_dialog.cc:30
+#: src/wx/servers_list_dialog.cc:31
 msgid "Encoding Servers"
 msgstr "Serveurs Encodage"
 
@@ -631,7 +623,7 @@ msgstr "Plein"
 msgid "Full length"
 msgstr "Durée totale"
 
-#: src/wx/audio_panel.cc:49
+#: src/wx/audio_panel.cc:55
 msgid "Gain"
 msgstr "Gain"
 
@@ -660,7 +652,7 @@ msgstr ""
 msgid "Hints"
 msgstr "Conseils"
 
-#: src/wx/servers_list_dialog.cc:40
+#: src/wx/servers_list_dialog.cc:41
 msgid "Host"
 msgstr "Hôtes"
 
@@ -901,14 +893,6 @@ msgstr ""
 msgid "Output"
 msgstr "Sortie"
 
-#: src/wx/colour_conversion_editor.cc:184
-msgid "Output gamma"
-msgstr "Gamma de sortie"
-
-#: src/wx/colour_conversion_editor.cc:182
-msgid "Output gamma correction"
-msgstr "Correction Gamma de sortie"
-
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Package Type (e.g. OV)"
 msgstr "Type de paquet (ex. OV)"
@@ -921,11 +905,11 @@ msgstr "Mot de passe"
 msgid "Pause"
 msgstr "Pause"
 
-#: src/wx/audio_dialog.cc:75
+#: src/wx/audio_dialog.cc:79
 msgid "Peak"
 msgstr "Crête"
 
-#: src/wx/audio_dialog.cc:248
+#: src/wx/audio_dialog.cc:270
 #, c-format
 msgid "Peak is %.2fdB at %s"
 msgstr ""
@@ -944,7 +928,7 @@ msgid ""
 "about the problem."
 msgstr ""
 
-#: src/wx/audio_plot.cc:85
+#: src/wx/audio_plot.cc:86
 msgid "Please wait; audio is being analysed..."
 msgstr "Merci de patienter ; analyse de la piste son..."
 
@@ -976,7 +960,7 @@ msgstr "Propriétés..."
 msgid "RGB to XYZ conversion"
 msgstr "Conversion RGB vers XYZ"
 
-#: src/wx/audio_dialog.cc:76
+#: src/wx/audio_dialog.cc:80
 msgid "RMS"
 msgstr "RMS"
 
@@ -1142,6 +1126,10 @@ msgstr ""
 msgid "Set language"
 msgstr "Sélectionnez la langue"
 
+#: src/wx/audio_panel.cc:51
+msgid "Show Audio..."
+msgstr ""
+
 #: src/wx/dcp_panel.cc:693
 msgid "Show audio..."
 msgstr ""
@@ -1150,7 +1138,7 @@ msgstr ""
 msgid "Signed"
 msgstr "Signé"
 
-#: src/wx/audio_dialog.cc:86
+#: src/wx/audio_dialog.cc:90
 msgid "Smoothing"
 msgstr "Lissage"
 
@@ -1245,7 +1233,7 @@ msgstr "Il n'y a pas assez de mémoire pour faire cela."
 msgid "This is not a valid CPL file"
 msgstr "Ceci n'est pas un fichier CPL valide"
 
-#: src/wx/servers_list_dialog.cc:48
+#: src/wx/servers_list_dialog.cc:49
 msgid "Threads"
 msgstr "Processus"
 
@@ -1257,7 +1245,7 @@ msgstr "Nombre de processus à utiliser sur cet hôte"
 msgid "Thumbprint"
 msgstr ""
 
-#: src/wx/audio_plot.cc:164
+#: src/wx/audio_plot.cc:165
 msgid "Time"
 msgstr "Durée"
 
@@ -1297,7 +1285,7 @@ msgstr "Rogner au début"
 msgid "Trim up to current position"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:69 src/wx/config_dialog.cc:578
+#: src/wx/audio_dialog.cc:73 src/wx/config_dialog.cc:578
 #: src/wx/video_panel.cc:78
 msgid "Type"
 msgstr "Type"
@@ -1463,7 +1451,7 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:59
+#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:65
 msgid "dB"
 msgstr "dB"
 
@@ -1483,7 +1471,7 @@ msgid "m"
 msgstr ""
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:75 src/wx/config_dialog.cc:362
+#: src/wx/audio_panel.cc:81 src/wx/config_dialog.cc:362
 msgid "ms"
 msgstr "ms"
 
@@ -1519,6 +1507,15 @@ msgstr ""
 #: src/wx/colour_conversion_editor.cc:108
 msgid "y"
 msgstr ""
+
+#~ msgid "1 / "
+#~ msgstr "1/"
+
+#~ msgid "Output gamma"
+#~ msgstr "Gamma de sortie"
+
+#~ msgid "Output gamma correction"
+#~ msgstr "Correction Gamma de sortie"
 
 #~ msgid "Artwork by"
 #~ msgstr "Thème par"
