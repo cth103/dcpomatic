@@ -19,13 +19,12 @@
 
 #include "server.h"
 #include "signaller.h"
+#include "config.h"
 #include <boost/signals2.hpp>
 
 class ServerFinder : public Signaller, public ExceptionStore
 {
 public:
-	boost::signals2::connection connect (boost::function<void (ServerDescription)>);
-
 	static ServerFinder* instance ();
 	static void drop ();
 
@@ -37,23 +36,29 @@ public:
 		return _disabled;
 	}
 
+	std::list<ServerDescription> servers () const;
+
+	/** Emitted whenever the list of servers changes */
+	boost::signals2::signal<void ()> ServersListChanged;
+
 private:
 	ServerFinder ();
 	~ServerFinder ();
 
-	void broadcast_thread ();
+	void search_thread ();
 	void listen_thread ();
 
 	bool server_found (std::string) const;
 	void start_accept ();
 	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
 
-	boost::signals2::signal<void (ServerDescription)> ServerFound;
+	void config_changed (Config::Property what);
+	void search_now ();
 
 	bool _disabled;
 
-	/** Thread to periodically issue broadcasts to find encoding servers */
-	boost::thread* _broadcast_thread;
+	/** Thread to periodically issue broadcasts and requests to find encoding servers */
+	boost::thread* _search_thread;
 	/** Thread to listen to the responses from servers */
 	boost::thread* _listen_thread;
 
@@ -63,6 +68,9 @@ private:
 	boost::asio::io_service _listen_io_service;
 	boost::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
 	bool _stop;
+
+	boost::condition _search_condition;
+	boost::mutex _search_condition_mutex;
 
 	static ServerFinder* _instance;
 };

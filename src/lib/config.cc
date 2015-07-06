@@ -410,9 +410,9 @@ Config::drop ()
 }
 
 void
-Config::changed ()
+Config::changed (Property what)
 {
-	Changed ();
+	Changed (what);
 }
 
 void

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-30 22:20+0100\n"
+"POT-Creation-Date: 2015-07-06 16:13+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
@@ -39,12 +39,6 @@ msgstr "(перезапустите программу для изменения
 #: src/wx/audio_mapping_view.cc:142
 msgid "-6dB"
 msgstr "-6 дБ"
-
-#. / TRANSLATORS: this means the mathematical reciprocal operation, i.e. we are dividing 1 by the control that
-#. / comes after it.
-#: src/wx/colour_conversion_editor.cc:188
-msgid "1 / "
-msgstr "1 / "
 
 #: src/wx/video_panel.cc:219
 msgid "2D"
@@ -86,8 +80,6 @@ msgstr "3D верх/низ"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:118
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -188,7 +180,7 @@ msgstr ""
 msgid "Allow any DCP frame rate"
 msgstr "Разрешить любую частоту кадров DCP"
 
-#: src/wx/audio_dialog.cc:35 src/wx/audio_panel.cc:42 src/wx/dcp_panel.cc:108
+#: src/wx/audio_dialog.cc:39 src/wx/audio_panel.cc:43 src/wx/dcp_panel.cc:108
 msgid "Audio"
 msgstr "Аудио"
 
@@ -256,7 +248,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL аннотация"
 
-#: src/wx/audio_panel.cc:60
+#: src/wx/audio_panel.cc:66
 msgid "Calculate..."
 msgstr "Просчитать..."
 
@@ -289,7 +281,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:57 src/wx/dcp_panel.cc:678
+#: src/wx/audio_dialog.cc:61 src/wx/dcp_panel.cc:678
 msgid "Channels"
 msgstr "Канала(ов)"
 
@@ -362,7 +354,7 @@ msgstr "Копировать в название"
 msgid "Copy..."
 msgstr "Копировать..."
 
-#: src/wx/audio_dialog.cc:185
+#: src/wx/audio_dialog.cc:197
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
@@ -418,7 +410,7 @@ msgstr "Папка DCP"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:111
+#: src/wx/audio_dialog.cc:115
 msgid "DCP-o-matic audio"
 msgstr "Аудио DCP-o-matic"
 
@@ -466,7 +458,7 @@ msgstr "Стандартный издатель"
 msgid "Defaults"
 msgstr "Стандартные"
 
-#: src/wx/audio_panel.cc:64
+#: src/wx/audio_panel.cc:70
 msgid "Delay"
 msgstr "Задержка"
 
@@ -527,7 +519,7 @@ msgstr "Редактировать..."
 msgid "Email address for KDM delivery"
 msgstr "Email адрес для доставки ключей (KDM)"
 
-#: src/wx/servers_list_dialog.cc:30
+#: src/wx/servers_list_dialog.cc:31
 msgid "Encoding Servers"
 msgstr "Сервера кодирования"
 
@@ -631,7 +623,7 @@ msgstr "Full"
 msgid "Full length"
 msgstr "Полная длительность"
 
-#: src/wx/audio_panel.cc:49
+#: src/wx/audio_panel.cc:55
 msgid "Gain"
 msgstr "Усиление"
 
@@ -660,7 +652,7 @@ msgstr "Зеленая цветность"
 msgid "Hints"
 msgstr "Подсказки"
 
-#: src/wx/servers_list_dialog.cc:40
+#: src/wx/servers_list_dialog.cc:41
 msgid "Host"
 msgstr "Хост"
 
@@ -901,14 +893,6 @@ msgstr "Выделить контект"
 msgid "Output"
 msgstr "Вывод"
 
-#: src/wx/colour_conversion_editor.cc:184
-msgid "Output gamma"
-msgstr "Выходная гамма"
-
-#: src/wx/colour_conversion_editor.cc:182
-msgid "Output gamma correction"
-msgstr "Коррекция выходной гаммы"
-
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Package Type (e.g. OV)"
 msgstr "Тип пакета (напр. OV)"
@@ -921,11 +905,11 @@ msgstr "Пароль"
 msgid "Pause"
 msgstr "Пазуа"
 
-#: src/wx/audio_dialog.cc:75
+#: src/wx/audio_dialog.cc:79
 msgid "Peak"
 msgstr "Вершина"
 
-#: src/wx/audio_dialog.cc:248
+#: src/wx/audio_dialog.cc:270
 #, c-format
 msgid "Peak is %.2fdB at %s"
 msgstr "Пиковая громкость %.2fдБ на %s"
@@ -946,7 +930,7 @@ msgstr ""
 "Пожалуйста, введите контактный e-mail, чтобы мы могли связаться с вами по "
 "поводу вашей проблемы."
 
-#: src/wx/audio_plot.cc:85
+#: src/wx/audio_plot.cc:86
 msgid "Please wait; audio is being analysed..."
 msgstr "Пожалуйста подождите - аудио анализируется..."
 
@@ -978,7 +962,7 @@ msgstr "Свойства..."
 msgid "RGB to XYZ conversion"
 msgstr "Преобразование RGB в XYZ"
 
-#: src/wx/audio_dialog.cc:76
+#: src/wx/audio_dialog.cc:80
 msgid "RMS"
 msgstr "Rated Maximum Sinusoidal"
 
@@ -1144,6 +1128,11 @@ msgstr "Выбрать файл..."
 msgid "Set language"
 msgstr "Выбрать язык"
 
+#: src/wx/audio_panel.cc:51
+#, fuzzy
+msgid "Show Audio..."
+msgstr "Показать аудио..."
+
 #: src/wx/dcp_panel.cc:693
 msgid "Show audio..."
 msgstr "Показать аудио..."
@@ -1152,7 +1141,7 @@ msgstr "Показать аудио..."
 msgid "Signed"
 msgstr "Подписанный"
 
-#: src/wx/audio_dialog.cc:86
+#: src/wx/audio_dialog.cc:90
 msgid "Smoothing"
 msgstr "Сглаживание"
 
@@ -1246,7 +1235,7 @@ msgstr "Недостаточно памяти, чтобы сделать это.
 msgid "This is not a valid CPL file"
 msgstr "Это не правильный CPL файл"
 
-#: src/wx/servers_list_dialog.cc:48
+#: src/wx/servers_list_dialog.cc:49
 msgid "Threads"
 msgstr "Потоки"
 
@@ -1258,7 +1247,7 @@ msgstr "Кол-во потоков кодирования на хосте"
 msgid "Thumbprint"
 msgstr "Отпечаток"
 
-#: src/wx/audio_plot.cc:164
+#: src/wx/audio_plot.cc:165
 msgid "Time"
 msgstr "Время"
 
@@ -1298,7 +1287,7 @@ msgstr "Обрезать с начала"
 msgid "Trim up to current position"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:69 src/wx/config_dialog.cc:578
+#: src/wx/audio_dialog.cc:73 src/wx/config_dialog.cc:578
 #: src/wx/video_panel.cc:78
 msgid "Type"
 msgstr "Тип"
@@ -1471,7 +1460,7 @@ msgstr ""
 msgid "audio"
 msgstr "аудио"
 
-#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:59
+#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:65
 msgid "dB"
 msgstr "дБ"
 
@@ -1491,7 +1480,7 @@ msgid "m"
 msgstr "м"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:75 src/wx/config_dialog.cc:362
+#: src/wx/audio_panel.cc:81 src/wx/config_dialog.cc:362
 msgid "ms"
 msgstr "мс"
 
@@ -1527,6 +1516,15 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:108
 msgid "y"
 msgstr "y"
+
+#~ msgid "1 / "
+#~ msgstr "1 / "
+
+#~ msgid "Output gamma"
+#~ msgstr "Выходная гамма"
+
+#~ msgid "Output gamma correction"
+#~ msgstr "Коррекция выходной гаммы"
 
 #~ msgid "Artwork by"
 #~ msgstr "Оформление"

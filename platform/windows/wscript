@@ -155,7 +155,7 @@ File "%static_deps%/lib/pango/1.8.0/modules/pango-basic-win32.dll"
 File "%static_deps%/lib/pango/1.8.0/modules/pango-indic-lang.dll"
 
 SetOutPath "$INSTDIR\\bin"
-# I don't know why, but sometimes it seems that 
+# I don't know why, but sometimes it seems that
 # delegates.xml must be in with the binaries, and
 # sometimes in the $PROFILE.  Meh.
 File "%static_deps%/etc/ImageMagick-6/delegates.xml"
@@ -197,6 +197,11 @@ File "%binaries%/src/lib/mo/ru_RU/libdcpomatic2.mo"
 File "%binaries%/src/wx/mo/ru_RU/libdcpomatic2-wx.mo"
 File "%binaries%/src/tools/mo/ru_RU/dcpomatic2.mo"
 File "%static_deps%/share/locale/ru/LC_MESSAGES/wxstd.mo"
+SetOutPath "$INSTDIR\\locale\\pl\\LC_MESSAGES"
+File "%binaries%/src/lib/mo/pl_PL/libdcpomatic2.mo"
+File "%binaries%/src/wx/mo/pl_PL/libdcpomatic2-wx.mo"
+File "%binaries%/src/tools/mo/pl_PL/dcpomatic2.mo"
+File "%static_deps%/share/locale/pl/LC_MESSAGES/wxstd.mo"
 
 SetOutPath "$INSTDIR"
 File "%resources%/../../LiberationSans-Regular.ttf"
@@ -224,7 +229,7 @@ SectionEnd
         print('Section "DCP-o-matic 2 Debug" SEC_MASTER', file=f)
     else:
         print('Section "DCP-o-matic 2" SEC_MASTER', file=f)
-    
+
     print('SetOutPath "$INSTDIR\\bin"', file=f)
 
     if debug:
@@ -296,7 +301,7 @@ SectionEnd
     if debug:
         print("""
 Section "Uninstall"
-RMDir /r "$INSTDIR\\*.*"    
+RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
 Delete "$DESKTOP\\DCP-o-matic 2 Debug.lnk"
 Delete "$SMPROGRAMS\\DCP-o-matic 2 Debug\\*.*"
@@ -308,7 +313,7 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
     else:
         print("""
 Section "Uninstall"
-RMDir /r "$INSTDIR\\*.*"    
+RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
 Delete "$DESKTOP\\DCP-o-matic 2.lnk"
 Delete "$DESKTOP\\DCP-o-matic 2 batch converter.lnk"
@@ -319,7 +324,7 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2"
  SectionEnd
     """, file=f)
-    
+
 
 def build(bld):
     write_installer(32, bld.env.VERSION, bld.env.DEBUG)

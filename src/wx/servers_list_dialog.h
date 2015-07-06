@@ -27,9 +27,8 @@ public:
 	ServersListDialog (wxWindow *);
 
 private:
-	void server_found (ServerDescription);
+	void servers_list_changed ();
 
-	std::list<ServerDescription> _servers;
 	wxListCtrl* _list;
 
 	boost::signals2::scoped_connection _server_finder_connection;

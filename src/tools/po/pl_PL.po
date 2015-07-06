@@ -5,93 +5,95 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IT VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 16:13+0100\n"
-"PO-Revision-Date: 2015-07-06 16:05+0100\n"
-"Last-Translator: William Fanelli <william.f@impronte.com>\n"
+"POT-Creation-Date: 2015-07-06 16:46+0100\n"
+"PO-Revision-Date: 2015-05-19 14:51+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: it\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.7\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 
 #: src/tools/dcpomatic.cc:330
 msgid "%1 already exists as a file, so you cannot use it for a new film."
-msgstr "%1 esiste già il file, non è possibile usarlo per un nuovo film"
+msgstr "%1 już istnieje jako plik, więc nie możesz go użyć w Nowy Film."
 
 #: src/tools/dcpomatic_batch.cc:50
 msgid "&Add Film..."
-msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
+msgstr "&Dodaj Film..."
 
 #: src/tools/dcpomatic.cc:718
 msgid "&Content"
-msgstr "&Contenuto"
+msgstr "&Zawartość"
 
 #: src/tools/dcpomatic.cc:716
 msgid "&Edit"
-msgstr "&Modifica"
+msgstr "&Edycja"
 
 #: src/tools/dcpomatic.cc:677
 msgid "&Exit"
-msgstr "&Esci"
+msgstr "&Zamknij"
 
 #: src/tools/dcpomatic.cc:714 src/tools/dcpomatic_batch.cc:56
 msgid "&File"
-msgstr "&File"
+msgstr "&Plik"
 
 #: src/tools/dcpomatic.cc:721 src/tools/dcpomatic_batch.cc:57
 msgid "&Help"
-msgstr "&Aiuto"
+msgstr "&Pomoc"
 
 #: src/tools/dcpomatic.cc:719
 msgid "&Jobs"
-msgstr "&Lavori"
+msgstr "&Zadania"
 
 #: src/tools/dcpomatic.cc:694
 msgid "&Make DCP\tCtrl-M"
-msgstr "&Crea DCP\tCtrl-M"
+msgstr "&Stwórz DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:664
 msgid "&Open...\tCtrl-O"
-msgstr "&Apri...\tCtrl-O"
+msgstr "&Otwórz...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:683 src/tools/dcpomatic.cc:686
 msgid "&Preferences...\tCtrl-P"
-msgstr "&Preferenze...\tCtrl-P"
+msgstr "&Preferencje...\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:668
 msgid "&Properties..."
-msgstr "&Proprieta'..."
+msgstr "&Właściwości..."
 
 #: src/tools/dcpomatic.cc:679 src/tools/dcpomatic_batch.cc:51
 msgid "&Quit"
-msgstr "&Esci"
+msgstr "&Zakończ"
 
 #: src/tools/dcpomatic.cc:666
 msgid "&Save\tCtrl-S"
-msgstr "&Salva\tCtrl-S"
+msgstr "&Zapisz\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:696
 msgid "&Send DCP to TMS"
-msgstr "&Invia DCP a TMS"
+msgstr "&Wyślij DCP do TMS"
 
 #: src/tools/dcpomatic.cc:720
 msgid "&Tools"
-msgstr "&Strumenti"
+msgstr "&Narzędzia"
 
 #: src/tools/dcpomatic.cc:710 src/tools/dcpomatic_batch.cc:54
 msgid "About"
-msgstr "Informazioni"
+msgstr "Informacje"
 
 #: src/tools/dcpomatic.cc:708
 msgid "About DCP-o-matic"
-msgstr "Su DVD-o-matic"
+msgstr "DCP-o-matic - informacje"
 
 #: src/tools/dcpomatic_batch.cc:84
 msgid "Add Film..."
-msgstr "&Aggiungi film..."
+msgstr "Dodaj Film"
 
 #: src/tools/dcpomatic.cc:898
 #, c-format
@@ -99,8 +101,6 @@ msgid ""
 "An exception occurred: %s in %s.\n"
 "\n"
 msgstr ""
-"Si e' verificata un'eccezione: %s in %s.\n"
-"\n"
 
 #: src/tools/dcpomatic.cc:900
 #, c-format
@@ -108,52 +108,50 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
-"Si e' verificata un'eccezione: %s.\n"
-"\n"
 
 #: src/tools/dcpomatic.cc:464 src/tools/dcpomatic.cc:902
 #: src/tools/dcpomatic.cc:911
 msgid "An unknown exception occurred."
-msgstr "Si e' verificata un'eccezione sconosciuta."
+msgstr "Wystąpił nieznany błąd."
 
 #: src/tools/dcpomatic.cc:433
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr "Parametro %s errato  (%s)"
+msgstr "Nieprawidłowe ustawienia %s (%s)"
 
 #: src/tools/dcpomatic.cc:460
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "Zawartość CPL nie jest szyfrowana."
 
 #: src/tools/dcpomatic.cc:702
 msgid "Check for updates"
-msgstr "Controlla aggiornamenti"
+msgstr "Uaktualnij program"
 
 #: src/tools/dcpomatic.cc:837 src/tools/dcpomatic_batch.cc:238
 msgid "Could not load film %1 (%2)"
-msgstr "Non posso caricare il film %s (%s)"
+msgstr "Nie można załadować filmu %1 (%2)"
 
 #: src/tools/dcpomatic.cc:435
 #, c-format
 msgid "Could not make DCP: %s"
-msgstr ""
+msgstr "Nie można stworzyć DCP: %s"
 
 #: src/tools/dcpomatic.cc:281 src/tools/dcpomatic_batch.cc:175
 #, c-format
 msgid "Could not open film at %s (%s)"
-msgstr "Non posso aprire il film in %s (%s)"
+msgstr "Nie można otworzyć filmu na %s (%s)"
 
 #: src/tools/dcpomatic.cc:520
 msgid "Could not show DCP"
-msgstr "Impossibile visualizzare il DCP"
+msgstr "Nie można pokazać DCP"
 
 #: src/tools/dcpomatic.cc:511
 msgid "Could not show DCP (could not run konqueror)"
-msgstr "Impossibile visualizzare il DCP (impossibile avviare konqueror)"
+msgstr "Nie można pokazać DCP (nie można otworzyć konqueror)"
 
 #: src/tools/dcpomatic.cc:504
 msgid "Could not show DCP (could not run nautilus)"
-msgstr "Impossibile visualizzare il DCP (impossibile avviare konqueror)"
+msgstr "Nie można pokazać DCP (nie można otworzyć nautilus)"
 
 #: src/tools/dcpomatic.cc:301 src/tools/dcpomatic.cc:792
 #: src/tools/dcpomatic.cc:828
@@ -162,27 +160,27 @@ msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:223
 msgid "DCP-o-matic Batch Converter"
-msgstr ""
+msgstr "DCP-o-matic Konwersja Hurtowa"
 
 #: src/tools/dcpomatic.cc:701
 msgid "Encoding servers..."
-msgstr "Servers di codifica..."
+msgstr "Serwery kodujące..."
 
 #: src/tools/dcpomatic.cc:98
 msgid "Film changed"
-msgstr "Film modificato"
+msgstr "Film został zmodyfikowany"
 
 #: src/tools/dcpomatic.cc:700
 msgid "Hints..."
-msgstr ""
+msgstr "Wskazówki..."
 
 #: src/tools/dcpomatic.cc:695
 msgid "Make &KDMs...\tCtrl-K"
-msgstr "Crea &KDMs...\tCtrl-K"
+msgstr "Stwórz &KDM...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:663
 msgid "New...\tCtrl-N"
-msgstr "Nuovo...\tCtrl-N"
+msgstr "Nowy...\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:712
 msgid "Report a problem..."
@@ -190,39 +188,41 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:704
 msgid "Restore default preferences"
-msgstr ""
+msgstr "Przywróć ustawienia domyślne"
 
 #: src/tools/dcpomatic.cc:697
 msgid "S&how DCP"
-msgstr "&Mostra DCP"
+msgstr "Pokaż DCP"
 
 #: src/tools/dcpomatic.cc:94
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr "Salvare i cambiamenti del film \"%s\" prima di chiudere?"
+msgstr "Czy zapisać zmiany w  \"%s\" przed zakończeniem?"
 
 #: src/tools/dcpomatic.cc:691
 msgid "Scale to fit &height"
-msgstr "Adatta all'&altezza"
+msgstr "Dopasuj do &wysokość"
 
 #: src/tools/dcpomatic.cc:690
 msgid "Scale to fit &width"
-msgstr "Adatta alla &larghezza"
+msgstr "Dopasuj do &szerokość"
 
 #: src/tools/dcpomatic.cc:346 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
-msgstr "Seleziona il film da aprire"
+msgstr "Wybierz film"
 
 #: src/tools/dcpomatic.cc:419
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f Gb, and "
 "the disk that you are using only has %.1f Gb available.  You would need half "
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"Il DCP di questo film occupa %.1f Gb, ma il disco che stai usando dispone di "
-"%.1f Gb liberi.  Vuoi continuare ugualmente?"
+"DCP i pliki pośrednie dla tego filmu zajmą do %.1f Gb, a na Twoim dysku "
+"zostało już tylko %.1f Gb. Gdyby system plików obsługiwał hard links, "
+"potrzebowałbyś tylko połowę z tej przestrzeni, ale niestety nie obsługuje. "
+"Czy chcesz kontynuować? "
 
 #: src/tools/dcpomatic.cc:417
 #, c-format
@@ -230,63 +230,71 @@ msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
-"Il DCP di questo film occupa %.1f Gb, ma il disco che stai usando dispone di "
-"%.1f Gb liberi.  Vuoi continuare ugualmente?"
+"DCP dla tego filmu zajmie około %1f Gb, a na Twoim dysku zostało już tylko "
+"%1f Gb. Czy chcesz kontynuować?"
 
 #: src/tools/dcpomatic.cc:937
 msgid "The DCP-o-matic download server could not be contacted."
-msgstr "Il download server di DCP-o-matic non può essere contattato."
+msgstr "Połączenie z serwerem DCP-o-matic nieudane."
 
 #: src/tools/dcpomatic.cc:320
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "La cartella %1 esiste già e non è vuota.  Sei sicuro di volerla usare?"
+msgstr ""
+"Katalog %1 już istnieje i nie jest pusty. Czy jesteś pewien, że chcesz go "
+"użyć?"
 
 #: src/tools/dcpomatic.cc:941
 msgid "There are no new versions of DCP-o-matic available."
-msgstr "Non ci sono nuove versioni di DCP-o-matic disponibili."
+msgstr "Używasz najnowszej wersji DCP-o-matic."
 
 #: src/tools/dcpomatic.cc:572 src/tools/dcpomatic_batch.cc:111
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr "C'è un processo in corso: sei sicuro di voler uscire?"
+msgstr ""
+"Niektóre zadania jeszcze się nie ukończyły. Czy na pewno chcesz zakończyć?"
 
 #: src/tools/dcpomatic.cc:267
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
-"Questo film e' stato creato con una versione precedente di DVD-o-matic e "
-"potrebbe non essere caricato correttamente in questa versione. Per favore "
-"controlla attentamente le impostazioni del film."
+"Ten film został stworzony przy użyciu starej wersji DVD-o-matic i może nie "
+"zaimportować się poprawnie. Sprawdź dokładnie ustawienia filmu."
 
 #: src/tools/dcpomatic.cc:573 src/tools/dcpomatic_batch.cc:112
 msgid "Unfinished jobs"
-msgstr "Processo in corso"
+msgstr "Nieukończone zadania"
 
 #: src/tools/dcpomatic.cc:355 src/tools/dcpomatic_batch.cc:161
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
-"Non hai selezionato una cartella. Assicurati di selezionare una cartella "
-"prima di cliccare Apri."
-
-#~ msgid "&Save"
-#~ msgstr "&Salva"
+"Nie wybrałeś katalogu. Upewnij się, że wybrałeś katalog zanim klikniesz "
+"Otwórz."
 
 #~ msgid ""
-#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-#~ "Laursen"
+#~ "An exception occurred: %s in %s.\n"
+#~ "\n"
+#~ "Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."
 #~ msgstr ""
-#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-#~ "Laursen"
+#~ "Wystąpił błąd: %s in %s.\n"
+#~ "\n"
+#~ "Zgłoś ten problem do autora DCP-o-matic (carl@dcpomatic.com)."
 
-#~ msgid "Free, open-source DCP generation from almost anything."
-#~ msgstr "Genera DCP da quasi tutto, free e open-source."
+#~ msgid ""
+#~ "An exception occurred: %s.\n"
+#~ "\n"
+#~ "Please report this problem to the DCP-o-matic author (carl@dcpomatic.com)."
+#~ msgstr ""
+#~ "Wystąpił błąd: %s.\n"
+#~ "\n"
+#~ "Zgłoś ten problem do autora DCP-o-matic (carl@dcpomatic.com)."
 
-#~ msgid "&Analyse audio"
-#~ msgstr "&Analizza audio"
-
-#~ msgid "The directory %1 already exists."
-#~ msgstr "La directory %s esiste gia'."
+#~ msgid ""
+#~ "An unknown exception occurred.  Please report this problem to the DCP-o-"
+#~ "matic author (carl@dcpomatic.com)."
+#~ msgstr ""
+#~ "Wystąpił nieznany błąd. Zgłoś ten problem do autora DCP-o-matic "
+#~ "(carl@dcpomatic.com)."

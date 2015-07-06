@@ -17,10 +17,11 @@
 
 */
 
-#include <boost/lexical_cast.hpp>
-#include "lib/server_finder.h"
 #include "servers_list_dialog.h"
 #include "wx_util.h"
+#include "lib/server_finder.h"
+#include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;
@@ -61,19 +62,24 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 	s->Layout ();
 	s->SetSizeHints (this);
 
-	_server_finder_connection = ServerFinder::instance()->connect (boost::bind (&ServersListDialog::server_found, this, _1));
+	_server_finder_connection = ServerFinder::instance()->ServersListChanged.connect (boost::bind (&ServersListDialog::servers_list_changed, this));
+	servers_list_changed ();
 }
 
 void
-ServersListDialog::server_found (ServerDescription s)
+ServersListDialog::servers_list_changed ()
 {
-	wxListItem list_item;
-	int const n = _list->GetItemCount ();
-	list_item.SetId (n);
-	_list->InsertItem (list_item);
+	_list->DeleteAllItems ();
 
-	_list->SetItem (n, 0, std_to_wx (s.host_name ()));
-	_list->SetItem (n, 1, std_to_wx (lexical_cast<string> (s.threads ())));
+	int n = 0;
+	BOOST_FOREACH (ServerDescription i, ServerFinder::instance()->servers ()) {
+		wxListItem list_item;
+		list_item.SetId (n);
+		_list->InsertItem (list_item);
 
-	_servers.push_back (s);
+		_list->SetItem (n, 0, std_to_wx (i.host_name ()));
+		_list->SetItem (n, 1, std_to_wx (lexical_cast<string> (i.threads ())));
+
+		++n;
+	}
 }
