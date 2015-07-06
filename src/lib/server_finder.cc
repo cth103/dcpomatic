@@ -54,7 +54,7 @@ ServerFinder::~ServerFinder ()
 {
 	_stop = true;
 
-	_search_thread->interrupt ();
+	_search_condition.notify_all ();
 	_search_thread->join ();
 
 	_listen_io_service.stop ();
@@ -106,11 +106,8 @@ try
 			}
 		}
 
-		try {
-			boost::thread::sleep (boost::get_system_time() + boost::posix_time::seconds (10));
-		} catch (boost::thread_interrupted& e) {
-			return;
-		}
+		boost::mutex::scoped_lock lm (_search_condition_mutex);
+		_search_condition.timed_wait (lm, boost::get_system_time() + boost::posix_time::seconds (10));
 	}
 }
 catch (...)
@@ -224,5 +221,12 @@ ServerFinder::config_changed (Config::Property what)
 			_servers.clear ();
 		}
 		ServersListChanged ();
+		search_now ();
 	}
+}
+
+void
+ServerFinder::search_now ()
+{
+	_search_condition.notify_all ();
 }

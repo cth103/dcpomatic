@@ -53,6 +53,7 @@ private:
 	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
 
 	void config_changed (Config::Property what);
+	void search_now ();
 
 	bool _disabled;
 
@@ -67,6 +68,9 @@ private:
 	boost::asio::io_service _listen_io_service;
 	boost::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
 	bool _stop;
+
+	boost::condition _search_condition;
+	boost::mutex _search_condition_mutex;
 
 	static ServerFinder* _instance;
 };
