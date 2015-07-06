@@ -21,23 +21,6 @@
  *  @brief A dialogue to edit DCP-o-matic configuration.
  */
 
-#include <iostream>
-#include <boost/lexical_cast.hpp>
-#include <boost/filesystem.hpp>
-#include <wx/stdpaths.h>
-#include <wx/preferences.h>
-#include <wx/filepicker.h>
-#include <wx/spinctrl.h>
-#include <dcp/exceptions.h>
-#include <dcp/signer.h>
-#include "lib/config.h"
-#include "lib/ratio.h"
-#include "lib/filter.h"
-#include "lib/dcp_content_type.h"
-#include "lib/log.h"
-#include "lib/util.h"
-#include "lib/cross.h"
-#include "lib/exceptions.h"
 #include "config_dialog.h"
 #include "wx_util.h"
 #include "editable_list.h"
@@ -46,6 +29,24 @@
 #include "isdcf_metadata_dialog.h"
 #include "server_dialog.h"
 #include "make_signer_chain_dialog.h"
+#include "lib/config.h"
+#include "lib/ratio.h"
+#include "lib/filter.h"
+#include "lib/dcp_content_type.h"
+#include "lib/log.h"
+#include "lib/util.h"
+#include "lib/raw_convert.h"
+#include "lib/cross.h"
+#include "lib/exceptions.h"
+#include <dcp/exceptions.h>
+#include <dcp/signer.h>
+#include <wx/stdpaths.h>
+#include <wx/preferences.h>
+#include <wx/filepicker.h>
+#include <wx/spinctrl.h>
+#include <boost/lexical_cast.hpp>
+#include <boost/filesystem.hpp>
+#include <iostream>
 
 using std::vector;
 using std::string;
@@ -976,8 +977,16 @@ private:
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
 		add_label_to_sizer (table, _panel, _("Outgoing mail server"), true);
-		_mail_server = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_mail_server, 1, wxEXPAND | wxALL);
+		{
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			_mail_server = new wxTextCtrl (_panel, wxID_ANY);
+			s->Add (_mail_server, 1, wxEXPAND | wxALL);
+			add_label_to_sizer (s, _panel, _("port"), false);
+			_mail_port = new wxSpinCtrl (_panel, wxID_ANY);
+			_mail_port->SetRange (0, 65535);
+			s->Add (_mail_port);
+			table->Add (s, 1, wxEXPAND | wxALL);
+		}
 
 		add_label_to_sizer (table, _panel, _("Mail user name"), true);
 		_mail_user = new wxTextCtrl (_panel, wxID_ANY);
@@ -986,13 +995,6 @@ private:
 		add_label_to_sizer (table, _panel, _("Mail password"), true);
 		_mail_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_mail_password, 1, wxEXPAND | wxALL);
-
-		wxStaticText* plain = add_label_to_sizer (table, _panel, _("(password will be stored on disk in plaintext)"), false);
-		wxFont font = plain->GetFont();
-		font.SetStyle (wxFONTSTYLE_ITALIC);
-		font.SetPointSize (font.GetPointSize() - 1);
-		plain->SetFont (font);
-		table->AddSpacer (0);
 
 		add_label_to_sizer (table, _panel, _("Subject"), true);
 		_kdm_subject = new wxTextCtrl (_panel, wxID_ANY);
@@ -1017,6 +1019,7 @@ private:
 		_panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
 
 		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_server_changed, this));
+		_mail_port->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&KDMEmailPage::mail_port_changed, this));
 		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_user_changed, this));
 		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_password_changed, this));
 		_kdm_subject->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
@@ -1032,6 +1035,7 @@ private:
 		Config* config = Config::instance ();
 
 		checked_set (_mail_server, config->mail_server ());
+		checked_set (_mail_port, config->mail_port ());
 		checked_set (_mail_user, config->mail_user ());
 		checked_set (_mail_password, config->mail_password ());
 		checked_set (_kdm_subject, config->kdm_subject ());
@@ -1044,6 +1048,11 @@ private:
 	void mail_server_changed ()
 	{
 		Config::instance()->set_mail_server (wx_to_std (_mail_server->GetValue ()));
+	}
+
+	void mail_port_changed ()
+	{
+		Config::instance()->set_mail_port (_mail_port->GetValue ());
 	}
 
 	void mail_user_changed ()
@@ -1094,6 +1103,7 @@ private:
 	}
 
 	wxTextCtrl* _mail_server;
+	wxSpinCtrl* _mail_port;
 	wxTextCtrl* _mail_user;
 	wxTextCtrl* _mail_password;
 	wxTextCtrl* _kdm_subject;

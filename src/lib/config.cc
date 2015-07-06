@@ -75,6 +75,7 @@ Config::set_defaults ()
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_j2k_bandwidth = 100000000;
 	_default_audio_delay = 0;
+	_mail_port = 25;
 	_check_for_updates = false;
 	_check_for_test_updates = false;
 	_maximum_j2k_bandwidth = 250000000;
@@ -192,6 +193,7 @@ Config::read ()
 	}
 
 	_mail_server = f.string_child ("MailServer");
+	_mail_port = f.optional_number_child<int> ("MailPort").get_value_or (25);
 	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
@@ -342,6 +344,7 @@ Config::write () const
 	}
 
 	root->add_child("MailServer")->add_child_text (_mail_server);
+	root->add_child("MailPort")->add_child_text (raw_convert<string> (_mail_port));
 	root->add_child("MailUser")->add_child_text (_mail_user);
 	root->add_child("MailPassword")->add_child_text (_mail_password);
 	root->add_child("KDMSubject")->add_child_text (_kdm_subject);

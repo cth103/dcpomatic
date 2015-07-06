@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -155,6 +155,10 @@ public:
 
 	std::string mail_server () const {
 		return _mail_server;
+	}
+
+	int mail_port () const {
+		return _mail_port;
 	}
 
 	std::string mail_user () const {
@@ -324,6 +328,10 @@ public:
 		maybe_set (_mail_server, s);
 	}
 
+	void set_mail_port (int p) {
+		maybe_set (_mail_port, p);
+	}
+
 	void set_mail_user (std::string u) {
 		maybe_set (_mail_user, u);
 	}
@@ -458,6 +466,7 @@ private:
 	int _default_audio_delay;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
+	int _mail_port;
 	std::string _mail_user;
 	std::string _mail_password;
 	std::string _kdm_subject;

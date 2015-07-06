@@ -271,19 +271,23 @@ email_kdms (
 		quickmail_set_body (mail, body.c_str());
 		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");
 
-		int const port = Config::instance()->mail_user().empty() ? 25 : 587;
-
 		char const* error = quickmail_send (
 			mail,
 			Config::instance()->mail_server().c_str(),
-			port,
+			Config::instance()->mail_port(),
 			Config::instance()->mail_user().c_str(),
 			Config::instance()->mail_password().c_str()
 			);
 
 		if (error) {
 			quickmail_destroy (mail);
-			throw KDMError (String::compose ("Failed to send KDM email (%1)", error));
+			throw KDMError (
+				String::compose (
+					"Failed to send KDM email to %1 (%2)",
+					Config::instance()->mail_server(),
+					error
+					)
+				);
 		}
 		quickmail_destroy (mail);
 	}
