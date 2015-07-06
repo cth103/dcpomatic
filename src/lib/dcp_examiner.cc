@@ -128,7 +128,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		_kdm_valid = false;
 		if (_encrypted && content->kdm ()) {
 			/* XXX: maybe don't use an exception for this */
-			throw StringError (_("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL"));
+			throw StringError (_("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."));
 		}
 	}
 }
