@@ -41,11 +41,11 @@ ServerFinder* ServerFinder::_instance = 0;
 
 ServerFinder::ServerFinder ()
 	: _disabled (false)
-	, _broadcast_thread (0)
+	, _search_thread (0)
 	, _listen_thread (0)
 	, _stop (false)
 {
-	_broadcast_thread = new boost::thread (boost::bind (&ServerFinder::broadcast_thread, this));
+	_search_thread = new boost::thread (boost::bind (&ServerFinder::search_thread, this));
 	_listen_thread = new boost::thread (boost::bind (&ServerFinder::listen_thread, this));
 	Config::instance()->Changed.connect (boost::bind (&ServerFinder::config_changed, this, _1));
 }
@@ -54,15 +54,15 @@ ServerFinder::~ServerFinder ()
 {
 	_stop = true;
 
-	_broadcast_thread->interrupt ();
-	_broadcast_thread->join ();
+	_search_thread->interrupt ();
+	_search_thread->join ();
 
 	_listen_io_service.stop ();
 	_listen_thread->join ();
 }
 
 void
-ServerFinder::broadcast_thread ()
+ServerFinder::search_thread ()
 try
 {
 	boost::system::error_code error;

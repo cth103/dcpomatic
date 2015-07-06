@@ -45,7 +45,7 @@ private:
 	ServerFinder ();
 	~ServerFinder ();
 
-	void broadcast_thread ();
+	void search_thread ();
 	void listen_thread ();
 
 	bool server_found (std::string) const;
@@ -56,8 +56,8 @@ private:
 
 	bool _disabled;
 
-	/** Thread to periodically issue broadcasts to find encoding servers */
-	boost::thread* _broadcast_thread;
+	/** Thread to periodically issue broadcasts and requests to find encoding servers */
+	boost::thread* _search_thread;
 	/** Thread to listen to the responses from servers */
 	boost::thread* _listen_thread;
 
