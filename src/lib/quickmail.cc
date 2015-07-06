@@ -40,7 +40,7 @@
 #define MAILPART_END        5
 #define MAILPART_DONE       6
 
-static const char* default_mime_type = "text/plain";
+static const char* default_mime_type = "text/plain; charset=UTF-8";
 
 ////////////////////////////////////////////////////////////////////////
 
