@@ -709,7 +709,7 @@ private:
 #else
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif
-		add_item (help, _("Report a problem..."), ID_help_report_a_problem, ALWAYS);
+		add_item (help, _("Report a problem..."), ID_help_report_a_problem, NEEDS_FILM);
 
 		m->Append (_file_menu, _("&File"));
 #ifndef __WXOSX__
