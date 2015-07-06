@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-02-03 09:36+0100\n"
+"PO-Revision-Date: 2015-07-06 16:05+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/tools/dcpomatic.cc:330
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -23,11 +23,11 @@ msgstr "%1 esiste già il file, non è possibile usarlo per un nuovo film"
 
 #: src/tools/dcpomatic_batch.cc:50
 msgid "&Add Film..."
-msgstr ""
+msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
 
 #: src/tools/dcpomatic.cc:718
 msgid "&Content"
-msgstr ""
+msgstr "&Contenuto"
 
 #: src/tools/dcpomatic.cc:716
 msgid "&Edit"
@@ -71,7 +71,7 @@ msgstr "&Esci"
 
 #: src/tools/dcpomatic.cc:666
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "&Salva\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:696
 msgid "&Send DCP to TMS"
@@ -91,7 +91,7 @@ msgstr "Su DVD-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:84
 msgid "Add Film..."
-msgstr ""
+msgstr "&Aggiungi film..."
 
 #: src/tools/dcpomatic.cc:898
 #, c-format
@@ -99,6 +99,8 @@ msgid ""
 "An exception occurred: %s in %s.\n"
 "\n"
 msgstr ""
+"Si e' verificata un'eccezione: %s in %s.\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:900
 #, c-format
@@ -106,16 +108,18 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
+"Si e' verificata un'eccezione: %s.\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:464 src/tools/dcpomatic.cc:902
 #: src/tools/dcpomatic.cc:911
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "Si e' verificata un'eccezione sconosciuta."
 
 #: src/tools/dcpomatic.cc:433
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr ""
+msgstr "Parametro %s errato  (%s)"
 
 #: src/tools/dcpomatic.cc:460
 msgid "CPL's content is not encrypted."
@@ -130,9 +134,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Non posso caricare il film %s (%s)"
 
 #: src/tools/dcpomatic.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s"
-msgstr "Non posso aprire il film in %s (%s)"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:281 src/tools/dcpomatic_batch.cc:175
 #, c-format
@@ -141,15 +145,15 @@ msgstr "Non posso aprire il film in %s (%s)"
 
 #: src/tools/dcpomatic.cc:520
 msgid "Could not show DCP"
-msgstr ""
+msgstr "Impossibile visualizzare il DCP"
 
 #: src/tools/dcpomatic.cc:511
 msgid "Could not show DCP (could not run konqueror)"
-msgstr ""
+msgstr "Impossibile visualizzare il DCP (impossibile avviare konqueror)"
 
 #: src/tools/dcpomatic.cc:504
 msgid "Could not show DCP (could not run nautilus)"
-msgstr ""
+msgstr "Impossibile visualizzare il DCP (impossibile avviare konqueror)"
 
 #: src/tools/dcpomatic.cc:301 src/tools/dcpomatic.cc:792
 #: src/tools/dcpomatic.cc:828
@@ -162,20 +166,19 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:701
 msgid "Encoding servers..."
-msgstr ""
+msgstr "Servers di codifica..."
 
 #: src/tools/dcpomatic.cc:98
 msgid "Film changed"
 msgstr "Film modificato"
 
 #: src/tools/dcpomatic.cc:700
-#, fuzzy
 msgid "Hints..."
-msgstr "Suggerimenti...\tCtrl-H"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:695
 msgid "Make &KDMs...\tCtrl-K"
-msgstr ""
+msgstr "Crea &KDMs...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:663
 msgid "New...\tCtrl-N"
@@ -200,11 +203,11 @@ msgstr "Salvare i cambiamenti del film \"%s\" prima di chiudere?"
 
 #: src/tools/dcpomatic.cc:691
 msgid "Scale to fit &height"
-msgstr ""
+msgstr "Adatta all'&altezza"
 
 #: src/tools/dcpomatic.cc:690
 msgid "Scale to fit &width"
-msgstr ""
+msgstr "Adatta alla &larghezza"
 
 #: src/tools/dcpomatic.cc:346 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
@@ -253,6 +256,9 @@ msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
+"Questo film e' stato creato con una versione precedente di DVD-o-matic e "
+"potrebbe non essere caricato correttamente in questa versione. Per favore "
+"controlla attentamente le impostazioni del film."
 
 #: src/tools/dcpomatic.cc:573 src/tools/dcpomatic_batch.cc:112
 msgid "Unfinished jobs"

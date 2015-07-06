@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-02-03 10:48+0100\n"
+"PO-Revision-Date: 2015-07-06 16:03+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/lib/dcp_content.cc:112
 msgid "%1 [DCP]"
@@ -62,28 +62,24 @@ msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
 #: src/lib/analyse_audio_job.cc:52
-#, fuzzy
 msgid "Analyse audio"
-msgstr "Analizzo l'audio di %1"
+msgstr ""
 
 #: src/lib/single_stream_audio_content.cc:93
 msgid "Audio channels"
 msgstr ""
 
 #: src/lib/audio_content.cc:257
-#, fuzzy
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
 
 #: src/lib/audio_content.cc:259
-#, fuzzy
 msgid "Audio will be resampled to %1kHz"
-msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
+msgstr "L'Audio sarà ricampionato a %1kHz"
 
 #: src/lib/audio_content.cc:248
-#, fuzzy
 msgid "Audio will not be resampled"
-msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:405
 msgid "BT1361 extended colour gamut"
@@ -183,26 +179,20 @@ msgid "Computing image digest"
 msgstr ""
 
 #: src/lib/frame_rate_change.cc:86
-#, fuzzy
 msgid "Content and DCP have the same rate.\n"
-msgstr "Il DCP e il sorgente hanno la stessa frequenza.\n"
+msgstr ""
 
 #: src/lib/video_content.cc:566
-#, fuzzy
 msgid "Content frame rate"
-msgstr "tipo di contenuto"
+msgstr ""
 
 #: src/lib/subtitle_content.cc:124
-#, fuzzy
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:120
-#, fuzzy
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio delay."
@@ -221,20 +211,16 @@ msgid "Content to be joined must have the same crop."
 msgstr ""
 
 #: src/lib/video_content.cc:171
-#, fuzzy
 msgid "Content to be joined must have the same fades."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/video_content.cc:147
 msgid "Content to be joined must have the same picture size."
 msgstr ""
 
 #: src/lib/video_content.cc:163
-#, fuzzy
 msgid "Content to be joined must have the same scale setting."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:128
 msgid "Content to be joined must have the same subtitle X offset."
@@ -242,10 +228,8 @@ msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:136
-#, fuzzy
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:132
 msgid "Content to be joined must have the same subtitle Y offset."
@@ -253,10 +237,8 @@ msgstr ""
 "Il contenuto da unire deve avere lo stesso spostamento Y dei sottotitoli."
 
 #: src/lib/subtitle_content.cc:140
-#, fuzzy
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento Y dei sottotitoli."
 
 #: src/lib/video_content.cc:151
 msgid "Content to be joined must have the same video frame rate."
@@ -267,10 +249,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr ""
 
 #: src/lib/subtitle_content.cc:145 src/lib/subtitle_content.cc:153
-#, fuzzy
 msgid "Content to be joined must use the same fonts."
 msgstr ""
-"Il contenuto da unire deve avere lo stesso spostamento X dei sottotitoli."
 
 #: src/lib/ffmpeg_content.cc:124
 msgid "Content to be joined must use the same subtitle stream."
@@ -293,14 +273,12 @@ msgid "Could not create remote directory %1 (%2)"
 msgstr "Non posso creare la directory remota %1 (%2)"
 
 #: src/lib/image_examiner.cc:61
-#, fuzzy
 msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "Non posso scrivere il file remoto (%1)"
+msgstr ""
 
 #: src/lib/magick_image_proxy.cc:99
-#, fuzzy
 msgid "Could not decode image file (%1)"
-msgstr "Non posso scrivere il file remoto (%1)"
+msgstr ""
 
 #: src/lib/server_finder.cc:128
 msgid ""
@@ -317,14 +295,12 @@ msgid "Could not open %1 to send"
 msgstr "Non posso aprire %1 da inviare"
 
 #: src/lib/internet.cc:77
-#, fuzzy
 msgid "Could not open downloaded ZIP file"
-msgstr "non riesco ad aprire %1"
+msgstr ""
 
 #: src/lib/dcp_subtitle.cc:49
-#, fuzzy
 msgid "Could not read subtitles"
-msgstr "non riesco a trovare il decoder dei sottotitoli"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:153
 msgid "Could not start SCP session (%1)"
@@ -343,14 +319,12 @@ msgid "DCP XML subtitles"
 msgstr ""
 
 #: src/lib/frame_rate_change.cc:98
-#, fuzzy
 msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "Il DCP andrà al %1%% della velocità del sorgente.\n"
+msgstr ""
 
 #: src/lib/frame_rate_change.cc:89
-#, fuzzy
 msgid "DCP will use every other frame of the content.\n"
-msgstr "Il DCP userà ogni altro fotogramma del sorgente.\n"
+msgstr ""
 
 #: src/lib/job.cc:94
 msgid ""
@@ -398,9 +372,8 @@ msgid "Display aspect ratio"
 msgstr ""
 
 #: src/lib/dolby_cp750.cc:27
-#, fuzzy
 msgid "Dolby CP650 and CP750"
-msgstr "Dolby CP750"
+msgstr ""
 
 #: src/lib/internet.cc:70
 msgid "Download failed (%1/%2 error %3)"
@@ -535,9 +508,8 @@ msgid "Left centre"
 msgstr ""
 
 #: src/lib/util.cc:506
-#, fuzzy
 msgid "Left rear surround"
-msgstr "Surround sinistro"
+msgstr ""
 
 #: src/lib/util.cc:500
 msgid "Left surround"
@@ -552,9 +524,8 @@ msgid "Lfe (sub)"
 msgstr "Lfe(sub)"
 
 #: src/lib/ffmpeg_content.cc:401
-#, fuzzy
 msgid "Linear"
-msgstr "Bilineare"
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:402
 msgid "Logarithmic (100:1 range)"
@@ -605,9 +576,8 @@ msgid "No scale"
 msgstr ""
 
 #: src/lib/video_content_scale.cc:105
-#, fuzzy
 msgid "No stretch"
-msgstr "Flat senza stiramento"
+msgstr ""
 
 #: src/lib/image_content.cc:59
 msgid "No valid image files were found in the folder."
@@ -642,9 +612,8 @@ msgid "P3"
 msgstr ""
 
 #: src/lib/video_content.cc:558
-#, fuzzy
 msgid "Padded with black to fit container %1 (%2x%3)"
-msgstr "Riempito con nero a %1x%2"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:52
 msgid "Policy"
@@ -675,14 +644,12 @@ msgid "Rc"
 msgstr ""
 
 #: src/lib/colour_conversion.cc:263
-#, fuzzy
 msgid "Rec. 601"
-msgstr "Rec 709"
+msgstr ""
 
 #: src/lib/colour_conversion.cc:264
-#, fuzzy
 msgid "Rec. 709"
-msgstr "Rec 709"
+msgstr ""
 
 #: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:497
 msgid "Right"
@@ -693,9 +660,8 @@ msgid "Right centre"
 msgstr ""
 
 #: src/lib/util.cc:507
-#, fuzzy
 msgid "Right rear surround"
-msgstr "Surround destro"
+msgstr ""
 
 #: src/lib/util.cc:501
 msgid "Right surround"
@@ -739,9 +705,8 @@ msgid "Short"
 msgstr "Corto"
 
 #: src/lib/audio_content.cc:252
-#, fuzzy
 msgid "Some audio will be resampled to %1kHz"
-msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
+msgstr ""
 
 #: src/lib/upmixer_a.cc:45
 msgid "Stereo to 5.1 up-mixer A"
@@ -900,9 +865,8 @@ msgid "[moving images]"
 msgstr ""
 
 #: src/lib/image_content.cc:85
-#, fuzzy
 msgid "[still]"
-msgstr "ancora"
+msgstr ""
 
 #: src/lib/dcp_subtitle_content.cc:90 src/lib/subrip_content.cc:73
 msgid "[subtitles]"
@@ -941,9 +905,8 @@ msgid "could not find stream information"
 msgstr "non riesco a trovare informazioni sullo streaming"
 
 #: src/lib/writer.cc:520
-#, fuzzy
 msgid "could not move audio asset into the DCP (%1)"
-msgstr "Non posso scrivere il file remoto (%1)"
+msgstr ""
 
 #: src/lib/sndfile_base.cc:47
 msgid "could not open audio file for reading"
@@ -958,9 +921,8 @@ msgid "could not open file for reading"
 msgstr "non riesco ad aprire il file per leggerlo"
 
 #: src/lib/data.cc:61
-#, fuzzy
 msgid "could not read from file"
-msgstr "non posso leggere dal file %1 (%2)"
+msgstr ""
 
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"
@@ -971,9 +933,8 @@ msgid "could not run sample-rate converter"
 msgstr "non riesco a eseguire il convertitore della frequenza di campionamento"
 
 #: src/lib/resampler.cc:77
-#, fuzzy
 msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
-msgstr "non riesco a eseguire il convertitore della frequenza di campionamento"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:88
 msgid "could not start SCP session (%1)"
@@ -1054,14 +1015,12 @@ msgid "sRGB"
 msgstr "sRGB"
 
 #: src/lib/image_content.cc:100
-#, fuzzy
 msgid "still"
-msgstr "ancora"
+msgstr ""
 
 #: src/lib/ffmpeg_examiner.cc:250
-#, fuzzy
 msgid "unknown"
-msgstr "Errore sconosciuto"
+msgstr ""
 
 #: src/lib/video_content.cc:578
 msgid "video frames"

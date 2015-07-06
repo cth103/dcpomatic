@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-02-03 10:46+0100\n"
+"PO-Revision-Date: 2015-07-06 16:06+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/wx/subtitle_panel.cc:63 src/wx/subtitle_panel.cc:72
 #: src/wx/subtitle_panel.cc:81 src/wx/subtitle_panel.cc:90
@@ -1244,9 +1244,8 @@ msgid "Target path"
 msgstr "Percorso di destinazione del TMS"
 
 #: src/wx/isdcf_metadata_dialog.cc:56
-#, fuzzy
 msgid "Temp version"
-msgstr "Versione di test"
+msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:41
 msgid "Territory (e.g. UK)"
@@ -1339,14 +1338,12 @@ msgid "Type"
 msgstr "Tipo"
 
 #: src/wx/dolby_certificate_dialog.cc:183
-#, fuzzy
 msgid "Unexpected certificate filename form"
-msgstr "Seleziona il file del Certificato"
+msgstr ""
 
 #: src/wx/screen_dialog.cc:62
-#, fuzzy
 msgid "Unknown"
-msgstr "sconosciuto"
+msgstr ""
 
 #: src/wx/kdm_dialog.cc:112
 msgid "Until"
@@ -1361,9 +1358,8 @@ msgid "Update"
 msgstr "Aggiorna"
 
 #: src/wx/dcp_panel.cc:75
-#, fuzzy
 msgid "Use ISDCF name"
-msgstr "Usa nome DCI"
+msgstr "Usa nome ISDCF"
 
 #: src/wx/config_dialog.cc:507
 msgid "Use all servers"
@@ -1378,9 +1374,8 @@ msgid "Use preset"
 msgstr "Usa predefinito"
 
 #: src/wx/subtitle_panel.cc:50
-#, fuzzy
 msgid "Use subtitles"
-msgstr "Sottotitoli"
+msgstr ""
 
 #: src/wx/config_dialog.cc:896
 msgid "User name"
@@ -1427,23 +1422,20 @@ msgid "X Offset"
 msgstr "Spostamento X"
 
 #: src/wx/subtitle_panel.cc:77
-#, fuzzy
 msgid "X Scale"
-msgstr "Scaler"
+msgstr ""
 
 #: src/wx/subtitle_panel.cc:68
 msgid "Y Offset"
 msgstr "Spostamento Y"
 
 #: src/wx/subtitle_panel.cc:86
-#, fuzzy
 msgid "Y Scale"
-msgstr "Scaler"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:94
-#, fuzzy
 msgid "YUV to RGB conversion"
-msgstr "Conversione colore"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:96
 msgid "YUV to RGB matrix"
@@ -1465,13 +1457,10 @@ msgstr ""
 "una giunta senza interruzioni tra i file."
 
 #: src/wx/hints_dialog.cc:92
-#, fuzzy
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"Il vostro DCP ha un numero dispari di canali audio. Questo può causare "
-"problemi durante la riproduzione."
 
 #: src/wx/hints_dialog.cc:138
 #, c-format
@@ -1500,13 +1489,10 @@ msgstr ""
 "alcuni proiettori."
 
 #: src/wx/hints_dialog.cc:106
-#, fuzzy
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
 "playback."
 msgstr ""
-"Il vostro DCP ha un numero dispari di canali audio. Questo può causare "
-"problemi durante la riproduzione."
 
 #: src/wx/timeline_audio_content_view.cc:37
 #, fuzzy
@@ -1529,9 +1515,8 @@ msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
 #: src/wx/timing_panel.cc:57
-#, fuzzy
 msgid "m"
-msgstr "ms"
+msgstr ""
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:75 src/wx/config_dialog.cc:362

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-07-13 03:04+0100\n"
+"PO-Revision-Date: 2015-07-06 15:31+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:330
@@ -53,7 +53,6 @@ msgid "&Jobs"
 msgstr "&Aufgaben"
 
 #: src/tools/dcpomatic.cc:694
-#, fuzzy
 msgid "&Make DCP\tCtrl-M"
 msgstr "&DCP erstellen\tCtrl-M"
 
@@ -77,7 +76,7 @@ msgstr "&Beenden"
 
 #: src/tools/dcpomatic.cc:666
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "Programmfehler bei %1:%2"
 
 #: src/tools/dcpomatic.cc:696
 msgid "&Send DCP to TMS"
@@ -109,12 +108,12 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:900
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
-"Ein unbekannter Fehler ist aufgetreten: %s (%s).\n"
+"Ein unbekannter Fehler ist aufgetreten: %s.\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:464 src/tools/dcpomatic.cc:902
@@ -140,9 +139,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Film %1 (%2) konnte nicht geladen werden"
 
 #: src/tools/dcpomatic.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s"
-msgstr "Der Film konnte nicht bei %s (%s) geöffnet werden"
+msgstr "Konnte DCP: %s nicht erstellen"
 
 #: src/tools/dcpomatic.cc:281 src/tools/dcpomatic_batch.cc:175
 #, c-format
@@ -151,7 +150,7 @@ msgstr "Der Film konnte nicht bei %s (%s) geöffnet werden"
 
 #: src/tools/dcpomatic.cc:520
 msgid "Could not show DCP"
-msgstr ""
+msgstr "Konnte DCP nicht anzeigen."
 
 #: src/tools/dcpomatic.cc:511
 msgid "Could not show DCP (could not run konqueror)"
@@ -180,9 +179,8 @@ msgid "Film changed"
 msgstr "Projekt gewechselt"
 
 #: src/tools/dcpomatic.cc:700
-#, fuzzy
 msgid "Hints..."
-msgstr "Tipps...\tCtrl-H"
+msgstr "Hinweise/Warnungen...\tCtrl-H"
 
 #: src/tools/dcpomatic.cc:695
 msgid "Make &KDMs...\tCtrl-K"
@@ -198,7 +196,7 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:704
 msgid "Restore default preferences"
-msgstr ""
+msgstr "Voreinstellungen zurücksetzen"
 
 #: src/tools/dcpomatic.cc:697
 msgid "S&how DCP"
@@ -222,15 +220,17 @@ msgid "Select film to open"
 msgstr "Zu öffnendes Projekt auswählen"
 
 #: src/tools/dcpomatic.cc:419
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f Gb, and "
 "the disk that you are using only has %.1f Gb available.  You would need half "
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"Das DCP für diesen Film wird etwa %.1f Gbyte groß. Auf dem ausgewählten "
-"Laufwerk sind aber nur %.1f Gbyte frei. Möchten Sie trotzdem weitermachen ?"
+"Das DCP und für dessen Erzeugung benötigte Zwischenprodukte für diesen Film "
+"wird etwa %.1f Gbyte groß. Auf dem ausgewählten Laufwerk sind aber nur %.1f "
+"Gbyte frei. Mit einem Dateisystem, das 'hard links' unterstützt würden Sie "
+"nur die Hälfte an Platz benötigen. Möchten Sie trotzdem weitermachen ?"
 
 #: src/tools/dcpomatic.cc:417
 #, c-format

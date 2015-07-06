@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-09-04 20:34+0100\n"
+"PO-Revision-Date: 2015-07-06 16:07+0100\n"
 "Last-Translator: Cherif Ben Brahim <firehc@mac.com>\n"
 "Language-Team: UniversalDV <Tkooijmans@universaldv.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/dcp_content.cc:112
@@ -188,14 +188,12 @@ msgid "Content frame rate"
 msgstr "Content frame rate"
 
 #: src/lib/subtitle_content.cc:124
-#, fuzzy
 msgid "Content to be joined must have the same 'burn subtitles' setting."
-msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
+msgstr ""
 
 #: src/lib/subtitle_content.cc:120
-#, fuzzy
 msgid "Content to be joined must have the same 'use subtitles' setting."
-msgstr "Toegevoegde bestanden moeten dezelfde schaal hebben."
+msgstr ""
 
 #: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio delay."
@@ -214,9 +212,8 @@ msgid "Content to be joined must have the same crop."
 msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
 
 #: src/lib/video_content.cc:171
-#, fuzzy
 msgid "Content to be joined must have the same fades."
-msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
+msgstr ""
 
 #: src/lib/video_content.cc:147
 msgid "Content to be joined must have the same picture size."
@@ -231,18 +228,16 @@ msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel X offset hebben."
 
 #: src/lib/subtitle_content.cc:136
-#, fuzzy
 msgid "Content to be joined must have the same subtitle X scale."
-msgstr "Toegevoegde bestanden moeten dezelfde ondertitel grootte hebben."
+msgstr ""
 
 #: src/lib/subtitle_content.cc:132
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Toegevoegde bestanden moeten dezelfde ondertitel Y offset hebben."
 
 #: src/lib/subtitle_content.cc:140
-#, fuzzy
 msgid "Content to be joined must have the same subtitle Y scale."
-msgstr "Toegevoegde bestanden moeten dezelfde ondertitel grootte hebben."
+msgstr ""
 
 #: src/lib/video_content.cc:151
 msgid "Content to be joined must have the same video frame rate."
@@ -253,9 +248,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "Toegevoegde bestanden moeten dezelfde video formaat hebben."
 
 #: src/lib/subtitle_content.cc:145 src/lib/subtitle_content.cc:153
-#, fuzzy
 msgid "Content to be joined must use the same fonts."
-msgstr "Toegevoegde bestanden moeten dezelfde crop hebben."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:124
 msgid "Content to be joined must use the same subtitle stream."
@@ -278,14 +272,12 @@ msgid "Could not create remote directory %1 (%2)"
 msgstr "Kan geen remote map maken %1 (%2)"
 
 #: src/lib/image_examiner.cc:61
-#, fuzzy
 msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "Kan beeldbestand niet decoderen"
+msgstr ""
 
 #: src/lib/magick_image_proxy.cc:99
-#, fuzzy
 msgid "Could not decode image file (%1)"
-msgstr "Kan beeldbestand niet decoderen"
+msgstr ""
 
 #: src/lib/server_finder.cc:128
 msgid ""
@@ -306,9 +298,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownloade ZIP bestand niet openen"
 
 #: src/lib/dcp_subtitle.cc:49
-#, fuzzy
 msgid "Could not read subtitles"
-msgstr "kan geen bestand maken %1"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:153
 msgid "Could not start SCP session (%1)"
@@ -535,9 +526,8 @@ msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
 #: src/lib/ffmpeg_content.cc:401
-#, fuzzy
 msgid "Linear"
-msgstr "Bilinear"
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:402
 msgid "Logarithmic (100:1 range)"
@@ -628,9 +618,8 @@ msgid "P3"
 msgstr ""
 
 #: src/lib/video_content.cc:558
-#, fuzzy
 msgid "Padded with black to fit container %1 (%2x%3)"
-msgstr "Opgevuld met zwart tot %1x%2"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:52
 msgid "Policy"
@@ -661,9 +650,8 @@ msgid "Rc"
 msgstr ""
 
 #: src/lib/colour_conversion.cc:263
-#, fuzzy
 msgid "Rec. 601"
-msgstr "Rec. 709"
+msgstr ""
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 709"
@@ -842,9 +830,8 @@ msgid "VI"
 msgstr ""
 
 #: src/lib/video_content.cc:580
-#, fuzzy
 msgid "Video frame rate"
-msgstr "Content frame rate"
+msgstr ""
 
 #: src/lib/video_content.cc:578
 msgid "Video length"
@@ -919,9 +906,8 @@ msgid "could not find stream information"
 msgstr "kan geen stream informatie vinden"
 
 #: src/lib/writer.cc:520
-#, fuzzy
 msgid "could not move audio asset into the DCP (%1)"
-msgstr "kan MXF audio niet plaatsen in DCP (%1)"
+msgstr ""
 
 #: src/lib/sndfile_base.cc:47
 msgid "could not open audio file for reading"
@@ -936,9 +922,8 @@ msgid "could not open file for reading"
 msgstr "kan bestand niet openen om te lezen"
 
 #: src/lib/data.cc:61
-#, fuzzy
 msgid "could not read from file"
-msgstr "kan bestand niet lezen %1 (%2)"
+msgstr ""
 
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"

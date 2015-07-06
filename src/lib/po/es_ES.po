@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-10-24 16:11-0500\n"
+"PO-Revision-Date: 2015-07-06 15:44+0100\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/lib/dcp_content.cc:112
 msgid "%1 [DCP]"
@@ -71,15 +71,15 @@ msgstr ""
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr ""
+msgstr "EL audio será remuestreado de %1kHz a %2kHz."
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
-msgstr ""
+msgstr "EL audio será remuestreado a %1kHz."
 
 #: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
-msgstr ""
+msgstr "El audio no será remuestreado."
 
 #: src/lib/ffmpeg_content.cc:405
 msgid "BT1361 extended colour gamut"
@@ -187,9 +187,8 @@ msgid "Content frame rate"
 msgstr "Velocidad del contenido"
 
 #: src/lib/subtitle_content.cc:124
-#, fuzzy
 msgid "Content to be joined must have the same 'burn subtitles' setting."
-msgstr "Para unir contenido debe tener la misma opción 'usar subtítulos'."
+msgstr ""
 
 #: src/lib/subtitle_content.cc:120
 msgid "Content to be joined must have the same 'use subtitles' setting."
@@ -251,9 +250,8 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "Para unir contenido debe tener el mismo tamaño de imagen."
 
 #: src/lib/subtitle_content.cc:145 src/lib/subtitle_content.cc:153
-#, fuzzy
 msgid "Content to be joined must use the same fonts."
-msgstr "Para unir contenido debe tener los mismos fundidos."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:124
 msgid "Content to be joined must use the same subtitle stream."
@@ -276,9 +274,8 @@ msgid "Could not create remote directory %1 (%2)"
 msgstr "No se pudo crear la carpeta remota %1 (%2)"
 
 #: src/lib/image_examiner.cc:61
-#, fuzzy
 msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "No se pudo descodificar el fichero de imagen (%1)"
+msgstr ""
 
 #: src/lib/magick_image_proxy.cc:99
 msgid "Could not decode image file (%1)"
@@ -289,6 +286,8 @@ msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
 msgstr ""
+"No se pueden buscar servidores de codificación externos. Quizás haya otro "
+"DCP-o-matic ejecutándose."
 
 #: src/lib/job.cc:93
 msgid "Could not open %1"
@@ -303,9 +302,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "No se puedo abrir el fichero ZIP descargado"
 
 #: src/lib/dcp_subtitle.cc:49
-#, fuzzy
 msgid "Could not read subtitles"
-msgstr "no se pudo encontrar decodificador de subtítutlos"
+msgstr ""
 
 #: src/lib/scp_dcp_job.cc:153
 msgid "Could not start SCP session (%1)"
@@ -376,7 +374,7 @@ msgstr ""
 
 #: src/lib/video_content.cc:528
 msgid "Display aspect ratio"
-msgstr ""
+msgstr "Proporción de aspecto mostrada"
 
 #: src/lib/dolby_cp750.cc:27
 msgid "Dolby CP650 and CP750"
@@ -439,9 +437,8 @@ msgid "Finding length"
 msgstr ""
 
 #: src/lib/ffmpeg_examiner.cc:81
-#, fuzzy
 msgid "Finding subtitles"
-msgstr "Subtítulos SubRip"
+msgstr ""
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
@@ -532,9 +529,8 @@ msgid "Lfe (sub)"
 msgstr "Lfe (bajos)"
 
 #: src/lib/ffmpeg_content.cc:401
-#, fuzzy
 msgid "Linear"
-msgstr "Bilineal"
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:402
 msgid "Logarithmic (100:1 range)"
@@ -622,9 +618,8 @@ msgid "P3"
 msgstr ""
 
 #: src/lib/video_content.cc:558
-#, fuzzy
 msgid "Padded with black to fit container %1 (%2x%3)"
-msgstr "Completado con negro hasta %1x%2"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:52
 msgid "Policy"
@@ -632,7 +627,7 @@ msgstr "Policy"
 
 #: src/lib/exceptions.cc:78
 msgid "Programming error at %1:%2"
-msgstr ""
+msgstr "Error de programación en %1:%2"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Public Service Announcement"
@@ -655,9 +650,8 @@ msgid "Rc"
 msgstr ""
 
 #: src/lib/colour_conversion.cc:263
-#, fuzzy
 msgid "Rec. 601"
-msgstr "Rec. 709"
+msgstr ""
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 709"
@@ -839,9 +833,8 @@ msgid "VI"
 msgstr ""
 
 #: src/lib/video_content.cc:580
-#, fuzzy
 msgid "Video frame rate"
-msgstr "Velocidad del contenido"
+msgstr ""
 
 #: src/lib/video_content.cc:578
 msgid "Video length"
@@ -916,9 +909,8 @@ msgid "could not find stream information"
 msgstr "no se pudo encontrar información del flujo"
 
 #: src/lib/writer.cc:520
-#, fuzzy
 msgid "could not move audio asset into the DCP (%1)"
-msgstr "no s puedo mover el audio MXF en el DCP (%1)"
+msgstr ""
 
 #: src/lib/sndfile_base.cc:47
 msgid "could not open audio file for reading"
@@ -933,9 +925,8 @@ msgid "could not open file for reading"
 msgstr "no se pudo abrir el fichero para lectura"
 
 #: src/lib/data.cc:61
-#, fuzzy
 msgid "could not read from file"
-msgstr "No se pudo leer del fichero %1 (%2)"
+msgstr ""
 
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"
