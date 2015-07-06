@@ -36,6 +36,7 @@
 #include "data.h"
 #include <libcxml/cxml.h>
 #include <boost/lambda/lambda.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -66,7 +67,7 @@ Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Write
 	, _terminate (false)
 	, _writer (writer)
 {
-
+	servers_list_changed ();
 }
 
 Encoder::~Encoder ()
@@ -99,7 +100,7 @@ Encoder::begin ()
 	_writer->set_encoder_threads (_threads.size ());
 
 	if (!ServerFinder::instance()->disabled ()) {
-		_server_found_connection = ServerFinder::instance()->connect (boost::bind (&Encoder::server_found, this, _1));
+		_server_found_connection = ServerFinder::instance()->ServersListChanged.connect (boost::bind (&Encoder::servers_list_changed, this));
 	}
 }
 
@@ -271,6 +272,7 @@ Encoder::terminate_threads ()
 	}
 
 	_threads.clear ();
+	_terminate = false;
 }
 
 void
@@ -362,7 +364,10 @@ catch (...)
 }
 
 void
-Encoder::server_found (ServerDescription s)
+Encoder::servers_list_changed ()
 {
-	add_worker_threads (s);
+	terminate_threads ();
+	BOOST_FOREACH (ServerDescription i, ServerFinder::instance()->servers ()) {
+		add_worker_threads (i);
+	}
 }

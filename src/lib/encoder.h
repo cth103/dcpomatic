@@ -83,7 +83,7 @@ private:
 	void encoder_thread (boost::optional<ServerDescription>);
 	void terminate_threads ();
 	void add_worker_threads (ServerDescription);
-	void server_found (ServerDescription);
+	void servers_list_changed ();
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;

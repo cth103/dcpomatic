@@ -59,6 +59,12 @@ public:
 
 	boost::filesystem::path default_directory_or (boost::filesystem::path a) const;
 
+	enum Property {
+		USE_ANY_SERVERS,
+		SERVERS,
+		OTHER
+	};
+
 	/** @return base port number to use for J2K encoding servers */
 	int server_port_base () const {
 		return _server_port_base;
@@ -66,7 +72,7 @@ public:
 
 	void set_use_any_servers (bool u) {
 		_use_any_servers = u;
-		changed ();
+		changed (USE_ANY_SERVERS);
 	}
 
 	bool use_any_servers () const {
@@ -76,7 +82,7 @@ public:
 	/** @param s New list of servers */
 	void set_servers (std::vector<std::string> s) {
 		_servers = s;
-		changed ();
+		changed (SERVERS);
 	}
 
 	/** @return Host names / IP addresses of J2K encoding servers that should definitely be used */
@@ -395,8 +401,8 @@ public:
 
 	void add_to_history (boost::filesystem::path p);
 
-	void changed ();
-	boost::signals2::signal<void ()> Changed;
+	void changed (Property p = OTHER);
+	boost::signals2::signal<void (Property)> Changed;
 
 	void write () const;
 

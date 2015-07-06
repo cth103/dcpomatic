@@ -47,6 +47,7 @@ ServerFinder::ServerFinder ()
 {
 	_broadcast_thread = new boost::thread (boost::bind (&ServerFinder::broadcast_thread, this));
 	_listen_thread = new boost::thread (boost::bind (&ServerFinder::listen_thread, this));
+	Config::instance()->Changed.connect (boost::bind (&ServerFinder::config_changed, this, _1));
 }
 
 ServerFinder::~ServerFinder ()
@@ -172,7 +173,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 			boost::mutex::scoped_lock lm (_mutex);
 			_servers.push_back (sd);
 		}
-		emit (boost::bind (boost::ref (ServerFound), sd));
+		emit (boost::bind (boost::ref (ServersListChanged)));
 	}
 
 	start_accept ();
@@ -190,19 +191,6 @@ ServerFinder::server_found (string ip) const
 	return i != _servers.end ();
 }
 
-boost::signals2::connection
-ServerFinder::connect (boost::function<void (ServerDescription)> fn)
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	/* Emit the current list of servers */
-	for (list<ServerDescription>::iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		fn (*i);
-	}
-
-	return ServerFound.connect (fn);
-}
-
 ServerFinder*
 ServerFinder::instance ()
 {
@@ -218,4 +206,23 @@ ServerFinder::drop ()
 {
 	delete _instance;
 	_instance = 0;
+}
+
+list<ServerDescription>
+ServerFinder::servers () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _servers;
+}
+
+void
+ServerFinder::config_changed (Config::Property what)
+{
+	if (what == Config::USE_ANY_SERVERS || what == Config::SERVERS) {
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			_servers.clear ();
+		}
+		ServersListChanged ();
+	}
 }

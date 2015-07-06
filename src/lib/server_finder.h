@@ -19,13 +19,12 @@
 
 #include "server.h"
 #include "signaller.h"
+#include "config.h"
 #include <boost/signals2.hpp>
 
 class ServerFinder : public Signaller, public ExceptionStore
 {
 public:
-	boost::signals2::connection connect (boost::function<void (ServerDescription)>);
-
 	static ServerFinder* instance ();
 	static void drop ();
 
@@ -36,6 +35,11 @@ public:
 	bool disabled () const {
 		return _disabled;
 	}
+
+	std::list<ServerDescription> servers () const;
+
+	/** Emitted whenever the list of servers changes */
+	boost::signals2::signal<void ()> ServersListChanged;
 
 private:
 	ServerFinder ();
@@ -48,7 +52,7 @@ private:
 	void start_accept ();
 	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
 
-	boost::signals2::signal<void (ServerDescription)> ServerFound;
+	void config_changed (Config::Property what);
 
 	bool _disabled;
 
