@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-07-14 10:43+0100\n"
+"PO-Revision-Date: 2015-07-06 14:49+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.6\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/tools/dcpomatic.cc:330
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -51,17 +51,14 @@ msgid "&Jobs"
 msgstr "&Travaux"
 
 #: src/tools/dcpomatic.cc:694
-#, fuzzy
 msgid "&Make DCP\tCtrl-M"
 msgstr "&Créer le DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:664
-#, fuzzy
 msgid "&Open...\tCtrl-O"
 msgstr "&Ouvrir...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:683 src/tools/dcpomatic.cc:686
-#, fuzzy
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Préférences...\tCtrl-P"
 
@@ -75,7 +72,7 @@ msgstr "&Quitter"
 
 #: src/tools/dcpomatic.cc:666
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "&Enregistrer\tCtrl+S"
 
 #: src/tools/dcpomatic.cc:696
 msgid "&Send DCP to TMS"
@@ -98,7 +95,7 @@ msgid "Add Film..."
 msgstr "Ajouter Film..."
 
 #: src/tools/dcpomatic.cc:898
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s in %s.\n"
 "\n"
@@ -107,12 +104,12 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:900
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
-"Exception inconnue: %s (%s).\n"
+"Exception inconnue: %s.\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:464 src/tools/dcpomatic.cc:902
@@ -123,7 +120,7 @@ msgstr "Exception inconnue"
 #: src/tools/dcpomatic.cc:433
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr ""
+msgstr "Mauvais paramètres pour %s (%s)"
 
 #: src/tools/dcpomatic.cc:460
 msgid "CPL's content is not encrypted."
@@ -138,9 +135,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %1 (%2)"
 
 #: src/tools/dcpomatic.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s"
-msgstr "Impossible d'ouvrir le film à %s (%s)"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:281 src/tools/dcpomatic_batch.cc:175
 #, c-format
@@ -149,7 +146,7 @@ msgstr "Impossible d'ouvrir le film à %s (%s)"
 
 #: src/tools/dcpomatic.cc:520
 msgid "Could not show DCP"
-msgstr ""
+msgstr "Ouverture du DCP impossible"
 
 #: src/tools/dcpomatic.cc:511
 msgid "Could not show DCP (could not run konqueror)"
@@ -177,7 +174,6 @@ msgid "Film changed"
 msgstr "Film changé"
 
 #: src/tools/dcpomatic.cc:700
-#, fuzzy
 msgid "Hints..."
 msgstr "Conseils...\tCtrl-H"
 
@@ -195,7 +191,7 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:704
 msgid "Restore default preferences"
-msgstr ""
+msgstr "Rétablir préférences par défaut"
 
 #: src/tools/dcpomatic.cc:697
 msgid "S&how DCP"
@@ -219,7 +215,7 @@ msgid "Select film to open"
 msgstr "Sélectionner le film à ouvrir"
 
 #: src/tools/dcpomatic.cc:419
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f Gb, and "
 "the disk that you are using only has %.1f Gb available.  You would need half "

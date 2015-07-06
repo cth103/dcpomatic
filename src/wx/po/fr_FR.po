@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-30 22:20+0100\n"
-"PO-Revision-Date: 2014-07-14 11:27+0100\n"
+"PO-Revision-Date: 2015-07-06 14:47+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.6\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/wx/subtitle_panel.cc:63 src/wx/subtitle_panel.cc:72
 #: src/wx/subtitle_panel.cc:81 src/wx/subtitle_panel.cc:90
@@ -23,7 +23,6 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:82
-#, fuzzy
 msgid ""
 "(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
@@ -96,6 +95,8 @@ msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
 msgstr ""
+"<i>à modifier seulement si la cadence image du contenu n'a pas été "
+"correctement identifiée.</i>"
 
 #: src/wx/colour_conversion_editor.cc:67
 msgid "A"
@@ -107,6 +108,9 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"Quelques projecteurs ont des soucis avec la lecture de DCPs à très haut "
+"débit. Mieux vaut baisser la qualité JPEG2000 à environ 200Mbit/s. Cela "
+"n'aura aucun impact sensible sur l'image."
 
 #: src/wx/update_dialog.cc:35
 msgid "A new version of DCP-o-matic is available."
@@ -139,17 +143,16 @@ msgid "Add file(s)..."
 msgstr "Ajout fichier(s)..."
 
 #: src/wx/content_panel.cc:78
-#, fuzzy
 msgid "Add folder..."
-msgstr "Ajout fichier(s)..."
+msgstr ""
 
 #: src/wx/image_sequence_dialog.cc:25
 msgid "Add image sequence"
-msgstr ""
+msgstr "Ajout séquence images"
 
 #: src/wx/content_panel.cc:75
 msgid "Add video, image or sound files to the film."
-msgstr ""
+msgstr "Ajout fichiers vidéo, image ou son au projet."
 
 #: src/wx/config_dialog.cc:600 src/wx/editable_list.h:62
 msgid "Add..."
@@ -166,6 +169,10 @@ msgid ""
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
 msgstr ""
+"Tous vos contenus sont au format 1:85:1 ou moins, mais le format du DCP est "
+"réglé sur Scope (2:39:1). Des bandes noires verticales seront créées de part "
+"et d'autre de votre contenu pour remplir le container. Mieux vaudrait régler "
+"le format du DCP sur Flat (1:85:1) dans l'onglet \"DCP\" ."
 
 #: src/wx/hints_dialog.cc:126
 msgid ""
@@ -174,6 +181,10 @@ msgid ""
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
+"Tous vos contenus sont au format Scope (2:39:1) mais le format image du DCP "
+"est réglé sur Flat (1:85:1). Des bandes noires horizontales seront créées au "
+"dessus et en dessous de votre contenu pour remplir le container. Mieux "
+"vaudrait régler le format du DCP sur Scope (2:39:1) dans l'onglet \"DCP\" ."
 
 #: src/wx/config_dialog.cc:1141
 msgid "Allow any DCP frame rate"
@@ -216,9 +227,8 @@ msgid "Blue chromaticity"
 msgstr ""
 
 #: src/wx/video_panel.cc:128
-#, fuzzy
 msgid "Bottom"
-msgstr "Rogner en bas"
+msgstr ""
 
 #: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:134
 msgid "Browse..."
@@ -559,7 +569,7 @@ msgstr "Obtention..."
 
 #: src/wx/content_properties_dialog.cc:40
 msgid "Filename"
-msgstr ""
+msgstr "Nom de fichier"
 
 #: src/wx/properties_dialog.cc:36
 msgid "Film Properties"
@@ -594,18 +604,16 @@ msgid "Frame Rate"
 msgstr "Cadence image"
 
 #: src/wx/image_sequence_dialog.cc:27
-#, fuzzy
 msgid "Frame rate"
-msgstr "Cadence image"
+msgstr ""
 
 #: src/wx/properties_dialog.cc:39
 msgid "Frames"
 msgstr "Images"
 
 #: src/wx/about_dialog.cc:65
-#, fuzzy
 msgid "Free, open-source DCP creation from almost anything."
-msgstr "Création de DCP libre et gratuit depuis presque tout."
+msgstr "Création de DCP, libre et open-source, depuis presque tout."
 
 #: src/wx/kdm_dialog.cc:104
 msgid "From"
@@ -737,9 +745,8 @@ msgid "Keys"
 msgstr ""
 
 #: src/wx/subtitle_panel.cc:94
-#, fuzzy
 msgid "Language"
-msgstr "Sélectionnez la langue"
+msgstr ""
 
 #: src/wx/config_dialog.cc:716
 msgid "Leaf"
@@ -754,9 +761,8 @@ msgid "Left"
 msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:50
-#, fuzzy
 msgid "Linearise input gamma curve for small values"
-msgstr "Courbe gamma d'entrée linéaire pour les bas niveaux"
+msgstr "Linéariser la courbe d'entrée gamma pour les bas niveaux"
 
 #: src/wx/screen_dialog.cc:46
 msgid "Load from file..."
@@ -764,9 +770,8 @@ msgstr "Chargement depuis fichier..."
 
 #: src/wx/config_dialog.cc:622 src/wx/config_dialog.cc:630
 #: src/wx/config_dialog.cc:638
-#, fuzzy
 msgid "Load..."
-msgstr "Ajouter..."
+msgstr ""
 
 #: src/wx/config_dialog.cc:1149
 msgid "Log"
@@ -793,14 +798,12 @@ msgid "Make KDMs"
 msgstr "Générer KDMs"
 
 #: src/wx/make_signer_chain_dialog.cc:23
-#, fuzzy
 msgid "Make certificate chain"
-msgstr "Sélectionner le certificat"
+msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:71
-#, fuzzy
 msgid "Mastered luminance (e.g. 14fl)"
-msgstr "Luminance masterisée (ex: 14fl)"
+msgstr "Luminance masterisée (e.g. 14fl)"
 
 #: src/wx/colour_conversion_editor.cc:109
 msgid "Matrix"
@@ -817,11 +820,11 @@ msgstr "Mbit/s"
 
 #: src/wx/content_panel.cc:87
 msgid "Move the selected piece of content earlier in the film."
-msgstr ""
+msgstr "Déplacer le contenu sélectionné plus tôt dans le film."
 
 #: src/wx/content_panel.cc:91
 msgid "Move the selected piece of content later in the film."
-msgstr ""
+msgstr "Déplacer le contenu sélectionné plus tard dans le film."
 
 #: src/wx/video_panel.cc:345
 msgid "Multiple content selected"
@@ -872,7 +875,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:95
 msgid "Open the timeline for the film."
-msgstr ""
+msgstr "Ouvrir la timeline pour le film."
 
 #: src/wx/make_signer_chain_dialog.cc:25
 msgid "Organisation"
@@ -903,9 +906,8 @@ msgid "Output gamma"
 msgstr "Gamma de sortie"
 
 #: src/wx/colour_conversion_editor.cc:182
-#, fuzzy
 msgid "Output gamma correction"
-msgstr "Gamma de sortie"
+msgstr "Correction Gamma de sortie"
 
 #: src/wx/isdcf_metadata_dialog.cc:53
 msgid "Package Type (e.g. OV)"
@@ -967,13 +969,12 @@ msgid "Processor"
 msgstr ""
 
 #: src/wx/content_menu.cc:60
-#, fuzzy
 msgid "Properties..."
-msgstr "Propriétés du film"
+msgstr "Propriétés..."
 
 #: src/wx/colour_conversion_editor.cc:105
 msgid "RGB to XYZ conversion"
-msgstr ""
+msgstr "Conversion RGB vers XYZ"
 
 #: src/wx/audio_dialog.cc:76
 msgid "RMS"
@@ -1057,9 +1058,8 @@ msgid "Resume"
 msgstr "Reprendre"
 
 #: src/wx/video_panel.cc:106
-#, fuzzy
 msgid "Right"
-msgstr "Rogner à droite"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:320
 msgid "Right click to change gain."
@@ -1135,18 +1135,16 @@ msgid "Set"
 msgstr "Sélection"
 
 #: src/wx/fonts_dialog.cc:58
-#, fuzzy
 msgid "Set file..."
-msgstr "Ajout fichier(s)..."
+msgstr ""
 
 #: src/wx/config_dialog.cc:153
 msgid "Set language"
 msgstr "Sélectionnez la langue"
 
 #: src/wx/dcp_panel.cc:693
-#, fuzzy
 msgid "Show audio..."
-msgstr "Afficher le son..."
+msgstr ""
 
 #: src/wx/dcp_panel.cc:110
 msgid "Signed"
@@ -1169,9 +1167,8 @@ msgid "Standard"
 msgstr "Standard"
 
 #: src/wx/subtitle_view.cc:39
-#, fuzzy
 msgid "Start"
-msgstr "Début"
+msgstr ""
 
 #: src/wx/subtitle_panel.cc:98
 msgid "Stream"
@@ -1183,7 +1180,7 @@ msgstr "Studio (ex. TCF)"
 
 #: src/wx/config_dialog.cc:997
 msgid "Subject"
-msgstr ""
+msgstr "Sujet"
 
 #: src/wx/subtitle_view.cc:55
 #, fuzzy
@@ -1342,9 +1339,8 @@ msgid "Use preset"
 msgstr "Utiliser le préréglage"
 
 #: src/wx/subtitle_panel.cc:50
-#, fuzzy
 msgid "Use subtitles"
-msgstr "Sous-titres"
+msgstr ""
 
 #: src/wx/config_dialog.cc:896
 msgid "User name"
@@ -1367,9 +1363,8 @@ msgid "Warnings"
 msgstr "Avertissements"
 
 #: src/wx/colour_conversion_editor.cc:133
-#, fuzzy
 msgid "White point"
-msgstr "Ecrire à"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:157
 msgid "White point adjustment"
@@ -1392,23 +1387,20 @@ msgid "X Offset"
 msgstr "Position horizontale"
 
 #: src/wx/subtitle_panel.cc:77
-#, fuzzy
 msgid "X Scale"
-msgstr "Mise à l'échelle"
+msgstr ""
 
 #: src/wx/subtitle_panel.cc:68
 msgid "Y Offset"
 msgstr "Position verticale"
 
 #: src/wx/subtitle_panel.cc:86
-#, fuzzy
 msgid "Y Scale"
-msgstr "Mise à l'échelle"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:94
-#, fuzzy
 msgid "YUV to RGB conversion"
-msgstr "Espace Couleurs"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:96
 msgid "YUV to RGB matrix"
@@ -1430,13 +1422,10 @@ msgstr ""
 "afin de vous assurer d'une jonction correcte entre vos fichiers."
 
 #: src/wx/hints_dialog.cc:92
-#, fuzzy
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"Votre DCP possède un nombre impair de canaux audio.  Cela peut créer des "
-"problèmes de lecture."
 
 #: src/wx/hints_dialog.cc:138
 #, c-format
@@ -1465,13 +1454,10 @@ msgstr ""
 "lecture sur certains projecteurs."
 
 #: src/wx/hints_dialog.cc:106
-#, fuzzy
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
 "playback."
 msgstr ""
-"Votre DCP possède un nombre impair de canaux audio.  Cela peut créer des "
-"problèmes de lecture."
 
 #: src/wx/timeline_audio_content_view.cc:37
 msgid "audio"
@@ -1493,9 +1479,8 @@ msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
 #: src/wx/timing_panel.cc:57
-#, fuzzy
 msgid "m"
-msgstr "ms"
+msgstr ""
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:75 src/wx/config_dialog.cc:362
@@ -1512,9 +1497,8 @@ msgid "still"
 msgstr "fixe"
 
 #: src/wx/timeline_subtitle_content_view.cc:35
-#, fuzzy
 msgid "subtitles"
-msgstr "Sous-titres"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:64
 msgid "threshold"
