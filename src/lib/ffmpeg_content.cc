@@ -393,7 +393,7 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 	};
 
 	DCPOMATIC_ASSERT (AVCOL_PRI_NB == 10);
-	p.push_back (make_pair (_("Color primaries"), primaries[_color_primaries]));
+	p.push_back (make_pair (_("Colour primaries"), primaries[_color_primaries]));
 
 	char const * transfers[] = {
 		_("Unspecified"),
