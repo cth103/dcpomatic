@@ -137,6 +137,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Unwana Essien"));
 	supported_by.Add (wxT ("Maxime Estoppey"));
 	supported_by.Add (wxT ("Frechen-Film e.V."));
+	supported_by.Add (wxT ("Rasitha Ferdinando");
 	supported_by.Add (wxT ("Jose Angel Velasco Fernandez"));
 	supported_by.Add (wxT ("Andres Fink"));
 	supported_by.Add (wxT ("Evan Freeze"));
