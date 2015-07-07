@@ -44,7 +44,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> film, boost::filesystem::
 SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SingleStreamAudioContent (film, node, version)
-	, _audio_length (node->number_child<int64_t> ("AudioLength"))
+	, _audio_length (node->number_child<Frame> ("AudioLength"))
 {
 
 }
@@ -109,4 +109,3 @@ SndfileContent::full_length () const
 	FrameRateChange const frc = film->active_frame_rate_change (position ());
 	return DCPTime::from_frames (audio_length() / frc.speed_up, audio_stream()->frame_rate ());
 }
-

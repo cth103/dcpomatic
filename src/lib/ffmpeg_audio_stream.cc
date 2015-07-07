@@ -23,12 +23,16 @@
 #include <libcxml/cxml.h>
 
 using std::string;
+using boost::optional;
 
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
 	, AudioStream (node->number_child<int> ("FrameRate"), AudioMapping (node->node_child ("Mapping"), version))
 {
-	first_audio = node->optional_number_child<int64_t> ("FirstAudio");
+	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type> ("FirstAudio");
+	if (f) {
+		first_audio = ContentTime (f.get ());
+	}
 }
 
 void
