@@ -51,7 +51,7 @@ namespace dcp {
 /** The maximum number of audio channels that we can have in a DCP */
 #define MAX_DCP_AUDIO_CHANNELS 12
 /** Message broadcast to find possible encoding servers */
-#define DCPOMATIC_HELLO "Boys, you gotta learn not to talk to nuns that way"
+#define DCPOMATIC_HELLO "I mean really, Ray, it's used."
 /** Number of films to keep in history */
 #define HISTORY_SIZE 10
 #define REPORT_PROBLEM _("Please report this problem by using Help -> Report a problem or via email to carl@dcpomatic.com")
