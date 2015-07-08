@@ -17,12 +17,13 @@
 
 */
 
-#include <map>
-#include <boost/shared_ptr.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include "wx_util.h"
+#include <dcp/types.h>
 #include <wx/wx.h>
 #include <wx/treectrl.h>
-#include "wx_util.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <map>
 
 class wxTreeCtrl;
 class wxDatePickerCtrl;
@@ -32,6 +33,8 @@ class DirPickerCtrl;
 
 class Cinema;
 class Screen;
+class Film;
+class CPLSummary;
 
 class KDMDialog : public wxDialog
 {
