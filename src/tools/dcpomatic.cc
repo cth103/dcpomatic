@@ -42,7 +42,6 @@
 #include "wx/config_dialog.h"
 #include "wx/wx_util.h"
 #include "wx/new_film_dialog.h"
-#include "wx/properties_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
@@ -129,7 +128,6 @@ enum {
 	ID_file_new = 1,
 	ID_file_open,
 	ID_file_save,
-	ID_file_properties,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_content_scale_to_fit_width = 100,
@@ -190,7 +188,6 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_new, this),                ID_file_new);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_open, this),               ID_file_open);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_save, this),               ID_file_save);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_properties, this),         ID_file_properties);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
@@ -368,13 +365,6 @@ private:
 	void file_save ()
 	{
 		_film->write_metadata ();
-	}
-
-	void file_properties ()
-	{
-		PropertiesDialog* d = new PropertiesDialog (this, _film);
-		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -664,8 +654,6 @@ private:
 		add_item (_file_menu, _("&Open...\tCtrl-O"), ID_file_open, ALWAYS);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
-		_file_menu->AppendSeparator ();
-		add_item (_file_menu, _("&Properties..."), ID_file_properties, NEEDS_FILM);
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
