@@ -50,6 +50,7 @@ using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
@@ -97,7 +98,10 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 		}
 	}
 
-	_first_video = node->optional_number_child<double> ("FirstVideo");
+	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type> ("FirstVideo");
+	if (f) {
+		_first_video = ContentTime (f.get ());
+	}
 
 	_color_range = static_cast<AVColorRange> (node->optional_number_child<int>("ColorRange").get_value_or (AVCOL_RANGE_UNSPECIFIED));
 	_color_primaries = static_cast<AVColorPrimaries> (node->optional_number_child<int>("ColorPrimaries").get_value_or (AVCOL_PRI_UNSPECIFIED));
