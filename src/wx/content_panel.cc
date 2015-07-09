@@ -50,6 +50,7 @@ using boost::dynamic_pointer_cast;
 
 ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
 	: _timeline_dialog (0)
+	, _parent (n)
 	, _film (film)
 	, _generally_sensitive (true)
 {
@@ -236,6 +237,13 @@ ContentPanel::selection_changed ()
 void
 ContentPanel::add_file_clicked ()
 {
+	/* This method is also called when Ctrl-A is pressed, so check that our notebook page
+	   is visible.
+	*/
+	if (_parent->GetCurrentPage() != _panel) {
+		return;
+	}
+
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/

@@ -98,6 +98,7 @@ private:
 	std::list<ContentSubPanel *> _panels;
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog;
+	wxNotebook* _parent;
 
 	boost::shared_ptr<Film> _film;
 	bool _generally_sensitive;
