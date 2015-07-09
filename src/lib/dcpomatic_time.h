@@ -175,7 +175,7 @@ public:
 
 
 	static Time<S, O> from_seconds (double s) {
-		return Time<S, O> (s * HZ);
+		return Time<S, O> (rint (s * HZ));
 	}
 
 	template <class T>
