@@ -449,6 +449,11 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 		BOOST_FOREACH (AudioStreamPtr j, content->audio_streams ()) {
 
+			if (j->channels() == 0) {
+				/* Some content (e.g. DCPs) can have streams with no channels */
+				continue;
+			}
+
 			/* Audio from this piece's decoder stream (which might be more or less than what we asked for) */
 			ContentAudio all = decoder->get_audio (j, content_frame, request_frames, accurate);
 

@@ -1,5 +1,7 @@
 2015-07-09  c.hetherington  <cth@carlh.net>
 
+	* Fix error when using DCP content with no audio channels.
+
 	* Stop Ctrl+A working when the content tab is not visible (#577).
 
 2015-07-08  c.hetherington  <cth@carlh.net>
