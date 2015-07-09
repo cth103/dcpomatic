@@ -122,7 +122,7 @@ private:
 	AVColorPrimaries _color_primaries;
 	AVColorTransferCharacteristic _color_trc;
 	AVColorSpace _colorspace;
-	int _bits_per_pixel;
+	boost::optional<int> _bits_per_pixel;
 };
 
 #endif
