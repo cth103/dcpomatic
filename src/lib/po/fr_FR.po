@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 16:13+0100\n"
+"POT-Creation-Date: 2015-07-09 14:08+0100\n"
 "PO-Revision-Date: 2015-07-06 14:41+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "%1 [audio]"
 msgstr "%1 [audio]"
 
-#: src/lib/ffmpeg_content.cc:219
+#: src/lib/ffmpeg_content.cc:225
 msgid "%1 [movie]"
 msgstr "%1 [vidéo]"
 
@@ -81,48 +81,48 @@ msgstr "Le son sera ré-échantillonné à %1kHz."
 msgid "Audio will not be resampled"
 msgstr "Le son ne sera pas ré-échantillonné."
 
-#: src/lib/ffmpeg_content.cc:411
+#: src/lib/ffmpeg_content.cc:433
 msgid "BT1361 extended colour gamut"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:392
+#: src/lib/ffmpeg_content.cc:414
 msgid "BT2020"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:431
+#: src/lib/ffmpeg_content.cc:453
 msgid "BT2020 constant luminance"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:413
+#: src/lib/ffmpeg_content.cc:435
 msgid "BT2020 for a 10-bit system"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:414
+#: src/lib/ffmpeg_content.cc:436
 msgid "BT2020 for a 12-bit system"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:430
+#: src/lib/ffmpeg_content.cc:452
 msgid "BT2020 non-constant luminance"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:388
+#: src/lib/ffmpeg_content.cc:410
 msgid "BT470BG"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:426
+#: src/lib/ffmpeg_content.cc:448
 msgid "BT470BG (BT601-6)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:387
+#: src/lib/ffmpeg_content.cc:409
 msgid "BT470M"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:384 src/lib/ffmpeg_content.cc:400
-#: src/lib/ffmpeg_content.cc:422
+#: src/lib/ffmpeg_content.cc:406 src/lib/ffmpeg_content.cc:422
+#: src/lib/ffmpeg_content.cc:444
 msgid "BT709"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:437
+#: src/lib/ffmpeg_content.cc:460
 msgid "Bits per pixel"
 msgstr ""
 
@@ -154,20 +154,21 @@ msgstr "Centre"
 msgid "Checking existing image data"
 msgstr "Recherche de données images existantes"
 
-#: src/lib/ffmpeg_content.cc:396
+#: src/lib/ffmpeg_content.cc:418
 msgid "Colour primaries"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:370 src/lib/ffmpeg_content.cc:373
-#: src/lib/ffmpeg_content.cc:376
+#: src/lib/ffmpeg_content.cc:377 src/lib/ffmpeg_content.cc:380
+#: src/lib/ffmpeg_content.cc:383 src/lib/ffmpeg_content.cc:391
+#: src/lib/ffmpeg_content.cc:394 src/lib/ffmpeg_content.cc:397
 msgid "Colour range"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:418
+#: src/lib/ffmpeg_content.cc:440
 msgid "Colour transfer characteristic"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:435
+#: src/lib/ffmpeg_content.cc:457
 msgid "Colourspace"
 msgstr ""
 
@@ -260,7 +261,7 @@ msgstr "Le contenu à ajouter doit avoir le même type de trame vidéo"
 msgid "Content to be joined must use the same fonts."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:124
+#: src/lib/ffmpeg_content.cc:128
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Le contenu à ajouter doit avoir le même flux sous titre"
 
@@ -342,7 +343,7 @@ msgstr ""
 "DCP-o-matic ne peut pas ouvrir le fichier %1. Soit il n'existe pas, soit il "
 "n'est pas au bon format."
 
-#: src/lib/ffmpeg_content.cc:96
+#: src/lib/ffmpeg_content.cc:97
 msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
@@ -351,7 +352,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:419
+#: src/lib/config.cc:422
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -421,7 +422,7 @@ msgstr ""
 msgid "Examine content"
 msgstr "Examen du contenu"
 
-#: src/lib/ffmpeg_content.cc:425
+#: src/lib/ffmpeg_content.cc:447
 msgid "FCC"
 msgstr ""
 
@@ -433,7 +434,7 @@ msgstr "L'authentification du serveur (%1) a échouée"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/ffmpeg_content.cc:391
+#: src/lib/ffmpeg_content.cc:413
 msgid "Film"
 msgstr ""
 
@@ -449,15 +450,23 @@ msgstr ""
 msgid "Flat"
 msgstr "Flat"
 
+#: src/lib/ffmpeg_content.cc:397
+msgid "Full"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:383
+msgid "Full (0-%1)"
+msgstr ""
+
 #: src/lib/ratio.cc:42
 msgid "Full frame"
 msgstr "Full frame"
 
-#: src/lib/ffmpeg_content.cc:403
+#: src/lib/ffmpeg_content.cc:425
 msgid "Gamma 22 (BT470M)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:404
+#: src/lib/ffmpeg_content.cc:426
 msgid "Gamma 28 (BT470BG)"
 msgstr ""
 
@@ -477,11 +486,11 @@ msgstr "Déficients Auditifs"
 msgid "High quality 3D denoiser"
 msgstr "Débruiteur 3D haute qualité"
 
-#: src/lib/ffmpeg_content.cc:412
+#: src/lib/ffmpeg_content.cc:434
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:410
+#: src/lib/ffmpeg_content.cc:432
 msgid "IEC61966-2-4"
 msgstr ""
 
@@ -489,7 +498,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
 
-#: src/lib/config.cc:197
+#: src/lib/config.cc:199
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -529,15 +538,23 @@ msgstr ""
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
-#: src/lib/ffmpeg_content.cc:407
+#: src/lib/ffmpeg_content.cc:394
+msgid "Limited"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:380
+msgid "Limited (%1-%2)"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:429
 msgid "Linear"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:408
+#: src/lib/ffmpeg_content.cc:430
 msgid "Logarithmic (100:1 range)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:409
+#: src/lib/ffmpeg_content.cc:431
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
@@ -633,7 +650,7 @@ msgstr "Public Service Announcement"
 msgid "R"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:421
+#: src/lib/ffmpeg_content.cc:443
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr ""
 
@@ -673,16 +690,16 @@ msgstr "Arrière droite"
 msgid "Rs"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:389 src/lib/ffmpeg_content.cc:405
+#: src/lib/ffmpeg_content.cc:411 src/lib/ffmpeg_content.cc:427
 msgid "SMPTE 170M (BT601)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:427
+#: src/lib/ffmpeg_content.cc:449
 msgid "SMPTE 170M (BT601-6)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:390 src/lib/ffmpeg_content.cc:406
-#: src/lib/ffmpeg_content.cc:428
+#: src/lib/ffmpeg_content.cc:412 src/lib/ffmpeg_content.cc:428
+#: src/lib/ffmpeg_content.cc:450
 msgid "SMPTE 240M"
 msgstr ""
 
@@ -801,11 +818,11 @@ msgstr "Échantillonnage audio (%1) inconnu"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Adoucissement et flou Gaussien"
 
-#: src/lib/ffmpeg_content.cc:370 src/lib/ffmpeg_content.cc:383
-#: src/lib/ffmpeg_content.cc:385 src/lib/ffmpeg_content.cc:386
-#: src/lib/ffmpeg_content.cc:399 src/lib/ffmpeg_content.cc:401
-#: src/lib/ffmpeg_content.cc:402 src/lib/ffmpeg_content.cc:423
-#: src/lib/ffmpeg_content.cc:424
+#: src/lib/ffmpeg_content.cc:377 src/lib/ffmpeg_content.cc:391
+#: src/lib/ffmpeg_content.cc:405 src/lib/ffmpeg_content.cc:407
+#: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:421
+#: src/lib/ffmpeg_content.cc:423 src/lib/ffmpeg_content.cc:424
+#: src/lib/ffmpeg_content.cc:445 src/lib/ffmpeg_content.cc:446
 msgid "Unspecified"
 msgstr ""
 
@@ -845,7 +862,7 @@ msgstr "Déficients Visuels"
 msgid "Waiting"
 msgstr "En cours"
 
-#: src/lib/ffmpeg_content.cc:429
+#: src/lib/ffmpeg_content.cc:451
 msgid "YCOCG"
 msgstr ""
 
