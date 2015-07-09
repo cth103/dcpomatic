@@ -235,6 +235,14 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 	A->_video_frame_rate = 30;
 	B->_video_frame_rate = 24;
 	BOOST_CHECK_EQUAL (film->best_video_frame_rate(), 25);
+
+	A->_video_frame_rate = 24;
+	B->_video_frame_rate = 24;
+	BOOST_CHECK_EQUAL (film->best_video_frame_rate(), 24);
+
+	A->_video_frame_rate = 24;
+	B->_video_frame_rate = 48;
+	BOOST_CHECK_EQUAL (film->best_video_frame_rate(), 24);
 }
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)

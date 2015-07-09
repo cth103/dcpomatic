@@ -237,8 +237,14 @@ Playlist::best_dcp_frame_rate () const
 				continue;
 			}
 
+			/* Best error for this content; we could use the content as-is or double its rate */
+			float best_error = min (
+				float (fabs (i->source - vc->video_frame_rate ())),
+				float (fabs (i->source - vc->video_frame_rate () * 2))
+				);
+
 			/* Use the largest difference between DCP and source as the "error" */
-			this_error = max (this_error, float (fabs (i->source - vc->video_frame_rate ())));
+			this_error = max (this_error, best_error);
 		}
 
 		if (this_error < error) {

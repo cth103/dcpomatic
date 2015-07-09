@@ -1,5 +1,7 @@
 2015-07-09  Carl Hetherington  <cth@carlh.net>
 
+	* Improve 'best' frame rate guess in some cases (#633).
+
 	* Version 2.1.20 released.
 
 2015-07-09  c.hetherington  <cth@carlh.net>
