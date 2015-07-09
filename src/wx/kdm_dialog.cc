@@ -21,12 +21,12 @@
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
 #include "wx_util.h"
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-#include "dir_picker_ctrl.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
 #include <libcxml/cxml.h>
+#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+#include "dir_picker_ctrl.h"
 #else
 #include <wx/filepicker.h>
 #endif
