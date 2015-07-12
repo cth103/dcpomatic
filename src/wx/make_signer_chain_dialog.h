@@ -23,7 +23,14 @@
 class MakeSignerChainDialog : public TableDialog
 {
 public:
-	MakeSignerChainDialog (wxWindow* parent);
+	MakeSignerChainDialog (
+		wxWindow* parent,
+		std::string organisation,
+		std::string organisational_unit_name,
+		std::string root_common_name,
+		std::string intermediate_common_name,
+		std::string leaf_common_name
+		);
 
 	std::string organisation () const {
 		return wx_to_std (_organisation->GetValue ());

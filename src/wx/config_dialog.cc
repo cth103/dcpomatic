@@ -731,7 +731,25 @@ private:
 
 	void remake_certificates ()
 	{
-		MakeSignerChainDialog* d = new MakeSignerChainDialog (_panel);
+		dcp::CertificateChain chain = Config::instance()->signer()->certificates ();
+
+		string intermediate_common_name;
+		if (chain.root_to_leaf().size() >= 3) {
+			dcp::CertificateChain::List all = chain.root_to_leaf ();
+			dcp::CertificateChain::List::iterator i = all.begin ();
+			++i;
+			intermediate_common_name = i->subject_common_name ();
+		}
+
+		MakeSignerChainDialog* d = new MakeSignerChainDialog (
+			_panel,
+			chain.root().subject_organization_name (),
+			chain.root().subject_organizational_unit_name (),
+			chain.root().subject_common_name (),
+			intermediate_common_name,
+			chain.leaf().subject_common_name ()
+			);
+
 		if (d->ShowModal () == wxID_OK) {
 			_signer.reset (
 				new dcp::Signer (
