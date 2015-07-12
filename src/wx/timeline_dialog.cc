@@ -45,6 +45,13 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	sizer->Add (controls, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
 
+#ifdef DCPOMATIC_LINUX
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	if (buttons) {
+		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+#endif
+
 	SetSizer (sizer);
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
