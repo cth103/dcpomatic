@@ -195,7 +195,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
-		overall_sizer->Add (buttons, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_Y_GAP);
+		overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 	}
 
 	_write_to->SetValue (true);
