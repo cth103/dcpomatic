@@ -22,16 +22,46 @@
 MakeSignerChainDialog::MakeSignerChainDialog (wxWindow* parent)
 	: TableDialog (parent, _("Make certificate chain"), 2, true)
 {
+	wxTextValidator validator (wxFILTER_EXCLUDE_CHAR_LIST);
+	validator.SetCharExcludes (wxT ("/"));
+
 	add (_("Organisation"), true);
-	add (_organisation = new wxTextCtrl (this, wxID_ANY));
+	add (_organisation = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, validator));
 	add (_("Organisational unit"), true);
-	add (_organisational_unit = new wxTextCtrl (this, wxID_ANY));
+	add (_organisational_unit = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, validator));
+
 	add (_("Root common name"), true);
-	add (_root_common_name = new wxTextCtrl (this, wxID_ANY));
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (new wxStaticText (this, wxID_ANY, wxT (".")), 0, wxALIGN_CENTER_VERTICAL);
+		s->Add (_root_common_name = new wxTextCtrl (
+				this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
+			);
+		add (s);
+	}
+
 	add (_("Intermediate common name"), true);
-	add (_intermediate_common_name = new wxTextCtrl (this, wxID_ANY));
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (new wxStaticText (this, wxID_ANY, wxT (".")), 0, wxALIGN_CENTER_VERTICAL);
+		s->Add (_intermediate_common_name = new wxTextCtrl (
+				this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
+			);
+		add (s);
+	}
+
 	add (_("Leaf common name"), true);
-	add (_leaf_common_name = new wxTextCtrl (this, wxID_ANY));
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (new wxStaticText (this, wxID_ANY, wxT ("CS.")), 0, wxALIGN_CENTER_VERTICAL);
+		s->Add (_leaf_common_name = new wxTextCtrl (
+				this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
+			);
+		add (s);
+	}
 
 	layout ();
 

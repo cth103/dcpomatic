@@ -1,3 +1,7 @@
+2015-07-12  Carl Hetherington  <cth@carlh.net>
+
+	* Enforce restrictions on SSL certificate properties.
+
 2015-07-09  Carl Hetherington  <cth@carlh.net>
 
 	* Improve 'best' frame rate guess in some cases (#633).
