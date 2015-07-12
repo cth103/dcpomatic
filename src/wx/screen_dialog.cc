@@ -44,7 +44,7 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 	add (_("Certificate"), true);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_load_certificate = new wxButton (this, wxID_ANY, _("Load from file..."));
-	_download_certificate = new wxButton (this, wxID_ANY, _("Download"));
+	_download_certificate = new wxButton (this, wxID_ANY, _("Download..."));
 	s->Add (_load_certificate, 1, wxEXPAND);
 	s->Add (_download_certificate, 1, wxEXPAND);
 	add (s);
