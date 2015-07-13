@@ -1,3 +1,8 @@
+2015-07-14  Carl Hetherington  <cth@carlh.net>
+
+	* Fix non-working 3D DCP creation when using separate
+	pieces of content for each eye (#635).
+
 2015-07-12  Carl Hetherington  <cth@carlh.net>
 
 	* Enforce restrictions on SSL certificate properties.

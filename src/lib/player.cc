@@ -361,38 +361,57 @@ Player::get_video (DCPTime time, bool accurate)
 		/* No video content at this time */
 		pvf.push_back (black_player_video_frame (time));
 	} else {
-		/* Create a PlayerVideo from the content's video at this time */
+		/* Decide which pieces of content to use */
+		list<shared_ptr<Piece> > ov_to_use;
 
-		shared_ptr<Piece> piece = ov.back ();
-		shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
-		DCPOMATIC_ASSERT (decoder);
-		shared_ptr<VideoContent> video_content = dynamic_pointer_cast<VideoContent> (piece->content);
-		DCPOMATIC_ASSERT (video_content);
+		/* Always use the last one */
+		list<shared_ptr<Piece> >::reverse_iterator i = ov.rbegin ();
+		ov_to_use.push_back (*i);
+		VideoFrameType const first_type = dynamic_pointer_cast<VideoContent> ((*i)->content)->video_frame_type ();
 
-		list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
-		if (content_video.empty ()) {
-			pvf.push_back (black_player_video_frame (time));
-			return pvf;
+		++i;
+		if (i != ov.rend ()) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> ((*i)->content);
+			/* Use the second to last if it's the other part of a 3D content pair */
+			if (
+				(first_type == EYES_LEFT && vc->video_frame_type() == EYES_RIGHT) ||
+				(first_type == EYES_RIGHT && vc->video_frame_type() == EYES_LEFT)
+				) {
+				/* Other part of a pair of 3D content */
+				ov_to_use.push_back (*i);
+			}
 		}
 
-		dcp::Size image_size = video_content->scale().size (video_content, _video_container_size, _film->frame_size ());
+		BOOST_FOREACH (shared_ptr<Piece> piece, ov_to_use) {
+			shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
+			DCPOMATIC_ASSERT (decoder);
+			shared_ptr<VideoContent> video_content = dynamic_pointer_cast<VideoContent> (piece->content);
+			DCPOMATIC_ASSERT (video_content);
 
-		for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
-			pvf.push_back (
-				shared_ptr<PlayerVideo> (
-					new PlayerVideo (
-						i->image,
-						content_video_to_dcp (piece, i->frame),
-						video_content->crop (),
-						video_content->fade (i->frame),
-						image_size,
-						_video_container_size,
-						i->eyes,
-						i->part,
-						video_content->colour_conversion ()
-						)
-					)
-				);
+			list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+			if (content_video.empty ()) {
+				pvf.push_back (black_player_video_frame (time));
+			} else {
+				dcp::Size image_size = video_content->scale().size (video_content, _video_container_size, _film->frame_size ());
+
+				for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
+					pvf.push_back (
+						shared_ptr<PlayerVideo> (
+							new PlayerVideo (
+								i->image,
+								content_video_to_dcp (piece, i->frame),
+								video_content->crop (),
+								video_content->fade (i->frame),
+								image_size,
+								_video_container_size,
+								i->eyes,
+								i->part,
+								video_content->colour_conversion ()
+								)
+							)
+						);
+				}
+			}
 		}
 	}
 
