@@ -64,6 +64,8 @@ Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Write
 	: _film (film)
 	, _job (j)
 	, _video_frames_enqueued (0)
+	, _left_done (false)
+	, _right_done (false)
 	, _terminate (false)
 	, _writer (writer)
 {
@@ -247,8 +249,23 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 		_empty_condition.notify_all ();
 	}
 
-	if (pv->eyes() != EYES_LEFT) {
+	switch (pv->eyes ()) {
+	case EYES_BOTH:
 		++_video_frames_enqueued;
+		break;
+	case EYES_LEFT:
+		_left_done = true;
+		break;
+	case EYES_RIGHT:
+		_right_done = true;
+		break;
+	default:
+		break;
+	}
+
+	if (_left_done && _right_done) {
+		++_video_frames_enqueued;
+		_left_done = _right_done = false;
 	}
 
 	_last_player_video = pv;

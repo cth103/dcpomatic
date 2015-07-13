@@ -1,5 +1,8 @@
 2015-07-14  Carl Hetherington  <cth@carlh.net>
 
+	* Fix failure to encode 3D from separate content
+	in some cases (from 1.x) (#634).
+
 	* Fix non-working 3D DCP creation when using separate
 	pieces of content for each eye (#635).
 

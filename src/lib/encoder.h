@@ -100,6 +100,8 @@ private:
 
 	/** Number of video frames enqueued so far */
 	int _video_frames_enqueued;
+	bool _left_done;
+	bool _right_done;
 
 	bool _terminate;
 	std::list<boost::shared_ptr<DCPVideo> > _queue;
