@@ -1,5 +1,8 @@
 2015-07-14  Carl Hetherington  <cth@carlh.net>
 
+	* Fix occasional strange failure to allow content
+	selection (#636).
+
 	* Fix failure to encode 3D from separate content
 	in some cases (from 1.x) (#634).
 

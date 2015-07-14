@@ -429,7 +429,7 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 		if (content[i] == wc.lock ()) {
 			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		} else {
-			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED | wxLIST_STATE_FOCUSED);
+			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
 		}
 	}
 }
