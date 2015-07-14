@@ -144,7 +144,10 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 		BOOST_CHECK_EQUAL (r, this_time);
 
 		for (sf_count_t i = 0; i < this_time; ++i) {
-			BOOST_REQUIRE (abs (ref_buffer[i] - check_buffer[i]) <= 65536);
+			BOOST_REQUIRE_MESSAGE (
+				abs (ref_buffer[i] - check_buffer[i]) <= 65536,
+				ref << " differs from " << check << " at " << (ref_info.frames - N + i) << " of " << ref_info.frames
+				);
 		}
 
 		N -= this_time;
