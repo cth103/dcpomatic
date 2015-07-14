@@ -374,8 +374,8 @@ Player::get_video (DCPTime time, bool accurate)
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> ((*i)->content);
 			/* Use the second to last if it's the other part of a 3D content pair */
 			if (
-				(first_type == EYES_LEFT && vc->video_frame_type() == EYES_RIGHT) ||
-				(first_type == EYES_RIGHT && vc->video_frame_type() == EYES_LEFT)
+				(first_type == VIDEO_FRAME_TYPE_3D_LEFT && vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
+				(first_type == VIDEO_FRAME_TYPE_3D_RIGHT && vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_LEFT)
 				) {
 				/* Other part of a pair of 3D content */
 				ov_to_use.push_back (*i);
