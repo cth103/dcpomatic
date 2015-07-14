@@ -31,7 +31,7 @@ static string const xml = "<Content>"
 	"<Type>FFmpeg</Type>"
 	"<BurnSubtitles>0</BurnSubtitles>"
 	"<BitsPerPixel>8</BitsPerPixel>"
-	"<Path>/home/c.hetherington/DCP/clapperboard.mp4</Path>"
+	"<Path>test/data/red_24.mp4</Path>"
 	"<Digest>2760e03c7251480f7f02c01a907792673784335</Digest>"
 	"<Position>0</Position>"
 	"<TrimStart>0</TrimStart>"
@@ -224,7 +224,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.60)),   0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (3.00)),   0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (4.60)),  40);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (9.75)), 169);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (9.75)), 168);
 
 	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25.  Here the trim is in ContentTime,
 	   so it's 1.6s at 24fps.
