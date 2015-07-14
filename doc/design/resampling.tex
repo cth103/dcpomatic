@@ -2,7 +2,7 @@
 \usepackage{amsmath}
 \begin{document}
 
-Here is what resampling we need to do.  Content video is at $C_V$ fps, audio at $C_A$.  
+Here is what resampling we need to do.  Content video is at $C_V$ fps, audio at $C_A$.
 
 \section{Easy case 1}
 
@@ -59,5 +59,30 @@ last 1 second.  These samples are then played back at $F_A$ samples
 per second, so they last $R_A / F_A$ seconds.  Hence there is a
 scaling between some content time and some DCP time of $R_A / F_A$
 i.e. $C_V / F_V$.
+
+
+\section{Another explanation}
+
+Say we have some content at a video rate $C_V$ and we want to
+run it at DCP video rate $F_V$.  It's always the video rates that
+decide what to do, since we don't have an equivalent to audio
+resampling in the video domain.
+
+We can just mark the video as $F_V$ and it will run $F_V / C_V$ faster
+than it was.  Let's call the factor $S = F_V / C_V$.
+
+An equivalent for audio would be to take the content audio at a rate
+$C_A$ and mark it as $C_A S$.  Then the same audio frames will be run
+more quickly, just as the same video frames are being.  The audio would be
+in sync with the video since it has been sped up by the same amount.
+
+In practice we can't do this, in general, as the only allowed DCP
+audio rates are 48kHz and 96kHz.  Instead, we'll resample to some new
+rate $P$ and mark it as $Q$ where $Q / P = S$.  Resampling does not
+change the sound, just how many samples are being used to describe it,
+so this is equivalent to marking the original, unsampled audio as $C_A S$.
+
+Then we set $Q = 48$kHz so that $P = 48000 / S$, or $P = C_V F_A
+/ F_V$.
 
 \end{document}
