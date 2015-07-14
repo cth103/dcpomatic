@@ -464,9 +464,9 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			request = DCPTime ();
 		}
 
-		Frame const content_frame = dcp_to_content_audio (*i, request);
-
 		BOOST_FOREACH (AudioStreamPtr j, content->audio_streams ()) {
+
+			Frame const content_frame = dcp_to_content_audio (*i, j, request);
 
 			if (j->channels() == 0) {
 				/* Some content (e.g. DCPs) can have streams with no channels */
@@ -521,13 +521,12 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
-	/* s is the offset of t from the start position of this content */
-	DCPTime s = t - piece->content->position ();
+	DCPTime s = t - piece->content->position () + piece->content->trim_start ();
 	s = DCPTime (max (DCPTime::Type (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
 	/* Convert this to the content frame */
-	return DCPTime (s + piece->content->trim_start()).frames (_film->video_frame_rate()) / piece->frc.factor ();
+	return s.frames (_film->video_frame_rate()) / piece->frc.factor ();
 }
 
 DCPTime
@@ -542,15 +541,13 @@ Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 }
 
 Frame
-Player::dcp_to_content_audio (shared_ptr<const Piece> piece, DCPTime t) const
+Player::dcp_to_content_audio (shared_ptr<const Piece> piece, AudioStreamPtr stream, DCPTime t) const
 {
-	/* s is the offset of t from the start position of this content */
-	DCPTime s = t - piece->content->position ();
+	DCPTime s = t - piece->content->position () + piece->content->trim_start ();
 	s = DCPTime (max (DCPTime::Type (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
-	/* Convert this to the content frame */
-	return DCPTime (s + piece->content->trim_start()).frames (_film->audio_frame_rate());
+	return ContentTime (s, piece->frc).frames (stream->frame_rate ());
 }
 
 ContentTime

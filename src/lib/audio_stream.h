@@ -50,6 +50,7 @@ protected:
 
 private:
 	friend struct audio_sampling_rate_test;
+	friend struct player_time_calculation_test3;
 
 	int _frame_rate;
 	AudioMapping _mapping;
