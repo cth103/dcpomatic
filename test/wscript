@@ -47,6 +47,7 @@ def build(bld):
                  client_server_test.cc
                  colour_conversion_test.cc
                  dcp_subtitle_test.cc
+                 dcpomatic_time_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
                  ffmpeg_decoder_seek_test.cc
