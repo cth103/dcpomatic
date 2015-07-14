@@ -521,18 +521,23 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
+	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
+
 	DCPTime s = t - piece->content->position () + piece->content->trim_start ();
 	s = DCPTime (max (DCPTime::Type (0), s.get ()));
 	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
 
-	/* Convert this to the content frame */
-	return s.frames (_film->video_frame_rate()) / piece->frc.factor ();
+	return ContentTime (s, piece->frc).frames (vc->video_frame_rate ());
 }
 
 DCPTime
 Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
-	DCPTime t = DCPTime::from_frames (f * piece->frc.factor (), _film->video_frame_rate()) - piece->content->trim_start () + piece->content->position ();
+	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
+
+	ContentTime const c = ContentTime::from_frames (f, vc->video_frame_rate ());
+	DCPTime t = DCPTime (c, piece->frc) - piece->content->trim_start () + piece->content->position ();
+
 	if (t < DCPTime ()) {
 		t = DCPTime ();
 	}
