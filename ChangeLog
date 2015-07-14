@@ -1,5 +1,7 @@
 2015-07-14  c.hetherington  <cth@carlh.net>
 
+	* Updated fr_FR translation from Thierry Journet.
+
 	* Fix trim point movement when changing DCP frame rate (#637).
 
 2015-07-14  Carl Hetherington  <cth@carlh.net>
