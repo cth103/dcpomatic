@@ -122,7 +122,7 @@ private:
 	void update_subtitle_from_text ();
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
-	Frame dcp_to_content_audio (boost::shared_ptr<const Piece> piece, AudioStreamPtr stream, DCPTime t) const;
+	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
 
