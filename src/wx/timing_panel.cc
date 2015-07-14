@@ -83,13 +83,13 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	_full_length = new Timecode<DCPTime> (this);
 	grid->Add (_full_length);
 	add_label_to_sizer (grid, this, _("Trim from start"), true);
-	_trim_start = new Timecode<DCPTime> (this);
+	_trim_start = new Timecode<ContentTime> (this);
 	grid->Add (_trim_start);
 	_trim_start_to_playhead = new wxButton (this, wxID_ANY, _("Trim up to current position"));
 	grid->AddSpacer (0);
 	grid->Add (_trim_start_to_playhead);
 	add_label_to_sizer (grid, this, _("Trim from end"), true);
-	_trim_end = new Timecode<DCPTime> (this);
+	_trim_end = new Timecode<ContentTime> (this);
 	grid->Add (_trim_end);
 	_trim_end_to_playhead = new wxButton (this, wxID_ANY, _("Trim after current position"));
 	grid->AddSpacer (0);
@@ -211,7 +211,7 @@ TimingPanel::film_content_changed (int property)
 
 	} else if (property == ContentProperty::TRIM_START) {
 
-		set<DCPTime> check;
+		set<ContentTime> check;
 		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
 			check.insert ((*i)->trim_start ());
 		}
@@ -224,7 +224,7 @@ TimingPanel::film_content_changed (int property)
 
 	} else if (property == ContentProperty::TRIM_END) {
 
-		set<DCPTime> check;
+		set<ContentTime> check;
 		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
 			check.insert ((*i)->trim_end ());
 		}
@@ -325,7 +325,11 @@ TimingPanel::play_length_changed ()
 {
 	ContentList c = _parent->selected ();
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_trim_end ((*i)->full_length() - _play_length->get (_parent->film()->video_frame_rate()) - (*i)->trim_start());
+		FrameRateChange const frc = _parent->film()->active_frame_rate_change ((*i)->position ());
+		(*i)->set_trim_end (
+			ContentTime ((*i)->full_length() - _play_length->get (_parent->film()->video_frame_rate()), frc)
+			- (*i)->trim_start ()
+			);
 	}
 }
 
@@ -382,7 +386,8 @@ TimingPanel::trim_start_to_playhead_clicked ()
 	DCPTime const ph = _viewer->position ();
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
-			i->set_trim_start (i->trim_start() + ph - i->position ());
+			FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
+			i->set_trim_start (i->trim_start() + ContentTime (ph - i->position (), frc));
 		}
 	}
 }
@@ -393,7 +398,8 @@ TimingPanel::trim_end_to_playhead_clicked ()
 	DCPTime const ph = _viewer->position ();
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
-			i->set_trim_end (i->position() + i->full_length() - i->trim_start() - ph);
+			FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
+			i->set_trim_end (ContentTime (i->position() + i->full_length() - ph, frc) - i->trim_start());
 		}
 
 	}

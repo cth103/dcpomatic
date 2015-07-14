@@ -48,10 +48,10 @@ private:
 
 	Timecode<DCPTime>* _position;
 	Timecode<DCPTime>* _full_length;
-	Timecode<DCPTime>* _trim_start;
+	Timecode<ContentTime>* _trim_start;
 	wxButton* _trim_start_to_playhead;
 	wxButton* _trim_end_to_playhead;
-	Timecode<DCPTime>* _trim_end;
+	Timecode<ContentTime>* _trim_end;
 	Timecode<DCPTime>* _play_length;
 	wxTextCtrl* _video_frame_rate;
 	wxButton* _set_video_frame_rate;

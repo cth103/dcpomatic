@@ -241,6 +241,9 @@ public:
 };
 
 DCPTime min (DCPTime a, DCPTime b);
+DCPTime max (DCPTime a, DCPTime b);
+ContentTime min (ContentTime a, ContentTime b);
+ContentTime max (ContentTime a, ContentTime b);
 std::ostream& operator<< (std::ostream& s, ContentTime t);
 std::ostream& operator<< (std::ostream& s, DCPTime t);
 

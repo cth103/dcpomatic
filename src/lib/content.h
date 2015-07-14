@@ -128,16 +128,16 @@ public:
 		return _position;
 	}
 
-	void set_trim_start (DCPTime);
+	void set_trim_start (ContentTime);
 
-	DCPTime trim_start () const {
+	ContentTime trim_start () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_start;
 	}
 
-	void set_trim_end (DCPTime);
+	void set_trim_end (ContentTime);
 
-	DCPTime trim_end () const {
+	ContentTime trim_end () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _trim_end;
 	}
@@ -176,8 +176,8 @@ protected:
 private:
 	std::string _digest;
 	DCPTime _position;
-	DCPTime _trim_start;
-	DCPTime _trim_end;
+	ContentTime _trim_start;
+	ContentTime _trim_end;
 	bool _change_signals_frequent;
 };
 

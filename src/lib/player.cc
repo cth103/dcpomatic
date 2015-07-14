@@ -522,48 +522,33 @@ Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
-
-	DCPTime s = t - piece->content->position () + piece->content->trim_start ();
-	s = DCPTime (max (DCPTime::Type (0), s.get ()));
-	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
-
-	return ContentTime (s, piece->frc).frames (vc->video_frame_rate ());
+	DCPTime s = t - piece->content->position ();
+	s = min (piece->content->length_after_trim(), s);
+	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames (vc->video_frame_rate ());
 }
 
 DCPTime
 Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
-
-	ContentTime const c = ContentTime::from_frames (f, vc->video_frame_rate ());
-	DCPTime t = DCPTime (c, piece->frc) - piece->content->trim_start () + piece->content->position ();
-
-	if (t < DCPTime ()) {
-		t = DCPTime ();
-	}
-
-	return t;
+	ContentTime const c = ContentTime::from_frames (f, vc->video_frame_rate ()) - piece->content->trim_start ();
+	return max (DCPTime (), DCPTime (c, piece->frc) + piece->content->position ());
 }
 
 Frame
 Player::dcp_to_content_audio (shared_ptr<const Piece> piece, AudioStreamPtr stream, DCPTime t) const
 {
-	DCPTime s = t - piece->content->position () + piece->content->trim_start ();
-	s = DCPTime (max (DCPTime::Type (0), s.get ()));
-	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
-
-	return ContentTime (s, piece->frc).frames (stream->frame_rate ());
+	DCPTime s = t - piece->content->position ();
+	s = min (piece->content->length_after_trim(), s);
+	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames (stream->frame_rate ());
 }
 
 ContentTime
 Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 {
-	/* s is the offset of t from the start position of this content */
 	DCPTime s = t - piece->content->position ();
-	s = DCPTime (max (DCPTime::Type (0), s.get ()));
-	s = DCPTime (min (piece->content->length_after_trim().get(), s.get()));
-
-	return ContentTime (s + piece->content->trim_start(), piece->frc);
+	s = min (piece->content->length_after_trim(), s);
+	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start());
 }
 
 void

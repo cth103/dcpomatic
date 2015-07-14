@@ -88,9 +88,9 @@ Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 		_paths.push_back ((*i)->content ());
 	}
 	_digest = node->optional_string_child ("Digest").get_value_or ("X");
-	_position = DCPTime (node->number_child<double> ("Position"));
-	_trim_start = DCPTime (node->number_child<double> ("TrimStart"));
-	_trim_end = DCPTime (node->number_child<double> ("TrimEnd"));
+	_position = DCPTime (node->number_child<DCPTime::Type> ("Position"));
+	_trim_start = ContentTime (node->number_child<ContentTime::Type> ("TrimStart"));
+	_trim_end = ContentTime (node->number_child<ContentTime::Type> ("TrimEnd"));
 }
 
 Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
@@ -101,11 +101,11 @@ Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 	, _change_signals_frequent (false)
 {
 	for (size_t i = 0; i < c.size(); ++i) {
-		if (i > 0 && c[i]->trim_start() > DCPTime()) {
+		if (i > 0 && c[i]->trim_start() > ContentTime ()) {
 			throw JoinError (_("Only the first piece of content to be joined can have a start trim."));
 		}
 
-		if (i < (c.size() - 1) && c[i]->trim_end () > DCPTime()) {
+		if (i < (c.size() - 1) && c[i]->trim_end () > ContentTime ()) {
 			throw JoinError (_("Only the last piece of content to be joined can have an end trim."));
 		}
 
@@ -172,7 +172,7 @@ Content::set_position (DCPTime p)
 }
 
 void
-Content::set_trim_start (DCPTime t)
+Content::set_trim_start (ContentTime t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -183,7 +183,7 @@ Content::set_trim_start (DCPTime t)
 }
 
 void
-Content::set_trim_end (DCPTime t)
+Content::set_trim_end (ContentTime t)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -221,7 +221,9 @@ Content::technical_summary () const
 DCPTime
 Content::length_after_trim () const
 {
-	return max (DCPTime (), full_length() - trim_start() - trim_end());
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return max (DCPTime (), full_length() - DCPTime (trim_start() - trim_end(), film->active_frame_rate_change (position ())));
 }
 
 /** @return string which includes everything about how this content affects

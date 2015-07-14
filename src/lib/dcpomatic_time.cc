@@ -45,6 +45,36 @@ min (DCPTime a, DCPTime b)
 	return b;
 }
 
+DCPTime
+max (DCPTime a, DCPTime b)
+{
+	if (a > b) {
+		return a;
+	}
+
+	return b;
+}
+
+ContentTime
+min (ContentTime a, ContentTime b)
+{
+	if (a < b) {
+		return a;
+	}
+
+	return b;
+}
+
+ContentTime
+max (ContentTime a, ContentTime b)
+{
+	if (a > b) {
+		return a;
+	}
+
+	return b;
+}
+
 ostream &
 operator<< (ostream& s, ContentTime t)
 {

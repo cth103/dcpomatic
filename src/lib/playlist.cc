@@ -303,13 +303,16 @@ Playlist::video_end () const
 FrameRateChange
 Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 {
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
+	for (ContentList::const_reverse_iterator i = _content.rbegin(); i != _content.rend(); ++i) {
 		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
 		if (!vc) {
 			continue;
 		}
 
-		if (vc->position() >= t && t < vc->end()) {
+		if (vc->position() <= t) {
+			/* This is the first piece of content (going backwards...) that starts before t,
+			   so it's the active one.
+			*/
 			return FrameRateChange (vc->video_frame_rate(), dcp_video_frame_rate);
 		}
 	}

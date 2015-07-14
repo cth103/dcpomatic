@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -171,7 +171,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, no trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, 1.5s trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	   fast (at 25fps) in this case, this means 75 frames of content video will be used.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 25 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
@@ -226,9 +226,11 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (4.60)),  40);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (9.75)), 169);
 
-	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25 */
+	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25.  Here the trim is in ContentTime,
+	   so it's 1.6s at 24fps.
+	 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.6));
+	content->set_trim_start (ContentTime::from_seconds (1.6));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
@@ -236,9 +238,9 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.60)),   0);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (3.00)),  40);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (4.60)),  80);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (9.75)), 209);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (3.00)),  38);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (4.60)),  78);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (9.75)), 207);
 
 	/* Position 0, no trim, content rate 24, DCP rate 48
 	   Now, for example, a DCPTime position of 3s means 3s at 48fps.  Since we run the video
@@ -247,7 +249,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	   content rate = DCP rate case.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
@@ -259,7 +261,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
@@ -273,7 +275,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
@@ -291,7 +293,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	   be used to make 3 * 24 frames of DCP video.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -303,7 +305,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -317,7 +319,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -347,7 +349,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -359,7 +361,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, no trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -371,7 +373,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, 1.5s trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -387,7 +389,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	   fast (at 25fps) in this case, this means 75 frames of content video will be used.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
@@ -399,7 +401,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 25 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
@@ -409,18 +411,18 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 40), DCPTime::from_seconds (4.60));
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 169), DCPTime::from_seconds (9.76));
 
-	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25 */
+	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25, so the 1.6s trim is at 24fps */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.6));
+	content->set_trim_start (ContentTime::from_seconds (1.6));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
 	piece = player->_pieces.front ();
-	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 0), DCPTime::from_seconds (1.4));
-	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 40), DCPTime::from_seconds (3.00));
-	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 80), DCPTime::from_seconds (4.60));
-	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 209), DCPTime::from_seconds (9.76));
+	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 0), DCPTime::from_seconds (1.464));
+	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 40), DCPTime::from_seconds (3.064));
+	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 80), DCPTime::from_seconds (4.664));
+	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 209), DCPTime::from_seconds (9.824));
 
 	/* Position 0, no trim, content rate 24, DCP rate 48
 	   Now, for example, a DCPTime position of 3s means 3s at 48fps.  Since we run the video
@@ -429,7 +431,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	   content rate = DCP rate case.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
@@ -441,7 +443,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
@@ -453,7 +455,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
@@ -470,7 +472,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	   be used to make 3 * 24 frames of DCP video.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -482,7 +484,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -494,7 +496,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
@@ -524,7 +526,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 0, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -537,7 +539,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -552,7 +554,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, 1.5s trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -571,7 +573,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	   so that they run fast.  Hence 1 second in the DCP uses (25/24) * 48000 content samples.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
@@ -584,7 +586,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, no trim, content video rate 24, DCP rate 25, both audio rates still 48k. */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
@@ -597,9 +599,9 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (4.60)),  80000);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (9.75)), 337500);
 
-	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25, both audio rates still 48k. */
+	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25, both audio rates still 48k */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.6));
+	content->set_trim_start (ContentTime::from_seconds (1.6));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
@@ -607,10 +609,10 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime ()), 0);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (0.60)),   0);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (3.00)),  80000);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (4.60)), 160000);
-	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (9.75)), 417500);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (0.60)),      0);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (3.00)),  76800);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (4.60)), 156800);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_audio (piece, stream, DCPTime::from_seconds (9.75)), 414300);
 
 	/* Position 0, no trim, content rate 24, DCP rate 48, both audio rates still 48k.
 	   Now, for example, a DCPTime position of 3s means 3s at 48fps.  Since we run the video
@@ -618,7 +620,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	   The results should be the same as the content rate = DCP rate case.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	stream->_frame_rate = 48000;
@@ -631,7 +633,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -646,7 +648,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -664,7 +666,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	   with skipped frames in this case, audio samples should map straight through.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	stream->_frame_rate = 48000;
@@ -677,7 +679,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -692,7 +694,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
@@ -709,7 +711,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	   Now 44100 content samples correspond to 1s.
 	*/
 	content->set_position (DCPTime ());
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
@@ -722,7 +724,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, no trim, video content rate = video DCP rate, content audio rate = 44.1k */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime ());
+	content->set_trim_start (ContentTime ());
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
@@ -737,7 +739,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	/* Position 3s, 1.5s trim, video content rate = video DCP rate, content audio rate = 44.1k */
 	content->set_position (DCPTime::from_seconds (3));
-	content->set_trim_start (DCPTime::from_seconds (1.5));
+	content->set_trim_start (ContentTime::from_seconds (1.5));
 	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
