@@ -524,10 +524,6 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
-	std::cout << "s=" << s << " " << ContentTime(s, piece->frc) << "\n";
-	std::cout << (ContentTime (s, piece->frc) + piece->content->trim_start ()) << "\n";
-	std::cout << s.get() << "\n";
-	std::cout << (s.get() * 24.0 / 96000) << "\n";
 	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames (vc->video_frame_rate ());
 }
 
