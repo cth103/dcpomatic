@@ -309,7 +309,7 @@ Player::black_player_video_frame (DCPTime time) const
 			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
 			time,
 			Crop (),
-			optional<float> (),
+			optional<double> (),
 			_video_container_size,
 			_video_container_size,
 			EYES_BOTH,
@@ -524,6 +524,10 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
+	std::cout << "s=" << s << " " << ContentTime(s, piece->frc) << "\n";
+	std::cout << (ContentTime (s, piece->frc) + piece->content->trim_start ()) << "\n";
+	std::cout << s.get() << "\n";
+	std::cout << (s.get() * 24.0 / 96000) << "\n";
 	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames (vc->video_frame_rate ());
 }
 

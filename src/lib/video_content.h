@@ -74,13 +74,13 @@ public:
 		return _video_size;
 	}
 
-	float video_frame_rate () const {
+	double video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_rate;
 	}
 
 	void set_video_frame_type (VideoFrameType);
-	void set_video_frame_rate (float);
+	void set_video_frame_rate (double);
 
 	void set_left_crop (int);
 	void set_right_crop (int);
@@ -135,7 +135,7 @@ public:
 		return _colour_conversion;
 	}
 
-	boost::optional<float> sample_aspect_ratio () const {
+	boost::optional<double> sample_aspect_ratio () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _sample_aspect_ratio;
 	}
@@ -155,7 +155,7 @@ public:
 
 	ContentTime dcp_time_to_content_time (DCPTime) const;
 
-	boost::optional<float> fade (Frame) const;
+	boost::optional<double> fade (Frame) const;
 
 	void scale_and_crop_to_fit_width ();
 	void scale_and_crop_to_fit_height ();
@@ -167,7 +167,7 @@ protected:
 	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
 
 	Frame _video_length;
-	float _video_frame_rate;
+	double _video_frame_rate;
 	boost::optional<ColourConversion> _colour_conversion;
 
 private:
@@ -185,7 +185,7 @@ private:
 	/** Sample aspect ratio obtained from the content file's header,
 	    if there is one.
 	*/
-	boost::optional<float> _sample_aspect_ratio;
+	boost::optional<double> _sample_aspect_ratio;
 	Frame _fade_in;
 	Frame _fade_out;
 };

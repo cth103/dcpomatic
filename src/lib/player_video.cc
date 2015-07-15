@@ -34,7 +34,7 @@ PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
 	DCPTime time,
 	Crop crop,
-	boost::optional<float> fade,
+	boost::optional<double> fade,
 	dcp::Size inter_size,
 	dcp::Size out_size,
 	Eyes eyes,
@@ -58,7 +58,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 {
 	_time = DCPTime (node->number_child<DCPTime::Type> ("Time"));
 	_crop = Crop (node);
-	_fade = node->optional_number_child<float> ("Fade");
+	_fade = node->optional_number_child<double> ("Fade");
 
 	_inter_size = dcp::Size (node->number_child<int> ("InterWidth"), node->number_child<int> ("InterHeight"));
 	_out_size = dcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));

@@ -31,10 +31,10 @@ class FFmpegExaminer : public FFmpeg, public VideoExaminer
 public:
 	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Job> job = boost::shared_ptr<Job> ());
 
-	boost::optional<float> video_frame_rate () const;
+	boost::optional<double> video_frame_rate () const;
 	dcp::Size video_size () const;
 	Frame video_length () const;
-	boost::optional<float> sample_aspect_ratio () const;
+	boost::optional<double> sample_aspect_ratio () const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;

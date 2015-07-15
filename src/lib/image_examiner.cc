@@ -80,9 +80,9 @@ ImageExaminer::video_size () const
 	return _video_size.get ();
 }
 
-optional<float>
+optional<double>
 ImageExaminer::video_frame_rate () const
 {
 	/* Don't know */
-	return optional<float> ();
+	return optional<double> ();
 }

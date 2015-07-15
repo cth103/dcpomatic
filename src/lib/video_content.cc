@@ -103,10 +103,10 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 {
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
-	_video_frame_rate = node->number_child<float> ("VideoFrameRate");
+	_video_frame_rate = node->number_child<double> ("VideoFrameRate");
 	_video_length = node->number_child<Frame> ("VideoLength");
 	_video_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
-	_sample_aspect_ratio = node->optional_number_child<float> ("SampleAspectRatio");
+	_sample_aspect_ratio = node->optional_number_child<double> ("SampleAspectRatio");
 	_crop.left = node->number_child<int> ("LeftCrop");
 	_crop.right = node->number_child<int> ("RightCrop");
 	_crop.top = node->number_child<int> ("TopCrop");
@@ -218,9 +218,9 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	dcp::Size const vs = d->video_size ();
-	optional<float> const vfr = d->video_frame_rate ();
+	optional<double> const vfr = d->video_frame_rate ();
 	Frame vl = d->video_length ();
-	optional<float> const ar = d->sample_aspect_ratio ();
+	optional<double> const ar = d->sample_aspect_ratio ();
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -232,7 +232,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 
 		/* Guess correct scale from size and sample aspect ratio */
 		_scale = VideoContentScale (
-			Ratio::nearest_from_ratio (float (_video_size.width) * ar.get_value_or (1) / _video_size.height)
+			Ratio::nearest_from_ratio (double (_video_size.width) * ar.get_value_or (1) / _video_size.height)
 			);
 	}
 
@@ -473,7 +473,7 @@ VideoContent::scale_and_crop_to_fit_height ()
 }
 
 void
-VideoContent::set_video_frame_rate (float r)
+VideoContent::set_video_frame_rate (double r)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -487,21 +487,21 @@ VideoContent::set_video_frame_rate (float r)
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
-optional<float>
+optional<double>
 VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 
 	if (f < fade_in()) {
-		return float (f) / fade_in();
+		return double (f) / fade_in();
 	}
 
 	Frame fade_out_start = video_length() - fade_out();
 	if (f >= fade_out_start) {
-		return 1 - float (f - fade_out_start) / fade_out();
+		return 1 - double (f - fade_out_start) / fade_out();
 	}
 
-	return optional<float> ();
+	return optional<double> ();
 }
 
 string
@@ -518,7 +518,7 @@ VideoContent::processing_description () const
 			);
 
 
-		float ratio = video_size_after_3d_split().ratio ();
+		double ratio = video_size_after_3d_split().ratio ();
 
 		if (sample_aspect_ratio ()) {
 			d << ", " << _("pixel aspect ratio") << " " << fixed << setprecision(2) << sample_aspect_ratio().get () << ":1";

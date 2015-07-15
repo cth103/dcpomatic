@@ -42,7 +42,7 @@ public:
 		boost::shared_ptr<const ImageProxy>,
 		DCPTime,
 		Crop,
-		boost::optional<float>,
+		boost::optional<double>,
 		dcp::Size,
 		dcp::Size,
 		Eyes,
@@ -88,7 +88,7 @@ private:
 	boost::shared_ptr<const ImageProxy> _in;
 	DCPTime _time;
 	Crop _crop;
-	boost::optional<float> _fade;
+	boost::optional<double> _fade;
 	dcp::Size _inter_size;
 	dcp::Size _out_size;
 	Eyes _eyes;

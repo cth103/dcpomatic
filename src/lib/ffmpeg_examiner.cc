@@ -191,7 +191,7 @@ FFmpegExaminer::frame_time (AVStream* s) const
 	return t;
 }
 
-optional<float>
+optional<double>
 FFmpegExaminer::video_frame_rate () const
 {
 	/* This use of r_frame_rate is debateable; there's a few different
@@ -214,15 +214,15 @@ FFmpegExaminer::video_length () const
 	return max (Frame (1), _video_length);
 }
 
-optional<float>
+optional<double>
 FFmpegExaminer::sample_aspect_ratio () const
 {
 	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream], 0);
 	if (sar.num == 0) {
 		/* I assume this means that we don't know */
-		return optional<float> ();
+		return optional<double> ();
 	}
-	return float (sar.num) / sar.den;
+	return double (sar.num) / sar.den;
 }
 
 string

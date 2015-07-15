@@ -218,16 +218,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1598677"
-     inkscape:cx="652.92066"
-     inkscape:cy="674.81101"
+     inkscape:zoom="3.0258297"
+     inkscape:cx="295.32748"
+     inkscape:cy="1324.6833"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="714"
+     inkscape:window-width="1280"
+     inkscape:window-height="997"
      inkscape:window-x="1280"
-     inkscape:window-y="283"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true" />
@@ -239,7 +239,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -651,12 +651,71 @@
        id="path6726-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 4;stroke-dashoffset:0"
-       d="m 623.11641,26.2839 0,431.46391"
-       id="path7445"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
+    <rect
+       style="color:#000000;fill:none;stroke:#0000ff;stroke-width:0.99999988px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2985-0-3"
+       width="139"
+       height="98.153183"
+       x="193.67656"
+       y="-344.28204" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;font-family:Latin Modern Mono;-inkscape-font-specification:Latin Modern Mono"
+       x="202.67656"
+       y="-328.79272"
+       id="text2987-4-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2989-9-1"
+         x="202.67656"
+         y="-328.79272">Class</tspan></text>
+    <rect
+       style="color:#000000;fill:none;stroke:#0000ff;stroke-width:0.99999988px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2991-8-1"
+       width="139"
+       height="24"
+       x="193.67656"
+       y="-344.28204" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Latin Modern Mono;-inkscape-font-specification:Latin Modern Mono"
+       x="203.29256"
+       y="-278.13858"
+       id="text2993-9-50"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="203.29256"
+         y="-278.13858"
+         id="tspan2997-9-6">method()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#008000;fill-opacity:1;stroke:none;font-family:Latin Modern Roman;-inkscape-font-specification:Latin Modern Roman"
+       x="202.94057"
+       y="-264.99423"
+       id="text2999-7-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="202.94057"
+         y="-264.99423"
+         id="tspan6126-5">Method description</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000080;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Latin Modern Roman;-inkscape-font-specification:Latin Modern Roman"
+       x="202.78856"
+       y="-305.98245"
+       id="text3438"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3440"
+         x="202.78856"
+         y="-305.98245">Class description.</tspan></text>
+    <rect
+       style="color:#000000;fill:none;stroke:#0000ff;stroke-width:0.99999988px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2991-8-1-2"
+       width="139"
+       height="24"
+       x="193.67656"
+       y="-320.29883" />
   </g>
   <g
      inkscape:groupmode="layer"
