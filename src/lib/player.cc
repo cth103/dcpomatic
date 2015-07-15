@@ -551,19 +551,6 @@ Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start());
 }
 
-void
-PlayerStatistics::dump (shared_ptr<Log> log) const
-{
-	log->log (String::compose ("Video: %1 good %2 skipped %3 black %4 repeat", video.good, video.skip, video.black, video.repeat), Log::TYPE_GENERAL);
-	log->log (String::compose ("Audio: %1 good %2 skipped %3 silence", audio.good, audio.skip, audio.silence.seconds()), Log::TYPE_GENERAL);
-}
-
-PlayerStatistics const &
-Player::statistics () const
-{
-	return _statistics;
-}
-
 /** @param burnt true to return only subtitles to be burnt, false to return only
  *  subtitles that should not be burnt.  This parameter will be ignored if
  *  _always_burn_subtitles is true; in this case, all subtitles will be returned.

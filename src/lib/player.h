@@ -45,38 +45,6 @@ class PlayerVideo;
 class ImageProxy;
 class Font;
 
-class PlayerStatistics
-{
-public:
-	struct Video {
-		Video ()
-			: black (0)
-			, repeat (0)
-			, good (0)
-			, skip (0)
-		{}
-
-		int black;
-		int repeat;
-		int good;
-		int skip;
-	} video;
-
-	struct Audio {
-		Audio ()
-			: silence (0)
-			, good (0)
-			, skip (0)
-		{}
-
-		DCPTime silence;
-		int64_t good;
-		int64_t skip;
-	} audio;
-
-	void dump (boost::shared_ptr<Log>) const;
-};
-
 /** @class Player
  *  @brief A class which can `play' a Playlist.
  */
@@ -94,8 +62,6 @@ public:
 	void set_ignore_video ();
 	void set_enable_subtitles (bool enable);
 	void set_always_burn_subtitles (bool burn);
-
-	PlayerStatistics const & statistics () const;
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -168,8 +134,6 @@ private:
 	bool _always_burn_subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
-
-	PlayerStatistics _statistics;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_changed_connection;

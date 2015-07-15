@@ -97,8 +97,6 @@ Transcoder::go ()
 	_finishing = true;
 	_encoder->end ();
 	_writer->finish ();
-
-	_player->statistics().dump (_film->log ());
 }
 
 float
