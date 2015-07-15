@@ -133,7 +133,7 @@ public:
 
 	template <typename T>
 	int64_t frames (T r) const {
-		return floor (double (_t) * r / HZ);
+		return floor (_t * r / HZ);
 	}
 
 	/** @param r Frames per second */
