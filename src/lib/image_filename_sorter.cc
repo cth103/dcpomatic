@@ -27,35 +27,49 @@ class ImageFilenameSorter
 public:
 	bool operator() (boost::filesystem::path a, boost::filesystem::path b)
 	{
-		boost::optional<int> na = extract_number (a);
-		boost::optional<int> nb = extract_number (b);
-		if (!na || !nb) {
-			return a.string() < b.string();
+		std::vector<int> na = extract_numbers (a);
+		std::vector<int> nb = extract_numbers (b);
+
+		std::vector<int>::const_iterator i = na.begin ();
+		std::vector<int>::const_iterator j = nb.begin ();
+
+		while (true) {
+			if (i == na.end () || j == nb.end ()) {
+				return false;
+			}
+
+			if (*i != *j) {
+				return *i < *j;
+			}
+
+			++i;
+			++j;
 		}
 
-		return na.get() < nb.get();
+		/* NOT REACHED */
+		return false;
 	}
 
 private:
-	boost::optional<int> extract_number (boost::filesystem::path p)
+	std::vector<int> extract_numbers (boost::filesystem::path p)
 	{
 		p = p.leaf ();
 
+		std::vector<int> numbers;
 		std::string number;
 		for (size_t i = 0; i < p.string().size(); ++i) {
 			if (isdigit (p.string()[i])) {
 				number += p.string()[i];
-			} else {
-				if (!number.empty ()) {
-					break;
-				}
+			} else if (!number.empty ()) {
+				numbers.push_back (raw_convert<int> (number));
+				number.clear ();
 			}
 		}
 
-		if (number.empty ()) {
-			return boost::optional<int> ();
+		if (!number.empty ()) {
+			numbers.push_back (raw_convert<int> (number));
 		}
 
-		return raw_convert<int> (number);
+		return numbers;
 	}
 };
