@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-16 13:38+0100\n"
+"POT-Creation-Date: 2015-07-16 23:48+0100\n"
 "PO-Revision-Date: 2015-07-06 16:06+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -77,6 +77,8 @@ msgstr ""
 msgid "4K"
 msgstr ""
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:118
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -1228,7 +1230,7 @@ msgstr "Nazione (es. UK)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:241
+#: src/wx/about_dialog.cc:242
 msgid "Tested by"
 msgstr ""
 
