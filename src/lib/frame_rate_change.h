@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 
 struct FrameRateChange
 {
-	FrameRateChange (float, int);
+	FrameRateChange (double, int);
 
 	/** @return factor by which to multiply a source frame rate
 	    to get the effective rate after any skip or repeat has happened.
 	*/
-	float factor () const {
+	double factor () const {
 		if (skip) {
 			return 0.5;
 		}
@@ -37,7 +37,7 @@ struct FrameRateChange
 		return repeat;
 	}
 
-	float source;
+	double source;
 	int dcp;
 
 	/** true to skip every other frame */
@@ -58,7 +58,7 @@ struct FrameRateChange
 	/** Amount by which the video is being sped-up in the DCP; e.g. for a
 	 *  24fps source in a 25fps DCP this would be 25/24.
 	 */
-	float speed_up;
+	double speed_up;
 
 	std::string description () const;
 };

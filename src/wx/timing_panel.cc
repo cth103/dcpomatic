@@ -248,7 +248,7 @@ TimingPanel::film_content_changed (int property)
 	}
 
 	if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
-		set<float> check;
+		set<double> check;
 		shared_ptr<VideoContent> vc;
 		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
 			shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
@@ -346,7 +346,7 @@ TimingPanel::set_video_frame_rate ()
 	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
 		if (vc) {
-			vc->set_video_frame_rate (raw_convert<float> (wx_to_std (_video_frame_rate->GetValue ())));
+			vc->set_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
 		}
 		_set_video_frame_rate->Enable (false);
 	}

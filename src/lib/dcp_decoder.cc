@@ -63,7 +63,7 @@ DCPDecoder::pass ()
 		return true;
 	}
 
-	float const vfr = _dcp_content->video_frame_rate ();
+	double const vfr = _dcp_content->video_frame_rate ();
 	int64_t const frame = _next.frames (vfr);
 
 	if ((*_reel)->main_picture ()) {
@@ -164,7 +164,7 @@ DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) cons
 	/* XXX: inefficient */
 
 	list<ContentTimePeriod> ctp;
-	float const vfr = _dcp_content->video_frame_rate ();
+	double const vfr = _dcp_content->video_frame_rate ();
 
 	BOOST_FOREACH (shared_ptr<dcp::Reel> r, _reels) {
 		if (!r->main_subtitle ()) {

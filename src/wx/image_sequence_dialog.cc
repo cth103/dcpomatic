@@ -29,11 +29,11 @@ ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
 	layout ();
 }
 
-float
+double
 ImageSequenceDialog::frame_rate () const
 {
 	try {
-		return raw_convert<float> (wx_to_std (_frame_rate->GetValue ()));
+		return raw_convert<double> (wx_to_std (_frame_rate->GetValue ()));
 	} catch (...) {
 
 	}

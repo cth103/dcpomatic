@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 using std::string;
 
 static bool
-about_equal (float a, float b)
+about_equal (double a, double b)
 {
 	/* A film of F seconds at f FPS will be Ff frames;
 	   Consider some delta FPS d, so if we run the same
@@ -53,7 +53,7 @@ about_equal (float a, float b)
 }
 
 
-FrameRateChange::FrameRateChange (float source_, int dcp_)
+FrameRateChange::FrameRateChange (double source_, int dcp_)
 	: source (source_)
 	, dcp (dcp_)
 	, skip (false)
@@ -94,7 +94,7 @@ FrameRateChange::description () const
 		}
 
 		if (change_speed) {
-			float const pc = dcp * 100 / (source * factor());
+			double const pc = dcp * 100 / (source * factor());
 			description += String::compose (_("DCP will run at %1%% of the content speed.\n"), pc);
 		}
 	}

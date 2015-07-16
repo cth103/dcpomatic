@@ -66,7 +66,7 @@ extern wxString std_to_wx (std::string);
 extern void dcpomatic_setup_i18n ();
 extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
-extern wxString time_to_timecode (DCPTime t, float fps);
+extern wxString time_to_timecode (DCPTime t, double fps);
 
 extern void checked_set (wxFilePickerCtrl* widget, std::string value);
 extern void checked_set (wxSpinCtrl* widget, int value);

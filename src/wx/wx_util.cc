@@ -332,7 +332,7 @@ context_translation (wxString s)
 }
 
 wxString
-time_to_timecode (DCPTime t, float fps)
+time_to_timecode (DCPTime t, double fps)
 {
 	double w = t.seconds ();
 	int const h = (w / 3600);
