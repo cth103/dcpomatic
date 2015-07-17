@@ -17,59 +17,59 @@
 
 */
 
-#include "raw_convert.h"
+#include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
-#include <iostream>
+#include "raw_convert.h"
 
 class ImageFilenameSorter
 {
 public:
 	bool operator() (boost::filesystem::path a, boost::filesystem::path b)
 	{
-		std::vector<int> na = extract_numbers (a);
-		std::vector<int> nb = extract_numbers (b);
-
-		std::vector<int>::const_iterator i = na.begin ();
-		std::vector<int>::const_iterator j = nb.begin ();
-
-		while (true) {
-			if (i == na.end () || j == nb.end ()) {
-				return false;
-			}
-
-			if (*i != *j) {
-				return *i < *j;
-			}
-
-			++i;
-			++j;
+		boost::optional<int> na = extract_number (a);
+		boost::optional<int> nb = extract_number (b);
+		if (!na || !nb) {
+			return a.string() < b.string();
 		}
 
-		/* NOT REACHED */
-		return false;
+		return na.get() < nb.get();
 	}
 
 private:
-	std::vector<int> extract_numbers (boost::filesystem::path p)
+	boost::optional<int> extract_number (boost::filesystem::path p)
 	{
 		p = p.leaf ();
+		
+		std::list<std::string> numbers;
 
-		std::vector<int> numbers;
-		std::string number;
+		std::string current;
 		for (size_t i = 0; i < p.string().size(); ++i) {
 			if (isdigit (p.string()[i])) {
-				number += p.string()[i];
-			} else if (!number.empty ()) {
-				numbers.push_back (raw_convert<int> (number));
-				number.clear ();
+				current += p.string()[i];
+			} else {
+				if (!current.empty ()) {
+					numbers.push_back (current);
+					current.clear ();
+				}
 			}
 		}
 
-		if (!number.empty ()) {
-			numbers.push_back (raw_convert<int> (number));
+		if (!current.empty ()) {
+			numbers.push_back (current);
 		}
 
-		return numbers;
+		std::string longest;
+		for (std::list<std::string>::const_iterator i = numbers.begin(); i != numbers.end(); ++i) {
+			if (i->length() > longest.length()) {
+				longest = *i;
+			}
+		}
+
+		if (longest.empty ()) {
+			return boost::optional<int> ();
+		}
+
+		return raw_convert<int> (longest);
 	}
 };
