@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@
 
 */
 
-/** @file src/scp_dcp_job.h
- *  @brief A job to copy DCPs to a SCP-enabled server.
+/** @file src/upload_job.h
+ *  @brief A job to copy DCPs to a server using libcurl.
  */
 
 #include "job.h"
 
-class SCPDCPJob : public Job
+class UploadJob : public Job
 {
 public:
-	SCPDCPJob (boost::shared_ptr<const Film>);
+	UploadJob (boost::shared_ptr<const Film>);
 
 	std::string name () const;
 	std::string json_name () const;

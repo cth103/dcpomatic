@@ -17,8 +17,8 @@
 
 */
 
-/** @file src/scp_dcp_job.cc
- *  @brief A job to copy DCPs to a SCP-enabled server.
+/** @file src/upload_job.cc
+ *  @brief A job to copy DCPs to a server using libcurl.
  */
 
 #include <iostream>
@@ -28,7 +28,7 @@
 #include <boost/filesystem.hpp>
 #include <libssh/libssh.h>
 #include "compose.hpp"
-#include "scp_dcp_job.h"
+#include "upload_job.h"
 #include "exceptions.h"
 #include "config.h"
 #include "log.h"
@@ -98,7 +98,7 @@ public:
 };
 
 
-SCPDCPJob::SCPDCPJob (shared_ptr<const Film> film)
+UploadJob::UploadJob (shared_ptr<const Film> film)
 	: Job (film)
 	, _status (_("Waiting"))
 {
@@ -106,21 +106,21 @@ SCPDCPJob::SCPDCPJob (shared_ptr<const Film> film)
 }
 
 string
-SCPDCPJob::name () const
+UploadJob::name () const
 {
 	return _("Copy DCP to TMS");
 }
 
 string
-SCPDCPJob::json_name () const
+UploadJob::json_name () const
 {
-	return N_("scp_dcp");
+	return N_("upload");
 }
 
 void
-SCPDCPJob::run ()
+UploadJob::run ()
 {
-	LOG_GENERAL_NC (N_("SCP DCP job starting"));
+	LOG_GENERAL_NC (N_("Upload job starting"));
 
 	SSHSession ss;
 
@@ -213,7 +213,7 @@ SCPDCPJob::run ()
 }
 
 string
-SCPDCPJob::status () const
+UploadJob::status () const
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
 	string s = Job::status ();
@@ -224,7 +224,7 @@ SCPDCPJob::status () const
 }
 
 void
-SCPDCPJob::set_status (string s)
+UploadJob::set_status (string s)
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
 	_status = s;

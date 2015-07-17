@@ -27,7 +27,7 @@
 #include "util.h"
 #include "job_manager.h"
 #include "transcode_job.h"
-#include "scp_dcp_job.h"
+#include "upload_job.h"
 #include "log.h"
 #include "exceptions.h"
 #include "examine_content_job.h"
@@ -302,7 +302,7 @@ Film::make_dcp ()
 void
 Film::send_dcp_to_tms ()
 {
-	shared_ptr<Job> j (new SCPDCPJob (shared_from_this()));
+	shared_ptr<Job> j (new UploadJob (shared_from_this()));
 	JobManager::instance()->add (j);
 }
 
