@@ -20,11 +20,13 @@
 #include "lib/uploader.h"
 #include <boost/bind.hpp>
 #include <boost/test/unit_test.hpp>
+#include <fstream>
 
 using std::vector;
 using std::make_pair;
 using std::pair;
 using std::string;
+using std::ofstream;
 using boost::shared_ptr;
 using boost::bind;
 
@@ -47,19 +49,20 @@ public:
 		: Uploader (bind (&set_status, _1), bind (&set_progress, _1))
 	{
 		_directories.push_back ("uploader");
-		_directories.push_back ("uploader/a");
 		_directories.push_back ("uploader/c");
 		_directories.push_back ("uploader/b");
 		_directories.push_back ("uploader/b/e");
+		_directories.push_back ("uploader/a");
 		_next_directory = _directories.begin ();
 
-		_files.push_back (make_pair ("test/data/uploader/a/d", "uploader/a/d"));
 		_files.push_back (make_pair ("test/data/uploader/b/e/f", "uploader/b/e/f"));
+		_files.push_back (make_pair ("test/data/uploader/a/d", "uploader/a/d"));
 		_next_file = _files.begin ();
 	}
 
 protected:
 	void create_directory (boost::filesystem::path directory) {
+		std::cout << directory << "\n";
 		BOOST_CHECK (directory == *_next_directory);
 		++_next_directory;
 	}
@@ -78,6 +81,18 @@ private:
 
 BOOST_AUTO_TEST_CASE (uploader_test)
 {
+	boost::filesystem::remove_all ("test/data/uploader");
+	boost::filesystem::create_directories ("test/data/uploader/a");
+	boost::filesystem::create_directories ("test/data/uploader/b");
+	boost::filesystem::create_directories ("test/data/uploader/c");
+	boost::filesystem::create_directories ("test/data/uploader/b/e");
+
+	ofstream f ("test/data/uploader/a/d");
+	f.close ();
+
+	ofstream g ("test/data/uploader/b/e/f");
+	g.close ();
+
 	TestUploader uploader;
 	uploader.upload ("test/data/uploader");
 }
