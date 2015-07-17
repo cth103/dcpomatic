@@ -34,7 +34,7 @@ class DirPickerCtrl;
 class Cinema;
 class Screen;
 class Film;
-class CPLSummary;
+struct CPLSummary;
 
 class KDMDialog : public wxDialog
 {

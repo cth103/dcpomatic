@@ -21,7 +21,7 @@
 #include "video_examiner.h"
 #include <boost/optional.hpp>
 
-class AVStream;
+struct AVStream;
 
 class FFmpegAudioStream;
 class FFmpegSubtitleStream;
