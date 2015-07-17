@@ -571,8 +571,14 @@ public:
 private:
 	void setup ()
 	{
-		wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Certificate chain for signing DCPs and KDMs:"));
-		_panel->GetSizer()->Add (m, 0, wxALL, _border);
+		wxFont subheading_font (*wxNORMAL_FONT);
+		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
+
+		{
+			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Signing DCPs and KDMs"));
+			m->SetFont (subheading_font);
+			_panel->GetSizer()->Add (m, 0, wxALL, _border);
+		}
 
 		wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_panel->GetSizer()->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, _border);
@@ -616,11 +622,7 @@ private:
 
 		int r = 0;
 
-		_remake_certificates = new wxButton (_panel, wxID_ANY, _("Re-make certificates..."));
-		table->Add (_remake_certificates, wxGBPosition (r, 0), wxGBSpan (1, 3));
-		++r;
-
-		add_label_to_grid_bag_sizer (table, _panel, _("Private key for leaf certificate"), true, wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (table, _panel, _("Leaf private key"), true, wxGBPosition (r, 0));
 		_signer_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
 		wxFont font = _signer_private_key->GetFont ();
 		font.SetFamily (wxFONTFAMILY_TELETYPE);
@@ -630,7 +632,18 @@ private:
 		table->Add (_load_signer_private_key, wxGBPosition (r, 2));
 		++r;
 
-		add_label_to_grid_bag_sizer (table, _panel, _("Certificate for decrypting DCPs"), true, wxGBPosition (r, 0));
+		_remake_certificates = new wxButton (_panel, wxID_ANY, _("Re-make certificates and key..."));
+		table->Add (_remake_certificates, wxGBPosition (r, 0), wxGBSpan (1, 3));
+		++r;
+
+		{
+			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Decrypting DCPs"));
+			m->SetFont (subheading_font);
+			table->Add (m, wxGBPosition (r, 0), wxGBSpan (1, 3), wxTOP, _border * 1.5);
+			++r;
+		}
+
+		add_label_to_grid_bag_sizer (table, _panel, _("Certificate"), true, wxGBPosition (r, 0));
 		_decryption_certificate = new wxStaticText (_panel, wxID_ANY, wxT (""));
 		_decryption_certificate->SetFont (font);
 		table->Add (_decryption_certificate, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -638,7 +651,7 @@ private:
 		table->Add (_load_decryption_certificate, wxGBPosition (r, 2));
 		++r;
 
-		add_label_to_grid_bag_sizer (table, _panel, _("Private key for decrypting DCPs"), true, wxGBPosition (r, 0));
+		add_label_to_grid_bag_sizer (table, _panel, _("Private key"), true, wxGBPosition (r, 0));
 		_decryption_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
 		_decryption_private_key->SetFont (font);
 		table->Add (_decryption_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
