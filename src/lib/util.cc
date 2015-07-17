@@ -40,6 +40,7 @@
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
+#include <curl/curl.h>
 #include <glib.h>
 #include <pangomm/init.h>
 #include <boost/algorithm/string.hpp>
@@ -331,6 +332,8 @@ dcpomatic_setup ()
 	Filter::setup_filters ();
 	CinemaSoundProcessor::setup_cinema_sound_processors ();
 	AudioProcessor::setup_audio_processors ();
+
+	curl_global_init (CURL_GLOBAL_ALL);
 
 	ui_thread = boost::this_thread::get_id ();
 }

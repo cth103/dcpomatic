@@ -57,7 +57,6 @@ UpdateChecker::UpdateChecker ()
 	, _emits (0)
 	, _to_do (0)
 {
-	curl_global_init (CURL_GLOBAL_ALL);
 	_curl = curl_easy_init ();
 
 	curl_easy_setopt (_curl, CURLOPT_URL, "http://dcpomatic.com/update");
@@ -76,7 +75,6 @@ UpdateChecker::~UpdateChecker ()
 	/* We are not cleaning up our thread, but hey well */
 
 	curl_easy_cleanup (_curl);
-	curl_global_cleanup ();
 	delete[] _buffer;
 }
 
