@@ -23,6 +23,7 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
+#include <sys/stat.h>
 
 #include "i18n.h"
 
