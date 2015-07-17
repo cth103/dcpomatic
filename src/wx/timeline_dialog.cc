@@ -59,7 +59,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	_snap->SetValue (_timeline.snap ());
 	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::snap_toggled, this));
 	film_changed (Film::SEQUENCE_VIDEO);
-	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::sequence_video_toggled, this));
+	_sequence_video->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::sequence_video_toggled, this));
 
 	_film_changed_connection = film->Changed.connect (bind (&TimelineDialog::film_changed, this, _1));
 }
