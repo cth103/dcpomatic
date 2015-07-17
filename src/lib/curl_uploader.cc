@@ -78,8 +78,6 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 		String::compose ("ftp://%1/%2/%3", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.string ()).c_str ()
 		);
 
-	cout << String::compose ("ftp://%1/%2/%3", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.string ()) << "\n";
-
 	_file = fopen_boost (from, "rb");
 	if (!_file) {
 		throw NetworkError (String::compose (_("Could not open %1 to send"), from));
