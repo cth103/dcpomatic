@@ -1,5 +1,7 @@
 2015-07-17  c.hetherington  <cth@carlh.net>
 
+	* Support FTP upload to TMS (#639).
+
 	* Fix bad behaviour of timeline snap.
 
 2015-07-17  Carl Hetherington  <cth@carlh.net>
