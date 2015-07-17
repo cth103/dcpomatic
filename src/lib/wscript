@@ -93,6 +93,7 @@ sources = """
           resampler.cc
           safe_stringstream.cc
           scoped_temporary.cc
+          scp_uploader.cc
           send_kdm_email_job.cc
           send_problem_report_job.cc
           server.cc
@@ -114,6 +115,7 @@ sources = """
           signal_manager.cc
           update.cc
           upload_job.cc
+          uploader.cc
           upmixer_a.cc
           util.cc
           video_content.cc

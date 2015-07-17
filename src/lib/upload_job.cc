@@ -34,6 +34,7 @@
 #include "log.h"
 #include "film.h"
 #include "cross.h"
+#include "scp_uploader.h"
 
 #include "i18n.h"
 
@@ -42,61 +43,6 @@
 using std::string;
 using std::min;
 using boost::shared_ptr;
-
-class SSHSession
-{
-public:
-	SSHSession ()
-		: _connected (false)
-	{
-		session = ssh_new ();
-		if (session == 0) {
-			throw NetworkError (_("could not start SSH session"));
-		}
-	}
-
-	int connect ()
-	{
-		int r = ssh_connect (session);
-		if (r == 0) {
-			_connected = true;
-		}
-		return r;
-	}
-
-	~SSHSession ()
-	{
-		if (_connected) {
-			ssh_disconnect (session);
-		}
-		ssh_free (session);
-	}
-
-	ssh_session session;
-
-private:
-	bool _connected;
-};
-
-class SSHSCP
-{
-public:
-	SSHSCP (ssh_session s)
-	{
-		scp = ssh_scp_new (s, SSH_SCP_WRITE | SSH_SCP_RECURSIVE, Config::instance()->tms_path().c_str ());
-		if (!scp) {
-			throw NetworkError (String::compose (_("could not start SCP session (%1)"), ssh_get_error (s)));
-		}
-	}
-
-	~SSHSCP ()
-	{
-		ssh_scp_free (scp);
-	}
-
-	ssh_scp scp;
-};
-
 
 UploadJob::UploadJob (shared_ptr<const Film> film)
 	: Job (film)
@@ -122,90 +68,8 @@ UploadJob::run ()
 {
 	LOG_GENERAL_NC (N_("Upload job starting"));
 
-	SSHSession ss;
-
-	set_status (_("connecting"));
-
-	ssh_options_set (ss.session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
-	ssh_options_set (ss.session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
-	int const port = 22;
-	ssh_options_set (ss.session, SSH_OPTIONS_PORT, &port);
-
-	int r = ss.connect ();
-	if (r != SSH_OK) {
-		throw NetworkError (String::compose (_("Could not connect to server %1 (%2)"), Config::instance()->tms_ip(), ssh_get_error (ss.session)));
-	}
-
-	int const state = ssh_is_server_known (ss.session);
-	if (state == SSH_SERVER_ERROR) {
-		throw NetworkError (String::compose (_("SSH error (%1)"), ssh_get_error (ss.session)));
-	}
-
-	r = ssh_userauth_password (ss.session, 0, Config::instance()->tms_password().c_str ());
-	if (r != SSH_AUTH_SUCCESS) {
-		throw NetworkError (String::compose (_("Failed to authenticate with server (%1)"), ssh_get_error (ss.session)));
-	}
-
-	SSHSCP sc (ss.session);
-
-	r = ssh_scp_init (sc.scp);
-	if (r != SSH_OK) {
-		throw NetworkError (String::compose (_("Could not start SCP session (%1)"), ssh_get_error (ss.session)));
-	}
-
-	r = ssh_scp_push_directory (sc.scp, _film->dcp_name().c_str(), S_IRWXU);
-	if (r != SSH_OK) {
-		throw NetworkError (String::compose (_("Could not create remote directory %1 (%2)"), _film->dcp_name(), ssh_get_error (ss.session)));
-	}
-
-	boost::filesystem::path const dcp_dir = _film->dir (_film->dcp_name());
-
-	boost::uintmax_t bytes_to_transfer = 0;
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
-		bytes_to_transfer += boost::filesystem::file_size (*i);
-	}
-
-	boost::uintmax_t buffer_size = 64 * 1024;
-	char buffer[buffer_size];
-	boost::uintmax_t bytes_transferred = 0;
-
-	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (dcp_dir); i != boost::filesystem::directory_iterator(); ++i) {
-
-		string const leaf = boost::filesystem::path(*i).leaf().generic_string ();
-
-		set_status (String::compose (_("copying %1"), leaf));
-
-		boost::uintmax_t to_do = boost::filesystem::file_size (*i);
-		ssh_scp_push_file (sc.scp, leaf.c_str(), to_do, S_IRUSR | S_IWUSR);
-
-		FILE* f = fopen_boost (boost::filesystem::path (*i), "rb");
-		if (f == 0) {
-			throw NetworkError (String::compose (_("Could not open %1 to send"), *i));
-		}
-
-		while (to_do > 0) {
-			int const t = min (to_do, buffer_size);
-			size_t const read = fread (buffer, 1, t, f);
-			if (read != size_t (t)) {
-				fclose (f);
-				throw ReadFileError (boost::filesystem::path (*i).string());
-			}
-
-			r = ssh_scp_write (sc.scp, buffer, t);
-			if (r != SSH_OK) {
-				fclose (f);
-				throw NetworkError (String::compose (_("Could not write to remote file (%1)"), ssh_get_error (ss.session)));
-			}
-			to_do -= t;
-			bytes_transferred += t;
-
-			if (bytes_to_transfer > 0) {
-				set_progress ((double) bytes_transferred / bytes_to_transfer);
-			}
-		}
-
-		fclose (f);
-	}
+	SCPUploader uploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false));
+	uploader.upload (_film->dir (_film->dcp_name ()));
 
 	set_progress (1);
 	set_status (N_(""));
@@ -217,7 +81,7 @@ UploadJob::status () const
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
 	string s = Job::status ();
-	if (!_status.empty ()) {
+	if (!_status.empty () && !finished_in_error ()) {
 		s += N_("; ") + _status;
 	}
 	return s;
