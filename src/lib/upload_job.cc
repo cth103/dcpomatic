@@ -21,20 +21,14 @@
  *  @brief A job to copy DCPs to a server using libcurl.
  */
 
-#include <iostream>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <boost/filesystem.hpp>
-#include <libssh/libssh.h>
 #include "compose.hpp"
 #include "upload_job.h"
-#include "exceptions.h"
 #include "config.h"
 #include "log.h"
 #include "film.h"
-#include "cross.h"
 #include "scp_uploader.h"
+#include "curl_uploader.h"
+#include <iostream>
 
 #include "i18n.h"
 
@@ -43,6 +37,7 @@
 using std::string;
 using std::min;
 using boost::shared_ptr;
+using boost::scoped_ptr;
 
 UploadJob::UploadJob (shared_ptr<const Film> film)
 	: Job (film)
@@ -68,8 +63,17 @@ UploadJob::run ()
 {
 	LOG_GENERAL_NC (N_("Upload job starting"));
 
-	SCPUploader uploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false));
-	uploader.upload (_film->dir (_film->dcp_name ()));
+	scoped_ptr<Uploader> uploader;
+	switch (Config::instance()->tms_protocol ()) {
+	case PROTOCOL_SCP:
+		uploader.reset (new SCPUploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false)));
+		break;
+	case PROTOCOL_FTP:
+		uploader.reset (new CurlUploader (bind (&UploadJob::set_status, this, _1), bind (&UploadJob::set_progress, this, _1, false)));
+		break;
+	}
+
+	uploader->upload (_film->dir (_film->dcp_name ()));
 
 	set_progress (1);
 	set_status (N_(""));

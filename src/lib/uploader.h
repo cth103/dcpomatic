@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_UPLOADER_H
+#define DCPOMATIC_UPLOADER_H
+
 #include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/function.hpp>
@@ -34,11 +37,14 @@ protected:
 	virtual void create_directory (boost::filesystem::path directory) = 0;
 	virtual void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) = 0;
 
-	boost::function<void (std::string)> _set_status;
 	boost::function<void (float)> _set_progress;
 
 private:
 	void upload_directory (boost::filesystem::path base, boost::filesystem::path directory, boost::uintmax_t& transferred, boost::uintmax_t total_size);
 	boost::uintmax_t count_file_sizes (boost::filesystem::path) const;
 	boost::filesystem::path remove_prefix (boost::filesystem::path prefix, boost::filesystem::path target) const;
+
+	boost::function<void (std::string)> _set_status;
 };
+
+#endif

@@ -148,4 +148,9 @@ enum Resolution {
 std::string resolution_to_string (Resolution);
 Resolution string_to_resolution (std::string);
 
+enum Protocol {
+	PROTOCOL_SCP,
+	PROTOCOL_FTP
+};
+
 #endif

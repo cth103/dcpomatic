@@ -19,16 +19,19 @@
 
 #include "uploader.h"
 #include "dcpomatic_assert.h"
+#include "compose.hpp"
+
+#include "i18n.h"
 
 using std::string;
 using boost::shared_ptr;
 using boost::function;
 
 Uploader::Uploader (function<void (string)> set_status, function<void (float)> set_progress)
-	: _set_status (set_status)
-	, _set_progress (set_progress)
+	: _set_progress (set_progress)
+	, _set_status (set_status)
 {
-
+	_set_status (_("connecting"));
 }
 
 boost::uintmax_t
@@ -66,6 +69,7 @@ Uploader::upload_directory (boost::filesystem::path base, boost::filesystem::pat
 		if (is_directory (i->path ())) {
 			upload_directory (base, i->path (), transferred, total_size);
 		} else {
+			_set_status (String::compose (_("copying %1"), i->path().leaf ()));
 			upload_file (i->path (), remove_prefix (base, i->path ()), transferred, total_size);
 		}
 	}

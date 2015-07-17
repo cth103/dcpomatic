@@ -21,6 +21,7 @@
 #include "server.h"
 #include "filter.h"
 #include "ratio.h"
+#include "types.h"
 #include "dcp_content_type.h"
 #include "cinema_sound_processor.h"
 #include "colour_conversion.h"
@@ -67,6 +68,7 @@ Config::set_defaults ()
 	_num_local_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
 	_server_port_base = 6192;
 	_use_any_servers = true;
+	_tms_protocol = PROTOCOL_SCP;
 	_tms_path = ".";
 	_cinema_sound_processor = CinemaSoundProcessor::from_id (N_("dolby_cp750"));
 	_allow_any_dcp_frame_rate = false;
@@ -140,6 +142,7 @@ Config::read ()
 		}
 	}
 
+	_tms_protocol = static_cast<Protocol> (f.optional_number_child<int> ("TMSProtocol").get_value_or (static_cast<int> (PROTOCOL_SCP)));
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
 	_tms_user = f.string_child ("TMSUser");
@@ -315,6 +318,7 @@ Config::write () const
 		root->add_child("Server")->add_child_text (*i);
 	}
 
+	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (_tms_protocol));
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
 	root->add_child("TMSPath")->add_child_text (_tms_path);
 	root->add_child("TMSUser")->add_child_text (_tms_user);

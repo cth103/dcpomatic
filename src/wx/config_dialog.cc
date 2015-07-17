@@ -910,6 +910,10 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
+		add_label_to_sizer (table, _panel, _("Protocol"), true);
+		_tms_protocol = new wxChoice (_panel, wxID_ANY);
+		table->Add (_tms_protocol, 1, wxEXPAND);
+
 		add_label_to_sizer (table, _panel, _("IP address"), true);
 		_tms_ip = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_ip, 1, wxEXPAND);
@@ -926,6 +930,10 @@ private:
 		_tms_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_password, 1, wxEXPAND);
 
+		_tms_protocol->Append (_("SCP (for AAM)"));
+		_tms_protocol->Append (_("FTP (for Dolby)"));
+
+		_tms_protocol->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&TMSPage::tms_protocol_changed, this));
 		_tms_ip->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_ip_changed, this));
 		_tms_path->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_path_changed, this));
 		_tms_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_user_changed, this));
@@ -936,10 +944,16 @@ private:
 	{
 		Config* config = Config::instance ();
 
+		checked_set (_tms_protocol, config->tms_protocol ());
 		checked_set (_tms_ip, config->tms_ip ());
 		checked_set (_tms_path, config->tms_path ());
 		checked_set (_tms_user, config->tms_user ());
 		checked_set (_tms_password, config->tms_password ());
+	}
+
+	void tms_protocol_changed ()
+	{
+		Config::instance()->set_tms_protocol (static_cast<Protocol> (_tms_protocol->GetSelection ()));
 	}
 
 	void tms_ip_changed ()
@@ -962,6 +976,7 @@ private:
 		Config::instance()->set_tms_password (wx_to_std (_tms_password->GetValue ()));
 	}
 
+	wxChoice* _tms_protocol;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;
 	wxTextCtrl* _tms_user;

@@ -37,6 +37,7 @@ sources = """
           content.cc
           content_factory.cc
           cross.cc
+          curl_uploader.cc
           data.cc
           dcp_content.cc
           dcp_content_type.cc

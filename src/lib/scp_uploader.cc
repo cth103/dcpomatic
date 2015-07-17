@@ -39,8 +39,6 @@ SCPUploader::SCPUploader (function<void (string)> set_status, function<void (flo
 		throw NetworkError (_("could not start SSH session"));
 	}
 
-	_set_status (_("connecting"));
-
 	ssh_options_set (_session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str ());
 	ssh_options_set (_session, SSH_OPTIONS_USER, Config::instance()->tms_user().c_str ());
 	int const port = 22;
@@ -91,8 +89,6 @@ SCPUploader::create_directory (boost::filesystem::path directory)
 void
 SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size)
 {
-	_set_status (String::compose (_("copying %1"), from.leaf ()));
-
 	boost::uintmax_t to_do = boost::filesystem::file_size (from);
 	ssh_scp_push_file (_scp, to.string().c_str(), to_do, S_IRUSR | S_IWUSR);
 
