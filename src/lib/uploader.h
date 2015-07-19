@@ -30,6 +30,8 @@ class Uploader
 {
 public:
 	Uploader (boost::function<void (std::string)> set_status, boost::function<void (float)> set_progress);
+	virtual ~Uploader () {}
+
 	void upload (boost::filesystem::path directory);
 
 protected:
