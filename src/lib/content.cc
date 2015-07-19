@@ -223,7 +223,7 @@ Content::length_after_trim () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	return max (DCPTime (), full_length() - DCPTime (trim_start() - trim_end(), film->active_frame_rate_change (position ())));
+	return max (DCPTime (), full_length() - DCPTime (trim_start() + trim_end(), film->active_frame_rate_change (position ())));
 }
 
 /** @return string which includes everything about how this content affects
