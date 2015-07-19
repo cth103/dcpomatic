@@ -1,5 +1,7 @@
 2015-07-19  Carl Hetherington  <cth@carlh.net>
 
+	* Fix some missing set-to-defaults (#640).
+
 	* Version 2.1.25 released.
 
 2015-07-17  Carl Hetherington  <cth@carlh.net>
