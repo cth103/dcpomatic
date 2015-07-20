@@ -1,3 +1,8 @@
+2015-07-20  Carl Hetherington  <cth@carlh.net>
+
+	* Fix missing second lines of subtitles in
+	some cases (#641).
+
 2015-07-19  Carl Hetherington  <cth@carlh.net>
 
 	* Fix some missing set-to-defaults (#640).

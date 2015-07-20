@@ -52,10 +52,22 @@ DCPSubtitleDecoder::pass ()
 		return true;
 	}
 
+	/* Gather all subtitles with the same time period that are next
+	   on the list.  We must emit all subtitles for the same time
+	   period with the same text_subtitle() call otherwise the
+	   SubtitleDecoder will assume there is nothing else at the
+	   time of emit the first.
+	*/
+
 	list<dcp::SubtitleString> s;
-	s.push_back (*_next);
-	text_subtitle (content_time_period (*_next), s);
-	++_next;
+	ContentTimePeriod const p = content_time_period (*_next);
+
+	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
+		s.push_back (*_next);
+		++_next;
+	}
+
+	text_subtitle (p, s);
 
 	return false;
 }

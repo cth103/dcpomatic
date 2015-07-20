@@ -238,6 +238,10 @@ public:
 
 	bool overlaps (ContentTimePeriod const & o) const;
 	bool contains (ContentTime const & o) const;
+
+	bool operator== (ContentTimePeriod const & o) const {
+		return from == o.from && to == o.to;
+	}
 };
 
 DCPTime min (DCPTime a, DCPTime b);
