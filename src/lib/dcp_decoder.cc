@@ -96,7 +96,7 @@ DCPDecoder::pass ()
 		shared_ptr<AudioBuffers> data (new AudioBuffers (channels, frames));
 		for (int i = 0; i < frames; ++i) {
 			for (int j = 0; j < channels; ++j) {
-				data->data()[j][i] = float (from[0] | (from[1] << 8) | (from[2] << 16)) / (1 << 23);
+				data->data()[j][i] = static_cast<int> ((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float> (INT_MAX - 256);
 				from += 3;
 			}
 		}
