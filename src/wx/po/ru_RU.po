@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-16 23:48+0100\n"
+"POT-Creation-Date: 2015-07-21 23:06+0100\n"
 "PO-Revision-Date: 2015-07-16 09:14-0400\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -142,7 +142,7 @@ msgstr "Добавить последовательность изображен
 msgid "Add video, image or sound files to the film."
 msgstr "Добавить видео, изображение или звук в проект."
 
-#: src/wx/config_dialog.cc:607 src/wx/editable_list.h:62
+#: src/wx/config_dialog.cc:613 src/wx/editable_list.h:62
 msgid "Add..."
 msgstr "Добавить..."
 
@@ -174,7 +174,7 @@ msgstr ""
 "можете изменить настройки вашего DCP контейнера на SCOPE (2.39:1) на вкладке "
 "\"DCP\"."
 
-#: src/wx/config_dialog.cc:1175
+#: src/wx/config_dialog.cc:1203
 msgid "Allow any DCP frame rate"
 msgstr "Разрешить любую частоту кадров DCP"
 
@@ -206,7 +206,7 @@ msgstr ""
 msgid "B"
 msgstr "B"
 
-#: src/wx/config_dialog.cc:1035
+#: src/wx/config_dialog.cc:1063
 msgid "BCC address"
 msgstr "Скрытая копия"
 
@@ -230,7 +230,7 @@ msgstr "Вшить субтитры в изображение"
 msgid "But I have to use fader"
 msgstr "Но я должен использовать микшер"
 
-#: src/wx/config_dialog.cc:1031
+#: src/wx/config_dialog.cc:1059
 msgid "CC address"
 msgstr "Кому копия"
 
@@ -254,22 +254,14 @@ msgstr "Просчитать..."
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/wx/screen_dialog.cc:44
+#: src/wx/config_dialog.cc:646 src/wx/screen_dialog.cc:44
 msgid "Certificate"
 msgstr "Сертификат"
-
-#: src/wx/config_dialog.cc:574
-msgid "Certificate chain for signing DCPs and KDMs:"
-msgstr "Цепочка сертификатов для подписи DCP и KDM:"
 
 #: src/wx/dolby_certificate_dialog.cc:192
 #: src/wx/doremi_certificate_dialog.cc:104
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
-
-#: src/wx/config_dialog.cc:633
-msgid "Certificate for decrypting DCPs"
-msgstr "Сертификат для расшифровки DCP"
 
 #: src/wx/isdcf_metadata_dialog.cc:65
 msgid "Chain"
@@ -316,7 +308,7 @@ msgstr "Кинотеатр"
 msgid "Colour conversion"
 msgstr "Преобразование цвета"
 
-#: src/wx/config_dialog.cc:1195
+#: src/wx/config_dialog.cc:1223
 msgid "Config|Timing"
 msgstr "Конфигурация | Тайминг"
 
@@ -369,13 +361,13 @@ msgstr "Не удалось найти изображения в этой пап
 msgid "Could not get video for view (%s)"
 msgstr "Не удалось вывести предпросмотр видео (%s)"
 
-#: src/wx/config_dialog.cc:686 src/wx/config_dialog.cc:799
-#: src/wx/config_dialog.cc:819 src/wx/screen_dialog.cc:95
+#: src/wx/config_dialog.cc:699 src/wx/config_dialog.cc:812
+#: src/wx/config_dialog.cc:832 src/wx/screen_dialog.cc:95
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Не удалось прочитать файл сертификата (%s)"
 
-#: src/wx/config_dialog.cc:791 src/wx/config_dialog.cc:841
+#: src/wx/config_dialog.cc:804 src/wx/config_dialog.cc:854
 #, c-format
 msgid "Could not read key file (%s)"
 msgstr "Не удалось прочитать файл ключа (%s)"
@@ -412,13 +404,18 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Аудио DCP-o-matic"
 
-#: src/wx/config_dialog.cc:1197
+#: src/wx/config_dialog.cc:1225
 msgid "Debug: decode"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1199
+#: src/wx/config_dialog.cc:1227
 msgid "Debug: encode"
 msgstr ""
+
+#: src/wx/config_dialog.cc:640
+#, fuzzy
+msgid "Decrypting DCPs"
+msgstr "Сертификат для расшифровки DCP"
 
 #: src/wx/config_dialog.cc:343
 msgid "Default ISDCF name details"
@@ -530,13 +527,17 @@ msgstr "Зашифрованный"
 msgid "End"
 msgstr "Конец"
 
-#: src/wx/config_dialog.cc:1193
+#: src/wx/config_dialog.cc:1221
 msgid "Errors"
 msgstr "Ошибки"
 
-#: src/wx/config_dialog.cc:649
+#: src/wx/config_dialog.cc:662
 msgid "Export DCP decryption certificate..."
 msgstr "Экспортировать сертификат расшифровки DCP..."
+
+#: src/wx/config_dialog.cc:947
+msgid "FTP (for Dolby)"
+msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:50
 msgid "Facility (e.g. DLA)"
@@ -602,7 +603,7 @@ msgstr ""
 msgid "From"
 msgstr "От"
 
-#: src/wx/config_dialog.cc:1027
+#: src/wx/config_dialog.cc:1055
 msgid "From address"
 msgstr "Отправитель"
 
@@ -627,7 +628,7 @@ msgstr "Калькулятор усиления"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Усиление для канала %d контента в канале %d DCP"
 
-#: src/wx/config_dialog.cc:1189
+#: src/wx/config_dialog.cc:1217
 msgid "General"
 msgstr "Основные"
 
@@ -655,7 +656,7 @@ msgstr "Я хочу воспроизвести это в микшере"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/config_dialog.cc:913
+#: src/wx/config_dialog.cc:930
 msgid "IP address"
 msgstr "IP адрес"
 
@@ -679,7 +680,7 @@ msgstr "Коррекция входной гаммы"
 msgid "Input power"
 msgstr "Входная мощность"
 
-#: src/wx/config_dialog.cc:725
+#: src/wx/config_dialog.cc:738
 msgid "Intermediate"
 msgstr "Intermediate"
 
@@ -699,7 +700,7 @@ msgstr "Пропускная способность JPEG2000"
 msgid "Join"
 msgstr "Подсоединить"
 
-#: src/wx/config_dialog.cc:986
+#: src/wx/config_dialog.cc:1014
 msgid "KDM Email"
 msgstr "Почта KDM"
 
@@ -727,13 +728,17 @@ msgstr "Ключи"
 msgid "Language"
 msgstr "Язык"
 
-#: src/wx/config_dialog.cc:723
+#: src/wx/config_dialog.cc:736
 msgid "Leaf"
 msgstr "Leaf"
 
 #: src/wx/make_signer_chain_dialog.cc:77
 msgid "Leaf common name"
 msgstr "Leaf common name"
+
+#: src/wx/config_dialog.cc:625
+msgid "Leaf private key"
+msgstr ""
 
 #: src/wx/video_panel.cc:96
 msgid "Left"
@@ -747,16 +752,16 @@ msgstr "Выровнять входную гамму для малых знач�
 msgid "Load from file..."
 msgstr "Загрузить из файла..."
 
-#: src/wx/config_dialog.cc:629 src/wx/config_dialog.cc:637
-#: src/wx/config_dialog.cc:645
+#: src/wx/config_dialog.cc:631 src/wx/config_dialog.cc:650
+#: src/wx/config_dialog.cc:658
 msgid "Load..."
 msgstr "Загрузить..."
 
-#: src/wx/config_dialog.cc:1183
+#: src/wx/config_dialog.cc:1211
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/config_dialog.cc:1180
+#: src/wx/config_dialog.cc:1208
 msgid "Log:"
 msgstr "Лог:"
 
@@ -764,11 +769,11 @@ msgstr "Лог:"
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ:"
 
-#: src/wx/config_dialog.cc:1019
+#: src/wx/config_dialog.cc:1047
 msgid "Mail password"
 msgstr "Пароль почты"
 
-#: src/wx/config_dialog.cc:1015
+#: src/wx/config_dialog.cc:1043
 msgid "Mail user name"
 msgstr "Пользователь почты"
 
@@ -788,11 +793,11 @@ msgstr "Яркость (напр. 14 фут-ламберт)"
 msgid "Matrix"
 msgstr "Матрица"
 
-#: src/wx/config_dialog.cc:1167
+#: src/wx/config_dialog.cc:1195
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальная пропускная способность JPEG2000"
 
-#: src/wx/config_dialog.cc:360 src/wx/config_dialog.cc:1171
+#: src/wx/config_dialog.cc:360 src/wx/config_dialog.cc:1199
 #: src/wx/dcp_panel.cc:607
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -848,7 +853,7 @@ msgstr "Ничего"
 msgid "Off"
 msgstr "Выключен"
 
-#: src/wx/config_dialog.cc:1205
+#: src/wx/config_dialog.cc:1233
 msgid "Open console window"
 msgstr "Открыть консольное окно"
 
@@ -868,7 +873,7 @@ msgstr "Organisational unit"
 msgid "Other"
 msgstr "Другое"
 
-#: src/wx/config_dialog.cc:1003
+#: src/wx/config_dialog.cc:1031
 msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
@@ -884,7 +889,7 @@ msgstr "Вывод"
 msgid "Package Type (e.g. OV)"
 msgstr "Тип пакета (напр. OV)"
 
-#: src/wx/config_dialog.cc:925
+#: src/wx/config_dialog.cc:942
 msgid "Password"
 msgstr "Пароль"
 
@@ -929,13 +934,9 @@ msgstr "Позиция"
 msgid "Pre-release"
 msgstr "Пре-релиз"
 
-#: src/wx/config_dialog.cc:641
-msgid "Private key for decrypting DCPs"
-msgstr "Приватный ключ для расшифровки DCP"
-
-#: src/wx/config_dialog.cc:623
-msgid "Private key for leaf certificate"
-msgstr "Приватный ключ для leaf-сертификата"
+#: src/wx/config_dialog.cc:654
+msgid "Private key"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:684
 msgid "Processor"
@@ -944,6 +945,10 @@ msgstr "Обработка"
 #: src/wx/content_menu.cc:60
 msgid "Properties..."
 msgstr "Свойства..."
+
+#: src/wx/config_dialog.cc:926
+msgid "Protocol"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:105
 msgid "RGB to XYZ conversion"
@@ -965,8 +970,9 @@ msgstr "Рейтинг (напр. NR)"
 msgid "Re-examine..."
 msgstr "Перепроверить..."
 
-#: src/wx/config_dialog.cc:619
-msgid "Re-make certificates..."
+#: src/wx/config_dialog.cc:635
+#, fuzzy
+msgid "Re-make certificates and key..."
 msgstr "Пересоздать сертификаты..."
 
 #: src/wx/colour_conversion_editor.cc:98
@@ -985,7 +991,7 @@ msgstr "Red band"
 msgid "Red chromaticity"
 msgstr "Красная цветность"
 
-#: src/wx/config_dialog.cc:609 src/wx/content_menu.cc:64
+#: src/wx/config_dialog.cc:615 src/wx/content_menu.cc:64
 #: src/wx/content_panel.cc:83 src/wx/editable_list.h:68
 msgid "Remove"
 msgstr "Убрать"
@@ -1018,7 +1024,7 @@ msgstr "Повторить..."
 msgid "Report A Problem"
 msgstr "Сообщить Об Ошибке"
 
-#: src/wx/config_dialog.cc:1042
+#: src/wx/config_dialog.cc:1070
 msgid "Reset to default text"
 msgstr "Сбросить текст по умолчанию"
 
@@ -1038,13 +1044,17 @@ msgstr "Правый"
 msgid "Right click to change gain."
 msgstr "ПКМ для изменения усиления"
 
-#: src/wx/config_dialog.cc:721
+#: src/wx/config_dialog.cc:734
 msgid "Root"
 msgstr "Root"
 
 #: src/wx/make_signer_chain_dialog.cc:55
 msgid "Root common name"
 msgstr "Root common name"
+
+#: src/wx/config_dialog.cc:946
+msgid "SCP (for AAM)"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:153
 msgid "SMPTE"
@@ -1062,8 +1072,8 @@ msgstr "Экраны"
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
-#: src/wx/config_dialog.cc:677 src/wx/config_dialog.cc:811
-#: src/wx/config_dialog.cc:856 src/wx/screen_dialog.cc:102
+#: src/wx/config_dialog.cc:690 src/wx/config_dialog.cc:824
+#: src/wx/config_dialog.cc:869 src/wx/screen_dialog.cc:102
 msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
 
@@ -1071,7 +1081,7 @@ msgstr "Выберите файл сертификата"
 msgid "Select KDM"
 msgstr "Выберите KDM"
 
-#: src/wx/config_dialog.cc:785 src/wx/config_dialog.cc:833
+#: src/wx/config_dialog.cc:798 src/wx/config_dialog.cc:846
 msgid "Select Key File"
 msgstr "Выберите файл ключа"
 
@@ -1128,6 +1138,11 @@ msgstr "Показать аудио..."
 msgid "Signed"
 msgstr "Подписанный"
 
+#: src/wx/config_dialog.cc:578
+#, fuzzy
+msgid "Signing DCPs and KDMs"
+msgstr "Цепочка сертификатов для подписи DCP и KDM:"
+
 #: src/wx/audio_dialog.cc:90
 msgid "Smoothing"
 msgstr "Сглаживание"
@@ -1157,7 +1172,7 @@ msgstr "Поток"
 msgid "Studio (e.g. TCF)"
 msgstr "Студия (напр. TCF)"
 
-#: src/wx/config_dialog.cc:1023
+#: src/wx/config_dialog.cc:1051
 msgid "Subject"
 msgstr "Тема"
 
@@ -1177,11 +1192,11 @@ msgstr "Субтитры"
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
-#: src/wx/config_dialog.cc:896
+#: src/wx/config_dialog.cc:909
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:917
+#: src/wx/config_dialog.cc:934
 msgid "Target path"
 msgstr "Целевой путь"
 
@@ -1230,7 +1245,7 @@ msgstr "Потоки"
 msgid "Threads to use for encoding on this host"
 msgstr "Кол-во потоков кодирования на хосте"
 
-#: src/wx/config_dialog.cc:593
+#: src/wx/config_dialog.cc:599
 msgid "Thumbprint"
 msgstr "Отпечаток"
 
@@ -1274,7 +1289,7 @@ msgstr "Обрезать с начала"
 msgid "Trim up to current position"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:73 src/wx/config_dialog.cc:585
+#: src/wx/audio_dialog.cc:73 src/wx/config_dialog.cc:591
 #: src/wx/video_panel.cc:78
 msgid "Type"
 msgstr "Тип"
@@ -1319,7 +1334,7 @@ msgstr "Использовать заготовку"
 msgid "Use subtitles"
 msgstr "Использовать субтитры"
 
-#: src/wx/config_dialog.cc:921
+#: src/wx/config_dialog.cc:938
 msgid "User name"
 msgstr "Имя пользователя"
 
@@ -1335,7 +1350,7 @@ msgstr "Частота кадров видео"
 msgid "View..."
 msgstr "Вид..."
 
-#: src/wx/config_dialog.cc:1191
+#: src/wx/config_dialog.cc:1219
 msgid "Warnings"
 msgstr "Предупреждения"
 
@@ -1471,7 +1486,7 @@ msgstr "м"
 msgid "ms"
 msgstr "мс"
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1036
 msgid "port"
 msgstr ""
 
@@ -1507,6 +1522,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:108
 msgid "y"
 msgstr "y"
+
+#~ msgid "Private key for decrypting DCPs"
+#~ msgstr "Приватный ключ для расшифровки DCP"
+
+#~ msgid "Private key for leaf certificate"
+#~ msgstr "Приватный ключ для leaf-сертификата"
 
 #~ msgid "(password will be stored on disk in plaintext)"
 #~ msgstr "(пароль будет сохранен на диске в виде текста)"

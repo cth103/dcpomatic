@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-16 23:48+0100\n"
+"POT-Creation-Date: 2015-07-21 23:06+0100\n"
 "PO-Revision-Date: 2015-07-06 16:06+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -141,7 +141,7 @@ msgstr "Tieni i video in sequenza"
 msgid "Add video, image or sound files to the film."
 msgstr ""
 
-#: src/wx/config_dialog.cc:607 src/wx/editable_list.h:62
+#: src/wx/config_dialog.cc:613 src/wx/editable_list.h:62
 msgid "Add..."
 msgstr "Aggiungi..."
 
@@ -165,7 +165,7 @@ msgid ""
 "tab."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1175
+#: src/wx/config_dialog.cc:1203
 #, fuzzy
 msgid "Allow any DCP frame rate"
 msgstr "Frequenza fotogrammi video"
@@ -199,7 +199,7 @@ msgstr ""
 msgid "B"
 msgstr "dB"
 
-#: src/wx/config_dialog.cc:1035
+#: src/wx/config_dialog.cc:1063
 #, fuzzy
 msgid "BCC address"
 msgstr "Indirizzo IP"
@@ -225,7 +225,7 @@ msgstr ""
 msgid "But I have to use fader"
 msgstr "Ma dovrò riprodurre con il fader a"
 
-#: src/wx/config_dialog.cc:1031
+#: src/wx/config_dialog.cc:1059
 #, fuzzy
 msgid "CC address"
 msgstr "Indirizzo IP"
@@ -250,24 +250,16 @@ msgstr "Calcola..."
 msgid "Cancel"
 msgstr "Annulla"
 
-#: src/wx/screen_dialog.cc:44
+#: src/wx/config_dialog.cc:646 src/wx/screen_dialog.cc:44
 #, fuzzy
 msgid "Certificate"
 msgstr "Seleziona il file del Certificato"
-
-#: src/wx/config_dialog.cc:574
-msgid "Certificate chain for signing DCPs and KDMs:"
-msgstr ""
 
 #: src/wx/dolby_certificate_dialog.cc:192
 #: src/wx/doremi_certificate_dialog.cc:104
 #, fuzzy
 msgid "Certificate downloaded"
 msgstr "Seleziona il file del Certificato"
-
-#: src/wx/config_dialog.cc:633
-msgid "Certificate for decrypting DCPs"
-msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:65
 msgid "Chain"
@@ -316,7 +308,7 @@ msgstr "Aggiungi Cinema"
 msgid "Colour conversion"
 msgstr "Conversione colore"
 
-#: src/wx/config_dialog.cc:1195
+#: src/wx/config_dialog.cc:1223
 msgid "Config|Timing"
 msgstr ""
 
@@ -370,13 +362,13 @@ msgstr ""
 msgid "Could not get video for view (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
 
-#: src/wx/config_dialog.cc:686 src/wx/config_dialog.cc:799
-#: src/wx/config_dialog.cc:819 src/wx/screen_dialog.cc:95
+#: src/wx/config_dialog.cc:699 src/wx/config_dialog.cc:812
+#: src/wx/config_dialog.cc:832 src/wx/screen_dialog.cc:95
 #, fuzzy, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
 
-#: src/wx/config_dialog.cc:791 src/wx/config_dialog.cc:841
+#: src/wx/config_dialog.cc:804 src/wx/config_dialog.cc:854
 #, fuzzy, c-format
 msgid "Could not read key file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
@@ -414,12 +406,16 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Audio DCP-o-matic - %s"
 
-#: src/wx/config_dialog.cc:1197
+#: src/wx/config_dialog.cc:1225
 msgid "Debug: decode"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1199
+#: src/wx/config_dialog.cc:1227
 msgid "Debug: encode"
+msgstr ""
+
+#: src/wx/config_dialog.cc:640
+msgid "Decrypting DCPs"
 msgstr ""
 
 #: src/wx/config_dialog.cc:343
@@ -537,12 +533,16 @@ msgstr "Criptato"
 msgid "End"
 msgstr "Fine"
 
-#: src/wx/config_dialog.cc:1193
+#: src/wx/config_dialog.cc:1221
 msgid "Errors"
 msgstr ""
 
-#: src/wx/config_dialog.cc:649
+#: src/wx/config_dialog.cc:662
 msgid "Export DCP decryption certificate..."
+msgstr ""
+
+#: src/wx/config_dialog.cc:947
+msgid "FTP (for Dolby)"
 msgstr ""
 
 #: src/wx/isdcf_metadata_dialog.cc:50
@@ -610,7 +610,7 @@ msgstr ""
 msgid "From"
 msgstr "Da"
 
-#: src/wx/config_dialog.cc:1027
+#: src/wx/config_dialog.cc:1055
 #, fuzzy
 msgid "From address"
 msgstr "Indirizzo IP"
@@ -636,7 +636,7 @@ msgstr "Calcolatore del guadagno audio"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Guadagno per il canale sorgente %d nel canale DCP %d"
 
-#: src/wx/config_dialog.cc:1189
+#: src/wx/config_dialog.cc:1217
 msgid "General"
 msgstr ""
 
@@ -664,7 +664,7 @@ msgstr "Sto usando il fader a"
 msgid "ID"
 msgstr ""
 
-#: src/wx/config_dialog.cc:913
+#: src/wx/config_dialog.cc:930
 msgid "IP address"
 msgstr "Indirizzo IP"
 
@@ -690,7 +690,7 @@ msgstr ""
 msgid "Input power"
 msgstr ""
 
-#: src/wx/config_dialog.cc:725
+#: src/wx/config_dialog.cc:738
 msgid "Intermediate"
 msgstr ""
 
@@ -710,7 +710,7 @@ msgstr "Banda passante JPEG2000"
 msgid "Join"
 msgstr ""
 
-#: src/wx/config_dialog.cc:986
+#: src/wx/config_dialog.cc:1014
 msgid "KDM Email"
 msgstr ""
 
@@ -739,12 +739,16 @@ msgstr ""
 msgid "Language"
 msgstr "Seleziona la lingua"
 
-#: src/wx/config_dialog.cc:723
+#: src/wx/config_dialog.cc:736
 msgid "Leaf"
 msgstr ""
 
 #: src/wx/make_signer_chain_dialog.cc:77
 msgid "Leaf common name"
+msgstr ""
+
+#: src/wx/config_dialog.cc:625
+msgid "Leaf private key"
 msgstr ""
 
 #: src/wx/video_panel.cc:96
@@ -761,17 +765,17 @@ msgstr "Linearizza la curva del gamma in ingresso per piccoli valori"
 msgid "Load from file..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:629 src/wx/config_dialog.cc:637
-#: src/wx/config_dialog.cc:645
+#: src/wx/config_dialog.cc:631 src/wx/config_dialog.cc:650
+#: src/wx/config_dialog.cc:658
 #, fuzzy
 msgid "Load..."
 msgstr "Aggiungi..."
 
-#: src/wx/config_dialog.cc:1183
+#: src/wx/config_dialog.cc:1211
 msgid "Log"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1180
+#: src/wx/config_dialog.cc:1208
 msgid "Log:"
 msgstr ""
 
@@ -779,12 +783,12 @@ msgstr ""
 msgid "MISSING: "
 msgstr "MANCANTE:"
 
-#: src/wx/config_dialog.cc:1019
+#: src/wx/config_dialog.cc:1047
 #, fuzzy
 msgid "Mail password"
 msgstr "Password del TMS"
 
-#: src/wx/config_dialog.cc:1015
+#: src/wx/config_dialog.cc:1043
 #, fuzzy
 msgid "Mail user name"
 msgstr "Nome utente del TMS"
@@ -806,12 +810,12 @@ msgstr ""
 msgid "Matrix"
 msgstr "Matrice"
 
-#: src/wx/config_dialog.cc:1167
+#: src/wx/config_dialog.cc:1195
 #, fuzzy
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Banda passante JPEG2000"
 
-#: src/wx/config_dialog.cc:360 src/wx/config_dialog.cc:1171
+#: src/wx/config_dialog.cc:360 src/wx/config_dialog.cc:1199
 #: src/wx/dcp_panel.cc:607
 msgid "Mbit/s"
 msgstr ""
@@ -867,7 +871,7 @@ msgstr "Nessuno"
 msgid "Off"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1205
+#: src/wx/config_dialog.cc:1233
 msgid "Open console window"
 msgstr ""
 
@@ -888,7 +892,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1003
+#: src/wx/config_dialog.cc:1031
 msgid "Outgoing mail server"
 msgstr "Mail server posta in uscita"
 
@@ -906,7 +910,7 @@ msgstr "Gamma in uscita"
 msgid "Package Type (e.g. OV)"
 msgstr "Tipo di Package (es. OV)"
 
-#: src/wx/config_dialog.cc:925
+#: src/wx/config_dialog.cc:942
 #, fuzzy
 msgid "Password"
 msgstr "Password del TMS"
@@ -950,12 +954,8 @@ msgstr "Posizione"
 msgid "Pre-release"
 msgstr ""
 
-#: src/wx/config_dialog.cc:641
-msgid "Private key for decrypting DCPs"
-msgstr ""
-
-#: src/wx/config_dialog.cc:623
-msgid "Private key for leaf certificate"
+#: src/wx/config_dialog.cc:654
+msgid "Private key"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:684
@@ -966,6 +966,10 @@ msgstr ""
 #, fuzzy
 msgid "Properties..."
 msgstr "Proprietà del film"
+
+#: src/wx/config_dialog.cc:926
+msgid "Protocol"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:105
 #, fuzzy
@@ -988,9 +992,10 @@ msgstr "Classificazione (es. 15)"
 msgid "Re-examine..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:619
-msgid "Re-make certificates..."
-msgstr ""
+#: src/wx/config_dialog.cc:635
+#, fuzzy
+msgid "Re-make certificates and key..."
+msgstr "Seleziona il file del Certificato"
 
 #: src/wx/colour_conversion_editor.cc:98
 msgid "Rec. 601"
@@ -1008,7 +1013,7 @@ msgstr ""
 msgid "Red chromaticity"
 msgstr ""
 
-#: src/wx/config_dialog.cc:609 src/wx/content_menu.cc:64
+#: src/wx/config_dialog.cc:615 src/wx/content_menu.cc:64
 #: src/wx/content_panel.cc:83 src/wx/editable_list.h:68
 msgid "Remove"
 msgstr "Rimuovi"
@@ -1041,7 +1046,7 @@ msgstr ""
 msgid "Report A Problem"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1042
+#: src/wx/config_dialog.cc:1070
 msgid "Reset to default text"
 msgstr ""
 
@@ -1062,12 +1067,16 @@ msgstr "Taglio a destra"
 msgid "Right click to change gain."
 msgstr "Clicca il tasto destro per cambiare guadagno."
 
-#: src/wx/config_dialog.cc:721
+#: src/wx/config_dialog.cc:734
 msgid "Root"
 msgstr ""
 
 #: src/wx/make_signer_chain_dialog.cc:55
 msgid "Root common name"
+msgstr ""
+
+#: src/wx/config_dialog.cc:946
+msgid "SCP (for AAM)"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:153
@@ -1088,8 +1097,8 @@ msgstr "Aggiungi Schermo"
 msgid "Select CPL XML file"
 msgstr "Seleziona file audio"
 
-#: src/wx/config_dialog.cc:677 src/wx/config_dialog.cc:811
-#: src/wx/config_dialog.cc:856 src/wx/screen_dialog.cc:102
+#: src/wx/config_dialog.cc:690 src/wx/config_dialog.cc:824
+#: src/wx/config_dialog.cc:869 src/wx/screen_dialog.cc:102
 msgid "Select Certificate File"
 msgstr "Seleziona il file del Certificato"
 
@@ -1097,7 +1106,7 @@ msgstr "Seleziona il file del Certificato"
 msgid "Select KDM"
 msgstr ""
 
-#: src/wx/config_dialog.cc:785 src/wx/config_dialog.cc:833
+#: src/wx/config_dialog.cc:798 src/wx/config_dialog.cc:846
 #, fuzzy
 msgid "Select Key File"
 msgstr "Seleziona il file del Certificato"
@@ -1158,6 +1167,10 @@ msgstr "Mostra Audio..."
 msgid "Signed"
 msgstr ""
 
+#: src/wx/config_dialog.cc:578
+msgid "Signing DCPs and KDMs"
+msgstr ""
+
 #: src/wx/audio_dialog.cc:90
 msgid "Smoothing"
 msgstr "Levigatura"
@@ -1188,7 +1201,7 @@ msgstr "Traccia"
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (es. TCF)"
 
-#: src/wx/config_dialog.cc:1023
+#: src/wx/config_dialog.cc:1051
 msgid "Subject"
 msgstr ""
 
@@ -1209,11 +1222,11 @@ msgstr "Sottotitoli"
 msgid "Supported by"
 msgstr ""
 
-#: src/wx/config_dialog.cc:896
+#: src/wx/config_dialog.cc:909
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:917
+#: src/wx/config_dialog.cc:934
 #, fuzzy
 msgid "Target path"
 msgstr "Percorso di destinazione del TMS"
@@ -1263,7 +1276,7 @@ msgstr "Threads"
 msgid "Threads to use for encoding on this host"
 msgstr "Threads da usare per codificare su questo host"
 
-#: src/wx/config_dialog.cc:593
+#: src/wx/config_dialog.cc:599
 msgid "Thumbprint"
 msgstr ""
 
@@ -1307,7 +1320,7 @@ msgstr "Taglia dall'inizio"
 msgid "Trim up to current position"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:73 src/wx/config_dialog.cc:585
+#: src/wx/audio_dialog.cc:73 src/wx/config_dialog.cc:591
 #: src/wx/video_panel.cc:78
 msgid "Type"
 msgstr "Tipo"
@@ -1352,7 +1365,7 @@ msgstr "Usa predefinito"
 msgid "Use subtitles"
 msgstr ""
 
-#: src/wx/config_dialog.cc:921
+#: src/wx/config_dialog.cc:938
 msgid "User name"
 msgstr "Nome utente"
 
@@ -1368,7 +1381,7 @@ msgstr "Frequenza fotogrammi video"
 msgid "View..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1191
+#: src/wx/config_dialog.cc:1219
 msgid "Warnings"
 msgstr ""
 
@@ -1498,7 +1511,7 @@ msgstr ""
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1036
 msgid "port"
 msgstr ""
 

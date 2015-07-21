@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-16 23:48+0100\n"
+"POT-Creation-Date: 2015-07-21 23:06+0100\n"
 "PO-Revision-Date: 2015-07-06 15:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,7 +147,7 @@ msgstr "Abgebrochen"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:474
+#: src/lib/util.cc:477
 msgid "Centre"
 msgstr "Center"
 
@@ -270,15 +270,15 @@ msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelspur verwenden."
 msgid "Content video is %1x%2"
 msgstr "Inhalt Video ist %1x%2"
 
-#: src/lib/scp_dcp_job.cc:111
+#: src/lib/upload_job.cc:52
 msgid "Copy DCP to TMS"
 msgstr "DCP zu TMS übertragen"
 
-#: src/lib/scp_dcp_job.cc:136
+#: src/lib/scp_uploader.cc:50
 msgid "Could not connect to server %1 (%2)"
 msgstr "Keine Verbindung zu Server %1 (%2)"
 
-#: src/lib/scp_dcp_job.cc:158
+#: src/lib/scp_uploader.cc:86
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 
@@ -302,7 +302,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "%1 konnte nicht geöffnet werden."
 
-#: src/lib/scp_dcp_job.cc:183
+#: src/lib/curl_uploader.cc:83 src/lib/scp_uploader.cc:98
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum Senden geöffnet werden"
 
@@ -314,11 +314,16 @@ msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden."
 msgid "Could not read subtitles"
 msgstr ""
 
-#: src/lib/scp_dcp_job.cc:153
+#: src/lib/scp_uploader.cc:70
 msgid "Could not start SCP session (%1)"
 msgstr "SCP Session (%1) konnte nicht gestartet werden"
 
-#: src/lib/scp_dcp_job.cc:197
+#: src/lib/curl_uploader.cc:47
+#, fuzzy
+msgid "Could not start transfer"
+msgstr "SSH Session konnte nicht gestartet werden"
+
+#: src/lib/curl_uploader.cc:90 src/lib/scp_uploader.cc:115
 msgid "Could not write to remote file (%1)"
 msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
 
@@ -356,7 +361,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:422
+#: src/lib/config.cc:438
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -414,13 +419,14 @@ msgstr ""
 msgid "Encoding image data"
 msgstr "Kodiere Bilddaten"
 
-#: src/lib/job.cc:333
-msgid "Error (%1)"
-msgstr "Fehler (%1)"
-
 #: src/lib/exceptions.cc:66
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr ""
+
+#: src/lib/job.cc:333
+#, fuzzy
+msgid "Error: %1"
+msgstr "Fehler (%1)"
 
 #: src/lib/examine_content_job.cc:46
 msgid "Examine content"
@@ -430,7 +436,7 @@ msgstr "Inhalt wird überprüft"
 msgid "FCC"
 msgstr ""
 
-#: src/lib/scp_dcp_job.cc:146
+#: src/lib/scp_uploader.cc:60
 msgid "Failed to authenticate with server (%1)"
 msgstr "Authentifizierung mit Server (%1) fehlgeschlagen"
 
@@ -482,7 +488,7 @@ msgstr "Gradient Glätter"
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:478
+#: src/lib/util.cc:481
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -502,7 +508,12 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Ein unbekannter Fehler ist aufgetreten."
 
-#: src/lib/config.cc:199
+#: src/lib/config.cc:89
+#, fuzzy
+msgid "KDM delivery"
+msgstr "KDM Zustellung: $CPL_NAME"
+
+#: src/lib/config.cc:214
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM Zustellung: $CPL_NAME"
 
@@ -518,19 +529,19 @@ msgstr ""
 msgid "Lc"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:472
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:475
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:480
+#: src/lib/util.cc:483
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:482
+#: src/lib/util.cc:485
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:476
+#: src/lib/util.cc:479
 msgid "Left surround"
 msgstr "Surround links"
 
@@ -538,7 +549,7 @@ msgstr "Surround links"
 msgid "Lfe"
 msgstr ""
 
-#: src/lib/util.cc:475
+#: src/lib/util.cc:478
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -678,19 +689,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:473
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:476
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:481
+#: src/lib/util.cc:484
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:483
+#: src/lib/util.cc:486
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:477
+#: src/lib/util.cc:480
 msgid "Right surround"
 msgstr "Surround rechts"
 
@@ -711,7 +722,7 @@ msgstr ""
 msgid "SMPTE 240M"
 msgstr ""
 
-#: src/lib/scp_dcp_job.cc:141
+#: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
 msgstr "SSH Fehler (%1)"
 
@@ -863,11 +874,11 @@ msgstr ""
 msgid "Video size"
 msgstr ""
 
-#: src/lib/util.cc:479
+#: src/lib/util.cc:482
 msgid "Visually impaired"
 msgstr "VI"
 
-#: src/lib/scp_dcp_job.cc:103
+#: src/lib/upload_job.cc:44
 msgid "Waiting"
 msgstr "Warte..."
 
@@ -903,7 +914,7 @@ msgstr "Darf keine Schrägstriche enthalten"
 msgid "connect timed out"
 msgstr "Zeit für Verbindung abgelaufen"
 
-#: src/lib/scp_dcp_job.cc:127
+#: src/lib/uploader.cc:34
 msgid "connecting"
 msgstr "verbinde..."
 
@@ -915,7 +926,7 @@ msgstr "Containerformat"
 msgid "content type"
 msgstr "Inhaltsbeschreibung"
 
-#: src/lib/scp_dcp_job.cc:176
+#: src/lib/uploader.cc:72
 msgid "copying %1"
 msgstr "kopiere %1"
 
@@ -959,11 +970,11 @@ msgstr "Sample-Rate konnte nicht gewandelt werden"
 msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
 msgstr "Sample-Rate für %1 samples konnte nicht gewandelt werden (%2)(%3)"
 
-#: src/lib/scp_dcp_job.cc:88
+#: src/lib/scp_uploader.cc:65
 msgid "could not start SCP session (%1)"
 msgstr "SCP Session konnte nicht gestartet werden (%1)"
 
-#: src/lib/scp_dcp_job.cc:54
+#: src/lib/scp_uploader.cc:40
 msgid "could not start SSH session"
 msgstr "SSH Session konnte nicht gestartet werden"
 
@@ -993,12 +1004,12 @@ msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:139 src/lib/util.cc:142
+#: src/lib/util.cc:140 src/lib/util.cc:143
 msgid "h"
 msgstr ""
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:154 src/lib/util.cc:157
+#: src/lib/util.cc:155 src/lib/util.cc:158
 msgid "m"
 msgstr ""
 
@@ -1029,7 +1040,7 @@ msgid "remaining"
 msgstr "verbleibend"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:168
+#: src/lib/util.cc:169
 msgid "s"
 msgstr ""
 
