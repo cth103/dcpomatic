@@ -591,7 +591,9 @@ Film::isdcf_name (bool if_created_now) const
 
 	if (!dm.territory.empty ()) {
 		d << "_" << dm.territory;
-		if (!dm.rating.empty ()) {
+		if (dm.rating.empty ()) {
+			d << "-NR";
+		} else {
 			d << "-" << dm.rating;
 		}
 	}

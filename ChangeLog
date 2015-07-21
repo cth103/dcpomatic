@@ -1,3 +1,7 @@
+2015-07-22  Carl Hetherington  <cth@carlh.net>
+
+	* Use NR for rating an in ISDCF name if none is specified.
+
 2015-07-21  Carl Hetherington  <cth@carlh.net>
 
 	* Fix incorrect conversion of audio from DCP sources (#642).
