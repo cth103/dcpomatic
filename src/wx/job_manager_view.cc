@@ -75,6 +75,8 @@ public:
 		_progress_connection = job->Progress.connect (boost::bind (&JobRecord::progress, this));
 		_finished_connection = job->Finished.connect (boost::bind (&JobRecord::finished, this));
 
+		progress ();
+
 		table->Layout ();
 	}
 
