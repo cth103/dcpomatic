@@ -562,7 +562,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
 	piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
-	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),   0);
+	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.50)),      0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (3.00)),  72000);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (4.50)), 144000);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (9.75)), 396000);
@@ -596,8 +596,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (9.75)), 324000);
 
 	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25, both audio rates still 48k.
-	   Since the DCP is faster, and resampled audio is at the DCP rate, our 1.6s trim in
-	   content time corresponds to 1.6 * 24 * 48000 / 25 audio samples.
+	   1s of content is 46080 samples after resampling.
 	*/
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.6));
@@ -748,4 +747,15 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (3.00)),  72000);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (4.50)), 144000);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (9.75)), 396000);
+
+	/* Check with a large start trim */
+	content->set_position (DCPTime::from_seconds (0));
+	content->set_trim_start (ContentTime::from_seconds (54143));
+	content->set_video_frame_rate (24);
+	film->set_video_frame_rate (24);
+	stream->_frame_rate = 48000;
+	player->setup_pieces ();
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	piece = player->_pieces.front ();
+	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 54143L * 48000);
 }

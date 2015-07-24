@@ -285,14 +285,11 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 		to = to_push.front().frame;
 	}
 
-	/* It has been known that this method receives frames out of order; at this
-	   point I'm not sure why, but we'll just ignore them.
+	/* If we've pre-rolled on a seek we may now receive out-of-order frames
+	   (frames before the last seek time) which we can just ignore.
 	*/
 
 	if (from && to && from.get() > to.get()) {
-		_video_content->film()->log()->log (
-			String::compose ("Ignoring out-of-order decoded frame %1 after %2", to.get(), from.get()), Log::TYPE_WARNING
-			);
 		return;
 	}
 

@@ -538,9 +538,9 @@ Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 Frame
 Player::dcp_to_resampled_audio (shared_ptr<const Piece> piece, DCPTime t) const
 {
-	DCPTime s = t - piece->content->position () + DCPTime (piece->content->trim_start (), piece->frc);
-	s = max (DCPTime (), min (piece->content->length_after_trim(), s));
-	return s.frames (_film->audio_frame_rate ());
+	DCPTime s = t - piece->content->position ();
+	s = min (piece->content->length_after_trim(), s);
+	return max (DCPTime (), DCPTime (piece->content->trim_start (), piece->frc) + s).frames (_film->audio_frame_rate ());
 }
 
 ContentTime

@@ -1,3 +1,8 @@
+2015-07-24  Carl Hetherington  <cth@carlh.net>
+
+	* Fix problems when using large start trims relative
+	to content length.
+
 2015-07-22  Carl Hetherington  <cth@carlh.net>
 
 	* Use NR for rating an in ISDCF name if none is specified.
