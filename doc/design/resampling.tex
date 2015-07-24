@@ -90,4 +90,12 @@ irrelevant.  Also, skipping or doubling of video frames is analagous
 to audio resampling: the data are the same, just represented with more
 or fewer samples.
 
+
+\section{Further thoughts}
+
+Consider the case where the content video rate $C_V = 24$ and the DCP
+video rate $F_V = 25$.  Then 46080 (resampled) samples of audio
+content last 1s at the original rate or $24/25$s at the DCP rate and
+1s of DCP is made up of 48000 (resampled) content samples.
+
 \end{document}
