@@ -139,6 +139,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Frechen-Film e.V."));
 	supported_by.Add (wxT ("Rasitha Ferdinando"));
 	supported_by.Add (wxT ("Jose Angel Velasco Fernandez"));
+	supported_by.Add (wxT ("Traverso City Film Festival"));
 	supported_by.Add (wxT ("Andres Fink"));
 	supported_by.Add (wxT ("Evan Freeze"));
 	supported_by.Add (wxT ("Silvio Giuliano"));
@@ -149,6 +150,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Antonio Ruiz Hernandez"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
 	supported_by.Add (wxT ("Chris Kay"));
+	supported_by.Add (wxT ("Lars Kelto"));
 	supported_by.Add (wxT ("Adam Klotblixt"));
 	supported_by.Add (wxT ("Filip Kovcin"));
 	supported_by.Add (wxT ("Cihan Kulaber"));
