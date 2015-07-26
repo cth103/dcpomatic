@@ -19,5 +19,5 @@
 
 #include <libintl.h>
 
-#define _(x) dgettext ("libdcpomatic", x)
+#define _(x) dgettext ("libdcpomatic2", x)
 #define N_(x) x
