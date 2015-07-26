@@ -317,6 +317,8 @@ ContentMenu::kdm ()
 			dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()))));
 		} catch (exception& e) {
 			error_dialog (_parent, wxString::Format (_("Could not load KDM (%s)"), e.what ()));
+			d->Destroy ();
+			return;
 		}
 
 		shared_ptr<Film> film = _film.lock ();
