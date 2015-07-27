@@ -270,7 +270,7 @@ void
 AboutDialog::add_section (wxString name, wxArrayString credits)
 {
 	static bool first = true;
-	int const N = 3;
+	int const N = 4;
 
 	wxPanel* panel = new wxPanel (_notebook, wxID_ANY);
 	wxSizer* overall_sizer = new wxBoxSizer (wxHORIZONTAL);
