@@ -97,18 +97,21 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	wxArrayString translated_by;
 	translated_by.Add (wxT ("Manuel AC"));
+	translated_by.Add (wxT ("Max Aeschlimann"));
+	translated_by.Add (wxT ("Grégoire Ausina"));
+	translated_by.Add (wxT ("Cherif Ben Brahim"));
 	translated_by.Add (wxT ("Massimiliano Broggi"));
 	translated_by.Add (wxT ("William Fanelli"));
 	translated_by.Add (wxT ("Thierry Journet"));
 	translated_by.Add (wxT ("Adam Klotblixt"));
+	translated_by.Add (wxT ("Theo Kooijmans"));
+	translated_by.Add (wxT ("Carsten Kurz"));
 	translated_by.Add (wxT ("Lilian Lefranc"));
 	translated_by.Add (wxT ("Olivier Perriere"));
 	translated_by.Add (wxT ("Markus Raab"));
-	translated_by.Add (wxT ("Theo Kooijmans"));
-	translated_by.Add (wxT ("Max Aeschlimann"));
-	translated_by.Add (wxT ("Carsten Kurz"));
-	translated_by.Add (wxT ("Grégoire Ausina"));
-	translated_by.Add (wxT ("Cherif Ben Brahim"));
+	translated_by.Add (wxT ("Davide Sanvito"));
+	translated_by.Add (wxT ("Marek Skrzelowski"));
+	translated_by.Add (wxT ("Igor Voytovich"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString with_help_from;
@@ -226,8 +229,8 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Lilian Lefranc"));
 	tested_by.Add (wxT ("Olivier Lemaire"));
 	tested_by.Add (wxT ("Gavin Lewarne"));
-	tested_by.Add (wxT ("Mattias Mattsson"));
 	tested_by.Add (wxT ("Gérald Maruccia"));
+	tested_by.Add (wxT ("Mattias Mattsson"));
 	tested_by.Add (wxT ("Will Meadows"));
 	tested_by.Add (wxT ("Brad Miller"));
 	tested_by.Add (wxT ("Ash Mitchell"));
