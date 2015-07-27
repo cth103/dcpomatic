@@ -147,6 +147,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Christopher Gray"));
 	supported_by.Add (wxT ("Flor Guillaume"));
 	supported_by.Add (wxT ("Patrick Haderer"));
+	supported_by.Add (wxT ("Jeff Hemingway"));
 	supported_by.Add (wxT ("Antonio Ruiz Hernandez"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
 	supported_by.Add (wxT ("Chris Kay"));
