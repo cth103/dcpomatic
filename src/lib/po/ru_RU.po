@@ -3,17 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-21 23:06+0100\n"
-"PO-Revision-Date: 2015-07-16 10:37-0400\n"
-"Last-Translator: Igor V <iva_co@ukr.net>\n"
-"Language-Team: Russian\n"
-"Language: ru\n"
+"POT-Creation-Date: 2015-07-16 23:48+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-07-17 03:18-0400\n"
+"Last-Translator: Igor V <iva_co@ukr.net>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
 "X-Generator: Zanata 3.6.2\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: src/lib/dcp_content.cc:112
 msgid "%1 [DCP]"
@@ -65,7 +65,7 @@ msgstr "Анализ аудио"
 
 #: src/lib/single_stream_audio_content.cc:93
 msgid "Audio channels"
-msgstr ""
+msgstr "Аудиоканалы"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -81,48 +81,48 @@ msgstr "Аудио не будет ресэмплировано"
 
 #: src/lib/ffmpeg_content.cc:433
 msgid "BT1361 extended colour gamut"
-msgstr ""
+msgstr "BT1361 расширенная цветовая гамма"
 
 #: src/lib/ffmpeg_content.cc:414
 msgid "BT2020"
-msgstr ""
+msgstr "BT2020"
 
 #: src/lib/ffmpeg_content.cc:453
 msgid "BT2020 constant luminance"
-msgstr ""
+msgstr "BT2020 постоянная яркость"
 
 #: src/lib/ffmpeg_content.cc:435
 msgid "BT2020 for a 10-bit system"
-msgstr ""
+msgstr "BT2020 для 10-битной системы"
 
 #: src/lib/ffmpeg_content.cc:436
 msgid "BT2020 for a 12-bit system"
-msgstr ""
+msgstr "BT2020 для 12-битной системы"
 
 #: src/lib/ffmpeg_content.cc:452
 msgid "BT2020 non-constant luminance"
-msgstr ""
+msgstr "BT2020 непостоянная яркость"
 
 #: src/lib/ffmpeg_content.cc:410
 msgid "BT470BG"
-msgstr ""
+msgstr "BT470BG"
 
 #: src/lib/ffmpeg_content.cc:448
 msgid "BT470BG (BT601-6)"
-msgstr ""
+msgstr "BT470BG (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:409
 msgid "BT470M"
-msgstr ""
+msgstr "BT470M"
 
 #: src/lib/ffmpeg_content.cc:406 src/lib/ffmpeg_content.cc:422
 #: src/lib/ffmpeg_content.cc:444
 msgid "BT709"
-msgstr ""
+msgstr "BT709"
 
 #: src/lib/ffmpeg_content.cc:460
 msgid "Bits per pixel"
-msgstr ""
+msgstr "Бит на пиксель"
 
 #: src/lib/film.cc:1205
 msgid "BsL"
@@ -144,7 +144,7 @@ msgstr "Отменено"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/util.cc:477
+#: src/lib/util.cc:474
 msgid "Centre"
 msgstr "Центральный"
 
@@ -154,21 +154,21 @@ msgstr "Проверка данных изображения"
 
 #: src/lib/ffmpeg_content.cc:418
 msgid "Colour primaries"
-msgstr ""
+msgstr "Цветовые основы"
 
 #: src/lib/ffmpeg_content.cc:377 src/lib/ffmpeg_content.cc:380
 #: src/lib/ffmpeg_content.cc:383 src/lib/ffmpeg_content.cc:391
 #: src/lib/ffmpeg_content.cc:394 src/lib/ffmpeg_content.cc:397
 msgid "Colour range"
-msgstr ""
+msgstr "Цветовой диапазон"
 
 #: src/lib/ffmpeg_content.cc:440
 msgid "Colour transfer characteristic"
-msgstr ""
+msgstr "Характеристика цветового перехода"
 
 #: src/lib/ffmpeg_content.cc:457
 msgid "Colourspace"
-msgstr ""
+msgstr "Цветовое пространство"
 
 #: src/lib/writer.cc:591
 msgid "Computing audio digest"
@@ -191,17 +191,16 @@ msgid "Content frame rate"
 msgstr "Частота кадров контента:"
 
 #: src/lib/subtitle_content.cc:124
-#, fuzzy
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
-"Для присоединения контента должны быть использованы такие же настройки "
-"субтитров."
+"Для присоединения контента должны быть такие же настройки \"вшить субтитры\"."
+""
 
 #: src/lib/subtitle_content.cc:120
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
-"Для присоединения контента должны быть использованы такие же настройки "
-"субтитров."
+"Для присоединения контента должны быть такие же настройки \"использовать "
+"субтитры\"."
 
 #: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio delay."
@@ -278,15 +277,15 @@ msgstr "Для присоединения контента необходимо 
 msgid "Content video is %1x%2"
 msgstr "Разрешение контента: %1x%2"
 
-#: src/lib/upload_job.cc:52
+#: src/lib/scp_dcp_job.cc:111
 msgid "Copy DCP to TMS"
 msgstr "Копировать DCP на TMS (Theater Management System)"
 
-#: src/lib/scp_uploader.cc:50
+#: src/lib/scp_dcp_job.cc:136
 msgid "Could not connect to server %1 (%2)"
 msgstr "Не удалось подключиться к серверу %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_dcp_job.cc:158
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Не удалось создать удалённый каталог %1 (%2)"
 
@@ -310,7 +309,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Не удалось открыть %1"
 
-#: src/lib/curl_uploader.cc:83 src/lib/scp_uploader.cc:98
+#: src/lib/scp_dcp_job.cc:183
 msgid "Could not open %1 to send"
 msgstr "Не удалось открыть %1 для отправки"
 
@@ -322,16 +321,11 @@ msgstr "Не удалось открыть загруженный ZIP-архив
 msgid "Could not read subtitles"
 msgstr "Не удалось прочитать субтитры"
 
-#: src/lib/scp_uploader.cc:70
+#: src/lib/scp_dcp_job.cc:153
 msgid "Could not start SCP session (%1)"
 msgstr "Не удалось запустить SCP-сессию (%1)"
 
-#: src/lib/curl_uploader.cc:47
-#, fuzzy
-msgid "Could not start transfer"
-msgstr "не удалось запустить SSH-сессию"
-
-#: src/lib/curl_uploader.cc:90 src/lib/scp_uploader.cc:115
+#: src/lib/scp_dcp_job.cc:197
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
@@ -369,7 +363,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:438
+#: src/lib/config.cc:422
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -427,14 +421,13 @@ msgstr "Ошибка отправки ключей %1 по Email"
 msgid "Encoding image data"
 msgstr "Кодирование данных изображения"
 
+#: src/lib/job.cc:333
+msgid "Error (%1)"
+msgstr "Ошибка (%1)"
+
 #: src/lib/exceptions.cc:66
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Ошибка в SubRip-файле: найдено %1, в то время как ожидается %2"
-
-#: src/lib/job.cc:333
-#, fuzzy
-msgid "Error: %1"
-msgstr "Ошибка (%1)"
 
 #: src/lib/examine_content_job.cc:46
 msgid "Examine content"
@@ -442,9 +435,9 @@ msgstr "Проверка контента"
 
 #: src/lib/ffmpeg_content.cc:447
 msgid "FCC"
-msgstr ""
+msgstr "FCC"
 
-#: src/lib/scp_uploader.cc:60
+#: src/lib/scp_dcp_job.cc:146
 msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
@@ -454,16 +447,15 @@ msgstr "FTR (Фильм)"
 
 #: src/lib/ffmpeg_content.cc:413
 msgid "Film"
-msgstr ""
+msgstr "Проект"
 
 #: src/lib/ffmpeg_examiner.cc:78
 msgid "Finding length"
 msgstr "Расчет длительности"
 
 #: src/lib/ffmpeg_examiner.cc:83
-#, fuzzy
 msgid "Finding subtitles"
-msgstr "Субтитры SubRip"
+msgstr "Поиск субтитров"
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
@@ -471,11 +463,11 @@ msgstr "Flat (1998x1080)"
 
 #: src/lib/ffmpeg_content.cc:397
 msgid "Full"
-msgstr ""
+msgstr "Полный"
 
 #: src/lib/ffmpeg_content.cc:383
 msgid "Full (0-%1)"
-msgstr ""
+msgstr "Полный (0-%1)"
 
 #: src/lib/ratio.cc:42
 msgid "Full frame"
@@ -483,11 +475,11 @@ msgstr "FULL (2048x1080)"
 
 #: src/lib/ffmpeg_content.cc:425
 msgid "Gamma 22 (BT470M)"
-msgstr ""
+msgstr "Гамма 22 (BT470M)"
 
 #: src/lib/ffmpeg_content.cc:426
 msgid "Gamma 28 (BT470BG)"
-msgstr ""
+msgstr "Гамма 28 (BT470BG)"
 
 #: src/lib/filter.cc:68
 msgid "Gradient debander"
@@ -497,7 +489,7 @@ msgstr "Разбиение градиента"
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:481
+#: src/lib/util.cc:478
 msgid "Hearing impaired"
 msgstr "Для слабослышащих"
 
@@ -507,22 +499,17 @@ msgstr "Высококачественный подавитель шума 3D"
 
 #: src/lib/ffmpeg_content.cc:434
 msgid "IEC61966-2-1 (sRGB or sYCC)"
-msgstr ""
+msgstr "IEC61966-2-1 (sRGB или sYCC)"
 
 #: src/lib/ffmpeg_content.cc:432
 msgid "IEC61966-2-4"
-msgstr ""
+msgstr "IEC61966-2-4"
 
 #: src/lib/job.cc:114 src/lib/job.cc:124
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:89
-#, fuzzy
-msgid "KDM delivery"
-msgstr "Назначение KDM: $CPL_NAME"
-
-#: src/lib/config.cc:214
+#: src/lib/config.cc:199
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -538,19 +525,19 @@ msgstr "L"
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:475
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:472
 msgid "Left"
 msgstr "Левый"
 
-#: src/lib/util.cc:483
+#: src/lib/util.cc:480
 msgid "Left centre"
 msgstr "Левый центральный"
 
-#: src/lib/util.cc:485
+#: src/lib/util.cc:482
 msgid "Left rear surround"
 msgstr "Левый тыловой surround"
 
-#: src/lib/util.cc:479
+#: src/lib/util.cc:476
 msgid "Left surround"
 msgstr "Левый surround"
 
@@ -558,29 +545,29 @@ msgstr "Левый surround"
 msgid "Lfe"
 msgstr "НЧ"
 
-#: src/lib/util.cc:478
+#: src/lib/util.cc:475
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
 #: src/lib/ffmpeg_content.cc:394
 msgid "Limited"
-msgstr ""
+msgstr "Ограничен"
 
 #: src/lib/ffmpeg_content.cc:380
 msgid "Limited (%1-%2)"
-msgstr ""
+msgstr "Ограничен (%1-%2)"
 
 #: src/lib/ffmpeg_content.cc:429
 msgid "Linear"
-msgstr ""
+msgstr "Линейный"
 
 #: src/lib/ffmpeg_content.cc:430
 msgid "Logarithmic (100:1 range)"
-msgstr ""
+msgstr "Логарифмический (диапазон 100:1)"
 
 #: src/lib/ffmpeg_content.cc:431
 msgid "Logarithmic (316:1 range)"
-msgstr ""
+msgstr "Логарифмический (диапазон 316:1)"
 
 #: src/lib/film.cc:1199
 msgid "Ls"
@@ -676,7 +663,7 @@ msgstr "R"
 
 #: src/lib/ffmpeg_content.cc:443
 msgid "RGB / sRGB (IEC61966-2-1)"
-msgstr ""
+msgstr "RGB / sRGB (IEC61966-2-1)"
 
 #: src/lib/dcp_content_type.cc:50
 msgid "Rating"
@@ -694,19 +681,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:476
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:473
 msgid "Right"
 msgstr "Правый"
 
-#: src/lib/util.cc:484
+#: src/lib/util.cc:481
 msgid "Right centre"
 msgstr "Правый центральный"
 
-#: src/lib/util.cc:486
+#: src/lib/util.cc:483
 msgid "Right rear surround"
 msgstr "Правый тыловой surround"
 
-#: src/lib/util.cc:480
+#: src/lib/util.cc:477
 msgid "Right surround"
 msgstr "Правый surround"
 
@@ -716,18 +703,18 @@ msgstr "Rs"
 
 #: src/lib/ffmpeg_content.cc:411 src/lib/ffmpeg_content.cc:427
 msgid "SMPTE 170M (BT601)"
-msgstr ""
+msgstr "SMPTE 170M (BT601)"
 
 #: src/lib/ffmpeg_content.cc:449
 msgid "SMPTE 170M (BT601-6)"
-msgstr ""
+msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:412 src/lib/ffmpeg_content.cc:428
 #: src/lib/ffmpeg_content.cc:450
 msgid "SMPTE 240M"
-msgstr ""
+msgstr "SMPTE 240M"
 
-#: src/lib/scp_uploader.cc:55
+#: src/lib/scp_dcp_job.cc:141
 msgid "SSH error (%1)"
 msgstr "Ошибка SSH (%1)"
 
@@ -741,7 +728,7 @@ msgstr "Scope (2048x858)"
 
 #: src/lib/send_problem_report_job.cc:61
 msgid "Sending email"
-msgstr ""
+msgstr "Отправка почты"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Short"
@@ -772,11 +759,11 @@ msgid "Test"
 msgstr "TST (Тестовый)"
 
 #: src/lib/dcp_examiner.cc:131
-#, fuzzy
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
-"Данный KDM не открывает DCP. Возможно он предназначен для другого CPL-файла"
+"KDM-ключ не расшифровывает данный DCP. Возможно он предназначен для другого "
+"CPL"
 
 #: src/lib/exceptions.cc:72
 msgid "The certificate chain for signing is invalid"
@@ -850,7 +837,7 @@ msgstr "Маска понижения резкости и Гауссово ра�
 #: src/lib/ffmpeg_content.cc:423 src/lib/ffmpeg_content.cc:424
 #: src/lib/ffmpeg_content.cc:445 src/lib/ffmpeg_content.cc:446
 msgid "Unspecified"
-msgstr ""
+msgstr "Не определено"
 
 #: src/lib/colour_conversion.cc:221
 msgid "Untitled"
@@ -869,34 +856,32 @@ msgid "VI"
 msgstr "VI"
 
 #: src/lib/video_content.cc:580
-#, fuzzy
 msgid "Video frame rate"
-msgstr "Частота кадров контента:"
+msgstr "Частота кадров видео"
 
 #: src/lib/video_content.cc:578
-#, fuzzy
 msgid "Video length"
-msgstr "Расчет длительности"
+msgstr "Длительность видео"
 
 #: src/lib/video_content.cc:579
 msgid "Video size"
-msgstr ""
+msgstr "Размер видео"
 
-#: src/lib/util.cc:482
+#: src/lib/util.cc:479
 msgid "Visually impaired"
 msgstr "Для слабовидящих"
 
-#: src/lib/upload_job.cc:44
+#: src/lib/scp_dcp_job.cc:103
 msgid "Waiting"
 msgstr "Ожидание"
 
 #: src/lib/ffmpeg_content.cc:451
 msgid "YCOCG"
-msgstr ""
+msgstr "YCOCG"
 
 #: src/lib/filter.cc:67
 msgid "Yet Another Deinterlacing Filter"
-msgstr "Ещё один фильтр деинтерлейсинга"
+msgstr "Очередной фильтр деинтерлейсинга"
 
 #: src/lib/film.cc:287
 msgid "You must add some content to the DCP before creating it"
@@ -922,7 +907,7 @@ msgstr "не может содержать разрезы"
 msgid "connect timed out"
 msgstr "таймаут соединения"
 
-#: src/lib/uploader.cc:34
+#: src/lib/scp_dcp_job.cc:127
 msgid "connecting"
 msgstr "соединение"
 
@@ -934,7 +919,7 @@ msgstr "контейнер"
 msgid "content type"
 msgstr "тип контента"
 
-#: src/lib/uploader.cc:72
+#: src/lib/scp_dcp_job.cc:176
 msgid "copying %1"
 msgstr "копирование %1"
 
@@ -977,13 +962,14 @@ msgstr "не удалось запустить конвертер частоты
 #: src/lib/resampler.cc:77
 msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
 msgstr ""
-"не удалось запустить конвертер частоты дискретизации для %1 сэмплов (%2) (%3)"
+"не удалось запустить конвертер частоты дискретизации для %1 сэмплов (%2) "
+"(%3)"
 
-#: src/lib/scp_uploader.cc:65
+#: src/lib/scp_dcp_job.cc:88
 msgid "could not start SCP session (%1)"
 msgstr "не удалось запустить SCP-сессию (%1)"
 
-#: src/lib/scp_uploader.cc:40
+#: src/lib/scp_dcp_job.cc:54
 msgid "could not start SSH session"
 msgstr "не удалось запустить SSH-сессию"
 
@@ -1010,15 +996,15 @@ msgstr "кадр/сек"
 
 #: src/lib/video_content.cc:580
 msgid "frames per second"
-msgstr ""
+msgstr "кадра(ов) в секунду"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:140 src/lib/util.cc:143
+#: src/lib/util.cc:139 src/lib/util.cc:142
 msgid "h"
 msgstr "ч"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:155 src/lib/util.cc:158
+#: src/lib/util.cc:154 src/lib/util.cc:157
 msgid "m"
 msgstr "м"
 
@@ -1049,7 +1035,7 @@ msgid "remaining"
 msgstr "осталось"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:169
+#: src/lib/util.cc:168
 msgid "s"
 msgstr "с"
 
@@ -1067,10 +1053,5 @@ msgstr "неизвестно"
 
 #: src/lib/video_content.cc:578
 msgid "video frames"
-msgstr ""
+msgstr "видеокадры"
 
-#~ msgid "Mid"
-#~ msgstr "Mid-канал"
-
-#~ msgid "Side"
-#~ msgstr "Side-канал"

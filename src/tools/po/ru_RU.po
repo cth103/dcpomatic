@@ -3,17 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-21 23:06+0100\n"
+"POT-Creation-Date: 2015-07-16 23:48+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2015-07-16 05:12-0400\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Zanata 3.6.2\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: src/tools/dcpomatic.cc:327
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -50,24 +50,24 @@ msgid "&Jobs"
 msgstr "&Задачи"
 
 #: src/tools/dcpomatic.cc:682
-msgid "&Make DCP\tCtrl-M"
-msgstr "&Собрать DCP\tCtrl-M"
+msgid "&Make DCP	Ctrl-M"
+msgstr "&Собрать DCP	Ctrl-M"
 
 #: src/tools/dcpomatic.cc:654
-msgid "&Open...\tCtrl-O"
-msgstr "&Открыть...\tCtrl-O"
+msgid "&Open...	Ctrl-O"
+msgstr "&Открыть...	Ctrl-O"
 
 #: src/tools/dcpomatic.cc:671 src/tools/dcpomatic.cc:674
-msgid "&Preferences...\tCtrl-P"
-msgstr "&Настройки...\tCtrl-P"
+msgid "&Preferences...	Ctrl-P"
+msgstr "&Настройки...	Ctrl-P"
 
 #: src/tools/dcpomatic.cc:667 src/tools/dcpomatic_batch.cc:51
 msgid "&Quit"
 msgstr "&Выход"
 
 #: src/tools/dcpomatic.cc:656
-msgid "&Save\tCtrl-S"
-msgstr "&Сохранить\tCtrl-S"
+msgid "&Save	Ctrl-S"
+msgstr "&Сохранить	Ctrl-S"
 
 #: src/tools/dcpomatic.cc:684
 msgid "&Send DCP to TMS"
@@ -91,20 +91,16 @@ msgstr "Добавить проект..."
 
 #: src/tools/dcpomatic.cc:886
 #, c-format
-msgid ""
-"An exception occurred: %s in %s.\n"
+msgid "An exception occurred: %s in %s.\n"
 "\n"
-msgstr ""
-"Произошла ошибка: %s в %s.\n"
+msgstr "Произошла ошибка: %s в %s.\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:888
 #, c-format
-msgid ""
-"An exception occurred: %s.\n"
+msgid "An exception occurred: %s.\n"
 "\n"
-msgstr ""
-"Произошла ошибка: %s.\n"
+msgstr "Произошла ошибка: %s.\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:454 src/tools/dcpomatic.cc:890
@@ -173,12 +169,12 @@ msgid "Hints..."
 msgstr "Подсказки..."
 
 #: src/tools/dcpomatic.cc:683
-msgid "Make &KDMs...\tCtrl-K"
-msgstr "Сгенерировать &KDM-файлы...\tCtrl-K"
+msgid "Make &KDMs...	Ctrl-K"
+msgstr "Сгенерировать &KDM-файлы...	Ctrl-K"
 
 #: src/tools/dcpomatic.cc:653
-msgid "New...\tCtrl-N"
-msgstr "Новый...\tCtrl-N"
+msgid "New...	Ctrl-N"
+msgstr "Новый...	Ctrl-N"
 
 #: src/tools/dcpomatic.cc:700
 msgid "Report a problem..."
@@ -270,5 +266,3 @@ msgstr ""
 "Вы не выбрали папку. Убедитесь, что вы выбрали папку перед тем как нажать "
 "\"Открыть\"."
 
-#~ msgid "&Properties..."
-#~ msgstr "&Свойства..."
