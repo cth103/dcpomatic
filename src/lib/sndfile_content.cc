@@ -80,7 +80,7 @@ SndfileContent::valid_file (boost::filesystem::path f)
 	/* XXX: more extensions */
 	string ext = f.extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
-	return (ext == ".wav" || ext == ".aif" || ext == ".aiff");
+	return (ext == ".wav" || ext == ".w64" || ext == ".flac" || ext == ".aif" || ext == ".aiff");
 }
 
 void
