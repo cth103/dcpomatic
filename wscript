@@ -217,12 +217,12 @@ def configure(conf):
 
     # libdcp
     if conf.options.static_dcp:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.1.0', args='--cflags', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version='1.2.0', args='--cflags', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-libdcp-1.0', 'kumu-libdcp-1.0']
         conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
     else:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.1.0', args='--cflags --libs', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version='1.2.0', args='--cflags --libs', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
     # libsub
