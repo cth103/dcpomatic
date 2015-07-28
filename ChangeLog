@@ -1,5 +1,8 @@
 2015-07-28  c.hetherington  <cth@carlh.net>
 
+	* Notice when content is modified and offer to save the project
+	on closing DCP-o-matic.
+
 	* Recognise .w64 and .flac as audio files.
 
 2015-07-27  Carl Hetherington  <cth@carlh.net>
