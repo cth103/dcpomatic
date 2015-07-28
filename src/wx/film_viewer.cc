@@ -418,7 +418,12 @@ FilmViewer::back_clicked ()
 void
 FilmViewer::forward_clicked ()
 {
-	get (_position + DCPTime::from_frames (1, _film->video_frame_rate ()), true);
+	DCPTime p = _position + DCPTime::from_frames (1, _film->video_frame_rate ());
+	if (p >= _film->length ()) {
+		p = _position;
+	}
+
+	get (p, true);
 	update_position_label ();
 	update_position_slider ();
 }

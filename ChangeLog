@@ -1,5 +1,7 @@
 2015-07-28  c.hetherington  <cth@carlh.net>
 
+	* Stop forward-frame button going off the end of the film.
+
 	* Notice when content is modified and offer to save the project
 	on closing DCP-o-matic.
 
