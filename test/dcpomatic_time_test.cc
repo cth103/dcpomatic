@@ -28,8 +28,7 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_test)
 	for (int64_t i = 0; i < 62000; i += 2000) {
 		DCPTime d (i);
 		ContentTime c (d, frc);
-		std::cout << i << " " << d << " " << c << " " << c.frames (24.0) << " " << j << "\n";
-		BOOST_CHECK_EQUAL (c.frames (24.0), j);
+		BOOST_CHECK_EQUAL (c.frames_floor (24.0), j);
 		++k;
 		if (k == 2) {
 			++j;

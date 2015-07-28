@@ -132,7 +132,12 @@ public:
 	}
 
 	template <typename T>
-	int64_t frames (T r) const {
+	int64_t frames_round (T r) const {
+		return llrint (_t * r / HZ);
+	}
+
+	template <typename T>
+	int64_t frames_floor (T r) const {
 		return floor (_t * r / HZ);
 	}
 
@@ -143,7 +148,7 @@ public:
 		/* Do this calculation with frames so that we can round
 		   to a frame boundary at the start rather than the end.
 		*/
-		int64_t ff = frames (r);
+		int64_t ff = frames_round (r);
 
 		h = ff / (3600 * r);
 		ff -= h * 3600 * r;

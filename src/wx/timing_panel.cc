@@ -296,7 +296,7 @@ TimingPanel::full_length_changed ()
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
 		if (ic && ic->still ()) {
 			int const vfr = _parent->film()->video_frame_rate ();
-			ic->set_video_length (_full_length->get (vfr).frames (vfr));
+			ic->set_video_length (_full_length->get (vfr).frames_round (vfr));
 		}
 	}
 }

@@ -278,7 +278,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	boost::optional<Frame> to;
 
 	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
-		from = _last_seek_time->frames (_video_content->video_frame_rate ());
+		from = _last_seek_time->frames_round (_video_content->video_frame_rate ());
 		to = to_push.front().frame;
 	} else if (!_decoded_video.empty ()) {
 		from = _decoded_video.back().frame + 1;

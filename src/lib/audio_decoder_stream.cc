@@ -145,7 +145,7 @@ AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time
 	if (_seek_reference) {
 		/* We've had an accurate seek and now we're seeing some data */
 		ContentTime const delta = time - _seek_reference.get ();
-		Frame const delta_frames = delta.frames (frame_rate);
+		Frame const delta_frames = delta.frames_round (frame_rate);
 		if (delta_frames > 0) {
 			/* This data comes after the seek time.  Pad the data with some silence. */
 			shared_ptr<AudioBuffers> padded (new AudioBuffers (data->channels(), data->frames() + delta_frames));
@@ -172,7 +172,7 @@ AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time
 	}
 
 	if (!_position) {
-		_position = time.frames (frame_rate);
+		_position = time.frames_round (frame_rate);
 	}
 
 	DCPOMATIC_ASSERT (_position.get() >= (_decoded.frame + _decoded.audio->frames()));

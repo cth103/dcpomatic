@@ -64,7 +64,7 @@ DCPDecoder::pass ()
 	}
 
 	double const vfr = _dcp_content->video_frame_rate ();
-	int64_t const frame = _next.frames (vfr);
+	int64_t const frame = _next.frames_round (vfr);
 
 	if ((*_reel)->main_picture ()) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
@@ -127,7 +127,7 @@ DCPDecoder::pass ()
 	_next += ContentTime::from_frames (1, vfr);
 
 	if ((*_reel)->main_picture ()) {
-		if (_next.frames (vfr) >= (*_reel)->main_picture()->duration()) {
+		if (_next.frames_round (vfr) >= (*_reel)->main_picture()->duration()) {
 			++_reel;
 		}
 	}

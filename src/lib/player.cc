@@ -431,7 +431,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		setup_pieces ();
 	}
 
-	Frame const length_frames = length.frames (_film->audio_frame_rate ());
+	Frame const length_frames = length.frames_round (_film->audio_frame_rate ());
 
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
 	audio->make_silent ();
@@ -457,7 +457,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			   the stuff we get back.
 			*/
 			offset = -request;
-			request_frames += request.frames (_film->audio_frame_rate ());
+			request_frames += request.frames_round (_film->audio_frame_rate ());
 			if (request_frames < 0) {
 				request_frames = 0;
 			}
@@ -509,7 +509,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			audio->accumulate_frames (
 				all.audio.get(),
 				content_frame - all.frame,
-				offset.frames (_film->audio_frame_rate()),
+				offset.frames_round (_film->audio_frame_rate()),
 				min (Frame (all.audio->frames()), request_frames)
 				);
 		}
@@ -524,7 +524,10 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
-	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames (vc->video_frame_rate ());
+	/* We're returning a frame index here so we need to floor() the conversion since we want to know the frame
+	   that contains t, I think
+	*/
+	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames_floor (vc->video_frame_rate ());
 }
 
 DCPTime
@@ -540,7 +543,8 @@ Player::dcp_to_resampled_audio (shared_ptr<const Piece> piece, DCPTime t) const
 {
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
-	return max (DCPTime (), DCPTime (piece->content->trim_start (), piece->frc) + s).frames (_film->audio_frame_rate ());
+	/* See notes in dcp_to_content_video */
+	return max (DCPTime (), DCPTime (piece->content->trim_start (), piece->frc) + s).frames_floor (_film->audio_frame_rate ());
 }
 
 ContentTime

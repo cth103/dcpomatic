@@ -139,7 +139,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context)
 		if (_need_video_length) {
 			_video_length = frame_time (
 				_format_context->streams[_video_stream]
-				).get_value_or (ContentTime ()).frames (video_frame_rate().get ());
+				).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
 		}
 	}
 }

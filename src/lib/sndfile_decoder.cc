@@ -98,6 +98,6 @@ SndfileDecoder::seek (ContentTime t, bool accurate)
 {
 	AudioDecoder::seek (t, accurate);
 
-	_done = t.frames (_info.samplerate);
+	_done = t.frames_round (_info.samplerate);
 	_remaining = _info.frames - _done;
 }

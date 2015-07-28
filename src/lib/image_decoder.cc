@@ -71,5 +71,5 @@ void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
 	VideoDecoder::seek (time, accurate);
-	_video_position = time.frames (_image_content->video_frame_rate ());
+	_video_position = time.frames_round (_image_content->video_frame_rate ());
 }

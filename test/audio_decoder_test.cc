@@ -87,7 +87,7 @@ public:
 	void seek (ContentTime t, bool accurate)
 	{
 		AudioDecoder::seek (t, accurate);
-		_position = t.frames (_test_audio_content->resampled_audio_frame_rate ());
+		_position = t.frames_round (_test_audio_content->resampled_audio_frame_rate ());
 	}
 
 private:
