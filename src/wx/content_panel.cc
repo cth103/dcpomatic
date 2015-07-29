@@ -278,27 +278,10 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	/* Guess if this is a DCP or a set of images: read the first ten filenames and if they
-	   are all valid image files we assume it is a set of images.
-	*/
+	shared_ptr<Content> content = content_factory (_film, path);
 
-	bool is_dcp = false;
-	int read = 0;
-	for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i, ++read) {
-		if (!boost::filesystem::is_regular_file (i->path()) || !valid_image_file (i->path())) {
-			is_dcp = true;
-		}
-	}
-
-	if (is_dcp) {
-		try {
-			shared_ptr<DCPContent> content (new DCPContent (_film, path));
-			_film->examine_and_add_content (content);
-		} catch (...) {
-			error_dialog (_panel, _("Could not find a DCP nor a set of images in that folder."));
-		}
-	} else {
-
+	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
+	if (ic) {
 		ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
 		r = e->ShowModal ();
 		float const frame_rate = e->frame_rate ();
@@ -308,17 +291,10 @@ ContentPanel::add_folder_clicked ()
 			return;
 		}
 
-		shared_ptr<Content> content;
-
-		try {
-			shared_ptr<ImageContent> content (new ImageContent (_film, path));
-			content->set_video_frame_rate (frame_rate);
-			_film->examine_and_add_content (content);
-		} catch (...) {
-			error_dialog (_panel, _("Could not find any images in that folder"));
-			return;
-		}
+		ic->set_video_frame_rate (frame_rate);
 	}
+
+	_film->examine_and_add_content (content);
 }
 
 void

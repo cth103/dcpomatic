@@ -66,9 +66,9 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 	return content;
 }
 
-/** Create a Content object from a file, depending on its extension.
+/** Create a Content object from a file or directory.
  *  @param film Film that the content will be in.
- *  @param path File's path.
+ *  @param path File or directory.
  *  @return Content object.
  */
 shared_ptr<Content>
@@ -76,23 +76,45 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 {
 	shared_ptr<Content> content;
 
-	string ext = path.extension().string ();
-	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	if (boost::filesystem::is_directory (path)) {
+		/* Guess if this is a DCP or a set of images: read the first ten filenames and if they
+		   are all valid image files we assume it is a set of images.
+		*/
 
-	if (valid_image_file (path)) {
-		content.reset (new ImageContent (film, path));
-	} else if (SndfileContent::valid_file (path)) {
-		content.reset (new SndfileContent (film, path));
-	} else if (ext == ".srt") {
-		content.reset (new SubRipContent (film, path));
-	} else if (ext == ".xml") {
-		content.reset (new DCPSubtitleContent (film, path));
-	} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
-		content.reset (new DCPSubtitleContent (film, path));
-	}
+		bool is_dcp = false;
+		int read = 0;
+		for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i, ++read) {
+			if (!boost::filesystem::is_regular_file (i->path()) || !valid_image_file (i->path())) {
+				is_dcp = true;
+			}
+		}
 
-	if (!content) {
-		content.reset (new FFmpegContent (film, path));
+		if (is_dcp) {
+			content.reset (new DCPContent (film, path));
+		} else {
+			content.reset (new ImageContent (film, path));
+		}
+
+	} else {
+
+		string ext = path.extension().string ();
+		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+		if (valid_image_file (path)) {
+			content.reset (new ImageContent (film, path));
+		} else if (SndfileContent::valid_file (path)) {
+			content.reset (new SndfileContent (film, path));
+		} else if (ext == ".srt") {
+			content.reset (new SubRipContent (film, path));
+		} else if (ext == ".xml") {
+			content.reset (new DCPSubtitleContent (film, path));
+		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
+			content.reset (new DCPSubtitleContent (film, path));
+		}
+
+		if (!content) {
+			content.reset (new FFmpegContent (film, path));
+		}
 	}
 
 	return content;
