@@ -234,20 +234,25 @@ ContentMenu::find_missing ()
 
 	/* XXX: a bit nasty */
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (_content.front ());
-	if (ic && !ic->still ()) {
+	shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (_content.front ());
+
+	int r = wxID_CANCEL;
+	boost::filesystem::path path;
+
+	if ((ic && !ic->still ()) || dc) {
 		wxDirDialog* d = new wxDirDialog (0, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
-		int const r = d->ShowModal ();
-		if (r == wxID_OK) {
-			content.reset (new ImageContent (film, boost::filesystem::path (wx_to_std (d->GetPath ()))));
-		}
+		r = d->ShowModal ();
+		path = wx_to_std (d->GetPath ());
 		d->Destroy ();
 	} else {
 		wxFileDialog* d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE);
-		int const r = d->ShowModal ();
-		if (r == wxID_OK) {
-			content = content_factory (film, wx_to_std (d->GetPath ()));
-		}
+		r = d->ShowModal ();
+		path = wx_to_std (d->GetPath ());
 		d->Destroy ();
+	}
+
+	if (r == wxID_OK) {
+		content = content_factory (film, path);
 	}
 
 	if (!content) {

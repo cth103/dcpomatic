@@ -1,3 +1,10 @@
+2015-07-29  Carl Hetherington  <cth@carlh.net>
+
+	* Fix "find missing" with DCP folders (#646).
+
+	* Fix garbled audio from DCP sources when running
+	on Windows.
+
 2015-07-28  c.hetherington  <cth@carlh.net>
 
 	* Stop forward-frame button going off the end of the film.
