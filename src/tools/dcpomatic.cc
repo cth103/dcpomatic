@@ -883,7 +883,7 @@ private:
 		try {
 			throw;
 		} catch (FileError& e) {
-			error_dialog (0, wxString::Format (_("An exception occurred: %s in %s.\n\n" + REPORT_PROBLEM), e.what(), e.file().string().c_str ()));
+			error_dialog (0, wxString::Format (_("An exception occurred: %s (%s).\n\n" + REPORT_PROBLEM), e.what(), e.file().string().c_str ()));
 		} catch (exception& e) {
 			error_dialog (0, wxString::Format (_("An exception occurred: %s.\n\n"), e.what ()) + "  " + REPORT_PROBLEM);
 		} catch (...) {
