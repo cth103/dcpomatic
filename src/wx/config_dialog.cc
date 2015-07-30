@@ -163,6 +163,7 @@ private:
 		_language->Append (wxT ("Svenska"));
 		_language->Append (wxT ("Русский"));
 		_language->Append (wxT ("Polski"));
+		_language->Append (wxT ("Danske"));
 		table->Add (_language);
 
 		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to see language changes)"), false);
@@ -201,21 +202,23 @@ private:
 		checked_set (_set_language, config->language ());
 
 		if (config->language().get_value_or ("") == "fr") {
-			_language->SetSelection (3);
+			checked_set (_language, 3);
 		} else if (config->language().get_value_or ("") == "it") {
-			_language->SetSelection (4);
+			checked_set (_language, 4);
 		} else if (config->language().get_value_or ("") == "es") {
-			_language->SetSelection (2);
+			checked_set (_language, 2);
 		} else if (config->language().get_value_or ("") == "sv") {
-			_language->SetSelection (6);
+			checked_set (_language, 6);
 		} else if (config->language().get_value_or ("") == "de") {
-			_language->SetSelection (0);
+			checked_set (_language, 0);
 		} else if (config->language().get_value_or ("") == "nl") {
-			_language->SetSelection (5);
+			checked_set (_language, 5);
 		} else if (config->language().get_value_or ("") == "ru") {
-			_language->SetSelection (7);
+			checked_set (_language, 7);
 		} else if (config->language().get_value_or ("") == "pl") {
 			checked_set (_language, 8);
+		} else if (config->language().get_value_or ("") == "da") {
+			checked_set (_language, 9);
 		} else {
 			_language->SetSelection (1);
 		}
@@ -271,6 +274,9 @@ private:
 			break;
 		case 8:
 			Config::instance()->set_language ("pl");
+			break;
+		case 9:
+			Config::instance()->set_language ("da");
 			break;
 		}
 	}
