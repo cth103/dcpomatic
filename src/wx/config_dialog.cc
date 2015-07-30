@@ -39,7 +39,7 @@
 #include "lib/cross.h"
 #include "lib/exceptions.h"
 #include <dcp/exceptions.h>
-#include <dcp/signer.h>
+#include <dcp/certificate_chain.h>
 #include <wx/stdpaths.h>
 #include <wx/preferences.h>
 #include <wx/filepicker.h>
@@ -676,7 +676,7 @@ private:
 
 	void config_changed ()
 	{
-		_signer.reset (new dcp::Signer (*Config::instance()->signer().get ()));
+		_signer.reset (new dcp::CertificateChain (*Config::instance()->signer().get ()));
 
 		update_certificate_list ();
 		update_signer_private_key ();
@@ -692,7 +692,7 @@ private:
 		if (d->ShowModal() == wxID_OK) {
 			try {
 				dcp::Certificate c (dcp::file_to_string (wx_to_std (d->GetPath ())));
-				_signer->certificates().add (c);
+				_signer->add (c);
 				Config::instance()->set_signer (_signer);
 				update_certificate_list ();
 			} catch (dcp::MiscError& e) {
@@ -713,7 +713,7 @@ private:
 		}
 
 		_certificates->DeleteItem (i);
-		_signer->certificates().remove (i);
+		_signer->remove (i);
 		Config::instance()->set_signer (_signer);
 
 		update_sensitivity ();
@@ -722,7 +722,7 @@ private:
 	void update_certificate_list ()
 	{
 		_certificates->DeleteAllItems ();
-		dcp::CertificateChain::List certs = _signer->certificates().root_to_leaf ();
+		dcp::CertificateChain::List certs = _signer->root_to_leaf ();
 		size_t n = 0;
 		for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
 			wxListItem item;
@@ -744,11 +744,11 @@ private:
 
 	void remake_certificates ()
 	{
-		dcp::CertificateChain chain = Config::instance()->signer()->certificates ();
+		shared_ptr<const dcp::CertificateChain> chain = Config::instance()->signer();
 
 		string intermediate_common_name;
-		if (chain.root_to_leaf().size() >= 3) {
-			dcp::CertificateChain::List all = chain.root_to_leaf ();
+		if (chain->root_to_leaf().size() >= 3) {
+			dcp::CertificateChain::List all = chain->root_to_leaf ();
 			dcp::CertificateChain::List::iterator i = all.begin ();
 			++i;
 			intermediate_common_name = i->subject_common_name ();
@@ -756,16 +756,16 @@ private:
 
 		MakeSignerChainDialog* d = new MakeSignerChainDialog (
 			_panel,
-			chain.root().subject_organization_name (),
-			chain.root().subject_organizational_unit_name (),
-			chain.root().subject_common_name (),
+			chain->root().subject_organization_name (),
+			chain->root().subject_organizational_unit_name (),
+			chain->root().subject_common_name (),
 			intermediate_common_name,
-			chain.leaf().subject_common_name ()
+			chain->leaf().subject_common_name ()
 			);
 
 		if (d->ShowModal () == wxID_OK) {
 			_signer.reset (
-				new dcp::Signer (
+				new dcp::CertificateChain (
 					openssl_path (),
 					d->organisation (),
 					d->organisational_unit (),
@@ -790,7 +790,7 @@ private:
 
 	void update_signer_private_key ()
 	{
-		checked_set (_signer_private_key, dcp::private_key_fingerprint (_signer->key ()));
+		checked_set (_signer_private_key, dcp::private_key_fingerprint (_signer->key().get ()));
 	}
 
 	void load_signer_private_key ()
@@ -894,7 +894,7 @@ private:
 	wxStaticText* _decryption_private_key;
 	wxButton* _load_decryption_private_key;
 	wxButton* _export_decryption_certificate;
-	shared_ptr<dcp::Signer> _signer;
+	shared_ptr<dcp::CertificateChain> _signer;
 };
 
 class TMSPage : public StandardPage

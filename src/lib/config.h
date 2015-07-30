@@ -27,8 +27,8 @@
 #include "isdcf_metadata.h"
 #include "video_content.h"
 #include <dcp/metadata.h>
-#include <dcp/certificates.h>
-#include <dcp/signer.h>
+#include <dcp/certificate.h>
+#include <dcp/certificate_chain.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
@@ -199,7 +199,7 @@ public:
 		return _kdm_email;
 	}
 
-	boost::shared_ptr<const dcp::Signer> signer () const {
+	boost::shared_ptr<const dcp::CertificateChain> signer () const {
 		return _signer;
 	}
 
@@ -376,7 +376,7 @@ public:
 
 	void reset_kdm_email ();
 
-	void set_signer (boost::shared_ptr<const dcp::Signer> s) {
+	void set_signer (boost::shared_ptr<const dcp::CertificateChain> s) {
 		maybe_set (_signer, s);
 	}
 
@@ -489,7 +489,7 @@ private:
 	std::string _kdm_cc;
 	std::string _kdm_bcc;
 	std::string _kdm_email;
-	boost::shared_ptr<const dcp::Signer> _signer;
+	boost::shared_ptr<const dcp::CertificateChain> _signer;
 	dcp::Certificate _decryption_certificate;
 	std::string _decryption_private_key;
 	/** true to check for updates on startup */

@@ -19,7 +19,7 @@
 
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
-#include <dcp/certificates.h>
+#include <dcp/certificate.h>
 #include "table_dialog.h"
 
 class Progress;

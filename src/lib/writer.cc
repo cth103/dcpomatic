@@ -45,7 +45,7 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
-#include <dcp/signer.h>
+#include <dcp/certificate_chain.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/foreach.hpp>
@@ -597,7 +597,7 @@ Writer::finish ()
 	meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	meta.set_issue_date_now ();
 
-	shared_ptr<const dcp::Signer> signer;
+	shared_ptr<const dcp::CertificateChain> signer;
 	if (_film->is_signed ()) {
 		signer = Config::instance()->signer ();
 		/* We did check earlier, but check again here to be on the safe side */

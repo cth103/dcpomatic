@@ -22,7 +22,7 @@
  */
 
 #include <getopt.h>
-#include <dcp/certificates.h>
+#include <dcp/certificate.h>
 #include "lib/film.h"
 #include "lib/cinema.h"
 #include "lib/kdm.h"

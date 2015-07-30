@@ -45,7 +45,7 @@
 #include "md5_digester.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
-#include <dcp/signer.h>
+#include <dcp/certificate_chain.h>
 #include <dcp/util.h>
 #include <dcp/local_time.h>
 #include <dcp/decrypted_kdm.h>
@@ -87,7 +87,7 @@ using boost::starts_with;
 using boost::optional;
 using boost::is_any_of;
 using dcp::Size;
-using dcp::Signer;
+using dcp::CertificateChain;
 
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
@@ -1063,7 +1063,7 @@ Film::make_kdm (
 	) const
 {
 	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
-	shared_ptr<const dcp::Signer> signer = Config::instance()->signer();
+	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer();
 	if (!signer->valid ()) {
 		throw InvalidSignerError ();
 	}

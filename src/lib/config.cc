@@ -30,7 +30,6 @@
 #include "cross.h"
 #include "raw_convert.h"
 #include <dcp/colour_matrix.h>
-#include <dcp/signer.h>
 #include <dcp/certificate_chain.h>
 #include <libcxml/cxml.h>
 #include <glib.h>
@@ -121,7 +120,7 @@ Config::read ()
 {
 	if (!boost::filesystem::exists (file ())) {
 		/* Make a new set of signing certificates and key */
-		_signer.reset (new dcp::Signer (openssl_path ()));
+		_signer.reset (new dcp::CertificateChain (openssl_path ()));
 		/* And decryption keys */
 		make_decryption_keys ();
 		return;
@@ -236,16 +235,17 @@ Config::read ()
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
 	dcp::CertificateChain signer_chain;
 	if (signer) {
+		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
 		list<cxml::NodePtr> certificates = signer->node_children ("Certificate");
 		for (list<cxml::NodePtr>::const_iterator i = certificates.begin(); i != certificates.end(); ++i) {
-			signer_chain.add (dcp::Certificate ((*i)->content ()));
+			c->add (dcp::Certificate ((*i)->content ()));
 		}
-
-		_signer.reset (new dcp::Signer (signer_chain, signer->string_child ("PrivateKey")));
+		c->set_key (signer->string_child ("PrivateKey"));
+		_signer = c;
 	} else {
 		/* Make a new set of signing certificates and key */
-		_signer.reset (new dcp::Signer (openssl_path ()));
+		_signer.reset (new dcp::CertificateChain (openssl_path ()));
 	}
 
 	if (f.optional_string_child ("DecryptionCertificate")) {
@@ -265,10 +265,9 @@ Config::read ()
 void
 Config::make_decryption_keys ()
 {
-	boost::filesystem::path p = dcp::make_certificate_chain (openssl_path ());
-	_decryption_certificate = dcp::Certificate (dcp::file_to_string (p / "leaf.signed.pem"));
-	_decryption_private_key = dcp::file_to_string (p / "leaf.key");
-	boost::filesystem::remove_all (p);
+	dcp::CertificateChain c (openssl_path ());
+	_decryption_certificate = c.leaf ();
+	_decryption_private_key = c.key().get ();
 }
 
 /** @return Filename to write configuration to */
@@ -380,11 +379,11 @@ Config::write () const
 #endif
 
 	xmlpp::Element* signer = root->add_child ("Signer");
-	dcp::CertificateChain::List certs = _signer->certificates().root_to_leaf ();
+	dcp::CertificateChain::List certs = _signer->root_to_leaf ();
 	for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
 		signer->add_child("Certificate")->add_child_text (i->certificate (true));
 	}
-	signer->add_child("PrivateKey")->add_child_text (_signer->key ());
+	signer->add_child("PrivateKey")->add_child_text (_signer->key().get ());
 
 	root->add_child("DecryptionCertificate")->add_child_text (_decryption_certificate.certificate (true));
 	root->add_child("DecryptionPrivateKey")->add_child_text (_decryption_private_key);

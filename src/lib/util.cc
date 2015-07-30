@@ -36,7 +36,6 @@
 #include "audio_processor.h"
 #include "safe_stringstream.h"
 #include <dcp/util.h>
-#include <dcp/signer.h>
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
