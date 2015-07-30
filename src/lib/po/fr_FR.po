@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-21 23:06+0100\n"
+"POT-Creation-Date: 2015-07-30 10:07+0100\n"
 "PO-Revision-Date: 2015-07-14 14:45+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "bits par pixel"
 
-#: src/lib/film.cc:1205
+#: src/lib/film.cc:1209
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1206
+#: src/lib/film.cc:1210
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1197
+#: src/lib/film.cc:1201
 msgid "C"
 msgstr "C"
 
@@ -146,7 +146,7 @@ msgstr "Annulé"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Format du pixel %1 non géré par %2"
 
-#: src/lib/util.cc:477
+#: src/lib/util.cc:476
 msgid "Centre"
 msgstr "Centre"
 
@@ -364,7 +364,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:438
+#: src/lib/config.cc:437
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -488,11 +488,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Corrections des bandes par dégradé"
 
-#: src/lib/film.cc:1201
+#: src/lib/film.cc:1205
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:481
+#: src/lib/util.cc:480
 msgid "Hearing impaired"
 msgstr "Déficients Auditifs"
 
@@ -512,12 +512,12 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
 
-#: src/lib/config.cc:89
+#: src/lib/config.cc:88
 #, fuzzy
 msgid "KDM delivery"
 msgstr "Envoi KDM: $CPL_NAME"
 
-#: src/lib/config.cc:214
+#: src/lib/config.cc:213
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envoi KDM: $CPL_NAME"
 
@@ -525,35 +525,35 @@ msgstr "Envoi KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Désentrelaceur noyau"
 
-#: src/lib/film.cc:1195
+#: src/lib/film.cc:1199
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1203
+#: src/lib/film.cc:1207
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:475
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:474
 msgid "Left"
 msgstr "Gauche"
 
-#: src/lib/util.cc:483
+#: src/lib/util.cc:482
 msgid "Left centre"
 msgstr "Centre Gauche"
 
-#: src/lib/util.cc:485
+#: src/lib/util.cc:484
 msgid "Left rear surround"
 msgstr "Surround arrière gauche"
 
-#: src/lib/util.cc:479
+#: src/lib/util.cc:478
 msgid "Left surround"
 msgstr "Arrière gauche"
 
-#: src/lib/film.cc:1198
+#: src/lib/film.cc:1202
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:478
+#: src/lib/util.cc:477
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
@@ -577,7 +577,7 @@ msgstr "Logarithmique (plage 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmique (plage 316:1)"
 
-#: src/lib/film.cc:1199
+#: src/lib/film.cc:1203
 msgid "Ls"
 msgstr "Ls"
 
@@ -665,7 +665,7 @@ msgstr "Erreur de programme à %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1196
+#: src/lib/film.cc:1200
 msgid "R"
 msgstr "R"
 
@@ -677,7 +677,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/film.cc:1204
+#: src/lib/film.cc:1208
 msgid "Rc"
 msgstr "Rc"
 
@@ -689,23 +689,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:476
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:475
 msgid "Right"
 msgstr "Droite"
 
-#: src/lib/util.cc:484
+#: src/lib/util.cc:483
 msgid "Right centre"
 msgstr "Centre Droit"
 
-#: src/lib/util.cc:486
+#: src/lib/util.cc:485
 msgid "Right rear surround"
 msgstr "Surround arrière droite"
 
-#: src/lib/util.cc:480
+#: src/lib/util.cc:479
 msgid "Right surround"
 msgstr "Arrière droite"
 
-#: src/lib/film.cc:1200
+#: src/lib/film.cc:1204
 msgid "Rs"
 msgstr "Rs"
 
@@ -857,7 +857,7 @@ msgstr "Gauche sur-mixé"
 msgid "Upmix R"
 msgstr "Droit sur-mixé"
 
-#: src/lib/film.cc:1202
+#: src/lib/film.cc:1206
 msgid "VI"
 msgstr "VI"
 
@@ -873,7 +873,7 @@ msgstr "Longueur vidéo"
 msgid "Video size"
 msgstr "Taille vidéo"
 
-#: src/lib/util.cc:482
+#: src/lib/util.cc:481
 msgid "Visually impaired"
 msgstr "Déficients Visuels"
 
@@ -1005,12 +1005,12 @@ msgid "frames per second"
 msgstr "images par seconde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:140 src/lib/util.cc:143
+#: src/lib/util.cc:139 src/lib/util.cc:142
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:155 src/lib/util.cc:158
+#: src/lib/util.cc:154 src/lib/util.cc:157
 msgid "m"
 msgstr "m"
 
@@ -1041,7 +1041,7 @@ msgid "remaining"
 msgstr "restant"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:169
+#: src/lib/util.cc:168
 msgid "s"
 msgstr "s"
 

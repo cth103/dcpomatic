@@ -3,17 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-16 23:48+0100\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2015-07-30 10:07+0100\n"
 "PO-Revision-Date: 2015-07-17 03:18-0400\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Zanata 3.6.2\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: src/lib/dcp_content.cc:112
 msgid "%1 [DCP]"
@@ -124,15 +124,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/film.cc:1205
+#: src/lib/film.cc:1209
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1206
+#: src/lib/film.cc:1210
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1197
+#: src/lib/film.cc:1201
 msgid "C"
 msgstr "C"
 
@@ -144,7 +144,7 @@ msgstr "Отменено"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/util.cc:474
+#: src/lib/util.cc:476
 msgid "Centre"
 msgstr "Центральный"
 
@@ -194,7 +194,6 @@ msgstr "Частота кадров контента:"
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Для присоединения контента должны быть такие же настройки \"вшить субтитры\"."
-""
 
 #: src/lib/subtitle_content.cc:120
 msgid "Content to be joined must have the same 'use subtitles' setting."
@@ -277,15 +276,15 @@ msgstr "Для присоединения контента необходимо 
 msgid "Content video is %1x%2"
 msgstr "Разрешение контента: %1x%2"
 
-#: src/lib/scp_dcp_job.cc:111
+#: src/lib/upload_job.cc:52
 msgid "Copy DCP to TMS"
 msgstr "Копировать DCP на TMS (Theater Management System)"
 
-#: src/lib/scp_dcp_job.cc:136
+#: src/lib/scp_uploader.cc:50
 msgid "Could not connect to server %1 (%2)"
 msgstr "Не удалось подключиться к серверу %1 (%2)"
 
-#: src/lib/scp_dcp_job.cc:158
+#: src/lib/scp_uploader.cc:86
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Не удалось создать удалённый каталог %1 (%2)"
 
@@ -309,7 +308,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Не удалось открыть %1"
 
-#: src/lib/scp_dcp_job.cc:183
+#: src/lib/curl_uploader.cc:83 src/lib/scp_uploader.cc:98
 msgid "Could not open %1 to send"
 msgstr "Не удалось открыть %1 для отправки"
 
@@ -321,11 +320,16 @@ msgstr "Не удалось открыть загруженный ZIP-архив
 msgid "Could not read subtitles"
 msgstr "Не удалось прочитать субтитры"
 
-#: src/lib/scp_dcp_job.cc:153
+#: src/lib/scp_uploader.cc:70
 msgid "Could not start SCP session (%1)"
 msgstr "Не удалось запустить SCP-сессию (%1)"
 
-#: src/lib/scp_dcp_job.cc:197
+#: src/lib/curl_uploader.cc:47
+#, fuzzy
+msgid "Could not start transfer"
+msgstr "не удалось запустить SSH-сессию"
+
+#: src/lib/curl_uploader.cc:90 src/lib/scp_uploader.cc:115
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
@@ -363,7 +367,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:422
+#: src/lib/config.cc:437
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -421,13 +425,14 @@ msgstr "Ошибка отправки ключей %1 по Email"
 msgid "Encoding image data"
 msgstr "Кодирование данных изображения"
 
-#: src/lib/job.cc:333
-msgid "Error (%1)"
-msgstr "Ошибка (%1)"
-
 #: src/lib/exceptions.cc:66
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Ошибка в SubRip-файле: найдено %1, в то время как ожидается %2"
+
+#: src/lib/job.cc:333
+#, fuzzy
+msgid "Error: %1"
+msgstr "Ошибка (%1)"
 
 #: src/lib/examine_content_job.cc:46
 msgid "Examine content"
@@ -437,7 +442,7 @@ msgstr "Проверка контента"
 msgid "FCC"
 msgstr "FCC"
 
-#: src/lib/scp_dcp_job.cc:146
+#: src/lib/scp_uploader.cc:60
 msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
@@ -485,11 +490,11 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/film.cc:1201
+#: src/lib/film.cc:1205
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:478
+#: src/lib/util.cc:480
 msgid "Hearing impaired"
 msgstr "Для слабослышащих"
 
@@ -509,7 +514,12 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:199
+#: src/lib/config.cc:88
+#, fuzzy
+msgid "KDM delivery"
+msgstr "Назначение KDM: $CPL_NAME"
+
+#: src/lib/config.cc:213
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -517,35 +527,35 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1195
+#: src/lib/film.cc:1199
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1203
+#: src/lib/film.cc:1207
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:472
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:474
 msgid "Left"
 msgstr "Левый"
 
-#: src/lib/util.cc:480
+#: src/lib/util.cc:482
 msgid "Left centre"
 msgstr "Левый центральный"
 
-#: src/lib/util.cc:482
+#: src/lib/util.cc:484
 msgid "Left rear surround"
 msgstr "Левый тыловой surround"
 
-#: src/lib/util.cc:476
+#: src/lib/util.cc:478
 msgid "Left surround"
 msgstr "Левый surround"
 
-#: src/lib/film.cc:1198
+#: src/lib/film.cc:1202
 msgid "Lfe"
 msgstr "НЧ"
 
-#: src/lib/util.cc:475
+#: src/lib/util.cc:477
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
@@ -569,7 +579,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/film.cc:1199
+#: src/lib/film.cc:1203
 msgid "Ls"
 msgstr "Ls"
 
@@ -657,7 +667,7 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/film.cc:1196
+#: src/lib/film.cc:1200
 msgid "R"
 msgstr "R"
 
@@ -669,7 +679,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1204
+#: src/lib/film.cc:1208
 msgid "Rc"
 msgstr "Rc"
 
@@ -681,23 +691,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:473
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:475
 msgid "Right"
 msgstr "Правый"
 
-#: src/lib/util.cc:481
+#: src/lib/util.cc:483
 msgid "Right centre"
 msgstr "Правый центральный"
 
-#: src/lib/util.cc:483
+#: src/lib/util.cc:485
 msgid "Right rear surround"
 msgstr "Правый тыловой surround"
 
-#: src/lib/util.cc:477
+#: src/lib/util.cc:479
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/film.cc:1200
+#: src/lib/film.cc:1204
 msgid "Rs"
 msgstr "Rs"
 
@@ -714,7 +724,7 @@ msgstr "SMPTE 170M (BT601-6)"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/scp_dcp_job.cc:141
+#: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
 msgstr "Ошибка SSH (%1)"
 
@@ -851,7 +861,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/film.cc:1202
+#: src/lib/film.cc:1206
 msgid "VI"
 msgstr "VI"
 
@@ -867,11 +877,11 @@ msgstr "Длительность видео"
 msgid "Video size"
 msgstr "Размер видео"
 
-#: src/lib/util.cc:479
+#: src/lib/util.cc:481
 msgid "Visually impaired"
 msgstr "Для слабовидящих"
 
-#: src/lib/scp_dcp_job.cc:103
+#: src/lib/upload_job.cc:44
 msgid "Waiting"
 msgstr "Ожидание"
 
@@ -907,7 +917,7 @@ msgstr "не может содержать разрезы"
 msgid "connect timed out"
 msgstr "таймаут соединения"
 
-#: src/lib/scp_dcp_job.cc:127
+#: src/lib/uploader.cc:34
 msgid "connecting"
 msgstr "соединение"
 
@@ -919,7 +929,7 @@ msgstr "контейнер"
 msgid "content type"
 msgstr "тип контента"
 
-#: src/lib/scp_dcp_job.cc:176
+#: src/lib/uploader.cc:72
 msgid "copying %1"
 msgstr "копирование %1"
 
@@ -962,14 +972,13 @@ msgstr "не удалось запустить конвертер частоты
 #: src/lib/resampler.cc:77
 msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
 msgstr ""
-"не удалось запустить конвертер частоты дискретизации для %1 сэмплов (%2) "
-"(%3)"
+"не удалось запустить конвертер частоты дискретизации для %1 сэмплов (%2) (%3)"
 
-#: src/lib/scp_dcp_job.cc:88
+#: src/lib/scp_uploader.cc:65
 msgid "could not start SCP session (%1)"
 msgstr "не удалось запустить SCP-сессию (%1)"
 
-#: src/lib/scp_dcp_job.cc:54
+#: src/lib/scp_uploader.cc:40
 msgid "could not start SSH session"
 msgstr "не удалось запустить SSH-сессию"
 
@@ -1054,4 +1063,3 @@ msgstr "неизвестно"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "видеокадры"
-
