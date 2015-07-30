@@ -143,7 +143,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	}
 
 	/* Check that the signer is OK if we need one */
-	if (_film->is_signed() && !Config::instance()->signer()->valid ()) {
+	if (_film->is_signed() && !Config::instance()->signer_chain()->valid ()) {
 		throw InvalidSignerError ();
 	}
 
@@ -599,7 +599,7 @@ Writer::finish ()
 
 	shared_ptr<const dcp::CertificateChain> signer;
 	if (_film->is_signed ()) {
-		signer = Config::instance()->signer ();
+		signer = Config::instance()->signer_chain ();
 		/* We did check earlier, but check again here to be on the safe side */
 		if (!signer->valid ()) {
 			throw InvalidSignerError ();

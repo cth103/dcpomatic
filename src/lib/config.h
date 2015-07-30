@@ -199,8 +199,8 @@ public:
 		return _kdm_email;
 	}
 
-	boost::shared_ptr<const dcp::CertificateChain> signer () const {
-		return _signer;
+	boost::shared_ptr<const dcp::CertificateChain> signer_chain () const {
+		return _signer_chain;
 	}
 
 	dcp::Certificate decryption_certificate () const {
@@ -376,8 +376,8 @@ public:
 
 	void reset_kdm_email ();
 
-	void set_signer (boost::shared_ptr<const dcp::CertificateChain> s) {
-		maybe_set (_signer, s);
+	void set_signer_chain (boost::shared_ptr<const dcp::CertificateChain> s) {
+		maybe_set (_signer_chain, s);
 	}
 
 	void set_decryption_certificate (dcp::Certificate c) {
@@ -489,7 +489,7 @@ private:
 	std::string _kdm_cc;
 	std::string _kdm_bcc;
 	std::string _kdm_email;
-	boost::shared_ptr<const dcp::CertificateChain> _signer;
+	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;
 	dcp::Certificate _decryption_certificate;
 	std::string _decryption_private_key;
 	/** true to check for updates on startup */

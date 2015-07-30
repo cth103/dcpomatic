@@ -1063,7 +1063,7 @@ Film::make_kdm (
 	) const
 {
 	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
-	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer();
+	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
 	if (!signer->valid ()) {
 		throw InvalidSignerError ();
 	}

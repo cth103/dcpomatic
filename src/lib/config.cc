@@ -120,7 +120,7 @@ Config::read ()
 {
 	if (!boost::filesystem::exists (file ())) {
 		/* Make a new set of signing certificates and key */
-		_signer.reset (new dcp::CertificateChain (openssl_path ()));
+		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
 		/* And decryption keys */
 		make_decryption_keys ();
 		return;
@@ -233,7 +233,6 @@ Config::read ()
 	}
 
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
-	dcp::CertificateChain signer_chain;
 	if (signer) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
@@ -242,10 +241,10 @@ Config::read ()
 			c->add (dcp::Certificate ((*i)->content ()));
 		}
 		c->set_key (signer->string_child ("PrivateKey"));
-		_signer = c;
+		_signer_chain = c;
 	} else {
 		/* Make a new set of signing certificates and key */
-		_signer.reset (new dcp::CertificateChain (openssl_path ()));
+		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
 	}
 
 	if (f.optional_string_child ("DecryptionCertificate")) {
@@ -379,11 +378,11 @@ Config::write () const
 #endif
 
 	xmlpp::Element* signer = root->add_child ("Signer");
-	dcp::CertificateChain::List certs = _signer->root_to_leaf ();
+	dcp::CertificateChain::List certs = _signer_chain->root_to_leaf ();
 	for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
 		signer->add_child("Certificate")->add_child_text (i->certificate (true));
 	}
-	signer->add_child("PrivateKey")->add_child_text (_signer->key().get ());
+	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 
 	root->add_child("DecryptionCertificate")->add_child_text (_decryption_certificate.certificate (true));
 	root->add_child("DecryptionPrivateKey")->add_child_text (_decryption_private_key);

@@ -682,7 +682,7 @@ private:
 
 	void config_changed ()
 	{
-		_signer.reset (new dcp::CertificateChain (*Config::instance()->signer().get ()));
+		_signer.reset (new dcp::CertificateChain (*Config::instance()->signer_chain().get ()));
 
 		update_certificate_list ();
 		update_signer_private_key ();
@@ -699,7 +699,7 @@ private:
 			try {
 				dcp::Certificate c (dcp::file_to_string (wx_to_std (d->GetPath ())));
 				_signer->add (c);
-				Config::instance()->set_signer (_signer);
+				Config::instance()->set_signer_chain (_signer);
 				update_certificate_list ();
 			} catch (dcp::MiscError& e) {
 				error_dialog (_panel, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
@@ -720,7 +720,7 @@ private:
 
 		_certificates->DeleteItem (i);
 		_signer->remove (i);
-		Config::instance()->set_signer (_signer);
+		Config::instance()->set_signer_chain (_signer);
 
 		update_sensitivity ();
 	}
@@ -750,7 +750,7 @@ private:
 
 	void remake_certificates ()
 	{
-		shared_ptr<const dcp::CertificateChain> chain = Config::instance()->signer();
+		shared_ptr<const dcp::CertificateChain> chain = Config::instance()->signer_chain ();
 
 		string intermediate_common_name;
 		if (chain->root_to_leaf().size() >= 3) {
@@ -781,7 +781,7 @@ private:
 					)
 				);
 
-			Config::instance()->set_signer (_signer);
+			Config::instance()->set_signer_chain (_signer);
 			update_certificate_list ();
 			update_signer_private_key ();
 		}
@@ -812,7 +812,7 @@ private:
 				}
 
 				_signer->set_key (dcp::file_to_string (p));
-				Config::instance()->set_signer (_signer);
+				Config::instance()->set_signer_chain (_signer);
 				update_signer_private_key ();
 			} catch (dcp::MiscError& e) {
 				error_dialog (_panel, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
