@@ -203,12 +203,8 @@ public:
 		return _signer_chain;
 	}
 
-	dcp::Certificate decryption_certificate () const {
-		return _decryption_certificate;
-	}
-
-	std::string decryption_private_key () const {
-		return _decryption_private_key;
+	boost::shared_ptr<const dcp::CertificateChain> decryption_chain () const {
+		return _decryption_chain;
 	}
 
 	bool check_for_updates () const {
@@ -380,12 +376,8 @@ public:
 		maybe_set (_signer_chain, s);
 	}
 
-	void set_decryption_certificate (dcp::Certificate c) {
-		maybe_set (_decryption_certificate, c);
-	}
-
-	void set_decryption_private_key (std::string k) {
-		maybe_set (_decryption_private_key, k);
+	void set_decryption_chain (boost::shared_ptr<const dcp::CertificateChain> c) {
+		maybe_set (_decryption_chain, c);
 	}
 
 	void set_check_for_updates (bool c) {
@@ -430,7 +422,6 @@ private:
 	Config ();
 	boost::filesystem::path file () const;
 	void read ();
-	void make_decryption_keys ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
 
@@ -490,8 +481,10 @@ private:
 	std::string _kdm_bcc;
 	std::string _kdm_email;
 	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;
-	dcp::Certificate _decryption_certificate;
-	std::string _decryption_private_key;
+	/** Chain used to decrypt KDMs; the leaf of this chain is the target
+	 *  certificate for making KDMs given to DCP-o-matic.
+	 */
+	boost::shared_ptr<const dcp::CertificateChain> _decryption_chain;
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;

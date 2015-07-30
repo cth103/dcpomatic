@@ -28,7 +28,7 @@
 #include "dir_picker_ctrl.h"
 #include "isdcf_metadata_dialog.h"
 #include "server_dialog.h"
-#include "make_signer_chain_dialog.h"
+#include "make_chain_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -46,6 +46,7 @@
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::vector;
@@ -55,6 +56,7 @@ using std::cout;
 using boost::bind;
 using boost::shared_ptr;
 using boost::lexical_cast;
+using boost::function;
 
 class Page
 {
@@ -555,41 +557,35 @@ private:
 	EditableList<string, ServerDialog>* _servers_list;
 };
 
-class KeysPage : public StandardPage
+class CertificateChainEditor : public wxPanel
 {
 public:
-	KeysPage (wxSize panel_size, int border)
-		: StandardPage (panel_size, border)
-	{}
-
-	wxString GetName () const
-	{
-		return _("Keys");
-	}
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
-	{
-		return wxBitmap ("keys", wxBITMAP_TYPE_PNG_RESOURCE);
-	}
-#endif
-
-private:
-	void setup ()
+	CertificateChainEditor (
+		wxWindow* parent,
+		wxString title,
+		int border,
+		function<void (shared_ptr<dcp::CertificateChain>)> set,
+		function<shared_ptr<const dcp::CertificateChain> (void)> get
+		)
+		: wxPanel (parent)
+		, _set (set)
+		, _get (get)
 	{
 		wxFont subheading_font (*wxNORMAL_FONT);
 		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
+		wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+
 		{
-			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Signing DCPs and KDMs"));
+			wxStaticText* m = new wxStaticText (this, wxID_ANY, title);
 			m->SetFont (subheading_font);
-			_panel->GetSizer()->Add (m, 0, wxALL, _border);
+			sizer->Add (m, 0, wxALL, border);
 		}
 
 		wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_panel->GetSizer()->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, _border);
+		sizer->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, border);
 
-		_certificates = new wxListCtrl (_panel, wxID_ANY, wxDefaultPosition, wxSize (400, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
+		_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 		{
 			wxListItem ip;
@@ -616,93 +612,70 @@ private:
 
 		{
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
-			_add_certificate = new wxButton (_panel, wxID_ANY, _("Add..."));
+			_add_certificate = new wxButton (this, wxID_ANY, _("Add..."));
 			s->Add (_add_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-			_remove_certificate = new wxButton (_panel, wxID_ANY, _("Remove"));
+			_remove_certificate = new wxButton (this, wxID_ANY, _("Remove"));
 			s->Add (_remove_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			certificates_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
 		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
-
+		sizer->Add (table, 1, wxALL | wxEXPAND, border);
 		int r = 0;
 
-		add_label_to_grid_bag_sizer (table, _panel, _("Leaf private key"), true, wxGBPosition (r, 0));
-		_signer_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
-		wxFont font = _signer_private_key->GetFont ();
+		add_label_to_grid_bag_sizer (table, this, _("Leaf private key"), true, wxGBPosition (r, 0));
+		_private_key = new wxStaticText (this, wxID_ANY, wxT (""));
+		wxFont font = _private_key->GetFont ();
 		font.SetFamily (wxFONTFAMILY_TELETYPE);
-		_signer_private_key->SetFont (font);
-		table->Add (_signer_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-		_load_signer_private_key = new wxButton (_panel, wxID_ANY, _("Load..."));
-		table->Add (_load_signer_private_key, wxGBPosition (r, 2));
+		_private_key->SetFont (font);
+		table->Add (_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		_load_private_key = new wxButton (this, wxID_ANY, _("Load..."));
+		table->Add (_load_private_key, wxGBPosition (r, 2));
 		++r;
 
-		_remake_certificates = new wxButton (_panel, wxID_ANY, _("Re-make certificates and key..."));
-		table->Add (_remake_certificates, wxGBPosition (r, 0), wxGBSpan (1, 3));
+		_button_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_remake_certificates = new wxButton (this, wxID_ANY, _("Re-make certificates and key..."));
+		_button_sizer->Add (_remake_certificates, 1, wxRIGHT, border);
+		table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 3));
 		++r;
 
-		{
-			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Decrypting DCPs"));
-			m->SetFont (subheading_font);
-			table->Add (m, wxGBPosition (r, 0), wxGBSpan (1, 3), wxTOP, _border * 1.5);
-			++r;
-		}
+		_add_certificate->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::add_certificate, this));
+		_remove_certificate->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remove_certificate, this));
+		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&CertificateChainEditor::update_sensitivity, this));
+		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&CertificateChainEditor::update_sensitivity, this));
+		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remake_certificates, this));
+		_load_private_key->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::load_private_key, this));
 
-		add_label_to_grid_bag_sizer (table, _panel, _("Certificate"), true, wxGBPosition (r, 0));
-		_decryption_certificate = new wxStaticText (_panel, wxID_ANY, wxT (""));
-		_decryption_certificate->SetFont (font);
-		table->Add (_decryption_certificate, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-		_load_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Load..."));
-		table->Add (_load_decryption_certificate, wxGBPosition (r, 2));
-		++r;
-
-		add_label_to_grid_bag_sizer (table, _panel, _("Private key"), true, wxGBPosition (r, 0));
-		_decryption_private_key = new wxStaticText (_panel, wxID_ANY, wxT (""));
-		_decryption_private_key->SetFont (font);
-		table->Add (_decryption_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-		_load_decryption_private_key = new wxButton (_panel, wxID_ANY, _("Load..."));
-		table->Add (_load_decryption_private_key, wxGBPosition (r, 2));
-		++r;
-
-		_export_decryption_certificate = new wxButton (_panel, wxID_ANY, _("Export DCP decryption certificate..."));
-		table->Add (_export_decryption_certificate, wxGBPosition (r, 0), wxGBSpan (1, 3));
-		++r;
-
-		_add_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::add_certificate, this));
-		_remove_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::remove_certificate, this));
-		_certificates->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&KeysPage::update_sensitivity, this));
-		_certificates->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&KeysPage::update_sensitivity, this));
-		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::remake_certificates, this));
-		_load_signer_private_key->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_signer_private_key, this));
-		_load_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_decryption_certificate, this));
-		_load_decryption_private_key->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::load_decryption_private_key, this));
-		_export_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_certificate, this));
+		SetSizerAndFit (sizer);
 	}
 
 	void config_changed ()
 	{
-		_signer.reset (new dcp::CertificateChain (*Config::instance()->signer_chain().get ()));
+		_chain.reset (new dcp::CertificateChain (*_get().get ()));
 
 		update_certificate_list ();
-		update_signer_private_key ();
-		update_decryption_certificate ();
-		update_decryption_private_key ();
+		update_private_key ();
 		update_sensitivity ();
 	}
 
+	void add_button (wxWindow* button)
+	{
+		_button_sizer->Add (button);
+	}
+
+private:
 	void add_certificate ()
 	{
-		wxFileDialog* d = new wxFileDialog (_panel, _("Select Certificate File"));
+		wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
 
 		if (d->ShowModal() == wxID_OK) {
 			try {
 				dcp::Certificate c (dcp::file_to_string (wx_to_std (d->GetPath ())));
-				_signer->add (c);
-				Config::instance()->set_signer_chain (_signer);
+				_chain->add (c);
+				_set (_chain);
 				update_certificate_list ();
 			} catch (dcp::MiscError& e) {
-				error_dialog (_panel, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
+				error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
 			}
 		}
 
@@ -719,8 +692,8 @@ private:
 		}
 
 		_certificates->DeleteItem (i);
-		_signer->remove (i);
-		Config::instance()->set_signer_chain (_signer);
+		_chain->remove (i);
+		_set (_chain);
 
 		update_sensitivity ();
 	}
@@ -728,13 +701,13 @@ private:
 	void update_certificate_list ()
 	{
 		_certificates->DeleteAllItems ();
-		dcp::CertificateChain::List certs = _signer->root_to_leaf ();
 		size_t n = 0;
-		for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
+		dcp::CertificateChain::List certs = _chain->root_to_leaf ();
+		BOOST_FOREACH (dcp::Certificate const & i, certs) {
 			wxListItem item;
 			item.SetId (n);
 			_certificates->InsertItem (item);
-			_certificates->SetItem (n, 1, std_to_wx (i->thumbprint ()));
+			_certificates->SetItem (n, 1, std_to_wx (i.thumbprint ()));
 
 			if (n == 0) {
 				_certificates->SetItem (n, 0, _("Root"));
@@ -750,7 +723,7 @@ private:
 
 	void remake_certificates ()
 	{
-		shared_ptr<const dcp::CertificateChain> chain = Config::instance()->signer_chain ();
+		shared_ptr<const dcp::CertificateChain> chain = _get ();
 
 		string intermediate_common_name;
 		if (chain->root_to_leaf().size() >= 3) {
@@ -760,8 +733,8 @@ private:
 			intermediate_common_name = i->subject_common_name ();
 		}
 
-		MakeSignerChainDialog* d = new MakeSignerChainDialog (
-			_panel,
+		MakeChainDialog* d = new MakeChainDialog (
+			this,
 			chain->root().subject_organization_name (),
 			chain->root().subject_organizational_unit_name (),
 			chain->root().subject_common_name (),
@@ -770,7 +743,7 @@ private:
 			);
 
 		if (d->ShowModal () == wxID_OK) {
-			_signer.reset (
+			_chain.reset (
 				new dcp::CertificateChain (
 					openssl_path (),
 					d->organisation (),
@@ -781,9 +754,9 @@ private:
 					)
 				);
 
-			Config::instance()->set_signer_chain (_signer);
+			_set (_chain);
 			update_certificate_list ();
-			update_signer_private_key ();
+			update_private_key ();
 		}
 
 		d->Destroy ();
@@ -794,28 +767,28 @@ private:
 		_remove_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
 	}
 
-	void update_signer_private_key ()
+	void update_private_key ()
 	{
-		checked_set (_signer_private_key, dcp::private_key_fingerprint (_signer->key().get ()));
+		checked_set (_private_key, dcp::private_key_fingerprint (_chain->key().get ()));
 	}
 
-	void load_signer_private_key ()
+	void load_private_key ()
 	{
-		wxFileDialog* d = new wxFileDialog (_panel, _("Select Key File"));
+		wxFileDialog* d = new wxFileDialog (this, _("Select Key File"));
 
 		if (d->ShowModal() == wxID_OK) {
 			try {
 				boost::filesystem::path p (wx_to_std (d->GetPath ()));
 				if (boost::filesystem::file_size (p) > 1024) {
-					error_dialog (_panel, wxString::Format (_("Could not read key file (%s)"), std_to_wx (p.string ())));
+					error_dialog (this, wxString::Format (_("Could not read key file (%s)"), std_to_wx (p.string ())));
 					return;
 				}
 
-				_signer->set_key (dcp::file_to_string (p));
-				Config::instance()->set_signer_chain (_signer);
-				update_signer_private_key ();
+				_chain->set_key (dcp::file_to_string (p));
+				_set (_chain);
+				update_private_key ();
 			} catch (dcp::MiscError& e) {
-				error_dialog (_panel, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
+				error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
 			}
 		}
 
@@ -825,48 +798,61 @@ private:
 
 	}
 
-	void load_decryption_certificate ()
+	wxListCtrl* _certificates;
+	wxButton* _add_certificate;
+	wxButton* _remove_certificate;
+	wxButton* _remake_certificates;
+	wxStaticText* _private_key;
+	wxButton* _load_private_key;
+	wxBoxSizer* _button_sizer;
+	shared_ptr<dcp::CertificateChain> _chain;
+	boost::function<void (shared_ptr<dcp::CertificateChain>)> _set;
+	boost::function<shared_ptr<const dcp::CertificateChain> (void)> _get;
+};
+
+class KeysPage : public StandardPage
+{
+public:
+	KeysPage (wxSize panel_size, int border)
+		: StandardPage (panel_size, border)
+	{}
+
+	wxString GetName () const
 	{
-		wxFileDialog* d = new wxFileDialog (_panel, _("Select Certificate File"));
-
-		if (d->ShowModal() == wxID_OK) {
-			try {
-				dcp::Certificate c (dcp::file_to_string (wx_to_std (d->GetPath ())));
-				Config::instance()->set_decryption_certificate (c);
-				update_decryption_certificate ();
-			} catch (dcp::MiscError& e) {
-				error_dialog (_panel, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
-			}
-		}
-
-		d->Destroy ();
+		return _("Keys");
 	}
 
-	void update_decryption_certificate ()
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
 	{
-		checked_set (_decryption_certificate, Config::instance()->decryption_certificate().thumbprint ());
+		return wxBitmap ("keys", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
+#endif
 
-	void load_decryption_private_key ()
+private:
+
+	void setup ()
 	{
-		wxFileDialog* d = new wxFileDialog (_panel, _("Select Key File"));
+		_signer = new CertificateChainEditor (
+			_panel, _("Signing DCPs and KDMs"), _border,
+			boost::bind (&Config::set_signer_chain, Config::instance (), _1),
+			boost::bind (&Config::signer_chain, Config::instance ())
+			);
 
-		if (d->ShowModal() == wxID_OK) {
-			try {
-				boost::filesystem::path p (wx_to_std (d->GetPath ()));
-				Config::instance()->set_decryption_private_key (dcp::file_to_string (p));
-				update_decryption_private_key ();
-			} catch (dcp::MiscError& e) {
-				error_dialog (_panel, wxString::Format (_("Could not read key file (%s)"), e.what ()));
-			}
-		}
+		_panel->GetSizer()->Add (_signer);
 
-		d->Destroy ();
-	}
+		_decryption = new CertificateChainEditor (
+			_panel, _("Decrypting DCPs"), _border,
+			boost::bind (&Config::set_decryption_chain, Config::instance (), _1),
+			boost::bind (&Config::decryption_chain, Config::instance ())
+			);
 
-	void update_decryption_private_key ()
-	{
-		checked_set (_decryption_private_key, dcp::private_key_fingerprint (Config::instance()->decryption_private_key()));
+		_panel->GetSizer()->Add (_decryption);
+
+		_export_decryption_certificate = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption certificate..."));
+		_decryption->add_button (_export_decryption_certificate);
+
+		_export_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_certificate, this));
 	}
 
 	void export_decryption_certificate ()
@@ -882,25 +868,22 @@ private:
 				throw OpenFileError (wx_to_std (d->GetPath ()));
 			}
 
-			string const s = Config::instance()->decryption_certificate().certificate (true);
+			string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
 			fwrite (s.c_str(), 1, s.length(), f);
 			fclose (f);
 		}
 		d->Destroy ();
 	}
 
-	wxListCtrl* _certificates;
-	wxButton* _add_certificate;
-	wxButton* _remove_certificate;
-	wxButton* _remake_certificates;
-	wxStaticText* _signer_private_key;
-	wxButton* _load_signer_private_key;
-	wxStaticText* _decryption_certificate;
-	wxButton* _load_decryption_certificate;
-	wxStaticText* _decryption_private_key;
-	wxButton* _load_decryption_private_key;
+	void config_changed ()
+	{
+		_signer->config_changed ();
+		_decryption->config_changed ();
+	}
+
+	CertificateChainEditor* _signer;
+	CertificateChainEditor* _decryption;
 	wxButton* _export_decryption_certificate;
-	shared_ptr<dcp::CertificateChain> _signer;
 };
 
 class TMSPage : public StandardPage

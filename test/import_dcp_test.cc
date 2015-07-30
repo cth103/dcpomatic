@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	A_dcp.read ();
 
 	dcp::EncryptedKDM kdm = A->make_kdm (
-		Config::instance()->decryption_certificate(),
+		Config::instance()->decryption_chain()->leaf (),
 		A_dcp.cpls().front()->file (),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),

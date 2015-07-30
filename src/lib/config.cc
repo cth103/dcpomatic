@@ -35,6 +35,7 @@
 #include <glib.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 #include <cstdlib>
 #include <fstream>
 
@@ -121,8 +122,8 @@ Config::read ()
 	if (!boost::filesystem::exists (file ())) {
 		/* Make a new set of signing certificates and key */
 		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
-		/* And decryption keys */
-		make_decryption_keys ();
+		/* And similar for decryption of KDMs */
+		_decryption_chain.reset (new dcp::CertificateChain (openssl_path ()));
 		return;
 	}
 
@@ -236,9 +237,8 @@ Config::read ()
 	if (signer) {
 		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
-		list<cxml::NodePtr> certificates = signer->node_children ("Certificate");
-		for (list<cxml::NodePtr>::const_iterator i = certificates.begin(); i != certificates.end(); ++i) {
-			c->add (dcp::Certificate ((*i)->content ()));
+		BOOST_FOREACH (cxml::NodePtr i, signer->node_children ("Certificate")) {
+			c->add (dcp::Certificate (i->content ()));
 		}
 		c->set_key (signer->string_child ("PrivateKey"));
 		_signer_chain = c;
@@ -247,26 +247,17 @@ Config::read ()
 		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
 	}
 
-	if (f.optional_string_child ("DecryptionCertificate")) {
-		_decryption_certificate = dcp::Certificate (f.string_child ("DecryptionCertificate"));
+	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
+	if (decryption) {
+		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
+		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
+			c->add (dcp::Certificate (i->content ()));
+		}
+		c->set_key (signer->string_child ("PrivateKey"));
+		_decryption_chain = c;
+	} else {
+		_decryption_chain.reset (new dcp::CertificateChain (openssl_path ()));
 	}
-
-	if (f.optional_string_child ("DecryptionPrivateKey")) {
-		_decryption_private_key = f.string_child ("DecryptionPrivateKey");
-	}
-
-	if (!f.optional_string_child ("DecryptionCertificate") || !f.optional_string_child ("DecryptionPrivateKey")) {
-		/* Generate our own decryption certificate and key if either is not present in config */
-		make_decryption_keys ();
-	}
-}
-
-void
-Config::make_decryption_keys ()
-{
-	dcp::CertificateChain c (openssl_path ());
-	_decryption_certificate = c.leaf ();
-	_decryption_private_key = c.key().get ();
 }
 
 /** @return Filename to write configuration to */
@@ -378,14 +369,16 @@ Config::write () const
 #endif
 
 	xmlpp::Element* signer = root->add_child ("Signer");
-	dcp::CertificateChain::List certs = _signer_chain->root_to_leaf ();
-	for (dcp::CertificateChain::List::const_iterator i = certs.begin(); i != certs.end(); ++i) {
-		signer->add_child("Certificate")->add_child_text (i->certificate (true));
+	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->root_to_leaf ()) {
+		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 
-	root->add_child("DecryptionCertificate")->add_child_text (_decryption_certificate.certificate (true));
-	root->add_child("DecryptionPrivateKey")->add_child_text (_decryption_private_key);
+	xmlpp::Element* decryption = root->add_child ("Decryption");
+	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->root_to_leaf ()) {
+		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
+	}
+	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
 
 	for (vector<boost::filesystem::path>::const_iterator i = _history.begin(); i != _history.end(); ++i) {
 		root->add_child("History")->add_child_text (i->string ());

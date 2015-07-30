@@ -51,7 +51,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	dcp.read ();
 
 	if (content->kdm ()) {
-		dcp.add (dcp::DecryptedKDM (content->kdm().get(), Config::instance()->decryption_private_key ()));
+		dcp.add (dcp::DecryptedKDM (content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
 	}
 
 	if (dcp.cpls().size() == 0) {
