@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 
 */
 
+#include "table_dialog.h"
+#include "lib/isdcf_metadata.h"
 #include <wx/textctrl.h>
 #include <boost/shared_ptr.hpp>
-#include "lib/isdcf_metadata.h"
-#include "table_dialog.h"
 
 class wxSpinCtrl;
 class Film;
@@ -28,7 +28,7 @@ class Film;
 class ISDCFMetadataDialog : public TableDialog
 {
 public:
-	ISDCFMetadataDialog (wxWindow *, ISDCFMetadata);
+	ISDCFMetadataDialog (wxWindow *, ISDCFMetadata, bool threed);
 
 	ISDCFMetadata isdcf_metadata () const;
 

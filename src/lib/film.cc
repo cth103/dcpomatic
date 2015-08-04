@@ -781,6 +781,11 @@ Film::set_three_d (bool t)
 {
 	_three_d = t;
 	signal_changed (THREE_D);
+
+	if (_three_d && _isdcf_metadata.two_d_version_of_three_d) {
+		_isdcf_metadata.two_d_version_of_three_d = false;
+		signal_changed (ISDCF_METADATA);
+	}
 }
 
 void

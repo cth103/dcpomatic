@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,17 @@
 
 */
 
+#include "isdcf_metadata_dialog.h"
+#include "wx_util.h"
+#include "lib/film.h"
 #include <wx/wx.h>
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
-#include "lib/film.h"
-#include "isdcf_metadata_dialog.h"
-#include "wx_util.h"
 
 using boost::shared_ptr;
 
-ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
+/** @param threed true if the film is in 3D */
+ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bool threed)
 	: TableDialog (parent, _("ISDCF name"), 2, true)
 {
 	add (_("Content version"), true);
@@ -67,6 +68,10 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 
 	_two_d_version_of_three_d = add (new wxCheckBox (this, wxID_ANY, _("2D version of content available in 3D")));
 	add_spacer ();
+
+	if (threed) {
+		_two_d_version_of_three_d->Enable (false);
+	}
 
 	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));

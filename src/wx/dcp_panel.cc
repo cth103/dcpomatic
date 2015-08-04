@@ -501,7 +501,7 @@ DCPPanel::edit_isdcf_button_clicked ()
 		return;
 	}
 
-	ISDCFMetadataDialog* d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata ());
+	ISDCFMetadataDialog* d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata (), _film->three_d ());
 	d->ShowModal ();
 	_film->set_isdcf_metadata (d->isdcf_metadata ());
 	d->Destroy ();

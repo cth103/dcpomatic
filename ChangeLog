@@ -1,3 +1,8 @@
+2015-08-04  Carl Hetherington  <cth@carlh.net>
+
+	* Disable "2D version of 3D content" ISDCF metadata
+	checkbutton with 3D content (part of #652).
+
 2015-07-30  c.hetherington  <cth@carlh.net>
 
 	* Allow recreation of the certificate chain and key
