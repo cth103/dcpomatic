@@ -1,5 +1,7 @@
 2015-08-04  Carl Hetherington  <cth@carlh.net>
 
+	* Add --standard option to dcpomatic_create.
+
 	* Disable "2D version of 3D content" ISDCF metadata
 	checkbutton with 3D content (part of #652).
 

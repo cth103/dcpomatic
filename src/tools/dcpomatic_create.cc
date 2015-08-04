@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,12 +43,9 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 static void
-help (string n)
+syntax (string n)
 {
-	cerr << "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
-	     << "A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
-	     << "will be written to stdout.\n"
-	     << "Syntax: " << n << " [OPTION] <CONTENT> [<CONTENT> ...]\n"
+	cerr << "Syntax: " << n << " [OPTION] <CONTENT> [<CONTENT> ...]\n"
 	     << "  -v, --version                 show DCP-o-matic version\n"
 	     << "  -h, --help                    show this help\n"
 	     << "  -n, --name <name>             film name\n"
@@ -56,7 +53,16 @@ help (string n)
 	     << "      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
 	     << "      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
 	     << "  -s, --still-length <n>        number of seconds that still content should last\n"
+	     << "      --standard <standard>     SMPTE or interop (default SMPTE)\n"
 	     << "  -o, --output <dir>            output directory\n";
+}
+
+static void
+help (string n)
+{
+	cerr << "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
+	     << "A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
+	     << "will be written to stdout.\n";
 }
 
 class SimpleSignalManager : public SignalManager
@@ -78,6 +84,7 @@ main (int argc, char* argv[])
 	Ratio const * container_ratio = 0;
 	Ratio const * content_ratio = 0;
 	int still_length = 10;
+	dcp::Standard standard = dcp::SMPTE;
 	boost::filesystem::path output;
 
 	int option_index = 0;
@@ -90,11 +97,12 @@ main (int argc, char* argv[])
 			{ "container-ratio", required_argument, 0, 'A'},
 			{ "content-ratio", required_argument, 0, 'B'},
 			{ "still-length", required_argument, 0, 's'},
+			{ "standard", required_argument, 0, 'C'},
 			{ "output", required_argument, 0, 'o'},
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:c:A:B:s:o:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:c:A:B:C:s:o:", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -113,7 +121,7 @@ main (int argc, char* argv[])
 			dcp_content_type = DCPContentType::from_isdcf_name (optarg);
 			if (dcp_content_type == 0) {
 				cerr << "Bad DCP content type.\n";
-				help (argv[0]);
+				syntax (argv[0]);
 				exit (EXIT_FAILURE);
 			}
 			break;
@@ -121,7 +129,7 @@ main (int argc, char* argv[])
 			container_ratio = Ratio::from_id (optarg);
 			if (container_ratio == 0) {
 				cerr << "Bad container ratio.\n";
-				help (argv[0]);
+				syntax (argv[0]);
 				exit (EXIT_FAILURE);
 			}
 			break;
@@ -129,7 +137,16 @@ main (int argc, char* argv[])
 			content_ratio = Ratio::from_id (optarg);
 			if (content_ratio == 0) {
 				cerr << "Bad content ratio " << optarg << ".\n";
-				help (argv[0]);
+				syntax (argv[0]);
+				exit (EXIT_FAILURE);
+			}
+			break;
+		case 'C':
+			if (strcmp (optarg, "interop") == 0) {
+				standard = dcp::INTEROP;
+			} else if (strcmp (optarg, "SMPTE") != 0) {
+				cerr << "Bad standard " << optarg << ".\n";
+				syntax (argv[0]);
 				exit (EXIT_FAILURE);
 			}
 			break;
@@ -171,6 +188,7 @@ main (int argc, char* argv[])
 
 		film->set_container (container_ratio);
 		film->set_dcp_content_type (dcp_content_type);
+		film->set_interop (standard == dcp::INTEROP);
 
 		for (int i = optind; i < argc; ++i) {
 			shared_ptr<Content> c = content_factory (film, argv[i]);
