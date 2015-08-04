@@ -246,6 +246,7 @@ SectionEnd
 File "%binaries%/src/tools/dcpomatic2.exe"
 File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
+File "%binaries%/src/tools/dcpomatic2_create.exe"
     """, file=f)
 
     if debug:
