@@ -473,7 +473,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Split the raw name up into words */
 	vector<string> words;
-	split (words, raw_name, is_any_of (" "));
+	split (words, raw_name, is_any_of (" _-"));
 
 	string fixed_name;
 
