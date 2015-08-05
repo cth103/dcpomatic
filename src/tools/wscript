@@ -34,7 +34,7 @@ def build(bld):
         uselib += 'WINSOCK2'
 
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm', 'dcpomatic_create']:
-        obj = bld(features = 'cxx cxxprogram')
+        obj = bld(features='cxx cxxprogram')
         obj.uselib = uselib
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2']
@@ -45,7 +45,7 @@ def build(bld):
 
     if not bld.env.DISABLE_GUI:
         for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server']:
-            obj = bld(features = 'cxx cxxprogram')
+            obj = bld(features='cxx cxxprogram')
             obj.uselib = uselib
             if bld.env.BUILD_STATIC or bld.env.TARGET_LINUX:
                 obj.uselib += ' GTK'
