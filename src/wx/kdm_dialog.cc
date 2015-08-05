@@ -305,6 +305,7 @@ KDMDialog::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 	}
 
 	_screens[_targets->AppendItem (i->first, std_to_wx (s->name))] = s;
+	_targets->Expand (i->first);
 }
 
 void
