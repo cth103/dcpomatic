@@ -62,7 +62,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
 
 	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
-	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS);
+	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT);
 	targets->Add (_targets, 1, wxEXPAND | wxTOP | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	_root = _targets->AddRoot ("Foo");
