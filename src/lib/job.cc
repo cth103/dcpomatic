@@ -84,6 +84,8 @@ Job::run_wrapper ()
 		}
 
 		set_error (e.what(), m);
+		set_progress (1);
+		set_state (FINISHED_ERROR);
 
 	} catch (OpenFileError& e) {
 
@@ -91,6 +93,9 @@ Job::run_wrapper ()
 			String::compose (_("Could not open %1"), e.file().string()),
 			String::compose (_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."), e.file().string())
 			);
+
+		set_progress (1);
+		set_state (FINISHED_ERROR);
 
 	} catch (boost::filesystem::filesystem_error& e) {
 
@@ -106,15 +111,18 @@ Job::run_wrapper ()
 				);
 		}
 
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
 	} catch (boost::thread_interrupted &) {
 
 		set_state (FINISHED_CANCELLED);
-		/* This is the only one that is not FINISHED_ERROR; need to return */
-		return;
 
 	} catch (std::bad_alloc& e) {
 
 		set_error (_("Out of memory"), _("There was not enough memory to do this."));
+		set_progress (1);
+		set_state (FINISHED_ERROR);
 
 	} catch (std::exception& e) {
 
@@ -123,16 +131,19 @@ Job::run_wrapper ()
 			string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
 			);
 
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+
 	} catch (...) {
 
 		set_error (
 			_("Unknown error"),
 			string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
 			);
-	}
 
-	set_progress (1);
-	set_state (FINISHED_ERROR);
+		set_progress (1);
+		set_state (FINISHED_ERROR);
+	}
 }
 
 /** @return true if this job is new (ie has not started running) */
