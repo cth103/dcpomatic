@@ -926,7 +926,7 @@ Film::examine_content (shared_ptr<Content> c)
 void
 Film::examine_and_add_content (shared_ptr<Content> c)
 {
-	if (dynamic_pointer_cast<FFmpegContent> (c)) {
+	if (dynamic_pointer_cast<FFmpegContent> (c) && !_directory.empty ()) {
 		run_ffprobe (c->path(0), file ("ffprobe.log"), _log);
 	}
 
