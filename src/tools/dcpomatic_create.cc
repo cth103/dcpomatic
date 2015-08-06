@@ -17,12 +17,6 @@
 
 */
 
-#include <string>
-#include <iostream>
-#include <cstdlib>
-#include <stdexcept>
-#include <getopt.h>
-#include <boost/filesystem.hpp>
 #include "lib/version.h"
 #include "lib/film.h"
 #include "lib/util.h"
@@ -33,6 +27,12 @@
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
 #include "lib/image_content.h"
+#include <boost/filesystem.hpp>
+#include <getopt.h>
+#include <string>
+#include <iostream>
+#include <cstdlib>
+#include <stdexcept>
 
 using std::string;
 using std::cout;
@@ -54,6 +54,8 @@ syntax (string n)
 	     << "      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
 	     << "  -s, --still-length <n>        number of seconds that still content should last\n"
 	     << "      --standard <standard>     SMPTE or interop (default SMPTE)\n"
+	     << "      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
+	     << "      --no-sign                 do not sign the DCP\n"
 	     << "  -o, --output <dir>            output directory\n";
 }
 
@@ -88,6 +90,8 @@ main (int argc, char* argv[])
 	int still_length = 10;
 	dcp::Standard standard = dcp::SMPTE;
 	boost::filesystem::path output;
+	bool sign = true;
+	bool use_isdcf_name = true;
 
 	int option_index = 0;
 	while (true) {
@@ -100,11 +104,13 @@ main (int argc, char* argv[])
 			{ "content-ratio", required_argument, 0, 'B'},
 			{ "still-length", required_argument, 0, 's'},
 			{ "standard", required_argument, 0, 'C'},
+			{ "no-use-isdcf-name", no_argument, 0, 'D'},
+			{ "no-sign", no_argument, 0, 'E'},
 			{ "output", required_argument, 0, 'o'},
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:c:A:B:C:s:o:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:c:A:B:C:s:o:DE", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -152,12 +158,21 @@ main (int argc, char* argv[])
 				exit (EXIT_FAILURE);
 			}
 			break;
+		case 'D':
+			use_isdcf_name = false;
+			break;
+		case 'E':
+			sign = false;
+			break;
 		case 's':
 			still_length = atoi (optarg);
 			break;
 		case 'o':
 			output = optarg;
 			break;
+		case '?':
+			syntax (argv[0]);
+			exit (EXIT_FAILURE);
 		}
 	}
 
@@ -193,6 +208,8 @@ main (int argc, char* argv[])
 		film->set_container (container_ratio);
 		film->set_dcp_content_type (dcp_content_type);
 		film->set_interop (standard == dcp::INTEROP);
+		film->set_use_isdcf_name (use_isdcf_name);
+		film->set_signed (sign);
 
 		for (int i = optind; i < argc; ++i) {
 			shared_ptr<Content> c = content_factory (film, argv[i]);
