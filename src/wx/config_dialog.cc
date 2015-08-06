@@ -585,7 +585,7 @@ public:
 		wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
 		sizer->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, border);
 
-		_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
+		_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 150), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 		{
 			wxListItem ip;
