@@ -63,6 +63,8 @@ help (string n)
 	cerr << "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
 	     << "A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
 	     << "will be written to stdout.\n";
+
+	syntax (n);
 }
 
 class SimpleSignalManager : public SignalManager
@@ -180,11 +182,13 @@ main (int argc, char* argv[])
 
 	signal_manager = new SimpleSignalManager ();
 
+	if (name.empty ()) {
+		name = boost::filesystem::path (argv[optind]).leaf().string ();
+	}
+
 	try {
 		shared_ptr<Film> film (new Film (output, false));
-		if (!name.empty ()) {
-			film->set_name (name);
-		}
+		film->set_name (name);
 
 		film->set_container (container_ratio);
 		film->set_dcp_content_type (dcp_content_type);
