@@ -253,11 +253,11 @@ shown in <xref linkend="fig-file-new"/>.
 </para>
 
 <figure id="fig-file-new">
-  <title>Creating a new film</title> 
+  <title>Creating a new film</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/file-new&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -267,11 +267,11 @@ linkend="fig-video-new-film"/>.
 </para>
 
 <figure id="fig-video-new-film">
-  <title>Dialogue box for creating a new film</title> 
+  <title>Dialogue box for creating a new film</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/video-new-film&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -301,21 +301,21 @@ select the content file to use, as shown in <xref
 linkend="fig-video-select-content-file"/>.
 </para>
 
-<figure id="fig-add-file"> 
-  <title>Adding content files</title> 
+<figure id="fig-add-file">
+  <title>Adding content files</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/add-file&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
-<figure id="fig-video-select-content-file"> 
-  <title>Selecting a video content file</title> 
+<figure id="fig-video-select-content-file">
+  <title>Selecting a video content file</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/video-select-content-file&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -331,12 +331,12 @@ has finished), you can look through your content using the slider to
 the right of the window, as shown in <xref linkend="fig-examine-content"/>.
 </para>
 
-<figure id="fig-examine-content"> 
+<figure id="fig-examine-content">
   <title>Examining the content</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/examine-content&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -379,9 +379,9 @@ linkend="fig-making-dcp"/>.
 <figure id="fig-making-dcp">
   <title>Making the DCP</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata scale="50" fileref="screenshots/making-dcp&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -420,12 +420,12 @@ As with video DCPs, the first step is to create a new
 shown in <xref linkend="fig-still-new-film"/>.
 </para>
 
-<figure id="fig-still-new-film"> 
-  <title>Dialogue box for creating a new film</title> 
+<figure id="fig-still-new-film">
+  <title>Dialogue box for creating a new film</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/still-new-film&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -436,12 +436,12 @@ For our example, we will add a single image file, as shown in <xref
 linkend="fig-still-select-content-file"/>.
 </para>
 
-<figure id="fig-still-select-content-file"> 
-  <title>Selecting a still content file</title> 
+<figure id="fig-still-select-content-file">
+  <title>Selecting a still content file</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/still-select-content-file&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -453,12 +453,12 @@ you will see a <guilabel>Play length</guilabel> setting, as shown in <xref
 linkend="fig-timing-tab"/>.
 </para>
 
-<figure id="fig-timing-tab"> 
+<figure id="fig-timing-tab">
   <title>The timing tab</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/timing-tab&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -605,12 +605,12 @@ in each section are described below.
 The <guilabel>Video</guilabel> tab controls properties of the image, as shown in <xref linkend="fig-video-tab"/>.
 </para>
 
-<figure id="fig-video-tab"> 
+<figure id="fig-video-tab">
   <title>Video settings tab</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/video-tab&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -628,12 +628,12 @@ left/right</guilabel> option tells DCP-o-matic to interpret the frame as a
 left-right pair, as shown in <xref linkend="fig-3d-left-right"/>.
 </para>
 
-<figure id="fig-3d-left-right"> 
+<figure id="fig-3d-left-right">
   <title>3D left/right image type</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="100" fileref="diagrams/3d-left-right&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -643,12 +643,12 @@ DCP-o-matic to see the frame as a top-bottom pair, as shown in <xref
 linkend="fig-3d-top-bottom"/>.
 </para>
 
-<figure id="fig-3d-top-bottom"> 
+<figure id="fig-3d-top-bottom">
   <title>3D top/bottom image type</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="100" fileref="diagrams/3d-top-bottom&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -680,12 +680,12 @@ setup area of the DCP-o-matic window; this opens the filters selector
 as shown in <xref linkend="fig-filters"/>.
 </para>
 
-<figure id="fig-filters"> 
-  <title>Filters selector</title> 
+<figure id="fig-filters">
+  <title>Filters selector</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/filters&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -746,11 +746,11 @@ colour conversion editing dialogue box:
 </para>
 
 <figure id="fig-colour-conversion">
-  <title>Dialogue box for custom colour conversion</title> 
+  <title>Dialogue box for custom colour conversion</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/colour-conversion&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -829,12 +829,12 @@ frame-rate conversion.
 The <guilabel>Audio</guilabel> tab controls properties of the image, as shown in <xref linkend="fig-audio-tab"/>.
 </para>
 
-<figure id="fig-audio-tab"> 
+<figure id="fig-audio-tab">
   <title>Audio settings tab</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/audio-tab&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -892,9 +892,9 @@ Consider, for example, the case in <xref linkend="fig-audio-map-eg1"/>.
 <figure id="fig-audio-map-eg1">
   <title>Audio map example 1</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/audio-map-eg1&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -908,9 +908,9 @@ the settings to those shown in <xref linkend="fig-audio-map-eg2"/>
 <figure id="fig-audio-map-eg2">
   <title>Audio map example 2</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/audio-map-eg2&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -927,9 +927,9 @@ and right.
 <figure id="fig-audio-map-eg3">
   <title>Audio map example 3</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/audio-map-eg3&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -961,12 +961,12 @@ button next to the audio gain entry, and the dialogue box in <xref
 linkend="fig-calculate-audio-gain"/> will open.
 </para>
 
-<figure id="fig-calculate-audio-gain"> 
+<figure id="fig-calculate-audio-gain">
   <title>Calculating audio gain</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/calculate-audio-gain&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1005,12 +1005,12 @@ The subtitles tab contains settings related to subtitles in your
 content, as shown in <xref linkend="fig-subtitles-tab"/>.
 </para>
 
-<figure id="fig-subtitles-tab"> 
+<figure id="fig-subtitles-tab">
   <title>Subtitle settings tab</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/subtitles-tab&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1027,18 +1027,18 @@ linkend="fig-burn-in"/> and <xref linkend="fig-discrete"/>
 <figure id="fig-burn-in">
   <title>Burnt-in subtitles</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="80" fileref="diagrams/burn-in&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
 <figure id="fig-discrete">
   <title>Separate subtitles</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="80" fileref="diagrams/discrete&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1103,12 +1103,12 @@ The timing tab contains settings related to the timing of your
 content, as shown in <xref linkend="fig-timing-tab-detail"/>.
 </para>
 
-<figure id="fig-timing-tab-detail"> 
+<figure id="fig-timing-tab-detail">
   <title>Timing settings tab</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/timing-tab&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1118,12 +1118,12 @@ These are expressed as four numbers, as shown in <xref
 linkend="fig-timecode"/>.
 </para>
 
-<figure id="fig-timecode"> 
+<figure id="fig-timecode">
   <title>Timecode</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="diagrams/timecode&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1190,12 +1190,12 @@ happen with a trailer).  The source image is shown in <xref
 linkend="fig-pipeline1"/>.
 </para>
 
-<figure id="fig-pipeline1"> 
+<figure id="fig-pipeline1">
   <title>Example image to demonstrate video processing</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="100" fileref="diagrams/pipeline1&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1221,12 +1221,12 @@ bottom.  This would give the new image shown in <xref
 linkend="fig-pipeline2"/>.
 </para>
 
-<figure id="fig-pipeline2"> 
+<figure id="fig-pipeline2">
   <title>Example image after cropping</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="100" fileref="diagrams/pipeline2&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1263,12 +1263,12 @@ size of 1998 x 836.  This gives us a new version of the image as shown
 in <xref linkend="fig-pipeline3"/>.
 </para>
 
-<figure id="fig-pipeline3"> 
+<figure id="fig-pipeline3">
   <title>Example image after cropping and scaling</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="100" fileref="diagrams/pipeline3&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1283,12 +1283,12 @@ shares out this black equally, as shown in <xref
 linkend="fig-pipeline3"/>.
 </para>
 
-<figure id="fig-pipeline4"> 
+<figure id="fig-pipeline4">
   <title>Example image in the DCP</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata scale="100" fileref="diagrams/pipeline4&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1305,12 +1305,12 @@ controls for these settings are in the <guilabel>DCP</guilabel> tab of
 the main window, as shown in <xref linkend="fig-dcp-tab"/>.
 </para>
 
-<figure id="fig-dcp-tab"> 
+<figure id="fig-dcp-tab">
   <title>DCP settings tab</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/dcp-tab&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1320,7 +1320,7 @@ of the film that is being encoded.  If <guilabel>Use ISDCF
 name</guilabel> is not ticked, the name that you specify will be used
 as-is for the name of the DCP.  If <guilabel>Use ISDCF name</guilabel>
 is ticked, the name that you enter will be used as part of a
-ISDCF-compliant name.  
+ISDCF-compliant name.
 </para>
 
 <para>
@@ -1445,7 +1445,7 @@ unused channel will be filled with silence.
 
 <para>
 The <guilabel>Processor</guilabel> control allows you to select a
-process to apply to the audio before it goes into the DCP.  Two processes are currently provided: 
+process to apply to the audio before it goes into the DCP.  Two processes are currently provided:
 </para>
 
 <itemizedlist>
@@ -1484,12 +1484,12 @@ the sound will be in the cinema auditorium.  A typical plot is shown
 in <xref linkend="fig-audio-plot"/>
 </para>
 
-<figure id="fig-audio-plot"> 
+<figure id="fig-audio-plot">
   <title>Audio plot</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
        <imagedata fileref="screenshots/audio-plot&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1659,11 +1659,11 @@ will open the KDM dialogue box, as shown in <xref linkend="fig-kdm"/>.
 </para>
 
 <figure id="fig-kdm">
-  <title>KDM dialog</title> 
+  <title>KDM dialog</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/kdm&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1776,12 +1776,12 @@ menu.  The dialogue is split into seven tabs.
 The general tab is shown in <xref linkend="fig-prefs-general"/>.
 </para>
 
-<figure id="fig-prefs-general"> 
-  <title>General preferences</title> 
+<figure id="fig-prefs-general">
+  <title>General preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-general&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1851,11 +1851,11 @@ The defaults tab is shown in <xref linkend="fig-prefs-defaults"/>.
 </para>
 
 <figure id="fig-prefs-defaults">
-  <title>Defaults preferences</title> 
+  <title>Defaults preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-defaults&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1875,11 +1875,11 @@ The servers tab is shown in <xref linkend="fig-prefs-servers"/>.
 </para>
 
 <figure id="fig-prefs-servers">
-  <title>Servers preferences</title> 
+  <title>Servers preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-servers&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1908,12 +1908,12 @@ related to the keys and certificates used in some parts of DCP
 creation.
 </para>
 
-<figure id="fig-prefs-keys"> 
-  <title>Keys preferences</title> 
+<figure id="fig-prefs-keys">
+  <title>Keys preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-keys&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1967,12 +1967,12 @@ upload DCPs directly from DCP-o-matic to the TMS using the
 <guilabel>Jobs</guilabel> menu.
 </para>
 
-<figure id="fig-prefs-tms"> 
-  <title>TMS preferences</title> 
+<figure id="fig-prefs-tms">
+  <title>TMS preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-tms&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -1983,6 +1983,13 @@ should be uploaded to (which will be relative to the home directory of
 the SSH user).  Finally, the user name and password are the
 credentials required to log into the TMS via SSH.
 </para>
+
+<para>
+Note that for this to work on Doremi servers you will need to set the
+<code>PasswordAuthentication</code> option in your server's
+<code>sshd_config</code> to <code>yes</code>.
+</para>
+
 </section>
 
 
@@ -1994,12 +2001,12 @@ credentials required to log into the TMS via SSH.
 The KDM email is shown in <xref linkend="fig-prefs-kdm-email"/>.
 </para>
 
-<figure id="fig-prefs-kdm-email"> 
-  <title>KDM email preferences</title> 
+<figure id="fig-prefs-kdm-email">
+  <title>KDM email preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-kdm-email&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -2049,12 +2056,12 @@ The <guilabel>Reset to default text</guilabel> will replace the current KDM emai
 The advanced preferences are shown in <xref linkend="fig-prefs-advanced"/>.
 </para>
 
-<figure id="fig-prefs-advanced"> 
-  <title>Advanced preferences</title> 
+<figure id="fig-prefs-advanced">
+  <title>Advanced preferences</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="screenshots/prefs-advanced&scs;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
@@ -2332,12 +2339,12 @@ linkend="fig-file-structure"/> shows the files that might be generated
 after you have created a DCP for a film called &lsquo;DCP Test&rsquo;.
 </para>
 
-<figure id="fig-file-structure"> 
-  <title>Creating a new film</title> 
+<figure id="fig-file-structure">
+  <title>Creating a new film</title>
   <mediaobject>
-    <imageobject> 
+    <imageobject>
       <imagedata fileref="diagrams/file-structure&dia;"/>
-    </imageobject> 
+    </imageobject>
   </mediaobject>
 </figure>
 
