@@ -1024,7 +1024,13 @@ Film::playlist_changed ()
 int
 Film::audio_frame_rate () const
 {
-	/* XXX */
+	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+		shared_ptr<AudioContent> a = dynamic_pointer_cast<AudioContent> (i);
+		if (a && a->has_rate_above_48k ()) {
+			return 96000;
+		}
+	}
+
 	return 48000;
 }
 
