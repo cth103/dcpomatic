@@ -308,7 +308,7 @@ msgstr "Преобразование цвета"
 
 #: src/wx/config_dialog.cc:1229
 msgid "Config|Timing"
-msgstr "Конфигурация | Тайминг"
+msgstr "Тайминг"
 
 #: src/wx/report_problem_dialog.cc:64
 msgid "Contact email"
@@ -704,7 +704,7 @@ msgstr "Тип KDM"
 
 #: src/wx/kdm_dialog.cc:99
 msgid "KDM|Timing"
-msgstr "KDM | Тайминг"
+msgstr "Тайминг"
 
 #: src/wx/timeline_dialog.cc:42
 msgid "Keep video in sequence"
