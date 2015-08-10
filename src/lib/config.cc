@@ -124,6 +124,7 @@ Config::read ()
 		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
 		/* And similar for decryption of KDMs */
 		_decryption_chain.reset (new dcp::CertificateChain (openssl_path ()));
+		write ();
 		return;
 	}
 
