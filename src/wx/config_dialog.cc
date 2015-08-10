@@ -574,16 +574,16 @@ public:
 		wxFont subheading_font (*wxNORMAL_FONT);
 		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-		wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+		_sizer = new wxBoxSizer (wxVERTICAL);
 
 		{
 			wxStaticText* m = new wxStaticText (this, wxID_ANY, title);
 			m->SetFont (subheading_font);
-			sizer->Add (m, 0, wxALL, border);
+			_sizer->Add (m, 0, wxALL, border);
 		}
 
 		wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
-		sizer->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, border);
+		_sizer->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, border);
 
 		_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 150), wxLC_REPORT | wxLC_SINGLE_SEL);
 
@@ -620,7 +620,7 @@ public:
 		}
 
 		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		sizer->Add (table, 1, wxALL | wxEXPAND, border);
+		_sizer->Add (table, 1, wxALL | wxEXPAND, border);
 		int r = 0;
 
 		add_label_to_grid_bag_sizer (table, this, _("Leaf private key"), true, wxGBPosition (r, 0));
@@ -646,7 +646,7 @@ public:
 		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remake_certificates, this));
 		_load_private_key->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::load_private_key, this));
 
-		SetSizerAndFit (sizer);
+		SetSizerAndFit (_sizer);
 	}
 
 	void config_changed ()
@@ -661,6 +661,7 @@ public:
 	void add_button (wxWindow* button)
 	{
 		_button_sizer->Add (button);
+		_sizer->Layout ();
 	}
 
 private:
@@ -770,6 +771,7 @@ private:
 	void update_private_key ()
 	{
 		checked_set (_private_key, dcp::private_key_fingerprint (_chain->key().get ()));
+		_sizer->Layout ();
 	}
 
 	void load_private_key ()
@@ -795,7 +797,6 @@ private:
 		d->Destroy ();
 
 		update_sensitivity ();
-
 	}
 
 	wxListCtrl* _certificates;
@@ -804,6 +805,7 @@ private:
 	wxButton* _remake_certificates;
 	wxStaticText* _private_key;
 	wxButton* _load_private_key;
+	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
 	shared_ptr<dcp::CertificateChain> _chain;
 	boost::function<void (shared_ptr<dcp::CertificateChain>)> _set;
