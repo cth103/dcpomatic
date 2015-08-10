@@ -1,5 +1,7 @@
 2015-08-10  Carl Hetherington  <cth@carlh.net>
 
+	* Fix erroneous folder creation on Windows (#654).
+
 	* Fix incorrect layout on Windows (#653).
 
 2015-08-09  Carl Hetherington  <cth@carlh.net>
