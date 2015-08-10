@@ -177,6 +177,7 @@ main (int argc, char* argv[])
 
 	film_dir = argv[optind];
 
+	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 	signal_manager = new SignalManager ();
 
@@ -286,5 +287,3 @@ main (int argc, char* argv[])
 
 	return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }
-
-

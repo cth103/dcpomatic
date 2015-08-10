@@ -202,6 +202,8 @@ class App : public wxApp
 		unsetenv ("UBUNTU_MENUPROXY");
 #endif
 
+		dcpomatic_setup_path_encoding ();
+
 		/* Enable i18n; this will create a Config object
 		   to look for a force-configured language.  This Config
 		   object will be wrong, however, because dcpomatic_setup

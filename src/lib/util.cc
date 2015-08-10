@@ -280,18 +280,10 @@ terminate ()
 	abort();
 }
 
-/** Call the required functions to set up DCP-o-matic's static arrays, etc.
- *  Must be called from the UI thread, if there is one.
- */
 void
-dcpomatic_setup ()
+dcpomatic_setup_path_encoding ()
 {
 #ifdef DCPOMATIC_WINDOWS
-	boost::filesystem::path p = g_get_user_config_dir ();
-	p /= "backtrace.txt";
-	set_backtrace_file (p);
-	SetUnhandledExceptionFilter(exception_handler);
-
 	/* Dark voodoo which, I think, gets boost::filesystem::path to
 	   correctly convert UTF-8 strings to paths, and also paths
 	   back to UTF-8 strings (on path::string()).
@@ -306,6 +298,20 @@ dcpomatic_setup ()
 	*/
 	std::locale::global (boost::locale::generator().generate (""));
 	boost::filesystem::path::imbue (std::locale ());
+#endif
+}
+
+/** Call the required functions to set up DCP-o-matic's static arrays, etc.
+ *  Must be called from the UI thread, if there is one.
+ */
+void
+dcpomatic_setup ()
+{
+#ifdef DCPOMATIC_WINDOWS
+	boost::filesystem::path p = g_get_user_config_dir ();
+	p /= "backtrace.txt";
+	set_backtrace_file (p);
+	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
 	avfilter_register_all ();

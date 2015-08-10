@@ -81,6 +81,7 @@ public:
 int
 main (int argc, char* argv[])
 {
+	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
 	string name;

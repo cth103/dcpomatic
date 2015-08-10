@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,6 +59,9 @@ help (string n)
 int
 main (int argc, char* argv[])
 {
+	dcpomatic_setup_path_encoding ();
+	dcpomatic_setup ();
+
 	int num_threads = Config::instance()->num_local_encoding_threads ();
 	bool verbose = false;
 	bool write_log = false;

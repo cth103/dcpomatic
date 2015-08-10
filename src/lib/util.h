@@ -65,6 +65,7 @@ extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
 extern double seconds (struct timeval);
 extern void dcpomatic_setup ();
+extern void dcpomatic_setup_path_encoding ();
 extern void dcpomatic_setup_gettext_i18n (std::string);
 extern std::string md5_digest_head_tail (std::vector<boost::filesystem::path>, boost::uintmax_t size);
 extern void ensure_ui_thread ();

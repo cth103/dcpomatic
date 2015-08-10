@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -159,6 +159,7 @@ private:
 			return false;
 		}
 
+		dcpomatic_setup_path_encoding ();
 		dcpomatic_setup ();
 
 		_icon = new TaskBarIcon;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -216,6 +216,7 @@ int main (int argc, char* argv[])
 
 	string const film_dir = argv[optind];
 
+	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
 	shared_ptr<Film> film;
