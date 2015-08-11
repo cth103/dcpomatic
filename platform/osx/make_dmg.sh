@@ -131,13 +131,13 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
 done
 
 cp $ROOT/32/src/dcpomatic2/build/platform/osx/Info.plist "$WORK/$approot"
-cp $ROOT/32/src/dcpomatic2/icons/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
-cp $ROOT/32/src/dcpomatic2/icons/colour_conversions.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic2/icons/defaults.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic2/icons/kdm_email.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic2/icons/servers.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic2/icons/tms.png "$WORK/$resources"
-cp $ROOT/32/src/dcpomatic2/icons/keys.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
+cp $ROOT/32/src/dcpomatic2/graphics/colour_conversions.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/defaults.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/kdm_email.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/servers.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/tms.png "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/keys.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic2/LiberationSans-Regular.ttf "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
