@@ -198,6 +198,7 @@ def make_spec(filename, version, target):
     print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
     print >>f,'%{_datadir}/dcpomatic2/taskbar_icon.png'
     print >>f,'%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf'
+    print >>f,'%{_datadir}/dcpomatic2/splash.png'
     for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
         print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
     for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK']:
