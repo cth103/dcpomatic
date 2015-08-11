@@ -119,7 +119,7 @@ Config::restore_defaults ()
 void
 Config::read ()
 {
-	if (!boost::filesystem::exists (file ())) {
+	if (!have_existing ()) {
 		/* Make a new set of signing certificates and key */
 		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
 		/* And similar for decryption of KDMs */
@@ -263,7 +263,7 @@ Config::read ()
 
 /** @return Filename to write configuration to */
 boost::filesystem::path
-Config::file () const
+Config::file ()
 {
 	boost::filesystem::path p;
 #ifdef DCPOMATIC_OSX
@@ -455,4 +455,10 @@ Config::add_to_history (boost::filesystem::path p)
 	}
 
 	changed ();
+}
+
+bool
+Config::have_existing ()
+{
+	return boost::filesystem::exists (file ());
 }

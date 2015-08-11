@@ -35,6 +35,7 @@
 #include "lib/send_kdm_email_job.h"
 #include "lib/server_finder.h"
 #include "lib/update.h"
+#include "lib/cross.h"
 #include "lib/content_factory.h"
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
@@ -55,6 +56,7 @@
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
+#include <wx/splash.h>
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
@@ -776,6 +778,18 @@ private:
 	bool OnInit ()
 	try
 	{
+		wxInitAllImageHandlers ();
+
+		wxSplashScreen* splash = 0;
+		if (!Config::have_existing ()) {
+			wxBitmap bitmap;
+			boost::filesystem::path p = shared_path () / "splash.png";
+			if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
+				splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
+				wxYield ();
+			}
+		}
+
 		SetAppName (_("DCP-o-matic"));
 
 		if (!wxApp::OnInit()) {
@@ -791,8 +805,6 @@ private:
 		GetCurrentProcess (&serial);
 		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif
-
-		wxInitAllImageHandlers ();
 
 		dcpomatic_setup_path_encoding ();
 
@@ -817,6 +829,9 @@ private:
 		_frame = new DOMFrame (_("DCP-o-matic"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
+		if (splash) {
+			splash->Destroy ();
+		}
 		_frame->Show ();
 
 		if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {

@@ -417,10 +417,11 @@ public:
 	static Config* instance ();
 	static void drop ();
 	static void restore_defaults ();
+	static bool have_existing ();
 
 private:
 	Config ();
-	boost::filesystem::path file () const;
+	static boost::filesystem::path file ();
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();

@@ -277,7 +277,7 @@ def configure(conf):
 
             conf.env['LIB_%s' % name.upper()] = libs
             conf.env['STLIB_%s' % name.upper()] = stlibs
-            conf.env['INCLUDE_%s' % name.upper()] = include
+            conf.env['INCLUDES_%s' % name.upper()] = include
             conf.env['LIBPATH_%s' % name.upper()] = libpath
     else:
         conf.check_cfg(package='libavformat', args='--cflags --libs', uselib_store='AVFORMAT', mandatory=True)
@@ -414,6 +414,7 @@ def build(bld):
 
     if not bld.env.TARGET_WINDOWS:
         bld.install_files('${PREFIX}/share/dcpomatic2', 'graphics/taskbar_icon.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'graphics/splash.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'LiberationSans-Regular.ttf')
 
     bld.add_post_fun(post)

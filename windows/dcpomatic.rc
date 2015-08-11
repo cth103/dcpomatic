@@ -1,3 +1,0 @@
-id ICON "dcpomatic.ico"
-taskbar_icon ICON "dcpomatic_taskbar.ico"
-#include "wx-2.9/wx/msw/wx.rc"

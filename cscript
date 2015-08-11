@@ -261,6 +261,7 @@ def build(target, options):
 def package_windows(target):
     shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
     target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
+    target.command('sed -i "s~%%graphics%%~%s/graphics~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
     target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
     target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, target.bits))
     target.command('sed -i "s~%%mingw%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.mingw_path, target.bits))

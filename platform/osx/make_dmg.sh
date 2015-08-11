@@ -139,6 +139,7 @@ cp $ROOT/32/src/dcpomatic2/graphics/servers.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic2/graphics/tms.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic2/graphics/keys.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic2/LiberationSans-Regular.ttf "$WORK/$resources"
+cp $ROOT/32/src/dcpomatic2/graphics/splash.png "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
 for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK; do
