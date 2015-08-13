@@ -294,9 +294,9 @@ Config::instance ()
 			/* configuration load failed; never mind, just
 			   stick with the default.
 			*/
-			cerr << "dcpomatic: failed to load configuration (" << e.what() << ")\n";
+			cerr << "dcpomatic: warning: configuration did not load (" << e.what() << "); using defaults\n";
 		} catch (...) {
-			cerr << "dcpomatic: failed to load configuration\n";
+			cerr << "dcpomatic: warning: configuration did not load; using defaults\n";
 		}
 	}
 
