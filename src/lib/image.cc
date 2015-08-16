@@ -208,34 +208,6 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	return scaled;
 }
 
-shared_ptr<Image>
-Image::crop (Crop crop, bool aligned) const
-{
-	dcp::Size cropped_size = crop.apply (size ());
-	shared_ptr<Image> out (new Image (pixel_format(), cropped_size, aligned));
-
-	for (int c = 0; c < components(); ++c) {
-		int const crop_left_in_bytes = bytes_per_pixel(c) * crop.left;
-		/* bytes_per_pixel() could be a fraction; in this case the stride will be rounded
-		   up, and we need to make sure that we copy over the width (up to the stride)
-		   rather than short of the width; hence the ceil() here.
-		*/
-		int const cropped_width_in_bytes = ceil (bytes_per_pixel(c) * cropped_size.width);
-
-		/* Start of the source line, cropped from the top but not the left */
-		uint8_t* in_p = data()[c] + (crop.top / out->line_factor(c)) * stride()[c];
-		uint8_t* out_p = out->data()[c];
-
-		for (int y = 0; y < out->lines(c); ++y) {
-			memcpy (out_p, in_p + crop_left_in_bytes, cropped_width_in_bytes);
-			in_p += stride()[c];
-			out_p += out->stride()[c];
-		}
-	}
-
-	return out;
-}
-
 /** Blacken a YUV image whose bits per pixel is rounded up to 16 */
 void
 Image::yuv_16_black (uint16_t v, bool alpha)
