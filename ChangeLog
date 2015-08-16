@@ -1,3 +1,7 @@
+2015-08-17  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crop of some YUV content.
+
 2015-08-11  Carl Hetherington  <cth@carlh.net>
 
 	* Prevent multiple creation of certificate chains

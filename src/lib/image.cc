@@ -54,7 +54,7 @@ Image::line_factor (int n) const
 
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError ("lines()", _pixel_format);
+		throw PixelFormatError ("line_factor()", _pixel_format);
 	}
 
 	return pow (2.0f, d->log2_chroma_h);
@@ -130,10 +130,21 @@ Image::crop_scale_window (
 		0, 1 << 16, 1 << 16
 		);
 
+	AVPixFmtDescriptor const * desc = av_pix_fmt_desc_get (_pixel_format);
+	if (!desc) {
+		throw PixelFormatError ("crop_scale_window()", _pixel_format);
+	}
+
 	/* Prepare input data pointers with crop */
 	uint8_t* scale_in_data[components()];
 	for (int c = 0; c < components(); ++c) {
-		scale_in_data[c] = data()[c] + int (rint (bytes_per_pixel(c) * crop.left)) + stride()[c] * (crop.top / line_factor(c));
+		/* To work out the crop in bytes, start by multiplying
+		   the crop by the (average) bytes per pixel.  Then
+		   round down so that we don't crop a subsampled pixel until
+		   we've cropped all of its Y-channel pixels.
+		*/
+		int const x = int (rint (bytes_per_pixel(c) * crop.left)) & ~ ((int) desc->log2_chroma_w);
+		scale_in_data[c] = data()[c] + x + stride()[c] * (crop.top / line_factor(c));
 	}
 
 	/* Corner of the image within out_size */
@@ -515,7 +526,7 @@ Image::bytes_per_pixel (int c) const
 {
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError ("lines()", _pixel_format);
+		throw PixelFormatError ("bytes_per_pixel()", _pixel_format);
 	}
 
 	if (c >= components()) {
