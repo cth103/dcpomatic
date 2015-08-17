@@ -1,5 +1,8 @@
 2015-08-17  Carl Hetherington  <cth@carlh.net>
 
+	* Fix problems when encoding 3D from separate
+	L/R sources.
+
 	* Version 2.1.38 released.
 
 2015-08-17  Carl Hetherington  <cth@carlh.net>

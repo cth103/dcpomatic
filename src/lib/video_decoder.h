@@ -62,8 +62,8 @@ protected:
 	void seek (ContentTime time, bool accurate);
 	void video (boost::shared_ptr<const ImageProxy>, Frame frame);
 	std::list<ContentVideo> decoded_video (Frame frame);
-	void fill_2d (Frame from, Frame to);
-	void fill_3d (Frame from, Frame to, Eyes);
+	void fill_one_eye (Frame from, Frame to, Eyes);
+	void fill_both_eyes (Frame from, Frame to, Eyes);
 
 	boost::shared_ptr<const VideoContent> _video_content;
 	std::list<ContentVideo> _decoded_video;

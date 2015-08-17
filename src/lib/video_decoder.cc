@@ -130,9 +130,12 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 	return dec;
 }
 
-/** Fill _decoded_video from `from' up to, but not including, `to' */
+/** Fill _decoded_video from `from' up to, but not including, `to' with
+ *  a frame for one particular Eyes value (which could be EYES_BOTH,
+ *  EYES_LEFT or EYES_RIGHT)
+ */
 void
-VideoDecoder::fill_2d (Frame from, Frame to)
+VideoDecoder::fill_one_eye (Frame from, Frame to, Eyes eye)
 {
 	if (to == 0) {
 		/* Already OK */
@@ -154,14 +157,16 @@ VideoDecoder::fill_2d (Frame from, Frame to)
 		test_gaps++;
 #endif
 		_decoded_video.push_back (
-			ContentVideo (filler_image, EYES_BOTH, filler_part, i)
+			ContentVideo (filler_image, eye, filler_part, i)
 			);
 	}
 }
 
-/** Fill _decoded_video from `from' up to, but not including, `to' */
+/** Fill _decoded_video from `from' up to, but not including, `to'
+ *  adding both left and right eye frames.
+ */
 void
-VideoDecoder::fill_3d (Frame from, Frame to, Eyes eye)
+VideoDecoder::fill_both_eyes (Frame from, Frame to, Eyes eye)
 {
 	if (to == 0 && eye == EYES_LEFT) {
 		/* Already OK */
@@ -236,6 +241,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), Log::TYPE_DEBUG_DECODE);
+	cout << "receive " << frame << " for " << _video_content->path(0) << "\n";
 
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.
@@ -294,10 +300,20 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	if (from) {
-		if (_video_content->video_frame_type() == VIDEO_FRAME_TYPE_2D) {
-			fill_2d (from.get(), to.get ());
-		} else {
-			fill_3d (from.get(), to.get(), to_push.front().eyes);
+		switch (_video_content->video_frame_type ()) {
+		case VIDEO_FRAME_TYPE_2D:
+			fill_one_eye (from.get(), to.get (), EYES_BOTH);
+			break;
+		case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+		case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+		case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+			fill_both_eyes (from.get(), to.get(), to_push.front().eyes);
+			break;
+		case VIDEO_FRAME_TYPE_3D_LEFT:
+			fill_one_eye (from.get(), to.get (), EYES_LEFT);
+			break;
+		case VIDEO_FRAME_TYPE_3D_RIGHT:
+			fill_one_eye (from.get(), to.get (), EYES_RIGHT);
 		}
 	}
 

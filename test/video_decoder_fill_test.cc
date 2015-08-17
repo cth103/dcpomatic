@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	ImageDecoder decoder (c);
 
-	decoder.fill_2d (0, 4);
+	decoder.fill_one_eye (0, 4, EYES_BOTH);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 4U);
 	list<ContentVideo>::iterator i = decoder._decoded_video.begin();
 	for (int j = 0; j < 4; ++j) {
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 
 	decoder._decoded_video.clear ();
 
-	decoder.fill_2d (0, 7);
+	decoder.fill_one_eye (0, 7, EYES_BOTH);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 7);
 	i = decoder._decoded_video.begin();
 	for (int j = 0; j < 7; ++j) {
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	ImageDecoder decoder (c);
 
-	decoder.fill_3d (0, 4, EYES_LEFT);
+	decoder.fill_both_eyes (0, 4, EYES_LEFT);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 8);
 	list<ContentVideo>::iterator i = decoder._decoded_video.begin();
 	for (int j = 0; j < 8; ++j) {
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 		++i;
 	}
 
-	decoder.fill_3d (0, 7, EYES_RIGHT);
+	decoder.fill_both_eyes (0, 7, EYES_RIGHT);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 15);
 	i = decoder._decoded_video.begin();
 	for (int j = 0; j < 15; ++j) {
