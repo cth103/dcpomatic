@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-30 10:07+0100\n"
+"POT-Creation-Date: 2015-08-18 21:04+0100\n"
 "PO-Revision-Date: 2015-07-06 15:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Werbung"
 
-#: src/lib/job.cc:74
+#: src/lib/job.cc:75
 msgid "An error occurred whilst handling the file %1."
 msgstr "Beim Bearbeiten der Datei %1 trat ein Fehler auf."
 
@@ -70,15 +70,15 @@ msgstr "Audio analysieren"
 msgid "Audio channels"
 msgstr ""
 
-#: src/lib/audio_content.cc:257
+#: src/lib/audio_content.cc:255
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Audioabtastrate wird von %1kHz auf %2kHz angepasst."
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled to %1kHz"
 msgstr "Audioabtastrate wird auf %1kHz angepasst."
 
-#: src/lib/audio_content.cc:248
+#: src/lib/audio_content.cc:246
 msgid "Audio will not be resampled"
 msgstr "Audioabtastrate wird nicht verändert werden."
 
@@ -127,19 +127,19 @@ msgstr ""
 msgid "Bits per pixel"
 msgstr ""
 
-#: src/lib/film.cc:1209
+#: src/lib/film.cc:1210
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1210
+#: src/lib/film.cc:1211
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1201
+#: src/lib/film.cc:1202
 msgid "C"
 msgstr ""
 
-#: src/lib/job.cc:335
+#: src/lib/job.cc:353
 msgid "Cancelled"
 msgstr "Abgebrochen"
 
@@ -147,7 +147,7 @@ msgstr "Abgebrochen"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:476
+#: src/lib/util.cc:484
 msgid "Centre"
 msgstr "Center"
 
@@ -177,7 +177,7 @@ msgstr ""
 msgid "Computing audio digest"
 msgstr "Tonübersicht berechnen"
 
-#: src/lib/content.cc:136
+#: src/lib/content.cc:137
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
@@ -201,11 +201,11 @@ msgstr ""
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 
-#: src/lib/audio_content.cc:94
+#: src/lib/audio_content.cc:92
 msgid "Content to be joined must have the same audio delay."
 msgstr "Zu verbindende Inhalte müssen die gleiche Tonverzögerung verwenden."
 
-#: src/lib/audio_content.cc:90
+#: src/lib/audio_content.cc:88
 msgid "Content to be joined must have the same audio gain."
 msgstr ""
 "Zu verbindende Inhalte müssen die gleichen Tonpegeleinstellungen verwenden."
@@ -282,7 +282,7 @@ msgstr "Keine Verbindung zu Server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Konnte entfernten Ordner %1 (%2) nicht erstellen."
 
-#: src/lib/image_examiner.cc:61
+#: src/lib/image_examiner.cc:62
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr ""
 "Konnte keine Encoding Server finden. Ist das Programm vielleicht zweimal "
 "gestartet worden?"
 
-#: src/lib/job.cc:93
+#: src/lib/job.cc:94 src/lib/job.cc:105
 msgid "Could not open %1"
 msgstr "%1 konnte nicht geöffnet werden."
 
@@ -343,7 +343,7 @@ msgstr "DCP läuft mit %1% der Original Geschwindigkeit der Quelle.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP verwendet nur jedes zweite Bild des Quelle.\n"
 
-#: src/lib/job.cc:94
+#: src/lib/job.cc:95 src/lib/job.cc:106
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -361,7 +361,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:437
+#: src/lib/config.cc:433
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -423,7 +423,7 @@ msgstr "Kodiere Bilddaten"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr ""
 
-#: src/lib/job.cc:333
+#: src/lib/job.cc:351
 #, fuzzy
 msgid "Error: %1"
 msgstr "Fehler (%1)"
@@ -484,11 +484,11 @@ msgstr ""
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/film.cc:1205
+#: src/lib/film.cc:1206
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:480
+#: src/lib/util.cc:488
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -504,16 +504,16 @@ msgstr ""
 msgid "IEC61966-2-4"
 msgstr ""
 
-#: src/lib/job.cc:114 src/lib/job.cc:124
+#: src/lib/job.cc:111 src/lib/job.cc:132 src/lib/job.cc:142
 msgid "It is not known what caused this error."
 msgstr "Ein unbekannter Fehler ist aufgetreten."
 
-#: src/lib/config.cc:88
+#: src/lib/config.cc:89
 #, fuzzy
 msgid "KDM delivery"
 msgstr "KDM Zustellung: $CPL_NAME"
 
-#: src/lib/config.cc:213
+#: src/lib/config.cc:217
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM Zustellung: $CPL_NAME"
 
@@ -521,35 +521,35 @@ msgstr "KDM Zustellung: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
 
-#: src/lib/film.cc:1199
+#: src/lib/film.cc:1200
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1207
+#: src/lib/film.cc:1208
 msgid "Lc"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:474
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:482
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:482
+#: src/lib/util.cc:490
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:484
+#: src/lib/util.cc:492
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:478
+#: src/lib/util.cc:486
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/film.cc:1202
+#: src/lib/film.cc:1203
 msgid "Lfe"
 msgstr ""
 
-#: src/lib/util.cc:477
+#: src/lib/util.cc:485
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -573,7 +573,7 @@ msgstr ""
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1203
+#: src/lib/film.cc:1204
 msgid "Ls"
 msgstr ""
 
@@ -621,23 +621,23 @@ msgstr "Keine gültigen Bilddaten gefunden."
 msgid "Noise reduction"
 msgstr "Rauschunterdrückung"
 
-#: src/lib/job.cc:331
+#: src/lib/job.cc:349
 msgid "OK (ran for %1)"
 msgstr "OK (Dauer %1)"
 
-#: src/lib/content.cc:105
+#: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Nur das erste Segment der zu verbindenden Inhalte kann vom Anfang her "
 "beschnitten werden."
 
-#: src/lib/content.cc:109
+#: src/lib/content.cc:110
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "Nur das letzte Segment der zu verbindenden Inhalte kann vom Ende her "
 "beschnitten werden."
 
-#: src/lib/job.cc:106
+#: src/lib/job.cc:124
 msgid "Out of memory"
 msgstr "Zuwenig Speicher"
 
@@ -665,7 +665,7 @@ msgstr "Programmfehler bei %1:%2"
 msgid "Public Service Announcement"
 msgstr "Hinweis"
 
-#: src/lib/film.cc:1200
+#: src/lib/film.cc:1201
 msgid "R"
 msgstr ""
 
@@ -677,7 +677,7 @@ msgstr ""
 msgid "Rating"
 msgstr "Freigabehinweis"
 
-#: src/lib/film.cc:1208
+#: src/lib/film.cc:1209
 msgid "Rc"
 msgstr ""
 
@@ -689,23 +689,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:475
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:483
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:483
+#: src/lib/util.cc:491
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:485
+#: src/lib/util.cc:493
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:479
+#: src/lib/util.cc:487
 msgid "Right surround"
 msgstr "Surround rechts"
 
-#: src/lib/film.cc:1204
+#: src/lib/film.cc:1205
 msgid "Rs"
 msgstr ""
 
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Short"
 msgstr "Kurzfilm"
 
-#: src/lib/audio_content.cc:252
+#: src/lib/audio_content.cc:250
 msgid "Some audio will be resampled to %1kHz"
 msgstr ""
 
@@ -775,7 +775,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/job.cc:80
+#: src/lib/job.cc:81
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -783,11 +783,11 @@ msgstr ""
 "Das Laufwerk, auf dem der Film gespeichert werden soll, hat zu wenig freien "
 "Speicher. Bitte Speicher freigeben und nochmal versuchen."
 
-#: src/lib/job.cc:106
+#: src/lib/job.cc:124
 msgid "There was not enough memory to do this."
 msgstr "Zu wenig Speicher für diese Operation."
 
-#: src/lib/film.cc:372
+#: src/lib/film.cc:362
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -796,7 +796,7 @@ msgstr ""
 "kann leider nicht mit dieser älteren Version geladen werden. Sie müssen den "
 "Film neu erstellen. Sorry!"
 
-#: src/lib/film.cc:364
+#: src/lib/film.cc:354
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -810,7 +810,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:54
+#: src/lib/transcode_job.cc:55
 msgid "Transcode %1"
 msgstr "Wandle %1 um"
 
@@ -826,11 +826,11 @@ msgstr "Ungültiger ZIP Inhalt"
 msgid "Unexpected image type received by server"
 msgstr "Ungültiges Bildformat vom Server erhalten"
 
-#: src/lib/job.cc:123
+#: src/lib/job.cc:141
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: src/lib/ffmpeg_decoder.cc:282
+#: src/lib/ffmpeg_decoder.cc:276
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Ton Sample Format (%1) nicht erkannt."
 
@@ -858,7 +858,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1206
+#: src/lib/film.cc:1207
 msgid "VI"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr ""
 msgid "Video size"
 msgstr ""
 
-#: src/lib/util.cc:481
+#: src/lib/util.cc:489
 msgid "Visually impaired"
 msgstr "VI"
 
@@ -890,7 +890,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer..."
 
-#: src/lib/film.cc:287
+#: src/lib/film.cc:277
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 
@@ -906,7 +906,7 @@ msgstr "[Standbild]"
 msgid "[subtitles]"
 msgstr ""
 
-#: src/lib/film.cc:268
+#: src/lib/film.cc:258
 msgid "cannot contain slashes"
 msgstr "Darf keine Schrägstriche enthalten"
 
@@ -918,11 +918,11 @@ msgstr "Zeit für Verbindung abgelaufen"
 msgid "connecting"
 msgstr "verbinde..."
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:273
 msgid "container"
 msgstr "Containerformat"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:281
 msgid "content type"
 msgstr "Inhaltsbeschreibung"
 
@@ -995,7 +995,7 @@ msgid "error during async_write (%1)"
 msgstr "error during async_write (%1)"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:102
+#: src/lib/transcode_job.cc:103
 msgid "fps"
 msgstr ""
 
@@ -1004,12 +1004,12 @@ msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:139 src/lib/util.cc:142
+#: src/lib/util.cc:141 src/lib/util.cc:144
 msgid "h"
 msgstr ""
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:154 src/lib/util.cc:157
+#: src/lib/util.cc:156 src/lib/util.cc:159
 msgid "m"
 msgstr ""
 
@@ -1021,11 +1021,11 @@ msgstr "Benötigte Einstellung %1 fehlt"
 msgid "moving"
 msgstr "wird verschoben"
 
-#: src/lib/ffmpeg_decoder.cc:452
+#: src/lib/ffmpeg_decoder.cc:446
 msgid "multi-part subtitles not yet supported"
 msgstr "Mehr-Segment Untertitel werden noch nicht unterstützt"
 
-#: src/lib/film.cc:268 src/lib/film.cc:295
+#: src/lib/film.cc:258 src/lib/film.cc:285
 msgid "name"
 msgstr "Name"
 
@@ -1035,12 +1035,12 @@ msgstr ""
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:328
+#: src/lib/job.cc:346
 msgid "remaining"
 msgstr "verbleibend"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:168
+#: src/lib/util.cc:170
 msgid "s"
 msgstr ""
 

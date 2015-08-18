@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-30 10:07+0100\n"
+"POT-Creation-Date: 2015-08-18 21:04+0100\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -57,7 +57,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Advertisement"
 
-#: src/lib/job.cc:74
+#: src/lib/job.cc:75
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ett fel inträffade vid hantering av filen %1"
 
@@ -69,17 +69,17 @@ msgstr "Analysera audio"
 msgid "Audio channels"
 msgstr ""
 
-#: src/lib/audio_content.cc:257
+#: src/lib/audio_content.cc:255
 #, fuzzy
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Audio kommer att samplas om från %1kHz till %2kHz."
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:257
 #, fuzzy
 msgid "Audio will be resampled to %1kHz"
 msgstr "Audio kommer att samplas om från %1kHz till %2kHz."
 
-#: src/lib/audio_content.cc:248
+#: src/lib/audio_content.cc:246
 #, fuzzy
 msgid "Audio will not be resampled"
 msgstr "Audio kommer att samplas om från %1kHz till %2kHz."
@@ -129,19 +129,19 @@ msgstr ""
 msgid "Bits per pixel"
 msgstr ""
 
-#: src/lib/film.cc:1209
+#: src/lib/film.cc:1210
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1210
+#: src/lib/film.cc:1211
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1201
+#: src/lib/film.cc:1202
 msgid "C"
 msgstr ""
 
-#: src/lib/job.cc:335
+#: src/lib/job.cc:353
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -149,7 +149,7 @@ msgstr "Avbruten"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/util.cc:476
+#: src/lib/util.cc:484
 msgid "Centre"
 msgstr "Center"
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
-#: src/lib/content.cc:136
+#: src/lib/content.cc:137
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
@@ -206,11 +206,11 @@ msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
 
-#: src/lib/audio_content.cc:94
+#: src/lib/audio_content.cc:92
 msgid "Content to be joined must have the same audio delay."
 msgstr "Innehåll som ska sammanfogas måste använda samma audiofördröjning."
 
-#: src/lib/audio_content.cc:90
+#: src/lib/audio_content.cc:88
 msgid "Content to be joined must have the same audio gain."
 msgstr "Innehåll som ska sammanfogas måste använda samma audioförstärkning."
 
@@ -291,7 +291,7 @@ msgstr "Kunde inte ansluta till server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunde inte skapa fjärrkatalog %1 (%2)"
 
-#: src/lib/image_examiner.cc:61
+#: src/lib/image_examiner.cc:62
 #, fuzzy
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "kunde inte skapa fil %1"
@@ -307,7 +307,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:93
+#: src/lib/job.cc:94 src/lib/job.cc:105
 msgid "Could not open %1"
 msgstr "Kunde inte öppna %1"
 
@@ -354,7 +354,7 @@ msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
-#: src/lib/job.cc:94
+#: src/lib/job.cc:95 src/lib/job.cc:106
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -372,7 +372,7 @@ msgid "De-interlacing"
 msgstr "Avflätning"
 
 # svåröversatt
-#: src/lib/config.cc:437
+#: src/lib/config.cc:433
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -431,7 +431,7 @@ msgstr "Kodar bild-data"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr ""
 
-#: src/lib/job.cc:333
+#: src/lib/job.cc:351
 #, fuzzy
 msgid "Error: %1"
 msgstr "Fel (%1)"
@@ -492,11 +492,11 @@ msgstr ""
 msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
-#: src/lib/film.cc:1205
+#: src/lib/film.cc:1206
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:480
+#: src/lib/util.cc:488
 msgid "Hearing impaired"
 msgstr ""
 
@@ -512,15 +512,15 @@ msgstr ""
 msgid "IEC61966-2-4"
 msgstr ""
 
-#: src/lib/job.cc:114 src/lib/job.cc:124
+#: src/lib/job.cc:111 src/lib/job.cc:132 src/lib/job.cc:142
 msgid "It is not known what caused this error."
 msgstr ""
 
-#: src/lib/config.cc:88
+#: src/lib/config.cc:89
 msgid "KDM delivery"
 msgstr ""
 
-#: src/lib/config.cc:213
+#: src/lib/config.cc:217
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -528,36 +528,36 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/film.cc:1199
+#: src/lib/film.cc:1200
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1207
+#: src/lib/film.cc:1208
 msgid "Lc"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:474
+#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:482
 msgid "Left"
 msgstr "Vänster"
 
-#: src/lib/util.cc:482
+#: src/lib/util.cc:490
 msgid "Left centre"
 msgstr ""
 
-#: src/lib/util.cc:484
+#: src/lib/util.cc:492
 #, fuzzy
 msgid "Left rear surround"
 msgstr "Vänster surround"
 
-#: src/lib/util.cc:478
+#: src/lib/util.cc:486
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/film.cc:1202
+#: src/lib/film.cc:1203
 msgid "Lfe"
 msgstr ""
 
-#: src/lib/util.cc:477
+#: src/lib/util.cc:485
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -582,7 +582,7 @@ msgstr ""
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1203
+#: src/lib/film.cc:1204
 msgid "Ls"
 msgstr ""
 
@@ -631,20 +631,20 @@ msgstr ""
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/job.cc:331
+#: src/lib/job.cc:349
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
-#: src/lib/content.cc:105
+#: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Endast den första delen av innehållet som läggs ihop kan start-trimmas."
 
-#: src/lib/content.cc:109
+#: src/lib/content.cc:110
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Endast den sista delen av innehållet som läggs ihop kan slut-trimmas."
 
-#: src/lib/job.cc:106
+#: src/lib/job.cc:124
 msgid "Out of memory"
 msgstr ""
 
@@ -673,7 +673,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1200
+#: src/lib/film.cc:1201
 msgid "R"
 msgstr ""
 
@@ -685,7 +685,7 @@ msgstr ""
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1208
+#: src/lib/film.cc:1209
 msgid "Rc"
 msgstr ""
 
@@ -698,24 +698,24 @@ msgstr "Rec. 709"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:475
+#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:483
 msgid "Right"
 msgstr "Höger"
 
-#: src/lib/util.cc:483
+#: src/lib/util.cc:491
 msgid "Right centre"
 msgstr ""
 
-#: src/lib/util.cc:485
+#: src/lib/util.cc:493
 #, fuzzy
 msgid "Right rear surround"
 msgstr "Höger surround"
 
-#: src/lib/util.cc:479
+#: src/lib/util.cc:487
 msgid "Right surround"
 msgstr "Höger surround"
 
-#: src/lib/film.cc:1204
+#: src/lib/film.cc:1205
 msgid "Rs"
 msgstr ""
 
@@ -752,7 +752,7 @@ msgstr ""
 msgid "Short"
 msgstr "Short"
 
-#: src/lib/audio_content.cc:252
+#: src/lib/audio_content.cc:250
 #, fuzzy
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Audio kommer att samplas om från %1kHz till %2kHz."
@@ -786,7 +786,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/job.cc:80
+#: src/lib/job.cc:81
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -794,11 +794,11 @@ msgstr ""
 "Enheten som filmen lagras på har för lite ledigt utrymme. Frigör utrymme och "
 "försök igen."
 
-#: src/lib/job.cc:106
+#: src/lib/job.cc:124
 msgid "There was not enough memory to do this."
 msgstr ""
 
-#: src/lib/film.cc:372
+#: src/lib/film.cc:362
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -808,7 +808,7 @@ msgstr ""
 "inte öppnas i denna version. Du måste skapa en ny Film, lägga till ditt "
 "innehåll och konfigurera allt igen. Ursäkta!"
 
-#: src/lib/film.cc:364
+#: src/lib/film.cc:354
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -822,7 +822,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:54
+#: src/lib/transcode_job.cc:55
 msgid "Transcode %1"
 msgstr "Konvertera %1"
 
@@ -838,12 +838,12 @@ msgstr ""
 msgid "Unexpected image type received by server"
 msgstr ""
 
-#: src/lib/job.cc:123
+#: src/lib/job.cc:141
 msgid "Unknown error"
 msgstr "Okänt fel"
 
 # Svengelska
-#: src/lib/ffmpeg_decoder.cc:282
+#: src/lib/ffmpeg_decoder.cc:276
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Okänt audio-sampelformat (%1)"
 
@@ -871,7 +871,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1206
+#: src/lib/film.cc:1207
 msgid "VI"
 msgstr ""
 
@@ -888,7 +888,7 @@ msgstr ""
 msgid "Video size"
 msgstr ""
 
-#: src/lib/util.cc:481
+#: src/lib/util.cc:489
 msgid "Visually impaired"
 msgstr ""
 
@@ -905,7 +905,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:287
+#: src/lib/film.cc:277
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
@@ -921,7 +921,7 @@ msgstr "[stillbild]"
 msgid "[subtitles]"
 msgstr ""
 
-#: src/lib/film.cc:268
+#: src/lib/film.cc:258
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
@@ -934,11 +934,11 @@ msgstr "uppkopplingen tajmade ur"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:283
+#: src/lib/film.cc:273
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:281
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -1014,7 +1014,7 @@ msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:102
+#: src/lib/transcode_job.cc:103
 msgid "fps"
 msgstr ""
 
@@ -1023,12 +1023,12 @@ msgid "frames per second"
 msgstr "bilder per sekund"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:139 src/lib/util.cc:142
+#: src/lib/util.cc:141 src/lib/util.cc:144
 msgid "h"
 msgstr ""
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:154 src/lib/util.cc:157
+#: src/lib/util.cc:156 src/lib/util.cc:159
 msgid "m"
 msgstr ""
 
@@ -1041,11 +1041,11 @@ msgstr "saknad nödvändig inställning %1"
 msgid "moving"
 msgstr "rörlig"
 
-#: src/lib/ffmpeg_decoder.cc:452
+#: src/lib/ffmpeg_decoder.cc:446
 msgid "multi-part subtitles not yet supported"
 msgstr "undertexter i flera delar stöds inte ännu"
 
-#: src/lib/film.cc:268 src/lib/film.cc:295
+#: src/lib/film.cc:258 src/lib/film.cc:285
 msgid "name"
 msgstr "namn"
 
@@ -1055,12 +1055,12 @@ msgstr ""
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:328
+#: src/lib/job.cc:346
 msgid "remaining"
 msgstr "återstående tid"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:168
+#: src/lib/util.cc:170
 msgid "s"
 msgstr ""
 
