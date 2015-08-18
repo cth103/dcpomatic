@@ -1179,6 +1179,7 @@ public:
 		: StockPage (Kind_Advanced, panel_size, border)
 		, _maximum_j2k_bandwidth (0)
 		, _allow_any_dcp_frame_rate (0)
+		, _only_servers_encode (0)
 		, _log_general (0)
 		, _log_warning (0)
 		, _log_error (0)
@@ -1205,6 +1206,10 @@ private:
 
 		_allow_any_dcp_frame_rate = new wxCheckBox (_panel, wxID_ANY, _("Allow any DCP frame rate"));
 		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
+		table->AddSpacer (0);
+
+		_only_servers_encode = new wxCheckBox (_panel, wxID_ANY, _("Only servers encode"));
+		table->Add (_only_servers_encode, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
 #ifdef __WXOSX__
@@ -1241,6 +1246,7 @@ private:
 		_maximum_j2k_bandwidth->SetRange (1, 1000);
 		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
+		_only_servers_encode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
 		_log_general->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_warning->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
@@ -1258,6 +1264,7 @@ private:
 
 		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
+		checked_set (_only_servers_encode, config->only_servers_encode ());
 		checked_set (_log_general, config->log_types() & Log::TYPE_GENERAL);
 		checked_set (_log_warning, config->log_types() & Log::TYPE_WARNING);
 		checked_set (_log_error, config->log_types() & Log::TYPE_ERROR);
@@ -1277,6 +1284,11 @@ private:
 	void allow_any_dcp_frame_rate_changed ()
 	{
 		Config::instance()->set_allow_any_dcp_frame_rate (_allow_any_dcp_frame_rate->GetValue ());
+	}
+
+	void only_servers_encode_changed ()
+	{
+		Config::instance()->set_only_servers_encode (_only_servers_encode->GetValue ());
 	}
 
 	void log_changed ()
@@ -1312,6 +1324,7 @@ private:
 
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxCheckBox* _allow_any_dcp_frame_rate;
+	wxCheckBox* _only_servers_encode;
 	wxCheckBox* _log_general;
 	wxCheckBox* _log_warning;
 	wxCheckBox* _log_error;

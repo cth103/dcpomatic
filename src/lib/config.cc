@@ -69,6 +69,7 @@ Config::set_defaults ()
 	_server_port_base = 6192;
 	_use_any_servers = true;
 	_servers.clear ();
+	_only_servers_encode = false;
 	_tms_protocol = PROTOCOL_SCP;
 	_tms_ip = "";
 	_tms_path = ".";
@@ -155,6 +156,7 @@ Config::read ()
 		}
 	}
 
+	_only_servers_encode = f.optional_bool_child ("OnlyServersEncode").get_value_or (false);
 	_tms_protocol = static_cast<Protocol> (f.optional_number_child<int> ("TMSProtocol").get_value_or (static_cast<int> (PROTOCOL_SCP)));
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
@@ -322,6 +324,7 @@ Config::write () const
 		root->add_child("Server")->add_child_text (*i);
 	}
 
+	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
 	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (_tms_protocol));
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
 	root->add_child("TMSPath")->add_child_text (_tms_path);

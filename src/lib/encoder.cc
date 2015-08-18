@@ -89,8 +89,10 @@ Encoder::add_worker_threads (ServerDescription d)
 void
 Encoder::begin ()
 {
-	for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
+	if (!Config::instance()->only_servers_encode ()) {
+		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
+			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
+		}
 	}
 
 	_writer->set_encoder_threads (_threads.size ());

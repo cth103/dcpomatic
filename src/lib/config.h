@@ -90,6 +90,10 @@ public:
 		return _servers;
 	}
 
+	bool only_servers_encode () const {
+		return _only_servers_encode;
+	}
+
 	Protocol tms_protocol () const {
 		return _tms_protocol;
 	}
@@ -249,6 +253,10 @@ public:
 	/** @param p New server port */
 	void set_server_port_base (int p) {
 		maybe_set (_server_port_base, p);
+	}
+
+	void set_only_servers_encode (bool o) {
+		maybe_set (_only_servers_encode, o);
 	}
 
 	void set_tms_protocol (Protocol p) {
@@ -455,6 +463,7 @@ private:
 	bool _use_any_servers;
 	/** J2K encoding servers that should definitely be used */
 	std::vector<std::string> _servers;
+	bool _only_servers_encode;
 	Protocol _tms_protocol;
 	/** The IP address of a TMS that we can copy DCPs to */
 	std::string _tms_ip;
