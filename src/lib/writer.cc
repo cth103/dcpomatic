@@ -593,10 +593,13 @@ Writer::finish ()
 	}
 
 	dcp::XMLMetadata meta;
-	meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+	meta.creator = Config::instance()->dcp_creator ();
+	if (meta.creator.empty ()) {
+		meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+	}
 	meta.issuer = Config::instance()->dcp_issuer ();
 	if (meta.issuer.empty ()) {
-		meta.issuer = meta.creator;
+		meta.issuer = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	}
 	meta.set_issue_date_now ();
 

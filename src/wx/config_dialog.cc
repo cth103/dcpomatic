@@ -382,6 +382,10 @@ private:
 		_issuer = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_issuer, 1, wxEXPAND);
 
+		add_label_to_sizer (table, _panel, _("Default creator"), true);
+		_creator = new wxTextCtrl (_panel, wxID_ANY);
+		table->Add (_creator, 1, wxEXPAND);
+
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::still_length_changed, this));
 
@@ -410,6 +414,7 @@ private:
 		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
 
 		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::issuer_changed, this));
+		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::creator_changed, this));
 	}
 
 	void config_changed ()
@@ -436,6 +441,7 @@ private:
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_issuer, config->dcp_issuer ());
+		checked_set (_creator, config->dcp_creator ());
 	}
 
 	void j2k_bandwidth_changed ()
@@ -483,6 +489,11 @@ private:
 		Config::instance()->set_dcp_issuer (wx_to_std (_issuer->GetValue ()));
 	}
 
+	void creator_changed ()
+	{
+		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
+	}
+
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
 	wxButton* _isdcf_metadata_button;
@@ -495,6 +506,7 @@ private:
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxTextCtrl* _issuer;
+	wxTextCtrl* _creator;
 };
 
 class EncodingServersPage : public StandardPage

@@ -188,6 +188,8 @@ Config::read ()
 		_dcp_issuer = f.string_child ("DCPIssuer");
 	}
 
+	_dcp_creator = f.optional_string_child ("DCPCreator").get_value_or ("");
+
 	if (version && version.get() >= 2) {
 		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
 	} else {
@@ -338,6 +340,7 @@ Config::write () const
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
 	}
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
+	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
 
 	_default_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 

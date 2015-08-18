@@ -155,6 +155,10 @@ public:
 		return _dcp_issuer;
 	}
 
+	std::string dcp_creator () const {
+		return _dcp_creator;
+	}
+
 	int default_j2k_bandwidth () const {
 		return _default_j2k_bandwidth;
 	}
@@ -326,6 +330,10 @@ public:
 		maybe_set (_dcp_issuer, i);
 	}
 
+	void set_dcp_creator (std::string c) {
+		maybe_set (_dcp_creator, c);
+	}
+
 	void set_default_j2k_bandwidth (int b) {
 		maybe_set (_default_j2k_bandwidth, b);
 	}
@@ -469,6 +477,7 @@ private:
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
 	std::string _dcp_issuer;
+	std::string _dcp_creator;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
