@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 */
 
 #include "cinema.h"
+#include "screen.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 
@@ -66,22 +67,3 @@ Cinema::remove_screen (shared_ptr<Screen> s)
 {
 	_screens.remove (s);
 }
-
-Screen::Screen (cxml::ConstNodePtr node)
-	: name (node->string_child ("Name"))
-{
-	if (node->optional_string_child ("Certificate")) {
-		certificate = dcp::Certificate (node->string_child ("Certificate"));
-	}
-}
-
-void
-Screen::as_xml (xmlpp::Element* parent) const
-{
-	parent->add_child("Name")->add_child_text (name);
-	if (certificate) {
-		parent->add_child("Certificate")->add_child_text (certificate->certificate (true));
-	}
-}
-
-

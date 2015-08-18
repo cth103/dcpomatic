@@ -20,12 +20,12 @@
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
 #include "film.h"
-#include "ffmpeg_audio_stream.h"
-#include "ffmpeg_subtitle_stream.h"
 #include "exceptions.h"
 #include "util.h"
 #include "raw_convert.h"
 #include "log.h"
+#include "ffmpeg_subtitle_stream.h"
+#include "compose.hpp"
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>

@@ -37,6 +37,7 @@
 #include "lib/update.h"
 #include "lib/cross.h"
 #include "lib/content_factory.h"
+#include "lib/compose.hpp"
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"

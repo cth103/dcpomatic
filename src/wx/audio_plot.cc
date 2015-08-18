@@ -20,6 +20,7 @@
 #include "audio_plot.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
+#include "lib/compose.hpp"
 #include "wx/wx_util.h"
 #include <wx/graphics.h>
 #include <boost/bind.hpp>

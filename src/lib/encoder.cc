@@ -34,8 +34,8 @@
 #include "player.h"
 #include "player_video.h"
 #include "data.h"
+#include "compose.hpp"
 #include <libcxml/cxml.h>
-#include <boost/lambda/lambda.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -45,17 +45,11 @@
 #define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
-using std::pair;
-using std::string;
-using std::vector;
 using std::list;
 using std::cout;
-using std::min;
-using std::make_pair;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::optional;
-using boost::scoped_array;
 
 int const Encoder::_history_size = 25;
 

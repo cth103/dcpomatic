@@ -35,16 +35,18 @@
 #include "md5_digester.h"
 #include "audio_processor.h"
 #include "safe_stringstream.h"
+#include "compose.hpp"
 #include <dcp/util.h>
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
+extern "C" {
+#include <libavfilter/avfilter.h>
+}
 #include <curl/curl.h>
 #include <glib.h>
 #include <pangomm/init.h>
 #include <boost/algorithm/string.hpp>
-#include <boost/bind.hpp>
-#include <boost/lambda/lambda.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #ifdef DCPOMATIC_WINDOWS

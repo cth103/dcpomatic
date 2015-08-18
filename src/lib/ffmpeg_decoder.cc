@@ -34,18 +34,16 @@
 #include "ffmpeg_content.h"
 #include "raw_image_proxy.h"
 #include "film.h"
-#include "timer.h"
+#include "compose.hpp"
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
 #include <boost/foreach.hpp>
-#include <stdexcept>
 #include <vector>
 #include <iomanip>
 #include <iostream>
 #include <stdint.h>
-#include <sndfile.h>
 
 #include "i18n.h"
 
@@ -55,16 +53,12 @@ extern "C" {
 #define LOG_WARNING(...) _video_content->film()->log()->log (String::compose (__VA_ARGS__), Log::TYPE_WARNING);
 
 using std::cout;
-using std::string;
 using std::vector;
 using std::list;
 using std::min;
 using std::pair;
-using std::make_pair;
 using std::max;
 using boost::shared_ptr;
-using boost::optional;
-using boost::dynamic_pointer_cast;
 using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
@@ -535,4 +529,3 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 
 	image_subtitle (period, image, scaled_rect);
 }
-

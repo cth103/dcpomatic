@@ -24,6 +24,7 @@
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
+#include "lib/screen.h"
 #include <libcxml/cxml.h>
 #ifdef DCPOMATIC_USE_OWN_DIR_PICKER
 #include "dir_picker_ctrl.h"

@@ -18,14 +18,12 @@
 */
 
 #include "audio_content.h"
-#include "analyse_audio_job.h"
-#include "job_manager.h"
 #include "film.h"
 #include "exceptions.h"
 #include "config.h"
 #include "frame_rate_change.h"
 #include "raw_convert.h"
-#include "playlist.h"
+#include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <boost/foreach.hpp>
 

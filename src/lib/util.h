@@ -24,15 +24,11 @@
 #ifndef DCPOMATIC_UTIL_H
 #define DCPOMATIC_UTIL_H
 
-#include "compose.hpp"
 #include "types.h"
-#include "exceptions.h"
 #include "dcpomatic_time.h"
 #include <dcp/util.h>
-#include <dcp/picture_asset_writer.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
-#include <libavfilter/avfilter.h>
 }
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>

@@ -39,24 +39,15 @@
 #include "player_video.h"
 #include "raw_convert.h"
 #include "data.h"
+#include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
-#include <boost/array.hpp>
 #include <boost/asio.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/lexical_cast.hpp>
 #include <stdint.h>
-#include <cstring>
-#include <cstdlib>
-#include <stdexcept>
-#include <cstdio>
 #include <iomanip>
 #include <iostream>
-#include <fstream>
-#include <unistd.h>
-#include <errno.h>
 
 #define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_DEBUG_ENCODE(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_DEBUG_ENCODE);
@@ -66,7 +57,6 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using dcp::Size;
 
 #define DCI_COEFFICENT (48.0 / 52.37)

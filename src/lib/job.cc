@@ -17,19 +17,20 @@
 
 */
 
-/** @file src/job.cc
+/** @file  src/job.cc
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
 
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
-#include <dcp/exceptions.h>
 #include "job.h"
 #include "util.h"
 #include "cross.h"
 #include "exceptions.h"
 #include "film.h"
 #include "log.h"
+#include "compose.hpp"
+#include <dcp/exceptions.h>
+#include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
 
 #include "i18n.h"
 

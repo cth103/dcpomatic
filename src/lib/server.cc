@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include "data.h"
 #include "safe_stringstream.h"
 #include "raw_convert.h"
+#include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
@@ -47,16 +48,12 @@
 #define LOG_ERROR_NC(...)   _log->log (__VA_ARGS__, Log::TYPE_ERROR);
 
 using std::string;
-using std::multimap;
 using std::vector;
 using std::list;
 using std::cout;
 using std::cerr;
-using std::setprecision;
 using std::fixed;
 using boost::shared_ptr;
-using boost::algorithm::is_any_of;
-using boost::algorithm::split;
 using boost::thread;
 using boost::bind;
 using boost::scoped_array;
@@ -304,4 +301,3 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 
 	start_accept ();
 }
-

@@ -33,16 +33,16 @@
 #include "examine_content_job.h"
 #include "config.h"
 #include "playlist.h"
-#include "player.h"
 #include "dcp_content_type.h"
 #include "ratio.h"
 #include "cross.h"
-#include "cinema.h"
 #include "safe_stringstream.h"
 #include "environment_info.h"
 #include "raw_convert.h"
 #include "audio_processor.h"
 #include "md5_digester.h"
+#include "compose.hpp"
+#include "screen.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -52,13 +52,11 @@
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 #include <unistd.h>
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>
-#include <fstream>
 #include <cstdlib>
 #include <iomanip>
 #include <set>
@@ -66,28 +64,20 @@
 #include "i18n.h"
 
 using std::string;
-using std::multimap;
 using std::pair;
-using std::map;
 using std::vector;
 using std::setfill;
 using std::min;
 using std::max;
 using std::make_pair;
-using std::endl;
 using std::cout;
 using std::list;
 using std::set;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
-using boost::to_upper_copy;
-using boost::ends_with;
-using boost::starts_with;
 using boost::optional;
 using boost::is_any_of;
-using dcp::Size;
-using dcp::CertificateChain;
 
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
@@ -933,7 +923,7 @@ Film::examine_and_add_content (shared_ptr<Content> c)
 	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
 
 	_job_connections.push_back (
-		j->Finished.connect (bind (&Film::maybe_add_content, this, boost::weak_ptr<Job> (j), boost::weak_ptr<Content> (c)))
+		j->Finished.connect (bind (&Film::maybe_add_content, this, weak_ptr<Job> (j), weak_ptr<Content> (c)))
 		);
 
 	JobManager::instance()->add (j);
@@ -1001,7 +991,7 @@ Film::active_frame_rate_change (DCPTime t) const
 }
 
 void
-Film::playlist_content_changed (boost::weak_ptr<Content> c, int p, bool frequent)
+Film::playlist_content_changed (weak_ptr<Content> c, int p, bool frequent)
 {
 	_dirty = true;
 

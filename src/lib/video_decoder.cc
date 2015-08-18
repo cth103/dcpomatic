@@ -19,11 +19,10 @@
 
 #include "video_decoder.h"
 #include "image.h"
-#include "image_proxy.h"
-#include "raw_image_proxy.h"
 #include "raw_image_proxy.h"
 #include "film.h"
 #include "log.h"
+#include "compose.hpp"
 
 #include "i18n.h"
 
@@ -143,7 +142,7 @@ VideoDecoder::fill_one_eye (Frame from, Frame to, Eyes eye)
 	}
 
 	/* Fill with black... */
-	boost::shared_ptr<const ImageProxy> filler_image (new RawImageProxy (_black_image));
+	shared_ptr<const ImageProxy> filler_image (new RawImageProxy (_black_image));
 	Part filler_part = PART_WHOLE;
 
 	/* ...unless there's some video we can fill with */
@@ -174,8 +173,8 @@ VideoDecoder::fill_both_eyes (Frame from, Frame to, Eyes eye)
 	}
 
 	/* Fill with black... */
-	boost::shared_ptr<const ImageProxy> filler_left_image (new RawImageProxy (_black_image));
-	boost::shared_ptr<const ImageProxy> filler_right_image (new RawImageProxy (_black_image));
+	shared_ptr<const ImageProxy> filler_left_image (new RawImageProxy (_black_image));
+	shared_ptr<const ImageProxy> filler_right_image (new RawImageProxy (_black_image));
 	Part filler_left_part = PART_WHOLE;
 	Part filler_right_part = PART_WHOLE;
 
@@ -280,8 +279,8 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	   and the things we are about to push.
 	*/
 
-	boost::optional<Frame> from;
-	boost::optional<Frame> to;
+	optional<Frame> from;
+	optional<Frame> to;
 
 	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
 		from = _last_seek_time->frames_round (_video_content->video_frame_rate ());

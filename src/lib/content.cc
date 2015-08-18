@@ -28,6 +28,7 @@
 #include "film.h"
 #include "safe_stringstream.h"
 #include "job.h"
+#include "compose.hpp"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>

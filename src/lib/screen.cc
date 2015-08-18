@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,33 +17,22 @@
 
 */
 
-/** @file src/job_manager_view.h
- *  @brief Class which is a wxPanel for showing the progress of jobs.
- */
+#include "screen.h"
+#include <libxml++/libxml++.h>
 
-#include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
-#include <string>
-#include <list>
-
-class Job;
-class JobRecord;
-
-/** @class JobManagerView
- *  @brief Class which is a wxPanel for showing the progress of jobs.
- */
-class JobManagerView : public wxScrolledWindow
+Screen::Screen (cxml::ConstNodePtr node)
+	: name (node->string_child ("Name"))
 {
-public:
-	JobManagerView (wxWindow *);
+	if (node->optional_string_child ("Certificate")) {
+		certificate = dcp::Certificate (node->string_child ("Certificate"));
+	}
+}
 
-private:
-	void job_added (boost::weak_ptr<Job>);
-	void periodic ();
-
-	wxPanel* _panel;
-	wxFlexGridSizer* _table;
-	boost::shared_ptr<wxTimer> _timer;
-
-	std::list<boost::shared_ptr<JobRecord> > _job_records;
-};
+void
+Screen::as_xml (xmlpp::Element* parent) const
+{
+	parent->add_child("Name")->add_child_text (name);
+	if (certificate) {
+		parent->add_child("Certificate")->add_child_text (certificate->certificate (true));
+	}
+}

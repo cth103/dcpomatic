@@ -21,13 +21,14 @@
  *  @brief A job which transcodes from one format to another.
  */
 
-#include <iostream>
-#include <iomanip>
 #include "transcode_job.h"
 #include "film.h"
 #include "transcoder.h"
 #include "log.h"
 #include "safe_stringstream.h"
+#include "compose.hpp"
+#include <iostream>
+#include <iomanip>
 
 #include "i18n.h"
 

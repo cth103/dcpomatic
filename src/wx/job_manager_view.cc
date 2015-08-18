@@ -21,12 +21,13 @@
  *  @brief Class generating a GTK widget to show the progress of jobs.
  */
 
+#include "job_manager_view.h"
+#include "wx_util.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/util.h"
 #include "lib/exceptions.h"
-#include "job_manager_view.h"
-#include "wx_util.h"
+#include "lib/compose.hpp"
 
 using std::string;
 using std::list;

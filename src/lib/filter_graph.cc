@@ -21,6 +21,13 @@
  *  @brief A graph of FFmpeg filters.
  */
 
+#include "filter_graph.h"
+#include "filter.h"
+#include "exceptions.h"
+#include "image.h"
+#include "ffmpeg_content.h"
+#include "safe_stringstream.h"
+#include "compose.hpp"
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
@@ -28,13 +35,6 @@ extern "C" {
 #include <libavfilter/buffersink.h>
 #include <libavformat/avio.h>
 }
-#include "decoder.h"
-#include "filter_graph.h"
-#include "filter.h"
-#include "exceptions.h"
-#include "image.h"
-#include "ffmpeg_content.h"
-#include "safe_stringstream.h"
 
 #include "i18n.h"
 

@@ -24,6 +24,7 @@
 #include "exceptions.h"
 #include "config.h"
 #include "cross.h"
+#include "compose.hpp"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
 #include <Magick++.h>

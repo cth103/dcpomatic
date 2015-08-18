@@ -25,6 +25,7 @@
 #include "util.h"
 #include "film.h"
 #include "log.h"
+#include "compose.hpp"
 #include <iostream>
 
 #include "i18n.h"

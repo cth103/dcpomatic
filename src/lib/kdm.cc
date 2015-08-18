@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,19 +17,21 @@
 
 */
 
-#include <list>
-#include <boost/shared_ptr.hpp>
-#include <zip.h>
-#include <dcp/encrypted_kdm.h>
-#include <dcp/types.h>
 #include "kdm.h"
 #include "cinema.h"
+#include "screen.h"
 #include "exceptions.h"
 #include "util.h"
 #include "film.h"
 #include "config.h"
 #include "safe_stringstream.h"
 #include "quickmail.h"
+#include "compose.hpp"
+#include <zip.h>
+#include <dcp/encrypted_kdm.h>
+#include <dcp/types.h>
+#include <boost/shared_ptr.hpp>
+#include <list>
 
 using std::list;
 using std::string;

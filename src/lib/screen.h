@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,45 +17,32 @@
 
 */
 
-/** @file  src/lib/cinema.h
- *  @brief Cinema class.
- */
-
-#include <libcxml/cxml.h>
 #include <dcp/certificate.h>
-#include <boost/enable_shared_from_this.hpp>
+#include <libcxml/cxml.h>
+#include <boost/optional.hpp>
+#include <string>
 
-class Screen;
+class Cinema;
 
-/** @class Cinema
- *  @brief A description of a Cinema for KDM generation.
+/** @class Screen
+ *  @brief A representation of a Screen for KDM generation.
  *
- *  This is a cinema name, contact email address and a list of
- *  Screen objects.
+ *  This is the name of the screen and the certificate of its
+ *  server.
  */
-class Cinema : public boost::enable_shared_from_this<Cinema>
+class Screen
 {
 public:
-	Cinema (std::string const & n, std::string const & e)
+	Screen (std::string const & n, boost::optional<dcp::Certificate> cert)
 		: name (n)
-		, email (e)
+		, certificate (cert)
 	{}
 
-	Cinema (cxml::ConstNodePtr);
-
-	void read_screens (cxml::ConstNodePtr);
+	Screen (cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Element *) const;
 
-	void add_screen (boost::shared_ptr<Screen>);
-	void remove_screen (boost::shared_ptr<Screen>);
-
+	boost::shared_ptr<Cinema> cinema;
 	std::string name;
-	std::string email;
-	std::list<boost::shared_ptr<Screen> > screens () const {
-		return _screens;
-	}
-
-private:
-	std::list<boost::shared_ptr<Screen> > _screens;
+	boost::optional<dcp::Certificate> certificate;
 };

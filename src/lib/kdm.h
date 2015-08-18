@@ -17,6 +17,8 @@
 
 */
 
+#include <dcp/local_time.h>
+#include <dcp/types.h>
 #include <boost/date_time.hpp>
 #include <boost/filesystem.hpp>
 
@@ -51,4 +53,3 @@ extern void email_kdms (
 	dcp::LocalTime to,
 	dcp::Formulation formulation
 	);
-
