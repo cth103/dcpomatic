@@ -23,7 +23,6 @@
 
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
-#include <string>
 #include <list>
 
 class Job;
