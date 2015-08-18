@@ -593,9 +593,14 @@ Writer::finish ()
 	}
 
 	dcp::XMLMetadata meta;
-	meta.issuer = Config::instance()->dcp_issuer ();
 	meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+	meta.issuer = Config::instance()->dcp_issuer ();
+	if (meta.issuer.empty ()) {
+		meta.issuer = meta.creator;
+	}
 	meta.set_issue_date_now ();
+
+	cpl->set_metadata (meta);
 
 	shared_ptr<const dcp::CertificateChain> signer;
 	if (_film->is_signed ()) {
