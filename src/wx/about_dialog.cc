@@ -21,12 +21,12 @@
  *  @brief The "about DCP-o-matic" dialogue box.
  */
 
-#include <wx/notebook.h>
-#include <wx/hyperlink.h>
-#include "lib/version.h"
-#include "lib/compose.hpp"
 #include "about_dialog.h"
 #include "wx_util.h"
+#include "lib/version.h"
+#include "lib/compose.hpp"
+#include <wx/notebook.h>
+#include <wx/hyperlink.h>
 
 using std::vector;
 
