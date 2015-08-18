@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,29 +17,31 @@
 
 */
 
-#include <wx/listctrl.h>
+/** @class SystemFontDialog
+ *  @brief A dialog box to select one of the "system" fonts on Windows.
+ *
+ *  This is necessary because wxFileDialog on Windows will not display
+ *  the contents of c:\Windows\Fonts, so we need a different way to choose
+ *  one of those fonts.
+ */
+
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
+#include <vector>
 
-class SubtitleContent;
+class wxListCtrl;
 
-class FontsDialog : public wxDialog
+class SystemFontDialog : public wxDialog
 {
 public:
-	FontsDialog (wxWindow* parent, boost::shared_ptr<SubtitleContent>);
+	SystemFontDialog (wxWindow* parent);
+
+	boost::optional<boost::filesystem::path> get_font () const;
 
 private:
-	void setup ();
-	void set_from_file_clicked ();
-	void set_from_system_clicked ();
-	void update_sensitivity ();
-	void selection_changed ();
-	void set_selected_font_file (boost::filesystem::path file);
+	void setup_sensitivity ();
 
-	boost::weak_ptr<SubtitleContent> _content;
-	wxListCtrl* _fonts;
-	wxButton* _set_from_file;
-	wxButton* _set_from_system;
+	wxListCtrl* _list;
+	std::vector<boost::filesystem::path> _fonts;
 };

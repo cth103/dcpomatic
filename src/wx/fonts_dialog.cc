@@ -17,11 +17,13 @@
 
 */
 
-#include "lib/font.h"
-#include "lib/subtitle_content.h"
 #include "fonts_dialog.h"
 #include "wx_util.h"
+#include "system_font_dialog.h"
+#include "lib/font.h"
+#include "lib/subtitle_content.h"
 #include <wx/wx.h>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;
@@ -31,6 +33,7 @@ using boost::shared_ptr;
 FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 	: wxDialog (parent, wxID_ANY, _("Fonts"))
 	, _content (content)
+	, _set_from_system (0)
 {
 	_fonts = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 200), wxLC_REPORT | wxLC_SINGLE_SEL);
 
@@ -55,8 +58,12 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
-		_set_file = new wxButton (this, wxID_ANY, _("Set file..."));
-		s->Add (_set_file, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		_set_from_file = new wxButton (this, wxID_ANY, _("Set from .ttf file..."));
+		s->Add (_set_from_file, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+#ifdef DCPOMATIC_WINDOWS
+		_set_from_system = new wxButton (this, wxID_ANY, _("Set from system font..."));
+		s->Add (_set_from_system, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+#endif
 		sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}
 
@@ -70,12 +77,14 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 
 	SetSizerAndFit (overall_sizer);
 
-	_set_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FontsDialog::set_file_clicked, this));
+	_set_from_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FontsDialog::set_from_file_clicked, this));
+	if (_set_from_system) {
+		_set_from_system->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FontsDialog::set_from_system_clicked, this));
+	}
 	_fonts->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&FontsDialog::selection_changed, this));
 	_fonts->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&FontsDialog::selection_changed, this));
 
 	setup ();
-	update_sensitivity ();
 }
 
 void
@@ -99,21 +108,13 @@ FontsDialog::setup ()
 		}
 		++n;
 	}
+
+	update_sensitivity ();
 }
 
 void
-FontsDialog::set_file_clicked ()
+FontsDialog::set_from_file_clicked ()
 {
-	shared_ptr<SubtitleContent> content = _content.lock ();
-	if (!content) {
-		return;
-	}
-
-	int item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (item == -1) {
-		return;
-	}
-
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
@@ -125,16 +126,45 @@ FontsDialog::set_file_clicked ()
 		return;
 	}
 
-	string id = wx_to_std (_fonts->GetItemText (item, 0));
+	set_selected_font_file (wx_to_std (d->GetPath ()));
+	d->Destroy ();
+}
 
-	list<shared_ptr<Font> > fonts = content->fonts ();
-	for (list<shared_ptr<Font> >::iterator i = fonts.begin(); i != fonts.end(); ++i) {
-		if ((*i)->id() == id) {
-			(*i)->set_file (wx_to_std (d->GetPath ()));
-		}
+void
+FontsDialog::set_from_system_clicked ()
+{
+	SystemFontDialog* d = new SystemFontDialog (this);
+	int const r = d->ShowModal ();
+
+	if (r != wxID_OK) {
+		d->Destroy ();
+		return;
 	}
 
+	set_selected_font_file (d->get_font().get ());
 	d->Destroy ();
+}
+
+void
+FontsDialog::set_selected_font_file (boost::filesystem::path file)
+{
+	shared_ptr<SubtitleContent> content = _content.lock ();
+	if (!content) {
+		return;
+	}
+
+	int item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	if (item == -1) {
+		return;
+	}
+
+	string id = wx_to_std (_fonts->GetItemText (item, 0));
+
+	BOOST_FOREACH (shared_ptr<Font> i, content->fonts ()) {
+		if (i->id() == id) {
+			i->set_file (file);
+		}
+	}
 
 	setup ();
 }
@@ -149,5 +179,8 @@ void
 FontsDialog::update_sensitivity ()
 {
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	_set_file->Enable (item != -1);
+	_set_from_file->Enable (item != -1);
+	if (_set_from_system) {
+		_set_from_system->Enable (item != -1);
+	}
 }

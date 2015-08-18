@@ -65,6 +65,7 @@ sources = """
           servers_list_dialog.cc
           subtitle_panel.cc
           subtitle_view.cc
+          system_font_dialog.cc
           table_dialog.cc
           timecode.cc
           timeline.cc

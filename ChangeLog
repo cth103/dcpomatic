@@ -1,5 +1,8 @@
 2015-08-18  Carl Hetherington  <cth@carlh.net>
 
+	* Add custom dialog to select system fonts on Windows
+	(#491).
+
 	* Version 2.1.41 released.
 
 2015-08-18  Carl Hetherington  <cth@carlh.net>
