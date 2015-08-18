@@ -20,23 +20,18 @@
 #ifndef DCPOMATIC_ENCODER_H
 #define DCPOMATIC_ENCODER_H
 
-/** @file src/encoder.h
+/** @file  src/encoder.h
  *  @brief Encoder class.
  */
 
 #include "util.h"
-#include "config.h"
 #include "cross.h"
-#include "exceptions.h"
-extern "C" {
-#include <libavutil/samplefmt.h>
-#include <libswresample/swresample.h>
-}
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread.hpp>
 #include <boost/optional.hpp>
+#include <boost/signals2.hpp>
 #include <list>
 #include <stdint.h>
 
