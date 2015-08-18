@@ -240,7 +240,6 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), Log::TYPE_DEBUG_DECODE);
-	cout << "receive " << frame << " for " << _video_content->path(0) << "\n";
 
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.
