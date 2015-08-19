@@ -54,19 +54,31 @@ class Time:
         else:
             return Time(self.seconds - x.seconds, m)
 
+class EncoderThread:
+    def __init__(self, id):
+        self.id = id
+        self.events = []
+        self.server = None
+
+    def add_event(self, time, message, values):
+        self.events.append((time, message, values))
+
 queue_size = []
 general_events = []
 encoder_threads = []
-encoder_thread_events = dict()
 
-def add_encoder_thread_event(thread, time, event):
+def find_encoder_thread(id):
     global encoder_threads
-    global encoder_thread_events
-    if not thread in encoder_threads:
+    thread = None
+    for t in encoder_threads:
+        if t.id == id:
+            thread = t
+
+    if thread is None:
+        thread = EncoderThread(id)
         encoder_threads.append(thread)
-        encoder_thread_events[thread] = [(time, event)]
-    else:
-        encoder_thread_events[thread].append((time, event))
+
+    return thread
 
 def add_general_event(time, event):
     global general_events
@@ -109,8 +121,8 @@ while True:
     # Not-so-human-readable log messages (LOG_TIMING)
     if message == 'add-frame-to-queue':
         queue_size.append((T, values['queue']))
-    elif message in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive']:
-        add_encoder_thread_event(values['thread'], T, message)
+    elif message in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive', 'start-encoder-thread']:
+        find_encoder_thread(values['thread']).add_event(T, message, values)
     # Human-readable log message (other LOG_*)
     elif message.startswith('Finished locally-encoded'):
         add_general_event(T, 'end_local_encode')
@@ -141,12 +153,12 @@ elif args.encoder_threads:
     plt.figure()
     N = len(encoder_thread_events)
     n = 1
-    for thread, events in encoder_thread_events.iteritems():
+    for thread in encoder_threads:
         plt.subplot(N, 1, n)
         x = []
         y = []
         previous = 0
-        for e in events:
+        for e in thread.events:
             if args.from_time is not None and e[0].float_seconds() <= args.from_time:
                 continue
             if args.to_time is not None and e[0].float_seconds() >= args.to_time:
@@ -172,9 +184,9 @@ elif args.encoder_threads:
 
 elif args.plot_first_encoder:
     plt.figure()
-    N = len(encoder_thread_events)
+    N = len(encoder_threads)
     n = 1
-    events = encoder_thread_events.itervalues().next()
+    events = encoder_threads[0].events
 
     N = 6
     n = 1
@@ -243,15 +255,13 @@ elif args.encoder_stats:
         remote_encoding = Time()
         receiving = Time()
         wakes = 0
-        for e in encoder_thread_events[t]:
-            if e[1] not in ['encoder-sleep', 'encoder-wake', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive']:
-                continue
-
+        for e in t.events:
             if last is not None:
                 if last[1] == 'encoder-sleep':
                     asleep += e[0] - last[0]
                 elif last[1] == 'encoder-wake':
                     wakes += 1
+                elif last[1] == 'start-local-encode':
                     local_encoding += e[0] - last[0]
                 elif last[1] == 'start-remote-send':
                     sending += e[0] - last[0]
@@ -259,21 +269,28 @@ elif args.encoder_stats:
                     remote_encoding += e[0] - last[0]
                 elif last[1] == 'start-remote-receive':
                     receiving += e[0] - last[0]
+                elif last[1] == 'start-encoder-thread':
+                    find_encoder_thread(last[2]['thread']).server = last[2]['server']
 
             last = e
 
-        print '-- Encoder thread %s' % t
+        print '-- Encoder thread %s (%s)' % (t.server, t.id)
         print '\tAwoken %d times' % wakes
+
         total = asleep.float_seconds() + local_encoding.float_seconds() + sending.float_seconds() + remote_encoding.float_seconds() + receiving.float_seconds()
         if total == 0:
             continue
-        print '\tAsleep: %s (%.2f%%)' % (asleep, asleep.float_seconds() * 100 / total)
-        if local_encoding.float_seconds() > 0:
-            print '\tLocal encoding: %s (%.2f%%)' % (local_encoding, local_encoding.float_seconds() * 100 / total)
+
+        print '\t%s: %2.f%%' % ('Asleep'.ljust(16), asleep.float_seconds() * 100 / total)
+
+        def print_with_fps(v, name, total, frames):
+            if v.float_seconds() > 1:
+                print '\t%s: %2.f%% %.2ffps' % (name.ljust(16), v.float_seconds() * 100 / total, frames / v.float_seconds())
+
+        print_with_fps(local_encoding, 'Local encoding', total, wakes)
         if sending.float_seconds() > 0:
-            print '\tSending: %s (%.2f%%)' % (sending, sending.float_seconds() * 100 / total)
-        if remote_encoding.float_seconds() > 0:
-            print '\tRemote encoding: %s (%.2f%%)' % (remote_encoding, remote_encoding.float_seconds() * 100 / total)
+            print '\t%s: %2.f%%' % ('Sending'.ljust(16), sending.float_seconds() * 100 / total)
+        print_with_fps(remote_encoding, 'Remote encoding', total, wakes)
         if receiving.float_seconds() > 0:
-            print '\tReceiving: %s (%.2f%%)' % (receiving, receiving.float_seconds() * 100 / total)
+            print '\t%s: %2.f%%' % ('Receiving'.ljust(16), receiving.float_seconds() * 100 / total)
         print ''
