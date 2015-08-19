@@ -71,32 +71,9 @@ Encoder::~Encoder ()
 	terminate_threads ();
 }
 
-/** Add a worker thread for a each thread on a remote server.  Caller must hold
- *  a lock on _mutex, or know that one is not currently required to
- *  safely modify _threads.
- */
-void
-Encoder::add_worker_threads (ServerDescription d)
-{
-	LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), d.threads(), d.host_name ());
-	for (int i = 0; i < d.threads(); ++i) {
-		_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, d)));
-	}
-
-	_writer->set_encoder_threads (_threads.size ());
-}
-
 void
 Encoder::begin ()
 {
-	if (!Config::instance()->only_servers_encode ()) {
-		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
-		}
-	}
-
-	_writer->set_encoder_threads (_threads.size ());
-
 	if (!ServerFinder::instance()->disabled ()) {
 		_server_found_connection = ServerFinder::instance()->ServersListChanged.connect (boost::bind (&Encoder::servers_list_changed, this));
 	}
@@ -292,6 +269,12 @@ void
 Encoder::encoder_thread (optional<ServerDescription> server)
 try
 {
+	if (server) {
+		LOG_TIMING ("start-encoder-thread thread=%1 server=%2", boost::this_thread::get_id (), server->host_name ());
+	} else {
+		LOG_TIMING ("start-encoder-thread thread=%1 server=localhost", boost::this_thread::get_id ());
+	}
+
 	/* Number of seconds that we currently wait between attempts
 	   to connect to the server; not relevant for localhost
 	   encodings.
@@ -380,7 +363,21 @@ void
 Encoder::servers_list_changed ()
 {
 	terminate_threads ();
-	BOOST_FOREACH (ServerDescription i, ServerFinder::instance()->servers ()) {
-		add_worker_threads (i);
+
+	/* XXX: could re-use threads */
+
+	if (!Config::instance()->only_servers_encode ()) {
+		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
+			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
+		}
 	}
+
+	BOOST_FOREACH (ServerDescription i, ServerFinder::instance()->servers ()) {
+		LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), i.threads(), i.host_name ());
+		for (int j = 0; j < i.threads(); ++j) {
+			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, i)));
+		}
+	}
+
+	_writer->set_encoder_threads (_threads.size ());
 }

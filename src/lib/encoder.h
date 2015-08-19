@@ -77,7 +77,6 @@ private:
 
 	void encoder_thread (boost::optional<ServerDescription>);
 	void terminate_threads ();
-	void add_worker_threads (ServerDescription);
 	void servers_list_changed ();
 
 	/** Film that we are encoding */
