@@ -239,19 +239,34 @@ elif args.encoder_stats:
         last = None
         asleep = Time()
         encoding = Time()
+        sending = Time()
+        remote_encoding_and_receiving = Time()
         wakes = 0
         for e in encoder_thread_events[t]:
-            if e[1] == 'encoder-sleep':
-                if last is not None:
-                    encoding += e[0] - last
-                last = e[0]
-            elif e[1] == 'encoder-wake':
-                wakes += 1
-                asleep += e[0] - last
-                last = e[0]
+            if e[1] not in ['encoder-sleep', 'encoder-wake', 'start-remote-send', 'finish-remote-send',
+                            'start-remote-encode-and-receive', 'finish-remote-encode-and-receive']:
+                continue
+
+            if last is not None:
+                if last[1] == 'encoder-sleep':
+                    asleep += e[0] - last[0]
+                elif last[1] == 'encoder-wake':
+                    wakes += 1
+                    encoding += e[0] - last[0]
+                elif last[1] == 'start-remote-send':
+                    sending += e[0] - last[0]
+                elif last[1] == 'start-remote-encode-and-receive':
+                    remote_encoding_and_receiving += e[0] - last[0]
+
+            last = e
 
         print '-- Encoder thread %s' % t
-        print 'Awoken %d times' % wakes
-        total = asleep.float_seconds() + encoding.float_seconds()
-        print 'Asleep: %s (%s%%)' % (asleep, asleep.float_seconds() * 100 / total)
-        print 'Encoding: %s (%s%%)' % (encoding, encoding.float_seconds() * 100 / total)
+        print '\tAwoken %d times' % wakes
+        total = asleep.float_seconds() + encoding.float_seconds() + sending.float_seconds() + remote_encoding_and_receiving.float_seconds()
+        if total == 0:
+            continue
+        print '\tAsleep: %s (%.2f%%)' % (asleep, asleep.float_seconds() * 100 / total)
+        print '\tEncoding: %s (%.2f%%)' % (encoding, encoding.float_seconds() * 100 / total)
+        print '\tSending: %s (%.2f%%)' % (sending, sending.float_seconds() * 100 / total)
+        print '\tRemote encoding / receiving: %s (%.2f%%)' % (remote_encoding_and_receiving, remote_encoding_and_receiving.float_seconds() * 100 / total)
+        print ''
