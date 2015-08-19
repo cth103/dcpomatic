@@ -321,9 +321,9 @@ try
 			}
 
 			/* Nothing to do: wait until something happens which may indicate that we do */
-			LOG_TIMING (N_("writer sleeps with a queue of %1"), _queue.size());
+			LOG_TIMING (N_("writer-sleep queue=%1"), _queue.size());
 			_empty_condition.wait (lock);
-			LOG_TIMING (N_("writer wakes with a queue of %1"), _queue.size());
+			LOG_TIMING (N_("writer-wake queue=%1"), _queue.size());
 		}
 
 		if (_finish && _queue.empty()) {
