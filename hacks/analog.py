@@ -234,7 +234,7 @@ elif args.fps_stats:
     print '%.2f fps local and %.2f fps remote' % (local / duration.float_seconds(), remote / duration.float_seconds())
 
 elif args.encoder_stats:
-
+    # Broad stats on what encoder threads spent their time doing
     for t in encoder_threads:
         last = None
         asleep = Time()
