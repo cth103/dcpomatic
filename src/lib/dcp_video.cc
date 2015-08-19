@@ -268,15 +268,15 @@ DCPVideo::encode_remotely (ServerDescription serv)
 	/* Send binary data */
 	LOG_TIMING("start-remote-send thread=%1", boost::this_thread::get_id());
 	_frame->send_binary (socket);
-	LOG_TIMING("finish-remote-send thread=%1", boost::this_thread::get_id());
 
 	/* Read the response (JPEG2000-encoded data); this blocks until the data
 	   is ready and sent back.
 	*/
-	LOG_TIMING("start-remote-encode-and-receive thread=%1", boost::this_thread::get_id ());
+	LOG_TIMING("start-remote-encode thread=%1", boost::this_thread::get_id ());
 	Data e (socket->read_uint32 ());
+	LOG_TIMING("start-remote-receive thread=%1", boost::this_thread::get_id ());
 	socket->read (e.data().get(), e.size());
-	LOG_TIMING("finish-remote-encode-and-receive thread=%1", boost::this_thread::get_id ());
+	LOG_TIMING("finish-remote-receive thread=%1", boost::this_thread::get_id ());
 
 	LOG_DEBUG_ENCODE (N_("Finished remotely-encoded frame %1"), _index);
 

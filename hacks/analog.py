@@ -109,7 +109,7 @@ while True:
     # Not-so-human-readable log messages (LOG_TIMING)
     if message == 'add-frame-to-queue':
         queue_size.append((T, values['queue']))
-    elif message in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode', 'start-remote-send', 'finish-remote-send', 'start-remote-encode-and-receive', 'finish-remote-encode-and-receive']:
+    elif message in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive']:
         add_encoder_thread_event(values['thread'], T, message)
     # Human-readable log message (other LOG_*)
     elif message.startswith('Finished locally-encoded'):
@@ -238,13 +238,13 @@ elif args.encoder_stats:
     for t in encoder_threads:
         last = None
         asleep = Time()
-        encoding = Time()
+        local_encoding = Time()
         sending = Time()
-        remote_encoding_and_receiving = Time()
+        remote_encoding = Time()
+        receiving = Time()
         wakes = 0
         for e in encoder_thread_events[t]:
-            if e[1] not in ['encoder-sleep', 'encoder-wake', 'start-remote-send', 'finish-remote-send',
-                            'start-remote-encode-and-receive', 'finish-remote-encode-and-receive']:
+            if e[1] not in ['encoder-sleep', 'encoder-wake', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive']:
                 continue
 
             if last is not None:
@@ -252,21 +252,28 @@ elif args.encoder_stats:
                     asleep += e[0] - last[0]
                 elif last[1] == 'encoder-wake':
                     wakes += 1
-                    encoding += e[0] - last[0]
+                    local_encoding += e[0] - last[0]
                 elif last[1] == 'start-remote-send':
                     sending += e[0] - last[0]
-                elif last[1] == 'start-remote-encode-and-receive':
-                    remote_encoding_and_receiving += e[0] - last[0]
+                elif last[1] == 'start-remote-encode':
+                    remote_encoding += e[0] - last[0]
+                elif last[1] == 'start-remote-receive':
+                    receiving += e[0] - last[0]
 
             last = e
 
         print '-- Encoder thread %s' % t
         print '\tAwoken %d times' % wakes
-        total = asleep.float_seconds() + encoding.float_seconds() + sending.float_seconds() + remote_encoding_and_receiving.float_seconds()
+        total = asleep.float_seconds() + local_encoding.float_seconds() + sending.float_seconds() + remote_encoding.float_seconds() + receiving.float_seconds()
         if total == 0:
             continue
         print '\tAsleep: %s (%.2f%%)' % (asleep, asleep.float_seconds() * 100 / total)
-        print '\tEncoding: %s (%.2f%%)' % (encoding, encoding.float_seconds() * 100 / total)
-        print '\tSending: %s (%.2f%%)' % (sending, sending.float_seconds() * 100 / total)
-        print '\tRemote encoding / receiving: %s (%.2f%%)' % (remote_encoding_and_receiving, remote_encoding_and_receiving.float_seconds() * 100 / total)
+        if local_encoding.float_seconds() > 0:
+            print '\tLocal encoding: %s (%.2f%%)' % (local_encoding, local_encoding.float_seconds() * 100 / total)
+        if sending.float_seconds() > 0:
+            print '\tSending: %s (%.2f%%)' % (sending, sending.float_seconds() * 100 / total)
+        if remote_encoding.float_seconds() > 0:
+            print '\tRemote encoding: %s (%.2f%%)' % (remote_encoding, remote_encoding.float_seconds() * 100 / total)
+        if receiving.float_seconds() > 0:
+            print '\tReceiving: %s (%.2f%%)' % (receiving, receiving.float_seconds() * 100 / total)
         print ''
