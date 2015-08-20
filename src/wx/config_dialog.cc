@@ -149,12 +149,12 @@ public:
 private:
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol (1, 1);
+		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
+		int r = 0;
 		_set_language = new wxCheckBox (_panel, wxID_ANY, _("Set language"));
-		table->Add (_set_language, 1);
+		table->Add (_set_language, wxGBPosition (r, 0));
 		_language = new wxChoice (_panel, wxID_ANY);
 		_language->Append (wxT ("Deutsch"));
 		_language->Append (wxT ("English"));
@@ -166,26 +166,44 @@ private:
 		_language->Append (wxT ("Русский"));
 		_language->Append (wxT ("Polski"));
 		_language->Append (wxT ("Danske"));
-		table->Add (_language);
+		table->Add (_language, wxGBPosition (r, 1));
+		++r;
 
-		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to see language changes)"), false);
+		wxStaticText* restart = add_label_to_grid_bag_sizer (
+			table, _panel, _("(restart DCP-o-matic to see language changes)"), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
+			);
 		wxFont font = restart->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
 		restart->SetFont (font);
-		table->AddSpacer (0);
+		++r;
 
-		add_label_to_sizer (table, _panel, _("Threads to use for encoding on this host"), true);
+		add_label_to_grid_bag_sizer (table, _panel, _("Threads to use for encoding on this host"), true, wxGBPosition (r, 0));
 		_num_local_encoding_threads = new wxSpinCtrl (_panel);
-		table->Add (_num_local_encoding_threads, 1);
+		table->Add (_num_local_encoding_threads, wxGBPosition (r, 1));
+		++r;
 
 		_check_for_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for updates on startup"));
-		table->Add (_check_for_updates, 1, wxEXPAND | wxALL);
-		table->AddSpacer (0);
+		table->Add (_check_for_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
 
 		_check_for_test_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for testing updates as well as stable ones"));
-		table->Add (_check_for_test_updates, 1, wxEXPAND | wxALL);
-		table->AddSpacer (0);
+		table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+
+		wxFlexGridSizer* bottom_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		bottom_table->AddGrowableCol (1, 1);
+
+		add_label_to_sizer (bottom_table, _panel, _("Issuer"), true);
+		_issuer = new wxTextCtrl (_panel, wxID_ANY);
+		bottom_table->Add (_issuer, 1, wxALL | wxEXPAND);
+
+		add_label_to_sizer (bottom_table, _panel, _("Creator"), true);
+		_creator = new wxTextCtrl (_panel, wxID_ANY);
+		bottom_table->Add (_creator, 1, wxALL | wxEXPAND);
+
+		table->Add (bottom_table, wxGBPosition (r, 0), wxGBSpan (2, 2), wxEXPAND);
+		++r;
 
 		_set_language->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::set_language_changed, this));
 		_language->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&GeneralPage::language_changed,     this));
@@ -195,6 +213,9 @@ private:
 
 		_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_updates_changed, this));
 		_check_for_test_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
+
+		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::issuer_changed, this));
+		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::creator_changed, this));
 	}
 
 	void config_changed ()
@@ -230,6 +251,8 @@ private:
 		checked_set (_num_local_encoding_threads, config->num_local_encoding_threads ());
 		checked_set (_check_for_updates, config->check_for_updates ());
 		checked_set (_check_for_test_updates, config->check_for_test_updates ());
+		checked_set (_issuer, config->dcp_issuer ());
+		checked_set (_creator, config->dcp_creator ());
 	}
 
 	void setup_language_sensitivity ()
@@ -298,11 +321,23 @@ private:
 		Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
 	}
 
+	void issuer_changed ()
+	{
+		Config::instance()->set_dcp_issuer (wx_to_std (_issuer->GetValue ()));
+	}
+
+	void creator_changed ()
+	{
+		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
+	}
+
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;
+	wxTextCtrl* _issuer;
+	wxTextCtrl* _creator;
 };
 
 class DefaultsPage : public StandardPage
@@ -378,14 +413,6 @@ private:
 			table->Add (s, 1);
 		}
 
-		add_label_to_sizer (table, _panel, _("Default issuer"), true);
-		_issuer = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_issuer, 1, wxEXPAND);
-
-		add_label_to_sizer (table, _panel, _("Default creator"), true);
-		_creator = new wxTextCtrl (_panel, wxID_ANY);
-		table->Add (_creator, 1, wxEXPAND);
-
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::still_length_changed, this));
 
@@ -412,9 +439,6 @@ private:
 
 		_audio_delay->SetRange (-1000, 1000);
 		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
-
-		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::issuer_changed, this));
-		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DefaultsPage::creator_changed, this));
 	}
 
 	void config_changed ()
@@ -440,8 +464,6 @@ private:
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_audio_delay, config->default_audio_delay ());
-		checked_set (_issuer, config->dcp_issuer ());
-		checked_set (_creator, config->dcp_creator ());
 	}
 
 	void j2k_bandwidth_changed ()
@@ -484,16 +506,6 @@ private:
 		Config::instance()->set_default_dcp_content_type (ct[_dcp_content_type->GetSelection()]);
 	}
 
-	void issuer_changed ()
-	{
-		Config::instance()->set_dcp_issuer (wx_to_std (_issuer->GetValue ()));
-	}
-
-	void creator_changed ()
-	{
-		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
-	}
-
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
 	wxButton* _isdcf_metadata_button;
@@ -505,8 +517,6 @@ private:
 #endif
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
-	wxTextCtrl* _issuer;
-	wxTextCtrl* _creator;
 };
 
 class EncodingServersPage : public StandardPage
