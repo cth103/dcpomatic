@@ -348,7 +348,7 @@ Player::get_video (DCPTime time, bool accurate)
 		subtitles = merge (sub_images);
 	}
 
-	/* Find video */
+	/* Find pieces containing video which is happening now */
 
 	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
 		time,
@@ -361,56 +361,54 @@ Player::get_video (DCPTime time, bool accurate)
 		/* No video content at this time */
 		pvf.push_back (black_player_video_frame (time));
 	} else {
-		/* Decide which pieces of content to use */
-		list<shared_ptr<Piece> > ov_to_use;
+		/* Some video content at this time */
+		shared_ptr<Piece> last = *(ov.rbegin ());
+		VideoFrameType const last_type = dynamic_pointer_cast<VideoContent> (last->content)->video_frame_type ();
 
-		/* Always use the last one */
-		list<shared_ptr<Piece> >::reverse_iterator i = ov.rbegin ();
-		ov_to_use.push_back (*i);
-		VideoFrameType const first_type = dynamic_pointer_cast<VideoContent> ((*i)->content)->video_frame_type ();
+		/* Get video from appropriate piece(s) */
+		BOOST_FOREACH (shared_ptr<Piece> piece, ov) {
 
-		++i;
-		if (i != ov.rend ()) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> ((*i)->content);
-			/* Use the second to last if it's the other part of a 3D content pair */
-			if (
-				(first_type == VIDEO_FRAME_TYPE_3D_LEFT && vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
-				(first_type == VIDEO_FRAME_TYPE_3D_RIGHT && vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_LEFT)
-				) {
-				/* Other part of a pair of 3D content */
-				ov_to_use.push_back (*i);
-			}
-		}
-
-		BOOST_FOREACH (shared_ptr<Piece> piece, ov_to_use) {
 			shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
 			DCPOMATIC_ASSERT (decoder);
 			shared_ptr<VideoContent> video_content = dynamic_pointer_cast<VideoContent> (piece->content);
 			DCPOMATIC_ASSERT (video_content);
 
-			list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
-			if (content_video.empty ()) {
-				pvf.push_back (black_player_video_frame (time));
-			} else {
-				dcp::Size image_size = video_content->scale().size (video_content, _video_container_size, _film->frame_size ());
+			bool const use =
+				/* always use the last video */
+				piece == last ||
+				/* with a corresponding L/R eye if appropriate */
+				(last_type == VIDEO_FRAME_TYPE_3D_LEFT && video_content->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
+				(last_type == VIDEO_FRAME_TYPE_3D_RIGHT && video_content->video_frame_type() == VIDEO_FRAME_TYPE_3D_LEFT);
 
-				for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
-					pvf.push_back (
-						shared_ptr<PlayerVideo> (
-							new PlayerVideo (
-								i->image,
-								content_video_to_dcp (piece, i->frame),
-								video_content->crop (),
-								video_content->fade (i->frame),
-								image_size,
-								_video_container_size,
-								i->eyes,
-								i->part,
-								video_content->colour_conversion ()
+			if (use) {
+				/* We want to use this piece */
+				list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+				if (content_video.empty ()) {
+					pvf.push_back (black_player_video_frame (time));
+				} else {
+					dcp::Size image_size = video_content->scale().size (video_content, _video_container_size, _film->frame_size ());
+
+					for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
+						pvf.push_back (
+							shared_ptr<PlayerVideo> (
+								new PlayerVideo (
+									i->image,
+									content_video_to_dcp (piece, i->frame),
+									video_content->crop (),
+									video_content->fade (i->frame),
+									image_size,
+									_video_container_size,
+									i->eyes,
+									i->part,
+									video_content->colour_conversion ()
+									)
 								)
-							)
-						);
+							);
+					}
 				}
+			} else {
+				/* Discard unused video */
+				decoder->get_video (dcp_to_content_video (piece, time), accurate);
 			}
 		}
 	}
