@@ -24,6 +24,7 @@
 #include "film.h"
 #include "log.h"
 #include "quickmail.h"
+#include "version.h"
 
 #include "i18n.h"
 
@@ -66,6 +67,8 @@ SendProblemReportJob::run ()
 	quickmail_add_to (mail, "carl@dcpomatic.com");
 
 	string body = _summary + "\n\n";
+
+	body += string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
 
 	body += "log head and tail:\n";
 	body += "---<8----\n";
