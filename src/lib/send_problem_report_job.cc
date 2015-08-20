@@ -68,7 +68,7 @@ SendProblemReportJob::run ()
 
 	string body = _summary + "\n\n";
 
-	body += string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
+	body += "Version: " + string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
 
 	body += "log head and tail:\n";
 	body += "---<8----\n";
