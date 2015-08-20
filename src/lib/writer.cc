@@ -294,7 +294,7 @@ Writer::have_sequenced_image_at_queue_head ()
 void
 Writer::write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const
 {
-	FILE* file = fopen_boost (_film->info_file(), "ab");
+	FILE* file = fopen_boost (_film->info_file(), "r+b");
 	if (!file) {
 		throw OpenFileError (_film->info_file ());
 	}
@@ -783,7 +783,6 @@ Writer::frame_info_position (int frame, Eyes eyes) const
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
-
 
 	DCPOMATIC_ASSERT (false);
 }
