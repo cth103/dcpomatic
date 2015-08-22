@@ -294,7 +294,12 @@ Writer::have_sequenced_image_at_queue_head ()
 void
 Writer::write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const
 {
-	FILE* file = fopen_boost (_film->info_file(), "r+b");
+	FILE* file = 0;
+	if (boost::filesystem::exists (_film->info_file ())) {
+		file = fopen_boost (_film->info_file(), "r+b");
+	} else {
+		file = fopen_boost (_film->info_file(), "wb");
+	}
 	if (!file) {
 		throw OpenFileError (_film->info_file ());
 	}
