@@ -213,6 +213,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
 		property == SubtitleContentProperty::SUBTITLE_X_SCALE ||
 		property == SubtitleContentProperty::SUBTITLE_Y_SCALE ||
+		property == SubtitleContentProperty::FONTS ||
 		property == VideoContentProperty::VIDEO_CROP ||
 		property == VideoContentProperty::VIDEO_SCALE ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE ||
@@ -339,7 +340,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Text subtitles (rendered to an image) */
 	if (!ps.text.empty ()) {
-		list<PositionImage> s = render_subtitles (ps.text, _video_container_size);
+		list<PositionImage> s = render_subtitles (ps.text, ps.fonts, _video_container_size);
 		copy (s.begin (), s.end (), back_inserter (sub_images));
 	}
 
@@ -606,6 +607,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 					s.set_aspect_adjust (xs / ys);
 				}
 				ps.text.push_back (s);
+				ps.add_fonts (subtitle_content->fonts ());
 			}
 		}
 	}

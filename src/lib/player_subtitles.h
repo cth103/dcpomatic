@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,10 @@
 #define DCPOMATIC_PLAYER_SUBTITLES_H
 
 #include "image_subtitle.h"
+#include "dcpomatic_time.h"
 #include <dcp/subtitle_string.h>
+
+class Font;
 
 class PlayerSubtitles
 {
@@ -31,8 +34,11 @@ public:
 		, to (t)
 	{}
 
+	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
+
 	DCPTime from;
 	DCPTime to;
+	std::list<boost::shared_ptr<Font> > fonts;
 
 	/** ImageSubtitles, with their rectangles transformed as specified by their content */
 	std::list<ImageSubtitle> image;

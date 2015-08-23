@@ -21,6 +21,7 @@
 #define DCPOMATIC_IMAGE_SUBTITLE_H
 
 #include "rect.h"
+#include <boost/shared_ptr.hpp>
 
 class Image;
 

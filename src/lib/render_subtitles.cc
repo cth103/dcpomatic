@@ -20,6 +20,8 @@
 #include "render_subtitles.h"
 #include "types.h"
 #include "image.h"
+#include "cross.h"
+#include "font.h"
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
 #include <boost/foreach.hpp>
@@ -30,11 +32,15 @@ using std::string;
 using std::min;
 using std::max;
 using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 
+static FcConfig* fc_config = 0;
+static list<pair<boost::filesystem::path, string> > fc_config_fonts;
+
 static PositionImage
-render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
+render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > fonts, dcp::Size target)
 {
 	/* Calculate x and y scale factors.  These are only used to stretch
 	   the font away from its normal aspect ratio.
@@ -74,6 +80,59 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 		);
 
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
+
+	if (!fc_config) {
+		fc_config = FcConfigCreate ();
+	}
+
+	boost::filesystem::path font_file = shared_path () / "LiberationSans-Regular.ttf";
+	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
+		if (i->id() == subtitle.font() && i->file ()) {
+			font_file = i->file().get ();
+		}
+	}
+
+	list<pair<boost::filesystem::path, string> >::const_iterator existing = fc_config_fonts.begin ();
+	while (existing != fc_config_fonts.end() && existing->first != font_file) {
+		++existing;
+	}
+
+	string font_name;
+	if (existing != fc_config_fonts.end ()) {
+		font_name = existing->second;
+	} else {
+		/* Make this font available to DCP-o-matic */
+		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *> (font_file.string().c_str ()));
+
+		FcPattern* pattern = FcPatternBuild (0, FC_FILE, FcTypeString, font_file.string().c_str(), static_cast<char *> (0));
+		FcObjectSet* object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
+		FcFontSet* font_set = FcFontList (fc_config, pattern, object_set);
+		if (font_set) {
+			for (int i = 0; i < font_set->nfont; ++i) {
+				FcPattern* font = font_set->fonts[i];
+				FcChar8* file;
+				FcChar8* family;
+				FcChar8* style;
+				if (
+					FcPatternGetString (font, FC_FILE, 0, &file) == FcResultMatch &&
+					FcPatternGetString (font, FC_FAMILY, 0, &family) == FcResultMatch &&
+					FcPatternGetString (font, FC_STYLE, 0, &style) == FcResultMatch
+					) {
+					font_name = reinterpret_cast<char const *> (family);
+				}
+			}
+
+			FcFontSetDestroy (font_set);
+		}
+
+		FcObjectSetDestroy (object_set);
+		FcPatternDestroy (pattern);
+
+		fc_config_fonts.push_back (make_pair (font_file, font_name));
+	}
+
+	FcConfigSetCurrent (fc_config);
+
 	Glib::RefPtr<Pango::Layout> layout = Pango::Layout::create (context);
 
 	layout->set_alignment (Pango::ALIGN_LEFT);
@@ -82,7 +141,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 
 	/* Render the subtitle at the top left-hand corner of image */
 
-	Pango::FontDescription font (subtitle.font().get_value_or ("Arial"));
+	Pango::FontDescription font (font_name);
 	font.set_absolute_size (subtitle.size_in_pixels (target.height) * PANGO_SCALE);
 	if (subtitle.italic ()) {
 		font.set_style (Pango::STYLE_ITALIC);
@@ -164,11 +223,11 @@ render_subtitle (dcp::SubtitleString const & subtitle, dcp::Size target)
 }
 
 list<PositionImage>
-render_subtitles (list<dcp::SubtitleString> subtitles, dcp::Size target)
+render_subtitles (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target)
 {
 	list<PositionImage> images;
 	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
-		images.push_back (render_subtitle (i, target));
+		images.push_back (render_subtitle (i, fonts, target));
 	}
 	return images;
 }

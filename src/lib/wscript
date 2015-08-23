@@ -84,6 +84,7 @@ sources = """
           md5_digester.cc
           mid_side_decoder.cc
           player.cc
+          player_subtitles.cc
           player_video.cc
           playlist.cc
           position_image.cc

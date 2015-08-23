@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,25 @@
 
 */
 
-#include "position_image.h"
-#include <dcp/subtitle_string.h>
-#include <dcp/util.h>
+#include "player_subtitles.h"
+#include "font.h"
+#include <boost/foreach.hpp>
 
-class Font;
+using std::list;
+using boost::shared_ptr;
 
-std::list<PositionImage> render_subtitles (std::list<dcp::SubtitleString>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size);
+void
+PlayerSubtitles::add_fonts (list<shared_ptr<Font> > fonts_)
+{
+	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
+		bool got = false;
+		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
+			if (i->file() == j->file()) {
+				got = true;
+			}
+		}
+		if (!got) {
+			fonts.push_back (i);
+		}
+	}
+}
