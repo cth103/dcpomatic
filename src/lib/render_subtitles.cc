@@ -37,8 +37,6 @@ using std::make_pair;
 using boost::shared_ptr;
 using boost::optional;
 
-#define DEBUG_FONTS 1
-
 static FcConfig* fc_config = 0;
 static list<pair<boost::filesystem::path, string> > fc_config_fonts;
 
@@ -105,11 +103,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 		font_name = existing->second;
 	} else {
 		/* Make this font available to DCP-o-matic */
-		if (FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *> (font_file.string().c_str ())) == FcFalse) {
-#if defined(DEBUG_FONTS)
-			cerr << "FcConfigAppFontAddFile failed to load " << font_file << "\n";
-#endif
-		}
+		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *> (font_file.string().c_str ()));
 
 		FcPattern* pattern = FcPatternBuild (0, FC_FILE, FcTypeString, font_file.string().c_str(), static_cast<char *> (0));
 		FcObjectSet* object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
@@ -148,9 +142,6 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 
 	/* Render the subtitle at the top left-hand corner of image */
 
-#if defined(DEBUG_FONTS)
-	cerr << "Font name is " << font_name << "\n";
-#endif
 	Pango::FontDescription font (font_name);
 	font.set_absolute_size (subtitle.size_in_pixels (target.height) * PANGO_SCALE);
 	if (subtitle.italic ()) {
