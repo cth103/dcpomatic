@@ -492,7 +492,6 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 	}
 }
 
-
 float
 Image::bytes_per_pixel (int c) const
 {
