@@ -21,6 +21,21 @@
  *  @brief The main DCP-o-matic GUI.
  */
 
+#include "wx/film_viewer.h"
+#include "wx/film_editor.h"
+#include "wx/job_manager_view.h"
+#include "wx/config_dialog.h"
+#include "wx/wx_util.h"
+#include "wx/new_film_dialog.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/about_dialog.h"
+#include "wx/kdm_dialog.h"
+#include "wx/servers_list_dialog.h"
+#include "wx/hints_dialog.h"
+#include "wx/update_dialog.h"
+#include "wx/content_panel.h"
+#include "wx/report_problem_dialog.h"
+#include "wx/video_waveform_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -38,20 +53,6 @@
 #include "lib/cross.h"
 #include "lib/content_factory.h"
 #include "lib/compose.hpp"
-#include "wx/film_viewer.h"
-#include "wx/film_editor.h"
-#include "wx/job_manager_view.h"
-#include "wx/config_dialog.h"
-#include "wx/wx_util.h"
-#include "wx/new_film_dialog.h"
-#include "wx/wx_signal_manager.h"
-#include "wx/about_dialog.h"
-#include "wx/kdm_dialog.h"
-#include "wx/servers_list_dialog.h"
-#include "wx/hints_dialog.h"
-#include "wx/update_dialog.h"
-#include "wx/content_panel.h"
-#include "wx/report_problem_dialog.h"
 #include <dcp/exceptions.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
@@ -138,6 +139,7 @@ enum {
 	ID_jobs_make_kdms,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
+	ID_tools_video_waveform,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
 	ID_tools_check_for_updates,
@@ -152,6 +154,7 @@ class DOMFrame : public wxFrame
 public:
 	DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
+		, _video_waveform_dialog (0)
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
 		, _config_dialog (0)
@@ -199,6 +202,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_video_waveform, this),    ID_tools_video_waveform);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
@@ -514,6 +518,15 @@ private:
 #endif
 	}
 
+	void tools_video_waveform ()
+	{
+		if (!_video_waveform_dialog) {
+			_video_waveform_dialog = new VideoWaveformDialog (this, _film_viewer);
+		}
+
+		_video_waveform_dialog->Show ();
+	}
+
 	void tools_hints ()
 	{
 		if (!_hints_dialog) {
@@ -687,6 +700,7 @@ private:
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
 		wxMenu* tools = new wxMenu;
+		add_item (tools, _("Video waveform..."), ID_tools_video_waveform, NEEDS_FILM);
 		add_item (tools, _("Hints..."), ID_tools_hints, 0);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
@@ -745,6 +759,7 @@ private:
 
 	FilmEditor* _film_editor;
 	FilmViewer* _film_viewer;
+	VideoWaveformDialog* _video_waveform_dialog;
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;

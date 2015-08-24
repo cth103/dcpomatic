@@ -155,7 +155,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player_connection = _player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
 
 	calculate_sizes ();
-	get (_position, _last_get_accurate);
+	refresh ();
 
 	setup_sensitivity ();
 }
@@ -184,6 +184,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 	if (!pvf.empty ()) {
 		try {
 			_frame = pvf.front()->image (PIX_FMT_RGB24, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+			ImageChanged (pvf.front ());
 
 			dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
 			if (pvf.front()->colour_conversion()) {
@@ -295,7 +296,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 	_panel_size.height = ev.GetSize().GetHeight();
 
 	calculate_sizes ();
-	get (_position, _last_get_accurate);
+	refresh ();
 	update_position_label ();
 	update_position_slider ();
 }
@@ -436,7 +437,7 @@ FilmViewer::player_changed (bool frequent)
 	}
 
 	calculate_sizes ();
-	get (_position, _last_get_accurate);
+	refresh ();
 	update_position_label ();
 	update_position_slider ();
 }
@@ -461,4 +462,11 @@ FilmViewer::film_changed (Film::Property p)
 	if (p == Film::CONTENT) {
 		setup_sensitivity ();
 	}
+}
+
+/** Re-get the current frame */
+void
+FilmViewer::refresh ()
+{
+	get (_position, _last_get_accurate);
 }

@@ -91,26 +91,34 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or (RESOLUTION_2K));
 }
 
+shared_ptr<dcp::OpenJPEGImage>
+DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler note)
+{
+	shared_ptr<dcp::OpenJPEGImage> xyz;
+
+	shared_ptr<Image> image = frame->image (AV_PIX_FMT_RGB48LE, note);
+	if (frame->colour_conversion()) {
+		xyz = dcp::rgb_to_xyz (
+			image->data()[0],
+			image->size(),
+			image->stride()[0],
+			frame->colour_conversion().get(),
+			note
+			);
+	} else {
+		xyz = dcp::xyz_to_xyz (image->data()[0], image->size(), image->stride()[0]);
+	}
+
+	return xyz;
+}
+
 /** J2K-encode this frame on the local host.
  *  @return Encoded data.
  */
 Data
 DCPVideo::encode_locally (dcp::NoteHandler note)
 {
-	shared_ptr<dcp::OpenJPEGImage> xyz;
-
-	shared_ptr<Image> image = _frame->image (AV_PIX_FMT_RGB48LE, note);
-	if (_frame->colour_conversion()) {
-		xyz = dcp::rgb_to_xyz (
-			image->data()[0],
-			image->size(),
-			image->stride()[0],
-			_frame->colour_conversion().get(),
-			note
-			);
-	} else {
-		xyz = dcp::xyz_to_xyz (image->data()[0], image->size(), image->stride()[0]);
-	}
+	shared_ptr<dcp::OpenJPEGImage> xyz = convert_to_xyz (_frame, note);
 
 	/* Set the max image and component sizes based on frame_rate */
 	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;

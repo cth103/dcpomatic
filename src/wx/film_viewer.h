@@ -44,6 +44,10 @@ public:
 		return _position;
 	}
 
+	void refresh ();
+
+	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
+
 private:
 	void paint_panel ();
 	void panel_sized (wxSizeEvent &);

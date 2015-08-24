@@ -49,14 +49,15 @@ public:
 	~Image ();
 
 	uint8_t * const * data () const;
-	int * line_size () const;
+	int const * line_size () const;
 	int const * stride () const;
 	dcp::Size size () const;
 	bool aligned () const;
 
+	int planes () const;
 	int components () const;
 	int line_factor (int) const;
-	int lines (int) const;
+	dcp::Size sample_size (int) const;
 
 	boost::shared_ptr<Image> scale (dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned) const;
 	boost::shared_ptr<Image> crop_scale_window (Crop c, dcp::Size, dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned) const;

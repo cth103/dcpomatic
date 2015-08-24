@@ -18,7 +18,7 @@
 */
 
 /** @file  src/pixel_formats_test.cc
- *  @brief Make sure that Image::lines() and Image::bytes_per_pixel() return the right
+ *  @brief Make sure that Image::sample_size() and Image::bytes_per_pixel() return the right
  *  things for various pixel formats.
  *
  *  @see test/image_test.cc
@@ -42,7 +42,7 @@ struct Case
 {
 	Case (AVPixelFormat f, int c, int l0, int l1, int l2, float b0, float b1, float b2)
 		: format(f)
-		, components(c)
+		, planes(c)
 	{
 		lines[0] = l0;
 		lines[1] = l1;
@@ -53,7 +53,7 @@ struct Case
 	}
 
 	AVPixelFormat format;
-	int components;
+	int planes;
 	int lines[3];
 	float bpp[3];
 };
@@ -82,10 +82,10 @@ BOOST_AUTO_TEST_CASE (pixel_formats_test)
 		f->format = static_cast<int> (i->format);
 		av_frame_get_buffer (f, true);
 		Image t (f);
-		BOOST_CHECK_EQUAL(t.components(), i->components);
-		BOOST_CHECK_EQUAL(t.lines(0), i->lines[0]);
-		BOOST_CHECK_EQUAL(t.lines(1), i->lines[1]);
-		BOOST_CHECK_EQUAL(t.lines(2), i->lines[2]);
+		BOOST_CHECK_EQUAL(t.planes(), i->planes);
+		BOOST_CHECK_EQUAL(t.sample_size(0).height, i->lines[0]);
+		BOOST_CHECK_EQUAL(t.sample_size(1).height, i->lines[1]);
+		BOOST_CHECK_EQUAL(t.sample_size(2).height, i->lines[2]);
 		BOOST_CHECK_EQUAL(t.bytes_per_pixel(0), i->bpp[0]);
 		BOOST_CHECK_EQUAL(t.bytes_per_pixel(1), i->bpp[1]);
 		BOOST_CHECK_EQUAL(t.bytes_per_pixel(2), i->bpp[2]);

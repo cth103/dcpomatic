@@ -61,21 +61,44 @@ Image::line_factor (int n) const
 }
 
 /** @param n Component index.
- *  @return Number of lines in the image for the given component.
+ *  @return Number of samples (i.e. pixels, unless sub-sampled) in each direction for this component.
  */
-int
-Image::lines (int n) const
+dcp::Size
+Image::sample_size (int n) const
 {
-	return rint (ceil (static_cast<double>(size().height) / line_factor (n)));
+	int horizontal_factor = 1;
+	if (n > 0) {
+		AVPixFmtDescriptor const * d = av_pix_fmt_desc_get (_pixel_format);
+		if (!d) {
+			throw PixelFormatError ("sample_size()", _pixel_format);
+		}
+		horizontal_factor = pow (2.0f, d->log2_chroma_w);
+	}
+
+	return dcp::Size (
+		rint (ceil (static_cast<double>(size().width) / horizontal_factor)),
+		rint (ceil (static_cast<double>(size().height) / line_factor (n)))
+		);
 }
 
-/** @return Number of components */
 int
 Image::components () const
 {
 	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("components()", _pixel_format);
+	}
+
+	return d->nb_components;
+}
+
+/** @return Number of planes */
+int
+Image::planes () const
+{
+	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	if (!d) {
+		throw PixelFormatError ("planes()", _pixel_format);
 	}
 
 	if ((d->flags & PIX_FMT_PLANAR) == 0) {
@@ -136,8 +159,8 @@ Image::crop_scale_window (
 	}
 
 	/* Prepare input data pointers with crop */
-	uint8_t* scale_in_data[components()];
-	for (int c = 0; c < components(); ++c) {
+	uint8_t* scale_in_data[planes()];
+	for (int c = 0; c < planes(); ++c) {
 		/* To work out the crop in bytes, start by multiplying
 		   the crop by the (average) bytes per pixel.  Then
 		   round down so that we don't crop a subsampled pixel until
@@ -150,8 +173,8 @@ Image::crop_scale_window (
 	/* Corner of the image within out_size */
 	Position<int> const corner ((out_size.width - inter_size.width) / 2, (out_size.height - inter_size.height) / 2);
 
-	uint8_t* scale_out_data[out->components()];
-	for (int c = 0; c < out->components(); ++c) {
+	uint8_t* scale_out_data[out->planes()];
+	for (int c = 0; c < out->planes(); ++c) {
 		scale_out_data[c] = out->data()[c] + int (rint (out->bytes_per_pixel(c) * corner.x)) + out->stride()[c] * corner.y;
 	}
 
@@ -212,10 +235,11 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 void
 Image::yuv_16_black (uint16_t v, bool alpha)
 {
-	memset (data()[0], 0, lines(0) * stride()[0]);
+	memset (data()[0], 0, sample_size(0).height * stride()[0]);
 	for (int i = 1; i < 3; ++i) {
 		int16_t* p = reinterpret_cast<int16_t*> (data()[i]);
-		for (int y = 0; y < lines(i); ++y) {
+		int const lines = sample_size(i).height;
+		for (int y = 0; y < lines; ++y) {
 			/* We divide by 2 here because we are writing 2 bytes at a time */
 			for (int x = 0; x < line_size()[i] / 2; ++x) {
 				p[x] = v;
@@ -225,7 +249,7 @@ Image::yuv_16_black (uint16_t v, bool alpha)
 	}
 
 	if (alpha) {
-		memset (data()[3], 0, lines(3) * stride()[3]);
+		memset (data()[3], 0, sample_size(3).height * stride()[3]);
 	}
 }
 
@@ -252,17 +276,17 @@ Image::make_black ()
 	case PIX_FMT_YUV422P:
 	case PIX_FMT_YUV444P:
 	case PIX_FMT_YUV411P:
-		memset (data()[0], 0, lines(0) * stride()[0]);
-		memset (data()[1], eight_bit_uv, lines(1) * stride()[1]);
-		memset (data()[2], eight_bit_uv, lines(2) * stride()[2]);
+		memset (data()[0], 0, sample_size(0).height * stride()[0]);
+		memset (data()[1], eight_bit_uv, sample_size(1).height * stride()[1]);
+		memset (data()[2], eight_bit_uv, sample_size(2).height * stride()[2]);
 		break;
 
 	case PIX_FMT_YUVJ420P:
 	case PIX_FMT_YUVJ422P:
 	case PIX_FMT_YUVJ444P:
-		memset (data()[0], 0, lines(0) * stride()[0]);
-		memset (data()[1], eight_bit_uv + 1, lines(1) * stride()[1]);
-		memset (data()[2], eight_bit_uv + 1, lines(2) * stride()[2]);
+		memset (data()[0], 0, sample_size(0).height * stride()[0]);
+		memset (data()[1], eight_bit_uv + 1, sample_size(1).height * stride()[1]);
+		memset (data()[2], eight_bit_uv + 1, sample_size(2).height * stride()[2]);
 		break;
 
 	case PIX_FMT_YUV422P9LE:
@@ -334,12 +358,12 @@ Image::make_black ()
 	case PIX_FMT_RGB555LE:
 	case PIX_FMT_RGB48LE:
 	case PIX_FMT_RGB48BE:
-		memset (data()[0], 0, lines(0) * stride()[0]);
+		memset (data()[0], 0, sample_size(0).height * stride()[0]);
 		break;
 
 	case PIX_FMT_UYVY422:
 	{
-		int const Y = lines(0);
+		int const Y = sample_size(0).height;
 		int const X = line_size()[0];
 		uint8_t* p = data()[0];
 		for (int y = 0; y < Y; ++y) {
@@ -365,7 +389,7 @@ Image::make_transparent ()
 		throw PixelFormatError ("make_transparent()", _pixel_format);
 	}
 
-	memset (data()[0], 0, lines(0) * stride()[0]);
+	memset (data()[0], 0, sample_size(0).height * stride()[0]);
 }
 
 void
@@ -471,9 +495,10 @@ Image::copy (shared_ptr<const Image> other, Position<int> position)
 void
 Image::read_from_socket (shared_ptr<Socket> socket)
 {
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = data()[i];
-		for (int y = 0; y < lines(i); ++y) {
+		int const lines = sample_size(i).height;
+		for (int y = 0; y < lines; ++y) {
 			socket->read (p, line_size()[i]);
 			p += stride()[i];
 		}
@@ -483,9 +508,10 @@ Image::read_from_socket (shared_ptr<Socket> socket)
 void
 Image::write_to_socket (shared_ptr<Socket> socket) const
 {
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = data()[i];
-		for (int y = 0; y < lines(i); ++y) {
+		int const lines = sample_size(i).height;
+		for (int y = 0; y < lines; ++y) {
 			socket->write (p, line_size()[i]);
 			p += stride()[i];
 		}
@@ -500,7 +526,7 @@ Image::bytes_per_pixel (int c) const
 		throw PixelFormatError ("bytes_per_pixel()", _pixel_format);
 	}
 
-	if (c >= components()) {
+	if (c >= planes()) {
 		return 0;
 	}
 
@@ -551,7 +577,7 @@ Image::allocate ()
 	_stride = (int *) wrapped_av_malloc (4 * sizeof (int));
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
 		_stride[i] = stride_round_up (i, _line_size, _aligned ? 32 : 1);
 
@@ -569,7 +595,7 @@ Image::allocate ()
 		   so I'll just over-allocate by 32 bytes and have done with it.  Empirical
 		   testing suggests that it works.
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * lines (i) + 32);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * sample_size(i).height + 32);
 	}
 }
 
@@ -580,10 +606,11 @@ Image::Image (Image const & other)
 {
 	allocate ();
 
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = _data[i];
 		uint8_t* q = other._data[i];
-		for (int j = 0; j < lines(i); ++j) {
+		int const lines = sample_size(i).height;
+		for (int j = 0; j < lines; ++j) {
 			memcpy (p, q, _line_size[i]);
 			p += stride()[i];
 			q += other.stride()[i];
@@ -598,10 +625,11 @@ Image::Image (AVFrame* frame)
 {
 	allocate ();
 
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = _data[i];
 		uint8_t* q = frame->data[i];
-		for (int j = 0; j < lines(i); ++j) {
+		int const lines = sample_size(i).height;
+		for (int j = 0; j < lines; ++j) {
 			memcpy (p, q, _line_size[i]);
 			p += stride()[i];
 			/* AVFrame's linesize is what we call `stride' */
@@ -617,11 +645,12 @@ Image::Image (shared_ptr<const Image> other, bool aligned)
 {
 	allocate ();
 
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		DCPOMATIC_ASSERT (line_size()[i] == other->line_size()[i]);
 		uint8_t* p = _data[i];
 		uint8_t* q = other->data()[i];
-		for (int j = 0; j < lines(i); ++j) {
+		int const lines = sample_size(i).height;
+		for (int j = 0; j < lines; ++j) {
 			memcpy (p, q, line_size()[i]);
 			p += stride()[i];
 			q += other->stride()[i];
@@ -659,7 +688,7 @@ Image::swap (Image & other)
 /** Destroy a Image */
 Image::~Image ()
 {
-	for (int i = 0; i < components(); ++i) {
+	for (int i = 0; i < planes(); ++i) {
 		av_free (_data[i]);
 	}
 
@@ -674,7 +703,7 @@ Image::data () const
 	return _data;
 }
 
-int *
+int const *
 Image::line_size () const
 {
 	return _line_size;
@@ -726,18 +755,19 @@ merge (list<PositionImage> images)
 bool
 operator== (Image const & a, Image const & b)
 {
-	if (a.components() != b.components() || a.pixel_format() != b.pixel_format() || a.aligned() != b.aligned()) {
+	if (a.planes() != b.planes() || a.pixel_format() != b.pixel_format() || a.aligned() != b.aligned()) {
 		return false;
 	}
 
-	for (int c = 0; c < a.components(); ++c) {
-		if (a.lines(c) != b.lines(c) || a.line_size()[c] != b.line_size()[c] || a.stride()[c] != b.stride()[c]) {
+	for (int c = 0; c < a.planes(); ++c) {
+		if (a.sample_size(c).height != b.sample_size(c).height || a.line_size()[c] != b.line_size()[c] || a.stride()[c] != b.stride()[c]) {
 			return false;
 		}
 
 		uint8_t* p = a.data()[c];
 		uint8_t* q = b.data()[c];
-		for (int y = 0; y < a.lines(c); ++y) {
+		int const lines = a.sample_size(c).height;
+		for (int y = 0; y < lines; ++y) {
 			if (memcmp (p, q, a.line_size()[c]) != 0) {
 				return false;
 			}
@@ -773,7 +803,8 @@ Image::fade (float f)
 		/* 8-bit */
 		for (int c = 0; c < 3; ++c) {
 			uint8_t* p = data()[c];
-			for (int y = 0; y < lines(c); ++y) {
+			int const lines = sample_size(c).height;
+			for (int y = 0; y < lines; ++y) {
 				uint8_t* q = p;
 				for (int x = 0; x < line_size()[c]; ++x) {
 					*q = int (float (*q) * f);
@@ -802,7 +833,8 @@ Image::fade (float f)
 			int const stride_pixels = stride()[c] / 2;
 			int const line_size_pixels = line_size()[c] / 2;
 			uint16_t* p = reinterpret_cast<uint16_t*> (data()[c]);
-			for (int y = 0; y < lines(c); ++y) {
+			int const lines = sample_size(c).height;
+			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
 				for (int x = 0; x < line_size_pixels; ++x) {
 					*q = int (float (*q) * f);
@@ -832,7 +864,8 @@ Image::fade (float f)
 			int const stride_pixels = stride()[c] / 2;
 			int const line_size_pixels = line_size()[c] / 2;
 			uint16_t* p = reinterpret_cast<uint16_t*> (data()[c]);
-			for (int y = 0; y < lines(c); ++y) {
+			int const lines = sample_size(c).height;
+			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
 				for (int x = 0; x < line_size_pixels; ++x) {
 					*q = swap_16 (int (float (swap_16 (*q)) * f));
@@ -845,7 +878,7 @@ Image::fade (float f)
 
 	case PIX_FMT_UYVY422:
 	{
-		int const Y = lines(0);
+		int const Y = sample_size(0).height;
 		int const X = line_size()[0];
 		uint8_t* p = data()[0];
 		for (int y = 0; y < Y; ++y) {

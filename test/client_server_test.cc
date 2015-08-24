@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
 	uint8_t* p = image->data()[0];
 
-	for (int i = 0; i < image->components(); ++i) {
+	for (int i = 0; i < image->planes(); ++i) {
 		uint8_t* p = image->data()[i];
 		for (int j = 0; j < image->line_size()[i]; ++j) {
 			*p++ = j % 256;
