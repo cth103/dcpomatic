@@ -48,8 +48,8 @@ AudioPanel::AudioPanel (ContentPanel* p)
 
 	int r = 0;
 
-	_show = new wxButton (this, wxID_ANY, _("Show Audio..."));
-	grid->Add (_show, wxGBPosition (r, 0));
+	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
+	grid->Add (_show, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
