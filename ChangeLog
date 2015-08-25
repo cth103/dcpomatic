@@ -1,3 +1,7 @@
+2015-08-25  Carl Hetherington  <cth@carlh.net>
+
+	* Add video waveform viewer.
+
 2015-08-23  Carl Hetherington  <cth@carlh.net>
 
 	* Use correct fonts to render subtitles in preview (#663).
