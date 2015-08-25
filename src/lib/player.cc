@@ -524,10 +524,7 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
-	/* We're returning a frame index here so we need to floor() the conversion since we want to know the frame
-	   that contains t, I think
-	*/
-	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames_floor (vc->video_frame_rate ());
+	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames_round (vc->video_frame_rate ());
 }
 
 DCPTime
