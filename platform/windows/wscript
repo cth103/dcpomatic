@@ -59,7 +59,7 @@ ${EndIf}
 
     print("""
 SetOutPath "$INSTDIR\\bin"
-WriteUninstaller "$INSTDIR\Uninstall.exe"
+WriteUninstaller "$INSTDIR\\Uninstall.exe"
 
 File "%static_deps%/bin/libintl-8.dll"
 File "%static_deps%/bin/libboost_chrono-mt.dll"
@@ -211,17 +211,6 @@ File "%static_deps%/share/locale/da/LC_MESSAGES/wxstd.mo"
 SetOutPath "$INSTDIR"
 File "%resources%/../../LiberationSans-Regular.ttf"
 File "%graphics%/splash.png"
-    """, file=f)
-
-    if debug:
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "DisplayName" "DCP-o-matic 2 Debug (remove only)"', file=f)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
-    else:
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
-
-    print("""
-WriteUninstaller "$INSTDIR\\Uninstall.exe"
 
 CreateDirectory "$INSTDIR\etc\pango"
 ReadEnvStr $0 COMSPEC
@@ -266,7 +255,6 @@ File "%binaries%/src/tools/dcpomatic2_create.exe"
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
 
     print("""
-WriteUninstaller "$INSTDIR\\Uninstall.exe"
 SectionEnd
     """, file=f)
 
