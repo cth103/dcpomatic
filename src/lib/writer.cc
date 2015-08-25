@@ -770,7 +770,7 @@ operator== (QueueItem const & a, QueueItem const & b)
 void
 Writer::set_encoder_threads (int threads)
 {
-	_maximum_frames_in_memory = rint (threads * 1.1);
+	_maximum_frames_in_memory = lrint (threads * 1.1);
 }
 
 long

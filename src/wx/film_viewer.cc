@@ -316,11 +316,11 @@ FilmViewer::calculate_sizes ()
 	if (panel_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
 		_out_size.width = _panel_size.width;
-		_out_size.height = rint (_out_size.width / film_ratio);
+		_out_size.height = lrintf (_out_size.width / film_ratio);
 	} else {
 		/* panel is more widescreen than the film; clamp height */
 		_out_size.height = _panel_size.height;
-		_out_size.width = rint (_out_size.height * film_ratio);
+		_out_size.width = lrintf (_out_size.height * film_ratio);
 	}
 
 	/* Catch silly values */
@@ -379,7 +379,7 @@ FilmViewer::update_position_label ()
 
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%d"), int (rint (_position.seconds() * fps)) + 1));
+	_frame_number->SetLabel (wxString::Format (wxT("%d"), lrint (_position.seconds() * fps) + 1));
 	_timecode->SetLabel (time_to_timecode (_position, fps));
 }
 

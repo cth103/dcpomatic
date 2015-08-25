@@ -146,7 +146,7 @@ DCPContent::full_length () const
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	FrameRateChange const frc (video_frame_rate (), film->video_frame_rate ());
-	return DCPTime::from_frames (rint (video_length () * frc.factor ()), film->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video_length () * frc.factor ()), film->video_frame_rate ());
 }
 
 string

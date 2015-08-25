@@ -332,7 +332,7 @@ Job::status () const
 
 	SafeStringStream s;
 	if (!finished () && p) {
-		int pc = rint (p.get() * 100);
+		int pc = lrintf (p.get() * 100);
 		if (pc == 100) {
 			/* 100% makes it sound like we've finished when we haven't */
 			pc = 99;

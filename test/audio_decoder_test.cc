@@ -51,7 +51,7 @@ public:
 	}
 
 	Frame audio_length () const {
-		return rint (61.2942 * audio_stream()->frame_rate ());
+		return llrint (61.2942 * audio_stream()->frame_rate ());
 	}
 };
 

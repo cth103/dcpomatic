@@ -301,5 +301,5 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	/* The FrameRateChange within resampled_audio_frame_rate should choose to double-up
 	   the 14.99 fps video to 30 and then run it slow at 25.
 	*/
-	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), rint (48000 * 2 * 14.99 / 25));
+	BOOST_CHECK_EQUAL (content->resampled_audio_frame_rate(), lrint (48000 * 2 * 14.99 / 25));
 }

@@ -341,6 +341,6 @@ time_to_timecode (DCPTime t, double fps)
 	w -= m * 60;
 	int const s = floor (w);
 	w -= s;
-	int const f = rint (w * fps);
+	int const f = lrint (w * fps);
 	return wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f);
 }

@@ -206,7 +206,7 @@ AudioContent::resampled_audio_frame_rate () const
 		t /= frc.speed_up;
 	}
 
-	return rint (t);
+	return lrint (t);
 }
 
 string

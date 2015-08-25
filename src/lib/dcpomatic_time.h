@@ -118,7 +118,7 @@ public:
 	 *  @param r Sampling rate.
 	 */
 	Time<S, O> round_up (float r) {
-		Type const n = rint (HZ / r);
+		Type const n = llrintf (HZ / r);
 		Type const a = _t + n - 1;
 		return Time<S, O> (a - (a % n));
 	}
@@ -180,7 +180,7 @@ public:
 
 
 	static Time<S, O> from_seconds (double s) {
-		return Time<S, O> (rint (s * HZ));
+		return Time<S, O> (llrint (s * HZ));
 	}
 
 	template <class T>

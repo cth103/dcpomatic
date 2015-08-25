@@ -155,8 +155,8 @@ VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size display_con
 			float (display_container.height) / film_container.height
 			);
 
-		size.width = rint (size.width * scale);
-		size.height = rint (size.height * scale);
+		size.width = lrintf (size.width * scale);
+		size.height = lrintf (size.height * scale);
 	}
 
 	return size;

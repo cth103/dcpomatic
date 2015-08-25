@@ -55,16 +55,16 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc)
 
 	double mark_interval = rint (128 / pps);
 	if (mark_interval > 5) {
-		mark_interval -= int (rint (mark_interval)) % 5;
+		mark_interval -= lrint (mark_interval) % 5;
 	}
 	if (mark_interval > 10) {
-		mark_interval -= int (rint (mark_interval)) % 10;
+		mark_interval -= lrint (mark_interval) % 10;
 	}
 	if (mark_interval > 60) {
-		mark_interval -= int (rint (mark_interval)) % 60;
+		mark_interval -= lrint (mark_interval) % 60;
 	}
 	if (mark_interval > 3600) {
-		mark_interval -= int (rint (mark_interval)) % 3600;
+		mark_interval -= lrint (mark_interval) % 3600;
 	}
 
 	if (mark_interval < 1) {

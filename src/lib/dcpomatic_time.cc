@@ -23,14 +23,14 @@ using std::ostream;
 
 template <>
 Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
-	: _t (rint (d.get() * f.speed_up))
+	: _t (llrint (d.get() * f.speed_up))
 {
 
 }
 
 template <>
 Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (ContentTime d, FrameRateChange f)
-	: _t (rint (d.get() / f.speed_up))
+	: _t (llrint (d.get() / f.speed_up))
 {
 
 }

@@ -293,8 +293,8 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 					true
 					),
 				Position<int> (
-					rint (_video_container_size.width * i->rectangle.x),
-					rint (_video_container_size.height * i->rectangle.y)
+					lrint (_video_container_size.width * i->rectangle.x),
+					lrint (_video_container_size.height * i->rectangle.y)
 					)
 				)
 			);

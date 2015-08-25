@@ -76,8 +76,8 @@ Image::sample_size (int n) const
 	}
 
 	return dcp::Size (
-		rint (ceil (static_cast<double>(size().width) / horizontal_factor)),
-		rint (ceil (static_cast<double>(size().height) / line_factor (n)))
+		lrint (ceil (static_cast<double>(size().width) / horizontal_factor)),
+		lrint (ceil (static_cast<double>(size().height) / line_factor (n)))
 		);
 }
 
@@ -166,7 +166,7 @@ Image::crop_scale_window (
 		   round down so that we don't crop a subsampled pixel until
 		   we've cropped all of its Y-channel pixels.
 		*/
-		int const x = int (rint (bytes_per_pixel(c) * crop.left)) & ~ ((int) desc->log2_chroma_w);
+		int const x = lrintf (bytes_per_pixel(c) * crop.left) & ~ ((int) desc->log2_chroma_w);
 		scale_in_data[c] = data()[c] + x + stride()[c] * (crop.top / line_factor(c));
 	}
 
@@ -175,7 +175,7 @@ Image::crop_scale_window (
 
 	uint8_t* scale_out_data[out->planes()];
 	for (int c = 0; c < out->planes(); ++c) {
-		scale_out_data[c] = out->data()[c] + int (rint (out->bytes_per_pixel(c) * corner.x)) + out->stride()[c] * corner.y;
+		scale_out_data[c] = out->data()[c] + lrintf (out->bytes_per_pixel(c) * corner.x) + out->stride()[c] * corner.y;
 	}
 
 	sws_scale (
