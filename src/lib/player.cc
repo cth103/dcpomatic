@@ -218,7 +218,8 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == VideoContentProperty::VIDEO_SCALE ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE ||
 		property == VideoContentProperty::VIDEO_FADE_IN ||
-		property == VideoContentProperty::VIDEO_FADE_OUT
+		property == VideoContentProperty::VIDEO_FADE_OUT ||
+		property == VideoContentProperty::COLOUR_CONVERSION
 		) {
 
 		Changed (frequent);
