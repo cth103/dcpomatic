@@ -379,7 +379,7 @@ FilmViewer::update_position_label ()
 
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%d"), lrint (_position.seconds() * fps) + 1));
+	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_position.seconds() * fps) + 1));
 	_timecode->SetLabel (time_to_timecode (_position, fps));
 }
 
