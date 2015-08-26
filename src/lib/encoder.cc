@@ -34,6 +34,7 @@
 #include "player.h"
 #include "player_video.h"
 #include "data.h"
+#include "server_description.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <boost/foreach.hpp>

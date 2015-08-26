@@ -20,6 +20,7 @@
 #include "servers_list_dialog.h"
 #include "wx_util.h"
 #include "lib/server_finder.h"
+#include "lib/server_description.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 

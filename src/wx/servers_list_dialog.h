@@ -17,9 +17,10 @@
 
 */
 
+#include "lib/server.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
-#include "lib/server.h"
+#include <boost/signals2.hpp>
 
 class ServersListDialog : public wxDialog
 {

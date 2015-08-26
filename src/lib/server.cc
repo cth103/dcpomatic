@@ -33,6 +33,7 @@
 #include "safe_stringstream.h"
 #include "raw_convert.h"
 #include "compose.hpp"
+#include "log.h"
 #include <libcxml/cxml.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>

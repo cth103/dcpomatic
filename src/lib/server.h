@@ -21,71 +21,26 @@
 #define DCPOMATIC_SERVER_H
 
 /** @file src/server.h
- *  @brief Class to describe a server to which we can send
- *  encoding work, and a class to implement such a server.
+ *  @brief Server class.
  */
 
-#include "log.h"
 #include "exceptions.h"
-#include <libxml++/libxml++.h>
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>
-#include <boost/optional.hpp>
 #include <string>
 
 class Socket;
+class Log;
 
 namespace cxml {
 	class Node;
 }
 
-/** @class ServerDescription
- *  @brief Class to describe a server to which we can send encoding work.
+/** @class Server
+ *  @brief A class to run a server which can accept requests to perform JPEG2000
+ *  encoding work.
  */
-class ServerDescription
-{
-public:
-	ServerDescription ()
-		: _host_name ("")
-		, _threads (1)
-	{}
-
-	/** @param h Server host name or IP address in string form.
-	 *  @param t Number of threads to use on the server.
-	 */
-	ServerDescription (std::string h, int t)
-		: _host_name (h)
-		, _threads (t)
-	{}
-
-	/* Default copy constructor is fine */
-
-	/** @return server's host name or IP address in string form */
-	std::string host_name () const {
-		return _host_name;
-	}
-
-	/** @return number of threads to use on the server */
-	int threads () const {
-		return _threads;
-	}
-
-	void set_host_name (std::string n) {
-		_host_name = n;
-	}
-
-	void set_threads (int t) {
-		_threads = t;
-	}
-
-private:
-	/** server's host name */
-	std::string _host_name;
-	/** number of threads to use on the server */
-	int _threads;
-};
-
 class Server : public ExceptionStore, public boost::noncopyable
 {
 public:

@@ -25,8 +25,6 @@
  *  encoded data to check that they are the same.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <boost/thread.hpp>
 #include "lib/server.h"
 #include "lib/image.h"
 #include "lib/cross.h"
@@ -34,6 +32,10 @@
 #include "lib/player_video.h"
 #include "lib/raw_image_proxy.h"
 #include "lib/data.h"
+#include "lib/server_description.h"
+#include "lib/log.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/thread.hpp>
 
 using std::list;
 using boost::shared_ptr;

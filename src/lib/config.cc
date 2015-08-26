@@ -22,6 +22,7 @@
 #include "filter.h"
 #include "ratio.h"
 #include "types.h"
+#include "log.h"
 #include "dcp_content_type.h"
 #include "cinema_sound_processor.h"
 #include "colour_conversion.h"

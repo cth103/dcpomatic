@@ -31,7 +31,7 @@
 #include "dcp_video.h"
 #include "config.h"
 #include "exceptions.h"
-#include "server.h"
+#include "server_description.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "log.h"

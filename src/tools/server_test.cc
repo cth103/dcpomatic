@@ -17,10 +17,6 @@
 
 */
 
-#include <iostream>
-#include <iomanip>
-#include <exception>
-#include <getopt.h>
 #include "lib/ratio.h"
 #include "lib/film.h"
 #include "lib/filter.h"
@@ -34,6 +30,11 @@
 #include "lib/player.h"
 #include "lib/player_video.h"
 #include "lib/data.h"
+#include "lib/server_description.h"
+#include <getopt.h>
+#include <iostream>
+#include <iomanip>
+#include <exception>
 
 using std::cout;
 using std::cerr;
