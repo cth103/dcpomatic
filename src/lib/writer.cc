@@ -557,7 +557,13 @@ Writer::finish ()
 	}
 
 	if (_subtitle_asset) {
-		boost::filesystem::path const liberation = shared_path () / "LiberationSans-Regular.ttf";
+		boost::filesystem::path liberation;
+		try {
+			liberation = shared_path () / "LiberationSans-Regular.ttf";
+		} catch (boost::filesystem::filesystem_error& e) {
+			/* Hack: try the debian/ubuntu location if getting the shared path failed */
+			liberation = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+		}
 
 		/* Add all the fonts to the subtitle content */
 		BOOST_FOREACH (shared_ptr<Font> i, _fonts) {
