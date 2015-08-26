@@ -86,7 +86,14 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 		fc_config = FcConfigCreate ();
 	}
 
-	boost::filesystem::path font_file = shared_path () / "LiberationSans-Regular.ttf";
+	boost::filesystem::path font_file;
+	try {
+		font_file = shared_path () / "LiberationSans-Regular.ttf";
+	} catch (boost::filesystem::filesystem_error& e) {
+		/* Hack: try the debian/ubuntu location if getting the shared path failed */
+		font_file = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+	}
+
 	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
 		if (i->id() == subtitle.font() && i->file ()) {
 			font_file = i->file().get ();
