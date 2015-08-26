@@ -53,6 +53,7 @@ class Screen;
 class AudioProcessor;
 class AudioMapping;
 class Ratio;
+class Job;
 struct isdcf_name_test;
 
 /** @class Film

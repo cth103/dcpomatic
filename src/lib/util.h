@@ -50,7 +50,6 @@ namespace dcp {
 
 extern std::string program_name;
 
-class Job;
 struct AVSubtitle;
 
 extern std::string seconds_to_hms (int);
@@ -71,24 +70,6 @@ extern std::string tidy_for_filename (std::string);
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 extern int stride_round_up (int, int const *, int);
 extern void* wrapped_av_malloc (size_t);
-
-class FFmpegSubtitlePeriod
-{
-public:
-	FFmpegSubtitlePeriod (ContentTime f)
-		: from (f)
-	{}
-
-	FFmpegSubtitlePeriod (ContentTime f, ContentTime t)
-		: from (f)
-		, to (t)
-	{}
-
-	ContentTime from;
-	boost::optional<ContentTime> to;
-};
-
-extern FFmpegSubtitlePeriod subtitle_period (AVSubtitle const &);
 extern void set_backtrace_file (boost::filesystem::path);
 extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset);

@@ -246,3 +246,19 @@ FFmpeg::avio_seek (int64_t const pos, int whence)
 
 	return _file_group.seek (pos, whence);
 }
+
+FFmpegSubtitlePeriod
+FFmpeg::subtitle_period (AVSubtitle const & sub)
+{
+	ContentTime const packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE);
+
+	if (sub.end_display_time == static_cast<uint32_t> (-1)) {
+		/* End time is not known */
+		return FFmpegSubtitlePeriod (packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3));
+	}
+
+	return FFmpegSubtitlePeriod (
+		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
+		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
+		);
+}

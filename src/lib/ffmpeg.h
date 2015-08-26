@@ -20,10 +20,11 @@
 #ifndef DCPOMATIC_FFMPEG_H
 #define DCPOMATIC_FFMPEG_H
 
+#include "file_group.h"
+#include "ffmpeg_subtitle_period.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
-#include "file_group.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 
@@ -50,6 +51,7 @@ public:
 protected:
 	AVCodecContext* video_codec_context () const;
 	AVCodecContext* subtitle_codec_context () const;
+	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const &);
 
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
