@@ -119,9 +119,10 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 	int const frames = b->frames ();
 	int const channels = b->channels ();
 
-	for (int i = 0; i < frames; ++i) {
-		for (int j = 0; j < channels; ++j) {
-			float s = b->data(j)[i];
+	for (int j = 0; j < channels; ++j) {
+		float* data = b->data(j);
+		for (int i = 0; i < frames; ++i) {
+			float s = data[i];
 			float as = fabsf (s);
 			if (as < 10e-7) {
 				/* SafeStringStream can't serialise and recover inf or -inf, so prevent such
@@ -136,13 +137,13 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 				_overall_peak_frame = _done + i;
 			}
 
-			if ((_done % _samples_per_point) == 0) {
+			if (((_done + i) % _samples_per_point) == 0) {
 				_current[j][AudioPoint::RMS] = sqrt (_current[j][AudioPoint::RMS] / _samples_per_point);
 				_analysis->add_point (j, _current[j]);
 				_current[j] = AudioPoint ();
 			}
 		}
-
-		++_done;
 	}
+
+	_done += frames;
 }
