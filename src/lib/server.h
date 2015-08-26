@@ -24,7 +24,7 @@
  *  @brief Server class.
  */
 
-#include "exceptions.h"
+#include "exception_store.h"
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/condition.hpp>

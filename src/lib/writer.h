@@ -24,6 +24,7 @@
 #include "types.h"
 #include "player_subtitles.h"
 #include "data.h"
+#include "exception_store.h"
 #include <dcp/picture_asset_writer.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>

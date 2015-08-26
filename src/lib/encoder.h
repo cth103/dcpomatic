@@ -26,6 +26,7 @@
 
 #include "util.h"
 #include "cross.h"
+#include "exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>

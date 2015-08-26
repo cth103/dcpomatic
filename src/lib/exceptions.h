@@ -27,9 +27,7 @@
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
-#include <boost/exception/all.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/thread/mutex.hpp>
 #include <stdexcept>
 #include <cstring>
 
@@ -263,49 +261,6 @@ class ProgrammingError : public StringError
 {
 public:
 	ProgrammingError (std::string file, int line);
-};
-
-/** @class ExceptionStore
- *  @brief A parent class for classes which have a need to catch and
- *  re-throw exceptions.
- *
- *  This is intended for classes which run their own thread; they should do
- *  something like
- *
- *  void my_thread ()
- *  try {
- *    // do things which might throw exceptions
- *  } catch (...) {
- *    store_current ();
- *  }
- *
- *  and then in another thread call rethrow().  If any
- *  exception was thrown by my_thread it will be stored by
- *  store_current() and then rethrow() will re-throw it where
- *  it can be handled.
- */
-class ExceptionStore
-{
-public:
-	void rethrow () {
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_exception) {
-			boost::exception_ptr tmp = _exception;
-			_exception = boost::exception_ptr ();
-			boost::rethrow_exception (tmp);
-		}
-	}
-
-protected:
-
-	void store_current () {
-		boost::mutex::scoped_lock lm (_mutex);
-		_exception = boost::current_exception ();
-	}
-
-private:
-	boost::exception_ptr _exception;
-	mutable boost::mutex _mutex;
 };
 
 #endif

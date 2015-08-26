@@ -20,6 +20,7 @@
 #include "data.h"
 #include "cross.h"
 #include "exceptions.h"
+#include <cstdio>
 
 #include "i18n.h"
 
