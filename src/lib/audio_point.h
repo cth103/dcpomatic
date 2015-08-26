@@ -39,7 +39,7 @@ public:
 
 	void as_xml (xmlpp::Element *) const;
 
-	float& operator[] (int t) {
+	inline float& operator[] (int t) {
 		return _data[t];
 	}
 

@@ -43,10 +43,16 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	, _playlist (playlist)
 	, _done (0)
 	, _samples_per_point (1)
+	, _current (0)
 	, _overall_peak (0)
 	, _overall_peak_frame (0)
 {
 
+}
+
+AnalyseAudioJob::~AnalyseAudioJob ()
+{
+	delete[] _current;
 }
 
 string
@@ -70,7 +76,8 @@ AnalyseAudioJob::run ()
 	int64_t const len = _playlist->length().frames_round (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
 
-	_current.resize (_film->audio_channels ());
+	delete[] _current;
+	_current = new AudioPoint[_film->audio_channels ()];
 	_analysis.reset (new AudioAnalysis (_film->audio_channels ()));
 
 	bool has_any_audio = false;
@@ -109,19 +116,19 @@ AnalyseAudioJob::run ()
 void
 AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 {
-	for (int i = 0; i < b->frames(); ++i) {
-		for (int j = 0; j < b->channels(); ++j) {
+	int const frames = b->frames ();
+	int const channels = b->channels ();
+
+	for (int i = 0; i < frames; ++i) {
+		for (int j = 0; j < channels; ++j) {
 			float s = b->data(j)[i];
-			if (fabsf (s) < 10e-7) {
+			float as = fabsf (s);
+			if (as < 10e-7) {
 				/* SafeStringStream can't serialise and recover inf or -inf, so prevent such
 				   values by replacing with this (140dB down) */
-				s = 10e-7;
+				s = as = 10e-7;
 			}
 			_current[j][AudioPoint::RMS] += pow (s, 2);
-			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], fabsf (s));
-
-			float const as = fabs (s);
-
 			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], as);
 
 			if (as > _overall_peak) {
@@ -132,7 +139,6 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 			if ((_done % _samples_per_point) == 0) {
 				_current[j][AudioPoint::RMS] = sqrt (_current[j][AudioPoint::RMS] / _samples_per_point);
 				_analysis->add_point (j, _current[j]);
-
 				_current[j] = AudioPoint ();
 			}
 		}

@@ -39,6 +39,7 @@ class AnalyseAudioJob : public Job
 {
 public:
 	AnalyseAudioJob (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist>);
+	~AnalyseAudioJob ();
 
 	std::string name () const;
 	std::string json_name () const;
@@ -51,7 +52,7 @@ private:
 
 	int64_t _done;
 	int64_t _samples_per_point;
-	std::vector<AudioPoint> _current;
+	AudioPoint* _current;
 
 	float _overall_peak;
 	Frame _overall_peak_frame;
