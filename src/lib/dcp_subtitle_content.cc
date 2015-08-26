@@ -23,6 +23,7 @@
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
+#include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 
 #include "i18n.h"

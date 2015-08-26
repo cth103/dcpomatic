@@ -18,21 +18,17 @@
 
 */
 
-#include "util.h"
-#include <dcp/picture_asset_writer.h>
+#include "types.h"
+#include "data.h"
+#include "server_description.h"
 #include <libcxml/cxml.h>
 
 /** @file  src/dcp_video_frame.h
  *  @brief A single frame of video destined for a DCP.
  */
 
-class ServerDescription;
-class Scaler;
-class Image;
 class Log;
-class Subtitle;
 class PlayerVideo;
-class Data;
 
 /** @class DCPVideo
  *  @brief A single frame of video destined for a DCP.

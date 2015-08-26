@@ -17,8 +17,6 @@
 
 */
 
-#include <libcxml/cxml.h>
-#include <boost/shared_ptr.hpp>
 #include "playlist.h"
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
@@ -31,6 +29,9 @@
 #include "config.h"
 #include "util.h"
 #include "md5_digester.h"
+#include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
+#include <boost/shared_ptr.hpp>
 
 #include "i18n.h"
 

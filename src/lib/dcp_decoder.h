@@ -30,7 +30,6 @@ namespace dcp {
 }
 
 class DCPContent;
-class Log;
 struct dcp_subtitle_within_dcp_test;
 
 class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder

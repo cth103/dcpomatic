@@ -35,8 +35,6 @@
 #include <list>
 #include <stdint.h>
 
-class Image;
-class AudioBuffers;
 class Film;
 class ServerDescription;
 class DCPVideo;

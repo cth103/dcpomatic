@@ -21,6 +21,7 @@
 #include "audio_examiner.h"
 #include "film.h"
 #include "raw_convert.h"
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 

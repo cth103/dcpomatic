@@ -27,6 +27,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
 #include "lib/image_content.h"
+#include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <getopt.h>
 #include <string>

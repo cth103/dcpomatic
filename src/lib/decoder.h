@@ -26,8 +26,6 @@
 
 #include "types.h"
 #include "dcpomatic_time.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/utility.hpp>
 
 class Decoded;

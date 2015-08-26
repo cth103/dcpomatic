@@ -21,11 +21,6 @@
 #define DCPOMATIC_IMAGE_CONTENT_H
 
 #include "video_content.h"
-#include <boost/enable_shared_from_this.hpp>
-
-namespace cxml {
-	class Node;
-}
 
 class ImageContent : public VideoContent
 {

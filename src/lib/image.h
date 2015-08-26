@@ -28,14 +28,9 @@
 #include "position_image.h"
 #include "types.h"
 #include <dcp/colour_conversion.h>
-extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavfilter/avfilter.h>
-}
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
-#include <string>
 
+struct AVFrame;
 class Socket;
 
 class Image

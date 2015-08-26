@@ -25,6 +25,7 @@
 #include "lib/subrip_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/font.h"
+#include "lib/ratio.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>

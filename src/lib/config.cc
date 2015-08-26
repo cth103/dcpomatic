@@ -34,6 +34,7 @@
 #include <dcp/certificate_chain.h>
 #include <libcxml/cxml.h>
 #include <glib.h>
+#include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>

@@ -22,8 +22,11 @@
  */
 
 #include <libcxml/cxml.h>
-#include <dcp/certificate.h>
 #include <boost/enable_shared_from_this.hpp>
+
+namespace xmlpp {
+	class Element;
+}
 
 class Screen;
 

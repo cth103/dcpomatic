@@ -27,12 +27,15 @@
 #include "types.h"
 #include "signaller.h"
 #include "dcpomatic_time.h"
-#include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
+
+namespace xmlpp {
+	class Node;
+}
 
 namespace cxml {
 	class Node;

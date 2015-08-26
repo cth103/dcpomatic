@@ -28,6 +28,7 @@
 #include <dcp/colour_conversion.h>
 #include <dcp/rgb_xyz.h>
 #include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 

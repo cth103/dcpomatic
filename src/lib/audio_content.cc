@@ -25,6 +25,7 @@
 #include "raw_convert.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 
 #include "i18n.h"

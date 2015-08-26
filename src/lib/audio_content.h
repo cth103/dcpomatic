@@ -28,10 +28,6 @@
 #include "audio_stream.h"
 #include "audio_mapping.h"
 
-namespace cxml {
-	class Node;
-}
-
 /** @class AudioContentProperty
  *  @brief Names for properties of AudioContent.
  */

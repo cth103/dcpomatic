@@ -30,6 +30,7 @@
 #include "lib/server_finder.h"
 #include "lib/json_server.h"
 #include "lib/ratio.h"
+#include "lib/video_content.h"
 #include "lib/audio_content.h"
 #include <dcp/version.h>
 #include <boost/foreach.hpp>

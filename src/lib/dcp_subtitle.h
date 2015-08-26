@@ -17,8 +17,8 @@
 
 */
 
-#ifndef DCPOMATIC_SRC_LIB_DCP_SUBTITLE_H
-#define DCPOMATIC_SRC_LIB_DCP_SUBTITLE_H
+#ifndef DCPOMATIC_DCP_SUBTITLE_H
+#define DCPOMATIC_DCP_SUBTITLE_H
 
 #include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>

@@ -25,15 +25,9 @@
 #define DCPOMATIC_AUDIO_MAPPING_H
 
 #include <libcxml/cxml.h>
-#include <dcp/types.h>
-#include <boost/shared_ptr.hpp>
 #include <vector>
 
 namespace xmlpp {
-	class Node;
-}
-
-namespace cxml {
 	class Node;
 }
 

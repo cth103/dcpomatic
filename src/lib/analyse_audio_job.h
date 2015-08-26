@@ -22,10 +22,10 @@
  */
 
 #include "job.h"
-#include "audio_analysis.h"
 #include "types.h"
 
 class AudioBuffers;
+class AudioAnalysis;
 class Playlist;
 
 /** @class AnalyseAudioJob

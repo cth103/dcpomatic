@@ -23,6 +23,7 @@
 #include "j2k_image_proxy.h"
 #include "film.h"
 #include "raw_convert.h"
+#include <libxml++/libxml++.h>
 
 using std::string;
 using std::cout;

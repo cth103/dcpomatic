@@ -19,10 +19,6 @@
 
 #include "video_examiner.h"
 
-namespace Magick {
-	class Image;
-}
-
 class ImageContent;
 
 class ImageExaminer : public VideoExaminer

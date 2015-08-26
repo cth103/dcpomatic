@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_SERVER_DESCRIPTION_H
+#define DCPOMATIC_SERVER_DESCRIPTION_H
+
 /** @class ServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
  */
@@ -62,3 +65,5 @@ private:
 	/** number of threads to use on the server */
 	int _threads;
 };
+
+#endif

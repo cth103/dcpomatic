@@ -39,6 +39,7 @@
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/video_content.h"
 #include "lib/version.h"
 #include "lib/signal_manager.h"
 #include "lib/log.h"

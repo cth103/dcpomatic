@@ -18,7 +18,6 @@
 */
 
 #include "ffmpeg_stream.h"
-#include "audio_mapping.h"
 #include "audio_stream.h"
 #include "dcpomatic_time.h"
 

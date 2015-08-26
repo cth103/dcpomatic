@@ -17,10 +17,13 @@
 
 */
 
-#include "server.h"
 #include "signaller.h"
+#include "server_description.h"
 #include "config.h"
 #include <boost/signals2.hpp>
+#include <boost/thread/condition.hpp>
+
+class Socket;
 
 class ServerFinder : public Signaller, public ExceptionStore
 {

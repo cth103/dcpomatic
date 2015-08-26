@@ -20,12 +20,15 @@
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
-#include <vector>
-#include <list>
-#include <boost/filesystem.hpp>
-#include <boost/optional.hpp>
+#include "dcpomatic_time.h"
 #include <libcxml/cxml.h>
-#include "types.h"
+#include <boost/optional.hpp>
+#include <boost/filesystem.hpp>
+#include <vector>
+
+namespace xmlpp {
+	class Element;
+}
 
 class AudioPoint
 {

@@ -20,6 +20,7 @@
 #include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "audio_decoder_stream.h"
+#include "audio_content.h"
 #include <boost/foreach.hpp>
 #include <iostream>
 

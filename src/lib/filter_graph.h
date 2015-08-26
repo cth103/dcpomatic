@@ -28,7 +28,6 @@
 
 struct AVFilterContext;
 class Image;
-class VideoFilter;
 class FFmpegContent;
 
 /** @class FilterGraph

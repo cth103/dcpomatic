@@ -23,6 +23,7 @@
 #include "image.h"
 #include "config.h"
 #include <dcp/dcp.h>
+#include <dcp/decrypted_kdm.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>

@@ -21,8 +21,11 @@
 #define DCPOMATIC_ISDCF_METADATA_H
 
 #include <libcxml/cxml.h>
-#include <libxml++/libxml++.h>
 #include <string>
+
+namespace xmlpp {
+	class Node;
+}
 
 class ISDCFMetadata
 {

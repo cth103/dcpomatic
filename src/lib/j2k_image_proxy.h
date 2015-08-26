@@ -21,6 +21,11 @@
 #include "data.h"
 #include <dcp/util.h>
 
+namespace dcp {
+	class MonoPictureFrame;
+	class StereoPictureFrame;
+}
+
 class Data;
 
 class J2KImageProxy : public ImageProxy

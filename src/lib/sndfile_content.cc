@@ -27,6 +27,7 @@
 #include "safe_stringstream.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 

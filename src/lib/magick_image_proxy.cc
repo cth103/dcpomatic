@@ -17,13 +17,14 @@
 
 */
 
-#include <Magick++.h>
 #include "magick_image_proxy.h"
 #include "cross.h"
 #include "exceptions.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "compose.hpp"
+#include <Magick++.h>
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 

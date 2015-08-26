@@ -29,7 +29,6 @@
 #include "subtitle_content.h"
 #include <libcxml/cxml.h>
 #include <dcp/encrypted_kdm.h>
-#include <dcp/decrypted_kdm.h>
 
 class DCPContentProperty
 {

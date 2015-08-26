@@ -19,10 +19,6 @@
 
 #include "video_decoder.h"
 
-namespace Magick {
-	class Image;
-}
-
 class ImageContent;
 
 class ImageDecoder : public VideoDecoder

@@ -30,7 +30,6 @@
 #include "isdcf_metadata.h"
 #include "frame_rate_change.h"
 #include "signaller.h"
-#include "ratio.h"
 #include <dcp/key.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/signals2.hpp>
@@ -39,6 +38,10 @@
 #include <string>
 #include <vector>
 #include <inttypes.h>
+
+namespace xmlpp {
+	class Document;
+}
 
 class DCPContentType;
 class Log;
@@ -49,6 +52,7 @@ class AudioContent;
 class Screen;
 class AudioProcessor;
 class AudioMapping;
+class Ratio;
 struct isdcf_name_test;
 
 /** @class Film

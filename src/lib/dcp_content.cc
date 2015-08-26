@@ -25,6 +25,7 @@
 #include "compose.hpp"
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
+#include <libxml++/libxml++.h>
 #include <iterator>
 
 #include "i18n.h"

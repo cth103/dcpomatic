@@ -25,6 +25,7 @@
 #include "lib/analyse_audio_job.h"
 #include "lib/audio_content.h"
 #include "lib/job_manager.h"
+#include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 
 using std::cout;

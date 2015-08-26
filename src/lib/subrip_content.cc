@@ -23,6 +23,7 @@
 #include "film.h"
 #include "font.h"
 #include "raw_convert.h"
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 

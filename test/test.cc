@@ -21,12 +21,6 @@
  *  @brief Overall test stuff and useful methods for tests.
  */
 
-#include <vector>
-#include <list>
-#include <Magick++.h>
-#include <sndfile.h>
-#include <libxml++/libxml++.h>
-#include <dcp/dcp.h>
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/signal_manager.h"
@@ -36,9 +30,16 @@
 #include "lib/cross.h"
 #include "lib/server_finder.h"
 #include "lib/image.h"
+#include "lib/ratio.h"
+#include <dcp/dcp.h>
+#include <sndfile.h>
+#include <libxml++/libxml++.h>
+#include <Magick++.h>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
+#include <list>
+#include <vector>
 
 using std::string;
 using std::vector;

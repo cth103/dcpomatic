@@ -20,8 +20,8 @@
 #ifndef DCPOMATIC_DCP_CONTENT_TYPE_H
 #define DCPOMATIC_DCP_CONTENT_TYPE_H
 
-/** @file src/content_type.h
- *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
+/** @file src/dcp_content_type.h
+ *  @brief DCPContentType class.
  */
 
 #include <dcp/dcp.h>

@@ -23,6 +23,7 @@
  */
 
 #include "server.h"
+#include "util.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "dcp_video.h"
@@ -35,6 +36,7 @@
 #include "compose.hpp"
 #include "log.h"
 #include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
 #include <string>

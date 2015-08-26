@@ -25,12 +25,12 @@
 #define DCPOMATIC_AUDIO_DECODER_H
 
 #include "decoder.h"
-#include "content.h"
-#include "audio_content.h"
 #include "content_audio.h"
+#include "audio_stream.h"
 #include <boost/enable_shared_from_this.hpp>
 
 class AudioBuffers;
+class AudioContent;
 class AudioDecoderStream;
 
 /** @class AudioDecoder.

@@ -25,22 +25,19 @@
  */
 
 #include <dcp/types.h>
-#include <Magick++.h>
-#include <libxml++/libxml++.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
-#include <boost/filesystem.hpp>
+#include <boost/utility.hpp>
 
 class Image;
 class Socket;
 
-namespace cxml {
+namespace xmlpp {
 	class Node;
 }
 
-namespace dcp {
-	class MonoPictureFrame;
-	class StereoPictureFrame;
+namespace cxml {
+	class Node;
 }
 
 /** @class ImageProxy

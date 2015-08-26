@@ -24,12 +24,12 @@
 #ifndef DCPOMATIC_EXCEPTIONS_H
 #define DCPOMATIC_EXCEPTIONS_H
 
-#include <boost/thread.hpp>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <boost/exception/all.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/thread/mutex.hpp>
 #include <stdexcept>
 #include <cstring>
 

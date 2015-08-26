@@ -30,7 +30,6 @@
 #include <stdint.h>
 #include <cmath>
 #include <ostream>
-#include <sstream>
 #include <iomanip>
 
 class dcpomatic_round_up_test;

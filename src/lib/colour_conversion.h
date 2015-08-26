@@ -27,7 +27,6 @@
 
 #include <dcp/colour_conversion.h>
 #include <libcxml/cxml.h>
-#include <boost/utility.hpp>
 
 namespace xmlpp {
 	class Node;

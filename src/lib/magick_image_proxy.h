@@ -18,7 +18,9 @@
 */
 
 #include "image_proxy.h"
+#include <Magick++.h>
 #include <boost/thread/mutex.hpp>
+#include <boost/filesystem.hpp>
 
 class MagickImageProxy : public ImageProxy
 {

@@ -25,18 +25,13 @@
 #define DCPOMATIC_CONFIG_H
 
 #include "isdcf_metadata.h"
-#include "video_content.h"
-#include <dcp/metadata.h>
-#include <dcp/certificate.h>
+#include "types.h"
 #include <dcp/certificate_chain.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
 
-class ServerDescription;
-class Scaler;
-class Filter;
 class CinemaSoundProcessor;
 class DCPContentType;
 class Ratio;

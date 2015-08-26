@@ -21,7 +21,6 @@
 #include <boost/shared_ptr.hpp>
 
 class Content;
-class Log;
 
 class ExamineContentJob : public Job
 {

@@ -21,10 +21,11 @@
 #include "image.h"
 #include "raw_convert.h"
 #include <dcp/util.h>
+#include <libcxml/cxml.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
-#include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
 
 #include "i18n.h"
 
