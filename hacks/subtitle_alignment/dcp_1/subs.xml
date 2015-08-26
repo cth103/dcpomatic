@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SubtitleReel xmlns="http://www.smpte-ra.org/schemas/428-7/2010/DCST">
+<Id>urn:uuid:d351291b-d722-48b7-baba-e7ed2ea6cc69</Id>
+<ContentTitleText></ContentTitleText>
+<AnnotationText></AnnotationText>
+<IssueDate>2015-08-26T18:04:50+01:00</IssueDate>
+<ReelNumber>1</ReelNumber>
+<Language>en</Language>
+<EditRate>24 1</EditRate>
+<TimeCodeRate>24</TimeCodeRate>
+<StartTime>00:00:00:00</StartTime>
+<LoadFont ID="arial">urn:uuid:b238ab60-719d-11e4-82f8-0800200c9a65</LoadFont>
+<SubtitleList>
+<Font ID="arial" Color="FFFFFFFF" Weight="normal" Size="42">
+
+<Subtitle SpotNumber="1" TimeIn="00:00:00:00" TimeOut="00:00:10:00" FadeUpTime="00:00:00:00" FadeDownTime="00:00:00:00">
+<Text Valign="top" Vposition="60">Align top position 60%</Text>
+</Subtitle>
+<Subtitle SpotNumber="1" TimeIn="00:00:10:00" TimeOut="00:00:20:00" FadeUpTime="00:00:00:00" FadeDownTime="00:00:00:00">
+<Text Valign="top" Vposition="70">Align top position 70%</Text>
+</Subtitle>
+<Subtitle SpotNumber="1" TimeIn="00:00:20:00" TimeOut="00:00:30:00" FadeUpTime="00:00:00:00" FadeDownTime="00:00:00:00">
+<Text Valign="top" Vposition="80">Align top position 80%</Text>
+</Subtitle>
+</Font>
+</SubtitleList>
+</SubtitleReel>
