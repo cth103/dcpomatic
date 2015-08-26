@@ -823,7 +823,6 @@ private:
 		TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 #endif
 
-		cout << "set up path encoding.\n";
 		dcpomatic_setup_path_encoding ();
 
 		/* Enable i18n; this will create a Config object
