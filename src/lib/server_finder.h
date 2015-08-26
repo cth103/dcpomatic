@@ -20,6 +20,7 @@
 #include "signaller.h"
 #include "server_description.h"
 #include "config.h"
+#include "exceptions.h"
 #include <boost/signals2.hpp>
 #include <boost/thread/condition.hpp>
 

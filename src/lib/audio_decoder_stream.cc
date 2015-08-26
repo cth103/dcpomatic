@@ -25,6 +25,7 @@
 #include "util.h"
 #include "film.h"
 #include "log.h"
+#include "audio_content.h"
 #include "compose.hpp"
 #include <iostream>
 

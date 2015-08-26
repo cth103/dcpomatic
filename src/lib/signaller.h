@@ -22,7 +22,6 @@
 
 #include "signal_manager.h"
 #include <boost/thread/mutex.hpp>
-#include <boost/signals2.hpp>
 
 class WrapperBase
 {

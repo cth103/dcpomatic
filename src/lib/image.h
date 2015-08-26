@@ -27,6 +27,9 @@
 #include "position.h"
 #include "position_image.h"
 #include "types.h"
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 #include <dcp/colour_conversion.h>
 #include <boost/shared_ptr.hpp>
 

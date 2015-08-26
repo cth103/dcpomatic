@@ -17,12 +17,6 @@
 
 */
 
-#include <list>
-#include <wx/graphics.h>
-#include <boost/weak_ptr.hpp>
-#include "lib/film.h"
-#include "lib/playlist.h"
-#include "lib/image_content.h"
 #include "film_editor.h"
 #include "timeline.h"
 #include "timeline_time_axis_view.h"
@@ -31,6 +25,14 @@
 #include "timeline_subtitle_content_view.h"
 #include "content_panel.h"
 #include "wx_util.h"
+#include "lib/film.h"
+#include "lib/playlist.h"
+#include "lib/image_content.h"
+#include "lib/audio_content.h"
+#include "lib/subtitle_content.h"
+#include <wx/graphics.h>
+#include <boost/weak_ptr.hpp>
+#include <list>
 
 using std::list;
 using std::cout;

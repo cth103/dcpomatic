@@ -43,6 +43,10 @@
 #include "md5_digester.h"
 #include "compose.hpp"
 #include "screen.h"
+#include "audio_content.h"
+#include "video_content.h"
+#include "subtitle_content.h"
+#include "ffmpeg_content.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>

@@ -22,6 +22,7 @@
 
 #include "audio_stream.h"
 #include "content_audio.h"
+#include "dcpomatic_time.h"
 #include <boost/shared_ptr.hpp>
 
 class AudioContent;

@@ -20,24 +20,14 @@
 #ifndef DCPOMATIC_PLAYLIST_H
 #define DCPOMATIC_PLAYLIST_H
 
-#include "ffmpeg_content.h"
-#include "audio_mapping.h"
 #include "util.h"
 #include "frame_rate_change.h"
+#include <libcxml/cxml.h>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
+#include <boost/signals2.hpp>
 #include <list>
 
-class Content;
-class FFmpegContent;
-class FFmpegDecoder;
-class StillImageMagickContent;
-class StillImageMagickDecoder;
-class SndfileContent;
-class SndfileDecoder;
-class Job;
 class Film;
-class Region;
 
 struct ContentSorter
 {

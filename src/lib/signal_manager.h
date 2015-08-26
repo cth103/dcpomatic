@@ -20,7 +20,6 @@
 #ifndef DCPOMATIC_SIGNAL_MANAGER_H
 #define DCPOMATIC_SIGNAL_MANAGER_H
 
-#include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 

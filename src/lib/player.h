@@ -20,30 +20,19 @@
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include "content.h"
+#include "player_subtitles.h"
 #include "film.h"
-#include "rect.h"
-#include "audio_content.h"
-#include "dcpomatic_time.h"
-#include "content_subtitle.h"
+#include "content.h"
 #include "position_image.h"
 #include "piece.h"
-#include "content_video.h"
-#include "player_subtitles.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
 
-class Job;
-class Film;
-class AudioContent;
-class Piece;
-class Image;
-class Decoder;
-class Resampler;
 class PlayerVideo;
-class ImageProxy;
+class Playlist;
 class Font;
+class AudioBuffers;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist.

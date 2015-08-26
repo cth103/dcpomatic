@@ -27,9 +27,6 @@
 #include "types.h"
 #include "dcpomatic_time.h"
 #include <dcp/util.h>
-extern "C" {
-#include <libavcodec/avcodec.h>
-}
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
@@ -41,7 +38,6 @@ extern "C" {
 namespace dcp {
 	class PictureAsset;
 	class SoundAsset;
-	class SubtitleAsset;
 }
 
 /** The maximum number of audio channels that we can have in a DCP */

@@ -20,6 +20,7 @@
 #include "audio_analysis.h"
 #include "audio_buffers.h"
 #include "analyse_audio_job.h"
+#include "audio_content.h"
 #include "compose.hpp"
 #include "film.h"
 #include "player.h"

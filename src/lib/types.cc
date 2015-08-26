@@ -18,6 +18,7 @@
 */
 
 #include "types.h"
+#include "dcpomatic_assert.h"
 #include "raw_convert.h"
 #include <libxml++/libxml++.h>
 #include <libcxml/cxml.h>

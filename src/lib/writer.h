@@ -21,7 +21,6 @@
  *  @brief Writer class.
  */
 
-#include "exceptions.h"
 #include "types.h"
 #include "player_subtitles.h"
 #include "data.h"

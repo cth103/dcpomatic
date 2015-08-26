@@ -21,13 +21,6 @@
 #define DCPOMATIC_SNDFILE_CONTENT_H
 
 #include "single_stream_audio_content.h"
-extern "C" {
-#include <libavutil/audioconvert.h>
-}
-
-namespace cxml {
-	class Node;
-}
 
 class SndfileContent : public SingleStreamAudioContent
 {

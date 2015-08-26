@@ -27,6 +27,7 @@
 #include "util.h"
 
 struct AVFilterContext;
+struct AVFrame;
 class Image;
 class FFmpegContent;
 

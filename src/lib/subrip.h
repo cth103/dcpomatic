@@ -20,8 +20,10 @@
 #ifndef DCPOMATIC_SUBRIP_H
 #define DCPOMATIC_SUBRIP_H
 
-#include "subrip_subtitle.h"
+#include "dcpomatic_time.h"
 #include <sub/subtitle.h>
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
 class SubRipContent;
 class subrip_time_test;

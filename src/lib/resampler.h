@@ -18,7 +18,6 @@
 */
 
 #include "types.h"
-#include "audio_content.h"
 extern "C" {
 #include <libswresample/swresample.h>
 }

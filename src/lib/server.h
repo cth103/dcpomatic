@@ -33,10 +33,6 @@
 class Socket;
 class Log;
 
-namespace cxml {
-	class Node;
-}
-
 /** @class Server
  *  @brief A class to run a server which can accept requests to perform JPEG2000
  *  encoding work.

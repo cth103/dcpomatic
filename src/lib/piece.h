@@ -21,7 +21,6 @@
 #define DCPOMATIC_PIECE_H
 
 #include "types.h"
-#include "video_content.h"
 
 class Content;
 class Decoder;

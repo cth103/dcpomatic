@@ -18,12 +18,12 @@
 */
 
 #include "types.h"
-#include "encoder.h"
 
 class Film;
 class Encoder;
-class VideoFilter;
 class Player;
+class Writer;
+class Job;
 
 /** @class Transcoder */
 class Transcoder : public boost::noncopyable

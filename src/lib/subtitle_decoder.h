@@ -26,8 +26,6 @@
 #include "content_subtitle.h"
 #include <dcp/subtitle_string.h>
 
-class Film;
-class DCPTimedSubtitle;
 class Image;
 
 class SubtitleDecoder : public virtual Decoder

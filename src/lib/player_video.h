@@ -19,8 +19,10 @@
 
 #include "types.h"
 #include "position.h"
+#include "dcpomatic_time.h"
 #include "colour_conversion.h"
 #include "position_image.h"
+#include "data.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -29,7 +31,6 @@ extern "C" {
 class Image;
 class ImageProxy;
 class Socket;
-class Data;
 
 /** Everything needed to describe a video frame coming out of the player, but with the
  *  bits still their raw form.  We may want to combine the bits on a remote machine,

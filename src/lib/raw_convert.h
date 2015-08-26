@@ -17,8 +17,8 @@
 
 */
 
-#include <iomanip>
 #include "safe_stringstream.h"
+#include <iomanip>
 
 /** A sort-of version of boost::lexical_cast that does uses the "C"
  *  locale (i.e. no thousands separators and a . for the decimal separator).

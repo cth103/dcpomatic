@@ -42,6 +42,7 @@
 #include <dcp/subtitle_asset.h>
 extern "C" {
 #include <libavfilter/avfilter.h>
+#include <libavcodec/avcodec.h>
 }
 #include <curl/curl.h>
 #include <glib.h>

@@ -20,7 +20,6 @@
 #ifndef DCPOMATIC_TYPES_H
 #define DCPOMATIC_TYPES_H
 
-#include "dcpomatic_time.h"
 #include "position.h"
 #include "rect.h"
 #include <dcp/util.h>
@@ -33,7 +32,6 @@ class VideoContent;
 class AudioContent;
 class SubtitleContent;
 class FFmpegContent;
-class AudioBuffers;
 
 namespace cxml {
 	class Node;

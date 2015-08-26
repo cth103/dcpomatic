@@ -31,6 +31,7 @@
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
 #include "lib/dcp_content.h"
+#include "lib/ffmpeg_content.h"
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 

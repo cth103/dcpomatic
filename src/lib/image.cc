@@ -32,6 +32,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
 #include <libavutil/pixdesc.h>
+#include <libavutil/frame.h>
 }
 #include <iostream>
 

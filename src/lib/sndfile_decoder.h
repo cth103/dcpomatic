@@ -17,9 +17,7 @@
 
 */
 
-#include "decoder.h"
 #include "audio_decoder.h"
-#include "audio_examiner.h"
 #include "sndfile_base.h"
 
 class SndfileContent;
