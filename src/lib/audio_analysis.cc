@@ -39,47 +39,6 @@ using std::max;
 using std::list;
 using boost::shared_ptr;
 
-AudioPoint::AudioPoint ()
-{
-	for (int i = 0; i < COUNT; ++i) {
-		_data[i] = 0;
-	}
-}
-
-AudioPoint::AudioPoint (cxml::ConstNodePtr node)
-{
-	_data[PEAK] = node->number_child<float> ("Peak");
-	_data[RMS] = node->number_child<float> ("RMS");
-}
-
-AudioPoint::AudioPoint (AudioPoint const & other)
-{
-	for (int i = 0; i < COUNT; ++i) {
-		_data[i] = other._data[i];
-	}
-}
-
-AudioPoint &
-AudioPoint::operator= (AudioPoint const & other)
-{
-	if (this == &other) {
-		return *this;
-	}
-
-	for (int i = 0; i < COUNT; ++i) {
-		_data[i] = other._data[i];
-	}
-
-	return *this;
-}
-
-void
-AudioPoint::as_xml (xmlpp::Element* parent) const
-{
-	parent->add_child ("Peak")->add_child_text (raw_convert<string> (_data[PEAK]));
-	parent->add_child ("RMS")->add_child_text (raw_convert<string> (_data[RMS]));
-}
-
 AudioAnalysis::AudioAnalysis (int channels)
 {
 	_data.resize (channels);

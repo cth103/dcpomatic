@@ -21,6 +21,7 @@
 #define DCPOMATIC_AUDIO_ANALYSIS_H
 
 #include "dcpomatic_time.h"
+#include "audio_point.h"
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
@@ -29,30 +30,6 @@
 namespace xmlpp {
 	class Element;
 }
-
-class AudioPoint
-{
-public:
-	enum Type {
-		PEAK,
-		RMS,
-		COUNT
-	};
-
-	AudioPoint ();
-	AudioPoint (cxml::ConstNodePtr node);
-	AudioPoint (AudioPoint const &);
-	AudioPoint& operator= (AudioPoint const &);
-
-	void as_xml (xmlpp::Element *) const;
-
-	float& operator[] (int t) {
-		return _data[t];
-	}
-
-private:
-	float _data[COUNT];
-};
 
 class AudioAnalysis : public boost::noncopyable
 {
