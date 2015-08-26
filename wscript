@@ -75,7 +75,6 @@ def configure(conf):
                                        '-D__STDC_LIMIT_MACROS',
                                        '-D__STDC_FORMAT_MACROS',
                                        '-msse',
-                                       '-ffast-math',
                                        '-fno-strict-aliasing',
                                        '-Wall',
                                        '-Wno-attributes',
