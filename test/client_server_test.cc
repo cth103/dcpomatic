@@ -33,7 +33,7 @@
 #include "lib/raw_image_proxy.h"
 #include "lib/data.h"
 #include "lib/server_description.h"
-#include "lib/log.h"
+#include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
 
@@ -216,4 +216,3 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	delete server;
 }
-

@@ -55,6 +55,7 @@ sources = """
           examine_content_job.cc
           exceptions.cc
           file_group.cc
+          file_log.cc
           filter_graph.cc
           ffmpeg.cc
           ffmpeg_audio_stream.cc

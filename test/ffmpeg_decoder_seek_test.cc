@@ -25,14 +25,14 @@
  *  it probably should.
  */
 
-#include <vector>
-#include <boost/test/unit_test.hpp>
-#include <boost/filesystem.hpp>
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_decoder.h"
-#include "lib/log.h"
+#include "lib/null_log.h"
 #include "lib/film.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/filesystem.hpp>
+#include <vector>
 
 using std::cerr;
 using std::vector;
@@ -91,4 +91,3 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 
 	test ("prophet_clip.mkv", frames);
 }
-

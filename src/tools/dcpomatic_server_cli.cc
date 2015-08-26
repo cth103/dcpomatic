@@ -17,28 +17,29 @@
 
 */
 
-#include "lib/server.h"
-#include <iostream>
-#include <stdexcept>
-#include <cstring>
-#include <vector>
-#include <unistd.h>
-#include <errno.h>
-#include <getopt.h>
-#include <boost/array.hpp>
-#include <boost/asio.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition.hpp>
 #include "lib/config.h"
 #include "lib/dcp_video.h"
 #include "lib/exceptions.h"
 #include "lib/util.h"
 #include "lib/config.h"
 #include "lib/image.h"
-#include "lib/log.h"
+#include "lib/file_log.h"
+#include "lib/null_log.h"
 #include "lib/version.h"
+#include "lib/server.h"
+#include <boost/array.hpp>
+#include <boost/asio.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/condition.hpp>
+#include <unistd.h>
+#include <errno.h>
+#include <getopt.h>
+#include <iostream>
+#include <stdexcept>
+#include <cstring>
+#include <vector>
 
 using std::cerr;
 using std::string;

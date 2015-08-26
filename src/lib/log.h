@@ -68,28 +68,4 @@ private:
 	boost::signals2::scoped_connection _config_connection;
 };
 
-class FileLog : public Log
-{
-public:
-	FileLog (boost::filesystem::path file);
-
-	std::string head_and_tail (int amount = 1024) const;
-
-private:
-	void do_log (std::string m);
-	/** filename to write to */
-	boost::filesystem::path _file;
-};
-
-class NullLog : public Log
-{
-public:
-	std::string head_and_tail (int) const {
-		return "";
-	}
-
-private:
-	void do_log (std::string) {}
-};
-
 #endif

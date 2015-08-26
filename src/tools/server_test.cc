@@ -25,7 +25,7 @@
 #include "lib/dcp_video.h"
 #include "lib/decoder.h"
 #include "lib/exceptions.h"
-#include "lib/log.h"
+#include "lib/file_log.h"
 #include "lib/video_decoder.h"
 #include "lib/player.h"
 #include "lib/player_video.h"

@@ -22,13 +22,13 @@
  *  (dropped frames being checked by assert() in VideoDecoder).  Also that the decoder picks up frame rates correctly.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <boost/filesystem.hpp>
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_decoder.h"
-#include "lib/log.h"
+#include "lib/null_log.h"
 #include "lib/film.h"
 #include "test.h"
+#include <boost/filesystem.hpp>
+#include <boost/test/unit_test.hpp>
 
 using std::cout;
 using std::cerr;
@@ -78,4 +78,3 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 	*/
 	test ("prophet_clip.mkv", 23.976, 12);
 }
-

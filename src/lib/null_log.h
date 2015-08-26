@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,14 +17,15 @@
 
 */
 
-#include "lib/file_log.h"
-#include <boost/test/unit_test.hpp>
+#include "log.h"
 
-using std::cout;
-
-BOOST_AUTO_TEST_CASE (file_log_test)
+class NullLog : public Log
 {
-	FileLog log ("test/data/short.log");
-	BOOST_CHECK_EQUAL (log.head_and_tail (1024), "This is a short log.\nWith only two lines.\n");
-	BOOST_CHECK_EQUAL (log.head_and_tail (8), "This is \n .\n .\n .\no lines.\n");
-}
+public:
+	std::string head_and_tail (int) const {
+		return "";
+	}
+
+private:
+	void do_log (std::string) {}
+};
