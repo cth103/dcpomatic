@@ -292,6 +292,7 @@ wait_for_jobs ()
 	JobManager* jm = JobManager::instance ();
 	while (jm->work_to_do ()) {
 		signal_manager->ui_idle ();
+		dcpomatic_sleep (1);
 	}
 
 	cout << "Waiting for jobs: all finished; errors=" << jm->errors() << ".\n";
