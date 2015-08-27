@@ -57,6 +57,8 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
+	void set_default_colour_conversion ();
+
 	/* SubtitleContent */
 
 	bool has_text_subtitles () const {

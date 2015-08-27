@@ -1,5 +1,8 @@
 2015-08-27  Carl Hetherington  <cth@carlh.net>
 
+	* Tidy up DCP content colour conversion
+	a bit.
+
 	* Fix creation of badly-named configuration
 	directories in some circumstances (#654).
 

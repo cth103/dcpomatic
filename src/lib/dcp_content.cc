@@ -50,8 +50,6 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _kdm_valid (false)
 {
 	read_directory (p);
-	/* Default to no colour conversion for DCPs */
-	unset_colour_conversion (false);
 }
 
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
@@ -153,7 +151,9 @@ DCPContent::full_length () const
 string
 DCPContent::identifier () const
 {
-	return SubtitleContent::identifier ();
+	SafeStringStream s;
+	s << VideoContent::identifier() << "_" << SubtitleContent::identifier ();
+	return s.str ();
 }
 
 void
@@ -189,4 +189,11 @@ void
 DCPContent::add_properties (list<pair<string, string> >& p) const
 {
 	SingleStreamAudioContent::add_properties (p);
+}
+
+void
+DCPContent::set_default_colour_conversion ()
+{
+	/* Default to no colour conversion for DCPs */
+	unset_colour_conversion ();
 }
