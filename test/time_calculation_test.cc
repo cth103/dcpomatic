@@ -330,6 +330,21 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (3.00)),  72);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (4.50)), 144);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (9.75)), 396);
+
+	/* Position 0s, no trim, content rate 29.9978733, DCP rate 30 */
+	content->set_position (DCPTime::from_seconds (0));
+	content->set_trim_start (ContentTime::from_seconds (0));
+	content->set_video_frame_rate (29.9978733);
+	film->set_video_frame_rate (30);
+	player->setup_pieces ();
+	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
+	piece = player->_pieces.front ();
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime (3200)), 1);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime (6400)), 2);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime (9600)), 3);
+	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime (12800)), 4);
+
 }
 
 /** Test Player::content_video_to_dcp */

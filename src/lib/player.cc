@@ -524,10 +524,16 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
-	/* We're returning a frame index here so we need to floor() the conversion since we want to know the frame
-	   that contains t, I think
+	s = max (DCPTime(), s + DCPTime (piece->content->trim_start(), piece->frc));
+
+	/* It might seem more logical here to convert s to a ContentTime (using the FrameRateChange)
+	   then convert that ContentTime to frames at the content's rate.  However this fails for
+	   situations like content at 29.9978733fps, DCP at 30fps.  The accuracy of the Time type is not
+	   enough to distinguish between the two with low values of time (e.g. 3200 in Time units).
+
+	   Instead we convert the DCPTime using the DCP video rate then account for any skip/repeat.
 	*/
-	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start ()).frames_floor (vc->video_frame_rate ());
+	return s.frames_floor (piece->frc.dcp) / piece->frc.factor ();
 }
 
 DCPTime

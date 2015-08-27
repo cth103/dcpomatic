@@ -32,6 +32,7 @@
 #include "player.h"
 #include "job.h"
 #include "writer.h"
+#include "compose.hpp"
 #include "subtitle_content.h"
 #include <boost/signals2.hpp>
 #include <boost/foreach.hpp>

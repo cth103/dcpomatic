@@ -62,7 +62,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 {
 	shared_ptr<ContentAudio> dec;
 
-	_content->film()->log()->log (String::compose ("ADS has request for %1 %2", frame, length), Log::TYPE_DEBUG_DECODE);
+	_content->film()->log()->log (String::compose ("-> ADS has request for %1 %2", frame, length), Log::TYPE_DEBUG_DECODE);
 
 	Frame const end = frame + length - 1;
 
