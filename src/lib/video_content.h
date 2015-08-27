@@ -88,7 +88,7 @@ public:
 	void set_bottom_crop (int);
 
 	void set_scale (VideoContentScale);
-	void unset_colour_conversion (bool signal = true);
+	void unset_colour_conversion ();
 	void set_colour_conversion (ColourConversion);
 
 	void set_fade_in (Frame);
