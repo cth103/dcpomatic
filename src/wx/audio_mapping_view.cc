@@ -247,7 +247,7 @@ AudioMappingView::set_output_channels (vector<string> const & names)
 		_grid->InsertCols (_grid->GetNumberCols(), o - _grid->GetNumberCols());
 	}
 
-	_grid->SetColLabelValue (0, _("Content"));
+	_grid->SetColLabelValue (0, wxT (""));
 
 	for (size_t i = 0; i < names.size(); ++i) {
 		_grid->SetColLabelValue (i + 1, std_to_wx (names[i]));
