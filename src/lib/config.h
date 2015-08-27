@@ -432,7 +432,7 @@ public:
 
 private:
 	Config ();
-	static boost::filesystem::path file ();
+	static boost::filesystem::path file (bool create_directories = true);
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();

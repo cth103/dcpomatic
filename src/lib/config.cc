@@ -269,7 +269,7 @@ Config::read ()
 
 /** @return Filename to write configuration to */
 boost::filesystem::path
-Config::file ()
+Config::file (bool create_directories)
 {
 	boost::filesystem::path p;
 #ifdef DCPOMATIC_OSX
@@ -283,7 +283,9 @@ Config::file ()
 	p /= "dcpomatic2";
 #endif
 	boost::system::error_code ec;
-	boost::filesystem::create_directories (p, ec);
+	if (create_directories) {
+		boost::filesystem::create_directories (p, ec);
+	}
 	p /= "config.xml";
 	return p;
 }
@@ -468,5 +470,5 @@ Config::add_to_history (boost::filesystem::path p)
 bool
 Config::have_existing ()
 {
-	return boost::filesystem::exists (file ());
+	return boost::filesystem::exists (file (false));
 }
