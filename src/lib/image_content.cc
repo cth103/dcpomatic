@@ -27,6 +27,7 @@
 #include "safe_stringstream.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -40,19 +41,12 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 	: Content (film)
 	, VideoContent (film)
 {
-	bool have_j2k = false;
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		_paths.push_back (p);
-		if (valid_j2k_file (p)) {
-			have_j2k = true;
-		}
 	} else {
 		for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
 			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
 				_paths.push_back (i->path ());
-				if (valid_j2k_file (i->path ())) {
-					have_j2k = true;
-				}
 			}
 		}
 
@@ -61,11 +55,6 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 		}
 
 		sort (_paths.begin(), _paths.end(), ImageFilenameSorter ());
-	}
-
-	if (have_j2k) {
-		/* We default to no colour conversion if we have JPEG2000 files */
-		unset_colour_conversion (false);
 	}
 }
 
@@ -179,6 +168,14 @@ ImageContent::set_video_frame_rate (float r)
 void
 ImageContent::set_default_colour_conversion ()
 {
+	BOOST_FOREACH (boost::filesystem::path i, _paths) {
+		if (valid_j2k_file (i)) {
+			/* We default to no colour conversion if we have JPEG2000 files */
+			unset_colour_conversion ();
+			return;
+		}
+	}
+
 	bool const s = still ();
 
 	boost::mutex::scoped_lock lm (_mutex);
