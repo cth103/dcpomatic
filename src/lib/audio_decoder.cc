@@ -47,6 +47,29 @@ AudioDecoder::get_audio (AudioStreamPtr stream, Frame frame, Frame length, bool 
 void
 AudioDecoder::audio (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
 {
+	if (_streams.find (stream) == _streams.end ()) {
+
+		/* This method can be called with an unknown stream during the following sequence:
+		   - Add KDM to some DCP content.
+		   - Content gets re-examined.
+		   - SingleStreamAudioContent::take_from_audio_examiner creates a new stream.
+		   - Some content property change signal is delivered so Player::Changed is emitted.
+		   - Film viewer to re-gets the frame.
+		   - Player calls DCPDecoder pass which calls this method on the new stream.
+
+		   At this point the AudioDecoder does not know about the new stream.
+
+		   Then
+		   - Some other property change signal is delivered which marks the player's pieces invalid.
+		   - Film viewer re-gets again.
+		   - Everything is OK.
+
+		   In this situation it is fine for us to silently drop the audio.
+		*/
+
+		return;
+	}
+
 	_streams[stream]->audio (data, time);
 }
 
