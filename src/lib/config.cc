@@ -260,7 +260,7 @@ Config::read ()
 		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
-		c->set_key (signer->string_child ("PrivateKey"));
+		c->set_key (decryption->string_child ("PrivateKey"));
 		_decryption_chain = c;
 	} else {
 		_decryption_chain.reset (new dcp::CertificateChain (openssl_path ()));
