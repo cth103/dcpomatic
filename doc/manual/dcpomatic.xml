@@ -1560,8 +1560,8 @@ methods to understand it.
 </para>
 
 <para>
-We suppose that we are trying to distribute a DCP, to
-Alice's cinema, without a troublemaker called Mallory being able to
+We suppose that we are trying to send a DCP to
+Alice's cinema without a troublemaker called Mallory being able to
 watch it himself.
 </para>
 
@@ -1588,11 +1588,12 @@ happened to know Mallory, she could just send him a copy of the key.
 </para>
 
 <para>
-The clever bit in DCP encryption requires the use of public-key
+The clever bit in the process requires the use of public-key
 encryption.  With this technique we can encrypt a block of data using
 some &lsquo;public&rsquo; key.  That data can then only be decrypted
-using a <emphasis>different</emphasis> &lsquo;private&rsquo; key.  The
-private and public keys are related mathematically, but it is
+using a corresponding private key which is
+<emphasis>different</emphasis> to the public key.  The private and
+public keys form a pair which are related mathematically, but it is
 extremely hard (or rather, virtually impossible) to derive the private
 key from the public key.
 </para>
