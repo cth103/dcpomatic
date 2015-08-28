@@ -798,13 +798,17 @@ private:
 		wxInitAllImageHandlers ();
 
 		wxSplashScreen* splash = 0;
-		if (!Config::have_existing ()) {
-			wxBitmap bitmap;
-			boost::filesystem::path p = shared_path () / "splash.png";
-			if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
-				splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
-				wxYield ();
+		try {
+			if (!Config::have_existing ()) {
+				wxBitmap bitmap;
+				boost::filesystem::path p = shared_path () / "splash.png";
+				if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {
+					splash = new wxSplashScreen (bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, 0, -1);
+					wxYield ();
+				}
 			}
+		} catch (boost::filesystem::filesystem_error& e) {
+			/* Maybe we couldn't find the splash image; never mind */
 		}
 
 		SetAppName (_("DCP-o-matic"));
