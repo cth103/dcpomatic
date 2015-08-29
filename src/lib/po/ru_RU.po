@@ -1,19 +1,19 @@
 # Igor V <iva_co@ukr.net>, 2015. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-27 16:40+0100\n"
-"PO-Revision-Date: 2015-07-17 03:18-0400\n"
+"PO-Revision-Date: 2015-08-29 10:13+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.6.2\n"
+"X-Generator: Poedit 1.7.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/lib/dcp_content.cc:111
 msgid "%1 [DCP]"
@@ -325,9 +325,8 @@ msgid "Could not start SCP session (%1)"
 msgstr "Не удалось запустить SCP-сессию (%1)"
 
 #: src/lib/curl_uploader.cc:47
-#, fuzzy
 msgid "Could not start transfer"
-msgstr "не удалось запустить SSH-сессию"
+msgstr "не удалось начать передачу"
 
 #: src/lib/curl_uploader.cc:90 src/lib/scp_uploader.cc:115
 msgid "Could not write to remote file (%1)"
@@ -430,9 +429,8 @@ msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Ошибка в SubRip-файле: найдено %1, в то время как ожидается %2"
 
 #: src/lib/job.cc:351
-#, fuzzy
 msgid "Error: %1"
-msgstr "Ошибка (%1)"
+msgstr "Ошибка: (%1)"
 
 #: src/lib/examine_content_job.cc:46
 msgid "Examine content"
@@ -515,9 +513,8 @@ msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
 #: src/lib/config.cc:92
-#, fuzzy
 msgid "KDM delivery"
-msgstr "Назначение KDM: $CPL_NAME"
+msgstr "Назначение KDM"
 
 #: src/lib/config.cc:221
 msgid "KDM delivery: $CPL_NAME"

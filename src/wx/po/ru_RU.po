@@ -1,19 +1,19 @@
 # Igor V <iva_co@ukr.net>, 2015. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-27 16:40+0100\n"
-"PO-Revision-Date: 2015-07-20 12:56-0400\n"
+"PO-Revision-Date: 2015-08-29 10:21+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.6.2\n"
+"X-Generator: Poedit 1.7.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/wx/subtitle_panel.cc:63 src/wx/subtitle_panel.cc:72
 #: src/wx/subtitle_panel.cc:81 src/wx/subtitle_panel.cc:90
@@ -294,9 +294,8 @@ msgid "Choose a folder"
 msgstr "Выбрать папку"
 
 #: src/wx/system_font_dialog.cc:31
-#, fuzzy
 msgid "Choose a font"
-msgstr "Выбрать файл шрифта"
+msgstr "Выбрать шрифт"
 
 #: src/wx/fonts_dialog.cc:133
 msgid "Choose a font file"
@@ -313,7 +312,7 @@ msgstr "Преобразование цвета"
 
 #: src/wx/video_waveform_dialog.cc:41
 msgid "Component"
-msgstr ""
+msgstr "Компонент"
 
 #: src/wx/config_dialog.cc:1241
 msgid "Config|Timing"
@@ -344,9 +343,8 @@ msgid "Content version"
 msgstr "Версия контента"
 
 #: src/wx/video_waveform_dialog.cc:44
-#, fuzzy
 msgid "Contrast"
-msgstr "Контент"
+msgstr "Контраст"
 
 #: src/wx/dcp_panel.cc:82
 msgid "Copy as name"
@@ -366,9 +364,9 @@ msgid "Could not get video for view (%s)"
 msgstr "Не удалось вывести предпросмотр видео (%s)"
 
 #: src/wx/content_menu.cc:325
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load KDM (%s)"
-msgstr "Не удалось прочитать файл ключа (%s)"
+msgstr "Не удалось загрузить KDM (%s)"
 
 #: src/wx/config_dialog.cc:701 src/wx/config_dialog.cc:815
 #: src/wx/screen_dialog.cc:95
@@ -390,9 +388,8 @@ msgid "Create in folder"
 msgstr "Создать в папке"
 
 #: src/wx/config_dialog.cc:201
-#, fuzzy
 msgid "Creator"
-msgstr "Создать в папке"
+msgstr "Создатель"
 
 #: src/wx/video_panel.cc:91
 msgid "Crop"
@@ -427,9 +424,8 @@ msgid "Debug: encode"
 msgstr "Отладка: кодирование"
 
 #: src/wx/config_dialog.cc:869
-#, fuzzy
 msgid "Decrypting DCPs"
-msgstr "Сертификат для расшифровки DCP"
+msgstr "Расшифровка DCP"
 
 #: src/wx/config_dialog.cc:386
 msgid "Default ISDCF name details"
@@ -546,7 +542,7 @@ msgstr "Экспортировать сертификат расшифровки
 
 #: src/wx/config_dialog.cc:960
 msgid "FTP (for Dolby)"
-msgstr ""
+msgstr "FTP (для Dolby)"
 
 #: src/wx/isdcf_metadata_dialog.cc:51
 msgid "Facility (e.g. DLA)"
@@ -703,7 +699,7 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:197
 msgid "Issuer"
-msgstr ""
+msgstr "Издатель"
 
 #: src/wx/dcp_panel.cc:603
 msgid "JPEG2000 bandwidth"
@@ -751,7 +747,7 @@ msgstr "Leaf common name"
 
 #: src/wx/config_dialog.cc:648
 msgid "Leaf private key"
-msgstr ""
+msgstr "Leaf private key"
 
 #: src/wx/video_panel.cc:96
 msgid "Left"
@@ -867,7 +863,7 @@ msgstr "Выключен"
 
 #: src/wx/config_dialog.cc:1221
 msgid "Only servers encode"
-msgstr ""
+msgstr "Кодирование только серверами"
 
 #: src/wx/config_dialog.cc:1251
 msgid "Open console window"
@@ -960,7 +956,7 @@ msgstr "Свойства..."
 
 #: src/wx/config_dialog.cc:939
 msgid "Protocol"
-msgstr ""
+msgstr "Протокол"
 
 #: src/wx/colour_conversion_editor.cc:105
 msgid "RGB to XYZ conversion"
@@ -983,9 +979,8 @@ msgid "Re-examine..."
 msgstr "Перепроверить..."
 
 #: src/wx/config_dialog.cc:659
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr "Пересоздать сертификаты..."
+msgstr "Пересоздать сертификаты и ключ..."
 
 #: src/wx/colour_conversion_editor.cc:98
 msgid "Rec. 601"
@@ -1066,7 +1061,7 @@ msgstr "Root common name"
 
 #: src/wx/config_dialog.cc:959
 msgid "SCP (for AAM)"
-msgstr ""
+msgstr "SCP (для AAM)"
 
 #: src/wx/dcp_panel.cc:153
 msgid "SMPTE"
@@ -1130,13 +1125,12 @@ msgid "Set"
 msgstr "Назначить"
 
 #: src/wx/fonts_dialog.cc:61
-#, fuzzy
 msgid "Set from .ttf file..."
-msgstr "Выбрать файл..."
+msgstr "Выьрать .ttf-файл..."
 
 #: src/wx/fonts_dialog.cc:64
 msgid "Set from system font..."
-msgstr ""
+msgstr "Выбрать системный шрифт"
 
 #: src/wx/config_dialog.cc:156
 msgid "Set language"
@@ -1147,18 +1141,16 @@ msgid "Show audio..."
 msgstr "Показать аудио..."
 
 #: src/wx/audio_panel.cc:51
-#, fuzzy
 msgid "Show graph of audio levels..."
-msgstr "Показать аудио..."
+msgstr "Показать график и уровни аудио..."
 
 #: src/wx/dcp_panel.cc:110
 msgid "Signed"
 msgstr "Подписанный"
 
 #: src/wx/config_dialog.cc:861
-#, fuzzy
 msgid "Signing DCPs and KDMs"
-msgstr "Цепочка сертификатов для подписи DCP и KDM:"
+msgstr "Подпись DCP и KDM:"
 
 #: src/wx/audio_dialog.cc:91
 msgid "Smoothing"
@@ -1359,9 +1351,8 @@ msgid "Video"
 msgstr "Видео"
 
 #: src/wx/video_waveform_dialog.cc:30
-#, fuzzy
 msgid "Video Waveform"
-msgstr "Частота кадров видео"
+msgstr "График видео"
 
 #: src/wx/timing_panel.cc:102
 msgid "Video frame rate"
