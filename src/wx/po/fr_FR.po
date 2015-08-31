@@ -161,7 +161,7 @@ msgid ""
 msgstr ""
 "Tous vos contenus sont au format 1:85:1 ou moins, mais le format du DCP est "
 "réglé sur Scope (2:39:1). Des bandes noires verticales seront créées de part "
-"et d'autre de votre contenu pour remplir le container. Mieux vaudrait régler "
+"et d'autre de votre contenu pour remplir le cadre. Mieux vaudrait régler "
 "le format du DCP sur Flat (1:85:1) dans l'onglet \"DCP\" ."
 
 #: src/wx/hints_dialog.cc:126
@@ -173,7 +173,7 @@ msgid ""
 msgstr ""
 "Tous vos contenus sont au format Scope (2:39:1) mais le format image du DCP "
 "est réglé sur Flat (1:85:1). Des bandes noires horizontales seront créées au "
-"dessus et en dessous de votre contenu pour remplir le container. Mieux "
+"dessus et en dessous de votre contenu pour remplir le cadre. Mieux "
 "vaudrait régler le format du DCP sur Scope (2:39:1) dans l'onglet \"DCP\" ."
 
 #: src/wx/config_dialog.cc:1217

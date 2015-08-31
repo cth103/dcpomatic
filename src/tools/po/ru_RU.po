@@ -1,19 +1,19 @@
 # Igor V <iva_co@ukr.net>, 2015. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-27 16:40+0100\n"
-"PO-Revision-Date: 2015-07-16 05:12-0400\n"
+"PO-Revision-Date: 2015-08-29 10:10+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.6.2\n"
+"X-Generator: Poedit 1.7.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/tools/dcpomatic.cc:334
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -90,7 +90,7 @@ msgid "Add Film..."
 msgstr "Добавить проект..."
 
 #: src/tools/dcpomatic.cc:919
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s).\n"
 "\n"
@@ -266,7 +266,7 @@ msgstr "Незавершенные задачи"
 
 #: src/tools/dcpomatic.cc:704
 msgid "Video waveform..."
-msgstr ""
+msgstr "График видео..."
 
 #: src/tools/dcpomatic.cc:359 src/tools/dcpomatic_batch.cc:161
 msgid ""
