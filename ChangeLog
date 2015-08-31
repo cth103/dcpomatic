@@ -1,5 +1,8 @@
 2015-08-31  Carl Hetherington  <cth@carlh.net>
 
+	* Stop very long searches for subtitles where
+	there are none.
+
 	* Updated es_ES translation from Manuel AC.
 
 2015-08-30  Carl Hetherington  <cth@carlh.net>

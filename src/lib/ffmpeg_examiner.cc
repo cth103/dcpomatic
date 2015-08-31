@@ -92,6 +92,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 * where we should look for subtitles (video and audio are always present,
 	 * so they are ok).
 	 */
+
 	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
@@ -108,9 +109,14 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			video_packet (context);
 		}
 
+		bool got_all_audio = true;
+
 		for (size_t i = 0; i < _audio_streams.size(); ++i) {
 			if (_audio_streams[i]->uses_index (_format_context, _packet.stream_index)) {
 				audio_packet (context, _audio_streams[i]);
+			}
+			if (!_audio_streams[i]->first_audio) {
+				got_all_audio = false;
 			}
 		}
 
@@ -121,6 +127,11 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 
 		av_free_packet (&_packet);
+
+		if (_first_video && got_all_audio && _subtitle_streams.empty ()) {
+			/* All done */
+			break;
+		}
 	}
 }
 
