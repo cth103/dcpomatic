@@ -25,6 +25,7 @@
 using std::string;
 using std::map;
 using std::list;
+using std::cout;
 
 /** Construct a SubtitleStream from a value returned from to_string().
  *  @param t String returned from to_string().
