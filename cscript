@@ -90,7 +90,9 @@ deb_depends['7'] = {'libc6': '2.13',
                     'libboost-date-time1.49.0': '1.49.0',
                     'libxmlsec1-openssl': '1.2.18',
                     'libcurl3': '7.26.0',
-                    'libzip2': '0.10.1'}
+                    'libzip2': '0.10.1',
+                    'libcairomm-1.0-1', '1.10.0-1'
+                    'libpangomm-1.4-1', '2.28.4-1'}
 
 deb_depends['8'] = {'libc6': '2.19-18',
                     'libssh-4': '0.6.3-4',
