@@ -62,8 +62,15 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 		return list<T> ();
 	}
 
-	/* Seek if what we want is before what we have, or more than a reasonable amount after */
-	if (subs.empty() || sp.back().to < subs.front().period().from || sp.front().from > (subs.back().period().to + ContentTime::from_seconds (5))) {
+	/* Seek if what we want is before what we have, or a more than a little bit after.
+	   Be careful with the length of this `little bit'; consider the case where the last
+	   subs were just less than this little bit B ago.  Then we will not seek, but instead
+	   pass() for nearly B seconds; if we are a FFmpegDecoder then this will generate B's
+	   worth of video which will stack up.  If B + the pre-roll is bigger than the maximum
+	   number of frames that the VideoDecoder will keep then we will get an assertion
+	   failure in VideoDecoder.
+	*/
+	if (subs.empty() || sp.back().to < subs.front().period().from || sp.front().from > (subs.back().period().to + ContentTime::from_seconds (1))) {
 		seek (sp.front().from, true);
 	}
 
