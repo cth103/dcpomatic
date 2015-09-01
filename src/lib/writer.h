@@ -135,7 +135,7 @@ private:
 	/** number of FULL frames whose JPEG200 data is currently held in RAM */
 	int _queued_full_in_memory;
 	/** mutex for thread state */
-	mutable boost::mutex _mutex;
+	mutable boost::mutex _state_mutex;
 	/** condition to manage thread wakeups when we have nothing to do  */
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */

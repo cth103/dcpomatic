@@ -160,7 +160,7 @@ Writer::~Writer ()
 void
 Writer::write (Data encoded, int frame, Eyes eyes)
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock (_state_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
 		/* The queue is too big; wait until that is sorted out */
@@ -193,7 +193,7 @@ Writer::write (Data encoded, int frame, Eyes eyes)
 void
 Writer::repeat (int frame, Eyes eyes)
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock (_state_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
 		/* The queue is too big; wait until that is sorted out */
@@ -220,7 +220,7 @@ Writer::repeat (int frame, Eyes eyes)
 void
 Writer::fake_write (int frame, Eyes eyes)
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock (_state_mutex);
 
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
 		/* The queue is too big; wait until that is sorted out */
@@ -316,7 +316,7 @@ try
 {
 	while (true)
 	{
-		boost::mutex::scoped_lock lock (_mutex);
+		boost::mutex::scoped_lock lock (_state_mutex);
 
 		while (true) {
 
@@ -459,7 +459,7 @@ catch (...)
 void
 Writer::terminate_thread (bool can_throw)
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock (_state_mutex);
 	if (_thread == 0) {
 		return;
 	}

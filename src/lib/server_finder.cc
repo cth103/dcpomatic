@@ -168,7 +168,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 	if (!server_found (ip) && xml->optional_number_child<int>("Version").get_value_or (0) == SERVER_LINK_VERSION) {
 		ServerDescription sd (ip, xml->number_child<int> ("Threads"));
 		{
-			boost::mutex::scoped_lock lm (_mutex);
+			boost::mutex::scoped_lock lm (_servers_mutex);
 			_servers.push_back (sd);
 		}
 		emit (boost::bind (boost::ref (ServersListChanged)));
@@ -180,7 +180,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 bool
 ServerFinder::server_found (string ip) const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm (_servers_mutex);
 	list<ServerDescription>::const_iterator i = _servers.begin();
 	while (i != _servers.end() && i->host_name() != ip) {
 		++i;
@@ -209,7 +209,7 @@ ServerFinder::drop ()
 list<ServerDescription>
 ServerFinder::servers () const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm (_servers_mutex);
 	return _servers;
 }
 
@@ -218,7 +218,7 @@ ServerFinder::config_changed (Config::Property what)
 {
 	if (what == Config::USE_ANY_SERVERS || what == Config::SERVERS) {
 		{
-			boost::mutex::scoped_lock lm (_mutex);
+			boost::mutex::scoped_lock lm (_servers_mutex);
 			_servers.clear ();
 		}
 		ServersListChanged ();

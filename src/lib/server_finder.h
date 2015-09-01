@@ -67,7 +67,7 @@ private:
 	boost::thread* _listen_thread;
 
 	std::list<ServerDescription> _servers;
-	mutable boost::mutex _mutex;
+	mutable boost::mutex _servers_mutex;
 
 	boost::asio::io_service _listen_io_service;
 	boost::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
