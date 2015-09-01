@@ -46,9 +46,14 @@ ServerFinder::ServerFinder ()
 	, _listen_thread (0)
 	, _stop (false)
 {
+	Config::instance()->Changed.connect (boost::bind (&ServerFinder::config_changed, this, _1));
+}
+
+void
+ServerFinder::start ()
+{
 	_search_thread = new boost::thread (boost::bind (&ServerFinder::search_thread, this));
 	_listen_thread = new boost::thread (boost::bind (&ServerFinder::listen_thread, this));
-	Config::instance()->Changed.connect (boost::bind (&ServerFinder::config_changed, this, _1));
 }
 
 ServerFinder::~ServerFinder ()
@@ -56,10 +61,14 @@ ServerFinder::~ServerFinder ()
 	_stop = true;
 
 	_search_condition.notify_all ();
-	_search_thread->join ();
+	if (_search_thread) {
+		_search_thread->join ();
+	}
 
 	_listen_io_service.stop ();
-	_listen_thread->join ();
+	if (_listen_thread) {
+		_listen_thread->join ();
+	}
 }
 
 void
@@ -194,6 +203,7 @@ ServerFinder::instance ()
 {
 	if (!_instance) {
 		_instance = new ServerFinder ();
+		_instance->start ();
 	}
 
 	return _instance;

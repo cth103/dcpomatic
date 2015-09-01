@@ -53,6 +53,8 @@ private:
 	ServerFinder ();
 	~ServerFinder ();
 
+	void start ();
+
 	void search_thread ();
 	void listen_thread ();
 
