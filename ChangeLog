@@ -1,5 +1,8 @@
 2015-09-01  Carl Hetherington  <cth@carlh.net>
 
+	* Allow cancellation of transcodes during the
+	checking of existing frames (#679).
+
 	* Version 2.1.49 released.
 
 2015-08-31  Carl Hetherington  <cth@carlh.net>

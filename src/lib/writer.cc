@@ -147,9 +147,14 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 		throw InvalidSignerError ();
 	}
 
-	_thread = new boost::thread (boost::bind (&Writer::thread, this));
-
 	job->sub (_("Encoding image data"));
+
+	/* Do this last; if something after this line were to throw an exception
+	   (say if Job::sub was interrupted by cancel) this thread would never
+	   get properly cleaned up but the Writer object would go away underneath
+	   it.
+	*/
+	_thread = new boost::thread (boost::bind (&Writer::thread, this));
 }
 
 Writer::~Writer ()

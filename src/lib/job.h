@@ -106,6 +106,7 @@ protected:
 private:
 
 	void run_wrapper ();
+	void set_progress_common (boost::optional<float> p);
 
 	boost::thread* _thread;
 

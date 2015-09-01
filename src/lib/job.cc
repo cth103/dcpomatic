@@ -247,6 +247,12 @@ Job::set_progress (float p, bool force)
 		return;
 	}
 
+	set_progress_common (p);
+}
+
+void
+Job::set_progress_common (optional<float> p)
+{
 	boost::mutex::scoped_lock lm (_progress_mutex);
 	_progress = p;
 	boost::this_thread::interruption_point ();
@@ -315,11 +321,7 @@ Job::set_error (string s, string d)
 void
 Job::set_progress_unknown ()
 {
-	boost::mutex::scoped_lock lm (_progress_mutex);
-	_progress.reset ();
-	lm.unlock ();
-
-	emit (boost::bind (boost::ref (Progress)));
+	set_progress_common (optional<float> ());
 }
 
 /** @return Human-readable status of this job */
