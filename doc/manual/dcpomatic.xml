@@ -1061,8 +1061,15 @@ burnt into the image.
 </para>
 
 <para>
-Select the <guilabel>With Subtitles</guilabel> check-box to enable
-subtitles.
+Select the <guilabel>Use Subtitles</guilabel> check-box to enable
+these subtitles.
+</para>
+
+<para>
+Select the <guilabel>Burn subtitles into image</guilabel> check-box to
+burn these subtitles into the image; if this is not ticked the
+subtitles will be included separately in the DCP to be rendered by the
+projector.
 </para>
 
 <para>
@@ -1402,13 +1409,6 @@ more detail in <xref linkend="ch-frame-rates"/>.
 The <guilabel>Use best</guilabel> button sets the DCP video frame rate
 to what DCP-o-matic thinks is the best given the content that you have
 added.
-</para>
-
-<para>
-<guilabel>Burn subtitles into image</guilabel> should be selected if
-you want DCP-o-matic to overlay the subtitles onto the video frame
-before encoding.  Leave this un-ticked to include the subtitles
-separately in the DCP.
 </para>
 
 <para>
@@ -1841,6 +1841,16 @@ like to live on the bleeding edge!
 </para>
 </section>
 
+<!-- ============================================================== -->
+<section>
+<title>Issuer and creator</title>
+
+<para>
+With these controls you can set the issuer and creator strings that
+will be put into the DCPs which you create.
+</para>
+</section>
+
 </section>
 
 <!-- ============================================================== -->
@@ -1921,9 +1931,9 @@ creation.
 <para>
 At the top of the tab is the chain of certificates that will be used
 to sign DCPs and KDMs.  DCP-o-matic creates a random chain when you
-first run it, so if you are happy to use a randomly-generated chain
-you can ignore the preferences.  Otherwise, you can add or remove
-certificates from the chain using the <guilabel>Add...</guilabel> and
+first run it and if you are happy to use this chain you can ignore the
+preferences.  Otherwise, you can add or remove certificates from the
+chain using the <guilabel>Add...</guilabel> and
 <guilabel>Remove</guilabel> buttons.
 </para>
 
@@ -1943,13 +1953,22 @@ corresponds to the public key held in the leaf certificate.
 </para>
 
 <para>
-The bottom of the tab specifies the certificate and private key that
-is used to decrypt DCPs if they are imported as sources to
-DCP-o-matic.  If you want to import an encrypted DCP you will need to
-give the decryption certificate to the distributor of the DCP so that
-they can generate a DKDM for you.  As with the certificate chain,
-DCP-o-matic will create a certificate and private key for you.  You
-can also choose to load your own certificate and key.
+Underneath the details of the certificate chain and private key for
+signing of DCPs and KDMs is a second chain and key which is used by
+DCP-o-matic when you import an encrypted DCP as a piece of content.
+The leaf certificate of this chain contains the public key that should
+be used when targeting a KDM at DCP-o-matic.
+</para>
+
+<para>
+If you want to import an encrypted DCP you will need to give the
+decryption certificate to the distributor of the DCP so that they can
+generate a DKDM for you.  You can save this certificate to disk by
+clicking <guilabel>Export DCP decryption certificate</guilabel>.  As
+with the signing chain, DCP-o-matic will create a certificate chain
+and private key for you.  You can also choose to load your own
+certificates and key or re-make the chain and key with new, random
+values.
 </para>
 
 </section>
@@ -1962,8 +1981,8 @@ can also choose to load your own certificate and key.
 <para>
 The TMS tab (shown in <xref linkend="fig-prefs-tms"/>) gives some
 options for specifying details about your theatre management system
-(TMS).  If you do this, and your TMS accepts SSH connections, you can
-upload DCPs directly from DCP-o-matic to the TMS using the
+(TMS).  If you do this, and your TMS accepts SSH or FTP connections,
+you can upload DCPs directly from DCP-o-matic to the TMS using the
 <guilabel>Send DCP to TMS</guilabel> option in the
 <guilabel>Jobs</guilabel> menu.
 </para>
@@ -1978,11 +1997,19 @@ upload DCPs directly from DCP-o-matic to the TMS using the
 </figure>
 
 <para>
+<guilabel>Protocol</guilabel> should be set to SCP or FTP as
+appropriate for your TMS.  We know that the Arts Alliance Media (AAM)
+and the Doremi ranges uses SCP connections, and that Dolby's TMSs use
+FTP.  Do let us know if you use any other type of TMS with the
+<guilabel>Send DCP to TMS</guilabel> feature.
+</para>
+
+<para>
 <guilabel>TMS IP address</guilabel> should be set to the IP address of
 your TMS, <guilabel>TMS target path</guilabel> to the place that DCPs
 should be uploaded to (which will be relative to the home directory of
-the SSH user).  Finally, the user name and password are the
-credentials required to log into the TMS via SSH.
+the SSH or FTP user).  Finally, the user name and password are the
+credentials required to log into the TMS via SSH or FTP.
 </para>
 
 <para>
@@ -2078,6 +2105,12 @@ compatibility.
 the DCP video frame rates that DCP-o-matic will create.  This may be
 useful for experimentation.  Again, you are strongly advised to leave
 this unticked for normal use.
+</para>
+
+<para>
+<guilabel>Only servers encode</guilabel> makes DCP-o-matic encode
+JPEG2000 data only on encoding servers and not on the host.  We
+suggest you leave this un-ticked unless you have a good reason to do otherwise.
 </para>
 
 <para>
