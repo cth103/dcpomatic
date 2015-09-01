@@ -31,6 +31,7 @@
 #include "lib/dcp_video.h"
 #include "lib/player_video.h"
 #include "lib/raw_image_proxy.h"
+#include "lib/j2k_image_proxy.h"
 #include "lib/data.h"
 #include "lib/server_description.h"
 #include "lib/file_log.h"
@@ -139,7 +140,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 {
 	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
-	uint8_t* p = image->data()[0];
 
 	for (int i = 0; i < image->planes(); ++i) {
 		uint8_t* p = image->data()[i];
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	}
 
 	shared_ptr<Image> sub_image (new Image (PIX_FMT_RGBA, dcp::Size (100, 200), true));
-	p = sub_image->data()[0];
+	uint8_t* p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		uint8_t* q = p;
 		for (int x = 0; x < 100; ++x) {
@@ -204,6 +204,98 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
 		threads.push_back (new thread (boost::bind (do_remote_encode, frame, description, locally_encoded)));
+	}
+
+	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
+		(*i)->join ();
+	}
+
+	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
+		delete *i;
+	}
+
+	delete server;
+}
+
+BOOST_AUTO_TEST_CASE (client_server_test_j2k)
+{
+	shared_ptr<Image> image (new Image (PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
+
+	for (int i = 0; i < image->planes(); ++i) {
+		uint8_t* p = image->data()[i];
+		for (int j = 0; j < image->line_size()[i]; ++j) {
+			*p++ = j % 256;
+		}
+	}
+
+	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_j2k.log"));
+
+	shared_ptr<PlayerVideo> raw_pvf (
+		new PlayerVideo (
+			shared_ptr<ImageProxy> (new RawImageProxy (image)),
+			DCPTime (),
+			Crop (),
+			optional<double> (),
+			dcp::Size (1998, 1080),
+			dcp::Size (1998, 1080),
+			EYES_BOTH,
+			PART_WHOLE,
+			ColourConversion ()
+			)
+		);
+
+	shared_ptr<DCPVideo> raw_frame (
+		new DCPVideo (
+			raw_pvf,
+			0,
+			24,
+			200000000,
+			RESOLUTION_2K,
+			log
+			)
+		);
+
+	Data raw_locally_encoded = raw_frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+
+	shared_ptr<PlayerVideo> j2k_pvf (
+		new PlayerVideo (
+			shared_ptr<ImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080))),
+			DCPTime (),
+			Crop (),
+			optional<double> (),
+			dcp::Size (1998, 1080),
+			dcp::Size (1998, 1080),
+			EYES_BOTH,
+			PART_WHOLE,
+			PresetColourConversion::all().front().conversion
+			)
+		);
+
+	shared_ptr<DCPVideo> j2k_frame (
+		new DCPVideo (
+			j2k_pvf,
+			0,
+			24,
+			200000000,
+			RESOLUTION_2K,
+			log
+			)
+		);
+
+	Data j2k_locally_encoded = j2k_frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
+
+	Server* server = new Server (log, true);
+
+	new thread (boost::bind (&Server::run, server, 2));
+
+	/* Let the server get itself ready */
+	dcpomatic_sleep (1);
+
+	ServerDescription description ("localhost", 2);
+
+	list<thread*> threads;
+	for (int i = 0; i < 8; ++i) {
+		threads.push_back (new thread (boost::bind (do_remote_encode, j2k_frame, description, j2k_locally_encoded)));
 	}
 
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {

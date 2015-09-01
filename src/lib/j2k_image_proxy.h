@@ -51,6 +51,10 @@ public:
 	}
 
 private:
+	friend struct client_server_test_j2k;
+
+	J2KImageProxy (Data data, dcp::Size size);
+
 	Data _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;

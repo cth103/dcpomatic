@@ -149,3 +149,10 @@ J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
 
 	return memcmp (_data.data().get(), jp->_data.data().get(), _data.size()) == 0;
 }
+
+J2KImageProxy::J2KImageProxy (Data data, dcp::Size size)
+	: _data (data)
+	, _size (size)
+{
+
+}
