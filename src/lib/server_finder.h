@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/lib/server_finder.h
+ *  @brief ServerFinder class.
+ */
+
 #include "signaller.h"
 #include "server_description.h"
 #include "config.h"
