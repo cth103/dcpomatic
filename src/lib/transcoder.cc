@@ -62,6 +62,7 @@ Transcoder::Transcoder (shared_ptr<const Film> film, shared_ptr<Job> j)
 void
 Transcoder::go ()
 {
+	_writer->start ();
 	_encoder->begin ();
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());

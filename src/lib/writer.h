@@ -97,6 +97,8 @@ public:
 	Writer (boost::shared_ptr<const Film>, boost::weak_ptr<Job>);
 	~Writer ();
 
+	void start ();
+
 	bool can_fake_write (int) const;
 
 	void write (Data, int, Eyes);
