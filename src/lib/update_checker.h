@@ -34,7 +34,6 @@ struct update_checker_test;
 class UpdateChecker : public Signaller, public boost::noncopyable
 {
 public:
-	UpdateChecker ();
 	~UpdateChecker ();
 
 	void run ();
@@ -83,6 +82,8 @@ private:
 
 	static bool version_less_than (std::string const & a, std::string const & b);
 
+	UpdateChecker ();
+	void start ();
 	void set_state (State);
 	void thread ();
 
@@ -101,4 +102,5 @@ private:
 	boost::mutex _process_mutex;
 	boost::condition _condition;
 	int _to_do;
+	bool _terminate;
 };

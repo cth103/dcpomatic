@@ -55,7 +55,9 @@ UpdateChecker::UpdateChecker ()
 	, _curl (0)
 	, _state (NOT_RUN)
 	, _emits (0)
+	, _thread (0)
 	, _to_do (0)
+	, _terminate (false)
 {
 	_curl = curl_easy_init ();
 
@@ -66,13 +68,26 @@ UpdateChecker::UpdateChecker ()
 
 	string const agent = "dcpomatic/" + string (dcpomatic_version);
 	curl_easy_setopt (_curl, CURLOPT_USERAGENT, agent.c_str ());
+}
 
+void
+UpdateChecker::start ()
+{
 	_thread = new boost::thread (boost::bind (&UpdateChecker::thread, this));
 }
 
 UpdateChecker::~UpdateChecker ()
 {
-	/* We are not cleaning up our thread, but hey well */
+	{
+		boost::mutex::scoped_lock lm (_process_mutex);
+		_terminate = true;
+	}
+
+	_condition.notify_all ();
+	if (_thread) {
+		_thread->join ();
+	}
+	delete _thread;
 
 	curl_easy_cleanup (_curl);
 	delete[] _buffer;
@@ -93,9 +108,14 @@ UpdateChecker::thread ()
 	while (true) {
 		/* Block until there is something to do */
 		boost::mutex::scoped_lock lock (_process_mutex);
-		while (_to_do == 0) {
+		while (_to_do == 0 && !_terminate) {
 			_condition.wait (lock);
 		}
+
+		if (_terminate) {
+			return;
+		}
+
 		--_to_do;
 		lock.unlock ();
 
@@ -173,6 +193,7 @@ UpdateChecker::instance ()
 {
 	if (!_instance) {
 		_instance = new UpdateChecker ();
+		_instance->start ();
 	}
 
 	return _instance;
