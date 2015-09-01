@@ -82,7 +82,7 @@ private:
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
 
-	/** Mutex for _time_history and _last_frame */
+	/** Mutex for _time_history and _video_frames_enqueued */
 	mutable boost::mutex _state_mutex;
 	/** List of the times of completion of the last _history_size frames;
 	    first is the most recently completed.
@@ -90,16 +90,17 @@ private:
 	std::list<struct timeval> _time_history;
 	/** Number of frames that we should keep history for */
 	static int const _history_size;
-
 	/** Number of video frames enqueued so far */
 	int _video_frames_enqueued;
 	bool _left_done;
 	bool _right_done;
 
-	bool _terminate;
-	std::list<boost::shared_ptr<DCPVideo> > _queue;
+	boost::atomic<bool> _terminate;
+	/** Mutex for _threads */
+	mutable boost::mutex _threads_mutex;
 	std::list<boost::thread *> _threads;
-	mutable boost::mutex _mutex;
+	mutable boost::mutex _queue_mutex;
+	std::list<boost::shared_ptr<DCPVideo> > _queue;
 	/** condition to manage thread wakeups when we have nothing to do */
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */

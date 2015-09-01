@@ -83,7 +83,7 @@ Encoder::begin ()
 void
 Encoder::end ()
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock (_queue_mutex);
 
 	LOG_GENERAL (N_("Clearing queue of %1"), _queue.size ());
 
@@ -172,14 +172,20 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 {
 	_waker.nudge ();
 
-	boost::mutex::scoped_lock lock (_mutex);
+	size_t threads = 0;
+	{
+		boost::mutex::scoped_lock threads_lock (_threads_mutex);
+		threads = _threads.size ();
+	}
+
+	boost::mutex::scoped_lock queue_lock (_queue_mutex);
 
 	/* XXX: discard 3D here if required */
 
 	/* Wait until the queue has gone down a bit */
-	while (_queue.size() >= _threads.size() * 2 && !_terminate) {
+	while (_queue.size() >= threads * 2 && !_terminate) {
 		LOG_TIMING ("decoder-sleep queue=%1", _queue.size());
-		_full_condition.wait (lock);
+		_full_condition.wait (queue_lock);
 		LOG_TIMING ("decoder-wake queue=%1", _queue.size());
 	}
 
@@ -249,11 +255,13 @@ void
 Encoder::terminate_threads ()
 {
 	{
-		boost::mutex::scoped_lock lock (_mutex);
+		boost::mutex::scoped_lock queue_lock (_queue_mutex);
 		_terminate = true;
 		_full_condition.notify_all ();
 		_empty_condition.notify_all ();
 	}
+
+	boost::mutex::scoped_lock threads_lock (_threads_mutex);
 
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
 		if ((*i)->joinable ()) {
@@ -285,7 +293,7 @@ try
 	while (true) {
 
 		LOG_TIMING ("encoder-sleep thread=%1", boost::this_thread::get_id());
-		boost::mutex::scoped_lock lock (_mutex);
+		boost::mutex::scoped_lock lock (_queue_mutex);
 		while (_queue.empty () && !_terminate) {
 			_empty_condition.wait (lock);
 		}
@@ -366,6 +374,8 @@ Encoder::servers_list_changed ()
 	terminate_threads ();
 
 	/* XXX: could re-use threads */
+
+	boost::mutex::scoped_lock lm (_threads_mutex);
 
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
