@@ -55,6 +55,7 @@ private:
 	JobManager ();
 	~JobManager ();
 	void scheduler ();
+	void start ();
 
 	mutable boost::mutex _mutex;
 	std::list<boost::shared_ptr<Job> > _jobs;

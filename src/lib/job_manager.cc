@@ -38,9 +38,15 @@ JobManager* JobManager::_instance = 0;
 JobManager::JobManager ()
 	: _terminate (false)
 	, _last_active_jobs (false)
-	, _scheduler (new boost::thread (boost::bind (&JobManager::scheduler, this)))
+	, _scheduler (0)
 {
 
+}
+
+void
+JobManager::start ()
+{
+	_scheduler = new boost::thread (boost::bind (&JobManager::scheduler, this));
 }
 
 JobManager::~JobManager ()
@@ -50,9 +56,11 @@ JobManager::~JobManager ()
 		_terminate = true;
 	}
 
-	if (_scheduler->joinable ()) {
+	if (_scheduler) {
 		_scheduler->join ();
 	}
+
+	delete _scheduler;
 }
 
 shared_ptr<Job>
@@ -147,6 +155,7 @@ JobManager::instance ()
 {
 	if (_instance == 0) {
 		_instance = new JobManager ();
+		_instance->start ();
 	}
 
 	return _instance;
