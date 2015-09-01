@@ -53,6 +53,16 @@ Job::Job (shared_ptr<const Film> film)
 
 }
 
+Job::~Job ()
+{
+	if (_thread) {
+		_thread->interrupt ();
+		_thread->join ();
+	}
+
+	delete _thread;
+}
+
 /** Start the job in a separate thread, returning immediately */
 void
 Job::start ()
