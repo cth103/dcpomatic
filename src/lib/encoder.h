@@ -33,6 +33,7 @@
 #include <boost/thread.hpp>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
+#include <boost/atomic.hpp>
 #include <list>
 #include <stdint.h>
 
