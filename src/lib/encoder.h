@@ -33,7 +33,6 @@
 #include <boost/thread.hpp>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
-#include <boost/atomic.hpp>
 #include <list>
 #include <stdint.h>
 
@@ -96,7 +95,8 @@ private:
 	bool _left_done;
 	bool _right_done;
 
-	boost::atomic<bool> _terminate;
+	/* XXX: probably should be atomic */
+	bool _terminate;
 	/** Mutex for _threads */
 	mutable boost::mutex _threads_mutex;
 	std::list<boost::thread *> _threads;
