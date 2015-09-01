@@ -50,7 +50,7 @@
 #include "lib/kdm.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/server_finder.h"
-#include "lib/update.h"
+#include "lib/update_checker.h"
 #include "lib/cross.h"
 #include "lib/content_factory.h"
 #include "lib/compose.hpp"

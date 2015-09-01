@@ -17,7 +17,7 @@
 
 */
 
-#include "update.h"
+#include "update_checker.h"
 #include "version.h"
 #include "safe_stringstream.h"
 #include "config.h"

@@ -118,7 +118,7 @@ sources = """
           transcoder.cc
           types.cc
           signal_manager.cc
-          update.cc
+          update_checker.cc
           upload_job.cc
           uploader.cc
           upmixer_a.cc

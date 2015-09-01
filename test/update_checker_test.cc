@@ -18,7 +18,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include "lib/update.h"
+#include "lib/update_checker.h"
 
 BOOST_AUTO_TEST_CASE (update_checker_test)
 {
