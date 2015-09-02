@@ -1,3 +1,8 @@
+2015-09-02  Carl Hetherington  <cth@carlh.net>
+
+	* Switch to soxr resampler as it seems
+	to have fewer artefacts in some cases (#682, possibly #493).
+
 2015-09-02  c.hetherington  <cth@carlh.net>
 
 	* Fix problems when changing the number
