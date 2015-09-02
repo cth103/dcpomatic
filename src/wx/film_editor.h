@@ -58,7 +58,7 @@ public:
 	void film_content_changed (int);
 
 	void set_general_sensitivity (bool);
-	void active_jobs_changed (bool);
+	void active_jobs_changed (boost::optional<std::string>);
 
 	wxNotebook* _main_notebook;
 	ContentPanel* _content_panel;

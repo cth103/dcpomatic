@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,23 +21,28 @@
  *  @brief A simple scheduler for jobs.
  */
 
-#include <iostream>
-#include <boost/thread.hpp>
 #include "job_manager.h"
 #include "job.h"
 #include "cross.h"
+#include "analyse_audio_job.h"
+#include "film.h"
+#include <boost/thread.hpp>
+#include <boost/foreach.hpp>
+#include <iostream>
 
 using std::string;
 using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
+using boost::function;
+using boost::dynamic_pointer_cast;
+using boost::optional;
 
 JobManager* JobManager::_instance = 0;
 
 JobManager::JobManager ()
 	: _terminate (false)
-	, _last_active_jobs (false)
 	, _scheduler (0)
 {
 
@@ -113,7 +118,7 @@ JobManager::scheduler ()
 {
 	while (true) {
 
-		bool active_jobs = false;
+		optional<string> active_job;
 
 		{
 			boost::mutex::scoped_lock lm (_mutex);
@@ -121,29 +126,28 @@ JobManager::scheduler ()
 				return;
 			}
 
-			for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+			BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
 
-				if (!(*i)->finished ()) {
-					active_jobs = true;
+				if (!i->finished ()) {
+					active_job = i->json_name ();
 				}
 
-				if ((*i)->running ()) {
+				if (i->running ()) {
 					/* Something is already happening */
 					break;
 				}
 
-				if ((*i)->is_new()) {
-					(*i)->start ();
-
+				if (i->is_new()) {
+					i->start ();
 					/* Only start one job at once */
 					break;
 				}
 			}
 		}
 
-		if (active_jobs != _last_active_jobs) {
-			_last_active_jobs = active_jobs;
-			emit (boost::bind (boost::ref (ActiveJobsChanged), active_jobs));
+		if (active_job != _last_active_job) {
+			_last_active_job = active_job;
+			emit (boost::bind (boost::ref (ActiveJobsChanged), active_job));
 		}
 
 		dcpomatic_sleep (1);
@@ -166,4 +170,33 @@ JobManager::drop ()
 {
 	delete _instance;
 	_instance = 0;
+}
+
+void
+JobManager::analyse_audio (
+	shared_ptr<const Film> film,
+	shared_ptr<const Playlist> playlist,
+	boost::signals2::connection& connection,
+	function<void()> ready
+	)
+{
+	shared_ptr<AnalyseAudioJob> job;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+			shared_ptr<AnalyseAudioJob> a = dynamic_pointer_cast<AnalyseAudioJob> (i);
+			if (a && film->audio_analysis_path (a->playlist ()) == film->audio_analysis_path (playlist)) {
+				i->when_finished (connection, ready);
+				return;
+			}
+		}
+
+		job.reset (new AnalyseAudioJob (film, playlist));
+		connection = job->Finished.connect (ready);
+		_jobs.push_back (job);
+	}
+
+	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
 }

@@ -226,6 +226,10 @@ public:
 		return _log_types;
 	}
 
+	bool automatic_audio_analysis () const {
+		return _automatic_audio_analysis;
+	}
+
 #ifdef DCPOMATIC_WINDOWS
 	bool win32_console () const {
 		return _win32_console;
@@ -407,6 +411,10 @@ public:
 		maybe_set (_log_types, t);
 	}
 
+	void set_automatic_audio_analysis (bool a) {
+		maybe_set (_automatic_audio_analysis, a);
+	}
+
 #ifdef DCPOMATIC_WINDOWS
 	void set_win32_console (bool c) {
 		maybe_set (_win32_console, c);
@@ -505,6 +513,7 @@ private:
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
 	int _log_types;
+	bool _automatic_audio_analysis;
 #ifdef DCPOMATIC_WINDOWS
 	bool _win32_console;
 #endif

@@ -34,7 +34,9 @@
 #include <iostream>
 
 using std::cout;
+using std::string;
 using boost::shared_ptr;
+using boost::optional;
 
 /** @param f Film to edit */
 FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
@@ -136,7 +138,7 @@ FilmEditor::set_general_sensitivity (bool s)
 }
 
 void
-FilmEditor::active_jobs_changed (bool a)
+FilmEditor::active_jobs_changed (optional<string> j)
 {
-	set_general_sensitivity (!a);
+	set_general_sensitivity (!j || *j == "analyse_audio");
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,9 @@
 #include <list>
 
 class Job;
+class Film;
+class Playlist;
+
 extern void wait_for_jobs ();
 
 /** @class JobManager
@@ -42,8 +45,15 @@ public:
 	bool work_to_do () const;
 	bool errors () const;
 
+	void analyse_audio (
+		boost::shared_ptr<const Film> film,
+		boost::shared_ptr<const Playlist> playlist,
+		boost::signals2::connection& connection,
+		boost::function<void()> ready
+		);
+
 	boost::signals2::signal<void (boost::weak_ptr<Job>)> JobAdded;
-	boost::signals2::signal<void (bool)> ActiveJobsChanged;
+	boost::signals2::signal<void (boost::optional<std::string>)> ActiveJobsChanged;
 
 	static JobManager* instance ();
 	static void drop ();
@@ -61,7 +71,7 @@ private:
 	std::list<boost::shared_ptr<Job> > _jobs;
 	bool _terminate;
 
-	bool _last_active_jobs;
+	boost::optional<std::string> _last_active_job;
 	boost::thread* _scheduler;
 
 	static JobManager* _instance;

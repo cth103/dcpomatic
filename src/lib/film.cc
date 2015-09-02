@@ -162,8 +162,12 @@ Film::Film (boost::filesystem::path dir, bool log)
 
 Film::~Film ()
 {
-	for (list<boost::signals2::connection>::const_iterator i = _job_connections.begin(); i != _job_connections.end(); ++i) {
-		i->disconnect ();
+	BOOST_FOREACH (boost::signals2::connection& i, _job_connections) {
+		i.disconnect ();
+	}
+
+	BOOST_FOREACH (boost::signals2::connection& i, _audio_analysis_connections) {
+		i.disconnect ();
 	}
 }
 
@@ -947,8 +951,19 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 	}
 
 	shared_ptr<Content> content = c.lock ();
-	if (content) {
-		add_content (content);
+	if (!content) {
+		return;
+	}
+
+	add_content (content);
+	if (Config::instance()->automatic_audio_analysis ()) {
+		shared_ptr<Playlist> playlist (new Playlist);
+		playlist->add (content);
+		boost::signals2::connection c;
+		JobManager::instance()->analyse_audio (
+			shared_from_this (), playlist, c, bind (&Film::audio_analysis_finished, this)
+			);
+		_audio_analysis_connections.push_back (c);
 	}
 }
 
@@ -1232,4 +1247,10 @@ void
 Film::remove_content (ContentList c)
 {
 	_playlist->remove (c);
+}
+
+void
+Film::audio_analysis_finished ()
+{
+	/* XXX */
 }

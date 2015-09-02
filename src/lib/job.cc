@@ -39,6 +39,7 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::optional;
+using boost::function;
 
 #define LOG_ERROR_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_ERROR);
 
@@ -434,3 +435,15 @@ Job::resume ()
 		_pause_changed.notify_all ();
 	}
 }
+
+void
+Job::when_finished (boost::signals2::connection& connection, function<void()> finished)
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
+		finished ();
+	} else {
+		connection = Finished.connect (finished);
+	}
+}
+

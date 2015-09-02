@@ -56,7 +56,7 @@ private:
 	void timer ();
 	void calculate_sizes ();
 	void check_play_state ();
-	void active_jobs_changed (bool);
+	void active_jobs_changed (boost::optional<std::string>);
 	void back_clicked ();
 	void forward_clicked ();
 	void player_changed (bool);

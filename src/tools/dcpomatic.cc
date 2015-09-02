@@ -44,7 +44,6 @@
 #include "lib/signal_manager.h"
 #include "lib/log.h"
 #include "lib/job_manager.h"
-#include "lib/transcode_job.h"
 #include "lib/exceptions.h"
 #include "lib/cinema.h"
 #include "lib/kdm.h"
@@ -606,7 +605,7 @@ private:
 	{
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 		list<shared_ptr<Job> >::iterator i = jobs.begin();
-		while (i != jobs.end() && dynamic_pointer_cast<TranscodeJob> (*i) == 0) {
+		while (i != jobs.end() && (*i)->json_name() != "transcode") {
 			++i;
 		}
 		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();

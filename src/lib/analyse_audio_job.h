@@ -28,6 +28,7 @@
 class AudioBuffers;
 class AudioAnalysis;
 class Playlist;
+class AudioPoint;
 
 /** @class AnalyseAudioJob
  *  @brief A job to analyse the audio of a film and make a note of its
@@ -45,6 +46,10 @@ public:
 	std::string name () const;
 	std::string json_name () const;
 	void run ();
+
+	boost::shared_ptr<const Playlist> playlist () const {
+		return _playlist;
+	}
 
 private:
 	void analyse (boost::shared_ptr<const AudioBuffers>);

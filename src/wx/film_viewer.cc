@@ -54,6 +54,7 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::weak_ptr;
+using boost::optional;
 using dcp::Size;
 
 FilmViewer::FilmViewer (wxWindow* p)
@@ -385,23 +386,12 @@ FilmViewer::update_position_label ()
 }
 
 void
-FilmViewer::active_jobs_changed (bool a)
+FilmViewer::active_jobs_changed (optional<string> j)
 {
-	if (a) {
-		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
-		list<shared_ptr<Job> >::iterator i = jobs.begin ();
-		while (i != jobs.end() && boost::dynamic_pointer_cast<ExamineContentJob> (*i) == 0) {
-			++i;
-		}
-
-		if (i == jobs.end() || (*i)->finished()) {
-			/* no examine content job running, so we're ok to use the viewer */
-			a = false;
-		}
-	}
-
-	_slider->Enable (!a);
-	_play_button->Enable (!a);
+	/* examine content is the only job which stops the viewer working */
+	bool const a = !j || *j != "examine_content";
+	_slider->Enable (a);
+	_play_button->Enable (a);
 }
 
 void

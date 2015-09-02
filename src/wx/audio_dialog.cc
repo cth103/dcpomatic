@@ -133,14 +133,11 @@ AudioDialog::try_to_load_analysis ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	boost::filesystem::path path = film->audio_analysis_path (_playlist);
-
+	boost::filesystem::path const path = film->audio_analysis_path (_playlist);
 	if (!boost::filesystem::exists (path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
-		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
-		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
-		JobManager::instance()->add (job);
+		JobManager::instance()->analyse_audio (film, _playlist, _analysis_finished_connection, bind (&AudioDialog::analysis_finished, this));
 		return;
 	}
 
@@ -148,9 +145,7 @@ AudioDialog::try_to_load_analysis ()
 		_analysis.reset (new AudioAnalysis (path));
 	} catch (xmlpp::exception& e) {
 		/* Probably an old-style analysis file: recreate it */
-		shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, _playlist));
-		_analysis_finished_connection = job->Finished.connect (bind (&AudioDialog::analysis_finished, this));
-		JobManager::instance()->add (job);
+		JobManager::instance()->analyse_audio (film, _playlist, _analysis_finished_connection, bind (&AudioDialog::analysis_finished, this));
 		return;
         }
 

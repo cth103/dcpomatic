@@ -296,6 +296,7 @@ private:
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
+	void audio_analysis_finished ();
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;
@@ -345,6 +346,7 @@ private:
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;
 	std::list<boost::signals2::connection> _job_connections;
+	std::list<boost::signals2::connection> _audio_analysis_connections;
 
 	friend struct paths_test;
 	friend struct film_metadata_test;

@@ -80,6 +80,8 @@ public:
 		return _film;
 	}
 
+	void when_finished (boost::signals2::connection& connection, boost::function<void()> finished);
+
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
 	boost::signals2::signal<void()> Finished;
