@@ -22,10 +22,12 @@
  */
 
 #include "lib/colour_conversion.h"
+#include "lib/film.h"
 #include <dcp/colour_matrix.h>
 #include <dcp/gamma_transfer_function.h>
 #include <libxml++/libxml++.h>
 #include <boost/test/unit_test.hpp>
+#include <boost/foreach.hpp>
 
 using std::cout;
 using boost::shared_ptr;
@@ -96,4 +98,17 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		"  <OutputGamma>2.6</OutputGamma>\n"
 		"</Test>\n"
 		);
+}
+
+/** Test a round trip via the XML representation */
+BOOST_AUTO_TEST_CASE (colour_conversion_test4)
+{
+	BOOST_FOREACH (PresetColourConversion const & i, PresetColourConversion::all ()) {
+		xmlpp::Document out;
+		xmlpp::Element* out_root = out.create_root_node ("Test");
+		i.conversion.as_xml (out_root);
+		shared_ptr<cxml::Document> in (new cxml::Document ("Test"));
+		in->read_string (out.write_to_string ("UTF-8"));
+		BOOST_CHECK (ColourConversion::from_xml (in, Film::current_state_version).get () == i.conversion);
+	}
 }
