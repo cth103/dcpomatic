@@ -234,7 +234,7 @@ def make_spec(filename, version, target):
     print >>f,'/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
 
 def dependencies(target):
-    return (('ffmpeg-cdist', 'bd17594'),
+    return (('ffmpeg-cdist', 'ddd2f8b'),
             ('libdcp', 'v1.2.3'),
             ('libsub', 'v1.1.4'))
 
