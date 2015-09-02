@@ -96,7 +96,8 @@ private:
 	bool _right_done;
 
 	/* XXX: probably should be atomic */
-	bool _terminate;
+	bool _terminate_enqueue;
+	bool _terminate_encoding;
 	/** Mutex for _threads */
 	mutable boost::mutex _threads_mutex;
 	std::list<boost::thread *> _threads;

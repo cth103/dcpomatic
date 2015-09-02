@@ -61,7 +61,8 @@ Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Write
 	, _video_frames_enqueued (0)
 	, _left_done (false)
 	, _right_done (false)
-	, _terminate (false)
+	, _terminate_enqueue (false)
+	, _terminate_encoding (false)
 	, _writer (writer)
 {
 	servers_list_changed ();
@@ -70,6 +71,11 @@ Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Write
 Encoder::~Encoder ()
 {
 	terminate_threads ();
+
+	boost::mutex::scoped_lock lm (_queue_mutex);
+	_terminate_enqueue = true;
+	_full_condition.notify_all ();
+	_empty_condition.notify_all ();
 }
 
 void
@@ -183,13 +189,13 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	/* XXX: discard 3D here if required */
 
 	/* Wait until the queue has gone down a bit */
-	while (_queue.size() >= threads * 2 && !_terminate) {
+	while (_queue.size() >= threads * 2 && !_terminate_enqueue) {
 		LOG_TIMING ("decoder-sleep queue=%1", _queue.size());
 		_full_condition.wait (queue_lock);
 		LOG_TIMING ("decoder-wake queue=%1", _queue.size());
 	}
 
-	if (_terminate) {
+	if (_terminate_enqueue) {
 		return;
 	}
 
@@ -256,7 +262,7 @@ Encoder::terminate_threads ()
 {
 	{
 		boost::mutex::scoped_lock queue_lock (_queue_mutex);
-		_terminate = true;
+		_terminate_encoding = true;
 		_full_condition.notify_all ();
 		_empty_condition.notify_all ();
 	}
@@ -271,7 +277,7 @@ Encoder::terminate_threads ()
 	}
 
 	_threads.clear ();
-	_terminate = false;
+	_terminate_encoding = false;
 }
 
 void
@@ -294,11 +300,11 @@ try
 
 		LOG_TIMING ("encoder-sleep thread=%1", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_queue_mutex);
-		while (_queue.empty () && !_terminate) {
+		while (_queue.empty () && !_terminate_encoding) {
 			_empty_condition.wait (lock);
 		}
 
-		if (_terminate) {
+		if (_terminate_encoding) {
 			return;
 		}
 
