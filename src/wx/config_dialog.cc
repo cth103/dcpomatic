@@ -956,7 +956,7 @@ private:
 		_tms_password = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_password, 1, wxEXPAND);
 
-		_tms_protocol->Append (_("SCP (for AAM)"));
+		_tms_protocol->Append (_("SCP (for AAM and Doremi)"));
 		_tms_protocol->Append (_("FTP (for Dolby)"));
 
 		_tms_protocol->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&TMSPage::tms_protocol_changed, this));
