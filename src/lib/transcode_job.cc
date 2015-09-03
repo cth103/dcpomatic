@@ -100,7 +100,9 @@ TranscodeJob::status () const
 
 	if (!finished () && !_transcoder->finishing ()) {
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
-		s << "; " << fixed << setprecision (1) << fps << " " << _("fps");
+		s << "; " << _transcoder->video_frames_out() << "/"
+		  << _film->length().frames_round (_film->video_frame_rate ()) << " " << _("frames") << "; "
+		  << fixed << setprecision (1) << fps << " " << _("fps");
 	}
 
 	return s.str ();

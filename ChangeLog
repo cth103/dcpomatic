@@ -1,5 +1,8 @@
 2015-09-03  c.hetherington  <cth@carlh.net>
 
+	* Add frame counter to progress
+	when transcoding (#111).
+
 	* Add button to export certificates
 	from the configuration (#668).
 
