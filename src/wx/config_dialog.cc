@@ -650,6 +650,8 @@ public:
 			s->Add (_add_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			_remove_certificate = new wxButton (this, wxID_ANY, _("Remove"));
 			s->Add (_remove_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+			_export_certificate = new wxButton (this, wxID_ANY, _("Export"));
+			s->Add (_export_certificate, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			certificates_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
@@ -675,6 +677,7 @@ public:
 
 		_add_certificate->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::add_certificate, this));
 		_remove_certificate->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remove_certificate, this));
+		_export_certificate->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::export_certificate, this));
 		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&CertificateChainEditor::update_sensitivity, this));
 		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&CertificateChainEditor::update_sensitivity, this));
 		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remake_certificates, this));
@@ -731,6 +734,37 @@ private:
 		_set (_chain);
 
 		update_sensitivity ();
+	}
+
+	void export_certificate ()
+	{
+		int i = _certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (i == -1) {
+			return;
+		}
+
+		wxFileDialog* d = new wxFileDialog (
+			this, _("Select Certificate File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+			);
+
+		dcp::CertificateChain::List all = _chain->root_to_leaf ();
+		dcp::CertificateChain::List::iterator j = all.begin ();
+		for (int k = 0; k < i; ++k) {
+			++j;
+		}
+
+		if (d->ShowModal () == wxID_OK) {
+			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
+			if (!f) {
+				throw OpenFileError (wx_to_std (d->GetPath ()));
+			}
+
+			string const s = j->certificate (true);
+			fwrite (s.c_str(), 1, s.length(), f);
+			fclose (f);
+		}
+		d->Destroy ();
 	}
 
 	void update_certificate_list ()
@@ -800,6 +834,7 @@ private:
 	void update_sensitivity ()
 	{
 		_remove_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
+		_export_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
 	}
 
 	void update_private_key ()
@@ -835,6 +870,7 @@ private:
 
 	wxListCtrl* _certificates;
 	wxButton* _add_certificate;
+	wxButton* _export_certificate;
 	wxButton* _remove_certificate;
 	wxButton* _remake_certificates;
 	wxStaticText* _private_key;

@@ -1,5 +1,8 @@
 2015-09-03  c.hetherington  <cth@carlh.net>
 
+	* Add button to export certificates
+	from the configuration (#668).
+
 	* Add option to always analyse audio
 	and put the peak value into the audio
 	tab so it's easy to see (#673).
