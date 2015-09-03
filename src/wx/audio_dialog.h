@@ -42,7 +42,6 @@ private:
 	void try_to_load_analysis ();
 	void analysis_finished ();
 	void setup_peak_time ();
-	float gain_correction ();
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;

@@ -53,7 +53,7 @@ public:
 		);
 
 	boost::signals2::signal<void (boost::weak_ptr<Job>)> JobAdded;
-	boost::signals2::signal<void (boost::optional<std::string>)> ActiveJobsChanged;
+	boost::signals2::signal<void (boost::optional<std::string>, boost::optional<std::string>)> ActiveJobsChanged;
 
 	static JobManager* instance ();
 	static void drop ();

@@ -31,6 +31,8 @@ namespace xmlpp {
 	class Element;
 }
 
+class Playlist;
+
 class AudioAnalysis : public boost::noncopyable
 {
 public:
@@ -64,6 +66,8 @@ public:
 	}
 
 	void write (boost::filesystem::path);
+
+	float gain_correction (boost::shared_ptr<const Playlist> playlist);
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;

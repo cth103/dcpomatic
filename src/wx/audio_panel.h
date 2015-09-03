@@ -43,10 +43,13 @@ private:
 	void gain_calculate_button_clicked ();
 	void mapping_changed (AudioMapping);
 	void setup_description ();
+	void setup_peak ();
+	void active_jobs_changed (boost::optional<std::string>);
 
 	wxButton* _show;
 	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;
+	wxStaticText* _peak;
 	ContentSpinCtrl<AudioContent>* _delay;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;

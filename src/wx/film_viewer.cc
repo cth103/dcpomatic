@@ -114,7 +114,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	set_film (shared_ptr<Film> ());
 
 	JobManager::instance()->ActiveJobsChanged.connect (
-		bind (&FilmViewer::active_jobs_changed, this, _1)
+		bind (&FilmViewer::active_jobs_changed, this, _2)
 		);
 
 	setup_sensitivity ();

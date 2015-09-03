@@ -21,6 +21,8 @@
 #include "cross.h"
 #include "util.h"
 #include "raw_convert.h"
+#include "playlist.h"
+#include "audio_content.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
@@ -38,6 +40,7 @@ using std::cout;
 using std::max;
 using std::list;
 using boost::shared_ptr;
+using boost::dynamic_pointer_cast;
 
 AudioAnalysis::AudioAnalysis (int channels)
 {
@@ -114,4 +117,20 @@ AudioAnalysis::write (boost::filesystem::path filename)
 	}
 
 	doc->write_to_file_formatted (filename.string ());
+}
+
+float
+AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
+{
+	if (playlist->content().size() == 1 && analysis_gain ()) {
+		/* In this case we know that the analysis was of a single piece of content and
+		   we know that content's gain when the analysis was run.  Hence we can work out
+		   what correction is now needed to make it look `right'.
+		*/
+		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (playlist->content().front ());
+		DCPOMATIC_ASSERT (ac);
+		return ac->audio_gain() - analysis_gain().get ();
+	}
+
+	return 0.0f;
 }

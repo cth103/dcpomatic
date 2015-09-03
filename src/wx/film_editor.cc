@@ -53,7 +53,7 @@ FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
 
 	JobManager::instance()->ActiveJobsChanged.connect (
-		bind (&FilmEditor::active_jobs_changed, this, _1)
+		bind (&FilmEditor::active_jobs_changed, this, _2)
 		);
 
 	set_film (shared_ptr<Film> ());

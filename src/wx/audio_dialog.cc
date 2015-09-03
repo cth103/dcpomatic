@@ -150,7 +150,7 @@ AudioDialog::try_to_load_analysis ()
         }
 
 	_plot->set_analysis (_analysis);
-	_plot->set_gain_correction (gain_correction ());
+	_plot->set_gain_correction (_analysis->gain_correction (_playlist));
 	setup_peak_time ();
 
 	/* Set up some defaults if no check boxes are checked */
@@ -220,7 +220,7 @@ AudioDialog::content_changed (int p)
 			/* We can use a short-cut to render the effect of this
 			   change, rather than recalculating everything.
 			*/
-			_plot->set_gain_correction (gain_correction ());
+			_plot->set_gain_correction (_analysis->gain_correction (_playlist));
 			setup_peak_time ();
 		} else {
 			try_to_load_analysis ();
@@ -259,7 +259,7 @@ AudioDialog::setup_peak_time ()
 		return;
 	}
 
-	float const peak_dB = 20 * log10 (_analysis->peak().get()) + gain_correction ();
+	float const peak_dB = 20 * log10 (_analysis->peak().get()) + _analysis->gain_correction (_playlist);
 
 	_peak_time->SetLabel (
 		wxString::Format (
@@ -282,23 +282,4 @@ AudioDialog::Show (bool show)
 	bool const r = wxDialog::Show (show);
 	try_to_load_analysis ();
 	return r;
-}
-
-/** @return gain correction in dB required to be added to raw gain values to render
- *  the dialog correctly.
- */
-float
-AudioDialog::gain_correction ()
-{
-	if (_playlist->content().size() == 1 && _analysis->analysis_gain ()) {
-		/* In this case we know that the analysis was of a single piece of content and
-		   we know that content's gain when the analysis was run.  Hence we can work out
-		   what correction is now needed to make it look `right'.
-		*/
-		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (_playlist->content().front ());
-		DCPOMATIC_ASSERT (ac);
-		return ac->audio_gain() - _analysis->analysis_gain().get ();
-	}
-
-	return 0.0f;
 }

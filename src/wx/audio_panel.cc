@@ -17,15 +17,16 @@
 
 */
 
-#include "lib/config.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/cinema_sound_processor.h"
 #include "audio_panel.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
 #include "gain_calculator_dialog.h"
 #include "content_panel.h"
 #include "audio_dialog.h"
+#include "lib/config.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/cinema_sound_processor.h"
+#include "lib/job_manager.h"
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
@@ -38,6 +39,7 @@ using std::pair;
 using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 using boost::shared_ptr;
+using boost::optional;
 
 AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
@@ -48,9 +50,15 @@ AudioPanel::AudioPanel (ContentPanel* p)
 
 	int r = 0;
 
-	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
-	grid->Add (_show, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
+		s->Add (_show);
+		_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+		s->Add (_peak, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+	}
 
 	add_label_to_grid_bag_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
@@ -102,6 +110,8 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
+
+	JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1));
 }
 
 AudioPanel::~AudioPanel ()
@@ -119,6 +129,7 @@ AudioPanel::film_changed (Film::Property property)
 	case Film::AUDIO_CHANNELS:
 	case Film::AUDIO_PROCESSOR:
 		_mapping->set_output_channels (_parent->film()->audio_output_names ());
+		setup_peak ();
 		break;
 	case Film::VIDEO_FRAME_RATE:
 		setup_description ();
@@ -140,7 +151,10 @@ AudioPanel::film_content_changed (int property)
 			_mapping->set (AudioMapping ());
 		}
 		setup_description ();
+		setup_peak ();
 		_sizer->Layout ();
+	} else if (property == AudioContentProperty::AUDIO_GAIN) {
+		setup_peak ();
 	}
 }
 
@@ -220,4 +234,48 @@ AudioPanel::show_clicked ()
 
 	_audio_dialog = new AudioDialog (this, _parent->film (), ac.front ());
 	_audio_dialog->Show ();
+}
+
+void
+AudioPanel::setup_peak ()
+{
+	AudioContentList sel = _parent->selected_audio ();
+	bool alert = false;
+
+	if (sel.size() != 1) {
+		_peak->SetLabel (wxT (""));
+	} else {
+		shared_ptr<Playlist> playlist (new Playlist);
+		playlist->add (sel.front ());
+		try {
+			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
+			if (analysis->peak ()) {
+				float const peak_dB = 20 * log10 (analysis->peak().get()) + analysis->gain_correction (playlist);
+				if (peak_dB > -3) {
+					alert = true;
+				}
+				_peak->SetLabel (wxString::Format (_("Peak: %.2fdB"), peak_dB));
+			} else {
+				_peak->SetLabel (_("Peak: unknown"));
+			}
+		} catch (...) {
+			_peak->SetLabel (_("Peak: unknown"));
+		}
+	}
+
+	static wxColour normal = _peak->GetForegroundColour ();
+
+	if (alert) {
+		_peak->SetForegroundColour (wxColour (255, 0, 0));
+	} else {
+		_peak->SetForegroundColour (normal);
+	}
+}
+
+void
+AudioPanel::active_jobs_changed (optional<string> j)
+{
+	if (j && *j == "analyse_audio") {
+		setup_peak ();
+	}
 }

@@ -146,8 +146,8 @@ JobManager::scheduler ()
 		}
 
 		if (active_job != _last_active_job) {
+			emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, active_job));
 			_last_active_job = active_job;
-			emit (boost::bind (boost::ref (ActiveJobsChanged), active_job));
 		}
 
 		dcpomatic_sleep (1);
