@@ -52,6 +52,8 @@ Resampler::Resampler (int in, int out, int channels)
 	av_opt_set_int (_swr_context, "isr", _in_rate, 0);
 	av_opt_set_int (_swr_context, "osr", _out_rate, 0);
 
+	av_opt_set (_swr_context, "resampler", "soxr", 0);
+
 	swr_init (_swr_context);
 }
 
