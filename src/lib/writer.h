@@ -116,7 +116,6 @@ private:
 	void thread ();
 	void terminate_thread (bool);
 	void check_existing_picture_asset ();
-	bool check_existing_picture_asset_frame (FILE *, int, Eyes);
 	bool have_sequenced_image_at_queue_head ();
 	void write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (int frame, Eyes eyes) const;
@@ -169,4 +168,6 @@ private:
 	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
+
+	static int const _info_size;
 };

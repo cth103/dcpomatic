@@ -55,6 +55,7 @@
 #include "i18n.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
 #define LOG_DEBUG_ENCODE(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_DEBUG_ENCODE);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 #define LOG_WARNING_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_WARNING);
@@ -72,6 +73,8 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+
+int const Writer::_info_size = 48;
 
 Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	: _film (film)
@@ -636,77 +639,73 @@ Writer::finish ()
 		);
 }
 
-bool
-Writer::check_existing_picture_asset_frame (FILE* asset, int f, Eyes eyes)
-{
-	/* Read the frame info as written */
-	FILE* file = fopen_boost (_film->info_file (), "rb");
-	if (!file) {
-		LOG_GENERAL ("Existing frame %1 has no info file", f);
-		return false;
-	}
-
-	dcp::FrameInfo info = read_frame_info (file, f, eyes);
-	fclose (file);
-	if (info.size == 0) {
-		LOG_GENERAL ("Existing frame %1 has no info file", f);
-		return false;
-	}
-
-	/* Read the data from the asset and hash it */
-	dcpomatic_fseek (asset, info.offset, SEEK_SET);
-	Data data (info.size);
-	size_t const read = fread (data.data().get(), 1, data.size(), asset);
-	if (read != static_cast<size_t> (data.size ())) {
-		LOG_GENERAL ("Existing frame %1 is incomplete", f);
-		return false;
-	}
-
-	MD5Digester digester;
-	digester.add (data.data().get(), data.size());
-	if (digester.get() != info.hash) {
-		LOG_GENERAL ("Existing frame %1 failed hash check", f);
-		return false;
-	}
-
-	return true;
-}
-
 void
 Writer::check_existing_picture_asset ()
 {
 	/* Try to open the existing asset */
-	FILE* asset = fopen_boost (_picture_asset->file(), "rb");
-	if (!asset) {
+	FILE* asset_file = fopen_boost (_picture_asset->file(), "rb");
+	if (!asset_file) {
 		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file().string(), errno);
 		return;
 	}
 
-	while (true) {
+	/* Offset of the last dcp::FrameInfo in the info file */
+	int const n = (boost::filesystem::file_size (_film->info_file ()) / _info_size) - 1;
 
-		shared_ptr<Job> job = _job.lock ();
-		DCPOMATIC_ASSERT (job);
+	FILE* info_file = fopen_boost (_film->info_file (), "rb");
+	if (!info_file) {
+		LOG_GENERAL_NC ("Could not open film info file");
+		fclose (asset_file);
+		return;
+	}
 
-		job->set_progress_unknown ();
+	if (_film->three_d ()) {
+		/* Start looking at the last left frame */
+		_first_nonexistant_frame = n / 2;
+	} else {
+		_first_nonexistant_frame = n;
+	}
 
-		if (_film->three_d ()) {
-			if (!check_existing_picture_asset_frame (asset, _first_nonexistant_frame, EYES_LEFT)) {
-				break;
-			}
-			if (!check_existing_picture_asset_frame (asset, _first_nonexistant_frame, EYES_RIGHT)) {
-				break;
-			}
+	bool ok = false;
+
+	while (!ok) {
+		/* Read the data from the info file; for 3D we just check the left
+		   frames until we find a good one.
+		*/
+		dcp::FrameInfo info = read_frame_info (info_file, _first_nonexistant_frame, _film->three_d () ? EYES_LEFT : EYES_BOTH);
+
+		ok = true;
+
+		/* Read the data from the asset and hash it */
+		dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
+		Data data (info.size);
+		size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
+		if (read != static_cast<size_t> (data.size ())) {
+			LOG_GENERAL ("Existing frame %1 is incomplete", _first_nonexistant_frame);
+			ok = false;
 		} else {
-			if (!check_existing_picture_asset_frame (asset, _first_nonexistant_frame, EYES_BOTH)) {
-				break;
+			MD5Digester digester;
+			digester.add (data.data().get(), data.size());
+			if (digester.get() != info.hash) {
+				LOG_GENERAL ("Existing frame %1 failed hash check", _first_nonexistant_frame);
+				ok = false;
 			}
 		}
 
-		LOG_DEBUG_ENCODE ("Have existing frame %1", _first_nonexistant_frame);
+		if (!ok) {
+			--_first_nonexistant_frame;
+		}
+	}
+
+	if (!_film->three_d ()) {
+		/* If we are doing 3D we might have found a good L frame with no R, so only
+		   do this if we're in 2D and we've just found a good B(oth) frame.
+		*/
 		++_first_nonexistant_frame;
 	}
 
-	fclose (asset);
+	fclose (asset_file);
+	fclose (info_file);
 }
 
 /** @param frame Frame index.
@@ -788,15 +787,13 @@ Writer::set_encoder_threads (int threads)
 long
 Writer::frame_info_position (int frame, Eyes eyes) const
 {
-	static int const info_size = 48;
-
 	switch (eyes) {
 	case EYES_BOTH:
-		return frame * info_size;
+		return frame * _info_size;
 	case EYES_LEFT:
-		return frame * info_size * 2;
+		return frame * _info_size * 2;
 	case EYES_RIGHT:
-		return frame * info_size * 2 + info_size;
+		return frame * _info_size * 2 + _info_size;
 	default:
 		DCPOMATIC_ASSERT (false);
 	}

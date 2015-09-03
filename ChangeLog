@@ -1,5 +1,12 @@
 2015-09-03  c.hetherington  <cth@carlh.net>
 
+	* Quicker, though slightly less safe,
+	check for existing picture data; go back
+	from the last frame written until we
+	find a good one rather than going
+	through from the beginning until we find
+	a bad one (#519, #504).
+
 	* Add frame counter to progress
 	when transcoding (#111).
 

@@ -21,13 +21,15 @@
  *  @brief Test recovery of a DCP transcode after a crash.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <dcp/stereo_picture_asset.h>
+#include "test.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
-#include "test.h"
+#include <dcp/mono_picture_asset.h>
+#include <dcp/stereo_picture_asset.h>
+#include <boost/test/unit_test.hpp>
 
 using std::cout;
 using std::string;
@@ -41,9 +43,42 @@ note (dcp::NoteType t, string n)
 	}
 }
 
-BOOST_AUTO_TEST_CASE (recover_test)
+BOOST_AUTO_TEST_CASE (recover_test_2d)
 {
-	shared_ptr<Film> film = new_test_film ("recover_test");
+	shared_ptr<Film> film = new_test_film ("recover_test_2d");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_name ("recover_test");
+
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	boost::filesystem::path const video = "build/test/recover_test_2d/video/185_2K_d2b23c22cff43b0247c7108dcd32323c_24_100000000_P_S.mxf";
+
+	boost::filesystem::copy_file (
+		video,
+		"build/test/recover_test_2d/original.mxf"
+		);
+
+	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d/original.mxf"));
+	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
+
+	dcp::EqualityOptions eq;
+	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
+}
+
+BOOST_AUTO_TEST_CASE (recover_test_3d)
+{
+	shared_ptr<Film> film = new_test_film ("recover_test_3d");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
@@ -57,11 +92,11 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	boost::filesystem::path const video = "build/test/recover_test/video/185_2K_961f053444e90c5ddbf978eb0ebfa772_24_100000000_P_S_3D.mxf";
+	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_961f053444e90c5ddbf978eb0ebfa772_24_100000000_P_S_3D.mxf";
 
 	boost::filesystem::copy_file (
 		video,
-		"build/test/recover_test/original.mxf"
+		"build/test/recover_test_3d/original.mxf"
 		);
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
@@ -69,7 +104,7 @@ BOOST_AUTO_TEST_CASE (recover_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<dcp::StereoPictureAsset> A (new dcp::StereoPictureAsset ("build/test/recover_test/original.mxf"));
+	shared_ptr<dcp::StereoPictureAsset> A (new dcp::StereoPictureAsset ("build/test/recover_test_3d/original.mxf"));
 	shared_ptr<dcp::StereoPictureAsset> B (new dcp::StereoPictureAsset (video));
 
 	dcp::EqualityOptions eq;
