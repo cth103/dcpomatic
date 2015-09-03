@@ -243,8 +243,8 @@ def dependencies(target):
         ffmpeg_options = { 'shared': False }
     else:
         ffmpeg_options = {}
-    
-    return (('ffmpeg-cdist', '2e977e1', ffmpeg_options),
+
+    return (('ffmpeg-cdist', 'fd7b71b', ffmpeg_options),
             ('libdcp', 'v1.2.3'),
             ('libsub', 'v1.1.4'))
 
