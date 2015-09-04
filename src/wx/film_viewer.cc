@@ -149,6 +149,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	   in the preview.
 	*/
 	_player->set_always_burn_subtitles (true);
+	_player->set_ignore_audio ();
 
 	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 

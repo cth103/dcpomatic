@@ -32,6 +32,7 @@ using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content)
 	: _audio_content (content)
+	, _ignore_audio (false)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->audio_streams ()) {
 		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (_audio_content, i, this));
@@ -47,6 +48,10 @@ AudioDecoder::get_audio (AudioStreamPtr stream, Frame frame, Frame length, bool 
 void
 AudioDecoder::audio (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
 {
+	if (_ignore_audio) {
+		return;
+	}
+
 	if (_streams.find (stream) == _streams.end ()) {
 
 		/* This method can be called with an unknown stream during the following sequence:
@@ -87,4 +92,11 @@ AudioDecoder::seek (ContentTime t, bool accurate)
 	for (map<AudioStreamPtr, shared_ptr<AudioDecoderStream> >::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
 		i->second->seek (t, accurate);
 	}
+}
+
+/** Set this player never to produce any audio data */
+void
+AudioDecoder::set_ignore_audio ()
+{
+	_ignore_audio = true;
 }

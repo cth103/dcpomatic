@@ -53,6 +53,8 @@ public:
 	 */
 	ContentAudio get_audio (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
 
+	void set_ignore_audio ();
+
 protected:
 	void audio (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
@@ -62,6 +64,7 @@ private:
 	boost::shared_ptr<const AudioContent> _audio_content;
 	/** An AudioDecoderStream object to manage each stream in _audio_content */
 	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
+	bool _ignore_audio;
 };
 
 #endif

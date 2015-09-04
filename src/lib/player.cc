@@ -74,6 +74,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _playlist (playlist)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
+	, _ignore_audio (false)
 	, _always_burn_subtitles (false)
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
@@ -178,6 +179,11 @@ Player::setup_pieces ()
 		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
 		if (vd && _ignore_video) {
 			vd->set_ignore_video ();
+		}
+
+		shared_ptr<AudioDecoder> ad = dynamic_pointer_cast<AudioDecoder> (decoder);
+		if (ad && _ignore_audio) {
+			ad->set_ignore_audio ();
 		}
 
 		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc.get ())));
@@ -650,6 +656,13 @@ void
 Player::set_ignore_video ()
 {
 	_ignore_video = true;
+}
+
+/** Set this player never to produce any audio data */
+void
+Player::set_ignore_audio ()
+{
+	_ignore_audio = true;
 }
 
 /** Set whether or not this player should always burn text subtitles into the image,
