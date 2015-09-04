@@ -44,7 +44,8 @@ deb_depends['12.04'] = {'libc6': '2.15',
                         'libxmlsec1-openssl': '1.2.14-1.2build1',
                         'libboost-date-time1.48.0': '1.48.0-3',
                         'libcurl3': '7.22.0-3ubuntu4',
-                        'libzip2': '0.10-1ubuntu1'}
+                        'libzip2': '0.10-1ubuntu1',
+                        'libsamplerate0': '0.1.8-4'}
 
 deb_depends['14.04'] = {'libc6': '2.19-0ubuntu6',
                         'libssh-4': '0.6.1-0ubuntu3',
@@ -60,7 +61,7 @@ deb_depends['14.04'] = {'libc6': '2.19-0ubuntu6',
                         'libboost-date-time1.54.0': '1.54.0-4ubuntu3',
                         'libcurl3': '7.35.0-1ubuntu2',
                         'libzip2': '0.10.1-1.2',
-                        'libsoxr0': '0.1.1-1'}
+                        'libsamplerate0': '0.1.8-7'}
 
 deb_depends['15.04'] = {'libc6': '2.21-0ubuntu4',
                         'libssh-4': '0.6.3-3ubuntu3',
@@ -77,7 +78,7 @@ deb_depends['15.04'] = {'libc6': '2.21-0ubuntu4',
                         'libcurl3': '7.38.0-3ubuntu2',
                         'libzip2': '0.11.2-1.2',
                         'libwxgtk3.0-0': '3.0.2-1',
-                        'libsoxr0': '0.1.1-1'}
+                        'libsamplerate0': '0.1.8-8'}
 
 deb_depends['7'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
@@ -94,7 +95,8 @@ deb_depends['7'] = {'libc6': '2.13',
                     'libcurl3': '7.26.0',
                     'libzip2': '0.10.1',
                     'libcairomm-1.0-1': '1.10.0-1',
-                    'libpangomm-1.4-1': '2.28.4-1'}
+                    'libpangomm-1.4-1': '2.28.4-1',
+                    'libsamplerate0': '0.1.8-5'}
 
 deb_depends['8'] = {'libc6': '2.19-18',
                     'libssh-4': '0.6.3-4',
@@ -113,7 +115,7 @@ deb_depends['8'] = {'libc6': '2.19-18',
                     'libwxgtk3.0-0': '3.0.2',
                     'libxcb-xfixes0': '1.10',
                     'libxcb-shape0': '1.10',
-                    'libsoxr0': '0.1.1-1'}
+                    'libsamplerate0': '0.1.8-8'}
 
 deb_depends['unstable'] = {'libc6': '2.13',
                     'libssh-4': '0.5.4',
@@ -129,8 +131,7 @@ deb_depends['unstable'] = {'libc6': '2.13',
                     'libxmlsec1-openssl': '1.2.18',
                     'libcurl3': '7.26.0',
                     'libzip2': '0.10.1',
-                    'libsoxr0': '0.1.1-1'}
-
+                    'libsamplerate0': '0.1.8-8'}
 
 def packages(name, packages, f):
     s = '%s: ' % name
