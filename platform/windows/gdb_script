@@ -1,0 +1,9 @@
+catch throw
+commands
+thread apply all bt
+thread apply all continue
+end
+set pagination off
+run
+thread apply all bt
+quit
