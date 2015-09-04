@@ -1,5 +1,8 @@
 2015-09-04  Carl Hetherington  <cth@carlh.net>
 
+	* Fix audio mapping view changing size
+	on first click.
+
 	* Version 2.1.52 released.
 
 2015-09-03  Carl Hetherington  <cth@carlh.net>

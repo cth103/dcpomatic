@@ -135,6 +135,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
 	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
 	_grid->GetGridWindow()->Bind (wxEVT_MOTION, boost::bind (&AudioMappingView::mouse_moved, this, _1));
+	Bind (wxEVT_SIZE, boost::bind (&AudioMappingView::sized, this, _1));
 
 	_menu = new wxMenu;
 	_menu->Append (ID_off, _("Off"));
@@ -323,4 +324,11 @@ AudioMappingView::mouse_moved (wxMouseEvent& ev)
 	}
 
         ev.Skip ();
+}
+
+void
+AudioMappingView::sized (wxSizeEvent& ev)
+{
+	_grid->AutoSize ();
+	ev.Skip ();
 }

@@ -59,6 +59,7 @@ private:
 	void mouse_moved (wxMouseEvent &);
 	void update_cells ();
 	void map_values_changed ();
+	void sized (wxSizeEvent &);
 
 	void off ();
 	void full ();
