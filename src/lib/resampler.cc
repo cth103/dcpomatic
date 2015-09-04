@@ -17,14 +17,12 @@
 
 */
 
-extern "C" {
-#include "libavutil/channel_layout.h"
-#include "libavutil/opt.h"
-}
 #include "resampler.h"
 #include "audio_buffers.h"
 #include "exceptions.h"
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
+#include <samplerate.h>
 
 #include "i18n.h"
 
@@ -38,56 +36,84 @@ Resampler::Resampler (int in, int out, int channels)
 	, _out_rate (out)
 	, _channels (channels)
 {
-	_swr_context = swr_alloc ();
-	if (!_swr_context) {
-		throw StringError (N_("could not allocate resampler contexct"));
-	}
-
-	/* Sample formats */
-	av_opt_set_int (_swr_context, "isf", AV_SAMPLE_FMT_FLTP, 0);
-	av_opt_set_int (_swr_context, "osf", AV_SAMPLE_FMT_FLTP, 0);
-
-	/* Channel counts */
-	av_opt_set_int (_swr_context, "ich", _channels, 0);
-	av_opt_set_int (_swr_context, "och", _channels, 0);
-
-	/* Sample rates */
-	av_opt_set_int (_swr_context, "isr", _in_rate, 0);
-	av_opt_set_int (_swr_context, "osr", _out_rate, 0);
-
-	av_opt_set (_swr_context, "resampler", "soxr", 0);
-
-	int const r = swr_init (_swr_context);
-	if (r) {
-		char buf[256];
-		av_strerror (r, buf, sizeof(buf));
-		throw StringError (String::compose (N_ ("could not initialise sample-rate converter (%1)"), r));
+	int error;
+	_src = src_new (SRC_SINC_BEST_QUALITY, _channels, &error);
+	if (!_src) {
+		throw StringError (String::compose (N_("could not create sample-rate converter (%1)"), error));
 	}
 }
 
 Resampler::~Resampler ()
 {
-	swr_free (&_swr_context);
+	src_delete (_src);
 }
 
 shared_ptr<const AudioBuffers>
 Resampler::run (shared_ptr<const AudioBuffers> in)
 {
-	/* Compute the resampled frames count and add 32 for luck */
-	int const max_resampled_frames = ceil ((double) in->frames() * _out_rate / _in_rate) + 32;
-	shared_ptr<AudioBuffers> resampled (new AudioBuffers (_channels, max_resampled_frames));
+	int in_frames = in->frames ();
+	int in_offset = 0;
+	int out_offset = 0;
+	shared_ptr<AudioBuffers> resampled (new AudioBuffers (_channels, 0));
 
-	int const resampled_frames = swr_convert (
-		_swr_context, (uint8_t **) resampled->data(), max_resampled_frames, (uint8_t const **) in->data(), in->frames()
-		);
+	while (in_frames > 0) {
 
-	if (resampled_frames < 0) {
-		char buf[256];
-		av_strerror (resampled_frames, buf, sizeof(buf));
-		throw EncodeError (String::compose (_("could not run sample-rate converter for %1 samples (%2) (%3)"), in->frames(), resampled_frames, buf));
+		/* Compute the resampled frames count and add 32 for luck */
+		int const max_resampled_frames = ceil ((double) in_frames * _out_rate / _in_rate) + 32;
+
+		SRC_DATA data;
+		data.data_in = new float[in_frames * _channels];
+
+		{
+			float** p = in->data ();
+			float* q = data.data_in;
+			for (int i = 0; i < in_frames; ++i) {
+				for (int j = 0; j < _channels; ++j) {
+					*q++ = p[j][in_offset + i];
+				}
+			}
+		}
+
+		data.input_frames = in_frames;
+
+		data.data_out = new float[max_resampled_frames * _channels];
+		data.output_frames = max_resampled_frames;
+
+		data.end_of_input = 0;
+		data.src_ratio = double (_out_rate) / _in_rate;
+
+		int const r = src_process (_src, &data);
+		if (r) {
+			delete[] data.data_in;
+			delete[] data.data_out;
+			throw EncodeError (String::compose (N_("could not run sample-rate converter (%1)"), src_strerror (r)));
+		}
+
+		if (data.output_frames_gen == 0) {
+			break;
+		}
+
+		resampled->ensure_size (out_offset + data.output_frames_gen);
+		resampled->set_frames (out_offset + data.output_frames_gen);
+
+		{
+			float* p = data.data_out;
+			float** q = resampled->data ();
+			for (int i = 0; i < data.output_frames_gen; ++i) {
+				for (int j = 0; j < _channels; ++j) {
+					q[j][out_offset + i] = *p++;
+				}
+			}
+		}
+
+		in_frames -= data.input_frames_used;
+		in_offset += data.input_frames_used;
+		out_offset += data.output_frames_gen;
+
+		delete[] data.data_in;
+		delete[] data.data_out;
 	}
 
-	resampled->set_frames (resampled_frames);
 	return resampled;
 }
 
@@ -96,25 +122,36 @@ Resampler::flush ()
 {
 	shared_ptr<AudioBuffers> out (new AudioBuffers (_channels, 0));
 	int out_offset = 0;
-	int64_t const pass_size = 256;
-	shared_ptr<AudioBuffers> pass (new AudioBuffers (_channels, 256));
+	int64_t const output_size = 65536;
 
-	while (true) {
-		int const frames = swr_convert (_swr_context, (uint8_t **) pass->data(), pass_size, 0, 0);
+	float dummy[1];
+	float buffer[output_size];
 
-		if (frames < 0) {
-			throw EncodeError (_("could not run sample-rate converter"));
-		}
+	SRC_DATA data;
+	data.data_in = dummy;
+	data.input_frames = 0;
+	data.data_out = buffer;
+	data.output_frames = output_size;
+	data.end_of_input = 1;
+	data.src_ratio = double (_out_rate) / _in_rate;
 
-		if (frames == 0) {
-			break;
-		}
-
-		out->ensure_size (out_offset + frames);
-		out->copy_from (pass.get(), frames, 0, out_offset);
-		out_offset += frames;
-		out->set_frames (out_offset);
+	int const r = src_process (_src, &data);
+	if (r) {
+		throw EncodeError (String::compose (N_("could not run sample-rate converter (%1)"), src_strerror (r)));
 	}
+
+	out->ensure_size (out_offset + data.output_frames_gen);
+
+	float* p = data.data_out;
+	float** q = out->data ();
+	for (int i = 0; i < data.output_frames_gen; ++i) {
+		for (int j = 0; j < _channels; ++j) {
+			q[j][out_offset + i] = *p++;
+		}
+	}
+
+	out_offset += data.output_frames_gen;
+	out->set_frames (out_offset);
 
 	return out;
 }

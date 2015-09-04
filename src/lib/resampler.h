@@ -18,9 +18,7 @@
 */
 
 #include "types.h"
-extern "C" {
-#include <libswresample/swresample.h>
-}
+#include <samplerate.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 
@@ -36,7 +34,7 @@ public:
 	boost::shared_ptr<const AudioBuffers> flush ();
 
 private:
-	SwrContext* _swr_context;
+	SRC_STATE* _src;
 	int _in_rate;
 	int _out_rate;
 	int _channels;

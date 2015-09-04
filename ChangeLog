@@ -1,5 +1,8 @@
 2015-09-04  Carl Hetherington  <cth@carlh.net>
 
+	* Use libsamplerate for resampling instead
+	of FFmpeg / libsoxr.
+
 	* Fix audio mapping view changing size
 	on first click.
 

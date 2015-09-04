@@ -163,6 +163,9 @@ def configure(conf):
     # libsndfile
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
 
+    # libsamplerate
+    conf.check_cfg(package='samplerate', args='--cflags --libs', uselib_store='SAMPLERATE', mandatory=True)
+
     # glib
     conf.check_cfg(package='glib-2.0', args='--cflags --libs', uselib_store='GLIB', mandatory=True)
 
