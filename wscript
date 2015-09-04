@@ -239,6 +239,7 @@ def configure(conf):
     # libxml++
     if conf.options.static_xmlpp:
         conf.env.STLIB_XMLPP = ['xml++-2.6']
+        conf.env.LIB_XMLPP = ['xml2']
     else:
         conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
 
