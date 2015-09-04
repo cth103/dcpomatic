@@ -39,6 +39,9 @@ Resampler::Resampler (int in, int out, int channels)
 	, _channels (channels)
 {
 	_swr_context = swr_alloc ();
+	if (!_swr_context) {
+		throw StringError (N_("could not allocate resampler contexct"));
+	}
 
 	/* Sample formats */
 	av_opt_set_int (_swr_context, "isf", AV_SAMPLE_FMT_FLTP, 0);
@@ -54,7 +57,12 @@ Resampler::Resampler (int in, int out, int channels)
 
 	av_opt_set (_swr_context, "resampler", "soxr", 0);
 
-	swr_init (_swr_context);
+	int const r = swr_init (_swr_context);
+	if (r) {
+		char buf[256];
+		av_strerror (r, buf, sizeof(buf));
+		throw StringError (String::compose (N_ ("could not initialise sample-rate converter (%1)"), r));
+	}
 }
 
 Resampler::~Resampler ()
