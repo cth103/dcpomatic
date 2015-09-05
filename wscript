@@ -197,10 +197,10 @@ def configure(conf):
 
     # libcxml
     if conf.options.static_cxml:
-        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libcxml', atleast_version='0.12.0', args='--cflags', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml']
     else:
-        conf.check_cfg(package='libcxml', atleast_version='0.08', args='--cflags --libs', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libcxml', atleast_version='0.12.0', args='--cflags --libs', uselib_store='CXML', mandatory=True)
 
     # libssh
     if conf.options.static_ssh:
@@ -222,21 +222,21 @@ def configure(conf):
 
     # libdcp
     if conf.options.static_dcp:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.2.0', args='--cflags', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version='1.2.3', args='--cflags', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-libdcp-1.0', 'kumu-libdcp-1.0']
         conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
     else:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.2.0', args='--cflags --libs', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version='1.2.3', args='--cflags --libs', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
     # libsub
     if conf.options.static_sub:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.1.0', args='--cflags', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version='1.1.4', args='--cflags', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
         conf.env.STLIB_SUB = ['sub-1.0']
     else:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.1.0', args='--cflags --libs', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version='1.1.4', args='--cflags --libs', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
     # libxml++
