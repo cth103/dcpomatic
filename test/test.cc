@@ -295,8 +295,6 @@ wait_for_jobs ()
 		dcpomatic_sleep (1);
 	}
 
-	cout << "Waiting for jobs: all finished; errors=" << jm->errors() << ".\n";
-
 	if (jm->errors ()) {
 		int N = 0;
 		for (list<shared_ptr<Job> >::iterator i = jm->_jobs.begin(); i != jm->_jobs.end(); ++i) {
@@ -318,10 +316,7 @@ wait_for_jobs ()
 	signal_manager->ui_idle ();
 
 	if (jm->errors ()) {
-		cout << "Dropping JobManager\n";
 		JobManager::drop ();
-	} else {
-		cout << "Not dropping JobManager\n";
 	}
 }
 
