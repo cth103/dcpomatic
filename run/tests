@@ -17,5 +17,6 @@ elif [ "$1" == "--quiet" ]; then
     shift;
     build/test/unit-tests --catch_system_errors=no $*
 else
-    build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
+#    build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
+    build/test/unit-tests --catch_system_errors=no $*
 fi
