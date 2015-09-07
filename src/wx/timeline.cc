@@ -32,6 +32,7 @@
 #include "lib/subtitle_content.h"
 #include <wx/graphics.h>
 #include <boost/weak_ptr.hpp>
+#include <boost/foreach.hpp>
 #include <list>
 
 using std::list;
@@ -111,19 +112,17 @@ Timeline::recreate_views ()
 	_views.clear ();
 	_views.push_back (_time_axis_view);
 
-	ContentList content = film->content ();
-
-	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-		if (dynamic_pointer_cast<VideoContent> (*i)) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, *i)));
+	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
+		if (dynamic_pointer_cast<VideoContent> (i)) {
+			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, i)));
 		}
 
-		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (*i);
+		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (i);
 		if (ac && !ac->audio_mapping().mapped_output_channels().empty ()) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, *i)));
+			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
 		}
 
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (*i);
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
 		if (sc && sc->has_subtitles ()) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineSubtitleContentView (*this, sc)));
 		}

@@ -17,13 +17,14 @@
 
 */
 
-#include <boost/algorithm/string.hpp>
-#include <curl/curl.h>
+#include "dolby_certificate_dialog.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/internet.h"
 #include "lib/signal_manager.h"
-#include "dolby_certificate_dialog.h"
-#include "wx_util.h"
+#include <curl/curl.h>
+#include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;
@@ -86,10 +87,9 @@ DolbyCertificateDialog::setup_countries ()
 void
 DolbyCertificateDialog::finish_setup_countries ()
 {
-	list<string> const countries = get_dir ("");
 	_country->Clear ();
-	for (list<string>::const_iterator i = countries.begin(); i != countries.end(); ++i) {
-		_country->Append (std_to_wx (*i));
+	BOOST_FOREACH (string i, get_dir ("")) {
+		_country->Append (std_to_wx (i));
 	}
 }
 
@@ -109,10 +109,9 @@ DolbyCertificateDialog::country_selected ()
 void
 DolbyCertificateDialog::finish_country_selected ()
 {
-	list<string> const cinemas = get_dir (wx_to_std (_country->GetStringSelection()));
 	_cinema->Clear ();
-	for (list<string>::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
-		_cinema->Append (std_to_wx (*i));
+	BOOST_FOREACH (string i, get_dir (wx_to_std (_country->GetStringSelection()))) {
+		_cinema->Append (std_to_wx (i));
 	}
 }
 
@@ -133,14 +132,13 @@ void
 DolbyCertificateDialog::finish_cinema_selected ()
 {
 	string const dir = String::compose ("%1/%2", wx_to_std (_country->GetStringSelection()), wx_to_std (_cinema->GetStringSelection()));
-	list<string> const zips = get_dir (dir);
 
 	_serial->Clear ();
-	for (list<string>::const_iterator i = zips.begin(); i != zips.end(); ++i) {
+	BOOST_FOREACH (string i, get_dir (dir)) {
 		vector<string> a;
-		split (a, *i, is_any_of ("-_"));
+		split (a, i, is_any_of ("-_"));
 		if (a.size() >= 4) {
-			_serial->Append (std_to_wx (a[3]), new wxStringClientData (std_to_wx (*i)));
+			_serial->Append (std_to_wx (a[3]), new wxStringClientData (std_to_wx (i)));
 		}
 	}
 }

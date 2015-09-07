@@ -17,14 +17,6 @@
 
 */
 
-#include "lib/audio_content.h"
-#include "lib/subtitle_content.h"
-#include "lib/video_content.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/content_factory.h"
-#include "lib/image_content.h"
-#include "lib/dcp_content.h"
-#include "lib/playlist.h"
 #include "content_panel.h"
 #include "wx_util.h"
 #include "video_panel.h"
@@ -33,10 +25,19 @@
 #include "timing_panel.h"
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
+#include "lib/audio_content.h"
+#include "lib/subtitle_content.h"
+#include "lib/video_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/content_factory.h"
+#include "lib/image_content.h"
+#include "lib/dcp_content.h"
+#include "lib/playlist.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 
 #include "lib/image_filename_sorter.cc"
 
@@ -147,11 +148,10 @@ ContentPanel::selected ()
 VideoContentList
 ContentPanel::selected_video ()
 {
-	ContentList c = selected ();
 	VideoContentList vc;
 
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+		shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (i);
 		if (t) {
 			vc.push_back (t);
 		}
@@ -163,11 +163,10 @@ ContentPanel::selected_video ()
 AudioContentList
 ContentPanel::selected_audio ()
 {
-	ContentList c = selected ();
 	AudioContentList ac;
 
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<AudioContent> t = dynamic_pointer_cast<AudioContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+		shared_ptr<AudioContent> t = dynamic_pointer_cast<AudioContent> (i);
 		if (t) {
 			ac.push_back (t);
 		}
@@ -179,11 +178,10 @@ ContentPanel::selected_audio ()
 SubtitleContentList
 ContentPanel::selected_subtitle ()
 {
-	ContentList c = selected ();
 	SubtitleContentList sc;
 
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<SubtitleContent> t = dynamic_pointer_cast<SubtitleContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+		shared_ptr<SubtitleContent> t = dynamic_pointer_cast<SubtitleContent> (i);
 		if (t) {
 			sc.push_back (t);
 		}
@@ -195,11 +193,10 @@ ContentPanel::selected_subtitle ()
 FFmpegContentList
 ContentPanel::selected_ffmpeg ()
 {
-	ContentList c = selected ();
 	FFmpegContentList sc;
 
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+		shared_ptr<FFmpegContent> t = dynamic_pointer_cast<FFmpegContent> (i);
 		if (t) {
 			sc.push_back (t);
 		}
@@ -219,8 +216,8 @@ ContentPanel::film_changed (Film::Property p)
 		break;
 	}
 
-	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->film_changed (p);
+	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+		i->film_changed (p);
 	}
 }
 
@@ -229,8 +226,8 @@ ContentPanel::selection_changed ()
 {
 	setup_sensitivity ();
 
-	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->content_selection_changed ();
+	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+		i->content_selection_changed ();
 	}
 }
 
@@ -372,8 +369,8 @@ ContentPanel::set_general_sensitivity (bool s)
 	_timeline->Enable (s);
 
 	/* Set the panels in the content notebook */
-	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->Enable (s);
+	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+		i->Enable (s);
 	}
 }
 
@@ -417,8 +414,8 @@ ContentPanel::film_content_changed (int property)
 		setup ();
 	}
 
-	for (list<ContentSubPanel*>::iterator i = _panels.begin(); i != _panels.end(); ++i) {
-		(*i)->film_content_changed (property);
+	BOOST_FOREACH (ContentSubPanel* i, _panels) {
+		i->film_content_changed (property);
 	}
 }
 
@@ -438,10 +435,10 @@ ContentPanel::setup ()
 	}
 
 	vector<string> proposed;
-	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
-               bool const valid = (*i)->paths_valid ();
+	BOOST_FOREACH (shared_ptr<Content> i, content) {
+               bool const valid = i->paths_valid ();
 
-               string s = (*i)->summary ();
+               string s = i->summary ();
                if (!valid) {
                        s = _("MISSING: ") + s;
                }
@@ -463,13 +460,13 @@ ContentPanel::setup ()
 
 	_content->DeleteAllItems ();
 
-	for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
+	BOOST_FOREACH (shared_ptr<Content> i, content) {
 		int const t = _content->GetItemCount ();
-		bool const valid = (*i)->paths_valid ();
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (*i);
+		bool const valid = i->paths_valid ();
+		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i);
 		bool const needs_kdm = dcp && !dcp->can_be_played ();
 
-		string s = (*i)->summary ();
+		string s = i->summary ();
 
 		if (!valid) {
 			s = _("MISSING: ") + s;
@@ -481,7 +478,7 @@ ContentPanel::setup ()
 
 		_content->InsertItem (t, std_to_wx (s));
 
-		if ((*i)->summary() == selected_summary) {
+		if (i->summary() == selected_summary) {
 			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		}
 

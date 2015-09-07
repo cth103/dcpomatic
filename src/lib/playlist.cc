@@ -32,6 +32,7 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -87,8 +88,8 @@ Playlist::maybe_sequence_video ()
 
 	DCPTime next_left;
 	DCPTime next_right;
-	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
 		if (!vc) {
 			continue;
 		}
@@ -112,9 +113,9 @@ Playlist::video_identifier () const
 {
 	string t;
 
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
-		shared_ptr<const SubtitleContent> sc = dynamic_pointer_cast<const SubtitleContent> (*i);
+	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
+		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (i);
+		shared_ptr<const SubtitleContent> sc = dynamic_pointer_cast<const SubtitleContent> (i);
 		if (vc) {
 			t += vc->identifier ();
 		} else if (sc && sc->burn_subtitles ()) {
@@ -131,9 +132,8 @@ Playlist::video_identifier () const
 void
 Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
-	list<cxml::NodePtr> c = node->node_children ("Content");
-	for (list<cxml::NodePtr>::iterator i = c.begin(); i != c.end(); ++i) {
-		_content.push_back (content_factory (film, *i, version, notes));
+	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Content")) {
+		_content.push_back (content_factory (film, i, version, notes));
 	}
 
 	sort (_content.begin(), _content.end(), ContentSorter ());
@@ -145,8 +145,8 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 void
 Playlist::as_xml (xmlpp::Node* node)
 {
-	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		(*i)->as_xml (node->add_child ("Content"));
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		i->as_xml (node->add_child ("Content"));
 	}
 }
 
@@ -178,9 +178,9 @@ Playlist::remove (shared_ptr<Content> c)
 void
 Playlist::remove (ContentList c)
 {
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
+	BOOST_FOREACH (shared_ptr<Content> i, c) {
 		ContentList::iterator j = _content.begin ();
-		while (j != _content.end() && *j != *i) {
+		while (j != _content.end() && *j != i) {
 			++j;
 		}
 
@@ -232,8 +232,8 @@ Playlist::best_dcp_frame_rate () const
 	while (i != candidates.end()) {
 
 		float this_error = 0;
-		for (ContentList::const_iterator j = _content.begin(); j != _content.end(); ++j) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*j);
+		BOOST_FOREACH (shared_ptr<Content> j, _content) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
 			if (!vc) {
 				continue;
 			}
@@ -267,8 +267,8 @@ DCPTime
 Playlist::length () const
 {
 	DCPTime len;
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		len = max (len, (*i)->end());
+	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
+		len = max (len, i->end());
 	}
 
 	return len;
@@ -283,8 +283,8 @@ Playlist::reconnect ()
 
 	_content_connections.clear ();
 
-	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		_content_connections.push_back ((*i)->Changed.connect (bind (&Playlist::content_changed, this, _1, _2, _3)));
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		_content_connections.push_back (i->Changed.connect (bind (&Playlist::content_changed, this, _1, _2, _3)));
 	}
 }
 
@@ -292,9 +292,9 @@ DCPTime
 Playlist::video_end () const
 {
 	DCPTime end;
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		if (dynamic_pointer_cast<const VideoContent> (*i)) {
-			end = max (end, (*i)->end ());
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (dynamic_pointer_cast<const VideoContent> (i)) {
+			end = max (end, i->end ());
 		}
 	}
 
@@ -344,17 +344,17 @@ void
 Playlist::repeat (ContentList c, int n)
 {
 	pair<DCPTime, DCPTime> range (DCPTime::max (), DCPTime ());
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		range.first = min (range.first, (*i)->position ());
-		range.second = max (range.second, (*i)->position ());
-		range.first = min (range.first, (*i)->end ());
-		range.second = max (range.second, (*i)->end ());
+	BOOST_FOREACH (shared_ptr<Content> i, c) {
+		range.first = min (range.first, i->position ());
+		range.second = max (range.second, i->position ());
+		range.first = min (range.first, i->end ());
+		range.second = max (range.second, i->end ());
 	}
 
 	DCPTime pos = range.second;
 	for (int i = 0; i < n; ++i) {
-		for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-			shared_ptr<Content> copy = (*i)->clone ();
+		BOOST_FOREACH (shared_ptr<Content> j, c) {
+			shared_ptr<Content> copy = j->clone ();
 			copy->set_position (pos + copy->position() - range.first);
 			_content.push_back (copy);
 		}

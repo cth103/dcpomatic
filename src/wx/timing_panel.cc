@@ -147,15 +147,13 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 void
 TimingPanel::update_full_length ()
 {
-	ContentList cl = _parent->selected ();
-
 	set<DCPTime> check;
-	for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-		check.insert ((*i)->full_length ());
+	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+		check.insert (i->full_length ());
 	}
 
 	if (check.size() == 1) {
-		_full_length->set (cl.front()->full_length (), _parent->film()->video_frame_rate ());
+		_full_length->set (_parent->selected().front()->full_length (), _parent->film()->video_frame_rate ());
 	} else {
 		_full_length->clear ();
 	}
@@ -164,15 +162,13 @@ TimingPanel::update_full_length ()
 void
 TimingPanel::update_play_length ()
 {
-	ContentList cl = _parent->selected ();
-
 	set<DCPTime> check;
-	for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-		check.insert ((*i)->length_after_trim ());
+	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+		check.insert (i->length_after_trim ());
 	}
 
 	if (check.size() == 1) {
-		_play_length->set (cl.front()->length_after_trim (), _parent->film()->video_frame_rate ());
+		_play_length->set (_parent->selected().front()->length_after_trim (), _parent->film()->video_frame_rate ());
 	} else {
 		_play_length->clear ();
 	}
@@ -181,7 +177,6 @@ TimingPanel::update_play_length ()
 void
 TimingPanel::film_content_changed (int property)
 {
-	ContentList cl = _parent->selected ();
 	int const film_video_frame_rate = _parent->film()->video_frame_rate ();
 
 	/* Here we check to see if we have exactly one different value of various
@@ -191,12 +186,12 @@ TimingPanel::film_content_changed (int property)
 	if (property == ContentProperty::POSITION) {
 
 		set<DCPTime> check;
-		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			check.insert ((*i)->position ());
+		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+			check.insert (i->position ());
 		}
 
 		if (check.size() == 1) {
-			_position->set (cl.front()->position(), film_video_frame_rate);
+			_position->set (_parent->selected().front()->position(), film_video_frame_rate);
 		} else {
 			_position->clear ();
 		}
@@ -212,12 +207,12 @@ TimingPanel::film_content_changed (int property)
 	} else if (property == ContentProperty::TRIM_START) {
 
 		set<ContentTime> check;
-		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			check.insert ((*i)->trim_start ());
+		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+			check.insert (i->trim_start ());
 		}
 
 		if (check.size() == 1) {
-			_trim_start->set (cl.front()->trim_start (), film_video_frame_rate);
+			_trim_start->set (_parent->selected().front()->trim_start (), film_video_frame_rate);
 		} else {
 			_trim_start->clear ();
 		}
@@ -225,12 +220,12 @@ TimingPanel::film_content_changed (int property)
 	} else if (property == ContentProperty::TRIM_END) {
 
 		set<ContentTime> check;
-		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			check.insert ((*i)->trim_end ());
+		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+			check.insert (i->trim_end ());
 		}
 
 		if (check.size() == 1) {
-			_trim_end->set (cl.front()->trim_end (), film_video_frame_rate);
+			_trim_end->set (_parent->selected().front()->trim_end (), film_video_frame_rate);
 		} else {
 			_trim_end->clear ();
 		}
@@ -249,9 +244,9 @@ TimingPanel::film_content_changed (int property)
 
 	if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		set<double> check;
-		shared_ptr<VideoContent> vc;
-		for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-			shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (*i);
+		shared_ptr<const VideoContent> vc;
+		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+			shared_ptr<const VideoContent> t = dynamic_pointer_cast<const VideoContent> (i);
 			if (t) {
 				check.insert (t->video_frame_rate ());
 				vc = t;
@@ -267,8 +262,8 @@ TimingPanel::film_content_changed (int property)
 	}
 
 	bool have_still = false;
-	for (ContentList::const_iterator i = cl.begin (); i != cl.end(); ++i) {
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
+	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+		shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (i);
 		if (ic && ic->still ()) {
 			have_still = true;
 		}
@@ -282,18 +277,16 @@ TimingPanel::film_content_changed (int property)
 void
 TimingPanel::position_changed ()
 {
-	ContentList c = _parent->selected ();
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_position (_position->get (_parent->film()->video_frame_rate ()));
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		i->set_position (_position->get (_parent->film()->video_frame_rate ()));
 	}
 }
 
 void
 TimingPanel::full_length_changed ()
 {
-	ContentList c = _parent->selected ();
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic && ic->still ()) {
 			int const vfr = _parent->film()->video_frame_rate ();
 			ic->set_video_length (_full_length->get (vfr).frames_round (vfr));
@@ -304,9 +297,8 @@ TimingPanel::full_length_changed ()
 void
 TimingPanel::trim_start_changed ()
 {
-	ContentList c = _parent->selected ();
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_trim_start (_trim_start->get (_parent->film()->video_frame_rate ()));
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		i->set_trim_start (_trim_start->get (_parent->film()->video_frame_rate ()));
 	}
 }
 
@@ -314,21 +306,19 @@ TimingPanel::trim_start_changed ()
 void
 TimingPanel::trim_end_changed ()
 {
-	ContentList c = _parent->selected ();
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_trim_end (_trim_end->get (_parent->film()->video_frame_rate ()));
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		i->set_trim_end (_trim_end->get (_parent->film()->video_frame_rate ()));
 	}
 }
 
 void
 TimingPanel::play_length_changed ()
 {
-	ContentList c = _parent->selected ();
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		FrameRateChange const frc = _parent->film()->active_frame_rate_change ((*i)->position ());
-		(*i)->set_trim_end (
-			ContentTime ((*i)->full_length() - _play_length->get (_parent->film()->video_frame_rate()), frc)
-			- (*i)->trim_start ()
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
+		i->set_trim_end (
+			ContentTime (i->full_length() - _play_length->get (_parent->film()->video_frame_rate()), frc)
+			- i->trim_start ()
 			);
 	}
 }
@@ -342,9 +332,8 @@ TimingPanel::video_frame_rate_changed ()
 void
 TimingPanel::set_video_frame_rate ()
 {
-	ContentList c = _parent->selected ();
-	for (ContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
 		if (vc) {
 			vc->set_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
 		}

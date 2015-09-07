@@ -210,10 +210,9 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_right_crop->wrapped()->SetRange (0, 1024);
 	_bottom_crop->wrapped()->SetRange (0, 1024);
 
-	vector<VideoContentScale> scales = VideoContentScale::all ();
 	_scale->wrapped()->Clear ();
-	for (vector<VideoContentScale>::iterator i = scales.begin(); i != scales.end(); ++i) {
-		_scale->wrapped()->Append (std_to_wx (i->name ()));
+	BOOST_FOREACH (VideoContentScale const & i, VideoContentScale::all ()) {
+		_scale->wrapped()->Append (std_to_wx (i.name ()));
 	}
 
 	_frame_type->wrapped()->Append (_("2D"));
@@ -296,8 +295,8 @@ VideoPanel::film_content_changed (int property)
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_IN) {
 		set<Frame> check;
-		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
-			check.insert ((*i)->fade_in ());
+		BOOST_FOREACH (shared_ptr<const VideoContent> i, vc) {
+			check.insert (i->fade_in ());
 		}
 
 		if (check.size() == 1) {
@@ -307,8 +306,8 @@ VideoPanel::film_content_changed (int property)
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_OUT) {
 		set<Frame> check;
-		for (VideoContentList::const_iterator i = vc.begin (); i != vc.end(); ++i) {
-			check.insert ((*i)->fade_out ());
+		BOOST_FOREACH (shared_ptr<const VideoContent> i, vc) {
+			check.insert (i->fade_out ());
 		}
 
 		if (check.size() == 1) {
@@ -423,19 +422,17 @@ VideoPanel::content_selection_changed ()
 void
 VideoPanel::fade_in_changed ()
 {
-	VideoContentList vc = _parent->selected_video ();
-	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
+	BOOST_FOREACH (shared_ptr<VideoContent> i, _parent->selected_video ()) {
 		int const vfr = _parent->film()->video_frame_rate ();
-		(*i)->set_fade_in (_fade_in->get (vfr).frames_round (vfr));
+		i->set_fade_in (_fade_in->get (vfr).frames_round (vfr));
 	}
 }
 
 void
 VideoPanel::fade_out_changed ()
 {
-	VideoContentList vc = _parent->selected_video ();
-	for (VideoContentList::const_iterator i = vc.begin(); i != vc.end(); ++i) {
+	BOOST_FOREACH (shared_ptr<VideoContent> i, _parent->selected_video ()) {
 		int const vfr = _parent->film()->video_frame_rate ();
-		(*i)->set_fade_out (_fade_out->get (vfr).frames_round (vfr));
+		i->set_fade_out (_fade_out->get (vfr).frames_round (vfr));
 	}
 }

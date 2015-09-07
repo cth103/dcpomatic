@@ -184,18 +184,16 @@ SubtitlePanel::film_content_changed (int property)
 void
 SubtitlePanel::use_toggled ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_use_subtitles (_use->GetValue());
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		i->set_use_subtitles (_use->GetValue());
 	}
 }
 
 void
 SubtitlePanel::burn_toggled ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_burn_subtitles (_burn->GetValue());
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		i->set_burn_subtitles (_burn->GetValue());
 	}
 }
 
@@ -267,18 +265,16 @@ SubtitlePanel::stream_changed ()
 void
 SubtitlePanel::x_offset_changed ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_subtitle_x_offset (_x_offset->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		i->set_subtitle_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
 
 void
 SubtitlePanel::y_offset_changed ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_subtitle_y_offset (_y_offset->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		i->set_subtitle_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
 
@@ -294,18 +290,16 @@ SubtitlePanel::x_scale_changed ()
 void
 SubtitlePanel::y_scale_changed ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		i->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
 void
 SubtitlePanel::language_changed ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
-	for (SubtitleContentList::iterator i = c.begin(); i != c.end(); ++i) {
-		(*i)->set_subtitle_language (wx_to_std (_language->GetValue()));
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+		i->set_subtitle_language (wx_to_std (_language->GetValue()));
 	}
 }
 

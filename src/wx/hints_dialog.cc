@@ -109,8 +109,8 @@ HintsDialog::film_changed ()
 
 	int flat_or_narrower = 0;
 	int scope = 0;
-	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+	BOOST_FOREACH (shared_ptr<const Content> i, content) {
+		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (i);
 		if (vc) {
 			Ratio const * r = vc->scale().ratio ();
 			if (r && r->id() == "239") {
@@ -146,8 +146,8 @@ HintsDialog::film_changed ()
 	}
 
 	int vob = 0;
-	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
-		if (boost::algorithm::starts_with ((*i)->path(0).filename().string(), "VTS_")) {
+	BOOST_FOREACH (shared_ptr<const Content> i, content) {
+		if (boost::algorithm::starts_with (i->path(0).filename().string(), "VTS_")) {
 			++vob;
 		}
 	}
@@ -159,8 +159,8 @@ HintsDialog::film_changed ()
 	}
 
 	int three_d = 0;
-	for (ContentList::const_iterator i = content.begin(); i != content.end(); ++i) {
-		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
+	BOOST_FOREACH (shared_ptr<const Content> i, content) {
+		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (i);
 		if (vc && vc->video_frame_type() != VIDEO_FRAME_TYPE_2D) {
 			++three_d;
 		}

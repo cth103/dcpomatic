@@ -24,6 +24,7 @@
 #include "content_sub_panel.h"
 #include "content_widget.h"
 #include "timecode.h"
+#include "lib/video_content_scale.h"
 #include "lib/film.h"
 
 class wxChoice;

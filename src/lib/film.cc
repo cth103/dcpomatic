@@ -558,15 +558,13 @@ Film::isdcf_name (bool if_created_now) const
 		d << "_" << container()->isdcf_name();
 	}
 
-	ContentList cl = content ();
-
 	/* XXX: this uses the first bit of content only */
 
 	/* The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
 		Ratio const * content_ratio = 0;
-		for (ContentList::iterator i = cl.begin(); i != cl.end(); ++i) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (*i);
+		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
 			if (vc) {
 				/* Here's the first piece of video content */
 				if (vc->scale().ratio ()) {
@@ -617,8 +615,8 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	} else {
 		list<int> mapped;
-		for (ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
-			shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (*i);
+		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+			shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (i);
 			if (ac) {
 				list<int> c = ac->audio_mapping().mapped_output_channels ();
 				copy (c.begin(), c.end(), back_inserter (mapped));

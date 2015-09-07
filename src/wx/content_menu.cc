@@ -34,6 +34,7 @@
 #include "lib/ffmpeg_content.h"
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
+#include <boost/foreach.hpp>
 
 using std::cout;
 using std::vector;
@@ -88,8 +89,8 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_repeat->Enable (!_content.empty ());
 
 	int n = 0;
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		if (dynamic_pointer_cast<FFmpegContent> (*i)) {
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (dynamic_pointer_cast<FFmpegContent> (i)) {
 			++n;
 		}
 	}
@@ -140,8 +141,8 @@ void
 ContentMenu::join ()
 {
 	vector<shared_ptr<Content> > fc;
-	for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-		shared_ptr<FFmpegContent> f = dynamic_pointer_cast<FFmpegContent> (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		shared_ptr<FFmpegContent> f = dynamic_pointer_cast<FFmpegContent> (i);
 		if (f) {
 			fc.push_back (f);
 		}
@@ -156,8 +157,8 @@ ContentMenu::join ()
 
 	try {
 		shared_ptr<FFmpegContent> joined (new FFmpegContent (film, fc));
-		for (ContentList::const_iterator i = _content.begin(); i != _content.end(); ++i) {
-			film->remove_content (*i);
+		BOOST_FOREACH (shared_ptr<Content> i, _content) {
+			film->remove_content (i);
 		}
 		film->add_content (joined);
 	} catch (JoinError& e) {
@@ -183,8 +184,8 @@ ContentMenu::remove ()
 		/* Special case: we only remove FFmpegContent if its video view is selected;
 		   if not, and its audio view is selected, we unmap the audio.
 		*/
-		for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-			shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (*i);
+		BOOST_FOREACH (shared_ptr<Content> i, _content) {
+			shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (i);
 			if (!fc) {
 				continue;
 			}
@@ -192,9 +193,9 @@ ContentMenu::remove ()
 			shared_ptr<TimelineVideoContentView> video;
 			shared_ptr<TimelineAudioContentView> audio;
 
-			for (TimelineContentViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-				shared_ptr<TimelineVideoContentView> v = dynamic_pointer_cast<TimelineVideoContentView> (*i);
-				shared_ptr<TimelineAudioContentView> a = dynamic_pointer_cast<TimelineAudioContentView> (*i);
+			BOOST_FOREACH (shared_ptr<TimelineContentView> j, _views) {
+				shared_ptr<TimelineVideoContentView> v = dynamic_pointer_cast<TimelineVideoContentView> (j);
+				shared_ptr<TimelineAudioContentView> a = dynamic_pointer_cast<TimelineAudioContentView> (j);
 				if (v && v->content() == fc) {
 					video = v;
 				} else if (a && a->content() == fc) {
@@ -283,8 +284,8 @@ ContentMenu::re_examine ()
 		return;
 	}
 
-	for (ContentList::iterator i = _content.begin(); i != _content.end(); ++i) {
-		film->examine_content (*i);
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		film->examine_content (i);
 	}
 }
 
