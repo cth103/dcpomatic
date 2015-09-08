@@ -994,6 +994,7 @@ Film::move_content_later (shared_ptr<Content> c)
 	_playlist->move_later (c);
 }
 
+/** @return length of the film from time 0 to the last thing on the playlist */
 DCPTime
 Film::length () const
 {

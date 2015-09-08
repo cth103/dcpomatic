@@ -263,6 +263,7 @@ Playlist::best_dcp_frame_rate () const
 	return best->dcp;
 }
 
+/** @return length of the playlist from time 0 to the last thing on the playlist */
 DCPTime
 Playlist::length () const
 {
@@ -272,6 +273,22 @@ Playlist::length () const
 	}
 
 	return len;
+}
+
+/** @return position of the first thing on the playlist, if it's not empty */
+optional<DCPTime>
+Playlist::start () const
+{
+	if (_content.empty ()) {
+		return optional<DCPTime> ();
+	}
+
+	DCPTime start = DCPTime::max ();
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		start = min (start, i->position ());
+	}
+
+	return start;
 }
 
 void

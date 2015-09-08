@@ -74,7 +74,10 @@ AnalyseAudioJob::run ()
 	player->set_ignore_video ();
 	player->set_fast ();
 
-	int64_t const len = _playlist->length().frames_round (_film->audio_frame_rate());
+	DCPTime const start = _playlist->start().get_value_or (DCPTime ());
+	DCPTime const length = _playlist->length ();
+
+	Frame const len = DCPTime (length - start).frames_round (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);
 
 	delete[] _current;
@@ -91,9 +94,9 @@ AnalyseAudioJob::run ()
 	if (has_any_audio) {
 		_done = 0;
 		DCPTime const block = DCPTime::from_seconds (1.0 / 8);
-		for (DCPTime t; t < _film->length(); t += block) {
+		for (DCPTime t = start; t < length; t += block) {
 			analyse (player->get_audio (t, block, false));
-			set_progress (t.seconds() / _film->length().seconds());
+			set_progress ((t.seconds() - start.seconds()) / (length.seconds() - start.seconds()));
 		}
 	}
 

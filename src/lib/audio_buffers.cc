@@ -31,7 +31,7 @@ using boost::shared_ptr;
  *  @param channels Number of channels.
  *  @param frames Number of frames to reserve space for.
  */
-AudioBuffers::AudioBuffers (int channels, int frames)
+AudioBuffers::AudioBuffers (int channels, int32_t frames)
 {
 	allocate (channels, frames);
 }
@@ -72,7 +72,7 @@ AudioBuffers::~AudioBuffers ()
 }
 
 void
-AudioBuffers::allocate (int channels, int frames)
+AudioBuffers::allocate (int channels, int32_t frames)
 {
 	DCPOMATIC_ASSERT (frames >= 0);
 	DCPOMATIC_ASSERT (channels >= 0);
@@ -120,7 +120,7 @@ AudioBuffers::data (int c) const
  *  @param f Frames; must be less than or equal to the number of allocated frames.
  */
 void
-AudioBuffers::set_frames (int f)
+AudioBuffers::set_frames (int32_t f)
 {
 	DCPOMATIC_ASSERT (f <= _allocated_frames);
 
@@ -156,7 +156,7 @@ AudioBuffers::make_silent (int c)
 }
 
 void
-AudioBuffers::make_silent (int from, int frames)
+AudioBuffers::make_silent (int32_t from, int32_t frames)
 {
 	DCPOMATIC_ASSERT ((from + frames) <= _allocated_frames);
 
@@ -174,7 +174,7 @@ AudioBuffers::make_silent (int from, int frames)
  *  @param write_offset Offset to write to in `to'.
  */
 void
-AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset)
+AudioBuffers::copy_from (AudioBuffers const * from, int32_t frames_to_copy, int32_t read_offset, int32_t write_offset)
 {
 	if (frames_to_copy == 0) {
 		/* Prevent the asserts from firing if there is nothing to do */
@@ -199,7 +199,7 @@ AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read
  */
 
 void
-AudioBuffers::move (int from, int to, int frames)
+AudioBuffers::move (int32_t from, int32_t to, int32_t frames)
 {
 	if (frames == 0) {
 		return;
@@ -241,11 +241,22 @@ AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, i
  *  the buffers, fill the new space with silence.
  */
 void
-AudioBuffers::ensure_size (int frames)
+AudioBuffers::ensure_size (int32_t frames)
 {
 	if (_allocated_frames >= frames) {
 		return;
 	}
+
+	/* Round up frames to the next power of 2 to reduce the number
+	   of realloc()s that are necessary.
+	*/
+	frames--;
+	frames |= frames >> 1;
+	frames |= frames >> 2;
+	frames |= frames >> 4;
+	frames |= frames >> 8;
+	frames |= frames >> 16;
+	frames++;
 
 	for (int i = 0; i < _channels; ++i) {
 		_data[i] = static_cast<float*> (realloc (_data[i], frames * sizeof (float)));
@@ -261,7 +272,7 @@ AudioBuffers::ensure_size (int frames)
 }
 
 void
-AudioBuffers::accumulate_frames (AudioBuffers const * from, int read_offset, int write_offset, int frames)
+AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t read_offset, int32_t write_offset, int32_t frames)
 {
 	DCPOMATIC_ASSERT (_channels == from->channels ());
 	DCPOMATIC_ASSERT (read_offset >= 0);

@@ -28,11 +28,15 @@
 
 /** @class AudioBuffers
  *  @brief A class to hold multi-channel audio data in float format.
+ *
+ *  The use of int32_t for frame counts in this class is due to the
+ *  round-up to the next power-of-2 code in ::ensure_size; if that
+ *  were changed the frame count could use any integer type.
  */
 class AudioBuffers
 {
 public:
-	AudioBuffers (int channels, int frames);
+	AudioBuffers (int channels, int32_t frames);
 	AudioBuffers (AudioBuffers const &);
 	AudioBuffers (boost::shared_ptr<const AudioBuffers>);
 	~AudioBuffers ();
@@ -42,7 +46,7 @@ public:
 	boost::shared_ptr<AudioBuffers> clone () const;
 	boost::shared_ptr<AudioBuffers> channel (int) const;
 
-	void ensure_size (int);
+	void ensure_size (int32_t);
 
 	float** data () const {
 		return _data;
@@ -58,30 +62,30 @@ public:
 		return _frames;
 	}
 
-	void set_frames (int f);
+	void set_frames (int32_t f);
 
 	void make_silent ();
 	void make_silent (int c);
-	void make_silent (int from, int frames);
+	void make_silent (int32_t from, int32_t frames);
 
 	void apply_gain (float);
 
-	void copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
+	void copy_from (AudioBuffers const * from, int32_t frames_to_copy, int32_t read_offset, int32_t write_offset);
 	void copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel);
-	void move (int from, int to, int frames);
+	void move (int32_t from, int32_t to, int32_t frames);
 	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
-	void accumulate_frames (AudioBuffers const *, int read_offset, int write_offset, int frames);
+	void accumulate_frames (AudioBuffers const *, int32_t read_offset, int32_t write_offset, int32_t frames);
 
 private:
-	void allocate (int, int);
+	void allocate (int channels, int32_t frames);
 	void deallocate ();
 
 	/** Number of channels */
 	int _channels;
 	/** Number of frames (where a frame is one sample across all channels) */
-	int _frames;
+	int32_t _frames;
 	/** Number of frames that _data can hold */
-	int _allocated_frames;
+	int32_t _allocated_frames;
 	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
 	float** _data;
 };

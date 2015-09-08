@@ -58,6 +58,7 @@ public:
 	std::string video_identifier () const;
 
 	DCPTime length () const;
+	boost::optional<DCPTime> start () const;
 
 	int best_dcp_frame_rate () const;
 	DCPTime video_end () const;
