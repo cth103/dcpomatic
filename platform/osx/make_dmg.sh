@@ -112,6 +112,7 @@ universal_copy_lib $ENV libpango "$WORK/$libs"
 universal_copy_lib $ENV libcairo "$WORK/$libs"
 universal_copy_lib $ENV libpixman "$WORK/$libs"
 universal_copy_lib $ENV libharfbuzz "$WORK/$libs"
+universal_copy_lib $ENV libswresample "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
