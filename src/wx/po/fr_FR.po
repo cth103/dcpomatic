@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-27 16:40+0100\n"
-"PO-Revision-Date: 2015-07-14 15:10+0100\n"
+"PO-Revision-Date: 2015-09-12 01:29+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -161,8 +161,8 @@ msgid ""
 msgstr ""
 "Tous vos contenus sont au format 1:85:1 ou moins, mais le format du DCP est "
 "réglé sur Scope (2:39:1). Des bandes noires verticales seront créées de part "
-"et d'autre de votre contenu pour remplir le cadre. Mieux vaudrait régler "
-"le format du DCP sur Flat (1:85:1) dans l'onglet \"DCP\" ."
+"et d'autre de votre contenu pour remplir le cadre. Mieux vaudrait régler le "
+"format du DCP sur Flat (1:85:1) dans l'onglet \"DCP\" ."
 
 #: src/wx/hints_dialog.cc:126
 msgid ""
@@ -173,8 +173,8 @@ msgid ""
 msgstr ""
 "Tous vos contenus sont au format Scope (2:39:1) mais le format image du DCP "
 "est réglé sur Flat (1:85:1). Des bandes noires horizontales seront créées au "
-"dessus et en dessous de votre contenu pour remplir le cadre. Mieux "
-"vaudrait régler le format du DCP sur Scope (2:39:1) dans l'onglet \"DCP\" ."
+"dessus et en dessous de votre contenu pour remplir le cadre. Mieux vaudrait "
+"régler le format du DCP sur Scope (2:39:1) dans l'onglet \"DCP\" ."
 
 #: src/wx/config_dialog.cc:1217
 msgid "Allow any DCP frame rate"
@@ -298,9 +298,8 @@ msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
 #: src/wx/system_font_dialog.cc:31
-#, fuzzy
 msgid "Choose a font"
-msgstr "Choisir un fichier de police"
+msgstr "Choisir une police"
 
 #: src/wx/fonts_dialog.cc:133
 msgid "Choose a font file"
@@ -317,7 +316,7 @@ msgstr "Espace Couleurs"
 
 #: src/wx/video_waveform_dialog.cc:41
 msgid "Component"
-msgstr ""
+msgstr "Composant"
 
 #: src/wx/config_dialog.cc:1241
 msgid "Config|Timing"
@@ -348,9 +347,8 @@ msgid "Content version"
 msgstr "Version du contenu"
 
 #: src/wx/video_waveform_dialog.cc:44
-#, fuzzy
 msgid "Contrast"
-msgstr "Contenu"
+msgstr "Contraste"
 
 #: src/wx/dcp_panel.cc:82
 msgid "Copy as name"
@@ -370,9 +368,9 @@ msgid "Could not get video for view (%s)"
 msgstr "aucune vidéo à afficher (%s)"
 
 #: src/wx/content_menu.cc:325
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load KDM (%s)"
-msgstr "Impossible de créer le DCP : %s"
+msgstr "Chargement KDM impossible (%s)"
 
 #: src/wx/config_dialog.cc:701 src/wx/config_dialog.cc:815
 #: src/wx/screen_dialog.cc:95
@@ -430,9 +428,8 @@ msgid "Debug: encode"
 msgstr "Debug: encode"
 
 #: src/wx/config_dialog.cc:869
-#, fuzzy
 msgid "Decrypting DCPs"
-msgstr "Certificats pour décrypter les DCPs"
+msgstr "Décryptage des DCPs"
 
 #: src/wx/config_dialog.cc:386
 msgid "Default ISDCF name details"
@@ -501,9 +498,8 @@ msgid "Download certificate"
 msgstr "Téléchargement Certificat"
 
 #: src/wx/screen_dialog.cc:47
-#, fuzzy
 msgid "Download..."
-msgstr "Télécharger"
+msgstr "Téléchargement..."
 
 #: src/wx/dolby_certificate_dialog.cc:158
 #: src/wx/doremi_certificate_dialog.cc:55
@@ -550,7 +546,7 @@ msgstr "Export du certificat de décryptage du DCP..."
 
 #: src/wx/config_dialog.cc:960
 msgid "FTP (for Dolby)"
-msgstr ""
+msgstr "FTP (pour Dolby)"
 
 #: src/wx/isdcf_metadata_dialog.cc:51
 msgid "Facility (e.g. DLA)"
@@ -753,7 +749,7 @@ msgstr "Nom commun de page"
 
 #: src/wx/config_dialog.cc:648
 msgid "Leaf private key"
-msgstr ""
+msgstr "Page de clé privée"
 
 #: src/wx/video_panel.cc:96
 msgid "Left"
@@ -869,7 +865,7 @@ msgstr "Eteint"
 
 #: src/wx/config_dialog.cc:1221
 msgid "Only servers encode"
-msgstr ""
+msgstr "Seuls les serveurs encodent"
 
 #: src/wx/config_dialog.cc:1251
 msgid "Open console window"
@@ -962,7 +958,7 @@ msgstr "Propriétés..."
 
 #: src/wx/config_dialog.cc:939
 msgid "Protocol"
-msgstr ""
+msgstr "Protocole"
 
 #: src/wx/colour_conversion_editor.cc:105
 msgid "RGB to XYZ conversion"
@@ -985,9 +981,8 @@ msgid "Re-examine..."
 msgstr "Examine à nouveau..."
 
 #: src/wx/config_dialog.cc:659
-#, fuzzy
 msgid "Re-make certificates and key..."
-msgstr "Fabrique à nouveau les certificats"
+msgstr "Refait les certificats et les clés..."
 
 #: src/wx/colour_conversion_editor.cc:98
 msgid "Rec. 601"
@@ -1068,7 +1063,7 @@ msgstr "Nom commun racine"
 
 #: src/wx/config_dialog.cc:959
 msgid "SCP (for AAM)"
-msgstr ""
+msgstr "SCP (for AAM)"
 
 #: src/wx/dcp_panel.cc:153
 msgid "SMPTE"
@@ -1132,13 +1127,12 @@ msgid "Set"
 msgstr "Sélection"
 
 #: src/wx/fonts_dialog.cc:61
-#, fuzzy
 msgid "Set from .ttf file..."
-msgstr "Sélectionner le ficher"
+msgstr "Choisir un fichier .ttf..."
 
 #: src/wx/fonts_dialog.cc:64
 msgid "Set from system font..."
-msgstr ""
+msgstr "Choisir une police système..."
 
 #: src/wx/config_dialog.cc:156
 msgid "Set language"
@@ -1149,18 +1143,16 @@ msgid "Show audio..."
 msgstr "Montrer le son..."
 
 #: src/wx/audio_panel.cc:51
-#, fuzzy
 msgid "Show graph of audio levels..."
-msgstr "Montrer le son..."
+msgstr "Afficher graphique des niveaux audio..."
 
 #: src/wx/dcp_panel.cc:110
 msgid "Signed"
 msgstr "Signé"
 
 #: src/wx/config_dialog.cc:861
-#, fuzzy
 msgid "Signing DCPs and KDMs"
-msgstr "Certificats pour signature des DCPs et KDMs:"
+msgstr "Signature des DCPs et KDMs:"
 
 #: src/wx/audio_dialog.cc:91
 msgid "Smoothing"
@@ -1362,9 +1354,8 @@ msgid "Video"
 msgstr "Vidéo"
 
 #: src/wx/video_waveform_dialog.cc:30
-#, fuzzy
 msgid "Video Waveform"
-msgstr "Cadence vidéo"
+msgstr "Forme d'onde vidéo"
 
 #: src/wx/timing_panel.cc:102
 msgid "Video frame rate"
