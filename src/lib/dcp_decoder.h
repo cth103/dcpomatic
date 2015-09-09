@@ -35,7 +35,7 @@ struct dcp_subtitle_within_dcp_test;
 class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder
 {
 public:
-	DCPDecoder (boost::shared_ptr<const DCPContent>);
+	DCPDecoder (boost::shared_ptr<const DCPContent>, bool fast);
 
 private:
 	friend struct dcp_subtitle_within_dcp_test;

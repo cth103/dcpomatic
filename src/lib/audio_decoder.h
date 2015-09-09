@@ -39,7 +39,7 @@ class AudioDecoderStream;
 class AudioDecoder : public virtual Decoder, public boost::enable_shared_from_this<AudioDecoder>
 {
 public:
-	AudioDecoder (boost::shared_ptr<const AudioContent>);
+	AudioDecoder (boost::shared_ptr<const AudioContent>, bool fast);
 
 	boost::shared_ptr<const AudioContent> audio_content () const {
 		return _audio_content;
@@ -55,6 +55,10 @@ public:
 
 	void set_ignore_audio ();
 
+	bool fast () const {
+		return _fast;
+	}
+
 protected:
 	void audio (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
@@ -65,6 +69,7 @@ private:
 	/** An AudioDecoderStream object to manage each stream in _audio_content */
 	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
 	bool _ignore_audio;
+	bool _fast;
 };
 
 #endif

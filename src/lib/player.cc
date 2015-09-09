@@ -76,6 +76,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _ignore_video (false)
 	, _ignore_audio (false)
 	, _always_burn_subtitles (false)
+	, _fast (false)
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -127,13 +128,13 @@ Player::setup_pieces ()
 		/* FFmpeg */
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
 		if (fc) {
-			decoder.reset (new FFmpegDecoder (fc, _film->log()));
+			decoder.reset (new FFmpegDecoder (fc, _film->log(), _fast));
 			frc = FrameRateChange (fc->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
 		if (dc) {
-			decoder.reset (new DCPDecoder (dc));
+			decoder.reset (new DCPDecoder (dc, _fast));
 			frc = FrameRateChange (dc->video_frame_rate(), _film->video_frame_rate());
 		}
 
@@ -158,7 +159,7 @@ Player::setup_pieces ()
 		/* SndfileContent */
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (i);
 		if (sc) {
-			decoder.reset (new SndfileDecoder (sc));
+			decoder.reset (new SndfileDecoder (sc, _fast));
 			frc = best_overlap_frc;
 		}
 
@@ -673,4 +674,11 @@ void
 Player::set_always_burn_subtitles (bool burn)
 {
 	_always_burn_subtitles = burn;
+}
+
+void
+Player::set_fast ()
+{
+	_fast = true;
+	_have_valid_pieces = false;
 }

@@ -52,6 +52,7 @@ public:
 	void set_ignore_audio ();
 	void set_enable_subtitles (bool enable);
 	void set_always_burn_subtitles (bool burn);
+	void set_fast ();
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -124,6 +125,8 @@ private:
 	    of content settings
 	*/
 	bool _always_burn_subtitles;
+	/** true if we should try to be fast rather than high quality */
+	bool _fast;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 

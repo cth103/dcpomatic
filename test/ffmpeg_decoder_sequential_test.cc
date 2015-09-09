@@ -50,7 +50,7 @@ test (boost::filesystem::path file, float fps, int gaps)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log));
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
 
 	BOOST_CHECK_CLOSE (decoder->video_content()->video_frame_rate(), fps, 0.01);
 

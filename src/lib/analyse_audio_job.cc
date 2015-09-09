@@ -72,6 +72,7 @@ AnalyseAudioJob::run ()
 {
 	shared_ptr<Player> player (new Player (_film, _playlist));
 	player->set_ignore_video ();
+	player->set_fast ();
 
 	int64_t const len = _playlist->length().frames_round (_film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / _num_points);

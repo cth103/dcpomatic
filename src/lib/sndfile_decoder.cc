@@ -32,9 +32,9 @@ using std::min;
 using std::cout;
 using boost::shared_ptr;
 
-SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c)
+SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c, bool fast)
 	: Sndfile (c)
-	, AudioDecoder (c)
+	, AudioDecoder (c, fast)
 	, _done (0)
 	, _remaining (_info.frames)
 	, _deinterleave_buffer (0)
