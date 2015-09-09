@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ class AudioBuffers;
 class Resampler : public boost::noncopyable
 {
 public:
-	Resampler (int, int, int);
+	Resampler (int, int, int, bool fast);
 	~Resampler ();
 
 	boost::shared_ptr<const AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);

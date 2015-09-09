@@ -59,7 +59,7 @@ class TestAudioDecoder : public AudioDecoder
 {
 public:
 	TestAudioDecoder (shared_ptr<TestAudioContent> content)
-		: AudioDecoder (content)
+		: AudioDecoder (content, false)
 		, _test_audio_content (content)
 		, _position (0)
 	{}

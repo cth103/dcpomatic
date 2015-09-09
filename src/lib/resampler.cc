@@ -31,13 +31,18 @@ using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
 
-Resampler::Resampler (int in, int out, int channels)
+/** @param in Input sampling rate (Hz)
+ *  @param out Output sampling rate (Hz)
+ *  @param channels Number of channels.
+ *  @param fast true to be fast rather than good.
+ */
+Resampler::Resampler (int in, int out, int channels, bool fast)
 	: _in_rate (in)
 	, _out_rate (out)
 	, _channels (channels)
 {
 	int error;
-	_src = src_new (SRC_SINC_BEST_QUALITY, _channels, &error);
+	_src = src_new (fast ? SRC_LINEAR : SRC_SINC_BEST_QUALITY, _channels, &error);
 	if (!_src) {
 		throw StringError (String::compose (N_("could not create sample-rate converter (%1)"), error));
 	}

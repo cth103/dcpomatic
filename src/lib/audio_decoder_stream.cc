@@ -45,7 +45,7 @@ AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, 
 	, _decoder (decoder)
 {
 	if (content->resampled_audio_frame_rate() != _stream->frame_rate() && _stream->channels() > 0) {
-		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_audio_frame_rate(), _stream->channels ()));
+		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_audio_frame_rate(), _stream->channels (), decoder->fast ()));
 	}
 
 	reset_decoded ();

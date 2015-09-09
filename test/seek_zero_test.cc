@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 
 	Frame const first_frame = video_delay.round_up (content->video_frame_rate ()).frames_round (content->video_frame_rate ());
 
-	FFmpegDecoder decoder (content, film->log());
+	FFmpegDecoder decoder (content, film->log(), false);
 	list<ContentVideo> a = decoder.get_video (first_frame, true);
 	BOOST_CHECK (a.size() == 1);
 	BOOST_CHECK_EQUAL (a.front().frame, first_frame);

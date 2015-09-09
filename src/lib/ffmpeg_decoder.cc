@@ -61,9 +61,9 @@ using std::max;
 using boost::shared_ptr;
 using dcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
 	: VideoDecoder (c)
-	, AudioDecoder (c)
+	, AudioDecoder (c, fast)
 	, SubtitleDecoder (c)
 	, FFmpeg (c)
 	, _log (log)

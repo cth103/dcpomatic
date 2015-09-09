@@ -63,7 +63,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log));
+	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
 
 	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
 		check (decoder, *i);

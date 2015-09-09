@@ -33,7 +33,7 @@ using boost::shared_ptr;
 static void
 resampler_test_one (int from, int to)
 {
-	Resampler resamp (from, to, 1);
+	Resampler resamp (from, to, 1, false);
 
 	/* 3 hours */
 	int64_t const N = int64_t (from) * 60 * 60 * 3;

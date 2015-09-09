@@ -1,3 +1,8 @@
+2015-09-09  c.hetherington  <cth@carlh.net>
+
+	* Use SRC_LINEAR when resampling for
+	audio analysis to speed things up (#685).
+
 2015-09-08  c.hetherington  <cth@carlh.net>
 
 	* Missing libsamplerate dylib for OS X.
