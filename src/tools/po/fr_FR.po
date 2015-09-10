@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-27 16:40+0100\n"
-"PO-Revision-Date: 2015-07-14 14:46+0100\n"
+"PO-Revision-Date: 2015-09-12 01:22+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -91,12 +91,12 @@ msgid "Add Film..."
 msgstr "Ajouter Film..."
 
 #: src/tools/dcpomatic.cc:919
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s).\n"
 "\n"
 msgstr ""
-"Exception inconnue: %s (%s).\n"
+"Une exception est apparue: %s (%s).\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:921
@@ -266,7 +266,7 @@ msgstr "Travaux incomplets"
 
 #: src/tools/dcpomatic.cc:704
 msgid "Video waveform..."
-msgstr ""
+msgstr "Forme d'onde vidéo"
 
 #: src/tools/dcpomatic.cc:359 src/tools/dcpomatic_batch.cc:161
 msgid ""

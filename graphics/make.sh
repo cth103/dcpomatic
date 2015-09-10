@@ -4,4 +4,4 @@ width=$1
 height=$2
 output=$3
 
-inkscape -z -e $output -w $width -h $height -D finish-trace.svg
+inkscape -C -z -e $output -w $width -h $height -D logo.svg
