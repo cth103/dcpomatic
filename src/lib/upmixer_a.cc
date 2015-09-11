@@ -71,7 +71,7 @@ UpmixerA::clone (int sampling_rate) const
 }
 
 shared_ptr<AudioBuffers>
-UpmixerA::run (shared_ptr<const AudioBuffers> in)
+UpmixerA::run (shared_ptr<const AudioBuffers> in, int channels)
 {
 	/* Input L and R */
 	shared_ptr<AudioBuffers> in_L = in->channel (0);
@@ -83,20 +83,25 @@ UpmixerA::run (shared_ptr<const AudioBuffers> in)
 	in_LR->apply_gain (0.5);
 
 	/* Run filters */
-	shared_ptr<AudioBuffers> L = _left.run (in_L);
-	shared_ptr<AudioBuffers> R = _right.run (in_R);
-	shared_ptr<AudioBuffers> C = _centre.run (in_LR);
-	shared_ptr<AudioBuffers> Lfe = _lfe.run (in_LR);
-	shared_ptr<AudioBuffers> Ls = _ls.run (in_L);
-	shared_ptr<AudioBuffers> Rs = _rs.run (in_R);
+	vector<shared_ptr<AudioBuffers> > all_out;
+	all_out.push_back (_left.run (in_L));
+	all_out.push_back (_right.run (in_R));
+	all_out.push_back (_centre.run (in_LR));
+	all_out.push_back (_lfe.run (in_LR));
+	all_out.push_back (_ls.run (in_L));
+	all_out.push_back (_rs.run (in_R));
 
-	shared_ptr<AudioBuffers> out (new AudioBuffers (6, in->frames ()));
-	out->copy_channel_from (L.get(), 0, 0);
-	out->copy_channel_from (R.get(), 0, 1);
-	out->copy_channel_from (C.get(), 0, 2);
-	out->copy_channel_from (Lfe.get(), 0, 3);
-	out->copy_channel_from (Ls.get(), 0, 4);
-	out->copy_channel_from (Rs.get(), 0, 5);
+	shared_ptr<AudioBuffers> out (new AudioBuffers (channels, in->frames ()));
+	int const N = min (channels, 6);
+
+	for (int i = 0; i < N; ++i) {
+		out->copy_channel_from (all_out[i].get(), 0, i);
+	}
+
+	for (int i = N; i < channels; ++i) {
+		out->make_silent (i);
+	}
+
 	return out;
 }
 

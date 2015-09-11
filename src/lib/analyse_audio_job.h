@@ -22,6 +22,7 @@
  */
 
 #include "job.h"
+#include "audio_point.h"
 #include "types.h"
 
 class AudioBuffers;

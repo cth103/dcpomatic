@@ -59,16 +59,27 @@ MidSideDecoder::clone (int) const
 }
 
 shared_ptr<AudioBuffers>
-MidSideDecoder::run (shared_ptr<const AudioBuffers> in)
+MidSideDecoder::run (shared_ptr<const AudioBuffers> in, int channels)
 {
-	shared_ptr<AudioBuffers> out (new AudioBuffers (3, in->frames ()));
+	int const N = min (channels, 3);
+	shared_ptr<AudioBuffers> out (new AudioBuffers (channels, in->frames ()));
 	for (int i = 0; i < in->frames(); ++i) {
 		float const left = in->data()[0][i];
 		float const right = in->data()[1][i];
 		float const mid = (left + right) / 2;
-		out->data()[0][i] = left - mid;
-		out->data()[1][i] = right - mid;
-		out->data()[2][i] = mid;
+		if (N > 0) {
+			out->data()[0][i] = left - mid;
+		}
+		if (N > 1) {
+			out->data()[1][i] = right - mid;
+		}
+		if (N > 2) {
+			out->data()[2][i] = mid;
+		}
+	}
+
+	for (int i = N; i < channels; ++i) {
+		out->make_silent (i);
 	}
 
 	return out;

@@ -508,7 +508,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			}
 
 			if (_audio_processor) {
-				dcp_mapped = _audio_processor->run (dcp_mapped);
+				dcp_mapped = _audio_processor->run (dcp_mapped, _film->audio_channels ());
 			}
 
 			all.audio = dcp_mapped;

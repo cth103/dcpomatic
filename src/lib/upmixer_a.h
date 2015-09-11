@@ -37,7 +37,7 @@ public:
 	ChannelCount in_channels () const;
 	int out_channels () const;
 	boost::shared_ptr<AudioProcessor> clone (int) const;
-	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
+	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>, int channels);
 	void flush ();
 	void make_audio_mapping_default (AudioMapping& mapping) const;
 	std::vector<std::string> input_names () const;

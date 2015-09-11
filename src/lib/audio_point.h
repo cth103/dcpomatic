@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_AUDIO_POINT_H
+#define DCPOMATIC_AUDIO_POINT_H
+
 #include <libcxml/cxml.h>
 
 namespace xmlpp {
@@ -46,3 +49,5 @@ public:
 private:
 	float _data[COUNT];
 };
+
+#endif
