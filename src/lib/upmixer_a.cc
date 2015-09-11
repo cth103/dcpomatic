@@ -52,12 +52,6 @@ UpmixerA::id () const
 	return N_("stereo-5.1-upmix-a");
 }
 
-ChannelCount
-UpmixerA::in_channels () const
-{
-	return ChannelCount (2);
-}
-
 int
 UpmixerA::out_channels () const
 {

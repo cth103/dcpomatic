@@ -40,12 +40,6 @@ MidSideDecoder::id () const
 	return N_("mid-side-decoder");
 }
 
-ChannelCount
-MidSideDecoder::in_channels () const
-{
-	return ChannelCount (2);
-}
-
 int
 MidSideDecoder::out_channels () const
 {

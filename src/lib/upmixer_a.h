@@ -34,7 +34,6 @@ public:
 
 	std::string name () const;
 	std::string id () const;
-	ChannelCount in_channels () const;
 	int out_channels () const;
 	boost::shared_ptr<AudioProcessor> clone (int) const;
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>, int channels);

@@ -24,7 +24,6 @@
 #ifndef DCPOMATIC_AUDIO_PROCESSOR_H
 #define DCPOMATIC_AUDIO_PROCESSOR_H
 
-#include "channel_count.h"
 #include <boost/shared_ptr.hpp>
 #include <list>
 #include <string>
@@ -48,8 +47,6 @@ public:
 	virtual std::string name () const = 0;
 	/** @return An internal identifier */
 	virtual std::string id () const = 0;
-	/** @return Number of input channels */
-	virtual ChannelCount in_channels () const = 0;
 	/** @return Number of output channels */
 	virtual int out_channels () const = 0;
 	/** @return A clone of this AudioProcessor for operation at the specified sampling rate */
