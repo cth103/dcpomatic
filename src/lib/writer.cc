@@ -744,7 +744,9 @@ Writer::write (PlayerSubtitles subs)
 			s->set_content_title_text (_film->name ());
 			s->set_language (lang);
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
+			s->set_reel_number (1);
 			s->set_time_code_rate (_film->video_frame_rate ());
+			s->set_start_time (dcp::Time ());
 			_subtitle_asset = s;
 		}
 	}
