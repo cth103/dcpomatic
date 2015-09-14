@@ -19,6 +19,7 @@
 
 #include "key_dialog.h"
 #include "wx_util.h"
+#include <iostream>
 
 using std::cout;
 

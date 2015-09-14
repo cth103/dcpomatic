@@ -24,6 +24,7 @@
 #include "film.h"
 #include "raw_convert.h"
 #include <libxml++/libxml++.h>
+#include <iostream>
 
 using std::string;
 using std::cout;

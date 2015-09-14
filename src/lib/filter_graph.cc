@@ -35,6 +35,7 @@ extern "C" {
 #include <libavfilter/buffersink.h>
 #include <libavformat/avio.h>
 }
+#include <iostream>
 
 #include "i18n.h"
 

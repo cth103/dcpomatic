@@ -35,6 +35,7 @@
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_frame.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::cout;

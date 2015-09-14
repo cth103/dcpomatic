@@ -27,6 +27,7 @@
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
 #include <string>
+#include <iostream>
 
 #define BUFFER_SIZE 1024
 

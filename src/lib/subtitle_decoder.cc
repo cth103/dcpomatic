@@ -21,6 +21,7 @@
 #include "subtitle_content.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::cout;

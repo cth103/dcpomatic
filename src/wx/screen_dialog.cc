@@ -26,6 +26,7 @@
 #include "wx_util.h"
 #include "doremi_certificate_dialog.h"
 #include "dolby_certificate_dialog.h"
+#include <iostream>
 
 using std::string;
 using std::cout;

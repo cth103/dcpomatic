@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "preset_colour_conversion_dialog.h"
 #include "colour_conversion_editor.h"
+#include <iostream>
 
 using std::string;
 using std::cout;

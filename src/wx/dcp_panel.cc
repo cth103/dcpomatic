@@ -37,6 +37,7 @@
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::cout;
 using std::list;

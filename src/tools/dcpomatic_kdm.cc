@@ -29,6 +29,7 @@
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/safe_stringstream.h"
+#include <iostream>
 
 using std::string;
 using std::cout;

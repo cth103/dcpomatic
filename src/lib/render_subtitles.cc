@@ -25,6 +25,7 @@
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::cout;

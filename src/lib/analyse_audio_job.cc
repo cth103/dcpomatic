@@ -26,6 +26,7 @@
 #include "player.h"
 #include "playlist.h"
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

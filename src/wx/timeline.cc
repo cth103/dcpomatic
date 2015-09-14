@@ -34,6 +34,7 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <list>
+#include <iostream>
 
 using std::list;
 using std::cout;

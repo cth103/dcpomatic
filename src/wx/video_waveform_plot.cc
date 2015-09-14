@@ -27,6 +27,7 @@
 #include <wx/rawbmp.h>
 #include <wx/graphics.h>
 #include <boost/bind.hpp>
+#include <iostream>
 
 using std::cout;
 using std::min;

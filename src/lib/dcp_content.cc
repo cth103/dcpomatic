@@ -27,6 +27,7 @@
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 #include <iterator>
+#include <iostream>
 
 #include "i18n.h"
 

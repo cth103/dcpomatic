@@ -27,6 +27,7 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

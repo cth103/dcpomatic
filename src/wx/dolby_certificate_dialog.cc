@@ -25,6 +25,7 @@
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::string;

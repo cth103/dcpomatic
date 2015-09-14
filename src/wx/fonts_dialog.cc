@@ -24,6 +24,7 @@
 #include "lib/subtitle_content.h"
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::string;

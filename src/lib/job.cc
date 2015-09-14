@@ -31,6 +31,7 @@
 #include <dcp/exceptions.h>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

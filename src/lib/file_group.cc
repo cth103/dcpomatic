@@ -26,6 +26,7 @@
 #include "file_group.h"
 #include "exceptions.h"
 #include "cross.h"
+#include <iostream>
 
 using std::vector;
 using std::cout;

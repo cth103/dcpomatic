@@ -21,6 +21,7 @@
 #include "timecode.h"
 #include "wx_util.h"
 #include <boost/lexical_cast.hpp>
+#include <iostream>
 
 using std::string;
 using std::cout;

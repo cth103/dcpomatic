@@ -33,6 +33,7 @@
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_asset.h>
+#include <iostream>
 
 #include "i18n.h"
 

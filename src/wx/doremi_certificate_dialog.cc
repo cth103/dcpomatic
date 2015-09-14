@@ -25,6 +25,7 @@
 #include "lib/internet.h"
 #include "doremi_certificate_dialog.h"
 #include "wx_util.h"
+#include <iostream>
 
 using std::string;
 using std::cout;

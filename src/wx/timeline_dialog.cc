@@ -24,6 +24,7 @@
 #include "timeline_dialog.h"
 #include "wx_util.h"
 #include "content_panel.h"
+#include <iostream>
 
 using std::list;
 using std::cout;

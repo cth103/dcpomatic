@@ -40,6 +40,7 @@
 #include <boost/foreach.hpp>
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
 
 #include "i18n.h"
 

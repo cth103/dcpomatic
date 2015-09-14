@@ -22,6 +22,7 @@
 #include "log.h"
 #include "content.h"
 #include "film.h"
+#include <iostream>
 
 #include "i18n.h"
 

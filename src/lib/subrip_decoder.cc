@@ -20,6 +20,7 @@
 #include <dcp/subtitle_string.h>
 #include "subrip_decoder.h"
 #include "subrip_content.h"
+#include <iostream>
 
 using std::list;
 using std::vector;

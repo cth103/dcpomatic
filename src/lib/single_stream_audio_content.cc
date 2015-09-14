@@ -22,6 +22,7 @@
 #include "film.h"
 #include "raw_convert.h"
 #include <libxml++/libxml++.h>
+#include <iostream>
 
 #include "i18n.h"
 

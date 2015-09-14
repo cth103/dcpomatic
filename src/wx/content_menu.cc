@@ -35,6 +35,7 @@
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::cout;
 using std::vector;

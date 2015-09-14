@@ -23,6 +23,7 @@
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <iostream>
 
 using std::list;
 using std::cout;

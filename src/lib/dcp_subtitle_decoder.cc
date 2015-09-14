@@ -20,6 +20,7 @@
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
 #include <dcp/interop_subtitle_asset.h>
+#include <iostream>
 
 using std::list;
 using std::cout;

@@ -32,6 +32,7 @@
 #include <wx/renderer.h>
 #include <wx/grid.h>
 #include <boost/lexical_cast.hpp>
+#include <iostream>
 
 using std::cout;
 using std::list;

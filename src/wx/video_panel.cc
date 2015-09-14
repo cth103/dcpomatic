@@ -33,6 +33,7 @@
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 #include <set>
+#include <iostream>
 
 using std::vector;
 using std::string;

@@ -32,6 +32,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 #include <boost/algorithm/string.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

@@ -33,6 +33,7 @@
 #include <libxml++/libxml++.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

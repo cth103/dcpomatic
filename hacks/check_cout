@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+import os
+import shutil
+
+for root, dirs, files in os.walk('src'):
+    for name in files:
+        if name.endswith('.cc'):
+            include = False
+            using = False
+            with open(os.path.join(root, name)) as f:
+                for l in f.readlines():
+                    l = l.strip()
+                    if l == 'using std::cout;':
+                        using = True
+                    if l == '#include <iostream>':
+                        include = True
+            if (not include) and using:
+                g = open('tmp', 'w')
+                with open(os.path.join(root, name)) as f:
+                    last_was_include = False
+                    done = False
+                    for l in f.readlines():
+                        if last_was_include and l == '\n' and not done:
+                            print>>g,'#include <iostream>'
+                            last_was_include = False
+                            done = True
+                        elif l.startswith('#include'):
+                            last_was_include = True
+                        print>>g,l,
+                g.close()
+                shutil.move('tmp', os.path.join(root, name))

@@ -27,6 +27,7 @@
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
 #include <boost/lexical_cast.hpp>
+#include <iostream>
 
 using std::string;
 using std::cout;

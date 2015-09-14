@@ -49,6 +49,7 @@
 #include <boost/foreach.hpp>
 #include <stdint.h>
 #include <algorithm>
+#include <iostream>
 
 #include "i18n.h"
 

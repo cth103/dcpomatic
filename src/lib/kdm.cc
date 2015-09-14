@@ -32,6 +32,7 @@
 #include <dcp/types.h>
 #include <boost/shared_ptr.hpp>
 #include <list>
+#include <iostream>
 
 using std::list;
 using std::string;

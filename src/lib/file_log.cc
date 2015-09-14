@@ -20,6 +20,7 @@
 #include "file_log.h"
 #include "cross.h"
 #include <cstdio>
+#include <iostream>
 
 using std::cout;
 using std::string;

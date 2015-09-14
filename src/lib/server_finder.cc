@@ -27,6 +27,7 @@
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <boost/lambda/lambda.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

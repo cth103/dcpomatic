@@ -28,6 +28,7 @@
 #include "lib/util.h"
 #include "lib/exceptions.h"
 #include "lib/compose.hpp"
+#include <iostream>
 
 using std::string;
 using std::list;

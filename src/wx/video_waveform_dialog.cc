@@ -22,6 +22,7 @@
 #include "film_viewer.h"
 #include "wx_util.h"
 #include <boost/bind.hpp>
+#include <iostream>
 
 using std::cout;
 using boost::bind;

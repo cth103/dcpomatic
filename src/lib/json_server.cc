@@ -26,6 +26,7 @@
 #include "util.h"
 #include "film.h"
 #include "transcode_job.h"
+#include <iostream>
 
 using std::string;
 using std::stringstream;

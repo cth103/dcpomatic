@@ -22,6 +22,7 @@
 #include <wx/listctrl.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::cout;
 using std::string;

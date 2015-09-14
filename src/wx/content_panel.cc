@@ -38,6 +38,7 @@
 #include <wx/listctrl.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "lib/image_filename_sorter.cc"
 

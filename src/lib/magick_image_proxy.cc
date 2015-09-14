@@ -25,6 +25,7 @@
 #include "compose.hpp"
 #include <Magick++.h>
 #include <libxml++/libxml++.h>
+#include <iostream>
 
 #include "i18n.h"
 

@@ -23,6 +23,7 @@
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include <samplerate.h>
+#include <iostream>
 
 #include "i18n.h"
 

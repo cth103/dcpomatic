@@ -36,6 +36,7 @@
 #include <wx/timectrl.h>
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
+#include <iostream>
 
 using std::string;
 using std::map;

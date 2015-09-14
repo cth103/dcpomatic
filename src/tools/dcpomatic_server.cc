@@ -25,6 +25,7 @@
 #include <wx/taskbar.h>
 #include <wx/icon.h>
 #include <boost/thread.hpp>
+#include <iostream>
 
 using std::cout;
 using std::string;

@@ -29,6 +29,7 @@
 #include <dcp/rgb_xyz.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <iostream>
 
 #include "i18n.h"
 

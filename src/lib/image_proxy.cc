@@ -26,6 +26,7 @@
 #include "cross.h"
 #include <dcp/util.h>
 #include <libcxml/cxml.h>
+#include <iostream>
 
 #include "i18n.h"
 

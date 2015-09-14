@@ -19,6 +19,7 @@
 
 #include "position_image.h"
 #include "image.h"
+#include <iostream>
 
 using std::cout;
 

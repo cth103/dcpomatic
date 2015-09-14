@@ -38,6 +38,7 @@ extern "C" {
 }
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

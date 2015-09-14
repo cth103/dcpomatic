@@ -22,6 +22,7 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
+#include <iostream>
 
 #include "i18n.h"
 

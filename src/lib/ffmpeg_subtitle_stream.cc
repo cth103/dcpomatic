@@ -21,6 +21,7 @@
 #include "raw_convert.h"
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::string;
 using std::map;

@@ -34,6 +34,7 @@
 #include <dcp/colour_matrix.h>
 #include <libxml++/libxml++.h>
 #include <iomanip>
+#include <iostream>
 
 #include "i18n.h"
 

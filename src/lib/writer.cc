@@ -51,6 +51,7 @@
 #include <boost/foreach.hpp>
 #include <fstream>
 #include <cerrno>
+#include <iostream>
 
 #include "i18n.h"
 

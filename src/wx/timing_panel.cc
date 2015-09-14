@@ -27,6 +27,7 @@
 #include "content_panel.h"
 #include <boost/foreach.hpp>
 #include <set>
+#include <iostream>
 
 using std::cout;
 using std::string;

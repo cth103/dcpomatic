@@ -27,6 +27,7 @@
 #include "lib/job_manager.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
+#include <iostream>
 
 using std::cout;
 using boost::shared_ptr;

@@ -33,6 +33,7 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/thread/mutex.hpp>
+#include <iostream>
 
 #include "i18n.h"
 

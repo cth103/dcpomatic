@@ -30,6 +30,7 @@ extern "C" {
 #include "ffmpeg_subtitle_stream.h"
 #include "util.h"
 #include "safe_stringstream.h"
+#include <iostream>
 
 #include "i18n.h"
 

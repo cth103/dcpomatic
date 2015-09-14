@@ -25,6 +25,7 @@
 #include "colour_conversion_editor.h"
 #include <wx/statline.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::string;
 using std::vector;
