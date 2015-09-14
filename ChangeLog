@@ -1,5 +1,7 @@
 2015-09-14  Carl Hetherington  <cth@carlh.net>
 
+	* Fix Windows short-cut to encode server.
+
 	* Version 2.3.1 released.
 
 2015-09-14  Carl Hetherington  <cth@carlh.net>
