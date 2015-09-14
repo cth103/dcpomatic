@@ -328,7 +328,7 @@ def package_centos(target, cpu, version):
 
     target.command('./waf dist')
     shutil.copyfile(
-        "%s/src/dcpomatic2/dcpomatic-%s.tar.bz2" % (target.directory, version),
+        "%s/src/dcpomatic/dcpomatic-%s.tar.bz2" % (target.directory, version),
         "%s/SOURCES/dcpomatic-%s.tar.bz2" % (topdir, version)
         )
 
