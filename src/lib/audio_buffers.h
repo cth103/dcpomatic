@@ -25,6 +25,7 @@
 #define DCPOMATIC_AUDIO_BUFFERS_H
 
 #include <boost/shared_ptr.hpp>
+#include <stdint.h>
 
 /** @class AudioBuffers
  *  @brief A class to hold multi-channel audio data in float format.
