@@ -28,6 +28,7 @@
 #include <libxml++/libxml++.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::cout;
 using boost::shared_ptr;

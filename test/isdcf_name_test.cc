@@ -24,6 +24,7 @@
 #include "lib/image_content.h"
 #include "lib/sndfile_content.h"
 #include "test.h"
+#include <iostream>
 
 using std::cout;
 using boost::shared_ptr;

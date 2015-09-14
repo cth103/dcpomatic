@@ -3,7 +3,7 @@
 import os
 import shutil
 
-for root, dirs, files in os.walk('src'):
+for root, dirs, files in os.walk('.'):
     for name in files:
         if name.endswith('.cc'):
             include = False

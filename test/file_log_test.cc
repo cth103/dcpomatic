@@ -19,6 +19,7 @@
 
 #include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
+#include <iostream>
 
 using std::cout;
 

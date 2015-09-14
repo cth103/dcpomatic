@@ -29,6 +29,7 @@
 #include "test.h"
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
+#include <iostream>
 
 using std::cout;
 using std::cerr;

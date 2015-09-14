@@ -30,6 +30,7 @@
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <boost/test/unit_test.hpp>
+#include <iostream>
 
 using std::cout;
 using std::string;

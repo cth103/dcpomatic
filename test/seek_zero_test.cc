@@ -31,6 +31,7 @@
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/content_video.h"
 #include "test.h"
+#include <iostream>
 
 using std::cout;
 using std::list;

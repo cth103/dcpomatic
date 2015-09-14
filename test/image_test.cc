@@ -26,6 +26,7 @@
 #include <boost/test/unit_test.hpp>
 #include <Magick++.h>
 #include "lib/image.h"
+#include <iostream>
 
 using std::string;
 using std::list;

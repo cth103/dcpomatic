@@ -26,6 +26,7 @@
 #include "test.h"
 #include "lib/audio_decoder.h"
 #include "lib/single_stream_audio_content.h"
+#include <iostream>
 
 using std::string;
 using std::cout;

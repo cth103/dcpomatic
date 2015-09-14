@@ -25,6 +25,7 @@
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_buffers.h"
 #include "lib/resampler.h"
+#include <iostream>
 
 using std::pair;
 using std::cout;

@@ -31,6 +31,7 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 }
 #include "lib/image.h"
+#include <iostream>
 
 using std::list;
 using std::cout;

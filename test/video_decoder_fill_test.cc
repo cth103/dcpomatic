@@ -21,6 +21,7 @@
 #include "lib/image_decoder.h"
 #include "lib/image_content.h"
 #include "test.h"
+#include <iostream>
 
 using std::list;
 using std::cout;

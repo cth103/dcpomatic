@@ -28,6 +28,7 @@
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "test.h"
+#include <iostream>
 
 using std::cout;
 using boost::shared_ptr;

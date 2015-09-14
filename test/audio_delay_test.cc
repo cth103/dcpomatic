@@ -34,6 +34,7 @@
 #include "lib/ratio.h"
 #include "lib/film.h"
 #include "test.h"
+#include <iostream>
 
 using std::string;
 using std::cout;

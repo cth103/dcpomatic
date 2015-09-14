@@ -23,6 +23,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/player_video_frame.h"
 #include "test.h"
+#include <iostream>
 
 /* This test needs stuff in Player that is only included in debug mode */
 #ifdef DCPOMATIC_DEBUG
