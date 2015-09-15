@@ -794,9 +794,28 @@ private:
 	{
 		shared_ptr<const dcp::CertificateChain> chain = _get ();
 
+		string subject_organization_name;
+		string subject_organizational_unit_name;
+		string root_common_name;
 		string intermediate_common_name;
-		if (chain->root_to_leaf().size() >= 3) {
-			dcp::CertificateChain::List all = chain->root_to_leaf ();
+		string leaf_common_name;
+
+		dcp::CertificateChain::List all = chain->root_to_leaf ();
+
+		if (all.size() >= 1) {
+			/* Have a root */
+			subject_organization_name = chain->root().subject_organization_name ();
+			subject_organizational_unit_name = chain->root().subject_organizational_unit_name ();
+			root_common_name = chain->root().subject_common_name ();
+		}
+
+		if (all.size() >= 2) {
+			/* Have a leaf */
+			leaf_common_name = chain->leaf().subject_common_name ();
+		}
+
+		if (all.size() >= 3) {
+			/* Have an intermediate */
 			dcp::CertificateChain::List::iterator i = all.begin ();
 			++i;
 			intermediate_common_name = i->subject_common_name ();
@@ -804,11 +823,11 @@ private:
 
 		MakeChainDialog* d = new MakeChainDialog (
 			this,
-			chain->root().subject_organization_name (),
-			chain->root().subject_organizational_unit_name (),
-			chain->root().subject_common_name (),
+			subject_organization_name,
+			subject_organizational_unit_name,
+			root_common_name,
 			intermediate_common_name,
-			chain->leaf().subject_common_name ()
+			leaf_common_name
 			);
 
 		if (d->ShowModal () == wxID_OK) {

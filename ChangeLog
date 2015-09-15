@@ -1,3 +1,8 @@
+2015-09-15  Carl Hetherington  <cth@carlh.net>
+
+	* Fix crash on re-making certificate chains
+	after removing all existing certificates (#690).
+
 2015-09-15  c.hetherington  <cth@carlh.net>
 
 	* Fix failure to display audio analysis
