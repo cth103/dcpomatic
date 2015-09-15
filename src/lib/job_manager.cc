@@ -180,18 +180,22 @@ JobManager::analyse_audio (
 	function<void()> ready
 	)
 {
-	shared_ptr<AnalyseAudioJob> job;
-
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
 		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
 			shared_ptr<AnalyseAudioJob> a = dynamic_pointer_cast<AnalyseAudioJob> (i);
-			if (a && film->audio_analysis_path (a->playlist ()) == film->audio_analysis_path (playlist)) {
+			if (a && a->playlist () == playlist) {
 				i->when_finished (connection, ready);
 				return;
 			}
 		}
+	}
+
+	shared_ptr<AnalyseAudioJob> job;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
 
 		job.reset (new AnalyseAudioJob (film, playlist));
 		connection = job->Finished.connect (ready);
