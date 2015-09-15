@@ -228,8 +228,8 @@ Content::length_after_trim () const
 	return max (DCPTime (), full_length() - DCPTime (trim_start() + trim_end(), film->active_frame_rate_change (position ())));
 }
 
-/** @return string which includes everything about how this content affects
- *  its playlist.
+/** @return string which changes when something about this content changes which affects
+ *  the appearance of its video.
  */
 string
 Content::identifier () const

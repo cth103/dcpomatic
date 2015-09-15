@@ -48,6 +48,7 @@ namespace dcp {
 	class SoundAsset;
 	class SoundAssetWriter;
 	class SubtitleAsset;
+	class ReelAsset;
 }
 
 struct QueueItem
@@ -107,6 +108,7 @@ public:
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
+	void write (boost::shared_ptr<dcp::ReelAsset> reel_asset);
 	void finish ();
 
 	void set_encoder_threads (int threads);
@@ -166,6 +168,7 @@ private:
 	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
 	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
 	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
+	std::list<boost::shared_ptr<dcp::ReelAsset> > _reel_assets;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
 

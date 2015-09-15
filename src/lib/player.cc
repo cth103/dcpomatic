@@ -46,6 +46,10 @@
 #include "dcp_subtitle_decoder.h"
 #include "audio_processor.h"
 #include "playlist.h"
+#include <dcp/reel.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_picture_asset.h>
 #include <boost/foreach.hpp>
 #include <stdint.h>
 #include <algorithm>
@@ -78,6 +82,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _ignore_audio (false)
 	, _always_burn_subtitles (false)
 	, _fast (false)
+	, _play_referenced (false)
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -329,7 +334,10 @@ Player::black_player_video_frame (DCPTime time) const
 	);
 }
 
-/** @return All PlayerVideos at the given time (there may be two frames for 3D) */
+/** @return All PlayerVideos at the given time.  There may be none if the content
+ *  at `time' is a DCP which we are passing through (i.e. referring to by reference)
+ *  or 2 if we have 3D.
+ */
 list<shared_ptr<PlayerVideo> >
 Player::get_video (DCPTime time, bool accurate)
 {
@@ -383,6 +391,11 @@ Player::get_video (DCPTime time, bool accurate)
 			shared_ptr<VideoContent> video_content = dynamic_pointer_cast<VideoContent> (piece->content);
 			DCPOMATIC_ASSERT (video_content);
 
+			shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (video_content);
+			if (dcp_content && dcp_content->reference_video () && !_play_referenced) {
+				continue;
+			}
+
 			bool const use =
 				/* always use the last video */
 				piece == last ||
@@ -432,6 +445,7 @@ Player::get_video (DCPTime time, bool accurate)
 	return pvf;
 }
 
+/** @return Audio data or 0 if the only audio data here is referenced DCP data */
 shared_ptr<AudioBuffers>
 Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 {
@@ -449,11 +463,25 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		return audio;
 	}
 
-	for (list<shared_ptr<Piece> >::iterator i = ov.begin(); i != ov.end(); ++i) {
+	bool all_referenced = true;
+	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
+		shared_ptr<AudioContent> audio_content = dynamic_pointer_cast<AudioContent> (i->content);
+		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (i->content);
+		if (audio_content && (!dcp_content || !dcp_content->reference_audio ())) {
+			/* There is audio content which is not from a DCP or not set to be referenced */
+			all_referenced = false;
+		}
+	}
 
-		shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> ((*i)->content);
+	if (all_referenced && !_play_referenced) {
+		return shared_ptr<AudioBuffers> ();
+	}
+
+	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
+
+		shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (i->content);
 		DCPOMATIC_ASSERT (content);
-		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> ((*i)->decoder);
+		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> (i->decoder);
 		DCPOMATIC_ASSERT (decoder);
 
 		/* The time that we should request from the content */
@@ -472,7 +500,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			request = DCPTime ();
 		}
 
-		Frame const content_frame = dcp_to_resampled_audio (*i, request);
+		Frame const content_frame = dcp_to_resampled_audio (i, request);
 
 		BOOST_FOREACH (AudioStreamPtr j, content->audio_streams ()) {
 
@@ -587,6 +615,11 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 			continue;
 		}
 
+		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (subtitle_content);
+		if (dcp_content && dcp_content->reference_subtitle () && !_play_referenced) {
+			continue;
+		}
+
 		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
 		ContentTime const from = dcp_to_content_subtitle (*j, time);
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
@@ -682,4 +715,37 @@ Player::set_fast ()
 {
 	_fast = true;
 	_have_valid_pieces = false;
+}
+
+void
+Player::set_play_referenced ()
+{
+	_play_referenced = true;
+	_have_valid_pieces = false;
+}
+
+list<shared_ptr<dcp::ReelAsset> >
+Player::get_reel_assets ()
+{
+	list<shared_ptr<dcp::ReelAsset> > a;
+
+	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
+		shared_ptr<DCPContent> j = dynamic_pointer_cast<DCPContent> (i);
+		if (!j) {
+			continue;
+		}
+		/* XXX: hack hack hack */
+		DCPDecoder decoder (j, false);
+		if (j->reference_video ()) {
+			a.push_back (decoder.reels().front()->main_picture ());
+		}
+		if (j->reference_audio ()) {
+			a.push_back (decoder.reels().front()->main_sound ());
+		}
+		if (j->reference_subtitle ()) {
+			a.push_back (decoder.reels().front()->main_subtitle ());
+		}
+	}
+
+	return a;
 }

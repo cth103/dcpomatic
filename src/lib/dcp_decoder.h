@@ -37,6 +37,10 @@ class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDeco
 public:
 	DCPDecoder (boost::shared_ptr<const DCPContent>, bool fast);
 
+	std::list<boost::shared_ptr<dcp::Reel> > reels () const {
+		return _reels;
+	}
+
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 

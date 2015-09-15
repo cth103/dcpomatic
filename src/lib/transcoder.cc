@@ -90,10 +90,20 @@ Transcoder::go ()
 		for (list<shared_ptr<PlayerVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {
 			_encoder->enqueue (*i);
 		}
-		_writer->write (_player->get_audio (t, frame, true));
+
+		shared_ptr<AudioBuffers> audio = _player->get_audio (t, frame, true);
+		if (audio) {
+			_writer->write (audio);
+		}
+
 		if (non_burnt_subtitles) {
 			_writer->write (_player->get_subtitles (t, frame, true, false));
 		}
+	}
+
+	/* XXX: we should be passing through details of positions, at least... */
+	BOOST_FOREACH (shared_ptr<dcp::ReelAsset> i, _player->get_reel_assets ()) {
+		_writer->write (i);
 	}
 
 	_finishing = true;

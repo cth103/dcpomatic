@@ -49,6 +49,9 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
+	, _reference_video (false)
+	, _reference_audio (false)
+	, _reference_subtitle (false)
 {
 	read_directory (p);
 }
@@ -66,6 +69,9 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		_kdm = dcp::EncryptedKDM (node->string_child ("KDM"));
 	}
 	_kdm_valid = node->bool_child ("KDMValid");
+	_reference_video = node->optional_bool_child ("ReferenceVideo").get_value_or (false);
+	_reference_audio = node->optional_bool_child ("ReferenceAudio").get_value_or (false);
+	_reference_subtitle = node->optional_bool_child ("ReferenceSubtitle").get_value_or (false);
 }
 
 void
@@ -138,6 +144,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 		node->add_child("KDM")->add_child_text (_kdm->as_xml ());
 	}
 	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
+	node->add_child("ReferenceVideo")->add_child_text (_reference_video ? "1" : "0");
+	node->add_child("ReferenceAudio")->add_child_text (_reference_audio ? "1" : "0");
+	node->add_child("ReferenceSubtitle")->add_child_text (_reference_subtitle ? "1" : "0");
 }
 
 DCPTime
@@ -153,7 +162,9 @@ string
 DCPContent::identifier () const
 {
 	SafeStringStream s;
-	s << VideoContent::identifier() << "_" << SubtitleContent::identifier ();
+	s << VideoContent::identifier() << "_" << SubtitleContent::identifier () << " "
+	  << (_reference_video ? "1" : "0")
+	  << (_reference_subtitle ? "1" : "0");
 	return s.str ();
 }
 

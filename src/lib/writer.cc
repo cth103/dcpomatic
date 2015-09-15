@@ -495,38 +495,46 @@ Writer::finish ()
 
 	terminate_thread (true);
 
-	_picture_asset_writer->finalize ();
-	if (_sound_asset_writer) {
-		_sound_asset_writer->finalize ();
+	if (!_picture_asset_writer->finalize ()) {
+		/* Nothing was written to the picture asset */
+		_picture_asset.reset ();
 	}
 
-	/* Hard-link the video asset into the DCP */
-	boost::filesystem::path video_from = _picture_asset->file ();
-
-	boost::filesystem::path video_to;
-	video_to /= _film->dir (_film->dcp_name());
-	video_to /= video_asset_filename (_picture_asset);
-
-	boost::system::error_code ec;
-	boost::filesystem::create_hard_link (video_from, video_to, ec);
-	if (ec) {
-		LOG_WARNING_NC ("Hard-link failed; copying instead");
-		boost::filesystem::copy_file (video_from, video_to, ec);
-		if (ec) {
-			LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
-			throw FileError (ec.message(), video_from);
+	if (_sound_asset_writer) {
+		if (!_sound_asset_writer->finalize ()) {
+			/* Nothing was written to the sound asset */
+			_sound_asset.reset ();
 		}
 	}
 
-	_picture_asset->set_file (video_to);
+	/* Hard-link any video asset file into the DCP */
+	if (_picture_asset) {
+		boost::filesystem::path video_from = _picture_asset->file ();
+		boost::filesystem::path video_to;
+		video_to /= _film->dir (_film->dcp_name());
+		video_to /= video_asset_filename (_picture_asset);
+
+		boost::system::error_code ec;
+		boost::filesystem::create_hard_link (video_from, video_to, ec);
+		if (ec) {
+			LOG_WARNING_NC ("Hard-link failed; copying instead");
+			boost::filesystem::copy_file (video_from, video_to, ec);
+			if (ec) {
+				LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message ());
+				throw FileError (ec.message(), video_from);
+			}
+		}
+
+		_picture_asset->set_file (video_to);
+	}
 
 	/* Move the audio asset into the DCP */
-
 	if (_sound_asset) {
 		boost::filesystem::path audio_to;
 		audio_to /= _film->dir (_film->dcp_name ());
 		audio_to /= audio_asset_filename (_sound_asset);
 
+		boost::system::error_code ec;
 		boost::filesystem::rename (_film->file (audio_asset_filename (_sound_asset)), audio_to, ec);
 		if (ec) {
 			throw FileError (
@@ -550,18 +558,43 @@ Writer::finish ()
 
 	shared_ptr<dcp::Reel> reel (new dcp::Reel ());
 
-	shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
-	if (mono) {
-		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelMonoPictureAsset (mono, 0)));
+	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset;
+
+	if (_picture_asset) {
+		/* We have made a picture asset of our own.  Put it into the reel */
+		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
+		if (mono) {
+			reel_picture_asset.reset (new dcp::ReelMonoPictureAsset (mono, 0));
+		}
+
+		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
+		if (stereo && boost::filesystem::exists (stereo->file ())) {
+			reel_picture_asset.reset (new dcp::ReelStereoPictureAsset (stereo, 0));
+		}
+	} else {
+		/* We don't have a picture asset of our own; maybe we need to reference one */
+		/* XXX: this is all a hack */
+		BOOST_FOREACH (shared_ptr<dcp::ReelAsset> i, _reel_assets) {
+			shared_ptr<dcp::ReelPictureAsset> j = dynamic_pointer_cast<dcp::ReelPictureAsset> (i);
+			if (j) {
+				reel_picture_asset = j;
+			}
+		}
 	}
 
-	shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
-	if (stereo) {
-		reel->add (shared_ptr<dcp::ReelPictureAsset> (new dcp::ReelStereoPictureAsset (stereo, 0)));
-	}
+	reel->add (reel_picture_asset);
 
 	if (_sound_asset) {
+		/* We have made a sound asset of our own.  Put it into the reel */
 		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_asset, 0)));
+	} else {
+		/* We don't have a sound asset of our own; maybe we need to reference one */
+		/* XXX: this is all a hack */
+		BOOST_FOREACH (shared_ptr<dcp::ReelAsset> i, _reel_assets) {
+			if (dynamic_pointer_cast<dcp::ReelSoundAsset> (i)) {
+				reel->add (i);
+			}
+		}
 	}
 
 	if (_subtitle_asset) {
@@ -592,10 +625,18 @@ Writer::finish ()
 				   new dcp::ReelSubtitleAsset (
 					   _subtitle_asset,
 					   dcp::Fraction (_film->video_frame_rate(), 1),
-					   _picture_asset->intrinsic_duration (),
+					   reel_picture_asset->intrinsic_duration (),
 					   0
 					   )
 				   ));
+	} else {
+		/* We don't have a subtitle asset of our own; maybe we need to reference one */
+		/* XXX: this is all a hack */
+		BOOST_FOREACH (shared_ptr<dcp::ReelAsset> i, _reel_assets) {
+			if (dynamic_pointer_cast<dcp::ReelSubtitleAsset> (i)) {
+				reel->add (i);
+			}
+		}
 	}
 
 	cpl->add (reel);
@@ -604,7 +645,9 @@ Writer::finish ()
 	DCPOMATIC_ASSERT (job);
 
 	job->sub (_("Computing image digest"));
-	_picture_asset->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+	if (_picture_asset) {
+		_picture_asset->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+	}
 
 	if (_sound_asset) {
 		job->sub (_("Computing audio digest"));
@@ -816,4 +859,10 @@ Writer::read_frame_info (FILE* file, int frame, Eyes eyes) const
 	info.hash = hash_buffer;
 
 	return info;
+}
+
+void
+Writer::write (shared_ptr<dcp::ReelAsset> asset)
+{
+	_reel_assets.push_back (asset);
 }

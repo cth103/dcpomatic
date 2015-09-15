@@ -29,6 +29,10 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
 
+namespace dcp {
+	class ReelAsset;
+}
+
 class PlayerVideo;
 class Playlist;
 class Font;
@@ -46,6 +50,7 @@ public:
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
 	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt);
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
+	std::list<boost::shared_ptr<dcp::ReelAsset> > get_reel_assets ();
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
@@ -53,6 +58,7 @@ public:
 	void set_enable_subtitles (bool enable);
 	void set_always_burn_subtitles (bool burn);
 	void set_fast ();
+	void set_play_referenced ();
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -127,6 +133,8 @@ private:
 	bool _always_burn_subtitles;
 	/** true if we should try to be fast rather than high quality */
 	bool _fast;
+	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
+	bool _play_referenced;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 

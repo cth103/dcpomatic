@@ -68,7 +68,7 @@ DCPDecoder::pass ()
 	double const vfr = _dcp_content->video_frame_rate ();
 	int64_t const frame = _next.frames_round (vfr);
 
-	if ((*_reel)->main_picture ()) {
+	if ((*_reel)->main_picture () && !_dcp_content->reference_video ()) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
 		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
@@ -88,7 +88,7 @@ DCPDecoder::pass ()
 		}
 	}
 
-	if ((*_reel)->main_sound ()) {
+	if ((*_reel)->main_sound () && !_dcp_content->reference_audio ()) {
 		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
 		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->asset()->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
@@ -106,7 +106,7 @@ DCPDecoder::pass ()
 		audio (_dcp_content->audio_stream(), data, _next);
 	}
 
-	if ((*_reel)->main_subtitle ()) {
+	if ((*_reel)->main_subtitle () && !_dcp_content->reference_subtitle ()) {
 		int64_t const entry_point = (*_reel)->main_subtitle()->entry_point ();
 		list<dcp::SubtitleString> subs = (*_reel)->main_subtitle()->subtitle_asset()->subtitles_during (
 			dcp::Time (entry_point + frame, vfr, vfr),

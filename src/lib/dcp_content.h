@@ -85,6 +85,21 @@ public:
 
 	bool can_be_played () const;
 
+	bool reference_video () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _reference_video;
+	}
+
+	bool reference_audio () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _reference_audio;
+	}
+
+	bool reference_subtitle () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _reference_subtitle;
+	}
+
 protected:
 	void add_properties (std::list<std::pair<std::string, std::string> >& p) const;
 
@@ -98,6 +113,18 @@ private:
 	boost::optional<dcp::EncryptedKDM> _kdm;
 	/** true if _kdm successfully decrypts the first frame of our DCP */
 	bool _kdm_valid;
+	/** true if the video in this DCP should be included in the output by reference
+	 *  rather than by rewrapping.
+	 */
+	bool _reference_video;
+	/** true if the audio in this DCP should be included in the output by reference
+	 *  rather than by rewrapping.
+	 */
+	bool _reference_audio;
+	/** true if the subtitle in this DCP should be included in the output by reference
+	 *  rather than by rewrapping.
+	 */
+	bool _reference_subtitle;
 };
 
 #endif
