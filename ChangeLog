@@ -1,5 +1,8 @@
 2015-09-16  Carl Hetherington  <cth@carlh.net>
 
+	* Fix exception on adding an empty folder
+	as content (#691).
+
 	* Add config option for default standard
 	(SMPTE / Interop).
 

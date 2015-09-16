@@ -277,6 +277,10 @@ ContentPanel::add_folder_clicked ()
 	}
 
 	shared_ptr<Content> content = content_factory (_film, path);
+	if (!content) {
+		error_dialog (_parent, _("No content found in this folder."));
+		return;
+	}
 
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
 	if (ic) {

@@ -77,6 +77,11 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 	shared_ptr<Content> content;
 
 	if (boost::filesystem::is_directory (path)) {
+
+		if (boost::filesystem::is_empty (path)) {
+			return shared_ptr<Content> ();
+		}
+
 		/* Guess if this is a DCP or a set of images: read the first ten filenames and if they
 		   are all valid image files we assume it is a set of images.
 		*/
