@@ -45,6 +45,7 @@ public:
 	void content_selection_changed ();
 
 private:
+	void reference_clicked ();
 	void edit_filters_clicked ();
 	void colour_conversion_changed ();
 	void edit_colour_conversion_clicked ();
@@ -52,7 +53,9 @@ private:
 	void fade_out_changed ();
 
 	void setup_description ();
+	void setup_sensitivity ();
 
+	wxCheckBox* _reference;
 	ContentChoice<VideoContent, VideoFrameType>*    _frame_type;
 	ContentSpinCtrl<VideoContent>*                  _left_crop;
 	ContentSpinCtrl<VideoContent>*                  _right_crop;

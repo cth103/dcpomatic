@@ -29,6 +29,7 @@
 #include "lib/dcp_subtitle_content.h"
 #include "lib/subrip_decoder.h"
 #include "lib/dcp_subtitle_decoder.h"
+#include "lib/dcp_content.h"
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
@@ -46,6 +47,10 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 {
 	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
+
+	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
+	grid->Add (_reference);
+	grid->AddSpacer (0);
 
 	_use = new wxCheckBox (this, wxID_ANY, _("Use subtitles"));
 	grid->Add (_use);
@@ -112,6 +117,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_x_scale->SetRange (10, 1000);
 	_y_scale->SetRange (10, 1000);
 
+	_reference->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::reference_clicked, this));
 	_use->Bind                  (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
 	_burn->Bind                 (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::burn_toggled, this));
 	_x_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
@@ -178,6 +184,15 @@ SubtitlePanel::film_content_changed (int property)
 		checked_set (_y_scale, scs ? lrint (scs->subtitle_y_scale() * 100) : 100);
 	} else if (property == SubtitleContentProperty::SUBTITLE_LANGUAGE) {
 		checked_set (_language, scs ? scs->subtitle_language() : "");
+	} else if (property == DCPContentProperty::REFERENCE_SUBTITLE) {
+		if (scs) {
+			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
+			checked_set (_reference, dcp ? dcp->reference_subtitle () : false);
+		} else {
+			checked_set (_reference, false);
+		}
+
+		setup_sensitivity ();
 	}
 }
 
@@ -227,17 +242,19 @@ SubtitlePanel::setup_sensitivity ()
 		}
 	}
 
-	_use->Enable (any_subs > 0);
+	bool const reference = _reference->GetValue ();
+
+	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
-	_burn->Enable (any_subs > 0 && use && image_subs == 0);
-	_x_offset->Enable (any_subs > 0 && use);
-	_y_offset->Enable (any_subs > 0 && use);
-	_x_scale->Enable (any_subs > 0 && use);
-	_y_scale->Enable (any_subs > 0 && use);
-	_language->Enable (any_subs > 0 && use);
-	_stream->Enable (ffmpeg_subs == 1);
-	_subtitle_view_button->Enable (subrip_or_dcp_subs == 1);
-	_fonts_dialog_button->Enable (subrip_or_dcp_subs == 1);
+	_burn->Enable (!reference && any_subs > 0 && use && image_subs == 0);
+	_x_offset->Enable (!reference && any_subs > 0 && use);
+	_y_offset->Enable (!reference && any_subs > 0 && use);
+	_x_scale->Enable (!reference && any_subs > 0 && use);
+	_y_scale->Enable (!reference && any_subs > 0 && use);
+	_language->Enable (!reference && any_subs > 0 && use);
+	_stream->Enable (!reference && ffmpeg_subs == 1);
+	_subtitle_view_button->Enable (!reference && subrip_or_dcp_subs == 1);
+	_fonts_dialog_button->Enable (!reference && subrip_or_dcp_subs == 1);
 }
 
 void
@@ -359,4 +376,20 @@ SubtitlePanel::fonts_dialog_clicked ()
 
 	_fonts_dialog = new FontsDialog (this, c.front ());
 	_fonts_dialog->Show ();
+}
+
+void
+SubtitlePanel::reference_clicked ()
+{
+	ContentList c = _parent->selected ();
+	if (c.size() != 1) {
+		return;
+	}
+
+	shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (c.front ());
+	if (!d) {
+		return;
+	}
+
+	d->set_reference_subtitle (_reference->GetValue ());
 }

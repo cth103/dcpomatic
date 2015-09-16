@@ -17,6 +17,12 @@
 
 */
 
+#include "filter_dialog.h"
+#include "video_panel.h"
+#include "wx_util.h"
+#include "content_colour_conversion_dialog.h"
+#include "content_widget.h"
+#include "content_panel.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/colour_conversion.h"
@@ -24,12 +30,7 @@
 #include "lib/util.h"
 #include "lib/ratio.h"
 #include "lib/frame_rate_change.h"
-#include "filter_dialog.h"
-#include "video_panel.h"
-#include "wx_util.h"
-#include "content_colour_conversion_dialog.h"
-#include "content_widget.h"
-#include "content_panel.h"
+#include "lib/dcp_content.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 #include <set>
@@ -75,6 +76,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
+
+	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
+	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
 
 	add_label_to_grid_bag_sizer (grid, this, _("Type"), true, wxGBPosition (r, 0));
 	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
@@ -226,9 +231,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
-	_filters_button->Bind                (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&VideoPanel::edit_filters_clicked, this));
-	_colour_conversion->Bind             (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&VideoPanel::colour_conversion_changed, this));
-	_edit_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
+	_reference->Bind                     (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&VideoPanel::reference_clicked, this));
+	_filters_button->Bind                (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	_colour_conversion->Bind             (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::colour_conversion_changed, this));
+	_edit_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
 
 void
@@ -316,6 +322,15 @@ VideoPanel::film_content_changed (int property)
 		} else {
 			_fade_out->clear ();
 		}
+	} else if (property == DCPContentProperty::REFERENCE_VIDEO) {
+		if (vc.size() == 1) {
+			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (vc.front ());
+			checked_set (_reference, dcp ? dcp->reference_video () : false);
+		} else {
+			checked_set (_reference, false);
+		}
+
+		setup_sensitivity ();
 	}
 }
 
@@ -396,21 +411,13 @@ void
 VideoPanel::content_selection_changed ()
 {
 	VideoContentList video_sel = _parent->selected_video ();
-	FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
-
-	bool const single = video_sel.size() == 1;
 
 	_frame_type->set_content (video_sel);
 	_left_crop->set_content (video_sel);
 	_right_crop->set_content (video_sel);
 	_top_crop->set_content (video_sel);
 	_bottom_crop->set_content (video_sel);
-	_fade_in->Enable (!video_sel.empty ());
-	_fade_out->Enable (!video_sel.empty ());
 	_scale->set_content (video_sel);
-
-	_colour_conversion->Enable (single && !video_sel.empty ());
-	_filters_button->Enable (single && !ffmpeg_sel.empty ());
 
 	film_content_changed (VideoContentProperty::VIDEO_CROP);
 	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
@@ -418,6 +425,50 @@ VideoPanel::content_selection_changed ()
 	film_content_changed (VideoContentProperty::VIDEO_FADE_IN);
 	film_content_changed (VideoContentProperty::VIDEO_FADE_OUT);
 	film_content_changed (FFmpegContentProperty::FILTERS);
+	film_content_changed (DCPContentProperty::REFERENCE_VIDEO);
+
+	setup_sensitivity ();
+}
+
+void
+VideoPanel::setup_sensitivity ()
+{
+	ContentList sel = _parent->selected ();
+	_reference->Enable (sel.size() == 1 && dynamic_pointer_cast<DCPContent> (sel.front ()));
+
+	if (_reference->GetValue ()) {
+		_frame_type->wrapped()->Enable (false);
+		_left_crop->wrapped()->Enable (false);
+		_right_crop->wrapped()->Enable (false);
+		_top_crop->wrapped()->Enable (false);
+		_bottom_crop->wrapped()->Enable (false);
+		_fade_in->Enable (false);
+		_fade_out->Enable (false);
+		_scale->wrapped()->Enable (false);
+		_description->Enable (false);
+		_filters->Enable (false);
+		_filters_button->Enable (false);
+		_colour_conversion->Enable (false);
+		_edit_colour_conversion_button->Enable (false);
+	} else {
+		VideoContentList video_sel = _parent->selected_video ();
+		FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
+		bool const single = video_sel.size() == 1;
+
+		_frame_type->wrapped()->Enable (true);
+		_left_crop->wrapped()->Enable (true);
+		_right_crop->wrapped()->Enable (true);
+		_top_crop->wrapped()->Enable (true);
+		_bottom_crop->wrapped()->Enable (true);
+		_fade_in->Enable (!video_sel.empty ());
+		_fade_out->Enable (!video_sel.empty ());
+		_scale->wrapped()->Enable (true);
+		_description->Enable (true);
+		_filters->Enable (true);
+		_filters_button->Enable (single && !ffmpeg_sel.empty ());
+		_colour_conversion->Enable (single && !video_sel.empty ());
+		_edit_colour_conversion_button->Enable (true);
+	}
 }
 
 void
@@ -436,4 +487,20 @@ VideoPanel::fade_out_changed ()
 		int const vfr = _parent->film()->video_frame_rate ();
 		i->set_fade_out (_fade_out->get (vfr).frames_round (vfr));
 	}
+}
+
+void
+VideoPanel::reference_clicked ()
+{
+	ContentList c = _parent->selected ();
+	if (c.size() != 1) {
+		return;
+	}
+
+	shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (c.front ());
+	if (!d) {
+		return;
+	}
+
+	d->set_reference_video (_reference->GetValue ());
 }

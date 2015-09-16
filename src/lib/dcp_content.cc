@@ -39,7 +39,10 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-int const DCPContentProperty::CAN_BE_PLAYED = 600;
+int const DCPContentProperty::CAN_BE_PLAYED      = 600;
+int const DCPContentProperty::REFERENCE_VIDEO    = 601;
+int const DCPContentProperty::REFERENCE_AUDIO    = 602;
+int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -208,4 +211,37 @@ DCPContent::set_default_colour_conversion ()
 {
 	/* Default to no colour conversion for DCPs */
 	unset_colour_conversion ();
+}
+
+void
+DCPContent::set_reference_video (bool r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_reference_video = r;
+	}
+
+	signal_changed (DCPContentProperty::REFERENCE_VIDEO);
+}
+
+void
+DCPContent::set_reference_audio (bool r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_reference_audio = r;
+	}
+
+	signal_changed (DCPContentProperty::REFERENCE_AUDIO);
+}
+
+void
+DCPContent::set_reference_subtitle (bool r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_reference_subtitle = r;
+	}
+
+	signal_changed (DCPContentProperty::REFERENCE_SUBTITLE);
 }

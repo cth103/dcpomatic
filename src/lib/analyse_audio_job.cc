@@ -74,6 +74,7 @@ AnalyseAudioJob::run ()
 	shared_ptr<Player> player (new Player (_film, _playlist));
 	player->set_ignore_video ();
 	player->set_fast ();
+	player->set_play_referenced ();
 
 	DCPTime const start = _playlist->start().get_value_or (DCPTime ());
 	DCPTime const length = _playlist->length ();

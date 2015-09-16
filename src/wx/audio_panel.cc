@@ -27,6 +27,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/cinema_sound_processor.h"
 #include "lib/job_manager.h"
+#include "lib/dcp_content.h"
 #include <wx/spinctrl.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
@@ -50,6 +51,10 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_sizer->Add (grid, 0, wxALL, 8);
 
 	int r = 0;
+
+	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
+	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
 
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -107,8 +112,9 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain->wrapped()->SetIncrement (0.5);
 	_delay->wrapped()->SetRange (-1000, 1000);
 
-	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&AudioPanel::show_clicked, this));
-	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
+	_reference->Bind             (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioPanel::reference_clicked, this));
+	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::show_clicked, this));
+	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 
@@ -143,8 +149,8 @@ AudioPanel::film_changed (Film::Property property)
 void
 AudioPanel::film_content_changed (int property)
 {
+	AudioContentList ac = _parent->selected_audio ();
 	if (property == AudioContentProperty::AUDIO_STREAMS) {
-		AudioContentList ac = _parent->selected_audio ();
 		if (ac.size() == 1) {
 			_mapping->set (ac.front()->audio_mapping());
 			_mapping->set_input_channels (ac.front()->audio_channel_names ());
@@ -156,6 +162,15 @@ AudioPanel::film_content_changed (int property)
 		_sizer->Layout ();
 	} else if (property == AudioContentProperty::AUDIO_GAIN) {
 		setup_peak ();
+	} else if (property == DCPContentProperty::REFERENCE_AUDIO) {
+		if (ac.size() == 1) {
+			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (ac.front ());
+			checked_set (_reference, dcp ? dcp->reference_audio () : false);
+		} else {
+			checked_set (_reference, false);
+		}
+
+		setup_sensitivity ();
 	}
 }
 
@@ -214,10 +229,32 @@ AudioPanel::content_selection_changed ()
 	_gain->set_content (sel);
 	_delay->set_content (sel);
 
-	_gain_calculate_button->Enable (sel.size() == 1);
-	_mapping->Enable (sel.size() == 1);
-
 	film_content_changed (AudioContentProperty::AUDIO_STREAMS);
+
+	setup_sensitivity ();
+}
+
+void
+AudioPanel::setup_sensitivity ()
+{
+	AudioContentList sel = _parent->selected_audio ();
+	_reference->Enable (sel.size() == 1 && dynamic_pointer_cast<DCPContent> (sel.front ()));
+
+	if (_reference->GetValue ()) {
+		_gain->wrapped()->Enable (false);
+		_gain_calculate_button->Enable (false);
+		_peak->Enable (false);
+		_delay->wrapped()->Enable (false);
+		_mapping->Enable (false);
+		_description->Enable (false);
+	} else {
+		_gain->wrapped()->Enable (true);
+		_gain_calculate_button->Enable (sel.size() == 1);
+		_peak->Enable (true);
+		_delay->wrapped()->Enable (true);
+		_mapping->Enable (sel.size() == 1);
+		_description->Enable (true);
+	}
 }
 
 void
@@ -279,4 +316,20 @@ AudioPanel::active_jobs_changed (optional<string> j)
 	if (j && *j == "analyse_audio") {
 		setup_peak ();
 	}
+}
+
+void
+AudioPanel::reference_clicked ()
+{
+	ContentList c = _parent->selected ();
+	if (c.size() != 1) {
+		return;
+	}
+
+	shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (c.front ());
+	if (!d) {
+		return;
+	}
+
+	d->set_reference_audio (_reference->GetValue ());
 }

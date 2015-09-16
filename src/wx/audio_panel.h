@@ -45,7 +45,10 @@ private:
 	void setup_description ();
 	void setup_peak ();
 	void active_jobs_changed (boost::optional<std::string>);
+	void setup_sensitivity ();
+	void reference_clicked ();
 
+	wxCheckBox* _reference;
 	wxButton* _show;
 	ContentSpinCtrlDouble<AudioContent>* _gain;
 	wxButton* _gain_calculate_button;

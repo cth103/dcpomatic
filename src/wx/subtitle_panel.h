@@ -44,9 +44,11 @@ private:
 	void stream_changed ();
 	void subtitle_view_clicked ();
 	void fonts_dialog_clicked ();
+	void reference_clicked ();
 
 	void setup_sensitivity ();
 
+	wxCheckBox* _reference;
 	wxCheckBox* _use;
 	wxCheckBox* _burn;
 	wxSpinCtrl* _x_offset;

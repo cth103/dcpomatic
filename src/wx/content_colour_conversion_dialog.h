@@ -17,6 +17,7 @@
 
 */
 
+#include "lib/colour_conversion.h"
 #include <wx/wx.h>
 
 class ColourConversionEditor;

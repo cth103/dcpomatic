@@ -34,6 +34,9 @@ class DCPContentProperty
 {
 public:
 	static int const CAN_BE_PLAYED;
+	static int const REFERENCE_VIDEO;
+	static int const REFERENCE_AUDIO;
+	static int const REFERENCE_SUBTITLE;
 };
 
 /** @class DCPContent
@@ -85,15 +88,21 @@ public:
 
 	bool can_be_played () const;
 
+	void set_reference_video (bool r);
+
 	bool reference_video () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _reference_video;
 	}
 
+	void set_reference_audio (bool r);
+
 	bool reference_audio () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _reference_audio;
 	}
+
+	void set_reference_subtitle (bool r);
 
 	bool reference_subtitle () const {
 		boost::mutex::scoped_lock lm (_mutex);
