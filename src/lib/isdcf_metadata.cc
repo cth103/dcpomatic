@@ -36,7 +36,6 @@ ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 	, rating (node->string_child ("Rating"))
 	, studio (node->string_child ("Studio"))
 	, facility (node->string_child ("Facility"))
-	, package_type (node->string_child ("PackageType"))
 	/* This stuff was added later */
 	, temp_version (node->optional_bool_child ("TempVersion").get_value_or (false))
 	, pre_release (node->optional_bool_child ("PreRelease").get_value_or (false))
@@ -58,7 +57,6 @@ ISDCFMetadata::as_xml (xmlpp::Node* root) const
 	root->add_child("Rating")->add_child_text (rating);
 	root->add_child("Studio")->add_child_text (studio);
 	root->add_child("Facility")->add_child_text (facility);
-	root->add_child("PackageType")->add_child_text (package_type);
 	root->add_child("TempVersion")->add_child_text (temp_version ? "1" : "0");
 	root->add_child("PreRelease")->add_child_text (pre_release ? "1" : "0");
 	root->add_child("RedBand")->add_child_text (red_band ? "1" : "0");
@@ -77,7 +75,6 @@ operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
                a.rating == b.rating &&
                a.studio == b.studio &&
                a.facility == b.facility &&
-               a.package_type == b.package_type &&
                a.temp_version == b.temp_version &&
                a.pre_release == b.pre_release &&
                a.red_band == b.red_band &&

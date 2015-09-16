@@ -50,7 +50,6 @@ public:
 	std::string rating;
 	std::string studio;
 	std::string facility;
-	std::string package_type;
 	/** true if this is a temporary version (without final picture or sound) */
 	bool temp_version;
 	/** true if this is a pre-release version (final picture and sound, but without accessibility features) */

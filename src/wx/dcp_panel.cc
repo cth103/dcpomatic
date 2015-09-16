@@ -29,6 +29,7 @@
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_processor.h"
+#include "lib/dcp_content.h"
 #include <dcp/key.h>
 #include <dcp/raw_convert.h>
 #include <wx/wx.h>
@@ -372,7 +373,10 @@ DCPPanel::film_content_changed (int property)
 {
 	if (property == AudioContentProperty::AUDIO_STREAMS ||
 	    property == SubtitleContentProperty::USE_SUBTITLES ||
-	    property == VideoContentProperty::VIDEO_SCALE) {
+	    property == VideoContentProperty::VIDEO_SCALE ||
+	    property == DCPContentProperty::REFERENCE_VIDEO ||
+	    property == DCPContentProperty::REFERENCE_AUDIO ||
+	    property == DCPContentProperty::REFERENCE_SUBTITLE) {
 		setup_dcp_name ();
 	}
 }

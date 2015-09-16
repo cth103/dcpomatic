@@ -40,7 +40,6 @@ private:
 	wxTextCtrl* _rating;
 	wxTextCtrl* _studio;
 	wxTextCtrl* _facility;
-	wxTextCtrl* _package_type;
 	wxCheckBox* _temp_version;
 	wxCheckBox* _pre_release;
 	wxCheckBox* _red_band;

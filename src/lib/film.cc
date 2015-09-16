@@ -48,6 +48,7 @@
 #include "video_content.h"
 #include "subtitle_content.h"
 #include "ffmpeg_content.h"
+#include "dcp_content.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -674,8 +675,18 @@ Film::isdcf_name (bool if_created_now) const
 		d << "-3D";
 	}
 
-	if (!dm.package_type.empty ()) {
-		d << "_" << dm.package_type;
+	bool vf = false;
+	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
+		if (dc && (dc->reference_video() || dc->reference_audio() || dc->reference_subtitle())) {
+			vf = true;
+		}
+	}
+
+	if (vf) {
+		d << "_VF";
+	} else {
+		d << "_OV";
 	}
 
 	return d.str ();

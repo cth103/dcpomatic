@@ -51,9 +51,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Facility (e.g. DLA)"), true);
 	_facility = add (new wxTextCtrl (this, wxID_ANY));
 
-	add (_("Package Type (e.g. OV)"), true);
-	_package_type = add (new wxTextCtrl (this, wxID_ANY));
-
 	_temp_version = add (new wxCheckBox (this, wxID_ANY, _("Temp version")));
 	add_spacer ();
 
@@ -85,7 +82,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	_rating->SetValue (std_to_wx (dm.rating));
 	_studio->SetValue (std_to_wx (dm.studio));
 	_facility->SetValue (std_to_wx (dm.facility));
-	_package_type->SetValue (std_to_wx (dm.package_type));
 	_temp_version->SetValue (dm.temp_version);
 	_pre_release->SetValue (dm.pre_release);
 	_red_band->SetValue (dm.red_band);
@@ -108,7 +104,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 	dm.rating = wx_to_std (_rating->GetValue ());
 	dm.studio = wx_to_std (_studio->GetValue ());
 	dm.facility = wx_to_std (_facility->GetValue ());
-	dm.package_type = wx_to_std (_package_type->GetValue ());
 	dm.temp_version = _temp_version->GetValue ();
 	dm.pre_release = _pre_release->GetValue ();
 	dm.red_band = _red_band->GetValue ();
