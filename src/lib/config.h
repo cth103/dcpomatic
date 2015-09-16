@@ -166,6 +166,10 @@ public:
 		return _default_audio_delay;
 	}
 
+	bool default_interop () const {
+		return _default_interop;
+	}
+
 	std::string mail_server () const {
 		return _mail_server;
 	}
@@ -349,6 +353,10 @@ public:
 		maybe_set (_default_audio_delay, d);
 	}
 
+	void set_default_interop (bool i) {
+		maybe_set (_default_interop, i);
+	}
+
 	void set_mail_server (std::string s) {
 		maybe_set (_mail_server, s);
 	}
@@ -492,6 +500,7 @@ private:
 	std::string _dcp_creator;
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
+	bool _default_interop;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
 	int _mail_port;

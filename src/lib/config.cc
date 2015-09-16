@@ -86,6 +86,7 @@ Config::set_defaults ()
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_j2k_bandwidth = 100000000;
 	_default_audio_delay = 0;
+	_default_interop = false;
 	_mail_server = "";
 	_mail_port = 25;
 	_mail_user = "";
@@ -205,6 +206,7 @@ Config::read ()
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
+	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
 
 	list<cxml::NodePtr> cin = f.node_children ("Cinema");
 	for (list<cxml::NodePtr>::iterator i = cin.begin(); i != cin.end(); ++i) {
@@ -357,6 +359,7 @@ Config::write () const
 	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
+	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
 
 	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
 		(*i)->as_xml (root->add_child ("Cinema"));

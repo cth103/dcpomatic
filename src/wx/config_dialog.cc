@@ -425,6 +425,10 @@ private:
 			table->Add (s, 1);
 		}
 
+		add_label_to_sizer (table, _panel, _("Default standard"), true);
+		_standard = new wxChoice (_panel, wxID_ANY);
+		table->Add (_standard);
+
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::still_length_changed, this));
 
@@ -451,6 +455,10 @@ private:
 
 		_audio_delay->SetRange (-1000, 1000);
 		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
+
+		_standard->Append (_("SMPTE"));
+		_standard->Append (_("Interop"));
+		_standard->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::standard_changed, this));
 	}
 
 	void config_changed ()
@@ -476,6 +484,7 @@ private:
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_audio_delay, config->default_audio_delay ());
+		checked_set (_standard, config->default_interop() ? 1 : 0);
 	}
 
 	void j2k_bandwidth_changed ()
@@ -518,6 +527,11 @@ private:
 		Config::instance()->set_default_dcp_content_type (ct[_dcp_content_type->GetSelection()]);
 	}
 
+	void standard_changed ()
+	{
+		Config::instance()->set_default_interop (_standard->GetSelection() == 1);
+	}
+
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
 	wxButton* _isdcf_metadata_button;
@@ -529,6 +543,7 @@ private:
 #endif
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
+	wxChoice* _standard;
 };
 
 class EncodingServersPage : public StandardPage
