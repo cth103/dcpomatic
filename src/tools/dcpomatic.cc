@@ -919,9 +919,22 @@ private:
 		try {
 			throw;
 		} catch (FileError& e) {
-			error_dialog (0, wxString::Format (_("An exception occurred: %s (%s).\n\n" + REPORT_PROBLEM), e.what(), e.file().string().c_str ()));
+			error_dialog (
+				0,
+				wxString::Format (
+					_("An exception occurred: %s (%s)\n\n") + REPORT_PROBLEM,
+					std_to_wx (e.what()),
+					std_to_wx (e.file().string().c_str ())
+					)
+				);
 		} catch (exception& e) {
-			error_dialog (0, wxString::Format (_("An exception occurred: %s.\n\n"), e.what ()) + "  " + REPORT_PROBLEM);
+			error_dialog (
+				0,
+				wxString::Format (
+					_("An exception occurred: %s.\n\n") + " " + REPORT_PROBLEM,
+					std_to_wx (e.what ())
+					)
+				);
 		} catch (...) {
 			error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 		}
