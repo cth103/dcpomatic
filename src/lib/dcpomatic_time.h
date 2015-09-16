@@ -228,30 +228,39 @@ typedef Time<ContentTimeDifferentiator, DCPTimeDifferentiator> ContentTime;
 /** Time relative to the start of the output DCP in its frame rate */
 typedef Time<DCPTimeDifferentiator, ContentTimeDifferentiator> DCPTime;
 
-class ContentTimePeriod
+template <class T>
+class TimePeriod
 {
 public:
-	ContentTimePeriod () {}
+	TimePeriod () {}
 
-	ContentTimePeriod (ContentTime f, ContentTime t)
+	TimePeriod (T f, T t)
 		: from (f)
 		, to (t)
 	{}
 
-	ContentTime from;
-	ContentTime to;
+	T from;
+	T to;
 
-	ContentTimePeriod operator+ (ContentTime const & o) const {
-		return ContentTimePeriod (from + o, to + o);
+	TimePeriod<T> operator+ (T const & o) const {
+		return TimePeriod<T> (from + o, to + o);
 	}
 
-	bool overlaps (ContentTimePeriod const & o) const;
-	bool contains (ContentTime const & o) const;
+	bool overlaps (TimePeriod<T> const & other) const {
+		return (from < other.to && to > other.from);
+	}
 
-	bool operator== (ContentTimePeriod const & o) const {
-		return from == o.from && to == o.to;
+	bool contains (T const & other) const {
+		return (from <= other && other < to);
+	}
+
+	bool operator== (TimePeriod<T> const & other) {
+		return from == other.from && to == other.to;
 	}
 };
+
+typedef TimePeriod<ContentTime> ContentTimePeriod;
+typedef TimePeriod<DCPTime> DCPTimePeriod;
 
 DCPTime min (DCPTime a, DCPTime b);
 DCPTime max (DCPTime a, DCPTime b);
