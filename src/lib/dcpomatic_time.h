@@ -242,6 +242,10 @@ public:
 	T from;
 	T to;
 
+	T duration () const {
+		return to - from;
+	}
+
 	TimePeriod<T> operator+ (T const & o) const {
 		return TimePeriod<T> (from + o, to + o);
 	}

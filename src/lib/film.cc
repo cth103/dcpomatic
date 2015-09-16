@@ -208,11 +208,11 @@ Film::video_identifier () const
 
 /** @return The file to write video frame info to */
 boost::filesystem::path
-Film::info_file () const
+Film::info_file (DCPTimePeriod period) const
 {
 	boost::filesystem::path p;
 	p /= "info";
-	p /= video_identifier ();
+	p /= video_identifier () + "_" + raw_convert<string> (period.from.get()) + "_" + raw_convert<string> (period.to.get());
 	return file (p);
 }
 
@@ -223,9 +223,9 @@ Film::internal_video_asset_dir () const
 }
 
 boost::filesystem::path
-Film::internal_video_asset_filename () const
+Film::internal_video_asset_filename (DCPTimePeriod p) const
 {
-	return video_identifier() + ".mxf";
+	return video_identifier() + "_" + raw_convert<string> (p.from.get()) + "_" + raw_convert<string> (p.to.get()) + ".mxf";
 }
 
 boost::filesystem::path
@@ -1265,3 +1265,12 @@ Film::audio_analysis_finished ()
 {
 	/* XXX */
 }
+
+list<DCPTimePeriod>
+Film::reels () const
+{
+	list<DCPTimePeriod> p;
+	p.push_back (DCPTimePeriod (DCPTime (), length ()));
+	return p;
+}
+

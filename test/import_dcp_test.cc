@@ -17,8 +17,7 @@
 
 */
 
-#include <boost/test/unit_test.hpp>
-#include <dcp/cpl.h>
+#include "test.h"
 #include "lib/film.h"
 #include "lib/dcp_subtitle_content.h"
 #include "lib/ratio.h"
@@ -26,7 +25,9 @@
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/config.h"
-#include "test.h"
+#include "lib/cross.h"
+#include <dcp/cpl.h>
+#include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
 
@@ -48,6 +49,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
 	A_dcp.read ();
+
+	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
 
 	dcp::EncryptedKDM kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),

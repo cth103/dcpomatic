@@ -70,10 +70,10 @@ public:
 	Film (boost::filesystem::path, bool log = true);
 	~Film ();
 
-	boost::filesystem::path info_file () const;
+	boost::filesystem::path info_file (DCPTimePeriod p) const;
 	boost::filesystem::path j2c_path (int, Eyes, bool) const;
 	boost::filesystem::path internal_video_asset_dir () const;
-	boost::filesystem::path internal_video_asset_filename () const;
+	boost::filesystem::path internal_video_asset_filename (DCPTimePeriod p) const;
 
 	boost::filesystem::path audio_analysis_path (boost::shared_ptr<const Playlist>) const;
 
@@ -150,6 +150,8 @@ public:
 	boost::shared_ptr<const Playlist> playlist () const {
 		return _playlist;
 	}
+
+	std::list<DCPTimePeriod> reels () const;
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.

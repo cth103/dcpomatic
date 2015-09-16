@@ -115,19 +115,38 @@ public:
 
 private:
 
+	class Reel {
+	public:
+		Reel ()
+			: first_nonexistant_frame (0)
+		{}
+
+		DCPTimePeriod period;
+		/** the first frame index that does not already exist in our MXF */
+		int first_nonexistant_frame;
+
+		boost::shared_ptr<dcp::PictureAsset> picture_asset;
+		boost::shared_ptr<dcp::PictureAssetWriter> picture_asset_writer;
+		boost::shared_ptr<dcp::SoundAsset> sound_asset;
+		boost::shared_ptr<dcp::SoundAssetWriter> sound_asset_writer;
+		boost::shared_ptr<dcp::SubtitleAsset> subtitle_asset;
+	};
+
 	void thread ();
 	void terminate_thread (bool);
-	void check_existing_picture_asset ();
+	void check_existing_picture_asset (Reel& reel);
 	bool have_sequenced_image_at_queue_head ();
 	void write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (int frame, Eyes eyes) const;
 	dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes) const;
+	Reel const & video_reel (int frame) const;
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
-	/** the first frame index that does not already exist in our MXF */
-	int _first_nonexistant_frame;
+	std::list<Reel> _reels;
+	std::list<Reel>::iterator _audio_reel;
+	std::list<Reel>::iterator _subtitle_reel;
 
 	/** our thread, or 0 */
 	boost::thread* _thread;
@@ -163,11 +182,6 @@ private:
 	*/
 	int _pushed_to_disk;
 
-	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
-	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
-	boost::shared_ptr<dcp::SoundAsset> _sound_asset;
-	boost::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
-	boost::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
 	std::list<boost::shared_ptr<dcp::ReelAsset> > _reel_assets;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
