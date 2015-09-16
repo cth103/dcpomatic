@@ -110,7 +110,7 @@ FontsDialog::setup ()
 		++n;
 	}
 
-	update_sensitivity ();
+	setup_sensitivity ();
 }
 
 void
@@ -185,11 +185,11 @@ FontsDialog::set_selected_font_file (boost::filesystem::path file)
 void
 FontsDialog::selection_changed ()
 {
-	update_sensitivity ();
+	setup_sensitivity ();
 }
 
 void
-FontsDialog::update_sensitivity ()
+FontsDialog::setup_sensitivity ()
 {
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	_set_from_file->Enable (item != -1);

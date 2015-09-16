@@ -34,7 +34,7 @@ private:
 	void setup ();
 	void set_from_file_clicked ();
 	void set_from_system_clicked ();
-	void update_sensitivity ();
+	void setup_sensitivity ();
 	void selection_changed ();
 	void set_selected_font_file (boost::filesystem::path file);
 
