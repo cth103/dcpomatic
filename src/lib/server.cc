@@ -78,6 +78,7 @@ Server::~Server ()
 		boost::mutex::scoped_lock lm (_worker_mutex);
 		_terminate = true;
 		_empty_condition.notify_all ();
+		_full_condition.notify_all ();
 	}
 
 	for (vector<boost::thread*>::iterator i = _worker_threads.begin(); i != _worker_threads.end(); ++i) {
