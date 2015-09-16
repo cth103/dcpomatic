@@ -1,3 +1,8 @@
+2015-09-16  c.hetherington  <cth@carlh.net>
+
+	* Allow imported DCPs to be referenced rather
+	than re-wrapped (i.e. creation of VF DCPs).
+
 2015-09-15  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on re-making certificate chains
