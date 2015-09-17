@@ -71,6 +71,8 @@ private:
 	void edit_key_clicked ();
 	void audio_processor_changed ();
 	void show_audio_clicked ();
+	void reel_type_changed ();
+	void reel_length_changed ();
 
 	void setup_frame_rate_widget ();
 	void setup_container ();
@@ -112,6 +114,8 @@ private:
 	wxCheckBox* _encrypted;
 	wxStaticText* _key;
 	wxButton* _edit_key;
+	wxChoice* _reel_type;
+	wxSpinCtrl* _reel_length;
 
 	AudioDialog* _audio_dialog;
 

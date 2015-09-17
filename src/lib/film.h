@@ -177,6 +177,8 @@ public:
 		SEQUENCE_VIDEO,
 		INTEROP,
 		AUDIO_PROCESSOR,
+		REEL_TYPE,
+		REEL_LENGTH
 	};
 
 
@@ -252,6 +254,13 @@ public:
 		return _audio_processor;
 	}
 
+	ReelType reel_type () const {
+		return _reel_type;
+	}
+
+	int64_t reel_length () const {
+		return _reel_length;
+	}
 
 	/* SET */
 
@@ -280,6 +289,8 @@ public:
 	void set_sequence_video (bool);
 	void set_interop (bool);
 	void set_audio_processor (AudioProcessor const * processor);
+	void set_reel_type (ReelType);
+	void set_reel_length (int64_t);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -340,6 +351,8 @@ private:
 	bool _sequence_video;
 	bool _interop;
 	AudioProcessor const * _audio_processor;
+	ReelType _reel_type;
+	int64_t _reel_length;
 
 	int _state_version;
 

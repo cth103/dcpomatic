@@ -84,6 +84,13 @@ enum Part
 	PART_WHOLE
 };
 
+enum ReelType
+{
+	REELTYPE_SINGLE,
+	REELTYPE_ONE_PER_VIDEO,
+	REELTYPE_BY_LENGTH
+};
+
 /** @struct Crop
  *  @brief A description of the crop of an image or video.
  */

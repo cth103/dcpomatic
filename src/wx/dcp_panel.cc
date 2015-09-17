@@ -132,25 +132,49 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
                ++r;
 	}
 
+	add_label_to_grid_bag_sizer (grid, _panel, _("Reels"), true, wxGBPosition (r, 0));
+	_reel_type = new wxChoice (_panel, wxID_ANY);
+	grid->Add (_reel_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	++r;
+
+	add_label_to_grid_bag_sizer (grid, _panel, _("Reel length"), true, wxGBPosition (r, 0));
+
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_reel_length = new wxSpinCtrl (_panel, wxID_ANY);
+		s->Add (_reel_length);
+		add_label_to_sizer (s, _panel, _("GB"), false);
+		grid->Add (s, wxGBPosition (r, 1));
+		++r;
+	}
+
 	add_label_to_grid_bag_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
 	_standard = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	_name->Bind		 (wxEVT_COMMAND_TEXT_UPDATED, 	      boost::bind (&DCPPanel::name_changed, this));
-	_use_isdcf_name->Bind	 (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
-	_edit_isdcf_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
-	_copy_isdcf_name_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
-	_dcp_content_type->Bind	 (wxEVT_COMMAND_CHOICE_SELECTED,      boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_signed->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::signed_toggled, this));
-	_encrypted->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&DCPPanel::encrypted_toggled, this));
-	_edit_key->Bind          (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&DCPPanel::edit_key_clicked, this));
-	_standard->Bind          (wxEVT_COMMAND_CHOICE_SELECTED,      boost::bind (&DCPPanel::standard_changed, this));
+	_name->Bind		 (wxEVT_COMMAND_TEXT_UPDATED, 	    boost::bind (&DCPPanel::name_changed, this));
+	_use_isdcf_name->Bind	 (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
+	_edit_isdcf_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,	    boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
+	_copy_isdcf_name_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
+	_dcp_content_type->Bind	 (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&DCPPanel::dcp_content_type_changed, this));
+	_signed->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&DCPPanel::signed_toggled, this));
+	_encrypted->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&DCPPanel::encrypted_toggled, this));
+	_edit_key->Bind          (wxEVT_COMMAND_BUTTON_CLICKED,     boost::bind (&DCPPanel::edit_key_clicked, this));
+	_reel_type->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&DCPPanel::reel_type_changed, this));
+	_reel_length->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED,   boost::bind (&DCPPanel::reel_length_changed, this));
+	_standard->Bind          (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&DCPPanel::standard_changed, this));
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
 		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
 	}
+
+	_reel_type->Append (_("Single reel"));
+	_reel_type->Append (_("One per video content"));
+	_reel_type->Append (_("Custom"));
+
+	_reel_length->SetRange (1, 64);
 
 	_standard->Append (_("SMPTE"));
 	_standard->Append (_("Interop"));
@@ -363,6 +387,13 @@ DCPPanel::film_changed (int p)
 		setup_audio_channels_choice ();
 		film_changed (Film::AUDIO_CHANNELS);
 		break;
+	case Film::REEL_TYPE:
+		checked_set (_reel_type, _film->reel_type ());
+		_reel_length->Enable (_film->reel_type() == REELTYPE_BY_LENGTH);
+		break;
+	case Film::REEL_LENGTH:
+		checked_set (_reel_length, _film->reel_length() / 1000000000LL);
+		break;
 	default:
 		break;
 	}
@@ -457,6 +488,8 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::THREE_D);
 	film_changed (Film::INTEROP);
 	film_changed (Film::AUDIO_PROCESSOR);
+	film_changed (Film::REEL_TYPE);
+	film_changed (Film::REEL_LENGTH);
 }
 
 void
@@ -477,6 +510,8 @@ DCPPanel::set_general_sensitivity (bool s)
 	_encrypted->Enable (s);
 	_key->Enable (s && _film && _film->encrypted ());
 	_edit_key->Enable (s && _film && _film->encrypted ());
+	_reel_type->Enable (s);
+	_reel_length->Enable (s);
 	_frame_rate_choice->Enable (s);
 	_frame_rate_spin->Enable (s);
 	_audio_channels->Enable (s);
@@ -738,4 +773,24 @@ DCPPanel::show_audio_clicked ()
 
 	AudioDialog* d = new AudioDialog (_panel, _film);
 	d->Show ();
+}
+
+void
+DCPPanel::reel_type_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_reel_type (static_cast<ReelType> (_reel_type->GetSelection ()));
+}
+
+void
+DCPPanel::reel_length_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_reel_length (_reel_length->GetValue() * 1000000000LL);
 }

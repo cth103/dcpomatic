@@ -126,6 +126,8 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _sequence_video (true)
 	, _interop (Config::instance()->default_interop ())
 	, _audio_processor (0)
+	, _reel_type (REELTYPE_SINGLE)
+	, _reel_length (2000000000)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
@@ -344,6 +346,8 @@ Film::metadata () const
 	if (_audio_processor) {
 		root->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
 	}
+	root->add_child("ReelType")->add_child_text (raw_convert<string> (_reel_type));
+	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	return doc;
@@ -426,6 +430,9 @@ Film::read_metadata ()
 	} else {
 		_audio_processor = 0;
 	}
+
+	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(REELTYPE_SINGLE)));
+	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
 
 	list<string> notes;
 	/* This method is the only one that can return notes (so far) */
@@ -814,6 +821,20 @@ Film::set_audio_processor (AudioProcessor const * processor)
 	_audio_processor = processor;
 	signal_changed (AUDIO_PROCESSOR);
 	signal_changed (AUDIO_CHANNELS);
+}
+
+void
+Film::set_reel_type (ReelType t)
+{
+	_reel_type = t;
+	signal_changed (REEL_TYPE);
+}
+
+void
+Film::set_reel_length (int64_t r)
+{
+	_reel_length = r;
+	signal_changed (REEL_LENGTH);
 }
 
 void
