@@ -80,7 +80,7 @@ public:
 		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
 		dc.DrawRectangle (wxRect (rect.GetLeft() + xo, rect.GetTop() + yo, INDICATOR_SIZE, INDICATOR_SIZE));
 
-		float const value = lexical_cast<float> (wx_to_std (grid.GetCellValue (row, col)));
+		float const value = raw_convert<float> (wx_to_std (grid.GetCellValue (row, col)));
 		float const value_dB = 20 * log10 (value);
 		int const range = 18;
 		int height = 0;
