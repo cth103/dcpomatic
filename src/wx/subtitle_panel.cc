@@ -255,6 +255,9 @@ SubtitlePanel::setup_sensitivity ()
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_subtitle_view_button->Enable (!reference && subrip_or_dcp_subs == 1);
 	_fonts_dialog_button->Enable (!reference && subrip_or_dcp_subs == 1);
+
+	ContentList sel = _parent->selected ();
+	_reference->Enable (sel.size() == 1 && dynamic_pointer_cast<DCPContent> (sel.front ()));
 }
 
 void
