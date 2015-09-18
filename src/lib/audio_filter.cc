@@ -67,7 +67,7 @@ AudioFilter::sinc_blackman (float cutoff, bool invert) const
 }
 
 shared_ptr<AudioBuffers>
-AudioFilter::run (shared_ptr<AudioBuffers> in)
+AudioFilter::run (shared_ptr<const AudioBuffers> in)
 {
 	shared_ptr<AudioBuffers> out (new AudioBuffers (in->channels(), in->frames()));
 
