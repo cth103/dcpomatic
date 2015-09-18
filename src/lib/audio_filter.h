@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_AUDIO_FILTER_H
+#define DCPOMATIC_AUDIO_FILTER_H
+
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
@@ -34,7 +37,7 @@ public:
 		}
 	}
 
-	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<AudioBuffers> in);
+	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers> in);
 
 	void flush ();
 
@@ -79,3 +82,5 @@ public:
 	 */
 	BandPassAudioFilter (float transition_bandwidth, float lower, float higher);
 };
+
+#endif
