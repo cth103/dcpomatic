@@ -133,7 +133,7 @@ Job::run_wrapper ()
 
 	} catch (std::bad_alloc& e) {
 
-		set_error (_("Out of memory"), _("There was not enough memory to do this."));
+		set_error (_("Out of memory"), _("There was not enough memory to do this.  If you are running a 32-bit operating system try reducing the number of encoding threads in the General tab of Preferences."));
 		set_progress (1);
 		set_state (FINISHED_ERROR);
 
