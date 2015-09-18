@@ -71,10 +71,10 @@ UpmixerA::run (shared_ptr<const AudioBuffers> in, int channels)
 	shared_ptr<AudioBuffers> in_L = in->channel (0);
 	shared_ptr<AudioBuffers> in_R = in->channel (1);
 
-	/* Mix of L and R */
+	/* Mix of L and R; -6dB down in amplitude (3dB in terms of power) */
 	shared_ptr<AudioBuffers> in_LR = in_L->clone ();
 	in_LR->accumulate_frames (in_R.get(), 0, 0, in_R->frames ());
-	in_LR->apply_gain (0.5);
+	in_LR->apply_gain (-6);
 
 	/* Run filters */
 	vector<shared_ptr<AudioBuffers> > all_out;
