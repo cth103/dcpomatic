@@ -347,6 +347,7 @@ try
 				LOG_TIMING ("finish-local-encode thread=%1 frame=%2", boost::this_thread::get_id(), vf->index());
 			} catch (std::exception& e) {
 				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
+				throw;
 			}
 		}
 
