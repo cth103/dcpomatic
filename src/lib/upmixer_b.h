@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,38 +17,29 @@
 
 */
 
+/** @file  src/lib/upmixer_b.h
+ *  @brief UpmixerB class.
+ */
+
 #include "audio_processor.h"
-#include "mid_side_decoder.h"
-#include "upmixer_a.h"
-#include "upmixer_b.h"
+#include "audio_filter.h"
+#include "audio_delay.h"
 
-using std::string;
-using std::list;
-
-list<AudioProcessor const *> AudioProcessor::_all;
-
-void
-AudioProcessor::setup_audio_processors ()
+class UpmixerB : public AudioProcessor
 {
-	_all.push_back (new MidSideDecoder ());
-	_all.push_back (new UpmixerA (48000));
-	_all.push_back (new UpmixerB (48000));
-}
+public:
+	UpmixerB (int sampling_rate);
 
-AudioProcessor const *
-AudioProcessor::from_id (string id)
-{
-	for (list<AudioProcessor const *>::const_iterator i = _all.begin(); i != _all.end(); ++i) {
-		if ((*i)->id() == id) {
-			return *i;
-		}
-	}
+	std::string name () const;
+	std::string id () const;
+	int out_channels () const;
+	boost::shared_ptr<AudioProcessor> clone (int) const;
+	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers>, int channels);
+	void flush ();
+	void make_audio_mapping_default (AudioMapping& mapping) const;
+	std::vector<std::string> input_names () const;
 
-	return 0;
-}
-
-list<AudioProcessor const *>
-AudioProcessor::all ()
-{
-	return _all;
-}
+private:
+	BandPassAudioFilter _lfe;
+	AudioDelay _delay;
+};

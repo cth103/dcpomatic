@@ -44,6 +44,7 @@ def build(bld):
                  audio_filter_test.cc
                  audio_mapping_test.cc
                  audio_processor_test.cc
+                 audio_processor_delay_test.cc
                  black_fill_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc

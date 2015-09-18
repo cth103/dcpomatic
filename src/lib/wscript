@@ -26,6 +26,7 @@ sources = """
           audio_content.cc
           audio_decoder.cc
           audio_decoder_stream.cc
+          audio_delay.cc
           audio_filter.cc
           audio_mapping.cc
           audio_point.cc
@@ -122,6 +123,7 @@ sources = """
           upload_job.cc
           uploader.cc
           upmixer_a.cc
+          upmixer_b.cc
           util.cc
           video_content.cc
           video_content_scale.cc

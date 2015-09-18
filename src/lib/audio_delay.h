@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,38 +17,18 @@
 
 */
 
-#include "audio_processor.h"
-#include "mid_side_decoder.h"
-#include "upmixer_a.h"
-#include "upmixer_b.h"
+#include <boost/shared_ptr.hpp>
 
-using std::string;
-using std::list;
+class AudioBuffers;
 
-list<AudioProcessor const *> AudioProcessor::_all;
-
-void
-AudioProcessor::setup_audio_processors ()
+class AudioDelay
 {
-	_all.push_back (new MidSideDecoder ());
-	_all.push_back (new UpmixerA (48000));
-	_all.push_back (new UpmixerB (48000));
-}
+public:
+	AudioDelay (int samples);
+	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers> in);
+	void flush ();
 
-AudioProcessor const *
-AudioProcessor::from_id (string id)
-{
-	for (list<AudioProcessor const *>::const_iterator i = _all.begin(); i != _all.end(); ++i) {
-		if ((*i)->id() == id) {
-			return *i;
-		}
-	}
-
-	return 0;
-}
-
-list<AudioProcessor const *>
-AudioProcessor::all ()
-{
-	return _all;
-}
+private:
+	boost::shared_ptr<AudioBuffers> _tail;
+	int _samples;
+};
