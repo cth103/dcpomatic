@@ -84,6 +84,11 @@ ImageExaminer::video_size () const
 optional<double>
 ImageExaminer::video_frame_rate () const
 {
+	if (_image_content->video_frame_rate() != 0) {
+		/* The content already knows what frame rate it should be */
+		return _image_content->video_frame_rate();
+	}
+
 	/* Don't know */
 	return optional<double> ();
 }

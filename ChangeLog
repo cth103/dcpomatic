@@ -1,3 +1,8 @@
+2015-09-20  Carl Hetherington  <cth@carlh.net>
+
+	* Fix setting of frame rate when loading
+	image folders.
+
 2015-09-18  Carl Hetherington  <cth@carlh.net>
 
 	* Add another upmixer which is a simpler
