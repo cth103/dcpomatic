@@ -1291,7 +1291,43 @@ list<DCPTimePeriod>
 Film::reels () const
 {
 	list<DCPTimePeriod> p;
-	p.push_back (DCPTimePeriod (DCPTime (), length ()));
+	DCPTime const len = length ();
+
+	switch (reel_type ()) {
+	case REELTYPE_SINGLE:
+		p.push_back (DCPTimePeriod (DCPTime (), len));
+		break;
+	case REELTYPE_ONE_PER_VIDEO:
+	{
+		optional<DCPTime> last;
+		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
+			shared_ptr<VideoContent> v = dynamic_pointer_cast<VideoContent> (c);
+			if (v) {
+				if (last) {
+					p.push_back (DCPTimePeriod (last.get(), v->position ()));
+				}
+				last = v->position ();
+			}
+		}
+		if (last) {
+			p.push_back (DCPTimePeriod (last.get(), len));
+		}
+		break;
+	}
+	case REELTYPE_BY_LENGTH:
+	{
+		DCPTime current;
+		/* Integer-divide reel length by the size of one frame to give the number of frames per reel */
+		Frame const reel_in_frames = _reel_length / ((j2k_bandwidth() / video_frame_rate()) / 8);
+		while (current < len) {
+			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
+			p.push_back (DCPTimePeriod (current, end));
+			current = end;
+		}
+		break;
+	}
+	}
+
 	return p;
 }
 
