@@ -217,7 +217,7 @@ AudioDialog::content_changed (int p)
 	if (p == AudioContentProperty::AUDIO_STREAMS) {
 		try_to_load_analysis ();
 	} else if (p == AudioContentProperty::AUDIO_GAIN) {
-		if (_playlist->content().size() == 1) {
+		if (_playlist->content().size() == 1 && _analysis) {
 			/* We can use a short-cut to render the effect of this
 			   change, rather than recalculating everything.
 			*/
