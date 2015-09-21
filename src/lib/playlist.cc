@@ -97,10 +97,10 @@ Playlist::maybe_sequence_video ()
 
 		if (vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
 			vc->set_position (next_right);
-			next_right = vc->end() + DCPTime::delta ();
+			next_right = vc->end();
 		} else {
 			vc->set_position (next_left);
-			next_left = vc->end() + DCPTime::delta ();
+			next_left = vc->end();
 		}
 	}
 
