@@ -511,7 +511,7 @@ DCPPanel::set_general_sensitivity (bool s)
 	_key->Enable (s && _film && _film->encrypted ());
 	_edit_key->Enable (s && _film && _film->encrypted ());
 	_reel_type->Enable (s);
-	_reel_length->Enable (s);
+	_reel_length->Enable (s && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
 	_frame_rate_choice->Enable (s);
 	_frame_rate_spin->Enable (s);
 	_audio_channels->Enable (s);
