@@ -263,4 +263,12 @@ public:
 	ProgrammingError (std::string file, int line);
 };
 
+class TextEncodingError : public StringError
+{
+public:
+	TextEncodingError (std::string s)
+		: StringError (s)
+	{}
+};
+
 #endif

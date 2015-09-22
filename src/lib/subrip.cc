@@ -23,10 +23,14 @@
 #include "subrip_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/collect.h>
+#include <uchardet/uchardet.h>
+#include <iostream>
 
 #include "i18n.h"
 
 using std::vector;
+using std::cout;
+using std::string;
 using boost::shared_ptr;
 
 SubRip::SubRip (shared_ptr<const SubRipContent> content)
@@ -36,6 +40,25 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 		throw OpenFileError (content->path (0));
 	}
 
+	/* Guess the encoding */
+	uchardet_t det = uchardet_new ();
+	char buffer[1024];
+	while (!feof (f)) {
+		int const n = fread (buffer, 1, sizeof (buffer), f);
+		if (uchardet_handle_data (det, buffer, n)) {
+			break;
+		}
+	}
+
+	uchardet_data_end (det);
+	string charset = uchardet_get_charset (det);
+	uchardet_delete (det);
+
+	if (charset != "UTF-8") {
+		throw TextEncodingError (_("unrecognised character set; please use files encoded in UTF-8"));
+	}
+
+	rewind (f);
 	sub::SubripReader reader (f);
 	_subtitles = sub::collect<vector<sub::Subtitle> > (reader.subtitles ());
 }
