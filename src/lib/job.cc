@@ -59,6 +59,7 @@ Job::~Job ()
 {
 	if (_thread) {
 		_thread->interrupt ();
+		DCPOMATIC_ASSERT (_thread->joinable ());
 		_thread->join ();
 	}
 
@@ -416,7 +417,10 @@ Job::cancel ()
 	}
 
 	_thread->interrupt ();
+	DCPOMATIC_ASSERT (_thread->joinable ());
 	_thread->join ();
+	delete _thread;
+	_thread = 0;
 }
 
 void
