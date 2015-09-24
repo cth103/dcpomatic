@@ -447,4 +447,3 @@ Job::when_finished (boost::signals2::connection& connection, function<void()> fi
 		connection = Finished.connect (finished);
 	}
 }
-

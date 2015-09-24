@@ -89,7 +89,9 @@ Server::~Server ()
 	_io_service.stop ();
 
 	_broadcast.io_service.stop ();
-	_broadcast.thread->join ();
+	if (_broadcast.thread) {
+		_broadcast.thread->join ();
+	}
 }
 
 /** @param after_read Filled in with gettimeofday() after reading the input from the network.
