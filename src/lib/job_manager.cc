@@ -62,6 +62,7 @@ JobManager::~JobManager ()
 	}
 
 	if (_scheduler) {
+		DCPOMATIC_ASSERT (_scheduler->joinable ());
 		_scheduler->join ();
 	}
 

@@ -477,6 +477,7 @@ Writer::terminate_thread (bool can_throw)
 	_full_condition.notify_all ();
 	lock.unlock ();
 
+	DCPOMATIC_ASSERT (_thread->joinable ());
  	_thread->join ();
 	if (can_throw) {
 		rethrow ();

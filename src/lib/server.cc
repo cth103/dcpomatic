@@ -81,15 +81,17 @@ Server::~Server ()
 		_full_condition.notify_all ();
 	}
 
-	for (vector<boost::thread*>::iterator i = _worker_threads.begin(); i != _worker_threads.end(); ++i) {
-		(*i)->join ();
-		delete *i;
+	BOOST_FOREACH (boost::thread* i, _worker_threads) {
+		DCPOMATIC_ASSERT (i->joinable ());
+		i->join ();
+		delete i;
 	}
 
 	_io_service.stop ();
 
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
+		DCPOMATIC_ASSERT (_broadcast.thread->join ());
 		_broadcast.thread->join ();
 	}
 }
