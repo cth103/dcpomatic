@@ -113,7 +113,14 @@ universal_copy_lib $ENV libcairo "$WORK/$libs"
 universal_copy_lib $ENV libpixman "$WORK/$libs"
 universal_copy_lib $ENV libharfbuzz "$WORK/$libs"
 universal_copy_lib $ENV libsamplerate "$WORK/$libs"
-universal_copy_lib $ENV libicu "$WORK/$libs"
+universal_copy_lib $ENV libicu18n "$WORK/$libs"
+universal_copy_lib $ENV libicudata "$WORK/$libs"
+universal_copy_lib $ENV libicuio "$WORK/$libs"
+universal_copy_lib $ENV libicule "$WORK/$libs"
+universal_copy_lib $ENV libiculx "$WORK/$libs"
+universal_copy_lib $ENV libicutest "$WORK/$libs"
+universal_copy_lib $ENV libicutu "$WORK/$libs"
+universal_copy_lib $ENV libicuuc "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
