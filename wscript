@@ -160,7 +160,8 @@ def configure(conf):
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
 
     # libicu
-    conf.check_cfg(package='icu-io', args='--cflags --libs', uselib_store='ICU', mandatory=True)
+    if conf.check_cfg(package='icu-io', args='--cflags --libs', uselib_store='ICU', mandatory=False) andconf.check_cfg(package='icu-io', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
+        Logs.pprint('RED', 'libicu not found')
 
     # libsndfile
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
