@@ -134,6 +134,17 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			break;
 		}
 	}
+
+	for (LastSubtitleMap::const_iterator i = _last_subtitle_start.begin(); i != _last_subtitle_start.end(); ++i) {
+		if (i->second) {
+			i->first->add_subtitle (
+				ContentTimePeriod (
+					i->second.get (),
+					ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
+					)
+				);
+		}
+	}
 }
 
 void
@@ -176,14 +187,23 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 	AVSubtitle sub;
 	if (avcodec_decode_subtitle2 (context, &sub, &frame_finished, &_packet) >= 0 && frame_finished) {
 		FFmpegSubtitlePeriod const period = subtitle_period (sub);
-		if (sub.num_rects <= 0 && _last_subtitle_start) {
-			stream->add_subtitle (ContentTimePeriod (_last_subtitle_start.get (), period.from));
-			_last_subtitle_start = optional<ContentTime> ();
+		LastSubtitleMap::iterator last = _last_subtitle_start.find (stream);
+		if (last != _last_subtitle_start.end() && last->second) {
+			/* We have seen the start of a subtitle but not yet the end.  Whatever this is
+			   finishes the previous subtitle, so add it */
+			stream->add_subtitle (ContentTimePeriod (last->second.get (), period.from));
+			if (sub.num_rects == 0) {
+				/* This is a `proper' end-of-subtitle */
+				_last_subtitle_start[stream] = optional<ContentTime> ();
+			} else {
+				/* This is just another subtitle, so we start again */
+				_last_subtitle_start[stream] = period.from;
+			}
 		} else if (sub.num_rects == 1) {
 			if (period.to) {
 				stream->add_subtitle (ContentTimePeriod (period.from, period.to.get ()));
 			} else {
-				_last_subtitle_start = period.from;
+				_last_subtitle_start[stream] = period.from;
 			}
 		}
 		avsubtitle_free (&sub);
