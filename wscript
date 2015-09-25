@@ -173,7 +173,7 @@ def configure(conf):
                        msg='Checking for libicu',
                        okmsg='yes',
                        libpath=['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu'],
-                       lib=['icuio', 'icui18n', 'icudata'],
+                       lib=['icuio', 'icui18n', 'icudata', 'icuuc'],
                        uselib_store='ICU')
 
     # libsndfile
