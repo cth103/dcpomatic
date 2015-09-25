@@ -122,6 +122,7 @@ File "%static_deps%/bin/pango-querymodules.exe"
 File "%static_deps%/bin/libsamplerate-0.dll"
 File "%static_deps%/lib/icuuc52.dll"
 File "%static_deps%/lib/icudt52.dll"
+File "%static_deps%/lib/icuin52.dll"
 
 File "%cdist_deps%/bin/asdcp-libdcp-1.0.dll"
 File "%cdist_deps%/bin/kumu-libdcp-1.0.dll"

@@ -122,6 +122,8 @@ universal_copy_lib $ENV libicutest "$WORK/$libs"
 universal_copy_lib $ENV libicutu "$WORK/$libs"
 universal_copy_lib $ENV libicuuc "$WORK/$libs"
 universal_copy_lib $ENV libicui18n "$WORK/$libs"
+universal_copy_lib $ENV libicudt "$WORK/$libs"
+universal_copy_lib $ENV libicuin "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
