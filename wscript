@@ -162,7 +162,19 @@ def configure(conf):
     # libicu
     if conf.check_cfg(package='icu-i18n', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
         if conf.check_cfg(package='icu', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
-            Logs.pprint('RED', 'libicu not found')
+            conf.check_cxx(fragment="""
+                            #include <unicode/ucsdet.h>
+                            int main(void) {
+                                UErrorCode status = U_ZERO_ERROR;
+                                UCharsetDetector* detector = ucsdet_open (&status);
+                                return 0; }\n
+                            """,
+                       mandatory=True,
+                       msg='Checking for libicu',
+                       okmsg='yes',
+                       libpath=['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu'],
+                       lib=['icuio', 'icui18n', 'icudata'],
+                       uselib_store='ICU')
 
     # libsndfile
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
