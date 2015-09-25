@@ -159,6 +159,9 @@ def configure(conf):
     else:
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
 
+    # libicu
+    conf.check_cfg(package='icu-io', args='--cflags --libs', uselib_store='ICU', mandatory=True)
+
     # libsndfile
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
 
