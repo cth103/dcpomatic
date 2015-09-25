@@ -1,5 +1,7 @@
 2015-09-25  Carl Hetherington  <cth@carlh.net>
 
+	* Fix incorrect hint about 3D content in a 2D DCP.
+
 	* Detect and convert from non-UTF-8
 	subtitle encodings.
 
