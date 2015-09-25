@@ -39,6 +39,7 @@
 #include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
+#include <boost/foreach.hpp>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -91,7 +92,7 @@ Server::~Server ()
 
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
-		DCPOMATIC_ASSERT (_broadcast.thread->join ());
+		DCPOMATIC_ASSERT (_broadcast.thread->joinable ());
 		_broadcast.thread->join ();
 	}
 }
