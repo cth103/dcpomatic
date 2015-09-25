@@ -159,9 +159,6 @@ def configure(conf):
     else:
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
 
-    # uchardet
-    conf.check_cfg(package='uchardet', args='--cflags --libs', uselib_store='UCHARDET', mandatory=True)
-
     # libsndfile
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
 

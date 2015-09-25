@@ -21,9 +21,11 @@
 #include "cross.h"
 #include "exceptions.h"
 #include "subrip_content.h"
+#include "data.h"
 #include <sub/subrip_reader.h>
 #include <sub/collect.h>
-#include <uchardet/uchardet.h>
+#include <unicode/ucsdet.h>
+#include <unicode/ucnv.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -32,34 +34,34 @@ using std::vector;
 using std::cout;
 using std::string;
 using boost::shared_ptr;
+using boost::scoped_array;
 
 SubRip::SubRip (shared_ptr<const SubRipContent> content)
 {
-	FILE* f = fopen_boost (content->path (0), "r");
-	if (!f) {
-		throw OpenFileError (content->path (0));
-	}
+	Data in (content->path (0));
 
-	/* Guess the encoding */
-	uchardet_t det = uchardet_new ();
-	char buffer[1024];
-	while (!feof (f)) {
-		int const n = fread (buffer, 1, sizeof (buffer), f);
-		if (uchardet_handle_data (det, buffer, n)) {
-			break;
-		}
-	}
+	UErrorCode status = U_ZERO_ERROR;
+	UCharsetDetector* detector = ucsdet_open (&status);
+	ucsdet_setText (detector, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
 
-	uchardet_data_end (det);
-	string charset = uchardet_get_charset (det);
-	uchardet_delete (det);
+	UCharsetMatch const * match = ucsdet_detect (detector, &status);
+	char const * in_charset = ucsdet_getName (match, &status);
 
-	if (charset != "UTF-8") {
-		throw TextEncodingError (_("unrecognised character set; please use files encoded in UTF-8"));
-	}
+	UConverter* to_utf16 = ucnv_open (in_charset, &status);
+	/* This is a guess; I think we should be able to encode any input in 4 times its input size */
+	scoped_array<uint16_t> utf16 (new uint16_t[in.size() * 2]);
+	int const utf16_len = ucnv_toUChars (to_utf16, utf16.get(), in.size() * 2, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
 
-	rewind (f);
-	sub::SubripReader reader (f);
+	UConverter* to_utf8 = ucnv_open ("UTF-8", &status);
+	/* Another guess */
+	scoped_array<char> utf8 (new char[utf16_len * 2]);
+	ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, utf16.get(), utf16_len, &status);
+
+	ucsdet_close (detector);
+	ucnv_close (to_utf16);
+	ucnv_close (to_utf8);
+
+	sub::SubripReader reader (utf8.get());
 	_subtitles = sub::collect<vector<sub::Subtitle> > (reader.subtitles ());
 }
 
