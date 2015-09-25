@@ -50,12 +50,16 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 	UConverter* to_utf16 = ucnv_open (in_charset, &status);
 	/* This is a guess; I think we should be able to encode any input in 4 times its input size */
 	scoped_array<uint16_t> utf16 (new uint16_t[in.size() * 2]);
-	int const utf16_len = ucnv_toUChars (to_utf16, utf16.get(), in.size() * 2, reinterpret_cast<const char *> (in.data().get()), in.size(), &status);
+	int const utf16_len = ucnv_toUChars (
+		to_utf16, reinterpret_cast<UChar*>(utf16.get()), in.size() * 2,
+		reinterpret_cast<const char *> (in.data().get()), in.size(),
+		&status
+		);
 
 	UConverter* to_utf8 = ucnv_open ("UTF-8", &status);
 	/* Another guess */
 	scoped_array<char> utf8 (new char[utf16_len * 2]);
-	ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, utf16.get(), utf16_len, &status);
+	ucnv_fromUChars (to_utf8, utf8.get(), utf16_len * 2, reinterpret_cast<UChar*>(utf16.get()), utf16_len, &status);
 
 	ucsdet_close (detector);
 	ucnv_close (to_utf16);
