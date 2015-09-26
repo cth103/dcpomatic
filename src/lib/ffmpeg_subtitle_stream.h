@@ -34,8 +34,8 @@ public:
 	void add_subtitle (ContentTimePeriod period);
 	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod period, bool starting) const;
 	ContentTime find_subtitle_to (ContentTime from) const;
+	void add_offset (ContentTime offset);
 
 private:
 	std::map<ContentTime, ContentTime> _subtitles;
 };
-

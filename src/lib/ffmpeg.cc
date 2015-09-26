@@ -25,6 +25,7 @@
 #include "raw_convert.h"
 #include "log.h"
 #include "ffmpeg_subtitle_stream.h"
+#include "ffmpeg_audio_stream.h"
 #include "compose.hpp"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -32,6 +33,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 #include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -39,7 +41,9 @@ extern "C" {
 using std::string;
 using std::cout;
 using std::cerr;
+using std::vector;
 using boost::shared_ptr;
+using boost::optional;
 
 boost::mutex FFmpeg::_mutex;
 boost::weak_ptr<Log> FFmpeg::_ffmpeg_log;
@@ -262,4 +266,56 @@ FFmpeg::subtitle_period (AVSubtitle const & sub)
 		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
 		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
 		);
+}
+
+/** Compute the pts offset to use given a set of audio streams and some video details.
+ *  Sometimes these parameters will have just been determined by an Examiner, sometimes
+ *  they will have been retrieved from a piece of Content, hence the need for this method
+ *  in FFmpeg.
+ */
+ContentTime
+FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream> > audio_streams, optional<ContentTime> first_video, double video_frame_rate) const
+{
+	/* Audio and video frame PTS values may not start with 0.  We want
+	   to fiddle them so that:
+
+	   1.  One of them starts at time 0.
+	   2.  The first video PTS value ends up on a frame boundary.
+
+	   Then we remove big initial gaps in PTS and we allow our
+	   insertion of black frames to work.
+
+	   We will do:
+	     audio_pts_to_use = audio_pts_from_ffmpeg + pts_offset;
+	     video_pts_to_use = video_pts_from_ffmpeg + pts_offset;
+	*/
+
+	/* First, make one of them start at 0 */
+
+	ContentTime po = ContentTime::min ();
+
+	if (first_video) {
+		po = - first_video.get ();
+	}
+
+	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, audio_streams) {
+		if (i->first_audio) {
+			po = max (po, - i->first_audio.get ());
+		}
+	}
+
+	/* If the offset is positive we would be pushing things from a -ve PTS to be played.
+	   I don't think we ever want to do that, as it seems things at -ve PTS are not meant
+	   to be seen (use for alignment bars etc.); see mantis #418.
+	*/
+	if (po > ContentTime ()) {
+		po = ContentTime ();
+	}
+
+	/* Now adjust so that the video pts starts on a frame */
+	if (first_video) {
+		po += first_video.get().round_up (video_frame_rate) - first_video.get();
+	}
+
+	return po;
 }

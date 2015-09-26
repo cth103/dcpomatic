@@ -1,5 +1,8 @@
 2015-09-26  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash with embedded subtitles with some
+	video files.
+
 	* Version 2.3.6 released.
 
 2015-09-25  Carl Hetherington  <cth@carlh.net>

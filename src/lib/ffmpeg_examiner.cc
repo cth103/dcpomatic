@@ -30,6 +30,7 @@ extern "C" {
 #include "ffmpeg_subtitle_stream.h"
 #include "util.h"
 #include "safe_stringstream.h"
+#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -143,6 +144,16 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 					ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
 					)
 				);
+		}
+	}
+
+	/* We just added subtitles to our streams without taking the PTS offset into account;
+	   this is because we might not know the PTS offset when the first subtitle is seen.
+	   Now we know the PTS offset so we can apply it to those subtitles.
+	*/
+	if (video_frame_rate()) {
+		BOOST_FOREACH (shared_ptr<FFmpegSubtitleStream> i, _subtitle_streams) {
+			i->add_offset (pts_offset (_audio_streams, _first_video, video_frame_rate().get()));
 		}
 	}
 }
