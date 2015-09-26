@@ -314,7 +314,7 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream> > audio_streams, option
 
 	/* Now adjust so that the video pts starts on a frame */
 	if (first_video) {
-		ContentTime fvc = first_video.get() + po;
+		ContentTime const fvc = first_video.get() + po;
 		po += fvc.round_up (video_frame_rate) - fvc;
 	}
 
