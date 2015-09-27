@@ -125,7 +125,7 @@ universal_copy_lib $ENV libicuuc "$WORK/$libs"
 relink=`echo $relink | sed -e "s/\+//g"`
 
 for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
-  deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)" | egrep "($ENV|$ROOT|boost)"`
+  deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)" | egrep "($ENV|$ROOT|boost|libicu)"`
   changes=""
   for dep in $deps; do
       echo "Relinking $dep into $obj"
