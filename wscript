@@ -26,7 +26,7 @@ import distutils.spawn
 from waflib import Logs
 
 APPNAME = 'dcpomatic'
-VERSION = '2.3.5devel'
+VERSION = '2.3.6devel'
 
 def options(opt):
     opt.load('compiler_cxx')
@@ -159,6 +159,22 @@ def configure(conf):
     else:
         conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
 
+    # libicu
+    if conf.check_cfg(package='icu-i18n', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
+        if conf.check_cfg(package='icu', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
+            conf.check_cxx(fragment="""
+                            #include <unicode/ucsdet.h>
+                            int main(void) {
+                                UErrorCode status = U_ZERO_ERROR;
+                                UCharsetDetector* detector = ucsdet_open (&status);
+                                return 0; }\n
+                            """,
+                       mandatory=True,
+                       msg='Checking for libicu',
+                       okmsg='yes',
+                       libpath=['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu'],
+                       lib=['icuio', 'icui18n', 'icudata', 'icuuc'],
+                       uselib_store='ICU')
 
     # libsndfile
     conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)

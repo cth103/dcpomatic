@@ -116,7 +116,7 @@ public:
 	 *  at some sampling rate.
 	 *  @param r Sampling rate.
 	 */
-	Time<S, O> round_up (float r) {
+	Time<S, O> round_up (float r) const {
 		Type const n = llrintf (HZ / r);
 		Type const a = _t + n - 1;
 		return Time<S, O> (a - (a % n));

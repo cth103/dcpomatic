@@ -85,5 +85,6 @@ private:
 	Frame _video_length;
 	bool _need_video_length;
 
-	boost::optional<ContentTime> _last_subtitle_start;
+	typedef std::map<boost::shared_ptr<FFmpegSubtitleStream>, boost::optional<ContentTime> > LastSubtitleMap;
+	LastSubtitleMap _last_subtitle_start;
 };

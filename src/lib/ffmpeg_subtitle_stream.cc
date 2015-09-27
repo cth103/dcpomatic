@@ -86,3 +86,14 @@ FFmpegSubtitleStream::find_subtitle_to (ContentTime from) const
 	DCPOMATIC_ASSERT (i != _subtitles.end ());
 	return i->second;
 }
+
+/** Add some offset to all the times in the stream */
+void
+FFmpegSubtitleStream::add_offset (ContentTime offset)
+{
+	map<ContentTime, ContentTime> fixed;
+	for (map<ContentTime, ContentTime>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		fixed[i->first + offset] = i->second + offset;
+	}
+	_subtitles = fixed;
+}

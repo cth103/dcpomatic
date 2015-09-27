@@ -67,51 +67,9 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	, SubtitleDecoder (c)
 	, FFmpeg (c)
 	, _log (log)
+	, _pts_offset (pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->video_frame_rate()))
 {
-	/* Audio and video frame PTS values may not start with 0.  We want
-	   to fiddle them so that:
 
-	   1.  One of them starts at time 0.
-	   2.  The first video PTS value ends up on a frame boundary.
-
-	   Then we remove big initial gaps in PTS and we allow our
-	   insertion of black frames to work.
-
-	   We will do:
-	     audio_pts_to_use = audio_pts_from_ffmpeg + pts_offset;
-	     video_pts_to_use = video_pts_from_ffmpeg + pts_offset;
-	*/
-
-	/* First, make one of them start at 0 */
-
-	vector<shared_ptr<FFmpegAudioStream> > streams = c->ffmpeg_audio_streams ();
-
-	_pts_offset = ContentTime::min ();
-
-	if (c->first_video ()) {
-		_pts_offset = - c->first_video().get ();
-	}
-
-	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, streams) {
-		if (i->first_audio) {
-			_pts_offset = max (_pts_offset, - i->first_audio.get ());
-		}
-	}
-
-	/* If _pts_offset is positive we would be pushing things from a -ve PTS to be played.
-	   I don't think we ever want to do that, as it seems things at -ve PTS are not meant
-	   to be seen (use for alignment bars etc.); see mantis #418.
-	*/
-	if (_pts_offset > ContentTime ()) {
-		_pts_offset = ContentTime ();
-	}
-
-	/* Now adjust so that the video pts starts on a frame */
-	if (c->first_video ()) {
-		ContentTime first_video = c->first_video().get() + _pts_offset;
-		ContentTime const old_first_video = first_video;
-		_pts_offset += first_video.round_up (c->video_frame_rate ()) - old_first_video;
-	}
 }
 
 void
@@ -457,7 +415,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		period.to = sub_period.to.get() + _pts_offset;
 	} else {
 		/* We have to look up the `to' time in the stream's records */
-		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (sub_period.from);
+		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (period.from);
 	}
 
 	AVSubtitleRect const * rect = sub.rects[0];
