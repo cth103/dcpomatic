@@ -324,7 +324,7 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
-			ContentTime const ct = ContentTime::from_seconds (
+			ContentTime ct = ContentTime::from_seconds (
 				av_frame_get_best_effort_timestamp (_frame) *
 				av_q2d ((*stream)->stream (_format_context)->time_base))
 				+ _pts_offset;
@@ -333,7 +333,19 @@ FFmpegDecoder::decode_audio_packet ()
 				0, (*stream)->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (*stream), 1
 				);
 
-			audio (*stream, deinterleave_audio (*stream, _frame->data, data_size), ct);
+			shared_ptr<AudioBuffers> data = deinterleave_audio (*stream, _frame->data, data_size);
+
+			if (ct < ContentTime ()) {
+				/* Discard audio data that comes before time 0 */
+				Frame const remove = min (int64_t (data->frames()), -ct.frames_round ((*stream)->frame_rate ()));
+				data->move (remove, 0, data->frames() - remove);
+				data->set_frames (data->frames() - remove);
+				ct += ContentTime::from_frames (remove, (*stream)->frame_rate ());
+			}
+
+			if (data->frames() > 0) {
+				audio (*stream, data, ct);
+			}
 		}
 
 		copy_packet.data += decode_result;

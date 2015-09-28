@@ -1,5 +1,8 @@
 2015-09-28  c.hetherington  <cth@carlh.net>
 
+	* Fix problems with audio analysis of some combined
+	video/audio files.
+
 	* Fix mis-identification of a folder of images
 	as a DCP in some cases.
 
