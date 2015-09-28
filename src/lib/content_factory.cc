@@ -30,6 +30,7 @@
 #include "util.h"
 #include <libcxml/cxml.h>
 #include <dcp/smpte_subtitle_asset.h>
+#include <boost/algorithm/string.hpp>
 
 using std::string;
 using std::list;
@@ -88,10 +89,18 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 
 		bool is_dcp = false;
 		int read = 0;
-		for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i, ++read) {
+		for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i) {
+
+			if (boost::starts_with (i->path().leaf().string(), "._")) {
+				/* We ignore these files */
+				continue;
+			}
+
 			if (!boost::filesystem::is_regular_file (i->path()) || !valid_image_file (i->path())) {
 				is_dcp = true;
 			}
+
+			++read;
 		}
 
 		if (is_dcp) {
