@@ -263,7 +263,13 @@ Player::film_changed (Film::Property p)
 	   last time we were run.
 	*/
 
-	if (p == Film::CONTAINER || p == Film::VIDEO_FRAME_RATE) {
+	if (p == Film::CONTAINER) {
+		Changed (false);
+	} else if (p == Film::VIDEO_FRAME_RATE) {
+		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
+		   so we need new pieces here.
+		*/
+		_have_valid_pieces = false;
 		Changed (false);
 	} else if (p == Film::AUDIO_PROCESSOR) {
 		if (_film->audio_processor ()) {
