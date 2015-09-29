@@ -72,7 +72,7 @@ msgstr "&Beenden"
 
 #: src/tools/dcpomatic.cc:672
 msgid "&Save\tCtrl-S"
-msgstr "Programmfehler bei %1:%2"
+msgstr "&Speichern\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:700
 msgid "&Send DCP to TMS"
