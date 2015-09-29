@@ -140,6 +140,11 @@ public:
 		return floor (_t * r / HZ);
 	}
 
+	template <typename T>
+	int64_t frames_ceil (T r) const {
+		return ceil (_t * r / HZ);
+	}
+
 	/** @param r Frames per second */
 	template <typename T>
 	void split (T r, int& h, int& m, int& s, int& f) const
