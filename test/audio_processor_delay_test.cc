@@ -21,6 +21,7 @@
 #include "lib/audio_buffers.h"
 #include <boost/test/unit_test.hpp>
 #include <cmath>
+#include <iostream>
 
 using std::cerr;
 using std::cout;
