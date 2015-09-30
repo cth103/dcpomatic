@@ -45,7 +45,8 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
-	, _length (node->number_child<DCPTime::Type> ("Length"))
+	, _length (node->number_child<ContentTime::Type> ("Length"))
+	, _frame_rate (node->optional_number_child<double>("SubtitleFrameRate"))
 {
 
 }
@@ -56,16 +57,11 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 	Content::examine (job);
 	SubRip s (shared_from_this ());
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
-	DCPTime len (s.length (), film->active_frame_rate_change (position ()));
-
 	/* Default to turning these subtitles on */
 	set_use_subtitles (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
-	_length = len;
+	_length = s.length ();
 	add_font (shared_ptr<Font> (new Font (font_id)));
 }
 
@@ -93,8 +89,37 @@ SubRipContent::as_xml (xmlpp::Node* node) const
 DCPTime
 SubRipContent::full_length () const
 {
-	/* XXX: this assumes that the timing of the SubRip file is appropriate
-	   for the DCP's frame rate.
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	FrameRateChange const frc (subtitle_video_frame_rate(), film->video_frame_rate ());
+	return DCPTime (_length, frc);
+}
+
+void
+SubRipContent::set_subtitle_video_frame_rate (int r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_frame_rate = r;
+	}
+
+	signal_changed (SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
+}
+
+double
+SubRipContent::subtitle_video_frame_rate () const
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_frame_rate) {
+			return _frame_rate.get ();
+		}
+	}
+
+	/* No frame rate specified, so assume this content has been
+	   prepared for any concurrent video content.
 	*/
-	return _length;
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return film->active_frame_rate_change(position()).source;
 }

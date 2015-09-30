@@ -45,6 +45,7 @@ int const SubtitleContentProperty::USE_SUBTITLES = 504;
 int const SubtitleContentProperty::BURN_SUBTITLES = 505;
 int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
+int const SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE = 508;
 
 SubtitleContent::SubtitleContent (shared_ptr<const Film> film)
 	: Content (film)

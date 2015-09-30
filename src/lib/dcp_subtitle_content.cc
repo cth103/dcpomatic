@@ -20,6 +20,7 @@
 #include "font.h"
 #include "dcp_subtitle_content.h"
 #include "raw_convert.h"
+#include "film.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
@@ -43,7 +44,8 @@ DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::file
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
-	, _length (node->number_child<DCPTime::Type> ("Length"))
+	, _length (node->number_child<ContentTime::Type> ("Length"))
+	, _frame_rate (node->optional_number_child<int>("SubtitleFrameRate"))
 {
 
 }
@@ -67,9 +69,10 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	shared_ptr<dcp::SMPTESubtitleAsset> smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset> (sc);
 	if (smpte) {
 		_subtitle_language = smpte->language().get_value_or ("");
+		_frame_rate = smpte->edit_rate().numerator;
 	}
 
-	_length = DCPTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
+	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
 		add_font (shared_ptr<Font> (new Font (i->id)));
@@ -79,10 +82,10 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 DCPTime
 DCPSubtitleContent::full_length () const
 {
-	/* XXX: this assumes that the timing of the subtitle file is appropriate
-	   for the DCP's frame rate.
-	*/
-	return _length;
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	FrameRateChange const frc (subtitle_video_frame_rate(), film->video_frame_rate());
+	return DCPTime (_length, frc);
 }
 
 string
@@ -104,4 +107,31 @@ DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
+}
+
+void
+DCPSubtitleContent::set_subtitle_video_frame_rate (int r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_frame_rate = r;
+	}
+
+	signal_changed (SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
+}
+
+double
+DCPSubtitleContent::subtitle_video_frame_rate () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_frame_rate) {
+		return _frame_rate.get ();
+	}
+
+	/* No frame rate specified, so assume this content has been
+	   prepared for any concurrent video content.
+	*/
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return film->active_frame_rate_change(position()).source;
 }

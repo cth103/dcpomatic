@@ -73,6 +73,10 @@ public:
 		return false;
 	}
 
+	double subtitle_video_frame_rate () const {
+		return video_frame_rate ();
+	}
+
 	boost::filesystem::path directory () const;
 
 	bool encrypted () const {

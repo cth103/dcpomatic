@@ -35,6 +35,7 @@ public:
 	static int const BURN_SUBTITLES;
 	static int const SUBTITLE_LANGUAGE;
 	static int const FONTS;
+	static int const SUBTITLE_VIDEO_FRAME_RATE;
 };
 
 /** @class SubtitleContent
@@ -57,6 +58,7 @@ public:
 	bool has_subtitles () const;
 	virtual bool has_text_subtitles () const = 0;
 	virtual bool has_image_subtitles () const = 0;
+	virtual double subtitle_video_frame_rate () const = 0;
 
 	void add_font (boost::shared_ptr<Font> font);
 

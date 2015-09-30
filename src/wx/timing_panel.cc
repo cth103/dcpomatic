@@ -17,14 +17,17 @@
 
 */
 
-#include "lib/content.h"
-#include "lib/image_content.h"
-#include "lib/raw_convert.h"
 #include "timing_panel.h"
 #include "wx_util.h"
 #include "film_viewer.h"
 #include "timecode.h"
 #include "content_panel.h"
+#include "lib/content.h"
+#include "lib/image_content.h"
+#include "lib/raw_convert.h"
+#include "lib/subtitle_content.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/subrip_content.h"
 #include <boost/foreach.hpp>
 #include <set>
 #include <iostream>
@@ -200,7 +203,8 @@ TimingPanel::film_content_changed (int property)
 	} else if (
 		property == ContentProperty::LENGTH ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE ||
-		property == VideoContentProperty::VIDEO_FRAME_TYPE
+		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
+		property == SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE
 		) {
 
 		update_full_length ();
@@ -237,7 +241,8 @@ TimingPanel::film_content_changed (int property)
 		property == ContentProperty::TRIM_START ||
 		property == ContentProperty::TRIM_END ||
 		property == VideoContentProperty::VIDEO_FRAME_RATE ||
-		property == VideoContentProperty::VIDEO_FRAME_TYPE
+		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
+		property == SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE
 		) {
 
 		update_play_length ();
@@ -255,6 +260,25 @@ TimingPanel::film_content_changed (int property)
 		}
 		if (check.size() == 1) {
 			checked_set (_video_frame_rate, raw_convert<string> (vc->video_frame_rate (), 5));
+			_video_frame_rate->Enable (true);
+		} else {
+			checked_set (_video_frame_rate, wxT (""));
+			_video_frame_rate->Enable (false);
+		}
+	}
+
+	if (property == SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE) {
+		shared_ptr<const SubtitleContent> check;
+		int count = 0;
+		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+			shared_ptr<const SubtitleContent> t = dynamic_pointer_cast<const SubtitleContent> (i);
+			if (t) {
+				check = t;
+				++count;
+			}
+		}
+		if (count == 1) {
+			checked_set (_video_frame_rate, raw_convert<string> (check->subtitle_video_frame_rate (), 5));
 			_video_frame_rate->Enable (true);
 		} else {
 			checked_set (_video_frame_rate, wxT (""));
@@ -335,8 +359,14 @@ TimingPanel::set_video_frame_rate ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
+		shared_ptr<DCPSubtitleContent> dsc = dynamic_pointer_cast<DCPSubtitleContent> (i);
+		shared_ptr<SubRipContent> ssc = dynamic_pointer_cast<SubRipContent> (i);
 		if (vc) {
 			vc->set_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
+		} else if (dsc) {
+			dsc->set_subtitle_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
+		} else if (ssc) {
+			ssc->set_subtitle_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
 		}
 		_set_video_frame_rate->Enable (false);
 	}
@@ -359,6 +389,7 @@ TimingPanel::content_selection_changed ()
 	film_content_changed (ContentProperty::TRIM_START);
 	film_content_changed (ContentProperty::TRIM_END);
 	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+	film_content_changed (SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
 }
 
 void

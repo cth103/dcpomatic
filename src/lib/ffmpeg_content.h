@@ -69,6 +69,9 @@ public:
 	/* SubtitleContent */
 	bool has_text_subtitles () const;
 	bool has_image_subtitles () const;
+	double subtitle_video_frame_rate () const {
+		return video_frame_rate ();
+	}
 
 	void set_filters (std::vector<Filter const *> const &);
 
