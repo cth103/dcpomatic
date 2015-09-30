@@ -324,7 +324,7 @@ def package_debian(target, cpu, version):
 
     return debs
 
-def package_centos(target, cpu, version):
+def package_rpm(target, cpu, version):
     topdir = os.path.realpath('build/rpmbuild')
     os.makedirs('%s/BUILD' % topdir)
     os.makedirs('%s/RPMS' % topdir)
@@ -363,8 +363,8 @@ def package(target, version):
 
 	if target.distro == 'debian' or target.distro == 'ubuntu':
             return package_debian(target, cpu, version)
-        elif target.distro == 'centos':
-            return package_centos(target, cpu, version)
+        elif target.distro == 'centos' or target.distro == 'fedora':
+            return package_rpm(target, cpu, version)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
         return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])
