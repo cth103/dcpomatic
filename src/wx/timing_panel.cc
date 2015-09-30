@@ -248,37 +248,31 @@ TimingPanel::film_content_changed (int property)
 		update_play_length ();
 	}
 
-	if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
-		set<double> check;
+	if (property == VideoContentProperty::VIDEO_FRAME_RATE || property == SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE) {
+		set<double> check_vc;
 		shared_ptr<const VideoContent> vc;
+		int count_sc = 0;
+		shared_ptr<const SubtitleContent> sc;
 		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-			shared_ptr<const VideoContent> t = dynamic_pointer_cast<const VideoContent> (i);
-			if (t) {
-				check.insert (t->video_frame_rate ());
-				vc = t;
+			shared_ptr<const VideoContent> vt = dynamic_pointer_cast<const VideoContent> (i);
+			if (vt) {
+				check_vc.insert (vt->video_frame_rate ());
+				vc = vt;
 			}
-		}
-		if (check.size() == 1) {
-			checked_set (_video_frame_rate, raw_convert<string> (vc->video_frame_rate (), 5));
-			_video_frame_rate->Enable (true);
-		} else {
-			checked_set (_video_frame_rate, wxT (""));
-			_video_frame_rate->Enable (false);
-		}
-	}
+			shared_ptr<const SubtitleContent> st = dynamic_pointer_cast<const SubtitleContent> (i);
+			if (st) {
+				++count_sc;
+				sc = st;
+			}
 
-	if (property == SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE) {
-		shared_ptr<const SubtitleContent> check;
-		int count = 0;
-		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-			shared_ptr<const SubtitleContent> t = dynamic_pointer_cast<const SubtitleContent> (i);
-			if (t) {
-				check = t;
-				++count;
-			}
 		}
-		if (count == 1) {
-			checked_set (_video_frame_rate, raw_convert<string> (check->subtitle_video_frame_rate (), 5));
+
+		if (check_vc.size() == 1 || count_sc == 1) {
+			if (vc) {
+				checked_set (_video_frame_rate, raw_convert<string> (vc->video_frame_rate (), 5));
+			} else if (sc) {
+				checked_set (_video_frame_rate, raw_convert<string> (sc->subtitle_video_frame_rate (), 5));
+			}
 			_video_frame_rate->Enable (true);
 		} else {
 			checked_set (_video_frame_rate, wxT (""));
