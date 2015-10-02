@@ -43,6 +43,7 @@
 #include "i18n.h"
 
 #define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
 #define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
 #define LOG_TIMING(...) _film->log()->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
 
@@ -95,11 +96,14 @@ Encoder::end ()
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
+		rethrow ();
 		_empty_condition.notify_all ();
 		_full_condition.wait (lock);
 	}
 
 	lock.unlock ();
+
+	LOG_GENERAL_NC (N_("Terminating encoder threads"));
 
 	terminate_threads ();
 
@@ -373,6 +377,8 @@ try
 catch (...)
 {
 	store_current ();
+	/* Wake anything waiting on _full_condition so it can see the exception */
+	_full_condition.notify_all ();
 }
 
 void
