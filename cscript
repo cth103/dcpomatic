@@ -252,8 +252,8 @@ def dependencies(target):
         ffmpeg_options = {}
 
     return (('ffmpeg-cdist', 'd0986a9', ffmpeg_options),
-            ('libdcp', '4852a22'),
-            ('libsub', 'b98c145'))
+            ('libdcp', 'de32e99'),
+            ('libsub', '2d6d0e0'))
 
 def configure_options(target):
     opt = ''
@@ -269,6 +269,8 @@ def configure_options(target):
                 opt += ' --static-boost --static-xmlpp'
             elif target.version == '7':
                 opt += ' --workaround-gssapi --static-xmlpp'
+        if target.distro == 'debian' and target.version == 'unstable':
+            target.append_with_space('CXXFLAGS', '-std=c++11')
 
     return opt
 

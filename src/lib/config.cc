@@ -232,7 +232,7 @@ Config::read ()
 	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
 
 	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
-	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate");
+	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate").get_value_or (false);
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR);
 	_automatic_audio_analysis = f.optional_bool_child ("AutomaticAudioAnalysis").get_value_or (false);

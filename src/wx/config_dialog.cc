@@ -227,7 +227,7 @@ private:
 	{
 		Config* config = Config::instance ();
 
-		checked_set (_set_language, config->language ());
+		checked_set (_set_language, static_cast<bool>(config->language()));
 
 		if (config->language().get_value_or ("") == "fr") {
 			checked_set (_language, 3);
