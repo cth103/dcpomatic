@@ -43,6 +43,7 @@ using std::cerr;
 using std::cout;
 using std::vector;
 using std::pair;
+using std::setw;
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
@@ -51,7 +52,7 @@ using boost::dynamic_pointer_cast;
 static void
 help (string n)
 {
-	cerr << "Syntax: " << n << " [OPTION] <FILM>\n"
+	cerr << "Syntax: " << n << " [OPTION] [<FILM>]\n"
 	     << "  -v, --version      show DCP-o-matic version\n"
 	     << "  -h, --help         show this help\n"
 	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
@@ -59,6 +60,7 @@ help (string n)
 	     << "  -r, --no-remote    do not use any remote servers\n"
 	     << "  -j, --json <port>  run a JSON server on the specified port\n"
 	     << "  -k, --keep-going   keep running even when the job is complete\n"
+	     << "  -s, --servers      just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
 	     << "      --dump         just dump a summary of the film's settings; don't encode\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
@@ -112,6 +114,61 @@ print_dump (shared_ptr<Film> film)
 	}
 }
 
+static void
+show_servers ()
+{
+	while (true) {
+		int N = 0;
+		list<ServerDescription> servers = ServerFinder::instance()->servers ();
+
+		if (Config::instance()->use_any_servers ()) {
+			if (servers.empty ()) {
+				cout << "No encoding servers found.\n";
+				++N;
+			} else {
+				cout << std::left << setw(24) << "Host" << " Threads\n";
+				++N;
+				BOOST_FOREACH (ServerDescription const & i, servers) {
+					cout << std::left << setw(24) << i.host_name() << " " << i.threads() << "\n";
+					++N;
+				}
+			}
+		} else {
+			vector<string> configured_servers = Config::instance()->servers();
+			if (configured_servers.empty()) {
+				cout << "No configured servers, and DCP-o-matic is not set to search for any server.\n";
+				++N;
+			} else {
+				cout << std::left << setw(24) << "Host" << " Status Threads\n";
+				++N;
+				BOOST_FOREACH (string const & i, Config::instance()->servers()) {
+					cout << std::left << setw(24) << i << " ";
+					optional<int> threads;
+					BOOST_FOREACH (ServerDescription const & j, servers) {
+						if (i == j.host_name()) {
+							threads = j.threads();
+						}
+					}
+					if (static_cast<bool>(threads)) {
+						cout << "UP     " << threads.get() << "\n";
+					} else {
+						cout << "DOWN\n";
+					}
+					++N;
+				}
+			}
+		}
+
+
+		dcpomatic_sleep (1);
+
+		for (int i = 0; i < N; ++i) {
+			cout << "\033[1A\033[2K";
+		}
+	}
+}
+
+
 int
 main (int argc, char* argv[])
 {
@@ -121,6 +178,7 @@ main (int argc, char* argv[])
 	optional<int> json_port;
 	bool keep_going = false;
 	bool dump = false;
+	bool servers = false;
 
 	int option_index = 0;
 	while (true) {
@@ -132,12 +190,13 @@ main (int argc, char* argv[])
 			{ "no-remote", no_argument, 0, 'r'},
 			{ "json", required_argument, 0, 'j'},
 			{ "keep-going", no_argument, 0, 'k' },
+			{ "servers", no_argument, 0, 's' },
 			/* Just using A, B, C ... from here on */
 			{ "dump", no_argument, 0, 'A' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrj:kA", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrj:kAs", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -168,7 +227,15 @@ main (int argc, char* argv[])
 		case 'A':
 			dump = true;
 			break;
+		case 's':
+			servers = true;
+			break;
 		}
+	}
+
+	if (servers) {
+		show_servers ();
+		exit (EXIT_SUCCESS);
 	}
 
 	if (optind >= argc) {
@@ -231,7 +298,9 @@ main (int argc, char* argv[])
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 
 		if (!first && progress) {
-			cout << "\033[" << jobs.size() << "A";
+			for (size_t i = 0; i < jobs.size(); ++i) {
+				cout << "\033[1A\033[2K";
+			}
 			cout.flush ();
 		}
 
