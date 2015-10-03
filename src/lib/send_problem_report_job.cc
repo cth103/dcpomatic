@@ -72,7 +72,7 @@ SendProblemReportJob::run ()
 
 	body += "log head and tail:\n";
 	body += "---<8----\n";
-	body += _film->log()->head_and_tail ();
+	body += _film->log()->head_and_tail (4096);
 	body += "---<8----\n\n";
 
 	add_file (body, "ffprobe.log");
