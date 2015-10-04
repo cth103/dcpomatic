@@ -123,9 +123,11 @@ DCPSubtitleContent::set_subtitle_video_frame_rate (int r)
 double
 DCPSubtitleContent::subtitle_video_frame_rate () const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	if (_frame_rate) {
-		return _frame_rate.get ();
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_frame_rate) {
+			return _frame_rate.get ();
+		}
 	}
 
 	/* No frame rate specified, so assume this content has been
