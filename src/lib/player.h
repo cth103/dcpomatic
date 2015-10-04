@@ -87,6 +87,7 @@ private:
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
+	DCPTime content_subtitle_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
 
 	/** @return Pieces of content type C that overlap a specified time range in the DCP */

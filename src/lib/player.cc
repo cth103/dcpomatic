@@ -604,6 +604,12 @@ Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 	return max (ContentTime (), ContentTime (s, piece->frc) + piece->content->trim_start());
 }
 
+DCPTime
+Player::content_subtitle_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
+{
+	return max (DCPTime (), DCPTime (t - piece->content->trim_start(), piece->frc) + piece->content->position());
+}
+
 /** @param burnt true to return only subtitles to be burnt, false to return only
  *  subtitles that should not be burnt.  This parameter will be ignored if
  *  _always_burn_subtitles is true; in this case, all subtitles will be returned.
@@ -651,7 +657,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 
 		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting);
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
-			BOOST_FOREACH (dcp::SubtitleString& s, ts.subs) {
+			BOOST_FOREACH (dcp::SubtitleString s, ts.subs) {
 				s.set_h_position (s.h_position() + subtitle_content->subtitle_x_offset ());
 				s.set_v_position (s.v_position() + subtitle_content->subtitle_y_offset ());
 				float const xs = subtitle_content->subtitle_x_scale();
@@ -661,6 +667,8 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 				if (fabs (1.0 - xs / ys) > dcp::ASPECT_ADJUST_EPSILON) {
 					s.set_aspect_adjust (xs / ys);
 				}
+				s.set_in (dcp::Time(content_subtitle_to_dcp (*j, ts.period().from).seconds()));
+				s.set_out (dcp::Time(content_subtitle_to_dcp (*j, ts.period().to).seconds()));
 				ps.text.push_back (s);
 				ps.add_fonts (subtitle_content->fonts ());
 			}
