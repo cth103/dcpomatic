@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-27 16:40+0100\n"
+"POT-Creation-Date: 2015-10-05 21:01+0100\n"
 "PO-Revision-Date: 2015-08-02 17:47+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -17,15 +17,15 @@ msgstr ""
 "X-Generator: Poedit 1.8.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/dcp_content.cc:111
+#: src/lib/dcp_content.cc:121
 msgid "%1 [DCP]"
 msgstr ""
 
-#: src/lib/sndfile_content.cc:67
+#: src/lib/sndfile_content.cc:68
 msgid "%1 [audio]"
 msgstr "%1 [lyd]"
 
-#: src/lib/ffmpeg_content.cc:226
+#: src/lib/ffmpeg_content.cc:227
 msgid "%1 [movie]"
 msgstr "%1 [film]"
 
@@ -57,88 +57,88 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Reklamer (ADV)"
 
-#: src/lib/job.cc:75
+#: src/lib/job.cc:88
 msgid "An error occurred whilst handling the file %1."
 msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
 
-#: src/lib/analyse_audio_job.cc:61
+#: src/lib/analyse_audio_job.cc:62
 msgid "Analyse audio"
 msgstr "Analyser lyd"
 
-#: src/lib/single_stream_audio_content.cc:94
+#: src/lib/single_stream_audio_content.cc:95
 msgid "Audio channels"
 msgstr ""
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr ""
 
-#: src/lib/audio_content.cc:258
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
 msgstr ""
 
-#: src/lib/audio_content.cc:247
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:434
+#: src/lib/ffmpeg_content.cc:435
 msgid "BT1361 extended colour gamut"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:415
+#: src/lib/ffmpeg_content.cc:416
 msgid "BT2020"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:454
+#: src/lib/ffmpeg_content.cc:455
 msgid "BT2020 constant luminance"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:436
+#: src/lib/ffmpeg_content.cc:437
 msgid "BT2020 for a 10-bit system"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:437
+#: src/lib/ffmpeg_content.cc:438
 msgid "BT2020 for a 12-bit system"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:453
+#: src/lib/ffmpeg_content.cc:454
 msgid "BT2020 non-constant luminance"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:411
+#: src/lib/ffmpeg_content.cc:412
 msgid "BT470BG"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:449
+#: src/lib/ffmpeg_content.cc:450
 msgid "BT470BG (BT601-6)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:410
+#: src/lib/ffmpeg_content.cc:411
 msgid "BT470M"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:407 src/lib/ffmpeg_content.cc:423
-#: src/lib/ffmpeg_content.cc:445
+#: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:424
+#: src/lib/ffmpeg_content.cc:446
 msgid "BT709"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:461
+#: src/lib/ffmpeg_content.cc:462
 msgid "Bits per pixel"
 msgstr ""
 
-#: src/lib/film.cc:1219
+#: src/lib/film.cc:1244
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1220
+#: src/lib/film.cc:1245
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1211
+#: src/lib/film.cc:1236
 msgid "C"
 msgstr ""
 
-#: src/lib/job.cc:353
+#: src/lib/job.cc:368
 msgid "Cancelled"
 msgstr "Annulleret"
 
@@ -150,37 +150,37 @@ msgstr "Kan ikke håndtere pixelformat %1 under %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/writer.cc:118
+#: src/lib/writer.cc:122
 msgid "Checking existing image data"
 msgstr "Verificerer eksisterende billeddata"
 
-#: src/lib/ffmpeg_content.cc:419
+#: src/lib/ffmpeg_content.cc:420
 msgid "Colour primaries"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:378 src/lib/ffmpeg_content.cc:381
-#: src/lib/ffmpeg_content.cc:384 src/lib/ffmpeg_content.cc:392
-#: src/lib/ffmpeg_content.cc:395 src/lib/ffmpeg_content.cc:398
+#: src/lib/ffmpeg_content.cc:379 src/lib/ffmpeg_content.cc:382
+#: src/lib/ffmpeg_content.cc:385 src/lib/ffmpeg_content.cc:393
+#: src/lib/ffmpeg_content.cc:396 src/lib/ffmpeg_content.cc:399
 msgid "Colour range"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:441
+#: src/lib/ffmpeg_content.cc:442
 msgid "Colour transfer characteristic"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:458
+#: src/lib/ffmpeg_content.cc:459
 msgid "Colourspace"
 msgstr ""
 
-#: src/lib/writer.cc:602
+#: src/lib/writer.cc:654
 msgid "Computing audio digest"
 msgstr "Beregner lydresume"
 
-#: src/lib/content.cc:137
+#: src/lib/content.cc:138
 msgid "Computing digest"
 msgstr "Beregner resume"
 
-#: src/lib/writer.cc:598
+#: src/lib/writer.cc:648
 msgid "Computing image digest"
 msgstr "Beregner billedresume"
 
@@ -188,79 +188,79 @@ msgstr "Beregner billedresume"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Indhold og DCP har samme billedhastighed.\n"
 
-#: src/lib/video_content.cc:565
+#: src/lib/video_content.cc:566
 msgid "Content frame rate"
 msgstr ""
 
-#: src/lib/subtitle_content.cc:125
+#: src/lib/subtitle_content.cc:127
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 
-#: src/lib/subtitle_content.cc:121
+#: src/lib/subtitle_content.cc:123
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 
-#: src/lib/audio_content.cc:93
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio delay."
 msgstr "Indhold der skal splejses skal have samme lydforsinkelse."
 
-#: src/lib/audio_content.cc:89
+#: src/lib/audio_content.cc:90
 msgid "Content to be joined must have the same audio gain."
 msgstr "Indhold der skal splejses skal have samme lydgain."
 
-#: src/lib/video_content.cc:168
+#: src/lib/video_content.cc:169
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Indhold der skal splejses skal have samme farvekonvertering."
 
-#: src/lib/video_content.cc:160
+#: src/lib/video_content.cc:161
 msgid "Content to be joined must have the same crop."
 msgstr "Indhold der skal splejses skal have samme beskæring."
 
-#: src/lib/video_content.cc:172
+#: src/lib/video_content.cc:173
 msgid "Content to be joined must have the same fades."
 msgstr ""
 
-#: src/lib/video_content.cc:148
+#: src/lib/video_content.cc:149
 msgid "Content to be joined must have the same picture size."
 msgstr "Indhold der skal splejses skal have samme billedstørrelse."
 
-#: src/lib/video_content.cc:164
+#: src/lib/video_content.cc:165
 msgid "Content to be joined must have the same scale setting."
 msgstr "Indhold der skal splejses skal have samme skaleringsindstilling."
 
-#: src/lib/subtitle_content.cc:129
+#: src/lib/subtitle_content.cc:131
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Indhold der skal splejses skal have samme X offset for undertekst."
 
-#: src/lib/subtitle_content.cc:137
+#: src/lib/subtitle_content.cc:139
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Indhold der skal splejses skal have samme X skalering af undertekst."
 
-#: src/lib/subtitle_content.cc:133
+#: src/lib/subtitle_content.cc:135
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Indhold der skal splejses skal have samme Y offset for undertekst."
 
-#: src/lib/subtitle_content.cc:141
+#: src/lib/subtitle_content.cc:143
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Indhold der skal splejses skal have samme Y skalering af undertekst."
 
-#: src/lib/video_content.cc:152
+#: src/lib/video_content.cc:153
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Indhold der skal splejses skal have samme billedhastighed."
 
-#: src/lib/video_content.cc:156
+#: src/lib/video_content.cc:157
 msgid "Content to be joined must have the same video frame type."
 msgstr "Indhold der skal splejses skal have samme billedtype."
 
-#: src/lib/subtitle_content.cc:146 src/lib/subtitle_content.cc:154
+#: src/lib/subtitle_content.cc:148 src/lib/subtitle_content.cc:156
 msgid "Content to be joined must use the same fonts."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:129
+#: src/lib/ffmpeg_content.cc:130
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Indhold der skal splejses skal bruge samme tekstningsstrøm."
 
-#: src/lib/video_content.cc:514
+#: src/lib/video_content.cc:515
 msgid "Content video is %1x%2"
 msgstr ""
 
@@ -280,11 +280,11 @@ msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr ""
 
-#: src/lib/magick_image_proxy.cc:100
+#: src/lib/magick_image_proxy.cc:101
 msgid "Could not decode image file (%1)"
 msgstr "Kunne ikke afkode billedfil (%1)"
 
-#: src/lib/server_finder.cc:127
+#: src/lib/server_finder.cc:139
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -292,11 +292,11 @@ msgstr ""
 "Kunne ikke lytte efter andre genereringsservere. Måske kører en anden "
 "instans af DCP-o-matic."
 
-#: src/lib/job.cc:94 src/lib/job.cc:105
+#: src/lib/job.cc:107 src/lib/job.cc:118
 msgid "Could not open %1"
 msgstr "Kunne ikke åbne %1"
 
-#: src/lib/curl_uploader.cc:83 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
 msgid "Could not open %1 to send"
 msgstr "Kunne ikke åbne %1 til afsendelse"
 
@@ -312,19 +312,19 @@ msgstr ""
 msgid "Could not start SCP session (%1)"
 msgstr "Kunne ikke starte SCP-session (%1)"
 
-#: src/lib/curl_uploader.cc:47
+#: src/lib/curl_uploader.cc:48
 msgid "Could not start transfer"
 msgstr ""
 
-#: src/lib/curl_uploader.cc:90 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
-#: src/lib/video_content.cc:533
+#: src/lib/video_content.cc:534
 msgid "Cropped to %1x%2"
 msgstr "Beskåret til %1x%2"
 
-#: src/lib/dcp_subtitle_content.cc:97
+#: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
 msgstr ""
 
@@ -336,7 +336,7 @@ msgstr "DCP vil køre ved %1%% af indholdshastigheden.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP vil bruge hvert andet billede fra indholdet.\n"
 
-#: src/lib/job.cc:95 src/lib/job.cc:106
+#: src/lib/job.cc:108 src/lib/job.cc:119
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -344,7 +344,7 @@ msgstr ""
 "DCP-o-matic kunne ikke åbne filen %1. Måske findes den ikke, eller den er i "
 "et uventet format."
 
-#: src/lib/ffmpeg_content.cc:98
+#: src/lib/ffmpeg_content.cc:99
 msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr ""
@@ -355,7 +355,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:440
+#: src/lib/config.cc:447
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -381,7 +381,7 @@ msgstr ""
 "Med venlig hilsen,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:527
+#: src/lib/video_content.cc:528
 msgid "Display aspect ratio"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr "E-mail KDM'er til %1"
 msgid "Email problem report for %1"
 msgstr ""
 
-#: src/lib/writer.cc:152
+#: src/lib/writer.cc:154
 msgid "Encoding image data"
 msgstr "Genererer billeddata"
 
@@ -418,15 +418,15 @@ msgstr "Genererer billeddata"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr ""
 
-#: src/lib/job.cc:351
+#: src/lib/job.cc:366
 msgid "Error: %1"
 msgstr ""
 
-#: src/lib/examine_content_job.cc:46
+#: src/lib/examine_content_job.cc:47
 msgid "Examine content"
 msgstr "Undersøg indhold"
 
-#: src/lib/ffmpeg_content.cc:448
+#: src/lib/ffmpeg_content.cc:449
 msgid "FCC"
 msgstr ""
 
@@ -438,15 +438,15 @@ msgstr "Kunne ikke godkende mod server (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/ffmpeg_content.cc:414
+#: src/lib/ffmpeg_content.cc:415
 msgid "Film"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:78
+#: src/lib/ffmpeg_examiner.cc:80
 msgid "Finding length"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:83
+#: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
 msgstr ""
 
@@ -454,11 +454,11 @@ msgstr ""
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/ffmpeg_content.cc:398
+#: src/lib/ffmpeg_content.cc:399
 msgid "Full"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:384
+#: src/lib/ffmpeg_content.cc:385
 msgid "Full (0-%1)"
 msgstr ""
 
@@ -466,11 +466,11 @@ msgstr ""
 msgid "Full frame"
 msgstr "Fuldt billede"
 
-#: src/lib/ffmpeg_content.cc:426
+#: src/lib/ffmpeg_content.cc:427
 msgid "Gamma 22 (BT470M)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:427
+#: src/lib/ffmpeg_content.cc:428
 msgid "Gamma 28 (BT470BG)"
 msgstr ""
 
@@ -478,7 +478,7 @@ msgstr ""
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/film.cc:1215
+#: src/lib/film.cc:1240
 msgid "HI"
 msgstr ""
 
@@ -490,23 +490,23 @@ msgstr "Hørehæmmede"
 msgid "High quality 3D denoiser"
 msgstr "Høj-kvalitets 3D-denoiser"
 
-#: src/lib/ffmpeg_content.cc:435
+#: src/lib/ffmpeg_content.cc:436
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:433
+#: src/lib/ffmpeg_content.cc:434
 msgid "IEC61966-2-4"
 msgstr ""
 
-#: src/lib/job.cc:111 src/lib/job.cc:132 src/lib/job.cc:142
+#: src/lib/job.cc:124 src/lib/job.cc:145 src/lib/job.cc:155
 msgid "It is not known what caused this error."
 msgstr ""
 
-#: src/lib/config.cc:92
+#: src/lib/config.cc:94
 msgid "KDM delivery"
 msgstr ""
 
-#: src/lib/config.cc:221
+#: src/lib/config.cc:225
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -514,15 +514,15 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/film.cc:1209
+#: src/lib/film.cc:1234
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1217
+#: src/lib/film.cc:1242
 msgid "Lc"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:92 src/lib/util.cc:483
+#: src/lib/mid_side_decoder.cc:97 src/lib/util.cc:483
 msgid "Left"
 msgstr "Venstre"
 
@@ -538,7 +538,7 @@ msgstr "Venstre bag surround"
 msgid "Left surround"
 msgstr "Venstre surround"
 
-#: src/lib/film.cc:1212
+#: src/lib/film.cc:1237
 msgid "Lfe"
 msgstr ""
 
@@ -546,27 +546,27 @@ msgstr ""
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
-#: src/lib/ffmpeg_content.cc:395
+#: src/lib/ffmpeg_content.cc:396
 msgid "Limited"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:381
+#: src/lib/ffmpeg_content.cc:382
 msgid "Limited (%1-%2)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:430
+#: src/lib/ffmpeg_content.cc:431
 msgid "Linear"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:431
+#: src/lib/ffmpeg_content.cc:432
 msgid "Logarithmic (100:1 range)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:432
+#: src/lib/ffmpeg_content.cc:433
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1213
+#: src/lib/film.cc:1238
 msgid "Ls"
 msgstr ""
 
@@ -578,19 +578,19 @@ msgstr ""
 msgid "Misc"
 msgstr "Diverse"
 
-#: src/lib/dcp_examiner.cc:94
+#: src/lib/dcp_examiner.cc:95
 msgid "Mismatched audio channel counts in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:100
+#: src/lib/dcp_examiner.cc:101
 msgid "Mismatched audio frame rates in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:75
+#: src/lib/dcp_examiner.cc:76
 msgid "Mismatched frame rates in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:82
+#: src/lib/dcp_examiner.cc:83
 msgid "Mismatched video sizes in DCP"
 msgstr ""
 
@@ -598,15 +598,15 @@ msgstr ""
 msgid "Motion compensating deinterlacer"
 msgstr "Bevægelseskompenserende deinterlacer"
 
-#: src/lib/video_content_scale.cc:108
+#: src/lib/video_content_scale.cc:109
 msgid "No scale"
 msgstr "Ingen skalering"
 
-#: src/lib/video_content_scale.cc:105
+#: src/lib/video_content_scale.cc:106
 msgid "No stretch"
 msgstr "Intet stræk"
 
-#: src/lib/image_content.cc:54
+#: src/lib/image_content.cc:55
 msgid "No valid image files were found in the folder."
 msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 
@@ -614,19 +614,19 @@ msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 msgid "Noise reduction"
 msgstr "Støjreduktion"
 
-#: src/lib/job.cc:349
+#: src/lib/job.cc:364
 msgid "OK (ran for %1)"
 msgstr "OK (kørte i %1)"
 
-#: src/lib/content.cc:106
+#: src/lib/content.cc:107
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Kun det første indhold, der skal sammensættes, kan have starttrim."
 
-#: src/lib/content.cc:110
+#: src/lib/content.cc:111
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Kun det sidste indhold, der skal sammensættes, kan have sluttrim."
 
-#: src/lib/job.cc:124
+#: src/lib/job.cc:137
 msgid "Out of memory"
 msgstr "Ikke tilstrækkelig arbejdshukommelse"
 
@@ -634,11 +634,11 @@ msgstr "Ikke tilstrækkelig arbejdshukommelse"
 msgid "Overcomplete wavelet denoiser"
 msgstr ""
 
-#: src/lib/colour_conversion.cc:265
+#: src/lib/colour_conversion.cc:266
 msgid "P3"
 msgstr ""
 
-#: src/lib/video_content.cc:557
+#: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr ""
 
@@ -654,11 +654,11 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/film.cc:1210
+#: src/lib/film.cc:1235
 msgid "R"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:444
+#: src/lib/ffmpeg_content.cc:445
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr ""
 
@@ -666,19 +666,19 @@ msgstr ""
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/film.cc:1218
+#: src/lib/film.cc:1243
 msgid "Rc"
 msgstr ""
 
-#: src/lib/colour_conversion.cc:263
+#: src/lib/colour_conversion.cc:264
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/lib/colour_conversion.cc:264
+#: src/lib/colour_conversion.cc:265
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:93 src/lib/util.cc:484
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
 msgstr "Højre"
 
@@ -694,20 +694,20 @@ msgstr "Højre bag surround"
 msgid "Right surround"
 msgstr "Højre surround"
 
-#: src/lib/film.cc:1214
+#: src/lib/film.cc:1239
 msgid "Rs"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:412 src/lib/ffmpeg_content.cc:428
+#: src/lib/ffmpeg_content.cc:413 src/lib/ffmpeg_content.cc:429
 msgid "SMPTE 170M (BT601)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:450
+#: src/lib/ffmpeg_content.cc:451
 msgid "SMPTE 170M (BT601-6)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:413 src/lib/ffmpeg_content.cc:429
-#: src/lib/ffmpeg_content.cc:451
+#: src/lib/ffmpeg_content.cc:414 src/lib/ffmpeg_content.cc:430
+#: src/lib/ffmpeg_content.cc:452
 msgid "SMPTE 240M"
 msgstr ""
 
@@ -715,7 +715,7 @@ msgstr ""
 msgid "SSH error (%1)"
 msgstr "SSH-fejl (%1)"
 
-#: src/lib/video_content.cc:548
+#: src/lib/video_content.cc:549
 msgid "Scaled to %1x%2"
 msgstr "Skaleret til %1x%2"
 
@@ -731,7 +731,7 @@ msgstr ""
 msgid "Short"
 msgstr "Short"
 
-#: src/lib/audio_content.cc:251
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
 msgstr ""
 
@@ -739,7 +739,11 @@ msgstr ""
 msgid "Stereo to 5.1 up-mixer A"
 msgstr ""
 
-#: src/lib/subrip_content.cc:80
+#: src/lib/upmixer_b.cc:41
+msgid "Stereo to 5.1 up-mixer B"
+msgstr ""
+
+#: src/lib/subrip_content.cc:77
 msgid "SubRip subtitles"
 msgstr ""
 
@@ -755,7 +759,7 @@ msgstr "Telecinefilter"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/dcp_examiner.cc:132
+#: src/lib/dcp_examiner.cc:133
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
@@ -764,7 +768,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/job.cc:81
+#: src/lib/job.cc:94
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -772,11 +776,14 @@ msgstr ""
 "Filmen ligger på et drev, der kun har lidt ledig plads. Frigør noget plads "
 "og prøv igen."
 
-#: src/lib/job.cc:124
-msgid "There was not enough memory to do this."
-msgstr "Der var ikke tilstrækkelig arbejdshukommelse til at gøre dette."
+#: src/lib/job.cc:137
+msgid ""
+"There was not enough memory to do this.  If you are running a 32-bit "
+"operating system try reducing the number of encoding threads in the General "
+"tab of Preferences."
+msgstr ""
 
-#: src/lib/film.cc:371
+#: src/lib/film.cc:376
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -784,7 +791,7 @@ msgstr ""
 "Denne film blev dannet med en nyere version af DCP-o-matic og kan ikke "
 "indlæses i denne version. Beklager!"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:368
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -810,15 +817,15 @@ msgstr "Transitional"
 msgid "Unexpected ZIP file contents"
 msgstr "Uventet indhold af ZIP arkiv"
 
-#: src/lib/image_proxy.cc:47
+#: src/lib/image_proxy.cc:48
 msgid "Unexpected image type received by server"
 msgstr "Uventet billedtype modtaget af server"
 
-#: src/lib/job.cc:141
+#: src/lib/job.cc:154
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
-#: src/lib/ffmpeg_decoder.cc:276
+#: src/lib/ffmpeg_decoder.cc:234
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Kunne ikke genkende lydsekvensens format (%1)"
 
@@ -826,39 +833,39 @@ msgstr "Kunne ikke genkende lydsekvensens format (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:378 src/lib/ffmpeg_content.cc:392
-#: src/lib/ffmpeg_content.cc:406 src/lib/ffmpeg_content.cc:408
-#: src/lib/ffmpeg_content.cc:409 src/lib/ffmpeg_content.cc:422
-#: src/lib/ffmpeg_content.cc:424 src/lib/ffmpeg_content.cc:425
-#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:447
+#: src/lib/ffmpeg_content.cc:379 src/lib/ffmpeg_content.cc:393
+#: src/lib/ffmpeg_content.cc:407 src/lib/ffmpeg_content.cc:409
+#: src/lib/ffmpeg_content.cc:410 src/lib/ffmpeg_content.cc:423
+#: src/lib/ffmpeg_content.cc:425 src/lib/ffmpeg_content.cc:426
+#: src/lib/ffmpeg_content.cc:447 src/lib/ffmpeg_content.cc:448
 msgid "Unspecified"
 msgstr ""
 
-#: src/lib/colour_conversion.cc:221
+#: src/lib/colour_conversion.cc:222
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: src/lib/upmixer_a.cc:128
+#: src/lib/upmixer_a.cc:127 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
 msgstr ""
 
-#: src/lib/upmixer_a.cc:129
+#: src/lib/upmixer_a.cc:128 src/lib/upmixer_b.cc:137
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1216
+#: src/lib/film.cc:1241
 msgid "VI"
 msgstr ""
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:580
 msgid "Video frame rate"
 msgstr ""
 
-#: src/lib/video_content.cc:577
+#: src/lib/video_content.cc:578
 msgid "Video length"
 msgstr ""
 
-#: src/lib/video_content.cc:578
+#: src/lib/video_content.cc:579
 msgid "Video size"
 msgstr ""
 
@@ -870,7 +877,7 @@ msgstr "Synshandicappet"
 msgid "Waiting"
 msgstr "Venter"
 
-#: src/lib/ffmpeg_content.cc:452
+#: src/lib/ffmpeg_content.cc:453
 msgid "YCOCG"
 msgstr ""
 
@@ -878,23 +885,23 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Endnu et Deinterlacing Filter"
 
-#: src/lib/film.cc:286
+#: src/lib/film.cc:291
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du er nødt til at tilføje indhold til DCP'en før du kan danne den"
 
-#: src/lib/image_content.cc:77
+#: src/lib/image_content.cc:78
 msgid "[moving images]"
 msgstr "[levende billeder]"
 
-#: src/lib/image_content.cc:75
+#: src/lib/image_content.cc:76
 msgid "[still]"
 msgstr "[stillbillede]"
 
-#: src/lib/dcp_subtitle_content.cc:91 src/lib/subrip_content.cc:74
+#: src/lib/dcp_subtitle_content.cc:94 src/lib/subrip_content.cc:71
 msgid "[subtitles]"
 msgstr ""
 
-#: src/lib/film.cc:263
+#: src/lib/film.cc:268
 msgid "cannot contain slashes"
 msgstr "må ikke indeholde skråstreger"
 
@@ -906,11 +913,11 @@ msgstr "forbindelsestimeout"
 msgid "connecting"
 msgstr "forbinder"
 
-#: src/lib/film.cc:282
+#: src/lib/film.cc:287
 msgid "container"
 msgstr "container"
 
-#: src/lib/film.cc:290
+#: src/lib/film.cc:295
 msgid "content type"
 msgstr "indholdstype"
 
@@ -922,11 +929,11 @@ msgstr "kopierer %1"
 msgid "could not create file %1"
 msgstr "kunne ikke danne filen %1"
 
-#: src/lib/ffmpeg.cc:132
+#: src/lib/ffmpeg.cc:137
 msgid "could not find stream information"
 msgstr "kunne ikke finde information om strøm"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:542
 msgid "could not move audio asset into the DCP (%1)"
 msgstr ""
 
@@ -949,14 +956,6 @@ msgstr ""
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"
 msgstr "kunne ikke læse fra fil %1 (%2)"
-
-#: src/lib/resampler.cc:96
-msgid "could not run sample-rate converter"
-msgstr ""
-
-#: src/lib/resampler.cc:77
-msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
-msgstr ""
 
 #: src/lib/scp_uploader.cc:65
 msgid "could not start SCP session (%1)"
@@ -982,12 +981,16 @@ msgstr "fejl ved async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fejl ved async_write (%1)"
 
-#. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:103
+#: src/lib/transcode_job.cc:105
 msgid "fps"
 msgstr ""
 
-#: src/lib/video_content.cc:579
+#: src/lib/transcode_job.cc:104
+#, fuzzy
+msgid "frames"
+msgstr "Fuldt billede"
+
+#: src/lib/video_content.cc:580
 msgid "frames per second"
 msgstr "billeder pr. sekund"
 
@@ -1005,25 +1008,25 @@ msgstr ""
 msgid "missing required setting %1"
 msgstr "mangler påkrævet indstilling %1"
 
-#: src/lib/image_content.cc:92
+#: src/lib/image_content.cc:93
 msgid "moving"
 msgstr ""
 
-#: src/lib/ffmpeg_decoder.cc:446
+#: src/lib/ffmpeg_decoder.cc:416
 msgid "multi-part subtitles not yet supported"
 msgstr "undertekster i flere dele undersøttes endnu ikke"
 
-#: src/lib/film.cc:263 src/lib/film.cc:294
+#: src/lib/film.cc:268 src/lib/film.cc:299
 msgid "name"
 msgstr "navn"
 
-#: src/lib/video_content.cc:523
+#: src/lib/video_content.cc:524
 msgid "pixel aspect ratio"
 msgstr ""
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:346
+#: src/lib/job.cc:361
 msgid "remaining"
 msgstr "der mangler"
 
@@ -1032,21 +1035,24 @@ msgstr "der mangler"
 msgid "s"
 msgstr ""
 
-#: src/lib/colour_conversion.cc:262
+#: src/lib/colour_conversion.cc:263
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:90
+#: src/lib/image_content.cc:91
 msgid "still"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:252
+#: src/lib/ffmpeg_examiner.cc:295
 msgid "unknown"
 msgstr "ukendt"
 
-#: src/lib/video_content.cc:577
+#: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr ""
+
+#~ msgid "There was not enough memory to do this."
+#~ msgstr "Der var ikke tilstrækkelig arbejdshukommelse til at gøre dette."
 
 #~ msgid "Area"
 #~ msgstr "Område"
