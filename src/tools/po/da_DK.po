@@ -98,7 +98,7 @@ msgstr "Tilføj film..."
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
-msgstr "Der er sket en uhåndteret fejl."
+msgstr ""
 
 #: src/tools/dcpomatic.cc:934
 #, c-format
