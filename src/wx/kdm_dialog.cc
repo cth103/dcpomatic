@@ -22,6 +22,7 @@
 #include "screen_dialog.h"
 #include "wx_util.h"
 #include "screens_panel.h"
+#include "kdm_timing_panel.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
@@ -33,8 +34,6 @@
 #include <wx/filepicker.h>
 #endif
 #include <wx/treectrl.h>
-#include <wx/datectrl.h>
-#include <wx/timectrl.h>
 #include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <iostream>
@@ -69,27 +68,8 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	add_label_to_sizer (table, this, _("From"), true);
-	wxDateTime from;
-	from.SetToCurrent ();
-	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from);
-	table->Add (_from_date, 1, wxEXPAND);
-	_from_time = new wxTimePickerCtrl (this, wxID_ANY, from);
-	table->Add (_from_time, 1, wxEXPAND);
-
-	add_label_to_sizer (table, this, _("Until"), true);
-	wxDateTime to = from;
-	/* 1 week from now */
-	to.Add (wxDateSpan (0, 0, 1, 0));
-	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to);
-	table->Add (_until_date, 1, wxEXPAND);
-	_until_time = new wxTimePickerCtrl (this, wxID_ANY, to);
-	table->Add (_until_time, 1, wxEXPAND);
-
-	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
-
+	_timing = new KDMTimingPanel (this);
+	vertical->Add (_timing);
 
 	/* Sub-heading: CPL */
 	h = new wxStaticText (this, wxID_ANY, _("CPL"));
@@ -106,7 +86,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	vertical->Add (s, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 
 	/* CPL details */
-	table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("DCP directory"), true);
 	_dcp_directory = new wxStaticText (this, wxID_ANY, "");
 	table->Add (_dcp_directory);
@@ -200,29 +180,6 @@ KDMDialog::setup_sensitivity ()
 	}
 
 	_folder->Enable (_write_to->GetValue ());
-}
-
-boost::posix_time::ptime
-KDMDialog::from () const
-{
-	return posix_time (_from_date, _from_time);
-}
-
-boost::posix_time::ptime
-KDMDialog::posix_time (wxDatePickerCtrl* date_picker, wxTimePickerCtrl* time_picker)
-{
-	wxDateTime const date = date_picker->GetValue ();
-	wxDateTime const time = time_picker->GetValue ();
-	return boost::posix_time::ptime (
-		boost::gregorian::date (date.GetYear(), date.GetMonth() + 1, date.GetDay()),
-		boost::posix_time::time_duration (time.GetHour(), time.GetMinute(), time.GetSecond())
-		);
-}
-
-boost::posix_time::ptime
-KDMDialog::until () const
-{
-	return posix_time (_until_date, _until_time);
 }
 
 boost::filesystem::path
@@ -321,4 +278,16 @@ list<shared_ptr<Screen> >
 KDMDialog::screens () const
 {
 	return _screens->screens ();
+}
+
+boost::posix_time::ptime
+KDMDialog::from () const
+{
+	return _timing->from ();
+}
+
+boost::posix_time::ptime
+KDMDialog::until () const
+{
+	return _timing->until ();
 }

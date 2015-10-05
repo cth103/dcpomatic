@@ -26,8 +26,6 @@
 #include <map>
 
 class wxTreeCtrl;
-class wxDatePickerCtrl;
-class wxTimePickerCtrl;
 class wxDirPickerCtrl;
 class DirPickerCtrl;
 
@@ -35,6 +33,7 @@ class Cinema;
 class Screen;
 class Film;
 class ScreensPanel;
+class KDMTimingPanel;
 struct CPLSummary;
 
 class KDMDialog : public wxDialog
@@ -43,7 +42,6 @@ public:
 	KDMDialog (wxWindow *, boost::shared_ptr<const Film>);
 
 	std::list<boost::shared_ptr<Screen> > screens () const;
-
 	/** @return KDM from time in local time */
 	boost::posix_time::ptime from () const;
 	/** @return KDM until time in local time */
@@ -60,13 +58,8 @@ private:
 	void update_cpl_summary ();
 	void cpl_browse_clicked ();
 
-	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, wxTimePickerCtrl *);
-
 	ScreensPanel* _screens;
-	wxDatePickerCtrl* _from_date;
-	wxDatePickerCtrl* _until_date;
-	wxTimePickerCtrl* _from_time;
-	wxTimePickerCtrl* _until_time;
+	KDMTimingPanel* _timing;
 	wxChoice* _cpl;
 	wxButton* _cpl_browse;
 	wxStaticText* _dcp_directory;
