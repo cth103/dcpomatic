@@ -21,6 +21,7 @@
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
 #include "wx_util.h"
+#include "screens_panel.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
@@ -57,45 +58,12 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-
 	/* Sub-heading: Screens */
 	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("Screens"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
-
-	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
-	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT);
-	targets->Add (_targets, 1, wxEXPAND | wxTOP | wxRIGHT, DCPOMATIC_SIZER_GAP);
-
-	_root = _targets->AddRoot ("Foo");
-
-	list<shared_ptr<Cinema> > c = Config::instance()->cinemas ();
-	for (list<shared_ptr<Cinema> >::iterator i = c.begin(); i != c.end(); ++i) {
-		add_cinema (*i);
-	}
-
-	_targets->ExpandAll ();
-
-	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
-
-	_add_cinema = new wxButton (this, wxID_ANY, _("Add Cinema..."));
-	target_buttons->Add (_add_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_edit_cinema = new wxButton (this, wxID_ANY, _("Edit Cinema..."));
-	target_buttons->Add (_edit_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_remove_cinema = new wxButton (this, wxID_ANY, _("Remove Cinema"));
-	target_buttons->Add (_remove_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-
-	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
-	target_buttons->Add (_add_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
-	target_buttons->Add (_edit_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_remove_screen = new wxButton (this, wxID_ANY, _("Remove Screen"));
-	target_buttons->Add (_remove_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-
-	targets->Add (target_buttons, 0, 0);
-
-	vertical->Add (targets, 1, wxEXPAND);
-
+	_screens = new ScreensPanel (this);
+	vertical->Add (_screens, 1, wxEXPAND);
 
 	/* Sub-heading: Timing */
 	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
@@ -204,15 +172,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 
 	/* Bind */
 
-	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, boost::bind (&KDMDialog::setup_sensitivity, this));
-
-	_add_cinema->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::add_cinema_clicked, this));
-	_edit_cinema->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::edit_cinema_clicked, this));
-	_remove_cinema->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::remove_cinema_clicked, this));
-
-	_add_screen->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::add_screen_clicked, this));
-	_edit_screen->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::edit_screen_clicked, this));
-	_remove_screen->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::remove_screen_clicked, this));
+	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	_cpl->Bind           (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&KDMDialog::update_cpl_summary, this));
 	_cpl_browse->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&KDMDialog::cpl_browse_clicked, this));
@@ -227,227 +187,19 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	overall_sizer->SetSizeHints (this);
 }
 
-list<pair<wxTreeItemId, shared_ptr<Cinema> > >
-KDMDialog::selected_cinemas () const
-{
-	wxArrayTreeItemIds s;
-	_targets->GetSelections (s);
-
-	list<pair<wxTreeItemId, shared_ptr<Cinema> > > c;
-	for (size_t i = 0; i < s.GetCount(); ++i) {
-		map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator j = _cinemas.find (s[i]);
-		if (j != _cinemas.end ()) {
-			c.push_back (make_pair (j->first, j->second));
-		}
-	}
-
-	return c;
-}
-
-list<pair<wxTreeItemId, shared_ptr<Screen> > >
-KDMDialog::selected_screens () const
-{
-	wxArrayTreeItemIds s;
-	_targets->GetSelections (s);
-
-	list<pair<wxTreeItemId, shared_ptr<Screen> > > c;
-	for (size_t i = 0; i < s.GetCount(); ++i) {
-		map<wxTreeItemId, shared_ptr<Screen> >::const_iterator j = _screens.find (s[i]);
-		if (j != _screens.end ()) {
-			c.push_back (make_pair (j->first, j->second));
-		}
-	}
-
-	return c;
-}
-
 void
 KDMDialog::setup_sensitivity ()
 {
-	bool const sc = selected_cinemas().size() == 1;
-	bool const ss = selected_screens().size() == 1;
+	_screens->setup_sensitivity ();
+
 	bool const sd = _cpl->GetSelection() != -1;
-
-	_edit_cinema->Enable (sc);
-	_remove_cinema->Enable (sc);
-
-	_add_screen->Enable (sc);
-	_edit_screen->Enable (ss);
-	_remove_screen->Enable (ss);
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	if (ok) {
-		ok->Enable ((selected_cinemas().size() > 0 || selected_screens().size() > 0) && sd);
+		ok->Enable (!_screens->screens().empty() && sd);
 	}
 
 	_folder->Enable (_write_to->GetValue ());
-}
-
-void
-KDMDialog::add_cinema (shared_ptr<Cinema> c)
-{
-	_cinemas[_targets->AppendItem (_root, std_to_wx (c->name))] = c;
-
-	list<shared_ptr<Screen> > sc = c->screens ();
-	for (list<shared_ptr<Screen> >::iterator i = sc.begin(); i != sc.end(); ++i) {
-		add_screen (c, *i);
-	}
-}
-
-void
-KDMDialog::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
-{
-	map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator i = _cinemas.begin();
-	while (i != _cinemas.end() && i->second != c) {
-		++i;
-	}
-
-	if (i == _cinemas.end()) {
-		return;
-	}
-
-	_screens[_targets->AppendItem (i->first, std_to_wx (s->name))] = s;
-	_targets->Expand (i->first);
-}
-
-void
-KDMDialog::add_cinema_clicked ()
-{
-	CinemaDialog* d = new CinemaDialog (this, "Add Cinema");
-	if (d->ShowModal () == wxID_OK) {
-		shared_ptr<Cinema> c (new Cinema (d->name(), d->email()));
-		Config::instance()->add_cinema (c);
-		add_cinema (c);
-	}
-
-	d->Destroy ();
-}
-
-void
-KDMDialog::edit_cinema_clicked ()
-{
-	if (selected_cinemas().size() != 1) {
-		return;
-	}
-
-	pair<wxTreeItemId, shared_ptr<Cinema> > c = selected_cinemas().front();
-
-	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->email);
-	if (d->ShowModal () == wxID_OK) {
-		c.second->name = d->name ();
-		c.second->email = d->email ();
-		_targets->SetItemText (c.first, std_to_wx (d->name()));
-		Config::instance()->changed ();
-	}
-
-	d->Destroy ();
-}
-
-void
-KDMDialog::remove_cinema_clicked ()
-{
-	if (selected_cinemas().size() != 1) {
-		return;
-	}
-
-	pair<wxTreeItemId, shared_ptr<Cinema> > c = selected_cinemas().front();
-
-	Config::instance()->remove_cinema (c.second);
-	_targets->Delete (c.first);
-}
-
-void
-KDMDialog::add_screen_clicked ()
-{
-	if (selected_cinemas().size() != 1) {
-		return;
-	}
-
-	shared_ptr<Cinema> c = selected_cinemas().front().second;
-
-	ScreenDialog* d = new ScreenDialog (this, "Add Screen");
-	if (d->ShowModal () != wxID_OK) {
-		return;
-	}
-
-	shared_ptr<Screen> s (new Screen (d->name(), d->certificate()));
-	c->add_screen (s);
-	add_screen (c, s);
-
-	Config::instance()->changed ();
-
-	d->Destroy ();
-}
-
-void
-KDMDialog::edit_screen_clicked ()
-{
-	if (selected_screens().size() != 1) {
-		return;
-	}
-
-	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
-
-	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->certificate);
-	if (d->ShowModal () == wxID_OK) {
-		s.second->name = d->name ();
-		s.second->certificate = d->certificate ();
-		_targets->SetItemText (s.first, std_to_wx (d->name()));
-		Config::instance()->changed ();
-	}
-
-	d->Destroy ();
-}
-
-void
-KDMDialog::remove_screen_clicked ()
-{
-	if (selected_screens().size() != 1) {
-		return;
-	}
-
-	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
-
-	map<wxTreeItemId, shared_ptr<Cinema> >::iterator i = _cinemas.begin ();
-	while (i != _cinemas.end ()) {
-		list<shared_ptr<Screen> > sc = i->second->screens ();
-		if (find (sc.begin(), sc.end(), s.second) != sc.end ()) {
-			break;
-		}
-	}
-
-	if (i == _cinemas.end()) {
-		return;
-	}
-
-	i->second->remove_screen (s.second);
-	_targets->Delete (s.first);
-
-	Config::instance()->changed ();
-}
-
-list<shared_ptr<Screen> >
-KDMDialog::screens () const
-{
-	list<shared_ptr<Screen> > s;
-
-	list<pair<wxTreeItemId, shared_ptr<Cinema> > > cinemas = selected_cinemas ();
-	for (list<pair<wxTreeItemId, shared_ptr<Cinema> > >::iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
-		list<shared_ptr<Screen> > sc = i->second->screens ();
-		for (list<shared_ptr<Screen> >::const_iterator j = sc.begin(); j != sc.end(); ++j) {
-			s.push_back (*j);
-		}
-	}
-
-	list<pair<wxTreeItemId, shared_ptr<Screen> > > screens = selected_screens ();
-	for (list<pair<wxTreeItemId, shared_ptr<Screen> > >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		s.push_back (i->second);
-	}
-
-	s.sort ();
-	s.unique ();
-
-	return s;
 }
 
 boost::posix_time::ptime
@@ -563,4 +315,10 @@ KDMDialog::cpl_browse_clicked ()
 	update_cpl_choice ();
 	_cpl->SetSelection (_cpls.size() - 1);
 	update_cpl_summary ();
+}
+
+list<shared_ptr<Screen> >
+KDMDialog::screens () const
+{
+	return _screens->screens ();
 }

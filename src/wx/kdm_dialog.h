@@ -34,6 +34,7 @@ class DirPickerCtrl;
 class Cinema;
 class Screen;
 class Film;
+class ScreensPanel;
 struct CPLSummary;
 
 class KDMDialog : public wxDialog
@@ -54,16 +55,6 @@ public:
 	dcp::Formulation formulation () const;
 
 private:
-	void add_cinema (boost::shared_ptr<Cinema>);
-	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
-	void add_cinema_clicked ();
-	void edit_cinema_clicked ();
-	void remove_cinema_clicked ();
-	void add_screen_clicked ();
-	void edit_screen_clicked ();
-	void remove_screen_clicked ();
-	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
-	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void setup_sensitivity ();
 	void update_cpl_choice ();
 	void update_cpl_summary ();
@@ -71,13 +62,7 @@ private:
 
 	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, wxTimePickerCtrl *);
 
-	wxTreeCtrl* _targets;
-	wxButton* _add_cinema;
-	wxButton* _edit_cinema;
-	wxButton* _remove_cinema;
-	wxButton* _add_screen;
-	wxButton* _edit_screen;
-	wxButton* _remove_screen;
+	ScreensPanel* _screens;
 	wxDatePickerCtrl* _from_date;
 	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
@@ -96,8 +81,5 @@ private:
 #endif
 	wxRadioButton* _email;
 
-	wxTreeItemId _root;
-	std::map<wxTreeItemId, boost::shared_ptr<Cinema> > _cinemas;
-	std::map<wxTreeItemId, boost::shared_ptr<Screen> > _screens;
 	std::vector<CPLSummary> _cpls;
 };
