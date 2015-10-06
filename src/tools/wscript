@@ -34,7 +34,7 @@ def build(bld):
     if bld.env.TARGET_WINDOWS:
         uselib += 'WINSOCK2'
 
-    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm', 'dcpomatic_create']:
+    for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']:
         obj = bld(features='cxx cxxprogram')
         obj.uselib = uselib
         obj.includes = ['..']

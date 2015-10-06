@@ -17,7 +17,7 @@
 
 */
 
-/** @file  src/tools/dcpomatic_kdm.cc
+/** @file  src/tools/dcpomatic_kdm_cli.cc
  *  @brief Command-line program to generate KDMs.
  */
 
