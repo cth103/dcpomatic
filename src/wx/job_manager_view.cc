@@ -48,14 +48,14 @@ public:
 	{
 		int n = 0;
 
-		wxBoxSizer* gauge_message = new wxBoxSizer (wxVERTICAL);
+		_gauge_message = new wxBoxSizer (wxVERTICAL);
 		_gauge = new wxGauge (panel, wxID_ANY, 100);
 		/* This seems to be required to allow the gauge to shrink under OS X */
 		_gauge->SetMinSize (wxSize (0, -1));
-		gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
+		_gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
 		_message = new wxStaticText (panel, wxID_ANY, wxT (" \n "));
-		gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-		table->Insert (n, gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
+		_gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
+		table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 		++n;
 
 		_cancel = new wxButton (panel, wxID_ANY, _("Cancel"));
@@ -100,6 +100,7 @@ private:
 		whole += _job->status ();
 		if (whole != _last_message) {
 			_message->SetLabelMarkup (std_to_wx (whole));
+			_gauge_message->Layout ();
 			_last_message = whole;
 		}
 		if (_job->progress ()) {
@@ -148,6 +149,7 @@ private:
 	boost::shared_ptr<Job> _job;
 	wxScrolledWindow* _window;
 	wxPanel* _panel;
+	wxBoxSizer* _gauge_message;
 	wxGauge* _gauge;
 	wxStaticText* _message;
 	wxButton* _cancel;
