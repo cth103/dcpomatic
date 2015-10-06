@@ -938,7 +938,7 @@ msgstr "Peak jest %.2fdB na %s"
 #: src/wx/audio_panel.cc:295
 #, fuzzy, c-format
 msgid "Peak: %.2fdB"
-msgstr "Peak jest %.2fdB na %s"
+msgstr "Peak jest %.2fdB"
 
 #: src/wx/audio_panel.cc:297 src/wx/audio_panel.cc:300
 #, fuzzy

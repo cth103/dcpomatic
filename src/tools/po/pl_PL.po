@@ -97,7 +97,7 @@ msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
-"Wystąpił nieznany błąd.\n"
+"Wystąpił nieznany błąd: %s (%s).\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:934

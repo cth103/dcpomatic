@@ -131,7 +131,7 @@ msgstr "Kunde inte öppna filmen %1 (%2)"
 #: src/tools/dcpomatic.cc:431
 #, fuzzy, c-format
 msgid "Could not make DCP: %s"
-msgstr "Kunde inte öppna filmen vid %s (%s)"
+msgstr "Kunde inte öppna filmen vid %s"
 
 #: src/tools/dcpomatic.cc:284 src/tools/dcpomatic_batch.cc:175
 #, c-format

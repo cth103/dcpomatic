@@ -937,7 +937,7 @@ msgstr "Пиковая громкость %.2fдБ на %s"
 #: src/wx/audio_panel.cc:295
 #, fuzzy, c-format
 msgid "Peak: %.2fdB"
-msgstr "Пиковая громкость %.2fдБ на %s"
+msgstr "Пиковая громкость %.2f"
 
 #: src/wx/audio_panel.cc:297 src/wx/audio_panel.cc:300
 #, fuzzy
