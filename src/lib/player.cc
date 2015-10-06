@@ -107,30 +107,6 @@ Player::setup_pieces ()
 		shared_ptr<Decoder> decoder;
 		optional<FrameRateChange> frc;
 
-		/* Work out a FrameRateChange for the best overlap video for this content, in case we need it below */
-		DCPTime best_overlap_t;
-		shared_ptr<VideoContent> best_overlap;
-		BOOST_FOREACH (shared_ptr<Content> j, _playlist->content ()) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
-			if (!vc) {
-				continue;
-			}
-
-			DCPTime const overlap = max (vc->position(), i->position()) - min (vc->end(), i->end());
-			if (overlap > best_overlap_t) {
-				best_overlap = vc;
-				best_overlap_t = overlap;
-			}
-		}
-
-		optional<FrameRateChange> best_overlap_frc;
-		if (best_overlap) {
-			best_overlap_frc = FrameRateChange (best_overlap->video_frame_rate(), _film->video_frame_rate ());
-		} else {
-			/* No video overlap; e.g. if the DCP is just audio */
-			best_overlap_frc = FrameRateChange (_film->video_frame_rate(), _film->video_frame_rate ());
-		}
-
 		/* FFmpeg */
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
 		if (fc) {
@@ -166,21 +142,43 @@ Player::setup_pieces ()
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (i);
 		if (sc) {
 			decoder.reset (new SndfileDecoder (sc, _fast));
-			frc = best_overlap_frc;
+
+			/* Work out a FrameRateChange for the best overlap video for this content */
+			DCPTime best_overlap_t;
+			shared_ptr<VideoContent> best_overlap;
+			BOOST_FOREACH (shared_ptr<Content> j, _playlist->content ()) {
+				shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
+				if (!vc) {
+					continue;
+				}
+
+				DCPTime const overlap = min (vc->end(), i->end()) - max (vc->position(), i->position());
+				if (overlap > best_overlap_t) {
+					best_overlap = vc;
+					best_overlap_t = overlap;
+				}
+			}
+
+			if (best_overlap) {
+				frc = FrameRateChange (best_overlap->video_frame_rate(), _film->video_frame_rate ());
+			} else {
+				/* No video overlap; e.g. if the DCP is just audio */
+				frc = FrameRateChange (_film->video_frame_rate(), _film->video_frame_rate ());
+			}
 		}
 
 		/* SubRipContent */
 		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (i);
 		if (rc) {
 			decoder.reset (new SubRipDecoder (rc));
-			frc = best_overlap_frc;
+			frc = FrameRateChange (rc->subtitle_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* DCPSubtitleContent */
 		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (dsc) {
 			decoder.reset (new DCPSubtitleDecoder (dsc));
-			frc = best_overlap_frc;
+			frc = FrameRateChange (dsc->subtitle_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
