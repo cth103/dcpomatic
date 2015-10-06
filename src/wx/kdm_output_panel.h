@@ -38,7 +38,7 @@ public:
 private:
 	wxChoice* _type;
 	wxRadioButton* _write_to;
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+#ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;

@@ -90,7 +90,7 @@ extern double wx_get (wxSpinCtrlDouble* widget);
    Use our own dir picker as this is the least bad option I can think of.
 */
 #if defined(__WXMSW__) || (GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 24 && (GTK_MICRO_VERSION == 17 || GTK_MICRO_VERSION == 20 || GTK_MICRO_VERSION == 23))
-#define DCPOMATIC_USE_OWN_DIR_PICKER
+#define DCPOMATIC_USE_OWN_PICKER
 #endif
 
 #endif

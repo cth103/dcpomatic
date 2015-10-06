@@ -388,7 +388,7 @@ private:
 		}
 
 		add_label_to_sizer (table, _panel, _("Default directory for new films"), true);
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+#ifdef DCPOMATIC_USE_OWN_PICKER
 		_directory = new DirPickerCtrl (_panel);
 #else
 		_directory = new wxDirPickerCtrl (_panel, wxDD_DIR_MUST_EXIST);
@@ -536,7 +536,7 @@ private:
 	wxSpinCtrl* _audio_delay;
 	wxButton* _isdcf_metadata_button;
 	wxSpinCtrl* _still_length;
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+#ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _directory;
 #else
 	wxDirPickerCtrl* _directory;

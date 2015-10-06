@@ -34,7 +34,7 @@ public:
 
 private:
 	wxTextCtrl* _name;
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
+#ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;
