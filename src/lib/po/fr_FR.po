@@ -745,12 +745,11 @@ msgstr "Certains sons seront ré-échantillonné à %1kHz"
 
 #: src/lib/upmixer_a.cc:45
 msgid "Stereo to 5.1 up-mixer A"
-msgstr "Mixage Stéréo vers 5.1"
+msgstr "Mixage Stéréo vers 5.1 A"
 
 #: src/lib/upmixer_b.cc:41
-#, fuzzy
 msgid "Stereo to 5.1 up-mixer B"
-msgstr "Mixage Stéréo vers 5.1"
+msgstr "Mixage Stéréo vers 5.1 B"
 
 #: src/lib/subrip_content.cc:77
 msgid "SubRip subtitles"
