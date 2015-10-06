@@ -45,6 +45,7 @@ sources = """
           dolby_certificate_dialog.cc
           doremi_certificate_dialog.cc
           download_certificate_dialog.cc
+          file_picker_ctrl.cc
           film_editor.cc
           film_viewer.cc
           filter_dialog.cc
