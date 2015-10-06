@@ -32,6 +32,7 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 
+/** @param film Film thta the problem is with, or 0 */
 SendProblemReportJob::SendProblemReportJob (
 	shared_ptr<const Film> film,
 	string from,
@@ -47,6 +48,10 @@ SendProblemReportJob::SendProblemReportJob (
 string
 SendProblemReportJob::name () const
 {
+	if (!_film) {
+		return _("Email problem report");
+	}
+
 	return String::compose (_("Email problem report for %1"), _film->name());
 }
 
@@ -70,13 +75,15 @@ SendProblemReportJob::run ()
 
 	body += "Version: " + string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
 
-	body += "log head and tail:\n";
-	body += "---<8----\n";
-	body += _film->log()->head_and_tail (4096);
-	body += "---<8----\n\n";
+	if (_film) {
+		body += "log head and tail:\n";
+		body += "---<8----\n";
+		body += _film->log()->head_and_tail (4096);
+		body += "---<8----\n\n";
 
-	add_file (body, "ffprobe.log");
-	add_file (body, "metadata.xml");
+		add_file (body, "ffprobe.log");
+		add_file (body, "metadata.xml");
+	}
 
 	quickmail_set_body (mail, body.c_str());
 
