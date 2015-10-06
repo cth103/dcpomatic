@@ -167,6 +167,11 @@ Player::setup_pieces ()
 			}
 		}
 
+		/* It's questionable whether subtitle content should have a video frame rate; perhaps
+		   it should be assumed that any subtitle content has been prepared at the same rate
+		   as simultaneous video content (like we do with audio).
+		*/
+
 		/* SubRipContent */
 		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (i);
 		if (rc) {
