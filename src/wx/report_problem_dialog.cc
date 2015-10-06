@@ -27,6 +27,7 @@
 using std::string;
 using boost::shared_ptr;
 
+/** @param film Film that we are working on, or 0 */
 ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> film)
 	: wxDialog (parent, wxID_ANY, _("Report A Problem"))
 	, _film (film)
