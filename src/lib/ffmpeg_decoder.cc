@@ -412,8 +412,6 @@ FFmpegDecoder::decode_subtitle_packet ()
 		   indicate that the previous subtitle should stop.  We can ignore it here.
 		*/
 		return;
-	} else if (sub.num_rects > 1) {
-		throw DecodeError (_("multi-part subtitles not yet supported"));
 	}
 
 	/* Subtitle PTS (within the source, not taking into account any of the
@@ -430,20 +428,22 @@ FFmpegDecoder::decode_subtitle_packet ()
 		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (period.from);
 	}
 
-	AVSubtitleRect const * rect = sub.rects[0];
+	for (unsigned int i = 0; i < sub.num_rects; ++i) {
+		AVSubtitleRect const * rect = sub.rects[i];
 
-	switch (rect->type) {
-	case SUBTITLE_NONE:
-		break;
-	case SUBTITLE_BITMAP:
-		decode_bitmap_subtitle (rect, period);
-		break;
-	case SUBTITLE_TEXT:
-		cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
-		break;
-	case SUBTITLE_ASS:
-		cout << "XXX: SUBTITLE_ASS " << rect->ass << "\n";
-		break;
+		switch (rect->type) {
+		case SUBTITLE_NONE:
+			break;
+		case SUBTITLE_BITMAP:
+			decode_bitmap_subtitle (rect, period);
+			break;
+		case SUBTITLE_TEXT:
+			cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
+			break;
+		case SUBTITLE_ASS:
+			cout << "XXX: SUBTITLE_ASS " << rect->ass << "\n";
+			break;
+		}
 	}
 
 	avsubtitle_free (&sub);
