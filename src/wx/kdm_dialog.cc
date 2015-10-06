@@ -23,18 +23,13 @@
 #include "wx_util.h"
 #include "screens_panel.h"
 #include "kdm_timing_panel.h"
+#include "kdm_output_panel.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
 #include "lib/screen.h"
 #include <libcxml/cxml.h>
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-#include "dir_picker_ctrl.h"
-#else
-#include <wx/filepicker.h>
-#endif
 #include <wx/treectrl.h>
-#include <wx/stdpaths.h>
 #include <wx/listctrl.h>
 #include <iostream>
 
@@ -101,42 +96,12 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	_cpls = film->cpls ();
 	update_cpl_choice ();
 
-
 	/* Sub-heading: Output */
 	h = new wxStaticText (this, wxID_ANY, _("Output"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-
-	table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
-
-	add_label_to_sizer (table, this, _("KDM type"), true);
-	_type = new wxChoice (this, wxID_ANY);
-	_type->Append ("Modified Transitional 1", ((void *) dcp::MODIFIED_TRANSITIONAL_1));
-	if (!film->interop ()) {
-		_type->Append ("DCI Any", ((void *) dcp::DCI_ANY));
-		_type->Append ("DCI Specific", ((void *) dcp::DCI_SPECIFIC));
-	}
-	table->Add (_type, 1, wxEXPAND);
-	_type->SetSelection (0);
-
-	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
-	table->Add (_write_to, 1, wxEXPAND);
-
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-	_folder = new DirPickerCtrl (this);
-#else
-	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
-#endif
-
-	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
-
-	table->Add (_folder, 1, wxEXPAND);
-
-	_email = new wxRadioButton (this, wxID_ANY, _("Send by email"));
-	table->Add (_email, 1, wxEXPAND);
-	table->AddSpacer (0);
-
-	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
+	_output = new KDMOutputPanel (this, film->interop ());
+	vertical->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
 	/* Make an overall sizer to get a nice border, and put some buttons in */
 
@@ -148,17 +113,12 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 		overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	_write_to->SetValue (true);
-
 	/* Bind */
 
 	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	_cpl->Bind           (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&KDMDialog::update_cpl_summary, this));
 	_cpl_browse->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&KDMDialog::cpl_browse_clicked, this));
-
-	_write_to->Bind      (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
-	_email->Bind         (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 
@@ -171,6 +131,7 @@ void
 KDMDialog::setup_sensitivity ()
 {
 	_screens->setup_sensitivity ();
+	_output->setup_sensitivity ();
 
 	bool const sd = _cpl->GetSelection() != -1;
 
@@ -178,8 +139,6 @@ KDMDialog::setup_sensitivity ()
 	if (ok) {
 		ok->Enable (!_screens->screens().empty() && sd);
 	}
-
-	_folder->Enable (_write_to->GetValue ());
 }
 
 boost::filesystem::path
@@ -188,24 +147,6 @@ KDMDialog::cpl () const
 	int const item = _cpl->GetSelection ();
 	DCPOMATIC_ASSERT (item >= 0);
 	return _cpls[item].cpl_file;
-}
-
-boost::filesystem::path
-KDMDialog::directory () const
-{
-	return wx_to_std (_folder->GetPath ());
-}
-
-bool
-KDMDialog::write_to () const
-{
-	return _write_to->GetValue ();
-}
-
-dcp::Formulation
-KDMDialog::formulation () const
-{
-	return (dcp::Formulation) reinterpret_cast<intptr_t> (_type->GetClientData (_type->GetSelection()));
 }
 
 void
@@ -290,4 +231,22 @@ boost::posix_time::ptime
 KDMDialog::until () const
 {
 	return _timing->until ();
+}
+
+boost::filesystem::path
+KDMDialog::directory () const
+{
+	return _output->directory ();
+}
+
+bool
+KDMDialog::write_to () const
+{
+	return _output->write_to ();
+}
+
+dcp::Formulation
+KDMDialog::formulation () const
+{
+	return _output->formulation ();
 }

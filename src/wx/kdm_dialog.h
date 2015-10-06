@@ -26,14 +26,13 @@
 #include <map>
 
 class wxTreeCtrl;
-class wxDirPickerCtrl;
-class DirPickerCtrl;
 
 class Cinema;
 class Screen;
 class Film;
 class ScreensPanel;
 class KDMTimingPanel;
+class KDMOutputPanel;
 struct CPLSummary;
 
 class KDMDialog : public wxDialog
@@ -48,6 +47,7 @@ public:
 	boost::posix_time::ptime until () const;
 
 	boost::filesystem::path cpl () const;
+
 	boost::filesystem::path directory () const;
 	bool write_to () const;
 	dcp::Formulation formulation () const;
@@ -60,19 +60,12 @@ private:
 
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
+	KDMOutputPanel* _output;
 	wxChoice* _cpl;
 	wxButton* _cpl_browse;
 	wxStaticText* _dcp_directory;
 	wxStaticText* _cpl_id;
 	wxStaticText* _cpl_annotation_text;
-	wxChoice* _type;
-	wxRadioButton* _write_to;
-#ifdef DCPOMATIC_USE_OWN_DIR_PICKER
-	DirPickerCtrl* _folder;
-#else
-	wxDirPickerCtrl* _folder;
-#endif
-	wxRadioButton* _email;
 
 	std::vector<CPLSummary> _cpls;
 };
