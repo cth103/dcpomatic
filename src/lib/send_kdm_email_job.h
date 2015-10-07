@@ -22,17 +22,17 @@
 #include <boost/filesystem.hpp>
 
 class Screen;
+class CinemaKDMs;
 
 class SendKDMEmailJob : public Job
 {
 public:
 	SendKDMEmailJob (
-		boost::shared_ptr<const Film>,
-		std::list<boost::shared_ptr<Screen> >,
-		boost::filesystem::path,
-		boost::posix_time::ptime,
-		boost::posix_time::ptime,
-		dcp::Formulation
+		std::string film_name,
+		std::string cpl_name,
+		boost::posix_time::ptime from,
+		boost::posix_time::ptime to,
+		std::list<CinemaKDMs> cinema_kdms
 		);
 
 	std::string name () const;
@@ -40,9 +40,9 @@ public:
 	void run ();
 
 private:
-	std::list<boost::shared_ptr<Screen> > _screens;
-	boost::filesystem::path _cpl;
+	std::string _film_name;
+	std::string _cpl_name;
 	boost::posix_time::ptime _from;
 	boost::posix_time::ptime _to;
-	dcp::Formulation _formulation;
+	std::list<CinemaKDMs> _cinema_kdms;
 };

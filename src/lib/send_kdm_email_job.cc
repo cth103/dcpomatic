@@ -21,6 +21,7 @@
 #include "compose.hpp"
 #include "film.h"
 #include "cinema_kdms.h"
+#include <list>
 
 #include "i18n.h"
 
@@ -29,19 +30,18 @@ using std::list;
 using boost::shared_ptr;
 
 SendKDMEmailJob::SendKDMEmailJob (
-	shared_ptr<const Film> film,
-	list<shared_ptr<Screen> > screens,
-	boost::filesystem::path cpl,
+	string film_name,
+	string cpl_name,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime to,
-	dcp::Formulation formulation
+	list<CinemaKDMs> cinema_kdms
 	)
-	: Job (film)
-	, _screens (screens)
-	, _cpl (cpl)
+	: Job (shared_ptr<Film>())
+	, _film_name (film_name)
+	, _cpl_name (cpl_name)
 	, _from (from)
 	, _to (to)
-	, _formulation (formulation)
+	, _cinema_kdms (cinema_kdms)
 {
 
 }
@@ -49,7 +49,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 string
 SendKDMEmailJob::name () const
 {
-	return String::compose (_("Email KDMs for %1"), _film->name());
+	return String::compose (_("Email KDMs for %1"), _film_name);
 }
 
 string
@@ -61,25 +61,8 @@ SendKDMEmailJob::json_name () const
 void
 SendKDMEmailJob::run ()
 {
-	try {
-
-		set_progress_unknown ();
-
-		CinemaKDMs::email (
-			_film->name(),
-			_film->dcp_name(),
-			CinemaKDMs::collect (_film->make_kdms (_screens, _cpl, _from, _to, _formulation)),
-			_from,
-			_to
-			);
-
-		set_progress (1);
-		set_state (FINISHED_OK);
-
-	} catch (std::exception& e) {
-
-		set_progress (1);
-		set_state (FINISHED_ERROR);
-		throw;
-	}
+	set_progress_unknown ();
+	CinemaKDMs::email (_film_name, _cpl_name, _cinema_kdms,	_from, _to);
+	set_progress (1);
+	set_state (FINISHED_OK);
 }

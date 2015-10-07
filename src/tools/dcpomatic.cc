@@ -53,6 +53,7 @@
 #include "lib/cross.h"
 #include "lib/content_factory.h"
 #include "lib/compose.hpp"
+#include "lib/cinema_kdms.h"
 #include <dcp/exceptions.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
@@ -445,15 +446,22 @@ private:
 		}
 
 		try {
+			list<ScreenKDM> screen_kdms = _film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation());
 			if (d->write_to ()) {
 				ScreenKDM::write_files (
 					_film->name(),
-					_film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation()),
+					screen_kdms,
 					d->directory()
 					);
 			} else {
 				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (_film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation ()))
+					shared_ptr<Job> (new SendKDMEmailJob (
+								 _film->name(),
+								 _film->dcp_name(),
+								 d->from(),
+								 d->until(),
+								 CinemaKDMs::collect (screen_kdms)
+								 ))
 					);
 			}
 		} catch (dcp::NotEncryptedError& e) {

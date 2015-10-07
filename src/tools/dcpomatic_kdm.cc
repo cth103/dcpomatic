@@ -27,18 +27,27 @@
 #include "wx/kdm_output_panel.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/screen.h"
+#include "lib/job_manager.h"
+#include "lib/screen_kdm.h"
+#include "lib/exceptions.h"
+#include "lib/cinema_kdms.h"
+#include "lib/send_kdm_email_job.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/exceptions.h>
 #include <wx/wx.h>
 #include <wx/preferences.h>
 #include <wx/filepicker.h>
 #include <boost/bind.hpp>
+#include <boost/foreach.hpp>
 
 #ifdef check
 #undef check
 #endif
 
 using std::exception;
+using std::list;
 using boost::shared_ptr;
 using boost::bind;
 
@@ -126,6 +135,8 @@ public:
 		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
 		_dkdm->Bind (wxEVT_COMMAND_FILEPICKER_CHANGED, bind (&DOMFrame::dkdm_changed, this));
 		_create->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&DOMFrame::create_kdms, this));
+
+		setup_sensitivity ();
 	}
 
 private:
@@ -212,19 +223,60 @@ private:
 			_issue_date->SetLabel (wxT(""));
 			_issue_date->Enable (false);
 		}
+
+		setup_sensitivity ();
 	}
 
 	void create_kdms ()
 	{
-#if 0
 		try {
+			/* Decrypt the DKDM */
+			dcp::EncryptedKDM encrypted (dcp::file_to_string (wx_to_std (_dkdm->GetPath())));
+			dcp::DecryptedKDM decrypted (encrypted, Config::instance()->decryption_chain()->key().get());
+
+			/* This is the signer for our new KDMs */
+			shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
+			if (!signer->valid ()) {
+				throw InvalidSignerError ();
+			}
+
+			list<ScreenKDM> screen_kdms;
+			BOOST_FOREACH (shared_ptr<Screen> i, _screens->screens()) {
+
+				if (!i->certificate) {
+					continue;
+				}
+
+				/* Make an empty KDM */
+				dcp::DecryptedKDM kdm (
+					_timing->from(), _timing->until(), decrypted.annotation_text(), decrypted.content_title_text(), dcp::LocalTime().as_string()
+					);
+
+				/* Add keys from the DKDM */
+				BOOST_FOREACH (dcp::DecryptedKDMKey const & j, decrypted.keys()) {
+					kdm.add_key (j);
+				}
+
+				/* Encrypt */
+				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->certificate.get(), _output->formulation())));
+			}
+
 			if (_output->write_to()) {
-				write_kdm_files (
-					_film, d->screens (), d->cpl(), _timing->from(), _timing->until(), _output->formulation(), _output->directory()
+				ScreenKDM::write_files (decrypted.content_title_text(), screen_kdms, _output->directory());
+				/* XXX: proper plural form support in wxWidgets? */
+				wxString s = screen_kdms.size() == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
+				message_dialog (
+					this,
+					wxString::Format (s, int(screen_kdms.size()), std_to_wx(_output->directory().string()).data())
 					);
 			} else {
 				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (_film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation ()))
+					shared_ptr<Job> (new SendKDMEmailJob (
+								 decrypted.annotation_text(),
+								 decrypted.content_title_text(),
+								 _timing->from(), _timing->until(),
+								 CinemaKDMs::collect (screen_kdms)
+								 ))
 					);
 			}
 		} catch (dcp::NotEncryptedError& e) {
@@ -234,14 +286,13 @@ private:
 		} catch (...) {
 			error_dialog (this, _("An unknown exception occurred."));
 		}
-#endif
 	}
 
 	void setup_sensitivity ()
 	{
 		_screens->setup_sensitivity ();
 		_output->setup_sensitivity ();
-		_create->Enable (!_screens->screens().empty());
+		_create->Enable (!_screens->screens().empty() && !_dkdm->GetPath().IsEmpty());
 	}
 
 	wxPreferencesEditor* _config_dialog;
@@ -257,6 +308,7 @@ private:
 	wxStaticText* _issue_date;
 	wxButton* _create;
 	KDMOutputPanel* _output;
+	JobManagerView* _jobs;
 };
 
 /** @class App
