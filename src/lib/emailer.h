@@ -31,9 +31,12 @@ public:
 
 	void send (boost::shared_ptr<Job> job);
 
-	std::string notes () const;
+	std::string notes () const {
+		return _notes;
+	}
 
 	size_t get_data (void* ptr, size_t size, size_t nmemb);
+	int debug (CURL* curl, curl_infotype type, char* data, size_t size);
 
 private:
 	static std::string address_list (std::list<std::string> addresses);
@@ -54,5 +57,5 @@ private:
 	std::list<Attachment> _attachments;
 	std::string _email;
 	size_t _offset;
-	boost::scoped_array<char> _notes_buffer;
+	std::string _notes;
 };

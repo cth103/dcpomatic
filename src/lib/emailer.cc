@@ -76,6 +76,12 @@ curl_data_shim (void* ptr, size_t size, size_t nmemb, void* userp)
 	return reinterpret_cast<Emailer*>(userp)->get_data (ptr, size, nmemb);
 }
 
+static int
+curl_debug_shim (CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
+{
+	return reinterpret_cast<Emailer*>(userp)->debug (curl, type, data, size);
+}
+
 size_t
 Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 {
@@ -206,10 +212,8 @@ Emailer::send (shared_ptr<Job> job)
 	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0L);
 	curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
-
-	_notes_buffer.reset (new char[65536]);
-	FILE* notes = fmemopen (_notes_buffer.get(), 65536, "w");
-	curl_easy_setopt (curl, CURLOPT_STDERR, notes);
+	curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, curl_debug_shim);
+	curl_easy_setopt (curl, CURLOPT_DEBUGDATA, this);
 
 	curl_multi_add_handle (mcurl, curl);
 
@@ -247,7 +251,6 @@ Emailer::send (shared_ptr<Job> job)
 		CURLMcode mc = curl_multi_fdset (mcurl, &fdread, &fdwrite, &fdexcep, &maxfd);
 
 		if (mc != CURLM_OK) {
-			fclose (notes);
 			throw KDMError (String::compose ("Failed to send KDM email to %1", _to));
 		}
 
@@ -270,7 +273,6 @@ Emailer::send (shared_ptr<Job> job)
 
 		mc = curl_multi_perform (mcurl, &still_running);
 		if (mc != CURLM_OK) {
-			fclose (notes);
 			throw KDMError (String::compose ("Failed to send KDM email (%1)", curl_multi_strerror (mc)));
 		}
 
@@ -279,7 +281,6 @@ Emailer::send (shared_ptr<Job> job)
 		}
 
 		if ((time(0) - start) > 10) {
-			fclose (notes);
 			throw KDMError (_("Failed to send KDM email (timed out)"));
 		}
 	}
@@ -288,7 +289,6 @@ Emailer::send (shared_ptr<Job> job)
 	do {
 		CURLMsg* m = curl_multi_info_read (mcurl, &messages);
 		if (m && m->data.result != CURLE_OK) {
-			fclose (notes);
 			throw KDMError (String::compose ("Failed to send KDM email (%1)", curl_easy_strerror (m->data.result)));
 		}
 	} while (messages > 0);
@@ -302,8 +302,6 @@ Emailer::send (shared_ptr<Job> job)
 	curl_multi_cleanup (mcurl);
 	curl_easy_cleanup (curl);
 	curl_global_cleanup ();
-
-	fclose (notes);
 }
 
 string
@@ -317,8 +315,15 @@ Emailer::address_list (list<string> addresses)
 	return o.substr (0, o.length() - 2);
 }
 
-string
-Emailer::notes () const
+int
+Emailer::debug (CURL *, curl_infotype type, char* data, size_t size)
 {
-	return string (_notes_buffer.get());
+	if (type == CURLINFO_TEXT) {
+		_notes += string (data, size);
+	} else if (type == CURLINFO_HEADER_IN) {
+		_notes += "<- " + string (data, size);
+	} else if (type == CURLINFO_HEADER_OUT) {
+		_notes += "-> " + string (data, size);
+	}
+	return 0;
 }
