@@ -20,14 +20,14 @@
 #include "table_dialog.h"
 #include "wx_util.h"
 
-TableDialog::TableDialog (wxWindow* parent, wxString title, int columns, bool cancel)
+TableDialog::TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel)
 	: wxDialog (parent, wxID_ANY, title)
 {
 	_overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_overall_sizer);
 
 	_table = new wxFlexGridSizer (columns, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_table->AddGrowableCol (1, 1);
+	_table->AddGrowableCol (growable, 1);
 
 	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 

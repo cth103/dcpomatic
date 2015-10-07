@@ -23,7 +23,7 @@
 
 class Job;
 class wxScrolledWindow;
-class wxPanel;
+class wxWindow;
 class wxFlexGridSizer;
 class wxCommandEvent;
 class wxBoxSizer;
@@ -34,7 +34,7 @@ class wxButton;
 class JobView : public boost::noncopyable
 {
 public:
-	JobView (boost::shared_ptr<Job> job, wxScrolledWindow* window, wxPanel* panel, wxFlexGridSizer* table);
+	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
 
 	void maybe_pulse ();
 
@@ -47,8 +47,7 @@ private:
 	void pause_clicked (wxCommandEvent &);
 
 	boost::shared_ptr<Job> _job;
-	wxScrolledWindow* _window;
-	wxPanel* _panel;
+	wxWindow* _parent;
 	wxBoxSizer* _gauge_message;
 	wxGauge* _gauge;
 	wxStaticText* _message;

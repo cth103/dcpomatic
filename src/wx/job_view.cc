@@ -27,34 +27,33 @@ using std::string;
 using std::min;
 using boost::shared_ptr;
 
-JobView::JobView (shared_ptr<Job> job, wxScrolledWindow* window, wxPanel* panel, wxFlexGridSizer* table)
+JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: _job (job)
-	, _window (window)
-	, _panel (panel)
+	, _parent (parent)
 {
 	int n = 0;
 
 	_gauge_message = new wxBoxSizer (wxVERTICAL);
-	_gauge = new wxGauge (panel, wxID_ANY, 100);
+	_gauge = new wxGauge (container, wxID_ANY, 100);
 	/* This seems to be required to allow the gauge to shrink under OS X */
 	_gauge->SetMinSize (wxSize (0, -1));
 	_gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
-	_message = new wxStaticText (panel, wxID_ANY, wxT (" \n "));
+	_message = new wxStaticText (container, wxID_ANY, wxT (" \n "));
 	_gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
 	table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 	++n;
 
-	_cancel = new wxButton (panel, wxID_ANY, _("Cancel"));
+	_cancel = new wxButton (container, wxID_ANY, _("Cancel"));
 	_cancel->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::cancel_clicked, this);
 	table->Insert (n, _cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 	++n;
 
-	_pause = new wxButton (_panel, wxID_ANY, _("Pause"));
+	_pause = new wxButton (container, wxID_ANY, _("Pause"));
 	_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::pause_clicked, this);
 	table->Insert (n, _pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 	++n;
 
-	_details = new wxButton (_panel, wxID_ANY, _("Details..."));
+	_details = new wxButton (container, wxID_ANY, _("Details..."));
 	_details->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::details_clicked, this);
 	_details->Enable (false);
 	table->Insert (n, _details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
@@ -115,7 +114,7 @@ JobView::details_clicked (wxCommandEvent &)
 {
 	string s = _job->error_summary();
 	s[0] = toupper (s[0]);
-	error_dialog (_window, std_to_wx (String::compose ("%1.\n\n%2", s, _job->error_details())));
+	error_dialog (_parent, std_to_wx (String::compose ("%1.\n\n%2", s, _job->error_details())));
 }
 
 void

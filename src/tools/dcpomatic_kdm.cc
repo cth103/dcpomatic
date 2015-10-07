@@ -25,6 +25,7 @@
 #include "wx/screens_panel.h"
 #include "wx/kdm_timing_panel.h"
 #include "wx/kdm_output_panel.h"
+#include "wx/job_view_dialog.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/screen.h"
@@ -61,6 +62,7 @@ public:
 	DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _config_dialog (0)
+		, _job_view (0)
 	{
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
@@ -270,14 +272,20 @@ private:
 					wxString::Format (s, int(screen_kdms.size()), std_to_wx(_output->directory().string()).data())
 					);
 			} else {
-				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (
-								 decrypted.annotation_text(),
-								 decrypted.content_title_text(),
-								 _timing->from(), _timing->until(),
-								 CinemaKDMs::collect (screen_kdms)
-								 ))
-					);
+				shared_ptr<Job> job (new SendKDMEmailJob (
+							     decrypted.annotation_text(),
+							     decrypted.content_title_text(),
+							     _timing->from(), _timing->until(),
+							     CinemaKDMs::collect (screen_kdms)
+							     ));
+
+				JobManager::instance()->add (job);
+				if (_job_view) {
+					_job_view->Destroy ();
+					_job_view = 0;
+				}
+				_job_view = new JobViewDialog (this, _("Send KDM emails"), job);
+				_job_view->ShowModal ();
 			}
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
@@ -308,6 +316,7 @@ private:
 	wxStaticText* _issue_date;
 	wxButton* _create;
 	KDMOutputPanel* _output;
+	JobViewDialog* _job_view;
 };
 
 /** @class App

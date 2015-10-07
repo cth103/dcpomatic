@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,20 @@
 
 */
 
-#ifndef DCPOMATIC_TABLE_DIALOG_H
-#define DCPOMATIC_TABLE_DIALOG_H
+#include "job_view_dialog.h"
+#include "job_view.h"
 
-#include <wx/wx.h>
+using boost::shared_ptr;
 
-class TableDialog : public wxDialog
+JobViewDialog::JobViewDialog (wxWindow* parent, wxString title, shared_ptr<Job> job)
+	: TableDialog (parent, title, 4, 0, false)
 {
-public:
-	TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel);
+	_view = new JobView (job, this, this, _table);
+	layout ();
+	SetMinSize (wxSize (960, -1));
+}
 
-protected:
-	template<class T>
-	T* add (T* w) {
-		_table->Add (w, 1, wxEXPAND);
-		return w;
-	}
-
-	void add (wxString text, bool label);
-	void add_spacer ();
-
-	void layout ();
-
-	wxFlexGridSizer* _table;
-
-private:
-	wxSizer* _overall_sizer;
-};
-
-#endif
+JobViewDialog::~JobViewDialog ()
+{
+	delete _view;
+}
