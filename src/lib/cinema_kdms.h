@@ -20,6 +20,7 @@
 #include "screen_kdm.h"
 
 class Cinema;
+class Job;
 
 class CinemaKDMs
 {
@@ -28,7 +29,14 @@ public:
 
 	static std::list<CinemaKDMs> collect (std::list<ScreenKDM> kdms);
 	static void write_zip_files (std::string filename_first_part, std::list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory);
-	static void email (std::string filename_first_part, std::string cpl_name, std::list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to);
+	static void email (
+		std::string filename_first_part,
+		std::string cpl_name,
+		std::list<CinemaKDMs> cinema_kdms,
+		dcp::LocalTime from,
+		dcp::LocalTime to,
+		boost::shared_ptr<Job> job
+		);
 
 	boost::shared_ptr<Cinema> cinema;
 	std::list<ScreenKDM> screen_kdms;

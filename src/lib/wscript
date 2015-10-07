@@ -53,6 +53,7 @@ sources = """
           dcpomatic_socket.cc
           dcpomatic_time.cc
           dolby_cp750.cc
+          emailer.cc
           encoder.cc
           environment_info.cc
           examine_content_job.cc
@@ -91,7 +92,6 @@ sources = """
           player_video.cc
           playlist.cc
           position_image.cc
-          quickmail.cc
           ratio.cc
           raw_image_proxy.cc
           render_subtitles.cc

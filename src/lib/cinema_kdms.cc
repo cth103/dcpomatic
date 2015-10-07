@@ -17,13 +17,13 @@
 
 */
 
-#include "quickmail.h"
 #include "exceptions.h"
 #include "cinema_kdms.h"
 #include "cinema.h"
 #include "screen.h"
 #include "config.h"
 #include "util.h"
+#include "emailer.h"
 #include "compose.hpp"
 #include <zip.h>
 #include <boost/foreach.hpp>
@@ -31,6 +31,7 @@
 #include "i18n.h"
 
 using std::list;
+using std::cout;
 using std::string;
 using boost::shared_ptr;
 
@@ -117,8 +118,10 @@ CinemaKDMs::write_zip_files (string filename_first_part, list<CinemaKDMs> cinema
 
 /* XXX: should probably get from/to from the KDMs themselves */
 void
-CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to)
+CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Job> job)
 {
+	Config* config = Config::instance ();
+
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
@@ -127,29 +130,17 @@ CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs>
 
 		/* Send email */
 
-		quickmail_initialize ();
-
+		string subject = config->kdm_subject();
 		SafeStringStream start;
 		start << from.date() << " " << from.time_of_day();
 		SafeStringStream end;
 		end << to.date() << " " << to.time_of_day();
-
-		string subject = Config::instance()->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (subject, "$START_TIME", start.str ());
 		boost::algorithm::replace_all (subject, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
-		quickmail mail = quickmail_create (Config::instance()->kdm_from().c_str(), subject.c_str ());
 
-		quickmail_add_to (mail, i.cinema->email.c_str ());
-		if (!Config::instance()->kdm_cc().empty ()) {
-			quickmail_add_cc (mail, Config::instance()->kdm_cc().c_str ());
-		}
-		if (!Config::instance()->kdm_bcc().empty ()) {
-			quickmail_add_bcc (mail, Config::instance()->kdm_bcc().c_str ());
-		}
-
-		string body = Config::instance()->kdm_email().c_str();
+		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
@@ -161,34 +152,16 @@ CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs>
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.str().substr (0, screens.str().length() - 2));
 
-		quickmail_set_body (mail, body.c_str());
-		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");
+		Emailer email (config->kdm_from(), i.cinema->email, subject, body);
 
-		char const* e = quickmail_send (
-			mail,
-			Config::instance()->mail_server().c_str(),
-			Config::instance()->mail_port(),
-			Config::instance()->mail_user().c_str(),
-			Config::instance()->mail_password().c_str()
-			);
-
-		if (e) {
-			quickmail_destroy (mail);
-
-			string error (e);
-
-			if (Config::instance()->mail_server().empty ()) {
-				error = _("no mail server set up in preferences");
-			}
-
-			throw KDMError (
-				String::compose (
-					_("Failed to send KDM email to %1 (%2)"),
-					i.cinema->email,
-					error
-					)
-				);
+		if (!config->kdm_cc().empty ()) {
+			email.add_cc (config->kdm_cc ());
 		}
-		quickmail_destroy (mail);
+		if (!config->kdm_bcc().empty ()) {
+			email.add_bcc (config->kdm_bcc ());
+		}
+
+		email.add_attachment (zip_file, "application/zip");
+		email.send (job);
 	}
 }

@@ -23,8 +23,8 @@
 #include "cross.h"
 #include "film.h"
 #include "log.h"
-#include "quickmail.h"
 #include "version.h"
+#include "emailer.h"
 
 #include "i18n.h"
 
@@ -67,10 +67,6 @@ SendProblemReportJob::run ()
 	sub (_("Sending email"));
 	set_progress_unknown ();
 
-	quickmail mail = quickmail_create (_from.c_str(), "DCP-o-matic problem report");
-
-	quickmail_add_to (mail, "carl@dcpomatic.com");
-
 	string body = _summary + "\n\n";
 
 	body += "Version: " + string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
@@ -85,18 +81,8 @@ SendProblemReportJob::run ()
 		add_file (body, "metadata.xml");
 	}
 
-	quickmail_set_body (mail, body.c_str());
-
-	char const* error = quickmail_send (mail, "main.carlh.net", 2525, 0, 0);
-
-	if (error) {
-		set_state (FINISHED_ERROR);
-		set_error (error, "");
-	} else {
-		set_state (FINISHED_OK);
-	}
-
-	quickmail_destroy (mail);
+	Emailer emailer (_from, "carl@dcpomatic.com", "DCP-o-matic problem report", body);
+	emailer.send (shared_from_this ());
 
 	set_progress (1);
 }
