@@ -24,7 +24,7 @@
 using boost::function;
 
 DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
-	: TableDialog (parent, _("Download certificate"), 2, true)
+	: TableDialog (parent, _("Download certificate"), 2, 1, true)
 	, _load (load)
 	, _message (0)
 	, _download (0)
@@ -61,5 +61,3 @@ DownloadCertificateDialog::downloaded (bool done)
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	ok->Enable (done);
 }
-
-

@@ -24,7 +24,7 @@
 using std::cout;
 
 KeyDialog::KeyDialog (wxWindow* parent, dcp::Key key)
-	: TableDialog (parent, _("Key"), 3, true)
+	: TableDialog (parent, _("Key"), 3, 1, true)
 {
 	add (_("Key"), true);
 

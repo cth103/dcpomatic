@@ -23,7 +23,7 @@
 #include "wx_util.h"
 
 AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
-	: TableDialog (parent, _("Channel gain"), 3, true)
+	: TableDialog (parent, _("Channel gain"), 3, 1, true)
 {
 	add (wxString::Format (_("Gain for content channel %d in DCP channel %d"), c + 1, d + 1), false);
 	_gain = add (new wxSpinCtrlDouble (this));

@@ -33,7 +33,7 @@ using std::cout;
 using boost::optional;
 
 ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> certificate)
-	: TableDialog (parent, std_to_wx (title), 2, true)
+	: TableDialog (parent, std_to_wx (title), 2, 1, true)
 	, _certificate (certificate)
 {
 	add (_("Name"), true);

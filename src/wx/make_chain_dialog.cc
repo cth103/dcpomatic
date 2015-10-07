@@ -30,7 +30,7 @@ MakeChainDialog::MakeChainDialog (
 	string intermediate_common_name,
 	string leaf_common_name
 	)
-	: TableDialog (parent, _("Make certificate chain"), 2, true)
+	: TableDialog (parent, _("Make certificate chain"), 2, 1, true)
 {
 	wxTextValidator validator (wxFILTER_EXCLUDE_CHAR_LIST);
 	validator.SetCharExcludes (wxT ("/"));

@@ -22,7 +22,7 @@
 #include "lib/raw_convert.h"
 
 ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
-	: TableDialog (parent, _("Add image sequence"), 2, true)
+	: TableDialog (parent, _("Add image sequence"), 2, 1, true)
 {
 	add (_("Frame rate"), true);
 	_frame_rate = add (new wxTextCtrl (this, wxID_ANY, N_("24")));

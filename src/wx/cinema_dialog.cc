@@ -23,7 +23,7 @@
 using std::string;
 
 CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, string email)
-	: TableDialog (parent, std_to_wx (title), 2, true)
+	: TableDialog (parent, std_to_wx (title), 2, 1, true)
 {
 	add (_("Name"), true);
 	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (256, -1)));

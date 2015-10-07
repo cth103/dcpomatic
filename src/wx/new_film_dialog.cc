@@ -32,7 +32,7 @@ using namespace boost;
 boost::optional<boost::filesystem::path> NewFilmDialog::_directory;
 
 NewFilmDialog::NewFilmDialog (wxWindow* parent)
-	: TableDialog (parent, _("New Film"), 2, true)
+	: TableDialog (parent, _("New Film"), 2, 1, true)
 {
 	add (_("Film name"), true);
 	_name = add (new wxTextCtrl (this, wxID_ANY));

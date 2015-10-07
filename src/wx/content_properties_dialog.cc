@@ -33,7 +33,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<Content> content)
-	: TableDialog (parent, _("Content Properties"), 2, false)
+	: TableDialog (parent, _("Content Properties"), 2, 1, false)
 {
 	string n = content->path(0).string();
 	boost::algorithm::replace_all (n, "&", "&&");

@@ -28,7 +28,7 @@ using boost::shared_ptr;
 
 /** @param threed true if the film is in 3D */
 ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bool threed)
-	: TableDialog (parent, _("ISDCF name"), 2, true)
+	: TableDialog (parent, _("ISDCF name"), 2, 1, true)
 {
 	add (_("Content version"), true);
 	_content_version = add (new wxSpinCtrl (this, wxID_ANY));

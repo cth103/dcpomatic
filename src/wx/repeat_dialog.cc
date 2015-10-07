@@ -21,7 +21,7 @@
 #include "wx_util.h"
 
 RepeatDialog::RepeatDialog (wxWindow* parent)
-	: TableDialog (parent, _("Repeat Content"), 3, true)
+	: TableDialog (parent, _("Repeat Content"), 3, 1, true)
 {
 	add (_("Repeat"), true);
 	_number = add (new wxSpinCtrl (this, wxID_ANY));

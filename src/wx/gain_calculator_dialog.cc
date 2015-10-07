@@ -24,7 +24,7 @@
 using namespace boost;
 
 GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
-	: TableDialog (parent, _("Gain Calculator"), 2, true)
+	: TableDialog (parent, _("Gain Calculator"), 2, 1, true)
 {
 	add (_("I want to play this back at fader"), true);
 	_wanted = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxDefaultSize, 0, wxTextValidator (wxFILTER_NUMERIC)));

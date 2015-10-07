@@ -25,7 +25,7 @@ using std::string;
 using boost::shared_ptr;
 
 ServerDialog::ServerDialog (wxWindow* parent)
-	: TableDialog (parent, _("Server"), 2, true)
+	: TableDialog (parent, _("Server"), 2, 1, true)
 {
         wxClientDC dc (parent);
 	/* XXX: bit of a mystery why we need such a long string here */
@@ -52,4 +52,3 @@ ServerDialog::get () const
 {
 	return wx_to_std (_host->GetValue ());
 }
-
