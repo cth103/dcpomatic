@@ -22,6 +22,7 @@
  */
 
 #include "job_manager_view.h"
+#include "job_view.h"
 #include "wx_util.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
@@ -37,129 +38,6 @@ using std::min;
 using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
-
-class JobRecord : public boost::noncopyable
-{
-public:
-	JobRecord (shared_ptr<Job> job, wxScrolledWindow* window, wxPanel* panel, wxFlexGridSizer* table)
-		: _job (job)
-		, _window (window)
-		, _panel (panel)
-	{
-		int n = 0;
-
-		_gauge_message = new wxBoxSizer (wxVERTICAL);
-		_gauge = new wxGauge (panel, wxID_ANY, 100);
-		/* This seems to be required to allow the gauge to shrink under OS X */
-		_gauge->SetMinSize (wxSize (0, -1));
-		_gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
-		_message = new wxStaticText (panel, wxID_ANY, wxT (" \n "));
-		_gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-		table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
-		++n;
-
-		_cancel = new wxButton (panel, wxID_ANY, _("Cancel"));
-		_cancel->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::cancel_clicked, this);
-		table->Insert (n, _cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
-		++n;
-
-		_pause = new wxButton (_panel, wxID_ANY, _("Pause"));
-		_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::pause_clicked, this);
-		table->Insert (n, _pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
-		++n;
-
-		_details = new wxButton (_panel, wxID_ANY, _("Details..."));
-		_details->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobRecord::details_clicked, this);
-		_details->Enable (false);
-		table->Insert (n, _details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
-		++n;
-
-		_progress_connection = job->Progress.connect (boost::bind (&JobRecord::progress, this));
-		_finished_connection = job->Finished.connect (boost::bind (&JobRecord::finished, this));
-
-		progress ();
-
-		table->Layout ();
-	}
-
-	void maybe_pulse ()
-	{
-		if (_job->running() && !_job->progress ()) {
-			_gauge->Pulse ();
-		}
-	}
-
-private:
-
-	void progress ()
-	{
-		string whole = "<b>" + _job->name () + "</b>\n";
-		if (!_job->sub_name().empty ()) {
-			whole += _job->sub_name() + " ";
-		}
-		whole += _job->status ();
-		if (whole != _last_message) {
-			_message->SetLabelMarkup (std_to_wx (whole));
-			_gauge_message->Layout ();
-			_last_message = whole;
-		}
-		if (_job->progress ()) {
-			_gauge->SetValue (min (100.0f, _job->progress().get() * 100));
-		}
-	}
-
-	void finished ()
-	{
-		progress ();
-
-		if (!_job->finished_cancelled ()) {
-			_gauge->SetValue (100);
-		}
-
-		_cancel->Enable (false);
-		_pause->Enable (false);
-		if (!_job->error_details().empty ()) {
-			_details->Enable (true);
-		}
-	}
-
-	void details_clicked (wxCommandEvent &)
-	{
-		string s = _job->error_summary();
-		s[0] = toupper (s[0]);
-		error_dialog (_window, std_to_wx (String::compose ("%1.\n\n%2", s, _job->error_details())));
-	}
-
-	void cancel_clicked (wxCommandEvent &)
-	{
-		_job->cancel ();
-	}
-
-	void pause_clicked (wxCommandEvent &)
-	{
-		if (_job->paused()) {
-			_job->resume ();
-			_pause->SetLabel (_("Pause"));
-		} else {
-			_job->pause ();
-			_pause->SetLabel (_("Resume"));
-		}
-	}
-
-	boost::shared_ptr<Job> _job;
-	wxScrolledWindow* _window;
-	wxPanel* _panel;
-	wxBoxSizer* _gauge_message;
-	wxGauge* _gauge;
-	wxStaticText* _message;
-	wxButton* _cancel;
-	wxButton* _pause;
-	wxButton* _details;
-	std::string _last_message;
-
-	boost::signals2::scoped_connection _progress_connection;
-	boost::signals2::scoped_connection _finished_connection;
-};
 
 /** Must be called in the GUI thread */
 JobManagerView::JobManagerView (wxWindow* parent)
@@ -189,14 +67,14 @@ JobManagerView::job_added (weak_ptr<Job> j)
 {
 	shared_ptr<Job> job = j.lock ();
 	if (job) {
-		_job_records.push_back (shared_ptr<JobRecord> (new JobRecord (job, this, _panel, _table)));
+		_job_records.push_back (shared_ptr<JobView> (new JobView (job, this, _panel, _table)));
 	}
 }
 
 void
 JobManagerView::periodic ()
 {
-	for (list<shared_ptr<JobRecord> >::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
+	for (list<shared_ptr<JobView> >::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
 		(*i)->maybe_pulse ();
 	}
 }

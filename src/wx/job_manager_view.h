@@ -26,7 +26,7 @@
 #include <list>
 
 class Job;
-class JobRecord;
+class JobView;
 
 /** @class JobManagerView
  *  @brief Class which is a wxPanel for showing the progress of jobs.
@@ -44,5 +44,5 @@ private:
 	wxFlexGridSizer* _table;
 	boost::shared_ptr<wxTimer> _timer;
 
-	std::list<boost::shared_ptr<JobRecord> > _job_records;
+	std::list<boost::shared_ptr<JobView> > _job_records;
 };
