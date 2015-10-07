@@ -58,6 +58,7 @@ class wxGridBagSizer;
 #define S_(x) context_translation(x)
 
 extern void error_dialog (wxWindow *, wxString);
+extern void message_dialog (wxWindow *, wxString);
 extern bool confirm_dialog (wxWindow *, wxString);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0);
 extern wxStaticText* add_label_to_grid_bag_sizer (wxGridBagSizer *, wxWindow *, wxString, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
