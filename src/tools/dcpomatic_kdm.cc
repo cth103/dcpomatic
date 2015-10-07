@@ -41,6 +41,9 @@
 #include <wx/wx.h>
 #include <wx/preferences.h>
 #include <wx/filepicker.h>
+#ifdef __WXOSX__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 
