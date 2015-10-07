@@ -1464,13 +1464,20 @@ cinema audio systems.</listitem>
 <listitem>DCP Ls is input L bandpass-filtered between 4.8kHz and 20kHz.</listitem>
 <listitem>DCP Rs is input R bandpass-filtered between 4.8kHz and 20kHz.</listitem>
 </itemizedlist>
-</listitem>
-</itemizedlist>
-
 <para>
 This upmixing algorithm is due to Gérald Maruccia.
 </para>
-
+</listitem>
+<listitem>Stereo to 5.1 up-mixer B &mdash; this uses a different approach:
+<itemizedlist>
+  <listitem>DCP L is input L.</listitem>
+  <listitem>DCP R is input R.</listitem>
+  <listitem>DCP C is input L + input R taken down by 3dB.</listitem>
+  <listitem>DCP Lfe is DCP C bandpass filtered between 20Hz and 150Hz.</listitem>
+  <listitem>DCP Ls and Rs are input L - input R with a 20ms delay.</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
 
 <!-- ============================================================== -->
 <section>
