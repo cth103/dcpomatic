@@ -240,6 +240,7 @@ File "%binaries%/src/tools/dcpomatic2.exe"
 File "%binaries%/src/tools/dcpomatic2_batch.exe"
 File "%binaries%/src/tools/dcpomatic2_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_create.exe"
+File "%binaries%/src/tools/dcpomatic2_kdm.exe"
     """, file=f)
 
     if debug:
@@ -252,7 +253,9 @@ File "%binaries%/src/tools/dcpomatic2_create.exe"
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 batch converter.lnk" "$INSTDIR\\bin\\dcpomatic2_batch.exe"', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 KDM creator.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm.exe"', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
