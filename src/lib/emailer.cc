@@ -61,9 +61,13 @@ Emailer::add_bcc (string bcc)
 }
 
 void
-Emailer::add_attachment (boost::filesystem::path attachment, string mime_type)
+Emailer::add_attachment (boost::filesystem::path file, string name, string mime_type)
 {
-	_attachments.push_back (make_pair (attachment, mime_type));
+	Attachment a;
+	a.file = file;
+	a.name = name;
+	a.mime_type = mime_type;
+	_attachments.push_back (a);
 }
 
 static size_t
@@ -129,18 +133,18 @@ Emailer::send (shared_ptr<Job> job)
 
 	email << _body;
 
-	for (list<pair<boost::filesystem::path, string> >::const_iterator i = _attachments.begin(); i != _attachments.end(); ++i) {
+	BOOST_FOREACH (Attachment i, _attachments) {
 		email << "\r\n\r\n--" << boundary << "\r\n"
-		      << "Content-Type: " << i->second << "; name=" << i->first.leaf() << "\r\n"
+		      << "Content-Type: " << i.mime_type << "; name=" << i.name << "\r\n"
 		      << "Content-Transfer-Encoding: Base64\r\n"
-		      << "Content-Disposition: attachment; filename=" << i->first.leaf() << "\r\n\r\n";
+		      << "Content-Disposition: attachment; filename=" << i.name << "\r\n\r\n";
 
 		BIO* b64 = BIO_new (BIO_f_base64());
 
 		BIO* bio = BIO_new (BIO_s_mem());
 		bio = BIO_push (b64, bio);
 
-		Data data (i->first);
+		Data data (i.file);
 		BIO_write (bio, data.data().get(), data.size());
 		(void) BIO_flush (bio);
 

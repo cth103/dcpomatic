@@ -35,11 +35,8 @@ using std::cout;
 using std::string;
 using boost::shared_ptr;
 
-/** @param filename_first_part First part of name of KDM files inside the zip file
- *  (perhaps the name of the film).
- */
 void
-CinemaKDMs::make_zip_file (string filename_first_part, boost::filesystem::path zip_file) const
+CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) const
 {
 	int error;
 	struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -61,7 +58,7 @@ CinemaKDMs::make_zip_file (string filename_first_part, boost::filesystem::path z
 			throw StringError ("could not create ZIP source");
 		}
 
-		if (zip_add (zip, i.filename(filename_first_part).c_str(), source) == -1) {
+		if (zip_add (zip, i.filename(film_name).c_str(), source) == -1) {
 			throw StringError ("failed to add KDM to ZIP archive");
 		}
 	}
@@ -107,18 +104,18 @@ CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
 }
 
 void
-CinemaKDMs::write_zip_files (string filename_first_part, list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory)
+CinemaKDMs::write_zip_files (string film_name, list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory)
 {
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
 		path /= tidy_for_filename (i.cinema->name) + ".zip";
-		i.make_zip_file (filename_first_part, path);
+		i.make_zip_file (film_name, path);
 	}
 }
 
 /* XXX: should probably get from/to from the KDMs themselves */
 void
-CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Job> job)
+CinemaKDMs::email (string film_name, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Job> job)
 {
 	Config* config = Config::instance ();
 
@@ -126,9 +123,7 @@ CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs>
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 		zip_file /= boost::filesystem::unique_path().string() + ".zip";
-		i.make_zip_file (filename_first_part, zip_file);
-
-		/* Send email */
+		i.make_zip_file (film_name, zip_file);
 
 		string subject = config->kdm_subject();
 		SafeStringStream start;
@@ -161,7 +156,8 @@ CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs>
 			email.add_bcc (config->kdm_bcc ());
 		}
 
-		email.add_attachment (zip_file, "application/zip");
+		string const name = tidy_for_filename(i.cinema->name) + "_" + tidy_for_filename(film_name) + ".zip";
+		email.add_attachment (zip_file, name, "application/zip");
 		email.send (job);
 	}
 }

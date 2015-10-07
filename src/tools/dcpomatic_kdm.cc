@@ -50,6 +50,7 @@
 
 using std::exception;
 using std::list;
+using std::string;
 using boost::shared_ptr;
 using boost::bind;
 
@@ -273,8 +274,12 @@ private:
 					wxString::Format (s, int(screen_kdms.size()), std_to_wx(_output->directory().string()).data())
 					);
 			} else {
+				string film_name = decrypted.annotation_text ();
+				if (film_name.empty ()) {
+					film_name = decrypted.content_title_text ();
+				}
 				shared_ptr<Job> job (new SendKDMEmailJob (
-							     decrypted.annotation_text(),
+							     film_name,
 							     decrypted.content_title_text(),
 							     _timing->from(), _timing->until(),
 							     CinemaKDMs::collect (screen_kdms)

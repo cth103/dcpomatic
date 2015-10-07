@@ -34,9 +34,9 @@ public:
 		, kdm (k)
 	{}
 
-	std::string filename (std::string first_part) const;
+	std::string filename (std::string film_name) const;
 
-	static void write_files (std::string name_first_part, std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory);
+	static void write_files (std::string film_name, std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory);
 
 	boost::shared_ptr<Screen> screen;
 	dcp::EncryptedKDM kdm;

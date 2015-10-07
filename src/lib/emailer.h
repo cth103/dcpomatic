@@ -27,7 +27,7 @@ public:
 
 	void add_cc (std::string cc);
 	void add_bcc (std::string bcc);
-	void add_attachment (boost::filesystem::path attachment, std::string);
+	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
 
 	void send (boost::shared_ptr<Job> job);
 
@@ -44,7 +44,14 @@ private:
 	std::string _body;
 	std::list<std::string> _cc;
 	std::list<std::string> _bcc;
-	std::list<std::pair<boost::filesystem::path, std::string> > _attachments;
+
+	struct Attachment {
+		boost::filesystem::path file;
+		std::string name;
+		std::string mime_type;
+	};
+
+	std::list<Attachment> _attachments;
 	std::string _email;
 	size_t _offset;
 	boost::scoped_array<char> _notes_buffer;

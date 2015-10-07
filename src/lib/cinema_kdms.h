@@ -25,12 +25,12 @@ class Job;
 class CinemaKDMs
 {
 public:
-	void make_zip_file (std::string name_first_part, boost::filesystem::path zip_file) const;
+	void make_zip_file (std::string film_name, boost::filesystem::path zip_file) const;
 
 	static std::list<CinemaKDMs> collect (std::list<ScreenKDM> kdms);
-	static void write_zip_files (std::string filename_first_part, std::list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory);
+	static void write_zip_files (std::string film_name, std::list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory);
 	static void email (
-		std::string filename_first_part,
+		std::string film_name,
 		std::string cpl_name,
 		std::list<CinemaKDMs> cinema_kdms,
 		dcp::LocalTime from,

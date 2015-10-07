@@ -33,19 +33,18 @@ operator== (ScreenKDM const & a, ScreenKDM const & b)
 	return a.screen == b.screen && a.kdm == b.kdm;
 }
 
-/** @param first_part first part of the filename (perhaps the name of the film) */
 string
-ScreenKDM::filename (string first_part) const
+ScreenKDM::filename (string film_name) const
 {
-	return tidy_for_filename (first_part) + "_" + tidy_for_filename (screen->cinema->name) + "_" + tidy_for_filename (screen->name) + ".kdm.xml";
+	return tidy_for_filename (film_name) + "_" + tidy_for_filename (screen->cinema->name) + "_" + tidy_for_filename (screen->name) + ".kdm.xml";
 }
 
 void
-ScreenKDM::write_files (string name_first_part, list<ScreenKDM> screen_kdms, boost::filesystem::path directory)
+ScreenKDM::write_files (string film_name, list<ScreenKDM> screen_kdms, boost::filesystem::path directory)
 {
 	/* Write KDMs to the specified directory */
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
-		boost::filesystem::path out = directory / i.filename(name_first_part);
+		boost::filesystem::path out = directory / i.filename(film_name);
 		i.kdm.as_xml (out);
 	}
 }
