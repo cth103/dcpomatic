@@ -308,7 +308,6 @@ private:
 	wxStaticText* _issue_date;
 	wxButton* _create;
 	KDMOutputPanel* _output;
-	JobManagerView* _jobs;
 };
 
 /** @class App
