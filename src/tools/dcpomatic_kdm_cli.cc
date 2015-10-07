@@ -282,13 +282,13 @@ int main (int argc, char* argv[])
 				);
 
 			if (zip) {
-				CinemaKDMs::write_zip_files (film, CinemaKDMs::collect (screen_kdms), output);
+				CinemaKDMs::write_zip_files (film->name(), CinemaKDMs::collect (screen_kdms), output);
 
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				ScreenKDM::write_files (film, screen_kdms, output);
+				ScreenKDM::write_files (film->name(), screen_kdms, output);
 
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";

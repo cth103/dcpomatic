@@ -24,7 +24,6 @@
 #include "screen.h"
 #include "config.h"
 #include "util.h"
-#include "film.h"
 #include "compose.hpp"
 #include <zip.h>
 #include <boost/foreach.hpp>
@@ -33,8 +32,11 @@ using std::list;
 using std::string;
 using boost::shared_ptr;
 
+/** @param filename_first_part First part of name of KDM files inside the zip file
+ *  (perhaps the name of the film).
+ */
 void
-CinemaKDMs::make_zip_file (shared_ptr<const Film> film, boost::filesystem::path zip_file) const
+CinemaKDMs::make_zip_file (string filename_first_part, boost::filesystem::path zip_file) const
 {
 	int error;
 	struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -56,7 +58,7 @@ CinemaKDMs::make_zip_file (shared_ptr<const Film> film, boost::filesystem::path 
 			throw StringError ("could not create ZIP source");
 		}
 
-		if (zip_add (zip, i.filename(film).c_str(), source) == -1) {
+		if (zip_add (zip, i.filename(filename_first_part).c_str(), source) == -1) {
 			throw StringError ("failed to add KDM to ZIP archive");
 		}
 	}
@@ -102,24 +104,24 @@ CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
 }
 
 void
-CinemaKDMs::write_zip_files (shared_ptr<const Film> film, list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory)
+CinemaKDMs::write_zip_files (string filename_first_part, list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory)
 {
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
 		path /= tidy_for_filename (i.cinema->name) + ".zip";
-		i.make_zip_file (film, path);
+		i.make_zip_file (filename_first_part, path);
 	}
 }
 
 /* XXX: should probably get from/to from the KDMs themselves */
 void
-CinemaKDMs::email (shared_ptr<const Film> film, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to)
+CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to)
 {
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 		zip_file /= boost::filesystem::unique_path().string() + ".zip";
-		i.make_zip_file (film, zip_file);
+		i.make_zip_file (filename_first_part, zip_file);
 
 		/* Send email */
 
@@ -131,7 +133,7 @@ CinemaKDMs::email (shared_ptr<const Film> film, list<CinemaKDMs> cinema_kdms, dc
 		end << to.date() << " " << to.time_of_day();
 
 		string subject = Config::instance()->kdm_subject();
-		boost::algorithm::replace_all (subject, "$CPL_NAME", film->dcp_name ());
+		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (subject, "$START_TIME", start.str ());
 		boost::algorithm::replace_all (subject, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
@@ -146,7 +148,7 @@ CinemaKDMs::email (shared_ptr<const Film> film, list<CinemaKDMs> cinema_kdms, dc
 		}
 
 		string body = Config::instance()->kdm_email().c_str();
-		boost::algorithm::replace_all (body, "$CPL_NAME", film->dcp_name ());
+		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);

@@ -24,7 +24,6 @@
 #include <boost/shared_ptr.hpp>
 
 class Screen;
-class Film;
 
 /** Simple class to collect a screen and an encrypted KDM */
 class ScreenKDM
@@ -35,9 +34,9 @@ public:
 		, kdm (k)
 	{}
 
-	std::string filename (boost::shared_ptr<const Film> film) const;
+	std::string filename (std::string first_part) const;
 
-	static void write_files (boost::shared_ptr<const Film> film, std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory);
+	static void write_files (std::string name_first_part, std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory);
 
 	boost::shared_ptr<Screen> screen;
 	dcp::EncryptedKDM kdm;

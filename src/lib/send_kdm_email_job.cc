@@ -66,7 +66,8 @@ SendKDMEmailJob::run ()
 		set_progress_unknown ();
 
 		CinemaKDMs::email (
-			_film,
+			_film->name(),
+			_film->dcp_name(),
 			CinemaKDMs::collect (_film->make_kdms (_screens, _cpl, _from, _to, _formulation)),
 			_from,
 			_to

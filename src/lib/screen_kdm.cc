@@ -20,7 +20,6 @@
 #include "screen_kdm.h"
 #include "cinema.h"
 #include "screen.h"
-#include "film.h"
 #include "util.h"
 #include <boost/foreach.hpp>
 
@@ -34,18 +33,19 @@ operator== (ScreenKDM const & a, ScreenKDM const & b)
 	return a.screen == b.screen && a.kdm == b.kdm;
 }
 
+/** @param first_part first part of the filename (perhaps the name of the film) */
 string
-ScreenKDM::filename (shared_ptr<const Film> film) const
+ScreenKDM::filename (string first_part) const
 {
-	return tidy_for_filename (film->name()) + "_" + tidy_for_filename (screen->cinema->name) + "_" + tidy_for_filename (screen->name) + ".kdm.xml";
+	return tidy_for_filename (first_part) + "_" + tidy_for_filename (screen->cinema->name) + "_" + tidy_for_filename (screen->name) + ".kdm.xml";
 }
 
 void
-ScreenKDM::write_files (shared_ptr<const Film> film, list<ScreenKDM> screen_kdms, boost::filesystem::path directory)
+ScreenKDM::write_files (string name_first_part, list<ScreenKDM> screen_kdms, boost::filesystem::path directory)
 {
 	/* Write KDMs to the specified directory */
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
-		boost::filesystem::path out = directory / i.filename(film);
+		boost::filesystem::path out = directory / i.filename(name_first_part);
 		i.kdm.as_xml (out);
 	}
 }
