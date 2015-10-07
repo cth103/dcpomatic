@@ -28,6 +28,8 @@
 #include <zip.h>
 #include <boost/foreach.hpp>
 
+#include "i18n.h"
+
 using std::list;
 using std::string;
 using boost::shared_ptr;
@@ -162,7 +164,7 @@ CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs>
 		quickmail_set_body (mail, body.c_str());
 		quickmail_add_attachment_file (mail, zip_file.string().c_str(), "application/zip");
 
-		char const* error = quickmail_send (
+		char const* e = quickmail_send (
 			mail,
 			Config::instance()->mail_server().c_str(),
 			Config::instance()->mail_port(),
@@ -170,12 +172,19 @@ CinemaKDMs::email (string filename_first_part, string cpl_name, list<CinemaKDMs>
 			Config::instance()->mail_password().c_str()
 			);
 
-		if (error) {
+		if (e) {
 			quickmail_destroy (mail);
+
+			string error (e);
+
+			if (Config::instance()->mail_server().empty ()) {
+				error = _("no mail server set up in preferences");
+			}
+
 			throw KDMError (
 				String::compose (
-					"Failed to send KDM email to %1 (%2)",
-					Config::instance()->mail_server(),
+					_("Failed to send KDM email to %1 (%2)"),
+					i.cinema->email,
 					error
 					)
 				);
