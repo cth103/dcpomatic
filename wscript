@@ -430,8 +430,7 @@ def build(bld):
     if bld.env.TARGET_OSX:
         bld.recurse('platform/osx')
 
-    for r in ['22x22', '32x32', '48x48', '64x64', '128x128']:
-        bld.install_files('${PREFIX}/share/icons/hicolor/%s/apps' % r, 'graphics/%s/dcpomatic2.png' % r)
+    bld.recurse('graphics')
 
     if not bld.env.TARGET_WINDOWS:
         bld.install_files('${PREFIX}/share/dcpomatic2', 'graphics/taskbar_icon.png')
