@@ -20,7 +20,7 @@
 #include "send_kdm_email_job.h"
 #include "compose.hpp"
 #include "film.h"
-#include "kdm.h"
+#include "cinema_kdms.h"
 
 #include "i18n.h"
 
@@ -31,14 +31,14 @@ using boost::shared_ptr;
 SendKDMEmailJob::SendKDMEmailJob (
 	shared_ptr<const Film> film,
 	list<shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
+	boost::filesystem::path cpl,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime to,
 	dcp::Formulation formulation
 	)
 	: Job (film)
 	, _screens (screens)
-	, _dcp (dcp)
+	, _cpl (cpl)
 	, _from (from)
 	, _to (to)
 	, _formulation (formulation)
@@ -64,7 +64,14 @@ SendKDMEmailJob::run ()
 	try {
 
 		set_progress_unknown ();
-		email_kdms (_film, _screens, _dcp, _from, _to, _formulation);
+
+		CinemaKDMs::email (
+			_film,
+			CinemaKDMs::collect (ScreenKDM::collect (_screens, _film->make_kdms (_screens, _cpl, _from, _to, _formulation))),
+			_from,
+			_to
+			);
+
 		set_progress (1);
 		set_state (FINISHED_OK);
 

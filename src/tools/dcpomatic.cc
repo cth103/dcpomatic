@@ -46,7 +46,7 @@
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
 #include "lib/cinema.h"
-#include "lib/kdm.h"
+#include "lib/screen_kdm.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/server_finder.h"
 #include "lib/update_checker.h"
@@ -446,7 +446,11 @@ private:
 
 		try {
 			if (d->write_to ()) {
-				write_kdm_files (_film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation (), d->directory ());
+				ScreenKDM::write_files (
+					_film,
+					ScreenKDM::collect (d->screens(), _film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation())),
+					d->directory()
+					);
 			} else {
 				JobManager::instance()->add (
 					shared_ptr<Job> (new SendKDMEmailJob (_film, d->screens (), d->cpl (), d->from (), d->until (), d->formulation ()))

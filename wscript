@@ -501,7 +501,7 @@ def pot_merge(bld):
     bld.recurse('src')
 
 def tags(bld):
-    os.system('etags src/lib/*.cc src/lib/*.h src/wx/*.cc src/wx/*.h src/tools/*.cc src/tools/*.h')
+    os.system('etags src/lib/*.cc src/lib/*.h src/wx/*.cc src/wx/*.h src/tools/*.cc')
 
 def zanata_pull(bld):
     os.system('zanata-cli -B -q pull -t .')

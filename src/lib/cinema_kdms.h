@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,19 @@
 
 */
 
-#include "job.h"
-#include <dcp/types.h>
-#include <boost/filesystem.hpp>
+#include "screen_kdm.h"
 
-class Screen;
+class Cinema;
 
-class SendKDMEmailJob : public Job
+class CinemaKDMs
 {
 public:
-	SendKDMEmailJob (
-		boost::shared_ptr<const Film>,
-		std::list<boost::shared_ptr<Screen> >,
-		boost::filesystem::path,
-		boost::posix_time::ptime,
-		boost::posix_time::ptime,
-		dcp::Formulation
-		);
+	void make_zip_file (boost::shared_ptr<const Film> film, boost::filesystem::path zip_file) const;
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	static std::list<CinemaKDMs> collect (std::list<ScreenKDM> kdms);
+	static void write_zip_files (boost::shared_ptr<const Film> film, std::list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory);
+	static void email (boost::shared_ptr<const Film> film, std::list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to);
 
-private:
-	std::list<boost::shared_ptr<Screen> > _screens;
-	boost::filesystem::path _cpl;
-	boost::posix_time::ptime _from;
-	boost::posix_time::ptime _to;
-	dcp::Formulation _formulation;
+	boost::shared_ptr<Cinema> cinema;
+	std::list<ScreenKDM> screen_kdms;
 };

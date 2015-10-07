@@ -21,14 +21,15 @@
  *  @brief Command-line program to generate KDMs.
  */
 
-#include <getopt.h>
-#include <dcp/certificate.h>
 #include "lib/film.h"
 #include "lib/cinema.h"
-#include "lib/kdm.h"
+#include "lib/screen_kdm.h"
+#include "lib/cinema_kdms.h"
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/safe_stringstream.h"
+#include <dcp/certificate.h>
+#include <getopt.h>
 #include <iostream>
 
 using std::string;
@@ -276,18 +277,19 @@ int main (int argc, char* argv[])
 		}
 
 		try {
+			list<ScreenKDM> screen_kdms = ScreenKDM::collect (
+				(*i)->screens(),
+				film->make_kdms ((*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation)
+				);
+
 			if (zip) {
-				write_kdm_zip_files (
-					film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation, output
-					);
+				CinemaKDMs::write_zip_files (film, CinemaKDMs::collect (screen_kdms), output);
 
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				write_kdm_files (
-					film, (*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation, output
-					);
+				ScreenKDM::write_files (film, screen_kdms, output);
 
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";
