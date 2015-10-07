@@ -322,12 +322,12 @@ Job::error_summary () const
 void
 Job::set_error (string s, string d)
 {
-	LOG_ERROR_NC (s);
-	LOG_ERROR_NC (d);
-
 	if (_film) {
+		LOG_ERROR_NC (s);
+		LOG_ERROR_NC (d);
 		_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d), Log::TYPE_ERROR);
 	}
+
 	boost::mutex::scoped_lock lm (_state_mutex);
 	_error_summary = s;
 	_error_details = d;
