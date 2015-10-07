@@ -17,6 +17,7 @@
 
 */
 
+#include "wx_util.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
