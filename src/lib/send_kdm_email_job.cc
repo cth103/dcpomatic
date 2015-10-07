@@ -49,6 +49,10 @@ SendKDMEmailJob::SendKDMEmailJob (
 string
 SendKDMEmailJob::name () const
 {
+	if (_film_name.empty ()) {
+		return _("Email KDMs");
+	}
+
 	return String::compose (_("Email KDMs for %1"), _film_name);
 }
 
