@@ -37,7 +37,6 @@ public:
 
 	std::string filename (boost::shared_ptr<const Film> film) const;
 
-	static std::list<ScreenKDM> collect (std::list<boost::shared_ptr<Screen> > screens, std::list<dcp::EncryptedKDM> kdms);
 	static void write_files (boost::shared_ptr<const Film> film, std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory);
 
 	boost::shared_ptr<Screen> screen;

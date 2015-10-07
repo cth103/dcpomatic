@@ -54,6 +54,7 @@ class AudioProcessor;
 class AudioMapping;
 class Ratio;
 class Job;
+class ScreenKDM;
 struct isdcf_name_test;
 
 /** @class Film
@@ -127,7 +128,7 @@ public:
 		dcp::Formulation formulation
 		) const;
 
-	std::list<dcp::EncryptedKDM> make_kdms (
+	std::list<ScreenKDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,

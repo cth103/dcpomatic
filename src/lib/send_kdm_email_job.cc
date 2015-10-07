@@ -67,7 +67,7 @@ SendKDMEmailJob::run ()
 
 		CinemaKDMs::email (
 			_film,
-			CinemaKDMs::collect (ScreenKDM::collect (_screens, _film->make_kdms (_screens, _cpl, _from, _to, _formulation))),
+			CinemaKDMs::collect (_film->make_kdms (_screens, _cpl, _from, _to, _formulation)),
 			_from,
 			_to
 			);

@@ -40,22 +40,6 @@ ScreenKDM::filename (shared_ptr<const Film> film) const
 	return tidy_for_filename (film->name()) + "_" + tidy_for_filename (screen->cinema->name) + "_" + tidy_for_filename (screen->name) + ".kdm.xml";
 }
 
-list<ScreenKDM>
-ScreenKDM::collect (list<shared_ptr<Screen> > screens, list<dcp::EncryptedKDM> kdms)
-{
-	list<ScreenKDM> screen_kdms;
-
-	list<shared_ptr<Screen> >::iterator i = screens.begin ();
-	list<dcp::EncryptedKDM>::iterator j = kdms.begin ();
-	while (i != screens.end() && j != kdms.end ()) {
-		screen_kdms.push_back (ScreenKDM (*i, *j));
-		++i;
-		++j;
-	}
-
-	return screen_kdms;
-}
-
 void
 ScreenKDM::write_files (shared_ptr<const Film> film, list<ScreenKDM> screen_kdms, boost::filesystem::path directory)
 {

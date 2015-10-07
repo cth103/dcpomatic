@@ -277,9 +277,8 @@ int main (int argc, char* argv[])
 		}
 
 		try {
-			list<ScreenKDM> screen_kdms = ScreenKDM::collect (
-				(*i)->screens(),
-				film->make_kdms ((*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation)
+			list<ScreenKDM> screen_kdms = film->make_kdms (
+				(*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation
 				);
 
 			if (zip) {

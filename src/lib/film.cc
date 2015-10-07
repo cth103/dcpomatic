@@ -49,6 +49,7 @@
 #include "subtitle_content.h"
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
+#include "screen_kdm.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -1108,7 +1109,7 @@ Film::make_kdm (
 		).encrypt (signer, target, formulation);
 }
 
-list<dcp::EncryptedKDM>
+list<ScreenKDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
@@ -1117,11 +1118,11 @@ Film::make_kdms (
 	dcp::Formulation formulation
 	) const
 {
-	list<dcp::EncryptedKDM> kdms;
+	list<ScreenKDM> kdms;
 
-	for (list<shared_ptr<Screen> >::iterator i = screens.begin(); i != screens.end(); ++i) {
-		if ((*i)->certificate) {
-			kdms.push_back (make_kdm ((*i)->certificate.get(), dcp, from, until, formulation));
+	BOOST_FOREACH (shared_ptr<Screen> i, screens) {
+		if (i->certificate) {
+			kdms.push_back (ScreenKDM (i, make_kdm (i->certificate.get(), dcp, from, until, formulation)));
 		}
 	}
 

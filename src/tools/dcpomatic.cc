@@ -448,7 +448,7 @@ private:
 			if (d->write_to ()) {
 				ScreenKDM::write_files (
 					_film,
-					ScreenKDM::collect (d->screens(), _film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation())),
+					_film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation()),
 					d->directory()
 					);
 			} else {
