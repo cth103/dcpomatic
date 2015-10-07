@@ -28,9 +28,19 @@ JobViewDialog::JobViewDialog (wxWindow* parent, wxString title, shared_ptr<Job> 
 	_view = new JobView (job, this, this, _table);
 	layout ();
 	SetMinSize (wxSize (960, -1));
+
+	Bind (wxEVT_TIMER, boost::bind (&JobViewDialog::periodic, this));
+	_timer.reset (new wxTimer (this));
+	_timer->Start (1000);
 }
 
 JobViewDialog::~JobViewDialog ()
 {
 	delete _view;
+}
+
+void
+JobViewDialog::periodic ()
+{
+	_view->maybe_pulse ();
 }

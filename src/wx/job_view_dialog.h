@@ -30,5 +30,8 @@ public:
 	~JobViewDialog ();
 
 private:
+	void periodic ();
+
 	JobView* _view;
+	boost::shared_ptr<wxTimer> _timer;
 };

@@ -20,6 +20,7 @@
 #include "wx/config_dialog.h"
 #include "wx/about_dialog.h"
 #include "wx/report_problem_dialog.h"
+#include "wx/file_picker_ctrl.h"
 #include "wx/wx_util.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/screens_panel.h"
@@ -101,11 +102,7 @@ public:
 		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		wxSizer* dkdm = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		add_label_to_sizer (dkdm, overall_panel, _("DKDM file"), true);
-#ifdef DCPOMATIC_USE_OWN_PICKER
-		_dkdm = new FilePicker (overall_panel, _("Select a DKDM XML file..."), "*.xml");
-#else
-		_dkdm = new wxFilePickerCtrl (overall_panel, wxID_ANY, wxEmptyString, _("Select a DKDM XML file..."), "*.xml", wxDefaultPosition, wxSize (300, -1));
-#endif
+		_dkdm = new FilePickerCtrl (overall_panel, _("Select a DKDM XML file..."), "*.xml");
 		dkdm->Add (_dkdm, 1, wxEXPAND);
 		add_label_to_sizer (dkdm, overall_panel, _("Annotation"), true);
 		_annotation_text = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
@@ -206,6 +203,10 @@ private:
 
 	void dkdm_changed ()
 	{
+		if (_dkdm->GetPath().IsEmpty()) {
+			return;
+		}
+
 		try {
 			dcp::EncryptedKDM encrypted (dcp::file_to_string (wx_to_std (_dkdm->GetPath())));
 			dcp::DecryptedKDM decrypted (encrypted, Config::instance()->decryption_chain()->key().get());
@@ -306,11 +307,8 @@ private:
 	wxPreferencesEditor* _config_dialog;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
-#ifdef DCPOMATIC_USE_OWN_PICKER
-	FilePicker* _dkdm;
-#else
-	wxFilePickerCtrl* _dkdm;
-#endif
+	/* I can't seem to clear the value in a wxFilePickerCtrl, so use our own */
+	FilePickerCtrl* _dkdm;
 	wxStaticText* _annotation_text;
 	wxStaticText* _content_title_text;
 	wxStaticText* _issue_date;

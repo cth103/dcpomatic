@@ -30,8 +30,7 @@ public:
 private:
 	void browse_clicked ();
 
-	wxStaticText* _file;
-	wxButton* _browse;
+	wxButton* _file;
 	wxString _path;
 	wxSizer* _sizer;
 	wxString _prompt;

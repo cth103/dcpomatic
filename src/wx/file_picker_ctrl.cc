@@ -34,14 +34,16 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	_file = new wxStaticText (this, wxID_ANY, wxT ("This is the length of the file label"));
+        wxClientDC dc (parent);
+        wxSize size = dc.GetTextExtent (wxT ("This is the length of the file label it should be quite long"));
+        size.SetHeight (-1);
+
+	_file = new wxButton (this, wxID_ANY, _("(None)"), wxDefaultPosition, size, wxBU_LEFT);
 	_sizer->Add (_file, 1, wxEXPAND | wxALL, 6);
-	_browse = new wxButton (this, wxID_ANY, _("Browse..."));
-	_sizer->Add (_browse, 0);
 
 	SetSizerAndFit (_sizer);
 
-	_browse->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FilePickerCtrl::browse_clicked, this));
+	_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FilePickerCtrl::browse_clicked, this));
 }
 
 void
@@ -49,7 +51,11 @@ FilePickerCtrl::SetPath (wxString p)
 {
 	_path = p;
 
-	_file->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
+	if (!_path.IsEmpty ()) {
+		_file->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
+	} else {
+		_file->SetLabel (_("(None)"));
+	}
 
 	wxCommandEvent ev (wxEVT_COMMAND_FILEPICKER_CHANGED, wxID_ANY);
 	GetEventHandler()->ProcessEvent (ev);
