@@ -171,6 +171,19 @@ mkdir -p $WORK/$vol_name
 cp -a "$WORK/$appdir" $WORK/$vol_name
 ln -s /Applications "$WORK/$vol_name/Applications"
 
+# KDM creator
+appdir_kdm="DCP-o-matic 2 KDM Creator.app"
+approot_kdm="$appdir_kdm/Contents"
+libs_kdm="$approot_kdm/lib"
+macos_kdm="$approot_kdm/MacOS"
+resources_kdm="$approot_kdm/Resources"
+rm -r "$WORK/$appdir_kdm"
+mkdir -p "$WORK/$macos_kdm"
+ln -s "../../../DCP-o-matic 2.app/Contents/lib" "$WORK/$libs_kdm"
+ln -s "../../../DCP-o-matic 2.app/Contents/Resources" "$WORK/$resources_kdm"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$WORK/$macos_kdm"
+cp -a "$WORK/$appdir_kdm" $WORK/$vol_name
+
 rm -f $tmp_dmg "$dmg"
 hdiutil create -srcfolder $WORK/$vol_name -volname $vol_name -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $DMG_SIZE $tmp_dmg
 attach=$(hdiutil attach -readwrite -noverify -noautoopen $tmp_dmg)
