@@ -15,11 +15,19 @@ WORK=build/platform/osx
 ENV=/Users/carl/Environments/osx/10.6
 ROOT=$1
 
+# Main application
 appdir="DCP-o-matic 2.app"
 approot="$appdir/Contents"
 libs="$approot/lib"
 macos="$approot/MacOS"
 resources="$approot/Resources"
+
+# KDM creator
+appdir_kdm="DCP-o-matic 2 KDM Creator.app"
+approot_kdm="$appdir_kdm/Contents"
+libs_kdm="$approot_kdm/lib"
+macos_kdm="$approot_kdm/MacOS"
+resources_kdm="$approot_kdm/Resources"
 
 rm -rf "$WORK/$appdir"
 mkdir -p "$WORK/$macos"
@@ -57,6 +65,7 @@ universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$WORK/$macos_kdm"
 universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$WORK/$libs"
 universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$WORK/$libs"
 universal_copy_lib $ROOT libcxml "$WORK/$libs"
@@ -123,7 +132,7 @@ universal_copy_lib $ENV libicuuc "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
-for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_server" "$WORK/$macos/dcpomatic2_kdm" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
+for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_server" "$WORK/$macos_kdm/dcpomatic2_kdm" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)" | egrep "($ENV|$ROOT|boost|libicu)"`
   changes=""
   for dep in $deps; do
@@ -181,7 +190,6 @@ rm -rf "$WORK/$appdir_kdm"
 mkdir -p "$WORK/$macos_kdm"
 ln -s "../../../DCP-o-matic 2.app/Contents/lib" "$WORK/$libs_kdm"
 ln -s "../../../DCP-o-matic 2.app/Contents/Resources" "$WORK/$resources_kdm"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$WORK/$macos_kdm"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$WORK/$approot/Info.plist"
 cp -a "$WORK/$appdir_kdm" $WORK/$vol_name
 
@@ -203,7 +211,8 @@ echo '
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
            set position of item "DCP-o-matic 2.app" of container window to {90, 80}
-           set position of item "Applications" of container window to {310, 80}
+           set position of item "DCP-o-matic 2 KDM Creator.app" of container window to {310, 80}
+           set position of item "Applications" of container window to {530, 80}
            close
            open
            update without registering applications
