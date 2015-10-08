@@ -35,6 +35,24 @@ resources_kdm="$approot_kdm/Resources"
 rm -rf "$WORK/$appdir_kdm"
 mkdir -p "$WORK/$macos_kdm"
 
+# Server
+appdir_server="DCP-o-matic 2 Server.app"
+approot_server="$appdir_server/Contents"
+libs_server="$approot_server/lib"
+macos_server="$approot_server/MacOS"
+resources_server="$approot_server/Resources"
+rm -rf "$WORK/$appdir_server"
+mkdir -p "$WORK/$macos_server"
+
+# Batch converter
+appdir_batch="DCP-o-matic 2 Batch Converter.app"
+approot_batch="$appdir_batch/Contents"
+libs_batch="$approot_batch/lib"
+macos_batch="$approot_batch/MacOS"
+resources_batch="$approot_batch/Resources"
+rm -rf "$WORK/$appdir_batch"
+mkdir -p "$WORK/$macos_batch"
+
 relink="dcpomatic"
 
 function universal_copy {
@@ -65,8 +83,9 @@ function universal_copy_lib {
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$WORK/$macos"
-universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$WORK/$macos_kdm"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$WORK/$macos_server"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$WORK/$macos_batch"
 universal_copy $ROOT src/dcpomatic/build/src/lib/libdcpomatic2.dylib "$WORK/$libs"
 universal_copy $ROOT src/dcpomatic/build/src/wx/libdcpomatic2-wx.dylib "$WORK/$libs"
 universal_copy_lib $ROOT libcxml "$WORK/$libs"
@@ -133,7 +152,15 @@ universal_copy_lib $ENV libicuuc "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
-for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_server" "$WORK/$macos_kdm/dcpomatic2_kdm" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
+for obj in \
+    "$WORK/$macos/dcpomatic2" \
+    "$WORK/$macos/dcpomatic2_cli" \
+    "$WORK/$macos/dcpomatic2_server_cli" \
+    "$WORK/$macos_kdm/dcpomatic2_kdm" \
+    "$WORK/$macos_server/dcpomatic2_server" \
+    "$WORK/$macos_batch/dcpomatic2_batch" \
+    "$WORK/$macos/ffprobe" \
+    "$WORK/$libs/"*.dylib; do
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)" | egrep "($ENV|$ROOT|boost|libicu)"`
   changes=""
   for dep in $deps; do
@@ -149,7 +176,10 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
 done
 
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$WORK/$approot/Info.plist"
-cp $ROOT/32/src/dcpomatic/graphics/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
+cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2.icns "$WORK/$resources/dcpomatic2.icns"
+cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_kdm.icns "$WORK/$resources/dcpomatic2_kdm.icns"
+cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_server.icns "$WORK/$resources/dcpomatic2_server.icns"
+cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_batch.icns "$WORK/$resources/dcpomatic2_batch.icns"
 cp $ROOT/32/src/dcpomatic/graphics/colour_conversions.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/graphics/defaults.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/graphics/kdm_email.png "$WORK/$resources"
@@ -191,6 +221,28 @@ ln -s "../../DCP-o-matic 2.app/Contents/lib" "$WORK/$libs_kdm"
 ln -s "../../DCP-o-matic 2.app/Contents/Resources" "$WORK/$resources_kdm"
 cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$WORK/$approot_kdm/Info.plist"
 cp -a "$WORK/$appdir_kdm" $WORK/$vol_name
+
+# Server
+appdir_server="DCP-o-matic 2 Server.app"
+approot_server="$appdir_server/Contents"
+libs_server="$approot_server/lib"
+macos_server="$approot_server/MacOS"
+resources_server="$approot_server/Resources"
+ln -s "../../DCP-o-matic 2.app/Contents/lib" "$WORK/$libs_server"
+ln -s "../../DCP-o-matic 2.app/Contents/Resources" "$WORK/$resources_server"
+cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$WORK/$approot_server/Info.plist"
+cp -a "$WORK/$appdir_server" $WORK/$vol_name
+
+# Batch converter
+appdir_batch="DCP-o-matic 2 Batch Converter.app"
+approot_batch="$appdir_batch/Contents"
+libs_batch="$approot_batch/lib"
+macos_batch="$approot_batch/MacOS"
+resources_batch="$approot_batch/Resources"
+ln -s "../../DCP-o-matic 2.app/Contents/lib" "$WORK/$libs_batch"
+ln -s "../../DCP-o-matic 2.app/Contents/Resources" "$WORK/$resources_batch"
+cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$WORK/$approot_batch/Info.plist"
+cp -a "$WORK/$appdir_batch" $WORK/$vol_name
 
 rm -f $tmp_dmg "$dmg"
 hdiutil create -srcfolder $WORK/$vol_name -volname $vol_name -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $DMG_SIZE $tmp_dmg

@@ -14,25 +14,29 @@ fi
 
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
-    iconutil --convert icns --output dcpomatic.icns dcpomatic.iconset
+    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+	iconutil --convert icns --output $p.icns $p.iconset
+    done
 else
     INKSCAPE="inkscape -z -C -e"
 
     # OS X application icons
-    mkdir -p dcpomatic.iconset
     for r in 16 32 128 256 512; do
-	$INKSCAPE dcpomatic.iconset/icon_$rx$r.png dcpomatic2.svg -w $r -h $r dcpomatic2.svg
-	$INKSCAPE dcpomatic.iconset/icon_$rx$r@2x.png -w $r -h $r dcpomatic2.svg 
+	for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+	    mkdir -p $p.iconset
+	    $INKSCAPE $p.iconset/icon_$rx$r.png -w $r -h $r $p.svg
+	    $INKSCAPE $p.iconset/icon_$rx$r@2x.png -w $r -h $r $p.svg
+	done
     done
 
     # Linux application icons
     for r in 16 22 32 48 64 128 256 512; do
 	mkdir -p $r
 	for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
-	    $INKSCAPE $r/$p.png $p.svg -w $r -h $r 
+	    $INKSCAPE $r/$p.png $p.svg -w $r -h $r
 	done
     done
-    
+
     # Windows application icons
     for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
 	icotool -c -o $p.ico 48/$p.png
@@ -40,7 +44,7 @@ else
     icotool -c -o dcpomatic2_server_small.ico dcpomatic2_server_small.png
     $INKSCAPE dcpomatic.png dcpomatic2.svg -w 400 -h 286
     convert dcpomatic.png dcpomatic.bmp
-    
+
     # Preferences icons (all platforms)
     # servers.png does not have an SVG version
     for i in colour_conversions defaults kdm_email keys tms; do

@@ -7,9 +7,9 @@
 	<key>CFBundleExecutable</key>
 	<string>dcpomatic2</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP generator</string>
+	<string>DCP-o-matic 2</string>
 	<key>CFBundleIconFile</key>
-	<string>DCP-o-matic.icns</string>
+	<string>dcpomatic2.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.dcpomatic</string>
 	<key>CFBundleInfoDictionaryVersion</key>
