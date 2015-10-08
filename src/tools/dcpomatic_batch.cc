@@ -194,6 +194,8 @@ class App : public wxApp
 {
 	bool OnInit ()
 	{
+		SetAppName (_("DCP-o-matic Batch Converter"));
+
 		if (!wxApp::OnInit()) {
 			return false;
 		}

@@ -58,7 +58,7 @@ using boost::shared_ptr;
 using boost::bind;
 
 enum {
-	ID_help_report_a_problem,
+	ID_help_report_a_problem = 1,
 };
 
 class DOMFrame : public wxFrame

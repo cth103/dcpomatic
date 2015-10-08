@@ -262,8 +262,10 @@ echo '
            set arrangement of theViewOptions to not arranged
            set icon size of theViewOptions to 64
            set position of item "DCP-o-matic 2.app" of container window to {90, 80}
-           set position of item "DCP-o-matic 2 KDM Creator.app" of container window to {310, 80}
-           set position of item "Applications" of container window to {530, 80}
+           set position of item "DCP-o-matic 2 KDM Creator.app" of container window to {270, 80}
+           set position of item "DCP-o-matic 2 Server.app" of container window to {90, 200}
+           set position of item "DCP-o-matic 2 Batch Converter.app" of container window to {270, 200}
+           set position of item "Applications" of container window to {450, 80}
            close
            open
            update without registering applications
@@ -277,7 +279,7 @@ sync
 
 hdiutil eject $device
 hdiutil convert -format UDZO $tmp_dmg -imagekey zlib-level=9 -o "$dmg"
-sips -i "$WORK/$resources/DCP-o-matic.icns"
-DeRez -only icns "$WORK/$resources/DCP-o-matic.icns" > "$WORK/$resources/DCP-o-matic.rsrc"
+sips -i "$WORK/$resources/dcpomatic2.icns"
+DeRez -only icns "$WORK/$resources/dcpomatic2.icns" > "$WORK/$resources/DCP-o-matic.rsrc"
 Rez -append "$WORK/$resources/DCP-o-matic.rsrc" -o "$dmg"
 SetFile -a C "$dmg"
