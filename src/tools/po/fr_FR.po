@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-09-12 01:22+0100\n"
+"PO-Revision-Date: 2015-10-07 17:00+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -91,12 +91,12 @@ msgid "Add Film..."
 msgstr "Ajouter Film..."
 
 #: src/tools/dcpomatic.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
-"Une exception est apparue: %s (%s).\n"
+"Erreur constatée: %s (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:934
@@ -202,11 +202,11 @@ msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
 #: src/tools/dcpomatic.cc:694
 msgid "Scale to fit &height"
-msgstr "Adapter pour remplir la &hauteur"
+msgstr "Adapter pour remplir &hauteur"
 
 #: src/tools/dcpomatic.cc:693
 msgid "Scale to fit &width"
-msgstr "Adapter pour remplir la largeur"
+msgstr "Adapter pour remplir largeur"
 
 #: src/tools/dcpomatic.cc:349 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
@@ -220,8 +220,10 @@ msgid ""
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"Le DCP de ce film pèsera environ %.1f Go. Le disque que vous utilisez n'a "
-"que %.1f Go disponible(s). Souhaitez-vous continuer?"
+"Le DCP de ce film pésera environ %.1f Go. Le disque que vous utilisez n'a "
+"que %.1f Go disponible(s). Vous auriez besoinde la moitié de cet espace si "
+"votre système supportait les \"hard links\" mais ce n'est pas le cas. "
+"Souhaitez vous continuer quand-même?"
 
 #: src/tools/dcpomatic.cc:413
 #, c-format
@@ -241,23 +243,24 @@ msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Le dossier %1 existe et n'est pas vide. Etes-vous sûr de vouloir l'utiliser ?"
+"Le répertoire %1 existe déjà et n'est pas vide. Etes-vous sûr de vouloir "
+"l'utiliser ?"
 
 #: src/tools/dcpomatic.cc:978
 msgid "There are no new versions of DCP-o-matic available."
-msgstr "Aucune mise à jour disponible pour DCP-o-matic."
+msgstr "Pas de mise à jour disponible de DCP-o-matic pour l'instant."
 
 #: src/tools/dcpomatic.cc:577 src/tools/dcpomatic_batch.cc:111
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr "Il y a des tâches inachevées ; voulez-vous vraiment quitter ?"
+msgstr "Certaines tâches sont inachevées. Voulez-vous vraiment quitter ?"
 
 #: src/tools/dcpomatic.cc:270
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
-"Ce film a été créé avec une ancienne version de DVD-o-matic et ne eut pas "
-"être ouvert correctement dans cette version. Veuillez vérifier les "
+"Ce film a été créé avec une ancienne version de DVD-o-matic et pourrait ne "
+"pas s'ouvrir correctement dans cette version. Veuillez vérifier tous les "
 "paramètres de réglages très attentivement."
 
 #: src/tools/dcpomatic.cc:578 src/tools/dcpomatic_batch.cc:112

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-09-12 01:29+0100\n"
+"PO-Revision-Date: 2015-10-07 16:53+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -208,7 +208,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:186
 msgid "Automatically analyse content audio"
-msgstr ""
+msgstr "Analyser automatiquement le contenu audio"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -232,7 +232,7 @@ msgstr "Parcourir..."
 
 #: src/wx/subtitle_panel.cc:59
 msgid "Burn subtitles into image"
-msgstr "Graver les sous-titres dans l'image"
+msgstr "Graver sous-titres dans l'image"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
@@ -427,11 +427,11 @@ msgstr "Son DCP-o-matic"
 
 #: src/wx/config_dialog.cc:1325
 msgid "Debug: decode"
-msgstr "Debug: decode"
+msgstr "Deboguage: decodage"
 
 #: src/wx/config_dialog.cc:1327
 msgid "Debug: encode"
-msgstr "Debug: encode"
+msgstr "Deboguage: encodage"
 
 #: src/wx/config_dialog.cc:951
 msgid "Decrypting DCPs"
@@ -459,16 +459,15 @@ msgstr "Catégorie par défaut"
 
 #: src/wx/config_dialog.cc:390
 msgid "Default directory for new films"
-msgstr "Dossier par défaut pour les DCP"
+msgstr "Dossier de sortie par défaut"
 
 #: src/wx/config_dialog.cc:382
 msgid "Default duration of still images"
-msgstr "Durée par défaut des images fixes"
+msgstr "Durée images fixes par défaut"
 
 #: src/wx/config_dialog.cc:428
-#, fuzzy
 msgid "Default standard"
-msgstr "Format par défaut"
+msgstr "Standard par défaut"
 
 #: src/wx/config_dialog.cc:364
 msgid "Defaults"
@@ -552,9 +551,8 @@ msgid "Errors"
 msgstr "Erreurs"
 
 #: src/wx/config_dialog.cc:668
-#, fuzzy
 msgid "Export"
-msgstr "port"
+msgstr "Export"
 
 #: src/wx/config_dialog.cc:958
 msgid "Export DCP decryption certificate..."
@@ -872,7 +870,7 @@ msgstr "Aucun son ne passera du canal audio %d au canal %d du DCP."
 
 #: src/wx/content_panel.cc:281
 msgid "No content found in this folder."
-msgstr ""
+msgstr "Aucun contenu trouvé dans ce répertoire"
 
 #: src/wx/dcp_panel.cc:691 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:295
@@ -937,14 +935,13 @@ msgid "Peak is %.2fdB at %s"
 msgstr "La crête est de %.2fdB à %s"
 
 #: src/wx/audio_panel.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "Peak: %.2fdB"
-msgstr "La crête: %.2fdB"
+msgstr "Crête: %.2fdB"
 
 #: src/wx/audio_panel.cc:297 src/wx/audio_panel.cc:300
-#, fuzzy
 msgid "Peak: unknown"
-msgstr "inconnu."
+msgstr "Crête: inconnue"
 
 #: src/wx/film_viewer.cc:69
 msgid "Play"
@@ -952,7 +949,7 @@ msgstr "Lecture"
 
 #: src/wx/timing_panel.cc:101
 msgid "Play length"
-msgstr "Durée de lecture"
+msgstr "Durée finale"
 
 #: src/wx/report_problem_dialog.cc:77
 msgid ""
@@ -1029,7 +1026,7 @@ msgstr "Chromaticité du Rouge"
 #: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:51
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
-msgstr ""
+msgstr "Référence à DCP existant"
 
 #: src/wx/config_dialog.cc:666 src/wx/content_menu.cc:68
 #: src/wx/content_panel.cc:85 src/wx/editable_list.h:68
@@ -1093,9 +1090,8 @@ msgid "Root common name"
 msgstr "Nom commun racine"
 
 #: src/wx/config_dialog.cc:1041
-#, fuzzy
 msgid "SCP (for AAM and Doremi)"
-msgstr "SCP (for AAM)"
+msgstr "SCP (pour AAM et Doremi)"
 
 #: src/wx/config_dialog.cc:459 src/wx/dcp_panel.cc:155
 msgid "SMPTE"
@@ -1172,11 +1168,11 @@ msgstr "Sélectionnez la langue"
 
 #: src/wx/dcp_panel.cc:698
 msgid "Show audio..."
-msgstr "Montrer le son..."
+msgstr "Afficher audio..."
 
 #: src/wx/audio_panel.cc:61
 msgid "Show graph of audio levels..."
-msgstr "Afficher graphique des niveaux audio..."
+msgstr "Afficher niveaux audio..."
 
 #: src/wx/dcp_panel.cc:112
 msgid "Signed"
@@ -1318,19 +1314,19 @@ msgstr "Traduit par"
 
 #: src/wx/timing_panel.cc:98
 msgid "Trim after current position"
-msgstr "Couper après position actuelle"
+msgstr "Rogner après cette position"
 
 #: src/wx/timing_panel.cc:95
 msgid "Trim from end"
-msgstr "Rogner par la fin"
+msgstr "Rogner fin"
 
 #: src/wx/timing_panel.cc:89
 msgid "Trim from start"
-msgstr "Rogner au début"
+msgstr "Rogner début"
 
 #: src/wx/timing_panel.cc:92
 msgid "Trim up to current position"
-msgstr "Couper jusqu'à position actuelle"
+msgstr "Rogner avant cette position"
 
 #: src/wx/audio_dialog.cc:75 src/wx/config_dialog.cc:642
 #: src/wx/video_panel.cc:84
@@ -1423,19 +1419,19 @@ msgstr "Développé par"
 
 #: src/wx/subtitle_panel.cc:64
 msgid "X Offset"
-msgstr "Position horizontale"
+msgstr "Position X"
 
 #: src/wx/subtitle_panel.cc:82
 msgid "X Scale"
-msgstr "Echelle horizontale"
+msgstr "Echelle X"
 
 #: src/wx/subtitle_panel.cc:73
 msgid "Y Offset"
-msgstr "Position verticale"
+msgstr "Position Y"
 
 #: src/wx/subtitle_panel.cc:91
 msgid "Y Scale"
-msgstr "Echelle verticale"
+msgstr "Echelle Y"
 
 #: src/wx/colour_conversion_editor.cc:95
 msgid "YUV to RGB conversion"

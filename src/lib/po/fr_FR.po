@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-09-12 01:19+0100\n"
+"PO-Revision-Date: 2015-10-07 16:29+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -790,6 +790,9 @@ msgid ""
 "operating system try reducing the number of encoding threads in the General "
 "tab of Preferences."
 msgstr ""
+"Pas assez de mémoire disponible pour faire cela. SI vous utilisez un system "
+"32 bit, essayez de réduire le nombre de processus à utiliser dans l'onglet "
+"principal des préférences."
 
 #: src/lib/film.cc:376
 msgid ""
@@ -994,9 +997,8 @@ msgid "fps"
 msgstr "ips"
 
 #: src/lib/transcode_job.cc:104
-#, fuzzy
 msgid "frames"
-msgstr "images"
+msgstr "image"
 
 #: src/lib/video_content.cc:580
 msgid "frames per second"
