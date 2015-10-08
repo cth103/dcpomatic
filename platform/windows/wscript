@@ -25,9 +25,9 @@ def write_installer(bits, version, debug):
         print('outFile "DCP-o-matic %s %d-bit Installer.exe"' % (version, bits), file=f)
 
     print("""
-!define MUI_ICON "%resources%/dcpomatic.ico"
-!define MUI_UNICON "%resources%/dcpomatic.ico"
-!define MUI_SPECIALBITMAP "%resources%/dcpomatic.bmp"
+!define MUI_ICON "%graphics%/dcpomatic2.ico"
+!define MUI_UNICON "%graphics%/dcpomatic2.ico"
+!define MUI_SPECIALBITMAP "%graphics%/dcpomatic.bmp"
 !include "Sections.nsh"
     """, file=f)
 

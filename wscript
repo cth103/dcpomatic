@@ -421,6 +421,8 @@ def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
 
     bld.recurse('src')
+    bld.recurse('graphics')
+
     if not bld.env.DISABLE_TESTS:
         bld.recurse('test')
     if bld.env.TARGET_WINDOWS:
@@ -430,11 +432,7 @@ def build(bld):
     if bld.env.TARGET_OSX:
         bld.recurse('platform/osx')
 
-    bld.recurse('graphics')
-
     if not bld.env.TARGET_WINDOWS:
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'graphics/taskbar_icon.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'graphics/splash.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'LiberationSans-Regular.ttf')
 
     bld.add_post_fun(post)
@@ -501,14 +499,6 @@ def pot_merge(bld):
 
 def tags(bld):
     os.system('etags src/lib/*.cc src/lib/*.h src/wx/*.cc src/wx/*.h src/tools/*.cc')
-
-def zanata_pull(bld):
-    os.system('zanata-cli -B -q pull -t .')
-    for f in glob.glob('src/lib/po/*.po'):
-        l = os.path.basename(f)
-        os.rename('dcpomatic_%s' % l, 'src/tools/po/%s' % l)
-        os.rename('libdcpomatic_%s' % l, 'src/lib/po/%s' % l)
-        os.rename('libdcpomatic-wx_%s' % l, 'src/wx/po/%s' % l)
 
 def cppcheck(bld):
     os.system('cppcheck --enable=all --quiet .')

@@ -105,16 +105,16 @@ class TaskBarIcon : public wxTaskBarIcon
 public:
 	TaskBarIcon ()
 	{
-#ifdef __WXMSW__
+#ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("taskbar_icon"));
 #endif
-#ifdef __WXGTK__
+#ifdef DCPOMATIC_LINUX
 		wxInitAllImageHandlers();
-		wxBitmap bitmap (wxString::Format (wxT ("%s/taskbar_icon.png"), LINUX_SHARE_PREFIX), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), LINUX_SHARE_PREFIX), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif
-#ifndef __WXOSX__
+#ifndef DCPOMATIC_OSX
 		/* XXX: fix this for OS X */
 		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
 #endif

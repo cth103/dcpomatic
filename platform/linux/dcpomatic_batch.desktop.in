@@ -5,6 +5,6 @@ Type=Application
 Terminal=false
 Exec=@INSTALL_PREFIX@/bin/dcpomatic2_batch
 Name=DCP-o-matic 2 Batch Converter
-Icon=dcpomatic2
+Icon=dcpomatic2_batch
 Comment=DCP generator
 Categories=AudioVideo;Video

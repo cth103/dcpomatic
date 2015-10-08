@@ -5,6 +5,6 @@ Type=Application
 Terminal=false
 Exec=@INSTALL_PREFIX@/bin/dcpomatic2_server
 Name=DCP-o-matic 2 Encode Server
-Icon=dcpomatic2
+Icon=dcpomatic2_server
 Comment=DCP generator
 Categories=AudioVideo;Video

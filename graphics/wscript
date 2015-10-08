@@ -16,7 +16,16 @@
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 
+import os
+
 def build(bld):
-    for r in [16, 22, 32, 48, 64, 128, 256, 512]:
-        bld(rule='inkscape -C -z -e ${TGT} -w %d -h %d -D ${SRC}' % (r, r), source='dcpomatic2.svg', target='%d/dcpomatic2.png' % r)
-        bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), '../build/graphics/%d/dcpomatic2.png' % r)
+    # Linux application icons
+    if bld.env.TARGET_LINUX:
+        for r in [16, 22, 32, 48, 64, 128, 256, 512]:
+            for p in ['dcpomatic2', 'dcpomatic2_kdm', 'dcpomatic2_server', 'dcpomatic2_batch']:
+                bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), '%d/%s.png' % (r, p))
+
+    # Install stuff for POSIX systems
+    if not bld.env.TARGET_WINDOWS:
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'dcpomatic2_server_small.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'splash.png')

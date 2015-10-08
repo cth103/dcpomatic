@@ -1,0 +1,3 @@
+id ICON "../../graphics/dcpomatic2_batch.ico"
+taskbar_icon ICON "../../graphics/dcpomatic2_server_small.ico"
+#include "wx-3.0/wx/msw/wx.rc"
