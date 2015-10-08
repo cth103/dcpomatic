@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>dcpomatic2_kdm</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP-o-matic KDM creator</string>
+	<string>DCP-o-matic 2 KDM creator</string>
 	<key>CFBundleIconFile</key>
 	<string>dcpomatic2_kdm.icns</string>
 	<key>CFBundleIdentifier</key>

@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>dcpomatic2_batch</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP-o-matic Batch Converter</string>
+	<string>DCP-o-matic 2 Batch Converter</string>
 	<key>CFBundleIconFile</key>
 	<string>dcpomatic2_batch.icns</string>
 	<key>CFBundleIdentifier</key>

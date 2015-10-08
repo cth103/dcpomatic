@@ -42,7 +42,7 @@ else
 	icotool -c -o $p.ico 48/$p.png
     done
     icotool -c -o dcpomatic2_server_small.ico dcpomatic2_server_small.png
-    $INKSCAPE dcpomatic.png dcpomatic2.svg -w 400 -h 286
+    $INKSCAPE dcpomatic.png dcpomatic2.svg -w 400 -h 400
     convert dcpomatic.png dcpomatic.bmp
 
     # Preferences icons (all platforms)

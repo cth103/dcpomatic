@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>dcpomatic2_server</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP-o-matic Server</string>
+	<string>DCP-o-matic 2 Server</string>
 	<key>CFBundleIconFile</key>
 	<string>dcpomatic2.icns</string>
 	<key>CFBundleIdentifier</key>
