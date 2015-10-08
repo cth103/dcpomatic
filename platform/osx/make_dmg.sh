@@ -123,7 +123,7 @@ universal_copy_lib $ENV libicuuc "$WORK/$libs"
 
 relink=`echo $relink | sed -e "s/\+//g"`
 
-for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
+for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$macos/dcpomatic2_server" "$WORK/$macos/dcpomatic2_kdm" "$WORK/$macos/dcpomatic2_cli" "$WORK/$macos/dcpomatic2_server_cli" "$WORK/$macos/ffprobe" "$WORK/$libs/"*.dylib; do
   deps=`otool -L "$obj" | awk '{print $1}' | egrep "($relink)" | egrep "($ENV|$ROOT|boost|libicu)"`
   changes=""
   for dep in $deps; do
@@ -138,7 +138,7 @@ for obj in "$WORK/$macos/dcpomatic2" "$WORK/$macos/dcpomatic2_batch" "$WORK/$mac
   fi
 done
 
-cp $ROOT/32/src/dcpomatic/build/platform/osx/Info.plist "$WORK/$approot"
+cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$WORK/$approot/Info.plist"
 cp $ROOT/32/src/dcpomatic/graphics/dcpomatic.icns "$WORK/$resources/DCP-o-matic.icns"
 cp $ROOT/32/src/dcpomatic/graphics/colour_conversions.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/graphics/defaults.png "$WORK/$resources"
@@ -182,6 +182,7 @@ mkdir -p "$WORK/$macos_kdm"
 ln -s "../../../DCP-o-matic 2.app/Contents/lib" "$WORK/$libs_kdm"
 ln -s "../../../DCP-o-matic 2.app/Contents/Resources" "$WORK/$resources_kdm"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$WORK/$macos_kdm"
+cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$WORK/$approot/Info.plist"
 cp -a "$WORK/$appdir_kdm" $WORK/$vol_name
 
 rm -f $tmp_dmg "$dmg"

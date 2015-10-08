@@ -5,17 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>dcpomatic2</string>
+	<string>dcpomatic2_kdm</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP generator</string>
+	<string>DCP KDM creator</string>
 	<key>CFBundleIconFile</key>
 	<string>DCP-o-matic.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.carlh.dcpomatic</string>
+	<string>com.dcpomatic.kdm</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DCP-o-matic 2</string>
+	<string>DCP-o-matic 2 KDM Creator</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersions</key>
