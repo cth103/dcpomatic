@@ -452,6 +452,7 @@ private:
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
+	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 
 	template <class T>
 	void maybe_set (T& member, T new_value) {

@@ -122,14 +122,29 @@ Config::restore_defaults ()
 	Config::instance()->changed ();
 }
 
+shared_ptr<dcp::CertificateChain>
+Config::create_certificate_chain ()
+{
+	return shared_ptr<dcp::CertificateChain> (
+		new dcp::CertificateChain (
+			openssl_path(),
+			"dcpomatic.com",
+			"dcpomatic.com",
+			".dcpomatic.smpte-430-2.ROOT",
+			".dcpomatic.smpte-430-2.INTERMEDIATE",
+			"CS.dcpomatic.smpte-430-2.LEAF"
+			)
+		);
+}
+
 void
 Config::read ()
 {
 	if (!have_existing ()) {
 		/* Make a new set of signing certificates and key */
-		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
+		_signer_chain = create_certificate_chain ();
 		/* And similar for decryption of KDMs */
-		_decryption_chain.reset (new dcp::CertificateChain (openssl_path ()));
+		_decryption_chain = create_certificate_chain ();
 		write ();
 		return;
 	}
@@ -256,7 +271,7 @@ Config::read ()
 		_signer_chain = c;
 	} else {
 		/* Make a new set of signing certificates and key */
-		_signer_chain.reset (new dcp::CertificateChain (openssl_path ()));
+		_signer_chain = create_certificate_chain ();
 	}
 
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
@@ -268,7 +283,7 @@ Config::read ()
 		c->set_key (decryption->string_child ("PrivateKey"));
 		_decryption_chain = c;
 	} else {
-		_decryption_chain.reset (new dcp::CertificateChain (openssl_path ()));
+		_decryption_chain = create_certificate_chain ();
 	}
 }
 

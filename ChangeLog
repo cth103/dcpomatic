@@ -1,5 +1,8 @@
 2015-10-09  c.hetherington  <cth@carlh.net>
 
+	* Create certificate chains with nicer default
+	organizational unit etc.
+
 	* Various improvements to server GUI.
 
 	* Package main DCP-o-matic, server and batch
