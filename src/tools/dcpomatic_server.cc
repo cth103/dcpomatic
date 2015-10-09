@@ -68,11 +68,19 @@ private:
 
 static shared_ptr<MemoryLog> memory_log (new MemoryLog);
 
+#ifdef DCPOMATIC_OSX
+class StatusDialog : public wxFrame
+#else
 class StatusDialog : public wxDialog
+#endif
 {
 public:
 	StatusDialog ()
+#ifdef DCPOMATIC_OSX
+		: wxFrame (0, wxID_ANY, _("DCP-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+#else
 		: wxDialog (0, wxID_ANY, _("DCP-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+#endif
 		, _timer (this, ID_timer)
 	{
 		_sizer = new wxFlexGridSizer (1, 6, 6);
@@ -115,8 +123,17 @@ public:
 		icon.CopyFromBitmap (bitmap);
 #endif
 #ifndef DCPOMATIC_OSX
-		/* XXX: fix this for OS X */
 		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
+#endif
+
+#ifdef DCPOMATIC_OSX
+		wxMenu* file = new wxMenu;
+		file->Append (wxID_EXIT, _("&Exit"));
+		wxMenuBar* bar = new wxMenuBar;
+		bar->Append (file, _("&File"));
+		SetMenuBar (bar);
+
+		status ();
 #endif
 
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::status, this), ID_status);
@@ -162,7 +179,9 @@ private:
 		}
 
 		dcpomatic_setup_path_encoding ();
+		dcpomatic_setup_i18n ();
 		dcpomatic_setup ();
+		Config::drop ();
 
 		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));
