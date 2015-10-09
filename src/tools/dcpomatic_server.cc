@@ -26,6 +26,7 @@
 #include "lib/log.h"
 #include "lib/raw_convert.h"
 #include "lib/signaller.h"
+#include "lib/cross.h"
 #include <wx/taskbar.h>
 #include <wx/icon.h>
 #include <boost/thread.hpp>
@@ -209,7 +210,7 @@ public:
 		wxIcon icon (std_to_wx ("taskbar_icon"));
 #else
 		wxInitAllImageHandlers();
-		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), LINUX_SHARE_PREFIX), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif
