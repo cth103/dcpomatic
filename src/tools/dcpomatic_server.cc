@@ -27,6 +27,7 @@
 #include <wx/taskbar.h>
 #include <wx/icon.h>
 #include <boost/thread.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
@@ -49,6 +50,14 @@ class MemoryLog : public Log, public Signaller
 {
 public:
 
+	string get () const {
+		string a;
+		BOOST_FOREACH (string const & i, _log) {
+			a += i + "\n";
+		}
+		return a;
+	}
+
 	string head_and_tail (int) const {
 		/* Not necessary */
 		return "";
@@ -60,15 +69,15 @@ public:
 private:
 	void do_log (string m)
 	{
-		_lengths.push_back (m.length ());
+		_log.push_back (m);
 		emit (boost::bind (boost::ref (Appended), m));
-		if (_lengths.size() > log_lines) {
-			emit (boost::bind (boost::ref (Removed), _lengths.front()));
-			_lengths.pop_front ();
+		if (_log.size() > log_lines) {
+			emit (boost::bind (boost::ref (Removed), _log.front().length()));
+			_log.pop_front ();
 		}
 	}
 
-	list<size_t> _lengths;
+	list<string> _log;
 };
 
 static shared_ptr<MemoryLog> memory_log (new MemoryLog);
@@ -92,7 +101,7 @@ public:
 		SetSize (700, height + DCPOMATIC_SIZER_GAP * 2);
 
 		_text = new wxTextCtrl (
-			this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize (-1, height),
+			this, wxID_ANY, std_to_wx (memory_log->get()), wxDefaultPosition, wxSize (-1, height),
 			wxTE_READONLY | wxTE_MULTILINE
 			);
 
@@ -124,6 +133,7 @@ class TaskBarIcon : public wxTaskBarIcon
 {
 public:
 	TaskBarIcon ()
+		: _status (0)
 	{
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("taskbar_icon"));
@@ -135,8 +145,6 @@ public:
 #endif
 
 		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
-
-		_status = new StatusDialog ();
 
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::status, this), ID_status);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::quit, this), ID_quit);
@@ -153,6 +161,7 @@ public:
 private:
 	void status ()
 	{
+		_status = new StatusDialog ();
 		_status->Show ();
 	}
 
