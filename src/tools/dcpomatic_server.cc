@@ -161,7 +161,9 @@ public:
 private:
 	void status ()
 	{
-		_status = new StatusDialog ();
+		if (!_status) {
+			_status = new StatusDialog ();
+		}
 		_status->Show ();
 	}
 
