@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,18 @@
 
 */
 
-#include "log.h"
+#include "log_entry.h"
+#include <string>
 
-class FileLog : public Log
+class StringLogEntry : public LogEntry
 {
 public:
-	FileLog (boost::filesystem::path file);
+	StringLogEntry (int type, std::string message);
 
-	std::string head_and_tail (int amount = 1024) const;
+	std::string message () const {
+		return _message;
+	}
 
 private:
-	void do_log (boost::shared_ptr<const LogEntry> entry);
-	/** filename to write to */
-	boost::filesystem::path _file;
+	std::string _message;
 };

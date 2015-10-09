@@ -46,9 +46,9 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
-#define LOG_ERROR(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
-#define LOG_ERROR_NC(...) log->log (__VA_ARGS__, Log::TYPE_ERROR);
+#define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_ERROR(...) log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
+#define LOG_ERROR_NC(...) log->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
 
 using std::pair;
 using std::list;

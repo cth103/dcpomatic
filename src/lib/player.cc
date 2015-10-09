@@ -57,7 +57,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 using std::list;
 using std::cout;

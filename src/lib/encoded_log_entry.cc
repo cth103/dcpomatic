@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,33 @@
 
 */
 
-#include "log.h"
+#include "encoded_log_entry.h"
+#include "safe_stringstream.h"
 
-class FileLog : public Log
+using std::string;
+using std::fixed;
+
+EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double encode, double send)
+	: LogEntry (LogEntry::TYPE_GENERAL)
+	, _frame (frame)
+	, _ip (ip)
+	, _receive (receive)
+	, _encode (encode)
+	, _send (send)
 {
-public:
-	FileLog (boost::filesystem::path file);
 
-	std::string head_and_tail (int amount = 1024) const;
+}
 
-private:
-	void do_log (boost::shared_ptr<const LogEntry> entry);
-	/** filename to write to */
-	boost::filesystem::path _file;
-};
+string
+EncodedLogEntry::message () const
+{
+	SafeStringStream m;
+	m.precision (2);
+	m << fixed
+	  << "Encoded frame " << _frame << " from " << _ip << ": "
+	  << "receive " << _receive << "s "
+	  << "encode " << _encode << "s "
+	  << "send " << _send << "s.";
+
+	return m.str ();
+}

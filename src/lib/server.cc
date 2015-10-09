@@ -35,6 +35,7 @@
 #include "raw_convert.h"
 #include "compose.hpp"
 #include "log.h"
+#include "encoded_log_entry.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>
@@ -46,10 +47,10 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...)    _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) _log->log (__VA_ARGS__, Log::TYPE_GENERAL);
-#define LOG_ERROR(...)      _log->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
-#define LOG_ERROR_NC(...)   _log->log (__VA_ARGS__, Log::TYPE_ERROR);
+#define LOG_GENERAL(...)    _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) _log->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
+#define LOG_ERROR(...)      _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
+#define LOG_ERROR_NC(...)   _log->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
 
 using std::string;
 using std::vector;
@@ -187,19 +188,20 @@ Server::worker_thread ()
 			struct timeval end;
 			gettimeofday (&end, 0);
 
-			SafeStringStream message;
-			message.precision (2);
-			message << fixed
-				<< "Encoded frame " << frame << " from " << ip << ": "
-				<< "receive " << (seconds(after_read) - seconds(start)) << "s "
-				<< "encode " << (seconds(after_encode) - seconds(after_read)) << "s "
-				<< "send " << (seconds(end) - seconds(after_encode)) << "s.";
+			shared_ptr<EncodedLogEntry> e (
+				new EncodedLogEntry (
+					frame, ip,
+					seconds(after_read) - seconds(start),
+					seconds(after_encode) - seconds(after_read),
+					seconds(end) - seconds(after_encode)
+					)
+				);
 
 			if (_verbose) {
-				cout << message.str() << "\n";
+				cout << e->get() << "\n";
 			}
 
-			LOG_GENERAL_NC (message.str ());
+			_log->log (e);
 		}
 
 		_full_condition.notify_all ();

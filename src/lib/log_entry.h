@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,17 +17,35 @@
 
 */
 
-#include "log.h"
+#ifndef DCPOMATIC_LOG_ENTRY_H
+#define DCPOMATIC_LOG_ENTRY_H
 
-class FileLog : public Log
+#include <string>
+
+class LogEntry
 {
 public:
-	FileLog (boost::filesystem::path file);
 
-	std::string head_and_tail (int amount = 1024) const;
+	static const int TYPE_GENERAL;
+	static const int TYPE_WARNING;
+	static const int TYPE_ERROR;
+	static const int TYPE_DEBUG_DECODE;
+	static const int TYPE_DEBUG_ENCODE;
+	static const int TYPE_TIMING;
+
+	LogEntry (int type);
+
+	virtual std::string message () const = 0;
+
+	int type () const {
+		return _type;
+	}
+	std::string get () const;
+	double seconds () const;
 
 private:
-	void do_log (boost::shared_ptr<const LogEntry> entry);
-	/** filename to write to */
-	boost::filesystem::path _file;
+	struct timeval _time;
+	int _type;
 };
+
+#endif

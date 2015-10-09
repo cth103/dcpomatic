@@ -86,8 +86,8 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::is_any_of;
 
-#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, Log::TYPE_GENERAL);
+#define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 
 /* 5 -> 6
  * AudioMapping XML changed.

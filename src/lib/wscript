@@ -55,6 +55,7 @@ sources = """
           dolby_cp750.cc
           emailer.cc
           encoder.cc
+          encoded_log_entry.cc
           environment_info.cc
           examine_content_job.cc
           exceptions.cc
@@ -84,6 +85,7 @@ sources = """
           job_manager.cc
           json_server.cc
           log.cc
+          log_entry.cc
           magick_image_proxy.cc
           md5_digester.cc
           mid_side_decoder.cc
@@ -110,6 +112,7 @@ sources = """
           sndfile_content.cc
           sndfile_decoder.cc
           sndfile_examiner.cc
+          string_log_entry.cc
           subrip.cc
           subrip_content.cc
           subrip_decoder.cc

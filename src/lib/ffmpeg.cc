@@ -99,7 +99,7 @@ FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
 	if (log) {
 		string str (line);
 		boost::algorithm::trim (str);
-		log->log (String::compose ("FFmpeg: %1", str), Log::TYPE_GENERAL);
+		log->log (String::compose ("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
 	} else {
 		cerr << line;
 	}

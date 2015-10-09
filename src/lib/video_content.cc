@@ -38,7 +38,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::VIDEO_SIZE	  = 0;
 int const VideoContentProperty::VIDEO_FRAME_RATE  = 1;

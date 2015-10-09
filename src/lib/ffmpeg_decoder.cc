@@ -47,10 +47,10 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
-#define LOG_ERROR(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_ERROR);
-#define LOG_WARNING_NC(...) _log->log (__VA_ARGS__, Log::TYPE_WARNING);
-#define LOG_WARNING(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_WARNING);
+#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_ERROR(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
+#define LOG_WARNING_NC(...) _log->log (__VA_ARGS__, LogEntry::TYPE_WARNING);
+#define LOG_WARNING(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 using std::cout;
 using std::vector;

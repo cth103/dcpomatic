@@ -25,6 +25,7 @@
 using std::cout;
 using std::string;
 using std::max;
+using boost::shared_ptr;
 
 /** @param file Filename to write log to */
 FileLog::FileLog (boost::filesystem::path file)
@@ -34,15 +35,15 @@ FileLog::FileLog (boost::filesystem::path file)
 }
 
 void
-FileLog::do_log (string m)
+FileLog::do_log (shared_ptr<const LogEntry> entry)
 {
 	FILE* f = fopen_boost (_file, "a");
 	if (!f) {
-		cout << "(could not log to " << _file.string() << "): " << m << "\n";
+		cout << "(could not log to " << _file.string() << "): " << entry.get() << "\n";
 		return;
 	}
 
-	fprintf (f, "%s\n", m.c_str ());
+	fprintf (f, "%s\n", entry->get().c_str ());
 	fclose (f);
 }
 

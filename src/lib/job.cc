@@ -42,7 +42,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::function;
 
-#define LOG_ERROR_NC(...) _film->log()->log (__VA_ARGS__, Log::TYPE_ERROR);
+#define LOG_ERROR_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
 
 /** @param film Associated film, or 0 */
 Job::Job (shared_ptr<const Film> film)
@@ -325,7 +325,7 @@ Job::set_error (string s, string d)
 	if (_film) {
 		LOG_ERROR_NC (s);
 		LOG_ERROR_NC (d);
-		_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d), Log::TYPE_ERROR);
+		_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d), LogEntry::TYPE_ERROR);
 	}
 
 	boost::mutex::scoped_lock lm (_state_mutex);

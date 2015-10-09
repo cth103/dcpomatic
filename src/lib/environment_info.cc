@@ -42,8 +42,8 @@ extern "C" {
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
-#define LOG_GENERAL_NC(...) log->log (__VA_ARGS__, Log::TYPE_GENERAL);
+#define LOG_GENERAL(...) log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL_NC(...) log->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 
 using std::string;
 using std::list;

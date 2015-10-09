@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,19 +25,14 @@
 #include "cross.h"
 #include "config.h"
 #include "safe_stringstream.h"
+#include "string_log_entry.h"
 #include <time.h>
 #include <cstdio>
 
 #include "i18n.h"
 
-using namespace std;
-
-int const Log::TYPE_GENERAL      = 0x1;
-int const Log::TYPE_WARNING      = 0x2;
-int const Log::TYPE_ERROR        = 0x4;
-int const Log::TYPE_DEBUG_DECODE = 0x8;
-int const Log::TYPE_DEBUG_ENCODE = 0x10;
-int const Log::TYPE_TIMING       = 0x20;
+using std::string;
+using boost::shared_ptr;
 
 Log::Log ()
 	: _types (0)
@@ -52,6 +47,18 @@ Log::config_changed ()
 	set_types (Config::instance()->log_types ());
 }
 
+void
+Log::log (shared_ptr<const LogEntry> e)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	if ((_types & e->type()) == 0) {
+		return;
+	}
+
+	do_log (e);
+}
+
 /** @param n String to log */
 void
 Log::log (string message, int type)
@@ -62,40 +69,7 @@ Log::log (string message, int type)
 		return;
 	}
 
-	time_t t;
-	time (&t);
-	string a = ctime (&t);
-
-	SafeStringStream s;
-	s << a.substr (0, a.length() - 1) << N_(": ");
-
-	if (type & TYPE_ERROR) {
-		s << "ERROR: ";
-	}
-
-	if (type & TYPE_WARNING) {
-		s << "WARNING: ";
-	}
-
-	s << message;
-	do_log (s.str ());
-}
-
-void
-Log::microsecond_log (string m, int t)
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	if ((_types & t) == 0) {
-		return;
-	}
-
-	struct timeval tv;
-	gettimeofday (&tv, 0);
-
-	SafeStringStream s;
-	s << tv.tv_sec << N_(":") << tv.tv_usec << N_(" ") << m;
-	do_log (s.str ());
+	do_log (shared_ptr<const LogEntry> (new StringLogEntry (type, message)));
 }
 
 void
@@ -103,13 +77,13 @@ Log::dcp_log (dcp::NoteType type, string m)
 {
 	switch (type) {
 	case dcp::DCP_PROGRESS:
-		log (m, TYPE_GENERAL);
+		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_GENERAL, m)));
 		break;
 	case dcp::DCP_ERROR:
-		log (m, TYPE_ERROR);
+		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_ERROR, m)));
 		break;
 	case dcp::DCP_NOTE:
-		log (m, TYPE_WARNING);
+		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_WARNING, m)));
 		break;
 	}
 }

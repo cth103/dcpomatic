@@ -51,9 +51,9 @@
 #include <iomanip>
 #include <iostream>
 
-#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_GENERAL);
-#define LOG_DEBUG_ENCODE(...) _log->log (String::compose (__VA_ARGS__), Log::TYPE_DEBUG_ENCODE);
-#define LOG_TIMING(...) _log->microsecond_log (String::compose (__VA_ARGS__), Log::TYPE_TIMING);
+#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_DEBUG_ENCODE(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
+#define LOG_TIMING(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_TIMING);
 
 #include "i18n.h"
 

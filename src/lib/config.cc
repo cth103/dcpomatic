@@ -98,7 +98,7 @@ Config::set_defaults ()
 	_check_for_updates = false;
 	_check_for_test_updates = false;
 	_maximum_j2k_bandwidth = 250000000;
-	_log_types = Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR;
+	_log_types = LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR;
 	_automatic_audio_analysis = false;
 #ifdef DCPOMATIC_WINDOWS
 	_win32_console = false;
@@ -234,7 +234,7 @@ Config::read ()
 	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate").get_value_or (false);
 
-	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (Log::TYPE_GENERAL | Log::TYPE_WARNING | Log::TYPE_ERROR);
+	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
 	_automatic_audio_analysis = f.optional_bool_child ("AutomaticAudioAnalysis").get_value_or (false);
 #ifdef DCPOMATIC_WINDOWS
 	_win32_console = f.optional_bool_child ("Win32Console").get_value_or (false);

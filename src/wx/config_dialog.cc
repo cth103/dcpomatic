@@ -1357,12 +1357,12 @@ private:
 		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
 		checked_set (_only_servers_encode, config->only_servers_encode ());
-		checked_set (_log_general, config->log_types() & Log::TYPE_GENERAL);
-		checked_set (_log_warning, config->log_types() & Log::TYPE_WARNING);
-		checked_set (_log_error, config->log_types() & Log::TYPE_ERROR);
-		checked_set (_log_timing, config->log_types() & Log::TYPE_TIMING);
-		checked_set (_log_debug_decode, config->log_types() & Log::TYPE_DEBUG_DECODE);
-		checked_set (_log_debug_encode, config->log_types() & Log::TYPE_DEBUG_ENCODE);
+		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
+		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
+		checked_set (_log_error, config->log_types() & LogEntry::TYPE_ERROR);
+		checked_set (_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
+		checked_set (_log_debug_decode, config->log_types() & LogEntry::TYPE_DEBUG_DECODE);
+		checked_set (_log_debug_encode, config->log_types() & LogEntry::TYPE_DEBUG_ENCODE);
 #ifdef DCPOMATIC_WINDOWS
 		checked_set (_win32_console, config->win32_console());
 #endif
@@ -1387,22 +1387,22 @@ private:
 	{
 		int types = 0;
 		if (_log_general->GetValue ()) {
-			types |= Log::TYPE_GENERAL;
+			types |= LogEntry::TYPE_GENERAL;
 		}
 		if (_log_warning->GetValue ()) {
-			types |= Log::TYPE_WARNING;
+			types |= LogEntry::TYPE_WARNING;
 		}
 		if (_log_error->GetValue ())  {
-			types |= Log::TYPE_ERROR;
+			types |= LogEntry::TYPE_ERROR;
 		}
 		if (_log_timing->GetValue ()) {
-			types |= Log::TYPE_TIMING;
+			types |= LogEntry::TYPE_TIMING;
 		}
 		if (_log_debug_decode->GetValue ()) {
-			types |= Log::TYPE_DEBUG_DECODE;
+			types |= LogEntry::TYPE_DEBUG_DECODE;
 		}
 		if (_log_debug_encode->GetValue ()) {
-			types |= Log::TYPE_DEBUG_ENCODE;
+			types |= LogEntry::TYPE_DEBUG_ENCODE;
 		}
 		Config::instance()->set_log_types (types);
 	}

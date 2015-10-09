@@ -75,7 +75,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 	   one after the end of _decoded_video we need to seek.
 	*/
 
-	_video_content->film()->log()->log (String::compose ("VD has request for %1", frame), Log::TYPE_DEBUG_DECODE);
+	_video_content->film()->log()->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
 		seek (ContentTime::from_frames (frame, _video_content->video_frame_rate()), accurate);
@@ -240,7 +240,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 		return;
 	}
 
-	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), Log::TYPE_DEBUG_DECODE);
+	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	/* We may receive the same frame index twice for 3D, and we need to know
 	   when that happens.

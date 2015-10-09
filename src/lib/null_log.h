@@ -27,5 +27,5 @@ public:
 	}
 
 private:
-	void do_log (std::string) {}
+	void do_log (boost::shared_ptr<const LogEntry>) {}
 };

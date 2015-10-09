@@ -24,6 +24,7 @@
  *  @brief A very simple logging class.
  */
 
+#include "log_entry.h"
 #include <dcp/types.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
@@ -39,15 +40,8 @@ public:
 	Log ();
 	virtual ~Log () {}
 
-	static const int TYPE_GENERAL;
-	static const int TYPE_WARNING;
-	static const int TYPE_ERROR;
-	static const int TYPE_DEBUG_DECODE;
-	static const int TYPE_DEBUG_ENCODE;
-	static const int TYPE_TIMING;
-
+	void log (boost::shared_ptr<const LogEntry> entry);
 	void log (std::string message, int type);
-	void microsecond_log (std::string message, int type);
 	void dcp_log (dcp::NoteType type, std::string message);
 
 	void set_types (int types);
@@ -63,7 +57,7 @@ protected:
 	mutable boost::mutex _mutex;
 
 private:
-	virtual void do_log (std::string m) = 0;
+	virtual void do_log (boost::shared_ptr<const LogEntry> entry) = 0;
 	void config_changed ();
 
 	/** bit-field of log types which should be put into the log (others are ignored) */
