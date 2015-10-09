@@ -18,10 +18,12 @@
 */
 
 #include "wx/wx_util.h"
+#include "wx/wx_signal_manager.h"
 #include "lib/util.h"
 #include "lib/server.h"
 #include "lib/config.h"
 #include "lib/log.h"
+#include "lib/signaller.h"
 #include <wx/taskbar.h>
 #include <wx/icon.h>
 #include <boost/thread.hpp>
@@ -30,6 +32,7 @@
 using std::cout;
 using std::string;
 using std::exception;
+using std::list;
 using boost::shared_ptr;
 using boost::thread;
 using boost::bind;
@@ -40,72 +43,81 @@ enum {
 	ID_timer
 };
 
-class MemoryLog : public Log
+static int const log_lines = 32;
+
+class MemoryLog : public Log, public Signaller
 {
 public:
 
-	string get () const {
-		boost::mutex::scoped_lock (_mutex);
-		return _log;
+	string head_and_tail (int) const {
+		/* Not necessary */
+		return "";
 	}
 
-	string head_and_tail (int amount = 1024) const {
-		if (int (_log.size ()) < (2 * amount)) {
-			return _log;
-		}
-
-		return _log.substr (0, amount) + _log.substr (_log.size() - amount - 1, amount);
-	}
+	boost::signals2::signal<void(string)> Appended;
+	boost::signals2::signal<void(int)> Removed;
 
 private:
 	void do_log (string m)
 	{
-		_log = m;
+		_lengths.push_back (m.length ());
+		emit (boost::bind (boost::ref (Appended), m));
+		if (_lengths.size() > log_lines) {
+			emit (boost::bind (boost::ref (Removed), _lengths.front()));
+			_lengths.pop_front ();
+		}
 	}
 
-	string _log;
+	list<size_t> _lengths;
 };
 
 static shared_ptr<MemoryLog> memory_log (new MemoryLog);
 
-#ifdef DCPOMATIC_OSX
-class StatusDialog : public wxFrame
-#else
 class StatusDialog : public wxDialog
-#endif
 {
 public:
 	StatusDialog ()
-#ifdef DCPOMATIC_OSX
-		: wxFrame (0, wxID_ANY, _("DCP-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
-#else
-		: wxDialog (0, wxID_ANY, _("DCP-o-matic encode server"), wxDefaultPosition, wxSize (600, 80), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
-#endif
-		, _timer (this, ID_timer)
+		: wxDialog (
+			0, wxID_ANY, _("DCP-o-matic encode server"),
+			wxDefaultPosition, wxDefaultSize,
+			wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
+			)
 	{
-		_sizer = new wxFlexGridSizer (1, 6, 6);
+		_sizer = new wxFlexGridSizer (1, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 		_sizer->AddGrowableCol (0, 1);
 
-		_text = new wxTextCtrl (this, wxID_ANY, _(""), wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
-		_sizer->Add (_text, 1, wxEXPAND);
+		wxClientDC dc (this);
+		wxSize size = dc.GetTextExtent (wxT ("This is the length of the file label it should be quite long"));
+		int const height = (size.GetHeight() + 2) * log_lines;
+		SetSize (700, height + DCPOMATIC_SIZER_GAP * 2);
+
+		_text = new wxTextCtrl (
+			this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize (-1, height),
+			wxTE_READONLY | wxTE_MULTILINE
+			);
+
+		_sizer->Add (_text, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 		SetSizer (_sizer);
 		_sizer->Layout ();
 
-		Bind (wxEVT_TIMER, boost::bind (&StatusDialog::update, this), ID_timer);
-		_timer.Start (1000);
+		memory_log->Appended.connect (bind (&StatusDialog::appended, this, _1));
+		memory_log->Removed.connect (bind (&StatusDialog::removed, this, _1));
 	}
 
 private:
-	void update ()
+	void appended (string s)
 	{
-		_text->ChangeValue (std_to_wx (memory_log->get ()));
-		_sizer->Layout ();
+		(*_text) << s << "\n";
+	}
+
+	void removed (int n)
+	{
+		_text->Remove (0, n + 1);
 	}
 
 	wxFlexGridSizer* _sizer;
 	wxTextCtrl* _text;
-	wxTimer _timer;
 };
 
 class TaskBarIcon : public wxTaskBarIcon
@@ -115,20 +127,16 @@ public:
 	{
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("taskbar_icon"));
-#endif
-
-#ifdef DCPOMATIC_LINUX
+#else
 		wxInitAllImageHandlers();
 		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), LINUX_SHARE_PREFIX), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif
 
-#ifndef DCPOMATIC_OSX
 		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
-#else
-		status ();
-#endif
+
+		_status = new StatusDialog ();
 
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::status, this), ID_status);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::quit, this), ID_quit);
@@ -145,14 +153,15 @@ public:
 private:
 	void status ()
 	{
-		StatusDialog* d = new StatusDialog;
-		d->Show ();
+		_status->Show ();
 	}
 
 	void quit ()
 	{
 		wxTheApp->ExitMainLoop ();
 	}
+
+	StatusDialog* _status;
 };
 
 class App : public wxApp, public ExceptionStore
@@ -177,20 +186,15 @@ private:
 		dcpomatic_setup ();
 		Config::drop ();
 
+		signal_manager = new wxSignalManager (this);
+		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+
 		_icon = new TaskBarIcon;
 		_thread = new thread (bind (&App::main_thread, this));
 
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
-
-#ifdef DCPOMATIC_OSX
-		wxMenu* file = new wxMenu;
-		file->Append (wxID_EXIT, _("&Exit"));
-		wxMenuBar* bar = new wxMenuBar;
-		bar->Append (file, _("&File"));
-		SetMenuBar (bar);
-#endif
 
 		return true;
 	}
@@ -220,6 +224,11 @@ private:
 			error_dialog (0, _("An unknown error has occurred with the DCP-o-matic server."));
 			wxTheApp->ExitMainLoop ();
 		}
+	}
+
+	void idle ()
+	{
+		signal_manager->ui_idle ();
 	}
 
 	boost::thread* _thread;
