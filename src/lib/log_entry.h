@@ -20,6 +20,7 @@
 #ifndef DCPOMATIC_LOG_ENTRY_H
 #define DCPOMATIC_LOG_ENTRY_H
 
+#include <sys/time.h>
 #include <string>
 
 class LogEntry
