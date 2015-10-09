@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>DCP-o-matic 2 Server</string>
 	<key>CFBundleIconFile</key>
-	<string>dcpomatic2.icns</string>
+	<string>dcpomatic2_server.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.dcpomatic.server</string>
 	<key>CFBundleInfoDictionaryVersion</key>
