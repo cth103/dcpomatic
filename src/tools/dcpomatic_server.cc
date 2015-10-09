@@ -116,23 +116,17 @@ public:
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("taskbar_icon"));
 #endif
+
 #ifdef DCPOMATIC_LINUX
 		wxInitAllImageHandlers();
 		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), LINUX_SHARE_PREFIX), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif
+
 #ifndef DCPOMATIC_OSX
 		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
-#endif
-
-#ifdef DCPOMATIC_OSX
-		wxMenu* file = new wxMenu;
-		file->Append (wxID_EXIT, _("&Exit"));
-		wxMenuBar* bar = new wxMenuBar;
-		bar->Append (file, _("&File"));
-		SetMenuBar (bar);
-
+#else
 		status ();
 #endif
 
@@ -189,6 +183,14 @@ private:
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
+
+#ifdef DCPOMATIC_OSX
+		wxMenu* file = new wxMenu;
+		file->Append (wxID_EXIT, _("&Exit"));
+		wxMenuBar* bar = new wxMenuBar;
+		bar->Append (file, _("&File"));
+		SetMenuBar (bar);
+#endif
 
 		return true;
 	}
