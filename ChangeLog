@@ -1,3 +1,13 @@
+2015-10-09  c.hetherington  <cth@carlh.net>
+
+	* Various improvements to server GUI.
+
+	* Package main DCP-o-matic, server and batch
+	converter on all platforms.
+
+	* Add KDM creator application which can
+	make new KDMs given a DKDM.
+
 2015-10-08  Carl Hetherington  <cth@carlh.net>
 
 	* Update to fr_FR translation from Thierry Journet.
