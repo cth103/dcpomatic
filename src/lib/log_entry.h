@@ -35,6 +35,7 @@ public:
 	static const int TYPE_TIMING;
 
 	LogEntry (int type);
+	virtual ~LogEntry () {}
 
 	virtual std::string message () const = 0;
 
