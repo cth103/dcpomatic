@@ -210,7 +210,7 @@ def make_spec(filename, version, target):
     print >>f,'%{_datadir}/applications/dcpomatic2.desktop'
     print >>f,'%{_datadir}/applications/dcpomatic2_batch.desktop'
     print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
-    print >>f,'%{_datadir}/dcpomatic2/taskbar_icon.png'
+    print >>f,'%{_datadir}/dcpomatic2/dcpomatic2_server_small.png'
     print >>f,'%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf'
     print >>f,'%{_datadir}/dcpomatic2/splash.png'
     for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
