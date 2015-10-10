@@ -23,7 +23,7 @@ import sys
 import glob
 import distutils
 import distutils.spawn
-from waflib import Logs
+from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
 VERSION = '2.4.6devel'
@@ -371,6 +371,15 @@ def configure(conf):
                        msg='Checking for boost regex library',
                        lib=['boost_regex%s' % boost_lib_suffix],
                        uselib_store='BOOST_REGEX')
+
+    # libxml++ requires glibmm and versions of glibmm 2.45.31 and later
+    # must be built with -std=c++11 as they use c++11
+    # features and c++11 is not (yet) the default in gcc.
+    glibmm_version = conf.cmd_and_log(['pkg-config', '--modversion', 'glibmm-2.4'], output=Context.STDOUT, quiet=Context.BOTH)
+    s = glibmm_version.split('.')
+    v = (int(s[0]) << 16) | (int(s[1]) << 8) | int(s[2])
+    if v >= 0x022D1F:
+        conf.env.append_value('CXXFLAGS', '-std=c++11')
 
     # Other stuff
 
