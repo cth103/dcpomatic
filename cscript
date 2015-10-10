@@ -207,14 +207,19 @@ def make_spec(filename, version, target):
     print >>f,'%{_bindir}/dcpomatic2_kdm'
     print >>f,'%{_bindir}/dcpomatic2_server'
     print >>f,'%{_bindir}/dcpomatic2_server_cli'
+    print >>f,'%{_bindir}/dcpomatic2_kdm_cli'
     print >>f,'%{_datadir}/applications/dcpomatic2.desktop'
     print >>f,'%{_datadir}/applications/dcpomatic2_batch.desktop'
     print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
+    print >>f,'%{_datadir}/applications/dcpomatic2_kdm.desktop'
     print >>f,'%{_datadir}/dcpomatic2/dcpomatic2_server_small.png'
     print >>f,'%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf'
     print >>f,'%{_datadir}/dcpomatic2/splash.png'
-    for r in ['128x128', '22x22', '32x32', '48x48', '64x64']:
+    for r in ['128x128', '16x16', '22x22', '32x32', '48x48', '64x64']:
         print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
+        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_batch.png' % r
+        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r
+        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r
     for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK']:
         print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l
         print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l
