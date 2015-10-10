@@ -31,8 +31,8 @@ using boost::shared_ptr;
 UpmixerA::UpmixerA (int sampling_rate)
 	: _left (0.02, 1900.0 / sampling_rate, 4800.0 / sampling_rate)
 	, _right (0.02, 1900.0 / sampling_rate, 4800.0 / sampling_rate)
-	, _centre (0.02, 150.0 / sampling_rate, 1900.0 / sampling_rate)
-	, _lfe (0.02, 20.0 / sampling_rate, 150.0 / sampling_rate)
+	, _centre (0.002, 150.0 / sampling_rate, 1900.0 / sampling_rate)
+	, _lfe (0.002, 150.0 / sampling_rate)
 	, _ls (0.02, 4800.0 / sampling_rate, 20000.0 / sampling_rate)
 	, _rs (0.02, 4800.0 / sampling_rate, 20000.0 / sampling_rate)
 {

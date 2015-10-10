@@ -45,7 +45,7 @@ private:
 	BandPassAudioFilter _left;
 	BandPassAudioFilter _right;
 	BandPassAudioFilter _centre;
-	BandPassAudioFilter _lfe;
+	LowPassAudioFilter _lfe;
 	BandPassAudioFilter _ls;
 	BandPassAudioFilter _rs;
 };
