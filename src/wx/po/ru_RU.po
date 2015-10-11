@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-08-29 10:21+0200\n"
+"PO-Revision-Date: 2015-10-11 10:39+0300\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -204,7 +204,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:186
 msgid "Automatically analyse content audio"
-msgstr ""
+msgstr "Автоматически анализировать аудио-контент"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -462,9 +462,8 @@ msgid "Default duration of still images"
 msgstr "Стандартная длительность статичного изображения"
 
 #: src/wx/config_dialog.cc:428
-#, fuzzy
 msgid "Default standard"
-msgstr "Стандартный формат кадра"
+msgstr "Стандарт по умолчанию"
 
 #: src/wx/config_dialog.cc:364
 msgid "Defaults"
@@ -548,9 +547,8 @@ msgid "Errors"
 msgstr "Ошибки"
 
 #: src/wx/config_dialog.cc:668
-#, fuzzy
 msgid "Export"
-msgstr "порт"
+msgstr "Экспорт"
 
 #: src/wx/config_dialog.cc:958
 msgid "Export DCP decryption certificate..."
@@ -572,8 +570,7 @@ msgstr "Постепенное появление"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/dolby_certificate_dialog.cc:78
-#: src/wx/dolby_certificate_dialog.cc:101
+#: src/wx/dolby_certificate_dialog.cc:78 src/wx/dolby_certificate_dialog.cc:101
 #: src/wx/dolby_certificate_dialog.cc:123
 msgid "Fetching..."
 msgstr "Установка..."
@@ -870,7 +867,7 @@ msgstr "Аудио не будет перемещено из канала %d к�
 
 #: src/wx/content_panel.cc:281
 msgid "No content found in this folder."
-msgstr ""
+msgstr "В данной папке не обнаружен контент."
 
 #: src/wx/dcp_panel.cc:691 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:295
@@ -935,14 +932,13 @@ msgid "Peak is %.2fdB at %s"
 msgstr "Пиковая громкость %.2fдБ на %s"
 
 #: src/wx/audio_panel.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "Peak: %.2fdB"
-msgstr "Пиковая громкость %.2f"
+msgstr "Пиковая громкость %.2fдБ"
 
 #: src/wx/audio_panel.cc:297 src/wx/audio_panel.cc:300
-#, fuzzy
 msgid "Peak: unknown"
-msgstr "Неизвестный"
+msgstr "Пиковая громкость: неизвестна"
 
 #: src/wx/film_viewer.cc:69
 msgid "Play"
@@ -1027,7 +1023,7 @@ msgstr "Красная цветность"
 #: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:51
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
-msgstr ""
+msgstr "Ссылаться на существующий DCP"
 
 #: src/wx/config_dialog.cc:666 src/wx/content_menu.cc:68
 #: src/wx/content_panel.cc:85 src/wx/editable_list.h:68
@@ -1091,9 +1087,8 @@ msgid "Root common name"
 msgstr "Root common name"
 
 #: src/wx/config_dialog.cc:1041
-#, fuzzy
 msgid "SCP (for AAM and Doremi)"
-msgstr "SCP (для AAM)"
+msgstr "SCP (для AAM и Doremi)"
 
 #: src/wx/config_dialog.cc:459 src/wx/dcp_panel.cc:155
 msgid "SMPTE"

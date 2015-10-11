@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-08-29 10:13+0200\n"
+"PO-Revision-Date: 2015-10-11 10:34+0300\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -747,12 +747,11 @@ msgstr "Некоторое аудио будет ресемплировано в
 
 #: src/lib/upmixer_a.cc:45
 msgid "Stereo to 5.1 up-mixer A"
-msgstr "Преобразователь стерео в 5.1"
+msgstr "Преобразователь A стерео-->5.1"
 
 #: src/lib/upmixer_b.cc:41
-#, fuzzy
 msgid "Stereo to 5.1 up-mixer B"
-msgstr "Преобразователь стерео в 5.1"
+msgstr "Преобразователь B стерео-->5.1"
 
 #: src/lib/subrip_content.cc:77
 msgid "SubRip subtitles"
@@ -795,6 +794,9 @@ msgid ""
 "operating system try reducing the number of encoding threads in the General "
 "tab of Preferences."
 msgstr ""
+"Недостаточно памяти для выполнения операции. Если у вас 32-битная система, "
+"попробуйте уменьшить число потоков кодирования в Настройках во вкладке "
+"\"Основные\"."
 
 #: src/lib/film.cc:376
 msgid ""
@@ -999,9 +1001,8 @@ msgid "fps"
 msgstr "кадр/сек"
 
 #: src/lib/transcode_job.cc:104
-#, fuzzy
 msgid "frames"
-msgstr "видеокадры"
+msgstr "кадры"
 
 #: src/lib/video_content.cc:580
 msgid "frames per second"
