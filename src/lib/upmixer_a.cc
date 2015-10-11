@@ -45,7 +45,6 @@ UpmixerA::name () const
 	return _("Stereo to 5.1 up-mixer A");
 }
 
-
 string
 UpmixerA::id () const
 {
