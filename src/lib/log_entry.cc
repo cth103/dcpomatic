@@ -28,6 +28,7 @@ int const LogEntry::TYPE_ERROR        = 0x4;
 int const LogEntry::TYPE_DEBUG_DECODE = 0x8;
 int const LogEntry::TYPE_DEBUG_ENCODE = 0x10;
 int const LogEntry::TYPE_TIMING       = 0x20;
+int const LogEntry::TYPE_DEBUG_EMAIL  = 0x40;
 
 using std::string;
 

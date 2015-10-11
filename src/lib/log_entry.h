@@ -33,6 +33,7 @@ public:
 	static const int TYPE_DEBUG_DECODE;
 	static const int TYPE_DEBUG_ENCODE;
 	static const int TYPE_TIMING;
+	static const int TYPE_DEBUG_EMAIL;
 
 	LogEntry (int type);
 	virtual ~LogEntry () {}

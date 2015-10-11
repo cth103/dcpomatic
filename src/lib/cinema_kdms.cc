@@ -25,6 +25,7 @@
 #include "util.h"
 #include "emailer.h"
 #include "compose.hpp"
+#include "log.h"
 #include <zip.h>
 #include <boost/foreach.hpp>
 
@@ -113,9 +114,12 @@ CinemaKDMs::write_zip_files (string film_name, list<CinemaKDMs> cinema_kdms, boo
 	}
 }
 
+/** @param log Log to write email session transcript to, or 0 */
 /* XXX: should probably get from/to from the KDMs themselves */
 void
-CinemaKDMs::email (string film_name, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Job> job)
+CinemaKDMs::email (
+	string film_name, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Job> job, shared_ptr<Log> log
+	)
 {
 	Config* config = Config::instance ();
 
@@ -159,5 +163,9 @@ CinemaKDMs::email (string film_name, string cpl_name, list<CinemaKDMs> cinema_kd
 		string const name = tidy_for_filename(i.cinema->name) + "_" + tidy_for_filename(film_name) + ".zip";
 		email.add_attachment (zip_file, name, "application/zip");
 		email.send (job);
+
+		if (log) {
+			log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
+		}
 	}
 }

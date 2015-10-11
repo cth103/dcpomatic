@@ -460,7 +460,8 @@ private:
 								 _film->dcp_name(),
 								 d->from(),
 								 d->until(),
-								 CinemaKDMs::collect (screen_kdms)
+								 CinemaKDMs::collect (screen_kdms),
+								 _film->log()
 								 ))
 					);
 			}

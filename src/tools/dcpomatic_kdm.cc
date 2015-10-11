@@ -285,7 +285,8 @@ private:
 							     film_name,
 							     decrypted.content_title_text(),
 							     _timing->from(), _timing->until(),
-							     CinemaKDMs::collect (screen_kdms)
+							     CinemaKDMs::collect (screen_kdms),
+							     shared_ptr<Log> ()
 							     ));
 
 				JobManager::instance()->add (job);

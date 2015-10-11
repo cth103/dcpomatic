@@ -1,5 +1,8 @@
 2015-10-11  Carl Hetherington  <cth@carlh.net>
 
+	* Add option to log SMTP session transcripts
+	for debugging failures to send email.
+
 	* Provide progress indication when finding
 	subtitles (#711).
 

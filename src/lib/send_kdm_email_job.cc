@@ -29,12 +29,14 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 
+/** @param log Log to write to, or 0 */
 SendKDMEmailJob::SendKDMEmailJob (
 	string film_name,
 	string cpl_name,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime to,
-	list<CinemaKDMs> cinema_kdms
+	list<CinemaKDMs> cinema_kdms,
+	shared_ptr<Log> log
 	)
 	: Job (shared_ptr<Film>())
 	, _film_name (film_name)
@@ -42,6 +44,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 	, _from (from)
 	, _to (to)
 	, _cinema_kdms (cinema_kdms)
+	, _log (log)
 {
 
 }
@@ -66,7 +69,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	CinemaKDMs::email (_film_name, _cpl_name, _cinema_kdms,	_from, _to, shared_from_this ());
+	CinemaKDMs::email (_film_name, _cpl_name, _cinema_kdms,	_from, _to, shared_from_this(), _log);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

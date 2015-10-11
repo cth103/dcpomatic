@@ -23,6 +23,7 @@
 
 class Screen;
 class CinemaKDMs;
+class Log;
 
 class SendKDMEmailJob : public Job
 {
@@ -32,7 +33,8 @@ public:
 		std::string cpl_name,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime to,
-		std::list<CinemaKDMs> cinema_kdms
+		std::list<CinemaKDMs> cinema_kdms,
+		boost::shared_ptr<Log> log
 		);
 
 	std::string name () const;
@@ -45,4 +47,5 @@ private:
 	boost::posix_time::ptime _from;
 	boost::posix_time::ptime _to;
 	std::list<CinemaKDMs> _cinema_kdms;
+	boost::shared_ptr<Log> _log;
 };
