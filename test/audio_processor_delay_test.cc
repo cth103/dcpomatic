@@ -90,7 +90,6 @@ BOOST_AUTO_TEST_CASE (audio_processor_delay_test2)
 	/* Feeding 4 blocks of 64 should give silence each time */
 
 	for (int i = 0; i < 4; ++i) {
-		cout << "i=" << i << "\n";
 		shared_ptr<AudioBuffers> in (new AudioBuffers (C, 64));
 		for (int j = 0; j < C; ++j) {
 			for (int k = 0; k < 64; ++k) {
