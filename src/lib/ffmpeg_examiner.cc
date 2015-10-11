@@ -76,13 +76,14 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
 	if (!_need_video_length) {
 		_video_length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get ();
-	} else if (job) {
-		job->sub (_("Finding length"));
-		job->set_progress_unknown ();
 	}
 
 	if (job) {
-		job->sub (_("Finding subtitles"));
+		if (_need_video_length) {
+			job->sub (_("Finding length and subtitles"));
+		} else {
+			job->sub (_("Finding subtitles"));
+		}
 	}
 
 	/* Run through until we find:
@@ -95,6 +96,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 * so they are ok).
 	 */
 
+	int64_t const len = _file_group.length ();
 	while (true) {
 		int r = av_read_frame (_format_context, &_packet);
 		if (r < 0) {
@@ -102,7 +104,11 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 
 		if (job) {
-			job->set_progress_unknown ();
+			if (len > 0) {
+				job->set_progress (float (_format_context->pb->pos) / len);
+			} else {
+				job->set_progress_unknown ();
+			}
 		}
 
 		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;

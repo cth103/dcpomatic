@@ -1,5 +1,8 @@
 2015-10-11  Carl Hetherington  <cth@carlh.net>
 
+	* Provide progress indication when finding
+	subtitles (#711).
+
 	* Updated ru_RU translation from Igor Voytovich.
 
 	* Updated pl_PL translation from Marek Skrzelowski.
