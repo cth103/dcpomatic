@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-06-11 19:19+0100\n"
+"PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: src/lib/dcp_content.cc:121
 msgid "%1 [DCP]"
-msgstr ""
+msgstr "%1 [DCP]"
 
 #: src/lib/sndfile_content.cc:68
 msgid "%1 [audio]"
@@ -53,11 +53,11 @@ msgstr "4:3"
 
 #: src/lib/ratio.cc:37
 msgid "Academy"
-msgstr "1.38"
+msgstr "1.33"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Advertisement"
-msgstr "Reklamowy"
+msgstr "Reklama"
 
 #: src/lib/job.cc:88
 msgid "An error occurred whilst handling the file %1."
@@ -69,7 +69,7 @@ msgstr "Analizuj dźwięk"
 
 #: src/lib/single_stream_audio_content.cc:95
 msgid "Audio channels"
-msgstr ""
+msgstr "Kanały dźwiękowe"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -85,60 +85,60 @@ msgstr "Dźwięk nie będzie przesamplowany."
 
 #: src/lib/ffmpeg_content.cc:435
 msgid "BT1361 extended colour gamut"
-msgstr ""
+msgstr "BT1361 rozszerzony gamut"
 
 #: src/lib/ffmpeg_content.cc:416
 msgid "BT2020"
-msgstr ""
+msgstr "BT2020"
 
 #: src/lib/ffmpeg_content.cc:455
 msgid "BT2020 constant luminance"
-msgstr ""
+msgstr "BT2020 stała luminancja"
 
 #: src/lib/ffmpeg_content.cc:437
 msgid "BT2020 for a 10-bit system"
-msgstr ""
+msgstr "BT2020 dla systemów 10 bitowych"
 
 #: src/lib/ffmpeg_content.cc:438
 msgid "BT2020 for a 12-bit system"
-msgstr ""
+msgstr "BT2020 dla systemów 12 bitowych"
 
 #: src/lib/ffmpeg_content.cc:454
 msgid "BT2020 non-constant luminance"
-msgstr ""
+msgstr "BT2020 zmienna luminancja"
 
 #: src/lib/ffmpeg_content.cc:412
 msgid "BT470BG"
-msgstr ""
+msgstr "BT470BG"
 
 #: src/lib/ffmpeg_content.cc:450
 msgid "BT470BG (BT601-6)"
-msgstr ""
+msgstr "BT470BG (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:411
 msgid "BT470M"
-msgstr ""
+msgstr "BT470M"
 
 #: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:424
 #: src/lib/ffmpeg_content.cc:446
 msgid "BT709"
-msgstr ""
+msgstr "BT709"
 
 #: src/lib/ffmpeg_content.cc:462
 msgid "Bits per pixel"
-msgstr ""
+msgstr "Bitów na piksel"
 
 #: src/lib/film.cc:1244
 msgid "BsL"
-msgstr ""
+msgstr "BsL"
 
 #: src/lib/film.cc:1245
 msgid "BsR"
-msgstr ""
+msgstr "BsR"
 
 #: src/lib/film.cc:1236
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/lib/job.cc:368
 msgid "Cancelled"
@@ -150,29 +150,29 @@ msgstr "Nie można było obsłużyć formatu %1 kiedy %2"
 
 #: src/lib/util.cc:485
 msgid "Centre"
-msgstr "Środek"
+msgstr "Centralny"
 
 #: src/lib/writer.cc:122
 msgid "Checking existing image data"
-msgstr "Sprwdzanie istniejących danych obrazu"
+msgstr "Sprawdzanie danych obrazu"
 
 #: src/lib/ffmpeg_content.cc:420
 msgid "Colour primaries"
-msgstr ""
+msgstr "Kolory podstawowe"
 
 #: src/lib/ffmpeg_content.cc:379 src/lib/ffmpeg_content.cc:382
 #: src/lib/ffmpeg_content.cc:385 src/lib/ffmpeg_content.cc:393
 #: src/lib/ffmpeg_content.cc:396 src/lib/ffmpeg_content.cc:399
 msgid "Colour range"
-msgstr ""
+msgstr "Rozpiętość tonalna"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Colour transfer characteristic"
-msgstr ""
+msgstr "Charakterystyka przenoszenia kolorystyki"
 
 #: src/lib/ffmpeg_content.cc:459
 msgid "Colourspace"
-msgstr ""
+msgstr "Przestrzeń kolorów"
 
 #: src/lib/writer.cc:654
 msgid "Computing audio digest"
@@ -188,19 +188,21 @@ msgstr "Obliczanie danych obrazu"
 
 #: src/lib/frame_rate_change.cc:86
 msgid "Content and DCP have the same rate.\n"
-msgstr "Plik i DCP mają taką samą ilość kl/s.\n"
+msgstr "Plik obrazu i DCP mają taką samą ilość kl/s.\n"
 
 #: src/lib/video_content.cc:566
 msgid "Content frame rate"
-msgstr "Ilość kl/s pliku to"
+msgstr "Prędkość kl/s pliku video"
 
 #: src/lib/subtitle_content.cc:127
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
+"Łączone pliki muszą mieć takie same ustawienia w sekcji \"wypal napisy\"."
 
 #: src/lib/subtitle_content.cc:123
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
+"Łączone pliki muszą mieć takie same ustawienia w sekcji \"użyj napisy\"."
 
 #: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio delay."
@@ -220,7 +222,7 @@ msgstr "Łączone pliki muszą mieć takie samo kadrowanie."
 
 #: src/lib/video_content.cc:173
 msgid "Content to be joined must have the same fades."
-msgstr ""
+msgstr "Łączone pliki muszą mieć takie same wyciemnienia."
 
 #: src/lib/video_content.cc:149
 msgid "Content to be joined must have the same picture size."
@@ -256,7 +258,7 @@ msgstr "Łączone pliki muszą mieć taki sam typ klatki."
 
 #: src/lib/subtitle_content.cc:148 src/lib/subtitle_content.cc:156
 msgid "Content to be joined must use the same fonts."
-msgstr ""
+msgstr "Łączone pliki muszą mieć takie same czcionki."
 
 #: src/lib/ffmpeg_content.cc:130
 msgid "Content to be joined must use the same subtitle stream."
@@ -264,7 +266,7 @@ msgstr "Łączone pliki muszą używać tego samego strumienia napisów."
 
 #: src/lib/video_content.cc:515
 msgid "Content video is %1x%2"
-msgstr "Rozdzielczość materiału to %1x%2"
+msgstr "Rozdzielczość pliku video %1x%2"
 
 #: src/lib/upload_job.cc:52
 msgid "Copy DCP to TMS"
@@ -280,7 +282,7 @@ msgstr "Nie można utworzyć folderu zdalnego %1 (%2)"
 
 #: src/lib/image_examiner.cc:62
 msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr ""
+msgstr "Nie można odkodować pliku JPEG2000 %1 (%2)"
 
 #: src/lib/magick_image_proxy.cc:101
 msgid "Could not decode image file (%1)"
@@ -308,16 +310,15 @@ msgstr "Nie udało się otworzyć pobranego archiwum ZIP"
 
 #: src/lib/dcp_subtitle.cc:49
 msgid "Could not read subtitles"
-msgstr ""
+msgstr "Nie udało się odczytać napisów"
 
 #: src/lib/scp_uploader.cc:70
 msgid "Could not start SCP session (%1)"
 msgstr "Nie udało się rozpocząć sesji SCP (%1)"
 
 #: src/lib/curl_uploader.cc:48
-#, fuzzy
 msgid "Could not start transfer"
-msgstr "nie udało się uruchomić sesji SSH"
+msgstr "Nie udało się rozpocząć transferu"
 
 #: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
 msgid "Could not write to remote file (%1)"
@@ -329,7 +330,7 @@ msgstr "Przycięty do"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
-msgstr ""
+msgstr "Napisy DCP XML"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -408,20 +409,19 @@ msgstr "Wyślij klucze do %1"
 
 #: src/lib/send_problem_report_job.cc:50
 msgid "Email problem report for %1"
-msgstr ""
+msgstr "Wyślij raport błędu do %1"
 
 #: src/lib/writer.cc:154
 msgid "Encoding image data"
-msgstr "Kodowanie obrazu"
+msgstr "Kodowanie danych obrazu"
 
 #: src/lib/exceptions.cc:66
 msgid "Error in SubRip file: saw %1 while expecting %2"
-msgstr ""
+msgstr "Błąd w pliku SRT: jest %1, powinno być %2"
 
 #: src/lib/job.cc:366
-#, fuzzy
 msgid "Error: %1"
-msgstr "Błąd (%1)"
+msgstr "Błąd %1"
 
 #: src/lib/examine_content_job.cc:47
 msgid "Examine content"
@@ -429,7 +429,7 @@ msgstr "Sprawdzanie materiału"
 
 #: src/lib/ffmpeg_content.cc:449
 msgid "FCC"
-msgstr ""
+msgstr "FCC"
 
 #: src/lib/scp_uploader.cc:60
 msgid "Failed to authenticate with server (%1)"
@@ -441,15 +441,15 @@ msgstr "Pełnometrażowy"
 
 #: src/lib/ffmpeg_content.cc:415
 msgid "Film"
-msgstr ""
+msgstr "Film"
 
 #: src/lib/ffmpeg_examiner.cc:80
 msgid "Finding length"
-msgstr "Ustalanie długości"
+msgstr "Szukanie czasu trwania"
 
 #: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
-msgstr ""
+msgstr "Szukanie napisów"
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
@@ -457,11 +457,11 @@ msgstr "1.85"
 
 #: src/lib/ffmpeg_content.cc:399
 msgid "Full"
-msgstr ""
+msgstr "Full"
 
 #: src/lib/ffmpeg_content.cc:385
 msgid "Full (0-%1)"
-msgstr ""
+msgstr "Full (0-%1)"
 
 #: src/lib/ratio.cc:42
 msgid "Full frame"
@@ -469,11 +469,11 @@ msgstr "Pełna klatka"
 
 #: src/lib/ffmpeg_content.cc:427
 msgid "Gamma 22 (BT470M)"
-msgstr ""
+msgstr "Gamma 22 (BT470M)"
 
 #: src/lib/ffmpeg_content.cc:428
 msgid "Gamma 28 (BT470BG)"
-msgstr ""
+msgstr "Gamma 28 (BT470BG)"
 
 #: src/lib/filter.cc:68
 msgid "Gradient debander"
@@ -481,7 +481,7 @@ msgstr "Zachowaj przejścia tonalne"
 
 #: src/lib/film.cc:1240
 msgid "HI"
-msgstr ""
+msgstr "HI"
 
 #: src/lib/util.cc:489
 msgid "Hearing impaired"
@@ -493,24 +493,23 @@ msgstr "Odszumianie 3D wysokiej jakości"
 
 #: src/lib/ffmpeg_content.cc:436
 msgid "IEC61966-2-1 (sRGB or sYCC)"
-msgstr ""
+msgstr "IEC61966-2-1 (sRGB or sYCC)"
 
 #: src/lib/ffmpeg_content.cc:434
 msgid "IEC61966-2-4"
-msgstr ""
+msgstr "IEC61966-2-4"
 
 #: src/lib/job.cc:124 src/lib/job.cc:145 src/lib/job.cc:155
 msgid "It is not known what caused this error."
-msgstr ""
+msgstr "Nieznany błąd"
 
 #: src/lib/config.cc:94
-#, fuzzy
 msgid "KDM delivery"
-msgstr "Wysyłka klucza: $CPL_NAME"
+msgstr "Wysyłanie klucza"
 
 #: src/lib/config.cc:225
 msgid "KDM delivery: $CPL_NAME"
-msgstr "Wysyłka klucza: $CPL_NAME"
+msgstr "Wysyłanie klucza: $CPL_NAME"
 
 #: src/lib/filter.cc:66
 msgid "Kernel deinterlacer"
@@ -518,11 +517,11 @@ msgstr "Usuwanie przeplotu metodą Kernel"
 
 #: src/lib/film.cc:1234
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: src/lib/film.cc:1242
 msgid "Lc"
-msgstr ""
+msgstr "Lc"
 
 #: src/lib/mid_side_decoder.cc:97 src/lib/util.cc:483
 msgid "Left"
@@ -542,7 +541,7 @@ msgstr "Lewy surround"
 
 #: src/lib/film.cc:1237
 msgid "Lfe"
-msgstr ""
+msgstr "Lfe"
 
 #: src/lib/util.cc:486
 msgid "Lfe (sub)"
@@ -550,31 +549,31 @@ msgstr "Lfe (subwoofer)"
 
 #: src/lib/ffmpeg_content.cc:396
 msgid "Limited"
-msgstr ""
+msgstr "Ograniczony"
 
 #: src/lib/ffmpeg_content.cc:382
 msgid "Limited (%1-%2)"
-msgstr ""
+msgstr "Ograniczony (%1-%2)"
 
 #: src/lib/ffmpeg_content.cc:431
 msgid "Linear"
-msgstr ""
+msgstr "Liniowy"
 
 #: src/lib/ffmpeg_content.cc:432
 msgid "Logarithmic (100:1 range)"
-msgstr ""
+msgstr "Logarytmiczny (100:1 range)"
 
 #: src/lib/ffmpeg_content.cc:433
 msgid "Logarithmic (316:1 range)"
-msgstr ""
+msgstr "Logarytmiczny (316:1 range)"
 
 #: src/lib/film.cc:1238
 msgid "Ls"
-msgstr ""
+msgstr "Ls"
 
 #: src/lib/mid_side_decoder.cc:34
 msgid "Mid-side decoder"
-msgstr ""
+msgstr "Dekoder Mid-side"
 
 #: src/lib/filter.cc:68 src/lib/filter.cc:69 src/lib/filter.cc:72
 msgid "Misc"
@@ -582,19 +581,19 @@ msgstr "Różne"
 
 #: src/lib/dcp_examiner.cc:95
 msgid "Mismatched audio channel counts in DCP"
-msgstr ""
+msgstr "Nieprawidłowa ilość kanałów dźwiękowych w DCP"
 
 #: src/lib/dcp_examiner.cc:101
 msgid "Mismatched audio frame rates in DCP"
-msgstr ""
+msgstr "Nieprawidłowa prędkość ścieżki dźwiękowej w DCP"
 
 #: src/lib/dcp_examiner.cc:76
 msgid "Mismatched frame rates in DCP"
-msgstr ""
+msgstr "Nieprawidłowa prędkość kl/s  w DCP"
 
 #: src/lib/dcp_examiner.cc:83
 msgid "Mismatched video sizes in DCP"
-msgstr ""
+msgstr "Nieprawidłowy rozmiar pliku video w DCP"
 
 #: src/lib/filter.cc:65
 msgid "Motion compensating deinterlacer"
@@ -618,11 +617,11 @@ msgstr "Redukcja szumu"
 
 #: src/lib/job.cc:364
 msgid "OK (ran for %1)"
-msgstr "OK (minęło %1)"
+msgstr "OK (czas trwania %1)"
 
 #: src/lib/content.cc:107
 msgid "Only the first piece of content to be joined can have a start trim."
-msgstr "Tylko pierwszy z łączonych plików może być przycięta na początku."
+msgstr "Tylko pierwszy z łączonych plików może być przycięty na początku."
 
 #: src/lib/content.cc:111
 msgid "Only the last piece of content to be joined can have an end trim."
@@ -638,11 +637,11 @@ msgstr "Odszumianie DWT"
 
 #: src/lib/colour_conversion.cc:266
 msgid "P3"
-msgstr ""
+msgstr "P3"
 
 #: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
-msgstr ""
+msgstr "Dodana czarna kaszeta, aby dopasować do formatu %1 (%2x%3)"
 
 #: src/lib/dcp_content_type.cc:52
 msgid "Policy"
@@ -658,11 +657,11 @@ msgstr "Komunikat publiczny"
 
 #: src/lib/film.cc:1235
 msgid "R"
-msgstr ""
+msgstr "R"
 
 #: src/lib/ffmpeg_content.cc:445
 msgid "RGB / sRGB (IEC61966-2-1)"
-msgstr ""
+msgstr "RGB / sRGB (IEC61966-2-1)"
 
 #: src/lib/dcp_content_type.cc:50
 msgid "Rating"
@@ -670,7 +669,7 @@ msgstr "Klasyfikacja"
 
 #: src/lib/film.cc:1243
 msgid "Rc"
-msgstr ""
+msgstr "Rc"
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 601"
@@ -690,7 +689,7 @@ msgstr "Prawy centralny"
 
 #: src/lib/util.cc:494
 msgid "Right rear surround"
-msgstr "Prawy centralny surround"
+msgstr "Prawy tylny surround"
 
 #: src/lib/util.cc:488
 msgid "Right surround"
@@ -698,20 +697,20 @@ msgstr "Prawy surround"
 
 #: src/lib/film.cc:1239
 msgid "Rs"
-msgstr ""
+msgstr "Rs"
 
 #: src/lib/ffmpeg_content.cc:413 src/lib/ffmpeg_content.cc:429
 msgid "SMPTE 170M (BT601)"
-msgstr ""
+msgstr "SMPTE 170M (BT601)"
 
 #: src/lib/ffmpeg_content.cc:451
 msgid "SMPTE 170M (BT601-6)"
-msgstr ""
+msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:414 src/lib/ffmpeg_content.cc:430
 #: src/lib/ffmpeg_content.cc:452
 msgid "SMPTE 240M"
-msgstr ""
+msgstr "SMPTE 240M"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
@@ -727,7 +726,7 @@ msgstr "2.39"
 
 #: src/lib/send_problem_report_job.cc:62
 msgid "Sending email"
-msgstr ""
+msgstr "Wysyłam wiadomość"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Short"
@@ -735,19 +734,19 @@ msgstr "Krótkometrażowy"
 
 #: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
-msgstr ""
+msgstr "Cześć ścieżki dźwiękowej będzie przesamplowana do %1kHz"
 
 #: src/lib/upmixer_a.cc:45
 msgid "Stereo to 5.1 up-mixer A"
-msgstr ""
+msgstr "Miksuj 2.0 do 5.1 wersja A"
 
 #: src/lib/upmixer_b.cc:41
 msgid "Stereo to 5.1 up-mixer B"
-msgstr ""
+msgstr "Miksuj 2.0 do 5.1 wersja B"
 
 #: src/lib/subrip_content.cc:77
 msgid "SubRip subtitles"
-msgstr ""
+msgstr "Napisy SRT"
 
 #: src/lib/dcp_content_type.cc:51
 msgid "Teaser"
@@ -764,11 +763,11 @@ msgstr "Testowy"
 #: src/lib/dcp_examiner.cc:133
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
-msgstr ""
+msgstr "Klucz nie rozszyfruje DCP. Być może jest wygenerowany dla innego CPL."
 
 #: src/lib/exceptions.cc:72
 msgid "The certificate chain for signing is invalid"
-msgstr ""
+msgstr "Certyfikat jest nieprawidłowy"
 
 #: src/lib/job.cc:94
 msgid ""
@@ -784,6 +783,8 @@ msgid ""
 "operating system try reducing the number of encoding threads in the General "
 "tab of Preferences."
 msgstr ""
+"Brakuje pamięci, aby wykonać tą operację. Jeśli twój system jest 32 bitowy "
+"spróbuj zmniejszyć liczbę wątków kodujących."
 
 #: src/lib/film.cc:376
 msgid ""
@@ -841,7 +842,7 @@ msgstr "Wyostrzanie i filtr Gausowski"
 #: src/lib/ffmpeg_content.cc:425 src/lib/ffmpeg_content.cc:426
 #: src/lib/ffmpeg_content.cc:447 src/lib/ffmpeg_content.cc:448
 msgid "Unspecified"
-msgstr ""
+msgstr "Nieokreślony"
 
 #: src/lib/colour_conversion.cc:222
 msgid "Untitled"
@@ -849,27 +850,27 @@ msgstr "Nowy"
 
 #: src/lib/upmixer_a.cc:127 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
-msgstr ""
+msgstr "Upmix L"
 
 #: src/lib/upmixer_a.cc:128 src/lib/upmixer_b.cc:137
 msgid "Upmix R"
-msgstr ""
+msgstr "Upmix R"
 
 #: src/lib/film.cc:1241
 msgid "VI"
-msgstr ""
+msgstr "VI"
 
 #: src/lib/video_content.cc:580
 msgid "Video frame rate"
-msgstr ""
+msgstr "Prękość kl/s"
 
 #: src/lib/video_content.cc:578
 msgid "Video length"
-msgstr ""
+msgstr "Czas trwania"
 
 #: src/lib/video_content.cc:579
 msgid "Video size"
-msgstr ""
+msgstr "Rozdzielczość"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"
@@ -881,7 +882,7 @@ msgstr "Czekam"
 
 #: src/lib/ffmpeg_content.cc:453
 msgid "YCOCG"
-msgstr ""
+msgstr "YCOCG"
 
 #: src/lib/filter.cc:67
 msgid "Yet Another Deinterlacing Filter"
@@ -901,7 +902,7 @@ msgstr "[stopklatka]"
 
 #: src/lib/dcp_subtitle_content.cc:94 src/lib/subrip_content.cc:71
 msgid "[subtitles]"
-msgstr ""
+msgstr "[napisy]"
 
 #: src/lib/film.cc:268
 msgid "cannot contain slashes"
@@ -917,11 +918,11 @@ msgstr "łączenie"
 
 #: src/lib/film.cc:287
 msgid "container"
-msgstr "kontener"
+msgstr "format"
 
 #: src/lib/film.cc:295
 msgid "content type"
-msgstr "typ kontentu"
+msgstr "typ DCP"
 
 #: src/lib/uploader.cc:72
 msgid "copying %1"
@@ -937,11 +938,11 @@ msgstr "nie udało się znaleźć właściwości strumienia"
 
 #: src/lib/writer.cc:542
 msgid "could not move audio asset into the DCP (%1)"
-msgstr ""
+msgstr "nie udało się przenieść dźwięku (%1)"
 
 #: src/lib/sndfile_base.cc:47
 msgid "could not open audio file for reading"
-msgstr ""
+msgstr "nie udało się otworzyć pliku dźwiękowego"
 
 #: src/lib/exceptions.cc:29
 msgid "could not open file %1"
@@ -953,11 +954,11 @@ msgstr "nie udało się odczytać pliku"
 
 #: src/lib/data.cc:62
 msgid "could not read from file"
-msgstr ""
+msgstr "nie udało się odczytać pliku"
 
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"
-msgstr "nie udało czytać z pliku %1 (%2)"
+msgstr "nie udało się odczytać z pliku %1 (%2)"
 
 #: src/lib/scp_uploader.cc:65
 msgid "could not start SCP session (%1)"
@@ -985,12 +986,11 @@ msgstr "Nastąpił błąd podczas async_write (%1)"
 
 #: src/lib/transcode_job.cc:105
 msgid "fps"
-msgstr ""
+msgstr "kl/s"
 
 #: src/lib/transcode_job.cc:104
-#, fuzzy
 msgid "frames"
-msgstr "Pełna klatka"
+msgstr "klatek"
 
 #: src/lib/video_content.cc:580
 msgid "frames per second"
@@ -999,12 +999,12 @@ msgstr "klatek na sekundę"
 #. / TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:142 src/lib/util.cc:145
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:157 src/lib/util.cc:160
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/lib/exceptions.cc:54
 msgid "missing required setting %1"
@@ -1012,7 +1012,7 @@ msgstr "brakuje wymaganych ustawień %1"
 
 #: src/lib/image_content.cc:93
 msgid "moving"
-msgstr ""
+msgstr "przenoszenie"
 
 #: src/lib/ffmpeg_decoder.cc:416
 msgid "multi-part subtitles not yet supported"
@@ -1035,7 +1035,7 @@ msgstr "pozostało"
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:171
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/lib/colour_conversion.cc:263
 msgid "sRGB"
@@ -1043,7 +1043,7 @@ msgstr "sRGB"
 
 #: src/lib/image_content.cc:91
 msgid "still"
-msgstr ""
+msgstr "stopklatka"
 
 #: src/lib/ffmpeg_examiner.cc:295
 msgid "unknown"
@@ -1051,7 +1051,7 @@ msgstr "nieznany"
 
 #: src/lib/video_content.cc:578
 msgid "video frames"
-msgstr ""
+msgstr "klatki obrazu"
 
 #~ msgid "There was not enough memory to do this."
 #~ msgstr "Zabrakło pamięci RAM."

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-05-19 14:51+0100\n"
+"PO-Revision-Date: 2015-10-10 19:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.7\n"
+"X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -25,11 +25,11 @@ msgstr "%1 już istnieje jako plik, więc nie możesz go użyć w Nowy Film."
 
 #: src/tools/dcpomatic_batch.cc:50
 msgid "&Add Film..."
-msgstr "&Dodaj Film..."
+msgstr "&Dodaj Film"
 
 #: src/tools/dcpomatic.cc:722
 msgid "&Content"
-msgstr "&Zawartość"
+msgstr "&Dopasuj"
 
 #: src/tools/dcpomatic.cc:720
 msgid "&Edit"
@@ -57,11 +57,11 @@ msgstr "&Stwórz DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:669
 msgid "&Open...\tCtrl-O"
-msgstr "&Otwórz...\tCtrl-O"
+msgstr "&Otwórz\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:686 src/tools/dcpomatic.cc:689
 msgid "&Preferences...\tCtrl-P"
-msgstr "&Preferencje...\tCtrl-P"
+msgstr "&Preferencje\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:682 src/tools/dcpomatic_batch.cc:51
 msgid "&Quit"
@@ -92,12 +92,12 @@ msgid "Add Film..."
 msgstr "Dodaj Film"
 
 #: src/tools/dcpomatic.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
-"Wystąpił nieznany błąd: %s (%s).\n"
+"Wystąpił błąd: %s (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:934
@@ -106,6 +106,8 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
+"Wystąpił błąd: %s.\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:460 src/tools/dcpomatic.cc:939
 #: src/tools/dcpomatic.cc:948
@@ -162,7 +164,7 @@ msgstr "DCP-o-matic Konwersja Hurtowa"
 
 #: src/tools/dcpomatic.cc:705
 msgid "Encoding servers..."
-msgstr "Serwery kodujące..."
+msgstr "Serwery kodujące"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
@@ -172,19 +174,19 @@ msgstr "Film został zmodyfikowany"
 
 #: src/tools/dcpomatic.cc:704
 msgid "Hints..."
-msgstr "Wskazówki..."
+msgstr "Wskazówki"
 
 #: src/tools/dcpomatic.cc:698
 msgid "Make &KDMs...\tCtrl-K"
-msgstr "Stwórz &KDM...\tCtrl-K"
+msgstr "Stwórz &KDM\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:668
 msgid "New...\tCtrl-N"
-msgstr "Nowy...\tCtrl-N"
+msgstr "Nowy\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:716
 msgid "Report a problem..."
-msgstr ""
+msgstr "Zgłoś błąd"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Restore default preferences"
@@ -201,11 +203,11 @@ msgstr "Czy zapisać zmiany w  \"%s\" przed zakończeniem?"
 
 #: src/tools/dcpomatic.cc:694
 msgid "Scale to fit &height"
-msgstr "Dopasuj do &wysokość"
+msgstr "Dopasuj do &wysokości"
 
 #: src/tools/dcpomatic.cc:693
 msgid "Scale to fit &width"
-msgstr "Dopasuj do &szerokość"
+msgstr "Dopasuj do &szerokości"
 
 #: src/tools/dcpomatic.cc:349 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
@@ -268,7 +270,7 @@ msgstr "Nieukończone zadania"
 
 #: src/tools/dcpomatic.cc:703
 msgid "Video waveform..."
-msgstr ""
+msgstr "Analiza pliku video"
 
 #: src/tools/dcpomatic.cc:358 src/tools/dcpomatic_batch.cc:161
 msgid ""
