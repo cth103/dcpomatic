@@ -29,7 +29,7 @@ using std::vector;
 using boost::shared_ptr;
 
 UpmixerB::UpmixerB (int sampling_rate)
-	: _lfe (0.02, 20.0 / sampling_rate, 150.0 / sampling_rate)
+	: _lfe (0.002, 150.0 / sampling_rate)
 	, _delay (0.02 * sampling_rate)
 {
 
