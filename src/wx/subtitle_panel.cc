@@ -335,6 +335,7 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 	film_content_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
 	film_content_changed (SubtitleContentProperty::FONTS);
+	film_content_changed (DCPContentProperty::REFERENCE_SUBTITLE);
 }
 
 void
