@@ -40,6 +40,6 @@ public:
 	std::vector<std::string> input_names () const;
 
 private:
-	BandPassAudioFilter _lfe;
+	LowPassAudioFilter _lfe;
 	AudioDelay _delay;
 };
