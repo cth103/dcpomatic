@@ -3,6 +3,10 @@
 	* Add option to log SMTP session transcripts
 	for debugging failures to send email.
 
+	* Version 2.4.9 released.
+
+2015-10-11  Carl Hetherington  <cth@carlh.net>
+
 	* Provide progress indication when finding
 	subtitles (#711).
 
