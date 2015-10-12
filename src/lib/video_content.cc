@@ -579,3 +579,11 @@ VideoContent::add_properties (list<pair<string, string> >& p) const
 	p.push_back (make_pair (_("Video size"), raw_convert<string> (video_size().width) + "x" + raw_convert<string> (video_size().height)));
 	p.push_back (make_pair (_("Video frame rate"), raw_convert<string> (video_frame_rate()) + " " + _("frames per second")));
 }
+
+list<DCPTime>
+VideoContent::reel_split_points () const
+{
+	list<DCPTime> t;
+	t.push_back (position ());
+	return t;
+}

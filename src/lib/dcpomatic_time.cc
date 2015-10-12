@@ -88,3 +88,10 @@ operator<< (ostream& s, DCPTime t)
 	s << "[DCP " << t.get() << " " << t.seconds() << "s]";
 	return s;
 }
+
+ostream &
+operator<< (ostream& s, DCPTimePeriod p)
+{
+	s << "[DCP " << p.from.get() << " " << p.from.seconds() << "s -> " << p.to.get() << " " << p.to.seconds() << "s]";
+	return s;
+}

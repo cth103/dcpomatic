@@ -37,6 +37,7 @@ class Data;
 class AudioBuffers;
 class Job;
 class Font;
+class ReferencedReelAsset;
 
 namespace dcp {
 	class MonoPictureAsset;
@@ -108,7 +109,7 @@ public:
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
-	void write (boost::shared_ptr<dcp::ReelAsset> reel_asset);
+	void write (ReferencedReelAsset asset);
 	void finish ();
 
 	void set_encoder_threads (int threads);
@@ -182,7 +183,7 @@ private:
 	*/
 	int _pushed_to_disk;
 
-	std::list<boost::shared_ptr<dcp::ReelAsset> > _reel_assets;
+	std::list<ReferencedReelAsset> _reel_assets;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
 

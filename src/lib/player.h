@@ -37,6 +37,7 @@ class PlayerVideo;
 class Playlist;
 class Font;
 class AudioBuffers;
+class ReferencedReelAsset;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist.
@@ -50,7 +51,7 @@ public:
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
 	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt);
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
-	std::list<boost::shared_ptr<dcp::ReelAsset> > get_reel_assets ();
+	std::list<ReferencedReelAsset> get_reel_assets ();
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();

@@ -46,6 +46,7 @@
 #include "dcp_subtitle_decoder.h"
 #include "audio_processor.h"
 #include "playlist.h"
+#include "referenced_reel_asset.h"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
@@ -741,26 +742,49 @@ Player::set_play_referenced ()
 	_have_valid_pieces = false;
 }
 
-list<shared_ptr<dcp::ReelAsset> >
+list<ReferencedReelAsset>
 Player::get_reel_assets ()
 {
-	list<shared_ptr<dcp::ReelAsset> > a;
+	list<ReferencedReelAsset> a;
 
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
 		shared_ptr<DCPContent> j = dynamic_pointer_cast<DCPContent> (i);
 		if (!j) {
 			continue;
 		}
-		/* XXX: hack hack hack */
 		DCPDecoder decoder (j, false);
-		if (j->reference_video ()) {
-			a.push_back (decoder.reels().front()->main_picture ());
-		}
-		if (j->reference_audio ()) {
-			a.push_back (decoder.reels().front()->main_sound ());
-		}
-		if (j->reference_subtitle ()) {
-			a.push_back (decoder.reels().front()->main_subtitle ());
+		int64_t offset = 0;
+		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder.reels()) {
+			DCPTime const from = i->position() + DCPTime::from_frames (offset, _film->video_frame_rate());
+			if (j->reference_video ()) {
+				a.push_back (
+					ReferencedReelAsset (
+						k->main_picture (),
+						DCPTimePeriod (from, from + DCPTime::from_frames (k->main_picture()->duration(), _film->video_frame_rate()))
+						)
+					);
+			}
+
+			if (j->reference_audio ()) {
+				a.push_back (
+					ReferencedReelAsset (
+						k->main_sound (),
+						DCPTimePeriod (from, from + DCPTime::from_frames (k->main_sound()->duration(), _film->video_frame_rate()))
+						)
+					);
+			}
+
+			if (j->reference_subtitle ()) {
+				a.push_back (
+					ReferencedReelAsset (
+						k->main_subtitle (),
+						DCPTimePeriod (from, from + DCPTime::from_frames (k->main_subtitle()->duration(), _film->video_frame_rate()))
+						)
+					);
+			}
+
+			/* Assume that main picture duration is the length of the reel */
+			offset += k->main_picture()->duration ();
 		}
 	}
 

@@ -34,6 +34,7 @@
 #include "version.h"
 #include "font.h"
 #include "util.h"
+#include "referenced_reel_asset.h"
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/sound_asset.h>
@@ -602,11 +603,10 @@ Writer::finish ()
 				reel_picture_asset.reset (new dcp::ReelStereoPictureAsset (stereo, 0));
 			}
 		} else {
-			/* We don't have a picture asset of our own; maybe we need to reference one */
-			/* XXX: this is all a hack */
-			BOOST_FOREACH (shared_ptr<dcp::ReelAsset> j, _reel_assets) {
-				shared_ptr<dcp::ReelPictureAsset> k = dynamic_pointer_cast<dcp::ReelPictureAsset> (j);
-				if (k) {
+			/* We don't have a picture asset of our own; hopefully we have one to reference */
+			BOOST_FOREACH (ReferencedReelAsset j, _reel_assets) {
+				shared_ptr<dcp::ReelPictureAsset> k = dynamic_pointer_cast<dcp::ReelPictureAsset> (j.asset);
+				if (k && j.period == i.period) {
 					reel_picture_asset = k;
 				}
 			}
@@ -618,11 +618,11 @@ Writer::finish ()
 			/* We have made a sound asset of our own.  Put it into the reel */
 			reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (i.sound_asset, 0)));
 		} else {
-			/* We don't have a sound asset of our own; maybe we need to reference one */
-			/* XXX: this is all a hack */
-			BOOST_FOREACH (shared_ptr<dcp::ReelAsset> j, _reel_assets) {
-				if (dynamic_pointer_cast<dcp::ReelSoundAsset> (j)) {
-					reel->add (j);
+			/* We don't have a sound asset of our own; hopefully we have one to reference */
+			BOOST_FOREACH (ReferencedReelAsset j, _reel_assets) {
+				shared_ptr<dcp::ReelSoundAsset> k = dynamic_pointer_cast<dcp::ReelSoundAsset> (j.asset);
+				if (k && j.period == i.period) {
+					reel->add (k);
 				}
 			}
 		}
@@ -668,11 +668,11 @@ Writer::finish ()
 						   )
 					   ));
 		} else {
-			/* We don't have a subtitle asset of our own; maybe we need to reference one */
-			/* XXX: this is all a hack */
-			BOOST_FOREACH (shared_ptr<dcp::ReelAsset> j, _reel_assets) {
-				if (dynamic_pointer_cast<dcp::ReelSubtitleAsset> (j)) {
-					reel->add (j);
+			/* We don't have a subtitle asset of our own; hopefully we have one to reference */
+			BOOST_FOREACH (ReferencedReelAsset j, _reel_assets) {
+				shared_ptr<dcp::ReelSubtitleAsset> k = dynamic_pointer_cast<dcp::ReelSubtitleAsset> (j.asset);
+				if (k && j.period == i.period) {
+					reel->add (k);
 				}
 			}
 		}
@@ -911,7 +911,7 @@ Writer::read_frame_info (FILE* file, int frame, Eyes eyes) const
 }
 
 void
-Writer::write (shared_ptr<dcp::ReelAsset> asset)
+Writer::write (ReferencedReelAsset asset)
 {
 	_reel_assets.push_back (asset);
 }

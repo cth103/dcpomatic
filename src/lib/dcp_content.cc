@@ -23,9 +23,13 @@
 #include "film.h"
 #include "config.h"
 #include "compose.hpp"
+#include "dcp_decoder.h"
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/reel.h>
 #include <libxml++/libxml++.h>
+#include <boost/foreach.hpp>
 #include <iterator>
 #include <iostream>
 
@@ -244,4 +248,21 @@ DCPContent::set_reference_subtitle (bool r)
 	}
 
 	signal_changed (DCPContentProperty::REFERENCE_SUBTITLE);
+}
+
+list<DCPTime>
+DCPContent::reel_split_points () const
+{
+	list<DCPTime> s;
+	DCPDecoder decoder (shared_from_this(), false);
+	DCPTime t = position();
+
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder.reels()) {
+		s.push_back (t);
+		t += DCPTime::from_frames (k->main_picture()->duration(), film->video_frame_rate());
+	}
+
+	return s;
 }

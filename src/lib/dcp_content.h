@@ -52,6 +52,10 @@ public:
 		return boost::dynamic_pointer_cast<DCPContent> (Content::shared_from_this ());
 	}
 
+	boost::shared_ptr<const DCPContent> shared_from_this () const {
+		return boost::dynamic_pointer_cast<const DCPContent> (Content::shared_from_this ());
+	}
+
 	DCPTime full_length () const;
 
 	void examine (boost::shared_ptr<Job>);
@@ -61,6 +65,7 @@ public:
 	std::string identifier () const;
 
 	void set_default_colour_conversion ();
+	std::list<DCPTime> reel_split_points () const;
 
 	/* SubtitleContent */
 

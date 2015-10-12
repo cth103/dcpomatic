@@ -272,5 +272,6 @@ ContentTime min (ContentTime a, ContentTime b);
 ContentTime max (ContentTime a, ContentTime b);
 std::ostream& operator<< (std::ostream& s, ContentTime t);
 std::ostream& operator<< (std::ostream& s, DCPTime t);
+std::ostream& operator<< (std::ostream& s, DCPTimePeriod p);
 
 #endif

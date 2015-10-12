@@ -1297,16 +1297,18 @@ Film::reels () const
 	case REELTYPE_SINGLE:
 		p.push_back (DCPTimePeriod (DCPTime (), len));
 		break;
-	case REELTYPE_ONE_PER_VIDEO:
+	case REELTYPE_BY_VIDEO_CONTENT:
 	{
 		optional<DCPTime> last;
 		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
 			shared_ptr<VideoContent> v = dynamic_pointer_cast<VideoContent> (c);
 			if (v) {
-				if (last) {
-					p.push_back (DCPTimePeriod (last.get(), v->position ()));
+				BOOST_FOREACH (DCPTime t, v->reel_split_points()) {
+					if (last) {
+						p.push_back (DCPTimePeriod (last.get(), t));
+					}
+					last = t;
 				}
-				last = v->position ();
 			}
 		}
 		if (last) {
@@ -1330,4 +1332,3 @@ Film::reels () const
 
 	return p;
 }
-

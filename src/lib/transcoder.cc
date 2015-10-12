@@ -33,6 +33,7 @@
 #include "job.h"
 #include "writer.h"
 #include "compose.hpp"
+#include "referenced_reel_asset.h"
 #include "subtitle_content.h"
 #include <boost/signals2.hpp>
 #include <boost/foreach.hpp>
@@ -101,8 +102,7 @@ Transcoder::go ()
 		}
 	}
 
-	/* XXX: we should be passing through details of positions, at least... */
-	BOOST_FOREACH (shared_ptr<dcp::ReelAsset> i, _player->get_reel_assets ()) {
+	BOOST_FOREACH (ReferencedReelAsset i, _player->get_reel_assets ()) {
 		_writer->write (i);
 	}
 

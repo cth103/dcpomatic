@@ -171,7 +171,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	}
 
 	_reel_type->Append (_("Single reel"));
-	_reel_type->Append (_("One per video content"));
+	_reel_type->Append (_("Split by video content"));
 	_reel_type->Append (_("Custom"));
 
 	_reel_length->SetRange (1, 64);
