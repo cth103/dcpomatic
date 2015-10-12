@@ -650,7 +650,7 @@ Writer::finish ()
 				/* All our assets should be the same length; use the picture asset length here
 				   as a reference to set the subtitle one.
 				*/
-				dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(_subtitle_asset)->set_intrinsic_duration (
+				dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(i.subtitle_asset)->set_intrinsic_duration (
 					reel_picture_asset->intrinsic_duration ()
 					);
 
