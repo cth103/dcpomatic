@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-10-10 04:32+0200\n"
+"PO-Revision-Date: 2015-10-12 02:06+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:333
@@ -34,11 +34,11 @@ msgstr "&Content"
 
 #: src/tools/dcpomatic.cc:720
 msgid "&Edit"
-msgstr "&Bewerken"
+msgstr "&Wijzig"
 
 #: src/tools/dcpomatic.cc:680
 msgid "&Exit"
-msgstr "&Afsluiten"
+msgstr "&Stop"
 
 #: src/tools/dcpomatic.cc:718 src/tools/dcpomatic_batch.cc:56
 msgid "&File"
@@ -58,7 +58,7 @@ msgstr "&Maak DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:669
 msgid "&Open...\tCtrl-O"
-msgstr "&Openen...\tCtrl-O"
+msgstr "&Open...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:686 src/tools/dcpomatic.cc:689
 msgid "&Preferences...\tCtrl-P"
@@ -66,11 +66,11 @@ msgstr "&Voorkeuren...\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:682 src/tools/dcpomatic_batch.cc:51
 msgid "&Quit"
-msgstr "&Stoppen"
+msgstr "&Stop"
 
 #: src/tools/dcpomatic.cc:671
 msgid "&Save\tCtrl-S"
-msgstr "&Opslaan\tCtrl-S"
+msgstr "&Bewaar\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:699
 msgid "&Send DCP to TMS"
@@ -144,15 +144,15 @@ msgstr "Kan film niet openen op  %s (%s)"
 
 #: src/tools/dcpomatic.cc:516
 msgid "Could not show DCP"
-msgstr "Kan DCP niet weergeven"
+msgstr "Kan DCP niet tonen"
 
 #: src/tools/dcpomatic.cc:507
 msgid "Could not show DCP (could not run konqueror)"
-msgstr "Kan DCP niet weergeven (kan konqueror niet starten)"
+msgstr "Kan DCP niet tonen (kan konqueror niet starten)"
 
 #: src/tools/dcpomatic.cc:500
 msgid "Could not show DCP (could not run nautilus)"
-msgstr "Kan DCP niet weergeven (kan nautilus niet starten)"
+msgstr "Kan DCP niet tonen (kan nautilus niet starten)"
 
 #: src/tools/dcpomatic.cc:304 src/tools/dcpomatic.cc:813
 #: src/tools/dcpomatic.cc:849
@@ -191,16 +191,16 @@ msgstr "Meld een probleem..."
 
 #: src/tools/dcpomatic.cc:708
 msgid "Restore default preferences"
-msgstr "Standaardvoorkeuren herstellen"
+msgstr "Herstel standaardvoorkeuren"
 
 #: src/tools/dcpomatic.cc:700
 msgid "S&how DCP"
-msgstr "DCP weergeven"
+msgstr "Toon DCP"
 
 #: src/tools/dcpomatic.cc:97
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr "Wijzigingen van film \"%s\" opslaan voor afsluiten?"
+msgstr "Wijzigingen in film \"%s\" bewaren voor het stoppen?"
 
 #: src/tools/dcpomatic.cc:694
 msgid "Scale to fit &height"
@@ -212,7 +212,7 @@ msgstr "Maak passend in &breedte"
 
 #: src/tools/dcpomatic.cc:349 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
-msgstr "Kies een film om te openen"
+msgstr "Kies film om te openen"
 
 #: src/tools/dcpomatic.cc:415
 #, c-format
@@ -253,7 +253,7 @@ msgstr "Er is geen nieuwere versie van DCP-o-matic beschikbaar."
 
 #: src/tools/dcpomatic.cc:577 src/tools/dcpomatic_batch.cc:111
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr "Er zijn nog onvoltooide taken; weet u zeker dat u wilt afsluiten?"
+msgstr "Er zijn nog onvoltooide taken; weet u zeker dat u wilt stoppen?"
 
 #: src/tools/dcpomatic.cc:270
 msgid ""
@@ -278,35 +278,5 @@ msgid ""
 "clicking Open."
 msgstr ""
 "U heeft geen map geselecteerd.  Zorg ervoor dat er een map geselecteerd is "
-"voordat u op Openen klikt."
+"voordat u op Open klikt."
 
-#~ msgid "&Properties..."
-#~ msgstr "&Instellingen..."
-
-#, fuzzy
-#~ msgid ""
-#~ "An exception occurred (%s).  Please report this problem to the DCP-o-"
-#~ "matic author (carl@dcpomatic.com)."
-#~ msgstr ""
-#~ "Een ongekende fout is opgetreden. AUB meld deze aan de maker van DCP-o-"
-#~ "matic (carl@dcpomatic.com)."
-
-#~ msgid ""
-#~ "An unknown exception occurred.  Please report this problem to the DCP-o-"
-#~ "matic author (carl@dcpomatic.com)."
-#~ msgstr ""
-#~ "Een ongekende fout is opgetreden. AUB meld deze aan de maker van DCP-o-"
-#~ "matic (carl@dcpomatic.com)."
-
-#~ msgid "&Save"
-#~ msgstr "&Opslaan"
-
-#~ msgid ""
-#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-#~ "Laursen"
-#~ msgstr ""
-#~ "(C) 2012-2013 Carl Hetherington, Terrence Meiczinger, Paul Davis, Ole "
-#~ "Laursen"
-
-#~ msgid "Free, open-source DCP generation from almost anything."
-#~ msgstr "Vrij, open-bron DCP creatie van zowat om het even wat."
