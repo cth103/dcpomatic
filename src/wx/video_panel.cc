@@ -246,6 +246,8 @@ VideoPanel::film_changed (Film::Property property)
 	case Film::RESOLUTION:
 		setup_description ();
 		break;
+	case Film::REEL_TYPE:
+		setup_sensitivity ();
 	default:
 		break;
 	}
@@ -434,7 +436,24 @@ void
 VideoPanel::setup_sensitivity ()
 {
 	ContentList sel = _parent->selected ();
-	_reference->Enable (sel.size() == 1 && dynamic_pointer_cast<DCPContent> (sel.front ()));
+
+	shared_ptr<DCPContent> dcp;
+	if (sel.size() == 1) {
+		dcp = dynamic_pointer_cast<DCPContent> (sel.front ());
+	}
+
+	list<string> why_not;
+	bool const can_reference = dcp && dcp->can_reference_video(why_not);
+	_reference->Enable (can_reference);
+
+	wxString s;
+	if (!can_reference) {
+		s = _("Cannot reference this DCP.  ");
+		BOOST_FOREACH (string i, why_not) {
+			s += std_to_wx(i) + wxT("  ");
+		}
+	}
+	_reference->SetToolTip (s);
 
 	if (_reference->GetValue ()) {
 		_frame_type->wrapped()->Enable (false);

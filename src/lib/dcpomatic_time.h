@@ -258,7 +258,7 @@ public:
 		return (from <= other && other < to);
 	}
 
-	bool operator== (TimePeriod<T> const & other) {
+	bool operator== (TimePeriod<T> const & other) const {
 		return from == other.from && to == other.to;
 	}
 };

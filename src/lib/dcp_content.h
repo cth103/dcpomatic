@@ -104,12 +104,16 @@ public:
 		return _reference_video;
 	}
 
+	bool can_reference_video (std::list<std::string> &) const;
+
 	void set_reference_audio (bool r);
 
 	bool reference_audio () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _reference_audio;
 	}
+
+	bool can_reference_audio (std::list<std::string> &) const;
 
 	void set_reference_subtitle (bool r);
 
@@ -118,11 +122,15 @@ public:
 		return _reference_subtitle;
 	}
 
+	bool can_reference_subtitle (std::list<std::string> &) const;
+
 protected:
 	void add_properties (std::list<std::pair<std::string, std::string> >& p) const;
 
 private:
 	void read_directory (boost::filesystem::path);
+	std::list<DCPTimePeriod> reels () const;
+	template <class T> bool can_reference (std::string overlapping, std::list<std::string>& why_not) const;
 
 	std::string _name;
 	bool _has_subtitles;

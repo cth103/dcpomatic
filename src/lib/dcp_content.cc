@@ -22,6 +22,7 @@
 #include "job.h"
 #include "film.h"
 #include "config.h"
+#include "overlaps.h"
 #include "compose.hpp"
 #include "dcp_decoder.h"
 #include <dcp/dcp.h>
@@ -250,19 +251,75 @@ DCPContent::set_reference_subtitle (bool r)
 	signal_changed (DCPContentProperty::REFERENCE_SUBTITLE);
 }
 
+list<DCPTimePeriod>
+DCPContent::reels () const
+{
+	list<DCPTimePeriod> p;
+	DCPDecoder decoder (shared_from_this(), false);
+
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	DCPTime from = position ();
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+		DCPTime const to = from + DCPTime::from_frames (i->main_picture()->duration(), film->video_frame_rate());
+		p.push_back (DCPTimePeriod (from, to));
+		from = to;
+	}
+
+	return p;
+}
+
 list<DCPTime>
 DCPContent::reel_split_points () const
 {
 	list<DCPTime> s;
-	DCPDecoder decoder (shared_from_this(), false);
-	DCPTime t = position();
+	BOOST_FOREACH (DCPTimePeriod i, reels()) {
+		s.push_back (i.from);
+	}
+	return s;
+}
 
+template <class T>
+bool
+DCPContent::can_reference (string overlapping, list<string>& why_not) const
+{
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder.reels()) {
-		s.push_back (t);
-		t += DCPTime::from_frames (k->main_picture()->duration(), film->video_frame_rate());
+
+	list<DCPTimePeriod> const fr = film->reels ();
+	/* fr must contain reels().  It can also contain other reels, but it must at
+	   least contain reels().
+	*/
+	BOOST_FOREACH (DCPTimePeriod i, reels()) {
+		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
+			why_not.push_back (_("Reel lengths in the project differ from those in the DCP; set the reel mode to `split by video content'."));
+			return false;
+		}
 	}
 
-	return s;
+	list<shared_ptr<T> > a = overlaps<T> (film->content(), position(), end());
+	if (a.size() != 1 || a.front().get() != this) {
+		why_not.push_back (overlapping);
+		return false;
+	}
+
+	return true;
+}
+
+bool
+DCPContent::can_reference_video (list<string>& why_not) const
+{
+	return can_reference<VideoContent> (_("There is other video content overlapping this DCP; remove it."), why_not);
+}
+
+bool
+DCPContent::can_reference_audio (list<string>& why_not) const
+{
+	return can_reference<AudioContent> (_("There is other audio content overlapping this DCP; remove it."), why_not);
+}
+
+bool
+DCPContent::can_reference_subtitle (list<string>& why_not) const
+{
+	return can_reference<SubtitleContent> (_("There is other subtitle content overlapping this DCP; remove it."), why_not);
 }

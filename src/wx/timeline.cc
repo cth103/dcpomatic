@@ -168,6 +168,7 @@ Timeline::assign_tracks ()
 		}
 
 		shared_ptr<Content> content = cv->content();
+		DCPTimePeriod content_period (content->position(), content->end());
 
 		int t = 0;
 		while (true) {
@@ -182,11 +183,7 @@ Timeline::assign_tracks ()
 				shared_ptr<Content> test_content = test->content();
 
 				if (test && test->track() && test->track().get() == t) {
-					bool const no_overlap =
-						(content->position() < test_content->position() && content->end() < test_content->position()) ||
-						(content->position() > test_content->end()      && content->end() > test_content->end());
-
-					if (!no_overlap) {
+					if (content_period.overlaps (DCPTimePeriod(test_content->position(), test_content->end()))) {
 						/* we have an overlap on track `t' */
 						++t;
 						break;
@@ -367,7 +364,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 
 	if (_snap) {
 
-		DCPTime const new_end = new_position + _down_view->content()->length_after_trim () - DCPTime (1);
+		DCPTime const new_end = new_position + _down_view->content()->length_after_trim();
 		/* Signed `distance' to nearest thing (i.e. negative is left on the timeline,
 		   positive is right).
 		*/
@@ -381,9 +378,9 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 			}
 
 			maybe_snap (cv->content()->position(), new_position, nearest_distance);
-			maybe_snap (cv->content()->position(), new_end + DCPTime (1), nearest_distance);
-			maybe_snap (cv->content()->end() + DCPTime (1), new_position, nearest_distance);
-			maybe_snap (cv->content()->end() + DCPTime (1), new_end, nearest_distance);
+			maybe_snap (cv->content()->position(), new_end, nearest_distance);
+			maybe_snap (cv->content()->end(), new_position, nearest_distance);
+			maybe_snap (cv->content()->end(), new_end, nearest_distance);
 		}
 
 		if (nearest_distance) {

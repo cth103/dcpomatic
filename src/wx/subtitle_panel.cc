@@ -36,6 +36,7 @@
 
 using std::vector;
 using std::string;
+using std::list;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
@@ -133,7 +134,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 void
 SubtitlePanel::film_changed (Film::Property property)
 {
-	if (property == Film::CONTENT) {
+	if (property == Film::CONTENT || property == Film::REEL_TYPE) {
 		setup_sensitivity ();
 	}
 }
@@ -219,7 +220,8 @@ SubtitlePanel::setup_sensitivity ()
 	int ffmpeg_subs = 0;
 	int subrip_or_dcp_subs = 0;
 	int image_subs = 0;
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
+	SubtitleContentList sel = _parent->selected_subtitle ();
+	BOOST_FOREACH (shared_ptr<SubtitleContent> i, sel) {
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
 		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
@@ -242,6 +244,24 @@ SubtitlePanel::setup_sensitivity ()
 		}
 	}
 
+	shared_ptr<DCPContent> dcp;
+	if (sel.size() == 1) {
+		dcp = dynamic_pointer_cast<DCPContent> (sel.front ());
+	}
+
+	list<string> why_not;
+	bool const can_reference = dcp && dcp->can_reference_subtitle (why_not);
+	_reference->Enable (can_reference);
+
+	wxString s;
+	if (!can_reference) {
+		s = _("Cannot reference this DCP.  ");
+		BOOST_FOREACH (string i, why_not) {
+			s += std_to_wx(i) + wxT("  ");
+		}
+	}
+	_reference->SetToolTip (s);
+
 	bool const reference = _reference->GetValue ();
 
 	_use->Enable (!reference && any_subs > 0);
@@ -255,9 +275,6 @@ SubtitlePanel::setup_sensitivity ()
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_subtitle_view_button->Enable (!reference && subrip_or_dcp_subs == 1);
 	_fonts_dialog_button->Enable (!reference && subrip_or_dcp_subs == 1);
-
-	ContentList sel = _parent->selected ();
-	_reference->Enable (sel.size() == 1 && dynamic_pointer_cast<DCPContent> (sel.front ()));
 }
 
 void
