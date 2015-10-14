@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-07-06 16:03+0100\n"
+"PO-Revision-Date: 2015-10-14 10:33+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: src/lib/dcp_content.cc:121
 msgid "%1 [DCP]"
-msgstr ""
+msgstr "%1 [DCP]"
 
 #: src/lib/sndfile_content.cc:68
 msgid "%1 [audio]"
-msgstr ""
+msgstr "%1 [audio]"
 
 #: src/lib/ffmpeg_content.cc:227
 msgid "%1 [movie]"
-msgstr ""
+msgstr "%1 [film]"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
@@ -63,11 +63,11 @@ msgstr "Errore durante l'elaborazione del file %1."
 
 #: src/lib/analyse_audio_job.cc:62
 msgid "Analyse audio"
-msgstr ""
+msgstr "Analizzare audio"
 
 #: src/lib/single_stream_audio_content.cc:95
 msgid "Audio channels"
-msgstr ""
+msgstr "Canali audio"
 
 #: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -79,52 +79,52 @@ msgstr "L'Audio sarà ricampionato a %1kHz"
 
 #: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
-msgstr ""
+msgstr "L'audio non verrà ricampionato"
 
 #: src/lib/ffmpeg_content.cc:435
 msgid "BT1361 extended colour gamut"
-msgstr ""
+msgstr "BT1361 gamma colori estesa"
 
 #: src/lib/ffmpeg_content.cc:416
 msgid "BT2020"
-msgstr ""
+msgstr "BT2020"
 
 #: src/lib/ffmpeg_content.cc:455
 msgid "BT2020 constant luminance"
-msgstr ""
+msgstr "BT2020 luminanza costante"
 
 #: src/lib/ffmpeg_content.cc:437
 msgid "BT2020 for a 10-bit system"
-msgstr ""
+msgstr "BT2020 per sistema 10-bit"
 
 #: src/lib/ffmpeg_content.cc:438
 msgid "BT2020 for a 12-bit system"
-msgstr ""
+msgstr "BT2020 per sistema 12-bit"
 
 #: src/lib/ffmpeg_content.cc:454
 msgid "BT2020 non-constant luminance"
-msgstr ""
+msgstr "BT2020 luminanza non costante"
 
 #: src/lib/ffmpeg_content.cc:412
 msgid "BT470BG"
-msgstr ""
+msgstr "BT470BG"
 
 #: src/lib/ffmpeg_content.cc:450
 msgid "BT470BG (BT601-6)"
-msgstr ""
+msgstr "BT470BG (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:411
 msgid "BT470M"
-msgstr ""
+msgstr "BT470M"
 
 #: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:424
 #: src/lib/ffmpeg_content.cc:446
 msgid "BT709"
-msgstr ""
+msgstr "BT709"
 
 #: src/lib/ffmpeg_content.cc:462
 msgid "Bits per pixel"
-msgstr ""
+msgstr "Bit per pixel"
 
 #: src/lib/film.cc:1244
 msgid "BsL"
@@ -327,7 +327,7 @@ msgstr "Tagliato da %1x%2"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
-msgstr ""
+msgstr "DCP XML sottotitoli"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -388,7 +388,7 @@ msgstr ""
 
 #: src/lib/internet.cc:70
 msgid "Download failed (%1/%2 error %3)"
-msgstr ""
+msgstr "Download fallito (%1/%2 error %3)"
 
 #: src/lib/frame_rate_change.cc:91
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -425,7 +425,7 @@ msgstr "Esamino il contenuto"
 
 #: src/lib/ffmpeg_content.cc:449
 msgid "FCC"
-msgstr ""
+msgstr "FCC"
 
 #: src/lib/scp_uploader.cc:60
 msgid "Failed to authenticate with server (%1)"
@@ -437,15 +437,15 @@ msgstr "Caratteristica"
 
 #: src/lib/ffmpeg_content.cc:415
 msgid "Film"
-msgstr ""
+msgstr "Film"
 
 #: src/lib/ffmpeg_examiner.cc:80
 msgid "Finding length"
-msgstr ""
+msgstr "Trova lunghezza"
 
 #: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
-msgstr ""
+msgstr "Trova sottotitoli"
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
@@ -493,7 +493,7 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:434
 msgid "IEC61966-2-4"
-msgstr ""
+msgstr "IEC61966-2-4"
 
 #: src/lib/job.cc:124 src/lib/job.cc:145 src/lib/job.cc:155
 msgid "It is not known what caused this error."
@@ -537,11 +537,11 @@ msgstr "Surround sinistro"
 
 #: src/lib/film.cc:1237
 msgid "Lfe"
-msgstr ""
+msgstr "Lfe"
 
 #: src/lib/util.cc:486
 msgid "Lfe (sub)"
-msgstr "Lfe(sub)"
+msgstr "Lfe (sub)"
 
 #: src/lib/ffmpeg_content.cc:396
 msgid "Limited"
@@ -657,7 +657,7 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:445
 msgid "RGB / sRGB (IEC61966-2-1)"
-msgstr ""
+msgstr "RGB / sRGB (IEC61966-2-1)"
 
 #: src/lib/dcp_content_type.cc:50
 msgid "Rating"
@@ -697,16 +697,16 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:413 src/lib/ffmpeg_content.cc:429
 msgid "SMPTE 170M (BT601)"
-msgstr ""
+msgstr "SMPTE 170M (BT601)"
 
 #: src/lib/ffmpeg_content.cc:451
 msgid "SMPTE 170M (BT601-6)"
-msgstr ""
+msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:414 src/lib/ffmpeg_content.cc:430
 #: src/lib/ffmpeg_content.cc:452
 msgid "SMPTE 240M"
-msgstr ""
+msgstr "SMPTE 240M"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
@@ -722,7 +722,7 @@ msgstr "Scope"
 
 #: src/lib/send_problem_report_job.cc:62
 msgid "Sending email"
-msgstr ""
+msgstr "Invia e-mail"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Short"
@@ -816,11 +816,11 @@ msgstr "Di transizione"
 
 #: src/lib/internet.cc:82
 msgid "Unexpected ZIP file contents"
-msgstr ""
+msgstr "Contenuto file ZIP inatteso"
 
 #: src/lib/image_proxy.cc:48
 msgid "Unexpected image type received by server"
-msgstr ""
+msgstr "Immagine ricevuta dal server inattesa"
 
 #: src/lib/job.cc:154
 msgid "Unknown error"
@@ -840,7 +840,7 @@ msgstr "Maschera unsharp e sfocatura Gaussiana"
 #: src/lib/ffmpeg_content.cc:425 src/lib/ffmpeg_content.cc:426
 #: src/lib/ffmpeg_content.cc:447 src/lib/ffmpeg_content.cc:448
 msgid "Unspecified"
-msgstr ""
+msgstr "Imprecisato"
 
 #: src/lib/colour_conversion.cc:222
 msgid "Untitled"
@@ -859,9 +859,8 @@ msgid "VI"
 msgstr ""
 
 #: src/lib/video_content.cc:580
-#, fuzzy
 msgid "Video frame rate"
-msgstr "tipo di contenuto"
+msgstr "Rapporto fotogtrammi video"
 
 #: src/lib/video_content.cc:578
 msgid "Video length"
@@ -901,7 +900,7 @@ msgstr ""
 
 #: src/lib/dcp_subtitle_content.cc:94 src/lib/subrip_content.cc:71
 msgid "[subtitles]"
-msgstr ""
+msgstr "[sottotitoli]"
 
 #: src/lib/film.cc:268
 msgid "cannot contain slashes"
@@ -953,7 +952,7 @@ msgstr "non riesco ad aprire il file per leggerlo"
 
 #: src/lib/data.cc:62
 msgid "could not read from file"
-msgstr ""
+msgstr "non posso leggere dal file"
 
 #: src/lib/exceptions.cc:42
 msgid "could not read from file %1 (%2)"
@@ -985,12 +984,11 @@ msgstr ""
 
 #: src/lib/transcode_job.cc:105
 msgid "fps"
-msgstr ""
+msgstr "fps"
 
 #: src/lib/transcode_job.cc:104
-#, fuzzy
 msgid "frames"
-msgstr "Schermo intero"
+msgstr "fotogrammi"
 
 #: src/lib/video_content.cc:580
 msgid "frames per second"
@@ -999,12 +997,12 @@ msgstr "fotogrammi al secondo"
 #. / TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:142 src/lib/util.cc:145
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:157 src/lib/util.cc:160
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/lib/exceptions.cc:54
 msgid "missing required setting %1"
@@ -1024,7 +1022,7 @@ msgstr "nome"
 
 #: src/lib/video_content.cc:524
 msgid "pixel aspect ratio"
-msgstr ""
+msgstr "rapporto pixel"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
@@ -1035,7 +1033,7 @@ msgstr "restano"
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:171
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/lib/colour_conversion.cc:263
 msgid "sRGB"
@@ -1047,11 +1045,11 @@ msgstr ""
 
 #: src/lib/ffmpeg_examiner.cc:295
 msgid "unknown"
-msgstr ""
+msgstr "sconosciuto"
 
 #: src/lib/video_content.cc:578
 msgid "video frames"
-msgstr ""
+msgstr "fotogrammi video"
 
 #~ msgid "could not run sample-rate converter"
 #~ msgstr ""
