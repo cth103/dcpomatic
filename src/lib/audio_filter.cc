@@ -21,14 +21,14 @@
 #include "audio_buffers.h"
 #include <cmath>
 
-using std::vector;
 using std::min;
 using boost::shared_ptr;
 
-vector<float>
+/** @return array of floats which the caller must destroy with delete[] */
+float *
 AudioFilter::sinc_blackman (float cutoff, bool invert) const
 {
-	vector<float> ir (_M + 1);
+	float* ir = new float[_M + 1];
 
 	/* Impulse response */
 
@@ -66,6 +66,11 @@ AudioFilter::sinc_blackman (float cutoff, bool invert) const
 	return ir;
 }
 
+AudioFilter::~AudioFilter ()
+{
+	delete[] _ir;
+}
+
 shared_ptr<AudioBuffers>
 AudioFilter::run (shared_ptr<const AudioBuffers> in)
 {
@@ -76,18 +81,24 @@ AudioFilter::run (shared_ptr<const AudioBuffers> in)
 		_tail->make_silent ();
 	}
 
-	for (int i = 0; i < in->channels(); ++i) {
-		for (int j = 0; j < in->frames(); ++j) {
+	int const channels = in->channels ();
+	int const frames = in->frames ();
+
+	for (int i = 0; i < channels; ++i) {
+		float* tail_p = _tail->data (i);
+		float* in_p = in->data (i);
+		float* out_p = out->data (i);
+		for (int j = 0; j < frames; ++j) {
 			float s = 0;
 			for (int k = 0; k <= _M; ++k) {
 				if ((j - k) < 0) {
-					s += _tail->data(i)[j - k + _M + 1] * _ir[k];
+					s += tail_p[j - k + _M + 1] * _ir[k];
 				} else {
-					s += in->data(i)[j - k] * _ir[k];
+					s += in_p[j - k] * _ir[k];
 				}
 			}
 
-			out->data(i)[j] = s;
+			out_p[j] = s;
 		}
 	}
 
@@ -122,13 +133,17 @@ HighPassAudioFilter::HighPassAudioFilter (float transition_bandwidth, float cuto
 BandPassAudioFilter::BandPassAudioFilter (float transition_bandwidth, float lower, float higher)
 	: AudioFilter (transition_bandwidth)
 {
-	vector<float> lpf = sinc_blackman (lower, false);
-	vector<float> hpf = sinc_blackman (higher, true);
+	float* lpf = sinc_blackman (lower, false);
+	float* hpf = sinc_blackman (higher, true);
 
-	_ir.resize (_M + 1);
+	delete[] _ir;
+	_ir = new float[_M + 1];
 	for (int i = 0; i <= _M; ++i) {
 		_ir[i] = lpf[i] + hpf[i];
 	}
+
+	delete[] lpf;
+	delete[] hpf;
 
 	/* We now have a band-stop, so invert for band-pass */
 	for (int i = 0; i <= _M; ++i) {

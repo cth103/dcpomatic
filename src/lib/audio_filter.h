@@ -21,7 +21,6 @@
 #define DCPOMATIC_AUDIO_FILTER_H
 
 #include <boost/shared_ptr.hpp>
-#include <vector>
 
 class AudioBuffers;
 struct audio_filter_impulse_input_test;
@@ -30,12 +29,15 @@ class AudioFilter
 {
 public:
 	AudioFilter (float transition_bandwidth)
+		: _ir (0)
 	{
 		_M = 4 / transition_bandwidth;
 		if (_M % 2) {
 			++_M;
 		}
 	}
+
+	virtual ~AudioFilter ();
 
 	boost::shared_ptr<AudioBuffers> run (boost::shared_ptr<const AudioBuffers> in);
 
@@ -45,9 +47,9 @@ protected:
 	friend struct audio_filter_impulse_kernel_test;
 	friend struct audio_filter_impulse_input_test;
 
-	std::vector<float> sinc_blackman (float cutoff, bool invert) const;
+	float* sinc_blackman (float cutoff, bool invert) const;
 
-	std::vector<float> _ir;
+	float* _ir;
 	int _M;
 	boost::shared_ptr<AudioBuffers> _tail;
 };
