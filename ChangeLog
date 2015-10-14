@@ -1,5 +1,7 @@
 2015-10-14  Carl Hetherington  <cth@carlh.net>
 
+	* Only show existing DCP channels in the audio dialog (#715).
+
 	* Various optimizations to the upmixer filters; drop order of
 	Upmixer A Lfe/C and Upmixer B Lfe filters to speed them up.
 

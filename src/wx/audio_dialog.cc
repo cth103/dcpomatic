@@ -40,6 +40,7 @@ using boost::dynamic_pointer_cast;
 AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<AudioContent> content)
 	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
+	, _channels (film->audio_channels ())
 	, _plot (0)
 {
 	wxFont subheading_font (*wxNORMAL_FONT);
@@ -65,7 +66,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Au
 		right->Add (m, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM, 16);
 	}
 
-	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
+	for (int i = 0; i < _channels; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
 		right->Add (_channel_checkbox[i], 0, wxEXPAND | wxALL, 3);
 		_channel_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::channel_clicked, this, _1));
@@ -157,11 +158,11 @@ AudioDialog::try_to_load_analysis ()
 	/* Set up some defaults if no check boxes are checked */
 
 	int i = 0;
-	while (i < MAX_DCP_AUDIO_CHANNELS && (!_channel_checkbox[i] || !_channel_checkbox[i]->GetValue ())) {
+	while (i < _channels && (!_channel_checkbox[i] || !_channel_checkbox[i]->GetValue ())) {
 		++i;
 	}
 
-	if (i == MAX_DCP_AUDIO_CHANNELS && _channel_checkbox[0]) {
+	if (i == _channels && _channel_checkbox[0]) {
 		_channel_checkbox[0]->SetValue (true);
 		_plot->set_channel_visible (0, true);
 	}
@@ -202,11 +203,11 @@ void
 AudioDialog::channel_clicked (wxCommandEvent& ev)
 {
 	int c = 0;
-	while (c < MAX_DCP_AUDIO_CHANNELS && ev.GetEventObject() != _channel_checkbox[c]) {
+	while (c < _channels && ev.GetEventObject() != _channel_checkbox[c]) {
 		++c;
 	}
 
-	DCPOMATIC_ASSERT (c < MAX_DCP_AUDIO_CHANNELS);
+	DCPOMATIC_ASSERT (c < _channels);
 
 	_plot->set_channel_visible (c, _channel_checkbox[c]->GetValue ());
 }

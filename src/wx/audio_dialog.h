@@ -45,6 +45,7 @@ private:
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
+	int _channels;
 	boost::shared_ptr<const Playlist> _playlist;
 	AudioPlot* _plot;
 	wxStaticText* _peak_time;
