@@ -252,7 +252,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out, share
 	path /= "MacOS";
 	path /= "ffprobe";
 
-	string ffprobe = path.string() + " \"" + content.string() + "\" 2> \"" + out.string() + "\"";
+	string ffprobe = "\"" + path.string() + "\" \"" + content.string() + "\" 2> \"" + out.string() + "\"";
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
 	system (ffprobe.c_str ());
 #endif
