@@ -32,6 +32,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 
 Log::Log ()
@@ -69,7 +70,13 @@ Log::log (string message, int type)
 		return;
 	}
 
-	do_log (shared_ptr<const LogEntry> (new StringLogEntry (type, message)));
+	shared_ptr<StringLogEntry> e (new StringLogEntry (type, message));
+
+#ifdef DCPOMATIC_DEBUG
+	cout << e->get() << "\n";
+#endif
+
+	do_log (e);
 }
 
 void
