@@ -1,3 +1,7 @@
+2015-10-15  Carl Hetherington  <cth@carlh.net>
+
+	* Fix out-of-range Interop subtitle timing in some cases (#717).
+
 2015-10-14  Carl Hetherington  <cth@carlh.net>
 
 	* Only show existing DCP channels in the audio dialog (#715).
