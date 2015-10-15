@@ -35,7 +35,7 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
-	Image* s = new Image (PIX_FMT_RGB24, dcp::Size (50, 50), true);
+	Image* s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), true);
 	BOOST_CHECK_EQUAL (s->planes(), 1);
 	/* 160 is 150 aligned to the nearest 32 bytes */
 	BOOST_CHECK_EQUAL (s->stride()[0], 160);
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK_EQUAL (t->stride()[0], s->stride()[0]);
 
 	/* assignment operator */
-	Image* u = new Image (PIX_FMT_YUV422P, dcp::Size (150, 150), false);
+	Image* u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), false);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->planes(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 160);
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 
 BOOST_AUTO_TEST_CASE (compact_image_test)
 {
-	Image* s = new Image (PIX_FMT_RGB24, dcp::Size (50, 50), false);
+	Image* s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), false);
 	BOOST_CHECK_EQUAL (s->planes(), 1);
 	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK_EQUAL (t->stride()[0], s->stride()[0]);
 
 	/* assignment operator */
-	Image* u = new Image (PIX_FMT_YUV422P, dcp::Size (150, 150), true);
+	Image* u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), true);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->planes(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 50 * 3);

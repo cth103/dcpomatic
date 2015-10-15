@@ -186,7 +186,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 
 	if (!pvf.empty ()) {
 		try {
-			_frame = pvf.front()->image (PIX_FMT_RGB24, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+			_frame = pvf.front()->image (AV_PIX_FMT_RGB24, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
 			ImageChanged (pvf.front ());
 
 			dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
@@ -194,7 +194,7 @@ FilmViewer::get (DCPTime p, bool accurate)
 				yuv_to_rgb = pvf.front()->colour_conversion().get().yuv_to_rgb();
 			}
 
-			_frame = _frame->scale (_frame->size(), yuv_to_rgb, PIX_FMT_RGB24, false);
+			_frame = _frame->scale (_frame->size(), yuv_to_rgb, AV_PIX_FMT_RGB24, false);
 			_position = pvf.front()->time ();
 			_inter_position = pvf.front()->inter_position ();
 			_inter_size = pvf.front()->inter_size ();

@@ -137,7 +137,7 @@ VideoWaveformPlot::create_waveform ()
 	}
 
 	dcp::Size const size = _image->size();
-	_waveform.reset (new Image (PIX_FMT_RGB24, dcp::Size (size.width, size.height), true));
+	_waveform.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (size.width, size.height), true));
 
 	for (int x = 0; x < size.width; ++x) {
 
@@ -166,7 +166,7 @@ VideoWaveformPlot::create_waveform ()
 
 	_waveform = _waveform->scale (
 		dcp::Size (GetSize().GetWidth() - 32, GetSize().GetHeight() - _vertical_margin * 2),
-		dcp::YUV_TO_RGB_REC709, PIX_FMT_RGB24, false
+		dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false
 		);
 }
 

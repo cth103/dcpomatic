@@ -95,9 +95,9 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	}
 
 	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
-	PixelFormat* pixel_fmts = new PixelFormat[2];
+	AVPixelFormat* pixel_fmts = new AVPixelFormat[2];
 	pixel_fmts[0] = _pixel_format;
-	pixel_fmts[1] = PIX_FMT_NONE;
+	pixel_fmts[1] = AV_PIX_FMT_NONE;
 	sink_params->pixel_fmts = pixel_fmts;
 
 	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), 0, sink_params, graph) < 0) {

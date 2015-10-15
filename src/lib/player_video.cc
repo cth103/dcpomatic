@@ -75,7 +75,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	if (node->optional_number_child<int> ("SubtitleX")) {
 
 		shared_ptr<Image> image (
-			new Image (PIX_FMT_RGBA, dcp::Size (node->number_child<int> ("SubtitleWidth"), node->number_child<int> ("SubtitleHeight")), true)
+			new Image (AV_PIX_FMT_RGBA, dcp::Size (node->number_child<int> ("SubtitleWidth"), node->number_child<int> ("SubtitleHeight")), true)
 			);
 
 		image->read_from_socket (socket);

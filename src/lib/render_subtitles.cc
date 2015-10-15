@@ -70,7 +70,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 	/* ...and add a bit more for luck */
 	height += target.height / 11;
 
-	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (target.width, height), false));
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (target.width, height), false));
 	image->make_black ();
 
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (

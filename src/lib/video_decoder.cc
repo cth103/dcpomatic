@@ -44,7 +44,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
 	, _last_seek_accurate (true)
 	, _ignore_video (false)
 {
-	_black_image.reset (new Image (PIX_FMT_RGB24, _video_content->video_size(), true));
+	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_content->video_size(), true));
 	_black_image->make_black ();
 }
 

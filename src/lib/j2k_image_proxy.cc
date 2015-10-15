@@ -83,7 +83,7 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 shared_ptr<Image>
 J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 {
-	shared_ptr<Image> image (new Image (PIX_FMT_RGB48LE, _size, true));
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGB48LE, _size, true));
 
 	shared_ptr<dcp::OpenJPEGImage> oj = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
 

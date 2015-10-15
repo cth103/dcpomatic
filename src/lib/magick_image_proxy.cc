@@ -103,7 +103,7 @@ MagickImageProxy::image (optional<dcp::NoteHandler>) const
 
 	dcp::Size size (magick_image->columns(), magick_image->rows());
 
-	_image.reset (new Image (PIX_FMT_RGB24, size, true));
+	_image.reset (new Image (AV_PIX_FMT_RGB24, size, true));
 
 	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
 	uint8_t* p = _image->data()[0];

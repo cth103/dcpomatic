@@ -467,7 +467,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
 	   G, third B, fourth A.
 	*/
-	shared_ptr<Image> image (new Image (PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
 
 	/* Start of the first line in the subtitle */
 	uint8_t* sub_p = rect->pict.data[0];

@@ -102,7 +102,7 @@ Image::planes () const
 		throw PixelFormatError ("planes()", _pixel_format);
 	}
 
-	if ((d->flags & PIX_FMT_PLANAR) == 0) {
+	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
 		return 1;
 	}
 
@@ -273,45 +273,45 @@ Image::make_black ()
 	static uint16_t const sixteen_bit_uv =	(1 << 15) - 1;
 
 	switch (_pixel_format) {
-	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P:
-	case PIX_FMT_YUV444P:
-	case PIX_FMT_YUV411P:
+	case AV_PIX_FMT_YUV420P:
+	case AV_PIX_FMT_YUV422P:
+	case AV_PIX_FMT_YUV444P:
+	case AV_PIX_FMT_YUV411P:
 		memset (data()[0], 0, sample_size(0).height * stride()[0]);
 		memset (data()[1], eight_bit_uv, sample_size(1).height * stride()[1]);
 		memset (data()[2], eight_bit_uv, sample_size(2).height * stride()[2]);
 		break;
 
-	case PIX_FMT_YUVJ420P:
-	case PIX_FMT_YUVJ422P:
-	case PIX_FMT_YUVJ444P:
+	case AV_PIX_FMT_YUVJ420P:
+	case AV_PIX_FMT_YUVJ422P:
+	case AV_PIX_FMT_YUVJ444P:
 		memset (data()[0], 0, sample_size(0).height * stride()[0]);
 		memset (data()[1], eight_bit_uv + 1, sample_size(1).height * stride()[1]);
 		memset (data()[2], eight_bit_uv + 1, sample_size(2).height * stride()[2]);
 		break;
 
-	case PIX_FMT_YUV422P9LE:
-	case PIX_FMT_YUV444P9LE:
+	case AV_PIX_FMT_YUV422P9LE:
+	case AV_PIX_FMT_YUV444P9LE:
 		yuv_16_black (nine_bit_uv, false);
 		break;
 
-	case PIX_FMT_YUV422P9BE:
-	case PIX_FMT_YUV444P9BE:
+	case AV_PIX_FMT_YUV422P9BE:
+	case AV_PIX_FMT_YUV444P9BE:
 		yuv_16_black (swap_16 (nine_bit_uv), false);
 		break;
 
-	case PIX_FMT_YUV422P10LE:
-	case PIX_FMT_YUV444P10LE:
+	case AV_PIX_FMT_YUV422P10LE:
+	case AV_PIX_FMT_YUV444P10LE:
 		yuv_16_black (ten_bit_uv, false);
 		break;
 
-	case PIX_FMT_YUV422P16LE:
-	case PIX_FMT_YUV444P16LE:
+	case AV_PIX_FMT_YUV422P16LE:
+	case AV_PIX_FMT_YUV444P16LE:
 		yuv_16_black (sixteen_bit_uv, false);
 		break;
 
-	case PIX_FMT_YUV444P10BE:
-	case PIX_FMT_YUV422P10BE:
+	case AV_PIX_FMT_YUV444P10BE:
+	case AV_PIX_FMT_YUV422P10BE:
 		yuv_16_black (swap_16 (ten_bit_uv), false);
 		break;
 
@@ -351,18 +351,18 @@ Image::make_black ()
 		yuv_16_black (sixteen_bit_uv, true);
 		break;
 
-	case PIX_FMT_RGB24:
-	case PIX_FMT_ARGB:
-	case PIX_FMT_RGBA:
-	case PIX_FMT_ABGR:
-	case PIX_FMT_BGRA:
-	case PIX_FMT_RGB555LE:
-	case PIX_FMT_RGB48LE:
-	case PIX_FMT_RGB48BE:
+	case AV_PIX_FMT_RGB24:
+	case AV_PIX_FMT_ARGB:
+	case AV_PIX_FMT_RGBA:
+	case AV_PIX_FMT_ABGR:
+	case AV_PIX_FMT_BGRA:
+	case AV_PIX_FMT_RGB555LE:
+	case AV_PIX_FMT_RGB48LE:
+	case AV_PIX_FMT_RGB48BE:
 		memset (data()[0], 0, sample_size(0).height * stride()[0]);
 		break;
 
-	case PIX_FMT_UYVY422:
+	case AV_PIX_FMT_UYVY422:
 	{
 		int const Y = sample_size(0).height;
 		int const X = line_size()[0];
@@ -386,7 +386,7 @@ Image::make_black ()
 void
 Image::make_transparent ()
 {
-	if (_pixel_format != PIX_FMT_RGBA) {
+	if (_pixel_format != AV_PIX_FMT_RGBA) {
 		throw PixelFormatError ("make_transparent()", _pixel_format);
 	}
 
@@ -396,7 +396,7 @@ Image::make_transparent ()
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
-	DCPOMATIC_ASSERT (other->pixel_format() == PIX_FMT_RGBA);
+	DCPOMATIC_ASSERT (other->pixel_format() == AV_PIX_FMT_RGBA);
 	int const other_bpp = 4;
 
 	int start_tx = position.x;
@@ -416,7 +416,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 
 	switch (_pixel_format) {
-	case PIX_FMT_RGB24:
+	case AV_PIX_FMT_RGB24:
 	{
 		int const this_bpp = 3;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
@@ -434,8 +434,8 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		}
 		break;
 	}
-	case PIX_FMT_BGRA:
-	case PIX_FMT_RGBA:
+	case AV_PIX_FMT_BGRA:
+	case AV_PIX_FMT_RGBA:
 	{
 		int const this_bpp = 4;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
@@ -454,7 +454,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		}
 		break;
 	}
-	case PIX_FMT_RGB48LE:
+	case AV_PIX_FMT_RGB48LE:
 	{
 		int const this_bpp = 6;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
@@ -482,7 +482,7 @@ void
 Image::copy (shared_ptr<const Image> other, Position<int> position)
 {
 	/* Only implemented for RGB24 onto RGB24 so far */
-	DCPOMATIC_ASSERT (_pixel_format == PIX_FMT_RGB24 && other->pixel_format() == PIX_FMT_RGB24);
+	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB24 && other->pixel_format() == AV_PIX_FMT_RGB24);
 	DCPOMATIC_ASSERT (position.x >= 0 && position.y >= 0);
 
 	int const N = min (position.x + other->size().width, size().width) - position.x;
@@ -544,7 +544,7 @@ Image::bytes_per_pixel (int c) const
 		bpp[3] = floor ((d->comp[3].depth_minus1 + 1 + 7) / 8) / pow (2.0f, d->log2_chroma_w);
 	}
 
-	if ((d->flags & PIX_FMT_PLANAR) == 0) {
+	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
 		/* Not planar; sum them up */
 		return bpp[0] + bpp[1] + bpp[2] + bpp[3];
 	}
@@ -788,19 +788,19 @@ void
 Image::fade (float f)
 {
 	switch (_pixel_format) {
-	case PIX_FMT_YUV420P:
-	case PIX_FMT_YUV422P:
-	case PIX_FMT_YUV444P:
-	case PIX_FMT_YUV411P:
-	case PIX_FMT_YUVJ420P:
-	case PIX_FMT_YUVJ422P:
-	case PIX_FMT_YUVJ444P:
-	case PIX_FMT_RGB24:
-	case PIX_FMT_ARGB:
-	case PIX_FMT_RGBA:
-	case PIX_FMT_ABGR:
-	case PIX_FMT_BGRA:
-	case PIX_FMT_RGB555LE:
+	case AV_PIX_FMT_YUV420P:
+	case AV_PIX_FMT_YUV422P:
+	case AV_PIX_FMT_YUV444P:
+	case AV_PIX_FMT_YUV411P:
+	case AV_PIX_FMT_YUVJ420P:
+	case AV_PIX_FMT_YUVJ422P:
+	case AV_PIX_FMT_YUVJ444P:
+	case AV_PIX_FMT_RGB24:
+	case AV_PIX_FMT_ARGB:
+	case AV_PIX_FMT_RGBA:
+	case AV_PIX_FMT_ABGR:
+	case AV_PIX_FMT_BGRA:
+	case AV_PIX_FMT_RGB555LE:
 		/* 8-bit */
 		for (int c = 0; c < 3; ++c) {
 			uint8_t* p = data()[c];
@@ -816,12 +816,12 @@ Image::fade (float f)
 		}
 		break;
 
-	case PIX_FMT_YUV422P9LE:
-	case PIX_FMT_YUV444P9LE:
-	case PIX_FMT_YUV422P10LE:
-	case PIX_FMT_YUV444P10LE:
-	case PIX_FMT_YUV422P16LE:
-	case PIX_FMT_YUV444P16LE:
+	case AV_PIX_FMT_YUV422P9LE:
+	case AV_PIX_FMT_YUV444P9LE:
+	case AV_PIX_FMT_YUV422P10LE:
+	case AV_PIX_FMT_YUV444P10LE:
+	case AV_PIX_FMT_YUV422P16LE:
+	case AV_PIX_FMT_YUV444P16LE:
 	case AV_PIX_FMT_YUVA420P9LE:
 	case AV_PIX_FMT_YUVA422P9LE:
 	case AV_PIX_FMT_YUVA444P9LE:
@@ -846,10 +846,10 @@ Image::fade (float f)
 		}
 		break;
 
-	case PIX_FMT_YUV422P9BE:
-	case PIX_FMT_YUV444P9BE:
-	case PIX_FMT_YUV444P10BE:
-	case PIX_FMT_YUV422P10BE:
+	case AV_PIX_FMT_YUV422P9BE:
+	case AV_PIX_FMT_YUV444P9BE:
+	case AV_PIX_FMT_YUV444P10BE:
+	case AV_PIX_FMT_YUV422P10BE:
 	case AV_PIX_FMT_YUVA420P9BE:
 	case AV_PIX_FMT_YUVA422P9BE:
 	case AV_PIX_FMT_YUVA444P9BE:
@@ -877,7 +877,7 @@ Image::fade (float f)
 		}
 		break;
 
-	case PIX_FMT_UYVY422:
+	case AV_PIX_FMT_UYVY422:
 	{
 		int const Y = sample_size(0).height;
 		int const X = line_size()[0];
