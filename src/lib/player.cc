@@ -248,7 +248,7 @@ Player::set_video_container_size (dcp::Size s)
 {
 	_video_container_size = s;
 
-	_black_image.reset (new Image (PIX_FMT_RGB24, _video_container_size, true));
+	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_container_size, true));
 	_black_image->make_black ();
 }
 
@@ -671,8 +671,8 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 				if (fabs (1.0 - xs / ys) > dcp::ASPECT_ADJUST_EPSILON) {
 					s.set_aspect_adjust (xs / ys);
 				}
-				s.set_in (dcp::Time(content_subtitle_to_dcp (*j, ts.period().from).seconds()));
-				s.set_out (dcp::Time(content_subtitle_to_dcp (*j, ts.period().to).seconds()));
+				s.set_in (dcp::Time(content_subtitle_to_dcp (*j, ts.period().from).seconds(), 1000));
+				s.set_out (dcp::Time(content_subtitle_to_dcp (*j, ts.period().to).seconds(), 1000));
 				ps.text.push_back (s);
 				ps.add_fonts (subtitle_content->fonts ());
 			}

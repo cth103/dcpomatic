@@ -176,8 +176,8 @@ DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) cons
 		int64_t const entry_point = r->main_subtitle()->entry_point ();
 
 		list<dcp::SubtitleString> subs = r->main_subtitle()->subtitle_asset()->subtitles_during (
-			dcp::Time (period.from.seconds ()) - dcp::Time (entry_point, vfr, vfr),
-			dcp::Time (period.to.seconds ()) - dcp::Time (entry_point, vfr, vfr),
+			dcp::Time (period.from.seconds(), 1000) - dcp::Time (entry_point, vfr, vfr),
+			dcp::Time (period.to.seconds(), 1000) - dcp::Time (entry_point, vfr, vfr),
 			starting
 			);
 
