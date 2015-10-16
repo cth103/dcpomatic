@@ -98,7 +98,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 				break;
 			}
 
-			if (pass ()) {
+			if (pass (PASS_REASON_VIDEO)) {
 				/* The decoder has nothing more for us */
 				break;
 			}
@@ -115,7 +115,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 		dec = decoded_video (frame);
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
-		while (_decoded_video.empty() && !pass ()) {}
+		while (_decoded_video.empty() && !pass (PASS_REASON_VIDEO)) {}
 		if (!_decoded_video.empty ()) {
 			dec.push_back (_decoded_video.front ());
 		}
@@ -318,10 +318,14 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 
 	copy (to_push.begin(), to_push.end(), back_inserter (_decoded_video));
 
-	/* We can't let this build up too much or we will run out of memory.  We need to allow
-	   the most frames that can exist between blocks of sound in a multiplexed file.
+	/* We can't let this build up too much or we will run out of memory.  There is a
+	   `best' value for the allowed size of _decoded_video which balances memory use
+	   with decoding efficiency (lack of seeks).  Throwing away video frames here
+	   is not a problem for correctness, so do it.
 	*/
-	DCPOMATIC_ASSERT (_decoded_video.size() <= 96);
+	while (_decoded_video.size() > 96) {
+		_decoded_video.pop_back ();
+	}
 }
 
 void

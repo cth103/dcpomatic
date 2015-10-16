@@ -28,7 +28,7 @@ public:
 	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
 
 protected:
-	bool pass ();
+	bool pass (PassReason);
 	void seek (ContentTime time, bool accurate);
 
 private:

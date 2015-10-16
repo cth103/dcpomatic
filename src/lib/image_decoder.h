@@ -31,7 +31,7 @@ public:
 	}
 
 private:
-	bool pass ();
+	bool pass (PassReason);
 	void seek (ContentTime, bool);
 
 	boost::shared_ptr<const ImageContent> _image_content;

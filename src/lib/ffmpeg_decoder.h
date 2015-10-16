@@ -49,7 +49,7 @@ public:
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
-	bool pass ();
+	bool pass (PassReason);
 	void seek (ContentTime time, bool);
 	void flush ();
 

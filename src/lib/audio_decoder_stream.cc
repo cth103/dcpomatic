@@ -87,7 +87,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 		/* Keep stuffing data into _decoded until we have enough data, or the subclass does not want to give us any more */
 		while (
 			(_decoded.frame > frame || (_decoded.frame + _decoded.audio->frames()) < end) &&
-			!_decoder->pass ()
+			!_decoder->pass (Decoder::PASS_REASON_AUDIO)
 			)
 		{}
 
@@ -95,7 +95,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	} else {
 		while (
 			_decoded.audio->frames() < length &&
-			!_decoder->pass ()
+			!_decoder->pass (Decoder::PASS_REASON_AUDIO)
 			)
 		{}
 
