@@ -59,7 +59,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, bool fast)
 }
 
 bool
-DCPDecoder::pass ()
+DCPDecoder::pass (PassReason reason)
 {
 	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
 		return true;
@@ -68,7 +68,7 @@ DCPDecoder::pass ()
 	double const vfr = _dcp_content->video_frame_rate ();
 	int64_t const frame = _next.frames_round (vfr);
 
-	if ((*_reel)->main_picture ()) {
+	if ((*_reel)->main_picture () && reason != PASS_REASON_SUBTITLE) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
 		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
@@ -88,7 +88,7 @@ DCPDecoder::pass ()
 		}
 	}
 
-	if ((*_reel)->main_sound ()) {
+	if ((*_reel)->main_sound () && reason != PASS_REASON_SUBTITLE) {
 		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
 		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->asset()->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
