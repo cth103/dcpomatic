@@ -1299,20 +1299,31 @@ Film::reels () const
 		break;
 	case REELTYPE_BY_VIDEO_CONTENT:
 	{
-		optional<DCPTime> last;
+		optional<DCPTime> last_split;
+		shared_ptr<VideoContent> last_video;
+		ContentList cl = content ();
 		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
 			shared_ptr<VideoContent> v = dynamic_pointer_cast<VideoContent> (c);
 			if (v) {
 				BOOST_FOREACH (DCPTime t, v->reel_split_points()) {
-					if (last) {
-						p.push_back (DCPTimePeriod (last.get(), t));
+					if (last_split) {
+						p.push_back (DCPTimePeriod (last_split.get(), t));
 					}
-					last = t;
+					last_split = t;
 				}
+				last_video = v;
 			}
 		}
-		if (last) {
-			p.push_back (DCPTimePeriod (last.get(), len));
+
+		DCPTime video_end = last_video ? last_video->end() : DCPTime(0);
+		if (last_split) {
+			/* Definitely go from the last split to the end of the video content */
+			p.push_back (DCPTimePeriod (last_split.get(), video_end));
+		}
+
+		if (video_end < len) {
+			/* And maybe go after that as well if there is any non-video hanging over the end */
+			p.push_back (DCPTimePeriod (video_end, len));
 		}
 		break;
 	}

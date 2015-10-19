@@ -1,5 +1,8 @@
 2015-10-19  Carl Hetherington  <cth@carlh.net>
 
+	* Fix by-video-content reel split when there is stuff
+	after the last piece of video content.
+
 	* Add button to export leaf private key from the config.
 
 2015-10-17  Carl Hetherington  <cth@carlh.net>

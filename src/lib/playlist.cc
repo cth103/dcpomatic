@@ -351,7 +351,7 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 	return a->position() < b->position();
 }
 
-/** @return content in an undefined order */
+/** @return content in ascending order of position */
 ContentList
 Playlist::content () const
 {

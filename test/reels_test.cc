@@ -23,8 +23,10 @@
 #include "lib/image_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/dcp_content.h"
+#include "lib/subrip_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/foreach.hpp>
 
 using std::list;
 using boost::shared_ptr;
@@ -111,8 +113,8 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 
 	check_dcp ("test/data/reels_test2", film->dir (film->dcp_name()));
 
-	shared_ptr<Film> film2 = new_test_film ("reels_test3");
-	film2->set_name ("reels_test3");
+	shared_ptr<Film> film2 = new_test_film ("reels_test2b");
+	film2->set_name ("reels_test2b");
 	film2->set_container (Ratio::from_id ("185"));
 	film2->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film2->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
@@ -138,4 +140,40 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 
 	film2->make_dcp ();
 	wait_for_jobs ();
+}
+
+/** Check that REELTYPE_BY_VIDEO_CONTENT adds an extra reel, if necessary, at the end
+ *  of all the video content to mop up anything afterward.
+ */
+BOOST_AUTO_TEST_CASE (reels_test3)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test3");
+	film->set_name ("reels_test3");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+
+	shared_ptr<Content> dcp (new DCPContent (film, "test/data/reels_test2"));
+	film->examine_and_add_content (dcp);
+	shared_ptr<Content> sub (new SubRipContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (sub);
+	wait_for_jobs ();
+
+	std::cout << dcp->position() << " " << dcp->full_length() << "\n";
+	std::cout << sub->position() << " " << sub->full_length() << "\n";
+
+	list<DCPTimePeriod> reels = film->reels();
+	BOOST_REQUIRE_EQUAL (reels.size(), 4);
+	list<DCPTimePeriod>::const_iterator i = reels.begin ();
+	BOOST_CHECK_EQUAL (i->from, DCPTime (0));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000));
+	++i;
+	BOOST_CHECK_EQUAL (i->from, DCPTime (96000));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 2));
+	++i;
+	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 2));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 3));
+	++i;
+	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 3));
+	BOOST_CHECK_EQUAL (i->to, sub->full_length());
 }
