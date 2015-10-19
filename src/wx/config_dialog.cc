@@ -57,6 +57,7 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::lexical_cast;
 using boost::function;
+using boost::optional;
 
 class Page
 {
@@ -634,7 +635,7 @@ public:
 		wxBoxSizer* certificates_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_sizer->Add (certificates_sizer, 0, wxLEFT | wxRIGHT, border);
 
-		_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (400, 150), wxLC_REPORT | wxLC_SINGLE_SEL);
+		_certificates = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (440, 150), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 		{
 			wxListItem ip;
@@ -648,7 +649,7 @@ public:
 			wxListItem ip;
 			ip.SetId (1);
 			ip.SetText (_("Thumbprint"));
-			ip.SetWidth (300);
+			ip.SetWidth (340);
 
 			wxFont font = ip.GetFont ();
 			font.SetFamily (wxFONTFAMILY_TELETYPE);
@@ -682,6 +683,8 @@ public:
 		table->Add (_private_key, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 		_load_private_key = new wxButton (this, wxID_ANY, _("Load..."));
 		table->Add (_load_private_key, wxGBPosition (r, 2));
+		_export_private_key = new wxButton (this, wxID_ANY, _("Export..."));
+		table->Add (_export_private_key, wxGBPosition (r, 3));
 		++r;
 
 		_button_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -697,6 +700,7 @@ public:
 		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&CertificateChainEditor::update_sensitivity, this));
 		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remake_certificates, this));
 		_load_private_key->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::load_private_key, this));
+		_export_private_key->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::export_private_key, this));
 
 		SetSizerAndFit (_sizer);
 	}
@@ -902,6 +906,31 @@ private:
 		update_sensitivity ();
 	}
 
+	void export_private_key ()
+	{
+		optional<string> key = _chain->key ();
+		if (!key) {
+			return;
+		}
+
+		wxFileDialog* d = new wxFileDialog (
+			this, _("Select Key File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+			);
+
+		if (d->ShowModal () == wxID_OK) {
+			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
+			if (!f) {
+				throw OpenFileError (wx_to_std (d->GetPath ()));
+			}
+
+			string const s = _chain->key().get ();
+			fwrite (s.c_str(), 1, s.length(), f);
+			fclose (f);
+		}
+		d->Destroy ();
+	}
+
 	wxListCtrl* _certificates;
 	wxButton* _add_certificate;
 	wxButton* _export_certificate;
@@ -909,6 +938,7 @@ private:
 	wxButton* _remake_certificates;
 	wxStaticText* _private_key;
 	wxButton* _load_private_key;
+	wxButton* _export_private_key;
 	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
 	shared_ptr<dcp::CertificateChain> _chain;
