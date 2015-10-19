@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,33 +18,18 @@
 */
 
 #include "timeline_view.h"
-#include "timeline.h"
 
-/** @class TimelineView
- *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
- */
-TimelineView::TimelineView (Timeline& t)
-	: _timeline (t)
+class TimelineReelsView : public TimelineView
 {
+public:
+	TimelineReelsView (Timeline& tl, int y);
 
-}
+	dcpomatic::Rect<int> bbox () const;
+	void set_y (int y);
 
-void
-TimelineView::paint (wxGraphicsContext* g)
-{
-	_last_paint_bbox = bbox ();
-	do_paint (g);
-}
+private:
+	void do_paint (wxGraphicsContext* gc);
 
-void
-TimelineView::force_redraw ()
-{
-	_timeline.force_redraw (_last_paint_bbox);
-	_timeline.force_redraw (bbox ());
-}
-
-int
-TimelineView::time_x (DCPTime t) const
-{
-	return _timeline.tracks_position().x + t.seconds() * _timeline.pixels_per_second().get_value_or (0);
-}
+private:
+	int _y;
+};

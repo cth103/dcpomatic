@@ -1,5 +1,7 @@
 2015-10-19  Carl Hetherington  <cth@carlh.net>
 
+	* Draw reels in the timeline.
+
 	* Fix by-video-content reel split when there is stuff
 	after the last piece of video content.
 

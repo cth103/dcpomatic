@@ -31,6 +31,7 @@ class Film;
 class ContentPanel;
 class TimelineView;
 class TimelineTimeAxisView;
+class TimelineReelsView;
 
 class Timeline : public wxPanel
 {
@@ -96,6 +97,7 @@ private:
 	boost::weak_ptr<Film> _film;
 	TimelineViewList _views;
 	boost::shared_ptr<TimelineTimeAxisView> _time_axis_view;
+	boost::shared_ptr<TimelineReelsView> _reels_view;
 	int _tracks;
 	boost::optional<double> _pixels_per_second;
 	bool _left_down;

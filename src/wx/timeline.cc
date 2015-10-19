@@ -20,6 +20,7 @@
 #include "film_editor.h"
 #include "timeline.h"
 #include "timeline_time_axis_view.h"
+#include "timeline_reels_view.h"
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
 #include "timeline_subtitle_content_view.h"
@@ -49,7 +50,8 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _content_panel (cp)
 	, _film (film)
-	, _time_axis_view (new TimelineTimeAxisView (*this, 32))
+	, _time_axis_view (new TimelineTimeAxisView (*this, 64))
+	, _reels_view (new TimelineReelsView (*this, 32))
 	, _tracks (0)
 	, _left_down (false)
 	, _down_view_position (0)
@@ -112,6 +114,7 @@ Timeline::recreate_views ()
 
 	_views.clear ();
 	_views.push_back (_time_axis_view);
+	_views.push_back (_reels_view);
 
 	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
 		if (dynamic_pointer_cast<VideoContent> (i)) {
@@ -203,7 +206,8 @@ Timeline::assign_tracks ()
 		_tracks = max (_tracks, t + 1);
 	}
 
-	_time_axis_view->set_y (tracks() * track_height() + 32);
+	_time_axis_view->set_y (tracks() * track_height() + 64);
+	_reels_view->set_y (tracks() * track_height() + 32);
 }
 
 int
