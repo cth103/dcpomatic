@@ -68,6 +68,7 @@ public:
 		*/
 		FAKE,
 		REPEAT,
+		REF,
 	} type;
 
 	/** encoded data for FULL */
@@ -76,6 +77,7 @@ public:
 	int size;
 	/** frame index */
 	int frame;
+	/** eyes for FULL, FAKE and REPEAT */
 	Eyes eyes;
 };
 
@@ -101,11 +103,12 @@ public:
 
 	void start ();
 
-	bool can_fake_write (int) const;
+	bool can_fake_write (Frame) const;
 
-	void write (Data, int, Eyes);
-	void fake_write (int, Eyes);
-	void repeat (int, Eyes);
+	void write (Data, Frame, Eyes);
+	void fake_write (Frame, Eyes);
+	void ref_write (Frame);
+	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
@@ -120,11 +123,13 @@ private:
 	public:
 		Reel ()
 			: first_nonexistant_frame (0)
+			, written (0)
 		{}
 
 		DCPTimePeriod period;
 		/** the first frame index that does not already exist in our MXF */
 		int first_nonexistant_frame;
+		Frame written;
 
 		boost::shared_ptr<dcp::PictureAsset> picture_asset;
 		boost::shared_ptr<dcp::PictureAssetWriter> picture_asset_writer;
@@ -178,6 +183,7 @@ private:
 	/** number of FAKE written frames */
 	int _fake_written;
 	int _repeat_written;
+	int _ref_written;
 	/** number of frames pushed to disk and then recovered
 	    due to the limit of frames to be held in memory.
 	*/

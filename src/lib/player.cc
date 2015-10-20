@@ -380,7 +380,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
 		time,
-		time + DCPTime::from_frames (1, _film->video_frame_rate ()) - DCPTime::delta()
+		time + DCPTime::from_frames (1, _film->video_frame_rate ())
 		);
 
 	list<shared_ptr<PlayerVideo> > pvf;

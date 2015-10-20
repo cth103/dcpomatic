@@ -106,7 +106,7 @@ private:
 				continue;
 			}
 
-			if ((*i)->content->position() <= to && (*i)->content->end() >= from) {
+			if ((*i)->content->position() < to && (*i)->content->end() > from) {
 				overlaps.push_back (*i);
 			}
 		}

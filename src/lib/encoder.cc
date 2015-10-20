@@ -59,9 +59,7 @@ int const Encoder::_history_size = 25;
 Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Writer> writer)
 	: _film (film)
 	, _job (j)
-	, _video_frames_enqueued (0)
-	, _left_done (false)
-	, _right_done (false)
+	, _position (0)
 	, _terminate_enqueue (false)
 	, _terminate_encoding (false)
 	, _writer (writer)
@@ -155,7 +153,7 @@ int
 Encoder::video_frames_out () const
 {
 	boost::mutex::scoped_lock (_state_mutex);
-	return _video_frames_enqueued;
+	return _position;
 }
 
 /** Should be called when a frame has been encoded successfully.
@@ -174,9 +172,24 @@ Encoder::frame_done ()
 	}
 }
 
-/** Called in order, so each time this is called the supplied frame is the one
- *  after the previous one.
+/** Called to start encoding of the next video frame in the DCP.  This is called in order,
+ *  so each time the supplied frame is the one after the previous one.
+ *  pv represents one video frame, and could be empty if there is nothing to encode
+ *  for this DCP frame.
  */
+void
+Encoder::encode (list<shared_ptr<PlayerVideo> > pv)
+{
+	if (pv.empty ()) {
+		_writer->ref_write (_position);
+	} else {
+		BOOST_FOREACH (shared_ptr<PlayerVideo> i, pv) {
+			enqueue (i);
+		}
+	}
+	++_position;
+}
+
 void
 Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 {
@@ -210,22 +223,22 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	*/
 	rethrow ();
 
-	if (_writer->can_fake_write (_video_frames_enqueued)) {
+	if (_writer->can_fake_write (_position)) {
 		/* We can fake-write this frame */
-		_writer->fake_write (_video_frames_enqueued, pv->eyes ());
+		_writer->fake_write (_position, pv->eyes ());
 		frame_done ();
 	} else if (pv->has_j2k ()) {
 		/* This frame already has JPEG2000 data, so just write it */
-		_writer->write (pv->j2k(), _video_frames_enqueued, pv->eyes ());
+		_writer->write (pv->j2k(), _position, pv->eyes ());
 	} else if (_last_player_video && pv->same (_last_player_video)) {
-		_writer->repeat (_video_frames_enqueued, pv->eyes ());
+		_writer->repeat (_position, pv->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideo> (
 					  new DCPVideo (
 						  pv,
-						  _video_frames_enqueued,
+						  _position,
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
 						  _film->resolution(),
@@ -237,25 +250,6 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 		   waiting on that.
 		*/
 		_empty_condition.notify_all ();
-	}
-
-	switch (pv->eyes ()) {
-	case EYES_BOTH:
-		++_video_frames_enqueued;
-		break;
-	case EYES_LEFT:
-		_left_done = true;
-		break;
-	case EYES_RIGHT:
-		_right_done = true;
-		break;
-	default:
-		break;
-	}
-
-	if (_left_done && _right_done) {
-		++_video_frames_enqueued;
-		_left_done = _right_done = false;
 	}
 
 	_last_player_video = pv;

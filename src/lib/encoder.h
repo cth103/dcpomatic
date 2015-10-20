@@ -59,10 +59,10 @@ public:
 	/** Called to indicate that a processing run is about to begin */
 	void begin ();
 
-	/** Call with a frame of video.
-	 *  @param f Video frame.
+	/** Called to pass in zero or more bits of video to be encoded
+	 *  as the next DCP frame.
 	 */
-	void enqueue (boost::shared_ptr<PlayerVideo> f);
+	void encode (std::list<boost::shared_ptr<PlayerVideo> > f);
 
 	/** Called when a processing run has finished */
 	void end ();
@@ -72,6 +72,7 @@ public:
 
 private:
 
+	void enqueue (boost::shared_ptr<PlayerVideo> f);
 	void frame_done ();
 
 	void encoder_thread (boost::optional<ServerDescription>);
@@ -90,10 +91,8 @@ private:
 	std::list<struct timeval> _time_history;
 	/** Number of frames that we should keep history for */
 	static int const _history_size;
-	/** Number of video frames enqueued so far */
-	int _video_frames_enqueued;
-	bool _left_done;
-	bool _right_done;
+	/** Current DCP frame index */
+	Frame _position;
 
 	/* XXX: probably should be atomic */
 	bool _terminate_enqueue;

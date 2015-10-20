@@ -87,15 +87,8 @@ Transcoder::go ()
 	}
 
 	for (DCPTime t; t < length; t += frame) {
-		list<shared_ptr<PlayerVideo> > v = _player->get_video (t, true);
-		for (list<shared_ptr<PlayerVideo> >::const_iterator i = v.begin(); i != v.end(); ++i) {
-			_encoder->enqueue (*i);
-		}
-
-		shared_ptr<AudioBuffers> audio = _player->get_audio (t, frame, true);
-		if (audio) {
-			_writer->write (audio);
-		}
+		_encoder->encode (_player->get_video (t, true));
+		_writer->write (_player->get_audio (t, frame, true));
 
 		if (non_burnt_subtitles) {
 			_writer->write (_player->get_subtitles (t, frame, true, false));

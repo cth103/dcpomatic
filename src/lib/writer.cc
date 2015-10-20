@@ -90,6 +90,7 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _full_written (0)
 	, _fake_written (0)
 	, _repeat_written (0)
+	, _ref_written (0)
 	, _pushed_to_disk (0)
 {
 	/* Remove any old DCP */
@@ -178,8 +179,9 @@ Writer::~Writer ()
 	terminate_thread (false);
 }
 
+/** @param frame Frame within the DCP */
 void
-Writer::write (Data encoded, int frame, Eyes eyes)
+Writer::write (Data encoded, Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
@@ -212,7 +214,7 @@ Writer::write (Data encoded, int frame, Eyes eyes)
 }
 
 void
-Writer::repeat (int frame, Eyes eyes)
+Writer::repeat (Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
@@ -239,7 +241,7 @@ Writer::repeat (int frame, Eyes eyes)
 }
 
 void
-Writer::fake_write (int frame, Eyes eyes)
+Writer::fake_write (Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
@@ -275,7 +277,29 @@ Writer::fake_write (int frame, Eyes eyes)
 	_empty_condition.notify_all ();
 }
 
-/** This method is not thread safe */
+void
+Writer::ref_write (Frame frame)
+{
+	boost::mutex::scoped_lock lock (_state_mutex);
+
+	while (_queued_full_in_memory > _maximum_frames_in_memory) {
+		/* The queue is too big; wait until that is sorted out */
+		_full_condition.wait (lock);
+	}
+
+	QueueItem qi;
+	qi.type = QueueItem::REF;
+	qi.frame = frame;
+	qi.eyes = EYES_BOTH;
+	_queue.push_back (qi);
+
+	/* Now there's something to do: wake anything wait()ing on _empty_condition */
+	_empty_condition.notify_all ();
+}
+
+/** Write one video frame's worth of audio frames to the DCP.
+ *  This method is not thread safe.
+ */
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
@@ -283,10 +307,17 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 		return;
 	}
 
-	_audio_reel->sound_asset_writer->write (audio->data(), audio->frames());
+	if (audio) {
+		_audio_reel->sound_asset_writer->write (audio->data(), audio->frames());
+	}
 
-	/* SoundAsset's `frames' are video frames, not audio frames */
-	if (_audio_reel->sound_asset_writer->frames_written() >= _audio_reel->period.duration().frames_round (_film->video_frame_rate())) {
+	++_audio_reel->written;
+
+	cout << "(written " << _audio_reel->written << "); period is " << _audio_reel->period.duration() << "\n";
+
+	/* written is in video frames, not audio frames */
+	if (_audio_reel->written >= _audio_reel->period.duration().frames_round (_film->video_frame_rate())) {
+		cout << "NEXT AUDIO REEL!\n";
 		++_audio_reel;
 	}
 }
@@ -416,10 +447,10 @@ try
 			case QueueItem::FAKE:
 				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
 				reel.picture_asset_writer->fake_write (qi.size);
-				_last_written[qi.eyes].reset ();
 				++_fake_written;
 				break;
 			case QueueItem::REPEAT:
+			{
 				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes %1"), qi.frame);
 				dcp::FrameInfo fin = reel.picture_asset_writer->write (
 					_last_written[qi.eyes]->data().get(),
@@ -427,6 +458,11 @@ try
 					);
 				write_frame_info (qi.frame, qi.eyes, fin);
 				++_repeat_written;
+				break;
+			}
+			case QueueItem::REF:
+				LOG_DEBUG_ENCODE (N_("Writer REF-writes %1"), qi.frame);
+				++_ref_written;
 				break;
 			}
 
@@ -445,7 +481,7 @@ try
 				total *= 2;
 			}
 			if (total) {
-				job->set_progress (float (_full_written + _fake_written + _repeat_written) / total);
+				job->set_progress (float (_full_written + _fake_written + _repeat_written + _ref_written) / total);
 			}
 		}
 
@@ -527,13 +563,16 @@ Writer::finish ()
 	BOOST_FOREACH (Reel& i, _reels) {
 
 		if (!i.picture_asset_writer->finalize ()) {
-		/* Nothing was written to the picture asset */
+			/* Nothing was written to the picture asset */
 			i.picture_asset.reset ();
 		}
 
 		if (i.sound_asset_writer && !i.sound_asset_writer->finalize ()) {
 			/* Nothing was written to the sound asset */
+			cout << "nothing written to reel @ " << i.period << "\n";
 			i.sound_asset.reset ();
+		} else {
+			cout << "something written to reel @ " << i.period << "\n";
 		}
 
 		/* Hard-link any video asset file into the DCP */
@@ -718,7 +757,7 @@ Writer::finish ()
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer);
 
 	LOG_GENERAL (
-		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
+		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 REF, %5 pushed to disk"), _full_written, _fake_written, _repeat_written, _ref_written, _pushed_to_disk
 		);
 }
 
@@ -791,22 +830,21 @@ Writer::check_existing_picture_asset (Reel& reel)
 	fclose (info_file);
 }
 
-/** @param frame Frame index.
+/** @param frame Frame index within the whole DCP.
  *  @return true if we can fake-write this frame.
  */
 bool
-Writer::can_fake_write (int frame) const
+Writer::can_fake_write (Frame frame) const
 {
 	/* We have to do a proper write of the first frame so that we can set up the JPEG2000
 	   parameters in the asset writer.
 	*/
 
-	/* XXX: need to correct frame to be relative to the reel, perhaps?
-	   and clarify whether first_nonexistant_frame is relative to the start
-	   of the DCP or of the reel.
-	*/
+	Reel const & reel = video_reel (frame);
 
-	return (frame != 0 && frame < video_reel(frame).first_nonexistant_frame);
+	/* Make frame relative to the start of the reel */
+	frame -= reel.period.from.frames_floor (_film->video_frame_rate());
+	return (frame != 0 && frame < reel.first_nonexistant_frame);
 }
 
 void
