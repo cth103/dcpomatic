@@ -232,6 +232,7 @@ AudioPanel::content_selection_changed ()
 	_delay->set_content (sel);
 
 	film_content_changed (AudioContentProperty::AUDIO_STREAMS);
+	film_content_changed (DCPContentProperty::REFERENCE_AUDIO);
 
 	setup_sensitivity ();
 }
