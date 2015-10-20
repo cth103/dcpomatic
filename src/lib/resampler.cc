@@ -30,6 +30,7 @@
 using std::cout;
 using std::pair;
 using std::make_pair;
+using std::runtime_error;
 using boost::shared_ptr;
 
 /** @param in Input sampling rate (Hz)
@@ -45,7 +46,7 @@ Resampler::Resampler (int in, int out, int channels, bool fast)
 	int error;
 	_src = src_new (fast ? SRC_LINEAR : SRC_SINC_BEST_QUALITY, _channels, &error);
 	if (!_src) {
-		throw StringError (String::compose (N_("could not create sample-rate converter (%1)"), error));
+		throw runtime_error (String::compose (N_("could not create sample-rate converter (%1)"), error));
 	}
 }
 

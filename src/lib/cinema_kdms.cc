@@ -34,6 +34,7 @@
 using std::list;
 using std::cout;
 using std::string;
+using std::runtime_error;
 using boost::shared_ptr;
 
 void
@@ -56,16 +57,16 @@ CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) c
 
 		struct zip_source* source = zip_source_buffer (zip, kdm->c_str(), kdm->length(), 0);
 		if (!source) {
-			throw StringError ("could not create ZIP source");
+			throw runtime_error ("could not create ZIP source");
 		}
 
 		if (zip_add (zip, i.filename(film_name).c_str(), source) == -1) {
-			throw StringError ("failed to add KDM to ZIP archive");
+			throw runtime_error ("failed to add KDM to ZIP archive");
 		}
 	}
 
 	if (zip_close (zip) == -1) {
-		throw StringError ("failed to close ZIP archive");
+		throw runtime_error ("failed to close ZIP archive");
 	}
 }
 

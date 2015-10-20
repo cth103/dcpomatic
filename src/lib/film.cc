@@ -80,6 +80,7 @@ using std::make_pair;
 using std::cout;
 using std::list;
 using std::set;
+using std::runtime_error;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -291,7 +292,7 @@ Film::make_dcp ()
 	}
 
 	if (content().empty()) {
-		throw StringError (_("You must add some content to the DCP before creating it"));
+		throw runtime_error (_("You must add some content to the DCP before creating it"));
 	}
 
 	if (dcp_content_type() == 0) {
@@ -370,7 +371,7 @@ list<string>
 Film::read_metadata ()
 {
 	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
-		throw StringError (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
+		throw runtime_error (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 	}
 
 	cxml::Document f ("Metadata");
@@ -378,7 +379,7 @@ Film::read_metadata ()
 
 	_state_version = f.number_child<int> ("Version");
 	if (_state_version > current_state_version) {
-		throw StringError (_("This film was created with a newer version of DCP-o-matic, and it cannot be loaded into this version.  Sorry!"));
+		throw runtime_error (_("This film was created with a newer version of DCP-o-matic, and it cannot be loaded into this version.  Sorry!"));
 	}
 
 	_name = f.string_child ("Name");

@@ -31,63 +31,40 @@ extern "C" {
 #include <stdexcept>
 #include <cstring>
 
-/** @class StringError
- *  @brief A parent class for exceptions using messages held in a std::string
- */
-class StringError : public std::exception
-{
-public:
-	/** @param w Error message */
-	StringError (std::string w)
-		: _what (w)
-	{}
-
-	virtual ~StringError () throw () {}
-
-	/** @return error message */
-	char const * what () const throw () {
-		return _what.c_str ();
-	}
-
-protected:
-	/** error message */
-	std::string _what;
-};
-
 /** @class DecodeError
  *  @brief A low-level problem with the decoder (possibly due to the nature
  *  of a source file).
  */
-class DecodeError : public StringError
+class DecodeError : public std::runtime_error
 {
 public:
 	DecodeError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 
 /** @class EncodeError
  *  @brief A low-level problem with an encoder.
  */
-class EncodeError : public StringError
+class EncodeError : public std::runtime_error
 {
 public:
 	EncodeError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 
 /** @class FileError.
  *  @brief Parent class for file-related errors.
  */
-class FileError : public StringError
+class FileError : public std::runtime_error
 {
 public:
 	/** @param m Error message.
 	 *  @param f Name of the file that this exception concerns.
 	 */
 	FileError (std::string m, boost::filesystem::path f)
-		: StringError (m)
+		: std::runtime_error (m)
 		, _file (f)
 	{}
 
@@ -103,11 +80,11 @@ private:
 	boost::filesystem::path _file;
 };
 
-class JoinError : public StringError
+class JoinError : public std::runtime_error
 {
 public:
 	JoinError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 
@@ -159,14 +136,14 @@ public:
 /** @class SettingError.
  *  @brief Indicates that something is wrong with a setting.
  */
-class SettingError : public StringError
+class SettingError : public std::runtime_error
 {
 public:
 	/** @param s Name of setting that was required.
 	 *  @param m Message.
 	 */
 	SettingError (std::string s, std::string m)
-		: StringError (m)
+		: std::runtime_error (m)
 		, _setting (s)
 	{}
 
@@ -206,29 +183,29 @@ public:
 /** @class NetworkError
  *  @brief Indicates some problem with communication on the network.
  */
-class NetworkError : public StringError
+class NetworkError : public std::runtime_error
 {
 public:
 	NetworkError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 
 /** @class KDMError
  *  @brief A problem with a KDM.
  */
-class KDMError : public StringError
+class KDMError : public std::runtime_error
 {
 public:
 	KDMError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 
 /** @class PixelFormatError
  *  @brief A problem with an unsupported pixel format.
  */
-class PixelFormatError : public StringError
+class PixelFormatError : public std::runtime_error
 {
 public:
 	PixelFormatError (std::string o, AVPixelFormat f);
@@ -243,31 +220,31 @@ public:
 	SubRipError (std::string, std::string, boost::filesystem::path);
 };
 
-class DCPError : public StringError
+class DCPError : public std::runtime_error
 {
 public:
 	DCPError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 
-class InvalidSignerError : public StringError
+class InvalidSignerError : public std::runtime_error
 {
 public:
 	InvalidSignerError ();
 };
 
-class ProgrammingError : public StringError
+class ProgrammingError : public std::runtime_error
 {
 public:
 	ProgrammingError (std::string file, int line);
 };
 
-class TextEncodingError : public StringError
+class TextEncodingError : public std::runtime_error
 {
 public:
 	TextEncodingError (std::string s)
-		: StringError (s)
+		: std::runtime_error (s)
 	{}
 };
 

@@ -23,6 +23,7 @@
 #include "i18n.h"
 
 using std::string;
+using std::runtime_error;
 
 /** @param f File that we were trying to open */
 OpenFileError::OpenFileError (boost::filesystem::path f)
@@ -57,7 +58,7 @@ MissingSettingError::MissingSettingError (string s)
 }
 
 PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
-	: StringError (String::compose (_("Cannot handle pixel format %1 during %2"), f, o))
+	: runtime_error (String::compose (_("Cannot handle pixel format %1 during %2"), f, o))
 {
 
 }
@@ -69,13 +70,13 @@ SubRipError::SubRipError (string saw, string expecting, boost::filesystem::path 
 }
 
 InvalidSignerError::InvalidSignerError ()
-	: StringError (_("The certificate chain for signing is invalid"))
+	: runtime_error (_("The certificate chain for signing is invalid"))
 {
 
 }
 
 ProgrammingError::ProgrammingError (string file, int line)
-	: StringError (String::compose (_("Programming error at %1:%2"), file, line))
+	: runtime_error (String::compose (_("Programming error at %1:%2"), file, line))
 {
 
 }
