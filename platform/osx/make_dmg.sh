@@ -83,6 +83,7 @@ function universal_copy_lib {
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$WORK/$macos"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$WORK/$macos"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$WORK/$macos_kdm"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$WORK/$macos_server"
 universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$WORK/$macos_batch"
