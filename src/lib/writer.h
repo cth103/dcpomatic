@@ -25,7 +25,6 @@
 #include "player_subtitles.h"
 #include "data.h"
 #include "exception_store.h"
-#include <dcp/picture_asset_writer.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -38,19 +37,7 @@ class AudioBuffers;
 class Job;
 class Font;
 class ReferencedReelAsset;
-
-namespace dcp {
-	class MonoPictureAsset;
-	class MonoPictureAssetWriter;
-	class StereoPictureAsset;
-	class StereoPictureAssetWriter;
-	class PictureAsset;
-	class PictureAssetWriter;
-	class SoundAsset;
-	class SoundAssetWriter;
-	class SubtitleAsset;
-	class ReelAsset;
-}
+class ReelWriter;
 
 struct QueueItem
 {
@@ -118,49 +105,17 @@ public:
 	void set_encoder_threads (int threads);
 
 private:
-
-	class Reel {
-	public:
-		Reel ()
-			: first_nonexistant_frame (0)
-			, last_written_video_frame (-1)
-			, last_written_eyes (EYES_RIGHT)
-			, total_written_audio_frames (0)
-		{}
-
-		DCPTimePeriod period;
-		/** the first frame index that does not already exist in our MXF */
-		int first_nonexistant_frame;
-		/** the data of the last written frame, if there is one */
-		boost::optional<Data> last_written[EYES_COUNT];
-		/** the index of the last written video frame within the reel */
-		int last_written_video_frame;
-		Eyes last_written_eyes;
-		/** the number of audio frames that have been written to the reel */
-		int total_written_audio_frames;
-
-		boost::shared_ptr<dcp::PictureAsset> picture_asset;
-		boost::shared_ptr<dcp::PictureAssetWriter> picture_asset_writer;
-		boost::shared_ptr<dcp::SoundAsset> sound_asset;
-		boost::shared_ptr<dcp::SoundAssetWriter> sound_asset_writer;
-		boost::shared_ptr<dcp::SubtitleAsset> subtitle_asset;
-	};
-
 	void thread ();
 	void terminate_thread (bool);
-	void check_existing_picture_asset (Reel& reel);
 	bool have_sequenced_image_at_queue_head ();
-	void write_frame_info (Reel const & reel, int frame, Eyes eyes, dcp::FrameInfo info) const;
-	long frame_info_position (int frame, Eyes eyes) const;
-	dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes) const;
 	size_t video_reel (int frame) const;
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
-	std::vector<Reel> _reels;
-	std::vector<Reel>::iterator _audio_reel;
-	std::vector<Reel>::iterator _subtitle_reel;
+	std::vector<ReelWriter> _reels;
+	std::vector<ReelWriter>::iterator _audio_reel;
+	std::vector<ReelWriter>::iterator _subtitle_reel;
 
 	/** our thread, or 0 */
 	boost::thread* _thread;
@@ -194,6 +149,4 @@ private:
 	std::list<ReferencedReelAsset> _reel_assets;
 
 	std::list<boost::shared_ptr<Font> > _fonts;
-
-	static int const _info_size;
 };

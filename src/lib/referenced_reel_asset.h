@@ -17,6 +17,11 @@
 
 */
 
+#ifndef DCPOMATIC_REFERENCED_REEL_ASSET_H
+#define DCPOMATIC_REFERENCED_REEL_ASSET_H
+
+#include <dcp/reel_asset.h>
+
 class ReferencedReelAsset
 {
 public:
@@ -30,3 +35,5 @@ public:
 	/** Period that this asset covers in the DCP */
 	DCPTimePeriod period;
 };
+
+#endif

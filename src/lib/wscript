@@ -96,6 +96,7 @@ sources = """
           position_image.cc
           ratio.cc
           raw_image_proxy.cc
+          reel_writer.cc
           render_subtitles.cc
           resampler.cc
           safe_stringstream.cc
