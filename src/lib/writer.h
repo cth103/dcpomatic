@@ -68,14 +68,15 @@ public:
 		*/
 		FAKE,
 		REPEAT,
-		REF,
 	} type;
 
 	/** encoded data for FULL */
 	boost::optional<Data> encoded;
 	/** size of data for FAKE */
 	int size;
-	/** frame index */
+	/** reel index */
+	size_t reel;
+	/** frame index within the reel */
 	int frame;
 	/** eyes for FULL, FAKE and REPEAT */
 	Eyes eyes;
@@ -91,7 +92,7 @@ bool operator== (QueueItem const & a, QueueItem const & b);
  *  or AudioBuffers objects (containing image or sound data respectively)
  *  and writes them to the assets.
  *
- *  ::write() for Data can be called out of order, and the Writer
+ *  ::write() for Data (picture) can be called out of order, and the Writer
  *  will sort it out.  write() for AudioBuffers must be called in order.
  */
 
@@ -107,7 +108,6 @@ public:
 
 	void write (Data, Frame, Eyes);
 	void fake_write (Frame, Eyes);
-	void ref_write (Frame);
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);
@@ -123,13 +123,21 @@ private:
 	public:
 		Reel ()
 			: first_nonexistant_frame (0)
-			, written (0)
+			, last_written_video_frame (-1)
+			, last_written_eyes (EYES_RIGHT)
+			, total_written_audio_frames (0)
 		{}
 
 		DCPTimePeriod period;
 		/** the first frame index that does not already exist in our MXF */
 		int first_nonexistant_frame;
-		Frame written;
+		/** the data of the last written frame, if there is one */
+		boost::optional<Data> last_written[EYES_COUNT];
+		/** the index of the last written video frame within the reel */
+		int last_written_video_frame;
+		Eyes last_written_eyes;
+		/** the number of audio frames that have been written to the reel */
+		int total_written_audio_frames;
 
 		boost::shared_ptr<dcp::PictureAsset> picture_asset;
 		boost::shared_ptr<dcp::PictureAssetWriter> picture_asset_writer;
@@ -142,17 +150,17 @@ private:
 	void terminate_thread (bool);
 	void check_existing_picture_asset (Reel& reel);
 	bool have_sequenced_image_at_queue_head ();
-	void write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const;
+	void write_frame_info (Reel const & reel, int frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (int frame, Eyes eyes) const;
 	dcp::FrameInfo read_frame_info (FILE* file, int frame, Eyes eyes) const;
-	Reel const & video_reel (int frame) const;
+	size_t video_reel (int frame) const;
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
-	std::list<Reel> _reels;
-	std::list<Reel>::iterator _audio_reel;
-	std::list<Reel>::iterator _subtitle_reel;
+	std::vector<Reel> _reels;
+	std::vector<Reel>::iterator _audio_reel;
+	std::vector<Reel>::iterator _subtitle_reel;
 
 	/** our thread, or 0 */
 	boost::thread* _thread;
@@ -168,11 +176,6 @@ private:
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */
 	boost::condition _full_condition;
-	/** the data of the last written frame, if there is one */
-	boost::optional<Data> _last_written[EYES_COUNT];
-	/** the index of the last written frame */
-	int _last_written_frame;
-	Eyes _last_written_eyes;
 	/** maximum number of frames to hold in memory, for when we are managing
 	 *  ordering
 	 */
@@ -183,7 +186,6 @@ private:
 	/** number of FAKE written frames */
 	int _fake_written;
 	int _repeat_written;
-	int _ref_written;
 	/** number of frames pushed to disk and then recovered
 	    due to the limit of frames to be held in memory.
 	*/

@@ -84,13 +84,10 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _thread (0)
 	, _finish (false)
 	, _queued_full_in_memory (0)
-	, _last_written_frame (-1)
-	, _last_written_eyes (EYES_RIGHT)
 	, _maximum_frames_in_memory (0)
 	, _full_written (0)
 	, _fake_written (0)
 	, _repeat_written (0)
-	, _ref_written (0)
 	, _pushed_to_disk (0)
 {
 	/* Remove any old DCP */
@@ -179,7 +176,12 @@ Writer::~Writer ()
 	terminate_thread (false);
 }
 
-/** @param frame Frame within the DCP */
+/** Pass a video frame to the writer for writing to disk at some point.
+ *  This method can be called with frames out of order.
+ *  @param encoded JPEG2000-encoded data.
+ *  @param frame Frame index within the DCP.
+ *  @param eyes Eyes that this frame image is for.
+ */
 void
 Writer::write (Data encoded, Frame frame, Eyes eyes)
 {
@@ -193,7 +195,8 @@ Writer::write (Data encoded, Frame frame, Eyes eyes)
 	QueueItem qi;
 	qi.type = QueueItem::FULL;
 	qi.encoded = encoded;
-	qi.frame = frame;
+	qi.reel = video_reel (frame);
+	qi.frame = frame - _reels[qi.reel].period.from.frames_floor (_film->video_frame_rate());
 
 	if (_film->three_d() && eyes == EYES_BOTH) {
 		/* 2D material in a 3D DCP; fake the 3D */
@@ -213,6 +216,10 @@ Writer::write (Data encoded, Frame frame, Eyes eyes)
 	_empty_condition.notify_all ();
 }
 
+/** Repeat the last frame that was written to a reel as a new frame.
+ *  @param frame Frame index within the DCP of the new (repeated) frame.
+ *  @param eyes Eyes that this repeated frame image is for.
+ */
 void
 Writer::repeat (Frame frame, Eyes eyes)
 {
@@ -225,7 +232,8 @@ Writer::repeat (Frame frame, Eyes eyes)
 
 	QueueItem qi;
 	qi.type = QueueItem::REPEAT;
-	qi.frame = frame;
+	qi.reel = video_reel (frame);
+	qi.frame = frame - _reels[qi.reel].period.from.frames_floor (_film->video_frame_rate());
 	if (_film->three_d() && eyes == EYES_BOTH) {
 		qi.eyes = EYES_LEFT;
 		_queue.push_back (qi);
@@ -250,19 +258,21 @@ Writer::fake_write (Frame frame, Eyes eyes)
 		_full_condition.wait (lock);
 	}
 
-	Reel const & reel = video_reel (frame);
+	size_t const reel = video_reel (frame);
+	Frame const reel_frame = frame - _reels[reel].period.from.frames_floor (_film->video_frame_rate());
 
-	FILE* file = fopen_boost (_film->info_file(reel.period), "rb");
+	FILE* file = fopen_boost (_film->info_file(_reels[reel].period), "rb");
 	if (!file) {
-		throw ReadFileError (_film->info_file(reel.period));
+		throw ReadFileError (_film->info_file(_reels[reel].period));
 	}
-	dcp::FrameInfo info = read_frame_info (file, frame, eyes);
+	dcp::FrameInfo info = read_frame_info (file, reel_frame, eyes);
 	fclose (file);
 
 	QueueItem qi;
 	qi.type = QueueItem::FAKE;
 	qi.size = info.size;
-	qi.frame = frame;
+	qi.reel = reel;
+	qi.frame = reel_frame;
 	if (_film->three_d() && eyes == EYES_BOTH) {
 		qi.eyes = EYES_LEFT;
 		_queue.push_back (qi);
@@ -277,27 +287,8 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	_empty_condition.notify_all ();
 }
 
-void
-Writer::ref_write (Frame frame)
-{
-	boost::mutex::scoped_lock lock (_state_mutex);
-
-	while (_queued_full_in_memory > _maximum_frames_in_memory) {
-		/* The queue is too big; wait until that is sorted out */
-		_full_condition.wait (lock);
-	}
-
-	QueueItem qi;
-	qi.type = QueueItem::REF;
-	qi.frame = frame;
-	qi.eyes = EYES_BOTH;
-	_queue.push_back (qi);
-
-	/* Now there's something to do: wake anything wait()ing on _empty_condition */
-	_empty_condition.notify_all ();
-}
-
 /** Write one video frame's worth of audio frames to the DCP.
+ *  @param audio Audio data or 0 if there is no audio to be written here (i.e. it is referenced).
  *  This method is not thread safe.
  */
 void
@@ -308,16 +299,14 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 	}
 
 	if (audio) {
+		DCPOMATIC_ASSERT (_audio_reel->sound_asset_writer);
 		_audio_reel->sound_asset_writer->write (audio->data(), audio->frames());
 	}
 
-	++_audio_reel->written;
-
-	cout << "(written " << _audio_reel->written << "); period is " << _audio_reel->period.duration() << "\n";
+	++_audio_reel->total_written_audio_frames;
 
 	/* written is in video frames, not audio frames */
-	if (_audio_reel->written >= _audio_reel->period.duration().frames_round (_film->video_frame_rate())) {
-		cout << "NEXT AUDIO REEL!\n";
+	if (_audio_reel->total_written_audio_frames >= _audio_reel->period.duration().frames_floor (_film->video_frame_rate())) {
 		++_audio_reel;
 	}
 }
@@ -332,30 +321,33 @@ Writer::have_sequenced_image_at_queue_head ()
 
 	_queue.sort ();
 
+	QueueItem const & f = _queue.front();
+	Reel const & reel = _reels[f.reel];
+
 	/* The queue should contain only EYES_LEFT/EYES_RIGHT pairs or EYES_BOTH */
 
-	if (_queue.front().eyes == EYES_BOTH) {
+	if (f.eyes == EYES_BOTH) {
 		/* 2D */
-		return _queue.front().frame == (_last_written_frame + 1);
+		return f.frame == (reel.last_written_video_frame + 1);
 	}
 
 	/* 3D */
 
-	if (_last_written_eyes == EYES_LEFT && _queue.front().frame == _last_written_frame && _queue.front().eyes == EYES_RIGHT) {
+	if (reel.last_written_eyes == EYES_LEFT && f.frame == reel.last_written_video_frame && f.eyes == EYES_RIGHT) {
 		return true;
 	}
 
-	if (_last_written_eyes == EYES_RIGHT && _queue.front().frame == (_last_written_frame + 1) && _queue.front().eyes == EYES_LEFT) {
+	if (reel.last_written_eyes == EYES_RIGHT && f.frame == (reel.last_written_video_frame + 1) && f.eyes == EYES_LEFT) {
 		return true;
 	}
 
 	return false;
 }
 
+/** @param frame reel-relative frame */
 void
-Writer::write_frame_info (int frame, Eyes eyes, dcp::FrameInfo info) const
+Writer::write_frame_info (Reel const & reel, int frame, Eyes eyes, dcp::FrameInfo info) const
 {
-	Reel const & reel = video_reel (frame);
 	FILE* file = 0;
 	boost::filesystem::path info_file = _film->info_file (reel.period);
 	if (boost::filesystem::exists (info_file)) {
@@ -414,10 +406,10 @@ try
 						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i->size, i->frame, i->eyes);
 					}
 				}
-				LOG_WARNING (N_("Last written frame %1, last written eyes %2"), _last_written_frame, _last_written_eyes);
 			}
 			return;
 		}
+
 		/* Write any frames that we can write; i.e. those that are in sequence. */
 		while (have_sequenced_image_at_queue_head ()) {
 			QueueItem qi = _queue.front ();
@@ -428,19 +420,19 @@ try
 
 			lock.unlock ();
 
-			Reel const & reel = video_reel (qi.frame);
+			Reel& reel = _reels[qi.reel];
 
 			switch (qi.type) {
 			case QueueItem::FULL:
 			{
 				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
 				if (!qi.encoded) {
-					qi.encoded = Data (_film->j2c_path (qi.frame, qi.eyes, false));
+					qi.encoded = Data (_film->j2c_path (qi.reel, qi.frame, qi.eyes, false));
 				}
 
 				dcp::FrameInfo fin = reel.picture_asset_writer->write (qi.encoded->data().get (), qi.encoded->size());
-				write_frame_info (qi.frame, qi.eyes, fin);
-				_last_written[qi.eyes] = qi.encoded;
+				write_frame_info (reel, qi.frame, qi.eyes, fin);
+				reel.last_written[qi.eyes] = qi.encoded;
 				++_full_written;
 				break;
 			}
@@ -453,23 +445,19 @@ try
 			{
 				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes %1"), qi.frame);
 				dcp::FrameInfo fin = reel.picture_asset_writer->write (
-					_last_written[qi.eyes]->data().get(),
-					_last_written[qi.eyes]->size()
+					reel.last_written[qi.eyes]->data().get(),
+					reel.last_written[qi.eyes]->size()
 					);
-				write_frame_info (qi.frame, qi.eyes, fin);
+				write_frame_info (reel, qi.frame, qi.eyes, fin);
 				++_repeat_written;
 				break;
 			}
-			case QueueItem::REF:
-				LOG_DEBUG_ENCODE (N_("Writer REF-writes %1"), qi.frame);
-				++_ref_written;
-				break;
 			}
 
 			lock.lock ();
 
-			_last_written_frame = qi.frame;
-			_last_written_eyes = qi.eyes;
+			reel.last_written_video_frame = qi.frame;
+			reel.last_written_eyes = qi.eyes;
 
 			shared_ptr<Job> job = _job.lock ();
 			DCPOMATIC_ASSERT (job);
@@ -481,7 +469,7 @@ try
 				total *= 2;
 			}
 			if (total) {
-				job->set_progress (float (_full_written + _fake_written + _repeat_written + _ref_written) / total);
+				job->set_progress (float (_full_written + _fake_written + _repeat_written) / total);
 			}
 		}
 
@@ -506,13 +494,12 @@ try
 			   thread could erase the last item in the list.
 			*/
 
-			LOG_GENERAL (
-				"Writer full (awaiting %1 [last eye was %2]); pushes %3 to disk",
-				_last_written_frame + 1,
-				_last_written_eyes, i->frame
-				);
+			LOG_GENERAL ("Writer full; pushes %1 to disk", i->frame);
 
-			i->encoded->write_via_temp (_film->j2c_path (i->frame, i->eyes, true), _film->j2c_path (i->frame, i->eyes, false));
+			i->encoded->write_via_temp (
+				_film->j2c_path (i->reel, i->frame, i->eyes, true),
+				_film->j2c_path (i->reel, i->frame, i->eyes, false)
+				);
 
 			lock.lock ();
 			i->encoded.reset ();
@@ -757,7 +744,7 @@ Writer::finish ()
 	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer);
 
 	LOG_GENERAL (
-		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 REF, %5 pushed to disk"), _full_written, _fake_written, _repeat_written, _ref_written, _pushed_to_disk
+		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 }
 
@@ -840,7 +827,7 @@ Writer::can_fake_write (Frame frame) const
 	   parameters in the asset writer.
 	*/
 
-	Reel const & reel = video_reel (frame);
+	Reel const & reel = _reels[video_reel(frame)];
 
 	/* Make frame relative to the start of the reel */
 	frame -= reel.period.from.frames_floor (_film->video_frame_rate());
@@ -896,6 +883,10 @@ Writer::write (list<shared_ptr<Font> > fonts)
 bool
 operator< (QueueItem const & a, QueueItem const & b)
 {
+	if (a.reel != b.reel) {
+		return a.reel < b.reel;
+	}
+
 	if (a.frame != b.frame) {
 		return a.frame < b.frame;
 	}
@@ -906,7 +897,7 @@ operator< (QueueItem const & a, QueueItem const & b)
 bool
 operator== (QueueItem const & a, QueueItem const & b)
 {
-	return a.frame == b.frame && a.eyes == b.eyes;
+	return a.reel == b.reel && a.frame == b.frame && a.eyes == b.eyes;
 }
 
 void
@@ -954,15 +945,15 @@ Writer::write (ReferencedReelAsset asset)
 	_reel_assets.push_back (asset);
 }
 
-Writer::Reel const &
+size_t
 Writer::video_reel (int frame) const
 {
 	DCPTime t = DCPTime::from_frames (frame, _film->video_frame_rate ());
-	list<Reel>::const_iterator i = _reels.begin ();
-	while (i != _reels.end() && !i->period.contains (t)) {
+	size_t i = 0;
+	while (i < _reels.size() && !_reels[i].period.contains (t)) {
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (i != _reels.end ());
-	return *i;
+	DCPOMATIC_ASSERT (i < _reels.size ());
+	return i;
 }

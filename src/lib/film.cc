@@ -865,7 +865,7 @@ Film::set_isdcf_date_today ()
 }
 
 boost::filesystem::path
-Film::j2c_path (int f, Eyes e, bool t) const
+Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 {
 	boost::filesystem::path p;
 	p /= "j2c";
@@ -873,17 +873,17 @@ Film::j2c_path (int f, Eyes e, bool t) const
 
 	SafeStringStream s;
 	s.width (8);
-	s << setfill('0') << f;
+	s << setfill('0') << reel << "_" << frame;
 
-	if (e == EYES_LEFT) {
+	if (eyes == EYES_LEFT) {
 		s << ".L";
-	} else if (e == EYES_RIGHT) {
+	} else if (eyes == EYES_RIGHT) {
 		s << ".R";
 	}
 
 	s << ".j2c";
 
-	if (t) {
+	if (tmp) {
 		s << ".tmp";
 	}
 

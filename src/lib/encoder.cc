@@ -180,12 +180,8 @@ Encoder::frame_done ()
 void
 Encoder::encode (list<shared_ptr<PlayerVideo> > pv)
 {
-	if (pv.empty ()) {
-		_writer->ref_write (_position);
-	} else {
-		BOOST_FOREACH (shared_ptr<PlayerVideo> i, pv) {
-			enqueue (i);
-		}
+	BOOST_FOREACH (shared_ptr<PlayerVideo> i, pv) {
+		enqueue (i);
 	}
 	++_position;
 }

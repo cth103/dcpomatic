@@ -71,7 +71,7 @@ public:
 	~Film ();
 
 	boost::filesystem::path info_file (DCPTimePeriod p) const;
-	boost::filesystem::path j2c_path (int, Eyes, bool) const;
+	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;
 	boost::filesystem::path internal_video_asset_dir () const;
 	boost::filesystem::path internal_video_asset_filename (DCPTimePeriod p) const;
 
