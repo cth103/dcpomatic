@@ -584,6 +584,9 @@ list<DCPTime>
 VideoContent::reel_split_points () const
 {
 	list<DCPTime> t;
-	t.push_back (position ());
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	/* XXX: this is questionable; perhaps the position should be forced to be on a frame boundary */
+	t.push_back (position().round_up (film->video_frame_rate()));
 	return t;
 }

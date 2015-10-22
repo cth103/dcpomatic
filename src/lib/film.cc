@@ -1292,7 +1292,7 @@ list<DCPTimePeriod>
 Film::reels () const
 {
 	list<DCPTimePeriod> p;
-	DCPTime const len = length ();
+	DCPTime const len = length().round_up (video_frame_rate ());
 
 	switch (reel_type ()) {
 	case REELTYPE_SINGLE:
