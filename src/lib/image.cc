@@ -43,6 +43,7 @@ using std::min;
 using std::cout;
 using std::cerr;
 using std::list;
+using std::runtime_error;
 using boost::shared_ptr;
 using dcp::Size;
 
@@ -138,7 +139,7 @@ Image::crop_scale_window (
 		);
 
 	if (!scale_context) {
-		throw StringError (N_("Could not allocate SwsContext"));
+		throw runtime_error (N_("Could not allocate SwsContext"));
 	}
 
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);
