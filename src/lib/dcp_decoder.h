@@ -44,7 +44,7 @@ public:
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
-	bool pass (PassReason);
+	bool pass ();
 	void seek (ContentTime t, bool accurate);
 
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;

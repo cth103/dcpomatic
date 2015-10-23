@@ -98,7 +98,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 				break;
 			}
 
-			if (pass (PASS_REASON_VIDEO)) {
+			if (pass ()) {
 				/* The decoder has nothing more for us */
 				break;
 			}
@@ -115,7 +115,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 		dec = decoded_video (frame);
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
-		while (_decoded_video.empty() && !pass (PASS_REASON_VIDEO)) {}
+		while (_decoded_video.empty() && !pass ()) {}
 		if (!_decoded_video.empty ()) {
 			dec.push_back (_decoded_video.front ());
 		}
