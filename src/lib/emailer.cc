@@ -125,7 +125,7 @@ Emailer::send (shared_ptr<Job> job)
 
 	if (!_attachments.empty ()) {
 		email << "MIME-Version: 1.0\r\n"
-		      << "Content-Type: multipart/alternative; boundary=" << boundary << "\r\n";
+		      << "Content-Type: multipart/mixed; boundary=" << boundary << "\r\n";
 	}
 
 	email << "Subject: " << _subject << "\r\n"
