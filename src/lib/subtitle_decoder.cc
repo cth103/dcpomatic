@@ -56,7 +56,7 @@ SubtitleDecoder::text_subtitle (ContentTimePeriod period, list<dcp::SubtitleStri
 /** @param sp Full periods of subtitles that are showing or starting during the specified period */
 template <class T>
 list<T>
-SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting)
+SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting, bool accurate)
 {
 	if (sp.empty ()) {
 		/* Nothing in this period */
@@ -72,7 +72,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
-	while (!pass () && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
+	while (!pass(PASS_REASON_SUBTITLE, accurate) && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
@@ -105,15 +105,15 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 }
 
 list<ContentTextSubtitle>
-SubtitleDecoder::get_text_subtitles (ContentTimePeriod period, bool starting)
+SubtitleDecoder::get_text_subtitles (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentTextSubtitle> (_decoded_text_subtitles, text_subtitles_during (period, starting), period, starting);
+	return get<ContentTextSubtitle> (_decoded_text_subtitles, text_subtitles_during (period, starting), period, starting, accurate);
 }
 
 list<ContentImageSubtitle>
-SubtitleDecoder::get_image_subtitles (ContentTimePeriod period, bool starting)
+SubtitleDecoder::get_image_subtitles (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentImageSubtitle> (_decoded_image_subtitles, image_subtitles_during (period, starting), period, starting);
+	return get<ContentImageSubtitle> (_decoded_image_subtitles, image_subtitles_during (period, starting), period, starting, accurate);
 }
 
 void

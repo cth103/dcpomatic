@@ -357,7 +357,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Find subtitles for possible burn-in */
 
-	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()), false, true);
+	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()), false, true, accurate);
 
 	list<PositionImage> sub_images;
 
@@ -619,7 +619,7 @@ Player::content_subtitle_to_dcp (shared_ptr<const Piece> piece, ContentTime t) c
  *  _always_burn_subtitles is true; in this case, all subtitles will be returned.
  */
 PlayerSubtitles
-Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
+Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, bool accurate)
 {
 	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (time, time + length);
 
@@ -641,7 +641,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
 		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
 
-		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to), starting);
+		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to), starting, accurate);
 		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
 
 			/* Apply content's subtitle offsets */
@@ -659,7 +659,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt)
 			ps.image.push_back (i->sub);
 		}
 
-		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting);
+		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting, accurate);
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
 			BOOST_FOREACH (dcp::SubtitleString s, ts.subs) {
 				s.set_h_position (s.h_position() + subtitle_content->subtitle_x_offset ());

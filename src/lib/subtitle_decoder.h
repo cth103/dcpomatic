@@ -33,8 +33,8 @@ class SubtitleDecoder : public virtual Decoder
 public:
 	SubtitleDecoder (boost::shared_ptr<const SubtitleContent>);
 
-	std::list<ContentImageSubtitle> get_image_subtitles (ContentTimePeriod period, bool starting);
-	std::list<ContentTextSubtitle> get_text_subtitles (ContentTimePeriod period, bool starting);
+	std::list<ContentImageSubtitle> get_image_subtitles (ContentTimePeriod period, bool starting, bool accurate);
+	std::list<ContentTextSubtitle> get_text_subtitles (ContentTimePeriod period, bool starting, bool accurate);
 
 protected:
 	void seek (ContentTime, bool);
@@ -47,7 +47,7 @@ protected:
 
 private:
 	template <class T>
-	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting);
+	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting, bool accurate);
 
 	/** @param starting true if we want only subtitles that start during the period, otherwise
 	 *  we want subtitles that overlap the period.

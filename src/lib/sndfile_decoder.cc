@@ -48,7 +48,7 @@ SndfileDecoder::~SndfileDecoder ()
 }
 
 bool
-SndfileDecoder::pass ()
+SndfileDecoder::pass (PassReason, bool)
 {
 	if (_remaining == 0) {
 		return true;

@@ -91,7 +91,7 @@ Transcoder::go ()
 		_writer->write (_player->get_audio (t, frame, true));
 
 		if (non_burnt_subtitles) {
-			_writer->write (_player->get_subtitles (t, frame, true, false));
+			_writer->write (_player->get_subtitles (t, frame, true, false, true));
 		}
 	}
 

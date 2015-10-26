@@ -88,6 +88,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 			ContentTime::from_seconds (25),
 			ContentTime::from_seconds (26)
 			),
+		true,
 		true
 		);
 

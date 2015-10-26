@@ -49,7 +49,7 @@ public:
 
 	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
 	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
-	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt);
+	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, bool accurate);
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
 

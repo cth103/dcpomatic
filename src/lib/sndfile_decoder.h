@@ -29,7 +29,7 @@ public:
 	~SndfileDecoder ();
 
 private:
-	bool pass ();
+	bool pass (PassReason, bool);
 	void seek (ContentTime, bool);
 
 	int64_t _done;
