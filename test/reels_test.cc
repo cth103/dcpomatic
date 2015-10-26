@@ -175,5 +175,5 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 3));
 	++i;
 	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 3));
-	BOOST_CHECK_EQUAL (i->to, sub->full_length());
+	BOOST_CHECK_EQUAL (i->to, sub->full_length().round_up (film->video_frame_rate()));
 }
