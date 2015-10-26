@@ -116,7 +116,7 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
-	} else if (reason != PASS_REASON_SUBTITLE) {
+	} else if (accurate || reason != PASS_REASON_SUBTITLE) {
 		decode_audio_packet ();
 	}
 
