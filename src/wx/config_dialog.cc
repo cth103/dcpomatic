@@ -166,7 +166,7 @@ private:
 		_language->Append (wxT ("Svenska"));
 		_language->Append (wxT ("Русский"));
 		_language->Append (wxT ("Polski"));
-		_language->Append (wxT ("Danske"));
+		_language->Append (wxT ("Dansk"));
 		table->Add (_language, wxGBPosition (r, 1));
 		++r;
 
