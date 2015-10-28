@@ -376,12 +376,18 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 
 		switch (_color_range) {
 		case AVCOL_RANGE_UNSPECIFIED:
+			/// TRANSLATORS: this means that the range of pixel values used in this
+			/// file is unknown (not specified in the file).
 			p.push_back (make_pair (_("Colour range"), _("Unspecified")));
 			break;
 		case AVCOL_RANGE_MPEG:
+			/// TRANSLATORS: this means that the range of pixel values used in this
+			/// file is limited, so that not all possible values are valid.
 			p.push_back (make_pair (_("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)));
 			break;
 		case AVCOL_RANGE_JPEG:
+			/// TRANSLATORS: this means that the range of pixel values used in this
+			/// file is full, so that all possible pixel values are valid.
 			p.push_back (make_pair (_("Colour range"), String::compose (_("Full (0-%1)"), total)));
 			break;
 		default:
@@ -390,12 +396,18 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 	} else {
 		switch (_color_range) {
 		case AVCOL_RANGE_UNSPECIFIED:
+			/// TRANSLATORS: this means that the range of pixel values used in this
+			/// file is unknown (not specified in the file).
 			p.push_back (make_pair (_("Colour range"), _("Unspecified")));
 			break;
 		case AVCOL_RANGE_MPEG:
+			/// TRANSLATORS: this means that the range of pixel values used in this
+			/// file is limited, so that not all possible values are valid.
 			p.push_back (make_pair (_("Colour range"), _("Limited")));
 			break;
 		case AVCOL_RANGE_JPEG:
+			/// TRANSLATORS: this means that the range of pixel values used in this
+			/// file is full, so that all possible pixel values are valid.
 			p.push_back (make_pair (_("Colour range"), _("Full")));
 			break;
 		default:
