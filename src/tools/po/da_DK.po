@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 21:01+0100\n"
-"PO-Revision-Date: 2015-08-02 17:14+0200\n"
+"PO-Revision-Date: 2015-10-27 17:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -94,11 +94,13 @@ msgid "Add Film..."
 msgstr "Tilføj film..."
 
 #: src/tools/dcpomatic.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
+"Der opstod en fejl: %s (%s)\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:934
 #, c-format
@@ -106,6 +108,8 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
+"Der opstod en fejl: %s.\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:460 src/tools/dcpomatic.cc:939
 #: src/tools/dcpomatic.cc:948
@@ -132,7 +136,7 @@ msgstr "Kunne ikke indlæse film %1 (%2)"
 #: src/tools/dcpomatic.cc:431
 #, c-format
 msgid "Could not make DCP: %s"
-msgstr ""
+msgstr "Kunne ikke fremstille DCP: %s"
 
 #: src/tools/dcpomatic.cc:284 src/tools/dcpomatic_batch.cc:175
 #, c-format
@@ -141,7 +145,7 @@ msgstr "Kunne ikke indlæse film ved %s (%s)"
 
 #: src/tools/dcpomatic.cc:516
 msgid "Could not show DCP"
-msgstr ""
+msgstr "Kunne ikke vise DCP"
 
 #: src/tools/dcpomatic.cc:507
 msgid "Could not show DCP (could not run konqueror)"
@@ -172,7 +176,7 @@ msgstr "Film ændret"
 
 #: src/tools/dcpomatic.cc:704
 msgid "Hints..."
-msgstr ""
+msgstr "Tips..."
 
 #: src/tools/dcpomatic.cc:698
 msgid "Make &KDMs...\tCtrl-K"
@@ -184,11 +188,11 @@ msgstr "Ny...\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:716
 msgid "Report a problem..."
-msgstr ""
+msgstr "Rapporter et problem..."
 
 #: src/tools/dcpomatic.cc:708
 msgid "Restore default preferences"
-msgstr ""
+msgstr "Gendan standard indstillinger"
 
 #: src/tools/dcpomatic.cc:700
 msgid "S&how DCP"
@@ -219,6 +223,10 @@ msgid ""
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
+"DCPen og midlertidige filer til denne film kommer til at fylde ca. %1f Gb og "
+"disken du bruger har kun %1f Gb tilgængeligt. Du ville kun skulle bruge "
+"halvt så megen plads hvis filsystemet understøttede hårde links, men det gør "
+"det ikke. Ønsker du alligevel at fortsætte?"
 
 #: src/tools/dcpomatic.cc:413
 #, c-format

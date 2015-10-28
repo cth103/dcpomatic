@@ -1,5 +1,7 @@
 2015-10-28  Carl Hetherington  <cth@carlh.net>
 
+	* Updated da_DK translation from Anders Uhl Pedersen.
+
 	* Fix erroneous addition of referenced assets to PKLs (#723).
 
 2015-10-19  Carl Hetherington  <cth@carlh.net>
