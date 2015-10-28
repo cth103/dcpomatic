@@ -20,6 +20,7 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
+#include <boost/foreach.hpp>
 #include "raw_convert.h"
 
 class ImageFilenameSorter
@@ -27,20 +28,37 @@ class ImageFilenameSorter
 public:
 	bool operator() (boost::filesystem::path a, boost::filesystem::path b)
 	{
-		boost::optional<int> na = extract_number (a);
-		boost::optional<int> nb = extract_number (b);
-		if (!na || !nb) {
+		std::list<int> na = extract_numbers (a);
+		std::list<int> nb = extract_numbers (b);
+		if (na.empty() || nb.empty()) {
 			return a.string() < b.string();
 		}
 
-		return na.get() < nb.get();
+		if (na.size() != nb.size()) {
+			/* Just use the first one */
+			return na.front() < nb.front();
+		}
+
+		std::list<int>::const_iterator i = na.begin ();
+		std::list<int>::const_iterator j = nb.begin ();
+
+		while (i != na.end()) {
+			if (*i != *j) {
+				return *i < *j;
+			}
+			++i;
+			++j;
+		}
+
+		/* All the same */
+		return false;
 	}
 
 private:
-	boost::optional<int> extract_number (boost::filesystem::path p)
+	std::list<int> extract_numbers (boost::filesystem::path p)
 	{
 		p = p.leaf ();
-		
+
 		std::list<std::string> numbers;
 
 		std::string current;
@@ -59,17 +77,11 @@ private:
 			numbers.push_back (current);
 		}
 
-		std::string longest;
-		for (std::list<std::string>::const_iterator i = numbers.begin(); i != numbers.end(); ++i) {
-			if (i->length() > longest.length()) {
-				longest = *i;
-			}
+		std::list<int> numbers_as_int;
+		BOOST_FOREACH (std::string i, numbers) {
+			numbers_as_int.push_back (raw_convert<int> (i));
 		}
 
-		if (longest.empty ()) {
-			return boost::optional<int> ();
-		}
-
-		return raw_convert<int> (longest);
+		return numbers_as_int;
 	}
 };

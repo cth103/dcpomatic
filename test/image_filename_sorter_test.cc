@@ -32,6 +32,7 @@ BOOST_AUTO_TEST_CASE (image_filename_sorter_test)
 	BOOST_CHECK (x ("00057.tif", "00166.tif"));
 	BOOST_CHECK (x ("/my/numeric999/path/00057.tif", "/my/numeric999/path/00166.tif"));
 	BOOST_CHECK (x ("1_01.tif", "1_02.tif"));
+	BOOST_CHECK (x ("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000001.j2c"));
 
 	BOOST_CHECK (!x ("abc0000000002", "abc0000000001"));
 	BOOST_CHECK (!x ("2", "1"));
@@ -40,4 +41,6 @@ BOOST_AUTO_TEST_CASE (image_filename_sorter_test)
 	BOOST_CHECK (!x ("999", "1"));
 	BOOST_CHECK (!x ("/my/numeric999/path/00166.tif", "/my/numeric999/path/00057.tif"));
 	BOOST_CHECK (!x ("1_02.tif", "1_01.tif"));
+	BOOST_CHECK (!x ("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000000.j2c"));
+	BOOST_CHECK (!x ("EWS_DCP_092815_000100.j2c", "EWS_DCP_092815_000000.j2c"));
 }

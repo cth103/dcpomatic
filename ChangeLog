@@ -1,5 +1,8 @@
 2015-10-28  Carl Hetherington  <cth@carlh.net>
 
+	* Fix ordering of filename in image sets in some cases
+	(e.g. foo_01042015_00000, foo_01042015_00001...)
+
 	* Updated da_DK translation from Anders Uhl Pedersen.
 
 	* Fix erroneous addition of referenced assets to PKLs (#723).
