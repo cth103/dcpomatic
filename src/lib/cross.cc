@@ -56,6 +56,7 @@ using std::ifstream;
 using std::string;
 using std::wstring;
 using std::make_pair;
+using std::runtime_error;
 using boost::shared_ptr;
 
 /** @param s Number of seconds to sleep for */
@@ -140,7 +141,7 @@ app_contents ()
 	uint32_t size = 1024;
 	char buffer[size];
 	if (_NSGetExecutablePath (buffer, &size)) {
-		throw StringError ("_NSGetExecutablePath failed");
+		throw runtime_error ("_NSGetExecutablePath failed");
 	}
 
 	boost::filesystem::path path (buffer);
