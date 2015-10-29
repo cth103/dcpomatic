@@ -214,7 +214,6 @@ SetOutPath "$INSTDIR\\locale\\pt\\LC_MESSAGES"
 File "%binaries%/src/lib/mo/pt_PT/libdcpomatic2.mo"
 File "%binaries%/src/wx/mo/pt_PT/libdcpomatic2-wx.mo"
 File "%binaries%/src/tools/mo/pt_PT/dcpomatic2.mo"
-File "%static_deps%/share/locale/pt/LC_MESSAGES/wxstd.mo"
 
 SetOutPath "$INSTDIR"
 File "%resources%/../../LiberationSans-Regular.ttf"
