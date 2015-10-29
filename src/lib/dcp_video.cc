@@ -98,7 +98,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
-	shared_ptr<Image> image = frame->image (AV_PIX_FMT_RGB48LE, note);
+	shared_ptr<Image> image = frame->image (note);
 	if (frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz (
 			image->data()[0],

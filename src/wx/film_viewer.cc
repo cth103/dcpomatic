@@ -37,6 +37,9 @@
 #include "lib/log.h"
 #include "film_viewer.h"
 #include "wx_util.h"
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 #include <dcp/exceptions.h>
 #include <wx/tglbtn.h>
 #include <iostream>
@@ -186,7 +189,11 @@ FilmViewer::get (DCPTime p, bool accurate)
 
 	if (!pvf.empty ()) {
 		try {
-			_frame = pvf.front()->image (AV_PIX_FMT_RGB24, boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+			/* XXX: this could now give us a 48-bit image, which is a bit wasteful,
+			   or a XYZ image, which the code below will currently rely on FFmpeg
+			   to colourspace-convert.
+			*/
+			_frame = pvf.front()->image (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
 			ImageChanged (pvf.front ());
 
 			dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;

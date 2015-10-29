@@ -149,3 +149,9 @@ MagickImageProxy::same (shared_ptr<const ImageProxy> other) const
 
 	return memcmp (_blob.data(), mp->_blob.data(), _blob.length()) == 0;
 }
+
+AVPixelFormat
+MagickImageProxy::pixel_format () const
+{
+	return AV_PIX_FMT_RGB24;
+}

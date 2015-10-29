@@ -24,6 +24,9 @@
  *  @brief ImageProxy and subclasses.
  */
 
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 #include <dcp/types.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
@@ -62,6 +65,7 @@ public:
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	virtual bool same (boost::shared_ptr<const ImageProxy>) const = 0;
+	virtual AVPixelFormat pixel_format () const = 0;
 };
 
 boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);

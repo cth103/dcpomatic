@@ -1,5 +1,8 @@
 2015-10-29  Carl Hetherington  <cth@carlh.net>
 
+	* Fix incorrect colours following re-scale of existing
+	DCP content (#730).
+
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
 	* Updated pt_PT translation from Tiago Casal Ribeiro.

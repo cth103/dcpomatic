@@ -360,6 +360,7 @@ Image::make_black ()
 	case AV_PIX_FMT_RGB555LE:
 	case AV_PIX_FMT_RGB48LE:
 	case AV_PIX_FMT_RGB48BE:
+	case AV_PIX_FMT_XYZ12LE:
 		memset (data()[0], 0, sample_size(0).height * stride()[0]);
 		break;
 
@@ -830,6 +831,7 @@ Image::fade (float f)
 	case AV_PIX_FMT_YUVA422P10LE:
 	case AV_PIX_FMT_YUVA444P10LE:
 	case AV_PIX_FMT_RGB48LE:
+	case AV_PIX_FMT_XYZ12LE:
 		/* 16-bit little-endian */
 		for (int c = 0; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;

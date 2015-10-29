@@ -23,6 +23,9 @@
 #include "j2k_image_proxy.h"
 #include "film.h"
 #include "raw_convert.h"
+extern "C" {
+#include <libavutil/pixfmt.h>
+}
 #include <libxml++/libxml++.h>
 #include <iostream>
 
@@ -91,7 +94,7 @@ PlayerVideo::set_subtitle (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (AVPixelFormat pixel_format, dcp::NoteHandler note) const
+PlayerVideo::image (dcp::NoteHandler note) const
 {
 	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note));
 
@@ -118,7 +121,10 @@ PlayerVideo::image (AVPixelFormat pixel_format, dcp::NoteHandler note) const
 		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
 	}
 
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format, true);
+	/* If the input is XYZ, keep it otherwise convert to RGB */
+	AVPixelFormat const p = _in->pixel_format() == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
+
+	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, p, true);
 
 	if (_subtitle) {
 		out->alpha_blend (_subtitle->image, _subtitle->position);

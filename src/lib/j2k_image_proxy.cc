@@ -80,39 +80,46 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	socket->read (_data.data().get (), _data.size ());
 }
 
+void
+J2KImageProxy::ensure_j2k () const
+{
+	if (!_j2k) {
+		_j2k = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
+	}
+}
+
 shared_ptr<Image>
 J2KImageProxy::image (optional<dcp::NoteHandler> note) const
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGB48LE, _size, true));
+	ensure_j2k ();
 
-	shared_ptr<dcp::OpenJPEGImage> oj = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
-
-	if (oj->opj_image()->comps[0].prec < 12) {
-		int const shift = 12 - oj->opj_image()->comps[0].prec;
+	if (_j2k->opj_image()->comps[0].prec < 12) {
+		int const shift = 12 - _j2k->opj_image()->comps[0].prec;
 		for (int c = 0; c < 3; ++c) {
-			int* p = oj->data (c);
-			for (int y = 0; y < oj->size().height; ++y) {
-				for (int x = 0; x < oj->size().width; ++x) {
+			int* p = _j2k->data (c);
+			for (int y = 0; y < _j2k->size().height; ++y) {
+				for (int x = 0; x < _j2k->size().width; ++x) {
 					*p++ <<= shift;
 				}
 			}
 		}
 	}
 
-	if (oj->opj_image()->color_space == CLRSPC_SRGB) {
-		/* No XYZ -> RGB conversion necessary; just copy and interleave the values */
-		int p = 0;
-		for (int y = 0; y < oj->size().height; ++y) {
-			uint16_t* q = (uint16_t *) (image->data()[0] + y * image->stride()[0]);
-			for (int x = 0; x < oj->size().width; ++x) {
-				for (int c = 0; c < 3; ++c) {
-					*q++ = oj->data(c)[p] << 4;
-				}
-				++p;
+	shared_ptr<Image> image (new Image (pixel_format(), _size, true));
+
+	/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
+	   the data is 12-bit either way.
+	*/
+
+	int p = 0;
+	for (int y = 0; y < _j2k->size().height; ++y) {
+		uint16_t* q = (uint16_t *) (image->data()[0] + y * image->stride()[0]);
+		for (int x = 0; x < _j2k->size().width; ++x) {
+			for (int c = 0; c < 3; ++c) {
+				*q++ = _j2k->data(c)[p] << 4;
 			}
+			++p;
 		}
-	} else {
-		dcp::xyz_to_rgb (oj, dcp::ColourConversion::srgb_to_xyz(), image->data()[0], image->stride()[0], note);
 	}
 
 	return image;
@@ -149,6 +156,18 @@ J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
 	}
 
 	return memcmp (_data.data().get(), jp->_data.data().get(), _data.size()) == 0;
+}
+
+AVPixelFormat
+J2KImageProxy::pixel_format () const
+{
+	ensure_j2k ();
+
+	if (_j2k->opj_image()->color_space == CLRSPC_SRGB) {
+		return AV_PIX_FMT_RGB48LE;
+	}
+
+	return AV_PIX_FMT_XYZ12LE;
 }
 
 J2KImageProxy::J2KImageProxy (Data data, dcp::Size size)
