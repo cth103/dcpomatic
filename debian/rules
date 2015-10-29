@@ -37,8 +37,6 @@ override_dh_auto_install:
 	cp -a $(CDIST_LOCALE_PREFIX)/pl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/pl/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/
 	cp -a $(CDIST_LOCALE_PREFIX)/ru/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/pt/LC_MESSAGES/
-	cp -a $(CDIST_LOCALE_PREFIX)/pt/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/pt/LC_MESSAGES/dcpomatic2-wxstd.mo
 
 .PHONY: override_dh_strip
 override_dh_strip:
