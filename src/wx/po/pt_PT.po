@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 00:40+0000\n"
-"PO-Revision-Date: 2015-10-28 21:28+0000\n"
+"PO-Revision-Date: 2015-10-29 04:52+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
@@ -32,7 +32,6 @@ msgstr ""
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
-#, fuzzy
 msgid "(None)"
 msgstr "Nenhum"
 
@@ -272,7 +271,7 @@ msgstr "Cancelar"
 #: src/wx/audio_panel.cc:256 src/wx/subtitle_panel.cc:258
 #: src/wx/video_panel.cc:451
 msgid "Cannot reference this DCP.  "
-msgstr ""
+msgstr "Não pode referenciar este DCP."
 
 #: src/wx/screen_dialog.cc:45
 msgid "Certificate"
@@ -338,7 +337,7 @@ msgstr "Componente"
 
 #: src/wx/config_dialog.cc:1360
 msgid "Config|Timing"
-msgstr "Configuração|Temporização"
+msgstr "Configuração|Duração"
 
 #: src/wx/report_problem_dialog.cc:65
 msgid "Contact email"
@@ -443,9 +442,8 @@ msgid "Debug: decode"
 msgstr "Depuração: descodificação"
 
 #: src/wx/config_dialog.cc:1366
-#, fuzzy
 msgid "Debug: email sending"
-msgstr "Depuração: codificação"
+msgstr "Depuração: envio de email"
 
 #: src/wx/config_dialog.cc:1364
 msgid "Debug: encode"
@@ -577,9 +575,8 @@ msgid "Export DCP decryption certificate..."
 msgstr "Exportar certificado de desencriptação DCP..."
 
 #: src/wx/config_dialog.cc:692
-#, fuzzy
 msgid "Export..."
-msgstr "Exportar"
+msgstr "Exportar..."
 
 #: src/wx/config_dialog.cc:1078
 msgid "FTP (for Dolby)"
@@ -661,9 +658,8 @@ msgid "Full length"
 msgstr "Duração total"
 
 #: src/wx/dcp_panel.cc:146
-#, fuzzy
 msgid "GB"
-msgstr "B"
+msgstr "GB"
 
 #: src/wx/audio_panel.cc:69
 msgid "Gain"
@@ -1058,16 +1054,15 @@ msgstr "Cromaticidade vermelho"
 #: src/wx/timeline_reels_view.cc:82
 #, c-format
 msgid "Reel %d"
-msgstr ""
+msgstr "Bobina %d"
 
 #: src/wx/dcp_panel.cc:140
-#, fuzzy
 msgid "Reel length"
-msgstr "Duração total"
+msgstr "Duração da bobina"
 
 #: src/wx/dcp_panel.cc:135
 msgid "Reels"
-msgstr ""
+msgstr "Bobinas"
 
 #: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:52
 #: src/wx/video_panel.cc:80
@@ -1230,7 +1225,7 @@ msgstr "Assinar DCP e KDM"
 
 #: src/wx/dcp_panel.cc:173
 msgid "Single reel"
-msgstr ""
+msgstr "Bobina única"
 
 #: src/wx/audio_dialog.cc:93
 msgid "Smoothing"
@@ -1242,7 +1237,7 @@ msgstr "Alinhar"
 
 #: src/wx/dcp_panel.cc:174
 msgid "Split by video content"
-msgstr ""
+msgstr "Dividir por conteúdo de vídeo"
 
 #: src/wx/update_dialog.cc:45
 msgid "Stable version "
@@ -1343,7 +1338,7 @@ msgstr "Impressão digital"
 
 #: src/wx/audio_plot.cc:166
 msgid "Time"
-msgstr "Tempo"
+msgstr "Duração"
 
 #: src/wx/timeline_dialog.cc:34
 msgid "Timeline"
@@ -1355,7 +1350,7 @@ msgstr "Linha de tempo..."
 
 #: src/wx/timing_panel.cc:43
 msgid "Timing|Timing"
-msgstr "Tempo"
+msgstr "Duração"
 
 #: src/wx/video_panel.cc:124
 msgid "Top"

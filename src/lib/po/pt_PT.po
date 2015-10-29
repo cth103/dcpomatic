@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 00:40+0000\n"
-"PO-Revision-Date: 2015-10-28 21:29+0000\n"
+"PO-Revision-Date: 2015-10-29 04:45+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
@@ -415,16 +415,14 @@ msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Cada fotograma do conteúdo será repetido %1 vezes no DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:56
-#, fuzzy
 msgid "Email KDMs"
-msgstr "Enviar chaves KDM por email para %1"
+msgstr "Enviar chaves KDM"
 
 #: src/lib/send_kdm_email_job.cc:59
 msgid "Email KDMs for %1"
 msgstr "Enviar chaves KDM por email para %1"
 
 #: src/lib/send_problem_report_job.cc:52
-#, fuzzy
 msgid "Email problem report"
 msgstr "Enviar relatório de problemas para %1"
 
@@ -458,7 +456,7 @@ msgstr "A autenticação com o servidor falhou (%1)"
 
 #: src/lib/emailer.cc:284
 msgid "Failed to send KDM email (timed out)"
-msgstr ""
+msgstr "Falha no envio de email com chaves KDM (tempo esgotado)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -469,9 +467,8 @@ msgid "Film"
 msgstr "Filme"
 
 #: src/lib/ffmpeg_examiner.cc:83
-#, fuzzy
 msgid "Finding length and subtitles"
-msgstr "À procura das legendas"
+msgstr "À procura de duração e legendas"
 
 #: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
@@ -710,6 +707,8 @@ msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to `split by video content'."
 msgstr ""
+"A duração das bobinas neste projecto difere daquelas no DCP; defina o "
+"parâmetro 'Bobinas' para 'Dividir por conteúdo de vídeo'."
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -811,15 +810,15 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:318
 msgid "There is other audio content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Existe outro conteúdo audio sobreposto a este DCP; remova-o."
 
 #: src/lib/dcp_content.cc:324
 msgid "There is other subtitle content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Existem outro conteúdo de legendas sobreposto a este DCP; remova-o."
 
 #: src/lib/dcp_content.cc:312
 msgid "There is other video content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Existe outro conteúdo video sobreposto a este DCP; remova-o."
 
 #: src/lib/job.cc:138
 msgid ""
@@ -929,9 +928,10 @@ msgstr "A aguardar"
 msgid "YCOCG"
 msgstr "YCOCG"
 
+# It's a filter name, has no translation to portuguese.
 #: src/lib/filter.cc:67
 msgid "Yet Another Deinterlacing Filter"
-msgstr ""
+msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/film.cc:295
 msgid "You must add some content to the DCP before creating it"
