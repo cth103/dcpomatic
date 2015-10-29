@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 00:40+0000\n"
-"PO-Revision-Date: 2015-10-12 01:36+0200\n"
+"PO-Revision-Date: 2015-10-29 03:24+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -32,9 +32,8 @@ msgstr ""
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
-#, fuzzy
 msgid "(None)"
-msgstr "Geen"
+msgstr "(Geen)"
 
 #: src/wx/config_dialog.cc:175
 msgid "(restart DCP-o-matic to see language changes)"
@@ -273,7 +272,7 @@ msgstr "Annuleer"
 #: src/wx/audio_panel.cc:256 src/wx/subtitle_panel.cc:258
 #: src/wx/video_panel.cc:451
 msgid "Cannot reference this DCP.  "
-msgstr ""
+msgstr "Kan niet aan deze DCP refereren."
 
 #: src/wx/screen_dialog.cc:45
 msgid "Certificate"
@@ -444,9 +443,8 @@ msgid "Debug: decode"
 msgstr "Debug: decodeer"
 
 #: src/wx/config_dialog.cc:1366
-#, fuzzy
 msgid "Debug: email sending"
-msgstr "Debug: encodeer"
+msgstr "Debug: email versturen"
 
 #: src/wx/config_dialog.cc:1364
 msgid "Debug: encode"
@@ -578,9 +576,8 @@ msgid "Export DCP decryption certificate..."
 msgstr "Exporteer DCP-ontsleutelings-certificaat..."
 
 #: src/wx/config_dialog.cc:692
-#, fuzzy
 msgid "Export..."
-msgstr "Exporteer"
+msgstr "Exporteer..."
 
 #: src/wx/config_dialog.cc:1078
 msgid "FTP (for Dolby)"
@@ -661,9 +658,8 @@ msgid "Full length"
 msgstr "Volledige duur"
 
 #: src/wx/dcp_panel.cc:146
-#, fuzzy
 msgid "GB"
-msgstr "B"
+msgstr "GB"
 
 #: src/wx/audio_panel.cc:69
 msgid "Gain"
@@ -1057,16 +1053,15 @@ msgstr "Rood-chromaticiteit"
 #: src/wx/timeline_reels_view.cc:82
 #, c-format
 msgid "Reel %d"
-msgstr ""
+msgstr "Reel %d"
 
 #: src/wx/dcp_panel.cc:140
-#, fuzzy
 msgid "Reel length"
-msgstr "Volledige duur"
+msgstr "Reel-lengte"
 
 #: src/wx/dcp_panel.cc:135
 msgid "Reels"
-msgstr ""
+msgstr "Reels"
 
 #: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:52
 #: src/wx/video_panel.cc:80
@@ -1229,7 +1224,7 @@ msgstr "Ondertekenen van DCP's en KDM's"
 
 #: src/wx/dcp_panel.cc:173
 msgid "Single reel"
-msgstr ""
+msgstr "Enkele reel"
 
 #: src/wx/audio_dialog.cc:93
 msgid "Smoothing"
@@ -1241,7 +1236,7 @@ msgstr "Vastklikken"
 
 #: src/wx/dcp_panel.cc:174
 msgid "Split by video content"
-msgstr ""
+msgstr "Splits per video-content"
 
 #: src/wx/update_dialog.cc:45
 msgid "Stable version "

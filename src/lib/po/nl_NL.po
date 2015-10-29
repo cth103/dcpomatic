@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 00:40+0000\n"
-"PO-Revision-Date: 2015-10-12 01:39+0200\n"
+"PO-Revision-Date: 2015-10-29 03:35+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -422,18 +422,16 @@ msgstr ""
 "\n"
 
 #: src/lib/send_kdm_email_job.cc:56
-#, fuzzy
 msgid "Email KDMs"
-msgstr "Email KDM's voor %1"
+msgstr "Email KDM's"
 
 #: src/lib/send_kdm_email_job.cc:59
 msgid "Email KDMs for %1"
 msgstr "Email KDM's voor %1"
 
 #: src/lib/send_problem_report_job.cc:52
-#, fuzzy
 msgid "Email problem report"
-msgstr "Email probleemmelding voor %1"
+msgstr "Email probleemmelding"
 
 #: src/lib/send_problem_report_job.cc:55
 msgid "Email problem report for %1"
@@ -465,7 +463,7 @@ msgstr "Authenticatiefout met server (%1)"
 
 #: src/lib/emailer.cc:284
 msgid "Failed to send KDM email (timed out)"
-msgstr ""
+msgstr "Versturen KDM-email mislukt (time-out)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -476,9 +474,8 @@ msgid "Film"
 msgstr "Film"
 
 #: src/lib/ffmpeg_examiner.cc:83
-#, fuzzy
 msgid "Finding length and subtitles"
-msgstr "Ondertitels zoeken"
+msgstr "Lengte bepalen en ondertitels zoeken"
 
 #: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
@@ -721,6 +718,8 @@ msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to `split by video content'."
 msgstr ""
+"Reel-lengtes in het project en die in de DCP verschillen; stel de reel-mode "
+"in op `splits per video-content'."
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -824,15 +823,16 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:318
 msgid "There is other audio content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Er is andere audio-content die overlapt met deze DCP; verwijder deze."
 
 #: src/lib/dcp_content.cc:324
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
+"Er is andere ondertitel-content die overlapt met deze DCP; verwijder deze."
 
 #: src/lib/dcp_content.cc:312
 msgid "There is other video content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Er is andere video-content die overlapt met deze DCP; verwijder deze."
 
 #: src/lib/job.cc:138
 msgid ""
