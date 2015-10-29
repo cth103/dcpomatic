@@ -167,6 +167,7 @@ private:
 		_language->Append (wxT ("Русский"));
 		_language->Append (wxT ("Polski"));
 		_language->Append (wxT ("Dansk"));
+		_language->Append (wxT ("Português europeu"));
 		table->Add (_language, wxGBPosition (r, 1));
 		++r;
 
@@ -248,6 +249,8 @@ private:
 			checked_set (_language, 8);
 		} else if (config->language().get_value_or ("") == "da") {
 			checked_set (_language, 9);
+		} else if (config->language().get_value_or ("") == "pt") {
+			checked_set (_language, 10);
 		} else {
 			_language->SetSelection (1);
 		}
@@ -309,6 +312,9 @@ private:
 			break;
 		case 9:
 			Config::instance()->set_language ("da");
+			break;
+		case 10:
+			Config::instance()->set_language ("pt");
 			break;
 		}
 	}
