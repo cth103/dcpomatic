@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 00:40+0000\n"
-"PO-Revision-Date: 2015-10-30 12:13+0200\n"
+"PO-Revision-Date: 2015-10-30 14:18+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -652,9 +652,8 @@ msgid "Full length"
 msgstr "Полная длительность"
 
 #: src/wx/dcp_panel.cc:146
-#, fuzzy
 msgid "GB"
-msgstr "B"
+msgstr "ГБ"
 
 #: src/wx/audio_panel.cc:69
 msgid "Gain"
