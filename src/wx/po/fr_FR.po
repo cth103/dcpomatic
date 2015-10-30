@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-07 16:53+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -83,8 +83,6 @@ msgstr "3D dessus/dessous"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -378,7 +376,7 @@ msgstr "Copier..."
 msgid "Could not analyse audio."
 msgstr "Analyse du son impossible"
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "aucune vidéo à afficher (%s)"
@@ -935,7 +933,7 @@ msgstr "Autre"
 msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortant"
 
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 msgid "Outline content"
 msgstr "contours image"
 
@@ -969,7 +967,7 @@ msgstr "Crête: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Crête: inconnue"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Lecture"
 
@@ -1145,6 +1143,10 @@ msgstr "Mise à l'échelle"
 msgid "Screens"
 msgstr "Ecrans"
 
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
 msgstr "Sélectionner le fichier CPL.xml"
@@ -1316,7 +1318,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Il n'y a aucun avertissement: tout semble correct!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
@@ -1404,10 +1406,6 @@ msgstr "Mise à jour"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr "Utiliser le nom ISDCF"
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Utiliser tous les serveurs"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1613,6 +1611,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr "y"
+
+#~ msgid "Use all servers"
+#~ msgstr "Utiliser tous les serveurs"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "Type de paquet (ex. OV)"

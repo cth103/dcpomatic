@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: src/lib/dcp_content.cc:126
+#: src/lib/dcp_content.cc:127
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -606,19 +606,19 @@ msgstr "Dekoder Mid-side"
 msgid "Misc"
 msgstr "Różne"
 
-#: src/lib/dcp_examiner.cc:96
+#: src/lib/dcp_examiner.cc:101
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Nieprawidłowa ilość kanałów dźwiękowych w DCP"
 
-#: src/lib/dcp_examiner.cc:102
+#: src/lib/dcp_examiner.cc:107
 msgid "Mismatched audio frame rates in DCP"
 msgstr "Nieprawidłowa prędkość ścieżki dźwiękowej w DCP"
 
-#: src/lib/dcp_examiner.cc:77
+#: src/lib/dcp_examiner.cc:82
 msgid "Mismatched frame rates in DCP"
 msgstr "Nieprawidłowa prędkość kl/s  w DCP"
 
-#: src/lib/dcp_examiner.cc:84
+#: src/lib/dcp_examiner.cc:89
 msgid "Mismatched video sizes in DCP"
 msgstr "Nieprawidłowy rozmiar pliku video w DCP"
 
@@ -706,7 +706,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/dcp_content.cc:295
+#: src/lib/dcp_content.cc:304
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to `split by video content'."
@@ -793,7 +793,7 @@ msgstr "Filtr Telecine"
 msgid "Test"
 msgstr "Testowy"
 
-#: src/lib/dcp_examiner.cc:134
+#: src/lib/dcp_examiner.cc:139
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr "Klucz nie rozszyfruje DCP. Być może jest wygenerowany dla innego CPL."
@@ -810,15 +810,15 @@ msgstr ""
 "Dysk na którym zapisany jest film ma mało wolnego miejsca. Zwolnij miejsce "
 "na dysku i spróbuj ponownie."
 
-#: src/lib/dcp_content.cc:318
+#: src/lib/dcp_content.cc:327
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/dcp_content.cc:324
+#: src/lib/dcp_content.cc:333
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/dcp_content.cc:312
+#: src/lib/dcp_content.cc:321
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 

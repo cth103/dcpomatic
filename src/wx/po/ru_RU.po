@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-30 14:18+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -80,8 +80,6 @@ msgstr "3D верх/низ"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -373,7 +371,7 @@ msgstr "Копировать..."
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Не удалось вывести предпросмотр видео (%s)"
@@ -588,7 +586,8 @@ msgstr "Постепенное появление"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/dolby_certificate_dialog.cc:78 src/wx/dolby_certificate_dialog.cc:101
+#: src/wx/dolby_certificate_dialog.cc:78
+#: src/wx/dolby_certificate_dialog.cc:101
 #: src/wx/dolby_certificate_dialog.cc:123
 msgid "Fetching..."
 msgstr "Установка..."
@@ -928,7 +927,7 @@ msgstr "Другое"
 msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 msgid "Outline content"
 msgstr "Выделить контект"
 
@@ -962,7 +961,7 @@ msgstr "Пиковая громкость %.2fдБ"
 msgid "Peak: unknown"
 msgstr "Пиковая громкость: неизвестна"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Вопроизведение"
 
@@ -1137,6 +1136,10 @@ msgstr "Масштабирование"
 msgid "Screens"
 msgstr "Экраны"
 
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
@@ -1307,7 +1310,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Нет подсказок: похоже всё хорошо!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Недостаточно памяти, чтобы сделать это."
 
@@ -1395,10 +1398,6 @@ msgstr "Обновление"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Использовать все сервера"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1604,6 +1603,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr "y"
+
+#~ msgid "Use all servers"
+#~ msgstr "Использовать все сервера"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "Тип пакета (напр. OV)"

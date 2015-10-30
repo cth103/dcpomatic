@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -83,8 +83,6 @@ msgstr "3D, top/bund"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -374,7 +372,7 @@ msgstr "Kopier..."
 msgid "Could not analyse audio."
 msgstr "Kunne ikke analysere lyden."
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr ""
@@ -930,7 +928,7 @@ msgstr "Andet"
 msgid "Outgoing mail server"
 msgstr "Udgående mail server"
 
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 msgid "Outline content"
 msgstr ""
 
@@ -964,7 +962,7 @@ msgstr ""
 msgid "Peak: unknown"
 msgstr ""
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Afspil"
 
@@ -1140,6 +1138,10 @@ msgstr "Skaler til"
 msgid "Screens"
 msgstr "Sale"
 
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
 msgstr "Vælg CPL XML-fil"
@@ -1310,7 +1312,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Der er ingen tips; det hele ser godt ud!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Der er ikke tilstrækkelig ledig hukommelse til at gøre dette."
 
@@ -1398,10 +1400,6 @@ msgstr "Opdater"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr "Brug ISDCF-navn"
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Brug alle servere"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1600,6 +1598,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr "y"
+
+#~ msgid "Use all servers"
+#~ msgstr "Brug alle servere"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "Pakketype (f.eks. OV)"

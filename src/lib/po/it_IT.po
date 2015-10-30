@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-14 10:33+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.5\n"
 
-#: src/lib/dcp_content.cc:126
+#: src/lib/dcp_content.cc:127
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -600,19 +600,19 @@ msgstr ""
 msgid "Misc"
 msgstr "Varie"
 
-#: src/lib/dcp_examiner.cc:96
+#: src/lib/dcp_examiner.cc:101
 msgid "Mismatched audio channel counts in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:102
+#: src/lib/dcp_examiner.cc:107
 msgid "Mismatched audio frame rates in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:77
+#: src/lib/dcp_examiner.cc:82
 msgid "Mismatched frame rates in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:84
+#: src/lib/dcp_examiner.cc:89
 msgid "Mismatched video sizes in DCP"
 msgstr ""
 
@@ -700,7 +700,7 @@ msgstr ""
 msgid "Rec. 709"
 msgstr ""
 
-#: src/lib/dcp_content.cc:295
+#: src/lib/dcp_content.cc:304
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to `split by video content'."
@@ -787,7 +787,7 @@ msgstr "Filtro telecinema"
 msgid "Test"
 msgstr "Prova"
 
-#: src/lib/dcp_examiner.cc:134
+#: src/lib/dcp_examiner.cc:139
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
@@ -804,15 +804,15 @@ msgstr ""
 "Sul disco dove è memorizzato il film non c'è abbastanza spazio. Liberare "
 "altro spazio e riprovare."
 
-#: src/lib/dcp_content.cc:318
+#: src/lib/dcp_content.cc:327
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/dcp_content.cc:324
+#: src/lib/dcp_content.cc:333
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/dcp_content.cc:312
+#: src/lib/dcp_content.cc:321
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 

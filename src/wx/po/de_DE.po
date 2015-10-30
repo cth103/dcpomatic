@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-07-06 15:36+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,8 +82,6 @@ msgstr "3D Oben/Unten"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -384,7 +382,7 @@ msgstr "Kopieren..."
 msgid "Could not analyse audio."
 msgstr "Ton konnte nicht analysiert werden"
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr ""
@@ -944,7 +942,7 @@ msgstr "Andere"
 msgid "Outgoing mail server"
 msgstr "Ausgehender/SMTP Mail Server"
 
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 msgid "Outline content"
 msgstr ""
 
@@ -979,7 +977,7 @@ msgstr "Spitzenwert ist %.2fdB"
 msgid "Peak: unknown"
 msgstr "Unbekannt"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Abspielen"
 
@@ -1152,6 +1150,10 @@ msgstr "Skaliere auf"
 #: src/wx/kdm_dialog.cc:56
 msgid "Screens"
 msgstr "Saal"
+
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
 
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
@@ -1326,7 +1328,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Keine Warnungen: Alles sieht gut aus!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Für diese Operation ist nicht genug freier Speicher verfügbar."
 
@@ -1414,10 +1416,6 @@ msgstr "Update"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr "ISDCF Name benutzen"
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Alle verfügbaren Server im Subnetz benutzen"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1617,6 +1615,9 @@ msgstr ""
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr ""
+
+#~ msgid "Use all servers"
+#~ msgstr "Alle verfügbaren Server im Subnetz benutzen"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "DCP Paket Typ (z.B. OV)"

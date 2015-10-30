@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -85,8 +85,6 @@ msgstr "3D góra/dół"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -375,7 +373,7 @@ msgstr "Kopiuj"
 msgid "Could not analyse audio."
 msgstr "Nie udało się przeanalizować dźwięku."
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Nie udało się otworzyć podglądu obrazu (%s)"
@@ -933,7 +931,7 @@ msgstr "Inne"
 msgid "Outgoing mail server"
 msgstr "Serwer poczty wychodzącej"
 
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 msgid "Outline content"
 msgstr "Obrysuj obraz"
 
@@ -967,7 +965,7 @@ msgstr "Peak wynosi %.2fdB"
 msgid "Peak: unknown"
 msgstr "Peak: nieznany"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Odtwórz"
 
@@ -1141,6 +1139,10 @@ msgstr "Skaluj do"
 msgid "Screens"
 msgstr "Sale"
 
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
 msgstr "Wybierz plik CPL XML"
@@ -1311,7 +1313,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Brak wskazówek: wszystko wygląda świetnie!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr "Brak pamięci RAM"
 
@@ -1399,10 +1401,6 @@ msgstr "Aktualizacja"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr "Użyj nazwy ISDCF"
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Używaj wszystkich serwerów"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1608,6 +1606,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr "y"
+
+#~ msgid "Use all servers"
+#~ msgstr "Używaj wszystkich serwerów"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "Rodzaj kontenera (e.g. OV)"

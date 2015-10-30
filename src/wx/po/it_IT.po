@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-10-14 10:27+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -83,8 +83,6 @@ msgstr "3D su/giù"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -368,7 +366,7 @@ msgstr "Salva una copia..."
 msgid "Could not analyse audio."
 msgstr "Non posso analizzare l'audio."
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, fuzzy, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
@@ -938,7 +936,7 @@ msgstr "Altro"
 msgid "Outgoing mail server"
 msgstr "Mail server posta in uscita"
 
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 #, fuzzy
 msgid "Outline content"
 msgstr "Molteplici sorgenti selezionate"
@@ -975,7 +973,7 @@ msgstr ""
 msgid "Peak: unknown"
 msgstr ""
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Riproduci"
 
@@ -1151,6 +1149,10 @@ msgstr "Scala a"
 msgid "Screens"
 msgstr "Aggiungi Schermo"
 
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
 msgstr "Seleziona file XML CPL"
@@ -1323,7 +1325,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Non ci sono suggerimenti: sembra tutto a posto!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr ""
 
@@ -1411,10 +1413,6 @@ msgstr "Aggiorna"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr "Usa nome ISDCF"
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Usa tutti i server"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1614,6 +1612,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr "y"
+
+#~ msgid "Use all servers"
+#~ msgstr "Usa tutti i server"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "Tipo di Package (es. OV)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-29 00:40+0000\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
 "PO-Revision-Date: 2015-07-06 16:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -81,8 +81,6 @@ msgstr "3D top/bottom"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -366,7 +364,7 @@ msgstr ""
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
-#: src/wx/film_viewer.cc:184
+#: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr ""
@@ -931,7 +929,7 @@ msgid "Outgoing mail server"
 msgstr "Utgående mejlserver"
 
 # Låter mysko
-#: src/wx/film_viewer.cc:63
+#: src/wx/film_viewer.cc:66
 msgid "Outline content"
 msgstr ""
 
@@ -965,7 +963,7 @@ msgstr ""
 msgid "Peak: unknown"
 msgstr ""
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:72
 msgid "Play"
 msgstr "Spela"
 
@@ -1140,6 +1138,10 @@ msgstr "Skala om till"
 msgid "Screens"
 msgstr ""
 
+#: src/wx/config_dialog.cc:578
+msgid "Search network for servers"
+msgstr ""
+
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
 msgstr ""
@@ -1311,7 +1313,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Det finns inga råd: allt verkar bra!"
 
-#: src/wx/film_viewer.cc:144
+#: src/wx/film_viewer.cc:147
 msgid "There is not enough free memory to do that."
 msgstr ""
 
@@ -1401,10 +1403,6 @@ msgstr "Uppdatera"
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
 msgstr ""
-
-#: src/wx/config_dialog.cc:578
-msgid "Use all servers"
-msgstr "Använd alla servrar"
 
 #: src/wx/dcp_panel.cc:627
 msgid "Use best"
@@ -1604,6 +1602,9 @@ msgstr ""
 #: src/wx/colour_conversion_editor.cc:109
 msgid "y"
 msgstr ""
+
+#~ msgid "Use all servers"
+#~ msgstr "Använd alla servrar"
 
 #~ msgid "Package Type (e.g. OV)"
 #~ msgstr "Förpackningstyp (ex. OV)"
