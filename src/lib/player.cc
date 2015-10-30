@@ -783,6 +783,7 @@ Player::get_reel_assets ()
 			}
 
 			if (j->reference_subtitle ()) {
+				DCPOMATIC_ASSERT (k->main_subtitle ());
 				a.push_back (
 					ReferencedReelAsset (
 						k->main_subtitle (),
