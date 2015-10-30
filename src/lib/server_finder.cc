@@ -235,12 +235,6 @@ ServerFinder::config_changed (Config::Property what)
 			_servers.clear ();
 		}
 		ServersListChanged ();
-		search_now ();
+		_search_condition.notify_all ();
 	}
-}
-
-void
-ServerFinder::search_now ()
-{
-	_search_condition.notify_all ();
 }
