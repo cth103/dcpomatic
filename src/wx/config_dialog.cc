@@ -575,7 +575,7 @@ public:
 private:
 	void setup ()
 	{
-		_use_any_servers = new wxCheckBox (_panel, wxID_ANY, _("Use all servers"));
+		_use_any_servers = new wxCheckBox (_panel, wxID_ANY, _("Search network for servers"));
 		_panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
 
 		vector<string> columns;
