@@ -324,11 +324,27 @@ DCPContent::can_reference_video (list<string>& why_not) const
 bool
 DCPContent::can_reference_audio (list<string>& why_not) const
 {
+	DCPDecoder decoder (shared_from_this(), false);
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+		if (!i->main_sound()) {
+			why_not.push_back (_("The DCP does not have sound in all reels."));
+			return false;
+		}
+	}
+
 	return can_reference<AudioContent> (_("There is other audio content overlapping this DCP; remove it."), why_not);
 }
 
 bool
 DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
+	DCPDecoder decoder (shared_from_this(), false);
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+		if (!i->main_subtitle()) {
+			why_not.push_back (_("The DCP does not have subtitles in all reels."));
+			return false;
+		}
+	}
+
 	return can_reference<SubtitleContent> (_("There is other subtitle content overlapping this DCP; remove it."), why_not);
 }
