@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+import sys
+import os
+import ntpath
+import tempfile
+import shutil
+import xml.etree.ElementTree as ET
+
+if len(sys.argv) < 2:
+    print 'Syntax: %s <film>' % sys.argv[1]
+    sys.exit(1)
+
+tree = ET.parse(os.path.join(sys.argv[1], 'metadata.xml'))
+
+for c in tree.getroot().find('Playlist').findall('Content'):
+    type = c.find('Type').text
+    if type == 'DCP':
+        # Find the ASSETMAP
+        assetmap_file = None
+        for p in c.findall('Path'):
+            if os.path.basename(p.text) == 'ASSETMAP':
+                assetmap_file = p.text
+
+        assert(assetmap_file is not None)
+        dir = os.path.dirname(assetmap_file)
+
+        assets = {}
+
+        assetmap = ET.parse(assetmap_file)
+        ns = {'am': 'http://www.digicine.com/PROTO-ASDCP-AM-20040311#'}
+        for a in assetmap.getroot().find('am:AssetList', ns).findall('am:Asset', ns):
+            assets[a.find('am:Id', ns).text[9:]] = a.find('am:ChunkList', ns).find('am:Chunk', ns).find('am:Path', ns).text
+
+        cpl_id = None
+        for k, v in assets.iteritems():
+            try:
+                e = ET.parse(os.path.join(dir, v))
+                if e.getroot().tag == '{http://www.digicine.com/PROTO-ASDCP-CPL-20040511#}CompositionPlaylist':
+                    cpl_id = k
+            except:
+                pass
+
+        assert(cpl_id is not None)
+        cpl = ET.parse(os.path.join(dir, assets[cpl_id]))
+
+        ns = {'cpl': 'http://www.digicine.com/PROTO-ASDCP-CPL-20040511#'}
+        for r in cpl.find('cpl:ReelList', ns).findall('cpl:Reel', ns):
+            for a in r.find('cpl:AssetList', ns).iter():
+                if a.tag == '{%s}MainPicture' % ns['cpl']:
+                    id = a.find('cpl:Id', ns).text[9:]
+                    duration = int(a.find('cpl:IntrinsicDuration', ns).text)
+                    black_png = tempfile.NamedTemporaryFile('wb', suffix='.png')
+                    black_j2c = tempfile.NamedTemporaryFile('wb', suffix='.j2c')
+                    os.system('convert -size 1998x1080 xc:black %s' % black_png.name)
+                    os.system('image_to_j2k -i %s -o %s' % (black_png.name, black_j2c.name))
+                    j2c_dir = tempfile.mkdtemp()
+                    print j2c_dir
+                    for i in range(0, duration):
+                        shutil.copyfile(black_j2c.name, os.path.join(j2c_dir, '%06d.j2c' % i))
+                    os.system('asdcp-wrap -a %s %s %s' % (id, j2c_dir, os.path.join(sys.argv[1], 'dummy', assets[id])))
+                elif a.tag == '{%s}MainSound' % ns['cpl']:
+                    wav = tempfile.NamedTemporaryFile('wb', suffix='.wav')
+                    id = a.find('cpl:Id', ns).text[9:]
+                    duration = int(a.find('cpl:IntrinsicDuration', ns).text)
+                    edit_rate = int(a.find('cpl:EditRate', ns).text.split()[0])
+                    os.system('sox -n -r 48000 -c 6 %s trim 0.0 %f' % (wav.name, float(duration) / edit_rate))
+                    os.system('asdcp-wrap -a %s %s %s' % (id, wav.name, os.path.join(sys.argv[1], 'dummy', assets[id])))
+    elif type == 'Sndfile':
+        audio_frame_rate = int(c.find('AudioFrameRate').text)
+        channels = int(c.find('AudioMapping').find('InputChannels').text)
+        path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
+        audio_length = int(c.find('AudioLength').text)
+        os.system('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, channels, path, float(audio_length) / audio_frame_rate))
+    else:
+        print 'Skipped %s' % type
