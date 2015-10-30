@@ -98,7 +98,7 @@ Timeline::paint ()
 void
 Timeline::film_changed (Film::Property p)
 {
-	if (p == Film::CONTENT) {
+	if (p == Film::CONTENT || p == Film::REEL_TYPE || p == Film::REEL_LENGTH) {
 		ensure_ui_thread ();
 		recreate_views ();
 	}
