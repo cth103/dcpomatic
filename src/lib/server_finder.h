@@ -63,7 +63,6 @@ private:
 	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
 
 	void config_changed (Config::Property what);
-	void search_now ();
 
 	bool _disabled;
 
