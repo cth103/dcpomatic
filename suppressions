@@ -5,3 +5,80 @@
    obj:/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
    obj:*
 }
+
+{
+   uuid 1
+   Memcheck:Cond
+   fun:_ZN4Kumu7bin2hexEPKhjPcj
+   fun:_ZN4Kumu11bin2UUIDhexEPKhjPcj
+   fun:_ZNK4Kumu4UUID9EncodeHexEPcj
+   fun:_ZN3dcp9make_uuidEv
+   ...
+}
+
+{
+   uuid 2
+   Memcheck:Cond
+   fun:strlen
+   fun:_ZNSsC1EPKcRKSaIcE
+   fun:_ZN3dcp9make_uuidEv
+   ...
+}
+
+{
+   uuid 3
+   Memcheck:Cond
+   fun:_ZN4Kumu7hex2binEPKcPhjPj
+   fun:_ZNK3dcp3MXF16fill_writer_infoEPN5ASDCP10WriterInfoESsNS_8StandardE
+   ...
+}
+
+{
+   uuid 4
+   Memcheck:Value8
+   fun:isxdigit
+   fun:_ZN4Kumu7hex2binEPKcPhjPj
+   fun:_ZNK3dcp3MXF16fill_writer_infoEPN5ASDCP10WriterInfoESsNS_8StandardE
+}
+
+{
+   pixman who knows what
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/libpixman-1.so.0.30.2
+   obj:/usr/lib/x86_64-linux-gnu/libpixman-1.so.0.30.2
+   fun:pixman_image_composite32
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+   obj:/usr/lib/x86_64-linux-gnu/libcairo.so.2.11301.0
+}
+
+{
+   murrine who knows what
+   Memcheck:Cond
+   fun:murrine_draw_expander
+   obj:/usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/engines/libmurrine.so
+}
+
+{
+   rsvg who knows what
+   Memcheck:Cond
+   obj:/usr/lib/x86_64-linux-gnu/librsvg-2.so.2.40.2
+   fun:rsvg_handle_get_pixbuf_sub
+   obj:/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+   fun:gdk_pixbuf_loader_close
+   obj:/usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3000.7
+   fun:gdk_pixbuf_new_from_stream_at_scale
+   obj:/usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+   fun:gtk_icon_info_load_icon
+   fun:gtk_icon_theme_load_icon
+   obj:/usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+   obj:/usr/lib/x86_64-linux-gnu/libgtk-x11-2.0.so.0.2400.23
+   obj:/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4002.0
+}
+
