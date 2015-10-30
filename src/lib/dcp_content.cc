@@ -42,6 +42,7 @@ using std::distance;
 using std::pair;
 using std::list;
 using boost::shared_ptr;
+using boost::scoped_ptr;
 using boost::optional;
 
 int const DCPContentProperty::CAN_BE_PLAYED      = 600;
@@ -255,12 +256,20 @@ list<DCPTimePeriod>
 DCPContent::reels () const
 {
 	list<DCPTimePeriod> p;
-	DCPDecoder decoder (shared_from_this(), false);
+	scoped_ptr<DCPDecoder> decoder;
+	try {
+		decoder.reset (new DCPDecoder (shared_from_this(), false));
+	} catch (...) {
+		/* Could not load the DCP; guess reels */
+		list<DCPTimePeriod> p;
+		p.push_back (DCPTimePeriod (position(), end()));
+		return p;
+	}
 
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	DCPTime from = position ();
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
 		DCPTime const to = from + DCPTime::from_frames (i->main_picture()->duration(), film->video_frame_rate());
 		p.push_back (DCPTimePeriod (from, to));
 		from = to;

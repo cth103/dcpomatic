@@ -74,6 +74,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using boost::scoped_ptr;
 
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
@@ -752,9 +753,16 @@ Player::get_reel_assets ()
 		if (!j) {
 			continue;
 		}
-		DCPDecoder decoder (j, false);
+
+		scoped_ptr<DCPDecoder> decoder;
+		try {
+			decoder.reset (new DCPDecoder (j, false));
+		} catch (...) {
+			return a;
+		}
+
 		int64_t offset = 0;
-		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder.reels()) {
+		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
 			DCPTime const from = i->position() + DCPTime::from_frames (offset, _film->video_frame_rate());
 			if (j->reference_video ()) {
 				a.push_back (
