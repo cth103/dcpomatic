@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-10-30 12:09+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -182,7 +182,7 @@ msgstr "Характеристика цветового перехода"
 msgid "Colourspace"
 msgstr "Цветовое пространство"
 
-#: src/lib/reel_writer.cc:427
+#: src/lib/reel_writer.cc:429
 msgid "Computing audio digest"
 msgstr "Рендеринг аудио"
 
@@ -190,7 +190,7 @@ msgstr "Рендеринг аудио"
 msgid "Computing digest"
 msgstr "Рендеринг"
 
-#: src/lib/reel_writer.cc:421
+#: src/lib/reel_writer.cc:423
 msgid "Computing image digest"
 msgstr "Рендеринг изображения"
 
@@ -378,7 +378,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:462
+#: src/lib/config.cc:463
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -536,11 +536,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:94
-msgid "KDM delivery"
-msgstr "Назначение KDM"
-
-#: src/lib/config.cc:240
+#: src/lib/config.cc:239 src/lib/config.cc:460
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -612,19 +608,19 @@ msgstr "Mid-side декодер"
 msgid "Misc"
 msgstr "Разное"
 
-#: src/lib/dcp_examiner.cc:101
+#: src/lib/dcp_examiner.cc:96
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Несоответствие количества аудиоканалов в DCP"
 
-#: src/lib/dcp_examiner.cc:107
+#: src/lib/dcp_examiner.cc:102
 msgid "Mismatched audio frame rates in DCP"
 msgstr "Несоответствие частоты кадров аудио в DCP"
 
-#: src/lib/dcp_examiner.cc:82
+#: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
 msgstr "Несоответствие частоты кадров в DCP"
 
-#: src/lib/dcp_examiner.cc:89
+#: src/lib/dcp_examiner.cc:84
 msgid "Mismatched video sizes in DCP"
 msgstr "Несоответствие размера видео в DCP"
 
@@ -801,7 +797,15 @@ msgstr "Фильтр Telecine"
 msgid "Test"
 msgstr "TST (Тестовый)"
 
-#: src/lib/dcp_examiner.cc:139
+#: src/lib/dcp_content.cc:330
+msgid "The DCP does not have sound in all reels."
+msgstr ""
+
+#: src/lib/dcp_content.cc:344
+msgid "The DCP does not have subtitles in all reels."
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:134
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
@@ -820,11 +824,11 @@ msgstr ""
 "На устройство, на котором хранится проект, заканчивается место. Освободите "
 "немного места и попробуйте снова."
 
-#: src/lib/dcp_content.cc:327
+#: src/lib/dcp_content.cc:335
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Присутствует другое аудио, перекрывающее этот DCP. Уберите его!"
 
-#: src/lib/dcp_content.cc:333
+#: src/lib/dcp_content.cc:349
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Присутствуют другие субтитрі, перекрывающие этот DCP. Уберите их!"
 
@@ -1104,6 +1108,9 @@ msgstr "неизвестно"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "видеокадры"
+
+#~ msgid "KDM delivery"
+#~ msgstr "Назначение KDM"
 
 #~ msgid "Finding length"
 #~ msgstr "Расчет длительности"

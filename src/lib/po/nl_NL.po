@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-10-29 03:35+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -185,7 +185,7 @@ msgstr "Kleuroverdrachtskarakteristiek"
 msgid "Colourspace"
 msgstr "Kleurruimte"
 
-#: src/lib/reel_writer.cc:427
+#: src/lib/reel_writer.cc:429
 msgid "Computing audio digest"
 msgstr "Berekenen audio-digest"
 
@@ -193,7 +193,7 @@ msgstr "Berekenen audio-digest"
 msgid "Computing digest"
 msgstr "Berekenen digest"
 
-#: src/lib/reel_writer.cc:421
+#: src/lib/reel_writer.cc:423
 msgid "Computing image digest"
 msgstr "Berekenen beeld-digest"
 
@@ -374,7 +374,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Deinterlacing"
 
-#: src/lib/config.cc:462
+#: src/lib/config.cc:463
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -533,11 +533,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Het is onbekend hoe deze fout is ontstaan."
 
-#: src/lib/config.cc:94
-msgid "KDM delivery"
-msgstr "KDM-levering"
-
-#: src/lib/config.cc:240
+#: src/lib/config.cc:239 src/lib/config.cc:460
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -609,19 +605,19 @@ msgstr "Midden-zijkant decoder"
 msgid "Misc"
 msgstr "Diversen"
 
-#: src/lib/dcp_examiner.cc:101
+#: src/lib/dcp_examiner.cc:96
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Ongelijke aantallen audio-kanalen in DCP"
 
-#: src/lib/dcp_examiner.cc:107
+#: src/lib/dcp_examiner.cc:102
 msgid "Mismatched audio frame rates in DCP"
 msgstr "Ongelijke audio-beeldsnelheden in DCP"
 
-#: src/lib/dcp_examiner.cc:82
+#: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
 msgstr "Ongelijke beeldsnelheden in DCP"
 
-#: src/lib/dcp_examiner.cc:89
+#: src/lib/dcp_examiner.cc:84
 msgid "Mismatched video sizes in DCP"
 msgstr "Ongelijke beeldgroottes in DCP"
 
@@ -802,7 +798,15 @@ msgstr "Telecine-filter"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/dcp_examiner.cc:139
+#: src/lib/dcp_content.cc:330
+msgid "The DCP does not have sound in all reels."
+msgstr ""
+
+#: src/lib/dcp_content.cc:344
+msgid "The DCP does not have subtitles in all reels."
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:134
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
@@ -821,11 +825,11 @@ msgstr ""
 "De harddisk waarop de film is opgeslagen heeft te weinig vrije ruimte.  Maak "
 "meer ruimte vrij en probeer opnieuw."
 
-#: src/lib/dcp_content.cc:327
+#: src/lib/dcp_content.cc:335
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Er is andere audio-content die overlapt met deze DCP; verwijder deze."
 
-#: src/lib/dcp_content.cc:333
+#: src/lib/dcp_content.cc:349
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 "Er is andere ondertitel-content die overlapt met deze DCP; verwijder deze."
@@ -1106,6 +1110,9 @@ msgstr "onbekend"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "video-beelden"
+
+#~ msgid "KDM delivery"
+#~ msgstr "KDM-levering"
 
 #~ msgid "Finding length"
 #~ msgstr "Afspeelduur bepalen"

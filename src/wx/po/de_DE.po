@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-07-06 15:36+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,6 +82,8 @@ msgstr "3D Oben/Unten"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -95,7 +97,7 @@ msgstr ""
 msgid "A"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:144
+#: src/wx/hints_dialog.cc:148
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -157,7 +159,7 @@ msgstr "Hinzufügen..."
 msgid "Adjust white point to"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:132
+#: src/wx/hints_dialog.cc:136
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -171,7 +173,7 @@ msgstr ""
 "gewünscht sein, überlegen Sie bitte, das Container-Format in den DCP-"
 "Einstellungen auf 'Flat(1.85:1) zu ändern."
 
-#: src/wx/hints_dialog.cc:126
+#: src/wx/hints_dialog.cc:130
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -227,6 +229,14 @@ msgstr "BCC: Adresse"
 
 #: src/wx/colour_conversion_editor.cc:127
 msgid "Blue chromaticity"
+msgstr ""
+
+#: src/wx/fonts_dialog.cc:68
+msgid "Bold file"
+msgstr ""
+
+#: src/wx/font_files_dialog.cc:36
+msgid "Bold font"
 msgstr ""
 
 #: src/wx/video_panel.cc:134
@@ -320,7 +330,7 @@ msgstr "Ordner wählen"
 msgid "Choose a font"
 msgstr "Ordner wählen"
 
-#: src/wx/fonts_dialog.cc:134
+#: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr ""
 
@@ -546,8 +556,8 @@ msgid "Edit Screen..."
 msgstr "Saal bearbeiten..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:406
-#: src/wx/dcp_panel.cc:129 src/wx/video_panel.cc:180 src/wx/video_panel.cc:199
-#: src/wx/editable_list.h:66
+#: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Bearbeiten..."
 
@@ -622,11 +632,8 @@ msgstr "Filter"
 msgid "Find missing..."
 msgstr "Suche fehlende..."
 
-#: src/wx/fonts_dialog.cc:52
-msgid "Font file"
-msgstr ""
-
-#: src/wx/fonts_dialog.cc:35
+#: src/wx/fonts_dialog.cc:36 src/wx/font_files_dialog.cc:27
+#: src/wx/font_files_dialog.cc:29
 msgid "Fonts"
 msgstr ""
 
@@ -689,7 +696,7 @@ msgstr "Allgemein"
 msgid "Green chromaticity"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:34
+#: src/wx/hints_dialog.cc:35
 msgid "Hints"
 msgstr "Tipps"
 
@@ -748,6 +755,14 @@ msgstr "Interop"
 #: src/wx/config_dialog.cc:203
 msgid "Issuer"
 msgstr "Herausgeber"
+
+#: src/wx/fonts_dialog.cc:60
+msgid "Italic file"
+msgstr ""
+
+#: src/wx/font_files_dialog.cc:35
+msgid "Italic font"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:643
 msgid "JPEG2000 bandwidth"
@@ -909,6 +924,14 @@ msgstr ""
 #: src/wx/video_panel.cc:297
 msgid "None"
 msgstr "Kein"
+
+#: src/wx/fonts_dialog.cc:52
+msgid "Normal file"
+msgstr ""
+
+#: src/wx/font_files_dialog.cc:34
+msgid "Normal font"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -1108,7 +1131,8 @@ msgid "Report A Problem"
 msgstr ""
 
 #: src/wx/config_dialog.cc:1201
-msgid "Reset to default text"
+#, fuzzy
+msgid "Reset to default subject and text"
 msgstr "Auf Standardtext zurücksetzen"
 
 #: src/wx/dcp_panel.cc:637
@@ -1204,12 +1228,12 @@ msgstr "Encoding Server"
 msgid "Set"
 msgstr "Setzen"
 
-#: src/wx/fonts_dialog.cc:62
+#: src/wx/font_files_dialog.cc:50
 #, fuzzy
-msgid "Set from .ttf file..."
+msgid "Set from file..."
 msgstr "Lade aus Datei..."
 
-#: src/wx/fonts_dialog.cc:65
+#: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
 msgstr ""
 
@@ -1324,7 +1348,7 @@ msgstr ""
 "Entweder nochmals mit den richtigen Inhaltsdateien probieren oder Fehlende "
 "löschen."
 
-#: src/wx/hints_dialog.cc:178
+#: src/wx/hints_dialog.cc:182
 msgid "There are no hints: everything looks good!"
 msgstr "Keine Warnungen: Alles sieht gut aus!"
 
@@ -1498,13 +1522,13 @@ msgstr ""
 msgid "YUV to RGB matrix"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:171
+#: src/wx/hints_dialog.cc:175
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:157
+#: src/wx/hints_dialog.cc:161
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1513,13 +1537,13 @@ msgstr ""
 "Sie haben %d Dateien die wie VOB Dateien einer DVD aussehen. Sie sollten sie "
 "verbinden um einen sanften Übergang zwischen den Dateien zu haben."
 
-#: src/wx/hints_dialog.cc:92
+#: src/wx/hints_dialog.cc:96
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
 
-#: src/wx/hints_dialog.cc:138
+#: src/wx/hints_dialog.cc:142
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1529,7 +1553,7 @@ msgstr ""
 "Probleme verursachen. Um auf der sicheren Seite zu sein sollten Sie 24 oder "
 "48 Bilder/s benutzen."
 
-#: src/wx/hints_dialog.cc:97
+#: src/wx/hints_dialog.cc:101
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
@@ -1537,7 +1561,7 @@ msgstr ""
 "Ihr DCP hat eine ungerade Anzahl an Tonkanälen. Das wird wahrscheinlich zu "
 "Abspielproblemen führen."
 
-#: src/wx/hints_dialog.cc:101
+#: src/wx/hints_dialog.cc:105
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1545,7 +1569,7 @@ msgstr ""
 "Ihr DCP hat weniger als 6 Audiokanäle. Das kann auf manchen Projektoren zu "
 "Problemen führen."
 
-#: src/wx/hints_dialog.cc:106
+#: src/wx/hints_dialog.cc:110
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
 "playback."

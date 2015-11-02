@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-07-06 16:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -81,6 +81,8 @@ msgstr "3D top/bottom"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -91,7 +93,7 @@ msgstr ""
 msgid "A"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:144
+#: src/wx/hints_dialog.cc:148
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -149,7 +151,7 @@ msgstr "Lägg till..."
 msgid "Adjust white point to"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:132
+#: src/wx/hints_dialog.cc:136
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -157,7 +159,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr ""
 
-#: src/wx/hints_dialog.cc:126
+#: src/wx/hints_dialog.cc:130
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -208,6 +210,14 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:127
 msgid "Blue chromaticity"
+msgstr ""
+
+#: src/wx/fonts_dialog.cc:68
+msgid "Bold file"
+msgstr ""
+
+#: src/wx/font_files_dialog.cc:36
+msgid "Bold font"
 msgstr ""
 
 #: src/wx/video_panel.cc:134
@@ -301,7 +311,7 @@ msgstr "Välj en folder"
 msgid "Choose a font"
 msgstr "Välj en folder"
 
-#: src/wx/fonts_dialog.cc:134
+#: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr ""
 
@@ -528,8 +538,8 @@ msgid "Edit Screen..."
 msgstr "Redigera Skärm..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:406
-#: src/wx/dcp_panel.cc:129 src/wx/video_panel.cc:180 src/wx/video_panel.cc:199
-#: src/wx/editable_list.h:66
+#: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Redigera..."
 
@@ -604,11 +614,8 @@ msgstr "Filter"
 msgid "Find missing..."
 msgstr "Hitta saknade..."
 
-#: src/wx/fonts_dialog.cc:52
-msgid "Font file"
-msgstr ""
-
-#: src/wx/fonts_dialog.cc:35
+#: src/wx/fonts_dialog.cc:36 src/wx/font_files_dialog.cc:27
+#: src/wx/font_files_dialog.cc:29
 msgid "Fonts"
 msgstr ""
 
@@ -671,7 +678,7 @@ msgstr ""
 msgid "Green chromaticity"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:34
+#: src/wx/hints_dialog.cc:35
 msgid "Hints"
 msgstr "Råd"
 
@@ -730,6 +737,14 @@ msgstr "Interop"
 #: src/wx/config_dialog.cc:203
 msgid "Issuer"
 msgstr "Utgivare"
+
+#: src/wx/fonts_dialog.cc:60
+msgid "Italic file"
+msgstr ""
+
+#: src/wx/font_files_dialog.cc:35
+msgid "Italic font"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:643
 msgid "JPEG2000 bandwidth"
@@ -895,6 +910,14 @@ msgstr ""
 #: src/wx/video_panel.cc:297
 msgid "None"
 msgstr "Inget"
+
+#: src/wx/fonts_dialog.cc:52
+msgid "Normal file"
+msgstr ""
+
+#: src/wx/font_files_dialog.cc:34
+msgid "Normal font"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -1095,7 +1118,7 @@ msgid "Report A Problem"
 msgstr ""
 
 #: src/wx/config_dialog.cc:1201
-msgid "Reset to default text"
+msgid "Reset to default subject and text"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:637
@@ -1191,11 +1214,11 @@ msgstr ""
 msgid "Set"
 msgstr "Sätt"
 
-#: src/wx/fonts_dialog.cc:62
-msgid "Set from .ttf file..."
+#: src/wx/font_files_dialog.cc:50
+msgid "Set from file..."
 msgstr ""
 
-#: src/wx/fonts_dialog.cc:65
+#: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
 msgstr ""
 
@@ -1309,7 +1332,7 @@ msgstr ""
 "Innehållsfilerna du angav är inte samma som de som saknas. Försök igen med "
 "rätt innehållsfiler eller ta bort det saknade innehållet."
 
-#: src/wx/hints_dialog.cc:178
+#: src/wx/hints_dialog.cc:182
 msgid "There are no hints: everything looks good!"
 msgstr "Det finns inga råd: allt verkar bra!"
 
@@ -1485,13 +1508,13 @@ msgstr ""
 msgid "YUV to RGB matrix"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:171
+#: src/wx/hints_dialog.cc:175
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:157
+#: src/wx/hints_dialog.cc:161
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1500,13 +1523,13 @@ msgstr ""
 "Du har %d filer som verkar vara VOB-filer från DVD. Du borde sammanfoga dom "
 "för att säkerställa jämna övergångar mellan filerna."
 
-#: src/wx/hints_dialog.cc:92
+#: src/wx/hints_dialog.cc:96
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
 
-#: src/wx/hints_dialog.cc:138
+#: src/wx/hints_dialog.cc:142
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1515,7 +1538,7 @@ msgstr ""
 "Din DCP-bildhastighet (%d bps) kan orsaka problem i några få (äldre) "
 "projektorer. Använd 24 eller 48 bilder per sekund för att vara säker."
 
-#: src/wx/hints_dialog.cc:97
+#: src/wx/hints_dialog.cc:101
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
@@ -1523,7 +1546,7 @@ msgstr ""
 "Din DCP har udda antal audiokanaler. Detta kommer troligen att ge problem "
 "vid uppspelning."
 
-#: src/wx/hints_dialog.cc:101
+#: src/wx/hints_dialog.cc:105
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1531,7 +1554,7 @@ msgstr ""
 "Din DCP har mindre än 6 audiokanaler. Detta kan medföra problem på vissa "
 "projektorer."
 
-#: src/wx/hints_dialog.cc:106
+#: src/wx/hints_dialog.cc:110
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
 "playback."

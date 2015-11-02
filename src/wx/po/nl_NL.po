@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-10-30 17:42+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -83,6 +83,8 @@ msgstr "3D boven/onder"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -95,7 +97,7 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/hints_dialog.cc:144
+#: src/wx/hints_dialog.cc:148
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -158,7 +160,7 @@ msgstr "Voeg toe..."
 msgid "Adjust white point to"
 msgstr "Pas witpunt aan naar"
 
-#: src/wx/hints_dialog.cc:132
+#: src/wx/hints_dialog.cc:136
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -170,7 +172,7 @@ msgstr ""
 "balken zullen komen.  Mogelijk wilt u de DCP-container op Flat (1.85:1) "
 "instellen bij de DCP-instellingen."
 
-#: src/wx/hints_dialog.cc:126
+#: src/wx/hints_dialog.cc:130
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -226,6 +228,15 @@ msgstr "BCC-adres"
 #: src/wx/colour_conversion_editor.cc:127
 msgid "Blue chromaticity"
 msgstr "Blauw-chromaticiteit"
+
+#: src/wx/fonts_dialog.cc:68
+#, fuzzy
+msgid "Bold file"
+msgstr "Lettertype-bestand"
+
+#: src/wx/font_files_dialog.cc:36
+msgid "Bold font"
+msgstr ""
 
 #: src/wx/video_panel.cc:134
 msgid "Bottom"
@@ -317,7 +328,7 @@ msgstr "Kies een map"
 msgid "Choose a font"
 msgstr "Kies een lettertype"
 
-#: src/wx/fonts_dialog.cc:134
+#: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr "Kies een lettertype-bestand"
 
@@ -540,8 +551,8 @@ msgid "Edit Screen..."
 msgstr "Wijzig Scherm..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:406
-#: src/wx/dcp_panel.cc:129 src/wx/video_panel.cc:180 src/wx/video_panel.cc:199
-#: src/wx/editable_list.h:66
+#: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Wijzig..."
 
@@ -615,11 +626,8 @@ msgstr "Filters"
 msgid "Find missing..."
 msgstr "Zoek ontbrekende..."
 
-#: src/wx/fonts_dialog.cc:52
-msgid "Font file"
-msgstr "Lettertype-bestand"
-
-#: src/wx/fonts_dialog.cc:35
+#: src/wx/fonts_dialog.cc:36 src/wx/font_files_dialog.cc:27
+#: src/wx/font_files_dialog.cc:29
 msgid "Fonts"
 msgstr "Lettertypen"
 
@@ -680,7 +688,7 @@ msgstr "Algemeen"
 msgid "Green chromaticity"
 msgstr "Groen-chromaticiteit"
 
-#: src/wx/hints_dialog.cc:34
+#: src/wx/hints_dialog.cc:35
 msgid "Hints"
 msgstr "Hints"
 
@@ -739,6 +747,15 @@ msgstr "Interop"
 #: src/wx/config_dialog.cc:203
 msgid "Issuer"
 msgstr "Uitgever"
+
+#: src/wx/fonts_dialog.cc:60
+#, fuzzy
+msgid "Italic file"
+msgstr "Lettertype-bestand"
+
+#: src/wx/font_files_dialog.cc:35
+msgid "Italic font"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:643
 msgid "JPEG2000 bandwidth"
@@ -901,6 +918,15 @@ msgstr "Geen content gevonden in deze map."
 #: src/wx/video_panel.cc:297
 msgid "None"
 msgstr "Geen"
+
+#: src/wx/fonts_dialog.cc:52
+#, fuzzy
+msgid "Normal file"
+msgstr "Lettertype-bestand"
+
+#: src/wx/font_files_dialog.cc:34
+msgid "Normal font"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -1100,7 +1126,8 @@ msgid "Report A Problem"
 msgstr "Meld een probleem"
 
 #: src/wx/config_dialog.cc:1201
-msgid "Reset to default text"
+#, fuzzy
+msgid "Reset to default subject and text"
 msgstr "Stel standaardtekst opnieuw in"
 
 #: src/wx/dcp_panel.cc:637
@@ -1196,11 +1223,12 @@ msgstr "Servers"
 msgid "Set"
 msgstr "Stel in"
 
-#: src/wx/fonts_dialog.cc:62
-msgid "Set from .ttf file..."
+#: src/wx/font_files_dialog.cc:50
+#, fuzzy
+msgid "Set from file..."
 msgstr "Stel in uit .ttf-bestand..."
 
-#: src/wx/fonts_dialog.cc:65
+#: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
 msgstr "Stel in uit syteem-lettertype..."
 
@@ -1314,7 +1342,7 @@ msgstr ""
 "ontbrekende bestand(en).  Probeer het opnieuw met de juiste content-"
 "bestand(en) of verwijder de ontbrekende content."
 
-#: src/wx/hints_dialog.cc:178
+#: src/wx/hints_dialog.cc:182
 msgid "There are no hints: everything looks good!"
 msgstr "Er zijn geen hints, alles ziet er goed uit!"
 
@@ -1487,7 +1515,7 @@ msgstr "YUV naar RGB conversie"
 msgid "YUV to RGB matrix"
 msgstr "YUV naar RGB matrix"
 
-#: src/wx/hints_dialog.cc:171
+#: src/wx/hints_dialog.cc:175
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1495,7 +1523,7 @@ msgstr ""
 "U gebruikt 3D-content, maar uw DCP is op 2D ingesteld.  Stel de DCP in op 3D "
 "als u hem wilt afspelen op een 3D-systeem (bv. Real-D, MasterImage etc.)"
 
-#: src/wx/hints_dialog.cc:157
+#: src/wx/hints_dialog.cc:161
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1504,7 +1532,7 @@ msgstr ""
 "U heeft %d bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
 "deze beter samenvoegen om van soepele aansluitingen verzekerd te zijn."
 
-#: src/wx/hints_dialog.cc:92
+#: src/wx/hints_dialog.cc:96
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1512,7 +1540,7 @@ msgstr ""
 "U heeft een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
 "zal zeer waarschijnlijk problemen bij het afspelen geven."
 
-#: src/wx/hints_dialog.cc:138
+#: src/wx/hints_dialog.cc:142
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1521,7 +1549,7 @@ msgstr ""
 "Uw DCP-beeldsnelheid (%d bps) kan problemen veroorzaken met sommige (oudere) "
 "projectoren.  Gebruik 24 of 48 beelden per seconde voor zekerheid."
 
-#: src/wx/hints_dialog.cc:97
+#: src/wx/hints_dialog.cc:101
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
@@ -1529,7 +1557,7 @@ msgstr ""
 "Uw DCP heeft een oneven aantal audio-kanalen.  Dit zal zeer waarschijnlijk "
 "problemen bij het afspelen geven."
 
-#: src/wx/hints_dialog.cc:101
+#: src/wx/hints_dialog.cc:105
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1537,7 +1565,7 @@ msgstr ""
 "Uw DCP heeft minder dan 6 audio-kanalen.  Dit kan problemen veroorzaken met "
 "sommige installaties."
 
-#: src/wx/hints_dialog.cc:106
+#: src/wx/hints_dialog.cc:110
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
 "playback."

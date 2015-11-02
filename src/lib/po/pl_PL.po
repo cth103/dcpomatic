@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -186,7 +186,7 @@ msgstr "Charakterystyka przenoszenia kolorystyki"
 msgid "Colourspace"
 msgstr "Przestrzeń kolorów"
 
-#: src/lib/reel_writer.cc:427
+#: src/lib/reel_writer.cc:429
 msgid "Computing audio digest"
 msgstr "Obliczanie danych dźwięku"
 
@@ -194,7 +194,7 @@ msgstr "Obliczanie danych dźwięku"
 msgid "Computing digest"
 msgstr "Obliczanie danych"
 
-#: src/lib/reel_writer.cc:421
+#: src/lib/reel_writer.cc:423
 msgid "Computing image digest"
 msgstr "Obliczanie danych obrazu"
 
@@ -369,7 +369,7 @@ msgstr "DCP-o-matic nie używa już filtru `%1', więc został on wyłączony."
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
-#: src/lib/config.cc:462
+#: src/lib/config.cc:463
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -530,11 +530,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Nieznany błąd"
 
-#: src/lib/config.cc:94
-msgid "KDM delivery"
-msgstr "Wysyłanie klucza"
-
-#: src/lib/config.cc:240
+#: src/lib/config.cc:239 src/lib/config.cc:460
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
@@ -606,19 +602,19 @@ msgstr "Dekoder Mid-side"
 msgid "Misc"
 msgstr "Różne"
 
-#: src/lib/dcp_examiner.cc:101
+#: src/lib/dcp_examiner.cc:96
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Nieprawidłowa ilość kanałów dźwiękowych w DCP"
 
-#: src/lib/dcp_examiner.cc:107
+#: src/lib/dcp_examiner.cc:102
 msgid "Mismatched audio frame rates in DCP"
 msgstr "Nieprawidłowa prędkość ścieżki dźwiękowej w DCP"
 
-#: src/lib/dcp_examiner.cc:82
+#: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
 msgstr "Nieprawidłowa prędkość kl/s  w DCP"
 
-#: src/lib/dcp_examiner.cc:89
+#: src/lib/dcp_examiner.cc:84
 msgid "Mismatched video sizes in DCP"
 msgstr "Nieprawidłowy rozmiar pliku video w DCP"
 
@@ -793,7 +789,15 @@ msgstr "Filtr Telecine"
 msgid "Test"
 msgstr "Testowy"
 
-#: src/lib/dcp_examiner.cc:139
+#: src/lib/dcp_content.cc:330
+msgid "The DCP does not have sound in all reels."
+msgstr ""
+
+#: src/lib/dcp_content.cc:344
+msgid "The DCP does not have subtitles in all reels."
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:134
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr "Klucz nie rozszyfruje DCP. Być może jest wygenerowany dla innego CPL."
@@ -810,11 +814,11 @@ msgstr ""
 "Dysk na którym zapisany jest film ma mało wolnego miejsca. Zwolnij miejsce "
 "na dysku i spróbuj ponownie."
 
-#: src/lib/dcp_content.cc:327
+#: src/lib/dcp_content.cc:335
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/dcp_content.cc:333
+#: src/lib/dcp_content.cc:349
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 
@@ -1093,6 +1097,9 @@ msgstr "nieznany"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "klatki obrazu"
+
+#~ msgid "KDM delivery"
+#~ msgstr "Wysyłanie klucza"
 
 #~ msgid "Finding length"
 #~ msgstr "Szukanie czasu trwania"

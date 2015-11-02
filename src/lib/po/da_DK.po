@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Colourspace"
 msgstr ""
 
-#: src/lib/reel_writer.cc:427
+#: src/lib/reel_writer.cc:429
 msgid "Computing audio digest"
 msgstr "Beregner lydresume"
 
@@ -192,7 +192,7 @@ msgstr "Beregner lydresume"
 msgid "Computing digest"
 msgstr "Beregner resume"
 
-#: src/lib/reel_writer.cc:421
+#: src/lib/reel_writer.cc:423
 msgid "Computing image digest"
 msgstr "Beregner billedresume"
 
@@ -371,7 +371,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:462
+#: src/lib/config.cc:463
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -532,11 +532,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Det er uklart hvad der forårsagede denne fejl."
 
-#: src/lib/config.cc:94
-msgid "KDM delivery"
-msgstr "KDM levering"
-
-#: src/lib/config.cc:240
+#: src/lib/config.cc:239 src/lib/config.cc:460
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -608,19 +604,19 @@ msgstr ""
 msgid "Misc"
 msgstr "Diverse"
 
-#: src/lib/dcp_examiner.cc:101
+#: src/lib/dcp_examiner.cc:96
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Antallet af lydkanaler passer ikke i DCP"
 
-#: src/lib/dcp_examiner.cc:107
+#: src/lib/dcp_examiner.cc:102
 msgid "Mismatched audio frame rates in DCP"
 msgstr ""
 
-#: src/lib/dcp_examiner.cc:82
+#: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
 msgstr "Billedhastigheder passer ikke i DCP"
 
-#: src/lib/dcp_examiner.cc:89
+#: src/lib/dcp_examiner.cc:84
 msgid "Mismatched video sizes in DCP"
 msgstr "Videostørrelser passer ikke i DCP"
 
@@ -795,7 +791,15 @@ msgstr "Telecinefilter"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/dcp_examiner.cc:139
+#: src/lib/dcp_content.cc:330
+msgid "The DCP does not have sound in all reels."
+msgstr ""
+
+#: src/lib/dcp_content.cc:344
+msgid "The DCP does not have subtitles in all reels."
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:134
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
@@ -813,11 +817,11 @@ msgstr ""
 "Filmen ligger på et drev, der kun har lidt ledig plads. Frigør noget plads "
 "og prøv igen."
 
-#: src/lib/dcp_content.cc:327
+#: src/lib/dcp_content.cc:335
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/dcp_content.cc:333
+#: src/lib/dcp_content.cc:349
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 
@@ -1097,6 +1101,9 @@ msgstr "ukendt"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "videobilleder"
+
+#~ msgid "KDM delivery"
+#~ msgstr "KDM levering"
 
 #~ msgid "Finding length"
 #~ msgstr "Beregner længde"

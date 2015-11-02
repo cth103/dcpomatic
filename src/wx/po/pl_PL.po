@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-02 23:12+0000\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -85,6 +85,8 @@ msgstr "3D góra/dół"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -95,7 +97,7 @@ msgstr "<i>Zmień tylko jeśli ilość kl/s została wykryta nieprawidłowo.</i>
 msgid "A"
 msgstr "A"
 
-#: src/wx/hints_dialog.cc:144
+#: src/wx/hints_dialog.cc:148
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -155,7 +157,7 @@ msgstr "Dodaj"
 msgid "Adjust white point to"
 msgstr "Ustaw punkt bieli"
 
-#: src/wx/hints_dialog.cc:132
+#: src/wx/hints_dialog.cc:136
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -166,7 +168,7 @@ msgstr ""
 "proporcje 2.39:1. Spowoduje to zwężenie obrazu w proporcjach 1.85:1. "
 "Polecamy ustawić kontener DCP do 1.85:1 w zakładce \"DCP\"."
 
-#: src/wx/hints_dialog.cc:126
+#: src/wx/hints_dialog.cc:130
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -221,6 +223,15 @@ msgstr "Adres BCC"
 #: src/wx/colour_conversion_editor.cc:127
 msgid "Blue chromaticity"
 msgstr "Chroma kanału niebieskiego"
+
+#: src/wx/fonts_dialog.cc:68
+#, fuzzy
+msgid "Bold file"
+msgstr "Plik czcionki"
+
+#: src/wx/font_files_dialog.cc:36
+msgid "Bold font"
+msgstr ""
 
 #: src/wx/video_panel.cc:134
 msgid "Bottom"
@@ -312,7 +323,7 @@ msgstr "Wybierz folder"
 msgid "Choose a font"
 msgstr "Wybierz czcionkę"
 
-#: src/wx/fonts_dialog.cc:134
+#: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr "Wybierz plik czcionki"
 
@@ -536,8 +547,8 @@ msgid "Edit Screen..."
 msgstr "Zmień Sala"
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:406
-#: src/wx/dcp_panel.cc:129 src/wx/video_panel.cc:180 src/wx/video_panel.cc:199
-#: src/wx/editable_list.h:66
+#: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:66
 msgid "Edit..."
 msgstr "Zmień"
 
@@ -612,11 +623,8 @@ msgstr "Filtry"
 msgid "Find missing..."
 msgstr "Znajdź brakujące"
 
-#: src/wx/fonts_dialog.cc:52
-msgid "Font file"
-msgstr "Plik czcionki"
-
-#: src/wx/fonts_dialog.cc:35
+#: src/wx/fonts_dialog.cc:36 src/wx/font_files_dialog.cc:27
+#: src/wx/font_files_dialog.cc:29
 msgid "Fonts"
 msgstr "Czcionki"
 
@@ -678,7 +686,7 @@ msgstr "Ogólne"
 msgid "Green chromaticity"
 msgstr "Chroma kanału zielonego"
 
-#: src/wx/hints_dialog.cc:34
+#: src/wx/hints_dialog.cc:35
 msgid "Hints"
 msgstr "Wskazówki"
 
@@ -737,6 +745,15 @@ msgstr "Interop"
 #: src/wx/config_dialog.cc:203
 msgid "Issuer"
 msgstr "Wydawca"
+
+#: src/wx/fonts_dialog.cc:60
+#, fuzzy
+msgid "Italic file"
+msgstr "Plik czcionki"
+
+#: src/wx/font_files_dialog.cc:35
+msgid "Italic font"
+msgstr ""
 
 #: src/wx/dcp_panel.cc:643
 msgid "JPEG2000 bandwidth"
@@ -898,6 +915,15 @@ msgstr "W tym folderze brakuje plików."
 #: src/wx/video_panel.cc:297
 msgid "None"
 msgstr "Brak"
+
+#: src/wx/fonts_dialog.cc:52
+#, fuzzy
+msgid "Normal file"
+msgstr "Plik czcionki"
+
+#: src/wx/font_files_dialog.cc:34
+msgid "Normal font"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -1096,7 +1122,8 @@ msgid "Report A Problem"
 msgstr "Zgłoś błąd"
 
 #: src/wx/config_dialog.cc:1201
-msgid "Reset to default text"
+#, fuzzy
+msgid "Reset to default subject and text"
 msgstr "Przywróć domyślny tekst"
 
 #: src/wx/dcp_panel.cc:637
@@ -1192,11 +1219,12 @@ msgstr "Serwery"
 msgid "Set"
 msgstr "Wybierz"
 
-#: src/wx/fonts_dialog.cc:62
-msgid "Set from .ttf file..."
+#: src/wx/font_files_dialog.cc:50
+#, fuzzy
+msgid "Set from file..."
 msgstr "Ustaw czcionkę z pliku .ttf"
 
-#: src/wx/fonts_dialog.cc:65
+#: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
 msgstr "Ustaw czcionkę systmową"
 
@@ -1309,7 +1337,7 @@ msgstr ""
 "Plik(i) które dodałeś są inne od tych, które brakują. Spróbuj jeszcze raz "
 "dodać prawidłowe pliku, lub usuń brakujące."
 
-#: src/wx/hints_dialog.cc:178
+#: src/wx/hints_dialog.cc:182
 msgid "There are no hints: everything looks good!"
 msgstr "Brak wskazówek: wszystko wygląda świetnie!"
 
@@ -1482,7 +1510,7 @@ msgstr "Konwersja YUV do RGB"
 msgid "YUV to RGB matrix"
 msgstr "Matryca YUV do RGB"
 
-#: src/wx/hints_dialog.cc:171
+#: src/wx/hints_dialog.cc:175
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1491,7 +1519,7 @@ msgstr ""
 "jeśli chcesz, aby DCP było prawidłowo wyświetlane na systemach 3D ( Real-D, "
 "MasterImage itp.)"
 
-#: src/wx/hints_dialog.cc:157
+#: src/wx/hints_dialog.cc:161
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1500,7 +1528,7 @@ msgstr ""
 "Dodałeś %d plików, które prawdopodobnie są plikami VOB ze struktury DVD. "
 "Połącz je razem, żeby uzyskać płynne przejścia pomiędzy plikami."
 
-#: src/wx/hints_dialog.cc:92
+#: src/wx/hints_dialog.cc:96
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1508,7 +1536,7 @@ msgstr ""
 "Wybrałeś czcionkę która ma rozmiar większy niż 640kb. Może to powodować "
 "problemy podczas projekcji."
 
-#: src/wx/hints_dialog.cc:138
+#: src/wx/hints_dialog.cc:142
 #, c-format
 msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
@@ -1518,7 +1546,7 @@ msgstr ""
 "starszych rodzajach projektorów. Uzyj wartości 24 lub 48 kl/s, aby być "
 "pewnym, że wszystko będzie ok."
 
-#: src/wx/hints_dialog.cc:97
+#: src/wx/hints_dialog.cc:101
 msgid ""
 "Your DCP has an odd number of audio channels.  This is very likely to cause "
 "problems on playback."
@@ -1526,7 +1554,7 @@ msgstr ""
 "DCP ma niespotykaną liczbę kanałów dźwiękowych. Może to powodować problemy "
 "podczas projekcji."
 
-#: src/wx/hints_dialog.cc:101
+#: src/wx/hints_dialog.cc:105
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1534,7 +1562,7 @@ msgstr ""
 "DCP ma mniej niż 6 kanałów dźwięku. Może to powodować problemy na niektórych "
 "projektorach."
 
-#: src/wx/hints_dialog.cc:106
+#: src/wx/hints_dialog.cc:110
 msgid ""
 "Your DCP has no audio channels.  This is likely to cause problems on "
 "playback."
