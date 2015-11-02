@@ -17,15 +17,15 @@
 
 */
 
-#include <wx/filepicker.h>
-#include <wx/validate.h>
-#include <dcp/exceptions.h>
-#include "lib/compose.hpp"
-#include "lib/util.h"
 #include "screen_dialog.h"
 #include "wx_util.h"
 #include "doremi_certificate_dialog.h"
 #include "dolby_certificate_dialog.h"
+#include "lib/compose.hpp"
+#include "lib/util.h"
+#include <dcp/exceptions.h>
+#include <wx/filepicker.h>
+#include <wx/validate.h>
 #include <iostream>
 
 using std::string;
