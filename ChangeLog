@@ -1,3 +1,7 @@
+2015-11-02  Carl Hetherington  <cth@carlh.net>
+
+	* Fix incorrect preview rendering of italic subtitles (#728).
+
 2015-10-30  c.hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.

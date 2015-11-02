@@ -28,6 +28,7 @@
 #include <boost/foreach.hpp>
 
 using boost::shared_ptr;
+using boost::optional;
 using boost::dynamic_pointer_cast;
 
 HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film)
@@ -79,8 +80,11 @@ HintsDialog::film_changed ()
 			shared_ptr<SubtitleContent> s = dynamic_pointer_cast<SubtitleContent> (i);
 			if (s) {
 				BOOST_FOREACH (shared_ptr<Font> j, s->fonts ()) {
-					if (j->file() && boost::filesystem::file_size (j->file().get ()) >= (640 * 1024)) {
-						big_font_files = true;
+					for (int i = 0; i < FontFiles::VARIANTS; ++i) {
+						optional<boost::filesystem::path> const p = j->file (static_cast<FontFiles::Variant> (i));
+						if (p && boost::filesystem::file_size (p.get()) >= (640 * 1024)) {
+							big_font_files = true;
+						}
 					}
 				}
 			}

@@ -32,14 +32,11 @@ public:
 
 private:
 	void setup ();
-	void set_from_file_clicked ();
-	void set_from_system_clicked ();
 	void setup_sensitivity ();
 	void selection_changed ();
-	void set_selected_font_file (boost::filesystem::path file);
+	void edit_clicked ();
 
 	boost::weak_ptr<SubtitleContent> _content;
 	wxListCtrl* _fonts;
-	wxButton* _set_from_file;
-	wxButton* _set_from_system;
+	wxButton* _edit;
 };

@@ -363,17 +363,19 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	if (_subtitle_asset) {
-		boost::filesystem::path liberation;
+
+		boost::filesystem::path liberation_normal;
 		try {
-			liberation = shared_path () / "LiberationSans-Regular.ttf";
+			liberation_normal = shared_path () / "LiberationSans-Regular.ttf";
 		} catch (boost::filesystem::filesystem_error& e) {
 			/* Hack: try the debian/ubuntu location if getting the shared path failed */
-			liberation = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+			liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 		}
+
 
 		/* Add all the fonts to the subtitle content */
 		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			_subtitle_asset->add_font (j->id(), j->file().get_value_or (liberation));
+			_subtitle_asset->add_font (j->id(), j->file(FontFiles::NORMAL).get_value_or(liberation_normal));
 		}
 
 		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (_subtitle_asset)) {

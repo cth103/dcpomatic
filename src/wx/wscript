@@ -51,6 +51,7 @@ sources = """
           filter_dialog.cc
           filter_editor.cc
           fonts_dialog.cc
+          font_files_dialog.cc
           gain_calculator_dialog.cc
           hints_dialog.cc
           job_view.cc

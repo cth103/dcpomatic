@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,25 +17,16 @@
 
 */
 
-#include "player_subtitles.h"
-#include "font.h"
-#include <boost/foreach.hpp>
+#include "font_files.h"
 
-using std::list;
-using boost::shared_ptr;
-
-void
-PlayerSubtitles::add_fonts (list<shared_ptr<Font> > fonts_)
+bool
+operator!= (FontFiles const & a, FontFiles const & b)
 {
-	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
-		bool got = false;
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			if (*i == *j) {
-				got = true;
-			}
-		}
-		if (!got) {
-			fonts.push_back (i);
+	for (int i = 0; i < FontFiles::VARIANTS; ++i) {
+		if (a.get(static_cast<FontFiles::Variant>(i)) != b.get(static_cast<FontFiles::Variant>(i))) {
+			return false;
 		}
 	}
+
+	return true;
 }

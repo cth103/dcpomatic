@@ -20,6 +20,7 @@
 #ifndef DCPOMATIC_FONT_H
 #define DCPOMATIC_FONT_H
 
+#include "font_files.h"
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
@@ -40,12 +41,21 @@ public:
 		return _id;
 	}
 
-	boost::optional<boost::filesystem::path> file () const {
-		return _file;
+	boost::optional<boost::filesystem::path> file (FontFiles::Variant variant) const {
+		return _files.get (variant);
 	}
 
-	void set_file (boost::filesystem::path file) {
-		_file = file;
+	void set_file (FontFiles::Variant variant, boost::filesystem::path file) {
+		_files.set (variant, file);
+		Changed ();
+	}
+
+	FontFiles files () const {
+		return _files;
+	}
+
+	void set_files (FontFiles files) {
+		_files = files;
 		Changed ();
 	}
 
@@ -54,10 +64,10 @@ public:
 private:
 	/** Font ID, used to describe it in the subtitle content */
 	std::string _id;
-	boost::optional<boost::filesystem::path> _file;
+	FontFiles _files;
 };
 
-bool
-operator!= (Font const & a, Font const & b);
+bool operator!= (Font const & a, Font const & b);
+bool operator== (Font const & a, Font const & b);
 
 #endif

@@ -22,6 +22,7 @@
 #include "image.h"
 #include "cross.h"
 #include "font.h"
+#include "dcpomatic_assert.h"
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
 #include <boost/foreach.hpp>
@@ -39,23 +40,30 @@ using boost::shared_ptr;
 using boost::optional;
 
 static FcConfig* fc_config = 0;
-static list<pair<boost::filesystem::path, string> > fc_config_fonts;
+static list<pair<FontFiles, string> > fc_config_fonts;
 
+/** @param subtitles A list of subtitles that are all on the same line */
 static PositionImage
-render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > fonts, dcp::Size target)
+render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target)
 {
+	/* XXX: this method can only handle italic / bold changes mid-line,
+	   nothing else yet.
+	*/
+
+	DCPOMATIC_ASSERT (!subtitles.empty ());
+
 	/* Calculate x and y scale factors.  These are only used to stretch
 	   the font away from its normal aspect ratio.
 	*/
 	float xscale = 1;
 	float yscale = 1;
-	if (fabs (subtitle.aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
-		if (subtitle.aspect_adjust() < 1) {
-			xscale = max (0.25f, subtitle.aspect_adjust ());
+	if (fabs (subtitles.front().aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
+		if (subtitles.front().aspect_adjust() < 1) {
+			xscale = max (0.25f, subtitles.front().aspect_adjust ());
 			yscale = 1;
 		} else {
 			xscale = 1;
-			yscale = 1 / min (4.0f, subtitle.aspect_adjust ());
+			yscale = 1 / min (4.0f, subtitles.front().aspect_adjust ());
 		}
 	}
 
@@ -64,7 +72,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 	*/
 
 	/* Basic guess on height... */
-	int height = subtitle.size() * target.height / (11 * 72);
+	int height = subtitles.front().size() * target.height / (11 * 72);
 	/* ...scaled... */
 	height *= yscale;
 	/* ...and add a bit more for luck */
@@ -87,22 +95,36 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 		fc_config = FcConfigCreate ();
 	}
 
-	boost::filesystem::path font_file;
+	FontFiles font_files;
+
 	try {
-		font_file = shared_path () / "LiberationSans-Regular.ttf";
+		font_files.set (FontFiles::NORMAL, shared_path () / "LiberationSans-Regular.ttf");
+		font_files.set (FontFiles::ITALIC, shared_path () / "LiberationSans-Italic.ttf");
+		font_files.set (FontFiles::BOLD, shared_path () / "LiberationSans-Bold.ttf");
 	} catch (boost::filesystem::filesystem_error& e) {
-		/* Hack: try the debian/ubuntu location if getting the shared path failed */
-		font_file = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+
+	}
+
+	/* Hack: try the debian/ubuntu locations if getting the shared path failed */
+
+	if (!font_files.get(FontFiles::NORMAL) || !boost::filesystem::exists(font_files.get(FontFiles::NORMAL).get())) {
+		font_files.set (FontFiles::NORMAL, "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
+	}
+	if (!font_files.get(FontFiles::ITALIC) || !boost::filesystem::exists(font_files.get(FontFiles::ITALIC).get())) {
+		font_files.set (FontFiles::ITALIC, "/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf");
+	}
+	if (!font_files.get(FontFiles::BOLD) || !boost::filesystem::exists(font_files.get(FontFiles::BOLD).get())) {
+		font_files.set (FontFiles::BOLD, "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf");
 	}
 
 	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
-		if (i->id() == subtitle.font() && i->file ()) {
-			font_file = i->file().get ();
+		if (i->id() == subtitles.front().font() && i->file(FontFiles::NORMAL)) {
+			font_files = i->files ();
 		}
 	}
 
-	list<pair<boost::filesystem::path, string> >::const_iterator existing = fc_config_fonts.begin ();
-	while (existing != fc_config_fonts.end() && existing->first != font_file) {
+	list<pair<FontFiles, string> >::const_iterator existing = fc_config_fonts.begin ();
+	while (existing != fc_config_fonts.end() && existing->first != font_files) {
 		++existing;
 	}
 
@@ -111,9 +133,16 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 		font_name = existing->second;
 	} else {
 		/* Make this font available to DCP-o-matic */
-		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *> (font_file.string().c_str ()));
+		for (int i = 0; i < FontFiles::VARIANTS; ++i) {
+			if (font_files.get(static_cast<FontFiles::Variant>(i))) {
+				FcConfigAppFontAddFile (
+					fc_config,
+					reinterpret_cast<FcChar8 const *> (font_files.get(static_cast<FontFiles::Variant>(i)).get().string().c_str())
+					);
+			}
+		}
 
-		FcPattern* pattern = FcPatternBuild (0, FC_FILE, FcTypeString, font_file.string().c_str(), static_cast<char *> (0));
+		FcPattern* pattern = FcPatternBuild (0, FC_FILE, FcTypeString, font_files.get(FontFiles::NORMAL).get().string().c_str(), static_cast<char *> (0));
 		FcObjectSet* object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
 		FcFontSet* font_set = FcFontList (fc_config, pattern, object_set);
 		if (font_set) {
@@ -137,7 +166,7 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 		FcObjectSetDestroy (object_set);
 		FcPatternDestroy (pattern);
 
-		fc_config_fonts.push_back (make_pair (font_file, font_name));
+		fc_config_fonts.push_back (make_pair (font_files, font_name));
 	}
 
 	FcConfigSetCurrent (fc_config);
@@ -151,12 +180,29 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 	/* Render the subtitle at the top left-hand corner of image */
 
 	Pango::FontDescription font (font_name);
-	font.set_absolute_size (subtitle.size_in_pixels (target.height) * PANGO_SCALE);
-	if (subtitle.italic ()) {
-		font.set_style (Pango::STYLE_ITALIC);
-	}
+	font.set_absolute_size (subtitles.front().size_in_pixels (target.height) * PANGO_SCALE);
 	layout->set_font_description (font);
-	layout->set_text (subtitle.text ());
+
+	string marked_up;
+	bool italic = false;
+	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+		if (i.italic() != italic) {
+			if (i.italic()) {
+				marked_up += "<i>";
+			} else {
+				marked_up += "</i>";
+			}
+			italic = i.italic ();
+		}
+
+		marked_up += i.text ();
+	}
+
+	if (italic) {
+		marked_up += "</i>";
+	}
+
+	layout->set_markup (marked_up);
 
 	/* Compute fade factor */
 	/* XXX */
@@ -166,9 +212,9 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 
 	context->scale (xscale, yscale);
 
-	if (subtitle.effect() == dcp::SHADOW) {
+	if (subtitles.front().effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
-		dcp::Colour const ec = subtitle.effect_colour ();
+		dcp::Colour const ec = subtitles.front().effect_colour ();
 		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 		context->move_to (4, 4);
 		layout->add_to_cairo_context (context);
@@ -177,15 +223,15 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 
 	/* The actual subtitle */
 
-	dcp::Colour const c = subtitle.colour ();
+	dcp::Colour const c = subtitles.front().colour ();
 	context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
 	context->move_to (0, 0);
 	layout->add_to_cairo_context (context);
 	context->fill ();
 
-	if (subtitle.effect() == dcp::BORDER) {
+	if (subtitles.front().effect() == dcp::BORDER) {
 		/* Border effect */
-		dcp::Colour ec = subtitle.effect_colour ();
+		dcp::Colour ec = subtitles.front().effect_colour ();
 		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 		context->move_to (0, 0);
 		layout->add_to_cairo_context (context);
@@ -197,34 +243,34 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 	layout->get_size (layout_width, layout_height);
 
 	int x = 0;
-	switch (subtitle.h_align ()) {
+	switch (subtitles.front().h_align ()) {
 	case dcp::HALIGN_LEFT:
 		/* h_position is distance between left of frame and left of subtitle */
-		x = subtitle.h_position() * target.width;
+		x = subtitles.front().h_position() * target.width;
 		break;
 	case dcp::HALIGN_CENTER:
 		/* h_position is distance between centre of frame and centre of subtitle */
-		x = (0.5 + subtitle.h_position()) * target.width - layout_width / (PANGO_SCALE * 2);
+		x = (0.5 + subtitles.front().h_position()) * target.width - layout_width / (PANGO_SCALE * 2);
 		break;
 	case dcp::HALIGN_RIGHT:
 		/* h_position is distance between right of frame and right of subtitle */
-		x = (1.0 - subtitle.h_position()) * target.width - layout_width / PANGO_SCALE;
+		x = (1.0 - subtitles.front().h_position()) * target.width - layout_width / PANGO_SCALE;
 		break;
 	}
 
 	int y = 0;
-	switch (subtitle.v_align ()) {
+	switch (subtitles.front().v_align ()) {
 	case dcp::VALIGN_TOP:
 		/* v_position is distance between top of frame and top of subtitle */
-		y = subtitle.v_position() * target.height;
+		y = subtitles.front().v_position() * target.height;
 		break;
 	case dcp::VALIGN_CENTER:
 		/* v_position is distance between centre of frame and centre of subtitle */
-		y = (0.5 + subtitle.v_position()) * target.height - layout_height / (PANGO_SCALE * 2);
+		y = (0.5 + subtitles.front().v_position()) * target.height - layout_height / (PANGO_SCALE * 2);
 		break;
 	case dcp::VALIGN_BOTTOM:
 		/* v_position is distance between bottom of frame and bottom of subtitle */
-		y = (1.0 - subtitle.v_position()) * target.height - layout_height / PANGO_SCALE;
+		y = (1.0 - subtitles.front().v_position()) * target.height - layout_height / PANGO_SCALE;
 		break;
 	}
 
@@ -234,9 +280,20 @@ render_subtitle (dcp::SubtitleString const & subtitle, list<shared_ptr<Font> > f
 list<PositionImage>
 render_subtitles (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target)
 {
+	list<dcp::SubtitleString> pending;
 	list<PositionImage> images;
+
 	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
-		images.push_back (render_subtitle (i, fonts, target));
+		if (!pending.empty() && fabs (i.v_position() - pending.back().v_position()) > 1e-4) {
+			images.push_back (render_line (pending, fonts, target));
+			pending.clear ();
+		}
+		pending.push_back (i);
 	}
+
+	if (!pending.empty ()) {
+		images.push_back (render_line (pending, fonts, target));
+	}
+
 	return images;
 }

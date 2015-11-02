@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,25 +17,34 @@
 
 */
 
-#include "player_subtitles.h"
-#include "font.h"
-#include <boost/foreach.hpp>
+#ifndef DCPOMATIC_FONT_FILES_H
+#define DCPOMATIC_FONT_FILES_H
 
-using std::list;
-using boost::shared_ptr;
+#include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 
-void
-PlayerSubtitles::add_fonts (list<shared_ptr<Font> > fonts_)
+class FontFiles
 {
-	BOOST_FOREACH (shared_ptr<Font> i, fonts_) {
-		bool got = false;
-		BOOST_FOREACH (shared_ptr<Font> j, fonts) {
-			if (*i == *j) {
-				got = true;
-			}
-		}
-		if (!got) {
-			fonts.push_back (i);
-		}
+public:
+	enum Variant {
+		NORMAL,
+		ITALIC,
+		BOLD,
+		VARIANTS
+	};
+
+	void set (Variant variant, boost::filesystem::path file) {
+		_file[variant] = file;
 	}
-}
+
+	boost::optional<boost::filesystem::path> get (Variant variant) const {
+		return _file[variant];
+	}
+
+private:
+	boost::optional<boost::filesystem::path> _file[VARIANTS];
+};
+
+bool operator!= (FontFiles const & a, FontFiles const & b);
+
+#endif

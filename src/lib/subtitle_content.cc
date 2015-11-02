@@ -275,7 +275,9 @@ SubtitleContent::identifier () const
 	   types of subtitle content involve fonts.
 	*/
 	BOOST_FOREACH (shared_ptr<Font> f, _fonts) {
-		s << f->file().get_value_or ("Default");
+		for (int i = 0; i < FontFiles::VARIANTS; ++i) {
+			s << "_" << f->file(static_cast<FontFiles::Variant>(i)).get_value_or ("Default");
+		}
 	}
 
 	/* The language is for metadata only, and doesn't affect
