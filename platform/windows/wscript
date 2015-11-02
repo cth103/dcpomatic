@@ -216,7 +216,9 @@ File "%binaries%/src/wx/mo/pt_PT/libdcpomatic2-wx.mo"
 File "%binaries%/src/tools/mo/pt_PT/dcpomatic2.mo"
 
 SetOutPath "$INSTDIR"
-File "%resources%/../../LiberationSans-Regular.ttf"
+File "%resources%/../../fonts/LiberationSans-Regular.ttf"
+File "%resources%/../../fonts/LiberationSans-Italic.ttf"
+File "%resources%/../../fonts/LiberationSans-Bold.ttf"
 File "%graphics%/splash.png"
 
 CreateDirectory "$INSTDIR\etc\pango"

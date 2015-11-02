@@ -442,7 +442,9 @@ def build(bld):
         bld.recurse('platform/osx')
 
     if not bld.env.TARGET_WINDOWS:
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'LiberationSans-Regular.ttf')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'fonts/LiberationSans-Regular.ttf')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'fonts/LiberationSans-Italic.ttf')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'fonts/LiberationSans-Bold.ttf')
 
     bld.add_post_fun(post)
 
