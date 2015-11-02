@@ -1,5 +1,7 @@
 2015-11-02  Carl Hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Fix incorrect preview rendering of italic subtitles (#728).
 
 2015-10-30  c.hetherington  <cth@carlh.net>

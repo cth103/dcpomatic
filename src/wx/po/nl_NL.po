@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-30 13:50+0000\n"
-"PO-Revision-Date: 2015-10-29 03:24+0100\n"
+"PO-Revision-Date: 2015-10-30 17:42+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -438,7 +438,7 @@ msgstr "DCP-o-matic audio"
 
 #: src/wx/config_dialog.cc:1362
 msgid "Debug: decode"
-msgstr "Debug: decodeer"
+msgstr "Debug: decoderen"
 
 #: src/wx/config_dialog.cc:1366
 msgid "Debug: email sending"
@@ -446,7 +446,7 @@ msgstr "Debug: email versturen"
 
 #: src/wx/config_dialog.cc:1364
 msgid "Debug: encode"
-msgstr "Debug: encodeer"
+msgstr "Debug: encoderen"
 
 #: src/wx/config_dialog.cc:987
 msgid "Decrypting DCPs"
@@ -1145,7 +1145,7 @@ msgstr "Schermen"
 
 #: src/wx/config_dialog.cc:578
 msgid "Search network for servers"
-msgstr ""
+msgstr "Zoek op netwerk naar servers"
 
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
