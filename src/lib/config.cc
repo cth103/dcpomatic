@@ -91,7 +91,6 @@ Config::set_defaults ()
 	_mail_port = 25;
 	_mail_user = "";
 	_mail_password = "";
-	_kdm_subject = _("KDM delivery");
 	_kdm_from = "";
 	_kdm_cc = "";
 	_kdm_bcc = "";
@@ -458,6 +457,8 @@ Config::changed (Property what)
 void
 Config::set_kdm_email_to_default ()
 {
+	_kdm_subject = _("KDM delivery: $CPL_NAME");
+
 	_kdm_email = _(
 		"Dear Projectionist\n\n"
 		"Please find attached KDMs for $CPL_NAME.\n\n"

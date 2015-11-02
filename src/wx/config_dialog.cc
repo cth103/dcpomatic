@@ -1198,7 +1198,7 @@ private:
 		_kdm_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
 		_panel->GetSizer()->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
 
-		_reset_kdm_email = new wxButton (_panel, wxID_ANY, _("Reset to default text"));
+		_reset_kdm_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
 		_panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
 
 		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_server_changed, this));
