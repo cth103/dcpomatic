@@ -44,6 +44,7 @@
 #include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/colour_matrix.h>
+#include <openjpeg.h>
 #include <libxml++/libxml++.h>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
