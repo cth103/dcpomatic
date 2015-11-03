@@ -17,16 +17,17 @@
 
 */
 
-#include <string>
+#include "scoped_temporary.h"
+#include "compose.hpp"
+#include "safe_stringstream.h"
+#include "exceptions.h"
+#include <curl/curl.h>
+#include <zip.h>
 #include <boost/function.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <curl/curl.h>
-#include <zip.h>
-#include "scoped_temporary.h"
-#include "compose.hpp"
-#include "safe_stringstream.h"
+#include <string>
 
 #include "i18n.h"
 
@@ -111,11 +112,11 @@ ftp_ls_data (void* buffer, size_t size, size_t nmemb, void* data)
 }
 
 list<string>
-ftp_ls (string url)
+ftp_ls (string url, bool pasv)
 {
 	CURL* curl = curl_easy_init ();
 	if (!curl) {
-		return list<string> ();
+		throw NetworkError ("could not set up curl");
 	}
 
 	if (url.substr (url.length() - 1, 1) != "/") {
@@ -132,9 +133,13 @@ ftp_ls (string url)
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, &ls_raw);
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ftp_ls_data);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
+	if (!pasv) {
+		curl_easy_setopt (curl, CURLOPT_FTPPORT, "");
+	}
 	CURLcode const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {
-		return list<string> ();
+		curl_easy_cleanup (curl);
+		throw NetworkError (curl_easy_strerror (r));
 	}
 
 	SafeStringStream s (ls_raw);

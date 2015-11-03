@@ -22,4 +22,4 @@
 #include <boost/filesystem.hpp>
 
 boost::optional<std::string> get_from_zip_url (std::string url, std::string file, boost::function<void (boost::filesystem::path)> load);
-std::list<std::string> ftp_ls (std::string dir);
+std::list<std::string> ftp_ls (std::string dir, bool pasv = true);

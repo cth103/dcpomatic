@@ -46,8 +46,8 @@ public:
 
 	/** Call this in the UI when it is idle */
 	size_t ui_idle () {
-		/* This executes any functors that have been post()ed to _service */
-		return _service.poll ();
+		/* This executes one of the functors that has been post()ed to _service */
+		return _service.poll_one ();
 	}
 
 	/** This should wake the UI and make it call ui_idle() */

@@ -22,6 +22,7 @@
 #include "lib/compose.hpp"
 #include "lib/internet.h"
 #include "lib/signal_manager.h"
+#include "lib/util.h"
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
@@ -54,7 +55,7 @@ DolbyCertificateDialog::DolbyCertificateDialog (wxWindow* parent, boost::functio
 	_country->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::country_selected, this));
 	_cinema->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::cinema_selected, this));
 	_serial->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::serial_selected, this));
-	Bind (wxEVT_IDLE, boost::bind (&DolbyCertificateDialog::setup_countries, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::setup_countries, this));
 
 	_country->Clear ();
 	_cinema->Clear ();
@@ -64,7 +65,7 @@ list<string>
 DolbyCertificateDialog::get_dir (string dir) const
 {
 	string url = String::compose ("ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1", dir);
-	return ftp_ls (url);
+	return ftp_ls (url, false);
 }
 
 void
@@ -78,19 +79,24 @@ DolbyCertificateDialog::setup_countries ()
 	_country->Append (_("Fetching..."));
 	_country->SetSelection (0);
 
-#ifdef DCPOMATIC_OSX
 	/* See DoremiCertificateDialog for discussion about this daft delay */
 	wxMilliSleep (200);
-#endif
+
 	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
 }
 
 void
 DolbyCertificateDialog::finish_setup_countries ()
 {
-	_country->Clear ();
-	BOOST_FOREACH (string i, get_dir ("")) {
-		_country->Append (std_to_wx (i));
+	try {
+		list<string> const c = get_dir ("");
+		_country->Clear ();
+		BOOST_FOREACH (string i, c) {
+			_country->Append (std_to_wx (i));
+		}
+	} catch (NetworkError& e) {
+		error_dialog (this, wxString::Format (_("Could not get country list (%s)"), e.what()));
+		_country->Clear ();
 	}
 }
 
@@ -110,9 +116,15 @@ DolbyCertificateDialog::country_selected ()
 void
 DolbyCertificateDialog::finish_country_selected ()
 {
-	_cinema->Clear ();
-	BOOST_FOREACH (string i, get_dir (wx_to_std (_country->GetStringSelection()))) {
-		_cinema->Append (std_to_wx (i));
+	try {
+		list<string> const c = get_dir (wx_to_std (_country->GetStringSelection()));
+		_cinema->Clear ();
+		BOOST_FOREACH (string i, c) {
+			_cinema->Append (std_to_wx (i));
+		}
+	} catch (NetworkError& e) {
+		error_dialog (this, wxString::Format (_("Could not get cinema list (%s)"), e.what ()));
+		_cinema->Clear ();
 	}
 }
 
@@ -132,15 +144,19 @@ DolbyCertificateDialog::cinema_selected ()
 void
 DolbyCertificateDialog::finish_cinema_selected ()
 {
-	string const dir = String::compose ("%1/%2", wx_to_std (_country->GetStringSelection()), wx_to_std (_cinema->GetStringSelection()));
-
-	_serial->Clear ();
-	BOOST_FOREACH (string i, get_dir (dir)) {
-		vector<string> a;
-		split (a, i, is_any_of ("-_"));
-		if (a.size() >= 4) {
-			_serial->Append (std_to_wx (a[3]), new wxStringClientData (std_to_wx (i)));
+	try {
+		list<string> const s = get_dir (String::compose ("%1/%2", wx_to_std (_country->GetStringSelection()), wx_to_std (_cinema->GetStringSelection())));
+		_serial->Clear ();
+		BOOST_FOREACH (string i, s) {
+			vector<string> a;
+			split (a, i, is_any_of ("-_"));
+			if (a.size() >= 4) {
+				_serial->Append (std_to_wx (a[3]), new wxStringClientData (std_to_wx (i)));
+			}
 		}
+	} catch (NetworkError& e) {
+		error_dialog (this, wxString::Format (_("Could not get screen list (%s)"), e.what()));
+		_serial->Clear ();
 	}
 }
 
