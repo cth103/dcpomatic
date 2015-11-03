@@ -131,6 +131,7 @@ DCPDecoder::pass (PassReason reason, bool)
 	if ((*_reel)->main_picture ()) {
 		if (_next.frames_round (vfr) >= (*_reel)->main_picture()->duration()) {
 			++_reel;
+			_next = ContentTime ();
 		}
 	}
 
