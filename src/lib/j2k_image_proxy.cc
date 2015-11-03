@@ -28,6 +28,7 @@
 #include <dcp/colour_conversion.h>
 #include <dcp/rgb_xyz.h>
 #include <libcxml/cxml.h>
+#include <openjpeg.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
 
