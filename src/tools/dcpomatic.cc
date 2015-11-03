@@ -926,8 +926,7 @@ private:
 		return true;
 	}
 
-	/* An unhandled exception has occurred inside the main event loop */
-	bool OnExceptionInMainLoop ()
+	void report_exception ()
 	{
 		try {
 			throw;
@@ -951,14 +950,19 @@ private:
 		} catch (...) {
 			error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 		}
+	}
 
+	/* An unhandled exception has occurred inside the main event loop */
+	bool OnExceptionInMainLoop ()
+	{
+		report_exception ();
 		/* This will terminate the program */
 		return false;
 	}
 
 	void OnUnhandledException ()
 	{
-		error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
+		report_exception ();
 	}
 
 	void idle ()
