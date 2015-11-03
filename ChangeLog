@@ -1,5 +1,7 @@
 2015-11-03  Carl Hetherington  <cth@carlh.net>
 
+	* Fix error when previewing DCP content with added subtitles (#736).
+
 	* Fix crash with multi-reel DCP content.
 
 	* Updated fr_FR translation from Thierry Journet.
