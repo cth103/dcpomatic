@@ -294,7 +294,7 @@ wait_for_jobs ()
 {
 	JobManager* jm = JobManager::instance ();
 	while (jm->work_to_do ()) {
-		signal_manager->ui_idle ();
+		while (signal_manager->ui_idle ()) {}
 		dcpomatic_sleep (1);
 	}
 
@@ -316,7 +316,7 @@ wait_for_jobs ()
 		}
 	}
 
-	signal_manager->ui_idle ();
+	while (signal_manager->ui_idle ()) {}
 
 	if (jm->errors ()) {
 		JobManager::drop ();
