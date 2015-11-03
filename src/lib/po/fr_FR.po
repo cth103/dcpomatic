@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
-"PO-Revision-Date: 2015-10-07 16:29+0100\n"
+"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"PO-Revision-Date: 2015-10-30 23:13+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -184,7 +184,7 @@ msgstr "Caractéristique conversion colorimétrique"
 msgid "Colourspace"
 msgstr "Espace colorimétrique"
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:427
 msgid "Computing audio digest"
 msgstr "Fabrication rendu audio"
 
@@ -192,7 +192,7 @@ msgstr "Fabrication rendu audio"
 msgid "Computing digest"
 msgstr "fabrication rendu"
 
-#: src/lib/reel_writer.cc:423
+#: src/lib/reel_writer.cc:421
 msgid "Computing image digest"
 msgstr "Fabrication rendu image"
 
@@ -375,7 +375,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:463
+#: src/lib/config.cc:462
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -422,18 +422,16 @@ msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Chaque image source sera répetée %1 fois dans le DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:56
-#, fuzzy
 msgid "Email KDMs"
-msgstr "Envoyer KDM par email pour %1"
+msgstr "Envoyer KDM par email"
 
 #: src/lib/send_kdm_email_job.cc:59
 msgid "Email KDMs for %1"
 msgstr "Envoyer KDM par email pour %1"
 
 #: src/lib/send_problem_report_job.cc:52
-#, fuzzy
 msgid "Email problem report"
-msgstr "Envoi par mail du rapport de bug pour %1"
+msgstr "Rapport de bug email"
 
 #: src/lib/send_problem_report_job.cc:55
 msgid "Email problem report for %1"
@@ -466,7 +464,7 @@ msgstr "L'authentification du serveur (%1) a échouée"
 
 #: src/lib/emailer.cc:284
 msgid "Failed to send KDM email (timed out)"
-msgstr ""
+msgstr "Echec d'envoi email de kdm (delai dépassé)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -477,9 +475,8 @@ msgid "Film"
 msgstr "Film"
 
 #: src/lib/ffmpeg_examiner.cc:83
-#, fuzzy
 msgid "Finding length and subtitles"
-msgstr "Recherche sous-titres"
+msgstr "Recherche durées et sous-titres"
 
 #: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
@@ -537,7 +534,11 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
 
-#: src/lib/config.cc:239 src/lib/config.cc:460
+#: src/lib/config.cc:94
+msgid "KDM delivery"
+msgstr "Fourniture KDM"
+
+#: src/lib/config.cc:240
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envoi KDM: $CPL_NAME"
 
@@ -547,7 +548,7 @@ msgstr "Désentrelaceur noyau"
 
 #: src/lib/film.cc:1257
 msgid "L"
-msgstr "L"
+msgstr "G"
 
 #: src/lib/film.cc:1265
 msgid "Lc"
@@ -571,7 +572,7 @@ msgstr "Arrière gauche"
 
 #: src/lib/film.cc:1260
 msgid "Lfe"
-msgstr "Lfe"
+msgstr "Bf"
 
 #: src/lib/util.cc:486
 msgid "Lfe (sub)"
@@ -599,7 +600,7 @@ msgstr "Logarithmique (plage 316:1)"
 
 #: src/lib/film.cc:1261
 msgid "Ls"
-msgstr "Ls"
+msgstr "SrG"
 
 #: src/lib/mid_side_decoder.cc:34
 msgid "Mid-side decoder"
@@ -609,19 +610,19 @@ msgstr "codage demi-canal"
 msgid "Misc"
 msgstr "Divers"
 
-#: src/lib/dcp_examiner.cc:96
+#: src/lib/dcp_examiner.cc:101
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Problème de décompte de canaux audio dans le DCP"
 
-#: src/lib/dcp_examiner.cc:102
+#: src/lib/dcp_examiner.cc:107
 msgid "Mismatched audio frame rates in DCP"
 msgstr "Problème de débit audio dans le DCP"
 
-#: src/lib/dcp_examiner.cc:77
+#: src/lib/dcp_examiner.cc:82
 msgid "Mismatched frame rates in DCP"
 msgstr "Problème de cadence image dans le DCP"
 
-#: src/lib/dcp_examiner.cc:84
+#: src/lib/dcp_examiner.cc:89
 msgid "Mismatched video sizes in DCP"
 msgstr "Problème de taille d'images dans le DCP"
 
@@ -687,7 +688,7 @@ msgstr "Public Service Announcement"
 
 #: src/lib/film.cc:1258
 msgid "R"
-msgstr "R"
+msgstr "D"
 
 #: src/lib/ffmpeg_content.cc:457
 msgid "RGB / sRGB (IEC61966-2-1)"
@@ -714,6 +715,8 @@ msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to `split by video content'."
 msgstr ""
+"Les durées de bobines dans le projet diffèrent de celles du DCP. Choisissez "
+"de créer une bobine par contenu vidéo. "
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -733,7 +736,7 @@ msgstr "Arrière droite"
 
 #: src/lib/film.cc:1262
 msgid "Rs"
-msgstr "Rs"
+msgstr "SrD"
 
 #: src/lib/ffmpeg_content.cc:425 src/lib/ffmpeg_content.cc:441
 msgid "SMPTE 170M (BT601)"
@@ -796,15 +799,7 @@ msgstr "Filtre télécinéma"
 msgid "Test"
 msgstr "Test"
 
-#: src/lib/dcp_content.cc:330
-msgid "The DCP does not have sound in all reels."
-msgstr ""
-
-#: src/lib/dcp_content.cc:344
-msgid "The DCP does not have subtitles in all reels."
-msgstr ""
-
-#: src/lib/dcp_examiner.cc:134
+#: src/lib/dcp_examiner.cc:139
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr "La KDM ne décrypte pas le DCP.  Peut-être vise-t-elle le mauvais CPL."
@@ -821,17 +816,17 @@ msgstr ""
 "Le disque contenant le film est presque plein. Libérez de l'espace et "
 "essayez à nouveau."
 
-#: src/lib/dcp_content.cc:335
+#: src/lib/dcp_content.cc:327
 msgid "There is other audio content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Il existe d'autres contenus audio dans ce DCP, enlevez les."
 
-#: src/lib/dcp_content.cc:349
+#: src/lib/dcp_content.cc:333
 msgid "There is other subtitle content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Il existe d'autres contenus de sous-titres dans ce DCP, enlevez les."
 
 #: src/lib/dcp_content.cc:321
 msgid "There is other video content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Il existe d'autres contenus video dans ce DCP, enlevez les."
 
 #: src/lib/job.cc:138
 msgid ""
@@ -951,11 +946,11 @@ msgstr "Ajoutez un contenu pour créer le DCP"
 
 #: src/lib/image_content.cc:78
 msgid "[moving images]"
-msgstr "[Déplacement d'images]"
+msgstr "[séquence d'images]"
 
 #: src/lib/image_content.cc:76
 msgid "[still]"
-msgstr "[restant]"
+msgstr "[image fixe]"
 
 #: src/lib/dcp_subtitle_content.cc:94 src/lib/subrip_content.cc:71
 msgid "[subtitles]"
@@ -1069,7 +1064,7 @@ msgstr "paramètre %1 manquant"
 
 #: src/lib/image_content.cc:93
 msgid "moving"
-msgstr "déplacement"
+msgstr "séquence"
 
 #: src/lib/film.cc:272 src/lib/film.cc:303
 msgid "name"
@@ -1105,9 +1100,6 @@ msgstr "Inconnu"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "images"
-
-#~ msgid "KDM delivery"
-#~ msgstr "Fourniture KDM"
 
 #~ msgid "Finding length"
 #~ msgstr "Recherche durée"
