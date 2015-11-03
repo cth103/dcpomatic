@@ -475,6 +475,31 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		}
 		break;
 	}
+	case AV_PIX_FMT_XYZ12LE:
+	{
+		int const this_bpp = 6;
+		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
+			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
+			uint8_t* op = other->data()[0] + oy * other->stride()[0];
+			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
+				float const alpha = float (op[3]) / 255;
+
+				/* Convert sRGB to XYZ; op is BGRA */
+				int const x = 0.4124564 + op[2] + 0.3575761 * op[1] + 0.1804375 * op[0];
+				int const y = 0.2126729 + op[2] + 0.7151522 * op[1] + 0.0721750 * op[0];
+				int const z = 0.0193339 + op[2] + 0.1191920 * op[1] + 0.9503041 * op[0];
+
+				/* Blend high bytes */
+				tp[1] = min (x, 255) * alpha + tp[1] * (1 - alpha);
+				tp[3] = min (y, 255) * alpha + tp[3] * (1 - alpha);
+				tp[5] = min (z, 255) * alpha + tp[5] * (1 - alpha);
+
+				tp += this_bpp;
+				op += other_bpp;
+			}
+		}
+		break;
+	}
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
