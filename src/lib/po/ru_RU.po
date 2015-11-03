@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-02 23:12+0000\n"
-"PO-Revision-Date: 2015-10-30 12:09+0200\n"
+"PO-Revision-Date: 2015-11-03 10:53+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -799,11 +799,11 @@ msgstr "TST (Тестовый)"
 
 #: src/lib/dcp_content.cc:330
 msgid "The DCP does not have sound in all reels."
-msgstr ""
+msgstr "Во всех катушках данного DCP отсутствует звук."
 
 #: src/lib/dcp_content.cc:344
 msgid "The DCP does not have subtitles in all reels."
-msgstr ""
+msgstr "Во всех катушках данного DCP отсутствуют субтитры."
 
 #: src/lib/dcp_examiner.cc:134
 msgid ""

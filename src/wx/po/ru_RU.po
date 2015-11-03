@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-02 23:12+0000\n"
-"PO-Revision-Date: 2015-10-30 14:18+0200\n"
+"PO-Revision-Date: 2015-11-03 10:56+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -229,7 +229,7 @@ msgstr "Файл шрифта"
 
 #: src/wx/font_files_dialog.cc:36
 msgid "Bold font"
-msgstr ""
+msgstr "Жирный шрифт"
 
 #: src/wx/video_panel.cc:134
 msgid "Bottom"
@@ -750,7 +750,7 @@ msgstr "Файл шрифта"
 
 #: src/wx/font_files_dialog.cc:35
 msgid "Italic font"
-msgstr ""
+msgstr "Курсивный шрифт"
 
 #: src/wx/dcp_panel.cc:643
 msgid "JPEG2000 bandwidth"
@@ -919,7 +919,7 @@ msgstr "Файл шрифта"
 
 #: src/wx/font_files_dialog.cc:34
 msgid "Normal font"
-msgstr ""
+msgstr "Обычный шрифт"
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -1119,9 +1119,8 @@ msgid "Report A Problem"
 msgstr "Сообщить Об Ошибке"
 
 #: src/wx/config_dialog.cc:1201
-#, fuzzy
 msgid "Reset to default subject and text"
-msgstr "Сбросить текст по умолчанию"
+msgstr "Сбросить по умолчанию тему и текст"
 
 #: src/wx/dcp_panel.cc:637
 msgid "Resolution"
@@ -1165,7 +1164,7 @@ msgstr "Экраны"
 
 #: src/wx/config_dialog.cc:578
 msgid "Search network for servers"
-msgstr ""
+msgstr "Искать сервера в сети"
 
 #: src/wx/kdm_dialog.cc:184
 msgid "Select CPL XML file"
@@ -1217,9 +1216,8 @@ msgid "Set"
 msgstr "Назначить"
 
 #: src/wx/font_files_dialog.cc:50
-#, fuzzy
 msgid "Set from file..."
-msgstr "Выьрать .ttf-файл..."
+msgstr "Выьрать из файла..."
 
 #: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
