@@ -22,6 +22,7 @@
 #include "lib/ffmpeg_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::string;
@@ -46,7 +47,8 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	BOOST_CHECK (dcp->can_reference_video(why_not));
 	BOOST_CHECK (dcp->can_reference_audio(why_not));
-	BOOST_CHECK (dcp->can_reference_subtitle(why_not));
+	/* (but reels_test2 has no subtitles to reference) */
+	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
 
 	shared_ptr<FFmpegContent> other (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (other);
@@ -62,5 +64,6 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	other->set_position (dcp->end ());
 	BOOST_CHECK (dcp->can_reference_video(why_not));
 	BOOST_CHECK (dcp->can_reference_audio(why_not));
-	BOOST_CHECK (dcp->can_reference_subtitle(why_not));
+	/* (reels_test2 has no subtitles to reference) */
+	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
 }
