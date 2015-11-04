@@ -366,7 +366,11 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 
 		boost::filesystem::path liberation_normal;
 		try {
-			liberation_normal = shared_path () / "LiberationSans-Regular.ttf";
+			liberation_normal = shared_path() / "LiberationSans-Regular.ttf";
+			if (!boost::filesystem::exists (liberation_normal)) {
+				/* Hack for unit tests */
+				liberation_normal = shared_path() / "fonts" / "LiberationSans-Regular.ttf";
+			}
 		} catch (boost::filesystem::filesystem_error& e) {
 
 		}
