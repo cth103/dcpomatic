@@ -20,12 +20,9 @@
 #include "wx_util.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
-#include <wx/treectrl.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <map>
-
-class wxTreeCtrl;
 
 class Cinema;
 class Screen;

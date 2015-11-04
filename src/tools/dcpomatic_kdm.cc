@@ -69,6 +69,26 @@ public:
 		, _config_dialog (0)
 		, _job_view (0)
 	{
+#if defined(DCPOMATIC_WINDOWS)
+		if (Config::instance()->win32_console ()) {
+			AllocConsole();
+
+			HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+			int hCrt = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
+			FILE* hf_out = _fdopen(hCrt, "w");
+			setvbuf(hf_out, NULL, _IONBF, 1);
+			*stdout = *hf_out;
+
+			HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+			hCrt = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
+			FILE* hf_in = _fdopen(hCrt, "r");
+			setvbuf(hf_in, NULL, _IONBF, 128);
+			*stdin = *hf_in;
+
+			std::cout << "DCP-o-matic KDM creator is starting." << "\n";
+		}
+#endif
+
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
@@ -95,29 +115,19 @@ public:
 		_screens = new ScreensPanel (overall_panel);
 		vertical->Add (_screens, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		h = new wxStaticText (overall_panel, wxID_ANY, S_("KDM|Timing"));
-		h->SetFont (subheading_font);
-		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		_timing = new KDMTimingPanel (overall_panel);
 		vertical->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		h = new wxStaticText (overall_panel, wxID_ANY, _("DKDM"));
-		h->SetFont (subheading_font);
-		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-		wxSizer* dkdm = new wxFlexGridSizer (4, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		wxSizer* dkdm = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		add_label_to_sizer (dkdm, overall_panel, _("DKDM file"), true);
 		_dkdm = new FilePickerCtrl (overall_panel, _("Select a DKDM XML file..."), "*.xml");
 		dkdm->Add (_dkdm, 1, wxEXPAND);
 		add_label_to_sizer (dkdm, overall_panel, _("Content title"), true);
 		_content_title_text = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
 		dkdm->Add (_content_title_text, 1, wxEXPAND);
-		dkdm->AddSpacer (0);
-		dkdm->AddSpacer (0);
 		add_label_to_sizer (dkdm, overall_panel, _("Annotation"), true);
 		_annotation_text = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
 		dkdm->Add (_annotation_text, 1, wxEXPAND);
-		dkdm->AddSpacer (0);
-		dkdm->AddSpacer (0);
 		add_label_to_sizer (dkdm, overall_panel, _("Issue date"), true);
 		_issue_date = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
 		dkdm->Add (_issue_date, 1, wxEXPAND);

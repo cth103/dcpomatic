@@ -27,6 +27,7 @@
 
 using std::list;
 using std::pair;
+using std::cout;
 using std::map;
 using std::make_pair;
 using boost::shared_ptr;
@@ -69,7 +70,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	sizer->Add (targets, 1, wxEXPAND);
 
-	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, boost::bind (&ScreensPanel::selection_changed, this));
+	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, &ScreensPanel::selection_changed, this);
 
 	_add_cinema->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::add_cinema_clicked, this));
 	_edit_cinema->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::edit_cinema_clicked, this));
@@ -80,6 +81,11 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_remove_screen->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::remove_screen_clicked, this));
 
 	SetSizer (sizer);
+}
+
+ScreensPanel::~ScreensPanel ()
+{
+	_targets->Unbind (wxEVT_COMMAND_TREE_SEL_CHANGED, &ScreensPanel::selection_changed, this);
 }
 
 list<pair<wxTreeItemId, shared_ptr<Cinema> > >
@@ -299,7 +305,7 @@ ScreensPanel::screens () const
 }
 
 void
-ScreensPanel::selection_changed ()
+ScreensPanel::selection_changed (wxTreeEvent &)
 {
 	setup_sensitivity ();
 	ScreensChanged ();

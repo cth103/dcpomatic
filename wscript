@@ -83,7 +83,7 @@ def configure(conf):
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.enable_debug:
-        conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG'])
+        conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
     else:
         conf.env.append_value('CXXFLAGS', '-O2')
 

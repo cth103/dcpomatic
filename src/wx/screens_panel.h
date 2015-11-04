@@ -30,6 +30,7 @@ class ScreensPanel : public wxPanel
 {
 public:
 	ScreensPanel (wxWindow* parent);
+	~ScreensPanel ();
 
 	std::list<boost::shared_ptr<Screen> > screens () const;
 	void setup_sensitivity ();
@@ -47,7 +48,7 @@ private:
 	void remove_screen_clicked ();
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
-	void selection_changed ();
+	void selection_changed (wxTreeEvent &);
 
 	wxTreeCtrl* _targets;
 	wxButton* _add_cinema;
