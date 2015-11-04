@@ -25,7 +25,7 @@
 KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxFlexGridSizer* table = new wxFlexGridSizer (6, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("From"), true);
 	wxDateTime from;
 	from.SetToCurrent ();
@@ -34,7 +34,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_from_time = new wxTimePickerCtrl (this, wxID_ANY, from);
 	table->Add (_from_time, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Until"), true);
+	add_label_to_sizer (table, this, _("until"), true);
 	wxDateTime to = from;
 	/* 1 week from now */
 	to.Add (wxDateSpan (0, 0, 1, 0));
