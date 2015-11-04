@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-02 23:12+0000\n"
-"PO-Revision-Date: 2015-11-03 01:04+0100\n"
+"PO-Revision-Date: 2015-11-04 14:59+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -346,7 +346,7 @@ msgstr "Component"
 
 #: src/wx/config_dialog.cc:1360
 msgid "Config|Timing"
-msgstr "Configuratie|Timing"
+msgstr "Timing"
 
 #: src/wx/report_problem_dialog.cc:65
 msgid "Contact email"
@@ -773,7 +773,7 @@ msgstr "KDM-type"
 
 #: src/wx/kdm_dialog.cc:63
 msgid "KDM|Timing"
-msgstr "KDM|Timing"
+msgstr "Tijdvenster"
 
 #: src/wx/timeline_dialog.cc:43
 msgid "Keep video in sequence"
@@ -1375,7 +1375,7 @@ msgstr "Tijdlijn..."
 
 #: src/wx/timing_panel.cc:43
 msgid "Timing|Timing"
-msgstr "Timing|Timing"
+msgstr "Timing"
 
 #: src/wx/video_panel.cc:124
 msgid "Top"
