@@ -65,7 +65,17 @@ DCPDecoder::pass (PassReason reason, bool)
 		return true;
 	}
 
+	/* Offset of the start of the current reel from the start of the content in frames */
+	int offset = 0;
+	list<shared_ptr<dcp::Reel> >::const_iterator i = _reels.begin();
+	while (i != _reel) {
+		offset += (*i)->main_picture()->duration ();
+		++i;
+	}
+
 	double const vfr = _dcp_content->video_frame_rate ();
+
+	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
 	if ((*_reel)->main_picture () && reason != PASS_REASON_SUBTITLE) {
@@ -74,16 +84,16 @@ DCPDecoder::pass (PassReason reason, bool)
 		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (mono) {
-			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), frame);
+			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), offset + frame);
 		} else {
 			video (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
-				frame
+				offset + frame
 				);
 
 			video (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
-				frame
+				offset + frame
 				);
 		}
 	}
@@ -103,7 +113,7 @@ DCPDecoder::pass (PassReason reason, bool)
 			}
 		}
 
-		audio (_dcp_content->audio_stream(), data, _next);
+		audio (_dcp_content->audio_stream(), data, ContentTime::from_frames (offset, vfr) + _next);
 	}
 
 	if ((*_reel)->main_subtitle ()) {
@@ -118,8 +128,8 @@ DCPDecoder::pass (PassReason reason, bool)
 			/* XXX: assuming that all `subs' are at the same time; maybe this is ok */
 			text_subtitle (
 				ContentTimePeriod (
-					ContentTime::from_seconds (subs.front().in().as_seconds ()),
-					ContentTime::from_seconds (subs.front().out().as_seconds ())
+					ContentTime::from_frames (offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().in().as_seconds ()),
+					ContentTime::from_frames (offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().out().as_seconds ())
 					),
 				subs
 				);

@@ -1,3 +1,7 @@
+2015-11-05  Carl Hetherington  <cth@carlh.net>
+
+	* Correct time display when previewing multi-reel DCP content.
+
 2015-11-05  c.hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
