@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-07-06 15:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Colourspace"
 msgstr ""
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:435
 msgid "Computing audio digest"
 msgstr "Tonübersicht berechnen"
 
@@ -193,7 +193,7 @@ msgstr "Tonübersicht berechnen"
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
-#: src/lib/reel_writer.cc:423
+#: src/lib/reel_writer.cc:429
 msgid "Computing image digest"
 msgstr "Bildübersicht berechnen"
 
@@ -318,7 +318,7 @@ msgstr "%1 konnte nicht geöffnet werden."
 msgid "Could not open %1 to send"
 msgstr "%1 konnte nicht zum Senden geöffnet werden"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:78
 msgid "Could not open downloaded ZIP file"
 msgstr "Heruntergeladene ZIP Datei kann nicht geöffnet werden."
 
@@ -407,7 +407,7 @@ msgstr "Anzeigeseitenverhältnis (DAR):"
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 und CP750"
 
-#: src/lib/internet.cc:70
+#: src/lib/internet.cc:71
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Herunterladen fehlgeschlagen (%1/%2 Fehler %3)"
 
@@ -872,7 +872,7 @@ msgstr "Wandle %1 um"
 msgid "Transitional"
 msgstr "Überleitung"
 
-#: src/lib/internet.cc:82
+#: src/lib/internet.cc:83
 msgid "Unexpected ZIP file contents"
 msgstr "Ungültiger ZIP Inhalt"
 

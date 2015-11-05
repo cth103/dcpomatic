@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -187,7 +187,7 @@ msgstr ""
 msgid "Colourspace"
 msgstr ""
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:435
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
@@ -195,7 +195,7 @@ msgstr "Beräknar audiosammanfattning"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/reel_writer.cc:423
+#: src/lib/reel_writer.cc:429
 msgid "Computing image digest"
 msgstr "Beräknar bildsammanfattning"
 
@@ -327,7 +327,7 @@ msgstr "Kunde inte öppna %1"
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:78
 #, fuzzy
 msgid "Could not open downloaded ZIP file"
 msgstr "kunde inte öppna fil %1"
@@ -414,7 +414,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 och CP750"
 
-#: src/lib/internet.cc:70
+#: src/lib/internet.cc:71
 msgid "Download failed (%1/%2 error %3)"
 msgstr ""
 
@@ -885,7 +885,7 @@ msgstr "Konvertera %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:82
+#: src/lib/internet.cc:83
 msgid "Unexpected ZIP file contents"
 msgstr ""
 

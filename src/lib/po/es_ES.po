@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-08-29 03:34-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -184,7 +184,7 @@ msgstr "Características de la transferencia de color"
 msgid "Colourspace"
 msgstr "Espacio de color"
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:435
 msgid "Computing audio digest"
 msgstr "Calculando la firma resumen del audio"
 
@@ -192,7 +192,7 @@ msgstr "Calculando la firma resumen del audio"
 msgid "Computing digest"
 msgstr "Calculando la firma resumen"
 
-#: src/lib/reel_writer.cc:423
+#: src/lib/reel_writer.cc:429
 msgid "Computing image digest"
 msgstr "Calculando la firma resumen de imagen"
 
@@ -315,7 +315,7 @@ msgstr "No se pudo abrir %1"
 msgid "Could not open %1 to send"
 msgstr "No se pudo abrir %1 para enviar"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:78
 msgid "Could not open downloaded ZIP file"
 msgstr "No se puedo abrir el fichero ZIP descargado"
 
@@ -402,7 +402,7 @@ msgstr "Proporción de aspecto mostrada"
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 and CP750"
 
-#: src/lib/internet.cc:70
+#: src/lib/internet.cc:71
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Descarga fallida (%1/%2 error %3)"
 
@@ -867,7 +867,7 @@ msgstr "Codificar %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:82
+#: src/lib/internet.cc:83
 msgid "Unexpected ZIP file contents"
 msgstr "Contenidos inesperados del fichero ZIP"
 

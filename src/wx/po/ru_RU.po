@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-11-03 10:56+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -80,8 +80,6 @@ msgstr "3D верх/низ"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -112,7 +110,7 @@ msgstr "Доступна новая версия DCP-o-matic."
 msgid "About DCP-o-matic"
 msgstr "О программе"
 
-#: src/wx/screens_panel.cc:54
+#: src/wx/screens_panel.cc:55
 msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
 
@@ -120,7 +118,7 @@ msgstr "Добавить кинотеатр..."
 msgid "Add KDM..."
 msgstr "Добавить KDM..."
 
-#: src/wx/screens_panel.cc:61
+#: src/wx/screens_panel.cc:62
 msgid "Add Screen..."
 msgstr "Добавить экран..."
 
@@ -280,8 +278,8 @@ msgstr "Не удается сделать ссылку на этот DCP.  "
 msgid "Certificate"
 msgstr "Сертификат"
 
-#: src/wx/dolby_certificate_dialog.cc:191
-#: src/wx/doremi_certificate_dialog.cc:105
+#: src/wx/dolby_certificate_dialog.cc:207
+#: src/wx/doremi_certificate_dialog.cc:104
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
 
@@ -325,7 +323,7 @@ msgstr "Выбрать шрифт"
 msgid "Choose a font file"
 msgstr "Выбрать файл шрифта"
 
-#: src/wx/dolby_certificate_dialog.cc:45
+#: src/wx/dolby_certificate_dialog.cc:46
 msgid "Cinema"
 msgstr "Кинотеатр"
 
@@ -382,6 +380,21 @@ msgstr "Копировать..."
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
+#: src/wx/dolby_certificate_dialog.cc:126
+#, fuzzy, c-format
+msgid "Could not get cinema list (%s)"
+msgstr "Не удалось вывести предпросмотр видео (%s)"
+
+#: src/wx/dolby_certificate_dialog.cc:98
+#, fuzzy, c-format
+msgid "Could not get country list (%s)"
+msgstr "Не удалось вывести предпросмотр видео (%s)"
+
+#: src/wx/dolby_certificate_dialog.cc:158
+#, fuzzy, c-format
+msgid "Could not get screen list (%s)"
+msgstr "Не удалось вывести предпросмотр видео (%s)"
+
 #: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
@@ -403,7 +416,7 @@ msgstr "Не удалось прочитать файл сертификата (
 msgid "Could not read key file (%s)"
 msgstr "Не удалось прочитать файл ключа (%s)"
 
-#: src/wx/dolby_certificate_dialog.cc:41
+#: src/wx/dolby_certificate_dialog.cc:42
 msgid "Country"
 msgstr "Страна"
 
@@ -530,16 +543,16 @@ msgstr "Скачать сертификат"
 msgid "Download..."
 msgstr "Загрузка..."
 
-#: src/wx/dolby_certificate_dialog.cc:157
+#: src/wx/dolby_certificate_dialog.cc:173
 #: src/wx/doremi_certificate_dialog.cc:56
 msgid "Downloading certificate"
 msgstr "Скачивание сертификата"
 
-#: src/wx/screens_panel.cc:56
+#: src/wx/screens_panel.cc:57
 msgid "Edit Cinema..."
 msgstr "Редактировать кинотеатр..."
 
-#: src/wx/screens_panel.cc:63
+#: src/wx/screens_panel.cc:64
 msgid "Edit Screen..."
 msgstr "Редактировать экран..."
 
@@ -597,9 +610,9 @@ msgstr "Постепенное появление"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/dolby_certificate_dialog.cc:78
-#: src/wx/dolby_certificate_dialog.cc:101
-#: src/wx/dolby_certificate_dialog.cc:123
+#: src/wx/dolby_certificate_dialog.cc:79
+#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:135
 msgid "Fetching..."
 msgstr "Установка..."
 
@@ -1090,11 +1103,11 @@ msgstr "Ссылаться на существующий DCP"
 msgid "Remove"
 msgstr "Убрать"
 
-#: src/wx/screens_panel.cc:58
+#: src/wx/screens_panel.cc:59
 msgid "Remove Cinema"
 msgstr "Убрать кинотеатр"
 
-#: src/wx/screens_panel.cc:65
+#: src/wx/screens_panel.cc:66
 msgid "Remove Screen"
 msgstr "Убрать экран"
 
@@ -1191,7 +1204,7 @@ msgstr "Отправить по email"
 msgid "Send logs"
 msgstr "Отправить логи"
 
-#: src/wx/dolby_certificate_dialog.cc:49
+#: src/wx/dolby_certificate_dialog.cc:50
 msgid "Serial number"
 msgstr "Серийный номер"
 
@@ -1401,17 +1414,13 @@ msgstr "Обрезать до текущей позиции"
 msgid "Type"
 msgstr "Тип"
 
-#: src/wx/dolby_certificate_dialog.cc:182
+#: src/wx/dolby_certificate_dialog.cc:198
 msgid "Unexpected certificate filename form"
 msgstr "Неожиданная форма имени файл сертификата"
 
 #: src/wx/screen_dialog.cc:63
 msgid "Unknown"
 msgstr "Неизвестный"
-
-#: src/wx/kdm_timing_panel.cc:37
-msgid "Until"
-msgstr "До"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1617,6 +1626,11 @@ msgstr "порог"
 #: src/wx/repeat_dialog.cc:28
 msgid "times"
 msgstr "раз"
+
+#: src/wx/kdm_timing_panel.cc:37
+#, fuzzy
+msgid "until"
+msgstr "До"
 
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"

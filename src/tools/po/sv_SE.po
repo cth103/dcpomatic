@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2014-01-19 08:59+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -92,22 +92,21 @@ msgstr "Om DCP-o-matic"
 msgid "Add Film..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:938
+#: src/tools/dcpomatic.cc:937
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:947
+#: src/tools/dcpomatic.cc:946
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:952
-#: src/tools/dcpomatic.cc:961
+#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:951
 msgid "An unknown exception occurred."
 msgstr ""
 
@@ -231,7 +230,7 @@ msgstr ""
 "DCP:n för denna film kommer att uppta ungefär %.1f Gb, och disken du "
 "använder har bara %.1f Gb ledigt. Vill du fortsätta ändå?"
 
-#: src/tools/dcpomatic.cc:987
+#: src/tools/dcpomatic.cc:991
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "DCP-o-matics nedladdningsserver kunde inte kontaktas."
 
@@ -243,7 +242,7 @@ msgstr ""
 "Foldern %1 finns redan och är inte tom. Är du säker på att du vill använda "
 "den?"
 
-#: src/tools/dcpomatic.cc:991
+#: src/tools/dcpomatic.cc:995
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Det finns inga nya versioner av DCP-o-matic tillgängligt."
 

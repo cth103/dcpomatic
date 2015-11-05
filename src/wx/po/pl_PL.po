@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -85,8 +85,6 @@ msgstr "3D góra/dół"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -115,7 +113,7 @@ msgstr "Nowa wersja DCP-o-matic jest dostępna."
 msgid "About DCP-o-matic"
 msgstr "O DCP-o-matic"
 
-#: src/wx/screens_panel.cc:54
+#: src/wx/screens_panel.cc:55
 msgid "Add Cinema..."
 msgstr "Dodaj Kino"
 
@@ -123,7 +121,7 @@ msgstr "Dodaj Kino"
 msgid "Add KDM..."
 msgstr "Dodaj KDM"
 
-#: src/wx/screens_panel.cc:61
+#: src/wx/screens_panel.cc:62
 msgid "Add Screen..."
 msgstr "Dodaj Salę"
 
@@ -282,8 +280,8 @@ msgstr ""
 msgid "Certificate"
 msgstr "Certyfikat"
 
-#: src/wx/dolby_certificate_dialog.cc:191
-#: src/wx/doremi_certificate_dialog.cc:105
+#: src/wx/dolby_certificate_dialog.cc:207
+#: src/wx/doremi_certificate_dialog.cc:104
 msgid "Certificate downloaded"
 msgstr "Certyfikat ściągnięty"
 
@@ -327,7 +325,7 @@ msgstr "Wybierz czcionkę"
 msgid "Choose a font file"
 msgstr "Wybierz plik czcionki"
 
-#: src/wx/dolby_certificate_dialog.cc:45
+#: src/wx/dolby_certificate_dialog.cc:46
 msgid "Cinema"
 msgstr "Kino"
 
@@ -384,6 +382,21 @@ msgstr "Kopiuj"
 msgid "Could not analyse audio."
 msgstr "Nie udało się przeanalizować dźwięku."
 
+#: src/wx/dolby_certificate_dialog.cc:126
+#, fuzzy, c-format
+msgid "Could not get cinema list (%s)"
+msgstr "Nie udało się otworzyć podglądu obrazu (%s)"
+
+#: src/wx/dolby_certificate_dialog.cc:98
+#, fuzzy, c-format
+msgid "Could not get country list (%s)"
+msgstr "Nie udało się otworzyć podglądu obrazu (%s)"
+
+#: src/wx/dolby_certificate_dialog.cc:158
+#, fuzzy, c-format
+msgid "Could not get screen list (%s)"
+msgstr "Nie udało się otworzyć podglądu obrazu (%s)"
+
 #: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
@@ -405,7 +418,7 @@ msgstr "Nie udało się odczytać certyfikatu (%s)"
 msgid "Could not read key file (%s)"
 msgstr "Nie udało się odczytać pliku klucza (%s)"
 
-#: src/wx/dolby_certificate_dialog.cc:41
+#: src/wx/dolby_certificate_dialog.cc:42
 msgid "Country"
 msgstr "Kraj"
 
@@ -533,16 +546,16 @@ msgstr "Pobierz certyfikat"
 msgid "Download..."
 msgstr "Pobierz"
 
-#: src/wx/dolby_certificate_dialog.cc:157
+#: src/wx/dolby_certificate_dialog.cc:173
 #: src/wx/doremi_certificate_dialog.cc:56
 msgid "Downloading certificate"
 msgstr "Pobieranie certyfikatu"
 
-#: src/wx/screens_panel.cc:56
+#: src/wx/screens_panel.cc:57
 msgid "Edit Cinema..."
 msgstr "Zmień Kino"
 
-#: src/wx/screens_panel.cc:63
+#: src/wx/screens_panel.cc:64
 msgid "Edit Screen..."
 msgstr "Zmień Sala"
 
@@ -601,9 +614,9 @@ msgstr "Fade in"
 msgid "Fade out"
 msgstr "Fade out"
 
-#: src/wx/dolby_certificate_dialog.cc:78
-#: src/wx/dolby_certificate_dialog.cc:101
-#: src/wx/dolby_certificate_dialog.cc:123
+#: src/wx/dolby_certificate_dialog.cc:79
+#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:135
 msgid "Fetching..."
 msgstr "Pobieranie"
 
@@ -1093,11 +1106,11 @@ msgstr "Użyj istniejące DCP"
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/wx/screens_panel.cc:58
+#: src/wx/screens_panel.cc:59
 msgid "Remove Cinema"
 msgstr "Usuń Kino"
 
-#: src/wx/screens_panel.cc:65
+#: src/wx/screens_panel.cc:66
 msgid "Remove Screen"
 msgstr "Usuń Sala"
 
@@ -1195,7 +1208,7 @@ msgstr "Wyślij emailem"
 msgid "Send logs"
 msgstr "Wyślij logi"
 
-#: src/wx/dolby_certificate_dialog.cc:49
+#: src/wx/dolby_certificate_dialog.cc:50
 msgid "Serial number"
 msgstr "Numer seryjny"
 
@@ -1406,17 +1419,13 @@ msgstr "Przytnij do obecnego miejsca"
 msgid "Type"
 msgstr "Rodzaj"
 
-#: src/wx/dolby_certificate_dialog.cc:182
+#: src/wx/dolby_certificate_dialog.cc:198
 msgid "Unexpected certificate filename form"
 msgstr "Nieobsługiwana nazwa pliku certyfikatu"
 
 #: src/wx/screen_dialog.cc:63
 msgid "Unknown"
 msgstr "Nieznany"
-
-#: src/wx/kdm_timing_panel.cc:37
-msgid "Until"
-msgstr "Do"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1622,6 +1631,11 @@ msgstr "próg"
 #: src/wx/repeat_dialog.cc:28
 msgid "times"
 msgstr "razy"
+
+#: src/wx/kdm_timing_panel.cc:37
+#, fuzzy
+msgid "until"
+msgstr "Do"
 
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"

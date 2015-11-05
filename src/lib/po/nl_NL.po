@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-11-04 18:05+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -185,7 +185,7 @@ msgstr "Kleuroverdrachtskarakteristiek"
 msgid "Colourspace"
 msgstr "Kleurruimte"
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:435
 msgid "Computing audio digest"
 msgstr "Berekenen audio-digest"
 
@@ -193,7 +193,7 @@ msgstr "Berekenen audio-digest"
 msgid "Computing digest"
 msgstr "Berekenen digest"
 
-#: src/lib/reel_writer.cc:423
+#: src/lib/reel_writer.cc:429
 msgid "Computing image digest"
 msgstr "Berekenen beeld-digest"
 
@@ -319,7 +319,7 @@ msgstr "Kan %1 niet openen"
 msgid "Could not open %1 to send"
 msgstr "Kan %1 niet openen om te verzenden"
 
-#: src/lib/internet.cc:77
+#: src/lib/internet.cc:78
 msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownload ZIP-bestand niet openen"
 
@@ -407,7 +407,7 @@ msgstr "Weergave-beeldverhouding"
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 en CP750"
 
-#: src/lib/internet.cc:70
+#: src/lib/internet.cc:71
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Download mislukt (%1/%2 error %3)"
 
@@ -878,7 +878,7 @@ msgstr "Transcoderen %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:82
+#: src/lib/internet.cc:83
 msgid "Unexpected ZIP file contents"
 msgstr "Onverwachte inhoud ZIP-bestand"
 

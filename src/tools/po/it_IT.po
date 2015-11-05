@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-10-14 09:52+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -89,7 +89,7 @@ msgstr "Su DVD-o-matic"
 msgid "Add Film..."
 msgstr "&Aggiungi film..."
 
-#: src/tools/dcpomatic.cc:938
+#: src/tools/dcpomatic.cc:937
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -98,7 +98,7 @@ msgstr ""
 "Si e' verificata un'eccezione: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:947
+#: src/tools/dcpomatic.cc:946
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -107,8 +107,7 @@ msgstr ""
 "Si e' verificata un'eccezione: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:952
-#: src/tools/dcpomatic.cc:961
+#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:951
 msgid "An unknown exception occurred."
 msgstr "Si e' verificata un'eccezione sconosciuta."
 
@@ -233,7 +232,7 @@ msgstr ""
 "Il DCP di questo film occupa %.1f Gb, ma il disco che stai usando dispone di "
 "%.1f Gb liberi.  Vuoi continuare ugualmente?"
 
-#: src/tools/dcpomatic.cc:987
+#: src/tools/dcpomatic.cc:991
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Il download server di DCP-o-matic non può essere contattato."
 
@@ -243,7 +242,7 @@ msgid ""
 "use it?"
 msgstr "La cartella %1 esiste già e non è vuota.  Sei sicuro di volerla usare?"
 
-#: src/tools/dcpomatic.cc:991
+#: src/tools/dcpomatic.cc:995
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Non ci sono nuove versioni di DCP-o-matic disponibili."
 

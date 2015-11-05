@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-07-06 16:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -81,8 +81,6 @@ msgstr "3D top/bottom"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -108,7 +106,7 @@ msgstr "En ny version av DCP-o-matic finns tillgänglig."
 msgid "About DCP-o-matic"
 msgstr "Om DCP-o-matic"
 
-#: src/wx/screens_panel.cc:54
+#: src/wx/screens_panel.cc:55
 msgid "Add Cinema..."
 msgstr "Lägg till Cinema..."
 
@@ -116,7 +114,7 @@ msgstr "Lägg till Cinema..."
 msgid "Add KDM..."
 msgstr ""
 
-#: src/wx/screens_panel.cc:61
+#: src/wx/screens_panel.cc:62
 msgid "Add Screen..."
 msgstr "Lägg till Skärm..."
 
@@ -269,8 +267,8 @@ msgstr ""
 msgid "Certificate"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:191
-#: src/wx/doremi_certificate_dialog.cc:105
+#: src/wx/dolby_certificate_dialog.cc:207
+#: src/wx/doremi_certificate_dialog.cc:104
 msgid "Certificate downloaded"
 msgstr ""
 
@@ -315,7 +313,7 @@ msgstr "Välj en folder"
 msgid "Choose a font file"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:45
+#: src/wx/dolby_certificate_dialog.cc:46
 msgid "Cinema"
 msgstr ""
 
@@ -374,6 +372,21 @@ msgstr ""
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
+#: src/wx/dolby_certificate_dialog.cc:126
+#, fuzzy, c-format
+msgid "Could not get cinema list (%s)"
+msgstr "Kunde inte fastställa innehåll: %s"
+
+#: src/wx/dolby_certificate_dialog.cc:98
+#, fuzzy, c-format
+msgid "Could not get country list (%s)"
+msgstr "Kunde inte fastställa innehåll: %s"
+
+#: src/wx/dolby_certificate_dialog.cc:158
+#, fuzzy, c-format
+msgid "Could not get screen list (%s)"
+msgstr "Kunde inte fastställa innehåll: %s"
+
 #: src/wx/film_viewer.cc:187
 #, c-format
 msgid "Could not get video for view (%s)"
@@ -395,7 +408,7 @@ msgstr ""
 msgid "Could not read key file (%s)"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:41
+#: src/wx/dolby_certificate_dialog.cc:42
 msgid "Country"
 msgstr ""
 
@@ -524,16 +537,16 @@ msgstr ""
 msgid "Download..."
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:157
+#: src/wx/dolby_certificate_dialog.cc:173
 #: src/wx/doremi_certificate_dialog.cc:56
 msgid "Downloading certificate"
 msgstr ""
 
-#: src/wx/screens_panel.cc:56
+#: src/wx/screens_panel.cc:57
 msgid "Edit Cinema..."
 msgstr "Redigera Cinema..."
 
-#: src/wx/screens_panel.cc:63
+#: src/wx/screens_panel.cc:64
 msgid "Edit Screen..."
 msgstr "Redigera Skärm..."
 
@@ -592,9 +605,9 @@ msgstr ""
 msgid "Fade out"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:78
-#: src/wx/dolby_certificate_dialog.cc:101
-#: src/wx/dolby_certificate_dialog.cc:123
+#: src/wx/dolby_certificate_dialog.cc:79
+#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:135
 msgid "Fetching..."
 msgstr ""
 
@@ -1089,11 +1102,11 @@ msgid "Remove"
 msgstr "Ta bort"
 
 # Sammanhang?
-#: src/wx/screens_panel.cc:58
+#: src/wx/screens_panel.cc:59
 msgid "Remove Cinema"
 msgstr "Ta bort Cinema"
 
-#: src/wx/screens_panel.cc:65
+#: src/wx/screens_panel.cc:66
 msgid "Remove Screen"
 msgstr "Ta bort Skärm"
 
@@ -1190,7 +1203,7 @@ msgstr "Skicka med mejl"
 msgid "Send logs"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:49
+#: src/wx/dolby_certificate_dialog.cc:50
 msgid "Serial number"
 msgstr ""
 
@@ -1402,18 +1415,13 @@ msgstr ""
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/dolby_certificate_dialog.cc:182
+#: src/wx/dolby_certificate_dialog.cc:198
 msgid "Unexpected certificate filename form"
 msgstr ""
 
 #: src/wx/screen_dialog.cc:63
 msgid "Unknown"
 msgstr ""
-
-# sammanhang?
-#: src/wx/kdm_timing_panel.cc:37
-msgid "Until"
-msgstr "Tills"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1614,6 +1622,12 @@ msgstr ""
 msgid "times"
 msgstr "tider"
 
+# sammanhang?
+#: src/wx/kdm_timing_panel.cc:37
+#, fuzzy
+msgid "until"
+msgstr "Tills"
+
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"
 msgstr "video"
@@ -1802,9 +1816,6 @@ msgstr ""
 
 #~ msgid "Colour look-up table"
 #~ msgstr "Färguppslagningstabell"
-
-#~ msgid "Could not set content: %s"
-#~ msgstr "Kunde inte fastställa innehåll: %s"
 
 #, fuzzy
 #~ msgid "DVD-o-matic Preferences"

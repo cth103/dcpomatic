@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-10-14 10:27+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -83,8 +83,6 @@ msgstr "3D su/giù"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:122
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -110,7 +108,7 @@ msgstr "Una nuova versione di DCP-o-matic è disponibile"
 msgid "About DCP-o-matic"
 msgstr "Su DCP-o-matic"
 
-#: src/wx/screens_panel.cc:54
+#: src/wx/screens_panel.cc:55
 msgid "Add Cinema..."
 msgstr "Aggiungi Cinema"
 
@@ -118,7 +116,7 @@ msgstr "Aggiungi Cinema"
 msgid "Add KDM..."
 msgstr "Aggiungi KDM..."
 
-#: src/wx/screens_panel.cc:61
+#: src/wx/screens_panel.cc:62
 msgid "Add Screen..."
 msgstr "Aggiungi Schermo"
 
@@ -274,8 +272,8 @@ msgstr ""
 msgid "Certificate"
 msgstr "Certificato"
 
-#: src/wx/dolby_certificate_dialog.cc:191
-#: src/wx/doremi_certificate_dialog.cc:105
+#: src/wx/dolby_certificate_dialog.cc:207
+#: src/wx/doremi_certificate_dialog.cc:104
 msgid "Certificate downloaded"
 msgstr "Scarica certificato"
 
@@ -319,7 +317,7 @@ msgstr "Scegli un font"
 msgid "Choose a font file"
 msgstr "Scegli un file font"
 
-#: src/wx/dolby_certificate_dialog.cc:45
+#: src/wx/dolby_certificate_dialog.cc:46
 msgid "Cinema"
 msgstr "Cinema"
 
@@ -377,6 +375,21 @@ msgstr "Salva una copia..."
 msgid "Could not analyse audio."
 msgstr "Non posso analizzare l'audio."
 
+#: src/wx/dolby_certificate_dialog.cc:126
+#, fuzzy, c-format
+msgid "Could not get cinema list (%s)"
+msgstr "Non posso aprire il file del contenuto (%s)"
+
+#: src/wx/dolby_certificate_dialog.cc:98
+#, fuzzy, c-format
+msgid "Could not get country list (%s)"
+msgstr "Non posso regolare il contenuto: %s"
+
+#: src/wx/dolby_certificate_dialog.cc:158
+#, fuzzy, c-format
+msgid "Could not get screen list (%s)"
+msgstr "Non posso regolare il contenuto: %s"
+
 #: src/wx/film_viewer.cc:187
 #, fuzzy, c-format
 msgid "Could not get video for view (%s)"
@@ -398,7 +411,7 @@ msgstr "Non posso aprire il file del contenuto (%s)"
 msgid "Could not read key file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
 
-#: src/wx/dolby_certificate_dialog.cc:41
+#: src/wx/dolby_certificate_dialog.cc:42
 msgid "Country"
 msgstr "Nazione"
 
@@ -529,16 +542,16 @@ msgstr "Download certificato"
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_dialog.cc:157
+#: src/wx/dolby_certificate_dialog.cc:173
 #: src/wx/doremi_certificate_dialog.cc:56
 msgid "Downloading certificate"
 msgstr "Certificate in download"
 
-#: src/wx/screens_panel.cc:56
+#: src/wx/screens_panel.cc:57
 msgid "Edit Cinema..."
 msgstr "Modifica Cinema..."
 
-#: src/wx/screens_panel.cc:63
+#: src/wx/screens_panel.cc:64
 msgid "Edit Screen..."
 msgstr "Modifica Schermo..."
 
@@ -598,9 +611,9 @@ msgstr "Dissolvenza in entrata"
 msgid "Fade out"
 msgstr "Dissolvenza in uscita"
 
-#: src/wx/dolby_certificate_dialog.cc:78
-#: src/wx/dolby_certificate_dialog.cc:101
-#: src/wx/dolby_certificate_dialog.cc:123
+#: src/wx/dolby_certificate_dialog.cc:79
+#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:135
 #, fuzzy
 msgid "Fetching..."
 msgstr "conteggio..."
@@ -1102,11 +1115,11 @@ msgstr ""
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/wx/screens_panel.cc:58
+#: src/wx/screens_panel.cc:59
 msgid "Remove Cinema"
 msgstr "Rimuovi Cinema"
 
-#: src/wx/screens_panel.cc:65
+#: src/wx/screens_panel.cc:66
 msgid "Remove Screen"
 msgstr "Rimuovi Schermo"
 
@@ -1205,7 +1218,7 @@ msgstr "Manda per email"
 msgid "Send logs"
 msgstr ""
 
-#: src/wx/dolby_certificate_dialog.cc:49
+#: src/wx/dolby_certificate_dialog.cc:50
 msgid "Serial number"
 msgstr "Numero seriale"
 
@@ -1416,17 +1429,13 @@ msgstr ""
 msgid "Type"
 msgstr "Tipo"
 
-#: src/wx/dolby_certificate_dialog.cc:182
+#: src/wx/dolby_certificate_dialog.cc:198
 msgid "Unexpected certificate filename form"
 msgstr ""
 
 #: src/wx/screen_dialog.cc:63
 msgid "Unknown"
 msgstr "Sconosciuto"
-
-#: src/wx/kdm_timing_panel.cc:37
-msgid "Until"
-msgstr "Fino a"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1627,6 +1636,11 @@ msgstr "soglia"
 msgid "times"
 msgstr ""
 
+#: src/wx/kdm_timing_panel.cc:37
+#, fuzzy
+msgid "until"
+msgstr "Fino a"
+
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"
 msgstr "video"
@@ -1801,9 +1815,6 @@ msgstr "y"
 
 #~ msgid "Colour look-up table"
 #~ msgstr "Tabella per ricerca del colore"
-
-#~ msgid "Could not set content: %s"
-#~ msgstr "Non posso regolare il contenuto: %s"
 
 #, fuzzy
 #~ msgid "DVD-o-matic Preferences"

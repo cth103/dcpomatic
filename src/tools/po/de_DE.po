@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-07-06 15:31+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgstr "Über DCP-o-matic"
 msgid "Add Film..."
 msgstr "Projekt hinzufügen..."
 
-#: src/tools/dcpomatic.cc:938
+#: src/tools/dcpomatic.cc:937
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -103,7 +103,7 @@ msgstr ""
 "Ein unbekannter Fehler ist aufgetreten: %s (%s).\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:947
+#: src/tools/dcpomatic.cc:946
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -112,8 +112,7 @@ msgstr ""
 "Ein unbekannter Fehler ist aufgetreten: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:952
-#: src/tools/dcpomatic.cc:961
+#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:951
 msgid "An unknown exception occurred."
 msgstr "Ein unbekannter Fehler ist aufgetreten."
 
@@ -239,7 +238,7 @@ msgstr ""
 "Das DCP für diesen Film wird etwa %.1f Gbyte groß. Auf dem ausgewählten "
 "Laufwerk sind aber nur %.1f Gbyte frei. Möchten Sie trotzdem weitermachen ?"
 
-#: src/tools/dcpomatic.cc:987
+#: src/tools/dcpomatic.cc:991
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Der DCP-o-matic Download Server ist nicht erreichbar."
 
@@ -251,7 +250,7 @@ msgstr ""
 "Der Ordner %1 existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
 "benutzen ?"
 
-#: src/tools/dcpomatic.cc:991
+#: src/tools/dcpomatic.cc:995
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Es ist keine neue Version von DCP-o-matic verfügbar."
 

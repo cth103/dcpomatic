@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 13:50+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-10-30 23:11+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -90,7 +90,7 @@ msgstr "À propos de DCP-o-matic"
 msgid "Add Film..."
 msgstr "Ajouter Film..."
 
-#: src/tools/dcpomatic.cc:938
+#: src/tools/dcpomatic.cc:937
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Erreur constatée: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:947
+#: src/tools/dcpomatic.cc:946
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -108,8 +108,7 @@ msgstr ""
 "Exception inconnue: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:952
-#: src/tools/dcpomatic.cc:961
+#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:951
 msgid "An unknown exception occurred."
 msgstr "Exception inconnue"
 
@@ -234,7 +233,7 @@ msgstr ""
 "Le DCP de ce film pèsera environ %.1f Go. Le disque que vous utilisez n'a "
 "que %.1f Go disponible(s). Souhaitez-vous continuer?"
 
-#: src/tools/dcpomatic.cc:987
+#: src/tools/dcpomatic.cc:991
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
 
@@ -246,7 +245,7 @@ msgstr ""
 "Le répertoire %1 existe déjà et n'est pas vide. Etes-vous sûr de vouloir "
 "l'utiliser ?"
 
-#: src/tools/dcpomatic.cc:991
+#: src/tools/dcpomatic.cc:995
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Pas de mise à jour disponible de DCP-o-matic pour l'instant."
 

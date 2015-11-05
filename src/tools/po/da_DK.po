@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 23:12+0000\n"
+"POT-Creation-Date: 2015-11-05 14:29+0000\n"
 "PO-Revision-Date: 2015-10-27 17:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -93,7 +93,7 @@ msgstr "Om DCP-o-matic"
 msgid "Add Film..."
 msgstr "Tilføj film..."
 
-#: src/tools/dcpomatic.cc:938
+#: src/tools/dcpomatic.cc:937
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -102,7 +102,7 @@ msgstr ""
 "Der opstod en fejl: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:947
+#: src/tools/dcpomatic.cc:946
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -111,8 +111,7 @@ msgstr ""
 "Der opstod en fejl: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:952
-#: src/tools/dcpomatic.cc:961
+#: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:951
 msgid "An unknown exception occurred."
 msgstr "Der er sket en uhåndteret fejl."
 
@@ -237,7 +236,7 @@ msgstr ""
 "DCP'en til denne film kommer til at fylde ca. %.1f GB, og disken du bruger "
 "har kun %.1f GB til rådighed.  Vil du fortsætte alligevel?"
 
-#: src/tools/dcpomatic.cc:987
+#: src/tools/dcpomatic.cc:991
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Kunne ikke få forbindelse til DCP-o-matic-serveren."
 
@@ -249,7 +248,7 @@ msgstr ""
 "Folderen %1 eksisterer allerede og er ikke tom. Er du sikker på, at du vil "
 "benytte den?"
 
-#: src/tools/dcpomatic.cc:991
+#: src/tools/dcpomatic.cc:995
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Der er ingen nye versioner af DCP-o-matic tilgængelig."
 
