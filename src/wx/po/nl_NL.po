@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-05 14:29+0000\n"
-"PO-Revision-Date: 2015-11-04 14:59+0100\n"
+"PO-Revision-Date: 2015-11-05 15:58+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -387,19 +387,19 @@ msgid "Could not analyse audio."
 msgstr "Kan audio niet analyseren."
 
 #: src/wx/dolby_certificate_dialog.cc:126
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get cinema list (%s)"
-msgstr "Kan video niet tonen (%s)"
+msgstr "Kan lijst met bioscopen niet ophalen (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:98
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get country list (%s)"
-msgstr "Kan video niet tonen (%s)"
+msgstr "Kan lijst met landen niet ophalen (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:158
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get screen list (%s)"
-msgstr "Kan video niet tonen (%s)"
+msgstr "Kan lijst met schermen niet ophalen (%s)"
 
 #: src/wx/film_viewer.cc:187
 #, c-format
@@ -1631,9 +1631,8 @@ msgid "times"
 msgstr "keer"
 
 #: src/wx/kdm_timing_panel.cc:37
-#, fuzzy
 msgid "until"
-msgstr "Tot"
+msgstr "tot"
 
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"
