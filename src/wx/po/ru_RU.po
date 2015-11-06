@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-05 14:29+0000\n"
-"PO-Revision-Date: 2015-11-03 10:56+0200\n"
+"PO-Revision-Date: 2015-11-06 12:13+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -221,9 +221,8 @@ msgid "Blue chromaticity"
 msgstr "Синяя цветность"
 
 #: src/wx/fonts_dialog.cc:68
-#, fuzzy
 msgid "Bold file"
-msgstr "Файл шрифта"
+msgstr "Файл жирного шрифта"
 
 #: src/wx/font_files_dialog.cc:36
 msgid "Bold font"
@@ -381,19 +380,19 @@ msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
 #: src/wx/dolby_certificate_dialog.cc:126
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get cinema list (%s)"
-msgstr "Не удалось вывести предпросмотр видео (%s)"
+msgstr "Не удалось получить список кинотеатров (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:98
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get country list (%s)"
-msgstr "Не удалось вывести предпросмотр видео (%s)"
+msgstr "Не удалось получить список стран (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:158
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get screen list (%s)"
-msgstr "Не удалось вывести предпросмотр видео (%s)"
+msgstr "Не удалось получит список экранов (%s)"
 
 #: src/wx/film_viewer.cc:187
 #, c-format
@@ -610,8 +609,7 @@ msgstr "Постепенное появление"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/dolby_certificate_dialog.cc:79
-#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:79 src/wx/dolby_certificate_dialog.cc:107
 #: src/wx/dolby_certificate_dialog.cc:135
 msgid "Fetching..."
 msgstr "Установка..."
@@ -757,9 +755,8 @@ msgid "Issuer"
 msgstr "Издатель"
 
 #: src/wx/fonts_dialog.cc:60
-#, fuzzy
 msgid "Italic file"
-msgstr "Файл шрифта"
+msgstr "Файл курсивного шрифта"
 
 #: src/wx/font_files_dialog.cc:35
 msgid "Italic font"
@@ -926,9 +923,8 @@ msgid "None"
 msgstr "Ничего"
 
 #: src/wx/fonts_dialog.cc:52
-#, fuzzy
 msgid "Normal file"
-msgstr "Файл шрифта"
+msgstr "Файл обычного шрифта"
 
 #: src/wx/font_files_dialog.cc:34
 msgid "Normal font"
@@ -1230,7 +1226,7 @@ msgstr "Назначить"
 
 #: src/wx/font_files_dialog.cc:50
 msgid "Set from file..."
-msgstr "Выьрать из файла..."
+msgstr "Выбрать из файла..."
 
 #: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
@@ -1270,7 +1266,7 @@ msgstr "Присоединять"
 
 #: src/wx/dcp_panel.cc:174
 msgid "Split by video content"
-msgstr "Разделить по видео-контенту"
+msgstr "Разделять по видео-контенту"
 
 #: src/wx/update_dialog.cc:45
 msgid "Stable version "
@@ -1424,7 +1420,7 @@ msgstr "Неизвестный"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
-msgstr "Сверху"
+msgstr "Вверх"
 
 #: src/wx/update_dialog.cc:28
 msgid "Update"
@@ -1537,8 +1533,8 @@ msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"Вы выбрали шрифт, размер которого больше 640 кБ. Вероятнее всего это вызовет "
-"проблемы при воспроизведении."
+"Вы выбрали шрифт, размер которого больше 640 кБ. Весьма вероятно, что это "
+"вызовет проблемы при воспроизведении."
 
 #: src/wx/hints_dialog.cc:142
 #, c-format
@@ -1630,7 +1626,7 @@ msgstr "раз"
 #: src/wx/kdm_timing_panel.cc:37
 #, fuzzy
 msgid "until"
-msgstr "До"
+msgstr "до"
 
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"
