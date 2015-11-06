@@ -267,7 +267,9 @@ TimingPanel::film_content_changed (int property)
 
 		}
 
-		if (check_vc.size() == 1 || count_sc == 1) {
+		bool const single_frame_image_content = vc && dynamic_pointer_cast<const ImageContent> (vc) && vc->number_of_paths() == 1;
+
+		if ((check_vc.size() == 1 || count_sc == 1) && !single_frame_image_content) {
 			if (vc) {
 				checked_set (_video_frame_rate, raw_convert<string> (vc->video_frame_rate (), 5));
 			} else if (sc) {

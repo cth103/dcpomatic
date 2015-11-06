@@ -79,7 +79,12 @@ public:
 		return _video_size;
 	}
 
-	double video_frame_rate () const {
+	double video_frame_rate () const;
+
+	/** @return true if this content has a specific video frame rate, false
+	 *  if it should use the DCP's rate.
+	 */
+	bool has_own_video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_rate;
 	}
@@ -172,7 +177,8 @@ protected:
 	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
 
 	Frame _video_length;
-	double _video_frame_rate;
+	/** Video frame rate, or not set if this content should use the DCP's frame rate */
+	boost::optional<double> _video_frame_rate;
 	boost::optional<ColourConversion> _colour_conversion;
 
 private:

@@ -526,11 +526,6 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 	/* XXX: check for lots of files here and do something */
 
 	for (list<boost::filesystem::path>::const_iterator i = paths.begin(); i != paths.end(); ++i) {
-		shared_ptr<Content> c = content_factory (_film, *i);
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (c);
-		if (ic) {
-			ic->set_video_frame_rate (24);
-		}
-		_film->examine_and_add_content (c);
+		_film->examine_and_add_content (content_factory (_film, *i));
 	}
 }

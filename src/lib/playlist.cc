@@ -212,7 +212,7 @@ Playlist::best_dcp_frame_rate () const
 {
 	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
 
-	/* Work out what rates we could manage, including those achieved by using skip / repeat. */
+	/* Work out what rates we could manage, including those achieved by using skip / repeat */
 	list<FrameRateCandidate> candidates;
 
 	/* Start with the ones without skip / repeat so they will get matched in preference to skipped/repeated ones */
@@ -235,7 +235,7 @@ Playlist::best_dcp_frame_rate () const
 		float this_error = 0;
 		BOOST_FOREACH (shared_ptr<Content> j, _content) {
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
-			if (!vc) {
+			if (!vc || !vc->has_own_video_frame_rate()) {
 				continue;
 			}
 

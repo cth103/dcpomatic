@@ -69,7 +69,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	}
 
 	if (content->still ()) {
-		_video_length = Config::instance()->default_still_length() * video_frame_rate().get_value_or (24);
+		_video_length = Config::instance()->default_still_length() * video_frame_rate().get_value_or (film->video_frame_rate ());
 	} else {
 		_video_length = _image_content->number_of_paths ();
 	}
@@ -84,7 +84,7 @@ ImageExaminer::video_size () const
 optional<double>
 ImageExaminer::video_frame_rate () const
 {
-	if (_image_content->video_frame_rate() != 0) {
+	if (_image_content->has_own_video_frame_rate()) {
 		/* The content already knows what frame rate it should be */
 		return _image_content->video_frame_rate();
 	}

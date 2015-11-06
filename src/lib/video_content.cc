@@ -67,7 +67,6 @@ using boost::dynamic_pointer_cast;
 VideoContent::VideoContent (shared_ptr<const Film> film)
 	: Content (film)
 	, _video_length (0)
-	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
 	, _fade_in (0)
@@ -79,7 +78,6 @@ VideoContent::VideoContent (shared_ptr<const Film> film)
 VideoContent::VideoContent (shared_ptr<const Film> film, DCPTime s, Frame len)
 	: Content (film, s)
 	, _video_length (len)
-	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
 	, _fade_in (0)
@@ -91,7 +89,6 @@ VideoContent::VideoContent (shared_ptr<const Film> film, DCPTime s, Frame len)
 VideoContent::VideoContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
 	, _video_length (0)
-	, _video_frame_rate (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
 	, _fade_in (0)
@@ -105,7 +102,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 {
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
-	_video_frame_rate = node->number_child<double> ("VideoFrameRate");
+	_video_frame_rate = node->optional_number_child<double> ("VideoFrameRate");
 	_video_length = node->number_child<Frame> ("VideoLength");
 	_video_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
 	_sample_aspect_ratio = node->optional_number_child<double> ("SampleAspectRatio");
@@ -193,7 +190,9 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_video_length));
 	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_video_size.width));
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_video_size.height));
-	node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
+	if (_video_frame_rate) {
+		node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate.get()));
+	}
 	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_video_frame_type)));
 	if (_sample_aspect_ratio) {
 		node->add_child("SampleAspectRatio")->add_child_text (raw_convert<string> (_sample_aspect_ratio.get ()));
@@ -227,8 +226,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_video_size = vs;
-		/* Default video frame rate to 24fps if the examiner doesn't know */
-		_video_frame_rate = vfr.get_value_or (24);
+		_video_frame_rate = vfr;
 		_video_length = vl;
 		_sample_aspect_ratio = ar;
 
@@ -589,4 +587,14 @@ VideoContent::reel_split_points () const
 	/* XXX: this is questionable; perhaps the position should be forced to be on a frame boundary */
 	t.push_back (position().round_up (film->video_frame_rate()));
 	return t;
+}
+
+double
+VideoContent::video_frame_rate () const
+{
+	boost::shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
+	boost::mutex::scoped_lock lm (_mutex);
+	return _video_frame_rate.get_value_or (film->video_frame_rate ());
 }
