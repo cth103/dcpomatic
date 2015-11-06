@@ -45,7 +45,6 @@ public:
 
 	void set_video_length (Frame);
 	bool still () const;
-	void set_video_frame_rate (float);
 };
 
 #endif

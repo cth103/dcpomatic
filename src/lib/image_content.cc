@@ -152,21 +152,6 @@ ImageContent::still () const
 }
 
 void
-ImageContent::set_video_frame_rate (float r)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_video_frame_rate == r) {
-			return;
-		}
-
-		_video_frame_rate = r;
-	}
-
-	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
-}
-
-void
 ImageContent::set_default_colour_conversion ()
 {
 	BOOST_FOREACH (boost::filesystem::path i, _paths) {
