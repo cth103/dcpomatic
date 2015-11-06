@@ -187,9 +187,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
 	take_from_video_examiner (examiner);
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
@@ -202,7 +199,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 		if (!_audio_streams.empty ()) {
 			AudioMapping m = _audio_streams.front()->mapping ();
-			film->make_audio_mapping_default (m);
+			film()->make_audio_mapping_default (m);
 			_audio_streams.front()->set_mapping (m);
 		}
 
@@ -280,10 +277,8 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 DCPTime
 FFmpegContent::full_length () const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (video_frame_rate (), film->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video_length_after_3d_combine() * frc.factor()), film->video_frame_rate());
+	FrameRateChange const frc (video_frame_rate (), film()->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video_length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
 }
 
 void

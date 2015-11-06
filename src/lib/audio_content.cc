@@ -191,13 +191,10 @@ AudioContent::audio_mapping () const
 int
 AudioContent::resampled_audio_frame_rate () const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
 	/* Resample to a DCI-approved sample rate */
 	double t = has_rate_above_48k() ? 96000 : 48000;
 
-	FrameRateChange frc = film->active_frame_rate_change (position ());
+	FrameRateChange frc = film()->active_frame_rate_change (position ());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will

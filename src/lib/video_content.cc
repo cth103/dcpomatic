@@ -38,7 +38,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) film()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::VIDEO_SIZE	  = 0;
 int const VideoContentProperty::VIDEO_FRAME_RATE  = 1;
@@ -236,8 +236,6 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 			);
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length);
 
 	set_default_colour_conversion ();
@@ -447,12 +445,9 @@ VideoContent::video_size_after_crop () const
 void
 VideoContent::scale_and_crop_to_fit_width ()
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	set_scale (VideoContentScale (film()->container ()));
 
-	set_scale (VideoContentScale (film->container ()));
-
-	int const crop = max (0, int (video_size().height - double (film->frame_size().height) * video_size().width / film->frame_size().width));
+	int const crop = max (0, int (video_size().height - double (film()->frame_size().height) * video_size().width / film()->frame_size().width));
 	set_top_crop (crop / 2);
 	set_bottom_crop (crop / 2);
 }
@@ -460,12 +455,9 @@ VideoContent::scale_and_crop_to_fit_width ()
 void
 VideoContent::scale_and_crop_to_fit_height ()
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	set_scale (VideoContentScale (film()->container ()));
 
-	set_scale (VideoContentScale (film->container ()));
-
-	int const crop = max (0, int (video_size().width - double (film->frame_size().width) * video_size().height / film->frame_size().height));
+	int const crop = max (0, int (video_size().width - double (film()->frame_size().width) * video_size().height / film()->frame_size().height));
 	set_left_crop (crop / 2);
 	set_right_crop (crop / 2);
 }
@@ -536,10 +528,7 @@ VideoContent::processing_description () const
 		d << " (" << fixed << setprecision(2) << cropped.ratio () << ":1)\n";
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
-	dcp::Size const container_size = film->frame_size ();
+	dcp::Size const container_size = film()->frame_size ();
 	dcp::Size const scaled = scale().size (dynamic_pointer_cast<const VideoContent> (shared_from_this ()), container_size, container_size);
 
 	if (scaled != video_size_after_crop ()) {
@@ -554,7 +543,7 @@ VideoContent::processing_description () const
 	if (scaled != container_size) {
 		d << String::compose (
 			_("Padded with black to fit container %1 (%2x%3)"),
-			film->container()->nickname (),
+			film()->container()->nickname (),
 			container_size.width, container_size.height
 			);
 
@@ -564,7 +553,7 @@ VideoContent::processing_description () const
 	d << _("Content frame rate");
 	d << " " << fixed << setprecision(4) << video_frame_rate() << "\n";
 
-	FrameRateChange frc (video_frame_rate(), film->video_frame_rate ());
+	FrameRateChange frc (video_frame_rate(), film()->video_frame_rate ());
 	d << frc.description () << "\n";
 
 	return d.str ();
@@ -582,19 +571,14 @@ list<DCPTime>
 VideoContent::reel_split_points () const
 {
 	list<DCPTime> t;
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
 	/* XXX: this is questionable; perhaps the position should be forced to be on a frame boundary */
-	t.push_back (position().round_up (film->video_frame_rate()));
+	t.push_back (position().round_up (film()->video_frame_rate()));
 	return t;
 }
 
 double
 VideoContent::video_frame_rate () const
 {
-	boost::shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
 	boost::mutex::scoped_lock lm (_mutex);
-	return _video_frame_rate.get_value_or (film->video_frame_rate ());
+	return _video_frame_rate.get_value_or (film()->video_frame_rate ());
 }

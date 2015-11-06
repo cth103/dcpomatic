@@ -161,10 +161,8 @@ DCPContent::as_xml (xmlpp::Node* node) const
 DCPTime
 DCPContent::full_length () const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (video_frame_rate (), film->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video_length () * frc.factor ()), film->video_frame_rate ());
+	FrameRateChange const frc (video_frame_rate (), film()->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video_length () * frc.factor ()), film()->video_frame_rate ());
 }
 
 string
@@ -266,11 +264,9 @@ DCPContent::reels () const
 		return p;
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
 	DCPTime from = position ();
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
-		DCPTime const to = from + DCPTime::from_frames (i->main_picture()->duration(), film->video_frame_rate());
+		DCPTime const to = from + DCPTime::from_frames (i->main_picture()->duration(), film()->video_frame_rate());
 		p.push_back (DCPTimePeriod (from, to));
 		from = to;
 	}
@@ -292,10 +288,7 @@ template <class T>
 bool
 DCPContent::can_reference (string overlapping, list<string>& why_not) const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
-	list<DCPTimePeriod> const fr = film->reels ();
+	list<DCPTimePeriod> const fr = film()->reels ();
 	/* fr must contain reels().  It can also contain other reels, but it must at
 	   least contain reels().
 	*/
@@ -306,7 +299,7 @@ DCPContent::can_reference (string overlapping, list<string>& why_not) const
 		}
 	}
 
-	list<shared_ptr<T> > a = overlaps<T> (film->content(), position(), end());
+	list<shared_ptr<T> > a = overlaps<T> (film()->content(), position(), end());
 	if (a.size() != 1 || a.front().get() != this) {
 		why_not.push_back (overlapping);
 		return false;

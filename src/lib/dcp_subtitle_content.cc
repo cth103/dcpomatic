@@ -82,9 +82,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 DCPTime
 DCPSubtitleContent::full_length () const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (subtitle_video_frame_rate(), film->video_frame_rate());
+	FrameRateChange const frc (subtitle_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime (_length, frc);
 }
 
@@ -133,7 +131,5 @@ DCPSubtitleContent::subtitle_video_frame_rate () const
 	/* No frame rate specified, so assume this content has been
 	   prepared for any concurrent video content.
 	*/
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return film->active_frame_rate_change(position()).source;
+	return film()->active_frame_rate_change(position()).source;
 }

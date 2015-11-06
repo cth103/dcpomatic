@@ -223,9 +223,7 @@ Content::technical_summary () const
 DCPTime
 Content::length_after_trim () const
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return max (DCPTime (), full_length() - DCPTime (trim_start() + trim_end(), film->active_frame_rate_change (position ())));
+	return max (DCPTime (), full_length() - DCPTime (trim_start() + trim_end(), film()->active_frame_rate_change (position ())));
 }
 
 /** @return string which changes when something about this content changes which affects
@@ -288,4 +286,12 @@ Content::properties () const
 	list<pair<string, string> > p;
 	add_properties (p);
 	return p;
+}
+
+shared_ptr<const Film>
+Content::film () const
+{
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return film;
 }
