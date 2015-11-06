@@ -90,7 +90,7 @@ J2KImageProxy::ensure_j2k () const
 }
 
 shared_ptr<Image>
-J2KImageProxy::image (optional<dcp::NoteHandler> note) const
+J2KImageProxy::image (optional<dcp::NoteHandler>) const
 {
 	ensure_j2k ();
 
