@@ -357,7 +357,7 @@ DCPPanel::film_changed (int p)
 			checked_set (_frame_rate_choice, -1);
 		}
 
-		_frame_rate_spin->SetValue (_film->video_frame_rate ());
+		checked_set (_frame_rate_spin, _film->video_frame_rate ());
 
 		_best_frame_rate->Enable (_film->best_video_frame_rate () != _film->video_frame_rate ());
 		break;
