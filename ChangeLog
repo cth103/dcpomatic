@@ -1,3 +1,7 @@
+2015-11-06  Carl Hetherington  <cth@carlh.net>
+
+	* Sort cinemas in KDM dialog and standalone creator (#726).
+
 2015-11-06  c.hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.

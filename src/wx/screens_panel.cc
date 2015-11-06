@@ -146,6 +146,8 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 	for (list<shared_ptr<Screen> >::iterator i = sc.begin(); i != sc.end(); ++i) {
 		add_screen (c, *i);
 	}
+
+	_targets->SortChildren (_root);
 }
 
 void
