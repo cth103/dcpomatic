@@ -86,7 +86,7 @@ public:
 	 */
 	bool has_own_video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _video_frame_rate;
+		return static_cast<bool>(_video_frame_rate);
 	}
 
 	void set_video_frame_type (VideoFrameType);
