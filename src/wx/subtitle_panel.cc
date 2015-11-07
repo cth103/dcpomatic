@@ -46,72 +46,83 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	, _subtitle_view (0)
 	, _fonts_dialog (0)
 {
-	wxFlexGridSizer* grid = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (grid, 0, wxALL, 8);
+	int r = 0;
 
 	_reference = new wxCheckBox (this, wxID_ANY, _("Refer to existing DCP"));
-	grid->Add (_reference);
-	grid->AddSpacer (0);
+	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
 
 	_use = new wxCheckBox (this, wxID_ANY, _("Use subtitles"));
-	grid->Add (_use);
-	grid->AddSpacer (0);
+	grid->Add (_use, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
 
 	_burn = new wxCheckBox (this, wxID_ANY, _("Burn subtitles into image"));
-	grid->Add (_burn);
-	grid->AddSpacer (0);
+	grid->Add (_burn, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
 
 	{
-		add_label_to_sizer (grid, this, _("X Offset"), true);
+		add_label_to_grid_bag_sizer (grid, this, _("X Offset"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_x_offset = new wxSpinCtrl (this);
 		s->Add (_x_offset);
 		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s);
+		grid->Add (s, wxGBPosition (r, 1));
+		++r;
 	}
 
 	{
-		add_label_to_sizer (grid, this, _("Y Offset"), true);
+		add_label_to_grid_bag_sizer (grid, this, _("Y Offset"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_y_offset = new wxSpinCtrl (this);
 		s->Add (_y_offset);
 		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s);
+		grid->Add (s, wxGBPosition (r, 1));
+		++r;
 	}
 
 	{
-		add_label_to_sizer (grid, this, _("X Scale"), true);
+		add_label_to_grid_bag_sizer (grid, this, _("X Scale"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_x_scale = new wxSpinCtrl (this);
 		s->Add (_x_scale);
 		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s);
+		grid->Add (s, wxGBPosition (r, 1));
+		++r;
 	}
 
 	{
-		add_label_to_sizer (grid, this, _("Y Scale"), true);
+		add_label_to_grid_bag_sizer (grid, this, _("Y Scale"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_y_scale = new wxSpinCtrl (this);
 		s->Add (_y_scale);
 		add_label_to_sizer (s, this, _("%"), false);
-		grid->Add (s);
+		grid->Add (s, wxGBPosition (r, 1));
+		++r;
 	}
 
-	add_label_to_sizer (grid, this, _("Language"), true);
+	add_label_to_grid_bag_sizer (grid, this, _("Language"), true, wxGBPosition (r, 0));
 	_language = new wxTextCtrl (this, wxID_ANY);
-	grid->Add (_language, 1, wxEXPAND);
+	grid->Add (_language, wxGBPosition (r, 1));
+	++r;
 
-	add_label_to_sizer (grid, this, _("Stream"), true);
+	add_label_to_grid_bag_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
-	grid->Add (_stream, 1, wxEXPAND);
+	grid->Add (_stream, wxGBPosition (r, 1));
+	++r;
 
-	_subtitle_view_button = new wxButton (this, wxID_ANY, _("View..."));
-	grid->Add (_subtitle_view_button);
-	grid->AddSpacer (0);
+	{
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
-	_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
-	grid->Add (_fonts_dialog_button);
-	grid->AddSpacer (0);
+		_subtitle_view_button = new wxButton (this, wxID_ANY, _("View..."));
+		s->Add (_subtitle_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
+		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+
+		grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+	}
 
 	_x_offset->SetRange (-100, 100);
 	_y_offset->SetRange (-100, 100);
