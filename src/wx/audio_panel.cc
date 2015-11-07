@@ -66,7 +66,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		++r;
 	}
 
-	add_label_to_grid_bag_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
 		this,
 		new wxSpinCtrlDouble (this),
@@ -76,12 +76,12 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		);
 
 	_gain->add (grid, wxGBPosition (r, 1));
-	add_label_to_grid_bag_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
+	add_label_to_sizer (grid, this, _("dB"), false, wxGBPosition (r, 2));
 	_gain_calculate_button = new wxButton (this, wxID_ANY, _("Calculate..."));
 	grid->Add (_gain_calculate_button, wxGBPosition (r, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Delay"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Delay"), true, wxGBPosition (r, 0));
 	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
@@ -92,7 +92,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 
 	_delay->add (grid, wxGBPosition (r, 1));
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-	add_label_to_grid_bag_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
+	add_label_to_sizer (grid, this, _("ms"), false, wxGBPosition (r, 2));
 	++r;
 
 	_mapping = new AudioMappingView (this);

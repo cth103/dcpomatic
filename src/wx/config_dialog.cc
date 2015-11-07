@@ -171,7 +171,7 @@ private:
 		table->Add (_language, wxGBPosition (r, 1));
 		++r;
 
-		wxStaticText* restart = add_label_to_grid_bag_sizer (
+		wxStaticText* restart = add_label_to_sizer (
 			table, _panel, _("(restart DCP-o-matic to see language changes)"), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
 			);
 		wxFont font = restart->GetFont();
@@ -180,7 +180,7 @@ private:
 		restart->SetFont (font);
 		++r;
 
-		add_label_to_grid_bag_sizer (table, _panel, _("Threads to use for encoding on this host"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (table, _panel, _("Threads to use for encoding on this host"), true, wxGBPosition (r, 0));
 		_num_local_encoding_threads = new wxSpinCtrl (_panel);
 		table->Add (_num_local_encoding_threads, wxGBPosition (r, 1));
 		++r;
@@ -681,7 +681,7 @@ public:
 		_sizer->Add (table, 1, wxALL | wxEXPAND, border);
 		int r = 0;
 
-		add_label_to_grid_bag_sizer (table, this, _("Leaf private key"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (table, this, _("Leaf private key"), true, wxGBPosition (r, 0));
 		_private_key = new wxStaticText (this, wxID_ANY, wxT (""));
 		wxFont font = _private_key->GetFont ();
 		font.SetFamily (wxFONTFAMILY_TELETYPE);

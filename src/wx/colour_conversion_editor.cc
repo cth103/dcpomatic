@@ -52,12 +52,12 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	table->Add (_input_gamma_linearised, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, _("Input gamma"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("Input gamma"), true, wxGBPosition (r, 0));
 	_input_gamma = new wxSpinCtrlDouble (this);
 	table->Add (_input_gamma, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, _("Input power"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("Input power"), true, wxGBPosition (r, 0));
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_input_power = new wxSpinCtrlDouble (this);
@@ -94,7 +94,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 
 	subhead (table, this, _("YUV to RGB conversion"), r);
 
-	add_label_to_grid_bag_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
 	_yuv_to_rgb = new wxChoice (this, wxID_ANY);
 	_yuv_to_rgb->Append (_("Rec. 601"));
 	_yuv_to_rgb->Append (_("Rec. 709"));
@@ -105,33 +105,33 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 
 	subhead (table, this, _("RGB to XYZ conversion"), r);
 
-	add_label_to_grid_bag_sizer (table, this, _("x"), false, wxGBPosition (r, 1));
-	add_label_to_grid_bag_sizer (table, this, _("y"), false, wxGBPosition (r, 2));
-	add_label_to_grid_bag_sizer (table, this, _("Matrix"), false, wxGBPosition (r, 3));
+	add_label_to_sizer (table, this, _("x"), false, wxGBPosition (r, 1));
+	add_label_to_sizer (table, this, _("y"), false, wxGBPosition (r, 2));
+	add_label_to_sizer (table, this, _("Matrix"), false, wxGBPosition (r, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, _("Red chromaticity"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("Red chromaticity"), true, wxGBPosition (r, 0));
 	_red_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_red_x, wxGBPosition (r, 1));
 	_red_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_red_y, wxGBPosition (r, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, _("Green chromaticity"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("Green chromaticity"), true, wxGBPosition (r, 0));
 	_green_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_green_x, wxGBPosition (r, 1));
 	_green_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_green_y, wxGBPosition (r, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, _("Blue chromaticity"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("Blue chromaticity"), true, wxGBPosition (r, 0));
 	_blue_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_blue_x, wxGBPosition (r, 1));
 	_blue_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_blue_y, wxGBPosition (r, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, _("White point"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, _("White point"), true, wxGBPosition (r, 0));
 	_white_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
 	table->Add (_white_x, wxGBPosition (r, 1));
 	_white_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
@@ -165,7 +165,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	table->Add (_adjusted_white_y, wxGBPosition (r, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (table, this, wxT (""), false, wxGBPosition (r, 0));
+	add_label_to_sizer (table, this, wxT (""), false, wxGBPosition (r, 0));
 	++r;
 
         size = dc.GetTextExtent (wxT ("0.12345678"));

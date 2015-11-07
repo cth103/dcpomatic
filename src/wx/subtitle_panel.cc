@@ -63,7 +63,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, this, _("X Offset"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (grid, this, _("X Offset"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_x_offset = new wxSpinCtrl (this);
 		s->Add (_x_offset);
@@ -73,7 +73,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	}
 
 	{
-		add_label_to_grid_bag_sizer (grid, this, _("Y Offset"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (grid, this, _("Y Offset"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_y_offset = new wxSpinCtrl (this);
 		s->Add (_y_offset);
@@ -83,7 +83,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	}
 
 	{
-		add_label_to_grid_bag_sizer (grid, this, _("X Scale"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (grid, this, _("X Scale"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_x_scale = new wxSpinCtrl (this);
 		s->Add (_x_scale);
@@ -93,7 +93,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	}
 
 	{
-		add_label_to_grid_bag_sizer (grid, this, _("Y Scale"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (grid, this, _("Y Scale"), true, wxGBPosition (r, 0));
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_y_scale = new wxSpinCtrl (this);
 		s->Add (_y_scale);
@@ -102,12 +102,12 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 		++r;
 	}
 
-	add_label_to_grid_bag_sizer (grid, this, _("Language"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Language"), true, wxGBPosition (r, 0));
 	_language = new wxTextCtrl (this, wxID_ANY);
 	grid->Add (_language, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Stream"), true, wxGBPosition (r, 0));
 	_stream = new wxChoice (this, wxID_ANY);
 	grid->Add (_stream, wxGBPosition (r, 1));
 	++r;

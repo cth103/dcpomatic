@@ -60,9 +60,9 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool, int prop)
 
 wxStaticText *
 #ifdef __WXOSX__
-add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
 #else
-add_label_to_grid_bag_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool, wxGBPosition pos, wxGBSpan span)
 #endif
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;

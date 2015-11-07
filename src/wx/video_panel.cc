@@ -81,7 +81,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Type"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Type"), true, wxGBPosition (r, 0));
 	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
 		this,
 		new wxChoice (this, wxID_ANY),
@@ -94,12 +94,12 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_frame_type->add (grid, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Crop"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Crop"), true, wxGBPosition (r, 0));
 
 	int cr = 0;
 	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	add_label_to_grid_bag_sizer (crop, this, _("Left"), true, wxGBPosition (cr, 0));
+	add_label_to_sizer (crop, this, _("Left"), true, wxGBPosition (cr, 0));
 	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -109,7 +109,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		);
 	_left_crop->add (crop, wxGBPosition (cr, 1));
 
-	add_label_to_grid_bag_sizer (crop, this, _("Right"), true, wxGBPosition (cr, 2));
+	add_label_to_sizer (crop, this, _("Right"), true, wxGBPosition (cr, 2));
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -121,7 +121,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 	++cr;
 
-	add_label_to_grid_bag_sizer (crop, this, _("Top"), true, wxGBPosition (cr, 0));
+	add_label_to_sizer (crop, this, _("Top"), true, wxGBPosition (cr, 0));
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -131,7 +131,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		);
 	_top_crop->add (crop, wxGBPosition (cr, 1));
 
-	add_label_to_grid_bag_sizer (crop, this, _("Bottom"), true, wxGBPosition (cr, 2));
+	add_label_to_sizer (crop, this, _("Bottom"), true, wxGBPosition (cr, 2));
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
@@ -144,17 +144,17 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	grid->Add (crop, wxGBPosition (r, 1), wxGBSpan (2, 3));
 	r += 2;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Fade in"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Fade in"), true, wxGBPosition (r, 0));
 	_fade_in = new Timecode<ContentTime> (this);
 	grid->Add (_fade_in, wxGBPosition (r, 1), wxGBSpan (1, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Fade out"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Fade out"), true, wxGBPosition (r, 0));
 	_fade_out = new Timecode<ContentTime> (this);
 	grid->Add (_fade_out, wxGBPosition (r, 1), wxGBSpan (1, 3));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Scale to"), true, wxGBPosition (r, 0));
 	_scale = new ContentChoice<VideoContent, VideoContentScale> (
 		this,
 		new wxChoice (this, wxID_ANY),
@@ -171,7 +171,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
 	size.SetHeight (-1);
 
-	add_label_to_grid_bag_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Filters"), true, wxGBPosition (r, 0));
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
@@ -184,7 +184,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	}
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, this, _("Colour conversion"), true, wxGBPosition (r, 0));
 	{
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 

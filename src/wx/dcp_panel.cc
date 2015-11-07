@@ -64,7 +64,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 
 	int r = 0;
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Name"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, _panel, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (_panel, wxID_ANY);
 	grid->Add (_name, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxLEFT | wxRIGHT);
 	++r;
@@ -98,7 +98,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Content Type"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, _panel, _("Content Type"), true, wxGBPosition (r, 0));
 	_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_dcp_content_type, wxGBPosition (r, 1));
 	++r;
@@ -122,7 +122,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
         size.SetHeight (-1);
 
 	{
-               add_label_to_grid_bag_sizer (grid, _panel, _("Key"), true, wxGBPosition (r, 0));
+               add_label_to_sizer (grid, _panel, _("Key"), true, wxGBPosition (r, 0));
                wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
                _key = new wxStaticText (_panel, wxID_ANY, "", wxDefaultPosition, size);
                s->Add (_key, 1, wxALIGN_CENTER_VERTICAL);
@@ -132,12 +132,12 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
                ++r;
 	}
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Reels"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, _panel, _("Reels"), true, wxGBPosition (r, 0));
 	_reel_type = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_reel_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Reel length"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, _panel, _("Reel length"), true, wxGBPosition (r, 0));
 
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -148,7 +148,7 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 		++r;
 	}
 
-	add_label_to_grid_bag_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, _panel, _("Standard"), true, wxGBPosition (r, 0));
 	_standard = new wxChoice (_panel, wxID_ANY);
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
@@ -605,7 +605,7 @@ DCPPanel::make_video_panel ()
 
 	int r = 0;
 
-	add_label_to_grid_bag_sizer (grid, panel, _("Container"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, panel, _("Container"), true, wxGBPosition (r, 0));
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_container = new wxChoice (panel, wxID_ANY);
@@ -616,7 +616,7 @@ DCPPanel::make_video_panel ()
 		++r;
 	}
 
-	add_label_to_grid_bag_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
 	{
 		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_frame_rate_choice = new wxChoice (panel, wxID_ANY);
@@ -634,13 +634,13 @@ DCPPanel::make_video_panel ()
 	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, panel, _("Resolution"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, panel, _("Resolution"), true, wxGBPosition (r, 0));
 	_resolution = new wxChoice (panel, wxID_ANY);
 	grid->Add (_resolution, wxGBPosition (r, 1));
 	++r;
 
 	{
-		add_label_to_grid_bag_sizer (grid, panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (grid, panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
 		s->Add (_j2k_bandwidth, 1);
@@ -715,13 +715,13 @@ DCPPanel::make_audio_panel ()
 
 	int r = 0;
 
-	add_label_to_grid_bag_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
 	_audio_channels = new wxChoice (panel, wxID_ANY);
 	setup_audio_channels_choice ();
 	grid->Add (_audio_channels, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_grid_bag_sizer (grid, panel, _("Processor"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (grid, panel, _("Processor"), true, wxGBPosition (r, 0));
 	_audio_processor = new wxChoice (panel, wxID_ANY);
 	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
 	BOOST_FOREACH (AudioProcessor const * ap, AudioProcessor::all ()) {
