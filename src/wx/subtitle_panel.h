@@ -23,6 +23,7 @@ class wxCheckBox;
 class wxSpinCtrl;
 class SubtitleView;
 class FontsDialog;
+class SubtitleAppearanceDialog;
 
 class SubtitlePanel : public ContentSubPanel
 {
@@ -45,6 +46,7 @@ private:
 	void subtitle_view_clicked ();
 	void fonts_dialog_clicked ();
 	void reference_clicked ();
+	void appearance_dialog_clicked ();
 
 	void setup_sensitivity ();
 
@@ -61,4 +63,5 @@ private:
 	SubtitleView* _subtitle_view;
 	wxButton* _fonts_dialog_button;
 	FontsDialog* _fonts_dialog;
+	wxButton* _appearance_dialog_button;
 };

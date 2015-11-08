@@ -70,6 +70,7 @@ sources = """
           screens_panel.cc
           server_dialog.cc
           servers_list_dialog.cc
+          subtitle_appearance_dialog.cc
           subtitle_panel.cc
           subtitle_view.cc
           system_font_dialog.cc

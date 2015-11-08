@@ -219,7 +219,10 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == ContentProperty::TRIM_END ||
 		property == ContentProperty::PATH ||
 		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
-		property == DCPContentProperty::CAN_BE_PLAYED
+		property == DCPContentProperty::CAN_BE_PLAYED ||
+		property == SubRipContentProperty::SUBTITLE_COLOUR ||
+		property == SubRipContentProperty::SUBTITLE_OUTLINE ||
+		property == SubRipContentProperty::SUBTITLE_OUTLINE_COLOUR
 		) {
 
 		_have_valid_pieces = false;

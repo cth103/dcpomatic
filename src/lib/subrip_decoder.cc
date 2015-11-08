@@ -28,6 +28,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 
 SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
 	: SubtitleDecoder (content)
@@ -57,6 +58,9 @@ SubRipDecoder::pass (PassReason, bool)
 
 	/* XXX: we are ignoring positioning specified in the file */
 
+	shared_ptr<const SubRipContent> content = dynamic_pointer_cast<const SubRipContent> (_subtitle_content);
+	DCPOMATIC_ASSERT (content);
+
 	list<dcp::SubtitleString> out;
 	for (list<sub::Line>::const_iterator i = _subtitles[_next].lines.begin(); i != _subtitles[_next].lines.end(); ++i) {
 		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {
@@ -64,7 +68,8 @@ SubRipDecoder::pass (PassReason, bool)
 				dcp::SubtitleString (
 					SubRipContent::font_id,
 					j->italic,
-					dcp::Colour (j->colour.r * 255, j->colour.g * 255, j->colour.b * 255),
+					/* force the colour to whatever is configured */
+					content->colour(),
 					j->font_size.points (72 * 11),
 					1.0,
 					dcp::Time (_subtitles[_next].from.all_as_seconds(), 1000),
@@ -74,8 +79,8 @@ SubRipDecoder::pass (PassReason, bool)
 					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
 					dcp::VALIGN_TOP,
 					j->text,
-					dcp::NONE,
-					dcp::Colour (255, 255, 255),
+					content->outline() ? dcp::BORDER : dcp::NONE,
+					content->outline_colour(),
 					dcp::Time (0, 1000),
 					dcp::Time (0, 1000)
 					)

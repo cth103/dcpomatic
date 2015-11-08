@@ -44,6 +44,7 @@ protected:
 
 	std::list<ContentImageSubtitle> _decoded_image_subtitles;
 	std::list<ContentTextSubtitle> _decoded_text_subtitles;
+	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 
 private:
 	template <class T>
@@ -54,8 +55,6 @@ private:
 	 */
 	virtual std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
 	virtual std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
-
-	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 };
 
 #endif

@@ -19,6 +19,15 @@
 
 #include "subtitle_content.h"
 
+class SubRipContentProperty
+{
+public:
+	static int const SUBTITLE_COLOUR;
+	static int const SUBTITLE_OUTLINE;
+	static int const SUBTITLE_OUTLINE_COLOUR;
+};
+
+
 class SubRipContent : public SubtitleContent
 {
 public:
@@ -49,10 +58,34 @@ public:
 	double subtitle_video_frame_rate () const;
 	void set_subtitle_video_frame_rate (int r);
 
+	void set_colour (dcp::Colour);
+
+	dcp::Colour colour () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _colour;
+	}
+
+	void set_outline (bool);
+
+	bool outline () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _outline;
+	}
+
+	void set_outline_colour (dcp::Colour);
+
+	dcp::Colour outline_colour () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _outline_colour;
+	}
+
 	static std::string const font_id;
 
 private:
 	ContentTime _length;
 	/** Video frame rate that this content has been prepared for, if known */
 	boost::optional<double> _frame_rate;
+	dcp::Colour _colour;
+	bool _outline;
+	dcp::Colour _outline_colour;
 };

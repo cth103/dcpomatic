@@ -23,6 +23,7 @@
 #include "subtitle_view.h"
 #include "content_panel.h"
 #include "fonts_dialog.h"
+#include "subtitle_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/subrip_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -119,6 +120,8 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 		s->Add (_subtitle_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		_fonts_dialog_button = new wxButton (this, wxID_ANY, _("Fonts..."));
 		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		_appearance_dialog_button = new wxButton (this, wxID_ANY, _("Appearance..."));
+		s->Add (_appearance_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 
 		grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
@@ -129,17 +132,18 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_x_scale->SetRange (10, 1000);
 	_y_scale->SetRange (10, 1000);
 
-	_reference->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::reference_clicked, this));
-	_use->Bind                  (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
-	_burn->Bind                 (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::burn_toggled, this));
-	_x_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
-	_y_offset->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_x_scale->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
-	_y_scale->Bind              (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
-	_language->Bind             (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
-	_stream->Bind               (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
-	_subtitle_view_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
-	_fonts_dialog_button->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
+	_reference->Bind                (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::reference_clicked, this));
+	_use->Bind                      (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
+	_burn->Bind                     (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::burn_toggled, this));
+	_x_offset->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
+	_y_offset->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
+	_x_scale->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
+	_y_scale->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
+	_language->Bind                 (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
+	_stream->Bind                   (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
+	_subtitle_view_button->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
+	_fonts_dialog_button->Bind      (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
+	_appearance_dialog_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::appearance_dialog_clicked, this));
 }
 
 void
@@ -229,7 +233,8 @@ SubtitlePanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
-	int subrip_or_dcp_subs = 0;
+	int subrip_subs = 0;
+	int dcp_subs = 0;
 	int image_subs = 0;
 	SubtitleContentList sel = _parent->selected_subtitle ();
 	BOOST_FOREACH (shared_ptr<SubtitleContent> i, sel) {
@@ -241,8 +246,11 @@ SubtitlePanel::setup_sensitivity ()
 				++ffmpeg_subs;
 				++any_subs;
 			}
-		} else if (sc || dsc) {
-			++subrip_or_dcp_subs;
+		} else if (sc) {
+			++subrip_subs;
+			++any_subs;
+		} else if (dsc) {
+			++dcp_subs;
 			++any_subs;
 		} else {
 			++any_subs;
@@ -284,8 +292,9 @@ SubtitlePanel::setup_sensitivity ()
 	_y_scale->Enable (!reference && any_subs > 0 && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
-	_subtitle_view_button->Enable (!reference && subrip_or_dcp_subs == 1);
-	_fonts_dialog_button->Enable (!reference && subrip_or_dcp_subs == 1);
+	_subtitle_view_button->Enable (!reference && (subrip_subs == 1 || dcp_subs == 1));
+	_fonts_dialog_button->Enable (!reference && (subrip_subs == 1 || dcp_subs == 1));
+	_appearance_dialog_button->Enable (!reference && subrip_subs == 1);
 }
 
 void
@@ -424,4 +433,20 @@ SubtitlePanel::reference_clicked ()
 	}
 
 	d->set_reference_subtitle (_reference->GetValue ());
+}
+
+void
+SubtitlePanel::appearance_dialog_clicked ()
+{
+	SubtitleContentList c = _parent->selected_subtitle ();
+	DCPOMATIC_ASSERT (c.size() == 1);
+
+	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
+	DCPOMATIC_ASSERT (sr);
+
+	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, sr);
+	if (d->ShowModal () == wxID_OK) {
+		d->apply ();
+	}
+	d->Destroy ();
 }
