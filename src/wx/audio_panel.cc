@@ -56,15 +56,11 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	grid->Add (_reference, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
-		s->Add (_show);
-		_peak = new wxStaticText (this, wxID_ANY, wxT (""));
-		s->Add (_peak, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-		grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
-		++r;
-	}
+	_show = new wxButton (this, wxID_ANY, _("Show graph of audio levels..."));
+	grid->Add (_show, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+	grid->Add (_peak, wxGBPosition (r, 2), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
+	++r;
 
 	add_label_to_sizer (grid, this, _("Gain"), true, wxGBPosition (r, 0));
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
