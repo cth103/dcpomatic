@@ -142,22 +142,22 @@ deb_depends['8'] = {'libc6': '2.19-18',
                     'libsamplerate0': '0.1.8-8',
                     'libicu52': '52.1-8+deb8u2'}
 
-deb_depends['unstable'] = {'libc6': '2.13',
-                    'libssh-4': '0.5.4',
-                    'libboost-filesystem1.55.0': '1.55.0',
-                    'libboost-thread1.55.0': '1.55.0',
-                    'libboost-regex1.55.0': '1.55.0',
-                    'libsndfile1': '1.0.25',
-                    'libmagick++5': '8:6.7.7.10',
-                    'libxml++2.6-2': '2.34.2',
-                    'libgtk2.0-0': '2.24.10',
-                    'libxmlsec1': '1.2.18',
-                    'libboost-date-time1.55.0': '1.55.0',
-                    'libxmlsec1-openssl': '1.2.18',
-                    'libcurl3': '7.26.0',
-                    'libzip2': '0.10.1',
-                    'libsamplerate0': '0.1.8-8',
-                    'libicu52': '52.1-9'}
+deb_depends['unstable'] = {'libc6': '2.19-22',
+                           'libssh-4': '0.6.3-4.1+b1',
+                           'libboost-filesystem1.58.0': '1.58.0+dfsg-4',
+                           'libboost-thread1.58.0': '1.58.0+dfsg-4',
+                           'libboost-regex1.58.0': '1.58.0+dfsg-4',
+                           'libsndfile1': '1.0.25-9.1',
+                           'libmagick++-6.q16-5v5': '8:6.8.9.9-6',
+                           'libxml++2.6-2': '2.381-1',
+                           'libgtk2.0-0': '2.24.28-1',
+                           'libxmlsec1': '1.2.20-2+b2',
+                           'libboost-date-time1.58.0': '1.58.0+dfsg-4',
+                           'libxmlsec1-openssl': '1.2.20-2+b2',
+                           'libcurl3': '7.45.0-1+b1',
+                           'libzip2': '0.11.2-1.2',
+                           'libsamplerate0': '0.1.8-8',
+                           'libicu52': '52.1-10'}
 
 def packages(name, packages, f):
     s = '%s: ' % name
