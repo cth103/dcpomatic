@@ -1,5 +1,7 @@
 2015-11-09  Carl Hetherington  <cth@carlh.net>
 
+	* Desensitise trim-playhead buttons as appropriate (#737).
+
 	* Keep same frame visible after trimming content start (#737).
 
 	* Trim frames after the current one with "trim after current", leaving

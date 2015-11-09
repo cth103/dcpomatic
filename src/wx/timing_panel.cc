@@ -147,6 +147,10 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
 	_video_frame_rate->Bind       (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TimingPanel::video_frame_rate_changed, this));
 	_set_video_frame_rate->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::set_video_frame_rate, this));
+
+	_viewer->ImageChanged.connect (boost::bind (&TimingPanel::setup_sensitivity, this));
+
+	setup_sensitivity ();
 }
 
 void
@@ -294,6 +298,7 @@ TimingPanel::film_content_changed (int property)
 	_full_length->set_editable (have_still);
 	_play_length->set_editable (!have_still);
 	_set_video_frame_rate->Enable (false);
+	setup_sensitivity ();
 }
 
 void
@@ -323,7 +328,6 @@ TimingPanel::trim_start_changed ()
 		i->set_trim_start (_trim_start->get (_parent->film()->video_frame_rate ()));
 	}
 }
-
 
 void
 TimingPanel::trim_end_changed ()
@@ -372,14 +376,7 @@ TimingPanel::set_video_frame_rate ()
 void
 TimingPanel::content_selection_changed ()
 {
-	bool const e = !_parent->selected().empty ();
-
-	_position->Enable (e);
-	_full_length->Enable (e);
-	_trim_start->Enable (e);
-	_trim_end->Enable (e);
-	_play_length->Enable (e);
-	_video_frame_rate->Enable (e);
+	setup_sensitivity ();
 
 	film_content_changed (ContentProperty::POSITION);
 	film_content_changed (ContentProperty::LENGTH);
@@ -430,6 +427,29 @@ TimingPanel::trim_end_to_playhead_clicked ()
 			FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
 			i->set_trim_end (ContentTime (i->position() + i->full_length() - ph - DCPTime::from_frames (1, frc.dcp), frc) - i->trim_start());
 		}
-
 	}
+}
+
+void
+TimingPanel::setup_sensitivity ()
+{
+	bool const e = !_parent->selected().empty ();
+
+	_position->Enable (e);
+	_full_length->Enable (e);
+	_trim_start->Enable (e);
+	_trim_end->Enable (e);
+	_play_length->Enable (e);
+	_video_frame_rate->Enable (e);
+
+	DCPTime const ph = _viewer->position ();
+	bool any_over_ph = false;
+	BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
+		if (i->position() <= ph && ph < i->end()) {
+			any_over_ph = true;
+		}
+	}
+
+	_trim_start_to_playhead->Enable (any_over_ph);
+	_trim_end_to_playhead->Enable (any_over_ph);
 }

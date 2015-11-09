@@ -43,6 +43,7 @@ private:
 	void set_video_frame_rate ();
 	void update_full_length ();
 	void update_play_length ();
+	void setup_sensitivity ();
 
 	FilmViewer* _viewer;
 
