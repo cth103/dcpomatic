@@ -1,3 +1,10 @@
+2015-11-09  Carl Hetherington  <cth@carlh.net>
+
+	* Keep same frame visible after trimming content start (#737).
+
+	* Trim frames after the current one with "trim after current", leaving
+	the current frame in (#737).
+
 2015-11-08  Carl Hetherington  <cth@carlh.net>
 
 	* Fix bad layout in the audio tab (#738).

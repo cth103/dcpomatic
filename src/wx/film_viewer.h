@@ -44,6 +44,9 @@ public:
 		return _position;
 	}
 
+	void set_position (DCPTime p);
+	void set_ignore_player_changes (bool i);
+
 	void refresh ();
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
@@ -80,6 +83,7 @@ private:
 	wxStaticText* _timecode;
 	wxToggleButton* _play_button;
 	wxTimer _timer;
+	bool _ignore_player_changes;
 
 	boost::shared_ptr<const Image> _frame;
 	DCPTime _position;

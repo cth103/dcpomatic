@@ -37,6 +37,7 @@ using std::string;
 using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
@@ -401,11 +402,22 @@ void
 TimingPanel::trim_start_to_playhead_clicked ()
 {
 	DCPTime const ph = _viewer->position ();
+	optional<DCPTime> new_ph;
+
+	_viewer->set_ignore_player_changes (true);
+
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
 			FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
 			i->set_trim_start (i->trim_start() + ContentTime (ph - i->position (), frc));
+			new_ph = i->position ();
 		}
+	}
+
+	_viewer->set_ignore_player_changes (false);
+
+	if (new_ph) {
+		_viewer->set_position (new_ph.get());
 	}
 }
 
@@ -416,7 +428,7 @@ TimingPanel::trim_end_to_playhead_clicked ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
 			FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
-			i->set_trim_end (ContentTime (i->position() + i->full_length() - ph, frc) - i->trim_start());
+			i->set_trim_end (ContentTime (i->position() + i->full_length() - ph - DCPTime::from_frames (1, frc.dcp), frc) - i->trim_start());
 		}
 
 	}
