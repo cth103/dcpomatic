@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 */
 
 /** @file src/filter.h
- *  @brief A class to describe one of FFmpeg's video or post-processing filters.
+ *  @brief A class to describe one of FFmpeg's video or audio filters.
  */
 
 #ifndef DCPOMATIC_FILTER_H
@@ -29,7 +29,7 @@
 #include <vector>
 
 /** @class Filter
- *  @brief A class to describe one of FFmpeg's video filters.
+ *  @brief A class to describe one of FFmpeg's video or audio filters.
  *
  *  We don't support FFmpeg's post-processing filters here as they cannot cope with greater than
  *  8bpp.  FFmpeg quantizes e.g. yuv422p10le down to yuv422p before running such filters, which
@@ -50,9 +50,9 @@ public:
 		return _name;
 	}
 
-	/** @return string for a FFmpeg video filter descriptor */
-	std::string vf () const {
-		return _vf;
+	/** @return string for a FFmpeg filter descriptor */
+	std::string ffmpeg () const {
+		return _ffmpeg;
 	}
 
 	std::string category () const {
@@ -71,8 +71,8 @@ private:
 	/** user-visible name */
 	std::string _name;
 	std::string _category;
-	/** string for a FFmpeg video filter descriptor */
-	std::string _vf;
+	/** string for a FFmpeg filter descriptor */
+	std::string _ffmpeg;
 
 	/** all available filters */
 	static std::vector<Filter const *> _filters;

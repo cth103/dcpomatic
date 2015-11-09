@@ -18,13 +18,14 @@
 */
 
 /** @file src/filter.cc
- *  @brief A class to describe one of FFmpeg's video or post-processing filters.
+ *  @brief A class to describe one of FFmpeg's video or audio filters.
  */
 
 #include "filter.h"
 extern "C" {
 #include <libavfilter/avfilter.h>
 }
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -35,13 +36,13 @@ vector<Filter const *> Filter::_filters;
 /** @param i Our id.
  *  @param n User-visible name.
  *  @param c User-visible category.
- *  @param v String for a FFmpeg video filter descriptor.
+ *  @param f String for a FFmpeg filter descriptor.
  */
-Filter::Filter (string i, string n, string c, string v)
+Filter::Filter (string i, string n, string c, string f)
 	: _id (i)
 	, _name (n)
 	, _category (c)
-	, _vf (v)
+	, _ffmpeg (f)
 {
 
 }
@@ -53,7 +54,6 @@ Filter::all ()
 	return _filters;
 }
 
-
 /** Set up the static _filters vector; must be called before from_*
  *  methods are used.
  */
@@ -62,22 +62,22 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 
-	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"),	      _("De-interlacing"),  N_("mcdeint"));
-	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),			      _("De-interlacing"),  N_("kerndeint"));
-	maybe_add (N_("yadif"),	    _("Yet Another Deinterlacing Filter"),	      _("De-interlacing"),  N_("yadif"));
-	maybe_add (N_("gradfun"),   _("Gradient debander"),			      _("Misc"),	    N_("gradfun"));
-	maybe_add (N_("unsharp"),   _("Unsharp mask and Gaussian blur"),	      _("Misc"),	    N_("unsharp"));
-	maybe_add (N_("denoise3d"), _("3D denoiser"),				      _("Noise reduction"), N_("denoise3d"));
-	maybe_add (N_("hqdn3d"),    _("High quality 3D denoiser"),		      _("Noise reduction"), N_("hqdn3d"));
-	maybe_add (N_("telecine"),  _("Telecine filter"),			      _("Misc"),	    N_("telecine"));
-	maybe_add (N_("ow"),	    _("Overcomplete wavelet denoiser"),		      _("Noise reduction"), N_("mp=ow"));
+	maybe_add (N_("mcdeint"),   _("Motion compensating deinterlacer"), _("De-interlacing"),  N_("mcdeint"));
+	maybe_add (N_("kerndeint"), _("Kernel deinterlacer"),		   _("De-interlacing"),  N_("kerndeint"));
+	maybe_add (N_("yadif"),	    _("Yet Another Deinterlacing Filter"), _("De-interlacing"),  N_("yadif"));
+	maybe_add (N_("gradfun"),   _("Gradient debander"),	           _("Misc"),	         N_("gradfun"));
+	maybe_add (N_("unsharp"),   _("Unsharp mask and Gaussian blur"),   _("Misc"),	         N_("unsharp"));
+	maybe_add (N_("denoise3d"), _("3D denoiser"),		           _("Noise reduction"), N_("denoise3d"));
+	maybe_add (N_("hqdn3d"),    _("High quality 3D denoiser"),         _("Noise reduction"), N_("hqdn3d"));
+	maybe_add (N_("telecine"),  _("Telecine filter"),	           _("Misc"),	         N_("telecine"));
+	maybe_add (N_("ow"),	    _("Overcomplete wavelet denoiser"),	   _("Noise reduction"), N_("mp=ow"));
 }
 
 void
-Filter::maybe_add (string i, string n, string c, string v)
+Filter::maybe_add (string i, string n, string c, string f)
 {
 	if (avfilter_get_by_name (i.c_str())) {
-		_filters.push_back (new Filter (i, n, c, v));
+		_filters.push_back (new Filter (i, n, c, f));
 	}
 }
 
@@ -87,16 +87,16 @@ Filter::maybe_add (string i, string n, string c, string v)
 string
 Filter::ffmpeg_string (vector<Filter const *> const & filters)
 {
-	string vf;
+	string ff;
 
-	for (vector<Filter const *>::const_iterator i = filters.begin(); i != filters.end(); ++i) {
-		if (!vf.empty ()) {
-			vf += N_(",");
+	BOOST_FOREACH (Filter const * i, filters) {
+		if (!ff.empty ()) {
+			ff += N_(",");
 		}
-		vf += (*i)->vf ();
+		ff += i->ffmpeg ();
 	}
 
-	return vf;
+	return ff;
 }
 
 /** @param d Our id.
@@ -116,4 +116,3 @@ Filter::from_id (string d)
 
 	return *i;
 }
-
