@@ -29,7 +29,7 @@
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
-#include "filter_graph.h"
+#include "video_filter_graph.h"
 #include "audio_buffers.h"
 #include "ffmpeg_content.h"
 #include "raw_image_proxy.h"
@@ -363,15 +363,16 @@ FFmpegDecoder::decode_video_packet ()
 
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 
-	shared_ptr<FilterGraph> graph;
+	shared_ptr<VideoFilterGraph> graph;
 
-	list<shared_ptr<FilterGraph> >::iterator i = _filter_graphs.begin();
+	list<shared_ptr<VideoFilterGraph> >::iterator i = _filter_graphs.begin();
 	while (i != _filter_graphs.end() && !(*i)->can_process (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
 		++i;
 	}
 
 	if (i == _filter_graphs.end ()) {
-		graph.reset (new FilterGraph (_ffmpeg_content, dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+		graph.reset (new VideoFilterGraph (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format));
+		graph->setup (_ffmpeg_content->filters ());
 		_filter_graphs.push_back (graph);
 		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format);
 	} else {

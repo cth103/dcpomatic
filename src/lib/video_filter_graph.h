@@ -17,43 +17,21 @@
 
 */
 
-/** @file src/lib/filter_graph.h
- *  @brief A graph of FFmpeg filters.
- */
+#include "filter_graph.h"
 
-#ifndef DCPOMATIC_FILTER_GRAPH_H
-#define DCPOMATIC_FILTER_GRAPH_H
-
-#include "util.h"
-extern "C" {
-#include <libavfilter/buffersink.h>
-}
-
-struct AVFilterContext;
-struct AVFrame;
-class Image;
-class Filter;
-
-/** @class FilterGraph
- *  @brief A graph of FFmpeg filters.
- */
-class FilterGraph : public boost::noncopyable
+class VideoFilterGraph : public FilterGraph
 {
 public:
-	FilterGraph ();
-	virtual ~FilterGraph ();
+	VideoFilterGraph (dcp::Size s, AVPixelFormat p);
 
-	void setup (std::vector<Filter const *>);
+	bool can_process (dcp::Size s, AVPixelFormat p) const;
+	std::list<std::pair<boost::shared_ptr<Image>, int64_t> > process (AVFrame * frame);
 
 protected:
-	virtual std::string src_parameters () const = 0;
-	virtual AVBufferSinkParams* sink_parameters () const = 0;
+	std::string src_parameters () const;
+	AVBufferSinkParams* sink_parameters () const;
 
-	/** true if this graph has no filters in, so it just copies stuff straight through */
-	bool _copy;
-	AVFilterContext* _buffer_src_context;
-	AVFilterContext* _buffer_sink_context;
-	AVFrame* _frame;
+private:
+	dcp::Size _size; ///< size of the images that this chain can process
+	AVPixelFormat _pixel_format; ///< pixel format of the images that this chain can process
 };
-
-#endif

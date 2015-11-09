@@ -25,7 +25,6 @@
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
-#include "ffmpeg_content.h"
 #include "safe_stringstream.h"
 #include "compose.hpp"
 extern "C" {
@@ -44,6 +43,7 @@ using std::list;
 using std::pair;
 using std::make_pair;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using dcp::Size;
@@ -53,15 +53,19 @@ using dcp::Size;
  *  @param s Size of the images to process.
  *  @param p Pixel format of the images to process.
  */
-FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, AVPixelFormat p)
+FilterGraph::FilterGraph ()
 	: _copy (false)
 	, _buffer_src_context (0)
 	, _buffer_sink_context (0)
-	, _size (s)
-	, _pixel_format (p)
 	, _frame (0)
 {
-	string const filters = Filter::ffmpeg_string (content->filters());
+
+}
+
+void
+FilterGraph::setup (vector<Filter const *> filters)
+{
+	string const filters_string = Filter::ffmpeg_string (filters);
 	if (filters.empty ()) {
 		_copy = true;
 		return;
@@ -84,21 +88,11 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 		throw DecodeError (N_("Could not create buffer sink filter"));
 	}
 
-	SafeStringStream a;
-	a << "video_size=" << _size.width << "x" << _size.height << ":"
-	  << "pix_fmt=" << _pixel_format << ":"
-	  << "time_base=1/1:"
-	  << "pixel_aspect=1/1";
-
-	if (avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", a.str().c_str(), 0, graph) < 0) {
+	if (avfilter_graph_create_filter (&_buffer_src_context, buffer_src, "in", src_parameters().c_str(), 0, graph) < 0) {
 		throw DecodeError (N_("could not create buffer source"));
 	}
 
-	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
-	AVPixelFormat* pixel_fmts = new AVPixelFormat[2];
-	pixel_fmts[0] = _pixel_format;
-	pixel_fmts[1] = AV_PIX_FMT_NONE;
-	sink_params->pixel_fmts = pixel_fmts;
+	AVBufferSinkParams* sink_params = sink_parameters ();
 
 	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), 0, sink_params, graph) < 0) {
 		throw DecodeError (N_("could not create buffer sink."));
@@ -118,7 +112,7 @@ FilterGraph::FilterGraph (shared_ptr<const FFmpegContent> content, dcp::Size s, 
 	inputs->pad_idx = 0;
 	inputs->next = 0;
 
-	if (avfilter_graph_parse (graph, filters.c_str(), inputs, outputs, 0) < 0) {
+	if (avfilter_graph_parse (graph, filters_string.c_str(), inputs, outputs, 0) < 0) {
 		throw DecodeError (N_("could not set up filter graph."));
 	}
 
@@ -132,43 +126,4 @@ FilterGraph::~FilterGraph ()
 	if (_frame) {
 		av_frame_free (&_frame);
 	}
-}
-
-/** Take an AVFrame and process it using our configured filters, returning a
- *  set of Images.  Caller handles memory management of the input frame.
- */
-list<pair<shared_ptr<Image>, int64_t> >
-FilterGraph::process (AVFrame* frame)
-{
-	list<pair<shared_ptr<Image>, int64_t> > images;
-
-	if (_copy) {
-		images.push_back (make_pair (shared_ptr<Image> (new Image (frame)), av_frame_get_best_effort_timestamp (frame)));
-	} else {
-		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
-		if (r < 0) {
-			throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)."), r));
-		}
-
-		while (true) {
-			if (av_buffersink_get_frame (_buffer_sink_context, _frame) < 0) {
-				break;
-			}
-
-			images.push_back (make_pair (shared_ptr<Image> (new Image (_frame)), av_frame_get_best_effort_timestamp (_frame)));
-			av_frame_unref (_frame);
-		}
-	}
-
-	return images;
-}
-
-/** @param s Image size.
- *  @param p Pixel format.
- *  @return true if this chain can process images with `s' and `p', otherwise false.
- */
-bool
-FilterGraph::can_process (dcp::Size s, AVPixelFormat p) const
-{
-	return (_size == s && _pixel_format == p);
 }

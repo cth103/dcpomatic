@@ -34,7 +34,7 @@ extern "C" {
 #include <stdint.h>
 
 class Log;
-class FilterGraph;
+class VideoFilterGraph;
 class FFmpegAudioStream;
 struct ffmpeg_pts_offset_test;
 
@@ -70,7 +70,7 @@ private:
 
 	boost::shared_ptr<Log> _log;
 
-	std::list<boost::shared_ptr<FilterGraph> > _filter_graphs;
+	std::list<boost::shared_ptr<VideoFilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
 
 	ContentTime _pts_offset;
