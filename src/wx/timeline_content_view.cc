@@ -126,10 +126,9 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 	wxDouble name_height;
 	wxDouble name_descent;
 	wxDouble name_leading;
-	gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
-
-	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.track_height()));
 	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, foreground_colour ()));
+	gc->GetTextExtent (name, &name_width, &name_height, &name_descent, &name_leading);
+	gc->Clip (wxRegion (time_x (position), y_pos (_track.get()), len.seconds() * _timeline.pixels_per_second().get_value_or(0), _timeline.track_height()));
 	gc->DrawText (name, time_x (position) + 12, y_pos (_track.get() + 1) - name_height - 4);
 	gc->ResetClip ();
 }
@@ -154,4 +153,3 @@ TimelineContentView::content_changed (int p, bool frequent)
 		_timeline.Refresh ();
 	}
 }
-
