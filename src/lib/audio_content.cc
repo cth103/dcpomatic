@@ -73,7 +73,7 @@ AudioContent::AudioContent (shared_ptr<const Film> film, boost::filesystem::path
 AudioContent::AudioContent (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	: Content (film, node)
 {
-	_audio_gain = node->number_child<float> ("AudioGain");
+	_audio_gain = node->number_child<double> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
 }
 

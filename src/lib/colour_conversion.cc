@@ -81,9 +81,9 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 		/* Version 1.x */
 
 		if (node->bool_child ("InputGammaLinearised")) {
-			_in.reset (new dcp::ModifiedGammaTransferFunction (node->number_child<float> ("InputGamma"), 0.04045, 0.055, 12.92));
+			_in.reset (new dcp::ModifiedGammaTransferFunction (node->number_child<double> ("InputGamma"), 0.04045, 0.055, 12.92));
 		} else {
-			_in.reset (new dcp::GammaTransferFunction (node->number_child<float> ("InputGamma")));
+			_in.reset (new dcp::GammaTransferFunction (node->number_child<double> ("InputGamma")));
 		}
 	}
 

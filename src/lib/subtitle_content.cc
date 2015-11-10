@@ -86,17 +86,17 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePt
 	}
 
 	if (version >= 7) {
-		_subtitle_x_offset = node->number_child<float> ("SubtitleXOffset");
-		_subtitle_y_offset = node->number_child<float> ("SubtitleYOffset");
+		_subtitle_x_offset = node->number_child<double> ("SubtitleXOffset");
+		_subtitle_y_offset = node->number_child<double> ("SubtitleYOffset");
 	} else {
-		_subtitle_y_offset = node->number_child<float> ("SubtitleOffset");
+		_subtitle_y_offset = node->number_child<double> ("SubtitleOffset");
 	}
 
 	if (version >= 10) {
-		_subtitle_x_scale = node->number_child<float> ("SubtitleXScale");
-		_subtitle_y_scale = node->number_child<float> ("SubtitleYScale");
+		_subtitle_x_scale = node->number_child<double> ("SubtitleXScale");
+		_subtitle_y_scale = node->number_child<double> ("SubtitleYScale");
 	} else {
-		_subtitle_x_scale = _subtitle_y_scale = node->number_child<float> ("SubtitleScale");
+		_subtitle_x_scale = _subtitle_y_scale = node->number_child<double> ("SubtitleScale");
 	}
 
 	_subtitle_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
