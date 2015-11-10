@@ -70,7 +70,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _frame_number (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _timecode (new wxStaticText (this, wxID_ANY, wxT("")))
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
-	, _ignore_player_changes (false)
+	, _coalesce_player_changes (false)
+	, _pending_player_change (false)
 	, _last_get_accurate (true)
 {
 #ifndef __WXOSX__
@@ -432,7 +433,12 @@ FilmViewer::forward_clicked ()
 void
 FilmViewer::player_changed (bool frequent)
 {
-	if (frequent || _ignore_player_changes) {
+	if (frequent) {
+		return;
+	}
+
+	if (_coalesce_player_changes) {
+		_pending_player_change = true;
 		return;
 	}
 
@@ -481,7 +487,15 @@ FilmViewer::set_position (DCPTime p)
 }
 
 void
-FilmViewer::set_ignore_player_changes (bool i)
+FilmViewer::set_coalesce_player_changes (bool c)
 {
-	_ignore_player_changes = i;
+	_coalesce_player_changes = c;
+
+	if (c) {
+		_pending_player_change = false;
+	} else {
+		if (_pending_player_change) {
+			player_changed (false);
+		}
+	}
 }

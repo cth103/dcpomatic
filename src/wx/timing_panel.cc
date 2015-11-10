@@ -324,17 +324,49 @@ TimingPanel::full_length_changed ()
 void
 TimingPanel::trim_start_changed ()
 {
+	DCPTime const ph = _viewer->position ();
+
+	_viewer->set_coalesce_player_changes (true);
+
+	shared_ptr<Content> ref;
+	optional<FrameRateChange> ref_frc;
+	optional<DCPTime> ref_ph;
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		if (i->position() <= ph && ph < i->end()) {
+			/* The playhead is in i.  Use it as a reference to work out
+			   where to put the playhead post-trim; we're trying to keep the playhead
+			   at the same frame of content that we're looking at pre-trim.
+			*/
+			ref = i;
+			ref_frc = _parent->film()->active_frame_rate_change (i->position ());
+			ref_ph = ph - i->position() + DCPTime (i->trim_start(), ref_frc.get());
+		}
+
 		i->set_trim_start (_trim_start->get (_parent->film()->video_frame_rate ()));
 	}
+
+	if (ref) {
+		_viewer->set_position (max (DCPTime(), ref_ph.get() + ref->position() - DCPTime (ref->trim_start(), ref_frc.get())));
+	}
+
+	_viewer->set_coalesce_player_changes (false);
 }
 
 void
 TimingPanel::trim_end_changed ()
 {
+	_viewer->set_coalesce_player_changes (true);
+
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		i->set_trim_end (_trim_end->get (_parent->film()->video_frame_rate ()));
 	}
+
+	/* XXX: maybe playhead-off-the-end-of-the-film should be handled elsewhere */
+	if (_viewer->position() >= _parent->film()->length()) {
+		_viewer->set_position (_parent->film()->length() - DCPTime::from_frames (1, _parent->film()->video_frame_rate()));
+	}
+
+	_viewer->set_coalesce_player_changes (true);
 }
 
 void
@@ -401,7 +433,7 @@ TimingPanel::trim_start_to_playhead_clicked ()
 	DCPTime const ph = _viewer->position ();
 	optional<DCPTime> new_ph;
 
-	_viewer->set_ignore_player_changes (true);
+	_viewer->set_coalesce_player_changes (true);
 
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() < ph && ph < i->end ()) {
@@ -411,11 +443,11 @@ TimingPanel::trim_start_to_playhead_clicked ()
 		}
 	}
 
-	_viewer->set_ignore_player_changes (false);
-
 	if (new_ph) {
 		_viewer->set_position (new_ph.get());
 	}
+
+	_viewer->set_coalesce_player_changes (false);
 }
 
 void
