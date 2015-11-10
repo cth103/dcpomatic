@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-05 14:29+0000\n"
-"PO-Revision-Date: 2015-10-30 23:13+0100\n"
+"PO-Revision-Date: 2015-11-09 22:28+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -797,11 +797,11 @@ msgstr "Test"
 
 #: src/lib/dcp_content.cc:330
 msgid "The DCP does not have sound in all reels."
-msgstr ""
+msgstr "Ce DCP ne posséde pas de son dans chacune de ses bobines"
 
 #: src/lib/dcp_content.cc:344
 msgid "The DCP does not have subtitles in all reels."
-msgstr ""
+msgstr "Ce DCP ne posséde pas de sous-titres dans chacune de ses bobines"
 
 #: src/lib/dcp_examiner.cc:134
 msgid ""
@@ -1095,7 +1095,7 @@ msgstr "sRGB"
 
 #: src/lib/image_content.cc:91
 msgid "still"
-msgstr "%1 [restant]"
+msgstr "fixe"
 
 #: src/lib/ffmpeg_examiner.cc:301
 msgid "unknown"

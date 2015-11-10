@@ -1,3 +1,7 @@
+2015-11-10  Carl Hetherington  <cth@carlh.net>
+
+	* Updated fr_FR translation from Thierry Journet.
+
 2015-11-09  Carl Hetherington  <cth@carlh.net>
 
 	* Correct a number of float/double mismatches; should fix #742.

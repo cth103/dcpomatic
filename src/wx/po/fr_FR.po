@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-05 14:29+0000\n"
-"PO-Revision-Date: 2015-10-30 23:03+0100\n"
+"PO-Revision-Date: 2015-11-09 22:34+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -225,13 +225,12 @@ msgid "Blue chromaticity"
 msgstr "Chromaticité du Bleu"
 
 #: src/wx/fonts_dialog.cc:68
-#, fuzzy
 msgid "Bold file"
-msgstr "Fichier police"
+msgstr "Fichier Gras"
 
 #: src/wx/font_files_dialog.cc:36
 msgid "Bold font"
-msgstr ""
+msgstr "Gras"
 
 #: src/wx/video_panel.cc:134
 msgid "Bottom"
@@ -385,19 +384,19 @@ msgid "Could not analyse audio."
 msgstr "Analyse du son impossible"
 
 #: src/wx/dolby_certificate_dialog.cc:126
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get cinema list (%s)"
-msgstr "aucune vidéo à afficher (%s)"
+msgstr "Liste des cinémas non accessible (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:98
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get country list (%s)"
-msgstr "aucune vidéo à afficher (%s)"
+msgstr "Liste des pays non accessible (%s)"
 
 #: src/wx/dolby_certificate_dialog.cc:158
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get screen list (%s)"
-msgstr "aucune vidéo à afficher (%s)"
+msgstr "Liste des salles non accessible (%s)"
 
 #: src/wx/film_viewer.cc:187
 #, c-format
@@ -759,13 +758,12 @@ msgid "Issuer"
 msgstr "Emetteur"
 
 #: src/wx/fonts_dialog.cc:60
-#, fuzzy
 msgid "Italic file"
-msgstr "Fichier police"
+msgstr "Fichier Italique"
 
 #: src/wx/font_files_dialog.cc:35
 msgid "Italic font"
-msgstr ""
+msgstr "Italique"
 
 #: src/wx/dcp_panel.cc:643
 msgid "JPEG2000 bandwidth"
@@ -928,13 +926,12 @@ msgid "None"
 msgstr "Aucun"
 
 #: src/wx/fonts_dialog.cc:52
-#, fuzzy
 msgid "Normal file"
-msgstr "Fichier police"
+msgstr "Fichier Normal"
 
 #: src/wx/font_files_dialog.cc:34
 msgid "Normal font"
-msgstr ""
+msgstr "Normale"
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -1134,9 +1131,8 @@ msgid "Report A Problem"
 msgstr "Signaler un problème"
 
 #: src/wx/config_dialog.cc:1201
-#, fuzzy
 msgid "Reset to default subject and text"
-msgstr "texte par défaut"
+msgstr "texte et objet par défaut"
 
 #: src/wx/dcp_panel.cc:637
 msgid "Resolution"
@@ -1232,9 +1228,8 @@ msgid "Set"
 msgstr "Sélection"
 
 #: src/wx/font_files_dialog.cc:50
-#, fuzzy
 msgid "Set from file..."
-msgstr "Choisir un fichier .ttf..."
+msgstr "Choisir depuis un fichier..."
 
 #: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
@@ -1633,9 +1628,8 @@ msgid "times"
 msgstr "fois"
 
 #: src/wx/kdm_timing_panel.cc:37
-#, fuzzy
 msgid "until"
-msgstr "Jusqu'au"
+msgstr "Jusqu'à"
 
 #: src/wx/timeline_video_content_view.cc:38
 msgid "video"
