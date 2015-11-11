@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-05 14:29+0000\n"
+"POT-Creation-Date: 2015-11-11 18:39+0000\n"
 "PO-Revision-Date: 2015-10-14 10:27+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.5\n"
 
-#: src/wx/subtitle_panel.cc:69 src/wx/subtitle_panel.cc:78
-#: src/wx/subtitle_panel.cc:87 src/wx/subtitle_panel.cc:96
+#: src/wx/subtitle_panel.cc:71 src/wx/subtitle_panel.cc:81
+#: src/wx/subtitle_panel.cc:91 src/wx/subtitle_panel.cc:101
 msgid "%"
 msgstr "%"
 
@@ -83,7 +83,9 @@ msgstr "3D su/giù"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/timing_panel.cc:122
+#. //trac.wxwidgets.org/ticket/13389
+#.
+#: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -170,6 +172,10 @@ msgstr ""
 msgid "Allow any DCP frame rate"
 msgstr "Consenti qualsiasi frequenza fotogrammi del DCP"
 
+#: src/wx/subtitle_panel.cc:123
+msgid "Appearance..."
+msgstr ""
+
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
 msgid "Audio"
 msgstr "Audio"
@@ -230,7 +236,7 @@ msgstr "Taglio in basso"
 msgid "Browse..."
 msgstr "Sfoglia..."
 
-#: src/wx/subtitle_panel.cc:60
+#: src/wx/subtitle_panel.cc:62
 msgid "Burn subtitles into image"
 msgstr ""
 
@@ -255,7 +261,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr ""
 
-#: src/wx/audio_panel.cc:80
+#: src/wx/audio_panel.cc:76
 msgid "Calculate..."
 msgstr "Calcola..."
 
@@ -263,7 +269,7 @@ msgstr "Calcola..."
 msgid "Cancel"
 msgstr "Annulla"
 
-#: src/wx/audio_panel.cc:256 src/wx/subtitle_panel.cc:258
+#: src/wx/audio_panel.cc:252 src/wx/subtitle_panel.cc:277
 #: src/wx/video_panel.cc:451
 msgid "Cannot reference this DCP.  "
 msgstr ""
@@ -320,6 +326,10 @@ msgstr "Scegli un file font"
 #: src/wx/dolby_certificate_dialog.cc:46
 msgid "Cinema"
 msgstr "Cinema"
+
+#: src/wx/subtitle_appearance_dialog.cc:31
+msgid "Colour"
+msgstr ""
 
 #: src/wx/content_colour_conversion_dialog.cc:36
 #: src/wx/preset_colour_conversion_dialog.cc:31 src/wx/video_panel.cc:187
@@ -390,7 +400,7 @@ msgstr "Non posso regolare il contenuto: %s"
 msgid "Could not get screen list (%s)"
 msgstr "Non posso regolare il contenuto: %s"
 
-#: src/wx/film_viewer.cc:187
+#: src/wx/film_viewer.cc:189
 #, fuzzy, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
@@ -504,7 +514,7 @@ msgstr "Contenitore predefinito"
 msgid "Defaults"
 msgstr "Predefiniti"
 
-#: src/wx/audio_panel.cc:84
+#: src/wx/audio_panel.cc:80
 msgid "Delay"
 msgstr "Ritardo"
 
@@ -639,7 +649,7 @@ msgstr "Trova mancante..."
 msgid "Fonts"
 msgstr "Fonts"
 
-#: src/wx/subtitle_panel.cc:112
+#: src/wx/subtitle_panel.cc:121
 msgid "Fonts..."
 msgstr "Fonts..."
 
@@ -668,7 +678,7 @@ msgstr "Indirizzo IP"
 msgid "Full"
 msgstr ""
 
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:87
 msgid "Full length"
 msgstr ""
 
@@ -677,7 +687,7 @@ msgstr ""
 msgid "GB"
 msgstr "dB"
 
-#: src/wx/audio_panel.cc:69
+#: src/wx/audio_panel.cc:65
 msgid "Gain"
 msgstr "Guadagno"
 
@@ -801,7 +811,7 @@ msgstr ""
 msgid "Keys"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:100
+#: src/wx/subtitle_panel.cc:106
 msgid "Language"
 msgstr "Seleziona la lingua"
 
@@ -975,6 +985,16 @@ msgstr "Altro"
 msgid "Outgoing mail server"
 msgstr "Mail server posta in uscita"
 
+#: src/wx/subtitle_appearance_dialog.cc:35
+#, fuzzy
+msgid "Outline"
+msgstr "Molteplici sorgenti selezionate"
+
+#: src/wx/subtitle_appearance_dialog.cc:39
+#, fuzzy
+msgid "Outline colour"
+msgstr "Molteplici sorgenti selezionate"
+
 #: src/wx/film_viewer.cc:66
 #, fuzzy
 msgid "Outline content"
@@ -1003,12 +1023,12 @@ msgstr "Picco"
 msgid "Peak is %.2fdB at %s"
 msgstr ""
 
-#: src/wx/audio_panel.cc:315
+#: src/wx/audio_panel.cc:311
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr ""
 
-#: src/wx/audio_panel.cc:317 src/wx/audio_panel.cc:320
+#: src/wx/audio_panel.cc:313 src/wx/audio_panel.cc:316
 msgid "Peak: unknown"
 msgstr ""
 
@@ -1016,7 +1036,7 @@ msgstr ""
 msgid "Play"
 msgstr "Riproduci"
 
-#: src/wx/timing_panel.cc:101
+#: src/wx/timing_panel.cc:102
 msgid "Play length"
 msgstr ""
 
@@ -1030,7 +1050,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Attendere prego; sto analizzando l'audio..."
 
-#: src/wx/timing_panel.cc:83
+#: src/wx/timing_panel.cc:84
 msgid "Position"
 msgstr "Posizione"
 
@@ -1105,7 +1125,7 @@ msgstr ""
 msgid "Reels"
 msgstr ""
 
-#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:52
+#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
 msgstr ""
@@ -1238,7 +1258,7 @@ msgstr "Numero seriale server"
 msgid "Servers"
 msgstr "Server"
 
-#: src/wx/timecode.cc:64 src/wx/timing_panel.cc:110
+#: src/wx/timecode.cc:64 src/wx/timing_panel.cc:111
 msgid "Set"
 msgstr ""
 
@@ -1258,7 +1278,7 @@ msgstr "Seleziona la lingua"
 msgid "Show audio..."
 msgstr "Mostra audio..."
 
-#: src/wx/audio_panel.cc:61
+#: src/wx/audio_panel.cc:59
 msgid "Show graph of audio levels..."
 msgstr "Mostra grafico livelli audio..."
 
@@ -1298,7 +1318,7 @@ msgstr "Standard"
 msgid "Start"
 msgstr "Inizio"
 
-#: src/wx/subtitle_panel.cc:104
+#: src/wx/subtitle_panel.cc:111
 msgid "Stream"
 msgstr "Traccia"
 
@@ -1318,11 +1338,16 @@ msgstr "Sottotitoli"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Lingua dei Sottotitoli (es. FR)"
 
-#: src/wx/subtitle_panel.cc:45 src/wx/subtitle_view.cc:32
+#: src/wx/subtitle_appearance_dialog.cc:28
+#, fuzzy
+msgid "Subtitle appearance"
+msgstr "Scala dei Sottotitoli"
+
+#: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:212
+#: src/wx/about_dialog.cc:213
 msgid "Supported by"
 msgstr "Supportato da"
 
@@ -1347,7 +1372,7 @@ msgstr "Nazione (es. UK)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:264
+#: src/wx/about_dialog.cc:265
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -1364,7 +1389,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Non ci sono suggerimenti: sembra tutto a posto!"
 
-#: src/wx/film_viewer.cc:147
+#: src/wx/film_viewer.cc:149
 msgid "There is not enough free memory to do that."
 msgstr ""
 
@@ -1396,7 +1421,7 @@ msgstr "Timeline"
 msgid "Timeline..."
 msgstr "Timeline..."
 
-#: src/wx/timing_panel.cc:43
+#: src/wx/timing_panel.cc:44
 msgid "Timing|Timing"
 msgstr ""
 
@@ -1408,19 +1433,19 @@ msgstr ""
 msgid "Translated by"
 msgstr "Tradotto da"
 
-#: src/wx/timing_panel.cc:98
+#: src/wx/timing_panel.cc:99
 msgid "Trim after current position"
 msgstr ""
 
-#: src/wx/timing_panel.cc:95
+#: src/wx/timing_panel.cc:96
 msgid "Trim from end"
 msgstr "Taglia dalla fine"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:90
 msgid "Trim from start"
 msgstr "Taglia dall'inizio"
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
 msgstr ""
 
@@ -1457,7 +1482,7 @@ msgstr "Usa la migliore"
 msgid "Use preset"
 msgstr "Usa predefinito"
 
-#: src/wx/subtitle_panel.cc:56
+#: src/wx/subtitle_panel.cc:58
 msgid "Use subtitles"
 msgstr ""
 
@@ -1474,11 +1499,11 @@ msgstr "Video"
 msgid "Video Waveform"
 msgstr "Frequenza fotogrammi video"
 
-#: src/wx/timing_panel.cc:106
+#: src/wx/timing_panel.cc:107
 msgid "Video frame rate"
 msgstr "Frequenza fotogrammi video"
 
-#: src/wx/subtitle_panel.cc:108
+#: src/wx/subtitle_panel.cc:119
 msgid "View..."
 msgstr ""
 
@@ -1506,19 +1531,19 @@ msgstr ""
 msgid "Written by"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:65
+#: src/wx/subtitle_panel.cc:67
 msgid "X Offset"
 msgstr "Spostamento X"
 
-#: src/wx/subtitle_panel.cc:83
+#: src/wx/subtitle_panel.cc:87
 msgid "X Scale"
 msgstr "Scala X"
 
-#: src/wx/subtitle_panel.cc:74
+#: src/wx/subtitle_panel.cc:77
 msgid "Y Offset"
 msgstr "Spostamento Y"
 
-#: src/wx/subtitle_panel.cc:92
+#: src/wx/subtitle_panel.cc:97
 msgid "Y Scale"
 msgstr "Scala Y"
 
@@ -1587,27 +1612,27 @@ msgstr ""
 msgid "audio"
 msgstr "audio"
 
-#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:79
+#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:75
+#: src/wx/timing_panel.cc:76
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:53
+#: src/wx/timing_panel.cc:54
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:61
+#: src/wx/timing_panel.cc:62
 msgid "m"
 msgstr "m"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:95 src/wx/config_dialog.cc:431
+#: src/wx/audio_panel.cc:91 src/wx/config_dialog.cc:431
 msgid "ms"
 msgstr "ms"
 
@@ -1616,7 +1641,7 @@ msgid "port"
 msgstr ""
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:393 src/wx/timing_panel.cc:68
+#: src/wx/config_dialog.cc:393 src/wx/timing_panel.cc:69
 msgid "s"
 msgstr "s"
 
@@ -1772,9 +1797,6 @@ msgstr "y"
 
 #~ msgid "Audio Gain"
 #~ msgstr "Guadagno dell'audio"
-
-#~ msgid "Subtitle Scale"
-#~ msgstr "Scala dei Sottotitoli"
 
 #~ msgid "Subtitle Stream"
 #~ msgstr "Traccia sottotitoli"
