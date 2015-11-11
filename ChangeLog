@@ -1,3 +1,7 @@
+2015-11-11  Carl Hetherington  <cth@carlh.net>
+
+	* Updated sv_SE translation from Adam Klotblixt.
+
 2015-11-10  Carl Hetherington  <cth@carlh.net>
 
 	* Further adjustments to playhead behaviour during trim (#737).
