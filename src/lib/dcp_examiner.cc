@@ -99,7 +99,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			if (!_audio_frame_rate) {
 				_audio_frame_rate = asset->sampling_rate ();
 			} else if (_audio_frame_rate.get() != asset->sampling_rate ()) {
-				throw DCPError (_("Mismatched audio frame rates in DCP"));
+				throw DCPError (_("Mismatched audio sample rates in DCP"));
 			}
 
 			_audio_length += (*i)->main_sound()->duration();
