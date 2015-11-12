@@ -697,7 +697,7 @@ void
 DCPPanel::setup_audio_channels_choice ()
 {
 	vector<pair<string, string> > items;
-	for (int i = minimum_allowed_audio_channels(); i <= 12; i += 2) {
+	for (int i = minimum_allowed_audio_channels(); i <= 16; i += 2) {
 		items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
 	}
 

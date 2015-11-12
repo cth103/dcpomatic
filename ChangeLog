@@ -1,3 +1,7 @@
+2015-11-12  Carl Hetherington  <cth@carlh.net>
+
+	* Extend maximum audio channels to 16 for an experiment.
+
 2015-11-12  c.hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.

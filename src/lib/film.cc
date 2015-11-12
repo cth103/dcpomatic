@@ -1253,6 +1253,8 @@ Film::audio_output_names () const
 		return audio_processor()->input_names ();
 	}
 
+	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
+
 	vector<string> n;
 	n.push_back (_("L"));
 	n.push_back (_("R"));
@@ -1266,6 +1268,10 @@ Film::audio_output_names () const
 	n.push_back (_("Rc"));
 	n.push_back (_("BsL"));
 	n.push_back (_("BsR"));
+	n.push_back (_("DBP"));
+	n.push_back (_("DBS"));
+	n.push_back (_("NC"));
+	n.push_back (_("NC"));
 
 	return vector<string> (n.begin(), n.begin() + audio_channels ());
 }
