@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-11 18:39+0000\n"
-"PO-Revision-Date: 2015-11-06 12:13+0200\n"
+"PO-Revision-Date: 2015-11-12 14:18+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -613,9 +613,8 @@ msgid "Mismatched audio channel counts in DCP"
 msgstr "Несоответствие количества аудиоканалов в DCP"
 
 #: src/lib/dcp_examiner.cc:102
-#, fuzzy
 msgid "Mismatched audio sample rates in DCP"
-msgstr "Несоответствие частоты кадров аудио в DCP"
+msgstr "Несоответствие частоты дискретизации аудио в DCP"
 
 #: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"

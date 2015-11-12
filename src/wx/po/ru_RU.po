@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-11 18:39+0000\n"
-"PO-Revision-Date: 2015-11-06 12:13+0200\n"
+"PO-Revision-Date: 2015-11-12 14:25+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -184,7 +184,7 @@ msgstr "Разрешить любую частоту кадров DCP"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Appearance..."
-msgstr ""
+msgstr "Внешний вид..."
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
 msgid "Audio"
@@ -334,7 +334,7 @@ msgstr "Кинотеатр"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
-msgstr ""
+msgstr "Цвет"
 
 #: src/wx/content_colour_conversion_dialog.cc:36
 #: src/wx/preset_colour_conversion_dialog.cc:31 src/wx/video_panel.cc:187
@@ -619,8 +619,7 @@ msgstr "Постепенное появление"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/dolby_certificate_dialog.cc:79
-#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:79 src/wx/dolby_certificate_dialog.cc:107
 #: src/wx/dolby_certificate_dialog.cc:135
 msgid "Fetching..."
 msgstr "Установка..."
@@ -974,14 +973,12 @@ msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
 #: src/wx/subtitle_appearance_dialog.cc:35
-#, fuzzy
 msgid "Outline"
-msgstr "Выделить контект"
+msgstr "Контур"
 
 #: src/wx/subtitle_appearance_dialog.cc:39
-#, fuzzy
 msgid "Outline colour"
-msgstr "Выделить контект"
+msgstr "Цвет контура"
 
 #: src/wx/film_viewer.cc:66
 msgid "Outline content"
@@ -1323,7 +1320,7 @@ msgstr "Язык субтитров (напр. FR)"
 
 #: src/wx/subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
-msgstr ""
+msgstr "Внешний вид субтитров"
 
 #: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
 msgid "Subtitles"
@@ -1485,7 +1482,7 @@ msgstr "Частота кадров видео"
 
 #: src/wx/subtitle_panel.cc:119
 msgid "View..."
-msgstr "Вид..."
+msgstr "Просмотр..."
 
 #: src/wx/config_dialog.cc:1356
 msgid "Warnings"
