@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-11 18:39+0000\n"
-"PO-Revision-Date: 2015-11-05 15:58+0100\n"
+"PO-Revision-Date: 2015-11-12 03:20+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -190,7 +190,7 @@ msgstr "Sta elke DCP-beeldsnelheid toe"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Appearance..."
-msgstr ""
+msgstr "Uiterlijk..."
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
 msgid "Audio"
@@ -341,7 +341,7 @@ msgstr "Bioscoop"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
-msgstr ""
+msgstr "Kleur"
 
 #: src/wx/content_colour_conversion_dialog.cc:36
 #: src/wx/preset_colour_conversion_dialog.cc:31 src/wx/video_panel.cc:187
@@ -981,14 +981,12 @@ msgid "Outgoing mail server"
 msgstr "Uitgaande mailserver"
 
 #: src/wx/subtitle_appearance_dialog.cc:35
-#, fuzzy
 msgid "Outline"
-msgstr "Omlijn content"
+msgstr "Omlijn"
 
 #: src/wx/subtitle_appearance_dialog.cc:39
-#, fuzzy
 msgid "Outline colour"
-msgstr "Omlijn content"
+msgstr "Omlijnings-kleur"
 
 #: src/wx/film_viewer.cc:66
 msgid "Outline content"
@@ -1330,7 +1328,7 @@ msgstr "Taal ondertiteling (bv. NL)"
 
 #: src/wx/subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
-msgstr ""
+msgstr "Ondertitelings-uiterlijk"
 
 #: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
 msgid "Subtitles"
