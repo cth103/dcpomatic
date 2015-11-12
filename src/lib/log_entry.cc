@@ -43,7 +43,7 @@ LogEntry::get () const
 {
 	SafeStringStream s;
 	if (_type & TYPE_TIMING) {
-		s << _time.tv_sec << ":" << _time.tv_usec;
+		s << _time.tv_sec << ":" << _time.tv_usec << " ";
 	} else {
 		char buffer[64];
 		time_t const sec = _time.tv_sec;
