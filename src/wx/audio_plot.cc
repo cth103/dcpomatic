@@ -67,9 +67,14 @@ AudioPlot::AudioPlot (wxWindow* parent)
 	_colours.push_back (wxColour (255,   0, 139));
 	_colours.push_back (wxColour (139,   0, 255));
 
+	_colours.push_back (wxColour (139, 139, 255));
+	_colours.push_back (wxColour (  0, 139, 255));
+	_colours.push_back (wxColour (255, 139, 139));
+	_colours.push_back (wxColour (255, 139,   0));
+
 	set_analysis (shared_ptr<AudioAnalysis> ());
 
-#if MAX_DCP_AUDIO_CHANNELS != 12
+#if MAX_DCP_AUDIO_CHANNELS != 16
 #warning AudioPlot::AudioPlot is expecting the wrong MAX_DCP_AUDIO_CHANNELS
 #endif
 
