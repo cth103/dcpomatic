@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,15 +17,17 @@
 
 */
 
-#include <dcp/subtitle_string.h>
 #include "subrip_decoder.h"
 #include "subrip_content.h"
+#include <dcp/subtitle_string.h>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
 using std::vector;
 using std::string;
 using std::cout;
+using std::max;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -62,23 +64,35 @@ SubRipDecoder::pass (PassReason, bool)
 	DCPOMATIC_ASSERT (content);
 
 	list<dcp::SubtitleString> out;
-	for (list<sub::Line>::const_iterator i = _subtitles[_next].lines.begin(); i != _subtitles[_next].lines.end(); ++i) {
-		for (list<sub::Block>::const_iterator j = i->blocks.begin(); j != i->blocks.end(); ++j) {
+
+	/* Highest line index in this subtitle */
+	int highest = 0;
+	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
+		DCPOMATIC_ASSERT (i.vertical_position.reference && i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE);
+		DCPOMATIC_ASSERT (i.vertical_position.line);
+		highest = max (highest, i.vertical_position.line.get());
+	}
+
+	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
+		BOOST_FOREACH (sub::Block j, i.blocks) {
 			out.push_back (
 				dcp::SubtitleString (
 					SubRipContent::font_id,
-					j->italic,
+					j.italic,
 					/* force the colour to whatever is configured */
 					content->colour(),
-					j->font_size.points (72 * 11),
+					j.font_size.points (72 * 11),
 					1.0,
 					dcp::Time (_subtitles[_next].from.all_as_seconds(), 1000),
 					dcp::Time (_subtitles[_next].to.all_as_seconds(), 1000),
 					0,
 					dcp::HALIGN_CENTER,
-					i->vertical_position.line.get() * (1.5 / 22) + 0.8,
+					/* This 0.95 is an arbitrary value to lift the bottom sub off the bottom
+					   of the screen a bit.
+					*/
+					0.95 - ((1 + highest - i.vertical_position.line.get()) * 1.5 / 22),
 					dcp::VALIGN_TOP,
-					j->text,
+					j.text,
 					content->outline() ? dcp::BORDER : dcp::NONE,
 					content->outline_colour(),
 					dcp::Time (0, 1000),

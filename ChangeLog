@@ -1,5 +1,8 @@
 2015-11-13  c.hetherington  <cth@carlh.net>
 
+	* Vertically align SubRip subtitles with reference to the bottom
+	of the screen (#744).
+
 	* Disable YUV->RGB conversion controls with non-YUV sources (#649).
 
 	* Allow multiple recipients of KDM emails (#745).
