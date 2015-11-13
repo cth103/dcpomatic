@@ -23,7 +23,7 @@
 class Emailer
 {
 public:
-	Emailer (std::string from, std::string to, std::string subject, std::string body);
+	Emailer (std::string from, std::list<std::string> to, std::string subject, std::string body);
 
 	void add_cc (std::string cc);
 	void add_bcc (std::string bcc);
@@ -38,11 +38,12 @@ public:
 	size_t get_data (void* ptr, size_t size, size_t nmemb);
 	int debug (CURL* curl, curl_infotype type, char* data, size_t size);
 
-private:
 	static std::string address_list (std::list<std::string> addresses);
 
+private:
+
 	std::string _from;
-	std::string _to;
+	std::list<std::string> _to;
 	std::string _subject;
 	std::string _body;
 	std::list<std::string> _cc;

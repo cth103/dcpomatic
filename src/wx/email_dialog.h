@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,25 +18,15 @@
 */
 
 #include "table_dialog.h"
-#include "editable_list.h"
-#include "email_dialog.h"
-#include <wx/wx.h>
-#include <list>
-#include <vector>
 
-class CinemaDialog : public wxDialog
+class EmailDialog : public TableDialog
 {
 public:
-	CinemaDialog (wxWindow *, std::string, std::string name = "", std::list<std::string> emails = std::list<std::string> ());
+	EmailDialog (wxWindow *);
 
-	std::string name () const;
-	std::list<std::string> emails () const;
+	void set (std::string);
+	std::string get () const;
 
 private:
-	std::vector<std::string> get_emails () const;
-	void set_emails (std::vector<std::string>);
-
-	wxTextCtrl* _name;
-	EditableList<std::string, EmailDialog>* _email_list;
-	std::vector<std::string> _emails;
+	wxTextCtrl* _email;
 };

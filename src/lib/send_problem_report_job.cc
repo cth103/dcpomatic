@@ -81,7 +81,10 @@ SendProblemReportJob::run ()
 		add_file (body, "metadata.xml");
 	}
 
-	Emailer emailer (_from, "carl@dcpomatic.com", "DCP-o-matic problem report", body);
+	list<string> to;
+	to.push_back ("carl@dcpomatic.com");
+
+	Emailer emailer (_from, to, "DCP-o-matic problem report", body);
 	emailer.send (shared_from_this ());
 
 	set_progress (1);

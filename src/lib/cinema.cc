@@ -21,15 +21,18 @@
 #include "screen.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <boost/foreach.hpp>
 
 using std::list;
+using std::string;
 using boost::shared_ptr;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
-	, email (node->string_child ("Email"))
 {
-
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Email")) {
+		emails.push_back (i->content ());
+	}
 }
 
 /* This is necessary so that we can use shared_from_this in add_screen (which cannot be done from
@@ -48,10 +51,13 @@ void
 Cinema::as_xml (xmlpp::Element* parent) const
 {
 	parent->add_child("Name")->add_child_text (name);
-	parent->add_child("Email")->add_child_text (email);
 
-	for (list<shared_ptr<Screen> >::const_iterator i = _screens.begin(); i != _screens.end(); ++i) {
-		(*i)->as_xml (parent->add_child ("Screen"));
+	BOOST_FOREACH (string i, emails) {
+		parent->add_child("Email")->add_child_text (i);
+	}
+
+	BOOST_FOREACH (shared_ptr<Screen> i, _screens) {
+		i->as_xml (parent->add_child ("Screen"));
 	}
 }
 

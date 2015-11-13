@@ -152,7 +152,7 @@ CinemaKDMs::email (
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.str().substr (0, screens.str().length() - 2));
 
-		Emailer email (config->kdm_from(), i.cinema->email, subject, body);
+		Emailer email (config->kdm_from(), i.cinema->emails, subject, body);
 
 		if (!config->kdm_cc().empty ()) {
 			email.add_cc (config->kdm_cc ());

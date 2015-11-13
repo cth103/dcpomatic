@@ -17,9 +17,15 @@
 
 */
 
+#include "wx_util.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
+#include <boost/function.hpp>
+#include <vector>
 
+/** @param T type of things being edited.
+ *  @param S dialog to edit a thing.
+ */
 template<class T, class S>
 class EditableList : public wxPanel
 {
@@ -78,8 +84,9 @@ public:
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&EditableList::selection_changed, this));
 		_list->Bind (wxEVT_SIZE, boost::bind (&EditableList::resized, this, _1));
-		selection_changed ();
 
+		refresh ();
+		selection_changed ();
 	}
 
 	void refresh ()

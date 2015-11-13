@@ -27,6 +27,7 @@
 #include "lib/cinema_kdms.h"
 #include "lib/config.h"
 #include "lib/exceptions.h"
+#include "lib/emailer.h"
 #include "lib/safe_stringstream.h"
 #include <dcp/certificate.h>
 #include <getopt.h>
@@ -189,7 +190,7 @@ int main (int argc, char* argv[])
 	if (cinemas) {
 		list<boost::shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
 		for (list<boost::shared_ptr<Cinema> >::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
-			cout << (*i)->name << " (" << (*i)->email << ")\n";
+			cout << (*i)->name << " (" << Emailer::address_list ((*i)->emails) << ")\n";
 		}
 		exit (EXIT_SUCCESS);
 	}
@@ -263,7 +264,11 @@ int main (int argc, char* argv[])
 
 		list<shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
 		list<shared_ptr<Cinema> >::const_iterator i = cinemas.begin();
-		while (i != cinemas.end() && (*i)->name != cinema_name && (*i)->email != cinema_name) {
+		while (
+			i != cinemas.end() &&
+			(*i)->name != cinema_name &&
+			find ((*i)->emails.begin(), (*i)->emails.end(), cinema_name) == (*i)->emails.end()) {
+
 			++i;
 		}
 

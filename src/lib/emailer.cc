@@ -38,7 +38,7 @@ using std::cout;
 using std::pair;
 using boost::shared_ptr;
 
-Emailer::Emailer (string from, string to, string subject, string body)
+Emailer::Emailer (string from, list<string> to, string subject, string body)
 	: _from (from)
 	, _to (to)
 	, _subject (subject)
@@ -106,7 +106,7 @@ Emailer::send (shared_ptr<Job> job)
 	stringstream email;
 
 	email << "Date: " << date_buffer << "\r\n"
-	      << "To: " << _to << "\r\n"
+	      << "To: " << address_list (_to) << "\r\n"
 	      << "From: " << _from << "\r\n";
 
 	if (!_cc.empty ()) {
@@ -194,7 +194,10 @@ Emailer::send (shared_ptr<Job> job)
 
 	curl_easy_setopt (curl, CURLOPT_MAIL_FROM, _from.c_str());
 
-	struct curl_slist* recipients = curl_slist_append (0, _to.c_str());
+	struct curl_slist* recipients = 0;
+	BOOST_FOREACH (string i, _to) {
+		curl_slist_append (recipients, i.c_str());
+	}
 	BOOST_FOREACH (string i, _cc) {
 		recipients = curl_slist_append (recipients, i.c_str());
 	}
@@ -251,7 +254,7 @@ Emailer::send (shared_ptr<Job> job)
 		CURLMcode mc = curl_multi_fdset (mcurl, &fdread, &fdwrite, &fdexcep, &maxfd);
 
 		if (mc != CURLM_OK) {
-			throw KDMError (String::compose ("Failed to send KDM email to %1", _to));
+			throw KDMError (String::compose ("Failed to send KDM email to %1", address_list (_to)));
 		}
 
 		int rc;

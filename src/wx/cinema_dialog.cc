@@ -19,19 +19,59 @@
 
 #include "cinema_dialog.h"
 #include "wx_util.h"
+#include <boost/foreach.hpp>
 
 using std::string;
+using std::vector;
+using std::copy;
+using std::back_inserter;
+using std::list;
+using std::cout;
+using boost::bind;
 
-CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, string email)
-	: TableDialog (parent, std_to_wx (title), 2, 1, true)
+static string
+column (string s)
 {
-	add (_("Name"), true);
-	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (256, -1)));
+	return s;
+}
 
-	add (_("Email address for KDM delivery"), true);
-	_email = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (email), wxDefaultPosition, wxSize (256, -1)));
+CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<string> emails)
+	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+{
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (overall_sizer);
 
-	layout ();
+	wxGridBagSizer* sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	int r = 0;
+
+	add_label_to_sizer (sizer, this, _("Name"), true, wxGBPosition (r, 0));
+	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (500, -1));
+	sizer->Add (_name, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), true, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	copy (emails.begin(), emails.end(), back_inserter (_emails));
+
+	vector<string> columns;
+	columns.push_back (wx_to_std (_("Address")));
+	_email_list = new EditableList<string, EmailDialog> (
+		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), bind (&column, _1)
+		);
+
+	sizer->Add (_email_list, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND);
+	++r;
+
+	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	if (buttons) {
+		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
+	overall_sizer->Layout ();
+	overall_sizer->SetSizeHints (this);
 }
 
 string
@@ -40,8 +80,22 @@ CinemaDialog::name () const
 	return wx_to_std (_name->GetValue());
 }
 
-string
-CinemaDialog::email () const
+void
+CinemaDialog::set_emails (vector<string> e)
 {
-	return wx_to_std (_email->GetValue());
+	_emails = e;
+}
+
+vector<string>
+CinemaDialog::get_emails () const
+{
+	return _emails;
+}
+
+list<string>
+CinemaDialog::emails () const
+{
+	list<string> e;
+	copy (_emails.begin(), _emails.end(), back_inserter (e));
+	return e;
 }

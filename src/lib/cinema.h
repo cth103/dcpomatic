@@ -33,15 +33,15 @@ class Screen;
 /** @class Cinema
  *  @brief A description of a Cinema for KDM generation.
  *
- *  This is a cinema name, contact email address and a list of
+ *  This is a cinema name, contact email addresses and a list of
  *  Screen objects.
  */
 class Cinema : public boost::enable_shared_from_this<Cinema>
 {
 public:
-	Cinema (std::string const & n, std::string const & e)
+	Cinema (std::string const & n, std::list<std::string> const & e)
 		: name (n)
-		, email (e)
+		, emails (e)
 	{}
 
 	Cinema (cxml::ConstNodePtr);
@@ -54,7 +54,7 @@ public:
 	void remove_screen (boost::shared_ptr<Screen>);
 
 	std::string name;
-	std::string email;
+	std::list<std::string> emails;
 	std::list<boost::shared_ptr<Screen> > screens () const {
 		return _screens;
 	}
