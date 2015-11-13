@@ -43,6 +43,10 @@ public:
 		return _video_length;
 	}
 
+	bool yuv () const {
+		return false;
+	}
+
 	std::string name () const {
 		return _name;
 	}

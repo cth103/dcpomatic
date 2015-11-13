@@ -31,10 +31,12 @@ public:
 	Frame video_length () const {
 		return _video_length;
 	}
+	bool yuv () const;
 
 private:
 	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::optional<dcp::Size> _video_size;
 	Frame _video_length;
+	bool _yuv;
 };

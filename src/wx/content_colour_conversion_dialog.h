@@ -25,7 +25,7 @@ class ColourConversionEditor;
 class ContentColourConversionDialog : public wxDialog
 {
 public:
-	ContentColourConversionDialog (wxWindow *);
+	ContentColourConversionDialog (wxWindow *, bool yuv);
 
 	void set (ColourConversion);
 	ColourConversion get () const;

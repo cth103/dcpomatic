@@ -35,7 +35,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::lexical_cast;
 
-ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
+ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -92,14 +92,20 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 
 	/* YUV to RGB conversion */
 
-	subhead (table, this, _("YUV to RGB conversion"), r);
+	wxStaticText* yuv_heading = subhead (table, this, _("YUV to RGB conversion"), r);
 
-	add_label_to_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
+	wxStaticText* yuv_label = add_label_to_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
 	_yuv_to_rgb = new wxChoice (this, wxID_ANY);
 	_yuv_to_rgb->Append (_("Rec. 601"));
 	_yuv_to_rgb->Append (_("Rec. 709"));
 	table->Add (_yuv_to_rgb, wxGBPosition (r, 1));
 	++r;
+
+	if (!yuv) {
+		yuv_heading->Enable (false);
+		yuv_label->Enable (false);
+		_yuv_to_rgb->Enable (false);
+	}
 
 	/* RGB to XYZ conversion */
 
@@ -207,13 +213,14 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent)
 	_yuv_to_rgb->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ColourConversionEditor::changed, this));
 }
 
-void
+wxStaticText *
 ColourConversionEditor::subhead (wxGridBagSizer* sizer, wxWindow* parent, wxString text, int& row) const
 {
 	wxStaticText* m = new wxStaticText (parent, wxID_ANY, wxT (""));
 	m->SetLabelMarkup ("<b>" + text + "</b>");
 	sizer->Add (m, wxGBPosition (row, 0), wxGBSpan (1, 3), wxALIGN_CENTER_VERTICAL | wxTOP, 12);
 	++row;
+	return m;
 }
 
 void

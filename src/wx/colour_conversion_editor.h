@@ -29,7 +29,7 @@ class ColourConversion;
 class ColourConversionEditor : public wxPanel
 {
 public:
-	ColourConversionEditor (wxWindow *);
+	ColourConversionEditor (wxWindow *, bool yuv);
 
 	void set (ColourConversion);
 	ColourConversion get () const;
@@ -43,7 +43,7 @@ private:
 	void adjusted_white_changed ();
 	void update_rgb_to_xyz ();
 	void update_bradford ();
-	void subhead (wxGridBagSizer* sizer, wxWindow* parent, wxString text, int& row) const;
+	wxStaticText* subhead (wxGridBagSizer* sizer, wxWindow* parent, wxString text, int& row) const;
 
 	void set_text_ctrl (wxTextCtrl *, double);
 	void set_spin_ctrl (wxSpinCtrlDouble *, double);

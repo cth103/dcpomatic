@@ -150,6 +150,11 @@ public:
 		return _sample_aspect_ratio;
 	}
 
+	bool yuv () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _yuv;
+	}
+
 	Frame fade_in () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fade_in;
@@ -197,6 +202,7 @@ private:
 	    if there is one.
 	*/
 	boost::optional<double> _sample_aspect_ratio;
+	bool _yuv;
 	Frame _fade_in;
 	Frame _fade_out;
 };

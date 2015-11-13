@@ -32,9 +32,9 @@ using std::vector;
 using std::cout;
 using boost::optional;
 
-ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent)
+ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, bool yuv)
 	: wxDialog (parent, wxID_ANY, _("Colour conversion"))
-	, _editor (new ColourConversionEditor (this))
+	, _editor (new ColourConversionEditor (this, yuv))
 	, _setting (false)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);

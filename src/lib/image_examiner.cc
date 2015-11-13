@@ -92,3 +92,13 @@ ImageExaminer::video_frame_rate () const
 	/* Don't know */
 	return optional<double> ();
 }
+
+bool
+ImageExaminer::yuv () const
+{
+	/* We never convert ImageSource from YUV to RGB (though maybe sometimes we should)
+	   so it makes sense to just say they are never YUV so the option of a conversion
+	   to RGB is not offered.
+	*/
+	return false;
+}

@@ -29,7 +29,7 @@ using std::cout;
 
 PresetColourConversionDialog::PresetColourConversionDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Colour conversion"))
-	, _editor (new ColourConversionEditor (this))
+	, _editor (new ColourConversionEditor (this, true))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);

@@ -35,6 +35,7 @@ public:
 	dcp::Size video_size () const;
 	Frame video_length () const;
 	boost::optional<double> sample_aspect_ratio () const;
+	bool yuv () const;
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		return _subtitle_streams;

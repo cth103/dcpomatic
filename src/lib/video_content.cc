@@ -69,6 +69,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film)
 	, _video_length (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
+	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
 {
@@ -80,6 +81,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, DCPTime s, Frame len)
 	, _video_length (len)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
+	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
 {
@@ -91,6 +93,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, boost::filesystem::path
 	, _video_length (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
+	, _yuv (true)
 	, _fade_in (0)
 	, _fade_out (0)
 {
@@ -124,6 +127,9 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 	if (node->optional_node_child ("ColourConversion")) {
 		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"), version);
 	}
+
+	_yuv = node->optional_bool_child("YUV").get_value_or (true);
+
 	if (version >= 32) {
 		_fade_in = node->number_child<Frame> ("FadeIn");
 		_fade_out = node->number_child<Frame> ("FadeOut");
@@ -135,6 +141,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 VideoContent::VideoContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 	: Content (film, c)
 	, _video_length (0)
+	, _yuv (false)
 {
 	shared_ptr<VideoContent> ref = dynamic_pointer_cast<VideoContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
@@ -171,6 +178,10 @@ VideoContent::VideoContent (shared_ptr<const Film> film, vector<shared_ptr<Conte
 		}
 
 		_video_length += vc->video_length ();
+
+		if (vc->yuv ()) {
+			_yuv = true;
+		}
 	}
 
 	_video_size = ref->video_size ();
@@ -202,6 +213,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node->add_child("ColourConversion"));
 	}
+	node->add_child("YUV")->add_child_text (_yuv ? "1" : "0");
 	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
 	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
 }
@@ -222,6 +234,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	optional<double> const vfr = d->video_frame_rate ();
 	Frame vl = d->video_length ();
 	optional<double> const ar = d->sample_aspect_ratio ();
+	bool const yuv = d->yuv ();
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -229,6 +242,7 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 		_video_frame_rate = vfr;
 		_video_length = vl;
 		_sample_aspect_ratio = ar;
+		_yuv = yuv;
 
 		/* Guess correct scale from size and sample aspect ratio */
 		_scale = VideoContentScale (

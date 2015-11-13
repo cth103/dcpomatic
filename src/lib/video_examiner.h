@@ -38,4 +38,5 @@ public:
 	virtual boost::optional<double> sample_aspect_ratio () const {
 		return boost::optional<double> ();
 	}
+	virtual bool yuv () const = 0;
 };
