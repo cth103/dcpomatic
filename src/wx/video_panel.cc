@@ -273,23 +273,20 @@ VideoPanel::film_content_changed (int property)
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
-		if (!vcs) {
-			checked_set (_colour_conversion, 0);
-			_edit_colour_conversion_button->Enable (false);
-		} else if (vcs->colour_conversion ()) {
+		if (vcs && vcs->colour_conversion ()) {
 			optional<size_t> preset = vcs->colour_conversion().get().preset ();
 			vector<PresetColourConversion> cc = PresetColourConversion::all ();
 			if (preset) {
 				checked_set (_colour_conversion, preset.get() + 1);
-				_edit_colour_conversion_button->Enable (false);
 			} else {
 				checked_set (_colour_conversion, cc.size() + 1);
-				_edit_colour_conversion_button->Enable (true);
 			}
 		} else {
 			checked_set (_colour_conversion, 0);
-			_edit_colour_conversion_button->Enable (false);
 		}
+
+		setup_sensitivity ();
+
 	} else if (property == FFmpegContentProperty::FILTERS) {
 		if (fcs) {
 			string p = Filter::ffmpeg_string (fcs->filters ());
@@ -468,7 +465,6 @@ VideoPanel::setup_sensitivity ()
 		_filters->Enable (false);
 		_filters_button->Enable (false);
 		_colour_conversion->Enable (false);
-		_edit_colour_conversion_button->Enable (false);
 	} else {
 		VideoContentList video_sel = _parent->selected_video ();
 		FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
@@ -486,7 +482,18 @@ VideoPanel::setup_sensitivity ()
 		_filters->Enable (true);
 		_filters_button->Enable (single && !ffmpeg_sel.empty ());
 		_colour_conversion->Enable (single && !video_sel.empty ());
-		_edit_colour_conversion_button->Enable (true);
+	}
+
+	VideoContentList vc = _parent->selected_video ();
+	shared_ptr<VideoContent> vcs;
+	if (!vc.empty ()) {
+		vcs = vc.front ();
+	}
+
+	if (vcs && vcs->colour_conversion ()) {
+		_edit_colour_conversion_button->Enable (!vcs->colour_conversion().get().preset());
+	} else {
+		_edit_colour_conversion_button->Enable (false);
 	}
 }
 
