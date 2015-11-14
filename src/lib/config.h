@@ -405,6 +405,9 @@ public:
 
 	void set_check_for_updates (bool c) {
 		maybe_set (_check_for_updates, c);
+		if (!c) {
+			set_check_for_test_updates (false);
+		}
 	}
 
 	void set_check_for_test_updates (bool c) {
