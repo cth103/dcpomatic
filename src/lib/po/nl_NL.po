@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-14 02:34+0000\n"
-"PO-Revision-Date: 2015-11-11 20:34+0100\n"
+"PO-Revision-Date: 2015-11-14 05:05+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -345,19 +345,19 @@ msgstr "Bijgesneden naar %1x%2"
 
 #: src/lib/util.cc:495
 msgid "D-BOX primary"
-msgstr ""
+msgstr "D-BOX primair (DBP)"
 
 #: src/lib/util.cc:496
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "D-BOX secundair (DBS)"
 
 #: src/lib/film.cc:1271
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1272
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
@@ -642,9 +642,8 @@ msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
 
 #: src/lib/film.cc:1273 src/lib/film.cc:1274
-#, fuzzy
 msgid "NC"
-msgstr "C"
+msgstr "NC"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -933,7 +932,7 @@ msgstr "Zonder titel"
 
 #: src/lib/util.cc:497 src/lib/util.cc:498
 msgid "Unused"
-msgstr ""
+msgstr "Ongebruikt (NC)"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
