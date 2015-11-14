@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-11 18:39+0000\n"
+"POT-Creation-Date: 2015-11-14 02:34+0000\n"
 "PO-Revision-Date: 2015-08-30 15:57-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -151,11 +151,16 @@ msgstr "Añadir secuencia de imágenes"
 msgid "Add video, image or sound files to the film."
 msgstr "Añadir ficheros de video, imagen o sonido a la película."
 
-#: src/wx/config_dialog.cc:671 src/wx/editable_list.h:62
+#: src/wx/config_dialog.cc:671 src/wx/editable_list.h:68
 msgid "Add..."
 msgstr "Añadir..."
 
-#: src/wx/colour_conversion_editor.cc:160
+#: src/wx/cinema_dialog.cc:58
+#, fuzzy
+msgid "Address"
+msgstr "Dirección CC"
+
+#: src/wx/colour_conversion_editor.cc:166
 msgid "Adjust white point to"
 msgstr "Ajustar el punto de blanco a"
 
@@ -224,7 +229,7 @@ msgstr "B"
 msgid "BCC address"
 msgstr "Dirección CCO"
 
-#: src/wx/colour_conversion_editor.cc:127
+#: src/wx/colour_conversion_editor.cc:133
 msgid "Blue chromaticity"
 msgstr "Cromaticidad azul"
 
@@ -278,7 +283,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: src/wx/audio_panel.cc:252 src/wx/subtitle_panel.cc:277
-#: src/wx/video_panel.cc:451
+#: src/wx/video_panel.cc:448
 msgid "Cannot reference this DCP.  "
 msgstr ""
 
@@ -384,7 +389,7 @@ msgstr "Contraste"
 msgid "Copy as name"
 msgstr "Copiar como nombre"
 
-#: src/wx/editable_list.h:64
+#: src/wx/editable_list.h:70
 msgid "Copy..."
 msgstr "Copiar..."
 
@@ -572,12 +577,18 @@ msgstr "Editar pantalla..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:406
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:66
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:72
 msgid "Edit..."
 msgstr "Editar..."
 
-#: src/wx/cinema_dialog.cc:31
-msgid "Email address for KDM delivery"
+#: src/wx/email_dialog.cc:27 src/wx/email_dialog.cc:29
+#, fuzzy
+msgid "Email address"
+msgstr "De la dirección"
+
+#: src/wx/cinema_dialog.cc:52
+#, fuzzy
+msgid "Email addresses for KDM delivery"
 msgstr "Remitente para los emails de KDM"
 
 #: src/wx/servers_list_dialog.cc:32
@@ -708,7 +719,7 @@ msgstr "Ganancia del canal %d en el canal %d del DCP"
 msgid "General"
 msgstr "General"
 
-#: src/wx/colour_conversion_editor.cc:120
+#: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Cromaticidad verde"
 
@@ -877,7 +888,7 @@ msgstr "Crear cadena de certificados"
 msgid "Mastered luminance (e.g. 14fl)"
 msgstr "Luminosidad de referencia (p.e. 14fl)"
 
-#: src/wx/colour_conversion_editor.cc:110
+#: src/wx/colour_conversion_editor.cc:116
 msgid "Matrix"
 msgstr "Matriz"
 
@@ -898,7 +909,7 @@ msgstr "Avanzar la selección en la película."
 msgid "Move the selected piece of content later in the film."
 msgstr "Retroceder la selección en la película."
 
-#: src/wx/video_panel.cc:362
+#: src/wx/video_panel.cc:359
 msgid "Multiple content selected"
 msgstr "Varios contenidos seleccionados"
 
@@ -914,7 +925,7 @@ msgstr "Mi problema es"
 msgid "NEEDS KDM: "
 msgstr "NECESITA KDM:"
 
-#: src/wx/cinema_dialog.cc:28 src/wx/dcp_panel.cc:67
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
 #: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:39
 msgid "Name"
 msgstr "Nombre"
@@ -938,7 +949,7 @@ msgid "No content found in this folder."
 msgstr "No se pudieron encontrar imágenes ni un DCP en esta carpeta"
 
 #: src/wx/dcp_panel.cc:726 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
-#: src/wx/video_panel.cc:297
+#: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Ninguno"
 
@@ -1044,7 +1055,7 @@ msgstr ""
 "Por favor introduzca un email para que podamos contactarle si tenemos "
 "preguntas sobre su problema."
 
-#: src/wx/audio_plot.cc:87
+#: src/wx/audio_plot.cc:92
 msgid "Please wait; audio is being analysed..."
 msgstr "Por favor espere, el audio está siendo analizado..."
 
@@ -1068,7 +1079,7 @@ msgstr "Propiedades…"
 msgid "Protocol"
 msgstr "Protocolo"
 
-#: src/wx/colour_conversion_editor.cc:106
+#: src/wx/colour_conversion_editor.cc:112
 msgid "RGB to XYZ conversion"
 msgstr "Conversión RGB a XYZ"
 
@@ -1104,7 +1115,7 @@ msgstr "Rec. 709"
 msgid "Red band"
 msgstr "Banda roja"
 
-#: src/wx/colour_conversion_editor.cc:113
+#: src/wx/colour_conversion_editor.cc:119
 msgid "Red chromaticity"
 msgstr "Cromaticidad roja"
 
@@ -1128,7 +1139,7 @@ msgid "Refer to existing DCP"
 msgstr ""
 
 #: src/wx/config_dialog.cc:673 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:85 src/wx/editable_list.h:68
+#: src/wx/content_panel.cc:85 src/wx/editable_list.h:74
 msgid "Remove"
 msgstr "Quitar"
 
@@ -1406,7 +1417,7 @@ msgstr "Hilos a utilizar para la codificación en esta máquina"
 msgid "Thumbprint"
 msgstr "Huella dactilar"
 
-#: src/wx/audio_plot.cc:166
+#: src/wx/audio_plot.cc:171
 msgid "Time"
 msgstr "Tiempo"
 
@@ -1507,11 +1518,11 @@ msgstr "Ver..."
 msgid "Warnings"
 msgstr "Alertas"
 
-#: src/wx/colour_conversion_editor.cc:134
+#: src/wx/colour_conversion_editor.cc:140
 msgid "White point"
 msgstr "Punto de blanco"
 
-#: src/wx/colour_conversion_editor.cc:158
+#: src/wx/colour_conversion_editor.cc:164
 msgid "White point adjustment"
 msgstr "Ajuste del punto de blanco"
 
@@ -1672,11 +1683,11 @@ msgstr "Hasta"
 msgid "video"
 msgstr "vídeo"
 
-#: src/wx/colour_conversion_editor.cc:108
+#: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
 
-#: src/wx/colour_conversion_editor.cc:109
+#: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
 

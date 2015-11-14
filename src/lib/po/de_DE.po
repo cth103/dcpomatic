@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-11 18:39+0000\n"
+"POT-Creation-Date: 2015-11-14 02:34+0000\n"
 "PO-Revision-Date: 2015-07-06 15:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,15 +127,15 @@ msgstr ""
 msgid "Bits per pixel"
 msgstr ""
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1269
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1270
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1259
+#: src/lib/film.cc:1261
 msgid "C"
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr "Bildübersicht berechnen"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Quelle und DCP haben dieselbe Bildrate. Gut ;-)\n"
 
-#: src/lib/video_content.cc:553
+#: src/lib/video_content.cc:567
 msgid "Content frame rate"
 msgstr "Inhalt Bildrate"
 
@@ -222,23 +222,23 @@ msgid "Content to be joined must have the same audio gain."
 msgstr ""
 "Zu verbindende Inhalte müssen die gleichen Tonpegeleinstellungen verwenden."
 
-#: src/lib/video_content.cc:166
+#: src/lib/video_content.cc:173
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Zu verbindende Inhalte müssen die gleiche Farbumwandlung verwenden."
 
-#: src/lib/video_content.cc:158
+#: src/lib/video_content.cc:165
 msgid "Content to be joined must have the same crop."
 msgstr "Zu verbindende Inhalte müssen gleichen Beschnitt verwenden."
 
-#: src/lib/video_content.cc:170
+#: src/lib/video_content.cc:177
 msgid "Content to be joined must have the same fades."
 msgstr ""
 
-#: src/lib/video_content.cc:146
+#: src/lib/video_content.cc:153
 msgid "Content to be joined must have the same picture size."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildgröße haben."
 
-#: src/lib/video_content.cc:162
+#: src/lib/video_content.cc:169
 msgid "Content to be joined must have the same scale setting."
 msgstr "Zu verbindende Inhalte müssen die gleiche Skalierung verwenden."
 
@@ -262,11 +262,11 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 
-#: src/lib/video_content.cc:150
+#: src/lib/video_content.cc:157
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Zu verbindende Inhalte müssen die gleiche Bildrate haben."
 
-#: src/lib/video_content.cc:154
+#: src/lib/video_content.cc:161
 msgid "Content to be joined must have the same video frame type."
 msgstr "Zu verbindende Inhalte müssen den gleichen Bildtyp (z.B. 2D) haben."
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Zu verbindende Inhalte müssen die gleiche Untertitelspur verwenden."
 
-#: src/lib/video_content.cc:505
+#: src/lib/video_content.cc:519
 msgid "Content video is %1x%2"
 msgstr "Inhalt Video ist %1x%2"
 
@@ -339,9 +339,25 @@ msgstr "SSH Session konnte nicht gestartet werden"
 msgid "Could not write to remote file (%1)"
 msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
 
-#: src/lib/video_content.cc:524
+#: src/lib/video_content.cc:538
 msgid "Cropped to %1x%2"
 msgstr "Beschnitten zu %1x%2"
+
+#: src/lib/util.cc:495
+msgid "D-BOX primary"
+msgstr ""
+
+#: src/lib/util.cc:496
+msgid "D-BOX secondary"
+msgstr ""
+
+#: src/lib/film.cc:1271
+msgid "DBP"
+msgstr ""
+
+#: src/lib/film.cc:1272
+msgid "DBS"
+msgstr ""
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
@@ -399,7 +415,7 @@ msgstr ""
 "Mit freundlichen Gruessen,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:518
+#: src/lib/video_content.cc:532
 msgid "Display aspect ratio"
 msgstr "Anzeigeseitenverhältnis (DAR):"
 
@@ -461,7 +477,7 @@ msgstr ""
 msgid "Failed to authenticate with server (%1)"
 msgstr "Authentifizierung mit Server (%1) fehlgeschlagen"
 
-#: src/lib/emailer.cc:284
+#: src/lib/emailer.cc:287
 msgid "Failed to send KDM email (timed out)"
 msgstr ""
 
@@ -510,7 +526,7 @@ msgstr ""
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1265
 msgid "HI"
 msgstr ""
 
@@ -542,11 +558,11 @@ msgstr "KDM Zustellung: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
 
-#: src/lib/film.cc:1257
+#: src/lib/film.cc:1259
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1267
 msgid "Lc"
 msgstr ""
 
@@ -566,7 +582,7 @@ msgstr "Surround hinten links"
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1262
 msgid "Lfe"
 msgstr ""
 
@@ -594,7 +610,7 @@ msgstr ""
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1263
 msgid "Ls"
 msgstr ""
 
@@ -626,6 +642,10 @@ msgstr ""
 #: src/lib/filter.cc:65
 msgid "Motion compensating deinterlacer"
 msgstr "Bewegungskompensierender De-Interlacer"
+
+#: src/lib/film.cc:1273 src/lib/film.cc:1274
+msgid "NC"
+msgstr ""
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -671,7 +691,7 @@ msgstr "Überbestimmte Wavelet Entrauschung"
 msgid "P3"
 msgstr ""
 
-#: src/lib/video_content.cc:545
+#: src/lib/video_content.cc:559
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr ""
 
@@ -687,7 +707,7 @@ msgstr "Programmfehler bei %1:%2"
 msgid "Public Service Announcement"
 msgstr "Hinweis"
 
-#: src/lib/film.cc:1258
+#: src/lib/film.cc:1260
 msgid "R"
 msgstr ""
 
@@ -699,7 +719,7 @@ msgstr ""
 msgid "Rating"
 msgstr "Freigabehinweis"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1268
 msgid "Rc"
 msgstr ""
 
@@ -733,7 +753,7 @@ msgstr "Surround hinten rechts"
 msgid "Right surround"
 msgstr "Surround rechts"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1264
 msgid "Rs"
 msgstr ""
 
@@ -754,7 +774,7 @@ msgstr ""
 msgid "SSH error (%1)"
 msgstr "SSH Fehler (%1)"
 
-#: src/lib/video_content.cc:536
+#: src/lib/video_content.cc:550
 msgid "Scaled to %1x%2"
 msgstr "Skaliert auf %1x%2"
 
@@ -905,6 +925,10 @@ msgstr ""
 msgid "Untitled"
 msgstr "Unbenannt"
 
+#: src/lib/util.cc:497 src/lib/util.cc:498
+msgid "Unused"
+msgstr ""
+
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
 msgstr ""
@@ -913,19 +937,19 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1266
 msgid "VI"
 msgstr ""
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:581
 msgid "Video frame rate"
 msgstr ""
 
-#: src/lib/video_content.cc:565
+#: src/lib/video_content.cc:579
 msgid "Video length"
 msgstr ""
 
-#: src/lib/video_content.cc:566
+#: src/lib/video_content.cc:580
 msgid "Video size"
 msgstr ""
 
@@ -1050,7 +1074,7 @@ msgstr ""
 msgid "frames"
 msgstr "Ganzes Bild"
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:581
 msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
@@ -1076,7 +1100,7 @@ msgstr "wird verschoben"
 msgid "name"
 msgstr "Name"
 
-#: src/lib/video_content.cc:514
+#: src/lib/video_content.cc:528
 msgid "pixel aspect ratio"
 msgstr ""
 
@@ -1103,7 +1127,7 @@ msgstr "Standbild"
 msgid "unknown"
 msgstr "unbekannt"
 
-#: src/lib/video_content.cc:565
+#: src/lib/video_content.cc:579
 msgid "video frames"
 msgstr ""
 
