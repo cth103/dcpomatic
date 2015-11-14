@@ -255,24 +255,25 @@ private:
 			_language->SetSelection (1);
 		}
 
-		setup_language_sensitivity ();
-
 		checked_set (_num_local_encoding_threads, config->num_local_encoding_threads ());
 		checked_set (_automatic_audio_analysis, config->automatic_audio_analysis ());
 		checked_set (_check_for_updates, config->check_for_updates ());
 		checked_set (_check_for_test_updates, config->check_for_test_updates ());
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
+
+		setup_sensitivity ();
 	}
 
-	void setup_language_sensitivity ()
+	void setup_sensitivity ()
 	{
 		_language->Enable (_set_language->GetValue ());
+		_check_for_test_updates->Enable (_check_for_updates->GetValue ());
 	}
 
 	void set_language_changed ()
 	{
-		setup_language_sensitivity ();
+		setup_sensitivity ();
 		if (_set_language->GetValue ()) {
 			language_changed ();
 		} else {
