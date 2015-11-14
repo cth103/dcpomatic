@@ -1,5 +1,7 @@
 2015-11-14  Carl Hetherington  <cth@carlh.net>
 
+	* Fix various misbehaviours with update checking (#749).
+
 	* Updated fr_FR translation from Thierry Journet.
 
 2015-11-13  Carl Hetherington  <cth@carlh.net>

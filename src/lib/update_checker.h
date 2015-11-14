@@ -57,16 +57,10 @@ public:
 		return _stable;
 	}
 
-	/** @return new test version, if there is one and Config is set to look for it */
+	/** @return new test version, if there is one */
 	boost::optional<std::string> test () {
 		boost::mutex::scoped_lock lm (_data_mutex);
 		return _test;
-	}
-
-	/** @return true if the last signal emission was the first */
-	bool last_emit_was_first () const {
-		boost::mutex::scoped_lock lm (_data_mutex);
-		return _emits == 1;
 	}
 
 	size_t write_callback (void *, size_t, size_t);

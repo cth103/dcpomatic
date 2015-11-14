@@ -163,6 +163,7 @@ public:
 		, _history_items (0)
 		, _history_position (0)
 		, _history_separator (0)
+		, _update_news_requested (false)
 	{
 #if defined(DCPOMATIC_WINDOWS)
 		if (Config::instance()->win32_console ()) {
@@ -247,6 +248,8 @@ public:
 
 		/* Instantly save any config changes when using the DCP-o-matic GUI */
 		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
+
+		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
 
 	void new_film (boost::filesystem::path path)
@@ -561,6 +564,7 @@ private:
 	void tools_check_for_updates ()
 	{
 		UpdateChecker::instance()->run ();
+		_update_news_requested = true;
 	}
 
 	void help_about ()
@@ -770,6 +774,34 @@ private:
 		_history_items = history.size ();
 	}
 
+	void update_checker_state_changed ()
+	{
+		UpdateChecker* uc = UpdateChecker::instance ();
+
+		bool const announce =
+			_update_news_requested ||
+			(uc->stable() && Config::instance()->check_for_updates()) ||
+			(uc->test() && Config::instance()->check_for_updates() && Config::instance()->check_for_test_updates());
+
+		_update_news_requested = false;
+
+		if (!announce) {
+			return;
+		}
+
+		if (uc->state() == UpdateChecker::YES) {
+			UpdateDialog* dialog = new UpdateDialog (this, uc->stable (), uc->test ());
+			dialog->ShowModal ();
+			dialog->Destroy ();
+		} else if (uc->state() == UpdateChecker::FAILED) {
+			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
+		} else {
+			error_dialog (this, _("There are no new versions of DCP-o-matic available."));
+		}
+
+		_update_news_requested = false;
+	}
+
 	FilmEditor* _film_editor;
 	FilmViewer* _film_viewer;
 	VideoWaveformDialog* _video_waveform_dialog;
@@ -782,6 +814,7 @@ private:
 	int _history_position;
 	wxMenuItem* _history_separator;
 	boost::signals2::scoped_connection _config_changed_connection;
+	bool _update_news_requested;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
@@ -889,7 +922,6 @@ private:
 		_timer.reset (new wxTimer (this));
 		_timer->Start (1000);
 
-		UpdateChecker::instance()->StateChanged.connect (boost::bind (&App::update_checker_state_changed, this));
 		if (Config::instance()->check_for_updates ()) {
 			UpdateChecker::instance()->run ();
 		}
@@ -976,24 +1008,6 @@ private:
 			ServerFinder::instance()->rethrow ();
 		} catch (exception& e) {
 			error_dialog (0, std_to_wx (e.what ()));
-		}
-	}
-
-	void update_checker_state_changed ()
-	{
-		UpdateChecker* uc = UpdateChecker::instance ();
-		if (uc->state() == UpdateChecker::YES && (uc->stable() || uc->test())) {
-			UpdateDialog* dialog = new UpdateDialog (_frame, uc->stable (), uc->test ());
-			dialog->ShowModal ();
-			dialog->Destroy ();
-		} else if (uc->state() == UpdateChecker::FAILED) {
-			if (!UpdateChecker::instance()->last_emit_was_first ()) {
-				error_dialog (_frame, _("The DCP-o-matic download server could not be contacted."));
-			}
-		} else {
-			if (!UpdateChecker::instance()->last_emit_was_first ()) {
-				error_dialog (_frame, _("There are no new versions of DCP-o-matic available."));
-			}
 		}
 	}
 

@@ -20,7 +20,6 @@
 #include "update_checker.h"
 #include "version.h"
 #include "safe_stringstream.h"
-#include "config.h"
 #include "util.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
@@ -154,7 +153,7 @@ UpdateChecker::thread ()
 				_stable = stable;
 			}
 
-			if (Config::instance()->check_for_test_updates() && version_less_than (dcpomatic_version, test)) {
+			if (version_less_than (dcpomatic_version, test)) {
 				_test = test;
 			}
 
