@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-11 18:39+0000\n"
-"PO-Revision-Date: 2015-11-09 22:34+0100\n"
+"PO-Revision-Date: 2015-11-13 20:44+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -116,7 +116,7 @@ msgstr "À propos de DCP-o-matic"
 
 #: src/wx/screens_panel.cc:55
 msgid "Add Cinema..."
-msgstr "Ajout cinéma"
+msgstr "Ajouter cinéma"
 
 #: src/wx/content_menu.cc:66
 msgid "Add KDM..."
@@ -188,7 +188,7 @@ msgstr "Autoriser toutes cadences"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Appearance..."
-msgstr ""
+msgstr "Apparence..."
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
 msgid "Audio"
@@ -252,7 +252,7 @@ msgstr "Graver sous-titres dans l'image"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
-msgstr "Mais je dois mixer"
+msgstr "mais je dois actuellement le régler à"
 
 #: src/wx/config_dialog.cc:1190
 msgid "CC address"
@@ -268,7 +268,7 @@ msgstr "Id du CPL"
 
 #: src/wx/kdm_dialog.cc:91
 msgid "CPL annotation text"
-msgstr "Commentaire CPL"
+msgstr "Nom CPL"
 
 #: src/wx/audio_panel.cc:76
 msgid "Calculate..."
@@ -338,7 +338,7 @@ msgstr "Cinéma"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
-msgstr ""
+msgstr "Couleur"
 
 #: src/wx/content_colour_conversion_dialog.cc:36
 #: src/wx/preset_colour_conversion_dialog.cc:31 src/wx/video_panel.cc:187
@@ -721,7 +721,7 @@ msgstr "Nom de l'hôte ou adresse IP"
 
 #: src/wx/gain_calculator_dialog.cc:29
 msgid "I want to play this back at fader"
-msgstr "Je veux lire avec une table de mixage"
+msgstr "Je veux lire ce DCP à un niveau son de"
 
 #: src/wx/fonts_dialog.cc:44
 msgid "ID"
@@ -976,14 +976,12 @@ msgid "Outgoing mail server"
 msgstr "Serveurs de messagerie sortant"
 
 #: src/wx/subtitle_appearance_dialog.cc:35
-#, fuzzy
 msgid "Outline"
-msgstr "contours image"
+msgstr "Contours"
 
 #: src/wx/subtitle_appearance_dialog.cc:39
-#, fuzzy
 msgid "Outline colour"
-msgstr "contours image"
+msgstr "Couleur contours"
 
 #: src/wx/film_viewer.cc:66
 msgid "Outline content"
@@ -1106,7 +1104,7 @@ msgstr "Bobine %d"
 
 #: src/wx/dcp_panel.cc:140
 msgid "Reel length"
-msgstr "Durée bobine"
+msgstr "Taille bobine"
 
 #: src/wx/dcp_panel.cc:135
 msgid "Reels"
@@ -1217,7 +1215,7 @@ msgstr "Sélectionner fichier clé"
 
 #: src/wx/kdm_output_panel.cc:58
 msgid "Send by email"
-msgstr "Envoyé par e-mail"
+msgstr "Envoyer par e-mail"
 
 #: src/wx/report_problem_dialog.cc:60
 msgid "Send logs"
@@ -1289,7 +1287,7 @@ msgstr "Magnetisme"
 
 #: src/wx/dcp_panel.cc:174
 msgid "Split by video content"
-msgstr "couper par contenu vidéo"
+msgstr "Séparer par contenu vidéo"
 
 #: src/wx/update_dialog.cc:45
 msgid "Stable version "
@@ -1325,7 +1323,7 @@ msgstr "Langue de sous-titres (ex. FR)"
 
 #: src/wx/subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
-msgstr ""
+msgstr "Apparence des sous-titres"
 
 #: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
 msgid "Subtitles"
@@ -1399,11 +1397,11 @@ msgstr "Durée"
 
 #: src/wx/timeline_dialog.cc:34
 msgid "Timeline"
-msgstr "Timeline"
+msgstr "Chronologie"
 
 #: src/wx/content_panel.cc:97
 msgid "Timeline..."
-msgstr "Timeline..."
+msgstr "Chronologie..."
 
 #: src/wx/timing_panel.cc:44
 msgid "Timing|Timing"
@@ -1419,7 +1417,7 @@ msgstr "Traduit par"
 
 #: src/wx/timing_panel.cc:99
 msgid "Trim after current position"
-msgstr "Couper après cette position"
+msgstr "Couper après le curseur"
 
 #: src/wx/timing_panel.cc:96
 msgid "Trim from end"
@@ -1431,7 +1429,7 @@ msgstr "Couper au début"
 
 #: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
-msgstr "Couper avant cette position"
+msgstr "Couper avant le curseur"
 
 #: src/wx/audio_dialog.cc:76 src/wx/config_dialog.cc:649
 #: src/wx/video_panel.cc:84
@@ -1508,7 +1506,7 @@ msgstr "avec l'aide de"
 
 #: src/wx/kdm_output_panel.cc:45
 msgid "Write to"
-msgstr "Ecrire à"
+msgstr "Créer dans"
 
 #: src/wx/about_dialog.cc:96
 msgid "Written by"
@@ -1516,19 +1514,19 @@ msgstr "Développé par"
 
 #: src/wx/subtitle_panel.cc:67
 msgid "X Offset"
-msgstr "Position X"
+msgstr "Position Hor."
 
 #: src/wx/subtitle_panel.cc:87
 msgid "X Scale"
-msgstr "Echelle X"
+msgstr "Echelle Hor."
 
 #: src/wx/subtitle_panel.cc:77
 msgid "Y Offset"
-msgstr "Position Y"
+msgstr "Position Ver."
 
 #: src/wx/subtitle_panel.cc:97
 msgid "Y Scale"
-msgstr "Echelle Y"
+msgstr "Echelle Ver."
 
 #: src/wx/colour_conversion_editor.cc:95
 msgid "YUV to RGB conversion"

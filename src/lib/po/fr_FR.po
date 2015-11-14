@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-11 18:39+0000\n"
-"PO-Revision-Date: 2015-11-09 22:28+0100\n"
+"PO-Revision-Date: 2015-11-13 20:33+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -596,7 +596,7 @@ msgstr "Logarithmique (plage 316:1)"
 
 #: src/lib/film.cc:1261
 msgid "Ls"
-msgstr "SrG"
+msgstr "ArG"
 
 #: src/lib/mid_side_decoder.cc:34
 msgid "Mid-side decoder"
@@ -611,9 +611,8 @@ msgid "Mismatched audio channel counts in DCP"
 msgstr "Problème de décompte de canaux audio dans le DCP"
 
 #: src/lib/dcp_examiner.cc:102
-#, fuzzy
 msgid "Mismatched audio sample rates in DCP"
-msgstr "Problème de débit audio dans le DCP"
+msgstr "Taux d'échantillonnage audio différents dans le DCP"
 
 #: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
@@ -733,7 +732,7 @@ msgstr "Arrière droite"
 
 #: src/lib/film.cc:1262
 msgid "Rs"
-msgstr "SrD"
+msgstr "ArD"
 
 #: src/lib/ffmpeg_content.cc:420 src/lib/ffmpeg_content.cc:436
 msgid "SMPTE 170M (BT601)"
