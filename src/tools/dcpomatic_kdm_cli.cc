@@ -255,7 +255,7 @@ int main (int argc, char* argv[])
 		}
 
 		dcp::Certificate certificate (dcp::file_to_string (certificate_file));
-		dcp::EncryptedKDM kdm = film->make_kdm (certificate, cpl, valid_from.get(), valid_to.get(), formulation);
+		dcp::EncryptedKDM kdm = film->make_kdm (certificate, vector<dcp::Certificate>(), cpl, valid_from.get(), valid_to.get(), formulation);
 		kdm.as_xml (output);
 		if (verbose) {
 			cout << "Generated KDM " << output << " for certificate.\n";

@@ -1113,7 +1113,8 @@ Film::frame_size () const
 
 dcp::EncryptedKDM
 Film::make_kdm (
-	dcp::Certificate target,
+	dcp::Certificate recipient,
+	vector<dcp::Certificate> trusted_devices,
 	boost::filesystem::path cpl_file,
 	dcp::LocalTime from,
 	dcp::LocalTime until,
@@ -1128,7 +1129,7 @@ Film::make_kdm (
 
 	return dcp::DecryptedKDM (
 		cpl, key(), from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (signer, target, formulation);
+		).encrypt (signer, recipient, trusted_devices, formulation);
 }
 
 list<ScreenKDM>
@@ -1144,7 +1145,7 @@ Film::make_kdms (
 
 	BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 		if (i->recipient) {
-			kdms.push_back (ScreenKDM (i, make_kdm (i->recipient.get(), dcp, from, until, formulation)));
+			kdms.push_back (ScreenKDM (i, make_kdm (i->recipient.get(), i->trusted_devices, dcp, from, until, formulation)));
 		}
 	}
 

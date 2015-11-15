@@ -29,6 +29,7 @@
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>
 
+using std::vector;
 using boost::shared_ptr;
 
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
@@ -54,6 +55,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	dcp::EncryptedKDM kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
+		vector<dcp::Certificate> (),
 		A_dcp.cpls().front()->file (),
 		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
 		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),

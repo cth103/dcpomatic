@@ -121,7 +121,8 @@ public:
 
 	dcp::EncryptedKDM
 	make_kdm (
-		dcp::Certificate target,
+		dcp::Certificate recipient,
+		std::vector<dcp::Certificate> trusted_devices,
 		boost::filesystem::path cpl_file,
 		dcp::LocalTime from,
 		dcp::LocalTime until,

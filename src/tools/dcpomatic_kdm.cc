@@ -279,7 +279,7 @@ private:
 				}
 
 				/* Encrypt */
-				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->recipient.get(), _output->formulation())));
+				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->recipient.get(), i->trusted_devices, _output->formulation())));
 			}
 
 			if (_output->write_to()) {
