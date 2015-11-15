@@ -122,13 +122,13 @@ private:
 		T new_item;
 		S* dialog = new S (this);
 		dialog->set (new_item);
-		dialog->ShowModal ();
 
-		add_to_control (dialog->get ());
-
-		std::vector<T> all = _get ();
-		all.push_back (dialog->get ());
-		_set (all);
+		if (dialog->ShowModal() == wxID_OK) {
+			add_to_control (dialog->get ());
+			std::vector<T> all = _get ();
+			all.push_back (dialog->get ());
+			_set (all);
+		}
 
 		dialog->Destroy ();
 	}
@@ -145,8 +145,9 @@ private:
 
 		S* dialog = new S (this);
 		dialog->set (all[item]);
-		dialog->ShowModal ();
-		all[item] = dialog->get ();
+		if (dialog->ShowModal() == wxID_OK) {
+			all[item] = dialog->get ();
+		}
 		dialog->Destroy ();
 
 		for (int i = 0; i < _columns; ++i) {
