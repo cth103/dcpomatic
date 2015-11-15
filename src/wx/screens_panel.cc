@@ -226,7 +226,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	shared_ptr<Screen> s (new Screen (d->name(), d->recipient()));
+	shared_ptr<Screen> s (new Screen (d->name(), d->recipient(), d->trusted_devices()));
 	c->add_screen (s);
 	add_screen (c, s);
 
@@ -244,10 +244,11 @@ ScreensPanel::edit_screen_clicked ()
 
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 
-	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->recipient);
+	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->recipient, s.second->trusted_devices);
 	if (d->ShowModal () == wxID_OK) {
 		s.second->name = d->name ();
 		s.second->recipient = d->recipient ();
+		s.second->trusted_devices = d->trusted_devices ();
 		_targets->SetItemText (s.first, std_to_wx (d->name()));
 		Config::instance()->changed ();
 	}

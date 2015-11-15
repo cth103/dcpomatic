@@ -33,9 +33,10 @@ class Cinema;
 class Screen
 {
 public:
-	Screen (std::string const & n, boost::optional<dcp::Certificate> rec)
+	Screen (std::string const & n, boost::optional<dcp::Certificate> rec, std::vector<dcp::Certificate> td)
 		: name (n)
 		, recipient (rec)
+		, trusted_devices (td)
 	{}
 
 	Screen (cxml::ConstNodePtr);
@@ -45,4 +46,5 @@ public:
 	boost::shared_ptr<Cinema> cinema;
 	std::string name;
 	boost::optional<dcp::Certificate> recipient;
+	std::vector<dcp::Certificate> trusted_devices;
 };

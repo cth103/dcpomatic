@@ -71,9 +71,10 @@ column (dcp::Certificate c)
 	return c.thumbprint ();
 }
 
-ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> recipient)
+ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices)
 	: wxDialog (parent, wxID_ANY, std_to_wx (title))
 	, _recipient (recipient)
+	, _trusted_devices (trusted_devices)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);

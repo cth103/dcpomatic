@@ -29,10 +29,19 @@ class FileDialogWrapper;
 class ScreenDialog : public wxDialog
 {
 public:
-	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> ());
+	ScreenDialog (
+		wxWindow *,
+		std::string,
+		std::string name = "",
+		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> (),
+		std::vector<dcp::Certificate> d = std::vector<dcp::Certificate> ()
+		);
 
 	std::string name () const;
 	boost::optional<dcp::Certificate> recipient () const;
+	std::vector<dcp::Certificate> trusted_devices () {
+		return _trusted_devices;
+	}
 
 private:
 	void get_recipient_from_file ();
@@ -40,10 +49,6 @@ private:
 	void download_recipient ();
 	void setup_sensitivity ();
 	void set_recipient (boost::optional<dcp::Certificate>);
-
-	std::vector<dcp::Certificate> trusted_devices () {
-		return _trusted_devices;
-	}
 
 	void set_trusted_devices (std::vector<dcp::Certificate> d) {
 		_trusted_devices = d;

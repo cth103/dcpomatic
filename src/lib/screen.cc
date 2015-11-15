@@ -19,6 +19,7 @@
 
 #include "screen.h"
 #include <libxml++/libxml++.h>
+#include <boost/foreach.hpp>
 
 Screen::Screen (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
@@ -28,6 +29,10 @@ Screen::Screen (cxml::ConstNodePtr node)
 	} else if (node->optional_string_child ("Recipient")) {
 		recipient = dcp::Certificate (node->string_child ("Recipient"));
 	}
+
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children ("TrustedDevice")) {
+		trusted_devices.push_back (dcp::Certificate (i->content ()));
+	}
 }
 
 void
@@ -36,5 +41,9 @@ Screen::as_xml (xmlpp::Element* parent) const
 	parent->add_child("Name")->add_child_text (name);
 	if (recipient) {
 		parent->add_child("Recipient")->add_child_text (recipient->certificate (true));
+	}
+
+	BOOST_FOREACH (dcp::Certificate const & i, trusted_devices) {
+		parent->add_child("TrustedDevice")->add_child_text (i.certificate (true));
 	}
 }
