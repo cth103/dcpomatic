@@ -84,7 +84,7 @@ DownloadCertificateDialog::setup_sensitivity ()
 	_download->Enable (p->ready_to_download ());
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	if (ok) {
-		ok->Enable (p->certificate ());
+		ok->Enable (static_cast<bool>(p->certificate ()));
 	}
 
 }
