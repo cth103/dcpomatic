@@ -244,10 +244,10 @@ ScreensPanel::edit_screen_clicked ()
 
 	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
 
-	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->certificate);
+	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->recipient);
 	if (d->ShowModal () == wxID_OK) {
 		s.second->name = d->name ();
-		s.second->certificate = d->certificate ();
+		s.second->recipient = d->certificate ();
 		_targets->SetItemText (s.first, std_to_wx (d->name()));
 		Config::instance()->changed ();
 	}

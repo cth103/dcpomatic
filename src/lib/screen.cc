@@ -24,7 +24,9 @@ Screen::Screen (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
 {
 	if (node->optional_string_child ("Certificate")) {
-		certificate = dcp::Certificate (node->string_child ("Certificate"));
+		recipient = dcp::Certificate (node->string_child ("Certificate"));
+	} else if (node->optional_string_child ("Recipient")) {
+		recipient = dcp::Certificate (node->string_child ("Recipient"));
 	}
 }
 
@@ -32,7 +34,7 @@ void
 Screen::as_xml (xmlpp::Element* parent) const
 {
 	parent->add_child("Name")->add_child_text (name);
-	if (certificate) {
-		parent->add_child("Certificate")->add_child_text (certificate->certificate (true));
+	if (recipient) {
+		parent->add_child("Recipient")->add_child_text (recipient->certificate (true));
 	}
 }

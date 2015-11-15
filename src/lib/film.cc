@@ -1143,8 +1143,8 @@ Film::make_kdms (
 	list<ScreenKDM> kdms;
 
 	BOOST_FOREACH (shared_ptr<Screen> i, screens) {
-		if (i->certificate) {
-			kdms.push_back (ScreenKDM (i, make_kdm (i->certificate.get(), dcp, from, until, formulation)));
+		if (i->recipient) {
+			kdms.push_back (ScreenKDM (i, make_kdm (i->recipient.get(), dcp, from, until, formulation)));
 		}
 	}
 

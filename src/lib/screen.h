@@ -28,14 +28,14 @@ class Cinema;
  *  @brief A representation of a Screen for KDM generation.
  *
  *  This is the name of the screen and the certificate of its
- *  server.
+ *  `recipient' (i.e. the servers).
  */
 class Screen
 {
 public:
-	Screen (std::string const & n, boost::optional<dcp::Certificate> cert)
+	Screen (std::string const & n, boost::optional<dcp::Certificate> rec)
 		: name (n)
-		, certificate (cert)
+		, recipient (rec)
 	{}
 
 	Screen (cxml::ConstNodePtr);
@@ -44,5 +44,5 @@ public:
 
 	boost::shared_ptr<Cinema> cinema;
 	std::string name;
-	boost::optional<dcp::Certificate> certificate;
+	boost::optional<dcp::Certificate> recipient;
 };

@@ -264,7 +264,7 @@ private:
 			list<ScreenKDM> screen_kdms;
 			BOOST_FOREACH (shared_ptr<Screen> i, _screens->screens()) {
 
-				if (!i->certificate) {
+				if (!i->recipient) {
 					continue;
 				}
 
@@ -279,7 +279,7 @@ private:
 				}
 
 				/* Encrypt */
-				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->certificate.get(), _output->formulation())));
+				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->recipient.get(), _output->formulation())));
 			}
 
 			if (_output->write_to()) {
