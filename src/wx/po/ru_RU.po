@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-14 02:34+0000\n"
-"PO-Revision-Date: 2015-11-12 14:25+0200\n"
+"PO-Revision-Date: 2015-11-15 22:33+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -151,9 +151,8 @@ msgid "Add..."
 msgstr "Добавить..."
 
 #: src/wx/cinema_dialog.cc:58
-#, fuzzy
 msgid "Address"
-msgstr "Кому копия"
+msgstr "Адрес"
 
 #: src/wx/colour_conversion_editor.cc:166
 msgid "Adjust white point to"
@@ -577,14 +576,12 @@ msgid "Edit..."
 msgstr "Редактировать..."
 
 #: src/wx/email_dialog.cc:27 src/wx/email_dialog.cc:29
-#, fuzzy
 msgid "Email address"
-msgstr "Отправитель"
+msgstr "E-mail адрес"
 
 #: src/wx/cinema_dialog.cc:52
-#, fuzzy
 msgid "Email addresses for KDM delivery"
-msgstr "Email адрес для доставки ключей (KDM)"
+msgstr "Email адреса для доставки ключей (KDM)"
 
 #: src/wx/servers_list_dialog.cc:32
 msgid "Encoding Servers"
@@ -630,8 +627,7 @@ msgstr "Постепенное появление"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/dolby_certificate_dialog.cc:79
-#: src/wx/dolby_certificate_dialog.cc:107
+#: src/wx/dolby_certificate_dialog.cc:79 src/wx/dolby_certificate_dialog.cc:107
 #: src/wx/dolby_certificate_dialog.cc:135
 msgid "Fetching..."
 msgstr "Установка..."

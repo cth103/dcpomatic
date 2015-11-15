@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-14 02:34+0000\n"
-"PO-Revision-Date: 2015-11-12 14:18+0200\n"
+"PO-Revision-Date: 2015-11-15 22:37+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -350,19 +350,19 @@ msgstr "Кадрировано в %1x%2"
 
 #: src/lib/util.cc:495
 msgid "D-BOX primary"
-msgstr ""
+msgstr "D-BOX основной (DBP)"
 
 #: src/lib/util.cc:496
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "D-BOX второстепенный (DBS)"
 
 #: src/lib/film.cc:1271
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1272
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
@@ -586,7 +586,7 @@ msgstr "Левый surround"
 
 #: src/lib/film.cc:1262
 msgid "Lfe"
-msgstr "НЧ"
+msgstr "LFE"
 
 #: src/lib/util.cc:486
 msgid "Lfe (sub)"
@@ -931,7 +931,7 @@ msgstr "Безымянный"
 
 #: src/lib/util.cc:497 src/lib/util.cc:498
 msgid "Unused"
-msgstr ""
+msgstr "Не используется"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"

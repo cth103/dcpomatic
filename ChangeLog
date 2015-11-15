@@ -1,5 +1,7 @@
 2015-11-15  Carl Hetherington  <cth@carlh.net>
 
+	* Updated ru_RU translation from Igor Voytovich.
+
 	* Basic support for trusted device lists in KDMs (#750).
 
 2015-11-14  Carl Hetherington  <cth@carlh.net>
