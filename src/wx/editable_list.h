@@ -67,8 +67,6 @@ public:
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
 			_add = new wxButton (this, wxID_ANY, _("Add..."));
 			s->Add (_add, 0, wxTOP | wxBOTTOM, 2);
-			_copy = new wxButton (this, wxID_ANY, _("Copy..."));
-			s->Add (_copy, 0, wxTOP | wxBOTTOM, 2);
 			_edit = new wxButton (this, wxID_ANY, _("Edit..."));
 			s->Add (_edit, 0, wxTOP | wxBOTTOM, 2);
 			_remove = new wxButton (this, wxID_ANY, _("Remove"));
@@ -77,7 +75,6 @@ public:
 		}
 
 		_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
-		_copy->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::copy_clicked, this));
 		_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::edit_clicked, this));
 		_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::remove_clicked, this));
 
@@ -136,23 +133,6 @@ private:
 		dialog->Destroy ();
 	}
 
-	void copy_clicked ()
-	{
-		int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (item == -1) {
-			return;
-		}
-
-		std::vector<T> all = _get ();
-		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
-
-		T copy (all[item]);
-		add_to_control (copy);
-
-		all.push_back (copy);
-		_set (all);
-	}
-
 	void edit_clicked ()
 	{
 		int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
@@ -206,7 +186,6 @@ private:
 	boost::function<std::string (T, int)> _column;
 
 	wxButton* _add;
-	wxButton* _copy;
 	wxButton* _edit;
 	wxButton* _remove;
 	wxListCtrl* _list;
