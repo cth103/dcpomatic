@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_EDITABLE_LIST_H
+#define DCPOMATIC_EDITABLE_LIST_H
+
 #include "wx_util.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
@@ -36,13 +39,14 @@ public:
 		boost::function<std::vector<T> ()> get,
 		boost::function<void (std::vector<T>)> set,
 		boost::function<std::string (T, int)> column,
-		int height = 100
+		bool can_edit = true
 		)
 		: wxPanel (parent)
 		, _get (get)
 		, _set (set)
 		, _columns (columns.size ())
 		, _column (column)
+		, _edit (0)
 	{
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		SetSizer (s);
@@ -51,7 +55,7 @@ public:
 		table->AddGrowableCol (0, 1);
 		s->Add (table, 1, wxEXPAND);
 
-		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, height), wxLC_REPORT | wxLC_SINGLE_SEL);
+		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 		for (size_t i = 0; i < columns.size(); ++i) {
 			wxListItem ip;
@@ -67,15 +71,19 @@ public:
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
 			_add = new wxButton (this, wxID_ANY, _("Add..."));
 			s->Add (_add, 0, wxTOP | wxBOTTOM, 2);
-			_edit = new wxButton (this, wxID_ANY, _("Edit..."));
-			s->Add (_edit, 0, wxTOP | wxBOTTOM, 2);
+			if (can_edit) {
+				_edit = new wxButton (this, wxID_ANY, _("Edit..."));
+				s->Add (_edit, 0, wxTOP | wxBOTTOM, 2);
+			}
 			_remove = new wxButton (this, wxID_ANY, _("Remove"));
 			s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
 			table->Add (s, 0);
 		}
 
 		_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
-		_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::edit_clicked, this));
+		if (_edit) {
+			_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::edit_clicked, this));
+		}
 		_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::remove_clicked, this));
 
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
@@ -113,7 +121,9 @@ private:
 	void selection_changed ()
 	{
 		int const i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		_edit->Enable (i >= 0);
+		if (_edit) {
+			_edit->Enable (i >= 0);
+		}
 		_remove->Enable (i >= 0);
 	}
 
@@ -191,3 +201,5 @@ private:
 	wxButton* _remove;
 	wxListCtrl* _list;
 };
+
+#endif

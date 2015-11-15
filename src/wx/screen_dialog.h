@@ -17,15 +17,16 @@
 
 */
 
-#include "table_dialog.h"
+#include "editable_list.h"
 #include <dcp/certificate.h>
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 
 class Progress;
+class FileDialogWrapper;
 
-class ScreenDialog : public TableDialog
+class ScreenDialog : public wxDialog
 {
 public:
 	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> ());
@@ -38,11 +39,23 @@ private:
 	void load_recipient (boost::filesystem::path);
 	void download_recipient ();
 	void setup_sensitivity ();
+	void set_recipient (boost::optional<dcp::Certificate>);
 
+	std::vector<dcp::Certificate> trusted_devices () {
+		return _trusted_devices;
+	}
+
+	void set_trusted_devices (std::vector<dcp::Certificate> d) {
+		_trusted_devices = d;
+	}
+
+	wxGridBagSizer* _sizer;
 	wxTextCtrl* _name;
 	wxStaticText* _recipient_thumbprint;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
+	EditableList<dcp::Certificate, FileDialogWrapper>* _trusted_device_list;
 
 	boost::optional<dcp::Certificate> _recipient;
+	std::vector<dcp::Certificate> _trusted_devices;
 };
