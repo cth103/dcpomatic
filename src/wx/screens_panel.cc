@@ -226,7 +226,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	shared_ptr<Screen> s (new Screen (d->name(), d->certificate()));
+	shared_ptr<Screen> s (new Screen (d->name(), d->recipient()));
 	c->add_screen (s);
 	add_screen (c, s);
 
@@ -247,7 +247,7 @@ ScreensPanel::edit_screen_clicked ()
 	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->recipient);
 	if (d->ShowModal () == wxID_OK) {
 		s.second->name = d->name ();
-		s.second->recipient = d->certificate ();
+		s.second->recipient = d->recipient ();
 		_targets->SetItemText (s.first, std_to_wx (d->name()));
 		Config::instance()->changed ();
 	}

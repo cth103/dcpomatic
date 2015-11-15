@@ -31,18 +31,18 @@ public:
 	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> ());
 
 	std::string name () const;
-	boost::optional<dcp::Certificate> certificate () const;
+	boost::optional<dcp::Certificate> recipient () const;
 
 private:
-	void select_certificate ();
-	void load_certificate (boost::filesystem::path);
-	void download_certificate ();
+	void get_recipient_from_file ();
+	void load_recipient (boost::filesystem::path);
+	void download_recipient ();
 	void setup_sensitivity ();
 
 	wxTextCtrl* _name;
-	wxStaticText* _certificate_thumbprint;
-	wxButton* _load_certificate;
-	wxButton* _download_certificate;
+	wxStaticText* _recipient_thumbprint;
+	wxButton* _get_recipient_from_file;
+	wxButton* _download_recipient;
 
-	boost::optional<dcp::Certificate> _certificate;
+	boost::optional<dcp::Certificate> _recipient;
 };

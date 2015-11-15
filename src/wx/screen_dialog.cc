@@ -31,31 +31,31 @@ using std::string;
 using std::cout;
 using boost::optional;
 
-ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> certificate)
+ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> recipient)
 	: TableDialog (parent, std_to_wx (title), 2, 1, true)
-	, _certificate (certificate)
+	, _recipient (recipient)
 {
 	add (_("Name"), true);
 	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1)));
 
-	add (_("Certificate"), true);
+	add (_("Recipient certificate"), true);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-	_certificate_thumbprint = new wxStaticText (this, wxID_ANY, wxT (""));
-	wxFont font = _certificate_thumbprint->GetFont ();
+	_recipient_thumbprint = new wxStaticText (this, wxID_ANY, wxT (""));
+	wxFont font = _recipient_thumbprint->GetFont ();
 	font.SetFamily (wxFONTFAMILY_TELETYPE);
-	_certificate_thumbprint->SetFont (font);
-	if (certificate) {
-		_certificate_thumbprint->SetLabel (std_to_wx (certificate->thumbprint ()));
+	_recipient_thumbprint->SetFont (font);
+	if (recipient) {
+		_recipient_thumbprint->SetLabel (std_to_wx (recipient->thumbprint ()));
 	}
-	_load_certificate = new wxButton (this, wxID_ANY, _("Load from file..."));
-	_download_certificate = new wxButton (this, wxID_ANY, _("Download..."));
-	s->Add (_certificate_thumbprint, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	s->Add (_load_certificate, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
-	s->Add (_download_certificate, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
+	_get_recipient_from_file = new wxButton (this, wxID_ANY, _("Get from file..."));
+	_download_recipient = new wxButton (this, wxID_ANY, _("Download..."));
+	s->Add (_recipient_thumbprint, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	s->Add (_get_recipient_from_file, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
+	s->Add (_download_recipient, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	add (s);
 
-	_load_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::select_certificate, this));
-	_download_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_certificate, this));
+	_get_recipient_from_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::get_recipient_from_file, this));
+	_download_recipient->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_recipient, this));
 
 	setup_sensitivity ();
 	layout ();
@@ -68,28 +68,28 @@ ScreenDialog::name () const
 }
 
 optional<dcp::Certificate>
-ScreenDialog::certificate () const
+ScreenDialog::recipient () const
 {
-	return _certificate;
+	return _recipient;
 }
 
 void
-ScreenDialog::load_certificate (boost::filesystem::path file)
+ScreenDialog::load_recipient (boost::filesystem::path file)
 {
 	try {
-		_certificate = dcp::Certificate (dcp::file_to_string (file));
-		_certificate_thumbprint->SetLabel (std_to_wx (_certificate->thumbprint ()));
+		_recipient = dcp::Certificate (dcp::file_to_string (file));
+		_recipient_thumbprint->SetLabel (std_to_wx (_recipient->thumbprint ()));
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), std_to_wx(e.what()).data()));
 	}
 }
 
 void
-ScreenDialog::select_certificate ()
+ScreenDialog::get_recipient_from_file ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
 	if (d->ShowModal () == wxID_OK) {
-		load_certificate (boost::filesystem::path (wx_to_std (d->GetPath ())));
+		load_recipient (boost::filesystem::path (wx_to_std (d->GetPath ())));
 	}
 	d->Destroy ();
 
@@ -97,12 +97,12 @@ ScreenDialog::select_certificate ()
 }
 
 void
-ScreenDialog::download_certificate ()
+ScreenDialog::download_recipient ()
 {
 	DownloadCertificateDialog* d = new DownloadCertificateDialog (this);
 	if (d->ShowModal() == wxID_OK) {
-		_certificate = d->certificate ();
-		_certificate_thumbprint->SetLabel (std_to_wx (_certificate->thumbprint ()));
+		_recipient = d->certificate ();
+		_recipient_thumbprint->SetLabel (std_to_wx (_recipient->thumbprint ()));
 	}
 	d->Destroy ();
 	setup_sensitivity ();
@@ -113,6 +113,6 @@ ScreenDialog::setup_sensitivity ()
 {
 	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
 	if (ok) {
-		ok->Enable (static_cast<bool>(_certificate));
+		ok->Enable (static_cast<bool>(_recipient));
 	}
 }
