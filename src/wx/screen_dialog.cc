@@ -19,8 +19,7 @@
 
 #include "screen_dialog.h"
 #include "wx_util.h"
-#include "doremi_certificate_dialog.h"
-#include "dolby_certificate_dialog.h"
+#include "download_certificate_dialog.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include <dcp/exceptions.h>
@@ -38,9 +37,6 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 {
 	add (_("Name"), true);
 	_name = add (new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1)));
-
-	add (_("Server manufacturer"), true);
-	_manufacturer = add (new wxChoice (this, wxID_ANY));
 
 	add (_("Certificate"), true);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -60,15 +56,8 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 	_certificate_text->SetFont (font);
 	add (_certificate_text);
 
-	_manufacturer->Append (_("Unknown"));
-	_manufacturer->Append (_("Doremi"));
-	_manufacturer->Append (_("Dolby"));
-	_manufacturer->Append (_("Other"));
-	_manufacturer->SetSelection (0);
-
 	_load_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::select_certificate, this));
 	_download_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_certificate, this));
-	_manufacturer->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ScreenDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 	layout ();
@@ -91,7 +80,7 @@ ScreenDialog::load_certificate (boost::filesystem::path file)
 {
 	try {
 		_certificate = dcp::Certificate (dcp::file_to_string (file));
-		_certificate_text->SetValue (_certificate->certificate ());
+		_certificate_text->SetValue (std_to_wx (_certificate->certificate ()));
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), std_to_wx(e.what()).data()));
 	}
@@ -112,16 +101,12 @@ ScreenDialog::select_certificate ()
 void
 ScreenDialog::download_certificate ()
 {
-	if (_manufacturer->GetStringSelection() == _("Doremi")) {
-		DownloadCertificateDialog* d = new DoremiCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
-		d->ShowModal ();
-		d->Destroy ();
-	} else if (_manufacturer->GetStringSelection() == _("Dolby")) {
-		DownloadCertificateDialog* d = new DolbyCertificateDialog (this, boost::bind (&ScreenDialog::load_certificate, this, _1));
-		d->ShowModal ();
-		d->Destroy ();
+	DownloadCertificateDialog* d = new DownloadCertificateDialog (this);
+	if (d->ShowModal() == wxID_OK) {
+		_certificate = d->certificate ();
+		_certificate_text->SetValue (std_to_wx (_certificate->certificate ()));
 	}
-
+	d->Destroy ();
 	setup_sensitivity ();
 }
 
@@ -132,9 +117,4 @@ ScreenDialog::setup_sensitivity ()
 	if (ok) {
 		ok->Enable (static_cast<bool>(_certificate));
 	}
-
-	_download_certificate->Enable (
-		_manufacturer->GetStringSelection() == _("Doremi") ||
-		_manufacturer->GetStringSelection() == _("Dolby")
-		);
 }

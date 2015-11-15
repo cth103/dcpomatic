@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,37 @@
 
 */
 
-#include "table_dialog.h"
+#ifndef DCPOMATIC_DOWNLOAD_CERTIFICATE_PANEL_H
+#define DCPOMATIC_DOWNLOAD_CERTIFICATE_PANEL_H
+
 #include <dcp/certificate.h>
 #include <wx/wx.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
 
-class Progress;
+class DownloadCertificateDialog;
 
-class ScreenDialog : public TableDialog
+class DownloadCertificatePanel : public wxPanel
 {
 public:
-	ScreenDialog (wxWindow *, std::string, std::string name = "", boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> ());
+	DownloadCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
 
-	std::string name () const;
-	boost::optional<dcp::Certificate> certificate () const;
+	/* Do any setup that may take a noticeable amount of time */
+	virtual void setup () {}
+	virtual bool ready_to_download () const = 0;
+	virtual void download (wxStaticText* message) = 0;
+
+	void load (boost::filesystem::path);
+	dcp::Certificate certificate () const;
+
+protected:
+	void layout ();
+
+	DownloadCertificateDialog* _dialog;
+	wxFlexGridSizer* _table;
 
 private:
-	void select_certificate ();
-	void load_certificate (boost::filesystem::path);
-	void download_certificate ();
-	void setup_sensitivity ();
-
-	wxTextCtrl* _name;
-	wxButton* _load_certificate;
-	wxButton* _download_certificate;
-	wxTextCtrl* _certificate_text;
-
+	wxSizer* _overall_sizer;
 	boost::optional<dcp::Certificate> _certificate;
 };
+
+#endif

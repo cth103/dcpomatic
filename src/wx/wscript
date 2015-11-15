@@ -43,9 +43,10 @@ sources = """
           image_sequence_dialog.cc
           isdcf_metadata_dialog.cc
           dir_picker_ctrl.cc
-          dolby_certificate_dialog.cc
-          doremi_certificate_dialog.cc
+          dolby_certificate_panel.cc
+          doremi_certificate_panel.cc
           download_certificate_dialog.cc
+          download_certificate_panel.cc
           file_picker_ctrl.cc
           film_editor.cc
           film_viewer.cc

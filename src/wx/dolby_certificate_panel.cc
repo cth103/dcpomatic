@@ -17,7 +17,8 @@
 
 */
 
-#include "dolby_certificate_dialog.h"
+#include "dolby_certificate_panel.h"
+#include "download_certificate_dialog.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/internet.h"
@@ -36,40 +37,42 @@ using boost::optional;
 using boost::algorithm::split;
 using boost::algorithm::is_any_of;
 
-DolbyCertificateDialog::DolbyCertificateDialog (wxWindow* parent, boost::function<void (boost::filesystem::path)> load)
-	: DownloadCertificateDialog (parent, load)
+DolbyCertificatePanel::DolbyCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
+	: DownloadCertificatePanel (parent, dialog)
 {
-	add (_("Country"), true);
-	_country = add (new wxChoice (this, wxID_ANY));
+	add_label_to_sizer (_table, this, _("Country"), true);
+	_country = new wxChoice (this, wxID_ANY);
+	_table->Add (_country, 1, wxEXPAND);
 	_country->Append (N_("Hashemite Kingdom of Jordan"));
 
-	add (_("Cinema"), true);
-	_cinema = add (new wxChoice (this, wxID_ANY));
+	add_label_to_sizer (_table, this, _("Cinema"), true);
+	_cinema = new wxChoice (this, wxID_ANY);
+	_table->Add (_cinema, 1, wxEXPAND);
 	_cinema->Append (N_("Motion Picture Solutions London Mobile & QC"));
 
-	add (_("Serial number"), true);
-	_serial = add (new wxChoice (this, wxID_ANY));
+	add_label_to_sizer (_table, this, _("Serial number"), true);
+	_serial = new wxChoice (this, wxID_ANY);
+	_table->Add (_serial, 1, wxEXPAND);
 
-	add_common_widgets ();
+	layout ();
 
-	_country->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::country_selected, this));
-	_cinema->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::cinema_selected, this));
-	_serial->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificateDialog::serial_selected, this));
-	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::setup_countries, this));
+	_country->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificatePanel::country_selected, this));
+	_cinema->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DolbyCertificatePanel::cinema_selected, this));
+	_serial->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DownloadCertificateDialog::setup_sensitivity, _dialog));
 
 	_country->Clear ();
 	_cinema->Clear ();
 }
 
 list<string>
-DolbyCertificateDialog::get_dir (string dir) const
+DolbyCertificatePanel::get_dir (string dir) const
 {
 	string url = String::compose ("ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1", dir);
 	return ftp_ls (url, false);
 }
 
 void
-DolbyCertificateDialog::setup_countries ()
+DolbyCertificatePanel::setup_countries ()
 {
 	if (_country->GetCount() > 0) {
 		/* Already set up */
@@ -79,14 +82,14 @@ DolbyCertificateDialog::setup_countries ()
 	_country->Append (_("Fetching..."));
 	_country->SetSelection (0);
 
-	/* See DoremiCertificateDialog for discussion about this daft delay */
+	/* See DoremiCertificatePanel for discussion about this daft delay */
 	wxMilliSleep (200);
 
-	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_setup_countries, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificatePanel::finish_setup_countries, this));
 }
 
 void
-DolbyCertificateDialog::finish_setup_countries ()
+DolbyCertificatePanel::finish_setup_countries ()
 {
 	try {
 		list<string> const c = get_dir ("");
@@ -101,7 +104,7 @@ DolbyCertificateDialog::finish_setup_countries ()
 }
 
 void
-DolbyCertificateDialog::country_selected ()
+DolbyCertificatePanel::country_selected ()
 {
 	_cinema->Clear ();
 	_cinema->Append (_("Fetching..."));
@@ -110,11 +113,11 @@ DolbyCertificateDialog::country_selected ()
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif
-	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_country_selected, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificatePanel::finish_country_selected, this));
 }
 
 void
-DolbyCertificateDialog::finish_country_selected ()
+DolbyCertificatePanel::finish_country_selected ()
 {
 	try {
 		list<string> const c = get_dir (wx_to_std (_country->GetStringSelection()));
@@ -129,7 +132,7 @@ DolbyCertificateDialog::finish_country_selected ()
 }
 
 void
-DolbyCertificateDialog::cinema_selected ()
+DolbyCertificatePanel::cinema_selected ()
 {
 	_serial->Clear ();
 	_serial->Append (_("Fetching..."));
@@ -138,11 +141,11 @@ DolbyCertificateDialog::cinema_selected ()
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif
-	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_cinema_selected, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificatePanel::finish_cinema_selected, this));
 }
 
 void
-DolbyCertificateDialog::finish_cinema_selected ()
+DolbyCertificatePanel::finish_cinema_selected ()
 {
 	try {
 		list<string> const s = get_dir (String::compose ("%1/%2", wx_to_std (_country->GetStringSelection()), wx_to_std (_cinema->GetStringSelection())));
@@ -161,26 +164,19 @@ DolbyCertificateDialog::finish_cinema_selected ()
 }
 
 void
-DolbyCertificateDialog::serial_selected ()
+DolbyCertificatePanel::download (wxStaticText* message)
 {
-	_download->Enable (true);
-}
-
-void
-DolbyCertificateDialog::download ()
-{
-	downloaded (false);
-	_message->SetLabel (_("Downloading certificate"));
+	message->SetLabel (_("Downloading certificate"));
 
 #ifdef DCPOMATIC_OSX
 	wxMilliSleep (200);
 #endif
 
-	signal_manager->when_idle (boost::bind (&DolbyCertificateDialog::finish_download, this));
+	signal_manager->when_idle (boost::bind (&DolbyCertificatePanel::finish_download, this, message));
 }
 
 void
-DolbyCertificateDialog::finish_download ()
+DolbyCertificatePanel::finish_download (wxStaticText* message)
 {
 	string const zip = string_client_data (_serial->GetClientObject (_serial->GetSelection ()));
 
@@ -195,16 +191,28 @@ DolbyCertificateDialog::finish_download ()
 	vector<string> b;
 	split (b, zip, is_any_of ("_"));
 	if (b.size() < 2) {
-		_message->SetLabel (_("Unexpected certificate filename form"));
+		message->SetLabel (_("Unexpected certificate filename form"));
 		return;
 	}
 	string const cert = b[0] + "_" + b[1] + ".pem.crt";
 
-	optional<string> error = get_from_zip_url (file, cert, _load);
+	optional<string> error = get_from_zip_url (file, cert, boost::bind (&DownloadCertificatePanel::load, this, _1));
 	if (error) {
-		_message->SetLabel (std_to_wx (error.get ()));
+		message->SetLabel (std_to_wx (error.get ()));
 	} else {
-		_message->SetLabel (_("Certificate downloaded"));
-		downloaded (true);
+		message->SetLabel (_("Certificate downloaded"));
 	}
+}
+
+bool
+DolbyCertificatePanel::ready_to_download () const
+{
+	/* XXX */
+	return false;
+}
+
+void
+DolbyCertificatePanel::setup ()
+{
+	signal_manager->when_idle (boost::bind (&DolbyCertificatePanel::setup_countries, this));
 }

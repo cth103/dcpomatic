@@ -17,14 +17,15 @@
 
 */
 
-#include <curl/curl.h>
-#include <zip.h>
+#include "doremi_certificate_panel.h"
+#include "download_certificate_dialog.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include "lib/signal_manager.h"
 #include "lib/internet.h"
-#include "doremi_certificate_dialog.h"
-#include "wx_util.h"
+#include <curl/curl.h>
+#include <zip.h>
 #include <iostream>
 
 using std::string;
@@ -32,19 +33,20 @@ using std::cout;
 using boost::function;
 using boost::optional;
 
-DoremiCertificateDialog::DoremiCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
-	: DownloadCertificateDialog (parent, load)
+DoremiCertificatePanel::DoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
+	: DownloadCertificatePanel (parent, dialog)
 {
-	add (_("Server serial number"), true);
-	_serial = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1)));
+	add_label_to_sizer (_table, this, _("Server serial number"), true);
+	_serial = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1));
+	_table->Add (_serial, 1, wxEXPAND);
 
-	_serial->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DoremiCertificateDialog::set_sensitivity, this));
+	_serial->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DownloadCertificateDialog::setup_sensitivity, _dialog));
 
-	add_common_widgets ();
+	layout ();
 }
 
 void
-DoremiCertificateDialog::download ()
+DoremiCertificatePanel::download (wxStaticText* message)
 {
 	string const serial = wx_to_std (_serial->GetValue ());
 	if (serial.length() != 6) {
@@ -52,17 +54,16 @@ DoremiCertificateDialog::download ()
 		return;
 	}
 
-	downloaded (false);
-	_message->SetLabel (_("Downloading certificate"));
+	message->SetLabel (_("Downloading certificate"));
 
 	/* Hack: without this the SetLabel() above has no visible effect */
 	wxMilliSleep (200);
 
-	signal_manager->when_idle (boost::bind (&DoremiCertificateDialog::finish_download, this, serial));
+	signal_manager->when_idle (boost::bind (&DoremiCertificatePanel::finish_download, this, serial, message));
 }
 
 void
-DoremiCertificateDialog::finish_download (string serial)
+DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 {
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
@@ -72,7 +73,7 @@ DoremiCertificateDialog::finish_download (string serial)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("dcp2000-%1.cert.sha256.pem", serial),
-		_load
+		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 
 	if (error) {
@@ -82,7 +83,7 @@ DoremiCertificateDialog::finish_download (string serial)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("imb-%1.cert.sha256.pem", serial),
-		_load
+		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 	}
 
@@ -93,21 +94,20 @@ DoremiCertificateDialog::finish_download (string serial)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("ims-%1.cert.sha256.pem", serial),
-		_load
+		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 	}
 
 	if (error) {
-		_message->SetLabel (wxT (""));
+		message->SetLabel (wxT (""));
 		error_dialog (this, std_to_wx (error.get ()));
 	} else {
-		_message->SetLabel (_("Certificate downloaded"));
-		downloaded (true);
+		message->SetLabel (_("Certificate downloaded"));
 	}
 }
 
-void
-DoremiCertificateDialog::set_sensitivity ()
+bool
+DoremiCertificatePanel::ready_to_download () const
 {
-	_download->Enable (!_serial->IsEmpty ());
+	return !_serial->IsEmpty ();
 }

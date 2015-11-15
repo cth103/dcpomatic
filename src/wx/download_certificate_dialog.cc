@@ -17,47 +17,74 @@
 
 */
 
-#include "wx_util.h"
+#include "doremi_certificate_panel.h"
+#include "dolby_certificate_panel.h"
 #include "download_certificate_dialog.h"
-#include <boost/bind.hpp>
+#include "wx_util.h"
 
-using boost::function;
-
-DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent, function<void (boost::filesystem::path)> load)
-	: TableDialog (parent, _("Download certificate"), 2, 1, true)
-	, _load (load)
-	, _message (0)
-	, _download (0)
+DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
+	: wxDialog (parent, wxID_ANY, _("Download certificate"))
 {
+	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 
-}
+	_notebook = new wxNotebook (this, wxID_ANY);
+	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-void
-DownloadCertificateDialog::add_common_widgets ()
-{
-	add_spacer ();
-	_download = add (new wxButton (this, wxID_ANY, _("Download")));
+	_pages.push_back (new DoremiCertificatePanel (_notebook, this));
+	_setup.push_back (false);
+	_notebook->AddPage (_pages.back(), _("Doremi"), true);
+	_pages.push_back (new DolbyCertificatePanel (_notebook, this));
+	_setup.push_back (false);
+	_notebook->AddPage (_pages.back(), _("Dolby"), false);
 
-	add_spacer ();
-	_message = add (new wxStaticText (this, wxID_ANY, wxT ("")));
+	_download = new wxButton (this, wxID_ANY, _("Download"));
+	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
+	_message = new wxStaticText (this, wxID_ANY, wxT (""));
+	sizer->Add (_message, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	wxFont font = _message->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
 	_message->SetFont (font);
 
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	if (buttons) {
+		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
+	SetSizerAndFit (sizer);
+
+	_notebook->Bind (wxEVT_NOTEBOOK_PAGE_CHANGED, boost::bind (&DownloadCertificateDialog::page_changed, this));
 	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
 
-	layout ();
-
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
-	ok->Enable (false);
+	page_changed ();
 }
 
 void
-DownloadCertificateDialog::downloaded (bool done)
+DownloadCertificateDialog::download ()
 {
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
-	ok->Enable (done);
+	_pages[_notebook->GetSelection()]->download (_message);
+}
+
+dcp::Certificate
+DownloadCertificateDialog::certificate () const
+{
+	return _pages[_notebook->GetSelection()]->certificate ();
+}
+
+void
+DownloadCertificateDialog::setup_sensitivity ()
+{
+	_download->Enable (_pages[_notebook->GetSelection()]->ready_to_download ());
+}
+
+void
+DownloadCertificateDialog::page_changed ()
+{
+	int const n = _notebook->GetSelection();
+	if (!_setup[n]) {
+		_pages[n]->setup ();
+		_setup[n] = true;
+	}
 }

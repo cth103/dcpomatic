@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,29 +17,27 @@
 
 */
 
-#ifndef DCPOMATIC_DOWNLOAD_CERTIFICATE_DIALOG_H
-#define DCPOMATIC_DOWNLOAD_CERTIFICATE_DIALOG_H
-
 #include <wx/wx.h>
-#include <boost/function.hpp>
-#include <boost/filesystem.hpp>
-#include "table_dialog.h"
+#include <wx/notebook.h>
 
-class DownloadCertificateDialog : public TableDialog
+class DownloadCertificatePanel;
+
+class DownloadCertificateDialog : public wxDialog
 {
 public:
-	DownloadCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
+	DownloadCertificateDialog (wxWindow* parent);
 
-protected:
-	void add_common_widgets ();
-	void downloaded (bool done);
+	dcp::Certificate certificate () const;
 
-	boost::function<void (boost::filesystem::path)> _load;
-	wxStaticText* _message;
-	wxButton* _download;
+	void setup_sensitivity ();
 
 private:
-	virtual void download () = 0;
-};
+	void download ();
+	void page_changed ();
 
-#endif
+	wxNotebook* _notebook;
+	std::vector<DownloadCertificatePanel*> _pages;
+	std::vector<bool> _setup;
+	wxButton* _download;
+	wxStaticText* _message;
+};

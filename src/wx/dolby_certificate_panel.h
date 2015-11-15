@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,18 +17,30 @@
 
 */
 
-#include "download_certificate_dialog.h"
+#include "download_certificate_panel.h"
+#include <curl/curl.h>
+#include <list>
 
-class DoremiCertificateDialog : public DownloadCertificateDialog
+class DolbyCertificatePanel : public DownloadCertificatePanel
 {
 public:
-	DoremiCertificateDialog (wxWindow *, boost::function<void (boost::filesystem::path)>);
+	DolbyCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
+
+	void setup ();
+	bool ready_to_download () const;
+	void download (wxStaticText* message);
 
 private:
-	void download ();
-        void set_sensitivity ();
+	void finish_download (wxStaticText* message);
+	void setup_countries ();
+	void finish_setup_countries ();
+	void country_selected ();
+	void finish_country_selected ();
+	void cinema_selected ();
+	void finish_cinema_selected ();
+	std::list<std::string> get_dir (std::string) const;
 
-	void finish_download (std::string serial);
-
-	wxTextCtrl* _serial;
+	wxChoice* _country;
+	wxChoice* _cinema;
+	wxChoice* _serial;
 };
