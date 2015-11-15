@@ -103,6 +103,7 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 		error_dialog (this, std_to_wx (error.get ()));
 	} else {
 		message->SetLabel (_("Certificate downloaded"));
+		_dialog->setup_sensitivity ();
 	}
 }
 

@@ -40,9 +40,9 @@ private:
 	void setup_sensitivity ();
 
 	wxTextCtrl* _name;
+	wxStaticText* _certificate_thumbprint;
 	wxButton* _load_certificate;
 	wxButton* _download_certificate;
-	wxTextCtrl* _certificate_text;
 
 	boost::optional<dcp::Certificate> _certificate;
 };

@@ -24,6 +24,7 @@
 #include <boost/bind.hpp>
 
 using boost::function;
+using boost::optional;
 
 DownloadCertificatePanel::DownloadCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
 	: wxPanel (parent, wxID_ANY)
@@ -55,9 +56,8 @@ DownloadCertificatePanel::load (boost::filesystem::path file)
 	}
 }
 
-dcp::Certificate
+optional<dcp::Certificate>
 DownloadCertificatePanel::certificate () const
 {
-	DCPOMATIC_ASSERT (_certificate);
-	return _certificate.get ();
+	return _certificate;
 }

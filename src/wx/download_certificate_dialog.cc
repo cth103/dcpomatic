@@ -22,6 +22,8 @@
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 
+using boost::optional;
+
 DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Download certificate"))
 {
@@ -70,13 +72,21 @@ DownloadCertificateDialog::download ()
 dcp::Certificate
 DownloadCertificateDialog::certificate () const
 {
-	return _pages[_notebook->GetSelection()]->certificate ();
+	optional<dcp::Certificate> c = _pages[_notebook->GetSelection()]->certificate ();
+	DCPOMATIC_ASSERT (c);
+	return c.get ();
 }
 
 void
 DownloadCertificateDialog::setup_sensitivity ()
 {
-	_download->Enable (_pages[_notebook->GetSelection()]->ready_to_download ());
+	DownloadCertificatePanel* p = _pages[_notebook->GetSelection()];
+	_download->Enable (p->ready_to_download ());
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	if (ok) {
+		ok->Enable (p->certificate ());
+	}
+
 }
 
 void
@@ -87,4 +97,6 @@ DownloadCertificateDialog::page_changed ()
 		_pages[n]->setup ();
 		_setup[n] = true;
 	}
+
+	setup_sensitivity ();
 }

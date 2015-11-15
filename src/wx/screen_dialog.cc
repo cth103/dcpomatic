@@ -40,21 +40,19 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 
 	add (_("Certificate"), true);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	_certificate_thumbprint = new wxStaticText (this, wxID_ANY, wxT (""));
+	wxFont font = _certificate_thumbprint->GetFont ();
+	font.SetFamily (wxFONTFAMILY_TELETYPE);
+	_certificate_thumbprint->SetFont (font);
+	if (certificate) {
+		_certificate_thumbprint->SetLabel (std_to_wx (certificate->thumbprint ()));
+	}
 	_load_certificate = new wxButton (this, wxID_ANY, _("Load from file..."));
 	_download_certificate = new wxButton (this, wxID_ANY, _("Download..."));
-	s->Add (_load_certificate, 1, wxEXPAND);
-	s->Add (_download_certificate, 1, wxEXPAND);
+	s->Add (_certificate_thumbprint, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	s->Add (_load_certificate, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
+	s->Add (_download_certificate, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	add (s);
-
-	add_spacer ();
-	_certificate_text = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (320, 256), wxTE_MULTILINE | wxTE_READONLY);
-	if (certificate) {
-		_certificate_text->SetValue (certificate->certificate ());
-	}
-	wxFont font = wxSystemSettings::GetFont (wxSYS_ANSI_FIXED_FONT);
-	font.SetPointSize (font.GetPointSize() / 2);
-	_certificate_text->SetFont (font);
-	add (_certificate_text);
 
 	_load_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::select_certificate, this));
 	_download_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_certificate, this));
@@ -80,7 +78,7 @@ ScreenDialog::load_certificate (boost::filesystem::path file)
 {
 	try {
 		_certificate = dcp::Certificate (dcp::file_to_string (file));
-		_certificate_text->SetValue (std_to_wx (_certificate->certificate ()));
+		_certificate_thumbprint->SetLabel (std_to_wx (_certificate->thumbprint ()));
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), std_to_wx(e.what()).data()));
 	}
@@ -104,7 +102,7 @@ ScreenDialog::download_certificate ()
 	DownloadCertificateDialog* d = new DownloadCertificateDialog (this);
 	if (d->ShowModal() == wxID_OK) {
 		_certificate = d->certificate ();
-		_certificate_text->SetValue (std_to_wx (_certificate->certificate ()));
+		_certificate_thumbprint->SetLabel (std_to_wx (_certificate->thumbprint ()));
 	}
 	d->Destroy ();
 	setup_sensitivity ();

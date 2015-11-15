@@ -201,6 +201,7 @@ DolbyCertificatePanel::finish_download (wxStaticText* message)
 		message->SetLabel (std_to_wx (error.get ()));
 	} else {
 		message->SetLabel (_("Certificate downloaded"));
+		_dialog->setup_sensitivity ();
 	}
 }
 

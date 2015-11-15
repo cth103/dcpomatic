@@ -37,7 +37,7 @@ public:
 	virtual void download (wxStaticText* message) = 0;
 
 	void load (boost::filesystem::path);
-	dcp::Certificate certificate () const;
+	boost::optional<dcp::Certificate> certificate () const;
 
 protected:
 	void layout ();
