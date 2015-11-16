@@ -193,7 +193,7 @@ private:
 		table->Add (_check_for_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 
-		_check_for_test_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for testing updates as well as stable ones"));
+		_check_for_test_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for testing updates on startup"));
 		table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 
