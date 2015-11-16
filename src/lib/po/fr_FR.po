@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-14 02:34+0000\n"
+"POT-Creation-Date: 2015-11-16 01:21+0000\n"
 "PO-Revision-Date: 2015-11-13 20:33+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "bits par pixel"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "C"
 msgstr "C"
 
@@ -354,11 +354,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBS"
 msgstr ""
 
@@ -526,7 +526,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Corrections des bandes par dégradé"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "HI"
 msgstr "HI"
 
@@ -558,11 +558,11 @@ msgstr "Envoi KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Désentrelaceur noyau"
 
-#: src/lib/film.cc:1259
+#: src/lib/film.cc:1260
 msgid "L"
 msgstr "G"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "Lc"
 msgstr "Lc"
 
@@ -582,7 +582,7 @@ msgstr "Surround arrière gauche"
 msgid "Left surround"
 msgstr "Arrière gauche"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "Lfe"
 msgstr "Bf"
 
@@ -610,7 +610,7 @@ msgstr "Logarithmique (plage 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmique (plage 316:1)"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Ls"
 msgstr "ArG"
 
@@ -641,11 +641,6 @@ msgstr "Problème de taille d'images dans le DCP"
 #: src/lib/filter.cc:65
 msgid "Motion compensating deinterlacer"
 msgstr "Désentrelaceur par compensation de mouvement"
-
-#: src/lib/film.cc:1273 src/lib/film.cc:1274
-#, fuzzy
-msgid "NC"
-msgstr "C"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -703,7 +698,7 @@ msgstr "Erreur de programme à %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "R"
 msgstr "D"
 
@@ -715,7 +710,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Rc"
 msgstr "Rc"
 
@@ -751,7 +746,7 @@ msgstr "Surround arrière droite"
 msgid "Right surround"
 msgstr "Arrière droite"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Rs"
 msgstr "ArD"
 
@@ -937,7 +932,7 @@ msgstr "Gauche sur-mixé"
 msgid "Upmix R"
 msgstr "Droit sur-mixé"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "VI"
 msgstr "VI"
 
@@ -1129,6 +1124,10 @@ msgstr "Inconnu"
 #: src/lib/video_content.cc:579
 msgid "video frames"
 msgstr "images"
+
+#, fuzzy
+#~ msgid "NC"
+#~ msgstr "C"
 
 #~ msgid "KDM delivery"
 #~ msgstr "Fourniture KDM"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-14 02:34+0000\n"
+"POT-Creation-Date: 2015-11-16 01:21+0000\n"
 "PO-Revision-Date: 2015-11-14 05:05+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -127,15 +127,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "C"
 msgstr "C"
 
@@ -351,11 +351,11 @@ msgstr "D-BOX primair (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX secundair (DBS)"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBS"
 msgstr "DBS"
 
@@ -525,7 +525,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "HI"
 msgstr "HI"
 
@@ -557,11 +557,11 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/film.cc:1259
+#: src/lib/film.cc:1260
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "Lc"
 msgstr "Lc"
 
@@ -581,7 +581,7 @@ msgstr "Achter surround links (BsL)"
 msgid "Left surround"
 msgstr "Links surround (Ls)"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -609,7 +609,7 @@ msgstr "Logaritmisch (100: 1 bereik)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisch (316: 1 bereik)"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Ls"
 msgstr "Ls"
 
@@ -640,10 +640,6 @@ msgstr "Ongelijke beeldgroottes in DCP"
 #: src/lib/filter.cc:65
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
-
-#: src/lib/film.cc:1273 src/lib/film.cc:1274
-msgid "NC"
-msgstr "NC"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -705,7 +701,7 @@ msgstr "Programmeerfout op %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "R"
 msgstr "R"
 
@@ -717,7 +713,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Rc"
 msgstr "Rc"
 
@@ -753,7 +749,7 @@ msgstr "Achter surround rechts (Bsr)"
 msgid "Right surround"
 msgstr "Rechts surround (Rs)"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Rs"
 msgstr "Rs"
 
@@ -942,7 +938,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "VI"
 msgstr "VI"
 
@@ -1134,6 +1130,9 @@ msgstr "onbekend"
 #: src/lib/video_content.cc:579
 msgid "video frames"
 msgstr "video-beelden"
+
+#~ msgid "NC"
+#~ msgstr "NC"
 
 #~ msgid "KDM delivery"
 #~ msgstr "KDM-levering"

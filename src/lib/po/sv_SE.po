@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-14 02:34+0000\n"
+"POT-Creation-Date: 2015-11-16 01:21+0000\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitar per pixel"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "C"
 msgstr "C"
 
@@ -354,11 +354,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBS"
 msgstr ""
 
@@ -529,7 +529,7 @@ msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
 # Sammanhang?
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "HI"
 msgstr "HI"
 
@@ -561,11 +561,11 @@ msgstr "KDM-leverans: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/film.cc:1259
+#: src/lib/film.cc:1260
 msgid "L"
 msgstr "V"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "Lc"
 msgstr "Vc"
 
@@ -585,7 +585,7 @@ msgstr "Vänster bakre surround"
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -613,7 +613,7 @@ msgstr "Logaritmisk (100:1 omfång)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Ls"
 msgstr "Vs"
 
@@ -645,11 +645,6 @@ msgstr "Icke-passande videostorlekar i DCP:n"
 #: src/lib/filter.cc:65
 msgid "Motion compensating deinterlacer"
 msgstr "Rörelsekompenserande avflätare"
-
-#: src/lib/film.cc:1273 src/lib/film.cc:1274
-#, fuzzy
-msgid "NC"
-msgstr "C"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -708,7 +703,7 @@ msgstr "Programmeringsfel vid %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "R"
 msgstr "H"
 
@@ -720,7 +715,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Rc"
 msgstr "Hc"
 
@@ -756,7 +751,7 @@ msgstr "Höger bakre surround"
 msgid "Right surround"
 msgstr "Höger surround"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Rs"
 msgstr "Hs"
 
@@ -943,7 +938,7 @@ msgid "Upmix R"
 msgstr "Uppmixa H"
 
 # Sammanhang?
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "VI"
 msgstr "VI"
 
@@ -1137,6 +1132,10 @@ msgstr "okänd"
 #: src/lib/video_content.cc:579
 msgid "video frames"
 msgstr "bildrutor"
+
+#, fuzzy
+#~ msgid "NC"
+#~ msgstr "C"
 
 #~ msgid "multi-part subtitles not yet supported"
 #~ msgstr "undertexter i flera delar stöds inte ännu"

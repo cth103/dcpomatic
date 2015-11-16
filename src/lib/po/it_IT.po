@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-14 02:34+0000\n"
+"POT-Creation-Date: 2015-11-16 01:21+0000\n"
 "PO-Revision-Date: 2015-10-14 10:33+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bit per pixel"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "C"
 msgstr ""
 
@@ -345,11 +345,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBS"
 msgstr ""
 
@@ -516,7 +516,7 @@ msgstr ""
 msgid "Gradient debander"
 msgstr "Gradiente debander"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "HI"
 msgstr ""
 
@@ -548,11 +548,11 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Deinterlacciatore Kernel"
 
-#: src/lib/film.cc:1259
+#: src/lib/film.cc:1260
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "Lc"
 msgstr ""
 
@@ -572,7 +572,7 @@ msgstr ""
 msgid "Left surround"
 msgstr "Surround sinistro"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Ls"
 msgstr ""
 
@@ -632,10 +632,6 @@ msgstr ""
 #: src/lib/filter.cc:65
 msgid "Motion compensating deinterlacer"
 msgstr "Dinterlacciatore con compensazione di movimento"
-
-#: src/lib/film.cc:1273 src/lib/film.cc:1274
-msgid "NC"
-msgstr ""
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -693,7 +689,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Annuncio di pubblico servizio"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "R"
 msgstr ""
 
@@ -705,7 +701,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Rc"
 msgstr ""
 
@@ -739,7 +735,7 @@ msgstr ""
 msgid "Right surround"
 msgstr "Surround destro"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Rs"
 msgstr ""
 
@@ -926,7 +922,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "VI"
 msgstr ""
 
