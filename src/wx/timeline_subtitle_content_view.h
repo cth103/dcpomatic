@@ -30,7 +30,6 @@ public:
 	TimelineSubtitleContentView (Timeline& tl, boost::shared_ptr<SubtitleContent> c);
 
 private:
-	wxString type () const;
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
 

@@ -31,12 +31,6 @@ TimelineAudioContentView::TimelineAudioContentView (Timeline& tl, shared_ptr<Con
 
 }
 
-wxString
-TimelineAudioContentView::type () const
-{
-	return _("audio");
-}
-
 wxColour
 TimelineAudioContentView::background_colour () const
 {

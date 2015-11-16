@@ -121,7 +121,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 	gc->StrokePath (path);
 	gc->FillPath (path);
 
-	wxString name = wxString::Format (wxT ("%s [%s]"), std_to_wx (cont->summary()).data(), type().data());
+	wxString name = std_to_wx (cont->summary());
 	wxDouble name_width;
 	wxDouble name_height;
 	wxDouble name_descent;

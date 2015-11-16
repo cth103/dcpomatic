@@ -29,16 +29,6 @@ TimelineVideoContentView::TimelineVideoContentView (Timeline& tl, shared_ptr<Con
 
 }
 
-wxString
-TimelineVideoContentView::type () const
-{
-	if (dynamic_pointer_cast<ImageContent> (content ()) && content()->number_of_paths() == 1) {
-		return _("still");
-	} else {
-		return _("video");
-	}
-}
-
 wxColour
 TimelineVideoContentView::background_colour () const
 {

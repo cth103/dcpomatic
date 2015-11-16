@@ -43,7 +43,6 @@ public:
 	void unset_track ();
 	boost::optional<int> track () const;
 
-	virtual wxString type () const = 0;
 	virtual wxColour background_colour () const = 0;
 	virtual wxColour foreground_colour () const = 0;
 

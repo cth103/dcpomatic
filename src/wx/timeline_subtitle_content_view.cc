@@ -29,12 +29,6 @@ TimelineSubtitleContentView::TimelineSubtitleContentView (Timeline& tl, shared_p
 
 }
 
-wxString
-TimelineSubtitleContentView::type () const
-{
-	return _("subtitles");
-}
-
 wxColour
 TimelineSubtitleContentView::background_colour () const
 {
