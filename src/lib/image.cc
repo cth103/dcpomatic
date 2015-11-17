@@ -124,8 +124,29 @@ Image::crop_scale_window (
 	DCPOMATIC_ASSERT (out_size.width >= inter_size.width);
 	DCPOMATIC_ASSERT (out_size.height >= inter_size.height);
 
-	/* Here's an image of out_size */
-	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned));
+	/* Here's an image of out_size.  Below we may write to it starting at an offset so we get some padding.
+	   Hence we want to write in the following pattern:
+
+	   block start   write start                                  line end
+	   |..(padding)..|<------line-size------------->|..(padding)..|
+	   |..(padding)..|<------line-size------------->|..(padding)..|
+	   |..(padding)..|<------line-size------------->|..(padding)..|
+
+	   where line-size is of the smaller (inter_size) image and the full padded line length is that of
+	   out_size.  To get things to work we have to tell FFmpeg that the stride is that of out_size.
+	   However some parts of FFmpeg (notably rgb48Toxyz12 in swscale.c) process data for the full
+	   specified *stride*.  This does not matter until we get to the last line:
+
+	   block start   write start                                  line end
+	   |..(padding)..|<------line-size------------->|XXXwrittenXXX|
+	   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXX|
+	   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXXXXXwrittenXXX
+	                                                               ^^^^ out of bounds
+
+	   To get around this, we ask Image to overallocate its buffers by the overrun.
+	*/
+
+	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned, (out_size.width - inter_size.width) / 2));
 	out->make_black ();
 
 	/* Size of the image after any crop */
@@ -584,11 +605,13 @@ Image::bytes_per_pixel (int c) const
  *
  *  @param p Pixel format.
  *  @param s Size in pixels.
+ *  @param extra_pixels Amount of extra "run-off" memory to allocate at the end of each plane in pixels.
  */
-Image::Image (AVPixelFormat p, dcp::Size s, bool aligned)
+Image::Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels)
 	: _size (s)
 	, _pixel_format (p)
 	, _aligned (aligned)
+	, _extra_pixels (extra_pixels)
 {
 	allocate ();
 }
@@ -623,7 +646,7 @@ Image::allocate ()
 		   so I'll just over-allocate by 32 bytes and have done with it.  Empirical
 		   testing suggests that it works.
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * sample_size(i).height + 32);
+		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * sample_size(i).height + _extra_pixels * bytes_per_pixel(i) + 32);
 	}
 }
 
@@ -631,6 +654,7 @@ Image::Image (Image const & other)
 	: _size (other._size)
 	, _pixel_format (other._pixel_format)
 	, _aligned (other._aligned)
+	, _extra_pixels (other._extra_pixels)
 {
 	allocate ();
 
@@ -650,6 +674,7 @@ Image::Image (AVFrame* frame)
 	: _size (frame->width, frame->height)
 	, _pixel_format (static_cast<AVPixelFormat> (frame->format))
 	, _aligned (true)
+	, _extra_pixels (0)
 {
 	allocate ();
 
@@ -670,6 +695,7 @@ Image::Image (shared_ptr<const Image> other, bool aligned)
 	: _size (other->_size)
 	, _pixel_format (other->_pixel_format)
 	, _aligned (aligned)
+	, _extra_pixels (other->_extra_pixels)
 {
 	allocate ();
 

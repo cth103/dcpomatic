@@ -39,7 +39,7 @@ class Socket;
 class Image
 {
 public:
-	Image (AVPixelFormat, dcp::Size, bool);
+	Image (AVPixelFormat, dcp::Size, bool, int extra_pixels = 0);
 	Image (AVFrame *);
 	Image (Image const &);
 	Image (boost::shared_ptr<const Image>, bool);
@@ -88,6 +88,7 @@ private:
 	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
 	bool _aligned;
+	int _extra_pixels;
 };
 
 extern PositionImage merge (std::list<PositionImage> images);
