@@ -1,5 +1,8 @@
 2015-11-17  Carl Hetherington  <cth@carlh.net>
 
+	* Bump libdcp for fix to encoded date header in MXF files when
+	encoding on Windows (#754).
+
 	* Version 2.5.5 released.
 
 2015-11-17  c.hetherington  <cth@carlh.net>
