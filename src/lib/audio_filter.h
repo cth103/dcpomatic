@@ -25,6 +25,9 @@
 class AudioBuffers;
 struct audio_filter_impulse_input_test;
 
+/** An audio filter which can take AudioBuffers and apply some filtering operation,
+ *  returning filtered samples
+ */
 class AudioFilter
 {
 public:
