@@ -697,7 +697,7 @@ public:
 		_button_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_remake_certificates = new wxButton (this, wxID_ANY, _("Re-make certificates and key..."));
 		_button_sizer->Add (_remake_certificates, 1, wxRIGHT, border);
-		table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 3));
+		table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 		++r;
 
 		_add_certificate->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::add_certificate, this));
