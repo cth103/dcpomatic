@@ -1,5 +1,7 @@
 2015-11-17  c.hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Fix crash when previewing MXFs in some cases.
 
 2015-11-16  Carl Hetherington  <cth@carlh.net>

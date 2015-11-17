@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 01:21+0000\n"
-"PO-Revision-Date: 2015-11-14 05:14+0100\n"
+"PO-Revision-Date: 2015-11-16 15:17+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -308,9 +308,8 @@ msgid "Channels"
 msgstr "Kanalen"
 
 #: src/wx/config_dialog.cc:196
-#, fuzzy
 msgid "Check for testing updates on startup"
-msgstr "Zoek naar updates bij opstarten"
+msgstr "Zoek naar test-updates bij opstarten"
 
 #: src/wx/config_dialog.cc:192
 msgid "Check for updates on startup"
@@ -704,9 +703,8 @@ msgid "General"
 msgstr "Algemeen"
 
 #: src/wx/screen_dialog.cc:102
-#, fuzzy
 msgid "Get from file..."
-msgstr "Stel in uit bestand..."
+msgstr "Haal uit bestand..."
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -972,7 +970,7 @@ msgstr "Organisational unit"
 
 #: src/wx/screen_dialog.cc:110
 msgid "Other trusted devices"
-msgstr ""
+msgstr "Andere 'trusted devices'"
 
 #: src/wx/config_dialog.cc:1163
 msgid "Outgoing mail server"
@@ -1093,9 +1091,8 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:97
-#, fuzzy
 msgid "Recipient certificate"
-msgstr "Downloaden certificaat"
+msgstr "Ontvanger-certificaat"
 
 #: src/wx/isdcf_metadata_dialog.cc:60
 msgid "Red band"
@@ -1222,9 +1219,8 @@ msgid "Select Key File"
 msgstr "Selecteer sleutelbestand"
 
 #: src/wx/screen_dialog.cc:42
-#, fuzzy
 msgid "Select certificate file"
-msgstr "Selecteer Certificaat-bestand"
+msgstr "Selecteer certificaat-bestand"
 
 #: src/wx/kdm_output_panel.cc:58
 msgid "Send by email"
