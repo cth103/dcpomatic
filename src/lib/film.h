@@ -353,6 +353,7 @@ private:
 	bool _interop;
 	AudioProcessor const * _audio_processor;
 	ReelType _reel_type;
+	/** Desired reel length in bytes, if _reel_type == REELTYPE_BY_LENGTH */
 	int64_t _reel_length;
 
 	int _state_version;

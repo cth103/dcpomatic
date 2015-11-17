@@ -831,6 +831,7 @@ Film::set_reel_type (ReelType t)
 	signal_changed (REEL_TYPE);
 }
 
+/** @param r Desired reel length in bytes */
 void
 Film::set_reel_length (int64_t r)
 {
