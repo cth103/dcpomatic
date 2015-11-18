@@ -174,11 +174,6 @@ Emailer::send (shared_ptr<Job> job)
 		throw NetworkError ("Could not initialise libcurl");
 	}
 
-	CURLM* mcurl = curl_multi_init ();
-	if (!mcurl) {
-		throw NetworkError ("Could not initialise libcurl");
-	}
-
 	curl_easy_setopt (curl, CURLOPT_URL, String::compose (
 				  "smtp://%1:%2",
 				  Config::instance()->mail_server().c_str(),
@@ -218,91 +213,12 @@ Emailer::send (shared_ptr<Job> job)
 	curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, curl_debug_shim);
 	curl_easy_setopt (curl, CURLOPT_DEBUGDATA, this);
 
-	curl_multi_add_handle (mcurl, curl);
-
-	time_t start = time (0);
-
-	int still_running = 1;
-	curl_multi_perform (mcurl, &still_running);
-
-	while (still_running) {
-
-		fd_set fdread;
-		fd_set fdwrite;
-		fd_set fdexcep;
-
-		FD_ZERO (&fdread);
-		FD_ZERO (&fdwrite);
-		FD_ZERO (&fdexcep);
-
-		struct timeval timeout;
-		timeout.tv_sec = 1;
-		timeout.tv_usec = 0;
-
-		long curl_timeout = -1;
-		curl_multi_timeout (mcurl, &curl_timeout);
-		if (curl_timeout >= 0) {
-			timeout.tv_sec = curl_timeout / 1000;
-			if (timeout.tv_sec > 1) {
-				timeout.tv_sec = 1;
-			} else {
-				timeout.tv_usec = (curl_timeout % 1000) * 1000;
-			}
-		}
-
-		int maxfd = -1;
-		CURLMcode mc = curl_multi_fdset (mcurl, &fdread, &fdwrite, &fdexcep, &maxfd);
-
-		if (mc != CURLM_OK) {
-			throw KDMError (String::compose ("Failed to send KDM email to %1", address_list (_to)));
-		}
-
-		int rc;
-		if (maxfd == -1) {
-#ifdef DCPOMATIC_WINDOWS
-			Sleep (100);
-			rc = 0;
-#else
-			struct timeval wait = { 0, 100 * 1000};
-			rc = select (0, 0, 0, 0, &wait);
-#endif
-		} else {
-			rc = select (maxfd + 1, &fdread, &fdwrite, &fdexcep, &timeout);
-		}
-
-		if (rc < 0) {
-			throw KDMError ("Failed to send KDM email");
-		}
-
-		mc = curl_multi_perform (mcurl, &still_running);
-		if (mc != CURLM_OK) {
-			throw KDMError (String::compose ("Failed to send KDM email (%1)", curl_multi_strerror (mc)));
-		}
-
-		if (job) {
-			job->set_progress_unknown ();
-		}
-
-		if ((time(0) - start) > 10) {
-			throw KDMError (_("Failed to send KDM email (timed out)"));
-		}
+	CURLcode const r = curl_easy_perform (curl);
+	if (r != CURLE_OK) {
+		throw KDMError (String::compose (_("Failed to send KDM email (%1)"), curl_easy_strerror (r)));
 	}
 
-	int messages;
-	do {
-		CURLMsg* m = curl_multi_info_read (mcurl, &messages);
-		if (m && m->data.result != CURLE_OK) {
-			throw KDMError (String::compose ("Failed to send KDM email (%1)", curl_easy_strerror (m->data.result)));
-		}
-	} while (messages > 0);
-
-	/* XXX: we should do this stuff when an exception is thrown, but curl_multi_remove_handle
-	   seems to hang if we try that.
-	*/
-
 	curl_slist_free_all (recipients);
-	curl_multi_remove_handle (mcurl, curl);
-	curl_multi_cleanup (mcurl);
 	curl_easy_cleanup (curl);
 	curl_global_cleanup ();
 }
