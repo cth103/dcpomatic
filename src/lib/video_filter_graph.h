@@ -29,7 +29,9 @@ public:
 
 protected:
 	std::string src_parameters () const;
-	AVBufferSinkParams* sink_parameters () const;
+	std::string src_name () const;
+	void* sink_parameters () const;
+	std::string sink_name () const;
 
 private:
 	dcp::Size _size; ///< size of the images that this chain can process

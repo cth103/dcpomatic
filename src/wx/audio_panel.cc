@@ -303,8 +303,8 @@ AudioPanel::setup_peak ()
 		playlist->add (sel.front ());
 		try {
 			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
-			if (analysis->peak ()) {
-				float const peak_dB = 20 * log10 (analysis->peak().get()) + analysis->gain_correction (playlist);
+			if (analysis->sample_peak ()) {
+				float const peak_dB = 20 * log10 (analysis->sample_peak().get()) + analysis->gain_correction (playlist);
 				if (peak_dB > -3) {
 					alert = true;
 				}

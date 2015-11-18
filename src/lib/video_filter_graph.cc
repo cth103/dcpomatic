@@ -93,13 +93,27 @@ VideoFilterGraph::src_parameters () const
 	return a.str ();
 }
 
-AVBufferSinkParams *
+void *
 VideoFilterGraph::sink_parameters () const
 {
 	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
 	AVPixelFormat* pixel_fmts = new AVPixelFormat[2];
+	pixel_fmts = new AVPixelFormat[2];
 	pixel_fmts[0] = _pixel_format;
 	pixel_fmts[1] = AV_PIX_FMT_NONE;
 	sink_params->pixel_fmts = pixel_fmts;
 	return sink_params;
 }
+
+string
+VideoFilterGraph::src_name () const
+{
+	return "buffer";
+}
+
+string
+VideoFilterGraph::sink_name () const
+{
+	return "buffersink";
+}
+

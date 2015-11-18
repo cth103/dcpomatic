@@ -1,3 +1,7 @@
+2015-11-18  c.hetherington  <cth@carlh.net>
+
+	* Add LUFS / LRA analysis using FFmpeg's ebur128 filter (#368).
+
 2015-11-17  Carl Hetherington  <cth@carlh.net>
 
 	* Bump libdcp for fix to encoded date header in MXF files when

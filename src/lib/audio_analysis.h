@@ -40,21 +40,46 @@ public:
 	AudioAnalysis (boost::filesystem::path);
 
 	void add_point (int c, AudioPoint const & p);
-	void set_peak (float peak, DCPTime time) {
-		_peak = peak;
-		_peak_time = time;
+
+	void set_sample_peak (float peak, DCPTime time) {
+		_sample_peak = peak;
+		_sample_peak_time = time;
+	}
+
+	void set_true_peak (float peak) {
+		_true_peak = peak;
+	}
+
+	void set_integrated_loudness (float l) {
+		_integrated_loudness = l;
+	}
+
+	void set_loudness_range (float r) {
+		_loudness_range = r;
 	}
 
 	AudioPoint get_point (int c, int p) const;
 	int points (int c) const;
 	int channels () const;
 
-	boost::optional<float> peak () const {
-		return _peak;
+	boost::optional<float> sample_peak () const {
+		return _sample_peak;
 	}
 
-	boost::optional<DCPTime> peak_time () const {
-		return _peak_time;
+	boost::optional<DCPTime> sample_peak_time () const {
+		return _sample_peak_time;
+	}
+
+	boost::optional<float> true_peak () const {
+		return _true_peak;
+	}
+
+	boost::optional<float> integrated_loudness () const {
+		return _integrated_loudness;
+	}
+
+	boost::optional<float> loudness_range () const {
+		return _loudness_range;
 	}
 
 	boost::optional<double> analysis_gain () const {
@@ -71,8 +96,11 @@ public:
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;
-	boost::optional<float> _peak;
-	boost::optional<DCPTime> _peak_time;
+	boost::optional<float> _sample_peak;
+	boost::optional<DCPTime> _sample_peak_time;
+	boost::optional<float> _true_peak;
+	boost::optional<float> _integrated_loudness;
+	boost::optional<float> _loudness_range;
 	/** If this analysis was run on a single piece of
 	 *  content we store its gain in dB when the analysis
 	 *  happened.

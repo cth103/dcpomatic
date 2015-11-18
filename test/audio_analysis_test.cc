@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 
 	float const peak = random_float ();
 	DCPTime const peak_time = DCPTime (rand ());
-	a.set_peak (peak, peak_time);
+	a.set_sample_peak (peak, peak_time);
 
 	a.write ("build/test/audio_analysis_serialisation_test");
 
@@ -75,10 +75,10 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 		}
 	}
 
-	BOOST_CHECK (b.peak ());
-	BOOST_CHECK_CLOSE (b.peak().get(), peak, 1);
-	BOOST_CHECK (b.peak_time ());
-	BOOST_CHECK_EQUAL (b.peak_time().get(), peak_time);
+	BOOST_CHECK (b.sample_peak ());
+	BOOST_CHECK_CLOSE (b.sample_peak().get(), peak, 1);
+	BOOST_CHECK (b.sample_peak_time ());
+	BOOST_CHECK_EQUAL (b.sample_peak_time().get(), peak_time);
 }
 
 static void

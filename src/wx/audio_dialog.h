@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,14 +41,17 @@ private:
 	void smoothing_changed ();
 	void try_to_load_analysis ();
 	void analysis_finished ();
-	void setup_peak_time ();
+	void setup_statistics ();
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
 	int _channels;
 	boost::shared_ptr<const Playlist> _playlist;
 	AudioPlot* _plot;
-	wxStaticText* _peak_time;
+	wxStaticText* _sample_peak;
+	wxStaticText* _true_peak;
+	wxStaticText* _integrated_loudness;
+	wxStaticText* _loudness_range;
 	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
 	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;

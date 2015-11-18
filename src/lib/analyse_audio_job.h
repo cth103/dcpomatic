@@ -29,6 +29,8 @@ class AudioBuffers;
 class AudioAnalysis;
 class Playlist;
 class AudioPoint;
+class AudioFilterGraph;
+class Filter;
 
 /** @class AnalyseAudioJob
  *  @brief A job to analyse the audio of a film and make a note of its
@@ -60,10 +62,13 @@ private:
 	int64_t _samples_per_point;
 	AudioPoint* _current;
 
-	float _overall_peak;
-	Frame _overall_peak_frame;
+	float _sample_peak;
+	Frame _sample_peak_frame;
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
+
+	boost::shared_ptr<AudioFilterGraph> _ebur128;
+	std::vector<Filter const *> _filters;
 
 	static const int _num_points;
 };

@@ -52,9 +52,15 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Au
 	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
 
 	_plot = new AudioPlot (this);
-	left->Add (_plot, 1, wxALL | wxEXPAND, 12);
-	_peak_time = new wxStaticText (this, wxID_ANY, wxT (""));
-	left->Add (_peak_time, 0, wxALL, 12);
+	left->Add (_plot, 1, wxTOP | wxEXPAND, 12);
+	_sample_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+	left->Add (_sample_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
+	_true_peak = new wxStaticText (this, wxID_ANY, wxT (""));
+	left->Add (_true_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
+	_integrated_loudness = new wxStaticText (this, wxID_ANY, wxT (""));
+	left->Add (_integrated_loudness, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
+	_loudness_range = new wxStaticText (this, wxID_ANY, wxT (""));
+	left->Add (_loudness_range, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 	lr_sizer->Add (left, 1, wxALL, 12);
 
@@ -153,7 +159,7 @@ AudioDialog::try_to_load_analysis ()
 
 	_plot->set_analysis (_analysis);
 	_plot->set_gain_correction (_analysis->gain_correction (_playlist));
-	setup_peak_time ();
+	setup_statistics ();
 
 	/* Set up some defaults if no check boxes are checked */
 
@@ -223,7 +229,7 @@ AudioDialog::content_changed (int p)
 			   change, rather than recalculating everything.
 			*/
 			_plot->set_gain_correction (_analysis->gain_correction (_playlist));
-			setup_peak_time ();
+			setup_statistics ();
 		} else {
 			try_to_load_analysis ();
 		}
@@ -250,9 +256,9 @@ AudioDialog::smoothing_changed ()
 }
 
 void
-AudioDialog::setup_peak_time ()
+AudioDialog::setup_statistics ()
 {
-	if (!_analysis || !_analysis->peak ()) {
+	if (!_analysis) {
 		return;
 	}
 
@@ -261,20 +267,43 @@ AudioDialog::setup_peak_time ()
 		return;
 	}
 
-	float const peak_dB = 20 * log10 (_analysis->peak().get()) + _analysis->gain_correction (_playlist);
+	if (static_cast<bool>(_analysis->sample_peak ())) {
 
-	_peak_time->SetLabel (
-		wxString::Format (
-			_("Peak is %.2fdB at %s"),
-			peak_dB,
-			time_to_timecode (_analysis->peak_time().get(), film->video_frame_rate ()).data ()
-			)
-		);
+		float const peak_dB = 20 * log10 (_analysis->sample_peak().get()) + _analysis->gain_correction (_playlist);
 
-	if (peak_dB > -3) {
-		_peak_time->SetForegroundColour (wxColour (255, 0, 0));
-	} else {
-		_peak_time->SetForegroundColour (wxColour (0, 0, 0));
+		_sample_peak->SetLabel (
+			wxString::Format (
+				_("Sample peak is %.2fdB at %s"),
+				peak_dB,
+				time_to_timecode (_analysis->sample_peak_time().get(), film->video_frame_rate ()).data ()
+				)
+			);
+
+		if (peak_dB > -3) {
+			_sample_peak->SetForegroundColour (wxColour (255, 0, 0));
+		} else {
+			_sample_peak->SetForegroundColour (wxColour (0, 0, 0));
+		}
+	}
+
+	if (static_cast<bool>(_analysis->true_peak ())) {
+		float const peak_dB = 20 * log10 (_analysis->true_peak().get()) + _analysis->gain_correction (_playlist);
+
+		_true_peak->SetLabel (wxString::Format (_("True peak is %.2fdB"), peak_dB));
+
+		if (peak_dB > -3) {
+			_true_peak->SetForegroundColour (wxColour (255, 0, 0));
+		} else {
+			_true_peak->SetForegroundColour (wxColour (0, 0, 0));
+		}
+	}
+
+	if (static_cast<bool>(_analysis->integrated_loudness ())) {
+		_integrated_loudness->SetLabel (wxString::Format (_("Integrated loudness %.2f LUFS"), _analysis->integrated_loudness().get()));
+	}
+
+	if (static_cast<bool>(_analysis->loudness_range ())) {
+		_loudness_range->SetLabel (wxString::Format (_("Loudness range %.2f LRA"), _analysis->loudness_range().get()));
 	}
 }
 

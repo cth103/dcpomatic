@@ -62,8 +62,22 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 		_data.push_back (channel);
 	}
 
-	_peak = f.number_child<float> ("Peak");
-	_peak_time = DCPTime (f.number_child<DCPTime::Type> ("PeakTime"));
+	_sample_peak = f.optional_number_child<float> ("Peak");
+	if (!_sample_peak) {
+		/* New key */
+		_sample_peak = f.optional_number_child<float> ("SamplePeak");
+	}
+
+	if (f.optional_number_child<DCPTime::Type> ("PeakTime")) {
+		_sample_peak_time = DCPTime (f.number_child<DCPTime::Type> ("PeakTime"));
+	} else if (f.optional_number_child<DCPTime::Type> ("SamplePeakTime")) {
+		_sample_peak_time = DCPTime (f.number_child<DCPTime::Type> ("SamplePeakTime"));
+	}
+
+	_true_peak = f.optional_number_child<float> ("TruePeak");
+	_integrated_loudness = f.optional_number_child<float> ("IntegratedLoudness");
+	_loudness_range = f.optional_number_child<float> ("LoudnessRange");
+
 	_analysis_gain = f.optional_number_child<double> ("AnalysisGain");
 }
 
@@ -107,9 +121,21 @@ AudioAnalysis::write (boost::filesystem::path filename)
 		}
 	}
 
-	if (_peak) {
-		root->add_child("Peak")->add_child_text (raw_convert<string> (_peak.get ()));
-		root->add_child("PeakTime")->add_child_text (raw_convert<string> (_peak_time.get().get ()));
+	if (_sample_peak) {
+		root->add_child("SamplePeak")->add_child_text (raw_convert<string> (_sample_peak.get ()));
+		root->add_child("SamplePeakTime")->add_child_text (raw_convert<string> (_sample_peak_time.get().get ()));
+	}
+
+	if (_true_peak) {
+		root->add_child("TruePeak")->add_child_text (raw_convert<string> (_true_peak.get ()));
+	}
+
+	if (_integrated_loudness) {
+		root->add_child("IntegratedLoudness")->add_child_text (raw_convert<string> (_integrated_loudness.get ()));
+	}
+
+	if (_loudness_range) {
+		root->add_child("LoudnessRange")->add_child_text (raw_convert<string> (_loudness_range.get ()));
 	}
 
 	if (_analysis_gain) {
