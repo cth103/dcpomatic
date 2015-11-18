@@ -298,12 +298,24 @@ AudioDialog::setup_statistics ()
 		}
 	}
 
+	/* XXX: check whether it's ok to add dB gain to these quantities */
+
 	if (static_cast<bool>(_analysis->integrated_loudness ())) {
-		_integrated_loudness->SetLabel (wxString::Format (_("Integrated loudness %.2f LUFS"), _analysis->integrated_loudness().get()));
+		_integrated_loudness->SetLabel (
+			wxString::Format (
+				_("Integrated loudness %.2f LUFS"),
+				_analysis->integrated_loudness().get() + _analysis->gain_correction (_playlist)
+				)
+			);
 	}
 
 	if (static_cast<bool>(_analysis->loudness_range ())) {
-		_loudness_range->SetLabel (wxString::Format (_("Loudness range %.2f LRA"), _analysis->loudness_range().get()));
+		_loudness_range->SetLabel (
+			wxString::Format (
+				_("Loudness range %.2f LU"),
+				_analysis->loudness_range().get() + _analysis->gain_correction (_playlist)
+				)
+			);
 	}
 }
 
