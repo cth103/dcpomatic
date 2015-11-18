@@ -196,7 +196,7 @@ Emailer::send (shared_ptr<Job> job)
 
 	struct curl_slist* recipients = 0;
 	BOOST_FOREACH (string i, _to) {
-		curl_slist_append (recipients, i.c_str());
+		recipients = curl_slist_append (recipients, i.c_str());
 	}
 	BOOST_FOREACH (string i, _cc) {
 		recipients = curl_slist_append (recipients, i.c_str());
