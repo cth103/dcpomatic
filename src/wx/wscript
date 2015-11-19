@@ -71,6 +71,7 @@ sources = """
           report_problem_dialog.cc
           screen_dialog.cc
           screens_panel.cc
+          self_dkdm_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc
           subtitle_appearance_dialog.cc

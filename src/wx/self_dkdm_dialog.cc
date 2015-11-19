@@ -17,17 +17,21 @@
 
 */
 
-#include "kdm_dialog.h"
+#include "self_dkdm_dialog.h"
 #include "wx_util.h"
-#include "screens_panel.h"
-#include "kdm_timing_panel.h"
 #include "kdm_output_panel.h"
 #include "kdm_cpl_panel.h"
 #include "lib/film.h"
 #include "lib/screen.h"
 #include <libcxml/cxml.h>
+#ifdef DCPOMATIC_USE_OWN_PICKER
+#include "dir_picker_ctrl.h"
+#else
+#include <wx/filepicker.h>
+#endif
 #include <wx/treectrl.h>
 #include <wx/listctrl.h>
+#include <wx/stdpaths.h>
 #include <iostream>
 
 using std::string;
@@ -39,8 +43,8 @@ using std::vector;
 using std::make_pair;
 using boost::shared_ptr;
 
-KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
-	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
+SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
+	: wxDialog (parent, wxID_ANY, _("Make DKDM for DCP-o-matic"))
 {
 	/* Main sizer */
 	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
@@ -49,24 +53,10 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	/* Sub-heading: Screens */
-	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("Screens"));
-	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
-	_screens = new ScreensPanel (this);
-	vertical->Add (_screens, 1, wxEXPAND);
-
-	/* Sub-heading: Timing */
-	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
-	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-	_timing = new KDMTimingPanel (this);
-	vertical->Add (_timing);
-
 	/* Sub-heading: CPL */
-	h = new wxStaticText (this, wxID_ANY, _("CPL"));
+	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("CPL"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
 	vertical->Add (_cpl);
 
@@ -74,8 +64,22 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	h = new wxStaticText (this, wxID_ANY, _("Output"));
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-	_output = new KDMOutputPanel (this, film->interop ());
-	vertical->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+
+	add_label_to_sizer (table, this, _("Write to"), true);
+
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	_folder = new DirPickerCtrl (this);
+#else
+	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+#endif
+
+	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
+
+	table->Add (_folder, 1, wxEXPAND);
+
+	vertical->Add (table);
 
 	/* Make an overall sizer to get a nice border, and put some buttons in */
 
@@ -87,10 +91,6 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 		overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	/* Bind */
-
-	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
-
 	setup_sensitivity ();
 
 	SetSizer (overall_sizer);
@@ -99,57 +99,22 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 }
 
 void
-KDMDialog::setup_sensitivity ()
+SelfDKDMDialog::setup_sensitivity ()
 {
-	_screens->setup_sensitivity ();
-	_output->setup_sensitivity ();
-
-	bool const sd = _cpl->has_selected ();
-
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	if (ok) {
-		ok->Enable (!_screens->screens().empty() && sd);
+		ok->Enable (_cpl->has_selected ());
 	}
 }
 
 boost::filesystem::path
-KDMDialog::cpl () const
+SelfDKDMDialog::cpl () const
 {
 	return _cpl->cpl ();
 }
 
-list<shared_ptr<Screen> >
-KDMDialog::screens () const
-{
-	return _screens->screens ();
-}
-
-boost::posix_time::ptime
-KDMDialog::from () const
-{
-	return _timing->from ();
-}
-
-boost::posix_time::ptime
-KDMDialog::until () const
-{
-	return _timing->until ();
-}
-
 boost::filesystem::path
-KDMDialog::directory () const
+SelfDKDMDialog::directory () const
 {
-	return _output->directory ();
-}
-
-bool
-KDMDialog::write_to () const
-{
-	return _output->write_to ();
-}
-
-dcp::Formulation
-KDMDialog::formulation () const
-{
-	return _output->formulation ();
+	return wx_to_std (_folder->GetPath ());
 }

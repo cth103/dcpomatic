@@ -30,6 +30,7 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
+#include "wx/self_dkdm_dialog.h"
 #include "wx/servers_list_dialog.h"
 #include "wx/hints_dialog.h"
 #include "wx/update_dialog.h"
@@ -138,6 +139,7 @@ enum {
 	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
 	ID_jobs_make_kdms,
+	ID_jobs_make_self_dkdm,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_tools_video_waveform,
@@ -202,6 +204,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_dcp, this),           ID_jobs_make_dcp);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_self_dkdm, this),     ID_jobs_make_self_dkdm);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_video_waveform, this),    ID_tools_video_waveform);
@@ -479,6 +482,41 @@ private:
 		d->Destroy ();
 	}
 
+	void jobs_make_self_dkdm ()
+	{
+		if (!_film) {
+			return;
+		}
+
+		SelfDKDMDialog* d = new SelfDKDMDialog (this, _film);
+		if (d->ShowModal () != wxID_OK) {
+			d->Destroy ();
+			return;
+		}
+
+		try {
+			dcp::EncryptedKDM kdm = _film->make_kdm (
+				Config::instance()->decryption_chain()->leaf(),
+				vector<dcp::Certificate> (),
+				d->cpl (),
+				dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
+				dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
+				dcp::MODIFIED_TRANSITIONAL_1
+				);
+
+			string const name = tidy_for_filename(_film->name()) + "_DKDM.kdm.xml";
+			kdm.as_xml (d->directory() / name);
+		} catch (dcp::NotEncryptedError& e) {
+			error_dialog (this, _("CPL's content is not encrypted."));
+		} catch (exception& e) {
+			error_dialog (this, e.what ());
+		} catch (...) {
+			error_dialog (this, _("An unknown exception occurred."));
+		}
+
+		d->Destroy ();
+	}
+
 	void content_scale_to_fit_width ()
 	{
 		VideoContentList vc = _film_editor->content_panel()->selected_video ();
@@ -713,6 +751,7 @@ private:
 		wxMenu* jobs_menu = new wxMenu;
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
+		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM);
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
