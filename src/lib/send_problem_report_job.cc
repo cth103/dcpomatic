@@ -85,7 +85,7 @@ SendProblemReportJob::run ()
 	to.push_back ("carl@dcpomatic.com");
 
 	Emailer emailer (_from, to, "DCP-o-matic problem report", body);
-	emailer.send (shared_from_this ());
+	emailer.send ();
 
 	set_progress (1);
 }

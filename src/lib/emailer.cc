@@ -18,7 +18,6 @@
 */
 
 #include "compose.hpp"
-#include "job.h"
 #include "data.h"
 #include "config.h"
 #include "emailer.h"
@@ -92,7 +91,7 @@ Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 }
 
 void
-Emailer::send (shared_ptr<Job> job)
+Emailer::send ()
 {
 	char date_buffer[32];
 	time_t now = time (0);

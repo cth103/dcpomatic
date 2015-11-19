@@ -119,7 +119,7 @@ CinemaKDMs::write_zip_files (string film_name, list<CinemaKDMs> cinema_kdms, boo
 /* XXX: should probably get from/to from the KDMs themselves */
 void
 CinemaKDMs::email (
-	string film_name, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Job> job, shared_ptr<Log> log
+	string film_name, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Log> log
 	)
 {
 	Config* config = Config::instance ();
@@ -163,7 +163,7 @@ CinemaKDMs::email (
 
 		string const name = tidy_for_filename(i.cinema->name) + "_" + tidy_for_filename(film_name) + ".zip";
 		email.add_attachment (zip_file, name, "application/zip");
-		email.send (job);
+		email.send ();
 
 		if (log) {
 			log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);

@@ -36,7 +36,6 @@ public:
 		std::list<CinemaKDMs> cinema_kdms,
 		dcp::LocalTime from,
 		dcp::LocalTime to,
-		boost::shared_ptr<Job> job,
 		boost::shared_ptr<Log> log
 		);
 

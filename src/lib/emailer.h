@@ -29,7 +29,7 @@ public:
 	void add_bcc (std::string bcc);
 	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
 
-	void send (boost::shared_ptr<Job> job);
+	void send ();
 
 	std::string notes () const {
 		return _notes;
