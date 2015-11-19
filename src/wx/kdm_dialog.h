@@ -30,6 +30,7 @@ class Film;
 class ScreensPanel;
 class KDMTimingPanel;
 class KDMOutputPanel;
+class KDMCPLPanel;
 struct CPLSummary;
 
 class KDMDialog : public wxDialog
@@ -51,18 +52,9 @@ public:
 
 private:
 	void setup_sensitivity ();
-	void update_cpl_choice ();
-	void update_cpl_summary ();
-	void cpl_browse_clicked ();
 
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
+	KDMCPLPanel* _cpl;
 	KDMOutputPanel* _output;
-	wxChoice* _cpl;
-	wxButton* _cpl_browse;
-	wxStaticText* _dcp_directory;
-	wxStaticText* _cpl_id;
-	wxStaticText* _cpl_annotation_text;
-
-	std::vector<CPLSummary> _cpls;
 };

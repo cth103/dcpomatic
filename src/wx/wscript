@@ -59,6 +59,7 @@ sources = """
           job_view.cc
           job_view_dialog.cc
           job_manager_view.cc
+          kdm_cpl_panel.cc
           kdm_dialog.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
