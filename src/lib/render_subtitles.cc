@@ -261,8 +261,13 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	int y = 0;
 	switch (subtitles.front().v_align ()) {
 	case dcp::VALIGN_TOP:
-		/* v_position is distance between top of frame and top of subtitle */
-		y = subtitles.front().v_position() * target.height;
+		/* SMPTE says that v_position is the distance between top
+		   of frame and top of subtitle, but this doesn't always seem to be
+		   the case in practice; Gunnar Ásgeirsson's Dolby server appears
+		   to put VALIGN_TOP subs with v_position as the distance between top
+		   of frame and bottom of subtitle.
+		*/
+		y = subtitles.front().v_position() * target.height - layout_height / PANGO_SCALE;
 		break;
 	case dcp::VALIGN_CENTER:
 		/* v_position is distance between centre of frame and centre of subtitle */

@@ -1,3 +1,8 @@
+2015-11-19  Carl Hetherington  <cth@carlh.net>
+
+	* Adjust preview subtitle position to better match reality
+	in some cases.
+
 2015-11-19  c.hetherington  <cth@carlh.net>
 
 	* Add menu option to make a DKDM for DCP-o-matic (#755).
