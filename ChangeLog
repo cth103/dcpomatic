@@ -1,3 +1,7 @@
+2015-11-20  Carl Hetherington  <cth@carlh.net>
+
+	* Lower default position of SubRip subtitles a bit.
+
 2015-11-19  Carl Hetherington  <cth@carlh.net>
 
 	* Adjust preview subtitle position to better match reality

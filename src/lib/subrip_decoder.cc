@@ -87,10 +87,10 @@ SubRipDecoder::pass (PassReason, bool)
 					dcp::Time (_subtitles[_next].to.all_as_seconds(), 1000),
 					0,
 					dcp::HALIGN_CENTER,
-					/* This 0.95 is an arbitrary value to lift the bottom sub off the bottom
-					   of the screen a bit.
+					/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
+					   of the screen a bit to a pleasing degree.
 					*/
-					0.95 - ((1 + highest - i.vertical_position.line.get()) * 1.5 / 22),
+					1.015 - ((1 + highest - i.vertical_position.line.get()) * 1.5 / 22),
 					dcp::VALIGN_TOP,
 					j.text,
 					content->outline() ? dcp::BORDER : dcp::NONE,
