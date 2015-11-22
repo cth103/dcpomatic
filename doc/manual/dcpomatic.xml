@@ -1693,7 +1693,7 @@ KDMs for any screens that it knows about.
 To add a cinema, click <guilabel>Add Cinema...</guilabel>.  This opens
 a dialogue box into which you can enter the cinema's name, and
 optionally an email address.  This email address can be used to
-get DCP-o-matic to deliver KDMs via email, but it is optional.
+get DCP-o-matic to deliver KDMs via email.
 </para>
 
 <para>
