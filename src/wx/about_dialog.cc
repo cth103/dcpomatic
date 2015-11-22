@@ -172,6 +172,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Olivier Lemaire"));
 	supported_by.Add (wxT ("Gavin Lewarne"));
 	supported_by.Add (wxT ("Theo Lipfert"));
+	supported_by.Add (wxT ("Paweł Lipiński"));
 	supported_by.Add (wxT ("Adrian Manolescu"));
 	supported_by.Add (wxT ("Mattias Mattsson"));
 	supported_by.Add (wxT ("Kjarten Michaelsen"));
