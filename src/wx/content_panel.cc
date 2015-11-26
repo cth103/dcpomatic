@@ -245,7 +245,7 @@ ContentPanel::add_file_clicked ()
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
-	wxFileDialog* d = new wxFileDialog (_panel, _("Choose a file or files"), wxT (""), wxT (""), wxT ("*.*"), wxFD_MULTIPLE | wxFD_CHANGE_DIR);
+	wxFileDialog* d = new wxFileDialog (_panel, _("Choose a file or files"), wxT (""), wxT (""), wxT ("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"), wxFD_MULTIPLE | wxFD_CHANGE_DIR);
 	int const r = d->ShowModal ();
 
 	if (r != wxID_OK) {
