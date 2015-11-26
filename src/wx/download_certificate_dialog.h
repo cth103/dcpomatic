@@ -26,6 +26,7 @@ class DownloadCertificateDialog : public wxDialog
 {
 public:
 	DownloadCertificateDialog (wxWindow* parent);
+	~DownloadCertificateDialog ();
 
 	dcp::Certificate certificate () const;
 
@@ -33,7 +34,7 @@ public:
 
 private:
 	void download ();
-	void page_changed ();
+	void page_changed (wxNotebookEvent &);
 
 	wxNotebook* _notebook;
 	std::vector<DownloadCertificatePanel*> _pages;

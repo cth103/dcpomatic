@@ -56,11 +56,17 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 
 	SetSizerAndFit (sizer);
 
-	_notebook->Bind (wxEVT_NOTEBOOK_PAGE_CHANGED, boost::bind (&DownloadCertificateDialog::page_changed, this));
+	_notebook->Bind (wxEVT_NOTEBOOK_PAGE_CHANGED, &DownloadCertificateDialog::page_changed, this);
 	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
 
-	page_changed ();
+	wxNotebookEvent ev;
+	page_changed (ev);
+}
+
+DownloadCertificateDialog::~DownloadCertificateDialog ()
+{
+	_notebook->Unbind (wxEVT_NOTEBOOK_PAGE_CHANGED, &DownloadCertificateDialog::page_changed, this);
 }
 
 void
@@ -90,7 +96,7 @@ DownloadCertificateDialog::setup_sensitivity ()
 }
 
 void
-DownloadCertificateDialog::page_changed ()
+DownloadCertificateDialog::page_changed (wxNotebookEvent &)
 {
 	int const n = _notebook->GetSelection();
 	if (!_setup[n]) {
