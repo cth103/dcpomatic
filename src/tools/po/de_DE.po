@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 01:21+0000\n"
-"PO-Revision-Date: 2015-07-06 15:31+0100\n"
+"PO-Revision-Date: 2015-11-25 14:16+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:337
@@ -57,12 +57,10 @@ msgid "&Make DCP\tCtrl-M"
 msgstr "&DCP erstellen\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:686
-#, fuzzy
 msgid "&Open...\tCtrl-O"
 msgstr "&Öffnen...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:703 src/tools/dcpomatic.cc:706
-#, fuzzy
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Einstellungen...\tCtrl-P"
 
@@ -95,12 +93,12 @@ msgid "Add Film..."
 msgstr "Projekt hinzufügen..."
 
 #: src/tools/dcpomatic.cc:969
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
-"Ein unbekannter Fehler ist aufgetreten: %s (%s).\n"
+"Ein unbekannter Fehler ist aufgetreten: %s (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:978
@@ -119,7 +117,7 @@ msgstr "Ein unbekannter Fehler ist aufgetreten."
 #: src/tools/dcpomatic.cc:433
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr ""
+msgstr "Falscher Parameter für %s (%s)"
 
 #: src/tools/dcpomatic.cc:472
 msgid "CPL's content is not encrypted."
@@ -189,7 +187,7 @@ msgstr "Neu...\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:733
 msgid "Report a problem..."
-msgstr ""
+msgstr "Problembericht senden..."
 
 #: src/tools/dcpomatic.cc:725
 msgid "Restore default preferences"
@@ -275,7 +273,7 @@ msgstr "Unerledigte Aufgaben"
 
 #: src/tools/dcpomatic.cc:720
 msgid "Video waveform..."
-msgstr ""
+msgstr "Video waveform..."
 
 #: src/tools/dcpomatic.cc:362 src/tools/dcpomatic_batch.cc:161
 msgid ""
