@@ -95,6 +95,7 @@ public:
 
 	void write (Data, Frame, Eyes);
 	void fake_write (Frame, Eyes);
+	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
 	void write (boost::shared_ptr<const AudioBuffers>);
 	void write (PlayerSubtitles subs);

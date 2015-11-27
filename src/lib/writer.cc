@@ -150,6 +150,12 @@ Writer::write (Data encoded, Frame frame, Eyes eyes)
 	_empty_condition.notify_all ();
 }
 
+bool
+Writer::can_repeat (Frame frame) const
+{
+	return frame > _reels[video_reel(frame)].start();
+}
+
 /** Repeat the last frame that was written to a reel as a new frame.
  *  @param frame Frame index within the DCP of the new (repeated) frame.
  *  @param eyes Eyes that this repeated frame image is for.
@@ -519,7 +525,7 @@ Writer::write (PlayerSubtitles subs)
 		return;
 	}
 
-	if (_subtitle_reel->period().to < subs.from) {
+	if (_subtitle_reel->period().to <= subs.from) {
 		++_subtitle_reel;
 	}
 
