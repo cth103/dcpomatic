@@ -24,7 +24,6 @@
 using std::list;
 using std::string;
 using std::cerr;
-using std::stringstream;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -33,7 +32,7 @@ void
 test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop crop, Ratio const * ratio, bool scale, dcp::Size correct)
 {
 	shared_ptr<Film> film;
-	stringstream s;
+	SafeStringStream s;
 	s << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 		"<Content>"
 		"<Type>FFmpeg</Type>"

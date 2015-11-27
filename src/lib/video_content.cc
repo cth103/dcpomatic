@@ -55,7 +55,6 @@ using std::cout;
 using std::vector;
 using std::min;
 using std::max;
-using std::stringstream;
 using std::fixed;
 using std::setprecision;
 using std::list;
@@ -512,7 +511,7 @@ string
 VideoContent::processing_description () const
 {
 	/* stringstream is OK here as this string is just for presentation to the user */
-	stringstream d;
+	SafeStringStream d;
 
 	if (video_size().width && video_size().height) {
 		d << String::compose (

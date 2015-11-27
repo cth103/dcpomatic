@@ -29,7 +29,6 @@
 #include <iostream>
 
 using std::string;
-using std::stringstream;
 using std::cout;
 using std::map;
 using std::list;
@@ -151,7 +150,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		action = r["action"];
 	}
 
-	stringstream json;
+	SafeStringStream json;
 	if (action == "status") {
 
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
@@ -187,7 +186,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		}
 	}
 
-	stringstream reply;
+	SafeStringStream reply;
 	reply << "HTTP/1.1 200 OK\r\n"
 	      << "Content-Length: " << json.str().length() << "\r\n"
 	      << "Content-Type: application/json\r\n"

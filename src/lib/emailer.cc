@@ -30,7 +30,6 @@
 #include "i18n.h"
 
 using std::string;
-using std::stringstream;
 using std::min;
 using std::list;
 using std::cout;
@@ -102,7 +101,7 @@ Emailer::send ()
 	boost::posix_time::time_duration offset = local_now - utc_now;
 	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), abs (offset.hours()), offset.minutes());
 
-	stringstream email;
+	SafeStringStream email;
 
 	email << "Date: " << date_buffer << "\r\n"
 	      << "To: " << address_list (_to) << "\r\n"
