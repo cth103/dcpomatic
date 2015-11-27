@@ -26,10 +26,12 @@
 #include "lib/internet.h"
 #include <curl/curl.h>
 #include <zip.h>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
 using std::cout;
+using std::list;
 using boost::function;
 using boost::optional;
 
@@ -67,6 +69,8 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 {
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
+	list<string> errors;
+
 	optional<string> error = get_from_zip_url (
 		String::compose (
 			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/dcp2000-%2.dcicerts.zip",
@@ -77,6 +81,19 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 		);
 
 	if (error) {
+		errors.push_back (error.get ());
+		error = get_from_zip_url (
+		String::compose (
+			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/dcp2000-%2.certs.zip",
+			serial.substr(0, 3), serial
+			),
+		String::compose ("dcp2000-%1.cert.sha256.pem", serial),
+		boost::bind (&DownloadCertificatePanel::load, this, _1)
+		);
+	}
+
+	if (error) {
+		errors.push_back (error.get ());
 		error = get_from_zip_url (
 		String::compose (
 			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/imb-%2.dcicerts.zip",
@@ -88,6 +105,7 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 	}
 
 	if (error) {
+		errors.push_back (error.get ());
 		error = get_from_zip_url (
 		String::compose (
 			"ftp://service:t3chn1c1an@ftp.doremilabs.com/Certificates/%1xxx/ims-%2.dcicerts.zip",
@@ -99,8 +117,15 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 	}
 
 	if (error) {
+		errors.push_back (error.get ());
 		message->SetLabel (wxT (""));
-		error_dialog (this, std_to_wx (error.get ()));
+
+		SafeStringStream s;
+		BOOST_FOREACH (string e, errors) {
+			s << e << "\n";
+		}
+
+		error_dialog (this, std_to_wx (s.str ()));
 	} else {
 		message->SetLabel (_("Certificate downloaded"));
 		_dialog->setup_sensitivity ();
