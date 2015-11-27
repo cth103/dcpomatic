@@ -216,8 +216,10 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 wxStaticText *
 ColourConversionEditor::subhead (wxGridBagSizer* sizer, wxWindow* parent, wxString text, int& row) const
 {
-	wxStaticText* m = new wxStaticText (parent, wxID_ANY, wxT (""));
-	m->SetLabelMarkup ("<b>" + text + "</b>");
+	wxStaticText* m = new wxStaticText (parent, wxID_ANY, text);
+	wxFont font (*wxNORMAL_FONT);
+	font.SetWeight (wxFONTWEIGHT_BOLD);
+	m->SetFont (font);
 	sizer->Add (m, wxGBPosition (row, 0), wxGBSpan (1, 3), wxALIGN_CENTER_VERTICAL | wxTOP, 12);
 	++row;
 	return m;
