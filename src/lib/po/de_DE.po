@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 01:21+0000\n"
-"PO-Revision-Date: 2015-11-25 14:14+0100\n"
+"PO-Revision-Date: 2015-11-27 15:14+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -32,15 +32,15 @@ msgstr "%1 [Film]"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
-msgstr "1.19"
+msgstr "1.19:1"
 
 #: src/lib/ratio.cc:38
 msgid "1.66"
-msgstr "1.66"
+msgstr "1.66:1"
 
 #: src/lib/ratio.cc:39
 msgid "16:9"
-msgstr "16:9"
+msgstr "1.78:1 (16:9/HD)"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -48,11 +48,11 @@ msgstr "3D Rauschunterdrückung"
 
 #: src/lib/ratio.cc:36
 msgid "4:3"
-msgstr "4:3"
+msgstr "1.33:1 (4:3)"
 
 #: src/lib/ratio.cc:37
 msgid "Academy"
-msgstr "Academy"
+msgstr "1.375:1 (Academy)"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Advertisement"
@@ -157,7 +157,7 @@ msgstr "Überprüfe bestehende Bilddateien"
 
 #: src/lib/ffmpeg_content.cc:427
 msgid "Colour primaries"
-msgstr "Colour primaries"
+msgstr "Grundfarbezug ('primaries')"
 
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is unknown (not specified in the file).
@@ -339,9 +339,8 @@ msgid "Could not start SCP session (%1)"
 msgstr "SCP Session (%1) konnte nicht gestartet werden"
 
 #: src/lib/curl_uploader.cc:48
-#, fuzzy
 msgid "Could not start transfer"
-msgstr "SSH Session konnte nicht gestartet werden"
+msgstr "Fehler beim Start der Übertragung"
 
 #: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
 msgid "Could not write to remote file (%1)"
@@ -505,7 +504,7 @@ msgstr "Suche Untertitel"
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
-msgstr "Flat"
+msgstr "1.85:1 (Flat/BW)"
 
 #: src/lib/ffmpeg_content.cc:406
 msgid "Full"
@@ -517,7 +516,7 @@ msgstr "Voll (0-%1)"
 
 #: src/lib/ratio.cc:42
 msgid "Full frame"
-msgstr "Ganzes Bild"
+msgstr "Full Container (DCI)"
 
 #: src/lib/ffmpeg_content.cc:434
 msgid "Gamma 22 (BT470M)"
@@ -649,11 +648,11 @@ msgstr "Bewegungskompensierender De-Interlacer"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
-msgstr "Unskaliert"
+msgstr "Originalgröße"
 
 #: src/lib/video_content_scale.cc:106
 msgid "No stretch"
-msgstr "Nicht verzerrt"
+msgstr "Proportional (unverzerrt)"
 
 #: src/lib/image_content.cc:55
 msgid "No valid image files were found in the folder."
@@ -725,11 +724,11 @@ msgstr "Rc"
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 601"
-msgstr "Rec. 601"
+msgstr "Rec. 601 (SD)"
 
 #: src/lib/colour_conversion.cc:265
 msgid "Rec. 709"
-msgstr "Rec. 709"
+msgstr "Rec. 709 (HD)"
 
 #: src/lib/dcp_content.cc:297
 msgid ""
@@ -782,7 +781,7 @@ msgstr "Skaliert auf %1x%2"
 
 #: src/lib/ratio.cc:41
 msgid "Scope"
-msgstr "Scope"
+msgstr "2.39:1 (Scope)"
 
 #: src/lib/send_problem_report_job.cc:67
 msgid "Sending email"

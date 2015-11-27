@@ -1,5 +1,7 @@
 2015-11-27  c.hetherington  <cth@carlh.net>
 
+	* Updated de_DE translation from Carsten Kurz.
+
 	* Hopefully fix truncated text in the colour conversion dialog
 	on OS X.
 

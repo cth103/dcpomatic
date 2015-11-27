@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 01:21+0000\n"
-"PO-Revision-Date: 2015-11-25 14:16+0100\n"
+"PO-Revision-Date: 2015-11-27 15:23+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -98,7 +98,7 @@ msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
-"Ein unbekannter Fehler ist aufgetreten: %s (%s)\n"
+"Ein Fehler ist aufgetreten: %s (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:978
@@ -107,7 +107,7 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
-"Ein unbekannter Fehler ist aufgetreten: %s.\n"
+"Ein Fehler ist aufgetreten: %s.\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:476 src/tools/dcpomatic.cc:983
@@ -195,7 +195,7 @@ msgstr "Voreinstellungen zurücksetzen"
 
 #: src/tools/dcpomatic.cc:717
 msgid "S&how DCP"
-msgstr "Z&eige DCP"
+msgstr "Z&eige DCP Ordner"
 
 #: src/tools/dcpomatic.cc:98
 #, c-format
@@ -204,11 +204,11 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:711
 msgid "Scale to fit &height"
-msgstr "...skalieren auf &Höhe DCI-Container"
+msgstr "Skalierungsbezug ist &Höhe DCI-Container (Standard)"
 
 #: src/tools/dcpomatic.cc:710
 msgid "Scale to fit &width"
-msgstr "...skalieren auf &Breite DCI-Container"
+msgstr "Skalierungsbezug ist &Breite DCI-Container"
 
 #: src/tools/dcpomatic.cc:353 src/tools/dcpomatic_batch.cc:152
 msgid "Select film to open"
@@ -273,7 +273,7 @@ msgstr "Unerledigte Aufgaben"
 
 #: src/tools/dcpomatic.cc:720
 msgid "Video waveform..."
-msgstr "Video waveform..."
+msgstr "Video Analyse..."
 
 #: src/tools/dcpomatic.cc:362 src/tools/dcpomatic_batch.cc:161
 msgid ""

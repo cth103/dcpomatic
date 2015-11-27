@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-16 01:21+0000\n"
-"PO-Revision-Date: 2015-11-25 15:01+0100\n"
+"PO-Revision-Date: 2015-11-27 15:31+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
 msgid "(None)"
-msgstr "Kein"
+msgstr "Keiner"
 
 #: src/wx/config_dialog.cc:175
 msgid "(restart DCP-o-matic to see language changes)"
@@ -57,7 +57,7 @@ msgstr "2K"
 
 #: src/wx/dcp_panel.cc:633
 msgid "3D"
-msgstr "3D"
+msgstr "3D DCP"
 
 #: src/wx/video_panel.cc:227
 msgid "3D alternate"
@@ -141,7 +141,7 @@ msgstr "Datei(en) hinzufügen..."
 
 #: src/wx/content_panel.cc:81
 msgid "Add folder..."
-msgstr "Ordner hinzufügen..."
+msgstr "Einzelbildsequenz hinzufügen..."
 
 #: src/wx/image_sequence_dialog.cc:25
 msgid "Add image sequence"
@@ -226,7 +226,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:188
 msgid "Automatically analyse content audio"
-msgstr "Audioinhalte automatisch analysieren"
+msgstr "Audioinhaltei beim erstmaligen Einbinden sofort analysieren"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -238,7 +238,7 @@ msgstr "BCC: Adresse"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "Blue chromaticity"
-msgstr "Blau Chromazität"
+msgstr "Blau Chromatizität"
 
 #: src/wx/fonts_dialog.cc:68
 msgid "Bold file"
@@ -258,7 +258,7 @@ msgstr "Durchsuchen..."
 
 #: src/wx/subtitle_panel.cc:62
 msgid "Burn subtitles into image"
-msgstr "Untertitel in Bild einrechnen"
+msgstr "Untertitel fest in Bild einrechnen ('Burn-In')"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
@@ -312,7 +312,7 @@ msgstr "Kanäle"
 
 #: src/wx/config_dialog.cc:196
 msgid "Check for testing updates on startup"
-msgstr "Beim Start auf Updates überprüfen."
+msgstr "Auch auf neue Testversionen prüfen"
 
 #: src/wx/config_dialog.cc:192
 msgid "Check for updates on startup"
@@ -365,7 +365,7 @@ msgstr "Email-Kontakt"
 
 #: src/wx/dcp_panel.cc:608
 msgid "Container"
-msgstr "Container"
+msgstr "DCI Containertyp"
 
 #: src/wx/film_editor.cc:51
 msgid "Content"
@@ -449,7 +449,7 @@ msgstr "Beschnitt"
 
 #: src/wx/dcp_panel.cc:175 src/wx/video_panel.cc:196
 msgid "Custom"
-msgstr "Eigene"
+msgstr "Eigene Größe"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -466,7 +466,7 @@ msgstr "DCP-o-matic"
 
 #: src/wx/audio_dialog.cc:118
 msgid "DCP-o-matic audio"
-msgstr "DCP-o-matic Audio"
+msgstr "Audio Pegelverlauf und Analyse"
 
 #: src/wx/config_dialog.cc:1363
 msgid "Debug: decode"
@@ -514,11 +514,11 @@ msgstr "Standard Länge für Standbilder"
 
 #: src/wx/config_dialog.cc:436
 msgid "Default standard"
-msgstr "Standardvorgabe"
+msgstr "DCP Standard"
 
 #: src/wx/config_dialog.cc:372
 msgid "Defaults"
-msgstr "Vorgaben"
+msgstr "DCP Vorgaben"
 
 #: src/wx/audio_panel.cc:80
 msgid "Delay"
@@ -658,7 +658,7 @@ msgstr "Zeichensätze..."
 
 #: src/wx/dcp_panel.cc:619
 msgid "Frame Rate"
-msgstr "Bild Rate"
+msgstr "DCP Bildrate"
 
 #: src/wx/image_sequence_dialog.cc:27
 msgid "Frame rate"
@@ -753,7 +753,7 @@ msgstr "Eingangs Gamma"
 
 #: src/wx/colour_conversion_editor.cc:49
 msgid "Input gamma correction"
-msgstr "Eingangs-Gamma Korrektur"
+msgstr "Eingangs-Gamma Korrektur:"
 
 #: src/wx/colour_conversion_editor.cc:60
 msgid "Input power"
@@ -773,7 +773,7 @@ msgstr "Interop"
 
 #: src/wx/config_dialog.cc:203
 msgid "Issuer"
-msgstr "Herausgeber"
+msgstr "DCP Standard 'issuer' (DCI)"
 
 #: src/wx/fonts_dialog.cc:60
 msgid "Italic file"
@@ -877,11 +877,11 @@ msgstr "Zielhelligkeit (z.B. '4fL' für 3D)"
 
 #: src/wx/colour_conversion_editor.cc:116
 msgid "Matrix"
-msgstr "Matrix"
+msgstr "Resultierende Matrix:"
 
 #: src/wx/config_dialog.cc:1329
 msgid "Maximum JPEG2000 bandwidth"
-msgstr "Maximale JPEG2000 Datenrate (Vorsicht!)"
+msgstr "Maximale JPEG2000 Datenrate (>250 - Vorsicht!)"
 
 #: src/wx/config_dialog.cc:423 src/wx/config_dialog.cc:1333
 #: src/wx/dcp_panel.cc:647
@@ -953,7 +953,7 @@ msgstr "Aus"
 
 #: src/wx/config_dialog.cc:1341
 msgid "Only servers encode"
-msgstr "Nur Server komprimieren"
+msgstr "Nur Encoding  Server komprimieren (keine lokale J2C Komprimierung!)"
 
 #: src/wx/config_dialog.cc:1373
 msgid "Open console window"
@@ -1043,7 +1043,7 @@ msgstr "Bitte warten; Ton wird analysiert..."
 
 #: src/wx/timing_panel.cc:84
 msgid "Position"
-msgstr "Startposition"
+msgstr "Startposition im DCP"
 
 #: src/wx/isdcf_metadata_dialog.cc:57
 msgid "Pre-release"
@@ -1063,7 +1063,7 @@ msgstr "Protokoll"
 
 #: src/wx/colour_conversion_editor.cc:112
 msgid "RGB to XYZ conversion"
-msgstr "RGB-XYZ Konvertierung"
+msgstr "RGB-XYZ Konvertierung:"
 
 #: src/wx/audio_dialog.cc:83
 msgid "RMS"
@@ -1079,7 +1079,7 @@ msgstr "Freigabe (z.B. FSK12)"
 
 #: src/wx/content_menu.cc:65
 msgid "Re-examine..."
-msgstr "Untersuchen..."
+msgstr "Analysieren..."
 
 #: src/wx/config_dialog.cc:698
 msgid "Re-make certificates and key..."
@@ -1087,11 +1087,11 @@ msgstr "Zertifikate und Schlüssel neu erzeugen..."
 
 #: src/wx/colour_conversion_editor.cc:99
 msgid "Rec. 601"
-msgstr "Rec. 601"
+msgstr "Rec. 601 (SD)"
 
 #: src/wx/colour_conversion_editor.cc:100
 msgid "Rec. 709"
-msgstr "Rec. 709"
+msgstr "Rec. 709 (HD)"
 
 #: src/wx/screen_dialog.cc:97
 msgid "Recipient certificate"
@@ -1112,16 +1112,16 @@ msgstr "Akt %d"
 
 #: src/wx/dcp_panel.cc:140
 msgid "Reel length"
-msgstr "Aktlänge ('Reel')"
+msgstr "Aktgröße"
 
 #: src/wx/dcp_panel.cc:135
 msgid "Reels"
-msgstr "Akte"
+msgstr "Aktaufteilung ('Reels')"
 
 #: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
-msgstr "Bestehendes DCP einbinden"
+msgstr "Aus bestehendem DCP einbinden"
 
 #: src/wx/config_dialog.cc:674 src/wx/content_menu.cc:68
 #: src/wx/content_panel.cc:85 src/wx/editable_list.h:78
@@ -1271,7 +1271,7 @@ msgstr "Ton anzeigen..."
 
 #: src/wx/audio_panel.cc:59
 msgid "Show graph of audio levels..."
-msgstr "Tonkurven anzeigen..."
+msgstr "Audiopegel anzeigen..."
 
 #: src/wx/dcp_panel.cc:112
 msgid "Signed"
@@ -1283,7 +1283,7 @@ msgstr "DCPs und KDMs signieren"
 
 #: src/wx/dcp_panel.cc:173
 msgid "Single reel"
-msgstr "Einzelakt"
+msgstr "Einzelakt (nur eine MXF Datei)"
 
 #: src/wx/audio_dialog.cc:93
 msgid "Smoothing"
@@ -1405,7 +1405,7 @@ msgstr "Zeit"
 
 #: src/wx/timeline_dialog.cc:34
 msgid "Timeline"
-msgstr "Zeitleiste"
+msgstr "Zeitleiste/Reels"
 
 #: src/wx/content_panel.cc:97
 msgid "Timeline..."
@@ -1534,7 +1534,7 @@ msgstr "Y Skalierung"
 
 #: src/wx/colour_conversion_editor.cc:95
 msgid "YUV to RGB conversion"
-msgstr "YUV nach RGB Konvertierung"
+msgstr "YUV-RGB Konvertierung:"
 
 #: src/wx/colour_conversion_editor.cc:97
 msgid "YUV to RGB matrix"
