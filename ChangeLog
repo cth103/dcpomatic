@@ -2,6 +2,9 @@
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
+	* Fix various problems with specification of install directory
+	on Windows (#643, #705).
+
 2015-11-27  Carl Hetherington  <cth@carlh.net>
 
 	* Add config and server list to the batch converter's menus (#765).

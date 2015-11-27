@@ -31,10 +31,15 @@ def write_installer(bits, version, debug):
 !include "Sections.nsh"
     """, file=f)
 
-    if debug:
-        print('InstallDir "$PROGRAMFILES\\DCP-o-matic 2 Debug"', file=f)
+    if bits == 64:
+        program_files = "$PROGRAMFILES64"
     else:
-        print('InstallDir "$PROGRAMFILES\\DCP-o-matic 2"', file=f)
+        program_files = "$PROGRAMFILES"
+
+    if debug:
+        print('InstallDir "%s\\DCP-o-matic 2 Debug"' % program_files, file=f)
+    else:
+        print('InstallDir "%s\\DCP-o-matic 2"' % program_files, file=f)
 
     print("""
 !insertmacro MUI_PAGE_WELCOME
@@ -48,13 +53,8 @@ SectionIn RO
 
     if bits == 64:
         print("""
-${If} ${RunningX64}
-   DetailPrint "Installer running on 64-bit host"
-   ; disable registry redirection (enable access to 64-bit portion of registry)
-   SetRegView 64
-   ; change install dir
-   StrCpy $INSTDIR "$PROGRAMFILES64\DCP-o-matic 2"
-${EndIf}
+; disable registry redirection (enable access to 64-bit portion of registry)
+SetRegView 64
         """, file=f)
 
     print("""
