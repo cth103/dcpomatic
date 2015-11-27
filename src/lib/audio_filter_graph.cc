@@ -40,9 +40,7 @@ AudioFilterGraph::AudioFilterGraph (int sample_rate, int64_t channel_layout)
 
 AudioFilterGraph::~AudioFilterGraph()
 {
-	if (_in_frame) {
-		av_frame_free (&_in_frame);
-	}
+	av_frame_free (&_in_frame);
 }
 
 string
@@ -114,6 +112,10 @@ AudioFilterGraph::process (shared_ptr<const AudioBuffers> buffers)
 	int r = av_buffersrc_write_frame (_buffer_src_context, _in_frame);
 
 	delete[] _in_frame->extended_data;
+	/* Reset extended_data to its original value so that av_frame_free
+	   does not try to free it.
+	*/
+	_in_frame->extended_data = _in_frame->data;
 
 	if (r < 0) {
 		char buffer[256];
