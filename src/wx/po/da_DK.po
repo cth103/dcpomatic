@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -83,8 +83,6 @@ msgstr "3D, top/bund"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -245,7 +243,7 @@ msgstr ""
 msgid "Bottom"
 msgstr "Bund"
 
-#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:79
+#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_cpl_panel.cc:37
 msgid "Browse..."
 msgstr "Gennemse..."
 
@@ -261,15 +259,16 @@ msgstr "Men jeg bliver nødt til at bruge fader"
 msgid "CC address"
 msgstr "CC-adresse"
 
-#: src/wx/kdm_dialog.cc:70 src/wx/kdm_dialog.cc:76
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:67
+#: src/wx/self_dkdm_dialog.cc:57
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:46
 msgid "CPL ID"
 msgstr "CPL-ID"
 
-#: src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_cpl_panel.cc:49
 msgid "CPL annotation text"
 msgstr "CPL-annotationstekst"
 
@@ -299,7 +298,7 @@ msgstr "Kæde"
 msgid "Channel gain"
 msgstr "Kanalgain"
 
-#: src/wx/audio_dialog.cc:64 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -385,7 +384,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopier som navn"
 
-#: src/wx/audio_dialog.cc:195
+#: src/wx/audio_dialog.cc:201
 msgid "Could not analyse audio."
 msgstr "Kunne ikke analysere lyden."
 
@@ -449,7 +448,7 @@ msgstr "Brugerdefineret"
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/kdm_dialog.cc:85
+#: src/wx/kdm_cpl_panel.cc:43
 msgid "DCP directory"
 msgstr "DCP-folder"
 
@@ -458,7 +457,7 @@ msgstr "DCP-folder"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:118
+#: src/wx/audio_dialog.cc:124
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic lyd"
 
@@ -756,6 +755,11 @@ msgstr ""
 msgid "Input power"
 msgstr ""
 
+#: src/wx/audio_dialog.cc:306
+#, c-format
+msgid "Integrated loudness %.2f LUFS"
+msgstr ""
+
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
 msgstr ""
@@ -797,7 +801,7 @@ msgstr "KDM-e-mail"
 msgid "KDM type"
 msgstr "KDM-type"
 
-#: src/wx/kdm_dialog.cc:63
+#: src/wx/kdm_dialog.cc:60
 msgid "KDM|Timing"
 msgstr "KDM|Timing"
 
@@ -849,6 +853,11 @@ msgstr "Log"
 msgid "Log:"
 msgstr "Log:"
 
+#: src/wx/audio_dialog.cc:315
+#, c-format
+msgid "Loudness range %.2f LU"
+msgstr ""
+
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
 msgstr "MANGLER:"
@@ -861,7 +870,12 @@ msgstr "Mail password"
 msgid "Mail user name"
 msgstr "Mail brugernavn"
 
-#: src/wx/kdm_dialog.cc:46
+#: src/wx/self_dkdm_dialog.cc:47
+#, fuzzy
+msgid "Make DKDM for DCP-o-matic"
+msgstr "Om DCP-o-matic"
+
+#: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
 msgstr "Dan KDM'er"
 
@@ -990,7 +1004,7 @@ msgstr ""
 msgid "Outline content"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:100
+#: src/wx/kdm_dialog.cc:74 src/wx/self_dkdm_dialog.cc:64
 msgid "Output"
 msgstr "Output"
 
@@ -1002,13 +1016,8 @@ msgstr "Password"
 msgid "Pause"
 msgstr "Pause"
 
-#: src/wx/audio_dialog.cc:82
+#: src/wx/audio_dialog.cc:88
 msgid "Peak"
-msgstr ""
-
-#: src/wx/audio_dialog.cc:268
-#, c-format
-msgid "Peak is %.2fdB at %s"
 msgstr ""
 
 #: src/wx/audio_panel.cc:311
@@ -1064,7 +1073,7 @@ msgstr "Protokol"
 msgid "RGB to XYZ conversion"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:83
+#: src/wx/audio_dialog.cc:89
 msgid "RMS"
 msgstr ""
 
@@ -1194,11 +1203,16 @@ msgstr ""
 msgid "SMPTE"
 msgstr "SMPTE"
 
+#: src/wx/audio_dialog.cc:276
+#, c-format
+msgid "Sample peak is %.2fdB at %s"
+msgstr ""
+
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
 msgstr "Skaler til"
 
-#: src/wx/kdm_dialog.cc:56
+#: src/wx/kdm_dialog.cc:53
 msgid "Screens"
 msgstr "Sale"
 
@@ -1206,7 +1220,7 @@ msgstr "Sale"
 msgid "Search network for servers"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:184
+#: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
 msgstr "Vælg CPL XML-fil"
 
@@ -1289,7 +1303,7 @@ msgstr ""
 msgid "Single reel"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:93
+#: src/wx/audio_dialog.cc:99
 msgid "Smoothing"
 msgstr ""
 
@@ -1341,7 +1355,7 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:214
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1365,7 +1379,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:265
+#: src/wx/about_dialog.cc:266
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -1386,7 +1400,7 @@ msgstr "Der er ingen tips; det hele ser godt ud!"
 msgid "There is not enough free memory to do that."
 msgstr "Der er ikke tilstrækkelig ledig hukommelse til at gøre dette."
 
-#: src/wx/kdm_dialog.cc:209
+#: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
 msgstr "Dette er ikke en gyldig CPL-fil"
 
@@ -1442,7 +1456,12 @@ msgstr "Trimning fra begyndelse"
 msgid "Trim up to current position"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:76 src/wx/config_dialog.cc:650
+#: src/wx/audio_dialog.cc:292
+#, c-format
+msgid "True peak is %.2fdB"
+msgstr ""
+
+#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Type"
@@ -1511,7 +1530,7 @@ msgstr "Hvidpunktsjustering"
 msgid "With help from"
 msgstr "Med hjælp fra"
 
-#: src/wx/kdm_output_panel.cc:45
+#: src/wx/kdm_output_panel.cc:45 src/wx/self_dkdm_dialog.cc:70
 msgid "Write to"
 msgstr "Skriv til"
 
@@ -1596,10 +1615,6 @@ msgstr ""
 "Din DCP har ingen lydkanaler. Dette vil formodentlig give problemer ved "
 "afspilning."
 
-#: src/wx/timeline_audio_content_view.cc:37
-msgid "audio"
-msgstr "lyd"
-
 #: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "dB"
@@ -1633,14 +1648,6 @@ msgstr ""
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline_video_content_view.cc:36
-msgid "still"
-msgstr "stillbillede"
-
-#: src/wx/timeline_subtitle_content_view.cc:35
-msgid "subtitles"
-msgstr "subtitles"
-
 #: src/wx/colour_conversion_editor.cc:65
 msgid "threshold"
 msgstr ""
@@ -1654,10 +1661,6 @@ msgstr "gange"
 msgid "until"
 msgstr "Til"
 
-#: src/wx/timeline_video_content_view.cc:38
-msgid "video"
-msgstr "video"
-
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
@@ -1665,6 +1668,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "audio"
+#~ msgstr "lyd"
+
+#~ msgid "still"
+#~ msgstr "stillbillede"
+
+#~ msgid "subtitles"
+#~ msgstr "subtitles"
+
+#~ msgid "video"
+#~ msgstr "video"
 
 #~ msgid "Certificate"
 #~ msgstr "Certifikat"

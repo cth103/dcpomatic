@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-11 17:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -82,8 +82,6 @@ msgstr "3D top/bottom"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -247,7 +245,7 @@ msgstr "Fet typsnitt"
 msgid "Bottom"
 msgstr "Botten"
 
-#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:79
+#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_cpl_panel.cc:37
 msgid "Browse..."
 msgstr "Bläddra..."
 
@@ -263,15 +261,16 @@ msgstr "Men jag måste använda mixervolym"
 msgid "CC address"
 msgstr "CC adress"
 
-#: src/wx/kdm_dialog.cc:70 src/wx/kdm_dialog.cc:76
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:67
+#: src/wx/self_dkdm_dialog.cc:57
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:46
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_cpl_panel.cc:49
 msgid "CPL annotation text"
 msgstr "CPL kommentarstext"
 
@@ -301,7 +300,7 @@ msgstr "Kedja"
 msgid "Channel gain"
 msgstr "Kanalförstärkning"
 
-#: src/wx/audio_dialog.cc:64 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -388,7 +387,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopiera som namn"
 
-#: src/wx/audio_dialog.cc:195
+#: src/wx/audio_dialog.cc:201
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
@@ -452,7 +451,7 @@ msgstr "Special"
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/kdm_dialog.cc:85
+#: src/wx/kdm_cpl_panel.cc:43
 msgid "DCP directory"
 msgstr "DCP register"
 
@@ -461,7 +460,7 @@ msgstr "DCP register"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:118
+#: src/wx/audio_dialog.cc:124
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic audio"
 
@@ -758,6 +757,11 @@ msgstr "Input gammakorrigering"
 msgid "Input power"
 msgstr "Input kraft"
 
+#: src/wx/audio_dialog.cc:306
+#, c-format
+msgid "Integrated loudness %.2f LUFS"
+msgstr ""
+
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
 msgstr "Mellanliggande"
@@ -799,7 +803,7 @@ msgid "KDM type"
 msgstr "KDM typ"
 
 # Svengelska
-#: src/wx/kdm_dialog.cc:63
+#: src/wx/kdm_dialog.cc:60
 msgid "KDM|Timing"
 msgstr "KDM|Tajming"
 
@@ -851,6 +855,11 @@ msgstr "Logg"
 msgid "Log:"
 msgstr "Logg:"
 
+#: src/wx/audio_dialog.cc:315
+#, c-format
+msgid "Loudness range %.2f LU"
+msgstr ""
+
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
 msgstr "SAKNAS:"
@@ -863,7 +872,12 @@ msgstr "Mejl-lösenord"
 msgid "Mail user name"
 msgstr "Mejl-användarnamn"
 
-#: src/wx/kdm_dialog.cc:46
+#: src/wx/self_dkdm_dialog.cc:47
+#, fuzzy
+msgid "Make DKDM for DCP-o-matic"
+msgstr "Om DCP-o-matic"
+
+#: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
 msgstr "Skapa KDM:er"
 
@@ -995,7 +1009,7 @@ msgstr "Markera innehåll"
 msgid "Outline content"
 msgstr "Markera innehåll"
 
-#: src/wx/kdm_dialog.cc:100
+#: src/wx/kdm_dialog.cc:74 src/wx/self_dkdm_dialog.cc:64
 msgid "Output"
 msgstr "Utdata"
 
@@ -1007,14 +1021,9 @@ msgstr "Lösenord"
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/wx/audio_dialog.cc:82
+#: src/wx/audio_dialog.cc:88
 msgid "Peak"
 msgstr "Topp"
-
-#: src/wx/audio_dialog.cc:268
-#, c-format
-msgid "Peak is %.2fdB at %s"
-msgstr "Maxvärde är %.2fdB vid %s"
 
 #: src/wx/audio_panel.cc:311
 #, c-format
@@ -1069,7 +1078,7 @@ msgstr "Protokol"
 msgid "RGB to XYZ conversion"
 msgstr "RGB till XYZ konvertering"
 
-#: src/wx/audio_dialog.cc:83
+#: src/wx/audio_dialog.cc:89
 msgid "RMS"
 msgstr "RMS"
 
@@ -1197,11 +1206,16 @@ msgstr "SCP (för AAM och Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
+#: src/wx/audio_dialog.cc:276
+#, fuzzy, c-format
+msgid "Sample peak is %.2fdB at %s"
+msgstr "Maxvärde är %.2fdB vid %s"
+
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
 msgstr "Skala om till"
 
-#: src/wx/kdm_dialog.cc:56
+#: src/wx/kdm_dialog.cc:53
 msgid "Screens"
 msgstr "Salonger"
 
@@ -1209,7 +1223,7 @@ msgstr "Salonger"
 msgid "Search network for servers"
 msgstr "Sök efter servrar på nätverket"
 
-#: src/wx/kdm_dialog.cc:184
+#: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
 msgstr "Välj CPL XML-fil"
 
@@ -1291,7 +1305,7 @@ msgstr "Signerar DCP:er och KDM:er"
 msgid "Single reel"
 msgstr "Enskild rulle"
 
-#: src/wx/audio_dialog.cc:93
+#: src/wx/audio_dialog.cc:99
 msgid "Smoothing"
 msgstr "Utjämning"
 
@@ -1344,7 +1358,7 @@ msgstr "Undertext Skalning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:214
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1368,7 +1382,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:265
+#: src/wx/about_dialog.cc:266
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1389,7 +1403,7 @@ msgstr "Det finns inga råd: allt verkar bra!"
 msgid "There is not enough free memory to do that."
 msgstr "Det finns inte tillräckligt mycket ledigt minne för att göra det."
 
-#: src/wx/kdm_dialog.cc:209
+#: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
 msgstr "Detta är inte en korrekt CPL-fil"
 
@@ -1446,7 +1460,12 @@ msgstr "Trimma från start"
 msgid "Trim up to current position"
 msgstr "Trimma före nuvarande position"
 
-#: src/wx/audio_dialog.cc:76 src/wx/config_dialog.cc:650
+#: src/wx/audio_dialog.cc:292
+#, fuzzy, c-format
+msgid "True peak is %.2fdB"
+msgstr "Maxvärde är %.2fdB vid %s"
+
+#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Typ"
@@ -1515,7 +1534,7 @@ msgstr "Vitpunktsjustering"
 msgid "With help from"
 msgstr "Med hjälp av"
 
-#: src/wx/kdm_output_panel.cc:45
+#: src/wx/kdm_output_panel.cc:45 src/wx/self_dkdm_dialog.cc:70
 msgid "Write to"
 msgstr "Skriv till"
 
@@ -1605,10 +1624,6 @@ msgid ""
 msgstr ""
 "Din DCP har inga audiokanaler. Det skapar troligtvis problem vid uppspelning."
 
-#: src/wx/timeline_audio_content_view.cc:37
-msgid "audio"
-msgstr "audio"
-
 #: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "dB"
@@ -1642,14 +1657,6 @@ msgstr "port"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline_video_content_view.cc:36
-msgid "still"
-msgstr "stillbild"
-
-#: src/wx/timeline_subtitle_content_view.cc:35
-msgid "subtitles"
-msgstr "undertexter"
-
 #: src/wx/colour_conversion_editor.cc:65
 msgid "threshold"
 msgstr "tröskelvärde"
@@ -1664,10 +1671,6 @@ msgstr "tider"
 msgid "until"
 msgstr "tills"
 
-#: src/wx/timeline_video_content_view.cc:38
-msgid "video"
-msgstr "video"
-
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
@@ -1675,6 +1678,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "audio"
+#~ msgstr "audio"
+
+#~ msgid "still"
+#~ msgstr "stillbild"
+
+#~ msgid "subtitles"
+#~ msgstr "undertexter"
+
+#~ msgid "video"
+#~ msgstr "video"
 
 #~ msgid "Certificate"
 #~ msgstr "Certifikat"

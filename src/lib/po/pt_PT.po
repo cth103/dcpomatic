@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-11 15:53+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -62,7 +62,7 @@ msgstr "Publicidade"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ocorreu um erro ao manipular o ficheiro %1."
 
-#: src/lib/analyse_audio_job.cc:62
+#: src/lib/analyse_audio_job.cc:82
 msgid "Analyse audio"
 msgstr "Analizar audio"
 
@@ -127,15 +127,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits por pixel"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "C"
 msgstr "C"
 
@@ -347,11 +347,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1274
 msgid "DBS"
 msgstr ""
 
@@ -470,8 +470,9 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "A autenticação com o servidor falhou (%1)"
 
-#: src/lib/emailer.cc:287
-msgid "Failed to send KDM email (timed out)"
+#: src/lib/emailer.cc:217
+#, fuzzy
+msgid "Failed to send KDM email (%1)"
 msgstr "Falha no envio de email com chaves KDM (tempo esgotado)"
 
 #: src/lib/dcp_content_type.cc:45
@@ -518,7 +519,7 @@ msgstr "Gama 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Alterar banda do gradiente"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "HI"
 msgstr "DA"
 
@@ -550,11 +551,11 @@ msgstr "Envio de chaves KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Desentrelaçador do núcleo"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "L"
 msgstr "E"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Lc"
 msgstr "Ec"
 
@@ -574,7 +575,7 @@ msgstr "Esquerdo traseiro surround"
 msgid "Left surround"
 msgstr "Esquerdo surround"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -602,7 +603,7 @@ msgstr "Logarítmico (variação 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarítmico (Variação 316:1)"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Ls"
 msgstr "Es"
 
@@ -691,7 +692,7 @@ msgstr "Erro de programação em %1:%2"
 msgid "Public Service Announcement"
 msgstr "Anúncio Público"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "R"
 msgstr "D"
 
@@ -703,7 +704,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classificação"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "Rc"
 msgstr "Dc"
 
@@ -739,7 +740,7 @@ msgstr "Direito traseiro surround"
 msgid "Right surround"
 msgstr "Direito surround"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "Rs"
 msgstr "Ds"
 
@@ -925,7 +926,7 @@ msgstr "Combinar E"
 msgid "Upmix R"
 msgstr "Combinar D"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "VI"
 msgstr "DV"
 

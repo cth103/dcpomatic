@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-27 15:14+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr "Werbung"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Beim Bearbeiten der Datei %1 trat ein Fehler auf."
 
-#: src/lib/analyse_audio_job.cc:62
+#: src/lib/analyse_audio_job.cc:82
 msgid "Analyse audio"
 msgstr "Audio analysieren"
 
@@ -127,15 +127,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits pro pixel"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "C"
 msgstr "C"
 
@@ -358,11 +358,11 @@ msgstr "D-Box primärer TC"
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundärer TC"
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1274
 msgid "DBS"
 msgstr "DBS"
 
@@ -482,8 +482,9 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Authentifizierung mit Server (%1) fehlgeschlagen"
 
-#: src/lib/emailer.cc:287
-msgid "Failed to send KDM email (timed out)"
+#: src/lib/emailer.cc:217
+#, fuzzy
+msgid "Failed to send KDM email (%1)"
 msgstr "Konnte KDM Email nicht senden (Timeout)"
 
 #: src/lib/dcp_content_type.cc:45
@@ -530,7 +531,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "HI"
 msgstr "HI"
 
@@ -562,11 +563,11 @@ msgstr "KDM Zustellung: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Lc"
 msgstr "Lc"
 
@@ -586,7 +587,7 @@ msgstr "Surround hinten links"
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -614,7 +615,7 @@ msgstr "Logarithmisch (Bereich 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmisch  (Bereich 316:1 )"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Ls"
 msgstr "Ls"
 
@@ -706,7 +707,7 @@ msgstr "Programmfehler bei %1:%2"
 msgid "Public Service Announcement"
 msgstr "Hinweis"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "R"
 msgstr "R"
 
@@ -718,7 +719,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Freigabehinweis"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "Rc"
 msgstr "Rc"
 
@@ -754,7 +755,7 @@ msgstr "Surround hinten rechts"
 msgid "Right surround"
 msgstr "Surround rechts"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "Rs"
 msgstr "Rs"
 
@@ -946,7 +947,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "VI"
 msgstr "VI"
 

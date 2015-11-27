@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-15 22:37+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -59,7 +59,7 @@ msgstr "ADV (Реклама)"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Возникла ошибка при обращении к файлу %1."
 
-#: src/lib/analyse_audio_job.cc:62
+#: src/lib/analyse_audio_job.cc:82
 msgid "Analyse audio"
 msgstr "Анализ аудио"
 
@@ -124,15 +124,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "C"
 msgstr "C"
 
@@ -356,11 +356,11 @@ msgstr "D-BOX основной (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1274
 msgid "DBS"
 msgstr "DBS"
 
@@ -480,8 +480,9 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
-#: src/lib/emailer.cc:287
-msgid "Failed to send KDM email (timed out)"
+#: src/lib/emailer.cc:217
+#, fuzzy
+msgid "Failed to send KDM email (%1)"
 msgstr "Ошибка отправки ключей (таймаут)"
 
 #: src/lib/dcp_content_type.cc:45
@@ -528,7 +529,7 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "HI"
 msgstr "HI"
 
@@ -560,11 +561,11 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Lc"
 msgstr "Lc"
 
@@ -584,7 +585,7 @@ msgstr "Левый тыловой surround"
 msgid "Left surround"
 msgstr "Левый surround"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Lfe"
 msgstr "LFE"
 
@@ -612,7 +613,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Ls"
 msgstr "Ls"
 
@@ -700,7 +701,7 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "R"
 msgstr "R"
 
@@ -712,7 +713,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "Rc"
 msgstr "Rc"
 
@@ -748,7 +749,7 @@ msgstr "Правый тыловой surround"
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "Rs"
 msgstr "Rs"
 
@@ -936,7 +937,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "VI"
 msgstr "VI"
 

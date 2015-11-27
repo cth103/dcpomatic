@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-15 22:33+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -80,8 +80,6 @@ msgstr "3D верх/низ"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -242,7 +240,7 @@ msgstr "Жирный шрифт"
 msgid "Bottom"
 msgstr "Снизу"
 
-#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:79
+#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_cpl_panel.cc:37
 msgid "Browse..."
 msgstr "Выбрать...."
 
@@ -258,15 +256,16 @@ msgstr "Но я должен использовать микшер"
 msgid "CC address"
 msgstr "Кому копия"
 
-#: src/wx/kdm_dialog.cc:70 src/wx/kdm_dialog.cc:76
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:67
+#: src/wx/self_dkdm_dialog.cc:57
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:46
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_cpl_panel.cc:49
 msgid "CPL annotation text"
 msgstr "CPL аннотация"
 
@@ -296,7 +295,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:64 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
 msgid "Channels"
 msgstr "Канала(ов)"
 
@@ -382,7 +381,7 @@ msgstr "Контраст"
 msgid "Copy as name"
 msgstr "Копировать в название"
 
-#: src/wx/audio_dialog.cc:195
+#: src/wx/audio_dialog.cc:201
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
@@ -446,7 +445,7 @@ msgstr "Пользовательское"
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/kdm_dialog.cc:85
+#: src/wx/kdm_cpl_panel.cc:43
 msgid "DCP directory"
 msgstr "Папка DCP"
 
@@ -455,7 +454,7 @@ msgstr "Папка DCP"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:118
+#: src/wx/audio_dialog.cc:124
 msgid "DCP-o-matic audio"
 msgstr "Аудио DCP-o-matic"
 
@@ -751,6 +750,11 @@ msgstr "Коррекция входной гаммы"
 msgid "Input power"
 msgstr "Входная мощность"
 
+#: src/wx/audio_dialog.cc:306
+#, c-format
+msgid "Integrated loudness %.2f LUFS"
+msgstr ""
+
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
 msgstr "Intermediate"
@@ -791,7 +795,7 @@ msgstr "Почта KDM"
 msgid "KDM type"
 msgstr "Тип KDM"
 
-#: src/wx/kdm_dialog.cc:63
+#: src/wx/kdm_dialog.cc:60
 msgid "KDM|Timing"
 msgstr "Тайминг"
 
@@ -843,6 +847,11 @@ msgstr "Лог"
 msgid "Log:"
 msgstr "Лог:"
 
+#: src/wx/audio_dialog.cc:315
+#, c-format
+msgid "Loudness range %.2f LU"
+msgstr ""
+
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ:"
@@ -855,7 +864,12 @@ msgstr "Пароль почты"
 msgid "Mail user name"
 msgstr "Пользователь почты"
 
-#: src/wx/kdm_dialog.cc:46
+#: src/wx/self_dkdm_dialog.cc:47
+#, fuzzy
+msgid "Make DKDM for DCP-o-matic"
+msgstr "О программе"
+
+#: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
 msgstr "Сгенерировать ключи KDM"
 
@@ -983,7 +997,7 @@ msgstr "Цвет контура"
 msgid "Outline content"
 msgstr "Выделить контект"
 
-#: src/wx/kdm_dialog.cc:100
+#: src/wx/kdm_dialog.cc:74 src/wx/self_dkdm_dialog.cc:64
 msgid "Output"
 msgstr "Вывод"
 
@@ -995,14 +1009,9 @@ msgstr "Пароль"
 msgid "Pause"
 msgstr "Пазуа"
 
-#: src/wx/audio_dialog.cc:82
+#: src/wx/audio_dialog.cc:88
 msgid "Peak"
 msgstr "Вершина"
-
-#: src/wx/audio_dialog.cc:268
-#, c-format
-msgid "Peak is %.2fdB at %s"
-msgstr "Пиковая громкость %.2fдБ на %s"
 
 #: src/wx/audio_panel.cc:311
 #, c-format
@@ -1057,7 +1066,7 @@ msgstr "Протокол"
 msgid "RGB to XYZ conversion"
 msgstr "Преобразование RGB в XYZ"
 
-#: src/wx/audio_dialog.cc:83
+#: src/wx/audio_dialog.cc:89
 msgid "RMS"
 msgstr "Rated Maximum Sinusoidal"
 
@@ -1185,11 +1194,16 @@ msgstr "SCP (для AAM и Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
+#: src/wx/audio_dialog.cc:276
+#, fuzzy, c-format
+msgid "Sample peak is %.2fdB at %s"
+msgstr "Пиковая громкость %.2fдБ на %s"
+
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
 msgstr "Масштабирование"
 
-#: src/wx/kdm_dialog.cc:56
+#: src/wx/kdm_dialog.cc:53
 msgid "Screens"
 msgstr "Экраны"
 
@@ -1197,7 +1211,7 @@ msgstr "Экраны"
 msgid "Search network for servers"
 msgstr "Искать сервера в сети"
 
-#: src/wx/kdm_dialog.cc:184
+#: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
@@ -1279,7 +1293,7 @@ msgstr "Подпись DCP и KDM:"
 msgid "Single reel"
 msgstr "Одиночная катушка"
 
-#: src/wx/audio_dialog.cc:93
+#: src/wx/audio_dialog.cc:99
 msgid "Smoothing"
 msgstr "Сглаживание"
 
@@ -1331,7 +1345,7 @@ msgstr "Внешний вид субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:214
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1355,7 +1369,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:265
+#: src/wx/about_dialog.cc:266
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -1376,7 +1390,7 @@ msgstr "Нет подсказок: похоже всё хорошо!"
 msgid "There is not enough free memory to do that."
 msgstr "Недостаточно памяти, чтобы сделать это."
 
-#: src/wx/kdm_dialog.cc:209
+#: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
 msgstr "Это не правильный CPL файл"
 
@@ -1432,7 +1446,12 @@ msgstr "Обрезать с начала"
 msgid "Trim up to current position"
 msgstr "Обрезать до текущей позиции"
 
-#: src/wx/audio_dialog.cc:76 src/wx/config_dialog.cc:650
+#: src/wx/audio_dialog.cc:292
+#, fuzzy, c-format
+msgid "True peak is %.2fdB"
+msgstr "Пиковая громкость %.2fдБ на %s"
+
+#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Тип"
@@ -1501,7 +1520,7 @@ msgstr "Регулировка белой точки"
 msgid "With help from"
 msgstr "Помощь в разработке"
 
-#: src/wx/kdm_output_panel.cc:45
+#: src/wx/kdm_output_panel.cc:45 src/wx/self_dkdm_dialog.cc:70
 msgid "Write to"
 msgstr "Сохранить в..."
 
@@ -1593,10 +1612,6 @@ msgstr ""
 "У вашего DCP нет аудиоканалов. Вероятно это может вызвать проблемы при "
 "воспроизведении."
 
-#: src/wx/timeline_audio_content_view.cc:37
-msgid "audio"
-msgstr "аудио"
-
 #: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "дБ"
@@ -1630,14 +1645,6 @@ msgstr "порт"
 msgid "s"
 msgstr "с"
 
-#: src/wx/timeline_video_content_view.cc:36
-msgid "still"
-msgstr "статичный"
-
-#: src/wx/timeline_subtitle_content_view.cc:35
-msgid "subtitles"
-msgstr "субтитры"
-
 #: src/wx/colour_conversion_editor.cc:65
 msgid "threshold"
 msgstr "порог"
@@ -1651,10 +1658,6 @@ msgstr "раз"
 msgid "until"
 msgstr "до"
 
-#: src/wx/timeline_video_content_view.cc:38
-msgid "video"
-msgstr "видео"
-
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
@@ -1662,6 +1665,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "audio"
+#~ msgstr "аудио"
+
+#~ msgid "still"
+#~ msgstr "статичный"
+
+#~ msgid "subtitles"
+#~ msgstr "субтитры"
+
+#~ msgid "video"
+#~ msgstr "видео"
 
 #~ msgid "Certificate"
 #~ msgstr "Сертификат"

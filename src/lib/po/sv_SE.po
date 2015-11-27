@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -61,7 +61,7 @@ msgstr "Advertisement"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ett fel inträffade vid hantering av filen %1"
 
-#: src/lib/analyse_audio_job.cc:62
+#: src/lib/analyse_audio_job.cc:82
 msgid "Analyse audio"
 msgstr "Analysera audio"
 
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitar per pixel"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "C"
 msgstr "C"
 
@@ -354,11 +354,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1274
 msgid "DBS"
 msgstr ""
 
@@ -478,8 +478,9 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
 
-#: src/lib/emailer.cc:287
-msgid "Failed to send KDM email (timed out)"
+#: src/lib/emailer.cc:217
+#, fuzzy
+msgid "Failed to send KDM email (%1)"
 msgstr "Misslyckades att skicka KDM e-post (tog för lång tid)"
 
 #: src/lib/dcp_content_type.cc:45
@@ -529,7 +530,7 @@ msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
 # Sammanhang?
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "HI"
 msgstr "HI"
 
@@ -561,11 +562,11 @@ msgstr "KDM-leverans: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "L"
 msgstr "V"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Lc"
 msgstr "Vc"
 
@@ -585,7 +586,7 @@ msgstr "Vänster bakre surround"
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -613,7 +614,7 @@ msgstr "Logaritmisk (100:1 omfång)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Ls"
 msgstr "Vs"
 
@@ -703,7 +704,7 @@ msgstr "Programmeringsfel vid %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "R"
 msgstr "H"
 
@@ -715,7 +716,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "Rc"
 msgstr "Hc"
 
@@ -751,7 +752,7 @@ msgstr "Höger bakre surround"
 msgid "Right surround"
 msgstr "Höger surround"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "Rs"
 msgstr "Hs"
 
@@ -938,7 +939,7 @@ msgid "Upmix R"
 msgstr "Uppmixa H"
 
 # Sammanhang?
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "VI"
 msgstr "VI"
 

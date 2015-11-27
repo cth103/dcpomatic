@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -61,7 +61,7 @@ msgstr "Reklamer (ADV)"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
 
-#: src/lib/analyse_audio_job.cc:62
+#: src/lib/analyse_audio_job.cc:82
 msgid "Analyse audio"
 msgstr "Analyser lyd"
 
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1271
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1272
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1263
 msgid "C"
 msgstr ""
 
@@ -348,11 +348,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1273
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1274
 msgid "DBS"
 msgstr ""
 
@@ -475,8 +475,8 @@ msgstr ""
 msgid "Failed to authenticate with server (%1)"
 msgstr "Kunne ikke godkende mod server (%1)"
 
-#: src/lib/emailer.cc:287
-msgid "Failed to send KDM email (timed out)"
+#: src/lib/emailer.cc:217
+msgid "Failed to send KDM email (%1)"
 msgstr ""
 
 #: src/lib/dcp_content_type.cc:45
@@ -524,7 +524,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1267
 msgid "HI"
 msgstr ""
 
@@ -556,11 +556,11 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/film.cc:1260
+#: src/lib/film.cc:1261
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1269
 msgid "Lc"
 msgstr "Lc"
 
@@ -580,7 +580,7 @@ msgstr "Venstre bag surround"
 msgid "Left surround"
 msgstr "Venstre surround"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1264
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -608,7 +608,7 @@ msgstr "Logaritmisk (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk  (316:1 range)"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1265
 msgid "Ls"
 msgstr ""
 
@@ -697,7 +697,7 @@ msgstr "Programmerings fejl ved %1: %2"
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1262
 msgid "R"
 msgstr ""
 
@@ -709,7 +709,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1270
 msgid "Rc"
 msgstr ""
 
@@ -743,7 +743,7 @@ msgstr "Højre bag surround"
 msgid "Right surround"
 msgstr "Højre surround"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1266
 msgid "Rs"
 msgstr ""
 
@@ -930,7 +930,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1268
 msgid "VI"
 msgstr ""
 

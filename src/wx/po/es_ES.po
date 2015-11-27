@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-08-30 15:57-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -83,8 +83,6 @@ msgstr "3D arriba/abajo"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -246,7 +244,7 @@ msgstr ""
 msgid "Bottom"
 msgstr "Abajo"
 
-#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:79
+#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_cpl_panel.cc:37
 msgid "Browse..."
 msgstr "Explorar..."
 
@@ -262,15 +260,16 @@ msgstr "pero tengo que usar el fader a"
 msgid "CC address"
 msgstr "Dirección CC"
 
-#: src/wx/kdm_dialog.cc:70 src/wx/kdm_dialog.cc:76
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:67
+#: src/wx/self_dkdm_dialog.cc:57
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:46
 msgid "CPL ID"
 msgstr "Identificador CPL"
 
-#: src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_cpl_panel.cc:49
 msgid "CPL annotation text"
 msgstr "Texto de anotación DCP"
 
@@ -300,7 +299,7 @@ msgstr "Cadena"
 msgid "Channel gain"
 msgstr "Ganancia del canal"
 
-#: src/wx/audio_dialog.cc:64 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
 msgid "Channels"
 msgstr "Canales"
 
@@ -386,7 +385,7 @@ msgstr "Contraste"
 msgid "Copy as name"
 msgstr "Copiar como nombre"
 
-#: src/wx/audio_dialog.cc:195
+#: src/wx/audio_dialog.cc:201
 msgid "Could not analyse audio."
 msgstr "No se pudo analizar el audio."
 
@@ -450,7 +449,7 @@ msgstr "Personalizado"
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/kdm_dialog.cc:85
+#: src/wx/kdm_cpl_panel.cc:43
 msgid "DCP directory"
 msgstr "Carpeta DCP"
 
@@ -459,7 +458,7 @@ msgstr "Carpeta DCP"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:118
+#: src/wx/audio_dialog.cc:124
 msgid "DCP-o-matic audio"
 msgstr "Audio DCP-o-matic"
 
@@ -761,6 +760,11 @@ msgstr "Correción de gamma de entrada"
 msgid "Input power"
 msgstr "Potencia de entrada"
 
+#: src/wx/audio_dialog.cc:306
+#, c-format
+msgid "Integrated loudness %.2f LUFS"
+msgstr ""
+
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
 msgstr "Intermedio"
@@ -802,7 +806,7 @@ msgstr "Email KDM"
 msgid "KDM type"
 msgstr "Tipo de KDM"
 
-#: src/wx/kdm_dialog.cc:63
+#: src/wx/kdm_dialog.cc:60
 msgid "KDM|Timing"
 msgstr "KDM|Tiempo"
 
@@ -854,6 +858,11 @@ msgstr "Registro"
 msgid "Log:"
 msgstr "Registro:"
 
+#: src/wx/audio_dialog.cc:315
+#, c-format
+msgid "Loudness range %.2f LU"
+msgstr ""
+
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
 msgstr "FALTA:"
@@ -866,7 +875,12 @@ msgstr "Clave del correo"
 msgid "Mail user name"
 msgstr "Usuario del correo"
 
-#: src/wx/kdm_dialog.cc:46
+#: src/wx/self_dkdm_dialog.cc:47
+#, fuzzy
+msgid "Make DKDM for DCP-o-matic"
+msgstr "Acerca de DCP-o-matic"
+
+#: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
 msgstr "Crear KDMs"
 
@@ -998,7 +1012,7 @@ msgstr "Resaltar contenido"
 msgid "Outline content"
 msgstr "Resaltar contenido"
 
-#: src/wx/kdm_dialog.cc:100
+#: src/wx/kdm_dialog.cc:74 src/wx/self_dkdm_dialog.cc:64
 msgid "Output"
 msgstr "Salida"
 
@@ -1010,14 +1024,9 @@ msgstr "Clave"
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/wx/audio_dialog.cc:82
+#: src/wx/audio_dialog.cc:88
 msgid "Peak"
 msgstr "Pico"
-
-#: src/wx/audio_dialog.cc:268
-#, c-format
-msgid "Peak is %.2fdB at %s"
-msgstr "El pico es %.2fdB en %s"
 
 #: src/wx/audio_panel.cc:311
 #, fuzzy, c-format
@@ -1073,7 +1082,7 @@ msgstr "Protocolo"
 msgid "RGB to XYZ conversion"
 msgstr "Conversión RGB a XYZ"
 
-#: src/wx/audio_dialog.cc:83
+#: src/wx/audio_dialog.cc:89
 msgid "RMS"
 msgstr "RMS"
 
@@ -1204,11 +1213,16 @@ msgstr "SCP (para AAM)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
+#: src/wx/audio_dialog.cc:276
+#, fuzzy, c-format
+msgid "Sample peak is %.2fdB at %s"
+msgstr "El pico es %.2fdB en %s"
+
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
 msgstr "Redimensionar a"
 
-#: src/wx/kdm_dialog.cc:56
+#: src/wx/kdm_dialog.cc:53
 msgid "Screens"
 msgstr "Pantallas"
 
@@ -1216,7 +1230,7 @@ msgstr "Pantallas"
 msgid "Search network for servers"
 msgstr ""
 
-#: src/wx/kdm_dialog.cc:184
+#: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
 msgstr "Seleccionar XML del CPL"
 
@@ -1299,7 +1313,7 @@ msgstr "Firmand DCPs y KDMs"
 msgid "Single reel"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:93
+#: src/wx/audio_dialog.cc:99
 msgid "Smoothing"
 msgstr "Suavizado"
 
@@ -1352,7 +1366,7 @@ msgstr "Escala del subtítulo"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:214
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1376,7 +1390,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:265
+#: src/wx/about_dialog.cc:266
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -1397,7 +1411,7 @@ msgstr "No hay recomendaciones: ¡todo parece bien!"
 msgid "There is not enough free memory to do that."
 msgstr "No hay suficiente memoria para hacer eso."
 
-#: src/wx/kdm_dialog.cc:209
+#: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
 msgstr "Este no es un fichero CPL válido"
 
@@ -1453,7 +1467,12 @@ msgstr "Recortar del inicio"
 msgid "Trim up to current position"
 msgstr "Recortar hasta la posición actual"
 
-#: src/wx/audio_dialog.cc:76 src/wx/config_dialog.cc:650
+#: src/wx/audio_dialog.cc:292
+#, fuzzy, c-format
+msgid "True peak is %.2fdB"
+msgstr "El pico es %.2fdB en %s"
+
+#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Tipo"
@@ -1522,7 +1541,7 @@ msgstr "Ajuste del punto de blanco"
 msgid "With help from"
 msgstr "Con ayuda de"
 
-#: src/wx/kdm_output_panel.cc:45
+#: src/wx/kdm_output_panel.cc:45 src/wx/self_dkdm_dialog.cc:70
 msgid "Write to"
 msgstr "Escribe a"
 
@@ -1613,10 +1632,6 @@ msgstr ""
 "Tu DCP no tiene canales de audio. Es probable que cause problemas de "
 "reproducción."
 
-#: src/wx/timeline_audio_content_view.cc:37
-msgid "audio"
-msgstr "audio"
-
 #: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "dB"
@@ -1650,14 +1665,6 @@ msgstr "puerto"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline_video_content_view.cc:36
-msgid "still"
-msgstr "fijo"
-
-#: src/wx/timeline_subtitle_content_view.cc:35
-msgid "subtitles"
-msgstr "subtítulos"
-
 #: src/wx/colour_conversion_editor.cc:65
 msgid "threshold"
 msgstr "umbral"
@@ -1671,10 +1678,6 @@ msgstr "veces"
 msgid "until"
 msgstr "Hasta"
 
-#: src/wx/timeline_video_content_view.cc:38
-msgid "video"
-msgstr "vídeo"
-
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
@@ -1682,6 +1685,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "audio"
+#~ msgstr "audio"
+
+#~ msgid "still"
+#~ msgstr "fijo"
+
+#~ msgid "subtitles"
+#~ msgstr "subtítulos"
+
+#~ msgid "video"
+#~ msgstr "vídeo"
 
 #~ msgid "Certificate"
 #~ msgstr "Certificado"

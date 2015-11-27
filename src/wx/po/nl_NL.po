@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 01:21+0000\n"
+"POT-Creation-Date: 2015-11-27 14:58+0000\n"
 "PO-Revision-Date: 2015-11-16 15:17+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -83,8 +83,6 @@ msgstr "3D boven/onder"
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -249,7 +247,7 @@ msgstr "Vet lettertype"
 msgid "Bottom"
 msgstr "Onder"
 
-#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_dialog.cc:79
+#: src/wx/dir_picker_ctrl.cc:37 src/wx/kdm_cpl_panel.cc:37
 msgid "Browse..."
 msgstr "Blader..."
 
@@ -265,15 +263,16 @@ msgstr "Maar ik moet deze volume-instelling gebruiken"
 msgid "CC address"
 msgstr "CC-adres"
 
-#: src/wx/kdm_dialog.cc:70 src/wx/kdm_dialog.cc:76
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:67
+#: src/wx/self_dkdm_dialog.cc:57
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_dialog.cc:88
+#: src/wx/kdm_cpl_panel.cc:46
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_cpl_panel.cc:49
 msgid "CPL annotation text"
 msgstr "CPL annotatie-tekst"
 
@@ -303,7 +302,7 @@ msgstr "Keten"
 msgid "Channel gain"
 msgstr "Kanaal-versterking"
 
-#: src/wx/audio_dialog.cc:64 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
 msgid "Channels"
 msgstr "Kanalen"
 
@@ -388,7 +387,7 @@ msgstr "Contrast"
 msgid "Copy as name"
 msgstr "Kopieer als naam"
 
-#: src/wx/audio_dialog.cc:195
+#: src/wx/audio_dialog.cc:201
 msgid "Could not analyse audio."
 msgstr "Kan audio niet analyseren."
 
@@ -452,7 +451,7 @@ msgstr "Aangepast"
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/kdm_dialog.cc:85
+#: src/wx/kdm_cpl_panel.cc:43
 msgid "DCP directory"
 msgstr "DCP-map"
 
@@ -461,7 +460,7 @@ msgstr "DCP-map"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:118
+#: src/wx/audio_dialog.cc:124
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic audio"
 
@@ -754,6 +753,11 @@ msgstr "Input-gammacorrectie"
 msgid "Input power"
 msgstr "Input-macht"
 
+#: src/wx/audio_dialog.cc:306
+#, c-format
+msgid "Integrated loudness %.2f LUFS"
+msgstr ""
+
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
 msgstr "Intermediate"
@@ -794,7 +798,7 @@ msgstr "KDM-email"
 msgid "KDM type"
 msgstr "KDM-type"
 
-#: src/wx/kdm_dialog.cc:63
+#: src/wx/kdm_dialog.cc:60
 msgid "KDM|Timing"
 msgstr "Tijdvenster"
 
@@ -846,6 +850,11 @@ msgstr "Log"
 msgid "Log:"
 msgstr "Log:"
 
+#: src/wx/audio_dialog.cc:315
+#, c-format
+msgid "Loudness range %.2f LU"
+msgstr ""
+
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
 msgstr "ONTBREKEND:"
@@ -858,7 +867,12 @@ msgstr "Mail-wachtwoord"
 msgid "Mail user name"
 msgstr "Mail-gebruikersnaam"
 
-#: src/wx/kdm_dialog.cc:46
+#: src/wx/self_dkdm_dialog.cc:47
+#, fuzzy
+msgid "Make DKDM for DCP-o-matic"
+msgstr "Over DCP-o-matic"
+
+#: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
 msgstr "Maak KDM's"
 
@@ -988,7 +1002,7 @@ msgstr "Omlijnings-kleur"
 msgid "Outline content"
 msgstr "Omlijn content"
 
-#: src/wx/kdm_dialog.cc:100
+#: src/wx/kdm_dialog.cc:74 src/wx/self_dkdm_dialog.cc:64
 msgid "Output"
 msgstr "Output"
 
@@ -1000,14 +1014,9 @@ msgstr "Wachtwoord"
 msgid "Pause"
 msgstr "Pauzeer"
 
-#: src/wx/audio_dialog.cc:82
+#: src/wx/audio_dialog.cc:88
 msgid "Peak"
 msgstr "Piek"
-
-#: src/wx/audio_dialog.cc:268
-#, c-format
-msgid "Peak is %.2fdB at %s"
-msgstr "Piek is %.2fdB op %s"
 
 #: src/wx/audio_panel.cc:311
 #, c-format
@@ -1062,7 +1071,7 @@ msgstr "Protocol"
 msgid "RGB to XYZ conversion"
 msgstr "RGB naar XYZ conversie"
 
-#: src/wx/audio_dialog.cc:83
+#: src/wx/audio_dialog.cc:89
 msgid "RMS"
 msgstr "Effectieve waarde"
 
@@ -1189,11 +1198,16 @@ msgstr "SCP (voor AAM and Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
+#: src/wx/audio_dialog.cc:276
+#, fuzzy, c-format
+msgid "Sample peak is %.2fdB at %s"
+msgstr "Piek is %.2fdB op %s"
+
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
 msgstr "Schaal naar"
 
-#: src/wx/kdm_dialog.cc:56
+#: src/wx/kdm_dialog.cc:53
 msgid "Screens"
 msgstr "Schermen"
 
@@ -1201,7 +1215,7 @@ msgstr "Schermen"
 msgid "Search network for servers"
 msgstr "Zoek op netwerk naar servers"
 
-#: src/wx/kdm_dialog.cc:184
+#: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
 msgstr "Selecteer CPL XML-bestand"
 
@@ -1282,7 +1296,7 @@ msgstr "Ondertekenen van DCP's en KDM's"
 msgid "Single reel"
 msgstr "Enkele reel"
 
-#: src/wx/audio_dialog.cc:93
+#: src/wx/audio_dialog.cc:99
 msgid "Smoothing"
 msgstr "Gladstrijken"
 
@@ -1334,7 +1348,7 @@ msgstr "Ondertitelings-uiterlijk"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:213
+#: src/wx/about_dialog.cc:214
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1358,7 +1372,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:265
+#: src/wx/about_dialog.cc:266
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1380,7 +1394,7 @@ msgstr "Er zijn geen hints, alles ziet er goed uit!"
 msgid "There is not enough free memory to do that."
 msgstr "Er is niet genoeg geheugen om dat te doen."
 
-#: src/wx/kdm_dialog.cc:209
+#: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
 msgstr "Dit is geen geldig CPL-bestand"
 
@@ -1436,7 +1450,12 @@ msgstr "Wegknippen van begin"
 msgid "Trim up to current position"
 msgstr "Wegknippen tot aan huidige positie"
 
-#: src/wx/audio_dialog.cc:76 src/wx/config_dialog.cc:650
+#: src/wx/audio_dialog.cc:292
+#, fuzzy, c-format
+msgid "True peak is %.2fdB"
+msgstr "Piek is %.2fdB op %s"
+
+#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Type"
@@ -1505,7 +1524,7 @@ msgstr "Witpunt-aanpassing"
 msgid "With help from"
 msgstr "Met hulp van"
 
-#: src/wx/kdm_output_panel.cc:45
+#: src/wx/kdm_output_panel.cc:45 src/wx/self_dkdm_dialog.cc:70
 msgid "Write to"
 msgstr "Schrijf naar"
 
@@ -1595,10 +1614,6 @@ msgstr ""
 "Uw DCP heeft geen audio-kanalen.  Dit kan problemen veroorzaken met sommige "
 "installaties."
 
-#: src/wx/timeline_audio_content_view.cc:37
-msgid "audio"
-msgstr "audio"
-
 #: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
 msgstr "dB"
@@ -1632,14 +1647,6 @@ msgstr "poort"
 msgid "s"
 msgstr "s"
 
-#: src/wx/timeline_video_content_view.cc:36
-msgid "still"
-msgstr "stilstaand beeld"
-
-#: src/wx/timeline_subtitle_content_view.cc:35
-msgid "subtitles"
-msgstr "ondertitels"
-
 #: src/wx/colour_conversion_editor.cc:65
 msgid "threshold"
 msgstr "drempel"
@@ -1652,10 +1659,6 @@ msgstr "keer"
 msgid "until"
 msgstr "tot"
 
-#: src/wx/timeline_video_content_view.cc:38
-msgid "video"
-msgstr "video"
-
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
@@ -1663,6 +1666,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "audio"
+#~ msgstr "audio"
+
+#~ msgid "still"
+#~ msgstr "stilstaand beeld"
+
+#~ msgid "subtitles"
+#~ msgstr "ondertitels"
+
+#~ msgid "video"
+#~ msgstr "video"
 
 #~ msgid "Certificate"
 #~ msgstr "Certificaat"
