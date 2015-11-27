@@ -1,5 +1,7 @@
 2015-11-27  Carl Hetherington  <cth@carlh.net>
 
+	* Fix incorrect subtitle timings with multi-reel (#760).
+
 	* Version 2.5.10 released.
 
 2015-11-27  Carl Hetherington  <cth@carlh.net>

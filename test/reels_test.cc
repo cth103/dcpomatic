@@ -177,3 +177,48 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 3));
 	BOOST_CHECK_EQUAL (i->to, sub->full_length().round_up (film->video_frame_rate()));
 }
+
+/** Check creation of a multi-reel DCP with a single .srt subtitle file;
+ *  make sure that the reel subtitle timing is done right.
+ */
+BOOST_AUTO_TEST_CASE (reels_test4)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test4");
+	film->set_name ("reels_test4");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+
+	/* 4 piece of 1s-long content */
+	shared_ptr<ImageContent> content[4];
+	for (int i = 0; i < 4; ++i) {
+		content[i].reset (new ImageContent (film, "test/data/flat_green.png"));
+		film->examine_and_add_content (content[i]);
+		wait_for_jobs ();
+		content[i]->set_video_length (24);
+	}
+
+	shared_ptr<SubRipContent> subs (new SubRipContent (film, "test/data/subrip3.srt"));
+	film->examine_and_add_content (subs);
+	wait_for_jobs ();
+
+	list<DCPTimePeriod> reels = film->reels();
+	BOOST_REQUIRE_EQUAL (reels.size(), 4);
+	list<DCPTimePeriod>::const_iterator i = reels.begin ();
+	BOOST_CHECK_EQUAL (i->from, DCPTime (0));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000));
+	++i;
+	BOOST_CHECK_EQUAL (i->from, DCPTime (96000));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 2));
+	++i;
+	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 2));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 3));
+	++i;
+	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 3));
+	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 4));
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	check_dcp ("test/data/reels_test4", film->dir (film->dcp_name()));
+}
