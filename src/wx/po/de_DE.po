@@ -1454,9 +1454,8 @@ msgid "Trim up to current position"
 msgstr "Beschneiden vor aktueller Position"
 
 #: src/wx/audio_dialog.cc:292
-#, fuzzy, c-format
 msgid "True peak is %.2fdB"
-msgstr "Spitzenwert ist %.2fdB bei %s"
+msgstr "Spitzenwert ist %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84

@@ -1467,7 +1467,7 @@ msgstr "Aparar até à posição actual"
 #: src/wx/audio_dialog.cc:292
 #, fuzzy, c-format
 msgid "True peak is %.2fdB"
-msgstr "Pico de %.2fdB em %s"
+msgstr "Pico de %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84

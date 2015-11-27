@@ -1455,7 +1455,7 @@ msgstr "Couper avant le curseur"
 #: src/wx/audio_dialog.cc:292
 #, fuzzy, c-format
 msgid "True peak is %.2fdB"
-msgstr "La crête est de %.2fdB à %s"
+msgstr "La crête est de %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84

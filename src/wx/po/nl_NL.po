@@ -1451,9 +1451,8 @@ msgid "Trim up to current position"
 msgstr "Wegknippen tot aan huidige positie"
 
 #: src/wx/audio_dialog.cc:292
-#, fuzzy, c-format
 msgid "True peak is %.2fdB"
-msgstr "Piek is %.2fdB op %s"
+msgstr "Piek is %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
