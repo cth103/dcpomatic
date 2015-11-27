@@ -226,7 +226,7 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	} else if (pv->has_j2k ()) {
 		/* This frame already has JPEG2000 data, so just write it */
 		_writer->write (pv->j2k(), _position, pv->eyes ());
-	} else if (_last_player_video && pv->same (_last_player_video)) {
+	} else if (_last_player_video && _writer->can_repeat(_position) && pv->same (_last_player_video)) {
 		_writer->repeat (_position, pv->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
