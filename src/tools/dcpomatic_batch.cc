@@ -17,20 +17,23 @@
 
 */
 
-#include <wx/aboutdlg.h>
-#include <wx/stdpaths.h>
-#include <wx/cmdline.h>
-#include <wx/wx.h>
+#include "wx/wx_util.h"
+#include "wx/about_dialog.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/job_manager_view.h"
+#include "wx/config_dialog.h"
+#include "wx/servers_list_dialog.h"
 #include "lib/version.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
-#include "wx/wx_util.h"
-#include "wx/about_dialog.h"
-#include "wx/wx_signal_manager.h"
-#include "wx/job_manager_view.h"
+#include <wx/aboutdlg.h>
+#include <wx/stdpaths.h>
+#include <wx/cmdline.h>
+#include <wx/preferences.h>
+#include <wx/wx.h>
 
 using std::exception;
 using boost::shared_ptr;
@@ -39,7 +42,7 @@ static std::string film_to_load;
 
 enum {
 	ID_file_add_film = 1,
-	ID_file_quit,
+	ID_tools_encoding_servers,
 	ID_help_about
 };
 
@@ -48,12 +51,30 @@ setup_menu (wxMenuBar* m)
 {
 	wxMenu* file = new wxMenu;
 	file->Append (ID_file_add_film, _("&Add Film..."));
-	file->Append (ID_file_quit, _("&Quit"));
+#ifdef DCPOMATIC_OSX
+	file->Append (wxID_EXIT, _("&Exit"));
+#else
+	file->Append (wxID_EXIT, _("&Quit"));
+#endif
+
+#ifdef DCPOMATIC_OSX
+	file->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+#else
+	wxMenu* edit = new wxMenu;
+	edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+#endif
+
+	wxMenu* tools = new wxMenu;
+	tools->Append (ID_tools_encoding_servers, _("Encoding servers..."));
 
 	wxMenu* help = new wxMenu;
 	help->Append (ID_help_about, _("About"));
 
 	m->Append (file, _("&File"));
+#ifndef DCPOMATIC_OSX
+	m->Append (edit, _("&Edit"));
+#endif
+	m->Append (tools, _("&Tools"));
 	m->Append (help, _("&Help"));
 }
 
@@ -63,14 +84,18 @@ public:
 	DOMFrame (wxString const & title)
 		: wxFrame (NULL, -1, title)
 		, _sizer (new wxBoxSizer (wxVERTICAL))
+		, _config_dialog (0)
+		, _servers_list_dialog (0)
 	{
 		wxMenuBar* bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_add_film, this), ID_file_add_film);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_quit, this),     ID_file_quit);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),    ID_help_about);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_add_film, this),    ID_file_add_film);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_quit, this),        wxID_EXIT);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_encoding_servers, this), ID_tools_encoding_servers);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),       ID_help_about);
 
 		wxPanel* panel = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -140,6 +165,23 @@ private:
 		}
 	}
 
+	void edit_preferences ()
+	{
+		if (!_config_dialog) {
+			_config_dialog = create_config_dialog ();
+		}
+		_config_dialog->Show (this);
+	}
+
+	void tools_encoding_servers ()
+	{
+		if (!_servers_list_dialog) {
+			_servers_list_dialog = new ServersListDialog (this);
+		}
+
+		_servers_list_dialog->Show ();
+	}
+
 	void help_about ()
 	{
 		AboutDialog* d = new AboutDialog (this);
@@ -183,6 +225,8 @@ private:
 
 	boost::optional<boost::filesystem::path> _last_parent;
 	wxSizer* _sizer;
+	wxPreferencesEditor* _config_dialog;
+	ServersListDialog* _servers_list_dialog;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
