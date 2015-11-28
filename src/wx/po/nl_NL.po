@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-27 14:58+0000\n"
-"PO-Revision-Date: 2015-11-16 15:17+0100\n"
+"PO-Revision-Date: 2015-11-28 00:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -756,7 +756,7 @@ msgstr "Input-macht"
 #: src/wx/audio_dialog.cc:306
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "Geïntegreerde luidheid %.2f LUFS"
 
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
@@ -853,7 +853,7 @@ msgstr "Log:"
 #: src/wx/audio_dialog.cc:315
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr ""
+msgstr "Luidheidbereik %.2f LU"
 
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
@@ -868,9 +868,8 @@ msgid "Mail user name"
 msgstr "Mail-gebruikersnaam"
 
 #: src/wx/self_dkdm_dialog.cc:47
-#, fuzzy
 msgid "Make DKDM for DCP-o-matic"
-msgstr "Over DCP-o-matic"
+msgstr "Maak DKDM voor DCP-o-matic"
 
 #: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
@@ -1199,9 +1198,9 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s"
-msgstr "Piek is %.2fdB op %s"
+msgstr "Sample-piek is %.2fdB op %s"
 
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
@@ -1661,43 +1660,3 @@ msgstr "tot"
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
-
-#: src/wx/colour_conversion_editor.cc:115
-msgid "y"
-msgstr "y"
-
-#~ msgid "audio"
-#~ msgstr "audio"
-
-#~ msgid "still"
-#~ msgstr "stilstaand beeld"
-
-#~ msgid "subtitles"
-#~ msgstr "ondertitels"
-
-#~ msgid "video"
-#~ msgstr "video"
-
-#~ msgid "Certificate"
-#~ msgstr "Certificaat"
-
-#~ msgid "Check for testing updates as well as stable ones"
-#~ msgstr "Zoek naar zowel test-updates als stabiele versies"
-
-#~ msgid "Copy..."
-#~ msgstr "Kopieer..."
-
-#~ msgid "Load from file..."
-#~ msgstr "Laden uit bestand..."
-
-#~ msgid "Other"
-#~ msgstr "Andere"
-
-#~ msgid "Server manufacturer"
-#~ msgstr "Server-fabrikant"
-
-#~ msgid "Unknown"
-#~ msgstr "Onbekend"
-
-#~ msgid "Use all servers"
-#~ msgstr "Gebruik alle servers"

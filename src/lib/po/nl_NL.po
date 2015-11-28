@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-27 14:58+0000\n"
-"PO-Revision-Date: 2015-11-16 02:20+0100\n"
+"PO-Revision-Date: 2015-11-28 00:08+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -478,9 +478,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Authenticatiefout met server (%1)"
 
 #: src/lib/emailer.cc:217
-#, fuzzy
 msgid "Failed to send KDM email (%1)"
-msgstr "Versturen KDM-email mislukt (time-out)"
+msgstr "Versturen KDM-email mislukt (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -1131,15 +1130,3 @@ msgstr "onbekend"
 #: src/lib/video_content.cc:579
 msgid "video frames"
 msgstr "video-beelden"
-
-#~ msgid "NC"
-#~ msgstr "NC"
-
-#~ msgid "KDM delivery"
-#~ msgstr "KDM-levering"
-
-#~ msgid "Finding length"
-#~ msgstr "Afspeelduur bepalen"
-
-#~ msgid "multi-part subtitles not yet supported"
-#~ msgstr "ondertitels met meerdere delen worden nog niet ondersteund."
