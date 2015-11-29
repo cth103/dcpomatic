@@ -24,9 +24,9 @@ operator!= (FontFiles const & a, FontFiles const & b)
 {
 	for (int i = 0; i < FontFiles::VARIANTS; ++i) {
 		if (a.get(static_cast<FontFiles::Variant>(i)) != b.get(static_cast<FontFiles::Variant>(i))) {
-			return false;
+			return true;
 		}
 	}
 
-	return true;
+	return false;
 }
