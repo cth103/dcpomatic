@@ -119,6 +119,8 @@ AudioMapping::set (int input_channel, int output_channel, float g)
 float
 AudioMapping::get (int input_channel, int output_channel) const
 {
+	DCPOMATIC_ASSERT (input_channel < int (_gain.size()));
+	DCPOMATIC_ASSERT (output_channel < int (_gain[0].size()));
 	return _gain[input_channel][output_channel];
 }
 
