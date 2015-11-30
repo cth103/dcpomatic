@@ -168,6 +168,7 @@ AudioContent::audio_mapping () const
 	}
 
 	AudioMapping merged (channels, MAX_DCP_AUDIO_CHANNELS);
+	merged.make_zero ();
 
 	int c = 0;
 	int s = 0;
@@ -175,7 +176,9 @@ AudioContent::audio_mapping () const
 		AudioMapping mapping = i->mapping ();
 		for (int j = 0; j < mapping.input_channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
-				merged.set (c, k, mapping.get (j, k));
+				if (k < mapping.output_channels()) {
+					merged.set (c, k, mapping.get (j, k));
+				}
 			}
 			++c;
 		}
