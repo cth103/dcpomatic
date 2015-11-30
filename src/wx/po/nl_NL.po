@@ -1660,3 +1660,7 @@ msgstr "tot"
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"
 msgstr "x"
+
+#: src/wx/colour_conversion_editor.cc:115
+msgid "y"
+msgstr "y"
