@@ -30,7 +30,6 @@
 #include "config.h"
 #include "cross.h"
 #include "player_video.h"
-#include "data.h"
 #include "safe_stringstream.h"
 #include "raw_convert.h"
 #include "compose.hpp"
@@ -64,6 +63,7 @@ using boost::bind;
 using boost::scoped_array;
 using boost::optional;
 using dcp::Size;
+using dcp::Data;
 
 Server::Server (shared_ptr<Log> log, bool verbose)
 	: _terminate (false)

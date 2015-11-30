@@ -34,6 +34,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using dcp::Data;
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,

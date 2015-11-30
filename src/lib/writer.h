@@ -23,7 +23,6 @@
 
 #include "types.h"
 #include "player_subtitles.h"
-#include "data.h"
 #include "exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
@@ -31,8 +30,11 @@
 #include <boost/thread/condition.hpp>
 #include <list>
 
+namespace dcp {
+	class Data;
+}
+
 class Film;
-class Data;
 class AudioBuffers;
 class Job;
 class Font;
@@ -58,7 +60,7 @@ public:
 	} type;
 
 	/** encoded data for FULL */
-	boost::optional<Data> encoded;
+	boost::optional<dcp::Data> encoded;
 	/** size of data for FAKE */
 	int size;
 	/** reel index */
@@ -93,7 +95,7 @@ public:
 
 	bool can_fake_write (Frame) const;
 
-	void write (Data, Frame, Eyes);
+	void write (dcp::Data, Frame, Eyes);
 	void fake_write (Frame, Eyes);
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);

@@ -38,11 +38,11 @@
 #include "cross.h"
 #include "player_video.h"
 #include "raw_convert.h"
-#include "data.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
+#include <dcp/j2k.h>
 #include <dcp/colour_matrix.h>
 #include <openjpeg.h>
 #include <libxml++/libxml++.h>
@@ -62,6 +62,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
+using dcp::Data;
 
 #define DCI_COEFFICENT (48.0 / 52.37)
 
@@ -123,106 +124,13 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz = convert_to_xyz (_frame, note);
 
-	/* Set the max image and component sizes based on frame_rate */
-	int max_cs_len = ((float) _j2k_bandwidth) / 8 / _frames_per_second;
-	if (_frame->eyes() == EYES_LEFT || _frame->eyes() == EYES_RIGHT) {
-		/* In 3D we have only half the normal bandwidth per eye */
-		max_cs_len /= 2;
-	}
-	int const max_comp_size = max_cs_len / 1.25;
-
-	/* get a J2K compressor handle */
-	opj_cinfo_t* cinfo = opj_create_compress (CODEC_J2K);
-	if (cinfo == 0) {
-		throw EncodeError (N_("could not create JPEG2000 encoder"));
-	}
-
-	/* Set encoding parameters to default values */
-	opj_cparameters_t parameters;
-	opj_set_default_encoder_parameters (&parameters);
-
-	/* Set default cinema parameters */
-	parameters.tile_size_on = false;
-	parameters.cp_tdx = 1;
-	parameters.cp_tdy = 1;
-
-	/* Tile part */
-	parameters.tp_flag = 'C';
-	parameters.tp_on = 1;
-
-	/* Tile and Image shall be at (0,0) */
-	parameters.cp_tx0 = 0;
-	parameters.cp_ty0 = 0;
-	parameters.image_offset_x0 = 0;
-	parameters.image_offset_y0 = 0;
-
-	/* Codeblock size = 32x32 */
-	parameters.cblockw_init = 32;
-	parameters.cblockh_init = 32;
-	parameters.csty |= 0x01;
-
-	/* The progression order shall be CPRL */
-	parameters.prog_order = CPRL;
-
-	/* No ROI */
-	parameters.roi_compno = -1;
-
-	parameters.subsampling_dx = 1;
-	parameters.subsampling_dy = 1;
-
-	/* 9-7 transform */
-	parameters.irreversible = 1;
-
-	parameters.tcp_rates[0] = 0;
-	parameters.tcp_numlayers++;
-	parameters.cp_disto_alloc = 1;
-	parameters.cp_rsiz = _resolution == RESOLUTION_2K ? CINEMA2K : CINEMA4K;
-	if (_resolution == RESOLUTION_4K) {
-		parameters.numpocs = 2;
-		parameters.POC[0].tile = 1;
-		parameters.POC[0].resno0 = 0;
-		parameters.POC[0].compno0 = 0;
-		parameters.POC[0].layno1 = 1;
-		parameters.POC[0].resno1 = parameters.numresolution - 1;
-		parameters.POC[0].compno1 = 3;
-		parameters.POC[0].prg1 = CPRL;
-		parameters.POC[1].tile = 1;
-		parameters.POC[1].resno0 = parameters.numresolution - 1;
-		parameters.POC[1].compno0 = 0;
-		parameters.POC[1].layno1 = 1;
-		parameters.POC[1].resno1 = parameters.numresolution;
-		parameters.POC[1].compno1 = 3;
-		parameters.POC[1].prg1 = CPRL;
-	}
-
-	parameters.cp_comment = strdup (N_("DCP-o-matic"));
-	parameters.cp_cinema = _resolution == RESOLUTION_2K ? CINEMA2K_24 : CINEMA4K_24;
-
-	/* 3 components, so use MCT */
-	parameters.tcp_mct = 1;
-
-	/* set max image */
-	parameters.max_comp_size = max_comp_size;
-	parameters.tcp_rates[0] = ((float) (3 * xyz->size().width * xyz->size().height * 12)) / (max_cs_len * 8);
-
-	/* Set event manager to null (openjpeg 1.3 bug) */
-	cinfo->event_mgr = 0;
-
-	/* Setup the encoder parameters using the current image and user parameters */
-	opj_setup_encoder (cinfo, &parameters, xyz->opj_image ());
-
-	opj_cio_t* cio = opj_cio_open ((opj_common_ptr) cinfo, 0, 0);
-	if (cio == 0) {
-		opj_destroy_compress (cinfo);
-		throw EncodeError (N_("could not open JPEG2000 stream"));
-	}
-
-	int const r = opj_encode (cinfo, cio, xyz->opj_image(), 0);
-	if (r == 0) {
-		opj_cio_close (cio);
-		opj_destroy_compress (cinfo);
-		throw EncodeError (N_("JPEG2000 encoding failed"));
-	}
+	Data enc = compress_j2k (
+		convert_to_xyz (_frame, note),
+		_j2k_bandwidth,
+		_frames_per_second,
+		_frame->eyes() == EYES_LEFT || _frame->eyes() == EYES_RIGHT,
+		_resolution == RESOLUTION_4K
+		);
 
 	switch (_frame->eyes()) {
 	case EYES_BOTH:
@@ -237,12 +145,6 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
 	default:
 		break;
 	}
-
-	Data enc (cio->buffer, cio_tell (cio));
-
-	opj_cio_close (cio);
-	free (parameters.cp_comment);
-	opj_destroy_compress (cinfo);
 
 	return enc;
 }

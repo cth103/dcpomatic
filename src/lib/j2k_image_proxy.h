@@ -18,15 +18,13 @@
 */
 
 #include "image_proxy.h"
-#include "data.h"
 #include <dcp/util.h>
 
 namespace dcp {
 	class MonoPictureFrame;
 	class StereoPictureFrame;
+	class Data;
 }
-
-class Data;
 
 class J2KImageProxy : public ImageProxy
 {
@@ -43,7 +41,7 @@ public:
 	bool same (boost::shared_ptr<const ImageProxy>) const;
 	AVPixelFormat pixel_format () const;
 
-	Data j2k () const {
+	dcp::Data j2k () const {
 		return _data;
 	}
 
@@ -55,10 +53,10 @@ private:
 	friend struct client_server_test_j2k;
 
 	/* For tests */
-	J2KImageProxy (Data data, dcp::Size size);
+	J2KImageProxy (dcp::Data data, dcp::Size size);
 	void ensure_j2k () const;
 
-	Data _data;
+	dcp::Data _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;
 	mutable boost::shared_ptr<dcp::OpenJPEGImage> _j2k;

@@ -21,7 +21,6 @@
 #include "cross.h"
 #include "exceptions.h"
 #include "subrip_content.h"
-#include "data.h"
 #include <sub/subrip_reader.h>
 #include <sub/collect.h>
 #include <unicode/ucsdet.h>
@@ -35,6 +34,7 @@ using std::cout;
 using std::string;
 using boost::shared_ptr;
 using boost::scoped_array;
+using dcp::Data;
 
 SubRip::SubRip (shared_ptr<const SubRipContent> content)
 {

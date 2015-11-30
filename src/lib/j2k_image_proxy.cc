@@ -20,13 +20,13 @@
 #include "j2k_image_proxy.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
-#include "data.h"
 #include "raw_convert.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/colour_conversion.h>
 #include <dcp/rgb_xyz.h>
+#include <dcp/j2k.h>
 #include <libcxml/cxml.h>
 #include <openjpeg.h>
 #include <libxml++/libxml++.h>
@@ -39,6 +39,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using dcp::Data;
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
 J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)

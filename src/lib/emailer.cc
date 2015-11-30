@@ -18,7 +18,6 @@
 */
 
 #include "compose.hpp"
-#include "data.h"
 #include "config.h"
 #include "emailer.h"
 #include "exceptions.h"
@@ -35,6 +34,7 @@ using std::list;
 using std::cout;
 using std::pair;
 using boost::shared_ptr;
+using dcp::Data;
 
 Emailer::Emailer (string from, list<string> to, string subject, string body)
 	: _from (from)

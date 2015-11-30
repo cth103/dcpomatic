@@ -18,7 +18,6 @@
 */
 
 #include "types.h"
-#include "data.h"
 #include "dcpomatic_time.h"
 #include "referenced_reel_asset.h"
 #include "player_subtitles.h"
@@ -49,7 +48,7 @@ class ReelWriter
 public:
 	ReelWriter (boost::shared_ptr<const Film> film, DCPTimePeriod period, boost::shared_ptr<Job> job);
 
-	void write (boost::optional<Data> encoded, Frame frame, Eyes eyes);
+	void write (boost::optional<dcp::Data> encoded, Frame frame, Eyes eyes);
 	void fake_write (Frame frame, Eyes eyes, int size);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (boost::shared_ptr<const AudioBuffers> audio);
@@ -95,7 +94,7 @@ private:
 	/** the first frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 	/** the data of the last written frame, if there is one */
-	boost::optional<Data> _last_written[EYES_COUNT];
+	boost::optional<dcp::Data> _last_written[EYES_COUNT];
 	/** the index of the last written video frame within the reel */
 	int _last_written_video_frame;
 	Eyes _last_written_eyes;

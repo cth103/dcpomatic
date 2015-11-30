@@ -32,7 +32,6 @@
 #include "lib/player_video.h"
 #include "lib/raw_image_proxy.h"
 #include "lib/j2k_image_proxy.h"
-#include "lib/data.h"
 #include "lib/server_description.h"
 #include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
@@ -42,6 +41,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::thread;
 using boost::optional;
+using dcp::Data;
 
 void
 do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, Data locally_encoded)

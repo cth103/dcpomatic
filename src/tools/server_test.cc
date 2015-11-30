@@ -29,7 +29,6 @@
 #include "lib/video_decoder.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
-#include "lib/data.h"
 #include "lib/server_description.h"
 #include <getopt.h>
 #include <iostream>
@@ -41,6 +40,7 @@ using std::cerr;
 using std::string;
 using std::pair;
 using boost::shared_ptr;
+using dcp::Data;
 
 static shared_ptr<Film> film;
 static ServerDescription* server;

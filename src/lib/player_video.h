@@ -22,7 +22,6 @@
 #include "dcpomatic_time.h"
 #include "colour_conversion.h"
 #include "position_image.h"
-#include "data.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -61,7 +60,7 @@ public:
 	void send_binary (boost::shared_ptr<Socket> socket) const;
 
 	bool has_j2k () const;
-	Data j2k () const;
+	dcp::Data j2k () const;
 
 	DCPTime time () const {
 		return _time;

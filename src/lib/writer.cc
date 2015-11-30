@@ -30,7 +30,6 @@
 #include "cross.h"
 #include "audio_buffers.h"
 #include "md5_digester.h"
-#include "data.h"
 #include "version.h"
 #include "font.h"
 #include "util.h"
@@ -62,6 +61,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::Data;
 
 Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	: _film (film)

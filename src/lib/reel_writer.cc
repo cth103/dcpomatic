@@ -54,6 +54,7 @@ using std::string;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using dcp::Data;
 
 int const ReelWriter::_info_size = 48;
 
