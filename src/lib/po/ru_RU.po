@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 14:58+0000\n"
+"POT-Creation-Date: 2015-11-30 13:42+0000\n"
 "PO-Revision-Date: 2015-11-15 22:37+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -67,15 +67,15 @@ msgstr "Анализ аудио"
 msgid "Audio channels"
 msgstr "Аудиоканалы"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Аудио будет ресэмплировано из %1kГц в %2kГц"
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
 msgstr "Аудио будет ресэмплировано в %1kГц"
 
-#: src/lib/audio_content.cc:245
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr "Аудио не будет ресэмплировано"
 
@@ -198,7 +198,7 @@ msgstr "Рендеринг изображения"
 msgid "Content and DCP have the same rate.\n"
 msgstr "У контента и DCP одинаковая частота кадров.\n"
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:566
 msgid "Content frame rate"
 msgstr "Частота кадров контента:"
 
@@ -221,24 +221,24 @@ msgstr "Для присоединения контента должна быть
 msgid "Content to be joined must have the same audio gain."
 msgstr "Для присоединения контента должно быть одинаковое усиление аудио."
 
-#: src/lib/video_content.cc:173
+#: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same colour conversion."
 msgstr ""
 "Для присоединения контента должно быть одинаковое преобразование цвета."
 
-#: src/lib/video_content.cc:165
+#: src/lib/video_content.cc:164
 msgid "Content to be joined must have the same crop."
 msgstr "Для присоединения контента должно быть одинаковое кадрирование."
 
-#: src/lib/video_content.cc:177
+#: src/lib/video_content.cc:176
 msgid "Content to be joined must have the same fades."
 msgstr "Для присоединения контента должно быть одинаковое угасание."
 
-#: src/lib/video_content.cc:153
+#: src/lib/video_content.cc:152
 msgid "Content to be joined must have the same picture size."
 msgstr "Для присоединения контента должен быть одинаковый размер изображения."
 
-#: src/lib/video_content.cc:169
+#: src/lib/video_content.cc:168
 msgid "Content to be joined must have the same scale setting."
 msgstr ""
 "Для присоединения контента должны быть одинаковые параметры масштабирования."
@@ -267,12 +267,12 @@ msgstr ""
 "Для присоединения контента должен быть одинаковый размер субтитров по "
 "вертикали."
 
-#: src/lib/video_content.cc:157
+#: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr ""
 "Для присоединения контента должна быть одинаковой частота кадров видео."
 
-#: src/lib/video_content.cc:161
+#: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same video frame type."
 msgstr "Для присоединения контента должен быть одинаковый тип видео."
 
@@ -284,7 +284,7 @@ msgstr "Для присоединения контента должен испо
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Для присоединения контента необходимо использовать те же субтитры."
 
-#: src/lib/video_content.cc:519
+#: src/lib/video_content.cc:518
 msgid "Content video is %1x%2"
 msgstr "Разрешение контента: %1x%2"
 
@@ -344,7 +344,7 @@ msgstr "не удалось начать передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:537
 msgid "Cropped to %1x%2"
 msgstr "Кадрировано в %1x%2"
 
@@ -420,7 +420,7 @@ msgstr ""
 "С наилучшими пожеланиями,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:532
+#: src/lib/video_content.cc:531
 msgid "Display aspect ratio"
 msgstr "Соотношение сторон контента:"
 
@@ -480,7 +480,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
-#: src/lib/emailer.cc:217
+#: src/lib/emailer.cc:216
 #, fuzzy
 msgid "Failed to send KDM email (%1)"
 msgstr "Ошибка отправки ключей (таймаут)"
@@ -685,7 +685,7 @@ msgstr "Сверхполный подавитель шума небольшой 
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:559
+#: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Заполнено черным для подгонки контейнера %1 (%2x%3)"
 
@@ -770,7 +770,7 @@ msgstr "SMPTE 240M"
 msgid "SSH error (%1)"
 msgstr "Ошибка SSH (%1)"
 
-#: src/lib/video_content.cc:550
+#: src/lib/video_content.cc:549
 msgid "Scaled to %1x%2"
 msgstr "Масштабировано до %1x%2"
 
@@ -786,7 +786,7 @@ msgstr "Отправка почты"
 msgid "Short"
 msgstr "SHR (Короткометражный фильм)"
 
-#: src/lib/audio_content.cc:249
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Некоторое аудио будет ресемплировано в %1kГц"
 
@@ -941,15 +941,15 @@ msgstr "Преобразовать П"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "Video frame rate"
 msgstr "Частота кадров видео"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "Video length"
 msgstr "Длительность видео"
 
-#: src/lib/video_content.cc:580
+#: src/lib/video_content.cc:579
 msgid "Video size"
 msgstr "Размер видео"
 
@@ -1073,7 +1073,7 @@ msgstr "кадр/сек"
 msgid "frames"
 msgstr "кадры"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
@@ -1099,7 +1099,7 @@ msgstr "последовательность"
 msgid "name"
 msgstr "название"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:527
 msgid "pixel aspect ratio"
 msgstr "Соотношение сторон пикселей"
 
@@ -1126,7 +1126,7 @@ msgstr "статичный"
 msgid "unknown"
 msgstr "неизвестно"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "видеокадры"
 

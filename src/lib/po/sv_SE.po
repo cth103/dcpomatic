@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 14:58+0000\n"
+"POT-Creation-Date: 2015-11-30 13:42+0000\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -69,15 +69,15 @@ msgstr "Analysera audio"
 msgid "Audio channels"
 msgstr "Audiokanaler"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Audio kommer att samplas om från %1kHz till %2kHz"
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
 msgstr "Audio kommer att samplas om till %1kHz"
 
-#: src/lib/audio_content.cc:245
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr "Audio kommer inte att samplas om"
 
@@ -200,7 +200,7 @@ msgstr "Beräknar bildsammanfattning"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Innehåll och DCP har samma bildfrekvens.\n"
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:566
 msgid "Content frame rate"
 msgstr "Innehållets bildhastighet"
 
@@ -224,23 +224,23 @@ msgstr "Innehåll som ska sammanfogas måste använda samma audiofördröjning."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Innehåll som ska sammanfogas måste använda samma audioförstärkning."
 
-#: src/lib/video_content.cc:173
+#: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Innehåll som ska sammanfogas måste använda samma färgkonvertering."
 
-#: src/lib/video_content.cc:165
+#: src/lib/video_content.cc:164
 msgid "Content to be joined must have the same crop."
 msgstr "Innehåll som ska sammanfogas måste använda samma beskärning."
 
-#: src/lib/video_content.cc:177
+#: src/lib/video_content.cc:176
 msgid "Content to be joined must have the same fades."
 msgstr "Innehåll som ska sammanfogas måste använda samma intoning."
 
-#: src/lib/video_content.cc:153
+#: src/lib/video_content.cc:152
 msgid "Content to be joined must have the same picture size."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildstorlek."
 
-#: src/lib/video_content.cc:169
+#: src/lib/video_content.cc:168
 msgid "Content to be joined must have the same scale setting."
 msgstr "Innehåll som ska sammanfogas måste använda samma bildförhållande."
 
@@ -266,11 +266,11 @@ msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma Y-skala på undertexten."
 
-#: src/lib/video_content.cc:157
+#: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildhastighet."
 
-#: src/lib/video_content.cc:161
+#: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same video frame type."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildtyp."
 
@@ -282,7 +282,7 @@ msgstr "Innehåll som ska sammanfogas måste använda samma typsnitt."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Innehåll som ska sammanfogas måste använda samma undertextström."
 
-#: src/lib/video_content.cc:519
+#: src/lib/video_content.cc:518
 msgid "Content video is %1x%2"
 msgstr "Original-videon är %1x%2"
 
@@ -342,7 +342,7 @@ msgstr "Kunde inte starta överföring"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunde inte skriva till fjärrfil (%1)"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:537
 msgid "Cropped to %1x%2"
 msgstr "Beskuren till %1x%2"
 
@@ -417,7 +417,7 @@ msgstr ""
 "Vänliga hälsningar,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:532
+#: src/lib/video_content.cc:531
 msgid "Display aspect ratio"
 msgstr "Skärmens höjd/bredd-förhållande"
 
@@ -478,7 +478,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
 
-#: src/lib/emailer.cc:217
+#: src/lib/emailer.cc:216
 #, fuzzy
 msgid "Failed to send KDM email (%1)"
 msgstr "Misslyckades att skicka KDM e-post (tog för lång tid)"
@@ -688,7 +688,7 @@ msgstr "Överkomplett wavelet-brusreducering"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:559
+#: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Svarta kanter tillagda för att passa %1 (%2x%3)"
 
@@ -773,7 +773,7 @@ msgstr "SMPTE 240M"
 msgid "SSH error (%1)"
 msgstr "SSH fel (%1)"
 
-#: src/lib/video_content.cc:550
+#: src/lib/video_content.cc:549
 msgid "Scaled to %1x%2"
 msgstr "Skalad till %1x%2"
 
@@ -789,7 +789,7 @@ msgstr "Skickar e-post"
 msgid "Short"
 msgstr "Short"
 
-#: src/lib/audio_content.cc:249
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
 msgstr "En del av audio kommer att samplas om till %1kHz"
 
@@ -943,15 +943,15 @@ msgstr "Uppmixa H"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "Video frame rate"
 msgstr "Bildhastighet"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "Video length"
 msgstr "Videolängd"
 
-#: src/lib/video_content.cc:580
+#: src/lib/video_content.cc:579
 msgid "Video size"
 msgstr "Videostorlek"
 
@@ -1076,7 +1076,7 @@ msgstr "bps"
 msgid "frames"
 msgstr "bildrutor"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "frames per second"
 msgstr "bilder per sekund"
 
@@ -1103,7 +1103,7 @@ msgstr "rörlig"
 msgid "name"
 msgstr "namn"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:527
 msgid "pixel aspect ratio"
 msgstr "pixlars höjd/bredd-förhållande"
 
@@ -1130,7 +1130,7 @@ msgstr "stillbild"
 msgid "unknown"
 msgstr "okänd"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "bildrutor"
 

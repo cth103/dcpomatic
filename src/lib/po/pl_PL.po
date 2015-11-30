@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 14:58+0000\n"
+"POT-Creation-Date: 2015-11-30 13:42+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -71,15 +71,15 @@ msgstr "Analizuj dźwięk"
 msgid "Audio channels"
 msgstr "Kanały dźwiękowe"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Dźwięk będzie przesamplowany z %1kHz na %2kHz."
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
 msgstr "Dźwięk będzie przesamplowany na %1kHz."
 
-#: src/lib/audio_content.cc:245
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr "Dźwięk nie będzie przesamplowany."
 
@@ -202,7 +202,7 @@ msgstr "Obliczanie danych obrazu"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Plik obrazu i DCP mają taką samą ilość kl/s.\n"
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:566
 msgid "Content frame rate"
 msgstr "Prędkość kl/s pliku video"
 
@@ -224,23 +224,23 @@ msgstr "Łączone pliki muszą mieć takie samo opóźnienie dźwięku."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Łączone pliki muszą mieć takie samo gain dźwięku."
 
-#: src/lib/video_content.cc:173
+#: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Łączone pliki muszą mieć takią samą konwersję kolorów."
 
-#: src/lib/video_content.cc:165
+#: src/lib/video_content.cc:164
 msgid "Content to be joined must have the same crop."
 msgstr "Łączone pliki muszą mieć takie samo kadrowanie."
 
-#: src/lib/video_content.cc:177
+#: src/lib/video_content.cc:176
 msgid "Content to be joined must have the same fades."
 msgstr "Łączone pliki muszą mieć takie same wyciemnienia."
 
-#: src/lib/video_content.cc:153
+#: src/lib/video_content.cc:152
 msgid "Content to be joined must have the same picture size."
 msgstr "Łączone pliki muszą mieć taki sam rozmiar obrazu."
 
-#: src/lib/video_content.cc:169
+#: src/lib/video_content.cc:168
 msgid "Content to be joined must have the same scale setting."
 msgstr "Łączone pliki muszą mieć takie samo skalowanie."
 
@@ -260,11 +260,11 @@ msgstr "Łączone pliki muszą mieć takie samo przesunięcie Y napisów."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Łączone pliki muszą mieć taki sam rozmiar Y napisów."
 
-#: src/lib/video_content.cc:157
+#: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Łączone pliki muszą mieć taką samą ilość kl/s."
 
-#: src/lib/video_content.cc:161
+#: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same video frame type."
 msgstr "Łączone pliki muszą mieć taki sam typ klatki."
 
@@ -276,7 +276,7 @@ msgstr "Łączone pliki muszą mieć takie same czcionki."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Łączone pliki muszą używać tego samego strumienia napisów."
 
-#: src/lib/video_content.cc:519
+#: src/lib/video_content.cc:518
 msgid "Content video is %1x%2"
 msgstr "Rozdzielczość pliku video %1x%2"
 
@@ -336,7 +336,7 @@ msgstr "Nie udało się rozpocząć transferu"
 msgid "Could not write to remote file (%1)"
 msgstr "Nie udało się zapisać do pliku zdalnego (%1)"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:537
 msgid "Cropped to %1x%2"
 msgstr "Przycięty do"
 
@@ -411,7 +411,7 @@ msgstr ""
 "Z poważaniem,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:532
+#: src/lib/video_content.cc:531
 msgid "Display aspect ratio"
 msgstr "Proporcje obrazu"
 
@@ -473,7 +473,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Błąd uwierzytelniania na serwerze (%1)"
 
-#: src/lib/emailer.cc:217
+#: src/lib/emailer.cc:216
 msgid "Failed to send KDM email (%1)"
 msgstr ""
 
@@ -679,7 +679,7 @@ msgstr "Odszumianie DWT"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:559
+#: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Dodana czarna kaszeta, aby dopasować do formatu %1 (%2x%3)"
 
@@ -762,7 +762,7 @@ msgstr "SMPTE 240M"
 msgid "SSH error (%1)"
 msgstr "Błąd SSH (%1)"
 
-#: src/lib/video_content.cc:550
+#: src/lib/video_content.cc:549
 msgid "Scaled to %1x%2"
 msgstr "Przeskalowany do %1x%2"
 
@@ -778,7 +778,7 @@ msgstr "Wysyłam wiadomość"
 msgid "Short"
 msgstr "Krótkometrażowy"
 
-#: src/lib/audio_content.cc:249
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Cześć ścieżki dźwiękowej będzie przesamplowana do %1kHz"
 
@@ -930,15 +930,15 @@ msgstr "Upmix R"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "Video frame rate"
 msgstr "Prękość kl/s"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "Video length"
 msgstr "Czas trwania"
 
-#: src/lib/video_content.cc:580
+#: src/lib/video_content.cc:579
 msgid "Video size"
 msgstr "Rozdzielczość"
 
@@ -1062,7 +1062,7 @@ msgstr "kl/s"
 msgid "frames"
 msgstr "klatek"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "frames per second"
 msgstr "klatek na sekundę"
 
@@ -1088,7 +1088,7 @@ msgstr "przenoszenie"
 msgid "name"
 msgstr "nazwa"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:527
 msgid "pixel aspect ratio"
 msgstr "proporcje obrazu"
 
@@ -1115,7 +1115,7 @@ msgstr "stopklatka"
 msgid "unknown"
 msgstr "nieznany"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "klatki obrazu"
 

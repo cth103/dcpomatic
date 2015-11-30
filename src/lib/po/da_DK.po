@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 14:58+0000\n"
+"POT-Creation-Date: 2015-11-30 13:42+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -69,15 +69,15 @@ msgstr "Analyser lyd"
 msgid "Audio channels"
 msgstr "Lyd kanaler"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr ""
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
 msgstr ""
 
-#: src/lib/audio_content.cc:245
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr ""
 
@@ -200,7 +200,7 @@ msgstr "Beregner billedresume"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Indhold og DCP har samme billedhastighed.\n"
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:566
 msgid "Content frame rate"
 msgstr "Indholds billedhastighed"
 
@@ -224,23 +224,23 @@ msgstr "Indhold der skal splejses skal have samme lydforsinkelse."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Indhold der skal splejses skal have samme lydgain."
 
-#: src/lib/video_content.cc:173
+#: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Indhold der skal splejses skal have samme farvekonvertering."
 
-#: src/lib/video_content.cc:165
+#: src/lib/video_content.cc:164
 msgid "Content to be joined must have the same crop."
 msgstr "Indhold der skal splejses skal have samme beskæring."
 
-#: src/lib/video_content.cc:177
+#: src/lib/video_content.cc:176
 msgid "Content to be joined must have the same fades."
 msgstr "Indhold der skal splejses skal fade på samme måde."
 
-#: src/lib/video_content.cc:153
+#: src/lib/video_content.cc:152
 msgid "Content to be joined must have the same picture size."
 msgstr "Indhold der skal splejses skal have samme billedstørrelse."
 
-#: src/lib/video_content.cc:169
+#: src/lib/video_content.cc:168
 msgid "Content to be joined must have the same scale setting."
 msgstr "Indhold der skal splejses skal have samme skaleringsindstilling."
 
@@ -260,11 +260,11 @@ msgstr "Indhold der skal splejses skal have samme Y offset for undertekst."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Indhold der skal splejses skal have samme Y skalering af undertekst."
 
-#: src/lib/video_content.cc:157
+#: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Indhold der skal splejses skal have samme billedhastighed."
 
-#: src/lib/video_content.cc:161
+#: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same video frame type."
 msgstr "Indhold der skal splejses skal have samme billedtype."
 
@@ -276,7 +276,7 @@ msgstr "Indhold der skal splejses skal bruge samme skrifttype."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Indhold der skal splejses skal bruge samme tekstningsstrøm."
 
-#: src/lib/video_content.cc:519
+#: src/lib/video_content.cc:518
 msgid "Content video is %1x%2"
 msgstr "Indholdsvideo er %1x%2"
 
@@ -336,7 +336,7 @@ msgstr "Kunne ikke starte overførsel"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:537
 msgid "Cropped to %1x%2"
 msgstr "Beskåret til %1x%2"
 
@@ -413,7 +413,7 @@ msgstr ""
 "Med venlig hilsen,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:532
+#: src/lib/video_content.cc:531
 msgid "Display aspect ratio"
 msgstr ""
 
@@ -475,7 +475,7 @@ msgstr ""
 msgid "Failed to authenticate with server (%1)"
 msgstr "Kunne ikke godkende mod server (%1)"
 
-#: src/lib/emailer.cc:217
+#: src/lib/emailer.cc:216
 msgid "Failed to send KDM email (%1)"
 msgstr ""
 
@@ -681,7 +681,7 @@ msgstr ""
 msgid "P3"
 msgstr ""
 
-#: src/lib/video_content.cc:559
+#: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Udfyldt med sort for at tilpasse container %1 (%2x%3)"
 
@@ -764,7 +764,7 @@ msgstr "SMPTE 240M"
 msgid "SSH error (%1)"
 msgstr "SSH-fejl (%1)"
 
-#: src/lib/video_content.cc:550
+#: src/lib/video_content.cc:549
 msgid "Scaled to %1x%2"
 msgstr "Skaleret til %1x%2"
 
@@ -780,7 +780,7 @@ msgstr "Sender email"
 msgid "Short"
 msgstr "Short"
 
-#: src/lib/audio_content.cc:249
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
 msgstr ""
 
@@ -934,15 +934,15 @@ msgstr ""
 msgid "VI"
 msgstr ""
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "Video frame rate"
 msgstr "Video billedhastighed"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "Video length"
 msgstr "Video længde"
 
-#: src/lib/video_content.cc:580
+#: src/lib/video_content.cc:579
 msgid "Video size"
 msgstr "Video størrelse"
 
@@ -1066,7 +1066,7 @@ msgstr "bps"
 msgid "frames"
 msgstr "billeder"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "frames per second"
 msgstr "billeder pr. sekund"
 
@@ -1092,7 +1092,7 @@ msgstr ""
 msgid "name"
 msgstr "navn"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:527
 msgid "pixel aspect ratio"
 msgstr ""
 
@@ -1119,7 +1119,7 @@ msgstr ""
 msgid "unknown"
 msgstr "ukendt"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "videobilleder"
 

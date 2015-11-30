@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 14:58+0000\n"
+"POT-Creation-Date: 2015-11-30 13:42+0000\n"
 "PO-Revision-Date: 2015-11-28 00:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -83,6 +83,8 @@ msgstr "3D boven/onder"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -290,7 +292,7 @@ msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
 #: src/wx/dolby_certificate_panel.cc:203
-#: src/wx/doremi_certificate_panel.cc:105
+#: src/wx/doremi_certificate_panel.cc:130
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
 
@@ -532,7 +534,7 @@ msgstr "Dolby"
 msgid "Doremi"
 msgstr "Doremi"
 
-#: src/wx/doremi_certificate_panel.cc:53
+#: src/wx/doremi_certificate_panel.cc:55
 msgid "Doremi serial numbers must have 6 digits"
 msgstr "Doremi serienummers moeten 6 cijfers hebben"
 
@@ -552,7 +554,7 @@ msgstr "Download certificaat"
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_panel.cc:169 src/wx/doremi_certificate_panel.cc:57
+#: src/wx/dolby_certificate_panel.cc:169 src/wx/doremi_certificate_panel.cc:59
 msgid "Downloading certificate"
 msgstr "Downloaden certificaat"
 
@@ -1251,7 +1253,7 @@ msgstr "Serienummer"
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/doremi_certificate_panel.cc:39
+#: src/wx/doremi_certificate_panel.cc:41
 msgid "Server serial number"
 msgstr "Server-serienummer"
 
@@ -1450,6 +1452,7 @@ msgid "Trim up to current position"
 msgstr "Wegknippen tot aan huidige positie"
 
 #: src/wx/audio_dialog.cc:292
+#, c-format
 msgid "True peak is %.2fdB"
 msgstr "Piek is %.2fdB"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-27 14:58+0000\n"
+"POT-Creation-Date: 2015-11-30 13:42+0000\n"
 "PO-Revision-Date: 2015-11-11 15:53+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -70,15 +70,15 @@ msgstr "Analizar audio"
 msgid "Audio channels"
 msgstr "Canais de audio"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:257
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "A taxa de amostragem será alterada de %1kHz para %2kHz"
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled to %1kHz"
 msgstr "A taxa de amostragem será alterada para %1kHz"
 
-#: src/lib/audio_content.cc:245
+#: src/lib/audio_content.cc:248
 msgid "Audio will not be resampled"
 msgstr "A taxa de amostragem será alterada"
 
@@ -201,7 +201,7 @@ msgstr "A processar o resumo de imagem"
 msgid "Content and DCP have the same rate.\n"
 msgstr "O conteúdo e o DCP têm a mesma cadência de fotogramas.\n"
 
-#: src/lib/video_content.cc:567
+#: src/lib/video_content.cc:566
 msgid "Content frame rate"
 msgstr "Cadência de fotogramas do conteúdo"
 
@@ -222,23 +222,23 @@ msgstr "O conteúdo a ser unido deve ter o mesmo atraso de audio."
 msgid "Content to be joined must have the same audio gain."
 msgstr "O conteúdo a ser unido deve ter o mesmo ganho de audio."
 
-#: src/lib/video_content.cc:173
+#: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same colour conversion."
 msgstr "O conteúdo a ser unido deve ter a mesma conversão de cor."
 
-#: src/lib/video_content.cc:165
+#: src/lib/video_content.cc:164
 msgid "Content to be joined must have the same crop."
 msgstr "O conteúdo a ser unido deve ter o mesmo recorte."
 
-#: src/lib/video_content.cc:177
+#: src/lib/video_content.cc:176
 msgid "Content to be joined must have the same fades."
 msgstr "O conteúdo a ser unido deve ter os mesmos fades."
 
-#: src/lib/video_content.cc:153
+#: src/lib/video_content.cc:152
 msgid "Content to be joined must have the same picture size."
 msgstr "O conteúdo a ser unido deve ter o mesmo tamanho de imagem."
 
-#: src/lib/video_content.cc:169
+#: src/lib/video_content.cc:168
 msgid "Content to be joined must have the same scale setting."
 msgstr ""
 "O conteúdo a ser unido deve ter as mesmas definições de redimensionamento."
@@ -259,11 +259,11 @@ msgstr "O conteúdo a ser unido deve ter o mesmo alinhamento Y nas legendas."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "O conteúdo a ser unido deve ter a mesma escala Y nas legendas."
 
-#: src/lib/video_content.cc:157
+#: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "O conteúdo a ser unido deve ter a mesma cadência de fotogramas."
 
-#: src/lib/video_content.cc:161
+#: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same video frame type."
 msgstr "O conteúdo a ser unido deve ter o mesmo tipo de fotogramas de vídeo."
 
@@ -275,7 +275,7 @@ msgstr "O conteúdo a ser unido deve usar os mesmos tipos de letra."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "O conteúdo a ser unido deve usar o mesmo fluxo de legendas."
 
-#: src/lib/video_content.cc:519
+#: src/lib/video_content.cc:518
 msgid "Content video is %1x%2"
 msgstr "O vídeo do conteúdo tem %1x%2"
 
@@ -335,7 +335,7 @@ msgstr "Não foi possível iniciar a transferência"
 msgid "Could not write to remote file (%1)"
 msgstr "Não foi possível escrever para o ficheiro remoto (%1)"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:537
 msgid "Cropped to %1x%2"
 msgstr "Recortado para %1x%2"
 
@@ -410,7 +410,7 @@ msgstr ""
 "Cumprimentos,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:532
+#: src/lib/video_content.cc:531
 msgid "Display aspect ratio"
 msgstr "Rácio do ecrã"
 
@@ -470,7 +470,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "A autenticação com o servidor falhou (%1)"
 
-#: src/lib/emailer.cc:217
+#: src/lib/emailer.cc:216
 #, fuzzy
 msgid "Failed to send KDM email (%1)"
 msgstr "Falha no envio de email com chaves KDM (tempo esgotado)"
@@ -676,7 +676,7 @@ msgstr "Redutor de ruído de onda"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:559
+#: src/lib/video_content.cc:558
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Preenchido com negro para caber no contentor %1 (%2x%3)"
 
@@ -761,7 +761,7 @@ msgstr "SMPTE 240M"
 msgid "SSH error (%1)"
 msgstr "Erro de SSH (%1)"
 
-#: src/lib/video_content.cc:550
+#: src/lib/video_content.cc:549
 msgid "Scaled to %1x%2"
 msgstr "Redimensionado para %1x%2"
 
@@ -777,7 +777,7 @@ msgstr "A enviar email"
 msgid "Short"
 msgstr "Curta-metragem"
 
-#: src/lib/audio_content.cc:249
+#: src/lib/audio_content.cc:252
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Algum áudio vais ser alterado para %1kHz"
 
@@ -930,15 +930,15 @@ msgstr "Combinar D"
 msgid "VI"
 msgstr "DV"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "Video frame rate"
 msgstr "Cadência de fotogramas de vídeo"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "Video length"
 msgstr "Duração do vídeo"
 
-#: src/lib/video_content.cc:580
+#: src/lib/video_content.cc:579
 msgid "Video size"
 msgstr "Tamanho do vídeo"
 
@@ -1063,7 +1063,7 @@ msgstr "fps"
 msgid "frames"
 msgstr "fotogramas"
 
-#: src/lib/video_content.cc:581
+#: src/lib/video_content.cc:580
 msgid "frames per second"
 msgstr "fotogramas por segundo"
 
@@ -1089,7 +1089,7 @@ msgstr "a mover"
 msgid "name"
 msgstr "nome"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:527
 msgid "pixel aspect ratio"
 msgstr "rácio de pixeis"
 
@@ -1116,7 +1116,7 @@ msgstr "imagem estática"
 msgid "unknown"
 msgstr "desconhecido"
 
-#: src/lib/video_content.cc:579
+#: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "fotogramas de vídeo"
 
