@@ -84,7 +84,7 @@ size_t
 Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 {
 	size_t const t = min (_email.length() - _offset, size * nmemb);
-	memcpy (ptr, _email.substr(_offset, size * nmemb).c_str(), size * nmemb);
+	memcpy (ptr, _email.substr (_offset, t).c_str(), t);
 	_offset += t;
 	return t;
 }
