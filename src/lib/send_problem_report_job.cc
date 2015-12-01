@@ -88,6 +88,7 @@ SendProblemReportJob::run ()
 	emailer.send ();
 
 	set_progress (1);
+	set_state (FINISHED_OK);
 }
 
 void
