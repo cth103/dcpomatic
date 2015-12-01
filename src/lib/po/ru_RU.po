@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-30 13:42+0000\n"
-"PO-Revision-Date: 2015-11-15 22:37+0200\n"
+"PO-Revision-Date: 2015-12-01 14:08+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -481,9 +481,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
 #: src/lib/emailer.cc:216
-#, fuzzy
 msgid "Failed to send KDM email (%1)"
-msgstr "Ошибка отправки ключей (таймаут)"
+msgstr "Ошибка отправки ключей (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"

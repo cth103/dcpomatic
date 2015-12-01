@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-30 13:42+0000\n"
-"PO-Revision-Date: 2015-11-15 22:33+0200\n"
+"PO-Revision-Date: 2015-12-01 14:56+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -284,8 +284,7 @@ msgstr "Отмена"
 msgid "Cannot reference this DCP.  "
 msgstr "Не удается сделать ссылку на этот DCP.  "
 
-#: src/wx/dolby_certificate_panel.cc:203
-#: src/wx/doremi_certificate_panel.cc:130
+#: src/wx/dolby_certificate_panel.cc:203 src/wx/doremi_certificate_panel.cc:130
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
 
@@ -302,9 +301,8 @@ msgid "Channels"
 msgstr "Канала(ов)"
 
 #: src/wx/config_dialog.cc:196
-#, fuzzy
 msgid "Check for testing updates on startup"
-msgstr "Проверять обновления при запуске"
+msgstr "Проверять тестовые обновления при запуске"
 
 #: src/wx/config_dialog.cc:192
 msgid "Check for updates on startup"
@@ -700,7 +698,6 @@ msgid "General"
 msgstr "Основные"
 
 #: src/wx/screen_dialog.cc:102
-#, fuzzy
 msgid "Get from file..."
 msgstr "Выбрать из файла..."
 
@@ -755,7 +752,7 @@ msgstr "Входная мощность"
 #: src/wx/audio_dialog.cc:306
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "Интегрированная громкость %.2f LUFS"
 
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
@@ -852,7 +849,7 @@ msgstr "Лог:"
 #: src/wx/audio_dialog.cc:315
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr ""
+msgstr "Диапазон громкости %.2f LU"
 
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
@@ -867,9 +864,8 @@ msgid "Mail user name"
 msgstr "Пользователь почты"
 
 #: src/wx/self_dkdm_dialog.cc:47
-#, fuzzy
 msgid "Make DKDM for DCP-o-matic"
-msgstr "О программе"
+msgstr "Сгенерировать DKDM для DCP-o-matic"
 
 #: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
@@ -981,7 +977,7 @@ msgstr "Organisational unit"
 
 #: src/wx/screen_dialog.cc:110
 msgid "Other trusted devices"
-msgstr ""
+msgstr "Иные доверенные устройства"
 
 #: src/wx/config_dialog.cc:1163
 msgid "Outgoing mail server"
@@ -1097,9 +1093,8 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:97
-#, fuzzy
 msgid "Recipient certificate"
-msgstr "Скачивание сертификата"
+msgstr "Сертификат получателя"
 
 #: src/wx/isdcf_metadata_dialog.cc:60
 msgid "Red band"
@@ -1197,7 +1192,7 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s"
 msgstr "Пиковая громкость %.2fдБ на %s"
 
@@ -1231,7 +1226,6 @@ msgid "Select Key File"
 msgstr "Выберите файл ключа"
 
 #: src/wx/screen_dialog.cc:42
-#, fuzzy
 msgid "Select certificate file"
 msgstr "Выберите файл сертификата"
 
