@@ -34,8 +34,8 @@ Hello, and welcome to DCP-o-matic!
 <para>
 DCP-o-matic is a program to generate <ulink
 url="http://en.wikipedia.org/wiki/Digital_Cinema_Package">Digital
-Cinema Packages</ulink> (DCPs) from DVDs, Blu-Rays, video files such as MP4
-and AVI, or still images.  The resulting DCPs will play on modern digital
+Cinema Packages</ulink> (DCPs) from almost any video, audio and/or
+subtitle source files.  The resulting DCPs will play on modern digital
 cinema projectors.
 </para>
 
@@ -110,40 +110,53 @@ like to install it.
 
 </section>
 
+<!-- ============================================================== -->
 <section>
-<title>Ubuntu Linux</title>
+<title>Debian or Ubuntu Linux</title>
 
 <para>
-You can install DCP-o-matic on Ubuntu 12.04 (&lsquo;Precise
-Pangolin&rsquo;), 14.04 (&lsquo;Trusty Tahr&rsquo;) or 15.04
-(&lsquo;Vivid Vervet&rsquo;) using <code>.deb</code> packages:
-download the appropriate package from <ulink
-url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and
-double-click it.  Ubuntu will install the necessary bits and pieces
-and set DCP-o-matic up for you.
+  You can install DCP-o-matic on:
 </para>
 
+<itemizedlist>
+  <listitem>Debian 7 (&lsquo;wheezy&rsquo;)</listitem>
+  <listitem>Debian 8 (&lsquo;jessie&rsquo;)</listitem>
+  <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
+  <listitem>Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;)</listitem>
+  <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
+  <listitem>Ubuntu 15.04 (&lsquo;Vivid Vervet&rsquo;)</listitem>
+  <listitem>Ubuntu 15.10 (&lsquo;Wily Werewolf&rsquo;)</listitem>
+</itemizedlist>
+
+<para>
+using <code>.deb</code> packages: download the appropriate package
+from <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+and double-click it.  Debian or Ubuntu will install the necessary bits and
+pieces and set DCP-o-matic up for you.
+</para>
 </section>
+<!-- ============================================================== -->
 
 
 <!-- ============================================================== -->
 <section>
-<title>Debian Linux</title>
-<para>
-Packages are available for Debian 7 (squeeze), 8 (jessie) and unstable (sid) from <ulink
-url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
-</para>
+  <title>Fedora Linux</title>
+
+  <para>There are <code>.rpm</code> packages for Fedora 22 and 23 on
+  <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+  </para>
 </section>
+<!-- ============================================================== -->
 
 
 <!-- ============================================================== -->
 <section>
-<title>Centos Linux</title>
-<para>
-Packages are available for Centos 6.5 and 7 from <ulink
-url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>.
-</para>
+  <title>Centos Linux</title>
+  <para>There are <code>.rpm</code> packages for Centos 6.5 and 7 on
+  <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
+  </para>
 </section>
+<!-- ============================================================== -->
 
 
 <!-- ============================================================== -->
@@ -174,6 +187,7 @@ The following dependencies are required:
 <itemizedlist>
 <listitem><ulink url="http://ffmpeg.org/">FFmpeg</ulink></listitem>
 <listitem><ulink url="http://www.mega-nerd.com/libsndfile/">libsndfile</ulink></listitem>
+<listitem><ulink url="http://www.mega-nerd.com/SRC/">libsamplerate</ulink></listitem>
 <listitem><ulink url="http://www.openssl.org/">OpenSSL</ulink></listitem>
 <listitem><ulink url="http://www.openjpeg.org/">libopenjpeg</ulink></listitem>
 <listitem><ulink url="http://www.imagemagick.org/script/index.php">ImageMagick</ulink></listitem>
@@ -185,8 +199,10 @@ The following dependencies are required:
 <listitem><ulink url="http://www.aleksey.com/xmlsec/">xmlsec</ulink></listitem>
 <listitem><ulink url="http://curl.haxx.se/">curl</ulink></listitem>
 <listitem><ulink url="http://www.nih.at/libzip/">libzip</ulink></listitem>
-<listitem><ulink url="http://carlh.net/software/libdcp/">libdcp</ulink></listitem>
-<listitem><ulink url="http://carlh.net/software/libcxml/">libcxml</ulink></listitem>
+<listitem><ulink url="http://carlh.net/libdcp/">libdcp</ulink></listitem>
+<listitem><ulink url="http://carlh.net/libsub/">libsub</ulink></listitem>
+<listitem><ulink url="http://carlh.net/libcxml/">libcxml</ulink></listitem>
+<listitem><ulink url="http://site.icu-project.org">libicu</ulink></listitem>
 </itemizedlist>
 </para>
 
@@ -480,13 +496,77 @@ to encode a single frame which it can then repeat.
 
 <!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Manipulating existing DCPs</title>
+
+<para>
+Frequently DCP-o-matic is used to take content in formats such as MP4
+and convert it to JPEG2000 for a DCP.  Alternatively, it can be used
+to take existing DCPs and modify them in various ways.
+</para>
+
+<section>
+<title>Importing a DCP into DCP-o-matic</title>
+
+<para>
+If you want to do something to an existing DCP the first step is to
+import it.  Click <guilabel>Add folder...</guilabel> and select your
+DCP's folder.  It will be added to the DCP-o-matic project.  If the
+DCP is unencrypted you can preview it in the normal way, though
+playback will be very slow as decoding of DCPs is almost as
+computationally intensive as encoding them.
+</para>
+
+</section>
+
+<section>
+<title>Decrypting encrypted DCPs</title>
+
+<para>
+DCPs can be encrypted (see <xref linkend="ch-encryption"/> for
+details).  If you import an encrypted DCP you will need a key, in the
+form of a Key Delivery Message (KDM), to decrypt it.
+</para>
+
+<para>
+KDMs must be prepared by the organisation which created the DCP.  They
+contain the keys to decrypt the DCP wrapped up in such a way that only
+the intended recipient can read them.  You will need to provide the
+organisation with a certificate which identifies your copy of
+DCP-o-matic and allows them to create a KDM for you.
+</para>
+
+<para>
+To get DCP-o-matic's decryption certificate, open the Preferences
+dialogue (see <xref linkend="ch-preferences"/>) and go to the
+<guilabel>Keys</guilabel> tab.  Click the <guilabel>Export DCP
+decryption certificate...</guilabel> button at the bottom of this tab
+and save the certificate.  Send this certificate to the DCP creators
+and they can create a KDM to allow DCP-o-matic to decrypt their DCP.
+</para>
+
+<para>
+Once you have your KDM, right-click the DCP's name in DCP-o-matic and
+choose <guilabel>Add KDM...</guilabel>.  Specify your KDM and (all
+being well) the DCP will be decrypted and become available for preview.
+</para>
+
+</section>
+
+
+
+</chapter>
+<!-- ============================================================== -->
+
+
+<!-- ============================================================== -->
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Content settings</title>
 
 <para>
 The previous chapters showed DCP generation using the default
 settings.  DCP-o-matic offers a range of features to adjust the
-content that goes into your DCP, and this chapter describes those features in
-detail.
+content that goes into your DCP, and this chapter describes those
+features in detail.
 </para>
 
 <section>
