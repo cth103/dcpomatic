@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 13:42+0000\n"
+"POT-Creation-Date: 2015-12-02 21:04+0000\n"
 "PO-Revision-Date: 2015-11-27 15:31+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -294,8 +294,8 @@ msgstr "Abbrechen"
 msgid "Cannot reference this DCP.  "
 msgstr "Das DCP kann nicht gefunden werden."
 
-#: src/wx/dolby_certificate_panel.cc:203
-#: src/wx/doremi_certificate_panel.cc:130
+#: src/wx/dolby_certificate_panel.cc:209
+#: src/wx/doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Zertifikat heruntergeladen"
 
@@ -396,17 +396,17 @@ msgstr "ISDCF Name kopieren"
 msgid "Could not analyse audio."
 msgstr "Ton konnte nicht analysiert werden"
 
-#: src/wx/dolby_certificate_panel.cc:129
+#: src/wx/dolby_certificate_panel.cc:134
 #, c-format
 msgid "Could not get cinema list (%s)"
 msgstr "Konnte die Kinoliste (%s) nicht lesen."
 
-#: src/wx/dolby_certificate_panel.cc:101
+#: src/wx/dolby_certificate_panel.cc:106
 #, c-format
 msgid "Could not get country list (%s)"
 msgstr "Konnte die Länderliste (%s) nicht lesen."
 
-#: src/wx/dolby_certificate_panel.cc:161
+#: src/wx/dolby_certificate_panel.cc:166
 #, c-format
 msgid "Could not get screen list (%s)"
 msgstr "Konnte die Saalliste (%s) nicht lesen."
@@ -537,10 +537,6 @@ msgstr "Dolby"
 msgid "Doremi"
 msgstr "Doremi"
 
-#: src/wx/doremi_certificate_panel.cc:55
-msgid "Doremi serial numbers must have 6 digits"
-msgstr "Doremi Seriennummern müssen aus 6 Zahlen bestehen!"
-
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr "Nach unten"
@@ -557,7 +553,7 @@ msgstr "Lade Zertifikat"
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_panel.cc:169 src/wx/doremi_certificate_panel.cc:59
+#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
 msgid "Downloading certificate"
 msgstr "Zertifikat wird heruntergeladen..."
 
@@ -627,8 +623,8 @@ msgstr "Einblenden"
 msgid "Fade out"
 msgstr "Ausblenden"
 
-#: src/wx/dolby_certificate_panel.cc:82 src/wx/dolby_certificate_panel.cc:110
-#: src/wx/dolby_certificate_panel.cc:138
+#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
+#: src/wx/dolby_certificate_panel.cc:143
 msgid "Fetching..."
 msgstr "Zugriff..."
 
@@ -1353,7 +1349,7 @@ msgstr "Untertitel Darstellung"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:214
+#: src/wx/about_dialog.cc:215
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1377,7 +1373,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:266
+#: src/wx/about_dialog.cc:267
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -1465,7 +1461,7 @@ msgstr "Spitzenwert ist %.2fdB"
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/dolby_certificate_panel.cc:194
+#: src/wx/dolby_certificate_panel.cc:200
 msgid "Unexpected certificate filename form"
 msgstr "Ungültige Zertifikats-Datei"
 
@@ -1674,6 +1670,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Doremi serial numbers must have 6 digits"
+#~ msgstr "Doremi Seriennummern müssen aus 6 Zahlen bestehen!"
 
 #~ msgid "audio"
 #~ msgstr "Ton"

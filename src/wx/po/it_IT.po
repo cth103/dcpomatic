@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 13:42+0000\n"
+"POT-Creation-Date: 2015-12-02 21:04+0000\n"
 "PO-Revision-Date: 2015-10-14 10:27+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -280,8 +280,8 @@ msgstr "Annulla"
 msgid "Cannot reference this DCP.  "
 msgstr ""
 
-#: src/wx/dolby_certificate_panel.cc:203
-#: src/wx/doremi_certificate_panel.cc:130
+#: src/wx/dolby_certificate_panel.cc:209
+#: src/wx/doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Scarica certificato"
 
@@ -384,17 +384,17 @@ msgstr "Salva una copia"
 msgid "Could not analyse audio."
 msgstr "Non posso analizzare l'audio."
 
-#: src/wx/dolby_certificate_panel.cc:129
+#: src/wx/dolby_certificate_panel.cc:134
 #, fuzzy, c-format
 msgid "Could not get cinema list (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
 
-#: src/wx/dolby_certificate_panel.cc:101
+#: src/wx/dolby_certificate_panel.cc:106
 #, fuzzy, c-format
 msgid "Could not get country list (%s)"
 msgstr "Non posso regolare il contenuto: %s"
 
-#: src/wx/dolby_certificate_panel.cc:161
+#: src/wx/dolby_certificate_panel.cc:166
 #, fuzzy, c-format
 msgid "Could not get screen list (%s)"
 msgstr "Non posso regolare il contenuto: %s"
@@ -529,10 +529,6 @@ msgstr "Dolby"
 msgid "Doremi"
 msgstr ""
 
-#: src/wx/doremi_certificate_panel.cc:55
-msgid "Doremi serial numbers must have 6 digits"
-msgstr ""
-
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr ""
@@ -549,7 +545,7 @@ msgstr "Download certificato"
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_panel.cc:169 src/wx/doremi_certificate_panel.cc:59
+#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
 msgid "Downloading certificate"
 msgstr "Certificate in download"
 
@@ -623,8 +619,8 @@ msgstr "Dissolvenza in entrata"
 msgid "Fade out"
 msgstr "Dissolvenza in uscita"
 
-#: src/wx/dolby_certificate_panel.cc:82 src/wx/dolby_certificate_panel.cc:110
-#: src/wx/dolby_certificate_panel.cc:138
+#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
+#: src/wx/dolby_certificate_panel.cc:143
 #, fuzzy
 msgid "Fetching..."
 msgstr "conteggio..."
@@ -1369,7 +1365,7 @@ msgstr "Scala dei Sottotitoli"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:214
+#: src/wx/about_dialog.cc:215
 msgid "Supported by"
 msgstr "Supportato da"
 
@@ -1394,7 +1390,7 @@ msgstr "Nazione (es. UK)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:266
+#: src/wx/about_dialog.cc:267
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -1481,7 +1477,7 @@ msgstr ""
 msgid "Type"
 msgstr "Tipo"
 
-#: src/wx/dolby_certificate_panel.cc:194
+#: src/wx/dolby_certificate_panel.cc:200
 msgid "Unexpected certificate filename form"
 msgstr ""
 

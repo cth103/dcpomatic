@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 13:42+0000\n"
+"POT-Creation-Date: 2015-12-02 21:04+0000\n"
 "PO-Revision-Date: 2015-11-11 15:53+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -315,7 +315,7 @@ msgstr "Não foi possível abrir %1"
 msgid "Could not open %1 to send"
 msgstr "Não foi possível abrir %1 para enviar"
 
-#: src/lib/internet.cc:78
+#: src/lib/internet.cc:83
 msgid "Could not open downloaded ZIP file"
 msgstr "Não foi possível abrir o ficheiro ZIP descarregado"
 
@@ -418,7 +418,7 @@ msgstr "Rácio do ecrã"
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 e CP750"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:76
 msgid "Download failed (%1/%2 error %3)"
 msgstr "O download falhou (%1/%2 erro %3)"
 
@@ -882,7 +882,7 @@ msgstr "Transcodificar %1"
 msgid "Transitional"
 msgstr "Transitório"
 
-#: src/lib/internet.cc:83
+#: src/lib/internet.cc:88
 msgid "Unexpected ZIP file contents"
 msgstr "Conteúdos inesperados no ficheiro ZIP"
 

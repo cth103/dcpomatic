@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 13:42+0000\n"
+"POT-Creation-Date: 2015-12-02 21:04+0000\n"
 "PO-Revision-Date: 2015-11-28 00:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -291,8 +291,8 @@ msgstr "Annuleer"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
-#: src/wx/dolby_certificate_panel.cc:203
-#: src/wx/doremi_certificate_panel.cc:130
+#: src/wx/dolby_certificate_panel.cc:209
+#: src/wx/doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
 
@@ -393,17 +393,17 @@ msgstr "Kopieer als naam"
 msgid "Could not analyse audio."
 msgstr "Kan audio niet analyseren."
 
-#: src/wx/dolby_certificate_panel.cc:129
+#: src/wx/dolby_certificate_panel.cc:134
 #, c-format
 msgid "Could not get cinema list (%s)"
 msgstr "Kan lijst met bioscopen niet ophalen (%s)"
 
-#: src/wx/dolby_certificate_panel.cc:101
+#: src/wx/dolby_certificate_panel.cc:106
 #, c-format
 msgid "Could not get country list (%s)"
 msgstr "Kan lijst met landen niet ophalen (%s)"
 
-#: src/wx/dolby_certificate_panel.cc:161
+#: src/wx/dolby_certificate_panel.cc:166
 #, c-format
 msgid "Could not get screen list (%s)"
 msgstr "Kan lijst met schermen niet ophalen (%s)"
@@ -534,10 +534,6 @@ msgstr "Dolby"
 msgid "Doremi"
 msgstr "Doremi"
 
-#: src/wx/doremi_certificate_panel.cc:55
-msgid "Doremi serial numbers must have 6 digits"
-msgstr "Doremi serienummers moeten 6 cijfers hebben"
-
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr "Omlaag"
@@ -554,7 +550,7 @@ msgstr "Download certificaat"
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_panel.cc:169 src/wx/doremi_certificate_panel.cc:59
+#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
 msgid "Downloading certificate"
 msgstr "Downloaden certificaat"
 
@@ -624,8 +620,8 @@ msgstr "Fade in"
 msgid "Fade out"
 msgstr "Fade out"
 
-#: src/wx/dolby_certificate_panel.cc:82 src/wx/dolby_certificate_panel.cc:110
-#: src/wx/dolby_certificate_panel.cc:138
+#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
+#: src/wx/dolby_certificate_panel.cc:143
 msgid "Fetching..."
 msgstr "Ophalen..."
 
@@ -1349,7 +1345,7 @@ msgstr "Ondertitelings-uiterlijk"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:214
+#: src/wx/about_dialog.cc:215
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1373,7 +1369,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:266
+#: src/wx/about_dialog.cc:267
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1461,7 +1457,7 @@ msgstr "Piek is %.2fdB"
 msgid "Type"
 msgstr "Type"
 
-#: src/wx/dolby_certificate_panel.cc:194
+#: src/wx/dolby_certificate_panel.cc:200
 msgid "Unexpected certificate filename form"
 msgstr "Onverwachte vorm van certificaat-bestandsnaam"
 
@@ -1667,3 +1663,6 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Doremi serial numbers must have 6 digits"
+#~ msgstr "Doremi serienummers moeten 6 cijfers hebben"

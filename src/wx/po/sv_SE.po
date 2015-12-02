@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 13:42+0000\n"
+"POT-Creation-Date: 2015-12-02 21:04+0000\n"
 "PO-Revision-Date: 2015-11-11 17:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -289,8 +289,8 @@ msgstr "Avbryt"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan inte referera denna DCP."
 
-#: src/wx/dolby_certificate_panel.cc:203
-#: src/wx/doremi_certificate_panel.cc:130
+#: src/wx/dolby_certificate_panel.cc:209
+#: src/wx/doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Certifikat nedladdat"
 
@@ -393,17 +393,17 @@ msgstr "Kopiera som namn"
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
-#: src/wx/dolby_certificate_panel.cc:129
+#: src/wx/dolby_certificate_panel.cc:134
 #, c-format
 msgid "Could not get cinema list (%s)"
 msgstr "Kunde inte hämta lista över biografer (%s)"
 
-#: src/wx/dolby_certificate_panel.cc:101
+#: src/wx/dolby_certificate_panel.cc:106
 #, c-format
 msgid "Could not get country list (%s)"
 msgstr "Kunde inte hämta lista över länder (%s)"
 
-#: src/wx/dolby_certificate_panel.cc:161
+#: src/wx/dolby_certificate_panel.cc:166
 #, c-format
 msgid "Could not get screen list (%s)"
 msgstr "Kunde inte hämta lista över salonger (%s)"
@@ -535,10 +535,6 @@ msgstr "Dolby"
 msgid "Doremi"
 msgstr "Doremi"
 
-#: src/wx/doremi_certificate_panel.cc:55
-msgid "Doremi serial numbers must have 6 digits"
-msgstr "Doremi serienummer måste ha 6 siffror"
-
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr "Ner"
@@ -555,7 +551,7 @@ msgstr "Ladda ner certifikat"
 msgid "Download..."
 msgstr "Ladda ner..."
 
-#: src/wx/dolby_certificate_panel.cc:169 src/wx/doremi_certificate_panel.cc:59
+#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
 msgid "Downloading certificate"
 msgstr "Laddar ner certifikat"
 
@@ -627,8 +623,8 @@ msgstr "Tona in"
 msgid "Fade out"
 msgstr "Tona ut"
 
-#: src/wx/dolby_certificate_panel.cc:82 src/wx/dolby_certificate_panel.cc:110
-#: src/wx/dolby_certificate_panel.cc:138
+#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
+#: src/wx/dolby_certificate_panel.cc:143
 msgid "Fetching..."
 msgstr "Hämtar..."
 
@@ -1360,7 +1356,7 @@ msgstr "Undertext Skalning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:214
+#: src/wx/about_dialog.cc:215
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1384,7 +1380,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:266
+#: src/wx/about_dialog.cc:267
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1472,7 +1468,7 @@ msgstr "Maxvärde är %.2fdB"
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/dolby_certificate_panel.cc:194
+#: src/wx/dolby_certificate_panel.cc:200
 msgid "Unexpected certificate filename form"
 msgstr "Oväntat utformning av certifikatfilnamn"
 
@@ -1680,6 +1676,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Doremi serial numbers must have 6 digits"
+#~ msgstr "Doremi serienummer måste ha 6 siffror"
 
 #~ msgid "audio"
 #~ msgstr "audio"

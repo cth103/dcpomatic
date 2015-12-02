@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 13:42+0000\n"
+"POT-Creation-Date: 2015-12-02 21:04+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -316,7 +316,7 @@ msgstr "Kunne ikke åbne %1"
 msgid "Could not open %1 to send"
 msgstr "Kunne ikke åbne %1 til afsendelse"
 
-#: src/lib/internet.cc:78
+#: src/lib/internet.cc:83
 msgid "Could not open downloaded ZIP file"
 msgstr "Kunne ikke åbne downloadet ZIP-fil"
 
@@ -421,7 +421,7 @@ msgstr ""
 msgid "Dolby CP650 and CP750"
 msgstr "Dolby CP650 og CP750"
 
-#: src/lib/internet.cc:71
+#: src/lib/internet.cc:76
 msgid "Download failed (%1/%2 error %3)"
 msgstr "Download fejlede (%1/%2 fejl %3)"
 
@@ -886,7 +886,7 @@ msgstr "Transcode %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/internet.cc:83
+#: src/lib/internet.cc:88
 msgid "Unexpected ZIP file contents"
 msgstr "Uventet indhold af ZIP arkiv"
 
