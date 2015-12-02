@@ -38,6 +38,7 @@ private:
 	void finish_country_selected ();
 	void cinema_selected ();
 	void finish_cinema_selected ();
+	std::string url (std::string path) const;
 	std::list<std::string> get_dir (std::string) const;
 
 	wxChoice* _country;

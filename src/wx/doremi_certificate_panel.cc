@@ -71,6 +71,7 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("dcp2000-%1.cert.sha256.pem", serial),
+		true,
 		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 
@@ -82,6 +83,7 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("dcp2000-%1.cert.sha256.pem", serial),
+		true,
 		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 	}
@@ -94,6 +96,7 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("imb-%1.cert.sha256.pem", serial),
+		true,
 		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 	}
@@ -106,6 +109,7 @@ DoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
 			serial.substr(0, 3), serial
 			),
 		String::compose ("ims-%1.cert.sha256.pem", serial),
+		true,
 		boost::bind (&DownloadCertificatePanel::load, this, _1)
 		);
 	}

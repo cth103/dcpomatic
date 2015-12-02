@@ -49,7 +49,7 @@ get_from_zip_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
  *  @param load Function passed a (temporary) filesystem path of the unpacked file.
  */
 optional<string>
-get_from_zip_url (string url, string file, function<void (boost::filesystem::path)> load)
+get_from_zip_url (string url, string file, bool pasv, function<void (boost::filesystem::path)> load)
 {
 	/* Download the ZIP file to temp_zip */
 	CURL* curl = curl_easy_init ();
@@ -60,6 +60,11 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_zip_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
+	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPRT, 0);
+	if (!pasv) {
+		curl_easy_setopt (curl, CURLOPT_FTPPORT, "-");
+	}
+
 	/* Maximum time is 20s */
 	curl_easy_setopt (curl, CURLOPT_TIMEOUT, 20);
 
@@ -99,7 +104,6 @@ get_from_zip_url (string url, string file, function<void (boost::filesystem::pat
 	return optional<string> ();
 }
 
-
 static size_t
 ftp_ls_data (void* buffer, size_t size, size_t nmemb, void* data)
 {
@@ -108,7 +112,7 @@ ftp_ls_data (void* buffer, size_t size, size_t nmemb, void* data)
 	for (size_t i = 0; i < (size * nmemb); ++i) {
 		*s += b[i];
 	}
-	return nmemb;
+	return size * nmemb;
 }
 
 list<string>
@@ -133,8 +137,10 @@ ftp_ls (string url, bool pasv)
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, &ls_raw);
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ftp_ls_data);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
+	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPRT, 0);
+	curl_easy_setopt (curl, CURLOPT_VERBOSE, 1);
 	if (!pasv) {
-		curl_easy_setopt (curl, CURLOPT_FTPPORT, "");
+		curl_easy_setopt (curl, CURLOPT_FTPPORT, "-");
 	}
 	CURLcode const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {

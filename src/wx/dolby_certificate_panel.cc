@@ -64,11 +64,16 @@ DolbyCertificatePanel::DolbyCertificatePanel (wxWindow* parent, DownloadCertific
 	_cinema->Clear ();
 }
 
+string
+DolbyCertificatePanel::url (string path) const
+{
+	return String::compose ("ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1", path);
+}
+
 list<string>
 DolbyCertificatePanel::get_dir (string dir) const
 {
-	string url = String::compose ("ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1", dir);
-	return ftp_ls (url, false);
+	return ftp_ls (url (dir), false);
 }
 
 void
@@ -180,11 +185,12 @@ DolbyCertificatePanel::finish_download (wxStaticText* message)
 {
 	string const zip = string_client_data (_serial->GetClientObject (_serial->GetSelection ()));
 
-	string const file = String::compose (
-		"ftp://dolbyrootcertificates:houro61l@ftp.dolby.co.uk/SHA256/%1/%2/%3",
-		wx_to_std (_country->GetStringSelection()),
-		wx_to_std (_cinema->GetStringSelection()),
-		zip
+	string const file = url (
+		String::compose ("%1/%2/%3",
+				 wx_to_std (_country->GetStringSelection()),
+				 wx_to_std (_cinema->GetStringSelection()),
+				 zip
+			)
 		);
 
 	/* Work out the certificate file name inside the zip */
@@ -196,7 +202,7 @@ DolbyCertificatePanel::finish_download (wxStaticText* message)
 	}
 	string const cert = b[0] + "_" + b[1] + ".pem.crt";
 
-	optional<string> error = get_from_zip_url (file, cert, boost::bind (&DownloadCertificatePanel::load, this, _1));
+	optional<string> error = get_from_zip_url (file, cert, false, boost::bind (&DownloadCertificatePanel::load, this, _1));
 	if (error) {
 		message->SetLabel (std_to_wx (error.get ()));
 	} else {
@@ -208,8 +214,7 @@ DolbyCertificatePanel::finish_download (wxStaticText* message)
 bool
 DolbyCertificatePanel::ready_to_download () const
 {
-	/* XXX */
-	return false;
+	return _country->GetSelection() != -1 && _cinema->GetSelection() != -1 && _serial->GetSelection() != -1;
 }
 
 void

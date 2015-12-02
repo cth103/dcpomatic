@@ -1,5 +1,7 @@
 2015-12-02  Carl Hetherington  <cth@carlh.net>
 
+	* Various fixes to certificate downloading.
+
 	* Version 2.5.13 released.
 
 2015-12-02  Carl Hetherington  <cth@carlh.net>
