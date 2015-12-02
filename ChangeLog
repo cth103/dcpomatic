@@ -1,3 +1,7 @@
+2015-12-02  Carl Hetherington  <cth@carlh.net>
+
+	* Remove insistence on 6-character Doremi serials (#768).
+
 2015-12-01  c.hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.

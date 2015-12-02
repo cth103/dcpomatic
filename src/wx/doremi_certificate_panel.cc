@@ -50,18 +50,12 @@ DoremiCertificatePanel::DoremiCertificatePanel (wxWindow* parent, DownloadCertif
 void
 DoremiCertificatePanel::download (wxStaticText* message)
 {
-	string const serial = wx_to_std (_serial->GetValue ());
-	if (serial.length() != 6) {
-		error_dialog (this, _("Doremi serial numbers must have 6 digits"));
-		return;
-	}
-
 	message->SetLabel (_("Downloading certificate"));
 
 	/* Hack: without this the SetLabel() above has no visible effect */
 	wxMilliSleep (200);
 
-	signal_manager->when_idle (boost::bind (&DoremiCertificatePanel::finish_download, this, serial, message));
+	signal_manager->when_idle (boost::bind (&DoremiCertificatePanel::finish_download, this, wx_to_std (_serial->GetValue ()), message));
 }
 
 void
