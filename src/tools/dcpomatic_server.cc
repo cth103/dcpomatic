@@ -130,7 +130,7 @@ private:
 	float _fps;
 };
 
-static shared_ptr<ServerLog> server_log (new ServerLog);
+static shared_ptr<ServerLog> server_log;
 
 class StatusDialog : public wxDialog
 {
@@ -262,6 +262,8 @@ private:
 		if (!wxApp::OnInit ()) {
 			return false;
 		}
+
+		server_log.reset (new ServerLog);
 
 		dcpomatic_setup_path_encoding ();
 		dcpomatic_setup_i18n ();
