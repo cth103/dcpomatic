@@ -92,6 +92,7 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 	}
 
 	fclose (_file);
+	_file = 0;
 }
 
 size_t
