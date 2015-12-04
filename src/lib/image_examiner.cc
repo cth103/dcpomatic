@@ -27,6 +27,7 @@
 #include "compose.hpp"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
+#include <dcp/j2k.h>
 #include <Magick++.h>
 #include <iostream>
 

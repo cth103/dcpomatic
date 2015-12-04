@@ -28,7 +28,6 @@
 #include <dcp/rgb_xyz.h>
 #include <dcp/j2k.h>
 #include <libcxml/cxml.h>
-#include <openjpeg.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
 
@@ -95,8 +94,8 @@ J2KImageProxy::image (optional<dcp::NoteHandler>) const
 {
 	ensure_j2k ();
 
-	if (_j2k->opj_image()->comps[0].prec < 12) {
-		int const shift = 12 - _j2k->opj_image()->comps[0].prec;
+	if (_j2k->precision(0) < 12) {
+		int const shift = 12 - _j2k->precision (0);
 		for (int c = 0; c < 3; ++c) {
 			int* p = _j2k->data (c);
 			for (int y = 0; y < _j2k->size().height; ++y) {
@@ -165,7 +164,7 @@ J2KImageProxy::pixel_format () const
 {
 	ensure_j2k ();
 
-	if (_j2k->opj_image()->color_space == CLRSPC_SRGB) {
+	if (_j2k->srgb ()) {
 		return AV_PIX_FMT_RGB48LE;
 	}
 

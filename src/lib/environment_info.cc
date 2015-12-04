@@ -22,7 +22,6 @@
 #include "version.h"
 #include "cross.h"
 #include <dcp/version.h>
-#include <openjpeg.h>
 #include <libssh/libssh.h>
 #ifdef DCPOMATIC_IMAGE_MAGICK
 #include <magick/MagickCore.h>
@@ -69,8 +68,7 @@ string
 dependency_version_summary ()
 {
 	SafeStringStream s;
-	s << N_("libopenjpeg ") << opj_version () << N_(", ")
-	  << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
+	s << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
 	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
 	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
 	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
