@@ -90,7 +90,7 @@ Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 }
 
 void
-Emailer::send ()
+Emailer::send (string server, int port, string user, string password)
 {
 	char date_buffer[32];
 	time_t now = time (0);
@@ -172,17 +172,13 @@ Emailer::send ()
 		throw NetworkError ("Could not initialise libcurl");
 	}
 
-	curl_easy_setopt (curl, CURLOPT_URL, String::compose (
-				  "smtp://%1:%2",
-				  Config::instance()->mail_server().c_str(),
-				  Config::instance()->mail_port()
-				  ).c_str());
+	curl_easy_setopt (curl, CURLOPT_URL, String::compose ("smtp://%1:%2", server.c_str(), port).c_str());
 
-	if (!Config::instance()->mail_user().empty ()) {
-		curl_easy_setopt (curl, CURLOPT_USERNAME, Config::instance()->mail_user().c_str());
+	if (!user.empty ()) {
+		curl_easy_setopt (curl, CURLOPT_USERNAME, user.c_str ());
 	}
-	if (!Config::instance()->mail_password().empty ()) {
-		curl_easy_setopt (curl, CURLOPT_PASSWORD, Config::instance()->mail_password().c_str());
+	if (!password.empty ()) {
+		curl_easy_setopt (curl, CURLOPT_PASSWORD, password.c_str());
 	}
 
 	curl_easy_setopt (curl, CURLOPT_MAIL_FROM, _from.c_str());

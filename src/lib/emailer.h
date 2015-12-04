@@ -29,7 +29,7 @@ public:
 	void add_bcc (std::string bcc);
 	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
 
-	void send ();
+	void send (std::string server, int port, std::string user = "", std::string password = "");
 
 	std::string notes () const {
 		return _notes;

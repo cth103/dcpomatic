@@ -163,7 +163,9 @@ CinemaKDMs::email (
 
 		string const name = tidy_for_filename(i.cinema->name) + "_" + tidy_for_filename(film_name) + ".zip";
 		email.add_attachment (zip_file, name, "application/zip");
-		email.send ();
+
+		Config* c = Config::instance ();
+		email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
 
 		if (log) {
 			log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
