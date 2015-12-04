@@ -39,7 +39,6 @@ def options(opt):
     opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile to make a Windows package')
     opt.add_option('--static-dcpomatic',  action='store_true', default=False, help='link to components of DCP-o-matic statically')
     opt.add_option('--static-boost',      action='store_true', default=False, help='link statically to Boost')
-    opt.add_option('--static-openjpeg',   action='store_true', default=False, help='link statically to OpenJPEG')
     opt.add_option('--static-wxwidgets',  action='store_true', default=False, help='link statically to wxWidgets')
     opt.add_option('--static-ffmpeg',     action='store_true', default=False, help='link statically to FFmpeg')
     opt.add_option('--static-xmlpp',      action='store_true', default=False, help='link statically to libxml++')
@@ -268,15 +267,6 @@ def configure(conf):
     else:
         conf.env.LIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
 
-    # OpenJPEG
-    if conf.options.static_openjpeg:
-        conf.check_cfg(package='libopenjpeg', args='--cflags', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
-        conf.check_cfg(package='libopenjpeg', args='--cflags', max_version='1.5.2', mandatory=True)
-        conf.env.STLIB_OPENJPEG = ['openjpeg']
-    else:
-        conf.check_cfg(package='libopenjpeg', args='--cflags --libs', atleast_version='1.5.0', uselib_store='OPENJPEG', mandatory=True)
-        conf.check_cfg(package='libopenjpeg', args='--cflags --libs', max_version='1.5.2', mandatory=True)
-
     # FFmpeg
     if conf.options.static_ffmpeg:
         names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'postproc']
@@ -414,7 +404,6 @@ def configure(conf):
 
     report('DCP-o-matic libraries', conf.options.static_dcpomatic)
     report('Boost', conf.options.static_boost)
-    report('OpenJPEG', conf.options.static_openjpeg)
     report('wxWidgets', conf.options.static_wxwidgets)
     report('FFmpeg', conf.options.static_ffmpeg)
     report('libxml++', conf.options.static_xmlpp)

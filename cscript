@@ -289,7 +289,7 @@ def configure_options(target):
     if target.platform == 'windows':
         opt += ' --target-windows'
     elif target.platform == 'linux':
-        opt += ' --static-dcpomatic --static-openjpeg --static-wxwidgets --static-ffmpeg --static-dcp --static-sub --static-cxml'
+        opt += ' --static-dcpomatic --static-wxwidgets --static-ffmpeg --static-dcp --static-sub --static-cxml'
         if target.distro == 'centos':
             opt += ' --static-xmlsec --static-ssh --disable-tests'
             if target.version == '6.5':
