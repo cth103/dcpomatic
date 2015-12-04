@@ -213,7 +213,7 @@ Emailer::send ()
 
 	CURLcode const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {
-		throw KDMError (String::compose (_("Failed to send KDM email (%1)"), curl_easy_strerror (r)));
+		throw KDMError (String::compose (_("Failed to send email (%1)"), curl_easy_strerror (r)));
 	}
 
 	curl_slist_free_all (recipients);
