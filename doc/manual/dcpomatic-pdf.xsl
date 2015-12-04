@@ -8,7 +8,7 @@
 <xsl:param name="doc.collab.show">0</xsl:param>
 <xsl:param name="latex.output.revhistory">0</xsl:param>
 
-<!-- hack images to vaguely the right size -->
+<!-- set up screenshots to be the right size; diagrams are set up individually -->
 <xsl:param name="imagedata.default.scale">scale=0.5</xsl:param>
 
 <!-- don't make too-ridiculous section numbers -->

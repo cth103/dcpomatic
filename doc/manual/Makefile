@@ -3,7 +3,7 @@
 all:	html pdf
 
 DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg timecode.svg pipeline1.svg pipeline2.svg \
-            pipeline3.svg pipeline4.svg burn-in.svg discrete.svg
+            pipeline3.svg pipeline4.svg burn-in.svg discrete.svg dcp-copy.svg dcp-refer.svg
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
@@ -15,18 +15,12 @@ SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-c
 
 XML := dcpomatic.xml
 
-GRAPHICS := 
-
 #
-# For the HTML, default to copying the screenshots direct
+# For the HTML: copy screenshots into html/screenshots, scaling some.
 #
 html/screenshots/%.png: screenshots/%.png
 	mkdir -p html/screenshots
 	cp $< $@
-
-#
-# Some need resizing...
-#
 html/screenshots/editor.png: screenshots/editor.png
 	mkdir -p html/screenshots
 	convert -resize 50% $< $@
@@ -58,14 +52,6 @@ html/screenshots/making-dcp.png: screenshots/making-dcp.png
 	mkdir -p html/screenshots
 	convert -resize 75% $< $@
 
-# For HTML: convert graphics from SVG to PNG
-graphics/%.png:	graphics/%.svg
-	inkscape -z -f $< --export-png $@ --export-area-drawing
-
-# For LaTeX/PDF: convert graphics from SVG to PDF
-graphics/%.pdf:	graphics/%.svg
-	inkscape -z -f $< --export-pdf $@ --export-area-drawing
-
 # For HTML: convert diagrams from SVG to PNG
 diagrams/%.png:	diagrams/%.svg
 	inkscape -z -f $< --export-png $@ --export-area-drawing
@@ -81,7 +67,6 @@ diagrams/%.pdf:	diagrams/%.svg
 html:	$(XML) dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 	$(addprefix html/screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
-	$(subst .svg,.png,$(addprefix graphics/,$(GRAPHICS))) \
 
 # 	The DocBook needs to know what file extensions to look for
 # 	for screenshots and diagrams; use the correct file to tell it.
@@ -92,16 +77,16 @@ html:	$(XML) dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 
 #	Copy graphics and CSS in
 	mkdir -p html/diagrams
-#       mkdir -p html/graphics
 	cp diagrams/*.png html/diagrams
-#	cp graphics/*.png html/graphics
 	cp dcpomatic.css html
 
 #
 # PDF
 #
 
-pdf:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent screenshots/*.png $(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
+pdf:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent \
+	$(addprefix screenshots/,$(SCREENSHOTS)) \
+	$(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
 
 # 	The DocBook needs to know what file extensions to look for
 # 	for screenshots and diagrams; use the correct file to tell it.

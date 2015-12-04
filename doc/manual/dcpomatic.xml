@@ -10,11 +10,6 @@
 ]>
 <book xmlns="http://docbook.org/ns/docbook" xmlns:mml="http://www.w3.org/1998/Math/MathML" version="5.0" xml:lang="en">
 
-<!-- By good luck or good management, the scale parameter to imagedata
-     appears only to affect PDF output.  HTML scaling is done in the
-     Makefile.
--->
-
 <bookinfo>
 <title>DCP-o-matic users' manual</title>
 <author><firstname>Carl</firstname><surname>Hetherington</surname></author>
@@ -518,6 +513,7 @@ computationally intensive as encoding them.
 
 </section>
 
+
 <section>
 <title>Decrypting encrypted DCPs</title>
 
@@ -549,6 +545,96 @@ Once you have your KDM, right-click the DCP's name in DCP-o-matic and
 choose <guilabel>Add KDM...</guilabel>.  Specify your KDM and (all
 being well) the DCP will be decrypted and become available for preview.
 </para>
+
+</section>
+
+
+<section>
+<title>Making a DCP from a DCP</title>
+
+<para>
+In many ways, using DCPs as <emphasis>content</emphasis> in
+DCP-o-matic is the same as using any other content.  There are a few
+things to note, though.
+</para>
+
+
+<section>
+<title>Re-use of existing data</title>
+
+<para>
+Where possible DCP-o-matic will re-use existing JPEG2000-compressed
+data from DCP content without modification.  This has the advantage
+that creation of the new DCP will be quick, as the time-consuming
+JPEG2000 encoding is not necessary.
+</para>
+
+<para>
+DCP-o-matic can do this if you avoid changes to the following content
+settings:
+</para>
+
+<itemizedlist>
+<listitem>Crop</listitem>
+<listitem>Scaling</listitem>
+<listitem>Subtitle burn-in</listitem>
+<listitem>Fades</listitem>
+<listitem>Colour conversion</listitem>
+</itemizedlist>
+
+<para>
+If you do change any of these settings on a piece of DCP content
+DCP-o-matic will decode and then re-encode the JPEG2000 data.
+</para>
+
+</section>
+
+
+<section>
+<title>Making overlay files</title>
+
+<para>
+With its default settings, DCP-o-matic will take any data from DCP
+content and copy it into the DCP that it creates.  See <xref linkend="fig-dcp-copy"/>.
+</para>
+
+<figure id="fig-dcp-copy">
+<title>Creating a new DCP by copying an existing one</title>
+<mediaobject><imageobject><imagedata scale="100" fileref="diagrams/dcp-copy&dia;"/></imageobject></mediaobject>
+</figure>
+
+<para>
+This can be inefficient in some cases.  Consider, for example, a film
+which has ten different translations for which the subtitles are
+different but video and audio are the same.  If the video and audio
+content takes up, say, 100Gb this means that the set of DCPs for every
+translation would be about 1Tb with a lot of duplicated data.
+</para>
+
+<para>
+The DCP format has a solution to this problem.  One DCP can refer to
+the &lsquo;assets&rsquo; (picture, sound or subtitle) of another DCP.
+For our translation example this means that we could have a
+&lsquo;base&rsquo; DCP (often called the OV or Original Version)
+containing video, audio and one set of subtitles and then any number
+of overlay DCPs (often called VF or Version Files) which refer to the
+base version and replace the original subtitles with their own.  <xref
+linkend="fig-dcp-refer"/> shows this principle for one of our
+translations.  The DCP that we make refers to the original content
+DCP's video and audio rather than containing a copy.
+</para>
+
+<figure id="fig-dcp-refer">
+<title>Creating a new DCP by referring to an existing one</title>
+<mediaobject><imageobject><imagedata scale="100" fileref="diagrams/dcp-refer&dia;"/></imageobject></mediaobject>
+</figure>
+
+<para>
+To play back the subtitled DCP the projectionist ingests both the base
+(OV) DCP and the overlay (VF) DCP, then plays the VF one.
+</para>
+
+</section>
 
 </section>
 
@@ -1108,7 +1194,7 @@ linkend="fig-burn-in"/> and <xref linkend="fig-discrete"/>
   <title>Burnt-in subtitles</title>
   <mediaobject>
     <imageobject>
-       <imagedata scale="80" fileref="diagrams/burn-in&dia;"/>
+       <imagedata scale="100" fileref="diagrams/burn-in&dia;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -1117,7 +1203,7 @@ linkend="fig-burn-in"/> and <xref linkend="fig-discrete"/>
   <title>Separate subtitles</title>
   <mediaobject>
     <imageobject>
-       <imagedata scale="80" fileref="diagrams/discrete&dia;"/>
+       <imagedata scale="100" fileref="diagrams/discrete&dia;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -1209,7 +1295,7 @@ linkend="fig-timecode"/>.
   <title>Timecode</title>
   <mediaobject>
     <imageobject>
-       <imagedata fileref="diagrams/timecode&dia;"/>
+       <imagedata scale="100" fileref="diagrams/timecode&dia;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -2464,7 +2550,7 @@ after you have created a DCP for a film called &lsquo;DCP Test&rsquo;.
   <title>Creating a new film</title>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="diagrams/file-structure&dia;"/>
+      <imagedata scale="100" fileref="diagrams/file-structure&dia;"/>
     </imageobject>
   </mediaobject>
 </figure>
