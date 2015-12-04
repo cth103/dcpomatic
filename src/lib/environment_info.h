@@ -17,4 +17,4 @@
 
 */
 
-extern void environment_info (boost::shared_ptr<Log> log);
+extern std::list<std::string> environment_info ();

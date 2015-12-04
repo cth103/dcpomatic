@@ -25,6 +25,8 @@
 #include "log.h"
 #include "version.h"
 #include "emailer.h"
+#include "environment_info.h"
+#include <boost/foreach.hpp>
 
 #include "i18n.h"
 
@@ -70,6 +72,12 @@ SendProblemReportJob::run ()
 	string body = _summary + "\n\n";
 
 	body += "Version: " + string (dcpomatic_version) + " " + string (dcpomatic_git_commit) + "\n\n";
+
+	BOOST_FOREACH (string i, environment_info ()) {
+		body += i + "\n";
+	}
+
+	body += "\n";
 
 	if (_film) {
 		body += "log head and tail:\n";

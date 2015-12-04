@@ -80,46 +80,50 @@ dependency_version_summary ()
 	return s.str ();
 }
 
-void
-environment_info (shared_ptr<Log> log)
+list<string>
+environment_info ()
 {
-	LOG_GENERAL ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary());
+	list<string> info;
+
+	info.push_back (String::compose ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
 
 	{
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
-		LOG_GENERAL ("Host name %1", buffer);
+		info.push_back (String::compose ("Host name %1", buffer));
 	}
 
 #ifdef DCPOMATIC_DEBUG
-	LOG_GENERAL_NC ("DCP-o-matic built in debug mode.");
+	info.push_back ("DCP-o-matic built in debug mode.");
 #else
-	LOG_GENERAL_NC ("DCP-o-matic built in optimised mode.");
+	info.push_back ("DCP-o-matic built in optimised mode.");
 #endif
 #ifdef LIBDCP_DEBUG
-	LOG_GENERAL_NC ("libdcp built in debug mode.");
+	info.push_back ("libdcp built in debug mode.");
 #else
-	LOG_GENERAL_NC ("libdcp built in optimised mode.");
+	info.push_back ("libdcp built in optimised mode.");
 #endif
 
 #ifdef DCPOMATIC_WINDOWS
 	OSVERSIONINFO info;
 	info.dwOSVersionInfoSize = sizeof (info);
 	GetVersionEx (&info);
-	LOG_GENERAL ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion);
+	info.push_back (String::compose ("Windows version %1.%2.%3 SP %4", info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber, info.szCSDVersion));
 #endif
 
 #if __GNUC__
 #if __x86_64__
-	LOG_GENERAL_NC ("Built for 64-bit");
+	info.push_back ("Built for 64-bit");
 #else
-	LOG_GENERAL_NC ("Built for 32-bit");
+	info.push_back ("Built for 32-bit");
 #endif
 #endif
 
-	LOG_GENERAL ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ());
+	info.push_back (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ()));
 	list<pair<string, string> > const m = mount_info ();
 	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
-		LOG_GENERAL ("Mount: %1 %2", i->first, i->second);
+		info.push_back (String::compose ("Mount: %1 %2", i->first, i->second));
 	}
+
+	return info;
 }

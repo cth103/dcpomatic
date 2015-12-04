@@ -274,7 +274,9 @@ Film::make_dcp ()
 
 	set_isdcf_date_today ();
 
-	environment_info (log ());
+	BOOST_FOREACH (string i, environment_info ()) {
+		LOG_GENERAL_NC (i);
+	}
 
 	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
 		LOG_GENERAL ("Content: %1", i->technical_summary());
