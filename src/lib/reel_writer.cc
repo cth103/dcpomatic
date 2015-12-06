@@ -51,6 +51,7 @@
 
 using std::list;
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -198,7 +199,7 @@ ReelWriter::check_existing_picture_asset ()
 
 	bool ok = false;
 
-	while (!ok) {
+	while (!ok && _first_nonexistant_frame > 0) {
 		/* Read the data from the info file; for 3D we just check the left
 		   frames until we find a good one.
 		*/
@@ -227,7 +228,7 @@ ReelWriter::check_existing_picture_asset ()
 		}
 	}
 
-	if (!_film->three_d ()) {
+	if (!_film->three_d() && ok) {
 		/* If we are doing 3D we might have found a good L frame with no R, so only
 		   do this if we're in 2D and we've just found a good B(oth) frame.
 		*/
