@@ -21,7 +21,7 @@
 #include "lib/film.h"
 #include "lib/filter.h"
 #include "lib/util.h"
-#include "lib/server.h"
+#include "lib/encode_server.h"
 #include "lib/dcp_video.h"
 #include "lib/decoder.h"
 #include "lib/exceptions.h"
@@ -29,7 +29,7 @@
 #include "lib/video_decoder.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
-#include "lib/server_description.h"
+#include "lib/encode_server_description.h"
 #include <getopt.h>
 #include <iostream>
 #include <iomanip>
@@ -43,7 +43,7 @@ using boost::shared_ptr;
 using dcp::Data;
 
 static shared_ptr<Film> film;
-static ServerDescription* server;
+static EncodeServerDescription* server;
 static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
 static int frame_count = 0;
 
@@ -139,7 +139,7 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	try {
-		server = new ServerDescription (server_host, 1);
+		server = new EncodeServerDescription (server_host, 1);
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 

@@ -17,12 +17,12 @@
 
 */
 
-#include "server_finder.h"
+#include "encode_server_finder.h"
 #include "exceptions.h"
 #include "util.h"
 #include "config.h"
 #include "cross.h"
-#include "server_description.h"
+#include "encode_server_description.h"
 #include "dcpomatic_socket.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
@@ -39,25 +39,25 @@ using boost::shared_ptr;
 using boost::scoped_array;
 using boost::weak_ptr;
 
-ServerFinder* ServerFinder::_instance = 0;
+EncodeServerFinder* EncodeServerFinder::_instance = 0;
 
-ServerFinder::ServerFinder ()
+EncodeServerFinder::EncodeServerFinder ()
 	: _disabled (false)
 	, _search_thread (0)
 	, _listen_thread (0)
 	, _stop (false)
 {
-	Config::instance()->Changed.connect (boost::bind (&ServerFinder::config_changed, this, _1));
+	Config::instance()->Changed.connect (boost::bind (&EncodeServerFinder::config_changed, this, _1));
 }
 
 void
-ServerFinder::start ()
+EncodeServerFinder::start ()
 {
-	_search_thread = new boost::thread (boost::bind (&ServerFinder::search_thread, this));
-	_listen_thread = new boost::thread (boost::bind (&ServerFinder::listen_thread, this));
+	_search_thread = new boost::thread (boost::bind (&EncodeServerFinder::search_thread, this));
+	_listen_thread = new boost::thread (boost::bind (&EncodeServerFinder::listen_thread, this));
 }
 
-ServerFinder::~ServerFinder ()
+EncodeServerFinder::~EncodeServerFinder ()
 {
 	_stop = true;
 
@@ -75,7 +75,7 @@ ServerFinder::~ServerFinder ()
 }
 
 void
-ServerFinder::search_thread ()
+EncodeServerFinder::search_thread ()
 try
 {
 	boost::system::error_code error;
@@ -129,7 +129,7 @@ catch (...)
 }
 
 void
-ServerFinder::listen_thread ()
+EncodeServerFinder::listen_thread ()
 try {
 	using namespace boost::asio::ip;
 
@@ -148,17 +148,17 @@ catch (...)
 }
 
 void
-ServerFinder::start_accept ()
+EncodeServerFinder::start_accept ()
 {
 	shared_ptr<Socket> socket (new Socket ());
 	_listen_acceptor->async_accept (
 		socket->socket(),
-		boost::bind (&ServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
+		boost::bind (&EncodeServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
 		);
 }
 
 void
-ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> socket)
+EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> socket)
 {
 	if (ec) {
 		start_accept ();
@@ -178,7 +178,7 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 
 	string const ip = socket->socket().remote_endpoint().address().to_string ();
 	if (!server_found (ip) && xml->optional_number_child<int>("Version").get_value_or (0) == SERVER_LINK_VERSION) {
-		ServerDescription sd (ip, xml->number_child<int> ("Threads"));
+		EncodeServerDescription sd (ip, xml->number_child<int> ("Threads"));
 		{
 			boost::mutex::scoped_lock lm (_servers_mutex);
 			_servers.push_back (sd);
@@ -190,10 +190,10 @@ ServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> so
 }
 
 bool
-ServerFinder::server_found (string ip) const
+EncodeServerFinder::server_found (string ip) const
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	list<ServerDescription>::const_iterator i = _servers.begin();
+	list<EncodeServerDescription>::const_iterator i = _servers.begin();
 	while (i != _servers.end() && i->host_name() != ip) {
 		++i;
 	}
@@ -201,11 +201,11 @@ ServerFinder::server_found (string ip) const
 	return i != _servers.end ();
 }
 
-ServerFinder*
-ServerFinder::instance ()
+EncodeServerFinder*
+EncodeServerFinder::instance ()
 {
 	if (!_instance) {
-		_instance = new ServerFinder ();
+		_instance = new EncodeServerFinder ();
 		_instance->start ();
 	}
 
@@ -213,21 +213,21 @@ ServerFinder::instance ()
 }
 
 void
-ServerFinder::drop ()
+EncodeServerFinder::drop ()
 {
 	delete _instance;
 	_instance = 0;
 }
 
-list<ServerDescription>
-ServerFinder::servers () const
+list<EncodeServerDescription>
+EncodeServerFinder::servers () const
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
 	return _servers;
 }
 
 void
-ServerFinder::config_changed (Config::Property what)
+EncodeServerFinder::config_changed (Config::Property what)
 {
 	if (what == Config::USE_ANY_SERVERS || what == Config::SERVERS) {
 		{

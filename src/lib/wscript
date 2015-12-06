@@ -55,6 +55,8 @@ sources = """
           dolby_cp750.cc
           emailer.cc
           encoder.cc
+          encode_server.cc
+          encode_server_finder.cc
           encoded_log_entry.cc
           environment_info.cc
           examine_content_job.cc
@@ -107,8 +109,6 @@ sources = """
           screen_kdm.cc
           send_kdm_email_job.cc
           send_problem_report_job.cc
-          server.cc
-          server_finder.cc
           single_stream_audio_content.cc
           sndfile_base.cc
           sndfile_content.cc

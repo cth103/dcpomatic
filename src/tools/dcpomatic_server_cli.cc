@@ -26,7 +26,7 @@
 #include "lib/file_log.h"
 #include "lib/null_log.h"
 #include "lib/version.h"
-#include "lib/server.h"
+#include "lib/encode_server.h"
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string.hpp>
@@ -110,7 +110,7 @@ main (int argc, char* argv[])
 		log.reset (new NullLog);
 	}
 
-	Server server (log, verbose);
+	EncodeServer server (log, verbose);
 
 	try {
 		server.run (num_threads);

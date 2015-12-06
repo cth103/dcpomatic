@@ -18,7 +18,6 @@
 */
 
 #include "config.h"
-#include "server.h"
 #include "filter.h"
 #include "ratio.h"
 #include "types.h"
@@ -38,6 +37,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#include <boost/thread.hpp>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>

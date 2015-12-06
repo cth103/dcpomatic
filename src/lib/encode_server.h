@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 
 */
 
-#ifndef DCPOMATIC_SERVER_H
-#define DCPOMATIC_SERVER_H
+#ifndef DCPOMATIC_ENCODE_SERVER_H
+#define DCPOMATIC_ENCODE_SERVER_H
 
-/** @file src/server.h
+/** @file src/encode_server.h
  *  @brief Server class.
  */
 
@@ -33,15 +33,15 @@
 class Socket;
 class Log;
 
-/** @class Server
+/** @class EncodeServer
  *  @brief A class to run a server which can accept requests to perform JPEG2000
  *  encoding work.
  */
-class Server : public ExceptionStore, public boost::noncopyable
+class EncodeServer : public ExceptionStore, public boost::noncopyable
 {
 public:
-	Server (boost::shared_ptr<Log> log, bool verbose);
-	~Server ();
+	EncodeServer (boost::shared_ptr<Log> log, bool verbose);
+	~EncodeServer ();
 
 	void run (int num_threads);
 

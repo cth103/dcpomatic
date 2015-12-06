@@ -31,7 +31,7 @@
 #include "dcp_video.h"
 #include "config.h"
 #include "exceptions.h"
-#include "server_description.h"
+#include "encode_server_description.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "log.h"
@@ -151,7 +151,7 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
  *  @return Encoded data.
  */
 Data
-DCPVideo::encode_remotely (ServerDescription serv, int timeout)
+DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);

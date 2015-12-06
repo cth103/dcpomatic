@@ -21,7 +21,7 @@
 #include "wx/wx_signal_manager.h"
 #include "lib/util.h"
 #include "lib/encoded_log_entry.h"
-#include "lib/server.h"
+#include "lib/encode_server.h"
 #include "lib/config.h"
 #include "lib/log.h"
 #include "lib/raw_convert.h"
@@ -291,7 +291,7 @@ private:
 
 	void main_thread ()
 	try {
-		Server server (server_log, false);
+		EncodeServer server (server_log, false);
 		server.run (Config::instance()->num_local_encoding_threads ());
 	} catch (...) {
 		store_current ();

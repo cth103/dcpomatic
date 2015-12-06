@@ -17,12 +17,12 @@
 
 */
 
-/** @file src/server.cc
+/** @file src/encode_server.cc
  *  @brief Class to describe a server to which we can send
  *  encoding work, and a class to implement such a server.
  */
 
-#include "server.h"
+#include "encode_server.h"
 #include "util.h"
 #include "dcpomatic_socket.h"
 #include "image.h"
@@ -65,7 +65,7 @@ using boost::optional;
 using dcp::Size;
 using dcp::Data;
 
-Server::Server (shared_ptr<Log> log, bool verbose)
+EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose)
 	: _terminate (false)
 	, _log (log)
 	, _verbose (verbose)
@@ -74,7 +74,7 @@ Server::Server (shared_ptr<Log> log, bool verbose)
 
 }
 
-Server::~Server ()
+EncodeServer::~EncodeServer ()
 {
 	{
 		boost::mutex::scoped_lock lm (_worker_mutex);
@@ -102,7 +102,7 @@ Server::~Server ()
  *  @param after_encode Filled in with gettimeofday() after encoding the image.
  */
 int
-Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct timeval& after_encode)
+EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, struct timeval& after_encode)
 {
 	uint32_t length = socket->read_uint32 ();
 	scoped_array<char> buffer (new char[length]);
@@ -143,7 +143,7 @@ Server::process (shared_ptr<Socket> socket, struct timeval& after_read, struct t
 }
 
 void
-Server::worker_thread ()
+EncodeServer::worker_thread ()
 {
 	while (true) {
 		boost::mutex::scoped_lock lock (_worker_mutex);
@@ -209,7 +209,7 @@ Server::worker_thread ()
 }
 
 void
-Server::run (int num_threads)
+EncodeServer::run (int num_threads)
 {
 	LOG_GENERAL ("Server starting with %1 threads", num_threads);
 	if (_verbose) {
@@ -217,17 +217,17 @@ Server::run (int num_threads)
 	}
 
 	for (int i = 0; i < num_threads; ++i) {
-		_worker_threads.push_back (new thread (bind (&Server::worker_thread, this)));
+		_worker_threads.push_back (new thread (bind (&EncodeServer::worker_thread, this)));
 	}
 
-	_broadcast.thread = new thread (bind (&Server::broadcast_thread, this));
+	_broadcast.thread = new thread (bind (&EncodeServer::broadcast_thread, this));
 
 	start_accept ();
 	_io_service.run ();
 }
 
 void
-Server::broadcast_thread ()
+EncodeServer::broadcast_thread ()
 try
 {
 	boost::asio::ip::address address = boost::asio::ip::address_v4::any ();
@@ -240,7 +240,7 @@ try
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
 		_broadcast.send_endpoint,
-		boost::bind (&Server::broadcast_received, this)
+		boost::bind (&EncodeServer::broadcast_received, this)
 		);
 
 	_broadcast.io_service.run ();
@@ -251,7 +251,7 @@ catch (...)
 }
 
 void
-Server::broadcast_received ()
+EncodeServer::broadcast_received ()
 {
 	_broadcast.buffer[sizeof(_broadcast.buffer) - 1] = '\0';
 
@@ -278,23 +278,23 @@ Server::broadcast_received ()
 
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
-		_broadcast.send_endpoint, boost::bind (&Server::broadcast_received, this)
+		_broadcast.send_endpoint, boost::bind (&EncodeServer::broadcast_received, this)
 		);
 }
 
 void
-Server::start_accept ()
+EncodeServer::start_accept ()
 {
 	if (_terminate) {
 		return;
 	}
 
 	shared_ptr<Socket> socket (new Socket);
-	_acceptor.async_accept (socket->socket (), boost::bind (&Server::handle_accept, this, socket, boost::asio::placeholders::error));
+	_acceptor.async_accept (socket->socket (), boost::bind (&EncodeServer::handle_accept, this, socket, boost::asio::placeholders::error));
 }
 
 void
-Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code const & error)
+EncodeServer::handle_accept (shared_ptr<Socket> socket, boost::system::error_code const & error)
 {
 	if (error) {
 		return;

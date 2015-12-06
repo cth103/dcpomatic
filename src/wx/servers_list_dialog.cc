@@ -19,8 +19,8 @@
 
 #include "servers_list_dialog.h"
 #include "wx_util.h"
-#include "lib/server_finder.h"
-#include "lib/server_description.h"
+#include "lib/encode_server_finder.h"
+#include "lib/encode_server_description.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 
@@ -63,7 +63,9 @@ ServersListDialog::ServersListDialog (wxWindow* parent)
 	s->Layout ();
 	s->SetSizeHints (this);
 
-	_server_finder_connection = ServerFinder::instance()->ServersListChanged.connect (boost::bind (&ServersListDialog::servers_list_changed, this));
+	_server_finder_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
+		boost::bind (&ServersListDialog::servers_list_changed, this)
+		);
 	servers_list_changed ();
 }
 
@@ -73,7 +75,7 @@ ServersListDialog::servers_list_changed ()
 	_list->DeleteAllItems ();
 
 	int n = 0;
-	BOOST_FOREACH (ServerDescription i, ServerFinder::instance()->servers ()) {
+	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers ()) {
 		wxListItem list_item;
 		list_item.SetId (n);
 		_list->InsertItem (list_item);

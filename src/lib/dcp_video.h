@@ -19,7 +19,7 @@
 */
 
 #include "types.h"
-#include "server_description.h"
+#include "encode_server_description.h"
 #include <libcxml/cxml.h>
 #include <dcp/data.h>
 
@@ -46,7 +46,7 @@ public:
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
 	dcp::Data encode_locally (dcp::NoteHandler note);
-	dcp::Data encode_remotely (ServerDescription, int timeout = 30);
+	dcp::Data encode_remotely (EncodeServerDescription, int timeout = 30);
 
 	int index () const {
 		return _index;

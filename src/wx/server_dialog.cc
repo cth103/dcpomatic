@@ -17,7 +17,7 @@
 
 */
 
-#include "lib/server.h"
+#include "lib/encode_server.h"
 #include "server_dialog.h"
 #include "wx_util.h"
 

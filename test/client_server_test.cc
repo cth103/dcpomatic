@@ -21,18 +21,18 @@
  *  @brief Test the server class.
  *
  *  Create a test image and then encode it using the standard mechanism
- *  and also using a Server object running on localhost.  Compare the resulting
+ *  and also using a EncodeServer object running on localhost.  Compare the resulting
  *  encoded data to check that they are the same.
  */
 
-#include "lib/server.h"
+#include "lib/encode_server.h"
 #include "lib/image.h"
 #include "lib/cross.h"
 #include "lib/dcp_video.h"
 #include "lib/player_video.h"
 #include "lib/raw_image_proxy.h"
 #include "lib/j2k_image_proxy.h"
-#include "lib/server_description.h"
+#include "lib/encode_server_description.h"
 #include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
@@ -44,7 +44,7 @@ using boost::optional;
 using dcp::Data;
 
 void
-do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, Data locally_encoded)
+do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, Data locally_encoded)
 {
 	Data remotely_encoded;
 	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description, 60));
@@ -112,14 +112,14 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 
-	Server* server = new Server (log, true);
+	EncodeServer* server = new EncodeServer (log, true);
 
-	new thread (boost::bind (&Server::run, server, 2));
+	new thread (boost::bind (&EncodeServer::run, server, 2));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	ServerDescription description ("localhost", 2);
+	EncodeServerDescription description ("localhost", 2);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
@@ -192,14 +192,14 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 
-	Server* server = new Server (log, true);
+	EncodeServer* server = new EncodeServer (log, true);
 
-	new thread (boost::bind (&Server::run, server, 2));
+	new thread (boost::bind (&EncodeServer::run, server, 2));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	ServerDescription description ("localhost", 2);
+	EncodeServerDescription description ("localhost", 2);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
@@ -284,14 +284,14 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	Data j2k_locally_encoded = j2k_frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 
-	Server* server = new Server (log, true);
+	EncodeServer* server = new EncodeServer (log, true);
 
-	new thread (boost::bind (&Server::run, server, 2));
+	new thread (boost::bind (&EncodeServer::run, server, 2));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	ServerDescription description ("localhost", 2);
+	EncodeServerDescription description ("localhost", 2);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@
 
 */
 
-#ifndef DCPOMATIC_SERVER_DESCRIPTION_H
-#define DCPOMATIC_SERVER_DESCRIPTION_H
+#ifndef DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
+#define DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 
-/** @class ServerDescription
+/** @class EncodeServerDescription
  *  @brief Class to describe a server to which we can send encoding work.
  */
-class ServerDescription
+class EncodeServerDescription
 {
 public:
-	ServerDescription ()
+	EncodeServerDescription ()
 		: _host_name ("")
 		, _threads (1)
 	{}
@@ -34,7 +34,7 @@ public:
 	/** @param h Server host name or IP address in string form.
 	 *  @param t Number of threads to use on the server.
 	 */
-	ServerDescription (std::string h, int t)
+	EncodeServerDescription (std::string h, int t)
 		: _host_name (h)
 		, _threads (t)
 	{}

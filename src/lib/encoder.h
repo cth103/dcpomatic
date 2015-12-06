@@ -37,7 +37,7 @@
 #include <stdint.h>
 
 class Film;
-class ServerDescription;
+class EncodeServerDescription;
 class DCPVideo;
 class Writer;
 class Job;
@@ -75,7 +75,7 @@ private:
 	void enqueue (boost::shared_ptr<PlayerVideo> f);
 	void frame_done ();
 
-	void encoder_thread (boost::optional<ServerDescription>);
+	void encoder_thread (boost::optional<EncodeServerDescription>);
 	void terminate_threads ();
 	void servers_list_changed ();
 

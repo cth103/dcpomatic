@@ -17,7 +17,7 @@
 
 */
 
-#include "lib/server.h"
+#include "lib/encode_server.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <boost/signals2.hpp>

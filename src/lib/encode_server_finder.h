@@ -17,12 +17,12 @@
 
 */
 
-/** @file  src/lib/server_finder.h
- *  @brief ServerFinder class.
+/** @file  src/lib/encode_server_finder.h
+ *  @brief EncodeServerFinder class.
  */
 
 #include "signaller.h"
-#include "server_description.h"
+#include "encode_server_description.h"
 #include "config.h"
 #include "exception_store.h"
 #include <boost/signals2.hpp>
@@ -30,10 +30,10 @@
 
 class Socket;
 
-class ServerFinder : public Signaller, public ExceptionStore
+class EncodeServerFinder : public Signaller, public ExceptionStore
 {
 public:
-	static ServerFinder* instance ();
+	static EncodeServerFinder* instance ();
 	static void drop ();
 
 	void disable () {
@@ -44,14 +44,14 @@ public:
 		return _disabled;
 	}
 
-	std::list<ServerDescription> servers () const;
+	std::list<EncodeServerDescription> servers () const;
 
 	/** Emitted whenever the list of servers changes */
 	boost::signals2::signal<void ()> ServersListChanged;
 
 private:
-	ServerFinder ();
-	~ServerFinder ();
+	EncodeServerFinder ();
+	~EncodeServerFinder ();
 
 	void start ();
 
@@ -71,7 +71,7 @@ private:
 	/** Thread to listen to the responses from servers */
 	boost::thread* _listen_thread;
 
-	std::list<ServerDescription> _servers;
+	std::list<EncodeServerDescription> _servers;
 	mutable boost::mutex _servers_mutex;
 
 	boost::asio::io_service _listen_io_service;
@@ -81,5 +81,5 @@ private:
 	boost::condition _search_condition;
 	boost::mutex _search_condition_mutex;
 
-	static ServerFinder* _instance;
+	static EncodeServerFinder* _instance;
 };

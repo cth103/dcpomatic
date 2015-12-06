@@ -27,7 +27,7 @@
 #include "lib/config.h"
 #include "lib/log.h"
 #include "lib/signal_manager.h"
-#include "lib/server_finder.h"
+#include "lib/encode_server_finder.h"
 #include "lib/json_server.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
@@ -119,7 +119,7 @@ show_servers ()
 {
 	while (true) {
 		int N = 0;
-		list<ServerDescription> servers = ServerFinder::instance()->servers ();
+		list<EncodeServerDescription> servers = EncodeServerFinder::instance()->servers ();
 
 		if (Config::instance()->use_any_servers ()) {
 			if (servers.empty ()) {
@@ -128,7 +128,7 @@ show_servers ()
 			} else {
 				cout << std::left << setw(24) << "Host" << " Threads\n";
 				++N;
-				BOOST_FOREACH (ServerDescription const & i, servers) {
+				BOOST_FOREACH (EncodeServerDescription const & i, servers) {
 					cout << std::left << setw(24) << i.host_name() << " " << i.threads() << "\n";
 					++N;
 				}
@@ -144,7 +144,7 @@ show_servers ()
 				BOOST_FOREACH (string const & i, Config::instance()->servers()) {
 					cout << std::left << setw(24) << i << " ";
 					optional<int> threads;
-					BOOST_FOREACH (ServerDescription const & j, servers) {
+					BOOST_FOREACH (EncodeServerDescription const & j, servers) {
 						if (i == j.host_name()) {
 							threads = j.threads();
 						}
@@ -250,7 +250,7 @@ main (int argc, char* argv[])
 	signal_manager = new SignalManager ();
 
 	if (no_remote) {
-		ServerFinder::instance()->disable ();
+		EncodeServerFinder::instance()->disable ();
 	}
 
 	if (json_port) {
@@ -353,7 +353,7 @@ main (int argc, char* argv[])
 	*/
 	JobManager::drop ();
 
-	ServerFinder::drop ();
+	EncodeServerFinder::drop ();
 
 	return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }

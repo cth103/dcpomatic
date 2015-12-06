@@ -27,13 +27,12 @@
 #include "log.h"
 #include "config.h"
 #include "dcp_video.h"
-#include "server.h"
 #include "cross.h"
 #include "writer.h"
-#include "server_finder.h"
+#include "encode_server_finder.h"
 #include "player.h"
 #include "player_video.h"
-#include "server_description.h"
+#include "encode_server_description.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <boost/foreach.hpp>
@@ -79,8 +78,8 @@ Encoder::~Encoder ()
 void
 Encoder::begin ()
 {
-	if (!ServerFinder::instance()->disabled ()) {
-		_server_found_connection = ServerFinder::instance()->ServersListChanged.connect (boost::bind (&Encoder::servers_list_changed, this));
+	if (!EncodeServerFinder::instance()->disabled ()) {
+		_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (boost::bind (&Encoder::servers_list_changed, this));
 	}
 }
 
@@ -277,7 +276,7 @@ Encoder::terminate_threads ()
 }
 
 void
-Encoder::encoder_thread (optional<ServerDescription> server)
+Encoder::encoder_thread (optional<EncodeServerDescription> server)
 try
 {
 	if (server) {
@@ -384,11 +383,11 @@ Encoder::servers_list_changed ()
 
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<ServerDescription> ())));
+			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<EncodeServerDescription> ())));
 		}
 	}
 
-	BOOST_FOREACH (ServerDescription i, ServerFinder::instance()->servers ()) {
+	BOOST_FOREACH (EncodeServerDescription i, EncodeServerFinder::instance()->servers ()) {
 		LOG_GENERAL (N_("Adding %1 worker threads for remote %2"), i.threads(), i.host_name ());
 		for (int j = 0; j < i.threads(); ++j) {
 			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, i)));

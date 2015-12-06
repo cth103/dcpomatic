@@ -49,7 +49,7 @@
 #include "lib/cinema.h"
 #include "lib/screen_kdm.h"
 #include "lib/send_kdm_email_job.h"
-#include "lib/server_finder.h"
+#include "lib/encode_server_finder.h"
 #include "lib/update_checker.h"
 #include "lib/cross.h"
 #include "lib/content_factory.h"
@@ -1044,7 +1044,7 @@ private:
 	void check ()
 	{
 		try {
-			ServerFinder::instance()->rethrow ();
+			EncodeServerFinder::instance()->rethrow ();
 		} catch (exception& e) {
 			error_dialog (0, std_to_wx (e.what ()));
 		}

@@ -28,7 +28,7 @@
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/cross.h"
-#include "lib/server_finder.h"
+#include "lib/encode_server_finder.h"
 #include "lib/image.h"
 #include "lib/ratio.h"
 #include "lib/log_entry.h"
@@ -80,7 +80,7 @@ struct TestConfig
 		Config::instance()->set_default_j2k_bandwidth (100000000);
 		Config::instance()->set_log_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
 
-		ServerFinder::instance()->disable ();
+		EncodeServerFinder::instance()->disable ();
 
 		signal_manager = new TestSignalManager ();
 	}
