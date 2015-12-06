@@ -448,11 +448,17 @@ Writer::finish ()
 		return;
 	}
 
+	LOG_GENERAL_NC ("Terminating writer thread");
+
 	terminate_thread (true);
+
+	LOG_GENERAL_NC ("Finishing ReelWriters");
 
 	BOOST_FOREACH (ReelWriter& i, _reels) {
 		i.finish ();
 	}
+
+	LOG_GENERAL_NC ("Writing XML");
 
 	dcp::DCP dcp (_film->dir (_film->dcp_name()));
 
