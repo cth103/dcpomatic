@@ -353,3 +353,29 @@ Waker::~Waker ()
 	IOPMAssertionRelease (_assertion_id);
 #endif
 }
+
+void
+start_batch_converter (boost::filesystem::path dcpomatic)
+{
+#if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_WINDOWS)
+	boost::filesystem::path batch = dcpomatic.parent_path() / "dcpomatic2_batch";
+#endif
+
+#ifdef DCPOMATIC_OSX
+	boost::filesystem::patch batch = dcpomatic.parent_path ();
+	batch = batch.parent_path (); // MacOS
+	batch = batch.parent_path (); // Contents
+	batch = batch.parent_path (); // DCP-o-matic.app
+	batch = batch.parent_path (); // Applications
+	batch /= "DCP-o-matic 2 Batch Converter.app" / "Contents" / "MacOS" / "dcpomatic2_batch";
+#endif
+
+#ifdef DCPOMATIC_LINUX
+	pid_t pid = fork ();
+	if (pid == 0) {
+		int const r = system (batch.string().c_str ());
+		exit (WEXITSTATUS (r));
+	}
+#endif
+
+}

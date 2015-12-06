@@ -29,14 +29,20 @@
 #include "lib/util.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/dcpomatic_socket.h"
 #include <wx/aboutdlg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/wx.h>
+#include <iostream>
 
 using std::exception;
+using std::string;
+using std::cout;
 using boost::shared_ptr;
+using boost::thread;
+using boost::scoped_array;
 
 static std::string film_to_load;
 
@@ -116,6 +122,19 @@ public:
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
 		Bind (wxEVT_SIZE, boost::bind (&DOMFrame::sized, this, _1));
+	}
+
+	void start_job (boost::filesystem::path path)
+	{
+		try {
+			shared_ptr<Film> film (new Film (path));
+			film->read_metadata ();
+			film->make_dcp ();
+		} catch (std::exception& e) {
+			wxString p = std_to_wx (path.string ());
+			wxCharBuffer b = p.ToUTF8 ();
+			error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
+		}
 	}
 
 private:
@@ -207,15 +226,7 @@ private:
 		}
 
 		if (r == wxID_OK) {
-			try {
-				shared_ptr<Film> film (new Film (wx_to_std (c->GetPath ())));
-				film->read_metadata ();
-				film->make_dcp ();
-			} catch (std::exception& e) {
-				wxString p = c->GetPath ();
-				wxCharBuffer b = p.ToUTF8 ();
-				error_dialog (this, wxString::Format (_("Could not open film at %s (%s)"), p.data(), std_to_wx (e.what()).data()));
-			}
+			start_job (wx_to_std (c->GetPath ()));
 		}
 
 		_last_parent = boost::filesystem::path (wx_to_std (c->GetPath ())).parent_path ();
@@ -232,6 +243,32 @@ private:
 static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
+};
+
+class JobServer : public Server
+{
+public:
+	JobServer (DOMFrame* frame)
+		: Server (Config::instance()->server_port_base() + 2)
+		, _frame (frame)
+	{}
+
+	void handle (shared_ptr<Socket> socket)
+	{
+		try {
+			int const length = socket->read_uint32 ();
+			cout << "len=" << length << "\n";
+			scoped_array<char> buffer (new char[length]);
+			socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+			string s (buffer.get());
+			_frame->start_job (s);
+		} catch (...) {
+
+		}
+	}
+
+private:
+	DOMFrame* _frame;
 };
 
 class App : public wxApp
@@ -272,6 +309,9 @@ class App : public wxApp
 		SetTopWindow (f);
 		f->Maximize ();
 		f->Show ();
+
+		JobServer* server = new JobServer (f);
+		new thread (boost::bind (&JobServer::run, server));
 
 		signal_manager = new wxSignalManager (this);
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));

@@ -471,7 +471,7 @@ private:
 	/** default directory to put new films in */
 	boost::filesystem::path _default_directory;
 	/** base port number to use for J2K encoding servers;
-	 *  this port and the one above it will be used.
+	 *  this port and the two above it will be used.
 	 */
 	int _server_port_base;
 	/** true to broadcast on the `any' address to look for servers */

@@ -55,7 +55,9 @@
 #include "lib/content_factory.h"
 #include "lib/compose.hpp"
 #include "lib/cinema_kdms.h"
+#include "lib/dcpomatic_socket.h"
 #include <dcp/exceptions.h>
+#include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
@@ -88,6 +90,7 @@ using std::list;
 using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 class FilmChangedDialog
 {
@@ -138,6 +141,7 @@ enum {
 	ID_content_scale_to_fit_width = 100,
 	ID_content_scale_to_fit_height,
 	ID_jobs_make_dcp,
+	ID_jobs_make_dcp_batch,
 	ID_jobs_make_kdms,
 	ID_jobs_make_self_dkdm,
 	ID_jobs_send_dcp_to_tms,
@@ -204,6 +208,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::content_scale_to_fit_height, this), ID_content_scale_to_fit_height);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_dcp, this),           ID_jobs_make_dcp);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_dcp_batch, this),     ID_jobs_make_dcp_batch);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_make_self_dkdm, this),     ID_jobs_make_self_dkdm);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
@@ -482,6 +487,44 @@ private:
 		d->Destroy ();
 	}
 
+	void jobs_make_dcp_batch ()
+	{
+		if (!_film) {
+			return;
+		}
+
+		_film->write_metadata ();
+
+		/* i = 0; try to connect via socket
+		   i = 1; try again, and then try to start the batch converter
+		   i = 2; try again.
+		   i = 3; try again.
+		*/
+		for (int i = 0; i < 4; ++i) {
+			try {
+				boost::asio::io_service io_service;
+				boost::asio::ip::tcp::resolver resolver (io_service);
+				boost::asio::ip::tcp::resolver::query query ("localhost", raw_convert<string> (Config::instance()->server_port_base() + 2));
+				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
+				Socket socket (1);
+				socket.connect (*endpoint_iterator);
+				string s = _film->directory().string ();
+				socket.write (s.length() + 1);
+				socket.write ((uint8_t *) s.c_str(), s.length() + 1);
+				return;
+			} catch (...) {
+			}
+
+			if (i == 1) {
+				start_batch_converter (wx_to_std (wxStandardPaths::Get().GetExecutablePath()));
+			}
+
+			dcpomatic_sleep (1);
+		}
+
+		error_dialog (this, _("Could not find batch converter."));
+	}
+
 	void jobs_make_self_dkdm ()
 	{
 		if (!_film) {
@@ -750,6 +793,7 @@ private:
 
 		wxMenu* jobs_menu = new wxMenu;
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
 		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM);
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
