@@ -78,6 +78,7 @@ EncodeServer::~EncodeServer ()
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
+		_terminate = true;
 		_empty_condition.notify_all ();
 		_full_condition.notify_all ();
 	}
