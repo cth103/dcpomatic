@@ -22,6 +22,7 @@
 #include "exceptions.h"
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
+#include <iostream>
 
 #include "i18n.h"
 
@@ -123,4 +124,3 @@ Socket::read_uint32 ()
 	read (reinterpret_cast<uint8_t *> (&v), 4);
 	return ntohl (v);
 }
-

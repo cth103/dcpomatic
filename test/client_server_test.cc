@@ -47,7 +47,7 @@ void
 do_remote_encode (shared_ptr<DCPVideo> frame, ServerDescription description, Data locally_encoded)
 {
 	Data remotely_encoded;
-	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description));
+	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description, 60));
 
 	BOOST_CHECK_EQUAL (locally_encoded.size(), remotely_encoded.size());
 	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data().get(), remotely_encoded.data().get(), locally_encoded.size()), 0);

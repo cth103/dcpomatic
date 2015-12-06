@@ -153,14 +153,14 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
  *  @return Encoded data.
  */
 Data
-DCPVideo::encode_remotely (ServerDescription serv)
+DCPVideo::encode_remotely (ServerDescription serv, int timeout)
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);
 	boost::asio::ip::tcp::resolver::query query (serv.host_name(), raw_convert<string> (Config::instance()->server_port_base ()));
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<Socket> socket (new Socket);
+	shared_ptr<Socket> socket (new Socket (timeout));
 
 	socket->connect (*endpoint_iterator);
 

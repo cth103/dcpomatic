@@ -46,7 +46,7 @@ public:
 	DCPVideo (boost::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr, boost::shared_ptr<Log>);
 
 	dcp::Data encode_locally (dcp::NoteHandler note);
-	dcp::Data encode_remotely (ServerDescription);
+	dcp::Data encode_remotely (ServerDescription, int timeout = 30);
 
 	int index () const {
 		return _index;
