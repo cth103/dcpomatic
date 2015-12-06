@@ -65,11 +65,11 @@ using boost::optional;
 using dcp::Size;
 using dcp::Data;
 
-EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose)
-	: _terminate (false)
+EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose, int num_threads)
+	: Server (Config::instance()->server_port_base())
 	, _log (log)
 	, _verbose (verbose)
-	, _acceptor (_io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), Config::instance()->server_port_base()))
+	, _num_threads (num_threads)
 {
 
 }
@@ -77,8 +77,7 @@ EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose)
 EncodeServer::~EncodeServer ()
 {
 	{
-		boost::mutex::scoped_lock lm (_worker_mutex);
-		_terminate = true;
+		boost::mutex::scoped_lock lm (_mutex);
 		_empty_condition.notify_all ();
 		_full_condition.notify_all ();
 	}
@@ -88,8 +87,6 @@ EncodeServer::~EncodeServer ()
 		i->join ();
 		delete i;
 	}
-
-	_io_service.stop ();
 
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
@@ -146,7 +143,7 @@ void
 EncodeServer::worker_thread ()
 {
 	while (true) {
-		boost::mutex::scoped_lock lock (_worker_mutex);
+		boost::mutex::scoped_lock lock (_mutex);
 		while (_queue.empty () && !_terminate) {
 			_empty_condition.wait (lock);
 		}
@@ -209,21 +206,20 @@ EncodeServer::worker_thread ()
 }
 
 void
-EncodeServer::run (int num_threads)
+EncodeServer::run ()
 {
-	LOG_GENERAL ("Server starting with %1 threads", num_threads);
+	LOG_GENERAL ("Server starting with %1 threads", _num_threads);
 	if (_verbose) {
-		cout << "DCP-o-matic server starting with " << num_threads << " threads.\n";
+		cout << "DCP-o-matic server starting with " << _num_threads << " threads.\n";
 	}
 
-	for (int i = 0; i < num_threads; ++i) {
+	for (int i = 0; i < _num_threads; ++i) {
 		_worker_threads.push_back (new thread (bind (&EncodeServer::worker_thread, this)));
 	}
 
 	_broadcast.thread = new thread (bind (&EncodeServer::broadcast_thread, this));
 
-	start_accept ();
-	_io_service.run ();
+	Server::run ();
 }
 
 void
@@ -283,24 +279,9 @@ EncodeServer::broadcast_received ()
 }
 
 void
-EncodeServer::start_accept ()
+EncodeServer::handle (shared_ptr<Socket> socket)
 {
-	if (_terminate) {
-		return;
-	}
-
-	shared_ptr<Socket> socket (new Socket);
-	_acceptor.async_accept (socket->socket (), boost::bind (&EncodeServer::handle_accept, this, socket, boost::asio::placeholders::error));
-}
-
-void
-EncodeServer::handle_accept (shared_ptr<Socket> socket, boost::system::error_code const & error)
-{
-	if (error) {
-		return;
-	}
-
-	boost::mutex::scoped_lock lock (_worker_mutex);
+	boost::mutex::scoped_lock lock (_mutex);
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= _worker_threads.size() * 2 && !_terminate) {
@@ -309,6 +290,4 @@ EncodeServer::handle_accept (shared_ptr<Socket> socket, boost::system::error_cod
 
 	_queue.push_back (socket);
 	_empty_condition.notify_all ();
-
-	start_accept ();
 }

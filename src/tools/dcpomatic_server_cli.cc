@@ -110,10 +110,10 @@ main (int argc, char* argv[])
 		log.reset (new NullLog);
 	}
 
-	EncodeServer server (log, verbose);
+	EncodeServer server (log, verbose, num_threads);
 
 	try {
-		server.run (num_threads);
+		server.run ();
 	} catch (boost::system::system_error& e) {
 		if (e.code() == boost::system::errc::address_in_use) {
 			cerr << argv[0] << ": address already in use.  Is another DCP-o-matic server instance already running?\n";

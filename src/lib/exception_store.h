@@ -46,7 +46,7 @@ class ExceptionStore
 {
 public:
 	void rethrow () {
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm (_exception_mutex);
 		if (_exception) {
 			boost::exception_ptr tmp = _exception;
 			_exception = boost::exception_ptr ();
@@ -57,13 +57,13 @@ public:
 protected:
 
 	void store_current () {
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm (_exception_mutex);
 		_exception = boost::current_exception ();
 	}
 
 private:
 	boost::exception_ptr _exception;
-	mutable boost::mutex _mutex;
+	mutable boost::mutex _exception_mutex;
 };
 
 #endif

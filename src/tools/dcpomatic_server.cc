@@ -291,8 +291,8 @@ private:
 
 	void main_thread ()
 	try {
-		EncodeServer server (server_log, false);
-		server.run (Config::instance()->num_local_encoding_threads ());
+		EncodeServer server (server_log, false, Config::instance()->num_local_encoding_threads());
+		server.run ();
 	} catch (...) {
 		store_current ();
 	}

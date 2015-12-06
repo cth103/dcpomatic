@@ -109,6 +109,7 @@ sources = """
           screen_kdm.cc
           send_kdm_email_job.cc
           send_problem_report_job.cc
+          server.cc
           single_stream_audio_content.cc
           sndfile_base.cc
           sndfile_content.cc

@@ -112,9 +112,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 
-	EncodeServer* server = new EncodeServer (log, true);
+	EncodeServer* server = new EncodeServer (log, true, 2);
 
-	new thread (boost::bind (&EncodeServer::run, server, 2));
+	new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
@@ -192,9 +192,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	Data locally_encoded = frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 
-	EncodeServer* server = new EncodeServer (log, true);
+	EncodeServer* server = new EncodeServer (log, true, 2);
 
-	new thread (boost::bind (&EncodeServer::run, server, 2));
+	new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
@@ -284,9 +284,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	Data j2k_locally_encoded = j2k_frame->encode_locally (boost::bind (&Log::dcp_log, log.get(), _1, _2));
 
-	EncodeServer* server = new EncodeServer (log, true);
+	EncodeServer* server = new EncodeServer (log, true, 2);
 
-	new thread (boost::bind (&EncodeServer::run, server, 2));
+	new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);

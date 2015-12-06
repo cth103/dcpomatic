@@ -21,9 +21,10 @@
 #define DCPOMATIC_ENCODE_SERVER_H
 
 /** @file src/encode_server.h
- *  @brief Server class.
+ *  @brief EncodeServer class.
  */
 
+#include "server.h"
 #include "exception_store.h"
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
@@ -37,34 +38,28 @@ class Log;
  *  @brief A class to run a server which can accept requests to perform JPEG2000
  *  encoding work.
  */
-class EncodeServer : public ExceptionStore, public boost::noncopyable
+class EncodeServer : public Server, public ExceptionStore
 {
 public:
-	EncodeServer (boost::shared_ptr<Log> log, bool verbose);
+	EncodeServer (boost::shared_ptr<Log> log, bool verbose, int num_threads);
 	~EncodeServer ();
 
-	void run (int num_threads);
+	void run ();
 
 private:
+	void handle (boost::shared_ptr<Socket>);
 	void worker_thread ();
 	int process (boost::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
 	void broadcast_thread ();
 	void broadcast_received ();
-	void start_accept ();
-	void handle_accept (boost::shared_ptr<Socket>, boost::system::error_code const &);
-
-	bool _terminate;
 
 	std::vector<boost::thread *> _worker_threads;
 	std::list<boost::shared_ptr<Socket> > _queue;
-	boost::mutex _worker_mutex;
 	boost::condition _full_condition;
 	boost::condition _empty_condition;
 	boost::shared_ptr<Log> _log;
 	bool _verbose;
-
-	boost::asio::io_service _io_service;
-	boost::asio::ip::tcp::acceptor _acceptor;
+	int _num_threads;
 
 	struct Broadcast {
 
