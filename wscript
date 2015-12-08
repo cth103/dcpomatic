@@ -139,7 +139,7 @@ def configure(conf):
 
     # OSX
     if conf.env.TARGET_OSX:
-        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_OSX', '-Wno-unused-function', '-Wno-unused-parameter'])
+        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_OSX', '-Wno-unused-function', '-Wno-unused-parameter', '-Wno-unused-local-typedef'])
         conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
 
     #
