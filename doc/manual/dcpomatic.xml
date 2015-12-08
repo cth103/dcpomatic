@@ -1542,6 +1542,12 @@ key for you.  To specify your own key, click the
 </para>
 
 <para>
+The <guilabel>Reels</guilabel> and <guilabel>Reel length</guilabel>
+controls specify how the DCP will be split up into
+&lsquo;reels&rsquo;.  See <xref linkend="sec-reels"/> below.
+</para>
+
+<para>
 The <guilabel>Standard</guilabel> option specifies which of the two
 DCP standards DCP-o-matic should use.  If in doubt, use SMPTE (the
 more modern of the two).
@@ -1644,6 +1650,84 @@ This upmixing algorithm is due to Gérald Maruccia.
 </itemizedlist>
 </listitem>
 </itemizedlist>
+
+<!-- ============================================================== -->
+<section xml:id="sec-reels">
+<title>Reels</title>
+
+<para>
+A &lsquo;reel&rsquo; in a DCP is a subsection of the DCP, in the same
+way as a 35mm reel is a section of a film.  A DCP can be split up into
+any number of reels and the joins (the equivalent to 35mm splices)
+between the reels are seamless.
+</para>
+
+<para>
+There is no reason why you can't just use a single reel for the whole
+of your DCP, as there is no limit on their length.  Many people choose
+to do this.
+</para>
+
+<para>
+There are, however, some possible advantages of splitting things up
+into reels:
+</para>
+
+<itemizedlist>
+<listitem>
+The picture, sound and subtitle data of the DCP will be
+split up into more smaller files on disk, rather than fewer larger
+files.  This can be useful if the DCP is to be transferred on storage
+that have file size limits.  The FAT32 filesystem, for example, can
+only hold files smaller than 4Gb.  A 6Gb DCP with a single reel could
+not be transferred using a FAT32-formatted disk.  If that DCP were
+split up into two 3Gb reels it could be transferred.
+</listitem>
+<listitem>
+It is easier to re-use DCP components if they are in reels.  Consider,
+for example, a film company who wants to put a 5 second ident onto the
+beginning of DCPs that they distribute.  If they receive a feature
+film DCP they can modify it to add their ident as a separate reel.
+This is easier than attaching the picture data in the DCP.
+</listitem>
+</itemizedlist>
+
+<para>
+DCP-o-matic offers three options for setting up the reels in your DCP:
+single reel, split by video content or custom.
+</para>
+
+<para>
+<guilabel>Single reel</guilabel>, as its name suggests, keeps the whole DCP as one reel.
+This is a perfectly good option if you have no particular reason to
+need reels.
+</para>
+
+<para>
+<guilabel>Split by video content</guilabel> puts each piece of source
+video content in its own reel, as shown in <xref linkend="fig-reels-by-video"/>.
+</para>
+
+<figure id="fig-reels-by-video">
+<title>Making reels using split by video content</title>
+<mediaobject><imageobject><imagedata scale="100" fileref="diagrams/reels-by-video&dia;"/></imageobject></mediaobject>
+</figure>
+
+<para>
+Here we have three video files (<code>ident.mp4</code>,
+<code>feature.ts</code> and <code>cred.mov</code>).  With
+<guilabel>split by video content</guilabel> DCP-o-matic makes a new
+reel to hold each video file.
+</para>
+
+<para>
+<guilabel>Custom</guilabel> splits reels by the size of the files that
+will make up their video content.  With <guilabel>Custom</guilabel>
+you must specify a reel length in Gb.  Then no file in the DCP will be larger than this reel length.
+</para>
+
+</section>
+
 
 <!-- ============================================================== -->
 <section>
