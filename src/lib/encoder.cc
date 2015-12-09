@@ -358,7 +358,7 @@ try
 		}
 
 		if (remote_backoff > 0) {
-			boost::this_thread::sleep_for (boost::chrono::seconds (remote_backoff));
+			boost::this_thread::sleep (boost::posix_time::seconds (remote_backoff));
 		}
 
 		/* The queue might not be full any more, so notify anything that is waiting on that */
