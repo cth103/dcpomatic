@@ -43,6 +43,7 @@ using boost::optional;
 using boost::function;
 
 #define LOG_ERROR_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 /** @param film Associated film, or 0 */
 Job::Job (shared_ptr<const Film> film)
@@ -295,6 +296,7 @@ Job::sub (string n)
 {
 	{
 		boost::mutex::scoped_lock lm (_progress_mutex);
+		LOG_GENERAL ("Sub-job %1 starting", n);
 		_sub_name = n;
 	}
 

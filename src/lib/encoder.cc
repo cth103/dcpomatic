@@ -260,12 +260,16 @@ Encoder::terminate_threads ()
 
 	boost::mutex::scoped_lock threads_lock (_threads_mutex);
 
+	int n = 0;
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
+		LOG_GENERAL ("Terminating thread %1 of %2", n + 1, _threads.size ());
 		(*i)->interrupt ();
 		if ((*i)->joinable ()) {
 			(*i)->join ();
 		}
 		delete *i;
+		LOG_GENERAL_NC ("Thread terminated");
+		++n;
 	}
 
 	_threads.clear ();
