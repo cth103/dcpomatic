@@ -257,13 +257,12 @@ Encoder::terminate_threads ()
 	{
 		boost::mutex::scoped_lock queue_lock (_queue_mutex);
 		_terminate_encoding = true;
-		_full_condition.notify_all ();
-		_empty_condition.notify_all ();
 	}
 
 	boost::mutex::scoped_lock threads_lock (_threads_mutex);
 
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
+		(*i)->interrupt ();
 		if ((*i)->joinable ()) {
 			(*i)->join ();
 		}
@@ -356,7 +355,7 @@ try
 		}
 
 		if (remote_backoff > 0) {
-			dcpomatic_sleep (remote_backoff);
+			boost::this_thread::sleep_for (boost::chrono::seconds (remote_backoff));
 		}
 
 		/* The queue might not be full any more, so notify anything that is waiting on that */
