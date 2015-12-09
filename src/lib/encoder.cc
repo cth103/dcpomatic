@@ -56,9 +56,8 @@ using dcp::Data;
 int const Encoder::_history_size = 25;
 
 /** @param f Film that we are encoding */
-Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> j, shared_ptr<Writer> writer)
+Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	: _film (film)
-	, _job (j)
 	, _position (0)
 	, _terminate_enqueue (false)
 	, _terminate_encoding (false)

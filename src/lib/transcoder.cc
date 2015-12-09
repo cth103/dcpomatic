@@ -54,7 +54,7 @@ Transcoder::Transcoder (shared_ptr<const Film> film, shared_ptr<Job> j)
 	: _film (film)
 	, _player (new Player (film, film->playlist ()))
 	, _writer (new Writer (film, j))
-	, _encoder (new Encoder (film, j, _writer))
+	, _encoder (new Encoder (film, _writer))
 	, _finishing (false)
 {
 
