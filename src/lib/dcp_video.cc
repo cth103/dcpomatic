@@ -121,8 +121,6 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 Data
 DCPVideo::encode_locally (dcp::NoteHandler note)
 {
-	shared_ptr<dcp::OpenJPEGImage> xyz = convert_to_xyz (_frame, note);
-
 	Data enc = compress_j2k (
 		convert_to_xyz (_frame, note),
 		_j2k_bandwidth,
