@@ -596,7 +596,27 @@ Film::isdcf_name (bool if_created_now) const
 	if (!dm.audio_language.empty ()) {
 		d << "_" << dm.audio_language;
 		if (!dm.subtitle_language.empty()) {
-			d << "-" << dm.subtitle_language;
+
+			bool burnt_in = false;
+			BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+				shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
+				if (!sc) {
+					continue;
+				}
+
+				if (sc->use_subtitles() && sc->burn_subtitles()) {
+					burnt_in = true;
+				}
+			}
+
+			string language = dm.subtitle_language;
+			if (burnt_in) {
+				transform (language.begin(), language.end(), language.begin(), ::tolower);
+			} else {
+				transform (language.begin(), language.end(), language.begin(), ::toupper);
+			}
+
+			d << "-" << language;
 		} else {
 			d << "-XX";
 		}

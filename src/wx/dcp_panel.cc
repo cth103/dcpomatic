@@ -404,6 +404,7 @@ DCPPanel::film_content_changed (int property)
 {
 	if (property == AudioContentProperty::AUDIO_STREAMS ||
 	    property == SubtitleContentProperty::USE_SUBTITLES ||
+	    property == SubtitleContentProperty::BURN_SUBTITLES ||
 	    property == VideoContentProperty::VIDEO_SCALE ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||
 	    property == DCPContentProperty::REFERENCE_AUDIO ||
