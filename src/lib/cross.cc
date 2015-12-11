@@ -362,7 +362,7 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 #endif
 
 #ifdef DCPOMATIC_OSX
-	boost::filesystem::patch batch = dcpomatic.parent_path ();
+	boost::filesystem::path batch = dcpomatic.parent_path ();
 	batch = batch.parent_path (); // MacOS
 	batch = batch.parent_path (); // Contents
 	batch = batch.parent_path (); // DCP-o-matic.app
