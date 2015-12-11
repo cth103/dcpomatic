@@ -55,6 +55,9 @@ DirPickerCtrl::SetPath (wxString p)
 
 	wxCommandEvent ev (wxEVT_COMMAND_DIRPICKER_CHANGED, wxID_ANY);
 	GetEventHandler()->ProcessEvent (ev);
+
+	_sizer->Layout ();
+	_sizer->SetSizeHints (this);
 }
 
 wxString
