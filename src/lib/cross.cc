@@ -367,7 +367,10 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 	batch = batch.parent_path (); // Contents
 	batch = batch.parent_path (); // DCP-o-matic.app
 	batch = batch.parent_path (); // Applications
-	batch /= "DCP-o-matic 2 Batch Converter.app" / "Contents" / "MacOS" / "dcpomatic2_batch";
+	batch /= "DCP-o-matic 2 Batch Converter.app";
+	batch /= "Contents";
+	batch /= "MacOS";
+	batch /= "dcpomatic2_batch";
 #endif
 
 #ifdef DCPOMATIC_LINUX
