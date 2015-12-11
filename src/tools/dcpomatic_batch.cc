@@ -257,7 +257,6 @@ public:
 	{
 		try {
 			int const length = socket->read_uint32 ();
-			cout << "len=" << length << "\n";
 			scoped_array<char> buffer (new char[length]);
 			socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 			string s (buffer.get());
