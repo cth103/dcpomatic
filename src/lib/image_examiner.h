@@ -38,5 +38,4 @@ private:
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::optional<dcp::Size> _video_size;
 	Frame _video_length;
-	bool _yuv;
 };
