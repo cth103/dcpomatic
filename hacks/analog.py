@@ -109,7 +109,10 @@ while True:
     else:
         # Date/time timestamp: other LOG_*
         s = find_nth(l, ':', 3)
-        T = Time(time.mktime(time.strptime(l[:s])))
+        try:
+            T = Time(time.mktime(time.strptime(l[:s])))
+        except:
+            T = Time(time.mktime(time.strptime(l[:s], "%d.%m.%Y %H:%M:%S")))
         message = l[s+2:]
 
     # T is elapsed time since the first log message
