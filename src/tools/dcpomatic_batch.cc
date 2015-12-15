@@ -261,6 +261,7 @@ public:
 			socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 			string s (buffer.get());
 			_frame->start_job (s);
+			socket->write (reinterpret_cast<uint8_t const *> ("OK"), 3);
 		} catch (...) {
 
 		}

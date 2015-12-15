@@ -511,6 +511,9 @@ private:
 				string s = _film->directory().string ();
 				socket.write (s.length() + 1);
 				socket.write ((uint8_t *) s.c_str(), s.length() + 1);
+				/* OK\0 */
+				uint8_t ok[3];
+				socket.read (ok, 3);
 				return;
 			} catch (exception& e) {
 				std::cout << "start batch failed: " << e.what() << "\n";
