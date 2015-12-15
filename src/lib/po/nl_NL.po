@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-15 16:11+0000\n"
-"PO-Revision-Date: 2015-11-28 00:08+0100\n"
+"PO-Revision-Date: 2015-12-15 20:00+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -32,15 +32,15 @@ msgstr "%1 [video]"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
-msgstr "1.19"
+msgstr "1.19:1"
 
 #: src/lib/ratio.cc:38
 msgid "1.66"
-msgstr "1.66"
+msgstr "1.66:1"
 
 #: src/lib/ratio.cc:39
 msgid "16:9"
-msgstr "16:9"
+msgstr "1.78:1 (16:9/HD)"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -48,11 +48,11 @@ msgstr "3D ruisonderdrukking"
 
 #: src/lib/ratio.cc:36
 msgid "4:3"
-msgstr "4:3"
+msgstr "1.33:1 (4:3)"
 
 #: src/lib/ratio.cc:37
 msgid "Academy"
-msgstr "Academy"
+msgstr "1.375:1 (Academy)"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Advertisement"
@@ -478,9 +478,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Authenticatiefout met server (%1)"
 
 #: src/lib/emailer.cc:212
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "Versturen KDM-email mislukt (%1)"
+msgstr "Versturen email mislukt (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -500,7 +499,7 @@ msgstr "Ondertitels zoeken"
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
-msgstr "Flat"
+msgstr "1.85:1 (Flat)"
 
 #: src/lib/ffmpeg_content.cc:406
 msgid "Full"
@@ -512,7 +511,7 @@ msgstr "Volledig (0-%1)"
 
 #: src/lib/ratio.cc:42
 msgid "Full frame"
-msgstr "Full frame"
+msgstr "1.896:1 (Full DCI Container)"
 
 #: src/lib/ffmpeg_content.cc:434
 msgid "Gamma 22 (BT470M)"
@@ -777,7 +776,7 @@ msgstr "Geschaald naar %1x%2"
 
 #: src/lib/ratio.cc:41
 msgid "Scope"
-msgstr "Scope"
+msgstr "2.39:1 (Scope)"
 
 #: src/lib/send_problem_report_job.cc:69
 msgid "Sending email"
@@ -1123,9 +1122,3 @@ msgstr "onbekend"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "video-beelden"
-
-#~ msgid "could not open file for reading"
-#~ msgstr "kan bestand niet openen om te lezen"
-
-#~ msgid "could not read from file"
-#~ msgstr "kan niet lezen uit bestand"

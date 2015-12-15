@@ -1661,6 +1661,3 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
-
-#~ msgid "Doremi serial numbers must have 6 digits"
-#~ msgstr "Doremi serienummers moeten 6 cijfers hebben"

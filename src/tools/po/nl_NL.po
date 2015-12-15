@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-15 16:11+0000\n"
-"PO-Revision-Date: 2015-11-28 00:11+0100\n"
+"PO-Revision-Date: 2015-12-15 20:07+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -130,9 +130,8 @@ msgid "Check for updates"
 msgstr "Controleer op updates"
 
 #: src/tools/dcpomatic.cc:525
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "DCP-o-matic Batch Converter"
+msgstr "Kan Batch Converter niet vinden."
 
 #: src/tools/dcpomatic.cc:990 src/tools/dcpomatic_batch.cc:325
 msgid "Could not load film %1 (%2)"
@@ -189,7 +188,7 @@ msgstr "Maak &KDM's...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:796
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Maak DCP in Batch Converter\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:798
 msgid "Make DKDM for DCP-o-matic..."
