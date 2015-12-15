@@ -373,12 +373,21 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 	batch /= "dcpomatic2_batch";
 #endif
 
-#ifdef DCPOMATIC_LINUX
+#if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_OSX)
 	pid_t pid = fork ();
 	if (pid == 0) {
-		int const r = system (batch.string().c_str ());
+		int const r = system (batch.string().c_str());
 		exit (WEXITSTATUS (r));
 	}
 #endif
 
+#ifdef DCPOMATIC_WINDOWS
+	STARTUPINFO startup_info;
+	ZeroMemory (&startup_info, sizeof (startup_info));
+	startup_info.cb = sizeof (startup_info);
+
+	PROCESS_INFORMATION process_info;
+	ZeroMemory (&process_info, sizeof (process_info));
+	CreateProcess (0, batch.string().c_str(), 0, 0, FALSE, 0, 0, 0, &startup_info, &process_info);
+#endif
 }
