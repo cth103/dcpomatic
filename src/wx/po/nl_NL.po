@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-11-28 00:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -51,11 +51,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D-versie van content beschikbaar in 3D"
 
-#: src/wx/dcp_panel.cc:675
+#: src/wx/dcp_panel.cc:676
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:633
+#: src/wx/dcp_panel.cc:634
 msgid "3D"
 msgstr "3D"
 
@@ -79,12 +79,10 @@ msgstr "3D alleen rechts"
 msgid "3D top/bottom"
 msgstr "3D boven/onder"
 
-#: src/wx/dcp_panel.cc:676
+#: src/wx/dcp_panel.cc:677
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -304,7 +302,7 @@ msgstr "Keten"
 msgid "Channel gain"
 msgstr "Kanaal-versterking"
 
-#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:719
 msgid "Channels"
 msgstr "Kanalen"
 
@@ -361,7 +359,7 @@ msgstr "Timing"
 msgid "Contact email"
 msgstr "Contact email-adres"
 
-#: src/wx/dcp_panel.cc:608
+#: src/wx/dcp_panel.cc:609
 msgid "Container"
 msgstr "Container"
 
@@ -650,7 +648,7 @@ msgstr "Lettertypen"
 msgid "Fonts..."
 msgstr "Lettertypen..."
 
-#: src/wx/dcp_panel.cc:619
+#: src/wx/dcp_panel.cc:620
 msgid "Frame Rate"
 msgstr "Beeldsnelheid"
 
@@ -780,7 +778,7 @@ msgstr "Cursief bestand"
 msgid "Italic font"
 msgstr "Cursief lettertype"
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:644
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000-bandbreedte"
 
@@ -890,7 +888,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximum JPEG2000-bandbreedte"
 
 #: src/wx/config_dialog.cc:423 src/wx/config_dialog.cc:1333
-#: src/wx/dcp_panel.cc:647
+#: src/wx/dcp_panel.cc:648
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -942,7 +940,7 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
-#: src/wx/dcp_panel.cc:726 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Geen"
@@ -1052,7 +1050,7 @@ msgstr "Positie"
 msgid "Pre-release"
 msgstr "Pre-release"
 
-#: src/wx/dcp_panel.cc:724
+#: src/wx/dcp_panel.cc:725
 msgid "Processor"
 msgstr "Processor"
 
@@ -1163,7 +1161,7 @@ msgstr "Meld een probleem"
 msgid "Reset to default subject and text"
 msgstr "Stel standaard onderwerp en tekst opnieuw in"
 
-#: src/wx/dcp_panel.cc:637
+#: src/wx/dcp_panel.cc:638
 msgid "Resolution"
 msgstr "Resolutie"
 
@@ -1273,7 +1271,7 @@ msgstr "Stel in uit syteem-lettertype..."
 msgid "Set language"
 msgstr "Stel taal in"
 
-#: src/wx/dcp_panel.cc:733
+#: src/wx/dcp_panel.cc:734
 msgid "Show audio..."
 msgstr "Toon audio..."
 
@@ -1345,7 +1343,7 @@ msgstr "Ondertitelings-uiterlijk"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:215
+#: src/wx/about_dialog.cc:216
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1369,7 +1367,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:267
+#: src/wx/about_dialog.cc:268
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1473,7 +1471,7 @@ msgstr "Update"
 msgid "Use ISDCF name"
 msgstr "Gebruik ISDCF-naam"
 
-#: src/wx/dcp_panel.cc:627
+#: src/wx/dcp_panel.cc:628
 msgid "Use best"
 msgstr "Gebruik de beste"
 

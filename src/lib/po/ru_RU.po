@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-12-01 14:08+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -55,7 +55,7 @@ msgstr "Academy (1.33:1)"
 msgid "Advertisement"
 msgstr "ADV (Реклама)"
 
-#: src/lib/job.cc:89
+#: src/lib/job.cc:90
 msgid "An error occurred whilst handling the file %1."
 msgstr "Возникла ошибка при обращении к файлу %1."
 
@@ -124,19 +124,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1293
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1294
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1285
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:373
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -148,7 +148,7 @@ msgstr "Невозможно обработать формат пикселя %1
 msgid "Centre"
 msgstr "Центральный"
 
-#: src/lib/reel_writer.cc:89
+#: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
 msgstr "Проверка данных изображения"
 
@@ -182,7 +182,7 @@ msgstr "Характеристика цветового перехода"
 msgid "Colourspace"
 msgstr "Цветовое пространство"
 
-#: src/lib/reel_writer.cc:435
+#: src/lib/reel_writer.cc:437
 msgid "Computing audio digest"
 msgstr "Рендеринг аудио"
 
@@ -190,7 +190,7 @@ msgstr "Рендеринг аудио"
 msgid "Computing digest"
 msgstr "Рендеринг"
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:431
 msgid "Computing image digest"
 msgstr "Рендеринг изображения"
 
@@ -300,7 +300,7 @@ msgstr "Не удалось подключиться к серверу %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Не удалось создать удалённый каталог %1 (%2)"
 
-#: src/lib/image_examiner.cc:62
+#: src/lib/image_examiner.cc:63
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%2)"
 
@@ -308,7 +308,7 @@ msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%
 msgid "Could not decode image file (%1)"
 msgstr "Не удалось декодировать изображение (%1)"
 
-#: src/lib/server_finder.cc:139
+#: src/lib/encode_server_finder.cc:139
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -316,7 +316,7 @@ msgstr ""
 "Не удалось достучаться до удалённого сервера кодирования. Возможно работает "
 "ещё одна копия DCP-o-matic."
 
-#: src/lib/job.cc:108 src/lib/job.cc:119
+#: src/lib/job.cc:109 src/lib/job.cc:120
 msgid "Could not open %1"
 msgstr "Не удалось открыть %1"
 
@@ -356,11 +356,11 @@ msgstr "D-BOX основной (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1295
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1274
+#: src/lib/film.cc:1296
 msgid "DBS"
 msgstr "DBS"
 
@@ -376,7 +376,7 @@ msgstr "DCP будет воспроизводиться на %1%% от скор�
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP будет использовать каждый второй кадр контента.\n"
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:110 src/lib/job.cc:121
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -448,11 +448,11 @@ msgstr "Отправка ключей"
 msgid "Email KDMs for %1"
 msgstr "Отправка ключей %1 по Email"
 
-#: src/lib/send_problem_report_job.cc:52
+#: src/lib/send_problem_report_job.cc:54
 msgid "Email problem report"
 msgstr "Сообщить о проблеме"
 
-#: src/lib/send_problem_report_job.cc:55
+#: src/lib/send_problem_report_job.cc:57
 msgid "Email problem report for %1"
 msgstr "Ошибка отправки ключей %1 по Email"
 
@@ -464,7 +464,7 @@ msgstr "Кодирование данных изображения"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Ошибка в SubRip-файле: найдено %1, в то время как ожидается %2"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:371
 msgid "Error: %1"
 msgstr "Ошибка: (%1)"
 
@@ -480,8 +480,9 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
-#: src/lib/emailer.cc:216
-msgid "Failed to send KDM email (%1)"
+#: src/lib/emailer.cc:212
+#, fuzzy
+msgid "Failed to send email (%1)"
 msgstr "Ошибка отправки ключей (%1)"
 
 #: src/lib/dcp_content_type.cc:45
@@ -528,7 +529,7 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1289
 msgid "HI"
 msgstr "HI"
 
@@ -548,7 +549,7 @@ msgstr "IEC61966-2-1 (sRGB или sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:125 src/lib/job.cc:146 src/lib/job.cc:156
+#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
@@ -560,11 +561,11 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1283
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1291
 msgid "Lc"
 msgstr "Lc"
 
@@ -584,7 +585,7 @@ msgstr "Левый тыловой surround"
 msgid "Left surround"
 msgstr "Левый surround"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1286
 msgid "Lfe"
 msgstr "LFE"
 
@@ -612,7 +613,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1287
 msgid "Ls"
 msgstr "Ls"
 
@@ -660,7 +661,7 @@ msgstr "В папке не найдено подходящих изображе�
 msgid "Noise reduction"
 msgstr "Подавление шума"
 
-#: src/lib/job.cc:367
+#: src/lib/job.cc:369
 msgid "OK (ran for %1)"
 msgstr "Готово! (выполнено за %1)"
 
@@ -672,7 +673,7 @@ msgstr "Только первый элемент контента может и�
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Только последний элемент контента может иметь обрезку с конца."
 
-#: src/lib/job.cc:138
+#: src/lib/job.cc:139
 msgid "Out of memory"
 msgstr "Недостаточно памяти (Out of memory)"
 
@@ -700,7 +701,7 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1284
 msgid "R"
 msgstr "R"
 
@@ -712,7 +713,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1292
 msgid "Rc"
 msgstr "Rc"
 
@@ -748,7 +749,7 @@ msgstr "Правый тыловой surround"
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1288
 msgid "Rs"
 msgstr "Rs"
 
@@ -777,7 +778,7 @@ msgstr "Масштабировано до %1x%2"
 msgid "Scope"
 msgstr "Scope (2048x858)"
 
-#: src/lib/send_problem_report_job.cc:67
+#: src/lib/send_problem_report_job.cc:69
 msgid "Sending email"
 msgstr "Отправка почты"
 
@@ -832,7 +833,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr "Цепочка сертификатов для подписи неверна"
 
-#: src/lib/job.cc:95
+#: src/lib/job.cc:96
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -852,7 +853,7 @@ msgstr "Присутствуют другие субтитрі, перекрыв
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Присутствует другое видео, перекрывающее этот DCP. Уберите его!"
 
-#: src/lib/job.cc:138
+#: src/lib/job.cc:139
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -862,7 +863,7 @@ msgstr ""
 "попробуйте уменьшить число потоков кодирования в Настройках во вкладке "
 "\"Основные\"."
 
-#: src/lib/film.cc:382
+#: src/lib/film.cc:384
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -870,7 +871,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:374
+#: src/lib/film.cc:376
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -900,7 +901,7 @@ msgstr "Неожиданное содержимое ZIP-файла"
 msgid "Unexpected image type received by server"
 msgstr "Сервером получен неожиданный тип изображения."
 
-#: src/lib/job.cc:155
+#: src/lib/job.cc:156
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -936,7 +937,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1290
 msgid "VI"
 msgstr "VI"
 
@@ -968,7 +969,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Очередной фильтр деинтерлейсинга"
 
-#: src/lib/film.cc:295
+#: src/lib/film.cc:297
 msgid "You must add some content to the DCP before creating it"
 msgstr "Добавьте контент в проект прежде чем создавать DCP"
 
@@ -988,7 +989,7 @@ msgstr "[субтитры]"
 msgid "cannot contain slashes"
 msgstr "не может содержать разрезы"
 
-#: src/lib/dcpomatic_socket.cc:66
+#: src/lib/dcpomatic_socket.cc:67
 msgid "connect timed out"
 msgstr "таймаут соединения"
 
@@ -996,11 +997,11 @@ msgstr "таймаут соединения"
 msgid "connecting"
 msgstr "соединение"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:293
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:299
+#: src/lib/film.cc:301
 msgid "content type"
 msgstr "тип контента"
 
@@ -1016,7 +1017,7 @@ msgstr "не удалось создать файл %1"
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
-#: src/lib/reel_writer.cc:314
+#: src/lib/reel_writer.cc:316
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "не удалось переместить аудио в DCP-пакет (%1)"
 
@@ -1027,14 +1028,6 @@ msgstr "не удалось открыть аудиофайл для чтени�
 #: src/lib/exceptions.cc:30
 msgid "could not open file %1"
 msgstr "не удалось открыть файл %1"
-
-#: src/lib/data.cc:56
-msgid "could not open file for reading"
-msgstr "не удалось открыть файл для чтения"
-
-#: src/lib/data.cc:62
-msgid "could not read from file"
-msgstr "не удалось прочитать из файла"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
@@ -1052,15 +1045,15 @@ msgstr "не удалось запустить SSH-сессию"
 msgid "could not write to file %1 (%2)"
 msgstr "не удалось записать в файл %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:62
+#: src/lib/dcpomatic_socket.cc:63
 msgid "error during async_connect (%1)"
 msgstr "ошибка во время async_connect (%1)"
 
-#: src/lib/dcpomatic_socket.cc:115
+#: src/lib/dcpomatic_socket.cc:116
 msgid "error during async_read (%1)"
 msgstr "ошибка во время async_read (%1)"
 
-#: src/lib/dcpomatic_socket.cc:87
+#: src/lib/dcpomatic_socket.cc:88
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
@@ -1094,7 +1087,7 @@ msgstr "отсутствует обязательная настройка: %1"
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:272 src/lib/film.cc:303
+#: src/lib/film.cc:272 src/lib/film.cc:305
 msgid "name"
 msgstr "название"
 
@@ -1104,7 +1097,7 @@ msgstr "Соотношение сторон пикселей"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:364
+#: src/lib/job.cc:366
 msgid "remaining"
 msgstr "осталось"
 
@@ -1128,6 +1121,12 @@ msgstr "неизвестно"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "видеокадры"
+
+#~ msgid "could not open file for reading"
+#~ msgstr "не удалось открыть файл для чтения"
+
+#~ msgid "could not read from file"
+#~ msgstr "не удалось прочитать из файла"
 
 #, fuzzy
 #~ msgid "NC"

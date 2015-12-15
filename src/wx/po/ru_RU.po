@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-12-01 14:56+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -48,11 +48,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D версия контента, доступного в 3D"
 
-#: src/wx/dcp_panel.cc:675
+#: src/wx/dcp_panel.cc:676
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:633
+#: src/wx/dcp_panel.cc:634
 msgid "3D"
 msgstr "3D"
 
@@ -76,12 +76,10 @@ msgstr "3D только правый"
 msgid "3D top/bottom"
 msgstr "3D верх/низ"
 
-#: src/wx/dcp_panel.cc:676
+#: src/wx/dcp_panel.cc:677
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -297,7 +295,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:719
 msgid "Channels"
 msgstr "Канала(ов)"
 
@@ -354,7 +352,7 @@ msgstr "Тайминг"
 msgid "Contact email"
 msgstr "Контактный email"
 
-#: src/wx/dcp_panel.cc:608
+#: src/wx/dcp_panel.cc:609
 msgid "Container"
 msgstr "Контейнер"
 
@@ -643,7 +641,7 @@ msgstr "Шрифты"
 msgid "Fonts..."
 msgstr "Шрифты..."
 
-#: src/wx/dcp_panel.cc:619
+#: src/wx/dcp_panel.cc:620
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -775,7 +773,7 @@ msgstr "Файл курсивного шрифта"
 msgid "Italic font"
 msgstr "Курсивный шрифт"
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:644
 msgid "JPEG2000 bandwidth"
 msgstr "Пропускная способность JPEG2000"
 
@@ -885,7 +883,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальная пропускная способность JPEG2000"
 
 #: src/wx/config_dialog.cc:423 src/wx/config_dialog.cc:1333
-#: src/wx/dcp_panel.cc:647
+#: src/wx/dcp_panel.cc:648
 msgid "Mbit/s"
 msgstr "МБит/с"
 
@@ -935,7 +933,7 @@ msgstr "Аудио не будет перемещено из канала %d к�
 msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
-#: src/wx/dcp_panel.cc:726 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Ничего"
@@ -1045,7 +1043,7 @@ msgstr "Позиция"
 msgid "Pre-release"
 msgstr "Пре-релиз"
 
-#: src/wx/dcp_panel.cc:724
+#: src/wx/dcp_panel.cc:725
 msgid "Processor"
 msgstr "Обработка"
 
@@ -1156,7 +1154,7 @@ msgstr "Сообщить Об Ошибке"
 msgid "Reset to default subject and text"
 msgstr "Сбросить по умолчанию тему и текст"
 
-#: src/wx/dcp_panel.cc:637
+#: src/wx/dcp_panel.cc:638
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -1266,7 +1264,7 @@ msgstr "Выбрать системный шрифт"
 msgid "Set language"
 msgstr "Выбрать язык"
 
-#: src/wx/dcp_panel.cc:733
+#: src/wx/dcp_panel.cc:734
 msgid "Show audio..."
 msgstr "Показать аудио..."
 
@@ -1338,7 +1336,7 @@ msgstr "Внешний вид субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:215
+#: src/wx/about_dialog.cc:216
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1362,7 +1360,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:267
+#: src/wx/about_dialog.cc:268
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -1465,7 +1463,7 @@ msgstr "Обновление"
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
-#: src/wx/dcp_panel.cc:627
+#: src/wx/dcp_panel.cc:628
 msgid "Use best"
 msgstr "Использовать лучшее"
 

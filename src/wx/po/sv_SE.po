@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-11-11 17:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -50,11 +50,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D-version av innehåll som finns i 3D"
 
-#: src/wx/dcp_panel.cc:675
+#: src/wx/dcp_panel.cc:676
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:633
+#: src/wx/dcp_panel.cc:634
 msgid "3D"
 msgstr "3D"
 
@@ -78,12 +78,10 @@ msgstr "3D enbart höger"
 msgid "3D top/bottom"
 msgstr "3D top/bottom"
 
-#: src/wx/dcp_panel.cc:676
+#: src/wx/dcp_panel.cc:677
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -302,7 +300,7 @@ msgstr "Kedja"
 msgid "Channel gain"
 msgstr "Kanalförstärkning"
 
-#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:719
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -361,7 +359,7 @@ msgstr "Konfiguration|Tajming"
 msgid "Contact email"
 msgstr "Kontakt e-post"
 
-#: src/wx/dcp_panel.cc:608
+#: src/wx/dcp_panel.cc:609
 msgid "Container"
 msgstr "Innehåll"
 
@@ -653,7 +651,7 @@ msgstr "Typsnitt"
 msgid "Fonts..."
 msgstr "Typsnitt..."
 
-#: src/wx/dcp_panel.cc:619
+#: src/wx/dcp_panel.cc:620
 msgid "Frame Rate"
 msgstr "Bildhastighet"
 
@@ -784,7 +782,7 @@ msgstr "Kursiv fil"
 msgid "Italic font"
 msgstr "Kursivt typsnitt"
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:644
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000-bandbredd"
 
@@ -896,7 +894,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximal JPEG2000 bandbredd"
 
 #: src/wx/config_dialog.cc:423 src/wx/config_dialog.cc:1333
-#: src/wx/dcp_panel.cc:647
+#: src/wx/dcp_panel.cc:648
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -948,7 +946,7 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr "Inget innehåll hittades i denna folder."
 
-#: src/wx/dcp_panel.cc:726 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Inget"
@@ -1060,7 +1058,7 @@ msgstr "Position"
 msgid "Pre-release"
 msgstr "För-utgåva"
 
-#: src/wx/dcp_panel.cc:724
+#: src/wx/dcp_panel.cc:725
 msgid "Processor"
 msgstr "Processor"
 
@@ -1172,7 +1170,7 @@ msgstr "Rapportera Ett Problem"
 msgid "Reset to default subject and text"
 msgstr "Återställ till förvald rubrik och text"
 
-#: src/wx/dcp_panel.cc:637
+#: src/wx/dcp_panel.cc:638
 msgid "Resolution"
 msgstr "Upplösning"
 
@@ -1283,7 +1281,7 @@ msgstr "Sätt från systemtypsnitt..."
 msgid "Set language"
 msgstr "Välj språk"
 
-#: src/wx/dcp_panel.cc:733
+#: src/wx/dcp_panel.cc:734
 msgid "Show audio..."
 msgstr "Visa audio..."
 
@@ -1356,7 +1354,7 @@ msgstr "Undertext Skalning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:215
+#: src/wx/about_dialog.cc:216
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1380,7 +1378,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:267
+#: src/wx/about_dialog.cc:268
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1484,7 +1482,7 @@ msgstr "Uppdatera"
 msgid "Use ISDCF name"
 msgstr "Använd ISDCF-namn"
 
-#: src/wx/dcp_panel.cc:627
+#: src/wx/dcp_panel.cc:628
 msgid "Use best"
 msgstr "Använd bästa"
 

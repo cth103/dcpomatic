@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -57,7 +57,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Advertisement"
 
-#: src/lib/job.cc:89
+#: src/lib/job.cc:90
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ett fel inträffade vid hantering av filen %1"
 
@@ -126,19 +126,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitar per pixel"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1293
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1294
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1285
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:373
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -150,7 +150,7 @@ msgstr "Kan inte hantera pixelformat %1 under %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/reel_writer.cc:89
+#: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintligt bilddata"
 
@@ -184,7 +184,7 @@ msgstr "Färgöversättningskarakteristik"
 msgid "Colourspace"
 msgstr "Färgrymd"
 
-#: src/lib/reel_writer.cc:435
+#: src/lib/reel_writer.cc:437
 msgid "Computing audio digest"
 msgstr "Beräknar audiosammanfattning"
 
@@ -192,7 +192,7 @@ msgstr "Beräknar audiosammanfattning"
 msgid "Computing digest"
 msgstr "Beräknar sammanfattning"
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:431
 msgid "Computing image digest"
 msgstr "Beräknar bildsammanfattning"
 
@@ -298,7 +298,7 @@ msgstr "Kunde inte ansluta till server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunde inte skapa fjärrkatalog %1 (%2)"
 
-#: src/lib/image_examiner.cc:62
+#: src/lib/image_examiner.cc:63
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kunde inte avkoda JPEG2000-fil %1 (%2)"
 
@@ -306,7 +306,7 @@ msgstr "Kunde inte avkoda JPEG2000-fil %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Kunde inte avkoda bildfil (%1)"
 
-#: src/lib/server_finder.cc:139
+#: src/lib/encode_server_finder.cc:139
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -314,7 +314,7 @@ msgstr ""
 "Kunde inte lyssna efter fjärranslutna kodningsservrar. Kanske en annan "
 "instans av DCP-o-matic körs."
 
-#: src/lib/job.cc:108 src/lib/job.cc:119
+#: src/lib/job.cc:109 src/lib/job.cc:120
 msgid "Could not open %1"
 msgstr "Kunde inte öppna %1"
 
@@ -354,11 +354,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1295
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1274
+#: src/lib/film.cc:1296
 msgid "DBS"
 msgstr ""
 
@@ -374,7 +374,7 @@ msgstr "DCP kommer att köras på %1%% av källans hastighet.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP kommer att använda varannan bild från källan.\n"
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:110 src/lib/job.cc:121
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -446,11 +446,11 @@ msgstr "E-posta KDM:er"
 msgid "Email KDMs for %1"
 msgstr "E-posta KDM:er för %1"
 
-#: src/lib/send_problem_report_job.cc:52
+#: src/lib/send_problem_report_job.cc:54
 msgid "Email problem report"
 msgstr "E-posta problemrapport"
 
-#: src/lib/send_problem_report_job.cc:55
+#: src/lib/send_problem_report_job.cc:57
 msgid "Email problem report for %1"
 msgstr "E-posta problemrapport för %1"
 
@@ -462,7 +462,7 @@ msgstr "Kodar bild-data"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Fel i SubRip-fil: såg %1 men förväntade %2"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:371
 msgid "Error: %1"
 msgstr "Fel: %1"
 
@@ -478,9 +478,9 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
 
-#: src/lib/emailer.cc:216
+#: src/lib/emailer.cc:212
 #, fuzzy
-msgid "Failed to send KDM email (%1)"
+msgid "Failed to send email (%1)"
 msgstr "Misslyckades att skicka KDM e-post (tog för lång tid)"
 
 #: src/lib/dcp_content_type.cc:45
@@ -530,7 +530,7 @@ msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
 # Sammanhang?
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1289
 msgid "HI"
 msgstr "HI"
 
@@ -550,7 +550,7 @@ msgstr "IEC61966-2-1 (sRGB eller sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:125 src/lib/job.cc:146 src/lib/job.cc:156
+#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
@@ -562,11 +562,11 @@ msgstr "KDM-leverans: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1283
 msgid "L"
 msgstr "V"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1291
 msgid "Lc"
 msgstr "Vc"
 
@@ -586,7 +586,7 @@ msgstr "Vänster bakre surround"
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1286
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -614,7 +614,7 @@ msgstr "Logaritmisk (100:1 omfång)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1287
 msgid "Ls"
 msgstr "Vs"
 
@@ -663,7 +663,7 @@ msgstr "Inga giltiga bildfiler hittades i foldern."
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/job.cc:367
+#: src/lib/job.cc:369
 msgid "OK (ran for %1)"
 msgstr "OK (kördes %1)"
 
@@ -676,7 +676,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Endast den sista delen av innehållet som läggs ihop kan slut-trimmas."
 
-#: src/lib/job.cc:138
+#: src/lib/job.cc:139
 msgid "Out of memory"
 msgstr "Minnet slut"
 
@@ -704,7 +704,7 @@ msgstr "Programmeringsfel vid %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1284
 msgid "R"
 msgstr "H"
 
@@ -716,7 +716,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1292
 msgid "Rc"
 msgstr "Hc"
 
@@ -752,7 +752,7 @@ msgstr "Höger bakre surround"
 msgid "Right surround"
 msgstr "Höger surround"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1288
 msgid "Rs"
 msgstr "Hs"
 
@@ -781,7 +781,7 @@ msgstr "Skalad till %1x%2"
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/send_problem_report_job.cc:67
+#: src/lib/send_problem_report_job.cc:69
 msgid "Sending email"
 msgstr "Skickar e-post"
 
@@ -834,7 +834,7 @@ msgstr "KDM:en dekrypterar inte DCP:n. Kanske är den gjord för fel CPL."
 msgid "The certificate chain for signing is invalid"
 msgstr "Certifikatkedjan för att signera är ogiltigt"
 
-#: src/lib/job.cc:95
+#: src/lib/job.cc:96
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -854,7 +854,7 @@ msgstr "Det finns annan undertext som överlappar denna DCP; ta bort den."
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Det finns annat videoinnehåll som överlappar denna DCP; ta bort det."
 
-#: src/lib/job.cc:138
+#: src/lib/job.cc:139
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -864,7 +864,7 @@ msgstr ""
 "operativsystem, försök att minska antalet kodnings-trådar i Generellt-fliken "
 "under Inställningar."
 
-#: src/lib/film.cc:382
+#: src/lib/film.cc:384
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -872,7 +872,7 @@ msgstr ""
 "Denna film skapades i en nyare version av DCP-o-matic, och den kan inte "
 "öppnas i denna version. Ledsen!"
 
-#: src/lib/film.cc:374
+#: src/lib/film.cc:376
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -902,7 +902,7 @@ msgstr "Oväntat innehåll i ZIP-fil"
 msgid "Unexpected image type received by server"
 msgstr "Oväntad bildtyp mottogs av server"
 
-#: src/lib/job.cc:155
+#: src/lib/job.cc:156
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -939,7 +939,7 @@ msgid "Upmix R"
 msgstr "Uppmixa H"
 
 # Sammanhang?
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1290
 msgid "VI"
 msgstr "VI"
 
@@ -972,7 +972,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/film.cc:295
+#: src/lib/film.cc:297
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
 
@@ -992,7 +992,7 @@ msgstr "[undertexter]"
 msgid "cannot contain slashes"
 msgstr "får inte innehålla snedstreck"
 
-#: src/lib/dcpomatic_socket.cc:66
+#: src/lib/dcpomatic_socket.cc:67
 msgid "connect timed out"
 msgstr "uppkopplingen tog för lång tid"
 
@@ -1000,11 +1000,11 @@ msgstr "uppkopplingen tog för lång tid"
 msgid "connecting"
 msgstr "kopplar upp"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:293
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:299
+#: src/lib/film.cc:301
 msgid "content type"
 msgstr "innehållstyp"
 
@@ -1020,7 +1020,7 @@ msgstr "kunde inte skapa fil %1"
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/reel_writer.cc:314
+#: src/lib/reel_writer.cc:316
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "kunde inte flytta audio in i DCP:n (%1)"
 
@@ -1031,14 +1031,6 @@ msgstr "kunde inte öppna audio-fil för läsning"
 #: src/lib/exceptions.cc:30
 msgid "could not open file %1"
 msgstr "kunde inte öppna fil %1"
-
-#: src/lib/data.cc:56
-msgid "could not open file for reading"
-msgstr "kunde inte öppna fil för läsning"
-
-#: src/lib/data.cc:62
-msgid "could not read from file"
-msgstr "kunde inte läsa från fil"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
@@ -1056,15 +1048,15 @@ msgstr "kunde inte starta SSH-session"
 msgid "could not write to file %1 (%2)"
 msgstr "kunde inte skriva till fil %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:62
+#: src/lib/dcpomatic_socket.cc:63
 msgid "error during async_connect (%1)"
 msgstr "fel vid async_connect (%1)"
 
-#: src/lib/dcpomatic_socket.cc:115
+#: src/lib/dcpomatic_socket.cc:116
 msgid "error during async_read (%1)"
 msgstr "fel vid async_read (%1)"
 
-#: src/lib/dcpomatic_socket.cc:87
+#: src/lib/dcpomatic_socket.cc:88
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
@@ -1099,7 +1091,7 @@ msgstr "saknad nödvändig inställning %1"
 msgid "moving"
 msgstr "rörlig"
 
-#: src/lib/film.cc:272 src/lib/film.cc:303
+#: src/lib/film.cc:272 src/lib/film.cc:305
 msgid "name"
 msgstr "namn"
 
@@ -1109,7 +1101,7 @@ msgstr "pixlars höjd/bredd-förhållande"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:364
+#: src/lib/job.cc:366
 msgid "remaining"
 msgstr "återstående tid"
 
@@ -1133,6 +1125,12 @@ msgstr "okänd"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "bildrutor"
+
+#~ msgid "could not open file for reading"
+#~ msgstr "kunde inte öppna fil för läsning"
+
+#~ msgid "could not read from file"
+#~ msgstr "kunde inte läsa från fil"
 
 #, fuzzy
 #~ msgid "NC"

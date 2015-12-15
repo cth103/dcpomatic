@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -59,7 +59,7 @@ msgstr "1.33"
 msgid "Advertisement"
 msgstr "Reklama"
 
-#: src/lib/job.cc:89
+#: src/lib/job.cc:90
 msgid "An error occurred whilst handling the file %1."
 msgstr "Wystąpił błąd podczas przetwarzania pliku %1."
 
@@ -128,19 +128,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitów na piksel"
 
-#: src/lib/film.cc:1271
+#: src/lib/film.cc:1293
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1272
+#: src/lib/film.cc:1294
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1263
+#: src/lib/film.cc:1285
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:373
 msgid "Cancelled"
 msgstr "Anulowane"
 
@@ -152,7 +152,7 @@ msgstr "Nie można było obsłużyć formatu %1 kiedy %2"
 msgid "Centre"
 msgstr "Centralny"
 
-#: src/lib/reel_writer.cc:89
+#: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
 msgstr "Sprawdzanie danych obrazu"
 
@@ -186,7 +186,7 @@ msgstr "Charakterystyka przenoszenia kolorystyki"
 msgid "Colourspace"
 msgstr "Przestrzeń kolorów"
 
-#: src/lib/reel_writer.cc:435
+#: src/lib/reel_writer.cc:437
 msgid "Computing audio digest"
 msgstr "Obliczanie danych dźwięku"
 
@@ -194,7 +194,7 @@ msgstr "Obliczanie danych dźwięku"
 msgid "Computing digest"
 msgstr "Obliczanie danych"
 
-#: src/lib/reel_writer.cc:429
+#: src/lib/reel_writer.cc:431
 msgid "Computing image digest"
 msgstr "Obliczanie danych obrazu"
 
@@ -292,7 +292,7 @@ msgstr "Nie można połączyć z serwerem %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Nie można utworzyć folderu zdalnego %1 (%2)"
 
-#: src/lib/image_examiner.cc:62
+#: src/lib/image_examiner.cc:63
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Nie można odkodować pliku JPEG2000 %1 (%2)"
 
@@ -300,7 +300,7 @@ msgstr "Nie można odkodować pliku JPEG2000 %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Nie można odkodować obrazu (%1)"
 
-#: src/lib/server_finder.cc:139
+#: src/lib/encode_server_finder.cc:139
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
@@ -308,7 +308,7 @@ msgstr ""
 "Nie można nasłuchiwać serwerów zdalnych. Druga instancja DCP-o-matic jest "
 "już prawdopodobnie uruchomiona. "
 
-#: src/lib/job.cc:108 src/lib/job.cc:119
+#: src/lib/job.cc:109 src/lib/job.cc:120
 msgid "Could not open %1"
 msgstr "Nie udało się otworzyć %1"
 
@@ -348,11 +348,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1273
+#: src/lib/film.cc:1295
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1274
+#: src/lib/film.cc:1296
 msgid "DBS"
 msgstr ""
 
@@ -368,7 +368,7 @@ msgstr "DCP będzie odtwarzany z %1%% prędkości materiału.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP będzie używał każdej pozostałej klatki materiału.\n"
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:110 src/lib/job.cc:121
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -440,12 +440,12 @@ msgstr "Wyślij klucze do %1"
 msgid "Email KDMs for %1"
 msgstr "Wyślij klucze do %1"
 
-#: src/lib/send_problem_report_job.cc:52
+#: src/lib/send_problem_report_job.cc:54
 #, fuzzy
 msgid "Email problem report"
 msgstr "Wyślij raport błędu do %1"
 
-#: src/lib/send_problem_report_job.cc:55
+#: src/lib/send_problem_report_job.cc:57
 msgid "Email problem report for %1"
 msgstr "Wyślij raport błędu do %1"
 
@@ -457,7 +457,7 @@ msgstr "Kodowanie danych obrazu"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Błąd w pliku SRT: jest %1, powinno być %2"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:371
 msgid "Error: %1"
 msgstr "Błąd %1"
 
@@ -473,8 +473,8 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Błąd uwierzytelniania na serwerze (%1)"
 
-#: src/lib/emailer.cc:216
-msgid "Failed to send KDM email (%1)"
+#: src/lib/emailer.cc:212
+msgid "Failed to send email (%1)"
 msgstr ""
 
 #: src/lib/dcp_content_type.cc:45
@@ -522,7 +522,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Zachowaj przejścia tonalne"
 
-#: src/lib/film.cc:1267
+#: src/lib/film.cc:1289
 msgid "HI"
 msgstr "HI"
 
@@ -542,7 +542,7 @@ msgstr "IEC61966-2-1 (sRGB or sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:125 src/lib/job.cc:146 src/lib/job.cc:156
+#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
 msgid "It is not known what caused this error."
 msgstr "Nieznany błąd"
 
@@ -554,11 +554,11 @@ msgstr "Wysyłanie klucza: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Usuwanie przeplotu metodą Kernel"
 
-#: src/lib/film.cc:1261
+#: src/lib/film.cc:1283
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1269
+#: src/lib/film.cc:1291
 msgid "Lc"
 msgstr "Lc"
 
@@ -578,7 +578,7 @@ msgstr "Lewy tylny surround"
 msgid "Left surround"
 msgstr "Lewy surround"
 
-#: src/lib/film.cc:1264
+#: src/lib/film.cc:1286
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -606,7 +606,7 @@ msgstr "Logarytmiczny (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarytmiczny (316:1 range)"
 
-#: src/lib/film.cc:1265
+#: src/lib/film.cc:1287
 msgid "Ls"
 msgstr "Ls"
 
@@ -655,7 +655,7 @@ msgstr "W folderze nie znaleziono obsługiwanych plików"
 msgid "Noise reduction"
 msgstr "Redukcja szumu"
 
-#: src/lib/job.cc:367
+#: src/lib/job.cc:369
 msgid "OK (ran for %1)"
 msgstr "OK (czas trwania %1)"
 
@@ -667,7 +667,7 @@ msgstr "Tylko pierwszy z łączonych plików może być przycięty na początku.
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Tylko ostatni z łączonych plików może być przycięty na końcu."
 
-#: src/lib/job.cc:138
+#: src/lib/job.cc:139
 msgid "Out of memory"
 msgstr "Zabrakło pamięci RAM"
 
@@ -695,7 +695,7 @@ msgstr "Błąd programowania w lini %1:%2"
 msgid "Public Service Announcement"
 msgstr "Komunikat publiczny"
 
-#: src/lib/film.cc:1262
+#: src/lib/film.cc:1284
 msgid "R"
 msgstr "R"
 
@@ -707,7 +707,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Klasyfikacja"
 
-#: src/lib/film.cc:1270
+#: src/lib/film.cc:1292
 msgid "Rc"
 msgstr "Rc"
 
@@ -741,7 +741,7 @@ msgstr "Prawy tylny surround"
 msgid "Right surround"
 msgstr "Prawy surround"
 
-#: src/lib/film.cc:1266
+#: src/lib/film.cc:1288
 msgid "Rs"
 msgstr "Rs"
 
@@ -770,7 +770,7 @@ msgstr "Przeskalowany do %1x%2"
 msgid "Scope"
 msgstr "2.39"
 
-#: src/lib/send_problem_report_job.cc:67
+#: src/lib/send_problem_report_job.cc:69
 msgid "Sending email"
 msgstr "Wysyłam wiadomość"
 
@@ -823,7 +823,7 @@ msgstr "Klucz nie rozszyfruje DCP. Być może jest wygenerowany dla innego CPL."
 msgid "The certificate chain for signing is invalid"
 msgstr "Certyfikat jest nieprawidłowy"
 
-#: src/lib/job.cc:95
+#: src/lib/job.cc:96
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -843,7 +843,7 @@ msgstr ""
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/job.cc:138
+#: src/lib/job.cc:139
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -852,7 +852,7 @@ msgstr ""
 "Brakuje pamięci, aby wykonać tą operację. Jeśli twój system jest 32 bitowy "
 "spróbuj zmniejszyć liczbę wątków kodujących."
 
-#: src/lib/film.cc:382
+#: src/lib/film.cc:384
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -860,7 +860,7 @@ msgstr ""
 "Film został utworzony przy pomocy nowszej wersji DCP-o-matic i nie może być "
 "otwarty w tej wersji. Przepraszamy!"
 
-#: src/lib/film.cc:374
+#: src/lib/film.cc:376
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -890,7 +890,7 @@ msgstr "Archiwum ZIP zawiera nieobsługiwane pliki"
 msgid "Unexpected image type received by server"
 msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 
-#: src/lib/job.cc:155
+#: src/lib/job.cc:156
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
@@ -926,7 +926,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1268
+#: src/lib/film.cc:1290
 msgid "VI"
 msgstr "VI"
 
@@ -958,7 +958,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "I jeszcze jeden filtr usuwania przeplotu"
 
-#: src/lib/film.cc:295
+#: src/lib/film.cc:297
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musisz dodać pliki zanim utworzysz DCP"
 
@@ -978,7 +978,7 @@ msgstr "[napisy]"
 msgid "cannot contain slashes"
 msgstr "nie może zawierać ukośników"
 
-#: src/lib/dcpomatic_socket.cc:66
+#: src/lib/dcpomatic_socket.cc:67
 msgid "connect timed out"
 msgstr "minął czas połączenia"
 
@@ -986,11 +986,11 @@ msgstr "minął czas połączenia"
 msgid "connecting"
 msgstr "łączenie"
 
-#: src/lib/film.cc:291
+#: src/lib/film.cc:293
 msgid "container"
 msgstr "format"
 
-#: src/lib/film.cc:299
+#: src/lib/film.cc:301
 msgid "content type"
 msgstr "typ DCP"
 
@@ -1006,7 +1006,7 @@ msgstr "nie udało się utworzyć pliku %1"
 msgid "could not find stream information"
 msgstr "nie udało się znaleźć właściwości strumienia"
 
-#: src/lib/reel_writer.cc:314
+#: src/lib/reel_writer.cc:316
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "nie udało się przenieść dźwięku (%1)"
 
@@ -1017,14 +1017,6 @@ msgstr "nie udało się otworzyć pliku dźwiękowego"
 #: src/lib/exceptions.cc:30
 msgid "could not open file %1"
 msgstr "nie udało się otworzyć pliku (%1)"
-
-#: src/lib/data.cc:56
-msgid "could not open file for reading"
-msgstr "nie udało się odczytać pliku"
-
-#: src/lib/data.cc:62
-msgid "could not read from file"
-msgstr "nie udało się odczytać pliku"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
@@ -1042,15 +1034,15 @@ msgstr "nie udało się uruchomić sesji SSH"
 msgid "could not write to file %1 (%2)"
 msgstr "nie udało się zapisać do pliku %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:62
+#: src/lib/dcpomatic_socket.cc:63
 msgid "error during async_connect (%1)"
 msgstr "Nastąpił błąd podczas async_connect (%1)"
 
-#: src/lib/dcpomatic_socket.cc:115
+#: src/lib/dcpomatic_socket.cc:116
 msgid "error during async_read (%1)"
 msgstr "Nastąpił błąd podczas async_read (%1)"
 
-#: src/lib/dcpomatic_socket.cc:87
+#: src/lib/dcpomatic_socket.cc:88
 msgid "error during async_write (%1)"
 msgstr "Nastąpił błąd podczas async_write (%1)"
 
@@ -1084,7 +1076,7 @@ msgstr "brakuje wymaganych ustawień %1"
 msgid "moving"
 msgstr "przenoszenie"
 
-#: src/lib/film.cc:272 src/lib/film.cc:303
+#: src/lib/film.cc:272 src/lib/film.cc:305
 msgid "name"
 msgstr "nazwa"
 
@@ -1094,7 +1086,7 @@ msgstr "proporcje obrazu"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:364
+#: src/lib/job.cc:366
 msgid "remaining"
 msgstr "pozostało"
 
@@ -1118,6 +1110,12 @@ msgstr "nieznany"
 #: src/lib/video_content.cc:578
 msgid "video frames"
 msgstr "klatki obrazu"
+
+#~ msgid "could not open file for reading"
+#~ msgstr "nie udało się odczytać pliku"
+
+#~ msgid "could not read from file"
+#~ msgstr "nie udało się odczytać pliku"
 
 #, fuzzy
 #~ msgid "NC"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-02 21:04+0000\n"
+"POT-Creation-Date: 2015-12-15 16:11+0000\n"
 "PO-Revision-Date: 2015-12-15 03:22+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -51,11 +51,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D Version eines Films, der auch in 3D verfügbar ist"
 
-#: src/wx/dcp_panel.cc:675
+#: src/wx/dcp_panel.cc:676
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:633
+#: src/wx/dcp_panel.cc:634
 msgid "3D"
 msgstr "3D DCP"
 
@@ -79,12 +79,10 @@ msgstr "3D nur rechts"
 msgid "3D top/bottom"
 msgstr "3D Oben/Unten"
 
-#: src/wx/dcp_panel.cc:676
+#: src/wx/dcp_panel.cc:677
 msgid "4K"
 msgstr "4K"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -308,7 +306,7 @@ msgstr "Kinokette"
 msgid "Channel gain"
 msgstr "Kanal Verstärkung (+/-)"
 
-#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:718
+#: src/wx/audio_dialog.cc:70 src/wx/dcp_panel.cc:719
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -365,7 +363,7 @@ msgstr "Timing"
 msgid "Contact email"
 msgstr "Email-Kontakt"
 
-#: src/wx/dcp_panel.cc:608
+#: src/wx/dcp_panel.cc:609
 msgid "Container"
 msgstr "DCI Containertyp"
 
@@ -654,7 +652,7 @@ msgstr "Zeichensätze"
 msgid "Fonts..."
 msgstr "Zeichensätze..."
 
-#: src/wx/dcp_panel.cc:619
+#: src/wx/dcp_panel.cc:620
 msgid "Frame Rate"
 msgstr "DCP Bildrate"
 
@@ -786,7 +784,7 @@ msgstr "Kursiv Datei"
 msgid "Italic font"
 msgstr "Kursiver Zeichensatz"
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:644
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000 Datenrate"
 
@@ -896,7 +894,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximale JPEG2000 Datenrate (>250 - Vorsicht!)"
 
 #: src/wx/config_dialog.cc:423 src/wx/config_dialog.cc:1333
-#: src/wx/dcp_panel.cc:647
+#: src/wx/dcp_panel.cc:648
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -946,7 +944,7 @@ msgstr "Der Ton von Kanal %d wird nicht an das DCP Kanal %d weitergegeben."
 msgid "No content found in this folder."
 msgstr "Keine Inhalte in diesem Ordner."
 
-#: src/wx/dcp_panel.cc:726 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Kein"
@@ -1056,7 +1054,7 @@ msgstr "Startposition im DCP"
 msgid "Pre-release"
 msgstr "Vorabversion"
 
-#: src/wx/dcp_panel.cc:724
+#: src/wx/dcp_panel.cc:725
 msgid "Processor"
 msgstr "Prozessor"
 
@@ -1167,7 +1165,7 @@ msgstr "Problembericht senden"
 msgid "Reset to default subject and text"
 msgstr "Auf Standardtext zurücksetzen"
 
-#: src/wx/dcp_panel.cc:637
+#: src/wx/dcp_panel.cc:638
 msgid "Resolution"
 msgstr "Auflösung"
 
@@ -1277,7 +1275,7 @@ msgstr "Systemzeichensatz auswählen..."
 msgid "Set language"
 msgstr "Sprache setzen"
 
-#: src/wx/dcp_panel.cc:733
+#: src/wx/dcp_panel.cc:734
 msgid "Show audio..."
 msgstr "Ton anzeigen..."
 
@@ -1349,7 +1347,7 @@ msgstr "Untertitel Darstellung"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:215
+#: src/wx/about_dialog.cc:216
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1373,7 +1371,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:267
+#: src/wx/about_dialog.cc:268
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -1477,7 +1475,7 @@ msgstr "Update"
 msgid "Use ISDCF name"
 msgstr "ISDCF Name benutzen"
 
-#: src/wx/dcp_panel.cc:627
+#: src/wx/dcp_panel.cc:628
 msgid "Use best"
 msgstr "Beste benutzen"
 
