@@ -376,6 +376,7 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 #if defined(DCPOMATIC_LINUX) || defined(DCPOMATIC_OSX)
 	pid_t pid = fork ();
 	if (pid == 0) {
+		std::cout << "start " << batch << "\n";
 		int const r = system (batch.string().c_str());
 		exit (WEXITSTATUS (r));
 	}
