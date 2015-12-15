@@ -512,7 +512,8 @@ private:
 				socket.write (s.length() + 1);
 				socket.write ((uint8_t *) s.c_str(), s.length() + 1);
 				return;
-			} catch (...) {
+			} catch (exception& e) {
+				std::cout << "start batch failed: " << e.what() << "\n";
 			}
 
 			if (i == 1) {
