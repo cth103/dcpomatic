@@ -388,6 +388,9 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 
 	PROCESS_INFORMATION process_info;
 	ZeroMemory (&process_info, sizeof (process_info));
-	CreateProcess (0, batch.string().c_str(), 0, 0, FALSE, 0, 0, 0, &startup_info, &process_info);
+
+	wchar_t cmd[512];
+	MultiByteToWideChar (CP_UTF8, 0, batch.string().c_str(), -1, cmd, sizeof(cmd));
+	CreateProcess (0, cmd, 0, 0, FALSE, 0, 0, 0, &startup_info, &process_info);
 #endif
 }
