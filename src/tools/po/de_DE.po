@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-02 21:04+0000\n"
-"PO-Revision-Date: 2015-11-27 15:23+0100\n"
+"PO-Revision-Date: 2015-12-15 03:01+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -163,7 +163,7 @@ msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:241 src/tools/dcpomatic_batch.cc:271
 msgid "DCP-o-matic Batch Converter"
-msgstr "DCP-o-matic Batch Converter"
+msgstr "DCP-o-matic Stapelkonvertierung"
 
 #: src/tools/dcpomatic.cc:761 src/tools/dcpomatic_batch.cc:68
 msgid "Encoding servers..."
@@ -185,7 +185,7 @@ msgstr "&KDM erstellen...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:754
 msgid "Make DKDM for DCP-o-matic..."
-msgstr ""
+msgstr "DKDM für DCP-o-matic erzeugen..."
 
 #: src/tools/dcpomatic.cc:723
 msgid "New...\tCtrl-N"

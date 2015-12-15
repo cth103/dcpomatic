@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-02 21:04+0000\n"
-"PO-Revision-Date: 2015-11-27 15:31+0100\n"
+"PO-Revision-Date: 2015-12-15 03:22+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -133,7 +133,7 @@ msgstr "Saal hinzufügen..."
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
-msgstr "Einzelbildsequenz hinzufügen"
+msgstr "Einzelbildsequenz oder DCP hinzufügen"
 
 #: src/wx/content_panel.cc:77
 msgid "Add file(s)..."
@@ -141,7 +141,7 @@ msgstr "Datei(en) hinzufügen..."
 
 #: src/wx/content_panel.cc:81
 msgid "Add folder..."
-msgstr "Einzelbildsequenz hinzufügen..."
+msgstr "Einzelbildsequenz oder DCP hinzufügen..."
 
 #: src/wx/image_sequence_dialog.cc:25
 msgid "Add image sequence"
@@ -150,7 +150,8 @@ msgstr "Einzelbildsequenz hinzufügen"
 #: src/wx/content_panel.cc:78
 msgid "Add video, image or sound files to the film."
 msgstr ""
-"Einzelne oder mehrere Video-, Bild-, Ton- oder Untertiteldateien hinzufügen."
+"Einzelne oder mehrere Video-, (Stand-)Bild-, Ton- oder Untertiteldateien "
+"hinzufügen."
 
 #: src/wx/config_dialog.cc:672 src/wx/editable_list.h:72
 msgid "Add..."
@@ -226,7 +227,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:188
 msgid "Automatically analyse content audio"
-msgstr "Audioinhaltei beim erstmaligen Einbinden sofort analysieren"
+msgstr "Audioinhalte beim erstmaligen Einbinden sofort analysieren"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -329,7 +330,7 @@ msgstr "Eine oder mehrere Dateien auswählen"
 
 #: src/wx/content_menu.cc:246 src/wx/content_panel.cc:270
 msgid "Choose a folder"
-msgstr "Ordner wählen"
+msgstr "Bildsequenz oder DCP-Ordner wählen"
 
 #: src/wx/system_font_dialog.cc:32
 msgid "Choose a font"
@@ -450,7 +451,7 @@ msgstr "Beschnitt"
 
 #: src/wx/dcp_panel.cc:175 src/wx/video_panel.cc:196
 msgid "Custom"
-msgstr "Eigene Größe"
+msgstr "Eigene Größe (GByte)"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -759,7 +760,7 @@ msgstr "Eingangsstärke"
 #: src/wx/audio_dialog.cc:306
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "Integrierter Lautheitsumfang %.2f LU"
 
 #: src/wx/config_dialog.cc:812
 msgid "Intermediate"
@@ -856,7 +857,7 @@ msgstr "Log:"
 #: src/wx/audio_dialog.cc:315
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr ""
+msgstr "Lautheitsumfang %.2f LU"
 
 #: src/wx/content_panel.cc:448 src/wx/content_panel.cc:477
 msgid "MISSING: "
@@ -871,9 +872,8 @@ msgid "Mail user name"
 msgstr "Mail/SMTP Server Benutzername/Login"
 
 #: src/wx/self_dkdm_dialog.cc:47
-#, fuzzy
 msgid "Make DKDM for DCP-o-matic"
-msgstr "Über DCP-o-matic"
+msgstr "Erzeuge DKDM für DCP-o-matic..."
 
 #: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
@@ -1200,9 +1200,9 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s"
-msgstr "Spitzenwert ist %.2fdB bei %s"
+msgstr "Spitzenwert (Sample peak) ist %.2fdB bei %s"
 
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
@@ -1214,7 +1214,7 @@ msgstr "Saal"
 
 #: src/wx/config_dialog.cc:579
 msgid "Search network for servers"
-msgstr "Durchsuche Netz nach Encodingservern"
+msgstr "Suche automatisch nach Encodingservern"
 
 #: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
@@ -1331,7 +1331,7 @@ msgstr "Studio (z.B. TCF)"
 
 #: src/wx/config_dialog.cc:1183
 msgid "Subject"
-msgstr "Subject"
+msgstr "Betreff"
 
 #: src/wx/subtitle_view.cc:55
 msgid "Subtitle"
@@ -1437,7 +1437,7 @@ msgstr "Übersetzt von"
 
 #: src/wx/timing_panel.cc:99
 msgid "Trim after current position"
-msgstr "Beschneiden nach aktueller Position"
+msgstr "Beschnitt nach aktueller Vorschauposition (Slider)"
 
 #: src/wx/timing_panel.cc:96
 msgid "Trim from end"
@@ -1449,12 +1449,12 @@ msgstr "Schnitt vom Anfang"
 
 #: src/wx/timing_panel.cc:93
 msgid "Trim up to current position"
-msgstr "Beschneiden vor aktueller Position"
+msgstr "Beschnitt vor aktueller Vorschauposition (Slider)"
 
 #: src/wx/audio_dialog.cc:292
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr "Spitzenwert ist %.2fdB"
+msgstr "Spitzenwert (True peak) ist %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
