@@ -506,7 +506,7 @@ private:
 				boost::asio::ip::tcp::resolver resolver (io_service);
 				boost::asio::ip::tcp::resolver::query query ("127.0.0.1", raw_convert<string> (Config::instance()->server_port_base() + 2));
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
-				Socket socket (1);
+				Socket socket (5);
 				socket.connect (*endpoint_iterator);
 				string s = _film->directory().string ();
 				socket.write (s.length() + 1);
