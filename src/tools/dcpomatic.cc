@@ -504,7 +504,7 @@ private:
 			try {
 				boost::asio::io_service io_service;
 				boost::asio::ip::tcp::resolver resolver (io_service);
-				boost::asio::ip::tcp::resolver::query query ("localhost", raw_convert<string> (Config::instance()->server_port_base() + 2));
+				boost::asio::ip::tcp::resolver::query query ("127.0.0.1", raw_convert<string> (Config::instance()->server_port_base() + 2));
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 				Socket socket (1);
 				socket.connect (*endpoint_iterator);
