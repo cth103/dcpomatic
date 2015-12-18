@@ -107,7 +107,10 @@ Job::run_wrapper ()
 
 		set_error (
 			String::compose (_("Could not open %1"), e.file().string()),
-			String::compose (_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."), e.file().string())
+			String::compose (
+				_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."),
+				boost::filesystem::absolute (e.file()).string()
+				)
 			);
 
 		set_progress (1);
@@ -118,7 +121,10 @@ Job::run_wrapper ()
 		if (e.code() == boost::system::errc::no_such_file_or_directory) {
 			set_error (
 				String::compose (_("Could not open %1"), e.path1().string ()),
-				String::compose (_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."), e.path1().string())
+				String::compose (
+					_("DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in an unexpected format."),
+					boost::filesystem::absolute (e.path1()).string()
+					)
 				);
 		} else {
 			set_error (
