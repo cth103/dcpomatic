@@ -473,11 +473,11 @@ Writer::finish ()
 
 	BOOST_FOREACH (ReelWriter& i, _reels) {
 
-		cpl->add (i.create_reel (_reel_assets, _fonts));
-
 		shared_ptr<Job> job = _job.lock ();
 		DCPOMATIC_ASSERT (job);
 		i.calculate_digests (job);
+
+		cpl->add (i.create_reel (_reel_assets, _fonts));
 	}
 
 	dcp::XMLMetadata meta;
