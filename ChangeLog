@@ -1,3 +1,7 @@
+2015-12-18  c.hetherington  <cth@carlh.net>
+
+	* Add hint about making non-24/48 FPS Interop DCPs.
+
 2015-12-15  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.

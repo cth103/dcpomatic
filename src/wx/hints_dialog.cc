@@ -149,6 +149,12 @@ HintsDialog::film_changed ()
 		_text->Newline ();
 	}
 
+	if (film->interop() && film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
+		hint = true;
+		_text->WriteText (_("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised to make a SMPTE DCP instead."));
+		_text->Newline ();
+	}
+
 	int vob = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
 		if (boost::algorithm::starts_with (i->path(0).filename().string(), "VTS_")) {
