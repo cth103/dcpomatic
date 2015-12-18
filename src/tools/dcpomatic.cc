@@ -497,10 +497,9 @@ private:
 
 		/* i = 0; try to connect via socket
 		   i = 1; try again, and then try to start the batch converter
-		   i = 2; try again.
-		   i = 3; try again.
+		   i = 2 onwards; try again.
 		*/
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			try {
 				boost::asio::io_service io_service;
 				boost::asio::ip::tcp::resolver resolver (io_service);
@@ -516,7 +515,7 @@ private:
 				socket.read (ok, 3);
 				return;
 			} catch (exception& e) {
-				std::cout << "start batch failed: " << e.what() << "\n";
+
 			}
 
 			if (i == 1) {
