@@ -124,7 +124,7 @@ while True:
     # Not-so-human-readable log messages (LOG_TIMING)
     if message == 'add-frame-to-queue':
         queue_size.append((T, values['queue']))
-    elif message in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive', 'start-encoder-thread']:
+    elif message in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode', 'start-remote-send', 'start-remote-encode', 'start-remote-receive', 'finish-remote-receive']:
         find_encoder_thread(values['thread']).add_event(T, message, values)
     # Human-readable log message (other LOG_*)
     elif message.startswith('Finished locally-encoded'):
@@ -154,10 +154,11 @@ elif args.encoder_threads:
     # y=1 thread is awake
     # y=2 thread is encoding
     plt.figure()
-    N = len(encoder_thread_events)
+    N = len(encoder_threads)
     n = 1
     for thread in encoder_threads:
         plt.subplot(N, 1, n)
+        plt.ylim([-0.5, 2.5])
         x = []
         y = []
         previous = 0
@@ -169,14 +170,17 @@ elif args.encoder_threads:
             x.append(e[0].float_seconds())
             x.append(e[0].float_seconds())
             y.append(previous)
-            if e[1] == 'sleep':
+            if e[1] == 'encoder-sleep':
                 y.append(0)
-            elif e[1] == 'wake':
+            elif e[1] == 'encoder-wake':
                 y.append(1)
-            elif e[1] == 'begin_encode':
+            elif e[1] == 'start-local-encode':
                 y.append(2)
-            elif e[1] == 'end_encode':
+            elif e[1] == 'finish-local-encode':
                 y.append(1)
+            else:
+                print>>sys.stderr,'unknown event %s' % e[1]
+                sys.exit(1)
 
             previous = y[-1]
 
