@@ -19,10 +19,10 @@
 
 #include "download_certificate_panel.h"
 
-class DoremiCertificatePanel : public DownloadCertificatePanel
+class DolbyDoremiCertificatePanel : public DownloadCertificatePanel
 {
 public:
-	DoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
+	DolbyDoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog);
 
 	bool ready_to_download () const;
 	void download (wxStaticText* message);

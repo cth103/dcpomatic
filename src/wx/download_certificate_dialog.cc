@@ -17,8 +17,7 @@
 
 */
 
-#include "doremi_certificate_panel.h"
-#include "dolby_certificate_panel.h"
+#include "dolby_doremi_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 
@@ -32,12 +31,9 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_notebook = new wxNotebook (this, wxID_ANY);
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	_pages.push_back (new DoremiCertificatePanel (_notebook, this));
+	_pages.push_back (new DolbyDoremiCertificatePanel (_notebook, this));
 	_setup.push_back (false);
-	_notebook->AddPage (_pages.back(), _("Doremi"), true);
-	_pages.push_back (new DolbyCertificatePanel (_notebook, this));
-	_setup.push_back (false);
-	_notebook->AddPage (_pages.back(), _("Dolby"), false);
+	_notebook->AddPage (_pages.back(), _("Dolby / Doremi"), true);
 
 	_download = new wxButton (this, wxID_ANY, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);

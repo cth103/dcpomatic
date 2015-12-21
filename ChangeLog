@@ -1,3 +1,7 @@
+2015-12-21  c.hetherington  <cth@carlh.net>
+
+	* Use new Dolby website for both Doremi and Dolby certificates (#775).
+
 2015-12-18  c.hetherington  <cth@carlh.net>
 
 	* Fix double-calculation of DCP hashes.
