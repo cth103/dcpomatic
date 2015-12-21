@@ -29,7 +29,7 @@ def find_nth(haystack, needle, n):
 
 # Representation of time in seconds and microseconds
 class Time:
-    def __init__(self, s = 0, m = 0):
+    def __init__(self, s=0, m=0):
         self.seconds = s
         self.microseconds = m
 
