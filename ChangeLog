@@ -1,5 +1,7 @@
 2015-12-21  c.hetherington  <cth@carlh.net>
 
+	* Reduce frequency of temporary writes to disk (#748).
+
 	* Use new Dolby website for both Doremi and Dolby certificates (#775).
 
 2015-12-18  c.hetherington  <cth@carlh.net>

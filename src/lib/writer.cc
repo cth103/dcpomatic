@@ -570,7 +570,16 @@ operator== (QueueItem const & a, QueueItem const & b)
 void
 Writer::set_encoder_threads (int threads)
 {
-	_maximum_frames_in_memory = lrint (threads * 1.1);
+	/* I think the scaling factor here should be the ratio of the longest frame
+	   encode time to the shortest; if the thread count is T, longest time is L
+	   and the shortest time S we could encode L/S frames per thread whilst waiting
+	   for the L frame to encode so we might have to store LT/S frames.
+
+	   However we don't want to use too much memory, so keep it a bit lower than we'd
+	   perhaps like.  A J2K frame is typically about 1Mb so 3 here will mean we could
+	   use about 240Mb with 72 encoding threads.
+	*/
+	_maximum_frames_in_memory = lrint (threads * 3);
 }
 
 void
