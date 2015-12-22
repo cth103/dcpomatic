@@ -271,6 +271,8 @@ ScreensPanel::remove_screen_clicked ()
 		if (find (sc.begin(), sc.end(), s.second) != sc.end ()) {
 			break;
 		}
+
+		++i;
 	}
 
 	if (i == _cinemas.end()) {
