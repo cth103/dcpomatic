@@ -29,6 +29,9 @@
 #include "audio_filter_graph.h"
 extern "C" {
 #include <libavutil/channel_layout.h>
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+#include <libavfilter/f_ebur128.h>
+#endif
 }
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -44,16 +47,6 @@ using boost::dynamic_pointer_cast;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
-extern "C" {
-/* I added these functions to the FFmpeg that DCP-o-matic is built with, but there isn't an
-   existing header file to put the prototype in.  Cheat by putting it in here.
-*/
-double* av_ebur128_get_true_peaks         (void* context);
-double* av_ebur128_get_sample_peaks       (void* context);
-double  av_ebur128_get_integrated_loudness(void* context);
-double  av_ebur128_get_loudness_range     (void* context);
-}
-
 AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: Job (film)
 	, _playlist (playlist)
@@ -62,10 +55,14 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	, _current (0)
 	, _sample_peak (0)
 	, _sample_peak_frame (0)
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
 	, _ebur128 (new AudioFilterGraph (film->audio_frame_rate(), av_get_default_channel_layout(film->audio_channels())))
+#endif
 {
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
 	_filters.push_back (new Filter ("ebur128", "ebur128", "audio", "ebur128=peak=true"));
 	_ebur128->setup (_filters);
+#endif
 }
 
 AnalyseAudioJob::~AnalyseAudioJob ()
@@ -118,7 +115,9 @@ AnalyseAudioJob::run ()
 		DCPTime const block = DCPTime::from_seconds (1.0 / 8);
 		for (DCPTime t = start; t < length; t += block) {
 			shared_ptr<const AudioBuffers> audio = player->get_audio (t, block, false);
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
 			_ebur128->process (audio);
+#endif
 			analyse (audio);
 			set_progress ((t.seconds() - start.seconds()) / (length.seconds() - start.seconds()));
 		}
@@ -126,6 +125,7 @@ AnalyseAudioJob::run ()
 
 	_analysis->set_sample_peak (_sample_peak, DCPTime::from_frames (_sample_peak_frame, _film->audio_frame_rate ()));
 
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
 	void* eb = _ebur128->get("Parsed_ebur128_0")->priv;
 	double true_peak = 0;
 	for (int i = 0; i < _film->audio_channels(); ++i) {
@@ -134,6 +134,7 @@ AnalyseAudioJob::run ()
 	_analysis->set_true_peak (true_peak);
 	_analysis->set_integrated_loudness (av_ebur128_get_integrated_loudness(eb));
 	_analysis->set_loudness_range (av_ebur128_get_loudness_range(eb));
+#endif
 
 	if (_playlist->content().size() == 1) {
 		/* If there was only one piece of content in this analysis we may later need to know what its

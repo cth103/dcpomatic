@@ -299,6 +299,20 @@ def configure(conf):
         conf.check_cfg(package='libswscale', args='--cflags --libs', uselib_store='SWSCALE', mandatory=True)
         conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=True)
 
+    # Check to see if we have our version of FFmpeg that allows us to get at EBUR128 results
+    conf.check_cxx(fragment="""
+                            extern "C" {\n
+                            #include <libavfilter/f_ebur128.h>\n
+                            }\n
+                            int main () { av_ebur128_get_true_peaks (0); }\n
+                            """,
+                   msg='Checking for patched FFmpeg',
+                   libpath='/usr/local/lib',
+                   lib=['avfilter'],
+                   uselib_store='PATCHED_FFMPEG',
+                   defines_name='DCPOMATIC_HAVE_PATCHED_FFMPEG',
+                   mandatory=False)
+
     # Boost
     if conf.options.static_boost:
         conf.env.STLIB_BOOST_THREAD = ['boost_thread']
