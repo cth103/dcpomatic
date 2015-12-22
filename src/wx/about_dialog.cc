@@ -109,13 +109,14 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Carsten Kurz"));
 	translated_by.Add (wxT ("Lilian Lefranc"));
 	translated_by.Add (wxT ("Gérald Maruccia"));
-	translated_by.Add (wxT ("Rob van Nieuwkerk"));
 	translated_by.Add (wxT ("Anders Uhl Pedersen"));
 	translated_by.Add (wxT ("Olivier Perriere"));
 	translated_by.Add (wxT ("Markus Raab"));
+	translated_by.Add (wxT ("Tiago Casal Ribeiro"));
 	translated_by.Add (wxT ("Davide Sanvito"));
 	translated_by.Add (wxT ("Marek Skrzelowski"));
 	translated_by.Add (wxT ("Igor Voytovich"));
+	translated_by.Add (wxT ("Rob van Nieuwkerk"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString with_help_from;
@@ -131,8 +132,8 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Eric Audurier"));
 	supported_by.Add (wxT ("Louis Belloisy"));
 	supported_by.Add (wxT ("Mike Blakesley"));
-	supported_by.Add (wxT ("Jeff Boot"));
 	supported_by.Add (wxT ("Silvio Bonomi"));
+	supported_by.Add (wxT ("Jeff Boot"));
 	supported_by.Add (wxT ("Kieran Carroll"));
 	supported_by.Add (wxT ("Matt Carter"));
 	supported_by.Add (wxT ("Frank Cianciolo"));
@@ -183,6 +184,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Howard Molton"));
 	supported_by.Add (wxT ("Lindsay Morris"));
 	supported_by.Add (wxT ("David Nedrow"));
+	supported_by.Add (wxT ("Casablanca Nuernberg"));
 	supported_by.Add (wxT ("Tim O'Brien"));
 	supported_by.Add (wxT ("Jerome Cohen Olivar"));
 	supported_by.Add (wxT ("Kevin Orman"));
@@ -205,6 +207,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Raoul Walzer"));
 	supported_by.Add (wxT ("Wolfram Weber"));
 	supported_by.Add (wxT ("Frank Wenz"));
+	supported_by.Add (wxT ("Anja Wenz"));
 	supported_by.Add (wxT ("Johannes Wilbrand"));
 	supported_by.Add (wxT ("Roland Wirtz"));
 	supported_by.Add (wxT ("Wolfgang Woehl"));
