@@ -27,6 +27,8 @@
 #include "wx/kdm_timing_panel.h"
 #include "wx/kdm_output_panel.h"
 #include "wx/job_view_dialog.h"
+#include "wx/file_dialog_wrapper.h"
+#include "wx/editable_list.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/screen.h"
@@ -35,6 +37,7 @@
 #include "lib/exceptions.h"
 #include "lib/cinema_kdms.h"
 #include "lib/send_kdm_email_job.h"
+#include "lib/compose.hpp"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -54,12 +57,29 @@
 using std::exception;
 using std::list;
 using std::string;
+using std::vector;
 using boost::shared_ptr;
 using boost::bind;
 
 enum {
 	ID_help_report_a_problem = 1,
 };
+
+class KDMFileDialogWrapper : public FileDialogWrapper<dcp::EncryptedKDM>
+{
+public:
+	KDMFileDialogWrapper (wxWindow* parent)
+		: FileDialogWrapper (parent, _("Select DKDM file"))
+	{
+
+	}
+};
+
+static string
+column (dcp::EncryptedKDM k)
+{
+	return String::compose ("%1 (%2)", k.content_title_text(), k.cpl_id());
+}
 
 class DOMFrame : public wxFrame
 {
@@ -118,20 +138,16 @@ public:
 		_timing = new KDMTimingPanel (overall_panel);
 		vertical->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		wxSizer* dkdm = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		add_label_to_sizer (dkdm, overall_panel, _("DKDM file"), true);
-		_dkdm = new FilePickerCtrl (overall_panel, _("Select a DKDM XML file..."), "*.xml");
-		dkdm->Add (_dkdm, 1, wxEXPAND);
-		add_label_to_sizer (dkdm, overall_panel, _("Content title"), true);
-		_content_title_text = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
-		dkdm->Add (_content_title_text, 1, wxEXPAND);
-		add_label_to_sizer (dkdm, overall_panel, _("Annotation"), true);
-		_annotation_text = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
-		dkdm->Add (_annotation_text, 1, wxEXPAND);
-		add_label_to_sizer (dkdm, overall_panel, _("Issue date"), true);
-		_issue_date = new wxStaticText (overall_panel, wxID_ANY, wxT(""));
-		dkdm->Add (_issue_date, 1, wxEXPAND);
-		vertical->Add (dkdm, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+		h = new wxStaticText (overall_panel, wxID_ANY, _("DKDM"));
+		h->SetFont (subheading_font);
+		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+
+		vector<string> columns;
+		columns.push_back (wx_to_std (_("CPL")));
+		_dkdm = new EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper> (
+			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&column, _1), false
+			);
+		vertical->Add (_dkdm, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new wxStaticText (overall_panel, wxID_ANY, _("Output"));
 		h->SetFont (subheading_font);
@@ -150,13 +166,23 @@ public:
 		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
 
 		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
-		_dkdm->Bind (wxEVT_COMMAND_FILEPICKER_CHANGED, bind (&DOMFrame::dkdm_changed, this));
 		_create->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&DOMFrame::create_kdms, this));
+		_dkdm->SelectionChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
 
 		setup_sensitivity ();
 	}
 
 private:
+	vector<dcp::EncryptedKDM> dkdms () const
+	{
+		return Config::instance()->dkdms ();
+	}
+
+	void set_dkdms (vector<dcp::EncryptedKDM> dkdms)
+	{
+		Config::instance()->set_dkdms (dkdms);
+	}
+
 	void file_exit ()
 	{
 		/* false here allows the close handler to veto the close request */
@@ -219,41 +245,15 @@ private:
 		m->Append (help, _("&Help"));
 	}
 
-	void dkdm_changed ()
-	{
-		if (_dkdm->GetPath().IsEmpty()) {
-			return;
-		}
-
-		try {
-			dcp::EncryptedKDM encrypted (dcp::file_to_string (wx_to_std (_dkdm->GetPath())));
-			dcp::DecryptedKDM decrypted (encrypted, Config::instance()->decryption_chain()->key().get());
-			_annotation_text->Enable (true);
-			_annotation_text->SetLabel (std_to_wx (decrypted.annotation_text ()));
-			_content_title_text->Enable (true);
-			_content_title_text->SetLabel (std_to_wx (decrypted.content_title_text ()));
-			_issue_date->Enable (true);
-			_issue_date->SetLabel (std_to_wx (decrypted.issue_date ()));
-		} catch (exception& e) {
-			error_dialog (this, wxString::Format (_("Could not load DKDM (%s)"), std_to_wx (e.what()).data()));
-			_dkdm->SetPath (wxT(""));
-			_annotation_text->SetLabel (wxT(""));
-			_annotation_text->Enable (false);
-			_content_title_text->SetLabel (wxT(""));
-			_content_title_text->Enable (false);
-			_issue_date->SetLabel (wxT(""));
-			_issue_date->Enable (false);
-		}
-
-		setup_sensitivity ();
-	}
-
 	void create_kdms ()
 	{
 		try {
+			if (!_dkdm->selection()) {
+				return;
+			}
+
 			/* Decrypt the DKDM */
-			dcp::EncryptedKDM encrypted (dcp::file_to_string (wx_to_std (_dkdm->GetPath())));
-			dcp::DecryptedKDM decrypted (encrypted, Config::instance()->decryption_chain()->key().get());
+			dcp::DecryptedKDM decrypted (_dkdm->selection().get(), Config::instance()->decryption_chain()->key().get());
 
 			/* This is the signer for our new KDMs */
 			shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
@@ -324,17 +324,13 @@ private:
 	{
 		_screens->setup_sensitivity ();
 		_output->setup_sensitivity ();
-		_create->Enable (!_screens->screens().empty() && !_dkdm->GetPath().IsEmpty());
+		_create->Enable (!_screens->screens().empty() && _dkdm->selection());
 	}
 
 	wxPreferencesEditor* _config_dialog;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
-	/* I can't seem to clear the value in a wxFilePickerCtrl, so use our own */
-	FilePickerCtrl* _dkdm;
-	wxStaticText* _annotation_text;
-	wxStaticText* _content_title_text;
-	wxStaticText* _issue_date;
+	EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper>* _dkdm;
 	wxButton* _create;
 	KDMOutputPanel* _output;
 	JobViewDialog* _job_view;

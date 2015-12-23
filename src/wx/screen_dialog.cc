@@ -19,6 +19,7 @@
 
 #include "screen_dialog.h"
 #include "wx_util.h"
+#include "file_dialog_wrapper.h"
 #include "download_certificate_dialog.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
@@ -33,43 +34,21 @@ using std::vector;
 using boost::optional;
 using boost::bind;
 
-class FileDialogWrapper
-{
-public:
-	FileDialogWrapper (wxWindow* parent)
-		: _parent (parent)
-	{
-		_dialog = new wxFileDialog (parent, _("Select certificate file"));
-	}
-
-	void set (dcp::Certificate) {}
-
-	dcp::Certificate get () {
-		return dcp::Certificate (dcp::file_to_string (wx_to_std (_dialog->GetPath ())));
-	}
-
-	int ShowModal ()
-	{
-		return _dialog->ShowModal ();
-	}
-
-	void Destroy ()
-	{
-		_dialog->Destroy ();
-		/* eek! */
-		delete this;
-	}
-
-private:
-	wxWindow* _parent;
-	wxFileDialog* _dialog;
-};
-
 static string
 column (dcp::Certificate c)
 {
 	return c.thumbprint ();
 }
+
+class CertificateFileDialogWrapper : public FileDialogWrapper<dcp::Certificate>
+{
+public:
+	CertificateFileDialogWrapper (wxWindow* parent)
+		: FileDialogWrapper (parent, _("Select certificate file"))
+	{
+
+	}
+};
 
 ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices)
 	: wxDialog (parent, wxID_ANY, std_to_wx (title))
@@ -112,7 +91,7 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 
 	vector<string> columns;
 	columns.push_back (wx_to_std (_("Thumbprint")));
-	_trusted_device_list = new EditableList<dcp::Certificate, FileDialogWrapper> (
+	_trusted_device_list = new EditableList<dcp::Certificate, CertificateFileDialogWrapper> (
 		this, columns, bind (&ScreenDialog::trusted_devices, this), bind (&ScreenDialog::set_trusted_devices, this, _1), bind (&column, _1), false
 		);
 

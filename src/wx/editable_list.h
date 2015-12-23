@@ -39,7 +39,8 @@ public:
 		boost::function<std::vector<T> ()> get,
 		boost::function<void (std::vector<T>)> set,
 		boost::function<std::string (T, int)> column,
-		bool can_edit = true
+		bool can_edit = true,
+		bool title = true
 		)
 		: wxPanel (parent)
 		, _get (get)
@@ -55,7 +56,11 @@ public:
 		table->AddGrowableCol (0, 1);
 		s->Add (table, 1, wxEXPAND);
 
-		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
+		long style = wxLC_REPORT | wxLC_SINGLE_SEL;
+		if (title) {
+			style |= wxLC_NO_HEADER;
+		}
+		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (columns.size() * 200, 100), style);
 
 		for (size_t i = 0; i < columns.size(); ++i) {
 			wxListItem ip;
@@ -104,6 +109,20 @@ public:
 		}
 	}
 
+	boost::optional<T> selection () const
+	{
+		int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (item == -1) {
+			return boost::optional<T> ();
+		}
+
+		std::vector<T> all = _get ();
+		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
+		return all[item];
+	}
+
+	boost::signals2::signal<void ()> SelectionChanged;
+
 private:
 
 	void add_to_control (T item)
@@ -125,13 +144,13 @@ private:
 			_edit->Enable (i >= 0);
 		}
 		_remove->Enable (i >= 0);
+
+		SelectionChanged ();
 	}
 
 	void add_clicked ()
 	{
-		T new_item;
 		S* dialog = new S (this);
-		dialog->set (new_item);
 
 		if (dialog->ShowModal() == wxID_OK) {
 			add_to_control (dialog->get ());
