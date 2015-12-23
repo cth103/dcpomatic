@@ -69,7 +69,7 @@ class KDMFileDialogWrapper : public FileDialogWrapper<dcp::EncryptedKDM>
 {
 public:
 	KDMFileDialogWrapper (wxWindow* parent)
-		: FileDialogWrapper (parent, _("Select DKDM file"))
+		: FileDialogWrapper<dcp::EncryptedKDM> (parent, _("Select DKDM file"))
 	{
 
 	}
