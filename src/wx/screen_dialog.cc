@@ -44,7 +44,7 @@ class CertificateFileDialogWrapper : public FileDialogWrapper<dcp::Certificate>
 {
 public:
 	CertificateFileDialogWrapper (wxWindow* parent)
-		: FileDialogWrapper (parent, _("Select certificate file"))
+		: FileDialogWrapper<dcp::Certificate> (parent, _("Select certificate file"))
 	{
 
 	}
