@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-11-28 00:30+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -83,6 +83,8 @@ msgstr "3D boven/onder"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -150,7 +152,7 @@ msgstr "Voeg beeldsequentie toe"
 msgid "Add video, image or sound files to the film."
 msgstr "Voeg video-, beeld- of audio-bestanden aan de film toe."
 
-#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:72
+#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:77
 msgid "Add..."
 msgstr "Voeg toe..."
 
@@ -289,8 +291,7 @@ msgstr "Annuleer"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
-#: src/wx/dolby_certificate_panel.cc:209
-#: src/wx/doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
 
@@ -333,10 +334,6 @@ msgstr "Kies een lettertype"
 #: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr "Kies een lettertype-bestand"
-
-#: src/wx/dolby_certificate_panel.cc:48
-msgid "Cinema"
-msgstr "Bioscoop"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -391,21 +388,6 @@ msgstr "Kopieer als naam"
 msgid "Could not analyse audio."
 msgstr "Kan audio niet analyseren."
 
-#: src/wx/dolby_certificate_panel.cc:134
-#, c-format
-msgid "Could not get cinema list (%s)"
-msgstr "Kan lijst met bioscopen niet ophalen (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:106
-#, c-format
-msgid "Could not get country list (%s)"
-msgstr "Kan lijst met landen niet ophalen (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:166
-#, c-format
-msgid "Could not get screen list (%s)"
-msgstr "Kan lijst met schermen niet ophalen (%s)"
-
 #: src/wx/film_viewer.cc:189
 #, c-format
 msgid "Could not get video for view (%s)"
@@ -417,7 +399,7 @@ msgid "Could not load KDM (%s)"
 msgstr "Kan KDM niet laden (%s)"
 
 #: src/wx/config_dialog.cc:742 src/wx/config_dialog.cc:907
-#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:156
+#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:136
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Kan certificaat-bestand niet lezen (%s)"
@@ -426,10 +408,6 @@ msgstr "Kan certificaat-bestand niet lezen (%s)"
 #, c-format
 msgid "Could not read key file (%s)"
 msgstr "Kan sleutel-bestand niet lezen (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:43
-msgid "Country"
-msgstr "Land"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -524,31 +502,28 @@ msgstr "Vertraging"
 msgid "Details..."
 msgstr "Details..."
 
-#: src/wx/download_certificate_dialog.cc:40
-msgid "Dolby"
-msgstr "Dolby"
-
-#: src/wx/download_certificate_dialog.cc:37
-msgid "Doremi"
+#: src/wx/download_certificate_dialog.cc:36
+#, fuzzy
+msgid "Dolby / Doremi"
 msgstr "Doremi"
 
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr "Omlaag"
 
-#: src/wx/download_certificate_dialog.cc:42
+#: src/wx/download_certificate_dialog.cc:38
 msgid "Download"
 msgstr "Download"
 
-#: src/wx/download_certificate_dialog.cc:28
+#: src/wx/download_certificate_dialog.cc:27
 msgid "Download certificate"
 msgstr "Download certificaat"
 
-#: src/wx/screen_dialog.cc:103
+#: src/wx/screen_dialog.cc:82
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
+#: src/wx/dolby_doremi_certificate_panel.cc:54
 msgid "Downloading certificate"
 msgstr "Downloaden certificaat"
 
@@ -562,7 +537,7 @@ msgstr "Wijzig Scherm..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:407
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:75
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:80
 msgid "Edit..."
 msgstr "Wijzig..."
 
@@ -617,11 +592,6 @@ msgstr "Fade in"
 #: src/wx/video_panel.cc:152
 msgid "Fade out"
 msgstr "Fade out"
-
-#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
-#: src/wx/dolby_certificate_panel.cc:143
-msgid "Fetching..."
-msgstr "Ophalen..."
 
 #: src/wx/content_properties_dialog.cc:40
 msgid "Filename"
@@ -697,7 +667,7 @@ msgstr "Versterking voor content-kanaal %d in DCP-kanaal %d"
 msgid "General"
 msgstr "Algemeen"
 
-#: src/wx/screen_dialog.cc:102
+#: src/wx/screen_dialog.cc:81
 msgid "Get from file..."
 msgstr "Haal uit bestand..."
 
@@ -917,7 +887,7 @@ msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
 #: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
-#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:85
+#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
 msgstr "Naam"
 
@@ -977,7 +947,7 @@ msgstr "Organisation"
 msgid "Organisational unit"
 msgstr "Organisational unit"
 
-#: src/wx/screen_dialog.cc:110
+#: src/wx/screen_dialog.cc:89
 msgid "Other trusted devices"
 msgstr "Andere 'trusted devices'"
 
@@ -1094,7 +1064,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/wx/screen_dialog.cc:97
+#: src/wx/screen_dialog.cc:76
 msgid "Recipient certificate"
 msgstr "Ontvanger-certificaat"
 
@@ -1125,7 +1095,7 @@ msgid "Refer to existing DCP"
 msgstr "Refereer aan bestaande DCP"
 
 #: src/wx/config_dialog.cc:674 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:85 src/wx/editable_list.h:78
+#: src/wx/content_panel.cc:85 src/wx/editable_list.h:83
 msgid "Remove"
 msgstr "Verwijder"
 
@@ -1215,7 +1185,7 @@ msgid "Select CPL XML file"
 msgstr "Selecteer CPL XML-bestand"
 
 #: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:773
-#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:163
+#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:143
 msgid "Select Certificate File"
 msgstr "Selecteer Certificaat-bestand"
 
@@ -1227,7 +1197,7 @@ msgstr "Selecteer KDM"
 msgid "Select Key File"
 msgstr "Selecteer sleutelbestand"
 
-#: src/wx/screen_dialog.cc:42
+#: src/wx/screen_dialog.cc:47
 msgid "Select certificate file"
 msgstr "Selecteer certificaat-bestand"
 
@@ -1239,15 +1209,11 @@ msgstr "Stuur via email"
 msgid "Send logs"
 msgstr "Stuur logs"
 
-#: src/wx/dolby_certificate_panel.cc:53
-msgid "Serial number"
-msgstr "Serienummer"
-
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/doremi_certificate_panel.cc:41
+#: src/wx/dolby_doremi_certificate_panel.cc:42
 msgid "Server serial number"
 msgstr "Server-serienummer"
 
@@ -1343,7 +1309,7 @@ msgstr "Ondertitelings-uiterlijk"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:216
+#: src/wx/about_dialog.cc:220
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1367,7 +1333,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:272
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1381,7 +1347,7 @@ msgstr ""
 "ontbrekende bestand(en).  Probeer het opnieuw met de juiste content-"
 "bestand(en) of verwijder de ontbrekende content."
 
-#: src/wx/hints_dialog.cc:182
+#: src/wx/hints_dialog.cc:188
 msgid "There are no hints: everything looks good!"
 msgstr "Er zijn geen hints, alles ziet er goed uit!"
 
@@ -1401,7 +1367,7 @@ msgstr "Threads"
 msgid "Threads to use for encoding on this host"
 msgstr "Threads die op deze host voor codering gebruikt worden"
 
-#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:114
+#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:93
 msgid "Thumbprint"
 msgstr "Thumbprint"
 
@@ -1425,7 +1391,7 @@ msgstr "Timing"
 msgid "Top"
 msgstr "Boven"
 
-#: src/wx/about_dialog.cc:119
+#: src/wx/about_dialog.cc:120
 msgid "Translated by"
 msgstr "Vertaald door"
 
@@ -1454,10 +1420,6 @@ msgstr "Piek is %.2fdB"
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Type"
-
-#: src/wx/dolby_certificate_panel.cc:200
-msgid "Unexpected certificate filename form"
-msgstr "Onverwachte vorm van certificaat-bestandsnaam"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1515,7 +1477,7 @@ msgstr "Witpunt"
 msgid "White point adjustment"
 msgstr "Witpunt-aanpassing"
 
-#: src/wx/about_dialog.cc:125
+#: src/wx/about_dialog.cc:126
 msgid "With help from"
 msgstr "Met hulp van"
 
@@ -1551,7 +1513,13 @@ msgstr "YUV naar RGB conversie"
 msgid "YUV to RGB matrix"
 msgstr "YUV naar RGB matrix"
 
-#: src/wx/hints_dialog.cc:175
+#: src/wx/hints_dialog.cc:154
+msgid ""
+"You are set up for an Interop DCP at a frame rate which is not officially "
+"supported.  You are advised to make a SMPTE DCP instead."
+msgstr ""
+
+#: src/wx/hints_dialog.cc:181
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1559,7 +1527,7 @@ msgstr ""
 "U gebruikt 3D-content, maar uw DCP is op 2D ingesteld.  Stel de DCP in op 3D "
 "als u hem wilt afspelen op een 3D-systeem (bv. Real-D, MasterImage etc.)"
 
-#: src/wx/hints_dialog.cc:161
+#: src/wx/hints_dialog.cc:167
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1661,3 +1629,30 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Cinema"
+#~ msgstr "Bioscoop"
+
+#~ msgid "Could not get cinema list (%s)"
+#~ msgstr "Kan lijst met bioscopen niet ophalen (%s)"
+
+#~ msgid "Could not get country list (%s)"
+#~ msgstr "Kan lijst met landen niet ophalen (%s)"
+
+#~ msgid "Could not get screen list (%s)"
+#~ msgstr "Kan lijst met schermen niet ophalen (%s)"
+
+#~ msgid "Country"
+#~ msgstr "Land"
+
+#~ msgid "Dolby"
+#~ msgstr "Dolby"
+
+#~ msgid "Fetching..."
+#~ msgstr "Ophalen..."
+
+#~ msgid "Serial number"
+#~ msgstr "Serienummer"
+
+#~ msgid "Unexpected certificate filename form"
+#~ msgstr "Onverwachte vorm van certificaat-bestandsnaam"

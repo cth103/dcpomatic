@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-11-11 17:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -82,6 +82,8 @@ msgstr "3D top/bottom"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -147,7 +149,7 @@ msgstr "Lägg till bildsekvens"
 msgid "Add video, image or sound files to the film."
 msgstr "Lägg till video-, bild- eller audio-filer till filmen."
 
-#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:72
+#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:77
 msgid "Add..."
 msgstr "Lägg till..."
 
@@ -287,8 +289,7 @@ msgstr "Avbryt"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan inte referera denna DCP."
 
-#: src/wx/dolby_certificate_panel.cc:209
-#: src/wx/doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Certifikat nedladdat"
 
@@ -332,10 +333,6 @@ msgstr "Välj ett typsnitt"
 #: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr "Välj en typsnittsfil"
-
-#: src/wx/dolby_certificate_panel.cc:48
-msgid "Cinema"
-msgstr "Cinema"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -391,21 +388,6 @@ msgstr "Kopiera som namn"
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
-#: src/wx/dolby_certificate_panel.cc:134
-#, c-format
-msgid "Could not get cinema list (%s)"
-msgstr "Kunde inte hämta lista över biografer (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:106
-#, c-format
-msgid "Could not get country list (%s)"
-msgstr "Kunde inte hämta lista över länder (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:166
-#, c-format
-msgid "Could not get screen list (%s)"
-msgstr "Kunde inte hämta lista över salonger (%s)"
-
 #: src/wx/film_viewer.cc:189
 #, c-format
 msgid "Could not get video for view (%s)"
@@ -417,7 +399,7 @@ msgid "Could not load KDM (%s)"
 msgstr "Kunde inte ladda KDM (%s)"
 
 #: src/wx/config_dialog.cc:742 src/wx/config_dialog.cc:907
-#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:156
+#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:136
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Kunde inte läsa certifikatfil (%s)"
@@ -426,10 +408,6 @@ msgstr "Kunde inte läsa certifikatfil (%s)"
 #, c-format
 msgid "Could not read key file (%s)"
 msgstr "Kunde inte läsa nyckelfil (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:43
-msgid "Country"
-msgstr "Land"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -525,31 +503,28 @@ msgstr "Fördröjning"
 msgid "Details..."
 msgstr "Detaljer..."
 
-#: src/wx/download_certificate_dialog.cc:40
-msgid "Dolby"
-msgstr "Dolby"
-
-#: src/wx/download_certificate_dialog.cc:37
-msgid "Doremi"
+#: src/wx/download_certificate_dialog.cc:36
+#, fuzzy
+msgid "Dolby / Doremi"
 msgstr "Doremi"
 
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr "Ner"
 
-#: src/wx/download_certificate_dialog.cc:42
+#: src/wx/download_certificate_dialog.cc:38
 msgid "Download"
 msgstr "Ladda ner"
 
-#: src/wx/download_certificate_dialog.cc:28
+#: src/wx/download_certificate_dialog.cc:27
 msgid "Download certificate"
 msgstr "Ladda ner certifikat"
 
-#: src/wx/screen_dialog.cc:103
+#: src/wx/screen_dialog.cc:82
 msgid "Download..."
 msgstr "Ladda ner..."
 
-#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
+#: src/wx/dolby_doremi_certificate_panel.cc:54
 msgid "Downloading certificate"
 msgstr "Laddar ner certifikat"
 
@@ -563,7 +538,7 @@ msgstr "Redigera Skärm..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:407
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:75
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:80
 msgid "Edit..."
 msgstr "Redigera..."
 
@@ -620,11 +595,6 @@ msgstr "Tona in"
 #: src/wx/video_panel.cc:152
 msgid "Fade out"
 msgstr "Tona ut"
-
-#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
-#: src/wx/dolby_certificate_panel.cc:143
-msgid "Fetching..."
-msgstr "Hämtar..."
 
 #: src/wx/content_properties_dialog.cc:40
 msgid "Filename"
@@ -700,7 +670,7 @@ msgstr "Förstärkning för innehållskanal %d i DCP-kanal %d"
 msgid "General"
 msgstr "Generellt"
 
-#: src/wx/screen_dialog.cc:102
+#: src/wx/screen_dialog.cc:81
 #, fuzzy
 msgid "Get from file..."
 msgstr "Sätt från fil..."
@@ -923,7 +893,7 @@ msgid "NEEDS KDM: "
 msgstr "BEHÖVER KDM:"
 
 #: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
-#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:85
+#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
 msgstr "Namn"
 
@@ -983,7 +953,7 @@ msgstr "Organisation"
 msgid "Organisational unit"
 msgstr "Organisationsenhet"
 
-#: src/wx/screen_dialog.cc:110
+#: src/wx/screen_dialog.cc:89
 msgid "Other trusted devices"
 msgstr ""
 
@@ -1102,7 +1072,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/wx/screen_dialog.cc:97
+#: src/wx/screen_dialog.cc:76
 #, fuzzy
 msgid "Recipient certificate"
 msgstr "Laddar ner certifikat"
@@ -1134,7 +1104,7 @@ msgid "Refer to existing DCP"
 msgstr "Referera till existerande DCP"
 
 #: src/wx/config_dialog.cc:674 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:85 src/wx/editable_list.h:78
+#: src/wx/content_panel.cc:85 src/wx/editable_list.h:83
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -1224,7 +1194,7 @@ msgid "Select CPL XML file"
 msgstr "Välj CPL XML-fil"
 
 #: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:773
-#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:163
+#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:143
 msgid "Select Certificate File"
 msgstr "Välj certifikatfil"
 
@@ -1236,7 +1206,7 @@ msgstr "Välj KDM"
 msgid "Select Key File"
 msgstr "Välj Nyckelfil"
 
-#: src/wx/screen_dialog.cc:42
+#: src/wx/screen_dialog.cc:47
 #, fuzzy
 msgid "Select certificate file"
 msgstr "Välj certifikatfil"
@@ -1249,15 +1219,11 @@ msgstr "Skicka med mejl"
 msgid "Send logs"
 msgstr "Skicka loggar"
 
-#: src/wx/dolby_certificate_panel.cc:53
-msgid "Serial number"
-msgstr "Serienummer"
-
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/doremi_certificate_panel.cc:41
+#: src/wx/dolby_doremi_certificate_panel.cc:42
 msgid "Server serial number"
 msgstr "Server serienummer"
 
@@ -1354,7 +1320,7 @@ msgstr "Undertext Skalning"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:216
+#: src/wx/about_dialog.cc:220
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1378,7 +1344,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:272
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1391,7 +1357,7 @@ msgstr ""
 "Innehållsfilerna du angav är inte samma som de som saknas. Försök igen med "
 "rätt innehållsfiler eller ta bort det saknade innehållet."
 
-#: src/wx/hints_dialog.cc:182
+#: src/wx/hints_dialog.cc:188
 msgid "There are no hints: everything looks good!"
 msgstr "Det finns inga råd: allt verkar bra!"
 
@@ -1411,7 +1377,7 @@ msgstr "Trådar"
 msgid "Threads to use for encoding on this host"
 msgstr "Antal trådar att använda vid kodning på denna maskin"
 
-#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:114
+#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:93
 msgid "Thumbprint"
 msgstr "Tumavtryck"
 
@@ -1436,7 +1402,7 @@ msgstr "Timing|Tajming"
 msgid "Top"
 msgstr "Topp"
 
-#: src/wx/about_dialog.cc:119
+#: src/wx/about_dialog.cc:120
 msgid "Translated by"
 msgstr "Översatt av"
 
@@ -1465,10 +1431,6 @@ msgstr "Maxvärde är %.2fdB"
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Typ"
-
-#: src/wx/dolby_certificate_panel.cc:200
-msgid "Unexpected certificate filename form"
-msgstr "Oväntat utformning av certifikatfilnamn"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1526,7 +1488,7 @@ msgstr "Vitpunkt"
 msgid "White point adjustment"
 msgstr "Vitpunktsjustering"
 
-#: src/wx/about_dialog.cc:125
+#: src/wx/about_dialog.cc:126
 msgid "With help from"
 msgstr "Med hjälp av"
 
@@ -1562,7 +1524,13 @@ msgstr "YUV till RGB konvertering"
 msgid "YUV to RGB matrix"
 msgstr "YUV till RGB matris"
 
-#: src/wx/hints_dialog.cc:175
+#: src/wx/hints_dialog.cc:154
+msgid ""
+"You are set up for an Interop DCP at a frame rate which is not officially "
+"supported.  You are advised to make a SMPTE DCP instead."
+msgstr ""
+
+#: src/wx/hints_dialog.cc:181
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1571,7 +1539,7 @@ msgstr ""
 "3D om du vill kunna spela upp det på ett 3D-system (t.ex. Real-D, "
 "MasterImage etc.)"
 
-#: src/wx/hints_dialog.cc:161
+#: src/wx/hints_dialog.cc:167
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1674,6 +1642,33 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Cinema"
+#~ msgstr "Cinema"
+
+#~ msgid "Could not get cinema list (%s)"
+#~ msgstr "Kunde inte hämta lista över biografer (%s)"
+
+#~ msgid "Could not get country list (%s)"
+#~ msgstr "Kunde inte hämta lista över länder (%s)"
+
+#~ msgid "Could not get screen list (%s)"
+#~ msgstr "Kunde inte hämta lista över salonger (%s)"
+
+#~ msgid "Country"
+#~ msgstr "Land"
+
+#~ msgid "Dolby"
+#~ msgstr "Dolby"
+
+#~ msgid "Fetching..."
+#~ msgstr "Hämtar..."
+
+#~ msgid "Serial number"
+#~ msgstr "Serienummer"
+
+#~ msgid "Unexpected certificate filename form"
+#~ msgstr "Oväntat utformning av certifikatfilnamn"
 
 #~ msgid "Doremi serial numbers must have 6 digits"
 #~ msgstr "Doremi serienummer måste ha 6 siffror"

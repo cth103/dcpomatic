@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -61,7 +61,7 @@ msgstr "Reklamer (ADV)"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
 
-#: src/lib/analyse_audio_job.cc:82
+#: src/lib/analyse_audio_job.cc:79
 msgid "Analyse audio"
 msgstr "Analyser lyd"
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "C"
 msgstr ""
 
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "Cancelled"
 msgstr "Annulleret"
 
@@ -308,7 +308,7 @@ msgstr ""
 "Kunne ikke lytte efter andre genereringsservere. Måske kører en anden "
 "instans af DCP-o-matic."
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:109 src/lib/job.cc:123
 msgid "Could not open %1"
 msgstr "Kunne ikke åbne %1"
 
@@ -368,7 +368,7 @@ msgstr "DCP vil køre ved %1%% af indholdshastigheden.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP vil bruge hvert andet billede fra indholdet.\n"
 
-#: src/lib/job.cc:110 src/lib/job.cc:121
+#: src/lib/job.cc:111 src/lib/job.cc:125
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -387,7 +387,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:463
+#: src/lib/config.cc:473
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -459,7 +459,7 @@ msgstr "Genererer billeddata"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr ""
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:377
 msgid "Error: %1"
 msgstr "Fejl: %1"
 
@@ -544,11 +544,11 @@ msgstr "IEC61966-2-1 (sRGB eller sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
+#: src/lib/job.cc:132 src/lib/job.cc:153 src/lib/job.cc:163
 msgid "It is not known what caused this error."
 msgstr "Det er uklart hvad der forårsagede denne fejl."
 
-#: src/lib/config.cc:239 src/lib/config.cc:460
+#: src/lib/config.cc:239 src/lib/config.cc:470
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -657,7 +657,7 @@ msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 msgid "Noise reduction"
 msgstr "Støjreduktion"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:375
 msgid "OK (ran for %1)"
 msgstr "OK (kørte i %1)"
 
@@ -669,7 +669,7 @@ msgstr "Kun det første indhold, der skal sammensættes, kan have starttrim."
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Kun det sidste indhold, der skal sammensættes, kan have sluttrim."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid "Out of memory"
 msgstr "Ikke tilstrækkelig arbejdshukommelse"
 
@@ -846,7 +846,7 @@ msgstr ""
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -894,7 +894,7 @@ msgstr "Uventet indhold af ZIP arkiv"
 msgid "Unexpected image type received by server"
 msgstr "Uventet billedtype modtaget af server"
 
-#: src/lib/job.cc:156
+#: src/lib/job.cc:162
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
@@ -1090,7 +1090,7 @@ msgstr ""
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:366
+#: src/lib/job.cc:372
 msgid "remaining"
 msgstr "mangler"
 

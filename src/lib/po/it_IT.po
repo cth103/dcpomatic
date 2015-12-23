@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-10-14 10:33+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -61,7 +61,7 @@ msgstr "Pubblicità"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
-#: src/lib/analyse_audio_job.cc:82
+#: src/lib/analyse_audio_job.cc:79
 msgid "Analyse audio"
 msgstr "Analizzare audio"
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "C"
 msgstr ""
 
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "Cancelled"
 msgstr "Cancellato"
 
@@ -304,7 +304,7 @@ msgid ""
 "o-matic is running."
 msgstr ""
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:109 src/lib/job.cc:123
 msgid "Could not open %1"
 msgstr "Non riesco ad aprire %1"
 
@@ -365,7 +365,7 @@ msgstr ""
 msgid "DCP will use every other frame of the content.\n"
 msgstr ""
 
-#: src/lib/job.cc:110 src/lib/job.cc:121
+#: src/lib/job.cc:111 src/lib/job.cc:125
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -382,7 +382,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacciamento"
 
-#: src/lib/config.cc:463
+#: src/lib/config.cc:473
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -450,7 +450,7 @@ msgstr ""
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr ""
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:377
 #, fuzzy
 msgid "Error: %1"
 msgstr "Errore (%1)"
@@ -536,11 +536,11 @@ msgstr ""
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
+#: src/lib/job.cc:132 src/lib/job.cc:153 src/lib/job.cc:163
 msgid "It is not known what caused this error."
 msgstr ""
 
-#: src/lib/config.cc:239 src/lib/config.cc:460
+#: src/lib/config.cc:239 src/lib/config.cc:470
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -649,7 +649,7 @@ msgstr ""
 msgid "Noise reduction"
 msgstr "Riduzione del rumore"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:375
 msgid "OK (ran for %1)"
 msgstr "OK (eseguito in %1)"
 
@@ -661,7 +661,7 @@ msgstr ""
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid "Out of memory"
 msgstr ""
 
@@ -837,7 +837,7 @@ msgstr ""
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -886,7 +886,7 @@ msgstr "Contenuto file ZIP inatteso"
 msgid "Unexpected image type received by server"
 msgstr "Immagine ricevuta dal server inattesa"
 
-#: src/lib/job.cc:156
+#: src/lib/job.cc:162
 msgid "Unknown error"
 msgstr "Errore sconosciuto"
 
@@ -1082,7 +1082,7 @@ msgstr "rapporto pixel"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:366
+#: src/lib/job.cc:372
 msgid "remaining"
 msgstr "restano"
 

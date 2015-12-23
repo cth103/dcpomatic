@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-12-15 20:00+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -62,7 +62,7 @@ msgstr "Advertisement"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Er is een fout opgetreden bij de verwerking van bestand %1."
 
-#: src/lib/analyse_audio_job.cc:82
+#: src/lib/analyse_audio_job.cc:79
 msgid "Analyse audio"
 msgstr "Analyseer audio"
 
@@ -139,7 +139,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -311,7 +311,7 @@ msgstr ""
 "Kan niet luisteren naar externe encodeer-servers.  Wellicht draait er al een "
 "andere instantie van DCP-o-matic."
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:109 src/lib/job.cc:123
 msgid "Could not open %1"
 msgstr "Kan %1 niet openen"
 
@@ -371,7 +371,7 @@ msgstr "DCP zal afspelen met %1%% van de content-beeldsnelheid.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP zal om het andere beeld van de content gebruiken.\n"
 
-#: src/lib/job.cc:110 src/lib/job.cc:121
+#: src/lib/job.cc:111 src/lib/job.cc:125
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -390,7 +390,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Deinterlacing"
 
-#: src/lib/config.cc:463
+#: src/lib/config.cc:473
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -461,7 +461,7 @@ msgstr "Encoderen beeldinformatie"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Fout in SubRip-bestand: %1 gelezen terwijl %2 verwacht werd"
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:377
 msgid "Error: %1"
 msgstr "Fout: %1"
 
@@ -545,11 +545,11 @@ msgstr "IEC61966-2-1 (sRGB of sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
+#: src/lib/job.cc:132 src/lib/job.cc:153 src/lib/job.cc:163
 msgid "It is not known what caused this error."
 msgstr "Het is onbekend hoe deze fout is ontstaan."
 
-#: src/lib/config.cc:239 src/lib/config.cc:460
+#: src/lib/config.cc:239 src/lib/config.cc:470
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -657,7 +657,7 @@ msgstr "Geen geldige beeldbestanden gevonden in de map."
 msgid "Noise reduction"
 msgstr "Ruisonderdrukking"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:375
 msgid "OK (ran for %1)"
 msgstr "OK (%1 bezig)"
 
@@ -673,7 +673,7 @@ msgstr ""
 "Alleen bij het laatste deel van samengevoegde content kan het einde "
 "bijgeknipt worden."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid "Out of memory"
 msgstr "Onvoldoende geheugen"
 
@@ -854,7 +854,7 @@ msgstr ""
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Er is andere video-content die overlapt met deze DCP; verwijder deze."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -902,7 +902,7 @@ msgstr "Onverwachte inhoud ZIP-bestand"
 msgid "Unexpected image type received by server"
 msgstr "Onverwacht beeldtype ontvangen door server"
 
-#: src/lib/job.cc:156
+#: src/lib/job.cc:162
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -1098,7 +1098,7 @@ msgstr "pixel-beeldverhouding"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:366
+#: src/lib/job.cc:372
 msgid "remaining"
 msgstr "resterend"
 

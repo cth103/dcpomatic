@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-10-14 10:27+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -83,6 +83,8 @@ msgstr "3D su/giù"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -142,7 +144,7 @@ msgstr "Aggiungi sequenza immagini"
 msgid "Add video, image or sound files to the film."
 msgstr ""
 
-#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:72
+#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:77
 msgid "Add..."
 msgstr "Aggiungi..."
 
@@ -278,8 +280,7 @@ msgstr "Annulla"
 msgid "Cannot reference this DCP.  "
 msgstr ""
 
-#: src/wx/dolby_certificate_panel.cc:209
-#: src/wx/doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Scarica certificato"
 
@@ -323,10 +324,6 @@ msgstr "Scegli un font"
 #: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr "Scegli un file font"
-
-#: src/wx/dolby_certificate_panel.cc:48
-msgid "Cinema"
-msgstr "Cinema"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -382,21 +379,6 @@ msgstr "Salva una copia"
 msgid "Could not analyse audio."
 msgstr "Non posso analizzare l'audio."
 
-#: src/wx/dolby_certificate_panel.cc:134
-#, fuzzy, c-format
-msgid "Could not get cinema list (%s)"
-msgstr "Non posso aprire il file del contenuto (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:106
-#, fuzzy, c-format
-msgid "Could not get country list (%s)"
-msgstr "Non posso regolare il contenuto: %s"
-
-#: src/wx/dolby_certificate_panel.cc:166
-#, fuzzy, c-format
-msgid "Could not get screen list (%s)"
-msgstr "Non posso regolare il contenuto: %s"
-
 #: src/wx/film_viewer.cc:189
 #, fuzzy, c-format
 msgid "Could not get video for view (%s)"
@@ -408,7 +390,7 @@ msgid "Could not load KDM (%s)"
 msgstr "Non posso creare il DCP: %s"
 
 #: src/wx/config_dialog.cc:742 src/wx/config_dialog.cc:907
-#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:156
+#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:136
 #, fuzzy, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
@@ -417,10 +399,6 @@ msgstr "Non posso aprire il file del contenuto (%s)"
 #, fuzzy, c-format
 msgid "Could not read key file (%s)"
 msgstr "Non posso aprire il file del contenuto (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:43
-msgid "Country"
-msgstr "Nazione"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -519,31 +497,27 @@ msgstr "Ritardo"
 msgid "Details..."
 msgstr "Dettagli"
 
-#: src/wx/download_certificate_dialog.cc:40
-msgid "Dolby"
-msgstr "Dolby"
-
-#: src/wx/download_certificate_dialog.cc:37
-msgid "Doremi"
+#: src/wx/download_certificate_dialog.cc:36
+msgid "Dolby / Doremi"
 msgstr ""
 
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr ""
 
-#: src/wx/download_certificate_dialog.cc:42
+#: src/wx/download_certificate_dialog.cc:38
 msgid "Download"
 msgstr "Download"
 
-#: src/wx/download_certificate_dialog.cc:28
+#: src/wx/download_certificate_dialog.cc:27
 msgid "Download certificate"
 msgstr "Download certificato"
 
-#: src/wx/screen_dialog.cc:103
+#: src/wx/screen_dialog.cc:82
 msgid "Download..."
 msgstr "Download..."
 
-#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
+#: src/wx/dolby_doremi_certificate_panel.cc:54
 msgid "Downloading certificate"
 msgstr "Certificate in download"
 
@@ -557,7 +531,7 @@ msgstr "Modifica Schermo..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:407
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:75
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:80
 msgid "Edit..."
 msgstr "Modifica..."
 
@@ -616,12 +590,6 @@ msgstr "Dissolvenza in entrata"
 #: src/wx/video_panel.cc:152
 msgid "Fade out"
 msgstr "Dissolvenza in uscita"
-
-#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
-#: src/wx/dolby_certificate_panel.cc:143
-#, fuzzy
-msgid "Fetching..."
-msgstr "conteggio..."
 
 #: src/wx/content_properties_dialog.cc:40
 msgid "Filename"
@@ -699,7 +667,7 @@ msgstr "Guadagno per il canale sorgente %d nel canale DCP %d"
 msgid "General"
 msgstr ""
 
-#: src/wx/screen_dialog.cc:102
+#: src/wx/screen_dialog.cc:81
 msgid "Get from file..."
 msgstr ""
 
@@ -927,7 +895,7 @@ msgid "NEEDS KDM: "
 msgstr ""
 
 #: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
-#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:85
+#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
 msgstr "Nome"
 
@@ -987,7 +955,7 @@ msgstr "Durata"
 msgid "Organisational unit"
 msgstr ""
 
-#: src/wx/screen_dialog.cc:110
+#: src/wx/screen_dialog.cc:89
 msgid "Other trusted devices"
 msgstr ""
 
@@ -1109,7 +1077,7 @@ msgstr ""
 msgid "Rec. 709"
 msgstr ""
 
-#: src/wx/screen_dialog.cc:97
+#: src/wx/screen_dialog.cc:76
 #, fuzzy
 msgid "Recipient certificate"
 msgstr "Certificate in download"
@@ -1141,7 +1109,7 @@ msgid "Refer to existing DCP"
 msgstr ""
 
 #: src/wx/config_dialog.cc:674 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:85 src/wx/editable_list.h:78
+#: src/wx/content_panel.cc:85 src/wx/editable_list.h:83
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -1232,7 +1200,7 @@ msgid "Select CPL XML file"
 msgstr "Seleziona file XML CPL"
 
 #: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:773
-#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:163
+#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:143
 msgid "Select Certificate File"
 msgstr "Seleziona il file del Certificato"
 
@@ -1245,7 +1213,7 @@ msgstr "Selezioa KDM"
 msgid "Select Key File"
 msgstr "Seleziona il file del Certificato"
 
-#: src/wx/screen_dialog.cc:42
+#: src/wx/screen_dialog.cc:47
 #, fuzzy
 msgid "Select certificate file"
 msgstr "Seleziona il file del Certificato"
@@ -1258,15 +1226,11 @@ msgstr "Manda per email"
 msgid "Send logs"
 msgstr ""
 
-#: src/wx/dolby_certificate_panel.cc:53
-msgid "Serial number"
-msgstr "Numero seriale"
-
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/doremi_certificate_panel.cc:41
+#: src/wx/dolby_doremi_certificate_panel.cc:42
 msgid "Server serial number"
 msgstr "Numero seriale server"
 
@@ -1363,7 +1327,7 @@ msgstr "Scala dei Sottotitoli"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:216
+#: src/wx/about_dialog.cc:220
 msgid "Supported by"
 msgstr "Supportato da"
 
@@ -1388,7 +1352,7 @@ msgstr "Nazione (es. UK)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:272
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -1401,7 +1365,7 @@ msgstr ""
 "Il/i file sorgenteo che hai specificato sono diversi da quelli mancanti. "
 "Riprova oppure rimuovi la sorgente mancante."
 
-#: src/wx/hints_dialog.cc:182
+#: src/wx/hints_dialog.cc:188
 msgid "There are no hints: everything looks good!"
 msgstr "Non ci sono suggerimenti: sembra tutto a posto!"
 
@@ -1421,7 +1385,7 @@ msgstr "Threads"
 msgid "Threads to use for encoding on this host"
 msgstr "Threads da usare per codificare su questo host"
 
-#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:114
+#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:93
 msgid "Thumbprint"
 msgstr ""
 
@@ -1445,7 +1409,7 @@ msgstr ""
 msgid "Top"
 msgstr ""
 
-#: src/wx/about_dialog.cc:119
+#: src/wx/about_dialog.cc:120
 msgid "Translated by"
 msgstr "Tradotto da"
 
@@ -1474,10 +1438,6 @@ msgstr ""
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Tipo"
-
-#: src/wx/dolby_certificate_panel.cc:200
-msgid "Unexpected certificate filename form"
-msgstr ""
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1536,7 +1496,7 @@ msgstr ""
 msgid "White point adjustment"
 msgstr ""
 
-#: src/wx/about_dialog.cc:125
+#: src/wx/about_dialog.cc:126
 msgid "With help from"
 msgstr ""
 
@@ -1572,13 +1532,19 @@ msgstr ""
 msgid "YUV to RGB matrix"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:175
+#: src/wx/hints_dialog.cc:154
+msgid ""
+"You are set up for an Interop DCP at a frame rate which is not officially "
+"supported.  You are advised to make a SMPTE DCP instead."
+msgstr ""
+
+#: src/wx/hints_dialog.cc:181
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
 
-#: src/wx/hints_dialog.cc:161
+#: src/wx/hints_dialog.cc:167
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1678,6 +1644,34 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Cinema"
+#~ msgstr "Cinema"
+
+#, fuzzy
+#~ msgid "Could not get cinema list (%s)"
+#~ msgstr "Non posso aprire il file del contenuto (%s)"
+
+#, fuzzy
+#~ msgid "Could not get country list (%s)"
+#~ msgstr "Non posso regolare il contenuto: %s"
+
+#, fuzzy
+#~ msgid "Could not get screen list (%s)"
+#~ msgstr "Non posso regolare il contenuto: %s"
+
+#~ msgid "Country"
+#~ msgstr "Nazione"
+
+#~ msgid "Dolby"
+#~ msgstr "Dolby"
+
+#, fuzzy
+#~ msgid "Fetching..."
+#~ msgstr "conteggio..."
+
+#~ msgid "Serial number"
+#~ msgstr "Numero seriale"
 
 #~ msgid "audio"
 #~ msgstr "audio"

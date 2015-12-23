@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-11-11 15:53+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -62,7 +62,7 @@ msgstr "Publicidade"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ocorreu um erro ao manipular o ficheiro %1."
 
-#: src/lib/analyse_audio_job.cc:82
+#: src/lib/analyse_audio_job.cc:79
 msgid "Analyse audio"
 msgstr "Analizar audio"
 
@@ -139,7 +139,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -307,7 +307,7 @@ msgstr ""
 "Não foi possível procurar por servidores de codificação remotos. Talvez "
 "outra instância do DCP-o-matic esteja em execução."
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:109 src/lib/job.cc:123
 msgid "Could not open %1"
 msgstr "Não foi possível abrir %1"
 
@@ -367,7 +367,7 @@ msgstr "O DCP será reproduzido a %1%% da velocidade do conteúdo.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "O DCP usará todos os outros fotogramas do conteúdo.\n"
 
-#: src/lib/job.cc:110 src/lib/job.cc:121
+#: src/lib/job.cc:111 src/lib/job.cc:125
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -384,7 +384,7 @@ msgstr "O DCP-o-matic já não suporta o filtro '%1', e este foi desactivado."
 msgid "De-interlacing"
 msgstr "A Desentrelaçar"
 
-#: src/lib/config.cc:463
+#: src/lib/config.cc:473
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -454,7 +454,7 @@ msgstr "A codificar dados de imagem"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Erro no ficheiro SubRip: encontrou %1 mas esperava %2"
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:377
 msgid "Error: %1"
 msgstr "Erro: %1"
 
@@ -539,11 +539,11 @@ msgstr "IEC61966-2-1 (sRGB ou sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
+#: src/lib/job.cc:132 src/lib/job.cc:153 src/lib/job.cc:163
 msgid "It is not known what caused this error."
 msgstr "A causa do erro não é conhecida."
 
-#: src/lib/config.cc:239 src/lib/config.cc:460
+#: src/lib/config.cc:239 src/lib/config.cc:470
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envio de chaves KDM: $CPL_NAME"
 
@@ -652,7 +652,7 @@ msgstr "Não foram encontrados ficheiros de imagem válidos na pasta."
 msgid "Noise reduction"
 msgstr "Redução de ruído"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:375
 msgid "OK (ran for %1)"
 msgstr "OK (executado durante %1)"
 
@@ -664,7 +664,7 @@ msgstr "Apenas o primeiro elemento a ser unido pode ser aparado no início."
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Apenas o último elemento a ser unido pode ser aparado no fim."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid "Out of memory"
 msgstr "Memória esgotada"
 
@@ -842,7 +842,7 @@ msgstr "Existem outro conteúdo de legendas sobreposto a este DCP; remova-o."
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Existe outro conteúdo video sobreposto a este DCP; remova-o."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -890,7 +890,7 @@ msgstr "Conteúdos inesperados no ficheiro ZIP"
 msgid "Unexpected image type received by server"
 msgstr "Tipo de imagem inesperada recebida pelo servidor"
 
-#: src/lib/job.cc:156
+#: src/lib/job.cc:162
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
@@ -1087,7 +1087,7 @@ msgstr "rácio de pixeis"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:366
+#: src/lib/job.cc:372
 msgid "remaining"
 msgstr "restante"
 
