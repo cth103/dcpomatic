@@ -48,8 +48,6 @@ private:
 	void add_screen_clicked ();
 	void edit_screen_clicked ();
 	void remove_screen_clicked ();
-	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
-	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void selection_changed (wxTreeEvent &);
 	void search_changed ();
 
@@ -62,9 +60,14 @@ private:
 	wxButton* _edit_screen;
 	wxButton* _remove_screen;
 	wxTreeItemId _root;
-	std::map<wxTreeItemId, boost::shared_ptr<Cinema> > _cinemas;
-	std::map<wxTreeItemId, boost::shared_ptr<Screen> > _screens;
-	std::list<boost::shared_ptr<Cinema> > _selected_cinemas;
-	std::list<boost::shared_ptr<Screen> > _selected_screens;
+
+	typedef std::map<wxTreeItemId, boost::shared_ptr<Cinema> > CinemaMap;
+	typedef std::map<wxTreeItemId, boost::shared_ptr<Screen> > ScreenMap;
+
+	CinemaMap _cinemas;
+	ScreenMap _screens;
+	CinemaMap _selected_cinemas;
+	ScreenMap _selected_screens;
+
 	bool _ignore_selection_change;
 };

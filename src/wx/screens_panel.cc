@@ -91,45 +91,11 @@ ScreensPanel::~ScreensPanel ()
 	_targets->Unbind (wxEVT_COMMAND_TREE_SEL_CHANGED, &ScreensPanel::selection_changed, this);
 }
 
-list<pair<wxTreeItemId, shared_ptr<Cinema> > >
-ScreensPanel::selected_cinemas () const
-{
-	wxArrayTreeItemIds s;
-	_targets->GetSelections (s);
-
-	list<pair<wxTreeItemId, shared_ptr<Cinema> > > c;
-	for (size_t i = 0; i < s.GetCount(); ++i) {
-		map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator j = _cinemas.find (s[i]);
-		if (j != _cinemas.end ()) {
-			c.push_back (make_pair (j->first, j->second));
-		}
-	}
-
-	return c;
-}
-
-list<pair<wxTreeItemId, shared_ptr<Screen> > >
-ScreensPanel::selected_screens () const
-{
-	wxArrayTreeItemIds s;
-	_targets->GetSelections (s);
-
-	list<pair<wxTreeItemId, shared_ptr<Screen> > > c;
-	for (size_t i = 0; i < s.GetCount(); ++i) {
-		map<wxTreeItemId, shared_ptr<Screen> >::const_iterator j = _screens.find (s[i]);
-		if (j != _screens.end ()) {
-			c.push_back (make_pair (j->first, j->second));
-		}
-	}
-
-	return c;
-}
-
 void
 ScreensPanel::setup_sensitivity ()
 {
-	bool const sc = selected_cinemas().size() == 1;
-	bool const ss = selected_screens().size() == 1;
+	bool const sc = _selected_cinemas.size() == 1;
+	bool const ss = _selected_screens.size() == 1;
 
 	_edit_cinema->Enable (sc);
 	_remove_cinema->Enable (sc);
@@ -166,7 +132,7 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 void
 ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 {
-	map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator i = _cinemas.begin();
+	CinemaMap::const_iterator i = _cinemas.begin();
 	while (i != _cinemas.end() && i->second != c) {
 		++i;
 	}
@@ -195,11 +161,11 @@ ScreensPanel::add_cinema_clicked ()
 void
 ScreensPanel::edit_cinema_clicked ()
 {
-	if (selected_cinemas().size() != 1) {
+	if (_selected_cinemas.size() != 1) {
 		return;
 	}
 
-	pair<wxTreeItemId, shared_ptr<Cinema> > c = selected_cinemas().front();
+	pair<wxTreeItemId, shared_ptr<Cinema> > c = *_selected_cinemas.begin();
 
 	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->emails);
 	if (d->ShowModal () == wxID_OK) {
@@ -215,11 +181,11 @@ ScreensPanel::edit_cinema_clicked ()
 void
 ScreensPanel::remove_cinema_clicked ()
 {
-	if (selected_cinemas().size() != 1) {
+	if (_selected_cinemas.size() != 1) {
 		return;
 	}
 
-	pair<wxTreeItemId, shared_ptr<Cinema> > c = selected_cinemas().front();
+	pair<wxTreeItemId, shared_ptr<Cinema> > c = *_selected_cinemas.begin();
 
 	Config::instance()->remove_cinema (c.second);
 	_targets->Delete (c.first);
@@ -228,11 +194,11 @@ ScreensPanel::remove_cinema_clicked ()
 void
 ScreensPanel::add_screen_clicked ()
 {
-	if (selected_cinemas().size() != 1) {
+	if (_selected_cinemas.size() != 1) {
 		return;
 	}
 
-	shared_ptr<Cinema> c = selected_cinemas().front().second;
+	shared_ptr<Cinema> c = _selected_cinemas.begin()->second;
 
 	ScreenDialog* d = new ScreenDialog (this, "Add Screen");
 	if (d->ShowModal () != wxID_OK) {
@@ -251,11 +217,11 @@ ScreensPanel::add_screen_clicked ()
 void
 ScreensPanel::edit_screen_clicked ()
 {
-	if (selected_screens().size() != 1) {
+	if (_selected_screens.size() != 1) {
 		return;
 	}
 
-	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
+	pair<wxTreeItemId, shared_ptr<Screen> > s = *_selected_screens.begin();
 
 	ScreenDialog* d = new ScreenDialog (this, "Edit screen", s.second->name, s.second->recipient, s.second->trusted_devices);
 	if (d->ShowModal () == wxID_OK) {
@@ -272,13 +238,13 @@ ScreensPanel::edit_screen_clicked ()
 void
 ScreensPanel::remove_screen_clicked ()
 {
-	if (selected_screens().size() != 1) {
+	if (_selected_screens.size() != 1) {
 		return;
 	}
 
-	pair<wxTreeItemId, shared_ptr<Screen> > s = selected_screens().front();
+	pair<wxTreeItemId, shared_ptr<Screen> > s = *_selected_screens.begin();
 
-	map<wxTreeItemId, shared_ptr<Cinema> >::iterator i = _cinemas.begin ();
+	CinemaMap::iterator i = _cinemas.begin ();
 	while (i != _cinemas.end ()) {
 		list<shared_ptr<Screen> > sc = i->second->screens ();
 		if (find (sc.begin(), sc.end(), s.second) != sc.end ()) {
@@ -303,16 +269,14 @@ ScreensPanel::screens () const
 {
 	list<shared_ptr<Screen> > s;
 
-	list<pair<wxTreeItemId, shared_ptr<Cinema> > > cinemas = selected_cinemas ();
-	for (list<pair<wxTreeItemId, shared_ptr<Cinema> > >::iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
+	for (CinemaMap::const_iterator i = _selected_cinemas.begin(); i != _selected_cinemas.end(); ++i) {
 		list<shared_ptr<Screen> > sc = i->second->screens ();
 		for (list<shared_ptr<Screen> >::const_iterator j = sc.begin(); j != sc.end(); ++j) {
 			s.push_back (*j);
 		}
 	}
 
-	list<pair<wxTreeItemId, shared_ptr<Screen> > > screens = selected_screens ();
-	for (list<pair<wxTreeItemId, shared_ptr<Screen> > >::iterator i = screens.begin(); i != screens.end(); ++i) {
+	for (ScreenMap::const_iterator i = _selected_screens.begin(); i != _selected_screens.end(); ++i) {
 		s.push_back (i->second);
 	}
 
@@ -336,13 +300,13 @@ ScreensPanel::selection_changed (wxTreeEvent &)
 	_selected_screens.clear ();
 
 	for (size_t i = 0; i < s.GetCount(); ++i) {
-		map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator j = _cinemas.find (s[i]);
+		CinemaMap::const_iterator j = _cinemas.find (s[i]);
 		if (j != _cinemas.end ()) {
-			_selected_cinemas.push_back (j->second);
+			_selected_cinemas[j->first] = j->second;
 		}
-		map<wxTreeItemId, shared_ptr<Screen> >::const_iterator k = _screens.find (s[i]);
+		ScreenMap::const_iterator k = _screens.find (s[i]);
 		if (k != _screens.end ()) {
-			_selected_screens.push_back (k->second);
+			_selected_screens[k->first] = k->second;
 		}
 	}
 
@@ -371,9 +335,10 @@ ScreensPanel::search_changed ()
 
 	_ignore_selection_change = true;
 
-	BOOST_FOREACH (shared_ptr<Cinema> i, _selected_cinemas) {
-		map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator j = _cinemas.begin ();
-		while (j != _cinemas.end() && j->second != i) {
+	for (CinemaMap::const_iterator i = _selected_cinemas.begin(); i != _selected_cinemas.end(); ++i) {
+		/* The wxTreeItemIds will now be different, so we must search by cinema */
+		CinemaMap::const_iterator j = _cinemas.begin ();
+		while (j != _cinemas.end() && j->second != i->second) {
 			++j;
 		}
 
@@ -382,9 +347,9 @@ ScreensPanel::search_changed ()
 		}
 	}
 
-	BOOST_FOREACH (shared_ptr<Screen> i, _selected_screens) {
-		map<wxTreeItemId, shared_ptr<Screen> >::const_iterator j = _screens.begin ();
-		while (j != _screens.end() && j->second != i) {
+	for (ScreenMap::const_iterator i = _selected_screens.begin(); i != _selected_screens.end(); ++i) {
+		ScreenMap::const_iterator j = _screens.begin ();
+		while (j != _screens.end() && j->second != i->second) {
 			++j;
 		}
 
