@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-23 00:24+0000\n"
-"PO-Revision-Date: 2015-11-28 00:30+0100\n"
+"PO-Revision-Date: 2015-12-23 02:05+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -37,7 +37,7 @@ msgstr "(Geen)"
 
 #: src/wx/config_dialog.cc:175
 msgid "(restart DCP-o-matic to see language changes)"
-msgstr "(herstart DCP-o-matic om taalwijziging te zien)"
+msgstr "(herstart DCP-o-matic om taalwijzigingen te zien)"
 
 #: src/wx/audio_mapping_view.cc:144
 msgid "-6dB"
@@ -503,9 +503,8 @@ msgid "Details..."
 msgstr "Details..."
 
 #: src/wx/download_certificate_dialog.cc:36
-#, fuzzy
 msgid "Dolby / Doremi"
-msgstr "Doremi"
+msgstr "Dolby / Doremi"
 
 #: src/wx/content_panel.cc:93
 msgid "Down"
@@ -1414,7 +1413,7 @@ msgstr "Wegknippen tot aan huidige positie"
 #: src/wx/audio_dialog.cc:292
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr "Piek is %.2fdB"
+msgstr "Piek (True peak) is %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:650
 #: src/wx/video_panel.cc:84
@@ -1518,6 +1517,9 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"U heeft een Interop-DCP ingesteld met een beeldsnelheid die niet officieel "
+"ondersteund wordt.  U wordt geadviseerd om in plaats hiervan een SMPTE-DCP "
+"te maken."
 
 #: src/wx/hints_dialog.cc:181
 msgid ""
