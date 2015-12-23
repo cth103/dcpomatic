@@ -18,6 +18,7 @@
 */
 
 #include <wx/wx.h>
+#include <wx/srchctrl.h>
 #include <wx/treectrl.h>
 #include <boost/shared_ptr.hpp>
 #include <list>
@@ -38,6 +39,7 @@ public:
 	boost::signals2::signal<void ()> ScreensChanged;
 
 private:
+	void add_cinemas ();
 	void add_cinema (boost::shared_ptr<Cinema>);
 	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
 	void add_cinema_clicked ();
@@ -49,7 +51,9 @@ private:
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
 	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void selection_changed (wxTreeEvent &);
+	void search_changed ();
 
+	wxSearchCtrl* _search;
 	wxTreeCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;
@@ -60,4 +64,7 @@ private:
 	wxTreeItemId _root;
 	std::map<wxTreeItemId, boost::shared_ptr<Cinema> > _cinemas;
 	std::map<wxTreeItemId, boost::shared_ptr<Screen> > _screens;
+	std::list<boost::shared_ptr<Cinema> > _selected_cinemas;
+	std::list<boost::shared_ptr<Screen> > _selected_screens;
+	bool _ignore_selection_change;
 };

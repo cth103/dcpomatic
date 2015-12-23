@@ -24,29 +24,31 @@
 #include "wx_util.h"
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
+#include <boost/foreach.hpp>
 
 using std::list;
 using std::pair;
 using std::cout;
 using std::map;
+using std::string;
 using std::make_pair;
 using boost::shared_ptr;
 
 ScreensPanel::ScreensPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
+	, _ignore_selection_change (false)
 {
 	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+
+	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (200, -1));
+	_search->ShowCancelButton (true);
+	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT);
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
-	_root = _targets->AddRoot ("Foo");
-
-	list<shared_ptr<Cinema> > c = Config::instance()->cinemas ();
-	for (list<shared_ptr<Cinema> >::iterator i = c.begin(); i != c.end(); ++i) {
-		add_cinema (*i);
-	}
+	add_cinemas ();
 
 	_targets->ExpandAll ();
 
@@ -70,6 +72,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	sizer->Add (targets, 1, wxEXPAND);
 
+	_search->Bind        (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ScreensPanel::search_changed, this));
 	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, &ScreensPanel::selection_changed, this);
 
 	_add_cinema->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::add_cinema_clicked, this));
@@ -136,10 +139,20 @@ ScreensPanel::setup_sensitivity ()
 	_remove_screen->Enable (ss);
 }
 
-
 void
 ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 {
+	string search = wx_to_std (_search->GetValue ());
+	transform (search.begin(), search.end(), search.begin(), ::tolower);
+
+	if (!search.empty ()) {
+		string name = c->name;
+		transform (name.begin(), name.end(), name.begin(), ::tolower);
+		if (name.find (search) == string::npos) {
+			return;
+		}
+	}
+
 	_cinemas[_targets->AppendItem (_root, std_to_wx (c->name))] = c;
 
 	list<shared_ptr<Screen> > sc = c->screens ();
@@ -312,6 +325,73 @@ ScreensPanel::screens () const
 void
 ScreensPanel::selection_changed (wxTreeEvent &)
 {
+	if (_ignore_selection_change) {
+		return;
+	}
+
+	wxArrayTreeItemIds s;
+	_targets->GetSelections (s);
+
+	_selected_cinemas.clear ();
+	_selected_screens.clear ();
+
+	for (size_t i = 0; i < s.GetCount(); ++i) {
+		map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator j = _cinemas.find (s[i]);
+		if (j != _cinemas.end ()) {
+			_selected_cinemas.push_back (j->second);
+		}
+		map<wxTreeItemId, shared_ptr<Screen> >::const_iterator k = _screens.find (s[i]);
+		if (k != _screens.end ()) {
+			_selected_screens.push_back (k->second);
+		}
+	}
+
 	setup_sensitivity ();
 	ScreensChanged ();
+}
+
+void
+ScreensPanel::add_cinemas ()
+{
+	_root = _targets->AddRoot ("Foo");
+
+	BOOST_FOREACH (shared_ptr<Cinema> i, Config::instance()->cinemas ()) {
+		add_cinema (i);
+	}
+}
+
+void
+ScreensPanel::search_changed ()
+{
+	_targets->DeleteAllItems ();
+	_cinemas.clear ();
+	_screens.clear ();
+
+	add_cinemas ();
+
+	_ignore_selection_change = true;
+
+	BOOST_FOREACH (shared_ptr<Cinema> i, _selected_cinemas) {
+		map<wxTreeItemId, shared_ptr<Cinema> >::const_iterator j = _cinemas.begin ();
+		while (j != _cinemas.end() && j->second != i) {
+			++j;
+		}
+
+		if (j != _cinemas.end ()) {
+			_targets->SelectItem (j->first);
+		}
+	}
+
+	BOOST_FOREACH (shared_ptr<Screen> i, _selected_screens) {
+		map<wxTreeItemId, shared_ptr<Screen> >::const_iterator j = _screens.begin ();
+		while (j != _screens.end() && j->second != i) {
+			++j;
+		}
+
+		if (j != _screens.end ()) {
+			_targets->SelectItem (j->first);
+		}
+	}
+
+	_ignore_selection_change = false;
 }
