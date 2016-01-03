@@ -215,6 +215,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Pavel Zhdanko"));
 	supported_by.Add (wxT ("Cinéma de la Neuveville"));
 	supported_by.Add (wxT ("Frechen-Film e.V."));
+	supported_by.Add (wxT ("Mobiles Kino e.V."));
 	supported_by.Add (wxT ("Daniel Židek"));
 	supported_by.Add (wxT ("Гуляев Михаил"));
 	add_section (_("Supported by"), supported_by);
