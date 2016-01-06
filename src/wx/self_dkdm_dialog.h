@@ -26,8 +26,6 @@
 
 class Film;
 class KDMCPLPanel;
-class DirPickerCtrl;
-class wxDirPickerCtrl;
 
 class SelfDKDMDialog : public wxDialog
 {
@@ -35,15 +33,9 @@ public:
 	SelfDKDMDialog (wxWindow *, boost::shared_ptr<const Film>);
 
 	boost::filesystem::path cpl () const;
-	boost::filesystem::path directory () const;
 
 private:
 	void setup_sensitivity ();
 
 	KDMCPLPanel* _cpl;
-#ifdef DCPOMATIC_USE_OWN_PICKER
-	DirPickerCtrl* _folder;
-#else
-	wxDirPickerCtrl* _folder;
-#endif
 };

@@ -24,11 +24,6 @@
 #include "lib/film.h"
 #include "lib/screen.h"
 #include <libcxml/cxml.h>
-#ifdef DCPOMATIC_USE_OWN_PICKER
-#include "dir_picker_ctrl.h"
-#else
-#include <wx/filepicker.h>
-#endif
 #include <wx/treectrl.h>
 #include <wx/listctrl.h>
 #include <wx/stdpaths.h>
@@ -60,27 +55,6 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> 
 	_cpl = new KDMCPLPanel (this, film->cpls ());
 	vertical->Add (_cpl);
 
-	/* Sub-heading: Output */
-	h = new wxStaticText (this, wxID_ANY, _("Output"));
-	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-
-	add_label_to_sizer (table, this, _("Write to"), true);
-
-#ifdef DCPOMATIC_USE_OWN_PICKER
-	_folder = new DirPickerCtrl (this);
-#else
-	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
-#endif
-
-	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
-
-	table->Add (_folder, 1, wxEXPAND);
-
-	vertical->Add (table);
-
 	/* Make an overall sizer to get a nice border, and put some buttons in */
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -111,10 +85,4 @@ boost::filesystem::path
 SelfDKDMDialog::cpl () const
 {
 	return _cpl->cpl ();
-}
-
-boost::filesystem::path
-SelfDKDMDialog::directory () const
-{
-	return wx_to_std (_folder->GetPath ());
 }

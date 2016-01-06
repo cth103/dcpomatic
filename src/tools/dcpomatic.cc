@@ -541,17 +541,19 @@ private:
 		}
 
 		try {
-			dcp::EncryptedKDM kdm = _film->make_kdm (
-				Config::instance()->decryption_chain()->leaf(),
-				vector<dcp::Certificate> (),
-				d->cpl (),
-				dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
-				dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
-				dcp::MODIFIED_TRANSITIONAL_1
+			vector<dcp::EncryptedKDM> dkdms = Config::instance()->dkdms ();
+			dkdms.push_back (
+				_film->make_kdm (
+					Config::instance()->decryption_chain()->leaf(),
+					vector<dcp::Certificate> (),
+					d->cpl (),
+					dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
+					dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
+					dcp::MODIFIED_TRANSITIONAL_1
+					)
 				);
 
-			string const name = tidy_for_filename(_film->name()) + "_DKDM.kdm.xml";
-			kdm.as_xml (d->directory() / name);
+			Config::instance()->set_dkdms (dkdms);
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
