@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-12-01 14:56+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -80,6 +80,8 @@ msgstr "3D верх/низ"
 msgid "4K"
 msgstr "4K"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -144,7 +146,7 @@ msgstr "Добавить последовательность изображен
 msgid "Add video, image or sound files to the film."
 msgstr "Добавить видео, изображение или звук в проект."
 
-#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:72
+#: src/wx/config_dialog.cc:672 src/wx/editable_list.h:77
 msgid "Add..."
 msgstr "Добавить..."
 
@@ -282,8 +284,7 @@ msgstr "Отмена"
 msgid "Cannot reference this DCP.  "
 msgstr "Не удается сделать ссылку на этот DCP.  "
 
-#: src/wx/dolby_certificate_panel.cc:209
-#: src/wx/doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
 
@@ -326,10 +327,6 @@ msgstr "Выбрать шрифт"
 #: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
 msgstr "Выбрать файл шрифта"
-
-#: src/wx/dolby_certificate_panel.cc:48
-msgid "Cinema"
-msgstr "Кинотеатр"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -384,21 +381,6 @@ msgstr "Копировать в название"
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
-#: src/wx/dolby_certificate_panel.cc:134
-#, c-format
-msgid "Could not get cinema list (%s)"
-msgstr "Не удалось получить список кинотеатров (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:106
-#, c-format
-msgid "Could not get country list (%s)"
-msgstr "Не удалось получить список стран (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:166
-#, c-format
-msgid "Could not get screen list (%s)"
-msgstr "Не удалось получит список экранов (%s)"
-
 #: src/wx/film_viewer.cc:189
 #, c-format
 msgid "Could not get video for view (%s)"
@@ -410,7 +392,7 @@ msgid "Could not load KDM (%s)"
 msgstr "Не удалось загрузить KDM (%s)"
 
 #: src/wx/config_dialog.cc:742 src/wx/config_dialog.cc:907
-#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:156
+#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:136
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Не удалось прочитать файл сертификата (%s)"
@@ -419,10 +401,6 @@ msgstr "Не удалось прочитать файл сертификата (
 #, c-format
 msgid "Could not read key file (%s)"
 msgstr "Не удалось прочитать файл ключа (%s)"
-
-#: src/wx/dolby_certificate_panel.cc:43
-msgid "Country"
-msgstr "Страна"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -517,31 +495,28 @@ msgstr "Задержка"
 msgid "Details..."
 msgstr "Детали..."
 
-#: src/wx/download_certificate_dialog.cc:40
-msgid "Dolby"
-msgstr "Dolby"
-
-#: src/wx/download_certificate_dialog.cc:37
-msgid "Doremi"
+#: src/wx/download_certificate_dialog.cc:36
+#, fuzzy
+msgid "Dolby / Doremi"
 msgstr "Doremi"
 
 #: src/wx/content_panel.cc:93
 msgid "Down"
 msgstr "Вниз"
 
-#: src/wx/download_certificate_dialog.cc:42
+#: src/wx/download_certificate_dialog.cc:38
 msgid "Download"
 msgstr "Скачать"
 
-#: src/wx/download_certificate_dialog.cc:28
+#: src/wx/download_certificate_dialog.cc:27
 msgid "Download certificate"
 msgstr "Скачать сертификат"
 
-#: src/wx/screen_dialog.cc:103
+#: src/wx/screen_dialog.cc:82
 msgid "Download..."
 msgstr "Загрузка..."
 
-#: src/wx/dolby_certificate_panel.cc:174 src/wx/doremi_certificate_panel.cc:53
+#: src/wx/dolby_doremi_certificate_panel.cc:54
 msgid "Downloading certificate"
 msgstr "Скачивание сертификата"
 
@@ -555,7 +530,7 @@ msgstr "Редактировать экран..."
 
 #: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:407
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:75
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:80
 msgid "Edit..."
 msgstr "Редактировать..."
 
@@ -610,11 +585,6 @@ msgstr "Постепенное появление"
 #: src/wx/video_panel.cc:152
 msgid "Fade out"
 msgstr "Постепенное затухание"
-
-#: src/wx/dolby_certificate_panel.cc:87 src/wx/dolby_certificate_panel.cc:115
-#: src/wx/dolby_certificate_panel.cc:143
-msgid "Fetching..."
-msgstr "Установка..."
 
 #: src/wx/content_properties_dialog.cc:40
 msgid "Filename"
@@ -692,7 +662,7 @@ msgstr "Усиление для канала %d контента в канале
 msgid "General"
 msgstr "Основные"
 
-#: src/wx/screen_dialog.cc:102
+#: src/wx/screen_dialog.cc:81
 msgid "Get from file..."
 msgstr "Выбрать из файла..."
 
@@ -912,7 +882,7 @@ msgid "NEEDS KDM: "
 msgstr "НЕОБХОДИМ KDM:"
 
 #: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
-#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:85
+#: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
 msgstr "Название"
 
@@ -970,7 +940,7 @@ msgstr "Organisation"
 msgid "Organisational unit"
 msgstr "Organisational unit"
 
-#: src/wx/screen_dialog.cc:110
+#: src/wx/screen_dialog.cc:89
 msgid "Other trusted devices"
 msgstr "Иные доверенные устройства"
 
@@ -1087,7 +1057,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/wx/screen_dialog.cc:97
+#: src/wx/screen_dialog.cc:76
 msgid "Recipient certificate"
 msgstr "Сертификат получателя"
 
@@ -1118,7 +1088,7 @@ msgid "Refer to existing DCP"
 msgstr "Ссылаться на существующий DCP"
 
 #: src/wx/config_dialog.cc:674 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:85 src/wx/editable_list.h:78
+#: src/wx/content_panel.cc:85 src/wx/editable_list.h:83
 msgid "Remove"
 msgstr "Убрать"
 
@@ -1208,7 +1178,7 @@ msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
 #: src/wx/config_dialog.cc:733 src/wx/config_dialog.cc:773
-#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:163
+#: src/wx/config_dialog.cc:1004 src/wx/screen_dialog.cc:143
 msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
 
@@ -1220,7 +1190,7 @@ msgstr "Выберите KDM"
 msgid "Select Key File"
 msgstr "Выберите файл ключа"
 
-#: src/wx/screen_dialog.cc:42
+#: src/wx/screen_dialog.cc:47
 msgid "Select certificate file"
 msgstr "Выберите файл сертификата"
 
@@ -1232,15 +1202,11 @@ msgstr "Отправить по email"
 msgid "Send logs"
 msgstr "Отправить логи"
 
-#: src/wx/dolby_certificate_panel.cc:53
-msgid "Serial number"
-msgstr "Серийный номер"
-
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Сервер"
 
-#: src/wx/doremi_certificate_panel.cc:41
+#: src/wx/dolby_doremi_certificate_panel.cc:42
 msgid "Server serial number"
 msgstr "Серийный номер сервера"
 
@@ -1336,7 +1302,7 @@ msgstr "Внешний вид субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:216
+#: src/wx/about_dialog.cc:220
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1360,7 +1326,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:272
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -1373,7 +1339,7 @@ msgstr ""
 "Файлы, которые вы выбрали - не те, которые отсутствуют. Либо попробуйте "
 "снова, выбрав правильные файлы, либо удалите отсутствующий контент."
 
-#: src/wx/hints_dialog.cc:182
+#: src/wx/hints_dialog.cc:188
 msgid "There are no hints: everything looks good!"
 msgstr "Нет подсказок: похоже всё хорошо!"
 
@@ -1393,7 +1359,7 @@ msgstr "Потоки"
 msgid "Threads to use for encoding on this host"
 msgstr "Кол-во потоков кодирования на хосте"
 
-#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:114
+#: src/wx/config_dialog.cc:658 src/wx/screen_dialog.cc:93
 msgid "Thumbprint"
 msgstr "Отпечаток"
 
@@ -1417,7 +1383,7 @@ msgstr "Тайминг"
 msgid "Top"
 msgstr "Верх"
 
-#: src/wx/about_dialog.cc:119
+#: src/wx/about_dialog.cc:120
 msgid "Translated by"
 msgstr "Перевод"
 
@@ -1446,10 +1412,6 @@ msgstr "Пиковая громкость %.2fдБ"
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Тип"
-
-#: src/wx/dolby_certificate_panel.cc:200
-msgid "Unexpected certificate filename form"
-msgstr "Неожиданная форма имени файл сертификата"
 
 #: src/wx/content_panel.cc:89
 msgid "Up"
@@ -1507,7 +1469,7 @@ msgstr "Беля точка"
 msgid "White point adjustment"
 msgstr "Регулировка белой точки"
 
-#: src/wx/about_dialog.cc:125
+#: src/wx/about_dialog.cc:126
 msgid "With help from"
 msgstr "Помощь в разработке"
 
@@ -1543,7 +1505,13 @@ msgstr "Преобразование YUV в RGB"
 msgid "YUV to RGB matrix"
 msgstr "Матрица YUV в RGB"
 
-#: src/wx/hints_dialog.cc:175
+#: src/wx/hints_dialog.cc:154
+msgid ""
+"You are set up for an Interop DCP at a frame rate which is not officially "
+"supported.  You are advised to make a SMPTE DCP instead."
+msgstr ""
+
+#: src/wx/hints_dialog.cc:181
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1552,7 +1520,7 @@ msgstr ""
 "если хотите воспроизвести его на 3D-системе (напр. Real-D, MasterImage и т."
 "п.)"
 
-#: src/wx/hints_dialog.cc:161
+#: src/wx/hints_dialog.cc:167
 #, c-format
 msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
@@ -1656,6 +1624,33 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Cinema"
+#~ msgstr "Кинотеатр"
+
+#~ msgid "Could not get cinema list (%s)"
+#~ msgstr "Не удалось получить список кинотеатров (%s)"
+
+#~ msgid "Could not get country list (%s)"
+#~ msgstr "Не удалось получить список стран (%s)"
+
+#~ msgid "Could not get screen list (%s)"
+#~ msgstr "Не удалось получит список экранов (%s)"
+
+#~ msgid "Country"
+#~ msgstr "Страна"
+
+#~ msgid "Dolby"
+#~ msgstr "Dolby"
+
+#~ msgid "Fetching..."
+#~ msgstr "Установка..."
+
+#~ msgid "Serial number"
+#~ msgstr "Серийный номер"
+
+#~ msgid "Unexpected certificate filename form"
+#~ msgstr "Неожиданная форма имени файл сертификата"
 
 #~ msgid "Doremi serial numbers must have 6 digits"
 #~ msgstr "Серийные номера Doremi должны содержать 6 цифр"

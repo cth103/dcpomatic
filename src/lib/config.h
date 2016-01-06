@@ -27,6 +27,7 @@
 #include "isdcf_metadata.h"
 #include "types.h"
 #include <dcp/certificate_chain.h>
+#include <dcp/encrypted_kdm.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/filesystem.hpp>
@@ -244,6 +245,10 @@ public:
 		return _history;
 	}
 
+	std::vector<dcp::EncryptedKDM> dkdms () const {
+		return _dkdms;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -432,6 +437,12 @@ public:
 	}
 #endif
 
+	void set_dkdms (std::vector<dcp::EncryptedKDM> dkdms)
+	{
+		_dkdms = dkdms;
+		changed ();
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -531,6 +542,7 @@ private:
 	bool _win32_console;
 #endif
 	std::vector<boost::filesystem::path> _history;
+	std::vector<dcp::EncryptedKDM> _dkdms;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

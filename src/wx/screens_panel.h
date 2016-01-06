@@ -18,6 +18,7 @@
 */
 
 #include <wx/wx.h>
+#include <wx/srchctrl.h>
 #include <wx/treectrl.h>
 #include <boost/shared_ptr.hpp>
 #include <list>
@@ -38,6 +39,7 @@ public:
 	boost::signals2::signal<void ()> ScreensChanged;
 
 private:
+	void add_cinemas ();
 	void add_cinema (boost::shared_ptr<Cinema>);
 	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
 	void add_cinema_clicked ();
@@ -46,10 +48,10 @@ private:
 	void add_screen_clicked ();
 	void edit_screen_clicked ();
 	void remove_screen_clicked ();
-	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Cinema> > > selected_cinemas () const;
-	std::list<std::pair<wxTreeItemId, boost::shared_ptr<Screen> > > selected_screens () const;
 	void selection_changed (wxTreeEvent &);
+	void search_changed ();
 
+	wxSearchCtrl* _search;
 	wxTreeCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;
@@ -58,6 +60,14 @@ private:
 	wxButton* _edit_screen;
 	wxButton* _remove_screen;
 	wxTreeItemId _root;
-	std::map<wxTreeItemId, boost::shared_ptr<Cinema> > _cinemas;
-	std::map<wxTreeItemId, boost::shared_ptr<Screen> > _screens;
+
+	typedef std::map<wxTreeItemId, boost::shared_ptr<Cinema> > CinemaMap;
+	typedef std::map<wxTreeItemId, boost::shared_ptr<Screen> > ScreenMap;
+
+	CinemaMap _cinemas;
+	ScreenMap _screens;
+	CinemaMap _selected_cinemas;
+	ScreenMap _selected_screens;
+
+	bool _ignore_selection_change;
 };

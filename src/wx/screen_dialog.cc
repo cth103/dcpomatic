@@ -19,6 +19,7 @@
 
 #include "screen_dialog.h"
 #include "wx_util.h"
+#include "file_dialog_wrapper.h"
 #include "download_certificate_dialog.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
@@ -33,43 +34,21 @@ using std::vector;
 using boost::optional;
 using boost::bind;
 
-class FileDialogWrapper
-{
-public:
-	FileDialogWrapper (wxWindow* parent)
-		: _parent (parent)
-	{
-		_dialog = new wxFileDialog (parent, _("Select certificate file"));
-	}
-
-	void set (dcp::Certificate) {}
-
-	dcp::Certificate get () {
-		return dcp::Certificate (dcp::file_to_string (wx_to_std (_dialog->GetPath ())));
-	}
-
-	int ShowModal ()
-	{
-		return _dialog->ShowModal ();
-	}
-
-	void Destroy ()
-	{
-		_dialog->Destroy ();
-		/* eek! */
-		delete this;
-	}
-
-private:
-	wxWindow* _parent;
-	wxFileDialog* _dialog;
-};
-
 static string
 column (dcp::Certificate c)
 {
 	return c.thumbprint ();
 }
+
+class CertificateFileDialogWrapper : public FileDialogWrapper<dcp::Certificate>
+{
+public:
+	CertificateFileDialogWrapper (wxWindow* parent)
+		: FileDialogWrapper<dcp::Certificate> (parent, _("Select certificate file"))
+	{
+
+	}
+};
 
 ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices)
 	: wxDialog (parent, wxID_ANY, std_to_wx (title))
@@ -112,17 +91,16 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 
 	vector<string> columns;
 	columns.push_back (wx_to_std (_("Thumbprint")));
-	_trusted_device_list = new EditableList<dcp::Certificate, FileDialogWrapper> (
+	_trusted_device_list = new EditableList<dcp::Certificate, CertificateFileDialogWrapper> (
 		this, columns, bind (&ScreenDialog::trusted_devices, this), bind (&ScreenDialog::set_trusted_devices, this, _1), bind (&column, _1), false
 		);
 
 	_sizer->Add (_trusted_device_list, wxGBPosition (r, 0), wxGBSpan (1, 3), wxEXPAND);
 	++r;
 
+	_name->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ScreenDialog::setup_sensitivity, this));
 	_get_recipient_from_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::get_recipient_from_file, this));
 	_download_recipient->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_recipient, this));
-
-	setup_sensitivity ();
 
 	overall_sizer->Add (_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
@@ -133,6 +111,8 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+
+	setup_sensitivity ();
 }
 
 string
@@ -185,7 +165,7 @@ ScreenDialog::setup_sensitivity ()
 {
 	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
 	if (ok) {
-		ok->Enable (static_cast<bool>(_recipient));
+		ok->Enable (static_cast<bool>(_recipient) && !_name->GetValue().IsEmpty());
 	}
 }
 

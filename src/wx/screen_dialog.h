@@ -24,7 +24,7 @@
 #include <boost/optional.hpp>
 
 class Progress;
-class FileDialogWrapper;
+class CertificateFileDialogWrapper;
 
 class ScreenDialog : public wxDialog
 {
@@ -59,7 +59,7 @@ private:
 	wxStaticText* _recipient_thumbprint;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
-	EditableList<dcp::Certificate, FileDialogWrapper>* _trusted_device_list;
+	EditableList<dcp::Certificate, CertificateFileDialogWrapper>* _trusted_device_list;
 
 	boost::optional<dcp::Certificate> _recipient;
 	std::vector<dcp::Certificate> _trusted_devices;

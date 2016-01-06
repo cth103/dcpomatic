@@ -45,7 +45,7 @@ else
     $INKSCAPE dcpomatic.png dcpomatic2.svg -w 400 -h 400
     convert dcpomatic.png dcpomatic.bmp
 
-    # Preferences icons (all platforms)
+    # OS X preferences icons
     # servers.png does not have an SVG version
     for i in colour_conversions defaults kdm_email keys tms; do
 	$INKSCAPE $i.png $i.svg -w 32 -h 32

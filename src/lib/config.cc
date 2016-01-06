@@ -284,6 +284,12 @@ Config::read ()
 	} else {
 		_decryption_chain = create_certificate_chain ();
 	}
+
+	list<cxml::NodePtr> dkdm = f.node_children ("DKDM");
+	BOOST_FOREACH (cxml::NodePtr i, f.node_children ("DKDM")) {
+		_dkdms.push_back (dcp::EncryptedKDM (i->content ()));
+	}
+
 }
 
 /** @return Filename to write configuration to */
@@ -414,6 +420,10 @@ Config::write () const
 
 	for (vector<boost::filesystem::path>::const_iterator i = _history.begin(); i != _history.end(); ++i) {
 		root->add_child("History")->add_child_text (i->string ());
+	}
+
+	BOOST_FOREACH (dcp::EncryptedKDM i, _dkdms) {
+		root->add_child("DKDM")->add_child_text (i.as_xml ());
 	}
 
 	try {

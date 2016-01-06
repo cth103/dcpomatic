@@ -100,7 +100,7 @@ sources = """
 def configure(conf):
     try:
         wx_config = 'wx-config-3.0-gtk2'
-        conf.check_cfg(msg='Checking for wxWidgets',
+        conf.check_cfg(msg='Checking for wxWidgets using wx-config-3.0-gtk2',
                        package='',
                        path=wx_config,
                        args='--cppflags --cxxflags --libs std,richtext',
@@ -108,7 +108,7 @@ def configure(conf):
                        mandatory=True)
     except:
         wx_config = 'wx-config'
-        conf.check_cfg(msg='Checking for wxWidgets',
+        conf.check_cfg(msg='Checking for wxWidgets using wx-config',
                        package='',
                        path=wx_config,
                        args='--cppflags --cxxflags --libs std,richtext',

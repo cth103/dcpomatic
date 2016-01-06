@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-15 16:11+0000\n"
+"POT-Creation-Date: 2015-12-23 00:24+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -63,7 +63,7 @@ msgstr "Reklama"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Wystąpił błąd podczas przetwarzania pliku %1."
 
-#: src/lib/analyse_audio_job.cc:82
+#: src/lib/analyse_audio_job.cc:79
 msgid "Analyse audio"
 msgstr "Analizuj dźwięk"
 
@@ -140,7 +140,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "Cancelled"
 msgstr "Anulowane"
 
@@ -308,7 +308,7 @@ msgstr ""
 "Nie można nasłuchiwać serwerów zdalnych. Druga instancja DCP-o-matic jest "
 "już prawdopodobnie uruchomiona. "
 
-#: src/lib/job.cc:109 src/lib/job.cc:120
+#: src/lib/job.cc:109 src/lib/job.cc:123
 msgid "Could not open %1"
 msgstr "Nie udało się otworzyć %1"
 
@@ -368,7 +368,7 @@ msgstr "DCP będzie odtwarzany z %1%% prędkości materiału.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP będzie używał każdej pozostałej klatki materiału.\n"
 
-#: src/lib/job.cc:110 src/lib/job.cc:121
+#: src/lib/job.cc:111 src/lib/job.cc:125
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -385,7 +385,7 @@ msgstr "DCP-o-matic nie używa już filtru `%1', więc został on wyłączony."
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
-#: src/lib/config.cc:463
+#: src/lib/config.cc:473
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -457,7 +457,7 @@ msgstr "Kodowanie danych obrazu"
 msgid "Error in SubRip file: saw %1 while expecting %2"
 msgstr "Błąd w pliku SRT: jest %1, powinno być %2"
 
-#: src/lib/job.cc:371
+#: src/lib/job.cc:377
 msgid "Error: %1"
 msgstr "Błąd %1"
 
@@ -542,11 +542,11 @@ msgstr "IEC61966-2-1 (sRGB or sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:126 src/lib/job.cc:147 src/lib/job.cc:157
+#: src/lib/job.cc:132 src/lib/job.cc:153 src/lib/job.cc:163
 msgid "It is not known what caused this error."
 msgstr "Nieznany błąd"
 
-#: src/lib/config.cc:239 src/lib/config.cc:460
+#: src/lib/config.cc:239 src/lib/config.cc:470
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
@@ -655,7 +655,7 @@ msgstr "W folderze nie znaleziono obsługiwanych plików"
 msgid "Noise reduction"
 msgstr "Redukcja szumu"
 
-#: src/lib/job.cc:369
+#: src/lib/job.cc:375
 msgid "OK (ran for %1)"
 msgstr "OK (czas trwania %1)"
 
@@ -667,7 +667,7 @@ msgstr "Tylko pierwszy z łączonych plików może być przycięty na początku.
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Tylko ostatni z łączonych plików może być przycięty na końcu."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid "Out of memory"
 msgstr "Zabrakło pamięci RAM"
 
@@ -843,7 +843,7 @@ msgstr ""
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:145
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -890,7 +890,7 @@ msgstr "Archiwum ZIP zawiera nieobsługiwane pliki"
 msgid "Unexpected image type received by server"
 msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 
-#: src/lib/job.cc:156
+#: src/lib/job.cc:162
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
@@ -1086,7 +1086,7 @@ msgstr "proporcje obrazu"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:366
+#: src/lib/job.cc:372
 msgid "remaining"
 msgstr "pozostało"
 
