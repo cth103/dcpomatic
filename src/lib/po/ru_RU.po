@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-23 00:24+0000\n"
-"PO-Revision-Date: 2015-12-01 14:08+0200\n"
+"PO-Revision-Date: 2016-01-06 19:34+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -481,9 +481,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
 #: src/lib/emailer.cc:212
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "Ошибка отправки ключей (%1)"
+msgstr "Ошибка отправки email (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"

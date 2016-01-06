@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-23 00:24+0000\n"
-"PO-Revision-Date: 2015-12-01 14:10+0200\n"
+"PO-Revision-Date: 2016-01-06 19:34+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -127,9 +127,8 @@ msgid "Check for updates"
 msgstr "Проверить обновления"
 
 #: src/tools/dcpomatic.cc:528
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "Пакетный конвертер DCP-o-matic"
+msgstr "Не удалось найти пакетный конвертер."
 
 #: src/tools/dcpomatic.cc:993 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"

@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-23 00:24+0000\n"
-"PO-Revision-Date: 2015-12-01 14:56+0200\n"
+"PO-Revision-Date: 2016-01-06 19:39+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -496,9 +496,8 @@ msgid "Details..."
 msgstr "Детали..."
 
 #: src/wx/download_certificate_dialog.cc:36
-#, fuzzy
 msgid "Dolby / Doremi"
-msgstr "Doremi"
+msgstr "Dolby / Doremi"
 
 #: src/wx/content_panel.cc:93
 msgid "Down"
@@ -1510,6 +1509,8 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Вы выбрали для Interop DCP частоту кадров, которая официально не "
+"поддерживается. Советуем вместо этого сделать SMPTE DCP."
 
 #: src/wx/hints_dialog.cc:181
 msgid ""
