@@ -81,6 +81,7 @@ sources = """
           image_content.cc
           image_decoder.cc
           image_examiner.cc
+          image_filename_sorter.cc
           image_proxy.cc
           isdcf_metadata.cc
           j2k_image_proxy.cc
