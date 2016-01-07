@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-23 00:24+0000\n"
-"PO-Revision-Date: 2016-01-06 19:34+0200\n"
+"PO-Revision-Date: 2016-01-07 12:19+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -185,7 +185,7 @@ msgstr "Сгенерировать &KDM...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:799
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Сделать DCP в пакетном конвертере"
 
 #: src/tools/dcpomatic.cc:801
 msgid "Make DKDM for DCP-o-matic..."
