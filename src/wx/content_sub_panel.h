@@ -26,6 +26,7 @@
 
 class ContentPanel;
 class Content;
+class DCPContent;
 
 class ContentSubPanel : public wxPanel
 {
@@ -39,6 +40,9 @@ public:
 	virtual void content_selection_changed () = 0;
 
 protected:
+
+	void setup_refer_button (wxCheckBox* button, boost::shared_ptr<DCPContent> dcp, bool can_reference, std::list<std::string> why_not) const;
+
 	ContentPanel* _parent;
 	wxSizer* _sizer;
 };

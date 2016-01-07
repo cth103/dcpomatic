@@ -245,16 +245,7 @@ AudioPanel::setup_sensitivity ()
 
 	list<string> why_not;
 	bool const can_reference = dcp && dcp->can_reference_audio (why_not);
-	_reference->Enable (can_reference);
-
-	wxString s;
-	if (!can_reference) {
-		s = _("Cannot reference this DCP.  ");
-		BOOST_FOREACH (string i, why_not) {
-			s += std_to_wx(i) + wxT("  ");
-		}
-	}
-	_reference->SetToolTip (s);
+	setup_refer_button (_reference, dcp, can_reference, why_not);
 
 	if (_reference->GetValue ()) {
 		_gain->wrapped()->Enable (false);

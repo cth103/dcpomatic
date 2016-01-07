@@ -17,10 +17,14 @@
 
 */
 
-#include <wx/notebook.h>
 #include "content_sub_panel.h"
 #include "content_panel.h"
+#include "wx_util.h"
+#include <wx/notebook.h>
+#include <boost/foreach.hpp>
 
+using std::list;
+using std::string;
 using boost::shared_ptr;
 
 ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
@@ -32,3 +36,19 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 	SetSizer (_sizer);
 }
 
+void
+ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> dcp, bool can_reference, list<string> why_not) const
+{
+	button->Enable (can_reference);
+
+	wxString s;
+	if (!dcp) {
+		s = _("No DCP selected.");
+	} else if (!can_reference) {
+		s = _("Cannot reference this DCP.  ");
+		BOOST_FOREACH (string i, why_not) {
+			s += std_to_wx(i) + wxT("  ");
+		}
+	}
+	button->SetToolTip (s);
+}
