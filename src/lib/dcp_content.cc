@@ -294,7 +294,7 @@ DCPContent::can_reference (string overlapping, list<string>& why_not) const
 	*/
 	BOOST_FOREACH (DCPTimePeriod i, reels()) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
-			why_not.push_back (_("Reel lengths in the project differ from those in the DCP; set the reel mode to `split by video content'."));
+			why_not.push_back (_("Reel lengths in the project differ from those in the DCP; set the reel mode to 'split by video content'."));
 			return false;
 		}
 	}
