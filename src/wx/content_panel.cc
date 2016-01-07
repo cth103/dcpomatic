@@ -40,8 +40,6 @@
 #include <boost/foreach.hpp>
 #include <iostream>
 
-#include "lib/image_filename_sorter.cc"
-
 using std::list;
 using std::string;
 using std::cout;
@@ -518,10 +516,11 @@ void
 ContentPanel::add_files (list<boost::filesystem::path> paths)
 {
 	/* It has been reported that the paths returned from e.g. wxFileDialog are not always sorted;
-	   I can't reproduce that, but sort them anyway.
+	   I can't reproduce that, but sort them anyway.  Don't use ImageFilenameSorter as a normal
+	   alphabetical sort is expected here.
 	*/
 
-	paths.sort (ImageFilenameSorter ());
+	paths.sort ();
 
 	/* XXX: check for lots of files here and do something */
 
