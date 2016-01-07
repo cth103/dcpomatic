@@ -17,9 +17,8 @@
 
 */
 
+#include "lib/image_filename_sorter.h"
 #include <boost/test/unit_test.hpp>
-
-#include "lib/image_filename_sorter.cc"
 
 BOOST_AUTO_TEST_CASE (image_filename_sorter_test)
 {

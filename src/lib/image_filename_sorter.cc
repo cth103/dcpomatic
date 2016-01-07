@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,11 +17,10 @@
 
 */
 
-#include <iostream>
-#include <boost/filesystem.hpp>
-#include <boost/optional.hpp>
-#include <boost/foreach.hpp>
 #include "raw_convert.h"
+#include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
+#include <iostream>
 
 class ImageFilenameSorter
 {

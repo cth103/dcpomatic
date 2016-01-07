@@ -25,14 +25,13 @@
 #include "frame_rate_change.h"
 #include "exceptions.h"
 #include "safe_stringstream.h"
+#include "image_filename_sorter.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
-
-#include "image_filename_sorter.cc"
 
 using std::string;
 using std::cout;
