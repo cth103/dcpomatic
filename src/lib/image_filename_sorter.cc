@@ -18,69 +18,70 @@
 */
 
 #include "raw_convert.h"
+#include "image_filename_sorter.h"
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
 
-class ImageFilenameSorter
+using std::list;
+
+bool
+ImageFilenameSorter::operator() (boost::filesystem::path a, boost::filesystem::path b)
 {
-public:
-	bool operator() (boost::filesystem::path a, boost::filesystem::path b)
-	{
-		std::list<int> na = extract_numbers (a);
-		std::list<int> nb = extract_numbers (b);
-		if (na.empty() || nb.empty()) {
-			return a.string() < b.string();
-		}
-
-		if (na.size() != nb.size()) {
-			/* Just use the first one */
-			return na.front() < nb.front();
-		}
-
-		std::list<int>::const_iterator i = na.begin ();
-		std::list<int>::const_iterator j = nb.begin ();
-
-		while (i != na.end()) {
-			if (*i != *j) {
-				return *i < *j;
-			}
-			++i;
-			++j;
-		}
-
-		/* All the same */
-		return false;
+	std::list<int> na = extract_numbers (a);
+	std::list<int> nb = extract_numbers (b);
+	if (na.empty() || nb.empty()) {
+		return a.string() < b.string();
 	}
 
-private:
-	std::list<int> extract_numbers (boost::filesystem::path p)
-	{
-		p = p.leaf ();
+	if (na.size() != nb.size()) {
+		/* Just use the first one */
+		return na.front() < nb.front();
+	}
 
-		std::list<std::string> numbers;
+	std::list<int>::const_iterator i = na.begin ();
+	std::list<int>::const_iterator j = nb.begin ();
 
-		std::string current;
-		for (size_t i = 0; i < p.string().size(); ++i) {
-			if (isdigit (p.string()[i])) {
-				current += p.string()[i];
-			} else {
-				if (!current.empty ()) {
-					numbers.push_back (current);
-					current.clear ();
-				}
+	while (i != na.end()) {
+		if (*i != *j) {
+			return *i < *j;
+		}
+		++i;
+		++j;
+	}
+
+	/* All the same */
+	return false;
+
+}
+
+list<int>
+ImageFilenameSorter::extract_numbers (boost::filesystem::path p)
+{
+	p = p.leaf ();
+
+	std::list<std::string> numbers;
+
+	std::string current;
+	for (size_t i = 0; i < p.string().size(); ++i) {
+		if (isdigit (p.string()[i])) {
+			current += p.string()[i];
+		} else {
+			if (!current.empty ()) {
+				numbers.push_back (current);
+				current.clear ();
 			}
 		}
-
-		if (!current.empty ()) {
-			numbers.push_back (current);
-		}
-
-		std::list<int> numbers_as_int;
-		BOOST_FOREACH (std::string i, numbers) {
-			numbers_as_int.push_back (raw_convert<int> (i));
-		}
-
-		return numbers_as_int;
 	}
-};
+
+	if (!current.empty ()) {
+		numbers.push_back (current);
+	}
+
+	std::list<int> numbers_as_int;
+	BOOST_FOREACH (std::string i, numbers) {
+		numbers_as_int.push_back (raw_convert<int> (i));
+	}
+
+	return numbers_as_int;
+}
