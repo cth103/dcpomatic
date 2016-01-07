@@ -634,6 +634,20 @@ To play back the subtitled DCP the projectionist ingests both the base
 (OV) DCP and the overlay (VF) DCP, then plays the VF one.
 </para>
 
+<para>
+To make a DCP like this:
+</para>
+
+<itemizedlist>
+<listitem>Import your &lsquo;Content DCP&rsquo; to a DCP-o-matic project.</listitem>
+<listitem>Add whatever replacement you want in your new DCP (replacement subtitles or audio files, for example).</listitem>
+<listitem>Select the DCP in the content list</listitem>
+<listitem>Tick the <guilabel>Refer to existing DCP</guilabel> checkbox
+in the tabs for the parts of the DCP that you want to refer to in your
+new DCP.  For example, to refer to the &lsquo;Content DCP&rsquo;'s video and audio you would select the <guilabel>Video</guilabel> tab, click <guilabel>Refer to existing DCP</guilabel> then select the <guilabel>Audio</guilabel> tab and do the same.</listitem>
+<listitem>Do <guilabel>Make DCP</guilabel> as usual and your VF DCP will be created.</listitem>
+</itemizedlist>
+
 </section>
 
 </section>
@@ -1911,9 +1925,19 @@ is).
 
 <para>
 The second part is to generate KDMs for the cinemas that you wish to
-allow to play your DCP.  This is done using the <guilabel>Make
-KDMs</guilabel> option on the <guilabel>Jobs</guilabel> menu.  This
-will open the KDM dialogue box, as shown in <xref linkend="fig-kdm"/>.
+allow to play your DCP.  There are two approaches to this within
+DCP-o-matic: using the project, or using a DKDM.  These are now
+described in turn.
+</para>
+
+<section>
+<title>Creating KDMs from a DCP-o-matic project</title>
+
+<para>
+You can create KDMs from inside a DCP-o-matic project using the
+<guilabel>Make KDMs</guilabel> option on the <guilabel>Jobs</guilabel>
+menu.  This will open the KDM dialogue box, as shown in <xref
+linkend="fig-kdm"/>.
 </para>
 
 <figure id="fig-kdm">
@@ -1935,8 +1959,9 @@ available by the projector manufacturers as text files with a
 <para>
 DCP-o-matic can store these certificates to make life easier.  It
 stores details of cinemas and screens within those cinemas.  Each
-screen has a certificate for its projector.  DCP-o-matic can generate
-KDMs for any screens that it knows about.
+screen has a certificate for its projector (and optionally
+certificates for other trusted devices, such as the sound processor).
+DCP-o-matic can generate KDMs for any screens that it knows about.
 </para>
 
 <para>
@@ -1958,11 +1983,10 @@ Alternatively, certificates for projection systems made by some
 manufacturers can be downloaded from databases provided by the
 manufacturer.  Currently this is supported for Doremi and Dolby
 equipment.  If you are targeting a screen with equipment by one of
-these manufacturers you can select Doremi or Dolby from the
-<guilabel>Server manufacturer</guilabel> selection and then click
-<guilabel>Download</guilabel>.  In the next dialogue box, enter
-details of the screen and click <guilabel>Download</guilabel> and, all
-being well, the certificate will be fetched.
+these manufacturers you can click <guilabel>Download</guilabel> then
+enter the serial number of the server in the screen and click
+<guilabel>Download</guilabel> again and, all being well, the certificate
+will be fetched.
 </para>
 
 <para>
@@ -2002,6 +2026,44 @@ generate the KDMs.
 
 </section>
 
+<section>
+<title>Creating KDMs using a DKDM</title>
+</section>
+
+<para>
+It can be inconvenient to need a whole DCP-o-matic project just to
+create KDMs for its film.  Perhaps you want to archive the project to
+save space, or create KDMs on a different machine.  In such situations
+it is easier to use a DKDM.  This is a normal KDM, but instead of
+begin targeted at a projection system (to allow it to decrypt the
+content) it is targeted at a particular users's certificate.  This
+means that the certificate owner can create new KDMs for other users.
+The DKDM holds everything that is required to create further KDMs.
+</para>
+
+<para>
+Sometimes it is useful to create DKDMs that can be used by
+DCP-o-matic.  If you create such a DKDM you can keep it and then, at
+any point in the future, use DCP-o-matic's standalone KDM creator to
+make KDMs for the DKDM's film for any cinema.
+</para>
+
+<para>
+In other cases a DKDM is sent to a 3rd party so that they can create
+KDMs for your films.  This can be useful if, for example, you have a
+distributor who provides 24-hour KDM support to cinemas and can create
+KDMs for anybody that requires them at short notice.
+</para>
+
+<para>
+To create a DKDM for DCP-o-matic, open your encrypted project and
+select <guilabel>Make DKDM for DCP-o-matic...</guilabel> from the
+<guilabel>Jobs</guilabel> menu.  Select the CPL that you want to make
+the DKDM for and choose where it should be written, then click
+<guilabel>OK</guilabel>.
+</para>
+
+</section>
 </chapter>
 
 
