@@ -1,63 +1,197 @@
 \documentclass{article}
-
-\pagestyle{empty}
-\usepackage{amsmath,mathtools}
-\title{Colour conversion in DCP-o-matic}
-\author{}
+\usepackage{url,amsmath,mathtools}
+\usepackage[landscape]{geometry}
+\title{Colour conversions for DCP creation}
+\author{Carl Hetherington, Dennis Couzin}
 \date{}
 \begin{document}
 \maketitle
 
-Conversion from an RGB pixel $(r, g, b)$ is done in three steps.
-First, the input gamma $\gamma_i$ is applied.  This is done in one of
-two ways, depending on the setting of the ``linearise input gamma
-curve for low values'' option.  If linearisation is disabled, we use:
+\section{Overview}
 
-\begin{align*}
-r' &= r^{\gamma_i} \\
-g' &= g^{\gamma_i} \\
-b' &= b^{\gamma_i}
-\end{align*}
+The process of conversion from RGB to XYZ is:
 
-otherwise, with linearisation enabled, we use:
+\begin{enumerate}
+\item Convert to linear RGB (i.e.\ apply a gamma curve, or at least an approximation to one).
+\item Convert to XYZ (preserving the white point).
+\item Adjust the white point.
+\item Normalize values.
+\item Convert to non-linear XYZ (i.e.\ apply a gamma curve)
+\end{enumerate}
 
-\begin{align*}
-r' &= \begin{dcases}
-\frac{r}{12.92} & r \leq 0.04045 \\
-\left(\frac{r + 0.055}{1.055}\right)^{\gamma_i} & r > 0.04045
-\end{dcases}
-\end{align*}
 
-and similarly for $g$ and $b$.
+\section{Convert to linear RGB}
 
-Next, the colour transformation matrix is used to convert to XYZ:
+This is done using either a `pure' gamma function, so that for some colour value $C_i$ the output colour $C_o$ is given by
 
-\begin{align*}
-\left[\begin{array}{c}
-x \\
-y \\
-z
-\end{array}\right] &=
-\left[\begin{array}{ccc}
-m_{11} & m_{12} & m_{13} \\
-m_{21} & m_{22} & m_{23} \\
-m_{31} & m_{32} & m_{33}
-\end{array}\right]
-\left[\begin{array}{c}
-r' \\
-g' \\
-b'
-\end{array}\right]
-\end{align*}
+\begin{align}
+C_o &= C_i ^ \gamma
+\end{align}
 
-Note: some tools apply a white-point correction here, but DCP-o-matic currently does not do that.
+or a modified function of the form
 
-Finally, the output gamma $\gamma_o$ is applied to give our final XYZ values $(x', y', z')$:
+\begin{align}
+C_o &= \left\{
+\begin{array}{ll}
+\frac{C_i}{K} & C_i \leq C_t \\
+\left( \frac{C_i + A}{1 + A} \right)^\zeta & C_i > C_t
+\end{array}
+\right.
+\end{align}
 
-\begin{align*}
-x' &= x^{1/\gamma_o} \\
-y' &= y^{1/\gamma_o} \\
-z' &= z^{1/\gamma_o} \\
-\end{align*}
+where $K$, $A$, $C_t$ and $\zeta$ are constants.  This modified function approximates a `pure' gamma function but changes the output for small inputs.
+
+
+\section{Convert to XYZ}
+
+This is done by multiplying the colours by a $3\times{}3$ matrix.
+This matrix depends on the chromaticities of the RGB primaries and the
+white point.  Note that these are the same for BT709 and sRGB, so the
+corresponding matrices are the same.
+
+The chromaticities for sRGB and BT709 are shown in
+Table~\ref{tab:chromaticities}.  The white point is ($x = 0.3127$, $y
+= 0.329$); this is called D65.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+& $x$ & $y$ \\
+\hline
+Red & 0.64 & 0.33 \\
+\hline
+Green & 0.3 & 0.6 \\
+\hline
+Blue & 0.15 & 0.06 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{RGB chromaticities for sRGB and BT709}
+\label{tab:chromaticities}
+\end{table}
+
+Let
+
+\begin{align}
+D &= \left|\begin{matrix} R_x - W_x & W_x - B_x \\ R_y - W_y & W_y - B_y \end{matrix} \right| \\
+E &= \left|\begin{matrix} W_x - G_x & R_x - W_x \\ W_y - G_y & R_y - W_y \end{matrix} \right| \\
+F &= \left|\begin{matrix} W_x - G_x & W_x - B_x \\ W_y - G_y & W_y - B_y \end{matrix} \right| \\
+P &= R_y + G_y \frac{D}{F} + B_y \frac{E}{F}
+\end{align}
+
+where:
+
+\begin{itemize}
+\item $R_x$, $R_y$: red point; $R_z = 1 - R_x - R_y$
+\item $G_x$, $G_y$: green point; $G_z = 1 - G_x - G_y$
+\item $B_x$, $B_y$: blue point; $B_z = 1 - B_x - B_y$
+\item $W_x$, $W_y$: white point
+\end{itemize}
+
+Then the conversion matrix $\mathbf{C}$ is as follows:
+
+\begin{align}
+\mathbf{C} &= \frac{1}{P} \left[\begin{matrix}
+R_x & G_x\dfrac{D}{F} & B_x\dfrac{E}{F} \\[2ex]
+R_y & G_y\dfrac{D}{F} & B_y\dfrac{E}{F} \\[2ex]
+R_z & G_z\dfrac{D}{F} & B_z\dfrac{E}{F} \\[2ex]
+\end{matrix}\right] = \left[\begin{matrix}
+0.4123908 & 0.3575843 & 0.1804808 \\
+0.2126390 & 0.7151687 & 0.0721923 \\
+0.0193308 & 0.1191948 & 0.9505322 \\
+\end{matrix}\right]
+\end{align}
+
+Then to convert RGB to XYZ we do
+
+\begin{align}
+\left[\begin{matrix} X \\ Y \\ Z \\ \end{matrix}\right] &= \mathbf{C} \left[\begin{matrix} R \\ G \\ B \\ \end{matrix}\right]
+\intertext{i.e.}
+\left[\begin{matrix} X \\ Y \\ Z \\ \end{matrix}\right] &= \left[\begin{matrix}
+0.4123908 & 0.3575843 & 0.1804808 \\
+0.2126390 & 0.7151687 & 0.0721923 \\
+0.0193308 & 0.1191948 & 0.9505322 \\
+\end{matrix}\right] \left[\begin{matrix} R \\ G \\ B \\ \end{matrix}\right]
+\end{align}
+
+Note: there is also a CIE definition of the D65 white point as ($x =
+0.31272$, $y = 0.32903$), which we do not use.
+
+
+\section{Adjust the white point}
+
+If required we can adjust the white point of the colours from one
+white point $\mathbf{S_1}$ to another $\mathbf{S_2}$.  This is done by multiplication by
+a Bradford matrix, $\mathbf{B}$.  To calculate it, we start with the
+Bradford chromatic adaption transform matrix $\mathbf{M}$, taken from
+S\"usstrunk et al., \textit{Chromatic adaption performance of
+  different RGB sensors}, IS\&T/SPIE Electronic Imaging, SPIE
+Vol.\ 4300 (2001).
+
+\begin{align}
+\mathbf{M} &= \left[\begin{matrix}
+0.8951 & 0.2664 & -0.1614 \\
+-0.7502 & 1.7135 & 0.0367 \\
+0.0389 & -0.0685 & 1.0296 \\
+\end{matrix}\right]
+\end{align}
+
+The inverse of $\mathbf{M}$ is
+\begin{align}
+\mathbf{M}^{-1} &= \left[\begin{matrix}
+0.9869929055 & -0.1470542564 & 0.1599626517 \\
+0.4323052697 & 0.5183602715 & 0.0492912282 \\
+-0.0085286646 & 0.0400428217 & 0.9684866958 \\
+\end{matrix}\right]
+\end{align}
+
+Next, compute $\mathbf{G}$ and $\mathbf{H}$ as follows
+
+\begin{align}
+\mathbf{G} &= \mathbf{M} \left[\begin{matrix} \dfrac{S_{1x}}{S_{1y}} \\[2ex] 1 \\ \dfrac{1 - S_{1x} - S_{1y}}{S_{1y}} \\[2ex] \end{matrix}\right] \\
+\mathbf{H} &= \mathbf{M} \left[\begin{matrix} \dfrac{S_{2x}}{S_{2y}} \\[2ex] 1 \\ \dfrac{1 - S_{2x} - S_{2y}}{S_{2y}} \\[2ex] \end{matrix}\right]
+\end{align}
+
+Then the Bradford matrix $\mathbf{B}$ is given by
+
+\begin{align}
+\mathbf{B} &= \mathbf{M}^{-1}
+\left(\left[\begin{matrix} \dfrac{H_1}{G_1} & 0 & 0 \\ 0 & \dfrac{H_2}{G_2} & 0 \\ 0 & 0 & \dfrac{H_3}{G_3} \\ \end{matrix}\right] \mathbf{M}\right) \\
+\end{align}
+
+
+\section{Normalize values}
+
+Here we just multiply all colour values by the constant $N$ where
+
+\begin{align}
+N &= \frac{48}{52.37}
+\end{align}
+
+
+\section{Convert to non-linear XYZ}
+
+This is a gamma correction of $1/2.6$, so that for some colour value $C_i$ the output colour $C_o$ is given by
+
+\begin{align}
+C_o &= C_i ^ {1/2.6}
+\end{align}
+
+
+\section{Converting from a colour matrix to chromaticities}
+
+To get back from a colour matrix $\mathbf{C}$ to the chromaticities:
+
+\begin{align}
+R_x &= \frac{C_{11}}{C_{11} + C_{21} + C_{31}} \\
+R_y &= \frac{C_{21}}{C_{11} + C_{21} + C_{31}} \\
+G_x &= \frac{C_{12}}{C_{12} + C_{22} + C_{32}} \\
+G_y &= \frac{C_{22}}{C_{12} + C_{22} + C_{32}} \\
+B_x &= \frac{C_{13}}{C_{13} + C_{23} + C_{33}} \\
+B_y &= \frac{C_{23}}{C_{13} + C_{23} + C_{33}} \\
+W_x &= \frac{C_{11} + C_{12} + C_{13}}{C_{11} + C_{12} + C_{13} + C_{21} + C_{22} + C_{23} + C_{31} + C_{32} + C_{33}} \\
+W_y &= \frac{C_{21} + C_{22} + C_{23}}{C_{11} + C_{12} + C_{13} + C_{21} + C_{22} + C_{23} + C_{31} + C_{32} + C_{33}}
+\end{align}
 
 \end{document}
