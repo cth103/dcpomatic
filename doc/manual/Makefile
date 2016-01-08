@@ -3,7 +3,8 @@
 all:	html pdf
 
 DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg timecode.svg pipeline1.svg pipeline2.svg \
-            pipeline3.svg pipeline4.svg burn-in.svg discrete.svg dcp-copy.svg dcp-refer.svg reels-by-video.svg
+            pipeline3.svg pipeline4.svg burn-in.svg discrete.svg dcp-copy.svg dcp-refer.svg reels-by-video.svg \
+	    crypt.svg
 
 SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-content-file.png \
                still-select-content-file.png examine-thumbs.png examine-content.png timing-tab.png \
@@ -11,7 +12,8 @@ SCREENSHOTS := file-new.png video-new-film.png still-new-film.png video-select-c
                prefs-kdm-email.png prefs-colour-conversions.png prefs-metadata.png prefs-general.png prefs-tms.png \
                prefs-advanced.png prefs-defaults.png prefs-servers.png prefs-keys.png \
                making-dcp.png filters.png video-tab.png audio-tab.png subtitles-tab.png timing-tab.png \
-               audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png
+               audio-plot.png audio-map-eg1.png audio-map-eg2.png audio-map-eg3.png kdm.png \
+	       kdm-creator.png
 
 XML := dcpomatic.xml
 

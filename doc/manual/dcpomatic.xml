@@ -1910,10 +1910,10 @@ those cinemas that are allowed to play the DCP.
 
 <para>
 The first part is simple: ticking the <guilabel>Encrypted</guilabel>
-box in the <guilabel>DCP</guilabel> tab of DCP-o-matic will encrypt
-the DCP using a random key that DCP-o-matic generates.  The key will
-be written to the film's metadata file, which should be kept
-secure.
+box in the <guilabel>DCP</guilabel> tab will instruct DCP-o-matic to
+encrypt the DCP that it makes using a random key that DCP-o-matic
+generates.  The key will be written to the film's metadata file, which
+should be kept secure.
 </para>
 
 <para>
@@ -1924,10 +1924,10 @@ is).
 </para>
 
 <para>
-The second part is to generate KDMs for the cinemas that you wish to
-allow to play your DCP.  There are two approaches to this within
-DCP-o-matic: using the project, or using a DKDM.  These are now
-described in turn.
+The second part of distributions is to generate KDMs for the cinemas
+that you wish to allow to play your DCP.  There are two approaches to
+this within DCP-o-matic: using the project, or using a DKDM.  These
+approaches are now described in turn.
 </para>
 
 <section>
@@ -1957,11 +1957,11 @@ available by the projector manufacturers as text files with a
 </para>
 
 <para>
-DCP-o-matic can store these certificates to make life easier.  It
-stores details of cinemas and screens within those cinemas.  Each
-screen has a certificate for its projector (and optionally
-certificates for other trusted devices, such as the sound processor).
-DCP-o-matic can generate KDMs for any screens that it knows about.
+DCP-o-matic can store these certificates along with details of their
+cinemas and screens within those cinemas.  Each screen has a
+certificate for its projector (and optionally certificates for other
+trusted devices, such as the sound processor).  DCP-o-matic can
+generate KDMs for any screens that it knows about.
 </para>
 
 <para>
@@ -2035,7 +2035,7 @@ It can be inconvenient to need a whole DCP-o-matic project just to
 create KDMs for its film.  Perhaps you want to archive the project to
 save space, or create KDMs on a different machine.  In such situations
 it is easier to use a DKDM.  This is a normal KDM, but instead of
-begin targeted at a projection system (to allow it to decrypt the
+being targeted at a projection system (to allow it to decrypt the
 content) it is targeted at a particular users's certificate.  This
 means that the certificate owner can create new KDMs for other users.
 The DKDM holds everything that is required to create further KDMs.
@@ -2059,9 +2059,58 @@ KDMs for anybody that requires them at short notice.
 To create a DKDM for DCP-o-matic, open your encrypted project and
 select <guilabel>Make DKDM for DCP-o-matic...</guilabel> from the
 <guilabel>Jobs</guilabel> menu.  Select the CPL that you want to make
-the DKDM for and choose where it should be written, then click
-<guilabel>OK</guilabel>.
+the DKDM for and click <guilabel>OK</guilabel>.  This DKDM will then
+be available in the KDM creator.  This is a separate program which you
+can start from the same place that you start the &lsquo;Normal&rsquo;
+DCP-o-matic.  Its window is shown in <xref linkend="fig-kdm-creator"/>.
 </para>
+
+<figure id="fig-kdm-creator">
+  <title>The KDM creator</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/kdm-creator&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+To create KDMs, select the cinema(s) and/or screens that you want KDMs
+to be created for, the date range, the DCP that the KDMs are for and
+the destination for the KDMs and click <guilabel>Create
+KDMs</guilabel>.
+</para>
+
+<para>
+By default the <guilabel>DKDM</guilabel> list will list any DCPs for
+which you have clicked <guilabel>Make DKDM for
+DCP-o-matic</guilabel>in the main DCP-o-matic program.  If you have
+other DKDMs you can add them by clicking <guilabel>Add...</guilabel> and
+specifying the file containing the DKDM.
+</para>
+
+<para>
+If another organisation wants to send you a DKDM they will ask you for
+a target certificate.  You can get DCP-o-matic's target certificate by
+opening <guilabel>Preferences</guilabel> and clicking <guilabel>Export
+DCP decryption certificate...</guilabel> in the <guilabel>Keys</guilabel>
+tab.
+
+</para>
+
+</section>
+
+<section>
+<title>Encryption overview</title>
+
+<figure id="fig-encryption-overview">
+  <title>Overview of encryption</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="diagrams/crypt&dia;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
 
 </section>
 </chapter>
@@ -2283,7 +2332,7 @@ be used when targeting a KDM at DCP-o-matic.
 If you want to import an encrypted DCP you will need to give the
 decryption certificate to the distributor of the DCP so that they can
 generate a DKDM for you.  You can save this certificate to disk by
-clicking <guilabel>Export DCP decryption certificate</guilabel>.  As
+clicking <guilabel>Export DCP decryption certificate...</guilabel>.  As
 with the signing chain, DCP-o-matic will create a certificate chain
 and private key for you.  You can also choose to load your own
 certificates and key or re-make the chain and key with new, random
