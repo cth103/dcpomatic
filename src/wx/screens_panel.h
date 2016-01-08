@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ public:
 private:
 	void add_cinemas ();
 	void add_cinema (boost::shared_ptr<Cinema>);
-	void add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
+	boost::optional<wxTreeItemId> add_screen (boost::shared_ptr<Cinema>, boost::shared_ptr<Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
 	void remove_cinema_clicked ();

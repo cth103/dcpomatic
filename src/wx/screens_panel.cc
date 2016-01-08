@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ using std::map;
 using std::string;
 using std::make_pair;
 using boost::shared_ptr;
+using boost::optional;
 
 ScreensPanel::ScreensPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
@@ -49,8 +50,6 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	add_cinemas ();
-
-	_targets->ExpandAll ();
 
 	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
 
@@ -129,7 +128,7 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 	_targets->SortChildren (_root);
 }
 
-void
+optional<wxTreeItemId>
 ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 {
 	CinemaMap::const_iterator i = _cinemas.begin();
@@ -138,11 +137,11 @@ ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 	}
 
 	if (i == _cinemas.end()) {
-		return;
+		return optional<wxTreeItemId> ();
 	}
 
 	_screens[_targets->AppendItem (i->first, std_to_wx (s->name))] = s;
-	_targets->Expand (i->first);
+	return i->first;
 }
 
 void
@@ -207,7 +206,10 @@ ScreensPanel::add_screen_clicked ()
 
 	shared_ptr<Screen> s (new Screen (d->name(), d->recipient(), d->trusted_devices()));
 	c->add_screen (s);
-	add_screen (c, s);
+	optional<wxTreeItemId> id = add_screen (c, s);
+	if (id) {
+		_targets->Expand (id.get ());
+	}
 
 	Config::instance()->changed ();
 
