@@ -1,5 +1,7 @@
 2016-01-08  c.hetherington  <cth@carlh.net>
 
+	* Attempt to make subtitles view resizeable on all platforms (#781).
+
 	* Don't expand all cinemas on opening KDM dialogs (#779).
 
 2016-01-07  Carl Hetherington  <cth@carlh.net>

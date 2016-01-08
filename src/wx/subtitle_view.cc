@@ -29,7 +29,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<SubtitleDecoder> decoder, DCPTime position)
-	: wxDialog (parent, wxID_ANY, _("Subtitles"))
+	: wxDialog (parent, wxID_ANY, _("Subtitles"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
 
