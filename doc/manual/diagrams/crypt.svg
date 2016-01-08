@@ -15,7 +15,7 @@
    id="svg3676"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="dkdm.svg">
+   sodipodi:docname="crypt.svg">
   <defs
      id="defs3678">
     <marker
@@ -802,16 +802,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.74546796"
-     inkscape:cx="11.340237"
-     inkscape:cy="520.26865"
+     inkscape:zoom="2.9818718"
+     inkscape:cx="177.20121"
+     inkscape:cy="652.61406"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1280"
-     inkscape:window-height="997"
-     inkscape:window-x="1280"
-     inkscape:window-y="0"
+     inkscape:window-height="970"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true" />
@@ -1100,11 +1100,11 @@
            y="193.20848"
            x="241.71935"
            id="tspan5605"
-           sodipodi:role="line">DKDM</tspan><tspan
+           sodipodi:role="line">DKDM recipient/</tspan><tspan
            y="213.20848"
            x="241.71935"
            sodipodi:role="line"
-           id="tspan6304">recipient</tspan><tspan
+           id="tspan6304">projector</tspan><tspan
            id="tspan5607"
            y="233.20848"
            x="241.71935"
@@ -1171,8 +1171,8 @@
       </g>
     </g>
     <path
-       style="opacity:1;color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow1Mend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 249.43967,334.32149 81.35105,31.69556"
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;marker-end:url(#Arrow1Mend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 249.43967,334.32149 c 30.77559,2.79071 57.72903,13.7035 81.35105,31.69556"
        id="path5712"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
