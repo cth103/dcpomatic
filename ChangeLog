@@ -1,3 +1,8 @@
+2016-01-09  Carl Hetherington  <cth@carlh.net>
+
+	* Fix file-not-found errors with dcpomatic_create on Windows
+	in some situations.
+
 2016-01-08  c.hetherington  <cth@carlh.net>
 
 	* Attempt to make subtitles view resizeable on all platforms (#781).
