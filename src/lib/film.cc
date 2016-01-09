@@ -139,6 +139,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 
 	/* Make state.directory a complete path without ..s (where possible)
 	   (Code swiped from Adam Bowen on stackoverflow)
+	   XXX: couldn't/shouldn't this just be boost::filesystem::canonical?
 	*/
 
 	boost::filesystem::path p (boost::filesystem::system_complete (dir));
