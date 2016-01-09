@@ -214,7 +214,7 @@ main (int argc, char* argv[])
 		film->set_signed (sign);
 
 		for (int i = optind; i < argc; ++i) {
-			shared_ptr<Content> c = content_factory (film, argv[i]);
+			shared_ptr<Content> c = content_factory (film, boost::filesystem::canonical (argv[i]));
 			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
 			if (vc) {
 				vc->set_scale (VideoContentScale (content_ratio));
