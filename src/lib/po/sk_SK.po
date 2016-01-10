@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 00:24+0000\n"
+"POT-Creation-Date: 2016-01-10 02:45+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
+"Language-Team: \n"
 "Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language-Team: \n"
 
 #: src/lib/dcp_content.cc:127
 msgid "%1 [DCP]"
@@ -127,15 +127,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitov na pixel"
 
-#: src/lib/film.cc:1293
+#: src/lib/film.cc:1294
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1294
+#: src/lib/film.cc:1295
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1285
+#: src/lib/film.cc:1286
 msgid "C"
 msgstr "C"
 
@@ -345,11 +345,11 @@ msgstr "D-BOX primárne"
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundárne"
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1296
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1296
+#: src/lib/film.cc:1297
 msgid "DBS"
 msgstr "DBS"
 
@@ -516,7 +516,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/film.cc:1289
+#: src/lib/film.cc:1290
 msgid "HI"
 msgstr "HI"
 
@@ -548,11 +548,11 @@ msgstr "KDM donáška: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/film.cc:1283
+#: src/lib/film.cc:1284
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1291
+#: src/lib/film.cc:1292
 msgid "Lc"
 msgstr "Lc"
 
@@ -572,7 +572,7 @@ msgstr "Left rear surround (Ľavý zadný priestorový)"
 msgid "Left surround"
 msgstr "Left surround (Ľavý zadný)"
 
-#: src/lib/film.cc:1286
+#: src/lib/film.cc:1287
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -600,7 +600,7 @@ msgstr "Logarmitmický (rozsah 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarmitmický (rozsah 316:1 )"
 
-#: src/lib/film.cc:1287
+#: src/lib/film.cc:1288
 msgid "Ls"
 msgstr "Ls"
 
@@ -632,6 +632,10 @@ msgstr "Nehoduje sa veľkosť videa v DCO"
 msgid "Motion compensating deinterlacer"
 msgstr "Pohybový kompenzačný odstraňovač"
 
+#: src/lib/cinema_kdms.cc:128
+msgid "No mail server configured in preferences"
+msgstr ""
+
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
 msgstr "Bez orezania"
@@ -640,7 +644,7 @@ msgstr "Bez orezania"
 msgid "No stretch"
 msgstr "Bez natiahnutia"
 
-#: src/lib/image_content.cc:55
+#: src/lib/image_content.cc:54
 msgid "No valid image files were found in the folder."
 msgstr "Žiadne platné súbory nebolo nájdené v priečinku."
 
@@ -688,7 +692,7 @@ msgstr "Chyba pri programovaní na %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement (Verejné oznámenie služby)"
 
-#: src/lib/film.cc:1284
+#: src/lib/film.cc:1285
 msgid "R"
 msgstr "R"
 
@@ -700,7 +704,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Prístupnosť"
 
-#: src/lib/film.cc:1292
+#: src/lib/film.cc:1293
 msgid "Rc"
 msgstr "Rc"
 
@@ -713,9 +717,10 @@ msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
 #: src/lib/dcp_content.cc:297
+#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
-"to `split by video content'."
+"to 'split by video content'."
 msgstr ""
 "Dĺžka reelu v projekte sa líši od tých v DCP; nastavte reel mod na 'rozdeliť "
 "podľa obsahu videa'."
@@ -736,7 +741,7 @@ msgstr "Right rear surround (Pravý zadný priestorový)"
 msgid "Right surround"
 msgstr "Right surround (Pravý priestorový)"
 
-#: src/lib/film.cc:1288
+#: src/lib/film.cc:1289
 msgid "Rs"
 msgstr "Rs"
 
@@ -847,7 +852,7 @@ msgstr ""
 "Zostáva málo pamäte. Ak je váš operačný system 32-bitový, skúste znížiť "
 "počet enkódovacích threadov v záložke Všeobecné, v nastaveniach."
 
-#: src/lib/film.cc:384
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -855,7 +860,7 @@ msgstr ""
 "Tento film bol vytvorený novšou verziou DCP-o-matic, a nemôže byť načítaný "
 "touto verziou. Prepáčte !"
 
-#: src/lib/film.cc:376
+#: src/lib/film.cc:377
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -921,7 +926,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1290
+#: src/lib/film.cc:1291
 msgid "VI"
 msgstr "VI"
 
@@ -953,15 +958,15 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Len ďalší deinterlacing filter"
 
-#: src/lib/film.cc:297
+#: src/lib/film.cc:298
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musíte pridať obsah do DCP pred tým, ako ho vytvoríte"
 
-#: src/lib/image_content.cc:78
+#: src/lib/image_content.cc:77
 msgid "[moving images]"
 msgstr "[presúvam obrázky]"
 
-#: src/lib/image_content.cc:76
+#: src/lib/image_content.cc:75
 msgid "[still]"
 msgstr "[stále]"
 
@@ -969,7 +974,7 @@ msgstr "[stále]"
 msgid "[subtitles]"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:273
 msgid "cannot contain slashes"
 msgstr "nemôže obsahovať lomky"
 
@@ -981,11 +986,11 @@ msgstr "spojenie vypršalo"
 msgid "connecting"
 msgstr "pripájam"
 
-#: src/lib/film.cc:293
+#: src/lib/film.cc:294
 msgid "container"
 msgstr "kontajner"
 
-#: src/lib/film.cc:301
+#: src/lib/film.cc:302
 msgid "content type"
 msgstr "typ obsahu"
 
@@ -1067,11 +1072,11 @@ msgstr "m"
 msgid "missing required setting %1"
 msgstr "chýbajúce potrebné nastavenia %1"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:92
 msgid "moving"
 msgstr "presúvam"
 
-#: src/lib/film.cc:272 src/lib/film.cc:305
+#: src/lib/film.cc:273 src/lib/film.cc:306
 msgid "name"
 msgstr "meno"
 
@@ -1094,7 +1099,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:91
+#: src/lib/image_content.cc:90
 msgid "still"
 msgstr "stále"
 

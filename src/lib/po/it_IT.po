@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 00:24+0000\n"
+"POT-Creation-Date: 2016-01-10 02:45+0000\n"
 "PO-Revision-Date: 2015-10-14 10:33+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bit per pixel"
 
-#: src/lib/film.cc:1293
+#: src/lib/film.cc:1294
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1294
+#: src/lib/film.cc:1295
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1285
+#: src/lib/film.cc:1286
 msgid "C"
 msgstr ""
 
@@ -345,11 +345,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1296
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1296
+#: src/lib/film.cc:1297
 msgid "DBS"
 msgstr ""
 
@@ -516,7 +516,7 @@ msgstr ""
 msgid "Gradient debander"
 msgstr "Gradiente debander"
 
-#: src/lib/film.cc:1289
+#: src/lib/film.cc:1290
 msgid "HI"
 msgstr ""
 
@@ -548,11 +548,11 @@ msgstr ""
 msgid "Kernel deinterlacer"
 msgstr "Deinterlacciatore Kernel"
 
-#: src/lib/film.cc:1283
+#: src/lib/film.cc:1284
 msgid "L"
 msgstr ""
 
-#: src/lib/film.cc:1291
+#: src/lib/film.cc:1292
 msgid "Lc"
 msgstr ""
 
@@ -572,7 +572,7 @@ msgstr ""
 msgid "Left surround"
 msgstr "Surround sinistro"
 
-#: src/lib/film.cc:1286
+#: src/lib/film.cc:1287
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Logarithmic (316:1 range)"
 msgstr ""
 
-#: src/lib/film.cc:1287
+#: src/lib/film.cc:1288
 msgid "Ls"
 msgstr ""
 
@@ -633,6 +633,10 @@ msgstr ""
 msgid "Motion compensating deinterlacer"
 msgstr "Dinterlacciatore con compensazione di movimento"
 
+#: src/lib/cinema_kdms.cc:128
+msgid "No mail server configured in preferences"
+msgstr ""
+
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
 msgstr ""
@@ -641,7 +645,7 @@ msgstr ""
 msgid "No stretch"
 msgstr ""
 
-#: src/lib/image_content.cc:55
+#: src/lib/image_content.cc:54
 msgid "No valid image files were found in the folder."
 msgstr ""
 
@@ -689,7 +693,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Annuncio di pubblico servizio"
 
-#: src/lib/film.cc:1284
+#: src/lib/film.cc:1285
 msgid "R"
 msgstr ""
 
@@ -701,7 +705,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Punteggio"
 
-#: src/lib/film.cc:1292
+#: src/lib/film.cc:1293
 msgid "Rc"
 msgstr ""
 
@@ -716,7 +720,7 @@ msgstr ""
 #: src/lib/dcp_content.cc:297
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
-"to `split by video content'."
+"to 'split by video content'."
 msgstr ""
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
@@ -735,7 +739,7 @@ msgstr ""
 msgid "Right surround"
 msgstr "Surround destro"
 
-#: src/lib/film.cc:1288
+#: src/lib/film.cc:1289
 msgid "Rs"
 msgstr ""
 
@@ -844,7 +848,7 @@ msgid ""
 "tab of Preferences."
 msgstr ""
 
-#: src/lib/film.cc:384
+#: src/lib/film.cc:385
 #, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
@@ -855,7 +859,7 @@ msgstr ""
 "un nuovo film, ri-aggiungere i tuoi contenuti e configurarlo di nuovo. Ci "
 "dispiace!"
 
-#: src/lib/film.cc:376
+#: src/lib/film.cc:377
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -922,7 +926,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1290
+#: src/lib/film.cc:1291
 msgid "VI"
 msgstr ""
 
@@ -954,15 +958,15 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Altro filtro di deinterlacciamento"
 
-#: src/lib/film.cc:297
+#: src/lib/film.cc:298
 msgid "You must add some content to the DCP before creating it"
 msgstr "Devi aggiungere dei contenuti al DCP prima di crearlo"
 
-#: src/lib/image_content.cc:78
+#: src/lib/image_content.cc:77
 msgid "[moving images]"
 msgstr ""
 
-#: src/lib/image_content.cc:76
+#: src/lib/image_content.cc:75
 msgid "[still]"
 msgstr ""
 
@@ -970,7 +974,7 @@ msgstr ""
 msgid "[subtitles]"
 msgstr "[sottotitoli]"
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:273
 msgid "cannot contain slashes"
 msgstr "non può contenere barre"
 
@@ -982,11 +986,11 @@ msgstr "connessione scaduta"
 msgid "connecting"
 msgstr "mi sto connettendo"
 
-#: src/lib/film.cc:293
+#: src/lib/film.cc:294
 msgid "container"
 msgstr "contenitore"
 
-#: src/lib/film.cc:301
+#: src/lib/film.cc:302
 msgid "content type"
 msgstr "tipo di contenuto"
 
@@ -1068,11 +1072,11 @@ msgstr "m"
 msgid "missing required setting %1"
 msgstr "persa la regolazione richiesta %1"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:92
 msgid "moving"
 msgstr ""
 
-#: src/lib/film.cc:272 src/lib/film.cc:305
+#: src/lib/film.cc:273 src/lib/film.cc:306
 msgid "name"
 msgstr "nome"
 
@@ -1095,7 +1099,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:91
+#: src/lib/image_content.cc:90
 msgid "still"
 msgstr ""
 

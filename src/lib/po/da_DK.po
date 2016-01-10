@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 00:24+0000\n"
+"POT-Creation-Date: 2016-01-10 02:45+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -126,15 +126,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/film.cc:1293
+#: src/lib/film.cc:1294
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1294
+#: src/lib/film.cc:1295
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1285
+#: src/lib/film.cc:1286
 msgid "C"
 msgstr ""
 
@@ -348,11 +348,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1296
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1296
+#: src/lib/film.cc:1297
 msgid "DBS"
 msgstr ""
 
@@ -524,7 +524,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/film.cc:1289
+#: src/lib/film.cc:1290
 msgid "HI"
 msgstr ""
 
@@ -556,11 +556,11 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/film.cc:1283
+#: src/lib/film.cc:1284
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1291
+#: src/lib/film.cc:1292
 msgid "Lc"
 msgstr "Lc"
 
@@ -580,7 +580,7 @@ msgstr "Venstre bag surround"
 msgid "Left surround"
 msgstr "Venstre surround"
 
-#: src/lib/film.cc:1286
+#: src/lib/film.cc:1287
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -608,7 +608,7 @@ msgstr "Logaritmisk (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk  (316:1 range)"
 
-#: src/lib/film.cc:1287
+#: src/lib/film.cc:1288
 msgid "Ls"
 msgstr ""
 
@@ -641,6 +641,10 @@ msgstr "Videostørrelser passer ikke i DCP"
 msgid "Motion compensating deinterlacer"
 msgstr "Bevægelseskompenserende deinterlacer"
 
+#: src/lib/cinema_kdms.cc:128
+msgid "No mail server configured in preferences"
+msgstr ""
+
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
 msgstr "Ingen skalering"
@@ -649,7 +653,7 @@ msgstr "Ingen skalering"
 msgid "No stretch"
 msgstr "Intet stræk"
 
-#: src/lib/image_content.cc:55
+#: src/lib/image_content.cc:54
 msgid "No valid image files were found in the folder."
 msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 
@@ -697,7 +701,7 @@ msgstr "Programmerings fejl ved %1: %2"
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/film.cc:1284
+#: src/lib/film.cc:1285
 msgid "R"
 msgstr ""
 
@@ -709,7 +713,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/film.cc:1292
+#: src/lib/film.cc:1293
 msgid "Rc"
 msgstr ""
 
@@ -724,7 +728,7 @@ msgstr "Rec. 709"
 #: src/lib/dcp_content.cc:297
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
-"to `split by video content'."
+"to 'split by video content'."
 msgstr ""
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
@@ -743,7 +747,7 @@ msgstr "Højre bag surround"
 msgid "Right surround"
 msgstr "Højre surround"
 
-#: src/lib/film.cc:1288
+#: src/lib/film.cc:1289
 msgid "Rs"
 msgstr ""
 
@@ -856,7 +860,7 @@ msgstr ""
 "kører på et 32 bit operativsystem, så prøv at reducere antallet af "
 "genereringstråde i fanebladet Generelt i Indstillinger."
 
-#: src/lib/film.cc:384
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -864,7 +868,7 @@ msgstr ""
 "Denne film blev dannet med en nyere version af DCP-o-matic og kan ikke "
 "indlæses i denne version. Beklager!"
 
-#: src/lib/film.cc:376
+#: src/lib/film.cc:377
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -930,7 +934,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1290
+#: src/lib/film.cc:1291
 msgid "VI"
 msgstr ""
 
@@ -962,15 +966,15 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Endnu et Deinterlacing Filter"
 
-#: src/lib/film.cc:297
+#: src/lib/film.cc:298
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du er nødt til at tilføje indhold til DCP'en før du kan danne den"
 
-#: src/lib/image_content.cc:78
+#: src/lib/image_content.cc:77
 msgid "[moving images]"
 msgstr "[levende billeder]"
 
-#: src/lib/image_content.cc:76
+#: src/lib/image_content.cc:75
 msgid "[still]"
 msgstr "[stillbillede]"
 
@@ -978,7 +982,7 @@ msgstr "[stillbillede]"
 msgid "[subtitles]"
 msgstr "[undertekster]"
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:273
 msgid "cannot contain slashes"
 msgstr "må ikke indeholde skråstreger"
 
@@ -990,11 +994,11 @@ msgstr "forbindelsestimeout"
 msgid "connecting"
 msgstr "forbinder"
 
-#: src/lib/film.cc:293
+#: src/lib/film.cc:294
 msgid "container"
 msgstr "container"
 
-#: src/lib/film.cc:301
+#: src/lib/film.cc:302
 msgid "content type"
 msgstr "indholdstype"
 
@@ -1076,11 +1080,11 @@ msgstr "m"
 msgid "missing required setting %1"
 msgstr "mangler påkrævet indstilling %1"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:92
 msgid "moving"
 msgstr ""
 
-#: src/lib/film.cc:272 src/lib/film.cc:305
+#: src/lib/film.cc:273 src/lib/film.cc:306
 msgid "name"
 msgstr "navn"
 
@@ -1103,7 +1107,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:91
+#: src/lib/image_content.cc:90
 msgid "still"
 msgstr ""
 

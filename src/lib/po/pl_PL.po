@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 00:24+0000\n"
+"POT-Creation-Date: 2016-01-10 02:45+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -128,15 +128,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitów na piksel"
 
-#: src/lib/film.cc:1293
+#: src/lib/film.cc:1294
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1294
+#: src/lib/film.cc:1295
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1285
+#: src/lib/film.cc:1286
 msgid "C"
 msgstr "C"
 
@@ -348,11 +348,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1296
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1296
+#: src/lib/film.cc:1297
 msgid "DBS"
 msgstr ""
 
@@ -522,7 +522,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Zachowaj przejścia tonalne"
 
-#: src/lib/film.cc:1289
+#: src/lib/film.cc:1290
 msgid "HI"
 msgstr "HI"
 
@@ -554,11 +554,11 @@ msgstr "Wysyłanie klucza: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Usuwanie przeplotu metodą Kernel"
 
-#: src/lib/film.cc:1283
+#: src/lib/film.cc:1284
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1291
+#: src/lib/film.cc:1292
 msgid "Lc"
 msgstr "Lc"
 
@@ -578,7 +578,7 @@ msgstr "Lewy tylny surround"
 msgid "Left surround"
 msgstr "Lewy surround"
 
-#: src/lib/film.cc:1286
+#: src/lib/film.cc:1287
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -606,7 +606,7 @@ msgstr "Logarytmiczny (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarytmiczny (316:1 range)"
 
-#: src/lib/film.cc:1287
+#: src/lib/film.cc:1288
 msgid "Ls"
 msgstr "Ls"
 
@@ -639,6 +639,10 @@ msgstr "Nieprawidłowy rozmiar pliku video w DCP"
 msgid "Motion compensating deinterlacer"
 msgstr "Usuwanie przeplotu z kompensacją ruchu"
 
+#: src/lib/cinema_kdms.cc:128
+msgid "No mail server configured in preferences"
+msgstr ""
+
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
 msgstr "Nie skaluj"
@@ -647,7 +651,7 @@ msgstr "Nie skaluj"
 msgid "No stretch"
 msgstr "Nie rozciągaj"
 
-#: src/lib/image_content.cc:55
+#: src/lib/image_content.cc:54
 msgid "No valid image files were found in the folder."
 msgstr "W folderze nie znaleziono obsługiwanych plików"
 
@@ -695,7 +699,7 @@ msgstr "Błąd programowania w lini %1:%2"
 msgid "Public Service Announcement"
 msgstr "Komunikat publiczny"
 
-#: src/lib/film.cc:1284
+#: src/lib/film.cc:1285
 msgid "R"
 msgstr "R"
 
@@ -707,7 +711,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Klasyfikacja"
 
-#: src/lib/film.cc:1292
+#: src/lib/film.cc:1293
 msgid "Rc"
 msgstr "Rc"
 
@@ -722,7 +726,7 @@ msgstr "Rec. 709"
 #: src/lib/dcp_content.cc:297
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
-"to `split by video content'."
+"to 'split by video content'."
 msgstr ""
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
@@ -741,7 +745,7 @@ msgstr "Prawy tylny surround"
 msgid "Right surround"
 msgstr "Prawy surround"
 
-#: src/lib/film.cc:1288
+#: src/lib/film.cc:1289
 msgid "Rs"
 msgstr "Rs"
 
@@ -852,7 +856,7 @@ msgstr ""
 "Brakuje pamięci, aby wykonać tą operację. Jeśli twój system jest 32 bitowy "
 "spróbuj zmniejszyć liczbę wątków kodujących."
 
-#: src/lib/film.cc:384
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -860,7 +864,7 @@ msgstr ""
 "Film został utworzony przy pomocy nowszej wersji DCP-o-matic i nie może być "
 "otwarty w tej wersji. Przepraszamy!"
 
-#: src/lib/film.cc:376
+#: src/lib/film.cc:377
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -926,7 +930,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1290
+#: src/lib/film.cc:1291
 msgid "VI"
 msgstr "VI"
 
@@ -958,15 +962,15 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "I jeszcze jeden filtr usuwania przeplotu"
 
-#: src/lib/film.cc:297
+#: src/lib/film.cc:298
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musisz dodać pliki zanim utworzysz DCP"
 
-#: src/lib/image_content.cc:78
+#: src/lib/image_content.cc:77
 msgid "[moving images]"
 msgstr "[ruchome obrazy]"
 
-#: src/lib/image_content.cc:76
+#: src/lib/image_content.cc:75
 msgid "[still]"
 msgstr "[stopklatka]"
 
@@ -974,7 +978,7 @@ msgstr "[stopklatka]"
 msgid "[subtitles]"
 msgstr "[napisy]"
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:273
 msgid "cannot contain slashes"
 msgstr "nie może zawierać ukośników"
 
@@ -986,11 +990,11 @@ msgstr "minął czas połączenia"
 msgid "connecting"
 msgstr "łączenie"
 
-#: src/lib/film.cc:293
+#: src/lib/film.cc:294
 msgid "container"
 msgstr "format"
 
-#: src/lib/film.cc:301
+#: src/lib/film.cc:302
 msgid "content type"
 msgstr "typ DCP"
 
@@ -1072,11 +1076,11 @@ msgstr "m"
 msgid "missing required setting %1"
 msgstr "brakuje wymaganych ustawień %1"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:92
 msgid "moving"
 msgstr "przenoszenie"
 
-#: src/lib/film.cc:272 src/lib/film.cc:305
+#: src/lib/film.cc:273 src/lib/film.cc:306
 msgid "name"
 msgstr "nazwa"
 
@@ -1099,7 +1103,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:91
+#: src/lib/image_content.cc:90
 msgid "still"
 msgstr "stopklatka"
 

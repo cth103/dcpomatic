@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 00:24+0000\n"
+"POT-Creation-Date: 2016-01-10 02:45+0000\n"
 "PO-Revision-Date: 2016-01-06 19:34+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -124,15 +124,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/film.cc:1293
+#: src/lib/film.cc:1294
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1294
+#: src/lib/film.cc:1295
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1285
+#: src/lib/film.cc:1286
 msgid "C"
 msgstr "C"
 
@@ -356,11 +356,11 @@ msgstr "D-BOX основной (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1296
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1296
+#: src/lib/film.cc:1297
 msgid "DBS"
 msgstr "DBS"
 
@@ -528,7 +528,7 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/film.cc:1289
+#: src/lib/film.cc:1290
 msgid "HI"
 msgstr "HI"
 
@@ -560,11 +560,11 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1283
+#: src/lib/film.cc:1284
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1291
+#: src/lib/film.cc:1292
 msgid "Lc"
 msgstr "Lc"
 
@@ -584,7 +584,7 @@ msgstr "Левый тыловой surround"
 msgid "Left surround"
 msgstr "Левый surround"
 
-#: src/lib/film.cc:1286
+#: src/lib/film.cc:1287
 msgid "Lfe"
 msgstr "LFE"
 
@@ -612,7 +612,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/film.cc:1287
+#: src/lib/film.cc:1288
 msgid "Ls"
 msgstr "Ls"
 
@@ -644,6 +644,10 @@ msgstr "Несоответствие размера видео в DCP"
 msgid "Motion compensating deinterlacer"
 msgstr "Диентерлейсер компенсации движения"
 
+#: src/lib/cinema_kdms.cc:128
+msgid "No mail server configured in preferences"
+msgstr ""
+
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
 msgstr "Без масштабирования"
@@ -652,7 +656,7 @@ msgstr "Без масштабирования"
 msgid "No stretch"
 msgstr "Без растягивания"
 
-#: src/lib/image_content.cc:55
+#: src/lib/image_content.cc:54
 msgid "No valid image files were found in the folder."
 msgstr "В папке не найдено подходящих изображений."
 
@@ -700,7 +704,7 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/film.cc:1284
+#: src/lib/film.cc:1285
 msgid "R"
 msgstr "R"
 
@@ -712,7 +716,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1292
+#: src/lib/film.cc:1293
 msgid "Rc"
 msgstr "Rc"
 
@@ -725,9 +729,10 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:297
+#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
-"to `split by video content'."
+"to 'split by video content'."
 msgstr ""
 "Длительность катушки в проекте отличается от длительности в DCP; установите "
 "режим катушки \"Разделять по видео-контенту\""
@@ -748,7 +753,7 @@ msgstr "Правый тыловой surround"
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/film.cc:1288
+#: src/lib/film.cc:1289
 msgid "Rs"
 msgstr "Rs"
 
@@ -862,7 +867,7 @@ msgstr ""
 "попробуйте уменьшить число потоков кодирования в Настройках во вкладке "
 "\"Основные\"."
 
-#: src/lib/film.cc:384
+#: src/lib/film.cc:385
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -870,7 +875,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:376
+#: src/lib/film.cc:377
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -936,7 +941,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/film.cc:1290
+#: src/lib/film.cc:1291
 msgid "VI"
 msgstr "VI"
 
@@ -968,15 +973,15 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Очередной фильтр деинтерлейсинга"
 
-#: src/lib/film.cc:297
+#: src/lib/film.cc:298
 msgid "You must add some content to the DCP before creating it"
 msgstr "Добавьте контент в проект прежде чем создавать DCP"
 
-#: src/lib/image_content.cc:78
+#: src/lib/image_content.cc:77
 msgid "[moving images]"
 msgstr "[последовательность]"
 
-#: src/lib/image_content.cc:76
+#: src/lib/image_content.cc:75
 msgid "[still]"
 msgstr "[статичный]"
 
@@ -984,7 +989,7 @@ msgstr "[статичный]"
 msgid "[subtitles]"
 msgstr "[субтитры]"
 
-#: src/lib/film.cc:272
+#: src/lib/film.cc:273
 msgid "cannot contain slashes"
 msgstr "не может содержать разрезы"
 
@@ -996,11 +1001,11 @@ msgstr "таймаут соединения"
 msgid "connecting"
 msgstr "соединение"
 
-#: src/lib/film.cc:293
+#: src/lib/film.cc:294
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:301
+#: src/lib/film.cc:302
 msgid "content type"
 msgstr "тип контента"
 
@@ -1082,11 +1087,11 @@ msgstr "м"
 msgid "missing required setting %1"
 msgstr "отсутствует обязательная настройка: %1"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:92
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:272 src/lib/film.cc:305
+#: src/lib/film.cc:273 src/lib/film.cc:306
 msgid "name"
 msgstr "название"
 
@@ -1109,7 +1114,7 @@ msgstr "с"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:91
+#: src/lib/image_content.cc:90
 msgid "still"
 msgstr "статичный"
 
