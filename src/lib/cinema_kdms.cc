@@ -124,6 +124,10 @@ CinemaKDMs::email (
 {
 	Config* config = Config::instance ();
 
+	if (config->mail_server().empty()) {
+		throw NetworkError (_("No mail server configured in preferences"));
+	}
+
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
