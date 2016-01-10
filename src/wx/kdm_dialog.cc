@@ -77,15 +77,16 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	_output = new KDMOutputPanel (this, film->interop ());
 	vertical->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
+
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	if (buttons) {
+		vertical->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+	}
+
 	/* Make an overall sizer to get a nice border, and put some buttons in */
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (vertical, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
-
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
-	}
 
 	/* Bind */
 
