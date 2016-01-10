@@ -32,6 +32,7 @@
 #include "lib/content_factory.h"
 #include "lib/image_content.h"
 #include "lib/dcp_content.h"
+#include "lib/case_insensitive_sorter.h"
 #include "lib/playlist.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
@@ -520,7 +521,7 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 	   alphabetical sort is expected here.
 	*/
 
-	paths.sort ();
+	paths.sort (CaseInsensitiveSorter ());
 
 	/* XXX: check for lots of files here and do something */
 

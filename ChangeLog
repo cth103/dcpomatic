@@ -1,5 +1,7 @@
 2016-01-10  Carl Hetherington  <cth@carlh.net>
 
+	* Sort "Add file(s)..." images case-insensitively.
+
 	* Version 2.6.15 released.
 
 2016-01-09  Carl Hetherington  <cth@carlh.net>

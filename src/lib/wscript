@@ -33,6 +33,7 @@ sources = """
           audio_point.cc
           audio_processor.cc
           audio_stream.cc
+          case_insensitive_sorter.cc
           cinema.cc
           cinema_kdms.cc
           cinema_sound_processor.cc
