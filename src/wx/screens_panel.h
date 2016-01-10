@@ -48,7 +48,8 @@ private:
 	void add_screen_clicked ();
 	void edit_screen_clicked ();
 	void remove_screen_clicked ();
-	void selection_changed (wxTreeEvent &);
+	void selection_changed_shim (wxTreeEvent &);
+	void selection_changed ();
 	void search_changed ();
 
 	wxSearchCtrl* _search;
