@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-12-23 02:05+0100\n"
+"PO-Revision-Date: 2016-01-11 02:15+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -24,12 +24,11 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:82
-#, fuzzy
 msgid ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
@@ -900,7 +899,7 @@ msgstr "Er zijn nieuwe versies van DCP -o- matic beschikbaar."
 
 #: src/wx/content_sub_panel.cc:46
 msgid "No DCP selected."
-msgstr ""
+msgstr "Geen DCP geselecteerd."
 
 #: src/wx/audio_mapping_view.cc:314
 #, c-format
