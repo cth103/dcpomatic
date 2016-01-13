@@ -1,3 +1,7 @@
+2016-01-13  Carl Hetherington  <cth@carlh.net>
+
+	* Fix incorrect fades when trim is being used.
+
 2016-01-11  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.

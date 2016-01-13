@@ -490,16 +490,18 @@ VideoContent::set_video_frame_rate (double r)
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
+/** @param f Frame index within the whole (untrimmed) content */
 optional<double>
 VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 
-	if (f < fade_in()) {
-		return double (f) / fade_in();
+	Frame const ts = trim_start().frames_round(video_frame_rate());
+	if ((f - ts) < fade_in()) {
+		return double (f - ts) / fade_in();
 	}
 
-	Frame fade_out_start = video_length() - fade_out();
+	Frame fade_out_start = video_length() - trim_end().frames_round(video_frame_rate()) - fade_out();
 	if (f >= fade_out_start) {
 		return 1 - double (f - fade_out_start) / fade_out();
 	}
