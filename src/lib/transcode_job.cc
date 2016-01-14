@@ -32,6 +32,7 @@
 
 #include "i18n.h"
 
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 #define LOG_ERROR_NC(...)   _film->log()->log (__VA_ARGS__, LogEntry::TYPE_ERROR);
 
@@ -65,7 +66,8 @@ void
 TranscodeJob::run ()
 {
 	try {
-
+		struct timeval start;
+		gettimeofday (&start, 0);
 		LOG_GENERAL_NC (N_("Transcode job starting"));
 
 		_transcoder.reset (new Transcoder (_film, shared_from_this ()));
@@ -73,7 +75,15 @@ TranscodeJob::run ()
 		set_progress (1);
 		set_state (FINISHED_OK);
 
-		LOG_GENERAL_NC (N_("Transcode job completed successfully"));
+		struct timeval finish;
+		gettimeofday (&finish, 0);
+
+		float fps = 0;
+		if (finish.tv_sec != start.tv_sec) {
+			fps = _transcoder->video_frames_out() / (finish.tv_sec - start.tv_sec);
+		}
+
+		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
 		_transcoder.reset ();
 
 	} catch (...) {

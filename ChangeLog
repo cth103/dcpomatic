@@ -1,5 +1,8 @@
 2016-01-14  Carl Hetherington  <cth@carlh.net>
 
+	* Add frames-per-second summary to log at the end of
+	a transcode (#786).
+
 	* Allow multiple CC addresses for KDM emails (#785).
 
 2016-01-13  Carl Hetherington  <cth@carlh.net>
