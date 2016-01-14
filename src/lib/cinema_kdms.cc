@@ -158,8 +158,8 @@ CinemaKDMs::email (
 
 		Emailer email (config->kdm_from(), i.cinema->emails, subject, body);
 
-		if (!config->kdm_cc().empty ()) {
-			email.add_cc (config->kdm_cc ());
+		BOOST_FOREACH (string i, config->kdm_cc()) {
+			email.add_cc (i);
 		}
 		if (!config->kdm_bcc().empty ()) {
 			email.add_bcc (config->kdm_bcc ());

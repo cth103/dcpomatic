@@ -1,3 +1,7 @@
+2016-01-14  Carl Hetherington  <cth@carlh.net>
+
+	* Allow multiple CC addresses for KDM emails (#785).
+
 2016-01-13  Carl Hetherington  <cth@carlh.net>
 
 	* Fix incorrect fades when trim is being used.

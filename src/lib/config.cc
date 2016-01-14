@@ -92,7 +92,7 @@ Config::set_defaults ()
 	_mail_user = "";
 	_mail_password = "";
 	_kdm_from = "";
-	_kdm_cc = "";
+	_kdm_cc.clear ();
 	_kdm_bcc = "";
 	_check_for_updates = false;
 	_check_for_test_updates = false;
@@ -238,7 +238,11 @@ Config::read ()
 	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
 	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
 	_kdm_from = f.string_child ("KDMFrom");
-	_kdm_cc = f.optional_string_child ("KDMCC").get_value_or ("");
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("KDMCC")) {
+		if (!i->content().empty()) {
+			_kdm_cc.push_back (i->content ());
+		}
+	}
 	_kdm_bcc = f.optional_string_child ("KDMBCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
 
@@ -391,7 +395,9 @@ Config::write () const
 	root->add_child("MailPassword")->add_child_text (_mail_password);
 	root->add_child("KDMSubject")->add_child_text (_kdm_subject);
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
-	root->add_child("KDMCC")->add_child_text (_kdm_cc);
+	BOOST_FOREACH (string i, _kdm_cc) {
+		root->add_child("KDMCC")->add_child_text (i);
+	}
 	root->add_child("KDMBCC")->add_child_text (_kdm_bcc);
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 

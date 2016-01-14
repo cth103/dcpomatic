@@ -195,7 +195,7 @@ public:
 		return _kdm_from;
 	}
 
-	std::string kdm_cc () const {
+	std::vector<std::string> kdm_cc () const {
 		return _kdm_cc;
 	}
 
@@ -386,7 +386,7 @@ public:
 		maybe_set (_kdm_from, f);
 	}
 
-	void set_kdm_cc (std::string f) {
+	void set_kdm_cc (std::vector<std::string> f) {
 		maybe_set (_kdm_cc, f);
 	}
 
@@ -523,7 +523,7 @@ private:
 	std::string _mail_password;
 	std::string _kdm_subject;
 	std::string _kdm_from;
-	std::string _kdm_cc;
+	std::vector<std::string> _kdm_cc;
 	std::string _kdm_bcc;
 	std::string _kdm_email;
 	boost::shared_ptr<const dcp::CertificateChain> _signer_chain;

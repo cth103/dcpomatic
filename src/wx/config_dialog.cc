@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include "isdcf_metadata_dialog.h"
 #include "server_dialog.h"
 #include "make_chain_dialog.h"
+#include "email_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -1134,6 +1135,12 @@ private:
 	wxTextCtrl* _tms_password;
 };
 
+static string
+column (string s)
+{
+	return s;
+}
+
 class KDMEmailPage : public StandardPage
 {
 public:
@@ -1143,7 +1150,7 @@ public:
 		/* We have to force both width and height of this one */
 		: StandardPage (wxSize (480, 128), border)
 #else
-		 : StandardPage (panel_size, border)
+		: StandardPage (panel_size, border)
 #endif
 	{}
 
@@ -1194,16 +1201,20 @@ private:
 		_kdm_from = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_kdm_from, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer (table, _panel, _("CC address"), true);
-		_kdm_cc = new wxTextCtrl (_panel, wxID_ANY);
+		vector<string> columns;
+		columns.push_back (wx_to_std (_("Address")));
+		add_label_to_sizer (table, _panel, _("CC addresses"), true);
+		_kdm_cc = new EditableList<string, EmailDialog> (
+			_panel, columns, bind (&Config::kdm_cc, Config::instance()), bind (&Config::set_kdm_cc, Config::instance(), _1), bind (&column, _1)
+			);
 		table->Add (_kdm_cc, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("BCC address"), true);
 		_kdm_bcc = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_kdm_bcc, 1, wxEXPAND | wxALL);
 
-		_kdm_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (480, 128), wxTE_MULTILINE);
-		_panel->GetSizer()->Add (_kdm_email, 1, wxEXPAND | wxALL, _border);
+		_kdm_email = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
+		_panel->GetSizer()->Add (_kdm_email, 0, wxEXPAND | wxALL, _border);
 
 		_reset_kdm_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
 		_panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
@@ -1214,7 +1225,6 @@ private:
 		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_password_changed, this));
 		_kdm_subject->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
 		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
-		_kdm_cc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_cc_changed, this));
 		_kdm_bcc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
 		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
 		_reset_kdm_email->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMEmailPage::reset_kdm_email, this));
@@ -1230,7 +1240,6 @@ private:
 		checked_set (_mail_password, config->mail_password ());
 		checked_set (_kdm_subject, config->kdm_subject ());
 		checked_set (_kdm_from, config->kdm_from ());
-		checked_set (_kdm_cc, config->kdm_cc ());
 		checked_set (_kdm_bcc, config->kdm_bcc ());
 		checked_set (_kdm_email, Config::instance()->kdm_email ());
 	}
@@ -1265,11 +1274,6 @@ private:
 		Config::instance()->set_kdm_from (wx_to_std (_kdm_from->GetValue ()));
 	}
 
-	void kdm_cc_changed ()
-	{
-		Config::instance()->set_kdm_cc (wx_to_std (_kdm_cc->GetValue ()));
-	}
-
 	void kdm_bcc_changed ()
 	{
 		Config::instance()->set_kdm_bcc (wx_to_std (_kdm_bcc->GetValue ()));
@@ -1298,7 +1302,7 @@ private:
 	wxTextCtrl* _mail_password;
 	wxTextCtrl* _kdm_subject;
 	wxTextCtrl* _kdm_from;
-	wxTextCtrl* _kdm_cc;
+	EditableList<string, EmailDialog>* _kdm_cc;
 	wxTextCtrl* _kdm_bcc;
 	wxTextCtrl* _kdm_email;
 	wxButton* _reset_kdm_email;
