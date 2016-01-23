@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
 #include "content_factory.h"
+#include "dcp_content.h"
 #include "job.h"
 #include "config.h"
 #include "util.h"
@@ -431,4 +432,26 @@ Playlist::move_later (shared_ptr<Content> c)
 	(*next)->set_position (c->position ());
 	c->set_position (c->position() + (*next)->length_after_trim ());
 	sort (_content.begin(), _content.end(), ContentSorter ());
+}
+
+int64_t
+Playlist::required_disk_space (int j2k_bandwidth, int audio_channels, int audio_frame_rate) const
+{
+	int64_t video = uint64_t (j2k_bandwidth / 8) * length().seconds ();
+	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length().seconds ();
+
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
+		if (d) {
+			if (d->reference_video()) {
+				video -= uint64_t (j2k_bandwidth / 8) * d->length_after_trim().seconds();
+			}
+			if (d->reference_audio()) {
+				audio -= uint64_t (audio_channels * audio_frame_rate * 3) * d->length_after_trim().seconds();
+			}
+		}
+	}
+
+	/* Add on 64k for bits and pieces (metadata, subs etc) */
+	return video + audio + 65536;
 }

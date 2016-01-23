@@ -1182,12 +1182,12 @@ Film::make_kdms (
 uint64_t
 Film::required_disk_space () const
 {
-	return uint64_t (j2k_bandwidth() / 8) * length().seconds();
+	return _playlist->required_disk_space (j2k_bandwidth(), audio_channels(), audio_frame_rate());
 }
 
 /** This method checks the disk that the Film is on and tries to decide whether or not
  *  there will be enough space to make a DCP for it.  If so, true is returned; if not,
- *  false is returned and required and availabe are filled in with the amount of disk space
+ *  false is returned and required and available are filled in with the amount of disk space
  *  required and available respectively (in Gb).
  *
  *  Note: the decision made by this method isn't, of course, 100% reliable.

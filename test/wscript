@@ -1,5 +1,5 @@
 #
-#    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -72,6 +72,7 @@ def build(bld):
                  repeat_frame_test.cc
                  recover_test.cc
                  reels_test.cc
+                 required_disk_space_test.cc
                  resampler_test.cc
                  scaling_test.cc
                  seek_zero_test.cc
