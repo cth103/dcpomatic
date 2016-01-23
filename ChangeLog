@@ -1,3 +1,8 @@
+2016-01-23  Carl Hetherington  <cth@carlh.net>
+
+	* Fix estimate of required disk space to take referencing
+	of existing DCPs into account.
+
 2016-01-14  Carl Hetherington  <cth@carlh.net>
 
 	* Add frames-per-second summary to log at the end of
