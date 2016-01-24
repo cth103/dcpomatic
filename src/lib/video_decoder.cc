@@ -247,11 +247,6 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 
 	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
-	/* We may receive the same frame index twice for 3D, and we need to know
-	   when that happens.
-	*/
-	bool const same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
-
 	/* Work out what we are going to push into _decoded_video next */
 	list<ContentVideo> to_push;
 	switch (_video_content->video_frame_type ()) {
@@ -259,8 +254,14 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 		to_push.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+	{
+		/* We receive the same frame index twice for 3D-alternate; hence we know which
+		   frame this one is.
+		*/
+		bool const same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
 		to_push.push_back (ContentVideo (image, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
 		break;
+	}
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));
 		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_RIGHT_HALF, frame));
@@ -318,6 +319,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 			break;
 		case VIDEO_FRAME_TYPE_3D_RIGHT:
 			fill_one_eye (from.get(), to.get (), EYES_RIGHT);
+			break;
 		}
 	}
 
