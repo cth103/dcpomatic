@@ -50,7 +50,7 @@ LogEntry::get () const
 		struct tm* t = localtime (&sec);
 		strftime (buffer, 64, "%c", t);
 		string a (buffer);
-		s << a.substr (0, a.length() - 1) << N_(": ");
+		s << a << N_(": ");
 	}
 
 	if (_type & TYPE_ERROR) {
