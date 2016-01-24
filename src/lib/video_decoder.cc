@@ -314,6 +314,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 			break;
 		case VIDEO_FRAME_TYPE_3D_RIGHT:
 			fill_one_eye (from.get(), to.get (), EYES_RIGHT);
+			break;
 		}
 	}
 
