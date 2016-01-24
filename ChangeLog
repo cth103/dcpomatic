@@ -1,3 +1,7 @@
+2016-01-24  Carl Hetherington  <cth@carlh.net>
+
+	* Fix encodes getting stuck in some cases (#783).
+
 2016-01-23  Carl Hetherington  <cth@carlh.net>
 
 	* Fix estimate of required disk space to take referencing

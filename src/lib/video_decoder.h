@@ -70,9 +70,12 @@ protected:
 	boost::shared_ptr<Image> _black_image;
 	boost::optional<ContentTime> _last_seek_time;
 	bool _last_seek_accurate;
-
 	/** true if this decoder should ignore all video; i.e. never produce any */
 	bool _ignore_video;
+	/** if set, this is a frame for which we got no data because the Decoder said
+	 *  it has no more to give.
+	 */
+	boost::optional<Frame> _no_data_frame;
 };
 
 #endif

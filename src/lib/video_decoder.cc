@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,6 +70,10 @@ VideoDecoder::decoded_video (Frame frame)
 list<ContentVideo>
 VideoDecoder::get_video (Frame frame, bool accurate)
 {
+	if (_no_data_frame && frame >= _no_data_frame.get()) {
+		return list<ContentVideo> ();
+	}
+	
 	/* At this stage, if we have get_video()ed before, _decoded_video will contain the last frame that this
 	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
 	   one after the end of _decoded_video we need to seek.
@@ -100,6 +104,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 
 			if (pass (PASS_REASON_VIDEO, accurate)) {
 				/* The decoder has nothing more for us */
+				_no_data_frame = frame;
 				break;
 			}
 
@@ -121,9 +126,9 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 		}
 	}
 
-	/* Clean up _decoded_video; keep the frame we are returning (which may have two images
+	/* Clean up _decoded_video; keep the frame we are returning, if any (which may have two images
 	   for 3D), but nothing before that */
-	while (!_decoded_video.empty() && _decoded_video.front().frame < dec.front().frame) {
+	while (!_decoded_video.empty() && !dec.empty() && _decoded_video.front().frame < dec.front().frame) {
 		_decoded_video.pop_front ();
 	}
 
