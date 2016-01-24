@@ -57,6 +57,7 @@ protected:
 		PASS_REASON_SUBTITLE
 	};
 
+	/** @return true if this decoder has already returned all its data and will give no more */
 	virtual bool pass (PassReason, bool accurate) = 0;
 };
 
