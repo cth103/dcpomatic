@@ -1195,13 +1195,28 @@ content, as shown in <xref linkend="fig-subtitles-tab"/>.
 </figure>
 
 <para>
-DCP-o-matic will extract subtitles from the content, if present, and
-they can be &lsquo;burnt into&rsquo; the DCP (that is, they are
-included in the image and not overlaid by the projector) or included
-as a separate subtitle &lsquo;asset&rsquo; within your DCP (in which
-case the projector overlays them onto the image on playback).  The
-difference between these two arrangements is illustrated by <xref
-linkend="fig-burn-in"/> and <xref linkend="fig-discrete"/>
+DCP-o-matic can either:
+</para>
+
+<itemizedlist>
+  <listitem>Extract &lsquo;image&rsquo; subtitles that are embedded in video files, or</listitem>
+  <listitem>Use text subtitles from SubRip (<code>.srt</code>) or DCP XML files.</listitem>
+</itemizedlist>
+
+<para>
+Image subtitles are represented using a set of bitmaps, as commonly
+used on DVD and BluRay.  Such subtitles can (currently) only be
+&lsquo;burnt&rsquo; into the DCP (that is, they are included in the
+image and not overlaid by the projector).
+</para>
+
+<para>
+With text subtitles you have the choice to either burn-in or include
+the subtitles as separate subtitle &lsquo;asset&rsquo; within your DCP
+(in which case the projector overlays them onto the image on
+playback).  The difference between burn-in and overlay is
+illustrated by <xref linkend="fig-burn-in"/> and <xref
+linkend="fig-discrete"/>.
 </para>
 
 <figure id="fig-burn-in">
@@ -1232,24 +1247,16 @@ every language.
 </para>
 
 <para>
-Note that subtitles come in two types: text and bitmap.  Text
-subtitles are expressed as plain text and can be either burnt into the
-image or included as a separate subtitle asset within the DCP.  Bitmap
-subtitles, on the other hand, are expressed as pre-rendered bitmaps.
-They cannot (yet) be added to the DCP as a separate asset and must be
-burnt into the image.
-</para>
-
-<para>
 Select the <guilabel>Use Subtitles</guilabel> check-box to enable
-these subtitles.
+the subtitles in the selected content.
 </para>
 
 <para>
 Select the <guilabel>Burn subtitles into image</guilabel> check-box to
 burn these subtitles into the image; if this is not ticked the
 subtitles will be included separately in the DCP to be rendered by the
-projector.
+projector.  This check-box will always be ticked if you are using
+embedded &lsquo;image&rsquo; subtitles.
 </para>
 
 <para>
