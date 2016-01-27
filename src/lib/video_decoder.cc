@@ -73,7 +73,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 	if (_no_data_frame && frame >= _no_data_frame.get()) {
 		return list<ContentVideo> ();
 	}
-	
+
 	/* At this stage, if we have get_video()ed before, _decoded_video will contain the last frame that this
 	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
 	   one after the end of _decoded_video we need to seek.
@@ -96,6 +96,8 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 		/* We are being accurate, so we want the right frame.
 		 * This could all be one statement but it's split up for clarity.
 		 */
+		bool no_data = false;
+
 		while (true) {
 			if (!decoded_video(frame).empty ()) {
 				/* We got what we want */
@@ -104,7 +106,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 
 			if (pass (PASS_REASON_VIDEO, accurate)) {
 				/* The decoder has nothing more for us */
-				_no_data_frame = frame;
+				no_data = true;
 				break;
 			}
 
@@ -118,6 +120,11 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 		}
 
 		dec = decoded_video (frame);
+
+		if (no_data && dec.empty()) {
+			_no_data_frame = frame;
+		}
+
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
 		while (_decoded_video.empty() && !pass (PASS_REASON_VIDEO, accurate)) {}
