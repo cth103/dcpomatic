@@ -301,7 +301,10 @@ AboutDialog::add_section (wxString name, wxArrayString credits)
 	static bool first = true;
 	int const N = 4;
 
-	wxPanel* panel = new wxPanel (_notebook, wxID_ANY);
+	wxScrolledWindow* panel = new wxScrolledWindow (_notebook);
+	panel->SetMaxSize (wxSize (-1, 380));
+	panel->EnableScrolling (false, true);
+	panel->SetScrollRate (0, 32);
 	wxSizer* overall_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	vector<wxSizer*> sizers;
