@@ -38,7 +38,7 @@ using boost::shared_ptr;
 using boost::optional;
 
 static void
-test (boost::filesystem::path file, float fps, int gaps)
+test (boost::filesystem::path file, float fps, int gaps, int video_length)
 {
 	boost::filesystem::path path = private_data / file;
 	if (!boost::filesystem::exists (path)) {
@@ -55,14 +55,13 @@ test (boost::filesystem::path file, float fps, int gaps)
 
 	BOOST_CHECK_CLOSE (decoder->video_content()->video_frame_rate(), fps, 0.01);
 
-	Frame const N = decoder->video_content()->video_length();
 #ifdef DCPOMATIC_DEBUG
 	decoder->test_gaps = 0;
 #endif
-	for (Frame i = 0; i < N; ++i) {
+	for (Frame i = 0; i < video_length; ++i) {
 		list<ContentVideo> v;
 		v = decoder->get_video (i, true);
-		BOOST_CHECK_EQUAL (v.size(), 1U);
+		BOOST_REQUIRE_EQUAL (v.size(), 1U);
 		BOOST_CHECK_EQUAL (v.front().frame, i);
 	}
 #ifdef DCPOMATIC_DEBUG
@@ -72,10 +71,10 @@ test (boost::filesystem::path file, float fps, int gaps)
 
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {
-	test ("boon_telly.mkv", 29.97, 0);
-	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 0);
+	test ("boon_telly.mkv", 29.97, 0, 6910);
+	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 0, 1248);
 	/* The first video frame is 12 here, so VideoDecoder should see 12 gaps
 	   (at the start of the file)
 	*/
-	test ("prophet_clip.mkv", 23.976, 12);
+	test ("prophet_clip.mkv", 23.976, 12, 2875);
 }
