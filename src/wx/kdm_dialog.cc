@@ -54,6 +54,10 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
 	_screens = new ScreensPanel (this);
+	/* Hack to stop KDM dialogs that are taller than my laptop screen; this
+	   really isn't the right way to fix it...
+	*/
+	_screens->SetMaxSize (wxSize (-1, 280));
 	vertical->Add (_screens, 1, wxEXPAND);
 
 	/* Sub-heading: Timing */
