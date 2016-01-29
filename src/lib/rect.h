@@ -87,6 +87,15 @@ public:
 		height = std::max (y + height, other.y + other.height) - y;
 	}
 
+	Rect<T> extended (T amount) const {
+		Rect<T> c = *this;
+		c.x -= amount;
+		c.y -= amount;
+		c.width += amount * 2;
+		c.height += amount * 2;
+		return c;
+	}
+
 	bool contains (Position<T> p) const
 	{
 		return (p.x >= x && p.x <= (x + width) && p.y >= y && p.y <= (y + height));

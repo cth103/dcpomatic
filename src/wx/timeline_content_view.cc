@@ -45,10 +45,10 @@ TimelineContentView::bbox () const
 	}
 
 	return dcpomatic::Rect<int> (
-		time_x (content->position ()) - 8,
-		y_pos (_track.get()) - 8,
-		content->length_after_trim().seconds() * _timeline.pixels_per_second().get_value_or(0) + 16,
-		_timeline.track_height() + 16
+		time_x (content->position ()),
+		y_pos (_track.get()),
+		content->length_after_trim().seconds() * _timeline.pixels_per_second().get_value_or(0),
+		_timeline.track_height()
 		);
 }
 

@@ -39,8 +39,8 @@ TimelineView::paint (wxGraphicsContext* g)
 void
 TimelineView::force_redraw ()
 {
-	_timeline.force_redraw (_last_paint_bbox);
-	_timeline.force_redraw (bbox ());
+	_timeline.force_redraw (_last_paint_bbox.extended (4));
+	_timeline.force_redraw (bbox().extended (4));
 }
 
 int
