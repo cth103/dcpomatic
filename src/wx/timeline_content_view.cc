@@ -113,11 +113,11 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 	}
 
 	wxGraphicsPath path = gc->CreatePath ();
-	path.MoveToPoint    (time_x (position),	      y_pos (_track.get()) + 4);
-	path.AddLineToPoint (time_x (position + len), y_pos (_track.get()) + 4);
-	path.AddLineToPoint (time_x (position + len), y_pos (_track.get() + 1) - 4);
-	path.AddLineToPoint (time_x (position),	      y_pos (_track.get() + 1) - 4);
-	path.AddLineToPoint (time_x (position),	      y_pos (_track.get()) + 4);
+	path.MoveToPoint    (time_x (position) + 1,	      y_pos (_track.get()) + 4);
+	path.AddLineToPoint (time_x (position + len) - 1,     y_pos (_track.get()) + 4);
+	path.AddLineToPoint (time_x (position + len) - 1,     y_pos (_track.get() + 1) - 4);
+	path.AddLineToPoint (time_x (position) + 1,	      y_pos (_track.get() + 1) - 4);
+	path.AddLineToPoint (time_x (position) + 1,	      y_pos (_track.get()) + 4);
 	gc->StrokePath (path);
 	gc->FillPath (path);
 
