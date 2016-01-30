@@ -101,6 +101,13 @@ Timeline::film_changed (Film::Property p)
 	if (p == Film::CONTENT || p == Film::REEL_TYPE || p == Film::REEL_LENGTH) {
 		ensure_ui_thread ();
 		recreate_views ();
+	} else if (p == Film::CONTENT_ORDER) {
+		assign_tracks ();
+		if (!_left_down) {
+			/* Only do this if we are not dragging, as it's confusing otherwise */
+			setup_pixels_per_second ();
+		}
+		Refresh ();
 	}
 }
 
@@ -142,14 +149,7 @@ Timeline::film_content_changed (int property)
 {
 	ensure_ui_thread ();
 
-	if (property == ContentProperty::POSITION) {
-		assign_tracks ();
-		if (!_left_down) {
-			/* Only do this if we are not dragging, as it's confusing otherwise */
-			setup_pixels_per_second ();
-		}
-		Refresh ();
-	} else if (property == AudioContentProperty::AUDIO_STREAMS) {
+	if (property == AudioContentProperty::AUDIO_STREAMS) {
 		recreate_views ();
 	}
 }

@@ -210,6 +210,7 @@ ContentPanel::film_changed (Film::Property p)
 {
 	switch (p) {
 	case Film::CONTENT:
+	case Film::CONTENT_ORDER:
 		setup ();
 		break;
 	default:
@@ -422,7 +423,7 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 void
 ContentPanel::film_content_changed (int property)
 {
-	if (property == ContentProperty::PATH || property == ContentProperty::POSITION || property == DCPContentProperty::CAN_BE_PLAYED) {
+	if (property == ContentProperty::PATH || property == DCPContentProperty::CAN_BE_PLAYED) {
 		setup ();
 	}
 
@@ -435,7 +436,6 @@ void
 ContentPanel::setup ()
 {
 	ContentList content = _film->content ();
-	sort (content.begin(), content.end(), ContentSorter ());
 
 	/* First, check to see if anything has changed and bail if not; this avoids
 	   flickering on OS X.

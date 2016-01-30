@@ -1,3 +1,8 @@
+2016-01-30  Carl Hetherington  <cth@carlh.net>
+
+	* Fix a collection of strange problems with the content list when
+	dragging content around in the timeline.
+
 2016-01-24  Carl Hetherington  <cth@carlh.net>
 
 	* Fix encodes getting stuck in some cases (#783).

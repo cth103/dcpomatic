@@ -66,14 +66,26 @@ Playlist::~Playlist ()
 void
 Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
 {
-	/* Don't respond to position changes here, as:
-	   - sequencing after earlier/later changes is handled by move_earlier/move_later
-	   - any other position changes will be timeline drags which should not result in content
-	   being sequenced.
-	*/
-
 	if (property == ContentProperty::LENGTH || property == VideoContentProperty::VIDEO_FRAME_TYPE) {
+		/* Don't respond to position changes here, as:
+		   - sequencing after earlier/later changes is handled by move_earlier/move_later
+		   - any other position changes will be timeline drags which should not result in content
+		   being sequenced.
+		*/
 		maybe_sequence_video ();
+	}
+
+	if (
+		property == ContentProperty::POSITION ||
+		property == ContentProperty::LENGTH ||
+		property == ContentProperty::TRIM_START ||
+		property == ContentProperty::TRIM_END) {
+
+		ContentList old = _content;
+		sort (_content.begin(), _content.end(), ContentSorter ());
+		if (_content != old) {
+			OrderChanged ();
+		}
 	}
 
 	ContentChanged (content, property, frequent);
@@ -138,6 +150,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		_content.push_back (content_factory (film, i, version, notes));
 	}
 
+	/* This shouldn't be necessary but better safe than sorry (there could be old files) */
 	sort (_content.begin(), _content.end(), ContentSorter ());
 
 	reconnect ();
@@ -349,7 +362,19 @@ Playlist::set_sequence_video (bool s)
 bool
 ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 {
-	return a->position() < b->position();
+	if (a->position() != b->position()) {
+		return a->position() < b->position();
+	}
+
+	/* Put video before audio if they start at the same time */
+	if (dynamic_pointer_cast<VideoContent>(a) && !dynamic_pointer_cast<VideoContent>(b)) {
+		return true;
+	} else if (!dynamic_pointer_cast<VideoContent>(a) && dynamic_pointer_cast<VideoContent>(b)) {
+		return false;
+	}
+
+	/* Last resort */
+	return a->digest() < b->digest();
 }
 
 /** @return content in ascending order of position */
@@ -389,8 +414,6 @@ Playlist::repeat (ContentList c, int n)
 void
 Playlist::move_earlier (shared_ptr<Content> c)
 {
-	sort (_content.begin(), _content.end(), ContentSorter ());
-
 	ContentList::iterator previous = _content.end ();
 	ContentList::iterator i = _content.begin();
 	while (i != _content.end() && *i != c) {
@@ -407,14 +430,11 @@ Playlist::move_earlier (shared_ptr<Content> c)
 	DCPTime const p = (*previous)->position ();
 	(*previous)->set_position (p + c->length_after_trim ());
 	c->set_position (p);
-	sort (_content.begin(), _content.end(), ContentSorter ());
 }
 
 void
 Playlist::move_later (shared_ptr<Content> c)
 {
-	sort (_content.begin(), _content.end(), ContentSorter ());
-
 	ContentList::iterator i = _content.begin();
 	while (i != _content.end() && *i != c) {
 		++i;
@@ -431,7 +451,6 @@ Playlist::move_later (shared_ptr<Content> c)
 
 	(*next)->set_position (c->position ());
 	c->set_position (c->position() + (*next)->length_after_trim ());
-	sort (_content.begin(), _content.end(), ContentSorter ());
 }
 
 int64_t

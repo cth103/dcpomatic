@@ -163,6 +163,8 @@ public:
 		USE_ISDCF_NAME,
 		/** The playlist's content list has changed (i.e. content has been added or removed) */
 		CONTENT,
+		/** The order of content in the playlist has changed */
+		CONTENT_ORDER,
 		DCP_CONTENT_TYPE,
 		CONTAINER,
 		RESOLUTION,
@@ -309,6 +311,7 @@ private:
 	void signal_changed (Property);
 	std::string video_identifier () const;
 	void playlist_changed ();
+	void playlist_order_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
 	void audio_analysis_finished ();
@@ -362,6 +365,7 @@ private:
 	mutable bool _dirty;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
+	boost::signals2::scoped_connection _playlist_order_changed_connection;
 	boost::signals2::scoped_connection _playlist_content_changed_connection;
 	std::list<boost::signals2::connection> _job_connections;
 	std::list<boost::signals2::connection> _audio_analysis_connections;

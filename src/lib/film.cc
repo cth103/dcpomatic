@@ -135,6 +135,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	set_isdcf_date_today ();
 
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Film::playlist_changed, this));
+	_playlist_order_changed_connection = _playlist->OrderChanged.connect (bind (&Film::playlist_order_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2, _3));
 
 	/* Make state.directory a complete path without ..s (where possible)
@@ -1090,6 +1091,12 @@ Film::playlist_changed ()
 {
 	signal_changed (CONTENT);
 	signal_changed (NAME);
+}
+
+void
+Film::playlist_order_changed ()
+{
+	signal_changed (CONTENT_ORDER);
 }
 
 int

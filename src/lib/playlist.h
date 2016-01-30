@@ -70,8 +70,9 @@ public:
 
 	void repeat (ContentList, int);
 
-	/** Emitted when content has been added to or removed from the playlist */
+	/** Emitted when content has been added to or removed from the playlist; implies OrderChanged */
 	mutable boost::signals2::signal<void ()> Changed;
+	mutable boost::signals2::signal<void ()> OrderChanged;
 	/** Emitted when something about a piece of our content has changed;
 	 *  these emissions include when the position of the content changes.
 	 *  Third parameter is true if signals are currently being emitted frequently.
