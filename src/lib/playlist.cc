@@ -426,9 +426,10 @@ Playlist::move_earlier (shared_ptr<Content> c)
 		return;
 	}
 
+	shared_ptr<Content> previous_c = *previous;
 
-	DCPTime const p = (*previous)->position ();
-	(*previous)->set_position (p + c->length_after_trim ());
+	DCPTime const p = previous_c->position ();
+	previous_c->set_position (p + c->length_after_trim ());
 	c->set_position (p);
 }
 
@@ -449,8 +450,10 @@ Playlist::move_later (shared_ptr<Content> c)
 		return;
 	}
 
-	(*next)->set_position (c->position ());
-	c->set_position (c->position() + (*next)->length_after_trim ());
+	shared_ptr<Content> next_c = *next;
+
+	next_c->set_position (c->position ());
+	c->set_position (c->position() + next_c->length_after_trim ());
 }
 
 int64_t
