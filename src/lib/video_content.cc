@@ -461,6 +461,8 @@ VideoContent::scale_and_crop_to_fit_width ()
 	set_scale (VideoContentScale (film()->container ()));
 
 	int const crop = max (0, int (video_size().height - double (film()->frame_size().height) * video_size().width / film()->frame_size().width));
+	set_left_crop (0);
+	set_right_crop (0);
 	set_top_crop (crop / 2);
 	set_bottom_crop (crop / 2);
 }
@@ -473,6 +475,8 @@ VideoContent::scale_and_crop_to_fit_height ()
 	int const crop = max (0, int (video_size().width - double (film()->frame_size().width) * video_size().height / film()->frame_size().height));
 	set_left_crop (crop / 2);
 	set_right_crop (crop / 2);
+	set_top_crop (0);
+	set_bottom_crop (0);
 }
 
 void
