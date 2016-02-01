@@ -273,8 +273,6 @@ string
 FFmpeg::subtitle_id (AVSubtitle const & sub)
 {
 	MD5Digester digester;
-	digester.add (sub.start_display_time);
-	digester.add (sub.end_display_time);
 	digester.add (sub.pts);
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
 		AVSubtitleRect* rect = sub.rects[i];
