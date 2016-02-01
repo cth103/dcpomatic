@@ -328,9 +328,8 @@ ContentPanel::add_folder_clicked ()
 void
 ContentPanel::remove_clicked ()
 {
-	ContentList c = selected ();
-	if (c.size() == 1) {
-		_film->remove_content (c.front ());
+	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+		_film->remove_content (i);
 	}
 
 	selection_changed ();
@@ -365,7 +364,7 @@ ContentPanel::setup_sensitivity ()
 	VideoContentList video_selection = selected_video ();
 	AudioContentList audio_selection = selected_audio ();
 
-	_remove->Enable   (selection.size() == 1 && _generally_sensitive);
+	_remove->Enable   (!selection.empty() && _generally_sensitive);
 	_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
 	_later->Enable    (selection.size() == 1 && _generally_sensitive);
 	_timeline->Enable (!_film->content().empty() && _generally_sensitive);

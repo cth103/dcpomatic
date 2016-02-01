@@ -1,5 +1,7 @@
 2016-02-01  Carl Hetherington  <cth@carlh.net>
 
+	* Allow removal of multiple pieces of content in one click.
+
 	* Synchronise content list / timeline selection when
 	the content list selection changes.
 
