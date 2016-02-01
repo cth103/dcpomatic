@@ -74,6 +74,8 @@ public:
 		return _snap;
 	}
 
+	void set_selection (ContentList selection);
+
 private:
 	void paint ();
 	void left_down (wxMouseEvent &);

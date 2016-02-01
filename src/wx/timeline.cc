@@ -462,3 +462,14 @@ Timeline::selected_content () const
 
 	return sel;
 }
+
+void
+Timeline::set_selection (ContentList selection)
+{
+	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
+		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
+		if (cv) {
+			cv->set_selected (find (selection.begin(), selection.end(), cv->content ()) != selection.end ());
+		}
+	}
+}

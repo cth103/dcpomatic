@@ -29,6 +29,8 @@ class TimelineDialog : public wxDialog
 public:
 	TimelineDialog (ContentPanel *, boost::shared_ptr<Film>);
 
+	void set_selection (ContentList selection);
+
 private:
 	void snap_toggled ();
 	void sequence_video_toggled ();

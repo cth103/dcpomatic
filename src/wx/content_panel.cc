@@ -244,6 +244,10 @@ ContentPanel::selection_changed ()
 	if (go_to) {
 		_film_viewer->set_position (go_to.get ());
 	}
+
+	if (_timeline_dialog) {
+		_timeline_dialog->set_selection (selected ());
+	}
 }
 
 void

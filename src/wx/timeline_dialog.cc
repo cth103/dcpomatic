@@ -94,3 +94,9 @@ TimelineDialog::film_changed (Film::Property p)
 		_sequence_video->SetValue (film->sequence_video ());
 	}
 }
+
+void
+TimelineDialog::set_selection (ContentList selection)
+{
+	_timeline.set_selection (selection);
+}

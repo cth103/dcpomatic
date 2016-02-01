@@ -1,5 +1,8 @@
 2016-02-01  Carl Hetherington  <cth@carlh.net>
 
+	* Synchronise content list / timeline selection when
+	the content list selection changes.
+
 	* Move the preview to the start of a piece of content
 	when selecting it (suggested by Carsten Kurz).
 
