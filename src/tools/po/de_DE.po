@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-12-15 03:01+0100\n"
+"PO-Revision-Date: 2016-01-29 01:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -130,9 +130,8 @@ msgid "Check for updates"
 msgstr "Auf Updates überprüfen..."
 
 #: src/tools/dcpomatic.cc:528
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "DCP-o-matic Stapelkonvertierung"
+msgstr "Batchconverter nicht gestartet!?"
 
 #: src/tools/dcpomatic.cc:995 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
@@ -178,7 +177,7 @@ msgstr "Encoding Server..."
 #. / project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:105
 msgid "Film changed"
-msgstr "Projekt gewechselt"
+msgstr "Projektdaten geändert"
 
 #: src/tools/dcpomatic.cc:809
 msgid "Hints..."
@@ -190,7 +189,7 @@ msgstr "&KDM erstellen...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:801
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Sende Projekt an Batchconverter\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:803
 msgid "Make DKDM for DCP-o-matic..."

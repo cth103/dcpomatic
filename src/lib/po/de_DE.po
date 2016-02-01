@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-11-27 15:14+0100\n"
+"PO-Revision-Date: 2016-01-29 03:45+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -255,7 +255,7 @@ msgstr ""
 #: src/lib/subtitle_content.cc:139
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
-"Zu verbindende Inhalte müssen identische Untertitel X-Skalierung verwenden."
+"Zu verbindende Inhalte müssen die gleiche Untertitel X-Skalierung verwenden."
 
 #: src/lib/subtitle_content.cc:135
 msgid "Content to be joined must have the same subtitle Y offset."
@@ -266,7 +266,7 @@ msgstr ""
 #: src/lib/subtitle_content.cc:143
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
-"Zu verbindende Inhalte müssen identische Untertitel Y-Skalierung verwenden."
+"Zu verbindende Inhalte müssen die gleiche Untertitel Y-Skalierung verwenden."
 
 #: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
@@ -279,7 +279,7 @@ msgstr "Zu verbindende Inhalte müssen den gleichen Bildtyp (z.B. 2D) haben."
 #: src/lib/subtitle_content.cc:148 src/lib/subtitle_content.cc:156
 msgid "Content to be joined must use the same fonts."
 msgstr ""
-"Zu verbindende Inhalte müssen identische Zeichensätze für Untertitel "
+"Zu verbindende Inhalte müssen die gleichen Zeichensätze für Untertitel "
 "verwenden."
 
 #: src/lib/ffmpeg_content.cc:130
@@ -483,9 +483,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Authentifizierung mit Server (%1) fehlgeschlagen"
 
 #: src/lib/emailer.cc:212
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "Konnte KDM Email nicht senden (Timeout)"
+msgstr "Konnte KDM Email nicht senden (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -649,7 +648,7 @@ msgstr "Bewegungskompensierender De-Interlacer"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "In den Voreinstellungen wurde noch kein Mailserver konfiguriert!"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -736,12 +735,11 @@ msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
 #: src/lib/dcp_content.cc:297
-#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
-"Aktlängen im Projekt unterscheiden sich vom DCP; Aktunterteilung wurde auf "
+"Aktlängen im Projekt unterscheiden sich von DCP; Aktunterteilung wurde auf "
 "Inhaltssegmentgrenzen gesetzt"
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-12-15 03:22+0100\n"
+"PO-Revision-Date: 2016-01-29 03:52+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -24,12 +24,11 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:82
-#, fuzzy
 msgid ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
@@ -427,7 +426,7 @@ msgstr "Beschnitt"
 
 #: src/wx/dcp_panel.cc:175 src/wx/video_panel.cc:196
 msgid "Custom"
-msgstr "Eigene Größe (GByte)"
+msgstr "Eigene Einstellung"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -507,9 +506,8 @@ msgid "Details..."
 msgstr "Details..."
 
 #: src/wx/download_certificate_dialog.cc:36
-#, fuzzy
 msgid "Dolby / Doremi"
-msgstr "Doremi"
+msgstr "Dolby / Doremi"
 
 #: src/wx/content_panel.cc:91
 msgid "Down"
@@ -816,7 +814,7 @@ msgstr "Lade..."
 
 #: src/wx/config_dialog.cc:1355
 msgid "Log"
-msgstr "Log"
+msgstr "In die Log-Datei schreiben:"
 
 #: src/wx/config_dialog.cc:1352
 msgid "Log:"
@@ -907,7 +905,7 @@ msgstr "Eine neue Version von DCP-o-matic ist verfügbar."
 
 #: src/wx/content_sub_panel.cc:46
 msgid "No DCP selected."
-msgstr ""
+msgstr "Kein DCP ausgewählt."
 
 #: src/wx/audio_mapping_view.cc:314
 #, c-format
@@ -1443,7 +1441,7 @@ msgstr "ISDCF Name benutzen"
 
 #: src/wx/dcp_panel.cc:628
 msgid "Use best"
-msgstr "Beste benutzen"
+msgstr "Beste wählen"
 
 #: src/wx/content_colour_conversion_dialog.cc:44
 msgid "Use preset"
@@ -1463,7 +1461,7 @@ msgstr "Bild"
 
 #: src/wx/video_waveform_dialog.cc:31
 msgid "Video Waveform"
-msgstr "Video Waveform"
+msgstr "Video Waveform (Vorschau-Slider ändert Auswahl...)"
 
 #: src/wx/timing_panel.cc:107
 msgid "Video frame rate"
@@ -1491,7 +1489,7 @@ msgstr "Mit Hilfe von"
 
 #: src/wx/kdm_output_panel.cc:45
 msgid "Write to"
-msgstr "Speichern nach"
+msgstr "Speichern in:"
 
 #: src/wx/about_dialog.cc:96
 msgid "Written by"
@@ -1526,6 +1524,9 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Die von ihnen gewählte Bildrate wird formal nicht in INTEROP-DCPs "
+"unterstützt. Wenn Sie diese Bildrate beibehalten wollen, sollten Sie ein "
+"SMPTE-DCP erstellen!"
 
 #: src/wx/hints_dialog.cc:172
 msgid ""
@@ -1542,7 +1543,8 @@ msgid ""
 "join them to ensure smooth joins between the files."
 msgstr ""
 "Sie haben %d Dateien die wie VOB Dateien einer DVD aussehen. Sie sollten sie "
-"verbinden um einen sanften Übergang zwischen den Dateien zu haben."
+"mit externer Software (z.B. MPEG Streamclip) verbinden um einen sanften "
+"Übergang zwischen den Dateien zu haben."
 
 #: src/wx/hints_dialog.cc:96
 msgid ""
