@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include "timing_panel.h"
 #include "timeline_dialog.h"
 #include "image_sequence_dialog.h"
+#include "film_viewer.h"
 #include "lib/audio_content.h"
 #include "lib/subtitle_content.h"
 #include "lib/video_content.h"
@@ -48,11 +49,13 @@ using std::vector;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
 	: _timeline_dialog (0)
 	, _parent (n)
 	, _film (film)
+	, _film_viewer (viewer)
 	, _generally_sensitive (true)
 {
 	_panel = new wxPanel (n);
@@ -111,7 +114,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_panels.push_back (_audio_panel);
 	_subtitle_panel = new SubtitlePanel (this);
 	_panels.push_back (_subtitle_panel);
-	_timing_panel = new TimingPanel (this, viewer);
+	_timing_panel = new TimingPanel (this, _film_viewer);
 	_panels.push_back (_timing_panel);
 
 	_content->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
@@ -229,6 +232,17 @@ ContentPanel::selection_changed ()
 
 	BOOST_FOREACH (ContentSubPanel* i, _panels) {
 		i->content_selection_changed ();
+	}
+
+	optional<DCPTime> go_to;
+	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
+		if (!go_to || i->position() < go_to.get()) {
+			go_to = i->position ();
+		}
+	}
+
+	if (go_to) {
+		_film_viewer->set_position (go_to.get ());
 	}
 }
 

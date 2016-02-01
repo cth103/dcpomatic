@@ -1,3 +1,8 @@
+2016-02-01  Carl Hetherington  <cth@carlh.net>
+
+	* Move the preview to the start of a piece of content
+	when selecting it (suggested by Carsten Kurz).
+
 2016-02-01  c.hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.

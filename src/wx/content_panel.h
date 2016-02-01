@@ -101,5 +101,6 @@ private:
 	wxNotebook* _parent;
 
 	boost::shared_ptr<Film> _film;
+	FilmViewer* _film_viewer;
 	bool _generally_sensitive;
 };
