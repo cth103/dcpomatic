@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 #include "ffmpeg_content.h"
 #include "raw_image_proxy.h"
 #include "film.h"
+#include "md5_digester.h"
 #include "compose.hpp"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -426,7 +427,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 		period.to = sub_period.to.get() + _pts_offset;
 	} else {
 		/* We have to look up the `to' time in the stream's records */
-		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (period.from);
+		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (subtitle_id (sub));
 	}
 
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {

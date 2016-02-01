@@ -86,6 +86,17 @@ private:
 	Frame _video_length;
 	bool _need_video_length;
 
-	typedef std::map<boost::shared_ptr<FFmpegSubtitleStream>, boost::optional<ContentTime> > LastSubtitleMap;
+	struct SubtitleStart
+	{
+		SubtitleStart (std::string id_, ContentTime time_)
+			: id (id_)
+			, time (time_)
+		{}
+
+		std::string id;
+		ContentTime time;
+	};
+
+	typedef std::map<boost::shared_ptr<FFmpegSubtitleStream>, boost::optional<SubtitleStart> > LastSubtitleMap;
 	LastSubtitleMap _last_subtitle_start;
 };

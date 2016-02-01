@@ -103,8 +103,11 @@ using boost::is_any_of;
  *
  * Bumped to 32 for 2.0 branch; some times are expressed in Times rather
  * than frames now.
+ *
+ * 32 -> 33
+ * Changed <Period> to <Subtitle> in FFmpegSubtitleStream
  */
-int const Film::current_state_version = 32;
+int const Film::current_state_version = 33;
 
 /** Construct a Film object in a given directory.
  *

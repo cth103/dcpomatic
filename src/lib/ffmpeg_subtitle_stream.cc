@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,16 +32,33 @@ using std::cout;
  *  @param t String returned from to_string().
  *  @param v State file version.
  */
-FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node)
+FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
 {
-	BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Period")) {
-		add_subtitle (
-			ContentTimePeriod (
-				ContentTime (i->number_child<ContentTime::Type> ("From")),
-				ContentTime (i->number_child<ContentTime::Type> ("To"))
-				)
-			);
+	if (version == 32) {
+		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Period")) {
+			/* In version 32 we assumed that from times were unique, so they weer
+			   used as identifiers.
+			*/
+			add_subtitle (
+				raw_convert<string> (i->string_child ("From")),
+				ContentTimePeriod (
+					ContentTime (i->number_child<ContentTime::Type> ("From")),
+					ContentTime (i->number_child<ContentTime::Type> ("To"))
+					)
+				);
+		}
+	} else {
+		/* In version 33 we use a hash of various parts of the subtitle as the id */
+		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Subtitle")) {
+			add_subtitle (
+				raw_convert<string> (i->string_child ("Id")),
+				ContentTimePeriod (
+					ContentTime (i->number_child<ContentTime::Type> ("From")),
+					ContentTime (i->number_child<ContentTime::Type> ("To"))
+					)
+				);
+		}
 	}
 }
 
@@ -50,18 +67,19 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
 
-	for (map<ContentTime, ContentTime>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		xmlpp::Node* node = root->add_child ("Period");
-		node->add_child("From")->add_child_text (raw_convert<string> (i->first.get ()));
-		node->add_child("To")->add_child_text (raw_convert<string> (i->second.get ()));
+	for (map<string, ContentTimePeriod>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		xmlpp::Node* node = root->add_child ("Subtitle");
+		node->add_child("Id")->add_child_text (i->first);
+		node->add_child("From")->add_child_text (raw_convert<string> (i->second.from.get ()));
+		node->add_child("To")->add_child_text (raw_convert<string> (i->second.to.get ()));
 	}
 }
 
 void
-FFmpegSubtitleStream::add_subtitle (ContentTimePeriod period)
+FFmpegSubtitleStream::add_subtitle (string id, ContentTimePeriod period)
 {
-	DCPOMATIC_ASSERT (_subtitles.find (period.from) == _subtitles.end ());
-	_subtitles[period.from] = period.to;
+	DCPOMATIC_ASSERT (_subtitles.find (id) == _subtitles.end ());
+	_subtitles[id] = period;
 }
 
 list<ContentTimePeriod>
@@ -70,9 +88,9 @@ FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting)
 	list<ContentTimePeriod> d;
 
 	/* XXX: inefficient */
-	for (map<ContentTime, ContentTime>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		if ((starting && period.contains (i->first)) || (!starting && period.overlaps (ContentTimePeriod (i->first, i->second)))) {
-			d.push_back (ContentTimePeriod (i->first, i->second));
+	for (map<string, ContentTimePeriod>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		if ((starting && period.contains (i->second.from)) || (!starting && period.overlaps (i->second))) {
+			d.push_back (i->second);
 		}
 	}
 
@@ -80,20 +98,19 @@ FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting)
 }
 
 ContentTime
-FFmpegSubtitleStream::find_subtitle_to (ContentTime from) const
+FFmpegSubtitleStream::find_subtitle_to (string id) const
 {
-	map<ContentTime, ContentTime>::const_iterator i = _subtitles.find (from);
+	map<string, ContentTimePeriod>::const_iterator i = _subtitles.find (id);
 	DCPOMATIC_ASSERT (i != _subtitles.end ());
-	return i->second;
+	return i->second.to;
 }
 
 /** Add some offset to all the times in the stream */
 void
 FFmpegSubtitleStream::add_offset (ContentTime offset)
 {
-	map<ContentTime, ContentTime> fixed;
-	for (map<ContentTime, ContentTime>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		fixed[i->first + offset] = i->second + offset;
+	for (map<string, ContentTimePeriod>::iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+		i->second.from += offset;
+		i->second.to += offset;
 	}
-	_subtitles = fixed;
 }

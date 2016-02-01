@@ -26,6 +26,7 @@
 #include "log.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
+#include "md5_digester.h"
 #include "compose.hpp"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -266,6 +267,27 @@ FFmpeg::subtitle_period (AVSubtitle const & sub)
 		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
 		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
 		);
+}
+
+string
+FFmpeg::subtitle_id (AVSubtitle const & sub)
+{
+	MD5Digester digester;
+	digester.add (sub.start_display_time);
+	digester.add (sub.end_display_time);
+	digester.add (sub.pts);
+	for (unsigned int i = 0; i < sub.num_rects; ++i) {
+		AVSubtitleRect* rect = sub.rects[i];
+		digester.add (rect->x);
+		digester.add (rect->y);
+		digester.add (rect->w);
+		digester.add (rect->h);
+		int const line = rect->pict.linesize[0];
+		for (int j = 0; j < rect->h; ++j) {
+			digester.add (rect->pict.data[0] + j * line, line);
+		}
+	}
+	return digester.get ();
 }
 
 /** Compute the pts offset to use given a set of audio streams and some video details.

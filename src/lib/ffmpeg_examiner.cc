@@ -142,11 +142,13 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 	}
 
+	/* Finish off any hanging subtitles at the end */
 	for (LastSubtitleMap::const_iterator i = _last_subtitle_start.begin(); i != _last_subtitle_start.end(); ++i) {
 		if (i->second) {
 			i->first->add_subtitle (
+				i->second->id,
 				ContentTimePeriod (
-					i->second.get (),
+					i->second->time,
 					ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
 					)
 				);
@@ -203,24 +205,25 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 	int frame_finished;
 	AVSubtitle sub;
 	if (avcodec_decode_subtitle2 (context, &sub, &frame_finished, &_packet) >= 0 && frame_finished) {
+		string id = subtitle_id (sub);
 		FFmpegSubtitlePeriod const period = subtitle_period (sub);
 		LastSubtitleMap::iterator last = _last_subtitle_start.find (stream);
 		if (last != _last_subtitle_start.end() && last->second) {
 			/* We have seen the start of a subtitle but not yet the end.  Whatever this is
 			   finishes the previous subtitle, so add it */
-			stream->add_subtitle (ContentTimePeriod (last->second.get (), period.from));
+			stream->add_subtitle (last->second->id, ContentTimePeriod (last->second->time, period.from));
 			if (sub.num_rects == 0) {
 				/* This is a `proper' end-of-subtitle */
-				_last_subtitle_start[stream] = optional<ContentTime> ();
+				_last_subtitle_start[stream] = optional<SubtitleStart> ();
 			} else {
 				/* This is just another subtitle, so we start again */
-				_last_subtitle_start[stream] = period.from;
+				_last_subtitle_start[stream] = SubtitleStart (id, period.from);
 			}
 		} else if (sub.num_rects == 1) {
 			if (period.to) {
-				stream->add_subtitle (ContentTimePeriod (period.from, period.to.get ()));
+				stream->add_subtitle (id, ContentTimePeriod (period.from, period.to.get ()));
 			} else {
-				_last_subtitle_start[stream] = period.from;
+				_last_subtitle_start[stream] = SubtitleStart (id, period.from);
 			}
 		}
 		avsubtitle_free (&sub);

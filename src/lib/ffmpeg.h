@@ -56,7 +56,8 @@ protected:
 		std::vector<boost::shared_ptr<FFmpegAudioStream> > audio_streams, boost::optional<ContentTime> first_video, double video_frame_rate
 		) const;
 
-	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const &);
+	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const & sub);
+	static std::string subtitle_id (AVSubtitle const & sub);
 
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 

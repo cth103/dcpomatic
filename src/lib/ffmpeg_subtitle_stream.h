@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,15 +27,15 @@ public:
 		: FFmpegStream (n, i)
 	{}
 
-	FFmpegSubtitleStream (cxml::ConstNodePtr);
+	FFmpegSubtitleStream (cxml::ConstNodePtr, int version);
 
 	void as_xml (xmlpp::Node *) const;
 
-	void add_subtitle (ContentTimePeriod period);
+	void add_subtitle (std::string id, ContentTimePeriod period);
 	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod period, bool starting) const;
-	ContentTime find_subtitle_to (ContentTime from) const;
+	ContentTime find_subtitle_to (std::string id) const;
 	void add_offset (ContentTime offset);
 
 private:
-	std::map<ContentTime, ContentTime> _subtitles;
+	std::map<std::string, ContentTimePeriod> _subtitles;
 };
