@@ -52,7 +52,7 @@ enum {
 	ID_timer
 };
 
-static int const log_lines = 32;
+static unsigned int const log_lines = 32;
 
 class ServerLog : public Log, public Signaller
 {
