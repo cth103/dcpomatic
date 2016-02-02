@@ -461,37 +461,14 @@ ContentPanel::setup ()
 {
 	ContentList content = _film->content ();
 
-	/* First, check to see if anything has changed and bail if not; this avoids
-	   flickering on OS X.
-	*/
-
-	vector<string> existing;
-	for (int i = 0; i < _content->GetItemCount(); ++i) {
-		existing.push_back (wx_to_std (_content->GetItemText (i)));
-	}
-
-	vector<string> proposed;
-	BOOST_FOREACH (shared_ptr<Content> i, content) {
-               bool const valid = i->paths_valid ();
-
-               string s = i->summary ();
-               if (!valid) {
-                       s = _("MISSING: ") + s;
-               }
-
-               proposed.push_back (s);
-	}
-
-	if (existing == proposed) {
-		return;
-	}
-
-	/* Something has changed: set up the control */
-
-	string selected_summary;
+	Content* selected_content = 0;
 	int const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s != -1) {
-		selected_summary = wx_to_std (_content->GetItemText (s));
+		wxListItem item;
+		item.SetId (s);
+		item.SetMask (wxLIST_MASK_DATA);
+		_content->GetItem (item);
+		selected_content = reinterpret_cast<Content*> (item.GetData ());
 	}
 
 	_content->DeleteAllItems ();
@@ -512,9 +489,13 @@ ContentPanel::setup ()
 			s = _("NEEDS KDM: ") + s;
 		}
 
-		_content->InsertItem (t, std_to_wx (s));
+		wxListItem item;
+		item.SetId (t);
+		item.SetText (std_to_wx (s));
+		item.SetData (i.get ());
+		_content->InsertItem (item);
 
-		if (i->summary() == selected_summary) {
+		if (i.get() == selected_content) {
 			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		}
 
@@ -523,7 +504,7 @@ ContentPanel::setup ()
 		}
 	}
 
-	if (selected_summary.empty () && !content.empty ()) {
+	if (!selected_content && !content.empty ()) {
 		/* Select the item of content if none was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
