@@ -279,8 +279,8 @@ def dependencies(target):
         ffmpeg_options = {}
 
     return (('ffmpeg-cdist', 'b559555', ffmpeg_options),
-            ('libdcp', '38ff295'),
-            ('libsub', '50b30b5'))
+            ('libdcp', 'e33e3b8'),
+            ('libsub', '1e26169'))
 
 def configure_options(target):
     opt = ''
