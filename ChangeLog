@@ -1,3 +1,7 @@
+2016-02-02  Carl Hetherington  <cth@carlh.net>
+
+	* Add Delete-key shortcut to remove content.
+
 2016-02-01  Carl Hetherington  <cth@carlh.net>
 
 	* Allow removal of multiple pieces of content in one click.

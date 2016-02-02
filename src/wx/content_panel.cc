@@ -328,6 +328,13 @@ ContentPanel::add_folder_clicked ()
 void
 ContentPanel::remove_clicked ()
 {
+	/* This method is also called when Delete is pressed, so check that our notebook page
+	   is visible.
+	*/
+	if (_parent->GetCurrentPage() != _panel) {
+		return;
+	}
+
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
 		_film->remove_content (i);
 	}

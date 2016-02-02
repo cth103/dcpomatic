@@ -65,11 +65,11 @@ public:
 	FFmpegContentList selected_ffmpeg ();
 
 	void add_file_clicked ();
+	void remove_clicked ();
 
 private:
 	void selection_changed ();
 	void add_folder_clicked ();
-	void remove_clicked ();
 	void earlier_clicked ();
 	void later_clicked ();
 	void right_click (wxListEvent &);

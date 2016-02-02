@@ -153,7 +153,8 @@ enum {
 	ID_tools_restore_default_preferences,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
-	ID_add_file
+	ID_add_file,
+	ID_remove
 };
 
 class DOMFrame : public wxFrame
@@ -248,10 +249,12 @@ public:
 
 		overall_panel->SetSizer (main_sizer);
 
-		wxAcceleratorEntry accel[1];
+		wxAcceleratorEntry accel[2];
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
+		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
-		wxAcceleratorTable accel_table (1, accel);
+		Bind (wxEVT_MENU, boost::bind (&ContentPanel::remove_clicked, _film_editor->content_panel()), ID_remove);
+		wxAcceleratorTable accel_table (2, accel);
 		SetAcceleratorTable (accel_table);
 
 		/* Instantly save any config changes when using the DCP-o-matic GUI */
