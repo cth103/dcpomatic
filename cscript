@@ -17,6 +17,7 @@
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 
+from __future__ import print_function
 import glob
 import shutil
 import os
@@ -163,113 +164,113 @@ def packages(name, packages, f):
     s = '%s: ' % name
     for p in packages:
         s += str(p) + ', '
-    print >>f,s[:-2]
+    print(s[:-2], file=f)
 
 def make_control(debian_version, bits, filename, debug):
     f = open(filename, 'w')
-    print >>f,'Source: dcpomatic'
-    print >>f,'Section: video'
-    print >>f,'Priority: extra'
-    print >>f,'Maintainer: Carl Hetherington <carl@dcpomatic.com>'
+    print('Source: dcpomatic', file=f)
+    print('Section: video', file=f)
+    print('Priority: extra', file=f)
+    print('Maintainer: Carl Hetherington <carl@dcpomatic.com>', file=f)
     packages('Build-Depends', deb_build_depends, f)
-    print >>f,'Standards-Version: 3.9.3'
-    print >>f,'Homepage: http://dcpomatic.com/'
-    print >>f,''
-    print >>f,'Package: dcpomatic'
+    print('Standards-Version: 3.9.3', file=f)
+    print('Homepage: http://dcpomatic.com/', file=f)
+    print('', file=f)
+    print('Package: dcpomatic', file=f)
     if bits == 32:
-        print >>f,'Architecture: i386'
+        print('Architecture: i386', file=f)
     else:
-        print >>f,'Architecture: amd64'
+        print('Architecture: amd64', file=f)
 
     packages('Depends', deb_depends[debian_version], f)
 
-    print >>f,'Description: Generator of Digital Cinema Packages (DCPs)'
-    print >>f,'  DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio'
-    print >>f,'  files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant'
-    print >>f,'  digital projectors.'
+    print('Description: Generator of Digital Cinema Packages (DCPs)', file=f)
+    print('  DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio', file=f)
+    print('  files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant', file=f)
+    print('  digital projectors.', file=f)
 
     if debug:
-        print >>f,''
-        print >>f,'Package: dcpomatic-dbg'
+        print('', file=f)
+        print('Package: dcpomatic-dbg', file=f)
         if bits == 32:
-            print >>f,'Architecture: i386'
+            print('Architecture: i386', file=f)
         else:
-            print >>f,'Architecture: amd64'
-        print >>f,'Section: debug'
-        print >>f,'Priority: extra'
+            print('Architecture: amd64', file=f)
+        print('Section: debug', file=f)
+        print('Priority: extra', file=f)
         packages('Depends', deb_depends[debian_version], f)
-        print >>f,'Description: debugging symbols for dcpomatic'
-        print >>f,'  This package contains the debugging symbols for dcpomatic.'
-        print >>f,''
+        print('Description: debugging symbols for dcpomatic', file=f)
+        print('  This package contains the debugging symbols for dcpomatic.', file=f)
+        print('', file=f)
 
 def make_spec(filename, version, target):
     """Make a .spec file for a RPM build"""
     f = open(filename, 'w')
-    print >>f,'Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files'
-    print >>f,'Name:dcpomatic2'
-    print >>f,'Version:%s' % version
-    print >>f,'Release:1%{?dist}'
-    print >>f,'License:GPL'
-    print >>f,'Group:Applications/Multimedia'
-    print >>f,'URL:http://dcpomatic.com/'
-    print >>f,'Requires: ImageMagick-c++, glibmm24, libzip'
-    print >>f,''
-    print >>f,'%description'
-    print >>f,'DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio '
-    print >>f,'files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant '
-    print >>f,'digital projectors.'
-    print >>f,''
-    print >>f,'%files'
-    print >>f,'%{_bindir}/dcpomatic2'
-    print >>f,'%{_bindir}/dcpomatic2_batch'
-    print >>f,'%{_bindir}/dcpomatic2_cli'
-    print >>f,'%{_bindir}/dcpomatic2_create'
-    print >>f,'%{_bindir}/dcpomatic2_kdm'
-    print >>f,'%{_bindir}/dcpomatic2_server'
-    print >>f,'%{_bindir}/dcpomatic2_server_cli'
-    print >>f,'%{_bindir}/dcpomatic2_kdm_cli'
-    print >>f,'%{_datadir}/applications/dcpomatic2.desktop'
-    print >>f,'%{_datadir}/applications/dcpomatic2_batch.desktop'
-    print >>f,'%{_datadir}/applications/dcpomatic2_server.desktop'
-    print >>f,'%{_datadir}/applications/dcpomatic2_kdm.desktop'
-    print >>f,'%{_datadir}/dcpomatic2/dcpomatic2_server_small.png'
-    print >>f,'%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf'
-    print >>f,'%{_datadir}/dcpomatic2/LiberationSans-Italic.ttf'
-    print >>f,'%{_datadir}/dcpomatic2/LiberationSans-Bold.ttf'
-    print >>f,'%{_datadir}/dcpomatic2/splash.png'
+    print('Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files', file=f)
+    print('Name:dcpomatic2', file=f)
+    print('Version:%s' % version, file=f)
+    print('Release:1%{?dist}', file=f)
+    print('License:GPL', file=f)
+    print('Group:Applications/Multimedia', file=f)
+    print('URL:http://dcpomatic.com/', file=f)
+    print('Requires: ImageMagick-c++, glibmm24, libzip', file=f)
+    print('', file=f)
+    print('%description', file=f)
+    print('DCP-o-matic generates Digital Cinema Packages (DCPs) from video and audio ', file=f)
+    print('files (such as those from DVDs or Blu-Rays) for presentation on DCI-compliant ', file=f)
+    print('digital projectors.', file=f)
+    print('', file=f)
+    print('%files', file=f)
+    print('%{_bindir}/dcpomatic2', file=f)
+    print('%{_bindir}/dcpomatic2_batch', file=f)
+    print('%{_bindir}/dcpomatic2_cli', file=f)
+    print('%{_bindir}/dcpomatic2_create', file=f)
+    print('%{_bindir}/dcpomatic2_kdm', file=f)
+    print('%{_bindir}/dcpomatic2_server', file=f)
+    print('%{_bindir}/dcpomatic2_server_cli', file=f)
+    print('%{_bindir}/dcpomatic2_kdm_cli', file=f)
+    print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_kdm.desktop', file=f)
+    print('%{_datadir}/dcpomatic2/dcpomatic2_server_small.png', file=f)
+    print('%{_datadir}/dcpomatic2/LiberationSans-Regular.ttf', file=f)
+    print('%{_datadir}/dcpomatic2/LiberationSans-Italic.ttf', file=f)
+    print('%{_datadir}/dcpomatic2/LiberationSans-Bold.ttf', file=f)
+    print('%{_datadir}/dcpomatic2/splash.png', file=f)
     for r in ['128x128', '16x16', '22x22', '256x256', '32x32', '48x48', '512x512', '64x64']:
-        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r
-        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_batch.png' % r
-        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r
-        print >>f,'%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_batch.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r, file=f)
     for l in ['de_DE', 'es_ES', 'fr_FR', 'it_IT', 'sv_SE', 'nl_NL', 'ru_RU', 'pl_PL', 'da_DK', 'pt_PT', 'sk_SK']:
-        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l
-        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l
-        print >>f,'%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l
-    print >>f,''
-    print >>f,'%prep'
-    print >>f,'rm -rf $RPM_BUILD_DIR/dcpomatic-%s' % version
-    print >>f,'tar xjf $RPM_SOURCE_DIR/dcpomatic-%s.tar.bz2' % version
-    print >>f,'%build'
-    print >>f,'cd dcpomatic-%s' % version
-    print >>f,'export PKG_CONFIG_PATH=%s/lib/pkgconfig:/usr/local/lib/pkgconfig' % target.directory
-    print >>f,'CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' % (target.directory, target.directory, configure_options(target))
-    print >>f,'./waf'
-    print >>f,'%install'
-    print >>f,'cd dcpomatic-%s' % version
-    print >>f,'./waf install'
-    print >>f,''
-    print >>f,'%post'
-    print >>f,'/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :'
-    print >>f,''
-    print >>f,'%postun'
-    print >>f,'if [ $1 -eq 0 ] ; then'
-    print >>f,'    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null'
-    print >>f,'    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
-    print >>f,'fi'
-    print >>f,''
-    print >>f,'%posttrans'
-    print >>f,'/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :'
+        print('%%{_datadir}/locale/%s/LC_MESSAGES/dcpomatic2.mo' % l, file=f)
+        print('%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2-wx.mo' % l, file=f)
+        print('%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l, file=f)
+    print('', file=f)
+    print('%prep', file=f)
+    print('rm -rf $RPM_BUILD_DIR/dcpomatic-%s' % version, file=f)
+    print('tar xjf $RPM_SOURCE_DIR/dcpomatic-%s.tar.bz2' % version, file=f)
+    print('%build', file=f)
+    print('cd dcpomatic-%s' % version, file=f)
+    print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:/usr/local/lib/pkgconfig' % target.directory, file=f)
+    print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' % (target.directory, target.directory, configure_options(target)), file=f)
+    print('./waf', file=f)
+    print('%install', file=f)
+    print('cd dcpomatic-%s' % version, file=f)
+    print('./waf install', file=f)
+    print('', file=f)
+    print('%post', file=f)
+    print('/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
+    print('', file=f)
+    print('%postun', file=f)
+    print('if [ $1 -eq 0 ] ; then', file=f)
+    print('    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null', file=f)
+    print('    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
+    print('fi', file=f)
+    print('', file=f)
+    print('%posttrans', file=f)
+    print('/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
 
 def dependencies(target):
 
@@ -322,7 +323,7 @@ def package_debian(target, cpu, version):
     make_control(target.version, target.bits, 'debian/control', target.debug)
     target.command('./waf dist')
     f = open('debian/files', 'w')
-    print >>f,'dcpomatic_%s-1_%s.deb video extra' % (version, cpu)
+    print('dcpomatic_%s-1_%s.deb video extra' % (version, cpu), file=f)
     shutil.rmtree('build/deb', ignore_errors=True)
 
     os.makedirs('build/deb')
@@ -374,9 +375,9 @@ def package_rpm(target, cpu, version):
     else:
         cpu = "i686"
 
-    print 'Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu)
+    print('Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu), file=f)
     for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
-        print 'found %s' % p
+        print('found %s' % p, file=f)
         rpms.append(os.path.abspath(p))
 
     return rpms
