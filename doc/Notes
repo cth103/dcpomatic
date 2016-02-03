@@ -1,6 +1,0 @@
-References to languages:
-
-cscript: make_spec()
-platform/osx/make_dmg.sh
-platform/windows/wscript
-src/wx/config_dialog.cc
