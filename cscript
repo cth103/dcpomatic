@@ -375,9 +375,9 @@ def package_rpm(target, cpu, version):
     else:
         cpu = "i686"
 
-    print('Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu), file=f)
+    print('Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu))
     for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
-        print('found %s' % p, file=f)
+        print('found %s' % p)
         rpms.append(os.path.abspath(p))
 
     return rpms
