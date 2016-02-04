@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2016-01-29 03:45+0100\n"
+"PO-Revision-Date: 2016-02-03 23:42+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -157,7 +157,7 @@ msgstr "Überprüfe bestehende Bilddateien"
 
 #: src/lib/ffmpeg_content.cc:427
 msgid "Colour primaries"
-msgstr "Grundfarbezug ('primaries')"
+msgstr "Grundfarbbezug ('primaries')"
 
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is unknown (not specified in the file).
@@ -684,7 +684,7 @@ msgstr ""
 
 #: src/lib/job.cc:145
 msgid "Out of memory"
-msgstr "Zuwenig Speicher"
+msgstr "Zu wenig Speicher"
 
 #: src/lib/filter.cc:73
 msgid "Overcomplete wavelet denoiser"
@@ -740,7 +740,7 @@ msgid ""
 "to 'split by video content'."
 msgstr ""
 "Aktlängen im Projekt unterscheiden sich von DCP; Aktunterteilung wurde auf "
-"Inhaltssegmentgrenzen gesetzt"
+"Inhalts-Segmentgrenzen gesetzt"
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
