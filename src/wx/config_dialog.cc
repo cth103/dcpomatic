@@ -170,6 +170,7 @@ private:
 		_language->Append (wxT ("Dansk"));
 		_language->Append (wxT ("Português europeu"));
 		_language->Append (wxT ("Slovenský jazyk"));
+		_language->Append (wxT ("Čeština"));
 		table->Add (_language, wxGBPosition (r, 1));
 		++r;
 
@@ -255,6 +256,8 @@ private:
 			checked_set (_language, 10);
 		} else if (config->language().get_value_or ("") == "sk") {
 			checked_set (_language, 11);
+		} else if (config->language().get_value_or ("") == "cs") {
+			checked_set (_language, 12);
 		} else {
 			_language->SetSelection (1);
 		}
@@ -323,6 +326,9 @@ private:
 			break;
 		case 11:
 			Config::instance()->set_language ("sk");
+			break;
+		case 12:
+			Config::instance()->set_language ("cs");
 			break;
 		}
 	}
