@@ -277,11 +277,11 @@ def configure(conf):
             include = []
             libpath = []
             for s in static.split():
-                if s.startswith('-L'):
+                if s.startswith(b'-L'):
                     libpath.append(s[2:])
-                elif s.startswith('-I'):
+                elif s.startswith(b'-I'):
                     include.append(s[2:])
-                elif s.startswith('-l'):
+                elif s.startswith(b'-l'):
                     if s[2:] not in names:
                         libs.append(s[2:])
                     else:
