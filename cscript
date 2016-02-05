@@ -253,7 +253,7 @@ def make_spec(filename, version, target):
     print('tar xjf $RPM_SOURCE_DIR/dcpomatic-%s.tar.bz2' % version, file=f)
     print('%build', file=f)
     print('cd dcpomatic-%s' % version, file=f)
-    print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:/usr/local/lib/pkgconfig' % target.directory, file=f)
+    print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig' % (target.directory, target.directory), file=f)
     print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' % (target.directory, target.directory, configure_options(target)), file=f)
     print('./waf', file=f)
     print('%install', file=f)
@@ -279,9 +279,9 @@ def dependencies(target):
     else:
         ffmpeg_options = {}
 
-    return (('ffmpeg-cdist', 'b559555', ffmpeg_options),
-            ('libdcp', 'e33e3b8'),
-            ('libsub', '1e26169'))
+    return (('ffmpeg-cdist', '96d67de', ffmpeg_options),
+            ('libdcp', '0aafcc5'),
+            ('libsub', '0bddbf8'))
 
 def configure_options(target):
     opt = ''
@@ -387,11 +387,11 @@ def package(target, version):
         return package_windows(target)
     elif target.platform == 'linux':
         if target.bits == 32:
-    	    cpu = 'i386'
+            cpu = 'i386'
         else:
-            cpu	= 'amd64'
+            cpu = 'amd64'
 
-	if target.distro == 'debian' or target.distro == 'ubuntu':
+        if target.distro == 'debian' or target.distro == 'ubuntu':
             return package_debian(target, cpu, version)
         elif target.distro == 'centos' or target.distro == 'fedora':
             return package_rpm(target, cpu, version)
@@ -403,7 +403,7 @@ def make_pot(target):
     target.command('./waf pot')
     return [os.path.abspath('build/src/lib/libdcpomatic.pot'),
             os.path.abspath('build/src/wx/libdcpomatic-wx.pot'),
-	    os.path.abspath('build/src/tools/dcpomatic.pot')]
+            os.path.abspath('build/src/tools/dcpomatic.pot')]
 
 def make_manual(target):
     os.chdir('doc/manual')

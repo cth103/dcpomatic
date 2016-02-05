@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2016-01-29 03:52+0100\n"
+"PO-Revision-Date: 2016-02-04 00:57+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -133,7 +133,7 @@ msgstr "Saal hinzufügen..."
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
-msgstr "Einzelbildsequenz oder DCP hinzufügen"
+msgstr "Einzelbildsequenz / DCP hinzufügen"
 
 #: src/wx/content_panel.cc:75
 msgid "Add file(s)..."
@@ -141,7 +141,7 @@ msgstr "Datei(en) hinzufügen..."
 
 #: src/wx/content_panel.cc:79
 msgid "Add folder..."
-msgstr "Einzelbildsequenz oder DCP hinzufügen..."
+msgstr "Einzelbildsequenz / DCP hinzufügen..."
 
 #: src/wx/image_sequence_dialog.cc:25
 msgid "Add image sequence"
@@ -227,7 +227,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:189
 msgid "Automatically analyse content audio"
-msgstr "Audioinhalte beim erstmaligen Einbinden sofort analysieren"
+msgstr "Audioinhalte beim Import sofort analysieren"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -549,7 +549,7 @@ msgstr "Empfängeradresse"
 
 #: src/wx/cinema_dialog.cc:52
 msgid "Email addresses for KDM delivery"
-msgstr "KDM Empfänger Email Adressen"
+msgstr "KDM Empfänger Email-Adressen"
 
 #: src/wx/servers_list_dialog.cc:32
 msgid "Encoding Servers"
@@ -709,7 +709,7 @@ msgstr "IP Adresse / Host Name"
 
 #: src/wx/isdcf_metadata_dialog.cc:31
 msgid "ISDCF name"
-msgstr "ISDCF Name"
+msgstr "ISDCF Name - http://isdcf.com/dcnc/"
 
 #: src/wx/colour_conversion_editor.cc:55
 msgid "Input gamma"
@@ -726,7 +726,7 @@ msgstr "Eingangsstärke"
 #: src/wx/audio_dialog.cc:306
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr "Integrierter Lautheitsumfang %.2f LU"
+msgstr "Integrierter Lautheitsumfang %.2f LUFS"
 
 #: src/wx/config_dialog.cc:818
 msgid "Intermediate"
@@ -758,7 +758,7 @@ msgstr "JPEG2000 Datenrate"
 
 #: src/wx/content_menu.cc:62
 msgid "Join"
-msgstr "Verbinden"
+msgstr "Nahtlos verbinden (VOB, MTS...)"
 
 #: src/wx/config_dialog.cc:1152
 msgid "KDM Email"
@@ -782,7 +782,7 @@ msgstr "Schlüssel"
 
 #: src/wx/config_dialog.cc:971
 msgid "Keys"
-msgstr "Schlüssel"
+msgstr "Eigenzertifikate"
 
 #: src/wx/subtitle_panel.cc:106
 msgid "Language"
@@ -818,7 +818,7 @@ msgstr "In die Log-Datei schreiben:"
 
 #: src/wx/config_dialog.cc:1352
 msgid "Log:"
-msgstr "Log:"
+msgstr "In die Log-Datei schreiben:"
 
 #: src/wx/audio_dialog.cc:315
 #, c-format
@@ -847,7 +847,7 @@ msgstr "KDMs erstellen"
 
 #: src/wx/make_chain_dialog.cc:33
 msgid "Make certificate chain"
-msgstr "Schlüsselkette erzeugen"
+msgstr "Zertifikatskette erzeugen"
 
 #: src/wx/isdcf_metadata_dialog.cc:73
 msgid "Mastered luminance (e.g. 14fl)"
@@ -935,7 +935,7 @@ msgstr "Aus"
 
 #: src/wx/config_dialog.cc:1347
 msgid "Only servers encode"
-msgstr "Nur Encoding  Server komprimieren (keine lokale J2C Komprimierung!)"
+msgstr "Nur Encoding Server komprimieren (keine lokale J2C Komprimierung!)"
 
 #: src/wx/config_dialog.cc:1379
 msgid "Open console window"
@@ -1044,7 +1044,7 @@ msgstr "RGB-XYZ Konvertierung:"
 
 #: src/wx/audio_dialog.cc:89
 msgid "RMS"
-msgstr "RMS"
+msgstr "RMS (Mittelwert)"
 
 #: src/wx/key_dialog.cc:49
 msgid "Random"
@@ -1072,7 +1072,7 @@ msgstr "Rec. 709 (HD)"
 
 #: src/wx/screen_dialog.cc:76
 msgid "Recipient certificate"
-msgstr "Empfängerzertifikat"
+msgstr "Serverzertifikat"
 
 #: src/wx/isdcf_metadata_dialog.cc:60
 msgid "Red band"
@@ -1184,7 +1184,7 @@ msgstr "Saal"
 
 #: src/wx/config_dialog.cc:585
 msgid "Search network for servers"
-msgstr "Suche automatisch nach Encodingservern"
+msgstr "Durchsuche Netzwerk nach aktiven Encodingservern"
 
 #: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
@@ -1193,7 +1193,7 @@ msgstr "CPL XML Datei auswählen"
 #: src/wx/config_dialog.cc:739 src/wx/config_dialog.cc:779
 #: src/wx/config_dialog.cc:1010 src/wx/screen_dialog.cc:143
 msgid "Select Certificate File"
-msgstr "Zertifikat Datei auswählen"
+msgstr "Zertifikats-Datei auswählen"
 
 #: src/wx/content_menu.cc:321
 msgid "Select KDM"
@@ -1349,9 +1349,8 @@ msgid ""
 "missing.  Either try again with the correct content file or remove the "
 "missing content."
 msgstr ""
-"Die ausgewählten Inhaltsdateien sind nicht die gleichen wie die Fehlenden. "
-"Entweder nochmals mit den richtigen Inhaltsdateien probieren oder Fehlende "
-"löschen."
+"Die ausgewählten Dateien sind nicht die gleichen wie die Fehlenden. Nochmals "
+"die richtigen Inhaltsdateien suchen, oder Fehlende aus Projekt löschen."
 
 #: src/wx/hints_dialog.cc:179
 msgid "There are no hints: everything looks good!"
@@ -1437,7 +1436,7 @@ msgstr "Update"
 
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
-msgstr "ISDCF Name benutzen"
+msgstr "ISDCF Name erzeugen"
 
 #: src/wx/dcp_panel.cc:628
 msgid "Use best"

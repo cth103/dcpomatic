@@ -131,10 +131,18 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_
 		}
 	}
 
+	/* XXX: should probably check that more of the stuff below is the same in *this and ref */
+
 	_subtitle_streams = ref->subtitle_streams ();
 	_subtitle_stream = ref->subtitle_stream ();
 	_audio_streams = ref->ffmpeg_audio_streams ();
 	_first_video = ref->_first_video;
+	_filters = ref->_filters;
+	_color_range = ref->_color_range;
+	_color_primaries = ref->_color_primaries;
+	_color_trc = ref->_color_trc;
+	_colorspace = ref->_colorspace;
+	_bits_per_pixel = ref->_bits_per_pixel;
 }
 
 void

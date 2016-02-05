@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2016-01-29 01:32+0100\n"
+"PO-Revision-Date: 2016-02-04 00:28+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -30,7 +30,7 @@ msgstr "&Projekt hinzufügen"
 
 #: src/tools/dcpomatic.cc:827
 msgid "&Content"
-msgstr "&Quelle..."
+msgstr "&Schnellskalierung..."
 
 #: src/tools/dcpomatic.cc:825 src/tools/dcpomatic_batch.cc:81
 msgid "&Edit"
@@ -131,7 +131,7 @@ msgstr "Auf Updates überprüfen..."
 
 #: src/tools/dcpomatic.cc:528
 msgid "Could not find batch converter."
-msgstr "Batchconverter nicht gestartet!?"
+msgstr "Batchkonverter nicht gestartet!?"
 
 #: src/tools/dcpomatic.cc:995 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
@@ -218,11 +218,11 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:797
 msgid "Scale to fit &height"
-msgstr "Skalierungsbezug ist &Höhe DCI-Container (Standard)"
+msgstr "Container vertikal füllen (evtl. seitlicher Beschnitt!)"
 
 #: src/tools/dcpomatic.cc:796
 msgid "Scale to fit &width"
-msgstr "Skalierungsbezug ist &Breite DCI-Container"
+msgstr "Container horizontal füllen (evtl. vertikaler Beschnitt!)"
 
 #: src/tools/dcpomatic.cc:361 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"
