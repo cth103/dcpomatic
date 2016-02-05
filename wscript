@@ -271,17 +271,17 @@ def configure(conf):
     if conf.options.static_ffmpeg:
         names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'postproc']
         for name in names:
-            static = subprocess.Popen(shlex.split('pkg-config --static --libs lib%s' % name), stdout=subprocess.PIPE).communicate()[0]
+            static = subprocess.Popen(shlex.split('pkg-config --static --libs lib%s' % name), stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
             libs = []
             stlibs = []
             include = []
             libpath = []
             for s in static.split():
-                if s.startswith(b'-L'):
+                if s.startswith('-L'):
                     libpath.append(s[2:])
-                elif s.startswith(b'-I'):
+                elif s.startswith('-I'):
                     include.append(s[2:])
-                elif s.startswith(b'-l'):
+                elif s.startswith('-l'):
                     if s[2:] not in names:
                         libs.append(s[2:])
                     else:
