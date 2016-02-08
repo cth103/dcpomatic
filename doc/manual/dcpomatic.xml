@@ -1638,7 +1638,7 @@ unused channel will be filled with silence.
 
 <para>
 The <guilabel>Processor</guilabel> control allows you to select a
-process to apply to the audio before it goes into the DCP.  Two processes are currently provided:
+process to apply to the audio before it goes into the DCP.  Three processes are currently provided:
 </para>
 
 <itemizedlist>
