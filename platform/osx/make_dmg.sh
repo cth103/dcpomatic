@@ -206,7 +206,7 @@ for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT sk_SK cs
 done
 
 # i18n: wxWidgets .mo files
-for lang in de es fr it sv nl ru pl da pt sk cs; do
+for lang in de es fr it sv nl ru pl da cs; do
   mkdir "$WORK/$resources/$lang"
   cp $ENV/64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$WORK/$resources/$lang"
 done
