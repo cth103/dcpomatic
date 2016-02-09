@@ -310,7 +310,7 @@ def configure(conf):
                    libpath='/usr/local/lib',
                    lib=['avfilter'],
                    uselib_store='PATCHED_FFMPEG',
-                   defines_name='DCPOMATIC_HAVE_PATCHED_FFMPEG',
+                   define_name='DCPOMATIC_HAVE_PATCHED_FFMPEG',
                    mandatory=False)
 
     # Boost
