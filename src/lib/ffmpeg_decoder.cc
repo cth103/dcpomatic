@@ -129,9 +129,13 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
  *  Only the first buffer will be used for non-planar data, otherwise there will be one per channel.
  */
 shared_ptr<AudioBuffers>
-FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t** data, int size)
+FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 {
 	DCPOMATIC_ASSERT (bytes_per_audio_sample (stream));
+
+	int const size = av_samples_get_buffer_size (
+		0, stream->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (stream), 1
+		);
 
 	/* Deinterleave and convert to float */
 
@@ -145,7 +149,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 	switch (audio_sample_format (stream)) {
 	case AV_SAMPLE_FMT_U8:
 	{
-		uint8_t* p = reinterpret_cast<uint8_t *> (data[0]);
+		uint8_t* p = reinterpret_cast<uint8_t *> (_frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -162,7 +166,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 
 	case AV_SAMPLE_FMT_S16:
 	{
-		int16_t* p = reinterpret_cast<int16_t *> (data[0]);
+		int16_t* p = reinterpret_cast<int16_t *> (_frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -179,7 +183,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 
 	case AV_SAMPLE_FMT_S16P:
 	{
-		int16_t** p = reinterpret_cast<int16_t **> (data);
+		int16_t** p = reinterpret_cast<int16_t **> (_frame->data);
 		for (int i = 0; i < stream->channels(); ++i) {
 			for (int j = 0; j < frames; ++j) {
 				audio->data(i)[j] = static_cast<float>(p[i][j]) / (1 << 15);
@@ -190,7 +194,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 
 	case AV_SAMPLE_FMT_S32:
 	{
-		int32_t* p = reinterpret_cast<int32_t *> (data[0]);
+		int32_t* p = reinterpret_cast<int32_t *> (_frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -207,7 +211,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 
 	case AV_SAMPLE_FMT_FLT:
 	{
-		float* p = reinterpret_cast<float*> (data[0]);
+		float* p = reinterpret_cast<float*> (_frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -224,7 +228,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 
 	case AV_SAMPLE_FMT_FLTP:
 	{
-		float** p = reinterpret_cast<float**> (data);
+		float** p = reinterpret_cast<float**> (_frame->data);
 		/* Sometimes there aren't as many channels in the _frame as in the stream */
 		for (int i = 0; i < _frame->channels; ++i) {
 			memcpy (audio->data(i), p[i], frames * sizeof(float));
@@ -334,11 +338,7 @@ FFmpegDecoder::decode_audio_packet ()
 				av_q2d ((*stream)->stream (_format_context)->time_base))
 				+ _pts_offset;
 
-			int const data_size = av_samples_get_buffer_size (
-				0, (*stream)->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (*stream), 1
-				);
-
-			shared_ptr<AudioBuffers> data = deinterleave_audio (*stream, _frame->data, data_size);
+			shared_ptr<AudioBuffers> data = deinterleave_audio (*stream);
 
 			if (ct < ContentTime ()) {
 				/* Discard audio data that comes before time 0 */
