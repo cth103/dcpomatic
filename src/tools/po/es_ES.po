@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-08-30 15:38-0400\n"
+"PO-Revision-Date: 2016-02-09 01:12-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: src/tools/dcpomatic.cc:345
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -91,7 +91,7 @@ msgid "Add Film..."
 msgstr "Añadir película..."
 
 #: src/tools/dcpomatic.cc:1057
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
@@ -127,9 +127,8 @@ msgid "Check for updates"
 msgstr "Buscar actualizaciones"
 
 #: src/tools/dcpomatic.cc:528
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "Convertidor por lotes DCP-o-matic"
+msgstr "No se puedo encontrar el convertidor por lotes."
 
 #: src/tools/dcpomatic.cc:995 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
@@ -186,11 +185,11 @@ msgstr "Crear &KDMs...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:801
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Crear DCP in &batch converter\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:803
 msgid "Make DKDM for DCP-o-matic..."
-msgstr ""
+msgstr "Producir un DKDM para DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:771
 msgid "New...\tCtrl-N"

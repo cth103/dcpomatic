@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-08-30 15:57-0400\n"
+"PO-Revision-Date: 2016-02-09 01:29-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: src/wx/subtitle_panel.cc:71 src/wx/subtitle_panel.cc:81
 #: src/wx/subtitle_panel.cc:91 src/wx/subtitle_panel.cc:101
@@ -23,7 +23,6 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:82
-#, fuzzy
 msgid ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
@@ -32,9 +31,8 @@ msgstr ""
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
-#, fuzzy
 msgid "(None)"
-msgstr "Ninguno"
+msgstr "(Ninguno)"
 
 #: src/wx/config_dialog.cc:176
 msgid "(restart DCP-o-matic to see language changes)"
@@ -157,9 +155,8 @@ msgid "Add..."
 msgstr "Añadir..."
 
 #: src/wx/cinema_dialog.cc:58
-#, fuzzy
 msgid "Address"
-msgstr "Dirección CC"
+msgstr "Dirección"
 
 #: src/wx/colour_conversion_editor.cc:166
 msgid "Adjust white point to"
@@ -195,7 +192,7 @@ msgstr "Permitir cualquier velocidad de DCP"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Appearance..."
-msgstr ""
+msgstr "Apariencia…"
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
 msgid "Audio"
@@ -220,7 +217,7 @@ msgstr "El audio del canal %d pasará al canal %d del DCP con ganancia %.1fdB."
 
 #: src/wx/config_dialog.cc:189
 msgid "Automatically analyse content audio"
-msgstr ""
+msgstr "Analizar automáticamente el audio"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -235,13 +232,12 @@ msgid "Blue chromaticity"
 msgstr "Cromaticidad azul"
 
 #: src/wx/fonts_dialog.cc:68
-#, fuzzy
 msgid "Bold file"
-msgstr "Fichero de fuente"
+msgstr "Fichero de fuente negrita"
 
 #: src/wx/font_files_dialog.cc:36
 msgid "Bold font"
-msgstr ""
+msgstr "Fuente negrita"
 
 #: src/wx/video_panel.cc:134
 msgid "Bottom"
@@ -286,7 +282,7 @@ msgstr "Cancelar"
 
 #: src/wx/content_sub_panel.cc:48
 msgid "Cannot reference this DCP.  "
-msgstr ""
+msgstr "No se puede referencia este DCP."
 
 #: src/wx/dolby_doremi_certificate_panel.cc:128
 msgid "Certificate downloaded"
@@ -305,9 +301,8 @@ msgid "Channels"
 msgstr "Canales"
 
 #: src/wx/config_dialog.cc:197
-#, fuzzy
 msgid "Check for testing updates on startup"
-msgstr "Buscar actualizaciones al iniciar"
+msgstr "Buscar actualizaciones experimentales al inicio"
 
 #: src/wx/config_dialog.cc:193
 msgid "Check for updates on startup"
@@ -335,7 +330,7 @@ msgstr "Elegir un fichero de fuente"
 
 #: src/wx/subtitle_appearance_dialog.cc:31
 msgid "Colour"
-msgstr ""
+msgstr "Color"
 
 #: src/wx/content_colour_conversion_dialog.cc:36
 #: src/wx/preset_colour_conversion_dialog.cc:31 src/wx/video_panel.cc:187
@@ -445,9 +440,8 @@ msgid "Debug: decode"
 msgstr "Depurar: descodificación"
 
 #: src/wx/config_dialog.cc:1373
-#, fuzzy
 msgid "Debug: email sending"
-msgstr "Depurar: codificación"
+msgstr "Depurar: envío de correo"
 
 #: src/wx/config_dialog.cc:1371
 msgid "Debug: encode"
@@ -486,9 +480,8 @@ msgid "Default duration of still images"
 msgstr "Duración por defecto de las imágenes fijas"
 
 #: src/wx/config_dialog.cc:442
-#, fuzzy
 msgid "Default standard"
-msgstr "Contenedor por defecto"
+msgstr "Estándar por defecto"
 
 #: src/wx/config_dialog.cc:378
 msgid "Defaults"
@@ -503,9 +496,8 @@ msgid "Details..."
 msgstr "Detalles..."
 
 #: src/wx/download_certificate_dialog.cc:36
-#, fuzzy
 msgid "Dolby / Doremi"
-msgstr "Doremi"
+msgstr "Dolby / Doremi"
 
 #: src/wx/content_panel.cc:91
 msgid "Down"
@@ -542,14 +534,12 @@ msgid "Edit..."
 msgstr "Editar..."
 
 #: src/wx/email_dialog.cc:27 src/wx/email_dialog.cc:29
-#, fuzzy
 msgid "Email address"
-msgstr "De la dirección"
+msgstr "Dirección de correo"
 
 #: src/wx/cinema_dialog.cc:52
-#, fuzzy
 msgid "Email addresses for KDM delivery"
-msgstr "Remitente para los emails de KDM"
+msgstr "Direcciones para el envío de KDM"
 
 #: src/wx/servers_list_dialog.cc:32
 msgid "Encoding Servers"
@@ -568,18 +558,16 @@ msgid "Errors"
 msgstr "Errores"
 
 #: src/wx/config_dialog.cc:682
-#, fuzzy
 msgid "Export"
-msgstr "puerto"
+msgstr "Exportar"
 
 #: src/wx/config_dialog.cc:1001
 msgid "Export DCP decryption certificate..."
 msgstr "Exportar el certificado de desencriptación de DCP..."
 
 #: src/wx/config_dialog.cc:699
-#, fuzzy
 msgid "Export..."
-msgstr "puerto"
+msgstr "Exportar…"
 
 #: src/wx/config_dialog.cc:1085
 msgid "FTP (for Dolby)"
@@ -652,9 +640,8 @@ msgid "Full length"
 msgstr "Duración completa"
 
 #: src/wx/dcp_panel.cc:146
-#, fuzzy
 msgid "GB"
-msgstr "B"
+msgstr "GB"
 
 #: src/wx/audio_panel.cc:65
 msgid "Gain"
@@ -674,9 +661,8 @@ msgid "General"
 msgstr "General"
 
 #: src/wx/screen_dialog.cc:81
-#, fuzzy
 msgid "Get from file..."
-msgstr "Usar del fichero .ttf"
+msgstr "Usar del fichero…"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -729,7 +715,7 @@ msgstr "Potencia de entrada"
 #: src/wx/audio_dialog.cc:306
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "Volumen integrado %.2f LUFS"
 
 #: src/wx/config_dialog.cc:818
 msgid "Intermediate"
@@ -748,13 +734,12 @@ msgid "Issuer"
 msgstr "Emisor"
 
 #: src/wx/fonts_dialog.cc:60
-#, fuzzy
 msgid "Italic file"
-msgstr "Fichero de fuente"
+msgstr "Fichero de fuente itálica"
 
 #: src/wx/font_files_dialog.cc:35
 msgid "Italic font"
-msgstr ""
+msgstr "Fuente itálica"
 
 #: src/wx/dcp_panel.cc:644
 msgid "JPEG2000 bandwidth"
@@ -827,7 +812,7 @@ msgstr "Registro:"
 #: src/wx/audio_dialog.cc:315
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr ""
+msgstr "Rango de volumen %.2f LU"
 
 #: src/wx/content_panel.cc:446 src/wx/content_panel.cc:475
 msgid "MISSING: "
@@ -842,9 +827,8 @@ msgid "Mail user name"
 msgstr "Usuario del correo"
 
 #: src/wx/self_dkdm_dialog.cc:42
-#, fuzzy
 msgid "Make DKDM for DCP-o-matic"
-msgstr "Acerca de DCP-o-matic"
+msgstr "Producir un DKDM para DCP-o-matic"
 
 #: src/wx/kdm_dialog.cc:43
 msgid "Make KDMs"
@@ -910,7 +894,7 @@ msgstr "Nuevas versiones disponibles de DCP-o-matic."
 
 #: src/wx/content_sub_panel.cc:46
 msgid "No DCP selected."
-msgstr ""
+msgstr "No se ha seleccionado ningún DCP."
 
 #: src/wx/audio_mapping_view.cc:314
 #, c-format
@@ -918,9 +902,8 @@ msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "No pasará audio del canal de origen %d al canal %d del DCP."
 
 #: src/wx/content_panel.cc:279
-#, fuzzy
 msgid "No content found in this folder."
-msgstr "No se pudieron encontrar imágenes ni un DCP en esta carpeta"
+msgstr "No se encontró contenido en esta carpeta."
 
 #: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
@@ -928,13 +911,12 @@ msgid "None"
 msgstr "Ninguno"
 
 #: src/wx/fonts_dialog.cc:52
-#, fuzzy
 msgid "Normal file"
-msgstr "Fichero de fuente"
+msgstr "Fichero de fuente normal"
 
 #: src/wx/font_files_dialog.cc:34
 msgid "Normal font"
-msgstr ""
+msgstr "Fuente normal"
 
 #: src/wx/audio_mapping_view.cc:142
 msgid "Off"
@@ -962,21 +944,19 @@ msgstr "Unidad organizativa"
 
 #: src/wx/screen_dialog.cc:89
 msgid "Other trusted devices"
-msgstr ""
+msgstr "Otros dispositivos seguros"
 
 #: src/wx/config_dialog.cc:1169
 msgid "Outgoing mail server"
 msgstr "Servidor de salida de correo"
 
 #: src/wx/subtitle_appearance_dialog.cc:35
-#, fuzzy
 msgid "Outline"
-msgstr "Resaltar contenido"
+msgstr "Contorno"
 
 #: src/wx/subtitle_appearance_dialog.cc:39
-#, fuzzy
 msgid "Outline colour"
-msgstr "Resaltar contenido"
+msgstr "Color del contorno"
 
 #: src/wx/film_viewer.cc:66
 msgid "Outline content"
@@ -999,14 +979,13 @@ msgid "Peak"
 msgstr "Pico"
 
 #: src/wx/audio_panel.cc:302
-#, fuzzy, c-format
+#, c-format
 msgid "Peak: %.2fdB"
-msgstr "El pico es %.2fdB"
+msgstr "Pico: %.2fdB"
 
 #: src/wx/audio_panel.cc:304 src/wx/audio_panel.cc:307
-#, fuzzy
 msgid "Peak: unknown"
-msgstr "Desconocido"
+msgstr "Pico: desconocido"
 
 #: src/wx/film_viewer.cc:72
 msgid "Play"
@@ -1081,9 +1060,8 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:76
-#, fuzzy
 msgid "Recipient certificate"
-msgstr "Descargando certificado"
+msgstr "Certificado del receptor"
 
 #: src/wx/isdcf_metadata_dialog.cc:60
 msgid "Red band"
@@ -1096,21 +1074,20 @@ msgstr "Cromaticidad roja"
 #: src/wx/timeline_reels_view.cc:82
 #, c-format
 msgid "Reel %d"
-msgstr ""
+msgstr "Bobina %d"
 
 #: src/wx/dcp_panel.cc:140
-#, fuzzy
 msgid "Reel length"
-msgstr "Duración completa"
+msgstr "Duración de la bobina"
 
 #: src/wx/dcp_panel.cc:135
 msgid "Reels"
-msgstr ""
+msgstr "Bobinas"
 
 #: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
-msgstr ""
+msgstr "Referenciar a un DCP existente"
 
 #: src/wx/config_dialog.cc:680 src/wx/content_menu.cc:68
 #: src/wx/content_panel.cc:83 src/wx/editable_list.h:83
@@ -1146,9 +1123,8 @@ msgid "Report A Problem"
 msgstr "Comunicar un problema"
 
 #: src/wx/config_dialog.cc:1208
-#, fuzzy
 msgid "Reset to default subject and text"
-msgstr "Restablecer el texto par defecto"
+msgstr "Restablecer el texto y asunto por defecto"
 
 #: src/wx/dcp_panel.cc:638
 msgid "Resolution"
@@ -1175,18 +1151,17 @@ msgid "Root common name"
 msgstr "Nombre común raiz"
 
 #: src/wx/config_dialog.cc:1084
-#, fuzzy
 msgid "SCP (for AAM and Doremi)"
-msgstr "SCP (para AAM)"
+msgstr "SCP (para AAM y Doremi)"
 
 #: src/wx/config_dialog.cc:473 src/wx/dcp_panel.cc:179
 msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s"
-msgstr "El pico es %.2fdB en %s"
+msgstr "El pico de la muestra es %.2fdB en %s"
 
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
@@ -1198,7 +1173,7 @@ msgstr "Pantallas"
 
 #: src/wx/config_dialog.cc:585
 msgid "Search network for servers"
-msgstr ""
+msgstr "Buscar servidores en la red"
 
 #: src/wx/kdm_cpl_panel.cc:94
 msgid "Select CPL XML file"
@@ -1218,7 +1193,6 @@ msgid "Select Key File"
 msgstr "Seleccionar fichero de llave"
 
 #: src/wx/screen_dialog.cc:47
-#, fuzzy
 msgid "Select certificate file"
 msgstr "Seleccionar fichero de certificado"
 
@@ -1247,9 +1221,8 @@ msgid "Set"
 msgstr "Seleccionar"
 
 #: src/wx/font_files_dialog.cc:50
-#, fuzzy
 msgid "Set from file..."
-msgstr "Usar del fichero .ttf"
+msgstr "Usar del fichero…"
 
 #: src/wx/font_files_dialog.cc:53
 msgid "Set from system font..."
@@ -1277,7 +1250,7 @@ msgstr "Firmand DCPs y KDMs"
 
 #: src/wx/dcp_panel.cc:173
 msgid "Single reel"
-msgstr ""
+msgstr "Bobina única"
 
 #: src/wx/audio_dialog.cc:99
 msgid "Smoothing"
@@ -1289,7 +1262,7 @@ msgstr "Acoplar"
 
 #: src/wx/dcp_panel.cc:174
 msgid "Split by video content"
-msgstr ""
+msgstr "Dividir por contenido"
 
 #: src/wx/update_dialog.cc:45
 msgid "Stable version "
@@ -1324,9 +1297,8 @@ msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma del subtítulo (ej. EN)"
 
 #: src/wx/subtitle_appearance_dialog.cc:28
-#, fuzzy
 msgid "Subtitle appearance"
-msgstr "Escala del subtítulo"
+msgstr "Apariencia del subtítulo"
 
 #: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
 msgid "Subtitles"
@@ -1540,6 +1512,8 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Ha seleccionado un DCP Interop con una velocidad que no estés oficialmente "
+"permitida. Le recomendamos hacer un DCP SMPTE en su lugar."
 
 #: src/wx/hints_dialog.cc:172
 msgid ""
@@ -1626,9 +1600,8 @@ msgid "times"
 msgstr "veces"
 
 #: src/wx/kdm_timing_panel.cc:37
-#, fuzzy
 msgid "until"
-msgstr "Hasta"
+msgstr "hasta"
 
 #: src/wx/colour_conversion_editor.cc:114
 msgid "x"

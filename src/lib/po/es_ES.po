@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-10 02:45+0000\n"
-"PO-Revision-Date: 2015-08-29 03:34-0400\n"
+"PO-Revision-Date: 2016-02-09 01:08-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: src/lib/dcp_content.cc:127
 msgid "%1 [DCP]"
@@ -341,19 +341,19 @@ msgstr "Recortado a %1x%2"
 
 #: src/lib/util.cc:495
 msgid "D-BOX primary"
-msgstr ""
+msgstr "Primario D-BOX"
 
 #: src/lib/util.cc:496
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "Secundario D-BOX"
 
 #: src/lib/film.cc:1296
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1297
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
@@ -431,18 +431,16 @@ msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Cada imagen será repetida otras %1 veces en el DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:56
-#, fuzzy
 msgid "Email KDMs"
-msgstr "Enviar por email las KDM para %1"
+msgstr "Enviar las KDM"
 
 #: src/lib/send_kdm_email_job.cc:59
 msgid "Email KDMs for %1"
 msgstr "Enviar por email las KDM para %1"
 
 #: src/lib/send_problem_report_job.cc:54
-#, fuzzy
 msgid "Email problem report"
-msgstr "Enviar por correo el problema para %1"
+msgstr "Enviar por correo el problema"
 
 #: src/lib/send_problem_report_job.cc:57
 msgid "Email problem report for %1"
@@ -474,7 +472,7 @@ msgstr "Fallo al identificarse con el servidor (%1)"
 
 #: src/lib/emailer.cc:212
 msgid "Failed to send email (%1)"
-msgstr ""
+msgstr "Error al enviar el correo electrónico (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -485,9 +483,8 @@ msgid "Film"
 msgstr "Película"
 
 #: src/lib/ffmpeg_examiner.cc:83
-#, fuzzy
 msgid "Finding length and subtitles"
-msgstr "Buscando subtítulos"
+msgstr "Buscando duración y subtítulos"
 
 #: src/lib/ffmpeg_examiner.cc:85
 msgid "Finding subtitles"
@@ -622,7 +619,6 @@ msgid "Mismatched audio channel counts in DCP"
 msgstr "El número de canales de audio no coincide en el DCP"
 
 #: src/lib/dcp_examiner.cc:102
-#, fuzzy
 msgid "Mismatched audio sample rates in DCP"
 msgstr "La velocidad de reproducción de audio no coincide en el DCP"
 
@@ -640,7 +636,7 @@ msgstr "Motion compensating deinterlacer"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "Ningún servidor de correo configurado en las preferencias"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -728,6 +724,8 @@ msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
+"La duración de las bobinas no coincide con la especificada en el DCP; "
+"seleccione el modo de bobinas ‘dividir por contenido’."
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -791,9 +789,8 @@ msgid "Stereo to 5.1 up-mixer A"
 msgstr "Upmix de estéreo a 5.1 A"
 
 #: src/lib/upmixer_b.cc:41
-#, fuzzy
 msgid "Stereo to 5.1 up-mixer B"
-msgstr "Upmix de estéreo a 5.1 A"
+msgstr "Upmix B de estéreo a 5.1"
 
 #: src/lib/subrip_content.cc:95
 msgid "SubRip subtitles"
@@ -813,11 +810,11 @@ msgstr "Test"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
-msgstr ""
+msgstr "El DCP no tiene sonido en todas las bobinas."
 
 #: src/lib/dcp_content.cc:337
 msgid "The DCP does not have subtitles in all reels."
-msgstr ""
+msgstr "El DCP no tiene subtítulos en todas las bobinas."
 
 #: src/lib/dcp_examiner.cc:134
 msgid ""
@@ -840,15 +837,15 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:328
 msgid "There is other audio content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Hay otro contenido de audio superpuesto a este DCP; elimínelo."
 
 #: src/lib/dcp_content.cc:342
 msgid "There is other subtitle content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Hay otros subtítulos superpuestos a este DCP; elimínelos."
 
 #: src/lib/dcp_content.cc:314
 msgid "There is other video content overlapping this DCP; remove it."
-msgstr ""
+msgstr "Hay otro contenido de vídeo superpuesto a este DCP; elimínelo."
 
 #: src/lib/job.cc:145
 msgid ""
@@ -856,6 +853,9 @@ msgid ""
 "operating system try reducing the number of encoding threads in the General "
 "tab of Preferences."
 msgstr ""
+"No había memoria suficiente para esta operación.  Si está ejecutando un "
+"sistema operativo de 32 bits, trate de reducir el número de hilos de "
+"codificación en la sección General de las preferencias."
 
 #: src/lib/film.cc:385
 msgid ""
@@ -922,7 +922,7 @@ msgstr "Sin título"
 
 #: src/lib/util.cc:497 src/lib/util.cc:498
 msgid "Unused"
-msgstr ""
+msgstr "Sin uso"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
@@ -1057,7 +1057,6 @@ msgid "fps"
 msgstr "fps"
 
 #: src/lib/transcode_job.cc:104
-#, fuzzy
 msgid "frames"
 msgstr "fotogramas"
 
