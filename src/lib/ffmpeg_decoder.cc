@@ -225,8 +225,12 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream, uint8_t
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		float** p = reinterpret_cast<float**> (data);
-		for (int i = 0; i < stream->channels(); ++i) {
+		/* Sometimes there aren't as many channels in the _frame as in the stream */
+		for (int i = 0; i < _frame->channels; ++i) {
 			memcpy (audio->data(i), p[i], frames * sizeof(float));
+		}
+		for (int i = _frame->channels; i < stream->channels(); ++i) {
+			audio->make_silent (i);
 		}
 	}
 	break;
