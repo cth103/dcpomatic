@@ -111,7 +111,7 @@ def configure(conf):
         conf.check(lib='shlwapi', uselib_store='SHLWAPI', msg="Checking for library shlwapi")
         conf.check(lib='mswsock', uselib_store='MSWSOCK', msg="Checking for library mswsock")
         boost_lib_suffix = '-mt'
-        boost_thread = 'boost_thread_win32-mt'
+        boost_thread = 'boost_thread-mt'
         conf.check_cxx(fragment="""
                                #include <boost/locale.hpp>\n
                                int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
