@@ -19,23 +19,23 @@
 
 #include "subtitle_content.h"
 
-class SubRipContentProperty
+class TextSubtitleContentProperty
 {
 public:
-	static int const SUBTITLE_COLOUR;
-	static int const SUBTITLE_OUTLINE;
-	static int const SUBTITLE_OUTLINE_COLOUR;
+	static int const TEXT_SUBTITLE_COLOUR;
+	static int const TEXT_SUBTITLE_OUTLINE;
+	static int const TEXT_SUBTITLE_OUTLINE_COLOUR;
 };
 
 
-class SubRipContent : public SubtitleContent
+class TextSubtitleContent : public SubtitleContent
 {
 public:
-	SubRipContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	SubRipContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	TextSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
+	TextSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	boost::shared_ptr<SubRipContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<SubRipContent> (Content::shared_from_this ());
+	boost::shared_ptr<TextSubtitleContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<TextSubtitleContent> (Content::shared_from_this ());
 	}
 
 	/* Content */

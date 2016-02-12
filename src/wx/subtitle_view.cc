@@ -17,10 +17,10 @@
 
 */
 
-#include "lib/subrip_decoder.h"
+#include "lib/text_subtitle_decoder.h"
 #include "lib/content_subtitle.h"
 #include "lib/film.h"
-#include "lib/subrip_content.h"
+#include "lib/text_subtitle_content.h"
 #include "subtitle_view.h"
 #include "wx_util.h"
 

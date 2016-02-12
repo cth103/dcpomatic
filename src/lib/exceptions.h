@@ -211,13 +211,13 @@ public:
 	PixelFormatError (std::string o, AVPixelFormat f);
 };
 
-/** @class SubRipError
- *  @brief An error that occurs while parsing a SubRip file.
+/** @class TextSubtitleError
+ *  @brief An error that occurs while parsing a TextSubtitleError file.
  */
-class SubRipError : public FileError
+class TextSubtitleError : public FileError
 {
 public:
-	SubRipError (std::string, std::string, boost::filesystem::path);
+	TextSubtitleError (std::string, std::string, boost::filesystem::path);
 };
 
 class DCPError : public std::runtime_error

@@ -118,9 +118,9 @@ sources = """
           sndfile_decoder.cc
           sndfile_examiner.cc
           string_log_entry.cc
-          subrip.cc
-          subrip_content.cc
-          subrip_decoder.cc
+          text_subtitle.cc
+          text_subtitle_content.cc
+          text_subtitle_decoder.cc
           subtitle_content.cc
           subtitle_decoder.cc
           timer.cc

@@ -22,7 +22,7 @@
  */
 
 #include <boost/test/unit_test.hpp>
-#include "lib/subrip_content.h"
+#include "lib/text_subtitle_content.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	content->set_use_subtitles (true);
 	content->set_burn_subtitles (false);
 	film->examine_and_add_content (content);

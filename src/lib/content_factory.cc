@@ -24,7 +24,7 @@
 #include "ffmpeg_content.h"
 #include "image_content.h"
 #include "sndfile_content.h"
-#include "subrip_content.h"
+#include "text_subtitle_content.h"
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "util.h"
@@ -56,8 +56,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		content.reset (new ImageContent (film, node, version));
 	} else if (type == "Sndfile") {
 		content.reset (new SndfileContent (film, node, version));
-	} else if (type == "SubRip") {
-		content.reset (new SubRipContent (film, node, version));
+	} else if (type == "SubRip" || type == "TextSubtitle") {
+		content.reset (new TextSubtitleContent (film, node, version));
 	} else if (type == "DCP") {
 		content.reset (new DCPContent (film, node, version));
 	} else if (type == "DCPSubtitle") {
@@ -118,8 +118,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 			content.reset (new ImageContent (film, path));
 		} else if (SndfileContent::valid_file (path)) {
 			content.reset (new SndfileContent (film, path));
-		} else if (ext == ".srt") {
-			content.reset (new SubRipContent (film, path));
+		} else if (ext == ".srt" || ext == ".ssa") {
+			content.reset (new TextSubtitleContent (film, path));
 		} else if (ext == ".xml") {
 			content.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {

@@ -27,8 +27,8 @@
 #include "sndfile_decoder.h"
 #include "sndfile_content.h"
 #include "subtitle_content.h"
-#include "subrip_decoder.h"
-#include "subrip_content.h"
+#include "text_subtitle_decoder.h"
+#include "text_subtitle_content.h"
 #include "dcp_content.h"
 #include "job.h"
 #include "image.h"
@@ -174,10 +174,10 @@ Player::setup_pieces ()
 		   as simultaneous video content (like we do with audio).
 		*/
 
-		/* SubRipContent */
-		shared_ptr<const SubRipContent> rc = dynamic_pointer_cast<const SubRipContent> (i);
+		/* TextSubtitleContent */
+		shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (i);
 		if (rc) {
-			decoder.reset (new SubRipDecoder (rc));
+			decoder.reset (new TextSubtitleDecoder (rc));
 			frc = FrameRateChange (rc->subtitle_video_frame_rate(), _film->video_frame_rate());
 		}
 
@@ -220,9 +220,9 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == ContentProperty::PATH ||
 		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
 		property == DCPContentProperty::CAN_BE_PLAYED ||
-		property == SubRipContentProperty::SUBTITLE_COLOUR ||
-		property == SubRipContentProperty::SUBTITLE_OUTLINE ||
-		property == SubRipContentProperty::SUBTITLE_OUTLINE_COLOUR
+		property == TextSubtitleContentProperty::TEXT_SUBTITLE_COLOUR ||
+		property == TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE ||
+		property == TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR
 		) {
 
 		_have_valid_pieces = false;

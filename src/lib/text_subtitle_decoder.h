@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,18 +17,18 @@
 
 */
 
-#ifndef DCPOMATIC_SUBRIP_DECODER_H
-#define DCPOMATIC_SUBRIP_DECODER_H
+#ifndef DCPOMATIC_TEXT_SUBTITLE_DECODER_H
+#define DCPOMATIC_TEXT_SUBTITLE_DECODER_H
 
 #include "subtitle_decoder.h"
-#include "subrip.h"
+#include "text_subtitle.h"
 
-class SubRipContent;
+class TextSubtitleContent;
 
-class SubRipDecoder : public SubtitleDecoder, public SubRip
+class TextSubtitleDecoder : public SubtitleDecoder, public TextSubtitle
 {
 public:
-	SubRipDecoder (boost::shared_ptr<const SubRipContent>);
+	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>);
 
 protected:
 	void seek (ContentTime time, bool accurate);

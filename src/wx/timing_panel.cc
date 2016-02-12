@@ -27,7 +27,7 @@
 #include "lib/raw_convert.h"
 #include "lib/subtitle_content.h"
 #include "lib/dcp_subtitle_content.h"
-#include "lib/subrip_content.h"
+#include "lib/text_subtitle_content.h"
 #include <boost/foreach.hpp>
 #include <set>
 #include <iostream>
@@ -393,13 +393,13 @@ TimingPanel::set_video_frame_rate ()
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
 		shared_ptr<DCPSubtitleContent> dsc = dynamic_pointer_cast<DCPSubtitleContent> (i);
-		shared_ptr<SubRipContent> ssc = dynamic_pointer_cast<SubRipContent> (i);
+		shared_ptr<TextSubtitleContent> tsc = dynamic_pointer_cast<TextSubtitleContent> (i);
 		if (vc) {
 			vc->set_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
 		} else if (dsc) {
 			dsc->set_subtitle_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
-		} else if (ssc) {
-			ssc->set_subtitle_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
+		} else if (tsc) {
+			tsc->set_subtitle_video_frame_rate (raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ())));
 		}
 		_set_video_frame_rate->Enable (false);
 	}

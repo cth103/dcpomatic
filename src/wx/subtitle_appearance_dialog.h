@@ -22,12 +22,12 @@
 
 class wxCheckBox;
 class wxColourPickerCtrl;
-class SubRipContent;
+class TextSubtitleContent;
 
 class SubtitleAppearanceDialog : public TableDialog
 {
 public:
-	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<SubRipContent> content);
+	SubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<TextSubtitleContent> content);
 
 	void apply ();
 
@@ -36,5 +36,5 @@ private:
 	wxCheckBox* _outline;
 	wxColourPickerCtrl* _outline_colour;
 
-	boost::shared_ptr<SubRipContent> _content;
+	boost::shared_ptr<TextSubtitleContent> _content;
 };

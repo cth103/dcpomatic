@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 
 */
 
-#include "subrip.h"
+#include "text_subtitle.h"
 #include "cross.h"
 #include "exceptions.h"
-#include "subrip_content.h"
+#include "text_subtitle_content.h"
 #include <sub/subrip_reader.h>
 #include <sub/collect.h>
 #include <unicode/ucsdet.h>
@@ -36,7 +36,7 @@ using boost::shared_ptr;
 using boost::scoped_array;
 using dcp::Data;
 
-SubRip::SubRip (shared_ptr<const SubRipContent> content)
+TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 {
 	Data in (content->path (0));
 
@@ -70,7 +70,7 @@ SubRip::SubRip (shared_ptr<const SubRipContent> content)
 }
 
 ContentTime
-SubRip::length () const
+TextSubtitle::length () const
 {
 	if (_subtitles.empty ()) {
 		return ContentTime ();

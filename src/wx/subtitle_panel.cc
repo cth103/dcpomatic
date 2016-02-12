@@ -25,10 +25,10 @@
 #include "fonts_dialog.h"
 #include "subtitle_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
-#include "lib/subrip_content.h"
+#include "lib/text_subtitle_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/dcp_subtitle_content.h"
-#include "lib/subrip_decoder.h"
+#include "lib/text_subtitle_decoder.h"
 #include "lib/dcp_subtitle_decoder.h"
 #include "lib/dcp_content.h"
 #include <wx/spinctrl.h>
@@ -233,13 +233,13 @@ SubtitlePanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
-	int subrip_subs = 0;
+	int text_subs = 0;
 	int dcp_subs = 0;
 	int image_subs = 0;
 	SubtitleContentList sel = _parent->selected_subtitle ();
 	BOOST_FOREACH (shared_ptr<SubtitleContent> i, sel) {
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
-		shared_ptr<const SubRipContent> sc = boost::dynamic_pointer_cast<const SubRipContent> (i);
+		shared_ptr<const TextSubtitleContent> sc = boost::dynamic_pointer_cast<const TextSubtitleContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (fc->has_subtitles ()) {
@@ -247,7 +247,7 @@ SubtitlePanel::setup_sensitivity ()
 				++any_subs;
 			}
 		} else if (sc) {
-			++subrip_subs;
+			++text_subs;
 			++any_subs;
 		} else if (dsc) {
 			++dcp_subs;
@@ -283,9 +283,9 @@ SubtitlePanel::setup_sensitivity ()
 	_y_scale->Enable (!reference && any_subs > 0 && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
-	_subtitle_view_button->Enable (!reference && (subrip_subs == 1 || dcp_subs == 1));
-	_fonts_dialog_button->Enable (!reference && (subrip_subs == 1 || dcp_subs == 1));
-	_appearance_dialog_button->Enable (!reference && subrip_subs == 1);
+	_subtitle_view_button->Enable (!reference && (text_subs == 1 || dcp_subs == 1));
+	_fonts_dialog_button->Enable (!reference && (text_subs == 1 || dcp_subs == 1));
+	_appearance_dialog_button->Enable (!reference && text_subs == 1);
 }
 
 void
@@ -379,9 +379,9 @@ SubtitlePanel::subtitle_view_clicked ()
 
 	shared_ptr<SubtitleDecoder> decoder;
 
-	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
+	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
 	if (sr) {
-		decoder.reset (new SubRipDecoder (sr));
+		decoder.reset (new TextSubtitleDecoder (sr));
 	}
 
 	shared_ptr<DCPSubtitleContent> dc = dynamic_pointer_cast<DCPSubtitleContent> (c.front ());
@@ -432,7 +432,7 @@ SubtitlePanel::appearance_dialog_clicked ()
 	SubtitleContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<SubRipContent> sr = dynamic_pointer_cast<SubRipContent> (c.front ());
+	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
 	DCPOMATIC_ASSERT (sr);
 
 	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, sr);

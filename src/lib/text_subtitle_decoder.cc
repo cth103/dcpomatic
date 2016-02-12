@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 
 */
 
-#include "subrip_decoder.h"
-#include "subrip_content.h"
+#include "text_subtitle_decoder.h"
+#include "text_subtitle_content.h"
 #include <dcp/subtitle_string.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -32,16 +32,16 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-SubRipDecoder::SubRipDecoder (shared_ptr<const SubRipContent> content)
+TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> content)
 	: SubtitleDecoder (content)
-	, SubRip (content)
+	, TextSubtitle (content)
 	, _next (0)
 {
 
 }
 
 void
-SubRipDecoder::seek (ContentTime time, bool accurate)
+TextSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
 	SubtitleDecoder::seek (time, accurate);
 
@@ -52,7 +52,7 @@ SubRipDecoder::seek (ContentTime time, bool accurate)
 }
 
 bool
-SubRipDecoder::pass (PassReason, bool)
+TextSubtitleDecoder::pass (PassReason, bool)
 {
 	if (_next >= _subtitles.size ()) {
 		return true;
@@ -60,7 +60,7 @@ SubRipDecoder::pass (PassReason, bool)
 
 	/* XXX: we are ignoring positioning specified in the file */
 
-	shared_ptr<const SubRipContent> content = dynamic_pointer_cast<const SubRipContent> (_subtitle_content);
+	shared_ptr<const TextSubtitleContent> content = dynamic_pointer_cast<const TextSubtitleContent> (_subtitle_content);
 	DCPOMATIC_ASSERT (content);
 
 	list<dcp::SubtitleString> out;
@@ -77,7 +77,7 @@ SubRipDecoder::pass (PassReason, bool)
 		BOOST_FOREACH (sub::Block j, i.blocks) {
 			out.push_back (
 				dcp::SubtitleString (
-					SubRipContent::font_id,
+					TextSubtitleContent::font_id,
 					j.italic,
 					/* force the colour to whatever is configured */
 					content->colour(),
@@ -109,13 +109,13 @@ SubRipDecoder::pass (PassReason, bool)
 }
 
 list<ContentTimePeriod>
-SubRipDecoder::image_subtitles_during (ContentTimePeriod, bool) const
+TextSubtitleDecoder::image_subtitles_during (ContentTimePeriod, bool) const
 {
 	return list<ContentTimePeriod> ();
 }
 
 list<ContentTimePeriod>
-SubRipDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
+TextSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 {
 	/* XXX: inefficient */
 
@@ -132,7 +132,7 @@ SubRipDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 }
 
 ContentTimePeriod
-SubRipDecoder::content_time_period (sub::Subtitle s) const
+TextSubtitleDecoder::content_time_period (sub::Subtitle s) const
 {
 	return ContentTimePeriod (
 		ContentTime::from_seconds (s.from.all_as_seconds()),

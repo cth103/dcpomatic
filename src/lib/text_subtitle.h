@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@
 
 */
 
-#ifndef DCPOMATIC_SUBRIP_H
-#define DCPOMATIC_SUBRIP_H
+#ifndef DCPOMATIC_TEXT_SUBTITLE_H
+#define DCPOMATIC_TEXT_SUBTITLE_H
 
 #include "dcpomatic_time.h"
 #include <sub/subtitle.h>
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
-class SubRipContent;
-class subrip_time_test;
-class subrip_coordinate_test;
-class subrip_content_test;
-class subrip_parse_test;
+class TextSubtitleContent;
+class text_subtitle_time_test;
+class text_subtitle_coordinate_test;
+class text_subtitle_content_test;
+class text_subtitle_parse_test;
 
-class SubRip
+class TextSubtitle
 {
 public:
-	SubRip (boost::shared_ptr<const SubRipContent>);
+	TextSubtitle (boost::shared_ptr<const TextSubtitleContent>);
 
 	ContentTime length () const;
 

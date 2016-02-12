@@ -22,7 +22,7 @@
  */
 
 #include "lib/film.h"
-#include "lib/subrip_content.h"
+#include "lib/text_subtitle_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<SubRipContent> content (new SubRipContent (film, "test/data/subrip2.srt"));
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<SubRipContent> content (new SubRipContent (film, private_data / "Ankoemmling.srt"));
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "Ankoemmling.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

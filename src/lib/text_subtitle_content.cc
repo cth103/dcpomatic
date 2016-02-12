@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@
 
 */
 
-#include "subrip_content.h"
+#include "text_subtitle_content.h"
 #include "util.h"
-#include "subrip.h"
+#include "text_subtitle.h"
 #include "film.h"
 #include "font.h"
 #include "raw_convert.h"
@@ -33,13 +33,13 @@ using std::cout;
 using boost::shared_ptr;
 using boost::lexical_cast;
 
-std::string const SubRipContent::font_id = "font";
+std::string const TextSubtitleContent::font_id = "font";
 
-int const SubRipContentProperty::SUBTITLE_COLOUR = 300;
-int const SubRipContentProperty::SUBTITLE_OUTLINE = 301;
-int const SubRipContentProperty::SUBTITLE_OUTLINE_COLOUR = 302;
+int const TextSubtitleContentProperty::TEXT_SUBTITLE_COLOUR = 300;
+int const TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE = 301;
+int const TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR = 302;
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::path path)
+TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 	, SubtitleContent (film, path)
 	, _colour (255, 255, 255)
@@ -49,7 +49,7 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, boost::filesystem::pa
 
 }
 
-SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
@@ -70,10 +70,10 @@ SubRipContent::SubRipContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 }
 
 void
-SubRipContent::examine (boost::shared_ptr<Job> job)
+TextSubtitleContent::examine (boost::shared_ptr<Job> job)
 {
 	Content::examine (job);
-	SubRip s (shared_from_this ());
+	TextSubtitle s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
 	set_use_subtitles (true);
@@ -84,21 +84,21 @@ SubRipContent::examine (boost::shared_ptr<Job> job)
 }
 
 string
-SubRipContent::summary () const
+TextSubtitleContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-SubRipContent::technical_summary () const
+TextSubtitleContent::technical_summary () const
 {
-	return Content::technical_summary() + " - " + _("SubRip subtitles");
+	return Content::technical_summary() + " - " + _("Text subtitles");
 }
 
 void
-SubRipContent::as_xml (xmlpp::Node* node) const
+TextSubtitleContent::as_xml (xmlpp::Node* node) const
 {
-	node->add_child("Type")->add_child_text ("SubRip");
+	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
@@ -112,14 +112,14 @@ SubRipContent::as_xml (xmlpp::Node* node) const
 }
 
 DCPTime
-SubRipContent::full_length () const
+TextSubtitleContent::full_length () const
 {
 	FrameRateChange const frc (subtitle_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);
 }
 
 void
-SubRipContent::set_subtitle_video_frame_rate (int r)
+TextSubtitleContent::set_subtitle_video_frame_rate (int r)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -130,7 +130,7 @@ SubRipContent::set_subtitle_video_frame_rate (int r)
 }
 
 double
-SubRipContent::subtitle_video_frame_rate () const
+TextSubtitleContent::subtitle_video_frame_rate () const
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -146,7 +146,7 @@ SubRipContent::subtitle_video_frame_rate () const
 }
 
 void
-SubRipContent::set_colour (dcp::Colour colour)
+TextSubtitleContent::set_colour (dcp::Colour colour)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -157,11 +157,11 @@ SubRipContent::set_colour (dcp::Colour colour)
 		_colour = colour;
 	}
 
-	signal_changed (SubRipContentProperty::SUBTITLE_COLOUR);
+	signal_changed (TextSubtitleContentProperty::TEXT_SUBTITLE_COLOUR);
 }
 
 void
-SubRipContent::set_outline (bool o)
+TextSubtitleContent::set_outline (bool o)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -172,11 +172,11 @@ SubRipContent::set_outline (bool o)
 		_outline = o;
 	}
 
-	signal_changed (SubRipContentProperty::SUBTITLE_OUTLINE);
+	signal_changed (TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE);
 }
 
 void
-SubRipContent::set_outline_colour (dcp::Colour colour)
+TextSubtitleContent::set_outline_colour (dcp::Colour colour)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -187,5 +187,5 @@ SubRipContent::set_outline_colour (dcp::Colour colour)
 		_outline_colour = colour;
 	}
 
-	signal_changed (SubRipContentProperty::SUBTITLE_OUTLINE_COLOUR);
+	signal_changed (TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR);
 }

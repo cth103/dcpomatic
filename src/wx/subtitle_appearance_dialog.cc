@@ -18,13 +18,13 @@
 */
 
 #include "subtitle_appearance_dialog.h"
-#include "lib/subrip_content.h"
+#include "lib/text_subtitle_content.h"
 #include <wx/wx.h>
 #include <wx/clrpicker.h>
 
 using boost::shared_ptr;
 
-SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<SubRipContent> content)
+SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<TextSubtitleContent> content)
 	: TableDialog (parent, _("Subtitle appearance"), 2, 1, true)
 	, _content (content)
 {
