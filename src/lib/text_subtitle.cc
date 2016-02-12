@@ -22,6 +22,7 @@
 #include "exceptions.h"
 #include "text_subtitle_content.h"
 #include <sub/subrip_reader.h>
+#include <sub/ssa_reader.h>
 #include <sub/collect.h>
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
@@ -65,8 +66,17 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 	ucnv_close (to_utf16);
 	ucnv_close (to_utf8);
 
-	sub::SubripReader reader (utf8.get());
-	_subtitles = sub::collect<vector<sub::Subtitle> > (reader.subtitles ());
+	sub::Reader* reader = 0;
+
+	if (content->path(0).extension() == ".srt" || content->path(0).extension() == ".SRT") {
+		reader = new sub::SubripReader (utf8.get());
+	} else if (content->path(0).extension() == ".ssa" || content->path(0).extension() == ".SSA") {
+		reader = new sub::SSAReader (utf8.get());
+	}
+
+	if (reader) {
+		_subtitles = sub::collect<vector<sub::Subtitle> > (reader->subtitles ());
+	}
 }
 
 ContentTime
