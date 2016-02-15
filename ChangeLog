@@ -1,3 +1,8 @@
+2016-02-15  Carl Hetherington  <cth@carlh.net>
+
+	* Fix exception when analysing audio of projects with more
+	than 8 DCP channels.
+
 2016-02-12  Carl Hetherington  <cth@carlh.net>
 
 	* Add basic support for SSA (SubStation Alpha) subtitles (#128).

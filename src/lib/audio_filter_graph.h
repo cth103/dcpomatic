@@ -27,7 +27,7 @@ class AudioBuffers;
 class AudioFilterGraph : public FilterGraph
 {
 public:
-	AudioFilterGraph (int sample_rate, int64_t channel_layout);
+	AudioFilterGraph (int sample_rate, int channels);
 	~AudioFilterGraph ();
 
 	void process (boost::shared_ptr<const AudioBuffers> audio);
@@ -40,6 +40,7 @@ protected:
 
 private:
 	int _sample_rate;
+	int _channels;
 	int64_t _channel_layout;
 	AVFrame* _in_frame;
 };

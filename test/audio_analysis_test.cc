@@ -135,3 +135,33 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
 }
+
+
+static bool done = false;
+
+static void
+analysis_finished ()
+{
+	done = true;
+}
+
+/* Test a case which was reported to throw an exception; analysing
+ * a 12-channel DCP's audio.
+ */
+BOOST_AUTO_TEST_CASE (audio_analysis_test3)
+{
+	shared_ptr<Film> film = new_test_film ("analyse_audio_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+
+	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/white.wav"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	film->set_audio_channels (12);
+	boost::signals2::connection connection;
+	JobManager::instance()->analyse_audio (film, film->playlist(), connection, boost::bind (&analysis_finished));
+	wait_for_jobs ();
+	BOOST_CHECK (done);
+}

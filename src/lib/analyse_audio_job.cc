@@ -56,7 +56,7 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	, _sample_peak (0)
 	, _sample_peak_frame (0)
 #ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
-	, _ebur128 (new AudioFilterGraph (film->audio_frame_rate(), av_get_default_channel_layout(film->audio_channels())))
+	, _ebur128 (new AudioFilterGraph (film->audio_frame_rate(), film->audio_channels()))
 #endif
 {
 #ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
