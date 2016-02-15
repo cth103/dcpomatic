@@ -61,6 +61,7 @@ private:
 	void decode_subtitle_packet ();
 
 	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimePeriod period);
+	void decode_ass_subtitle (std::string ass, ContentTimePeriod period);
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream) const;

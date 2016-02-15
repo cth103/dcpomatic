@@ -288,6 +288,32 @@ FFmpeg::subtitle_id (AVSubtitle const & sub)
 	return digester.get ();
 }
 
+bool
+FFmpeg::subtitle_is_image (AVSubtitle const & sub)
+{
+	bool image = false;
+	bool text = false;
+
+	for (unsigned int i = 0; i < sub.num_rects; ++i) {
+		switch (sub.rects[i]->type) {
+		case SUBTITLE_BITMAP:
+			image = true;
+			break;
+		case SUBTITLE_TEXT:
+		case SUBTITLE_ASS:
+			text = true;
+			break;
+		default:
+			break;
+		}
+	}
+
+	/* We can't cope with mixed image/text in one AVSubtitle */
+	DCPOMATIC_ASSERT (!image || !text);
+
+	return image;
+}
+
 /** Compute the pts offset to use given a set of audio streams and some video details.
  *  Sometimes these parameters will have just been determined by an Examiner, sometimes
  *  they will have been retrieved from a piece of Content, hence the need for this method

@@ -145,13 +145,23 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	/* Finish off any hanging subtitles at the end */
 	for (LastSubtitleMap::const_iterator i = _last_subtitle_start.begin(); i != _last_subtitle_start.end(); ++i) {
 		if (i->second) {
-			i->first->add_subtitle (
-				i->second->id,
-				ContentTimePeriod (
-					i->second->time,
-					ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
-					)
-				);
+			if (i->second->image) {
+				i->first->add_image_subtitle (
+					i->second->id,
+					ContentTimePeriod (
+						i->second->time,
+						ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
+						)
+					);
+			} else {
+				i->first->add_text_subtitle (
+					i->second->id,
+					ContentTimePeriod (
+						i->second->time,
+						ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
+						)
+					);
+			}
 		}
 	}
 
@@ -207,23 +217,33 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 	if (avcodec_decode_subtitle2 (context, &sub, &frame_finished, &_packet) >= 0 && frame_finished) {
 		string id = subtitle_id (sub);
 		FFmpegSubtitlePeriod const period = subtitle_period (sub);
+		bool const image = subtitle_is_image (sub);
+
 		LastSubtitleMap::iterator last = _last_subtitle_start.find (stream);
 		if (last != _last_subtitle_start.end() && last->second) {
 			/* We have seen the start of a subtitle but not yet the end.  Whatever this is
 			   finishes the previous subtitle, so add it */
-			stream->add_subtitle (last->second->id, ContentTimePeriod (last->second->time, period.from));
+			if (image) {
+				stream->add_image_subtitle (last->second->id, ContentTimePeriod (last->second->time, period.from));
+			} else {
+				stream->add_text_subtitle (last->second->id, ContentTimePeriod (last->second->time, period.from));
+			}
 			if (sub.num_rects == 0) {
 				/* This is a `proper' end-of-subtitle */
 				_last_subtitle_start[stream] = optional<SubtitleStart> ();
 			} else {
 				/* This is just another subtitle, so we start again */
-				_last_subtitle_start[stream] = SubtitleStart (id, period.from);
+				_last_subtitle_start[stream] = SubtitleStart (id, image, period.from);
 			}
 		} else if (sub.num_rects == 1) {
 			if (period.to) {
-				stream->add_subtitle (id, ContentTimePeriod (period.from, period.to.get ()));
+				if (image) {
+					stream->add_image_subtitle (id, ContentTimePeriod (period.from, period.to.get ()));
+				} else {
+					stream->add_text_subtitle (id, ContentTimePeriod (period.from, period.to.get ()));
+				}
 			} else {
-				_last_subtitle_start[stream] = SubtitleStart (id, period.from);
+				_last_subtitle_start[stream] = SubtitleStart (id, image, period.from);
 			}
 		}
 		avsubtitle_free (&sub);

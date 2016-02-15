@@ -3,6 +3,10 @@
 	* Fix exception when analysing audio of projects with more
 	than 8 DCP channels.
 
+2016-02-15  c.hetherington  <cth@carlh.net>
+
+	* Support SSA subtitles embedded within FFmpeg files.
+
 2016-02-12  Carl Hetherington  <cth@carlh.net>
 
 	* Add basic support for SSA (SubStation Alpha) subtitles (#128).

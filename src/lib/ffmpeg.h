@@ -58,6 +58,7 @@ protected:
 
 	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const & sub);
 	static std::string subtitle_id (AVSubtitle const & sub);
+	static bool subtitle_is_image (AVSubtitle const & sub);
 
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 

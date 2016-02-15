@@ -36,11 +36,16 @@
 #include "film.h"
 #include "md5_digester.h"
 #include "compose.hpp"
+#include <dcp/subtitle_string.h>
+#include <sub/ssa_reader.h>
+#include <sub/subtitle.h>
+#include <sub/collect.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
 #include <vector>
 #include <iomanip>
 #include <iostream>
@@ -54,12 +59,15 @@ extern "C" {
 #define LOG_WARNING(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 using std::cout;
+using std::string;
 using std::vector;
 using std::list;
 using std::min;
 using std::pair;
 using std::max;
 using boost::shared_ptr;
+using boost::is_any_of;
+using boost::split;
 using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
@@ -447,7 +455,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 			cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
 			break;
 		case SUBTITLE_ASS:
-			cout << "XXX: SUBTITLE_ASS " << rect->ass << "\n";
+			decode_ass_subtitle (rect->ass, period);
 			break;
 		}
 	}
@@ -458,13 +466,13 @@ FFmpegDecoder::decode_subtitle_packet ()
 list<ContentTimePeriod>
 FFmpegDecoder::image_subtitles_during (ContentTimePeriod p, bool starting) const
 {
-	return _ffmpeg_content->subtitles_during (p, starting);
+	return _ffmpeg_content->image_subtitles_during (p, starting);
 }
 
 list<ContentTimePeriod>
-FFmpegDecoder::text_subtitles_during (ContentTimePeriod, bool) const
+FFmpegDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
 {
-	return list<ContentTimePeriod> ();
+	return _ffmpeg_content->text_subtitles_during (p, starting);
 }
 
 void
@@ -504,4 +512,68 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		);
 
 	image_subtitle (period, image, scaled_rect);
+}
+
+void
+FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
+{
+	/* We have no styles and no Format: line, so I'm assuming that FFmpeg
+	   produces a single format of Dialogue: lines...
+	*/
+
+	vector<string> bits;
+	split (bits, ass, is_any_of (","));
+	if (bits.size() < 10) {
+		return;
+	}
+
+	sub::RawSubtitle base;
+	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (base, bits[9]);
+	list<sub::Subtitle> subs = sub::collect<list<sub::Subtitle> > (raw);
+
+	/* XXX: lots of this is copied from TextSubtitle; there should probably be some sharing */
+
+	/* Highest line index in this subtitle */
+	int highest = 0;
+	BOOST_FOREACH (sub::Subtitle i, subs) {
+		BOOST_FOREACH (sub::Line j, i.lines) {
+			DCPOMATIC_ASSERT (j.vertical_position.reference && j.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE);
+			DCPOMATIC_ASSERT (j.vertical_position.line);
+			highest = max (highest, j.vertical_position.line.get());
+		}
+	}
+
+	list<dcp::SubtitleString> ss;
+
+	BOOST_FOREACH (sub::Subtitle i, sub::collect<list<sub::Subtitle> > (sub::SSAReader::parse_line (base, bits[9]))) {
+		BOOST_FOREACH (sub::Line j, i.lines) {
+			BOOST_FOREACH (sub::Block k, j.blocks) {
+				ss.push_back (
+					dcp::SubtitleString (
+						boost::optional<string> (),
+						k.italic,
+						dcp::Colour (255, 255, 255),
+						60,
+						1,
+						dcp::Time (i.from.seconds(), 1000),
+						dcp::Time (i.to.seconds(), 1000),
+						0,
+						dcp::HALIGN_CENTER,
+						/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
+						   of the screen a bit to a pleasing degree.
+						*/
+						1.015 - ((1 + highest - j.vertical_position.line.get()) * 1.5 / 22),
+						dcp::VALIGN_TOP,
+						k.text,
+						static_cast<dcp::Effect> (0),
+						dcp::Colour (255, 255, 255),
+						dcp::Time (),
+						dcp::Time ()
+						)
+					);
+			}
+		}
+	}
+
+	text_subtitle (period, ss);
 }

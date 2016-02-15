@@ -31,11 +31,27 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 
-	void add_subtitle (std::string id, ContentTimePeriod period);
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod period, bool starting) const;
+	void add_image_subtitle (std::string id, ContentTimePeriod period);
+	void add_text_subtitle (std::string id, ContentTimePeriod period);
+	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod period, bool starting) const;
+	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const;
 	ContentTime find_subtitle_to (std::string id) const;
 	void add_offset (ContentTime offset);
 
+	bool has_image_subtitles () const {
+		return !_image_subtitles.empty ();
+	}
+	bool has_text_subtitles () const {
+		return !_text_subtitles.empty ();
+	}
+
 private:
-	std::map<std::string, ContentTimePeriod> _subtitles;
+
+	typedef std::map<std::string, ContentTimePeriod> PeriodMap;
+
+	void as_xml (xmlpp::Node *, PeriodMap const & subs, std::string node) const;
+	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod period, bool starting, PeriodMap const & subs) const;
+
+	PeriodMap _image_subtitles;
+	PeriodMap _text_subtitles;
 };

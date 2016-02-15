@@ -373,6 +373,7 @@ Player::get_video (DCPTime time, bool accurate)
 	if (!ps.text.empty ()) {
 		list<PositionImage> s = render_subtitles (ps.text, ps.fonts, _video_container_size);
 		copy (s.begin (), s.end (), back_inserter (sub_images));
+		cout << "got " << s.size() << " text subs rendered to images.\n";
 	}
 
 	optional<PositionImage> subtitles;

@@ -88,12 +88,15 @@ private:
 
 	struct SubtitleStart
 	{
-		SubtitleStart (std::string id_, ContentTime time_)
+		SubtitleStart (std::string id_, bool image_, ContentTime time_)
 			: id (id_)
+			, image (image_)
 			, time (time_)
 		{}
 
 		std::string id;
+		/** true if it's an image subtitle, false for text */
+		bool image;
 		ContentTime time;
 	};
 

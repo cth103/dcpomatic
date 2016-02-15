@@ -279,7 +279,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 		break;
 	}
 
-	return PositionImage (image, Position<int> (x, y));
+	return PositionImage (image, Position<int> (max (0, x), max (0, y)));
 }
 
 list<PositionImage>

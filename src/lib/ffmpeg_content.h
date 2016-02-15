@@ -102,7 +102,8 @@ public:
 		return _first_video;
 	}
 
-	std::list<ContentTimePeriod> subtitles_during (ContentTimePeriod, bool starting) const;
+	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
+	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
 protected:
 	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
