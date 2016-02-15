@@ -240,7 +240,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 
 	int layout_width;
 	int layout_height;
-	layout->get_size (layout_width, layout_height);
+	layout->get_pixel_size (layout_width, layout_height);
 
 	int x = 0;
 	switch (subtitles.front().h_align ()) {
@@ -250,11 +250,11 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 		break;
 	case dcp::HALIGN_CENTER:
 		/* h_position is distance between centre of frame and centre of subtitle */
-		x = (0.5 + subtitles.front().h_position()) * target.width - layout_width / (PANGO_SCALE * 2);
+		x = (0.5 + subtitles.front().h_position()) * target.width - layout_width / 2;
 		break;
 	case dcp::HALIGN_RIGHT:
 		/* h_position is distance between right of frame and right of subtitle */
-		x = (1.0 - subtitles.front().h_position()) * target.width - layout_width / PANGO_SCALE;
+		x = (1.0 - subtitles.front().h_position()) * target.width - layout_width;
 		break;
 	}
 
@@ -267,15 +267,15 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 		   to put VALIGN_TOP subs with v_position as the distance between top
 		   of frame and bottom of subtitle.
 		*/
-		y = subtitles.front().v_position() * target.height - layout_height / PANGO_SCALE;
+		y = subtitles.front().v_position() * target.height - layout_height;
 		break;
 	case dcp::VALIGN_CENTER:
 		/* v_position is distance between centre of frame and centre of subtitle */
-		y = (0.5 + subtitles.front().v_position()) * target.height - layout_height / (PANGO_SCALE * 2);
+		y = (0.5 + subtitles.front().v_position()) * target.height - layout_height / 2;
 		break;
 	case dcp::VALIGN_BOTTOM:
 		/* v_position is distance between bottom of frame and bottom of subtitle */
-		y = (1.0 - subtitles.front().v_position()) * target.height - layout_height / PANGO_SCALE;
+		y = (1.0 - subtitles.front().v_position()) * target.height - layout_height;
 		break;
 	}
 
