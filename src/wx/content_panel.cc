@@ -329,9 +329,9 @@ void
 ContentPanel::remove_clicked ()
 {
 	/* This method is also called when Delete is pressed, so check that our notebook page
-	   is visible.
+	   is visible and that the content list is focussed.
 	*/
-	if (_parent->GetCurrentPage() != _panel) {
+	if (_parent->GetCurrentPage() != _panel || !_content->HasFocus()) {
 		return;
 	}
 
