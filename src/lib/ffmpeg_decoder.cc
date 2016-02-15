@@ -553,7 +553,8 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 						boost::optional<string> (),
 						k.italic,
 						dcp::Colour (255, 255, 255),
-						60,
+						/* 48pt is 1/22nd of the screen height */
+						48,
 						1,
 						dcp::Time (i.from.seconds(), 1000),
 						dcp::Time (i.to.seconds(), 1000),
