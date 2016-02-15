@@ -670,8 +670,17 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 				s.set_v_position (s.v_position() + subtitle_content->subtitle_y_offset ());
 				float const xs = subtitle_content->subtitle_x_scale();
 				float const ys = subtitle_content->subtitle_y_scale();
-				float const average = s.size() * (xs + ys) / 2;
-				s.set_size (average);
+				float size = s.size();
+
+				/* Adjust size to express the common part of the scaling;
+				   e.g. if xs = ys = 0.5 we scale size by 2.
+				*/
+				if (xs > 1e-5 && ys > 1e-5) {
+					size *= 1 / min (1 / xs, 1 / ys);
+				}
+				s.set_size (size);
+
+				/* Then express aspect ratio changes */
 				if (fabs (1.0 - xs / ys) > dcp::ASPECT_ADJUST_EPSILON) {
 					s.set_aspect_adjust (xs / ys);
 				}

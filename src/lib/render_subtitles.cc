@@ -208,9 +208,8 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	/* XXX */
 	float fade_factor = 1;
 
-	layout->update_from_cairo_context (context);
-
 	context->scale (xscale, yscale);
+	layout->update_from_cairo_context (context);
 
 	if (subtitles.front().effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
@@ -241,6 +240,8 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	int layout_width;
 	int layout_height;
 	layout->get_pixel_size (layout_width, layout_height);
+	layout_width *= xscale;
+	layout_height *= yscale;
 
 	int x = 0;
 	switch (subtitles.front().h_align ()) {
