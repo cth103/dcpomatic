@@ -1,5 +1,8 @@
 2016-02-16  Carl Hetherington  <cth@carlh.net>
 
+	* Add option to dcpomatic_cli to echo the
+	created DCP's path to stdout (#794).
+
 	* Add option to auto-upload to TMS (#794).
 
 	* Version 2.6.22 released.

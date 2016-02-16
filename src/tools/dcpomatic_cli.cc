@@ -61,6 +61,7 @@ help (string n)
 	     << "  -j, --json <port>  run a JSON server on the specified port\n"
 	     << "  -k, --keep-going   keep running even when the job is complete\n"
 	     << "  -s, --servers      just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
+	     << "  -d, --dcp-path     echo DCP's path to stdout on successful completion (implies -n)\n"
 	     << "      --dump         just dump a summary of the film's settings; don't encode\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
@@ -179,6 +180,7 @@ main (int argc, char* argv[])
 	bool keep_going = false;
 	bool dump = false;
 	bool servers = false;
+	bool dcp_path = false;
 
 	int option_index = 0;
 	while (true) {
@@ -191,12 +193,13 @@ main (int argc, char* argv[])
 			{ "json", required_argument, 0, 'j'},
 			{ "keep-going", no_argument, 0, 'k' },
 			{ "servers", no_argument, 0, 's' },
+			{ "dcp-path", no_argument, 0, 'd' },
 			/* Just using A, B, C ... from here on */
 			{ "dump", no_argument, 0, 'A' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrj:kAs", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrj:kAsd", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -229,6 +232,10 @@ main (int argc, char* argv[])
 			break;
 		case 's':
 			servers = true;
+			break;
+		case 'd':
+			dcp_path = true;
+			progress = false;
 			break;
 		}
 	}
@@ -354,6 +361,10 @@ main (int argc, char* argv[])
 	JobManager::drop ();
 
 	EncodeServerFinder::drop ();
+
+	if (dcp_path && !error) {
+		cout << film->dir (film->dcp_name (false)).string() << "\n";
+	}
 
 	return error ? EXIT_FAILURE : EXIT_SUCCESS;
 }
