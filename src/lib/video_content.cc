@@ -586,15 +586,6 @@ VideoContent::add_properties (list<pair<string, string> >& p) const
 	p.push_back (make_pair (_("Video frame rate"), raw_convert<string> (video_frame_rate()) + " " + _("frames per second")));
 }
 
-list<DCPTime>
-VideoContent::reel_split_points () const
-{
-	list<DCPTime> t;
-	/* XXX: this is questionable; perhaps the position should be forced to be on a frame boundary */
-	t.push_back (position().round_up (film()->video_frame_rate()));
-	return t;
-}
-
 double
 VideoContent::video_frame_rate () const
 {

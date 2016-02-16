@@ -55,11 +55,6 @@ public:
 
 	virtual void set_default_colour_conversion ();
 
-	/** @return points at which to split this content when
-	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
-	 */
-	virtual std::list<DCPTime> reel_split_points () const;
-
 	Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;

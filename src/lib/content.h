@@ -86,6 +86,10 @@ public:
 	virtual void as_xml (xmlpp::Node *) const;
 	virtual DCPTime full_length () const = 0;
 	virtual std::string identifier () const;
+	/** @return points at which to split this content when
+	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
+	 */
+	virtual std::list<DCPTime> reel_split_points () const;
 
 	std::list<std::pair<std::string, std::string> > properties () const;
 
