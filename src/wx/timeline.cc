@@ -374,7 +374,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		*/
 		optional<DCPTime> nearest_distance;
 
-		/* Find the nearest content edge; this is inefficient */
+		/* Find the nearest snap point; this is inefficient */
 		for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 			shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
 			if (!cv || cv == _down_view || cv->content() == _down_view->content()) {
@@ -385,6 +385,10 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 			maybe_snap (cv->content()->position(), new_end, nearest_distance);
 			maybe_snap (cv->content()->end(), new_position, nearest_distance);
 			maybe_snap (cv->content()->end(), new_end, nearest_distance);
+
+			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points()) {
+				maybe_snap (i, new_position, nearest_distance);
+			}
 		}
 
 		if (nearest_distance) {
