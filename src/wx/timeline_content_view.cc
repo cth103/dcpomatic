@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "lib/content.h"
 #include <wx/graphics.h>
+#include <boost/foreach.hpp>
 
 using boost::shared_ptr;
 
@@ -112,6 +113,7 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 		gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (background_colour(), wxBRUSHSTYLE_SOLID));
 	}
 
+	/* Outline */
 	wxGraphicsPath path = gc->CreatePath ();
 	path.MoveToPoint    (time_x (position) + 1,	      y_pos (_track.get()) + 4);
 	path.AddLineToPoint (time_x (position + len) - 1,     y_pos (_track.get()) + 4);
@@ -121,6 +123,16 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 	gc->StrokePath (path);
 	gc->FillPath (path);
 
+	/* Reel split points */
+	gc->SetPen (*wxThePenList->FindOrCreatePen (foreground_colour(), 1, wxPENSTYLE_DOT));
+	BOOST_FOREACH (DCPTime i, cont->reel_split_points ()) {
+		path = gc->CreatePath ();
+		path.MoveToPoint (time_x (i - position), y_pos (_track.get()) + 4);
+		path.AddLineToPoint (time_x (i - position), y_pos (_track.get() + 1) - 4);
+		gc->StrokePath (path);
+	}
+
+	/* Label text */
 	wxString name = std_to_wx (cont->summary());
 	wxDouble name_width;
 	wxDouble name_height;
