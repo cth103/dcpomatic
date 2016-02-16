@@ -132,6 +132,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _audio_processor (0)
 	, _reel_type (REELTYPE_SINGLE)
 	, _reel_length (2000000000)
+	, _upload_after_make_dcp (false)
 	, _state_version (current_state_version)
 	, _dirty (false)
 {
@@ -356,6 +357,7 @@ Film::metadata () const
 	}
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (_reel_type));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
+	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));
 
 	return doc;
@@ -441,6 +443,7 @@ Film::read_metadata ()
 
 	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(REELTYPE_SINGLE)));
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
+	_upload_after_make_dcp = f.optional_bool_child("UploadAfterMakeDCP").get_value_or (false);
 
 	list<string> notes;
 	/* This method is the only one that can return notes (so far) */
@@ -864,6 +867,13 @@ Film::set_reel_length (int64_t r)
 {
 	_reel_length = r;
 	signal_changed (REEL_LENGTH);
+}
+
+void
+Film::set_upload_after_make_dcp (bool u)
+{
+	_upload_after_make_dcp = u;
+	signal_changed (UPLOAD_AFTER_MAKE_DCP);
 }
 
 void

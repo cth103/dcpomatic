@@ -73,6 +73,7 @@ private:
 	void show_audio_clicked ();
 	void reel_type_changed ();
 	void reel_length_changed ();
+	void upload_after_make_dcp_changed ();
 
 	void setup_frame_rate_widget ();
 	void setup_container ();
@@ -116,6 +117,7 @@ private:
 	wxButton* _edit_key;
 	wxChoice* _reel_type;
 	wxSpinCtrl* _reel_length;
+	wxCheckBox* _upload_after_make_dcp;
 
 	AudioDialog* _audio_dialog;
 

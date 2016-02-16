@@ -181,7 +181,8 @@ public:
 		INTEROP,
 		AUDIO_PROCESSOR,
 		REEL_TYPE,
-		REEL_LENGTH
+		REEL_LENGTH,
+		UPLOAD_AFTER_MAKE_DCP
 	};
 
 
@@ -265,6 +266,10 @@ public:
 		return _reel_length;
 	}
 
+	bool upload_after_make_dcp () const {
+		return _upload_after_make_dcp;
+	}
+
 	/* SET */
 
 	void set_directory (boost::filesystem::path);
@@ -294,6 +299,7 @@ public:
 	void set_audio_processor (AudioProcessor const * processor);
 	void set_reel_type (ReelType);
 	void set_reel_length (int64_t);
+	void set_upload_after_make_dcp (bool);
 
 	/** Emitted when some property has of the Film has changed */
 	mutable boost::signals2::signal<void (Property)> Changed;
@@ -358,6 +364,7 @@ private:
 	ReelType _reel_type;
 	/** Desired reel length in bytes, if _reel_type == REELTYPE_BY_LENGTH */
 	int64_t _reel_length;
+	bool _upload_after_make_dcp;
 
 	int _state_version;
 

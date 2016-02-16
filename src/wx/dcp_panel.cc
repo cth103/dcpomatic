@@ -153,17 +153,22 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	_name->Bind		 (wxEVT_COMMAND_TEXT_UPDATED, 	    boost::bind (&DCPPanel::name_changed, this));
-	_use_isdcf_name->Bind	 (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
-	_edit_isdcf_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,	    boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
-	_copy_isdcf_name_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
-	_dcp_content_type->Bind	 (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_signed->Bind            (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&DCPPanel::signed_toggled, this));
-	_encrypted->Bind         (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&DCPPanel::encrypted_toggled, this));
-	_edit_key->Bind          (wxEVT_COMMAND_BUTTON_CLICKED,     boost::bind (&DCPPanel::edit_key_clicked, this));
-	_reel_type->Bind         (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&DCPPanel::reel_type_changed, this));
-	_reel_length->Bind       (wxEVT_COMMAND_SPINCTRL_UPDATED,   boost::bind (&DCPPanel::reel_length_changed, this));
-	_standard->Bind          (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&DCPPanel::standard_changed, this));
+	_upload_after_make_dcp = new wxCheckBox (_panel, wxID_ANY, _("Upload DCP to TMS after it is made"));
+	grid->Add (_upload_after_make_dcp, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	++r;
+
+	_name->Bind		     (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&DCPPanel::name_changed, this));
+	_use_isdcf_name->Bind	     (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
+	_edit_isdcf_button->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
+	_copy_isdcf_name_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
+	_dcp_content_type->Bind	     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&DCPPanel::dcp_content_type_changed, this));
+	_signed->Bind                (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::signed_toggled, this));
+	_encrypted->Bind             (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::encrypted_toggled, this));
+	_edit_key->Bind              (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::edit_key_clicked, this));
+	_reel_type->Bind             (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&DCPPanel::reel_type_changed, this));
+	_reel_length->Bind           (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DCPPanel::reel_length_changed, this));
+	_standard->Bind              (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&DCPPanel::standard_changed, this));
+	_upload_after_make_dcp->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -289,6 +294,16 @@ DCPPanel::standard_changed ()
 }
 
 void
+DCPPanel::upload_after_make_dcp_changed ()
+{
+	if (!_film) {
+		return;
+	}
+
+	_film->set_upload_after_make_dcp (_upload_after_make_dcp->GetValue ());
+}
+
+void
 DCPPanel::film_changed (int p)
 {
 	switch (p) {
@@ -394,6 +409,9 @@ DCPPanel::film_changed (int p)
 	case Film::REEL_LENGTH:
 		checked_set (_reel_length, _film->reel_length() / 1000000000LL);
 		break;
+	case Film::UPLOAD_AFTER_MAKE_DCP:
+		checked_set (_upload_after_make_dcp, _film->upload_after_make_dcp ());
+		break;
 	default:
 		break;
 	}
@@ -491,6 +509,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::AUDIO_PROCESSOR);
 	film_changed (Film::REEL_TYPE);
 	film_changed (Film::REEL_LENGTH);
+	film_changed (Film::UPLOAD_AFTER_MAKE_DCP);
 }
 
 void
@@ -513,6 +532,7 @@ DCPPanel::set_general_sensitivity (bool s)
 	_edit_key->Enable (s && _film && _film->encrypted ());
 	_reel_type->Enable (s);
 	_reel_length->Enable (s && _film && _film->reel_type() == REELTYPE_BY_LENGTH);
+	_upload_after_make_dcp->Enable (s);
 	_frame_rate_choice->Enable (s);
 	_frame_rate_spin->Enable (s);
 	_audio_channels->Enable (s);

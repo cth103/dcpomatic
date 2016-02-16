@@ -22,6 +22,8 @@
  */
 
 #include "transcode_job.h"
+#include "upload_job.h"
+#include "job_manager.h"
 #include "film.h"
 #include "transcoder.h"
 #include "log.h"
@@ -85,6 +87,11 @@ TranscodeJob::run ()
 
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
 		_transcoder.reset ();
+
+		if (_film->upload_after_make_dcp ()) {
+			shared_ptr<Job> job (new UploadJob (_film));
+			JobManager::instance()->add (job);
+		}
 
 	} catch (...) {
 		_transcoder.reset ();
