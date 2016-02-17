@@ -935,7 +935,7 @@ private:
 
 		wxSplashScreen* splash = 0;
 		try {
-			if (!Config::have_existing ()) {
+			if (!Config::have_existing ("config.xml")) {
 				wxBitmap bitmap;
 				boost::filesystem::path p = shared_path () / "splash.png";
 				if (bitmap.LoadFile (std_to_wx (p.string ()), wxBITMAP_TYPE_PNG)) {

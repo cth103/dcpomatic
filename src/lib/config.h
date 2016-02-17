@@ -458,11 +458,11 @@ public:
 	static Config* instance ();
 	static void drop ();
 	static void restore_defaults ();
-	static bool have_existing ();
+	static bool have_existing (std::string);
 
 private:
 	Config ();
-	static boost::filesystem::path file (bool create_directories = true);
+	static boost::filesystem::path path (std::string file, bool create_directories = true);
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();

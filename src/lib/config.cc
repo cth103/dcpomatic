@@ -139,7 +139,7 @@ Config::create_certificate_chain ()
 void
 Config::read ()
 {
-	if (!have_existing ()) {
+	if (!have_existing ("config.xml")) {
 		/* Make a new set of signing certificates and key */
 		_signer_chain = create_certificate_chain ();
 		/* And similar for decryption of KDMs */
@@ -149,7 +149,7 @@ Config::read ()
 	}
 
 	cxml::Document f ("Config");
-	f.read_file (file ());
+	f.read_file (path ("config.xml"));
 	optional<string> c;
 
 	optional<int> version = f.optional_number_child<int> ("Version");
@@ -298,7 +298,7 @@ Config::read ()
 
 /** @return Filename to write configuration to */
 boost::filesystem::path
-Config::file (bool create_directories)
+Config::path (string file, bool create_directories)
 {
 	boost::filesystem::path p;
 #ifdef DCPOMATIC_OSX
@@ -315,7 +315,7 @@ Config::file (bool create_directories)
 	if (create_directories) {
 		boost::filesystem::create_directories (p, ec);
 	}
-	p /= "config.xml";
+	p /= file;
 	return p;
 }
 
@@ -433,11 +433,11 @@ Config::write () const
 	}
 
 	try {
-		doc.write_to_file_formatted (file().string ());
+		doc.write_to_file_formatted (path("config.xml").string ());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
-		throw FileError (s, file ());
+		throw FileError (s, path("config.xml"));
 	}
 }
 
@@ -507,7 +507,7 @@ Config::add_to_history (boost::filesystem::path p)
 }
 
 bool
-Config::have_existing ()
+Config::have_existing (string file)
 {
-	return boost::filesystem::exists (file (false));
+	return boost::filesystem::exists (path (file, false));
 }
