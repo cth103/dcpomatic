@@ -26,6 +26,7 @@
 #include "editable_list.h"
 #include "filter_dialog.h"
 #include "dir_picker_ctrl.h"
+#include "file_picker_ctrl.h"
 #include "isdcf_metadata_dialog.h"
 #include "server_dialog.h"
 #include "make_chain_dialog.h"
@@ -43,8 +44,8 @@
 #include <dcp/certificate_chain.h>
 #include <wx/stdpaths.h>
 #include <wx/preferences.h>
-#include <wx/filepicker.h>
 #include <wx/spinctrl.h>
+#include <wx/filepicker.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
@@ -188,6 +189,11 @@ private:
 		table->Add (_num_local_encoding_threads, wxGBPosition (r, 1));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
+		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml");
+		table->Add (_cinemas_file, wxGBPosition (r, 1));
+		++r;
+
 		_automatic_audio_analysis = new wxCheckBox (_panel, wxID_ANY, _("Automatically analyse content audio"));
 		table->Add (_automatic_audio_analysis, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
@@ -214,8 +220,9 @@ private:
 		table->Add (bottom_table, wxGBPosition (r, 0), wxGBSpan (2, 2), wxEXPAND);
 		++r;
 
-		_set_language->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::set_language_changed, this));
-		_language->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&GeneralPage::language_changed,     this));
+		_set_language->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&GeneralPage::set_language_changed, this));
+		_language->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&GeneralPage::language_changed,     this));
+		_cinemas_file->Bind (wxEVT_COMMAND_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed, this));
 
 		_num_local_encoding_threads->SetRange (1, 128);
 		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
@@ -268,6 +275,7 @@ private:
 		checked_set (_check_for_test_updates, config->check_for_test_updates ());
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
+		checked_set (_cinemas_file, config->cinemas_file());
 
 		setup_sensitivity ();
 	}
@@ -363,9 +371,15 @@ private:
 		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
 	}
 
+	void cinemas_file_changed ()
+	{
+		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
+	}
+
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
+	FilePickerCtrl* _cinemas_file;
 	wxCheckBox* _automatic_audio_analysis;
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;

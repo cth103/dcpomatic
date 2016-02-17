@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -102,6 +102,7 @@ Config::set_defaults ()
 #ifdef DCPOMATIC_WINDOWS
 	_win32_console = false;
 #endif
+	_cinemas_file = path ("cinemas.xml");
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -222,15 +223,8 @@ Config::read ()
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
 
-	list<cxml::NodePtr> cin = f.node_children ("Cinema");
-	for (list<cxml::NodePtr>::iterator i = cin.begin(); i != cin.end(); ++i) {
-		/* Slightly grotty two-part construction of Cinema here so that we can use
-		   shared_from_this.
-		*/
-		shared_ptr<Cinema> cinema (new Cinema (*i));
-		cinema->read_screens (*i);
-		_cinemas.push_back (cinema);
-	}
+	/* Load any cinemas from config.xml */
+	read_cinemas (f);
 
 	_mail_server = f.string_child ("MailServer");
 	_mail_port = f.optional_number_child<int> ("MailPort").get_value_or (25);
@@ -294,6 +288,14 @@ Config::read ()
 		_dkdms.push_back (dcp::EncryptedKDM (i->content ()));
 	}
 
+	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or (path ("cinemas.xml").string ());
+
+	/* Replace any cinemas from config.xml with those from the configured file */
+	if (boost::filesystem::exists (_cinemas_file)) {
+		cxml::Document f ("Cinemas");
+		f.read_file (_cinemas_file);
+		read_cinemas (f);
+	}
 }
 
 /** @return Filename to write configuration to */
@@ -344,6 +346,13 @@ Config::instance ()
 void
 Config::write () const
 {
+	write_config_xml ();
+	write_cinemas_xml ();
+}
+
+void
+Config::write_config_xml () const
+{
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
@@ -384,11 +393,6 @@ Config::write () const
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
 	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
-
-	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
-		(*i)->as_xml (root->add_child ("Cinema"));
-	}
-
 	root->add_child("MailServer")->add_child_text (_mail_server);
 	root->add_child("MailPort")->add_child_text (raw_convert<string> (_mail_port));
 	root->add_child("MailUser")->add_child_text (_mail_user);
@@ -432,12 +436,34 @@ Config::write () const
 		root->add_child("DKDM")->add_child_text (i.as_xml ());
 	}
 
+	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
+
 	try {
 		doc.write_to_file_formatted (path("config.xml").string ());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
 		throw FileError (s, path("config.xml"));
+	}
+}
+
+void
+Config::write_cinemas_xml () const
+{
+	xmlpp::Document doc;
+	xmlpp::Element* root = doc.create_root_node ("Cinemas");
+	root->add_child("Version")->add_child_text ("1");
+
+	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
+		(*i)->as_xml (root->add_child ("Cinema"));
+	}
+
+	try {
+		doc.write_to_file_formatted (_cinemas_file.string ());
+	} catch (xmlpp::exception& e) {
+		string s = e.what ();
+		trim (s);
+		throw FileError (s, _cinemas_file);
 	}
 }
 
@@ -510,4 +536,34 @@ bool
 Config::have_existing (string file)
 {
 	return boost::filesystem::exists (path (file, false));
+}
+
+void
+Config::read_cinemas (cxml::Document const & f)
+{
+	_cinemas.clear ();
+	list<cxml::NodePtr> cin = f.node_children ("Cinema");
+	for (list<cxml::NodePtr>::iterator i = cin.begin(); i != cin.end(); ++i) {
+		/* Slightly grotty two-part construction of Cinema here so that we can use
+		   shared_from_this.
+		*/
+		shared_ptr<Cinema> cinema (new Cinema (*i));
+		cinema->read_screens (*i);
+		_cinemas.push_back (cinema);
+	}
+}
+
+void
+Config::set_cinemas_file (boost::filesystem::path file)
+{
+	_cinemas_file = file;
+
+	if (boost::filesystem::exists (_cinemas_file)) {
+		/* Existing file; read it in */
+		cxml::Document f ("Cinemas");
+		f.read_file (_cinemas_file);
+		read_cinemas (f);
+	}
+
+	changed (OTHER);
 }

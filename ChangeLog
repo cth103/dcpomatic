@@ -1,3 +1,8 @@
+2016-02-17  Carl Hetherington  <cth@carlh.net>
+
+	* Store cinema / screen certificates in a separate
+	file and allow configuration of its location (#796).
+
 2016-02-16  Carl Hetherington  <cth@carlh.net>
 
 	* Add option to dcpomatic_cli to echo the

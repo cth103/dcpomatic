@@ -21,12 +21,12 @@
  *  @brief Some utility functions and classes.
  */
 
-#include <boost/thread.hpp>
-#include <wx/filepicker.h>
-#include <wx/spinctrl.h>
+#include "wx_util.h"
+#include "file_picker_ctrl.h"
 #include "lib/config.h"
 #include "lib/util.h"
-#include "wx_util.h"
+#include <wx/spinctrl.h>
+#include <boost/thread.hpp>
 
 using namespace std;
 using namespace boost;
@@ -136,16 +136,16 @@ string_client_data (wxClientData* o)
 }
 
 void
-checked_set (wxFilePickerCtrl* widget, string value)
+checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
 {
-	if (widget->GetPath() != std_to_wx (value)) {
+	if (widget->GetPath() != std_to_wx (value.string())) {
 		if (value.empty()) {
 			/* Hack to make wxWidgets clear the control when we are passed
 			   an empty value.
 			*/
 			value = " ";
 		}
-		widget->SetPath (std_to_wx (value));
+		widget->SetPath (std_to_wx (value.string()));
 	}
 }
 

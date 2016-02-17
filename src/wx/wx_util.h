@@ -34,7 +34,7 @@
 #include <gtk/gtk.h>
 #endif
 
-class wxFilePickerCtrl;
+class FilePickerCtrl;
 class wxSpinCtrl;
 class wxSpinCtrlDouble;
 class wxGridBagSizer;
@@ -69,7 +69,7 @@ extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
 extern wxString time_to_timecode (DCPTime t, double fps);
 
-extern void checked_set (wxFilePickerCtrl* widget, std::string value);
+extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxSpinCtrl* widget, int value);
 extern void checked_set (wxSpinCtrlDouble* widget, double value);
 extern void checked_set (wxChoice* widget, int value);

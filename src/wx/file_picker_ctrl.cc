@@ -39,7 +39,7 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
         size.SetHeight (-1);
 
 	_file = new wxButton (this, wxID_ANY, _("(None)"), wxDefaultPosition, size, wxBU_LEFT);
-	_sizer->Add (_file, 1, wxEXPAND | wxALL, 6);
+	_sizer->Add (_file, 1, wxEXPAND, 0);
 
 	SetSizerAndFit (_sizer);
 
@@ -71,6 +71,7 @@ void
 FilePickerCtrl::browse_clicked ()
 {
 	wxFileDialog* d = new wxFileDialog (this, _prompt, wxEmptyString, wxEmptyString, _wildcard);
+	d->SetPath (_path);
 	if (d->ShowModal () == wxID_OK) {
 		SetPath (d->GetPath ());
 	}

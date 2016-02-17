@@ -249,6 +249,10 @@ public:
 		return _dkdms;
 	}
 
+	boost::filesystem::path cinemas_file () const {
+		return _cinemas_file;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -443,6 +447,8 @@ public:
 		changed ();
 	}
 
+	void set_cinemas_file (boost::filesystem::path file);
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -466,6 +472,9 @@ private:
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
+	void write_config_xml () const;
+	void write_cinemas_xml () const;
+	void read_cinemas (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 
 	template <class T>
@@ -543,6 +552,7 @@ private:
 #endif
 	std::vector<boost::filesystem::path> _history;
 	std::vector<dcp::EncryptedKDM> _dkdms;
+	boost::filesystem::path _cinemas_file;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;
