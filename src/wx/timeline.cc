@@ -29,6 +29,7 @@
 #include "lib/film.h"
 #include "lib/playlist.h"
 #include "lib/image_content.h"
+#include "lib/timer.h"
 #include "lib/audio_content.h"
 #include "lib/subtitle_content.h"
 #include <wx/graphics.h>
@@ -265,10 +266,6 @@ Timeline::left_down (wxMouseEvent& ev)
 		if (!ev.ShiftDown ()) {
 			cv->set_selected (view == *i);
 		}
-
-		if (view == *i) {
-			_content_panel->set_selection (cv->content ());
-		}
 	}
 
 	if (content_view && ev.ShiftDown ()) {
@@ -280,6 +277,24 @@ Timeline::left_down (wxMouseEvent& ev)
 	_first_move = false;
 
 	if (_down_view) {
+		/* Pre-compute the points that we might snap to */
+		for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
+			shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
+			if (!cv || cv == _down_view || cv->content() == _down_view->content()) {
+				continue;
+			}
+
+			_start_snaps.push_back (cv->content()->position());
+			_end_snaps.push_back (cv->content()->position());
+			_start_snaps.push_back (cv->content()->end());
+			_end_snaps.push_back (cv->content()->end());
+
+			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points()) {
+				_start_snaps.push_back (i);
+			}
+		}
+
+		/* Tell everyone that things might change frequently during the drag */
 		_down_view->content()->set_change_signals_frequent (true);
 	}
 }
@@ -291,6 +306,7 @@ Timeline::left_up (wxMouseEvent& ev)
 
 	if (_down_view) {
 		_down_view->content()->set_change_signals_frequent (false);
+		_content_panel->set_selection (_down_view->content ());
 	}
 
 	set_position_from_event (ev);
@@ -300,6 +316,9 @@ Timeline::left_up (wxMouseEvent& ev)
 	*/
 	setup_pixels_per_second ();
 	Refresh ();
+
+	_start_snaps.clear ();
+	_end_snaps.clear ();
 }
 
 void
@@ -374,21 +393,14 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 		*/
 		optional<DCPTime> nearest_distance;
 
-		/* Find the nearest snap point; this is inefficient */
-		for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-			shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
-			if (!cv || cv == _down_view || cv->content() == _down_view->content()) {
-				continue;
-			}
+		/* Find the nearest snap point */
 
-			maybe_snap (cv->content()->position(), new_position, nearest_distance);
-			maybe_snap (cv->content()->position(), new_end, nearest_distance);
-			maybe_snap (cv->content()->end(), new_position, nearest_distance);
-			maybe_snap (cv->content()->end(), new_end, nearest_distance);
+		BOOST_FOREACH (DCPTime i, _start_snaps) {
+			maybe_snap (i, new_position, nearest_distance);
+		}
 
-			BOOST_FOREACH (DCPTime i, cv->content()->reel_split_points()) {
-				maybe_snap (i, new_position, nearest_distance);
-			}
+		BOOST_FOREACH (DCPTime i, _end_snaps) {
+			maybe_snap (i, new_end, nearest_distance);
 		}
 
 		if (nearest_distance) {

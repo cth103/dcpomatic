@@ -109,6 +109,8 @@ private:
 	bool _first_move;
 	ContentMenu _menu;
 	bool _snap;
+	std::list<DCPTime> _start_snaps;
+	std::list<DCPTime> _end_snaps;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;
