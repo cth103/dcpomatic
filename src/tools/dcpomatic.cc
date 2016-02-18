@@ -57,7 +57,6 @@
 #include "lib/cinema_kdms.h"
 #include "lib/dcpomatic_socket.h"
 #include <dcp/exceptions.h>
-#include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>
@@ -90,7 +89,6 @@ using std::list;
 using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 class FilmChangedDialog
 {
