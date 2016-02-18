@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_RAW_CONVERT_H
+#define DCPOMATIC_RAW_CONVERT_H
+
 #include "safe_stringstream.h"
 #include <iomanip>
 
@@ -35,3 +38,5 @@ raw_convert (Q v, int precision = 16)
 	s >> r;
 	return r;
 }
+
+#endif
