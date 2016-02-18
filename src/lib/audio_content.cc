@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,8 @@ using std::cout;
 using std::vector;
 using std::stringstream;
 using std::fixed;
+using std::list;
+using std::pair;
 using std::setprecision;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
@@ -291,4 +293,10 @@ AudioContent::audio_channel_names () const
 	}
 
 	return n;
+}
+
+void
+AudioContent::add_properties (list<pair<string, string> >& p) const
+{
+	p.push_back (make_pair (_("DCP audio frame rate"), raw_convert<string> (resampled_audio_frame_rate ())));
 }

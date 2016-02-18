@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,6 +76,10 @@ public:
 	}
 
 	std::string processing_description () const;
+
+protected:
+
+	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
 
 private:
 	/** Gain to apply to audio in dB */
