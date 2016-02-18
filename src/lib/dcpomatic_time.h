@@ -132,7 +132,11 @@ public:
 
 	template <typename T>
 	int64_t frames_round (T r) const {
-		return llrint (_t * r / HZ);
+		/* We must cast to double here otherwise if T is integer
+		   the calculation will round down before we get the chance
+		   to llrint().
+		*/
+		return llrint (_t * double(r) / HZ);
 	}
 
 	template <typename T>
@@ -142,7 +146,11 @@ public:
 
 	template <typename T>
 	int64_t frames_ceil (T r) const {
-		return ceil (_t * r / HZ);
+		/* We must cast to double here otherwise if T is integer
+		   the calculation will round down before we get the chance
+		   to ceil().
+		*/
+		return ceil (_t * double(r) / HZ);
 	}
 
 	/** @param r Frames per second */
