@@ -392,7 +392,7 @@ FFmpegContent::audio_streams () const
 }
 
 void
-FFmpegContent::add_properties (list<pair<string, string> >& p) const
+FFmpegContent::add_properties (list<UserProperty>& p) const
 {
 	VideoContent::add_properties (p);
 	AudioContent::add_properties (p);
@@ -405,17 +405,21 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 		case AVCOL_RANGE_UNSPECIFIED:
 			/// TRANSLATORS: this means that the range of pixel values used in this
 			/// file is unknown (not specified in the file).
-			p.push_back (make_pair (_("Colour range"), _("Unspecified")));
+			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
 			break;
 		case AVCOL_RANGE_MPEG:
 			/// TRANSLATORS: this means that the range of pixel values used in this
 			/// file is limited, so that not all possible values are valid.
-			p.push_back (make_pair (_("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)));
+			p.push_back (
+				UserProperty (
+					_("Video"), _("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)
+					)
+				);
 			break;
 		case AVCOL_RANGE_JPEG:
 			/// TRANSLATORS: this means that the range of pixel values used in this
 			/// file is full, so that all possible pixel values are valid.
-			p.push_back (make_pair (_("Colour range"), String::compose (_("Full (0-%1)"), total)));
+			p.push_back (UserProperty (_("Video"), _("Colour range"), String::compose (_("Full (0-%1)"), total)));
 			break;
 		default:
 			DCPOMATIC_ASSERT (false);
@@ -425,17 +429,17 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 		case AVCOL_RANGE_UNSPECIFIED:
 			/// TRANSLATORS: this means that the range of pixel values used in this
 			/// file is unknown (not specified in the file).
-			p.push_back (make_pair (_("Colour range"), _("Unspecified")));
+			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
 			break;
 		case AVCOL_RANGE_MPEG:
 			/// TRANSLATORS: this means that the range of pixel values used in this
 			/// file is limited, so that not all possible values are valid.
-			p.push_back (make_pair (_("Colour range"), _("Limited")));
+			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Limited")));
 			break;
 		case AVCOL_RANGE_JPEG:
 			/// TRANSLATORS: this means that the range of pixel values used in this
 			/// file is full, so that all possible pixel values are valid.
-			p.push_back (make_pair (_("Colour range"), _("Full")));
+			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Full")));
 			break;
 		default:
 			DCPOMATIC_ASSERT (false);
@@ -456,7 +460,7 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 	};
 
 	DCPOMATIC_ASSERT (AVCOL_PRI_NB == 10);
-	p.push_back (make_pair (_("Colour primaries"), primaries[_color_primaries]));
+	p.push_back (UserProperty (_("Video"), _("Colour primaries"), primaries[_color_primaries]));
 
 	char const * transfers[] = {
 		_("Unspecified"),
@@ -478,7 +482,7 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 	};
 
 	DCPOMATIC_ASSERT (AVCOL_TRC_NB == 16);
-	p.push_back (make_pair (_("Colour transfer characteristic"), transfers[_color_trc]));
+	p.push_back (UserProperty (_("Video"), _("Colour transfer characteristic"), transfers[_color_trc]));
 
 	char const * spaces[] = {
 		_("RGB / sRGB (IEC61966-2-1)"),
@@ -495,9 +499,9 @@ FFmpegContent::add_properties (list<pair<string, string> >& p) const
 	};
 
 	DCPOMATIC_ASSERT (AVCOL_SPC_NB == 11);
-	p.push_back (make_pair (_("Colourspace"), spaces[_colorspace]));
+	p.push_back (UserProperty (_("Video"), _("Colourspace"), spaces[_colorspace]));
 
 	if (_bits_per_pixel) {
-		p.push_back (make_pair (_("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
+		p.push_back (UserProperty (_("Video"), _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
 	}
 }

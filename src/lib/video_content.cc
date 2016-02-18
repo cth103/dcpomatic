@@ -579,11 +579,11 @@ VideoContent::processing_description () const
 }
 
 void
-VideoContent::add_properties (list<pair<string, string> >& p) const
+VideoContent::add_properties (list<UserProperty>& p) const
 {
-	p.push_back (make_pair (_("Video length"), raw_convert<string> (video_length ()) + " " + _("video frames")));
-	p.push_back (make_pair (_("Video size"), raw_convert<string> (video_size().width) + "x" + raw_convert<string> (video_size().height)));
-	p.push_back (make_pair (_("Video frame rate"), raw_convert<string> (video_frame_rate()) + " " + _("frames per second")));
+	p.push_back (UserProperty (_("Video"), _("Length"), raw_convert<string> (video_length ()), _("video frames")));
+	p.push_back (UserProperty (_("Video"), _("Size"), raw_convert<string> (video_size().width) + "x" + raw_convert<string> (video_size().height)));
+	p.push_back (UserProperty (_("Video"), _("Frame rate"), raw_convert<string> (video_frame_rate()), _("frames per second")));
 }
 
 double

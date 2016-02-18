@@ -277,13 +277,11 @@ Content::path_summary () const
 	return s;
 }
 
-/** @return a list of properties that might be interesting to the user; first string is the property name,
- *  second is the value.
- */
-list<pair<string, string> >
-Content::properties () const
+/** @return a list of properties that might be interesting to the user */
+list<Content::UserProperty>
+Content::user_properties () const
 {
-	list<pair<string, string> > p;
+	list<UserProperty> p;
 	add_properties (p);
 	return p;
 }

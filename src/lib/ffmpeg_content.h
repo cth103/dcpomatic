@@ -106,7 +106,7 @@ public:
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
 protected:
-	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
+	void add_properties (std::list<UserProperty> &) const;
 
 private:
 	friend struct ffmpeg_pts_offset_test;

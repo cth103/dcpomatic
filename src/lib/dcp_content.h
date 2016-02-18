@@ -125,7 +125,7 @@ public:
 	bool can_reference_subtitle (std::list<std::string> &) const;
 
 protected:
-	void add_properties (std::list<std::pair<std::string, std::string> >& p) const;
+	void add_properties (std::list<UserProperty>& p) const;
 
 private:
 	void read_directory (boost::filesystem::path);

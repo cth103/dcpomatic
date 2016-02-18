@@ -50,9 +50,22 @@ TableDialog::layout ()
 }
 
 void
+#ifdef DCPOMATIC_OSX
 TableDialog::add (wxString text, bool label)
+#else
+TableDialog::add (wxString text, bool)
+#endif
 {
-	add_label_to_sizer (_table, this, text, label);
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+#ifdef __WXOSX__
+	if (label) {
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+	}
+#endif
+	wxStaticText* m = new wxStaticText (this, wxID_ANY, wxT (""));
+	m->SetLabelMarkup (text);
+	_table->Add (m, 0, flags, 6);
 }
 
 void

@@ -79,7 +79,7 @@ public:
 
 protected:
 
-	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
+	void add_properties (std::list<UserProperty> &) const;
 
 private:
 	/** Gain to apply to audio in dB */

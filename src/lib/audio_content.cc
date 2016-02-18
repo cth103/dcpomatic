@@ -296,7 +296,48 @@ AudioContent::audio_channel_names () const
 }
 
 void
-AudioContent::add_properties (list<pair<string, string> >& p) const
+AudioContent::add_properties (list<UserProperty>& p) const
 {
-	p.push_back (make_pair (_("DCP audio frame rate"), raw_convert<string> (resampled_audio_frame_rate ())));
+	shared_ptr<const AudioStream> stream;
+	if (audio_streams().size() == 1) {
+		stream = audio_streams().front ();
+	}
+
+	if (stream) {
+		p.push_back (UserProperty (_("Audio"), _("Channels"), stream->channels ()));
+		p.push_back (UserProperty (_("Audio"), _("Content audio frame rate"), stream->frame_rate(), _("Hz")));
+	}
+
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
+	FrameRateChange const frc = film->active_frame_rate_change (position ());
+	ContentTime const c (full_length(), frc);
+
+	p.push_back (
+		UserProperty (_("Length"), _("Full length in video frames at content rate"), c.frames_round(frc.source))
+		);
+
+	if (stream) {
+		p.push_back (
+			UserProperty (
+				_("Length"),
+				_("Full length in audio frames at content rate"),
+				c.frames_round (stream->frame_rate ())
+				)
+			);
+	}
+
+	p.push_back (UserProperty (_("Audio"), _("DCP frame rate"), resampled_audio_frame_rate ()));
+	p.push_back (UserProperty (_("Length"), _("Full length in video frames at DCP rate"), c.frames_round (frc.dcp)));
+
+	if (stream) {
+		p.push_back (
+			UserProperty (
+				_("Length"),
+				_("Full length in audio frames at DCP rate"),
+				c.frames_round (resampled_audio_frame_rate ())
+				)
+			);
+	}
 }

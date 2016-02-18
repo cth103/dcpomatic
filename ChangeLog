@@ -1,3 +1,8 @@
+2016-02-18  c.hetherington  <cth@carlh.net>
+
+	* Add some more information to the content properties
+	dialogue (#791).
+
 2016-02-17  Carl Hetherington  <cth@carlh.net>
 
 	* Store cinema / screen certificates in a separate

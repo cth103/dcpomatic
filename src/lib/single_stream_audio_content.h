@@ -49,8 +49,6 @@ public:
 	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
 
 protected:
-	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
-
 	boost::shared_ptr<AudioStream> _audio_stream;
 };
 

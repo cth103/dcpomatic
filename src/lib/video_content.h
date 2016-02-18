@@ -174,7 +174,7 @@ public:
 
 protected:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
-	void add_properties (std::list<std::pair<std::string, std::string> > &) const;
+	void add_properties (std::list<UserProperty> &) const;
 
 	Frame _video_length;
 	/** Video frame rate, or not set if this content should use the DCP's frame rate */

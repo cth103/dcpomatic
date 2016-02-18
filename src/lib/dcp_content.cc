@@ -205,7 +205,7 @@ DCPContent::directory () const
 }
 
 void
-DCPContent::add_properties (list<pair<string, string> >& p) const
+DCPContent::add_properties (list<UserProperty>& p) const
 {
 	SingleStreamAudioContent::add_properties (p);
 }

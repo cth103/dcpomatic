@@ -27,6 +27,7 @@
 #include "types.h"
 #include "signaller.h"
 #include "dcpomatic_time.h"
+#include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
@@ -90,8 +91,6 @@ public:
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
 	 */
 	virtual std::list<DCPTime> reel_split_points () const;
-
-	std::list<std::pair<std::string, std::string> > properties () const;
 
 	boost::shared_ptr<Content> clone () const;
 
@@ -162,11 +161,31 @@ public:
 
 	boost::shared_ptr<const Film> film () const;
 
+	class UserProperty
+	{
+	public:
+		template <class T>
+		UserProperty (std::string category_, std::string key_, T value_, std::string unit_ = "")
+			: category (category_)
+			, key (key_)
+			, value (raw_convert<std::string> (value_))
+			, unit (unit_)
+		{}
+
+		std::string category;
+		std::string key;
+		std::string value;
+		std::string unit;
+	};
+
+	std::list<UserProperty> user_properties () const;
+
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
 protected:
 	void signal_changed (int);
-	virtual void add_properties (std::list<std::pair<std::string, std::string> > &) const {}
+
+	virtual void add_properties (std::list<UserProperty> &) const {}
 
 	boost::weak_ptr<const Film> _film;
 

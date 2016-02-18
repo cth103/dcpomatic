@@ -85,11 +85,3 @@ SingleStreamAudioContent::audio_streams () const
 	return s;
 }
 
-void
-SingleStreamAudioContent::add_properties (list<pair<string, string> >& p) const
-{
-	p.push_back (make_pair (_("Audio channels"), raw_convert<string> (audio_stream()->channels ())));
-	p.push_back (make_pair (_("Content audio frame rate"), raw_convert<string> (audio_stream()->frame_rate ())));
-
-	AudioContent::add_properties (p);
-}

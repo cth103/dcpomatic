@@ -25,10 +25,12 @@
 #include "lib/audio_content.h"
 #include "lib/single_stream_audio_content.h"
 #include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 
 using std::string;
 using std::list;
 using std::pair;
+using std::map;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -40,10 +42,22 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 	add (_("Filename"), true);
 	add (new wxStaticText (this, wxID_ANY, std_to_wx (n)));
 
-	list<pair<string, string> > properties = content->properties ();
-	for (list<pair<string, string> >::const_iterator i = properties.begin(); i != properties.end(); ++i) {
-		add (std_to_wx (i->first), true);
-		add (new wxStaticText (this, wxID_ANY, std_to_wx (i->second)));
+	map<string, list<Content::UserProperty> > grouped;
+	BOOST_FOREACH (Content::UserProperty i, content->user_properties()) {
+		if (grouped.find(i.category) == grouped.end()) {
+			grouped[i.category] = list<Content::UserProperty> ();
+		}
+		grouped[i.category].push_back (i);
+	}
+
+	for (map<string, list<Content::UserProperty> >::const_iterator i = grouped.begin(); i != grouped.end(); ++i) {
+		add (std_to_wx ("<b>" + i->first + "</b>"), false);
+		add_spacer ();
+
+		BOOST_FOREACH (Content::UserProperty j, i->second) {
+			add (std_to_wx (j.key), true);
+			add (new wxStaticText (this, wxID_ANY, std_to_wx (j.value + " " + j.unit)));
+		}
 	}
 
 	layout ();
