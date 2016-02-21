@@ -417,12 +417,14 @@ Config::write_config_xml () const
 #endif
 
 	xmlpp::Element* signer = root->add_child ("Signer");
+	DCPOMATIC_ASSERT (_signer_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->root_to_leaf ()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 
 	xmlpp::Element* decryption = root->add_child ("Decryption");
+	DCPOMATIC_ASSERT (_decryption_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->root_to_leaf ()) {
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
