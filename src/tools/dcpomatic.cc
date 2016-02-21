@@ -251,7 +251,7 @@ public:
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
 		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
-		Bind (wxEVT_MENU, boost::bind (&ContentPanel::remove_clicked, _film_editor->content_panel()), ID_remove);
+		Bind (wxEVT_MENU, boost::bind (&ContentPanel::remove_clicked, _film_editor->content_panel(), true), ID_remove);
 		wxAcceleratorTable accel_table (2, accel);
 		SetAcceleratorTable (accel_table);
 

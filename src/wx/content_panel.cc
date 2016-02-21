@@ -123,7 +123,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
 	_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::add_file_clicked, this));
 	_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::add_folder_clicked, this));
-	_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::remove_clicked, this));
+	_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::remove_clicked, this, false));
 	_earlier->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::earlier_clicked, this));
 	_later->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::later_clicked, this));
 	_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::timeline_clicked, this));
@@ -326,12 +326,12 @@ ContentPanel::add_folder_clicked ()
 }
 
 void
-ContentPanel::remove_clicked ()
+ContentPanel::remove_clicked (bool hotkey)
 {
-	/* This method is also called when Delete is pressed, so check that our notebook page
+	/* If the method was called because Delete was pressed check that our notebook page
 	   is visible and that the content list is focussed.
 	*/
-	if (_parent->GetCurrentPage() != _panel || !_content->HasFocus()) {
+	if (hotkey && (_parent->GetCurrentPage() != _panel || !_content->HasFocus())) {
 		return;
 	}
 

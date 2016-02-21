@@ -65,7 +65,7 @@ public:
 	FFmpegContentList selected_ffmpeg ();
 
 	void add_file_clicked ();
-	void remove_clicked ();
+	void remove_clicked (bool hotkey);
 
 private:
 	void selection_changed ();
