@@ -57,10 +57,10 @@ TableDialog::add (wxString text, bool)
 #endif
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
-#ifdef __WXOSX__
+#ifdef DCPOMATIC_OSX
 	if (label) {
 		flags |= wxALIGN_RIGHT;
-		t += wxT (":");
+		text += wxT (":");
 	}
 #endif
 	wxStaticText* m = new wxStaticText (this, wxID_ANY, wxT (""));
