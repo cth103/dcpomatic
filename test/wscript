@@ -94,7 +94,7 @@ def build(bld):
 
     # Disabled tests: some difference in font rendering between the test machine
     # and others...
-    # subrip_test.cc burnt_subtitle_test.cc
+    # burnt_subtitle_test.cc
 
     obj.target = 'unit-tests'
     obj.install_path = ''
