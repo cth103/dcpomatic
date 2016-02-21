@@ -1,3 +1,7 @@
+2016-02-21  Carl Hetherington  <cth@carlh.net>
+
+	* Fix duplicate <LoadFont> nodes in subtitle files.
+
 2016-02-18  c.hetherington  <cth@carlh.net>
 
 	* Add some more information to the content properties

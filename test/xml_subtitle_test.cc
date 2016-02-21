@@ -50,3 +50,24 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	/* Should be blank video with MXF subtitles */
 	check_dcp ("test/data/xml_subtitle_test", film->dir (film->dcp_name ()));
 }
+
+/** Check the subtitle XML when there are two subtitle files in the project */
+BOOST_AUTO_TEST_CASE (xml_subtitle_test2)
+{
+	shared_ptr<Film> film = new_test_film ("xml_subtitle_test2");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	film->set_interop (true);
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	content->set_use_subtitles (true);
+	content->set_burn_subtitles (false);
+	film->examine_and_add_content (content);
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+	film->make_dcp ();
+	wait_for_jobs ();
+	film->write_metadata ();
+
+	check_dcp ("test/data/xml_subtitle_test2", film->dir (film->dcp_name ()));
+}

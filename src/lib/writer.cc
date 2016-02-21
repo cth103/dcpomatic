@@ -543,8 +543,20 @@ Writer::write (PlayerSubtitles subs)
 void
 Writer::write (list<shared_ptr<Font> > fonts)
 {
-	/* Just keep a list of fonts and we'll deal with them in ::finish */
-	copy (fonts.begin (), fonts.end (), back_inserter (_fonts));
+	/* Just keep a list of unique fonts and we'll deal with them in ::finish */
+
+	BOOST_FOREACH (shared_ptr<Font> i, fonts) {
+		bool got = false;
+		BOOST_FOREACH (shared_ptr<Font> j, _fonts) {
+			if (*i == *j) {
+				got = true;
+			}
+		}
+
+		if (!got) {
+			_fonts.push_back (i);
+		}
+	}
 }
 
 bool
