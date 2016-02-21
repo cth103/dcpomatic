@@ -120,7 +120,6 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 }
 
 #if 0
-
 /* XXX: this is disabled; there is some difference in font rendering
    between the test machine and others.
 */
