@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-10 02:45+0000\n"
+"POT-Creation-Date: 2016-02-22 22:47+0000\n"
 "PO-Revision-Date: 2016-01-06 19:34+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -23,7 +23,7 @@ msgstr "%1 [DCP]"
 msgid "%1 [audio]"
 msgstr "%1 [аудио]"
 
-#: src/lib/ffmpeg_content.cc:224
+#: src/lib/ffmpeg_content.cc:232
 msgid "%1 [movie]"
 msgstr "%1 [видео]"
 
@@ -63,76 +63,77 @@ msgstr "Возникла ошибка при обращении к файлу %1
 msgid "Analyse audio"
 msgstr "Анализ аудио"
 
-#: src/lib/single_stream_audio_content.cc:92
-msgid "Audio channels"
-msgstr "Аудиоканалы"
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:331
+msgid "Audio"
+msgstr ""
 
-#: src/lib/audio_content.cc:257
+#: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Аудио будет ресэмплировано из %1kГц в %2kГц"
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:261
 msgid "Audio will be resampled to %1kHz"
 msgstr "Аудио будет ресэмплировано в %1kГц"
 
-#: src/lib/audio_content.cc:248
+#: src/lib/audio_content.cc:250
 msgid "Audio will not be resampled"
 msgstr "Аудио не будет ресэмплировано"
 
-#: src/lib/ffmpeg_content.cc:442
+#: src/lib/ffmpeg_content.cc:478
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 расширенная цветовая гамма"
 
-#: src/lib/ffmpeg_content.cc:423
+#: src/lib/ffmpeg_content.cc:459
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:462
+#: src/lib/ffmpeg_content.cc:498
 msgid "BT2020 constant luminance"
 msgstr "BT2020 постоянная яркость"
 
-#: src/lib/ffmpeg_content.cc:444
+#: src/lib/ffmpeg_content.cc:480
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 для 10-битной системы"
 
-#: src/lib/ffmpeg_content.cc:445
+#: src/lib/ffmpeg_content.cc:481
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 для 12-битной системы"
 
-#: src/lib/ffmpeg_content.cc:461
+#: src/lib/ffmpeg_content.cc:497
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 непостоянная яркость"
 
-#: src/lib/ffmpeg_content.cc:419
+#: src/lib/ffmpeg_content.cc:455
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:457
+#: src/lib/ffmpeg_content.cc:493
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:418
+#: src/lib/ffmpeg_content.cc:454
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:415 src/lib/ffmpeg_content.cc:431
-#: src/lib/ffmpeg_content.cc:453
+#: src/lib/ffmpeg_content.cc:451 src/lib/ffmpeg_content.cc:467
+#: src/lib/ffmpeg_content.cc:489
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:469
+#: src/lib/ffmpeg_content.cc:505
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/film.cc:1294
+#: src/lib/film.cc:1314
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1295
+#: src/lib/film.cc:1315
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1286
+#: src/lib/film.cc:1306
 msgid "C"
 msgstr "C"
 
@@ -148,37 +149,30 @@ msgstr "Невозможно обработать формат пикселя %1
 msgid "Centre"
 msgstr "Центральный"
 
+#: src/lib/audio_content.cc:307
+#, fuzzy
+msgid "Channels"
+msgstr "Аудиоканалы"
+
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
 msgstr "Проверка данных изображения"
 
-#: src/lib/ffmpeg_content.cc:427
+#: src/lib/ffmpeg_content.cc:463
 msgid "Colour primaries"
 msgstr "Цветовые основы"
 
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is unknown (not specified in the file).
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is limited, so that not all possible values are valid.
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is full, so that all possible pixel values are valid.
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is unknown (not specified in the file).
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is limited, so that not all possible values are valid.
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:376 src/lib/ffmpeg_content.cc:381
-#: src/lib/ffmpeg_content.cc:386 src/lib/ffmpeg_content.cc:396
-#: src/lib/ffmpeg_content.cc:401 src/lib/ffmpeg_content.cc:406
+#: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:415
+#: src/lib/ffmpeg_content.cc:422 src/lib/ffmpeg_content.cc:432
+#: src/lib/ffmpeg_content.cc:437 src/lib/ffmpeg_content.cc:442
 msgid "Colour range"
 msgstr "Цветовой диапазон"
 
-#: src/lib/ffmpeg_content.cc:449
+#: src/lib/ffmpeg_content.cc:485
 msgid "Colour transfer characteristic"
 msgstr "Характеристика цветового перехода"
 
-#: src/lib/ffmpeg_content.cc:466
+#: src/lib/ffmpeg_content.cc:502
 msgid "Colourspace"
 msgstr "Цветовое пространство"
 
@@ -198,7 +192,12 @@ msgstr "Рендеринг изображения"
 msgid "Content and DCP have the same rate.\n"
 msgstr "У контента и DCP одинаковая частота кадров.\n"
 
-#: src/lib/video_content.cc:566
+#: src/lib/audio_content.cc:308
+#, fuzzy
+msgid "Content audio frame rate"
+msgstr "Частота кадров контента:"
+
+#: src/lib/video_content.cc:572
 msgid "Content frame rate"
 msgstr "Частота кадров контента:"
 
@@ -213,11 +212,11 @@ msgstr ""
 "Для присоединения контента должны быть такие же настройки \"использовать "
 "субтитры\"."
 
-#: src/lib/audio_content.cc:94
+#: src/lib/audio_content.cc:96
 msgid "Content to be joined must have the same audio delay."
 msgstr "Для присоединения контента должна быть одинаковая задержка аудио."
 
-#: src/lib/audio_content.cc:90
+#: src/lib/audio_content.cc:92
 msgid "Content to be joined must have the same audio gain."
 msgstr "Для присоединения контента должно быть одинаковое усиление аудио."
 
@@ -284,7 +283,7 @@ msgstr "Для присоединения контента должен испо
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Для присоединения контента необходимо использовать те же субтитры."
 
-#: src/lib/video_content.cc:518
+#: src/lib/video_content.cc:524
 msgid "Content video is %1x%2"
 msgstr "Разрешение контента: %1x%2"
 
@@ -307,6 +306,11 @@ msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%
 #: src/lib/magick_image_proxy.cc:101
 msgid "Could not decode image file (%1)"
 msgstr "Не удалось декодировать изображение (%1)"
+
+#: src/lib/ffmpeg_examiner.cc:357
+#, fuzzy
+msgid "Could not find pixel format for video."
+msgstr "не удалось найти информацию о потоке"
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -344,7 +348,7 @@ msgstr "не удалось начать передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
-#: src/lib/video_content.cc:537
+#: src/lib/video_content.cc:543
 msgid "Cropped to %1x%2"
 msgstr "Кадрировано в %1x%2"
 
@@ -356,17 +360,22 @@ msgstr "D-BOX основной (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/film.cc:1296
+#: src/lib/film.cc:1316
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1297
+#: src/lib/film.cc:1317
 msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитры"
+
+#: src/lib/audio_content.cc:331
+#, fuzzy
+msgid "DCP frame rate"
+msgstr "Частота кадров контента:"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -394,7 +403,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:473
+#: src/lib/config.cc:507
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -420,7 +429,7 @@ msgstr ""
 "С наилучшими пожеланиями,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:531
+#: src/lib/video_content.cc:537
 msgid "Display aspect ratio"
 msgstr "Соотношение сторон контента:"
 
@@ -461,7 +470,8 @@ msgid "Encoding image data"
 msgstr "Кодирование данных изображения"
 
 #: src/lib/exceptions.cc:67
-msgid "Error in SubRip file: saw %1 while expecting %2"
+#, fuzzy
+msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Ошибка в SubRip-файле: найдено %1, в то время как ожидается %2"
 
 #: src/lib/job.cc:377
@@ -472,7 +482,7 @@ msgstr "Ошибка: (%1)"
 msgid "Examine content"
 msgstr "Проверка контента"
 
-#: src/lib/ffmpeg_content.cc:456
+#: src/lib/ffmpeg_content.cc:492
 msgid "FCC"
 msgstr "FCC"
 
@@ -488,7 +498,7 @@ msgstr "Ошибка отправки email (%1)"
 msgid "Feature"
 msgstr "FTR (Фильм)"
 
-#: src/lib/ffmpeg_content.cc:422
+#: src/lib/ffmpeg_content.cc:458
 msgid "Film"
 msgstr "Проект"
 
@@ -504,11 +514,16 @@ msgstr "Поиск субтитров"
 msgid "Flat"
 msgstr "Flat (1998x1080)"
 
-#: src/lib/ffmpeg_content.cc:406
+#: src/lib/video_content.cc:586
+#, fuzzy
+msgid "Frame rate"
+msgstr "Частота кадров видео"
+
+#: src/lib/ffmpeg_content.cc:442
 msgid "Full"
 msgstr "Полный"
 
-#: src/lib/ffmpeg_content.cc:386
+#: src/lib/ffmpeg_content.cc:422
 msgid "Full (0-%1)"
 msgstr "Полный (0-%1)"
 
@@ -516,11 +531,27 @@ msgstr "Полный (0-%1)"
 msgid "Full frame"
 msgstr "FULL (2048x1080)"
 
-#: src/lib/ffmpeg_content.cc:434
+#: src/lib/audio_content.cc:338
+msgid "Full length in audio frames at DCP rate"
+msgstr ""
+
+#: src/lib/audio_content.cc:325
+msgid "Full length in audio frames at content rate"
+msgstr ""
+
+#: src/lib/audio_content.cc:332
+msgid "Full length in video frames at DCP rate"
+msgstr ""
+
+#: src/lib/audio_content.cc:318
+msgid "Full length in video frames at content rate"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
 msgstr "Гамма 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:435
+#: src/lib/ffmpeg_content.cc:471
 msgid "Gamma 28 (BT470BG)"
 msgstr "Гамма 28 (BT470BG)"
 
@@ -528,7 +559,7 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/film.cc:1290
+#: src/lib/film.cc:1310
 msgid "HI"
 msgstr "HI"
 
@@ -540,11 +571,15 @@ msgstr "Для слабослышащих"
 msgid "High quality 3D denoiser"
 msgstr "Высококачественный подавитель шума 3D"
 
-#: src/lib/ffmpeg_content.cc:443
+#: src/lib/audio_content.cc:308
+msgid "Hz"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB или sYCC)"
 
-#: src/lib/ffmpeg_content.cc:441
+#: src/lib/ffmpeg_content.cc:477
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
@@ -552,7 +587,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:239 src/lib/config.cc:470
+#: src/lib/config.cc:233 src/lib/config.cc:504
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -560,11 +595,11 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1284
+#: src/lib/film.cc:1304
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1292
+#: src/lib/film.cc:1312
 msgid "Lc"
 msgstr "Lc"
 
@@ -584,7 +619,13 @@ msgstr "Левый тыловой surround"
 msgid "Left surround"
 msgstr "Левый surround"
 
-#: src/lib/film.cc:1287
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
+#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/video_content.cc:584
+msgid "Length"
+msgstr ""
+
+#: src/lib/film.cc:1307
 msgid "Lfe"
 msgstr "LFE"
 
@@ -592,27 +633,27 @@ msgstr "LFE"
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
-#: src/lib/ffmpeg_content.cc:401
+#: src/lib/ffmpeg_content.cc:437
 msgid "Limited"
 msgstr "Ограничен"
 
-#: src/lib/ffmpeg_content.cc:381
+#: src/lib/ffmpeg_content.cc:415
 msgid "Limited (%1-%2)"
 msgstr "Ограничен (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:438
+#: src/lib/ffmpeg_content.cc:474
 msgid "Linear"
 msgstr "Линейный"
 
-#: src/lib/ffmpeg_content.cc:439
+#: src/lib/ffmpeg_content.cc:475
 msgid "Logarithmic (100:1 range)"
 msgstr "Логарифмический (диапазон 100:1)"
 
-#: src/lib/ffmpeg_content.cc:440
+#: src/lib/ffmpeg_content.cc:476
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/film.cc:1288
+#: src/lib/film.cc:1308
 msgid "Ls"
 msgstr "Ls"
 
@@ -688,7 +729,7 @@ msgstr "Сверхполный подавитель шума небольшой 
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:558
+#: src/lib/video_content.cc:564
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Заполнено черным для подгонки контейнера %1 (%2x%3)"
 
@@ -704,11 +745,11 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/film.cc:1285
+#: src/lib/film.cc:1305
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:452
+#: src/lib/ffmpeg_content.cc:488
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -716,7 +757,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1293
+#: src/lib/film.cc:1313
 msgid "Rc"
 msgstr "Rc"
 
@@ -753,20 +794,20 @@ msgstr "Правый тыловой surround"
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/film.cc:1289
+#: src/lib/film.cc:1309
 msgid "Rs"
 msgstr "Rs"
 
-#: src/lib/ffmpeg_content.cc:420 src/lib/ffmpeg_content.cc:436
+#: src/lib/ffmpeg_content.cc:456 src/lib/ffmpeg_content.cc:472
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:458
+#: src/lib/ffmpeg_content.cc:494
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:421 src/lib/ffmpeg_content.cc:437
-#: src/lib/ffmpeg_content.cc:459
+#: src/lib/ffmpeg_content.cc:457 src/lib/ffmpeg_content.cc:473
+#: src/lib/ffmpeg_content.cc:495
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
@@ -774,7 +815,7 @@ msgstr "SMPTE 240M"
 msgid "SSH error (%1)"
 msgstr "Ошибка SSH (%1)"
 
-#: src/lib/video_content.cc:549
+#: src/lib/video_content.cc:555
 msgid "Scaled to %1x%2"
 msgstr "Масштабировано до %1x%2"
 
@@ -790,7 +831,11 @@ msgstr "Отправка почты"
 msgid "Short"
 msgstr "SHR (Короткометражный фильм)"
 
-#: src/lib/audio_content.cc:252
+#: src/lib/video_content.cc:585
+msgid "Size"
+msgstr ""
+
+#: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Некоторое аудио будет ресемплировано в %1kГц"
 
@@ -801,10 +846,6 @@ msgstr "Преобразователь A стерео-->5.1"
 #: src/lib/upmixer_b.cc:41
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Преобразователь B стерео-->5.1"
-
-#: src/lib/subrip_content.cc:95
-msgid "SubRip subtitles"
-msgstr "Субтитры SubRip"
 
 #: src/lib/dcp_content_type.cc:51
 msgid "Teaser"
@@ -817,6 +858,11 @@ msgstr "Фильтр Telecine"
 #: src/lib/dcp_content_type.cc:48
 msgid "Test"
 msgstr "TST (Тестовый)"
+
+#: src/lib/text_subtitle_content.cc:95
+#, fuzzy
+msgid "Text subtitles"
+msgstr "[субтитры]"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -867,7 +913,7 @@ msgstr ""
 "попробуйте уменьшить число потоков кодирования в Настройках во вкладке "
 "\"Основные\"."
 
-#: src/lib/film.cc:385
+#: src/lib/film.cc:391
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -875,7 +921,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:377
+#: src/lib/film.cc:383
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -889,7 +935,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "TRL (Трейлер)"
 
-#: src/lib/transcode_job.cc:55
+#: src/lib/transcode_job.cc:58
 msgid "Transcode %1"
 msgstr "Транскодирование %1"
 
@@ -909,7 +955,7 @@ msgstr "Сервером получен неожиданный тип изобр
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: src/lib/ffmpeg_decoder.cc:234
+#: src/lib/ffmpeg_decoder.cc:251
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Нераспознанный формат аудио (%1)"
 
@@ -917,11 +963,11 @@ msgstr "Нераспознанный формат аудио (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Маска понижения резкости и Гауссово размытие"
 
-#: src/lib/ffmpeg_content.cc:376 src/lib/ffmpeg_content.cc:396
-#: src/lib/ffmpeg_content.cc:414 src/lib/ffmpeg_content.cc:416
-#: src/lib/ffmpeg_content.cc:417 src/lib/ffmpeg_content.cc:430
-#: src/lib/ffmpeg_content.cc:432 src/lib/ffmpeg_content.cc:433
-#: src/lib/ffmpeg_content.cc:454 src/lib/ffmpeg_content.cc:455
+#: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:432
+#: src/lib/ffmpeg_content.cc:450 src/lib/ffmpeg_content.cc:452
+#: src/lib/ffmpeg_content.cc:453 src/lib/ffmpeg_content.cc:466
+#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:469
+#: src/lib/ffmpeg_content.cc:490 src/lib/ffmpeg_content.cc:491
 msgid "Unspecified"
 msgstr "Не определено"
 
@@ -941,20 +987,29 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/film.cc:1291
+#: src/lib/film.cc:1311
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/video_content.cc:580
-msgid "Video frame rate"
-msgstr "Частота кадров видео"
-
-#: src/lib/video_content.cc:578
-msgid "Video length"
-msgstr "Длительность видео"
-
-#: src/lib/video_content.cc:579
-msgid "Video size"
+#. / TRANSLATORS: this means that the range of pixel values used in this
+#. / file is unknown (not specified in the file).
+#. / TRANSLATORS: this means that the range of pixel values used in this
+#. / file is full, so that all possible pixel values are valid.
+#. / TRANSLATORS: this means that the range of pixel values used in this
+#. / file is unknown (not specified in the file).
+#. / TRANSLATORS: this means that the range of pixel values used in this
+#. / file is limited, so that not all possible values are valid.
+#. / TRANSLATORS: this means that the range of pixel values used in this
+#. / file is full, so that all possible pixel values are valid.
+#: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:415
+#: src/lib/ffmpeg_content.cc:422 src/lib/ffmpeg_content.cc:432
+#: src/lib/ffmpeg_content.cc:437 src/lib/ffmpeg_content.cc:442
+#: src/lib/ffmpeg_content.cc:463 src/lib/ffmpeg_content.cc:485
+#: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
+#: src/lib/video_content.cc:584 src/lib/video_content.cc:585
+#: src/lib/video_content.cc:586
+#, fuzzy
+msgid "Video"
 msgstr "Размер видео"
 
 #: src/lib/util.cc:490
@@ -965,7 +1020,7 @@ msgstr "Для слабовидящих"
 msgid "Waiting"
 msgstr "Ожидание"
 
-#: src/lib/ffmpeg_content.cc:460
+#: src/lib/ffmpeg_content.cc:496
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -973,7 +1028,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Очередной фильтр деинтерлейсинга"
 
-#: src/lib/film.cc:298
+#: src/lib/film.cc:303
 msgid "You must add some content to the DCP before creating it"
 msgstr "Добавьте контент в проект прежде чем создавать DCP"
 
@@ -985,11 +1040,11 @@ msgstr "[последовательность]"
 msgid "[still]"
 msgstr "[статичный]"
 
-#: src/lib/dcp_subtitle_content.cc:92 src/lib/subrip_content.cc:89
+#: src/lib/dcp_subtitle_content.cc:92 src/lib/text_subtitle_content.cc:89
 msgid "[subtitles]"
 msgstr "[субтитры]"
 
-#: src/lib/film.cc:273
+#: src/lib/film.cc:278
 msgid "cannot contain slashes"
 msgstr "не может содержать разрезы"
 
@@ -1001,11 +1056,11 @@ msgstr "таймаут соединения"
 msgid "connecting"
 msgstr "соединение"
 
-#: src/lib/film.cc:294
+#: src/lib/film.cc:299
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:302
+#: src/lib/film.cc:307
 msgid "content type"
 msgstr "тип контента"
 
@@ -1017,7 +1072,7 @@ msgstr "копирование %1"
 msgid "could not create file %1"
 msgstr "не удалось создать файл %1"
 
-#: src/lib/ffmpeg.cc:137
+#: src/lib/ffmpeg.cc:138
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
@@ -1061,15 +1116,15 @@ msgstr "ошибка во время async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
-#: src/lib/transcode_job.cc:105
+#: src/lib/transcode_job.cc:122
 msgid "fps"
 msgstr "кадр/сек"
 
-#: src/lib/transcode_job.cc:104
+#: src/lib/transcode_job.cc:121
 msgid "frames"
 msgstr "кадры"
 
-#: src/lib/video_content.cc:580
+#: src/lib/video_content.cc:586
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
@@ -1091,11 +1146,11 @@ msgstr "отсутствует обязательная настройка: %1"
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:273 src/lib/film.cc:306
+#: src/lib/film.cc:278 src/lib/film.cc:311
 msgid "name"
 msgstr "название"
 
-#: src/lib/video_content.cc:527
+#: src/lib/video_content.cc:533
 msgid "pixel aspect ratio"
 msgstr "Соотношение сторон пикселей"
 
@@ -1118,13 +1173,19 @@ msgstr "sRGB"
 msgid "still"
 msgstr "статичный"
 
-#: src/lib/ffmpeg_examiner.cc:301
+#: src/lib/ffmpeg_examiner.cc:324
 msgid "unknown"
 msgstr "неизвестно"
 
-#: src/lib/video_content.cc:578
+#: src/lib/video_content.cc:584
 msgid "video frames"
 msgstr "видеокадры"
+
+#~ msgid "SubRip subtitles"
+#~ msgstr "Субтитры SubRip"
+
+#~ msgid "Video length"
+#~ msgstr "Длительность видео"
 
 #~ msgid "could not open file for reading"
 #~ msgstr "не удалось открыть файл для чтения"
