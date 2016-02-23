@@ -170,13 +170,28 @@ Timeline::assign_tracks ()
 		}
 
 		shared_ptr<Content> content = cv->content();
+
+		if (dynamic_pointer_cast<VideoContent> (content)) {
+			/* Video on track 0 */
+			cv->set_track (0);
+			_tracks = max (_tracks, 1);
+			continue;
+		} else if (dynamic_pointer_cast<SubtitleContent> (content)) {
+			/* Subtitles on track 1 */
+			cv->set_track (1);
+			_tracks = max (_tracks, 2);
+			continue;
+		}
+
+		/* Audio on tracks 2 and up */
+		int t = 2;
+
 		DCPTimePeriod content_period (content->position(), content->end());
 
-		int t = 0;
 		while (true) {
 			TimelineViewList::iterator j = _views.begin();
 			while (j != _views.end()) {
-				shared_ptr<TimelineContentView> test = dynamic_pointer_cast<TimelineContentView> (*j);
+				shared_ptr<TimelineAudioContentView> test = dynamic_pointer_cast<TimelineAudioContentView> (*j);
 				if (!test) {
 					++j;
 					continue;
@@ -229,13 +244,15 @@ Timeline::setup_pixels_per_second ()
 shared_ptr<TimelineView>
 Timeline::event_to_view (wxMouseEvent& ev)
 {
-	TimelineViewList::iterator i = _views.begin();
+	/* Search backwards through views so that we find the uppermost one first */
+	TimelineViewList::reverse_iterator i = _views.rbegin();
 	Position<int> const p (ev.GetX(), ev.GetY());
-	while (i != _views.end() && !(*i)->bbox().contains (p)) {
+	while (i != _views.rend() && !(*i)->bbox().contains (p)) {
+		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
 		++i;
 	}
 
-	if (i == _views.end ()) {
+	if (i == _views.rend ()) {
 		return shared_ptr<TimelineView> ();
 	}
 
