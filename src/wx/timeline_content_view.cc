@@ -31,7 +31,7 @@ TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
 	, _content (c)
 	, _selected (false)
 {
-	_content_connection = c->Changed.connect (bind (&TimelineContentView::content_changed, this, _2, _3));
+	_content_connection = c->Changed.connect (bind (&TimelineContentView::content_changed, this, _2));
 }
 
 dcpomatic::Rect<int>
@@ -152,16 +152,11 @@ TimelineContentView::y_pos (int t) const
 }
 
 void
-TimelineContentView::content_changed (int p, bool frequent)
+TimelineContentView::content_changed (int p)
 {
 	ensure_ui_thread ();
 
 	if (p == ContentProperty::POSITION || p == ContentProperty::LENGTH) {
 		force_redraw ();
-	}
-
-	if (!frequent) {
-		_timeline.setup_pixels_per_second ();
-		_timeline.Refresh ();
 	}
 }

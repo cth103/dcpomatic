@@ -503,7 +503,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::ISDCF_METADATA);
 	film_changed (Film::VIDEO_FRAME_RATE);
 	film_changed (Film::AUDIO_CHANNELS);
-	film_changed (Film::SEQUENCE_VIDEO);
+	film_changed (Film::SEQUENCE);
 	film_changed (Film::THREE_D);
 	film_changed (Film::INTEROP);
 	film_changed (Film::AUDIO_PROCESSOR);

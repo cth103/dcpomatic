@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@ public:
 
 private:
 	void snap_toggled ();
-	void sequence_video_toggled ();
+	void sequence_toggled ();
 	void film_changed (Film::Property);
 
 	boost::weak_ptr<Film> _film;
 	Timeline _timeline;
 	wxCheckBox* _snap;
-	wxCheckBox* _sequence_video;
+	wxCheckBox* _sequence;
 	boost::signals2::scoped_connection _film_changed_connection;
 };

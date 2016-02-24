@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
-	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2));
+	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
 }
 
 void
@@ -103,11 +103,6 @@ Timeline::film_changed (Film::Property p)
 		ensure_ui_thread ();
 		recreate_views ();
 	} else if (p == Film::CONTENT_ORDER) {
-		assign_tracks ();
-		if (!_left_down) {
-			/* Only do this if we are not dragging, as it's confusing otherwise */
-			setup_pixels_per_second ();
-		}
 		Refresh ();
 	}
 }
@@ -146,12 +141,15 @@ Timeline::recreate_views ()
 }
 
 void
-Timeline::film_content_changed (int property)
+Timeline::film_content_changed (int property, bool frequent)
 {
 	ensure_ui_thread ();
 
 	if (property == AudioContentProperty::AUDIO_STREAMS) {
 		recreate_views ();
+	} else if (!frequent) {
+		setup_pixels_per_second ();
+		Refresh ();
 	}
 }
 
@@ -311,9 +309,8 @@ Timeline::left_up (wxMouseEvent& ev)
 
 	set_position_from_event (ev);
 
-	/* We don't do this during drag, and set_position_from_event above
-	   might not have changed the position, so do it now.
-	*/
+	/* Clear up up the stuff we don't do during drag */
+	assign_tracks ();
 	setup_pixels_per_second ();
 	Refresh ();
 
@@ -419,7 +416,7 @@ Timeline::set_position_from_event (wxMouseEvent& ev)
 
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	film->set_sequence_video (false);
+	film->set_sequence (false);
 }
 
 void

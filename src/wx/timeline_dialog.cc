@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,8 +40,8 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
 	_snap = new wxCheckBox (this, wxID_ANY, _("Snap"));
 	controls->Add (_snap);
-	_sequence_video = new wxCheckBox (this, wxID_ANY, _("Keep video in sequence"));
-	controls->Add (_sequence_video, 1, wxLEFT, 12);
+	_sequence = new wxCheckBox (this, wxID_ANY, _("Keep video and subtitles in sequence"));
+	controls->Add (_sequence, 1, wxLEFT, 12);
 
 	sizer->Add (controls, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
@@ -59,8 +59,8 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
 
 	_snap->SetValue (_timeline.snap ());
 	_snap->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::snap_toggled, this));
-	film_changed (Film::SEQUENCE_VIDEO);
-	_sequence_video->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::sequence_video_toggled, this));
+	film_changed (Film::SEQUENCE);
+	_sequence->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&TimelineDialog::sequence_toggled, this));
 
 	_film_changed_connection = film->Changed.connect (bind (&TimelineDialog::film_changed, this, _1));
 }
@@ -72,14 +72,14 @@ TimelineDialog::snap_toggled ()
 }
 
 void
-TimelineDialog::sequence_video_toggled ()
+TimelineDialog::sequence_toggled ()
 {
 	shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	film->set_sequence_video (_sequence_video->GetValue ());
+	film->set_sequence (_sequence->GetValue ());
 }
 
 void
@@ -90,8 +90,8 @@ TimelineDialog::film_changed (Film::Property p)
 		return;
 	}
 
-	if (p == Film::SEQUENCE_VIDEO) {
-		_sequence_video->SetValue (film->sequence_video ());
+	if (p == Film::SEQUENCE) {
+		_sequence->SetValue (film->sequence ());
 	}
 }
 

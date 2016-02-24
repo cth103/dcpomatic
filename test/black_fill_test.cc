@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_name ("black_fill_test");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_sequence_video (false);
+	film->set_sequence (false);
 	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 
@@ -68,4 +68,3 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 
 	check_dcp (ref.string(), check.string());
 }
-

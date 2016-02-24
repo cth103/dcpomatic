@@ -83,7 +83,7 @@ private:
 	void right_down (wxMouseEvent &);
 	void mouse_moved (wxMouseEvent &);
 	void film_changed (Film::Property);
-	void film_content_changed (int);
+	void film_content_changed (int, bool frequent);
 	void resized ();
 	void assign_tracks ();
 	void set_position_from_event (wxMouseEvent &);

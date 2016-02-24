@@ -51,8 +51,8 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 Playlist::Playlist ()
-	: _sequence_video (true)
-	, _sequencing_video (false)
+	: _sequence (true)
+	, _sequencing (false)
 {
 
 }
@@ -72,7 +72,7 @@ Playlist::content_changed (weak_ptr<Content> content, int property, bool frequen
 		   - any other position changes will be timeline drags which should not result in content
 		   being sequenced.
 		*/
-		maybe_sequence_video ();
+		maybe_sequence ();
 	}
 
 	if (
@@ -92,13 +92,15 @@ Playlist::content_changed (weak_ptr<Content> content, int property, bool frequen
 }
 
 void
-Playlist::maybe_sequence_video ()
+Playlist::maybe_sequence ()
 {
-	if (!_sequence_video || _sequencing_video) {
+	if (!_sequence || _sequencing) {
 		return;
 	}
 
-	_sequencing_video = true;
+	_sequencing = true;
+
+	/* Video */
 
 	DCPTime next_left;
 	DCPTime next_right;
@@ -117,9 +119,23 @@ Playlist::maybe_sequence_video ()
 		}
 	}
 
+	/* Subtitles */
+
+	DCPTime next;
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
+		if (!sc) {
+			continue;
+		}
+
+		sc->set_position (next);
+		next = sc->end();
+	}
+
+
 	/* This won't change order, so it does not need a sort */
 
-	_sequencing_video = false;
+	_sequencing = false;
 }
 
 string
@@ -333,6 +349,19 @@ Playlist::video_end () const
 	return end;
 }
 
+DCPTime
+Playlist::subtitle_end () const
+{
+	DCPTime end;
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (dynamic_pointer_cast<const SubtitleContent> (i)) {
+			end = max (end, i->end ());
+		}
+	}
+
+	return end;
+}
+
 FrameRateChange
 Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 {
@@ -354,9 +383,9 @@ Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 }
 
 void
-Playlist::set_sequence_video (bool s)
+Playlist::set_sequence (bool s)
 {
-	_sequence_video = s;
+	_sequence = s;
 }
 
 bool

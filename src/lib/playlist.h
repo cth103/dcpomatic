@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -63,10 +63,11 @@ public:
 
 	int best_dcp_frame_rate () const;
 	DCPTime video_end () const;
+	DCPTime subtitle_end () const;
 	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;
 
-	void set_sequence_video (bool);
-	void maybe_sequence_video ();
+	void set_sequence (bool);
+	void maybe_sequence ();
 
 	void repeat (ContentList, int);
 
@@ -85,8 +86,8 @@ private:
 
 	/** List of content.  Kept sorted in position order. */
 	ContentList _content;
-	bool _sequence_video;
-	bool _sequencing_video;
+	bool _sequence;
+	bool _sequencing;
 	std::list<boost::signals2::connection> _content_connections;
 };
 

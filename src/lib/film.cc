@@ -127,7 +127,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 	, _video_frame_rate (24)
 	, _audio_channels (6)
 	, _three_d (false)
-	, _sequence_video (true)
+	, _sequence (true)
 	, _interop (Config::instance()->default_interop ())
 	, _audio_processor (0)
 	, _reel_type (REELTYPE_SINGLE)
@@ -168,7 +168,7 @@ Film::Film (boost::filesystem::path dir, bool log)
 		_log.reset (new NullLog);
 	}
 
-	_playlist->set_sequence_video (_sequence_video);
+	_playlist->set_sequence (_sequence);
 }
 
 Film::~Film ()
@@ -347,7 +347,7 @@ Film::metadata () const
 	root->add_child("ISDCFDate")->add_child_text (boost::gregorian::to_iso_string (_isdcf_date));
 	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
-	root->add_child("SequenceVideo")->add_child_text (_sequence_video ? "1" : "0");
+	root->add_child("Sequence")->add_child_text (_sequence ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
 	root->add_child("Signed")->add_child_text (_signed ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
@@ -430,7 +430,13 @@ Film::read_metadata ()
 	} else if ((_audio_channels % 2) == 1) {
 		_audio_channels++;
 	}
-	_sequence_video = f.bool_child ("SequenceVideo");
+
+	if (f.optional_bool_child("SequenceVideo")) {
+		_sequence = f.bool_child("SequenceVideo");
+	} else {
+		_sequence = f.bool_child("Sequence");
+	}
+
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
 	_key = dcp::Key (f.string_child ("Key"));
@@ -886,8 +892,8 @@ Film::signal_changed (Property p)
 		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
 		break;
 	case Film::VIDEO_FRAME_RATE:
-	case Film::SEQUENCE_VIDEO:
-		_playlist->maybe_sequence_video ();
+	case Film::SEQUENCE:
+		_playlist->maybe_sequence ();
 		break;
 	default:
 		break;
@@ -1040,9 +1046,11 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 void
 Film::add_content (shared_ptr<Content> c)
 {
-	/* Add video content after any existing content */
+	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (dynamic_pointer_cast<VideoContent> (c)) {
 		c->set_position (_playlist->video_end ());
+	} else if (dynamic_pointer_cast<SubtitleContent> (c)) {
+		c->set_position (_playlist->subtitle_end ());
 	}
 
 	_playlist->add (c);
@@ -1126,11 +1134,11 @@ Film::audio_frame_rate () const
 }
 
 void
-Film::set_sequence_video (bool s)
+Film::set_sequence (bool s)
 {
-	_sequence_video = s;
-	_playlist->set_sequence_video (s);
-	signal_changed (SEQUENCE_VIDEO);
+	_sequence = s;
+	_playlist->set_sequence (s);
+	signal_changed (SEQUENCE);
 }
 
 /** @return Size of the largest possible image in whatever resolution we are using */

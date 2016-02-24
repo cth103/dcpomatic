@@ -177,7 +177,7 @@ public:
 		AUDIO_CHANNELS,
 		/** The setting of _three_d has changed */
 		THREE_D,
-		SEQUENCE_VIDEO,
+		SEQUENCE,
 		INTEROP,
 		AUDIO_PROCESSOR,
 		REEL_TYPE,
@@ -246,8 +246,8 @@ public:
 		return _three_d;
 	}
 
-	bool sequence_video () const {
-		return _sequence_video;
+	bool sequence () const {
+		return _sequence;
 	}
 
 	bool interop () const {
@@ -294,7 +294,7 @@ public:
 	void set_audio_channels (int);
 	void set_three_d (bool);
 	void set_isdcf_date_today ();
-	void set_sequence_video (bool);
+	void set_sequence (bool);
 	void set_interop (bool);
 	void set_audio_processor (AudioProcessor const * processor);
 	void set_reel_type (ReelType);
@@ -358,7 +358,7 @@ private:
 	    This will be regardless of what content is on the playlist.
 	*/
 	bool _three_d;
-	bool _sequence_video;
+	bool _sequence;
 	bool _interop;
 	AudioProcessor const * _audio_processor;
 	ReelType _reel_type;

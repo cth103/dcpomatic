@@ -228,6 +228,15 @@ ContentPanel::film_changed (Film::Property p)
 void
 ContentPanel::selection_changed ()
 {
+	if (_last_selected == selected()) {
+		/* This was triggered by a re-build of the view but the selection
+		   did not really change.
+		*/
+		return;
+	}
+
+	_last_selected = selected ();
+
 	setup_sensitivity ();
 
 	BOOST_FOREACH (ContentSubPanel* i, _panels) {

@@ -99,6 +99,7 @@ private:
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog;
 	wxNotebook* _parent;
+	ContentList _last_selected;
 
 	boost::shared_ptr<Film> _film;
 	FilmViewer* _film_viewer;

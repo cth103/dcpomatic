@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 
 	list<string> notes;
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
-	film->set_sequence_video (false);
+	film->set_sequence (false);
 	film->add_content (content);
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
@@ -357,7 +357,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 
 	list<string> notes;
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
-	film->set_sequence_video (false);
+	film->set_sequence (false);
 	film->add_content (content);
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
@@ -534,7 +534,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	list<string> notes;
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
 	AudioStreamPtr stream = content->audio_streams().front();
-	film->set_sequence_video (false);
+	film->set_sequence (false);
 	film->add_content (content);
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));

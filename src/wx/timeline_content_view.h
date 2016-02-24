@@ -50,7 +50,7 @@ private:
 
 	void do_paint (wxGraphicsContext* gc);
 	int y_pos (int t) const;
-	void content_changed (int p, bool frequent);
+	void content_changed (int p);
 
 	boost::weak_ptr<Content> _content;
 	boost::optional<int> _track;
