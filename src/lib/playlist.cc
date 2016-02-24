@@ -100,6 +100,11 @@ Playlist::maybe_sequence ()
 
 	_sequencing = true;
 
+	/* Keep track of the content that we've set the position of so that we don't
+	   do it twice.
+	*/
+	ContentList placed;
+
 	/* Video */
 
 	DCPTime next_left;
@@ -117,6 +122,8 @@ Playlist::maybe_sequence ()
 			vc->set_position (next_left);
 			next_left = vc->end();
 		}
+
+		placed.push_back (vc);
 	}
 
 	/* Subtitles */
@@ -124,7 +131,7 @@ Playlist::maybe_sequence ()
 	DCPTime next;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
 		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
-		if (!sc) {
+		if (!sc || !sc->has_subtitles() || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
 
