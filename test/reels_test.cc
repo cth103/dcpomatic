@@ -159,9 +159,6 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	film->examine_and_add_content (sub);
 	wait_for_jobs ();
 
-	std::cout << dcp->position() << " " << dcp->full_length() << "\n";
-	std::cout << sub->position() << " " << sub->full_length() << "\n";
-
 	list<DCPTimePeriod> reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4);
 	list<DCPTimePeriod>::const_iterator i = reels.begin ();
