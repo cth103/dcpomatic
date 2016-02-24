@@ -247,7 +247,9 @@ public:
 		, to (t)
 	{}
 
+	/** start time of sampling interval that the period is from */
 	T from;
+	/** start time of next sampling interval after the period */
 	T to;
 
 	T duration () const {
