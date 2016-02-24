@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2016-01-06 19:39+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -313,11 +313,11 @@ msgstr "Проверять обновления при запуске"
 msgid "Choose a file"
 msgstr "Выбрать файл"
 
-#: src/wx/content_panel.cc:268
+#: src/wx/content_panel.cc:277
 msgid "Choose a file or files"
 msgstr "Выбрать файл или файлы"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:296
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
 msgid "Choose a folder"
 msgstr "Выбрать папку"
 
@@ -768,7 +768,8 @@ msgid "KDM|Timing"
 msgstr "Тайминг"
 
 #: src/wx/timeline_dialog.cc:43
-msgid "Keep video in sequence"
+#, fuzzy
+msgid "Keep video and subtitles in sequence"
 msgstr "Хранить видео в последовательности"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
@@ -820,7 +821,7 @@ msgstr "Лог:"
 msgid "Loudness range %.2f LU"
 msgstr "Диапазон громкости %.2f LU"
 
-#: src/wx/content_panel.cc:485
+#: src/wx/content_panel.cc:494
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ:"
 
@@ -881,7 +882,7 @@ msgstr "Мои документы"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:489
+#: src/wx/content_panel.cc:498
 msgid "NEEDS KDM: "
 msgstr "НЕОБХОДИМ KDM:"
 
@@ -907,7 +908,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Аудио не будет перемещено из канала %d контента в канал %d DCP."
 
-#: src/wx/content_panel.cc:307
+#: src/wx/content_panel.cc:316
 msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
@@ -1214,13 +1215,13 @@ msgstr "Отправить по email"
 msgid "Send logs"
 msgstr "Отправить логи"
 
+#: src/wx/dolby_doremi_certificate_panel.cc:42
+msgid "Serial number"
+msgstr "Серийный номер"
+
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Сервер"
-
-#: src/wx/dolby_doremi_certificate_panel.cc:42
-msgid "Server serial number"
-msgstr "Серийный номер сервера"
 
 #: src/wx/config_dialog.cc:593
 msgid "Servers"
@@ -1314,7 +1315,7 @@ msgstr "Внешний вид субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:234
+#: src/wx/about_dialog.cc:235
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1338,7 +1339,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:286
+#: src/wx/about_dialog.cc:287
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -1627,6 +1628,9 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#~ msgid "Server serial number"
+#~ msgstr "Серийный номер сервера"
+
 #~ msgid ""
 #~ "Your DCP has an odd number of audio channels.  This is very likely to "
 #~ "cause problems on playback."
@@ -1661,9 +1665,6 @@ msgstr "y"
 
 #~ msgid "Fetching..."
 #~ msgstr "Установка..."
-
-#~ msgid "Serial number"
-#~ msgstr "Серийный номер"
 
 #~ msgid "Unexpected certificate filename form"
 #~ msgstr "Неожиданная форма имени файл сертификата"

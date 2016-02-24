@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2016-01-11 02:13+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -128,15 +128,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/film.cc:1314
+#: src/lib/film.cc:1322
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1315
+#: src/lib/film.cc:1323
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1306
+#: src/lib/film.cc:1314
 msgid "C"
 msgstr "C"
 
@@ -355,11 +355,11 @@ msgstr "D-BOX primair (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX secundair (DBS)"
 
-#: src/lib/film.cc:1316
+#: src/lib/film.cc:1324
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1317
+#: src/lib/film.cc:1325
 msgid "DBS"
 msgstr "DBS"
 
@@ -556,7 +556,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/film.cc:1310
+#: src/lib/film.cc:1318
 msgid "HI"
 msgstr "HI"
 
@@ -592,11 +592,11 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/film.cc:1304
+#: src/lib/film.cc:1312
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1312
+#: src/lib/film.cc:1320
 msgid "Lc"
 msgstr "Lc"
 
@@ -622,7 +622,7 @@ msgstr "Links surround (Ls)"
 msgid "Length"
 msgstr ""
 
-#: src/lib/film.cc:1307
+#: src/lib/film.cc:1315
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -650,7 +650,7 @@ msgstr "Logaritmisch (100: 1 bereik)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisch (316: 1 bereik)"
 
-#: src/lib/film.cc:1308
+#: src/lib/film.cc:1316
 msgid "Ls"
 msgstr "Ls"
 
@@ -746,7 +746,7 @@ msgstr "Programmeerfout op %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1305
+#: src/lib/film.cc:1313
 msgid "R"
 msgstr "R"
 
@@ -758,7 +758,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1313
+#: src/lib/film.cc:1321
 msgid "Rc"
 msgstr "Rc"
 
@@ -794,7 +794,7 @@ msgstr "Achter surround rechts (Bsr)"
 msgid "Right surround"
 msgstr "Rechts surround (Rs)"
 
-#: src/lib/film.cc:1309
+#: src/lib/film.cc:1317
 msgid "Rs"
 msgstr "Rs"
 
@@ -988,7 +988,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1311
+#: src/lib/film.cc:1319
 msgid "VI"
 msgstr "VI"
 

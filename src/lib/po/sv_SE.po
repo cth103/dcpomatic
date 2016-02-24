@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -127,15 +127,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitar per pixel"
 
-#: src/lib/film.cc:1314
+#: src/lib/film.cc:1322
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/film.cc:1315
+#: src/lib/film.cc:1323
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/film.cc:1306
+#: src/lib/film.cc:1314
 msgid "C"
 msgstr "C"
 
@@ -358,11 +358,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1316
+#: src/lib/film.cc:1324
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1317
+#: src/lib/film.cc:1325
 msgid "DBS"
 msgstr ""
 
@@ -561,7 +561,7 @@ msgid "Gradient debander"
 msgstr "Gradientutjämnare"
 
 # Sammanhang?
-#: src/lib/film.cc:1310
+#: src/lib/film.cc:1318
 msgid "HI"
 msgstr "HI"
 
@@ -597,11 +597,11 @@ msgstr "KDM-leverans: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel-avflätare"
 
-#: src/lib/film.cc:1304
+#: src/lib/film.cc:1312
 msgid "L"
 msgstr "V"
 
-#: src/lib/film.cc:1312
+#: src/lib/film.cc:1320
 msgid "Lc"
 msgstr "Vc"
 
@@ -627,7 +627,7 @@ msgstr "Vänster surround"
 msgid "Length"
 msgstr ""
 
-#: src/lib/film.cc:1307
+#: src/lib/film.cc:1315
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -655,7 +655,7 @@ msgstr "Logaritmisk (100:1 omfång)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk (316:1 omfång)"
 
-#: src/lib/film.cc:1308
+#: src/lib/film.cc:1316
 msgid "Ls"
 msgstr "Vs"
 
@@ -749,7 +749,7 @@ msgstr "Programmeringsfel vid %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1305
+#: src/lib/film.cc:1313
 msgid "R"
 msgstr "H"
 
@@ -761,7 +761,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/film.cc:1313
+#: src/lib/film.cc:1321
 msgid "Rc"
 msgstr "Hc"
 
@@ -798,7 +798,7 @@ msgstr "Höger bakre surround"
 msgid "Right surround"
 msgstr "Höger surround"
 
-#: src/lib/film.cc:1309
+#: src/lib/film.cc:1317
 msgid "Rs"
 msgstr "Hs"
 
@@ -990,7 +990,7 @@ msgid "Upmix R"
 msgstr "Uppmixa H"
 
 # Sammanhang?
-#: src/lib/film.cc:1311
+#: src/lib/film.cc:1319
 msgid "VI"
 msgstr "VI"
 

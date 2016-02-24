@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2015-11-13 20:44+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -319,11 +319,11 @@ msgstr "Recherche de mises à jour au démarrage."
 msgid "Choose a file"
 msgstr "Choisissez un fichier"
 
-#: src/wx/content_panel.cc:268
+#: src/wx/content_panel.cc:277
 msgid "Choose a file or files"
 msgstr "Choisissez un ou plusieurs fichiers"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:296
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
 msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
@@ -776,7 +776,8 @@ msgid "KDM|Timing"
 msgstr "Temps"
 
 #: src/wx/timeline_dialog.cc:43
-msgid "Keep video in sequence"
+#, fuzzy
+msgid "Keep video and subtitles in sequence"
 msgstr "Conserver la vidéo dans la séquence"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
@@ -828,7 +829,7 @@ msgstr "Rapport:"
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:485
+#: src/wx/content_panel.cc:494
 msgid "MISSING: "
 msgstr "MANQUANT:"
 
@@ -890,7 +891,7 @@ msgstr "Mes Documents"
 msgid "My problem is"
 msgstr "Mon problème est :"
 
-#: src/wx/content_panel.cc:489
+#: src/wx/content_panel.cc:498
 msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
@@ -916,7 +917,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Aucun son ne passera du canal audio %d au canal %d du DCP."
 
-#: src/wx/content_panel.cc:307
+#: src/wx/content_panel.cc:316
 msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce répertoire"
 
@@ -1225,13 +1226,13 @@ msgstr "Envoyer par e-mail"
 msgid "Send logs"
 msgstr "Envoyer rapport"
 
+#: src/wx/dolby_doremi_certificate_panel.cc:42
+msgid "Serial number"
+msgstr "Numéro de Série"
+
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Serveur"
-
-#: src/wx/dolby_doremi_certificate_panel.cc:42
-msgid "Server serial number"
-msgstr "Numéro de Série du Serveur"
 
 #: src/wx/config_dialog.cc:593
 msgid "Servers"
@@ -1325,7 +1326,7 @@ msgstr "Apparence des sous-titres"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:234
+#: src/wx/about_dialog.cc:235
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -1349,7 +1350,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:286
+#: src/wx/about_dialog.cc:287
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -1636,6 +1637,9 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#~ msgid "Server serial number"
+#~ msgstr "Numéro de Série du Serveur"
+
 #~ msgid ""
 #~ "Your DCP has an odd number of audio channels.  This is very likely to "
 #~ "cause problems on playback."
@@ -1670,9 +1674,6 @@ msgstr "y"
 
 #~ msgid "Fetching..."
 #~ msgstr "Obtention..."
-
-#~ msgid "Serial number"
-#~ msgstr "Numéro de Série"
 
 #~ msgid "Unexpected certificate filename form"
 #~ msgstr "Nom de fichier certificat non conforme "

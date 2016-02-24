@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2015-11-13 20:33+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -127,15 +127,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "bits par pixel"
 
-#: src/lib/film.cc:1314
+#: src/lib/film.cc:1322
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1315
+#: src/lib/film.cc:1323
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1306
+#: src/lib/film.cc:1314
 msgid "C"
 msgstr "C"
 
@@ -358,11 +358,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1316
+#: src/lib/film.cc:1324
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1317
+#: src/lib/film.cc:1325
 msgid "DBS"
 msgstr ""
 
@@ -558,7 +558,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Corrections des bandes par dégradé"
 
-#: src/lib/film.cc:1310
+#: src/lib/film.cc:1318
 msgid "HI"
 msgstr "HI"
 
@@ -594,11 +594,11 @@ msgstr "Envoi KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Désentrelaceur noyau"
 
-#: src/lib/film.cc:1304
+#: src/lib/film.cc:1312
 msgid "L"
 msgstr "G"
 
-#: src/lib/film.cc:1312
+#: src/lib/film.cc:1320
 msgid "Lc"
 msgstr "Lc"
 
@@ -624,7 +624,7 @@ msgstr "Arrière gauche"
 msgid "Length"
 msgstr ""
 
-#: src/lib/film.cc:1307
+#: src/lib/film.cc:1315
 msgid "Lfe"
 msgstr "Bf"
 
@@ -652,7 +652,7 @@ msgstr "Logarithmique (plage 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmique (plage 316:1)"
 
-#: src/lib/film.cc:1308
+#: src/lib/film.cc:1316
 msgid "Ls"
 msgstr "ArG"
 
@@ -744,7 +744,7 @@ msgstr "Erreur de programme à %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/film.cc:1305
+#: src/lib/film.cc:1313
 msgid "R"
 msgstr "D"
 
@@ -756,7 +756,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/film.cc:1313
+#: src/lib/film.cc:1321
 msgid "Rc"
 msgstr "Rc"
 
@@ -793,7 +793,7 @@ msgstr "Surround arrière droite"
 msgid "Right surround"
 msgstr "Arrière droite"
 
-#: src/lib/film.cc:1309
+#: src/lib/film.cc:1317
 msgid "Rs"
 msgstr "ArD"
 
@@ -984,7 +984,7 @@ msgstr "Gauche sur-mixé"
 msgid "Upmix R"
 msgstr "Droit sur-mixé"
 
-#: src/lib/film.cc:1311
+#: src/lib/film.cc:1319
 msgid "VI"
 msgstr "VI"
 

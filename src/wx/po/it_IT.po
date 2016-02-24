@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2015-10-14 10:27+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -309,11 +309,11 @@ msgstr "Controlla gli aggiornamentio alla partenza"
 msgid "Choose a file"
 msgstr "Scegli un file"
 
-#: src/wx/content_panel.cc:268
+#: src/wx/content_panel.cc:277
 msgid "Choose a file or files"
 msgstr "Scegli uno o più file"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:296
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
 msgid "Choose a folder"
 msgstr "Scegli una cartella"
 
@@ -776,7 +776,8 @@ msgid "KDM|Timing"
 msgstr ""
 
 #: src/wx/timeline_dialog.cc:43
-msgid "Keep video in sequence"
+#, fuzzy
+msgid "Keep video and subtitles in sequence"
 msgstr "Tieni i video in sequenza"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
@@ -830,7 +831,7 @@ msgstr ""
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:485
+#: src/wx/content_panel.cc:494
 msgid "MISSING: "
 msgstr "MANCANTE:"
 
@@ -894,7 +895,7 @@ msgstr "Documenti"
 msgid "My problem is"
 msgstr "Il mio problema è"
 
-#: src/wx/content_panel.cc:489
+#: src/wx/content_panel.cc:498
 msgid "NEEDS KDM: "
 msgstr ""
 
@@ -920,7 +921,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Nessun audio sarà passato dal canale %d sorgente al canale %d del DCP"
 
-#: src/wx/content_panel.cc:307
+#: src/wx/content_panel.cc:316
 msgid "No content found in this folder."
 msgstr ""
 
@@ -1238,13 +1239,13 @@ msgstr "Manda per email"
 msgid "Send logs"
 msgstr ""
 
+#: src/wx/dolby_doremi_certificate_panel.cc:42
+msgid "Serial number"
+msgstr "Numero seriale"
+
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Server"
-
-#: src/wx/dolby_doremi_certificate_panel.cc:42
-msgid "Server serial number"
-msgstr "Numero seriale server"
 
 #: src/wx/config_dialog.cc:593
 msgid "Servers"
@@ -1339,7 +1340,7 @@ msgstr "Scala dei Sottotitoli"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:234
+#: src/wx/about_dialog.cc:235
 msgid "Supported by"
 msgstr "Supportato da"
 
@@ -1364,7 +1365,7 @@ msgstr "Nazione (es. UK)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:286
+#: src/wx/about_dialog.cc:287
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -1647,6 +1648,9 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#~ msgid "Server serial number"
+#~ msgstr "Numero seriale server"
+
 #~ msgid ""
 #~ "Your DCP has an odd number of audio channels.  This is very likely to "
 #~ "cause problems on playback."
@@ -1678,9 +1682,6 @@ msgstr "y"
 #, fuzzy
 #~ msgid "Fetching..."
 #~ msgstr "conteggio..."
-
-#~ msgid "Serial number"
-#~ msgstr "Numero seriale"
 
 #~ msgid "audio"
 #~ msgstr "audio"

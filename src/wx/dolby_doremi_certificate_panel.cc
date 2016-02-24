@@ -39,7 +39,7 @@ using boost::optional;
 DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
 	: DownloadCertificatePanel (parent, dialog)
 {
-	add_label_to_sizer (_table, this, _("Server serial number"), true);
+	add_label_to_sizer (_table, this, _("Serial number"), true);
 	_serial = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1));
 	_table->Add (_serial, 1, wxEXPAND);
 

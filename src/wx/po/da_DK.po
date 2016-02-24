@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -317,11 +317,11 @@ msgstr "Søg efter opdateringer ved opstart."
 msgid "Choose a file"
 msgstr "Vælg en fil"
 
-#: src/wx/content_panel.cc:268
+#: src/wx/content_panel.cc:277
 msgid "Choose a file or files"
 msgstr "Vælg en fil eller filer"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:296
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
 msgid "Choose a folder"
 msgstr "Vælg en folder"
 
@@ -777,7 +777,8 @@ msgid "KDM|Timing"
 msgstr "KDM|Timing"
 
 #: src/wx/timeline_dialog.cc:43
-msgid "Keep video in sequence"
+#, fuzzy
+msgid "Keep video and subtitles in sequence"
 msgstr "Bevar videosekvens"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
@@ -829,7 +830,7 @@ msgstr "Log:"
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:485
+#: src/wx/content_panel.cc:494
 msgid "MISSING: "
 msgstr "MANGLER:"
 
@@ -891,7 +892,7 @@ msgstr "Mine dokumenter"
 msgid "My problem is"
 msgstr "Mit problem er"
 
-#: src/wx/content_panel.cc:489
+#: src/wx/content_panel.cc:498
 msgid "NEEDS KDM: "
 msgstr "HAR BRUG FOR KDM:"
 
@@ -917,7 +918,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Ingen lyd vil blive sendt fra indholdskanal %d til DCP-kanal %d."
 
-#: src/wx/content_panel.cc:307
+#: src/wx/content_panel.cc:316
 msgid "No content found in this folder."
 msgstr "Fandt intet indhold i denne folder."
 
@@ -1229,13 +1230,13 @@ msgstr "Send som e-mail"
 msgid "Send logs"
 msgstr "Send logfiler"
 
+#: src/wx/dolby_doremi_certificate_panel.cc:42
+msgid "Serial number"
+msgstr "Serienummer"
+
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Server"
-
-#: src/wx/dolby_doremi_certificate_panel.cc:42
-msgid "Server serial number"
-msgstr "Servers serienummer"
 
 #: src/wx/config_dialog.cc:593
 msgid "Servers"
@@ -1330,7 +1331,7 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:234
+#: src/wx/about_dialog.cc:235
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1354,7 +1355,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:286
+#: src/wx/about_dialog.cc:287
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -1636,6 +1637,9 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#~ msgid "Server serial number"
+#~ msgstr "Servers serienummer"
+
 #~ msgid ""
 #~ "Your DCP has no audio channels.  This is likely to cause problems on "
 #~ "playback."
@@ -1666,9 +1670,6 @@ msgstr "y"
 
 #~ msgid "Fetching..."
 #~ msgstr "Henter..."
-
-#~ msgid "Serial number"
-#~ msgstr "Serienummer"
 
 #~ msgid "Unexpected certificate filename form"
 #~ msgstr "Uventet filnavnsformat for certifikat"

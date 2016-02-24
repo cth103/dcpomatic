@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 22:47+0000\n"
+"POT-Creation-Date: 2016-02-24 00:24+0000\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -318,11 +318,11 @@ msgstr "Sprawdź aktualizacje przy starcie programu"
 msgid "Choose a file"
 msgstr "Wybierz plik"
 
-#: src/wx/content_panel.cc:268
+#: src/wx/content_panel.cc:277
 msgid "Choose a file or files"
 msgstr "Wybierz plik lub pliki"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:296
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
 msgid "Choose a folder"
 msgstr "Wybierz folder"
 
@@ -779,7 +779,8 @@ msgid "KDM|Timing"
 msgstr "Czas"
 
 #: src/wx/timeline_dialog.cc:43
-msgid "Keep video in sequence"
+#, fuzzy
+msgid "Keep video and subtitles in sequence"
 msgstr "Zachowaj parametry sekwencji"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
@@ -831,7 +832,7 @@ msgstr "Dziennik:"
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:485
+#: src/wx/content_panel.cc:494
 msgid "MISSING: "
 msgstr "BRAKUJĄCE:"
 
@@ -893,7 +894,7 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Odkryłem błąd"
 
-#: src/wx/content_panel.cc:489
+#: src/wx/content_panel.cc:498
 msgid "NEEDS KDM: "
 msgstr "WYMAGA KDM:"
 
@@ -920,7 +921,7 @@ msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 "Żadna ścieżka dźwiękowa nie będzie przeniesiona z kanału %d to %d kanału DCP."
 
-#: src/wx/content_panel.cc:307
+#: src/wx/content_panel.cc:316
 msgid "No content found in this folder."
 msgstr "W tym folderze brakuje plików."
 
@@ -1232,13 +1233,13 @@ msgstr "Wyślij emailem"
 msgid "Send logs"
 msgstr "Wyślij logi"
 
+#: src/wx/dolby_doremi_certificate_panel.cc:42
+msgid "Serial number"
+msgstr "Numer seryjny"
+
 #: src/wx/server_dialog.cc:28
 msgid "Server"
 msgstr "Serwer"
-
-#: src/wx/dolby_doremi_certificate_panel.cc:42
-msgid "Server serial number"
-msgstr "Numer seryjny serwera"
 
 #: src/wx/config_dialog.cc:593
 msgid "Servers"
@@ -1333,7 +1334,7 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Napisy"
 
-#: src/wx/about_dialog.cc:234
+#: src/wx/about_dialog.cc:235
 msgid "Supported by"
 msgstr "Wsparli"
 
@@ -1357,7 +1358,7 @@ msgstr "Region (e.g. PL)"
 msgid "Test version "
 msgstr "Wersja testowa"
 
-#: src/wx/about_dialog.cc:286
+#: src/wx/about_dialog.cc:287
 msgid "Tested by"
 msgstr "Testerzy"
 
@@ -1644,6 +1645,9 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#~ msgid "Server serial number"
+#~ msgstr "Numer seryjny serwera"
+
 #~ msgid ""
 #~ "Your DCP has an odd number of audio channels.  This is very likely to "
 #~ "cause problems on playback."
@@ -1681,9 +1685,6 @@ msgstr "y"
 
 #~ msgid "Fetching..."
 #~ msgstr "Pobieranie"
-
-#~ msgid "Serial number"
-#~ msgstr "Numer seryjny"
 
 #~ msgid "Unexpected certificate filename form"
 #~ msgstr "Nieobsługiwana nazwa pliku certyfikatu"
