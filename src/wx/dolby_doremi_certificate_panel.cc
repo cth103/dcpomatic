@@ -59,15 +59,9 @@ DolbyDoremiCertificatePanel::download (wxStaticText* message)
 	signal_manager->when_idle (boost::bind (&DolbyDoremiCertificatePanel::finish_download, this, wx_to_std (_serial->GetValue ()), message));
 }
 
-void
-DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
+static void
+try_dcp2000 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
-
-	string const prefix = "ftp://anonymous@ftp.cinema.dolby.com/Certificates/";
-	list<string> urls;
-	list<string> files;
-
 	urls.push_back (String::compose ("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
 	files.push_back (String::compose ("dcp2000-%1.cert.sha256.pem", serial));
 
@@ -76,13 +70,25 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 
 	urls.push_back (String::compose ("%1%2xxx/dcp2000-%3.certs.zip", prefix, serial.substr(0, 3), serial));
 	files.push_back (String::compose ("dcp2000-%1.cert.sha256.pem", serial));
+}
 
+static void
+try_imb (list<string>& urls, list<string>& files, string prefix, string serial)
+{
 	urls.push_back (String::compose ("%1%2xxx/imb-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
 	files.push_back (String::compose ("imb-%1.cert.sha256.pem", serial));
+}
 
+static void
+try_ims (list<string>& urls, list<string>& files, string prefix, string serial)
+{
 	urls.push_back (String::compose ("%1%2xxx/ims-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
 	files.push_back (String::compose ("ims-%1.cert.sha256.pem", serial));
+}
 
+static void
+try_cat862 (list<string>& urls, list<string>& files, string prefix, string serial)
+{
 	int const serial_int = dcp::raw_convert<int> (serial);
 
 	string cat862;
@@ -97,6 +103,12 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 
 	urls.push_back (String::compose ("%1%2/cert_Dolby256-CAT862-%3.zip", prefix, cat862, serial_int));
 	files.push_back (String::compose ("cert_Dolby256-CAT862-%1.pem.crt", serial_int));
+}
+
+static void
+try_dsp100 (list<string>& urls, list<string>& files, string prefix, string serial)
+{
+	int const serial_int = dcp::raw_convert<int> (serial);
 
 	string dsp100;
 	if (serial_int <= 999) {
@@ -110,6 +122,68 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 
 	urls.push_back (String::compose ("%1%2/cert_Dolby256-DSP100-%3.zip", prefix, dsp100, serial_int));
 	files.push_back (String::compose ("cert_Dolby256-DSP100-%1.pem.crt", serial_int));
+}
+
+static void
+try_cat745 (list<string>& urls, list<string>& files, string prefix, string serial)
+{
+	int const serial_int = dcp::raw_convert<int> (serial.substr (1));
+
+	string cat745;
+	if (serial_int <= 999) {
+		cat745 = "CAT745_1_thru_999";
+	} else if (serial_int >= 6000) {
+		cat745 = "CAT745_6000_and_higher";
+	} else {
+		int const lower = serial_int - (serial_int % 1000);
+		cat745 = String::compose ("CAT745_%1_thru_%2", lower, lower + 999);
+	}
+
+	urls.push_back (String::compose ("%1%2/cert_Dolby-CAT745-%3.zip", prefix, cat745, serial_int));
+	files.push_back (String::compose ("cert_Dolby-CAT745-%1.pem.crt", serial_int));
+}
+
+static void
+try_cp850 (list<string>& urls, list<string>& files, string prefix, string serial)
+{
+	int const serial_int = dcp::raw_convert<int> (serial.substr (1));
+
+	int const lower = serial_int - (serial_int % 1000);
+	urls.push_back (String::compose ("%1CP850_CAT1600_F%2-F%3/cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%4.zip", prefix, lower, lower + 999, serial_int));
+	files.push_back (String::compose ("cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%1.pem.crt", serial_int));
+}
+
+void
+DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* message)
+{
+	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
+
+	string const prefix = "ftp://anonymous@ftp.cinema.dolby.com/Certificates/";
+	list<string> urls;
+	list<string> files;
+
+	bool starts_with_digit = false;
+	optional<char> starting_char;
+
+	if (!serial.empty()) {
+		if (isdigit (serial[0])) {
+			starts_with_digit = true;
+		} else {
+			starting_char = serial[0];
+		}
+	}
+
+	if (starts_with_digit) {
+		try_dcp2000 (urls, files, prefix, serial);
+		try_imb (urls, files, prefix, serial);
+		try_ims (urls, files, prefix, serial);
+		try_cat862 (urls, files, prefix, serial);
+		try_dsp100 (urls, files, prefix, serial);
+	} else if (starting_char == 'H') {
+		try_cat745 (urls, files, prefix, serial);
+	} else if (starting_char == 'F') {
+		try_cp850 (urls, files, prefix, serial);
+	}
 
 	list<string> errors;
 	bool ok = false;
