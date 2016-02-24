@@ -36,3 +36,36 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_test)
 		}
 	}
 }
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_overlaps_test)
+{
+	/* Taking times as the start of a sampling interval
+
+	   |--|--|--|--|--|--|--|--|--|--|
+	   0  1  2  3  4  5  6  7  8  9  |
+	   |--|--|--|--|--|--|--|--|--|--|
+
+	   <------a----><----b----->
+
+	   and saying `from' is the start of the first sampling
+	   interval and `to' is the start of the interval after
+	   the period... a and b do not overlap.
+	*/
+
+	TimePeriod<DCPTime> a (DCPTime (0), DCPTime (4));
+	TimePeriod<DCPTime> b (DCPTime (4), DCPTime (8));
+	BOOST_CHECK (!a.overlaps (b));
+
+	/* Some more obvious non-overlaps */
+	a = TimePeriod<DCPTime> (DCPTime (0), DCPTime (4));
+	b = TimePeriod<DCPTime> (DCPTime (5), DCPTime (8));
+	BOOST_CHECK (!a.overlaps (b));
+
+	/* Some overlaps */
+	a = TimePeriod<DCPTime> (DCPTime (0), DCPTime (4));
+	b = TimePeriod<DCPTime> (DCPTime (3), DCPTime (8));
+	BOOST_CHECK (a.overlaps (b));
+	a = TimePeriod<DCPTime> (DCPTime (1), DCPTime (9));
+	b = TimePeriod<DCPTime> (DCPTime (0), DCPTime (10));
+	BOOST_CHECK (a.overlaps (b));
+}
