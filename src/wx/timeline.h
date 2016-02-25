@@ -32,6 +32,7 @@ class ContentPanel;
 class TimelineView;
 class TimelineTimeAxisView;
 class TimelineReelsView;
+class TimelineLabelsView;
 
 class Timeline : public wxPanel
 {
@@ -41,10 +42,6 @@ public:
 	boost::shared_ptr<const Film> film () const;
 
 	void force_redraw (dcpomatic::Rect<int> const &);
-
-	int x_offset () const {
-		return 8;
-	}
 
 	int width () const {
 		return GetSize().GetWidth ();
@@ -59,7 +56,7 @@ public:
 	}
 
 	Position<int> tracks_position () const {
-		return Position<int> (8, 8);
+		return _tracks_position;
 	}
 
 	int tracks () const;
@@ -100,6 +97,7 @@ private:
 	TimelineViewList _views;
 	boost::shared_ptr<TimelineTimeAxisView> _time_axis_view;
 	boost::shared_ptr<TimelineReelsView> _reels_view;
+	boost::shared_ptr<TimelineLabelsView> _labels_view;
 	int _tracks;
 	boost::optional<double> _pixels_per_second;
 	bool _left_down;
@@ -111,6 +109,7 @@ private:
 	bool _snap;
 	std::list<DCPTime> _start_snaps;
 	std::list<DCPTime> _end_snaps;
+	Position<int> _tracks_position;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_changed_connection;

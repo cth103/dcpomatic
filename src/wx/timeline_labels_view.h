@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,16 +19,17 @@
 
 #include "timeline_view.h"
 
-class TimelineReelsView : public TimelineView
+class wxWindow;
+
+class TimelineLabelsView : public TimelineView
 {
 public:
-	TimelineReelsView (Timeline& tl, int y);
+	TimelineLabelsView (Timeline& tl);
 
 	dcpomatic::Rect<int> bbox () const;
-	void set_y (int y);
 
 private:
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 
-	int _y;
+	int _width;
 };

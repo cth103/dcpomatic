@@ -21,6 +21,7 @@
 #include "timeline.h"
 #include "timeline_time_axis_view.h"
 #include "timeline_reels_view.h"
+#include "timeline_labels_view.h"
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
 #include "timeline_subtitle_content_view.h"
@@ -53,6 +54,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	, _film (film)
 	, _time_axis_view (new TimelineTimeAxisView (*this, 64))
 	, _reels_view (new TimelineReelsView (*this, 32))
+	, _labels_view (new TimelineLabelsView (*this))
 	, _tracks (0)
 	, _left_down (false)
 	, _down_view_position (0)
@@ -74,6 +76,8 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 	film_changed (Film::CONTENT);
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
+
+	_tracks_position = Position<int> (_labels_view->bbox().width, 8);
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
@@ -136,6 +140,7 @@ Timeline::recreate_views ()
 	_views.clear ();
 	_views.push_back (_time_axis_view);
 	_views.push_back (_reels_view);
+	_views.push_back (_labels_view);
 
 	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
 		if (dynamic_pointer_cast<VideoContent> (i)) {
@@ -255,7 +260,7 @@ Timeline::setup_pixels_per_second ()
 		return;
 	}
 
-	_pixels_per_second = static_cast<double>(width() - x_offset() * 2) / film->length().seconds ();
+	_pixels_per_second = static_cast<double>(width() - tracks_position().x * 2) / film->length().seconds ();
 }
 
 shared_ptr<TimelineView>

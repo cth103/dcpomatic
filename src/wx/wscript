@@ -83,6 +83,7 @@ sources = """
           timeline_content_view.cc
           timeline_dialog.cc
           timeline_audio_content_view.cc
+          timeline_labels_view.cc
           timeline_subtitle_content_view.cc
           timeline_reels_view.cc
           timeline_time_axis_view.cc

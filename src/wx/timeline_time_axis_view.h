@@ -30,7 +30,6 @@ public:
 private:
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 
-private:
 	int _y;
 };
 
