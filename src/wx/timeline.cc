@@ -93,6 +93,7 @@ Timeline::paint ()
 		return;
 	}
 
+	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 
 	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
 
