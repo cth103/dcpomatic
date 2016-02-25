@@ -20,6 +20,8 @@
 #include "timeline_view.h"
 #include "timeline.h"
 
+using std::list;
+
 /** @class TimelineView
  *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
  */
@@ -30,10 +32,10 @@ TimelineView::TimelineView (Timeline& t)
 }
 
 void
-TimelineView::paint (wxGraphicsContext* g)
+TimelineView::paint (wxGraphicsContext* g, list<dcpomatic::Rect<int> > overlaps)
 {
 	_last_paint_bbox = bbox ();
-	do_paint (g);
+	do_paint (g, overlaps);
 }
 
 void

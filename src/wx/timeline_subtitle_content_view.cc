@@ -33,7 +33,7 @@ wxColour
 TimelineSubtitleContentView::background_colour () const
 {
 	shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
-	if (!sc || !sc->use_subtitles ()) {
+	if (!active ()) {
 		return wxColour (210, 210, 210, 128);
 	}
 
@@ -44,9 +44,16 @@ wxColour
 TimelineSubtitleContentView::foreground_colour () const
 {
 	shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
-	if (!sc || !sc->use_subtitles ()) {
+	if (!active ()) {
 		return wxColour (180, 180, 180, 128);
 	}
 
 	return wxColour (0, 0, 0, 255);
+}
+
+bool
+TimelineSubtitleContentView::active () const
+{
+	shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
+	return sc && sc->use_subtitles();
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include <boost/foreach.hpp>
 
 using std::min;
+using std::list;
 
 TimelineReelsView::TimelineReelsView (Timeline& tl, int y)
 	: TimelineView (tl)
@@ -46,7 +47,7 @@ TimelineReelsView::set_y (int y)
 }
 
 void
-TimelineReelsView::do_paint (wxGraphicsContext* gc)
+TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 {
 	if (!_timeline.pixels_per_second()) {
 		return;

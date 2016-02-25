@@ -24,6 +24,7 @@
 #include <wx/graphics.h>
 #include <boost/foreach.hpp>
 
+using std::list;
 using boost::shared_ptr;
 
 TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
@@ -91,7 +92,7 @@ TimelineContentView::track () const
 }
 
 void
-TimelineContentView::do_paint (wxGraphicsContext* gc)
+TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> > overlaps)
 {
 	DCPOMATIC_ASSERT (_track);
 
@@ -130,6 +131,12 @@ TimelineContentView::do_paint (wxGraphicsContext* gc)
 		path.MoveToPoint (time_x (i), y_pos (_track.get()) + 4);
 		path.AddLineToPoint (time_x (i), y_pos (_track.get() + 1) - 4);
 		gc->StrokePath (path);
+	}
+
+	/* Overlaps */
+	gc->SetBrush (*wxTheBrushList->FindOrCreateBrush (foreground_colour(), wxBRUSHSTYLE_CROSSDIAG_HATCH));
+	for (list<dcpomatic::Rect<int> >::const_iterator i = overlaps.begin(); i != overlaps.end(); ++i) {
+		gc->DrawRectangle (i->x, i->y + 4, i->width, i->height - 8);
 	}
 
 	/* Label text */

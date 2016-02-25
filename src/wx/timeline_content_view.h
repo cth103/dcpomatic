@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,12 +43,13 @@ public:
 	void unset_track ();
 	boost::optional<int> track () const;
 
+	virtual bool active () const = 0;
 	virtual wxColour background_colour () const = 0;
 	virtual wxColour foreground_colour () const = 0;
 
 private:
 
-	void do_paint (wxGraphicsContext* gc);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 	int y_pos (int t) const;
 	void content_changed (int p);
 

@@ -89,8 +89,26 @@ Timeline::paint ()
 		return;
 	}
 
-	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-		(*i)->paint (gc);
+
+	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
+
+		shared_ptr<TimelineContentView> ic = dynamic_pointer_cast<TimelineContentView> (i);
+
+		/* Find areas of overlap */
+		list<dcpomatic::Rect<int> > overlaps;
+		BOOST_FOREACH (shared_ptr<TimelineView> j, _views) {
+			shared_ptr<TimelineContentView> jc = dynamic_pointer_cast<TimelineContentView> (j);
+			if (!ic || !jc || i == j || ic->track() != jc->track() || !ic->active() || !jc->active()) {
+				continue;
+			}
+
+			optional<dcpomatic::Rect<int> > r = j->bbox().intersection (i->bbox());
+			if (r) {
+				overlaps.push_back (r.get ());
+			}
+		}
+
+		i->paint (gc, overlaps);
 	}
 
 	delete gc;
@@ -169,14 +187,12 @@ Timeline::assign_tracks ()
 			continue;
 		}
 
-		shared_ptr<Content> content = cv->content();
-
-		if (dynamic_pointer_cast<VideoContent> (content)) {
+		if (dynamic_pointer_cast<TimelineVideoContentView> (*i)) {
 			/* Video on track 0 */
 			cv->set_track (0);
 			_tracks = max (_tracks, 1);
 			continue;
-		} else if (dynamic_pointer_cast<SubtitleContent> (content)) {
+		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (*i)) {
 			/* Subtitles on track 1 */
 			cv->set_track (1);
 			_tracks = max (_tracks, 2);
@@ -186,6 +202,7 @@ Timeline::assign_tracks ()
 		/* Audio on tracks 2 and up */
 		int t = 2;
 
+		shared_ptr<Content> content = cv->content();
 		DCPTimePeriod content_period (content->position(), content->end());
 
 		while (true) {

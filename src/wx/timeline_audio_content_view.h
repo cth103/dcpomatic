@@ -28,6 +28,9 @@ public:
 	TimelineAudioContentView (Timeline& tl, boost::shared_ptr<Content> c);
 
 private:
+	bool active () const {
+		return true;
+	}
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
 };

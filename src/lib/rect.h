@@ -21,6 +21,7 @@
 #define DCPOMATIC_RECT_H
 
 #include "position.h"
+#include <boost/optional.hpp>
 #include <algorithm>
 
 /* Put this inside a namespace as Apple put a Rect in the global namespace */
@@ -67,16 +68,24 @@ public:
 		return Position<T> (x, y);
 	}
 
-	Rect<T> intersection (Rect<T> const & other) const
+	boost::optional<Rect<T> > intersection (Rect<T> const & other) const
 	{
-		T const tx = max (x, other.x);
-		T const ty = max (y, other.y);
+		/* This isn't exactly the paragon of mathematical precision */
 
-		return Rect (
+		T const tx = std::max (x, other.x);
+		T const ty = std::max (y, other.y);
+
+		Rect r (
 			tx, ty,
-			min (x + width, other.x + other.width) - tx,
-			min (y + height, other.y + other.height) - ty
+			std::min (x + width, other.x + other.width) - tx,
+			std::min (y + height, other.y + other.height) - ty
 			);
+
+		if (r.width < 0 || r.height < 0) {
+			return boost::optional<Rect<T> > ();
+		}
+
+		return r;
 	}
 
 	void extend (Rect<T> const & other)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,19 +17,16 @@
 
 */
 
-#include "timeline_view.h"
+#include "lib/rect.h"
+#include <boost/test/unit_test.hpp>
+#include <iostream>
 
-class TimelineReelsView : public TimelineView
+using boost::optional;
+
+BOOST_AUTO_TEST_CASE (rect_test)
 {
-public:
-	TimelineReelsView (Timeline& tl, int y);
-
-	dcpomatic::Rect<int> bbox () const;
-	void set_y (int y);
-
-private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
-
-private:
-	int _y;
-};
+	dcpomatic::Rect<int> a (0, 0, 100, 100);
+	dcpomatic::Rect<int> b (200, 200, 100, 100);
+	optional<dcpomatic::Rect<int> > c = a.intersection (b);
+	BOOST_CHECK (!c);
+}

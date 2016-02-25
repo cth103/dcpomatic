@@ -71,6 +71,7 @@ def build(bld):
                  ratio_test.cc
                  repeat_frame_test.cc
                  recover_test.cc
+                 rect_test.cc
                  reels_test.cc
                  required_disk_space_test.cc
                  resampler_test.cc

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include <wx/wx.h>
 #include <wx/graphics.h>
 
+using std::list;
+
 TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
 	: TimelineView (tl)
 	, _y (y)
@@ -43,7 +45,7 @@ TimelineTimeAxisView::set_y (int y)
 }
 
 void
-TimelineTimeAxisView::do_paint (wxGraphicsContext* gc)
+TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 {
 	if (!_timeline.pixels_per_second()) {
 		return;
