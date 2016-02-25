@@ -103,7 +103,8 @@ Timeline::paint ()
 		list<dcpomatic::Rect<int> > overlaps;
 		BOOST_FOREACH (shared_ptr<TimelineView> j, _views) {
 			shared_ptr<TimelineContentView> jc = dynamic_pointer_cast<TimelineContentView> (j);
-			if (!ic || !jc || i == j || ic->track() != jc->track() || !ic->active() || !jc->active()) {
+			/* No overlap with non-content views, views no different tracks, audio views or non-active views */
+			if (!ic || !jc || i == j || ic->track() != jc->track() || ic->track().get_value_or(2) >= 2 || !ic->active() || !jc->active()) {
 				continue;
 			}
 
