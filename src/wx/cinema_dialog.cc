@@ -49,7 +49,7 @@ CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<st
 	sizer->Add (_name, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), true, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), false, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
 	copy (emails.begin(), emails.end(), back_inserter (_emails));

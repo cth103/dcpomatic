@@ -1239,6 +1239,8 @@ private:
 		_reset_kdm_email = new wxButton (_panel, wxID_ANY, _("Reset to default subject and text"));
 		_panel->GetSizer()->Add (_reset_kdm_email, 0, wxEXPAND | wxALL, _border);
 
+		_kdm_cc->layout ();
+
 		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_server_changed, this));
 		_mail_port->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&KDMEmailPage::mail_port_changed, this));
 		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_user_changed, this));

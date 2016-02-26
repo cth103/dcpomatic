@@ -52,9 +52,9 @@ public:
 		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
 		SetSizer (s);
 
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol (0, 1);
-		s->Add (table, 1, wxEXPAND);
+		_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		_table->AddGrowableCol (0, 1);
+		s->Add (_table, 1, wxEXPAND);
 
 		long style = wxLC_REPORT | wxLC_SINGLE_SEL;
 		if (title) {
@@ -70,7 +70,7 @@ public:
 			_list->InsertColumn (i, ip);
 		}
 
-		table->Add (_list, 1, wxEXPAND | wxALL);
+		_table->Add (_list, 1, wxEXPAND | wxALL);
 
 		{
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
@@ -82,7 +82,7 @@ public:
 			}
 			_remove = new wxButton (this, wxID_ANY, _("Remove"));
 			s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
-			table->Add (s, 0);
+			_table->Add (s, 0);
 		}
 
 		_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
@@ -119,6 +119,11 @@ public:
 		std::vector<T> all = _get ();
 		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 		return all[item];
+	}
+
+	void layout ()
+	{
+		_table->Layout ();
 	}
 
 	boost::signals2::signal<void ()> SelectionChanged;
@@ -219,6 +224,7 @@ private:
 	wxButton* _edit;
 	wxButton* _remove;
 	wxListCtrl* _list;
+	wxFlexGridSizer* _table;
 };
 
 #endif
