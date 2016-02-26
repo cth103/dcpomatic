@@ -23,7 +23,7 @@
 #include "subtitle_view.h"
 #include "content_panel.h"
 #include "fonts_dialog.h"
-#include "subtitle_appearance_dialog.h"
+#include "text_subtitle_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -435,7 +435,7 @@ SubtitlePanel::appearance_dialog_clicked ()
 	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
 	DCPOMATIC_ASSERT (sr);
 
-	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, sr);
+	TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, sr);
 	if (d->ShowModal () == wxID_OK) {
 		d->apply ();
 	}
