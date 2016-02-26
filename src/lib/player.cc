@@ -222,7 +222,8 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == DCPContentProperty::CAN_BE_PLAYED ||
 		property == TextSubtitleContentProperty::TEXT_SUBTITLE_COLOUR ||
 		property == TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE ||
-		property == TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR
+		property == TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR ||
+		property == FFmpegContentProperty::SUBTITLE_STREAM
 		) {
 
 		_have_valid_pieces = false;

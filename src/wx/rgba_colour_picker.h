@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,20 @@
 
 */
 
-#ifndef DCPOMATIC_TABLE_DIALOG_H
-#define DCPOMATIC_TABLE_DIALOG_H
-
+#include "lib/rgba.h"
 #include <wx/wx.h>
 
-class TableDialog : public wxDialog
+class wxColourPickerCtrl;
+class wxSlider;
+
+class RGBAColourPicker : public wxPanel
 {
 public:
-	TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel);
+	RGBAColourPicker (wxWindow* parent, RGBA colour);
 
-protected:
-	template<class T>
-	T* add (T* w, int proportion = 1, int flag = wxEXPAND) {
-		_table->Add (w, proportion, flag);
-		return w;
-	}
-
-	void add (wxString text, bool label);
-	void add_spacer ();
-
-	void layout ();
-
-	wxFlexGridSizer* _table;
+	RGBA colour () const;
 
 private:
-	wxSizer* _overall_sizer;
+	wxColourPickerCtrl* _picker;
+	wxSlider* _alpha;
 };
-
-#endif

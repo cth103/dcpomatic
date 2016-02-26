@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,43 @@
 
 */
 
-#ifndef DCPOMATIC_TABLE_DIALOG_H
-#define DCPOMATIC_TABLE_DIALOG_H
+#ifndef DCPOMATIC_RGBA_H
+#define DCPOMATIC_RGBA_H
 
-#include <wx/wx.h>
+#include <libcxml/cxml.h>
+#include <stdint.h>
 
-class TableDialog : public wxDialog
+/** @class RGBA
+ *  @brief A 32-bit RGBA colour.
+ */
+
+class RGBA
 {
 public:
-	TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel);
+	RGBA ()
+		: r (0)
+		, g (0)
+		, b (0)
+		, a (0)
+	{}
 
-protected:
-	template<class T>
-	T* add (T* w, int proportion = 1, int flag = wxEXPAND) {
-		_table->Add (w, proportion, flag);
-		return w;
-	}
+	RGBA (uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_)
+		: r (r_)
+		, g (g_)
+		, b (b_)
+		, a (a_)
+	{}
 
-	void add (wxString text, bool label);
-	void add_spacer ();
+	RGBA (cxml::ConstNodePtr node);
 
-	void layout ();
+	void as_xml (xmlpp::Node* parent) const;
 
-	wxFlexGridSizer* _table;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t a;
 
-private:
-	wxSizer* _overall_sizer;
+	bool operator< (RGBA const & other) const;
 };
 
 #endif

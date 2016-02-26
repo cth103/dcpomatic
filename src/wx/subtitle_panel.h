@@ -23,7 +23,6 @@ class wxCheckBox;
 class wxSpinCtrl;
 class SubtitleView;
 class FontsDialog;
-class SubtitleAppearanceDialog;
 
 class SubtitlePanel : public ContentSubPanel
 {

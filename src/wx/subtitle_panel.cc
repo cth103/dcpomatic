@@ -24,6 +24,7 @@
 #include "content_panel.h"
 #include "fonts_dialog.h"
 #include "text_subtitle_appearance_dialog.h"
+#include "image_subtitle_colour_dialog.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -285,7 +286,7 @@ SubtitlePanel::setup_sensitivity ()
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_subtitle_view_button->Enable (!reference && (text_subs == 1 || dcp_subs == 1));
 	_fonts_dialog_button->Enable (!reference && (text_subs == 1 || dcp_subs == 1));
-	_appearance_dialog_button->Enable (!reference && text_subs == 1);
+	_appearance_dialog_button->Enable (!reference && (ffmpeg_subs == 1 || text_subs == 1));
 }
 
 void
@@ -433,11 +434,19 @@ SubtitlePanel::appearance_dialog_clicked ()
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
-	DCPOMATIC_ASSERT (sr);
-
-	TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, sr);
-	if (d->ShowModal () == wxID_OK) {
-		d->apply ();
+	if (sr) {
+		TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, sr);
+		if (d->ShowModal () == wxID_OK) {
+			d->apply ();
+		}
+		d->Destroy ();
+	} else {
+		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c.front ());
+		DCPOMATIC_ASSERT (fc);
+		ImageSubtitleColourDialog* d = new ImageSubtitleColourDialog (this, fc, fc->subtitle_stream ());
+		if (d->ShowModal() == wxID_OK) {
+			d->apply ();
+		}
+		d->Destroy ();
 	}
-	d->Destroy ();
 }

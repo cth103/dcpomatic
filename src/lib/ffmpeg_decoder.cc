@@ -65,6 +65,7 @@ using std::list;
 using std::min;
 using std::pair;
 using std::max;
+using std::map;
 using boost::shared_ptr;
 using boost::is_any_of;
 using boost::split;
@@ -489,6 +490,17 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	   (i.e. first byte B, second G, third R, fourth A)
 	*/
 	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+	/* And the stream has a map of those palette colours to colours
+	   chosen by the user; created a `mapped' palette from those settings.
+	*/
+	map<RGBA, RGBA> colour_map = ffmpeg_content()->subtitle_stream()->colours ();
+	vector<RGBA> mapped_palette (rect->nb_colors);
+	for (int i = 0; i < rect->nb_colors; ++i) {
+		RGBA c ((palette[i] & 0xff0000) >> 16, (palette[i] & 0xff00) >> 8, palette[i] & 0xff, (palette[i] & 0xff000000) >> 24);
+		DCPOMATIC_ASSERT (colour_map.find(c) != colour_map.end());
+		mapped_palette[i] = colour_map[c];
+	}
+
 	/* Start of the output data */
 	uint32_t* out_p = (uint32_t *) image->data()[0];
 
@@ -496,8 +508,9 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		uint8_t* sub_line_p = sub_p;
 		uint32_t* out_line_p = out_p;
 		for (int x = 0; x < rect->w; ++x) {
-			uint32_t const p = palette[*sub_line_p++];
-			*out_line_p++ = ((p & 0xff) << 16) | (p & 0xff00) | ((p & 0xff0000) >> 16) | (p & 0xff000000);
+			RGBA const p = mapped_palette[*sub_line_p++];
+			/* XXX: this seems to be wrong to me (isn't the output image RGBA?) but it looks right on screen */
+			*out_line_p++ = (p.a << 24) | (p.r << 16) | (p.g << 8) | p.b;
 		}
 		sub_p += rect->pict.linesize[0];
 		out_p += image->stride()[0] / sizeof (uint32_t);

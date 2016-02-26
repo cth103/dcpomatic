@@ -18,6 +18,7 @@
 */
 
 #include "dcpomatic_time.h"
+#include "rgba.h"
 #include "ffmpeg_stream.h"
 
 class FFmpegSubtitleStream : public FFmpegStream
@@ -37,6 +38,7 @@ public:
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const;
 	ContentTime find_subtitle_to (std::string id) const;
 	void add_offset (ContentTime offset);
+	void set_colour (RGBA from, RGBA to);
 
 	bool has_image_subtitles () const {
 		return !_image_subtitles.empty ();
@@ -44,6 +46,7 @@ public:
 	bool has_text_subtitles () const {
 		return !_text_subtitles.empty ();
 	}
+	std::map<RGBA, RGBA> colours () const;
 
 private:
 
@@ -54,4 +57,5 @@ private:
 
 	PeriodMap _image_subtitles;
 	PeriodMap _text_subtitles;
+	std::map<RGBA, RGBA> _colours;
 };

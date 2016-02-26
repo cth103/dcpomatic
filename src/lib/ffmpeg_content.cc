@@ -505,3 +505,14 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		p.push_back (UserProperty (_("Video"), _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
 	}
 }
+
+/** Our subtitle streams have colour maps, which can be changed, but
+ *  they have no way of signalling that change.  As a hack, we have this
+ *  method which callers can use when they've modified one of our subtitle
+ *  streams.
+ */
+void
+FFmpegContent::signal_subtitle_stream_changed ()
+{
+	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
+}

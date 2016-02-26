@@ -37,6 +37,7 @@ class FFmpegContentProperty : public VideoContentProperty
 {
 public:
 	static int const SUBTITLE_STREAMS;
+	/** The chosen subtitle stream, or something about it */
 	static int const SUBTITLE_STREAM;
 	static int const FILTERS;
 };
@@ -104,6 +105,8 @@ public:
 
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
+
+	void signal_subtitle_stream_changed ();
 
 protected:
 	void add_properties (std::list<UserProperty> &) const;

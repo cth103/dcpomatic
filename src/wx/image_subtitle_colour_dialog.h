@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,32 +17,23 @@
 
 */
 
-#ifndef DCPOMATIC_TABLE_DIALOG_H
-#define DCPOMATIC_TABLE_DIALOG_H
+#include "table_dialog.h"
+#include "lib/rgba.h"
+#include <map>
 
-#include <wx/wx.h>
+class RGBAColourPicker;
+class FFmpegContent;
+class FFmpegSubtitleStream;
 
-class TableDialog : public wxDialog
+class ImageSubtitleColourDialog : public TableDialog
 {
 public:
-	TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel);
+	ImageSubtitleColourDialog (wxWindow* parent, boost::shared_ptr<FFmpegContent> content, boost::shared_ptr<FFmpegSubtitleStream> stream);
 
-protected:
-	template<class T>
-	T* add (T* w, int proportion = 1, int flag = wxEXPAND) {
-		_table->Add (w, proportion, flag);
-		return w;
-	}
-
-	void add (wxString text, bool label);
-	void add_spacer ();
-
-	void layout ();
-
-	wxFlexGridSizer* _table;
+	void apply ();
 
 private:
-	wxSizer* _overall_sizer;
+	boost::shared_ptr<FFmpegContent> _content;
+	boost::shared_ptr<FFmpegSubtitleStream> _stream;
+	std::map<RGBA, RGBAColourPicker*> _pickers;
 };
-
-#endif

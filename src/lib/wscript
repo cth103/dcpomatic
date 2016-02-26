@@ -104,6 +104,7 @@ sources = """
           reel_writer.cc
           render_subtitles.cc
           resampler.cc
+          rgba.cc
           safe_stringstream.cc
           scoped_temporary.cc
           scp_uploader.cc

@@ -1,3 +1,8 @@
+2016-02-26  Carl Hetherington  <cth@carlh.net>
+
+	* Allow changes to colours of subtitles embedded
+	into video files (#795).
+
 2016-02-25  Carl Hetherington  <cth@carlh.net>
 
 	* Plot all video and subtitle content on single tracks

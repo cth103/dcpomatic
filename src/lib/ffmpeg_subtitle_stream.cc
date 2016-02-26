@@ -27,6 +27,7 @@ using std::string;
 using std::map;
 using std::list;
 using std::cout;
+using std::make_pair;
 
 /** Construct a SubtitleStream from a value returned from to_string().
  *  @param t String returned from to_string().
@@ -82,6 +83,10 @@ FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version
 					)
 				);
 		}
+
+		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Colour")) {
+			_colours[RGBA(i->node_child("From"))] = RGBA (i->node_child("To"));
+		}
 	}
 }
 
@@ -92,6 +97,12 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 
 	as_xml (root, _image_subtitles, "ImageSubtitle");
 	as_xml (root, _text_subtitles, "TextSubtitle");
+
+	for (map<RGBA, RGBA>::const_iterator i = _colours.begin(); i != _colours.end(); ++i) {
+		xmlpp::Node* node = root->add_child("Colour");
+		i->first.as_xml (node->add_child("From"));
+		i->second.as_xml (node->add_child("To"));
+	}
 }
 
 void
@@ -172,4 +183,16 @@ FFmpegSubtitleStream::add_offset (ContentTime offset)
 		i->second.from += offset;
 		i->second.to += offset;
 	}
+}
+
+map<RGBA, RGBA>
+FFmpegSubtitleStream::colours () const
+{
+	return _colours;
+}
+
+void
+FFmpegSubtitleStream::set_colour (RGBA from, RGBA to)
+{
+	_colours[from] = to;
 }
