@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-28 00:29+0000\n"
-"PO-Revision-Date: 2016-01-11 02:13+0100\n"
+"PO-Revision-Date: 2016-02-28 03:26+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -40,7 +40,7 @@ msgstr "1.66:1"
 
 #: src/lib/ratio.cc:39
 msgid "16:9"
-msgstr "1.78:1 (16:9/HD)"
+msgstr "1.78:1 (16:9 / HD)"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -69,7 +69,7 @@ msgstr "Analyseer audio"
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -153,9 +153,8 @@ msgid "Centre"
 msgstr "Midden (C)"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
-msgstr "Audio kanalen"
+msgstr "Kanalen"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -193,16 +192,15 @@ msgstr "Berekenen beeld-digest"
 
 #: src/lib/frame_rate_change.cc:86
 msgid "Content and DCP have the same rate.\n"
-msgstr "Content en DCP hebben dezelfde beeldsnelheid.\n"
+msgstr "Content en DCP hebben dezelfde frame rate.\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Beeldsnelheid content"
+msgstr "Content audio frame rate"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
-msgstr "Beeldsnelheid content"
+msgstr "Content frame rate"
 
 #: src/lib/subtitle_content.cc:127
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -264,11 +262,11 @@ msgstr "Samen te voegen content moet dezelfde ondertitel Y-schaling hebben."
 
 #: src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
-msgstr "Samen te voegen content moet dezelfde beeldsnelheid hebben."
+msgstr "Samen te voegen content moet dezelfde video frame rate hebben."
 
 #: src/lib/video_content.cc:160
 msgid "Content to be joined must have the same video frame type."
-msgstr "Samen te voegen content moet hetzelfde video-beeldtype hebben."
+msgstr "Samen te voegen content moet hetzelfde video frame type hebben."
 
 #: src/lib/subtitle_content.cc:148 src/lib/subtitle_content.cc:156
 msgid "Content to be joined must use the same fonts."
@@ -303,9 +301,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Kan beeldbestand %1 (%2) niet decoderen"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "kan geen stream-informatie vinden"
+msgstr "Kan pixelformaat voor video niet vinden"
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -368,17 +365,16 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML ondertitels"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Beeldsnelheid content"
+msgstr "DCP frame rate"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
-msgstr "DCP zal afspelen met %1%% van de content-beeldsnelheid.\n"
+msgstr "DCP zal afspelen met %1%% van de content-snelheid.\n"
 
 #: src/lib/frame_rate_change.cc:89
 msgid "DCP will use every other frame of the content.\n"
-msgstr "DCP zal om het andere beeld van de content gebruiken.\n"
+msgstr "DCP zal om het andere frame van de content gebruiken.\n"
 
 #: src/lib/job.cc:111 src/lib/job.cc:125
 msgid ""
@@ -438,13 +434,11 @@ msgstr "Download mislukt (%1/%2 error %3)"
 
 #: src/lib/frame_rate_change.cc:91
 msgid "Each content frame will be doubled in the DCP.\n"
-msgstr "Elk beeld van de content zal dubbel gebruikt worden in de DCP.\n"
+msgstr "Elk content frame zal dubbel gebruikt worden in de DCP.\n"
 
 #: src/lib/frame_rate_change.cc:93
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr ""
-"Elk beeld van de content zal %1 keer herhaald worden in de DCP.\n"
-"\n"
+msgstr "Elk content frame zal %1 keer herhaald worden in de DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:56
 msgid "Email KDMs"
@@ -467,9 +461,8 @@ msgid "Encoding image data"
 msgstr "Encoderen beeldinformatie"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Fout in SubRip-bestand: %1 gelezen terwijl %2 verwacht werd"
+msgstr "Fout in ondertitel-bestand: %1 gelezen terwijl %2 verwacht werd"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -512,9 +505,8 @@ msgid "Flat"
 msgstr "1.85:1 (Flat)"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Video-beeldsnelheid"
+msgstr "Frame rate"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -530,19 +522,19 @@ msgstr "1.896:1 (Full DCI Container)"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Volledige lengte in audio frames bij DCP-snelheid"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Volledige lengte in audio-frames bij content-snelheid"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Volledige lengte in video-frames bij DCP-snelheid"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Volledige lengte in video-frames bij content-snelheid"
 
 #: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
@@ -570,7 +562,7 @@ msgstr "Hoge kwaliteit 3D ruisonderdrukking"
 
 #: src/lib/audio_content.cc:308
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -620,7 +612,7 @@ msgstr "Links surround (Ls)"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Lengte"
 
 #: src/lib/film.cc:1315
 msgid "Lfe"
@@ -668,11 +660,11 @@ msgstr "Ongelijke aantallen audio-kanalen in DCP"
 
 #: src/lib/dcp_examiner.cc:102
 msgid "Mismatched audio sample rates in DCP"
-msgstr "Ongelijke audio-sample-snelheden in DCP"
+msgstr "Ongelijke audio sample rates in DCP"
 
 #: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
-msgstr "Ongelijke beeldsnelheden in DCP"
+msgstr "Ongelijke frame rates in DCP"
 
 #: src/lib/dcp_examiner.cc:84
 msgid "Mismatched video sizes in DCP"
@@ -833,7 +825,7 @@ msgstr "Short"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Grootte"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -860,9 +852,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/text_subtitle_content.cc:95
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[ondertitels]"
+msgstr "Tekst-ondertitels"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -1009,9 +1000,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "Video-grootte"
+msgstr "Video"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"
@@ -1119,15 +1109,15 @@ msgstr "fout tijdens async_write (%1)"
 
 #: src/lib/transcode_job.cc:122
 msgid "fps"
-msgstr "bps"
+msgstr "fps"
 
 #: src/lib/transcode_job.cc:121
 msgid "frames"
-msgstr "beelden"
+msgstr "frames"
 
 #: src/lib/video_content.cc:586
 msgid "frames per second"
-msgstr "beelden per seconde"
+msgstr "frames per seconde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:142 src/lib/util.cc:145
@@ -1180,7 +1170,7 @@ msgstr "onbekend"
 
 #: src/lib/video_content.cc:584
 msgid "video frames"
-msgstr "video-beelden"
+msgstr "video frames"
 
 #~ msgid "SubRip subtitles"
 #~ msgstr "SubRip ondertitels"

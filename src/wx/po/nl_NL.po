@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-28 00:29+0000\n"
-"PO-Revision-Date: 2016-01-11 02:15+0100\n"
+"PO-Revision-Date: 2016-02-28 02:59+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -45,7 +45,7 @@ msgstr "-6dB"
 
 #: src/wx/rgba_colour_picker.cc:35
 msgid "255"
-msgstr ""
+msgstr "255"
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -89,11 +89,11 @@ msgstr "4K"
 
 #: src/wx/image_subtitle_colour_dialog.cc:40
 msgid "<b>New colour</b>"
-msgstr ""
+msgstr "<b>Nieuwe kleur</b>"
 
 #: src/wx/image_subtitle_colour_dialog.cc:37
 msgid "<b>Original colour</b>"
-msgstr ""
+msgstr "<b>Originele kleur</b>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -102,8 +102,8 @@ msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
 msgstr ""
-"<i>Dit alleen wijzigen als de beeldsnelheid van de content verkeerd is "
-"gelezen.</i>"
+"<i>Dit alleen wijzigen als de frame rate van de content verkeerd is gelezen."
+"</i>"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "A"
@@ -116,8 +116,8 @@ msgid ""
 "unlikely to have any visible effect on the image."
 msgstr ""
 "Sommige projectoren hebben afspeelproblemen met DCP's met een hele hoge bit-"
-"snelheid.  Het is verstandig om de JPEG2000-bandbreedte tot ongeveer 200Mbit/"
-"s terug te brengen; dit heeft vrijwel zeker geen zichtbaar effect op de "
+"rate.  Het is verstandig om de JPEG2000-bandbreedte tot ongeveer 200Mbit/s "
+"terug te brengen; dit heeft vrijwel zeker geen zichtbaar effect op de "
 "beeldkwaliteit."
 
 #: src/wx/update_dialog.cc:35
@@ -202,11 +202,11 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:1369
 msgid "Allow any DCP frame rate"
-msgstr "Sta elke DCP-beeldsnelheid toe"
+msgstr "Sta elke DCP frame rate toe"
 
 #: src/wx/rgba_colour_picker.cc:32
 msgid "Alpha   0"
-msgstr ""
+msgstr "Alpha   0"
 
 #: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
@@ -279,9 +279,8 @@ msgid "But I have to use fader"
 msgstr "Maar ik moet deze volume-instelling gebruiken"
 
 #: src/wx/config_dialog.cc:1226
-#, fuzzy
 msgid "CC addresses"
-msgstr "CC-adres"
+msgstr "CC-adressen"
 
 #: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:71
 #: src/wx/self_dkdm_dialog.cc:52
@@ -354,7 +353,7 @@ msgstr "Kies een lettertype-bestand"
 
 #: src/wx/config_dialog.cc:192
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr "Bioscoop- en scherm-database-bestand"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -640,11 +639,11 @@ msgstr "Lettertypen..."
 
 #: src/wx/dcp_panel.cc:640
 msgid "Frame Rate"
-msgstr "Beeldsnelheid"
+msgstr "Frame Rate"
 
 #: src/wx/image_sequence_dialog.cc:27
 msgid "Frame rate"
-msgstr "Beeldsnelheid"
+msgstr "Frame rate"
 
 #: src/wx/about_dialog.cc:65
 msgid "Free, open-source DCP creation from almost anything."
@@ -789,9 +788,8 @@ msgid "KDM|Timing"
 msgstr "Tijdvenster"
 
 #: src/wx/timeline_dialog.cc:43
-#, fuzzy
 msgid "Keep video and subtitles in sequence"
-msgstr "Houd video in volgorde"
+msgstr "Houd video en ondertitels in volgorde"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
 msgid "Key"
@@ -918,7 +916,7 @@ msgstr "Nieuwe Film"
 
 #: src/wx/update_dialog.cc:37
 msgid "New versions of DCP-o-matic are available."
-msgstr "Er zijn nieuwe versies van DCP -o- matic beschikbaar."
+msgstr "Er zijn nieuwe versies van DCP-o-matic beschikbaar."
 
 #: src/wx/content_sub_panel.cc:46
 msgid "No DCP selected."
@@ -1063,7 +1061,7 @@ msgstr "RGB naar XYZ conversie"
 
 #: src/wx/audio_dialog.cc:89
 msgid "RMS"
-msgstr "Effectieve waarde"
+msgstr "Effectieve waarde (RMS)"
 
 #: src/wx/key_dialog.cc:49
 msgid "Random"
@@ -1220,7 +1218,7 @@ msgstr "Selecteer KDM"
 
 #: src/wx/config_dialog.cc:920 src/wx/config_dialog.cc:951
 msgid "Select Key File"
-msgstr "Selecteer sleutelbestand"
+msgstr "Selecteer sleutel-bestand"
 
 #: src/wx/screen_dialog.cc:47
 msgid "Select certificate file"
@@ -1228,7 +1226,7 @@ msgstr "Selecteer certificaat-bestand"
 
 #: src/wx/config_dialog.cc:193
 msgid "Select cinema and screen database file"
-msgstr ""
+msgstr "Selecteer bioscoop- en scherm-database-bestand"
 
 #: src/wx/kdm_output_panel.cc:58
 msgid "Send by email"
@@ -1335,9 +1333,8 @@ msgid "Subtitle appearance"
 msgstr "Ondertitelings-uiterlijk"
 
 #: src/wx/image_subtitle_colour_dialog.cc:30
-#, fuzzy
 msgid "Subtitle colours"
-msgstr "Omlijnings-kleur"
+msgstr "Ondertitel-kleuren"
 
 #: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
 #: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
@@ -1466,7 +1463,7 @@ msgstr "Update"
 
 #: src/wx/dcp_panel.cc:156
 msgid "Upload DCP to TMS after it is made"
-msgstr ""
+msgstr "Upload DCP naar TMS nadat hij gemaakt is"
 
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
@@ -1499,7 +1496,7 @@ msgstr "Video-golfvorm"
 
 #: src/wx/timing_panel.cc:107
 msgid "Video frame rate"
-msgstr "Video-beeldsnelheid"
+msgstr "Video frame rate"
 
 #: src/wx/subtitle_panel.cc:120
 msgid "View..."
@@ -1558,7 +1555,7 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
-"U heeft een Interop-DCP ingesteld met een beeldsnelheid die niet officieel "
+"U heeft een Interop-DCP ingesteld met een frame rate die niet officieel "
 "ondersteund wordt.  U wordt geadviseerd om in plaats hiervan een SMPTE-DCP "
 "te maken."
 
@@ -1593,8 +1590,8 @@ msgid ""
 "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
-"Uw DCP-beeldsnelheid (%d bps) kan problemen veroorzaken met sommige (oudere) "
-"projectoren.  Gebruik 24 of 48 beelden per seconde voor zekerheid."
+"Uw DCP frame rate (%d fps) kan problemen veroorzaken met sommige (oudere) "
+"projectoren.  Gebruik 24 of 48 frames per seconde voor zekerheid."
 
 #: src/wx/hints_dialog.cc:101
 msgid ""
@@ -1611,7 +1608,7 @@ msgstr "dB"
 #. // TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:76
 msgid "f"
-msgstr "b"
+msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:54
