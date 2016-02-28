@@ -24,6 +24,7 @@
 #include <wx/graphics.h>
 
 using std::list;
+using std::min;
 using std::max;
 
 TimelineLabelsView::TimelineLabelsView (Timeline& tl)
@@ -59,5 +60,5 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour (0, 0, 0)));
 	gc->DrawText (_("Video"), 0, h / 2);
 	gc->DrawText (_("Subtitles"), 0, 3 * h / 2);
-	gc->DrawText (_("Audio"), 0, h + _timeline.tracks() * h / 2);
+	gc->DrawText (_("Audio"), 0, h + max (_timeline.tracks(), 2) * h / 2);
 }
