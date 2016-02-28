@@ -46,6 +46,7 @@ using std::list;
 using std::string;
 using std::cout;
 using std::vector;
+using std::exception;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -311,7 +312,15 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	shared_ptr<Content> content = content_factory (_film, path);
+	shared_ptr<Content> content;
+
+	try {
+		content = content_factory (_film, path);
+	} catch (exception& e) {
+		error_dialog (_parent, e.what());
+		return;
+	}
+
 	if (!content) {
 		error_dialog (_parent, _("No content found in this folder."));
 		return;
