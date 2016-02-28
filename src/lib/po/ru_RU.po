@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-01-06 19:34+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -307,7 +307,7 @@ msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%
 msgid "Could not decode image file (%1)"
 msgstr "Не удалось декодировать изображение (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "не удалось найти информацию о потоке"
@@ -955,7 +955,7 @@ msgstr "Сервером получен неожиданный тип изобр
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Нераспознанный формат аудио (%1)"
 
@@ -1173,7 +1173,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "статичный"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "неизвестно"
 

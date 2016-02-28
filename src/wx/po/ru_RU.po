@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-01-06 19:39+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/wx/subtitle_panel.cc:71 src/wx/subtitle_panel.cc:81
-#: src/wx/subtitle_panel.cc:91 src/wx/subtitle_panel.cc:101
+#: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
+#: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
 msgid "%"
 msgstr "%"
 
@@ -40,6 +40,10 @@ msgstr "(перезапустите программу для изменения
 #: src/wx/audio_mapping_view.cc:144
 msgid "-6dB"
 msgstr "-6 дБ"
+
+#: src/wx/rgba_colour_picker.cc:35
+msgid "255"
+msgstr ""
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -80,6 +84,14 @@ msgstr "3D верх/низ"
 #: src/wx/dcp_panel.cc:697
 msgid "4K"
 msgstr "4K"
+
+#: src/wx/image_subtitle_colour_dialog.cc:40
+msgid "<b>New colour</b>"
+msgstr ""
+
+#: src/wx/image_subtitle_colour_dialog.cc:37
+msgid "<b>Original colour</b>"
+msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -183,15 +195,20 @@ msgstr ""
 "можете изменить настройки вашего DCP контейнера на SCOPE (2.39:1) на вкладке "
 "\"DCP\"."
 
-#: src/wx/config_dialog.cc:1367
+#: src/wx/config_dialog.cc:1369
 msgid "Allow any DCP frame rate"
 msgstr "Разрешить любую частоту кадров DCP"
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/rgba_colour_picker.cc:32
+msgid "Alpha   0"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
 msgstr "Внешний вид..."
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
+#: src/wx/timeline_labels_view.cc:34 src/wx/timeline_labels_view.cc:62
 msgid "Audio"
 msgstr "Аудио"
 
@@ -247,7 +264,7 @@ msgstr "Снизу"
 msgid "Browse..."
 msgstr "Выбрать...."
 
-#: src/wx/subtitle_panel.cc:62
+#: src/wx/subtitle_panel.cc:63
 msgid "Burn subtitles into image"
 msgstr "Вшить субтитры в изображение"
 
@@ -285,7 +302,7 @@ msgstr "Отмена"
 msgid "Cannot reference this DCP.  "
 msgstr "Не удается сделать ссылку на этот DCP.  "
 
-#: src/wx/dolby_doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:202
 msgid "Certificate downloaded"
 msgstr "Сертификат загружен"
 
@@ -333,7 +350,7 @@ msgstr "Выбрать файл шрифта"
 msgid "Cinema and screen database file"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:31
+#: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
 msgstr "Цвет"
 
@@ -346,7 +363,7 @@ msgstr "Преобразование цвета"
 msgid "Component"
 msgstr "Компонент"
 
-#: src/wx/config_dialog.cc:1391
+#: src/wx/config_dialog.cc:1393
 msgid "Config|Timing"
 msgstr "Тайминг"
 
@@ -440,15 +457,15 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Аудио DCP-o-matic"
 
-#: src/wx/config_dialog.cc:1393
+#: src/wx/config_dialog.cc:1395
 msgid "Debug: decode"
 msgstr "Отладка: декодирование"
 
-#: src/wx/config_dialog.cc:1397
+#: src/wx/config_dialog.cc:1399
 msgid "Debug: email sending"
 msgstr "Отладка: отправка email"
 
-#: src/wx/config_dialog.cc:1395
+#: src/wx/config_dialog.cc:1397
 msgid "Debug: encode"
 msgstr "Отладка: кодирование"
 
@@ -558,7 +575,7 @@ msgstr "Зашифрованный"
 msgid "End"
 msgstr "Конец"
 
-#: src/wx/config_dialog.cc:1389
+#: src/wx/config_dialog.cc:1391
 msgid "Errors"
 msgstr "Ошибки"
 
@@ -611,7 +628,7 @@ msgstr "Найти отсутствующее..."
 msgid "Fonts"
 msgstr "Шрифты"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:122
 msgid "Fonts..."
 msgstr "Шрифты..."
 
@@ -662,7 +679,7 @@ msgstr "Калькулятор усиления"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Усиление для канала %d контента в канале %d DCP"
 
-#: src/wx/config_dialog.cc:1385
+#: src/wx/config_dialog.cc:1387
 msgid "General"
 msgstr "Основные"
 
@@ -780,7 +797,7 @@ msgstr "Ключ"
 msgid "Keys"
 msgstr "Ключи"
 
-#: src/wx/subtitle_panel.cc:106
+#: src/wx/subtitle_panel.cc:107
 msgid "Language"
 msgstr "Язык"
 
@@ -808,11 +825,11 @@ msgstr "Выровнять входную гамму для малых знач�
 msgid "Load..."
 msgstr "Загрузить..."
 
-#: src/wx/config_dialog.cc:1379
+#: src/wx/config_dialog.cc:1381
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/config_dialog.cc:1376
+#: src/wx/config_dialog.cc:1378
 msgid "Log:"
 msgstr "Лог:"
 
@@ -853,11 +870,11 @@ msgstr "Яркость (напр. 14 фут-ламберт)"
 msgid "Matrix"
 msgstr "Матрица"
 
-#: src/wx/config_dialog.cc:1359
+#: src/wx/config_dialog.cc:1361
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальная пропускная способность JPEG2000"
 
-#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1363
+#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1365
 #: src/wx/dcp_panel.cc:668
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -929,11 +946,11 @@ msgstr "Обычный шрифт"
 msgid "Off"
 msgstr "Выключен"
 
-#: src/wx/config_dialog.cc:1371
+#: src/wx/config_dialog.cc:1373
 msgid "Only servers encode"
 msgstr "Кодирование только серверами"
 
-#: src/wx/config_dialog.cc:1403
+#: src/wx/config_dialog.cc:1405
 msgid "Open console window"
 msgstr "Открыть консольное окно"
 
@@ -957,11 +974,11 @@ msgstr "Иные доверенные устройства"
 msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
-#: src/wx/subtitle_appearance_dialog.cc:35
+#: src/wx/text_subtitle_appearance_dialog.cc:35
 msgid "Outline"
 msgstr "Контур"
 
-#: src/wx/subtitle_appearance_dialog.cc:39
+#: src/wx/text_subtitle_appearance_dialog.cc:39
 msgid "Outline colour"
 msgstr "Цвет контура"
 
@@ -1078,7 +1095,7 @@ msgstr "Red band"
 msgid "Red chromaticity"
 msgstr "Красная цветность"
 
-#: src/wx/timeline_reels_view.cc:82
+#: src/wx/timeline_reels_view.cc:83
 #, c-format
 msgid "Reel %d"
 msgstr "Катушка %d"
@@ -1091,7 +1108,7 @@ msgstr "Длительность катушки"
 msgid "Reels"
 msgstr "Катушки"
 
-#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
+#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:55
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
 msgstr "Ссылаться на существующий DCP"
@@ -1287,7 +1304,7 @@ msgstr "Стандарт"
 msgid "Start"
 msgstr "Начало"
 
-#: src/wx/subtitle_panel.cc:111
+#: src/wx/subtitle_panel.cc:112
 msgid "Stream"
 msgstr "Поток"
 
@@ -1307,15 +1324,21 @@ msgstr "Субтитр"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Язык субтитров (напр. FR)"
 
-#: src/wx/subtitle_appearance_dialog.cc:28
+#: src/wx/text_subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
 msgstr "Внешний вид субтитров"
 
-#: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
+#: src/wx/image_subtitle_colour_dialog.cc:30
+#, fuzzy
+msgid "Subtitle colours"
+msgstr "Цвет контура"
+
+#: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
+#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:235
+#: src/wx/about_dialog.cc:236
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1339,7 +1362,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:287
+#: src/wx/about_dialog.cc:288
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -1450,7 +1473,7 @@ msgstr "Использовать лучшее"
 msgid "Use preset"
 msgstr "Использовать заготовку"
 
-#: src/wx/subtitle_panel.cc:58
+#: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Использовать субтитры"
 
@@ -1458,7 +1481,8 @@ msgstr "Использовать субтитры"
 msgid "User name"
 msgstr "Имя пользователя"
 
-#: src/wx/dcp_panel.cc:109 src/wx/video_panel.cc:73
+#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:33
+#: src/wx/timeline_labels_view.cc:60 src/wx/video_panel.cc:73
 msgid "Video"
 msgstr "Видео"
 
@@ -1470,11 +1494,11 @@ msgstr "График видео"
 msgid "Video frame rate"
 msgstr "Частота кадров видео"
 
-#: src/wx/subtitle_panel.cc:119
+#: src/wx/subtitle_panel.cc:120
 msgid "View..."
 msgstr "Просмотр..."
 
-#: src/wx/config_dialog.cc:1387
+#: src/wx/config_dialog.cc:1389
 msgid "Warnings"
 msgstr "Предупреждения"
 
@@ -1498,19 +1522,19 @@ msgstr "Сохранить в..."
 msgid "Written by"
 msgstr "Программирование"
 
-#: src/wx/subtitle_panel.cc:67
+#: src/wx/subtitle_panel.cc:68
 msgid "X Offset"
 msgstr "Смещение X"
 
-#: src/wx/subtitle_panel.cc:87
+#: src/wx/subtitle_panel.cc:88
 msgid "X Scale"
 msgstr "Размер X"
 
-#: src/wx/subtitle_panel.cc:77
+#: src/wx/subtitle_panel.cc:78
 msgid "Y Offset"
 msgstr "Смещение Y"
 
-#: src/wx/subtitle_panel.cc:97
+#: src/wx/subtitle_panel.cc:98
 msgid "Y Scale"
 msgstr "Размер Y"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2015-11-11 15:53+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -298,7 +298,7 @@ msgstr "Não foi possível descodificar o ficheiro JPEG2000 %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Não foi possível descodificar a imagem (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "não foi possível encontrar a informação do fluxo"
@@ -945,7 +945,7 @@ msgstr "Tipo de imagem inesperada recebida pelo servidor"
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato de amostragem audio desconhecido (%1)"
 
@@ -1164,7 +1164,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "imagem estática"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "desconhecido"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -299,7 +299,7 @@ msgstr "Nie można odkodować pliku JPEG2000 %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Nie można odkodować obrazu (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "nie udało się znaleźć właściwości strumienia"
@@ -944,7 +944,7 @@ msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nieznany rodzaj pliku audio (%1)"
 
@@ -1162,7 +1162,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "stopklatka"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "nieznany"
 

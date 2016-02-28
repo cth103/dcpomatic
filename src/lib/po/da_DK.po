@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -299,7 +299,7 @@ msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Kunne ikke afkode billedfil (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "kunne ikke finde information om strøm"
@@ -947,7 +947,7 @@ msgstr "Uventet billedtype modtaget af server"
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Kunne ikke genkende lydsekvensens format (%1)"
 
@@ -1165,7 +1165,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "ukendt"
 

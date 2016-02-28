@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-01-11 02:13+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -302,7 +302,7 @@ msgstr "Kan JPEG2000-bestand %1 (%2) niet decoderen"
 msgid "Could not decode image file (%1)"
 msgstr "Kan beeldbestand %1 (%2) niet decoderen"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "kan geen stream-informatie vinden"
@@ -956,7 +956,7 @@ msgstr "Onverwacht beeldtype ontvangen door server"
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Niet herkend audio sample-formaat (%1)"
 
@@ -1174,7 +1174,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "stilstaand beeld"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "onbekend"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-01-11 02:15+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/wx/subtitle_panel.cc:71 src/wx/subtitle_panel.cc:81
-#: src/wx/subtitle_panel.cc:91 src/wx/subtitle_panel.cc:101
+#: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
+#: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
 msgid "%"
 msgstr "%"
 
@@ -42,6 +42,10 @@ msgstr "(herstart DCP-o-matic om taalwijzigingen te zien)"
 #: src/wx/audio_mapping_view.cc:144
 msgid "-6dB"
 msgstr "-6dB"
+
+#: src/wx/rgba_colour_picker.cc:35
+msgid "255"
+msgstr ""
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -82,6 +86,14 @@ msgstr "3D boven/onder"
 #: src/wx/dcp_panel.cc:697
 msgid "4K"
 msgstr "4K"
+
+#: src/wx/image_subtitle_colour_dialog.cc:40
+msgid "<b>New colour</b>"
+msgstr ""
+
+#: src/wx/image_subtitle_colour_dialog.cc:37
+msgid "<b>Original colour</b>"
+msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -188,15 +200,20 @@ msgstr ""
 "balken zullen komen.  Mogelijk wilt u de DCP-container op Scope (2.39:1) "
 "instellen bij de DCP-instellingen."
 
-#: src/wx/config_dialog.cc:1367
+#: src/wx/config_dialog.cc:1369
 msgid "Allow any DCP frame rate"
 msgstr "Sta elke DCP-beeldsnelheid toe"
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/rgba_colour_picker.cc:32
+msgid "Alpha   0"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
 msgstr "Uiterlijk..."
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
+#: src/wx/timeline_labels_view.cc:34 src/wx/timeline_labels_view.cc:62
 msgid "Audio"
 msgstr "Audio"
 
@@ -253,7 +270,7 @@ msgstr "Onder"
 msgid "Browse..."
 msgstr "Blader..."
 
-#: src/wx/subtitle_panel.cc:62
+#: src/wx/subtitle_panel.cc:63
 msgid "Burn subtitles into image"
 msgstr "Brand ondertitels in het beeld"
 
@@ -291,7 +308,7 @@ msgstr "Annuleer"
 msgid "Cannot reference this DCP.  "
 msgstr "Kan niet aan deze DCP refereren."
 
-#: src/wx/dolby_doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:202
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
 
@@ -339,7 +356,7 @@ msgstr "Kies een lettertype-bestand"
 msgid "Cinema and screen database file"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:31
+#: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
 msgstr "Kleur"
 
@@ -352,7 +369,7 @@ msgstr "Kleurconversie"
 msgid "Component"
 msgstr "Component"
 
-#: src/wx/config_dialog.cc:1391
+#: src/wx/config_dialog.cc:1393
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -446,15 +463,15 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic audio"
 
-#: src/wx/config_dialog.cc:1393
+#: src/wx/config_dialog.cc:1395
 msgid "Debug: decode"
 msgstr "Debug: decoderen"
 
-#: src/wx/config_dialog.cc:1397
+#: src/wx/config_dialog.cc:1399
 msgid "Debug: email sending"
 msgstr "Debug: email versturen"
 
-#: src/wx/config_dialog.cc:1395
+#: src/wx/config_dialog.cc:1397
 msgid "Debug: encode"
 msgstr "Debug: encoderen"
 
@@ -564,7 +581,7 @@ msgstr "Versleuteld"
 msgid "End"
 msgstr "Einde"
 
-#: src/wx/config_dialog.cc:1389
+#: src/wx/config_dialog.cc:1391
 msgid "Errors"
 msgstr "Fouten"
 
@@ -617,7 +634,7 @@ msgstr "Zoek ontbrekende..."
 msgid "Fonts"
 msgstr "Lettertypen"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:122
 msgid "Fonts..."
 msgstr "Lettertypen..."
 
@@ -666,7 +683,7 @@ msgstr "Versterkings-calculator"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Versterking voor content-kanaal %d in DCP-kanaal %d"
 
-#: src/wx/config_dialog.cc:1385
+#: src/wx/config_dialog.cc:1387
 msgid "General"
 msgstr "Algemeen"
 
@@ -784,7 +801,7 @@ msgstr "Sleutel"
 msgid "Keys"
 msgstr "Sleutels"
 
-#: src/wx/subtitle_panel.cc:106
+#: src/wx/subtitle_panel.cc:107
 msgid "Language"
 msgstr "Taal"
 
@@ -812,11 +829,11 @@ msgstr "Lineariseer input-gammacurve voor kleine waarden"
 msgid "Load..."
 msgstr "Laad..."
 
-#: src/wx/config_dialog.cc:1379
+#: src/wx/config_dialog.cc:1381
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/config_dialog.cc:1376
+#: src/wx/config_dialog.cc:1378
 msgid "Log:"
 msgstr "Log:"
 
@@ -857,11 +874,11 @@ msgstr "Gemasterde luminantie (bv. 14fl)"
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/wx/config_dialog.cc:1359
+#: src/wx/config_dialog.cc:1361
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximum JPEG2000-bandbreedte"
 
-#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1363
+#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1365
 #: src/wx/dcp_panel.cc:668
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -935,11 +952,11 @@ msgstr "Normaal lettertype"
 msgid "Off"
 msgstr "Uit"
 
-#: src/wx/config_dialog.cc:1371
+#: src/wx/config_dialog.cc:1373
 msgid "Only servers encode"
 msgstr "Alleen servers encoderen"
 
-#: src/wx/config_dialog.cc:1403
+#: src/wx/config_dialog.cc:1405
 msgid "Open console window"
 msgstr "Open console-venster"
 
@@ -963,11 +980,11 @@ msgstr "Andere 'trusted devices'"
 msgid "Outgoing mail server"
 msgstr "Uitgaande mailserver"
 
-#: src/wx/subtitle_appearance_dialog.cc:35
+#: src/wx/text_subtitle_appearance_dialog.cc:35
 msgid "Outline"
 msgstr "Omlijn"
 
-#: src/wx/subtitle_appearance_dialog.cc:39
+#: src/wx/text_subtitle_appearance_dialog.cc:39
 msgid "Outline colour"
 msgstr "Omlijnings-kleur"
 
@@ -1084,7 +1101,7 @@ msgstr "Red band"
 msgid "Red chromaticity"
 msgstr "Rood-chromaticiteit"
 
-#: src/wx/timeline_reels_view.cc:82
+#: src/wx/timeline_reels_view.cc:83
 #, c-format
 msgid "Reel %d"
 msgstr "Reel %d"
@@ -1097,7 +1114,7 @@ msgstr "Reel-lengte"
 msgid "Reels"
 msgstr "Reels"
 
-#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
+#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:55
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
 msgstr "Refereer aan bestaande DCP"
@@ -1293,7 +1310,7 @@ msgstr "Standaard"
 msgid "Start"
 msgstr "Start"
 
-#: src/wx/subtitle_panel.cc:111
+#: src/wx/subtitle_panel.cc:112
 msgid "Stream"
 msgstr "Stream"
 
@@ -1313,15 +1330,21 @@ msgstr "Ondertitel"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Taal ondertiteling (bv. NL)"
 
-#: src/wx/subtitle_appearance_dialog.cc:28
+#: src/wx/text_subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
 msgstr "Ondertitelings-uiterlijk"
 
-#: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
+#: src/wx/image_subtitle_colour_dialog.cc:30
+#, fuzzy
+msgid "Subtitle colours"
+msgstr "Omlijnings-kleur"
+
+#: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
+#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:235
+#: src/wx/about_dialog.cc:236
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1345,7 +1368,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:287
+#: src/wx/about_dialog.cc:288
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -1457,7 +1480,7 @@ msgstr "Gebruik de beste"
 msgid "Use preset"
 msgstr "Gebruik voorinstelling"
 
-#: src/wx/subtitle_panel.cc:58
+#: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Gebruik ondertitels"
 
@@ -1465,7 +1488,8 @@ msgstr "Gebruik ondertitels"
 msgid "User name"
 msgstr "Gebruikersnaam"
 
-#: src/wx/dcp_panel.cc:109 src/wx/video_panel.cc:73
+#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:33
+#: src/wx/timeline_labels_view.cc:60 src/wx/video_panel.cc:73
 msgid "Video"
 msgstr "Video"
 
@@ -1477,11 +1501,11 @@ msgstr "Video-golfvorm"
 msgid "Video frame rate"
 msgstr "Video-beeldsnelheid"
 
-#: src/wx/subtitle_panel.cc:119
+#: src/wx/subtitle_panel.cc:120
 msgid "View..."
 msgstr "Toon..."
 
-#: src/wx/config_dialog.cc:1387
+#: src/wx/config_dialog.cc:1389
 msgid "Warnings"
 msgstr "Waarschuwingen"
 
@@ -1505,19 +1529,19 @@ msgstr "Schrijf naar"
 msgid "Written by"
 msgstr "Geschreven door"
 
-#: src/wx/subtitle_panel.cc:67
+#: src/wx/subtitle_panel.cc:68
 msgid "X Offset"
 msgstr "X-verschuiving"
 
-#: src/wx/subtitle_panel.cc:87
+#: src/wx/subtitle_panel.cc:88
 msgid "X Scale"
 msgstr "X-schaling"
 
-#: src/wx/subtitle_panel.cc:77
+#: src/wx/subtitle_panel.cc:78
 msgid "Y Offset"
 msgstr "Y-verschuiving"
 
-#: src/wx/subtitle_panel.cc:97
+#: src/wx/subtitle_panel.cc:98
 msgid "Y Scale"
 msgstr "Y-schaling"
 

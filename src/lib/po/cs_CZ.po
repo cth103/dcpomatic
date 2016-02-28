@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-02-05 09:51+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -297,7 +297,7 @@ msgstr "Nemohu dekódovat JPEG2000 soubor %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Nemohu dekódovat video soubor (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "nemohu najít informace o streamu"
@@ -940,7 +940,7 @@ msgstr "Server obdržel neočekávaný typ obrazu"
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nerozpoznaná vzorkovací frekvence audia (%1)"
 
@@ -1158,7 +1158,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "stále"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "neznáme"
 

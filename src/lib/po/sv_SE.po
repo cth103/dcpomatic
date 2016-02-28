@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -305,7 +305,7 @@ msgstr "Kunde inte avkoda JPEG2000-fil %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Kunde inte avkoda bildfil (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "kunde inte hitta information om strömmen"
@@ -957,7 +957,7 @@ msgstr "Oväntad bildtyp mottogs av server"
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Okänt ljudformat (%1)"
 
@@ -1178,7 +1178,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "stillbild"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "okänd"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -17,8 +17,8 @@ msgstr ""
 "X-Generator: Poedit 1.8.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/wx/subtitle_panel.cc:71 src/wx/subtitle_panel.cc:81
-#: src/wx/subtitle_panel.cc:91 src/wx/subtitle_panel.cc:101
+#: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
+#: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
 msgid "%"
 msgstr "%"
 
@@ -43,6 +43,10 @@ msgstr "(genstart DCP-o-matic for at se sprogændringerne)"
 #: src/wx/audio_mapping_view.cc:144
 msgid "-6dB"
 msgstr "-6dB"
+
+#: src/wx/rgba_colour_picker.cc:35
+msgid "255"
+msgstr ""
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -83,6 +87,14 @@ msgstr "3D, top/bund"
 #: src/wx/dcp_panel.cc:697
 msgid "4K"
 msgstr "4K"
+
+#: src/wx/image_subtitle_colour_dialog.cc:40
+msgid "<b>New colour</b>"
+msgstr ""
+
+#: src/wx/image_subtitle_colour_dialog.cc:37
+msgid "<b>Original colour</b>"
+msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -187,15 +199,20 @@ msgstr ""
 "billede. Du vil måske foretrække at sætte din DCP's container til Scope "
 "(2.39:1) i fanen \"DCP\"."
 
-#: src/wx/config_dialog.cc:1367
+#: src/wx/config_dialog.cc:1369
 msgid "Allow any DCP frame rate"
 msgstr "Tillad vilkårlig DCP-billedhastighed"
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/rgba_colour_picker.cc:32
+msgid "Alpha   0"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
 msgstr ""
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
+#: src/wx/timeline_labels_view.cc:34 src/wx/timeline_labels_view.cc:62
 msgid "Audio"
 msgstr "Lyd"
 
@@ -250,7 +267,7 @@ msgstr "Bund"
 msgid "Browse..."
 msgstr "Gennemse..."
 
-#: src/wx/subtitle_panel.cc:62
+#: src/wx/subtitle_panel.cc:63
 msgid "Burn subtitles into image"
 msgstr "Brænd undertekster ind i billedet"
 
@@ -288,7 +305,7 @@ msgstr "Annuller"
 msgid "Cannot reference this DCP.  "
 msgstr ""
 
-#: src/wx/dolby_doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:202
 msgid "Certificate downloaded"
 msgstr "Certifikat downloadet"
 
@@ -337,7 +354,7 @@ msgstr "Vælg fil med skrifttyper"
 msgid "Cinema and screen database file"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:31
+#: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
 msgstr ""
 
@@ -350,7 +367,7 @@ msgstr "Farvekonvertering"
 msgid "Component"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1391
+#: src/wx/config_dialog.cc:1393
 msgid "Config|Timing"
 msgstr "Konfig|Timing"
 
@@ -444,16 +461,16 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic lyd"
 
-#: src/wx/config_dialog.cc:1393
+#: src/wx/config_dialog.cc:1395
 msgid "Debug: decode"
 msgstr "Debug: decode"
 
-#: src/wx/config_dialog.cc:1397
+#: src/wx/config_dialog.cc:1399
 #, fuzzy
 msgid "Debug: email sending"
 msgstr "Debug: encode"
 
-#: src/wx/config_dialog.cc:1395
+#: src/wx/config_dialog.cc:1397
 msgid "Debug: encode"
 msgstr "Debug: encode"
 
@@ -566,7 +583,7 @@ msgstr "Krypteret"
 msgid "End"
 msgstr "Slut"
 
-#: src/wx/config_dialog.cc:1389
+#: src/wx/config_dialog.cc:1391
 msgid "Errors"
 msgstr "Fejl"
 
@@ -620,7 +637,7 @@ msgstr "Find manglende..."
 msgid "Fonts"
 msgstr "Skrifttyper"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:122
 msgid "Fonts..."
 msgstr "Skrifttyper..."
 
@@ -669,7 +686,7 @@ msgstr "Gainberegner"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain til indholdskanal %d i DCP-kanal %d"
 
-#: src/wx/config_dialog.cc:1385
+#: src/wx/config_dialog.cc:1387
 msgid "General"
 msgstr "Generelt"
 
@@ -789,7 +806,7 @@ msgstr "Nøgle"
 msgid "Keys"
 msgstr "Nøgler"
 
-#: src/wx/subtitle_panel.cc:106
+#: src/wx/subtitle_panel.cc:107
 msgid "Language"
 msgstr "Sprog"
 
@@ -817,11 +834,11 @@ msgstr ""
 msgid "Load..."
 msgstr "Indlæs"
 
-#: src/wx/config_dialog.cc:1379
+#: src/wx/config_dialog.cc:1381
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/config_dialog.cc:1376
+#: src/wx/config_dialog.cc:1378
 msgid "Log:"
 msgstr "Log:"
 
@@ -863,11 +880,11 @@ msgstr ""
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/wx/config_dialog.cc:1359
+#: src/wx/config_dialog.cc:1361
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maksimal JPEG2000-båndbredde"
 
-#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1363
+#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1365
 #: src/wx/dcp_panel.cc:668
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -940,11 +957,11 @@ msgstr ""
 msgid "Off"
 msgstr "Off"
 
-#: src/wx/config_dialog.cc:1371
+#: src/wx/config_dialog.cc:1373
 msgid "Only servers encode"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1403
+#: src/wx/config_dialog.cc:1405
 msgid "Open console window"
 msgstr ""
 
@@ -968,11 +985,11 @@ msgstr ""
 msgid "Outgoing mail server"
 msgstr "Udgående mail server"
 
-#: src/wx/subtitle_appearance_dialog.cc:35
+#: src/wx/text_subtitle_appearance_dialog.cc:35
 msgid "Outline"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:39
+#: src/wx/text_subtitle_appearance_dialog.cc:39
 msgid "Outline colour"
 msgstr ""
 
@@ -1090,7 +1107,7 @@ msgstr ""
 msgid "Red chromaticity"
 msgstr "Rød farvetone"
 
-#: src/wx/timeline_reels_view.cc:82
+#: src/wx/timeline_reels_view.cc:83
 #, c-format
 msgid "Reel %d"
 msgstr ""
@@ -1104,7 +1121,7 @@ msgstr "Fuld længde"
 msgid "Reels"
 msgstr ""
 
-#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
+#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:55
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
 msgstr ""
@@ -1303,7 +1320,7 @@ msgstr "Standard"
 msgid "Start"
 msgstr "Start"
 
-#: src/wx/subtitle_panel.cc:111
+#: src/wx/subtitle_panel.cc:112
 msgid "Stream"
 msgstr ""
 
@@ -1323,15 +1340,21 @@ msgstr "Undertekster"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Tekstningssprog (f.eks. FR)"
 
-#: src/wx/subtitle_appearance_dialog.cc:28
+#: src/wx/text_subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
+#: src/wx/image_subtitle_colour_dialog.cc:30
+#, fuzzy
+msgid "Subtitle colours"
+msgstr "Undertekster"
+
+#: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
+#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:235
+#: src/wx/about_dialog.cc:236
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1355,7 +1378,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:287
+#: src/wx/about_dialog.cc:288
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -1466,7 +1489,7 @@ msgstr "Brug bedste"
 msgid "Use preset"
 msgstr "Brug forudindstillede"
 
-#: src/wx/subtitle_panel.cc:58
+#: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Brug undertekster"
 
@@ -1474,7 +1497,8 @@ msgstr "Brug undertekster"
 msgid "User name"
 msgstr "Brugernavn"
 
-#: src/wx/dcp_panel.cc:109 src/wx/video_panel.cc:73
+#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:33
+#: src/wx/timeline_labels_view.cc:60 src/wx/video_panel.cc:73
 msgid "Video"
 msgstr "Video"
 
@@ -1486,11 +1510,11 @@ msgstr ""
 msgid "Video frame rate"
 msgstr "Videobilledhastighed"
 
-#: src/wx/subtitle_panel.cc:119
+#: src/wx/subtitle_panel.cc:120
 msgid "View..."
 msgstr "Se..."
 
-#: src/wx/config_dialog.cc:1387
+#: src/wx/config_dialog.cc:1389
 msgid "Warnings"
 msgstr "Advarsler"
 
@@ -1514,19 +1538,19 @@ msgstr "Skriv til"
 msgid "Written by"
 msgstr "Skrevet af"
 
-#: src/wx/subtitle_panel.cc:67
+#: src/wx/subtitle_panel.cc:68
 msgid "X Offset"
 msgstr "X-Offset"
 
-#: src/wx/subtitle_panel.cc:87
+#: src/wx/subtitle_panel.cc:88
 msgid "X Scale"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:77
+#: src/wx/subtitle_panel.cc:78
 msgid "Y Offset"
 msgstr "Y-Offset"
 
-#: src/wx/subtitle_panel.cc:97
+#: src/wx/subtitle_panel.cc:98
 msgid "Y Scale"
 msgstr ""
 

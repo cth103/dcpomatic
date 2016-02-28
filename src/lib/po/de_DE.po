@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-02-03 23:42+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -309,7 +309,7 @@ msgstr "Fehler beim Dekodieren der JPEG2000 Datei %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Fehler beim Dekodieren der Bild-Datei (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "Keine Spur-Information gefunden"
@@ -964,7 +964,7 @@ msgstr "Ungültiges Bildformat vom Server erhalten"
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Ton Sample Format (%1) nicht erkannt."
 
@@ -1182,7 +1182,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "Standbild"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "unbekannt"
 

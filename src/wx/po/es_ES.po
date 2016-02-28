@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2016-02-09 01:29-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7\n"
 
-#: src/wx/subtitle_panel.cc:71 src/wx/subtitle_panel.cc:81
-#: src/wx/subtitle_panel.cc:91 src/wx/subtitle_panel.cc:101
+#: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
+#: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
 msgid "%"
 msgstr "%"
 
@@ -41,6 +41,10 @@ msgstr "(reinicia DCP-o-matic para ver el cambio de idioma)"
 #: src/wx/audio_mapping_view.cc:144
 msgid "-6dB"
 msgstr "-6dB"
+
+#: src/wx/rgba_colour_picker.cc:35
+msgid "255"
+msgstr ""
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -81,6 +85,14 @@ msgstr "3D arriba/abajo"
 #: src/wx/dcp_panel.cc:697
 msgid "4K"
 msgstr "4K"
+
+#: src/wx/image_subtitle_colour_dialog.cc:40
+msgid "<b>New colour</b>"
+msgstr ""
+
+#: src/wx/image_subtitle_colour_dialog.cc:37
+msgid "<b>Original colour</b>"
+msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -186,15 +198,20 @@ msgstr ""
 "Scope (2.39:1). Puede que prefieras seleccionar el contenedor DCP en Scope "
 "(2.39:1) en la pestaña \"DCP\"."
 
-#: src/wx/config_dialog.cc:1367
+#: src/wx/config_dialog.cc:1369
 msgid "Allow any DCP frame rate"
 msgstr "Permitir cualquier velocidad de DCP"
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/rgba_colour_picker.cc:32
+msgid "Alpha   0"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
 msgstr "Apariencia…"
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
+#: src/wx/timeline_labels_view.cc:34 src/wx/timeline_labels_view.cc:62
 msgid "Audio"
 msgstr "Audio"
 
@@ -247,7 +264,7 @@ msgstr "Abajo"
 msgid "Browse..."
 msgstr "Explorar..."
 
-#: src/wx/subtitle_panel.cc:62
+#: src/wx/subtitle_panel.cc:63
 msgid "Burn subtitles into image"
 msgstr "Grabar subtítulos en la imagen"
 
@@ -285,7 +302,7 @@ msgstr "Cancelar"
 msgid "Cannot reference this DCP.  "
 msgstr "No se puede referencia este DCP."
 
-#: src/wx/dolby_doremi_certificate_panel.cc:128
+#: src/wx/dolby_doremi_certificate_panel.cc:202
 msgid "Certificate downloaded"
 msgstr "Certificado descargado"
 
@@ -333,7 +350,7 @@ msgstr "Elegir un fichero de fuente"
 msgid "Cinema and screen database file"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:31
+#: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
 msgstr "Color"
 
@@ -346,7 +363,7 @@ msgstr "Conversión de color"
 msgid "Component"
 msgstr "Componente"
 
-#: src/wx/config_dialog.cc:1391
+#: src/wx/config_dialog.cc:1393
 msgid "Config|Timing"
 msgstr "Configuración|Tiempo"
 
@@ -440,15 +457,15 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Audio DCP-o-matic"
 
-#: src/wx/config_dialog.cc:1393
+#: src/wx/config_dialog.cc:1395
 msgid "Debug: decode"
 msgstr "Depurar: descodificación"
 
-#: src/wx/config_dialog.cc:1397
+#: src/wx/config_dialog.cc:1399
 msgid "Debug: email sending"
 msgstr "Depurar: envío de correo"
 
-#: src/wx/config_dialog.cc:1395
+#: src/wx/config_dialog.cc:1397
 msgid "Debug: encode"
 msgstr "Depurar: codificación"
 
@@ -558,7 +575,7 @@ msgstr "Encriptado"
 msgid "End"
 msgstr "Fin"
 
-#: src/wx/config_dialog.cc:1389
+#: src/wx/config_dialog.cc:1391
 msgid "Errors"
 msgstr "Errores"
 
@@ -611,7 +628,7 @@ msgstr "Buscar ausentes..."
 msgid "Fonts"
 msgstr "Fuentes"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:122
 msgid "Fonts..."
 msgstr "Fuentes…"
 
@@ -661,7 +678,7 @@ msgstr "Calculadora de ganancia"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Ganancia del canal %d en el canal %d del DCP"
 
-#: src/wx/config_dialog.cc:1385
+#: src/wx/config_dialog.cc:1387
 msgid "General"
 msgstr "General"
 
@@ -779,7 +796,7 @@ msgstr "Llave"
 msgid "Keys"
 msgstr "Llaves"
 
-#: src/wx/subtitle_panel.cc:106
+#: src/wx/subtitle_panel.cc:107
 msgid "Language"
 msgstr "Idioma"
 
@@ -807,11 +824,11 @@ msgstr "Hacer lineal la curva de gamma de entrada para valores bajos"
 msgid "Load..."
 msgstr "Cargar..."
 
-#: src/wx/config_dialog.cc:1379
+#: src/wx/config_dialog.cc:1381
 msgid "Log"
 msgstr "Registro"
 
-#: src/wx/config_dialog.cc:1376
+#: src/wx/config_dialog.cc:1378
 msgid "Log:"
 msgstr "Registro:"
 
@@ -852,11 +869,11 @@ msgstr "Luminosidad de referencia (p.e. 14fl)"
 msgid "Matrix"
 msgstr "Matriz"
 
-#: src/wx/config_dialog.cc:1359
+#: src/wx/config_dialog.cc:1361
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Ancho de banda JPEG2000 máximo"
 
-#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1363
+#: src/wx/config_dialog.cc:450 src/wx/config_dialog.cc:1365
 #: src/wx/dcp_panel.cc:668
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -928,11 +945,11 @@ msgstr "Fuente normal"
 msgid "Off"
 msgstr "Off"
 
-#: src/wx/config_dialog.cc:1371
+#: src/wx/config_dialog.cc:1373
 msgid "Only servers encode"
 msgstr "Sólo los servidores codifican"
 
-#: src/wx/config_dialog.cc:1403
+#: src/wx/config_dialog.cc:1405
 msgid "Open console window"
 msgstr "Abrir la ventana de la consola"
 
@@ -956,11 +973,11 @@ msgstr "Otros dispositivos seguros"
 msgid "Outgoing mail server"
 msgstr "Servidor de salida de correo"
 
-#: src/wx/subtitle_appearance_dialog.cc:35
+#: src/wx/text_subtitle_appearance_dialog.cc:35
 msgid "Outline"
 msgstr "Contorno"
 
-#: src/wx/subtitle_appearance_dialog.cc:39
+#: src/wx/text_subtitle_appearance_dialog.cc:39
 msgid "Outline colour"
 msgstr "Color del contorno"
 
@@ -1077,7 +1094,7 @@ msgstr "Banda roja"
 msgid "Red chromaticity"
 msgstr "Cromaticidad roja"
 
-#: src/wx/timeline_reels_view.cc:82
+#: src/wx/timeline_reels_view.cc:83
 #, c-format
 msgid "Reel %d"
 msgstr "Bobina %d"
@@ -1090,7 +1107,7 @@ msgstr "Duración de la bobina"
 msgid "Reels"
 msgstr "Bobinas"
 
-#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:54
+#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:55
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
 msgstr "Referenciar a un DCP existente"
@@ -1286,7 +1303,7 @@ msgstr "Estandard"
 msgid "Start"
 msgstr "Inicio"
 
-#: src/wx/subtitle_panel.cc:111
+#: src/wx/subtitle_panel.cc:112
 msgid "Stream"
 msgstr "Flujo"
 
@@ -1306,15 +1323,21 @@ msgstr "Subtítulos"
 msgid "Subtitle Language (e.g. FR)"
 msgstr "Idioma del subtítulo (ej. EN)"
 
-#: src/wx/subtitle_appearance_dialog.cc:28
+#: src/wx/text_subtitle_appearance_dialog.cc:28
 msgid "Subtitle appearance"
 msgstr "Apariencia del subtítulo"
 
-#: src/wx/subtitle_panel.cc:46 src/wx/subtitle_view.cc:32
+#: src/wx/image_subtitle_colour_dialog.cc:30
+#, fuzzy
+msgid "Subtitle colours"
+msgstr "Color del contorno"
+
+#: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
+#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:235
+#: src/wx/about_dialog.cc:236
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1338,7 +1361,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:287
+#: src/wx/about_dialog.cc:288
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -1449,7 +1472,7 @@ msgstr "Usar la mejor"
 msgid "Use preset"
 msgstr "Usar por defecto"
 
-#: src/wx/subtitle_panel.cc:58
+#: src/wx/subtitle_panel.cc:59
 msgid "Use subtitles"
 msgstr "Usar subtítulos"
 
@@ -1457,7 +1480,8 @@ msgstr "Usar subtítulos"
 msgid "User name"
 msgstr "Nombre de usuario"
 
-#: src/wx/dcp_panel.cc:109 src/wx/video_panel.cc:73
+#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:33
+#: src/wx/timeline_labels_view.cc:60 src/wx/video_panel.cc:73
 msgid "Video"
 msgstr "Vídeo"
 
@@ -1469,11 +1493,11 @@ msgstr "Forma de de onda del vídeo"
 msgid "Video frame rate"
 msgstr "Velocidad de imagen"
 
-#: src/wx/subtitle_panel.cc:119
+#: src/wx/subtitle_panel.cc:120
 msgid "View..."
 msgstr "Ver..."
 
-#: src/wx/config_dialog.cc:1387
+#: src/wx/config_dialog.cc:1389
 msgid "Warnings"
 msgstr "Alertas"
 
@@ -1497,19 +1521,19 @@ msgstr "Escribe a"
 msgid "Written by"
 msgstr "Escrito por"
 
-#: src/wx/subtitle_panel.cc:67
+#: src/wx/subtitle_panel.cc:68
 msgid "X Offset"
 msgstr "Desplazamiento en X"
 
-#: src/wx/subtitle_panel.cc:87
+#: src/wx/subtitle_panel.cc:88
 msgid "X Scale"
 msgstr "Redimensión X"
 
-#: src/wx/subtitle_panel.cc:77
+#: src/wx/subtitle_panel.cc:78
 msgid "Y Offset"
 msgstr "Desplazamiento en Y"
 
-#: src/wx/subtitle_panel.cc:97
+#: src/wx/subtitle_panel.cc:98
 msgid "Y Scale"
 msgstr "Redimensión Y"
 

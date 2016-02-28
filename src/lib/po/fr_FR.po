@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 00:24+0000\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
 "PO-Revision-Date: 2015-11-13 20:33+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -305,7 +305,7 @@ msgstr "Ne parvient pas à décoder le fichier JPEG2000 %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Ne parvient pas à décoder le fichier image (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:357
+#: src/lib/ffmpeg_examiner.cc:374
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "information du flux introuvable"
@@ -952,7 +952,7 @@ msgstr "Type d'image non conforme reçu par le serveur"
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: src/lib/ffmpeg_decoder.cc:251
+#: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Échantillonnage audio (%1) inconnu"
 
@@ -1170,7 +1170,7 @@ msgstr "sRGB"
 msgid "still"
 msgstr "fixe"
 
-#: src/lib/ffmpeg_examiner.cc:324
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "Inconnu"
 
