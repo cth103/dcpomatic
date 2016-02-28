@@ -96,7 +96,15 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 				continue;
 			}
 
-			if (!boost::filesystem::is_regular_file (i->path()) || !valid_image_file (i->path())) {
+			if (!boost::filesystem::is_regular_file(i->path())) {
+				/* Ignore things which aren't files (probably directories) */
+				continue;
+			}
+
+			if (!valid_image_file (i->path())) {
+				/* We have a normal file which isn't an image; assume we are looking
+				   at a DCP.
+				*/
 				is_dcp = true;
 			}
 

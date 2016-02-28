@@ -1,5 +1,8 @@
 2016-02-28  Carl Hetherington  <cth@carlh.net>
 
+	* Ignore subdirectories when deciding whether a folder
+	contains an image sequence or a DCP.
+
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
 2016-02-27  Carl Hetherington  <cth@carlh.net>
