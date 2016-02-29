@@ -49,7 +49,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, bool fast)
 	, _dcp_content (c)
 {
 	dcp::DCP dcp (c->directory ());
-	dcp.read ();
+	dcp.read (false, 0, true);
 	if (c->kdm ()) {
 		dcp.add (dcp::DecryptedKDM (c->kdm().get (), Config::instance()->decryption_chain()->key().get ()));
 	}

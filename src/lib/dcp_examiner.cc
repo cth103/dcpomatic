@@ -51,7 +51,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	, _kdm_valid (false)
 {
 	dcp::DCP dcp (content->directory ());
-	dcp.read ();
+	dcp.read (false, 0, true);
 
 	if (content->kdm ()) {
 		dcp.add (dcp::DecryptedKDM (content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
