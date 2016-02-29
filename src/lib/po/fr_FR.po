@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-28 00:29+0000\n"
-"PO-Revision-Date: 2015-11-13 20:33+0100\n"
+"PO-Revision-Date: 2016-02-29 18:26+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -68,7 +68,7 @@ msgstr "Analyse audio"
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -152,9 +152,8 @@ msgid "Centre"
 msgstr "Centre"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
-msgstr "Canaux Audio"
+msgstr "Canaux"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -195,9 +194,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Le DCP et la source ont la même cadence image.\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Cadence du contenu"
+msgstr "Cadence du contenu audio"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -306,9 +304,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Ne parvient pas à décoder le fichier image (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "information du flux introuvable"
+msgstr "format du pixel pour la vidéo non determiné"
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -352,28 +349,27 @@ msgstr "Rognage de %1x%2"
 
 #: src/lib/util.cc:495
 msgid "D-BOX primary"
-msgstr ""
+msgstr "D-BOX primaire"
 
 #: src/lib/util.cc:496
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "D-BOX secondaire"
 
 #: src/lib/film.cc:1324
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1325
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
 msgstr "Sous-titres XML du DCP"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Cadence du contenu"
+msgstr "Cadence du DCP"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -467,10 +463,9 @@ msgid "Encoding image data"
 msgstr "encodage des données image"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr ""
-"Erreur dans le fichier SubRip: lecture de %1 alors que %2 était attendu"
+"Erreur dans le fichier sous-titres : lecture de %1 alors que %2 était attendu"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -489,9 +484,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "L'authentification du serveur (%1) a échouée"
 
 #: src/lib/emailer.cc:212
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "Echec d'envoi email de kdm (delai dépassé)"
+msgstr "Echec d'envoi email (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -514,9 +508,8 @@ msgid "Flat"
 msgstr "Flat"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Cadence d'images"
+msgstr "Cadence"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -532,19 +525,19 @@ msgstr "Full frame"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Pleine durée en frames audio à la cadence du DCP"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Pleine durée en frames audio à la cadence du contenu"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Pleine durée en images vidéo à la cadence du DCP"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Pleine durée en images vidéo à la cadence du contenu"
 
 #: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
@@ -572,7 +565,7 @@ msgstr "Débruiteur 3D haute qualité"
 
 #: src/lib/audio_content.cc:308
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -622,7 +615,7 @@ msgstr "Arrière gauche"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Durée"
 
 #: src/lib/film.cc:1315
 msgid "Lfe"
@@ -686,7 +679,7 @@ msgstr "Désentrelaceur par compensation de mouvement"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "Aucun serveur mail configuré dans les préférences"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -769,13 +762,12 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:297
-#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
-"Les durées de bobines dans le projet diffèrent de celles du DCP. Choisissez "
-"de créer une bobine par contenu vidéo. "
+"Les durées de bobines dans le projet diffèrent de celles du DCP; veuillez "
+"scinder en bobines par contenu vidéo. "
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -832,7 +824,7 @@ msgstr "Short"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -859,9 +851,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/text_subtitle_content.cc:95
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[sous-titres]"
+msgstr "Sous-titres textes"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -974,7 +965,7 @@ msgstr "Sans titre"
 
 #: src/lib/util.cc:497 src/lib/util.cc:498
 msgid "Unused"
-msgstr ""
+msgstr "Non-utilisé"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
@@ -1005,9 +996,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "vidéo"
+msgstr "Vidéo"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"
