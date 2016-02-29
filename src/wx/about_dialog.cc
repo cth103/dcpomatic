@@ -194,6 +194,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Sylvain Mielle"));
 	supported_by.Add (wxT ("Howard Molton"));
 	supported_by.Add (wxT ("Lindsay Morris"));
+	supported_by.Add (wxT ("NT Next"));
 	supported_by.Add (wxT ("David Nedrow"));
 	supported_by.Add (wxT ("Casablanca Nuernberg"));
 	supported_by.Add (wxT ("Tim O'Brien"));
@@ -244,6 +245,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Adam Colt"));
 	tested_by.Add (wxT ("John Convertino"));
 	tested_by.Add (wxT ("Andreas Eli"));
+	tested_by.Add (wxT ("Leo Enticknap"));
 	tested_by.Add (wxT ("Jose Angel Velasco Fernandez"));
 	tested_by.Add (wxT ("Maurizio Giampà"));
 	tested_by.Add (wxT ("Luke Granger-Brown"));
@@ -270,6 +272,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Will Meadows"));
 	tested_by.Add (wxT ("Brad Miller"));
 	tested_by.Add (wxT ("Ash Mitchell"));
+	tested_by.Add (wxT ("Rob van Nieuwkerk"));
 	tested_by.Add (wxT ("Anders Nordentoft-Madsen"));
 	tested_by.Add (wxT ("Mauro Ottonello"));
 	tested_by.Add (wxT ("Peter Puchner"));
