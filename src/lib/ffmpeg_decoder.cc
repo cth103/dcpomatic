@@ -497,8 +497,16 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	vector<RGBA> mapped_palette (rect->nb_colors);
 	for (int i = 0; i < rect->nb_colors; ++i) {
 		RGBA c ((palette[i] & 0xff0000) >> 16, (palette[i] & 0xff00) >> 8, palette[i] & 0xff, (palette[i] & 0xff000000) >> 24);
-		DCPOMATIC_ASSERT (colour_map.find(c) != colour_map.end());
-		mapped_palette[i] = colour_map[c];
+		map<RGBA, RGBA>::const_iterator j = colour_map.find (c);
+		if (j != colour_map.end ()) {
+			mapped_palette[i] = j->second;
+		} else {
+			/* This colour was not found in the FFmpegSubtitleStream's colour map; probably because
+			   it is from a project that was created before this stuff was added.  Just use the
+			   colour straight from the original palette.
+			*/
+			mapped_palette[i] = c;
+		}
 	}
 
 	/* Start of the output data */
