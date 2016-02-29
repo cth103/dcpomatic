@@ -28,6 +28,10 @@
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "util.h"
+#include "film.h"
+#include "log_entry.h"
+#include "log.h"
+#include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/algorithm/string.hpp>
@@ -35,6 +39,8 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 /** Create a Content object from an XML node.
  *  @param film Film that the content will be in.
@@ -79,6 +85,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 
 	if (boost::filesystem::is_directory (path)) {
 
+		LOG_GENERAL ("Look in directory %1", path);
+
 		if (boost::filesystem::is_empty (path)) {
 			return shared_ptr<Content> ();
 		}
@@ -91,13 +99,17 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		int read = 0;
 		for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i) {
 
+			LOG_GENERAL ("Checking file %1", i->path());
+
 			if (boost::starts_with (i->path().leaf().string(), "._")) {
 				/* We ignore these files */
+				LOG_GENERAL ("Ignored %1 (starts with {._})", i->path());
 				continue;
 			}
 
 			if (!boost::filesystem::is_regular_file(i->path())) {
 				/* Ignore things which aren't files (probably directories) */
+				LOG_GENERAL ("Ignored %1 (not a regular file)", i->path());
 				continue;
 			}
 
@@ -105,6 +117,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 				/* We have a normal file which isn't an image; assume we are looking
 				   at a DCP.
 				*/
+				LOG_GENERAL ("It's a DCP because of %1", i->path());
 				is_dcp = true;
 			}
 
