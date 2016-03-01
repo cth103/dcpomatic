@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-28 00:29+0000\n"
+"POT-Creation-Date: 2016-03-01 22:37+0000\n"
 "PO-Revision-Date: 2016-02-04 00:57+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -141,17 +141,17 @@ msgstr "KDM hinzufügen..."
 msgid "Add Screen..."
 msgstr "Saal hinzufügen..."
 
-#: src/wx/content_panel.cc:84
+#: src/wx/content_panel.cc:85
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
 msgstr "Einzelbildsequenz / DCP hinzufügen"
 
-#: src/wx/content_panel.cc:79
+#: src/wx/content_panel.cc:80
 msgid "Add file(s)..."
 msgstr "Datei(en) hinzufügen..."
 
-#: src/wx/content_panel.cc:83
+#: src/wx/content_panel.cc:84
 msgid "Add folder..."
 msgstr "Einzelbildsequenz / DCP hinzufügen..."
 
@@ -159,7 +159,7 @@ msgstr "Einzelbildsequenz / DCP hinzufügen..."
 msgid "Add image sequence"
 msgstr "Einzelbildsequenz hinzufügen"
 
-#: src/wx/content_panel.cc:80
+#: src/wx/content_panel.cc:81
 msgid "Add video, image or sound files to the film."
 msgstr ""
 "Einzelne oder mehrere Video-, (Stand-)Bild-, Ton- oder Untertiteldateien "
@@ -218,7 +218,7 @@ msgid "Appearance..."
 msgstr "Darstellung..."
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
-#: src/wx/timeline_labels_view.cc:34 src/wx/timeline_labels_view.cc:62
+#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:63
 msgid "Audio"
 msgstr "Ton"
 
@@ -340,11 +340,11 @@ msgstr "Beim Start auf Updates überprüfen."
 msgid "Choose a file"
 msgstr "Datei auswählen"
 
-#: src/wx/content_panel.cc:277
+#: src/wx/content_panel.cc:278
 msgid "Choose a file or files"
 msgstr "Eine oder mehrere Dateien auswählen"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:306
 msgid "Choose a folder"
 msgstr "Bildsequenz oder DCP-Ordner wählen"
 
@@ -531,7 +531,7 @@ msgstr "Details..."
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
-#: src/wx/content_panel.cc:95
+#: src/wx/content_panel.cc:96
 msgid "Down"
 msgstr "Nach unten"
 
@@ -848,7 +848,7 @@ msgstr "In die Log-Datei schreiben:"
 msgid "Loudness range %.2f LU"
 msgstr "Lautheitsumfang %.2f LU"
 
-#: src/wx/content_panel.cc:494
+#: src/wx/content_panel.cc:503
 msgid "MISSING: "
 msgstr "FEHLT:"
 
@@ -889,11 +889,11 @@ msgstr "Maximale JPEG2000 Datenrate (>250 - Vorsicht!)"
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/content_panel.cc:92
+#: src/wx/content_panel.cc:93
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Den ausgewählten Inhalt nach vorne rücken."
 
-#: src/wx/content_panel.cc:96
+#: src/wx/content_panel.cc:97
 msgid "Move the selected piece of content later in the film."
 msgstr "Den ausgewählten Inhalt nach hinten rücken."
 
@@ -909,7 +909,7 @@ msgstr "Meine Dokumente"
 msgid "My problem is"
 msgstr "Ich habe folgendes Problem:"
 
-#: src/wx/content_panel.cc:498
+#: src/wx/content_panel.cc:507
 msgid "NEEDS KDM: "
 msgstr "Benötigt KDM:"
 
@@ -935,7 +935,7 @@ msgstr "Kein DCP ausgewählt."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Der Ton von Kanal %d wird nicht an das DCP Kanal %d weitergegeben."
 
-#: src/wx/content_panel.cc:316
+#: src/wx/content_panel.cc:325
 msgid "No content found in this folder."
 msgstr "Keine Inhalte in diesem Ordner."
 
@@ -964,7 +964,7 @@ msgstr "Nur Encoding Server komprimieren (keine lokale J2C Komprimierung!)"
 msgid "Open console window"
 msgstr "Konsole öffnen"
 
-#: src/wx/content_panel.cc:100
+#: src/wx/content_panel.cc:101
 msgid "Open the timeline for the film."
 msgstr "Die Zeitleistendarstellung öffnen."
 
@@ -1124,7 +1124,7 @@ msgid "Refer to existing DCP"
 msgstr "Aus bestehendem DCP einbinden"
 
 #: src/wx/config_dialog.cc:701 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:87 src/wx/editable_list.h:83
+#: src/wx/content_panel.cc:88 src/wx/editable_list.h:83
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -1136,7 +1136,7 @@ msgstr "Kino entfernen"
 msgid "Remove Screen"
 msgstr "Saal entfernen"
 
-#: src/wx/content_panel.cc:88
+#: src/wx/content_panel.cc:89
 msgid "Remove the selected piece of content from the film."
 msgstr "Den ausgewählten Inhalt entfernen."
 
@@ -1344,11 +1344,11 @@ msgid "Subtitle colours"
 msgstr "Umrissfarbe"
 
 #: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
-#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
+#: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:62
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:236
+#: src/wx/about_dialog.cc:238
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1372,7 +1372,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:288
+#: src/wx/about_dialog.cc:292
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -1417,7 +1417,7 @@ msgstr "Zeit"
 msgid "Timeline"
 msgstr "Zeitleiste/Reels"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:100
 msgid "Timeline..."
 msgstr "Zeitleiste..."
 
@@ -1459,7 +1459,7 @@ msgstr "Spitzenwert (True peak) ist %.2fdB"
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/content_panel.cc:91
+#: src/wx/content_panel.cc:92
 msgid "Up"
 msgstr "Nach oben"
 
@@ -1491,8 +1491,8 @@ msgstr "Untertitel verwenden"
 msgid "User name"
 msgstr "Benutzer Name"
 
-#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:33
-#: src/wx/timeline_labels_view.cc:60 src/wx/video_panel.cc:73
+#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:34
+#: src/wx/timeline_labels_view.cc:61 src/wx/video_panel.cc:73
 msgid "Video"
 msgstr "Bild"
 

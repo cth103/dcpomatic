@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-28 00:29+0000\n"
+"POT-Creation-Date: 2016-03-01 22:37+0000\n"
 "PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -141,7 +141,7 @@ msgstr "Adicionar KDM..."
 msgid "Add Screen..."
 msgstr "Adicionar Ecrã..."
 
-#: src/wx/content_panel.cc:84
+#: src/wx/content_panel.cc:85
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
@@ -149,11 +149,11 @@ msgstr ""
 "Adicionar uma pasta com ficheiros de imagem (que serão usadas como uma "
 "sequência de imagens) ou DCP."
 
-#: src/wx/content_panel.cc:79
+#: src/wx/content_panel.cc:80
 msgid "Add file(s)..."
 msgstr "Adicionar ficheiro(s)..."
 
-#: src/wx/content_panel.cc:83
+#: src/wx/content_panel.cc:84
 msgid "Add folder..."
 msgstr "Adicionar pasta..."
 
@@ -161,7 +161,7 @@ msgstr "Adicionar pasta..."
 msgid "Add image sequence"
 msgstr "Adicionar sequência de imagens"
 
-#: src/wx/content_panel.cc:80
+#: src/wx/content_panel.cc:81
 msgid "Add video, image or sound files to the film."
 msgstr "Adicionar ficheiros de video, imagem ou som ao filme."
 
@@ -215,7 +215,7 @@ msgid "Appearance..."
 msgstr ""
 
 #: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
-#: src/wx/timeline_labels_view.cc:34 src/wx/timeline_labels_view.cc:62
+#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:63
 msgid "Audio"
 msgstr "Audio"
 
@@ -339,11 +339,11 @@ msgstr "Pesquisar por actualizações no arranque"
 msgid "Choose a file"
 msgstr "Seleccionar ficheiro"
 
-#: src/wx/content_panel.cc:277
+#: src/wx/content_panel.cc:278
 msgid "Choose a file or files"
 msgstr "Seleccionar ficheiro(s)"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:305
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:306
 msgid "Choose a folder"
 msgstr "Seleccionar pasta"
 
@@ -531,7 +531,7 @@ msgstr "Pormenores..."
 msgid "Dolby / Doremi"
 msgstr "Doremi"
 
-#: src/wx/content_panel.cc:95
+#: src/wx/content_panel.cc:96
 msgid "Down"
 msgstr "Mover para baixo"
 
@@ -851,7 +851,7 @@ msgstr "Registo:"
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:494
+#: src/wx/content_panel.cc:503
 msgid "MISSING: "
 msgstr "EM FALTA:"
 
@@ -893,12 +893,12 @@ msgstr "Largura de banda JPEG2000 máxima"
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/content_panel.cc:92
+#: src/wx/content_panel.cc:93
 msgid "Move the selected piece of content earlier in the film."
 msgstr ""
 "Mover o fragmento de conteúdo seleccionado para o um ponto anterior do filme."
 
-#: src/wx/content_panel.cc:96
+#: src/wx/content_panel.cc:97
 msgid "Move the selected piece of content later in the film."
 msgstr ""
 "Mover o fragmento de conteúdo seleccionado para o um ponto posterior do "
@@ -916,7 +916,7 @@ msgstr "Os meus documentos"
 msgid "My problem is"
 msgstr "O meu problema é"
 
-#: src/wx/content_panel.cc:498
+#: src/wx/content_panel.cc:507
 msgid "NEEDS KDM: "
 msgstr "NECESSITA DE KDM:"
 
@@ -942,7 +942,7 @@ msgstr ""
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Não será passado audio do canal de conteúdo %d para o canal DCP %d."
 
-#: src/wx/content_panel.cc:316
+#: src/wx/content_panel.cc:325
 msgid "No content found in this folder."
 msgstr "Não foi encontrado conteúdo nesta pasta."
 
@@ -972,7 +972,7 @@ msgstr "Apenas os servidores codificam"
 msgid "Open console window"
 msgstr "Abrir janela da consola"
 
-#: src/wx/content_panel.cc:100
+#: src/wx/content_panel.cc:101
 msgid "Open the timeline for the film."
 msgstr "Abrir linha de tempo do filme."
 
@@ -1135,7 +1135,7 @@ msgid "Refer to existing DCP"
 msgstr "Referido no DCP presente"
 
 #: src/wx/config_dialog.cc:701 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:87 src/wx/editable_list.h:83
+#: src/wx/content_panel.cc:88 src/wx/editable_list.h:83
 msgid "Remove"
 msgstr "Remover"
 
@@ -1147,7 +1147,7 @@ msgstr "Remover Cinema"
 msgid "Remove Screen"
 msgstr "Remover Ecrã"
 
-#: src/wx/content_panel.cc:88
+#: src/wx/content_panel.cc:89
 msgid "Remove the selected piece of content from the film."
 msgstr "Remover o fragmento de conteúdo seleccionado do filme."
 
@@ -1358,11 +1358,11 @@ msgid "Subtitle colours"
 msgstr "Delinear conteúdo"
 
 #: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
-#: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:61
+#: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:62
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:236
+#: src/wx/about_dialog.cc:238
 msgid "Supported by"
 msgstr "Apoiado por "
 
@@ -1386,7 +1386,7 @@ msgstr "Território (e.g. PT)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:288
+#: src/wx/about_dialog.cc:292
 msgid "Tested by"
 msgstr "Testado por"
 
@@ -1431,7 +1431,7 @@ msgstr "Duração"
 msgid "Timeline"
 msgstr "Linha de tempo"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:100
 msgid "Timeline..."
 msgstr "Linha de tempo..."
 
@@ -1473,7 +1473,7 @@ msgstr "Pico de %.2fdB"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/wx/content_panel.cc:91
+#: src/wx/content_panel.cc:92
 msgid "Up"
 msgstr "Mover para cima"
 
@@ -1505,8 +1505,8 @@ msgstr "Usar legendas"
 msgid "User name"
 msgstr "Nome de utilizador"
 
-#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:33
-#: src/wx/timeline_labels_view.cc:60 src/wx/video_panel.cc:73
+#: src/wx/dcp_panel.cc:109 src/wx/timeline_labels_view.cc:34
+#: src/wx/timeline_labels_view.cc:61 src/wx/video_panel.cc:73
 msgid "Video"
 msgstr "Vídeo"
 
