@@ -201,6 +201,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Jerome Cohen Olivar"));
 	supported_by.Add (wxT ("Kevin Orman"));
 	supported_by.Add (wxT ("Rui Pereira"));
+	supported_by.Add (wxT ("Denis Postle"));
 	supported_by.Add (wxT ("Aditya Pratama"));
 	supported_by.Add (wxT ("Ceridwen Productions"));
 	supported_by.Add (wxT ("Ivan Pullman"));
