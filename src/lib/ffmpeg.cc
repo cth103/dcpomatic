@@ -288,8 +288,9 @@ FFmpeg::subtitle_id (AVSubtitle const & sub)
 	return digester.get ();
 }
 
+/** @return true if sub starts a new image subtitle */
 bool
-FFmpeg::subtitle_is_image (AVSubtitle const & sub)
+FFmpeg::subtitle_starts_image (AVSubtitle const & sub)
 {
 	bool image = false;
 	bool text = false;

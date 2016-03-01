@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ protected:
 
 	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const & sub);
 	static std::string subtitle_id (AVSubtitle const & sub);
-	static bool subtitle_is_image (AVSubtitle const & sub);
+	static bool subtitle_starts_image (AVSubtitle const & sub);
 
 	boost::shared_ptr<const FFmpegContent> _ffmpeg_content;
 

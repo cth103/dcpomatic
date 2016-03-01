@@ -1,3 +1,8 @@
+2016-03-01  Carl Hetherington  <cth@carlh.net>
+
+	* Fix hang / slowdown when previewing subtitles in some
+	cases (#812).
+
 2016-02-29  Carl Hetherington  <cth@carlh.net>
 
 	* Updated fr_FR translation from Thierry Journet.
