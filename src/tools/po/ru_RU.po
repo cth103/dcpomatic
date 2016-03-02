@@ -3,15 +3,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 22:37+0000\n"
-"PO-Revision-Date: 2016-01-07 12:19+0200\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
+"PO-Revision-Date: 2016-03-02 09:26+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -51,7 +51,7 @@ msgstr "&Задачи"
 
 #: src/tools/dcpomatic.cc:801
 msgid "&Make DCP\tCtrl-M"
-msgstr "&Собрать DCP\tCtrl-M"
+msgstr "&Сделать DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:773
 msgid "&Open...\tCtrl-O"
@@ -137,7 +137,7 @@ msgstr "Не удалось загрузить проект %1 (%2)"
 #: src/tools/dcpomatic.cc:444
 #, c-format
 msgid "Could not make DCP: %s"
-msgstr "Не удалось собрать DCP: %s"
+msgstr "Не удалось сделать DCP: %s"
 
 #: src/tools/dcpomatic.cc:297 src/tools/dcpomatic_batch.cc:136
 #, c-format

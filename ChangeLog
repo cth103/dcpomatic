@@ -1,5 +1,7 @@
 2016-03-02  c.hetherington  <cth@carlh.net>
 
+	* Updated ru_RU translation from Igor Voytovich.
+
 	* Add configurable option to disable EBUR128
 	analysis.
 

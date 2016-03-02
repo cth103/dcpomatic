@@ -3,15 +3,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 22:37+0000\n"
-"PO-Revision-Date: 2016-01-06 19:34+0200\n"
+"POT-Creation-Date: 2016-02-28 00:29+0000\n"
+"PO-Revision-Date: 2016-03-02 09:09+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -66,7 +66,7 @@ msgstr "Анализ аудио"
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "Аудио"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -150,9 +150,8 @@ msgid "Centre"
 msgstr "Центральный"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
-msgstr "Аудиоканалы"
+msgstr "Каналы"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -160,17 +159,17 @@ msgstr "Проверка данных изображения"
 
 #: src/lib/ffmpeg_content.cc:463
 msgid "Colour primaries"
-msgstr "Цветовые основы"
+msgstr "Основные цвета"
 
 #: src/lib/ffmpeg_content.cc:408 src/lib/ffmpeg_content.cc:415
 #: src/lib/ffmpeg_content.cc:422 src/lib/ffmpeg_content.cc:432
 #: src/lib/ffmpeg_content.cc:437 src/lib/ffmpeg_content.cc:442
 msgid "Colour range"
-msgstr "Цветовой диапазон"
+msgstr "Цветовая гамма"
 
 #: src/lib/ffmpeg_content.cc:485
 msgid "Colour transfer characteristic"
-msgstr "Характеристика цветового перехода"
+msgstr "Характеристика цветопередачи"
 
 #: src/lib/ffmpeg_content.cc:502
 msgid "Colourspace"
@@ -193,9 +192,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "У контента и DCP одинаковая частота кадров.\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Частота кадров контента:"
+msgstr "Частота кадров аудио-контента:"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -308,9 +306,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Не удалось декодировать изображение (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "не удалось найти информацию о потоке"
+msgstr "Не удалось найти формат пикселя видео."
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -373,9 +370,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML субтитры"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Частота кадров контента:"
+msgstr "Частота кадров DCP:"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -470,9 +466,8 @@ msgid "Encoding image data"
 msgstr "Кодирование данных изображения"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Ошибка в SubRip-файле: найдено %1, в то время как ожидается %2"
+msgstr "Ошибка в файле субтитров: найдено %1, в то время как ожидается %2"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -515,9 +510,8 @@ msgid "Flat"
 msgstr "Flat (1998x1080)"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Частота кадров видео"
+msgstr "Частота кадров"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -533,19 +527,19 @@ msgstr "FULL (2048x1080)"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Полная длина аудио-кадров на скорости DCP"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Полная длина аудио-кадров на скорости контента"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Полная длина видео-кадров на скорости DCP"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Полная длина видео-кадров на скорости контента"
 
 #: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
@@ -573,7 +567,7 @@ msgstr "Высококачественный подавитель шума 3D"
 
 #: src/lib/audio_content.cc:308
 msgid "Hz"
-msgstr ""
+msgstr "Гц"
 
 #: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -623,7 +617,7 @@ msgstr "Левый surround"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Длительность"
 
 #: src/lib/film.cc:1315
 msgid "Lfe"
@@ -687,7 +681,7 @@ msgstr "Диентерлейсер компенсации движения"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "Не настроен почтовый сервер в меню \"Настройки...\""
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -770,13 +764,12 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:297
-#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
-"Длительность катушки в проекте отличается от длительности в DCP; установите "
-"режим катушки \"Разделять по видео-контенту\""
+"Длительности бобин в проекте отличаются от таковых в DCP; установите режим "
+"бобины \"Разделять по видео-контенту\"."
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -833,7 +826,7 @@ msgstr "SHR (Короткометражный фильм)"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -860,17 +853,16 @@ msgid "Test"
 msgstr "TST (Тестовый)"
 
 #: src/lib/text_subtitle_content.cc:95
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[субтитры]"
+msgstr "Текстовые субтитры"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
-msgstr "Во всех катушках данного DCP отсутствует звук."
+msgstr "Во всех бобинах данного DCP отсутствует звук."
 
 #: src/lib/dcp_content.cc:337
 msgid "The DCP does not have subtitles in all reels."
-msgstr "Во всех катушках данного DCP отсутствуют субтитры."
+msgstr "Во всех бобинах данного DCP отсутствуют субтитры."
 
 #: src/lib/dcp_examiner.cc:134
 msgid ""
@@ -1008,9 +1000,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "Размер видео"
+msgstr "Видео"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"
