@@ -194,6 +194,12 @@ private:
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		++r;
 
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+		_analyse_ebur128 = new wxCheckBox (_panel, wxID_ANY, _("Find integrated loudness, true peak and loudness range when analysing audio"));
+		table->Add (_analyse_ebur128, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		++r;
+#endif
+
 		_automatic_audio_analysis = new wxCheckBox (_panel, wxID_ANY, _("Automatically analyse content audio"));
 		table->Add (_automatic_audio_analysis, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
@@ -227,6 +233,9 @@ private:
 		_num_local_encoding_threads->SetRange (1, 128);
 		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
 
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+		_analyse_ebur128->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::analyse_ebur128_changed, this));
+#endif
 		_automatic_audio_analysis->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::automatic_audio_analysis_changed, this));
 		_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_updates_changed, this));
 		_check_for_test_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
@@ -270,6 +279,9 @@ private:
 		}
 
 		checked_set (_num_local_encoding_threads, config->num_local_encoding_threads ());
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+		checked_set (_analyse_ebur128, config->analyse_ebur128 ());
+#endif
 		checked_set (_automatic_audio_analysis, config->automatic_audio_analysis ());
 		checked_set (_check_for_updates, config->check_for_updates ());
 		checked_set (_check_for_test_updates, config->check_for_test_updates ());
@@ -341,6 +353,13 @@ private:
 		}
 	}
 
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+	void analyse_ebur128_changed ()
+	{
+		Config::instance()->set_analyse_ebur128 (_analyse_ebur128->GetValue ());
+	}
+#endif
+
 	void automatic_audio_analysis_changed ()
 	{
 		Config::instance()->set_automatic_audio_analysis (_automatic_audio_analysis->GetValue ());
@@ -380,6 +399,9 @@ private:
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
 	FilePickerCtrl* _cinemas_file;
+#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+	wxCheckBox* _analyse_ebur128;
+#endif
 	wxCheckBox* _automatic_audio_analysis;
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;

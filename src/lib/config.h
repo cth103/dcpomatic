@@ -231,6 +231,10 @@ public:
 		return _log_types;
 	}
 
+	bool analyse_ebur128 () const {
+		return _analyse_ebur128;
+	}
+
 	bool automatic_audio_analysis () const {
 		return _automatic_audio_analysis;
 	}
@@ -431,6 +435,10 @@ public:
 		maybe_set (_log_types, t);
 	}
 
+	void set_analyse_ebur128 (bool a) {
+		maybe_set (_analyse_ebur128, a);
+	}
+
 	void set_automatic_audio_analysis (bool a) {
 		maybe_set (_automatic_audio_analysis, a);
 	}
@@ -546,6 +554,7 @@ private:
 	/** maximum allowed J2K bandwidth in bits per second */
 	int _maximum_j2k_bandwidth;
 	int _log_types;
+	bool _analyse_ebur128;
 	bool _automatic_audio_analysis;
 #ifdef DCPOMATIC_WINDOWS
 	bool _win32_console;

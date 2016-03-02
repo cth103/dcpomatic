@@ -27,6 +27,7 @@
 #include "playlist.h"
 #include "filter.h"
 #include "audio_filter_graph.h"
+#include "config.h"
 extern "C" {
 #include <libavutil/channel_layout.h>
 #ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
@@ -116,7 +117,9 @@ AnalyseAudioJob::run ()
 		for (DCPTime t = start; t < length; t += block) {
 			shared_ptr<const AudioBuffers> audio = player->get_audio (t, block, false);
 #ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
-			_ebur128->process (audio);
+			if (Config::instance()->analyse_ebur128 ()) {
+				_ebur128->process (audio);
+			}
 #endif
 			analyse (audio);
 			set_progress ((t.seconds() - start.seconds()) / (length.seconds() - start.seconds()));
@@ -126,14 +129,16 @@ AnalyseAudioJob::run ()
 	_analysis->set_sample_peak (_sample_peak, DCPTime::from_frames (_sample_peak_frame, _film->audio_frame_rate ()));
 
 #ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
-	void* eb = _ebur128->get("Parsed_ebur128_0")->priv;
-	double true_peak = 0;
-	for (int i = 0; i < _film->audio_channels(); ++i) {
-		true_peak = max (true_peak, av_ebur128_get_true_peaks(eb)[i]);
+	if (Config::instance()->analyse_ebur128 ()) {
+		void* eb = _ebur128->get("Parsed_ebur128_0")->priv;
+		double true_peak = 0;
+		for (int i = 0; i < _film->audio_channels(); ++i) {
+			true_peak = max (true_peak, av_ebur128_get_true_peaks(eb)[i]);
+		}
+		_analysis->set_true_peak (true_peak);
+		_analysis->set_integrated_loudness (av_ebur128_get_integrated_loudness(eb));
+		_analysis->set_loudness_range (av_ebur128_get_loudness_range(eb));
 	}
-	_analysis->set_true_peak (true_peak);
-	_analysis->set_integrated_loudness (av_ebur128_get_integrated_loudness(eb));
-	_analysis->set_loudness_range (av_ebur128_get_loudness_range(eb));
 #endif
 
 	if (_playlist->content().size() == 1) {
