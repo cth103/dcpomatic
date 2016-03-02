@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include "cinema_dialog.h"
 #include "wx_util.h"
+#include "lib/dcpomatic_assert.h"
 #include <boost/foreach.hpp>
 
 using std::string;
@@ -35,7 +36,7 @@ column (string s)
 	return s;
 }
 
-CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<string> emails)
+CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<string> emails, int utc_offset)
 	: wxDialog (parent, wxID_ANY, std_to_wx (title))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -47,6 +48,11 @@ CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<st
 	add_label_to_sizer (sizer, this, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (500, -1));
 	sizer->Add (_name, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (sizer, this, _("UTC offset (time zone)"), true, wxGBPosition (r, 0));
+	_utc_offset = new wxChoice (this, wxID_ANY);
+	sizer->Add (_utc_offset, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), false, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -69,6 +75,16 @@ CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<st
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
+
+	for (int i = -11; i <= -1; ++i) {
+		_utc_offset->Append (wxString::Format (_("UTC%d"), i));
+	}
+	_utc_offset->Append (_("UTC"));
+	for (int i = 1; i <= 12; ++i) {
+		_utc_offset->Append (wxString::Format (_("UTC+%d"), i));
+	}
+
+	_utc_offset->SetSelection (utc_offset + 11);
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
@@ -98,4 +114,10 @@ CinemaDialog::emails () const
 	list<string> e;
 	copy (_emails.begin(), _emails.end(), back_inserter (e));
 	return e;
+}
+
+int
+CinemaDialog::utc_offset () const
+{
+	return _utc_offset->GetSelection() - 11;
 }

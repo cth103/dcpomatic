@@ -149,7 +149,7 @@ ScreensPanel::add_cinema_clicked ()
 {
 	CinemaDialog* d = new CinemaDialog (this, "Add Cinema");
 	if (d->ShowModal () == wxID_OK) {
-		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails()));
+		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails(), d->utc_offset()));
 		Config::instance()->add_cinema (c);
 		add_cinema (c);
 	}
@@ -166,10 +166,11 @@ ScreensPanel::edit_cinema_clicked ()
 
 	pair<wxTreeItemId, shared_ptr<Cinema> > c = *_selected_cinemas.begin();
 
-	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->emails);
+	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->emails, c.second->utc_offset());
 	if (d->ShowModal () == wxID_OK) {
 		c.second->name = d->name ();
 		c.second->emails = d->emails ();
+		c.second->set_utc_offset (d->utc_offset ());
 		_targets->SetItemText (c.first, std_to_wx (d->name()));
 		Config::instance()->changed ();
 	}

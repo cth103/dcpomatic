@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,15 +33,16 @@ class Screen;
 /** @class Cinema
  *  @brief A description of a Cinema for KDM generation.
  *
- *  This is a cinema name, contact email addresses and a list of
+ *  This is a cinema name, some metadata and a list of
  *  Screen objects.
  */
 class Cinema : public boost::enable_shared_from_this<Cinema>
 {
 public:
-	Cinema (std::string const & n, std::list<std::string> const & e)
+	Cinema (std::string const & n, std::list<std::string> const & e, int utc_offset)
 		: name (n)
 		, emails (e)
+		, _utc_offset (utc_offset)
 	{}
 
 	Cinema (cxml::ConstNodePtr);
@@ -53,12 +54,21 @@ public:
 	void add_screen (boost::shared_ptr<Screen>);
 	void remove_screen (boost::shared_ptr<Screen>);
 
+	void set_utc_offset (int o);
+
 	std::string name;
 	std::list<std::string> emails;
+	int utc_offset () const {
+		return _utc_offset;
+	}
 	std::list<boost::shared_ptr<Screen> > screens () const {
 		return _screens;
 	}
 
 private:
 	std::list<boost::shared_ptr<Screen> > _screens;
+	/** Offset such that the equivalent time in UTC can be determined
+	    by subtracting the offset from the local time.
+	*/
+	int _utc_offset;
 };

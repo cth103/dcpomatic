@@ -27,10 +27,11 @@
 class CinemaDialog : public wxDialog
 {
 public:
-	CinemaDialog (wxWindow *, std::string, std::string name = "", std::list<std::string> emails = std::list<std::string> ());
+	CinemaDialog (wxWindow *, std::string, std::string name = "", std::list<std::string> emails = std::list<std::string> (), int utc_offset = 0);
 
 	std::string name () const;
 	std::list<std::string> emails () const;
+	int utc_offset () const;
 
 private:
 	std::vector<std::string> get_emails () const;
@@ -39,4 +40,5 @@ private:
 	wxTextCtrl* _name;
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
+	wxChoice* _utc_offset;
 };

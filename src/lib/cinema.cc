@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,9 +19,12 @@
 
 #include "cinema.h"
 #include "screen.h"
+#include "dcpomatic_assert.h"
 #include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <iostream>
 
 using std::list;
 using std::string;
@@ -29,6 +32,7 @@ using boost::shared_ptr;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
+	, _utc_offset (node->optional_number_child<int>("UTCOffset").get_value_or (0))
 {
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Email")) {
 		emails.push_back (i->content ());
@@ -56,6 +60,8 @@ Cinema::as_xml (xmlpp::Element* parent) const
 		parent->add_child("Email")->add_child_text (i);
 	}
 
+	parent->add_child("UTCOffset")->add_child_text (dcp::raw_convert<string> (_utc_offset));
+
 	BOOST_FOREACH (shared_ptr<Screen> i, _screens) {
 		i->as_xml (parent->add_child ("Screen"));
 	}
@@ -72,4 +78,11 @@ void
 Cinema::remove_screen (shared_ptr<Screen> s)
 {
 	_screens.remove (s);
+}
+
+void
+Cinema::set_utc_offset (int o)
+{
+	DCPOMATIC_ASSERT (o >= -11 && o <= 12);
+	_utc_offset = o;
 }
