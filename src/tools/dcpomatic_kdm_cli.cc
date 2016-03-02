@@ -46,8 +46,8 @@ help ()
 	cerr << "Syntax: " << program_name << " [OPTION] [<FILM>]\n"
 		"  -h, --help             show this help\n"
 		"  -o, --output           output file or directory\n"
-		"  -f, --valid-from       valid from time (in local time zone) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
-		"  -t, --valid-to         valid to time (in local time zone) (e.g. \"2014-09-28 01:41:51\")\n"
+		"  -f, --valid-from       valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
+		"  -t, --valid-to         valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
 		"  -d, --valid-duration   valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
 		"      --formulation      modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
 		"  -z, --zip              ZIP each cinema's KDMs into its own file\n"
@@ -283,7 +283,7 @@ int main (int argc, char* argv[])
 
 		try {
 			list<ScreenKDM> screen_kdms = film->make_kdms (
-				(*i)->screens(), cpl, dcp::LocalTime (valid_from.get()), dcp::LocalTime (valid_to.get()), formulation
+				(*i)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
 				);
 
 			if (zip) {

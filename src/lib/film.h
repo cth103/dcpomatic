@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -132,8 +132,8 @@ public:
 	std::list<ScreenKDM> make_kdms (
 		std::list<boost::shared_ptr<Screen> >,
 		boost::filesystem::path cpl_file,
-		dcp::LocalTime from,
-		dcp::LocalTime until,
+		boost::posix_time::ptime from,
+		boost::posix_time::ptime until,
 		dcp::Formulation formulation
 		) const;
 

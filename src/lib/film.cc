@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@
 #include "ffmpeg_content.h"
 #include "dcp_content.h"
 #include "screen_kdm.h"
+#include "cinema.h"
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -1163,6 +1164,9 @@ Film::frame_size () const
 	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
+/** @param from KDM from time expressed as a local time with an offset from UTC
+ *  @param to KDM to time expressed as a local time with an offset from UTC
+ */
 dcp::EncryptedKDM
 Film::make_kdm (
 	dcp::Certificate recipient,
@@ -1184,12 +1188,15 @@ Film::make_kdm (
 		).encrypt (signer, recipient, trusted_devices, formulation);
 }
 
+/** @param from KDM from time expressed as a local time in the time zone of the Screen's Cinema.
+ *  @param to KDM to time expressed as a local time in the time zone of the Screen's Cinema.
+ */
 list<ScreenKDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
 	boost::filesystem::path dcp,
-	dcp::LocalTime from,
-	dcp::LocalTime until,
+	boost::posix_time::ptime from,
+	boost::posix_time::ptime until,
 	dcp::Formulation formulation
 	) const
 {
@@ -1197,7 +1204,16 @@ Film::make_kdms (
 
 	BOOST_FOREACH (shared_ptr<Screen> i, screens) {
 		if (i->recipient) {
-			kdms.push_back (ScreenKDM (i, make_kdm (i->recipient.get(), i->trusted_devices, dcp, from, until, formulation)));
+			dcp::EncryptedKDM const kdm = make_kdm (
+				i->recipient.get(),
+				i->trusted_devices,
+				dcp,
+				dcp::LocalTime (from, i->cinema->utc_offset(), 0),
+				dcp::LocalTime (until, i->cinema->utc_offset(), 0),
+				formulation
+				);
+
+			kdms.push_back (ScreenKDM (i, kdm));
 		}
 	}
 

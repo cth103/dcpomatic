@@ -38,6 +38,7 @@
 #include "lib/cinema_kdms.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/compose.hpp"
+#include "lib/cinema.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -270,7 +271,11 @@ private:
 
 				/* Make an empty KDM */
 				dcp::DecryptedKDM kdm (
-					_timing->from(), _timing->until(), decrypted.annotation_text(), decrypted.content_title_text(), dcp::LocalTime().as_string()
+					dcp::LocalTime (_timing->from(), i->cinema->utc_offset(), 0),
+					dcp::LocalTime (_timing->until(), i->cinema->utc_offset(), 0),
+					decrypted.annotation_text(),
+					decrypted.content_title_text(),
+					dcp::LocalTime().as_string()
 					);
 
 				/* Add keys from the DKDM */
