@@ -199,6 +199,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Casablanca Nuernberg"));
 	supported_by.Add (wxT ("Tim O'Brien"));
 	supported_by.Add (wxT ("Jerome Cohen Olivar"));
+	supported_by.Add (wxT ("Tito Oliveira"));
 	supported_by.Add (wxT ("Kevin Orman"));
 	supported_by.Add (wxT ("Rui Pereira"));
 	supported_by.Add (wxT ("Denis Postle"));
