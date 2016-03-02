@@ -280,9 +280,9 @@ FFmpeg::subtitle_id (AVSubtitle const & sub)
 		digester.add (rect->y);
 		digester.add (rect->w);
 		digester.add (rect->h);
-		int const line = rect->pict.linesize[0];
+		int const line = rect->linesize[0];
 		for (int j = 0; j < rect->h; ++j) {
-			digester.add (rect->pict.data[0] + j * line, line);
+			digester.add (rect->data[0] + j * line, line);
 		}
 	}
 	return digester.get ();

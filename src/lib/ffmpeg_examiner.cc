@@ -134,7 +134,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			}
 		}
 
-		av_free_packet (&_packet);
+		av_packet_unref (&_packet);
 
 		if (_first_video && got_all_audio && _subtitle_streams.empty ()) {
 			/* All done */
@@ -249,7 +249,7 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 
 		for (unsigned int i = 0; i < sub.num_rects; ++i) {
 			if (sub.rects[i]->type == SUBTITLE_BITMAP) {
-				uint32_t* palette = (uint32_t *) sub.rects[i]->pict.data[1];
+				uint32_t* palette = (uint32_t *) sub.rects[i]->data[1];
 				for (int j = 0; j < sub.rects[i]->nb_colors; ++j) {
 					RGBA rgba  (
 						(palette[j] & 0x00ff0000) >> 16,
@@ -417,8 +417,6 @@ FFmpegExaminer::yuv () const
 	case AV_PIX_FMT_YUV444P10LE:
 	case AV_PIX_FMT_YUV422P9BE:
 	case AV_PIX_FMT_YUV422P9LE:
-	case AV_PIX_FMT_YUVA422P_LIBAV:
-	case AV_PIX_FMT_YUVA444P_LIBAV:
 	case AV_PIX_FMT_YUVA420P9BE:
 	case AV_PIX_FMT_YUVA420P9LE:
 	case AV_PIX_FMT_YUVA422P9BE:
