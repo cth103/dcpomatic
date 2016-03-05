@@ -11,11 +11,12 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser()
 parser.add_argument('log_file')
 parser.add_argument('-q', '--queue', help='plot queue size', action='store_true')
-parser.add_argument('-e', '--encoder-threads', help='plot encoder thread activity', action='store_true')
+parser.add_argument('--encoder-threads', help='plot encoder thread activity', action='store_true')
 parser.add_argument('-f', '--plot-first-encoder', help='plot more detailed activity of the first encoder thread', action='store_true')
 parser.add_argument('-s', '--fps-stats', help='frames-per-second stats', action='store_true')
 parser.add_argument('--encoder-stats', help='encoder thread activity stats', action='store_true')
-parser.add_argument('--dump-first-encoder', help='dump activity of the first encoder thread', action='store_true')
+parser.add_argument('--encoder-dump', help='dump activity of the specified encoder', action='store_true')
+parser.add_argument('-e', '--encoder', help='encoder index (from 0)')
 parser.add_argument('--from', help='time in seconds to start at', type=int, dest='from_time')
 parser.add_argument('--to', help='time in seconds to stop at', type=int, dest='to_time')
 args = parser.parse_args()
@@ -112,7 +113,13 @@ while True:
         try:
             T = Time(time.mktime(time.strptime(l[:s])))
         except:
-            T = Time(time.mktime(time.strptime(l[:s], "%d.%m.%Y %H:%M:%S")))
+            try:
+                T = Time(time.mktime(time.strptime(l[:s], "%d.%m.%Y %H:%M:%S")))
+            except:
+                x = l[:s]
+                if not x.endswith('M'):
+                    x += 'M'
+                T = Time(time.mktime(time.strptime(x, "%d/%m/%Y %H:%M:%S %p")))
         message = l[s+2:]
 
     # T is elapsed time since the first log message
@@ -197,7 +204,7 @@ elif args.plot_first_encoder:
 
     N = 6
     n = 1
-    for t in ['sleep', 'wake', 'begin_encode', 'end_encode']:
+    for t in ['encoder-sleep', 'encoder-wake', 'start-local-encode', 'finish-local-encode']:
         plt.subplot(N, 1, n)
         x = []
         y = []
@@ -220,12 +227,12 @@ elif args.plot_first_encoder:
 
     plt.show()
 
-elif args.dump_first_encoder:
-    events = encoder_thread_events.itervalues().next()
-    last = 0
-    for e in events:
-        print e[0].float_seconds(), (e[0].float_seconds() - last), e[1]
-        last = e[0].float_seconds()
+elif args.encoder_dump:
+    for t in encoder_threads[int(args.encoder)]:
+        last = 0
+        for e in t.events:
+            print (e[0].float_seconds() - last), e[1]
+            last = e[0].float_seconds()
 
 elif args.fps_stats:
     local = 0
@@ -288,11 +295,11 @@ elif args.encoder_stats:
         if total == 0:
             continue
 
-        print '\t%s: %2.f%%' % ('Asleep'.ljust(16), asleep.float_seconds() * 100 / total)
+        print '\t%s: %2.f%% %fs' % ('Asleep'.ljust(16), asleep.float_seconds() * 100 / total, asleep.float_seconds())
 
         def print_with_fps(v, name, total, frames):
             if v.float_seconds() > 1:
-                print '\t%s: %2.f%% %.2ffps' % (name.ljust(16), v.float_seconds() * 100 / total, frames / v.float_seconds())
+                print '\t%s: %2.f%% %f %.2ffps' % (name.ljust(16), v.float_seconds() * 100 / total, v.float_seconds(), frames / v.float_seconds())
 
         print_with_fps(local_encoding, 'Local encoding', total, wakes)
         if sending.float_seconds() > 0:
