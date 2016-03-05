@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 22:37+0000\n"
+"POT-Creation-Date: 2016-03-05 23:51+0000\n"
 "PO-Revision-Date: 2015-10-14 10:33+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -61,7 +61,7 @@ msgstr "Pubblicità"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Errore durante l'elaborazione del file %1."
 
-#: src/lib/analyse_audio_job.cc:79
+#: src/lib/analyse_audio_job.cc:80
 msgid "Analyse audio"
 msgstr "Analizzare audio"
 
@@ -391,7 +391,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacciamento"
 
-#: src/lib/config.cc:507
+#: src/lib/config.cc:510
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -574,7 +574,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr ""
 
-#: src/lib/config.cc:233 src/lib/config.cc:504
+#: src/lib/config.cc:234 src/lib/config.cc:507
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 

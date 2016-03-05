@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-28 00:29+0000\n"
+"POT-Creation-Date: 2016-03-05 23:51+0000\n"
 "PO-Revision-Date: 2016-03-02 09:05+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Українська\n"
@@ -59,7 +59,7 @@ msgstr "ADV (Реклама)"
 msgid "An error occurred whilst handling the file %1."
 msgstr "Виникла помилка при зверненні до файлу %1."
 
-#: src/lib/analyse_audio_job.cc:79
+#: src/lib/analyse_audio_job.cc:80
 msgid "Analyse audio"
 msgstr "Аналіз аудіо"
 
@@ -391,7 +391,7 @@ msgstr "DCP-o-matic більше не підтримує фильтр `%1', то
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:507
+#: src/lib/config.cc:510
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -573,7 +573,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Невідомо, що викликало цю помилку."
 
-#: src/lib/config.cc:233 src/lib/config.cc:504
+#: src/lib/config.cc:234 src/lib/config.cc:507
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Призначення KDM: $CPL_NAME"
 
