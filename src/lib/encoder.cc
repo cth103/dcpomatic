@@ -381,9 +381,23 @@ Encoder::servers_list_changed ()
 
 	boost::mutex::scoped_lock lm (_threads_mutex);
 
+#ifdef BOOST_THREAD_PLATFORM_WIN32
+	OSVERSIONINFO info;
+	info.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
+	GetVersionEx (&info);
+	bool const windows_xp = (info.dwMajorVersion == 5 && info.dwMinorVersion == 1);
+	LOG_GENERAL_NC (N_("Setting thread affinity for Windows XP"));
+#endif
+
 	if (!Config::instance()->only_servers_encode ()) {
 		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
-			_threads.push_back (new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<EncodeServerDescription> ())));
+			boost::thread* t = new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<EncodeServerDescription> ()));
+			_threads.push_back (t);
+#ifdef BOOST_THREAD_PLATFORM_WIN32
+			if (windows_xp) {
+				SetThreadAffinityMask (t->native_handle(), 1 << i);
+			}
+#endif
 		}
 	}
 
