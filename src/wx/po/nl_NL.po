@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-05 23:51+0000\n"
-"PO-Revision-Date: 2016-02-28 02:59+0100\n"
+"PO-Revision-Date: 2016-03-06 05:26+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -628,6 +628,8 @@ msgstr "Filters"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"Bepaal geïntegreerde luidheid, piek (true peak) en luidheidbereik tijdens "
+"audio-analyse"
 
 #: src/wx/content_menu.cc:63
 msgid "Find missing..."
@@ -1658,44 +1660,3 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
-
-#~ msgid "Server serial number"
-#~ msgstr "Server-serienummer"
-
-#~ msgid ""
-#~ "Your DCP has an odd number of audio channels.  This is very likely to "
-#~ "cause problems on playback."
-#~ msgstr ""
-#~ "Uw DCP heeft een oneven aantal audio-kanalen.  Dit zal zeer "
-#~ "waarschijnlijk problemen bij het afspelen geven."
-
-#~ msgid ""
-#~ "Your DCP has no audio channels.  This is likely to cause problems on "
-#~ "playback."
-#~ msgstr ""
-#~ "Uw DCP heeft geen audio-kanalen.  Dit kan problemen veroorzaken met "
-#~ "sommige installaties."
-
-#~ msgid "Cinema"
-#~ msgstr "Bioscoop"
-
-#~ msgid "Could not get cinema list (%s)"
-#~ msgstr "Kan lijst met bioscopen niet ophalen (%s)"
-
-#~ msgid "Could not get country list (%s)"
-#~ msgstr "Kan lijst met landen niet ophalen (%s)"
-
-#~ msgid "Could not get screen list (%s)"
-#~ msgstr "Kan lijst met schermen niet ophalen (%s)"
-
-#~ msgid "Country"
-#~ msgstr "Land"
-
-#~ msgid "Dolby"
-#~ msgstr "Dolby"
-
-#~ msgid "Fetching..."
-#~ msgstr "Ophalen..."
-
-#~ msgid "Unexpected certificate filename form"
-#~ msgstr "Onverwachte vorm van certificaat-bestandsnaam"
