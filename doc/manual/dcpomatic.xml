@@ -98,9 +98,15 @@ version.
 DCP-o-matic will run on Mac OS X version 10.6 (Snow Leopard) and
 higher.  To install it, download the <code>.dmg</code> from <ulink
 url="http://dcpomatic.com/">http://dcpomatic.com/</ulink> and double
-click to open it.  Then drag the DCP-o-matic icon to your
+click to open it.  Then drag the DCP-o-matics icon to your
 <guilabel>Applications</guilabel> folder or wherever else you would
 like to install it.
+</para>
+
+<para>
+You do not have to install all the applications, but you must always
+install <code>DCP-o-matic 2.app</code> as the other applications
+depend on it.
 </para>
 
 </section>
@@ -119,7 +125,6 @@ like to install it.
   <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
   <listitem>Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;)</listitem>
   <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
-  <listitem>Ubuntu 15.04 (&lsquo;Vivid Vervet&rsquo;)</listitem>
   <listitem>Ubuntu 15.10 (&lsquo;Wily Werewolf&rsquo;)</listitem>
 </itemizedlist>
 
@@ -171,10 +176,10 @@ thanks to Stefan Karner.
 
 <para>
 Installation on other Linux systems (for which no packages are
-available) is quite hard; you will have to compile it from source.  If
-you are using distribution for which no packages are available, do let
-me know by <ulink url="mailto:carl@dcpomatic.com">email</ulink> and I
-will look into providing packages on the website.
+available) is quite hard as it must be compiled from source.  If you
+can't download packages for your distribution, do let me know by
+<ulink url="mailto:carl@dcpomatic.com">email</ulink> and I will look
+into providing packages on the website.
 </para>
 
 <para>
@@ -233,10 +238,10 @@ in a shell.
 
 <!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-<title>Creating a video DCP</title>
+<title>Creating a DCP from a video</title>
 
 <para>
-In this chapter we will see how to create a video DCP using
+In this chapter we will see how to create a DCP from a video file using
 DCP-o-matic.  We will gloss over the details and look at the basics.
 </para>
 
@@ -248,7 +253,7 @@ Let's make a very simple DCP to see how DCP-o-matic works.  First, we
 need some content.  Download the low-resolution trailer for the open
 movie <ulink url="http://sintel.org/">Sintel</ulink> from <ulink
 url="http://ftp.nluug.nl/ftp/graphics/blender/apricot/trailer/Sintel_Trailer1.480p.DivX_Plus_HD.mkv">their
-website</ulink>.  Generally, of course, one would want to use the
+website</ulink>.  Generally one would want to use the
 highest-resolution material available, but for this test we will use
 the low-resolution version to save everyone's bandwidth bills.
 </para>
@@ -404,8 +409,8 @@ linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 </para>
 
 <para>
-Alternatively, if  you have a  projector or Theatre  Management System
-(TMS) that is accessible via SCP across your network, you can upload
+Alternatively, if you have a projector or Theatre Management System
+(TMS) that is accessible via SCP or FTP across your network, you can upload
 the content directly from DCP-o-matic.  See the <xref
 linkend="sec-prefs-tms" endterm="sec-prefs-tms-short"/> in <xref linkend="sec-prefs-tms"/>.
 </para>
@@ -416,7 +421,7 @@ linkend="sec-prefs-tms" endterm="sec-prefs-tms-short"/> in <xref linkend="sec-pr
 
 <!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-<title>Creating a still-image DCP</title>
+<title>Creating a DCP from a still image</title>
 
 <para>
 DCP-o-matic can also be used to create DCPs of one or more still images, perhaps
@@ -425,7 +430,7 @@ how to do it.
 </para>
 
 <para>
-As with video DCPs, the first step is to create a new
+As with DCPs made from video files, the first step is to create a new
 &lsquo;Film&rsquo;; select <guilabel>New</guilabel> from the
 <guilabel>File</guilabel> menu and the new film dialogue will open as
 shown in <xref linkend="fig-still-new-film"/>.
@@ -457,10 +462,10 @@ linkend="fig-still-select-content-file"/>.
 </figure>
 
 <para>
-As with video DCPs, most of the default settings will be fine for a
-simple test.  The one thing that you might wish to change is the
-length of the still.  Select the <guilabel>Timing</guilabel> tab and
-you will see a <guilabel>Play length</guilabel> setting, as shown in <xref
+Most of the default settings will be fine for a simple test.  The one
+thing that you might wish to change is the length of the still.
+Select the <guilabel>Timing</guilabel> tab and you will see a
+<guilabel>Play length</guilabel> setting, as shown in <xref
 linkend="fig-timing-tab"/>.
 </para>
 
@@ -482,7 +487,7 @@ fourth frames.  Enter the duration that you want and then click <guilabel>Set</g
 <para>
 Finally, as with video, you can choose <guilabel>Make DCP</guilabel>
 from the <guilabel>Jobs</guilabel> menu to create your DCP.  This will
-be much quicker than creating a video DCP, as DCP-o-matic only needs
+be much quicker than creating a DCP from a video file, as DCP-o-matic only needs
 to encode a single frame which it can then repeat.
 </para>
 
@@ -495,7 +500,7 @@ to encode a single frame which it can then repeat.
 
 <para>
 Frequently DCP-o-matic is used to take content in formats such as MP4
-and convert it to JPEG2000 for a DCP.  Alternatively, it can be used
+and convert it to JPEG2000 for a DCP.  It can also be used
 to take existing DCPs and modify them in various ways.
 </para>
 
@@ -570,8 +575,8 @@ JPEG2000 encoding is not necessary.
 </para>
 
 <para>
-DCP-o-matic can do this if you avoid changes to the following content
-settings:
+DCP-o-matic can do this if you <emphasis>avoid</emphasis> changes to
+the following content settings:
 </para>
 
 <itemizedlist>
@@ -644,7 +649,7 @@ To make a DCP like this:
 <listitem>Select the DCP in the content list</listitem>
 <listitem>Tick the <guilabel>Refer to existing DCP</guilabel> checkbox
 in the tabs for the parts of the DCP that you want to refer to in your
-new DCP.  For example, to refer to the &lsquo;Content DCP&rsquo;'s video and audio you would select the <guilabel>Video</guilabel> tab, click <guilabel>Refer to existing DCP</guilabel> then select the <guilabel>Audio</guilabel> tab and do the same.</listitem>
+new DCP.  For example, to refer to the Content DCP's video and audio you would select the <guilabel>Video</guilabel> tab, click <guilabel>Refer to existing DCP</guilabel> then select the <guilabel>Audio</guilabel> tab and do the same.</listitem>
 <listitem>Do <guilabel>Make DCP</guilabel> as usual and your VF DCP will be created.</listitem>
 </itemizedlist>
 
@@ -697,7 +702,7 @@ images which should be treated as the frames of a video.
 
 <listitem>Subtitle &mdash; a file containing subtitle which will be
 superimposed on the image of the DCP.  These can be
-<guilabel>.srt</guilabel> or <guilabel>.xml</guilabel>
+<guilabel>.srt</guilabel>, <guilabel>.ssa</guilabel> or <guilabel>.xml</guilabel>
 files.</listitem>
 
 <listitem>DCP &mdash; an existing DCP.</listitem>
@@ -1199,24 +1204,24 @@ DCP-o-matic can either:
 </para>
 
 <itemizedlist>
-  <listitem>Extract &lsquo;image&rsquo; subtitles that are embedded in video files, or</listitem>
-  <listitem>Use text subtitles from SubRip (<code>.srt</code>) or DCP XML files.</listitem>
+  <listitem>Extract subtitles that are embedded in video files, or</listitem>
+  <listitem>Use subtitles from SubRip (<code>.srt</code>), SubStation Alpha (<code>.ssa</code>) or DCP XML files.</listitem>
 </itemizedlist>
 
 <para>
-Image subtitles are represented using a set of bitmaps, as commonly
-used on DVD and BluRay.  Such subtitles can (currently) only be
-&lsquo;burnt&rsquo; into the DCP (that is, they are included in the
-image and not overlaid by the projector).
+Embedded subtitles are usually represented using a set of bitmaps,
+especially on files that have come from DVD or BluRay.  Such subtitles
+can (currently) only be &lsquo;burnt&rsquo; into the DCP (that is,
+they are included in the image and not overlaid by the projector).
 </para>
 
 <para>
-With text subtitles you have the choice to either burn-in or include
-the subtitles as separate subtitle &lsquo;asset&rsquo; within your DCP
-(in which case the projector overlays them onto the image on
-playback).  The difference between burn-in and overlay is
-illustrated by <xref linkend="fig-burn-in"/> and <xref
-linkend="fig-discrete"/>.
+With SubRip, SubStation Alpha or DCP subtitles you have the choice to
+either burn-in or include the subtitles as separate subtitle
+&lsquo;asset&rsquo; within your DCP (in which case the projector
+overlays them onto the image on playback).  The difference between
+burn-in and overlay is illustrated by <xref linkend="fig-burn-in"/>
+and <xref linkend="fig-discrete"/>.
 </para>
 
 <figure id="fig-burn-in">
@@ -1283,6 +1288,17 @@ scale such subtitles down using these controls.
 <para>
 The <guilabel>Stream</guilabel> control changes the subtitle stream
 that is used when the content has more than one.
+</para>
+
+<para>
+If you are using non-embedded (text) subtitles you can see the
+subtitle text and timings by clicking the <guilabel>View...</guilabel>
+button, or specify the fonts that should be used by clicking <guilabel>Fonts...</guilabel>.
+</para>
+
+<para>
+With any subtitles you can click <guilabel>Appearance...</guilabel> to
+change how the subtitles look.
 </para>
 
 </section>
@@ -1572,6 +1588,11 @@ controls specify how the DCP will be split up into
 The <guilabel>Standard</guilabel> option specifies which of the two
 DCP standards DCP-o-matic should use.  If in doubt, use SMPTE (the
 more modern of the two).
+</para>
+
+<para>
+Ticking the <guilabel>Upload DCP to TMS after it is made</guilabel>
+will ask DCP-o-matic to copy the finished DCP to your configured TMS (see <xref linkend="sec-prefs-tms"/>).
 </para>
 
 <para>
@@ -2191,6 +2212,30 @@ to speed things up.  Set this value to the number of threads
 DCP-o-matic should use.  This should normally be the number of
 processors (or processor cores) in your machine.  DCP-o-matic will try
 to set this up correctly when you run it for the first time.
+</para>
+
+</section>
+
+<!-- ============================================================== -->
+<section>
+<title>Cinema and screen database file</title>
+
+<para>
+This option allows you to change the file that DCP-o-matic uses to
+store details of the cinemas and screens used to make KDMs.
+</para>
+
+</section>
+
+<section>
+<title>Integrated loudness</title>
+
+<para>
+If <guilabel>Find integrated loudness, true peak and loudness range
+when analysing audio</guilabel> is ticked, DCP-o-matic will do extra
+work when analysing audio.  Leave this ticked if the extra parameters
+are useful to you.  If not, untick it and audio analysis will be
+faster.
 </para>
 
 </section>
