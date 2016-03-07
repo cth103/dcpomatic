@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -353,6 +353,10 @@ msgstr "Wybierz plik czcionki"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
+msgstr ""
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
 msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
@@ -908,6 +912,10 @@ msgstr "Przenieś zaznaczony fragment później."
 msgid "Multiple content selected"
 msgstr "Zaznaczono wiele plików"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Moje dokumenty"
@@ -1362,7 +1370,7 @@ msgstr "Obrysuj obraz"
 msgid "Subtitles"
 msgstr "Napisy"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Wsparli"
 
@@ -1386,7 +1394,7 @@ msgstr "Region (e.g. PL)"
 msgid "Test version "
 msgstr "Wersja testowa"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Testerzy"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2016-02-09 01:29-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -348,6 +348,10 @@ msgstr "Elegir un fichero de fuente"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
+msgstr ""
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
 msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
@@ -895,6 +899,10 @@ msgstr "Retroceder la selección en la película."
 msgid "Multiple content selected"
 msgstr "Varios contenidos seleccionados"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Mis documentos"
@@ -1342,7 +1350,7 @@ msgstr "Color del contorno"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1366,7 +1374,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Comprobado por"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -347,6 +347,10 @@ msgstr "Vyberte súbor s písmom"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
+msgstr ""
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
 msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
@@ -893,6 +897,10 @@ msgstr "Presunúť vybrané časti obsahu neskôr vo filme."
 msgid "Multiple content selected"
 msgstr "Viacnásobný výber obsahu "
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Moje dokumenty"
@@ -1340,7 +1348,7 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1364,7 +1372,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Testované"
 

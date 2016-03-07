@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2016-03-07 10:31+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -347,6 +347,10 @@ msgstr "Выбрать файл шрифта"
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
 msgstr "Файл БД кинотеатров и экранов"
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
+msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -895,6 +899,10 @@ msgstr "Переместить выбранный элемент контент�
 msgid "Multiple content selected"
 msgstr "Множественное выделение контента"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Мои документы"
@@ -1341,7 +1349,7 @@ msgstr "Цвета субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1365,7 +1373,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Тестирование"
 

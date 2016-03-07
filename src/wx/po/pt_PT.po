@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2015-11-11 15:57+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -357,6 +357,10 @@ msgstr "Seleccionar um ficheiro de tipo de letra"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
+msgstr ""
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
 msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
@@ -913,6 +917,10 @@ msgstr ""
 msgid "Multiple content selected"
 msgstr "Conteúdo múltiplo seleccionado"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Os meus documentos"
@@ -1367,7 +1375,7 @@ msgstr "Delinear conteúdo"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Apoiado por "
 
@@ -1391,7 +1399,7 @@ msgstr "Território (e.g. PT)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Testado por"
 

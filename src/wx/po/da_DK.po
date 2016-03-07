@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -352,6 +352,10 @@ msgstr "Vælg fil med skrifttyper"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
+msgstr ""
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
 msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
@@ -906,6 +910,10 @@ msgstr "Flyt det valgte indhold til senere i filmen."
 msgid "Multiple content selected"
 msgstr "Flere indholdselementer valgt"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Mine dokumenter"
@@ -1359,7 +1367,7 @@ msgstr "Undertekster"
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1383,7 +1391,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Testet af"
 

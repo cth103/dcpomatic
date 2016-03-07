@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2016-02-29 18:39+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -351,6 +351,10 @@ msgstr "Choisir un fichier de police"
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
 msgstr "Base de données Cinémas et Ecrans"
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
+msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -895,6 +899,10 @@ msgstr "Déplacer le contenu sélectionné plus tard dans le film."
 msgid "Multiple content selected"
 msgstr "Contenus multiples sélectionnés"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Mes Documents"
@@ -1341,7 +1349,7 @@ msgstr "Couleur Sous-titres"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -1365,7 +1373,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Testé par"
 

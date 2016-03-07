@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 23:51+0000\n"
+"POT-Creation-Date: 2016-03-07 11:02+0000\n"
 "PO-Revision-Date: 2016-03-06 05:26+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -354,6 +354,10 @@ msgstr "Kies een lettertype-bestand"
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
 msgstr "Bioscoop- en scherm-database-bestand"
+
+#: src/wx/content_widget.h:72
+msgid "Click the button to set all selected content to the same value."
+msgstr ""
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -900,6 +904,10 @@ msgstr "Verplaats het geselecteerde stuk content naar later in de film."
 msgid "Multiple content selected"
 msgstr "Meedere content geselecteerd"
 
+#: src/wx/content_widget.h:64
+msgid "Multiple values"
+msgstr ""
+
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
 msgstr "Mijn Documenten"
@@ -1348,7 +1356,7 @@ msgstr "Ondertitel-kleuren"
 msgid "Subtitles"
 msgstr "Ondertitels"
 
-#: src/wx/about_dialog.cc:239
+#: src/wx/about_dialog.cc:240
 msgid "Supported by"
 msgstr "Ondersteund door"
 
@@ -1372,7 +1380,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:293
+#: src/wx/about_dialog.cc:294
 msgid "Tested by"
 msgstr "Getest door"
 
