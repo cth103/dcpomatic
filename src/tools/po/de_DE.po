@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-02-04 00:28+0100\n"
+"PO-Revision-Date: 2016-03-07 13:18+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -189,7 +189,7 @@ msgstr "&KDM erstellen...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:802
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr "Sende Projekt an Batchconverter\tCtrl-B"
+msgstr "Sende Projekt an Batchkonverter\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:804
 msgid "Make DKDM for DCP-o-matic..."
@@ -218,11 +218,12 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:798
 msgid "Scale to fit &height"
-msgstr "Container vertikal füllen (evtl. seitlicher Beschnitt!)"
+msgstr "Container vertikal füllen (evtl. Verzerrung und seitlicher Beschnitt!)"
 
 #: src/tools/dcpomatic.cc:797
 msgid "Scale to fit &width"
-msgstr "Container horizontal füllen (evtl. vertikaler Beschnitt!)"
+msgstr ""
+"Container horizontal füllen (evtl. Verzerrung und vertikaler Beschnitt!)"
 
 #: src/tools/dcpomatic.cc:362 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-02-03 23:42+0100\n"
+"PO-Revision-Date: 2016-03-07 13:32+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -69,7 +69,7 @@ msgstr "Audio analysieren"
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "Audioeigenschaften"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -153,7 +153,6 @@ msgid "Centre"
 msgstr "Center"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
 msgstr "Audio Kanäle"
 
@@ -196,9 +195,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Quelle und DCP haben dieselbe Bildrate. Gut ;-)\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Inhalt Bildrate"
+msgstr "Audio Abtastrate (Quelle)"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -310,9 +308,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Fehler beim Dekodieren der Bild-Datei (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "Keine Spur-Information gefunden"
+msgstr "Kein Pixelformat erkannt"
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -375,9 +372,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML Untertitel"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Inhalt Bildrate"
+msgstr "Audio Abtastrate (im DCP)"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -472,9 +468,8 @@ msgid "Encoding image data"
 msgstr "Kodiere Bilddaten"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Error in SubRip file: saw %1 while expecting %2"
+msgstr "Fehler in SubRip Datei: Ist %1 , sollte %2 sein"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -517,9 +512,8 @@ msgid "Flat"
 msgstr "1.85:1 (Flat/BW)"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Videobildrate"
+msgstr "Bildrate"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -535,19 +529,19 @@ msgstr "Full Container (DCI)"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Gesamtlänge in Audio Blöcken (DCP)"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Gesamtlänge in Audio Blöcken (Quelle)"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Gesamtlänge in Bildern (DCP)"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Gesamtlänge in Bildern (Quelle)"
 
 #: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
@@ -575,7 +569,7 @@ msgstr "3D Rauschunterdrückung hoher Qualität"
 
 #: src/lib/audio_content.cc:308
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -625,7 +619,7 @@ msgstr "Surround links"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Länge"
 
 #: src/lib/film.cc:1315
 msgid "Lfe"
@@ -838,7 +832,7 @@ msgstr "Kurzfilm"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -865,9 +859,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/text_subtitle_content.cc:95
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[Untertitel]"
+msgstr "Untertitel"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -1017,9 +1010,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "Videogröße"
+msgstr "Videoeigenschaften"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"
@@ -1059,7 +1051,7 @@ msgstr "Darf keine Schrägstriche enthalten"
 
 #: src/lib/dcpomatic_socket.cc:67
 msgid "connect timed out"
-msgstr "Zeit für Verbindung abgelaufen"
+msgstr "Zeit für Verbindungsaufbau abgelaufen"
 
 #: src/lib/uploader.cc:34
 msgid "connecting"

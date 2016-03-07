@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-02-04 00:57+0100\n"
+"PO-Revision-Date: 2016-03-07 13:10+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -45,7 +45,7 @@ msgstr "-6dB"
 
 #: src/wx/rgba_colour_picker.cc:35
 msgid "255"
-msgstr ""
+msgstr "255"
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -89,11 +89,11 @@ msgstr "4K"
 
 #: src/wx/image_subtitle_colour_dialog.cc:40
 msgid "<b>New colour</b>"
-msgstr ""
+msgstr "<b>Neue Farbe</b>"
 
 #: src/wx/image_subtitle_colour_dialog.cc:37
 msgid "<b>Original colour</b>"
-msgstr ""
+msgstr "<b>Originalfarbe</b>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -211,7 +211,7 @@ msgstr "Auch Nicht-Standard-Bildraten erlauben (Vorsicht!)"
 
 #: src/wx/rgba_colour_picker.cc:32
 msgid "Alpha   0"
-msgstr ""
+msgstr "Alpha 0"
 
 #: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
@@ -283,9 +283,8 @@ msgid "But I have to use fader"
 msgstr "Aber ich nutze gegenwärtig Faderstellung"
 
 #: src/wx/config_dialog.cc:1254
-#, fuzzy
 msgid "CC addresses"
-msgstr "CC: Adresse"
+msgstr "CC: Adressen"
 
 #: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:71
 #: src/wx/self_dkdm_dialog.cc:52
@@ -358,11 +357,11 @@ msgstr "Einen Zeichensatz wählen"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr " Kino- und Saaldatenbank (für KDM Erstellung)"
 
 #: src/wx/content_widget.h:72
 msgid "Click the button to set all selected content to the same value."
-msgstr ""
+msgstr "Klicken um alle ausgewählten Inhalte mit demselben Wert zu versehen"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -637,6 +636,8 @@ msgstr "Filter"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"Führe vollständige Audioanalyse durch (Integrierte Lautheit, Spitzenwert und "
+"Lautheitsumfang aus EBU128)"
 
 #: src/wx/content_menu.cc:63
 msgid "Find missing..."
@@ -801,12 +802,11 @@ msgstr "KDM Typ"
 
 #: src/wx/kdm_dialog.cc:64
 msgid "KDM|Timing"
-msgstr "Zeitfenster"
+msgstr "Zeitfenster (lokale Zeit DIESES Computers)"
 
 #: src/wx/timeline_dialog.cc:43
-#, fuzzy
 msgid "Keep video and subtitles in sequence"
-msgstr "Lücken in Zeitleiste automatisch schließen"
+msgstr "Bild- und Untertitelreihenfolge beibehalten "
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
 msgid "Key"
@@ -912,7 +912,7 @@ msgstr "Mehrere Inhalte ausgewählt"
 
 #: src/wx/content_widget.h:64
 msgid "Multiple values"
-msgstr ""
+msgstr "Unterschiedliche Werte"
 
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
@@ -1245,7 +1245,7 @@ msgstr "Zertifikats-Datei auswählen"
 
 #: src/wx/config_dialog.cc:194
 msgid "Select cinema and screen database file"
-msgstr ""
+msgstr "Ort der Kino- und Saaldatenbank (für KDM Erstellung)"
 
 #: src/wx/kdm_output_panel.cc:58
 msgid "Send by email"
@@ -1352,9 +1352,8 @@ msgid "Subtitle appearance"
 msgstr "Untertitel Darstellung"
 
 #: src/wx/image_subtitle_colour_dialog.cc:30
-#, fuzzy
 msgid "Subtitle colours"
-msgstr "Umrissfarbe"
+msgstr "Untertitelfarbe"
 
 #: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
 #: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:62
@@ -1482,7 +1481,7 @@ msgstr "Update"
 
 #: src/wx/dcp_panel.cc:156
 msgid "Upload DCP to TMS after it is made"
-msgstr ""
+msgstr "Nach Fertigstellung DCP auf TMS kopieren"
 
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
