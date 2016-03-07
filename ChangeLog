@@ -1,5 +1,7 @@
 2016-03-07  Carl Hetherington  <cth@carlh.net>
 
+	* Don't try to auto-analyse audio of non-audio content.
+
 	* Version 2.6.37 released.
 
 2016-03-07  c.hetherington  <cth@carlh.net>

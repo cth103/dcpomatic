@@ -1032,7 +1032,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 	}
 
 	add_content (content);
-	if (Config::instance()->automatic_audio_analysis ()) {
+	if (Config::instance()->automatic_audio_analysis() && dynamic_pointer_cast<AudioContent> (content)) {
 		shared_ptr<Playlist> playlist (new Playlist);
 		playlist->add (content);
 		boost::signals2::connection c;
