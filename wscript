@@ -307,8 +307,9 @@ def configure(conf):
                             int main () { av_ebur128_get_true_peaks (0); }\n
                             """,
                    msg='Checking for patched FFmpeg',
-                   libpath='/usr/local/lib',
-                   lib=['avfilter'],
+                   libpath=conf.env['LIBPATH_AVFORMAT'],
+                   lib=['avfilter', 'avutil', 'swresample'],
+                   includes=conf.env['INCLUDES_AVFORMAT'],
                    uselib_store='PATCHED_FFMPEG',
                    define_name='DCPOMATIC_HAVE_PATCHED_FFMPEG',
                    mandatory=False)
