@@ -583,7 +583,7 @@ VideoContent::add_properties (list<UserProperty>& p) const
 {
 	p.push_back (UserProperty (_("Video"), _("Length"), raw_convert<string> (video_length ()), _("video frames")));
 	p.push_back (UserProperty (_("Video"), _("Size"), raw_convert<string> (video_size().width) + "x" + raw_convert<string> (video_size().height)));
-	p.push_back (UserProperty (_("Video"), _("Frame rate"), raw_convert<string> (video_frame_rate()), _("frames per second")));
+	p.push_back (UserProperty (_("Video"), _("Frame rate"), raw_convert<string> (video_frame_rate(), 5), _("frames per second")));
 }
 
 double

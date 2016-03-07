@@ -51,7 +51,15 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 	}
 
 	for (map<string, list<Content::UserProperty> >::const_iterator i = grouped.begin(); i != grouped.end(); ++i) {
-		add (std_to_wx ("<b>" + i->first + "</b>"), false);
+
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
+		wxFont font (*wxNORMAL_FONT);
+		font.SetWeight (wxFONTWEIGHT_BOLD);
+		m->SetFont (font);
+
+		add_spacer ();
+		add_spacer ();
+		add (m, false);
 		add_spacer ();
 
 		BOOST_FOREACH (Content::UserProperty j, i->second) {
