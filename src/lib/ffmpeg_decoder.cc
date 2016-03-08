@@ -130,7 +130,7 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 		decode_audio_packet ();
 	}
 
-	av_free_packet (&_packet);
+	av_packet_unref (&_packet);
 	return false;
 }
 
@@ -485,11 +485,11 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
 
 	/* Start of the first line in the subtitle */
-	uint8_t* sub_p = rect->pict.data[0];
+	uint8_t* sub_p = rect->data[0];
 	/* sub_p looks up into a BGRA palette which is here
 	   (i.e. first byte B, second G, third R, fourth A)
 	*/
-	uint32_t const * palette = (uint32_t *) rect->pict.data[1];
+	uint32_t const * palette = (uint32_t *) rect->data[1];
 	/* And the stream has a map of those palette colours to colours
 	   chosen by the user; created a `mapped' palette from those settings.
 	*/
@@ -520,7 +520,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 			/* XXX: this seems to be wrong to me (isn't the output image RGBA?) but it looks right on screen */
 			*out_line_p++ = (p.a << 24) | (p.r << 16) | (p.g << 8) | p.b;
 		}
-		sub_p += rect->pict.linesize[0];
+		sub_p += rect->linesize[0];
 		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
 

@@ -30,7 +30,6 @@
 extern "C" {
 #include <libavfilter/avfiltergraph.h>
 #include <libavfilter/buffersrc.h>
-#include <libavfilter/avcodec.h>
 #include <libavfilter/buffersink.h>
 #include <libavformat/avio.h>
 }
