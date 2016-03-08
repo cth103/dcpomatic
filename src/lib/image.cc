@@ -581,15 +581,15 @@ Image::bytes_per_pixel (int c) const
 
 	float bpp[4] = { 0, 0, 0, 0 };
 
-	bpp[0] = floor ((d->comp[0].depth_minus1 + 1 + 7) / 8);
+	bpp[0] = floor ((d->comp[0].depth + 7) / 8);
 	if (d->nb_components > 1) {
-		bpp[1] = floor ((d->comp[1].depth_minus1 + 1 + 7) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[1] = floor ((d->comp[1].depth + 7) / 8) / pow (2.0f, d->log2_chroma_w);
 	}
 	if (d->nb_components > 2) {
-		bpp[2] = floor ((d->comp[2].depth_minus1 + 1 + 7) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[2] = floor ((d->comp[2].depth + 7) / 8) / pow (2.0f, d->log2_chroma_w);
 	}
 	if (d->nb_components > 3) {
-		bpp[3] = floor ((d->comp[3].depth_minus1 + 1 + 7) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[3] = floor ((d->comp[3].depth + 7) / 8) / pow (2.0f, d->log2_chroma_w);
 	}
 
 	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
