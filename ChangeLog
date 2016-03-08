@@ -1,5 +1,8 @@
 2016-03-08  Carl Hetherington  <cth@carlh.net>
 
+	* Fix occasional crash when opening the custom
+	colour conversion editor.
+
 	* Version 2.7.0 released.
 
 2016-03-08  Carl Hetherington  <cth@carlh.net>
