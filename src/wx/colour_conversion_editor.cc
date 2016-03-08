@@ -37,6 +37,7 @@ using boost::lexical_cast;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)
+	, _ignore_chromaticity_changed (false)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
@@ -245,6 +246,8 @@ ColourConversionEditor::set (ColourConversion conversion)
 
 	_yuv_to_rgb->SetSelection (conversion.yuv_to_rgb ());
 
+	_ignore_chromaticity_changed = true;
+
 	SafeStringStream s;
 	s.setf (std::ios::fixed, std::ios::floatfield);
 	s.precision (6);
@@ -280,6 +283,8 @@ ColourConversionEditor::set (ColourConversion conversion)
 	s << conversion.white().y;
 	_white_y->SetValue (std_to_wx (s.str ()));
 
+	_ignore_chromaticity_changed = false;
+
 	if (conversion.adjusted_white ()) {
 		_adjust_white->SetValue (true);
 		s.str ("");
@@ -294,6 +299,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 
 	update_rgb_to_xyz ();
 	update_bradford ();
+	changed ();
 }
 
 ColourConversion
@@ -365,6 +371,10 @@ ColourConversionEditor::changed ()
 void
 ColourConversionEditor::chromaticity_changed ()
 {
+	if (_ignore_chromaticity_changed) {
+		return;
+	}
+
 	update_rgb_to_xyz ();
 	changed ();
 }

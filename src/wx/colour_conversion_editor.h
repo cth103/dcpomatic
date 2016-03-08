@@ -49,6 +49,7 @@ private:
 	void set_spin_ctrl (wxSpinCtrlDouble *, double);
 
 	std::map<wxSpinCtrlDouble*, double> _last_spin_ctrl_value;
+	bool _ignore_chromaticity_changed;
 
 	wxSpinCtrlDouble* _input_gamma;
 	wxSpinCtrlDouble* _input_power;
