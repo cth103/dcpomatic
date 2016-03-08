@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-03-07 10:33+0200\n"
+"PO-Revision-Date: 2016-03-08 02:05+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -350,6 +350,8 @@ msgstr "Файл БД кінотеатрів та екранів"
 #: src/wx/content_widget.h:72
 msgid "Click the button to set all selected content to the same value."
 msgstr ""
+"Натисніть кнопку, щоб встановити однакові значення для всього обраного "
+"контенту."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -900,7 +902,7 @@ msgstr "Множинне виділення контенту"
 
 #: src/wx/content_widget.h:64
 msgid "Multiple values"
-msgstr ""
+msgstr "Кілька значень"
 
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
