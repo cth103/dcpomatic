@@ -34,7 +34,12 @@ raw_convert (Q v, int precision = 16)
 	s.imbue (std::locale::classic ());
 	s << std::setprecision (precision);
 	s << v;
-	P r;
+	/* If the s >> r below fails to convert anything, we want r to
+	   be left as a defined value.  This construct (I believe) achieves
+	   this by setting r to the default value of type P, even if P
+	   is a POD type.
+	*/
+	P r = P ();
 	s >> r;
 	return r;
 }
