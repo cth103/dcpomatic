@@ -456,10 +456,11 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		_("SMPTE 170M (BT601)"),
 		_("SMPTE 240M"),
 		_("Film"),
-		_("BT2020")
+		_("BT2020"),
+		_("SMPTE ST 428-1 (CIE 1931 XYZ)")
 	};
 
-	DCPOMATIC_ASSERT (AVCOL_PRI_NB == 10);
+	DCPOMATIC_ASSERT (AVCOL_PRI_NB == 11);
 	p.push_back (UserProperty (_("Video"), _("Colour primaries"), primaries[_color_primaries]));
 
 	char const * transfers[] = {
@@ -478,10 +479,12 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		_("BT1361 extended colour gamut"),
 		_("IEC61966-2-1 (sRGB or sYCC)"),
 		_("BT2020 for a 10-bit system"),
-		_("BT2020 for a 12-bit system")
+		_("BT2020 for a 12-bit system"),
+		_("SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"),
+		_("SMPTE ST 428-1")
 	};
 
-	DCPOMATIC_ASSERT (AVCOL_TRC_NB == 16);
+	DCPOMATIC_ASSERT (AVCOL_TRC_NB == 18);
 	p.push_back (UserProperty (_("Video"), _("Colour transfer characteristic"), transfers[_color_trc]));
 
 	char const * spaces[] = {
