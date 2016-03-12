@@ -108,11 +108,11 @@ Emailer::send (string server, int port, string user, string password)
 	      << "From: " << _from << "\r\n";
 
 	if (!_cc.empty ()) {
-		email << "Cc: " << address_list (_cc);
+		email << "Cc: " << address_list (_cc) << "\r\n";
 	}
 
 	if (!_bcc.empty ()) {
-		email << "Bcc: " << address_list (_bcc);
+		email << "Bcc: " << address_list (_bcc) << "\r\n";
 	}
 
 	string const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
