@@ -26,14 +26,12 @@
 #include <dcp/modified_gamma_transfer_function.h>
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
-#include <boost/lexical_cast.hpp>
 #include <iostream>
 
 using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using boost::lexical_cast;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)

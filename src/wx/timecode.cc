@@ -20,12 +20,10 @@
 #include "lib/util.h"
 #include "timecode.h"
 #include "wx_util.h"
-#include <boost/lexical_cast.hpp>
 #include <iostream>
 
 using std::string;
 using std::cout;
-using boost::lexical_cast;
 
 TimecodeBase::TimecodeBase (wxWindow* parent)
 	: wxPanel (parent)
@@ -120,5 +118,3 @@ TimecodeBase::size (wxWindow* parent)
 	size.SetHeight (-1);
 	return size;
 }
-
-

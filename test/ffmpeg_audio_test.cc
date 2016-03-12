@@ -36,7 +36,6 @@
 #include "test.h"
 
 using std::string;
-using boost::lexical_cast;
 using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)

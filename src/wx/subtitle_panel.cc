@@ -33,14 +33,12 @@
 #include "lib/dcp_subtitle_decoder.h"
 #include "lib/dcp_content.h"
 #include <wx/spinctrl.h>
-#include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 
 using std::vector;
 using std::string;
 using std::list;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::dynamic_pointer_cast;
 
 SubtitlePanel::SubtitlePanel (ContentPanel* p)

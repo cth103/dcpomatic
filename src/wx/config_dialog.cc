@@ -46,7 +46,6 @@
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
 #include <wx/filepicker.h>
-#include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -57,7 +56,6 @@ using std::list;
 using std::cout;
 using boost::bind;
 using boost::shared_ptr;
-using boost::lexical_cast;
 using boost::function;
 using boost::optional;
 

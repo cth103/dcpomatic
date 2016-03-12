@@ -29,7 +29,6 @@
 #include "lib/job_manager.h"
 #include "lib/dcp_content.h"
 #include <wx/spinctrl.h>
-#include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -39,7 +38,6 @@ using std::string;
 using std::list;
 using std::pair;
 using boost::dynamic_pointer_cast;
-using boost::lexical_cast;
 using boost::shared_ptr;
 using boost::optional;
 

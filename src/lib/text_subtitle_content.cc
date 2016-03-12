@@ -31,7 +31,6 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
-using boost::lexical_cast;
 
 std::string const TextSubtitleContent::font_id = "font";
 

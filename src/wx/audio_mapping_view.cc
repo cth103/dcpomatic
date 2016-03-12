@@ -31,7 +31,6 @@
 #include <wx/wx.h>
 #include <wx/renderer.h>
 #include <wx/grid.h>
-#include <boost/lexical_cast.hpp>
 #include <iostream>
 
 using std::cout;
@@ -40,7 +39,6 @@ using std::string;
 using std::max;
 using std::vector;
 using boost::shared_ptr;
-using boost::lexical_cast;
 
 #define INDICATOR_SIZE 16
 
