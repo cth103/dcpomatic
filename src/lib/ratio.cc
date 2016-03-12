@@ -38,6 +38,7 @@ Ratio::setup_ratios ()
 	_ratios.push_back (new Ratio (float(1800) / 1080, "166", _("1.66"), "166"));
 	_ratios.push_back (new Ratio (float(1920) / 1080, "178", _("16:9"), "178"));
 	_ratios.push_back (new Ratio (float(1998) / 1080, "185", _("Flat"), "F"));
+	_ratios.push_back (new Ratio (float(2048) /  872, "235", _("2.35"), "S"));
 	_ratios.push_back (new Ratio (float(2048) /  858, "239", _("Scope"), "S"));
 	_ratios.push_back (new Ratio (float(2048) / 1080, "full-frame", _("Full frame"), "C"));
 }

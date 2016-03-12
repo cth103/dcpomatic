@@ -1,5 +1,7 @@
 2016-03-12  Carl Hetherington  <cth@carlh.net>
 
+	* Add 2.35:1 ratio.
+
 	* Fix assertion failure on opening content properties (#816).
 
 2016-03-10  Carl Hetherington  <cth@carlh.net>
