@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,6 +85,8 @@ using std::set_terminate;
 using boost::shared_ptr;
 using boost::thread;
 using boost::optional;
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
 using dcp::Size;
 
 /** Path to our executable, required by the stacktrace stuff and filled
@@ -621,4 +623,16 @@ string
 audio_asset_filename (shared_ptr<dcp::SoundAsset> asset)
 {
 	return "pcm_" + asset->id() + ".mxf";
+}
+
+float
+relaxed_string_to_float (string s)
+{
+	try {
+		boost::algorithm::replace_all (s, ",", ".");
+		return lexical_cast<float> (s);
+	} catch (bad_lexical_cast) {
+		boost::algorithm::replace_all (s, ".", ",");
+		return lexical_cast<float> (s);
+	}
 }

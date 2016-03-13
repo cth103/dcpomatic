@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,11 +17,9 @@
 
 */
 
-#include <boost/lexical_cast.hpp>
 #include "gain_calculator_dialog.h"
 #include "wx_util.h"
-
-using namespace boost;
+#include "lib/util.h"
 
 GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	: TableDialog (parent, _("Gain Calculator"), 2, 1, true)
@@ -42,7 +40,7 @@ GainCalculatorDialog::wanted_fader () const
 		return 0;
 	}
 
-	return lexical_cast<float> (wx_to_std (_wanted->GetValue ()));
+	return relaxed_string_to_float (wx_to_std (_wanted->GetValue ()));
 }
 
 float
@@ -52,5 +50,5 @@ GainCalculatorDialog::actual_fader () const
 		return 0;
 	}
 
-	return lexical_cast<float> (wx_to_std (_actual->GetValue ()));
+	return relaxed_string_to_float (wx_to_std (_actual->GetValue ()));
 }
