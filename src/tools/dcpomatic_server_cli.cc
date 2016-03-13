@@ -120,6 +120,8 @@ main (int argc, char* argv[])
 			exit (EXIT_FAILURE);
 		}
 		cerr << argv[0] << ": " << e.what() << "\n";
+	} catch (std::exception& e) {
+		cerr << argv[0] << ": failed to start server; " << e.what() << "\n";
 	}
 	return 0;
 }
