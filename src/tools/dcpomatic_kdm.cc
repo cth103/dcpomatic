@@ -146,7 +146,7 @@ public:
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("CPL")));
 		_dkdm = new EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper> (
-			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&column, _1), false
+			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&always_valid), bind (&column, _1), false
 			);
 		vertical->Add (_dkdm, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 

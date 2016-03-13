@@ -39,6 +39,7 @@ sources = """
           content_properties_dialog.cc
           content_sub_panel.cc
           dcp_panel.cc
+          editable_list.cc
           email_dialog.cc
           image_sequence_dialog.cc
           image_subtitle_colour_dialog.cc

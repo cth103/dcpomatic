@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@
 #include <boost/function.hpp>
 #include <vector>
 
+bool always_valid ();
+
 /** @param T type of things being edited.
  *  @param S dialog to edit a thing.
  */
@@ -38,6 +40,7 @@ public:
 		std::vector<std::string> columns,
 		boost::function<std::vector<T> ()> get,
 		boost::function<void (std::vector<T>)> set,
+		boost::function<bool (T)> valid,
 		boost::function<std::string (T, int)> column,
 		bool can_edit = true,
 		bool title = true
@@ -45,6 +48,7 @@ public:
 		: wxPanel (parent)
 		, _get (get)
 		, _set (set)
+		, _valid (valid)
 		, _columns (columns.size ())
 		, _column (column)
 		, _edit (0)
@@ -158,10 +162,13 @@ private:
 		S* dialog = new S (this);
 
 		if (dialog->ShowModal() == wxID_OK) {
-			add_to_control (dialog->get ());
-			std::vector<T> all = _get ();
-			all.push_back (dialog->get ());
-			_set (all);
+			T const v = dialog->get ();
+			if (_valid (v)) {
+				add_to_control (v);
+				std::vector<T> all = _get ();
+				all.push_back (v);
+				_set (all);
+			}
 		}
 
 		dialog->Destroy ();
@@ -180,7 +187,12 @@ private:
 		S* dialog = new S (this);
 		dialog->set (all[item]);
 		if (dialog->ShowModal() == wxID_OK) {
-			all[item] = dialog->get ();
+			T const v = dialog->get ();
+			if (!_valid (v)) {
+				return;
+			}
+
+			all[item] = v;
 		}
 		dialog->Destroy ();
 
@@ -217,6 +229,7 @@ private:
 
 	boost::function <std::vector<T> ()> _get;
 	boost::function <void (std::vector<T>)> _set;
+	boost::function <bool (T)> _valid;
 	int _columns;
 	boost::function<std::string (T, int)> _column;
 

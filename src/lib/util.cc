@@ -636,3 +636,9 @@ relaxed_string_to_float (string s)
 		return lexical_cast<float> (s);
 	}
 }
+
+bool
+string_not_empty (string s)
+{
+	return !s.empty ();
+}

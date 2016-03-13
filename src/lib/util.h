@@ -75,5 +75,6 @@ extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset);
 extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset);
 extern float relaxed_string_to_float (std::string);
+extern bool string_not_empty (std::string);
 
 #endif

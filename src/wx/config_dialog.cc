@@ -639,6 +639,7 @@ private:
 			columns,
 			boost::bind (&Config::servers, Config::instance()),
 			boost::bind (&Config::set_servers, Config::instance(), _1),
+			boost::bind (&always_valid),
 			boost::bind (&EncodingServersPage::server_column, this, _1)
 			);
 
@@ -1251,7 +1252,12 @@ private:
 		columns.push_back (wx_to_std (_("Address")));
 		add_label_to_sizer (table, _panel, _("CC addresses"), true);
 		_kdm_cc = new EditableList<string, EmailDialog> (
-			_panel, columns, bind (&Config::kdm_cc, Config::instance()), bind (&Config::set_kdm_cc, Config::instance(), _1), bind (&column, _1)
+			_panel,
+			columns,
+			bind (&Config::kdm_cc, Config::instance()),
+			bind (&Config::set_kdm_cc, Config::instance(), _1),
+			bind (&string_not_empty, _1),
+			bind (&column, _1)
 			);
 		table->Add (_kdm_cc, 1, wxEXPAND | wxALL);
 

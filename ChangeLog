@@ -1,5 +1,7 @@
 2016-03-13  Carl Hetherington  <cth@carlh.net>
 
+	* Ignore empty email addresses for KDMs (#818).
+
 	* Fix crash when using non-English decimal separators
 	in the audio gain calculator dialogue (#824).
 

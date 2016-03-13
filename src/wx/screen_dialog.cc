@@ -92,7 +92,13 @@ ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optiona
 	vector<string> columns;
 	columns.push_back (wx_to_std (_("Thumbprint")));
 	_trusted_device_list = new EditableList<dcp::Certificate, CertificateFileDialogWrapper> (
-		this, columns, bind (&ScreenDialog::trusted_devices, this), bind (&ScreenDialog::set_trusted_devices, this, _1), bind (&column, _1), false
+		this,
+		columns,
+		bind (&ScreenDialog::trusted_devices, this),
+		bind (&ScreenDialog::set_trusted_devices, this, _1),
+		bind (&always_valid),
+		bind (&column, _1),
+		false
 		);
 
 	_sizer->Add (_trusted_device_list, wxGBPosition (r, 0), wxGBSpan (1, 3), wxEXPAND);
