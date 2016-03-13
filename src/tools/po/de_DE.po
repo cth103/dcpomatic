@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-03-07 13:18+0100\n"
+"PO-Revision-Date: 2016-03-12 03:44+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -123,7 +123,9 @@ msgstr "Falscher Parameter für %s (%s)"
 
 #: src/tools/dcpomatic.cc:481 src/tools/dcpomatic.cc:559
 msgid "CPL's content is not encrypted."
-msgstr "Medien der CPL sind nicht verschlüsselt worden."
+msgstr ""
+"Medien der CPL sind bei der DCP-Erstellung nicht verschlüsselt worden. Nur "
+"für verschlüsselte CPLs können KDMs erstellt werden."
 
 #: src/tools/dcpomatic.cc:812
 msgid "Check for updates"
@@ -145,7 +147,7 @@ msgstr "Konnte DCP: %s nicht erstellen"
 #: src/tools/dcpomatic.cc:297 src/tools/dcpomatic_batch.cc:136
 #, c-format
 msgid "Could not open film at %s (%s)"
-msgstr "Der Film konnte nicht bei %s (%s) geöffnet werden"
+msgstr "Der Film konnte nicht von %s geöffnet werden (%s)."
 
 #: src/tools/dcpomatic.cc:619
 msgid "Could not show DCP"

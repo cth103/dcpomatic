@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-03-07 13:10+0100\n"
+"PO-Revision-Date: 2016-03-12 03:40+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -145,7 +145,7 @@ msgstr "Saal hinzufügen..."
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
-msgstr "Einzelbildsequenz / DCP hinzufügen"
+msgstr "Einzelbildsequenz / DCP hinzufügen."
 
 #: src/wx/content_panel.cc:80
 msgid "Add file(s)..."
@@ -231,7 +231,8 @@ msgstr "Ton Sprache (z.B. DE)"
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr ""
-"Der Ton von Kanal %d wird ohne Veränderung an den DCP Kanal %d weitergegeben."
+"Der Ton von Kanal %d (Quelle) wird ohne Veränderung an den Kanal %d (DCP) "
+"weitergegeben."
 
 #: src/wx/audio_mapping_view.cc:319
 #, c-format
@@ -239,7 +240,7 @@ msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
 "%.1fdB."
 msgstr ""
-"Der Ton von Kanal %d wird wird an den DCP Kanal %d mit %.1fdB Pegel "
+"Der Ton von Kanal %d (Quelle) wird an den Kanal %d (DCP) mit %.1fdB Pegel "
 "weitergegeben."
 
 #: src/wx/config_dialog.cc:204
@@ -260,11 +261,11 @@ msgstr "Blau Chromatizität"
 
 #: src/wx/fonts_dialog.cc:68
 msgid "Bold file"
-msgstr "Bold file"
+msgstr "Fett Font-Datei"
 
 #: src/wx/font_files_dialog.cc:36
 msgid "Bold font"
-msgstr "Bold font"
+msgstr "Fetter Zeichensatz"
 
 #: src/wx/video_panel.cc:134
 msgid "Bottom"
@@ -280,7 +281,7 @@ msgstr "Untertitel fest in Bild einrechnen ('Burn-In')"
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "But I have to use fader"
-msgstr "Aber ich nutze gegenwärtig Faderstellung"
+msgstr "...aber ich nutze gegenwärtig Faderstellung:"
 
 #: src/wx/config_dialog.cc:1254
 msgid "CC addresses"
@@ -301,7 +302,7 @@ msgstr "CPL annotation text"
 
 #: src/wx/audio_panel.cc:76
 msgid "Calculate..."
-msgstr "Berechne..."
+msgstr "Berechne CP Fader..."
 
 #: src/wx/job_view.cc:46
 msgid "Cancel"
@@ -309,7 +310,7 @@ msgstr "Abbrechen"
 
 #: src/wx/content_sub_panel.cc:48
 msgid "Cannot reference this DCP.  "
-msgstr "Das DCP kann nicht gefunden werden."
+msgstr "Das DCP kann nicht eingebunden werden."
 
 #: src/wx/dolby_doremi_certificate_panel.cc:202
 msgid "Certificate downloaded"
@@ -353,7 +354,7 @@ msgstr "Zeichensatz wählen"
 
 #: src/wx/font_files_dialog.cc:79
 msgid "Choose a font file"
-msgstr "Einen Zeichensatz wählen"
+msgstr "Eine Zeichensatzdatei wählen"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
@@ -390,7 +391,7 @@ msgstr "DCI Containertyp"
 
 #: src/wx/film_editor.cc:51
 msgid "Content"
-msgstr "Inhalt"
+msgstr "Inhalt(e)"
 
 #: src/wx/content_properties_dialog.cc:38
 msgid "Content Properties"
@@ -410,7 +411,7 @@ msgstr "Kontrast"
 
 #: src/wx/dcp_panel.cc:84
 msgid "Copy as name"
-msgstr "ISDCF Name kopieren"
+msgstr "ISDCF Name statisch kopieren"
 
 #: src/wx/audio_dialog.cc:201
 msgid "Could not analyse audio."
@@ -447,7 +448,7 @@ msgstr "Ersteller"
 
 #: src/wx/video_panel.cc:97
 msgid "Crop"
-msgstr "Beschnitt"
+msgstr "Beschneiden"
 
 #: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
 msgid "Custom"
@@ -636,8 +637,7 @@ msgstr "Filter"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
-"Führe vollständige Audioanalyse durch (Integrierte Lautheit, Spitzenwert und "
-"Lautheitsumfang aus EBU128)"
+"Führe vollständige Audioanalyse durch (LUFS, LU und True Peak aus EBU R128)"
 
 #: src/wx/content_menu.cc:63
 msgid "Find missing..."
@@ -692,7 +692,7 @@ msgstr "Verstärkung (+/-)"
 
 #: src/wx/gain_calculator_dialog.cc:27
 msgid "Gain Calculator"
-msgstr "Fader Rechner"
+msgstr "Fader Rechner ('Dolby Fader Level')"
 
 #: src/wx/audio_gain_dialog.cc:28
 #, c-format
@@ -778,7 +778,7 @@ msgstr "DCP Standard 'issuer' (DCI)"
 
 #: src/wx/fonts_dialog.cc:60
 msgid "Italic file"
-msgstr "Kursiv Datei"
+msgstr "Kursiv Font-Datei"
 
 #: src/wx/font_files_dialog.cc:35
 msgid "Italic font"
@@ -802,11 +802,12 @@ msgstr "KDM Typ"
 
 #: src/wx/kdm_dialog.cc:64
 msgid "KDM|Timing"
-msgstr "Zeitfenster (lokale Zeit DIESES Computers)"
+msgstr ""
+"Zeitfenster (nach UTC Offset/Zeitzone in Kinoeigenschaften) - Zeit ist LOKAL!"
 
 #: src/wx/timeline_dialog.cc:43
 msgid "Keep video and subtitles in sequence"
-msgstr "Bild- und Untertitelreihenfolge beibehalten "
+msgstr "Bild- und Untertitelinhalte hintereinander anordnen "
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
 msgid "Key"
@@ -929,7 +930,7 @@ msgstr "Benötigt KDM:"
 #: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
 #: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
-msgstr "Name"
+msgstr "CPL Name"
 
 #: src/wx/new_film_dialog.cc:35
 msgid "New Film"
@@ -946,7 +947,8 @@ msgstr "Kein DCP ausgewählt."
 #: src/wx/audio_mapping_view.cc:314
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
-msgstr "Der Ton von Kanal %d wird nicht an das DCP Kanal %d weitergegeben."
+msgstr ""
+"Der Ton von Kanal %d (Quelle) wird nicht an Kanal %d (DCP) weitergegeben."
 
 #: src/wx/content_panel.cc:325
 msgid "No content found in this folder."
@@ -959,7 +961,7 @@ msgstr "Kein"
 
 #: src/wx/fonts_dialog.cc:52
 msgid "Normal file"
-msgstr "Standard Datei"
+msgstr "Standard Font-Datei"
 
 #: src/wx/font_files_dialog.cc:34
 msgid "Normal font"
@@ -999,7 +1001,7 @@ msgstr "Ausgehender/SMTP Mail Server"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:35
 msgid "Outline"
-msgstr "Umriss"
+msgstr "Umrissdarstellung"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:39
 msgid "Outline colour"
@@ -1023,7 +1025,7 @@ msgstr "Pause"
 
 #: src/wx/audio_dialog.cc:88
 msgid "Peak"
-msgstr "Spitze"
+msgstr "Spitzenwert (Sample)"
 
 #: src/wx/audio_panel.cc:302
 #, c-format
@@ -1121,7 +1123,7 @@ msgstr "Rot Chromatizität"
 #: src/wx/timeline_reels_view.cc:83
 #, c-format
 msgid "Reel %d"
-msgstr "Akt %d"
+msgstr "Akt ('Reel') %d"
 
 #: src/wx/dcp_panel.cc:140
 msgid "Reel length"
@@ -1187,7 +1189,7 @@ msgstr "Rechts"
 
 #: src/wx/audio_mapping_view.cc:322
 msgid "Right click to change gain."
-msgstr "Rechtsklick für Pegeländerung"
+msgstr "Rechtsklick für Anpassung."
 
 #: src/wx/config_dialog.cc:863
 msgid "Root"
@@ -1216,7 +1218,7 @@ msgstr "Skaliere auf"
 
 #: src/wx/kdm_dialog.cc:53
 msgid "Screens"
-msgstr "Saal"
+msgstr "Kino- und Saaldaten:"
 
 #: src/wx/config_dialog.cc:634
 msgid "Search network for servers"
@@ -1285,7 +1287,7 @@ msgstr "Sprache setzen"
 
 #: src/wx/dcp_panel.cc:754
 msgid "Show audio..."
-msgstr "Ton anzeigen..."
+msgstr "Audiopegel anzeigen..."
 
 #: src/wx/audio_panel.cc:59
 msgid "Show graph of audio levels..."
@@ -1427,7 +1429,7 @@ msgstr "Zeit"
 
 #: src/wx/timeline_dialog.cc:34
 msgid "Timeline"
-msgstr "Zeitleiste/Reels"
+msgstr "Zeitleiste/Aktaufteilung ('Reels')"
 
 #: src/wx/content_panel.cc:100
 msgid "Timeline..."
@@ -1435,7 +1437,7 @@ msgstr "Zeitleiste..."
 
 #: src/wx/timing_panel.cc:44
 msgid "Timing|Timing"
-msgstr "Trimmen"
+msgstr "Timing & Trimmen"
 
 #: src/wx/video_panel.cc:124
 msgid "Top"
@@ -1518,7 +1520,7 @@ msgstr "Bildwiederholrate"
 
 #: src/wx/subtitle_panel.cc:120
 msgid "View..."
-msgstr "Zeige..."
+msgstr "Liste..."
 
 #: src/wx/config_dialog.cc:1417
 msgid "Warnings"
@@ -1591,9 +1593,10 @@ msgid ""
 "You have %d files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"Sie haben %d Dateien die wie VOB Dateien einer DVD aussehen. Sie sollten sie "
-"mit externer Software (z.B. MPEG Streamclip) verbinden um einen sanften "
-"Übergang zwischen den Dateien zu haben."
+"Sie haben %d Dateien in Verwendung, die wie segmentierte VOB oder MTS "
+"Dateien einer DVD oder Kamera aussehen. Sie sollten sie zusammen auswählen, "
+"und mit <Rechtsclick> -> 'Nahtlos verbinden' ausführen um saubere Übergänge "
+"zu gewährleisten!"
 
 #: src/wx/hints_dialog.cc:96
 msgid ""
@@ -1612,15 +1615,17 @@ msgid ""
 msgstr ""
 "Ihre DCP Bildrate (%d fps) kann mit manchen (zumeist älteren) Projektoren "
 "Probleme verursachen. Um auf der sicheren Seite zu sein sollten Sie 24 oder "
-"48 Bilder/s benutzen."
+"48 Bilder/s (3D) benutzen."
 
 #: src/wx/hints_dialog.cc:101
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
-"Ihr DCP hat weniger als 6 Audiokanäle. Das kann auf manchen Projektoren zu "
-"Problemen führen."
+"Ihr DCP hat weniger als 6 Audiokanäle. Das kann auf manchen Systemen zu "
+"Problemen führen. Sie können in den DCP Einstellungen 6 Kanäle auswählen - "
+"DCP-o-matic wird die überzähligen Kanäle dann mit Stille füllen. Dies wird "
+"ihr DCP üblicherweise nur unwesentlich vergrößern."
 
 #: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
 msgid "dB"
@@ -1648,7 +1653,7 @@ msgstr "ms"
 
 #: src/wx/config_dialog.cc:1229
 msgid "port"
-msgstr "port"
+msgstr "Port"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/config_dialog.cc:449 src/wx/timing_panel.cc:69

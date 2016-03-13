@@ -1,5 +1,7 @@
 2016-03-13  Carl Hetherington  <cth@carlh.net>
 
+	* Updated de_DE translation from Carsten Kurz.
+
 	* Ignore empty email addresses for KDMs (#818).
 
 	* Fix crash when using non-English decimal separators
