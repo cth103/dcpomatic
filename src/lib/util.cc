@@ -389,6 +389,11 @@ dcpomatic_setup_gettext_i18n (string lang)
 
 	setlocale (LC_ALL, "");
 	textdomain ("libdcpomatic2");
+	/* This sets up the locale to be used by lexical_cast (and probably other stuff);
+	   used by e.g. the audio gain calculator dialogue where we lexical_cast floating
+	   point values.
+	*/
+	std::locale::global (std::locale (""));
 
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	bindtextdomain ("libdcpomatic2", mo_path().string().c_str());
