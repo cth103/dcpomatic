@@ -1064,7 +1064,7 @@ private:
 			error_dialog (
 				0,
 				wxString::Format (
-					_("An exception occurred: %s.\n\n") + " " + REPORT_PROBLEM,
+					_("An exception occurred: %s.\n\n") + REPORT_PROBLEM,
 					std_to_wx (e.what ())
 					)
 				);
