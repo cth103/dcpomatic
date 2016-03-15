@@ -218,6 +218,17 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 	}
 	break;
 
+	case AV_SAMPLE_FMT_S32P:
+	{
+		int32_t** p = reinterpret_cast<int32_t **> (_frame->data);
+		for (int i = 0; i < stream->channels(); ++i) {
+			for (int j = 0; j < frames; ++j) {
+				audio->data(i)[j] = static_cast<float>(p[i][j]) / (1 << 31);
+			}
+		}
+	}
+	break;
+
 	case AV_SAMPLE_FMT_FLT:
 	{
 		float* p = reinterpret_cast<float*> (_frame->data[0]);
