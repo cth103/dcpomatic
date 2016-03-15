@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-02-05 09:51+0100\n"
+"PO-Revision-Date: 2016-03-15 23:31+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -69,7 +69,7 @@ msgstr "Analyzovat zvuk"
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "Zvuk"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -153,9 +153,8 @@ msgid "Centre"
 msgstr "Center"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
-msgstr "Zvukové kanály"
+msgstr "Kanály"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -196,9 +195,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Obsah a DCP mají stejný bitrate,\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Snímková frekvence obsahu"
+msgstr "Snímková frekvence audio obsahu"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -298,9 +296,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Nemohu dekódovat video soubor (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "nemohu najít informace o streamu"
+msgstr "Nemohu najít formát pixelu pro video."
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -363,9 +360,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML titulky"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Snímková frekvence obsahu"
+msgstr "Snímková frekvence DCP"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -459,9 +455,8 @@ msgid "Encoding image data"
 msgstr "Enkóduji obrazové data"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Chyba v SubRip souboru: viděný %1 a byl očekávaný %2"
+msgstr "Chyba v souboru titulků: viděný %1 a byl očekávaný %2"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -504,9 +499,8 @@ msgid "Flat"
 msgstr "Flat"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Frame rate videa (počet snímků za sekundu)"
+msgstr "Snímková frekvence"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -522,19 +516,19 @@ msgstr "Full frame (Celý obraz)"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Plná délka zvukových snímků v DCP rychlosti"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Plná délka zvukových snímků v rychlosti obsahu"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Plná délka video snímků v DCP rychlosti"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Plná délka video snímků v rychlosti obsahu"
 
 #: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
@@ -562,7 +556,7 @@ msgstr "Vysoká kvalita 3D denoiser"
 
 #: src/lib/audio_content.cc:308
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -612,7 +606,7 @@ msgstr "Left surround (Levý surround)"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Délka"
 
 #: src/lib/film.cc:1315
 msgid "Lfe"
@@ -821,7 +815,7 @@ msgstr "Short (Krátky film)"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -848,9 +842,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/text_subtitle_content.cc:95
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[titulky]"
+msgstr "Text titulků"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -993,9 +986,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "Velikost videa"
+msgstr "Video"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"

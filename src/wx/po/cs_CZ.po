@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2016-02-05 08:38+0100\n"
+"PO-Revision-Date: 2016-03-15 23:33+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
@@ -25,12 +25,11 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:82
-#, fuzzy
 msgid ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:41 src/wx/file_picker_ctrl.cc:57
@@ -47,7 +46,7 @@ msgstr "-6dB"
 
 #: src/wx/rgba_colour_picker.cc:35
 msgid "255"
-msgstr ""
+msgstr "255"
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -91,11 +90,11 @@ msgstr "4K"
 
 #: src/wx/image_subtitle_colour_dialog.cc:40
 msgid "<b>New colour</b>"
-msgstr ""
+msgstr "<b>Nová barva</b>"
 
 #: src/wx/image_subtitle_colour_dialog.cc:37
 msgid "<b>Original colour</b>"
-msgstr ""
+msgstr "<b>Původní barva</b>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -198,11 +197,11 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:1397
 msgid "Allow any DCP frame rate"
-msgstr "Povolitvšechny DCP frame rate"
+msgstr "Povolit všechny DCP frame rate"
 
 #: src/wx/rgba_colour_picker.cc:32
 msgid "Alpha   0"
-msgstr ""
+msgstr "Alpha   0"
 
 #: src/wx/subtitle_panel.cc:124
 msgid "Appearance..."
@@ -271,7 +270,6 @@ msgid "But I have to use fader"
 msgstr "Ale musím používat fader"
 
 #: src/wx/config_dialog.cc:1254
-#, fuzzy
 msgid "CC addresses"
 msgstr "CC adresa"
 
@@ -346,11 +344,11 @@ msgstr "Vyberte soubor s písmem"
 
 #: src/wx/config_dialog.cc:193
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr "Soubor databáze filmu a obrazovky"
 
 #: src/wx/content_widget.h:72
 msgid "Click the button to set all selected content to the same value."
-msgstr ""
+msgstr "Kliknutím na tlačítko nastavíte veškerý obsah na stejné hodnoty."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -625,6 +623,8 @@ msgstr "Filtry"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"Najít integrovanou hlasitost, skutečný vrchol a rozsah hlasitosti při "
+"analýze zvuku"
 
 #: src/wx/content_menu.cc:63
 msgid "Find missing..."
@@ -649,7 +649,7 @@ msgstr "Frekvence snímků (frame rate)"
 
 #: src/wx/about_dialog.cc:65
 msgid "Free, open-source DCP creation from almost anything."
-msgstr "Zadarmo, open-source nástroj pro vytváření DCP ttéměř ze všeho "
+msgstr "Zadarmo, open-source nástroj pro vytváření DCP téměř z čehokoliv"
 
 #: src/wx/kdm_timing_panel.cc:29
 msgid "From"
@@ -790,7 +790,6 @@ msgid "KDM|Timing"
 msgstr "KDM|Trvaní"
 
 #: src/wx/timeline_dialog.cc:43
-#, fuzzy
 msgid "Keep video and subtitles in sequence"
 msgstr "Nechat video v sekvenci"
 
@@ -898,7 +897,7 @@ msgstr "Vícenásobný výběr obsahu "
 
 #: src/wx/content_widget.h:64
 msgid "Multiple values"
-msgstr ""
+msgstr "Více hodnot"
 
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
@@ -1231,7 +1230,7 @@ msgstr "Vybrat soubor s certifikátem"
 
 #: src/wx/config_dialog.cc:194
 msgid "Select cinema and screen database file"
-msgstr ""
+msgstr "Vybrat soubor databáze filmu a obrazovky"
 
 #: src/wx/kdm_output_panel.cc:58
 msgid "Send by email"
@@ -1243,7 +1242,7 @@ msgstr "Odeslat logy"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:42
 msgid "Serial number"
-msgstr "Seriennummer"
+msgstr "Serial number"
 
 #: src/wx/server_dialog.cc:28
 msgid "Server"
@@ -1338,9 +1337,8 @@ msgid "Subtitle appearance"
 msgstr "Vyhledat titulky"
 
 #: src/wx/image_subtitle_colour_dialog.cc:30
-#, fuzzy
 msgid "Subtitle colours"
-msgstr "Barva orámování"
+msgstr "Barva titulků"
 
 #: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
 #: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:62
@@ -1468,7 +1466,7 @@ msgstr "Update"
 
 #: src/wx/dcp_panel.cc:156
 msgid "Upload DCP to TMS after it is made"
-msgstr ""
+msgstr "Nahrát DCP do TMS poté co je vytvořen"
 
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
