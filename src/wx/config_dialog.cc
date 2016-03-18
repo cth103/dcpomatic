@@ -54,6 +54,9 @@ using std::vector;
 using std::string;
 using std::list;
 using std::cout;
+using std::pair;
+using std::make_pair;
+using std::map;
 using boost::bind;
 using boost::shared_ptr;
 using boost::function;
@@ -157,20 +160,22 @@ private:
 		_set_language = new wxCheckBox (_panel, wxID_ANY, _("Set language"));
 		table->Add (_set_language, wxGBPosition (r, 0));
 		_language = new wxChoice (_panel, wxID_ANY);
-		_language->Append (wxT ("Deutsch"));
-		_language->Append (wxT ("English"));
-		_language->Append (wxT ("Español"));
-		_language->Append (wxT ("Français"));
-		_language->Append (wxT ("Italiano"));
-		_language->Append (wxT ("Nederlands"));
-		_language->Append (wxT ("Svenska"));
-		_language->Append (wxT ("Русский"));
-		_language->Append (wxT ("Polski"));
-		_language->Append (wxT ("Dansk"));
-		_language->Append (wxT ("Português europeu"));
-		_language->Append (wxT ("Slovenský jazyk"));
-		_language->Append (wxT ("Čeština"));
-		_language->Append (wxT ("українська мова"));
+		vector<pair<string, string> > languages;
+		languages.push_back (make_pair ("Deutsch", "de_DE"));
+		languages.push_back (make_pair ("English", "en_GB"));
+		languages.push_back (make_pair ("Español", "es_ES"));
+		languages.push_back (make_pair ("Français", "fr_FR"));
+		languages.push_back (make_pair ("Italiano", "it_IT"));
+		languages.push_back (make_pair ("Nederlands", "nl_NL"));
+		languages.push_back (make_pair ("Svenska", "sv_SE"));
+		languages.push_back (make_pair ("Русский", "ru_RU"));
+		languages.push_back (make_pair ("Polski", "pl_PL"));
+		languages.push_back (make_pair ("Dansk", "da_DK"));
+		languages.push_back (make_pair ("Português europeu", "pt_PT"));
+		languages.push_back (make_pair ("Slovenský jazyk", "sk_SK"));
+		languages.push_back (make_pair ("Čeština", "cs_CZ"));
+		languages.push_back (make_pair ("українська мова", "uk_UA"));
+		checked_set (_language, languages);
 		table->Add (_language, wxGBPosition (r, 1));
 		++r;
 
@@ -249,35 +254,29 @@ private:
 
 		checked_set (_set_language, static_cast<bool>(config->language()));
 
-		if (config->language().get_value_or ("") == "fr") {
-			checked_set (_language, 3);
-		} else if (config->language().get_value_or ("") == "it") {
-			checked_set (_language, 4);
-		} else if (config->language().get_value_or ("") == "es") {
-			checked_set (_language, 2);
-		} else if (config->language().get_value_or ("") == "sv") {
-			checked_set (_language, 6);
-		} else if (config->language().get_value_or ("") == "de") {
-			checked_set (_language, 0);
-		} else if (config->language().get_value_or ("") == "nl") {
-			checked_set (_language, 5);
-		} else if (config->language().get_value_or ("") == "ru") {
-			checked_set (_language, 7);
-		} else if (config->language().get_value_or ("") == "pl") {
-			checked_set (_language, 8);
-		} else if (config->language().get_value_or ("") == "da") {
-			checked_set (_language, 9);
-		} else if (config->language().get_value_or ("") == "pt") {
-			checked_set (_language, 10);
-		} else if (config->language().get_value_or ("") == "sk") {
-			checked_set (_language, 11);
-		} else if (config->language().get_value_or ("") == "cs") {
-			checked_set (_language, 12);
-		} else if (config->language().get_value_or ("") == "uk") {
-			checked_set (_language, 13);
-		} else {
-			_language->SetSelection (1);
+		/* Backwards compatibility of config file */
+
+		map<string, string> compat_map;
+		compat_map["fr"] = "fr_FR";
+		compat_map["it"] = "it_IT";
+		compat_map["es"] = "es_ES";
+		compat_map["sv"] = "sv_SE";
+		compat_map["de"] = "de_DE";
+		compat_map["nl"] = "nl_NL";
+		compat_map["ru"] = "ru_RU";
+		compat_map["pl"] = "pl_PL";
+		compat_map["da"] = "da_DK";
+		compat_map["pt"] = "pt_PT";
+		compat_map["sk"] = "sk_SK";
+		compat_map["cs"] = "cs_CZ";
+		compat_map["uk"] = "uk_UA";
+
+		string lang = config->language().get_value_or ("en_GB");
+		if (compat_map.find (lang) != compat_map.end ()) {
+			lang = compat_map[lang];
 		}
+
+		checked_set (_language, lang);
 
 		checked_set (_num_local_encoding_threads, config->num_local_encoding_threads ());
 #ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
@@ -311,49 +310,11 @@ private:
 
 	void language_changed ()
 	{
-		switch (_language->GetSelection ()) {
-		case 0:
-			Config::instance()->set_language ("de");
-			break;
-		case 1:
-			Config::instance()->set_language ("en");
-			break;
-		case 2:
-			Config::instance()->set_language ("es");
-			break;
-		case 3:
-			Config::instance()->set_language ("fr");
-			break;
-		case 4:
-			Config::instance()->set_language ("it");
-			break;
-		case 5:
-			Config::instance()->set_language ("nl");
-			break;
-		case 6:
-			Config::instance()->set_language ("sv");
-			break;
-		case 7:
-			Config::instance()->set_language ("ru");
-			break;
-		case 8:
-			Config::instance()->set_language ("pl");
-			break;
-		case 9:
-			Config::instance()->set_language ("da");
-			break;
-		case 10:
-			Config::instance()->set_language ("pt");
-			break;
-		case 11:
-			Config::instance()->set_language ("sk");
-			break;
-		case 12:
-			Config::instance()->set_language ("cs");
-			break;
-		case 13:
-			Config::instance()->set_language ("uk");
-			break;
+		int const sel = _language->GetSelection ();
+		if (sel != -1) {
+			Config::instance()->set_language (string_client_data (_language->GetClientObject (sel)));
+		} else {
+			Config::instance()->unset_language ();
 		}
 	}
 
