@@ -3,92 +3,93 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-16 19:54+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2016-03-17 10:39-0300\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: src/tools/dcpomatic.cc:346
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr ""
+"%1 é um arquivo que já existente, você não pode usá-lo para um novo filme."
 
 #: src/tools/dcpomatic_batch.cc:59
 msgid "&Add Film..."
-msgstr ""
+msgstr "&Adicionar Filme..."
 
 #: src/tools/dcpomatic.cc:828
 msgid "&Content"
-msgstr ""
+msgstr "&Conteúdo"
 
 #: src/tools/dcpomatic.cc:826 src/tools/dcpomatic_batch.cc:81
 msgid "&Edit"
-msgstr ""
+msgstr "&Editar"
 
 #: src/tools/dcpomatic.cc:784 src/tools/dcpomatic_batch.cc:61
 msgid "&Exit"
-msgstr ""
+msgstr "&Sair"
 
 #: src/tools/dcpomatic.cc:824 src/tools/dcpomatic_batch.cc:79
 msgid "&File"
-msgstr ""
+msgstr "&Arquivo"
 
 #: src/tools/dcpomatic.cc:831 src/tools/dcpomatic_batch.cc:84
 msgid "&Help"
-msgstr ""
+msgstr "&Ajuda"
 
 #: src/tools/dcpomatic.cc:829
 msgid "&Jobs"
-msgstr ""
+msgstr "&Tarefas"
 
 #: src/tools/dcpomatic.cc:801
 msgid "&Make DCP\tCtrl-M"
-msgstr ""
+msgstr "&Fazer DCP\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:773
 msgid "&Open...\tCtrl-O"
-msgstr ""
+msgstr "&Abrir...\tCtrl+O"
 
 #: src/tools/dcpomatic.cc:790 src/tools/dcpomatic.cc:793
 #: src/tools/dcpomatic_batch.cc:67 src/tools/dcpomatic_batch.cc:70
 msgid "&Preferences...\tCtrl-P"
-msgstr ""
+msgstr "&Preferências...\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:786 src/tools/dcpomatic_batch.cc:63
 msgid "&Quit"
-msgstr ""
+msgstr "&Sair"
 
 #: src/tools/dcpomatic.cc:775
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "&Salvar\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:805
 msgid "&Send DCP to TMS"
-msgstr ""
+msgstr "&Enviar DCP para TMS"
 
 #: src/tools/dcpomatic.cc:830 src/tools/dcpomatic_batch.cc:83
 msgid "&Tools"
-msgstr ""
+msgstr "&Ferramentas"
 
 #: src/tools/dcpomatic.cc:820 src/tools/dcpomatic_batch.cc:77
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #: src/tools/dcpomatic.cc:818
 msgid "About DCP-o-matic"
-msgstr ""
+msgstr "Sobre DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:115
 msgid "Add Film..."
-msgstr ""
+msgstr "Adicionar Filme..."
 
 #: src/tools/dcpomatic.cc:1058
 #, c-format
@@ -96,6 +97,8 @@ msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
+"Ocorreu um erro: %s (%s)\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:1067
 #, c-format
@@ -103,122 +106,124 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
+"Ocorreu um erro: %s.\n"
+"\n"
 
 #: src/tools/dcpomatic.cc:485 src/tools/dcpomatic.cc:563
 #: src/tools/dcpomatic.cc:1072
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "Ocorreu um erro desconhecido."
 
 #: src/tools/dcpomatic.cc:442
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr ""
+msgstr "Configuração errada para %s (%s)"
 
 #: src/tools/dcpomatic.cc:481 src/tools/dcpomatic.cc:559
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "Contéudo da CPL não encriptado."
 
 #: src/tools/dcpomatic.cc:812
 msgid "Check for updates"
-msgstr ""
+msgstr "Verificar atualizações"
 
 #: src/tools/dcpomatic.cc:529
 msgid "Could not find batch converter."
-msgstr ""
+msgstr "Conversor em série não encontrado."
 
 #: src/tools/dcpomatic.cc:996 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
-msgstr ""
+msgstr "Não conseguiu carregar o filme %1 (%2)"
 
 #: src/tools/dcpomatic.cc:444
 #, c-format
 msgid "Could not make DCP: %s"
-msgstr ""
+msgstr "Não conseguiu criar o DCP: %s"
 
 #: src/tools/dcpomatic.cc:297 src/tools/dcpomatic_batch.cc:136
 #, c-format
 msgid "Could not open film at %s (%s)"
-msgstr ""
+msgstr "Não conseguiu abrir o filme em %s (%s)"
 
 #: src/tools/dcpomatic.cc:619
 msgid "Could not show DCP"
-msgstr ""
+msgstr "Não foi possível exibir o DCP"
 
 #: src/tools/dcpomatic.cc:610
 msgid "Could not show DCP (could not run konqueror)"
-msgstr ""
+msgstr "Não foi possível exibir o DCP (konqueror não rodou)"
 
 #: src/tools/dcpomatic.cc:603
 msgid "Could not show DCP (could not run nautilus)"
-msgstr ""
+msgstr "Não foi possível exibir o DCP (nautilus não rodou)"
 
 #: src/tools/dcpomatic.cc:317 src/tools/dcpomatic.cc:948
 #: src/tools/dcpomatic.cc:984
 msgid "DCP-o-matic"
-msgstr ""
+msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic_batch.cc:308
 msgid "DCP-o-matic Batch Converter"
-msgstr ""
+msgstr "Conversor em série DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:811 src/tools/dcpomatic_batch.cc:74
 msgid "Encoding servers..."
-msgstr ""
+msgstr "Servidores de codificação..."
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:103
 msgid "Film changed"
-msgstr ""
+msgstr "Filme sofreu alterações"
 
 #: src/tools/dcpomatic.cc:810
 msgid "Hints..."
-msgstr ""
+msgstr "Dicas..."
 
 #: src/tools/dcpomatic.cc:803
 msgid "Make &KDMs...\tCtrl-K"
-msgstr ""
+msgstr "Fazer &KDMs...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:802
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Fazer DCP no &conversor em série\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:804
 msgid "Make DKDM for DCP-o-matic..."
-msgstr ""
+msgstr "Fazer DKDM para o DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:772
 msgid "New...\tCtrl-N"
-msgstr ""
+msgstr "Novo...\tCtrl-N"
 
 #: src/tools/dcpomatic.cc:822
 msgid "Report a problem..."
-msgstr ""
+msgstr "Avisar de um problema..."
 
 #: src/tools/dcpomatic.cc:814
 msgid "Restore default preferences"
-msgstr ""
+msgstr "Restaurar preferências ao padrão"
 
 #: src/tools/dcpomatic.cc:806
 msgid "S&how DCP"
-msgstr ""
+msgstr "E&xibir DCP"
 
 #: src/tools/dcpomatic.cc:100
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr ""
+msgstr "Salvar alterações no filme \"%s\" antes de fechar?"
 
 #: src/tools/dcpomatic.cc:798
 msgid "Scale to fit &height"
-msgstr ""
+msgstr "Ajustar para caber na &altura"
 
 #: src/tools/dcpomatic.cc:797
 msgid "Scale to fit &width"
-msgstr ""
+msgstr "Ajustar para caber na &largura"
 
 #: src/tools/dcpomatic.cc:362 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"
-msgstr ""
+msgstr "Selecione o filme para abrir"
 
 #: src/tools/dcpomatic.cc:428
 #, c-format
@@ -228,6 +233,10 @@ msgid ""
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
+"O DCP e arquivos intermediários para esse filme ocuparão cerca de %.1f Gb, e "
+"o disco que você está usando tem só %.1f Gb disponíveis. Você precisaria só "
+"de metade do espaço se o seu sistema de arquivos permitisse hard links, mas "
+"não permite. Quer continuar mesmo assim?"
 
 #: src/tools/dcpomatic.cc:426
 #, c-format
@@ -235,41 +244,48 @@ msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
+"O DCP e arquivos intermediários para esse filme ocuparão %.1f Gb, e o disco "
+"que você está usando tem só %.1f Gb disponíveis. Quer continuar mesmo assim?"
 
 #: src/tools/dcpomatic.cc:886
 msgid "The DCP-o-matic download server could not be contacted."
-msgstr ""
+msgstr "O servidor do DCP-o-matic não pode ser contactado."
 
 #: src/tools/dcpomatic.cc:336
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
+"O diretório %1 já existe e não está vazio. Tem certeza de que quer usá-lo?"
 
 #: src/tools/dcpomatic.cc:888
 msgid "There are no new versions of DCP-o-matic available."
-msgstr ""
+msgstr "Não há novas versões do DCP-o-matic disponíveis."
 
 #: src/tools/dcpomatic.cc:681 src/tools/dcpomatic_batch.cc:155
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr ""
+msgstr "Há tarefas não concluídas; quer mesmo sair?"
 
 #: src/tools/dcpomatic.cc:283
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
+"O filme foi criado com uma versão antiga do DVD-o-matic and pode não abrir "
+"corretamente nessa versão. Por favor confira as configurações do filme com "
+"cuidado."
 
 #: src/tools/dcpomatic.cc:682 src/tools/dcpomatic_batch.cc:156
 msgid "Unfinished jobs"
-msgstr ""
+msgstr "Tarefas inacabadas"
 
 #: src/tools/dcpomatic.cc:809
 msgid "Video waveform..."
-msgstr ""
+msgstr "Waveform de video..."
 
 #: src/tools/dcpomatic.cc:371 src/tools/dcpomatic_batch.cc:222
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
+"Você não escolheu uma pasta. Selecione uma pasta antes de clicar em Abrir."

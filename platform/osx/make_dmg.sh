@@ -196,7 +196,7 @@ cp $ROOT/32/src/dcpomatic/graphics/splash.png "$WORK/$resources"
 cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_server_small.png "$WORK/$resources"
 
 # i18n: DCP-o-matic .mo files
-for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT sk_SK cs_CZ uk_UA; do
+for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA; do
   mkdir -p "$WORK/$resources/$lang/LC_MESSAGES"
   cp $ROOT/32/src/dcpomatic/build/src/lib/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
   cp $ROOT/32/src/dcpomatic/build/src/wx/mo/$lang/*.mo "$WORK/$resources/$lang/LC_MESSAGES"
