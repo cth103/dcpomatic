@@ -113,6 +113,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Carsten Kurz"));
 	translated_by.Add (wxT ("Lilian Lefranc"));
 	translated_by.Add (wxT ("Gérald Maruccia"));
+	translated_by.Add (wxT ("Rob van Nieuwkerk"));
 	translated_by.Add (wxT ("Anders Uhl Pedersen"));
 	translated_by.Add (wxT ("Olivier Perriere"));
 	translated_by.Add (wxT ("Markus Raab"));
@@ -120,7 +121,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Davide Sanvito"));
 	translated_by.Add (wxT ("Marek Skrzelowski"));
 	translated_by.Add (wxT ("Igor Voytovich"));
-	translated_by.Add (wxT ("Rob van Nieuwkerk"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString with_help_from;
