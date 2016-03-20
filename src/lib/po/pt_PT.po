@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2015-11-11 15:53+0000\n"
+"PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/dcp_content.cc:127
@@ -24,7 +24,7 @@ msgstr "%1 [DCP]"
 
 #: src/lib/sndfile_content.cc:68
 msgid "%1 [audio]"
-msgstr "%1 [audio]"
+msgstr "%1 [áudio]"
 
 #: src/lib/ffmpeg_content.cc:232
 msgid "%1 [movie]"
@@ -64,12 +64,12 @@ msgstr "Ocorreu um erro ao manipular o ficheiro %1."
 
 #: src/lib/analyse_audio_job.cc:80
 msgid "Analyse audio"
-msgstr "Analizar audio"
+msgstr "Analizar áudio"
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "Áudio"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -153,9 +153,8 @@ msgid "Centre"
 msgstr "Central"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
-msgstr "Canais de audio"
+msgstr "Canais"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -181,7 +180,7 @@ msgstr "Espaço de cor"
 
 #: src/lib/reel_writer.cc:437
 msgid "Computing audio digest"
-msgstr "A processar o resumo de audio"
+msgstr "A processar o resumo de áudio"
 
 #: src/lib/content.cc:138
 msgid "Computing digest"
@@ -196,9 +195,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "O conteúdo e o DCP têm a mesma cadência de fotogramas.\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Cadência de fotogramas do conteúdo"
+msgstr "Cadência de fotogramas do conteúdo de áudio"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -215,11 +213,11 @@ msgstr "O conteúdo a ser unido deve ter a mesma configuração 'usar legendas'.
 
 #: src/lib/audio_content.cc:96
 msgid "Content to be joined must have the same audio delay."
-msgstr "O conteúdo a ser unido deve ter o mesmo atraso de audio."
+msgstr "O conteúdo a ser unido deve ter o mesmo atraso de áudio."
 
 #: src/lib/audio_content.cc:92
 msgid "Content to be joined must have the same audio gain."
-msgstr "O conteúdo a ser unido deve ter o mesmo ganho de audio."
+msgstr "O conteúdo a ser unido deve ter o mesmo ganho de áudio."
 
 #: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same colour conversion."
@@ -299,9 +297,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Não foi possível descodificar a imagem (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "não foi possível encontrar a informação do fluxo"
+msgstr "não foi possível encontrar o formato do pixel para o vídeo"
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -345,28 +342,27 @@ msgstr "Recortado para %1x%2"
 
 #: src/lib/util.cc:495
 msgid "D-BOX primary"
-msgstr ""
+msgstr "D-BOX primário"
 
 #: src/lib/util.cc:496
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "D-BOX secundário"
 
 #: src/lib/film.cc:1324
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1325
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
 msgstr "Legendas XML DCP"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Cadência de fotogramas do conteúdo"
+msgstr "Cadência de fotogramas do DCP"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -460,9 +456,8 @@ msgid "Encoding image data"
 msgstr "A codificar dados de imagem"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Erro no ficheiro SubRip: encontrou %1 mas esperava %2"
+msgstr "Erro no ficheiro de legendas: encontrou %1 mas esperava %2"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -481,9 +476,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "A autenticação com o servidor falhou (%1)"
 
 #: src/lib/emailer.cc:212
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "Falha no envio de email com chaves KDM (tempo esgotado)"
+msgstr "Falha no envio de email (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -506,9 +500,8 @@ msgid "Flat"
 msgstr "Flat"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Cadência de fotogramas de vídeo"
+msgstr "Cadência de fotogramas"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -524,19 +517,19 @@ msgstr "Full frame"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Duração total dos fotogramas de audio à cadência do DCP"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Duração total dos fotogramas de audio à cadência do conteúdo"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Duração total dos fotogramas de vídeo à cadência do DCP"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Duração total dos fotogramas de vídeo à cadência do conteúdo"
 
 #: src/lib/ffmpeg_content.cc:470
 msgid "Gamma 22 (BT470M)"
@@ -564,7 +557,7 @@ msgstr "Remoção de ruido 3D de alta qualidade"
 
 #: src/lib/audio_content.cc:308
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:479
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -614,7 +607,7 @@ msgstr "Esquerdo surround"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Duração"
 
 #: src/lib/film.cc:1315
 msgid "Lfe"
@@ -658,12 +651,11 @@ msgstr "Misc"
 
 #: src/lib/dcp_examiner.cc:96
 msgid "Mismatched audio channel counts in DCP"
-msgstr "Canais de audio do DCP em número inválido"
+msgstr "Canais de áudio do DCP em número inválido"
 
 #: src/lib/dcp_examiner.cc:102
-#, fuzzy
 msgid "Mismatched audio sample rates in DCP"
-msgstr "Cadência de fotogramas de audio do DCP inválida"
+msgstr "Taxa de amostragem de áudio do DCP inválida"
 
 #: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
@@ -679,7 +671,7 @@ msgstr "Desentrelaçador de compensação de movimento"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "Servidor de correio não configura nas preferências"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -762,13 +754,12 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:297
-#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
-"A duração das bobinas neste projecto difere daquelas no DCP; defina o "
-"parâmetro 'Bobinas' para 'Dividir por conteúdo de vídeo'."
+"Duração das bobinas do projecto diferente do DCP; defina o parâmetro "
+"'Bobinas' para 'Dividir por conteúdo de vídeo'."
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:484
 msgid "Right"
@@ -825,7 +816,7 @@ msgstr "Curta-metragem"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -852,17 +843,16 @@ msgid "Test"
 msgstr "Teste"
 
 #: src/lib/text_subtitle_content.cc:95
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[subtitles]"
+msgstr "Legendas de texto"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
-msgstr ""
+msgstr "Não há nenhuma bobina de audio no DCP"
 
 #: src/lib/dcp_content.cc:337
 msgid "The DCP does not have subtitles in all reels."
-msgstr ""
+msgstr "Não há nenhuma bobina de legendas no DCP"
 
 #: src/lib/dcp_examiner.cc:134
 msgid ""
@@ -883,7 +873,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:328
 msgid "There is other audio content overlapping this DCP; remove it."
-msgstr "Existe outro conteúdo audio sobreposto a este DCP; remova-o."
+msgstr "Existe outro conteúdo áudio sobreposto a este DCP; remova-o."
 
 #: src/lib/dcp_content.cc:342
 msgid "There is other subtitle content overlapping this DCP; remove it."
@@ -947,7 +937,7 @@ msgstr "Erro desconhecido"
 
 #: src/lib/ffmpeg_decoder.cc:252
 msgid "Unrecognised audio sample format (%1)"
-msgstr "Formato de amostragem audio desconhecido (%1)"
+msgstr "Formato de amostragem áudio desconhecido (%1)"
 
 #: src/lib/filter.cc:69
 msgid "Unsharp mask and Gaussian blur"
@@ -967,7 +957,7 @@ msgstr "Sem título"
 
 #: src/lib/util.cc:497 src/lib/util.cc:498
 msgid "Unused"
-msgstr ""
+msgstr "Não utilizado"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
@@ -998,9 +988,8 @@ msgstr "DV"
 #: src/lib/ffmpeg_content.cc:502 src/lib/ffmpeg_content.cc:505
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "vidéo"
+msgstr "Vídeo"
 
 #: src/lib/util.cc:490
 msgid "Visually impaired"
@@ -1069,11 +1058,11 @@ msgstr "não foi possível encontrar a informação do fluxo"
 
 #: src/lib/reel_writer.cc:316
 msgid "could not move audio asset into the DCP (%1)"
-msgstr "não foi possível enviar o audio para o DCP (%1)"
+msgstr "não foi possível enviar o áudio para o DCP (%1)"
 
 #: src/lib/sndfile_base.cc:47
 msgid "could not open audio file for reading"
-msgstr "não foi possível abrir o ficheiro de audio para leitura"
+msgstr "não foi possível abrir o ficheiro de áudio para leitura"
 
 #: src/lib/exceptions.cc:30
 msgid "could not open file %1"

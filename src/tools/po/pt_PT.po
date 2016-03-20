@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 11:02+0000\n"
-"PO-Revision-Date: 2015-10-28 21:29+0000\n"
+"PO-Revision-Date: 2016-03-19 13:01+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:346
@@ -128,9 +128,8 @@ msgid "Check for updates"
 msgstr "Procurar actualizações"
 
 #: src/tools/dcpomatic.cc:529
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "DCP-o-matic Conversor de Lote"
+msgstr "Não foi possível encontrar o conversor de lote"
 
 #: src/tools/dcpomatic.cc:996 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
@@ -187,11 +186,11 @@ msgstr "Gerar &KDM...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:802
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Gerar DCP no &Conversor de Lote\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:804
 msgid "Make DKDM for DCP-o-matic..."
-msgstr ""
+msgstr "Gerar DKDM para DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:772
 msgid "New...\tCtrl-N"
