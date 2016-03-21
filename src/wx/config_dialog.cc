@@ -162,6 +162,7 @@ private:
 		_language = new wxChoice (_panel, wxID_ANY);
 		vector<pair<string, string> > languages;
 		languages.push_back (make_pair ("Čeština", "cs_CZ"));
+		languages.push_back (make_pair ("汉语/漢語", "cn_CN"));
 		languages.push_back (make_pair ("Dansk", "da_DK"));
 		languages.push_back (make_pair ("Deutsch", "de_DE"));
 		languages.push_back (make_pair ("English", "en_GB"));
