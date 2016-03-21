@@ -1458,7 +1458,7 @@ msgstr "裁剪至当前位置"
 #: src/wx/audio_dialog.cc:292
 #, fuzzy, c-format
 msgid "True peak is %.2fdB"
-msgstr "最佳值 %.2fdB 到 %s"
+msgstr "最佳值 %.2fdB 到"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:667
 #: src/wx/video_panel.cc:84
