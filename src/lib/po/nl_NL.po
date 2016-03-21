@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2016-03-06 05:37+0100\n"
+"PO-Revision-Date: 2016-03-21 21:41+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -44,7 +44,7 @@ msgstr "1.78:1 (16:9 / HD)"
 
 #: src/lib/ratio.cc:41
 msgid "2.35"
-msgstr ""
+msgstr "2.35:1"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -809,15 +809,15 @@ msgstr "SMPTE 240M"
 
 #: src/lib/ffmpeg_content.cc:483
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr ""
+msgstr "SMPTE ST 2084 voor 10, 12, 14 and 16 bit systemen"
 
 #: src/lib/ffmpeg_content.cc:484
 msgid "SMPTE ST 428-1"
-msgstr ""
+msgstr "SMPTE ST 428-1"
 
 #: src/lib/ffmpeg_content.cc:460
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
-msgstr ""
+msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
