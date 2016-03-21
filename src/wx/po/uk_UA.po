@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 11:02+0000\n"
+"POT-Creation-Date: 2016-03-21 16:13+0000\n"
 "PO-Revision-Date: 2016-03-08 02:05+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
-#: src/wx/subtitle_panel.cc:92 src/wx/subtitle_panel.cc:102
+#: src/wx/subtitle_panel.cc:70 src/wx/subtitle_panel.cc:80
+#: src/wx/subtitle_panel.cc:90 src/wx/subtitle_panel.cc:100
 msgid "%"
 msgstr "%"
 
@@ -32,11 +32,11 @@ msgstr ""
 msgid "(None)"
 msgstr "(Нічого)"
 
-#: src/wx/config_dialog.cc:180
+#: src/wx/config_dialog.cc:185
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(перезапустіть програму для зміни мови)"
 
-#: src/wx/audio_mapping_view.cc:144
+#: src/wx/audio_mapping_view.cc:142
 msgid "-6dB"
 msgstr "-6 дБ"
 
@@ -92,8 +92,6 @@ msgstr "<b>Новий колір</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Початковий колір</b>"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -102,7 +100,7 @@ msgstr ""
 "<i>Змінюйте це лише у випадку, коли була невірно визначена частота кадрів "
 "контенту.</i>"
 
-#: src/wx/colour_conversion_editor.cc:68
+#: src/wx/colour_conversion_editor.cc:67
 msgid "A"
 msgstr "A"
 
@@ -158,15 +156,15 @@ msgstr "Додати послідовність зображень"
 msgid "Add video, image or sound files to the film."
 msgstr "Додати відео, зображення або звук у проект."
 
-#: src/wx/config_dialog.cc:727 src/wx/editable_list.h:77
+#: src/wx/config_dialog.cc:689 src/wx/editable_list.h:81
 msgid "Add..."
 msgstr "Додати..."
 
-#: src/wx/cinema_dialog.cc:58 src/wx/config_dialog.cc:1253
+#: src/wx/cinema_dialog.cc:65 src/wx/config_dialog.cc:1215
 msgid "Address"
 msgstr "Адрес"
 
-#: src/wx/colour_conversion_editor.cc:166
+#: src/wx/colour_conversion_editor.cc:165
 msgid "Adjust white point to"
 msgstr "Відрегулювати білу точку за"
 
@@ -194,7 +192,7 @@ msgstr ""
 "змінити налаштування вашого DCP контейнеру на SCOPE (2.39:1) на вкладці \"DCP"
 "\"."
 
-#: src/wx/config_dialog.cc:1397
+#: src/wx/config_dialog.cc:1364
 msgid "Allow any DCP frame rate"
 msgstr "Дозволити будь яку частоту кадрів DCP"
 
@@ -202,11 +200,11 @@ msgstr "Дозволити будь яку частоту кадрів DCP"
 msgid "Alpha   0"
 msgstr "Альфа 0"
 
-#: src/wx/subtitle_panel.cc:124
+#: src/wx/subtitle_panel.cc:122
 msgid "Appearance..."
 msgstr "Зовнішній вигляд..."
 
-#: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:47 src/wx/dcp_panel.cc:110
+#: src/wx/audio_dialog.cc:41 src/wx/audio_panel.cc:45 src/wx/dcp_panel.cc:110
 #: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:63
 msgid "Audio"
 msgstr "Аудіо"
@@ -215,13 +213,13 @@ msgstr "Аудіо"
 msgid "Audio Language (e.g. EN)"
 msgstr "Мова аудіо (напр. UA)"
 
-#: src/wx/audio_mapping_view.cc:316
+#: src/wx/audio_mapping_view.cc:314
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr "Аудіо буде переведено з каналу %d контента у канал %d DCP без змін."
 
-#: src/wx/audio_mapping_view.cc:319
+#: src/wx/audio_mapping_view.cc:317
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
@@ -230,19 +228,19 @@ msgstr ""
 "Аудіо буде переведено з каналу %d контента у канал %d DCP з посиленням "
 "%.1fdB."
 
-#: src/wx/config_dialog.cc:204
+#: src/wx/config_dialog.cc:209
 msgid "Automatically analyse content audio"
 msgstr "Автоматично аналізувати аудіо-контент"
 
-#: src/wx/colour_conversion_editor.cc:71
+#: src/wx/colour_conversion_editor.cc:70
 msgid "B"
 msgstr "B"
 
-#: src/wx/config_dialog.cc:1260
+#: src/wx/config_dialog.cc:1227
 msgid "BCC address"
 msgstr "Прихована копія"
 
-#: src/wx/colour_conversion_editor.cc:133
+#: src/wx/colour_conversion_editor.cc:132
 msgid "Blue chromaticity"
 msgstr "Cиня кольоровість"
 
@@ -262,15 +260,15 @@ msgstr "Знизу"
 msgid "Browse..."
 msgstr "Обрати...."
 
-#: src/wx/subtitle_panel.cc:63
+#: src/wx/subtitle_panel.cc:61
 msgid "Burn subtitles into image"
 msgstr "Вшити субтитри в зображення"
 
-#: src/wx/gain_calculator_dialog.cc:32
+#: src/wx/gain_calculator_dialog.cc:30
 msgid "But I have to use fader"
 msgstr "Але я маю використовувати мікшер"
 
-#: src/wx/config_dialog.cc:1254
+#: src/wx/config_dialog.cc:1216
 msgid "CC addresses"
 msgstr "Отримувачі"
 
@@ -287,7 +285,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL анотація"
 
-#: src/wx/audio_panel.cc:76
+#: src/wx/audio_panel.cc:74
 msgid "Calculate..."
 msgstr "Прорахувати..."
 
@@ -315,11 +313,11 @@ msgstr "Посилення каналу"
 msgid "Channels"
 msgstr "Канала(ів)"
 
-#: src/wx/config_dialog.cc:212
+#: src/wx/config_dialog.cc:217
 msgid "Check for testing updates on startup"
 msgstr "Перевіряти тестові оновлення при запуску"
 
-#: src/wx/config_dialog.cc:208
+#: src/wx/config_dialog.cc:213
 msgid "Check for updates on startup"
 msgstr "Перевіряти оновлення при запуску"
 
@@ -343,7 +341,7 @@ msgstr "Обрати шрифт"
 msgid "Choose a font file"
 msgstr "Обрати файл шрифту"
 
-#: src/wx/config_dialog.cc:193
+#: src/wx/config_dialog.cc:198
 msgid "Cinema and screen database file"
 msgstr "Файл БД кінотеатрів та екранів"
 
@@ -366,7 +364,7 @@ msgstr "Конвертація кольору"
 msgid "Component"
 msgstr "Компонент"
 
-#: src/wx/config_dialog.cc:1421
+#: src/wx/config_dialog.cc:1388
 msgid "Config|Timing"
 msgstr "Таймінг"
 
@@ -416,13 +414,13 @@ msgstr "Не вдалося отримати попередній перегля
 msgid "Could not load KDM (%s)"
 msgstr "Не вдалося завантажити KDM (%s)"
 
-#: src/wx/config_dialog.cc:797 src/wx/config_dialog.cc:962
-#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:136
+#: src/wx/config_dialog.cc:759 src/wx/config_dialog.cc:924
+#: src/wx/download_certificate_panel.cc:55 src/wx/screen_dialog.cc:142
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Не вдалося прочитати файл сертифікату (%s)"
 
-#: src/wx/config_dialog.cc:954
+#: src/wx/config_dialog.cc:916
 #, c-format
 msgid "Could not read key file (%s)"
 msgstr "Не вдалося прочитать файл ключа (%s)"
@@ -431,7 +429,7 @@ msgstr "Не вдалося прочитать файл ключа (%s)"
 msgid "Create in folder"
 msgstr "Створити у папці"
 
-#: src/wx/config_dialog.cc:223
+#: src/wx/config_dialog.cc:228
 msgid "Creator"
 msgstr "Творець"
 
@@ -460,59 +458,59 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Аудіо DCP-o-matic"
 
-#: src/wx/config_dialog.cc:1423
+#: src/wx/config_dialog.cc:1390
 msgid "Debug: decode"
 msgstr "Відладка: декодування"
 
-#: src/wx/config_dialog.cc:1427
+#: src/wx/config_dialog.cc:1394
 msgid "Debug: email sending"
 msgstr "Відладка: відправка email"
 
-#: src/wx/config_dialog.cc:1425
+#: src/wx/config_dialog.cc:1392
 msgid "Debug: encode"
 msgstr "Відладка: кодування"
 
-#: src/wx/config_dialog.cc:1043
+#: src/wx/config_dialog.cc:1005
 msgid "Decrypting DCPs"
 msgstr "Розшифровка DCP"
 
-#: src/wx/config_dialog.cc:461
+#: src/wx/config_dialog.cc:422
 msgid "Default ISDCF name details"
 msgstr "Стандартні поля ISDCF (Inter-Society Digital Cinema Forum)"
 
-#: src/wx/config_dialog.cc:474
+#: src/wx/config_dialog.cc:435
 msgid "Default JPEG2000 bandwidth"
 msgstr "Стандартна пропускна здатність JPEG2000"
 
-#: src/wx/config_dialog.cc:483
+#: src/wx/config_dialog.cc:444
 msgid "Default audio delay"
 msgstr "Стандартна затримка аудіо"
 
-#: src/wx/config_dialog.cc:465
+#: src/wx/config_dialog.cc:426
 msgid "Default container"
 msgstr "Стандартний формат кадру"
 
-#: src/wx/config_dialog.cc:469
+#: src/wx/config_dialog.cc:430
 msgid "Default content type"
 msgstr "Стандартний тип контенту"
 
-#: src/wx/config_dialog.cc:453
+#: src/wx/config_dialog.cc:414
 msgid "Default directory for new films"
 msgstr "Стандартна папка для нових проектів"
 
-#: src/wx/config_dialog.cc:445
+#: src/wx/config_dialog.cc:406
 msgid "Default duration of still images"
 msgstr "Стандартна тривалість статичного зображення"
 
-#: src/wx/config_dialog.cc:491
+#: src/wx/config_dialog.cc:452
 msgid "Default standard"
 msgstr "Стандарт за замовченям"
 
-#: src/wx/config_dialog.cc:427
+#: src/wx/config_dialog.cc:388
 msgid "Defaults"
 msgstr "Стандартні"
 
-#: src/wx/audio_panel.cc:80
+#: src/wx/audio_panel.cc:78
 msgid "Delay"
 msgstr "Затримка"
 
@@ -552,9 +550,9 @@ msgstr "Редагувати кінотеатр..."
 msgid "Edit Screen..."
 msgstr "Редагувати екран..."
 
-#: src/wx/audio_mapping_view.cc:145 src/wx/config_dialog.cc:462
+#: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:80
+#: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
 msgid "Edit..."
 msgstr "Редагувати..."
 
@@ -562,7 +560,7 @@ msgstr "Редагувати..."
 msgid "Email address"
 msgstr "E-mail адрес"
 
-#: src/wx/cinema_dialog.cc:52
+#: src/wx/cinema_dialog.cc:59
 msgid "Email addresses for KDM delivery"
 msgstr "Email адреси для доставки ключів (KDM)"
 
@@ -578,23 +576,23 @@ msgstr "Зашифрований"
 msgid "End"
 msgstr "Кінець"
 
-#: src/wx/config_dialog.cc:1419
+#: src/wx/config_dialog.cc:1386
 msgid "Errors"
 msgstr "Помилки"
 
-#: src/wx/config_dialog.cc:731
+#: src/wx/config_dialog.cc:693
 msgid "Export"
 msgstr "Експорт"
 
-#: src/wx/config_dialog.cc:1050
+#: src/wx/config_dialog.cc:1012
 msgid "Export DCP decryption certificate..."
 msgstr "Експортувати сертифікат розшифровки DCP..."
 
-#: src/wx/config_dialog.cc:748
+#: src/wx/config_dialog.cc:710
 msgid "Export..."
 msgstr "Експорт..."
 
-#: src/wx/config_dialog.cc:1134
+#: src/wx/config_dialog.cc:1096
 msgid "FTP (for Dolby)"
 msgstr "FTP (для Dolby)"
 
@@ -622,7 +620,7 @@ msgstr "Назва проекту"
 msgid "Filters"
 msgstr "Фільтри"
 
-#: src/wx/config_dialog.cc:199
+#: src/wx/config_dialog.cc:204
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
@@ -638,7 +636,7 @@ msgstr "Знайти відсутнє..."
 msgid "Fonts"
 msgstr "Шрифти"
 
-#: src/wx/subtitle_panel.cc:122
+#: src/wx/subtitle_panel.cc:120
 msgid "Fonts..."
 msgstr "Шрифти..."
 
@@ -660,11 +658,11 @@ msgstr ""
 msgid "From"
 msgstr "Від"
 
-#: src/wx/config_dialog.cc:1248
+#: src/wx/config_dialog.cc:1210
 msgid "From address"
 msgstr "Відправник"
 
-#: src/wx/audio_mapping_view.cc:143
+#: src/wx/audio_mapping_view.cc:141
 msgid "Full"
 msgstr "Full"
 
@@ -676,11 +674,11 @@ msgstr "Повна тривалість"
 msgid "GB"
 msgstr "ГБ"
 
-#: src/wx/audio_panel.cc:65
+#: src/wx/audio_panel.cc:63
 msgid "Gain"
 msgstr "Посилення"
 
-#: src/wx/gain_calculator_dialog.cc:27
+#: src/wx/gain_calculator_dialog.cc:25
 msgid "Gain Calculator"
 msgstr "Калькулятор посилення"
 
@@ -689,7 +687,7 @@ msgstr "Калькулятор посилення"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Посилення для каналу %d контенту у каналі %d DCP"
 
-#: src/wx/config_dialog.cc:1415
+#: src/wx/config_dialog.cc:1382
 msgid "General"
 msgstr "Основні"
 
@@ -697,7 +695,7 @@ msgstr "Основні"
 msgid "Get from file..."
 msgstr "Вибрати з файлу..."
 
-#: src/wx/colour_conversion_editor.cc:126
+#: src/wx/colour_conversion_editor.cc:125
 msgid "Green chromaticity"
 msgstr "Зелена кольоровість"
 
@@ -713,7 +711,7 @@ msgstr "Хост"
 msgid "Host name or IP address"
 msgstr "Ім'я хоста або IP-адреса"
 
-#: src/wx/gain_calculator_dialog.cc:29
+#: src/wx/gain_calculator_dialog.cc:27
 msgid "I want to play this back at fader"
 msgstr "Я хочу відтворити це у микшері"
 
@@ -721,11 +719,11 @@ msgstr "Я хочу відтворити це у микшері"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/config_dialog.cc:1117
+#: src/wx/config_dialog.cc:1079
 msgid "IP address"
 msgstr "IP-адреса"
 
-#: src/wx/config_dialog.cc:638
+#: src/wx/config_dialog.cc:599
 msgid "IP address / host name"
 msgstr "IP-адреса / ім'я  хоста"
 
@@ -733,15 +731,15 @@ msgstr "IP-адреса / ім'я  хоста"
 msgid "ISDCF name"
 msgstr "Ім'я  ISDCF"
 
-#: src/wx/colour_conversion_editor.cc:55
+#: src/wx/colour_conversion_editor.cc:54
 msgid "Input gamma"
 msgstr "Вхідна гамма"
 
-#: src/wx/colour_conversion_editor.cc:49
+#: src/wx/colour_conversion_editor.cc:48
 msgid "Input gamma correction"
 msgstr "Корекція вхідної гамми"
 
-#: src/wx/colour_conversion_editor.cc:60
+#: src/wx/colour_conversion_editor.cc:59
 msgid "Input power"
 msgstr "Вхідна потужність"
 
@@ -750,7 +748,7 @@ msgstr "Вхідна потужність"
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Інтегрована гучність %.2f LUFS"
 
-#: src/wx/config_dialog.cc:867
+#: src/wx/config_dialog.cc:829
 msgid "Intermediate"
 msgstr "Intermediate"
 
@@ -758,11 +756,11 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/config_dialog.cc:523 src/wx/dcp_panel.cc:185
+#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:185
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:219
+#: src/wx/config_dialog.cc:224
 msgid "Issuer"
 msgstr "Видавець"
 
@@ -782,7 +780,7 @@ msgstr "Пропускна здатність JPEG2000"
 msgid "Join"
 msgstr "Під'єднати"
 
-#: src/wx/config_dialog.cc:1207
+#: src/wx/config_dialog.cc:1169
 msgid "KDM Email"
 msgstr "Пошта KDM"
 
@@ -802,15 +800,15 @@ msgstr "Зберігати відео у послідовності"
 msgid "Key"
 msgstr "Ключ"
 
-#: src/wx/config_dialog.cc:1020
+#: src/wx/config_dialog.cc:982
 msgid "Keys"
 msgstr "Ключі"
 
-#: src/wx/subtitle_panel.cc:107
+#: src/wx/subtitle_panel.cc:105
 msgid "Language"
 msgstr "Мова"
 
-#: src/wx/config_dialog.cc:865
+#: src/wx/config_dialog.cc:827
 msgid "Leaf"
 msgstr "Leaf"
 
@@ -818,7 +816,7 @@ msgstr "Leaf"
 msgid "Leaf common name"
 msgstr "Leaf common name"
 
-#: src/wx/config_dialog.cc:740
+#: src/wx/config_dialog.cc:702
 msgid "Leaf private key"
 msgstr "Leaf private key"
 
@@ -826,19 +824,19 @@ msgstr "Leaf private key"
 msgid "Left"
 msgstr "Зліва"
 
-#: src/wx/colour_conversion_editor.cc:51
+#: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
 msgstr "Вирівняти вхідну гамму для малих значень"
 
-#: src/wx/config_dialog.cc:746
+#: src/wx/config_dialog.cc:708
 msgid "Load..."
 msgstr "Завантажити..."
 
-#: src/wx/config_dialog.cc:1409
+#: src/wx/config_dialog.cc:1376
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/config_dialog.cc:1406
+#: src/wx/config_dialog.cc:1373
 msgid "Log:"
 msgstr "Лог:"
 
@@ -851,11 +849,11 @@ msgstr "Діапазон гучності %.2f LU"
 msgid "MISSING: "
 msgstr "ВІДСУТНЄ:"
 
-#: src/wx/config_dialog.cc:1240
+#: src/wx/config_dialog.cc:1202
 msgid "Mail password"
 msgstr "Пароль пошти"
 
-#: src/wx/config_dialog.cc:1236
+#: src/wx/config_dialog.cc:1198
 msgid "Mail user name"
 msgstr "Користувач пошти"
 
@@ -875,15 +873,15 @@ msgstr "Створити ланцюг сертифікатів"
 msgid "Mastered luminance (e.g. 14fl)"
 msgstr "Яскравість (напр. 14 фут-ламберт)"
 
-#: src/wx/colour_conversion_editor.cc:116
+#: src/wx/colour_conversion_editor.cc:115
 msgid "Matrix"
 msgstr "Матриця"
 
-#: src/wx/config_dialog.cc:1389
+#: src/wx/config_dialog.cc:1356
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальна пропускна здатність JPEG2000"
 
-#: src/wx/config_dialog.cc:478 src/wx/config_dialog.cc:1393
+#: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1360
 #: src/wx/dcp_panel.cc:668
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -916,7 +914,7 @@ msgstr "Моя проблема"
 msgid "NEEDS KDM: "
 msgstr "НЕОБХІДНИЙ KDM:"
 
-#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:67
+#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:67
 #: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
 msgstr "Назва"
@@ -933,7 +931,7 @@ msgstr "Доступні нові версії DCP-o-matic."
 msgid "No DCP selected."
 msgstr "Не обрано DCP."
 
-#: src/wx/audio_mapping_view.cc:314
+#: src/wx/audio_mapping_view.cc:312
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Аудіо не буде переміщено з каналу %d контенту в канал %d DCP."
@@ -955,15 +953,15 @@ msgstr "Файл звичайного шрифту"
 msgid "Normal font"
 msgstr "Звичайний шрифт"
 
-#: src/wx/audio_mapping_view.cc:142
+#: src/wx/audio_mapping_view.cc:140
 msgid "Off"
 msgstr "Вимкнений"
 
-#: src/wx/config_dialog.cc:1401
+#: src/wx/config_dialog.cc:1368
 msgid "Only servers encode"
 msgstr "Кодування тільки серверами"
 
-#: src/wx/config_dialog.cc:1433
+#: src/wx/config_dialog.cc:1400
 msgid "Open console window"
 msgstr "Відкрити консольне вікно"
 
@@ -983,7 +981,7 @@ msgstr "Organisational unit"
 msgid "Other trusted devices"
 msgstr "Інші довірені пристрої"
 
-#: src/wx/config_dialog.cc:1224
+#: src/wx/config_dialog.cc:1186
 msgid "Outgoing mail server"
 msgstr "Вихідний поштовий сервер"
 
@@ -1003,7 +1001,7 @@ msgstr "Окреслити контент"
 msgid "Output"
 msgstr "Вивід"
 
-#: src/wx/config_dialog.cc:1129
+#: src/wx/config_dialog.cc:1091
 msgid "Password"
 msgstr "Пароль"
 
@@ -1015,12 +1013,12 @@ msgstr "Пазуа"
 msgid "Peak"
 msgstr "Вершина"
 
-#: src/wx/audio_panel.cc:302
+#: src/wx/audio_panel.cc:300
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Пікова гучність %.2fдБ"
 
-#: src/wx/audio_panel.cc:304 src/wx/audio_panel.cc:307
+#: src/wx/audio_panel.cc:302 src/wx/audio_panel.cc:305
 msgid "Peak: unknown"
 msgstr "Пікова гучність: невідома"
 
@@ -1060,11 +1058,11 @@ msgstr "Обробка"
 msgid "Properties..."
 msgstr "Властивості..."
 
-#: src/wx/config_dialog.cc:1113
+#: src/wx/config_dialog.cc:1075
 msgid "Protocol"
 msgstr "Протокол"
 
-#: src/wx/colour_conversion_editor.cc:112
+#: src/wx/colour_conversion_editor.cc:111
 msgid "RGB to XYZ conversion"
 msgstr "Перетворення RGB в XYZ"
 
@@ -1084,15 +1082,15 @@ msgstr "Рейтинг (напр. NR)"
 msgid "Re-examine..."
 msgstr "Перевірити ще раз..."
 
-#: src/wx/config_dialog.cc:753
+#: src/wx/config_dialog.cc:715
 msgid "Re-make certificates and key..."
 msgstr "Знов створити сертифікати і ключ..."
 
-#: src/wx/colour_conversion_editor.cc:99
+#: src/wx/colour_conversion_editor.cc:98
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/wx/colour_conversion_editor.cc:100
+#: src/wx/colour_conversion_editor.cc:99
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
@@ -1104,7 +1102,7 @@ msgstr "Сертифікат отримувача"
 msgid "Red band"
 msgstr "Red band"
 
-#: src/wx/colour_conversion_editor.cc:119
+#: src/wx/colour_conversion_editor.cc:118
 msgid "Red chromaticity"
 msgstr "Червона кольоровість"
 
@@ -1121,13 +1119,13 @@ msgstr "Тривалість бобіни"
 msgid "Reels"
 msgstr "Бобіни"
 
-#: src/wx/audio_panel.cc:55 src/wx/subtitle_panel.cc:55
+#: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
 msgstr "Посилатися на існуючий DCP"
 
-#: src/wx/config_dialog.cc:729 src/wx/content_menu.cc:68
-#: src/wx/content_panel.cc:88 src/wx/editable_list.h:83
+#: src/wx/config_dialog.cc:691 src/wx/content_menu.cc:68
+#: src/wx/content_panel.cc:88 src/wx/editable_list.h:87
 msgid "Remove"
 msgstr "Прибрати"
 
@@ -1159,7 +1157,7 @@ msgstr "Повторити..."
 msgid "Report A Problem"
 msgstr "Повідомити Про Помилку"
 
-#: src/wx/config_dialog.cc:1267
+#: src/wx/config_dialog.cc:1234
 msgid "Reset to default subject and text"
 msgstr "Скинути за замовченням тему та текст"
 
@@ -1175,11 +1173,11 @@ msgstr "Продовжити"
 msgid "Right"
 msgstr "Зправа"
 
-#: src/wx/audio_mapping_view.cc:322
+#: src/wx/audio_mapping_view.cc:320
 msgid "Right click to change gain."
 msgstr "Правий клік для змінення посилення"
 
-#: src/wx/config_dialog.cc:863
+#: src/wx/config_dialog.cc:825
 msgid "Root"
 msgstr "Root"
 
@@ -1187,11 +1185,11 @@ msgstr "Root"
 msgid "Root common name"
 msgstr "Root common name"
 
-#: src/wx/config_dialog.cc:1133
+#: src/wx/config_dialog.cc:1095
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (для AAM и Doremi)"
 
-#: src/wx/config_dialog.cc:522 src/wx/dcp_panel.cc:184
+#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:184
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -1208,7 +1206,7 @@ msgstr "Масштабування"
 msgid "Screens"
 msgstr "Екрани"
 
-#: src/wx/config_dialog.cc:634
+#: src/wx/config_dialog.cc:595
 msgid "Search network for servers"
 msgstr "Шукати сервери у мережі"
 
@@ -1216,8 +1214,8 @@ msgstr "Шукати сервери у мережі"
 msgid "Select CPL XML file"
 msgstr "Оберіть XML-файл CPL"
 
-#: src/wx/config_dialog.cc:788 src/wx/config_dialog.cc:828
-#: src/wx/config_dialog.cc:1059 src/wx/screen_dialog.cc:143
+#: src/wx/config_dialog.cc:750 src/wx/config_dialog.cc:790
+#: src/wx/config_dialog.cc:1021 src/wx/screen_dialog.cc:149
 msgid "Select Certificate File"
 msgstr "Оберіть Файл Сертификату"
 
@@ -1225,7 +1223,7 @@ msgstr "Оберіть Файл Сертификату"
 msgid "Select KDM"
 msgstr "Оберіть KDM"
 
-#: src/wx/config_dialog.cc:948 src/wx/config_dialog.cc:979
+#: src/wx/config_dialog.cc:910 src/wx/config_dialog.cc:941
 msgid "Select Key File"
 msgstr "Оберіть файл ключа"
 
@@ -1233,7 +1231,7 @@ msgstr "Оберіть файл ключа"
 msgid "Select certificate file"
 msgstr "Оберіть файл сертификату"
 
-#: src/wx/config_dialog.cc:194
+#: src/wx/config_dialog.cc:199
 msgid "Select cinema and screen database file"
 msgstr "Оберіть файл БД кінотеатрів та залів"
 
@@ -1253,11 +1251,11 @@ msgstr "Серійний номер"
 msgid "Server"
 msgstr "Сервер"
 
-#: src/wx/config_dialog.cc:621
+#: src/wx/config_dialog.cc:582
 msgid "Servers"
 msgstr "Сервери"
 
-#: src/wx/timecode.cc:64 src/wx/timing_panel.cc:111
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:111
 msgid "Set"
 msgstr "Назначити"
 
@@ -1269,7 +1267,7 @@ msgstr "Оберіть з файла..."
 msgid "Set from system font..."
 msgstr "Оберіть системний шрифт"
 
-#: src/wx/config_dialog.cc:159
+#: src/wx/config_dialog.cc:160
 msgid "Set language"
 msgstr "Оберіть мову"
 
@@ -1277,7 +1275,7 @@ msgstr "Оберіть мову"
 msgid "Show audio..."
 msgstr "Показати аудіо..."
 
-#: src/wx/audio_panel.cc:59
+#: src/wx/audio_panel.cc:57
 msgid "Show graph of audio levels..."
 msgstr "Показати графік та рівні аудіо..."
 
@@ -1285,7 +1283,7 @@ msgstr "Показати графік та рівні аудіо..."
 msgid "Signed"
 msgstr "Підписаний"
 
-#: src/wx/config_dialog.cc:1035
+#: src/wx/config_dialog.cc:997
 msgid "Signing DCPs and KDMs"
 msgstr "Підпис DCP та KDM:"
 
@@ -1317,7 +1315,7 @@ msgstr "Стандарт"
 msgid "Start"
 msgstr "Початок"
 
-#: src/wx/subtitle_panel.cc:112
+#: src/wx/subtitle_panel.cc:110
 msgid "Stream"
 msgstr "Потік"
 
@@ -1325,7 +1323,7 @@ msgstr "Потік"
 msgid "Studio (e.g. TCF)"
 msgstr "Студія (напр. TCF)"
 
-#: src/wx/config_dialog.cc:1244
+#: src/wx/config_dialog.cc:1206
 msgid "Subject"
 msgstr "Тема"
 
@@ -1345,20 +1343,20 @@ msgstr "Зовнішній вигляд субтитрів"
 msgid "Subtitle colours"
 msgstr "Кольори субтитрів"
 
-#: src/wx/subtitle_panel.cc:47 src/wx/subtitle_view.cc:32
+#: src/wx/subtitle_panel.cc:45 src/wx/subtitle_view.cc:32
 #: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:62
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/wx/about_dialog.cc:240
+#: src/wx/about_dialog.cc:245
 msgid "Supported by"
 msgstr "Фінансова підтримка"
 
-#: src/wx/config_dialog.cc:1096
+#: src/wx/config_dialog.cc:1058
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:1121
+#: src/wx/config_dialog.cc:1083
 msgid "Target path"
 msgstr "Цільовий шлях"
 
@@ -1374,7 +1372,7 @@ msgstr "Територія (напр. RU)"
 msgid "Test version "
 msgstr "Тестова версія"
 
-#: src/wx/about_dialog.cc:294
+#: src/wx/about_dialog.cc:299
 msgid "Tested by"
 msgstr "Тестування"
 
@@ -1403,11 +1401,11 @@ msgstr "Це не правильний CPL файл"
 msgid "Threads"
 msgstr "Потоки"
 
-#: src/wx/config_dialog.cc:188
+#: src/wx/config_dialog.cc:193
 msgid "Threads to use for encoding on this host"
 msgstr "Кількість потоків кодування на хості"
 
-#: src/wx/config_dialog.cc:713 src/wx/screen_dialog.cc:93
+#: src/wx/config_dialog.cc:675 src/wx/screen_dialog.cc:93
 msgid "Thumbprint"
 msgstr "Відбиток"
 
@@ -1431,7 +1429,7 @@ msgstr "Таймінг"
 msgid "Top"
 msgstr "Верх"
 
-#: src/wx/about_dialog.cc:122
+#: src/wx/about_dialog.cc:125
 msgid "Translated by"
 msgstr "Переклад"
 
@@ -1456,10 +1454,28 @@ msgstr "Обрізати до поточної позиції"
 msgid "True peak is %.2fdB"
 msgstr "Пікова гучність %.2fдБ"
 
-#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:705
+#: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:667
 #: src/wx/video_panel.cc:84
 msgid "Type"
 msgstr "Тип"
+
+#: src/wx/cinema_dialog.cc:83
+msgid "UTC"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:54
+msgid "UTC offset (time zone)"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:81
+#, c-format
+msgid "UTC%d"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:85
+#, c-format
+msgid "UTC+%d"
+msgstr ""
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
@@ -1485,11 +1501,11 @@ msgstr "Використовувати найкраще"
 msgid "Use preset"
 msgstr "Використовувати заготовку"
 
-#: src/wx/subtitle_panel.cc:59
+#: src/wx/subtitle_panel.cc:57
 msgid "Use subtitles"
 msgstr "заготовку субтитри"
 
-#: src/wx/config_dialog.cc:1125
+#: src/wx/config_dialog.cc:1087
 msgid "User name"
 msgstr "Ім'я користувача"
 
@@ -1506,23 +1522,23 @@ msgstr "Графік відео"
 msgid "Video frame rate"
 msgstr "Частота кадрів відео"
 
-#: src/wx/subtitle_panel.cc:120
+#: src/wx/subtitle_panel.cc:118
 msgid "View..."
 msgstr "Перегляд..."
 
-#: src/wx/config_dialog.cc:1417
+#: src/wx/config_dialog.cc:1384
 msgid "Warnings"
 msgstr "Попередження"
 
-#: src/wx/colour_conversion_editor.cc:140
+#: src/wx/colour_conversion_editor.cc:139
 msgid "White point"
 msgstr "Біла точка"
 
-#: src/wx/colour_conversion_editor.cc:164
+#: src/wx/colour_conversion_editor.cc:163
 msgid "White point adjustment"
 msgstr "Регулювання білої точки"
 
-#: src/wx/about_dialog.cc:128
+#: src/wx/about_dialog.cc:131
 msgid "With help from"
 msgstr "Допомога у розробці"
 
@@ -1534,27 +1550,27 @@ msgstr "Зберегти в..."
 msgid "Written by"
 msgstr "Програмування"
 
-#: src/wx/subtitle_panel.cc:68
+#: src/wx/subtitle_panel.cc:66
 msgid "X Offset"
 msgstr "Зміщення X"
 
-#: src/wx/subtitle_panel.cc:88
+#: src/wx/subtitle_panel.cc:86
 msgid "X Scale"
 msgstr "Розмір X"
 
-#: src/wx/subtitle_panel.cc:78
+#: src/wx/subtitle_panel.cc:76
 msgid "Y Offset"
 msgstr "Зміщення Y"
 
-#: src/wx/subtitle_panel.cc:98
+#: src/wx/subtitle_panel.cc:96
 msgid "Y Scale"
 msgstr "Розмір Y"
 
-#: src/wx/colour_conversion_editor.cc:95
+#: src/wx/colour_conversion_editor.cc:94
 msgid "YUV to RGB conversion"
 msgstr "Перетворення YUV в RGB"
 
-#: src/wx/colour_conversion_editor.cc:97
+#: src/wx/colour_conversion_editor.cc:96
 msgid "YUV to RGB matrix"
 msgstr "Матриця YUV в RGB"
 
@@ -1610,7 +1626,7 @@ msgstr ""
 "У вашого DCP менше 6 аудіо каналів. Це може викликати проблеми на деяких "
 "проекторах."
 
-#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:75
+#: src/wx/audio_gain_dialog.cc:30 src/wx/audio_panel.cc:73
 msgid "dB"
 msgstr "дБ"
 
@@ -1630,20 +1646,20 @@ msgid "m"
 msgstr "хв"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:91 src/wx/config_dialog.cc:487
+#: src/wx/audio_panel.cc:89 src/wx/config_dialog.cc:448
 msgid "ms"
 msgstr "мс"
 
-#: src/wx/config_dialog.cc:1229
+#: src/wx/config_dialog.cc:1191
 msgid "port"
 msgstr "порт"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:449 src/wx/timing_panel.cc:69
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:69
 msgid "s"
 msgstr "с"
 
-#: src/wx/colour_conversion_editor.cc:65
+#: src/wx/colour_conversion_editor.cc:64
 msgid "threshold"
 msgstr "поріг"
 
@@ -1656,11 +1672,11 @@ msgstr "раз"
 msgid "until"
 msgstr "до"
 
-#: src/wx/colour_conversion_editor.cc:114
+#: src/wx/colour_conversion_editor.cc:113
 msgid "x"
 msgstr "x"
 
-#: src/wx/colour_conversion_editor.cc:115
+#: src/wx/colour_conversion_editor.cc:114
 msgid "y"
 msgstr "y"
 

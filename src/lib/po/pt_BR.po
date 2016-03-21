@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-16 19:54+0000\n"
+"POT-Creation-Date: 2016-03-21 16:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Cannot handle pixel format %1 during %2"
 msgstr ""
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:487
 msgid "Centre"
 msgstr ""
 
@@ -339,11 +339,11 @@ msgstr ""
 msgid "Cropped to %1x%2"
 msgstr ""
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:497
 msgid "D-BOX primary"
 msgstr ""
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:498
 msgid "D-BOX secondary"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr ""
 
-#: src/lib/config.cc:514
+#: src/lib/config.cc:510
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -533,7 +533,7 @@ msgstr ""
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:491
 msgid "Hearing impaired"
 msgstr ""
 
@@ -557,7 +557,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr ""
 
-#: src/lib/config.cc:234 src/lib/config.cc:511
+#: src/lib/config.cc:234 src/lib/config.cc:507
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -573,19 +573,19 @@ msgstr ""
 msgid "Lc"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:97 src/lib/util.cc:486
+#: src/lib/mid_side_decoder.cc:97 src/lib/util.cc:485
 msgid "Left"
 msgstr ""
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:493
 msgid "Left centre"
 msgstr ""
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:495
 msgid "Left rear surround"
 msgstr ""
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:489
 msgid "Left surround"
 msgstr ""
 
@@ -599,7 +599,7 @@ msgstr ""
 msgid "Lfe"
 msgstr ""
 
-#: src/lib/util.cc:489
+#: src/lib/util.cc:488
 msgid "Lfe (sub)"
 msgstr ""
 
@@ -745,19 +745,19 @@ msgid ""
 "to 'split by video content'."
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:487
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
 msgid "Right"
 msgstr ""
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:494
 msgid "Right centre"
 msgstr ""
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:496
 msgid "Right rear surround"
 msgstr ""
 
-#: src/lib/util.cc:491
+#: src/lib/util.cc:490
 msgid "Right surround"
 msgstr ""
 
@@ -941,7 +941,7 @@ msgstr ""
 msgid "Untitled"
 msgstr ""
 
-#: src/lib/util.cc:500 src/lib/util.cc:501
+#: src/lib/util.cc:499 src/lib/util.cc:500
 msgid "Unused"
 msgstr ""
 
@@ -977,7 +977,7 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: src/lib/util.cc:493
+#: src/lib/util.cc:492
 msgid "Visually impaired"
 msgstr ""
 
@@ -1094,12 +1094,12 @@ msgid "frames per second"
 msgstr ""
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:145 src/lib/util.cc:148
+#: src/lib/util.cc:144 src/lib/util.cc:147
 msgid "h"
 msgstr ""
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:160 src/lib/util.cc:163
+#: src/lib/util.cc:159 src/lib/util.cc:162
 msgid "m"
 msgstr ""
 
@@ -1126,7 +1126,7 @@ msgid "remaining"
 msgstr ""
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:174
+#: src/lib/util.cc:173
 msgid "s"
 msgstr ""
 
