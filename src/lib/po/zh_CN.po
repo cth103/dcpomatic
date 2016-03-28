@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2016-03-21 09:38+0800\n"
-"Last-Translator: Rov <lojy2009@qq.com>\n"
-"Language-Team: Rov <lojy2009@qq.com>\n"
+"PO-Revision-Date: 2016-03-27 22:12+0800\n"
+"Last-Translator: Rov(若文)\n"
+"Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr "16:9"
 
 #: src/lib/ratio.cc:41
 msgid "2.35"
-msgstr ""
+msgstr "2.35"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -74,7 +74,7 @@ msgstr "音频解析"
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
 #: src/lib/audio_content.cc:331
 msgid "Audio"
-msgstr ""
+msgstr "音频解析"
 
 #: src/lib/audio_content.cc:259
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -158,9 +158,8 @@ msgid "Centre"
 msgstr "中置音"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Channels"
-msgstr "音频通道"
+msgstr "声音通道"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -201,9 +200,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "内容和DCP需相同的速率。\n"
 
 #: src/lib/audio_content.cc:308
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "视频帧率"
+msgstr "音频帧率"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -302,9 +300,8 @@ msgid "Could not decode image file (%1)"
 msgstr "无法解码图像文件(%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "找不到流信息"
+msgstr "找不到视频格式"
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -346,28 +343,27 @@ msgstr "裁剪为%1x%2"
 
 #: src/lib/util.cc:497
 msgid "D-BOX primary"
-msgstr ""
+msgstr "初级D-BOX"
 
 #: src/lib/util.cc:498
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "高级D-BOX"
 
 #: src/lib/film.cc:1340
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1341
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
 #: src/lib/audio_content.cc:331
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "视频帧率"
+msgstr "帧率"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -459,9 +455,8 @@ msgid "Encoding image data"
 msgstr "编码图像数据"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "SubRip文件错误: 执行为 %1 实际要求为%2"
+msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -480,9 +475,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "无法与服务器进行身份验证 (%1)"
 
 #: src/lib/emailer.cc:212
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "发送超时"
+msgstr "发送电子邮件失败"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -505,9 +499,8 @@ msgid "Flat"
 msgstr "遮幅"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "视频帧率"
+msgstr "帧率"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -523,19 +516,19 @@ msgstr "全画幅"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "DCP中音频总时长"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "音频时长"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "DCP中视频总时长"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "视频时长"
 
 #: src/lib/ffmpeg_content.cc:471
 msgid "Gamma 22 (BT470M)"
@@ -563,7 +556,7 @@ msgstr "高品质的3D降噪"
 
 #: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:480
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -613,7 +606,7 @@ msgstr "左环绕"
 #: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "长度"
 
 #: src/lib/film.cc:1331
 msgid "Lfe"
@@ -660,9 +653,8 @@ msgid "Mismatched audio channel counts in DCP"
 msgstr "音频通道数不匹配。"
 
 #: src/lib/dcp_examiner.cc:102
-#, fuzzy
 msgid "Mismatched audio sample rates in DCP"
-msgstr "音频帧速率不匹配。"
+msgstr "音频采样率不符合！"
 
 #: src/lib/dcp_examiner.cc:77
 msgid "Mismatched frame rates in DCP"
@@ -678,7 +670,7 @@ msgstr "动态补偿去隔行。"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "没有配置偏好邮件服务！"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -761,11 +753,10 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:297
-#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
-msgstr "DCP卷长度不同;请设置卷轴模式为'分割视频内容“。"
+msgstr "DCP分卷长度不同;请设置卷轴模式为'分割视频内容“。"
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
 msgid "Right"
@@ -802,15 +793,15 @@ msgstr "SMPTE 240M"
 
 #: src/lib/ffmpeg_content.cc:483
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr ""
+msgstr "SMPTE ST 2084 for 10, 12, 14和16 bit"
 
 #: src/lib/ffmpeg_content.cc:484
 msgid "SMPTE ST 428-1"
-msgstr ""
+msgstr "SMPTE ST 428-1"
 
 #: src/lib/ffmpeg_content.cc:460
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
-msgstr ""
+msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
@@ -834,7 +825,7 @@ msgstr "短片"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "大小"
 
 #: src/lib/audio_content.cc:254
 msgid "Some audio will be resampled to %1kHz"
@@ -861,9 +852,8 @@ msgid "Test"
 msgstr "测试片"
 
 #: src/lib/text_subtitle_content.cc:94
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[字幕]"
+msgstr "[文本字幕]"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -966,7 +956,7 @@ msgstr "无标题"
 
 #: src/lib/util.cc:499 src/lib/util.cc:500
 msgid "Unused"
-msgstr ""
+msgstr "未使用"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
@@ -997,9 +987,8 @@ msgstr "视障"
 #: src/lib/ffmpeg_content.cc:505 src/lib/ffmpeg_content.cc:508
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "vídeo"
+msgstr "视频"
 
 #: src/lib/util.cc:492
 msgid "Visually impaired"

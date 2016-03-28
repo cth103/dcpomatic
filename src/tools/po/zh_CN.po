@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2015-12-24 15:16+0800\n"
-"Last-Translator: Rov <lojy2009@qq.com>\n"
-"Language-Team: Rov <lojy2009@qq.com>\n"
+"PO-Revision-Date: 2016-03-27 22:12+0800\n"
+"Last-Translator: Rov(若文)\n"
+"Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,9 +129,8 @@ msgid "Check for updates"
 msgstr "检查更新"
 
 #: src/tools/dcpomatic.cc:529
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "DCP-o-matic 批量转换"
+msgstr "找不到批量转换！"
 
 #: src/tools/dcpomatic.cc:996 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
@@ -188,11 +187,11 @@ msgstr "制作KDM \tCtrl+K"
 
 #: src/tools/dcpomatic.cc:802
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "批量制作DCP\tCtrl+B"
 
 #: src/tools/dcpomatic.cc:804
 msgid "Make DKDM for DCP-o-matic..."
-msgstr ""
+msgstr "制作DCP-o-matic KDM"
 
 #: src/tools/dcpomatic.cc:772
 msgid "New...\tCtrl-N"
