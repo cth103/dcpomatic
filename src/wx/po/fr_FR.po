@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2016-02-29 18:39+0100\n"
+"PO-Revision-Date: 2016-03-31 18:11+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -353,6 +353,8 @@ msgstr "Base de données Cinémas et Ecrans"
 #: src/wx/content_widget.h:72
 msgid "Click the button to set all selected content to the same value."
 msgstr ""
+"Cliquer ce bouton pour régler tous les contenus sélectionnés à la même "
+"valeur."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -627,6 +629,8 @@ msgstr "Filtres"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"Trouver graves intégrées, crête véritable et plage de volume sonore lors de "
+"l'analyse audio"
 
 #: src/wx/content_menu.cc:63
 msgid "Find missing..."
@@ -899,7 +903,7 @@ msgstr "Contenus multiples sélectionnés"
 
 #: src/wx/content_widget.h:64
 msgid "Multiple values"
-msgstr ""
+msgstr "Valeurs multiples"
 
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
@@ -1461,21 +1465,21 @@ msgstr "Type"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: src/wx/cinema_dialog.cc:54
 msgid "UTC offset (time zone)"
-msgstr ""
+msgstr "Différence UTC (fuseau horaire)"
 
 #: src/wx/cinema_dialog.cc:81
 #, c-format
 msgid "UTC%d"
-msgstr ""
+msgstr "UTC%d"
 
 #: src/wx/cinema_dialog.cc:85
 #, c-format
 msgid "UTC+%d"
-msgstr ""
+msgstr "UTC+%d"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
