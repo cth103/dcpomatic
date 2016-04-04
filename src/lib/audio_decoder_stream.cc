@@ -92,6 +92,11 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 		{}
 
 		decoded_offset = frame - _decoded.frame;
+
+		_content->film()->log()->log (
+			String::compose ("Accurate ADS::get has offset %1 from request %2 and available %3", decoded_offset, frame, _decoded.frame),
+			LogEntry::TYPE_DEBUG_DECODE
+			);
 	} else {
 		while (
 			_decoded.audio->frames() < length &&
