@@ -79,6 +79,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 				dcp::SubtitleString (
 					TextSubtitleContent::font_id,
 					j.italic,
+					j.bold,
 					/* force the colour to whatever is configured */
 					content->colour(),
 					j.font_size.points (72 * 11),
