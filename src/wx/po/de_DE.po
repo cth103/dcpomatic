@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2016-03-12 03:40+0100\n"
+"PO-Revision-Date: 2016-04-07 16:37+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -73,7 +73,7 @@ msgstr "3D nur links"
 
 #: src/wx/video_panel.cc:225
 msgid "3D left/right"
-msgstr "3D Links/Rechts"
+msgstr "3D Links/Rechts (SBS)"
 
 #: src/wx/video_panel.cc:229
 msgid "3D right only"
@@ -81,7 +81,7 @@ msgstr "3D nur rechts"
 
 #: src/wx/video_panel.cc:226
 msgid "3D top/bottom"
-msgstr "3D Oben/Unten"
+msgstr "3D Oben/Unten (OU)"
 
 #: src/wx/dcp_panel.cc:697
 msgid "4K"
@@ -344,7 +344,7 @@ msgstr "Eine oder mehrere Dateien auswählen"
 
 #: src/wx/content_menu.cc:246 src/wx/content_panel.cc:306
 msgid "Choose a folder"
-msgstr "Bildsequenz oder DCP-Ordner wählen"
+msgstr "Ordner mit nummerierter Bildsequenz, oder DCP wählen!"
 
 #: src/wx/system_font_dialog.cc:32
 msgid "Choose a font"
@@ -801,7 +801,8 @@ msgstr "KDM Typ"
 #: src/wx/kdm_dialog.cc:64
 msgid "KDM|Timing"
 msgstr ""
-"Zeitfenster (nach UTC Offset/Zeitzone in Kinoeigenschaften) - Zeit ist LOKAL!"
+"Zeitfenster (nach UTC/GMT Offset/Zeitzone in Kinoeigenschaften) - Zeit ist "
+"LOKAL!"
 
 #: src/wx/timeline_dialog.cc:43
 msgid "Keep video and subtitles in sequence"
@@ -1321,7 +1322,7 @@ msgstr "Stabile Version"
 
 #: src/wx/dcp_panel.cc:151
 msgid "Standard"
-msgstr "Standard"
+msgstr "DCP Standard"
 
 #: src/wx/subtitle_view.cc:39
 msgid "Start"
@@ -1435,7 +1436,7 @@ msgstr "Zeitleiste..."
 
 #: src/wx/timing_panel.cc:44
 msgid "Timing|Timing"
-msgstr "Timing & Trimmen"
+msgstr "Timing/Trimmen"
 
 #: src/wx/video_panel.cc:124
 msgid "Top"
@@ -1473,21 +1474,21 @@ msgstr "Typ"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC"
-msgstr ""
+msgstr "UTC/GMT"
 
 #: src/wx/cinema_dialog.cc:54
 msgid "UTC offset (time zone)"
-msgstr ""
+msgstr "UTC/GMT Abweichung (Zeitzone)"
 
 #: src/wx/cinema_dialog.cc:81
 #, c-format
 msgid "UTC%d"
-msgstr ""
+msgstr "UTC%d"
 
 #: src/wx/cinema_dialog.cc:85
 #, c-format
 msgid "UTC+%d"
-msgstr ""
+msgstr "UTC+%d"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
@@ -1532,7 +1533,7 @@ msgstr "Video Waveform (Vorschau-Slider ändert Auswahl...)"
 
 #: src/wx/timing_panel.cc:107
 msgid "Video frame rate"
-msgstr "Bildwiederholrate"
+msgstr "Bildratenbezugswert"
 
 #: src/wx/subtitle_panel.cc:118
 msgid "View..."

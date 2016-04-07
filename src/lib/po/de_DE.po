@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2016-03-12 01:09+0100\n"
+"PO-Revision-Date: 2016-04-07 16:11+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -44,7 +44,7 @@ msgstr "1.78:1 (16:9/HD)"
 
 #: src/lib/ratio.cc:41
 msgid "2.35"
-msgstr ""
+msgstr "2.35:1 (35mm Scope)"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -817,15 +817,15 @@ msgstr "SMPTE 240M"
 
 #: src/lib/ffmpeg_content.cc:483
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr ""
+msgstr "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 
 #: src/lib/ffmpeg_content.cc:484
 msgid "SMPTE ST 428-1"
-msgstr ""
+msgstr "SMPTE ST 428-1"
 
 #: src/lib/ffmpeg_content.cc:460
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
-msgstr ""
+msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
@@ -837,7 +837,7 @@ msgstr "Skaliert auf %1x%2"
 
 #: src/lib/ratio.cc:42
 msgid "Scope"
-msgstr "2.39:1 (Scope)"
+msgstr "2.39:1 (DCI Scope)"
 
 #: src/lib/send_problem_report_job.cc:69
 msgid "Sending email"
