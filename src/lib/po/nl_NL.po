@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-21 16:13+0000\n"
-"PO-Revision-Date: 2016-03-21 21:41+0100\n"
+"PO-Revision-Date: 2016-04-07 01:42+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -32,19 +32,19 @@ msgstr "%1 [video]"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
-msgstr "1.19:1"
+msgstr "1,19:1"
 
 #: src/lib/ratio.cc:38
 msgid "1.66"
-msgstr "1.66:1"
+msgstr "1,66:1"
 
 #: src/lib/ratio.cc:39
 msgid "16:9"
-msgstr "1.78:1 (16:9 / HD)"
+msgstr "1,78:1 (16:9 / HD)"
 
 #: src/lib/ratio.cc:41
 msgid "2.35"
-msgstr "2.35:1"
+msgstr "2,35:1"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -52,11 +52,11 @@ msgstr "3D ruisonderdrukking"
 
 #: src/lib/ratio.cc:36
 msgid "4:3"
-msgstr "1.33:1 (4:3)"
+msgstr "1,33:1 (4:3)"
 
 #: src/lib/ratio.cc:37
 msgid "Academy"
-msgstr "1.375:1 (Academy)"
+msgstr "1,375:1 (Academy)"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Advertisement"
@@ -506,7 +506,7 @@ msgstr "Ondertitels zoeken"
 
 #: src/lib/ratio.cc:40
 msgid "Flat"
-msgstr "1.85:1 (Flat)"
+msgstr "1,85:1 (Flat)"
 
 #: src/lib/video_content.cc:586
 msgid "Frame rate"
@@ -522,7 +522,7 @@ msgstr "Volledig (0-%1)"
 
 #: src/lib/ratio.cc:43
 msgid "Full frame"
-msgstr "1.896:1 (Full DCI Container)"
+msgstr "1,896:1 (Full DCI Container)"
 
 #: src/lib/audio_content.cc:338
 msgid "Full length in audio frames at DCP rate"
@@ -829,7 +829,7 @@ msgstr "Geschaald naar %1x%2"
 
 #: src/lib/ratio.cc:42
 msgid "Scope"
-msgstr "2.39:1 (Scope)"
+msgstr "2,39:1 (Scope)"
 
 #: src/lib/send_problem_report_job.cc:69
 msgid "Sending email"
