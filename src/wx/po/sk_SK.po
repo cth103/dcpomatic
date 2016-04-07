@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 16:13+0000\n"
+"POT-Creation-Date: 2016-04-07 18:26+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -97,6 +97,8 @@ msgstr ""
 msgid "<b>Original colour</b>"
 msgstr ""
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -360,6 +362,11 @@ msgstr "Farba"
 msgid "Colour conversion"
 msgstr "Konverzia farieb"
 
+#: src/wx/video_panel.cc:196
+#, fuzzy
+msgid "Colour|Custom"
+msgstr "Farba"
+
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
 msgstr "Súčasť"
@@ -436,10 +443,6 @@ msgstr "Tvorca"
 #: src/wx/video_panel.cc:97
 msgid "Crop"
 msgstr "Orezať"
-
-#: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
-msgid "Custom"
-msgstr "Vlastný"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -1116,6 +1119,11 @@ msgstr "Dĺžka reelu"
 msgid "Reels"
 msgstr "Reels"
 
+#: src/wx/dcp_panel.cc:180
+#, fuzzy
+msgid "Reel|Custom"
+msgstr "Vlastný"
+
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
@@ -1346,7 +1354,7 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:245
+#: src/wx/about_dialog.cc:246
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1370,7 +1378,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:300
 msgid "Tested by"
 msgstr "Testované"
 

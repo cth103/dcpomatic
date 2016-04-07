@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 16:13+0000\n"
+"POT-Creation-Date: 2016-04-07 18:26+0100\n"
 "PO-Revision-Date: 2016-03-08 02:01+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -92,6 +92,8 @@ msgstr "<b>Новый цвет</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Исходный цвет</b>"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -361,6 +363,11 @@ msgstr "Цвет"
 msgid "Colour conversion"
 msgstr "Преобразование цвета"
 
+#: src/wx/video_panel.cc:196
+#, fuzzy
+msgid "Colour|Custom"
+msgstr "Цвет"
+
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
 msgstr "Компонент"
@@ -437,10 +444,6 @@ msgstr "Создатель"
 #: src/wx/video_panel.cc:97
 msgid "Crop"
 msgstr "Кадрирование"
-
-#: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
-msgid "Custom"
-msgstr "Пользовательское"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -1120,6 +1123,11 @@ msgstr "Длительность бобины"
 msgid "Reels"
 msgstr "Бобины"
 
+#: src/wx/dcp_panel.cc:180
+#, fuzzy
+msgid "Reel|Custom"
+msgstr "Пользовательское"
+
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
@@ -1349,7 +1357,7 @@ msgstr "Цвета субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:245
+#: src/wx/about_dialog.cc:246
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1373,7 +1381,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:300
 msgid "Tested by"
 msgstr "Тестирование"
 

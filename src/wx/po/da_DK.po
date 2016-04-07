@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 16:13+0000\n"
+"POT-Creation-Date: 2016-04-07 18:26+0100\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -96,6 +96,8 @@ msgstr ""
 msgid "<b>Original colour</b>"
 msgstr ""
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -365,6 +367,11 @@ msgstr ""
 msgid "Colour conversion"
 msgstr "Farvekonvertering"
 
+#: src/wx/video_panel.cc:196
+#, fuzzy
+msgid "Colour|Custom"
+msgstr "Brugerdefineret"
+
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
 msgstr ""
@@ -441,10 +448,6 @@ msgstr ""
 #: src/wx/video_panel.cc:97
 msgid "Crop"
 msgstr "Beskær"
-
-#: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
-msgid "Custom"
-msgstr "Brugerdefineret"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -1132,6 +1135,11 @@ msgstr "Fuld længde"
 msgid "Reels"
 msgstr ""
 
+#: src/wx/dcp_panel.cc:180
+#, fuzzy
+msgid "Reel|Custom"
+msgstr "Brugerdefineret"
+
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
@@ -1365,7 +1373,7 @@ msgstr "Undertekster"
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:245
+#: src/wx/about_dialog.cc:246
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1389,7 +1397,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:300
 msgid "Tested by"
 msgstr "Testet af"
 

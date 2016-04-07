@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 16:13+0000\n"
+"POT-Creation-Date: 2016-04-07 18:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,6 +92,8 @@ msgstr ""
 msgid "<b>Original colour</b>"
 msgstr ""
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -343,6 +345,10 @@ msgstr ""
 msgid "Colour conversion"
 msgstr ""
 
+#: src/wx/video_panel.cc:196
+msgid "Colour|Custom"
+msgstr ""
+
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
 msgstr ""
@@ -418,10 +424,6 @@ msgstr ""
 
 #: src/wx/video_panel.cc:97
 msgid "Crop"
-msgstr ""
-
-#: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
-msgid "Custom"
 msgstr ""
 
 #: src/wx/film_editor.cc:53
@@ -1096,6 +1098,10 @@ msgstr ""
 msgid "Reels"
 msgstr ""
 
+#: src/wx/dcp_panel.cc:180
+msgid "Reel|Custom"
+msgstr ""
+
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
@@ -1325,7 +1331,7 @@ msgstr ""
 msgid "Subtitles"
 msgstr ""
 
-#: src/wx/about_dialog.cc:245
+#: src/wx/about_dialog.cc:246
 msgid "Supported by"
 msgstr ""
 
@@ -1349,7 +1355,7 @@ msgstr ""
 msgid "Test version "
 msgstr ""
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:300
 msgid "Tested by"
 msgstr ""
 

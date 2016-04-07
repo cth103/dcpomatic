@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 16:13+0000\n"
+"POT-Creation-Date: 2016-04-07 18:26+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -102,6 +102,8 @@ msgstr "<b>新色彩空间</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>原色彩空间</b>"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -355,6 +357,11 @@ msgstr "色彩空间"
 msgid "Colour conversion"
 msgstr "色彩转换"
 
+#: src/wx/video_panel.cc:196
+#, fuzzy
+msgid "Colour|Custom"
+msgstr "色彩空间"
+
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
 msgstr "构成"
@@ -431,10 +438,6 @@ msgstr "创建者"
 #: src/wx/video_panel.cc:97
 msgid "Crop"
 msgstr "裁剪"
-
-#: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
-msgid "Custom"
-msgstr "自定义"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -1110,6 +1113,11 @@ msgstr "卷大小"
 msgid "Reels"
 msgstr "卷"
 
+#: src/wx/dcp_panel.cc:180
+#, fuzzy
+msgid "Reel|Custom"
+msgstr "自定义"
+
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
@@ -1339,7 +1347,7 @@ msgstr "字幕颜色"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:245
+#: src/wx/about_dialog.cc:246
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1363,7 +1371,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:300
 msgid "Tested by"
 msgstr "测试"
 

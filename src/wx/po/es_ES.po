@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 16:13+0000\n"
+"POT-Creation-Date: 2016-04-07 18:26+0100\n"
 "PO-Revision-Date: 2016-02-09 01:29-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -94,6 +94,8 @@ msgstr ""
 msgid "<b>Original colour</b>"
 msgstr ""
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/timing_panel.cc:123
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
@@ -361,6 +363,11 @@ msgstr "Color"
 msgid "Colour conversion"
 msgstr "Conversión de color"
 
+#: src/wx/video_panel.cc:196
+#, fuzzy
+msgid "Colour|Custom"
+msgstr "Color"
+
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
 msgstr "Componente"
@@ -437,10 +444,6 @@ msgstr "Creador"
 #: src/wx/video_panel.cc:97
 msgid "Crop"
 msgstr "Recortar"
-
-#: src/wx/dcp_panel.cc:180 src/wx/video_panel.cc:196
-msgid "Custom"
-msgstr "Personalizado"
 
 #: src/wx/film_editor.cc:53
 msgid "DCP"
@@ -1118,6 +1121,11 @@ msgstr "Duración de la bobina"
 msgid "Reels"
 msgstr "Bobinas"
 
+#: src/wx/dcp_panel.cc:180
+#, fuzzy
+msgid "Reel|Custom"
+msgstr "Personalizado"
+
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
 msgid "Refer to existing DCP"
@@ -1348,7 +1356,7 @@ msgstr "Color del contorno"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:245
+#: src/wx/about_dialog.cc:246
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1372,7 +1380,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:300
 msgid "Tested by"
 msgstr "Comprobado por"
 

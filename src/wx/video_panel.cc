@@ -193,7 +193,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		BOOST_FOREACH (PresetColourConversion const & i, PresetColourConversion::all()) {
 			_colour_conversion->Append (std_to_wx (i.name));
 		}
-		_colour_conversion->Append (_("Custom"));
+		_colour_conversion->Append (_("Colour|Custom"));
 		s->Add (_colour_conversion, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 
 		_edit_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
