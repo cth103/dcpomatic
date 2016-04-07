@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-07 18:26+0100\n"
-"PO-Revision-Date: 2016-04-07 01:51+0200\n"
+"PO-Revision-Date: 2016-04-07 22:29+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -371,9 +371,8 @@ msgid "Colour conversion"
 msgstr "Kleurconversie"
 
 #: src/wx/video_panel.cc:196
-#, fuzzy
 msgid "Colour|Custom"
-msgstr "Kleur"
+msgstr "Aangepast"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
@@ -1131,7 +1130,6 @@ msgid "Reels"
 msgstr "Reels"
 
 #: src/wx/dcp_panel.cc:180
-#, fuzzy
 msgid "Reel|Custom"
 msgstr "Aangepast"
 
