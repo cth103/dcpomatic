@@ -93,7 +93,15 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 		if (r) {
 			delete[] data.data_in;
 			delete[] data.data_out;
-			throw EncodeError (String::compose (N_("could not run sample-rate converter (%1)"), src_strerror (r)));
+			throw EncodeError (
+				String::compose (
+					N_("could not run sample-rate converter (%1) [processing %2 to %3, %4 channels]"),
+					src_strerror (r),
+					in_frames,
+					max_resampled_frames,
+					_channels
+					)
+				);
 		}
 
 		if (data.output_frames_gen == 0) {
