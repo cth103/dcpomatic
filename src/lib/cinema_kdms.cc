@@ -169,7 +169,15 @@ CinemaKDMs::email (
 		email.add_attachment (zip_file, name, "application/zip");
 
 		Config* c = Config::instance ();
-		email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
+
+		try {
+			email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
+		} catch (...) {
+			if (log) {
+				log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
+			}
+			throw;
+		}
 
 		if (log) {
 			log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
