@@ -38,6 +38,11 @@ public:
 	size_t get_data (void* ptr, size_t size, size_t nmemb);
 	int debug (CURL* curl, curl_infotype type, char* data, size_t size);
 
+	/** @return full email, after send() has been called */
+	std::string email () const {
+		return _email;
+	}
+
 	static std::string address_list (std::list<std::string> addresses);
 
 private:

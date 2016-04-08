@@ -174,12 +174,18 @@ CinemaKDMs::email (
 			email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
 		} catch (...) {
 			if (log) {
+				log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
+				log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
+				log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
 				log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
 			}
 			throw;
 		}
 
 		if (log) {
+			log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
+			log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
+			log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
 			log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
 		}
 	}
