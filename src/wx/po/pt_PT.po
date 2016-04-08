@@ -379,7 +379,7 @@ msgstr "Componente"
 
 #: src/wx/config_dialog.cc:1388
 msgid "Config|Timing"
-msgstr "Configuração|Duração"
+msgstr "Duração"
 
 #: src/wx/report_problem_dialog.cc:65
 msgid "Contact email"

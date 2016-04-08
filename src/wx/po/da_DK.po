@@ -378,7 +378,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:1388
 msgid "Config|Timing"
-msgstr "Konfig|Timing"
+msgstr "Timing"
 
 #: src/wx/report_problem_dialog.cc:65
 msgid "Contact email"
@@ -801,7 +801,7 @@ msgstr "KDM-type"
 
 #: src/wx/kdm_dialog.cc:64
 msgid "KDM|Timing"
-msgstr "KDM|Timing"
+msgstr "Timing"
 
 #: src/wx/timeline_dialog.cc:43
 #, fuzzy
@@ -1448,7 +1448,7 @@ msgstr "Tidslinje..."
 
 #: src/wx/timing_panel.cc:44
 msgid "Timing|Timing"
-msgstr "Timing|Timing"
+msgstr "Timing"
 
 #: src/wx/video_panel.cc:124
 msgid "Top"
