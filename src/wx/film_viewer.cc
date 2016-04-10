@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -64,6 +64,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _outline_content (new wxCheckBox (this, wxID_ANY, _("Outline content")))
+	, _left_eye (new wxRadioButton (this, wxID_ANY, _("Left eye"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP))
+	, _right_eye (new wxRadioButton (this, wxID_ANY, _("Right eye")))
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
 	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
@@ -85,7 +87,11 @@ FilmViewer::FilmViewer (wxWindow* p)
 
 	_v_sizer->Add (_panel, 1, wxEXPAND);
 
-	_v_sizer->Add (_outline_content, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
+	view_options->Add (_outline_content, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+	view_options->Add (_left_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	view_options->Add (_right_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -108,6 +114,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_panel->Bind          (wxEVT_PAINT,                        boost::bind (&FilmViewer::paint_panel,     this));
 	_panel->Bind          (wxEVT_SIZE,                         boost::bind (&FilmViewer::panel_sized,     this, _1));
 	_outline_content->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&FilmViewer::refresh_panel,   this));
+	_left_eye->Bind       (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&FilmViewer::refresh,         this));
+	_right_eye->Bind      (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&FilmViewer::refresh,         this));
 	_slider->Bind         (wxEVT_SCROLL_THUMBTRACK,            boost::bind (&FilmViewer::slider_moved,    this));
 	_slider->Bind         (wxEVT_SCROLL_PAGEUP,                boost::bind (&FilmViewer::slider_moved,    this));
 	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,              boost::bind (&FilmViewer::slider_moved,    this));
@@ -182,31 +190,52 @@ FilmViewer::get (DCPTime p, bool accurate)
 		return;
 	}
 
-	list<shared_ptr<PlayerVideo> > pvf;
+	list<shared_ptr<PlayerVideo> > all_pv;
 	try {
-		pvf = _player->get_video (p, accurate);
+		all_pv = _player->get_video (p, accurate);
 	} catch (exception& e) {
 		error_dialog (this, wxString::Format (_("Could not get video for view (%s)"), std_to_wx(e.what()).data()));
 	}
 
-	if (!pvf.empty ()) {
+	if (!all_pv.empty ()) {
 		try {
+			shared_ptr<PlayerVideo> pv;
+			if (all_pv.size() == 2) {
+				/* We have 3D; choose the correct eye */
+				if (_left_eye->GetValue()) {
+					if (all_pv.front()->eyes() == EYES_LEFT) {
+						pv = all_pv.front();
+					} else {
+						pv = all_pv.back();
+					}
+				} else {
+					if (all_pv.front()->eyes() == EYES_RIGHT) {
+						pv = all_pv.front();
+					} else {
+						pv = all_pv.back();
+					}
+				}
+			} else {
+				/* 2D; no choice to make */
+				pv = all_pv.front ();
+			}
+
 			/* XXX: this could now give us a 48-bit image, which is a bit wasteful,
 			   or a XYZ image, which the code below will currently rely on FFmpeg
 			   to colourspace-convert.
 			*/
-			_frame = pvf.front()->image (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
-			ImageChanged (pvf.front ());
+			_frame = pv->image (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+			ImageChanged (pv);
 
 			dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
-			if (pvf.front()->colour_conversion()) {
-				yuv_to_rgb = pvf.front()->colour_conversion().get().yuv_to_rgb();
+			if (pv->colour_conversion()) {
+				yuv_to_rgb = pv->colour_conversion().get().yuv_to_rgb();
 			}
 
 			_frame = _frame->scale (_frame->size(), yuv_to_rgb, AV_PIX_FMT_RGB24, false);
-			_position = pvf.front()->time ();
-			_inter_position = pvf.front()->inter_position ();
-			_inter_size = pvf.front()->inter_size ();
+			_position = pv->time ();
+			_inter_position = pv->inter_position ();
+			_inter_size = pv->inter_size ();
 		} catch (dcp::DCPReadError& e) {
 			/* This can happen on the following sequence of events:
 			 * - load encrypted DCP
@@ -460,12 +489,15 @@ FilmViewer::setup_sensitivity ()
 	_outline_content->Enable (c);
 	_frame_number->Enable (c);
 	_timecode->Enable (c);
+
+	_left_eye->Enable (c && _film->three_d ());
+	_right_eye->Enable (c && _film->three_d ());
 }
 
 void
 FilmViewer::film_changed (Film::Property p)
 {
-	if (p == Film::CONTENT) {
+	if (p == Film::CONTENT || p == Film::THREE_D) {
 		setup_sensitivity ();
 	}
 }
