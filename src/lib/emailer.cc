@@ -44,6 +44,7 @@ Emailer::Emailer (string from, list<string> to, string subject, string body)
 	, _offset (0)
 {
 	boost::algorithm::replace_all (_body, "\n", "\r\n");
+	boost::algorithm::replace_all (_body, "\0", " ");
 }
 
 void
