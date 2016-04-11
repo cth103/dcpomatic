@@ -32,11 +32,18 @@ using boost::shared_ptr;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
-	, _utc_offset (node->optional_number_child<int>("UTCOffset").get_value_or (0))
 {
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Email")) {
 		emails.push_back (i->content ());
 	}
+
+	if (node->optional_number_child<int>("UTCOffset")) {
+		_utc_offset_hour = node->number_child<int>("UTCOffset");
+	} else {
+		_utc_offset_hour = node->optional_number_child<int>("UTCOffsetHour").get_value_or (0);
+	}
+
+	_utc_offset_minute = node->optional_number_child<int>("UTCOffsetMinute").get_value_or (0);
 }
 
 /* This is necessary so that we can use shared_from_this in add_screen (which cannot be done from
@@ -60,7 +67,8 @@ Cinema::as_xml (xmlpp::Element* parent) const
 		parent->add_child("Email")->add_child_text (i);
 	}
 
-	parent->add_child("UTCOffset")->add_child_text (dcp::raw_convert<string> (_utc_offset));
+	parent->add_child("UTCOffsetHour")->add_child_text (dcp::raw_convert<string> (_utc_offset_hour));
+	parent->add_child("UTCOffsetMinute")->add_child_text (dcp::raw_convert<string> (_utc_offset_minute));
 
 	BOOST_FOREACH (shared_ptr<Screen> i, _screens) {
 		i->as_xml (parent->add_child ("Screen"));
@@ -81,8 +89,15 @@ Cinema::remove_screen (shared_ptr<Screen> s)
 }
 
 void
-Cinema::set_utc_offset (int o)
+Cinema::set_utc_offset_hour (int h)
 {
-	DCPOMATIC_ASSERT (o >= -11 && o <= 12);
-	_utc_offset = o;
+	DCPOMATIC_ASSERT (h >= -11 && h <= 12);
+	_utc_offset_hour = h;
+}
+
+void
+Cinema::set_utc_offset_minute (int m)
+{
+	DCPOMATIC_ASSERT (m >= 0 && m <= 59);
+	_utc_offset_minute = m;
 }

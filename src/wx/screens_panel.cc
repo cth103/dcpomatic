@@ -149,7 +149,7 @@ ScreensPanel::add_cinema_clicked ()
 {
 	CinemaDialog* d = new CinemaDialog (this, "Add Cinema");
 	if (d->ShowModal () == wxID_OK) {
-		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails(), d->utc_offset()));
+		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails(), d->utc_offset_hour(), d->utc_offset_minute()));
 		Config::instance()->add_cinema (c);
 		add_cinema (c);
 	}
@@ -166,11 +166,12 @@ ScreensPanel::edit_cinema_clicked ()
 
 	pair<wxTreeItemId, shared_ptr<Cinema> > c = *_selected_cinemas.begin();
 
-	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->emails, c.second->utc_offset());
+	CinemaDialog* d = new CinemaDialog (this, "Edit cinema", c.second->name, c.second->emails, c.second->utc_offset_hour(), c.second->utc_offset_minute());
 	if (d->ShowModal () == wxID_OK) {
 		c.second->name = d->name ();
 		c.second->emails = d->emails ();
-		c.second->set_utc_offset (d->utc_offset ());
+		c.second->set_utc_offset_hour (d->utc_offset_hour ());
+		c.second->set_utc_offset_minute (d->utc_offset_minute ());
 		_targets->SetItemText (c.first, std_to_wx (d->name()));
 		Config::instance()->changed ();
 	}

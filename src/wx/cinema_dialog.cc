@@ -37,7 +37,7 @@ column (string s)
 	return s;
 }
 
-CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<string> emails, int utc_offset)
+CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<string> emails, int utc_offset_hour, int utc_offset_minute)
 	: wxDialog (parent, wxID_ANY, std_to_wx (title))
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -77,15 +77,41 @@ CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<st
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	for (int i = -11; i <= -1; ++i) {
-		_utc_offset->Append (wxString::Format (_("UTC%d"), i));
-	}
-	_utc_offset->Append (_("UTC"));
-	for (int i = 1; i <= 12; ++i) {
-		_utc_offset->Append (wxString::Format (_("UTC+%d"), i));
+	_offsets.push_back (Offset (_("UTC-11"),  -11,  0));
+	_offsets.push_back (Offset (_("UTC-10"),  -10,  0));
+	_offsets.push_back (Offset (_("UTC-9"),    -9,  0));
+	_offsets.push_back (Offset (_("UTC-8"),    -8,  0));
+	_offsets.push_back (Offset (_("UTC-7"),    -7,  0));
+	_offsets.push_back (Offset (_("UTC-6"),    -6,  0));
+	_offsets.push_back (Offset (_("UTC-5"),    -5,  0));
+	_offsets.push_back (Offset (_("UTC-4"),    -4,  0));
+	_offsets.push_back (Offset (_("UTC-3:30"), -3, 30));
+	_offsets.push_back (Offset (_("UTC-3"),    -3,  0));
+	_offsets.push_back (Offset (_("UTC-2"),    -2,  0));
+	_offsets.push_back (Offset (_("UTC-1"),    -1,  0));
+	_offsets.push_back (Offset (_("UTC")  ,     0,  0));
+	_offsets.push_back (Offset (_("UTC+1"),     1,  0));
+	_offsets.push_back (Offset (_("UTC+2"),     2,  0));
+	_offsets.push_back (Offset (_("UTC+3"),     3,  0));
+	_offsets.push_back (Offset (_("UTC+4"),     4,  0));
+	_offsets.push_back (Offset (_("UTC+5"),     5,  0));
+	_offsets.push_back (Offset (_("UTC+6"),     6,  0));
+	_offsets.push_back (Offset (_("UTC+7"),     7,  0));
+	_offsets.push_back (Offset (_("UTC+8"),     8,  0));
+	_offsets.push_back (Offset (_("UTC+9"),     9,  0));
+	_offsets.push_back (Offset (_("UTC+10"),   10,  0));
+	_offsets.push_back (Offset (_("UTC+11"),   11,  0));
+	_offsets.push_back (Offset (_("UTC+12"),   12,  0));
+
+	size_t sel;
+	for (size_t i = 0; i < _offsets.size(); ++i) {
+		_utc_offset->Append (_offsets[i].name);
+		if (_offsets[i].hour == utc_offset_hour && _offsets[i].minute == utc_offset_minute) {
+			sel = i;
+		}
 	}
 
-	_utc_offset->SetSelection (utc_offset + 11);
+	_utc_offset->SetSelection (sel);
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
@@ -118,7 +144,23 @@ CinemaDialog::emails () const
 }
 
 int
-CinemaDialog::utc_offset () const
+CinemaDialog::utc_offset_hour () const
 {
-	return _utc_offset->GetSelection() - 11;
+	size_t const sel =  _utc_offset->GetSelection();
+	if (sel < 0 || sel > _offsets.size()) {
+		return 0;
+	}
+
+	return _offsets[sel].hour;
+}
+
+int
+CinemaDialog::utc_offset_minute () const
+{
+	size_t const sel =  _utc_offset->GetSelection();
+	if (sel < 0 || sel > _offsets.size()) {
+		return 0;
+	}
+
+	return _offsets[sel].minute;
 }

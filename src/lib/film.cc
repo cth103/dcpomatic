@@ -1208,8 +1208,8 @@ Film::make_kdms (
 				i->recipient.get(),
 				i->trusted_devices,
 				dcp,
-				dcp::LocalTime (from, i->cinema->utc_offset(), 0),
-				dcp::LocalTime (until, i->cinema->utc_offset(), 0),
+				dcp::LocalTime (from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+				dcp::LocalTime (until, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 				formulation
 				);
 

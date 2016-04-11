@@ -1,5 +1,7 @@
 2016-04-11  Carl Hetherington  <cth@carlh.net>
 
+	* Add UTC-3:30 timezone to Cinema configuration (#831).
+
 	* Add option to preview left or right eye (#809).
 
 2016-04-09  Carl Hetherington  <cth@carlh.net>

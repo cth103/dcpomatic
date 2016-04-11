@@ -39,10 +39,11 @@ class Screen;
 class Cinema : public boost::enable_shared_from_this<Cinema>
 {
 public:
-	Cinema (std::string const & n, std::list<std::string> const & e, int utc_offset)
+	Cinema (std::string const & n, std::list<std::string> const & e, int utc_offset_hour, int utc_offset_minute)
 		: name (n)
 		, emails (e)
-		, _utc_offset (utc_offset)
+		, _utc_offset_hour (utc_offset_hour)
+		, _utc_offset_minute (utc_offset_minute)
 	{}
 
 	Cinema (cxml::ConstNodePtr);
@@ -54,13 +55,20 @@ public:
 	void add_screen (boost::shared_ptr<Screen>);
 	void remove_screen (boost::shared_ptr<Screen>);
 
-	void set_utc_offset (int o);
+	void set_utc_offset_hour (int h);
+	void set_utc_offset_minute (int m);
 
 	std::string name;
 	std::list<std::string> emails;
-	int utc_offset () const {
-		return _utc_offset;
+
+	int utc_offset_hour () const {
+		return _utc_offset_hour;
 	}
+
+	int utc_offset_minute () const {
+		return _utc_offset_minute;
+	}
+
 	std::list<boost::shared_ptr<Screen> > screens () const {
 		return _screens;
 	}
@@ -70,5 +78,9 @@ private:
 	/** Offset such that the equivalent time in UTC can be determined
 	    by subtracting the offset from the local time.
 	*/
-	int _utc_offset;
+	int _utc_offset_hour;
+	/** Additional minutes to add to _utc_offset_hour if _utc_offset_hour is
+	    positive, or to subtract if _utc_offset_hour is negative.
+	*/
+	int _utc_offset_minute;
 };

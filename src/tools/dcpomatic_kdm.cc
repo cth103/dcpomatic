@@ -271,8 +271,8 @@ private:
 
 				/* Make an empty KDM */
 				dcp::DecryptedKDM kdm (
-					dcp::LocalTime (_timing->from(), i->cinema->utc_offset(), 0),
-					dcp::LocalTime (_timing->until(), i->cinema->utc_offset(), 0),
+					dcp::LocalTime (_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+					dcp::LocalTime (_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 					decrypted.annotation_text(),
 					decrypted.content_title_text(),
 					dcp::LocalTime().as_string()

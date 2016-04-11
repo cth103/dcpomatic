@@ -27,11 +27,19 @@
 class CinemaDialog : public wxDialog
 {
 public:
-	CinemaDialog (wxWindow *, std::string, std::string name = "", std::list<std::string> emails = std::list<std::string> (), int utc_offset = 0);
+	CinemaDialog (
+		wxWindow *,
+		std::string,
+		std::string name = "",
+		std::list<std::string> emails = std::list<std::string> (),
+		int utc_offset_hour = 0,
+		int utc_offset_minute = 0
+		);
 
 	std::string name () const;
 	std::list<std::string> emails () const;
-	int utc_offset () const;
+	int utc_offset_hour () const;
+	int utc_offset_minute () const;
 
 private:
 	std::vector<std::string> get_emails () const;
@@ -41,4 +49,19 @@ private:
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
 	wxChoice* _utc_offset;
+
+	struct Offset
+	{
+		Offset (wxString n, int h, int m)
+			: name (n)
+			, hour (h)
+			, minute (m)
+		{}
+
+		wxString name;
+		int hour;
+		int minute;
+	};
+
+	std::vector<Offset> _offsets;
 };
