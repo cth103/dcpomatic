@@ -190,9 +190,9 @@ SubtitlePanel::film_content_changed (int property)
 	} else if (property == SubtitleContentProperty::BURN_SUBTITLES) {
 		checked_set (_burn, scs ? scs->burn_subtitles() : false);
 	} else if (property == SubtitleContentProperty::SUBTITLE_X_OFFSET) {
-		checked_set (_x_offset, scs ? (scs->subtitle_x_offset() * 100) : 0);
+		checked_set (_x_offset, scs ? lrint (scs->subtitle_x_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_OFFSET) {
-		checked_set (_y_offset, scs ? (scs->subtitle_y_offset() * 100) : 0);
+		checked_set (_y_offset, scs ? lrint (scs->subtitle_y_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_X_SCALE) {
 		checked_set (_x_scale, scs ? lrint (scs->subtitle_x_scale() * 100) : 100);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_SCALE) {

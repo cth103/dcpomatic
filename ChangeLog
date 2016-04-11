@@ -1,5 +1,7 @@
 2016-04-11  Carl Hetherington  <cth@carlh.net>
 
+	* Hopefully fix strange limits on x/y offset of subtitles.
+
 	* Add UTC-3:30 timezone to Cinema configuration (#831).
 
 	* Add option to preview left or right eye (#809).
