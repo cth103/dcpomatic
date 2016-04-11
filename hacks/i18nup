@@ -1,0 +1,46 @@
+#!/bin/bash
+changes=`git status -s | grep "^ M"`
+check=`echo "$changes" | grep -v /po/`
+if [ "$check" != "" ]; then
+  echo "Non i18n updates would be committed"
+  exit 1
+fi
+
+if [[ `echo $changes | grep de_DE` != "" ]]; then
+  language="de_DE"
+  translator="Carsten Kurz"
+elif [[ `echo $changes | grep nl_NL` != "" ]]; then
+  language="nl_NL"
+  translator="Rob van Nieuwkerk"
+else
+  echo "Unknown language"
+  exit 1
+fi
+
+date=`date +%Y-%m-%d`
+
+tag="$date  Carl Hetherington  <cth@carlh.net>"
+msg="Updated $language translation from $translator."
+
+echo "$tag" > /tmp/$$.changelog
+echo "" >> /tmp/$$.changelog
+echo -e "\t* $msg" >> /tmp/$$.changelog
+echo "" >> /tmp/$$.changelog
+
+if [[ `head -n 1 ChangeLog` == "$tag" ]]; then
+    echo "Trimming!"
+    tail -n +3 ChangeLog > /tmp/$$.trimmed
+    mv /tmp/$$.trimmed ChangeLog
+fi
+
+cat /tmp/$$.changelog | cat - ChangeLog > /tmp/$$.joined
+rm /tmp/$$.changelog
+mv /tmp/$$.joined ChangeLog
+
+git diff
+
+echo "OK?"
+read yes
+if [ "$yes" == "y" ]; then
+    git commit -a -m "$msg"
+fi
