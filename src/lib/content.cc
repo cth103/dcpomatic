@@ -278,7 +278,7 @@ Content::path_summary () const
 }
 
 /** @return a list of properties that might be interesting to the user */
-list<Content::UserProperty>
+list<UserProperty>
 Content::user_properties () const
 {
 	list<UserProperty> p;

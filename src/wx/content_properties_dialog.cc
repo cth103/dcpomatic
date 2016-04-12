@@ -42,15 +42,15 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 	add (_("Filename"), true);
 	add (new wxStaticText (this, wxID_ANY, std_to_wx (n)));
 
-	map<string, list<Content::UserProperty> > grouped;
-	BOOST_FOREACH (Content::UserProperty i, content->user_properties()) {
+	map<string, list<UserProperty> > grouped;
+	BOOST_FOREACH (UserProperty i, content->user_properties()) {
 		if (grouped.find(i.category) == grouped.end()) {
-			grouped[i.category] = list<Content::UserProperty> ();
+			grouped[i.category] = list<UserProperty> ();
 		}
 		grouped[i.category].push_back (i);
 	}
 
-	for (map<string, list<Content::UserProperty> >::const_iterator i = grouped.begin(); i != grouped.end(); ++i) {
+	for (map<string, list<UserProperty> >::const_iterator i = grouped.begin(); i != grouped.end(); ++i) {
 
 		wxStaticText* m = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
 		wxFont font (*wxNORMAL_FONT);
@@ -62,7 +62,7 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 		add (m, false);
 		add_spacer ();
 
-		BOOST_FOREACH (Content::UserProperty j, i->second) {
+		BOOST_FOREACH (UserProperty j, i->second) {
 			add (std_to_wx (j.key), true);
 			add (new wxStaticText (this, wxID_ANY, std_to_wx (j.value + " " + j.unit)));
 		}

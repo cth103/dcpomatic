@@ -28,6 +28,7 @@
 #include "signaller.h"
 #include "dcpomatic_time.h"
 #include "raw_convert.h"
+#include "user_property.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
@@ -160,23 +161,6 @@ public:
 	}
 
 	boost::shared_ptr<const Film> film () const;
-
-	class UserProperty
-	{
-	public:
-		template <class T>
-		UserProperty (std::string category_, std::string key_, T value_, std::string unit_ = "")
-			: category (category_)
-			, key (key_)
-			, value (raw_convert<std::string> (value_))
-			, unit (unit_)
-		{}
-
-		std::string category;
-		std::string key;
-		std::string value;
-		std::string unit;
-	};
 
 	std::list<UserProperty> user_properties () const;
 
