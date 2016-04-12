@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 */
 
 #include "dcp_content.h"
+#include "video_content.h"
 #include "dcp_examiner.h"
 #include "job.h"
 #include "film.h"
@@ -52,9 +53,9 @@ int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
-	, VideoContent (film)
 	, SingleStreamAudioContent (film)
 	, SubtitleContent (film)
+	, video (new VideoContent (film))
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
@@ -63,13 +64,14 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_subtitle (false)
 {
 	read_directory (p);
+	set_default_colour_conversion ();
 }
 
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, VideoContent (film, node, version)
 	, SingleStreamAudioContent (film, node, version)
 	, SubtitleContent (film, node, version)
+	, video (new VideoContent (film, node, version))
 {
 	_name = node->string_child ("Name");
 	_has_subtitles = node->bool_child ("HasSubtitles");
@@ -105,6 +107,7 @@ DCPContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	take_from_video_examiner (examiner);
+	set_default_colour_conversion ();
 	take_from_audio_examiner (examiner);
 
 	{
@@ -131,7 +134,7 @@ string
 DCPContent::technical_summary () const
 {
 	return Content::technical_summary() + " - "
-		+ VideoContent::technical_summary() + " - "
+		+ video->technical_summary() + " - "
 		+ AudioContent::technical_summary() + " - ";
 }
 
@@ -141,7 +144,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("DCP");
 
 	Content::as_xml (node);
-	VideoContent::as_xml (node);
+	video->as_xml (node);
 	SingleStreamAudioContent::as_xml (node);
 	SubtitleContent::as_xml (node);
 
@@ -169,7 +172,7 @@ string
 DCPContent::identifier () const
 {
 	SafeStringStream s;
-	s << VideoContent::identifier() << "_" << SubtitleContent::identifier () << " "
+	s << Content::identifier() << "_" << video->identifier() << "_" << SubtitleContent::identifier () << " "
 	  << (_reference_video ? "1" : "0")
 	  << (_reference_subtitle ? "1" : "0");
 	return s.str ();

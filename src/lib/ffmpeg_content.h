@@ -20,7 +20,6 @@
 #ifndef DCPOMATIC_FFMPEG_CONTENT_H
 #define DCPOMATIC_FFMPEG_CONTENT_H
 
-#include "video_content.h"
 #include "audio_content.h"
 #include "subtitle_content.h"
 
@@ -30,6 +29,7 @@ struct AVStream;
 class Filter;
 class FFmpegSubtitleStream;
 class FFmpegAudioStream;
+class VideoContent;
 struct ffmpeg_pts_offset_test;
 struct audio_sampling_rate_test;
 
@@ -42,7 +42,7 @@ public:
 	static int const FILTERS;
 };
 
-class FFmpegContent : public VideoContent, public AudioContent, public SubtitleContent
+class FFmpegContent : public AudioContent, public SubtitleContent
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
@@ -107,6 +107,8 @@ public:
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
 	void signal_subtitle_stream_changed ();
+
+	boost::shared_ptr<VideoContent> video;
 
 protected:
 	void add_properties (std::list<UserProperty> &) const;

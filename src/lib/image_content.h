@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 #ifndef DCPOMATIC_IMAGE_CONTENT_H
 #define DCPOMATIC_IMAGE_CONTENT_H
 
-#include "video_content.h"
+#include "content.h"
 
-class ImageContent : public VideoContent
+class ImageContent : public Content
 {
 public:
 	ImageContent (boost::shared_ptr<const Film>, boost::filesystem::path);
@@ -40,11 +40,12 @@ public:
 
 	std::string identifier () const;
 
-	/* VideoContent */
 	void set_default_colour_conversion ();
 
 	void set_video_length (Frame);
 	bool still () const;
+
+	boost::shared_ptr<VideoContent> video;
 };
 
 #endif

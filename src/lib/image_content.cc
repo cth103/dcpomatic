@@ -18,6 +18,7 @@
 */
 
 #include "image_content.h"
+#include "video_content.h"
 #include "image_examiner.h"
 #include "compose.hpp"
 #include "film.h"
@@ -39,7 +40,7 @@ using boost::shared_ptr;
 
 ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
-	, VideoContent (film)
+	, video (new VideoContent (film))
 {
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		_paths.push_back (p);
@@ -56,12 +57,14 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 
 		sort (_paths.begin(), _paths.end(), ImageFilenameSorter ());
 	}
+
+	set_default_colour_conversion ();
 }
 
 
 ImageContent::ImageContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, VideoContent (film, node, version)
+	, video (new VideoContent (film, node, version))
 {
 
 }
@@ -84,7 +87,7 @@ string
 ImageContent::technical_summary () const
 {
 	string s = Content::technical_summary() + " - "
-		+ VideoContent::technical_summary() + " - ";
+		+ video->technical_summary() + " - ";
 
 	if (still ()) {
 		s += _("still");
@@ -100,7 +103,7 @@ ImageContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("Image");
 	Content::as_xml (node);
-	VideoContent::as_xml (node);
+	video->as_xml (node);
 }
 
 void
@@ -113,6 +116,7 @@ ImageContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
 	take_from_video_examiner (examiner);
+	set_default_colour_conversion ();
 }
 
 void
@@ -139,7 +143,8 @@ string
 ImageContent::identifier () const
 {
 	SafeStringStream s;
-	s << VideoContent::identifier ();
+	s << Content::identifier();
+	s << "_" << video->identifier ();
 	s << "_" << video_length();
 	return s.str ();
 }

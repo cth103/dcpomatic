@@ -18,6 +18,7 @@
 */
 
 #include "ffmpeg_content.h"
+#include "video_content.h"
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
@@ -60,18 +61,18 @@ int const FFmpegContentProperty::FILTERS = 102;
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
-	, VideoContent (film, p)
 	, AudioContent (film, p)
 	, SubtitleContent (film, p)
+	, video (new VideoContent (film))
 {
-
+	set_default_colour_conversion ();
 }
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (film, node)
-	, VideoContent (film, node, version)
 	, AudioContent (film, node)
 	, SubtitleContent (film, node, version)
+	, video (new VideoContent (film, node, version))
 {
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -117,9 +118,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
 	: Content (film, c)
-	, VideoContent (film, c)
 	, AudioContent (film, c)
 	, SubtitleContent (film, c)
+	, video (new VideoContent (film, c))
 {
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
@@ -150,7 +151,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("FFmpeg");
 	Content::as_xml (node);
-	VideoContent::as_xml (node);
+	video->as_xml (node);
 	AudioContent::as_xml (node);
 	SubtitleContent::as_xml (node);
 
@@ -194,6 +195,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
 	take_from_video_examiner (examiner);
+	set_default_colour_conversion ();
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -252,7 +254,7 @@ FFmpegContent::technical_summary () const
 	string filt = Filter::ffmpeg_string (_filters);
 
 	return Content::technical_summary() + " - "
-		+ VideoContent::technical_summary() + " - "
+		+ video->technical_summary() + " - "
 		+ AudioContent::technical_summary() + " - "
 		+ String::compose (
 			"ffmpeg: audio %1 subtitle %2 filters %3", as, ss, filt
@@ -305,7 +307,8 @@ FFmpegContent::identifier () const
 {
 	SafeStringStream s;
 
-	s << VideoContent::identifier() << "_"
+	s << Content::identifier() << "_"
+	  << video->identifier() << "_"
 	  << SubtitleContent::identifier();
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -394,7 +397,8 @@ FFmpegContent::audio_streams () const
 void
 FFmpegContent::add_properties (list<UserProperty>& p) const
 {
-	VideoContent::add_properties (p);
+	Content::add_properties (p);
+	video->add_properties (p);
 	AudioContent::add_properties (p);
 
 	if (_bits_per_pixel) {

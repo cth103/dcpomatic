@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
  *  @brief DCPContent class.
  */
 
-#include "video_content.h"
 #include "single_stream_audio_content.h"
 #include "subtitle_content.h"
 #include <libcxml/cxml.h>
@@ -42,7 +41,7 @@ public:
 /** @class DCPContent
  *  @brief An existing DCP used as input.
  */
-class DCPContent : public VideoContent, public SingleStreamAudioContent, public SubtitleContent
+class DCPContent : public SingleStreamAudioContent, public SubtitleContent
 {
 public:
 	DCPContent (boost::shared_ptr<const Film>, boost::filesystem::path p);
