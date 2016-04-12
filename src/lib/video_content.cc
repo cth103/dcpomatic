@@ -65,8 +65,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 
 VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film)
-	: _parent (parent)
-	, _film (film)
+	: ContentPart (parent, film)
 	, _video_length (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
@@ -78,8 +77,7 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film)
 }
 
 VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: _parent (parent)
-	, _film (film)
+	: ContentPart (parent, film)
 {
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
@@ -117,8 +115,7 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::
 }
 
 VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: _parent (parent)
-	, _film (film)
+	: ContentPart (parent, film)
 	, _video_length (0)
 	, _yuv (false)
 {

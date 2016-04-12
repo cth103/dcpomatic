@@ -25,6 +25,7 @@
 #include "dcpomatic_time.h"
 #include "user_property.h"
 #include "types.h"
+#include "content_part.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -47,7 +48,7 @@ public:
 	static int const VIDEO_FADE_OUT;
 };
 
-class VideoContent : public boost::enable_shared_from_this<VideoContent>
+class VideoContent : public ContentPart, public boost::enable_shared_from_this<VideoContent>
 {
 public:
 	VideoContent (Content* parent, boost::shared_ptr<const Film>);
@@ -184,9 +185,6 @@ public:
 
 private:
 
-	Content* _parent;
-	boost::weak_ptr<const Film> _film;
-	mutable boost::mutex _mutex;
 	Frame _video_length;
 	/** Video frame rate, or not set if this content should use the DCP's frame rate */
 	boost::optional<double> _video_frame_rate;
