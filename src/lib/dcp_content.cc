@@ -106,7 +106,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
-	take_from_video_examiner (examiner);
+	video->take_from_video_examiner (examiner);
 	set_default_colour_conversion ();
 	take_from_audio_examiner (examiner);
 
@@ -164,7 +164,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 DCPTime
 DCPContent::full_length () const
 {
-	FrameRateChange const frc (video_frame_rate (), film()->video_frame_rate ());
+	FrameRateChange const frc (video->video_frame_rate (), film()->video_frame_rate ());
 	return DCPTime::from_frames (llrint (video_length () * frc.factor ()), film()->video_frame_rate ());
 }
 
@@ -217,7 +217,7 @@ void
 DCPContent::set_default_colour_conversion ()
 {
 	/* Default to no colour conversion for DCPs */
-	unset_colour_conversion ();
+	video->unset_colour_conversion ();
 }
 
 void
@@ -343,4 +343,10 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 	}
 
 	return can_reference<SubtitleContent> (_("There is other subtitle content overlapping this DCP; remove it."), why_not);
+}
+
+double
+DCPContent::subtitle_video_frame_rate () const
+{
+	return video->video_frame_rate ();
 }

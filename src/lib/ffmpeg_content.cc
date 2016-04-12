@@ -523,3 +523,9 @@ FFmpegContent::signal_subtitle_stream_changed ()
 {
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
+
+double
+FFmpegContent::subtitle_video_frame_rate () const
+{
+	return video->video_frame_rate ();
+}

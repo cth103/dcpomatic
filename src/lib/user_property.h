@@ -17,6 +17,11 @@
 
 */
 
+#ifndef DCPOMATIC_USER_PROPERTY_H
+#define DCPOMATIC_USER_PROPERTY_H
+
+#include "raw_convert.h"
+
 class UserProperty
 {
 public:
@@ -33,3 +38,5 @@ public:
 	std::string value;
 	std::string unit;
 };
+
+#endif

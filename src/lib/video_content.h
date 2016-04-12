@@ -22,9 +22,14 @@
 
 #include "colour_conversion.h"
 #include "video_content_scale.h"
+#include "dcpomatic_time.h"
+#include "user_property.h"
+#include <boost/thread/mutex.hpp>
+#include <boost/weak_ptr.hpp>
 
 class VideoExaminer;
 class Ratio;
+class Film;
 
 class VideoContentProperty
 {
@@ -174,7 +179,7 @@ private:
 	void add_properties (std::list<UserProperty> &) const;
 
 	boost::weak_ptr<const Film> _film;
-	boost::mutex _mutex;
+	mutable boost::mutex _mutex;
 	Frame _video_length;
 	/** Video frame rate, or not set if this content should use the DCP's frame rate */
 	boost::optional<double> _video_frame_rate;

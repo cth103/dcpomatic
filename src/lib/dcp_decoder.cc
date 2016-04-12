@@ -43,7 +43,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, bool fast)
-	: VideoDecoder (c)
+	: VideoDecoder (c->video)
 	, AudioDecoder (c, fast)
 	, SubtitleDecoder (c)
 	, _dcp_content (c)
@@ -73,7 +73,7 @@ DCPDecoder::pass (PassReason reason, bool)
 		++i;
 	}
 
-	double const vfr = _dcp_content->video_frame_rate ();
+	double const vfr = _dcp_content->video->video_frame_rate ();
 
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
@@ -156,8 +156,8 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	SubtitleDecoder::seek (t, accurate);
 
 	_reel = _reels.begin ();
-	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->video_frame_rate ())) {
-		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->video_frame_rate ());
+	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->video->video_frame_rate ())) {
+		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->video->video_frame_rate ());
 		++_reel;
 	}
 
@@ -177,7 +177,7 @@ DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) cons
 	/* XXX: inefficient */
 
 	list<ContentTimePeriod> ctp;
-	double const vfr = _dcp_content->video_frame_rate ();
+	double const vfr = _dcp_content->video->video_frame_rate ();
 
 	BOOST_FOREACH (shared_ptr<dcp::Reel> r, _reels) {
 		if (!r->main_subtitle ()) {

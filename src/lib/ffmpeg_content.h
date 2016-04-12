@@ -33,7 +33,7 @@ class VideoContent;
 struct ffmpeg_pts_offset_test;
 struct audio_sampling_rate_test;
 
-class FFmpegContentProperty : public VideoContentProperty
+class FFmpegContentProperty
 {
 public:
 	static int const SUBTITLE_STREAMS;
@@ -70,9 +70,7 @@ public:
 	/* SubtitleContent */
 	bool has_text_subtitles () const;
 	bool has_image_subtitles () const;
-	double subtitle_video_frame_rate () const {
-		return video_frame_rate ();
-	}
+	double subtitle_video_frame_rate () const;
 
 	void set_filters (std::vector<Filter const *> const &);
 
