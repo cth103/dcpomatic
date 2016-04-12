@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_processor.h"
+#include "lib/video_content.h"
 #include "lib/dcp_content.h"
 #include <dcp/key.h>
 #include <dcp/raw_convert.h>

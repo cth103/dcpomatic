@@ -55,7 +55,6 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
 	, SingleStreamAudioContent (film)
 	, SubtitleContent (film)
-	, video (new VideoContent (film))
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
@@ -63,6 +62,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_audio (false)
 	, _reference_subtitle (false)
 {
+	video.reset (new VideoContent (this, film));
+
 	read_directory (p);
 	set_default_colour_conversion ();
 }
@@ -71,8 +72,9 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	: Content (film, node)
 	, SingleStreamAudioContent (film, node, version)
 	, SubtitleContent (film, node, version)
-	, video (new VideoContent (film, node, version))
 {
+	video.reset (new VideoContent (this, film, node, version));
+
 	_name = node->string_child ("Name");
 	_has_subtitles = node->bool_child ("HasSubtitles");
 	_encrypted = node->bool_child ("Encrypted");
@@ -165,7 +167,7 @@ DCPTime
 DCPContent::full_length () const
 {
 	FrameRateChange const frc (video->video_frame_rate (), film()->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video_length () * frc.factor ()), film()->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video->video_length () * frc.factor ()), film()->video_frame_rate ());
 }
 
 string
@@ -259,7 +261,7 @@ DCPContent::reels () const
 	list<DCPTimePeriod> p;
 	scoped_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), false));
+		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
 	} catch (...) {
 		/* Could not load the DCP; guess reels */
 		list<DCPTimePeriod> p;
@@ -314,13 +316,14 @@ DCPContent::can_reference (string overlapping, list<string>& why_not) const
 bool
 DCPContent::can_reference_video (list<string>& why_not) const
 {
-	return can_reference<VideoContent> (_("There is other video content overlapping this DCP; remove it."), why_not);
+	/* XXX: this needs to be fixed */
+	return true;
 }
 
 bool
 DCPContent::can_reference_audio (list<string>& why_not) const
 {
-	DCPDecoder decoder (shared_from_this(), false);
+	DCPDecoder decoder (shared_from_this(), film()->log(), false);
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
 		if (!i->main_sound()) {
 			why_not.push_back (_("The DCP does not have sound in all reels."));
@@ -334,7 +337,7 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 bool
 DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
-	DCPDecoder decoder (shared_from_this(), false);
+	DCPDecoder decoder (shared_from_this(), film()->log(), false);
 	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
 		if (!i->main_subtitle()) {
 			why_not.push_back (_("The DCP does not have subtitles in all reels."));

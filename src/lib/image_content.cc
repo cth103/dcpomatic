@@ -40,8 +40,9 @@ using boost::shared_ptr;
 
 ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
-	, video (new VideoContent (film))
 {
+	video.reset (new VideoContent (this, film));
+
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		_paths.push_back (p);
 	} else {
@@ -64,9 +65,8 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 
 ImageContent::ImageContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, video (new VideoContent (film, node, version))
 {
-
+	video.reset (new VideoContent (this, film, node, version));
 }
 
 string
@@ -115,19 +115,8 @@ ImageContent::examine (shared_ptr<Job> job)
 	DCPOMATIC_ASSERT (film);
 
 	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
-	take_from_video_examiner (examiner);
+	video->take_from_video_examiner (examiner);
 	set_default_colour_conversion ();
-}
-
-void
-ImageContent::set_video_length (Frame len)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_video_length = len;
-	}
-
-	signal_changed (ContentProperty::LENGTH);
 }
 
 DCPTime
@@ -135,8 +124,8 @@ ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (video_frame_rate(), film->video_frame_rate());
-	return DCPTime::from_frames (llrint (video_length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
+	FrameRateChange const frc (video->video_frame_rate(), film->video_frame_rate());
+	return DCPTime::from_frames (llrint (video->video_length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
 }
 
 string
@@ -145,7 +134,7 @@ ImageContent::identifier () const
 	SafeStringStream s;
 	s << Content::identifier();
 	s << "_" << video->identifier ();
-	s << "_" << video_length();
+	s << "_" << video->video_length();
 	return s.str ();
 }
 
@@ -161,7 +150,7 @@ ImageContent::set_default_colour_conversion ()
 	BOOST_FOREACH (boost::filesystem::path i, _paths) {
 		if (valid_j2k_file (i)) {
 			/* We default to no colour conversion if we have JPEG2000 files */
-			unset_colour_conversion ();
+			video->unset_colour_conversion ();
 			return;
 		}
 	}
@@ -171,8 +160,8 @@ ImageContent::set_default_colour_conversion ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (s) {
-		_colour_conversion = PresetColourConversion::from_id ("srgb").conversion;
+		video->set_colour_conversion (PresetColourConversion::from_id ("srgb").conversion);
 	} else {
-		_colour_conversion = PresetColourConversion::from_id ("rec709").conversion;
+		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
 	}
 }

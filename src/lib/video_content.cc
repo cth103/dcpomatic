@@ -18,6 +18,7 @@
 */
 
 #include "video_content.h"
+#include "content.h"
 #include "video_examiner.h"
 #include "compose.hpp"
 #include "ratio.h"
@@ -63,8 +64,9 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-VideoContent::VideoContent (shared_ptr<const Film> film)
-	: _film (film)
+VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film)
+	: _parent (parent)
+	, _film (film)
 	, _video_length (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
@@ -75,8 +77,9 @@ VideoContent::VideoContent (shared_ptr<const Film> film)
 
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: _film (film)
+VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: _parent (parent)
+	, _film (film)
 {
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
@@ -113,8 +116,9 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 	}
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: _film (film)
+VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
+	: _parent (parent)
+	, _film (film)
 	, _video_length (0)
 	, _yuv (false)
 {
@@ -229,10 +233,10 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length);
 
-	signal_changed (VideoContentProperty::VIDEO_SIZE);
-	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
-	signal_changed (VideoContentProperty::VIDEO_SCALE);
-	signal_changed (ContentProperty::LENGTH);
+	_parent->signal_changed (VideoContentProperty::VIDEO_SIZE);
+	_parent->signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+	_parent->signal_changed (VideoContentProperty::VIDEO_SCALE);
+	_parent->signal_changed (ContentProperty::LENGTH);
 }
 
 void
@@ -248,7 +252,7 @@ VideoContent::set_left_crop (int c)
 		_crop.left = c;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_CROP);
+	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
 void
@@ -263,7 +267,7 @@ VideoContent::set_right_crop (int c)
 		_crop.right = c;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_CROP);
+	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
 void
@@ -278,7 +282,7 @@ VideoContent::set_top_crop (int c)
 		_crop.top = c;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_CROP);
+	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
 void
@@ -293,7 +297,7 @@ VideoContent::set_bottom_crop (int c)
 		_crop.bottom = c;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_CROP);
+	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
 }
 
 void
@@ -308,7 +312,7 @@ VideoContent::set_scale (VideoContentScale s)
 		_scale = s;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_SCALE);
+	_parent->signal_changed (VideoContentProperty::VIDEO_SCALE);
 }
 
 /** @return string which includes everything about how this content looks */
@@ -339,7 +343,7 @@ VideoContent::set_video_frame_type (VideoFrameType t)
 		_video_frame_type = t;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_FRAME_TYPE);
+	_parent->signal_changed (VideoContentProperty::VIDEO_FRAME_TYPE);
 }
 
 string
@@ -387,7 +391,7 @@ VideoContent::unset_colour_conversion ()
 		_colour_conversion = boost::optional<ColourConversion> ();
 	}
 
-	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
+	_parent->signal_changed (VideoContentProperty::COLOUR_CONVERSION);
 }
 
 void
@@ -398,7 +402,7 @@ VideoContent::set_colour_conversion (ColourConversion c)
 		_colour_conversion = c;
 	}
 
-	signal_changed (VideoContentProperty::COLOUR_CONVERSION);
+	_parent->signal_changed (VideoContentProperty::COLOUR_CONVERSION);
 }
 
 void
@@ -409,7 +413,7 @@ VideoContent::set_fade_in (Frame t)
 		_fade_in = t;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_FADE_IN);
+	_parent->signal_changed (VideoContentProperty::VIDEO_FADE_IN);
 }
 
 void
@@ -420,7 +424,7 @@ VideoContent::set_fade_out (Frame t)
 		_fade_out = t;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_FADE_OUT);
+	_parent->signal_changed (VideoContentProperty::VIDEO_FADE_OUT);
 }
 
 /** @return Video size after 3D split and crop */
@@ -470,7 +474,7 @@ VideoContent::set_video_frame_rate (double r)
 		_video_frame_rate = r;
 	}
 
-	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+	_parent->signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
 /** @param f Frame index within the whole (untrimmed) content */
@@ -479,12 +483,12 @@ VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 
-	Frame const ts = trim_start().frames_round(video_frame_rate());
+	Frame const ts = _parent->trim_start().frames_round(video_frame_rate());
 	if ((f - ts) < fade_in()) {
 		return double (f - ts) / fade_in();
 	}
 
-	Frame fade_out_start = video_length() - trim_end().frames_round(video_frame_rate()) - fade_out();
+	Frame fade_out_start = video_length() - _parent->trim_end().frames_round(video_frame_rate()) - fade_out();
 	if (f >= fade_out_start) {
 		return 1 - double (f - fade_out_start) / fade_out();
 	}
@@ -529,7 +533,7 @@ VideoContent::processing_description () const
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	dcp::Size const container_size = film->frame_size ();
-	dcp::Size const scaled = scale().size (dynamic_pointer_cast<const VideoContent> (shared_from_this ()), container_size, container_size);
+	dcp::Size const scaled = scale().size (shared_from_this(), container_size, container_size);
 
 	if (scaled != video_size_after_crop ()) {
 		d << String::compose (
@@ -574,4 +578,15 @@ VideoContent::video_frame_rate () const
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	return _video_frame_rate.get_value_or (film->video_frame_rate ());
+}
+
+void
+VideoContent::set_video_length (Frame len)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_video_length = len;
+	}
+
+	_parent->signal_changed (ContentProperty::LENGTH);
 }

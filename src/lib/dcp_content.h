@@ -121,8 +121,6 @@ public:
 
 	bool can_reference_subtitle (std::list<std::string> &) const;
 
-	boost::shared_ptr<VideoContent> video;
-
 protected:
 	void add_properties (std::list<UserProperty>& p) const;
 

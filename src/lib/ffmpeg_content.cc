@@ -63,8 +63,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::pa
 	: Content (film, p)
 	, AudioContent (film, p)
 	, SubtitleContent (film, p)
-	, video (new VideoContent (film))
 {
+	video.reset (new VideoContent (this, film));
+
 	set_default_colour_conversion ();
 }
 
@@ -72,8 +73,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 	: Content (film, node)
 	, AudioContent (film, node)
 	, SubtitleContent (film, node, version)
-	, video (new VideoContent (film, node, version))
 {
+	video.reset (new VideoContent (this, film, node, version));
+
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
 		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i, version)));
@@ -120,8 +122,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_
 	: Content (film, c)
 	, AudioContent (film, c)
 	, SubtitleContent (film, c)
-	, video (new VideoContent (film, c))
 {
+	video.reset (new VideoContent (this, film, c));
+
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
 
@@ -194,7 +197,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
-	take_from_video_examiner (examiner);
+	video->take_from_video_examiner (examiner);
 	set_default_colour_conversion ();
 
 	{
@@ -287,8 +290,8 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 DCPTime
 FFmpegContent::full_length () const
 {
-	FrameRateChange const frc (video_frame_rate (), film()->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video_length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
+	FrameRateChange const frc (video->video_frame_rate (), film()->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video->video_length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
 }
 
 void
@@ -373,14 +376,14 @@ FFmpegContent::has_text_subtitles () const
 void
 FFmpegContent::set_default_colour_conversion ()
 {
-	dcp::Size const s = video_size ();
+	dcp::Size const s = video->video_size ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (s.width < 1080) {
-		_colour_conversion = PresetColourConversion::from_id ("rec601").conversion;
+		video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
 	} else {
-		_colour_conversion = PresetColourConversion::from_id ("rec709").conversion;
+		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
 	}
 }
 

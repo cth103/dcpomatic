@@ -617,13 +617,12 @@ Film::isdcf_name (bool if_created_now) const
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
 		Ratio const * content_ratio = 0;
 		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
-			if (vc) {
+			if (i->video) {
 				/* Here's the first piece of video content */
-				if (vc->scale().ratio ()) {
-					content_ratio = vc->scale().ratio ();
+				if (i->video->scale().ratio ()) {
+					content_ratio = i->video->scale().ratio ();
 				} else {
-					content_ratio = Ratio::from_ratio (vc->video_size().ratio ());
+					content_ratio = Ratio::from_ratio (i->video->video_size().ratio ());
 				}
 				break;
 			}
@@ -1049,7 +1048,7 @@ void
 Film::add_content (shared_ptr<Content> c)
 {
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
-	if (dynamic_pointer_cast<VideoContent> (c)) {
+	if (c->video) {
 		c->set_position (_playlist->video_end ());
 	} else if (dynamic_pointer_cast<SubtitleContent> (c)) {
 		c->set_position (_playlist->subtitle_end ());
@@ -1377,18 +1376,17 @@ Film::reels () const
 	case REELTYPE_BY_VIDEO_CONTENT:
 	{
 		optional<DCPTime> last_split;
-		shared_ptr<VideoContent> last_video;
+		shared_ptr<Content> last_video;
 		ContentList cl = content ();
 		BOOST_FOREACH (shared_ptr<Content> c, content ()) {
-			shared_ptr<VideoContent> v = dynamic_pointer_cast<VideoContent> (c);
-			if (v) {
-				BOOST_FOREACH (DCPTime t, v->reel_split_points()) {
+			if (c->video) {
+				BOOST_FOREACH (DCPTime t, c->reel_split_points()) {
 					if (last_split) {
 						p.push_back (DCPTimePeriod (last_split.get(), t));
 					}
 					last_split = t;
 				}
-				last_video = v;
+				last_video = c;
 			}
 		}
 

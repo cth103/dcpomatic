@@ -41,6 +41,7 @@
 #include "lib/config.h"
 #include "lib/util.h"
 #include "lib/video_content.h"
+#include "lib/content.h"
 #include "lib/version.h"
 #include "lib/signal_manager.h"
 #include "lib/log.h"
@@ -585,17 +586,17 @@ private:
 
 	void content_scale_to_fit_width ()
 	{
-		VideoContentList vc = _film_editor->content_panel()->selected_video ();
-		for (VideoContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
-			(*i)->scale_and_crop_to_fit_width ();
+		ContentList vc = _film_editor->content_panel()->selected_video ();
+		for (ContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
+			(*i)->video->scale_and_crop_to_fit_width ();
 		}
 	}
 
 	void content_scale_to_fit_height ()
 	{
-		VideoContentList vc = _film_editor->content_panel()->selected_video ();
-		for (VideoContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
-			(*i)->scale_and_crop_to_fit_height ();
+		ContentList vc = _film_editor->content_panel()->selected_video ();
+		for (ContentList::iterator i = vc.begin(); i != vc.end(); ++i) {
+			(*i)->video->scale_and_crop_to_fit_height ();
 		}
 	}
 

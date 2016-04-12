@@ -145,7 +145,7 @@ Timeline::recreate_views ()
 	_views.push_back (_labels_view);
 
 	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
-		if (dynamic_pointer_cast<VideoContent> (i)) {
+		if (i->video) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, i)));
 		}
 

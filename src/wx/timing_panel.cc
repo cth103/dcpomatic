@@ -29,6 +29,7 @@
 #include "lib/dcp_subtitle_content.h"
 #include "lib/audio_content.h"
 #include "lib/text_subtitle_content.h"
+#include "lib/video_content.h"
 #include <boost/foreach.hpp>
 #include <set>
 #include <iostream>
@@ -259,16 +260,15 @@ TimingPanel::film_content_changed (int property)
 
 	if (property == VideoContentProperty::VIDEO_FRAME_RATE || property == SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE) {
 		set<double> check_vc;
-		shared_ptr<const VideoContent> vc;
+		shared_ptr<const Content> vc;
 		int count_ac = 0;
-		shared_ptr<const AudioContent> ac;
+		shared_ptr<const Content> ac;
 		int count_sc = 0;
 		shared_ptr<const SubtitleContent> sc;
 		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-			shared_ptr<const VideoContent> vt = dynamic_pointer_cast<const VideoContent> (i);
-			if (vt) {
-				check_vc.insert (vt->video_frame_rate ());
-				vc = vt;
+			if (i->video) {
+				check_vc.insert (i->video->video_frame_rate ());
+				vc = i;
 			}
 			shared_ptr<const AudioContent> at = dynamic_pointer_cast<const AudioContent> (i);
 			if (at) {
@@ -287,9 +287,9 @@ TimingPanel::film_content_changed (int property)
 
 		if ((check_vc.size() == 1 || count_ac == 1 || count_sc == 1) && !single_frame_image_content) {
 			if (vc) {
-				checked_set (_video_frame_rate, raw_convert<string> (vc->video_frame_rate (), 5));
+				checked_set (_video_frame_rate, raw_convert<string> (vc->video->video_frame_rate (), 5));
 			} else if (ac) {
-				checked_set (_video_frame_rate, raw_convert<string> (ac->audio_video_frame_rate (), 5));
+				checked_set (_video_frame_rate, raw_convert<string> (ac->audio->audio_video_frame_rate (), 5));
 			} else if (sc) {
 				checked_set (_video_frame_rate, raw_convert<string> (sc->subtitle_video_frame_rate (), 5));
 			}
@@ -329,7 +329,7 @@ TimingPanel::full_length_changed ()
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic && ic->still ()) {
 			int const vfr = _parent->film()->video_frame_rate ();
-			ic->set_video_length (_full_length->get (vfr).frames_round (vfr));
+			ic->video->set_video_length (_full_length->get (vfr).frames_round (vfr));
 		}
 	}
 }

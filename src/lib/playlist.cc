@@ -110,20 +110,19 @@ Playlist::maybe_sequence ()
 	DCPTime next_left;
 	DCPTime next_right;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
-		if (!vc) {
+		if (!i->video) {
 			continue;
 		}
 
-		if (vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
-			vc->set_position (next_right);
-			next_right = vc->end();
+		if (i->video->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+			i->set_position (next_right);
+			next_right = i->end();
 		} else {
-			vc->set_position (next_left);
-			next_left = vc->end();
+			i->set_position (next_left);
+			next_left = i->end();
 		}
 
-		placed.push_back (vc);
+		placed.push_back (i);
 	}
 
 	/* Subtitles */
@@ -271,15 +270,14 @@ Playlist::best_dcp_frame_rate () const
 
 		float this_error = 0;
 		BOOST_FOREACH (shared_ptr<Content> j, _content) {
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
-			if (!vc || !vc->has_own_video_frame_rate()) {
+			if (!j->video || !j->video->has_own_video_frame_rate()) {
 				continue;
 			}
 
 			/* Best error for this content; we could use the content as-is or double its rate */
 			float best_error = min (
-				float (fabs (i->source - vc->video_frame_rate ())),
-				float (fabs (i->source - vc->video_frame_rate () * 2))
+				float (fabs (i->source - j->video->video_frame_rate ())),
+				float (fabs (i->source - j->video->video_frame_rate () * 2))
 				);
 
 			/* Use the largest difference between DCP and source as the "error" */
@@ -373,16 +371,15 @@ FrameRateChange
 Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 {
 	for (ContentList::const_reverse_iterator i = _content.rbegin(); i != _content.rend(); ++i) {
-		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (*i);
-		if (!vc) {
+		if (!(*i)->video) {
 			continue;
 		}
 
-		if (vc->position() <= t) {
+		if ((*i)->position() <= t) {
 			/* This is the first piece of content (going backwards...) that starts before t,
 			   so it's the active one.
 			*/
-			return FrameRateChange (vc->video_frame_rate(), dcp_video_frame_rate);
+			return FrameRateChange ((*i)->video->video_frame_rate(), dcp_video_frame_rate);
 		}
 	}
 
@@ -403,9 +400,9 @@ ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
 	}
 
 	/* Put video before audio if they start at the same time */
-	if (dynamic_pointer_cast<VideoContent>(a) && !dynamic_pointer_cast<VideoContent>(b)) {
+	if (a->video && !b->video) {
 		return true;
-	} else if (!dynamic_pointer_cast<VideoContent>(a) && dynamic_pointer_cast<VideoContent>(b)) {
+	} else if (!a->video && b->video) {
 		return false;
 	}
 

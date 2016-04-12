@@ -42,8 +42,8 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, bool fast)
-	: VideoDecoder (c->video)
+DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
+	: VideoDecoder (c->video, log)
 	, AudioDecoder (c, fast)
 	, SubtitleDecoder (c)
 	, _dcp_content (c)

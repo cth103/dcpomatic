@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
+#include "lib/video_content.h"
 #include "test.h"
 
 /** @file test/black_fill_test.cc
@@ -44,11 +45,11 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	film->examine_and_add_content (contentB);
 	wait_for_jobs ();
 
-	contentA->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	contentA->set_video_length (3);
+	contentA->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	contentA->video->set_video_length (3);
 	contentA->set_position (DCPTime::from_frames (2, film->video_frame_rate ()));
-	contentB->set_scale (VideoContentScale (Ratio::from_id ("185")));
-	contentB->set_video_length (1);
+	contentB->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	contentB->video->set_video_length (1);
 	contentB->set_position (DCPTime::from_frames (7, film->video_frame_rate ()));
 
 	film->make_dcp ();

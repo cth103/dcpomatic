@@ -24,12 +24,15 @@
 #include "video_content_scale.h"
 #include "dcpomatic_time.h"
 #include "user_property.h"
+#include "types.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
 class VideoExaminer;
 class Ratio;
 class Film;
+class Content;
 
 class VideoContentProperty
 {
@@ -44,12 +47,12 @@ public:
 	static int const VIDEO_FADE_OUT;
 };
 
-class VideoContent
+class VideoContent : public boost::enable_shared_from_this<VideoContent>
 {
 public:
-	VideoContent (boost::shared_ptr<const Film>);
-	VideoContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
-	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
+	VideoContent (Content* parent, boost::shared_ptr<const Film>);
+	VideoContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+	VideoContent (Content* parent, boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
@@ -174,10 +177,14 @@ public:
 
 	std::string processing_description () const;
 
-private:
+	void set_video_length (Frame);
+
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
+private:
+
+	Content* _parent;
 	boost::weak_ptr<const Film> _film;
 	mutable boost::mutex _mutex;
 	Frame _video_length;

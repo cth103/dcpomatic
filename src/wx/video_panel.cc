@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include "lib/ratio.h"
 #include "lib/frame_rate_change.h"
 #include "lib/dcp_content.h"
+#include "lib/video_content.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 #include <set>
@@ -258,8 +259,8 @@ VideoPanel::film_changed (Film::Property property)
 void
 VideoPanel::film_content_changed (int property)
 {
-	VideoContentList vc = _parent->selected_video ();
-	shared_ptr<VideoContent> vcs;
+	ContentList vc = _parent->selected_video ();
+	shared_ptr<Content> vcs;
 	shared_ptr<FFmpegContent> fcs;
 	if (!vc.empty ()) {
 		vcs = vc.front ();
@@ -275,8 +276,8 @@ VideoPanel::film_content_changed (int property)
 	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
-		if (vcs && vcs->colour_conversion ()) {
-			optional<size_t> preset = vcs->colour_conversion().get().preset ();
+		if (vcs && vcs->video->colour_conversion ()) {
+			optional<size_t> preset = vcs->video->colour_conversion().get().preset ();
 			vector<PresetColourConversion> cc = PresetColourConversion::all ();
 			if (preset) {
 				checked_set (_colour_conversion, preset.get() + 1);
@@ -303,23 +304,29 @@ VideoPanel::film_content_changed (int property)
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_IN) {
 		set<Frame> check;
-		BOOST_FOREACH (shared_ptr<const VideoContent> i, vc) {
-			check.insert (i->fade_in ());
+		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+			check.insert (i->video->fade_in ());
 		}
 
 		if (check.size() == 1) {
-			_fade_in->set (ContentTime::from_frames (vc.front()->fade_in (), vc.front()->video_frame_rate ()), vc.front()->video_frame_rate ());
+			_fade_in->set (
+				ContentTime::from_frames (vc.front()->video->fade_in (), vc.front()->video->video_frame_rate ()),
+				vc.front()->video->video_frame_rate ()
+				);
 		} else {
 			_fade_in->clear ();
 		}
 	} else if (property == VideoContentProperty::VIDEO_FADE_OUT) {
 		set<Frame> check;
-		BOOST_FOREACH (shared_ptr<const VideoContent> i, vc) {
-			check.insert (i->fade_out ());
+		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
+			check.insert (i->video->fade_out ());
 		}
 
 		if (check.size() == 1) {
-			_fade_out->set (ContentTime::from_frames (vc.front()->fade_out (), vc.front()->video_frame_rate ()), vc.front()->video_frame_rate ());
+			_fade_out->set (
+				ContentTime::from_frames (vc.front()->video->fade_out (), vc.front()->video->video_frame_rate ()),
+				vc.front()->video->video_frame_rate ()
+				);
 		} else {
 			_fade_out->clear ();
 		}
@@ -353,7 +360,7 @@ VideoPanel::edit_filters_clicked ()
 void
 VideoPanel::setup_description ()
 {
-	VideoContentList vc = _parent->selected_video ();
+	ContentList vc = _parent->selected_video ();
 	if (vc.empty ()) {
 		checked_set (_description, wxT (""));
 		return;
@@ -362,7 +369,7 @@ VideoPanel::setup_description ()
 		return;
 	}
 
-	string d = vc.front()->processing_description ();
+	string d = vc.front()->video->processing_description ();
 	size_t lines = count (d.begin(), d.end(), '\n');
 
 	for (int i = lines; i < 6; ++i) {
@@ -376,7 +383,7 @@ VideoPanel::setup_description ()
 void
 VideoPanel::colour_conversion_changed ()
 {
-	VideoContentList vc = _parent->selected_video ();
+	ContentList vc = _parent->selected_video ();
 	if (vc.size() != 1) {
 		return;
 	}
@@ -385,33 +392,33 @@ VideoPanel::colour_conversion_changed ()
 	vector<PresetColourConversion> all = PresetColourConversion::all ();
 
 	if (s == 0) {
-		vc.front()->unset_colour_conversion ();
+		vc.front()->video->unset_colour_conversion ();
 	} else if (s == int (all.size() + 1)) {
 		edit_colour_conversion_clicked ();
 	} else {
-		vc.front()->set_colour_conversion (all[s - 1].conversion);
+		vc.front()->video->set_colour_conversion (all[s - 1].conversion);
 	}
 }
 
 void
 VideoPanel::edit_colour_conversion_clicked ()
 {
-	VideoContentList vc = _parent->selected_video ();
+	ContentList vc = _parent->selected_video ();
 	if (vc.size() != 1) {
 		return;
 	}
 
 	ContentColourConversionDialog* d = new ContentColourConversionDialog (this, vc.front()->yuv ());
-	d->set (vc.front()->colour_conversion().get_value_or (PresetColourConversion::all().front ().conversion));
+	d->set (vc.front()->video->colour_conversion().get_value_or (PresetColourConversion::all().front ().conversion));
 	d->ShowModal ();
-	vc.front()->set_colour_conversion (d->get ());
+	vc.front()->video->set_colour_conversion (d->get ());
 	d->Destroy ();
 }
 
 void
 VideoPanel::content_selection_changed ()
 {
-	VideoContentList video_sel = _parent->selected_video ();
+	ContentList video_sel = _parent->selected_video ();
 
 	_frame_type->set_content (video_sel);
 	_left_crop->set_content (video_sel);
@@ -459,7 +466,7 @@ VideoPanel::setup_sensitivity ()
 		_filters_button->Enable (false);
 		_colour_conversion->Enable (false);
 	} else {
-		VideoContentList video_sel = _parent->selected_video ();
+		ContentList video_sel = _parent->selected_video ();
 		FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
 		bool const single = video_sel.size() == 1;
 
@@ -477,13 +484,13 @@ VideoPanel::setup_sensitivity ()
 		_colour_conversion->Enable (single && !video_sel.empty ());
 	}
 
-	VideoContentList vc = _parent->selected_video ();
-	shared_ptr<VideoContent> vcs;
+	ContentList vc = _parent->selected_video ();
+	shared_ptr<Content> vcs;
 	if (!vc.empty ()) {
 		vcs = vc.front ();
 	}
 
-	if (vcs && vcs->colour_conversion ()) {
+	if (vcs && vcs->video->colour_conversion ()) {
 		_edit_colour_conversion_button->Enable (!vcs->colour_conversion().get().preset());
 	} else {
 		_edit_colour_conversion_button->Enable (false);

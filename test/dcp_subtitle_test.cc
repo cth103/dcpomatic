@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, false));
+	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
 
 	list<ContentTimePeriod> ctp = decoder->text_subtitles_during (
 		ContentTimePeriod (

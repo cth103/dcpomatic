@@ -34,6 +34,7 @@
 class VideoContent;
 class ImageProxy;
 class Image;
+class Log;
 
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
@@ -41,7 +42,7 @@ class Image;
 class VideoDecoder : public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const VideoContent> c);
+	VideoDecoder (boost::shared_ptr<const VideoContent> c, boost::shared_ptr<Log> log);
 
 	std::list<ContentVideo> get_video (Frame frame, bool accurate);
 
@@ -66,6 +67,7 @@ protected:
 	void fill_both_eyes (Frame from, Frame to, Eyes);
 
 	boost::shared_ptr<const VideoContent> _video_content;
+	boost::shared_ptr<Log> _log;
 	std::list<ContentVideo> _decoded_video;
 	boost::shared_ptr<Image> _black_image;
 	boost::optional<ContentTime> _last_seek_time;

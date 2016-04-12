@@ -166,8 +166,11 @@ public:
 
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
-protected:
+	boost::shared_ptr<VideoContent> video;
+
 	void signal_changed (int);
+
+protected:
 
 	virtual void add_properties (std::list<UserProperty> &) const {}
 

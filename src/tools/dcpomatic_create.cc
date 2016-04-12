@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
 #include "lib/image_content.h"
+#include "lib/video_content.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <getopt.h>
@@ -215,9 +216,8 @@ main (int argc, char* argv[])
 
 		for (int i = optind; i < argc; ++i) {
 			shared_ptr<Content> c = content_factory (film, boost::filesystem::canonical (argv[i]));
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c);
-			if (vc) {
-				vc->set_scale (VideoContentScale (content_ratio));
+			if (c->video) {
+				c->video->set_scale (VideoContentScale (content_ratio));
 			}
 			film->examine_and_add_content (c);
 		}
@@ -231,7 +231,7 @@ main (int argc, char* argv[])
 		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
 			if (ic) {
-				ic->set_video_length (still_length * 24);
+				ic->video->set_video_length (still_length * 24);
 			}
 		}
 

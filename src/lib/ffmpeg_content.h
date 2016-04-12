@@ -106,8 +106,6 @@ public:
 
 	void signal_subtitle_stream_changed ();
 
-	boost::shared_ptr<VideoContent> video;
-
 protected:
 	void add_properties (std::list<UserProperty> &) const;
 

@@ -48,7 +48,6 @@ namespace xmlpp {
 #define SERVER_LINK_VERSION (64+0)
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
-typedef std::vector<boost::shared_ptr<VideoContent> > VideoContentList;
 typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
 typedef std::vector<boost::shared_ptr<SubtitleContent> > SubtitleContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;

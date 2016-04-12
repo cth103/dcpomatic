@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"
 #include "lib/sndfile_content.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <iostream>
 
@@ -75,7 +76,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	content->set_scale (VideoContentScale (Ratio::from_id ("133")));
+	content->video->set_scale (VideoContentScale (Ratio::from_id ("133")));
 	film->set_container (Ratio::from_id ("185"));
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_F_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
 

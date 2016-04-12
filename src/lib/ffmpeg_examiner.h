@@ -25,6 +25,7 @@ struct AVStream;
 
 class FFmpegAudioStream;
 class FFmpegSubtitleStream;
+class Job;
 
 class FFmpegExaminer : public FFmpeg, public VideoExaminer
 {

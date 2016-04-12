@@ -34,13 +34,14 @@ using std::back_inserter;
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c)
+VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c, shared_ptr<Log> log)
 #ifdef DCPOMATIC_DEBUG
 	: test_gaps (0)
 	, _video_content (c)
 #else
 	: _video_content (c)
 #endif
+	, _log (log)
 	, _last_seek_accurate (true)
 	, _ignore_video (false)
 {
@@ -79,7 +80,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 	   one after the end of _decoded_video we need to seek.
 	*/
 
-	_video_content->film()->log()->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
+	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
 		seek (ContentTime::from_frames (frame, _video_content->video_frame_rate()), accurate);
@@ -252,7 +253,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 		return;
 	}
 
-	_video_content->film()->log()->log (String::compose ("VD receives %1", frame), LogEntry::TYPE_DEBUG_DECODE);
+	_log->log (String::compose ("VD receives %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	/* Work out what we are going to push into _decoded_video next */
 	list<ContentVideo> to_push;

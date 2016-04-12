@@ -42,10 +42,7 @@ public:
 
 	void set_default_colour_conversion ();
 
-	void set_video_length (Frame);
 	bool still () const;
-
-	boost::shared_ptr<VideoContent> video;
 };
 
 #endif

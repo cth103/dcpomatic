@@ -113,13 +113,13 @@ Player::setup_pieces ()
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
 		if (fc) {
 			decoder.reset (new FFmpegDecoder (fc, _film->log(), _fast));
-			frc = FrameRateChange (fc->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (fc->video->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
 		if (dc) {
-			decoder.reset (new DCPDecoder (dc, _fast));
-			frc = FrameRateChange (dc->video_frame_rate(), _film->video_frame_rate());
+			decoder.reset (new DCPDecoder (dc, _film->log(), _fast));
+			frc = FrameRateChange (dc->video->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* ImageContent */
@@ -134,10 +134,10 @@ Player::setup_pieces ()
 			}
 
 			if (!decoder) {
-				decoder.reset (new ImageDecoder (ic));
+				decoder.reset (new ImageDecoder (ic, _film->log()));
 			}
 
-			frc = FrameRateChange (ic->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (ic->video->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* SndfileContent */
@@ -147,22 +147,21 @@ Player::setup_pieces ()
 
 			/* Work out a FrameRateChange for the best overlap video for this content */
 			DCPTime best_overlap_t;
-			shared_ptr<VideoContent> best_overlap;
+			shared_ptr<Content> best_overlap;
 			BOOST_FOREACH (shared_ptr<Content> j, _playlist->content ()) {
-				shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (j);
-				if (!vc) {
+				if (!j->video) {
 					continue;
 				}
 
-				DCPTime const overlap = min (vc->end(), i->end()) - max (vc->position(), i->position());
+				DCPTime const overlap = min (j->end(), i->end()) - max (j->position(), i->position());
 				if (overlap > best_overlap_t) {
-					best_overlap = vc;
+					best_overlap = j;
 					best_overlap_t = overlap;
 				}
 			}
 
 			if (best_overlap) {
-				frc = FrameRateChange (best_overlap->video_frame_rate(), _film->video_frame_rate ());
+				frc = FrameRateChange (best_overlap->video->video_frame_rate(), _film->video_frame_rate ());
 			} else {
 				/* No video overlap; e.g. if the DCP is just audio */
 				frc = FrameRateChange (_film->video_frame_rate(), _film->video_frame_rate ());
@@ -397,17 +396,15 @@ Player::get_video (DCPTime time, bool accurate)
 	} else {
 		/* Some video content at this time */
 		shared_ptr<Piece> last = *(ov.rbegin ());
-		VideoFrameType const last_type = dynamic_pointer_cast<VideoContent> (last->content)->video_frame_type ();
+		VideoFrameType const last_type = last->content->video->video_frame_type ();
 
 		/* Get video from appropriate piece(s) */
 		BOOST_FOREACH (shared_ptr<Piece> piece, ov) {
 
 			shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
 			DCPOMATIC_ASSERT (decoder);
-			shared_ptr<VideoContent> video_content = dynamic_pointer_cast<VideoContent> (piece->content);
-			DCPOMATIC_ASSERT (video_content);
 
-			shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (video_content);
+			shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (piece->content);
 			if (dcp_content && dcp_content->reference_video () && !_play_referenced) {
 				continue;
 			}
@@ -416,8 +413,8 @@ Player::get_video (DCPTime time, bool accurate)
 				/* always use the last video */
 				piece == last ||
 				/* with a corresponding L/R eye if appropriate */
-				(last_type == VIDEO_FRAME_TYPE_3D_LEFT && video_content->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
-				(last_type == VIDEO_FRAME_TYPE_3D_RIGHT && video_content->video_frame_type() == VIDEO_FRAME_TYPE_3D_LEFT);
+				(last_type == VIDEO_FRAME_TYPE_3D_LEFT && piece->content->video->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
+				(last_type == VIDEO_FRAME_TYPE_3D_RIGHT && piece->content->video->video_frame_type() == VIDEO_FRAME_TYPE_3D_LEFT);
 
 			if (use) {
 				/* We want to use this piece */
@@ -425,7 +422,9 @@ Player::get_video (DCPTime time, bool accurate)
 				if (content_video.empty ()) {
 					pvf.push_back (black_player_video_frame (time));
 				} else {
-					dcp::Size image_size = video_content->scale().size (video_content, _video_container_size, _film->frame_size ());
+					dcp::Size image_size = piece->content->video->scale().size (
+						piece->content->video, _video_container_size, _film->frame_size ()
+						);
 
 					for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
 						pvf.push_back (
@@ -433,13 +432,13 @@ Player::get_video (DCPTime time, bool accurate)
 								new PlayerVideo (
 									i->image,
 									content_video_to_dcp (piece, i->frame),
-									video_content->crop (),
-									video_content->fade (i->frame),
+									piece->content->video->crop (),
+									piece->content->video->fade (i->frame),
 									image_size,
 									_video_container_size,
 									i->eyes,
 									i->part,
-									video_content->colour_conversion ()
+									piece->content->video->colour_conversion ()
 									)
 								)
 							);
@@ -770,7 +769,7 @@ Player::get_reel_assets ()
 
 		scoped_ptr<DCPDecoder> decoder;
 		try {
-			decoder.reset (new DCPDecoder (j, false));
+			decoder.reset (new DCPDecoder (j, _film->log(), false));
 		} catch (...) {
 			return a;
 		}

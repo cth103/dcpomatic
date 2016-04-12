@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ struct dcp_subtitle_within_dcp_test;
 class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder
 {
 public:
-	DCPDecoder (boost::shared_ptr<const DCPContent>, bool fast);
+	DCPDecoder (boost::shared_ptr<const DCPContent>, boost::shared_ptr<Log> log, bool fast);
 
 	std::list<boost::shared_ptr<dcp::Reel> > reels () const {
 		return _reels;

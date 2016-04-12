@@ -34,8 +34,8 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
 
-ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
-	: VideoDecoder (c)
+ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> log)
+	: VideoDecoder (c->video, log)
 	, _image_content (c)
 	, _video_position (0)
 {
@@ -45,7 +45,7 @@ ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c)
 bool
 ImageDecoder::pass (PassReason, bool)
 {
-	if (_video_position >= _image_content->video_length()) {
+	if (_video_position >= _image_content->video->video_length()) {
 		return true;
 	}
 
@@ -56,7 +56,7 @@ ImageDecoder::pass (PassReason, bool)
 			/* We can't extract image size from a JPEG2000 codestream without decoding it,
 			   so pass in the image content's size here.
 			*/
-			_image.reset (new J2KImageProxy (path, _image_content->video_size ()));
+			_image.reset (new J2KImageProxy (path, _image_content->video->video_size ()));
 		} else {
 			_image.reset (new MagickImageProxy (path));
 		}
@@ -71,5 +71,5 @@ void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
 	VideoDecoder::seek (time, accurate);
-	_video_position = time.frames_round (_image_content->video_frame_rate ());
+	_video_position = time.frames_round (_image_content->video->video_frame_rate ());
 }

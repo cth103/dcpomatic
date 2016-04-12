@@ -30,6 +30,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
+#include "lib/video_content.h"
 #include "test.h"
 
 using boost::shared_ptr;
@@ -43,7 +44,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 
 	wait_for_jobs ();
 
-	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));

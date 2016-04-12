@@ -149,15 +149,14 @@ ContentPanel::selected ()
 	return sel;
 }
 
-VideoContentList
+ContentList
 ContentPanel::selected_video ()
 {
-	VideoContentList vc;
+	ContentList vc;
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		shared_ptr<VideoContent> t = dynamic_pointer_cast<VideoContent> (i);
-		if (t) {
-			vc.push_back (t);
+		if (i->video) {
+			vc.push_back (i);
 		}
 	}
 
@@ -337,7 +336,7 @@ ContentPanel::add_folder_clicked ()
 			return;
 		}
 
-		ic->set_video_frame_rate (frame_rate);
+		ic->video->set_video_frame_rate (frame_rate);
 	}
 
 	_film->examine_and_add_content (content);
@@ -388,7 +387,7 @@ ContentPanel::setup_sensitivity ()
 	_add_folder->Enable (_generally_sensitive);
 
 	ContentList selection = selected ();
-	VideoContentList video_selection = selected_video ();
+	ContentList video_selection = selected_video ();
 	AudioContentList audio_selection = selected_audio ();
 
 	_remove->Enable   (!selection.empty() && _generally_sensitive);
