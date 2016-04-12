@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 #ifndef DCPOMATIC_VIDEO_CONTENT_H
 #define DCPOMATIC_VIDEO_CONTENT_H
 
-#include "content.h"
 #include "colour_conversion.h"
 #include "video_content_scale.h"
 
@@ -40,19 +39,18 @@ public:
 	static int const VIDEO_FADE_OUT;
 };
 
-class VideoContent : public virtual Content
+class VideoContent
 {
 public:
 	VideoContent (boost::shared_ptr<const Film>);
-	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
-	virtual std::string identifier () const;
+	std::string identifier () const;
 
-	virtual void set_default_colour_conversion ();
+	void set_default_colour_conversion ();
 
 	Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -171,16 +169,17 @@ public:
 
 	std::string processing_description () const;
 
-protected:
+private:
 	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
+	boost::weak_ptr<const Film> _film;
+	boost::mutex _mutex;
 	Frame _video_length;
 	/** Video frame rate, or not set if this content should use the DCP's frame rate */
 	boost::optional<double> _video_frame_rate;
 	boost::optional<ColourConversion> _colour_conversion;
 
-private:
 	friend struct ffmpeg_pts_offset_test;
 	friend struct best_dcp_frame_rate_test_single;
 	friend struct best_dcp_frame_rate_test_double;

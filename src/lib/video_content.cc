@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::VIDEO_SIZE	  = 0;
 int const VideoContentProperty::VIDEO_FRAME_RATE  = 1;
@@ -64,7 +64,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 
 VideoContent::VideoContent (shared_ptr<const Film> film)
-	: Content (film)
+	: _film (film)
 	, _video_length (0)
 	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
@@ -72,23 +72,11 @@ VideoContent::VideoContent (shared_ptr<const Film> film)
 	, _fade_in (0)
 	, _fade_out (0)
 {
-	set_default_colour_conversion ();
-}
 
-VideoContent::VideoContent (shared_ptr<const Film> film, boost::filesystem::path p)
-	: Content (film, p)
-	, _video_length (0)
-	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _scale (VideoContentScale (Ratio::from_id ("178")))
-	, _yuv (true)
-	, _fade_in (0)
-	, _fade_out (0)
-{
-	set_default_colour_conversion ();
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: Content (film, node)
+	: _film (film)
 {
 	_video_size.width = node->number_child<int> ("VideoWidth");
 	_video_size.height = node->number_child<int> ("VideoHeight");
@@ -126,7 +114,7 @@ VideoContent::VideoContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 }
 
 VideoContent::VideoContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: Content (film, c)
+	: _film (film)
 	, _video_length (0)
 	, _yuv (false)
 {
@@ -237,9 +225,9 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 			);
 	}
 
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _video_length);
-
-	set_default_colour_conversion ();
 
 	signal_changed (VideoContentProperty::VIDEO_SIZE);
 	signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
@@ -328,8 +316,7 @@ string
 VideoContent::identifier () const
 {
 	SafeStringStream s;
-	s << Content::identifier()
-	  << "_" << crop().left
+	s << crop().left
 	  << "_" << crop().right
 	  << "_" << crop().top
 	  << "_" << crop().bottom
@@ -446,9 +433,11 @@ VideoContent::video_size_after_crop () const
 void
 VideoContent::scale_and_crop_to_fit_width ()
 {
-	set_scale (VideoContentScale (film()->container ()));
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	set_scale (VideoContentScale (film->container ()));
 
-	int const crop = max (0, int (video_size().height - double (film()->frame_size().height) * video_size().width / film()->frame_size().width));
+	int const crop = max (0, int (video_size().height - double (film->frame_size().height) * video_size().width / film->frame_size().width));
 	set_left_crop (0);
 	set_right_crop (0);
 	set_top_crop (crop / 2);
@@ -458,9 +447,11 @@ VideoContent::scale_and_crop_to_fit_width ()
 void
 VideoContent::scale_and_crop_to_fit_height ()
 {
-	set_scale (VideoContentScale (film()->container ()));
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	set_scale (VideoContentScale (film->container ()));
 
-	int const crop = max (0, int (video_size().width - double (film()->frame_size().width) * video_size().height / film()->frame_size().height));
+	int const crop = max (0, int (video_size().width - double (film->frame_size().width) * video_size().height / film->frame_size().height));
 	set_left_crop (crop / 2);
 	set_right_crop (crop / 2);
 	set_top_crop (0);
@@ -535,7 +526,9 @@ VideoContent::processing_description () const
 		d << " (" << fixed << setprecision(2) << cropped.ratio () << ":1)\n";
 	}
 
-	dcp::Size const container_size = film()->frame_size ();
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	dcp::Size const container_size = film->frame_size ();
 	dcp::Size const scaled = scale().size (dynamic_pointer_cast<const VideoContent> (shared_from_this ()), container_size, container_size);
 
 	if (scaled != video_size_after_crop ()) {
@@ -550,7 +543,7 @@ VideoContent::processing_description () const
 	if (scaled != container_size) {
 		d << String::compose (
 			_("Padded with black to fit container %1 (%2x%3)"),
-			film()->container()->nickname (),
+			film->container()->nickname (),
 			container_size.width, container_size.height
 			);
 
@@ -560,7 +553,7 @@ VideoContent::processing_description () const
 	d << _("Content frame rate");
 	d << " " << fixed << setprecision(4) << video_frame_rate() << "\n";
 
-	FrameRateChange frc (video_frame_rate(), film()->video_frame_rate ());
+	FrameRateChange frc (video_frame_rate(), film->video_frame_rate ());
 	d << frc.description () << "\n";
 
 	return d.str ();
@@ -578,5 +571,7 @@ double
 VideoContent::video_frame_rate () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	return _video_frame_rate.get_value_or (film()->video_frame_rate ());
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return _video_frame_rate.get_value_or (film->video_frame_rate ());
 }
