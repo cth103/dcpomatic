@@ -146,8 +146,8 @@ CinemaDialog::emails () const
 int
 CinemaDialog::utc_offset_hour () const
 {
-	size_t const sel =  _utc_offset->GetSelection();
-	if (sel < 0 || sel > _offsets.size()) {
+	int const sel = _utc_offset->GetSelection();
+	if (sel < 0 || sel > int (_offsets.size())) {
 		return 0;
 	}
 
@@ -157,8 +157,8 @@ CinemaDialog::utc_offset_hour () const
 int
 CinemaDialog::utc_offset_minute () const
 {
-	size_t const sel =  _utc_offset->GetSelection();
-	if (sel < 0 || sel > _offsets.size()) {
+	int const sel = _utc_offset->GetSelection();
+	if (sel < 0 || sel > int (_offsets.size())) {
 		return 0;
 	}
 
