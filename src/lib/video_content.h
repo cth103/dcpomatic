@@ -44,7 +44,6 @@ class VideoContent : public virtual Content
 {
 public:
 	VideoContent (boost::shared_ptr<const Film>);
-	VideoContent (boost::shared_ptr<const Film>, DCPTime, Frame);
 	VideoContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	VideoContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 	VideoContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);

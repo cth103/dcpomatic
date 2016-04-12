@@ -75,18 +75,6 @@ VideoContent::VideoContent (shared_ptr<const Film> film)
 	set_default_colour_conversion ();
 }
 
-VideoContent::VideoContent (shared_ptr<const Film> film, DCPTime s, Frame len)
-	: Content (film, s)
-	, _video_length (len)
-	, _video_frame_type (VIDEO_FRAME_TYPE_2D)
-	, _scale (VideoContentScale (Ratio::from_id ("178")))
-	, _yuv (true)
-	, _fade_in (0)
-	, _fade_out (0)
-{
-	set_default_colour_conversion ();
-}
-
 VideoContent::VideoContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
 	, _video_length (0)
