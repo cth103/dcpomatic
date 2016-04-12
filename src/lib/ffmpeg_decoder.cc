@@ -598,6 +598,7 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 						*/
 						1.015 - ((1 + highest - j.vertical_position.line.get()) * 1.5 / 22),
 						dcp::VALIGN_TOP,
+						dcp::DIRECTION_LTR,
 						k.text,
 						static_cast<dcp::Effect> (0),
 						dcp::Colour (255, 255, 255),

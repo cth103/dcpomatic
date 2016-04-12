@@ -93,6 +93,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 					*/
 					1.015 - ((1 + highest - i.vertical_position.line.get()) * 1.5 / 22),
 					dcp::VALIGN_TOP,
+					dcp::DIRECTION_LTR,
 					j.text,
 					content->outline() ? dcp::BORDER : dcp::NONE,
 					content->outline_colour(),

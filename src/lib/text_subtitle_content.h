@@ -27,7 +27,9 @@ public:
 	static int const TEXT_SUBTITLE_OUTLINE_COLOUR;
 };
 
-
+/** @class TextSubtitleContent
+ *  @brief SubRip or SSA subtitles.
+ */
 class TextSubtitleContent : public SubtitleContent
 {
 public:
