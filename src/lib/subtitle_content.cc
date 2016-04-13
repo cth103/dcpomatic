@@ -23,6 +23,7 @@
 #include "safe_stringstream.h"
 #include "font.h"
 #include "raw_convert.h"
+#include "content.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -46,6 +47,9 @@ int const SubtitleContentProperty::BURN_SUBTITLES = 505;
 int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
 int const SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE = 508;
+int const SubtitleContentProperty::SUBTITLE_COLOUR = 509;
+int const SubtitleContentProperty::SUBTITLE_OUTLINE = 510;
+int const SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR = 511;
 
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 	: ContentPart (parent, film)
@@ -55,18 +59,32 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 	, _subtitle_y_offset (0)
 	, _subtitle_x_scale (1)
 	, _subtitle_y_scale (1)
+	, _colour (255, 255, 255)
+	, _outline (false)
+	, _outline_colour (0, 0, 0)
 {
 
 }
 
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: ContentParet (parent, film)
+	: ContentPart (parent, film)
 	, _use_subtitles (false)
 	, _burn_subtitles (false)
 	, _subtitle_x_offset (0)
 	, _subtitle_y_offset (0)
 	, _subtitle_x_scale (1)
 	, _subtitle_y_scale (1)
+	, _colour (
+		node->optional_number_child<int>("Red").get_value_or(255),
+		node->optional_number_child<int>("Green").get_value_or(255),
+		node->optional_number_child<int>("Blue").get_value_or(255)
+		)
+	, _outline (node->optional_bool_child("Outline").get_value_or(false))
+	, _outline_colour (
+		node->optional_number_child<int>("OutlineRed").get_value_or(255),
+		node->optional_number_child<int>("OutlineGreen").get_value_or(255),
+		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
+		)
 {
 	if (version >= 32) {
 		_use_subtitles = node->bool_child ("UseSubtitles");
@@ -173,6 +191,13 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
 	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_subtitle_y_scale));
 	root->add_child("SubtitleLanguage")->add_child_text (_subtitle_language);
+	root->add_child("Red")->add_child_text (raw_convert<string> (_colour.r));
+	root->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
+	root->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
+	root->add_child("Outline")->add_child_text (raw_convert<string> (_outline));
+	root->add_child("OutlineRed")->add_child_text (raw_convert<string> (_outline_colour.r));
+	root->add_child("OutlineGreen")->add_child_text (raw_convert<string> (_outline_colour.g));
+	root->add_child("OutlineBlue")->add_child_text (raw_convert<string> (_outline_colour.b));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
 		(*i)->as_xml (root->add_child("Font"));
@@ -186,7 +211,7 @@ SubtitleContent::set_use_subtitles (bool u)
 		boost::mutex::scoped_lock lm (_mutex);
 		_use_subtitles = u;
 	}
-	signal_changed (SubtitleContentProperty::USE_SUBTITLES);
+	_parent->signal_changed (SubtitleContentProperty::USE_SUBTITLES);
 }
 
 void
@@ -196,7 +221,7 @@ SubtitleContent::set_burn_subtitles (bool b)
 		boost::mutex::scoped_lock lm (_mutex);
 		_burn_subtitles = b;
 	}
-	signal_changed (SubtitleContentProperty::BURN_SUBTITLES);
+	_parent->signal_changed (SubtitleContentProperty::BURN_SUBTITLES);
 }
 
 void
@@ -206,7 +231,7 @@ SubtitleContent::set_subtitle_x_offset (double o)
 		boost::mutex::scoped_lock lm (_mutex);
 		_subtitle_x_offset = o;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
 }
 
 void
@@ -216,7 +241,7 @@ SubtitleContent::set_subtitle_y_offset (double o)
 		boost::mutex::scoped_lock lm (_mutex);
 		_subtitle_y_offset = o;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
 }
 
 void
@@ -226,7 +251,7 @@ SubtitleContent::set_subtitle_x_scale (double s)
 		boost::mutex::scoped_lock lm (_mutex);
 		_subtitle_x_scale = s;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
 }
 
 void
@@ -236,7 +261,7 @@ SubtitleContent::set_subtitle_y_scale (double s)
 		boost::mutex::scoped_lock lm (_mutex);
 		_subtitle_y_scale = s;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
 }
 
 void
@@ -246,15 +271,14 @@ SubtitleContent::set_subtitle_language (string language)
 		boost::mutex::scoped_lock lm (_mutex);
 		_subtitle_language = language;
 	}
-	signal_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
 }
 
 string
 SubtitleContent::identifier () const
 {
 	SafeStringStream s;
-	s << Content::identifier()
-	  << "_" << raw_convert<string> (subtitle_x_scale())
+	s << raw_convert<string> (subtitle_x_scale())
 	  << "_" << raw_convert<string> (subtitle_y_scale())
 	  << "_" << raw_convert<string> (subtitle_x_offset())
 	  << "_" << raw_convert<string> (subtitle_y_offset());
@@ -299,11 +323,50 @@ SubtitleContent::connect_to_fonts ()
 void
 SubtitleContent::font_changed ()
 {
-	signal_changed (SubtitleContentProperty::FONTS);
+	_parent->signal_changed (SubtitleContentProperty::FONTS);
 }
 
-bool
-SubtitleContent::has_subtitles () const
+void
+SubtitleContent::set_colour (dcp::Colour colour)
 {
-	return has_text_subtitles() || has_image_subtitles();
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_colour == colour) {
+			return;
+		}
+
+		_colour = colour;
+	}
+
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_COLOUR);
+}
+
+void
+SubtitleContent::set_outline (bool o)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_outline == o) {
+			return;
+		}
+
+		_outline = o;
+	}
+
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_OUTLINE);
+}
+
+void
+SubtitleContent::set_outline_colour (dcp::Colour colour)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_outline_colour == colour) {
+			return;
+		}
+
+		_outline_colour = colour;
+	}
+
+	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR);
 }

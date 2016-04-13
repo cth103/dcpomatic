@@ -130,7 +130,7 @@ Playlist::maybe_sequence ()
 
 	DCPTime next;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (!i->subtitle || !i->subtitle->has_subtitles() || find (placed.begin(), placed.end(), i) != placed.end()) {
+		if (!i->subtitle || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
 

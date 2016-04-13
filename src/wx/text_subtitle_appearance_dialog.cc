@@ -19,6 +19,7 @@
 
 #include "text_subtitle_appearance_dialog.h"
 #include "lib/text_subtitle_content.h"
+#include "lib/subtitle_content.h"
 #include <wx/wx.h>
 #include <wx/clrpicker.h>
 
@@ -42,17 +43,19 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 
 	layout ();
 
-	_colour->SetColour (wxColour (_content->colour().r, _content->colour().g, _content->colour().b));
-	_outline->SetValue (_content->outline ());
-	_outline_colour->SetColour (wxColour (_content->outline_colour().r, _content->outline_colour().g, _content->outline_colour().b));
+	_colour->SetColour (wxColour (_content->subtitle->colour().r, _content->subtitle->colour().g, _content->subtitle->colour().b));
+	_outline->SetValue (_content->subtitle->outline ());
+	_outline_colour->SetColour (
+		wxColour (_content->subtitle->outline_colour().r, _content->subtitle->outline_colour().g, _content->subtitle->outline_colour().b)
+		);
 }
 
 void
 TextSubtitleAppearanceDialog::apply ()
 {
 	wxColour const c = _colour->GetColour ();
-	_content->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
-	_content->set_outline (_outline->GetValue ());
+	_content->subtitle->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+	_content->subtitle->set_outline (_outline->GetValue ());
 	wxColour const oc = _outline_colour->GetColour ();
-	_content->set_outline_colour (dcp::Colour (oc.Red(), oc.Green(), oc.Blue()));
+	_content->subtitle->set_outline_colour (dcp::Colour (oc.Red(), oc.Green(), oc.Blue()));
 }

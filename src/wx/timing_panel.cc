@@ -264,21 +264,20 @@ TimingPanel::film_content_changed (int property)
 		int count_ac = 0;
 		shared_ptr<const Content> ac;
 		int count_sc = 0;
-		shared_ptr<const SubtitleContent> sc;
+		shared_ptr<const Content> sc;
 		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
 			if (i->video) {
 				check_vc.insert (i->video->video_frame_rate ());
 				vc = i;
 			}
 			shared_ptr<const AudioContent> at = dynamic_pointer_cast<const AudioContent> (i);
-			if (at) {
+			if (i->audio) {
 				++count_ac;
 				ac = at;
 			}
-			shared_ptr<const SubtitleContent> st = dynamic_pointer_cast<const SubtitleContent> (i);
-			if (st) {
+			if (i->subtitle) {
 				++count_sc;
-				sc = st;
+				sc = i;
 			}
 
 		}

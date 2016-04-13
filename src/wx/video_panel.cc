@@ -408,7 +408,7 @@ VideoPanel::edit_colour_conversion_clicked ()
 		return;
 	}
 
-	ContentColourConversionDialog* d = new ContentColourConversionDialog (this, vc.front()->yuv ());
+	ContentColourConversionDialog* d = new ContentColourConversionDialog (this, vc.front()->video->yuv ());
 	d->set (vc.front()->video->colour_conversion().get_value_or (PresetColourConversion::all().front ().conversion));
 	d->ShowModal ();
 	vc.front()->video->set_colour_conversion (d->get ());

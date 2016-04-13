@@ -49,7 +49,6 @@ namespace xmlpp {
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
-typedef std::vector<boost::shared_ptr<SubtitleContent> > SubtitleContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 
 typedef int64_t Frame;

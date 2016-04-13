@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,12 +23,12 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/filesystem.hpp>
 
-class SubtitleContent;
+class Content;
 
 class FontsDialog : public wxDialog
 {
 public:
-	FontsDialog (wxWindow* parent, boost::shared_ptr<SubtitleContent>);
+	FontsDialog (wxWindow* parent, boost::shared_ptr<Content>);
 
 private:
 	void setup ();
@@ -36,7 +36,7 @@ private:
 	void selection_changed ();
 	void edit_clicked ();
 
-	boost::weak_ptr<SubtitleContent> _content;
+	boost::weak_ptr<Content> _content;
 	wxListCtrl* _fonts;
 	wxButton* _edit;
 };

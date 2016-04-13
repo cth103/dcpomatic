@@ -61,7 +61,7 @@ public:
 	ContentList selected ();
 	ContentList selected_video ();
 	AudioContentList selected_audio ();
-	SubtitleContentList selected_subtitle ();
+	ContentList selected_subtitle ();
 	FFmpegContentList selected_ffmpeg ();
 
 	void add_file_clicked ();

@@ -21,6 +21,7 @@
 #define DCPOMATIC_CONTENT_PART_H
 
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/mutex.hpp>
 
 class Content;
 class Film;

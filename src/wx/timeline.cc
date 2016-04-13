@@ -154,9 +154,8 @@ Timeline::recreate_views ()
 			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
 		}
 
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
-		if (sc && sc->has_subtitles ()) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineSubtitleContentView (*this, sc)));
+		if (i->subtitle) {
+			_views.push_back (shared_ptr<TimelineView> (new TimelineSubtitleContentView (*this, i)));
 		}
 	}
 

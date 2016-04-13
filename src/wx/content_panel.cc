@@ -178,15 +178,14 @@ ContentPanel::selected_audio ()
 	return ac;
 }
 
-SubtitleContentList
+ContentList
 ContentPanel::selected_subtitle ()
 {
-	SubtitleContentList sc;
+	ContentList sc;
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		shared_ptr<SubtitleContent> t = dynamic_pointer_cast<SubtitleContent> (i);
-		if (t) {
-			sc.push_back (t);
+		if (i->subtitle) {
+			sc.push_back (i);
 		}
 	}
 

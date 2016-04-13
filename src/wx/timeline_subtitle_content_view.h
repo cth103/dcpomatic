@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,13 +27,10 @@ class SubtitleContent;
 class TimelineSubtitleContentView : public TimelineContentView
 {
 public:
-	TimelineSubtitleContentView (Timeline& tl, boost::shared_ptr<SubtitleContent> c);
+	TimelineSubtitleContentView (Timeline& tl, boost::shared_ptr<Content> c);
 
 private:
 	bool active () const;
 	wxColour background_colour () const;
 	wxColour foreground_colour () const;
-
-	boost::weak_ptr<SubtitleContent> _subtitle_content;
 };
-

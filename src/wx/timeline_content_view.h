@@ -47,13 +47,16 @@ public:
 	virtual wxColour background_colour () const = 0;
 	virtual wxColour foreground_colour () const = 0;
 
+protected:
+
+	boost::weak_ptr<Content> _content;
+
 private:
 
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
 	int y_pos (int t) const;
 	void content_changed (int p);
 
-	boost::weak_ptr<Content> _content;
 	boost::optional<int> _track;
 	bool _selected;
 

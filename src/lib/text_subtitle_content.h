@@ -21,14 +21,6 @@
 
 class Job;
 
-class TextSubtitleContentProperty
-{
-public:
-	static int const TEXT_SUBTITLE_COLOUR;
-	static int const TEXT_SUBTITLE_OUTLINE;
-	static int const TEXT_SUBTITLE_OUTLINE_COLOUR;
-};
-
 /** @class TextSubtitleContent
  *  @brief SubRip or SSA subtitles.
  */
@@ -42,46 +34,14 @@ public:
 		return boost::dynamic_pointer_cast<TextSubtitleContent> (Content::shared_from_this ());
 	}
 
-	/* Content */
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *) const;
 	DCPTime full_length () const;
 
-	/* SubtitleContent */
-
-	bool has_text_subtitles () const {
-		return true;
-	}
-
-	bool has_image_subtitles () const {
-		return false;
-	}
-
 	double subtitle_video_frame_rate () const;
 	void set_subtitle_video_frame_rate (double r);
-
-	void set_colour (dcp::Colour);
-
-	dcp::Colour colour () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _colour;
-	}
-
-	void set_outline (bool);
-
-	bool outline () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _outline;
-	}
-
-	void set_outline_colour (dcp::Colour);
-
-	dcp::Colour outline_colour () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _outline_colour;
-	}
 
 	static std::string const font_id;
 
@@ -89,7 +49,4 @@ private:
 	ContentTime _length;
 	/** Video frame rate that this content has been prepared for, if known */
 	boost::optional<double> _frame_rate;
-	dcp::Colour _colour;
-	bool _outline;
-	dcp::Colour _outline_colour;
 };

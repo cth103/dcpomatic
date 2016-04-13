@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,12 +19,12 @@
 
 #include "timeline_subtitle_content_view.h"
 #include "lib/subtitle_content.h"
+#include "lib/content.h"
 
 using boost::shared_ptr;
 
-TimelineSubtitleContentView::TimelineSubtitleContentView (Timeline& tl, shared_ptr<SubtitleContent> c)
+TimelineSubtitleContentView::TimelineSubtitleContentView (Timeline& tl, shared_ptr<Content> c)
 	: TimelineContentView (tl, c)
-	, _subtitle_content (c)
 {
 
 }
@@ -32,7 +32,6 @@ TimelineSubtitleContentView::TimelineSubtitleContentView (Timeline& tl, shared_p
 wxColour
 TimelineSubtitleContentView::background_colour () const
 {
-	shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
 	if (!active ()) {
 		return wxColour (210, 210, 210, 128);
 	}
@@ -43,7 +42,6 @@ TimelineSubtitleContentView::background_colour () const
 wxColour
 TimelineSubtitleContentView::foreground_colour () const
 {
-	shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
 	if (!active ()) {
 		return wxColour (180, 180, 180, 128);
 	}
@@ -54,6 +52,7 @@ TimelineSubtitleContentView::foreground_colour () const
 bool
 TimelineSubtitleContentView::active () const
 {
-	shared_ptr<SubtitleContent> sc = _subtitle_content.lock ();
-	return sc && sc->use_subtitles();
+	shared_ptr<Content> c = _content.lock ();
+	DCPOMATIC_ASSERT (c);
+	return c->subtitle && c->subtitle->use_subtitles();
 }

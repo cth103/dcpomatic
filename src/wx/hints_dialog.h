@@ -17,8 +17,9 @@
 
 */
 
-#include <boost/weak_ptr.hpp>
 #include <wx/wx.h>
+#include <boost/weak_ptr.hpp>
+#include <boost/signals2.hpp>
 
 class wxRichTextCtrl;
 class Film;

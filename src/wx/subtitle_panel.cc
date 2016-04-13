@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include "lib/text_subtitle_decoder.h"
 #include "lib/dcp_subtitle_decoder.h"
 #include "lib/dcp_content.h"
+#include "lib/subtitle_content.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 
@@ -157,14 +158,14 @@ void
 SubtitlePanel::film_content_changed (int property)
 {
 	FFmpegContentList fc = _parent->selected_ffmpeg ();
-	SubtitleContentList sc = _parent->selected_subtitle ();
+	ContentList sc = _parent->selected_subtitle ();
 
 	shared_ptr<FFmpegContent> fcs;
 	if (fc.size() == 1) {
 		fcs = fc.front ();
 	}
 
-	shared_ptr<SubtitleContent> scs;
+	shared_ptr<Content> scs;
 	if (sc.size() == 1) {
 		scs = sc.front ();
 	}
@@ -185,20 +186,20 @@ SubtitlePanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 	} else if (property == SubtitleContentProperty::USE_SUBTITLES) {
-		checked_set (_use, scs ? scs->use_subtitles() : false);
+		checked_set (_use, scs ? scs->subtitle->use_subtitles() : false);
 		setup_sensitivity ();
 	} else if (property == SubtitleContentProperty::BURN_SUBTITLES) {
-		checked_set (_burn, scs ? scs->burn_subtitles() : false);
+		checked_set (_burn, scs ? scs->subtitle->burn_subtitles() : false);
 	} else if (property == SubtitleContentProperty::SUBTITLE_X_OFFSET) {
-		checked_set (_x_offset, scs ? lrint (scs->subtitle_x_offset() * 100) : 0);
+		checked_set (_x_offset, scs ? lrint (scs->subtitle->subtitle_x_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_OFFSET) {
-		checked_set (_y_offset, scs ? lrint (scs->subtitle_y_offset() * 100) : 0);
+		checked_set (_y_offset, scs ? lrint (scs->subtitle->subtitle_y_offset() * 100) : 0);
 	} else if (property == SubtitleContentProperty::SUBTITLE_X_SCALE) {
-		checked_set (_x_scale, scs ? lrint (scs->subtitle_x_scale() * 100) : 100);
+		checked_set (_x_scale, scs ? lrint (scs->subtitle->subtitle_x_scale() * 100) : 100);
 	} else if (property == SubtitleContentProperty::SUBTITLE_Y_SCALE) {
-		checked_set (_y_scale, scs ? lrint (scs->subtitle_y_scale() * 100) : 100);
+		checked_set (_y_scale, scs ? lrint (scs->subtitle->subtitle_y_scale() * 100) : 100);
 	} else if (property == SubtitleContentProperty::SUBTITLE_LANGUAGE) {
-		checked_set (_language, scs ? scs->subtitle_language() : "");
+		checked_set (_language, scs ? scs->subtitle->subtitle_language() : "");
 	} else if (property == DCPContentProperty::REFERENCE_SUBTITLE) {
 		if (scs) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
@@ -214,16 +215,16 @@ SubtitlePanel::film_content_changed (int property)
 void
 SubtitlePanel::use_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
-		i->set_use_subtitles (_use->GetValue());
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_use_subtitles (_use->GetValue());
 	}
 }
 
 void
 SubtitlePanel::burn_toggled ()
 {
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
-		i->set_burn_subtitles (_burn->GetValue());
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_burn_subtitles (_burn->GetValue());
 	}
 }
 
@@ -235,13 +236,13 @@ SubtitlePanel::setup_sensitivity ()
 	int text_subs = 0;
 	int dcp_subs = 0;
 	int image_subs = 0;
-	SubtitleContentList sel = _parent->selected_subtitle ();
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, sel) {
+	ContentList sel = _parent->selected_subtitle ();
+	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
 		shared_ptr<const TextSubtitleContent> sc = boost::dynamic_pointer_cast<const TextSubtitleContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
-			if (fc->has_subtitles ()) {
+			if (fc->subtitle) {
 				++ffmpeg_subs;
 				++any_subs;
 			}
@@ -255,10 +256,10 @@ SubtitlePanel::setup_sensitivity ()
 			++any_subs;
 		}
 
-		if (i->has_image_subtitles ()) {
+		if (i->subtitle->has_image_subtitles ()) {
 			++image_subs;
 			/* We must burn image subtitles at the moment */
-			i->set_burn_subtitles (true);
+			i->subtitle->set_burn_subtitles (true);
 		}
 	}
 
@@ -312,41 +313,41 @@ SubtitlePanel::stream_changed ()
 void
 SubtitlePanel::x_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
-		i->set_subtitle_x_offset (_x_offset->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_subtitle_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
 
 void
 SubtitlePanel::y_offset_changed ()
 {
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
-		i->set_subtitle_y_offset (_y_offset->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_subtitle_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
 
 void
 SubtitlePanel::x_scale_changed ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_subtitle ();
 	if (c.size() == 1) {
-		c.front()->set_subtitle_x_scale (_x_scale->GetValue() / 100.0);
+		c.front()->subtitle->set_subtitle_x_scale (_x_scale->GetValue() / 100.0);
 	}
 }
 
 void
 SubtitlePanel::y_scale_changed ()
 {
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
-		i->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
 void
 SubtitlePanel::language_changed ()
 {
-	BOOST_FOREACH (shared_ptr<SubtitleContent> i, _parent->selected_subtitle ()) {
-		i->set_subtitle_language (wx_to_std (_language->GetValue()));
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_subtitle_language (wx_to_std (_language->GetValue()));
 	}
 }
 
@@ -373,7 +374,7 @@ SubtitlePanel::subtitle_view_clicked ()
 		_subtitle_view = 0;
 	}
 
-	SubtitleContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	shared_ptr<SubtitleDecoder> decoder;
@@ -402,7 +403,7 @@ SubtitlePanel::fonts_dialog_clicked ()
 		_fonts_dialog = 0;
 	}
 
-	SubtitleContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	_fonts_dialog = new FontsDialog (this, c.front ());
@@ -428,7 +429,7 @@ SubtitlePanel::reference_clicked ()
 void
 SubtitlePanel::appearance_dialog_clicked ()
 {
-	SubtitleContentList c = _parent->selected_subtitle ();
+	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());

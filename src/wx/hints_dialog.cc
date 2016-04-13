@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 
 */
 
+#include "hints_dialog.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
 #include "lib/subtitle_content.h"
 #include "lib/font.h"
-#include "hints_dialog.h"
+#include "lib/content.h"
 #include <wx/richtext/richtextctrl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>

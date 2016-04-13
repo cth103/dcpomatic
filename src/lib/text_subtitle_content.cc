@@ -35,34 +35,15 @@ using boost::shared_ptr;
 
 std::string const TextSubtitleContent::font_id = "font";
 
-int const TextSubtitleContentProperty::TEXT_SUBTITLE_COLOUR = 300;
-int const TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE = 301;
-int const TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR = 302;
-
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
-	, _colour (255, 255, 255)
-	, _outline (false)
-	, _outline_colour (0, 0, 0)
 {
-	subtitle.reset (new SubtitleContent (this, film, path));
+	subtitle.reset (new SubtitleContent (this, film));
 }
 
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
-	, _frame_rate (node->optional_number_child<double>("SubtitleVideoFrameRate"))
-	, _colour (
-		node->optional_number_child<int>("Red").get_value_or(255),
-		node->optional_number_child<int>("Green").get_value_or(255),
-		node->optional_number_child<int>("Blue").get_value_or(255)
-		)
-	, _outline (node->optional_bool_child("Outline").get_value_or(false))
-	, _outline_colour (
-		node->optional_number_child<int>("OutlineRed").get_value_or(255),
-		node->optional_number_child<int>("OutlineGreen").get_value_or(255),
-		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
-		)
 {
 	subtitle.reset (new SubtitleContent (this, film, node, version));
 }
@@ -74,11 +55,11 @@ TextSubtitleContent::examine (boost::shared_ptr<Job> job)
 	TextSubtitle s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
-	set_use_subtitles (true);
+	subtitle->set_use_subtitles (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = s.length ();
-	add_font (shared_ptr<Font> (new Font (font_id)));
+	subtitle->add_font (shared_ptr<Font> (new Font (font_id)));
 }
 
 string
@@ -100,16 +81,6 @@ TextSubtitleContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	subtitle->as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
-	if (_frame_rate) {
-		node->add_child("SubtitleVideoFrameRate")->add_child_text (raw_convert<string> (_frame_rate.get()));
-	}
-	node->add_child("Red")->add_child_text (raw_convert<string> (_colour.r));
-	node->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
-	node->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
-	node->add_child("Outline")->add_child_text (raw_convert<string> (_outline));
-	node->add_child("OutlineRed")->add_child_text (raw_convert<string> (_outline_colour.r));
-	node->add_child("OutlineGreen")->add_child_text (raw_convert<string> (_outline_colour.g));
-	node->add_child("OutlineBlue")->add_child_text (raw_convert<string> (_outline_colour.b));
 }
 
 DCPTime
@@ -144,49 +115,4 @@ TextSubtitleContent::subtitle_video_frame_rate () const
 	   prepared for any concurrent video content.
 	*/
 	return film()->active_frame_rate_change(position()).source;
-}
-
-void
-TextSubtitleContent::set_colour (dcp::Colour colour)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_colour == colour) {
-			return;
-		}
-
-		_colour = colour;
-	}
-
-	signal_changed (TextSubtitleContentProperty::TEXT_SUBTITLE_COLOUR);
-}
-
-void
-TextSubtitleContent::set_outline (bool o)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_outline == o) {
-			return;
-		}
-
-		_outline = o;
-	}
-
-	signal_changed (TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE);
-}
-
-void
-TextSubtitleContent::set_outline_colour (dcp::Colour colour)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_outline_colour == colour) {
-			return;
-		}
-
-		_outline_colour = colour;
-	}
-
-	signal_changed (TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR);
 }

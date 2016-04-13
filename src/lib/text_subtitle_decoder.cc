@@ -19,6 +19,7 @@
 
 #include "text_subtitle_decoder.h"
 #include "text_subtitle_content.h"
+#include "subtitle_content.h"
 #include <dcp/subtitle_string.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -60,9 +61,6 @@ TextSubtitleDecoder::pass (PassReason, bool)
 
 	/* XXX: we are ignoring positioning specified in the file */
 
-	shared_ptr<const TextSubtitleContent> content = dynamic_pointer_cast<const TextSubtitleContent> (_subtitle_content);
-	DCPOMATIC_ASSERT (content);
-
 	list<dcp::SubtitleString> out;
 
 	/* Highest line index in this subtitle */
@@ -81,7 +79,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 					j.italic,
 					j.bold,
 					/* force the colour to whatever is configured */
-					content->colour(),
+					_subtitle_content->colour(),
 					j.font_size.points (72 * 11),
 					1.0,
 					dcp::Time (_subtitles[_next].from.all_as_seconds(), 1000),
@@ -95,8 +93,8 @@ TextSubtitleDecoder::pass (PassReason, bool)
 					dcp::VALIGN_TOP,
 					dcp::DIRECTION_LTR,
 					j.text,
-					content->outline() ? dcp::BORDER : dcp::NONE,
-					content->outline_colour(),
+					_subtitle_content->outline() ? dcp::BORDER : dcp::NONE,
+					_subtitle_content->outline_colour(),
 					dcp::Time (0, 1000),
 					dcp::Time (0, 1000)
 					)

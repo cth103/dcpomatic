@@ -22,6 +22,7 @@
 
 #include "content_part.h"
 #include <libcxml/cxml.h>
+#include <dcp/types.h>
 #include <boost/signals2.hpp>
 
 class Font;
@@ -38,6 +39,9 @@ public:
 	static int const SUBTITLE_LANGUAGE;
 	static int const FONTS;
 	static int const SUBTITLE_VIDEO_FRAME_RATE;
+	static int const SUBTITLE_COLOUR;
+	static int const SUBTITLE_OUTLINE;
+	static int const SUBTITLE_OUTLINE_COLOUR;
 };
 
 class SubtitleContent : public ContentPart
@@ -50,7 +54,10 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
-	bool has_subtitles () const;
+	bool has_image_subtitles () const {
+		/* XXX */
+		return true;
+	}
 
 	void add_font (boost::shared_ptr<Font> font);
 
@@ -102,6 +109,27 @@ public:
 		return _subtitle_language;
 	}
 
+	void set_colour (dcp::Colour);
+
+	dcp::Colour colour () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _colour;
+	}
+
+	void set_outline (bool);
+
+	bool outline () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _outline;
+	}
+
+	void set_outline_colour (dcp::Colour);
+
+	dcp::Colour outline_colour () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _outline_colour;
+	}
+
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _subtitle_language;
@@ -126,6 +154,9 @@ private:
 	/** y scale factor to apply to subtitles */
 	double _subtitle_y_scale;
 	std::list<boost::shared_ptr<Font> > _fonts;
+	dcp::Colour _colour;
+	bool _outline;
+	dcp::Colour _outline_colour;
 	std::list<boost::signals2::connection> _font_connections;
 };
 

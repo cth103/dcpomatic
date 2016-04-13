@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "system_font_dialog.h"
 #include "font_files_dialog.h"
 #include "lib/font.h"
+#include "lib/content.h"
 #include "lib/subtitle_content.h"
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
@@ -32,7 +33,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 
-FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
+FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content)
 	: wxDialog (parent, wxID_ANY, _("Fonts"))
 	, _content (content)
 {
@@ -96,14 +97,14 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 void
 FontsDialog::setup ()
 {
-	shared_ptr<SubtitleContent> content = _content.lock ();
+	shared_ptr<Content> content = _content.lock ();
 	if (!content) {
 		return;
 	}
 
 	_fonts->DeleteAllItems ();
 	size_t n = 0;
-	BOOST_FOREACH (shared_ptr<Font> i, content->fonts ()) {
+	BOOST_FOREACH (shared_ptr<Font> i, content->subtitle->fonts ()) {
 		wxListItem item;
 		item.SetId (n);
 		_fonts->InsertItem (item);
@@ -133,7 +134,7 @@ FontsDialog::setup_sensitivity ()
 void
 FontsDialog::edit_clicked ()
 {
-	shared_ptr<SubtitleContent> content = _content.lock ();
+	shared_ptr<Content> content = _content.lock ();
 	if (!content) {
 		return;
 	}
@@ -141,7 +142,7 @@ FontsDialog::edit_clicked ()
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	string const id = wx_to_std (_fonts->GetItemText (item, 0));
 	shared_ptr<Font> font;
-	BOOST_FOREACH (shared_ptr<Font> i, content->fonts()) {
+	BOOST_FOREACH (shared_ptr<Font> i, content->subtitle->fonts()) {
 		if (i->id() == id) {
 			font = i;
 		}
