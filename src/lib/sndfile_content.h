@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,9 +20,11 @@
 #ifndef DCPOMATIC_SNDFILE_CONTENT_H
 #define DCPOMATIC_SNDFILE_CONTENT_H
 
-#include "single_stream_audio_content.h"
+#include "audio_content.h"
 
-class SndfileContent : public SingleStreamAudioContent
+class AudioExaminer;
+
+class SndfileContent : public AudioContent
 {
 public:
 	SndfileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
@@ -42,6 +44,12 @@ public:
 
 	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
 
+	std::vector<AudioStreamPtr> audio_streams () const;
+
+	AudioStreamPtr audio_stream () const {
+		return _audio_stream;
+	}
+
 	static bool valid_file (boost::filesystem::path);
 
 private:
@@ -51,6 +59,8 @@ private:
 	}
 
 	Frame _audio_length;
+
+	boost::shared_ptr<AudioStream> _audio_stream;
 };
 
 #endif

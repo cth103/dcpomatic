@@ -24,7 +24,7 @@
  *  @brief DCPContent class.
  */
 
-#include "single_stream_audio_content.h"
+#include "audio_content.h"
 #include <libcxml/cxml.h>
 #include <dcp/encrypted_kdm.h>
 
@@ -40,7 +40,7 @@ public:
 /** @class DCPContent
  *  @brief An existing DCP used as input.
  */
-class DCPContent : public SingleStreamAudioContent
+class DCPContent : public AudioContent
 {
 public:
 	DCPContent (boost::shared_ptr<const Film>, boost::filesystem::path p);
@@ -120,6 +120,12 @@ public:
 
 	bool can_reference_subtitle (std::list<std::string> &) const;
 
+	std::vector<AudioStreamPtr> audio_streams () const;
+
+	AudioStreamPtr audio_stream () const {
+		return _audio_stream;
+	}
+
 protected:
 	void add_properties (std::list<UserProperty>& p) const;
 
@@ -147,6 +153,8 @@ private:
 	 *  rather than by rewrapping.
 	 */
 	bool _reference_subtitle;
+
+	boost::shared_ptr<AudioStream> _audio_stream;
 };
 
 #endif

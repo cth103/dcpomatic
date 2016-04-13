@@ -42,6 +42,7 @@ using std::string;
 using std::cout;
 using std::distance;
 using std::pair;
+using std::vector;
 using std::list;
 using boost::shared_ptr;
 using boost::scoped_ptr;
@@ -54,7 +55,7 @@ int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
-	, SingleStreamAudioContent (film)
+	, AudioContent (film)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
@@ -71,7 +72,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, SingleStreamAudioContent (film, node, version)
+	, AudioContent (film, node)
+	, _audio_stream (new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
 {
 	video.reset (new VideoContent (this, film, node, version));
 	subtitle.reset (new SubtitleContent (this, film, node, version));
@@ -111,7 +113,16 @@ DCPContent::examine (shared_ptr<Job> job)
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
 	video->take_from_video_examiner (examiner);
 	set_default_colour_conversion ();
-	take_from_audio_examiner (examiner);
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		AudioMapping m = _audio_stream->mapping ();
+		film()->make_audio_mapping_default (m);
+		_audio_stream->set_mapping (m);
+	}
+
+	signal_changed (AudioContentProperty::AUDIO_STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -148,7 +159,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 
 	Content::as_xml (node);
 	video->as_xml (node);
-	SingleStreamAudioContent::as_xml (node);
+	AudioContent::as_xml (node);
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_stream()->frame_rate ()));
+	audio_stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	subtitle->as_xml (node);
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -213,7 +226,7 @@ DCPContent::directory () const
 void
 DCPContent::add_properties (list<UserProperty>& p) const
 {
-	SingleStreamAudioContent::add_properties (p);
+	AudioContent::add_properties (p);
 }
 
 void
@@ -346,4 +359,12 @@ double
 DCPContent::subtitle_video_frame_rate () const
 {
 	return video->video_frame_rate ();
+}
+
+vector<AudioStreamPtr>
+DCPContent::audio_streams () const
+{
+	vector<AudioStreamPtr> s;
+	s.push_back (_audio_stream);
+	return s;
 }

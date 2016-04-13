@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,19 +34,21 @@
 
 using std::string;
 using std::cout;
+using std::vector;
 using boost::shared_ptr;
 
 SndfileContent::SndfileContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
-	, SingleStreamAudioContent (film, p)
+	, AudioContent (film, p)
 {
 
 }
 
 SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, SingleStreamAudioContent (film, node, version)
+	, AudioContent (film, node)
 	, _audio_length (node->number_child<Frame> ("AudioLength"))
+	, _audio_stream (new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
 {
 
 }
@@ -56,7 +58,9 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("Sndfile");
 	Content::as_xml (node);
-	SingleStreamAudioContent::as_xml (node);
+	AudioContent::as_xml (node);
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_stream()->frame_rate ()));
+	audio_stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
 }
 
@@ -97,10 +101,16 @@ SndfileContent::examine (shared_ptr<Job> job)
 void
 SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
 {
-	SingleStreamAudioContent::take_from_audio_examiner (examiner);
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		AudioMapping m = _audio_stream->mapping ();
+		film()->make_audio_mapping_default (m);
+		_audio_stream->set_mapping (m);
+		_audio_length = examiner->audio_length ();
+	}
 
-	boost::mutex::scoped_lock lm (_mutex);
-	_audio_length = examiner->audio_length ();
+	signal_changed (AudioContentProperty::AUDIO_STREAMS);
 }
 
 DCPTime
@@ -108,4 +118,12 @@ SndfileContent::full_length () const
 {
 	FrameRateChange const frc (audio_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime::from_frames (audio_length() / frc.speed_up, audio_stream()->frame_rate ());
+}
+
+vector<AudioStreamPtr>
+SndfileContent::audio_streams () const
+{
+	vector<AudioStreamPtr> s;
+	s.push_back (_audio_stream);
+	return s;
 }

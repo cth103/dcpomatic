@@ -23,7 +23,6 @@
 #include "lib/content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
-#include "lib/single_stream_audio_content.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 
