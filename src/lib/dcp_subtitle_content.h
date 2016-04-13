@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 
 */
 
-#include "subtitle_content.h"
 #include "dcp_subtitle.h"
+#include "content.h"
 
-class DCPSubtitleContent : public SubtitleContent, public DCPSubtitle
+class DCPSubtitleContent : public DCPSubtitle, public Content
 {
 public:
 	DCPSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);

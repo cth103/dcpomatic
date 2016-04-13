@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
 int const SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE = 508;
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> film)
-	: Content (film)
+SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
+	: ContentPart (parent, film)
 	, _use_subtitles (false)
 	, _burn_subtitles (false)
 	, _subtitle_x_offset (0)
@@ -59,20 +59,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film)
 
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> film, boost::filesystem::path p)
-	: Content (film, p)
-	, _use_subtitles (false)
-	, _burn_subtitles (false)
-	, _subtitle_x_offset (0)
-	, _subtitle_y_offset (0)
-	, _subtitle_x_scale (1)
-	, _subtitle_y_scale (1)
-{
-
-}
-
-SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: Content (film, node)
+SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+	: ContentParet (parent, film)
 	, _use_subtitles (false)
 	, _burn_subtitles (false)
 	, _subtitle_x_offset (0)
@@ -109,8 +97,8 @@ SubtitleContent::SubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePt
 	connect_to_fonts ();
 }
 
-SubtitleContent::SubtitleContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: Content (film, c)
+SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
+	: ContentPart (parent, film)
 {
 	shared_ptr<SubtitleContent> ref = dynamic_pointer_cast<SubtitleContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);

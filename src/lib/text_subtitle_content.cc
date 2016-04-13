@@ -23,6 +23,7 @@
 #include "film.h"
 #include "font.h"
 #include "raw_convert.h"
+#include "subtitle_content.h"
 #include <libxml++/libxml++.h>
 #include <iostream>
 
@@ -40,17 +41,15 @@ int const TextSubtitleContentProperty::TEXT_SUBTITLE_OUTLINE_COLOUR = 302;
 
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
-	, SubtitleContent (film, path)
 	, _colour (255, 255, 255)
 	, _outline (false)
 	, _outline_colour (0, 0, 0)
 {
-
+	subtitle.reset (new SubtitleContent (this, film, path));
 }
 
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, SubtitleContent (film, node, version)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 	, _frame_rate (node->optional_number_child<double>("SubtitleVideoFrameRate"))
 	, _colour (
@@ -65,7 +64,7 @@ TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::Con
 		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
 		)
 {
-
+	subtitle.reset (new SubtitleContent (this, film, node, version));
 }
 
 void
@@ -99,7 +98,7 @@ TextSubtitleContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
 	Content::as_xml (node);
-	SubtitleContent::as_xml (node);
+	subtitle->as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
 	if (_frame_rate) {
 		node->add_child("SubtitleVideoFrameRate")->add_child_text (raw_convert<string> (_frame_rate.get()));

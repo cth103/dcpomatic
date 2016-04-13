@@ -21,7 +21,6 @@
 #define DCPOMATIC_FFMPEG_CONTENT_H
 
 #include "audio_content.h"
-#include "subtitle_content.h"
 
 struct AVFormatContext;
 struct AVStream;
@@ -42,7 +41,7 @@ public:
 	static int const FILTERS;
 };
 
-class FFmpegContent : public AudioContent, public SubtitleContent
+class FFmpegContent : public AudioContent
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);

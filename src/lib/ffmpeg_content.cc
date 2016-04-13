@@ -32,6 +32,7 @@
 #include "frame_rate_change.h"
 #include "safe_stringstream.h"
 #include "raw_convert.h"
+#include "subtitle_content.h"
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -62,9 +63,9 @@ int const FFmpegContentProperty::FILTERS = 102;
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
 	, AudioContent (film, p)
-	, SubtitleContent (film, p)
 {
 	video.reset (new VideoContent (this, film));
+	subtitle.reset (new SubtitleContent (this, film));
 
 	set_default_colour_conversion ();
 }
@@ -72,9 +73,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::pa
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (film, node)
 	, AudioContent (film, node)
-	, SubtitleContent (film, node, version)
 {
 	video.reset (new VideoContent (this, film, node, version));
+	subtitle.reset (new SubtitleContent (this, film, node, version));
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -121,16 +122,16 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
 	: Content (film, c)
 	, AudioContent (film, c)
-	, SubtitleContent (film, c)
 {
 	video.reset (new VideoContent (this, film, c));
+	subtitle.reset (new SubtitleContent (this, film, c));
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (fc->use_subtitles() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+		if (fc->subtitle->use_subtitles() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
 	}
@@ -156,7 +157,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	video->as_xml (node);
 	AudioContent::as_xml (node);
-	SubtitleContent::as_xml (node);
+	subtitle->as_xml (node);
 
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -312,7 +313,7 @@ FFmpegContent::identifier () const
 
 	s << Content::identifier() << "_"
 	  << video->identifier() << "_"
-	  << SubtitleContent::identifier();
+	  << subtitle->identifier();
 
 	boost::mutex::scoped_lock lm (_mutex);
 

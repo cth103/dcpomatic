@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -167,6 +167,7 @@ public:
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
 	boost::shared_ptr<VideoContent> video;
+	boost::shared_ptr<SubtitleContent> subtitle;
 
 	void signal_changed (int);
 

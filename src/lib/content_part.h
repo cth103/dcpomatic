@@ -17,6 +17,9 @@
 
 */
 
+#ifndef DCPOMATIC_CONTENT_PART_H
+#define DCPOMATIC_CONTENT_PART_H
+
 #include <boost/weak_ptr.hpp>
 
 class Content;
@@ -35,3 +38,5 @@ protected:
 	boost::weak_ptr<const Film> _film;
 	mutable boost::mutex _mutex;
 };
+
+#endif

@@ -27,7 +27,7 @@ using std::cout;
 using boost::shared_ptr;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
-	: SubtitleDecoder (content)
+	: SubtitleDecoder (content->subtitle)
 {
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();

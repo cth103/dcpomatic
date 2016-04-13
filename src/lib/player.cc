@@ -631,12 +631,11 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 	PlayerSubtitles ps (time, length);
 
 	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
-		shared_ptr<SubtitleContent> subtitle_content = dynamic_pointer_cast<SubtitleContent> ((*j)->content);
-		if (!subtitle_content->use_subtitles () || (!_always_burn_subtitles && (burnt != subtitle_content->burn_subtitles ()))) {
+		if (!(*j)->content->subtitle->use_subtitles () || (!_always_burn_subtitles && (burnt != (*j)->content->subtitle->burn_subtitles ()))) {
 			continue;
 		}
 
-		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (subtitle_content);
+		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> ((*j)->content);
 		if (dcp_content && dcp_content->reference_subtitle () && !_play_referenced) {
 			continue;
 		}
@@ -650,16 +649,16 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
 
 			/* Apply content's subtitle offsets */
-			i->sub.rectangle.x += subtitle_content->subtitle_x_offset ();
-			i->sub.rectangle.y += subtitle_content->subtitle_y_offset ();
+			i->sub.rectangle.x += (*j)->content->subtitle->subtitle_x_offset ();
+			i->sub.rectangle.y += (*j)->content->subtitle->subtitle_y_offset ();
 
 			/* Apply content's subtitle scale */
-			i->sub.rectangle.width *= subtitle_content->subtitle_x_scale ();
-			i->sub.rectangle.height *= subtitle_content->subtitle_y_scale ();
+			i->sub.rectangle.width *= (*j)->content->subtitle->subtitle_x_scale ();
+			i->sub.rectangle.height *= (*j)->content->subtitle->subtitle_y_scale ();
 
 			/* Apply a corrective translation to keep the subtitle centred after that scale */
-			i->sub.rectangle.x -= i->sub.rectangle.width * (subtitle_content->subtitle_x_scale() - 1);
-			i->sub.rectangle.y -= i->sub.rectangle.height * (subtitle_content->subtitle_y_scale() - 1);
+			i->sub.rectangle.x -= i->sub.rectangle.width * ((*j)->content->subtitle->subtitle_x_scale() - 1);
+			i->sub.rectangle.y -= i->sub.rectangle.height * ((*j)->content->subtitle->subtitle_y_scale() - 1);
 
 			ps.image.push_back (i->sub);
 		}
@@ -667,10 +666,10 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting, accurate);
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
 			BOOST_FOREACH (dcp::SubtitleString s, ts.subs) {
-				s.set_h_position (s.h_position() + subtitle_content->subtitle_x_offset ());
-				s.set_v_position (s.v_position() + subtitle_content->subtitle_y_offset ());
-				float const xs = subtitle_content->subtitle_x_scale();
-				float const ys = subtitle_content->subtitle_y_scale();
+				s.set_h_position (s.h_position() + (*j)->content->subtitle->subtitle_x_offset ());
+				s.set_v_position (s.v_position() + (*j)->content->subtitle->subtitle_y_offset ());
+				float const xs = (*j)->content->subtitle->subtitle_x_scale();
+				float const ys = (*j)->content->subtitle->subtitle_y_scale();
 				float size = s.size();
 
 				/* Adjust size to express the common part of the scaling;
@@ -688,7 +687,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 				s.set_in (dcp::Time(content_subtitle_to_dcp (*j, ts.period().from).seconds(), 1000));
 				s.set_out (dcp::Time(content_subtitle_to_dcp (*j, ts.period().to).seconds(), 1000));
 				ps.text.push_back (s);
-				ps.add_fonts (subtitle_content->fonts ());
+				ps.add_fonts ((*j)->content->subtitle->fonts ());
 			}
 		}
 	}

@@ -26,6 +26,7 @@
 #include "overlaps.h"
 #include "compose.hpp"
 #include "dcp_decoder.h"
+#include "subtitle_content.h"
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
 #include <dcp/reel_picture_asset.h>
@@ -54,7 +55,6 @@ int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
 	, SingleStreamAudioContent (film)
-	, SubtitleContent (film)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
@@ -63,6 +63,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_subtitle (false)
 {
 	video.reset (new VideoContent (this, film));
+	subtitle.reset (new SubtitleContent (this, film));
 
 	read_directory (p);
 	set_default_colour_conversion ();
@@ -71,9 +72,9 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, SingleStreamAudioContent (film, node, version)
-	, SubtitleContent (film, node, version)
 {
 	video.reset (new VideoContent (this, film, node, version));
+	subtitle.reset (new SubtitleContent (this, film, node, version));
 
 	_name = node->string_child ("Name");
 	_has_subtitles = node->bool_child ("HasSubtitles");
@@ -148,7 +149,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	video->as_xml (node);
 	SingleStreamAudioContent::as_xml (node);
-	SubtitleContent::as_xml (node);
+	subtitle->as_xml (node);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
@@ -174,7 +175,7 @@ string
 DCPContent::identifier () const
 {
 	SafeStringStream s;
-	s << Content::identifier() << "_" << video->identifier() << "_" << SubtitleContent::identifier () << " "
+	s << Content::identifier() << "_" << video->identifier() << "_" << subtitle->identifier () << " "
 	  << (_reference_video ? "1" : "0")
 	  << (_reference_subtitle ? "1" : "0");
 	return s.str ();
@@ -337,15 +338,8 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 bool
 DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
-	DCPDecoder decoder (shared_from_this(), film()->log(), false);
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
-		if (!i->main_subtitle()) {
-			why_not.push_back (_("The DCP does not have subtitles in all reels."));
-			return false;
-		}
-	}
-
-	return can_reference<SubtitleContent> (_("There is other subtitle content overlapping this DCP; remove it."), why_not);
+	/* XXX: this needs to be fixed */
+	return true;
 }
 
 double

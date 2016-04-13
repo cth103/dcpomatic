@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,9 @@
 #ifndef DCPOMATIC_SUBTITLE_CONTENT_H
 #define DCPOMATIC_SUBTITLE_CONTENT_H
 
-#include "content.h"
+#include "content_part.h"
+#include <libcxml/cxml.h>
+#include <boost/signals2.hpp>
 
 class Font;
 
@@ -38,27 +40,17 @@ public:
 	static int const SUBTITLE_VIDEO_FRAME_RATE;
 };
 
-/** @class SubtitleContent
- *  @brief Parent for content which has the potential to include subtitles.
- *
- *  Although inheriting from this class indicates that the content could
- *  have subtitles, it may not.  ::has_subtitles() will tell you.
- */
-class SubtitleContent : public virtual Content
+class SubtitleContent : public ContentPart
 {
 public:
-	SubtitleContent (boost::shared_ptr<const Film>);
-	SubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	SubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version);
-	SubtitleContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
+	SubtitleContent (Content* parent, boost::shared_ptr<const Film>);
+	SubtitleContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version);
+	SubtitleContent (Content* parent, boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
 	bool has_subtitles () const;
-	virtual bool has_text_subtitles () const = 0;
-	virtual bool has_image_subtitles () const = 0;
-	virtual double subtitle_video_frame_rate () const = 0;
 
 	void add_font (boost::shared_ptr<Font> font);
 

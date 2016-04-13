@@ -33,7 +33,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 
 TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> content)
-	: SubtitleDecoder (content)
+	: SubtitleDecoder (content->subtitle)
 	, TextSubtitle (content)
 	, _next (0)
 {

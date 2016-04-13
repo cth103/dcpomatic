@@ -74,12 +74,11 @@ using dcp::Size;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
 	: VideoDecoder (c->video, log)
 	, AudioDecoder (c, fast)
-	, SubtitleDecoder (c)
+	, SubtitleDecoder (c->subtitle)
 	, FFmpeg (c)
 	, _log (log)
 	, _pts_offset (pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->video->video_frame_rate()))
 {
-
 }
 
 void

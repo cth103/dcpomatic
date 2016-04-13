@@ -45,7 +45,7 @@ using boost::dynamic_pointer_cast;
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
 	: VideoDecoder (c->video, log)
 	, AudioDecoder (c, fast)
-	, SubtitleDecoder (c)
+	, SubtitleDecoder (c->subtitle)
 	, _dcp_content (c)
 {
 	dcp::DCP dcp (c->directory ());

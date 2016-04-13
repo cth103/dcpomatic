@@ -25,7 +25,6 @@
  */
 
 #include "single_stream_audio_content.h"
-#include "subtitle_content.h"
 #include <libcxml/cxml.h>
 #include <dcp/encrypted_kdm.h>
 
@@ -41,7 +40,7 @@ public:
 /** @class DCPContent
  *  @brief An existing DCP used as input.
  */
-class DCPContent : public SingleStreamAudioContent, public SubtitleContent
+class DCPContent : public SingleStreamAudioContent
 {
 public:
 	DCPContent (boost::shared_ptr<const Film>, boost::filesystem::path p);

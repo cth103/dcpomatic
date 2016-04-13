@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,9 @@
 
 */
 
-#include "subtitle_content.h"
+#include "content.h"
+
+class Job;
 
 class TextSubtitleContentProperty
 {
@@ -30,7 +32,7 @@ public:
 /** @class TextSubtitleContent
  *  @brief SubRip or SSA subtitles.
  */
-class TextSubtitleContent : public SubtitleContent
+class TextSubtitleContent : public Content
 {
 public:
 	TextSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);

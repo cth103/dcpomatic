@@ -21,6 +21,7 @@
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "video_content.h"
+#include "subtitle_content.h"
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
@@ -129,13 +130,12 @@ Playlist::maybe_sequence ()
 
 	DCPTime next;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
-		if (!sc || !sc->has_subtitles() || find (placed.begin(), placed.end(), i) != placed.end()) {
+		if (!i->subtitle || !i->subtitle->has_subtitles() || find (placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
 
-		sc->set_position (next);
-		next = sc->end();
+		i->set_position (next);
+		next = i->end();
 	}
 
 

@@ -21,6 +21,7 @@
 #include "dcp_subtitle_content.h"
 #include "raw_convert.h"
 #include "film.h"
+#include "subtitle_content.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
@@ -36,18 +37,16 @@ using boost::dynamic_pointer_cast;
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
-	, SubtitleContent (film, path)
 {
-
+	subtitle.reset (new SubtitleContent (this, film));
 }
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, SubtitleContent (film, node, version)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 	, _frame_rate (node->optional_number_child<int>("SubtitleFrameRate"))
 {
-
+	subtitle.reset (new SubtitleContent (this, film, node, version));
 }
 
 void
@@ -58,24 +57,24 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	shared_ptr<dcp::SubtitleAsset> sc = load (path (0));
 
 	/* Default to turning these subtitles on */
-	set_use_subtitles (true);
+	subtitle->set_use_subtitles (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
 
 	shared_ptr<dcp::InteropSubtitleAsset> iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset> (sc);
 	if (iop) {
-		_subtitle_language = iop->language ();
+		subtitle->set_subtitle_language (iop->language ());
 	}
 	shared_ptr<dcp::SMPTESubtitleAsset> smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset> (sc);
 	if (smpte) {
-		_subtitle_language = smpte->language().get_value_or ("");
+		subtitle->set_subtitle_language (smpte->language().get_value_or (""));
 		_frame_rate = smpte->edit_rate().numerator;
 	}
 
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
-		add_font (shared_ptr<Font> (new Font (i->id)));
+		subtitle->add_font (shared_ptr<Font> (new Font (i->id)));
 	}
 }
 
@@ -103,7 +102,7 @@ DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("DCPSubtitle");
 	Content::as_xml (node);
-	SubtitleContent::as_xml (node);
+	subtitle->as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
 }
 
