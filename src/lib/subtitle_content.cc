@@ -204,76 +204,6 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	}
 }
 
-void
-SubtitleContent::set_use_subtitles (bool u)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_use_subtitles = u;
-	}
-	_parent->signal_changed (SubtitleContentProperty::USE_SUBTITLES);
-}
-
-void
-SubtitleContent::set_burn_subtitles (bool b)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_burn_subtitles = b;
-	}
-	_parent->signal_changed (SubtitleContentProperty::BURN_SUBTITLES);
-}
-
-void
-SubtitleContent::set_subtitle_x_offset (double o)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_x_offset = o;
-	}
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
-}
-
-void
-SubtitleContent::set_subtitle_y_offset (double o)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_y_offset = o;
-	}
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
-}
-
-void
-SubtitleContent::set_subtitle_x_scale (double s)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_x_scale = s;
-	}
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
-}
-
-void
-SubtitleContent::set_subtitle_y_scale (double s)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_y_scale = s;
-	}
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
-}
-
-void
-SubtitleContent::set_subtitle_language (string language)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_subtitle_language = language;
-	}
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
-}
-
 string
 SubtitleContent::identifier () const
 {
@@ -329,44 +259,59 @@ SubtitleContent::font_changed ()
 void
 SubtitleContent::set_colour (dcp::Colour colour)
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_colour == colour) {
-			return;
-		}
-
-		_colour = colour;
-	}
-
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_COLOUR);
+	maybe_set (_colour, colour, SubtitleContentProperty::SUBTITLE_COLOUR);
 }
 
 void
 SubtitleContent::set_outline (bool o)
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_outline == o) {
-			return;
-		}
-
-		_outline = o;
-	}
-
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_OUTLINE);
+	maybe_set (_outline, o, SubtitleContentProperty::SUBTITLE_OUTLINE);
 }
 
 void
 SubtitleContent::set_outline_colour (dcp::Colour colour)
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_outline_colour == colour) {
-			return;
-		}
+	maybe_set (_outline_colour, colour, SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR);
+}
 
-		_outline_colour = colour;
-	}
+void
+SubtitleContent::set_use_subtitles (bool u)
+{
+	maybe_set (_use_subtitles, u, SubtitleContentProperty::USE_SUBTITLES);
+}
 
-	_parent->signal_changed (SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR);
+void
+SubtitleContent::set_burn_subtitles (bool b)
+{
+	maybe_set (_burn_subtitles, b, SubtitleContentProperty::BURN_SUBTITLES);
+}
+
+void
+SubtitleContent::set_subtitle_x_offset (double o)
+{
+	maybe_set (_subtitle_x_offset, o, SubtitleContentProperty::SUBTITLE_X_OFFSET);
+}
+
+void
+SubtitleContent::set_subtitle_y_offset (double o)
+{
+	maybe_set (_subtitle_y_offset, o, SubtitleContentProperty::SUBTITLE_Y_OFFSET);
+}
+
+void
+SubtitleContent::set_subtitle_x_scale (double s)
+{
+	maybe_set (_subtitle_x_scale, s, SubtitleContentProperty::SUBTITLE_X_SCALE);
+}
+
+void
+SubtitleContent::set_subtitle_y_scale (double s)
+{
+	maybe_set (_subtitle_y_scale, s, SubtitleContentProperty::SUBTITLE_Y_SCALE);
+}
+
+void
+SubtitleContent::set_subtitle_language (string language)
+{
+	maybe_set (_subtitle_language, language, SubtitleContentProperty::SUBTITLE_LANGUAGE);
 }

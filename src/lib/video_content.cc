@@ -236,82 +236,6 @@ VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 	_parent->signal_changed (ContentProperty::LENGTH);
 }
 
-void
-VideoContent::set_left_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-
-		if (_crop.left == c) {
-			return;
-		}
-
-		_crop.left = c;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
-}
-
-void
-VideoContent::set_right_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_crop.right == c) {
-			return;
-		}
-
-		_crop.right = c;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
-}
-
-void
-VideoContent::set_top_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_crop.top == c) {
-			return;
-		}
-
-		_crop.top = c;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
-}
-
-void
-VideoContent::set_bottom_crop (int c)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_crop.bottom == c) {
-			return;
-		}
-
-		_crop.bottom = c;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_CROP);
-}
-
-void
-VideoContent::set_scale (VideoContentScale s)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_scale == s) {
-			return;
-		}
-
-		_scale = s;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_SCALE);
-}
-
 /** @return string which includes everything about how this content looks */
 string
 VideoContent::identifier () const
@@ -330,17 +254,6 @@ VideoContent::identifier () const
 	}
 
 	return s.str ();
-}
-
-void
-VideoContent::set_video_frame_type (VideoFrameType t)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_video_frame_type = t;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_FRAME_TYPE);
 }
 
 string
@@ -380,50 +293,6 @@ VideoContent::video_size_after_3d_split () const
 	DCPOMATIC_ASSERT (false);
 }
 
-void
-VideoContent::unset_colour_conversion ()
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_colour_conversion = boost::optional<ColourConversion> ();
-	}
-
-	_parent->signal_changed (VideoContentProperty::COLOUR_CONVERSION);
-}
-
-void
-VideoContent::set_colour_conversion (ColourConversion c)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_colour_conversion = c;
-	}
-
-	_parent->signal_changed (VideoContentProperty::COLOUR_CONVERSION);
-}
-
-void
-VideoContent::set_fade_in (Frame t)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_fade_in = t;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_FADE_IN);
-}
-
-void
-VideoContent::set_fade_out (Frame t)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_fade_out = t;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_FADE_OUT);
-}
-
 /** @return Video size after 3D split and crop */
 dcp::Size
 VideoContent::video_size_after_crop () const
@@ -457,21 +326,6 @@ VideoContent::scale_and_crop_to_fit_height ()
 	set_right_crop (crop / 2);
 	set_top_crop (0);
 	set_bottom_crop (0);
-}
-
-void
-VideoContent::set_video_frame_rate (double r)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_video_frame_rate == r) {
-			return;
-		}
-
-		_video_frame_rate = r;
-	}
-
-	_parent->signal_changed (VideoContentProperty::VIDEO_FRAME_RATE);
 }
 
 /** @param f Frame index within the whole (untrimmed) content */
@@ -580,10 +434,71 @@ VideoContent::video_frame_rate () const
 void
 VideoContent::set_video_length (Frame len)
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_video_length = len;
-	}
+	maybe_set (_video_length, len, ContentProperty::LENGTH);
+}
 
-	_parent->signal_changed (ContentProperty::LENGTH);
+void
+VideoContent::set_left_crop (int c)
+{
+	maybe_set (_crop.left, c, VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_right_crop (int c)
+{
+	maybe_set (_crop.right, c, VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_top_crop (int c)
+{
+	maybe_set (_crop.top, c, VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_bottom_crop (int c)
+{
+	maybe_set (_crop.bottom, c, VideoContentProperty::VIDEO_CROP);
+}
+
+void
+VideoContent::set_scale (VideoContentScale s)
+{
+	maybe_set (_scale, s, VideoContentProperty::VIDEO_SCALE);
+}
+
+void
+VideoContent::set_video_frame_rate (double r)
+{
+	maybe_set (_video_frame_rate, r, VideoContentProperty::VIDEO_FRAME_RATE);
+}
+
+void
+VideoContent::set_video_frame_type (VideoFrameType t)
+{
+	maybe_set (_video_frame_type, t, VideoContentProperty::VIDEO_FRAME_TYPE);
+}
+
+void
+VideoContent::unset_colour_conversion ()
+{
+	maybe_set (_colour_conversion, boost::optional<ColourConversion> (), VideoContentProperty::COLOUR_CONVERSION);
+}
+
+void
+VideoContent::set_colour_conversion (ColourConversion c)
+{
+	maybe_set (_colour_conversion, c, VideoContentProperty::COLOUR_CONVERSION);
+}
+
+void
+VideoContent::set_fade_in (Frame t)
+{
+	maybe_set (_fade_in, t, VideoContentProperty::VIDEO_FADE_IN);
+}
+
+void
+VideoContent::set_fade_out (Frame t)
+{
+	maybe_set (_fade_out, t, VideoContentProperty::VIDEO_FADE_OUT);
 }

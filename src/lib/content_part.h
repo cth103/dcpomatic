@@ -20,6 +20,7 @@
 #ifndef DCPOMATIC_CONTENT_PART_H
 #define DCPOMATIC_CONTENT_PART_H
 
+#include "content.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 
@@ -35,6 +36,34 @@ public:
 	{}
 
 protected:
+	template <class T>
+	void
+	maybe_set (T& member, T new_value, int property) const
+	{
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			if (member == new_value) {
+				return;
+			}
+			member = new_value;
+		}
+		_parent->signal_changed (property);
+	}
+
+	template <class T>
+	void
+	maybe_set (boost::optional<T>& member, T new_value, int property) const
+	{
+		{
+			boost::mutex::scoped_lock lm (_mutex);
+			if (member && member.get() == new_value) {
+				return;
+			}
+			member = new_value;
+		}
+		_parent->signal_changed (property);
+	}
+
 	Content* _parent;
 	boost::weak_ptr<const Film> _film;
 	mutable boost::mutex _mutex;
