@@ -491,7 +491,7 @@ VideoPanel::setup_sensitivity ()
 	}
 
 	if (vcs && vcs->video->colour_conversion ()) {
-		_edit_colour_conversion_button->Enable (!vcs->colour_conversion().get().preset());
+		_edit_colour_conversion_button->Enable (!vcs->video->colour_conversion().get().preset());
 	} else {
 		_edit_colour_conversion_button->Enable (false);
 	}
