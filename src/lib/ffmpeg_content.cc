@@ -92,7 +92,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 		audio->add_stream (as);
 		if (version < 11 && !(*i)->optional_node_child ("Selected")) {
 			/* This is an old file and this stream is not selected, so un-map it */
-			as->set_mapping (AudioMapping (_audio_streams.back()->channels (), MAX_DCP_AUDIO_CHANNELS));
+			as->set_mapping (AudioMapping (as->channels (), MAX_DCP_AUDIO_CHANNELS));
 		}
 	}
 
@@ -393,16 +393,6 @@ FFmpegContent::set_default_colour_conversion ()
 	}
 }
 
-vector<AudioStreamPtr>
-FFmpegContent::audio_streams () const
-{
-	boost::mutex::scoped_lock lm (_mutex);
-
-	vector<AudioStreamPtr> s;
-	copy (_audio_streams.begin(), _audio_streams.end(), back_inserter (s));
-	return s;
-}
-
 void
 FFmpegContent::add_properties (list<UserProperty>& p) const
 {
@@ -539,4 +529,14 @@ FFmpegContent::changed (int property)
 	if (property == VideoContentProperty::FRAME_RATE && subtitle) {
 		subtitle->set_video_frame_rate (video->frame_rate ());
 	}
+}
+
+vector<shared_ptr<FFmpegAudioStream> >
+FFmpegContent::ffmpeg_audio_streams () const
+{
+	vector<shared_ptr<FFmpegAudioStream> > fa;
+	BOOST_FOREACH (AudioStreamPtr i, audio->streams()) {
+		fa.push_back (dynamic_pointer_cast<FFmpegAudioStream> (i));
+	}
+	return fa;
 }

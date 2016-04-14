@@ -21,6 +21,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/video_content.h"
 #include "lib/player.h"
+#include "lib/audio_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -534,7 +535,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 
 	list<string> notes;
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
-	AudioStreamPtr stream = content->audio_streams().front();
+	AudioStreamPtr stream = content->audio->streams().front();
 	film->set_sequence (false);
 	film->add_content (content);
 

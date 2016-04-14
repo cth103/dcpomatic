@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -63,8 +63,6 @@ public:
 
 	void set_default_colour_conversion ();
 
-	std::vector<AudioStreamPtr> audio_streams () const;
-
 	bool has_text_subtitles () const;
 	bool has_image_subtitles () const;
 
@@ -82,10 +80,7 @@ public:
 		return _subtitle_stream;
 	}
 
-	std::vector<boost::shared_ptr<FFmpegAudioStream> > ffmpeg_audio_streams () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_streams;
-	}
+	std::vector<boost::shared_ptr<FFmpegAudioStream> > ffmpeg_audio_streams () const;
 
 	std::vector<Filter const *> filters () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -112,7 +107,6 @@ private:
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
 	boost::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
-	std::vector<boost::shared_ptr<FFmpegAudioStream> > _audio_streams;
 	boost::optional<ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
 	std::vector<Filter const *> _filters;

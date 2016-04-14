@@ -262,7 +262,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
 	shared_ptr<FFmpegAudioStream> stream (new FFmpegAudioStream ("foo", 0, 0, 0));
-	content->_audio_streams.push_back (stream);
+	content->audio->add_stream (stream);
 	content->video->_frame_rate = 24;
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
