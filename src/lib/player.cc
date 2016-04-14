@@ -77,6 +77,24 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::scoped_ptr;
 
+static bool
+has_video (Content* c)
+{
+	return c->video;
+}
+
+static bool
+has_audio (Content* c)
+{
+	return c->audio;
+}
+
+static bool
+has_subtitle (Content* c)
+{
+	return c->subtitle;
+}
+
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
 	, _playlist (playlist)
@@ -384,9 +402,10 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Find pieces containing video which is happening now */
 
-	list<shared_ptr<Piece> > ov = overlaps<VideoContent> (
+	list<shared_ptr<Piece> > ov = overlaps (
 		time,
-		time + DCPTime::from_frames (1, _film->video_frame_rate ())
+		time + DCPTime::from_frames (1, _film->video_frame_rate ()),
+		&has_video
 		);
 
 	list<shared_ptr<PlayerVideo> > pvf;
@@ -474,7 +493,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
 	audio->make_silent ();
 
-	list<shared_ptr<Piece> > ov = overlaps<AudioContent> (time, time + length);
+	list<shared_ptr<Piece> > ov = overlaps (time, time + length, has_audio);
 	if (ov.empty ()) {
 		return audio;
 	}
@@ -623,7 +642,7 @@ Player::content_subtitle_to_dcp (shared_ptr<const Piece> piece, ContentTime t) c
 PlayerSubtitles
 Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, bool accurate)
 {
-	list<shared_ptr<Piece> > subs = overlaps<SubtitleContent> (time, time + length);
+	list<shared_ptr<Piece> > subs = overlaps (time, time + length, has_subtitle);
 
 	PlayerSubtitles ps (time, length);
 
@@ -806,4 +825,21 @@ Player::get_reel_assets ()
 	}
 
 	return a;
+}
+
+list<shared_ptr<Piece> >
+Player::overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid)
+{
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+	}
+
+	list<shared_ptr<Piece> > overlaps;
+	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		if (valid (i->content.get ()) && i->content->position() < to && i->content->end() > from) {
+			overlaps.push_back (i);
+		}
+	}
+
+	return overlaps;
 }

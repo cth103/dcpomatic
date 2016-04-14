@@ -90,29 +90,7 @@ private:
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_subtitle_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
-
-	/** @return Pieces of content type C that overlap a specified time range in the DCP */
-	template<class C>
-	std::list<boost::shared_ptr<Piece> >
-	overlaps (DCPTime from, DCPTime to)
-	{
-		if (!_have_valid_pieces) {
-			setup_pieces ();
-		}
-
-		std::list<boost::shared_ptr<Piece> > overlaps;
-		for (typename std::list<boost::shared_ptr<Piece> >::const_iterator i = _pieces.begin(); i != _pieces.end(); ++i) {
-			if (!boost::dynamic_pointer_cast<C> ((*i)->content)) {
-				continue;
-			}
-
-			if ((*i)->content->position() < to && (*i)->content->end() > from) {
-				overlaps.push_back (*i);
-			}
-		}
-
-		return overlaps;
-	}
+	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

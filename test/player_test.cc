@@ -35,6 +35,12 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 
+static bool
+valid (Content const *)
+{
+	return true;
+}
+
 /** Player::overlaps */
 BOOST_AUTO_TEST_CASE (player_overlaps_test)
 {
@@ -59,23 +65,23 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
 
-	list<shared_ptr<Piece> > o = player->overlaps<FFmpegContent> (DCPTime::from_seconds (0), DCPTime::from_seconds (5));
+	list<shared_ptr<Piece> > o = player->overlaps (DCPTime::from_seconds (0), DCPTime::from_seconds (5), &valid);
 	BOOST_CHECK_EQUAL (o.size(), 1U);
 	BOOST_CHECK_EQUAL (o.front()->content, A);
 
-	o = player->overlaps<FFmpegContent> (DCPTime::from_seconds (5), DCPTime::from_seconds (8));
+	o = player->overlaps (DCPTime::from_seconds (5), DCPTime::from_seconds (8), &valid);
 	BOOST_CHECK_EQUAL (o.size(), 0U);
 
-	o = player->overlaps<FFmpegContent> (DCPTime::from_seconds (8), DCPTime::from_seconds (12));
+	o = player->overlaps (DCPTime::from_seconds (8), DCPTime::from_seconds (12), &valid);
 	BOOST_CHECK_EQUAL (o.size(), 1U);
 	BOOST_CHECK_EQUAL (o.front()->content, B);
 
-	o = player->overlaps<FFmpegContent> (DCPTime::from_seconds (2), DCPTime::from_seconds (12));
+	o = player->overlaps (DCPTime::from_seconds (2), DCPTime::from_seconds (12), &valid);
 	BOOST_CHECK_EQUAL (o.size(), 2U);
 	BOOST_CHECK_EQUAL (o.front()->content, A);
 	BOOST_CHECK_EQUAL (o.back()->content, B);
 
-	o = player->overlaps<FFmpegContent> (DCPTime::from_seconds (8), DCPTime::from_seconds (11));
+	o = player->overlaps (DCPTime::from_seconds (8), DCPTime::from_seconds (11), &valid);
 	BOOST_CHECK_EQUAL (o.size(), 1U);
 	BOOST_CHECK_EQUAL (o.front()->content, B);
 }
