@@ -173,7 +173,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	audio->as_xml (node);
 	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate()));
 	audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
-	subtitle->as_xml (node);
+	if (subtitle) {
+		subtitle->as_xml (node);
+	}
 
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
