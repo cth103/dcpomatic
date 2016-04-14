@@ -26,14 +26,15 @@
 #include "lib/ratio.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
+#include "lib/video_content.h"
 #include "test.h"
 
 using std::string;
 using boost::shared_ptr;
 
-static void scaling_test_for (shared_ptr<Film> film, shared_ptr<VideoContent> content, string image, string container)
+static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content, string image, string container)
 {
-	content->set_scale (VideoContentScale (Ratio::from_id (image)));
+	content->video->set_scale (VideoContentScale (Ratio::from_id (image)));
 	film->set_container (Ratio::from_id (container));
 	film->make_dcp ();
 
@@ -64,7 +65,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 
 	wait_for_jobs ();
 
-	imc->set_video_length (1);
+	imc->video->set_video_length (1);
 
 	/* F-133: 133 image in a flat container */
 	scaling_test_for (film, imc, "133", "185");
@@ -80,4 +81,3 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	/* S: scope image in a scope container */
 	scaling_test_for (film, imc, "239", "239");
 }
-

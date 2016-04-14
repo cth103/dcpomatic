@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "film.h"
 #include "ffmpeg_decoder.h"
 #include "audio_buffers.h"
+#include "audio_content.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
 #include "image_content.h"
@@ -143,7 +144,7 @@ Player::setup_pieces ()
 		/* SndfileContent */
 		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (i);
 		if (sc) {
-			decoder.reset (new SndfileDecoder (sc, _fast));
+			decoder.reset (new SndfileDecoder (sc, _fast, _film->log()));
 
 			/* Work out a FrameRateChange for the best overlap video for this content */
 			DCPTime best_overlap_t;
@@ -177,14 +178,14 @@ Player::setup_pieces ()
 		shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (i);
 		if (rc) {
 			decoder.reset (new TextSubtitleDecoder (rc));
-			frc = FrameRateChange (rc->subtitle_video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (rc->subtitle->subtitle_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* DCPSubtitleContent */
 		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (dsc) {
 			decoder.reset (new DCPSubtitleDecoder (dsc));
-			frc = FrameRateChange (dsc->subtitle_video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (dsc->subtitle->subtitle_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
@@ -480,9 +481,8 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 	bool all_referenced = true;
 	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
-		shared_ptr<AudioContent> audio_content = dynamic_pointer_cast<AudioContent> (i->content);
 		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (i->content);
-		if (audio_content && (!dcp_content || !dcp_content->reference_audio ())) {
+		if (i->content->audio && (!dcp_content || !dcp_content->reference_audio ())) {
 			/* There is audio content which is not from a DCP or not set to be referenced */
 			all_referenced = false;
 		}
@@ -494,13 +494,12 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
 
-		shared_ptr<AudioContent> content = dynamic_pointer_cast<AudioContent> (i->content);
-		DCPOMATIC_ASSERT (content);
+		DCPOMATIC_ASSERT (i->content->audio);
 		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> (i->decoder);
 		DCPOMATIC_ASSERT (decoder);
 
 		/* The time that we should request from the content */
-		DCPTime request = time - DCPTime::from_seconds (content->audio_delay() / 1000.0);
+		DCPTime request = time - DCPTime::from_seconds (i->content->audio->audio_delay() / 1000.0);
 		Frame request_frames = length_frames;
 		DCPTime offset;
 		if (request < DCPTime ()) {
@@ -517,7 +516,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 		Frame const content_frame = dcp_to_resampled_audio (i, request);
 
-		BOOST_FOREACH (AudioStreamPtr j, content->audio_streams ()) {
+		BOOST_FOREACH (AudioStreamPtr j, i->content->audio->streams ()) {
 
 			if (j->channels() == 0) {
 				/* Some content (e.g. DCPs) can have streams with no channels */
@@ -528,9 +527,9 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			ContentAudio all = decoder->get_audio (j, content_frame, request_frames, accurate);
 
 			/* Gain */
-			if (content->audio_gain() != 0) {
+			if (i->content->audio->audio_gain() != 0) {
 				shared_ptr<AudioBuffers> gain (new AudioBuffers (all.audio));
-				gain->apply_gain (content->audio_gain ());
+				gain->apply_gain (i->content->audio->audio_gain ());
 				all.audio = gain;
 			}
 
@@ -572,7 +571,6 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
-	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	DCPTime s = t - piece->content->position ();
 	s = min (piece->content->length_after_trim(), s);
 	s = max (DCPTime(), s + DCPTime (piece->content->trim_start(), piece->frc));
@@ -590,7 +588,6 @@ Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 DCPTime
 Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
-	shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (piece->content);
 	/* See comment in dcp_to_content_video */
 	DCPTime const d = DCPTime::from_frames (f * piece->frc.factor(), piece->frc.dcp) - DCPTime (piece->content->trim_start (), piece->frc);
 	return max (DCPTime (), d + piece->content->position ());
@@ -704,12 +701,11 @@ Player::get_subtitle_fonts ()
 
 	list<shared_ptr<Font> > fonts;
 	BOOST_FOREACH (shared_ptr<Piece>& p, _pieces) {
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (p->content);
-		if (sc) {
+		if (p->content->subtitle) {
 			/* XXX: things may go wrong if there are duplicate font IDs
 			   with different font files.
 			*/
-			list<shared_ptr<Font> > f = sc->fonts ();
+			list<shared_ptr<Font> > f = p->content->subtitle->fonts ();
 			copy (f.begin(), f.end(), back_inserter (fonts));
 		}
 	}

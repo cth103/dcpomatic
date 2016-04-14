@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,13 +30,13 @@ using std::cout;
 using std::map;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content, bool fast)
+AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content, bool fast, shared_ptr<Log> log)
 	: _audio_content (content)
 	, _ignore_audio (false)
 	, _fast (fast)
 {
-	BOOST_FOREACH (AudioStreamPtr i, content->audio_streams ()) {
-		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (_audio_content, i, this));
+	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
+		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (_audio_content, i, this, log));
 	}
 }
 

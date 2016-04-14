@@ -24,6 +24,8 @@
 #include "lib/image_content.h"
 #include "lib/sndfile_content.h"
 #include "lib/video_content.h"
+#include "lib/audio_mapping.h"
+#include "lib/audio_content.h"
 #include "test.h"
 #include <iostream>
 
@@ -130,31 +132,31 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	wait_for_jobs ();
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PP_SMPTE_OV");
 
-	AudioMapping mapping = sound->audio_mapping ();
+	AudioMapping mapping = sound->audio->audio_mapping ();
 
 	mapping.set (0, dcp::LEFT, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_20_4K_DI_20140704_PP_SMPTE_OV");
 	mapping.set (0, dcp::RIGHT, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_30_4K_DI_20140704_PP_SMPTE_OV");
 	mapping.set (0, dcp::LFE, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_31_4K_DI_20140704_PP_SMPTE_OV");
 	mapping.set (0, dcp::LS, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_41_4K_DI_20140704_PP_SMPTE_OV");
 	mapping.set (0, dcp::RS, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PP_SMPTE_OV");
 	mapping.set (0, dcp::HI, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PP_SMPTE_OV");
 	film->set_audio_channels (8);
 	mapping.set (0, dcp::HI, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_61_4K_DI_20140704_PP_SMPTE_OV");
 	mapping.set (0, dcp::VI, 1.0);
-	sound->set_audio_mapping (mapping);
+	sound->audio->set_mapping (mapping);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71_4K_DI_20140704_PP_SMPTE_OV");
 }

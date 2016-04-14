@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 class AudioBuffers;
 class AudioContent;
 class AudioDecoderStream;
+class Log;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
@@ -39,7 +40,7 @@ class AudioDecoderStream;
 class AudioDecoder : public virtual Decoder, public boost::enable_shared_from_this<AudioDecoder>
 {
 public:
-	AudioDecoder (boost::shared_ptr<const AudioContent>, bool fast);
+	AudioDecoder (boost::shared_ptr<const AudioContent>, bool fast, boost::shared_ptr<Log> log);
 
 	boost::shared_ptr<const AudioContent> audio_content () const {
 		return _audio_content;

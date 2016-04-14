@@ -60,7 +60,7 @@ public:
 
 	ContentList selected ();
 	ContentList selected_video ();
-	AudioContentList selected_audio ();
+	ContentList selected_audio ();
 	ContentList selected_subtitle ();
 	FFmpegContentList selected_ffmpeg ();
 

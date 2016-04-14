@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,7 +48,6 @@ namespace xmlpp {
 #define SERVER_LINK_VERSION (64+0)
 
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
-typedef std::vector<boost::shared_ptr<AudioContent> > AudioContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 
 typedef int64_t Frame;

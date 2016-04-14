@@ -26,6 +26,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
+#include "lib/subtitle_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
@@ -46,8 +47,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->set_use_subtitles (true);
-	content->set_burn_subtitles (false);
+	content->subtitle->set_use_subtitles (true);
+	content->subtitle->set_burn_subtitles (false);
 	film->make_dcp ();
 	wait_for_jobs ();
 
@@ -66,10 +67,10 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->set_use_subtitles (true);
-	content->set_burn_subtitles (false);
+	content->subtitle->set_use_subtitles (true);
+	content->subtitle->set_burn_subtitles (false);
 	/* Use test/data/subrip2.srt as if it were a font file  */
-	content->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
+	content->subtitle->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
 
 	film->make_dcp ();
 	wait_for_jobs ();
@@ -91,8 +92,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->set_use_subtitles (true);
-	content->set_burn_subtitles (false);
+	content->subtitle->set_use_subtitles (true);
+	content->subtitle->set_burn_subtitles (false);
 
 	film->make_dcp ();
 	wait_for_jobs ();

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,21 +21,22 @@
  *  @brief ContentWidget class.
  */
 
-#ifndef DCPOMATIC_MULTIPLE_WIDGET_H
-#define DCPOMATIC_MULTIPLE_WIDGET_H
+#ifndef DCPOMATIC_CONTENT_WIDGET_H
+#define DCPOMATIC_CONTENT_WIDGET_H
 
-#include <vector>
+#include "wx_util.h"
+#include "lib/content.h"
 #include <wx/wx.h>
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
 #include <boost/function.hpp>
-#include "wx_util.h"
+#include <vector>
 
 /** @class ContentWidget
  *  @brief A widget which represents some Content state and which can be used
  *  when multiple pieces of content are selected.
  *
- *  @param S Type containing the content being represented (e.g. VideoContent)
+ *  @param S Type of ContentPart being manipulated (e.g. VideoContent)
  *  @param T Type of the widget (e.g. wxSpinCtrl)
  *  @param U Data type of state as used by the model.
  *  @param V Data type of state as used by the view.
@@ -54,6 +55,7 @@ public:
 		wxWindow* parent,
 		T* wrapped,
 		int property,
+		boost::function<boost::shared_ptr<S> (Content*)> part,
 		boost::function<U (S*)> model_getter,
 		boost::function<void (S*, U)> model_setter,
 		boost::function<U (V)> view_to_model,
@@ -63,6 +65,7 @@ public:
 		, _sizer (0)
 		, _button (new wxButton (parent, wxID_ANY, _("Multiple values")))
 		, _property (property)
+		, _part (part)
 		, _model_getter (model_getter)
 		, _model_setter (model_setter)
 		, _view_to_model (view_to_model)
@@ -80,7 +83,7 @@ public:
 		return _wrapped;
 	}
 
-	typedef std::vector<boost::shared_ptr<S> > List;
+	typedef std::vector<boost::shared_ptr<Content> > List;
 
 	/** Set the content that this control is working on (i.e. the selected content) */
 	void set_content (List content)
@@ -120,8 +123,8 @@ public:
 		}
 
 		typename List::iterator i = _content.begin ();
-		U const v = boost::bind (_model_getter, _content.front().get())();
-		while (i != _content.end() && boost::bind (_model_getter, i->get())() == v) {
+		U const v = boost::bind (_model_getter, _part(_content.front().get()).get())();
+		while (i != _content.end() && boost::bind (_model_getter, _part(i->get()).get())() == v) {
 			++i;
 		}
 
@@ -137,7 +140,7 @@ public:
 	{
 		_ignore_model_changes = true;
 		for (size_t i = 0; i < _content.size(); ++i) {
-			boost::bind (_model_setter, _content[i].get(), _view_to_model (wx_get (_wrapped))) ();
+			boost::bind (_model_setter, _part (_content[i].get()).get(), _view_to_model (wx_get (_wrapped))) ();
 		}
 		_ignore_model_changes = false;
 	}
@@ -172,9 +175,9 @@ private:
 
 	void button_clicked ()
 	{
-		U const v = boost::bind (_model_getter, _content.front().get())();
+		U const v = boost::bind (_model_getter, _part(_content.front().get()).get())();
 		for (typename List::iterator i = _content.begin (); i != _content.end(); ++i) {
-			boost::bind (_model_setter, i->get(), v) ();
+			boost::bind (_model_setter, _part(i->get()).get(), v) ();
 		}
 	}
 
@@ -192,6 +195,7 @@ private:
 	wxButton* _button;
 	List _content;
 	int _property;
+	boost::function<boost::shared_ptr<S> (Content *)> _part;
 	boost::function<U (S*)> _model_getter;
 	boost::function<void (S*, U)> _model_setter;
 	boost::function<U (V)> _view_to_model;
@@ -214,6 +218,7 @@ public:
 		wxWindow* parent,
 		wxSpinCtrl* wrapped,
 		int property,
+		boost::function<boost::shared_ptr<S> (Content *)> part,
 		boost::function<int (S*)> getter,
 		boost::function<void (S*, int)> setter
 		)
@@ -221,6 +226,7 @@ public:
 			parent,
 			wrapped,
 			property,
+			part,
 			getter, setter,
 			&caster<int, int>,
 			&caster<int, int>
@@ -238,6 +244,7 @@ public:
 		wxWindow* parent,
 		wxSpinCtrlDouble* wrapped,
 		int property,
+		boost::function<boost::shared_ptr<S> (Content *)> part,
 		boost::function<double (S*)> getter,
 		boost::function<void (S*, double)> setter
 		)
@@ -245,6 +252,7 @@ public:
 			parent,
 			wrapped,
 			property,
+			part,
 			getter, setter,
 			&caster<double, double>,
 			&caster<double, double>
@@ -262,6 +270,7 @@ public:
 		wxWindow* parent,
 		wxChoice* wrapped,
 		int property,
+		boost::function<boost::shared_ptr<S> (Content *)> part,
 		boost::function<U (S*)> getter,
 		boost::function<void (S*, U)> setter,
 		boost::function<U (int)> view_to_model,
@@ -271,6 +280,7 @@ public:
 			parent,
 			wrapped,
 			property,
+			part,
 			getter,
 			setter,
 			view_to_model,

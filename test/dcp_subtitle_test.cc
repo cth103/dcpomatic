@@ -28,6 +28,7 @@
 #include "lib/ratio.h"
 #include "lib/dcp_decoder.h"
 #include "lib/dcp_content_type.h"
+#include "lib/subtitle_content.h"
 #include "test.h"
 #include <iostream>
 
@@ -48,8 +49,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (2));
 
-	content->set_use_subtitles (true);
-	content->set_burn_subtitles (false);
+	content->subtitle->set_use_subtitles (true);
+	content->subtitle->set_burn_subtitles (false);
 	film->make_dcp ();
 	wait_for_jobs ();
 

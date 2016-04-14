@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include "lib/cinema_sound_processor.h"
 #include "lib/job_manager.h"
 #include "lib/dcp_content.h"
+#include "lib/audio_content.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -65,6 +66,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		this,
 		new wxSpinCtrlDouble (this),
 		AudioContentProperty::AUDIO_GAIN,
+		&Content::audio,
 		boost::mem_fn (&AudioContent::audio_gain),
 		boost::mem_fn (&AudioContent::set_audio_gain)
 		);
@@ -80,6 +82,7 @@ AudioPanel::AudioPanel (ContentPanel* p)
 		this,
 		new wxSpinCtrl (this),
 		AudioContentProperty::AUDIO_DELAY,
+		&Content::audio,
 		boost::mem_fn (&AudioContent::audio_delay),
 		boost::mem_fn (&AudioContent::set_audio_delay)
 		);
@@ -145,11 +148,11 @@ AudioPanel::film_changed (Film::Property property)
 void
 AudioPanel::film_content_changed (int property)
 {
-	AudioContentList ac = _parent->selected_audio ();
+	ContentList ac = _parent->selected_audio ();
 	if (property == AudioContentProperty::AUDIO_STREAMS) {
 		if (ac.size() == 1) {
-			_mapping->set (ac.front()->audio_mapping());
-			_mapping->set_input_channels (ac.front()->audio_channel_names ());
+			_mapping->set (ac.front()->audio->audio_mapping());
+			_mapping->set_input_channels (ac.front()->audio->audio_channel_names ());
 		} else {
 			_mapping->set (AudioMapping ());
 		}
@@ -201,28 +204,28 @@ AudioPanel::gain_calculate_button_clicked ()
 void
 AudioPanel::setup_description ()
 {
-	AudioContentList ac = _parent->selected_audio ();
+	ContentList ac = _parent->selected_audio ();
 	if (ac.size () != 1) {
 		checked_set (_description, wxT (""));
 		return;
 	}
 
-	checked_set (_description, ac.front()->processing_description ());
+	checked_set (_description, ac.front()->audio->processing_description ());
 }
 
 void
 AudioPanel::mapping_changed (AudioMapping m)
 {
-	AudioContentList c = _parent->selected_audio ();
+	ContentList c = _parent->selected_audio ();
 	if (c.size() == 1) {
-		c.front()->set_audio_mapping (m);
+		c.front()->audio->set_audio_mapping (m);
 	}
 }
 
 void
 AudioPanel::content_selection_changed ()
 {
-	AudioContentList sel = _parent->selected_audio ();
+	ContentList sel = _parent->selected_audio ();
 
 	_gain->set_content (sel);
 	_delay->set_content (sel);
@@ -236,7 +239,7 @@ AudioPanel::content_selection_changed ()
 void
 AudioPanel::setup_sensitivity ()
 {
-	AudioContentList sel = _parent->selected_audio ();
+	ContentList sel = _parent->selected_audio ();
 
 	shared_ptr<DCPContent> dcp;
 	if (sel.size() == 1) {
@@ -272,7 +275,7 @@ AudioPanel::show_clicked ()
 		_audio_dialog = 0;
 	}
 
-	AudioContentList ac = _parent->selected_audio ();
+	ContentList ac = _parent->selected_audio ();
 	if (ac.size() != 1) {
 		return;
 	}
@@ -284,7 +287,7 @@ AudioPanel::show_clicked ()
 void
 AudioPanel::setup_peak ()
 {
-	AudioContentList sel = _parent->selected_audio ();
+	ContentList sel = _parent->selected_audio ();
 	bool alert = false;
 
 	if (sel.size() != 1) {

@@ -24,6 +24,7 @@
 #include "font.h"
 #include "raw_convert.h"
 #include "content.h"
+#include "film.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -85,6 +86,7 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 		node->optional_number_child<int>("OutlineGreen").get_value_or(255),
 		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
 		)
+	, _frame_rate (node->optional_number_child<double>("SubtitleFrameRate"))
 {
 	if (version >= 32) {
 		_use_subtitles = node->bool_child ("UseSubtitles");
@@ -118,38 +120,37 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 	: ContentPart (parent, film)
 {
-	shared_ptr<SubtitleContent> ref = dynamic_pointer_cast<SubtitleContent> (c[0]);
+	shared_ptr<SubtitleContent> ref = c[0]->subtitle;
 	DCPOMATIC_ASSERT (ref);
 	list<shared_ptr<Font> > ref_fonts = ref->fonts ();
 
-	for (size_t i = 0; i < c.size(); ++i) {
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c[i]);
+	for (size_t i = 1; i < c.size(); ++i) {
 
-		if (sc->use_subtitles() != ref->use_subtitles()) {
+		if (c[i]->subtitle->use_subtitles() != ref->use_subtitles()) {
 			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
 		}
 
-		if (sc->burn_subtitles() != ref->burn_subtitles()) {
+		if (c[i]->subtitle->burn_subtitles() != ref->burn_subtitles()) {
 			throw JoinError (_("Content to be joined must have the same 'burn subtitles' setting."));
 		}
 
-		if (sc->subtitle_x_offset() != ref->subtitle_x_offset()) {
+		if (c[i]->subtitle->subtitle_x_offset() != ref->subtitle_x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
 
-		if (sc->subtitle_y_offset() != ref->subtitle_y_offset()) {
+		if (c[i]->subtitle->subtitle_y_offset() != ref->subtitle_y_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
 
-		if (sc->subtitle_x_scale() != ref->subtitle_x_scale()) {
+		if (c[i]->subtitle->subtitle_x_scale() != ref->subtitle_x_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X scale."));
 		}
 
-		if (sc->subtitle_y_scale() != ref->subtitle_y_scale()) {
+		if (c[i]->subtitle->subtitle_y_scale() != ref->subtitle_y_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
 
-		list<shared_ptr<Font> > fonts = sc->fonts ();
+		list<shared_ptr<Font> > fonts = c[i]->subtitle->fonts ();
 		if (fonts.size() != ref_fonts.size()) {
 			throw JoinError (_("Content to be joined must use the same fonts."));
 		}
@@ -314,4 +315,28 @@ void
 SubtitleContent::set_subtitle_language (string language)
 {
 	maybe_set (_subtitle_language, language, SubtitleContentProperty::SUBTITLE_LANGUAGE);
+}
+
+void
+SubtitleContent::set_subtitle_video_frame_rate (double r)
+{
+	maybe_set (_frame_rate, r, SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
+}
+
+double
+SubtitleContent::subtitle_video_frame_rate () const
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_frame_rate) {
+			return _frame_rate.get ();
+		}
+	}
+
+	/* No frame rate specified, so assume this content has been
+	   prepared for any concurrent video content.
+	*/
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return film->active_frame_rate_change(_parent->position()).source;
 }

@@ -39,10 +39,11 @@ using std::max;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, AudioStreamPtr stream, AudioDecoder* decoder)
+AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, AudioStreamPtr stream, AudioDecoder* decoder, shared_ptr<Log> log)
 	: _content (content)
 	, _stream (stream)
 	, _decoder (decoder)
+	, _log (log)
 {
 	if (content->resampled_audio_frame_rate() != _stream->frame_rate() && _stream->channels() > 0) {
 		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_audio_frame_rate(), _stream->channels (), decoder->fast ()));
@@ -62,7 +63,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 {
 	shared_ptr<ContentAudio> dec;
 
-	_content->film()->log()->log (String::compose ("-> ADS has request for %1 %2", frame, length), LogEntry::TYPE_DEBUG_DECODE);
+	_log->log (String::compose ("-> ADS has request for %1 %2", frame, length), LogEntry::TYPE_DEBUG_DECODE);
 
 	Frame const end = frame + length - 1;
 
@@ -93,7 +94,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 
 		decoded_offset = frame - _decoded.frame;
 
-		_content->film()->log()->log (
+		_log->log (
 			String::compose ("Accurate ADS::get has offset %1 from request %2 and available %3", decoded_offset, frame, _decoded.frame),
 			LogEntry::TYPE_DEBUG_DECODE
 			);
@@ -141,7 +142,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 void
 AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 {
-	_content->film()->log()->log (String::compose ("ADS receives %1 %2", time, data->frames ()), LogEntry::TYPE_DEBUG_DECODE);
+	_log->log (String::compose ("ADS receives %1 %2", time, data->frames ()), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_resampler) {
 		data = _resampler->run (data);

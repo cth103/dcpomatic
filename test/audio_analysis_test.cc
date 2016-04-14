@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "lib/job_manager.h"
+#include "lib/audio_content.h"
 #include "test.h"
 
 using boost::shared_ptr;
@@ -110,8 +111,8 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
-	shared_ptr<AudioContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
-	c->set_audio_delay (-250);
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
+	c->audio->set_audio_delay (-250);
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -126,7 +127,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_test2");
 	film->set_name ("audio_analysis_test2");
-	shared_ptr<AudioContent> c (new FFmpegContent (film, private_data / "3d_thx_broadway_2010_lossless.m2ts"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "3d_thx_broadway_2010_lossless.m2ts"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 

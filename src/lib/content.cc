@@ -155,6 +155,7 @@ Content::examine (shared_ptr<Job> job)
 void
 Content::signal_changed (int p)
 {
+	changed (p);
 	emit (boost::bind (boost::ref (Changed), shared_from_this (), p, _change_signals_frequent));
 }
 

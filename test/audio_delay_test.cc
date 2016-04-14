@@ -33,6 +33,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
 #include "lib/film.h"
+#include "lib/audio_content.h"
 #include "test.h"
 #include <iostream>
 
@@ -53,7 +54,7 @@ void test_audio_delay (int delay_in_ms)
 	film->set_name (film_name);
 
 	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/staircase.wav"));
-	content->set_audio_delay (delay_in_ms);
+	content->audio->set_audio_delay (delay_in_ms);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

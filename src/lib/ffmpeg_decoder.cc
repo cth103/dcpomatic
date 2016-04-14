@@ -73,7 +73,7 @@ using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
 	: VideoDecoder (c->video, log)
-	, AudioDecoder (c, fast)
+	, AudioDecoder (c->audio, fast, log)
 	, SubtitleDecoder (c->subtitle)
 	, FFmpeg (c)
 	, _log (log)

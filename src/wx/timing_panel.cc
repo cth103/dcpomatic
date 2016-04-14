@@ -290,7 +290,7 @@ TimingPanel::film_content_changed (int property)
 			} else if (ac) {
 				checked_set (_video_frame_rate, raw_convert<string> (ac->audio->audio_video_frame_rate (), 5));
 			} else if (sc) {
-				checked_set (_video_frame_rate, raw_convert<string> (sc->subtitle_video_frame_rate (), 5));
+				checked_set (_video_frame_rate, raw_convert<string> (sc->subtitle->subtitle_video_frame_rate (), 5));
 			}
 			_video_frame_rate->Enable (true);
 		} else {
@@ -403,16 +403,14 @@ void
 TimingPanel::set_video_frame_rate ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (i);
-		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (i);
 		shared_ptr<DCPSubtitleContent> dsc = dynamic_pointer_cast<DCPSubtitleContent> (i);
 		shared_ptr<TextSubtitleContent> tsc = dynamic_pointer_cast<TextSubtitleContent> (i);
 		double const fr = raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
-		if (vc) {
-			vc->set_video_frame_rate (fr);
-		} else if (ac) {
+		if (i->video) {
+			i->video->set_video_frame_rate (fr);
+		} else if (i->audio) {
 			/* Audio but not video, i.e. SndfileContent */
-			ac->set_audio_video_frame_rate (fr);
+			i->audio->set_audio_video_frame_rate (fr);
 		} else if (dsc) {
 			dsc->set_subtitle_video_frame_rate (fr);
 		} else if (tsc) {

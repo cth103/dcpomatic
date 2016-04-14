@@ -150,12 +150,8 @@ Playlist::video_identifier () const
 	string t;
 
 	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
-		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (i);
-		shared_ptr<const SubtitleContent> sc = dynamic_pointer_cast<const SubtitleContent> (i);
-		if (vc) {
-			t += vc->identifier ();
-		} else if (sc && sc->burn_subtitles ()) {
-			t += sc->identifier ();
+		if (i->video || (i->subtitle && i->subtitle->burn_subtitles())) {
+			t += i->identifier ();
 		}
 	}
 
@@ -346,7 +342,7 @@ Playlist::video_end () const
 {
 	DCPTime end;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (dynamic_pointer_cast<const VideoContent> (i)) {
+		if (i->video) {
 			end = max (end, i->end ());
 		}
 	}
@@ -359,7 +355,7 @@ Playlist::subtitle_end () const
 {
 	DCPTime end;
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (dynamic_pointer_cast<const SubtitleContent> (i)) {
+		if (i->subtitle) {
 			end = max (end, i->end ());
 		}
 	}

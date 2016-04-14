@@ -78,11 +78,10 @@ HintsDialog::film_changed ()
 	bool big_font_files = false;
 	if (film->interop ()) {
 		BOOST_FOREACH (shared_ptr<Content> i, content) {
-			shared_ptr<SubtitleContent> s = dynamic_pointer_cast<SubtitleContent> (i);
-			if (s) {
-				BOOST_FOREACH (shared_ptr<Font> j, s->fonts ()) {
-					for (int i = 0; i < FontFiles::VARIANTS; ++i) {
-						optional<boost::filesystem::path> const p = j->file (static_cast<FontFiles::Variant> (i));
+			if (i->subtitle) {
+				BOOST_FOREACH (shared_ptr<Font> j, i->subtitle->fonts ()) {
+					for (int k = 0; k < FontFiles::VARIANTS; ++k) {
+						optional<boost::filesystem::path> const p = j->file (static_cast<FontFiles::Variant> (k));
 						if (p && boost::filesystem::file_size (p.get()) >= (640 * 1024)) {
 							big_font_files = true;
 						}
@@ -106,9 +105,8 @@ HintsDialog::film_changed ()
 	int flat_or_narrower = 0;
 	int scope = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
-		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (i);
-		if (vc) {
-			Ratio const * r = vc->scale().ratio ();
+		if (i->video) {
+			Ratio const * r = i->video->scale().ratio ();
 			if (r && r->id() == "239") {
 				++scope;
 			} else if (r && r->id() != "239" && r->id() != "full-frame") {
@@ -162,8 +160,7 @@ HintsDialog::film_changed ()
 
 	int three_d = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
-		shared_ptr<const VideoContent> vc = dynamic_pointer_cast<const VideoContent> (i);
-		if (vc && vc->video_frame_type() != VIDEO_FRAME_TYPE_2D) {
+		if (i->video && i->video->video_frame_type() != VIDEO_FRAME_TYPE_2D) {
 			++three_d;
 		}
 	}

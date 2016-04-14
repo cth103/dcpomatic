@@ -20,7 +20,8 @@
 #ifndef DCPOMATIC_FFMPEG_CONTENT_H
 #define DCPOMATIC_FFMPEG_CONTENT_H
 
-#include "audio_content.h"
+#include "content.h"
+#include "audio_stream.h"
 
 struct AVFormatContext;
 struct AVStream;
@@ -41,7 +42,7 @@ public:
 	static int const FILTERS;
 };
 
-class FFmpegContent : public AudioContent
+class FFmpegContent : public Content
 {
 public:
 	FFmpegContent (boost::shared_ptr<const Film>, boost::filesystem::path);
@@ -60,18 +61,16 @@ public:
 
 	std::string identifier () const;
 
-	/* VideoContent */
 	void set_default_colour_conversion ();
 
-	/* AudioContent */
 	std::vector<AudioStreamPtr> audio_streams () const;
 
-	/* SubtitleContent */
 	bool has_text_subtitles () const;
 	bool has_image_subtitles () const;
-	double subtitle_video_frame_rate () const;
 
 	void set_filters (std::vector<Filter const *> const &);
+
+	void changed (int property);
 
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -105,10 +104,9 @@ public:
 
 	void signal_subtitle_stream_changed ();
 
-protected:
+private:
 	void add_properties (std::list<UserProperty> &) const;
 
-private:
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;
 

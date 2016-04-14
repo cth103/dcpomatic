@@ -245,13 +245,12 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 
 	MD5Digester digester;
 	BOOST_FOREACH (shared_ptr<Content> i, playlist->content ()) {
-		shared_ptr<AudioContent> ac = dynamic_pointer_cast<AudioContent> (i);
-		if (!ac) {
+		if (!i->audio) {
 			continue;
 		}
 
-		digester.add (ac->digest ());
-		digester.add (ac->audio_mapping().digest ());
+		digester.add (i->digest ());
+		digester.add (i->audio->audio_mapping().digest ());
 		if (playlist->content().size() != 1) {
 			/* Analyses should be considered equal regardless of gain
 			   if they were made from just one piece of content.  This
@@ -259,7 +258,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 			   analysis at the plotting stage rather than having to
 			   recompute it.
 			*/
-			digester.add (ac->audio_gain ());
+			digester.add (i->audio->audio_gain ());
 		}
 	}
 
@@ -505,9 +504,8 @@ Film::mapped_audio_channels () const
 		}
 	} else {
 		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-			shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (i);
-			if (ac) {
-				list<int> c = ac->audio_mapping().mapped_output_channels ();
+			if (i->audio) {
+				list<int> c = i->audio->mapping().mapped_output_channels ();
 				copy (c.begin(), c.end(), back_inserter (mapped));
 			}
 		}
@@ -639,12 +637,11 @@ Film::isdcf_name (bool if_created_now) const
 
 			bool burnt_in = true;
 			BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-				shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
-				if (!sc) {
+				if (!i->subtitle) {
 					continue;
 				}
 
-				if (sc->use_subtitles() && !sc->burn_subtitles()) {
+				if (i->subtitle->use_subtitles() && !i->subtitle->burn_subtitles()) {
 					burnt_in = false;
 				}
 			}
@@ -1033,7 +1030,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 	}
 
 	add_content (content);
-	if (Config::instance()->automatic_audio_analysis() && dynamic_pointer_cast<AudioContent> (content)) {
+	if (Config::instance()->automatic_audio_analysis() && content->audio) {
 		shared_ptr<Playlist> playlist (new Playlist);
 		playlist->add (content);
 		boost::signals2::connection c;
@@ -1050,7 +1047,7 @@ Film::add_content (shared_ptr<Content> c)
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (c->video) {
 		c->set_position (_playlist->video_end ());
-	} else if (dynamic_pointer_cast<SubtitleContent> (c)) {
+	} else if (c->subtitle) {
 		c->set_position (_playlist->subtitle_end ());
 	}
 
@@ -1125,8 +1122,7 @@ int
 Film::audio_frame_rate () const
 {
 	BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-		shared_ptr<AudioContent> a = dynamic_pointer_cast<AudioContent> (i);
-		if (a && a->has_rate_above_48k ()) {
+		if (i->audio && i->audio->has_rate_above_48k ()) {
 			return 96000;
 		}
 	}
@@ -1271,9 +1267,8 @@ Film::subtitle_language () const
 
 	ContentList cl = content ();
 	BOOST_FOREACH (shared_ptr<Content>& c, cl) {
-		shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (c);
-		if (sc) {
-			languages.insert (sc->subtitle_language ());
+		if (c->subtitle) {
+			languages.insert (c->subtitle->subtitle_language ());
 		}
 	}
 

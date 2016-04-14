@@ -84,19 +84,18 @@ print_dump (shared_ptr<Film> film)
 		     << " start trim " << c->trim_start().seconds ()
 		     << " end trim " << c->trim_end().seconds () << "\n";
 
-		shared_ptr<VideoContent> video = dynamic_pointer_cast<VideoContent> (c);
-		if (video) {
-			cout << "\t" << video->video_size().width << "x" << video->video_size().height << "\n"
-			     << "\t" << video->video_frame_rate() << "fps\n"
-			     << "\tcrop left " << video->left_crop()
-			     << " right " << video->right_crop()
-			     << " top " << video->top_crop()
-			     << " bottom " << video->bottom_crop() << "\n"
-			     << "\tscale " << video->scale().name() << "\n";
-			if (video->colour_conversion()) {
-				if (video->colour_conversion().get().preset()) {
+		if (c->video) {
+			cout << "\t" << c->video->video_size().width << "x" << c->video->video_size().height << "\n"
+			     << "\t" << c->video->video_frame_rate() << "fps\n"
+			     << "\tcrop left " << c->video->left_crop()
+			     << " right " << c->video->right_crop()
+			     << " top " << c->video->top_crop()
+			     << " bottom " << c->video->bottom_crop() << "\n"
+			     << "\tscale " << c->video->scale().name() << "\n";
+			if (c->video->colour_conversion()) {
+				if (c->video->colour_conversion().get().preset()) {
 					cout << "\tcolour conversion "
-					     << PresetColourConversion::all()[video->colour_conversion().get().preset().get()].name
+					     << PresetColourConversion::all()[c->video->colour_conversion().get().preset().get()].name
 					     << "\n";
 				} else {
 					cout << "\tcustom colour conversion\n";
@@ -107,10 +106,9 @@ print_dump (shared_ptr<Film> film)
 
 		}
 
-		shared_ptr<AudioContent> audio = dynamic_pointer_cast<AudioContent> (c);
-		if (audio) {
-			cout << "\t" << audio->audio_delay() << " delay\n"
-			     << "\t" << audio->audio_gain() << " gain\n";
+		if (c->audio) {
+			cout << "\t" << c->audio->audio_delay() << " delay\n"
+			     << "\t" << c->audio->audio_gain() << " gain\n";
 		}
 	}
 }

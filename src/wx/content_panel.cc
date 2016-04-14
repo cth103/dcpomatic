@@ -163,15 +163,14 @@ ContentPanel::selected_video ()
 	return vc;
 }
 
-AudioContentList
+ContentList
 ContentPanel::selected_audio ()
 {
-	AudioContentList ac;
+	ContentList ac;
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
-		shared_ptr<AudioContent> t = dynamic_pointer_cast<AudioContent> (i);
-		if (t) {
-			ac.push_back (t);
+		if (i->audio) {
+			ac.push_back (i);
 		}
 	}
 
@@ -387,7 +386,7 @@ ContentPanel::setup_sensitivity ()
 
 	ContentList selection = selected ();
 	ContentList video_selection = selected_video ();
-	AudioContentList audio_selection = selected_audio ();
+	ContentList audio_selection = selected_audio ();
 
 	_remove->Enable   (!selection.empty() && _generally_sensitive);
 	_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
@@ -396,7 +395,7 @@ ContentPanel::setup_sensitivity ()
 
 	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
 	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
-	_subtitle_panel->Enable (selection.size() == 1 && dynamic_pointer_cast<SubtitleContent> (selection.front()) && _generally_sensitive);
+	_subtitle_panel->Enable (selection.size() == 1 && selection.front()->subtitle && _generally_sensitive);
 	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
 }
 

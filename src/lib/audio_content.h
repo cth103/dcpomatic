@@ -24,7 +24,7 @@
 #ifndef DCPOMATIC_AUDIO_CONTENT_H
 #define DCPOMATIC_AUDIO_CONTENT_H
 
-#include "content.h"
+#include "content_part.h"
 #include "audio_stream.h"
 #include "audio_mapping.h"
 
@@ -40,22 +40,15 @@ public:
 	static int const AUDIO_VIDEO_FRAME_RATE;
 };
 
-/** @class AudioContent
- *  @brief Parent class for content which may contain audio data.
- */
-class AudioContent : public virtual Content
+class AudioContent : public ContentPart
 {
 public:
-	AudioContent (boost::shared_ptr<const Film>);
-	AudioContent (boost::shared_ptr<const Film>, DCPTime);
-	AudioContent (boost::shared_ptr<const Film>, boost::filesystem::path);
-	AudioContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr);
-	AudioContent (boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
+	AudioContent (Content* parent, boost::shared_ptr<const Film>);
+	AudioContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr);
+	AudioContent (Content* parent, boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
-
-	virtual std::vector<AudioStreamPtr> audio_streams () const = 0;
 
 	AudioMapping audio_mapping () const;
 	void set_audio_mapping (AudioMapping);
@@ -81,16 +74,26 @@ public:
 
 	std::string processing_description () const;
 
-protected:
+	std::vector<AudioStreamPtr> streams () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _streams;
+	}
+
+	void add_stream (AudioStreamPtr stream);
+	void set_stream (AudioStreamPtr stream);
+	void set_streams (std::vector<AudioStreamPtr> streams);
+	AudioStreamPtr stream () const;
 
 	void add_properties (std::list<UserProperty> &) const;
 
 private:
+
 	/** Gain to apply to audio in dB */
 	double _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _audio_delay;
 	boost::optional<double> _audio_video_frame_rate;
+	std::vector<AudioStreamPtr> _streams;
 };
 
 #endif

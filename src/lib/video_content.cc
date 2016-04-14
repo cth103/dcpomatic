@@ -119,43 +119,42 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, vector
 	, _video_length (0)
 	, _yuv (false)
 {
-	shared_ptr<VideoContent> ref = dynamic_pointer_cast<VideoContent> (c[0]);
+	shared_ptr<VideoContent> ref = c[0]->video;
 	DCPOMATIC_ASSERT (ref);
 
-	for (size_t i = 0; i < c.size(); ++i) {
-		shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (c[i]);
+	for (size_t i = 1; i < c.size(); ++i) {
 
-		if (vc->video_size() != ref->video_size()) {
+		if (c[i]->video->video_size() != ref->video_size()) {
 			throw JoinError (_("Content to be joined must have the same picture size."));
 		}
 
-		if (vc->video_frame_rate() != ref->video_frame_rate()) {
+		if (c[i]->video->video_frame_rate() != ref->video_frame_rate()) {
 			throw JoinError (_("Content to be joined must have the same video frame rate."));
 		}
 
-		if (vc->video_frame_type() != ref->video_frame_type()) {
+		if (c[i]->video->video_frame_type() != ref->video_frame_type()) {
 			throw JoinError (_("Content to be joined must have the same video frame type."));
 		}
 
-		if (vc->crop() != ref->crop()) {
+		if (c[i]->video->crop() != ref->crop()) {
 			throw JoinError (_("Content to be joined must have the same crop."));
 		}
 
-		if (vc->scale() != ref->scale()) {
+		if (c[i]->video->scale() != ref->scale()) {
 			throw JoinError (_("Content to be joined must have the same scale setting."));
 		}
 
-		if (vc->colour_conversion() != ref->colour_conversion()) {
+		if (c[i]->video->colour_conversion() != ref->colour_conversion()) {
 			throw JoinError (_("Content to be joined must have the same colour conversion."));
 		}
 
-		if (vc->fade_in() != ref->fade_in() || vc->fade_out() != ref->fade_out()) {
+		if (c[i]->video->fade_in() != ref->fade_in() || c[i]->video->fade_out() != ref->fade_out()) {
 			throw JoinError (_("Content to be joined must have the same fades."));
 		}
 
-		_video_length += vc->video_length ();
+		_video_length += c[i]->video->video_length ();
 
-		if (vc->yuv ()) {
+		if (c[i]->video->yuv ()) {
 			_yuv = true;
 		}
 	}

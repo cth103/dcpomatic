@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ class SndfileContent;
 class SndfileDecoder : public Sndfile, public AudioDecoder
 {
 public:
-	SndfileDecoder (boost::shared_ptr<const SndfileContent> c, bool fast);
+	SndfileDecoder (boost::shared_ptr<const SndfileContent> c, bool fast, boost::shared_ptr<Log> log);
 	~SndfileDecoder ();
 
 private:

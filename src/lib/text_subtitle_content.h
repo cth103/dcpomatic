@@ -40,13 +40,8 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	DCPTime full_length () const;
 
-	double subtitle_video_frame_rate () const;
-	void set_subtitle_video_frame_rate (double r);
-
 	static std::string const font_id;
 
 private:
 	ContentTime _length;
-	/** Video frame rate that this content has been prepared for, if known */
-	boost::optional<double> _frame_rate;
 };

@@ -32,6 +32,7 @@
 #include "lib/video_content.h"
 #include "lib/subtitle_content.h"
 #include "lib/dcp_content.h"
+#include "lib/audio_content.h"
 #include <dcp/key.h>
 #include <dcp/raw_convert.h>
 #include <wx/wx.h>

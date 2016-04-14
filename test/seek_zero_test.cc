@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd48.m2ts"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	content->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	content->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	/* Work out the first video frame index that we will be given, taking into account
 	 * the difference between first video and first audio.
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 		video_delay = ContentTime ();
 	}
 
-	Frame const first_frame = video_delay.round_up (content->video_frame_rate ()).frames_round (content->video_frame_rate ());
+	Frame const first_frame = video_delay.round_up (content->video->video_frame_rate ()).frames_round (content->video->video_frame_rate ());
 
 	FFmpegDecoder decoder (content, film->log(), false);
 	list<ContentVideo> a = decoder.get_video (first_frame, true);

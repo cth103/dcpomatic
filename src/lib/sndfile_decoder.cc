@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <sndfile.h>
+#include "audio_content.h"
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "exceptions.h"
@@ -32,9 +33,9 @@ using std::min;
 using std::cout;
 using boost::shared_ptr;
 
-SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c, bool fast)
+SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c, bool fast, shared_ptr<Log> log)
 	: Sndfile (c)
-	, AudioDecoder (c, fast)
+	, AudioDecoder (c->audio, fast, log)
 	, _done (0)
 	, _remaining (_info.frames)
 	, _deinterleave_buffer (0)
@@ -57,14 +58,14 @@ SndfileDecoder::pass (PassReason, bool)
 	/* Do things in half second blocks as I think there may be limits
 	   to what FFmpeg (and in particular the resampler) can cope with.
 	*/
-	sf_count_t const block = _sndfile_content->audio_stream()->frame_rate() / 2;
+	sf_count_t const block = _sndfile_content->audio->stream()->frame_rate() / 2;
 	sf_count_t const this_time = min (block, _remaining);
 
-	int const channels = _sndfile_content->audio_stream()->channels ();
+	int const channels = _sndfile_content->audio->stream()->channels ();
 
 	shared_ptr<AudioBuffers> data (new AudioBuffers (channels, this_time));
 
-	if (_sndfile_content->audio_stream()->channels() == 1) {
+	if (_sndfile_content->audio->stream()->channels() == 1) {
 		/* No de-interleaving required */
 		sf_read_float (_sndfile, data->data(0), this_time);
 	} else {
@@ -86,7 +87,7 @@ SndfileDecoder::pass (PassReason, bool)
 	}
 
 	data->set_frames (this_time);
-	audio (_sndfile_content->audio_stream (), data, ContentTime::from_frames (_done, _info.samplerate));
+	audio (_sndfile_content->audio->stream (), data, ContentTime::from_frames (_done, _info.samplerate));
 	_done += this_time;
 	_remaining -= this_time;
 

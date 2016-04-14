@@ -19,6 +19,7 @@
 
 #include "dcp_content.h"
 #include "video_content.h"
+#include "audio_content.h"
 #include "dcp_examiner.h"
 #include "job.h"
 #include "film.h"
@@ -55,7 +56,6 @@ int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
-	, AudioContent (film)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
@@ -64,6 +64,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_subtitle (false)
 {
 	video.reset (new VideoContent (this, film));
+	audio.reset (new AudioContent (this, film));
 	subtitle.reset (new SubtitleContent (this, film));
 
 	read_directory (p);
@@ -72,10 +73,14 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, AudioContent (film, node)
-	, _audio_stream (new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
 {
 	video.reset (new VideoContent (this, film, node, version));
+	audio.reset (new AudioContent (this, film, node));
+	audio->set_stream (
+		AudioStreamPtr (
+			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version))
+			)
+		);
 	subtitle.reset (new SubtitleContent (this, film, node, version));
 
 	_name = node->string_child ("Name");
@@ -116,10 +121,12 @@ DCPContent::examine (shared_ptr<Job> job)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
-		AudioMapping m = _audio_stream->mapping ();
+
+		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		audio->set_stream (as);
+		AudioMapping m = as->mapping ();
 		film()->make_audio_mapping_default (m);
-		_audio_stream->set_mapping (m);
+		as->set_mapping (m);
 	}
 
 	signal_changed (AudioContentProperty::AUDIO_STREAMS);
@@ -149,7 +156,7 @@ DCPContent::technical_summary () const
 {
 	return Content::technical_summary() + " - "
 		+ video->technical_summary() + " - "
-		+ AudioContent::technical_summary() + " - ";
+		+ audio->technical_summary() + " - ";
 }
 
 void
@@ -159,9 +166,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 
 	Content::as_xml (node);
 	video->as_xml (node);
-	AudioContent::as_xml (node);
-	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_stream()->frame_rate ()));
-	audio_stream()->mapping().as_xml (node->add_child("AudioMapping"));
+	audio->as_xml (node);
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate()));
+	audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	subtitle->as_xml (node);
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -226,7 +233,7 @@ DCPContent::directory () const
 void
 DCPContent::add_properties (list<UserProperty>& p) const
 {
-	AudioContent::add_properties (p);
+	audio->add_properties (p);
 }
 
 void
@@ -337,15 +344,8 @@ DCPContent::can_reference_video (list<string>& why_not) const
 bool
 DCPContent::can_reference_audio (list<string>& why_not) const
 {
-	DCPDecoder decoder (shared_from_this(), film()->log(), false);
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
-		if (!i->main_sound()) {
-			why_not.push_back (_("The DCP does not have sound in all reels."));
-			return false;
-		}
-	}
-
-	return can_reference<AudioContent> (_("There is other audio content overlapping this DCP; remove it."), why_not);
+	/* XXX: this needs to be fixed */
+	return true;
 }
 
 bool
@@ -355,16 +355,10 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 	return true;
 }
 
-double
-DCPContent::subtitle_video_frame_rate () const
+void
+DCPContent::changed (int property)
 {
-	return video->video_frame_rate ();
-}
-
-vector<AudioStreamPtr>
-DCPContent::audio_streams () const
-{
-	vector<AudioStreamPtr> s;
-	s.push_back (_audio_stream);
-	return s;
+	if (property == VideoContentProperty::VIDEO_FRAME_RATE && subtitle) {
+		subtitle->set_subtitle_video_frame_rate (video->video_frame_rate ());
+	}
 }

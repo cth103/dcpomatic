@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include "dcp_decoder.h"
 #include "dcp_content.h"
+#include "audio_content.h"
 #include "j2k_image_proxy.h"
 #include "image.h"
 #include "config.h"
@@ -44,7 +45,7 @@ using boost::dynamic_pointer_cast;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
 	: VideoDecoder (c->video, log)
-	, AudioDecoder (c, fast)
+	, AudioDecoder (c->audio, fast, log)
 	, SubtitleDecoder (c->subtitle)
 	, _dcp_content (c)
 {
@@ -103,7 +104,7 @@ DCPDecoder::pass (PassReason reason, bool)
 		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->asset()->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
 
-		int const channels = _dcp_content->audio_stream()->channels ();
+		int const channels = _dcp_content->audio->stream()->channels ();
 		int const frames = sf->size() / (3 * channels);
 		shared_ptr<AudioBuffers> data (new AudioBuffers (channels, frames));
 		for (int i = 0; i < frames; ++i) {
@@ -113,7 +114,7 @@ DCPDecoder::pass (PassReason reason, bool)
 			}
 		}
 
-		audio (_dcp_content->audio_stream(), data, ContentTime::from_frames (offset, vfr) + _next);
+		audio (_dcp_content->audio->stream(), data, ContentTime::from_frames (offset, vfr) + _next);
 	}
 
 	if ((*_reel)->main_subtitle ()) {

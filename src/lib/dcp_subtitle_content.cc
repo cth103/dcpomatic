@@ -44,7 +44,6 @@ DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::file
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
-	, _frame_rate (node->optional_number_child<int>("SubtitleFrameRate"))
 {
 	subtitle.reset (new SubtitleContent (this, film, node, version));
 }
@@ -68,7 +67,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	shared_ptr<dcp::SMPTESubtitleAsset> smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset> (sc);
 	if (smpte) {
 		subtitle->set_subtitle_language (smpte->language().get_value_or (""));
-		_frame_rate = smpte->edit_rate().numerator;
+		subtitle->set_subtitle_video_frame_rate (smpte->edit_rate().numerator);
 	}
 
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
@@ -81,7 +80,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 DCPTime
 DCPSubtitleContent::full_length () const
 {
-	FrameRateChange const frc (subtitle_video_frame_rate(), film()->video_frame_rate());
+	FrameRateChange const frc (subtitle->subtitle_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime (_length, frc);
 }
 
@@ -104,31 +103,4 @@ DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	subtitle->as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
-}
-
-void
-DCPSubtitleContent::set_subtitle_video_frame_rate (int r)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_frame_rate = r;
-	}
-
-	signal_changed (SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
-}
-
-double
-DCPSubtitleContent::subtitle_video_frame_rate () const
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_frame_rate) {
-			return _frame_rate.get ();
-		}
-	}
-
-	/* No frame rate specified, so assume this content has been
-	   prepared for any concurrent video content.
-	*/
-	return film()->active_frame_rate_change(position()).source;
 }

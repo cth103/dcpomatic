@@ -86,33 +86,6 @@ TextSubtitleContent::as_xml (xmlpp::Node* node) const
 DCPTime
 TextSubtitleContent::full_length () const
 {
-	FrameRateChange const frc (subtitle_video_frame_rate(), film()->video_frame_rate ());
+	FrameRateChange const frc (subtitle->subtitle_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);
-}
-
-void
-TextSubtitleContent::set_subtitle_video_frame_rate (double r)
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_frame_rate = r;
-	}
-
-	signal_changed (SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
-}
-
-double
-TextSubtitleContent::subtitle_video_frame_rate () const
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_frame_rate) {
-			return _frame_rate.get ();
-		}
-	}
-
-	/* No frame rate specified, so assume this content has been
-	   prepared for any concurrent video content.
-	*/
-	return film()->active_frame_rate_change(position()).source;
 }

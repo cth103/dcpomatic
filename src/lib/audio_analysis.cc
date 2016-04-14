@@ -153,9 +153,8 @@ AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
 		   we know that content's gain when the analysis was run.  Hence we can work out
 		   what correction is now needed to make it look `right'.
 		*/
-		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (playlist->content().front ());
-		DCPOMATIC_ASSERT (ac);
-		return ac->audio_gain() - analysis_gain().get ();
+		DCPOMATIC_ASSERT (playlist->content().front()->audio);
+		return playlist->content().front()->audio->audio_gain() - analysis_gain().get ();
 	}
 
 	return 0.0f;

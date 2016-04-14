@@ -20,11 +20,11 @@
 #ifndef DCPOMATIC_SNDFILE_CONTENT_H
 #define DCPOMATIC_SNDFILE_CONTENT_H
 
-#include "audio_content.h"
+#include "content.h"
 
 class AudioExaminer;
 
-class SndfileContent : public AudioContent
+class SndfileContent : public Content
 {
 public:
 	SndfileContent (boost::shared_ptr<const Film>, boost::filesystem::path);
@@ -44,12 +44,6 @@ public:
 
 	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
 
-	std::vector<AudioStreamPtr> audio_streams () const;
-
-	AudioStreamPtr audio_stream () const {
-		return _audio_stream;
-	}
-
 	static bool valid_file (boost::filesystem::path);
 
 private:
@@ -59,8 +53,6 @@ private:
 	}
 
 	Frame _audio_length;
-
-	boost::shared_ptr<AudioStream> _audio_stream;
 };
 
 #endif

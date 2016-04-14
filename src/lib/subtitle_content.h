@@ -130,6 +130,9 @@ public:
 		return _outline_colour;
 	}
 
+	double subtitle_video_frame_rate () const;
+	void set_subtitle_video_frame_rate (double r);
+
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _subtitle_language;
@@ -158,6 +161,8 @@ private:
 	bool _outline;
 	dcp::Colour _outline_colour;
 	std::list<boost::signals2::connection> _font_connections;
+	/** Video frame rate that this content has been prepared for, if known */
+	boost::optional<double> _frame_rate;
 };
 
 #endif

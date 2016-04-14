@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "lib/image_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/dcp_content.h"
+#include "lib/video_content.h"
 #include "lib/text_subtitle_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -88,21 +89,21 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_red.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
-		c->set_video_length (24);
+		c->video->set_video_length (24);
 	}
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_green.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
-		c->set_video_length (24);
+		c->video->set_video_length (24);
 	}
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_blue.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
-		c->set_video_length (24);
+		c->video->set_video_length (24);
 	}
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
@@ -192,7 +193,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 		content[i].reset (new ImageContent (film, "test/data/flat_green.png"));
 		film->examine_and_add_content (content[i]);
 		wait_for_jobs ();
-		content[i]->set_video_length (24);
+		content[i]->video->set_video_length (24);
 	}
 
 	shared_ptr<TextSubtitleContent> subs (new TextSubtitleContent (film, "test/data/subrip3.srt"));

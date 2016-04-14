@@ -20,6 +20,7 @@
 #include "sndfile_content.h"
 #include "sndfile_decoder.h"
 #include "sndfile_examiner.h"
+#include "audio_content.h"
 #include "film.h"
 #include "compose.hpp"
 #include "job.h"
@@ -39,18 +40,19 @@ using boost::shared_ptr;
 
 SndfileContent::SndfileContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
-	, AudioContent (film, p)
 {
-
+	audio.reset (new AudioContent (this, film));
 }
 
 SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, AudioContent (film, node)
 	, _audio_length (node->number_child<Frame> ("AudioLength"))
-	, _audio_stream (new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
 {
-
+	audio.reset (new AudioContent (this, film, node));
+	audio->set_stream (
+		AudioStreamPtr (
+			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
+		);
 }
 
 void
@@ -58,9 +60,9 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("Sndfile");
 	Content::as_xml (node);
-	AudioContent::as_xml (node);
-	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio_stream()->frame_rate ()));
-	audio_stream()->mapping().as_xml (node->add_child("AudioMapping"));
+	audio->as_xml (node);
+	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate ()));
+	audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
 }
 
@@ -76,7 +78,7 @@ string
 SndfileContent::technical_summary () const
 {
 	return Content::technical_summary() + " - "
-		+ AudioContent::technical_summary ()
+		+ audio->technical_summary ()
 		+ " - sndfile";
 }
 
@@ -103,10 +105,11 @@ SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_audio_stream.reset (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
-		AudioMapping m = _audio_stream->mapping ();
+		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		audio->set_stream (as);
+		AudioMapping m = as->mapping ();
 		film()->make_audio_mapping_default (m);
-		_audio_stream->set_mapping (m);
+		as->set_mapping (m);
 		_audio_length = examiner->audio_length ();
 	}
 
@@ -116,14 +119,6 @@ SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
 DCPTime
 SndfileContent::full_length () const
 {
-	FrameRateChange const frc (audio_video_frame_rate(), film()->video_frame_rate());
-	return DCPTime::from_frames (audio_length() / frc.speed_up, audio_stream()->frame_rate ());
-}
-
-vector<AudioStreamPtr>
-SndfileContent::audio_streams () const
-{
-	vector<AudioStreamPtr> s;
-	s.push_back (_audio_stream);
-	return s;
+	FrameRateChange const frc (audio->audio_video_frame_rate(), film->video_frame_rate());
+	return DCPTime::from_frames (audio_length() / frc.speed_up, audio->stream()->frame_rate ());
 }

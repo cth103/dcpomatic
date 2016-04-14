@@ -19,6 +19,7 @@
 
 #include "ffmpeg_content.h"
 #include "video_content.h"
+#include "audio_content.h"
 #include "ffmpeg_examiner.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
@@ -62,9 +63,9 @@ int const FFmpegContentProperty::FILTERS = 102;
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
-	, AudioContent (film, p)
 {
 	video.reset (new VideoContent (this, film));
+	audio.reset (new AudioContent (this, film));
 	subtitle.reset (new SubtitleContent (this, film));
 
 	set_default_colour_conversion ();
@@ -72,9 +73,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::pa
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (film, node)
-	, AudioContent (film, node)
 {
 	video.reset (new VideoContent (this, film, node, version));
+	audio.reset (new AudioContent (this, film, node));
 	subtitle.reset (new SubtitleContent (this, film, node, version));
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
@@ -87,10 +88,11 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 	c = node->node_children ("AudioStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream (*i, version)));
+		shared_ptr<FFmpegAudioStream> as (new FFmpegAudioStream (*i, version));
+		audio->add_stream (as);
 		if (version < 11 && !(*i)->optional_node_child ("Selected")) {
 			/* This is an old file and this stream is not selected, so un-map it */
-			_audio_streams.back()->set_mapping (AudioMapping (_audio_streams.back()->channels (), MAX_DCP_AUDIO_CHANNELS));
+			as->set_mapping (AudioMapping (_audio_streams.back()->channels (), MAX_DCP_AUDIO_CHANNELS));
 		}
 	}
 
@@ -121,9 +123,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
 	: Content (film, c)
-	, AudioContent (film, c)
 {
 	video.reset (new VideoContent (this, film, c));
+	audio.reset (new AudioContent (this, film, c));
 	subtitle.reset (new SubtitleContent (this, film, c));
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
@@ -140,7 +142,6 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_
 
 	_subtitle_streams = ref->subtitle_streams ();
 	_subtitle_stream = ref->subtitle_stream ();
-	_audio_streams = ref->ffmpeg_audio_streams ();
 	_first_video = ref->_first_video;
 	_filters = ref->_filters;
 	_color_range = ref->_color_range;
@@ -156,7 +157,7 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("FFmpeg");
 	Content::as_xml (node);
 	video->as_xml (node);
-	AudioContent::as_xml (node);
+	audio->as_xml (node);
 	subtitle->as_xml (node);
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -169,8 +170,10 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 		(*i)->as_xml (t);
 	}
 
-	for (vector<shared_ptr<FFmpegAudioStream> >::const_iterator i = _audio_streams.begin(); i != _audio_streams.end(); ++i) {
-		(*i)->as_xml (node->add_child("AudioStream"));
+	BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
+		shared_ptr<FFmpegAudioStream> f = dynamic_pointer_cast<FFmpegAudioStream> (i);
+		DCPOMATIC_ASSERT (f);
+		f->as_xml (node->add_child("AudioStream"));
 	}
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
@@ -209,12 +212,15 @@ FFmpegContent::examine (shared_ptr<Job> job)
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 
-		_audio_streams = examiner->audio_streams ();
+		BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, examiner->audio_streams ()) {
+			audio->add_stream (i);
+		}
 
-		if (!_audio_streams.empty ()) {
-			AudioMapping m = _audio_streams.front()->mapping ();
+		if (!audio->streams().empty ()) {
+			AudioStreamPtr as = audio->streams().front();
+			AudioMapping m = as->mapping ();
 			film()->make_audio_mapping_default (m);
-			_audio_streams.front()->set_mapping (m);
+			as->set_mapping (m);
 		}
 
 		_first_video = examiner->first_video ();
@@ -228,7 +234,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
-	signal_changed (AudioContentProperty::AUDIO_STREAMS);
 }
 
 string
@@ -259,7 +264,7 @@ FFmpegContent::technical_summary () const
 
 	return Content::technical_summary() + " - "
 		+ video->technical_summary() + " - "
-		+ AudioContent::technical_summary() + " - "
+		+ audio->technical_summary() + " - "
 		+ String::compose (
 			"ffmpeg: audio %1 subtitle %2 filters %3", as, ss, filt
 			);
@@ -403,7 +408,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 {
 	Content::add_properties (p);
 	video->add_properties (p);
-	AudioContent::add_properties (p);
+	audio->add_properties (p);
 
 	if (_bits_per_pixel) {
 		int const sub = 219 * pow (2, _bits_per_pixel.get() - 8);
@@ -528,8 +533,10 @@ FFmpegContent::signal_subtitle_stream_changed ()
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
-double
-FFmpegContent::subtitle_video_frame_rate () const
+void
+FFmpegContent::changed (int property)
 {
-	return video->video_frame_rate ();
+	if (property == VideoContentProperty::VIDEO_FRAME_RATE && subtitle) {
+		subtitle->set_subtitle_video_frame_rate (video->video_frame_rate ());
+	}
 }

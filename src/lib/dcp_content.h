@@ -24,7 +24,7 @@
  *  @brief DCPContent class.
  */
 
-#include "audio_content.h"
+#include "content.h"
 #include <libcxml/cxml.h>
 #include <dcp/encrypted_kdm.h>
 
@@ -40,7 +40,7 @@ public:
 /** @class DCPContent
  *  @brief An existing DCP used as input.
  */
-class DCPContent : public AudioContent
+class DCPContent : public Content
 {
 public:
 	DCPContent (boost::shared_ptr<const Film>, boost::filesystem::path p);
@@ -65,8 +65,6 @@ public:
 	void set_default_colour_conversion ();
 	std::list<DCPTime> reel_split_points () const;
 
-	/* SubtitleContent */
-
 	bool has_text_subtitles () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _has_subtitles;
@@ -76,7 +74,7 @@ public:
 		return false;
 	}
 
-	double subtitle_video_frame_rate () const;
+	void changed (int property);
 
 	boost::filesystem::path directory () const;
 
@@ -120,16 +118,9 @@ public:
 
 	bool can_reference_subtitle (std::list<std::string> &) const;
 
-	std::vector<AudioStreamPtr> audio_streams () const;
-
-	AudioStreamPtr audio_stream () const {
-		return _audio_stream;
-	}
-
-protected:
+private:
 	void add_properties (std::list<UserProperty>& p) const;
 
-private:
 	void read_directory (boost::filesystem::path);
 	std::list<DCPTimePeriod> reels () const;
 	template <class T> bool can_reference (std::string overlapping, std::list<std::string>& why_not) const;
@@ -153,8 +144,6 @@ private:
 	 *  rather than by rewrapping.
 	 */
 	bool _reference_subtitle;
-
-	boost::shared_ptr<AudioStream> _audio_stream;
 };
 
 #endif

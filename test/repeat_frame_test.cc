@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "lib/ratio.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/video_content.h"
 
 using boost::shared_ptr;
 
@@ -44,7 +45,7 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 
 	wait_for_jobs ();
 
-	c->set_scale (VideoContentScale (Ratio::from_id ("185")));
+	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_video_frame_rate (48);
 	film->make_dcp ();
@@ -53,4 +54,3 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	/* Should be 32 frames of red */
 	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));
 }
-

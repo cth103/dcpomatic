@@ -93,6 +93,8 @@ public:
 	 */
 	virtual std::list<DCPTime> reel_split_points () const;
 
+	virtual void changed (int) {}
+
 	boost::shared_ptr<Content> clone () const;
 
 	void set_path (boost::filesystem::path);
@@ -167,6 +169,7 @@ public:
 	boost::signals2::signal<void (boost::weak_ptr<Content>, int, bool)> Changed;
 
 	boost::shared_ptr<VideoContent> video;
+	boost::shared_ptr<AudioContent> audio;
 	boost::shared_ptr<SubtitleContent> subtitle;
 
 	void signal_changed (int);

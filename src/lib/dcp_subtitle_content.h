@@ -43,11 +43,6 @@ public:
 		return false;
 	}
 
-	double subtitle_video_frame_rate () const;
-	void set_subtitle_video_frame_rate (int r);
-
 private:
 	ContentTime _length;
-	/** Video frame rate that this content has been prepared for, if known */
-	boost::optional<double> _frame_rate;
 };

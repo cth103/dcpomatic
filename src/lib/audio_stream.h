@@ -30,6 +30,7 @@ class AudioStream
 public:
 	AudioStream (int frame_rate, int channels);
 	AudioStream (int frame_rate, AudioMapping mapping);
+	virtual ~AudioStream () {}
 
 	void set_mapping (AudioMapping mapping);
 

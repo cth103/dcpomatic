@@ -87,6 +87,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		this,
 		new wxChoice (this, wxID_ANY),
 		VideoContentProperty::VIDEO_FRAME_TYPE,
+		&Content::video,
 		boost::mem_fn (&VideoContent::video_frame_type),
 		boost::mem_fn (&VideoContent::set_video_frame_type),
 		&caster<int, VideoFrameType>,
@@ -105,6 +106,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
+		&Content::video,
 		boost::mem_fn (&VideoContent::left_crop),
 		boost::mem_fn (&VideoContent::set_left_crop)
 		);
@@ -115,6 +117,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
+		&Content::video,
 		boost::mem_fn (&VideoContent::right_crop),
 		boost::mem_fn (&VideoContent::set_right_crop)
 		);
@@ -127,6 +130,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
+		&Content::video,
 		boost::mem_fn (&VideoContent::top_crop),
 		boost::mem_fn (&VideoContent::set_top_crop)
 		);
@@ -137,6 +141,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
 		VideoContentProperty::VIDEO_CROP,
+		&Content::video,
 		boost::mem_fn (&VideoContent::bottom_crop),
 		boost::mem_fn (&VideoContent::set_bottom_crop)
 		);
@@ -160,6 +165,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		this,
 		new wxChoice (this, wxID_ANY),
 		VideoContentProperty::VIDEO_SCALE,
+		&Content::video,
 		boost::mem_fn (&VideoContent::scale),
 		boost::mem_fn (&VideoContent::set_scale),
 		&index_to_scale,

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #include <boost/test/unit_test.hpp>
 #include "lib/image_decoder.h"
 #include "lib/image_content.h"
+#include "lib/film.h"
 #include "test.h"
 #include <iostream>
 
@@ -31,7 +32,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 {
 	shared_ptr<Film> film = new_test_film ("video_decoder_fill_test");
 	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	ImageDecoder decoder (c);
+	ImageDecoder decoder (c, film->log());
 
 	decoder.fill_one_eye (0, 4, EYES_BOTH);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 4U);
@@ -56,7 +57,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 {
 	shared_ptr<Film> film = new_test_film ("video_decoder_fill_test");
 	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
-	ImageDecoder decoder (c);
+	ImageDecoder decoder (c, film->log());
 
 	decoder.fill_both_eyes (0, 4, EYES_LEFT);
 	BOOST_CHECK_EQUAL (decoder._decoded_video.size(), 8);

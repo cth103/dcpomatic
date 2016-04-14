@@ -106,7 +106,7 @@ AnalyseAudioJob::run ()
 
 	bool has_any_audio = false;
 	BOOST_FOREACH (shared_ptr<Content> c, _playlist->content ()) {
-		if (dynamic_pointer_cast<AudioContent> (c)) {
+		if (c->audio) {
 			has_any_audio = true;
 		}
 	}
@@ -145,7 +145,7 @@ AnalyseAudioJob::run ()
 		/* If there was only one piece of content in this analysis we may later need to know what its
 		   gain was when we analysed it.
 		*/
-		shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (_playlist->content().front ());
+		shared_ptr<const AudioContent> ac = _playlist->content().front()->audio;
 		DCPOMATIC_ASSERT (ac);
 		_analysis->set_analysis_gain (ac->audio_gain ());
 	}

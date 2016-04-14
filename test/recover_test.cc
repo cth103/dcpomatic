@@ -26,6 +26,7 @@
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/video_content.h"
 #include "lib/ratio.h"
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
@@ -86,7 +87,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 	film->set_three_d (true);
 
 	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/3d_test"));
-	content->set_video_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
+	content->video->set_video_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
