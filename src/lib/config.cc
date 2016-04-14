@@ -142,10 +142,12 @@ void
 Config::read ()
 {
 	if (!have_existing ("config.xml")) {
+		cout << "No existing config.xml; creating chains.\n";
 		/* Make a new set of signing certificates and key */
 		_signer_chain = create_certificate_chain ();
 		/* And similar for decryption of KDMs */
 		_decryption_chain = create_certificate_chain ();
+		cout << "Writing config.\n";
 		write ();
 		return;
 	}
@@ -498,6 +500,7 @@ Config::drop ()
 void
 Config::changed (Property what)
 {
+	cout << what << " changed in config.\n";
 	Changed (what);
 }
 
