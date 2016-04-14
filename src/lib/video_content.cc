@@ -194,14 +194,6 @@ VideoContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-VideoContent::set_default_colour_conversion ()
-{
-	/* If there's no better offer we'll use Rec. 709 */
-	boost::mutex::scoped_lock lm (_mutex);
-	_colour_conversion = PresetColourConversion::from_id ("rec709").conversion;
-}
-
-void
 VideoContent::take_from_video_examiner (shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */

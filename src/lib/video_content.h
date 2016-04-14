@@ -59,8 +59,6 @@ public:
 	std::string technical_summary () const;
 	std::string identifier () const;
 
-	void set_default_colour_conversion ();
-
 	Frame video_length () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_length;
