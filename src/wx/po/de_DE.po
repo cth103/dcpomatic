@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-07 18:26+0100\n"
-"PO-Revision-Date: 2016-04-07 16:37+0100\n"
+"PO-Revision-Date: 2016-04-14 13:19+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -374,9 +374,8 @@ msgid "Colour conversion"
 msgstr "Farbumwandlung"
 
 #: src/wx/video_panel.cc:196
-#, fuzzy
 msgid "Colour|Custom"
-msgstr "Farbe"
+msgstr "Eigene Einstellungen..."
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
@@ -632,7 +631,7 @@ msgstr "Projekt Name"
 
 #: src/wx/filter_dialog.cc:32 src/wx/video_panel.cc:174
 msgid "Filters"
-msgstr "Filter"
+msgstr "Filter (Video)"
 
 #: src/wx/config_dialog.cc:204
 msgid ""
@@ -759,7 +758,8 @@ msgstr "Eingangsstärke"
 #: src/wx/audio_dialog.cc:306
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr "Integrierter Lautheitsumfang %.2f LUFS"
+msgstr ""
+"LUFS - FullScale bezogener (absoluter) Lautheitsumfang (EBU R128): %.2f LUFS"
 
 #: src/wx/config_dialog.cc:829
 msgid "Intermediate"
@@ -804,8 +804,8 @@ msgstr "KDM Typ"
 #: src/wx/kdm_dialog.cc:64
 msgid "KDM|Timing"
 msgstr ""
-"Zeitfenster (nach UTC/GMT Offset/Zeitzone in Kinoeigenschaften) - Zeit ist "
-"LOKAL!"
+"Zeitfenster beim Empfänger (nach UTC/GMT Offset/Zeitzone in "
+"Kinoeigenschaften)"
 
 #: src/wx/timeline_dialog.cc:43
 msgid "Keep video and subtitles in sequence"
@@ -858,7 +858,7 @@ msgstr "In die Log-Datei schreiben:"
 #: src/wx/audio_dialog.cc:315
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr "Lautheitsumfang %.2f LU"
+msgstr "LU - Relativer Lautheitsumfang (EBU R128): %.2f LU"
 
 #: src/wx/content_panel.cc:503
 msgid "MISSING: "
@@ -932,7 +932,7 @@ msgstr "Benötigt KDM:"
 #: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:67
 #: src/wx/preset_colour_conversion_dialog.cc:39 src/wx/screen_dialog.cc:64
 msgid "Name"
-msgstr "CPL Name"
+msgstr "Name"
 
 #: src/wx/new_film_dialog.cc:35
 msgid "New Film"
@@ -1136,9 +1136,8 @@ msgid "Reels"
 msgstr "Aktaufteilung ('Reels')"
 
 #: src/wx/dcp_panel.cc:180
-#, fuzzy
 msgid "Reel|Custom"
-msgstr "Eigene Einstellung"
+msgstr "Nach MXF Dateigröße"
 
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
@@ -1217,7 +1216,7 @@ msgstr "SMPTE"
 #: src/wx/audio_dialog.cc:276
 #, c-format
 msgid "Sample peak is %.2fdB at %s"
-msgstr "Spitzenwert (Sample peak) ist %.2fdB bei %s"
+msgstr "Spitzenwert (Sample peak): %.2fdB bei %s"
 
 #: src/wx/video_panel.cc:157
 msgid "Scale to"
@@ -1290,7 +1289,7 @@ msgstr "Systemzeichensatz auswählen..."
 
 #: src/wx/config_dialog.cc:160
 msgid "Set language"
-msgstr "Sprache setzen"
+msgstr "Programm-Sprache einstellen"
 
 #: src/wx/dcp_panel.cc:754
 msgid "Show audio..."
@@ -1473,7 +1472,7 @@ msgstr "Beschnitt vor aktueller Vorschauposition (Slider)"
 #: src/wx/audio_dialog.cc:292
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr "Spitzenwert (True peak) ist %.2fdB"
+msgstr "Spitzenwert (True peak): %.2fdB"
 
 #: src/wx/audio_dialog.cc:82 src/wx/config_dialog.cc:667
 #: src/wx/video_panel.cc:84
