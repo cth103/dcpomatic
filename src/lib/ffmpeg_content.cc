@@ -355,30 +355,6 @@ FFmpegContent::text_subtitles_during (ContentTimePeriod period, bool starting) c
 	return stream->text_subtitles_during (period, starting);
 }
 
-bool
-FFmpegContent::has_image_subtitles () const
-{
-	BOOST_FOREACH (shared_ptr<FFmpegSubtitleStream> i, subtitle_streams()) {
-		if (i->has_image_subtitles()) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool
-FFmpegContent::has_text_subtitles () const
-{
-	BOOST_FOREACH (shared_ptr<FFmpegSubtitleStream> i, subtitle_streams()) {
-		if (i->has_text_subtitles()) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 void
 FFmpegContent::set_default_colour_conversion ()
 {

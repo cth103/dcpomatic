@@ -26,22 +26,11 @@ public:
 	DCPSubtitleContent (boost::shared_ptr<const Film>, boost::filesystem::path);
 	DCPSubtitleContent (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 
-	/* Content */
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
 	void as_xml (xmlpp::Node *) const;
 	DCPTime full_length () const;
-
-	/* SubtitleContent */
-
-	bool has_text_subtitles () const {
-		return true;
-	}
-
-	bool has_image_subtitles () const {
-		return false;
-	}
 
 private:
 	ContentTime _length;

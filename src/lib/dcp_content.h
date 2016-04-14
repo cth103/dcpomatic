@@ -65,15 +65,6 @@ public:
 	void set_default_colour_conversion ();
 	std::list<DCPTime> reel_split_points () const;
 
-	bool has_text_subtitles () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _has_subtitles;
-	}
-
-	bool has_image_subtitles () const {
-		return false;
-	}
-
 	void changed (int property);
 
 	boost::filesystem::path directory () const;
@@ -126,7 +117,6 @@ private:
 	template <class T> bool can_reference (std::string overlapping, std::list<std::string>& why_not) const;
 
 	std::string _name;
-	bool _has_subtitles;
 	/** true if our DCP is encrypted */
 	bool _encrypted;
 	boost::optional<dcp::EncryptedKDM> _kdm;

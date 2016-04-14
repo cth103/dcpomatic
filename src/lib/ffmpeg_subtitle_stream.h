@@ -39,13 +39,6 @@ public:
 	ContentTime find_subtitle_to (std::string id) const;
 	void add_offset (ContentTime offset);
 	void set_colour (RGBA from, RGBA to);
-
-	bool has_image_subtitles () const {
-		return !_image_subtitles.empty ();
-	}
-	bool has_text_subtitles () const {
-		return !_text_subtitles.empty ();
-	}
 	std::map<RGBA, RGBA> colours () const;
 
 private:

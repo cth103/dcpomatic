@@ -56,7 +56,6 @@ int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
-	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
 	, _reference_video (false)
@@ -65,7 +64,6 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 {
 	video.reset (new VideoContent (this, film));
 	audio.reset (new AudioContent (this, film));
-	subtitle.reset (new SubtitleContent (this, film));
 
 	read_directory (p);
 	set_default_colour_conversion ();
@@ -75,16 +73,20 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	: Content (film, node)
 {
 	video.reset (new VideoContent (this, film, node, version));
+
 	audio.reset (new AudioContent (this, film, node));
 	audio->set_stream (
 		AudioStreamPtr (
 			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version))
 			)
 		);
-	subtitle.reset (new SubtitleContent (this, film, node, version));
 
 	_name = node->string_child ("Name");
-	_has_subtitles = node->bool_child ("HasSubtitles");
+
+	if (node->bool_child ("HasSubtitles")) {
+		subtitle.reset (new SubtitleContent (this, film, node, version));
+	}
+
 	_encrypted = node->bool_child ("Encrypted");
 	if (node->optional_node_child ("KDM")) {
 		_kdm = dcp::EncryptedKDM (node->string_child ("KDM"));
@@ -134,7 +136,9 @@ DCPContent::examine (shared_ptr<Job> job)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
-		_has_subtitles = examiner->has_subtitles ();
+		if (examiner->has_subtitles ()) {
+			subtitle.reset (new SubtitleContent (this, film()));
+		}
 		_encrypted = examiner->encrypted ();
 		_kdm_valid = examiner->kdm_valid ();
 	}
@@ -173,7 +177,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
-	node->add_child("HasSubtitles")->add_child_text (_has_subtitles ? "1" : "0");
+	node->add_child("HasSubtitles")->add_child_text (subtitle ? "1" : "0");
 	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	if (_kdm) {
 		node->add_child("KDM")->add_child_text (_kdm->as_xml ());

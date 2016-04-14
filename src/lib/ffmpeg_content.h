@@ -63,9 +63,6 @@ public:
 
 	void set_default_colour_conversion ();
 
-	bool has_text_subtitles () const;
-	bool has_image_subtitles () const;
-
 	void set_filters (std::vector<Filter const *> const &);
 
 	void changed (int property);
