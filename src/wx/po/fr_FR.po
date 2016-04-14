@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2016-03-31 18:11+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -416,7 +416,7 @@ msgstr "Copier le nom"
 msgid "Could not analyse audio."
 msgstr "Analyse du son impossible"
 
-#: src/wx/film_viewer.cc:189
+#: src/wx/film_viewer.cc:197
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "aucune vidéo à afficher (%s)"
@@ -830,6 +830,11 @@ msgstr "Page de clé privée"
 msgid "Left"
 msgstr "Gauche"
 
+#: src/wx/film_viewer.cc:67
+#, fuzzy
+msgid "Left eye"
+msgstr "Gauche"
+
 #: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
 msgstr "Linéariser la courbe d'entrée gamma pour les bas niveaux"
@@ -1028,7 +1033,7 @@ msgstr "Crête: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Crête: inconnue"
 
-#: src/wx/film_viewer.cc:72
+#: src/wx/film_viewer.cc:74
 msgid "Play"
 msgstr "Lecture"
 
@@ -1187,6 +1192,11 @@ msgstr "Droit"
 #: src/wx/audio_mapping_view.cc:320
 msgid "Right click to change gain."
 msgstr "Cliquez droit pour modifier le gain."
+
+#: src/wx/film_viewer.cc:68
+#, fuzzy
+msgid "Right eye"
+msgstr "Droit"
 
 #: src/wx/config_dialog.cc:825
 msgid "Root"
@@ -1359,7 +1369,7 @@ msgstr "Couleur Sous-titres"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:246
+#: src/wx/about_dialog.cc:249
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -1383,7 +1393,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:300
+#: src/wx/about_dialog.cc:303
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -1401,7 +1411,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Il n'y a aucun avertissement: tout semble correct!"
 
-#: src/wx/film_viewer.cc:149
+#: src/wx/film_viewer.cc:157
 msgid "There is not enough free memory to do that."
 msgstr "Il n'y a pas assez de mémoire pour faire cela."
 
@@ -1471,7 +1481,7 @@ msgstr "La crête absolue est de %.2fdB"
 msgid "Type"
 msgstr "Type"
 
-#: src/wx/cinema_dialog.cc:83
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC"
 msgstr "UTC"
 
@@ -1479,15 +1489,113 @@ msgstr "UTC"
 msgid "UTC offset (time zone)"
 msgstr "Différence UTC (fuseau horaire)"
 
+#: src/wx/cinema_dialog.cc:93
+#, fuzzy
+msgid "UTC+1"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:102
+#, fuzzy
+msgid "UTC+10"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:103
+#, fuzzy
+msgid "UTC+11"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:104
+#, fuzzy
+msgid "UTC+12"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:94
+#, fuzzy
+msgid "UTC+2"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:95
+#, fuzzy
+msgid "UTC+3"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:96
+#, fuzzy
+msgid "UTC+4"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:97
+#, fuzzy
+msgid "UTC+5"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:98
+#, fuzzy
+msgid "UTC+6"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:99
+#, fuzzy
+msgid "UTC+7"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:100
+#, fuzzy
+msgid "UTC+8"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:101
+#, fuzzy
+msgid "UTC+9"
+msgstr "UTC+%d"
+
+#: src/wx/cinema_dialog.cc:91
+msgid "UTC-1"
+msgstr ""
+
 #: src/wx/cinema_dialog.cc:81
-#, c-format
-msgid "UTC%d"
-msgstr "UTC%d"
+msgid "UTC-10"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:80
+msgid "UTC-11"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:90
+msgid "UTC-2"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:89
+msgid "UTC-3"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:88
+msgid "UTC-3:30"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:87
+msgid "UTC-4"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:86
+msgid "UTC-5"
+msgstr ""
 
 #: src/wx/cinema_dialog.cc:85
-#, c-format
-msgid "UTC+%d"
-msgstr "UTC+%d"
+msgid "UTC-6"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:84
+msgid "UTC-7"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:83
+msgid "UTC-8"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:82
+msgid "UTC-9"
+msgstr ""
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
@@ -1691,6 +1799,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:114
 msgid "y"
 msgstr "y"
+
+#~ msgid "UTC%d"
+#~ msgstr "UTC%d"
 
 #~ msgid "Server serial number"
 #~ msgstr "Numéro de Série du Serveur"

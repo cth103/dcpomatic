@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -395,7 +395,7 @@ msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:510
+#: src/lib/config.cc:513
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -482,7 +482,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Chyba pri autentifikovaní so serverom (%1)"
 
-#: src/lib/emailer.cc:212
+#: src/lib/emailer.cc:213
 msgid "Failed to send email (%1)"
 msgstr "Chyba pri posielaní emailu (%1)"
 
@@ -579,7 +579,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Neviem, čo zapríčinilo túto chybu."
 
-#: src/lib/config.cc:234 src/lib/config.cc:507
+#: src/lib/config.cc:236 src/lib/config.cc:510
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM donáška: $CPL_NAME"
 

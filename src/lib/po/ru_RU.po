@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2016-03-02 09:09+0200\n"
 "Last-Translator: Igor V <iva_co@ukr.net>\n"
 "Language-Team: Russian\n"
@@ -403,7 +403,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:510
+#: src/lib/config.cc:513
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -489,7 +489,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Ошибка аутентификации сервером (%1)"
 
-#: src/lib/emailer.cc:212
+#: src/lib/emailer.cc:213
 msgid "Failed to send email (%1)"
 msgstr "Ошибка отправки email (%1)"
 
@@ -585,7 +585,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:234 src/lib/config.cc:507
+#: src/lib/config.cc:236 src/lib/config.cc:510
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 

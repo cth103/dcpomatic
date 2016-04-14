@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -400,7 +400,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:510
+#: src/lib/config.cc:513
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -488,7 +488,7 @@ msgstr ""
 msgid "Failed to authenticate with server (%1)"
 msgstr "Kunne ikke godkende mod server (%1)"
 
-#: src/lib/emailer.cc:212
+#: src/lib/emailer.cc:213
 msgid "Failed to send email (%1)"
 msgstr ""
 
@@ -586,7 +586,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Det er uklart hvad der forårsagede denne fejl."
 
-#: src/lib/config.cc:234 src/lib/config.cc:507
+#: src/lib/config.cc:236 src/lib/config.cc:510
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 

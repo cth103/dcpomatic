@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2016-02-09 01:29-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -412,7 +412,7 @@ msgstr "Copiar como nombre"
 msgid "Could not analyse audio."
 msgstr "No se pudo analizar el audio."
 
-#: src/wx/film_viewer.cc:189
+#: src/wx/film_viewer.cc:197
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "No se pudo obtener el vídeo para mostrarlo (%s)"
@@ -826,6 +826,11 @@ msgstr "Llave privada para certificado hoja"
 msgid "Left"
 msgstr "Izquierda"
 
+#: src/wx/film_viewer.cc:67
+#, fuzzy
+msgid "Left eye"
+msgstr "Izquierda"
+
 #: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
 msgstr "Hacer lineal la curva de gamma de entrada para valores bajos"
@@ -1024,7 +1029,7 @@ msgstr "Pico: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Pico: desconocido"
 
-#: src/wx/film_viewer.cc:72
+#: src/wx/film_viewer.cc:74
 msgid "Play"
 msgstr "Reproducir"
 
@@ -1183,6 +1188,11 @@ msgstr "Derecha"
 #: src/wx/audio_mapping_view.cc:320
 msgid "Right click to change gain."
 msgstr "Click derecho para cambiar la ganancia."
+
+#: src/wx/film_viewer.cc:68
+#, fuzzy
+msgid "Right eye"
+msgstr "Derecha"
 
 #: src/wx/config_dialog.cc:825
 msgid "Root"
@@ -1356,7 +1366,7 @@ msgstr "Color del contorno"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:246
+#: src/wx/about_dialog.cc:249
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1380,7 +1390,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:300
+#: src/wx/about_dialog.cc:303
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -1397,7 +1407,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "No hay recomendaciones: ¡todo parece bien!"
 
-#: src/wx/film_viewer.cc:149
+#: src/wx/film_viewer.cc:157
 msgid "There is not enough free memory to do that."
 msgstr "No hay suficiente memoria para hacer eso."
 
@@ -1467,7 +1477,7 @@ msgstr "El pico es %.2fdB"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/wx/cinema_dialog.cc:83
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC"
 msgstr ""
 
@@ -1475,14 +1485,100 @@ msgstr ""
 msgid "UTC offset (time zone)"
 msgstr ""
 
+#: src/wx/cinema_dialog.cc:93
+msgid "UTC+1"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:102
+msgid "UTC+10"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:103
+msgid "UTC+11"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:104
+msgid "UTC+12"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:94
+msgid "UTC+2"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:95
+msgid "UTC+3"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:96
+msgid "UTC+4"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:97
+msgid "UTC+5"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:98
+msgid "UTC+6"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:99
+msgid "UTC+7"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:100
+msgid "UTC+8"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:101
+msgid "UTC+9"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:91
+msgid "UTC-1"
+msgstr ""
+
 #: src/wx/cinema_dialog.cc:81
-#, c-format
-msgid "UTC%d"
+msgid "UTC-10"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:80
+msgid "UTC-11"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:90
+msgid "UTC-2"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:89
+msgid "UTC-3"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:88
+msgid "UTC-3:30"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:87
+msgid "UTC-4"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:86
+msgid "UTC-5"
 msgstr ""
 
 #: src/wx/cinema_dialog.cc:85
-#, c-format
-msgid "UTC+%d"
+msgid "UTC-6"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:84
+msgid "UTC-7"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:83
+msgid "UTC-8"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:82
+msgid "UTC-9"
 msgstr ""
 
 #: src/wx/content_panel.cc:92

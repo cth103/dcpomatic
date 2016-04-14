@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -385,7 +385,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr ""
 
-#: src/lib/config.cc:510
+#: src/lib/config.cc:513
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -460,7 +460,7 @@ msgstr ""
 msgid "Failed to authenticate with server (%1)"
 msgstr ""
 
-#: src/lib/emailer.cc:212
+#: src/lib/emailer.cc:213
 msgid "Failed to send email (%1)"
 msgstr ""
 
@@ -556,7 +556,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr ""
 
-#: src/lib/config.cc:234 src/lib/config.cc:507
+#: src/lib/config.cc:236 src/lib/config.cc:510
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 

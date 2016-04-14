@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -404,7 +404,7 @@ msgstr "DCP-o-matic stödjer inte längre '%1'-filter, så det har stängts av."
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:510
+#: src/lib/config.cc:513
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -492,7 +492,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
 
-#: src/lib/emailer.cc:212
+#: src/lib/emailer.cc:213
 #, fuzzy
 msgid "Failed to send email (%1)"
 msgstr "Misslyckades att skicka KDM e-post (tog för lång tid)"
@@ -593,7 +593,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
-#: src/lib/config.cc:234 src/lib/config.cc:507
+#: src/lib/config.cc:236 src/lib/config.cc:510
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 

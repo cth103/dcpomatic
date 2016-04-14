@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 18:26+0100\n"
+"POT-Creation-Date: 2016-04-14 20:35+0100\n"
 "PO-Revision-Date: 2016-03-10 11:05+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -395,7 +395,7 @@ msgstr "DCP-o-matic non supporta più il filtro '%1', ed è stato disattivato."
 msgid "De-interlacing"
 msgstr "De-interlacciamento"
 
-#: src/lib/config.cc:510
+#: src/lib/config.cc:513
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -481,7 +481,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "Autenticazione col server fallita (%1) "
 
-#: src/lib/emailer.cc:212
+#: src/lib/emailer.cc:213
 msgid "Failed to send email (%1)"
 msgstr "Invio email fallito (%1)"
 
@@ -577,7 +577,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Non è chiaro cosa ha causato l'errore."
 
-#: src/lib/config.cc:234 src/lib/config.cc:507
+#: src/lib/config.cc:236 src/lib/config.cc:510
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Consegna KDM: $CPL_NAME"
 
