@@ -199,8 +199,11 @@ string
 DCPContent::identifier () const
 {
 	SafeStringStream s;
-	s << Content::identifier() << "_" << video->identifier() << "_" << subtitle->identifier () << " "
-	  << (_reference_video ? "1" : "0")
+	s << Content::identifier() << "_" << video->identifier() << "_";
+	if (subtitle) {
+		s << subtitle->identifier () << " ";
+	}
+	s << (_reference_video ? "1" : "0")
 	  << (_reference_subtitle ? "1" : "0");
 	return s.str ();
 }
