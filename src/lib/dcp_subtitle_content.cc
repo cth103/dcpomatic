@@ -56,18 +56,18 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	shared_ptr<dcp::SubtitleAsset> sc = load (path (0));
 
 	/* Default to turning these subtitles on */
-	subtitle->set_use_subtitles (true);
+	subtitle->set_use (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
 
 	shared_ptr<dcp::InteropSubtitleAsset> iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset> (sc);
 	if (iop) {
-		subtitle->set_subtitle_language (iop->language ());
+		subtitle->set_language (iop->language ());
 	}
 	shared_ptr<dcp::SMPTESubtitleAsset> smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset> (sc);
 	if (smpte) {
-		subtitle->set_subtitle_language (smpte->language().get_value_or (""));
-		subtitle->set_subtitle_video_frame_rate (smpte->edit_rate().numerator);
+		subtitle->set_language (smpte->language().get_value_or (""));
+		subtitle->set_video_frame_rate (smpte->edit_rate().numerator);
 	}
 
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
@@ -80,7 +80,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 DCPTime
 DCPSubtitleContent::full_length () const
 {
-	FrameRateChange const frc (subtitle->subtitle_video_frame_rate(), film()->video_frame_rate());
+	FrameRateChange const frc (subtitle->video_frame_rate(), film()->video_frame_rate());
 	return DCPTime (_length, frc);
 }
 

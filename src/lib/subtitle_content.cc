@@ -39,27 +39,27 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-int const SubtitleContentProperty::SUBTITLE_X_OFFSET = 500;
-int const SubtitleContentProperty::SUBTITLE_Y_OFFSET = 501;
-int const SubtitleContentProperty::SUBTITLE_X_SCALE = 502;
-int const SubtitleContentProperty::SUBTITLE_Y_SCALE = 503;
-int const SubtitleContentProperty::USE_SUBTITLES = 504;
-int const SubtitleContentProperty::BURN_SUBTITLES = 505;
-int const SubtitleContentProperty::SUBTITLE_LANGUAGE = 506;
+int const SubtitleContentProperty::X_OFFSET = 500;
+int const SubtitleContentProperty::Y_OFFSET = 501;
+int const SubtitleContentProperty::X_SCALE = 502;
+int const SubtitleContentProperty::Y_SCALE = 503;
+int const SubtitleContentProperty::USE = 504;
+int const SubtitleContentProperty::BURN = 505;
+int const SubtitleContentProperty::LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
-int const SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE = 508;
-int const SubtitleContentProperty::SUBTITLE_COLOUR = 509;
-int const SubtitleContentProperty::SUBTITLE_OUTLINE = 510;
-int const SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR = 511;
+int const SubtitleContentProperty::VIDEO_FRAME_RATE = 508;
+int const SubtitleContentProperty::COLOUR = 509;
+int const SubtitleContentProperty::OUTLINE = 510;
+int const SubtitleContentProperty::OUTLINE_COLOUR = 511;
 
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 	: ContentPart (parent, film)
-	, _use_subtitles (false)
-	, _burn_subtitles (false)
-	, _subtitle_x_offset (0)
-	, _subtitle_y_offset (0)
-	, _subtitle_x_scale (1)
-	, _subtitle_y_scale (1)
+	, _use (false)
+	, _burn (false)
+	, _x_offset (0)
+	, _y_offset (0)
+	, _x_scale (1)
+	, _y_scale (1)
 	, _colour (255, 255, 255)
 	, _outline (false)
 	, _outline_colour (0, 0, 0)
@@ -69,12 +69,12 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: ContentPart (parent, film)
-	, _use_subtitles (false)
-	, _burn_subtitles (false)
-	, _subtitle_x_offset (0)
-	, _subtitle_y_offset (0)
-	, _subtitle_x_scale (1)
-	, _subtitle_y_scale (1)
+	, _use (false)
+	, _burn (false)
+	, _x_offset (0)
+	, _y_offset (0)
+	, _x_scale (1)
+	, _y_scale (1)
 	, _colour (
 		node->optional_number_child<int>("Red").get_value_or(255),
 		node->optional_number_child<int>("Green").get_value_or(255),
@@ -89,25 +89,25 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 	, _frame_rate (node->optional_number_child<double>("SubtitleFrameRate"))
 {
 	if (version >= 32) {
-		_use_subtitles = node->bool_child ("UseSubtitles");
-		_burn_subtitles = node->bool_child ("BurnSubtitles");
+		_use = node->bool_child ("UseSubtitles");
+		_burn = node->bool_child ("BurnSubtitles");
 	}
 
 	if (version >= 7) {
-		_subtitle_x_offset = node->number_child<double> ("SubtitleXOffset");
-		_subtitle_y_offset = node->number_child<double> ("SubtitleYOffset");
+		_x_offset = node->number_child<double> ("SubtitleXOffset");
+		_y_offset = node->number_child<double> ("SubtitleYOffset");
 	} else {
-		_subtitle_y_offset = node->number_child<double> ("SubtitleOffset");
+		_y_offset = node->number_child<double> ("SubtitleOffset");
 	}
 
 	if (version >= 10) {
-		_subtitle_x_scale = node->number_child<double> ("SubtitleXScale");
-		_subtitle_y_scale = node->number_child<double> ("SubtitleYScale");
+		_x_scale = node->number_child<double> ("SubtitleXScale");
+		_y_scale = node->number_child<double> ("SubtitleYScale");
 	} else {
-		_subtitle_x_scale = _subtitle_y_scale = node->number_child<double> ("SubtitleScale");
+		_x_scale = _y_scale = node->number_child<double> ("SubtitleScale");
 	}
 
-	_subtitle_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
+	_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
 
 	list<cxml::NodePtr> fonts = node->node_children ("Font");
 	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
@@ -126,27 +126,27 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 
 	for (size_t i = 1; i < c.size(); ++i) {
 
-		if (c[i]->subtitle->use_subtitles() != ref->use_subtitles()) {
+		if (c[i]->subtitle->use() != ref->use()) {
 			throw JoinError (_("Content to be joined must have the same 'use subtitles' setting."));
 		}
 
-		if (c[i]->subtitle->burn_subtitles() != ref->burn_subtitles()) {
+		if (c[i]->subtitle->burn() != ref->burn()) {
 			throw JoinError (_("Content to be joined must have the same 'burn subtitles' setting."));
 		}
 
-		if (c[i]->subtitle->subtitle_x_offset() != ref->subtitle_x_offset()) {
+		if (c[i]->subtitle->x_offset() != ref->x_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X offset."));
 		}
 
-		if (c[i]->subtitle->subtitle_y_offset() != ref->subtitle_y_offset()) {
+		if (c[i]->subtitle->y_offset() != ref->y_offset()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y offset."));
 		}
 
-		if (c[i]->subtitle->subtitle_x_scale() != ref->subtitle_x_scale()) {
+		if (c[i]->subtitle->x_scale() != ref->x_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle X scale."));
 		}
 
-		if (c[i]->subtitle->subtitle_y_scale() != ref->subtitle_y_scale()) {
+		if (c[i]->subtitle->y_scale() != ref->y_scale()) {
 			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
 
@@ -167,13 +167,13 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 		}
 	}
 
-	_use_subtitles = ref->use_subtitles ();
-	_burn_subtitles = ref->burn_subtitles ();
-	_subtitle_x_offset = ref->subtitle_x_offset ();
-	_subtitle_y_offset = ref->subtitle_y_offset ();
-	_subtitle_x_scale = ref->subtitle_x_scale ();
-	_subtitle_y_scale = ref->subtitle_y_scale ();
-	_subtitle_language = ref->subtitle_language ();
+	_use = ref->use ();
+	_burn = ref->burn ();
+	_x_offset = ref->x_offset ();
+	_y_offset = ref->y_offset ();
+	_x_scale = ref->x_scale ();
+	_y_scale = ref->y_scale ();
+	_language = ref->language ();
 	_fonts = ref_fonts;
 
 	connect_to_fonts ();
@@ -185,13 +185,13 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use_subtitles));
-	root->add_child("BurnSubtitles")->add_child_text (raw_convert<string> (_burn_subtitles));
-	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_subtitle_x_offset));
-	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_subtitle_y_offset));
-	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_subtitle_x_scale));
-	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_subtitle_y_scale));
-	root->add_child("SubtitleLanguage")->add_child_text (_subtitle_language);
+	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use));
+	root->add_child("BurnSubtitles")->add_child_text (raw_convert<string> (_burn));
+	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_x_offset));
+	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_y_offset));
+	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_x_scale));
+	root->add_child("SubtitleYScale")->add_child_text (raw_convert<string> (_y_scale));
+	root->add_child("SubtitleLanguage")->add_child_text (_language);
 	root->add_child("Red")->add_child_text (raw_convert<string> (_colour.r));
 	root->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
 	root->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
@@ -209,10 +209,10 @@ string
 SubtitleContent::identifier () const
 {
 	SafeStringStream s;
-	s << raw_convert<string> (subtitle_x_scale())
-	  << "_" << raw_convert<string> (subtitle_y_scale())
-	  << "_" << raw_convert<string> (subtitle_x_offset())
-	  << "_" << raw_convert<string> (subtitle_y_offset());
+	s << raw_convert<string> (x_scale())
+	  << "_" << raw_convert<string> (y_scale())
+	  << "_" << raw_convert<string> (x_offset())
+	  << "_" << raw_convert<string> (y_offset());
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.
@@ -260,71 +260,71 @@ SubtitleContent::font_changed ()
 void
 SubtitleContent::set_colour (dcp::Colour colour)
 {
-	maybe_set (_colour, colour, SubtitleContentProperty::SUBTITLE_COLOUR);
+	maybe_set (_colour, colour, SubtitleContentProperty::COLOUR);
 }
 
 void
 SubtitleContent::set_outline (bool o)
 {
-	maybe_set (_outline, o, SubtitleContentProperty::SUBTITLE_OUTLINE);
+	maybe_set (_outline, o, SubtitleContentProperty::OUTLINE);
 }
 
 void
 SubtitleContent::set_outline_colour (dcp::Colour colour)
 {
-	maybe_set (_outline_colour, colour, SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR);
+	maybe_set (_outline_colour, colour, SubtitleContentProperty::OUTLINE_COLOUR);
 }
 
 void
-SubtitleContent::set_use_subtitles (bool u)
+SubtitleContent::set_use (bool u)
 {
-	maybe_set (_use_subtitles, u, SubtitleContentProperty::USE_SUBTITLES);
+	maybe_set (_use, u, SubtitleContentProperty::USE);
 }
 
 void
-SubtitleContent::set_burn_subtitles (bool b)
+SubtitleContent::set_burn (bool b)
 {
-	maybe_set (_burn_subtitles, b, SubtitleContentProperty::BURN_SUBTITLES);
+	maybe_set (_burn, b, SubtitleContentProperty::BURN);
 }
 
 void
-SubtitleContent::set_subtitle_x_offset (double o)
+SubtitleContent::set_x_offset (double o)
 {
-	maybe_set (_subtitle_x_offset, o, SubtitleContentProperty::SUBTITLE_X_OFFSET);
+	maybe_set (_x_offset, o, SubtitleContentProperty::X_OFFSET);
 }
 
 void
-SubtitleContent::set_subtitle_y_offset (double o)
+SubtitleContent::set_y_offset (double o)
 {
-	maybe_set (_subtitle_y_offset, o, SubtitleContentProperty::SUBTITLE_Y_OFFSET);
+	maybe_set (_y_offset, o, SubtitleContentProperty::Y_OFFSET);
 }
 
 void
-SubtitleContent::set_subtitle_x_scale (double s)
+SubtitleContent::set_x_scale (double s)
 {
-	maybe_set (_subtitle_x_scale, s, SubtitleContentProperty::SUBTITLE_X_SCALE);
+	maybe_set (_x_scale, s, SubtitleContentProperty::X_SCALE);
 }
 
 void
-SubtitleContent::set_subtitle_y_scale (double s)
+SubtitleContent::set_y_scale (double s)
 {
-	maybe_set (_subtitle_y_scale, s, SubtitleContentProperty::SUBTITLE_Y_SCALE);
+	maybe_set (_y_scale, s, SubtitleContentProperty::Y_SCALE);
 }
 
 void
-SubtitleContent::set_subtitle_language (string language)
+SubtitleContent::set_language (string language)
 {
-	maybe_set (_subtitle_language, language, SubtitleContentProperty::SUBTITLE_LANGUAGE);
+	maybe_set (_language, language, SubtitleContentProperty::LANGUAGE);
 }
 
 void
-SubtitleContent::set_subtitle_video_frame_rate (double r)
+SubtitleContent::set_video_frame_rate (double r)
 {
-	maybe_set (_frame_rate, r, SubtitleContentProperty::SUBTITLE_VIDEO_FRAME_RATE);
+	maybe_set (_frame_rate, r, SubtitleContentProperty::VIDEO_FRAME_RATE);
 }
 
 double
-SubtitleContent::subtitle_video_frame_rate () const
+SubtitleContent::video_frame_rate () const
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

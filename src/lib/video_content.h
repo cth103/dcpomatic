@@ -38,14 +38,14 @@ class Content;
 class VideoContentProperty
 {
 public:
-	static int const VIDEO_SIZE;
-	static int const VIDEO_FRAME_RATE;
-	static int const VIDEO_FRAME_TYPE;
-	static int const VIDEO_CROP;
-	static int const VIDEO_SCALE;
+	static int const SIZE;
+	static int const FRAME_RATE;
+	static int const FRAME_TYPE;
+	static int const CROP;
+	static int const SCALE;
 	static int const COLOUR_CONVERSION;
-	static int const VIDEO_FADE_IN;
-	static int const VIDEO_FADE_OUT;
+	static int const FADE_IN;
+	static int const FADE_OUT;
 };
 
 class VideoContent : public ContentPart, public boost::enable_shared_from_this<VideoContent>
@@ -59,37 +59,37 @@ public:
 	std::string technical_summary () const;
 	std::string identifier () const;
 
-	Frame video_length () const {
+	Frame length () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _video_length;
+		return _length;
 	}
 
-	Frame video_length_after_3d_combine () const {
+	Frame length_after_3d_combine () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		if (_video_frame_type == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
-			return _video_length / 2;
+		if (_frame_type == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+			return _length / 2;
 		}
 
-		return _video_length;
+		return _length;
 	}
 
-	dcp::Size video_size () const {
+	dcp::Size size () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _video_size;
+		return _size;
 	}
 
-	double video_frame_rate () const;
+	double frame_rate () const;
 
 	/** @return true if this content has a specific video frame rate, false
 	 *  if it should use the DCP's rate.
 	 */
-	bool has_own_video_frame_rate () const {
+	bool has_own_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return static_cast<bool>(_video_frame_rate);
+		return static_cast<bool>(_frame_rate);
 	}
 
-	void set_video_frame_type (VideoFrameType);
-	void set_video_frame_rate (double);
+	void set_frame_type (VideoFrameType);
+	void set_frame_rate (double);
 
 	void set_left_crop (int);
 	void set_right_crop (int);
@@ -103,9 +103,9 @@ public:
 	void set_fade_in (Frame);
 	void set_fade_out (Frame);
 
-	VideoFrameType video_frame_type () const {
+	VideoFrameType frame_type () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _video_frame_type;
+		return _frame_type;
 	}
 
 	Crop crop () const {
@@ -164,10 +164,8 @@ public:
 		return _fade_out;
 	}
 
-	dcp::Size video_size_after_3d_split () const;
-	dcp::Size video_size_after_crop () const;
-
-	ContentTime dcp_time_to_content_time (DCPTime) const;
+	dcp::Size size_after_3d_split () const;
+	dcp::Size size_after_crop () const;
 
 	boost::optional<double> fade (Frame) const;
 
@@ -176,17 +174,12 @@ public:
 
 	std::string processing_description () const;
 
-	void set_video_length (Frame);
+	void set_length (Frame);
 
-	void take_from_video_examiner (boost::shared_ptr<VideoExaminer>);
+	void take_from_examiner (boost::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
 private:
-
-	Frame _video_length;
-	/** Video frame rate, or not set if this content should use the DCP's frame rate */
-	boost::optional<double> _video_frame_rate;
-	boost::optional<ColourConversion> _colour_conversion;
 
 	friend struct ffmpeg_pts_offset_test;
 	friend struct best_dcp_frame_rate_test_single;
@@ -195,13 +188,15 @@ private:
 
 	void setup_default_colour_conversion ();
 
-	dcp::Size _video_size;
-	VideoFrameType _video_frame_type;
+	Frame _length;
+	/** Video frame rate, or not set if this content should use the DCP's frame rate */
+	boost::optional<double> _frame_rate;
+	boost::optional<ColourConversion> _colour_conversion;
+	dcp::Size _size;
+	VideoFrameType _frame_type;
 	Crop _crop;
 	VideoContentScale _scale;
-	/** Sample aspect ratio obtained from the content file's header,
-	    if there is one.
-	*/
+	/** Sample aspect ratio obtained from the content file's header, if there is one */
 	boost::optional<double> _sample_aspect_ratio;
 	bool _yuv;
 	Frame _fade_in;

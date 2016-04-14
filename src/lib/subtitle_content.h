@@ -30,18 +30,18 @@ class Font;
 class SubtitleContentProperty
 {
 public:
-	static int const SUBTITLE_X_OFFSET;
-	static int const SUBTITLE_Y_OFFSET;
-	static int const SUBTITLE_X_SCALE;
-	static int const SUBTITLE_Y_SCALE;
-	static int const USE_SUBTITLES;
-	static int const BURN_SUBTITLES;
-	static int const SUBTITLE_LANGUAGE;
+	static int const X_OFFSET;
+	static int const Y_OFFSET;
+	static int const X_SCALE;
+	static int const Y_SCALE;
+	static int const USE;
+	static int const BURN;
+	static int const LANGUAGE;
 	static int const FONTS;
-	static int const SUBTITLE_VIDEO_FRAME_RATE;
-	static int const SUBTITLE_COLOUR;
-	static int const SUBTITLE_OUTLINE;
-	static int const SUBTITLE_OUTLINE_COLOUR;
+	static int const VIDEO_FRAME_RATE;
+	static int const COLOUR;
+	static int const OUTLINE;
+	static int const OUTLINE_COLOUR;
 };
 
 class SubtitleContent : public ContentPart
@@ -61,42 +61,42 @@ public:
 
 	void add_font (boost::shared_ptr<Font> font);
 
-	void set_use_subtitles (bool);
-	void set_burn_subtitles (bool);
-	void set_subtitle_x_offset (double);
-	void set_subtitle_y_offset (double);
-	void set_subtitle_x_scale (double);
-	void set_subtitle_y_scale (double);
-	void set_subtitle_language (std::string language);
+	void set_use (bool);
+	void set_burn (bool);
+	void set_x_offset (double);
+	void set_y_offset (double);
+	void set_x_scale (double);
+	void set_y_scale (double);
+	void set_language (std::string language);
 
-	bool use_subtitles () const {
+	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _use_subtitles;
+		return _use;
 	}
 
-	bool burn_subtitles () const {
+	bool burn () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _burn_subtitles;
+		return _burn;
 	}
 
-	double subtitle_x_offset () const {
+	double x_offset () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_x_offset;
+		return _x_offset;
 	}
 
-	double subtitle_y_offset () const {
+	double y_offset () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_y_offset;
+		return _y_offset;
 	}
 
-	double subtitle_x_scale () const {
+	double x_scale () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_x_scale;
+		return _x_scale;
 	}
 
-	double subtitle_y_scale () const {
+	double y_scale () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_y_scale;
+		return _y_scale;
 	}
 
 	std::list<boost::shared_ptr<Font> > fonts () const {
@@ -104,9 +104,9 @@ public:
 		return _fonts;
 	}
 
-	std::string subtitle_language () const {
+	std::string language () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _subtitle_language;
+		return _language;
 	}
 
 	void set_colour (dcp::Colour);
@@ -130,32 +130,32 @@ public:
 		return _outline_colour;
 	}
 
-	double subtitle_video_frame_rate () const;
-	void set_subtitle_video_frame_rate (double r);
+	double video_frame_rate () const;
+	void set_video_frame_rate (double r);
 
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
-	std::string _subtitle_language;
+	std::string _language;
 
 private:
 	friend struct ffmpeg_pts_offset_test;
 	void font_changed ();
 	void connect_to_fonts ();
 
-	bool _use_subtitles;
-	bool _burn_subtitles;
+	bool _use;
+	bool _burn;
 	/** x offset for placing subtitles, as a proportion of the container width;
 	 * +ve is further right, -ve is further left.
 	 */
-	double _subtitle_x_offset;
+	double _x_offset;
 	/** y offset for placing subtitles, as a proportion of the container height;
 	 *  +ve is further down the frame, -ve is further up.
 	 */
-	double _subtitle_y_offset;
+	double _y_offset;
 	/** x scale factor to apply to subtitles */
-	double _subtitle_x_scale;
+	double _x_scale;
 	/** y scale factor to apply to subtitles */
-	double _subtitle_y_scale;
+	double _y_scale;
 	std::list<boost::shared_ptr<Font> > _fonts;
 	dcp::Colour _colour;
 	bool _outline;

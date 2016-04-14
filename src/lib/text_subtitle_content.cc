@@ -55,7 +55,7 @@ TextSubtitleContent::examine (boost::shared_ptr<Job> job)
 	TextSubtitle s (shared_from_this ());
 
 	/* Default to turning these subtitles on */
-	subtitle->set_use_subtitles (true);
+	subtitle->set_use (true);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = s.length ();
@@ -86,6 +86,6 @@ TextSubtitleContent::as_xml (xmlpp::Node* node) const
 DCPTime
 TextSubtitleContent::full_length () const
 {
-	FrameRateChange const frc (subtitle->subtitle_video_frame_rate(), film()->video_frame_rate ());
+	FrameRateChange const frc (subtitle->video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);
 }

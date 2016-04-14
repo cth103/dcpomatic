@@ -113,7 +113,7 @@ SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
 		_audio_length = examiner->audio_length ();
 	}
 
-	signal_changed (AudioContentProperty::AUDIO_STREAMS);
+	signal_changed (AudioContentProperty::STREAMS);
 }
 
 DCPTime

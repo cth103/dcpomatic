@@ -54,5 +54,5 @@ TimelineSubtitleContentView::active () const
 {
 	shared_ptr<Content> c = _content.lock ();
 	DCPOMATIC_ASSERT (c);
-	return c->subtitle && c->subtitle->use_subtitles();
+	return c->subtitle && c->subtitle->use();
 }

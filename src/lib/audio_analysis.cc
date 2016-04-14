@@ -154,7 +154,7 @@ AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
 		   what correction is now needed to make it look `right'.
 		*/
 		DCPOMATIC_ASSERT (playlist->content().front()->audio);
-		return playlist->content().front()->audio->audio_gain() - analysis_gain().get ();
+		return playlist->content().front()->audio->gain() - analysis_gain().get ();
 	}
 
 	return 0.0f;

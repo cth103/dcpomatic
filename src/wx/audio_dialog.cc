@@ -239,9 +239,9 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 void
 AudioDialog::content_changed (int p)
 {
-	if (p == AudioContentProperty::AUDIO_STREAMS) {
+	if (p == AudioContentProperty::STREAMS) {
 		try_to_load_analysis ();
-	} else if (p == AudioContentProperty::AUDIO_GAIN) {
+	} else if (p == AudioContentProperty::GAIN) {
 		if (_playlist->content().size() == 1 && _analysis) {
 			/* We can use a short-cut to render the effect of this
 			   change, rather than recalculating everything.

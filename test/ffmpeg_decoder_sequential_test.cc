@@ -53,7 +53,7 @@ test (boost::filesystem::path file, float fps, int gaps, int video_length)
 	shared_ptr<Log> log (new NullLog);
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
 
-	BOOST_CHECK_CLOSE (decoder->video_content()->video_frame_rate(), fps, 0.01);
+	BOOST_CHECK_CLOSE (decoder->video_content()->frame_rate(), fps, 0.01);
 
 #ifdef DCPOMATIC_DEBUG
 	decoder->test_gaps = 0;

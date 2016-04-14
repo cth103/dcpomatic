@@ -49,8 +49,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (2));
 
-	content->subtitle->set_use_subtitles (true);
-	content->subtitle->set_burn_subtitles (false);
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
 	film->make_dcp ();
 	wait_for_jobs ();
 

@@ -185,21 +185,21 @@ SubtitlePanel::film_content_changed (int property)
 			}
 		}
 		setup_sensitivity ();
-	} else if (property == SubtitleContentProperty::USE_SUBTITLES) {
-		checked_set (_use, scs ? scs->subtitle->use_subtitles() : false);
+	} else if (property == SubtitleContentProperty::USE) {
+		checked_set (_use, scs ? scs->subtitle->use() : false);
 		setup_sensitivity ();
-	} else if (property == SubtitleContentProperty::BURN_SUBTITLES) {
-		checked_set (_burn, scs ? scs->subtitle->burn_subtitles() : false);
-	} else if (property == SubtitleContentProperty::SUBTITLE_X_OFFSET) {
-		checked_set (_x_offset, scs ? lrint (scs->subtitle->subtitle_x_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::SUBTITLE_Y_OFFSET) {
-		checked_set (_y_offset, scs ? lrint (scs->subtitle->subtitle_y_offset() * 100) : 0);
-	} else if (property == SubtitleContentProperty::SUBTITLE_X_SCALE) {
-		checked_set (_x_scale, scs ? lrint (scs->subtitle->subtitle_x_scale() * 100) : 100);
-	} else if (property == SubtitleContentProperty::SUBTITLE_Y_SCALE) {
-		checked_set (_y_scale, scs ? lrint (scs->subtitle->subtitle_y_scale() * 100) : 100);
-	} else if (property == SubtitleContentProperty::SUBTITLE_LANGUAGE) {
-		checked_set (_language, scs ? scs->subtitle->subtitle_language() : "");
+	} else if (property == SubtitleContentProperty::BURN) {
+		checked_set (_burn, scs ? scs->subtitle->burn() : false);
+	} else if (property == SubtitleContentProperty::X_OFFSET) {
+		checked_set (_x_offset, scs ? lrint (scs->subtitle->x_offset() * 100) : 0);
+	} else if (property == SubtitleContentProperty::Y_OFFSET) {
+		checked_set (_y_offset, scs ? lrint (scs->subtitle->y_offset() * 100) : 0);
+	} else if (property == SubtitleContentProperty::X_SCALE) {
+		checked_set (_x_scale, scs ? lrint (scs->subtitle->x_scale() * 100) : 100);
+	} else if (property == SubtitleContentProperty::Y_SCALE) {
+		checked_set (_y_scale, scs ? lrint (scs->subtitle->y_scale() * 100) : 100);
+	} else if (property == SubtitleContentProperty::LANGUAGE) {
+		checked_set (_language, scs ? scs->subtitle->language() : "");
 	} else if (property == DCPContentProperty::REFERENCE_SUBTITLE) {
 		if (scs) {
 			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (scs);
@@ -216,7 +216,7 @@ void
 SubtitlePanel::use_toggled ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
-		i->subtitle->set_use_subtitles (_use->GetValue());
+		i->subtitle->set_use (_use->GetValue());
 	}
 }
 
@@ -224,7 +224,7 @@ void
 SubtitlePanel::burn_toggled ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
-		i->subtitle->set_burn_subtitles (_burn->GetValue());
+		i->subtitle->set_burn (_burn->GetValue());
 	}
 }
 
@@ -259,7 +259,7 @@ SubtitlePanel::setup_sensitivity ()
 		if (i->subtitle->has_image_subtitles ()) {
 			++image_subs;
 			/* We must burn image subtitles at the moment */
-			i->subtitle->set_burn_subtitles (true);
+			i->subtitle->set_burn (true);
 		}
 	}
 
@@ -314,7 +314,7 @@ void
 SubtitlePanel::x_offset_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
-		i->subtitle->set_subtitle_x_offset (_x_offset->GetValue() / 100.0);
+		i->subtitle->set_x_offset (_x_offset->GetValue() / 100.0);
 	}
 }
 
@@ -322,7 +322,7 @@ void
 SubtitlePanel::y_offset_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
-		i->subtitle->set_subtitle_y_offset (_y_offset->GetValue() / 100.0);
+		i->subtitle->set_y_offset (_y_offset->GetValue() / 100.0);
 	}
 }
 
@@ -331,7 +331,7 @@ SubtitlePanel::x_scale_changed ()
 {
 	ContentList c = _parent->selected_subtitle ();
 	if (c.size() == 1) {
-		c.front()->subtitle->set_subtitle_x_scale (_x_scale->GetValue() / 100.0);
+		c.front()->subtitle->set_x_scale (_x_scale->GetValue() / 100.0);
 	}
 }
 
@@ -339,7 +339,7 @@ void
 SubtitlePanel::y_scale_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
-		i->subtitle->set_subtitle_y_scale (_y_scale->GetValue() / 100.0);
+		i->subtitle->set_y_scale (_y_scale->GetValue() / 100.0);
 	}
 }
 
@@ -347,7 +347,7 @@ void
 SubtitlePanel::language_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
-		i->subtitle->set_subtitle_language (wx_to_std (_language->GetValue()));
+		i->subtitle->set_language (wx_to_std (_language->GetValue()));
 	}
 }
 
@@ -355,13 +355,13 @@ void
 SubtitlePanel::content_selection_changed ()
 {
 	film_content_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
-	film_content_changed (SubtitleContentProperty::USE_SUBTITLES);
-	film_content_changed (SubtitleContentProperty::BURN_SUBTITLES);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_X_OFFSET);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_OFFSET);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_X_SCALE);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_Y_SCALE);
-	film_content_changed (SubtitleContentProperty::SUBTITLE_LANGUAGE);
+	film_content_changed (SubtitleContentProperty::USE);
+	film_content_changed (SubtitleContentProperty::BURN);
+	film_content_changed (SubtitleContentProperty::X_OFFSET);
+	film_content_changed (SubtitleContentProperty::Y_OFFSET);
+	film_content_changed (SubtitleContentProperty::X_SCALE);
+	film_content_changed (SubtitleContentProperty::Y_SCALE);
+	film_content_changed (SubtitleContentProperty::LANGUAGE);
 	film_content_changed (SubtitleContentProperty::FONTS);
 	film_content_changed (DCPContentProperty::REFERENCE_SUBTITLE);
 }

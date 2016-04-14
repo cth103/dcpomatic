@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 
 	wait_for_jobs ();
 
-	imc->video->set_video_length (1);
+	imc->video->set_length (1);
 
 	/* F-133: 133 image in a flat container */
 	scaling_test_for (film, imc, "133", "185");

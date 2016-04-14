@@ -147,7 +147,7 @@ AnalyseAudioJob::run ()
 		*/
 		shared_ptr<const AudioContent> ac = _playlist->content().front()->audio;
 		DCPOMATIC_ASSERT (ac);
-		_analysis->set_analysis_gain (ac->audio_gain ());
+		_analysis->set_analysis_gain (ac->gain ());
 	}
 
 	_analysis->write (_film->audio_analysis_path (_playlist));

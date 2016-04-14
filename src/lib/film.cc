@@ -250,7 +250,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 		}
 
 		digester.add (i->digest ());
-		digester.add (i->audio->audio_mapping().digest ());
+		digester.add (i->audio->mapping().digest ());
 		if (playlist->content().size() != 1) {
 			/* Analyses should be considered equal regardless of gain
 			   if they were made from just one piece of content.  This
@@ -258,7 +258,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 			   analysis at the plotting stage rather than having to
 			   recompute it.
 			*/
-			digester.add (i->audio->audio_gain ());
+			digester.add (i->audio->gain ());
 		}
 	}
 
@@ -620,7 +620,7 @@ Film::isdcf_name (bool if_created_now) const
 				if (i->video->scale().ratio ()) {
 					content_ratio = i->video->scale().ratio ();
 				} else {
-					content_ratio = Ratio::from_ratio (i->video->video_size().ratio ());
+					content_ratio = Ratio::from_ratio (i->video->size().ratio ());
 				}
 				break;
 			}
@@ -641,7 +641,7 @@ Film::isdcf_name (bool if_created_now) const
 					continue;
 				}
 
-				if (i->subtitle->use_subtitles() && !i->subtitle->burn_subtitles()) {
+				if (i->subtitle->use() && !i->subtitle->burn()) {
 					burnt_in = false;
 				}
 			}
@@ -1096,9 +1096,9 @@ Film::playlist_content_changed (weak_ptr<Content> c, int p, bool frequent)
 {
 	_dirty = true;
 
-	if (p == VideoContentProperty::VIDEO_FRAME_RATE) {
+	if (p == VideoContentProperty::FRAME_RATE) {
 		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
-	} else if (p == AudioContentProperty::AUDIO_STREAMS) {
+	} else if (p == AudioContentProperty::STREAMS) {
 		signal_changed (NAME);
 	}
 
@@ -1268,7 +1268,7 @@ Film::subtitle_language () const
 	ContentList cl = content ();
 	BOOST_FOREACH (shared_ptr<Content>& c, cl) {
 		if (c->subtitle) {
-			languages.insert (c->subtitle->subtitle_language ());
+			languages.insert (c->subtitle->language ());
 		}
 	}
 

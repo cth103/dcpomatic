@@ -67,7 +67,7 @@ Playlist::~Playlist ()
 void
 Playlist::content_changed (weak_ptr<Content> content, int property, bool frequent)
 {
-	if (property == ContentProperty::LENGTH || property == VideoContentProperty::VIDEO_FRAME_TYPE) {
+	if (property == ContentProperty::LENGTH || property == VideoContentProperty::FRAME_TYPE) {
 		/* Don't respond to position changes here, as:
 		   - sequencing after earlier/later changes is handled by move_earlier/move_later
 		   - any other position changes will be timeline drags which should not result in content
@@ -115,7 +115,7 @@ Playlist::maybe_sequence ()
 			continue;
 		}
 
-		if (i->video->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+		if (i->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
 			i->set_position (next_right);
 			next_right = i->end();
 		} else {
@@ -150,7 +150,7 @@ Playlist::video_identifier () const
 	string t;
 
 	BOOST_FOREACH (shared_ptr<const Content> i, _content) {
-		if (i->video || (i->subtitle && i->subtitle->burn_subtitles())) {
+		if (i->video || (i->subtitle && i->subtitle->burn())) {
 			t += i->identifier ();
 		}
 	}
@@ -266,14 +266,14 @@ Playlist::best_dcp_frame_rate () const
 
 		float this_error = 0;
 		BOOST_FOREACH (shared_ptr<Content> j, _content) {
-			if (!j->video || !j->video->has_own_video_frame_rate()) {
+			if (!j->video || !j->video->has_own_frame_rate()) {
 				continue;
 			}
 
 			/* Best error for this content; we could use the content as-is or double its rate */
 			float best_error = min (
-				float (fabs (i->source - j->video->video_frame_rate ())),
-				float (fabs (i->source - j->video->video_frame_rate () * 2))
+				float (fabs (i->source - j->video->frame_rate ())),
+				float (fabs (i->source - j->video->frame_rate () * 2))
 				);
 
 			/* Use the largest difference between DCP and source as the "error" */
@@ -375,7 +375,7 @@ Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 			/* This is the first piece of content (going backwards...) that starts before t,
 			   so it's the active one.
 			*/
-			return FrameRateChange ((*i)->video->video_frame_rate(), dcp_video_frame_rate);
+			return FrameRateChange ((*i)->video->frame_rate(), dcp_video_frame_rate);
 		}
 	}
 

@@ -149,7 +149,7 @@ Timeline::recreate_views ()
 			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, i)));
 		}
 
-		if (i->audio && !i->audio->audio_mapping().mapped_output_channels().empty ()) {
+		if (i->audio && !i->audio->mapping().mapped_output_channels().empty ()) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
 		}
 
@@ -168,7 +168,7 @@ Timeline::film_content_changed (int property, bool frequent)
 {
 	ensure_ui_thread ();
 
-	if (property == AudioContentProperty::AUDIO_STREAMS) {
+	if (property == AudioContentProperty::STREAMS) {
 		recreate_views ();
 	} else if (!frequent) {
 		setup_pixels_per_second ();

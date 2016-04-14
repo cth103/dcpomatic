@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	wait_for_jobs ();
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PP_SMPTE_OV");
 
-	AudioMapping mapping = sound->audio->audio_mapping ();
+	AudioMapping mapping = sound->audio->mapping ();
 
 	mapping.set (0, dcp::LEFT, 1.0);
 	sound->audio->set_mapping (mapping);

@@ -34,10 +34,16 @@
 class AudioContentProperty
 {
 public:
+<<<<<<< 17dbd967c18aff2f3007eb86b5eee5b43f23bc4b
 	static int const AUDIO_STREAMS;
 	static int const AUDIO_GAIN;
 	static int const AUDIO_DELAY;
 	static int const AUDIO_VIDEO_FRAME_RATE;
+=======
+	static int const STREAMS;
+	static int const GAIN;
+	static int const DELAY;
+>>>>>>> Rename video/audio/subtitle part methods.
 };
 
 class AudioContent : public ContentPart
@@ -50,23 +56,23 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
 
-	AudioMapping audio_mapping () const;
-	void set_audio_mapping (AudioMapping);
-	int resampled_audio_frame_rate () const;
+	AudioMapping mapping () const;
+	void set_mapping (AudioMapping);
+	int resampled_frame_rate () const;
 	bool has_rate_above_48k () const;
-	std::vector<std::string> audio_channel_names () const;
+	std::vector<std::string> channel_names () const;
 
-	void set_audio_gain (double);
-	void set_audio_delay (int);
+	void set_gain (double);
+	void set_delay (int);
 
-	double audio_gain () const {
+	double gain () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_gain;
+		return _gain;
 	}
 
-	int audio_delay () const {
+	int delay () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_delay;
+		return _delay;
 	}
 
 	double audio_video_frame_rate () const;
@@ -89,10 +95,10 @@ public:
 private:
 
 	/** Gain to apply to audio in dB */
-	double _audio_gain;
+	double _gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
-	int _audio_delay;
-	boost::optional<double> _audio_video_frame_rate;
+	int _delay;
+	boost::optional<double> _video_frame_rate;
 	std::vector<AudioStreamPtr> _streams;
 };
 

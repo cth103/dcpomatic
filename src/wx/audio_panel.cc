@@ -65,10 +65,10 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
 		this,
 		new wxSpinCtrlDouble (this),
-		AudioContentProperty::AUDIO_GAIN,
+		AudioContentProperty::GAIN,
 		&Content::audio,
-		boost::mem_fn (&AudioContent::audio_gain),
-		boost::mem_fn (&AudioContent::set_audio_gain)
+		boost::mem_fn (&AudioContent::gain),
+		boost::mem_fn (&AudioContent::set_gain)
 		);
 
 	_gain->add (grid, wxGBPosition (r, 1));
@@ -81,10 +81,10 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_delay = new ContentSpinCtrl<AudioContent> (
 		this,
 		new wxSpinCtrl (this),
-		AudioContentProperty::AUDIO_DELAY,
+		AudioContentProperty::DELAY,
 		&Content::audio,
-		boost::mem_fn (&AudioContent::audio_delay),
-		boost::mem_fn (&AudioContent::set_audio_delay)
+		boost::mem_fn (&AudioContent::delay),
+		boost::mem_fn (&AudioContent::set_delay)
 		);
 
 	_delay->add (grid, wxGBPosition (r, 1));
@@ -149,17 +149,17 @@ void
 AudioPanel::film_content_changed (int property)
 {
 	ContentList ac = _parent->selected_audio ();
-	if (property == AudioContentProperty::AUDIO_STREAMS) {
+	if (property == AudioContentProperty::STREAMS) {
 		if (ac.size() == 1) {
-			_mapping->set (ac.front()->audio->audio_mapping());
-			_mapping->set_input_channels (ac.front()->audio->audio_channel_names ());
+			_mapping->set (ac.front()->audio->mapping());
+			_mapping->set_input_channels (ac.front()->audio->channel_names ());
 		} else {
 			_mapping->set (AudioMapping ());
 		}
 		setup_description ();
 		setup_peak ();
 		_sizer->Layout ();
-	} else if (property == AudioContentProperty::AUDIO_GAIN) {
+	} else if (property == AudioContentProperty::GAIN) {
 		setup_peak ();
 	} else if (property == DCPContentProperty::REFERENCE_AUDIO) {
 		if (ac.size() == 1) {
@@ -218,7 +218,7 @@ AudioPanel::mapping_changed (AudioMapping m)
 {
 	ContentList c = _parent->selected_audio ();
 	if (c.size() == 1) {
-		c.front()->audio->set_audio_mapping (m);
+		c.front()->audio->set_mapping (m);
 	}
 }
 
@@ -230,7 +230,7 @@ AudioPanel::content_selection_changed ()
 	_gain->set_content (sel);
 	_delay->set_content (sel);
 
-	film_content_changed (AudioContentProperty::AUDIO_STREAMS);
+	film_content_changed (AudioContentProperty::STREAMS);
 	film_content_changed (DCPContentProperty::REFERENCE_AUDIO);
 
 	setup_sensitivity ();

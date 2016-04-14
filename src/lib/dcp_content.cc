@@ -116,7 +116,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
-	video->take_from_video_examiner (examiner);
+	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 
 	{
@@ -129,7 +129,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		as->set_mapping (m);
 	}
 
-	signal_changed (AudioContentProperty::AUDIO_STREAMS);
+	signal_changed (AudioContentProperty::STREAMS);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -187,8 +187,8 @@ DCPContent::as_xml (xmlpp::Node* node) const
 DCPTime
 DCPContent::full_length () const
 {
-	FrameRateChange const frc (video->video_frame_rate (), film()->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video->video_length () * frc.factor ()), film()->video_frame_rate ());
+	FrameRateChange const frc (video->frame_rate (), film()->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video->length () * frc.factor ()), film()->video_frame_rate ());
 }
 
 string
@@ -358,7 +358,7 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 void
 DCPContent::changed (int property)
 {
-	if (property == VideoContentProperty::VIDEO_FRAME_RATE && subtitle) {
-		subtitle->set_subtitle_video_frame_rate (video->video_frame_rate ());
+	if (property == VideoContentProperty::FRAME_RATE && subtitle) {
+		subtitle->set_video_frame_rate (video->frame_rate ());
 	}
 }

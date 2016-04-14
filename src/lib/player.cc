@@ -114,13 +114,13 @@ Player::setup_pieces ()
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
 		if (fc) {
 			decoder.reset (new FFmpegDecoder (fc, _film->log(), _fast));
-			frc = FrameRateChange (fc->video->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (fc->video->frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
 		if (dc) {
 			decoder.reset (new DCPDecoder (dc, _film->log(), _fast));
-			frc = FrameRateChange (dc->video->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (dc->video->frame_rate(), _film->video_frame_rate());
 		}
 
 		/* ImageContent */
@@ -138,7 +138,7 @@ Player::setup_pieces ()
 				decoder.reset (new ImageDecoder (ic, _film->log()));
 			}
 
-			frc = FrameRateChange (ic->video->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (ic->video->frame_rate(), _film->video_frame_rate());
 		}
 
 		/* SndfileContent */
@@ -162,7 +162,7 @@ Player::setup_pieces ()
 			}
 
 			if (best_overlap) {
-				frc = FrameRateChange (best_overlap->video->video_frame_rate(), _film->video_frame_rate ());
+				frc = FrameRateChange (best_overlap->video->frame_rate(), _film->video_frame_rate ());
 			} else {
 				/* No video overlap; e.g. if the DCP is just audio */
 				frc = FrameRateChange (_film->video_frame_rate(), _film->video_frame_rate ());
@@ -178,14 +178,14 @@ Player::setup_pieces ()
 		shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (i);
 		if (rc) {
 			decoder.reset (new TextSubtitleDecoder (rc));
-			frc = FrameRateChange (rc->subtitle->subtitle_video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (rc->subtitle->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* DCPSubtitleContent */
 		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (dsc) {
 			decoder.reset (new DCPSubtitleDecoder (dsc));
-			frc = FrameRateChange (dsc->subtitle->subtitle_video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (dsc->subtitle->video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
@@ -218,11 +218,11 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == ContentProperty::TRIM_START ||
 		property == ContentProperty::TRIM_END ||
 		property == ContentProperty::PATH ||
-		property == VideoContentProperty::VIDEO_FRAME_TYPE ||
+		property == VideoContentProperty::FRAME_TYPE ||
 		property == DCPContentProperty::CAN_BE_PLAYED ||
-		property == SubtitleContentProperty::SUBTITLE_COLOUR ||
-		property == SubtitleContentProperty::SUBTITLE_OUTLINE ||
-		property == SubtitleContentProperty::SUBTITLE_OUTLINE_COLOUR ||
+		property == SubtitleContentProperty::COLOUR ||
+		property == SubtitleContentProperty::OUTLINE ||
+		property == SubtitleContentProperty::OUTLINE_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM
 		) {
 
@@ -230,17 +230,17 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		Changed (frequent);
 
 	} else if (
-		property == SubtitleContentProperty::USE_SUBTITLES ||
-		property == SubtitleContentProperty::SUBTITLE_X_OFFSET ||
-		property == SubtitleContentProperty::SUBTITLE_Y_OFFSET ||
-		property == SubtitleContentProperty::SUBTITLE_X_SCALE ||
-		property == SubtitleContentProperty::SUBTITLE_Y_SCALE ||
+		property == SubtitleContentProperty::USE ||
+		property == SubtitleContentProperty::X_OFFSET ||
+		property == SubtitleContentProperty::Y_OFFSET ||
+		property == SubtitleContentProperty::X_SCALE ||
+		property == SubtitleContentProperty::Y_SCALE ||
 		property == SubtitleContentProperty::FONTS ||
-		property == VideoContentProperty::VIDEO_CROP ||
-		property == VideoContentProperty::VIDEO_SCALE ||
-		property == VideoContentProperty::VIDEO_FRAME_RATE ||
-		property == VideoContentProperty::VIDEO_FADE_IN ||
-		property == VideoContentProperty::VIDEO_FADE_OUT ||
+		property == VideoContentProperty::CROP ||
+		property == VideoContentProperty::SCALE ||
+		property == VideoContentProperty::FRAME_RATE ||
+		property == VideoContentProperty::FADE_IN ||
+		property == VideoContentProperty::FADE_OUT ||
 		property == VideoContentProperty::COLOUR_CONVERSION
 		) {
 
@@ -397,7 +397,7 @@ Player::get_video (DCPTime time, bool accurate)
 	} else {
 		/* Some video content at this time */
 		shared_ptr<Piece> last = *(ov.rbegin ());
-		VideoFrameType const last_type = last->content->video->video_frame_type ();
+		VideoFrameType const last_type = last->content->video->frame_type ();
 
 		/* Get video from appropriate piece(s) */
 		BOOST_FOREACH (shared_ptr<Piece> piece, ov) {
@@ -414,8 +414,8 @@ Player::get_video (DCPTime time, bool accurate)
 				/* always use the last video */
 				piece == last ||
 				/* with a corresponding L/R eye if appropriate */
-				(last_type == VIDEO_FRAME_TYPE_3D_LEFT && piece->content->video->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
-				(last_type == VIDEO_FRAME_TYPE_3D_RIGHT && piece->content->video->video_frame_type() == VIDEO_FRAME_TYPE_3D_LEFT);
+				(last_type == VIDEO_FRAME_TYPE_3D_LEFT && piece->content->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
+				(last_type == VIDEO_FRAME_TYPE_3D_RIGHT && piece->content->video->frame_type() == VIDEO_FRAME_TYPE_3D_LEFT);
 
 			if (use) {
 				/* We want to use this piece */
@@ -499,7 +499,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 		DCPOMATIC_ASSERT (decoder);
 
 		/* The time that we should request from the content */
-		DCPTime request = time - DCPTime::from_seconds (i->content->audio->audio_delay() / 1000.0);
+		DCPTime request = time - DCPTime::from_seconds (i->content->audio->delay() / 1000.0);
 		Frame request_frames = length_frames;
 		DCPTime offset;
 		if (request < DCPTime ()) {
@@ -527,9 +527,9 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			ContentAudio all = decoder->get_audio (j, content_frame, request_frames, accurate);
 
 			/* Gain */
-			if (i->content->audio->audio_gain() != 0) {
+			if (i->content->audio->gain() != 0) {
 				shared_ptr<AudioBuffers> gain (new AudioBuffers (all.audio));
-				gain->apply_gain (i->content->audio->audio_gain ());
+				gain->apply_gain (i->content->audio->gain ());
 				all.audio = gain;
 			}
 
@@ -628,7 +628,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 	PlayerSubtitles ps (time, length);
 
 	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
-		if (!(*j)->content->subtitle->use_subtitles () || (!_always_burn_subtitles && (burnt != (*j)->content->subtitle->burn_subtitles ()))) {
+		if (!(*j)->content->subtitle->use () || (!_always_burn_subtitles && (burnt != (*j)->content->subtitle->burn ()))) {
 			continue;
 		}
 
@@ -646,16 +646,16 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
 
 			/* Apply content's subtitle offsets */
-			i->sub.rectangle.x += (*j)->content->subtitle->subtitle_x_offset ();
-			i->sub.rectangle.y += (*j)->content->subtitle->subtitle_y_offset ();
+			i->sub.rectangle.x += (*j)->content->subtitle->x_offset ();
+			i->sub.rectangle.y += (*j)->content->subtitle->y_offset ();
 
 			/* Apply content's subtitle scale */
-			i->sub.rectangle.width *= (*j)->content->subtitle->subtitle_x_scale ();
-			i->sub.rectangle.height *= (*j)->content->subtitle->subtitle_y_scale ();
+			i->sub.rectangle.width *= (*j)->content->subtitle->x_scale ();
+			i->sub.rectangle.height *= (*j)->content->subtitle->y_scale ();
 
 			/* Apply a corrective translation to keep the subtitle centred after that scale */
-			i->sub.rectangle.x -= i->sub.rectangle.width * ((*j)->content->subtitle->subtitle_x_scale() - 1);
-			i->sub.rectangle.y -= i->sub.rectangle.height * ((*j)->content->subtitle->subtitle_y_scale() - 1);
+			i->sub.rectangle.x -= i->sub.rectangle.width * ((*j)->content->subtitle->x_scale() - 1);
+			i->sub.rectangle.y -= i->sub.rectangle.height * ((*j)->content->subtitle->y_scale() - 1);
 
 			ps.image.push_back (i->sub);
 		}
@@ -663,10 +663,10 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting, accurate);
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
 			BOOST_FOREACH (dcp::SubtitleString s, ts.subs) {
-				s.set_h_position (s.h_position() + (*j)->content->subtitle->subtitle_x_offset ());
-				s.set_v_position (s.v_position() + (*j)->content->subtitle->subtitle_y_offset ());
-				float const xs = (*j)->content->subtitle->subtitle_x_scale();
-				float const ys = (*j)->content->subtitle->subtitle_y_scale();
+				s.set_h_position (s.h_position() + (*j)->content->subtitle->x_offset ());
+				s.set_v_position (s.v_position() + (*j)->content->subtitle->y_offset ());
+				float const xs = (*j)->content->subtitle->x_scale();
+				float const ys = (*j)->content->subtitle->y_scale();
 				float size = s.size();
 
 				/* Adjust size to express the common part of the scaling;

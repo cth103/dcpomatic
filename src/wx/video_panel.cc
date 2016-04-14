@@ -86,10 +86,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
 		this,
 		new wxChoice (this, wxID_ANY),
-		VideoContentProperty::VIDEO_FRAME_TYPE,
+		VideoContentProperty::FRAME_TYPE,
 		&Content::video,
-		boost::mem_fn (&VideoContent::video_frame_type),
-		boost::mem_fn (&VideoContent::set_video_frame_type),
+		boost::mem_fn (&VideoContent::frame_type),
+		boost::mem_fn (&VideoContent::set_frame_type),
 		&caster<int, VideoFrameType>,
 		&caster<VideoFrameType, int>
 		);
@@ -105,7 +105,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_left_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
-		VideoContentProperty::VIDEO_CROP,
+		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::left_crop),
 		boost::mem_fn (&VideoContent::set_left_crop)
@@ -116,7 +116,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_right_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
-		VideoContentProperty::VIDEO_CROP,
+		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::right_crop),
 		boost::mem_fn (&VideoContent::set_right_crop)
@@ -129,7 +129,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_top_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
-		VideoContentProperty::VIDEO_CROP,
+		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::top_crop),
 		boost::mem_fn (&VideoContent::set_top_crop)
@@ -140,7 +140,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
 		this,
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (64, -1)),
-		VideoContentProperty::VIDEO_CROP,
+		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn (&VideoContent::bottom_crop),
 		boost::mem_fn (&VideoContent::set_bottom_crop)
@@ -164,7 +164,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_scale = new ContentChoice<VideoContent, VideoContentScale> (
 		this,
 		new wxChoice (this, wxID_ANY),
-		VideoContentProperty::VIDEO_SCALE,
+		VideoContentProperty::SCALE,
 		&Content::video,
 		boost::mem_fn (&VideoContent::scale),
 		boost::mem_fn (&VideoContent::set_scale),
@@ -273,13 +273,13 @@ VideoPanel::film_content_changed (int property)
 		fcs = dynamic_pointer_cast<FFmpegContent> (vcs);
 	}
 
-	if (property == VideoContentProperty::VIDEO_FRAME_TYPE) {
+	if (property == VideoContentProperty::FRAME_TYPE) {
 		setup_description ();
-	} else if (property == VideoContentProperty::VIDEO_CROP) {
+	} else if (property == VideoContentProperty::CROP) {
 		setup_description ();
-	} else if (property == VideoContentProperty::VIDEO_SCALE) {
+	} else if (property == VideoContentProperty::SCALE) {
 		setup_description ();
-	} else if (property == VideoContentProperty::VIDEO_FRAME_RATE) {
+	} else if (property == VideoContentProperty::FRAME_RATE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
 		if (vcs && vcs->video->colour_conversion ()) {
@@ -308,7 +308,7 @@ VideoPanel::film_content_changed (int property)
 				checked_set (_filters, p);
 			}
 		}
-	} else if (property == VideoContentProperty::VIDEO_FADE_IN) {
+	} else if (property == VideoContentProperty::FADE_IN) {
 		set<Frame> check;
 		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
 			check.insert (i->video->fade_in ());
@@ -316,13 +316,13 @@ VideoPanel::film_content_changed (int property)
 
 		if (check.size() == 1) {
 			_fade_in->set (
-				ContentTime::from_frames (vc.front()->video->fade_in (), vc.front()->video->video_frame_rate ()),
-				vc.front()->video->video_frame_rate ()
+				ContentTime::from_frames (vc.front()->video->fade_in (), vc.front()->video->frame_rate ()),
+				vc.front()->video->frame_rate ()
 				);
 		} else {
 			_fade_in->clear ();
 		}
-	} else if (property == VideoContentProperty::VIDEO_FADE_OUT) {
+	} else if (property == VideoContentProperty::FADE_OUT) {
 		set<Frame> check;
 		BOOST_FOREACH (shared_ptr<const Content> i, vc) {
 			check.insert (i->video->fade_out ());
@@ -330,8 +330,8 @@ VideoPanel::film_content_changed (int property)
 
 		if (check.size() == 1) {
 			_fade_out->set (
-				ContentTime::from_frames (vc.front()->video->fade_out (), vc.front()->video->video_frame_rate ()),
-				vc.front()->video->video_frame_rate ()
+				ContentTime::from_frames (vc.front()->video->fade_out (), vc.front()->video->frame_rate ()),
+				vc.front()->video->frame_rate ()
 				);
 		} else {
 			_fade_out->clear ();
@@ -433,11 +433,11 @@ VideoPanel::content_selection_changed ()
 	_bottom_crop->set_content (video_sel);
 	_scale->set_content (video_sel);
 
-	film_content_changed (VideoContentProperty::VIDEO_CROP);
-	film_content_changed (VideoContentProperty::VIDEO_FRAME_RATE);
+	film_content_changed (VideoContentProperty::CROP);
+	film_content_changed (VideoContentProperty::FRAME_RATE);
 	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
-	film_content_changed (VideoContentProperty::VIDEO_FADE_IN);
-	film_content_changed (VideoContentProperty::VIDEO_FADE_OUT);
+	film_content_changed (VideoContentProperty::FADE_IN);
+	film_content_changed (VideoContentProperty::FADE_OUT);
 	film_content_changed (FFmpegContentProperty::FILTERS);
 	film_content_changed (DCPContentProperty::REFERENCE_VIDEO);
 

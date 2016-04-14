@@ -41,8 +41,8 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
-	content->subtitle->set_use_subtitles (true);
-	content->subtitle->set_burn_subtitles (false);
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	film->make_dcp ();
@@ -62,8 +62,8 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test2)
 	film->set_interop (true);
 	film->set_sequence (false);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
-	content->subtitle->set_use_subtitles (true);
-	content->subtitle->set_burn_subtitles (false);
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();

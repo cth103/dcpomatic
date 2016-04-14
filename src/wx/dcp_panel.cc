@@ -427,10 +427,10 @@ DCPPanel::film_changed (int p)
 void
 DCPPanel::film_content_changed (int property)
 {
-	if (property == AudioContentProperty::AUDIO_STREAMS ||
-	    property == SubtitleContentProperty::USE_SUBTITLES ||
-	    property == SubtitleContentProperty::BURN_SUBTITLES ||
-	    property == VideoContentProperty::VIDEO_SCALE ||
+	if (property == AudioContentProperty::STREAMS ||
+	    property == SubtitleContentProperty::USE ||
+	    property == SubtitleContentProperty::BURN ||
+	    property == VideoContentProperty::SCALE ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||
 	    property == DCPContentProperty::REFERENCE_AUDIO ||
 	    property == DCPContentProperty::REFERENCE_SUBTITLE) {

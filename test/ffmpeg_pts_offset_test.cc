@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 	shared_ptr<Film> film = new_test_film ("ffmpeg_pts_offset_test");
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
 	content->_audio_streams.push_back (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream));
-	content->video->_video_frame_rate = 24;
+	content->video->_frame_rate = 24;
 
 	{
 		/* Sound == video so no offset required */

@@ -85,8 +85,8 @@ print_dump (shared_ptr<Film> film)
 		     << " end trim " << c->trim_end().seconds () << "\n";
 
 		if (c->video) {
-			cout << "\t" << c->video->video_size().width << "x" << c->video->video_size().height << "\n"
-			     << "\t" << c->video->video_frame_rate() << "fps\n"
+			cout << "\t" << c->video->size().width << "x" << c->video->size().height << "\n"
+			     << "\t" << c->video->frame_rate() << "fps\n"
 			     << "\tcrop left " << c->video->left_crop()
 			     << " right " << c->video->right_crop()
 			     << " top " << c->video->top_crop()
@@ -107,8 +107,8 @@ print_dump (shared_ptr<Film> film)
 		}
 
 		if (c->audio) {
-			cout << "\t" << c->audio->audio_delay() << " delay\n"
-			     << "\t" << c->audio->audio_gain() << " gain\n";
+			cout << "\t" << c->audio->delay() << " delay\n"
+			     << "\t" << c->audio->gain() << " gain\n";
 		}
 	}
 }

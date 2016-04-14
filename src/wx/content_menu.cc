@@ -206,9 +206,9 @@ ContentMenu::remove ()
 			}
 
 			if (!video && audio) {
-				AudioMapping m = fc->audio->audio_mapping ();
+				AudioMapping m = fc->audio->mapping ();
 				m.unmap_all ();
-				fc->audio->set_audio_mapping (m);
+				fc->audio->set_mapping (m);
 				handled = true;
 			}
 		}

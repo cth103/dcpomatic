@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,8 +45,8 @@ AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, 
 	, _decoder (decoder)
 	, _log (log)
 {
-	if (content->resampled_audio_frame_rate() != _stream->frame_rate() && _stream->channels() > 0) {
-		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_audio_frame_rate(), _stream->channels (), decoder->fast ()));
+	if (content->resampled_frame_rate() != _stream->frame_rate() && _stream->channels() > 0) {
+		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_frame_rate(), _stream->channels (), decoder->fast ()));
 	}
 
 	reset_decoded ();
@@ -69,7 +69,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 
 	if (frame < _decoded.frame || end > (_decoded.frame + length * 4)) {
 		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
-		seek (ContentTime::from_frames (frame, _content->resampled_audio_frame_rate()), accurate);
+		seek (ContentTime::from_frames (frame, _content->resampled_frame_rate()), accurate);
 	}
 
 	/* Offset of the data that we want from the start of _decoded.audio
@@ -148,7 +148,7 @@ AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time
 		data = _resampler->run (data);
 	}
 
-	Frame const frame_rate = _content->resampled_audio_frame_rate ();
+	Frame const frame_rate = _content->resampled_frame_rate ();
 
 	if (_seek_reference) {
 		/* We've had an accurate seek and now we're seeing some data */
@@ -217,7 +217,7 @@ AudioDecoderStream::add (shared_ptr<const AudioBuffers> data)
 	_position = _position.get() + data->frames ();
 
 	/* Limit the amount of data we keep in case nobody is asking for it */
-	int const max_frames = _content->resampled_audio_frame_rate () * 10;
+	int const max_frames = _content->resampled_frame_rate () * 10;
 	if (_decoded.audio->frames() > max_frames) {
 		int const to_remove = _decoded.audio->frames() - max_frames;
 		_decoded.frame += to_remove;

@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
-	c->audio->set_audio_delay (-250);
+	c->audio->set_delay (-250);
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 

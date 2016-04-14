@@ -100,7 +100,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 
 	dcp::Size answer = sc.get().size (vc->video, display_size, film_size);
 	if (answer != correct) {
-		cerr << "Testing " << vc->video->video_size().width << "x" << vc->video->video_size().height << "\n";
+		cerr << "Testing " << vc->video->size().width << "x" << vc->video->size().height << "\n";
 		cerr << "Testing " << display_size.width << "x" << display_size.height << "\n";
 		cerr << answer.width << "x" << answer.height << " instead of " << correct.width << "x" << correct.height << "\n";
 	}

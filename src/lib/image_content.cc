@@ -115,7 +115,7 @@ ImageContent::examine (shared_ptr<Job> job)
 	DCPOMATIC_ASSERT (film);
 
 	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
-	video->take_from_video_examiner (examiner);
+	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 }
 
@@ -124,8 +124,8 @@ ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (video->video_frame_rate(), film->video_frame_rate());
-	return DCPTime::from_frames (llrint (video->video_length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
+	FrameRateChange const frc (video->frame_rate(), film->video_frame_rate());
+	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
 }
 
 string
@@ -134,7 +134,7 @@ ImageContent::identifier () const
 	SafeStringStream s;
 	s << Content::identifier();
 	s << "_" << video->identifier ();
-	s << "_" << video->video_length();
+	s << "_" << video->length();
 	return s.str ();
 }
 

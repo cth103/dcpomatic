@@ -133,7 +133,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (fc->subtitle->use_subtitles() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+		if (fc->subtitle->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
 	}
@@ -201,7 +201,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
-	video->take_from_video_examiner (examiner);
+	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 
 	{
@@ -296,8 +296,8 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 DCPTime
 FFmpegContent::full_length () const
 {
-	FrameRateChange const frc (video->video_frame_rate (), film()->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video->video_length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
+	FrameRateChange const frc (video->frame_rate (), film()->video_frame_rate ());
+	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
 }
 
 void
@@ -382,7 +382,7 @@ FFmpegContent::has_text_subtitles () const
 void
 FFmpegContent::set_default_colour_conversion ()
 {
-	dcp::Size const s = video->video_size ();
+	dcp::Size const s = video->size ();
 
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -536,7 +536,7 @@ FFmpegContent::signal_subtitle_stream_changed ()
 void
 FFmpegContent::changed (int property)
 {
-	if (property == VideoContentProperty::VIDEO_FRAME_RATE && subtitle) {
-		subtitle->set_subtitle_video_frame_rate (video->video_frame_rate ());
+	if (property == VideoContentProperty::FRAME_RATE && subtitle) {
+		subtitle->set_video_frame_rate (video->frame_rate ());
 	}
 }

@@ -160,7 +160,7 @@ HintsDialog::film_changed ()
 
 	int three_d = 0;
 	BOOST_FOREACH (shared_ptr<const Content> i, content) {
-		if (i->video && i->video->video_frame_type() != VIDEO_FRAME_TYPE_2D) {
+		if (i->video && i->video->frame_type() != VIDEO_FRAME_TYPE_2D) {
 			++three_d;
 		}
 	}

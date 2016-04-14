@@ -231,7 +231,7 @@ main (int argc, char* argv[])
 		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
 			if (ic) {
-				ic->video->set_video_length (still_length * 24);
+				ic->video->set_length (still_length * 24);
 			}
 		}
 

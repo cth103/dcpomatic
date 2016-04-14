@@ -90,7 +90,7 @@ public:
 	void seek (ContentTime t, bool accurate)
 	{
 		AudioDecoder::seek (t, accurate);
-		_position = t.frames_round (_test_audio_content->audio->resampled_audio_frame_rate ());
+		_position = t.frames_round (_test_audio_content->audio->resampled_frame_rate ());
 	}
 
 private:
@@ -104,7 +104,7 @@ shared_ptr<TestAudioDecoder> decoder;
 static ContentAudio
 get (Frame from, Frame length)
 {
-	decoder->seek (ContentTime::from_frames (from, content->audio->resampled_audio_frame_rate ()), true);
+	decoder->seek (ContentTime::from_frames (from, content->audio->resampled_frame_rate ()), true);
 	ContentAudio ca = decoder->get_audio (content->audio->stream(), from, length, true);
 	BOOST_CHECK_EQUAL (ca.frame, from);
 	return ca;
@@ -137,8 +137,8 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 
 	/* Read off the end */
 
-	Frame const from = content->audio->resampled_audio_frame_rate() * 61;
-	Frame const length = content->audio->resampled_audio_frame_rate() * 4;
+	Frame const from = content->audio->resampled_frame_rate() * 61;
+	Frame const length = content->audio->resampled_frame_rate() * 4;
 	ContentAudio ca = get (from, length);
 
 	for (int i = 0; i < content->audio->stream()->channels(); ++i) {

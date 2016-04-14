@@ -132,7 +132,7 @@ VideoContentScale::size (shared_ptr<const VideoContent> c, dcp::Size display_con
 {
 	/* Work out the size of the content if it were put inside film_container */
 
-	dcp::Size const video_size_after_crop = c->video_size_after_crop ();
+	dcp::Size const video_size_after_crop = c->size_after_crop ();
 
 	dcp::Size size;
 

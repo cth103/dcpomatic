@@ -72,8 +72,8 @@ Transcoder::go ()
 	int burnt_subtitles = 0;
 	int non_burnt_subtitles = 0;
 	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
-		if (c->subtitle && c->subtitle->use_subtitles()) {
-			if (c->subtitle->burn_subtitles()) {
+		if (c->subtitle && c->subtitle->use()) {
+			if (c->subtitle->burn()) {
 				++burnt_subtitles;
 			} else {
 				++non_burnt_subtitles;

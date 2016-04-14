@@ -89,21 +89,21 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_red.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
-		c->video->set_video_length (24);
+		c->video->set_length (24);
 	}
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_green.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
-		c->video->set_video_length (24);
+		c->video->set_length (24);
 	}
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_blue.png"));
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
-		c->video->set_video_length (24);
+		c->video->set_length (24);
 	}
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 		content[i].reset (new ImageContent (film, "test/data/flat_green.png"));
 		film->examine_and_add_content (content[i]);
 		wait_for_jobs ();
-		content[i]->video->set_video_length (24);
+		content[i]->video->set_length (24);
 	}
 
 	shared_ptr<TextSubtitleContent> subs (new TextSubtitleContent (film, "test/data/subrip3.srt"));

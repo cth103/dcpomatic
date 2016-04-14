@@ -47,8 +47,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use_subtitles (true);
-	content->subtitle->set_burn_subtitles (false);
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
 	film->make_dcp ();
 	wait_for_jobs ();
 
@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use_subtitles (true);
-	content->subtitle->set_burn_subtitles (false);
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
 	/* Use test/data/subrip2.srt as if it were a font file  */
 	content->subtitle->fonts().front()->set_file (FontFiles::NORMAL, "test/data/subrip2.srt");
 
@@ -92,8 +92,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	content->subtitle->set_use_subtitles (true);
-	content->subtitle->set_burn_subtitles (false);
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
 
 	film->make_dcp ();
 	wait_for_jobs ();
