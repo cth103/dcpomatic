@@ -72,10 +72,6 @@ Log::log (string message, int type)
 
 	shared_ptr<StringLogEntry> e (new StringLogEntry (type, message));
 
-#ifdef DCPOMATIC_DEBUG
-	cout << e->get() << "\n";
-#endif
-
 	do_log (e);
 }
 
