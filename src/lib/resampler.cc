@@ -139,7 +139,11 @@ Resampler::flush ()
 	int out_offset = 0;
 	int64_t const output_size = 65536;
 
-	float dummy[1];
+	/* I think this should only need to be 1 long, but I have seen
+	   src_process error with "input and output data arrays overlap"
+	   with dummy[1] (on OS X).  I've added a few more for luck.
+	*/
+	float dummy[16];
 	float buffer[output_size];
 
 	SRC_DATA data;
