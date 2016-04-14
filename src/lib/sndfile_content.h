@@ -42,8 +42,6 @@ public:
 	std::string information () const;
 	void as_xml (xmlpp::Node *) const;
 
-	void take_from_audio_examiner (boost::shared_ptr<AudioExaminer>);
-
 	static bool valid_file (boost::filesystem::path);
 
 private:

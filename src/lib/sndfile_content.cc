@@ -96,21 +96,16 @@ SndfileContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 	Content::examine (job);
-	shared_ptr<AudioExaminer> dec (new SndfileExaminer (shared_from_this ()));
-	take_from_audio_examiner (dec);
-}
+	shared_ptr<AudioExaminer> ex (new SndfileExaminer (shared_from_this ()));
 
-void
-SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
-{
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		AudioStreamPtr as (new AudioStream (ex->audio_frame_rate(), ex->audio_channels ()));
 		audio->set_stream (as);
 		AudioMapping m = as->mapping ();
 		film()->make_audio_mapping_default (m);
 		as->set_mapping (m);
-		_audio_length = examiner->audio_length ();
+		_audio_length = ex->audio_length ();
 	}
 
 	signal_changed (AudioContentProperty::STREAMS);
