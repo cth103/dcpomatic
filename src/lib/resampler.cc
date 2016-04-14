@@ -139,12 +139,8 @@ Resampler::flush ()
 	int out_offset = 0;
 	int64_t const output_size = 65536;
 
-	/* I think this should only need to be 1 long, but I have seen
-	   src_process error with "input and output data arrays overlap"
-	   with dummy[1] (on OS X).  I've added a few more for luck.
-	*/
-	float dummy[16];
-	float buffer[output_size];
+	float dummy[1];
+	float* buffer = new float[output_size];
 
 	SRC_DATA data;
 	data.data_in = dummy;
@@ -156,6 +152,7 @@ Resampler::flush ()
 
 	int const r = src_process (_src, &data);
 	if (r) {
+		delete[] buffer;
 		throw EncodeError (String::compose (N_("could not run sample-rate converter (%1)"), src_strerror (r)));
 	}
 
@@ -172,5 +169,6 @@ Resampler::flush ()
 	out_offset += data.output_frames_gen;
 	out->set_frames (out_offset);
 
+	delete[] buffer;
 	return out;
 }
