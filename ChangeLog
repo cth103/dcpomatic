@@ -1,5 +1,7 @@
 2016-04-15  Carl Hetherington  <cth@carlh.net>
 
+	* Fix forcing of the "video frame rate" for audio content.
+
 	* Updated ru_RU and uk_UA translations from Igor Voytovich.
 
 2016-04-14  Carl Hetherington  <cth@carlh.net>

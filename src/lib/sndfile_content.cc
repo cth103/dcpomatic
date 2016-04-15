@@ -106,6 +106,6 @@ SndfileContent::take_from_audio_examiner (shared_ptr<AudioExaminer> examiner)
 DCPTime
 SndfileContent::full_length () const
 {
-	FrameRateChange const frc = film()->active_frame_rate_change (position ());
+	FrameRateChange const frc (audio_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime::from_frames (audio_length() / frc.speed_up, audio_stream()->frame_rate ());
 }

@@ -37,6 +37,7 @@ public:
 	static int const AUDIO_STREAMS;
 	static int const AUDIO_GAIN;
 	static int const AUDIO_DELAY;
+	static int const AUDIO_VIDEO_FRAME_RATE;
 };
 
 /** @class AudioContent
@@ -75,6 +76,9 @@ public:
 		return _audio_delay;
 	}
 
+	double audio_video_frame_rate () const;
+	void set_audio_video_frame_rate (double r);
+
 	std::string processing_description () const;
 
 protected:
@@ -86,6 +90,7 @@ private:
 	double _audio_gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _audio_delay;
+	boost::optional<double> _audio_video_frame_rate;
 };
 
 #endif

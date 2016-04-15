@@ -47,6 +47,7 @@ using boost::optional;
 int const AudioContentProperty::AUDIO_STREAMS = 200;
 int const AudioContentProperty::AUDIO_GAIN = 201;
 int const AudioContentProperty::AUDIO_DELAY = 202;
+int const AudioContentProperty::AUDIO_VIDEO_FRAME_RATE = 203;
 
 AudioContent::AudioContent (shared_ptr<const Film> film)
 	: Content (film)
@@ -77,6 +78,7 @@ AudioContent::AudioContent (shared_ptr<const Film> film, cxml::ConstNodePtr node
 {
 	_audio_gain = node->number_child<double> ("AudioGain");
 	_audio_delay = node->number_child<int> ("AudioDelay");
+	_audio_video_frame_rate = node->optional_number_child<double> ("AudioVideoFrameRate");
 }
 
 AudioContent::AudioContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
@@ -95,10 +97,16 @@ AudioContent::AudioContent (shared_ptr<const Film> film, vector<shared_ptr<Conte
 		if (ac->audio_delay() != ref->audio_delay()) {
 			throw JoinError (_("Content to be joined must have the same audio delay."));
 		}
+
+		if (ac->audio_video_frame_rate() != ref->audio_video_frame_rate()) {
+			throw JoinError (_("Content to be joined must have the same video frame rate."));
+		}
 	}
 
 	_audio_gain = ref->audio_gain ();
 	_audio_delay = ref->audio_delay ();
+	/* Preserve the optional<> part of this */
+	_audio_video_frame_rate = ref->_audio_video_frame_rate;
 }
 
 void
@@ -107,6 +115,9 @@ AudioContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("AudioGain")->add_child_text (raw_convert<string> (_audio_gain));
 	node->add_child("AudioDelay")->add_child_text (raw_convert<string> (_audio_delay));
+	if (_audio_video_frame_rate) {
+		node->add_child("AudioVideoFrameRate")->add_child_text (raw_convert<string> (_audio_video_frame_rate.get()));
+	}
 }
 
 
@@ -199,7 +210,7 @@ AudioContent::resampled_audio_frame_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = has_rate_above_48k() ? 96000 : 48000;
 
-	FrameRateChange frc = film()->active_frame_rate_change (position ());
+	FrameRateChange frc (audio_video_frame_rate(), film()->video_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -308,10 +319,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 		p.push_back (UserProperty (_("Audio"), _("Content audio frame rate"), stream->frame_rate(), _("Hz")));
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
-	FrameRateChange const frc = film->active_frame_rate_change (position ());
+	FrameRateChange const frc (audio_video_frame_rate(), film()->video_frame_rate());
 	ContentTime const c (full_length(), frc);
 
 	p.push_back (
@@ -340,4 +348,31 @@ AudioContent::add_properties (list<UserProperty>& p) const
 				)
 			);
 	}
+}
+
+void
+AudioContent::set_audio_video_frame_rate (double r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_audio_video_frame_rate = r;
+	}
+
+	signal_changed (AudioContentProperty::AUDIO_VIDEO_FRAME_RATE);
+}
+
+double
+AudioContent::audio_video_frame_rate () const
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_audio_video_frame_rate) {
+			return _audio_video_frame_rate.get ();
+		}
+	}
+
+	/* No frame rate specified, so assume this content has been
+	   prepared for any concurrent video content.
+	*/
+	return film()->active_frame_rate_change(position()).source;
 }
