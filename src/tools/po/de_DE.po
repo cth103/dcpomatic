@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-14 20:35+0100\n"
-"PO-Revision-Date: 2016-03-12 03:44+0100\n"
+"PO-Revision-Date: 2016-04-15 21:59+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -27,12 +27,12 @@ msgstr ""
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM geschrieben nach %s"
 
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDMs geschrieben nach %s"
 
 #: src/tools/dcpomatic_batch.cc:59
 msgid "&Add Film..."
@@ -130,7 +130,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:308
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr ""
+msgstr "Ein unbekannter Fehler ist beim J2C Kodierungsserver aufgetreten"
 
 #: src/tools/dcpomatic.cc:485 src/tools/dcpomatic.cc:563
 #: src/tools/dcpomatic.cc:1072 src/tools/dcpomatic_kdm.cc:324
@@ -145,7 +145,7 @@ msgstr "Falscher Parameter für %s (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:481 src/tools/dcpomatic.cc:559
 #: src/tools/dcpomatic_kdm.cc:320
@@ -191,7 +191,7 @@ msgstr "DCP kann nicht angezeigt werden (Nautilus konnte nicht geladen werden)"
 
 #: src/tools/dcpomatic_kdm.cc:160
 msgid "Create KDMs"
-msgstr ""
+msgstr "Erzeuge KDM(s)"
 
 #: src/tools/dcpomatic.cc:317 src/tools/dcpomatic.cc:948
 #: src/tools/dcpomatic.cc:984
@@ -203,18 +203,16 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic Stapelkonvertierung"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-#, fuzzy
 msgid "DCP-o-matic KDM creator"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic creator"
 
 #: src/tools/dcpomatic_server.cc:140
-#, fuzzy
 msgid "DCP-o-matic encode server"
-msgstr "DCP-o-matic Stapelkonvertierung"
+msgstr "DCP-o-matic Kodierungsserver"
 
 #: src/tools/dcpomatic_kdm.cc:142
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:811 src/tools/dcpomatic_batch.cc:74
 msgid "Encoding servers..."
@@ -228,7 +226,7 @@ msgstr "Projektdaten geändert"
 
 #: src/tools/dcpomatic_server.cc:147
 msgid "Frames per second"
-msgstr ""
+msgstr "Bilder pro Sekunde"
 
 #: src/tools/dcpomatic.cc:810
 msgid "Hints..."
@@ -252,7 +250,7 @@ msgstr "Neu...\tCtrl-N"
 
 #: src/tools/dcpomatic_kdm.cc:153
 msgid "Output"
-msgstr ""
+msgstr "Ausgabe"
 
 #: src/tools/dcpomatic.cc:822 src/tools/dcpomatic_kdm.cc:240
 msgid "Report a problem..."
@@ -282,12 +280,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_kdm.cc:133
 msgid "Screens"
-msgstr ""
+msgstr "Leinwände"
 
 #: src/tools/dcpomatic_kdm.cc:73
-#, fuzzy
 msgid "Select DKDM file"
-msgstr "Zu öffnendes Projekt auswählen"
+msgstr "DKDM auswählen"
 
 #: src/tools/dcpomatic.cc:362 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"
@@ -295,7 +292,7 @@ msgstr "Zu öffnendes Projekt auswählen"
 
 #: src/tools/dcpomatic_kdm.cc:316
 msgid "Send KDM emails"
-msgstr ""
+msgstr "Sende KDM Emails"
 
 #: src/tools/dcpomatic.cc:428
 #, c-format

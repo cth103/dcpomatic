@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-14 20:35+0100\n"
-"PO-Revision-Date: 2016-04-14 13:19+0100\n"
+"PO-Revision-Date: 2016-04-15 22:06+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -840,9 +840,8 @@ msgid "Left"
 msgstr "Links"
 
 #: src/wx/film_viewer.cc:67
-#, fuzzy
 msgid "Left eye"
-msgstr "Links"
+msgstr "Linkes Auge"
 
 #: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
@@ -1203,9 +1202,8 @@ msgid "Right click to change gain."
 msgstr "Rechtsklick für Anpassung."
 
 #: src/wx/film_viewer.cc:68
-#, fuzzy
 msgid "Right eye"
-msgstr "Rechts"
+msgstr "Rechtes Auge"
 
 #: src/wx/config_dialog.cc:825
 msgid "Root"
@@ -1499,99 +1497,99 @@ msgstr "UTC/GMT Abweichung (Zeitzone)"
 
 #: src/wx/cinema_dialog.cc:93
 msgid "UTC+1"
-msgstr "UTC+1"
+msgstr "UTC/GMT+1"
 
 #: src/wx/cinema_dialog.cc:102
 msgid "UTC+10"
-msgstr "UTC+10"
+msgstr "UTC/GMT+10"
 
 #: src/wx/cinema_dialog.cc:103
 msgid "UTC+11"
-msgstr "UTC+11"
+msgstr "UTC/GMT+11"
 
 #: src/wx/cinema_dialog.cc:104
 msgid "UTC+12"
-msgstr "UTC+12"
+msgstr "UTC/GMT+12"
 
 #: src/wx/cinema_dialog.cc:94
 msgid "UTC+2"
-msgstr "UTC+2"
+msgstr "UTC/GMT+2"
 
 #: src/wx/cinema_dialog.cc:95
 msgid "UTC+3"
-msgstr "UTC+3"
+msgstr "UTC/GMT+3"
 
 #: src/wx/cinema_dialog.cc:96
 msgid "UTC+4"
-msgstr "UTC+4"
+msgstr "UTC/GMT+4"
 
 #: src/wx/cinema_dialog.cc:97
 msgid "UTC+5"
-msgstr "UTC+5"
+msgstr "UTC/GMT+5"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC+6"
-msgstr "UTC+6"
+msgstr "UTC/GMT+6"
 
 #: src/wx/cinema_dialog.cc:99
 msgid "UTC+7"
-msgstr "UTC+7"
+msgstr "UTC/GMT+7"
 
 #: src/wx/cinema_dialog.cc:100
 msgid "UTC+8"
-msgstr "UTC+8"
+msgstr "UTC/GMT+8"
 
 #: src/wx/cinema_dialog.cc:101
 msgid "UTC+9"
-msgstr "UTC+9"
+msgstr "UTC/GMT+9"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-1"
-msgstr "UTC-1"
+msgstr "UTC/GMT-1"
 
 #: src/wx/cinema_dialog.cc:81
 msgid "UTC-10"
-msgstr "UTC-10"
+msgstr "UTC/GMT-10"
 
 #: src/wx/cinema_dialog.cc:80
 msgid "UTC-11"
-msgstr "UTC-11"
+msgstr "UTC/GMT-11"
 
 #: src/wx/cinema_dialog.cc:90
 msgid "UTC-2"
-msgstr "UTC-2"
+msgstr "UTC/GMT-2"
 
 #: src/wx/cinema_dialog.cc:89
 msgid "UTC-3"
-msgstr "UTC-3"
+msgstr "UTC/GMT-3"
 
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-3:30"
-msgstr "UTC-3:30"
+msgstr "UTC/GMT-3:30"
 
 #: src/wx/cinema_dialog.cc:87
 msgid "UTC-4"
-msgstr "UTC-4"
+msgstr "UTC/GMT-4"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
-msgstr "UTC-5"
+msgstr "UTC/GMT-5/"
 
 #: src/wx/cinema_dialog.cc:85
 msgid "UTC-6"
-msgstr "UTC-6"
+msgstr "UTC/GMT-6"
 
 #: src/wx/cinema_dialog.cc:84
 msgid "UTC-7"
-msgstr "UTC-7"
+msgstr "UTC/GMT-7"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC-8"
-msgstr "UTC-8"
+msgstr "UTC/GMT-8"
 
 #: src/wx/cinema_dialog.cc:82
 msgid "UTC-9"
-msgstr "UTC-9"
+msgstr "UTC/GMT-9"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
