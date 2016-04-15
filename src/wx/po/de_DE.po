@@ -1498,112 +1498,100 @@ msgid "UTC offset (time zone)"
 msgstr "UTC/GMT Abweichung (Zeitzone)"
 
 #: src/wx/cinema_dialog.cc:93
-#, fuzzy
 msgid "UTC+1"
-msgstr "UTC+%d"
+msgstr "UTC+1"
 
 #: src/wx/cinema_dialog.cc:102
-#, fuzzy
 msgid "UTC+10"
-msgstr "UTC+%d"
+msgstr "UTC+10"
 
 #: src/wx/cinema_dialog.cc:103
-#, fuzzy
 msgid "UTC+11"
-msgstr "UTC+%d"
+msgstr "UTC+11"
 
 #: src/wx/cinema_dialog.cc:104
-#, fuzzy
 msgid "UTC+12"
-msgstr "UTC+%d"
+msgstr "UTC+12"
 
 #: src/wx/cinema_dialog.cc:94
-#, fuzzy
 msgid "UTC+2"
-msgstr "UTC+%d"
+msgstr "UTC+2"
 
 #: src/wx/cinema_dialog.cc:95
-#, fuzzy
 msgid "UTC+3"
-msgstr "UTC+%d"
+msgstr "UTC+3"
 
 #: src/wx/cinema_dialog.cc:96
-#, fuzzy
 msgid "UTC+4"
-msgstr "UTC+%d"
+msgstr "UTC+4"
 
 #: src/wx/cinema_dialog.cc:97
-#, fuzzy
 msgid "UTC+5"
-msgstr "UTC+%d"
+msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:98
-#, fuzzy
 msgid "UTC+6"
-msgstr "UTC+%d"
+msgstr "UTC+6"
 
 #: src/wx/cinema_dialog.cc:99
-#, fuzzy
 msgid "UTC+7"
-msgstr "UTC+%d"
+msgstr "UTC+7"
 
 #: src/wx/cinema_dialog.cc:100
-#, fuzzy
 msgid "UTC+8"
-msgstr "UTC+%d"
+msgstr "UTC+8"
 
 #: src/wx/cinema_dialog.cc:101
-#, fuzzy
 msgid "UTC+9"
-msgstr "UTC+%d"
+msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/cinema_dialog.cc:81
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/cinema_dialog.cc:80
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/cinema_dialog.cc:90
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/cinema_dialog.cc:89
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/cinema_dialog.cc:87
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/cinema_dialog.cc:85
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/cinema_dialog.cc:84
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/cinema_dialog.cc:82
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
