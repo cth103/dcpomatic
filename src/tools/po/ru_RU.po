@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-14 20:35+0100\n"
-"PO-Revision-Date: 2016-03-02 09:26+0200\n"
-"Last-Translator: Igor V <iva_co@ukr.net>\n"
+"PO-Revision-Date: 2016-04-15 20:05+0300\n"
+"Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -24,12 +24,12 @@ msgstr ""
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM-ключ записан в %s"
 
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM-ключи записаны в %s"
 
 #: src/tools/dcpomatic_batch.cc:59
 msgid "&Add Film..."
@@ -127,7 +127,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:308
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr ""
+msgstr "В сервере кодирования DCP-o-matic произошла неизвестная ошибка."
 
 #: src/tools/dcpomatic.cc:485 src/tools/dcpomatic.cc:563
 #: src/tools/dcpomatic.cc:1072 src/tools/dcpomatic_kdm.cc:324
@@ -142,7 +142,7 @@ msgstr "Неправильные настройки для %s (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:481 src/tools/dcpomatic.cc:559
 #: src/tools/dcpomatic_kdm.cc:320
@@ -185,7 +185,7 @@ msgstr "Не удалось открыть каталог DCP (не удалос
 
 #: src/tools/dcpomatic_kdm.cc:160
 msgid "Create KDMs"
-msgstr ""
+msgstr "Создать KDM-ключи"
 
 #: src/tools/dcpomatic.cc:317 src/tools/dcpomatic.cc:948
 #: src/tools/dcpomatic.cc:984
@@ -197,18 +197,16 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "Пакетный конвертер DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-#, fuzzy
 msgid "DCP-o-matic KDM creator"
-msgstr "DCP-o-matic"
+msgstr "Создатель KDM-ключей DCP-o-matic"
 
 #: src/tools/dcpomatic_server.cc:140
-#, fuzzy
 msgid "DCP-o-matic encode server"
-msgstr "Пакетный конвертер DCP-o-matic"
+msgstr "Сервер кодирования DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:142
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM (Distribution KDM)"
 
 #: src/tools/dcpomatic.cc:811 src/tools/dcpomatic_batch.cc:74
 msgid "Encoding servers..."
@@ -222,7 +220,7 @@ msgstr "Проект изменен"
 
 #: src/tools/dcpomatic_server.cc:147
 msgid "Frames per second"
-msgstr ""
+msgstr "Кадров в секунду"
 
 #: src/tools/dcpomatic.cc:810
 msgid "Hints..."
@@ -246,7 +244,7 @@ msgstr "Новый...\tCtrl-N"
 
 #: src/tools/dcpomatic_kdm.cc:153
 msgid "Output"
-msgstr ""
+msgstr "Вывод"
 
 #: src/tools/dcpomatic.cc:822 src/tools/dcpomatic_kdm.cc:240
 msgid "Report a problem..."
@@ -275,12 +273,11 @@ msgstr "Масштабировать по ширине"
 
 #: src/tools/dcpomatic_kdm.cc:133
 msgid "Screens"
-msgstr ""
+msgstr "Экраны"
 
 #: src/tools/dcpomatic_kdm.cc:73
-#, fuzzy
 msgid "Select DKDM file"
-msgstr "Выберите проект"
+msgstr "Выберите DKDM-файл"
 
 #: src/tools/dcpomatic.cc:362 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"
@@ -288,7 +285,7 @@ msgstr "Выберите проект"
 
 #: src/tools/dcpomatic_kdm.cc:316
 msgid "Send KDM emails"
-msgstr ""
+msgstr "Отправить KDM-ключи по email"
 
 #: src/tools/dcpomatic.cc:428
 #, c-format
