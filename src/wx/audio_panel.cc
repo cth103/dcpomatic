@@ -170,7 +170,7 @@ AudioPanel::film_content_changed (int property)
 		}
 
 		setup_sensitivity ();
-	} else if (property == AudioContentProperty::AUDIO_VIDEO_FRAME_RATE) {
+	} else if (property == AudioContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
 	}
 }

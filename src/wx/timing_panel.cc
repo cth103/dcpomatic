@@ -270,10 +270,9 @@ TimingPanel::film_content_changed (int property)
 				check_vc.insert (i->video->frame_rate ());
 				vc = i;
 			}
-			shared_ptr<const AudioContent> at = dynamic_pointer_cast<const AudioContent> (i);
 			if (i->audio) {
 				++count_ac;
-				ac = at;
+				ac = i;
 			}
 			if (i->subtitle) {
 				++count_sc;
@@ -286,7 +285,7 @@ TimingPanel::film_content_changed (int property)
 
 		if ((check_vc.size() == 1 || count_ac == 1 || count_sc == 1) && !single_frame_image_content) {
 			if (vc) {
-				checked_set (_video_frame_rate, raw_convert<string> (vc->video->video_frame_rate (), 5));
+				checked_set (_video_frame_rate, raw_convert<string> (vc->video->frame_rate (), 5));
 			} else if (ac) {
 				checked_set (_video_frame_rate, raw_convert<string> (ac->audio->video_frame_rate (), 5));
 			} else if (sc) {
@@ -410,7 +409,7 @@ TimingPanel::set_video_frame_rate ()
 			i->video->set_frame_rate (fr);
 		} else if (i->audio) {
 			/* Audio but not video, i.e. SndfileContent */
-			i->audio->set_audio_video_frame_rate (fr);
+			i->audio->set_video_frame_rate (fr);
 		} else if (dsc) {
 			dsc->subtitle->set_video_frame_rate (fr);
 		} else if (tsc) {

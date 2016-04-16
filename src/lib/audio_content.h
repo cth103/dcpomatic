@@ -34,16 +34,10 @@
 class AudioContentProperty
 {
 public:
-<<<<<<< 17dbd967c18aff2f3007eb86b5eee5b43f23bc4b
-	static int const AUDIO_STREAMS;
-	static int const AUDIO_GAIN;
-	static int const AUDIO_DELAY;
-	static int const AUDIO_VIDEO_FRAME_RATE;
-=======
 	static int const STREAMS;
 	static int const GAIN;
 	static int const DELAY;
->>>>>>> Rename video/audio/subtitle part methods.
+	static int const VIDEO_FRAME_RATE;
 };
 
 class AudioContent : public ContentPart
@@ -75,8 +69,8 @@ public:
 		return _delay;
 	}
 
-	double audio_video_frame_rate () const;
-	void set_audio_video_frame_rate (double r);
+	double video_frame_rate () const;
+	void set_video_frame_rate (double r);
 
 	std::string processing_description () const;
 
