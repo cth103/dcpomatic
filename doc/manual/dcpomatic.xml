@@ -1205,7 +1205,11 @@ DCP-o-matic can either:
 
 <itemizedlist>
   <listitem>Extract subtitles that are embedded in video files, or</listitem>
-  <listitem>Use subtitles from SubRip (<code>.srt</code>), SubStation Alpha (<code>.ssa</code>) or DCP XML files.</listitem>
+  <listitem>Use subtitles from SubRip (<code>.srt</code>), SubStation
+  Alpha (<code>.ssa</code>) or DCP XML files.  You may find the great
+  free program <ulink
+  url="http://www.nikse.dk/subtitleedit/">Subtitle Edit</ulink> useful
+  for creating such files.</listitem>
 </itemizedlist>
 
 <para>
