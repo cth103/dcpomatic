@@ -67,6 +67,29 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	_email->SetValue (std_to_wx (Config::instance()->kdm_from ()));
 	_table->Add (_email, 1, wxEXPAND);
 
+	/* We can't use Wrap() here as it doesn't work with markup:
+	 * http://trac.wxwidgets.org/ticket/13389
+	 */
+
+	wxString in = _("<i>It is important that you enter a valid email address here, otherwise I can't ask you for more details on your problem.</i>");
+	wxString out;
+	int const width = 45;
+	int current = 0;
+	for (size_t i = 0; i < in.Length(); ++i) {
+		if (in[i] == ' ' && current >= width) {
+			out += '\n';
+			current = 0;
+		} else {
+			out += in[i];
+			++current;
+		}
+	}
+
+	wxStaticText* n = new wxStaticText (this, wxID_ANY, wxT (""));
+	n->SetLabelMarkup (out);
+	_table->AddSpacer (0);
+	_table->Add (n, 1, wxEXPAND);
+
 	_overall_sizer->Layout ();
 	_overall_sizer->SetSizeHints (this);
 }
