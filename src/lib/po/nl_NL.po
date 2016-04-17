@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-14 20:35+0100\n"
-"PO-Revision-Date: 2016-04-07 01:42+0200\n"
+"PO-Revision-Date: 2016-04-16 03:22+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -530,15 +530,15 @@ msgstr "Volledige lengte in audio frames bij DCP-snelheid"
 
 #: src/lib/audio_content.cc:325
 msgid "Full length in audio frames at content rate"
-msgstr "Volledige lengte in audio-frames bij content-snelheid"
+msgstr "Volledige lengte in audio frames bij content-snelheid"
 
 #: src/lib/audio_content.cc:332
 msgid "Full length in video frames at DCP rate"
-msgstr "Volledige lengte in video-frames bij DCP-snelheid"
+msgstr "Volledige lengte in video frames bij DCP-snelheid"
 
 #: src/lib/audio_content.cc:318
 msgid "Full length in video frames at content rate"
-msgstr "Volledige lengte in video-frames bij content-snelheid"
+msgstr "Volledige lengte in video frames bij content-snelheid"
 
 #: src/lib/ffmpeg_content.cc:471
 msgid "Gamma 22 (BT470M)"

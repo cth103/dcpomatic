@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-14 20:35+0100\n"
-"PO-Revision-Date: 2016-04-07 22:29+0200\n"
+"PO-Revision-Date: 2016-04-16 03:17+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -833,9 +833,8 @@ msgid "Left"
 msgstr "Links"
 
 #: src/wx/film_viewer.cc:67
-#, fuzzy
 msgid "Left eye"
-msgstr "Links"
+msgstr "Linkeroog"
 
 #: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
@@ -1197,9 +1196,8 @@ msgid "Right click to change gain."
 msgstr "Klik met de rechtermuisknop om versterking te wijzigen."
 
 #: src/wx/film_viewer.cc:68
-#, fuzzy
 msgid "Right eye"
-msgstr "Rechts"
+msgstr "Rechteroog"
 
 #: src/wx/config_dialog.cc:825
 msgid "Root"
@@ -1493,112 +1491,100 @@ msgid "UTC offset (time zone)"
 msgstr "UTC offset (tijdzone)"
 
 #: src/wx/cinema_dialog.cc:93
-#, fuzzy
 msgid "UTC+1"
-msgstr "UTC+%d"
+msgstr "UTC+1"
 
 #: src/wx/cinema_dialog.cc:102
-#, fuzzy
 msgid "UTC+10"
-msgstr "UTC+%d"
+msgstr "UTC+10"
 
 #: src/wx/cinema_dialog.cc:103
-#, fuzzy
 msgid "UTC+11"
-msgstr "UTC+%d"
+msgstr "UTC+11"
 
 #: src/wx/cinema_dialog.cc:104
-#, fuzzy
 msgid "UTC+12"
-msgstr "UTC+%d"
+msgstr "UTC+12"
 
 #: src/wx/cinema_dialog.cc:94
-#, fuzzy
 msgid "UTC+2"
-msgstr "UTC+%d"
+msgstr "UTC+2"
 
 #: src/wx/cinema_dialog.cc:95
-#, fuzzy
 msgid "UTC+3"
-msgstr "UTC+%d"
+msgstr "UTC+3"
 
 #: src/wx/cinema_dialog.cc:96
-#, fuzzy
 msgid "UTC+4"
-msgstr "UTC+%d"
+msgstr "UTC+4"
 
 #: src/wx/cinema_dialog.cc:97
-#, fuzzy
 msgid "UTC+5"
-msgstr "UTC+%d"
+msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:98
-#, fuzzy
 msgid "UTC+6"
-msgstr "UTC+%d"
+msgstr "UTC+6"
 
 #: src/wx/cinema_dialog.cc:99
-#, fuzzy
 msgid "UTC+7"
-msgstr "UTC+%d"
+msgstr "UTC+7"
 
 #: src/wx/cinema_dialog.cc:100
-#, fuzzy
 msgid "UTC+8"
-msgstr "UTC+%d"
+msgstr "UTC+8"
 
 #: src/wx/cinema_dialog.cc:101
-#, fuzzy
 msgid "UTC+9"
-msgstr "UTC+%d"
+msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/cinema_dialog.cc:81
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/cinema_dialog.cc:80
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/cinema_dialog.cc:90
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/cinema_dialog.cc:89
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/cinema_dialog.cc:87
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/cinema_dialog.cc:85
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/cinema_dialog.cc:84
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/cinema_dialog.cc:82
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
