@@ -62,8 +62,8 @@ deb_depends['15.10'].extend(['libboost-filesystem1.58.0',
                              'libwxgtk3.0-0v5',
                              'libicu55'])
 
-deb_depends['15.10'] = copy.deepcopy(deb_depends_base)
-deb_depends['15.10'].extend(['libboost-filesystem1.49.0',
+deb_depends['7'] = copy.deepcopy(deb_depends_base)
+deb_depends['7'].extend(['libboost-filesystem1.49.0',
                              'libboost-thread1.49.0',
                              'libboost-regex1.49.0',
                              'libmagick++5',
