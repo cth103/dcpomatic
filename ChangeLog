@@ -1,3 +1,8 @@
+2016-04-18  Carl Hetherington  <cth@carlh.net>
+
+	* Possibly fix strange paths when uploading DCPs using
+	FTP/SCP.
+
 2016-04-17  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.

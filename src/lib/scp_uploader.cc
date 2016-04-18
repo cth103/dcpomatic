@@ -81,7 +81,8 @@ SCPUploader::~SCPUploader ()
 void
 SCPUploader::create_directory (boost::filesystem::path directory)
 {
-	int const r = ssh_scp_push_directory (_scp, directory.string().c_str(), S_IRWXU);
+	/* Use generic_string so that we get forward-slashes in the path, even on Windows */
+	int const r = ssh_scp_push_directory (_scp, directory.generic_string().c_str(), S_IRWXU);
 	if (r != SSH_OK) {
 		throw NetworkError (String::compose (_("Could not create remote directory %1 (%2)"), directory, ssh_get_error (_session)));
 	}
@@ -91,7 +92,8 @@ void
 SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size)
 {
 	boost::uintmax_t to_do = boost::filesystem::file_size (from);
-	ssh_scp_push_file (_scp, to.string().c_str(), to_do, S_IRUSR | S_IWUSR);
+	/* Use generic_string so that we get forward-slashes in the path, even on Windows */
+	ssh_scp_push_file (_scp, to.generic_string().c_str(), to_do, S_IRUSR | S_IWUSR);
 
 	FILE* f = fopen_boost (from, "rb");
 	if (f == 0) {
