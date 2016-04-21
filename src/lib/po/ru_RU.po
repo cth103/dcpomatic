@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-04-15 20:01+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -67,20 +67,20 @@ msgstr "Возникла ошибка при обращении к файлу %1
 msgid "Analyse audio"
 msgstr "Анализ аудио"
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
+#: src/lib/audio_content.cc:339
 msgid "Audio"
 msgstr "Аудио"
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Аудио будет ресэмплировано из %1kГц в %2kГц"
 
-#: src/lib/audio_content.cc:261
+#: src/lib/audio_content.cc:272
 msgid "Audio will be resampled to %1kHz"
 msgstr "Аудио будет ресэмплировано в %1kГц"
 
-#: src/lib/audio_content.cc:250
+#: src/lib/audio_content.cc:261
 msgid "Audio will not be resampled"
 msgstr "Аудио не будет ресэмплировано"
 
@@ -153,7 +153,7 @@ msgstr "Невозможно обработать формат пикселя %1
 msgid "Centre"
 msgstr "Центральный"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:318
 msgid "Channels"
 msgstr "Каналы"
 
@@ -195,7 +195,7 @@ msgstr "Рендеринг изображения"
 msgid "Content and DCP have the same rate.\n"
 msgstr "У контента и DCP одинаковая частота кадров.\n"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:319
 msgid "Content audio frame rate"
 msgstr "Частота кадров аудио-контента:"
 
@@ -214,11 +214,11 @@ msgstr ""
 "Для присоединения контента должны быть такие же настройки \"использовать "
 "субтитры\"."
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:98
 msgid "Content to be joined must have the same audio delay."
 msgstr "Для присоединения контента должна быть одинаковая задержка аудио."
 
-#: src/lib/audio_content.cc:92
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio gain."
 msgstr "Для присоединения контента должно быть одинаковое усиление аудио."
 
@@ -268,7 +268,7 @@ msgstr ""
 "Для присоединения контента должен быть одинаковый размер субтитров по "
 "вертикали."
 
-#: src/lib/video_content.cc:156
+#: src/lib/audio_content.cc:102 src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr ""
 "Для присоединения контента должна быть одинаковой частота кадров видео."
@@ -297,7 +297,7 @@ msgstr "Копировать DCP на TMS (Theater Management System)"
 msgid "Could not connect to server %1 (%2)"
 msgstr "Не удалось подключиться к серверу %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_uploader.cc:87
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Не удалось создать удалённый каталог %1 (%2)"
 
@@ -325,7 +325,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Не удалось открыть %1"
 
-#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:85 src/lib/scp_uploader.cc:100
 msgid "Could not open %1 to send"
 msgstr "Не удалось открыть %1 для отправки"
 
@@ -345,7 +345,7 @@ msgstr "Не удалось запустить SCP-сессию (%1)"
 msgid "Could not start transfer"
 msgstr "не удалось начать передачу"
 
-#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:92 src/lib/scp_uploader.cc:117
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
@@ -373,7 +373,7 @@ msgstr "DBS"
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитры"
 
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:339
 msgid "DCP frame rate"
 msgstr "Частота кадров DCP:"
 
@@ -529,19 +529,19 @@ msgstr "Полный (0-%1)"
 msgid "Full frame"
 msgstr "FULL (2048x1080)"
 
-#: src/lib/audio_content.cc:338
+#: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
 msgstr "Полная длина аудио-кадров на скорости DCP"
 
-#: src/lib/audio_content.cc:325
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
 msgstr "Полная длина аудио-кадров на скорости контента"
 
-#: src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
 msgstr "Полная длина видео-кадров на скорости DCP"
 
-#: src/lib/audio_content.cc:318
+#: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
 msgstr "Полная длина видео-кадров на скорости контента"
 
@@ -569,7 +569,7 @@ msgstr "Для слабослышащих"
 msgid "High quality 3D denoiser"
 msgstr "Высококачественный подавитель шума 3D"
 
-#: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
 msgstr "Гц"
 
@@ -617,8 +617,8 @@ msgstr "Левый тыловой surround"
 msgid "Left surround"
 msgstr "Левый surround"
 
-#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
-#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:326 src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
 msgstr "Длительность"
@@ -844,7 +844,7 @@ msgstr "SHR (Короткометражный фильм)"
 msgid "Size"
 msgstr "Размер"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Некоторое аудио будет ресемплировано в %1kГц"
 

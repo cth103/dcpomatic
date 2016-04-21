@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-04-15 20:16+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -92,9 +92,13 @@ msgstr "<b>Новий колір</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Початковий колір</b>"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
-#: src/wx/timing_panel.cc:123
+#: src/wx/report_problem_dialog.cc:74
+msgid ""
+"<i>It is important that you enter a valid email address here, otherwise I "
+"can't ask you for more details on your problem.</i>"
+msgstr ""
+
+#: src/wx/timing_panel.cc:124
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -668,7 +672,7 @@ msgstr "Відправник"
 msgid "Full"
 msgstr "Full"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:88
 msgid "Full length"
 msgstr "Повна тривалість"
 
@@ -1019,12 +1023,12 @@ msgstr "Пазуа"
 msgid "Peak"
 msgstr "Вершина"
 
-#: src/wx/audio_panel.cc:300
+#: src/wx/audio_panel.cc:302
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Пікова гучність %.2fдБ"
 
-#: src/wx/audio_panel.cc:302 src/wx/audio_panel.cc:305
+#: src/wx/audio_panel.cc:304 src/wx/audio_panel.cc:307
 msgid "Peak: unknown"
 msgstr "Пікова гучність: невідома"
 
@@ -1032,11 +1036,11 @@ msgstr "Пікова гучність: невідома"
 msgid "Play"
 msgstr "Відтворення"
 
-#: src/wx/timing_panel.cc:102
+#: src/wx/timing_panel.cc:103
 msgid "Play length"
 msgstr "Тривалість відтворення"
 
-#: src/wx/report_problem_dialog.cc:78
+#: src/wx/report_problem_dialog.cc:101
 msgid ""
 "Please enter an email address so that we can contact you with any queries "
 "about the problem."
@@ -1048,7 +1052,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Зачекайте будь ласка - аудіо аналізується..."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:85
 msgid "Position"
 msgstr "Позиція"
 
@@ -1269,7 +1273,7 @@ msgstr "Сервер"
 msgid "Servers"
 msgstr "Сервери"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:111
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
 msgid "Set"
 msgstr "Назначити"
 
@@ -1362,7 +1366,7 @@ msgstr "Кольори субтитрів"
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/wx/about_dialog.cc:249
+#: src/wx/about_dialog.cc:251
 msgid "Supported by"
 msgstr "Фінансова підтримка"
 
@@ -1386,7 +1390,7 @@ msgstr "Територія (напр. RU)"
 msgid "Test version "
 msgstr "Тестова версія"
 
-#: src/wx/about_dialog.cc:303
+#: src/wx/about_dialog.cc:305
 msgid "Tested by"
 msgstr "Тестування"
 
@@ -1435,7 +1439,7 @@ msgstr "Лінійка"
 msgid "Timeline..."
 msgstr "Лінійка..."
 
-#: src/wx/timing_panel.cc:44
+#: src/wx/timing_panel.cc:45
 msgid "Timing|Timing"
 msgstr "Таймінг"
 
@@ -1447,19 +1451,19 @@ msgstr "Верх"
 msgid "Translated by"
 msgstr "Переклад"
 
-#: src/wx/timing_panel.cc:99
+#: src/wx/timing_panel.cc:100
 msgid "Trim after current position"
 msgstr "Обрізати з поточної позиції"
 
-#: src/wx/timing_panel.cc:96
+#: src/wx/timing_panel.cc:97
 msgid "Trim from end"
 msgstr "Обрізати з кінця"
 
-#: src/wx/timing_panel.cc:90
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "Обрізати з початку"
 
-#: src/wx/timing_panel.cc:93
+#: src/wx/timing_panel.cc:94
 msgid "Trim up to current position"
 msgstr "Обрізати до поточної позиції"
 
@@ -1618,7 +1622,7 @@ msgstr "Відео"
 msgid "Video Waveform"
 msgstr "Графік відео"
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:108
 msgid "Video frame rate"
 msgstr "Частота кадрів відео"
 
@@ -1731,17 +1735,17 @@ msgid "dB"
 msgstr "дБ"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:76
+#: src/wx/timing_panel.cc:77
 msgid "f"
 msgstr "к"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:54
+#: src/wx/timing_panel.cc:55
 msgid "h"
 msgstr "г"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:62
+#: src/wx/timing_panel.cc:63
 msgid "m"
 msgstr "хв"
 
@@ -1755,7 +1759,7 @@ msgid "port"
 msgstr "порт"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:69
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
 msgid "s"
 msgstr "с"
 

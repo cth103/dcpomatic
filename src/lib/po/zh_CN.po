@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -71,20 +71,20 @@ msgstr "执行错误 %1."
 msgid "Analyse audio"
 msgstr "音频解析"
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
+#: src/lib/audio_content.cc:339
 msgid "Audio"
 msgstr "音频解析"
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "音频将重新采样 %1kHz 到 %2kHz."
 
-#: src/lib/audio_content.cc:261
+#: src/lib/audio_content.cc:272
 msgid "Audio will be resampled to %1kHz"
 msgstr "音频将被重新采样%1kHz."
 
-#: src/lib/audio_content.cc:250
+#: src/lib/audio_content.cc:261
 msgid "Audio will not be resampled"
 msgstr "音频不能被重新采样！"
 
@@ -157,7 +157,7 @@ msgstr "在%2不能处理图片格式 %1"
 msgid "Centre"
 msgstr "中置音"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:318
 msgid "Channels"
 msgstr "声音通道"
 
@@ -199,7 +199,7 @@ msgstr "计算图像Hash"
 msgid "Content and DCP have the same rate.\n"
 msgstr "内容和DCP需相同的速率。\n"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:319
 msgid "Content audio frame rate"
 msgstr "音频帧率"
 
@@ -215,11 +215,11 @@ msgstr "“烧录字幕”设置必须相同。"
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "“use字幕”设置必须相同。"
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:98
 msgid "Content to be joined must have the same audio delay."
 msgstr "视频和音频的延迟必须相同。"
 
-#: src/lib/audio_content.cc:92
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio gain."
 msgstr "视频和音频增益必须相同。"
 
@@ -259,7 +259,7 @@ msgstr "字幕Y轴偏移必须相同。"
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "字幕Y调整大小必须相同。"
 
-#: src/lib/video_content.cc:156
+#: src/lib/audio_content.cc:102 src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "视频的帧率必须相同。"
 
@@ -287,7 +287,7 @@ msgstr "复制DCP到TMS"
 msgid "Could not connect to server %1 (%2)"
 msgstr "无法连接到服务器 %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_uploader.cc:87
 msgid "Could not create remote directory %1 (%2)"
 msgstr "无法创建远程目录 %1 (%2)"
 
@@ -313,7 +313,7 @@ msgstr "无法监测远程编码服务器。可能DCP-O-MATIC的另一个程序�
 msgid "Could not open %1"
 msgstr "无法打开%1"
 
-#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:85 src/lib/scp_uploader.cc:100
 msgid "Could not open %1 to send"
 msgstr "无法打开%1并发送"
 
@@ -333,7 +333,7 @@ msgstr "无法启动SCP (%1)"
 msgid "Could not start transfer"
 msgstr "无法启动转移"
 
-#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:92 src/lib/scp_uploader.cc:117
 msgid "Could not write to remote file (%1)"
 msgstr "无法写入远程文件 (%1)"
 
@@ -361,7 +361,7 @@ msgstr "DBS"
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:339
 msgid "DCP frame rate"
 msgstr "帧率"
 
@@ -514,19 +514,19 @@ msgstr "全幅 (0-%1)"
 msgid "Full frame"
 msgstr "全画幅"
 
-#: src/lib/audio_content.cc:338
+#: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
 msgstr "DCP中音频总时长"
 
-#: src/lib/audio_content.cc:325
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
 msgstr "音频时长"
 
-#: src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
 msgstr "DCP中视频总时长"
 
-#: src/lib/audio_content.cc:318
+#: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
 msgstr "视频时长"
 
@@ -554,7 +554,7 @@ msgstr "听力障碍"
 msgid "High quality 3D denoiser"
 msgstr "高品质的3D降噪"
 
-#: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
 msgstr "Hz"
 
@@ -602,8 +602,8 @@ msgstr "左后环绕"
 msgid "Left surround"
 msgstr "左环绕"
 
-#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
-#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:326 src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
 msgstr "长度"
@@ -827,7 +827,7 @@ msgstr "短片"
 msgid "Size"
 msgstr "大小"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
 msgstr "部分音频将被重新采样到%1kHz"
 

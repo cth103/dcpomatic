@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -70,20 +70,20 @@ msgstr "Vyskytla sa chyba počas spracovávania súboru %1."
 msgid "Analyse audio"
 msgstr "Analyzovať zvuk"
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
+#: src/lib/audio_content.cc:339
 msgid "Audio"
 msgstr ""
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Zvuk bude re-samplovaný z %1kHz na %2kHz"
 
-#: src/lib/audio_content.cc:261
+#: src/lib/audio_content.cc:272
 msgid "Audio will be resampled to %1kHz"
 msgstr "Zvuk bude re-samplovaný na %1kHz"
 
-#: src/lib/audio_content.cc:250
+#: src/lib/audio_content.cc:261
 msgid "Audio will not be resampled"
 msgstr "Zvuk nebude resamplovaný"
 
@@ -156,7 +156,7 @@ msgstr "Nemôžem spracovať formát pixelu %1 počas %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:318
 #, fuzzy
 msgid "Channels"
 msgstr "Zvukové kanály"
@@ -199,7 +199,7 @@ msgstr "Počítam súhrn videa"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Obsah a DCP majú rovnaký bitrate,\n"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:319
 #, fuzzy
 msgid "Content audio frame rate"
 msgstr "Snímacia frekvencia obsahu"
@@ -216,11 +216,11 @@ msgstr "Aby sa spojil obsah, musí mať tie isté 'vypálené titulky' nastaveni
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Aby sa spojil obsah, musí mať tie isté 'použiť titulky' nastavenia."
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:98
 msgid "Content to be joined must have the same audio delay."
 msgstr "Aby sa spojil obsah, musí mať to isté oneskorenie zvuku."
 
-#: src/lib/audio_content.cc:92
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio gain."
 msgstr "Aby sa spojil obsah, musí mať tú istú hlasitosť zvuku."
 
@@ -260,7 +260,7 @@ msgstr "Aby sa spojil obsah, musí mať rovnaký titulkový Y offset."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú Y mierku."
 
-#: src/lib/video_content.cc:156
+#: src/lib/audio_content.cc:102 src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Aby sa spojil obsah, musí mať rovnaký počet obrázkov za sekundu."
 
@@ -288,7 +288,7 @@ msgstr "Kopírovať DCP do TMS"
 msgid "Could not connect to server %1 (%2)"
 msgstr "Nemôžem sa pripojiť k serveru %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_uploader.cc:87
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Nemôžem vytvoriť vzdialený priečinok %1 (%2)"
 
@@ -317,7 +317,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Nemôžem otvoriť %1"
 
-#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:85 src/lib/scp_uploader.cc:100
 msgid "Could not open %1 to send"
 msgstr "Nemôžem otvoriť 1% na poslanie"
 
@@ -337,7 +337,7 @@ msgstr "Nemôžem začať SCP session (%1)"
 msgid "Could not start transfer"
 msgstr "Nemôžem začať prenos"
 
-#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:92 src/lib/scp_uploader.cc:117
 msgid "Could not write to remote file (%1)"
 msgstr "Nemôžem zapisovať do vzdialeného súboru (%1)"
 
@@ -365,7 +365,7 @@ msgstr "DBS"
 msgid "DCP XML subtitles"
 msgstr "DCP XML titulky"
 
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:339
 #, fuzzy
 msgid "DCP frame rate"
 msgstr "Snímacia frekvencia obsahu"
@@ -523,19 +523,19 @@ msgstr "Full (0-%1)"
 msgid "Full frame"
 msgstr "Full frame (Celý obraz)"
 
-#: src/lib/audio_content.cc:338
+#: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:325
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:318
+#: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
 msgstr ""
 
@@ -563,7 +563,7 @@ msgstr "Sluchovo postihnutý(í)"
 msgid "High quality 3D denoiser"
 msgstr "Vysoko kvalitný 3D denoiser"
 
-#: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
 msgstr ""
 
@@ -611,8 +611,8 @@ msgstr "Left rear surround (Ľavý zadný priestorový)"
 msgid "Left surround"
 msgstr "Left surround (Ľavý zadný)"
 
-#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
-#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:326 src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
 msgstr ""
@@ -839,7 +839,7 @@ msgstr "Short (Krátky film)"
 msgid "Size"
 msgstr ""
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Nejaké audio bude prevzorkované na %1kHz"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -97,9 +97,13 @@ msgstr ""
 msgid "<b>Original colour</b>"
 msgstr ""
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
-#: src/wx/timing_panel.cc:123
+#: src/wx/report_problem_dialog.cc:74
+msgid ""
+"<i>It is important that you enter a valid email address here, otherwise I "
+"can't ask you for more details on your problem.</i>"
+msgstr ""
+
+#: src/wx/timing_panel.cc:124
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -665,7 +669,7 @@ msgstr "Z adresy"
 msgid "Full"
 msgstr "Celé"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:88
 msgid "Full length"
 msgstr "Celá dĺžka"
 
@@ -1018,12 +1022,12 @@ msgstr "Pauza"
 msgid "Peak"
 msgstr "Maximum"
 
-#: src/wx/audio_panel.cc:300
+#: src/wx/audio_panel.cc:302
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Maximum: %.2fdB"
 
-#: src/wx/audio_panel.cc:302 src/wx/audio_panel.cc:305
+#: src/wx/audio_panel.cc:304 src/wx/audio_panel.cc:307
 msgid "Peak: unknown"
 msgstr "Maximum: neznámy"
 
@@ -1031,11 +1035,11 @@ msgstr "Maximum: neznámy"
 msgid "Play"
 msgstr "Prehrať"
 
-#: src/wx/timing_panel.cc:102
+#: src/wx/timing_panel.cc:103
 msgid "Play length"
 msgstr "Dĺžka prehrávania"
 
-#: src/wx/report_problem_dialog.cc:78
+#: src/wx/report_problem_dialog.cc:101
 msgid ""
 "Please enter an email address so that we can contact you with any queries "
 "about the problem."
@@ -1047,7 +1051,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Prosím čakajte; zvuk sa analyzuje"
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:85
 msgid "Position"
 msgstr "Pozícia"
 
@@ -1270,7 +1274,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Servery"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:111
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
 msgid "Set"
 msgstr "Nastaviť"
 
@@ -1364,7 +1368,7 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:249
+#: src/wx/about_dialog.cc:251
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1388,7 +1392,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:303
+#: src/wx/about_dialog.cc:305
 msgid "Tested by"
 msgstr "Testované"
 
@@ -1437,7 +1441,7 @@ msgstr "Časová os"
 msgid "Timeline..."
 msgstr "Časová os..."
 
-#: src/wx/timing_panel.cc:44
+#: src/wx/timing_panel.cc:45
 msgid "Timing|Timing"
 msgstr "Časovanie"
 
@@ -1449,19 +1453,19 @@ msgstr "Vrch"
 msgid "Translated by"
 msgstr "Preložil"
 
-#: src/wx/timing_panel.cc:99
+#: src/wx/timing_panel.cc:100
 msgid "Trim after current position"
 msgstr "Odseknúť po aktuálnej pozície"
 
-#: src/wx/timing_panel.cc:96
+#: src/wx/timing_panel.cc:97
 msgid "Trim from end"
 msgstr "Odseknúť z konca"
 
-#: src/wx/timing_panel.cc:90
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "Odseknúť zo začiatku"
 
-#: src/wx/timing_panel.cc:93
+#: src/wx/timing_panel.cc:94
 msgid "Trim up to current position"
 msgstr "Orezať až do súčasnej pozície"
 
@@ -1620,7 +1624,7 @@ msgstr "Video"
 msgid "Video Waveform"
 msgstr "Video Waveform"
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:108
 msgid "Video frame rate"
 msgstr "Počet snímok za sekundu (frame rate)"
 
@@ -1732,17 +1736,17 @@ msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:76
+#: src/wx/timing_panel.cc:77
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:54
+#: src/wx/timing_panel.cc:55
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:62
+#: src/wx/timing_panel.cc:63
 msgid "m"
 msgstr "m"
 
@@ -1756,7 +1760,7 @@ msgid "port"
 msgstr "port"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:69
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
 msgid "s"
 msgstr "s"
 

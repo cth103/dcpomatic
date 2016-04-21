@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -102,9 +102,13 @@ msgstr "<b>新色彩空间</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>原色彩空间</b>"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
-#: src/wx/timing_panel.cc:123
+#: src/wx/report_problem_dialog.cc:74
+msgid ""
+"<i>It is important that you enter a valid email address here, otherwise I "
+"can't ask you for more details on your problem.</i>"
+msgstr ""
+
+#: src/wx/timing_panel.cc:124
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -662,7 +666,7 @@ msgstr "发件人地址"
 msgid "Full"
 msgstr "总"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:88
 msgid "Full length"
 msgstr "总长度"
 
@@ -1014,12 +1018,12 @@ msgstr "暂停"
 msgid "Peak"
 msgstr "最佳"
 
-#: src/wx/audio_panel.cc:300
+#: src/wx/audio_panel.cc:302
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "最佳值 %.2fdB"
 
-#: src/wx/audio_panel.cc:302 src/wx/audio_panel.cc:305
+#: src/wx/audio_panel.cc:304 src/wx/audio_panel.cc:307
 msgid "Peak: unknown"
 msgstr "最佳值: 未知"
 
@@ -1027,11 +1031,11 @@ msgstr "最佳值: 未知"
 msgid "Play"
 msgstr "播放"
 
-#: src/wx/timing_panel.cc:102
+#: src/wx/timing_panel.cc:103
 msgid "Play length"
 msgstr "播放长度"
 
-#: src/wx/report_problem_dialog.cc:78
+#: src/wx/report_problem_dialog.cc:101
 msgid ""
 "Please enter an email address so that we can contact you with any queries "
 "about the problem."
@@ -1041,7 +1045,7 @@ msgstr "请输入您的电子邮件，以便我们可以与您取得联系。"
 msgid "Please wait; audio is being analysed..."
 msgstr "请稍等，正在解析音频..."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:85
 msgid "Position"
 msgstr "位置"
 
@@ -1264,7 +1268,7 @@ msgstr "服务器"
 msgid "Servers"
 msgstr "服务器"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:111
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
 msgid "Set"
 msgstr "设置"
 
@@ -1357,7 +1361,7 @@ msgstr "字幕颜色"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:249
+#: src/wx/about_dialog.cc:251
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1381,7 +1385,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:303
+#: src/wx/about_dialog.cc:305
 msgid "Tested by"
 msgstr "测试"
 
@@ -1428,7 +1432,7 @@ msgstr "时间线"
 msgid "Timeline..."
 msgstr "时间线"
 
-#: src/wx/timing_panel.cc:44
+#: src/wx/timing_panel.cc:45
 msgid "Timing|Timing"
 msgstr "计时器"
 
@@ -1440,19 +1444,19 @@ msgstr "顶部"
 msgid "Translated by"
 msgstr "翻译"
 
-#: src/wx/timing_panel.cc:99
+#: src/wx/timing_panel.cc:100
 msgid "Trim after current position"
 msgstr "裁剪当前位置"
 
-#: src/wx/timing_panel.cc:96
+#: src/wx/timing_panel.cc:97
 msgid "Trim from end"
 msgstr "裁剪结束"
 
-#: src/wx/timing_panel.cc:90
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "开始裁剪"
 
-#: src/wx/timing_panel.cc:93
+#: src/wx/timing_panel.cc:94
 msgid "Trim up to current position"
 msgstr "裁剪至当前位置"
 
@@ -1623,7 +1627,7 @@ msgstr "视频"
 msgid "Video Waveform"
 msgstr "视频波形"
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:108
 msgid "Video frame rate"
 msgstr "视频帧率"
 
@@ -1724,17 +1728,17 @@ msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:76
+#: src/wx/timing_panel.cc:77
 msgid "f"
 msgstr "帧"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:54
+#: src/wx/timing_panel.cc:55
 msgid "h"
 msgstr "时"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:62
+#: src/wx/timing_panel.cc:63
 msgid "m"
 msgstr "分"
 
@@ -1748,7 +1752,7 @@ msgid "port"
 msgstr "端口"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:69
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
 msgid "s"
 msgstr "秒"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -69,20 +69,20 @@ msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
 msgid "Analyse audio"
 msgstr "Analyser lyd"
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
+#: src/lib/audio_content.cc:339
 msgid "Audio"
 msgstr ""
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr ""
 
-#: src/lib/audio_content.cc:261
+#: src/lib/audio_content.cc:272
 msgid "Audio will be resampled to %1kHz"
 msgstr ""
 
-#: src/lib/audio_content.cc:250
+#: src/lib/audio_content.cc:261
 msgid "Audio will not be resampled"
 msgstr ""
 
@@ -155,7 +155,7 @@ msgstr "Kan ikke håndtere pixelformat %1 under %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:318
 #, fuzzy
 msgid "Channels"
 msgstr "Lyd kanaler"
@@ -198,7 +198,7 @@ msgstr "Beregner billedresume"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Indhold og DCP har samme billedhastighed.\n"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:319
 #, fuzzy
 msgid "Content audio frame rate"
 msgstr "Indholds billedhastighed"
@@ -219,11 +219,11 @@ msgstr ""
 "Indhold der skal splejses skal have den samme indstilling af 'brug "
 "undertekster'."
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:98
 msgid "Content to be joined must have the same audio delay."
 msgstr "Indhold der skal splejses skal have samme lydforsinkelse."
 
-#: src/lib/audio_content.cc:92
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio gain."
 msgstr "Indhold der skal splejses skal have samme lydgain."
 
@@ -263,7 +263,7 @@ msgstr "Indhold der skal splejses skal have samme Y offset for undertekst."
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Indhold der skal splejses skal have samme Y skalering af undertekst."
 
-#: src/lib/video_content.cc:156
+#: src/lib/audio_content.cc:102 src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Indhold der skal splejses skal have samme billedhastighed."
 
@@ -291,7 +291,7 @@ msgstr "Kopier DCP til TMS"
 msgid "Could not connect to server %1 (%2)"
 msgstr "Kunne ikke få forbindelse til server %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_uploader.cc:87
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
 
@@ -320,7 +320,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Kunne ikke åbne %1"
 
-#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:85 src/lib/scp_uploader.cc:100
 msgid "Could not open %1 to send"
 msgstr "Kunne ikke åbne %1 til afsendelse"
 
@@ -340,7 +340,7 @@ msgstr "Kunne ikke starte SCP-session (%1)"
 msgid "Could not start transfer"
 msgstr "Kunne ikke starte overførsel"
 
-#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:92 src/lib/scp_uploader.cc:117
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
@@ -368,7 +368,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "DCP XML undertekster"
 
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:339
 #, fuzzy
 msgid "DCP frame rate"
 msgstr "Indholds billedhastighed"
@@ -530,19 +530,19 @@ msgstr "Fuld (0-%1)"
 msgid "Full frame"
 msgstr "Fuldt billede"
 
-#: src/lib/audio_content.cc:338
+#: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:325
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:318
+#: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
 msgstr ""
 
@@ -570,7 +570,7 @@ msgstr "Hørehæmmede"
 msgid "High quality 3D denoiser"
 msgstr "Høj-kvalitets 3D-denoiser"
 
-#: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
 msgstr ""
 
@@ -618,8 +618,8 @@ msgstr "Venstre bag surround"
 msgid "Left surround"
 msgstr "Venstre surround"
 
-#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
-#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:326 src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
 msgstr ""
@@ -844,7 +844,7 @@ msgstr "Short"
 msgid "Size"
 msgstr ""
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
 msgstr ""
 

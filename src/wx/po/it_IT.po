@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-03-10 14:15+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -94,9 +94,13 @@ msgstr "<b>Nuovo colore</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Colore originale</b>"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
-#: src/wx/timing_panel.cc:123
+#: src/wx/report_problem_dialog.cc:74
+msgid ""
+"<i>It is important that you enter a valid email address here, otherwise I "
+"can't ask you for more details on your problem.</i>"
+msgstr ""
+
+#: src/wx/timing_panel.cc:124
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -670,7 +674,7 @@ msgstr "Indirizzo del mittente"
 msgid "Full"
 msgstr "Completo"
 
-#: src/wx/timing_panel.cc:87
+#: src/wx/timing_panel.cc:88
 msgid "Full length"
 msgstr "Durata totale"
 
@@ -1024,12 +1028,12 @@ msgstr "Pausa"
 msgid "Peak"
 msgstr "Picco"
 
-#: src/wx/audio_panel.cc:300
+#: src/wx/audio_panel.cc:302
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Picco: %.2fdB"
 
-#: src/wx/audio_panel.cc:302 src/wx/audio_panel.cc:305
+#: src/wx/audio_panel.cc:304 src/wx/audio_panel.cc:307
 msgid "Peak: unknown"
 msgstr "Picco: unknown"
 
@@ -1037,11 +1041,11 @@ msgstr "Picco: unknown"
 msgid "Play"
 msgstr "Riproduci"
 
-#: src/wx/timing_panel.cc:102
+#: src/wx/timing_panel.cc:103
 msgid "Play length"
 msgstr "Durata riproduzione"
 
-#: src/wx/report_problem_dialog.cc:78
+#: src/wx/report_problem_dialog.cc:101
 msgid ""
 "Please enter an email address so that we can contact you with any queries "
 "about the problem."
@@ -1053,7 +1057,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Attendere prego; sto analizzando l'audio..."
 
-#: src/wx/timing_panel.cc:84
+#: src/wx/timing_panel.cc:85
 msgid "Position"
 msgstr "Posizione"
 
@@ -1276,7 +1280,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Server"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:111
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
 msgid "Set"
 msgstr "Imposta"
 
@@ -1369,7 +1373,7 @@ msgstr "Colori dei sottotitoli"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:249
+#: src/wx/about_dialog.cc:251
 msgid "Supported by"
 msgstr "Supportato da"
 
@@ -1393,7 +1397,7 @@ msgstr "Nazione (es. IT)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:303
+#: src/wx/about_dialog.cc:305
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -1442,7 +1446,7 @@ msgstr "Timeline"
 msgid "Timeline..."
 msgstr "Timeline..."
 
-#: src/wx/timing_panel.cc:44
+#: src/wx/timing_panel.cc:45
 msgid "Timing|Timing"
 msgstr "Timing"
 
@@ -1454,19 +1458,19 @@ msgstr "Alto"
 msgid "Translated by"
 msgstr "Tradotto da"
 
-#: src/wx/timing_panel.cc:99
+#: src/wx/timing_panel.cc:100
 msgid "Trim after current position"
 msgstr "Elimina dopo la posizione corrente"
 
-#: src/wx/timing_panel.cc:96
+#: src/wx/timing_panel.cc:97
 msgid "Trim from end"
 msgstr "Taglia dalla fine"
 
-#: src/wx/timing_panel.cc:90
+#: src/wx/timing_panel.cc:91
 msgid "Trim from start"
 msgstr "Taglia dall'inizio"
 
-#: src/wx/timing_panel.cc:93
+#: src/wx/timing_panel.cc:94
 msgid "Trim up to current position"
 msgstr "Elimina fino alla posizione corrente"
 
@@ -1625,7 +1629,7 @@ msgstr "Video"
 msgid "Video Waveform"
 msgstr "Forma d'onda video"
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:108
 msgid "Video frame rate"
 msgstr "Frame rate video"
 
@@ -1738,17 +1742,17 @@ msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:76
+#: src/wx/timing_panel.cc:77
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:54
+#: src/wx/timing_panel.cc:55
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:62
+#: src/wx/timing_panel.cc:63
 msgid "m"
 msgstr "m"
 
@@ -1762,7 +1766,7 @@ msgid "port"
 msgstr "porta"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:69
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
 msgid "s"
 msgstr "s"
 

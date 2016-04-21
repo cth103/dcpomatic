@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2016-03-10 11:05+0100\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -69,20 +69,20 @@ msgstr "Errore durante l'elaborazione del file %1."
 msgid "Analyse audio"
 msgstr "Analizzare audio"
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
+#: src/lib/audio_content.cc:339
 msgid "Audio"
 msgstr "Audio"
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "L'Audio sarà ricampionato da %1kHz a %2kHz"
 
-#: src/lib/audio_content.cc:261
+#: src/lib/audio_content.cc:272
 msgid "Audio will be resampled to %1kHz"
 msgstr "L'Audio sarà ricampionato a %1kHz"
 
-#: src/lib/audio_content.cc:250
+#: src/lib/audio_content.cc:261
 msgid "Audio will not be resampled"
 msgstr "L'audio non sarà ricampionato"
 
@@ -155,7 +155,7 @@ msgstr "Non posso gestire il formato di pixel %1 durante %2"
 msgid "Centre"
 msgstr "Centro"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:318
 msgid "Channels"
 msgstr "Canali audio"
 
@@ -197,7 +197,7 @@ msgstr "Calcolo del digest delle immagini"
 msgid "Content and DCP have the same rate.\n"
 msgstr "La sorgente e il DCP hanno lo stesso rate.\n"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:319
 msgid "Content audio frame rate"
 msgstr "Frame rate audio sorgente"
 
@@ -216,11 +216,11 @@ msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Il contenuto da unire deve avere la stessa impostazione di 'usa sottotitoli'."
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:98
 msgid "Content to be joined must have the same audio delay."
 msgstr "Il contenuto da unire deve avere lo stesso ritardo audio."
 
-#: src/lib/audio_content.cc:92
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio gain."
 msgstr "Il contenuto da unire deve avere lo stesso guadagno audio."
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Il contenuto da unire deve avere la stessa scala Y dei sottotitoli."
 
-#: src/lib/video_content.cc:156
+#: src/lib/audio_content.cc:102 src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Il contenuto da unire deve avere lo stesso frame rate."
 
@@ -290,7 +290,7 @@ msgstr "Copia del DCP al TMS"
 msgid "Could not connect to server %1 (%2)"
 msgstr "Non posso connetermi al server %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_uploader.cc:87
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Non posso creare la directory remota %1 (%2)"
 
@@ -318,7 +318,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Non riesco ad aprire %1"
 
-#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:85 src/lib/scp_uploader.cc:100
 msgid "Could not open %1 to send"
 msgstr "Non posso aprire %1 da inviare"
 
@@ -338,7 +338,7 @@ msgstr "Non posso avviare la sessione SCP (%1)"
 msgid "Could not start transfer"
 msgstr "Non posso avviare il trasferimento"
 
-#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:92 src/lib/scp_uploader.cc:117
 msgid "Could not write to remote file (%1)"
 msgstr "Non posso scrivere il file remoto (%1)"
 
@@ -366,7 +366,7 @@ msgstr "DBS"
 msgid "DCP XML subtitles"
 msgstr "DCP XML sottotitoli"
 
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:339
 msgid "DCP frame rate"
 msgstr "DCP frame rate"
 
@@ -521,19 +521,19 @@ msgstr "Full (0-%1)"
 msgid "Full frame"
 msgstr "Fill frame"
 
-#: src/lib/audio_content.cc:338
+#: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
 msgstr "Lunghezza completa nei frame audio alla velocità DCP"
 
-#: src/lib/audio_content.cc:325
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
 msgstr "Lunghezza completa nei frame audio alla velocità sorgente"
 
-#: src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
 msgstr "Lunghezza completa nei frame video alla velocità DCP"
 
-#: src/lib/audio_content.cc:318
+#: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
 msgstr "Lunghezza completa nei frame video alla velocità sorgente"
 
@@ -561,7 +561,7 @@ msgstr ""
 msgid "High quality 3D denoiser"
 msgstr "Riduttore di rumore 3D di alta qualità"
 
-#: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
 msgstr "Hz"
 
@@ -609,8 +609,8 @@ msgstr "Surround posteriore sinistro"
 msgid "Left surround"
 msgstr "Surround sinistro"
 
-#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
-#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:326 src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
 msgstr "Durata"
@@ -836,7 +836,7 @@ msgstr "Corto"
 msgid "Size"
 msgstr "Dimensione"
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Parte dell'audio sarà ricampionato a %1kHz"
 

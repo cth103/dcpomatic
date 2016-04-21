@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 20:35+0100\n"
+"POT-Creation-Date: 2016-04-21 11:42+0100\n"
 "PO-Revision-Date: 2015-11-11 17:15+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -69,20 +69,20 @@ msgstr "Ett fel inträffade vid hantering av filen %1"
 msgid "Analyse audio"
 msgstr "Analysera audio"
 
-#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:308
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
+#: src/lib/audio_content.cc:339
 msgid "Audio"
 msgstr ""
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
 msgstr "Audio kommer att samplas om från %1kHz till %2kHz"
 
-#: src/lib/audio_content.cc:261
+#: src/lib/audio_content.cc:272
 msgid "Audio will be resampled to %1kHz"
 msgstr "Audio kommer att samplas om till %1kHz"
 
-#: src/lib/audio_content.cc:250
+#: src/lib/audio_content.cc:261
 msgid "Audio will not be resampled"
 msgstr "Audio kommer inte att samplas om"
 
@@ -155,7 +155,7 @@ msgstr "Kan inte hantera pixelformat %1 under %2"
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/audio_content.cc:307
+#: src/lib/audio_content.cc:318
 #, fuzzy
 msgid "Channels"
 msgstr "Audiokanaler"
@@ -198,7 +198,7 @@ msgstr "Beräknar bildsammanfattning"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Innehåll och DCP har samma bildfrekvens.\n"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:319
 #, fuzzy
 msgid "Content audio frame rate"
 msgstr "Innehållets bildhastighet"
@@ -219,11 +219,11 @@ msgstr ""
 "Innehåll som ska sammanfogas måste använda samma inställning på 'använd "
 "undertexter'."
 
-#: src/lib/audio_content.cc:96
+#: src/lib/audio_content.cc:98
 msgid "Content to be joined must have the same audio delay."
 msgstr "Innehåll som ska sammanfogas måste använda samma audiofördröjning."
 
-#: src/lib/audio_content.cc:92
+#: src/lib/audio_content.cc:94
 msgid "Content to be joined must have the same audio gain."
 msgstr "Innehåll som ska sammanfogas måste använda samma audioförstärkning."
 
@@ -269,7 +269,7 @@ msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 "Innehåll som ska sammanfogas måste använda samma Y-skala på undertexten."
 
-#: src/lib/video_content.cc:156
+#: src/lib/audio_content.cc:102 src/lib/video_content.cc:156
 msgid "Content to be joined must have the same video frame rate."
 msgstr "Innehåll som ska sammanfogas måste använda samma videobildhastighet."
 
@@ -297,7 +297,7 @@ msgstr "Kopiera DCP till TMS"
 msgid "Could not connect to server %1 (%2)"
 msgstr "Kunde inte ansluta till server %1 (%2)"
 
-#: src/lib/scp_uploader.cc:86
+#: src/lib/scp_uploader.cc:87
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunde inte skapa fjärrkatalog %1 (%2)"
 
@@ -326,7 +326,7 @@ msgstr ""
 msgid "Could not open %1"
 msgstr "Kunde inte öppna %1"
 
-#: src/lib/curl_uploader.cc:84 src/lib/scp_uploader.cc:98
+#: src/lib/curl_uploader.cc:85 src/lib/scp_uploader.cc:100
 msgid "Could not open %1 to send"
 msgstr "Kunde inte öppna %1 för att skicka"
 
@@ -346,7 +346,7 @@ msgstr "Kunde inte starta SCP-session (%1)"
 msgid "Could not start transfer"
 msgstr "Kunde inte starta överföring"
 
-#: src/lib/curl_uploader.cc:91 src/lib/scp_uploader.cc:115
+#: src/lib/curl_uploader.cc:92 src/lib/scp_uploader.cc:117
 msgid "Could not write to remote file (%1)"
 msgstr "Kunde inte skriva till fjärrfil (%1)"
 
@@ -374,7 +374,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "DCP XML undertexter"
 
-#: src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:339
 #, fuzzy
 msgid "DCP frame rate"
 msgstr "Innehållets bildhastighet"
@@ -536,19 +536,19 @@ msgstr "Full (0-%1)"
 msgid "Full frame"
 msgstr "Full frame"
 
-#: src/lib/audio_content.cc:338
+#: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:325
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:318
+#: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
 msgstr ""
 
@@ -577,7 +577,7 @@ msgstr "Hörselskadad"
 msgid "High quality 3D denoiser"
 msgstr "Högkvalitets 3D-brusreducering"
 
-#: src/lib/audio_content.cc:308 src/lib/audio_content.cc:331
+#: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
 msgstr ""
 
@@ -625,8 +625,8 @@ msgstr "Vänster bakre surround"
 msgid "Left surround"
 msgstr "Vänster surround"
 
-#: src/lib/audio_content.cc:318 src/lib/audio_content.cc:324
-#: src/lib/audio_content.cc:332 src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:326 src/lib/audio_content.cc:332
+#: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
 msgstr ""
@@ -855,7 +855,7 @@ msgstr "Short"
 msgid "Size"
 msgstr ""
 
-#: src/lib/audio_content.cc:254
+#: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
 msgstr "En del av audio kommer att samplas om till %1kHz"
 
