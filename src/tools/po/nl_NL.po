@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-14 20:35+0100\n"
-"PO-Revision-Date: 2016-04-16 03:41+0200\n"
+"PO-Revision-Date: 2016-04-20 02:13+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -201,11 +201,11 @@ msgstr "DCP-o-matic Batch Converter"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
 msgid "DCP-o-matic KDM creator"
-msgstr "DCP-o-matic KDM-maker"
+msgstr "DCP-o-matic KDM creator"
 
 #: src/tools/dcpomatic_server.cc:140
 msgid "DCP-o-matic encode server"
-msgstr "DCP-o-matic encodeer-server"
+msgstr "DCP-o-matic encode server"
 
 #: src/tools/dcpomatic_kdm.cc:142
 msgid "DKDM"
