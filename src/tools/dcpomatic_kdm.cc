@@ -359,7 +359,7 @@ private:
 	{
 		wxInitAllImageHandlers ();
 
-		SetAppName (_("DCP-o-matic KDM creator"));
+		SetAppName (_("DCP-o-matic KDM Creator"));
 
 		if (!wxApp::OnInit()) {
 			return false;
@@ -395,7 +395,7 @@ private:
 		*/
 		Config::drop ();
 
-		_frame = new DOMFrame (_("DCP-o-matic KDM creator"));
+		_frame = new DOMFrame (_("DCP-o-matic KDM Creator"));
 		SetTopWindow (_frame);
 		_frame->Maximize ();
 		_frame->Show ();

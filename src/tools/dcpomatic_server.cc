@@ -215,7 +215,7 @@ public:
 		icon.CopyFromBitmap (bitmap);
 #endif
 
-		SetIcon (icon, std_to_wx ("DCP-o-matic encode server"));
+		SetIcon (icon, std_to_wx ("DCP-o-matic Encode Server"));
 
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::status, this), ID_status);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::quit, this), ID_quit);
