@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 11:42+0100\n"
+"POT-Creation-Date: 2016-04-21 11:43+0100\n"
 "PO-Revision-Date: 2015-10-27 17:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -208,7 +208,7 @@ msgstr "DCP-o-matic Batch Konverter"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
 #, fuzzy
-msgid "DCP-o-matic KDM creator"
+msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:142

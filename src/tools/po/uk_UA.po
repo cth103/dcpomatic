@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 11:42+0100\n"
+"POT-Creation-Date: 2016-04-21 11:43+0100\n"
 "PO-Revision-Date: 2016-04-15 20:11+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -202,7 +202,8 @@ msgid "DCP-o-matic Encode Server"
 msgstr "Сервер кодування DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-msgid "DCP-o-matic KDM creator"
+#, fuzzy
+msgid "DCP-o-matic KDM Creator"
 msgstr "Створювач ключів DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:142

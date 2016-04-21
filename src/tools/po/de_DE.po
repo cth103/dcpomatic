@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 11:42+0100\n"
+"POT-Creation-Date: 2016-04-21 11:43+0100\n"
 "PO-Revision-Date: 2016-04-15 21:59+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,7 +208,8 @@ msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Kodierungsserver"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-msgid "DCP-o-matic KDM creator"
+#, fuzzy
+msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic creator"
 
 #: src/tools/dcpomatic_kdm.cc:142
