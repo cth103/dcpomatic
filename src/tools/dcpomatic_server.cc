@@ -137,7 +137,7 @@ class StatusDialog : public wxDialog
 public:
 	StatusDialog ()
 		: wxDialog (
-			0, wxID_ANY, _("DCP-o-matic encode server"),
+			0, wxID_ANY, _("DCP-o-matic Encode Server"),
 			wxDefaultPosition, wxDefaultSize,
 			wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER
 			)
