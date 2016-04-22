@@ -86,7 +86,7 @@ class DOMFrame : public wxFrame
 {
 public:
 	DOMFrame (wxString const & title)
-		: wxFrame (NULL, -1, title)
+		: wxFrame (0, -1, title)
 		, _config_dialog (0)
 		, _job_view (0)
 	{
@@ -160,7 +160,7 @@ public:
 		_create = new wxButton (overall_panel, wxID_ANY, _("Create KDMs"));
 		vertical->Add (_create, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-		main_sizer->Add (vertical, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
+		main_sizer->Add (vertical, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
 		overall_panel->SetSizer (main_sizer);
 
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
