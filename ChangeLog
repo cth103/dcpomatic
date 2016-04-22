@@ -1,5 +1,7 @@
 2016-04-22  c.hetherington  <cth@carlh.net>
 
+	* Disallow KDM until times from being before from times (#821).
+
 	* Warn when loading certificates from files that have
 	other stuff after the certificate (#805).
 

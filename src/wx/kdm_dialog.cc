@@ -95,6 +95,7 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	/* Bind */
 
 	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
+	_timing->TimingChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 
@@ -113,7 +114,7 @@ KDMDialog::setup_sensitivity ()
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	if (ok) {
-		ok->Enable (!_screens->screens().empty() && sd);
+		ok->Enable (!_screens->screens().empty() && _timing->valid() && sd);
 	}
 }
 

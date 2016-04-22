@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,10 +21,15 @@
 #include "wx_util.h"
 #include <wx/datectrl.h>
 #include <wx/timectrl.h>
+#include <wx/dateevt.h>
+
+using boost::bind;
 
 KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 {
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+
 	wxFlexGridSizer* table = new wxFlexGridSizer (6, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("From"), true);
 	wxDateTime from;
@@ -43,7 +48,22 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_until_time = new wxTimePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_time, 1, wxEXPAND);
 
-	SetSizer (table);
+	overall_sizer->Add (table);
+
+	_warning = new wxStaticText (this, wxID_ANY, wxT (""));
+	overall_sizer->Add (_warning, 0, wxTOP, DCPOMATIC_SIZER_GAP);
+	wxFont font = _warning->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_warning->SetForegroundColour (wxColour (255, 0, 0));
+	_warning->SetFont(font);
+
+	_from_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
+	_until_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
+	_from_time->Bind (wxEVT_TIME_CHANGED, bind (&KDMTimingPanel::changed, this));
+	_until_time->Bind (wxEVT_TIME_CHANGED, bind (&KDMTimingPanel::changed, this));
+
+	SetSizer (overall_sizer);
 }
 
 boost::posix_time::ptime
@@ -67,4 +87,22 @@ boost::posix_time::ptime
 KDMTimingPanel::until () const
 {
 	return posix_time (_until_date, _until_time);
+}
+
+bool
+KDMTimingPanel::valid () const
+{
+	return until() > from();
+}
+
+void
+KDMTimingPanel::changed () const
+{
+	if (valid ()) {
+		_warning->SetLabel (wxT (""));
+	} else {
+		_warning->SetLabel (_("The 'until' time must be after the 'from' time."));
+	}
+
+	TimingChanged ();
 }

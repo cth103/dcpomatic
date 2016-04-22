@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include <wx/wx.h>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/signals2.hpp>
 
 class wxDatePickerCtrl;
 class wxTimePickerCtrl;
@@ -33,11 +34,17 @@ public:
 	/** @return KDM until time in local time */
 	boost::posix_time::ptime until () const;
 
+	bool valid () const;
+
+	boost::signals2::signal<void ()> TimingChanged;
+
 private:
+	void changed () const;
 	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, wxTimePickerCtrl *);
 
 	wxDatePickerCtrl* _from_date;
 	wxDatePickerCtrl* _until_date;
 	wxTimePickerCtrl* _from_time;
 	wxTimePickerCtrl* _until_time;
+	wxStaticText* _warning;
 };
