@@ -912,8 +912,11 @@ private:
 		if (d->ShowModal() == wxID_OK) {
 			try {
 				boost::filesystem::path p (wx_to_std (d->GetPath ()));
-				if (boost::filesystem::file_size (p) > 1024) {
-					error_dialog (this, wxString::Format (_("Could not read key file (%s)"), std_to_wx (p.string ())));
+				if (boost::filesystem::file_size (p) > 8192) {
+					error_dialog (
+						this,
+						wxString::Format (_("Could not read key file; file is too long (%s)"), std_to_wx (p.string ()))
+						);
 					return;
 				}
 
