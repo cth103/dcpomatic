@@ -1,5 +1,8 @@
 2016-04-22  c.hetherington  <cth@carlh.net>
 
+	* Warn when loading certificates from files that have
+	other stuff after the certificate (#805).
+
 	* Separate left-only and right-only video content
 	in the timeline (#845).
 
