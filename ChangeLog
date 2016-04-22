@@ -1,3 +1,8 @@
+2016-04-22  c.hetherington  <cth@carlh.net>
+
+	* Separate left-only and right-only video content
+	in the timeline (#845).
+
 2016-04-21  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.

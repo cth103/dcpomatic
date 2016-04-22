@@ -195,19 +195,20 @@ Timeline::assign_tracks ()
 		}
 
 		if (dynamic_pointer_cast<TimelineVideoContentView> (*i)) {
-			/* Video on track 0 */
-			cv->set_track (0);
-			_tracks = max (_tracks, 1);
+			/* Video on tracks 0 and 1 (left and right eye) */
+			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (cv->content ());
+			cv->set_track (vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT ? 1 : 0);
+			_tracks = max (_tracks, 2);
 			continue;
 		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (*i)) {
-			/* Subtitles on track 1 */
-			cv->set_track (1);
-			_tracks = max (_tracks, 2);
+			/* Subtitles on track 2 */
+			cv->set_track (2);
+			_tracks = max (_tracks, 3);
 			continue;
 		}
 
-		/* Audio on tracks 2 and up */
-		int t = 2;
+		/* Audio on tracks 3 and up */
+		int t = 3;
 
 		shared_ptr<Content> content = cv->content();
 		DCPTimePeriod content_period (content->position(), content->end());
