@@ -1,5 +1,8 @@
 2016-04-22  c.hetherington  <cth@carlh.net>
 
+	* Arrange buttons to consume less vertical space in the
+	KDM creator (#833).
+
 	* Select active channels on opening audio analysis (#802).
 
 	* Disallow KDM until times from being before from times (#821).
