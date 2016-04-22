@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,9 +27,11 @@
 #include "lib/job_manager.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
@@ -40,6 +42,7 @@ using boost::dynamic_pointer_cast;
 AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<AudioContent> content)
 	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
+	, _content (content)
 	, _channels (film->audio_channels ())
 	, _plot (0)
 {
@@ -168,9 +171,24 @@ AudioDialog::try_to_load_analysis ()
 		++i;
 	}
 
-	if (i == _channels && _channel_checkbox[0]) {
-		_channel_checkbox[0]->SetValue (true);
-		_plot->set_channel_visible (0, true);
+	if (i == _channels) {
+		/* Nothing checked; check mapped ones */
+
+		list<int> mapped;
+		shared_ptr<AudioContent> content = _content.lock ();
+
+		if (content) {
+			mapped = content->audio_mapping().mapped_output_channels ();
+		} else {
+			mapped = film->mapped_audio_channels ();
+		}
+
+		BOOST_FOREACH (int i, mapped) {
+			if (_channel_checkbox[i]) {
+				_channel_checkbox[i]->SetValue (true);
+				_plot->set_channel_visible (i, true);
+			}
+		}
 	}
 
 	i = 0;

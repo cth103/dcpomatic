@@ -493,6 +493,32 @@ Film::file (boost::filesystem::path f) const
 	return p;
 }
 
+list<int>
+Film::mapped_audio_channels () const
+{
+	list<int> mapped;
+
+	if (audio_processor ()) {
+		/* Processors are mapped 1:1 to DCP outputs so we can work out mappings from there */
+		for (int i = 0; i < audio_processor()->out_channels(); ++i) {
+			mapped.push_back (i);
+		}
+	} else {
+		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
+			shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (i);
+			if (ac) {
+				list<int> c = ac->audio_mapping().mapped_output_channels ();
+				copy (c.begin(), c.end(), back_inserter (mapped));
+			}
+		}
+
+		mapped.sort ();
+		mapped.unique ();
+	}
+
+	return mapped;
+}
+
 /** @return a ISDCF-compliant name for a DCP of this film */
 string
 Film::isdcf_name (bool if_created_now) const
@@ -646,46 +672,21 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	/* Find all mapped channels */
+	/* Count mapped audio channels */
 
 	int non_lfe = 0;
 	int lfe = 0;
 
-	if (audio_processor ()) {
-		/* Processors are mapped 1:1 to DCP outputs so we can guess the number of LFE/
-		   non-LFE from the channel counts.
-		*/
-		non_lfe = audio_processor()->out_channels ();
-		if (non_lfe >= 4) {
-			--non_lfe;
+	BOOST_FOREACH (int i, mapped_audio_channels ()) {
+		if (i >= audio_channels()) {
+			/* This channel is mapped but is not included in the DCP */
+			continue;
+		}
+
+		if (static_cast<dcp::Channel> (i) == dcp::LFE) {
 			++lfe;
-		}
-	} else {
-		list<int> mapped;
-		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
-			shared_ptr<const AudioContent> ac = dynamic_pointer_cast<const AudioContent> (i);
-			if (ac) {
-				list<int> c = ac->audio_mapping().mapped_output_channels ();
-				copy (c.begin(), c.end(), back_inserter (mapped));
-			}
-		}
-
-		mapped.sort ();
-		mapped.unique ();
-
-		/* Count them */
-
-		for (list<int>::const_iterator i = mapped.begin(); i != mapped.end(); ++i) {
-			if (*i >= audio_channels()) {
-				/* This channel is mapped but is not included in the DCP */
-				continue;
-			}
-
-			if (static_cast<dcp::Channel> (*i) == dcp::LFE) {
-				++lfe;
-			} else {
-				++non_lfe;
-			}
+		} else {
+			++non_lfe;
 		}
 	}
 

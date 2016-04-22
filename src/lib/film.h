@@ -154,6 +154,8 @@ public:
 
 	std::list<DCPTimePeriod> reels () const;
 
+	std::list<int> mapped_audio_channels () const;
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
