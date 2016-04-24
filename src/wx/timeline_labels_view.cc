@@ -58,7 +58,7 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 {
 	int const h = _timeline.track_height ();
 	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour (0, 0, 0)));
-	gc->DrawText (_("Video"), 0, h / 2);
-	gc->DrawText (_("Subtitles"), 0, 5 * h / 2);
-	gc->DrawText (_("Audio"), 0, h + max (_timeline.tracks(), 2) * h / 2);
+	gc->DrawText (_("Video"),     0, _timeline.tracks_position().y + h - 8);
+	gc->DrawText (_("Subtitles"), 0, _timeline.tracks_position().y + 5 * h / 2 - 8);
+	gc->DrawText (_("Audio"),     0, _timeline.tracks_position().y + (3 + max (_timeline.tracks(), 3)) * h / 2 - 8);
 }

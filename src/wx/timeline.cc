@@ -77,7 +77,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film)
 
 	SetMinSize (wxSize (640, tracks() * track_height() + 96));
 
-	_tracks_position = Position<int> (_labels_view->bbox().width, 8);
+	_tracks_position = Position<int> (_labels_view->bbox().width, 32);
 
 	_film_changed_connection = film->Changed.connect (bind (&Timeline::film_changed, this, _1));
 	_film_content_changed_connection = film->ContentChanged.connect (bind (&Timeline::film_content_changed, this, _2, _3));
@@ -246,7 +246,7 @@ Timeline::assign_tracks ()
 	}
 
 	_time_axis_view->set_y (tracks() * track_height() + 64);
-	_reels_view->set_y (tracks() * track_height() + 32);
+	_reels_view->set_y (8);
 }
 
 int
