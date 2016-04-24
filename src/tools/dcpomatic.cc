@@ -693,13 +693,45 @@ private:
 			return;
 		}
 
+		if (_film && _film->dirty ()) {
+
+			wxMessageDialog* dialog = new wxMessageDialog (
+				0,
+				wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (_film->name()).data()),
+				/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
+				/// project (Film) has been changed since it was last saved.
+				_("Film changed"),
+				wxYES_NO | wxCANCEL | wxYES_DEFAULT | wxICON_QUESTION
+				);
+
+			dialog->SetYesNoCancelLabels (
+				_("Save film and close"), _("Close without saving film"), _("Don't close")
+				);
+
+			int const r = dialog->ShowModal ();
+			dialog->Destroy ();
+
+			switch (r) {
+			case wxID_NO:
+				/* Don't save and carry on to close */
+				break;
+			case wxID_YES:
+				/* Save and carry on to close */
+				_film->write_metadata ();
+				break;
+			case wxID_CANCEL:
+				/* Veto the event and stop */
+				ev.Veto ();
+				return;
+			}
+		}
+
 		/* We don't want to hear about any more configuration changes, since they
 		   cause the File menu to be altered, which itself will be deleted around
 		   now (without, as far as I can see, any way for us to find out).
 		*/
 		_config_changed_connection.disconnect ();
 
-		maybe_save_then_delete_film ();
 		ev.Skip ();
 	}
 

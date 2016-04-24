@@ -1,5 +1,8 @@
 2016-04-25  Carl Hetherington  <cth@carlh.net>
 
+	* Add cancel option to confirmation dialogue when closing
+	the program (#847).
+
 	* Move the reel markers to the top of the timeline (#846).
 
 2016-04-22  c.hetherington  <cth@carlh.net>
