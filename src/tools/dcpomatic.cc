@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 #include <boost/filesystem.hpp>
+#include <boost/noncopyable.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -90,7 +91,7 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-class FilmChangedDialog
+class FilmChangedDialog : public boost::noncopyable
 {
 public:
 	FilmChangedDialog (string name)
@@ -116,9 +117,6 @@ public:
 	}
 
 private:
-	/* Not defined */
-	FilmChangedDialog (FilmChangedDialog const &);
-
 	wxMessageDialog* _dialog;
 };
 
