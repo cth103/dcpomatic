@@ -273,7 +273,7 @@ private:
 				dcp::DecryptedKDM kdm (
 					dcp::LocalTime (_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 					dcp::LocalTime (_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-					decrypted.annotation_text(),
+					decrypted.annotation_text().get_value_or (""),
 					decrypted.content_title_text(),
 					dcp::LocalTime().as_string()
 					);
@@ -296,7 +296,7 @@ private:
 					wxString::Format (s, int(screen_kdms.size()), std_to_wx(_output->directory().string()).data())
 					);
 			} else {
-				string film_name = decrypted.annotation_text ();
+				string film_name = decrypted.annotation_text().get_value_or ("");
 				if (film_name.empty ()) {
 					film_name = decrypted.content_title_text ();
 				}
