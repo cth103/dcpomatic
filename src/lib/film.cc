@@ -638,15 +638,15 @@ Film::isdcf_name (bool if_created_now) const
 		d << "_" << dm.audio_language;
 		if (!dm.subtitle_language.empty()) {
 
-			bool burnt_in = false;
+			bool burnt_in = true;
 			BOOST_FOREACH (shared_ptr<Content> i, content ()) {
 				shared_ptr<SubtitleContent> sc = dynamic_pointer_cast<SubtitleContent> (i);
 				if (!sc) {
 					continue;
 				}
 
-				if (sc->use_subtitles() && sc->burn_subtitles()) {
-					burnt_in = true;
+				if (sc->use_subtitles() && !sc->burn_subtitles()) {
+					burnt_in = false;
 				}
 			}
 

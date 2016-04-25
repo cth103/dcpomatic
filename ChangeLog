@@ -1,5 +1,8 @@
 2016-04-25  c.hetherington  <cth@carlh.net>
 
+	* When making up the ISDCF name assume subtitles are burnt in unless
+	we know otherwise.
+
 	* Fix saving of modified video frame rates for subtitle content.
 
 2016-04-25  Carl Hetherington  <cth@carlh.net>

@@ -412,6 +412,9 @@ DCPPanel::film_changed (int p)
 	case Film::UPLOAD_AFTER_MAKE_DCP:
 		checked_set (_upload_after_make_dcp, _film->upload_after_make_dcp ());
 		break;
+	case Film::CONTENT:
+		setup_dcp_name ();
+		break;
 	default:
 		break;
 	}
