@@ -52,7 +52,7 @@ TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::Con
 	: Content (film, node)
 	, SubtitleContent (film, node, version)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
-	, _frame_rate (node->optional_number_child<double>("SubtitleFrameRate"))
+	, _frame_rate (node->optional_number_child<double>("SubtitleVideoFrameRate"))
 	, _colour (
 		node->optional_number_child<int>("Red").get_value_or(255),
 		node->optional_number_child<int>("Green").get_value_or(255),
@@ -101,6 +101,9 @@ TextSubtitleContent::as_xml (xmlpp::Node* node) const
 	Content::as_xml (node);
 	SubtitleContent::as_xml (node);
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
+	if (_frame_rate) {
+		node->add_child("SubtitleVideoFrameRate")->add_child_text (raw_convert<string> (_frame_rate.get()));
+	}
 	node->add_child("Red")->add_child_text (raw_convert<string> (_colour.r));
 	node->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
 	node->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
@@ -118,7 +121,7 @@ TextSubtitleContent::full_length () const
 }
 
 void
-TextSubtitleContent::set_subtitle_video_frame_rate (int r)
+TextSubtitleContent::set_subtitle_video_frame_rate (double r)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);

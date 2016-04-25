@@ -58,7 +58,7 @@ public:
 	}
 
 	double subtitle_video_frame_rate () const;
-	void set_subtitle_video_frame_rate (int r);
+	void set_subtitle_video_frame_rate (double r);
 
 	void set_colour (dcp::Colour);
 
