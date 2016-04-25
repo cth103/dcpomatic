@@ -33,6 +33,7 @@
 #include "lib/timer.h"
 #include "lib/audio_content.h"
 #include "lib/subtitle_content.h"
+#include "lib/video_content.h"
 #include <wx/graphics.h>
 #include <boost/weak_ptr.hpp>
 #include <boost/foreach.hpp>
@@ -194,8 +195,7 @@ Timeline::assign_tracks ()
 
 		if (dynamic_pointer_cast<TimelineVideoContentView> (*i)) {
 			/* Video on tracks 0 and 1 (left and right eye) */
-			shared_ptr<VideoContent> vc = dynamic_pointer_cast<VideoContent> (cv->content ());
-			cv->set_track (vc->video_frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT ? 1 : 0);
+			cv->set_track (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT ? 1 : 0);
 			_tracks = max (_tracks, 2);
 			continue;
 		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (*i)) {

@@ -45,7 +45,7 @@ private:
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 	boost::weak_ptr<Film> _film;
-	boost::weak_ptr<AudioContent> _content;
+	boost::weak_ptr<Content> _content;
 	int _channels;
 	boost::shared_ptr<const Playlist> _playlist;
 	AudioPlot* _plot;

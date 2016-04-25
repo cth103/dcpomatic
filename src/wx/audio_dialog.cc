@@ -175,10 +175,10 @@ AudioDialog::try_to_load_analysis ()
 		/* Nothing checked; check mapped ones */
 
 		list<int> mapped;
-		shared_ptr<AudioContent> content = _content.lock ();
+		shared_ptr<Content> content = _content.lock ();
 
 		if (content) {
-			mapped = content->audio_mapping().mapped_output_channels ();
+			mapped = content->audio->mapping().mapped_output_channels ();
 		} else {
 			mapped = film->mapped_audio_channels ();
 		}
