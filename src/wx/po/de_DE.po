@@ -578,14 +578,12 @@ msgid "Edit Screen..."
 msgstr "Saal bearbeiten..."
 
 #: src/wx/screens_panel.cc:169
-#, fuzzy
 msgid "Edit cinema"
-msgstr "Kino bearbeiten..."
+msgstr "Kinostammdaten bearbeiten"
 
 #: src/wx/screens_panel.cc:230
-#, fuzzy
 msgid "Edit screen"
-msgstr "Saal bearbeiten..."
+msgstr "Leinwandstammdaten bearbeiten"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
