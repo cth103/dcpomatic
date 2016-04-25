@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,8 +50,8 @@ public:
 	}
 };
 
-ScreenDialog::ScreenDialog (wxWindow* parent, string title, string name, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices)
-	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+ScreenDialog::ScreenDialog (wxWindow* parent, wxString title, string name, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices)
+	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
 	, _trusted_devices (trusted_devices)
 {

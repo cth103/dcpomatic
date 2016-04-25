@@ -29,7 +29,7 @@ class CinemaDialog : public wxDialog
 public:
 	CinemaDialog (
 		wxWindow *,
-		std::string,
+		wxString,
 		std::string name = "",
 		std::list<std::string> emails = std::list<std::string> (),
 		int utc_offset_hour = 0,

@@ -37,8 +37,8 @@ column (string s)
 	return s;
 }
 
-CinemaDialog::CinemaDialog (wxWindow* parent, string title, string name, list<string> emails, int utc_offset_hour, int utc_offset_minute)
-	: wxDialog (parent, wxID_ANY, std_to_wx (title))
+CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, int utc_offset_hour, int utc_offset_minute)
+	: wxDialog (parent, wxID_ANY, title)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);

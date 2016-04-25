@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ class ScreenDialog : public wxDialog
 public:
 	ScreenDialog (
 		wxWindow *,
-		std::string,
+		wxString,
 		std::string name = "",
 		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> (),
 		std::vector<dcp::Certificate> d = std::vector<dcp::Certificate> ()
