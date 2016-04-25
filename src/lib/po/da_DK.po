@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 11:43+0100\n"
+"POT-Creation-Date: 2016-04-25 09:10+0100\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -131,15 +131,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/film.cc:1338
+#: src/lib/film.cc:1339
 msgid "BsL"
 msgstr ""
 
-#: src/lib/film.cc:1339
+#: src/lib/film.cc:1340
 msgid "BsR"
 msgstr ""
 
-#: src/lib/film.cc:1330
+#: src/lib/film.cc:1331
 msgid "C"
 msgstr ""
 
@@ -356,11 +356,11 @@ msgstr ""
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/film.cc:1340
+#: src/lib/film.cc:1341
 msgid "DBP"
 msgstr ""
 
-#: src/lib/film.cc:1341
+#: src/lib/film.cc:1342
 msgid "DBS"
 msgstr ""
 
@@ -558,7 +558,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/film.cc:1334
+#: src/lib/film.cc:1335
 msgid "HI"
 msgstr ""
 
@@ -594,11 +594,11 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/film.cc:1328
+#: src/lib/film.cc:1329
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1336
+#: src/lib/film.cc:1337
 msgid "Lc"
 msgstr "Lc"
 
@@ -624,7 +624,7 @@ msgstr "Venstre surround"
 msgid "Length"
 msgstr ""
 
-#: src/lib/film.cc:1331
+#: src/lib/film.cc:1332
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -652,7 +652,7 @@ msgstr "Logaritmisk (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk  (316:1 range)"
 
-#: src/lib/film.cc:1332
+#: src/lib/film.cc:1333
 msgid "Ls"
 msgstr ""
 
@@ -745,7 +745,7 @@ msgstr "Programmerings fejl ved %1: %2"
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/film.cc:1329
+#: src/lib/film.cc:1330
 msgid "R"
 msgstr ""
 
@@ -757,7 +757,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/film.cc:1337
+#: src/lib/film.cc:1338
 msgid "Rc"
 msgstr ""
 
@@ -791,7 +791,7 @@ msgstr "Højre bag surround"
 msgid "Right surround"
 msgstr "Højre surround"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1334
 msgid "Rs"
 msgstr ""
 
@@ -995,7 +995,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/film.cc:1335
+#: src/lib/film.cc:1336
 msgid "VI"
 msgstr ""
 

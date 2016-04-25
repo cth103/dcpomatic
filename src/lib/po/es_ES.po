@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 11:43+0100\n"
+"POT-Creation-Date: 2016-04-25 09:10+0100\n"
 "PO-Revision-Date: 2016-02-09 01:08-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -131,15 +131,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits por pixel"
 
-#: src/lib/film.cc:1338
+#: src/lib/film.cc:1339
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1339
+#: src/lib/film.cc:1340
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1330
+#: src/lib/film.cc:1331
 msgid "C"
 msgstr "C"
 
@@ -355,11 +355,11 @@ msgstr "Primario D-BOX"
 msgid "D-BOX secondary"
 msgstr "Secundario D-BOX"
 
-#: src/lib/film.cc:1340
+#: src/lib/film.cc:1341
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1341
+#: src/lib/film.cc:1342
 msgid "DBS"
 msgstr "DBS"
 
@@ -553,7 +553,7 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/film.cc:1334
+#: src/lib/film.cc:1335
 msgid "HI"
 msgstr "HI"
 
@@ -589,11 +589,11 @@ msgstr "Envío de KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/film.cc:1328
+#: src/lib/film.cc:1329
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1336
+#: src/lib/film.cc:1337
 msgid "Lc"
 msgstr "Lc"
 
@@ -619,7 +619,7 @@ msgstr "Surround izquierda"
 msgid "Length"
 msgstr ""
 
-#: src/lib/film.cc:1331
+#: src/lib/film.cc:1332
 msgid "Lfe"
 msgstr "Lfe"
 
@@ -647,7 +647,7 @@ msgstr "Logarítmico (rango 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarítmico (rango 316:1)"
 
-#: src/lib/film.cc:1332
+#: src/lib/film.cc:1333
 msgid "Ls"
 msgstr "Ls"
 
@@ -740,7 +740,7 @@ msgstr "Error de programación en %1:%2"
 msgid "Public Service Announcement"
 msgstr "Anuncio de servicio público"
 
-#: src/lib/film.cc:1329
+#: src/lib/film.cc:1330
 msgid "R"
 msgstr "R"
 
@@ -752,7 +752,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Clasificación"
 
-#: src/lib/film.cc:1337
+#: src/lib/film.cc:1338
 msgid "Rc"
 msgstr "Rc"
 
@@ -788,7 +788,7 @@ msgstr "Surround trasero derecha"
 msgid "Right surround"
 msgstr "Surround derecha"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1334
 msgid "Rs"
 msgstr "Rs"
 
@@ -994,7 +994,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1335
+#: src/lib/film.cc:1336
 msgid "VI"
 msgstr "VI"
 

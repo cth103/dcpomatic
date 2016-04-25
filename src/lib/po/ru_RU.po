@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 11:43+0100\n"
+"POT-Creation-Date: 2016-04-25 09:10+0100\n"
 "PO-Revision-Date: 2016-04-15 20:01+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -129,15 +129,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/film.cc:1338
+#: src/lib/film.cc:1339
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1339
+#: src/lib/film.cc:1340
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1330
+#: src/lib/film.cc:1331
 msgid "C"
 msgstr "C"
 
@@ -361,11 +361,11 @@ msgstr "D-BOX основной (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/film.cc:1340
+#: src/lib/film.cc:1341
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1341
+#: src/lib/film.cc:1342
 msgid "DBS"
 msgstr "DBS"
 
@@ -557,7 +557,7 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/film.cc:1334
+#: src/lib/film.cc:1335
 msgid "HI"
 msgstr "HI"
 
@@ -593,11 +593,11 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1328
+#: src/lib/film.cc:1329
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1336
+#: src/lib/film.cc:1337
 msgid "Lc"
 msgstr "Lc"
 
@@ -623,7 +623,7 @@ msgstr "Левый surround"
 msgid "Length"
 msgstr "Длительность"
 
-#: src/lib/film.cc:1331
+#: src/lib/film.cc:1332
 msgid "Lfe"
 msgstr "LFE"
 
@@ -651,7 +651,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/film.cc:1332
+#: src/lib/film.cc:1333
 msgid "Ls"
 msgstr "Ls"
 
@@ -743,7 +743,7 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/film.cc:1329
+#: src/lib/film.cc:1330
 msgid "R"
 msgstr "R"
 
@@ -755,7 +755,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1337
+#: src/lib/film.cc:1338
 msgid "Rc"
 msgstr "Rc"
 
@@ -791,7 +791,7 @@ msgstr "Правый тыловой surround"
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1334
 msgid "Rs"
 msgstr "Rs"
 
@@ -995,7 +995,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/film.cc:1335
+#: src/lib/film.cc:1336
 msgid "VI"
 msgstr "VI"
 
