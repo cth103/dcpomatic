@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-04-15 22:06+0100\n"
+"POT-Creation-Date: 2016-04-25 09:10+0100\n"
+"PO-Revision-Date: 2016-04-25 15:14+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -55,11 +55,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D Version eines Films, der auch in 3D verfügbar ist"
 
-#: src/wx/dcp_panel.cc:699
+#: src/wx/dcp_panel.cc:696
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:657
+#: src/wx/dcp_panel.cc:654
 msgid "3D"
 msgstr "3D DCP"
 
@@ -83,7 +83,7 @@ msgstr "3D nur rechts"
 msgid "3D top/bottom"
 msgstr "3D Oben/Unten (OU)"
 
-#: src/wx/dcp_panel.cc:700
+#: src/wx/dcp_panel.cc:697
 msgid "4K"
 msgstr "4K"
 
@@ -100,6 +100,8 @@ msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>Bitte geben Sie eine GÜLTIGE Emailadresse an, damit ich sie bei "
+"Rückfragen zu ihrem Problem kontaktieren kann!</i>"
 
 #: src/wx/timing_panel.cc:124
 msgid ""
@@ -133,11 +135,6 @@ msgstr "Es ist eine neue Version von DCP-o-matic verfügbar."
 msgid "About DCP-o-matic"
 msgstr "Über DCP-o-matic"
 
-#: src/wx/screens_panel.cc:149
-#, fuzzy
-msgid "Add Cinema"
-msgstr "Kino hinzufügen..."
-
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
 msgstr "Kino hinzufügen..."
@@ -145,11 +142,6 @@ msgstr "Kino hinzufügen..."
 #: src/wx/content_menu.cc:66
 msgid "Add KDM..."
 msgstr "KDM hinzufügen..."
-
-#: src/wx/screens_panel.cc:204
-#, fuzzy
-msgid "Add Screen"
-msgstr "Saal hinzufügen..."
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -338,7 +330,7 @@ msgstr "Kinokette"
 msgid "Channel gain"
 msgstr "Kanal Verstärkung (+/-)"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:739
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -403,7 +395,7 @@ msgstr "Timing"
 msgid "Contact email"
 msgstr "Email-Kontakt"
 
-#: src/wx/dcp_panel.cc:632
+#: src/wx/dcp_panel.cc:629
 msgid "Container"
 msgstr "DCI Containertyp"
 
@@ -452,9 +444,9 @@ msgid "Could not read certificate file (%s)"
 msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
 #: src/wx/config_dialog.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr "Konnte Schlüssel nicht lesen (%s)"
+msgstr "Konnte Schlüssel nicht auswerten, Datei zu lang (%s)"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -674,7 +666,7 @@ msgstr "Zeichensätze"
 msgid "Fonts..."
 msgstr "Zeichensätze..."
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:640
 msgid "Frame Rate"
 msgstr "DCP Bildrate"
 
@@ -807,7 +799,7 @@ msgstr "Kursiv Font-Datei"
 msgid "Italic font"
 msgstr "Kursiver Zeichensatz"
 
-#: src/wx/dcp_panel.cc:667
+#: src/wx/dcp_panel.cc:664
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000 Datenrate"
 
@@ -923,7 +915,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximale JPEG2000 Datenrate (>250 - Vorsicht!)"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:671
+#: src/wx/dcp_panel.cc:668
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -982,7 +974,7 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr "Keine Inhalte in diesem Ordner."
 
-#: src/wx/dcp_panel.cc:750 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:747 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Kein"
@@ -1092,7 +1084,7 @@ msgstr "Startposition im DCP"
 msgid "Pre-release"
 msgstr "Vorabversion"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:745
 msgid "Processor"
 msgstr "Prozessor"
 
@@ -1207,7 +1199,7 @@ msgstr "Problembericht senden"
 msgid "Reset to default subject and text"
 msgstr "Auf Standardtext zurücksetzen"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:658
 msgid "Resolution"
 msgstr "Auflösung"
 
@@ -1321,7 +1313,7 @@ msgstr "Systemzeichensatz auswählen..."
 msgid "Set language"
 msgstr "Programm-Sprache einstellen"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:754
 msgid "Show audio..."
 msgstr "Audiopegel anzeigen..."
 
@@ -1429,6 +1421,8 @@ msgstr "Getestet von"
 #: src/wx/kdm_timing_panel.cc:104
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
+"Das Ende des Gültigkeitsfensters muss nach dem Start des Gültigkeitsfensters "
+"liegen ;-)"
 
 #: src/wx/content_menu.cc:307
 msgid ""
@@ -1452,6 +1446,8 @@ msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"Diese Zertifikatsdatei enthält weitere Zertifikate oder zusätzliche Daten. "
+"Nur das erste gefundene Zertifikat wird verwendet!"
 
 #: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
@@ -1519,7 +1515,7 @@ msgstr "Spitzenwert (True peak): %.2fdB"
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/cinema_dialog.cc:93
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC"
 msgstr "UTC/GMT"
 
@@ -1527,55 +1523,55 @@ msgstr "UTC/GMT"
 msgid "UTC offset (time zone)"
 msgstr "UTC/GMT Abweichung (Zeitzone)"
 
-#: src/wx/cinema_dialog.cc:94
+#: src/wx/cinema_dialog.cc:93
 msgid "UTC+1"
 msgstr "UTC/GMT+1"
 
-#: src/wx/cinema_dialog.cc:103
+#: src/wx/cinema_dialog.cc:102
 msgid "UTC+10"
 msgstr "UTC/GMT+10"
 
-#: src/wx/cinema_dialog.cc:104
+#: src/wx/cinema_dialog.cc:103
 msgid "UTC+11"
 msgstr "UTC/GMT+11"
 
-#: src/wx/cinema_dialog.cc:105
+#: src/wx/cinema_dialog.cc:104
 msgid "UTC+12"
 msgstr "UTC/GMT+12"
 
-#: src/wx/cinema_dialog.cc:95
+#: src/wx/cinema_dialog.cc:94
 msgid "UTC+2"
 msgstr "UTC/GMT+2"
 
-#: src/wx/cinema_dialog.cc:96
+#: src/wx/cinema_dialog.cc:95
 msgid "UTC+3"
 msgstr "UTC/GMT+3"
 
-#: src/wx/cinema_dialog.cc:97
+#: src/wx/cinema_dialog.cc:96
 msgid "UTC+4"
 msgstr "UTC/GMT+4"
 
-#: src/wx/cinema_dialog.cc:98
+#: src/wx/cinema_dialog.cc:97
 msgid "UTC+5"
 msgstr "UTC/GMT+5"
 
-#: src/wx/cinema_dialog.cc:99
+#: src/wx/cinema_dialog.cc:98
 msgid "UTC+6"
 msgstr "UTC/GMT+6"
 
-#: src/wx/cinema_dialog.cc:100
+#: src/wx/cinema_dialog.cc:99
 msgid "UTC+7"
 msgstr "UTC/GMT+7"
 
-#: src/wx/cinema_dialog.cc:101
+#: src/wx/cinema_dialog.cc:100
 msgid "UTC+8"
 msgstr "UTC/GMT+8"
 
-#: src/wx/cinema_dialog.cc:102
+#: src/wx/cinema_dialog.cc:101
 msgid "UTC+9"
 msgstr "UTC/GMT+9"
 
-#: src/wx/cinema_dialog.cc:92
+#: src/wx/cinema_dialog.cc:91
 msgid "UTC-1"
 msgstr "UTC/GMT-1"
 
@@ -1587,26 +1583,25 @@ msgstr "UTC/GMT-10"
 msgid "UTC-11"
 msgstr "UTC/GMT-11"
 
-#: src/wx/cinema_dialog.cc:91
+#: src/wx/cinema_dialog.cc:90
 msgid "UTC-2"
 msgstr "UTC/GMT-2"
 
-#: src/wx/cinema_dialog.cc:90
+#: src/wx/cinema_dialog.cc:89
 msgid "UTC-3"
 msgstr "UTC/GMT-3"
 
-#: src/wx/cinema_dialog.cc:89
+#: src/wx/cinema_dialog.cc:88
 msgid "UTC-3:30"
 msgstr "UTC/GMT-3:30"
 
-#: src/wx/cinema_dialog.cc:88
+#: src/wx/cinema_dialog.cc:87
 msgid "UTC-4"
 msgstr "UTC/GMT-4"
 
 #: src/wx/cinema_dialog.cc:87
-#, fuzzy
 msgid "UTC-4:30"
-msgstr "UTC/GMT-3:30"
+msgstr "UTC/GMT-4:30"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
@@ -1644,7 +1639,7 @@ msgstr "Nach Fertigstellung DCP auf TMS kopieren"
 msgid "Use ISDCF name"
 msgstr "ISDCF Name erzeugen"
 
-#: src/wx/dcp_panel.cc:651
+#: src/wx/dcp_panel.cc:648
 msgid "Use best"
 msgstr "Beste wählen"
 

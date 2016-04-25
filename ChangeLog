@@ -1,5 +1,7 @@
 2016-04-25  c.hetherington  <cth@carlh.net>
 
+	* Updated de_DE translation from Carsten Kurz.
+
 	* When making up the ISDCF name assume subtitles are burnt in unless
 	we know otherwise.
 
