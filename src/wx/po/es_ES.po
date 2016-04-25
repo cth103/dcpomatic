@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 09:10+0100\n"
+"POT-Creation-Date: 2016-04-25 15:38+0100\n"
 "PO-Revision-Date: 2016-02-09 01:29-0500\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -54,11 +54,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "Versión 2D de contenido disponible en 3D"
 
-#: src/wx/dcp_panel.cc:696
+#: src/wx/dcp_panel.cc:699
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:654
+#: src/wx/dcp_panel.cc:657
 msgid "3D"
 msgstr "3D"
 
@@ -82,7 +82,7 @@ msgstr "3D sólo derecha"
 msgid "3D top/bottom"
 msgstr "3D arriba/abajo"
 
-#: src/wx/dcp_panel.cc:697
+#: src/wx/dcp_panel.cc:700
 msgid "4K"
 msgstr "4K"
 
@@ -130,6 +130,11 @@ msgstr "Una nueva versión de DCP-o-matic está disponible."
 msgid "About DCP-o-matic"
 msgstr "Acerca de DCP-o-matic"
 
+#: src/wx/screens_panel.cc:149
+#, fuzzy
+msgid "Add Cinema"
+msgstr "Añadir cine..."
+
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
 msgstr "Añadir cine..."
@@ -137,6 +142,11 @@ msgstr "Añadir cine..."
 #: src/wx/content_menu.cc:66
 msgid "Add KDM..."
 msgstr "Añadir KDM..."
+
+#: src/wx/screens_panel.cc:204
+#, fuzzy
+msgid "Add Screen"
+msgstr "Añadir pantalla..."
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -318,7 +328,7 @@ msgstr "Cadena"
 msgid "Channel gain"
 msgstr "Ganancia del canal"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:739
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:742
 msgid "Channels"
 msgstr "Canales"
 
@@ -384,7 +394,7 @@ msgstr "Tiempo"
 msgid "Contact email"
 msgstr "Email de contacto"
 
-#: src/wx/dcp_panel.cc:629
+#: src/wx/dcp_panel.cc:632
 msgid "Container"
 msgstr "Continente"
 
@@ -558,6 +568,16 @@ msgstr "Editar cine..."
 msgid "Edit Screen..."
 msgstr "Editar pantalla..."
 
+#: src/wx/screens_panel.cc:169
+#, fuzzy
+msgid "Edit cinema"
+msgstr "Editar cine..."
+
+#: src/wx/screens_panel.cc:230
+#, fuzzy
+msgid "Edit screen"
+msgstr "Editar pantalla..."
+
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
 #: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
@@ -646,7 +666,7 @@ msgstr "Fuentes"
 msgid "Fonts..."
 msgstr "Fuentes…"
 
-#: src/wx/dcp_panel.cc:640
+#: src/wx/dcp_panel.cc:643
 msgid "Frame Rate"
 msgstr "Velocidad"
 
@@ -777,7 +797,7 @@ msgstr "Fichero de fuente itálica"
 msgid "Italic font"
 msgstr "Fuente itálica"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:667
 msgid "JPEG2000 bandwidth"
 msgstr "Ancho de banda JPEG2000"
 
@@ -893,7 +913,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Ancho de banda JPEG2000 máximo"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:668
+#: src/wx/dcp_panel.cc:671
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -951,7 +971,7 @@ msgstr "No pasará audio del canal de origen %d al canal %d del DCP."
 msgid "No content found in this folder."
 msgstr "No se encontró contenido en esta carpeta."
 
-#: src/wx/dcp_panel.cc:747 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:750 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Ninguno"
@@ -1061,7 +1081,7 @@ msgstr "Posición"
 msgid "Pre-release"
 msgstr "Prelanzamiento"
 
-#: src/wx/dcp_panel.cc:745
+#: src/wx/dcp_panel.cc:748
 msgid "Processor"
 msgstr "Procesador"
 
@@ -1177,7 +1197,7 @@ msgstr "Comunicar un problema"
 msgid "Reset to default subject and text"
 msgstr "Restablecer el texto y asunto por defecto"
 
-#: src/wx/dcp_panel.cc:658
+#: src/wx/dcp_panel.cc:661
 msgid "Resolution"
 msgstr "Resolución"
 
@@ -1292,7 +1312,7 @@ msgstr "Usar la fuente del sistema…"
 msgid "Set language"
 msgstr "Seleccionar idioma"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:757
 msgid "Show audio..."
 msgstr "Mostrar audio…"
 
@@ -1491,7 +1511,7 @@ msgstr "El pico es %.2fdB"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/wx/cinema_dialog.cc:92
+#: src/wx/cinema_dialog.cc:93
 msgid "UTC"
 msgstr ""
 
@@ -1499,55 +1519,55 @@ msgstr ""
 msgid "UTC offset (time zone)"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:93
+#: src/wx/cinema_dialog.cc:94
 msgid "UTC+1"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:102
+#: src/wx/cinema_dialog.cc:103
 msgid "UTC+10"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:103
+#: src/wx/cinema_dialog.cc:104
 msgid "UTC+11"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:104
+#: src/wx/cinema_dialog.cc:105
 msgid "UTC+12"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:94
+#: src/wx/cinema_dialog.cc:95
 msgid "UTC+2"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:95
+#: src/wx/cinema_dialog.cc:96
 msgid "UTC+3"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:96
+#: src/wx/cinema_dialog.cc:97
 msgid "UTC+4"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:97
+#: src/wx/cinema_dialog.cc:98
 msgid "UTC+5"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:98
+#: src/wx/cinema_dialog.cc:99
 msgid "UTC+6"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:99
+#: src/wx/cinema_dialog.cc:100
 msgid "UTC+7"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:100
+#: src/wx/cinema_dialog.cc:101
 msgid "UTC+8"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:101
+#: src/wx/cinema_dialog.cc:102
 msgid "UTC+9"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:91
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC-1"
 msgstr ""
 
@@ -1559,20 +1579,24 @@ msgstr ""
 msgid "UTC-11"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:90
+#: src/wx/cinema_dialog.cc:91
 msgid "UTC-2"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:89
+#: src/wx/cinema_dialog.cc:90
 msgid "UTC-3"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:88
+#: src/wx/cinema_dialog.cc:89
 msgid "UTC-3:30"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:87
+#: src/wx/cinema_dialog.cc:88
 msgid "UTC-4"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:87
+msgid "UTC-4:30"
 msgstr ""
 
 #: src/wx/cinema_dialog.cc:86
@@ -1611,7 +1635,7 @@ msgstr ""
 msgid "Use ISDCF name"
 msgstr "Usar el nombre ISDCF"
 
-#: src/wx/dcp_panel.cc:648
+#: src/wx/dcp_panel.cc:651
 msgid "Use best"
 msgstr "Usar la mejor"
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 09:10+0100\n"
+"POT-Creation-Date: 2016-04-25 15:38+0100\n"
 "PO-Revision-Date: 2016-04-15 20:16+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -52,11 +52,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D версия контента, доступного в 3D"
 
-#: src/wx/dcp_panel.cc:696
+#: src/wx/dcp_panel.cc:699
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:654
+#: src/wx/dcp_panel.cc:657
 msgid "3D"
 msgstr "3D"
 
@@ -80,7 +80,7 @@ msgstr "3D только правый"
 msgid "3D top/bottom"
 msgstr "3D верх/низ"
 
-#: src/wx/dcp_panel.cc:697
+#: src/wx/dcp_panel.cc:700
 msgid "4K"
 msgstr "4K"
 
@@ -128,6 +128,11 @@ msgstr "Доступна новая версия DCP-o-matic."
 msgid "About DCP-o-matic"
 msgstr "О программе"
 
+#: src/wx/screens_panel.cc:149
+#, fuzzy
+msgid "Add Cinema"
+msgstr "Добавить кинотеатр..."
+
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
@@ -135,6 +140,11 @@ msgstr "Добавить кинотеатр..."
 #: src/wx/content_menu.cc:66
 msgid "Add KDM..."
 msgstr "Добавить KDM..."
+
+#: src/wx/screens_panel.cc:204
+#, fuzzy
+msgid "Add Screen"
+msgstr "Добавить экран..."
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -316,7 +326,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:739
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:742
 msgid "Channels"
 msgstr "Канала(ов)"
 
@@ -383,7 +393,7 @@ msgstr "Тайминг"
 msgid "Contact email"
 msgstr "Контактный email"
 
-#: src/wx/dcp_panel.cc:629
+#: src/wx/dcp_panel.cc:632
 msgid "Container"
 msgstr "Контейнер"
 
@@ -557,6 +567,16 @@ msgstr "Редактировать кинотеатр..."
 msgid "Edit Screen..."
 msgstr "Редактировать экран..."
 
+#: src/wx/screens_panel.cc:169
+#, fuzzy
+msgid "Edit cinema"
+msgstr "Редактировать кинотеатр..."
+
+#: src/wx/screens_panel.cc:230
+#, fuzzy
+msgid "Edit screen"
+msgstr "Редактировать экран..."
+
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
 #: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
@@ -647,7 +667,7 @@ msgstr "Шрифты"
 msgid "Fonts..."
 msgstr "Шрифты..."
 
-#: src/wx/dcp_panel.cc:640
+#: src/wx/dcp_panel.cc:643
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -779,7 +799,7 @@ msgstr "Файл курсивного шрифта"
 msgid "Italic font"
 msgstr "Курсивный шрифт"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:667
 msgid "JPEG2000 bandwidth"
 msgstr "Пропускная способность JPEG2000"
 
@@ -893,7 +913,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Максимальная пропускная способность JPEG2000"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:668
+#: src/wx/dcp_panel.cc:671
 msgid "Mbit/s"
 msgstr "МБит/с"
 
@@ -951,7 +971,7 @@ msgstr "Аудио не будет перемещено из канала %d к�
 msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
-#: src/wx/dcp_panel.cc:747 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:750 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "Ничего"
@@ -1061,7 +1081,7 @@ msgstr "Позиция"
 msgid "Pre-release"
 msgstr "Пре-релиз"
 
-#: src/wx/dcp_panel.cc:745
+#: src/wx/dcp_panel.cc:748
 msgid "Processor"
 msgstr "Обработка"
 
@@ -1176,7 +1196,7 @@ msgstr "Сообщить Об Ошибке"
 msgid "Reset to default subject and text"
 msgstr "Сбросить по умолчанию тему и текст"
 
-#: src/wx/dcp_panel.cc:658
+#: src/wx/dcp_panel.cc:661
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -1290,7 +1310,7 @@ msgstr "Выбрать системный шрифт"
 msgid "Set language"
 msgstr "Выбрать язык"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:757
 msgid "Show audio..."
 msgstr "Показать аудио..."
 
@@ -1488,7 +1508,7 @@ msgstr "Пиковая громкость %.2fдБ"
 msgid "Type"
 msgstr "Тип"
 
-#: src/wx/cinema_dialog.cc:92
+#: src/wx/cinema_dialog.cc:93
 msgid "UTC"
 msgstr "UTC"
 
@@ -1496,55 +1516,55 @@ msgstr "UTC"
 msgid "UTC offset (time zone)"
 msgstr "Смещение UTC (часовой пояс)"
 
-#: src/wx/cinema_dialog.cc:93
+#: src/wx/cinema_dialog.cc:94
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/cinema_dialog.cc:102
+#: src/wx/cinema_dialog.cc:103
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/cinema_dialog.cc:103
+#: src/wx/cinema_dialog.cc:104
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/cinema_dialog.cc:104
+#: src/wx/cinema_dialog.cc:105
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/cinema_dialog.cc:94
+#: src/wx/cinema_dialog.cc:95
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/cinema_dialog.cc:95
+#: src/wx/cinema_dialog.cc:96
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/cinema_dialog.cc:96
+#: src/wx/cinema_dialog.cc:97
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/cinema_dialog.cc:97
+#: src/wx/cinema_dialog.cc:98
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/cinema_dialog.cc:98
+#: src/wx/cinema_dialog.cc:99
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/cinema_dialog.cc:99
+#: src/wx/cinema_dialog.cc:100
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/cinema_dialog.cc:100
+#: src/wx/cinema_dialog.cc:101
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/cinema_dialog.cc:101
+#: src/wx/cinema_dialog.cc:102
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/cinema_dialog.cc:91
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC-1"
 msgstr "UTC-1"
 
@@ -1556,21 +1576,26 @@ msgstr "UTC-10"
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/cinema_dialog.cc:90
+#: src/wx/cinema_dialog.cc:91
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/cinema_dialog.cc:89
+#: src/wx/cinema_dialog.cc:90
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/cinema_dialog.cc:88
+#: src/wx/cinema_dialog.cc:89
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/cinema_dialog.cc:87
+#: src/wx/cinema_dialog.cc:88
 msgid "UTC-4"
 msgstr "UTC-4"
+
+#: src/wx/cinema_dialog.cc:87
+#, fuzzy
+msgid "UTC-4:30"
+msgstr "UTC-3:30"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
@@ -1608,7 +1633,7 @@ msgstr "Загрузить DCP на TMS после окончания конве
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
-#: src/wx/dcp_panel.cc:648
+#: src/wx/dcp_panel.cc:651
 msgid "Use best"
 msgstr "Использовать лучшее"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 09:10+0100\n"
+"POT-Creation-Date: 2016-04-25 15:38+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -62,11 +62,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "伪3D"
 
-#: src/wx/dcp_panel.cc:696
+#: src/wx/dcp_panel.cc:699
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:654
+#: src/wx/dcp_panel.cc:657
 msgid "3D"
 msgstr "3D"
 
@@ -90,7 +90,7 @@ msgstr "仅右眼(3D)"
 msgid "3D top/bottom"
 msgstr "上下眼(3D)"
 
-#: src/wx/dcp_panel.cc:697
+#: src/wx/dcp_panel.cc:700
 msgid "4K"
 msgstr "4K"
 
@@ -135,6 +135,11 @@ msgstr "DCP-O-MATIC 新版本"
 msgid "About DCP-o-matic"
 msgstr "关于 DCP-o-matic"
 
+#: src/wx/screens_panel.cc:149
+#, fuzzy
+msgid "Add Cinema"
+msgstr "添加影院"
+
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
 msgstr "添加影院"
@@ -142,6 +147,11 @@ msgstr "添加影院"
 #: src/wx/content_menu.cc:66
 msgid "Add KDM..."
 msgstr "添加 KDM..."
+
+#: src/wx/screens_panel.cc:204
+#, fuzzy
+msgid "Add Screen"
+msgstr "添加新服务器"
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -312,7 +322,7 @@ msgstr "链接"
 msgid "Channel gain"
 msgstr "信道增益"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:739
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:742
 msgid "Channels"
 msgstr "通道"
 
@@ -378,7 +388,7 @@ msgstr "同步"
 msgid "Contact email"
 msgstr "邮箱地址"
 
-#: src/wx/dcp_panel.cc:629
+#: src/wx/dcp_panel.cc:632
 msgid "Container"
 msgstr "格式"
 
@@ -552,6 +562,16 @@ msgstr "编辑影城..."
 msgid "Edit Screen..."
 msgstr "编辑服务器..."
 
+#: src/wx/screens_panel.cc:169
+#, fuzzy
+msgid "Edit cinema"
+msgstr "编辑影城..."
+
+#: src/wx/screens_panel.cc:230
+#, fuzzy
+msgid "Edit screen"
+msgstr "编辑服务器..."
+
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
 #: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
@@ -640,7 +660,7 @@ msgstr "字体..."
 msgid "Fonts..."
 msgstr "字体..."
 
-#: src/wx/dcp_panel.cc:640
+#: src/wx/dcp_panel.cc:643
 msgid "Frame Rate"
 msgstr "帧速率"
 
@@ -772,7 +792,7 @@ msgstr "斜体文件"
 msgid "Italic font"
 msgstr "斜体"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:667
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000码率"
 
@@ -887,7 +907,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "最大JPEG2000码率"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:668
+#: src/wx/dcp_panel.cc:671
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -945,7 +965,7 @@ msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 msgid "No content found in this folder."
 msgstr "没有找到文件！"
 
-#: src/wx/dcp_panel.cc:747 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/dcp_panel.cc:750 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
 msgstr "无"
@@ -1053,7 +1073,7 @@ msgstr "位置"
 msgid "Pre-release"
 msgstr "预发布(点映版)"
 
-#: src/wx/dcp_panel.cc:745
+#: src/wx/dcp_panel.cc:748
 msgid "Processor"
 msgstr "处理类型"
 
@@ -1169,7 +1189,7 @@ msgstr "报告问题"
 msgid "Reset to default subject and text"
 msgstr "恢复到默认"
 
-#: src/wx/dcp_panel.cc:658
+#: src/wx/dcp_panel.cc:661
 msgid "Resolution"
 msgstr "解析度"
 
@@ -1284,7 +1304,7 @@ msgstr "系统字体"
 msgid "Set language"
 msgstr "设置语言"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:757
 msgid "Show audio..."
 msgstr "显示音频"
 
@@ -1480,7 +1500,7 @@ msgstr "最佳值 %.2fdB"
 msgid "Type"
 msgstr "类型"
 
-#: src/wx/cinema_dialog.cc:92
+#: src/wx/cinema_dialog.cc:93
 msgid "UTC"
 msgstr "UTC"
 
@@ -1488,67 +1508,67 @@ msgstr "UTC"
 msgid "UTC offset (time zone)"
 msgstr "UTC偏差（时区）"
 
-#: src/wx/cinema_dialog.cc:93
+#: src/wx/cinema_dialog.cc:94
 #, fuzzy
 msgid "UTC+1"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:102
+#: src/wx/cinema_dialog.cc:103
 #, fuzzy
 msgid "UTC+10"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:103
+#: src/wx/cinema_dialog.cc:104
 #, fuzzy
 msgid "UTC+11"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:104
+#: src/wx/cinema_dialog.cc:105
 #, fuzzy
 msgid "UTC+12"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:94
+#: src/wx/cinema_dialog.cc:95
 #, fuzzy
 msgid "UTC+2"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:95
+#: src/wx/cinema_dialog.cc:96
 #, fuzzy
 msgid "UTC+3"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:96
+#: src/wx/cinema_dialog.cc:97
 #, fuzzy
 msgid "UTC+4"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:97
+#: src/wx/cinema_dialog.cc:98
 #, fuzzy
 msgid "UTC+5"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:98
+#: src/wx/cinema_dialog.cc:99
 #, fuzzy
 msgid "UTC+6"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:99
+#: src/wx/cinema_dialog.cc:100
 #, fuzzy
 msgid "UTC+7"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:100
+#: src/wx/cinema_dialog.cc:101
 #, fuzzy
 msgid "UTC+8"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:101
+#: src/wx/cinema_dialog.cc:102
 #, fuzzy
 msgid "UTC+9"
 msgstr "UTC+%d"
 
-#: src/wx/cinema_dialog.cc:91
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC-1"
 msgstr ""
 
@@ -1560,20 +1580,24 @@ msgstr ""
 msgid "UTC-11"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:90
+#: src/wx/cinema_dialog.cc:91
 msgid "UTC-2"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:89
+#: src/wx/cinema_dialog.cc:90
 msgid "UTC-3"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:88
+#: src/wx/cinema_dialog.cc:89
 msgid "UTC-3:30"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:87
+#: src/wx/cinema_dialog.cc:88
 msgid "UTC-4"
+msgstr ""
+
+#: src/wx/cinema_dialog.cc:87
+msgid "UTC-4:30"
 msgstr ""
 
 #: src/wx/cinema_dialog.cc:86
@@ -1612,7 +1636,7 @@ msgstr "制作好DCP后上传到TMS"
 msgid "Use ISDCF name"
 msgstr "使用ISDCF名称"
 
-#: src/wx/dcp_panel.cc:648
+#: src/wx/dcp_panel.cc:651
 msgid "Use best"
 msgstr "使用最佳"
 
