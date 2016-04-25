@@ -651,7 +651,7 @@ Film::isdcf_name (bool if_created_now) const
 			}
 
 			string language = dm.subtitle_language;
-			if (burnt_in) {
+			if (burnt_in && language != "XX") {
 				transform (language.begin(), language.end(), language.begin(), ::tolower);
 			} else {
 				transform (language.begin(), language.end(), language.begin(), ::toupper);
