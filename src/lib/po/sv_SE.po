@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2015-11-11 17:15+0100\n"
+"PO-Revision-Date: 2016-04-26 17:09+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -43,7 +43,7 @@ msgstr "16:9"
 
 #: src/lib/ratio.cc:41
 msgid "2.35"
-msgstr ""
+msgstr "2.35"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -72,7 +72,7 @@ msgstr "Analysera audio"
 #: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
 #: src/lib/audio_content.cc:339
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -156,9 +156,8 @@ msgid "Centre"
 msgstr "Center"
 
 #: src/lib/audio_content.cc:318
-#, fuzzy
 msgid "Channels"
-msgstr "Audiokanaler"
+msgstr "Kanaler"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -199,9 +198,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Innehåll och DCP har samma bildfrekvens.\n"
 
 #: src/lib/audio_content.cc:319
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Innehållets bildhastighet"
+msgstr "Innehållets ljudramshastighet"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -310,9 +308,8 @@ msgid "Could not decode image file (%1)"
 msgstr "Kunde inte avkoda bildfil (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "kunde inte hitta information om strömmen"
+msgstr "Kunde inte hitta information om pixel-formatet för videon."
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -356,28 +353,27 @@ msgstr "Beskuren till %1x%2"
 
 #: src/lib/util.cc:497
 msgid "D-BOX primary"
-msgstr ""
+msgstr "D-BOX primär"
 
 #: src/lib/util.cc:498
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "D-BOX sekundär"
 
 #: src/lib/film.cc:1341
 msgid "DBP"
-msgstr ""
+msgstr "DBP"
 
 #: src/lib/film.cc:1342
 msgid "DBS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:98
 msgid "DCP XML subtitles"
 msgstr "DCP XML undertexter"
 
 #: src/lib/audio_content.cc:339
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Innehållets bildhastighet"
+msgstr "DCP-bldhastighet"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -472,9 +468,8 @@ msgid "Encoding image data"
 msgstr "Kodar bild-data"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Fel i SubRip-fil: såg %1 men förväntade %2"
+msgstr "Fel i undertext-filen: såg %1 men förväntade %2"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -493,9 +488,8 @@ msgid "Failed to authenticate with server (%1)"
 msgstr "Misslyckades att autentisera med server (%1)"
 
 #: src/lib/emailer.cc:213
-#, fuzzy
 msgid "Failed to send email (%1)"
-msgstr "Misslyckades att skicka KDM e-post (tog för lång tid)"
+msgstr "Misslyckades att skicka epost (%1)"
 
 #: src/lib/dcp_content_type.cc:45
 msgid "Feature"
@@ -518,7 +512,6 @@ msgid "Flat"
 msgstr "Flat"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
@@ -538,19 +531,19 @@ msgstr "Full frame"
 
 #: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Full längd i bilder med DCP-hastighet"
 
 #: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Full längd i audioramar med innehållets hastighet"
 
 #: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Full längd i bilder med DCP-hastighet"
 
 #: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Full längd i bilder med innehållets hastighet"
 
 #: src/lib/ffmpeg_content.cc:471
 msgid "Gamma 22 (BT470M)"
@@ -579,7 +572,7 @@ msgstr "Högkvalitets 3D-brusreducering"
 
 #: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:480
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -629,7 +622,7 @@ msgstr "Vänster surround"
 #: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Längd"
 
 #: src/lib/film.cc:1332
 msgid "Lfe"
@@ -676,7 +669,6 @@ msgid "Mismatched audio channel counts in DCP"
 msgstr "Icke-passande antal audiokanaler i DCP:n"
 
 #: src/lib/dcp_examiner.cc:102
-#, fuzzy
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Icke överensstämmande audio-sampelhastighet i DCP:n"
 
@@ -694,7 +686,7 @@ msgstr "Rörelsekompenserande avflätare"
 
 #: src/lib/cinema_kdms.cc:128
 msgid "No mail server configured in preferences"
-msgstr ""
+msgstr "Ingen epostserver har konfigurerats i inställningar"
 
 #: src/lib/video_content_scale.cc:109
 msgid "No scale"
@@ -778,7 +770,6 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:297
-#, fuzzy
 msgid ""
 "Reel lengths in the project differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -821,15 +812,15 @@ msgstr "SMPTE 240M"
 
 #: src/lib/ffmpeg_content.cc:483
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr ""
+msgstr "SMPTE ST 2084 för 10-, 12-, 14- och 16-bitars system"
 
 #: src/lib/ffmpeg_content.cc:484
 msgid "SMPTE ST 428-1"
-msgstr ""
+msgstr "SMPTE ST 428-1"
 
 #: src/lib/ffmpeg_content.cc:460
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
-msgstr ""
+msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
@@ -853,7 +844,7 @@ msgstr "Short"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Storlek"
 
 #: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
@@ -880,9 +871,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/text_subtitle_content.cc:94
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[undertexter]"
+msgstr "Undertexter"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -995,7 +985,7 @@ msgstr "Utan titel"
 
 #: src/lib/util.cc:499 src/lib/util.cc:500
 msgid "Unused"
-msgstr ""
+msgstr "Oanvänt"
 
 #: src/lib/upmixer_a.cc:126 src/lib/upmixer_b.cc:136
 msgid "Upmix L"
@@ -1027,9 +1017,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:505 src/lib/ffmpeg_content.cc:508
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "video"
+msgstr "Video"
 
 #: src/lib/util.cc:492
 msgid "Visually impaired"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2015-11-11 17:13+0100\n"
+"PO-Revision-Date: 2016-04-26 17:12+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -24,12 +24,12 @@ msgstr "%1 finns redan som fil, så du kan inte använda den för en ny film."
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM:en skriven till %s"
 
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM:er skrivna till %s"
 
 #: src/tools/dcpomatic_batch.cc:59
 msgid "&Add Film..."
@@ -127,7 +127,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:308
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr ""
+msgstr "Ett okänt fel har inträffat i DCP-o-matic servern."
 
 #: src/tools/dcpomatic.cc:483 src/tools/dcpomatic.cc:561
 #: src/tools/dcpomatic.cc:1102 src/tools/dcpomatic_kdm.cc:324
@@ -142,7 +142,7 @@ msgstr "Felaktig inställning för %s (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:479 src/tools/dcpomatic.cc:557
 #: src/tools/dcpomatic_kdm.cc:320
@@ -155,12 +155,11 @@ msgstr "Leta efter uppdateringar"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Close without saving film"
-msgstr ""
+msgstr "Stäng utan att spara film"
 
 #: src/tools/dcpomatic.cc:527
-#, fuzzy
 msgid "Could not find batch converter."
-msgstr "DCP-o-matic Batchkonverterare"
+msgstr "Kunde inte hitta batchkonverteraren."
 
 #: src/tools/dcpomatic.cc:1026 src/tools/dcpomatic_batch.cc:326
 msgid "Could not load film %1 (%2)"
@@ -190,7 +189,7 @@ msgstr "Kunde inte visa DCP (kunde inte köra nautilus)"
 
 #: src/tools/dcpomatic_kdm.cc:160
 msgid "Create KDMs"
-msgstr ""
+msgstr "Skapa KDM:er"
 
 #: src/tools/dcpomatic.cc:315 src/tools/dcpomatic.cc:978
 #: src/tools/dcpomatic.cc:1014
@@ -202,22 +201,20 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic Batchkonverterare"
 
 #: src/tools/dcpomatic_server.cc:140
-#, fuzzy
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic Batchkonverterare"
+msgstr "DCP-o-matic Encode Server"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-#, fuzzy
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic KDM-skapare"
 
 #: src/tools/dcpomatic_kdm.cc:142
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Don't close"
-msgstr ""
+msgstr "Stäng inte"
 
 #: src/tools/dcpomatic.cc:841 src/tools/dcpomatic_batch.cc:74
 msgid "Encoding servers..."
@@ -231,7 +228,7 @@ msgstr "Film ändrad"
 
 #: src/tools/dcpomatic_server.cc:147
 msgid "Frames per second"
-msgstr ""
+msgstr "Bilder per sekund"
 
 #: src/tools/dcpomatic.cc:840
 msgid "Hints..."
@@ -243,11 +240,11 @@ msgstr "Skapa &KDM:er...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:832
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "Skapa DCP i batch-konverteraren\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:834
 msgid "Make DKDM for DCP-o-matic..."
-msgstr ""
+msgstr "Skapa DKDM för DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:802
 msgid "New...\tCtrl-N"
@@ -255,7 +252,7 @@ msgstr "Ny...\tCtrl-N"
 
 #: src/tools/dcpomatic_kdm.cc:153
 msgid "Output"
-msgstr ""
+msgstr "Output"
 
 #: src/tools/dcpomatic.cc:852 src/tools/dcpomatic_kdm.cc:240
 msgid "Report a problem..."
@@ -276,7 +273,7 @@ msgstr "Spara ändringarna till filmen \"%s\" före avslut?"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Save film and close"
-msgstr ""
+msgstr "Spara film och avsluta"
 
 #: src/tools/dcpomatic.cc:828
 msgid "Scale to fit &height"
@@ -288,12 +285,11 @@ msgstr "Skala för att rymma &bredd"
 
 #: src/tools/dcpomatic_kdm.cc:133
 msgid "Screens"
-msgstr ""
+msgstr "Salonger"
 
 #: src/tools/dcpomatic_kdm.cc:73
-#, fuzzy
 msgid "Select DKDM file"
-msgstr "Välj film att öppna"
+msgstr "Välj DKDM-fil"
 
 #: src/tools/dcpomatic.cc:360 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"
@@ -301,7 +297,7 @@ msgstr "Välj film att öppna"
 
 #: src/tools/dcpomatic_kdm.cc:316
 msgid "Send KDM emails"
-msgstr ""
+msgstr "Skicka KDM e-brev"
 
 #: src/tools/dcpomatic.cc:426
 #, c-format
