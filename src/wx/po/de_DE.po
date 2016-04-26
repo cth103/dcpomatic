@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 09:10+0100\n"
-"PO-Revision-Date: 2016-04-25 15:14+0100\n"
+"PO-Revision-Date: 2016-04-26 02:13+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -767,7 +767,7 @@ msgstr "Eingangs-Gamma Korrektur:"
 
 #: src/wx/colour_conversion_editor.cc:59
 msgid "Input power"
-msgstr "Eingangsstärke"
+msgstr "Eingangswert"
 
 #: src/wx/audio_dialog.cc:324
 #, c-format
@@ -977,7 +977,7 @@ msgstr "Keine Inhalte in diesem Ordner."
 #: src/wx/dcp_panel.cc:747 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
 #: src/wx/video_panel.cc:294
 msgid "None"
-msgstr "Kein"
+msgstr "Ohne"
 
 #: src/wx/fonts_dialog.cc:52
 msgid "Normal file"
@@ -1682,7 +1682,7 @@ msgstr "Weisspunkt"
 
 #: src/wx/colour_conversion_editor.cc:163
 msgid "White point adjustment"
-msgstr "Weisspunktanpassung"
+msgstr "Weisspunktanpassung:"
 
 #: src/wx/about_dialog.cc:131
 msgid "With help from"
