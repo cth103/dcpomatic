@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-02-09 01:08-0500\n"
+"PO-Revision-Date: 2016-04-26 00:01-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
@@ -43,7 +43,7 @@ msgstr "16:9"
 
 #: src/lib/ratio.cc:41
 msgid "2.35"
-msgstr ""
+msgstr "2.35"
 
 #: src/lib/filter.cc:70
 msgid "3D denoiser"
@@ -72,7 +72,7 @@ msgstr "Analizar audio"
 #: src/lib/audio_content.cc:318 src/lib/audio_content.cc:319
 #: src/lib/audio_content.cc:339
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/lib/audio_content.cc:270
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -156,9 +156,8 @@ msgid "Centre"
 msgstr "Centro"
 
 #: src/lib/audio_content.cc:318
-#, fuzzy
 msgid "Channels"
-msgstr "Canales de audio"
+msgstr "Canales"
 
 #: src/lib/reel_writer.cc:91
 msgid "Checking existing image data"
@@ -199,9 +198,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "La fuente y el DCP tienen la misma velocidad.\n"
 
 #: src/lib/audio_content.cc:319
-#, fuzzy
 msgid "Content audio frame rate"
-msgstr "Velocidad del contenido"
+msgstr "Velocidad del contenido de audio"
 
 #: src/lib/video_content.cc:572
 msgid "Content frame rate"
@@ -303,9 +301,8 @@ msgid "Could not decode image file (%1)"
 msgstr "No se pudo descodificar el fichero de imagen (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:374
-#, fuzzy
 msgid "Could not find pixel format for video."
-msgstr "no se pudo encontrar información del flujo"
+msgstr "No se pudo encontrar el formato de los píxeles del vídeo."
 
 #: src/lib/encode_server_finder.cc:139
 msgid ""
@@ -368,9 +365,8 @@ msgid "DCP XML subtitles"
 msgstr "Subtítulos DCP XML"
 
 #: src/lib/audio_content.cc:339
-#, fuzzy
 msgid "DCP frame rate"
-msgstr "Velocidad del contenido"
+msgstr "Velocidad del DCP"
 
 #: src/lib/frame_rate_change.cc:98
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -464,9 +460,8 @@ msgid "Encoding image data"
 msgstr "Codificando imagen"
 
 #: src/lib/exceptions.cc:67
-#, fuzzy
 msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Error en el fichero SubRip: encontrado %1 cuando se esperaba %2"
+msgstr "Error en el fichero de subtítulos: encontrado %1 cuando se esperaba %2"
 
 #: src/lib/job.cc:377
 msgid "Error: %1"
@@ -509,9 +504,8 @@ msgid "Flat"
 msgstr "Flat"
 
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Frame rate"
-msgstr "Velocidad de imagen"
+msgstr "Velocidad"
 
 #: src/lib/ffmpeg_content.cc:442
 msgid "Full"
@@ -527,19 +521,19 @@ msgstr "Frame completo"
 
 #: src/lib/audio_content.cc:346
 msgid "Full length in audio frames at DCP rate"
-msgstr ""
+msgstr "Longitud total en frames de audio a la velocidad del DCP"
 
 #: src/lib/audio_content.cc:333
 msgid "Full length in audio frames at content rate"
-msgstr ""
+msgstr "Longitud total en frames de audio a la velocidad del contenido"
 
 #: src/lib/audio_content.cc:340
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "Longitud total en frames de vídeo a la velocidad del DCP"
 
 #: src/lib/audio_content.cc:326
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "Longitud total en frames de vídeo a la velocidad del contenido"
 
 #: src/lib/ffmpeg_content.cc:471
 msgid "Gamma 22 (BT470M)"
@@ -567,7 +561,7 @@ msgstr "Reductor de ruido 3D de alta calidad"
 
 #: src/lib/audio_content.cc:319 src/lib/audio_content.cc:339
 msgid "Hz"
-msgstr ""
+msgstr "Hz"
 
 #: src/lib/ffmpeg_content.cc:480
 msgid "IEC61966-2-1 (sRGB or sYCC)"
@@ -617,7 +611,7 @@ msgstr "Surround izquierda"
 #: src/lib/audio_content.cc:340 src/lib/audio_content.cc:345
 #: src/lib/video_content.cc:584
 msgid "Length"
-msgstr ""
+msgstr "Duración"
 
 #: src/lib/film.cc:1332
 msgid "Lfe"
@@ -807,15 +801,15 @@ msgstr "SMPTE 240M"
 
 #: src/lib/ffmpeg_content.cc:483
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr ""
+msgstr "SMPTE ST 2084 para sistemas de 10, 12, 14 y 16 bits"
 
 #: src/lib/ffmpeg_content.cc:484
 msgid "SMPTE ST 428-1"
-msgstr ""
+msgstr "SMPTE ST 428-1"
 
 #: src/lib/ffmpeg_content.cc:460
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
-msgstr ""
+msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/scp_uploader.cc:55
 msgid "SSH error (%1)"
@@ -839,7 +833,7 @@ msgstr "Cortometraje"
 
 #: src/lib/video_content.cc:585
 msgid "Size"
-msgstr ""
+msgstr "Tamaño"
 
 #: src/lib/audio_content.cc:265
 msgid "Some audio will be resampled to %1kHz"
@@ -866,9 +860,8 @@ msgid "Test"
 msgstr "Test"
 
 #: src/lib/text_subtitle_content.cc:94
-#, fuzzy
 msgid "Text subtitles"
-msgstr "[subtítulos]"
+msgstr "Subtítulos de texto"
 
 #: src/lib/dcp_content.cc:323
 msgid "The DCP does not have sound in all reels."
@@ -1015,9 +1008,8 @@ msgstr "VI"
 #: src/lib/ffmpeg_content.cc:505 src/lib/ffmpeg_content.cc:508
 #: src/lib/video_content.cc:584 src/lib/video_content.cc:585
 #: src/lib/video_content.cc:586
-#, fuzzy
 msgid "Video"
-msgstr "vídeo"
+msgstr "Vídeo"
 
 #: src/lib/util.cc:492
 msgid "Visually impaired"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-02-09 01:29-0500\n"
+"PO-Revision-Date: 2016-04-26 00:21-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
@@ -44,7 +44,7 @@ msgstr "-6dB"
 
 #: src/wx/rgba_colour_picker.cc:35
 msgid "255"
-msgstr ""
+msgstr "255"
 
 #: src/wx/video_panel.cc:224
 msgid "2D"
@@ -88,17 +88,19 @@ msgstr "4K"
 
 #: src/wx/image_subtitle_colour_dialog.cc:40
 msgid "<b>New colour</b>"
-msgstr ""
+msgstr "<b>Nuevo color</b>"
 
 #: src/wx/image_subtitle_colour_dialog.cc:37
 msgid "<b>Original colour</b>"
-msgstr ""
+msgstr "<b>Color original</b>"
 
 #: src/wx/report_problem_dialog.cc:74
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>Es importante que escribas un email válido, si no, no podré pedirte más "
+"detalles sobre tu problema.</i>"
 
 #: src/wx/timing_panel.cc:124
 msgid ""
@@ -131,9 +133,8 @@ msgid "About DCP-o-matic"
 msgstr "Acerca de DCP-o-matic"
 
 #: src/wx/screens_panel.cc:149
-#, fuzzy
 msgid "Add Cinema"
-msgstr "Añadir cine..."
+msgstr "Añadir cine"
 
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
@@ -144,9 +145,8 @@ msgid "Add KDM..."
 msgstr "Añadir KDM..."
 
 #: src/wx/screens_panel.cc:204
-#, fuzzy
 msgid "Add Screen"
-msgstr "Añadir pantalla..."
+msgstr "Añadir pantalla"
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -218,7 +218,7 @@ msgstr "Permitir cualquier velocidad de DCP"
 
 #: src/wx/rgba_colour_picker.cc:32
 msgid "Alpha   0"
-msgstr ""
+msgstr "Alpha   0"
 
 #: src/wx/subtitle_panel.cc:122
 msgid "Appearance..."
@@ -287,9 +287,8 @@ msgid "But I have to use fader"
 msgstr "pero tengo que usar el fader a"
 
 #: src/wx/config_dialog.cc:1226
-#, fuzzy
 msgid "CC addresses"
-msgstr "Dirección CC"
+msgstr "Direcciones CC"
 
 #: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:71
 #: src/wx/self_dkdm_dialog.cc:52
@@ -362,11 +361,12 @@ msgstr "Elegir un fichero de fuente"
 
 #: src/wx/config_dialog.cc:198
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr "Fichero de cines y pantallas"
 
 #: src/wx/content_widget.h:72
 msgid "Click the button to set all selected content to the same value."
 msgstr ""
+"Pulsar el botón para poner todo el contenido seleccionado al mismo valor."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:31
 msgid "Colour"
@@ -378,9 +378,8 @@ msgid "Colour conversion"
 msgstr "Conversión de color"
 
 #: src/wx/video_panel.cc:196
-#, fuzzy
 msgid "Colour|Custom"
-msgstr "Color"
+msgstr "Color|Personalizado"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
@@ -443,9 +442,10 @@ msgid "Could not read certificate file (%s)"
 msgstr "No se pudo leer el fichero de certificado (%s)"
 
 #: src/wx/config_dialog.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr "No se pudo leer el fichero de llave (%s)"
+msgstr ""
+"No se pudo leer el fichero de llave; el fichero es demasiado largo (%s)"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -569,14 +569,12 @@ msgid "Edit Screen..."
 msgstr "Editar pantalla..."
 
 #: src/wx/screens_panel.cc:169
-#, fuzzy
 msgid "Edit cinema"
-msgstr "Editar cine..."
+msgstr "Editar cine"
 
 #: src/wx/screens_panel.cc:230
-#, fuzzy
 msgid "Edit screen"
-msgstr "Editar pantalla..."
+msgstr "Editar pantalla"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
@@ -652,6 +650,8 @@ msgstr "Filtros"
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"Calcular el volumen integrado, pico real y margen de volumen cuando se "
+"analice el sonido"
 
 #: src/wx/content_menu.cc:63
 msgid "Find missing..."
@@ -818,9 +818,8 @@ msgid "KDM|Timing"
 msgstr "Tiempo"
 
 #: src/wx/timeline_dialog.cc:43
-#, fuzzy
 msgid "Keep video and subtitles in sequence"
-msgstr "Mantener el video secuencia"
+msgstr "Mantener el video y los subtítulos sincronizados"
 
 #: src/wx/dcp_panel.cc:125 src/wx/key_dialog.cc:27 src/wx/key_dialog.cc:29
 msgid "Key"
@@ -851,9 +850,8 @@ msgid "Left"
 msgstr "Izquierda"
 
 #: src/wx/film_viewer.cc:67
-#, fuzzy
 msgid "Left eye"
-msgstr "Izquierda"
+msgstr "Ojo izquierdo"
 
 #: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
@@ -931,7 +929,7 @@ msgstr "Varios contenidos seleccionados"
 
 #: src/wx/content_widget.h:64
 msgid "Multiple values"
-msgstr ""
+msgstr "Varios valores"
 
 #: src/wx/dir_picker_ctrl.cc:51
 msgid "My Documents"
@@ -1151,9 +1149,8 @@ msgid "Reels"
 msgstr "Bobinas"
 
 #: src/wx/dcp_panel.cc:180
-#, fuzzy
 msgid "Reel|Custom"
-msgstr "Personalizado"
+msgstr "Bobina|Personalizado"
 
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
@@ -1214,9 +1211,8 @@ msgid "Right click to change gain."
 msgstr "Click derecho para cambiar la ganancia."
 
 #: src/wx/film_viewer.cc:68
-#, fuzzy
 msgid "Right eye"
-msgstr "Derecha"
+msgstr "Ojo derecho"
 
 #: src/wx/config_dialog.cc:832
 msgid "Root"
@@ -1274,7 +1270,7 @@ msgstr "Seleccionar fichero de certificado"
 
 #: src/wx/config_dialog.cc:199
 msgid "Select cinema and screen database file"
-msgstr ""
+msgstr "Seleccione el fichero de cines y pantallas"
 
 #: src/wx/kdm_output_panel.cc:58
 msgid "Send by email"
@@ -1381,9 +1377,8 @@ msgid "Subtitle appearance"
 msgstr "Apariencia del subtítulo"
 
 #: src/wx/image_subtitle_colour_dialog.cc:30
-#, fuzzy
 msgid "Subtitle colours"
-msgstr "Color del contorno"
+msgstr "Color de los subtítulos"
 
 #: src/wx/subtitle_panel.cc:45 src/wx/subtitle_view.cc:32
 #: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:62
@@ -1420,7 +1415,7 @@ msgstr "Comprobado por"
 
 #: src/wx/kdm_timing_panel.cc:104
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "El tiempo ‘hasta’ debe ser posterior al tiempo ‘desde’."
 
 #: src/wx/content_menu.cc:307
 msgid ""
@@ -1444,6 +1439,8 @@ msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"Este fichero contiene otros certificados (u otros datos) después del primer "
+"certificado. Sólo el primer certificado será usado."
 
 #: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
@@ -1513,111 +1510,111 @@ msgstr "Tipo"
 
 #: src/wx/cinema_dialog.cc:93
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: src/wx/cinema_dialog.cc:54
 msgid "UTC offset (time zone)"
-msgstr ""
+msgstr "Variación UTC (zona horaria)"
 
 #: src/wx/cinema_dialog.cc:94
 msgid "UTC+1"
-msgstr ""
+msgstr "UTC+1"
 
 #: src/wx/cinema_dialog.cc:103
 msgid "UTC+10"
-msgstr ""
+msgstr "UTC+10"
 
 #: src/wx/cinema_dialog.cc:104
 msgid "UTC+11"
-msgstr ""
+msgstr "UTC+11"
 
 #: src/wx/cinema_dialog.cc:105
 msgid "UTC+12"
-msgstr ""
+msgstr "UTC+12"
 
 #: src/wx/cinema_dialog.cc:95
 msgid "UTC+2"
-msgstr ""
+msgstr "UTC+2"
 
 #: src/wx/cinema_dialog.cc:96
 msgid "UTC+3"
-msgstr ""
+msgstr "UTC+3"
 
 #: src/wx/cinema_dialog.cc:97
 msgid "UTC+4"
-msgstr ""
+msgstr "UTC+4"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC+5"
-msgstr ""
+msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:99
 msgid "UTC+6"
-msgstr ""
+msgstr "UTC+6"
 
 #: src/wx/cinema_dialog.cc:100
 msgid "UTC+7"
-msgstr ""
+msgstr "UTC+7"
 
 #: src/wx/cinema_dialog.cc:101
 msgid "UTC+8"
-msgstr ""
+msgstr "UTC+8"
 
 #: src/wx/cinema_dialog.cc:102
 msgid "UTC+9"
-msgstr ""
+msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:92
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/cinema_dialog.cc:81
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/cinema_dialog.cc:80
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/cinema_dialog.cc:90
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/cinema_dialog.cc:89
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/cinema_dialog.cc:87
 msgid "UTC-4:30"
-msgstr ""
+msgstr "UTC-4:30"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/cinema_dialog.cc:85
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/cinema_dialog.cc:84
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/cinema_dialog.cc:82
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
@@ -1629,7 +1626,7 @@ msgstr "Actualizar"
 
 #: src/wx/dcp_panel.cc:156
 msgid "Upload DCP to TMS after it is made"
-msgstr ""
+msgstr "Subir el DCP al TMS una vez terminado"
 
 #: src/wx/dcp_panel.cc:77
 msgid "Use ISDCF name"
