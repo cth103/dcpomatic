@@ -1,5 +1,7 @@
 2016-04-26  Carl Hetherington  <cth@carlh.net>
 
+	* Fix non-working delete key.
+
 	* Updated ru_RU and uk_UA translations from Igor Voytovich.
 
 	* Updated sv_SE translation from Adam Klotblixt.

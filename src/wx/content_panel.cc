@@ -343,14 +343,15 @@ ContentPanel::add_folder_clicked ()
 	_film->examine_and_add_content (content);
 }
 
-void
+/** @return true if this remove "click" should be ignored */
+bool
 ContentPanel::remove_clicked (bool hotkey)
 {
 	/* If the method was called because Delete was pressed check that our notebook page
 	   is visible and that the content list is focussed.
 	*/
 	if (hotkey && (_parent->GetCurrentPage() != _panel || !_content->HasFocus())) {
-		return;
+		return true;
 	}
 
 	BOOST_FOREACH (shared_ptr<Content> i, selected ()) {
@@ -358,6 +359,7 @@ ContentPanel::remove_clicked (bool hotkey)
 	}
 
 	selection_changed ();
+	return false;
 }
 
 void

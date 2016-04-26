@@ -249,7 +249,7 @@ public:
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
 		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
-		Bind (wxEVT_MENU, boost::bind (&ContentPanel::remove_clicked, _film_editor->content_panel(), true), ID_remove);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
 		wxAcceleratorTable accel_table (2, accel);
 		SetAcceleratorTable (accel_table);
 
@@ -257,6 +257,13 @@ public:
 		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+	}
+
+	void remove_clicked (wxCommandEvent& ev)
+	{
+		if (_film_editor->content_panel()->remove_clicked (true)) {
+			ev.Skip ();
+		}
 	}
 
 	void new_film (boost::filesystem::path path)
