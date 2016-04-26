@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-04-15 20:16+0300\n"
+"PO-Revision-Date: 2016-04-26 20:08+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -97,6 +97,8 @@ msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>Введіть правильний email, інакше автор не зможе зв`язатися з вами у "
+"випадку виникнення помилки.</i>"
 
 #: src/wx/timing_panel.cc:124
 msgid ""
@@ -129,9 +131,8 @@ msgid "About DCP-o-matic"
 msgstr "Про програму"
 
 #: src/wx/screens_panel.cc:149
-#, fuzzy
 msgid "Add Cinema"
-msgstr "Додати кінотеатр..."
+msgstr "Додати кінотеатр"
 
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
@@ -142,9 +143,8 @@ msgid "Add KDM..."
 msgstr "Додати KDM..."
 
 #: src/wx/screens_panel.cc:204
-#, fuzzy
 msgid "Add Screen"
-msgstr "Додати экран..."
+msgstr "Додати экран"
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -441,9 +441,9 @@ msgid "Could not read certificate file (%s)"
 msgstr "Не вдалося прочитати файл сертифікату (%s)"
 
 #: src/wx/config_dialog.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr "Не вдалося прочитать файл ключа (%s)"
+msgstr "Не вдалося прочитати файл ключа; файл занадто довгий (%s)"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -567,14 +567,12 @@ msgid "Edit Screen..."
 msgstr "Редагувати екран..."
 
 #: src/wx/screens_panel.cc:169
-#, fuzzy
 msgid "Edit cinema"
-msgstr "Редагувати кінотеатр..."
+msgstr "Редагувати кінотеатр"
 
 #: src/wx/screens_panel.cc:230
-#, fuzzy
 msgid "Edit screen"
-msgstr "Редагувати екран..."
+msgstr "Редагувати екран"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
@@ -1416,7 +1414,7 @@ msgstr "Тестування"
 
 #: src/wx/kdm_timing_panel.cc:104
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "Час \"до\" має бути після часу \"від\"."
 
 #: src/wx/content_menu.cc:307
 msgid ""
@@ -1440,6 +1438,8 @@ msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"У файлі містяться інші сертифікати (або інші данні) післе першого "
+"сертифікату. Буде використаний тільки перший сертифікат."
 
 #: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
@@ -1592,9 +1592,8 @@ msgid "UTC-4"
 msgstr "UTC-4"
 
 #: src/wx/cinema_dialog.cc:87
-#, fuzzy
 msgid "UTC-4:30"
-msgstr "UTC-3:30"
+msgstr "UTC-4:30"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
@@ -1807,7 +1806,6 @@ msgid "times"
 msgstr "раз"
 
 #: src/wx/kdm_timing_panel.cc:42
-#, fuzzy
 msgid "until"
 msgstr "до"
 
