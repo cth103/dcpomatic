@@ -416,7 +416,19 @@ private:
 
 	void tools_restore_default_preferences ()
 	{
-		Config::restore_defaults ();
+		wxMessageDialog* d = new wxMessageDialog (
+			0,
+			_("Are you sure you want to restore preferences to their defaults?  This cannot be undone."),
+			_("Restore default preferences"),
+			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
+			);
+
+		int const r = d->ShowModal ();
+		d->Destroy ();
+
+		if (r == wxID_YES) {
+			Config::restore_defaults ();
+		}
 	}
 
 	void jobs_make_dcp ()
