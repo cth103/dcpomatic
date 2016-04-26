@@ -12,6 +12,9 @@ if [[ `echo $changes | grep de_DE` != "" ]]; then
 elif [[ `echo $changes | grep nl_NL` != "" ]]; then
   language="nl_NL"
   translator="Rob van Nieuwkerk"
+elif [[ `echo $changes | grep es_ES` != "" ]]; then
+  language="es_ES"
+  translator="Manuel AC"
 else
   echo "Unknown language"
   exit 1
