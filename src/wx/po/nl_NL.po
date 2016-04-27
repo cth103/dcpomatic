@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-04-25 21:25+0200\n"
+"PO-Revision-Date: 2016-04-27 05:20+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -1003,7 +1003,7 @@ msgstr "Open console-venster"
 
 #: src/wx/content_panel.cc:101
 msgid "Open the timeline for the film."
-msgstr "Open de tijdslijn voor de film."
+msgstr "Open de tijdlijn voor de film."
 
 #: src/wx/make_chain_dialog.cc:50
 msgid "Organisation"
