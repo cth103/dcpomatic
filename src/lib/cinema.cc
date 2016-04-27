@@ -32,6 +32,7 @@ using boost::shared_ptr;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
+	, notes (node->optional_string_child("Notes").get_value_or(""))
 {
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Email")) {
 		emails.push_back (i->content ());
@@ -66,6 +67,8 @@ Cinema::as_xml (xmlpp::Element* parent) const
 	BOOST_FOREACH (string i, emails) {
 		parent->add_child("Email")->add_child_text (i);
 	}
+
+	parent->add_child("Notes")->add_child_text (notes);
 
 	parent->add_child("UTCOffsetHour")->add_child_text (dcp::raw_convert<string> (_utc_offset_hour));
 	parent->add_child("UTCOffsetMinute")->add_child_text (dcp::raw_convert<string> (_utc_offset_minute));

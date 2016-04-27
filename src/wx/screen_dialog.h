@@ -33,11 +33,13 @@ public:
 		wxWindow *,
 		wxString,
 		std::string name = "",
+		std::string notes = "",
 		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> (),
 		std::vector<dcp::Certificate> d = std::vector<dcp::Certificate> ()
 		);
 
 	std::string name () const;
+	std::string notes () const;
 	boost::optional<dcp::Certificate> recipient () const;
 	std::vector<dcp::Certificate> trusted_devices () {
 		return _trusted_devices;
@@ -56,6 +58,7 @@ private:
 
 	wxGridBagSizer* _sizer;
 	wxTextCtrl* _name;
+	wxTextCtrl* _notes;
 	wxStaticText* _recipient_thumbprint;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;

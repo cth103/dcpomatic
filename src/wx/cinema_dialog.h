@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,11 +32,13 @@ public:
 		wxString,
 		std::string name = "",
 		std::list<std::string> emails = std::list<std::string> (),
+		std::string notes = "",
 		int utc_offset_hour = 0,
 		int utc_offset_minute = 0
 		);
 
 	std::string name () const;
+	std::string notes () const;
 	std::list<std::string> emails () const;
 	int utc_offset_hour () const;
 	int utc_offset_minute () const;
@@ -46,6 +48,7 @@ private:
 	void set_emails (std::vector<std::string>);
 
 	wxTextCtrl* _name;
+	wxTextCtrl* _notes;
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
 	wxChoice* _utc_offset;

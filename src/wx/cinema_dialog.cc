@@ -37,7 +37,7 @@ column (string s)
 	return s;
 }
 
-CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, int utc_offset_hour, int utc_offset_minute)
+CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, string notes, int utc_offset_hour, int utc_offset_minute)
 	: wxDialog (parent, wxID_ANY, title)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -54,6 +54,11 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	add_label_to_sizer (sizer, this, _("UTC offset (time zone)"), true, wxGBPosition (r, 0));
 	_utc_offset = new wxChoice (this, wxID_ANY);
 	sizer->Add (_utc_offset, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (sizer, this, _("Notes"), true, wxGBPosition (r, 0));
+	_notes = new wxTextCtrl (this, wxID_ANY, std_to_wx (notes), wxDefaultPosition, wxSize (500, -1));
+	sizer->Add (_notes, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), false, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -165,4 +170,10 @@ CinemaDialog::utc_offset_minute () const
 	}
 
 	return _offsets[sel].minute;
+}
+
+string
+CinemaDialog::notes () const
+{
+	return wx_to_std (_notes->GetValue ());
 }

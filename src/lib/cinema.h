@@ -39,9 +39,10 @@ class Screen;
 class Cinema : public boost::enable_shared_from_this<Cinema>
 {
 public:
-	Cinema (std::string const & n, std::list<std::string> const & e, int utc_offset_hour, int utc_offset_minute)
-		: name (n)
+	Cinema (std::string const & name_, std::list<std::string> const & e, std::string notes_, int utc_offset_hour, int utc_offset_minute)
+		: name (name_)
 		, emails (e)
+		, notes (notes_)
 		, _utc_offset_hour (utc_offset_hour)
 		, _utc_offset_minute (utc_offset_minute)
 	{}
@@ -60,6 +61,7 @@ public:
 
 	std::string name;
 	std::list<std::string> emails;
+	std::string notes;
 
 	int utc_offset_hour () const {
 		return _utc_offset_hour;

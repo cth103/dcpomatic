@@ -50,7 +50,9 @@ public:
 	}
 };
 
-ScreenDialog::ScreenDialog (wxWindow* parent, wxString title, string name, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices)
+ScreenDialog::ScreenDialog (
+	wxWindow* parent, wxString title, string name, string notes, optional<dcp::Certificate> recipient, vector<dcp::Certificate> trusted_devices
+	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
 	, _trusted_devices (trusted_devices)
@@ -64,6 +66,11 @@ ScreenDialog::ScreenDialog (wxWindow* parent, wxString title, string name, optio
 	add_label_to_sizer (_sizer, this, _("Name"), true, wxGBPosition (r, 0));
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1));
 	_sizer->Add (_name, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (_sizer, this, _("Notes"), true, wxGBPosition (r, 0));
+	_notes = new wxTextCtrl (this, wxID_ANY, std_to_wx (notes), wxDefaultPosition, wxSize (320, -1));
+	_sizer->Add (_notes, wxGBPosition (r, 1));
 	++r;
 
         wxClientDC dc (this);
@@ -125,6 +132,12 @@ string
 ScreenDialog::name () const
 {
 	return wx_to_std (_name->GetValue());
+}
+
+string
+ScreenDialog::notes () const
+{
+	return wx_to_std (_notes->GetValue());
 }
 
 optional<dcp::Certificate>

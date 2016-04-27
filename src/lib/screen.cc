@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@
 #include <boost/foreach.hpp>
 
 Screen::Screen (cxml::ConstNodePtr node)
-	: name (node->string_child ("Name"))
+	: name (node->string_child("Name"))
+	, notes (node->optional_string_child("Notes").get_value_or (""))
 {
 	if (node->optional_string_child ("Certificate")) {
 		recipient = dcp::Certificate (node->string_child ("Certificate"));
@@ -42,6 +43,8 @@ Screen::as_xml (xmlpp::Element* parent) const
 	if (recipient) {
 		parent->add_child("Recipient")->add_child_text (recipient->certificate (true));
 	}
+
+	parent->add_child("Notes")->add_child_text (notes);
 
 	BOOST_FOREACH (dcp::Certificate const & i, trusted_devices) {
 		parent->add_child("TrustedDevice")->add_child_text (i.certificate (true));
