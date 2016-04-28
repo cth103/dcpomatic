@@ -193,6 +193,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		BOOST_FOREACH (PresetColourConversion const & i, PresetColourConversion::all()) {
 			_colour_conversion->Append (std_to_wx (i.name));
 		}
+
+		/// TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 		_colour_conversion->Append (S_("Colour|Custom"));
 		s->Add (_colour_conversion, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 

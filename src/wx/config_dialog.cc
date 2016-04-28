@@ -1395,6 +1395,7 @@ private:
 			t->Add (_log_warning, 1, wxEXPAND | wxALL);
 			_log_error = new wxCheckBox (_panel, wxID_ANY, _("Errors"));
 			t->Add (_log_error, 1, wxEXPAND | wxALL);
+			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 			_log_timing = new wxCheckBox (_panel, wxID_ANY, S_("Config|Timing"));
 			t->Add (_log_timing, 1, wxEXPAND | wxALL);
 			_log_debug_decode = new wxCheckBox (_panel, wxID_ANY, _("Debug: decode"));
