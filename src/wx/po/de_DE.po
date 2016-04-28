@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 09:10+0100\n"
+"POT-Creation-Date: 2016-04-28 23:28+0100\n"
 "PO-Revision-Date: 2016-04-26 02:13+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -47,7 +47,7 @@ msgstr "-6dB"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:224
+#: src/wx/video_panel.cc:226
 msgid "2D"
 msgstr "2D"
 
@@ -55,35 +55,35 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D Version eines Films, der auch in 3D verfügbar ist"
 
-#: src/wx/dcp_panel.cc:696
+#: src/wx/dcp_panel.cc:700
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:654
+#: src/wx/dcp_panel.cc:658
 msgid "3D"
 msgstr "3D DCP"
 
-#: src/wx/video_panel.cc:227
+#: src/wx/video_panel.cc:229
 msgid "3D alternate"
 msgstr "3D L/R sequentiell"
 
-#: src/wx/video_panel.cc:228
+#: src/wx/video_panel.cc:230
 msgid "3D left only"
 msgstr "3D nur links"
 
-#: src/wx/video_panel.cc:225
+#: src/wx/video_panel.cc:227
 msgid "3D left/right"
 msgstr "3D Links/Rechts (SBS)"
 
-#: src/wx/video_panel.cc:229
+#: src/wx/video_panel.cc:231
 msgid "3D right only"
 msgstr "3D nur rechts"
 
-#: src/wx/video_panel.cc:226
+#: src/wx/video_panel.cc:228
 msgid "3D top/bottom"
 msgstr "3D Oben/Unten (OU)"
 
-#: src/wx/dcp_panel.cc:697
+#: src/wx/dcp_panel.cc:701
 msgid "4K"
 msgstr "4K"
 
@@ -95,6 +95,8 @@ msgstr "<b>Neue Farbe</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Originalfarbe</b>"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/report_problem_dialog.cc:74
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
@@ -103,7 +105,9 @@ msgstr ""
 "<i>Bitte geben Sie eine GÜLTIGE Emailadresse an, damit ich sie bei "
 "Rückfragen zu ihrem Problem kontaktieren kann!</i>"
 
-#: src/wx/timing_panel.cc:124
+#. //trac.wxwidgets.org/ticket/13389
+#.
+#: src/wx/timing_panel.cc:125
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -135,6 +139,11 @@ msgstr "Es ist eine neue Version von DCP-o-matic verfügbar."
 msgid "About DCP-o-matic"
 msgstr "Über DCP-o-matic"
 
+#: src/wx/screens_panel.cc:149
+#, fuzzy
+msgid "Add Cinema"
+msgstr "Kino hinzufügen..."
+
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
 msgstr "Kino hinzufügen..."
@@ -142,6 +151,11 @@ msgstr "Kino hinzufügen..."
 #: src/wx/content_menu.cc:66
 msgid "Add KDM..."
 msgstr "KDM hinzufügen..."
+
+#: src/wx/screens_panel.cc:204
+#, fuzzy
+msgid "Add Screen"
+msgstr "Saal hinzufügen..."
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -293,7 +307,7 @@ msgstr "...aber ich nutze gegenwärtig Faderstellung:"
 msgid "CC addresses"
 msgstr "CC: Adressen"
 
-#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:71
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:72
 #: src/wx/self_dkdm_dialog.cc:52
 msgid "CPL"
 msgstr "CPL"
@@ -330,7 +344,7 @@ msgstr "Kinokette"
 msgid "Channel gain"
 msgstr "Kanal Verstärkung (+/-)"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:739
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:743
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -379,7 +393,8 @@ msgstr "Farbe"
 msgid "Colour conversion"
 msgstr "Farbumwandlung"
 
-#: src/wx/video_panel.cc:196
+#. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
+#: src/wx/video_panel.cc:198
 msgid "Colour|Custom"
 msgstr "Eigene Einstellungen..."
 
@@ -387,7 +402,8 @@ msgstr "Eigene Einstellungen..."
 msgid "Component"
 msgstr "Komponente"
 
-#: src/wx/config_dialog.cc:1398
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
+#: src/wx/config_dialog.cc:1399
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -395,7 +411,7 @@ msgstr "Timing"
 msgid "Contact email"
 msgstr "Email-Kontakt"
 
-#: src/wx/dcp_panel.cc:629
+#: src/wx/dcp_panel.cc:633
 msgid "Container"
 msgstr "DCI Containertyp"
 
@@ -477,15 +493,15 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Audio Pegelverlauf und Analyse"
 
-#: src/wx/config_dialog.cc:1400
+#: src/wx/config_dialog.cc:1401
 msgid "Debug: decode"
 msgstr "Debug: decode"
 
-#: src/wx/config_dialog.cc:1404
+#: src/wx/config_dialog.cc:1405
 msgid "Debug: email sending"
 msgstr "Debug: email sending"
 
-#: src/wx/config_dialog.cc:1402
+#: src/wx/config_dialog.cc:1403
 msgid "Debug: encode"
 msgstr "Debug: encode"
 
@@ -579,7 +595,7 @@ msgstr "Leinwandstammdaten bearbeiten"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
+#: src/wx/video_panel.cc:201 src/wx/editable_list.h:84
 msgid "Edit..."
 msgstr "Bearbeiten..."
 
@@ -666,7 +682,7 @@ msgstr "Zeichensätze"
 msgid "Fonts..."
 msgstr "Zeichensätze..."
 
-#: src/wx/dcp_panel.cc:640
+#: src/wx/dcp_panel.cc:644
 msgid "Frame Rate"
 msgstr "DCP Bildrate"
 
@@ -692,7 +708,7 @@ msgstr "Absenderadresse"
 msgid "Full"
 msgstr "Voll"
 
-#: src/wx/timing_panel.cc:88
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr "Gesamtlänge"
 
@@ -783,7 +799,7 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:185
+#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:186
 msgid "Interop"
 msgstr "Interop"
 
@@ -799,7 +815,7 @@ msgstr "Kursiv Font-Datei"
 msgid "Italic font"
 msgstr "Kursiver Zeichensatz"
 
-#: src/wx/dcp_panel.cc:664
+#: src/wx/dcp_panel.cc:668
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000 Datenrate"
 
@@ -815,7 +831,8 @@ msgstr "KDM Email"
 msgid "KDM type"
 msgstr "KDM Typ"
 
-#: src/wx/kdm_dialog.cc:64
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#: src/wx/kdm_dialog.cc:65
 msgid "KDM|Timing"
 msgstr ""
 "Zeitfenster beim Empfänger (nach UTC/GMT Offset/Zeitzone in "
@@ -878,7 +895,7 @@ msgstr "In die Log-Datei schreiben:"
 msgid "Loudness range %.2f LU"
 msgstr "LU - Relativer Lautheitsumfang (EBU R128): %.2f LU"
 
-#: src/wx/content_panel.cc:503
+#: src/wx/content_panel.cc:505
 msgid "MISSING: "
 msgstr "FEHLT:"
 
@@ -915,7 +932,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximale JPEG2000 Datenrate (>250 - Vorsicht!)"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:668
+#: src/wx/dcp_panel.cc:672
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -927,7 +944,7 @@ msgstr "Den ausgewählten Inhalt nach vorne rücken."
 msgid "Move the selected piece of content later in the film."
 msgstr "Den ausgewählten Inhalt nach hinten rücken."
 
-#: src/wx/video_panel.cc:359
+#: src/wx/video_panel.cc:361
 msgid "Multiple content selected"
 msgstr "Mehrere Inhalte ausgewählt"
 
@@ -943,7 +960,7 @@ msgstr "Meine Dokumente"
 msgid "My problem is"
 msgstr "Ich habe folgendes Problem:"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:509
 msgid "NEEDS KDM: "
 msgstr "Benötigt KDM:"
 
@@ -974,8 +991,8 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr "Keine Inhalte in diesem Ordner."
 
-#: src/wx/dcp_panel.cc:747 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
-#: src/wx/video_panel.cc:294
+#: src/wx/dcp_panel.cc:751 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/video_panel.cc:296
 msgid "None"
 msgstr "Ohne"
 
@@ -995,7 +1012,7 @@ msgstr "Aus"
 msgid "Only servers encode"
 msgstr "Nur Encoding Server komprimieren (keine lokale J2C Komprimierung!)"
 
-#: src/wx/config_dialog.cc:1410
+#: src/wx/config_dialog.cc:1411
 msgid "Open console window"
 msgstr "Konsole öffnen"
 
@@ -1031,7 +1048,7 @@ msgstr "Umrissfarbe"
 msgid "Outline content"
 msgstr "Inhalt hervorheben"
 
-#: src/wx/kdm_dialog.cc:78
+#: src/wx/kdm_dialog.cc:79
 msgid "Output"
 msgstr "Ausgabe"
 
@@ -1060,7 +1077,7 @@ msgstr "Spitzenwert: Unbekannt"
 msgid "Play"
 msgstr "Abspielen"
 
-#: src/wx/timing_panel.cc:103
+#: src/wx/timing_panel.cc:104
 msgid "Play length"
 msgstr "Abspiellänge"
 
@@ -1076,7 +1093,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Bitte warten; Ton wird analysiert..."
 
-#: src/wx/timing_panel.cc:85
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr "Startposition im DCP"
 
@@ -1084,7 +1101,7 @@ msgstr "Startposition im DCP"
 msgid "Pre-release"
 msgstr "Vorabversion"
 
-#: src/wx/dcp_panel.cc:745
+#: src/wx/dcp_panel.cc:749
 msgid "Processor"
 msgstr "Prozessor"
 
@@ -1153,7 +1170,8 @@ msgstr "Aktgröße"
 msgid "Reels"
 msgstr "Aktaufteilung ('Reels')"
 
-#: src/wx/dcp_panel.cc:180
+#. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
+#: src/wx/dcp_panel.cc:181
 msgid "Reel|Custom"
 msgstr "Nach MXF Dateigröße"
 
@@ -1199,7 +1217,7 @@ msgstr "Problembericht senden"
 msgid "Reset to default subject and text"
 msgstr "Auf Standardtext zurücksetzen"
 
-#: src/wx/dcp_panel.cc:658
+#: src/wx/dcp_panel.cc:662
 msgid "Resolution"
 msgstr "Auflösung"
 
@@ -1231,7 +1249,7 @@ msgstr "Root common name"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (AAM und Doremi)"
 
-#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:184
+#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:185
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -1297,7 +1315,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Encoding Server"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:113
 msgid "Set"
 msgstr "Setzen"
 
@@ -1313,7 +1331,7 @@ msgstr "Systemzeichensatz auswählen..."
 msgid "Set language"
 msgstr "Programm-Sprache einstellen"
 
-#: src/wx/dcp_panel.cc:754
+#: src/wx/dcp_panel.cc:758
 msgid "Show audio..."
 msgstr "Audiopegel anzeigen..."
 
@@ -1390,7 +1408,7 @@ msgstr "Untertitelfarbe"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:251
+#: src/wx/about_dialog.cc:252
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1414,7 +1432,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:305
+#: src/wx/about_dialog.cc:306
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -1477,7 +1495,8 @@ msgstr "Zeitleiste/Aktaufteilung ('Reels')"
 msgid "Timeline..."
 msgstr "Zeitleiste..."
 
-#: src/wx/timing_panel.cc:45
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
+#: src/wx/timing_panel.cc:46
 msgid "Timing|Timing"
 msgstr "Timing/Trimmen"
 
@@ -1489,19 +1508,19 @@ msgstr "Oben"
 msgid "Translated by"
 msgstr "Übersetzt von"
 
-#: src/wx/timing_panel.cc:100
+#: src/wx/timing_panel.cc:101
 msgid "Trim after current position"
 msgstr "Beschnitt nach aktueller Vorschauposition (Slider)"
 
-#: src/wx/timing_panel.cc:97
+#: src/wx/timing_panel.cc:98
 msgid "Trim from end"
 msgstr "Schnitt vom Ende"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:92
 msgid "Trim from start"
 msgstr "Schnitt vom Anfang"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:95
 msgid "Trim up to current position"
 msgstr "Beschnitt vor aktueller Vorschauposition (Slider)"
 
@@ -1515,7 +1534,7 @@ msgstr "Spitzenwert (True peak): %.2fdB"
 msgid "Type"
 msgstr "Typ"
 
-#: src/wx/cinema_dialog.cc:92
+#: src/wx/cinema_dialog.cc:93
 msgid "UTC"
 msgstr "UTC/GMT"
 
@@ -1523,55 +1542,55 @@ msgstr "UTC/GMT"
 msgid "UTC offset (time zone)"
 msgstr "UTC/GMT Abweichung (Zeitzone)"
 
-#: src/wx/cinema_dialog.cc:93
+#: src/wx/cinema_dialog.cc:94
 msgid "UTC+1"
 msgstr "UTC/GMT+1"
 
-#: src/wx/cinema_dialog.cc:102
+#: src/wx/cinema_dialog.cc:103
 msgid "UTC+10"
 msgstr "UTC/GMT+10"
 
-#: src/wx/cinema_dialog.cc:103
+#: src/wx/cinema_dialog.cc:104
 msgid "UTC+11"
 msgstr "UTC/GMT+11"
 
-#: src/wx/cinema_dialog.cc:104
+#: src/wx/cinema_dialog.cc:105
 msgid "UTC+12"
 msgstr "UTC/GMT+12"
 
-#: src/wx/cinema_dialog.cc:94
+#: src/wx/cinema_dialog.cc:95
 msgid "UTC+2"
 msgstr "UTC/GMT+2"
 
-#: src/wx/cinema_dialog.cc:95
+#: src/wx/cinema_dialog.cc:96
 msgid "UTC+3"
 msgstr "UTC/GMT+3"
 
-#: src/wx/cinema_dialog.cc:96
+#: src/wx/cinema_dialog.cc:97
 msgid "UTC+4"
 msgstr "UTC/GMT+4"
 
-#: src/wx/cinema_dialog.cc:97
+#: src/wx/cinema_dialog.cc:98
 msgid "UTC+5"
 msgstr "UTC/GMT+5"
 
-#: src/wx/cinema_dialog.cc:98
+#: src/wx/cinema_dialog.cc:99
 msgid "UTC+6"
 msgstr "UTC/GMT+6"
 
-#: src/wx/cinema_dialog.cc:99
+#: src/wx/cinema_dialog.cc:100
 msgid "UTC+7"
 msgstr "UTC/GMT+7"
 
-#: src/wx/cinema_dialog.cc:100
+#: src/wx/cinema_dialog.cc:101
 msgid "UTC+8"
 msgstr "UTC/GMT+8"
 
-#: src/wx/cinema_dialog.cc:101
+#: src/wx/cinema_dialog.cc:102
 msgid "UTC+9"
 msgstr "UTC/GMT+9"
 
-#: src/wx/cinema_dialog.cc:91
+#: src/wx/cinema_dialog.cc:92
 msgid "UTC-1"
 msgstr "UTC/GMT-1"
 
@@ -1583,19 +1602,19 @@ msgstr "UTC/GMT-10"
 msgid "UTC-11"
 msgstr "UTC/GMT-11"
 
-#: src/wx/cinema_dialog.cc:90
+#: src/wx/cinema_dialog.cc:91
 msgid "UTC-2"
 msgstr "UTC/GMT-2"
 
-#: src/wx/cinema_dialog.cc:89
+#: src/wx/cinema_dialog.cc:90
 msgid "UTC-3"
 msgstr "UTC/GMT-3"
 
-#: src/wx/cinema_dialog.cc:88
+#: src/wx/cinema_dialog.cc:89
 msgid "UTC-3:30"
 msgstr "UTC/GMT-3:30"
 
-#: src/wx/cinema_dialog.cc:87
+#: src/wx/cinema_dialog.cc:88
 msgid "UTC-4"
 msgstr "UTC/GMT-4"
 
@@ -1639,7 +1658,7 @@ msgstr "Nach Fertigstellung DCP auf TMS kopieren"
 msgid "Use ISDCF name"
 msgstr "ISDCF Name erzeugen"
 
-#: src/wx/dcp_panel.cc:648
+#: src/wx/dcp_panel.cc:652
 msgid "Use best"
 msgstr "Beste wählen"
 
@@ -1664,7 +1683,7 @@ msgstr "Bild"
 msgid "Video Waveform"
 msgstr "Video Waveform (Vorschau-Slider ändert Auswahl...)"
 
-#: src/wx/timing_panel.cc:108
+#: src/wx/timing_panel.cc:109
 msgid "Video frame rate"
 msgstr "Bildratenbezugswert"
 
@@ -1782,17 +1801,17 @@ msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:77
+#: src/wx/timing_panel.cc:78
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:55
+#: src/wx/timing_panel.cc:56
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:64
 msgid "m"
 msgstr "m"
 
@@ -1806,7 +1825,7 @@ msgid "port"
 msgstr "Port"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:71
 msgid "s"
 msgstr "s"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 15:38+0100\n"
+"POT-Creation-Date: 2016-04-28 23:28+0100\n"
 "PO-Revision-Date: 2016-04-19 10:07+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -48,7 +48,7 @@ msgstr "-6dB"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:224
+#: src/wx/video_panel.cc:226
 msgid "2D"
 msgstr "2D"
 
@@ -56,35 +56,35 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D verze obsahu je dostupná ve 3D"
 
-#: src/wx/dcp_panel.cc:699
+#: src/wx/dcp_panel.cc:700
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:657
+#: src/wx/dcp_panel.cc:658
 msgid "3D"
 msgstr "3D DCP"
 
-#: src/wx/video_panel.cc:227
+#: src/wx/video_panel.cc:229
 msgid "3D alternate"
 msgstr "3D alternativní"
 
-#: src/wx/video_panel.cc:228
+#: src/wx/video_panel.cc:230
 msgid "3D left only"
 msgstr "3D jen levé"
 
-#: src/wx/video_panel.cc:225
+#: src/wx/video_panel.cc:227
 msgid "3D left/right"
 msgstr "3D levé/pravé (Vedle sebe)"
 
-#: src/wx/video_panel.cc:229
+#: src/wx/video_panel.cc:231
 msgid "3D right only"
 msgstr "3D jen pravé"
 
-#: src/wx/video_panel.cc:226
+#: src/wx/video_panel.cc:228
 msgid "3D top/bottom"
 msgstr "3D horní/dolní (Pod sebou)"
 
-#: src/wx/dcp_panel.cc:700
+#: src/wx/dcp_panel.cc:701
 msgid "4K"
 msgstr "4K"
 
@@ -96,13 +96,17 @@ msgstr "<b>Nová barva</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Původní barva</b>"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/report_problem_dialog.cc:74
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
 
-#: src/wx/timing_panel.cc:124
+#. //trac.wxwidgets.org/ticket/13389
+#.
+#: src/wx/timing_panel.cc:125
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -287,7 +291,7 @@ msgstr "Ale musím používat fader"
 msgid "CC addresses"
 msgstr "CC adresa"
 
-#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:71
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:72
 #: src/wx/self_dkdm_dialog.cc:52
 msgid "CPL"
 msgstr "CPL"
@@ -324,7 +328,7 @@ msgstr "Řetěz"
 msgid "Channel gain"
 msgstr "Síla kanálu"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:743
 msgid "Channels"
 msgstr "Kanály"
 
@@ -373,7 +377,8 @@ msgstr "Barva"
 msgid "Colour conversion"
 msgstr "Konverze barev"
 
-#: src/wx/video_panel.cc:196
+#. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
+#: src/wx/video_panel.cc:198
 msgid "Colour|Custom"
 msgstr "Vlastní"
 
@@ -381,7 +386,8 @@ msgstr "Vlastní"
 msgid "Component"
 msgstr "Součást"
 
-#: src/wx/config_dialog.cc:1398
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
+#: src/wx/config_dialog.cc:1399
 msgid "Config|Timing"
 msgstr "Časování"
 
@@ -389,7 +395,7 @@ msgstr "Časování"
 msgid "Contact email"
 msgstr "Kontaktní email"
 
-#: src/wx/dcp_panel.cc:632
+#: src/wx/dcp_panel.cc:633
 msgid "Container"
 msgstr "Kontejner"
 
@@ -471,15 +477,15 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic zvuk"
 
-#: src/wx/config_dialog.cc:1400
+#: src/wx/config_dialog.cc:1401
 msgid "Debug: decode"
 msgstr "Ladění: dekódování"
 
-#: src/wx/config_dialog.cc:1404
+#: src/wx/config_dialog.cc:1405
 msgid "Debug: email sending"
 msgstr "Ladění: odeslání emailu"
 
-#: src/wx/config_dialog.cc:1402
+#: src/wx/config_dialog.cc:1403
 msgid "Debug: encode"
 msgstr "Ladění: enkódování"
 
@@ -575,7 +581,7 @@ msgstr "Upravit obraz…"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
+#: src/wx/video_panel.cc:201 src/wx/editable_list.h:84
 msgid "Edit..."
 msgstr "Upravit…"
 
@@ -663,7 +669,7 @@ msgstr "Písma"
 msgid "Fonts..."
 msgstr "Písma..."
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:644
 msgid "Frame Rate"
 msgstr "Frekvence snímků (frame rate)"
 
@@ -687,7 +693,7 @@ msgstr "Z adresy"
 msgid "Full"
 msgstr "Celé"
 
-#: src/wx/timing_panel.cc:88
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr "Celá délka"
 
@@ -777,7 +783,7 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:185
+#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:186
 msgid "Interop"
 msgstr "Interop"
 
@@ -793,7 +799,7 @@ msgstr "Soubor s kurzívou"
 msgid "Italic font"
 msgstr "Kurzíva (typ písma)"
 
-#: src/wx/dcp_panel.cc:667
+#: src/wx/dcp_panel.cc:668
 msgid "JPEG2000 bandwidth"
 msgstr "JPEG2000 bandwidth (šířka pásma)"
 
@@ -809,7 +815,8 @@ msgstr "KDM Email"
 msgid "KDM type"
 msgstr "KDM Typ"
 
-#: src/wx/kdm_dialog.cc:64
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#: src/wx/kdm_dialog.cc:65
 msgid "KDM|Timing"
 msgstr "Trvaní"
 
@@ -870,7 +877,7 @@ msgstr "Log:"
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
 
-#: src/wx/content_panel.cc:503
+#: src/wx/content_panel.cc:505
 msgid "MISSING: "
 msgstr "CHYBĚJÍCÍ:"
 
@@ -907,7 +914,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:671
+#: src/wx/dcp_panel.cc:672
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -919,7 +926,7 @@ msgstr "Přesunout vybrané části obsahu dříve ve filmu."
 msgid "Move the selected piece of content later in the film."
 msgstr "Přesunou vybrané části obsahu později ve filmu."
 
-#: src/wx/video_panel.cc:359
+#: src/wx/video_panel.cc:361
 msgid "Multiple content selected"
 msgstr "Vícenásobný výběr obsahu "
 
@@ -935,7 +942,7 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Můj problém je"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:509
 msgid "NEEDS KDM: "
 msgstr "POTŘEBNÉ KDM:"
 
@@ -965,8 +972,8 @@ msgstr "Žádné  audio nebude přeneseno z kanálu %d do DCP kanálu %d."
 msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
-#: src/wx/dcp_panel.cc:750 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
-#: src/wx/video_panel.cc:294
+#: src/wx/dcp_panel.cc:751 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/video_panel.cc:296
 msgid "None"
 msgstr "Žádný"
 
@@ -986,7 +993,7 @@ msgstr "Vypnuté"
 msgid "Only servers encode"
 msgstr "Jen enkódování přes servery"
 
-#: src/wx/config_dialog.cc:1410
+#: src/wx/config_dialog.cc:1411
 msgid "Open console window"
 msgstr "Otevřít okno s konzolou"
 
@@ -1022,7 +1029,7 @@ msgstr "Barva orámování"
 msgid "Outline content"
 msgstr "Orámovat obsah"
 
-#: src/wx/kdm_dialog.cc:78
+#: src/wx/kdm_dialog.cc:79
 msgid "Output"
 msgstr "Výstup"
 
@@ -1051,7 +1058,7 @@ msgstr "Maximum: neznámy"
 msgid "Play"
 msgstr "Přehrát"
 
-#: src/wx/timing_panel.cc:103
+#: src/wx/timing_panel.cc:104
 msgid "Play length"
 msgstr "Délka přehrávání"
 
@@ -1067,7 +1074,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Prosím čekejte; zvuk se analyzuje"
 
-#: src/wx/timing_panel.cc:85
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr "Pozice"
 
@@ -1075,7 +1082,7 @@ msgstr "Pozice"
 msgid "Pre-release"
 msgstr "Předběžné vydání"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:749
 msgid "Processor"
 msgstr "Procesor"
 
@@ -1144,7 +1151,8 @@ msgstr "Délka reelu"
 msgid "Reels"
 msgstr "Reels"
 
-#: src/wx/dcp_panel.cc:180
+#. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
+#: src/wx/dcp_panel.cc:181
 msgid "Reel|Custom"
 msgstr "Vlastní"
 
@@ -1190,7 +1198,7 @@ msgstr "Nahlásit problém"
 msgid "Reset to default subject and text"
 msgstr "Obnovit předvolený předmět a text"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:662
 msgid "Resolution"
 msgstr "Rozlišení"
 
@@ -1222,7 +1230,7 @@ msgstr "Root common name"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (pre AAM a Doremi)"
 
-#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:184
+#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:185
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -1288,7 +1296,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Servery"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:113
 msgid "Set"
 msgstr "Nastavit"
 
@@ -1304,7 +1312,7 @@ msgstr "Nastavit ze systémového písma"
 msgid "Set language"
 msgstr "Nastavit jazyk"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:758
 msgid "Show audio..."
 msgstr "Zobrazit zvuk..."
 
@@ -1381,7 +1389,7 @@ msgstr "Barva titulků"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:251
+#: src/wx/about_dialog.cc:252
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1405,7 +1413,7 @@ msgstr "Území (např. SK)"
 msgid "Test version "
 msgstr "Testovací verze"
 
-#: src/wx/about_dialog.cc:305
+#: src/wx/about_dialog.cc:306
 msgid "Tested by"
 msgstr "Testované"
 
@@ -1464,7 +1472,8 @@ msgstr "Časová osa"
 msgid "Timeline..."
 msgstr "Časová osa…"
 
-#: src/wx/timing_panel.cc:45
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
+#: src/wx/timing_panel.cc:46
 msgid "Timing|Timing"
 msgstr "Časování"
 
@@ -1476,19 +1485,19 @@ msgstr "Vrch"
 msgid "Translated by"
 msgstr "Přeložil"
 
-#: src/wx/timing_panel.cc:100
+#: src/wx/timing_panel.cc:101
 msgid "Trim after current position"
 msgstr "Oříznout po aktuální pozici"
 
-#: src/wx/timing_panel.cc:97
+#: src/wx/timing_panel.cc:98
 msgid "Trim from end"
 msgstr "Oříznout od konce"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:92
 msgid "Trim from start"
 msgstr "Oříznout od začátku"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:95
 msgid "Trim up to current position"
 msgstr "Oříznout až po aktuální pozici"
 
@@ -1627,7 +1636,7 @@ msgstr "Nahrát DCP do TMS poté co je vytvořen"
 msgid "Use ISDCF name"
 msgstr "Použít ISDCF název"
 
-#: src/wx/dcp_panel.cc:651
+#: src/wx/dcp_panel.cc:652
 msgid "Use best"
 msgstr "Použít nejlepší"
 
@@ -1652,7 +1661,7 @@ msgstr "Video"
 msgid "Video Waveform"
 msgstr "Video Waveform"
 
-#: src/wx/timing_panel.cc:108
+#: src/wx/timing_panel.cc:109
 msgid "Video frame rate"
 msgstr "Počet snímků za sekundu (frame rate)"
 
@@ -1764,17 +1773,17 @@ msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:77
+#: src/wx/timing_panel.cc:78
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:55
+#: src/wx/timing_panel.cc:56
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:64
 msgid "m"
 msgstr "m"
 
@@ -1788,7 +1797,7 @@ msgid "port"
 msgstr "port"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:71
 msgid "s"
 msgstr "s"
 

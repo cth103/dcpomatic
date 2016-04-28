@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 15:38+0100\n"
+"POT-Creation-Date: 2016-04-28 23:28+0100\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -47,7 +47,7 @@ msgstr "-6dB"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:224
+#: src/wx/video_panel.cc:226
 msgid "2D"
 msgstr "2D"
 
@@ -55,35 +55,35 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "Versão 2D de conteúdo disponível em 3D"
 
-#: src/wx/dcp_panel.cc:699
+#: src/wx/dcp_panel.cc:700
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:657
+#: src/wx/dcp_panel.cc:658
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:227
+#: src/wx/video_panel.cc:229
 msgid "3D alternate"
 msgstr "3D alternado"
 
-#: src/wx/video_panel.cc:228
+#: src/wx/video_panel.cc:230
 msgid "3D left only"
 msgstr "3D apenas esquerda"
 
-#: src/wx/video_panel.cc:225
+#: src/wx/video_panel.cc:227
 msgid "3D left/right"
 msgstr "3D esquerda/direita"
 
-#: src/wx/video_panel.cc:229
+#: src/wx/video_panel.cc:231
 msgid "3D right only"
 msgstr "3D apenas direita"
 
-#: src/wx/video_panel.cc:226
+#: src/wx/video_panel.cc:228
 msgid "3D top/bottom"
 msgstr "3D superior/inferior"
 
-#: src/wx/dcp_panel.cc:700
+#: src/wx/dcp_panel.cc:701
 msgid "4K"
 msgstr "4K"
 
@@ -95,13 +95,17 @@ msgstr "<b>Cor nova</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Cor original</b>"
 
+#. //trac.wxwidgets.org/ticket/13389
+#.
 #: src/wx/report_problem_dialog.cc:74
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
 
-#: src/wx/timing_panel.cc:124
+#. //trac.wxwidgets.org/ticket/13389
+#.
+#: src/wx/timing_panel.cc:125
 msgid ""
 "<i>Only change this if it the content's frame rate has been read incorrectly."
 "</i>"
@@ -295,7 +299,7 @@ msgstr "Mas eu tenho de usar o fader"
 msgid "CC addresses"
 msgstr "Endereços CC"
 
-#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:71
+#: src/wx/kdm_cpl_panel.cc:34 src/wx/kdm_dialog.cc:72
 #: src/wx/self_dkdm_dialog.cc:52
 msgid "CPL"
 msgstr "CPL"
@@ -332,7 +336,7 @@ msgstr "Cadeia"
 msgid "Channel gain"
 msgstr "Ganho do canal"
 
-#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:742
+#: src/wx/audio_dialog.cc:73 src/wx/dcp_panel.cc:743
 msgid "Channels"
 msgstr "Canais"
 
@@ -382,7 +386,8 @@ msgstr "Cor"
 msgid "Colour conversion"
 msgstr "Conversão de cor"
 
-#: src/wx/video_panel.cc:196
+#. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
+#: src/wx/video_panel.cc:198
 #, fuzzy
 msgid "Colour|Custom"
 msgstr "Cor"
@@ -391,7 +396,8 @@ msgstr "Cor"
 msgid "Component"
 msgstr "Componente"
 
-#: src/wx/config_dialog.cc:1398
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
+#: src/wx/config_dialog.cc:1399
 msgid "Config|Timing"
 msgstr "Duração"
 
@@ -399,7 +405,7 @@ msgstr "Duração"
 msgid "Contact email"
 msgstr "Email de contacto"
 
-#: src/wx/dcp_panel.cc:632
+#: src/wx/dcp_panel.cc:633
 msgid "Container"
 msgstr "Contentor"
 
@@ -481,15 +487,15 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "Audio do DCP-o-matic"
 
-#: src/wx/config_dialog.cc:1400
+#: src/wx/config_dialog.cc:1401
 msgid "Debug: decode"
 msgstr "Depuração: descodificação"
 
-#: src/wx/config_dialog.cc:1404
+#: src/wx/config_dialog.cc:1405
 msgid "Debug: email sending"
 msgstr "Depuração: envio de email"
 
-#: src/wx/config_dialog.cc:1402
+#: src/wx/config_dialog.cc:1403
 msgid "Debug: encode"
 msgstr "Depuração: codificação"
 
@@ -585,7 +591,7 @@ msgstr "Editar ecrã..."
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
-#: src/wx/video_panel.cc:199 src/wx/editable_list.h:84
+#: src/wx/video_panel.cc:201 src/wx/editable_list.h:84
 msgid "Edit..."
 msgstr "Editar..."
 
@@ -673,7 +679,7 @@ msgstr "Tipos de letra"
 msgid "Fonts..."
 msgstr "Tipos de letra..."
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:644
 msgid "Frame Rate"
 msgstr "Cadência de fotogramas"
 
@@ -698,7 +704,7 @@ msgstr "Endereço de origem"
 msgid "Full"
 msgstr "Total"
 
-#: src/wx/timing_panel.cc:88
+#: src/wx/timing_panel.cc:89
 msgid "Full length"
 msgstr "Duração total"
 
@@ -788,7 +794,7 @@ msgstr "Intermédio"
 msgid "Intermediate common name"
 msgstr "Nome comum intermédio"
 
-#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:185
+#: src/wx/config_dialog.cc:484 src/wx/dcp_panel.cc:186
 msgid "Interop"
 msgstr "Interop"
 
@@ -804,7 +810,7 @@ msgstr "Ficheiro de itálico"
 msgid "Italic font"
 msgstr "Tipo de letra itálico"
 
-#: src/wx/dcp_panel.cc:667
+#: src/wx/dcp_panel.cc:668
 msgid "JPEG2000 bandwidth"
 msgstr "Largura de banda JPEG2000"
 
@@ -820,7 +826,8 @@ msgstr "Email KDM"
 msgid "KDM type"
 msgstr "Tipo de KDM"
 
-#: src/wx/kdm_dialog.cc:64
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#: src/wx/kdm_dialog.cc:65
 msgid "KDM|Timing"
 msgstr "Janela de tempo"
 
@@ -882,7 +889,7 @@ msgstr "Registo:"
 msgid "Loudness range %.2f LU"
 msgstr "Variação de intensidade sonora %.2f LU"
 
-#: src/wx/content_panel.cc:503
+#: src/wx/content_panel.cc:505
 msgid "MISSING: "
 msgstr "EM FALTA:"
 
@@ -919,7 +926,7 @@ msgid "Maximum JPEG2000 bandwidth"
 msgstr "Largura de banda JPEG2000 máxima"
 
 #: src/wx/config_dialog.cc:439 src/wx/config_dialog.cc:1370
-#: src/wx/dcp_panel.cc:671
+#: src/wx/dcp_panel.cc:672
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -934,7 +941,7 @@ msgstr ""
 "Mover o fragmento de conteúdo seleccionado para o um ponto posterior do "
 "filme."
 
-#: src/wx/video_panel.cc:359
+#: src/wx/video_panel.cc:361
 msgid "Multiple content selected"
 msgstr "Conteúdo múltiplo seleccionado"
 
@@ -950,7 +957,7 @@ msgstr "Os meus documentos"
 msgid "My problem is"
 msgstr "O meu problema é"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:509
 msgid "NEEDS KDM: "
 msgstr "NECESSITA DE KDM:"
 
@@ -980,8 +987,8 @@ msgstr "Não será passado audio do canal de conteúdo %d para o canal DCP %d."
 msgid "No content found in this folder."
 msgstr "Não foi encontrado conteúdo nesta pasta."
 
-#: src/wx/dcp_panel.cc:750 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
-#: src/wx/video_panel.cc:294
+#: src/wx/dcp_panel.cc:751 src/wx/video_panel.cc:178 src/wx/video_panel.cc:192
+#: src/wx/video_panel.cc:296
 msgid "None"
 msgstr "Nenhum"
 
@@ -1001,7 +1008,7 @@ msgstr "Desligado"
 msgid "Only servers encode"
 msgstr "Apenas os servidores codificam"
 
-#: src/wx/config_dialog.cc:1410
+#: src/wx/config_dialog.cc:1411
 msgid "Open console window"
 msgstr "Abrir janela da consola"
 
@@ -1037,7 +1044,7 @@ msgstr "Cor do contorno"
 msgid "Outline content"
 msgstr "Contornar conteúdo"
 
-#: src/wx/kdm_dialog.cc:78
+#: src/wx/kdm_dialog.cc:79
 msgid "Output"
 msgstr "Saída"
 
@@ -1066,7 +1073,7 @@ msgstr "Pico: desconhecido"
 msgid "Play"
 msgstr "Reproduzir"
 
-#: src/wx/timing_panel.cc:103
+#: src/wx/timing_panel.cc:104
 msgid "Play length"
 msgstr "Duração da reprodução"
 
@@ -1082,7 +1089,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Aguarde por favor: Audio em análise..."
 
-#: src/wx/timing_panel.cc:85
+#: src/wx/timing_panel.cc:86
 msgid "Position"
 msgstr "Posição"
 
@@ -1090,7 +1097,7 @@ msgstr "Posição"
 msgid "Pre-release"
 msgstr "Pré-lançamento"
 
-#: src/wx/dcp_panel.cc:748
+#: src/wx/dcp_panel.cc:749
 msgid "Processor"
 msgstr "Processador"
 
@@ -1159,7 +1166,8 @@ msgstr "Duração da bobina"
 msgid "Reels"
 msgstr "Bobinas"
 
-#: src/wx/dcp_panel.cc:180
+#. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
+#: src/wx/dcp_panel.cc:181
 #, fuzzy
 msgid "Reel|Custom"
 msgstr "Personalizado"
@@ -1206,7 +1214,7 @@ msgstr "Reportar Um Problema"
 msgid "Reset to default subject and text"
 msgstr "Repor assunto e texto padrão"
 
-#: src/wx/dcp_panel.cc:661
+#: src/wx/dcp_panel.cc:662
 msgid "Resolution"
 msgstr "Resolução"
 
@@ -1239,7 +1247,7 @@ msgstr "Nome comum da Raiz"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (para AAM e Doremi)"
 
-#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:184
+#: src/wx/config_dialog.cc:483 src/wx/dcp_panel.cc:185
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -1305,7 +1313,7 @@ msgstr "Servidor"
 msgid "Servers"
 msgstr "Servidores"
 
-#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:112
+#: src/wx/timecode.cc:62 src/wx/timing_panel.cc:113
 msgid "Set"
 msgstr "Definir"
 
@@ -1321,7 +1329,7 @@ msgstr "Definir de fonte do sistema..."
 msgid "Set language"
 msgstr "Definir Língua"
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:758
 msgid "Show audio..."
 msgstr "Mostrar audio..."
 
@@ -1398,7 +1406,7 @@ msgstr "Cores da legenda"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:251
+#: src/wx/about_dialog.cc:252
 msgid "Supported by"
 msgstr "Apoiado por "
 
@@ -1422,7 +1430,7 @@ msgstr "Território (e.g. PT)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:305
+#: src/wx/about_dialog.cc:306
 msgid "Tested by"
 msgstr "Testado por"
 
@@ -1481,7 +1489,8 @@ msgstr "Linha de tempo"
 msgid "Timeline..."
 msgstr "Linha de tempo..."
 
-#: src/wx/timing_panel.cc:45
+#. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
+#: src/wx/timing_panel.cc:46
 msgid "Timing|Timing"
 msgstr "Duração"
 
@@ -1493,19 +1502,19 @@ msgstr "Superior"
 msgid "Translated by"
 msgstr "Traduzido por"
 
-#: src/wx/timing_panel.cc:100
+#: src/wx/timing_panel.cc:101
 msgid "Trim after current position"
 msgstr "Aparar após a posição actual"
 
-#: src/wx/timing_panel.cc:97
+#: src/wx/timing_panel.cc:98
 msgid "Trim from end"
 msgstr "Aparar do fim"
 
-#: src/wx/timing_panel.cc:91
+#: src/wx/timing_panel.cc:92
 msgid "Trim from start"
 msgstr "Aparar do início"
 
-#: src/wx/timing_panel.cc:94
+#: src/wx/timing_panel.cc:95
 msgid "Trim up to current position"
 msgstr "Aparar até à posição actual"
 
@@ -1643,7 +1652,7 @@ msgstr "Carregar DCP para TMS após a criação"
 msgid "Use ISDCF name"
 msgstr "Usar nome ISDCF"
 
-#: src/wx/dcp_panel.cc:651
+#: src/wx/dcp_panel.cc:652
 msgid "Use best"
 msgstr "Utilizar o melhor"
 
@@ -1668,7 +1677,7 @@ msgstr "Vídeo"
 msgid "Video Waveform"
 msgstr "Forma de onda de vídeo"
 
-#: src/wx/timing_panel.cc:108
+#: src/wx/timing_panel.cc:109
 msgid "Video frame rate"
 msgstr "Cadência de fotogramas de vídeo"
 
@@ -1781,17 +1790,17 @@ msgid "dB"
 msgstr "dB"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:77
+#: src/wx/timing_panel.cc:78
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:55
+#: src/wx/timing_panel.cc:56
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:63
+#: src/wx/timing_panel.cc:64
 msgid "m"
 msgstr "m"
 
@@ -1805,7 +1814,7 @@ msgid "port"
 msgstr "porta"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:70
+#: src/wx/config_dialog.cc:410 src/wx/timing_panel.cc:71
 msgid "s"
 msgstr "s"
 
