@@ -378,7 +378,7 @@ msgstr "Конвертація кольору"
 
 #: src/wx/video_panel.cc:196
 msgid "Colour|Custom"
-msgstr "Колір|Користувацьке"
+msgstr "Користувацьке"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
@@ -1149,7 +1149,7 @@ msgstr "Бобіни"
 
 #: src/wx/dcp_panel.cc:180
 msgid "Reel|Custom"
-msgstr "Бобіни|Користувацьке"
+msgstr "Користувацьке"
 
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80

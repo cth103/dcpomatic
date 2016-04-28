@@ -379,7 +379,7 @@ msgstr "Conversión de color"
 
 #: src/wx/video_panel.cc:196
 msgid "Colour|Custom"
-msgstr "Color|Personalizado"
+msgstr "Personalizado"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
@@ -1150,7 +1150,7 @@ msgstr "Bobinas"
 
 #: src/wx/dcp_panel.cc:180
 msgid "Reel|Custom"
-msgstr "Bobina|Personalizado"
+msgstr "Personalizado"
 
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
