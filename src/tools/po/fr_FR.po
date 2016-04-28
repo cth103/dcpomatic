@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-03-31 18:11+0100\n"
+"PO-Revision-Date: 2016-04-28 21:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -25,12 +25,12 @@ msgstr ""
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM créée dans %s"
 
 #: src/tools/dcpomatic_kdm.cc:293
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDMs créées dans %s"
 
 #: src/tools/dcpomatic_batch.cc:59
 msgid "&Add Film..."
@@ -128,7 +128,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:308
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr ""
+msgstr "Erreur inconnue avec le server DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:483 src/tools/dcpomatic.cc:561
 #: src/tools/dcpomatic.cc:1102 src/tools/dcpomatic_kdm.cc:324
@@ -143,7 +143,7 @@ msgstr "Mauvais paramètres pour %s (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:479 src/tools/dcpomatic.cc:557
 #: src/tools/dcpomatic_kdm.cc:320
@@ -156,7 +156,7 @@ msgstr "Recherche mises à jour"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Close without saving film"
-msgstr ""
+msgstr "Fermer sans sauvegarder le film"
 
 #: src/tools/dcpomatic.cc:527
 msgid "Could not find batch converter."
@@ -190,7 +190,7 @@ msgstr "Ouverture du DCP impossible (nautilus est introuvable)"
 
 #: src/tools/dcpomatic_kdm.cc:160
 msgid "Create KDMs"
-msgstr ""
+msgstr "Créer les KDMs"
 
 #: src/tools/dcpomatic.cc:315 src/tools/dcpomatic.cc:978
 #: src/tools/dcpomatic.cc:1014
@@ -202,22 +202,20 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic - Convertisseur par lots"
 
 #: src/tools/dcpomatic_server.cc:140
-#, fuzzy
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic - Convertisseur par lots"
+msgstr "DCP-o-matic Serveur d'Encodage"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-#, fuzzy
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic Créateur de KDM"
 
 #: src/tools/dcpomatic_kdm.cc:142
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Don't close"
-msgstr ""
+msgstr "Ne pas fermer"
 
 #: src/tools/dcpomatic.cc:841 src/tools/dcpomatic_batch.cc:74
 msgid "Encoding servers..."
@@ -231,7 +229,7 @@ msgstr "Film changé"
 
 #: src/tools/dcpomatic_server.cc:147
 msgid "Frames per second"
-msgstr ""
+msgstr "Images par seconde"
 
 #: src/tools/dcpomatic.cc:840
 msgid "Hints..."
@@ -255,7 +253,7 @@ msgstr "Nouveau...\tCtrl-N"
 
 #: src/tools/dcpomatic_kdm.cc:153
 msgid "Output"
-msgstr ""
+msgstr "Sortie"
 
 #: src/tools/dcpomatic.cc:852 src/tools/dcpomatic_kdm.cc:240
 msgid "Report a problem..."
@@ -276,7 +274,7 @@ msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
 #: src/tools/dcpomatic.cc:708
 msgid "Save film and close"
-msgstr ""
+msgstr "Enregistrer le film et fermer"
 
 #: src/tools/dcpomatic.cc:828
 msgid "Scale to fit &height"
@@ -288,12 +286,11 @@ msgstr "Adapter pour remplir largeur"
 
 #: src/tools/dcpomatic_kdm.cc:133
 msgid "Screens"
-msgstr ""
+msgstr "Ecrans"
 
 #: src/tools/dcpomatic_kdm.cc:73
-#, fuzzy
 msgid "Select DKDM file"
-msgstr "Sélectionner le film à ouvrir"
+msgstr "Sélectionner le fichier DKDM"
 
 #: src/tools/dcpomatic.cc:360 src/tools/dcpomatic_batch.cc:213
 msgid "Select film to open"
@@ -301,7 +298,7 @@ msgstr "Sélectionner le film à ouvrir"
 
 #: src/tools/dcpomatic_kdm.cc:316
 msgid "Send KDM emails"
-msgstr ""
+msgstr "Envoyer les e-mails de KDM"
 
 #: src/tools/dcpomatic.cc:426
 #, c-format

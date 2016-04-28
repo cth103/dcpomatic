@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-25 15:38+0100\n"
-"PO-Revision-Date: 2016-03-31 18:11+0100\n"
+"PO-Revision-Date: 2016-04-28 21:35+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -99,6 +99,9 @@ msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>Important : Veuillez entrer une adresse e-mail valide ici, sans quoi nous "
+"ne pourrons vous contacter pour obtenir plus de détails sur votre problème.</"
+"i>"
 
 #: src/wx/timing_panel.cc:124
 msgid ""
@@ -131,9 +134,8 @@ msgid "About DCP-o-matic"
 msgstr "À propos de DCP-o-matic"
 
 #: src/wx/screens_panel.cc:149
-#, fuzzy
 msgid "Add Cinema"
-msgstr "Ajouter cinéma"
+msgstr "Ajouter Cinéma"
 
 #: src/wx/screens_panel.cc:56
 msgid "Add Cinema..."
@@ -144,9 +146,8 @@ msgid "Add KDM..."
 msgstr "Ajouter KDM..."
 
 #: src/wx/screens_panel.cc:204
-#, fuzzy
 msgid "Add Screen"
-msgstr "Ajout une salle"
+msgstr "Ajouter Ecran"
 
 #: src/wx/screens_panel.cc:58
 msgid "Add Screen..."
@@ -382,9 +383,8 @@ msgid "Colour conversion"
 msgstr "Espace Couleurs"
 
 #: src/wx/video_panel.cc:196
-#, fuzzy
 msgid "Colour|Custom"
-msgstr "Couleur"
+msgstr "Couleur|Personnalisé"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Component"
@@ -447,9 +447,9 @@ msgid "Could not read certificate file (%s)"
 msgstr "Lecture du ficher de certificat (%s) impossible"
 
 #: src/wx/config_dialog.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr "Aucun fichier clé à lire (%s)"
+msgstr "Fichier clé illisible car trop long (%s)"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -573,14 +573,12 @@ msgid "Edit Screen..."
 msgstr "Éditer la salle"
 
 #: src/wx/screens_panel.cc:169
-#, fuzzy
 msgid "Edit cinema"
-msgstr "Éditer le cinéma"
+msgstr "Modifier Cinéma"
 
 #: src/wx/screens_panel.cc:230
-#, fuzzy
 msgid "Edit screen"
-msgstr "Éditer la salle"
+msgstr "Modifier Salle"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:129 src/wx/fonts_dialog.cc:76 src/wx/video_panel.cc:180
@@ -855,9 +853,8 @@ msgid "Left"
 msgstr "Gauche"
 
 #: src/wx/film_viewer.cc:67
-#, fuzzy
 msgid "Left eye"
-msgstr "Gauche"
+msgstr "Oeil Gauche"
 
 #: src/wx/colour_conversion_editor.cc:50
 msgid "Linearise input gamma curve for small values"
@@ -1155,9 +1152,8 @@ msgid "Reels"
 msgstr "Bobines"
 
 #: src/wx/dcp_panel.cc:180
-#, fuzzy
 msgid "Reel|Custom"
-msgstr "Personnalisé"
+msgstr "Bobine|Personnalisé"
 
 #: src/wx/audio_panel.cc:53 src/wx/subtitle_panel.cc:53
 #: src/wx/video_panel.cc:80
@@ -1218,9 +1214,8 @@ msgid "Right click to change gain."
 msgstr "Cliquez droit pour modifier le gain."
 
 #: src/wx/film_viewer.cc:68
-#, fuzzy
 msgid "Right eye"
-msgstr "Droit"
+msgstr "Oeil Droit"
 
 #: src/wx/config_dialog.cc:832
 msgid "Root"
@@ -1423,7 +1418,7 @@ msgstr "Testé par"
 
 #: src/wx/kdm_timing_panel.cc:104
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "la date de fin doit logiquement être plus tardive que la date de début"
 
 #: src/wx/content_menu.cc:307
 msgid ""
@@ -1448,6 +1443,8 @@ msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"Ce fichier contient d'autres certificats (ou données) après le premier "
+"certificat. Seul le premier sera utilisé."
 
 #: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
@@ -1524,116 +1521,104 @@ msgid "UTC offset (time zone)"
 msgstr "Différence UTC (fuseau horaire)"
 
 #: src/wx/cinema_dialog.cc:94
-#, fuzzy
 msgid "UTC+1"
-msgstr "UTC+%d"
+msgstr "UTC+1"
 
 #: src/wx/cinema_dialog.cc:103
-#, fuzzy
 msgid "UTC+10"
-msgstr "UTC+%d"
+msgstr "UTC+10"
 
 #: src/wx/cinema_dialog.cc:104
-#, fuzzy
 msgid "UTC+11"
-msgstr "UTC+%d"
+msgstr "UTC+11"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+12"
-msgstr "UTC+%d"
+msgstr "UTC+12"
 
 #: src/wx/cinema_dialog.cc:95
-#, fuzzy
 msgid "UTC+2"
-msgstr "UTC+%d"
+msgstr "UTC+2"
 
 #: src/wx/cinema_dialog.cc:96
-#, fuzzy
 msgid "UTC+3"
-msgstr "UTC+%d"
+msgstr "UTC+3"
 
 #: src/wx/cinema_dialog.cc:97
-#, fuzzy
 msgid "UTC+4"
-msgstr "UTC+%d"
+msgstr "UTC+4"
 
 #: src/wx/cinema_dialog.cc:98
-#, fuzzy
 msgid "UTC+5"
-msgstr "UTC+%d"
+msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:99
-#, fuzzy
 msgid "UTC+6"
-msgstr "UTC+%d"
+msgstr "UTC+6"
 
 #: src/wx/cinema_dialog.cc:100
-#, fuzzy
 msgid "UTC+7"
-msgstr "UTC+%d"
+msgstr "UTC+7"
 
 #: src/wx/cinema_dialog.cc:101
-#, fuzzy
 msgid "UTC+8"
-msgstr "UTC+%d"
+msgstr "UTC+8"
 
 #: src/wx/cinema_dialog.cc:102
-#, fuzzy
 msgid "UTC+9"
-msgstr "UTC+%d"
+msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:92
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/cinema_dialog.cc:81
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/cinema_dialog.cc:80
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/cinema_dialog.cc:90
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/cinema_dialog.cc:89
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/cinema_dialog.cc:87
 msgid "UTC-4:30"
-msgstr ""
+msgstr "UTC-4:30"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/cinema_dialog.cc:85
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/cinema_dialog.cc:84
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/cinema_dialog.cc:83
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/cinema_dialog.cc:82
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/content_panel.cc:92
 msgid "Up"
