@@ -1,3 +1,7 @@
+2016-04-29  Carl Hetherington  <cth@carlh.net>
+
+	* Fix incorrect date when using "copy as name" (#869).
+
 2016-04-27  Carl Hetherington  <cth@carlh.net>
 
 	* Add free-text notes field to cinemas and screens.

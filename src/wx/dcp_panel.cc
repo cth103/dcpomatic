@@ -769,7 +769,7 @@ DCPPanel::make_audio_panel ()
 void
 DCPPanel::copy_isdcf_name_button_clicked ()
 {
-	_film->set_name (_film->isdcf_name (false));
+	_film->set_name (_film->isdcf_name (true));
 	_film->set_use_isdcf_name (false);
 }
 
