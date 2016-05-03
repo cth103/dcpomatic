@@ -30,7 +30,7 @@
 #include "config.h"
 extern "C" {
 #include <libavutil/channel_layout.h>
-#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 #include <libavfilter/f_ebur128.h>
 #endif
 }
@@ -56,11 +56,11 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	, _current (0)
 	, _sample_peak (0)
 	, _sample_peak_frame (0)
-#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	, _ebur128 (new AudioFilterGraph (film->audio_frame_rate(), film->audio_channels()))
 #endif
 {
-#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	_filters.push_back (new Filter ("ebur128", "ebur128", "audio", "ebur128=peak=true"));
 	_ebur128->setup (_filters);
 #endif
@@ -116,7 +116,7 @@ AnalyseAudioJob::run ()
 		DCPTime const block = DCPTime::from_seconds (1.0 / 8);
 		for (DCPTime t = start; t < length; t += block) {
 			shared_ptr<const AudioBuffers> audio = player->get_audio (t, block, false);
-#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 			if (Config::instance()->analyse_ebur128 ()) {
 				_ebur128->process (audio);
 			}
@@ -128,7 +128,7 @@ AnalyseAudioJob::run ()
 
 	_analysis->set_sample_peak (_sample_peak, DCPTime::from_frames (_sample_peak_frame, _film->audio_frame_rate ()));
 
-#ifdef DCPOMATIC_HAVE_PATCHED_FFMPEG
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	if (Config::instance()->analyse_ebur128 ()) {
 		void* eb = _ebur128->get("Parsed_ebur128_0")->priv;
 		double true_peak = 0;

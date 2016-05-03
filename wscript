@@ -308,10 +308,9 @@ def configure(conf):
                             """,
                    msg='Checking for patched FFmpeg',
                    libpath=conf.env['LIBPATH_AVFORMAT'],
-                   lib=['avfilter', 'avutil', 'swresample'],
+                   lib='avfilter avutil swresample',
                    includes=conf.env['INCLUDES_AVFORMAT'],
-                   uselib_store='PATCHED_FFMPEG',
-                   define_name='DCPOMATIC_HAVE_PATCHED_FFMPEG',
+                   define_name='DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG',
                    mandatory=False)
 
     # Boost
