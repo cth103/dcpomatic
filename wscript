@@ -79,6 +79,8 @@ def configure(conf):
                                        '-Wno-attributes',
                                        '-Wextra',
                                        '-Wno-unused-result',
+                                       # Remove auto_ptr warnings from libxml++-2.6
+                                       '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
 
     if conf.options.enable_debug:
@@ -98,7 +100,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DUNICODE')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
-        conf.env.append_value('CXXFLAGS', '-Wno-deprecated-declarations')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
@@ -306,12 +307,49 @@ def configure(conf):
                             }\n
                             int main () { av_ebur128_get_true_peaks (0); }\n
                             """,
-                   msg='Checking for patched FFmpeg',
+                   msg='Checking for EBUR128-patched FFmpeg',
                    libpath=conf.env['LIBPATH_AVFORMAT'],
                    lib='avfilter avutil swresample',
                    includes=conf.env['INCLUDES_AVFORMAT'],
                    define_name='DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG',
                    mandatory=False)
+
+    # Check to see if we have our AVSubtitleRect has a pict member
+    # Older versions (e.g. that shipped with Ubuntu 16.04) do
+    conf.check_cxx(fragment="""
+                            extern "C" {\n
+                            #include <libavcodec/avcodec.h>\n
+                            }\n
+                            int main () { AVSubtitleRect r; r.pict; }\n
+                            """,
+                   msg='Checking for AVSubtitleRect::pict',
+                   cxxflags='-Wno-unused-result -Wno-unused-value -Wdeprecated-declarations -Werror',
+                   libpath=conf.env['LIBPATH_AVCODEC'],
+                   lib='avcodec',
+                   includes=conf.env['INCLUDES_AVCODEC'],
+                   define_name='DCPOMATIC_HAVE_AVSUBTITLERECT_PICT',
+                   mandatory=False)
+
+    # Check to see if we have our AVComponentDescriptor has a depth_minus1 member
+    # Older versions (e.g. that shipped with Ubuntu 16.04) do
+    conf.check_cxx(fragment="""
+                            extern "C" {\n
+                            #include <libavutil/pixdesc.h>\n
+                            }\n
+                            int main () { AVComponentDescriptor d; d.depth_minus1; }\n
+                            """,
+                   msg='Checking for AVComponentDescriptor::depth_minus1',
+                   cxxflags='-Wno-unused-result -Wno-unused-value -Wdeprecated-declarations -Werror',
+                   libpath=conf.env['LIBPATH_AVUTIL'],
+                   lib='avutil',
+                   includes=conf.env['INCLUDES_AVUTIL'],
+                   define_name='DCPOMATIC_HAVE_AVCOMPONENTDESCRIPTOR_DEPTH_MINUS1',
+                   mandatory=False)
+
+    # Hack: the previous two check_cxx calls end up copying their (necessary) cxxflags
+    # to these variables.  We don't want to use these for the actual build, so clearn them out.
+    conf.env['CXXFLAGS_AVCODEC'] = []
+    conf.env['CXXFLAGS_AVUTIL'] = []
 
     # Boost
     if conf.options.static_boost:

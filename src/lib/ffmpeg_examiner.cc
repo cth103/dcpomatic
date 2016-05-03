@@ -249,6 +249,19 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 
 		for (unsigned int i = 0; i < sub.num_rects; ++i) {
 			if (sub.rects[i]->type == SUBTITLE_BITMAP) {
+#ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
+				uint32_t* palette = (uint32_t *) sub.rects[i]->pict.data[1];
+				for (int j = 0; j < sub.rects[i]->nb_colors; ++j) {
+					RGBA rgba  (
+						(palette[j] & 0x00ff0000) >> 16,
+						(palette[j] & 0x0000ff00) >> 8,
+						(palette[j] & 0x000000ff) >> 0,
+						(palette[j] & 0xff000000) >> 24
+						);
+
+					stream->set_colour (rgba, rgba);
+				}
+#else
 				uint32_t* palette = (uint32_t *) sub.rects[i]->data[1];
 				for (int j = 0; j < sub.rects[i]->nb_colors; ++j) {
 					RGBA rgba  (
@@ -260,6 +273,7 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 
 					stream->set_colour (rgba, rgba);
 				}
+#endif
 			}
 		}
 
