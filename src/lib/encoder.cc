@@ -386,7 +386,9 @@ Encoder::servers_list_changed ()
 	info.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
 	GetVersionEx (&info);
 	bool const windows_xp = (info.dwMajorVersion == 5 && info.dwMinorVersion == 1);
-	LOG_GENERAL_NC (N_("Setting thread affinity for Windows XP"));
+	if (windows_xp) {
+		LOG_GENERAL_NC (N_("Setting thread affinity for Windows XP"));
+	}
 #endif
 
 	if (!Config::instance()->only_servers_encode ()) {
