@@ -200,43 +200,11 @@ ReelWriter::check_existing_picture_asset ()
 		_first_nonexistant_frame = n;
 	}
 
-	bool ok = false;
-
-	while (!ok && _first_nonexistant_frame > 0) {
-
-		LOG_GENERAL ("Checking first nonexistant frame %1", _first_nonexistant_frame);
-
-		/* Read the data from the info file; for 3D we just check the left
-		   frames until we find a good one.
-		*/
-		dcp::FrameInfo info = read_frame_info (info_file, _first_nonexistant_frame, _film->three_d () ? EYES_LEFT : EYES_BOTH);
-
-		ok = true;
-
-		/* Read the data from the asset and hash it */
-		dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
-		Data data (info.size);
-		size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
-		LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
-		if (read != static_cast<size_t> (data.size ())) {
-			LOG_GENERAL ("Existing frame %1 is incomplete", _first_nonexistant_frame);
-			ok = false;
-		} else {
-			MD5Digester digester;
-			digester.add (data.data().get(), data.size());
-			LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
-			if (digester.get() != info.hash) {
-				LOG_GENERAL ("Existing frame %1 failed hash check", _first_nonexistant_frame);
-				ok = false;
-			}
-		}
-
-		if (!ok) {
-			--_first_nonexistant_frame;
-		}
+	while (!existing_picture_frame_ok(asset_file, info_file) && _first_nonexistant_frame > 0) {
+		--_first_nonexistant_frame;
 	}
 
-	if (!_film->three_d() && ok) {
+	if (!_film->three_d() && _first_nonexistant_frame > 0) {
 		/* If we are doing 3D we might have found a good L frame with no R, so only
 		   do this if we're in 2D and we've just found a good B(oth) frame.
 		*/
@@ -501,4 +469,37 @@ ReelWriter::write (PlayerSubtitles subs)
 		i.set_out (i.out() - dcp::Time (_period.from.seconds(), i.out().tcr));
 		_subtitle_asset->add (i);
 	}
+}
+
+bool
+ReelWriter::existing_picture_frame_ok (FILE* asset_file, FILE* info_file) const
+{
+	LOG_GENERAL ("Checking existing picture frame %1", _first_nonexistant_frame);
+
+	/* Read the data from the info file; for 3D we just check the left
+	   frames until we find a good one.
+	*/
+	dcp::FrameInfo const info = read_frame_info (info_file, _first_nonexistant_frame, _film->three_d () ? EYES_LEFT : EYES_BOTH);
+
+	bool ok = true;
+
+	/* Read the data from the asset and hash it */
+	dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
+	Data data (info.size);
+	size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
+	LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
+	if (read != static_cast<size_t> (data.size ())) {
+		LOG_GENERAL ("Existing frame %1 is incomplete", _first_nonexistant_frame);
+		ok = false;
+	} else {
+		MD5Digester digester;
+		digester.add (data.data().get(), data.size());
+		LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
+		if (digester.get() != info.hash) {
+			LOG_GENERAL ("Existing frame %1 failed hash check", _first_nonexistant_frame);
+			ok = false;
+		}
+	}
+
+	return ok;
 }
