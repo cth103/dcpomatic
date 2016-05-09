@@ -178,10 +178,13 @@ ReelWriter::check_existing_picture_asset ()
 	if (!asset_file) {
 		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file().string(), errno);
 		return;
+	} else {
+		LOG_GENERAL ("Opened existing asset at %1", _picture_asset->file().string());
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
 	int const n = (boost::filesystem::file_size (_film->info_file(_period)) / _info_size) - 1;
+	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size (_film->info_file(_period)), _info_size);
 
 	FILE* info_file = fopen_boost (_film->info_file(_period), "rb");
 	if (!info_file) {
@@ -200,6 +203,9 @@ ReelWriter::check_existing_picture_asset ()
 	bool ok = false;
 
 	while (!ok && _first_nonexistant_frame > 0) {
+
+		LOG_GENERAL ("Checking first nonexistant frame %1", _first_nonexistant_frame);
+
 		/* Read the data from the info file; for 3D we just check the left
 		   frames until we find a good one.
 		*/
@@ -211,12 +217,14 @@ ReelWriter::check_existing_picture_asset ()
 		dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
 		Data data (info.size);
 		size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
+		LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
 		if (read != static_cast<size_t> (data.size ())) {
 			LOG_GENERAL ("Existing frame %1 is incomplete", _first_nonexistant_frame);
 			ok = false;
 		} else {
 			MD5Digester digester;
 			digester.add (data.data().get(), data.size());
+			LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
 			if (digester.get() != info.hash) {
 				LOG_GENERAL ("Existing frame %1 failed hash check", _first_nonexistant_frame);
 				ok = false;
@@ -234,6 +242,8 @@ ReelWriter::check_existing_picture_asset ()
 		*/
 		++_first_nonexistant_frame;
 	}
+
+	LOG_GENERAL ("Proceeding with first nonexistant frame %1", _first_nonexistant_frame);
 
 	fclose (asset_file);
 	fclose (info_file);
