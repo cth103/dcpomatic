@@ -50,6 +50,7 @@ int const ContentProperty::POSITION = 401;
 int const ContentProperty::LENGTH = 402;
 int const ContentProperty::TRIM_START = 403;
 int const ContentProperty::TRIM_END = 404;
+int const ContentProperty::VIDEO_FRAME_RATE = 405;
 
 Content::Content (shared_ptr<const Film> film)
 	: _film (film)
@@ -157,7 +158,6 @@ Content::signal_changed (int p)
 {
 	try {
 		emit (boost::bind (boost::ref (Changed), shared_from_this (), p, _change_signals_frequent));
-		changed (p);
 	} catch (boost::bad_weak_ptr) {
 		/* This must be during construction; never mind */
 	}
@@ -307,4 +307,34 @@ Content::reel_split_points () const
 	/* XXX: this is questionable; perhaps the position itself should be forced to be on a frame boundary */
 	t.push_back (position().round_up (film()->video_frame_rate()));
 	return t;
+}
+
+void
+Content::set_video_frame_rate (double r)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_video_frame_rate = r;
+	}
+
+	signal_changed (ContentProperty::VIDEO_FRAME_RATE);
+}
+
+double
+Content::active_video_frame_rate () const
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_video_frame_rate) {
+			return _video_frame_rate.get ();
+		}
+	}
+
+	/* No frame rate specified, so assume this content has been
+	   prepared for any concurrent video content or perhaps
+	   just the DCP rate.
+	*/
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	return film->active_frame_rate_change(position()).source;
 }

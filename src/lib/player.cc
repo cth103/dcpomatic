@@ -80,19 +80,19 @@ using boost::scoped_ptr;
 static bool
 has_video (Content* c)
 {
-	return c->video;
+	return static_cast<bool>(c->video);
 }
 
 static bool
 has_audio (Content* c)
 {
-	return c->audio;
+	return static_cast<bool>(c->audio);
 }
 
 static bool
 has_subtitle (Content* c)
 {
-	return c->subtitle;
+	return static_cast<bool>(c->subtitle);
 }
 
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
@@ -132,13 +132,13 @@ Player::setup_pieces ()
 		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
 		if (fc) {
 			decoder.reset (new FFmpegDecoder (fc, _film->log(), _fast));
-			frc = FrameRateChange (fc->video->frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (fc->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
 		if (dc) {
 			decoder.reset (new DCPDecoder (dc, _film->log(), _fast));
-			frc = FrameRateChange (dc->video->frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (dc->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* ImageContent */
@@ -156,7 +156,7 @@ Player::setup_pieces ()
 				decoder.reset (new ImageDecoder (ic, _film->log()));
 			}
 
-			frc = FrameRateChange (ic->video->frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (ic->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* SndfileContent */
@@ -180,7 +180,7 @@ Player::setup_pieces ()
 			}
 
 			if (best_overlap) {
-				frc = FrameRateChange (best_overlap->video->frame_rate(), _film->video_frame_rate ());
+				frc = FrameRateChange (best_overlap->active_video_frame_rate(), _film->video_frame_rate ());
 			} else {
 				/* No video overlap; e.g. if the DCP is just audio */
 				frc = FrameRateChange (_film->video_frame_rate(), _film->video_frame_rate ());
@@ -196,14 +196,14 @@ Player::setup_pieces ()
 		shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (i);
 		if (rc) {
 			decoder.reset (new TextSubtitleDecoder (rc));
-			frc = FrameRateChange (rc->subtitle->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (rc->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		/* DCPSubtitleContent */
 		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (dsc) {
 			decoder.reset (new DCPSubtitleDecoder (dsc));
-			frc = FrameRateChange (dsc->subtitle->video_frame_rate(), _film->video_frame_rate());
+			frc = FrameRateChange (dsc->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
 		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
@@ -248,6 +248,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		Changed (frequent);
 
 	} else if (
+		property == ContentProperty::VIDEO_FRAME_RATE ||
 		property == SubtitleContentProperty::USE ||
 		property == SubtitleContentProperty::X_OFFSET ||
 		property == SubtitleContentProperty::Y_OFFSET ||
@@ -256,7 +257,6 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == SubtitleContentProperty::FONTS ||
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
-		property == VideoContentProperty::FRAME_RATE ||
 		property == VideoContentProperty::FADE_IN ||
 		property == VideoContentProperty::FADE_OUT ||
 		property == VideoContentProperty::COLOUR_CONVERSION

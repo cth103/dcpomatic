@@ -86,6 +86,6 @@ TextSubtitleContent::as_xml (xmlpp::Node* node) const
 DCPTime
 TextSubtitleContent::full_length () const
 {
-	FrameRateChange const frc (subtitle->video_frame_rate(), film()->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate ());
 	return DCPTime (_length, frc);
 }

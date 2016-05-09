@@ -86,7 +86,7 @@ print_dump (shared_ptr<Film> film)
 
 		if (c->video) {
 			cout << "\t" << c->video->size().width << "x" << c->video->size().height << "\n"
-			     << "\t" << c->video->frame_rate() << "fps\n"
+			     << "\t" << c->active_video_frame_rate() << "fps\n"
 			     << "\tcrop left " << c->video->left_crop()
 			     << " right " << c->video->right_crop()
 			     << " top " << c->video->top_crop()

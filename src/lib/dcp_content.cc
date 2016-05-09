@@ -193,7 +193,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 DCPTime
 DCPContent::full_length () const
 {
-	FrameRateChange const frc (video->frame_rate (), film()->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate (), film()->video_frame_rate ());
 	return DCPTime::from_frames (llrint (video->length () * frc.factor ()), film()->video_frame_rate ());
 }
 
@@ -362,12 +362,4 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
 	/* XXX: this needs to be fixed */
 	return true;
-}
-
-void
-DCPContent::changed (int property)
-{
-	if (property == VideoContentProperty::FRAME_RATE && subtitle) {
-		subtitle->set_video_frame_rate (video->frame_rate ());
-	}
 }

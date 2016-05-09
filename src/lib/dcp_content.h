@@ -65,8 +65,6 @@ public:
 	void set_default_colour_conversion ();
 	std::list<DCPTime> reel_split_points () const;
 
-	void changed (int property);
-
 	boost::filesystem::path directory () const;
 
 	bool encrypted () const {

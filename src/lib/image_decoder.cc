@@ -35,7 +35,7 @@ using boost::shared_ptr;
 using dcp::Size;
 
 ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> log)
-	: VideoDecoder (c->video, log)
+	: VideoDecoder (c, log)
 	, _image_content (c)
 	, _video_position (0)
 {
@@ -71,5 +71,5 @@ void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
 	VideoDecoder::seek (time, accurate);
-	_video_position = time.frames_round (_image_content->video->frame_rate ());
+	_video_position = time.frames_round (_image_content->active_video_frame_rate ());
 }

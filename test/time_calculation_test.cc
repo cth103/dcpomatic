@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, no trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, 1.5s trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, no trim, content rate 24, DCP rate 25 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.6));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -264,7 +264,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -278,7 +278,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -296,7 +296,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (48);
+	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -308,7 +308,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (48);
+	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -322,7 +322,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (48);
+	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	/* Position 0s, no trim, content rate 29.9978733, DCP rate 30 */
 	content->set_position (DCPTime::from_seconds (0));
 	content->set_trim_start (ContentTime::from_seconds (0));
-	content->video->set_frame_rate (29.9978733);
+	content->set_video_frame_rate (29.9978733);
 	film->set_video_frame_rate (30);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -367,7 +367,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -379,7 +379,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, no trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -391,7 +391,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, 1.5s trim, content rate = DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -407,7 +407,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -419,7 +419,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, no trim, content rate 24, DCP rate 25 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -431,7 +431,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, 1.6s trim, content rate 24, DCP rate 25, so the 1.6s trim is at 24fps */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.6));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -449,7 +449,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -461,7 +461,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -473,7 +473,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -490,7 +490,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (48);
+	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -502,7 +502,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (48);
+	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -514,7 +514,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (48);
+	content->set_video_frame_rate (48);
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1);
@@ -544,7 +544,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 0, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -557,7 +557,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -572,7 +572,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, 1.5s trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -587,7 +587,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 0, no trim, content video rate 24, DCP video rate 25, both audio rates still 48k */
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -600,7 +600,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, no trim, content video rate 24, DCP rate 25, both audio rates still 48k. */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -617,7 +617,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	*/
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.6));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (25);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -636,7 +636,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -649,7 +649,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -664,7 +664,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -682,7 +682,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	*/
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (48);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -695,7 +695,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, no trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -710,7 +710,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, 1.5s trim, content rate 24, DCP rate 48 */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
@@ -725,7 +725,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 0, no trim, video content rate = video DCP rate, content audio rate = 44.1k */
 	content->set_position (DCPTime ());
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
 	player->setup_pieces ();
@@ -738,7 +738,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, no trim, video content rate = video DCP rate, content audio rate = 44.1k */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime ());
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
 	player->setup_pieces ();
@@ -753,7 +753,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Position 3s, 1.5s trim, video content rate = video DCP rate, content audio rate = 44.1k */
 	content->set_position (DCPTime::from_seconds (3));
 	content->set_trim_start (ContentTime::from_seconds (1.5));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 44100;
 	player->setup_pieces ();
@@ -768,7 +768,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	/* Check with a large start trim */
 	content->set_position (DCPTime::from_seconds (0));
 	content->set_trim_start (ContentTime::from_seconds (54143));
-	content->video->set_frame_rate (24);
+	content->set_video_frame_rate (24);
 	film->set_video_frame_rate (24);
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();

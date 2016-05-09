@@ -47,10 +47,9 @@ int const SubtitleContentProperty::USE = 504;
 int const SubtitleContentProperty::BURN = 505;
 int const SubtitleContentProperty::LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
-int const SubtitleContentProperty::VIDEO_FRAME_RATE = 508;
-int const SubtitleContentProperty::COLOUR = 509;
-int const SubtitleContentProperty::OUTLINE = 510;
-int const SubtitleContentProperty::OUTLINE_COLOUR = 511;
+int const SubtitleContentProperty::COLOUR = 508;
+int const SubtitleContentProperty::OUTLINE = 509;
+int const SubtitleContentProperty::OUTLINE_COLOUR = 510;
 
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 	: ContentPart (parent, film)
@@ -86,7 +85,6 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 		node->optional_number_child<int>("OutlineGreen").get_value_or(255),
 		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
 		)
-	, _frame_rate (node->optional_number_child<double>("SubtitleFrameRate"))
 {
 	if (version >= 32) {
 		_use = node->bool_child ("UseSubtitles");
@@ -315,28 +313,4 @@ void
 SubtitleContent::set_language (string language)
 {
 	maybe_set (_language, language, SubtitleContentProperty::LANGUAGE);
-}
-
-void
-SubtitleContent::set_video_frame_rate (double r)
-{
-	maybe_set (_frame_rate, r, SubtitleContentProperty::VIDEO_FRAME_RATE);
-}
-
-double
-SubtitleContent::video_frame_rate () const
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		if (_frame_rate) {
-			return _frame_rate.get ();
-		}
-	}
-
-	/* No frame rate specified, so assume this content has been
-	   prepared for any concurrent video content.
-	*/
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return film->active_frame_rate_change(_parent->position()).source;
 }

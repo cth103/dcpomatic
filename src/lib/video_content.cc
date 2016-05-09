@@ -42,13 +42,12 @@
 #define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::SIZE	  = 0;
-int const VideoContentProperty::FRAME_RATE  = 1;
-int const VideoContentProperty::FRAME_TYPE  = 2;
-int const VideoContentProperty::CROP	  = 3;
-int const VideoContentProperty::SCALE	  = 4;
-int const VideoContentProperty::COLOUR_CONVERSION = 5;
-int const VideoContentProperty::FADE_IN     = 6;
-int const VideoContentProperty::FADE_OUT    = 7;
+int const VideoContentProperty::FRAME_TYPE  = 1;
+int const VideoContentProperty::CROP	  = 2;
+int const VideoContentProperty::SCALE	  = 3;
+int const VideoContentProperty::COLOUR_CONVERSION = 4;
+int const VideoContentProperty::FADE_IN     = 5;
+int const VideoContentProperty::FADE_OUT    = 6;
 
 using std::string;
 using std::setprecision;
@@ -81,7 +80,13 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::
 {
 	_size.width = node->number_child<int> ("VideoWidth");
 	_size.height = node->number_child<int> ("VideoHeight");
-	_frame_rate = node->optional_number_child<double> ("VideoFrameRate");
+
+	/* Backwards compatibility */
+	optional<double> r = node->optional_number_child<double>("VideoFrameRate");
+	if (r) {
+		_parent->set_video_frame_rate (r.get ());
+	}
+
 	_length = node->number_child<Frame> ("VideoLength");
 	_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
 	_sample_aspect_ratio = node->optional_number_child<double> ("SampleAspectRatio");
@@ -128,10 +133,6 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, vector
 			throw JoinError (_("Content to be joined must have the same picture size."));
 		}
 
-		if (c[i]->video->frame_rate() != ref->frame_rate()) {
-			throw JoinError (_("Content to be joined must have the same video frame rate."));
-		}
-
 		if (c[i]->video->frame_type() != ref->frame_type()) {
 			throw JoinError (_("Content to be joined must have the same video frame type."));
 		}
@@ -160,7 +161,6 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, vector
 	}
 
 	_size = ref->size ();
-	_frame_rate = ref->frame_rate ();
 	_frame_type = ref->frame_type ();
 	_crop = ref->crop ();
 	_scale = ref->scale ();
@@ -176,9 +176,6 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_length));
 	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_size.width));
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_size.height));
-	if (_frame_rate) {
-		node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_frame_rate.get()));
-	}
 	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_frame_type)));
 	if (_sample_aspect_ratio) {
 		node->add_child("SampleAspectRatio")->add_child_text (raw_convert<string> (_sample_aspect_ratio.get ()));
@@ -198,7 +195,6 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	dcp::Size const vs = d->video_size ();
-	optional<double> const vfr = d->video_frame_rate ();
 	Frame vl = d->video_length ();
 	optional<double> const ar = d->sample_aspect_ratio ();
 	bool const yuv = d->yuv ();
@@ -206,7 +202,6 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_size = vs;
-		_frame_rate = vfr;
 		_length = vl;
 		_sample_aspect_ratio = ar;
 		_yuv = yuv;
@@ -221,8 +216,11 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);
 
+	if (d->video_frame_rate()) {
+		_parent->set_video_frame_rate (d->video_frame_rate().get());
+	}
+
 	_parent->signal_changed (VideoContentProperty::SIZE);
-	_parent->signal_changed (VideoContentProperty::FRAME_RATE);
 	_parent->signal_changed (VideoContentProperty::SCALE);
 	_parent->signal_changed (ContentProperty::LENGTH);
 }
@@ -251,11 +249,10 @@ string
 VideoContent::technical_summary () const
 {
 	string s = String::compose (
-		N_("video: length %1 frames, size %2x%3, rate %4"),
+		N_("video: length %1 frames, size %2x%3"),
 		length_after_3d_combine(),
 		size().width,
-		size().height,
-		frame_rate()
+		size().height
 		);
 
 	if (sample_aspect_ratio ()) {
@@ -325,12 +322,17 @@ VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 
-	Frame const ts = _parent->trim_start().frames_round(frame_rate());
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+
+	double const vfr = _parent->active_video_frame_rate ();
+
+	Frame const ts = _parent->trim_start().frames_round(vfr);
 	if ((f - ts) < fade_in()) {
 		return double (f - ts) / fade_in();
 	}
 
-	Frame fade_out_start = length() - _parent->trim_end().frames_round(frame_rate()) - fade_out();
+	Frame fade_out_start = length() - _parent->trim_end().frames_round(vfr) - fade_out();
 	if (f >= fade_out_start) {
 		return 1 - double (f - fade_out_start) / fade_out();
 	}
@@ -396,12 +398,6 @@ VideoContent::processing_description () const
 		d << " (" << fixed << setprecision(2) << container_size.ratio () << ":1)\n";
 	}
 
-	d << _("Content frame rate");
-	d << " " << fixed << setprecision(4) << frame_rate() << "\n";
-
-	FrameRateChange frc (frame_rate(), film->video_frame_rate ());
-	d << frc.description () << "\n";
-
 	return d.str ();
 }
 
@@ -410,16 +406,6 @@ VideoContent::add_properties (list<UserProperty>& p) const
 {
 	p.push_back (UserProperty (_("Video"), _("Length"), raw_convert<string> (length ()), _("video frames")));
 	p.push_back (UserProperty (_("Video"), _("Size"), raw_convert<string> (size().width) + "x" + raw_convert<string> (size().height)));
-	p.push_back (UserProperty (_("Video"), _("Frame rate"), raw_convert<string> (frame_rate(), 5), _("frames per second")));
-}
-
-double
-VideoContent::frame_rate () const
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	return _frame_rate.get_value_or (film->video_frame_rate ());
 }
 
 void
@@ -456,12 +442,6 @@ void
 VideoContent::set_scale (VideoContentScale s)
 {
 	maybe_set (_scale, s, VideoContentProperty::SCALE);
-}
-
-void
-VideoContent::set_frame_rate (double r)
-{
-	maybe_set (_frame_rate, r, VideoContentProperty::FRAME_RATE);
 }
 
 void

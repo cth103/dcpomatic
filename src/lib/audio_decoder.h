@@ -42,10 +42,6 @@ class AudioDecoder : public virtual Decoder, public boost::enable_shared_from_th
 public:
 	AudioDecoder (boost::shared_ptr<const AudioContent>, bool fast, boost::shared_ptr<Log> log);
 
-	boost::shared_ptr<const AudioContent> audio_content () const {
-		return _audio_content;
-	}
-
 	/** Try to fetch some audio from a specific place in this content.
 	 *  @param frame Frame to start from (after resampling, if applicable)
 	 *  @param length Frames to get (after resampling, if applicable)

@@ -296,7 +296,7 @@ operator!= (FFmpegStream const & a, FFmpegStream const & b)
 DCPTime
 FFmpegContent::full_length () const
 {
-	FrameRateChange const frc (video->frame_rate (), film()->video_frame_rate ());
+	FrameRateChange const frc (active_video_frame_rate (), film()->video_frame_rate ());
 	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
 }
 
@@ -497,14 +497,6 @@ void
 FFmpegContent::signal_subtitle_stream_changed ()
 {
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAM);
-}
-
-void
-FFmpegContent::changed (int property)
-{
-	if (property == VideoContentProperty::FRAME_RATE && subtitle) {
-		subtitle->set_video_frame_rate (video->frame_rate ());
-	}
 }
 
 vector<shared_ptr<FFmpegAudioStream> >

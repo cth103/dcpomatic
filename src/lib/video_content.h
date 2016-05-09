@@ -39,7 +39,6 @@ class VideoContentProperty
 {
 public:
 	static int const SIZE;
-	static int const FRAME_RATE;
 	static int const FRAME_TYPE;
 	static int const CROP;
 	static int const SCALE;
@@ -78,18 +77,7 @@ public:
 		return _size;
 	}
 
-	double frame_rate () const;
-
-	/** @return true if this content has a specific video frame rate, false
-	 *  if it should use the DCP's rate.
-	 */
-	bool has_own_frame_rate () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return static_cast<bool>(_frame_rate);
-	}
-
 	void set_frame_type (VideoFrameType);
-	void set_frame_rate (double);
 
 	void set_left_crop (int);
 	void set_right_crop (int);
@@ -189,8 +177,6 @@ private:
 	void setup_default_colour_conversion ();
 
 	Frame _length;
-	/** Video frame rate, or not set if this content should use the DCP's frame rate */
-	boost::optional<double> _frame_rate;
 	boost::optional<ColourConversion> _colour_conversion;
 	dcp::Size _size;
 	VideoFrameType _frame_type;

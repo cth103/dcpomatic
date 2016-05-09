@@ -273,13 +273,10 @@ VideoPanel::film_content_changed (int property)
 		fcs = dynamic_pointer_cast<FFmpegContent> (vcs);
 	}
 
-	if (property == VideoContentProperty::FRAME_TYPE) {
-		setup_description ();
-	} else if (property == VideoContentProperty::CROP) {
-		setup_description ();
-	} else if (property == VideoContentProperty::SCALE) {
-		setup_description ();
-	} else if (property == VideoContentProperty::FRAME_RATE) {
+	if (property == ContentProperty::VIDEO_FRAME_RATE ||
+	    property == VideoContentProperty::FRAME_TYPE ||
+	    property == VideoContentProperty::CROP ||
+	    property == VideoContentProperty::SCALE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
 		if (vcs && vcs->video->colour_conversion ()) {
@@ -316,8 +313,8 @@ VideoPanel::film_content_changed (int property)
 
 		if (check.size() == 1) {
 			_fade_in->set (
-				ContentTime::from_frames (vc.front()->video->fade_in (), vc.front()->video->frame_rate ()),
-				vc.front()->video->frame_rate ()
+				ContentTime::from_frames (vc.front()->video->fade_in (), vc.front()->active_video_frame_rate ()),
+				vc.front()->active_video_frame_rate ()
 				);
 		} else {
 			_fade_in->clear ();
@@ -330,8 +327,8 @@ VideoPanel::film_content_changed (int property)
 
 		if (check.size() == 1) {
 			_fade_out->set (
-				ContentTime::from_frames (vc.front()->video->fade_out (), vc.front()->video->frame_rate ()),
-				vc.front()->video->frame_rate ()
+				ContentTime::from_frames (vc.front()->video->fade_out (), vc.front()->active_video_frame_rate ()),
+				vc.front()->active_video_frame_rate ()
 				);
 		} else {
 			_fade_out->clear ();
@@ -433,8 +430,8 @@ VideoPanel::content_selection_changed ()
 	_bottom_crop->set_content (video_sel);
 	_scale->set_content (video_sel);
 
+	film_content_changed (ContentProperty::VIDEO_FRAME_RATE);
 	film_content_changed (VideoContentProperty::CROP);
-	film_content_changed (VideoContentProperty::FRAME_RATE);
 	film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
 	film_content_changed (VideoContentProperty::FADE_IN);
 	film_content_changed (VideoContentProperty::FADE_OUT);

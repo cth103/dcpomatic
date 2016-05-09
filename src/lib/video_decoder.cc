@@ -34,7 +34,7 @@ using std::back_inserter;
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c, shared_ptr<Log> log)
+VideoDecoder::VideoDecoder (shared_ptr<const Content> c, shared_ptr<Log> log)
 #ifdef DCPOMATIC_DEBUG
 	: test_gaps (0)
 	, _video_content (c)
@@ -45,7 +45,7 @@ VideoDecoder::VideoDecoder (shared_ptr<const VideoContent> c, shared_ptr<Log> lo
 	, _last_seek_accurate (true)
 	, _ignore_video (false)
 {
-	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_content->size(), true));
+	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_content->video->size(), true));
 	_black_image->make_black ();
 }
 
@@ -83,7 +83,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
-		seek (ContentTime::from_frames (frame, _video_content->frame_rate()), accurate);
+		seek (ContentTime::from_frames (frame, _video_content->active_video_frame_rate()), accurate);
 	}
 
 	list<ContentVideo> dec;
@@ -257,7 +257,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 
 	/* Work out what we are going to push into _decoded_video next */
 	list<ContentVideo> to_push;
-	switch (_video_content->frame_type ()) {
+	switch (_video_content->video->frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
 		to_push.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
@@ -297,7 +297,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	optional<Frame> to;
 
 	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
-		from = _last_seek_time->frames_round (_video_content->frame_rate ());
+		from = _last_seek_time->frames_round (_video_content->active_video_frame_rate ());
 		to = to_push.front().frame;
 	} else if (!_decoded_video.empty ()) {
 		from = _decoded_video.back().frame + 1;
@@ -313,7 +313,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	if (from) {
-		switch (_video_content->frame_type ()) {
+		switch (_video_content->video->frame_type ()) {
 		case VIDEO_FRAME_TYPE_2D:
 			fill_one_eye (from.get(), to.get (), EYES_BOTH);
 			break;

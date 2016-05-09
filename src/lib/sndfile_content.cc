@@ -114,6 +114,6 @@ SndfileContent::examine (shared_ptr<Job> job)
 DCPTime
 SndfileContent::full_length () const
 {
-	FrameRateChange const frc (audio->video_frame_rate(), film()->video_frame_rate());
+	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate());
 	return DCPTime::from_frames (audio_length() / frc.speed_up, audio->stream()->frame_rate ());
 }

@@ -334,7 +334,7 @@ ContentPanel::add_folder_clicked ()
 			return;
 		}
 
-		ic->video->set_frame_rate (frame_rate);
+		ic->set_video_frame_rate (frame_rate);
 	}
 
 	_film->examine_and_add_content (content);

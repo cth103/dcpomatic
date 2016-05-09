@@ -72,12 +72,12 @@ using boost::split;
 using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
-	: VideoDecoder (c->video, log)
+	: VideoDecoder (c, log)
 	, AudioDecoder (c->audio, fast, log)
 	, SubtitleDecoder (c->subtitle)
 	, FFmpeg (c)
 	, _log (log)
-	, _pts_offset (pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->video->frame_rate()))
+	, _pts_offset (pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate()))
 {
 }
 
@@ -413,7 +413,7 @@ FFmpegDecoder::decode_video_packet ()
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset.seconds ();
 			video (
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
-				llrint (pts * _ffmpeg_content->video->frame_rate ())
+				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
 		} else {
 			LOG_WARNING_NC ("Dropping frame without PTS");

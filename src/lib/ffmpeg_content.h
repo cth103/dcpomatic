@@ -65,8 +65,6 @@ public:
 
 	void set_filters (std::vector<Filter const *> const &);
 
-	void changed (int property);
-
 	std::vector<boost::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_streams;

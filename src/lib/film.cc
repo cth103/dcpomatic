@@ -1096,7 +1096,7 @@ Film::playlist_content_changed (weak_ptr<Content> c, int p, bool frequent)
 {
 	_dirty = true;
 
-	if (p == VideoContentProperty::FRAME_RATE) {
+	if (p == ContentProperty::VIDEO_FRAME_RATE) {
 		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
 	} else if (p == AudioContentProperty::STREAMS) {
 		signal_changed (NAME);

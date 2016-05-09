@@ -124,7 +124,7 @@ ImageContent::full_length () const
 {
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	FrameRateChange const frc (video->frame_rate(), film->video_frame_rate());
+	FrameRateChange const frc (active_video_frame_rate(), film->video_frame_rate());
 	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor ()), film->video_frame_rate ());
 }
 

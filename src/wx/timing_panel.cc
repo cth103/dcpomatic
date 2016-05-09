@@ -210,10 +210,8 @@ TimingPanel::film_content_changed (int property)
 
 	} else if (
 		property == ContentProperty::LENGTH ||
-		property == VideoContentProperty::FRAME_RATE ||
-		property == VideoContentProperty::FRAME_TYPE ||
-		property == AudioContentProperty::VIDEO_FRAME_RATE ||
-		property == SubtitleContentProperty::VIDEO_FRAME_RATE
+		property == ContentProperty::VIDEO_FRAME_RATE ||
+		property == VideoContentProperty::FRAME_TYPE
 		) {
 
 		update_full_length ();
@@ -249,48 +247,38 @@ TimingPanel::film_content_changed (int property)
 		property == ContentProperty::LENGTH ||
 		property == ContentProperty::TRIM_START ||
 		property == ContentProperty::TRIM_END ||
-		property == VideoContentProperty::FRAME_RATE ||
-		property == VideoContentProperty::FRAME_TYPE ||
-		property == AudioContentProperty::VIDEO_FRAME_RATE ||
-		property == SubtitleContentProperty::VIDEO_FRAME_RATE
+		property == ContentProperty::VIDEO_FRAME_RATE ||
+		property == VideoContentProperty::FRAME_TYPE
 		) {
 
 		update_play_length ();
 	}
 
-	if (property == VideoContentProperty::FRAME_RATE || property == SubtitleContentProperty::VIDEO_FRAME_RATE) {
+	if (property == ContentProperty::VIDEO_FRAME_RATE) {
 		set<double> check_vc;
-		shared_ptr<const Content> vc;
+		shared_ptr<const Content> content;
 		int count_ac = 0;
-		shared_ptr<const Content> ac;
 		int count_sc = 0;
-		shared_ptr<const Content> sc;
 		BOOST_FOREACH (shared_ptr<const Content> i, _parent->selected ()) {
-			if (i->video) {
-				check_vc.insert (i->video->frame_rate ());
-				vc = i;
+			if (i->video && i->video_frame_rate()) {
+				check_vc.insert (i->video_frame_rate().get());
+				content = i;
 			}
-			if (i->audio) {
+			if (i->audio && i->video_frame_rate()) {
 				++count_ac;
-				ac = i;
+				content = i;
 			}
-			if (i->subtitle) {
+			if (i->subtitle && i->video_frame_rate()) {
 				++count_sc;
-				sc = i;
+				content = i;
 			}
 
 		}
 
-		bool const single_frame_image_content = vc && dynamic_pointer_cast<const ImageContent> (vc) && vc->number_of_paths() == 1;
+		bool const single_frame_image_content = content && dynamic_pointer_cast<const ImageContent> (content) && content->number_of_paths() == 1;
 
 		if ((check_vc.size() == 1 || count_ac == 1 || count_sc == 1) && !single_frame_image_content) {
-			if (vc) {
-				checked_set (_video_frame_rate, raw_convert<string> (vc->video->frame_rate (), 5));
-			} else if (ac) {
-				checked_set (_video_frame_rate, raw_convert<string> (ac->audio->video_frame_rate (), 5));
-			} else if (sc) {
-				checked_set (_video_frame_rate, raw_convert<string> (sc->subtitle->video_frame_rate (), 5));
-			}
+			checked_set (_video_frame_rate, raw_convert<string> (content->video_frame_rate().get(), 5));
 			_video_frame_rate->Enable (true);
 		} else {
 			checked_set (_video_frame_rate, wxT (""));
@@ -401,22 +389,12 @@ TimingPanel::video_frame_rate_changed ()
 void
 TimingPanel::set_video_frame_rate ()
 {
+	double const fr = raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		shared_ptr<DCPSubtitleContent> dsc = dynamic_pointer_cast<DCPSubtitleContent> (i);
-		shared_ptr<TextSubtitleContent> tsc = dynamic_pointer_cast<TextSubtitleContent> (i);
-		double const fr = raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
-		if (i->video) {
-			i->video->set_frame_rate (fr);
-		} else if (i->audio) {
-			/* Audio but not video, i.e. SndfileContent */
-			i->audio->set_video_frame_rate (fr);
-		} else if (dsc) {
-			dsc->subtitle->set_video_frame_rate (fr);
-		} else if (tsc) {
-			tsc->subtitle->set_video_frame_rate (fr);
-		}
-		_set_video_frame_rate->Enable (false);
+		i->set_video_frame_rate (fr);
 	}
+
+	_set_video_frame_rate->Enable (false);
 }
 
 void
@@ -428,9 +406,7 @@ TimingPanel::content_selection_changed ()
 	film_content_changed (ContentProperty::LENGTH);
 	film_content_changed (ContentProperty::TRIM_START);
 	film_content_changed (ContentProperty::TRIM_END);
-	film_content_changed (VideoContentProperty::FRAME_RATE);
-	film_content_changed (SubtitleContentProperty::VIDEO_FRAME_RATE);
-	film_content_changed (AudioContentProperty::VIDEO_FRAME_RATE);
+	film_content_changed (ContentProperty::VIDEO_FRAME_RATE);
 }
 
 void

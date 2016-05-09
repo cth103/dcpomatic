@@ -266,14 +266,14 @@ Playlist::best_dcp_frame_rate () const
 
 		float this_error = 0;
 		BOOST_FOREACH (shared_ptr<Content> j, _content) {
-			if (!j->video || !j->video->has_own_frame_rate()) {
+			if (!j->video || !j->video_frame_rate()) {
 				continue;
 			}
 
 			/* Best error for this content; we could use the content as-is or double its rate */
 			float best_error = min (
-				float (fabs (i->source - j->video->frame_rate ())),
-				float (fabs (i->source - j->video->frame_rate () * 2))
+				float (fabs (i->source - j->video_frame_rate().get())),
+				float (fabs (i->source - j->video_frame_rate().get() * 2))
 				);
 
 			/* Use the largest difference between DCP and source as the "error" */
@@ -375,7 +375,13 @@ Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 			/* This is the first piece of content (going backwards...) that starts before t,
 			   so it's the active one.
 			*/
-			return FrameRateChange ((*i)->video->frame_rate(), dcp_video_frame_rate);
+			if ((*i)->video_frame_rate ()) {
+				/* This content specified a rate, so use it */
+				return FrameRateChange ((*i)->video_frame_rate().get(), dcp_video_frame_rate);
+			} else {
+				/* No specified rate so just use the DCP one */
+				return FrameRateChange (dcp_video_frame_rate, dcp_video_frame_rate);
+			}
 		}
 	}
 

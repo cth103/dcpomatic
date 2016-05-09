@@ -38,7 +38,6 @@ public:
 	static int const BURN;
 	static int const LANGUAGE;
 	static int const FONTS;
-	static int const VIDEO_FRAME_RATE;
 	static int const COLOUR;
 	static int const OUTLINE;
 	static int const OUTLINE_COLOUR;
@@ -130,9 +129,6 @@ public:
 		return _outline_colour;
 	}
 
-	double video_frame_rate () const;
-	void set_video_frame_rate (double r);
-
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
 	std::string _language;
@@ -161,8 +157,6 @@ private:
 	bool _outline;
 	dcp::Colour _outline_colour;
 	std::list<boost::signals2::connection> _font_connections;
-	/** Video frame rate that this content has been prepared for, if known */
-	boost::optional<double> _frame_rate;
 };
 
 #endif

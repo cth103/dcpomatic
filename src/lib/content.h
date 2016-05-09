@@ -54,6 +54,7 @@ public:
 	static int const LENGTH;
 	static int const TRIM_START;
 	static int const TRIM_END;
+	static int const VIDEO_FRAME_RATE;
 };
 
 /** @class Content
@@ -92,8 +93,6 @@ public:
 	 *  REELTYPE_BY_VIDEO_CONTENT is in use.
 	 */
 	virtual std::list<DCPTime> reel_split_points () const;
-
-	virtual void changed (int) {}
 
 	boost::shared_ptr<Content> clone () const;
 
@@ -158,6 +157,15 @@ public:
 
 	DCPTime length_after_trim () const;
 
+	boost::optional<double> video_frame_rate () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _video_frame_rate;
+	}
+
+	void set_video_frame_rate (double r);
+
+	double active_video_frame_rate () const;
+
 	void set_change_signals_frequent (bool f) {
 		_change_signals_frequent = f;
 	}
@@ -189,10 +197,20 @@ protected:
 	std::vector<boost::filesystem::path> _paths;
 
 private:
+	friend struct ffmpeg_pts_offset_test;
+	friend struct best_dcp_frame_rate_test_single;
+	friend struct best_dcp_frame_rate_test_double;
+	friend struct audio_sampling_rate_test;
+
 	std::string _digest;
 	DCPTime _position;
 	ContentTime _trim_start;
 	ContentTime _trim_end;
+	/** The video frame rate that this content is or was prepared to be used with,
+	 *  or empty if the effective rate of this content should be dictated by something
+	 *  else (either some video happening at the same time, or the rate of the DCP).
+	 */
+	boost::optional<double> _video_frame_rate;
 	bool _change_signals_frequent;
 };
 

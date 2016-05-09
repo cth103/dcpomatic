@@ -37,7 +37,6 @@ public:
 	static int const STREAMS;
 	static int const GAIN;
 	static int const DELAY;
-	static int const VIDEO_FRAME_RATE;
 };
 
 class AudioContent : public ContentPart
@@ -69,9 +68,6 @@ public:
 		return _delay;
 	}
 
-	double video_frame_rate () const;
-	void set_video_frame_rate (double r);
-
 	std::string processing_description () const;
 
 	std::vector<AudioStreamPtr> streams () const {
@@ -92,7 +88,6 @@ private:
 	double _gain;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _delay;
-	boost::optional<double> _video_frame_rate;
 	std::vector<AudioStreamPtr> _streams;
 };
 

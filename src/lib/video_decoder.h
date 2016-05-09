@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,13 +42,9 @@ class Log;
 class VideoDecoder : public virtual Decoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const VideoContent> c, boost::shared_ptr<Log> log);
+	VideoDecoder (boost::shared_ptr<const Content> c, boost::shared_ptr<Log> log);
 
 	std::list<ContentVideo> get_video (Frame frame, bool accurate);
-
-	boost::shared_ptr<const VideoContent> video_content () const {
-		return _video_content;
-	}
 
 	void set_ignore_video ();
 
@@ -59,6 +55,8 @@ public:
 protected:
 	friend struct video_decoder_fill_test1;
 	friend struct video_decoder_fill_test2;
+	friend struct ffmpeg_pts_offset_test;
+	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
 	void seek (ContentTime time, bool accurate);
 	void video (boost::shared_ptr<const ImageProxy>, Frame frame);
@@ -66,7 +64,7 @@ protected:
 	void fill_one_eye (Frame from, Frame to, Eyes);
 	void fill_both_eyes (Frame from, Frame to, Eyes);
 
-	boost::shared_ptr<const VideoContent> _video_content;
+	boost::shared_ptr<const Content> _video_content;
 	boost::shared_ptr<Log> _log;
 	std::list<ContentVideo> _decoded_video;
 	boost::shared_ptr<Image> _black_image;
