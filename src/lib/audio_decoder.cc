@@ -35,7 +35,7 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 	, _fast (fast)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
-		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, log));
+		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, fast, log));
 	}
 }
 
