@@ -32,6 +32,8 @@ class FFmpegExaminer : public FFmpeg, public VideoExaminer
 public:
 	FFmpegExaminer (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Job> job = boost::shared_ptr<Job> ());
 
+	bool has_video () const;
+
 	boost::optional<double> video_frame_rate () const;
 	dcp::Size video_size () const;
 	Frame video_length () const;

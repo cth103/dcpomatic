@@ -161,10 +161,6 @@ FFmpeg::setup_general ()
 		_video_stream = video_stream_undefined_frame_rate.get();
 	}
 
-	if (!_video_stream) {
-		throw DecodeError (N_("could not find video stream"));
-	}
-
 	/* Hack: if the AVStreams have duplicate IDs, replace them with our
 	   own.  We use the IDs so that we can cope with VOBs, in which streams
 	   move about in index but remain with the same ID in different

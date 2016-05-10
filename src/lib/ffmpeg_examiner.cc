@@ -72,10 +72,12 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 	}
 
-	/* See if the header has duration information in it */
-	_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
-	if (!_need_video_length) {
-		_video_length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get ();
+	if (has_video ()) {
+		/* See if the header has duration information in it */
+		_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
+		if (!_need_video_length) {
+			_video_length = (double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get ();
+		}
 	}
 
 	if (job) {
@@ -169,7 +171,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	   this is because we might not know the PTS offset when the first subtitle is seen.
 	   Now we know the PTS offset so we can apply it to those subtitles.
 	*/
-	if (video_frame_rate()) {
+	if (has_video() && video_frame_rate()) {
 		BOOST_FOREACH (shared_ptr<FFmpegSubtitleStream> i, _subtitle_streams) {
 			i->add_offset (pts_offset (_audio_streams, _first_video, video_frame_rate().get()));
 		}
@@ -476,4 +478,10 @@ FFmpegExaminer::yuv () const
 	default:
 		return false;
 	}
+}
+
+bool
+FFmpegExaminer::has_video () const
+{
+	return static_cast<bool> (_video_stream);
 }

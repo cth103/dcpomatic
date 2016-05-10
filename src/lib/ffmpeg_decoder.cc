@@ -77,8 +77,12 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	, SubtitleDecoder (c->subtitle)
 	, FFmpeg (c)
 	, _log (log)
-	, _pts_offset (pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate()))
 {
+	if (c->video) {
+		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate());
+	} else {
+		_pts_offset = ContentTime ();
+	}
 }
 
 void

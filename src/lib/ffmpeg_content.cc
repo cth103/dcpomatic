@@ -64,11 +64,7 @@ int const FFmpegContentProperty::FILTERS = 102;
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
 {
-	video.reset (new VideoContent (this, film));
-	audio.reset (new AudioContent (this, film));
-	subtitle.reset (new SubtitleContent (this, film));
 
-	set_default_colour_conversion ();
 }
 
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
@@ -210,35 +206,44 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
-	video->take_from_examiner (examiner);
-	set_default_colour_conversion ();
+
+	if (examiner->has_video ()) {
+		video.reset (new VideoContent (this, film ()));
+		video->take_from_examiner (examiner);
+		set_default_colour_conversion ();
+	}
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		_subtitle_streams = examiner->subtitle_streams ();
-		if (!_subtitle_streams.empty ()) {
-			_subtitle_stream = _subtitle_streams.front ();
+		if (examiner->has_video ()) {
+			_first_video = examiner->first_video ();
+			_color_range = examiner->color_range ();
+			_color_primaries = examiner->color_primaries ();
+			_color_trc = examiner->color_trc ();
+			_colorspace = examiner->colorspace ();
+			_bits_per_pixel = examiner->bits_per_pixel ();
 		}
 
-		BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, examiner->audio_streams ()) {
-			audio->add_stream (i);
-		}
+		if (!examiner->audio_streams().empty ()) {
+			audio.reset (new AudioContent (this, film ()));
 
-		if (!audio->streams().empty ()) {
+			BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, examiner->audio_streams ()) {
+				audio->add_stream (i);
+			}
+
 			AudioStreamPtr as = audio->streams().front();
 			AudioMapping m = as->mapping ();
 			film()->make_audio_mapping_default (m);
 			as->set_mapping (m);
 		}
 
-		_first_video = examiner->first_video ();
+		_subtitle_streams = examiner->subtitle_streams ();
+		if (!_subtitle_streams.empty ()) {
+			subtitle.reset (new SubtitleContent (this, film ()));
+			_subtitle_stream = _subtitle_streams.front ();
+		}
 
-		_color_range = examiner->color_range ();
-		_color_primaries = examiner->color_primaries ();
-		_color_trc = examiner->color_trc ();
-		_colorspace = examiner->colorspace ();
-		_bits_per_pixel = examiner->bits_per_pixel ();
 	}
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);

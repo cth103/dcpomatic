@@ -51,6 +51,7 @@ def build(bld):
                  dcp_subtitle_test.cc
                  dcpomatic_time_test.cc
                  ffmpeg_audio_test.cc
+                 ffmpeg_audio_only_test.cc
                  ffmpeg_dcp_test.cc
                  ffmpeg_decoder_seek_test.cc
                  ffmpeg_decoder_sequential_test.cc
