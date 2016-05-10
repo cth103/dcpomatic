@@ -66,6 +66,16 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 
 }
 
+shared_ptr<SubtitleContent>
+SubtitleContent::from_xml (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+{
+	if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
+		return shared_ptr<SubtitleContent> ();
+	}
+
+	return shared_ptr<SubtitleContent> (new SubtitleContent (parent, film, node, version));
+}
+
 SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: ContentPart (parent, film)
 	, _use (false)

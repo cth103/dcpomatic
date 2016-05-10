@@ -48,7 +48,7 @@ SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr 
 	: Content (film, node)
 	, _audio_length (node->number_child<Frame> ("AudioLength"))
 {
-	audio.reset (new AudioContent (this, film, node));
+	audio = AudioContent::from_xml (this, film, node);
 	audio->set_stream (
 		AudioStreamPtr (
 			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))

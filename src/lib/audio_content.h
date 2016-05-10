@@ -43,7 +43,6 @@ class AudioContent : public ContentPart
 {
 public:
 	AudioContent (Content* parent, boost::shared_ptr<const Film>);
-	AudioContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr);
 	AudioContent (Content* parent, boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
@@ -82,7 +81,11 @@ public:
 
 	void add_properties (std::list<UserProperty> &) const;
 
+	static boost::shared_ptr<AudioContent> from_xml (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr);
+
 private:
+
+	AudioContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr);
 
 	/** Gain to apply to audio in dB */
 	double _gain;

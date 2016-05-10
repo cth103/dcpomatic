@@ -45,7 +45,7 @@ DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, cxml::Const
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	subtitle.reset (new SubtitleContent (this, film, node, version));
+	subtitle = SubtitleContent::from_xml (this, film, node, version);
 }
 
 void

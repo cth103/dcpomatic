@@ -74,9 +74,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::pa
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (film, node)
 {
-	video.reset (new VideoContent (this, film, node, version));
-	audio.reset (new AudioContent (this, film, node));
-	subtitle.reset (new SubtitleContent (this, film, node, version));
+	video = VideoContent::from_xml (this, film, node, version);
+	audio = AudioContent::from_xml (this, film, node);
+	subtitle = SubtitleContent::from_xml (this, film, node, version);
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {

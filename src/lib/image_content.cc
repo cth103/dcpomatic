@@ -66,7 +66,7 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 ImageContent::ImageContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 {
-	video.reset (new VideoContent (this, film, node, version));
+	video = VideoContent::from_xml (this, film, node, version);
 }
 
 string

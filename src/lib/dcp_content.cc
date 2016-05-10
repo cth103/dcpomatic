@@ -72,9 +72,10 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 {
-	video.reset (new VideoContent (this, film, node, version));
+	video = VideoContent::from_xml (this, film, node, version);
+	audio = AudioContent::from_xml (this, film, node);
+	subtitle = SubtitleContent::from_xml (this, film, node, version);
 
-	audio.reset (new AudioContent (this, film, node));
 	audio->set_stream (
 		AudioStreamPtr (
 			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version))
@@ -82,10 +83,6 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		);
 
 	_name = node->string_child ("Name");
-
-	if (node->bool_child ("HasSubtitles")) {
-		subtitle.reset (new SubtitleContent (this, film, node, version));
-	}
 
 	_encrypted = node->bool_child ("Encrypted");
 	if (node->optional_node_child ("KDM")) {
@@ -179,7 +176,6 @@ DCPContent::as_xml (xmlpp::Node* node) const
 
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
-	node->add_child("HasSubtitles")->add_child_text (subtitle ? "1" : "0");
 	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	if (_kdm) {
 		node->add_child("KDM")->add_child_text (_kdm->as_xml ());

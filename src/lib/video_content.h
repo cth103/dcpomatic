@@ -51,7 +51,6 @@ class VideoContent : public ContentPart, public boost::enable_shared_from_this<V
 {
 public:
 	VideoContent (Content* parent, boost::shared_ptr<const Film>);
-	VideoContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 	VideoContent (Content* parent, boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
@@ -167,6 +166,8 @@ public:
 	void take_from_examiner (boost::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
+	static boost::shared_ptr<VideoContent> from_xml (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
+
 private:
 
 	friend struct ffmpeg_pts_offset_test;
@@ -174,6 +175,7 @@ private:
 	friend struct best_dcp_frame_rate_test_double;
 	friend struct audio_sampling_rate_test;
 
+	VideoContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int);
 	void setup_default_colour_conversion ();
 
 	Frame _length;

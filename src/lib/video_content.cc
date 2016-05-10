@@ -75,6 +75,16 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film)
 
 }
 
+shared_ptr<VideoContent>
+VideoContent::from_xml (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+{
+	if (!node->optional_number_child<int> ("VideoWidth")) {
+		return shared_ptr<VideoContent> ();
+	}
+
+	return shared_ptr<VideoContent> (new VideoContent (parent, film, node, version));
+}
+
 VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: ContentPart (parent, film)
 {

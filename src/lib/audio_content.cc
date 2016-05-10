@@ -56,6 +56,16 @@ AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film)
 
 }
 
+shared_ptr<AudioContent>
+AudioContent::from_xml (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node)
+{
+	if (!node->optional_number_child<double> ("AudioGain")) {
+		return shared_ptr<AudioContent> ();
+	}
+
+	return shared_ptr<AudioContent> (new AudioContent (parent, film, node));
+}
+
 AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	: ContentPart (parent, film)
 {

@@ -45,7 +45,7 @@ TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::Con
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	subtitle.reset (new SubtitleContent (this, film, node, version));
+	subtitle = SubtitleContent::from_xml (this, film, node, version);
 }
 
 void
