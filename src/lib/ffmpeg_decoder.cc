@@ -121,7 +121,7 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 	int const si = _packet.stream_index;
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (si == _video_stream && !_ignore_video && (accurate || reason != PASS_REASON_SUBTITLE)) {
+	if (_video_stream && si == _video_stream.get() && !_ignore_video && (accurate || reason != PASS_REASON_SUBTITLE)) {
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
@@ -295,11 +295,18 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	   http://www.mjbshaw.com/2012/04/seeking-in-ffmpeg-know-your-timestamp.html
 	*/
 
+	DCPOMATIC_ASSERT (_video_stream);
+
 	ContentTime u = time - _pts_offset;
 	if (u < ContentTime ()) {
 		u = ContentTime ();
 	}
-	av_seek_frame (_format_context, _video_stream, u.seconds() / av_q2d (_format_context->streams[_video_stream]->time_base), AVSEEK_FLAG_BACKWARD);
+	av_seek_frame (
+		_format_context,
+		_video_stream.get(),
+		u.seconds() / av_q2d (_format_context->streams[_video_stream.get()]->time_base),
+		AVSEEK_FLAG_BACKWARD
+		);
 
 	avcodec_flush_buffers (video_codec_context());
 
@@ -380,6 +387,8 @@ FFmpegDecoder::decode_audio_packet ()
 bool
 FFmpegDecoder::decode_video_packet ()
 {
+	DCPOMATIC_ASSERT (_video_stream);
+
 	int frame_finished;
 	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, &_packet) < 0 || !frame_finished) {
 		return false;
@@ -410,7 +419,7 @@ FFmpegDecoder::decode_video_packet ()
 		shared_ptr<Image> image = i->first;
 
 		if (i->second != AV_NOPTS_VALUE) {
-			double const pts = i->second * av_q2d (_format_context->streams[_video_stream]->time_base) + _pts_offset.seconds ();
+			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
 			video (
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())

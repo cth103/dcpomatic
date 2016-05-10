@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,7 +56,6 @@ FFmpeg::FFmpeg (boost::shared_ptr<const FFmpegContent> c)
 	, _avio_context (0)
 	, _format_context (0)
 	, _frame (0)
-	, _video_stream (-1)
 {
 	setup_general ();
 	setup_decoders ();
@@ -140,7 +139,7 @@ FFmpeg::setup_general ()
 
 	/* Find video stream */
 
-	int video_stream_undefined_frame_rate = -1;
+	optional<int> video_stream_undefined_frame_rate;
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
@@ -158,11 +157,11 @@ FFmpeg::setup_general ()
 	/* Files from iTunes sometimes have two video streams, one with the avg_frame_rate.num and .den set
 	   to zero.  Only use such a stream if there is no alternative.
 	*/
-	if (_video_stream == -1 && video_stream_undefined_frame_rate != -1) {
-		_video_stream = video_stream_undefined_frame_rate;
+	if (!_video_stream && video_stream_undefined_frame_rate) {
+		_video_stream = video_stream_undefined_frame_rate.get();
 	}
 
-	if (_video_stream < 0) {
+	if (!_video_stream) {
 		throw DecodeError (N_("could not find video stream"));
 	}
 
@@ -224,7 +223,8 @@ FFmpeg::setup_decoders ()
 AVCodecContext *
 FFmpeg::video_codec_context () const
 {
-	return _format_context->streams[_video_stream]->codec;
+	DCPOMATIC_ASSERT (_video_stream);
+	return _format_context->streams[_video_stream.get()]->codec;
 }
 
 AVCodecContext *

@@ -72,7 +72,7 @@ protected:
 	AVFrame* _frame;
 
 	/** Index of video stream within AVFormatContext */
-	int _video_stream;
+	boost::optional<int> _video_stream;
 
 	/* It would appear (though not completely verified) that one must have
 	   a mutex around calls to avcodec_open* and avcodec_close... and here

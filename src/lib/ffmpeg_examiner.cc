@@ -113,7 +113,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 		AVCodecContext* context = _format_context->streams[_packet.stream_index]->codec;
 
-		if (_packet.stream_index == _video_stream) {
+		if (_video_stream && _packet.stream_index == _video_stream.get()) {
 			video_packet (context);
 		}
 
@@ -179,6 +179,8 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 void
 FFmpegExaminer::video_packet (AVCodecContext* context)
 {
+	DCPOMATIC_ASSERT (_video_stream);
+
 	if (_first_video && !_need_video_length) {
 		return;
 	}
@@ -186,11 +188,11 @@ FFmpegExaminer::video_packet (AVCodecContext* context)
 	int frame_finished;
 	if (avcodec_decode_video2 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 		if (!_first_video) {
-			_first_video = frame_time (_format_context->streams[_video_stream]);
+			_first_video = frame_time (_format_context->streams[_video_stream.get()]);
 		}
 		if (_need_video_length) {
 			_video_length = frame_time (
-				_format_context->streams[_video_stream]
+				_format_context->streams[_video_stream.get()]
 				).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
 		}
 	}
@@ -297,11 +299,12 @@ FFmpegExaminer::frame_time (AVStream* s) const
 optional<double>
 FFmpegExaminer::video_frame_rate () const
 {
+	DCPOMATIC_ASSERT (_video_stream);
 	/* This use of r_frame_rate is debateable; there's a few different
 	 * frame rates in the format context, but this one seems to be the most
 	 * reliable.
 	 */
-	return av_q2d (av_stream_get_r_frame_rate (_format_context->streams[_video_stream]));
+	return av_q2d (av_stream_get_r_frame_rate (_format_context->streams[_video_stream.get()]));
 }
 
 dcp::Size
@@ -320,7 +323,8 @@ FFmpegExaminer::video_length () const
 optional<double>
 FFmpegExaminer::sample_aspect_ratio () const
 {
-	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream], 0);
+	DCPOMATIC_ASSERT (_video_stream);
+	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream.get()], 0);
 	if (sar.num == 0) {
 		/* I assume this means that we don't know */
 		return optional<double> ();
