@@ -420,7 +420,7 @@ Player::get_video (DCPTime time, bool accurate)
 		/* Get video from appropriate piece(s) */
 		BOOST_FOREACH (shared_ptr<Piece> piece, ov) {
 
-			shared_ptr<VideoDecoder> decoder = dynamic_pointer_cast<VideoDecoder> (piece->decoder);
+			shared_ptr<VideoDecoder> decoder = piece->decoder->video;
 			DCPOMATIC_ASSERT (decoder);
 
 			shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (piece->content);
@@ -513,7 +513,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
 
 		DCPOMATIC_ASSERT (i->content->audio);
-		shared_ptr<AudioDecoder> decoder = dynamic_pointer_cast<AudioDecoder> (i->decoder);
+		shared_ptr<AudioDecoder> decoder = i->decoder->audio;
 		DCPOMATIC_ASSERT (decoder);
 
 		/* The time that we should request from the content */
@@ -655,7 +655,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 			continue;
 		}
 
-		shared_ptr<SubtitleDecoder> subtitle_decoder = dynamic_pointer_cast<SubtitleDecoder> ((*j)->decoder);
+		shared_ptr<SubtitleDecoder> subtitle_decoder = (*j)->decoder->subtitle;
 		ContentTime const from = dcp_to_content_subtitle (*j, time);
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
 		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
