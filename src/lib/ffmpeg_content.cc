@@ -276,12 +276,19 @@ FFmpegContent::technical_summary () const
 
 	string filt = Filter::ffmpeg_string (_filters);
 
-	return Content::technical_summary() + " - "
-		+ video->technical_summary() + " - "
-		+ audio->technical_summary() + " - "
-		+ String::compose (
-			"ffmpeg: audio %1 subtitle %2 filters %3", as, ss, filt
-			);
+	string s = Content::technical_summary ();
+
+	if (video) {
+		s += " - " + video->technical_summary ();
+	}
+
+	if (audio) {
+		s += " - " + audio->technical_summary ();
+	}
+
+	return s + String::compose (
+		"ffmpeg: audio %1 subtitle %2 filters %3", as, ss, filt
+		);
 }
 
 void

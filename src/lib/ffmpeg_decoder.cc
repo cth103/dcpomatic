@@ -111,10 +111,12 @@ FFmpegDecoder::flush ()
 
 	/* XXX: should we reset _packet.data and size after each *_decode_* call? */
 
-	while (decode_video_packet ()) {}
+	while (video && decode_video_packet ()) {}
 
-	decode_audio_packet ();
-	audio->flush ();
+	if (audio) {
+		decode_audio_packet ();
+		audio->flush ();
+	}
 }
 
 bool
