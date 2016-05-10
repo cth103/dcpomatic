@@ -253,8 +253,15 @@ FFmpegContent::examine (shared_ptr<Job> job)
 string
 FFmpegContent::summary () const
 {
-	/* Get the string() here so that the name does not have quotes around it */
-	return String::compose (_("%1 [movie]"), path_summary ());
+	if (video && audio) {
+		return String::compose (_("%1 [movie]"), path_summary ());
+	} else if (video) {
+		return String::compose (_("%1 [video]"), path_summary ());
+	} else if (audio) {
+		return String::compose (_("%1 [audio]"), path_summary ());
+	}
+
+	return path_summary ();
 }
 
 string
