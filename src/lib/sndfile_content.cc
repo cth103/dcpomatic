@@ -49,20 +49,28 @@ SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr 
 	, _audio_length (node->number_child<Frame> ("AudioLength"))
 {
 	audio = AudioContent::from_xml (this, film, node);
-	audio->set_stream (
-		AudioStreamPtr (
-			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
-		);
+
+	if (audio) {
+		audio->set_stream (
+			AudioStreamPtr (
+				new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
+			);
+	}
 }
 
 void
 SndfileContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("Sndfile");
+
 	Content::as_xml (node);
-	audio->as_xml (node);
-	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate ()));
-	audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
+
+	if (audio) {
+		audio->as_xml (node);
+		node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate ()));
+		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
+	}
+
 	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
 }
 

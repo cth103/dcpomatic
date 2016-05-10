@@ -103,7 +103,10 @@ ImageContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("Image");
 	Content::as_xml (node);
-	video->as_xml (node);
+
+	if (video) {
+		video->as_xml (node);
+	}
 }
 
 void

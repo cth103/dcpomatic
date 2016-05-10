@@ -101,6 +101,10 @@ DCPSubtitleContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("DCPSubtitle");
 	Content::as_xml (node);
-	subtitle->as_xml (node);
+
+	if (subtitle) {
+		subtitle->as_xml (node);
+	}
+
 	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
 }

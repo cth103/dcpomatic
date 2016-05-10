@@ -166,10 +166,17 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	node->add_child("Type")->add_child_text ("DCP");
 
 	Content::as_xml (node);
-	video->as_xml (node);
-	audio->as_xml (node);
-	node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate()));
-	audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
+
+	if (video) {
+		video->as_xml (node);
+	}
+
+	if (audio) {
+		audio->as_xml (node);
+		node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate()));
+		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
+	}
+
 	if (subtitle) {
 		subtitle->as_xml (node);
 	}

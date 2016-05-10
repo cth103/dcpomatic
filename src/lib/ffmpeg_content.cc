@@ -156,9 +156,18 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("FFmpeg");
 	Content::as_xml (node);
-	video->as_xml (node);
-	audio->as_xml (node);
-	subtitle->as_xml (node);
+
+	if (video) {
+		video->as_xml (node);
+	}
+
+	if (audio) {
+		audio->as_xml (node);
+	}
+
+	if (subtitle) {
+		subtitle->as_xml (node);
+	}
 
 	boost::mutex::scoped_lock lm (_mutex);
 
