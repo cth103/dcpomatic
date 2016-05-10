@@ -19,6 +19,7 @@
 
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/dcp_content_type.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -29,9 +30,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_only_test");
 	film->set_name ("test_film");
+	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/sine_440.mp3"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
-	film->write_metadata ();
+	film->make_dcp ();
+	wait_for_jobs ();
 }
-
