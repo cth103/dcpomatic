@@ -311,7 +311,12 @@ DCPTime
 FFmpegContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate (), film()->video_frame_rate ());
-	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
+	if (video) {
+		return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film()->video_frame_rate());
+	}
+
+	DCPOMATIC_ASSERT (audio);
+	return DCPTime::from_frames (llrint (audio->stream()->length() / frc.speed_up), audio->stream()->frame_rate());
 }
 
 void

@@ -83,6 +83,7 @@ static string const xml = "<Content>"
 	"<Name>und; 2 channels</Name>"
 	"<Id>2</Id>"
 	"<FrameRate>44100</FrameRate>"
+	"<Length>44100</Length>"
 	"<Channels>2</Channels>"
 	"<FirstAudio>0</FirstAudio>"
 	"<Mapping>"
@@ -142,6 +143,31 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 	/* 25fps content, 60fps DCP; length should be decreased */
 	film->set_video_frame_rate (60);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (content->video->length() * (50.0 / 60) / 25.0));
+
+	/* Make the content audio-only */
+	content->video.reset ();
+
+	/* 24fps content, 24fps DCP */
+	film->set_video_frame_rate (24);
+	content->set_video_frame_rate (24);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (1));
+	/* 25fps content, 25fps DCP */
+	film->set_video_frame_rate (25);
+	content->set_video_frame_rate (25);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (1));
+	/* 25fps content, 24fps DCP; length should be increased */
+	film->set_video_frame_rate (24);
+	BOOST_CHECK_SMALL (abs (content->full_length().get() - DCPTime::from_seconds(25.0 / 24).get()), 2);
+	/* 25fps content, 30fps DCP; length should be decreased */
+	film->set_video_frame_rate (30);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (25.0 / 30));
+	/* 25fps content, 50fps DCP; length should be the same */
+	film->set_video_frame_rate (50);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (1));
+	/* 25fps content, 60fps DCP; length should be decreased */
+	film->set_video_frame_rate (60);
+	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (50.0 / 60));
+
 }
 
 /** Test Player::dcp_to_content_video */
