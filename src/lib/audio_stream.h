@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #define DCPOMATIC_AUDIO_STREAM_H
 
 #include "audio_mapping.h"
+#include "types.h"
 #include <boost/thread/mutex.hpp>
 
 struct audio_sampling_rate_test;
@@ -28,8 +29,8 @@ struct audio_sampling_rate_test;
 class AudioStream
 {
 public:
-	AudioStream (int frame_rate, int channels);
-	AudioStream (int frame_rate, AudioMapping mapping);
+	AudioStream (int frame_rate, Frame length, int channels);
+	AudioStream (int frame_rate, Frame length, AudioMapping mapping);
 	virtual ~AudioStream () {}
 
 	void set_mapping (AudioMapping mapping);
@@ -44,6 +45,11 @@ public:
 		return _frame_rate;
 	}
 
+	Frame length () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _length;
+	}
+
 	int channels () const;
 
 protected:
@@ -54,6 +60,7 @@ private:
 	friend struct player_time_calculation_test3;
 
 	int _frame_rate;
+	Frame _length;
 	AudioMapping _mapping;
 };
 

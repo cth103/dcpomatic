@@ -43,14 +43,6 @@ public:
 	void as_xml (xmlpp::Node *) const;
 
 	static bool valid_file (boost::filesystem::path);
-
-private:
-	Frame audio_length () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _audio_length;
-	}
-
-	Frame _audio_length;
 };
 
 #endif

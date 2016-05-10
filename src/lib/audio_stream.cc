@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,14 +21,16 @@
 #include "audio_mapping.h"
 #include "util.h"
 
-AudioStream::AudioStream (int frame_rate, int channels)
+AudioStream::AudioStream (int frame_rate, Frame length, int channels)
 	: _frame_rate (frame_rate)
+	, _length (length)
 {
 	_mapping = AudioMapping (channels, MAX_DCP_AUDIO_CHANNELS);
 }
 
-AudioStream::AudioStream (int frame_rate, AudioMapping mapping)
+AudioStream::AudioStream (int frame_rate, Frame length, AudioMapping mapping)
 	: _frame_rate (frame_rate)
+	, _length (length)
 	, _mapping (mapping)
 {
 

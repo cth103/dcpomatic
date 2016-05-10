@@ -61,9 +61,17 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 				s->codec->channel_layout = av_get_default_channel_layout (s->codec->channels);
 			}
 
+			DCPOMATIC_ASSERT (_format_context->duration != AV_NOPTS_VALUE);
+
 			_audio_streams.push_back (
 				shared_ptr<FFmpegAudioStream> (
-					new FFmpegAudioStream (audio_stream_name (s), s->id, s->codec->sample_rate, s->codec->channels)
+					new FFmpegAudioStream (
+						audio_stream_name (s),
+						s->id,
+						s->codec->sample_rate,
+						(double (_format_context->duration) / AV_TIME_BASE) * s->codec->sample_rate,
+						s->codec->channels
+						)
 					)
 				);
 

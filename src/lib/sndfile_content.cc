@@ -46,14 +46,18 @@ SndfileContent::SndfileContent (shared_ptr<const Film> film, boost::filesystem::
 
 SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
-	, _audio_length (node->number_child<Frame> ("AudioLength"))
 {
 	audio = AudioContent::from_xml (this, film, node);
 
 	if (audio) {
 		audio->set_stream (
 			AudioStreamPtr (
-				new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version)))
+				new AudioStream (
+					node->number_child<int> ("AudioFrameRate"),
+					node->number_child<Frame> ("AudioLength"),
+					AudioMapping (node->node_child ("AudioMapping"), version)
+					)
+				)
 			);
 	}
 }
@@ -68,10 +72,9 @@ SndfileContent::as_xml (xmlpp::Node* node) const
 	if (audio) {
 		audio->as_xml (node);
 		node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate ()));
+		node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio->stream()->length ()));
 		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	}
-
-	node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio_length ()));
 }
 
 
@@ -108,12 +111,11 @@ SndfileContent::examine (shared_ptr<Job> job)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		AudioStreamPtr as (new AudioStream (ex->audio_frame_rate(), ex->audio_channels ()));
+		AudioStreamPtr as (new AudioStream (ex->audio_frame_rate(), ex->audio_length(), ex->audio_channels ()));
 		audio->set_stream (as);
 		AudioMapping m = as->mapping ();
 		film()->make_audio_mapping_default (m);
 		as->set_mapping (m);
-		_audio_length = ex->audio_length ();
 	}
 
 	signal_changed (AudioContentProperty::STREAMS);
@@ -123,5 +125,5 @@ DCPTime
 SndfileContent::full_length () const
 {
 	FrameRateChange const frc (active_video_frame_rate(), film()->video_frame_rate());
-	return DCPTime::from_frames (audio_length() / frc.speed_up, audio->stream()->frame_rate ());
+	return DCPTime::from_frames (audio->stream()->length() / frc.speed_up, audio->stream()->frame_rate ());
 }

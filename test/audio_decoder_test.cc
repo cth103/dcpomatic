@@ -42,7 +42,7 @@ public:
 		: Content (film)
  	{
 		audio.reset (new AudioContent (this, film));
-		audio->set_stream (AudioStreamPtr (new AudioStream (48000, 2)));
+		audio->set_stream (AudioStreamPtr (new AudioStream (48000, audio_length(), 2)));
 	}
 
 	std::string summary () const {

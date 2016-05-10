@@ -78,7 +78,11 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 
 	audio->set_stream (
 		AudioStreamPtr (
-			new AudioStream (node->number_child<int> ("AudioFrameRate"), AudioMapping (node->node_child ("AudioMapping"), version))
+			new AudioStream (
+				node->number_child<int> ("AudioFrameRate"),
+				node->number_child<Frame> ("AudioLength"),
+				AudioMapping (node->node_child ("AudioMapping"), version)
+				)
 			)
 		);
 
@@ -121,7 +125,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
-		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_channels ()));
+		AudioStreamPtr as (new AudioStream (examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels()));
 		audio->set_stream (as);
 		AudioMapping m = as->mapping ();
 		film()->make_audio_mapping_default (m);
@@ -174,6 +178,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	if (audio) {
 		audio->as_xml (node);
 		node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate()));
+		node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio->stream()->length()));
 		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
 	}
 

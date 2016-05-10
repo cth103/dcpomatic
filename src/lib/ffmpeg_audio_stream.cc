@@ -27,7 +27,11 @@ using boost::optional;
 
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
-	, AudioStream (node->number_child<int> ("FrameRate"), AudioMapping (node->node_child ("Mapping"), version))
+	, AudioStream (
+		node->number_child<int> ("FrameRate"),
+		node->optional_number_child<Frame>("Length").get_value_or (0),
+		AudioMapping (node->node_child ("Mapping"), version)
+		)
 {
 	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type> ("FirstAudio");
 	if (f) {
@@ -40,6 +44,7 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
 	root->add_child("FrameRate")->add_child_text (raw_convert<string> (frame_rate ()));
+	root->add_child("Length")->add_child_text (raw_convert<string> (length ()));
 	mapping().as_xml (root->add_child("Mapping"));
 	if (first_audio) {
 		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get().get ()));
