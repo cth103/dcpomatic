@@ -32,13 +32,13 @@ using boost::function;
 SubtitleDecoder::SubtitleDecoder (
 	Decoder* parent,
 	shared_ptr<const SubtitleContent> c,
-	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> image_subtitles_during,
-	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> text_subtitles_during
+	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
+	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
 	)
 	: _parent (parent)
-	, _subtitle_content (c)
-	, _image_subtitles_during (image_subtitles_during)
-	, _text_subtitles_during (text_subtitles_during)
+	, _content (c)
+	, _image_during (image_during)
+	, _text_during (text_during)
 {
 
 }
@@ -51,15 +51,15 @@ SubtitleDecoder::SubtitleDecoder (
  *  of the video frame)
  */
 void
-SubtitleDecoder::image_subtitle (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
+SubtitleDecoder::give_image (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
-	_decoded_image_subtitles.push_back (ContentImageSubtitle (period, image, rect));
+	_decoded_image.push_back (ContentImageSubtitle (period, image, rect));
 }
 
 void
-SubtitleDecoder::text_subtitle (ContentTimePeriod period, list<dcp::SubtitleString> s)
+SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
 {
-	_decoded_text_subtitles.push_back (ContentTextSubtitle (period, s));
+	_decoded_text.push_back (ContentTextSubtitle (period, s));
 }
 
 /** @param sp Full periods of subtitles that are showing or starting during the specified period */
@@ -95,8 +95,8 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Discard anything in _decoded_image_subtitles that is outside 5 seconds either side of period */
 
-	list<ContentImageSubtitle>::iterator i = _decoded_image_subtitles.begin();
-	while (i != _decoded_image_subtitles.end()) {
+	list<ContentImageSubtitle>::iterator i = _decoded_image.begin();
+	while (i != _decoded_image.end()) {
 		list<ContentImageSubtitle>::iterator tmp = i;
 		++tmp;
 
@@ -104,7 +104,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 			i->period().to < (period.from - ContentTime::from_seconds (5)) ||
 			i->period().from > (period.to + ContentTime::from_seconds (5))
 			) {
-			_decoded_image_subtitles.erase (i);
+			_decoded_image.erase (i);
 		}
 
 		i = tmp;
@@ -114,20 +114,20 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 }
 
 list<ContentTextSubtitle>
-SubtitleDecoder::get_text_subtitles (ContentTimePeriod period, bool starting, bool accurate)
+SubtitleDecoder::get_text (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentTextSubtitle> (_decoded_text_subtitles, _text_subtitles_during (period, starting), period, starting, accurate);
+	return get<ContentTextSubtitle> (_decoded_text, _text_during (period, starting), period, starting, accurate);
 }
 
 list<ContentImageSubtitle>
-SubtitleDecoder::get_image_subtitles (ContentTimePeriod period, bool starting, bool accurate)
+SubtitleDecoder::get_image (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentImageSubtitle> (_decoded_image_subtitles, _image_subtitles_during (period, starting), period, starting, accurate);
+	return get<ContentImageSubtitle> (_decoded_image, _image_during (period, starting), period, starting, accurate);
 }
 
 void
 SubtitleDecoder::seek (ContentTime, bool)
 {
-	_decoded_text_subtitles.clear ();
-	_decoded_image_subtitles.clear ();
+	_decoded_text.clear ();
+	_decoded_image.clear ();
 }

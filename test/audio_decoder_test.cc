@@ -82,7 +82,7 @@ public:
 			}
 		}
 
-		audio->audio (_test_audio_content->audio->stream(), buffers, ContentTime::from_frames (_position, 48000));
+		audio->give (_test_audio_content->audio->stream(), buffers, ContentTime::from_frames (_position, 48000));
 		_position += N;
 
 		return N < 2000;
@@ -106,7 +106,7 @@ static ContentAudio
 get (Frame from, Frame length)
 {
 	decoder->seek (ContentTime::from_frames (from, content->audio->resampled_frame_rate ()), true);
-	ContentAudio ca = decoder->audio->get_audio (content->audio->stream(), from, length, true);
+	ContentAudio ca = decoder->audio->get (content->audio->stream(), from, length, true);
 	BOOST_CHECK_EQUAL (ca.frame, from);
 	return ca;
 }

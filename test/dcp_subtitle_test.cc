@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	BOOST_CHECK_EQUAL (ctp.back().from, ContentTime::from_seconds (25 + 12 * 0.04));
 	BOOST_CHECK_EQUAL (ctp.back().to, ContentTime::from_seconds (26 + 4 * 0.04));
 
-	list<ContentTextSubtitle> subs = decoder->subtitle->get_text_subtitles (
+	list<ContentTextSubtitle> subs = decoder->subtitle->get_text (
 		ContentTimePeriod (
 			ContentTime::from_seconds (25),
 			ContentTime::from_seconds (26)

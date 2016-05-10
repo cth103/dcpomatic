@@ -55,15 +55,15 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	shared_ptr<Log> log (new NullLog);
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
 
-	BOOST_REQUIRE (decoder->video->_video_content->video_frame_rate());
-	BOOST_CHECK_CLOSE (decoder->video->_video_content->video_frame_rate().get(), fps, 0.01);
+	BOOST_REQUIRE (decoder->video->_content->video_frame_rate());
+	BOOST_CHECK_CLOSE (decoder->video->_content->video_frame_rate().get(), fps, 0.01);
 
 #ifdef DCPOMATIC_DEBUG
 	decoder->video->test_gaps = 0;
 #endif
 	for (Frame i = 0; i < video_length; ++i) {
 		list<ContentVideo> v;
-		v = decoder->video->get_video (i, true);
+		v = decoder->video->get (i, true);
 		BOOST_REQUIRE_EQUAL (v.size(), 1U);
 		BOOST_CHECK_EQUAL (v.front().frame, i);
 	}

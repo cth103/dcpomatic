@@ -23,6 +23,7 @@
 #include "film.h"
 #include "log.h"
 #include "compose.hpp"
+#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -38,27 +39,27 @@ VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared
 #ifdef DCPOMATIC_DEBUG
 	: test_gaps (0)
 	, _parent (parent),
-	  _video_content (c)
+	  _content (c)
 #else
         : _parent (parent)
-	, _video_content (c)
+	, _content (c)
 #endif
 	, _log (log)
 	, _last_seek_accurate (true)
-	, _ignore_video (false)
+	, _ignore (false)
 {
-	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_content->video->size(), true));
+	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _content->video->size(), true));
 	_black_image->make_black ();
 }
 
 list<ContentVideo>
-VideoDecoder::decoded_video (Frame frame)
+VideoDecoder::decoded (Frame frame)
 {
 	list<ContentVideo> output;
 
-	for (list<ContentVideo>::const_iterator i = _decoded_video.begin(); i != _decoded_video.end(); ++i) {
-		if (i->frame == frame) {
-			output.push_back (*i);
+	BOOST_FOREACH (ContentVideo const & i, _decoded) {
+		if (i.frame == frame) {
+			output.push_back (i);
 		}
 	}
 
@@ -71,21 +72,21 @@ VideoDecoder::decoded_video (Frame frame)
  *  @return Frames; there may be none (if there is no video there), 1 for 2D or 2 for 3D.
  */
 list<ContentVideo>
-VideoDecoder::get_video (Frame frame, bool accurate)
+VideoDecoder::get (Frame frame, bool accurate)
 {
 	if (_no_data_frame && frame >= _no_data_frame.get()) {
 		return list<ContentVideo> ();
 	}
 
-	/* At this stage, if we have get_video()ed before, _decoded_video will contain the last frame that this
-	   method returned (and possibly a few more).  If the requested frame is not in _decoded_video and it is not the next
-	   one after the end of _decoded_video we need to seek.
+	/* At this stage, if we have get_video()ed before, _decoded will contain the last frame that this
+	   method returned (and possibly a few more).  If the requested frame is not in _decoded and it is not the next
+	   one after the end of _decoded we need to seek.
 	*/
 
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
-	if (_decoded_video.empty() || frame < _decoded_video.front().frame || frame > (_decoded_video.back().frame + 1)) {
-		seek (ContentTime::from_frames (frame, _video_content->active_video_frame_rate()), accurate);
+	if (_decoded.empty() || frame < _decoded.front().frame || frame > (_decoded.back().frame + 1)) {
+		seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
 	}
 
 	list<ContentVideo> dec;
@@ -102,7 +103,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 		bool no_data = false;
 
 		while (true) {
-			if (!decoded_video(frame).empty ()) {
+			if (!decoded(frame).empty ()) {
 				/* We got what we want */
 				break;
 			}
@@ -113,7 +114,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 				break;
 			}
 
-			if (!_decoded_video.empty() && _decoded_video.front().frame > frame) {
+			if (!_decoded.empty() && _decoded.front().frame > frame) {
 				/* We're never going to get the frame we want.  Perhaps the caller is asking
 				 * for a video frame before the content's video starts (if its audio
 				 * begins before its video, for example).
@@ -122,7 +123,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 			}
 		}
 
-		dec = decoded_video (frame);
+		dec = decoded (frame);
 
 		if (no_data && dec.empty()) {
 			_no_data_frame = frame;
@@ -130,22 +131,22 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
-		while (_decoded_video.empty() && !_parent->pass (Decoder::PASS_REASON_VIDEO, accurate)) {}
-		if (!_decoded_video.empty ()) {
-			dec.push_back (_decoded_video.front ());
+		while (_decoded.empty() && !_parent->pass (Decoder::PASS_REASON_VIDEO, accurate)) {}
+		if (!_decoded.empty ()) {
+			dec.push_back (_decoded.front ());
 		}
 	}
 
-	/* Clean up _decoded_video; keep the frame we are returning, if any (which may have two images
+	/* Clean up _decoded; keep the frame we are returning, if any (which may have two images
 	   for 3D), but nothing before that */
-	while (!_decoded_video.empty() && !dec.empty() && _decoded_video.front().frame < dec.front().frame) {
-		_decoded_video.pop_front ();
+	while (!_decoded.empty() && !dec.empty() && _decoded.front().frame < dec.front().frame) {
+		_decoded.pop_front ();
 	}
 
 	return dec;
 }
 
-/** Fill _decoded_video from `from' up to, but not including, `to' with
+/** Fill _decoded from `from' up to, but not including, `to' with
  *  a frame for one particular Eyes value (which could be EYES_BOTH,
  *  EYES_LEFT or EYES_RIGHT)
  */
@@ -162,22 +163,22 @@ VideoDecoder::fill_one_eye (Frame from, Frame to, Eyes eye)
 	Part filler_part = PART_WHOLE;
 
 	/* ...unless there's some video we can fill with */
-	if (!_decoded_video.empty ()) {
-		filler_image = _decoded_video.back().image;
-		filler_part = _decoded_video.back().part;
+	if (!_decoded.empty ()) {
+		filler_image = _decoded.back().image;
+		filler_part = _decoded.back().part;
 	}
 
 	for (Frame i = from; i < to; ++i) {
 #ifdef DCPOMATIC_DEBUG
 		test_gaps++;
 #endif
-		_decoded_video.push_back (
+		_decoded.push_back (
 			ContentVideo (filler_image, eye, filler_part, i)
 			);
 	}
 }
 
-/** Fill _decoded_video from `from' up to, but not including, `to'
+/** Fill _decoded from `from' up to, but not including, `to'
  *  adding both left and right eye frames.
  */
 void
@@ -195,7 +196,7 @@ VideoDecoder::fill_both_eyes (Frame from, Frame to, Eyes eye)
 	Part filler_right_part = PART_WHOLE;
 
 	/* ...unless there's some video we can fill with */
-	for (list<ContentVideo>::const_reverse_iterator i = _decoded_video.rbegin(); i != _decoded_video.rend(); ++i) {
+	for (list<ContentVideo>::const_reverse_iterator i = _decoded.rbegin(); i != _decoded.rend(); ++i) {
 		if (i->eyes == EYES_LEFT && !filler_left_image) {
 			filler_left_image = i->image;
 			filler_left_part = i->part;
@@ -210,16 +211,16 @@ VideoDecoder::fill_both_eyes (Frame from, Frame to, Eyes eye)
 	}
 
 	Frame filler_frame = from;
-	Eyes filler_eye = _decoded_video.empty() ? EYES_LEFT : _decoded_video.back().eyes;
+	Eyes filler_eye = _decoded.empty() ? EYES_LEFT : _decoded.back().eyes;
 
-	if (_decoded_video.empty ()) {
+	if (_decoded.empty ()) {
 		filler_frame = 0;
 		filler_eye = EYES_LEFT;
-	} else if (_decoded_video.back().eyes == EYES_LEFT) {
-		filler_frame = _decoded_video.back().frame;
+	} else if (_decoded.back().eyes == EYES_LEFT) {
+		filler_frame = _decoded.back().frame;
 		filler_eye = EYES_RIGHT;
-	} else if (_decoded_video.back().eyes == EYES_RIGHT) {
-		filler_frame = _decoded_video.back().frame + 1;
+	} else if (_decoded.back().eyes == EYES_RIGHT) {
+		filler_frame = _decoded.back().frame + 1;
 		filler_eye = EYES_LEFT;
 	}
 
@@ -229,7 +230,7 @@ VideoDecoder::fill_both_eyes (Frame from, Frame to, Eyes eye)
 		test_gaps++;
 #endif
 
-		_decoded_video.push_back (
+		_decoded.push_back (
 			ContentVideo (
 				filler_eye == EYES_LEFT ? filler_left_image : filler_right_image,
 				filler_eye,
@@ -247,19 +248,19 @@ VideoDecoder::fill_both_eyes (Frame from, Frame to, Eyes eye)
 	}
 }
 
-/** Called by subclasses when they have a video frame ready */
+/** Called by decoder classes when they have a video frame ready */
 void
-VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
+VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 {
-	if (_ignore_video) {
+	if (_ignore) {
 		return;
 	}
 
 	_log->log (String::compose ("VD receives %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
-	/* Work out what we are going to push into _decoded_video next */
+	/* Work out what we are going to push into _decoded next */
 	list<ContentVideo> to_push;
-	switch (_video_content->video->frame_type ()) {
+	switch (_content->video->frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
 		to_push.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
 		break;
@@ -268,7 +269,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 		/* We receive the same frame index twice for 3D-alternate; hence we know which
 		   frame this one is.
 		*/
-		bool const same = (!_decoded_video.empty() && frame == _decoded_video.back().frame);
+		bool const same = (!_decoded.empty() && frame == _decoded.back().frame);
 		to_push.push_back (ContentVideo (image, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
 		break;
 	}
@@ -291,18 +292,18 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	/* Now VideoDecoder is required never to have gaps in the frames that it presents
-	   via get_video().  Hence we need to fill in any gap between the last thing in _decoded_video
+	   via get_video().  Hence we need to fill in any gap between the last thing in _decoded
 	   and the things we are about to push.
 	*/
 
 	optional<Frame> from;
 	optional<Frame> to;
 
-	if (_decoded_video.empty() && _last_seek_time && _last_seek_accurate) {
-		from = _last_seek_time->frames_round (_video_content->active_video_frame_rate ());
+	if (_decoded.empty() && _last_seek_time && _last_seek_accurate) {
+		from = _last_seek_time->frames_round (_content->active_video_frame_rate ());
 		to = to_push.front().frame;
-	} else if (!_decoded_video.empty ()) {
-		from = _decoded_video.back().frame + 1;
+	} else if (!_decoded.empty ()) {
+		from = _decoded.back().frame + 1;
 		to = to_push.front().frame;
 	}
 
@@ -315,7 +316,7 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	if (from) {
-		switch (_video_content->video->frame_type ()) {
+		switch (_content->video->frame_type ()) {
 		case VIDEO_FRAME_TYPE_2D:
 			fill_one_eye (from.get(), to.get (), EYES_BOTH);
 			break;
@@ -333,29 +334,29 @@ VideoDecoder::video (shared_ptr<const ImageProxy> image, Frame frame)
 		}
 	}
 
-	copy (to_push.begin(), to_push.end(), back_inserter (_decoded_video));
+	copy (to_push.begin(), to_push.end(), back_inserter (_decoded));
 
 	/* We can't let this build up too much or we will run out of memory.  There is a
-	   `best' value for the allowed size of _decoded_video which balances memory use
+	   `best' value for the allowed size of _decoded which balances memory use
 	   with decoding efficiency (lack of seeks).  Throwing away video frames here
 	   is not a problem for correctness, so do it.
 	*/
-	while (_decoded_video.size() > 96) {
-		_decoded_video.pop_back ();
+	while (_decoded.size() > 96) {
+		_decoded.pop_back ();
 	}
 }
 
 void
 VideoDecoder::seek (ContentTime s, bool accurate)
 {
-	_decoded_video.clear ();
+	_decoded.clear ();
 	_last_seek_time = s;
 	_last_seek_accurate = accurate;
 }
 
-/** Set this player never to produce any video data */
+/** Set this decoder never to produce any data */
 void
-VideoDecoder::set_ignore_video ()
+VideoDecoder::set_ignore ()
 {
-	_ignore_video = true;
+	_ignore = true;
 }

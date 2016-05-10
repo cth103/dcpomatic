@@ -108,7 +108,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 		}
 	}
 
-	subtitle->text_subtitle (content_time_period (_subtitles[_next]), out);
+	subtitle->give_text (content_time_period (_subtitles[_next]), out);
 
 	++_next;
 	return false;

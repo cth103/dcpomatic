@@ -48,23 +48,22 @@ public:
 	 *  @param accurate true to try hard to return frames from exactly `frame', false if we don't mind nearby frames.
 	 *  @return Time-stamped audio data which may or may not be from the location (and of the length) requested.
 	 */
-	ContentAudio get_audio (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
+	ContentAudio get (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
 
-	void set_ignore_audio ();
+	void set_ignore ();
 
 	bool fast () const {
 		return _fast;
 	}
 
-	void audio (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
+	void give (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
 	void seek (ContentTime t, bool accurate);
 
 private:
-	boost::shared_ptr<const AudioContent> _audio_content;
 	/** An AudioDecoderStream object to manage each stream in _audio_content */
 	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
-	bool _ignore_audio;
+	bool _ignore;
 	bool _fast;
 };
 

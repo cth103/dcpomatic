@@ -63,7 +63,7 @@ ImageDecoder::pass (PassReason, bool)
 		}
 	}
 
-	video->video (_image, _video_position);
+	video->give (_image, _video_position);
 	++_video_position;
 	return false;
 }

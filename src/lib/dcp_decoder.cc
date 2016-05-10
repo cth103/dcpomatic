@@ -97,14 +97,14 @@ DCPDecoder::pass (PassReason reason, bool)
 		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (mono) {
-			video->video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), offset + frame);
+			video->give (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), offset + frame);
 		} else {
-			video->video (
+			video->give (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
 				offset + frame
 				);
 
-			video->video (
+			video->give (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
 				offset + frame
 				);
@@ -126,7 +126,7 @@ DCPDecoder::pass (PassReason reason, bool)
 			}
 		}
 
-		audio->audio (_dcp_content->audio->stream(), data, ContentTime::from_frames (offset, vfr) + _next);
+		audio->give (_dcp_content->audio->stream(), data, ContentTime::from_frames (offset, vfr) + _next);
 	}
 
 	if ((*_reel)->main_subtitle ()) {
@@ -139,7 +139,7 @@ DCPDecoder::pass (PassReason reason, bool)
 
 		if (!subs.empty ()) {
 			/* XXX: assuming that all `subs' are at the same time; maybe this is ok */
-			subtitle->text_subtitle (
+			subtitle->give_text (
 				ContentTimePeriod (
 					ContentTime::from_frames (offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().in().as_seconds ()),
 					ContentTime::from_frames (offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().out().as_seconds ())

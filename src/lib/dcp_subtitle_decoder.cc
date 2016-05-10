@@ -77,7 +77,7 @@ DCPSubtitleDecoder::pass (PassReason, bool)
 		++_next;
 	}
 
-	subtitle->text_subtitle (p, s);
+	subtitle->give_text (p, s);
 
 	return false;
 }

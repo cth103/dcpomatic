@@ -86,7 +86,7 @@ SndfileDecoder::pass (PassReason, bool)
 	}
 
 	data->set_frames (this_time);
-	audio->audio (_sndfile_content->audio->stream (), data, ContentTime::from_frames (_done, _info.samplerate));
+	audio->give (_sndfile_content->audio->stream (), data, ContentTime::from_frames (_done, _info.samplerate));
 	_done += this_time;
 	_remaining -= this_time;
 

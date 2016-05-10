@@ -141,7 +141,7 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 	int const si = _packet.stream_index;
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (_video_stream && si == _video_stream.get() && !video->ignore_video() && (accurate || reason != PASS_REASON_SUBTITLE)) {
+	if (_video_stream && si == _video_stream.get() && !video->ignore() && (accurate || reason != PASS_REASON_SUBTITLE)) {
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
@@ -395,7 +395,7 @@ FFmpegDecoder::decode_audio_packet ()
 			}
 
 			if (data->frames() > 0) {
-				audio->audio (*stream, data, ct);
+				audio->give (*stream, data, ct);
 			}
 		}
 
@@ -440,7 +440,7 @@ FFmpegDecoder::decode_video_packet ()
 
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
-			video->video (
+			video->give (
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
@@ -584,7 +584,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		static_cast<double> (rect->h) / vs.height
 		);
 
-	subtitle->image_subtitle (period, image, scaled_rect);
+	subtitle->give_image (period, image, scaled_rect);
 }
 
 void
@@ -651,5 +651,5 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 		}
 	}
 
-	subtitle->text_subtitle (period, ss);
+	subtitle->give_text (period, ss);
 }

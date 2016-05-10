@@ -31,25 +31,24 @@ using std::map;
 using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, bool fast, shared_ptr<Log> log)
-	: _audio_content (content)
-	, _ignore_audio (false)
+	: _ignore (false)
 	, _fast (fast)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
-		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (_audio_content, i, parent, log));
+		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, log));
 	}
 }
 
 ContentAudio
-AudioDecoder::get_audio (AudioStreamPtr stream, Frame frame, Frame length, bool accurate)
+AudioDecoder::get (AudioStreamPtr stream, Frame frame, Frame length, bool accurate)
 {
 	return _streams[stream]->get (frame, length, accurate);
 }
 
 void
-AudioDecoder::audio (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
+AudioDecoder::give (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
 {
-	if (_ignore_audio) {
+	if (_ignore) {
 		return;
 	}
 
@@ -95,9 +94,9 @@ AudioDecoder::seek (ContentTime t, bool accurate)
 	}
 }
 
-/** Set this player never to produce any audio data */
+/** Set this decoder never to produce any data */
 void
-AudioDecoder::set_ignore_audio ()
+AudioDecoder::set_ignore ()
 {
-	_ignore_audio = true;
+	_ignore = true;
 }

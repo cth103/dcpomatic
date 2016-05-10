@@ -208,11 +208,11 @@ Player::setup_pieces ()
 		}
 
 		if (decoder->video && _ignore_video) {
-			decoder->video->set_ignore_video ();
+			decoder->video->set_ignore ();
 		}
 
 		if (decoder->audio && _ignore_audio) {
-			decoder->audio->set_ignore_audio ();
+			decoder->audio->set_ignore ();
 		}
 
 		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc.get ())));
@@ -437,7 +437,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 			if (use) {
 				/* We want to use this piece */
-				list<ContentVideo> content_video = decoder->get_video (dcp_to_content_video (piece, time), accurate);
+				list<ContentVideo> content_video = decoder->get (dcp_to_content_video (piece, time), accurate);
 				if (content_video.empty ()) {
 					pvf.push_back (black_player_video_frame (time));
 				} else {
@@ -465,7 +465,7 @@ Player::get_video (DCPTime time, bool accurate)
 				}
 			} else {
 				/* Discard unused video */
-				decoder->get_video (dcp_to_content_video (piece, time), accurate);
+				decoder->get (dcp_to_content_video (piece, time), accurate);
 			}
 		}
 	}
@@ -542,7 +542,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 			}
 
 			/* Audio from this piece's decoder stream (which might be more or less than what we asked for) */
-			ContentAudio all = decoder->get_audio (j, content_frame, request_frames, accurate);
+			ContentAudio all = decoder->get (j, content_frame, request_frames, accurate);
 
 			/* Gain */
 			if (i->content->audio->gain() != 0) {
@@ -660,7 +660,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
 		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
 
-		list<ContentImageSubtitle> image = subtitle_decoder->get_image_subtitles (ContentTimePeriod (from, to), starting, accurate);
+		list<ContentImageSubtitle> image = subtitle_decoder->get_image (ContentTimePeriod (from, to), starting, accurate);
 		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
 
 			/* Apply content's subtitle offsets */
@@ -678,7 +678,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 			ps.image.push_back (i->sub);
 		}
 
-		list<ContentTextSubtitle> text = subtitle_decoder->get_text_subtitles (ContentTimePeriod (from, to), starting, accurate);
+		list<ContentTextSubtitle> text = subtitle_decoder->get_text (ContentTimePeriod (from, to), starting, accurate);
 		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
 			BOOST_FOREACH (dcp::SubtitleString s, ts.subs) {
 				s.set_h_position (s.h_position() + (*j)->content->subtitle->x_offset ());

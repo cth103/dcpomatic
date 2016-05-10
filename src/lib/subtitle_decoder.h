@@ -38,33 +38,33 @@ public:
 	SubtitleDecoder (
 		Decoder* parent,
 		boost::shared_ptr<const SubtitleContent>,
-		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> image_subtitles_during,
-		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> text_subtitles_during
+		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
+		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
 		);
 
-	std::list<ContentImageSubtitle> get_image_subtitles (ContentTimePeriod period, bool starting, bool accurate);
-	std::list<ContentTextSubtitle> get_text_subtitles (ContentTimePeriod period, bool starting, bool accurate);
+	std::list<ContentImageSubtitle> get_image (ContentTimePeriod period, bool starting, bool accurate);
+	std::list<ContentTextSubtitle> get_text (ContentTimePeriod period, bool starting, bool accurate);
 
 	void seek (ContentTime, bool);
 
-	void image_subtitle (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
-	void text_subtitle (ContentTimePeriod period, std::list<dcp::SubtitleString>);
+	void give_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
+	void give_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
 
 	boost::shared_ptr<const SubtitleContent> content () const {
-		return _subtitle_content;
+		return _content;
 	}
 
 private:
 	Decoder* _parent;
-	std::list<ContentImageSubtitle> _decoded_image_subtitles;
-	std::list<ContentTextSubtitle> _decoded_text_subtitles;
-	boost::shared_ptr<const SubtitleContent> _subtitle_content;
+	std::list<ContentImageSubtitle> _decoded_image;
+	std::list<ContentTextSubtitle> _decoded_text;
+	boost::shared_ptr<const SubtitleContent> _content;
 
 	template <class T>
 	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting, bool accurate);
 
-	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _image_subtitles_during;
-	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _text_subtitles_during;
+	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _image_during;
+	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _text_during;
 };
 
 #endif
