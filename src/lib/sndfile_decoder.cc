@@ -35,12 +35,11 @@ using boost::shared_ptr;
 
 SndfileDecoder::SndfileDecoder (shared_ptr<const SndfileContent> c, bool fast, shared_ptr<Log> log)
 	: Sndfile (c)
-	, AudioDecoder (c->audio, fast, log)
 	, _done (0)
 	, _remaining (_info.frames)
 	, _deinterleave_buffer (0)
 {
-
+	audio.reset (new AudioDecoder (this, c->audio, fast, log));
 }
 
 SndfileDecoder::~SndfileDecoder ()
@@ -87,7 +86,7 @@ SndfileDecoder::pass (PassReason, bool)
 	}
 
 	data->set_frames (this_time);
-	audio (_sndfile_content->audio->stream (), data, ContentTime::from_frames (_done, _info.samplerate));
+	audio->audio (_sndfile_content->audio->stream (), data, ContentTime::from_frames (_done, _info.samplerate));
 	_done += this_time;
 	_remaining -= this_time;
 
@@ -97,7 +96,7 @@ SndfileDecoder::pass (PassReason, bool)
 void
 SndfileDecoder::seek (ContentTime t, bool accurate)
 {
-	AudioDecoder::seek (t, accurate);
+	audio->seek (t, accurate);
 
 	_done = t.frames_round (_info.samplerate);
 	_remaining = _info.frames - _done;

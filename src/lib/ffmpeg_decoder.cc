@@ -27,14 +27,17 @@
 #include "util.h"
 #include "log.h"
 #include "ffmpeg_decoder.h"
+#include "subtitle_decoder.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "video_filter_graph.h"
 #include "audio_buffers.h"
 #include "ffmpeg_content.h"
 #include "raw_image_proxy.h"
+#include "video_decoder.h"
 #include "film.h"
 #include "md5_digester.h"
+#include "audio_decoder.h"
 #include "compose.hpp"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
@@ -72,16 +75,29 @@ using boost::split;
 using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
-	: VideoDecoder (c, log)
-	, AudioDecoder (c->audio, fast, log)
-	, SubtitleDecoder (c->subtitle)
-	, FFmpeg (c)
+	: FFmpeg (c)
 	, _log (log)
 {
 	if (c->video) {
+		video.reset (new VideoDecoder (this, c, log));
 		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate());
 	} else {
 		_pts_offset = ContentTime ();
+	}
+
+	if (c->audio) {
+		audio.reset (new AudioDecoder (this, c->audio, fast, log));
+	}
+
+	if (c->subtitle) {
+		subtitle.reset (
+			new SubtitleDecoder (
+				this,
+				c->subtitle,
+				bind (&FFmpegDecoder::image_subtitles_during, this, _1, _2),
+				bind (&FFmpegDecoder::text_subtitles_during, this, _1, _2)
+				)
+			);
 	}
 }
 
@@ -98,7 +114,7 @@ FFmpegDecoder::flush ()
 	while (decode_video_packet ()) {}
 
 	decode_audio_packet ();
-	AudioDecoder::flush ();
+	audio->flush ();
 }
 
 bool
@@ -125,7 +141,7 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 	int const si = _packet.stream_index;
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (_video_stream && si == _video_stream.get() && !_ignore_video && (accurate || reason != PASS_REASON_SUBTITLE)) {
+	if (_video_stream && si == _video_stream.get() && !video->ignore_video() && (accurate || reason != PASS_REASON_SUBTITLE)) {
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
@@ -284,9 +300,9 @@ FFmpegDecoder::bytes_per_audio_sample (shared_ptr<FFmpegAudioStream> stream) con
 void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
-	VideoDecoder::seek (time, accurate);
-	AudioDecoder::seek (time, accurate);
-	SubtitleDecoder::seek (time, accurate);
+	video->seek (time, accurate);
+	audio->seek (time, accurate);
+	subtitle->seek (time, accurate);
 
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.
@@ -379,7 +395,7 @@ FFmpegDecoder::decode_audio_packet ()
 			}
 
 			if (data->frames() > 0) {
-				audio (*stream, data, ct);
+				audio->audio (*stream, data, ct);
 			}
 		}
 
@@ -424,7 +440,7 @@ FFmpegDecoder::decode_video_packet ()
 
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
-			video (
+			video->video (
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
@@ -568,7 +584,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		static_cast<double> (rect->h) / vs.height
 		);
 
-	image_subtitle (period, image, scaled_rect);
+	subtitle->image_subtitle (period, image, scaled_rect);
 }
 
 void
@@ -635,5 +651,5 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 		}
 	}
 
-	text_subtitle (period, ss);
+	subtitle->text_subtitle (period, ss);
 }

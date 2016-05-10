@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,33 +28,43 @@
 
 class Image;
 
-class SubtitleDecoder : public virtual Decoder
+class SubtitleDecoder
 {
 public:
-	SubtitleDecoder (boost::shared_ptr<const SubtitleContent>);
+	/** Second parameter to the _during functions is true if we
+	 *  want only subtitles that start during the period,
+	 *  otherwise we want subtitles that overlap the period.
+	 */
+	SubtitleDecoder (
+		Decoder* parent,
+		boost::shared_ptr<const SubtitleContent>,
+		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> image_subtitles_during,
+		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> text_subtitles_during
+		);
 
 	std::list<ContentImageSubtitle> get_image_subtitles (ContentTimePeriod period, bool starting, bool accurate);
 	std::list<ContentTextSubtitle> get_text_subtitles (ContentTimePeriod period, bool starting, bool accurate);
 
-protected:
 	void seek (ContentTime, bool);
 
 	void image_subtitle (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void text_subtitle (ContentTimePeriod period, std::list<dcp::SubtitleString>);
 
+	boost::shared_ptr<const SubtitleContent> content () const {
+		return _subtitle_content;
+	}
+
+private:
+	Decoder* _parent;
 	std::list<ContentImageSubtitle> _decoded_image_subtitles;
 	std::list<ContentTextSubtitle> _decoded_text_subtitles;
 	boost::shared_ptr<const SubtitleContent> _subtitle_content;
 
-private:
 	template <class T>
 	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting, bool accurate);
 
-	/** @param starting true if we want only subtitles that start during the period, otherwise
-	 *  we want subtitles that overlap the period.
-	 */
-	virtual std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
-	virtual std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const = 0;
+	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _image_subtitles_during;
+	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _text_subtitles_during;
 };
 
 #endif

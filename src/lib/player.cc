@@ -20,6 +20,7 @@
 #include "player.h"
 #include "film.h"
 #include "ffmpeg_decoder.h"
+#include "video_decoder.h"
 #include "audio_buffers.h"
 #include "audio_content.h"
 #include "ffmpeg_content.h"
@@ -206,14 +207,12 @@ Player::setup_pieces ()
 			frc = FrameRateChange (dsc->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
-		shared_ptr<VideoDecoder> vd = dynamic_pointer_cast<VideoDecoder> (decoder);
-		if (vd && _ignore_video) {
-			vd->set_ignore_video ();
+		if (decoder->video && _ignore_video) {
+			decoder->video->set_ignore_video ();
 		}
 
-		shared_ptr<AudioDecoder> ad = dynamic_pointer_cast<AudioDecoder> (decoder);
-		if (ad && _ignore_audio) {
-			ad->set_ignore_audio ();
+		if (decoder->audio && _ignore_audio) {
+			decoder->audio->set_ignore_audio ();
 		}
 
 		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc.get ())));

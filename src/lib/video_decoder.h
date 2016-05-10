@@ -39,20 +39,22 @@ class Log;
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
  */
-class VideoDecoder : public virtual Decoder
+class VideoDecoder
 {
 public:
-	VideoDecoder (boost::shared_ptr<const Content> c, boost::shared_ptr<Log> log);
+	VideoDecoder (Decoder* parent, boost::shared_ptr<const Content> c, boost::shared_ptr<Log> log);
 
 	std::list<ContentVideo> get_video (Frame frame, bool accurate);
 
 	void set_ignore_video ();
+	bool ignore_video () const {
+		return _ignore_video;
+	}
 
 #ifdef DCPOMATIC_DEBUG
 	int test_gaps;
 #endif
 
-protected:
 	friend struct video_decoder_fill_test1;
 	friend struct video_decoder_fill_test2;
 	friend struct ffmpeg_pts_offset_test;
@@ -60,10 +62,14 @@ protected:
 
 	void seek (ContentTime time, bool accurate);
 	void video (boost::shared_ptr<const ImageProxy>, Frame frame);
+
+private:
+
 	std::list<ContentVideo> decoded_video (Frame frame);
 	void fill_one_eye (Frame from, Frame to, Eyes);
 	void fill_both_eyes (Frame from, Frame to, Eyes);
 
+	Decoder* _parent;
 	boost::shared_ptr<const Content> _video_content;
 	boost::shared_ptr<Log> _log;
 	std::list<ContentVideo> _decoded_video;

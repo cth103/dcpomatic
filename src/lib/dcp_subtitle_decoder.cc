@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,10 +25,19 @@
 using std::list;
 using std::cout;
 using boost::shared_ptr;
+using boost::bind;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
-	: SubtitleDecoder (content->subtitle)
 {
+	subtitle.reset (
+		new SubtitleDecoder (
+			this,
+			content->subtitle,
+			bind (&DCPSubtitleDecoder::image_subtitles_during, this, _1, _2),
+			bind (&DCPSubtitleDecoder::text_subtitles_during, this, _1, _2)
+			)
+		);
+
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
@@ -37,7 +46,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 void
 DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
-	SubtitleDecoder::seek (time, accurate);
+	subtitle->seek (time, accurate);
 
 	_next = _subtitles.begin ();
 	list<dcp::SubtitleString>::const_iterator i = _subtitles.begin ();
@@ -68,7 +77,7 @@ DCPSubtitleDecoder::pass (PassReason, bool)
 		++_next;
 	}
 
-	text_subtitle (p, s);
+	subtitle->text_subtitle (p, s);
 
 	return false;
 }

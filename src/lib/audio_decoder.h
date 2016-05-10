@@ -37,10 +37,10 @@ class Log;
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public virtual Decoder, public boost::enable_shared_from_this<AudioDecoder>
+class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>
 {
 public:
-	AudioDecoder (boost::shared_ptr<const AudioContent>, bool fast, boost::shared_ptr<Log> log);
+	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent>, bool fast, boost::shared_ptr<Log> log);
 
 	/** Try to fetch some audio from a specific place in this content.
 	 *  @param frame Frame to start from (after resampling, if applicable)
@@ -56,7 +56,6 @@ public:
 		return _fast;
 	}
 
-protected:
 	void audio (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
 	void seek (ContentTime t, bool accurate);

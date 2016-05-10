@@ -29,11 +29,12 @@ class AudioContent;
 class AudioDecoder;
 class Resampler;
 class Log;
+class Decoder;
 
 class AudioDecoderStream
 {
 public:
-	AudioDecoderStream (boost::shared_ptr<const AudioContent>, AudioStreamPtr, AudioDecoder* decoder, boost::shared_ptr<Log> log);
+	AudioDecoderStream (boost::shared_ptr<const AudioContent>, AudioStreamPtr, Decoder* decoder, boost::shared_ptr<Log> log);
 
 	ContentAudio get (Frame time, Frame length, bool accurate);
 	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
@@ -47,7 +48,7 @@ private:
 
 	boost::shared_ptr<const AudioContent> _content;
 	AudioStreamPtr _stream;
-	AudioDecoder* _decoder;
+	Decoder* _decoder;
 	boost::shared_ptr<Log> _log;
 	boost::shared_ptr<Resampler> _resampler;
 	boost::optional<Frame> _position;

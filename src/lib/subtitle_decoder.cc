@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,9 +27,18 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::optional;
+using boost::function;
 
-SubtitleDecoder::SubtitleDecoder (shared_ptr<const SubtitleContent> c)
-	: _subtitle_content (c)
+SubtitleDecoder::SubtitleDecoder (
+	Decoder* parent,
+	shared_ptr<const SubtitleContent> c,
+	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> image_subtitles_during,
+	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> text_subtitles_during
+	)
+	: _parent (parent)
+	, _subtitle_content (c)
+	, _image_subtitles_during (image_subtitles_during)
+	, _text_subtitles_during (text_subtitles_during)
 {
 
 }
@@ -72,7 +81,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 	 *  (a) give us what we want, or
 	 *  (b) hit the end of the decoder.
 	 */
-	while (!pass(PASS_REASON_SUBTITLE, accurate) && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
+	while (!_parent->pass(Decoder::PASS_REASON_SUBTITLE, accurate) && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
 
 	/* Now look for what we wanted in the data we have collected */
 	/* XXX: inefficient */
@@ -107,13 +116,13 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 list<ContentTextSubtitle>
 SubtitleDecoder::get_text_subtitles (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentTextSubtitle> (_decoded_text_subtitles, text_subtitles_during (period, starting), period, starting, accurate);
+	return get<ContentTextSubtitle> (_decoded_text_subtitles, _text_subtitles_during (period, starting), period, starting, accurate);
 }
 
 list<ContentImageSubtitle>
 SubtitleDecoder::get_image_subtitles (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentImageSubtitle> (_decoded_image_subtitles, image_subtitles_during (period, starting), period, starting, accurate);
+	return get<ContentImageSubtitle> (_decoded_image_subtitles, _image_subtitles_during (period, starting), period, starting, accurate);
 }
 
 void

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,18 @@
 
 */
 
-#include <iostream>
-#include <boost/filesystem.hpp>
-#include <Magick++.h>
 #include "image_content.h"
 #include "image_decoder.h"
+#include "video_decoder.h"
 #include "image.h"
 #include "magick_image_proxy.h"
 #include "j2k_image_proxy.h"
 #include "film.h"
 #include "exceptions.h"
+#include "video_content.h"
+#include <Magick++.h>
+#include <boost/filesystem.hpp>
+#include <iostream>
 
 #include "i18n.h"
 
@@ -35,11 +37,10 @@ using boost::shared_ptr;
 using dcp::Size;
 
 ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> log)
-	: VideoDecoder (c, log)
-	, _image_content (c)
+	: _image_content (c)
 	, _video_position (0)
 {
-
+	video.reset (new VideoDecoder (this, c, log));
 }
 
 bool
@@ -62,7 +63,7 @@ ImageDecoder::pass (PassReason, bool)
 		}
 	}
 
-	video (_image, _video_position);
+	video->video (_image, _video_position);
 	++_video_position;
 	return false;
 }
@@ -70,6 +71,6 @@ ImageDecoder::pass (PassReason, bool)
 void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
-	VideoDecoder::seek (time, accurate);
+	video->seek (time, accurate);
 	_video_position = time.frames_round (_image_content->active_video_frame_rate ());
 }

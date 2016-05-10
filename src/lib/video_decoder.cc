@@ -34,12 +34,14 @@ using std::back_inserter;
 using boost::shared_ptr;
 using boost::optional;
 
-VideoDecoder::VideoDecoder (shared_ptr<const Content> c, shared_ptr<Log> log)
+VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared_ptr<Log> log)
 #ifdef DCPOMATIC_DEBUG
 	: test_gaps (0)
-	, _video_content (c)
+	, _parent (parent),
+	  _video_content (c)
 #else
-	: _video_content (c)
+        : _parent (parent)
+	, _video_content (c)
 #endif
 	, _log (log)
 	, _last_seek_accurate (true)
@@ -105,7 +107,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 				break;
 			}
 
-			if (pass (PASS_REASON_VIDEO, accurate)) {
+			if (_parent->pass (Decoder::PASS_REASON_VIDEO, accurate)) {
 				/* The decoder has nothing more for us */
 				no_data = true;
 				break;
@@ -128,7 +130,7 @@ VideoDecoder::get_video (Frame frame, bool accurate)
 
 	} else {
 		/* Any frame will do: use the first one that comes out of pass() */
-		while (_decoded_video.empty() && !pass (PASS_REASON_VIDEO, accurate)) {}
+		while (_decoded_video.empty() && !_parent->pass (Decoder::PASS_REASON_VIDEO, accurate)) {}
 		if (!_decoded_video.empty ()) {
 			dec.push_back (_decoded_video.front ());
 		}

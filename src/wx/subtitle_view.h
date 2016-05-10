@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,12 +21,12 @@
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 
-class SubtitleDecoder;
+class Decoder;
 
 class SubtitleView : public wxDialog
 {
 public:
-	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<SubtitleDecoder>, DCPTime position);
+	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Decoder>, DCPTime position);
 
 private:
 	wxListCtrl* _list;

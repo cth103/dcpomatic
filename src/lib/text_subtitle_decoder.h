@@ -25,7 +25,7 @@
 
 class TextSubtitleContent;
 
-class TextSubtitleDecoder : public SubtitleDecoder, public TextSubtitle
+class TextSubtitleDecoder : public Decoder, public TextSubtitle
 {
 public:
 	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>);

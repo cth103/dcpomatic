@@ -20,7 +20,10 @@
 #include "dcp_decoder.h"
 #include "dcp_content.h"
 #include "audio_content.h"
+#include "video_decoder.h"
+#include "audio_decoder.h"
 #include "j2k_image_proxy.h"
+#include "subtitle_decoder.h"
 #include "image.h"
 #include "config.h"
 #include <dcp/dcp.h>
@@ -44,11 +47,20 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
-	: VideoDecoder (c, log)
-	, AudioDecoder (c->audio, fast, log)
-	, SubtitleDecoder (c->subtitle)
-	, _dcp_content (c)
+	: _dcp_content (c)
 {
+	video.reset (new VideoDecoder (this, c, log));
+	audio.reset (new AudioDecoder (this, c->audio, fast, log));
+
+	subtitle.reset (
+		new SubtitleDecoder (
+			this,
+			c->subtitle,
+			bind (&DCPDecoder::image_subtitles_during, this, _1, _2),
+			bind (&DCPDecoder::text_subtitles_during, this, _1, _2)
+			)
+		);
+
 	dcp::DCP dcp (c->directory ());
 	dcp.read (false, 0, true);
 	if (c->kdm ()) {
@@ -85,14 +97,14 @@ DCPDecoder::pass (PassReason reason, bool)
 		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (mono) {
-			video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), offset + frame);
+			video->video (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), offset + frame);
 		} else {
-			video (
+			video->video (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
 				offset + frame
 				);
 
-			video (
+			video->video (
 				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
 				offset + frame
 				);
@@ -114,7 +126,7 @@ DCPDecoder::pass (PassReason reason, bool)
 			}
 		}
 
-		audio (_dcp_content->audio->stream(), data, ContentTime::from_frames (offset, vfr) + _next);
+		audio->audio (_dcp_content->audio->stream(), data, ContentTime::from_frames (offset, vfr) + _next);
 	}
 
 	if ((*_reel)->main_subtitle ()) {
@@ -127,7 +139,7 @@ DCPDecoder::pass (PassReason reason, bool)
 
 		if (!subs.empty ()) {
 			/* XXX: assuming that all `subs' are at the same time; maybe this is ok */
-			text_subtitle (
+			subtitle->text_subtitle (
 				ContentTimePeriod (
 					ContentTime::from_frames (offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().in().as_seconds ()),
 					ContentTime::from_frames (offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().out().as_seconds ())
@@ -152,9 +164,9 @@ DCPDecoder::pass (PassReason reason, bool)
 void
 DCPDecoder::seek (ContentTime t, bool accurate)
 {
-	VideoDecoder::seek (t, accurate);
-	AudioDecoder::seek (t, accurate);
-	SubtitleDecoder::seek (t, accurate);
+	video->seek (t, accurate);
+	audio->seek (t, accurate);
+	subtitle->seek (t, accurate);
 
 	_reel = _reels.begin ();
 	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {

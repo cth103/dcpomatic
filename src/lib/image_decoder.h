@@ -17,11 +17,13 @@
 
 */
 
-#include "video_decoder.h"
+#include "decoder.h"
 
 class ImageContent;
+class Log;
+class ImageProxy;
 
-class ImageDecoder : public VideoDecoder
+class ImageDecoder : public Decoder
 {
 public:
 	ImageDecoder (boost::shared_ptr<const ImageContent> c, boost::shared_ptr<Log> log);
@@ -31,7 +33,7 @@ public:
 	}
 
 private:
-	bool pass (PassReason, bool);
+	bool pass (Decoder::PassReason, bool);
 	void seek (ContentTime, bool);
 
 	boost::shared_ptr<const ImageContent> _image_content;

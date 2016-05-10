@@ -377,7 +377,7 @@ SubtitlePanel::subtitle_view_clicked ()
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<SubtitleDecoder> decoder;
+	shared_ptr<Decoder> decoder;
 
 	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
 	if (sr) {

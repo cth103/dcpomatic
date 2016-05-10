@@ -29,6 +29,8 @@
 #include "lib/ffmpeg_decoder.h"
 #include "lib/null_log.h"
 #include "lib/film.h"
+#include "lib/content_video.h"
+#include "lib/video_decoder.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
@@ -44,7 +46,7 @@ static void
 check (shared_ptr<FFmpegDecoder> decoder, int frame)
 {
 	list<ContentVideo> v;
-	v = decoder->get_video (frame, true);
+	v = decoder->video->get_video (frame, true);
 	BOOST_CHECK (v.size() == 1);
 	BOOST_CHECK_EQUAL (v.front().frame, frame);
 }

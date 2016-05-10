@@ -58,14 +58,15 @@ public:
 	}
 };
 
-class TestAudioDecoder : public AudioDecoder
+class TestAudioDecoder : public Decoder
 {
 public:
 	TestAudioDecoder (shared_ptr<TestAudioContent> content, shared_ptr<Log> log)
-		: AudioDecoder (content->audio, false, log)
-		, _test_audio_content (content)
+		: _test_audio_content (content)
 		, _position (0)
-	{}
+	{
+		audio.reset (new AudioDecoder (this, content->audio, false, log));
+	}
 
 	bool pass (PassReason, bool)
 	{
@@ -81,7 +82,7 @@ public:
 			}
 		}
 
-		audio (_test_audio_content->audio->stream(), buffers, ContentTime::from_frames (_position, 48000));
+		audio->audio (_test_audio_content->audio->stream(), buffers, ContentTime::from_frames (_position, 48000));
 		_position += N;
 
 		return N < 2000;
@@ -89,7 +90,7 @@ public:
 
 	void seek (ContentTime t, bool accurate)
 	{
-		AudioDecoder::seek (t, accurate);
+		audio->seek (t, accurate);
 		_position = t.frames_round (_test_audio_content->audio->resampled_frame_rate ());
 	}
 
@@ -105,7 +106,7 @@ static ContentAudio
 get (Frame from, Frame length)
 {
 	decoder->seek (ContentTime::from_frames (from, content->audio->resampled_frame_rate ()), true);
-	ContentAudio ca = decoder->get_audio (content->audio->stream(), from, length, true);
+	ContentAudio ca = decoder->audio->get_audio (content->audio->stream(), from, length, true);
 	BOOST_CHECK_EQUAL (ca.frame, from);
 	return ca;
 }

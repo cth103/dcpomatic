@@ -28,7 +28,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<SubtitleDecoder> decoder, DCPTime position)
+SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Decoder> decoder, DCPTime position)
 	: wxDialog (parent, wxID_ANY, _("Subtitles"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
@@ -65,7 +65,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	list<ContentTextSubtitle> subs = decoder->get_text_subtitles (ContentTimePeriod (ContentTime(), ContentTime::max ()), true, true);
+	list<ContentTextSubtitle> subs = decoder->subtitle->get_text_subtitles (ContentTimePeriod (ContentTime(), ContentTime::max ()), true, true);
 	FrameRateChange const frc = film->active_frame_rate_change (position);
 	int n = 0;
 	for (list<ContentTextSubtitle>::const_iterator i = subs.begin(); i != subs.end(); ++i) {

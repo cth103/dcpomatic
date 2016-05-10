@@ -34,17 +34,23 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 
 TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> content)
-	: SubtitleDecoder (content->subtitle)
-	, TextSubtitle (content)
+	: TextSubtitle (content)
 	, _next (0)
 {
-
+	subtitle.reset (
+		new SubtitleDecoder (
+			this,
+			content->subtitle,
+			bind (&TextSubtitleDecoder::image_subtitles_during, this, _1, _2),
+			bind (&TextSubtitleDecoder::text_subtitles_during, this, _1, _2)
+			)
+		);
 }
 
 void
 TextSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
-	SubtitleDecoder::seek (time, accurate);
+	subtitle->seek (time, accurate);
 
 	_next = 0;
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
@@ -79,7 +85,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 					j.italic,
 					j.bold,
 					/* force the colour to whatever is configured */
-					_subtitle_content->colour(),
+					subtitle->content()->colour(),
 					j.font_size.points (72 * 11),
 					1.0,
 					dcp::Time (_subtitles[_next].from.all_as_seconds(), 1000),
@@ -93,8 +99,8 @@ TextSubtitleDecoder::pass (PassReason, bool)
 					dcp::VALIGN_TOP,
 					dcp::DIRECTION_LTR,
 					j.text,
-					_subtitle_content->outline() ? dcp::BORDER : dcp::NONE,
-					_subtitle_content->outline_colour(),
+					subtitle->content()->outline() ? dcp::BORDER : dcp::NONE,
+					subtitle->content()->outline_colour(),
 					dcp::Time (0, 1000),
 					dcp::Time (0, 1000)
 					)
@@ -102,7 +108,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 		}
 	}
 
-	text_subtitle (content_time_period (_subtitles[_next]), out);
+	subtitle->text_subtitle (content_time_period (_subtitles[_next]), out);
 
 	++_next;
 	return false;

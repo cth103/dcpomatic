@@ -39,14 +39,14 @@ using std::max;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, AudioStreamPtr stream, AudioDecoder* decoder, shared_ptr<Log> log)
+AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, AudioStreamPtr stream, Decoder* decoder, shared_ptr<Log> log)
 	: _content (content)
 	, _stream (stream)
 	, _decoder (decoder)
 	, _log (log)
 {
 	if (content->resampled_frame_rate() != _stream->frame_rate() && _stream->channels() > 0) {
-		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_frame_rate(), _stream->channels (), decoder->fast ()));
+		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_frame_rate(), _stream->channels (), decoder->audio->fast ()));
 	}
 
 	reset_decoded ();

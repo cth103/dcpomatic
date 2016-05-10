@@ -30,13 +30,13 @@ using std::cout;
 using std::map;
 using boost::shared_ptr;
 
-AudioDecoder::AudioDecoder (shared_ptr<const AudioContent> content, bool fast, shared_ptr<Log> log)
+AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, bool fast, shared_ptr<Log> log)
 	: _audio_content (content)
 	, _ignore_audio (false)
 	, _fast (fast)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
-		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (_audio_content, i, this, log));
+		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (_audio_content, i, parent, log));
 	}
 }
 

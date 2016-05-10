@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,9 +22,7 @@
  */
 
 #include "util.h"
-#include "video_decoder.h"
-#include "audio_decoder.h"
-#include "subtitle_decoder.h"
+#include "decoder.h"
 #include "ffmpeg.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -36,12 +34,13 @@ extern "C" {
 class Log;
 class VideoFilterGraph;
 class FFmpegAudioStream;
+class AudioBuffers;
 struct ffmpeg_pts_offset_test;
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
  */
-class FFmpegDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder, public FFmpeg
+class FFmpegDecoder : public FFmpeg, public Decoder
 {
 public:
 	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>, bool fast);

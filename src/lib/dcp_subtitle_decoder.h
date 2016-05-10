@@ -22,7 +22,7 @@
 
 class DCPSubtitleContent;
 
-class DCPSubtitleDecoder : public SubtitleDecoder, public DCPSubtitle
+class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 {
 public:
 	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);

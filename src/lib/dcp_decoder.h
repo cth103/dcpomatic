@@ -21,18 +21,17 @@
  *  @brief A decoder of existing DCPs.
  */
 
-#include "video_decoder.h"
-#include "audio_decoder.h"
-#include "subtitle_decoder.h"
+#include "decoder.h"
 
 namespace dcp {
 	class Reel;
 }
 
 class DCPContent;
+class Log;
 struct dcp_subtitle_within_dcp_test;
 
-class DCPDecoder : public VideoDecoder, public AudioDecoder, public SubtitleDecoder
+class DCPDecoder : public Decoder
 {
 public:
 	DCPDecoder (boost::shared_ptr<const DCPContent>, boost::shared_ptr<Log> log, bool fast);

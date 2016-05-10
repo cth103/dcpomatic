@@ -29,6 +29,9 @@
 #include <boost/utility.hpp>
 
 class Decoded;
+class VideoDecoder;
+class AudioDecoder;
+class SubtitleDecoder;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -38,8 +41,15 @@ class Decoder : public boost::noncopyable
 public:
 	virtual ~Decoder () {}
 
-protected:
-	friend class AudioDecoderStream;
+	boost::shared_ptr<VideoDecoder> video;
+	boost::shared_ptr<AudioDecoder> audio;
+	boost::shared_ptr<SubtitleDecoder> subtitle;
+
+	enum PassReason {
+		PASS_REASON_VIDEO,
+		PASS_REASON_AUDIO,
+		PASS_REASON_SUBTITLE
+	};
 
 	/** Seek so that the next pass() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
@@ -50,12 +60,6 @@ protected:
 	 *  it may seek to just the right spot.
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
-
-	enum PassReason {
-		PASS_REASON_VIDEO,
-		PASS_REASON_AUDIO,
-		PASS_REASON_SUBTITLE
-	};
 
 	/** @return true if this decoder has already returned all its data and will give no more */
 	virtual bool pass (PassReason, bool accurate) = 0;
