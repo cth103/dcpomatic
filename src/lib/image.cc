@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -110,10 +110,13 @@ Image::planes () const
 	return d->nb_components;
 }
 
-/** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size' */
+/** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size'.
+ *  @param fast Try to be fast at the possible expense of quality; at present this means using
+ *  fast bilinear rather than bicubic scaling.
+ */
 shared_ptr<Image>
 Image::crop_scale_window (
-	Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned
+	Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned, bool fast
 	) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
@@ -156,7 +159,7 @@ Image::crop_scale_window (
 	struct SwsContext* scale_context = sws_getContext (
 			cropped_size.width, cropped_size.height, pixel_format(),
 			inter_size.width, inter_size.height, out_format,
-			SWS_BICUBIC, 0, 0, 0
+			fast ? SWS_FAST_BILINEAR : SWS_BICUBIC, 0, 0, 0
 		);
 
 	if (!scale_context) {
@@ -213,8 +216,11 @@ Image::crop_scale_window (
 	return out;
 }
 
+/** @param fast Try to be fast at the possible expense of quality; at present this means using
+ *  fast bilinear rather than bicubic scaling.
+ */
 shared_ptr<Image>
-Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned) const
+Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned, bool fast) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not aligned.
@@ -226,7 +232,7 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		out_size.width, out_size.height, out_format,
-		SWS_BICUBIC, 0, 0, 0
+		fast ? SWS_FAST_BILINEAR : SWS_BICUBIC, 0, 0, 0
 		);
 
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUV_TO_RGB_COUNT);

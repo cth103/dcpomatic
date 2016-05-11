@@ -153,6 +153,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	try {
 		_player.reset (new Player (_film, _film->playlist ()));
+		_player->set_fast ();
 	} catch (bad_alloc) {
 		error_dialog (this, _("There is not enough free memory to do that."));
 		_film.reset ();
@@ -220,19 +221,12 @@ FilmViewer::get (DCPTime p, bool accurate)
 				pv = all_pv.front ();
 			}
 
-			/* XXX: this could now give us a 48-bit image, which is a bit wasteful,
-			   or a XYZ image, which the code below will currently rely on FFmpeg
-			   to colourspace-convert.
-			*/
-			_frame = pv->image (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+			_frame = pv->image (
+				bind (&Log::dcp_log, _film->log().get(), _1, _2), bind (&PlayerVideo::always_rgb, _1), false, true
+				);
+
 			ImageChanged (pv);
 
-			dcp::YUVToRGB yuv_to_rgb = dcp::YUV_TO_RGB_REC601;
-			if (pv->colour_conversion()) {
-				yuv_to_rgb = pv->colour_conversion().get().yuv_to_rgb();
-			}
-
-			_frame = _frame->scale (_frame->size(), yuv_to_rgb, AV_PIX_FMT_RGB24, false);
 			_position = pv->time ();
 			_inter_position = pv->inter_position ();
 			_inter_size = pv->inter_size ();

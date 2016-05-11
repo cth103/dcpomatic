@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -57,8 +57,10 @@ public:
 	int line_factor (int) const;
 	dcp::Size sample_size (int) const;
 
-	boost::shared_ptr<Image> scale (dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned) const;
-	boost::shared_ptr<Image> crop_scale_window (Crop c, dcp::Size, dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned) const;
+	boost::shared_ptr<Image> scale (dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned, bool fast) const;
+	boost::shared_ptr<Image> crop_scale_window (
+		Crop c, dcp::Size, dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned, bool fast)
+		const;
 
 	void make_black ();
 	void make_transparent ();

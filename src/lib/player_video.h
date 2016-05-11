@@ -54,7 +54,10 @@ public:
 
 	void set_subtitle (PositionImage);
 
-	boost::shared_ptr<Image> image (dcp::NoteHandler note) const;
+	boost::shared_ptr<Image> image (dcp::NoteHandler note, boost::function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const;
+
+	static AVPixelFormat always_rgb (AVPixelFormat);
+	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
 
 	void add_metadata (xmlpp::Node* node) const;
 	void send_binary (boost::shared_ptr<Socket> socket) const;

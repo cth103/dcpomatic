@@ -1,3 +1,7 @@
+2016-03-16  Carl Hetherington  <cth@carlh.net>
+
+	* Optimise image scaling for the preview.
+
 2016-05-11  Carl Hetherington  <cth@carlh.net>
 
 	* Hopefully improve strange colour fringing on

@@ -1,6 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
-    Taken from code Copyright (C) 2010-2011 Terrence Meiczinger
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -99,7 +98,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
-	shared_ptr<Image> image = frame->image (note);
+	shared_ptr<Image> image = frame->image (note, bind (&PlayerVideo::keep_xyz_or_rgb, _1), true, false);
 	if (frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz (
 			image->data()[0],

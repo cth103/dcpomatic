@@ -34,6 +34,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using boost::function;
 using dcp::Data;
 
 PlayerVideo::PlayerVideo (
@@ -94,8 +95,14 @@ PlayerVideo::set_subtitle (PositionImage image)
 	_subtitle = image;
 }
 
+/** Create an image for this frame.
+ *  @param note Handler for any notes that are made during the process.
+ *  @param pixel_format Function which is called to decide what pixel format the output image should be;
+ *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
+ *  output pixel format.  Two functions always_rgb and keep_xyz_or_rgb are provided for use here.
+ */
 shared_ptr<Image>
-PlayerVideo::image (dcp::NoteHandler note) const
+PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
 	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note));
 
@@ -122,10 +129,9 @@ PlayerVideo::image (dcp::NoteHandler note) const
 		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
 	}
 
-	/* If the input is XYZ, keep it otherwise convert to RGB */
-	AVPixelFormat const p = _in->pixel_format() == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
-
-	shared_ptr<Image> out = im->crop_scale_window (total_crop, _inter_size, _out_size, yuv_to_rgb, p, true);
+	shared_ptr<Image> out = im->crop_scale_window (
+		total_crop, _inter_size, _out_size, yuv_to_rgb, pixel_format (_in->pixel_format()), aligned, fast
+		);
 
 	if (_subtitle) {
 		out->alpha_blend (_subtitle->image, _subtitle->position);
@@ -229,4 +235,16 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 	/* Now neither has subtitles */
 
 	return _in->same (other->_in);
+}
+
+AVPixelFormat
+PlayerVideo::always_rgb (AVPixelFormat)
+{
+	return AV_PIX_FMT_RGB24;
+}
+
+AVPixelFormat
+PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
+{
+	return p == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
 }
