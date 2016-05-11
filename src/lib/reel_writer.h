@@ -87,7 +87,7 @@ private:
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;
 	void check_existing_picture_asset ();
-	bool existing_picture_frame_ok (FILE* asset_file, FILE* info_file, int frame) const;
+	bool existing_picture_frame_ok (FILE* asset_file, FILE* info_file) const;
 
 	boost::shared_ptr<const Film> _film;
 
