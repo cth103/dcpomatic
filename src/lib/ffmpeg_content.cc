@@ -349,9 +349,15 @@ FFmpegContent::identifier () const
 {
 	SafeStringStream s;
 
-	s << Content::identifier() << "_"
-	  << video->identifier() << "_"
-	  << subtitle->identifier();
+	s << Content::identifier();
+
+	if (video) {
+		s << "_" << video->identifier();
+	}
+
+	if (subtitle) {
+		s << "_" << subtitle->identifier();
+	}
 
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -536,8 +542,12 @@ vector<shared_ptr<FFmpegAudioStream> >
 FFmpegContent::ffmpeg_audio_streams () const
 {
 	vector<shared_ptr<FFmpegAudioStream> > fa;
-	BOOST_FOREACH (AudioStreamPtr i, audio->streams()) {
-		fa.push_back (dynamic_pointer_cast<FFmpegAudioStream> (i));
+
+	if (audio) {
+		BOOST_FOREACH (AudioStreamPtr i, audio->streams()) {
+			fa.push_back (dynamic_pointer_cast<FFmpegAudioStream> (i));
+		}
 	}
+
 	return fa;
 }
