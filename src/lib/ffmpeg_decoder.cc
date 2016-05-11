@@ -302,9 +302,17 @@ FFmpegDecoder::bytes_per_audio_sample (shared_ptr<FFmpegAudioStream> stream) con
 void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
-	video->seek (time, accurate);
-	audio->seek (time, accurate);
-	subtitle->seek (time, accurate);
+	if (video) {
+		video->seek (time, accurate);
+	}
+
+	if (audio) {
+		audio->seek (time, accurate);
+	}
+
+	if (subtitle) {
+		subtitle->seek (time, accurate);
+	}
 
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.

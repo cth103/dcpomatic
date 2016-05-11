@@ -74,7 +74,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Seek if what we want is before what we have, or a more than a little bit after */
 	if (subs.empty() || sp.back().to < subs.front().period().from || sp.front().from > (subs.back().period().to + ContentTime::from_seconds (1))) {
-		seek (sp.front().from, true);
+		_parent->seek (sp.front().from, true);
 	}
 
 	/* Now enough pass() calls will either:

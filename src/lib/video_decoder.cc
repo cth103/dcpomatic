@@ -86,7 +86,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_decoded.empty() || frame < _decoded.front().frame || frame > (_decoded.back().frame + 1)) {
-		seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
+		_parent->seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
 	}
 
 	list<ContentVideo> dec;
