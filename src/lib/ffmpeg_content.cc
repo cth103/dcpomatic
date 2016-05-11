@@ -159,6 +159,12 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 
 	if (audio) {
 		audio->as_xml (node);
+
+		BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
+			shared_ptr<FFmpegAudioStream> f = dynamic_pointer_cast<FFmpegAudioStream> (i);
+			DCPOMATIC_ASSERT (f);
+			f->as_xml (node->add_child("AudioStream"));
+		}
 	}
 
 	if (subtitle) {
@@ -173,12 +179,6 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 			t->add_child("Selected")->add_child_text("1");
 		}
 		(*i)->as_xml (t);
-	}
-
-	BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
-		shared_ptr<FFmpegAudioStream> f = dynamic_pointer_cast<FFmpegAudioStream> (i);
-		DCPOMATIC_ASSERT (f);
-		f->as_xml (node->add_child("AudioStream"));
 	}
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
