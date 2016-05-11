@@ -498,6 +498,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_XYZ12LE:
 	{
+		boost::numeric::ublas::matrix<double> matrix = dcp::ColourConversion::srgb_to_xyz().rgb_to_xyz();
 		int const this_bpp = 6;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
 			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
@@ -506,9 +507,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 				float const alpha = float (op[3]) / 255;
 
 				/* Convert sRGB to XYZ; op is BGRA */
-				int const x = 0.4124564 + op[2] + 0.3575761 * op[1] + 0.1804375 * op[0];
-				int const y = 0.2126729 + op[2] + 0.7151522 * op[1] + 0.0721750 * op[0];
-				int const z = 0.0193339 + op[2] + 0.1191920 * op[1] + 0.9503041 * op[0];
+				int const x = matrix(0, 0) * op[2] + matrix(0, 1) * op[1] + matrix(0, 2) * op[0];
+				int const y = matrix(1, 0) * op[2] + matrix(1, 1) * op[1] + matrix(1, 2) * op[0];
+				int const z = matrix(2, 0) * op[2] + matrix(2, 1) * op[1] + matrix(2, 2) * op[0];
 
 				/* Blend high bytes */
 				tp[1] = min (x, 255) * alpha + tp[1] * (1 - alpha);
