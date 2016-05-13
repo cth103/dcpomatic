@@ -228,6 +228,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Randy Stankey"));
 	supported_by.Add (wxT ("Andrä Steiner"));
 	supported_by.Add (wxT ("Mike Stiebing"));
+	supported_by.Add (wxT ("Tomislav Stojanović"));
 	supported_by.Add (wxT ("Christian Suhren"));
 	supported_by.Add (wxT ("Bruce Taylor"));
 	supported_by.Add (wxT ("OpsCenter Technologies, Inc."));
