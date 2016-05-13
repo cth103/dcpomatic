@@ -41,7 +41,7 @@ using boost::shared_ptr;
 ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
 {
-	video.reset (new VideoContent (this, film));
+	video.reset (new VideoContent (this));
 
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		_paths.push_back (p);
@@ -66,7 +66,7 @@ ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path
 ImageContent::ImageContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 {
-	video = VideoContent::from_xml (this, film, node, version);
+	video = VideoContent::from_xml (this, node, version);
 }
 
 string

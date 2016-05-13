@@ -24,7 +24,6 @@
 #include "font.h"
 #include "raw_convert.h"
 #include "content.h"
-#include "film.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -51,8 +50,8 @@ int const SubtitleContentProperty::COLOUR = 508;
 int const SubtitleContentProperty::OUTLINE = 509;
 int const SubtitleContentProperty::OUTLINE_COLOUR = 510;
 
-SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
-	: ContentPart (parent, film)
+SubtitleContent::SubtitleContent (Content* parent)
+	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
 	, _x_offset (0)
@@ -67,17 +66,17 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film)
 }
 
 shared_ptr<SubtitleContent>
-SubtitleContent::from_xml (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+SubtitleContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
 		return shared_ptr<SubtitleContent> ();
 	}
 
-	return shared_ptr<SubtitleContent> (new SubtitleContent (parent, film, node, version));
+	return shared_ptr<SubtitleContent> (new SubtitleContent (parent, node, version));
 }
 
-SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: ContentPart (parent, film)
+SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int version)
+	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
 	, _x_offset (0)
@@ -125,8 +124,8 @@ SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, 
 	connect_to_fonts ();
 }
 
-SubtitleContent::SubtitleContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: ContentPart (parent, film)
+SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart (parent)
 {
 	shared_ptr<SubtitleContent> ref = c[0]->subtitle;
 	DCPOMATIC_ASSERT (ref);

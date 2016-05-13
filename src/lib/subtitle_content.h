@@ -46,8 +46,8 @@ public:
 class SubtitleContent : public ContentPart
 {
 public:
-	SubtitleContent (Content* parent, boost::shared_ptr<const Film>);
-	SubtitleContent (Content* parent, boost::shared_ptr<const Film>, std::vector<boost::shared_ptr<Content> >);
+	SubtitleContent (Content* parent);
+	SubtitleContent (Content* parent, std::vector<boost::shared_ptr<Content> >);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
@@ -128,7 +128,7 @@ public:
 		return _outline_colour;
 	}
 
-	static boost::shared_ptr<SubtitleContent> from_xml (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version);
+	static boost::shared_ptr<SubtitleContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
 	/** subtitle language (e.g. "German") or empty if it is not known */
@@ -137,7 +137,7 @@ protected:
 private:
 	friend struct ffmpeg_pts_offset_test;
 
-	SubtitleContent (Content* parent, boost::shared_ptr<const Film>, cxml::ConstNodePtr, int version);
+	SubtitleContent (Content* parent, cxml::ConstNodePtr, int version);
 	void font_changed ();
 	void connect_to_fonts ();
 

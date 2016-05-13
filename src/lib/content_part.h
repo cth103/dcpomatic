@@ -30,9 +30,8 @@ class Film;
 class ContentPart
 {
 public:
-	ContentPart (Content* parent, boost::shared_ptr<const Film> film)
+	ContentPart (Content* parent)
 		: _parent (parent)
-		, _film (film)
 	{}
 
 protected:
@@ -65,7 +64,6 @@ protected:
 	}
 
 	Content* _parent;
-	boost::weak_ptr<const Film> _film;
 	mutable boost::mutex _mutex;
 };
 

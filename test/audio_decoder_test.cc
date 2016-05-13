@@ -41,7 +41,7 @@ public:
 	TestAudioContent (shared_ptr<const Film> film)
 		: Content (film)
  	{
-		audio.reset (new AudioContent (this, film));
+		audio.reset (new AudioContent (this));
 		audio->set_stream (AudioStreamPtr (new AudioStream (48000, audio_length(), 2)));
 	}
 

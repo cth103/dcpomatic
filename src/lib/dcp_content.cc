@@ -62,8 +62,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_audio (false)
 	, _reference_subtitle (false)
 {
-	video.reset (new VideoContent (this, film));
-	audio.reset (new AudioContent (this, film));
+	video.reset (new VideoContent (this));
+	audio.reset (new AudioContent (this));
 
 	read_directory (p);
 	set_default_colour_conversion ();
@@ -72,9 +72,9 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 {
-	video = VideoContent::from_xml (this, film, node, version);
-	audio = AudioContent::from_xml (this, film, node);
-	subtitle = SubtitleContent::from_xml (this, film, node, version);
+	video = VideoContent::from_xml (this, node, version);
+	audio = AudioContent::from_xml (this, node);
+	subtitle = SubtitleContent::from_xml (this, node, version);
 
 	audio->set_stream (
 		AudioStreamPtr (
@@ -138,7 +138,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
 		if (examiner->has_subtitles ()) {
-			subtitle.reset (new SubtitleContent (this, film()));
+			subtitle.reset (new SubtitleContent (this));
 		}
 		_encrypted = examiner->encrypted ();
 		_kdm_valid = examiner->kdm_valid ();

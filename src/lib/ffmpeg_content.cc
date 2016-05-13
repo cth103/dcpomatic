@@ -70,9 +70,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, boost::filesystem::pa
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (film, node)
 {
-	video = VideoContent::from_xml (this, film, node, version);
-	audio = AudioContent::from_xml (this, film, node);
-	subtitle = SubtitleContent::from_xml (this, film, node, version);
+	video = VideoContent::from_xml (this, node, version);
+	audio = AudioContent::from_xml (this, node);
+	subtitle = SubtitleContent::from_xml (this, node, version);
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
@@ -120,9 +120,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
 	: Content (film, c)
 {
-	video.reset (new VideoContent (this, film, c));
-	audio.reset (new AudioContent (this, film, c));
-	subtitle.reset (new SubtitleContent (this, film, c));
+	video.reset (new VideoContent (this, c));
+	audio.reset (new AudioContent (this, c));
+	subtitle.reset (new SubtitleContent (this, c));
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
@@ -208,7 +208,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
 
 	if (examiner->has_video ()) {
-		video.reset (new VideoContent (this, film ()));
+		video.reset (new VideoContent (this));
 		video->take_from_examiner (examiner);
 		set_default_colour_conversion ();
 	}
@@ -226,7 +226,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		}
 
 		if (!examiner->audio_streams().empty ()) {
-			audio.reset (new AudioContent (this, film ()));
+			audio.reset (new AudioContent (this));
 
 			BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, examiner->audio_streams ()) {
 				audio->add_stream (i);
@@ -240,7 +240,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 		_subtitle_streams = examiner->subtitle_streams ();
 		if (!_subtitle_streams.empty ()) {
-			subtitle.reset (new SubtitleContent (this, film ()));
+			subtitle.reset (new SubtitleContent (this));
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 

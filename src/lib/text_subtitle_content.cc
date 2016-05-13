@@ -38,14 +38,14 @@ std::string const TextSubtitleContent::font_id = "font";
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
 {
-	subtitle.reset (new SubtitleContent (this, film));
+	subtitle.reset (new SubtitleContent (this));
 }
 
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	subtitle = SubtitleContent::from_xml (this, film, node, version);
+	subtitle = SubtitleContent::from_xml (this, node, version);
 }
 
 void

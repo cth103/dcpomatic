@@ -48,8 +48,8 @@ int const AudioContentProperty::STREAMS = 200;
 int const AudioContentProperty::GAIN = 201;
 int const AudioContentProperty::DELAY = 202;
 
-AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film)
-	: ContentPart (parent, film)
+AudioContent::AudioContent (Content* parent)
+	: ContentPart (parent)
 	, _gain (0)
 	, _delay (Config::instance()->default_audio_delay ())
 {
@@ -57,17 +57,17 @@ AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film)
 }
 
 shared_ptr<AudioContent>
-AudioContent::from_xml (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node)
+AudioContent::from_xml (Content* parent, cxml::ConstNodePtr node)
 {
 	if (!node->optional_number_child<double> ("AudioGain")) {
 		return shared_ptr<AudioContent> ();
 	}
 
-	return shared_ptr<AudioContent> (new AudioContent (parent, film, node));
+	return shared_ptr<AudioContent> (new AudioContent (parent, node));
 }
 
-AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node)
-	: ContentPart (parent, film)
+AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
+	: ContentPart (parent)
 {
 	_gain = node->number_child<double> ("AudioGain");
 	_delay = node->number_child<int> ("AudioDelay");
@@ -79,8 +79,8 @@ AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film, cxml::
 	}
 }
 
-AudioContent::AudioContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: ContentPart (parent, film)
+AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart (parent)
 {
 	shared_ptr<AudioContent> ref = c[0]->audio;
 	DCPOMATIC_ASSERT (ref);
@@ -187,9 +187,7 @@ AudioContent::resampled_frame_rate () const
 	/* Resample to a DCI-approved sample rate */
 	double t = has_rate_above_48k() ? 96000 : 48000;
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	FrameRateChange frc (_parent->active_video_frame_rate(), film->video_frame_rate());
+	FrameRateChange frc (_parent->active_video_frame_rate(), _parent->film()->video_frame_rate());
 
 	/* Compensate if the DCP is being run at a different frame rate
 	   to the source; that is, if the video is run such that it will
@@ -297,10 +295,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 		p.push_back (UserProperty (_("Audio"), _("Content audio frame rate"), stream->frame_rate(), _("Hz")));
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-
-	FrameRateChange const frc (_parent->active_video_frame_rate(), film->video_frame_rate());
+	FrameRateChange const frc (_parent->active_video_frame_rate(), _parent->film()->video_frame_rate());
 	ContentTime const c (_parent->full_length(), frc);
 
 	p.push_back (

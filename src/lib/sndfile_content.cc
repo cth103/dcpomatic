@@ -41,13 +41,13 @@ using boost::shared_ptr;
 SndfileContent::SndfileContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film, p)
 {
-	audio.reset (new AudioContent (this, film));
+	audio.reset (new AudioContent (this));
 }
 
 SndfileContent::SndfileContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
 	: Content (film, node)
 {
-	audio = AudioContent::from_xml (this, film, node);
+	audio = AudioContent::from_xml (this, node);
 
 	if (audio) {
 		audio->set_stream (

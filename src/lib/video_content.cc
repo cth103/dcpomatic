@@ -39,7 +39,7 @@
 
 #include "i18n.h"
 
-#define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+#define LOG_GENERAL(...) _parent->film()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 int const VideoContentProperty::SIZE	  = 0;
 int const VideoContentProperty::FRAME_TYPE  = 1;
@@ -63,8 +63,8 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film)
-	: ContentPart (parent, film)
+VideoContent::VideoContent (Content* parent)
+	: ContentPart (parent)
 	, _length (0)
 	, _frame_type (VIDEO_FRAME_TYPE_2D)
 	, _scale (VideoContentScale (Ratio::from_id ("178")))
@@ -76,17 +76,17 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film)
 }
 
 shared_ptr<VideoContent>
-VideoContent::from_xml (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
+VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
 	if (!node->optional_number_child<int> ("VideoWidth")) {
 		return shared_ptr<VideoContent> ();
 	}
 
-	return shared_ptr<VideoContent> (new VideoContent (parent, film, node, version));
+	return shared_ptr<VideoContent> (new VideoContent (parent, node, version));
 }
 
-VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::ConstNodePtr node, int version)
-	: ContentPart (parent, film)
+VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version)
+	: ContentPart (parent)
 {
 	_size.width = node->number_child<int> ("VideoWidth");
 	_size.height = node->number_child<int> ("VideoHeight");
@@ -129,8 +129,8 @@ VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, cxml::
 	}
 }
 
-VideoContent::VideoContent (Content* parent, shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
-	: ContentPart (parent, film)
+VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart (parent)
 	, _length (0)
 	, _yuv (false)
 {
@@ -222,8 +222,6 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 			);
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);
 
 	if (d->video_frame_rate()) {
@@ -301,8 +299,7 @@ VideoContent::size_after_crop () const
 void
 VideoContent::scale_and_crop_to_fit_width ()
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	shared_ptr<const Film> film = _parent->film ();
 	set_scale (VideoContentScale (film->container ()));
 
 	int const crop = max (0, int (size().height - double (film->frame_size().height) * size().width / film->frame_size().width));
@@ -315,8 +312,7 @@ VideoContent::scale_and_crop_to_fit_width ()
 void
 VideoContent::scale_and_crop_to_fit_height ()
 {
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	shared_ptr<const Film> film = _parent->film ();
 	set_scale (VideoContentScale (film->container ()));
 
 	int const crop = max (0, int (size().width - double (film->frame_size().width) * size().height / film->frame_size().height));
@@ -332,8 +328,7 @@ VideoContent::fade (Frame f) const
 {
 	DCPOMATIC_ASSERT (f >= 0);
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	shared_ptr<const Film> film = _parent->film ();
 
 	double const vfr = _parent->active_video_frame_rate ();
 
@@ -384,8 +379,7 @@ VideoContent::processing_description () const
 		d << " (" << fixed << setprecision(2) << cropped.ratio () << ":1)\n";
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	shared_ptr<const Film> film = _parent->film ();
 	dcp::Size const container_size = film->frame_size ();
 	dcp::Size const scaled = scale().size (shared_from_this(), container_size, container_size);
 
