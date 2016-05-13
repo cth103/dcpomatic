@@ -139,6 +139,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Mike Blakesley"));
 	supported_by.Add (wxT ("Silvio Bonomi"));
 	supported_by.Add (wxT ("Jeff Boot"));
+	supported_by.Add (wxT ("Paul Carey"));
 	supported_by.Add (wxT ("Kieran Carroll"));
 	supported_by.Add (wxT ("Nathan Carpenter"));
 	supported_by.Add (wxT ("Matt Carter"));
