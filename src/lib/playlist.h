@@ -61,7 +61,7 @@ public:
 	boost::optional<DCPTime> start () const;
 	int64_t required_disk_space (int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
 
-	int best_dcp_frame_rate () const;
+	int best_video_frame_rate () const;
 	DCPTime video_end () const;
 	DCPTime subtitle_end () const;
 	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;

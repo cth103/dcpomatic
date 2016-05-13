@@ -887,7 +887,7 @@ Film::signal_changed (Property p)
 
 	switch (p) {
 	case Film::CONTENT:
-		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
+		set_video_frame_rate (_playlist->best_video_frame_rate ());
 		break;
 	case Film::VIDEO_FRAME_RATE:
 	case Film::SEQUENCE:
@@ -1082,7 +1082,7 @@ Film::length () const
 int
 Film::best_video_frame_rate () const
 {
-	return _playlist->best_dcp_frame_rate ();
+	return _playlist->best_video_frame_rate ();
 }
 
 FrameRateChange
@@ -1097,7 +1097,7 @@ Film::playlist_content_changed (weak_ptr<Content> c, int p, bool frequent)
 	_dirty = true;
 
 	if (p == ContentProperty::VIDEO_FRAME_RATE) {
-		set_video_frame_rate (_playlist->best_dcp_frame_rate ());
+		set_video_frame_rate (_playlist->best_video_frame_rate ());
 	} else if (p == AudioContentProperty::STREAMS) {
 		signal_changed (NAME);
 	}

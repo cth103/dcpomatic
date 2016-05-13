@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_single");
 	/* Get any piece of content, it doesn't matter what */
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
-	film->add_content (content);
+	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
 	/* Run some tests with a limited range of allowed rates */
@@ -221,9 +221,9 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_double");
 	/* Get any old content, it doesn't matter what */
 	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
-	film->add_content (A);
+	film->examine_and_add_content (A);
 	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
-	film->add_content (B);
+	film->examine_and_add_content (B);
 	wait_for_jobs ();
 
 	/* Run some tests with a limited range of allowed rates */
@@ -262,6 +262,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
 	shared_ptr<FFmpegAudioStream> stream (new FFmpegAudioStream ("foo", 0, 0, 0, 0));
+	content->audio.reset (new AudioContent (content.get()));
 	content->audio->add_stream (stream);
 	content->_video_frame_rate = 24;
 	film->set_video_frame_rate (24);

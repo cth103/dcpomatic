@@ -240,7 +240,7 @@ public:
 };
 
 int
-Playlist::best_dcp_frame_rate () const
+Playlist::best_video_frame_rate () const
 {
 	list<int> const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
 
