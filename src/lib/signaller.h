@@ -41,7 +41,17 @@ public:
 	}
 
 	bool finished () const {
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm (_mutex, boost::try_to_lock);
+		if (!lm) {
+			/* It's possible that emission of this
+			   wrapper's signal causes another signal to
+			   be emitted, which causes finished() on this
+			   wrapper to be called (by Signaller::emit).
+			   In this case, just say that the wrapper is
+			   not yet finished.
+			*/
+			return false;
+		}
 		return _finished;
 	}
 
