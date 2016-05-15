@@ -1185,7 +1185,7 @@ Film::make_kdm (
 	}
 
 	return dcp::DecryptedKDM (
-		cpl, key(), from, until, "DCP-o-matic", cpl->content_title_text(), dcp::LocalTime().as_string()
+		cpl, key(), from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
 		).encrypt (signer, recipient, trusted_devices, formulation);
 }
 
