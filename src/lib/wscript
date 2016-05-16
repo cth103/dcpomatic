@@ -94,6 +94,7 @@ sources = """
           magick_image_proxy.cc
           md5_digester.cc
           mid_side_decoder.cc
+          overlaps.cc
           player.cc
           player_subtitles.cc
           player_video.cc

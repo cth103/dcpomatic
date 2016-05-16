@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,23 +17,14 @@
 
 */
 
-/** @return Pieces of content type C that overlap a specified time range in the given ContentList */
-template<class C>
-std::list<boost::shared_ptr<C> >
-overlaps (ContentList cl, DCPTime from, DCPTime to)
-{
-	std::list<boost::shared_ptr<C> > overlaps;
-	DCPTimePeriod period (from, to);
-	for (typename ContentList::const_iterator i = cl.begin(); i != cl.end(); ++i) {
-		boost::shared_ptr<C> c = boost::dynamic_pointer_cast<C> (*i);
-		if (!c) {
-			continue;
-		}
+#include "types.h"
+#include "dcpomatic_time.h"
 
-		if (DCPTimePeriod(c->position(), c->end()).overlaps (period)) {
-			overlaps.push_back (c);
-		}
-	}
+class ContentPart;
 
-	return overlaps;
-}
+/** @return Pieces of content with a given part (video, audio,
+ * subtitle) that overlap a specified time range in the given
+ * ContentList */
+ContentList overlaps (
+	ContentList cl, boost::function<boost::shared_ptr<ContentPart> (boost::shared_ptr<const Content>)> part, DCPTime from, DCPTime to
+	);

@@ -37,6 +37,8 @@ public:
 	static int const REFERENCE_SUBTITLE;
 };
 
+class ContentPart;
+
 /** @class DCPContent
  *  @brief An existing DCP used as input.
  */
@@ -112,7 +114,11 @@ private:
 
 	void read_directory (boost::filesystem::path);
 	std::list<DCPTimePeriod> reels () const;
-	template <class T> bool can_reference (std::string overlapping, std::list<std::string>& why_not) const;
+	bool can_reference (
+		boost::function <boost::shared_ptr<ContentPart> (boost::shared_ptr<const Content>)>,
+		std::string overlapping,
+		std::list<std::string>& why_not
+		) const;
 
 	std::string _name;
 	/** true if our DCP is encrypted */

@@ -48,6 +48,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::scoped_ptr;
 using boost::optional;
+using boost::function;
 
 int const DCPContentProperty::CAN_BE_PLAYED      = 600;
 int const DCPContentProperty::REFERENCE_VIDEO    = 601;
@@ -327,9 +328,8 @@ DCPContent::reel_split_points () const
 	return s;
 }
 
-template <class T>
 bool
-DCPContent::can_reference (string overlapping, list<string>& why_not) const
+DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Content>)> part, string overlapping, list<string>& why_not) const
 {
 	list<DCPTimePeriod> const fr = film()->reels ();
 	/* fr must contain reels().  It can also contain other reels, but it must at
@@ -342,7 +342,7 @@ DCPContent::can_reference (string overlapping, list<string>& why_not) const
 		}
 	}
 
-	list<shared_ptr<T> > a = overlaps<T> (film()->content(), position(), end());
+	ContentList a = overlaps (film()->content(), part, position(), end());
 	if (a.size() != 1 || a.front().get() != this) {
 		why_not.push_back (overlapping);
 		return false;
@@ -354,20 +354,33 @@ DCPContent::can_reference (string overlapping, list<string>& why_not) const
 bool
 DCPContent::can_reference_video (list<string>& why_not) const
 {
-	/* XXX: this needs to be fixed */
-	return true;
+	return can_reference (bind (&Content::video, _1), _("There is other video content overlapping this DCP; remove it."), why_not);
 }
 
 bool
 DCPContent::can_reference_audio (list<string>& why_not) const
 {
-	/* XXX: this needs to be fixed */
-	return true;
+        DCPDecoder decoder (shared_from_this(), film()->log(), false);
+        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+                if (!i->main_sound()) {
+                        why_not.push_back (_("The DCP does not have sound in all reels."));
+                        return false;
+                }
+        }
+
+        return can_reference (bind (&Content::audio, _1),   _("There is other audio content overlapping this DCP; remove it."), why_not);
 }
 
 bool
 DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
-	/* XXX: this needs to be fixed */
-	return true;
+        DCPDecoder decoder (shared_from_this(), film()->log(), false);
+        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+                if (!i->main_subtitle()) {
+                        why_not.push_back (_("The DCP does not have subtitles in all reels."));
+                        return false;
+                }
+        }
+
+        return can_reference (bind (&Content::subtitle, _1), _("There is other subtitle content overlapping this DCP; remove it."), why_not);
 }
