@@ -28,7 +28,7 @@
 #include <dcp/sound_frame.h>
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
-#include "lib/sndfile_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
@@ -47,7 +47,7 @@ test_silence_padding (int channels)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 
-	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/staircase.wav"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/staircase.wav"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

@@ -18,7 +18,7 @@
 */
 
 /** @file  test/audio_delay_test.cc
- *  @brief Test encode using some SndfileContents which have audio delays.
+ *  @brief Test encode using some FFmpegContents which have audio delays.
  *
  *  The output is checked algorithmically using knowledge of the input.
  */
@@ -29,7 +29,7 @@
 #include <dcp/reel.h>
 #include <dcp/sound_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include "lib/sndfile_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
 #include "lib/film.h"
@@ -53,7 +53,7 @@ void test_audio_delay (int delay_in_ms)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 
-	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/staircase.wav"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/staircase.wav"));
 	content->audio->set_delay (delay_in_ms);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();

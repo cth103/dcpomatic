@@ -25,7 +25,7 @@
 #include "lib/audio_analysis.h"
 #include "lib/analyse_audio_job.h"
 #include "lib/film.h"
-#include "lib/sndfile_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->set_name ("audio_analysis_test");
 	boost::filesystem::path p = private_data / "betty_L.wav";
 
-	shared_ptr<SndfileContent> c (new SndfileContent (film, p));
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, p));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 
-	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/white.wav"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/white.wav"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

@@ -22,9 +22,9 @@
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/image_content.h"
-#include "lib/sndfile_content.h"
 #include "lib/video_content.h"
 #include "lib/audio_mapping.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
 #include "test.h"
 #include <iostream>
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test audio channel markup */
 
 	film->set_audio_channels (6);
-	shared_ptr<SndfileContent> sound (new SndfileContent (film, "test/data/sine_440.wav"));
+	shared_ptr<FFmpegContent> sound (new FFmpegContent (film, "test/data/sine_440.wav"));
 	film->examine_and_add_content (sound);
 	wait_for_jobs ();
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PP_SMPTE_OV");

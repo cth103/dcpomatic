@@ -18,8 +18,6 @@
 */
 
 #include "playlist.h"
-#include "sndfile_content.h"
-#include "sndfile_decoder.h"
 #include "video_content.h"
 #include "subtitle_content.h"
 #include "ffmpeg_decoder.h"

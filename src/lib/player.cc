@@ -21,13 +21,13 @@
 #include "film.h"
 #include "ffmpeg_decoder.h"
 #include "video_decoder.h"
+#include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "audio_content.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
+#include "content_audio.h"
 #include "image_content.h"
-#include "sndfile_decoder.h"
-#include "sndfile_content.h"
 #include "subtitle_content.h"
 #include "text_subtitle_decoder.h"
 #include "text_subtitle_content.h"
@@ -158,34 +158,6 @@ Player::setup_pieces ()
 			}
 
 			frc = FrameRateChange (ic->active_video_frame_rate(), _film->video_frame_rate());
-		}
-
-		/* SndfileContent */
-		shared_ptr<const SndfileContent> sc = dynamic_pointer_cast<const SndfileContent> (i);
-		if (sc) {
-			decoder.reset (new SndfileDecoder (sc, _fast, _film->log()));
-
-			/* Work out a FrameRateChange for the best overlap video for this content */
-			DCPTime best_overlap_t;
-			shared_ptr<Content> best_overlap;
-			BOOST_FOREACH (shared_ptr<Content> j, _playlist->content ()) {
-				if (!j->video) {
-					continue;
-				}
-
-				DCPTime const overlap = min (j->end(), i->end()) - max (j->position(), i->position());
-				if (overlap > best_overlap_t) {
-					best_overlap = j;
-					best_overlap_t = overlap;
-				}
-			}
-
-			if (best_overlap) {
-				frc = FrameRateChange (best_overlap->active_video_frame_rate(), _film->video_frame_rate ());
-			} else {
-				/* No video overlap; e.g. if the DCP is just audio */
-				frc = FrameRateChange (_film->video_frame_rate(), _film->video_frame_rate ());
-			}
 		}
 
 		/* It's questionable whether subtitle content should have a video frame rate; perhaps

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #include <dcp/sound_frame.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel.h>
-#include "lib/sndfile_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"

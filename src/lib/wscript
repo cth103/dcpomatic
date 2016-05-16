@@ -114,10 +114,6 @@ sources = """
           send_kdm_email_job.cc
           send_problem_report_job.cc
           server.cc
-          sndfile_base.cc
-          sndfile_content.cc
-          sndfile_decoder.cc
-          sndfile_examiner.cc
           string_log_entry.cc
           text_subtitle.cc
           text_subtitle_content.cc
@@ -153,7 +149,7 @@ def build(bld):
     obj.uselib = """
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 BOOST_REGEX
-                 SNDFILE SAMPLERATE POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
+                 SAMPLERATE POSTPROC TIFF MAGICK SSH DCP CXML GLIB LZMA XML++
                  CURL ZIP FONTCONFIG PANGOMM CAIROMM XMLSEC SUB ICU
                  """
 

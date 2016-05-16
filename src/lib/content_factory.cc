@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,12 +22,13 @@
  */
 
 #include "ffmpeg_content.h"
+#include "audio_content.h"
 #include "image_content.h"
-#include "sndfile_content.h"
 #include "text_subtitle_content.h"
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "util.h"
+#include "ffmpeg_audio_stream.h"
 #include "film.h"
 #include "log_entry.h"
 #include "log.h"
@@ -57,11 +58,29 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 	boost::shared_ptr<Content> content;
 
 	if (type == "FFmpeg") {
+		/* SndfileContent is now handled by the FFmpeg code rather than by
+		   separate libsndfile-based code.
+		*/
 		content.reset (new FFmpegContent (film, node, version, notes));
 	} else if (type == "Image") {
 		content.reset (new ImageContent (film, node, version));
 	} else if (type == "Sndfile") {
-		content.reset (new SndfileContent (film, node, version));
+		/* SndfileContent is now handled by the FFmpeg code rather than by
+		   separate libsndfile-based code.
+		*/
+		content.reset (new FFmpegContent (film, node, version, notes));
+
+		content->audio->set_stream (
+			AudioStreamPtr (
+				new FFmpegAudioStream (
+					"Stream", 0,
+					node->number_child<int> ("AudioFrameRate"),
+					node->number_child<Frame> ("AudioLength"),
+					AudioMapping (node->node_child ("AudioMapping"), version)
+					)
+				)
+			);
+
 	} else if (type == "SubRip" || type == "TextSubtitle") {
 		content.reset (new TextSubtitleContent (film, node, version));
 	} else if (type == "DCP") {
@@ -137,8 +156,6 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 
 		if (valid_image_file (path)) {
 			content.reset (new ImageContent (film, path));
-		} else if (SndfileContent::valid_file (path)) {
-			content.reset (new SndfileContent (film, path));
 		} else if (ext == ".srt" || ext == ".ssa") {
 			content.reset (new TextSubtitleContent (film, path));
 		} else if (ext == ".xml") {

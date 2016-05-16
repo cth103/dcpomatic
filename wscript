@@ -176,9 +176,6 @@ def configure(conf):
                        lib=['icuio', 'icui18n', 'icudata', 'icuuc'],
                        uselib_store='ICU')
 
-    # libsndfile
-    conf.check_cfg(package='sndfile', args='--cflags --libs', uselib_store='SNDFILE', mandatory=True)
-
     # libsamplerate
     conf.check_cfg(package='samplerate', args='--cflags --libs', uselib_store='SAMPLERATE', mandatory=True)
 

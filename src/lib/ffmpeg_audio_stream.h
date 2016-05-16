@@ -31,6 +31,11 @@ public:
 		, AudioStream (frame_rate, length, channels)
 	{}
 
+	FFmpegAudioStream (std::string name, int id, int frame_rate, Frame length, AudioMapping mapping)
+		: FFmpegStream (name, id)
+		, AudioStream (frame_rate, length, mapping)
+	{}
+
 	FFmpegAudioStream (cxml::ConstNodePtr, int);
 
 	void as_xml (xmlpp::Node *) const;

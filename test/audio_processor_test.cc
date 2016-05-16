@@ -21,7 +21,7 @@
 #include "lib/analyse_audio_job.h"
 #include "lib/dcp_content_type.h"
 #include "lib/job_manager.h"
-#include "lib/sndfile_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_processor_test");
 	film->set_name ("audio_processor_test");
-	shared_ptr<SndfileContent> c (new SndfileContent (film, "test/data/white.wav"));
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/white.wav"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 

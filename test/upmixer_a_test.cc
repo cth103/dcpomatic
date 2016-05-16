@@ -22,7 +22,7 @@
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
-#include "lib/sndfile_content.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/player.h"
 #include "lib/audio_buffers.h"
 #include "lib/upmixer_a.h"
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
-	shared_ptr<SndfileContent> content (new SndfileContent (film, "test/data/white.wav"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/white.wav"));
 	film->examine_and_add_content (content);
 
 	wait_for_jobs ();
