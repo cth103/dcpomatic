@@ -228,7 +228,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = static_cast<float>(*p++) / (1 << 31);
+			audio->data(channel)[sample] = static_cast<float>(*p++) / 2147483648;
 
 			++channel;
 			if (channel == stream->channels()) {
@@ -244,7 +244,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		int32_t** p = reinterpret_cast<int32_t **> (_frame->data);
 		for (int i = 0; i < stream->channels(); ++i) {
 			for (int j = 0; j < frames; ++j) {
-				audio->data(i)[j] = static_cast<float>(p[i][j]) / (1 << 31);
+				audio->data(i)[j] = static_cast<float>(p[i][j]) / 2147483648;
 			}
 		}
 	}
