@@ -151,6 +151,7 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 			BOOST_REQUIRE_MESSAGE (
 				abs (ref_buffer[i] - check_buffer[i]) <= 65536,
 				ref << " differs from " << check << " at " << (ref_info.frames - N + i) << " of " << ref_info.frames
+				<< "(" << ref_buffer[i] << " vs " << check_buffer[i] << ")"
 				);
 		}
 
