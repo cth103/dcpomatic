@@ -478,7 +478,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		_("SMPTE ST 428-1 (CIE 1931 XYZ)")
 	};
 
-	DCPOMATIC_ASSERT (AVCOL_PRI_NB == 11);
+	DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 11);
 	p.push_back (UserProperty (_("Video"), _("Colour primaries"), primaries[_color_primaries]));
 
 	char const * transfers[] = {
@@ -502,7 +502,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		_("SMPTE ST 428-1")
 	};
 
-	DCPOMATIC_ASSERT (AVCOL_TRC_NB == 18);
+	DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 18);
 	p.push_back (UserProperty (_("Video"), _("Colour transfer characteristic"), transfers[_color_trc]));
 
 	char const * spaces[] = {
