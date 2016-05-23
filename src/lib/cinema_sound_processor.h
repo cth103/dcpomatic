@@ -38,6 +38,7 @@ class CinemaSoundProcessor : public boost::noncopyable
 {
 public:
 	CinemaSoundProcessor (std::string i, std::string n);
+	virtual ~CinemaSoundProcessor () {}
 
 	virtual float db_for_fader_change (float from, float to) const = 0;
 
