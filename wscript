@@ -208,6 +208,7 @@ def configure(conf):
                    mandatory=False,
                    msg='Checking for MagickCore namespace',
                    okmsg='yes',
+                   includes=conf.env['INCLUDES_MAGICK'],
                    define_name='DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE')
 
     conf.check_cxx(fragment="""
@@ -218,6 +219,7 @@ def configure(conf):
                    mandatory=False,
                    msg='Checking for MagickLib namespace',
                    okmsg='yes',
+                   includes=conf.env['INCLUDES_MAGICK'],
                    define_name='DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE')
 
     # libzip
@@ -242,6 +244,7 @@ def configure(conf):
                        mandatory=False,
                        msg='Checking for format_stride_for_width',
                        okmsg='yes',
+                       includes=conf.env['INCLUDES_CAIROMM'],
                        define_name='DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH')
 
     # libcxml
