@@ -199,6 +199,25 @@ def configure(conf):
         if graphics is not None:
             conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GRAPHICS_MAGICK')
 
+    # See if we are using the MagickCore or MagickLib namespaces
+    conf.check_cxx(fragment="""
+                            #include <Magick++.h>
+                            using namespace MagickCore;
+                            """,
+                   mandatory=False,
+                   msg='Checking for MagickCore namespace',
+                   okmsg='yes',
+                   define_name='DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE')
+
+    conf.check_cxx(fragment="""
+                            #include <Magick++.h>
+                            using namespace MagickLib
+                            """,
+                   mandatory=False,
+                   msg='Checking for MagickLib namespace',
+                   okmsg='yes',
+                   define_name='DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE')
+
     # libzip
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
 

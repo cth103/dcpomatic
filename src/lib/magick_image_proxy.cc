@@ -108,9 +108,10 @@ MagickImageProxy::image (optional<dcp::NoteHandler>) const
 	/* Write line-by-line here as _image must be aligned, and write() cannot be told about strides */
 	uint8_t* p = _image->data()[0];
 	for (int i = 0; i < size.height; ++i) {
-#ifdef DCPOMATIC_IMAGE_MAGICK
+#ifdef DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE
 		using namespace MagickCore;
-#else
+#endif
+#ifdef DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE
 		using namespace MagickLib;
 #endif
 		magick_image->write (0, i, size.width, 1, "RGB", CharPixel, p);
