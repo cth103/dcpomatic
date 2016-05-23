@@ -78,7 +78,6 @@ def configure(conf):
                                        '-Wall',
                                        '-Wno-attributes',
                                        '-Wextra',
-                                       '-Wno-unused-result',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
