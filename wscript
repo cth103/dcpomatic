@@ -78,10 +78,13 @@ def configure(conf):
                                        '-Wall',
                                        '-Wno-attributes',
                                        '-Wextra',
-                                       '-Wno-unused-result',
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
+
+    gcc = conf.env['CC_VERSION']
+    if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
+        conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
@@ -157,7 +160,7 @@ def configure(conf):
         conf.env.STLIB_CURL = ['curl']
         conf.env.LIB_CURL = ['ssh2', 'idn']
     else:
-        conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
+        conf.check_cfg(package='libcurl', args='--cflags --libs', atleast_version='7.19.1', uselib_store='CURL', mandatory=True)
 
     # libicu
     if conf.check_cfg(package='icu-i18n', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
@@ -195,6 +198,25 @@ def configure(conf):
             conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_IMAGE_MAGICK')
         if graphics is not None:
             conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GRAPHICS_MAGICK')
+
+    # See if we are using the MagickCore or MagickLib namespaces
+    conf.check_cxx(fragment="""
+                            #include <Magick++.h>
+                            using namespace MagickCore;
+                            """,
+                   mandatory=False,
+                   msg='Checking for MagickCore namespace',
+                   okmsg='yes',
+                   define_name='DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE')
+
+    conf.check_cxx(fragment="""
+                            #include <Magick++.h>
+                            using namespace MagickLib
+                            """,
+                   mandatory=False,
+                   msg='Checking for MagickLib namespace',
+                   okmsg='yes',
+                   define_name='DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE')
 
     # libzip
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)

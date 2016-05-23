@@ -44,4 +44,12 @@ raw_convert (Q v, int precision = 16)
 	return r;
 }
 
+template <>
+std::string
+raw_convert<std::string, char const *> (char const * v, int);
+
+template <>
+std::string
+raw_convert<std::string, std::string> (std::string v, int);
+
 #endif

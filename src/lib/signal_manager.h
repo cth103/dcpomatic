@@ -38,6 +38,8 @@ public:
 		_ui_thread = boost::this_thread::get_id ();
 	}
 
+	virtual ~SignalManager () {}
+
 	/* Do something next time the UI is idle */
 	template <typename T>
 	void when_idle (T f) {

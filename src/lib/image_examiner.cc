@@ -43,7 +43,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	: _film (film)
 	, _image_content (content)
 {
-#ifdef DCPOMATIC_IMAGE_MAGICK
+#ifdef DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE
 	using namespace MagickCore;
 #endif
 	boost::filesystem::path path = content->path(0).string ();
