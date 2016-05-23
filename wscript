@@ -160,7 +160,7 @@ def configure(conf):
         conf.env.STLIB_CURL = ['curl']
         conf.env.LIB_CURL = ['ssh2', 'idn']
     else:
-        conf.check_cfg(package='libcurl', args='--cflags --libs', uselib_store='CURL', mandatory=True)
+        conf.check_cfg(package='libcurl', args='--cflags --libs', atleast_version='7.19.1', uselib_store='CURL', mandatory=True)
 
     # libicu
     if conf.check_cfg(package='icu-i18n', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
