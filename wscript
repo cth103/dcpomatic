@@ -201,8 +201,9 @@ def configure(conf):
 
     # See if we are using the MagickCore or MagickLib namespaces
     conf.check_cxx(fragment="""
-                            #include <Magick++/Include.h>
-                            using namespace MagickCore;
+                            #include <Magick++/Include.h>\n
+                            using namespace MagickCore;\n
+                            int main () { return 0; }\n
                             """,
                    mandatory=False,
                    msg='Checking for MagickCore namespace',
@@ -210,8 +211,9 @@ def configure(conf):
                    define_name='DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE')
 
     conf.check_cxx(fragment="""
-                            #include <Magick++/Include.h>
-                            using namespace MagickLib
+                            #include <Magick++/Include.h>\n
+                            using namespace MagickLib;\n
+                            int main () { return 0; }\n
                             """,
                    mandatory=False,
                    msg='Checking for MagickLib namespace',
@@ -229,6 +231,18 @@ def configure(conf):
 
     # cairomm
     conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
+
+    # See if we have Cairo::ImageSurface::format_stride_for_width
+    conf.check_cxx(fragment="""
+                            #include <cairomm/cairomm.h>
+                            int main(void) {
+                                Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB, 1024);\n
+                                return 0; }\n
+                            """,
+                       mandatory=False,
+                       msg='Checking for format_stride_for_width',
+                       okmsg='yes',
+                       define_name='DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH')
 
     # libcxml
     if conf.options.static_cxml:
@@ -283,7 +297,9 @@ def configure(conf):
 
     # libxmlsec
     if conf.options.static_xmlsec:
-        conf.env.STLIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
+        conf.env.STLIB_XMLSEC = ['xmlsec1']
+        if conf.check_cxx(lib='xmlsec1-openssl', mandatory=False):
+            conf.env.STLIB_XMLSEC.append('xmlsec1-openssl')
     else:
         conf.env.LIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
 

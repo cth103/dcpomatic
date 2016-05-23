@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "cross.h"
 #include "font.h"
 #include "dcpomatic_assert.h"
+#include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
 #include <boost/foreach.hpp>
@@ -81,6 +82,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (target.width, height), false));
 	image->make_black ();
 
+#ifdef DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
 		image->data()[0],
 		Cairo::FORMAT_ARGB32,
@@ -88,6 +90,18 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 		image->size().height,
 		Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, image->size().width)
 		);
+#else
+	/* Centos 5 does not have Cairo::ImageSurface::format_stride_for_width, so just use width * 4
+	   which I hope is safe (if slow)
+	*/
+	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
+		image->data()[0],
+		Cairo::FORMAT_ARGB32,
+		image->size().width,
+		image->size().height,
+		image->size().width * 4
+		);
+#endif
 
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
 
