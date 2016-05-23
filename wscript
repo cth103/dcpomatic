@@ -201,7 +201,7 @@ def configure(conf):
 
     # See if we are using the MagickCore or MagickLib namespaces
     conf.check_cxx(fragment="""
-                            #include <Magick++.h>
+                            #include <Magick++/Include.h>
                             using namespace MagickCore;
                             """,
                    mandatory=False,
@@ -210,7 +210,7 @@ def configure(conf):
                    define_name='DCPOMATIC_HAVE_MAGICKCORE_NAMESPACE')
 
     conf.check_cxx(fragment="""
-                            #include <Magick++.h>
+                            #include <Magick++/Include.h>
                             using namespace MagickLib
                             """,
                    mandatory=False,
