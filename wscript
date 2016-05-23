@@ -83,6 +83,10 @@ def configure(conf):
                                        '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
 
+    gcc = conf.env['CC_VERSION']
+    if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
+        conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
+
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
     else:
