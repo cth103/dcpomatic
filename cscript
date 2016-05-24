@@ -203,7 +203,14 @@ def make_spec(filename, version, target):
     print('%build', file=f)
     print('cd dcpomatic-%s' % version, file=f)
     print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig' % (target.directory, target.directory), file=f)
-    print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --install-prefix=/usr %s' % (target.directory, target.directory, configure_options(target)), file=f)
+
+    if target.distro == 'centos' and target.version == '5':
+        prefix = './usr'
+    else:
+        prefix = '%%{buildroot}/usr'
+
+    print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%s --install-prefix=/usr %s' %
+          (target.directory, target.directory, prefix, configure_options(target)), file=f)
     print('./waf', file=f)
     print('%install', file=f)
     print('cd dcpomatic-%s' % version, file=f)
