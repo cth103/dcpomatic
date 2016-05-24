@@ -207,7 +207,7 @@ def make_spec(filename, version, target):
     if target.distro == 'centos' and target.version == '5':
         prefix = 'BUILDROOT/usr'
     else:
-        prefix = '%%{buildroot}/usr'
+        prefix = '%{buildroot}/usr'
 
     print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%s --install-prefix=/usr %s' %
           (target.directory, target.directory, prefix, configure_options(target)), file=f)
