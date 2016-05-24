@@ -300,9 +300,10 @@ def configure(conf):
 
     # libxmlsec
     if conf.options.static_xmlsec:
-        conf.env.STLIB_XMLSEC = ['xmlsec1']
         if conf.check_cxx(lib='xmlsec1-openssl', mandatory=False):
-            conf.env.STLIB_XMLSEC.append('xmlsec1-openssl')
+            conf.env.STLIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
+        else:
+            conf.env.STLIB_XMLSEC = ['xmlsec1']
     else:
         conf.env.LIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
 
