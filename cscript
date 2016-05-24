@@ -205,7 +205,7 @@ def make_spec(filename, version, target):
     print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig' % (target.directory, target.directory), file=f)
 
     if target.distro == 'centos' and target.version == '5':
-        prefix = './usr'
+        prefix = 'BUILDROOT/usr'
     else:
         prefix = '%%{buildroot}/usr'
 
@@ -323,7 +323,10 @@ def package_rpm(target, cpu, version):
         )
 
     make_spec('build/platform/linux/dcpomatic2.spec', version, target)
-    target.command('rpmbuild --define \'_topdir %s\' -bb build/platform/linux/dcpomatic2.spec' % topdir)
+    cmd = 'rpmbuild --define \'_topdir %s\' -bb build/platform/linux/dcpomatic2.spec' % topdir
+    if target.distro == 'centos' and target.version == '5':
+        cmd += ' --buildroot %s/BUILD/%s/BUILDROOT' % (topdir, version)
+    target.command(cmd)
     rpms = []
 
     if cpu == "amd64":
