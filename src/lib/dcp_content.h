@@ -138,6 +138,8 @@ private:
 	 *  rather than by rewrapping.
 	 */
 	bool _reference_subtitle;
+
+	boost::optional<dcp::Standard> _standard;
 };
 
 #endif

@@ -75,6 +75,10 @@ public:
 		return _kdm_valid;
 	}
 
+	boost::optional<dcp::Standard> standard () const {
+		return _standard;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -86,4 +90,5 @@ private:
 	bool _has_subtitles;
 	bool _encrypted;
 	bool _kdm_valid;
+	boost::optional<dcp::Standard> _standard;
 };

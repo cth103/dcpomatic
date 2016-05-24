@@ -256,6 +256,7 @@ VideoPanel::film_changed (Film::Property property)
 		setup_description ();
 		break;
 	case Film::REEL_TYPE:
+	case Film::INTEROP:
 		setup_sensitivity ();
 	default:
 		break;

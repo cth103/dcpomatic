@@ -134,4 +134,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			throw runtime_error (_("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."));
 		}
 	}
+
+	_standard = dcp.standard ();
 }

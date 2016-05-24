@@ -97,6 +97,16 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	_reference_video = node->optional_bool_child ("ReferenceVideo").get_value_or (false);
 	_reference_audio = node->optional_bool_child ("ReferenceAudio").get_value_or (false);
 	_reference_subtitle = node->optional_bool_child ("ReferenceSubtitle").get_value_or (false);
+	if (node->optional_string_child("Standard")) {
+		string const s = node->optional_string_child("Standard").get();
+		if (s == "Interop") {
+			_standard = dcp::INTEROP;
+		} else if (s == "SMPTE") {
+			_standard = dcp::SMPTE;
+		} else {
+			DCPOMATIC_ASSERT (false);
+		}
+	}
 }
 
 void
@@ -143,6 +153,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		}
 		_encrypted = examiner->encrypted ();
 		_kdm_valid = examiner->kdm_valid ();
+		_standard = examiner->standard ();
 	}
 
 	if (could_be_played != can_be_played ()) {
@@ -197,6 +208,18 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	node->add_child("ReferenceVideo")->add_child_text (_reference_video ? "1" : "0");
 	node->add_child("ReferenceAudio")->add_child_text (_reference_audio ? "1" : "0");
 	node->add_child("ReferenceSubtitle")->add_child_text (_reference_subtitle ? "1" : "0");
+	if (_standard) {
+		switch (_standard.get ()) {
+		case dcp::INTEROP:
+			node->add_child("Standard")->add_child_text ("Interop");
+			break;
+		case dcp::SMPTE:
+			node->add_child("Standard")->add_child_text ("SMPTE");
+			break;
+		default:
+			DCPOMATIC_ASSERT (false);
+		}
+	}
 }
 
 DCPTime
@@ -331,13 +354,24 @@ DCPContent::reel_split_points () const
 bool
 DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Content>)> part, string overlapping, list<string>& why_not) const
 {
+	/* We must be using the same standard as the film */
+	if (_standard) {
+		if (_standard.get() == dcp::INTEROP && !film()->interop()) {
+			why_not.push_back (_("The film is set to SMPTE and this DCP is Interop."));
+			return false;
+		} else if (_standard.get() == dcp::SMPTE && film()->interop()) {
+			why_not.push_back (_("The film is set to Interop and this DCP is SMPTE."));
+			return false;
+		}
+	}
+
 	list<DCPTimePeriod> const fr = film()->reels ();
 	/* fr must contain reels().  It can also contain other reels, but it must at
 	   least contain reels().
 	*/
 	BOOST_FOREACH (DCPTimePeriod i, reels()) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
-			why_not.push_back (_("Reel lengths in the project differ from those in the DCP; set the reel mode to 'split by video content'."));
+			why_not.push_back (_("Reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'."));
 			return false;
 		}
 	}
