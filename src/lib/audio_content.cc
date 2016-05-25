@@ -292,7 +292,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 
 	if (stream) {
 		p.push_back (UserProperty (_("Audio"), _("Channels"), stream->channels ()));
-		p.push_back (UserProperty (_("Audio"), _("Content audio frame rate"), stream->frame_rate(), _("Hz")));
+		p.push_back (UserProperty (_("Audio"), _("Content audio sample rate"), stream->frame_rate(), _("Hz")));
 	}
 
 	FrameRateChange const frc (_parent->active_video_frame_rate(), _parent->film()->video_frame_rate());
@@ -306,7 +306,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 		p.push_back (
 			UserProperty (
 				_("Length"),
-				_("Full length in audio frames at content rate"),
+				_("Full length in audio samples at content rate"),
 				c.frames_round (stream->frame_rate ())
 				)
 			);
@@ -319,7 +319,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 		p.push_back (
 			UserProperty (
 				_("Length"),
-				_("Full length in audio frames at DCP rate"),
+				_("Full length in audio samples at DCP rate"),
 				c.frames_round (resampled_frame_rate ())
 				)
 			);
