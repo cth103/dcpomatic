@@ -25,10 +25,12 @@
 #include "lib/subtitle_content.h"
 #include "lib/font.h"
 #include "lib/content.h"
+#include "lib/audio_analysis.h"
 #include <wx/richtext/richtextctrl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 
+using std::max;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -170,6 +172,24 @@ HintsDialog::film_changed ()
 		hint = true;
 		_text->WriteText (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
 		_text->Newline ();
+	}
+
+	boost::filesystem::path path = film->audio_analysis_path (film->playlist ());
+	if (boost::filesystem::exists (path)) {
+		shared_ptr<AudioAnalysis> an (new AudioAnalysis (path));
+		if (an->sample_peak() || an->true_peak()) {
+			float const peak = max (an->sample_peak().get_value_or(0), an->true_peak().get_value_or(0));
+			float const peak_dB = 20 * log10 (peak) + an->gain_correction (film->playlist ());
+			if (peak_dB > -3 && peak_dB < -0.5) {
+				hint = true;
+				_text->WriteText (_("Your audio level is very high.  You should reduce the gain of your audio content."));
+				_text->Newline ();
+			} else if (peak_dB > -0.5) {
+				hint = true;
+				_text->WriteText (_("Your audio level is very close to clipping.  You should reduce the gain of your audio content."));
+				_text->Newline ();
+			}
+		}
 	}
 
 	_text->EndSymbolBullet ();

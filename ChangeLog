@@ -1,5 +1,7 @@
 2016-05-25  Carl Hetherington  <cth@carlh.net>
 
+	* Add hint about excessive audio level (part of #822).
+
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
 2016-05-25  c.hetherington  <cth@carlh.net>
