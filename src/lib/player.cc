@@ -31,6 +31,8 @@
 #include "subtitle_content.h"
 #include "text_subtitle_decoder.h"
 #include "text_subtitle_content.h"
+#include "video_mxf_decoder.h"
+#include "video_mxf_content.h"
 #include "dcp_content.h"
 #include "job.h"
 #include "image.h"
@@ -178,6 +180,15 @@ Player::setup_pieces ()
 			decoder.reset (new DCPSubtitleDecoder (dsc));
 			frc = FrameRateChange (dsc->active_video_frame_rate(), _film->video_frame_rate());
 		}
+
+		/* VideoMXFContent */
+		shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (i);
+		if (vmc) {
+			decoder.reset (new VideoMXFDecoder (vmc, _film->log()));
+			frc = FrameRateChange (vmc->active_video_frame_rate(), _film->video_frame_rate());
+		}
+
+		DCPOMATIC_ASSERT (decoder);
 
 		if (decoder->video && _ignore_video) {
 			decoder->video->set_ignore ();

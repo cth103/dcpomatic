@@ -1,3 +1,8 @@
+2016-05-25  c.hetherington  <cth@carlh.net>
+
+	* Treat video MXFs better by not transcoding
+	them unless necessary (part of #803).
+
 2016-05-24  c.hetherington  <cth@carlh.net>
 
 	* Add somewhat speculative Rec 1886 and Rec 2020

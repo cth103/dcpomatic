@@ -29,6 +29,7 @@
 #include "dcp_subtitle_content.h"
 #include "util.h"
 #include "ffmpeg_audio_stream.h"
+#include "video_mxf_content.h"
 #include "film.h"
 #include "log_entry.h"
 #include "log.h"
@@ -87,6 +88,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		content.reset (new DCPContent (film, node, version));
 	} else if (type == "DCPSubtitle") {
 		content.reset (new DCPSubtitleContent (film, node, version));
+	} else if (type == "VideoMXF") {
+		content.reset (new VideoMXFContent (film, node, version));
 	}
 
 	return content;
@@ -162,6 +165,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 			content.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
 			content.reset (new DCPSubtitleContent (film, path));
+		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf (path)) {
+			content.reset (new VideoMXFContent (film, path));
 		}
 
 		if (!content) {

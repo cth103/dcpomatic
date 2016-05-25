@@ -93,6 +93,7 @@ def build(bld):
                  vf_test.cc
                  video_content_scale_test.cc
                  video_decoder_fill_test.cc
+                 video_mxf_content_test.cc
                  xml_subtitle_test.cc
                  """
 

@@ -136,6 +136,9 @@ sources = """
           video_content_scale.cc
           video_decoder.cc
           video_filter_graph.cc
+          video_mxf_content.cc
+          video_mxf_decoder.cc
+          video_mxf_examiner.cc
           writer.cc
           """
 
