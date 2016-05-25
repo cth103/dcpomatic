@@ -24,6 +24,7 @@
 #include "ffmpeg_content.h"
 #include "audio_content.h"
 #include "image_content.h"
+#include "atmos_mxf_content.h"
 #include "text_subtitle_content.h"
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
@@ -90,6 +91,8 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		content.reset (new DCPSubtitleContent (film, node, version));
 	} else if (type == "VideoMXF") {
 		content.reset (new VideoMXFContent (film, node, version));
+	} else if (type == "AtmosMXF") {
+		content.reset (new AtmosMXFContent (film, node, version));
 	}
 
 	return content;
@@ -167,6 +170,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 			content.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf (path)) {
 			content.reset (new VideoMXFContent (film, path));
+		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf (path)) {
+			content.reset (new AtmosMXFContent (film, path));
 		}
 
 		if (!content) {

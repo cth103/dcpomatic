@@ -17,26 +17,25 @@
 
 */
 
-#include "timeline_view.h"
+#include "content.h"
 
-class wxWindow;
-
-class TimelineLabelsView : public TimelineView
+class AtmosMXFContent : public Content
 {
 public:
-	TimelineLabelsView (Timeline& tl);
+	AtmosMXFContent (boost::shared_ptr<const Film> film, boost::filesystem::path path);
+	AtmosMXFContent (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version);
 
-	dcpomatic::Rect<int> bbox () const;
+	boost::shared_ptr<AtmosMXFContent> shared_from_this () {
+		return boost::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this ());
+	}
 
-	void set_3d (bool s);
-	void set_subtitle (bool s);
-	void set_atmos (bool s);
+	void examine (boost::shared_ptr<Job> job);
+	std::string summary () const;
+	void as_xml (xmlpp::Node* node) const;
+	DCPTime full_length () const;
+
+	static bool valid_mxf (boost::filesystem::path path);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
-
-	int _width;
-	bool _threed;
-	bool _subtitle;
-	bool _atmos;
+	Frame _length;
 };

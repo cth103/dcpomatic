@@ -25,6 +25,7 @@
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
 #include "timeline_subtitle_content_view.h"
+#include "timeline_atmos_content_view.h"
 #include "content_panel.h"
 #include "wx_util.h"
 #include "lib/film.h"
@@ -34,6 +35,7 @@
 #include "lib/audio_content.h"
 #include "lib/subtitle_content.h"
 #include "lib/video_content.h"
+#include "lib/atmos_mxf_content.h"
 #include <wx/graphics.h>
 #include <boost/weak_ptr.hpp>
 #include <boost/foreach.hpp>
@@ -157,6 +159,10 @@ Timeline::recreate_views ()
 		if (i->subtitle) {
 			_views.push_back (shared_ptr<TimelineView> (new TimelineSubtitleContentView (*this, i)));
 		}
+
+		if (dynamic_pointer_cast<AtmosMXFContent> (i)) {
+			_views.push_back (shared_ptr<TimelineView> (new TimelineAtmosContentView (*this, i)));
+		}
 	}
 
 	assign_tracks ();
@@ -187,6 +193,36 @@ Timeline::assign_tracks ()
 		}
 	}
 
+	/* See if we have any subtitle / atmos / right-eye views */
+	bool have_3d = false;
+	bool have_subtitle = false;
+	bool have_atmos = false;
+	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
+		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (i);
+		if (!cv) {
+			continue;
+		}
+
+		if (dynamic_pointer_cast<TimelineVideoContentView> (i)) {
+			if (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+				have_3d = true;
+			}
+		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (i)) {
+			have_subtitle = true;
+		} else if (dynamic_pointer_cast<TimelineAtmosContentView> (i)) {
+			have_atmos = true;
+		}
+	}
+
+	_labels_view->set_3d (have_3d);
+	_labels_view->set_subtitle (have_subtitle);
+	_labels_view->set_atmos (have_atmos);
+
+	/* Hence decide where to start subtitle, atmos and audio tracks */
+	int const subtitle = have_3d ? 2 : 1;
+	int const atmos = have_subtitle ? subtitle + 1 : subtitle;
+	int const audio = have_atmos ? atmos + 1: atmos;
+
 	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
 		if (!cv) {
@@ -194,19 +230,21 @@ Timeline::assign_tracks ()
 		}
 
 		if (dynamic_pointer_cast<TimelineVideoContentView> (*i)) {
-			/* Video on tracks 0 and 1 (left and right eye) */
+			/* Video on tracks 0 and maybe 1 (left and right eye) */
 			cv->set_track (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT ? 1 : 0);
-			_tracks = max (_tracks, 2);
+			_tracks = max (_tracks, have_3d ? 2 : 1);
 			continue;
 		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (*i)) {
-			/* Subtitles on track 2 */
-			cv->set_track (2);
-			_tracks = max (_tracks, 3);
+			cv->set_track (subtitle);
+			_tracks = max (_tracks, subtitle + 1);
+			continue;
+		} else if (dynamic_pointer_cast<TimelineAtmosContentView> (*i)) {
+			cv->set_track (atmos);
+			_tracks = max (_tracks, atmos + 1);
 			continue;
 		}
 
-		/* Audio on tracks 3 and up */
-		int t = 3;
+		int t = audio;
 
 		shared_ptr<Content> content = cv->content();
 		DCPTimePeriod content_period (content->position(), content->end());

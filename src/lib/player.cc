@@ -188,7 +188,10 @@ Player::setup_pieces ()
 			frc = FrameRateChange (vmc->active_video_frame_rate(), _film->video_frame_rate());
 		}
 
-		DCPOMATIC_ASSERT (decoder);
+		if (!decoder) {
+			/* Not something that we can decode; e.g. Atmos content */
+			continue;
+		}
 
 		if (decoder->video && _ignore_video) {
 			decoder->video->set_ignore ();

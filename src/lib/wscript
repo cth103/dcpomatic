@@ -21,6 +21,7 @@ import i18n
 
 sources = """
           analyse_audio_job.cc
+          atmos_mxf_content.cc
           audio_analysis.cc
           audio_buffers.cc
           audio_content.cc

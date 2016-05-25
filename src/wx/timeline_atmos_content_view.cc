@@ -17,26 +17,28 @@
 
 */
 
-#include "timeline_view.h"
+#include "timeline_atmos_content_view.h"
 
-class wxWindow;
+using boost::shared_ptr;
 
-class TimelineLabelsView : public TimelineView
+/** @class TimelineAtmosContentView
+ *  @brief Timeline view for AtmosContent.
+ */
+
+TimelineAtmosContentView::TimelineAtmosContentView (Timeline& tl, shared_ptr<Content> c)
+	: TimelineContentView (tl, c)
 {
-public:
-	TimelineLabelsView (Timeline& tl);
 
-	dcpomatic::Rect<int> bbox () const;
+}
 
-	void set_3d (bool s);
-	void set_subtitle (bool s);
-	void set_atmos (bool s);
+wxColour
+TimelineAtmosContentView::background_colour () const
+{
+	return wxColour (149, 121, 232, 255);
+}
 
-private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
-
-	int _width;
-	bool _threed;
-	bool _subtitle;
-	bool _atmos;
-};
+wxColour
+TimelineAtmosContentView::foreground_colour () const
+{
+	return wxColour (0, 0, 0, 255);
+}
