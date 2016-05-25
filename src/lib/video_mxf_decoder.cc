@@ -35,8 +35,15 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, sha
 }
 
 bool
-VideoMXFDecoder::pass (PassReason reason, bool)
+VideoMXFDecoder::pass (PassReason, bool)
 {
+	double const vfr = _content->active_video_frame_rate ();
+	int64_t const frame = _next.frames_round (vfr);
+
+	if (frame >= _content->video->length()) {
+		return true;
+	}
+
 	shared_ptr<dcp::MonoPictureAsset> mono;
 	try {
 		mono.reset (new dcp::MonoPictureAsset (_content->path(0)));
@@ -59,9 +66,6 @@ VideoMXFDecoder::pass (PassReason reason, bool)
 		}
 	}
 
-	double const vfr = _content->active_video_frame_rate ();
-	int64_t const frame = _next.frames_round (vfr);
-
 	if (mono) {
 		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame(frame), mono->size())), frame);
 	} else {
@@ -70,6 +74,7 @@ VideoMXFDecoder::pass (PassReason reason, bool)
 	}
 
 	_next += ContentTime::from_frames (1, vfr);
+	return false;
 }
 
 void
