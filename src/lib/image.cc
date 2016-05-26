@@ -426,6 +426,7 @@ Image::make_transparent ()
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
+	/* We're blending RGBA images; first byte is blue, second byte is green, third byte blue, fourth byte alpha */
 	DCPOMATIC_ASSERT (other->pixel_format() == AV_PIX_FMT_RGBA);
 	int const other_bpp = 4;
 
@@ -448,15 +449,16 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	switch (_pixel_format) {
 	case AV_PIX_FMT_RGB24:
 	{
+		/* Going onto RGB24.  First byte is red, second green, third blue */
 		int const this_bpp = 3;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
 			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
 			uint8_t* op = other->data()[0] + oy * other->stride()[0];
 			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 				float const alpha = float (op[3]) / 255;
-				tp[0] = op[0] * alpha + tp[0] * (1 - alpha);
+				tp[0] = op[2] * alpha + tp[0] * (1 - alpha);
 				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[2] * alpha + tp[2] * (1 - alpha);
+				tp[2] = op[0] * alpha + tp[2] * (1 - alpha);
 
 				tp += this_bpp;
 				op += other_bpp;
