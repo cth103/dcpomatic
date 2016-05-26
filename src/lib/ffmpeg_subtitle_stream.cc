@@ -143,6 +143,13 @@ FFmpegSubtitleStream::text_subtitles_during (ContentTimePeriod period, bool star
 	return subtitles_during (period, starting, _text_subtitles);
 }
 
+struct PeriodSorter
+{
+	bool operator() (ContentTimePeriod const & a, ContentTimePeriod const & b) {
+		return a.from < b.from;
+	}
+};
+
 list<ContentTimePeriod>
 FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting, PeriodMap const & subs) const
 {
@@ -154,6 +161,8 @@ FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting,
 			d.push_back (i->second);
 		}
 	}
+
+	d.sort (PeriodSorter ());
 
 	return d;
 }
