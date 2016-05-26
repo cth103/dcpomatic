@@ -26,7 +26,7 @@
 
 using boost::shared_ptr;
 
-TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, shared_ptr<TextSubtitleContent> content)
+TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
 	: TableDialog (parent, _("Subtitle appearance"), 2, 1, true)
 	, _content (content)
 {
@@ -44,10 +44,10 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 
 	layout ();
 
-	_colour->SetColour (wxColour (_content->subtitle->colour().r, _content->subtitle->colour().g, _content->subtitle->colour().b));
-	_outline->SetValue (_content->subtitle->outline ());
+	_colour->SetColour (wxColour (_content->colour().r, _content->colour().g, _content->colour().b));
+	_outline->SetValue (_content->outline ());
 	_outline_colour->SetColour (
-		wxColour (_content->subtitle->outline_colour().r, _content->subtitle->outline_colour().g, _content->subtitle->outline_colour().b)
+		wxColour (_content->outline_colour().r, _content->outline_colour().g, _content->outline_colour().b)
 		);
 }
 
@@ -55,8 +55,8 @@ void
 TextSubtitleAppearanceDialog::apply ()
 {
 	wxColour const c = _colour->GetColour ();
-	_content->subtitle->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
-	_content->subtitle->set_outline (_outline->GetValue ());
+	_content->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+	_content->set_outline (_outline->GetValue ());
 	wxColour const oc = _outline_colour->GetColour ();
-	_content->subtitle->set_outline_colour (dcp::Colour (oc.Red(), oc.Green(), oc.Blue()));
+	_content->set_outline_colour (dcp::Colour (oc.Red(), oc.Green(), oc.Blue()));
 }

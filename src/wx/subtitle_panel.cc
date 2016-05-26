@@ -431,15 +431,33 @@ SubtitlePanel::appearance_dialog_clicked ()
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
-	if (sr) {
-		TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, sr);
+	bool text = false;
+	bool image = false;
+
+	if (
+		dynamic_pointer_cast<TextSubtitleContent> (c.front()) ||
+		dynamic_pointer_cast<DCPContent> (c.front()) ||
+		dynamic_pointer_cast<DCPSubtitleContent> (c.front())) {
+
+		text = true;
+	}
+
+	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c.front());
+	if (fc) {
+		if (fc->subtitle_stream()->has_text()) {
+			text = true;
+		} else if (fc->subtitle_stream()->has_image()) {
+			image = true;
+		}
+	}
+
+	if (text) {
+		TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, c.front()->subtitle);
 		if (d->ShowModal () == wxID_OK) {
 			d->apply ();
 		}
 		d->Destroy ();
-	} else {
-		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c.front ());
+	} else if (image) {
 		DCPOMATIC_ASSERT (fc);
 		ImageSubtitleColourDialog* d = new ImageSubtitleColourDialog (this, fc, fc->subtitle_stream ());
 		if (d->ShowModal() == wxID_OK) {
