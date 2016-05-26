@@ -42,6 +42,9 @@ public:
 	void set_colour (RGBA from, RGBA to);
 	std::map<RGBA, RGBA> colours () const;
 
+	bool has_text () const;
+	bool has_image () const;
+
 private:
 
 	typedef std::map<std::string, ContentTimePeriod> PeriodMap;

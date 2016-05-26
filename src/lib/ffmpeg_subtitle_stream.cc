@@ -197,3 +197,15 @@ FFmpegSubtitleStream::set_colour (RGBA from, RGBA to)
 {
 	_colours[from] = to;
 }
+
+bool
+FFmpegSubtitleStream::has_text () const
+{
+	return !_text_subtitles.empty ();
+}
+
+bool
+FFmpegSubtitleStream::has_image () const
+{
+	return !_image_subtitles.empty ();
+}

@@ -235,34 +235,39 @@ SubtitlePanel::setup_sensitivity ()
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
 	int text_subs = 0;
-	int dcp_subs = 0;
 	int image_subs = 0;
 	ContentList sel = _parent->selected_subtitle ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
+		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
 		shared_ptr<const TextSubtitleContent> sc = boost::dynamic_pointer_cast<const TextSubtitleContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (fc->subtitle) {
+				/* This content has some subtitles; check the selected stream to decide what type */
+				if (fc->subtitle_stream()->has_text()) {
+					++text_subs;
+				} else if (fc->subtitle_stream()->has_image()) {
+					++image_subs;
+				}
 				++ffmpeg_subs;
 				++any_subs;
 			}
-		} else if (sc) {
+		} else if (sc || dsc) {
+			/* XXX: in the future there could be bitmap subs from DCPs */
 			++text_subs;
 			++any_subs;
-		} else if (dsc) {
-			++dcp_subs;
-			++any_subs;
-		} else {
-			++any_subs;
 		}
+	}
 
-		if (i->subtitle->has_image_subtitles ()) {
-			++image_subs;
+	if (image_subs) {
+		BOOST_FOREACH (shared_ptr<Content> i, sel) {
 			/* We must burn image subtitles at the moment */
 			i->subtitle->set_burn (true);
 		}
 	}
+
+	/* Decide whether we can reference these subs */
 
 	shared_ptr<DCPContent> dcp;
 	if (sel.size() == 1) {
@@ -275,6 +280,7 @@ SubtitlePanel::setup_sensitivity ()
 
 	bool const reference = _reference->GetValue ();
 
+	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
 	_burn->Enable (!reference && any_subs > 0 && use && image_subs == 0);
@@ -284,9 +290,9 @@ SubtitlePanel::setup_sensitivity ()
 	_y_scale->Enable (!reference && any_subs > 0 && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
-	_subtitle_view_button->Enable (!reference && (text_subs == 1 || dcp_subs == 1));
-	_fonts_dialog_button->Enable (!reference && (text_subs == 1 || dcp_subs == 1));
-	_appearance_dialog_button->Enable (!reference && (ffmpeg_subs == 1 || text_subs == 1));
+	_subtitle_view_button->Enable (!reference && text_subs == 1);
+	_fonts_dialog_button->Enable (!reference && text_subs == 1);
+	_appearance_dialog_button->Enable (!reference);
 }
 
 void

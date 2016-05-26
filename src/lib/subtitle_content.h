@@ -44,6 +44,12 @@ public:
 	static int const OUTLINE_COLOUR;
 };
 
+/** @class SubtitleContent
+ *  @brief Description of how some subtitle content should be presented.
+ *
+ *  There are `image' subtitles (bitmaps) and `text' subtitles (plain text),
+ *  and not all of the settings in this class correspond to both types.
+ */
 class SubtitleContent : public ContentPart
 {
 public:
@@ -52,11 +58,6 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
-
-	bool has_image_subtitles () const {
-		/* XXX */
-		return true;
-	}
 
 	void add_font (boost::shared_ptr<Font> font);
 
