@@ -40,6 +40,7 @@
 #include "md5_digester.h"
 #include "audio_decoder.h"
 #include "compose.hpp"
+#include "subtitle_content.h"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
 #include <sub/subtitle.h>
@@ -637,7 +638,7 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 						boost::optional<string> (),
 						k.italic,
 						k.bold,
-						dcp::Colour (255, 255, 255),
+						subtitle->content()->colour(),
 						/* 48pt is 1/22nd of the screen height */
 						48,
 						1,
@@ -652,8 +653,8 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 						dcp::VALIGN_TOP,
 						dcp::DIRECTION_LTR,
 						k.text,
-						static_cast<dcp::Effect> (0),
-						dcp::Colour (255, 255, 255),
+						subtitle->content()->outline() ? dcp::BORDER : dcp::NONE,
+						subtitle->content()->outline_colour(),
 						dcp::Time (),
 						dcp::Time ()
 						)
