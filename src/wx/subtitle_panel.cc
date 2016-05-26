@@ -34,6 +34,7 @@
 #include "lib/dcp_subtitle_decoder.h"
 #include "lib/dcp_content.h"
 #include "lib/subtitle_content.h"
+#include "lib/decoder_factory.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
 
@@ -384,17 +385,8 @@ SubtitlePanel::subtitle_view_clicked ()
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<Decoder> decoder;
-
-	shared_ptr<TextSubtitleContent> sr = dynamic_pointer_cast<TextSubtitleContent> (c.front ());
-	if (sr) {
-		decoder.reset (new TextSubtitleDecoder (sr));
-	}
-
-	shared_ptr<DCPSubtitleContent> dc = dynamic_pointer_cast<DCPSubtitleContent> (c.front ());
-	if (dc) {
-		decoder.reset (new DCPSubtitleDecoder (dc));
-	}
+	list<shared_ptr<ImageDecoder> > image_decoders;
+	shared_ptr<Decoder> decoder = decoder_factory (c.front(), image_decoders, _parent->film()->log(), false);
 
 	if (decoder) {
 		_subtitle_view = new SubtitleView (this, _parent->film(), decoder, c.front()->position ());

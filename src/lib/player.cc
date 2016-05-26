@@ -20,20 +20,8 @@
 
 #include "player.h"
 #include "film.h"
-#include "ffmpeg_decoder.h"
-#include "video_decoder.h"
-#include "audio_decoder.h"
 #include "audio_buffers.h"
-#include "audio_content.h"
-#include "ffmpeg_content.h"
-#include "image_decoder.h"
 #include "content_audio.h"
-#include "image_content.h"
-#include "subtitle_content.h"
-#include "text_subtitle_decoder.h"
-#include "text_subtitle_content.h"
-#include "video_mxf_decoder.h"
-#include "video_mxf_content.h"
 #include "dcp_content.h"
 #include "job.h"
 #include "image.h"
@@ -45,13 +33,20 @@
 #include "content_video.h"
 #include "player_video.h"
 #include "frame_rate_change.h"
-#include "dcp_content.h"
-#include "dcp_decoder.h"
-#include "dcp_subtitle_content.h"
-#include "dcp_subtitle_decoder.h"
 #include "audio_processor.h"
 #include "playlist.h"
 #include "referenced_reel_asset.h"
+#include "decoder_factory.h"
+#include "decoder.h"
+#include "video_decoder.h"
+#include "audio_decoder.h"
+#include "subtitle_content.h"
+#include "subtitle_decoder.h"
+#include "ffmpeg_content.h"
+#include "audio_content.h"
+#include "content_subtitle.h"
+#include "dcp_decoder.h"
+#include "image_decoder.h"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
@@ -120,7 +115,14 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 void
 Player::setup_pieces ()
 {
-	list<shared_ptr<Piece> > old_pieces = _pieces;
+	list<shared_ptr<ImageDecoder> > old_image_decoders;
+	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		shared_ptr<ImageDecoder> imd = dynamic_pointer_cast<ImageDecoder> (i->decoder);
+		if (imd) {
+			old_image_decoders.push_back (imd);
+		}
+	}
+
 	_pieces.clear ();
 
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
@@ -129,65 +131,8 @@ Player::setup_pieces ()
 			continue;
 		}
 
-		shared_ptr<Decoder> decoder;
-		optional<FrameRateChange> frc;
-
-		/* FFmpeg */
-		shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (i);
-		if (fc) {
-			decoder.reset (new FFmpegDecoder (fc, _film->log(), _fast));
-			frc = FrameRateChange (fc->active_video_frame_rate(), _film->video_frame_rate());
-		}
-
-		shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (i);
-		if (dc) {
-			decoder.reset (new DCPDecoder (dc, _film->log(), _fast));
-			frc = FrameRateChange (dc->active_video_frame_rate(), _film->video_frame_rate());
-		}
-
-		/* ImageContent */
-		shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (i);
-		if (ic) {
-			/* See if we can re-use an old ImageDecoder */
-			for (list<shared_ptr<Piece> >::const_iterator j = old_pieces.begin(); j != old_pieces.end(); ++j) {
-				shared_ptr<ImageDecoder> imd = dynamic_pointer_cast<ImageDecoder> ((*j)->decoder);
-				if (imd && imd->content() == ic) {
-					decoder = imd;
-				}
-			}
-
-			if (!decoder) {
-				decoder.reset (new ImageDecoder (ic, _film->log()));
-			}
-
-			frc = FrameRateChange (ic->active_video_frame_rate(), _film->video_frame_rate());
-		}
-
-		/* It's questionable whether subtitle content should have a video frame rate; perhaps
-		   it should be assumed that any subtitle content has been prepared at the same rate
-		   as simultaneous video content (like we do with audio).
-		*/
-
-		/* TextSubtitleContent */
-		shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (i);
-		if (rc) {
-			decoder.reset (new TextSubtitleDecoder (rc));
-			frc = FrameRateChange (rc->active_video_frame_rate(), _film->video_frame_rate());
-		}
-
-		/* DCPSubtitleContent */
-		shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (i);
-		if (dsc) {
-			decoder.reset (new DCPSubtitleDecoder (dsc));
-			frc = FrameRateChange (dsc->active_video_frame_rate(), _film->video_frame_rate());
-		}
-
-		/* VideoMXFContent */
-		shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (i);
-		if (vmc) {
-			decoder.reset (new VideoMXFDecoder (vmc, _film->log()));
-			frc = FrameRateChange (vmc->active_video_frame_rate(), _film->video_frame_rate());
-		}
+		shared_ptr<Decoder> decoder = decoder_factory (i, old_image_decoders, _film->log(), _fast);
+		FrameRateChange frc (i->active_video_frame_rate(), _film->video_frame_rate());
 
 		if (!decoder) {
 			/* Not something that we can decode; e.g. Atmos content */
@@ -202,7 +147,7 @@ Player::setup_pieces ()
 			decoder->audio->set_ignore ();
 		}
 
-		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc.get ())));
+		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc)));
 	}
 
 	_have_valid_pieces = true;
