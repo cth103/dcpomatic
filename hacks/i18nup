@@ -24,6 +24,9 @@ elif [[ `echo $changes | grep fr_FR` != "" ]]; then
 elif [[ `echo $changes | grep ru_RU` != "" ]]; then
   language="ru_RU"
   translator="Igor Voytovich"
+elif [[ `echo $changes | grep uk_UA` != "" ]]; then
+  language="uk_UA"
+  translator="Igor Voytovich"
 else
   echo "Unknown language"
   exit 1
