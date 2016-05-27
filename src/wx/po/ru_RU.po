@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-26 20:08+0300\n"
+"PO-Revision-Date: 2016-05-26 19:52+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -991,7 +991,7 @@ msgstr "Обычный шрифт"
 
 #: src/wx/cinema_dialog.cc:59 src/wx/screen_dialog.cc:71
 msgid "Notes"
-msgstr ""
+msgstr "Заметки"
 
 #: src/wx/audio_mapping_view.cc:140
 msgid "Off"
