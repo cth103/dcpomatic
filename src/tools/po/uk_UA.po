@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-26 20:04+0300\n"
+"PO-Revision-Date: 2016-05-26 19:52+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -140,6 +140,8 @@ msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
+"Ви точно хочете відновити налаштування за замовчанням? Цю операцію не можна "
+"відмінити."
 
 #: src/tools/dcpomatic.cc:460
 #, c-format
