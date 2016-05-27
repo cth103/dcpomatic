@@ -1,5 +1,7 @@
 2016-05-27  Carl Hetherington  <cth@carlh.net>
 
+	* Try to keep video waveform dialogue on top at all times (#820).
+
 	* Updated uk_UA translation from Igor Voytovich.
 
 	* Updated ru_RU translation from Igor Voytovich.

@@ -29,7 +29,14 @@ using std::cout;
 using boost::bind;
 
 VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, FilmViewer* viewer)
-	: wxDialog (parent, wxID_ANY, _("Video Waveform"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+	: wxDialog (
+		parent,
+		wxID_ANY,
+		_("Video Waveform"),
+		wxDefaultPosition,
+		wxSize (640, 512),
+		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxSTAY_ON_TOP
+		)
 	, _viewer (viewer)
 {
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
