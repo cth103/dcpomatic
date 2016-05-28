@@ -42,6 +42,7 @@ public:
 	static int const COLOUR;
 	static int const OUTLINE;
 	static int const OUTLINE_COLOUR;
+	static int const LINE_SPACING;
 };
 
 /** @class SubtitleContent
@@ -130,6 +131,13 @@ public:
 		return _outline_colour;
 	}
 
+	void set_line_spacing (double s);
+
+	double line_spacing () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _line_spacing;
+	}
+
 	static boost::shared_ptr<SubtitleContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
@@ -162,6 +170,8 @@ private:
 	bool _outline;
 	dcp::Colour _outline_colour;
 	std::list<boost::signals2::connection> _font_connections;
+	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
+	double _line_spacing;
 };
 
 #endif

@@ -50,6 +50,7 @@ int const SubtitleContentProperty::FONTS = 507;
 int const SubtitleContentProperty::COLOUR = 508;
 int const SubtitleContentProperty::OUTLINE = 509;
 int const SubtitleContentProperty::OUTLINE_COLOUR = 510;
+int const SubtitleContentProperty::LINE_SPACING = 511;
 
 SubtitleContent::SubtitleContent (Content* parent)
 	: ContentPart (parent)
@@ -62,6 +63,7 @@ SubtitleContent::SubtitleContent (Content* parent)
 	, _colour (255, 255, 255)
 	, _outline (false)
 	, _outline_colour (0, 0, 0)
+	, _line_spacing (1)
 {
 
 }
@@ -106,6 +108,7 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 		node->optional_number_child<int>("OutlineGreen").get_value_or(255),
 		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
 		)
+	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 {
 	if (version >= 32) {
 		_use = node->bool_child ("UseSubtitles");
@@ -169,6 +172,10 @@ SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > 
 			throw JoinError (_("Content to be joined must have the same subtitle Y scale."));
 		}
 
+		if (c[i]->subtitle->line_spacing() != ref->line_spacing()) {
+			throw JoinError (_("Content to be joined must have the same subtitle line spacing."));
+		}
+
 		list<shared_ptr<Font> > fonts = c[i]->subtitle->fonts ();
 		if (fonts.size() != ref_fonts.size()) {
 			throw JoinError (_("Content to be joined must use the same fonts."));
@@ -194,6 +201,7 @@ SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > 
 	_y_scale = ref->y_scale ();
 	_language = ref->language ();
 	_fonts = ref_fonts;
+	_line_spacing = ref->line_spacing ();
 
 	connect_to_fonts ();
 }
@@ -218,6 +226,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("OutlineRed")->add_child_text (raw_convert<string> (_outline_colour.r));
 	root->add_child("OutlineGreen")->add_child_text (raw_convert<string> (_outline_colour.g));
 	root->add_child("OutlineBlue")->add_child_text (raw_convert<string> (_outline_colour.b));
+	root->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
 		(*i)->as_xml (root->add_child("Font"));
@@ -231,7 +240,8 @@ SubtitleContent::identifier () const
 	s << raw_convert<string> (x_scale())
 	  << "_" << raw_convert<string> (y_scale())
 	  << "_" << raw_convert<string> (x_offset())
-	  << "_" << raw_convert<string> (y_offset());
+	  << "_" << raw_convert<string> (y_offset())
+	  << "_" << raw_convert<string> (line_spacing());
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.
@@ -334,4 +344,10 @@ void
 SubtitleContent::set_language (string language)
 {
 	maybe_set (_language, language, SubtitleContentProperty::LANGUAGE);
+}
+
+void
+SubtitleContent::set_line_spacing (double s)
+{
+	maybe_set (_line_spacing, s, SubtitleContentProperty::LINE_SPACING);
 }
