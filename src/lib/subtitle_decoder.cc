@@ -165,10 +165,12 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 			dcp::VAlign v_align;
 			if (needs_placement) {
 				DCPOMATIC_ASSERT (i.vertical_position.line);
-				/* This 0.053 is an arbitrary value to lift the bottom sub off the bottom
+				/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
 				   of the screen a bit to a pleasing degree.
 				*/
-				v_position = 1.015 - (1 + bottom_line.get() - i.vertical_position.line.get()) * 1.2 * j.font_size.proportional (72 * 11);
+				v_position = 1.015 - (1 + bottom_line.get() - i.vertical_position.line.get())
+					* 1.2 * content()->line_spacing() * j.font_size.proportional (72 * 11);
+
 				v_align = dcp::VALIGN_TOP;
 			} else {
 				DCPOMATIC_ASSERT (i.vertical_position.proportional);
