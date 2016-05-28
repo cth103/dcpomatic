@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -40,6 +40,8 @@
 #include <boost/foreach.hpp>
 #include <iostream>
 
+#include "i18n.h"
+
 using std::string;
 using std::cout;
 using std::list;
@@ -53,6 +55,7 @@ using boost::dynamic_pointer_cast;
  */
 Transcoder::Transcoder (shared_ptr<const Film> film, shared_ptr<Job> j)
 	: _film (film)
+	, _job (j)
 	, _player (new Player (film, film->playlist ()))
 	, _writer (new Writer (film, j))
 	, _encoder (new Encoder (film, _writer))
@@ -66,6 +69,8 @@ Transcoder::go ()
 {
 	_writer->start ();
 	_encoder->begin ();
+
+	_job->sub (_("Encoding picture and sound"));
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	DCPTime const length = _film->length ();
@@ -93,6 +98,8 @@ Transcoder::go ()
 		if (non_burnt_subtitles) {
 			_writer->write (_player->get_subtitles (t, frame, true, false, true));
 		}
+
+		_job->set_progress (float(t.get()) / length.get());
 	}
 
 	BOOST_FOREACH (ReferencedReelAsset i, _player->get_reel_assets ()) {

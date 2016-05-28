@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -96,8 +96,6 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	if (_film->is_signed() && !Config::instance()->signer_chain()->valid ()) {
 		throw InvalidSignerError ();
 	}
-
-	job->sub (_("Encoding image data"));
 }
 
 void
@@ -360,19 +358,6 @@ try
 			}
 
 			lock.lock ();
-
-			shared_ptr<Job> job = _job.lock ();
-			DCPOMATIC_ASSERT (job);
-			int64_t total = _film->length().frames_round (_film->video_frame_rate ());
-			if (_film->three_d ()) {
-				/* _full_written and so on are incremented for each eye, so we need to double the total
-				   frames to get the correct progress.
-				*/
-				total *= 2;
-			}
-			if (total) {
-				job->set_progress (float (_full_written + _fake_written + _repeat_written) / total);
-			}
 		}
 
 		while (_queued_full_in_memory > _maximum_frames_in_memory) {
