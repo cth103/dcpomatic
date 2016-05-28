@@ -105,6 +105,16 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 		++r;
 	}
 
+	{
+		add_label_to_sizer (grid, this, _("Line spacing"), true, wxGBPosition (r, 0));
+		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		_line_spacing = new wxSpinCtrl (this);
+		s->Add (_line_spacing);
+		add_label_to_sizer (s, this, _("%"), false);
+		grid->Add (s, wxGBPosition (r, 1));
+		++r;
+	}
+
 	add_label_to_sizer (grid, this, _("Language"), true, wxGBPosition (r, 0));
 	_language = new wxTextCtrl (this, wxID_ANY);
 	grid->Add (_language, wxGBPosition (r, 1));
@@ -133,6 +143,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_y_offset->SetRange (-100, 100);
 	_x_scale->SetRange (10, 1000);
 	_y_scale->SetRange (10, 1000);
+	_line_spacing->SetRange (10, 1000);
 
 	_reference->Bind                (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::reference_clicked, this));
 	_use->Bind                      (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
@@ -141,6 +152,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_y_offset->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
 	_x_scale->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
 	_y_scale->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
+	_line_spacing->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::line_spacing_changed, this));
 	_language->Bind                 (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
 	_stream->Bind                   (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
 	_subtitle_view_button->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
@@ -200,6 +212,8 @@ SubtitlePanel::film_content_changed (int property)
 		checked_set (_x_scale, scs ? lrint (scs->subtitle->x_scale() * 100) : 100);
 	} else if (property == SubtitleContentProperty::Y_SCALE) {
 		checked_set (_y_scale, scs ? lrint (scs->subtitle->y_scale() * 100) : 100);
+	} else if (property == SubtitleContentProperty::LINE_SPACING) {
+		checked_set (_line_spacing, scs ? lrint (scs->subtitle->line_spacing() * 100) : 100);
 	} else if (property == SubtitleContentProperty::LANGUAGE) {
 		checked_set (_language, scs ? scs->subtitle->language() : "");
 	} else if (property == DCPContentProperty::REFERENCE_SUBTITLE) {
@@ -290,6 +304,7 @@ SubtitlePanel::setup_sensitivity ()
 	_y_offset->Enable (!reference && any_subs > 0 && use);
 	_x_scale->Enable (!reference && any_subs > 0 && use);
 	_y_scale->Enable (!reference && any_subs > 0 && use);
+	_line_spacing->Enable (!reference && text_subs > 0 && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_subtitle_view_button->Enable (!reference && text_subs == 1);
@@ -353,6 +368,14 @@ SubtitlePanel::y_scale_changed ()
 }
 
 void
+SubtitlePanel::line_spacing_changed ()
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
+		i->subtitle->set_line_spacing (_line_spacing->GetValue() / 100.0);
+	}
+}
+
+void
 SubtitlePanel::language_changed ()
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected_subtitle ()) {
@@ -370,6 +393,7 @@ SubtitlePanel::content_selection_changed ()
 	film_content_changed (SubtitleContentProperty::Y_OFFSET);
 	film_content_changed (SubtitleContentProperty::X_SCALE);
 	film_content_changed (SubtitleContentProperty::Y_SCALE);
+	film_content_changed (SubtitleContentProperty::LINE_SPACING);
 	film_content_changed (SubtitleContentProperty::LANGUAGE);
 	film_content_changed (SubtitleContentProperty::FONTS);
 	film_content_changed (DCPContentProperty::REFERENCE_SUBTITLE);

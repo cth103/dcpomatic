@@ -41,6 +41,7 @@ private:
 	void y_offset_changed ();
 	void x_scale_changed ();
 	void y_scale_changed ();
+	void line_spacing_changed ();
 	void language_changed ();
 	void stream_changed ();
 	void subtitle_view_clicked ();
@@ -57,6 +58,7 @@ private:
 	wxSpinCtrl* _y_offset;
 	wxSpinCtrl* _x_scale;
 	wxSpinCtrl* _y_scale;
+	wxSpinCtrl* _line_spacing;
 	wxTextCtrl* _language;
 	wxChoice* _stream;
 	wxButton* _subtitle_view_button;
