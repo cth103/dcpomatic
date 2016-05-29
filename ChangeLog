@@ -1,3 +1,8 @@
+2016-05-30  Carl Hetherington  <cth@carlh.net>
+
+	* Give the option to abort the operation when creating
+	a new film or opening an existing one (#847).
+
 2016-05-29  Carl Hetherington  <cth@carlh.net>
 
 	* Updated fr_FR translation from Thierry Journet.

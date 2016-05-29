@@ -104,7 +104,11 @@ public:
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 			/// project (Film) has been changed since it was last saved.
 			_("Film changed"),
-			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
+			wxYES_NO | wxCANCEL | wxYES_DEFAULT | wxICON_QUESTION
+			);
+
+		_dialog->SetYesNoCancelLabels (
+			_("Save film and close"), _("Close without saving film"), _("Don't close")
 			);
 	}
 
@@ -279,8 +283,6 @@ public:
 	void load_film (boost::filesystem::path file)
 	try
 	{
-		maybe_save_then_delete_film ();
-
 		shared_ptr<Film> film (new Film (file));
 		list<string> const notes = film->read_metadata ();
 
@@ -355,8 +357,9 @@ private:
 				return;
 			}
 
-			maybe_save_then_delete_film ();
-			new_film (d->get_path ());
+			if (maybe_save_then_delete_film ()) {
+				new_film (d->get_path ());
+			}
 		}
 
 		d->Destroy ();
@@ -381,7 +384,7 @@ private:
 			}
 		}
 
-		if (r == wxID_OK) {
+		if (r == wxID_OK && maybe_save_then_delete_film()) {
 			load_film (wx_to_std (c->GetPath ()));
 		}
 
@@ -397,7 +400,7 @@ private:
 	{
 		vector<boost::filesystem::path> history = Config::instance()->history ();
 		int n = event.GetId() - ID_file_history;
-		if (n >= 0 && n < static_cast<int> (history.size ())) {
+		if (n >= 0 && n < static_cast<int> (history.size ()) && maybe_save_then_delete_film()) {
 			load_film (history[n]);
 		}
 	}
@@ -716,21 +719,9 @@ private:
 
 		if (_film && _film->dirty ()) {
 
-			wxMessageDialog* dialog = new wxMessageDialog (
-				0,
-				wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (_film->name()).data()),
-				/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
-				/// project (Film) has been changed since it was last saved.
-				_("Film changed"),
-				wxYES_NO | wxCANCEL | wxYES_DEFAULT | wxICON_QUESTION
-				);
-
-			dialog->SetYesNoCancelLabels (
-				_("Save film and close"), _("Close without saving film"), _("Don't close")
-				);
-
-			int const r = dialog->ShowModal ();
-			dialog->Destroy ();
+			FilmChangedDialog* dialog = new FilmChangedDialog (_film->name ());
+			int const r = dialog->run ();
+			delete dialog;
 
 			switch (r) {
 			case wxID_NO:
@@ -791,10 +782,13 @@ private:
 		}
 	}
 
-	void maybe_save_then_delete_film ()
+	/** @return true if the operation that called this method
+	 *  should continue, false to abort it.
+	 */
+	bool maybe_save_then_delete_film ()
 	{
 		if (!_film) {
-			return;
+			return true;
 		}
 
 		if (_film->dirty ()) {
@@ -805,10 +799,13 @@ private:
 			case wxID_YES:
 				_film->write_metadata ();
 				break;
+			case wxID_CANCEL:
+				return false;
 			}
 		}
 
 		_film.reset ();
+		return true;
 	}
 
 	void add_item (wxMenu* menu, wxString text, int id, int sens)
