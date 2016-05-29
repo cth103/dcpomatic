@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-28 21:17+0100\n"
+"PO-Revision-Date: 2016-05-29 17:45+0200\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: src/lib/dcp_content.cc:168
 msgid "%1 [DCP]"
@@ -27,10 +27,9 @@ msgstr "%1 [audio]"
 
 #: src/lib/ffmpeg_content.cc:257
 msgid "%1 [movie]"
-msgstr "%1 [vidéo]"
+msgstr "%1 [film]"
 
 #: src/lib/ffmpeg_content.cc:259 src/lib/video_mxf_content.cc:88
-#, fuzzy
 msgid "%1 [video]"
 msgstr "%1 [vidéo]"
 
@@ -203,9 +202,8 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Le DCP et la source ont la même cadence image.\n"
 
 #: src/lib/audio_content.cc:295
-#, fuzzy
 msgid "Content audio sample rate"
-msgstr "Cadence du contenu audio"
+msgstr "VItesse du contenu audio"
 
 #: src/lib/subtitle_content.cc:141
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -522,14 +520,12 @@ msgid "Full frame"
 msgstr "Full frame"
 
 #: src/lib/audio_content.cc:322
-#, fuzzy
 msgid "Full length in audio samples at DCP rate"
-msgstr "Pleine durée en frames audio à la cadence du DCP"
+msgstr "Echantillonnage audio non modifié pour la cadence du DCP"
 
 #: src/lib/audio_content.cc:309
-#, fuzzy
 msgid "Full length in audio samples at content rate"
-msgstr "Pleine durée en frames audio à la cadence du contenu"
+msgstr "Echantillonnage audio correspondant à la vitesse source"
 
 #: src/lib/audio_content.cc:316
 msgid "Full length in video frames at DCP rate"
@@ -754,14 +750,12 @@ msgid "Rc"
 msgstr "Rc"
 
 #: src/lib/colour_conversion.cc:267
-#, fuzzy
 msgid "Rec. 1886"
-msgstr "Rec. 601"
+msgstr "Rec. 1886"
 
 #: src/lib/colour_conversion.cc:268
-#, fuzzy
 msgid "Rec. 2020"
-msgstr "Rec. 601"
+msgstr "Rec. 2020"
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 601"
@@ -772,13 +766,12 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:374
-#, fuzzy
 msgid ""
 "Reel lengths in the film differ from those in the DCP; set the reel mode to "
 "'split by video content'."
 msgstr ""
 "Les durées de bobines dans le projet diffèrent de celles du DCP; veuillez "
-"scinder en bobines par contenu vidéo. "
+"scinder en 'bobines par contenu vidéo'. "
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
 msgid "Right"
@@ -904,11 +897,11 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:363
 msgid "The film is set to Interop and this DCP is SMPTE."
-msgstr ""
+msgstr "La sortie film est réglée sur Interop mais ce DCP est SMPTE."
 
 #: src/lib/dcp_content.cc:360
 msgid "The film is set to SMPTE and this DCP is Interop."
-msgstr ""
+msgstr "La sortie film est réglée sur SMPTE mais ce DCP est Interop."
 
 #: src/lib/dcp_content.cc:405
 msgid "There is other audio content overlapping this DCP; remove it."
