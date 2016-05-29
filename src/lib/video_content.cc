@@ -403,6 +403,16 @@ VideoContent::processing_description () const
 		d << " (" << fixed << setprecision(2) << container_size.ratio () << ":1)\n";
 	}
 
+	if (_parent->video_frame_rate()) {
+		double const vfr = _parent->video_frame_rate().get ();
+
+		d << _("Content frame rate");
+		d << " " << fixed << setprecision(4) << vfr << "\n";
+
+		FrameRateChange frc (vfr, film->video_frame_rate ());
+		d << frc.description () << "\n";
+	}
+
 	return d.str ();
 }
 
