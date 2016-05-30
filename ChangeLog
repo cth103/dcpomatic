@@ -1,5 +1,8 @@
 2016-05-30  Carl Hetherington  <cth@carlh.net>
 
+	* Add Cancel button to custom colour conversion
+	dialogue (#880).
+
 	* Give the option to abort the operation when creating
 	a new film or opening an existing one (#847).
 

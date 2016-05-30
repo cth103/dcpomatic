@@ -51,7 +51,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, 
 	overall_sizer->Add (new wxStaticLine (this, wxID_ANY), 0, wxEXPAND);
 	overall_sizer->Add (_editor);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
