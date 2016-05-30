@@ -1,5 +1,7 @@
 2016-05-30  Carl Hetherington  <cth@carlh.net>
 
+	* Keep audio dialogue always-on-top (#756).
+
 	* Add Cancel button to custom colour conversion
 	dialogue (#880).
 

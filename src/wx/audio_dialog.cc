@@ -41,7 +41,14 @@ using boost::dynamic_pointer_cast;
 
 /** @param content Content to analyse, or 0 to analyse all of the film's audio */
 AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content)
-	: wxDialog (parent, wxID_ANY, _("Audio"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+	: wxDialog (
+		parent,
+		wxID_ANY,
+		_("Audio"),
+		wxDefaultPosition,
+		wxSize (640, 512),
+		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxSTAY_ON_TOP
+		)
 	, _film (film)
 	, _content (content)
 	, _channels (film->audio_channels ())
