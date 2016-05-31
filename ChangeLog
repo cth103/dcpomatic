@@ -1,5 +1,7 @@
 2016-05-31  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on opening properties for audio-only files (#881).
+
 	* Remove mention of finding subtitles when examining
 	audio-only content (#882).
 

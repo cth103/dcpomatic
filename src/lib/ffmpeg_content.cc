@@ -398,6 +398,8 @@ FFmpegContent::text_subtitles_during (ContentTimePeriod period, bool starting) c
 void
 FFmpegContent::set_default_colour_conversion ()
 {
+	DCPOMATIC_ASSERT (video);
+
 	dcp::Size const s = video->size ();
 
 	boost::mutex::scoped_lock lm (_mutex);
@@ -413,118 +415,124 @@ void
 FFmpegContent::add_properties (list<UserProperty>& p) const
 {
 	Content::add_properties (p);
-	video->add_properties (p);
-	audio->add_properties (p);
 
-	if (_bits_per_pixel) {
-		int const sub = 219 * pow (2, _bits_per_pixel.get() - 8);
-		int const total = pow (2, _bits_per_pixel.get());
+	if (video) {
+		video->add_properties (p);
 
-		switch (_color_range) {
-		case AVCOL_RANGE_UNSPECIFIED:
-			/// TRANSLATORS: this means that the range of pixel values used in this
-			/// file is unknown (not specified in the file).
-			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
-			break;
-		case AVCOL_RANGE_MPEG:
-			/// TRANSLATORS: this means that the range of pixel values used in this
-			/// file is limited, so that not all possible values are valid.
-			p.push_back (
-				UserProperty (
-					_("Video"), _("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)
-					)
-				);
-			break;
-		case AVCOL_RANGE_JPEG:
-			/// TRANSLATORS: this means that the range of pixel values used in this
-			/// file is full, so that all possible pixel values are valid.
-			p.push_back (UserProperty (_("Video"), _("Colour range"), String::compose (_("Full (0-%1)"), total)));
-			break;
-		default:
-			DCPOMATIC_ASSERT (false);
+		if (_bits_per_pixel) {
+			int const sub = 219 * pow (2, _bits_per_pixel.get() - 8);
+			int const total = pow (2, _bits_per_pixel.get());
+
+			switch (_color_range) {
+			case AVCOL_RANGE_UNSPECIFIED:
+				/// TRANSLATORS: this means that the range of pixel values used in this
+				/// file is unknown (not specified in the file).
+				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
+				break;
+			case AVCOL_RANGE_MPEG:
+				/// TRANSLATORS: this means that the range of pixel values used in this
+				/// file is limited, so that not all possible values are valid.
+				p.push_back (
+					UserProperty (
+						_("Video"), _("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)
+						)
+					);
+				break;
+			case AVCOL_RANGE_JPEG:
+				/// TRANSLATORS: this means that the range of pixel values used in this
+				/// file is full, so that all possible pixel values are valid.
+				p.push_back (UserProperty (_("Video"), _("Colour range"), String::compose (_("Full (0-%1)"), total)));
+				break;
+			default:
+				DCPOMATIC_ASSERT (false);
+			}
+		} else {
+			switch (_color_range) {
+			case AVCOL_RANGE_UNSPECIFIED:
+				/// TRANSLATORS: this means that the range of pixel values used in this
+				/// file is unknown (not specified in the file).
+				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
+				break;
+			case AVCOL_RANGE_MPEG:
+				/// TRANSLATORS: this means that the range of pixel values used in this
+				/// file is limited, so that not all possible values are valid.
+				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Limited")));
+				break;
+			case AVCOL_RANGE_JPEG:
+				/// TRANSLATORS: this means that the range of pixel values used in this
+				/// file is full, so that all possible pixel values are valid.
+				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Full")));
+				break;
+			default:
+				DCPOMATIC_ASSERT (false);
+			}
 		}
-	} else {
-		switch (_color_range) {
-		case AVCOL_RANGE_UNSPECIFIED:
-			/// TRANSLATORS: this means that the range of pixel values used in this
-			/// file is unknown (not specified in the file).
-			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
-			break;
-		case AVCOL_RANGE_MPEG:
-			/// TRANSLATORS: this means that the range of pixel values used in this
-			/// file is limited, so that not all possible values are valid.
-			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Limited")));
-			break;
-		case AVCOL_RANGE_JPEG:
-			/// TRANSLATORS: this means that the range of pixel values used in this
-			/// file is full, so that all possible pixel values are valid.
-			p.push_back (UserProperty (_("Video"), _("Colour range"), _("Full")));
-			break;
-		default:
-			DCPOMATIC_ASSERT (false);
+
+		char const * primaries[] = {
+			_("Unspecified"),
+			_("BT709"),
+			_("Unspecified"),
+			_("Unspecified"),
+			_("BT470M"),
+			_("BT470BG"),
+			_("SMPTE 170M (BT601)"),
+			_("SMPTE 240M"),
+			_("Film"),
+			_("BT2020"),
+			_("SMPTE ST 428-1 (CIE 1931 XYZ)")
+		};
+
+		DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 11);
+		p.push_back (UserProperty (_("Video"), _("Colour primaries"), primaries[_color_primaries]));
+
+		char const * transfers[] = {
+			_("Unspecified"),
+			_("BT709"),
+			_("Unspecified"),
+			_("Unspecified"),
+			_("Gamma 22 (BT470M)"),
+			_("Gamma 28 (BT470BG)"),
+			_("SMPTE 170M (BT601)"),
+			_("SMPTE 240M"),
+			_("Linear"),
+			_("Logarithmic (100:1 range)"),
+			_("Logarithmic (316:1 range)"),
+			_("IEC61966-2-4"),
+			_("BT1361 extended colour gamut"),
+			_("IEC61966-2-1 (sRGB or sYCC)"),
+			_("BT2020 for a 10-bit system"),
+			_("BT2020 for a 12-bit system"),
+			_("SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"),
+			_("SMPTE ST 428-1")
+		};
+
+		DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 18);
+		p.push_back (UserProperty (_("Video"), _("Colour transfer characteristic"), transfers[_color_trc]));
+
+		char const * spaces[] = {
+			_("RGB / sRGB (IEC61966-2-1)"),
+			_("BT709"),
+			_("Unspecified"),
+			_("Unspecified"),
+			_("FCC"),
+			_("BT470BG (BT601-6)"),
+			_("SMPTE 170M (BT601-6)"),
+			_("SMPTE 240M"),
+			_("YCOCG"),
+			_("BT2020 non-constant luminance"),
+			_("BT2020 constant luminance"),
+		};
+
+		DCPOMATIC_ASSERT (AVCOL_SPC_NB == 11);
+		p.push_back (UserProperty (_("Video"), _("Colourspace"), spaces[_colorspace]));
+
+		if (_bits_per_pixel) {
+			p.push_back (UserProperty (_("Video"), _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
 		}
 	}
 
-	char const * primaries[] = {
-		_("Unspecified"),
-		_("BT709"),
-		_("Unspecified"),
-		_("Unspecified"),
-		_("BT470M"),
-		_("BT470BG"),
-		_("SMPTE 170M (BT601)"),
-		_("SMPTE 240M"),
-		_("Film"),
-		_("BT2020"),
-		_("SMPTE ST 428-1 (CIE 1931 XYZ)")
-	};
-
-	DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 11);
-	p.push_back (UserProperty (_("Video"), _("Colour primaries"), primaries[_color_primaries]));
-
-	char const * transfers[] = {
-		_("Unspecified"),
-		_("BT709"),
-		_("Unspecified"),
-		_("Unspecified"),
-		_("Gamma 22 (BT470M)"),
-		_("Gamma 28 (BT470BG)"),
-		_("SMPTE 170M (BT601)"),
-		_("SMPTE 240M"),
-		_("Linear"),
-		_("Logarithmic (100:1 range)"),
-		_("Logarithmic (316:1 range)"),
-		_("IEC61966-2-4"),
-		_("BT1361 extended colour gamut"),
-		_("IEC61966-2-1 (sRGB or sYCC)"),
-		_("BT2020 for a 10-bit system"),
-		_("BT2020 for a 12-bit system"),
-		_("SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"),
-		_("SMPTE ST 428-1")
-	};
-
-	DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 18);
-	p.push_back (UserProperty (_("Video"), _("Colour transfer characteristic"), transfers[_color_trc]));
-
-	char const * spaces[] = {
-		_("RGB / sRGB (IEC61966-2-1)"),
-		_("BT709"),
-		_("Unspecified"),
-		_("Unspecified"),
-		_("FCC"),
-		_("BT470BG (BT601-6)"),
-		_("SMPTE 170M (BT601-6)"),
-		_("SMPTE 240M"),
-		_("YCOCG"),
-		_("BT2020 non-constant luminance"),
-		_("BT2020 constant luminance"),
-	};
-
-	DCPOMATIC_ASSERT (AVCOL_SPC_NB == 11);
-	p.push_back (UserProperty (_("Video"), _("Colourspace"), spaces[_colorspace]));
-
-	if (_bits_per_pixel) {
-		p.push_back (UserProperty (_("Video"), _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
+	if (audio) {
+		audio->add_properties (p);
 	}
 }
 
