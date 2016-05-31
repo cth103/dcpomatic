@@ -37,11 +37,6 @@ using boost::dynamic_pointer_cast;
 ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<Content> content)
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)
 {
-	string n = content->path(0).string();
-	boost::algorithm::replace_all (n, "&", "&&");
-	add (_("Filename"), true);
-	add (new wxStaticText (this, wxID_ANY, std_to_wx (n)));
-
 	map<string, list<UserProperty> > grouped;
 	BOOST_FOREACH (UserProperty i, content->user_properties()) {
 		if (grouped.find(i.category) == grouped.end()) {
@@ -50,23 +45,34 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 		grouped[i.category].push_back (i);
 	}
 
-	for (map<string, list<UserProperty> >::const_iterator i = grouped.begin(); i != grouped.end(); ++i) {
-
-		wxStaticText* m = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
-		wxFont font (*wxNORMAL_FONT);
-		font.SetWeight (wxFONTWEIGHT_BOLD);
-		m->SetFont (font);
-
-		add_spacer ();
-		add_spacer ();
-		add (m, false);
-		add_spacer ();
-
-		BOOST_FOREACH (UserProperty j, i->second) {
-			add (std_to_wx (j.key), true);
-			add (new wxStaticText (this, wxID_ANY, std_to_wx (j.value + " " + j.unit)));
-		}
-	}
+	maybe_add_group (grouped, wx_to_std (_("General")));
+	maybe_add_group (grouped, wx_to_std (_("Video")));
+	maybe_add_group (grouped, wx_to_std (_("Audio")));
+	maybe_add_group (grouped, wx_to_std (_("Length")));
 
 	layout ();
+}
+
+void
+ContentPropertiesDialog::maybe_add_group (map<string, list<UserProperty> > const & groups, string name)
+{
+	map<string, list<UserProperty> >::const_iterator i = groups.find (name);
+	if (i == groups.end()) {
+		return;
+	}
+
+	wxStaticText* m = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
+	wxFont font (*wxNORMAL_FONT);
+	font.SetWeight (wxFONTWEIGHT_BOLD);
+	m->SetFont (font);
+
+	add_spacer ();
+	add_spacer ();
+	add (m, false);
+	add_spacer ();
+
+	BOOST_FOREACH (UserProperty j, i->second) {
+		add (std_to_wx (j.key), true);
+		add (new wxStaticText (this, wxID_ANY, std_to_wx (j.value + " " + j.unit)));
+	}
 }

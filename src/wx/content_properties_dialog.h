@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,11 +20,17 @@
 
 #include "table_dialog.h"
 #include <boost/shared_ptr.hpp>
+#include <list>
+#include <map>
 
 class Content;
+class UserProperty;
 
 class ContentPropertiesDialog : public TableDialog
 {
 public:
 	ContentPropertiesDialog (wxWindow* parent, boost::shared_ptr<Content> content);
+
+private:
+	void maybe_add_group (std::map<std::string, std::list<UserProperty> > const & groups, std::string name);
 };

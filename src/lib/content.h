@@ -185,7 +185,7 @@ public:
 
 protected:
 
-	virtual void add_properties (std::list<UserProperty> &) const {}
+	virtual void add_properties (std::list<UserProperty> &) const;
 
 	boost::weak_ptr<const Film> _film;
 

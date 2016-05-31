@@ -44,6 +44,9 @@ public:
 	void set_default_colour_conversion ();
 
 	bool still () const;
+
+private:
+	void add_properties (std::list<UserProperty>& p) const;
 };
 
 #endif

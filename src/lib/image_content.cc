@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -37,6 +37,7 @@
 
 using std::string;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 
 ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
@@ -168,4 +169,11 @@ ImageContent::set_default_colour_conversion ()
 	} else {
 		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
 	}
+}
+
+void
+ImageContent::add_properties (list<UserProperty>& p) const
+{
+	Content::add_properties (p);
+	video->add_properties (p);
 }

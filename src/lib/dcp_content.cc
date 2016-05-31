@@ -275,6 +275,8 @@ DCPContent::directory () const
 void
 DCPContent::add_properties (list<UserProperty>& p) const
 {
+	Content::add_properties (p);
+	video->add_properties (p);
 	audio->add_properties (p);
 }
 
