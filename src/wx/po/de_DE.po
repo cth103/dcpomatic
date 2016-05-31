@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-26 02:13+0100\n"
+"PO-Revision-Date: 2016-05-29 15:27+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -140,7 +140,6 @@ msgid "About DCP-o-matic"
 msgstr "Über DCP-o-matic"
 
 #: src/wx/screens_panel.cc:149
-#, fuzzy
 msgid "Add Cinema"
 msgstr "Kino hinzufügen..."
 
@@ -153,7 +152,6 @@ msgid "Add KDM..."
 msgstr "KDM hinzufügen..."
 
 #: src/wx/screens_panel.cc:205
-#, fuzzy
 msgid "Add Screen"
 msgstr "Saal hinzufügen..."
 
@@ -1006,7 +1004,7 @@ msgstr "Standard Zeichensatz"
 
 #: src/wx/cinema_dialog.cc:59 src/wx/screen_dialog.cc:71
 msgid "Notes"
-msgstr ""
+msgstr "Anmerkungen"
 
 #: src/wx/audio_mapping_view.cc:140
 msgid "Off"
@@ -1749,8 +1747,9 @@ msgid ""
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
 "Die von ihnen gewählte Bildrate wird formal nicht in INTEROP-DCPs "
-"unterstützt. Wenn Sie diese Bildrate beibehalten wollen, sollten Sie ein "
-"SMPTE-DCP erstellen!"
+"unterstützt. Wenn Sie diese Bildrate verwenden wollen, sollten Sie ein SMPTE-"
+"DCP erstellen! 25fps Interop wird jedoch von den meisten Systemen "
+"unterstützt."
 
 #: src/wx/hints_dialog.cc:170
 msgid ""

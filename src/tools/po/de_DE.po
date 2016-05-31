@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-26 02:06+0100\n"
+"PO-Revision-Date: 2016-05-29 15:20+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -142,7 +142,7 @@ msgstr "Ein unbekannter Fehler ist aufgetreten."
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
-msgstr ""
+msgstr "Voreinstellungen wirklich zurücksetzen?"
 
 #: src/tools/dcpomatic.cc:460
 #, c-format
@@ -166,7 +166,7 @@ msgstr "Auf Updates überprüfen..."
 
 #: src/tools/dcpomatic.cc:728
 msgid "Close without saving film"
-msgstr "Änderungen nicht speichern und beenden"
+msgstr "Beenden ohne Speichern"
 
 #: src/tools/dcpomatic.cc:547
 msgid "Could not find batch converter."
@@ -272,7 +272,7 @@ msgstr "Problembericht senden..."
 
 #: src/tools/dcpomatic.cc:423 src/tools/dcpomatic.cc:864
 msgid "Restore default preferences"
-msgstr "Voreinstellungen zurücksetzen"
+msgstr "Voreinstellungen zurücksetzen..."
 
 #: src/tools/dcpomatic.cc:856
 msgid "S&how DCP"
@@ -285,7 +285,7 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:728
 msgid "Save film and close"
-msgstr "Änderungen speichern und beenden"
+msgstr "Speichern und beenden"
 
 #: src/tools/dcpomatic.cc:848
 msgid "Scale to fit &height"

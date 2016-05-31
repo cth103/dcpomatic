@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-26 02:08+0100\n"
+"PO-Revision-Date: 2016-05-29 15:12+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -31,9 +31,8 @@ msgid "%1 [movie]"
 msgstr "%1 [Film]"
 
 #: src/lib/ffmpeg_content.cc:259 src/lib/video_mxf_content.cc:88
-#, fuzzy
 msgid "%1 [video]"
-msgstr "%1 [Film]"
+msgstr "%1 [Bild]"
 
 #: src/lib/ratio.cc:35
 msgid "1.19"
@@ -204,7 +203,6 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Quelle und DCP haben dieselbe Bildrate. Gut ;-)\n"
 
 #: src/lib/audio_content.cc:295
-#, fuzzy
 msgid "Content audio sample rate"
 msgstr "Audio Abtastrate (Quelle)"
 
@@ -526,12 +524,10 @@ msgid "Full frame"
 msgstr "Full Container (DCI)"
 
 #: src/lib/audio_content.cc:322
-#, fuzzy
 msgid "Full length in audio samples at DCP rate"
 msgstr "Gesamtlänge in Audio Blöcken (DCP)"
 
 #: src/lib/audio_content.cc:309
-#, fuzzy
 msgid "Full length in audio samples at content rate"
 msgstr "Gesamtlänge in Audio Blöcken (Quelle)"
 
@@ -763,14 +759,12 @@ msgid "Rc"
 msgstr "Rc"
 
 #: src/lib/colour_conversion.cc:267
-#, fuzzy
 msgid "Rec. 1886"
-msgstr "Rec. 601 (SD)"
+msgstr "Rec. 1886"
 
 #: src/lib/colour_conversion.cc:268
-#, fuzzy
 msgid "Rec. 2020"
-msgstr "Rec. 601 (SD)"
+msgstr "Rec. 2020"
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 601"
@@ -781,13 +775,12 @@ msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
 #: src/lib/dcp_content.cc:374
-#, fuzzy
 msgid ""
 "Reel lengths in the film differ from those in the DCP; set the reel mode to "
 "'split by video content'."
 msgstr ""
-"Aktlängen im Projekt unterscheiden sich von DCP; Aktunterteilung wurde auf "
-"Inhalts-Segmentgrenzen gesetzt!"
+"Aktlängen im Projekt unterscheiden sich von DCP; Aktunterteilung wurde daher "
+"auf Inhalts-Segmentgrenzen gesetzt!"
 
 #: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
 msgid "Right"
@@ -916,10 +909,14 @@ msgstr ""
 #: src/lib/dcp_content.cc:363
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr ""
+"Dieses Projekt ist auf 'INTEROP' Standard konfiguriert, das referenzierte "
+"DCP ist jedoch in 'SMPTE'! Eine Mischung ist nicht möglich!"
 
 #: src/lib/dcp_content.cc:360
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr ""
+"Dieses Projekt ist auf 'SMPTE' Standard konfiguriert, das referenzierte DCP "
+"ist jedoch in 'INTEROP'. Eine Mischung ist nicht möglich!"
 
 #: src/lib/dcp_content.cc:405
 msgid "There is other audio content overlapping this DCP; remove it."
