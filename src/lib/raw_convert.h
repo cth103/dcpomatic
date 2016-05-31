@@ -51,6 +51,10 @@ raw_convert<std::string, char const *> (char const * v, int);
 
 template <>
 std::string
+raw_convert<std::string, char*> (char* v, int);
+
+template <>
+std::string
 raw_convert<std::string, std::string> (std::string v, int);
 
 #endif

@@ -35,3 +35,10 @@ raw_convert<string, char const *> (char const * v, int)
 {
 	return v;
 }
+
+template <>
+string
+raw_convert<string, char*> (char * v, int)
+{
+	return v;
+}
