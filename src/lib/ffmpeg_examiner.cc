@@ -92,8 +92,10 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	if (job) {
 		if (_need_video_length) {
 			job->sub (_("Finding length and subtitles"));
-		} else {
+		} else if (!_subtitle_streams.empty()) {
 			job->sub (_("Finding subtitles"));
+		} else {
+			job->sub (_("Finding length"));
 		}
 	}
 
