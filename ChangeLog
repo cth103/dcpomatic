@@ -1,3 +1,8 @@
+2016-06-01  c.hetherington  <cth@carlh.net>
+
+	* Basics of better audio stream labelling in the audio
+	mapping view (#849).
+
 2016-06-01  Carl Hetherington  <cth@carlh.net>
 
 	* Updated cs_CZ translation from Tomáš Begeni.

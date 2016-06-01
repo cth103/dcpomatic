@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,6 +52,24 @@ public:
 	void set_input_channels (std::vector<std::string> const & names);
 	void set_output_channels (std::vector<std::string> const & names);
 
+	struct Group
+	{
+		Group (int f, int t, std::string n)
+			: from (f)
+			, to (t)
+			, name (n)
+		{}
+
+		/** First channel index (from 0) */
+		int from;
+		/** Last channel index (from 0) */
+		int to;
+		/** Name of this group */
+		std::string name;
+	};
+
+	void set_input_groups (std::vector<Group> const & groups);
+
 	boost::signals2::signal<void (AudioMapping)> Changed;
 
 private:
@@ -61,6 +79,8 @@ private:
 	void update_cells ();
 	void map_values_changed ();
 	void sized (wxSizeEvent &);
+	void paint_left_labels ();
+	void paint_top_labels ();
 
 	void off ();
 	void full ();
@@ -68,12 +88,15 @@ private:
 	void edit ();
 
 	wxGrid* _grid;
-	wxSizer* _sizer;
+	wxPanel* _left_labels;
+	wxPanel* _top_labels;
 	AudioMapping _map;
 
 	wxMenu* _menu;
 	int _menu_row;
 	int _menu_column;
+
+	std::vector<Group> _input_groups;
 
 	int _last_tooltip_row;
 	int _last_tooltip_column;

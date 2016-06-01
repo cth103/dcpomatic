@@ -77,7 +77,6 @@ private:
 	void subtitle_packet (AVCodecContext *, boost::shared_ptr<FFmpegSubtitleStream>);
 
 	std::string stream_name (AVStream* s) const;
-	std::string audio_stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
 	boost::optional<ContentTime> frame_time (AVStream* s) const;
 

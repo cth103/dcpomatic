@@ -25,6 +25,7 @@
 #include "content_panel.h"
 #include "audio_dialog.h"
 #include "lib/config.h"
+#include "lib/ffmpeg_audio_stream.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/cinema_sound_processor.h"
 #include "lib/job_manager.h"
@@ -154,6 +155,16 @@ AudioPanel::film_content_changed (int property)
 		if (ac.size() == 1) {
 			_mapping->set (ac.front()->audio->mapping());
 			_mapping->set_input_channels (ac.front()->audio->channel_names ());
+
+			vector<AudioMappingView::Group> groups;
+			int c = 0;
+			BOOST_FOREACH (shared_ptr<const AudioStream> i, ac.front()->audio->streams()) {
+				shared_ptr<const FFmpegAudioStream> f = dynamic_pointer_cast<const FFmpegAudioStream> (i);
+				groups.push_back (AudioMappingView::Group (c, c + i->channels() - 1, f ? f->name : ""));
+				c += i->channels ();
+			}
+			_mapping->set_input_groups (groups);
+
 		} else {
 			_mapping->set (AudioMapping ());
 		}

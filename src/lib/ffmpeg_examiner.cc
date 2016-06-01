@@ -67,7 +67,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			_audio_streams.push_back (
 				shared_ptr<FFmpegAudioStream> (
 					new FFmpegAudioStream (
-						audio_stream_name (s),
+						stream_name (s),
 						s->id,
 						s->codec->sample_rate,
 						(double (_format_context->duration) / AV_TIME_BASE) * s->codec->sample_rate,
@@ -343,22 +343,6 @@ FFmpegExaminer::sample_aspect_ratio () const
 		return optional<double> ();
 	}
 	return double (sar.num) / sar.den;
-}
-
-string
-FFmpegExaminer::audio_stream_name (AVStream* s) const
-{
-	SafeStringStream n;
-
-	n << stream_name (s);
-
-	if (!n.str().empty()) {
-		n << "; ";
-	}
-
-	n << s->codec->channels << " channels";
-
-	return n.str ();
 }
 
 string

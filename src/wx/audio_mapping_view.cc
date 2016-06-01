@@ -32,16 +32,20 @@
 #include <wx/wx.h>
 #include <wx/renderer.h>
 #include <wx/grid.h>
+#include <wx/graphics.h>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
 using std::list;
 using std::string;
+using std::min;
 using std::max;
 using std::vector;
 using boost::shared_ptr;
 
 #define INDICATOR_SIZE 16
+#define LEFT_WIDTH 48
 
 enum {
 	ID_off = 1,
@@ -117,6 +121,11 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	, _last_tooltip_row (0)
 	, _last_tooltip_column (0)
 {
+	_left_labels = new wxPanel (this, wxID_ANY);
+	_left_labels->Bind (wxEVT_PAINT, boost::bind (&AudioMappingView::paint_left_labels, this));
+	_top_labels = new wxPanel (this, wxID_ANY);
+	_top_labels->Bind (wxEVT_PAINT, boost::bind (&AudioMappingView::paint_top_labels, this));
+
 	_grid = new wxGrid (this, wxID_ANY);
 
 	_grid->CreateGrid (0, MAX_DCP_AUDIO_CHANNELS + 1);
@@ -128,9 +137,13 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_grid->SetDefaultRenderer (new NoSelectionStringRenderer);
 	_grid->AutoSize ();
 
-	_sizer = new wxBoxSizer (wxVERTICAL);
-	_sizer->Add (_grid, 1, wxEXPAND | wxALL);
-	SetSizerAndFit (_sizer);
+	wxSizer* vertical_sizer = new wxBoxSizer (wxVERTICAL);
+	vertical_sizer->Add (_top_labels);
+	wxSizer* horizontal_sizer = new wxBoxSizer (wxHORIZONTAL);
+	horizontal_sizer->Add (_left_labels);
+	horizontal_sizer->Add (_grid, 1, wxEXPAND | wxALL);
+	vertical_sizer->Add (horizontal_sizer);
+	SetSizerAndFit (vertical_sizer);
 
 	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
 	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
@@ -329,6 +342,112 @@ AudioMappingView::mouse_moved (wxMouseEvent& ev)
 void
 AudioMappingView::sized (wxSizeEvent& ev)
 {
+	int const top_height = 24;
+
 	_grid->AutoSize ();
+	_left_labels->SetMinSize (wxSize (LEFT_WIDTH, _grid->GetSize().GetHeight()));
+	_top_labels->SetMinSize (wxSize (_grid->GetSize().GetWidth() + LEFT_WIDTH, top_height));
 	ev.Skip ();
+}
+
+void
+AudioMappingView::paint_left_labels ()
+{
+	wxPaintDC dc (_left_labels);
+
+	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
+	if (!gc) {
+		return;
+	}
+
+	wxSize const size = dc.GetSize();
+	int const half = size.GetWidth() / 2;
+
+	gc->SetPen (wxPen (wxColour (0, 0, 0)));
+	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
+
+	if (_grid->GetNumberRows() > 0) {
+
+		/* Draw a line at the top of the first group */
+		int ypos = _grid->GetColLabelSize() - 1;
+		wxGraphicsPath lines = gc->CreatePath();
+		lines.MoveToPoint (half, ypos);
+		lines.AddLineToPoint (size.GetWidth(), ypos);
+
+		/* And the names of the groups and a line under each */
+		BOOST_FOREACH (Group const & i, _input_groups) {
+			int const old_ypos = ypos;
+			ypos += (i.to - i.from + 1) * _grid->GetRowSize(0);
+
+			dc.SetClippingRegion (0, old_ypos + 2, size.GetWidth(), ypos - 4);
+
+			dc.SetFont (*wxSWISS_FONT);
+			wxCoord label_width;
+			wxCoord label_height;
+			dc.GetTextExtent (std_to_wx (i.name), &label_width, &label_height);
+
+			dc.DrawRotatedText (i.name, half + (half - label_height) / 2, (ypos + old_ypos + label_width) / 2, 90);
+			dc.DestroyClippingRegion ();
+
+			lines.MoveToPoint (half, ypos);
+			lines.AddLineToPoint (size.GetWidth(), ypos);
+		}
+
+		gc->StrokePath (lines);
+	}
+
+	/* Overall label */
+	dc.SetFont (wxSWISS_FONT->Bold());
+	wxCoord overall_label_width;
+	wxCoord overall_label_height;
+	dc.GetTextExtent (_("Content"), &overall_label_width, &overall_label_height);
+	dc.DrawRotatedText (
+		_("Content"),
+		(half - overall_label_height) / 2,
+		min (size.GetHeight(), (size.GetHeight() + _grid->GetColLabelSize() + overall_label_width) / 2),
+		90
+		);
+
+	delete gc;
+}
+
+void
+AudioMappingView::paint_top_labels ()
+{
+	wxPaintDC dc (_top_labels);
+	if (_grid->GetNumberCols() == 0) {
+		return;
+	}
+
+	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
+	if (!gc) {
+		return;
+	}
+
+	wxSize const size = dc.GetSize();
+
+	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
+
+	dc.SetFont (wxSWISS_FONT->Bold());
+	wxCoord label_width;
+	wxCoord label_height;
+	dc.GetTextExtent (_("DCP"), &label_width, &label_height);
+
+	dc.DrawText (_("DCP"), (size.GetWidth() + _grid->GetColSize(0) + LEFT_WIDTH - label_width) / 2, (size.GetHeight() - label_height) / 2);
+
+	gc->SetPen (wxPen (wxColour (0, 0, 0)));
+	wxGraphicsPath lines = gc->CreatePath();
+	lines.MoveToPoint (LEFT_WIDTH + _grid->GetColSize(0) - 1, 0);
+	lines.AddLineToPoint (LEFT_WIDTH + _grid->GetColSize(0) - 1, size.GetHeight());
+	lines.MoveToPoint (size.GetWidth() - 1, 0);
+	lines.AddLineToPoint (size.GetWidth() - 1, size.GetHeight());
+	gc->StrokePath (lines);
+
+	delete gc;
+}
+
+void
+AudioMappingView::set_input_groups (vector<Group> const & groups)
+{
+	_input_groups = groups;
 }
