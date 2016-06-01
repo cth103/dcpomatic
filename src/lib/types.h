@@ -48,6 +48,28 @@ namespace xmlpp {
  */
 #define SERVER_LINK_VERSION (64+0)
 
+/** A film of F seconds at f FPS will be Ff frames;
+    Consider some delta FPS d, so if we run the same
+    film at (f + d) FPS it will last F(f + d) seconds.
+
+    Hence the difference in length over the length of the film will
+    be F(f + d) - Ff frames
+    = Ff + Fd - Ff frames
+    = Fd frames
+    = Fd/f seconds
+
+    So if we accept a difference of 1 frame, ie 1/f seconds, we can
+    say that
+
+    1/f = Fd/f
+    ie 1 = Fd
+    ie d = 1/F
+
+    So for a 3hr film, ie F = 3 * 60 * 60 = 10800, the acceptable
+    FPS error is 1/F ~= 0.0001 ~= 1e-4
+*/
+#define VIDEO_FRAME_RATE_EPSILON (1e-4)
+
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 

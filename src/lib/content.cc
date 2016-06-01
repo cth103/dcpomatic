@@ -95,6 +95,7 @@ Content::Content (shared_ptr<const Film> film, cxml::ConstNodePtr node)
 	_position = DCPTime (node->number_child<DCPTime::Type> ("Position"));
 	_trim_start = ContentTime (node->number_child<ContentTime::Type> ("TrimStart"));
 	_trim_end = ContentTime (node->number_child<ContentTime::Type> ("TrimEnd"));
+	_video_frame_rate = node->optional_number_child<double> ("VideoFrameRate");
 }
 
 Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
@@ -102,6 +103,7 @@ Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 	, _position (c.front()->position ())
 	, _trim_start (c.front()->trim_start ())
 	, _trim_end (c.back()->trim_end ())
+	, _video_frame_rate (c.front()->video_frame_rate())
 	, _change_signals_frequent (false)
 {
 	for (size_t i = 0; i < c.size(); ++i) {
@@ -111,6 +113,17 @@ Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 
 		if (i < (c.size() - 1) && c[i]->trim_end () > ContentTime ()) {
 			throw JoinError (_("Only the last piece of content to be joined can have an end trim."));
+		}
+
+		if (
+			(_video_frame_rate && !c[i]->_video_frame_rate) ||
+			(!_video_frame_rate && c[i]->_video_frame_rate)
+			) {
+			throw JoinError (_("Content to be joined must have the same video frame rate"));
+		}
+
+		if (_video_frame_rate && fabs (_video_frame_rate.get() - c[i]->_video_frame_rate.get()) > VIDEO_FRAME_RATE_EPSILON) {
+			throw JoinError (_("Content to be joined must have the same video frame rate"));
 		}
 
 		for (size_t j = 0; j < c[i]->number_of_paths(); ++j) {
@@ -131,6 +144,9 @@ Content::as_xml (xmlpp::Node* node) const
 	node->add_child("Position")->add_child_text (raw_convert<string> (_position.get ()));
 	node->add_child("TrimStart")->add_child_text (raw_convert<string> (_trim_start.get ()));
 	node->add_child("TrimEnd")->add_child_text (raw_convert<string> (_trim_end.get ()));
+	if (_video_frame_rate) {
+		node->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate.get()));
+	}
 }
 
 void

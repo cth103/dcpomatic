@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,10 @@
 
 */
 
-#include <cmath>
 #include "frame_rate_change.h"
+#include "types.h"
 #include "compose.hpp"
+#include <cmath>
 
 #include "i18n.h"
 
@@ -29,28 +30,7 @@ using std::string;
 static bool
 about_equal (double a, double b)
 {
-	/* A film of F seconds at f FPS will be Ff frames;
-	   Consider some delta FPS d, so if we run the same
-	   film at (f + d) FPS it will last F(f + d) seconds.
-
-	   Hence the difference in length over the length of the film will
-	   be F(f + d) - Ff frames
-	    = Ff + Fd - Ff frames
-	    = Fd frames
-	    = Fd/f seconds
-
-	   So if we accept a difference of 1 frame, ie 1/f seconds, we can
-	   say that
-
-	   1/f = Fd/f
-	ie 1 = Fd
-	ie d = 1/F
-
-	   So for a 3hr film, ie F = 3 * 60 * 60 = 10800, the acceptable
-	   FPS error is 1/F ~= 0.0001 ~= 10-e4
-	*/
-
-	return (fabs (a - b) < 1e-4);
+	return (fabs (a - b) < VIDEO_FRAME_RATE_EPSILON);
 }
 
 
