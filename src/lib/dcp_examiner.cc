@@ -30,8 +30,10 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/mono_picture_asset.h>
+#include <dcp/mono_picture_asset_reader.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_asset.h>
 #include <iostream>
@@ -122,9 +124,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 
 			if (mono) {
-				mono->get_frame(0)->xyz_image ();
+				mono->start_read()->get_frame(0)->xyz_image ();
 			} else {
-				stereo->get_frame(0)->xyz_image (dcp::EYE_LEFT);
+				stereo->start_read()->get_frame(0)->xyz_image (dcp::EYE_LEFT);
 			}
 
 		}

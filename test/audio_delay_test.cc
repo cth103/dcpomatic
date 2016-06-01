@@ -29,6 +29,7 @@
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
 #include <dcp/sound_asset.h>
+#include <dcp/sound_asset_reader.h>
 #include <dcp/reel_sound_asset.h>
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
@@ -79,7 +80,7 @@ void test_audio_delay (int delay_in_ms)
 	int const delay_in_frames = delay_in_ms * 48000 / 1000;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->get_frame (frame++);
+		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {

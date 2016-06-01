@@ -22,13 +22,6 @@
  *  @brief A simple test of reading audio from an FFmpeg file.
  */
 
-#include <boost/test/unit_test.hpp>
-#include <dcp/cpl.h>
-#include <dcp/dcp.h>
-#include <dcp/sound_asset.h>
-#include <dcp/sound_frame.h>
-#include <dcp/reel_sound_asset.h>
-#include <dcp/reel.h>
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
@@ -36,6 +29,14 @@
 #include "lib/ratio.h"
 #include "lib/ffmpeg_content.h"
 #include "test.h"
+#include <dcp/cpl.h>
+#include <dcp/dcp.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_frame.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/sound_asset_reader.h>
+#include <dcp/reel.h>
+#include <boost/test/unit_test.hpp>
 
 using std::string;
 using boost::shared_ptr;
@@ -75,7 +76,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	int frame = 0;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->get_frame (frame++);
+		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {

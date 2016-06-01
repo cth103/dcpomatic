@@ -20,6 +20,11 @@
 
 #include "decoder.h"
 
+namespace dcp {
+	class MonoPictureAssetReader;
+	class StereoPictureAssetReader;
+}
+
 class VideoMXFContent;
 class Log;
 
@@ -35,4 +40,8 @@ private:
 	boost::shared_ptr<const VideoMXFContent> _content;
 	/** Time of next thing to return from pass */
 	ContentTime _next;
+
+	boost::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
+	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
+	dcp::Size _size;
 };

@@ -22,18 +22,19 @@
  *  @brief Test the padding (with silence) of a mono source to a 6-channel DCP.
  */
 
-#include <boost/test/unit_test.hpp>
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
+#include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_frame.h>
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
-#include "lib/ffmpeg_content.h"
-#include "lib/film.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
-#include "test.h"
+#include <dcp/sound_asset_reader.h>
+#include <boost/test/unit_test.hpp>
 
 using std::string;
 using boost::lexical_cast;
@@ -72,7 +73,7 @@ test_silence_padding (int channels)
 	int frame = 0;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->get_frame (frame++);
+		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {

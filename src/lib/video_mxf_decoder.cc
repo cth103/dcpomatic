@@ -23,7 +23,9 @@
 #include "video_mxf_content.h"
 #include "j2k_image_proxy.h"
 #include <dcp/mono_picture_asset.h>
+#include <dcp/mono_picture_asset_reader.h>
 #include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/exceptions.h>
 
 using boost::shared_ptr;
@@ -32,17 +34,6 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, sha
 	: _content (content)
 {
 	video.reset (new VideoDecoder (this, content, log));
-}
-
-bool
-VideoMXFDecoder::pass (PassReason, bool)
-{
-	double const vfr = _content->active_video_frame_rate ();
-	int64_t const frame = _next.frames_round (vfr);
-
-	if (frame >= _content->video->length()) {
-		return true;
-	}
 
 	shared_ptr<dcp::MonoPictureAsset> mono;
 	try {
@@ -67,10 +58,29 @@ VideoMXFDecoder::pass (PassReason, bool)
 	}
 
 	if (mono) {
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame(frame), mono->size())), frame);
+		_mono_reader = mono->start_read ();
+		_size = mono->size ();
 	} else {
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame(frame), stereo->size(), dcp::EYE_LEFT)), frame);
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame(frame), stereo->size(), dcp::EYE_RIGHT)), frame);
+		_stereo_reader = stereo->start_read ();
+		_size = stereo->size ();
+	}
+}
+
+bool
+VideoMXFDecoder::pass (PassReason, bool)
+{
+	double const vfr = _content->active_video_frame_rate ();
+	int64_t const frame = _next.frames_round (vfr);
+
+	if (frame >= _content->video->length()) {
+		return true;
+	}
+
+	if (_mono_reader) {
+		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame(frame), _size)), frame);
+	} else {
+		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT)), frame);
+		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT)), frame);
 	}
 
 	_next += ContentTime::from_frames (1, vfr);

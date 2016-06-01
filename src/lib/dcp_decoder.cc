@@ -32,13 +32,16 @@
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
 #include <dcp/mono_picture_asset.h>
+#include <dcp/mono_picture_asset_reader.h>
 #include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/stereo_picture_frame.h>
 #include <dcp/sound_frame.h>
+#include <dcp/sound_asset_reader.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -72,6 +75,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 
 	_reel = _reels.begin ();
 	_offset = 0;
+	get_readers ();
 }
 
 bool
@@ -86,29 +90,27 @@ DCPDecoder::pass (PassReason reason, bool)
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
-	if ((*_reel)->main_picture () && reason != PASS_REASON_SUBTITLE) {
+	if ((_mono_reader || _stereo_reader) && reason != PASS_REASON_SUBTITLE) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
-		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
-		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
-		if (mono) {
-			video->give (shared_ptr<ImageProxy> (new J2KImageProxy (mono->get_frame (entry_point + frame), asset->size())), _offset + frame);
+		if (_mono_reader) {
+			video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame (entry_point + frame), asset->size())), _offset + frame);
 		} else {
 			video->give (
-				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
+				shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
 				_offset + frame
 				);
 
 			video->give (
-				shared_ptr<ImageProxy> (new J2KImageProxy (stereo->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
+				shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
 				_offset + frame
 				);
 		}
 	}
 
-	if ((*_reel)->main_sound () && reason != PASS_REASON_SUBTITLE) {
+	if (_sound_reader && reason != PASS_REASON_SUBTITLE) {
 		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
-		shared_ptr<const dcp::SoundFrame> sf = (*_reel)->main_sound()->asset()->get_frame (entry_point + frame);
+		shared_ptr<const dcp::SoundFrame> sf = _sound_reader->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
 
 		int const channels = _dcp_content->audio->stream()->channels ();
@@ -161,6 +163,41 @@ DCPDecoder::next_reel ()
 {
 	_offset += (*_reel)->main_picture()->duration();
 	++_reel;
+	get_readers ();
+}
+
+void
+DCPDecoder::get_readers ()
+{
+	if (_reel == _reels.end()) {
+		_mono_reader.reset ();
+		_stereo_reader.reset ();
+		_sound_reader.reset ();
+		return;
+	}
+
+	if ((*_reel)->main_picture()) {
+		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
+		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
+		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
+		DCPOMATIC_ASSERT (mono || stereo);
+		if (mono) {
+			_mono_reader = mono->start_read ();
+			_stereo_reader.reset ();
+		} else {
+			_stereo_reader = stereo->start_read ();
+			_mono_reader.reset ();
+		}
+	} else {
+		_mono_reader.reset ();
+		_stereo_reader.reset ();
+	}
+
+	if ((*_reel)->main_sound()) {
+		_sound_reader = (*_reel)->main_sound()->asset()->start_read ();
+	} else {
+		_sound_reader.reset ();
+	}
 }
 
 void

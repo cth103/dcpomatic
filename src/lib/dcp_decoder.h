@@ -26,6 +26,9 @@
 
 namespace dcp {
 	class Reel;
+	class MonoPictureAssetReader;
+	class StereoPictureAssetReader;
+	class SoundAssetReader;
 }
 
 class DCPContent;
@@ -47,15 +50,23 @@ private:
 	bool pass (PassReason, bool accurate);
 	void seek (ContentTime t, bool accurate);
 	void next_reel ();
+	void get_readers ();
 
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
+	boost::shared_ptr<const DCPContent> _dcp_content;
 	/** Time of next thing to return from pass relative to the start of _reel */
 	ContentTime _next;
 	std::list<boost::shared_ptr<dcp::Reel> > _reels;
+
 	std::list<boost::shared_ptr<dcp::Reel> >::iterator _reel;
 	/** Offset of _reel from the start of the content in frames */
 	int64_t _offset;
-	boost::shared_ptr<const DCPContent> _dcp_content;
+	/** Reader for current mono picture asset, if applicable */
+	boost::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
+	/** Reader for current stereo picture asset, if applicable */
+	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
+	/** Reader for current sound asset, if applicable */
+	boost::shared_ptr<dcp::SoundAssetReader> _sound_reader;
 };
