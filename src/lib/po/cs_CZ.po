@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-19 10:09+0200\n"
+"PO-Revision-Date: 2016-06-01 08:49+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/dcp_content.cc:168
@@ -31,7 +31,6 @@ msgid "%1 [movie]"
 msgstr "%1 [video]"
 
 #: src/lib/ffmpeg_content.cc:259 src/lib/video_mxf_content.cc:88
-#, fuzzy
 msgid "%1 [video]"
 msgstr "%1 [video]"
 
@@ -204,7 +203,6 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Obsah a DCP mají stejný bitrate,\n"
 
 #: src/lib/audio_content.cc:295
-#, fuzzy
 msgid "Content audio sample rate"
 msgstr "Snímková frekvence audio obsahu"
 
@@ -512,12 +510,10 @@ msgid "Full frame"
 msgstr "Full frame (Celý obraz)"
 
 #: src/lib/audio_content.cc:322
-#, fuzzy
 msgid "Full length in audio samples at DCP rate"
 msgstr "Plná délka zvukových snímků v DCP rychlosti"
 
 #: src/lib/audio_content.cc:309
-#, fuzzy
 msgid "Full length in audio samples at content rate"
 msgstr "Plná délka zvukových snímků v rychlosti obsahu"
 
@@ -744,14 +740,12 @@ msgid "Rc"
 msgstr "Rc"
 
 #: src/lib/colour_conversion.cc:267
-#, fuzzy
 msgid "Rec. 1886"
-msgstr "Rec. 601 (SD)"
+msgstr "Rec. 1886"
 
 #: src/lib/colour_conversion.cc:268
-#, fuzzy
 msgid "Rec. 2020"
-msgstr "Rec. 601 (SD)"
+msgstr "Rec. 2020"
 
 #: src/lib/colour_conversion.cc:264
 msgid "Rec. 601"
@@ -762,7 +756,6 @@ msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
 #: src/lib/dcp_content.cc:374
-#, fuzzy
 msgid ""
 "Reel lengths in the film differ from those in the DCP; set the reel mode to "
 "'split by video content'."
@@ -894,11 +887,11 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:363
 msgid "The film is set to Interop and this DCP is SMPTE."
-msgstr ""
+msgstr "Film je nastaven na Interop a toto DCP je SMPTE."
 
 #: src/lib/dcp_content.cc:360
 msgid "The film is set to SMPTE and this DCP is Interop."
-msgstr ""
+msgstr "Film je nastaven na SMPTE a toto DCP je Interop."
 
 #: src/lib/dcp_content.cc:405
 msgid "There is other audio content overlapping this DCP; remove it."

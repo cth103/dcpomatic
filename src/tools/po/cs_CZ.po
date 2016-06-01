@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-19 10:03+0200\n"
+"PO-Revision-Date: 2016-06-01 08:51+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:352
@@ -141,6 +141,8 @@ msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
+"Jste si jisti, že chcete obnovit předvolby na výchozí hodnoty? Tento krok "
+"nelze vrátit zpět."
 
 #: src/tools/dcpomatic.cc:460
 #, c-format
@@ -162,7 +164,7 @@ msgstr "Zkontrolovat aktualizace"
 
 #: src/tools/dcpomatic.cc:728
 msgid "Close without saving film"
-msgstr ""
+msgstr "Zavřít bez uložení filmu"
 
 #: src/tools/dcpomatic.cc:547
 msgid "Could not find batch converter."
@@ -208,14 +210,12 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic konvertor"
 
 #: src/tools/dcpomatic_server.cc:140
-#, fuzzy
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic encode server"
+msgstr "DCP-o-matic Encode Server"
 
 #: src/tools/dcpomatic_kdm.cc:362 src/tools/dcpomatic_kdm.cc:398
-#, fuzzy
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic KDM creator"
+msgstr "DCP-o-matic KDM Creator"
 
 #: src/tools/dcpomatic_kdm.cc:142
 msgid "DKDM"
@@ -223,7 +223,7 @@ msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:728
 msgid "Don't close"
-msgstr ""
+msgstr "Nezavírejte"
 
 #: src/tools/dcpomatic.cc:861 src/tools/dcpomatic_batch.cc:74
 msgid "Encoding servers..."
@@ -282,7 +282,7 @@ msgstr "Uložit změny do filmu před ukončením \"%s\" ?"
 
 #: src/tools/dcpomatic.cc:728
 msgid "Save film and close"
-msgstr ""
+msgstr "Uložit film a zavřít"
 
 #: src/tools/dcpomatic.cc:848
 msgid "Scale to fit &height"

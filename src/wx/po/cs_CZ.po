@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-25 13:56+0100\n"
-"PO-Revision-Date: 2016-04-19 10:07+0200\n"
+"PO-Revision-Date: 2016-06-01 09:02+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
@@ -103,6 +103,8 @@ msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>Je důležité, abyste zadali platnou e-mailovou adresu, jinak vás nemohu "
+"informovat o podrobnostech vašeho problému.</i>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -135,7 +137,6 @@ msgid "About DCP-o-matic"
 msgstr "O DCP-o-matic"
 
 #: src/wx/screens_panel.cc:149
-#, fuzzy
 msgid "Add Cinema"
 msgstr "Přidat kino…"
 
@@ -148,7 +149,6 @@ msgid "Add KDM..."
 msgstr "Přidat KDM..."
 
 #: src/wx/screens_panel.cc:205
-#, fuzzy
 msgid "Add Screen"
 msgstr "Přidat obraz…"
 
@@ -444,9 +444,9 @@ msgid "Could not read certificate file (%s)"
 msgstr "Nemůžu načíst soubor s certifikátem (%s)"
 
 #: src/wx/config_dialog.cc:925
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr "Nemůžu přečíst soubor s klíčem (%s)"
+msgstr "Nemůžu přečíst soubor s klíčem; soubor je příliš dlouhý (%s)"
 
 #: src/wx/new_film_dialog.cc:40
 msgid "Create in folder"
@@ -570,14 +570,12 @@ msgid "Edit Screen..."
 msgstr "Upravit obraz…"
 
 #: src/wx/screens_panel.cc:169
-#, fuzzy
 msgid "Edit cinema"
-msgstr "Upravit kino..."
+msgstr "Upravit kino"
 
 #: src/wx/screens_panel.cc:231
-#, fuzzy
 msgid "Edit screen"
-msgstr "Upravit obraz…"
+msgstr "Upravit obraz"
 
 #: src/wx/audio_mapping_view.cc:143 src/wx/config_dialog.cc:423
 #: src/wx/dcp_panel.cc:132 src/wx/fonts_dialog.cc:77 src/wx/video_panel.cc:187
@@ -987,7 +985,7 @@ msgstr "Normální písmo"
 
 #: src/wx/cinema_dialog.cc:59 src/wx/screen_dialog.cc:71
 msgid "Notes"
-msgstr ""
+msgstr "Poznámky"
 
 #: src/wx/audio_mapping_view.cc:140
 msgid "Off"
@@ -1423,7 +1421,7 @@ msgstr "Testované"
 
 #: src/wx/kdm_timing_panel.cc:104
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "Čas 'do' musí být po čase 'od’."
 
 #: src/wx/content_menu.cc:308
 msgid ""
@@ -1447,6 +1445,8 @@ msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"Tento soubor obsahuje jiné certifikáty (nebo jiná data) po prvním "
+"certifikátu. Bude použit pouze první certifikát."
 
 #: src/wx/kdm_cpl_panel.cc:119
 msgid "This is not a valid CPL file"
@@ -1600,9 +1600,8 @@ msgid "UTC-4"
 msgstr "UTC-4"
 
 #: src/wx/cinema_dialog.cc:92
-#, fuzzy
 msgid "UTC-4:30"
-msgstr "UTC-3:30"
+msgstr "UTC-4:30"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-5"
