@@ -51,6 +51,12 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 	maybe_add_group (grouped, wx_to_std (_("Length")));
 
 	layout ();
+
+	/* SetSizeHints() seems to get it slightly wrong (see #884),
+	   so hack in a bit more height.
+	*/
+	wxSize const s = GetMinSize ();
+	SetMinSize (wxSize (s.GetWidth(), s.GetHeight() + 32));
 }
 
 void
