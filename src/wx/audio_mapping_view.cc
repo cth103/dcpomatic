@@ -386,7 +386,13 @@ AudioMappingView::paint_left_labels ()
 			wxCoord label_height;
 			dc.GetTextExtent (std_to_wx (i.name), &label_width, &label_height);
 
-			dc.DrawRotatedText (i.name, half + (half - label_height) / 2, (ypos + old_ypos + label_width) / 2, 90);
+			dc.DrawRotatedText (
+				i.name,
+				half + (half - label_height) / 2,
+				min (ypos, (ypos + old_ypos + label_width) / 2),
+				90
+				);
+
 			dc.DestroyClippingRegion ();
 
 			lines.MoveToPoint (half, ypos);
