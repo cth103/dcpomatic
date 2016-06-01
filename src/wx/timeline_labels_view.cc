@@ -66,7 +66,7 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 
 	int fy = 0;
 	int ty = _threed ? 2 * h : h;
-	gc->DrawText (_("Video"),     0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
+	gc->DrawText (_("Video"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
 	fy = ty;
 
 	if (_subtitle) {
