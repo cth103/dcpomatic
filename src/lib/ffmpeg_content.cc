@@ -54,6 +54,7 @@ using std::list;
 using std::cout;
 using std::pair;
 using std::make_pair;
+using std::max;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -331,7 +332,13 @@ FFmpegContent::full_length () const
 	}
 
 	DCPOMATIC_ASSERT (audio);
-	return DCPTime::from_frames (llrint (audio->stream()->length() / frc.speed_up), audio->stream()->frame_rate());
+
+	DCPTime longest;
+	BOOST_FOREACH (AudioStreamPtr i, audio->streams ()) {
+		longest = max (longest, DCPTime::from_frames (llrint (i->length() / frc.speed_up), i->frame_rate()));
+	}
+
+	return longest;
 }
 
 void
