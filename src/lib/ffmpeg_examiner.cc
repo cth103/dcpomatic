@@ -63,11 +63,14 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			}
 
 			DCPOMATIC_ASSERT (_format_context->duration != AV_NOPTS_VALUE);
+			DCPOMATIC_ASSERT (s->codec->codec);
+			DCPOMATIC_ASSERT (s->codec->codec->name);
 
 			_audio_streams.push_back (
 				shared_ptr<FFmpegAudioStream> (
 					new FFmpegAudioStream (
 						stream_name (s),
+						s->codec->codec->name,
 						s->id,
 						s->codec->sample_rate,
 						(double (_format_context->duration) / AV_TIME_BASE) * s->codec->sample_rate,

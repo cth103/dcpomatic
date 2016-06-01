@@ -160,7 +160,14 @@ AudioPanel::film_content_changed (int property)
 			int c = 0;
 			BOOST_FOREACH (shared_ptr<const AudioStream> i, ac.front()->audio->streams()) {
 				shared_ptr<const FFmpegAudioStream> f = dynamic_pointer_cast<const FFmpegAudioStream> (i);
-				groups.push_back (AudioMappingView::Group (c, c + i->channels() - 1, f ? f->name : ""));
+				string name = "";
+				if (f) {
+					name = f->name;
+					if (f->codec_name) {
+						name += " (" + f->codec_name.get() + ")";
+					}
+				}
+				groups.push_back (AudioMappingView::Group (c, c + i->channels() - 1, name));
 				c += i->channels ();
 			}
 			_mapping->set_input_groups (groups);

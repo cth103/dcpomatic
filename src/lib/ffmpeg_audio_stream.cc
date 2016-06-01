@@ -38,6 +38,7 @@ FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	if (f) {
 		first_audio = ContentTime (f.get ());
 	}
+	codec_name = node->optional_string_child("CodecName");
 }
 
 void
@@ -49,5 +50,8 @@ FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 	mapping().as_xml (root->add_child("Mapping"));
 	if (first_audio) {
 		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get().get ()));
+	}
+	if (codec_name) {
+		root->add_child("CodecName")->add_child_text (codec_name.get());
 	}
 }

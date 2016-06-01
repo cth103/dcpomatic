@@ -43,6 +43,7 @@
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
 
 #define LOG_GENERAL(...) film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 

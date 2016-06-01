@@ -32,6 +32,12 @@ public:
 		, AudioStream (frame_rate, length, channels)
 	{}
 
+	FFmpegAudioStream (std::string name, std::string codec_name_, int id, int frame_rate, Frame length, int channels)
+		: FFmpegStream (name, id)
+		, AudioStream (frame_rate, length, channels)
+		, codec_name (codec_name_)
+	{}
+
 	FFmpegAudioStream (std::string name, int id, int frame_rate, Frame length, AudioMapping mapping)
 		: FFmpegStream (name, id)
 		, AudioStream (frame_rate, length, mapping)
@@ -44,6 +50,7 @@ public:
 	/* XXX: should probably be locked */
 
 	boost::optional<ContentTime> first_audio;
+	boost::optional<std::string> codec_name;
 
 private:
 	friend struct ffmpeg_pts_offset_test;
