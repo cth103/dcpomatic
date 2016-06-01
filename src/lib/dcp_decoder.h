@@ -46,6 +46,7 @@ private:
 
 	bool pass (PassReason, bool accurate);
 	void seek (ContentTime t, bool accurate);
+	void next_reel ();
 
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
@@ -54,5 +55,7 @@ private:
 	ContentTime _next;
 	std::list<boost::shared_ptr<dcp::Reel> > _reels;
 	std::list<boost::shared_ptr<dcp::Reel> >::iterator _reel;
+	/** Offset of _reel from the start of the content in frames */
+	int64_t _offset;
 	boost::shared_ptr<const DCPContent> _dcp_content;
 };
