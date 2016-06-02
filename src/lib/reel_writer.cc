@@ -329,6 +329,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	reel->add (reel_picture_asset);
+	/* If we have a hash for this asset in the CPL, assume that it is correct */
+	if (reel_picture_asset->hash()) {
+		reel_picture_asset->asset_ref()->set_hash (reel_picture_asset->hash().get());
+	}
 
 	if (_sound_asset) {
 		/* We have made a sound asset of our own.  Put it into the reel */
@@ -339,6 +343,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			shared_ptr<dcp::ReelSoundAsset> k = dynamic_pointer_cast<dcp::ReelSoundAsset> (j.asset);
 			if (k && j.period == _period) {
 				reel->add (k);
+				/* If we have a hash for this asset in the CPL, assume that it is correct */
+				if (k->hash()) {
+					k->asset_ref()->set_hash (k->hash().get());
+				}
 			}
 		}
 	}
@@ -397,6 +405,10 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			shared_ptr<dcp::ReelSubtitleAsset> k = dynamic_pointer_cast<dcp::ReelSubtitleAsset> (j.asset);
 			if (k && j.period == _period) {
 				reel->add (k);
+				/* If we have a hash for this asset in the CPL, assume that it is correct */
+				if (k->hash()) {
+					k->asset_ref()->set_hash (k->hash().get());
+				}
 			}
 		}
 	}
