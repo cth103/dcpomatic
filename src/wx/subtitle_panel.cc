@@ -245,6 +245,7 @@ SubtitlePanel::setup_sensitivity ()
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (fc->subtitle) {
+				DCPOMATIC_ASSERT (fc->subtitle_stream());
 				/* This content has some subtitles; check the selected stream to decide what type */
 				if (fc->subtitle_stream()->has_text()) {
 					++text_subs;
