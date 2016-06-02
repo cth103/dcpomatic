@@ -26,15 +26,22 @@
 class UserProperty
 {
 public:
+	enum Category {
+		GENERAL,
+		VIDEO,
+		AUDIO,
+		LENGTH
+	};
+
 	template <class T>
-	UserProperty (std::string category_, std::string key_, T value_, std::string unit_ = "")
+	UserProperty (Category category_, std::string key_, T value_, std::string unit_ = "")
 		: category (category_)
 		, key (key_)
 		, value (raw_convert<std::string> (value_))
 		, unit (unit_)
 	{}
 
-	std::string category;
+	Category category;
 	std::string key;
 	std::string value;
 	std::string unit;

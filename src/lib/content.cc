@@ -359,9 +359,13 @@ Content::active_video_frame_rate () const
 void
 Content::add_properties (list<UserProperty>& p) const
 {
-	p.push_back (UserProperty (_("General"), _("Filename"), path(0).string ()));
+	p.push_back (UserProperty (UserProperty::GENERAL, _("Filename"), path(0).string ()));
 
 	if (_video_frame_rate) {
-		p.push_back (UserProperty (_("General"), _("Video frame rate"), raw_convert<string> (_video_frame_rate.get(), 5), _("frames per second")));
+		p.push_back (
+			UserProperty (
+				UserProperty::GENERAL, _("Video frame rate"), raw_convert<string> (_video_frame_rate.get(), 5), _("frames per second")
+				)
+			);
 	}
 }

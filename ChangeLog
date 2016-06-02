@@ -1,5 +1,7 @@
 2016-06-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix broken content properties under translation.
+
 	* Version 2.8.7 released.
 
 2016-06-01  c.hetherington  <cth@carlh.net>

@@ -122,6 +122,9 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
 	: Content (film, c)
 {
+	/* XXX: this should look at c to decide which of video/audio/subtitle
+	   get created.
+	*/
 	video.reset (new VideoContent (this, c));
 	audio.reset (new AudioContent (this, c));
 	subtitle.reset (new SubtitleContent (this, c));
@@ -434,21 +437,21 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 			case AVCOL_RANGE_UNSPECIFIED:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is unknown (not specified in the file).
-				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
+				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Unspecified")));
 				break;
 			case AVCOL_RANGE_MPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is limited, so that not all possible values are valid.
 				p.push_back (
 					UserProperty (
-						_("Video"), _("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)
+						UserProperty::VIDEO, _("Colour range"), String::compose (_("Limited (%1-%2)"), (total - sub) / 2, (total + sub) / 2)
 						)
 					);
 				break;
 			case AVCOL_RANGE_JPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is full, so that all possible pixel values are valid.
-				p.push_back (UserProperty (_("Video"), _("Colour range"), String::compose (_("Full (0-%1)"), total)));
+				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), String::compose (_("Full (0-%1)"), total)));
 				break;
 			default:
 				DCPOMATIC_ASSERT (false);
@@ -458,17 +461,17 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 			case AVCOL_RANGE_UNSPECIFIED:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is unknown (not specified in the file).
-				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Unspecified")));
+				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Unspecified")));
 				break;
 			case AVCOL_RANGE_MPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is limited, so that not all possible values are valid.
-				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Limited")));
+				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Limited")));
 				break;
 			case AVCOL_RANGE_JPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is full, so that all possible pixel values are valid.
-				p.push_back (UserProperty (_("Video"), _("Colour range"), _("Full")));
+				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Full")));
 				break;
 			default:
 				DCPOMATIC_ASSERT (false);
@@ -490,7 +493,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		};
 
 		DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 11);
-		p.push_back (UserProperty (_("Video"), _("Colour primaries"), primaries[_color_primaries]));
+		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour primaries"), primaries[_color_primaries]));
 
 		char const * transfers[] = {
 			_("Unspecified"),
@@ -514,7 +517,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		};
 
 		DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 18);
-		p.push_back (UserProperty (_("Video"), _("Colour transfer characteristic"), transfers[_color_trc]));
+		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour transfer characteristic"), transfers[_color_trc]));
 
 		char const * spaces[] = {
 			_("RGB / sRGB (IEC61966-2-1)"),
@@ -531,10 +534,10 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		};
 
 		DCPOMATIC_ASSERT (AVCOL_SPC_NB == 11);
-		p.push_back (UserProperty (_("Video"), _("Colourspace"), spaces[_colorspace]));
+		p.push_back (UserProperty (UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace]));
 
 		if (_bits_per_pixel) {
-			p.push_back (UserProperty (_("Video"), _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
+			p.push_back (UserProperty (UserProperty::VIDEO, _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
 		}
 	}
 

@@ -37,7 +37,7 @@ using boost::dynamic_pointer_cast;
 ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<Content> content)
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)
 {
-	map<string, list<UserProperty> > grouped;
+	map<UserProperty::Category, list<UserProperty> > grouped;
 	BOOST_FOREACH (UserProperty i, content->user_properties()) {
 		if (grouped.find(i.category) == grouped.end()) {
 			grouped[i.category] = list<UserProperty> ();
@@ -45,10 +45,10 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 		grouped[i.category].push_back (i);
 	}
 
-	maybe_add_group (grouped, wx_to_std (_("General")));
-	maybe_add_group (grouped, wx_to_std (_("Video")));
-	maybe_add_group (grouped, wx_to_std (_("Audio")));
-	maybe_add_group (grouped, wx_to_std (_("Length")));
+	maybe_add_group (grouped, UserProperty::GENERAL);
+	maybe_add_group (grouped, UserProperty::VIDEO);
+	maybe_add_group (grouped, UserProperty::AUDIO);
+	maybe_add_group (grouped, UserProperty::LENGTH);
 
 	layout ();
 
@@ -60,14 +60,30 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 }
 
 void
-ContentPropertiesDialog::maybe_add_group (map<string, list<UserProperty> > const & groups, string name)
+ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserProperty> > const & groups, UserProperty::Category category)
 {
-	map<string, list<UserProperty> >::const_iterator i = groups.find (name);
+	map<UserProperty::Category, list<UserProperty> >::const_iterator i = groups.find (category);
 	if (i == groups.end()) {
 		return;
 	}
 
-	wxStaticText* m = new wxStaticText (this, wxID_ANY, std_to_wx (i->first));
+	wxString category_name;
+	switch (i->first) {
+	case UserProperty::GENERAL:
+		category_name = _("General");
+		break;
+	case UserProperty::VIDEO:
+		category_name = _("Video");
+		break;
+	case UserProperty::AUDIO:
+		category_name = _("Audio");
+		break;
+	case UserProperty::LENGTH:
+		category_name = _("Length");
+		break;
+	}
+
+	wxStaticText* m = new wxStaticText (this, wxID_ANY, category_name);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetWeight (wxFONTWEIGHT_BOLD);
 	m->SetFont (font);
