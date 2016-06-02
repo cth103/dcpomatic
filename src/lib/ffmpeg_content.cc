@@ -73,7 +73,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 	: Content (film, node)
 {
 	video = VideoContent::from_xml (this, node, version);
-	audio = AudioContent::from_xml (this, node);
+	audio = AudioContent::from_xml (this, node, version);
 	subtitle = SubtitleContent::from_xml (this, node, version);
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");

@@ -108,8 +108,11 @@ using boost::is_any_of;
  *
  * 32 -> 33
  * Changed <Period> to <Subtitle> in FFmpegSubtitleStream
+ * 33 -> 34
+ * Content only contains audio/subtitle-related tags if those things
+ * are present.
  */
-int const Film::current_state_version = 33;
+int const Film::current_state_version = 34;
 
 /** Construct a Film object in a given directory.
  *

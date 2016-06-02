@@ -82,7 +82,7 @@ public:
 
 	void add_properties (std::list<UserProperty> &) const;
 
-	static boost::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr);
+	static boost::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 private:
 

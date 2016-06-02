@@ -1,5 +1,7 @@
 2016-06-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash when loading projects from pre-2.8.5.
+
 	* Fix broken content properties under translation.
 
 	* Version 2.8.7 released.

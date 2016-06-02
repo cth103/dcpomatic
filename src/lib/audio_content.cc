@@ -58,8 +58,19 @@ AudioContent::AudioContent (Content* parent)
 }
 
 shared_ptr<AudioContent>
-AudioContent::from_xml (Content* parent, cxml::ConstNodePtr node)
+AudioContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
+	if (version < 34) {
+		/* With old metadata FFmpeg content has the audio-related tags even with no
+		   audio streams, so check for that.
+		*/
+		if (node->string_child("Type") == "FFmpeg" && node->node_children("AudioStream").empty()) {
+			return shared_ptr<AudioContent> ();
+		}
+
+		/* Otherwise we can drop through to the newer logic */
+	}
+
 	if (!node->optional_number_child<double> ("AudioGain")) {
 		return shared_ptr<AudioContent> ();
 	}

@@ -69,6 +69,17 @@ SubtitleContent::SubtitleContent (Content* parent)
 shared_ptr<SubtitleContent>
 SubtitleContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
+	if (version < 34) {
+		/* With old metadata FFmpeg content has the subtitle-related tags even with no
+		   subtitle streams, so check for that.
+		*/
+		if (node->string_child("Type") == "FFmpeg" && node->node_children("SubtitleStream").empty()) {
+			return shared_ptr<SubtitleContent> ();
+		}
+
+		/* Otherwise we can drop through to the newer logic */
+	}
+
 	if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
 		return shared_ptr<SubtitleContent> ();
 	}

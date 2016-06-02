@@ -75,7 +75,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	: Content (film, node)
 {
 	video = VideoContent::from_xml (this, node, version);
-	audio = AudioContent::from_xml (this, node);
+	audio = AudioContent::from_xml (this, node, version);
 	subtitle = SubtitleContent::from_xml (this, node, version);
 
 	audio->set_stream (
