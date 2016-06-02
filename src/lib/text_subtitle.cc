@@ -78,6 +78,8 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 	if (reader) {
 		_subtitles = sub::collect<vector<sub::Subtitle> > (reader->subtitles ());
 	}
+
+	delete reader;
 }
 
 ContentTime
