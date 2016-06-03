@@ -50,13 +50,11 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<C
 	maybe_add_group (grouped, UserProperty::AUDIO);
 	maybe_add_group (grouped, UserProperty::LENGTH);
 
-	layout ();
+	/* Nasty hack to stop the bottom property being cut off on Windows / OS X */
+	add (wxString (), false);
+	add (wxString (), false);
 
-	/* SetSizeHints() seems to get it slightly wrong (see #884),
-	   so hack in a bit more height.
-	*/
-	wxSize const s = GetMinSize ();
-	SetMinSize (wxSize (s.GetWidth(), s.GetHeight() + 32));
+	layout ();
 }
 
 void
