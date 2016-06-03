@@ -21,7 +21,7 @@ msgstr ""
 #: src/lib/atmos_mxf_content.cc:78
 #, fuzzy
 msgid "%1 [Atmos]"
-msgstr "%1 [Film]"
+msgstr "%1 [Atmos]"
 
 #: src/lib/dcp_content.cc:169
 msgid "%1 [DCP]"

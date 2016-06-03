@@ -19,9 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/atmos_mxf_content.cc:78
-#, fuzzy
 msgid "%1 [Atmos]"
-msgstr "%1 [video]"
+msgstr "%1 [Atmos]"
 
 #: src/lib/dcp_content.cc:169
 msgid "%1 [DCP]"
