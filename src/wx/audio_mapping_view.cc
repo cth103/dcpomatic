@@ -347,6 +347,8 @@ AudioMappingView::sized (wxSizeEvent& ev)
 	_grid->AutoSize ();
 	_left_labels->SetMinSize (wxSize (LEFT_WIDTH, _grid->GetSize().GetHeight()));
 	_top_labels->SetMinSize (wxSize (_grid->GetSize().GetWidth() + LEFT_WIDTH, top_height));
+	_left_labels->Refresh ();
+	_top_labels->Refresh ();
 	ev.Skip ();
 }
 
