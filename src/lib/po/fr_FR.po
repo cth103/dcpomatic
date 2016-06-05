@@ -8,17 +8,16 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-03 21:08+0100\n"
-"PO-Revision-Date: 2016-05-29 17:45+0200\n"
+"PO-Revision-Date: 2016-06-05 16:43+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/lib/atmos_mxf_content.cc:78
-#, fuzzy
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
@@ -282,9 +281,8 @@ msgstr ""
 "titres"
 
 #: src/lib/content.cc:122 src/lib/content.cc:126
-#, fuzzy
 msgid "Content to be joined must have the same video frame rate"
-msgstr "Le contenu à ajouter doit avoir la même cadence d'images"
+msgstr "Le contenu à ajouter doit avoir la même cadence vidéo."
 
 #: src/lib/video_content.cc:148
 msgid "Content to be joined must have the same video frame type."
@@ -479,7 +477,7 @@ msgstr "Envoi par mail du rapport de bug pour %1"
 
 #: src/lib/transcoder.cc:73
 msgid "Encoding picture and sound"
-msgstr ""
+msgstr "Encodage Image et Son"
 
 #: src/lib/exceptions.cc:68
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -511,9 +509,8 @@ msgid "Feature"
 msgstr "Feature"
 
 #: src/lib/content.cc:362
-#, fuzzy
 msgid "Filename"
-msgstr "nom"
+msgstr "Nom de Fichier"
 
 #: src/lib/ffmpeg_content.cc:490
 msgid "Film"
@@ -1030,9 +1027,8 @@ msgid "VI"
 msgstr "VI"
 
 #: src/lib/content.cc:367
-#, fuzzy
 msgid "Video frame rate"
-msgstr "Cadence du DCP"
+msgstr "Cadence vidéo"
 
 #: src/lib/util.cc:493
 msgid "Visually impaired"

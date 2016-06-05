@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-03 21:08+0100\n"
-"PO-Revision-Date: 2016-05-29 17:49+0200\n"
+"PO-Revision-Date: 2016-06-05 16:46+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/wx/subtitle_panel.cc:73 src/wx/subtitle_panel.cc:83
 #: src/wx/subtitle_panel.cc:93 src/wx/subtitle_panel.cc:103
@@ -231,7 +231,7 @@ msgstr "Apparence..."
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
-msgstr ""
+msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:47 src/wx/audio_panel.cc:48
 #: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:114
@@ -867,7 +867,7 @@ msgstr "Oeil Gauche"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
-msgstr ""
+msgstr "Longueur"
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -959,7 +959,8 @@ msgstr "Mon problème est :"
 msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Nom"
 
@@ -1794,12 +1795,16 @@ msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
 msgstr ""
+"Votre niveau audio est très proche de la saturation. Vous devriez réduire le "
+"gain du son de votre contenu."
 
 #: src/wx/hints_dialog.cc:185
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
 msgstr ""
+"Votre niveau audio est très élevé. Vous devriez réduire le gain du son de "
+"votre contenu."
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
