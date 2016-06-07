@@ -24,6 +24,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
 #include "lib/job_manager.h"
+#include "lib/cross.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -45,7 +46,7 @@ BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 
 	film->make_dcp ();
 
-	sleep (10);
+	dcpomatic_sleep (10);
 
 	JobManager::drop ();
 }
