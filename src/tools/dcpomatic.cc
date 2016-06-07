@@ -92,6 +92,7 @@ using std::list;
 using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 class FilmChangedDialog : public boost::noncopyable
 {
@@ -563,26 +564,33 @@ private:
 			return;
 		}
 
+		optional<dcp::EncryptedKDM> kdm;
 		try {
-			vector<dcp::EncryptedKDM> dkdms = Config::instance()->dkdms ();
-			dkdms.push_back (
-				_film->make_kdm (
-					Config::instance()->decryption_chain()->leaf(),
-					vector<dcp::Certificate> (),
-					d->cpl (),
-					dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
-					dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
-					dcp::MODIFIED_TRANSITIONAL_1
-					)
+			kdm = _film->make_kdm (
+				Config::instance()->decryption_chain()->leaf(),
+				vector<dcp::Certificate> (),
+				d->cpl (),
+				dcp::LocalTime ("2012-01-01T01:00:00+00:00"),
+				dcp::LocalTime ("2112-01-01T01:00:00+00:00"),
+				dcp::MODIFIED_TRANSITIONAL_1
 				);
-
-			Config::instance()->set_dkdms (dkdms);
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
 			error_dialog (this, e.what ());
 		} catch (...) {
 			error_dialog (this, _("An unknown exception occurred."));
+		}
+
+		if (kdm) {
+			if (d->internal ()) {
+				vector<dcp::EncryptedKDM> dkdms = Config::instance()->dkdms ();
+				dkdms.push_back (kdm.get());
+				Config::instance()->set_dkdms (dkdms);
+			} else {
+				boost::filesystem::path path = d->directory() / (_film->dcp_name(false) + "_DKDM.xml");
+				kdm->as_xml (path);
+			}
 		}
 
 		d->Destroy ();
