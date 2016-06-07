@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -42,6 +42,8 @@ using std::string;
 using std::min;
 using std::max;
 using std::vector;
+using std::pair;
+using std::make_pair;
 using boost::shared_ptr;
 
 #define INDICATOR_SIZE 16
@@ -147,7 +149,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 
 	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
 	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
-	_grid->GetGridWindow()->Bind (wxEVT_MOTION, boost::bind (&AudioMappingView::mouse_moved, this, _1));
+	_grid->GetGridWindow()->Bind (wxEVT_MOTION, boost::bind (&AudioMappingView::mouse_moved_grid, this, _1));
 	Bind (wxEVT_SIZE, boost::bind (&AudioMappingView::sized, this, _1));
 
 	_menu = new wxMenu;
@@ -160,6 +162,8 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::full, this), ID_full);
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::minus6dB, this), ID_minus6dB);
 	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::edit, this), ID_edit);
+
+	_left_labels->Bind (wxEVT_MOTION, bind (&AudioMappingView::mouse_moved_left_labels, this, _1));
 }
 
 /** Called when any gain value has changed */
@@ -303,7 +307,7 @@ AudioMappingView::update_cells ()
 }
 
 void
-AudioMappingView::mouse_moved (wxMouseEvent& ev)
+AudioMappingView::mouse_moved_grid (wxMouseEvent& ev)
 {
 	int xx;
 	int yy;
@@ -368,40 +372,40 @@ AudioMappingView::paint_left_labels ()
 	gc->SetPen (wxPen (wxColour (0, 0, 0)));
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 
-	if (_grid->GetNumberRows() > 0) {
+	wxGraphicsPath lines = gc->CreatePath();
 
-		/* Draw a line at the top of the first group */
-		int ypos = _grid->GetColLabelSize() - 1;
-		wxGraphicsPath lines = gc->CreatePath();
-		lines.MoveToPoint (half, ypos);
-		lines.AddLineToPoint (size.GetWidth(), ypos);
+	vector<pair<int, int> >::const_iterator i = _input_group_positions.begin();
+	if (i != _input_group_positions.end()) {
+		lines.MoveToPoint (half, i->first);
+		lines.AddLineToPoint (size.GetWidth(), i->first);
+	}
 
-		/* And the names of the groups and a line under each */
-		BOOST_FOREACH (Group const & i, _input_groups) {
-			int const old_ypos = ypos;
-			ypos += (i.to - i.from + 1) * _grid->GetRowSize(0);
+	vector<Group>::const_iterator j = _input_groups.begin();
+	while (i != _input_group_positions.end() && j != _input_groups.end()) {
 
-			dc.SetClippingRegion (0, old_ypos + 2, size.GetWidth(), ypos - 4);
+		dc.SetClippingRegion (0, i->first + 2, size.GetWidth(), i->second - 4);
 
-			dc.SetFont (*wxSWISS_FONT);
-			wxCoord label_width;
-			wxCoord label_height;
-			dc.GetTextExtent (std_to_wx (i.name), &label_width, &label_height);
+		dc.SetFont (*wxSWISS_FONT);
+		wxCoord label_width;
+		wxCoord label_height;
+		dc.GetTextExtent (std_to_wx (j->name), &label_width, &label_height);
 
-			dc.DrawRotatedText (
-				i.name,
-				half + (half - label_height) / 2,
-				min (ypos, (ypos + old_ypos + label_width) / 2),
-				90
-				);
+		dc.DrawRotatedText (
+			j->name,
+			half + (half - label_height) / 2,
+			min (i->second, (i->second + i->first + label_width) / 2),
+			90
+			);
 
-			dc.DestroyClippingRegion ();
+		dc.DestroyClippingRegion ();
 
-			lines.MoveToPoint (half, ypos);
-			lines.AddLineToPoint (size.GetWidth(), ypos);
-		}
+		lines.MoveToPoint (half, i->second);
+		lines.AddLineToPoint (size.GetWidth(), i->second);
 
 		gc->StrokePath (lines);
+
+		++i;
+		++j;
 	}
 
 	/* Overall label */
@@ -458,4 +462,28 @@ void
 AudioMappingView::set_input_groups (vector<Group> const & groups)
 {
 	_input_groups = groups;
+	_input_group_positions.clear ();
+
+	int ypos = _grid->GetColLabelSize() - 1;
+	BOOST_FOREACH (Group const & i, _input_groups) {
+		int const old_ypos = ypos;
+		ypos += (i.to - i.from + 1) * _grid->GetRowSize(0);
+		_input_group_positions.push_back (make_pair (old_ypos, ypos));
+	}
+}
+
+void
+AudioMappingView::mouse_moved_left_labels (wxMouseEvent& event)
+{
+	bool done = false;
+	for (size_t i = 0; i < _input_group_positions.size(); ++i) {
+		if (_input_group_positions[i].first <= event.GetY() && event.GetY() < _input_group_positions[i].second) {
+			_left_labels->SetToolTip (_input_groups[i].name);
+			done = true;
+		}
+	}
+
+	if (!done) {
+		_left_labels->SetToolTip ("");
+	}
 }

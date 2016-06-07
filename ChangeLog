@@ -1,5 +1,8 @@
 2016-06-07  c.hetherington  <cth@carlh.net>
 
+	* Add tooltips over content channel names in the
+	audio mapping view (#888).
+
 	* Re-add option to save DKDMs to a file.
 
 2016-06-06  Carl Hetherington  <cth@carlh.net>

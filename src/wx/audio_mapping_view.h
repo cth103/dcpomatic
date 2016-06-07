@@ -75,12 +75,13 @@ public:
 private:
 	void left_click (wxGridEvent &);
 	void right_click (wxGridEvent &);
-	void mouse_moved (wxMouseEvent &);
+	void mouse_moved_grid (wxMouseEvent &);
 	void update_cells ();
 	void map_values_changed ();
 	void sized (wxSizeEvent &);
 	void paint_left_labels ();
 	void paint_top_labels ();
+	void mouse_moved_left_labels (wxMouseEvent &);
 
 	void off ();
 	void full ();
@@ -97,6 +98,7 @@ private:
 	int _menu_column;
 
 	std::vector<Group> _input_groups;
+	std::vector<std::pair<int, int> > _input_group_positions;
 
 	int _last_tooltip_row;
 	int _last_tooltip_column;
