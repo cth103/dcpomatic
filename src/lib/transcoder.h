@@ -19,6 +19,7 @@
 */
 
 #include "types.h"
+#include <boost/weak_ptr.hpp>
 
 class Film;
 class Encoder;
@@ -30,7 +31,7 @@ class Job;
 class Transcoder : public boost::noncopyable
 {
 public:
-	Transcoder (boost::shared_ptr<const Film>, boost::shared_ptr<Job>);
+	Transcoder (boost::shared_ptr<const Film>, boost::weak_ptr<Job>);
 
 	void go ();
 
@@ -44,7 +45,7 @@ public:
 
 private:
 	boost::shared_ptr<const Film> _film;
-	boost::shared_ptr<Job> _job;
+	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<Encoder> _encoder;

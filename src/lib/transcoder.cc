@@ -53,7 +53,7 @@ using boost::dynamic_pointer_cast;
  *  @param f Film that we are transcoding.
  *  @param j Job that this transcoder is being used in.
  */
-Transcoder::Transcoder (shared_ptr<const Film> film, shared_ptr<Job> j)
+Transcoder::Transcoder (shared_ptr<const Film> film, weak_ptr<Job> j)
 	: _film (film)
 	, _job (j)
 	, _player (new Player (film, film->playlist ()))
@@ -70,7 +70,11 @@ Transcoder::go ()
 	_writer->start ();
 	_encoder->begin ();
 
-	_job->sub (_("Encoding picture and sound"));
+	{
+		shared_ptr<Job> job = _job.lock ();
+		DCPOMATIC_ASSERT (job);
+		job->sub (_("Encoding picture and sound"));
+	}
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	DCPTime const length = _film->length ();
@@ -99,7 +103,11 @@ Transcoder::go ()
 			_writer->write (_player->get_subtitles (t, frame, true, false, true));
 		}
 
-		_job->set_progress (float(t.get()) / length.get());
+		{
+			shared_ptr<Job> job = _job.lock ();
+			DCPOMATIC_ASSERT (job);
+			job->set_progress (float(t.get()) / length.get());
+		}
 	}
 
 	BOOST_FOREACH (ReferencedReelAsset i, _player->get_reel_assets ()) {
