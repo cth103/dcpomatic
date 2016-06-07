@@ -59,8 +59,6 @@ int const Encoder::_history_size = 25;
 Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	: _film (film)
 	, _position (0)
-	, _terminate_enqueue (false)
-	, _terminate_encoding (false)
 	, _writer (writer)
 {
 	servers_list_changed ();
@@ -69,11 +67,6 @@ Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 Encoder::~Encoder ()
 {
 	terminate_threads ();
-
-	boost::mutex::scoped_lock lm (_queue_mutex);
-	_terminate_enqueue = true;
-	_full_condition.notify_all ();
-	_empty_condition.notify_all ();
 }
 
 void
@@ -201,14 +194,10 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	/* XXX: discard 3D here if required */
 
 	/* Wait until the queue has gone down a bit */
-	while (_queue.size() >= threads * 2 && !_terminate_enqueue) {
+	while (_queue.size() >= threads * 2) {
 		LOG_TIMING ("decoder-sleep queue=%1", _queue.size());
 		_full_condition.wait (queue_lock);
 		LOG_TIMING ("decoder-wake queue=%1", _queue.size());
-	}
-
-	if (_terminate_enqueue) {
-		return;
 	}
 
 	_writer->rethrow ();
@@ -253,27 +242,20 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 void
 Encoder::terminate_threads ()
 {
-	{
-		boost::mutex::scoped_lock queue_lock (_queue_mutex);
-		_terminate_encoding = true;
-	}
-
 	boost::mutex::scoped_lock threads_lock (_threads_mutex);
 
 	int n = 0;
 	for (list<boost::thread *>::iterator i = _threads.begin(); i != _threads.end(); ++i) {
 		LOG_GENERAL ("Terminating thread %1 of %2", n + 1, _threads.size ());
 		(*i)->interrupt ();
-		if ((*i)->joinable ()) {
-			(*i)->join ();
-		}
+		DCPOMATIC_ASSERT ((*i)->joinable ());
+		(*i)->join ();
 		delete *i;
 		LOG_GENERAL_NC ("Thread terminated");
 		++n;
 	}
 
 	_threads.clear ();
-	_terminate_encoding = false;
 }
 
 void
@@ -296,12 +278,8 @@ try
 
 		LOG_TIMING ("encoder-sleep thread=%1", boost::this_thread::get_id());
 		boost::mutex::scoped_lock lock (_queue_mutex);
-		while (_queue.empty () && !_terminate_encoding) {
+		while (_queue.empty ()) {
 			_empty_condition.wait (lock);
-		}
-
-		if (_terminate_encoding) {
-			return;
 		}
 
 		LOG_TIMING ("encoder-wake thread=%1 queue=%2", boost::this_thread::get_id(), _queue.size());

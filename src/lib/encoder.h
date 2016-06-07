@@ -55,7 +55,7 @@ class Encoder : public boost::noncopyable, public ExceptionStore
 {
 public:
 	Encoder (boost::shared_ptr<const Film>, boost::shared_ptr<Writer>);
-	virtual ~Encoder ();
+	~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
 	void begin ();
@@ -94,9 +94,6 @@ private:
 	/** Current DCP frame index */
 	Frame _position;
 
-	/* XXX: probably should be atomic */
-	bool _terminate_enqueue;
-	bool _terminate_encoding;
 	/** Mutex for _threads */
 	mutable boost::mutex _threads_mutex;
 	std::list<boost::thread *> _threads;
