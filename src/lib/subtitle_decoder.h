@@ -27,6 +27,10 @@
 #include "content_subtitle.h"
 #include <dcp/subtitle_string.h>
 
+namespace sub {
+	class Subtitle;
+}
+
 class Image;
 
 class SubtitleDecoder
@@ -50,6 +54,7 @@ public:
 
 	void give_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void give_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
+	void give_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
 
 	boost::shared_ptr<const SubtitleContent> content () const {
 		return _content;

@@ -41,8 +41,6 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	DCPTime full_length () const;
 
-	static std::string const font_id;
-
 private:
 	ContentTime _length;
 };

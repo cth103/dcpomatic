@@ -614,54 +614,8 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 
 	sub::RawSubtitle base;
 	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (base, bits[9]);
-	list<sub::Subtitle> subs = sub::collect<list<sub::Subtitle> > (raw);
 
-	/* XXX: lots of this is copied from TextSubtitle; there should probably be some sharing */
-
-	/* Highest line index in this subtitle */
-	int highest = 0;
-	BOOST_FOREACH (sub::Subtitle i, subs) {
-		BOOST_FOREACH (sub::Line j, i.lines) {
-			DCPOMATIC_ASSERT (j.vertical_position.reference && j.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE);
-			DCPOMATIC_ASSERT (j.vertical_position.line);
-			highest = max (highest, j.vertical_position.line.get());
-		}
+	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
+		subtitle->give_text (period, i);
 	}
-
-	list<dcp::SubtitleString> ss;
-
-	BOOST_FOREACH (sub::Subtitle i, sub::collect<list<sub::Subtitle> > (sub::SSAReader::parse_line (base, bits[9]))) {
-		BOOST_FOREACH (sub::Line j, i.lines) {
-			BOOST_FOREACH (sub::Block k, j.blocks) {
-				ss.push_back (
-					dcp::SubtitleString (
-						boost::optional<string> (),
-						k.italic,
-						k.bold,
-						subtitle->content()->colour(),
-						/* 48pt is 1/22nd of the screen height */
-						48,
-						1,
-						dcp::Time (i.from.seconds(), 1000),
-						dcp::Time (i.to.seconds(), 1000),
-						0,
-						dcp::HALIGN_CENTER,
-						/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
-						   of the screen a bit to a pleasing degree.
-						*/
-						1.015 - ((1 + highest - j.vertical_position.line.get()) * 1.5 / 22),
-						dcp::VALIGN_TOP,
-						dcp::DIRECTION_LTR,
-						k.text,
-						subtitle->content()->outline() ? dcp::BORDER : dcp::NONE,
-						subtitle->content()->outline_colour(),
-						dcp::Time (),
-						dcp::Time ()
-						)
-					);
-			}
-		}
-	}
-
-	subtitle->give_text (period, ss);
 }

@@ -20,12 +20,15 @@
 
 #include "subtitle_decoder.h"
 #include "subtitle_content.h"
+#include "util.h"
+#include <sub/subtitle.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
 using std::cout;
+using std::string;
 using boost::shared_ptr;
 using boost::optional;
 using boost::function;
@@ -131,4 +134,77 @@ SubtitleDecoder::seek (ContentTime, bool)
 {
 	_decoded_text.clear ();
 	_decoded_image.clear ();
+}
+
+void
+SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subtitle)
+{
+	/* See if our next subtitle needs to be placed on screen by us */
+	bool needs_placement = false;
+	BOOST_FOREACH (sub::Line i, subtitle.lines) {
+		if (!i.vertical_position.reference && i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
+			needs_placement = true;
+		}
+	}
+
+	list<dcp::SubtitleString> out;
+	BOOST_FOREACH (sub::Line i, subtitle.lines) {
+		BOOST_FOREACH (sub::Block j, i.blocks) {
+
+			float v_position;
+			dcp::VAlign v_align;
+			if (needs_placement) {
+				DCPOMATIC_ASSERT (i.vertical_position.line);
+				/* This 0.878 is an arbitrary value to lift the bottom sub off the bottom
+				   of the screen a bit to a pleasing degree.
+				*/
+				v_position = 0.878 + i.vertical_position.line.get() * 1.5 / 22;
+				v_align = dcp::VALIGN_BOTTOM;
+			} else {
+				DCPOMATIC_ASSERT (i.vertical_position.proportional);
+				DCPOMATIC_ASSERT (i.vertical_position.reference);
+				v_position = i.vertical_position.proportional.get();
+				switch (i.vertical_position.reference.get()) {
+				case sub::TOP_OF_SCREEN:
+					v_align = dcp::VALIGN_TOP;
+					break;
+				case sub::CENTRE_OF_SCREEN:
+					v_align = dcp::VALIGN_CENTER;
+					break;
+				case sub::BOTTOM_OF_SCREEN:
+					v_align = dcp::VALIGN_BOTTOM;
+					break;
+				default:
+					v_align = dcp::VALIGN_TOP;
+					break;
+				}
+			}
+
+			out.push_back (
+				dcp::SubtitleString (
+					string(TEXT_FONT_ID),
+					j.italic,
+					j.bold,
+					/* force the colour to whatever is configured */
+					content()->colour(),
+					j.font_size.points (72 * 11),
+					1.0,
+					dcp::Time (subtitle.from.all_as_seconds(), 1000),
+					dcp::Time (subtitle.to.all_as_seconds(), 1000),
+					0,
+					dcp::HALIGN_CENTER,
+					v_position,
+					v_align,
+					dcp::DIRECTION_LTR,
+					j.text,
+					content()->outline() ? dcp::BORDER : dcp::NONE,
+					content()->outline_colour(),
+					dcp::Time (0, 1000),
+					dcp::Time (0, 1000)
+					)
+				);
+		}
+	}
+
+	give_text (period, out);
 }

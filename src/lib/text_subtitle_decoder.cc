@@ -66,75 +66,7 @@ TextSubtitleDecoder::pass (PassReason, bool)
 		return true;
 	}
 
-	list<dcp::SubtitleString> out;
-
-	/* See if our next subtitle needs to be placed on screen by us */
-	bool needs_placement = false;
-	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
-		if (!i.vertical_position.reference && i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
-			needs_placement = true;
-		}
-	}
-
-	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
-		BOOST_FOREACH (sub::Block j, i.blocks) {
-
-			float v_position;
-			dcp::VAlign v_align;
-			if (needs_placement) {
-				DCPOMATIC_ASSERT (i.vertical_position.line);
-				/* This 0.878 is an arbitrary value to lift the bottom sub off the bottom
-				   of the screen a bit to a pleasing degree.
-				*/
-				v_position = 0.878 + i.vertical_position.line.get() * 1.5 / 22;
-				v_align = dcp::VALIGN_BOTTOM;
-			} else {
-				DCPOMATIC_ASSERT (i.vertical_position.proportional);
-				DCPOMATIC_ASSERT (i.vertical_position.reference);
-				v_position = i.vertical_position.proportional.get();
-				switch (i.vertical_position.reference.get()) {
-				case sub::TOP_OF_SCREEN:
-					v_align = dcp::VALIGN_TOP;
-					break;
-				case sub::CENTRE_OF_SCREEN:
-					v_align = dcp::VALIGN_CENTER;
-					break;
-				case sub::BOTTOM_OF_SCREEN:
-					v_align = dcp::VALIGN_BOTTOM;
-					break;
-				default:
-					v_align = dcp::VALIGN_TOP;
-					break;
-				}
-			}
-
-			out.push_back (
-				dcp::SubtitleString (
-					TextSubtitleContent::font_id,
-					j.italic,
-					j.bold,
-					/* force the colour to whatever is configured */
-					subtitle->content()->colour(),
-					j.font_size.points (72 * 11),
-					1.0,
-					dcp::Time (_subtitles[_next].from.all_as_seconds(), 1000),
-					dcp::Time (_subtitles[_next].to.all_as_seconds(), 1000),
-					0,
-					dcp::HALIGN_CENTER,
-					v_position,
-					v_align,
-					dcp::DIRECTION_LTR,
-					j.text,
-					subtitle->content()->outline() ? dcp::BORDER : dcp::NONE,
-					subtitle->content()->outline_colour(),
-					dcp::Time (0, 1000),
-					dcp::Time (0, 1000)
-					)
-				);
-		}
-	}
-
-	subtitle->give_text (content_time_period (_subtitles[_next]), out);
+	subtitle->give_text (content_time_period (_subtitles[_next]), _subtitles[_next]);
 
 	++_next;
 	return false;
