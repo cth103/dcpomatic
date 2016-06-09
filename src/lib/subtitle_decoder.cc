@@ -142,7 +142,7 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 	/* See if our next subtitle needs to be placed on screen by us */
 	bool needs_placement = false;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
-		if (!i.vertical_position.reference && i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
+		if (!i.vertical_position.reference || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
 		}
 	}
