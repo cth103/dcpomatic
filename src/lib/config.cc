@@ -501,7 +501,6 @@ Config::drop ()
 void
 Config::changed (Property what)
 {
-	cout << what << " changed in config.\n";
 	Changed (what);
 }
 
