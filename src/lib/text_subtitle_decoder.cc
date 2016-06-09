@@ -66,9 +66,15 @@ TextSubtitleDecoder::pass (PassReason, bool)
 		return true;
 	}
 
-	/* XXX: we are ignoring positioning specified in the file */
-
 	list<dcp::SubtitleString> out;
+
+	/* See if our next subtitle needs to be placed on screen by us */
+	bool needs_placement = false;
+	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
+		if (!i.vertical_position.reference && i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
+			needs_placement = true;
+		}
+	}
 
 	/* Highest line index in this subtitle */
 	int highest = 0;
@@ -80,6 +86,36 @@ TextSubtitleDecoder::pass (PassReason, bool)
 
 	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
 		BOOST_FOREACH (sub::Block j, i.blocks) {
+
+			float v_position;
+			dcp::VAlign v_align;
+			if (needs_placement) {
+				DCPOMATIC_ASSERT (i.vertical_position.line);
+				/* This 0.878 is an arbitrary value to lift the bottom sub off the bottom
+				   of the screen a bit to a pleasing degree.
+				*/
+				v_position = 0.878 + i.vertical_position.line.get() * 1.5 / 22;
+				v_align = dcp::VALIGN_BOTTOM;
+			} else {
+				DCPOMATIC_ASSERT (i.vertical_position.proportional);
+				DCPOMATIC_ASSERT (i.vertical_position.reference);
+				v_position = i.vertical_position.proportional.get();
+				switch (i.vertical_position.reference.get()) {
+				case sub::TOP_OF_SCREEN:
+					v_align = dcp::VALIGN_TOP;
+					break;
+				case sub::CENTRE_OF_SCREEN:
+					v_align = dcp::VALIGN_CENTER;
+					break;
+				case sub::BOTTOM_OF_SCREEN:
+					v_align = dcp::VALIGN_BOTTOM;
+					break;
+				default:
+					v_align = dcp::VALIGN_TOP;
+					break;
+				}
+			}
+
 			out.push_back (
 				dcp::SubtitleString (
 					TextSubtitleContent::font_id,
@@ -93,11 +129,8 @@ TextSubtitleDecoder::pass (PassReason, bool)
 					dcp::Time (_subtitles[_next].to.all_as_seconds(), 1000),
 					0,
 					dcp::HALIGN_CENTER,
-					/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
-					   of the screen a bit to a pleasing degree.
-					*/
-					1.015 - ((1 + highest - i.vertical_position.line.get()) * 1.5 / 22),
-					dcp::VALIGN_TOP,
+					v_position,
+					v_align,
 					dcp::DIRECTION_LTR,
 					j.text,
 					subtitle->content()->outline() ? dcp::BORDER : dcp::NONE,
