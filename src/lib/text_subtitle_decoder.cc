@@ -76,14 +76,6 @@ TextSubtitleDecoder::pass (PassReason, bool)
 		}
 	}
 
-	/* Highest line index in this subtitle */
-	int highest = 0;
-	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
-		DCPOMATIC_ASSERT (i.vertical_position.reference && i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE);
-		DCPOMATIC_ASSERT (i.vertical_position.line);
-		highest = max (highest, i.vertical_position.line.get());
-	}
-
 	BOOST_FOREACH (sub::Line i, _subtitles[_next].lines) {
 		BOOST_FOREACH (sub::Block j, i.blocks) {
 
