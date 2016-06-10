@@ -151,14 +151,19 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
 		BOOST_FOREACH (sub::Block j, i.blocks) {
 
+			if (!j.font_size.specified()) {
+				/* Fallback default font size if none other has been specified */
+				j.font_size.set_points (48);
+			}
+
 			float v_position;
 			dcp::VAlign v_align;
 			if (needs_placement) {
 				DCPOMATIC_ASSERT (i.vertical_position.line);
-				/* This 0.878 is an arbitrary value to lift the bottom sub off the bottom
+				/* This 0.122 is an arbitrary value to lift the bottom sub off the bottom
 				   of the screen a bit to a pleasing degree.
 				*/
-				v_position = 0.878 + i.vertical_position.line.get() * 1.5 / 22;
+				v_position = 0.122 + i.vertical_position.line.get() * 1.2 * j.font_size.proportional (72 * 11);
 				v_align = dcp::VALIGN_BOTTOM;
 			} else {
 				DCPOMATIC_ASSERT (i.vertical_position.proportional);
@@ -178,11 +183,6 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 					v_align = dcp::VALIGN_TOP;
 					break;
 				}
-			}
-
-			if (!j.font_size.specified()) {
-				/* Fallback default font size if none other has been specified */
-				j.font_size.set_points (72);
 			}
 
 			out.push_back (
