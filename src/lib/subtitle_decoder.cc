@@ -180,6 +180,11 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 				}
 			}
 
+			if (!j.font_size.specified()) {
+				/* Fallback default font size if none other has been specified */
+				j.font_size.set_points (72);
+			}
+
 			out.push_back (
 				dcp::SubtitleString (
 					string(TEXT_FONT_ID),
@@ -189,8 +194,8 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 					content()->colour(),
 					j.font_size.points (72 * 11),
 					1.0,
-					dcp::Time (subtitle.from.all_as_seconds(), 1000),
-					dcp::Time (subtitle.to.all_as_seconds(), 1000),
+					dcp::Time (period.from.seconds(), 1000),
+					dcp::Time (period.to.seconds(), 1000),
 					0,
 					dcp::HALIGN_CENTER,
 					v_position,
