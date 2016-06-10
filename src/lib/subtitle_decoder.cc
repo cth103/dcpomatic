@@ -141,9 +141,14 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 {
 	/* See if our next subtitle needs to be placed on screen by us */
 	bool needs_placement = false;
+	optional<int> bottom_line;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
 		if (!i.vertical_position.reference || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
+			DCPOMATIC_ASSERT (i.vertical_position.line);
+			if (!bottom_line || bottom_line.get() < i.vertical_position.line.get()) {
+				bottom_line = i.vertical_position.line.get();
+			}
 		}
 	}
 
@@ -163,8 +168,8 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 				/* This 0.053 is an arbitrary value to lift the bottom sub off the bottom
 				   of the screen a bit to a pleasing degree.
 				*/
-				v_position = 0.053 + i.vertical_position.line.get() * 1.2 * j.font_size.proportional (72 * 11);
-				v_align = dcp::VALIGN_BOTTOM;
+				v_position = 1.015 - (1 + bottom_line.get() - i.vertical_position.line.get()) * 1.2 * j.font_size.proportional (72 * 11);
+				v_align = dcp::VALIGN_TOP;
 			} else {
 				DCPOMATIC_ASSERT (i.vertical_position.proportional);
 				DCPOMATIC_ASSERT (i.vertical_position.reference);
