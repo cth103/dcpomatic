@@ -241,6 +241,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Andrew Walls"));
 	supported_by.Add (wxT ("Raoul Walzer"));
 	supported_by.Add (wxT ("Wolfram Weber"));
+	supported_by.Add (wxT ("Petra Wallmann"));
 	supported_by.Add (wxT ("Frank Wenz"));
 	supported_by.Add (wxT ("Anja Wenz"));
 	supported_by.Add (wxT ("Johannes Wilbrand"));
