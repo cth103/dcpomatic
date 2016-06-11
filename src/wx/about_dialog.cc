@@ -241,7 +241,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Andrew Walls"));
 	supported_by.Add (wxT ("Raoul Walzer"));
 	supported_by.Add (wxT ("Wolfram Weber"));
-	supported_by.Add (wxT ("Petra Wallmann"));
 	supported_by.Add (wxT ("Frank Wenz"));
 	supported_by.Add (wxT ("Anja Wenz"));
 	supported_by.Add (wxT ("Johannes Wilbrand"));
@@ -249,11 +248,12 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Wolfgang Woehl"));
 	supported_by.Add (wxT ("Frank de Wulf"));
 	supported_by.Add (wxT ("Pavel Zhdanko"));
+	supported_by.Add (wxT ("Daniel Židek"));
+	supported_by.Add (wxT ("Гуляев Михаил"));
 	supported_by.Add (wxT ("Cinéma de la Neuveville"));
 	supported_by.Add (wxT ("Frechen-Film e.V."));
 	supported_by.Add (wxT ("Mobiles Kino e.V."));
-	supported_by.Add (wxT ("Daniel Židek"));
-	supported_by.Add (wxT ("Гуляев Михаил"));
+	supported_by.Add (wxT ("Kino Völkerfreundschaft"));
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;
