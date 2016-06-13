@@ -88,3 +88,46 @@ Crop::as_xml (xmlpp::Node* node) const
 	node->add_child("TopCrop")->add_child_text (raw_convert<string> (top));
 	node->add_child("BottomCrop")->add_child_text (raw_convert<string> (bottom));
 }
+
+string
+video_frame_type_to_string (VideoFrameType t)
+{
+	switch (t) {
+	case VIDEO_FRAME_TYPE_2D:
+		return "2d";
+	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+		return "3d-left-right";
+	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+		return "3d-top-bottom";
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+		return "3d-alternate";
+	case VIDEO_FRAME_TYPE_3D_LEFT:
+		return "3d-left";
+	case VIDEO_FRAME_TYPE_3D_RIGHT:
+		return "3d-right";
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+
+	DCPOMATIC_ASSERT (false);
+}
+
+VideoFrameType
+string_to_video_frame_type (string s)
+{
+	if (s == "2d") {
+		return VIDEO_FRAME_TYPE_2D;
+	} else if (s == "3d-left-right") {
+		return VIDEO_FRAME_TYPE_3D_LEFT_RIGHT;
+	} else if (s == "3d-top-bottom") {
+		return VIDEO_FRAME_TYPE_3D_TOP_BOTTOM;
+	} else if (s == "3d-alternate") {
+		return VIDEO_FRAME_TYPE_3D_ALTERNATE;
+	} else if (s == "3d-left") {
+		return VIDEO_FRAME_TYPE_3D_LEFT;
+	} else if (s == "3d-right") {
+		return VIDEO_FRAME_TYPE_3D_RIGHT;
+	}
+
+	DCPOMATIC_ASSERT (false);
+}

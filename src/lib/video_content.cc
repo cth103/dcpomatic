@@ -99,7 +99,33 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	}
 
 	_length = node->number_child<Frame> ("VideoLength");
-	_frame_type = static_cast<VideoFrameType> (node->number_child<int> ("VideoFrameType"));
+
+	if (version <= 34) {
+		/* Snapshot of the VideoFrameType enum at version 34 */
+		switch (node->number_child<int> ("VideoFrameType")) {
+		case 0:
+			_frame_type = VIDEO_FRAME_TYPE_2D;
+			break;
+		case 1:
+			_frame_type = VIDEO_FRAME_TYPE_3D_LEFT_RIGHT;
+			break;
+		case 2:
+			_frame_type = VIDEO_FRAME_TYPE_3D_TOP_BOTTOM;
+			break;
+		case 3:
+			_frame_type = VIDEO_FRAME_TYPE_3D_ALTERNATE;
+			break;
+		case 4:
+			_frame_type = VIDEO_FRAME_TYPE_3D_LEFT;
+			break;
+		case 5:
+			_frame_type = VIDEO_FRAME_TYPE_3D_RIGHT;
+			break;
+		}
+	} else {
+		_frame_type = string_to_video_frame_type (node->string_child ("VideoFrameType"));
+	}
+
 	_sample_aspect_ratio = node->optional_number_child<double> ("SampleAspectRatio");
 	_crop.left = node->number_child<int> ("LeftCrop");
 	_crop.right = node->number_child<int> ("RightCrop");
@@ -187,7 +213,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_length));
 	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_size.width));
 	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_size.height));
-	node->add_child("VideoFrameType")->add_child_text (raw_convert<string> (static_cast<int> (_frame_type)));
+	node->add_child("VideoFrameType")->add_child_text (video_frame_type_to_string (_frame_type));
 	if (_sample_aspect_ratio) {
 		node->add_child("SampleAspectRatio")->add_child_text (raw_convert<string> (_sample_aspect_ratio.get ()));
 	}

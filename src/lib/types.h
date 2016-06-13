@@ -87,6 +87,9 @@ enum VideoFrameType
 	VIDEO_FRAME_TYPE_3D_RIGHT
 };
 
+std::string video_frame_type_to_string (VideoFrameType);
+VideoFrameType string_to_video_frame_type (std::string);
+
 enum Eyes
 {
 	EYES_BOTH,

@@ -111,8 +111,10 @@ using boost::is_any_of;
  * 33 -> 34
  * Content only contains audio/subtitle-related tags if those things
  * are present.
+ * 34 -> 35
+ * VideoFrameType in VideoContent is a string rather than an integer.
  */
-int const Film::current_state_version = 34;
+int const Film::current_state_version = 35;
 
 /** Construct a Film object in a given directory.
  *
