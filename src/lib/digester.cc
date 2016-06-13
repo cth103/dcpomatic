@@ -18,10 +18,10 @@
 
 */
 
-#include <iomanip>
-#include <openssl/md5.h>
 #include "digester.h"
 #include "safe_stringstream.h"
+#include <nettle/md5.h>
+#include <iomanip>
 
 using std::string;
 using std::hex;
@@ -30,7 +30,7 @@ using std::setw;
 
 Digester::Digester ()
 {
-	MD5_Init (&_context);
+	md5_init (&_context);
 }
 
 Digester::~Digester ()
@@ -41,24 +41,24 @@ Digester::~Digester ()
 void
 Digester::add (void const * data, size_t size)
 {
-	MD5_Update (&_context, data, size);
+	md5_update (&_context, size, reinterpret_cast<uint8_t const *> (data));
 }
 
 void
 Digester::add (string const & s)
 {
-	add (s.c_str (), s.length ());
+	add (s.c_str(), s.length());
 }
 
 string
 Digester::get () const
 {
 	if (!_digest) {
-		unsigned char digest[MD5_DIGEST_LENGTH];
-		MD5_Final (digest, &_context);
+		unsigned char digest[MD5_DIGEST_SIZE];
+		md5_digest (&_context, MD5_DIGEST_SIZE, digest);
 
 		SafeStringStream s;
-		for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+		for (int i = 0; i < MD5_DIGEST_SIZE; ++i) {
 			s << hex << setfill('0') << setw(2) << ((int) digest[i]);
 		}
 

@@ -18,7 +18,7 @@
 
 */
 
-#include <openssl/md5.h>
+#include <nettle/md5.h>
 #include <boost/noncopyable.hpp>
 #include <boost/optional.hpp>
 #include <string>
@@ -41,6 +41,6 @@ public:
 	std::string get () const;
 
 private:
-	mutable MD5_CTX _context;
+	mutable md5_ctx _context;
 	mutable boost::optional<std::string> _digest;
 };
