@@ -115,14 +115,6 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 void
 Player::setup_pieces ()
 {
-	list<shared_ptr<ImageDecoder> > old_image_decoders;
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		shared_ptr<ImageDecoder> imd = dynamic_pointer_cast<ImageDecoder> (i->decoder);
-		if (imd) {
-			old_image_decoders.push_back (imd);
-		}
-	}
-
 	_pieces.clear ();
 
 	BOOST_FOREACH (shared_ptr<Content> i, _playlist->content ()) {
@@ -131,7 +123,7 @@ Player::setup_pieces ()
 			continue;
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (i, old_image_decoders, _film->log(), _fast);
+		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log(), _fast);
 		FrameRateChange frc (i->active_video_frame_rate(), _film->video_frame_rate());
 
 		if (!decoder) {

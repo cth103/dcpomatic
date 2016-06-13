@@ -37,7 +37,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 shared_ptr<Decoder>
-decoder_factory (shared_ptr<const Content> content, list<shared_ptr<ImageDecoder> > old_image_decoders, shared_ptr<Log> log, bool fast)
+decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fast)
 {
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (content);
 	if (fc) {
@@ -51,20 +51,7 @@ decoder_factory (shared_ptr<const Content> content, list<shared_ptr<ImageDecoder
 
 	shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (content);
 	if (ic) {
-		shared_ptr<Decoder> decoder;
-
-		/* See if we can re-use an old ImageDecoder */
-		BOOST_FOREACH (shared_ptr<ImageDecoder> i, old_image_decoders) {
-			if (i->content() == ic) {
-				decoder = i;
-			}
-		}
-
-		if (!decoder) {
-			decoder.reset (new ImageDecoder (ic, log));
-		}
-
-		return decoder;
+		return shared_ptr<Decoder> (new ImageDecoder (ic, log));
 	}
 
 	shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (content);

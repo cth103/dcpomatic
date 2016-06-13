@@ -22,7 +22,6 @@ class ImageDecoder;
 
 extern boost::shared_ptr<Decoder> decoder_factory (
 	boost::shared_ptr<const Content> content,
-	std::list<boost::shared_ptr<ImageDecoder> > old_image_decoders,
 	boost::shared_ptr<Log> log,
 	bool fast
 	);
