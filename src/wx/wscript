@@ -67,6 +67,7 @@ sources = """
           kdm_timing_panel.cc
           key_dialog.cc
           make_chain_dialog.cc
+          move_to_dialog.cc
           new_film_dialog.cc
           repeat_dialog.cc
           report_problem_dialog.cc

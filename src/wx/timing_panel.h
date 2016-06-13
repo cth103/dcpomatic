@@ -34,6 +34,7 @@ public:
 
 private:
 	void position_changed ();
+	void move_to_start_of_reel_clicked ();
 	void full_length_changed ();
 	void trim_start_changed ();
 	void trim_start_to_playhead_clicked ();
@@ -49,6 +50,7 @@ private:
 	FilmViewer* _viewer;
 
 	Timecode<DCPTime>* _position;
+	wxButton* _move_to_start_of_reel;
 	Timecode<DCPTime>* _full_length;
 	Timecode<ContentTime>* _trim_start;
 	wxButton* _trim_start_to_playhead;

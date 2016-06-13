@@ -23,6 +23,7 @@
 #include "film_viewer.h"
 #include "timecode.h"
 #include "content_panel.h"
+#include "move_to_dialog.h"
 #include "lib/content.h"
 #include "lib/image_content.h"
 #include "lib/raw_convert.h"
@@ -88,6 +89,9 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	add_label_to_sizer (grid, this, _("Position"), true);
 	_position = new Timecode<DCPTime> (this);
 	grid->Add (_position);
+	_move_to_start_of_reel = new wxButton (this, wxID_ANY, _("Move to start of reel"));
+	grid->AddSpacer (0);
+	grid->Add (_move_to_start_of_reel);
 	add_label_to_sizer (grid, this, _("Full length"), true);
 	_full_length = new Timecode<DCPTime> (this);
 	grid->Add (_full_length);
@@ -143,6 +147,7 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	grid->Add (t, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
 
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
+	_move_to_start_of_reel->Bind  (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
 	_trim_start->Changed.connect  (boost::bind (&TimingPanel::trim_start_changed, this));
 	_trim_start_to_playhead->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::trim_start_to_playhead_clicked, this));
@@ -476,4 +481,31 @@ TimingPanel::setup_sensitivity ()
 
 	_trim_start_to_playhead->Enable (any_over_ph);
 	_trim_end_to_playhead->Enable (any_over_ph);
+}
+
+void
+TimingPanel::move_to_start_of_reel_clicked ()
+{
+	/* Find common position of all selected content, if it exists */
+
+	optional<DCPTime> position;
+	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+		if (!position) {
+			position = i->position();
+		} else {
+			if (position.get() != i->position()) {
+				position.reset ();
+				break;
+			}
+		}
+	}
+
+	MoveToDialog* d = new MoveToDialog (this, position, _parent->film());
+
+	if (d->ShowModal() == wxID_OK) {
+		BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
+			i->set_position (d->position ());
+		}
+	}
+	d->Destroy ();
 }

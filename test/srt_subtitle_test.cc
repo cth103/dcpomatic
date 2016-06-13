@@ -18,8 +18,8 @@
 
 */
 
-/** @file  test/subtitle_write_test.cc
- *  @brief Test writing DCPs with XML subtitles.
+/** @file  test/srt_subtitle_test.cc
+ *  @brief Test writing DCPs with subtitles from .srt.
  */
 
 #include "lib/film.h"
