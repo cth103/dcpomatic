@@ -20,34 +20,39 @@
 
 #include "dcp_subtitle.h"
 #include "exceptions.h"
+#include "compose.hpp"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 
 #include "i18n.h"
 
+using std::string;
+using std::exception;
 using boost::shared_ptr;
 
 shared_ptr<dcp::SubtitleAsset>
 DCPSubtitle::load (boost::filesystem::path file) const
 {
 	shared_ptr<dcp::SubtitleAsset> sc;
+	string interop_error;
+	string smpte_error;
 
 	try {
 		sc.reset (new dcp::InteropSubtitleAsset (file));
-	} catch (...) {
-
+	} catch (exception& e) {
+		interop_error = e.what ();
 	}
 
 	if (!sc) {
 		try {
 			sc.reset (new dcp::SMPTESubtitleAsset (file));
-		} catch (...) {
-
+		} catch (exception& e) {
+			smpte_error = e.what();
 		}
 	}
 
 	if (!sc) {
-		throw FileError (_("Could not read subtitles"), file);
+		throw FileError (String::compose (_("Could not read subtitles (%1 / %2)"), interop_error, smpte_error), file);
 	}
 
 	return sc;

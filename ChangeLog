@@ -1,3 +1,7 @@
+2016-06-13  Carl Hetherington  <cth@carlh.net>
+
+	* Give better error messages when subtitles fail to load.
+
 2016-06-13  c.hetherington  <cth@carlh.net>
 
 	* Add button to move things to the start of reels (#798).
