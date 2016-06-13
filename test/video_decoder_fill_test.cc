@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	ImageDecoder decoder (c, film->log());
 
-	decoder.video->fill_both_eyes (0, 4, EYES_LEFT);
+	decoder.video->fill_both_eyes (0, EYES_LEFT, 4, EYES_LEFT);
 	BOOST_CHECK_EQUAL (decoder.video->_decoded.size(), 8);
 	list<ContentVideo>::iterator i = decoder.video->_decoded.begin();
 	for (int j = 0; j < 8; ++j) {
@@ -71,12 +71,23 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 		++i;
 	}
 
-	decoder.video->fill_both_eyes (0, 7, EYES_RIGHT);
+	decoder.video->_decoded.clear ();
+	decoder.video->fill_both_eyes (0, EYES_LEFT, 7, EYES_RIGHT);
 	BOOST_CHECK_EQUAL (decoder.video->_decoded.size(), 15);
 	i = decoder.video->_decoded.begin();
 	for (int j = 0; j < 15; ++j) {
 		BOOST_CHECK_EQUAL (i->frame, j / 2);
 		BOOST_CHECK_EQUAL (i->eyes, (j % 2) == 0 ? EYES_LEFT : EYES_RIGHT);
+		++i;
+	}
+
+	decoder.video->_decoded.clear ();
+	decoder.video->fill_both_eyes (0, EYES_RIGHT, 7, EYES_RIGHT);
+	BOOST_CHECK_EQUAL (decoder.video->_decoded.size(), 14);
+	i = decoder.video->_decoded.begin();
+	for (int j = 0; j < 14; ++j) {
+		BOOST_CHECK_EQUAL (i->frame, (j + 1) / 2);
+		BOOST_CHECK_EQUAL (i->eyes, (j % 2) == 0 ? EYES_RIGHT : EYES_LEFT);
 		++i;
 	}
 }

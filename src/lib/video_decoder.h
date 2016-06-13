@@ -68,7 +68,7 @@ private:
 
 	std::list<ContentVideo> decoded (Frame frame);
 	void fill_one_eye (Frame from, Frame to, Eyes);
-	void fill_both_eyes (Frame from, Frame to, Eyes);
+	void fill_both_eyes (Frame from_frame, Eyes from_eyes, Frame to_frame, Eyes to_eyes);
 
 	Decoder* _parent;
 	boost::shared_ptr<const Content> _content;
