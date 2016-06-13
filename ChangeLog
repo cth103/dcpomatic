@@ -1,5 +1,7 @@
 2016-06-13  c.hetherington  <cth@carlh.net>
 
+	* Add 3D video frame type for 3D DCP inputs (#806).
+
 	* Add button to move things to the start of reels (#798).
 
 2016-06-08  Carl Hetherington  <cth@carlh.net>

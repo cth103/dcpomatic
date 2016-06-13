@@ -95,6 +95,8 @@ video_frame_type_to_string (VideoFrameType t)
 	switch (t) {
 	case VIDEO_FRAME_TYPE_2D:
 		return "2d";
+	case VIDEO_FRAME_TYPE_3D:
+		return "3d";
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		return "3d-left-right";
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
@@ -117,6 +119,8 @@ string_to_video_frame_type (string s)
 {
 	if (s == "2d") {
 		return VIDEO_FRAME_TYPE_2D;
+	} else if (s == "3d") {
+		return VIDEO_FRAME_TYPE_3D;
 	} else if (s == "3d-left-right") {
 		return VIDEO_FRAME_TYPE_3D_LEFT_RIGHT;
 	} else if (s == "3d-top-bottom") {

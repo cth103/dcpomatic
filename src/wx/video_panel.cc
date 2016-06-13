@@ -232,6 +232,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	}
 
 	_frame_type->wrapped()->Append (_("2D"));
+	_frame_type->wrapped()->Append (_("3D"));
 	_frame_type->wrapped()->Append (_("3D left/right"));
 	_frame_type->wrapped()->Append (_("3D top/bottom"));
 	_frame_type->wrapped()->Append (_("3D alternate"));

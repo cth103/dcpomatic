@@ -303,6 +303,7 @@ VideoContent::size_after_3d_split () const
 	dcp::Size const s = size ();
 	switch (frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
+	case VIDEO_FRAME_TYPE_3D:
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 	case VIDEO_FRAME_TYPE_3D_LEFT:
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
