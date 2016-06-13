@@ -33,7 +33,7 @@
 #include "cross.h"
 #include "video_content.h"
 #include "rect.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include "audio_processor.h"
 #include "safe_stringstream.h"
 #include "compose.hpp"
@@ -405,10 +405,10 @@ dcpomatic_setup_gettext_i18n (string lang)
 
 /** Compute a digest of the first and last `size' bytes of a set of files. */
 string
-md5_digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
+digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 {
 	boost::scoped_array<char> buffer (new char[size]);
-	MD5Digester digester;
+	Digester digester;
 
 	/* Head */
 	boost::uintmax_t to_do = size;

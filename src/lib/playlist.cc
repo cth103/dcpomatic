@@ -29,7 +29,7 @@
 #include "job.h"
 #include "config.h"
 #include "util.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/shared_ptr.hpp>
@@ -154,7 +154,7 @@ Playlist::video_identifier () const
 		}
 	}
 
-	MD5Digester digester;
+	Digester digester;
 	digester.add (t.c_str(), t.length());
 	return digester.get ();
 }

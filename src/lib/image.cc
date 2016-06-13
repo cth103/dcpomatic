@@ -27,7 +27,6 @@
 #include "timer.h"
 #include "rect.h"
 #include "util.h"
-#include "md5_digester.h"
 #include "dcpomatic_socket.h"
 extern "C" {
 #include <libswscale/swscale.h>

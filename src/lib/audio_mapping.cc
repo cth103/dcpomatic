@@ -20,7 +20,7 @@
 
 #include "audio_mapping.h"
 #include "util.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -147,7 +147,7 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 string
 AudioMapping::digest () const
 {
-	MD5Digester digester;
+	Digester digester;
 	digester.add (_input_channels);
 	digester.add (_output_channels);
 	for (int i = 0; i < _input_channels; ++i) {

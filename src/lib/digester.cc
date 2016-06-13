@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,7 +20,7 @@
 
 #include <iomanip>
 #include <openssl/md5.h>
-#include "md5_digester.h"
+#include "digester.h"
 #include "safe_stringstream.h"
 
 using std::string;
@@ -28,30 +28,30 @@ using std::hex;
 using std::setfill;
 using std::setw;
 
-MD5Digester::MD5Digester ()
+Digester::Digester ()
 {
 	MD5_Init (&_context);
 }
 
-MD5Digester::~MD5Digester ()
+Digester::~Digester ()
 {
 	get ();
 }
 
 void
-MD5Digester::add (void const * data, size_t size)
+Digester::add (void const * data, size_t size)
 {
 	MD5_Update (&_context, data, size);
 }
 
 void
-MD5Digester::add (string const & s)
+Digester::add (string const & s)
 {
 	add (s.c_str (), s.length ());
 }
 
 string
-MD5Digester::get () const
+Digester::get () const
 {
 	if (!_digest) {
 		unsigned char digest[MD5_DIGEST_LENGTH];

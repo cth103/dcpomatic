@@ -23,7 +23,7 @@
 #include "cross.h"
 #include "job.h"
 #include "log.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include "font.h"
 #include "compose.hpp"
 #include "audio_buffers.h"
@@ -505,7 +505,7 @@ ReelWriter::existing_picture_frame_ok (FILE* asset_file, FILE* info_file) const
 		LOG_GENERAL ("Existing frame %1 is incomplete", _first_nonexistant_frame);
 		ok = false;
 	} else {
-		MD5Digester digester;
+		Digester digester;
 		digester.add (data.data().get(), data.size());
 		LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
 		if (digester.get() != info.hash) {

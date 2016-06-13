@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,11 +23,11 @@
 #include <boost/optional.hpp>
 #include <string>
 
-class MD5Digester : public boost::noncopyable
+class Digester : public boost::noncopyable
 {
 public:
-	MD5Digester ();
-	~MD5Digester ();
+	Digester ();
+	~Digester ();
 
 	void add (void const * data, size_t size);
 

@@ -161,10 +161,10 @@ Content::examine (shared_ptr<Job> job)
 	lm.unlock ();
 
 	/* Some content files are very big, so we use a poor man's
-	   digest here: a MD5 of the first and last 1e6 bytes with the
+	   digest here: a digest of the first and last 1e6 bytes with the
 	   size of the first file tacked on the end as a string.
 	*/
-	string const d = md5_digest_head_tail (p, 1000000) + raw_convert<string> (boost::filesystem::file_size (p.front ()));
+	string const d = digest_head_tail (p, 1000000) + raw_convert<string> (boost::filesystem::file_size (p.front ()));
 
 	lm.lock ();
 	_digest = d;

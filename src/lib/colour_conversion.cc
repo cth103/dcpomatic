@@ -21,7 +21,7 @@
 #include "config.h"
 #include "colour_conversion.h"
 #include "util.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include "raw_convert.h"
 #include <dcp/chromaticity.h>
 #include <dcp/colour_matrix.h>
@@ -187,7 +187,7 @@ ColourConversion::preset () const
 string
 ColourConversion::identifier () const
 {
-	MD5Digester digester;
+	Digester digester;
 
 	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in)) {
 		shared_ptr<const dcp::GammaTransferFunction> tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);

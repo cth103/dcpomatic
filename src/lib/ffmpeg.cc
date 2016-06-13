@@ -27,7 +27,7 @@
 #include "log.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include "compose.hpp"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -269,7 +269,7 @@ FFmpeg::subtitle_period (AVSubtitle const & sub)
 string
 FFmpeg::subtitle_id (AVSubtitle const & sub)
 {
-	MD5Digester digester;
+	Digester digester;
 	digester.add (sub.pts);
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
 		AVSubtitleRect* rect = sub.rects[i];

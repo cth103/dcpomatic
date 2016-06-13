@@ -42,7 +42,7 @@
 #include "environment_info.h"
 #include "raw_convert.h"
 #include "audio_processor.h"
-#include "md5_digester.h"
+#include "digester.h"
 #include "compose.hpp"
 #include "screen.h"
 #include "audio_content.h"
@@ -247,7 +247,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 {
 	boost::filesystem::path p = dir ("analysis");
 
-	MD5Digester digester;
+	Digester digester;
 	BOOST_FOREACH (shared_ptr<Content> i, playlist->content ()) {
 		if (!i->audio) {
 			continue;

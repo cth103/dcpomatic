@@ -30,7 +30,6 @@
 #include "job.h"
 #include "cross.h"
 #include "audio_buffers.h"
-#include "md5_digester.h"
 #include "version.h"
 #include "font.h"
 #include "util.h"

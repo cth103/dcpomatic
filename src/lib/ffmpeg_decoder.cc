@@ -37,7 +37,6 @@
 #include "raw_image_proxy.h"
 #include "video_decoder.h"
 #include "film.h"
-#include "md5_digester.h"
 #include "audio_decoder.h"
 #include "compose.hpp"
 #include "subtitle_content.h"
