@@ -309,7 +309,7 @@ def configure(conf):
         conf.env.LIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
 
     # nettle
-    config.check_cfg(package="nettle", args='--cflags --libs', uselib_store='NETTLE', mandatory=True)
+    conf.check_cfg(package="nettle", args='--cflags --libs', uselib_store='NETTLE', mandatory=True)
 
     # FFmpeg
     if conf.options.static_ffmpeg:
