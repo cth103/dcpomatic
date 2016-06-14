@@ -59,7 +59,7 @@ VideoDecoder::decoded (Frame frame)
 	list<ContentVideo> output;
 
 	BOOST_FOREACH (ContentVideo const & i, _decoded) {
-		if (i.frame == frame) {
+		if (i.frame.index() == frame) {
 			output.push_back (i);
 		}
 	}
@@ -86,7 +86,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
-	if (_decoded.empty() || frame < _decoded.front().frame || frame > (_decoded.back().frame + 1)) {
+	if (_decoded.empty() || frame < _decoded.front().frame.index() || frame > (_decoded.back().frame.index() + 1)) {
 		_parent->seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
 	}
 
@@ -117,7 +117,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 				break;
 			}
 
-			if (!_decoded.empty() && _decoded.front().frame > frame) {
+			if (!_decoded.empty() && _decoded.front().frame.index() > frame) {
 				/* We're never going to get the frame we want.  Perhaps the caller is asking
 				 * for a video frame before the content's video starts (if its audio
 				 * begins before its video, for example).
@@ -146,7 +146,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 
 	/* Clean up _decoded; keep the frame we are returning, if any (which may have two images
 	   for 3D), but nothing before that */
-	while (!_decoded.empty() && !dec.empty() && _decoded.front().frame < dec.front().frame) {
+	while (!_decoded.empty() && !dec.empty() && _decoded.front().frame.index() < dec.front().frame.index()) {
 		_decoded.pop_front ();
 	}
 
@@ -180,7 +180,7 @@ VideoDecoder::fill_one_eye (Frame from, Frame to, Eyes eye)
 		test_gaps++;
 #endif
 		_decoded.push_back (
-			ContentVideo (filler_image, eye, filler_part, i)
+			ContentVideo (filler_image, VideoFrame (i, eye), filler_part)
 			);
 	}
 }
@@ -189,7 +189,7 @@ VideoDecoder::fill_one_eye (Frame from, Frame to, Eyes eye)
  *  adding both left and right eye frames.
  */
 void
-VideoDecoder::fill_both_eyes (Frame from_frame, Eyes from_eye, Frame to_frame, Eyes to_eye)
+VideoDecoder::fill_both_eyes (VideoFrame from, VideoFrame to)
 {
 	/* Fill with black... */
 	shared_ptr<const ImageProxy> filler_left_image (new RawImageProxy (_black_image));
@@ -199,10 +199,10 @@ VideoDecoder::fill_both_eyes (Frame from_frame, Eyes from_eye, Frame to_frame, E
 
 	/* ...unless there's some video we can fill with */
 	for (list<ContentVideo>::const_reverse_iterator i = _decoded.rbegin(); i != _decoded.rend(); ++i) {
-		if (i->eyes == EYES_LEFT && !filler_left_image) {
+		if (i->frame.eyes() == EYES_LEFT && !filler_left_image) {
 			filler_left_image = i->image;
 			filler_left_part = i->part;
-		} else if (i->eyes == EYES_RIGHT && !filler_right_image) {
+		} else if (i->frame.eyes() == EYES_RIGHT && !filler_right_image) {
 			filler_right_image = i->image;
 			filler_right_part = i->part;
 		}
@@ -212,7 +212,7 @@ VideoDecoder::fill_both_eyes (Frame from_frame, Eyes from_eye, Frame to_frame, E
 		}
 	}
 
-	while (from_frame != to_frame || from_eye != to_eye) {
+	while (from != to) {
 
 #ifdef DCPOMATIC_DEBUG
 		test_gaps++;
@@ -220,19 +220,13 @@ VideoDecoder::fill_both_eyes (Frame from_frame, Eyes from_eye, Frame to_frame, E
 
 		_decoded.push_back (
 			ContentVideo (
-				from_eye == EYES_LEFT ? filler_left_image : filler_right_image,
-				from_eye,
-				from_eye == EYES_LEFT ? filler_left_part : filler_right_part,
-				from_frame
+				from.eyes() == EYES_LEFT ? filler_left_image : filler_right_image,
+				from,
+				from.eyes() == EYES_LEFT ? filler_left_part : filler_right_part
 				)
 			);
 
-		if (from_eye == EYES_LEFT) {
-			from_eye = EYES_RIGHT;
-		} else {
-			from_eye = EYES_LEFT;
-			++from_frame;
-		}
+		++from;
 	}
 }
 
@@ -250,7 +244,7 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 	list<ContentVideo> to_push;
 	switch (_content->video->frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		to_push.push_back (ContentVideo (image, EYES_BOTH, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_BOTH), PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D:
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
@@ -259,22 +253,22 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 		   frame this one is.
 		*/
 		bool const same = (!_decoded.empty() && frame == _decoded.back().frame);
-		to_push.push_back (ContentVideo (image, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, same ? EYES_RIGHT : EYES_LEFT), PART_WHOLE));
 		break;
 	}
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_LEFT_HALF, frame));
-		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_RIGHT_HALF, frame));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_LEFT_HALF));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_RIGHT_HALF));
 		break;
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_TOP_HALF, frame));
-		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_BOTTOM_HALF, frame));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_TOP_HALF));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_BOTTOM_HALF));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT:
-		to_push.push_back (ContentVideo (image, EYES_LEFT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		to_push.push_back (ContentVideo (image, EYES_RIGHT, PART_WHOLE, frame));
+		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_WHOLE));
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);
@@ -285,60 +279,39 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 	   and the things we are about to push.
 	*/
 
-	optional<Frame> from_frame;
-	optional<Eyes> from_eye;
+	optional<VideoFrame> from;
 
 	if (_decoded.empty() && _last_seek_time && _last_seek_accurate) {
-		from_frame = _last_seek_time->frames_round (_content->active_video_frame_rate ());
-		from_eye = EYES_LEFT;
+		from = VideoFrame (_last_seek_time->frames_round (_content->active_video_frame_rate ()), EYES_LEFT);
 	} else if (!_decoded.empty ()) {
-		switch (_content->video->frame_type()) {
-		case VIDEO_FRAME_TYPE_2D:
-		case VIDEO_FRAME_TYPE_3D_LEFT:
-		case VIDEO_FRAME_TYPE_3D_RIGHT:
-			from_frame = _decoded.back().frame + 1;
-			break;
-		case VIDEO_FRAME_TYPE_3D:
-		case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-			/* Get the last frame that we have */
-			from_frame = _decoded.back().frame;
-			from_eye = _decoded.back().eyes;
-			/* And increment */
-			if (from_eye.get() == EYES_LEFT) {
-				from_eye = EYES_RIGHT;
-			} else {
-				from_eye = EYES_LEFT;
-				from_frame = from_frame.get() + 1;
-			}
-		}
+		from = _decoded.back().frame;
+		++(*from);
 	}
 
 	/* If we've pre-rolled on a seek we may now receive out-of-order frames
 	   (frames before the last seek time) which we can just ignore.
 	*/
 
-	if (from_frame && from_frame.get() > to_push.front().frame) {
+	if (from && from->index() > to_push.front().frame.index()) {
 		return;
 	}
 
-	if (from_frame) {
+	if (from) {
 		switch (_content->video->frame_type ()) {
 		case VIDEO_FRAME_TYPE_2D:
-			fill_one_eye (from_frame.get(), to_push.front().frame, EYES_BOTH);
+			fill_one_eye (from->index(), to_push.front().frame.index(), EYES_BOTH);
 			break;
 		case VIDEO_FRAME_TYPE_3D:
 		case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
 		case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-			fill_both_eyes (from_frame.get(), from_eye.get(), to_push.front().frame, to_push.front().eyes);
+			fill_both_eyes (from.get(), to_push.front().frame);
 			break;
 		case VIDEO_FRAME_TYPE_3D_LEFT:
-			fill_one_eye (from_frame.get(), to_push.front().frame, EYES_LEFT);
+			fill_one_eye (from->index(), to_push.front().frame.index(), EYES_LEFT);
 			break;
 		case VIDEO_FRAME_TYPE_3D_RIGHT:
-			fill_one_eye (from_frame.get(), to_push.front().frame, EYES_RIGHT);
+			fill_one_eye (from->index(), to_push.front().frame.index(), EYES_RIGHT);
 			break;
 		}
 	}

@@ -374,12 +374,12 @@ Player::get_video (DCPTime time, bool accurate)
 							shared_ptr<PlayerVideo> (
 								new PlayerVideo (
 									i->image,
-									content_video_to_dcp (piece, i->frame),
+									content_video_to_dcp (piece, i->frame.index()),
 									piece->content->video->crop (),
-									piece->content->video->fade (i->frame),
+									piece->content->video->fade (i->frame.index()),
 									image_size,
 									_video_container_size,
-									i->eyes,
+									i->frame.eyes(),
 									i->part,
 									piece->content->video->colour_conversion ()
 									)

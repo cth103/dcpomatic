@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,32 +18,31 @@
 
 */
 
-#ifndef DCPOMATIC_CONTENT_VIDEO_H
-#define DCPOMATIC_CONTENT_VIDEO_H
-
 #include "video_frame.h"
 
-class ImageProxy;
-
-/** @class ContentVideo
- *  @brief A frame of video straight out of some content.
- */
-class ContentVideo
+VideoFrame &
+VideoFrame::operator++ ()
 {
-public:
-	ContentVideo ()
-		: part (PART_WHOLE)
-	{}
+	if (_eyes == EYES_BOTH) {
+		++_index;
+	} else if (_eyes == EYES_LEFT) {
+		_eyes = EYES_RIGHT;
+	} else {
+		_eyes = EYES_LEFT;
+		++_index;
+	}
 
-	ContentVideo (boost::shared_ptr<const ImageProxy> i, VideoFrame f, Part p)
-		: image (i)
-		, frame (f)
-		, part (p)
-	{}
+	return *this;
+}
 
-	boost::shared_ptr<const ImageProxy> image;
-	VideoFrame frame;
-	Part part;
-};
+bool
+operator== (VideoFrame const & a, VideoFrame const & b)
+{
+	return a.index() == b.index() && a.eyes() == b.eyes();
+}
 
-#endif
+bool
+operator!= (VideoFrame const & a, VideoFrame const & b)
+{
+	return !(a == b);
+}

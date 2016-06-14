@@ -49,7 +49,7 @@ check (shared_ptr<FFmpegDecoder> decoder, int frame)
 	list<ContentVideo> v;
 	v = decoder->video->get (frame, true);
 	BOOST_CHECK (v.size() == 1);
-	BOOST_CHECK_EQUAL (v.front().frame, frame);
+	BOOST_CHECK_EQUAL (v.front().frame.index(), frame);
 }
 
 static void

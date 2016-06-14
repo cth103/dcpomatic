@@ -66,7 +66,7 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 		list<ContentVideo> v;
 		v = decoder->video->get (i, true);
 		BOOST_REQUIRE_EQUAL (v.size(), 1U);
-		BOOST_CHECK_EQUAL (v.front().frame, i);
+		BOOST_CHECK_EQUAL (v.front().frame.index(), i);
 	}
 #ifdef DCPOMATIC_DEBUG
 	BOOST_CHECK_EQUAL (decoder->video->test_gaps, gaps);
