@@ -52,6 +52,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	, _has_subtitles (false)
 	, _encrypted (false)
 	, _kdm_valid (false)
+	, _three_d (false)
 {
 	dcp::DCP dcp (content->directory ());
 	dcp.read (false, 0, true);
@@ -139,4 +140,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	}
 
 	_standard = dcp.standard ();
+	_three_d = !reels.empty() && reels.front()->main_picture() &&
+		dynamic_pointer_cast<dcp::StereoPictureAsset> (reels.front()->main_picture()->asset());
 }

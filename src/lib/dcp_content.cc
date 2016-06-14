@@ -63,6 +63,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	, _reference_video (false)
 	, _reference_audio (false)
 	, _reference_subtitle (false)
+	, _three_d (false)
 {
 	video.reset (new VideoContent (this));
 	audio.reset (new AudioContent (this));
@@ -108,6 +109,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 			DCPOMATIC_ASSERT (false);
 		}
 	}
+	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
 }
 
 void
@@ -155,11 +157,14 @@ DCPContent::examine (shared_ptr<Job> job)
 		_encrypted = examiner->encrypted ();
 		_kdm_valid = examiner->kdm_valid ();
 		_standard = examiner->standard ();
+		_three_d = examiner->three_d ();
 	}
 
 	if (could_be_played != can_be_played ()) {
 		signal_changed (DCPContentProperty::CAN_BE_PLAYED);
 	}
+
+	video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);
 }
 
 string
@@ -221,6 +226,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 			DCPOMATIC_ASSERT (false);
 		}
 	}
+	node->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 }
 
 DCPTime

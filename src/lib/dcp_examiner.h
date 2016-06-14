@@ -80,6 +80,10 @@ public:
 		return _standard;
 	}
 
+	bool three_d () const {
+		return _three_d;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -92,4 +96,5 @@ private:
 	bool _encrypted;
 	bool _kdm_valid;
 	boost::optional<dcp::Standard> _standard;
+	bool _three_d;
 };

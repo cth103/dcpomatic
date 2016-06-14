@@ -141,6 +141,7 @@ private:
 	bool _reference_subtitle;
 
 	boost::optional<dcp::Standard> _standard;
+	bool _three_d;
 };
 
 #endif
