@@ -173,6 +173,17 @@ void
 Encoder::encode (list<shared_ptr<PlayerVideo> > pv)
 {
 	BOOST_FOREACH (shared_ptr<PlayerVideo> i, pv) {
+		if (!_film->three_d()) {
+			/* 2D DCP */
+			if (i->eyes() == EYES_RIGHT) {
+				/* Discard right-eye images */
+				continue;
+			} else if (i->eyes() == EYES_LEFT) {
+				/* Use left-eye images for both eyes */
+				i->set_eyes (EYES_BOTH);
+			}
+		}
+
 		enqueue (i);
 	}
 	++_position;
@@ -190,8 +201,6 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	}
 
 	boost::mutex::scoped_lock queue_lock (_queue_mutex);
-
-	/* XXX: discard 3D here if required */
 
 	/* Wait until the queue has gone down a bit */
 	while (_queue.size() >= threads * 2) {

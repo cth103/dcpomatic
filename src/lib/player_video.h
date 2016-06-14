@@ -74,6 +74,10 @@ public:
 		return _eyes;
 	}
 
+	void set_eyes (Eyes e) {
+		_eyes = e;
+	}
+
 	boost::optional<ColourConversion> colour_conversion () const {
 		return _colour_conversion;
 	}
