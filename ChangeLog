@@ -1,5 +1,8 @@
 2016-06-14  c.hetherington  <cth@carlh.net>
 
+	* Fix incorrectly-reported frame rate when importing
+	3D DCPs.
+
 	* Select correct video frame type when importing DCPs (part of #806).
 
 2016-06-13  Carl Hetherington  <cth@carlh.net>

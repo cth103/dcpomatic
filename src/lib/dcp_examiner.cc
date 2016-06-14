@@ -73,7 +73,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	for (list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin(); i != reels.end(); ++i) {
 
 		if ((*i)->main_picture ()) {
-			dcp::Fraction const frac = (*i)->main_picture()->frame_rate ();
+			dcp::Fraction const frac = (*i)->main_picture()->edit_rate ();
 			float const fr = float(frac.numerator) / frac.denominator;
 			if (!_video_frame_rate) {
 				_video_frame_rate = fr;
