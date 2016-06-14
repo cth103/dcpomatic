@@ -218,6 +218,8 @@ FFmpegContent::examine (shared_ptr<Job> job)
 		set_default_colour_conversion ();
 	}
 
+	boost::filesystem::path first_path = path (0);
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 
@@ -239,7 +241,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 			AudioStreamPtr as = audio->streams().front();
 			AudioMapping m = as->mapping ();
-			film()->make_audio_mapping_default (m);
+			film()->make_audio_mapping_default (m, first_path);
 			as->set_mapping (m);
 		}
 

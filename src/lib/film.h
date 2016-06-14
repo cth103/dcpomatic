@@ -144,7 +144,11 @@ public:
 
 	std::string subtitle_language () const;
 
-	void make_audio_mapping_default (AudioMapping & mapping) const;
+	void make_audio_mapping_default (
+		AudioMapping & mapping,
+		boost::optional<boost::filesystem::path> filename = boost::optional<boost::filesystem::path> ()
+		) const;
+
 	std::vector<std::string> audio_output_names () const;
 
 	void repeat_content (ContentList, int);

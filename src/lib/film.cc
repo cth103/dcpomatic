@@ -62,6 +62,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#include <boost/regex.hpp>
 #include <unistd.h>
 #include <stdexcept>
 #include <iostream>
@@ -1292,18 +1293,44 @@ Film::subtitle_language () const
 
 /** Change the gains of the supplied AudioMapping to make it a default
  *  for this film.  The defaults are guessed based on what processor (if any)
- *  is in use and the number of input channels.
+ *  is in use, the number of input channels and any filename supplied.
  */
 void
-Film::make_audio_mapping_default (AudioMapping& mapping) const
+Film::make_audio_mapping_default (AudioMapping& mapping, optional<boost::filesystem::path> filename) const
 {
+	static string const regex[] = {
+		".*[\\._-]L[\\._-].*",
+		".*[\\._-]R[\\._-].*",
+		".*[\\._-]C[\\._-].*",
+		".*[\\._-]Lfe[\\._-].*",
+		".*[\\._-]Ls[\\._-].*",
+		".*[\\._-]Rs[\\._-].*"
+	};
+
+	static int const regexes = sizeof(regex) / sizeof(*regex);
+
 	if (audio_processor ()) {
 		audio_processor()->make_audio_mapping_default (mapping);
 	} else {
 		mapping.make_zero ();
 		if (mapping.input_channels() == 1) {
-			/* Mono -> Centre */
-			mapping.set (0, static_cast<int> (dcp::CENTRE), 1);
+			bool guessed = false;
+
+			/* See if we can guess where this stream should go */
+			if (filename) {
+				for (int i = 0; i < regexes; ++i) {
+					boost::regex e (regex[i], boost::regex::icase);
+					if (boost::regex_match (filename->string(), e) && i < mapping.output_channels()) {
+						mapping.set (0, i, 1);
+						guessed = true;
+					}
+				}
+			}
+
+			if (!guessed) {
+				/* If we have no idea, just put it on centre */
+				mapping.set (0, static_cast<int> (dcp::CENTRE), 1);
+			}
 		} else {
 			/* 1:1 mapping */
 			for (int i = 0; i < min (mapping.input_channels(), mapping.output_channels()); ++i) {
