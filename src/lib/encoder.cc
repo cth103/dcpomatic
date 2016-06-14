@@ -58,7 +58,6 @@ int const Encoder::_history_size = 25;
 /** @param f Film that we are encoding */
 Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	: _film (film)
-	, _position (0)
 	, _writer (writer)
 {
 	servers_list_changed ();
@@ -140,12 +139,11 @@ Encoder::current_encoding_rate () const
 	return _history_size / (seconds (now) - seconds (_time_history.back ()));
 }
 
-/** @return Number of video frames that have been sent out */
+/** @return Number of video frames that have been queued for encoding */
 int
-Encoder::video_frames_out () const
+Encoder::video_frames_enqueued () const
 {
-	boost::mutex::scoped_lock (_state_mutex);
-	return _position;
+	return _last_player_video->time().frames_floor (_film->video_frame_rate ());
 }
 
 /** Should be called when a frame has been encoded successfully.
@@ -170,27 +168,7 @@ Encoder::frame_done ()
  *  for this DCP frame.
  */
 void
-Encoder::encode (list<shared_ptr<PlayerVideo> > pv)
-{
-	BOOST_FOREACH (shared_ptr<PlayerVideo> i, pv) {
-		if (!_film->three_d()) {
-			/* 2D DCP */
-			if (i->eyes() == EYES_RIGHT) {
-				/* Discard right-eye images */
-				continue;
-			} else if (i->eyes() == EYES_LEFT) {
-				/* Use left-eye images for both eyes */
-				i->set_eyes (EYES_BOTH);
-			}
-		}
-
-		enqueue (i);
-	}
-	++_position;
-}
-
-void
-Encoder::enqueue (shared_ptr<PlayerVideo> pv)
+Encoder::encode (shared_ptr<PlayerVideo> pv)
 {
 	_waker.nudge ();
 
@@ -216,22 +194,24 @@ Encoder::enqueue (shared_ptr<PlayerVideo> pv)
 	*/
 	rethrow ();
 
-	if (_writer->can_fake_write (_position)) {
+	Frame const position = pv->time().frames_floor(_film->video_frame_rate());
+
+	if (_writer->can_fake_write (position)) {
 		/* We can fake-write this frame */
-		_writer->fake_write (_position, pv->eyes ());
+		_writer->fake_write (position, pv->eyes ());
 		frame_done ();
 	} else if (pv->has_j2k ()) {
 		/* This frame already has JPEG2000 data, so just write it */
-		_writer->write (pv->j2k(), _position, pv->eyes ());
-	} else if (_last_player_video && _writer->can_repeat(_position) && pv->same (_last_player_video)) {
-		_writer->repeat (_position, pv->eyes ());
+		_writer->write (pv->j2k(), position, pv->eyes ());
+	} else if (_last_player_video && _writer->can_repeat(position) && pv->same (_last_player_video)) {
+		_writer->repeat (position, pv->eyes ());
 	} else {
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideo> (
 					  new DCPVideo (
 						  pv,
-						  _position,
+						  position,
 						  _film->video_frame_rate(),
 						  _film->j2k_bandwidth(),
 						  _film->resolution(),

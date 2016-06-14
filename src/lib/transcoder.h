@@ -36,7 +36,7 @@ public:
 	void go ();
 
 	float current_encoding_rate () const;
-	int video_frames_out () const;
+	int video_frames_enqueued () const;
 
 	/** @return true if we are in the process of calling Encoder::process_end */
 	bool finishing () const {

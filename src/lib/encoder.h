@@ -60,20 +60,17 @@ public:
 	/** Called to indicate that a processing run is about to begin */
 	void begin ();
 
-	/** Called to pass in zero or more bits of video to be encoded
-	 *  as the next DCP frame.
-	 */
-	void encode (std::list<boost::shared_ptr<PlayerVideo> > f);
+	/** Called to pass a bit of video to be encoded as the next DCP frame */
+	void encode (boost::shared_ptr<PlayerVideo> f);
 
 	/** Called when a processing run has finished */
 	void end ();
 
 	float current_encoding_rate () const;
-	int video_frames_out () const;
+	int video_frames_enqueued () const;
 
 private:
 
-	void enqueue (boost::shared_ptr<PlayerVideo> f);
 	void frame_done ();
 
 	void encoder_thread (boost::optional<EncodeServerDescription>);
@@ -83,7 +80,7 @@ private:
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
 
-	/** Mutex for _time_history and _video_frames_enqueued */
+	/** Mutex for _time_history */
 	mutable boost::mutex _state_mutex;
 	/** List of the times of completion of the last _history_size frames;
 	    first is the most recently completed.
@@ -91,8 +88,6 @@ private:
 	std::list<struct timeval> _time_history;
 	/** Number of frames that we should keep history for */
 	static int const _history_size;
-	/** Current DCP frame index */
-	Frame _position;
 
 	/** Mutex for _threads */
 	mutable boost::mutex _threads_mutex;

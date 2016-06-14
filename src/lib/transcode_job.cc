@@ -83,7 +83,7 @@ TranscodeJob::run ()
 
 		float fps = 0;
 		if (finish.tv_sec != start.tv_sec) {
-			fps = _transcoder->video_frames_out() / (finish.tv_sec - start.tv_sec);
+			fps = _transcoder->video_frames_enqueued() / (finish.tv_sec - start.tv_sec);
 		}
 
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
@@ -118,7 +118,7 @@ TranscodeJob::status () const
 
 	if (!finished () && !_transcoder->finishing ()) {
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
-		s << "; " << _transcoder->video_frames_out() << "/"
+		s << "; " << _transcoder->video_frames_enqueued() << "/"
 		  << _film->length().frames_round (_film->video_frame_rate ()) << " " << _("frames") << "; "
 		  << fixed << setprecision (1) << fps << " " << _("fps");
 	}
@@ -144,5 +144,5 @@ TranscodeJob::remaining_time () const
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	return (_film->length().frames_round (_film->video_frame_rate ()) - t->video_frames_out()) / fps;
+	return (_film->length().frames_round (_film->video_frame_rate ()) - t->video_frames_enqueued()) / fps;
 }

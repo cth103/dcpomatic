@@ -36,6 +36,7 @@
 #include "compose.hpp"
 #include "referenced_reel_asset.h"
 #include "subtitle_content.h"
+#include "player_video.h"
 #include <boost/signals2.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -96,7 +97,22 @@ Transcoder::go ()
 	}
 
 	for (DCPTime t; t < length; t += frame) {
-		_encoder->encode (_player->get_video (t, true));
+
+		BOOST_FOREACH (shared_ptr<PlayerVideo> i, _player->get_video (t, true)) {
+			if (!_film->three_d()) {
+				/* 2D DCP */
+				if (i->eyes() == EYES_RIGHT) {
+					/* Discard right-eye images */
+					continue;
+				} else if (i->eyes() == EYES_LEFT) {
+					/* Use left-eye images for both eyes */
+					i->set_eyes (EYES_BOTH);
+				}
+			}
+
+			_encoder->encode (i);
+		}
+
 		_writer->write (_player->get_audio (t, frame, true));
 
 		if (non_burnt_subtitles) {
@@ -126,7 +142,7 @@ Transcoder::current_encoding_rate () const
 }
 
 int
-Transcoder::video_frames_out () const
+Transcoder::video_frames_enqueued () const
 {
-	return _encoder->video_frames_out ();
+	return _encoder->video_frames_enqueued ();
 }
