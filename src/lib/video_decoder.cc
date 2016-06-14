@@ -252,7 +252,7 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 		/* We receive the same frame index twice for 3D-alternate; hence we know which
 		   frame this one is.
 		*/
-		bool const same = (!_decoded.empty() && frame == _decoded.back().frame);
+		bool const same = (!_decoded.empty() && frame == _decoded.back().frame.index());
 		to_push.push_back (ContentVideo (image, VideoFrame (frame, same ? EYES_RIGHT : EYES_LEFT), PART_WHOLE));
 		break;
 	}

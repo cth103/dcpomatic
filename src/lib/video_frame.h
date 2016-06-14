@@ -31,7 +31,7 @@ public:
 		, _eyes (EYES_BOTH)
 	{}
 
-	VideoFrame (Frame i)
+	explicit VideoFrame (Frame i)
 		: _index (i)
 		, _eyes (EYES_BOTH)
 	{}
