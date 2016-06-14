@@ -58,5 +58,6 @@ private:
 
 extern bool operator== (VideoFrame const & a, VideoFrame const & b);
 extern bool operator!= (VideoFrame const & a, VideoFrame const & b);
+extern bool operator> (VideoFrame const & a, VideoFrame const & b);
 
 #endif

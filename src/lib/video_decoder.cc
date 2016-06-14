@@ -282,7 +282,10 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 	optional<VideoFrame> from;
 
 	if (_decoded.empty() && _last_seek_time && _last_seek_accurate) {
-		from = VideoFrame (_last_seek_time->frames_round (_content->active_video_frame_rate ()), EYES_LEFT);
+		from = VideoFrame (
+			_last_seek_time->frames_round (_content->active_video_frame_rate ()),
+			_content->video->frame_type() == VIDEO_FRAME_TYPE_2D ? EYES_BOTH : EYES_LEFT
+			);
 	} else if (!_decoded.empty ()) {
 		from = _decoded.back().frame;
 		++(*from);
@@ -292,7 +295,7 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 	   (frames before the last seek time) which we can just ignore.
 	*/
 
-	if (from && from->index() > to_push.front().frame.index()) {
+	if (from && (*from) > to_push.front().frame) {
 		return;
 	}
 

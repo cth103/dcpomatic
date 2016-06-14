@@ -19,6 +19,7 @@
 */
 
 #include "video_frame.h"
+#include "dcpomatic_assert.h"
 
 VideoFrame &
 VideoFrame::operator++ ()
@@ -45,4 +46,32 @@ bool
 operator!= (VideoFrame const & a, VideoFrame const & b)
 {
 	return !(a == b);
+}
+
+bool
+operator> (VideoFrame const & a, VideoFrame const & b)
+{
+	if (a.index() != b.index()) {
+		return a.index() > b.index();
+	}
+
+	/* indexes are the same */
+
+	if (a.eyes() == b.eyes()) {
+		return false;
+	}
+
+	/* eyes are not the same */
+
+	if (a.eyes() == EYES_LEFT && b.eyes() == EYES_RIGHT) {
+		return false;
+	}
+
+	if (a.eyes() == EYES_RIGHT && b.eyes() == EYES_LEFT) {
+		return true;
+	}
+
+	/* should never get here; we are comparing 2D with 3D */
+
+	DCPOMATIC_ASSERT (false);
 }
