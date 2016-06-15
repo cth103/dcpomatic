@@ -20,10 +20,11 @@
 
 #include "kdm_timing_panel.h"
 #include "wx_util.h"
+#include "time_picker.h"
 #include <wx/datectrl.h>
-#include <wx/timectrl.h>
 #include <wx/dateevt.h>
 
+using std::cout;
 using boost::bind;
 
 KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
@@ -37,8 +38,8 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	from.SetToCurrent ();
 	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from);
 	table->Add (_from_date, 1, wxEXPAND);
-	_from_time = new wxTimePickerCtrl (this, wxID_ANY, from);
-	table->Add (_from_time, 1, wxEXPAND);
+	_from_time = new TimePicker (this, from);
+	table->Add (_from_time, 0);
 
 	add_label_to_sizer (table, this, _("until"), true);
 	wxDateTime to = from;
@@ -46,8 +47,8 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	to.Add (wxDateSpan (0, 0, 1, 0));
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to);
 	table->Add (_until_date, 1, wxEXPAND);
-	_until_time = new wxTimePickerCtrl (this, wxID_ANY, to);
-	table->Add (_until_time, 1, wxEXPAND);
+	_until_time = new TimePicker (this, to);
+	table->Add (_until_time, 0);
 
 	overall_sizer->Add (table);
 
@@ -61,8 +62,8 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 
 	_from_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
 	_until_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
-	_from_time->Bind (wxEVT_TIME_CHANGED, bind (&KDMTimingPanel::changed, this));
-	_until_time->Bind (wxEVT_TIME_CHANGED, bind (&KDMTimingPanel::changed, this));
+	_from_time->Changed.connect (bind (&KDMTimingPanel::changed, this));
+	_until_time->Changed.connect (bind (&KDMTimingPanel::changed, this));
 
 	SetSizer (overall_sizer);
 }
@@ -74,13 +75,12 @@ KDMTimingPanel::from () const
 }
 
 boost::posix_time::ptime
-KDMTimingPanel::posix_time (wxDatePickerCtrl* date_picker, wxTimePickerCtrl* time_picker)
+KDMTimingPanel::posix_time (wxDatePickerCtrl* date_picker, TimePicker* time_picker)
 {
 	wxDateTime const date = date_picker->GetValue ();
-	wxDateTime const time = time_picker->GetValue ();
 	return boost::posix_time::ptime (
 		boost::gregorian::date (date.GetYear(), date.GetMonth() + 1, date.GetDay()),
-		boost::posix_time::time_duration (time.GetHour(), time.GetMinute(), time.GetSecond())
+		boost::posix_time::time_duration (time_picker->hours(), time_picker->minutes(), 0)
 		);
 }
 

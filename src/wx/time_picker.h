@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,33 +19,29 @@
 */
 
 #include <wx/wx.h>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/signals2.hpp>
 
-class wxDatePickerCtrl;
-class TimePicker;
+class wxTextCtrl;
+class wxSpinButton;
 
-class KDMTimingPanel : public wxPanel
+class TimePicker : public wxPanel
 {
 public:
-	KDMTimingPanel (wxWindow* parent);
+	TimePicker (wxWindow* parent, wxDateTime time);
 
-	/** @return KDM from time in local time */
-	boost::posix_time::ptime from () const;
-	/** @return KDM until time in local time */
-	boost::posix_time::ptime until () const;
+	int hours () const;
+	int minutes () const;
 
-	bool valid () const;
-
-	boost::signals2::signal<void ()> TimingChanged;
+	boost::signals2::signal<void ()> Changed;
 
 private:
-	void changed () const;
-	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, TimePicker *);
+	void update_spin ();
+	void update_text ();
 
-	wxDatePickerCtrl* _from_date;
-	wxDatePickerCtrl* _until_date;
-	TimePicker* _from_time;
-	TimePicker* _until_time;
-	wxStaticText* _warning;
+	wxTextCtrl* _hours;
+	wxSpinButton* _hours_spin;
+	wxTextCtrl* _minutes;
+	wxSpinButton* _minutes_spin;
+
+	bool _block_update;
 };

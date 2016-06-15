@@ -82,6 +82,7 @@ sources = """
           system_font_dialog.cc
           table_dialog.cc
           text_subtitle_appearance_dialog.cc
+          time_picker.cc
           timecode.cc
           timeline.cc
           timeline_atmos_content_view.cc
