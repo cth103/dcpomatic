@@ -496,6 +496,12 @@ DCPPanel::dcp_content_type_changed ()
 void
 DCPPanel::set_film (shared_ptr<Film> film)
 {
+	/* We are changing film, so destroy any audio dialog for the old one */
+	if (_audio_dialog) {
+		_audio_dialog->Destroy ();
+		_audio_dialog = 0;
+	}
+
 	_film = film;
 
 	film_changed (Film::NAME);

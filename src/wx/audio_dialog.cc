@@ -218,7 +218,10 @@ void
 AudioDialog::analysis_finished ()
 {
 	shared_ptr<const Film> film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	if (!film) {
+		/* This should not happen, but if it does we should just give up quietly */
+		return;
+	}
 
 	if (!boost::filesystem::exists (film->audio_analysis_path (_playlist))) {
 		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.

@@ -38,6 +38,7 @@ public:
 	void film_changed (Film::Property);
 	void film_content_changed (int);
 	void content_selection_changed ();
+	void set_film (boost::shared_ptr<Film>);
 
 private:
 	void show_clicked ();

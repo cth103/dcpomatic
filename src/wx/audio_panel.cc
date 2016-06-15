@@ -362,3 +362,13 @@ AudioPanel::reference_clicked ()
 
 	d->set_reference_audio (_reference->GetValue ());
 }
+
+void
+AudioPanel::set_film (shared_ptr<Film>)
+{
+	/* We are changing film, so destroy any audio dialog for the old one */
+	if (_audio_dialog) {
+		_audio_dialog->Destroy ();
+		_audio_dialog = 0;
+	}
+}

@@ -403,6 +403,8 @@ ContentPanel::setup_sensitivity ()
 void
 ContentPanel::set_film (shared_ptr<Film> film)
 {
+	_audio_panel->set_film (film);
+
 	_film = film;
 
 	film_changed (Film::CONTENT);
