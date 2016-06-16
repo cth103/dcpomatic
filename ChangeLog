@@ -1,5 +1,7 @@
 2016-06-16  Carl Hetherington  <cth@carlh.net>
 
+	* Ignore any hidden files when looking for image files.
+
 	* Remove seconds from KDM time period specification (#819).
 
 2016-06-14  c.hetherington  <cth@carlh.net>

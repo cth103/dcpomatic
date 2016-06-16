@@ -128,9 +128,9 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 
 			LOG_GENERAL ("Checking file %1", i->path());
 
-			if (boost::starts_with (i->path().leaf().string(), "._") || i->path().leaf().string() == ".DS_Store") {
-				/* We ignore these files */
-				LOG_GENERAL ("Ignored %1 (starts with {._}, or .DS_Store)", i->path());
+			if (boost::starts_with (i->path().leaf().string(), ".")) {
+				/* We ignore hidden files */
+				LOG_GENERAL ("Ignored %1 (starts with .)", i->path());
 				continue;
 			}
 
