@@ -152,6 +152,10 @@ public:
 		return _default_dcp_content_type;
 	}
 
+	int default_dcp_audio_channels () const {
+		return _default_dcp_audio_channels;
+	}
+
 	std::string dcp_issuer () const {
 		return _dcp_issuer;
 	}
@@ -351,6 +355,10 @@ public:
 		maybe_set (_default_dcp_content_type, t);
 	}
 
+	void set_default_dcp_audio_channels (int c) {
+		maybe_set (_default_dcp_audio_channels, c);
+	}
+
 	void set_dcp_issuer (std::string i) {
 		maybe_set (_dcp_issuer, i);
 	}
@@ -529,6 +537,7 @@ private:
 	int _default_still_length;
 	Ratio const * _default_container;
 	DCPContentType const * _default_dcp_content_type;
+	int _default_dcp_audio_channels;
 	std::string _dcp_issuer;
 	std::string _dcp_creator;
 	int _default_j2k_bandwidth;

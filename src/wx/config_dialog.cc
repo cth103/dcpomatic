@@ -432,6 +432,10 @@ private:
 		_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 		table->Add (_dcp_content_type);
 
+		add_label_to_sizer (table, _panel, _("Default DCP audio channels"), true);
+		_dcp_audio_channels = new wxChoice (_panel, wxID_ANY);
+		table->Add (_dcp_audio_channels);
+
 		{
 			add_label_to_sizer (table, _panel, _("Default JPEG2000 bandwidth"), true);
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -473,7 +477,15 @@ private:
 			_dcp_content_type->Append (std_to_wx (ct[i]->pretty_name ()));
 		}
 
+		vector<pair<string, string> > items;
+		for (int i = 0; i <= 16; i += 2) {
+			items.push_back (make_pair (raw_convert<string> (i), raw_convert<string> (i)));
+		}
+
+		checked_set (_dcp_audio_channels, items);
+
 		_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
+		_dcp_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_audio_channels_changed, this));
 
 		_j2k_bandwidth->SetRange (50, 250);
 		_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::j2k_bandwidth_changed, this));
@@ -508,6 +520,7 @@ private:
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
+		checked_set (_dcp_audio_channels, raw_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
 	}
@@ -520,6 +533,14 @@ private:
 	void audio_delay_changed ()
 	{
 		Config::instance()->set_default_audio_delay (_audio_delay->GetValue());
+	}
+
+	void dcp_audio_channels_changed ()
+	{
+		int const s = _dcp_audio_channels->GetSelection ();
+		if (s != wxNOT_FOUND) {
+			Config::instance()->set_default_dcp_audio_channels (s * 2);
+		}
 	}
 
 	void directory_changed ()
@@ -568,6 +589,7 @@ private:
 #endif
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
+	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
 };
 

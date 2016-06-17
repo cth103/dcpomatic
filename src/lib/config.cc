@@ -85,6 +85,7 @@ Config::set_defaults ()
 	_default_still_length = 10;
 	_default_container = Ratio::from_id ("185");
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
+	_default_dcp_audio_channels = 6;
 	_default_j2k_bandwidth = 100000000;
 	_default_audio_delay = 0;
 	_default_interop = false;
@@ -207,6 +208,8 @@ Config::read ()
 	if (c) {
 		_default_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
 	}
+
+	_default_dcp_audio_channels = f.optional_number_child<int>("DefaultDCPAudioChannels").get_value_or (6);
 
 	if (f.optional_string_child ("DCPMetadataIssuer")) {
 		_dcp_issuer = f.string_child ("DCPMetadataIssuer");
@@ -389,6 +392,7 @@ Config::write_config_xml () const
 	if (_default_dcp_content_type) {
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
 	}
+	root->add_child("DefaultDCPAudioChannels")->add_child_text (raw_convert<string> (_default_dcp_audio_channels));
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
 

@@ -1,3 +1,8 @@
+2016-06-17  Carl Hetherington  <cth@carlh.net>
+
+	* Add configurable default for the number of DCP
+	audio channels (#897).
+
 2016-06-16  Carl Hetherington  <cth@carlh.net>
 
 	* Ignore any hidden files when looking for image files.
