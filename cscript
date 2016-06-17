@@ -203,7 +203,7 @@ def make_spec(filename, version, target):
     print('tar xjf $RPM_SOURCE_DIR/dcpomatic-%s.tar.bz2' % version, file=f)
     print('%build', file=f)
     print('cd dcpomatic-%s' % version, file=f)
-    print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig' % (target.directory, target.directory), file=f)
+    print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig' % (target.directory, target.directory), file=f)
 
     if target.distro == 'centos' and target.version == '5':
         prefix = 'BUILDROOT/usr'
