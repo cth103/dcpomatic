@@ -19,6 +19,7 @@
 */
 
 #include "time_picker.h"
+#include "wx_util.h"
 #include "lib/raw_convert.h"
 #include <wx/spinctrl.h>
 #include <boost/bind.hpp>
@@ -79,11 +80,11 @@ TimePicker::update_text ()
 
 	_block_update = true;
 
-	_hours->SetValue (wxString (raw_convert<string> (_hours_spin->GetValue ())));
+	_hours->SetValue (std_to_wx (raw_convert<string> (_hours_spin->GetValue ())));
 
 	SafeStringStream m;
 	m << setfill('0') << setw(2) << _minutes_spin->GetValue();
-	_minutes->SetValue (wxString (m.str()));
+	_minutes->SetValue (std_to_wx (m.str()));
 
 	_block_update = false;
 
@@ -98,8 +99,8 @@ TimePicker::update_spin ()
 	}
 
 	_block_update = true;
-	_hours_spin->SetValue (raw_convert<int> (_hours->GetValue().ToStdString()));
-	_minutes_spin->SetValue (raw_convert<int> (_minutes->GetValue().ToStdString()));
+	_hours_spin->SetValue (raw_convert<int> (wx_to_std (_hours->GetValue())));
+	_minutes_spin->SetValue (raw_convert<int> (wx_to_std (_minutes->GetValue())));
 	_block_update = false;
 
 	Changed ();
