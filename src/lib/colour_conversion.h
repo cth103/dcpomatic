@@ -39,6 +39,7 @@ public:
 	ColourConversion ();
 	ColourConversion (dcp::ColourConversion);
 	ColourConversion (cxml::NodePtr, int version);
+	virtual ~ColourConversion () {}
 
 	virtual void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
