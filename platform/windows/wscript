@@ -1,13 +1,18 @@
 from __future__ import print_function
 import os
 
-def write_installer(bits, version, debug):
+def write_installer(bits, windows_version, dcpomatic_version, debug):
     try:
         os.makedirs('build/platform/windows')
     except:
         pass
 
-    f = open('build/platform/windows/installer.%d.nsi' % bits, 'w')
+    filename = 'build/platform/windows/installer.'
+    if windows_version is not None:
+        filename += 'xp.'
+    filename += '%d.nsi' % bits
+
+    f = open(filename, 'w')
     print('!include "MUI2.nsh"', file=f)
     if bits == 64:
         print('!include "x64.nsh"', file=f)
@@ -19,10 +24,15 @@ def write_installer(bits, version, debug):
 
     print('RequestExecutionLevel admin', file=f)
 
+    outfile = 'DCP-o-matic '
     if debug:
-        print('outFile "DCP-o-matic Debug %s %d-bit Installer.exe"' % (version, bits), file=f)
-    else:
-        print('outFile "DCP-o-matic %s %d-bit Installer.exe"' % (version, bits), file=f)
+        outfile += 'Debug '
+    outfile += '%s %d-bit ' % (dcpomatic_version, bits)
+    if windows_version is 'xp':
+        outfile += 'XP '
+    outfile += 'Installer.exe'
+
+    print('outFile "%s"' % outfile, file=f)
 
     print("""
 !define MUI_ICON "%graphics%/dcpomatic2.ico"
@@ -134,12 +144,16 @@ File "%cdist_deps%/bin/avdevice-57.dll"
 File "%cdist_deps%/bin/postproc-54.dll"
 File "%cdist_deps%/bin/swresample-2.dll"
 File "%cdist_deps%/bin/dcp-1.0.dll"
-File "%cdist_deps%/bin/libopenjp2.dll"
 File "%cdist_deps%/bin/swscale-4.dll"
 File "%cdist_deps%/bin/cxml-0.dll"
 File "%cdist_deps%/bin/sub-1.0.dll"
 File "%cdist_deps%/bin/ffprobe.exe"
     """, file=f)
+
+    if windows_version == 'xp':
+        print('File "%cdist_deps%/bin/libopenjpeg-1.dll"', file=f)
+    else:
+        print('File "%cdist_deps%/bin/libopenjp2.dll"', file=f)
 
     if debug:
         print('File "%resources%/gdb_script"', file=f)
@@ -355,5 +369,7 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
 
 
 def build(bld):
-    write_installer(32, bld.env.VERSION, bld.env.DEBUG)
-    write_installer(64, bld.env.VERSION, bld.env.DEBUG)
+    write_installer(32, None, bld.env.VERSION, bld.env.DEBUG)
+    write_installer(64, None, bld.env.VERSION, bld.env.DEBUG)
+    write_installer(32, 'xp', bld.env.VERSION, bld.env.DEBUG)
+    write_installer(64, 'xp', bld.env.VERSION, bld.env.DEBUG)

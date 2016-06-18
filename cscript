@@ -265,15 +265,19 @@ def build(target, options):
         target.command('./waf install')
 
 def package_windows(target):
-    shutil.copyfile('build/platform/windows/installer.%s.nsi' % target.bits, 'build/platform/windows/installer2.%s.nsi' % target.bits)
-    target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-    target.command('sed -i "s~%%graphics%%~%s/graphics~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-    target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, target.bits))
-    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, target.bits))
-    target.command('sed -i "s~%%mingw%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.mingw_path, target.bits))
-    target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), target.bits))
-    target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % target.bits)
-    target.command('makensis build/platform/windows/installer2.%s.nsi' % target.bits)
+    identifier = ''
+    if target.version is not None:
+        identifier = '%s.' % target.version
+    identifier += '%d' % target.bits
+    shutil.copyfile('build/platform/windows/installer.%s.nsi' % identifier, 'build/platform/windows/installer2.%s.nsi' % identifier)
+    target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
+    target.command('sed -i "s~%%graphics%%~%s/graphics~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
+    target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, identifier))
+    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, identifier))
+    target.command('sed -i "s~%%mingw%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.mingw_path, identifier))
+    target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
+    target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % identifier)
+    target.command('makensis build/platform/windows/installer2.%s.nsi' % identifier)
     return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
 
 def package_debian(target, cpu, version):
