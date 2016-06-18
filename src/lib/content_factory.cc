@@ -164,7 +164,7 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 
 		if (valid_image_file (path)) {
 			content.reset (new ImageContent (film, path));
-		} else if (ext == ".srt" || ext == ".ssa") {
+		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
 			content.reset (new TextSubtitleContent (film, path));
 		} else if (ext == ".xml") {
 			content.reset (new DCPSubtitleContent (film, path));
