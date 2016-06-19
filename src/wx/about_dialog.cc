@@ -107,6 +107,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Massimiliano Broggi"));
 	translated_by.Add (wxT ("Davide Dall'AraCiao"));
 	translated_by.Add (wxT ("William Fanelli"));
+	translated_by.Add (wxT ("Max M. Fuhlendorf"));
 	translated_by.Add (wxT ("Tomáš Hlaváč"));
 	translated_by.Add (wxT ("Thierry Journet"));
 	translated_by.Add (wxT ("Adam Klotblixt"));
