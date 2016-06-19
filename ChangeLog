@@ -1,5 +1,7 @@
 2016-06-19  Carl Hetherington  <cth@carlh.net>
 
+	* Fix preview of bold subtitles.
+
 	* Updated pt_BR translation from Max M. Fuhlendorf.
 
 	* Version 2.8.11 released.

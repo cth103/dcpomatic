@@ -200,6 +200,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 
 	string marked_up;
 	bool italic = false;
+	bool bold = false;
 	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
 		if (i.italic() != italic) {
 			if (i.italic()) {
@@ -210,11 +211,24 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 			italic = i.italic ();
 		}
 
+		if (i.bold() != bold) {
+			if (i.bold()) {
+				marked_up += "<b>";
+			} else {
+				marked_up += "</b>";
+			}
+			bold = i.bold ();
+		}
+
 		marked_up += i.text ();
 	}
 
 	if (italic) {
 		marked_up += "</i>";
+	}
+
+	if (bold) {
+		marked_up += "</b>";
 	}
 
 	layout->set_markup (marked_up);
