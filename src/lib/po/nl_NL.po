@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-20 17:33+0100\n"
-"PO-Revision-Date: 2016-06-04 03:11+0200\n"
+"PO-Revision-Date: 2016-06-20 20:53+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -76,7 +76,7 @@ msgstr "Er is een fout opgetreden bij de verwerking van bestand %1."
 
 #: src/lib/analyse_audio_job.cc:81
 msgid "Analyse audio"
-msgstr "Analyseer audio"
+msgstr "Analyseren audio"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1kHz to %2kHz"
@@ -342,9 +342,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownload ZIP-bestand niet openen"
 
 #: src/lib/dcp_subtitle.cc:55
-#, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
-msgstr "Kan ondertitels niet lezen"
+msgstr "Kan ondertitels niet lezen (%1 / %2)"
 
 #: src/lib/scp_uploader.cc:71
 msgid "Could not start SCP session (%1)"

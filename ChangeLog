@@ -1,5 +1,7 @@
 2016-06-20  Carl Hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Fix display of italic and bold font names in the fonts
 	dialogue.
 
