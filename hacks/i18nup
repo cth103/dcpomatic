@@ -30,6 +30,9 @@ elif [[ `echo $changes | grep uk_UA` != "" ]]; then
 elif [[ `echo $changes | grep cs_CZ` != "" ]]; then
   language="cs_CZ"
   translator="Tomáš Begeni"
+elif [[ `echo $changes | grep pt_BR` != "" ]]; then
+  language="pt_BR"
+  translator="Max M. Fuhlendorf"
 else
   echo "Unknown language"
   exit 1
