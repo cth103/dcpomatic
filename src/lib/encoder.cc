@@ -166,6 +166,10 @@ Encoder::current_encoding_rate () const
 int
 Encoder::video_frames_enqueued () const
 {
+	if (!_last_player_video) {
+		return 0;
+	}
+
 	return _last_player_video->time().frames_floor (_film->video_frame_rate ());
 }
 
