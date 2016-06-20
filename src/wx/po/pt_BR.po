@@ -951,7 +951,7 @@ msgstr "Mover o conteúdo selecionado para depois no filme"
 
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
+msgstr "Mover para o início do rolo"
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
