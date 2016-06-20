@@ -65,14 +65,37 @@ Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 
 Encoder::~Encoder ()
 {
-	terminate_threads ();
+	try {
+		terminate_threads ();
+	} catch (...) {
+		/* Destructors must not throw exceptions; anything bad
+		   happening now is too late to worry about anyway,
+		   I think.
+		*/
+	}
 }
 
 void
 Encoder::begin ()
 {
 	if (!EncodeServerFinder::instance()->disabled ()) {
-		_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (boost::bind (&Encoder::servers_list_changed, this));
+		weak_ptr<Encoder> wp = shared_from_this ();
+		_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
+			boost::bind (&Encoder::call_servers_list_changed, wp)
+			);
+	}
+}
+
+/* We don't want the servers-list-changed callback trying to do things
+   during destruction of Encoder, and I think this is the neatest way
+   to achieve that.
+*/
+void
+Encoder::call_servers_list_changed (weak_ptr<Encoder> encoder)
+{
+	shared_ptr<Encoder> e = encoder.lock ();
+	if (e) {
+		e->servers_list_changed ();
 	}
 }
 
@@ -238,7 +261,11 @@ Encoder::terminate_threads ()
 		LOG_GENERAL ("Terminating thread %1 of %2", n + 1, _threads.size ());
 		(*i)->interrupt ();
 		DCPOMATIC_ASSERT ((*i)->joinable ());
-		(*i)->join ();
+		try {
+			(*i)->join ();
+		} catch (boost::thread_interrupted& e) {
+			/* This is to be expected */
+		}
 		delete *i;
 		LOG_GENERAL_NC ("Thread terminated");
 		++n;

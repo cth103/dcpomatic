@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,6 +34,7 @@
 #include <boost/thread.hpp>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <list>
 #include <stdint.h>
 
@@ -51,7 +52,7 @@ class PlayerVideo;
  *  the work around threads and encoding servers.
  */
 
-class Encoder : public boost::noncopyable, public ExceptionStore
+class Encoder : public boost::noncopyable, public ExceptionStore, public boost::enable_shared_from_this<Encoder>
 {
 public:
 	Encoder (boost::shared_ptr<const Film>, boost::shared_ptr<Writer>);
@@ -69,13 +70,16 @@ public:
 	float current_encoding_rate () const;
 	int video_frames_enqueued () const;
 
+	void servers_list_changed ();
+
 private:
+
+	static void call_servers_list_changed (boost::weak_ptr<Encoder> encoder);
 
 	void frame_done ();
 
 	void encoder_thread (boost::optional<EncodeServerDescription>);
 	void terminate_threads ();
-	void servers_list_changed ();
 
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
