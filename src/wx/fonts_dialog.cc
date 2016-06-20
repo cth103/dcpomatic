@@ -110,8 +110,10 @@ FontsDialog::setup ()
 		item.SetId (n);
 		_fonts->InsertItem (item);
 		_fonts->SetItem (n, 0, std_to_wx (i->id ()));
-		if (i->file(FontFiles::NORMAL)) {
-			_fonts->SetItem (n, 1, i->file(FontFiles::NORMAL).get().leaf().string ());
+		for (int j = 0; j < FontFiles::VARIANTS; ++j) {
+			if (i->file(static_cast<FontFiles::Variant>(j))) {
+				_fonts->SetItem (n, j + 1, i->file(static_cast<FontFiles::Variant>(j)).get().leaf().string ());
+			}
 		}
 		++n;
 	}

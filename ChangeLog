@@ -1,5 +1,8 @@
 2016-06-20  Carl Hetherington  <cth@carlh.net>
 
+	* Fix display of italic and bold font names in the fonts
+	dialogue.
+
 	* Updated pt_BR translation from Max M. Fuhlendorf.
 
 	* Fix various strange crashes with encoding servers.
