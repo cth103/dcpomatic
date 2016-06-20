@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 21:08+0100\n"
+"POT-Creation-Date: 2016-06-20 17:29+0100\n"
 "PO-Revision-Date: 2016-05-29 17:47+0200\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7\n"
 
-#: src/tools/dcpomatic.cc:355
+#: src/tools/dcpomatic.cc:356
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr ""
 "Le fichier %1 existe déjà, vous ne pouvez l'utiliser pour un nouveau projet."
@@ -36,71 +36,71 @@ msgstr "%d KDMs créées dans %s"
 msgid "&Add Film..."
 msgstr "&Ajouter Film..."
 
-#: src/tools/dcpomatic.cc:876
+#: src/tools/dcpomatic.cc:884
 msgid "&Content"
 msgstr "&Contenu"
 
-#: src/tools/dcpomatic.cc:874 src/tools/dcpomatic_batch.cc:82
+#: src/tools/dcpomatic.cc:882 src/tools/dcpomatic_batch.cc:82
 #: src/tools/dcpomatic_kdm.cc:245
 msgid "&Edit"
 msgstr "&Edition"
 
-#: src/tools/dcpomatic.cc:832 src/tools/dcpomatic_batch.cc:62
+#: src/tools/dcpomatic.cc:840 src/tools/dcpomatic_batch.cc:62
 #: src/tools/dcpomatic_kdm.cc:223
 msgid "&Exit"
 msgstr "&Quitter"
 
-#: src/tools/dcpomatic.cc:872 src/tools/dcpomatic_batch.cc:80
+#: src/tools/dcpomatic.cc:880 src/tools/dcpomatic_batch.cc:80
 #: src/tools/dcpomatic_kdm.cc:243
 msgid "&File"
 msgstr "&Fichier"
 
-#: src/tools/dcpomatic.cc:879 src/tools/dcpomatic_batch.cc:85
+#: src/tools/dcpomatic.cc:887 src/tools/dcpomatic_batch.cc:85
 #: src/tools/dcpomatic_kdm.cc:247
 msgid "&Help"
 msgstr "&Aide"
 
-#: src/tools/dcpomatic.cc:877
+#: src/tools/dcpomatic.cc:885
 msgid "&Jobs"
 msgstr "&Travaux"
 
-#: src/tools/dcpomatic.cc:849
+#: src/tools/dcpomatic.cc:857
 msgid "&Make DCP\tCtrl-M"
 msgstr "&Créer le DCP\tCtrl-M"
 
-#: src/tools/dcpomatic.cc:821
+#: src/tools/dcpomatic.cc:829
 msgid "&Open...\tCtrl-O"
 msgstr "&Ouvrir...\tCtrl-O"
 
-#: src/tools/dcpomatic.cc:838 src/tools/dcpomatic.cc:841
+#: src/tools/dcpomatic.cc:846 src/tools/dcpomatic.cc:849
 #: src/tools/dcpomatic_batch.cc:68 src/tools/dcpomatic_batch.cc:71
 #: src/tools/dcpomatic_kdm.cc:229 src/tools/dcpomatic_kdm.cc:232
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Préférences...\tCtrl-P"
 
-#: src/tools/dcpomatic.cc:834 src/tools/dcpomatic_batch.cc:64
+#: src/tools/dcpomatic.cc:842 src/tools/dcpomatic_batch.cc:64
 #: src/tools/dcpomatic_kdm.cc:225
 msgid "&Quit"
 msgstr "&Quitter"
 
-#: src/tools/dcpomatic.cc:823
+#: src/tools/dcpomatic.cc:831
 msgid "&Save\tCtrl-S"
 msgstr "&Enregistrer\tCtrl+S"
 
-#: src/tools/dcpomatic.cc:853
+#: src/tools/dcpomatic.cc:861
 msgid "&Send DCP to TMS"
 msgstr "&Envoyer le DCP au TMS"
 
-#: src/tools/dcpomatic.cc:878 src/tools/dcpomatic_batch.cc:84
+#: src/tools/dcpomatic.cc:886 src/tools/dcpomatic_batch.cc:84
 msgid "&Tools"
 msgstr "&Outils"
 
-#: src/tools/dcpomatic.cc:868 src/tools/dcpomatic_batch.cc:78
+#: src/tools/dcpomatic.cc:876 src/tools/dcpomatic_batch.cc:78
 #: src/tools/dcpomatic_kdm.cc:239
 msgid "About"
 msgstr "A propos"
 
-#: src/tools/dcpomatic.cc:866 src/tools/dcpomatic_kdm.cc:237
+#: src/tools/dcpomatic.cc:874 src/tools/dcpomatic_kdm.cc:237
 msgid "About DCP-o-matic"
 msgstr "À propos de DCP-o-matic"
 
@@ -108,7 +108,7 @@ msgstr "À propos de DCP-o-matic"
 msgid "Add Film..."
 msgstr "Ajouter Film..."
 
-#: src/tools/dcpomatic.cc:1106 src/tools/dcpomatic_kdm.cc:424
+#: src/tools/dcpomatic.cc:1114 src/tools/dcpomatic_kdm.cc:424
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -117,7 +117,7 @@ msgstr ""
 "Erreur constatée: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1115 src/tools/dcpomatic_kdm.cc:433
+#: src/tools/dcpomatic.cc:1123 src/tools/dcpomatic_kdm.cc:433
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -130,13 +130,13 @@ msgstr ""
 msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "Erreur inconnue avec le server DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:507 src/tools/dcpomatic.cc:585
-#: src/tools/dcpomatic.cc:1120 src/tools/dcpomatic_kdm.cc:325
+#: src/tools/dcpomatic.cc:508 src/tools/dcpomatic.cc:582
+#: src/tools/dcpomatic.cc:1128 src/tools/dcpomatic_kdm.cc:325
 #: src/tools/dcpomatic_kdm.cc:438 src/tools/dcpomatic_kdm.cc:447
 msgid "An unknown exception occurred."
 msgstr "Exception inconnue"
 
-#: src/tools/dcpomatic.cc:426
+#: src/tools/dcpomatic.cc:427
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
@@ -144,7 +144,7 @@ msgstr ""
 "Etes vous certain de vouloir rétablir les préférences par défaut? Vous ne "
 "pourrez pas revenir en arrière."
 
-#: src/tools/dcpomatic.cc:464
+#: src/tools/dcpomatic.cc:465
 #, c-format
 msgid "Bad setting for %s (%s)"
 msgstr "Mauvais paramètres pour %s (%s)"
@@ -153,46 +153,46 @@ msgstr "Mauvais paramètres pour %s (%s)"
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:503 src/tools/dcpomatic.cc:581
+#: src/tools/dcpomatic.cc:504 src/tools/dcpomatic.cc:578
 #: src/tools/dcpomatic_kdm.cc:321
 msgid "CPL's content is not encrypted."
 msgstr "Le contenu du CPL n'est pas crypté."
 
-#: src/tools/dcpomatic.cc:860
+#: src/tools/dcpomatic.cc:868
 msgid "Check for updates"
 msgstr "Recherche mises à jour"
 
-#: src/tools/dcpomatic.cc:111
+#: src/tools/dcpomatic.cc:112
 msgid "Close without saving film"
 msgstr "Fermer sans sauvegarder le film"
 
-#: src/tools/dcpomatic.cc:551
+#: src/tools/dcpomatic.cc:552
 msgid "Could not find batch converter."
 msgstr "Convertisseur par lots introuvable"
 
-#: src/tools/dcpomatic.cc:1044 src/tools/dcpomatic_batch.cc:327
+#: src/tools/dcpomatic.cc:1052 src/tools/dcpomatic_batch.cc:327
 msgid "Could not load film %1 (%2)"
 msgstr "Impossible de charger le film %1 (%2)"
 
-#: src/tools/dcpomatic.cc:466
+#: src/tools/dcpomatic.cc:467
 #, c-format
 msgid "Could not make DCP: %s"
 msgstr "Ne peut créer le DCP: %s"
 
-#: src/tools/dcpomatic.cc:306 src/tools/dcpomatic_batch.cc:137
+#: src/tools/dcpomatic.cc:307 src/tools/dcpomatic_batch.cc:137
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Impossible d'ouvrir le film à %s (%s)"
 
-#: src/tools/dcpomatic.cc:641
+#: src/tools/dcpomatic.cc:649
 msgid "Could not show DCP"
 msgstr "Ouverture du DCP impossible"
 
-#: src/tools/dcpomatic.cc:632
+#: src/tools/dcpomatic.cc:640
 msgid "Could not show DCP (could not run konqueror)"
 msgstr "Ouverture du DCP impossible (konqueror est introuvable)"
 
-#: src/tools/dcpomatic.cc:625
+#: src/tools/dcpomatic.cc:633
 msgid "Could not show DCP (could not run nautilus)"
 msgstr "Ouverture du DCP impossible (nautilus est introuvable)"
 
@@ -200,8 +200,8 @@ msgstr "Ouverture du DCP impossible (nautilus est introuvable)"
 msgid "Create KDMs"
 msgstr "Créer les KDMs"
 
-#: src/tools/dcpomatic.cc:326 src/tools/dcpomatic.cc:996
-#: src/tools/dcpomatic.cc:1032
+#: src/tools/dcpomatic.cc:327 src/tools/dcpomatic.cc:1004
+#: src/tools/dcpomatic.cc:1040
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -221,17 +221,17 @@ msgstr "DCP-o-matic Créateur de KDM"
 msgid "DKDM"
 msgstr "DKDM"
 
-#: src/tools/dcpomatic.cc:111
+#: src/tools/dcpomatic.cc:112
 msgid "Don't close"
 msgstr "Ne pas fermer"
 
-#: src/tools/dcpomatic.cc:859 src/tools/dcpomatic_batch.cc:75
+#: src/tools/dcpomatic.cc:867 src/tools/dcpomatic_batch.cc:75
 msgid "Encoding servers..."
 msgstr "Serveurs d'encodage"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
-#: src/tools/dcpomatic.cc:106
+#: src/tools/dcpomatic.cc:107
 msgid "Film changed"
 msgstr "Film changé"
 
@@ -239,23 +239,23 @@ msgstr "Film changé"
 msgid "Frames per second"
 msgstr "Images par seconde"
 
-#: src/tools/dcpomatic.cc:858
+#: src/tools/dcpomatic.cc:866
 msgid "Hints..."
 msgstr "Conseils...\tCtrl-H"
 
-#: src/tools/dcpomatic.cc:851
+#: src/tools/dcpomatic.cc:859
 msgid "Make &KDMs...\tCtrl-K"
 msgstr "Générer &KDMs...\tCtrl-K"
 
-#: src/tools/dcpomatic.cc:850
+#: src/tools/dcpomatic.cc:858
 msgid "Make DCP in &batch converter\tCtrl-B"
 msgstr "Produire le DCP dans le &Convertisseur par lot\tCtrl-B"
 
-#: src/tools/dcpomatic.cc:852
+#: src/tools/dcpomatic.cc:860
 msgid "Make DKDM for DCP-o-matic..."
 msgstr "Créer DKDM pour DCP-o-matic..."
 
-#: src/tools/dcpomatic.cc:820
+#: src/tools/dcpomatic.cc:828
 msgid "New...\tCtrl-N"
 msgstr "Nouveau...\tCtrl-N"
 
@@ -263,32 +263,32 @@ msgstr "Nouveau...\tCtrl-N"
 msgid "Output"
 msgstr "Sortie"
 
-#: src/tools/dcpomatic.cc:870 src/tools/dcpomatic_kdm.cc:241
+#: src/tools/dcpomatic.cc:878 src/tools/dcpomatic_kdm.cc:241
 msgid "Report a problem..."
 msgstr "Signaler un problème"
 
-#: src/tools/dcpomatic.cc:427 src/tools/dcpomatic.cc:862
+#: src/tools/dcpomatic.cc:428 src/tools/dcpomatic.cc:870
 msgid "Restore default preferences"
 msgstr "Rétablir préférences par défaut"
 
-#: src/tools/dcpomatic.cc:854
+#: src/tools/dcpomatic.cc:862
 msgid "S&how DCP"
 msgstr "Voir le DCP"
 
-#: src/tools/dcpomatic.cc:103
+#: src/tools/dcpomatic.cc:104
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
-#: src/tools/dcpomatic.cc:111
+#: src/tools/dcpomatic.cc:112
 msgid "Save film and close"
 msgstr "Enregistrer le film et fermer"
 
-#: src/tools/dcpomatic.cc:846
+#: src/tools/dcpomatic.cc:854
 msgid "Scale to fit &height"
 msgstr "Adapter pour remplir &hauteur"
 
-#: src/tools/dcpomatic.cc:845
+#: src/tools/dcpomatic.cc:853
 msgid "Scale to fit &width"
 msgstr "Adapter pour remplir largeur"
 
@@ -300,7 +300,7 @@ msgstr "Ecrans"
 msgid "Select DKDM file"
 msgstr "Sélectionner le fichier DKDM"
 
-#: src/tools/dcpomatic.cc:372 src/tools/dcpomatic_batch.cc:214
+#: src/tools/dcpomatic.cc:373 src/tools/dcpomatic_batch.cc:214
 msgid "Select film to open"
 msgstr "Sélectionner le film à ouvrir"
 
@@ -308,7 +308,7 @@ msgstr "Sélectionner le film à ouvrir"
 msgid "Send KDM emails"
 msgstr "Envoyer les e-mails de KDM"
 
-#: src/tools/dcpomatic.cc:450
+#: src/tools/dcpomatic.cc:451
 #, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f Gb, and "
@@ -321,7 +321,7 @@ msgstr ""
 "votre système supportait les \"hard links\" mais ce n'est pas le cas. "
 "Souhaitez vous continuer quand-même?"
 
-#: src/tools/dcpomatic.cc:448
+#: src/tools/dcpomatic.cc:449
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
@@ -330,11 +330,11 @@ msgstr ""
 "Le DCP de ce film pèsera environ %.1f Go. Le disque que vous utilisez n'a "
 "que %.1f Go disponible(s). Souhaitez-vous continuer?"
 
-#: src/tools/dcpomatic.cc:934
+#: src/tools/dcpomatic.cc:942
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
 
-#: src/tools/dcpomatic.cc:345
+#: src/tools/dcpomatic.cc:346
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
@@ -342,15 +342,15 @@ msgstr ""
 "Le répertoire %1 existe déjà et n'est pas vide. Etes-vous sûr de vouloir "
 "l'utiliser ?"
 
-#: src/tools/dcpomatic.cc:936
+#: src/tools/dcpomatic.cc:944
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Pas de mise à jour disponible de DCP-o-matic pour l'instant."
 
-#: src/tools/dcpomatic.cc:703 src/tools/dcpomatic_batch.cc:156
+#: src/tools/dcpomatic.cc:711 src/tools/dcpomatic_batch.cc:156
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Certaines tâches sont inachevées. Voulez-vous vraiment quitter ?"
 
-#: src/tools/dcpomatic.cc:292
+#: src/tools/dcpomatic.cc:293
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
@@ -359,15 +359,15 @@ msgstr ""
 "pas s'ouvrir correctement dans cette version. Veuillez vérifier tous les "
 "paramètres de réglages très attentivement."
 
-#: src/tools/dcpomatic.cc:704 src/tools/dcpomatic_batch.cc:157
+#: src/tools/dcpomatic.cc:712 src/tools/dcpomatic_batch.cc:157
 msgid "Unfinished jobs"
 msgstr "Travaux incomplets"
 
-#: src/tools/dcpomatic.cc:857
+#: src/tools/dcpomatic.cc:865
 msgid "Video waveform..."
 msgstr "Forme d'onde vidéo"
 
-#: src/tools/dcpomatic.cc:381 src/tools/dcpomatic_batch.cc:223
+#: src/tools/dcpomatic.cc:382 src/tools/dcpomatic_batch.cc:223
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

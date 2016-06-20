@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 21:08+0100\n"
+"POT-Creation-Date: 2016-06-20 17:29+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -24,19 +24,19 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:169
+#: src/lib/dcp_content.cc:174
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:266
+#: src/lib/ffmpeg_content.cc:268
 msgid "%1 [audio]"
 msgstr "%1 [音频]"
 
-#: src/lib/ffmpeg_content.cc:262
+#: src/lib/ffmpeg_content.cc:264
 msgid "%1 [movie]"
 msgstr "%1 [视频]"
 
-#: src/lib/ffmpeg_content.cc:264 src/lib/video_mxf_content.cc:89
+#: src/lib/ffmpeg_content.cc:266 src/lib/video_mxf_content.cc:89
 #, fuzzy
 msgid "%1 [video]"
 msgstr "%1 [视频]"
@@ -73,7 +73,7 @@ msgstr "学院模式"
 msgid "Advertisement"
 msgstr "广告片"
 
-#: src/lib/job.cc:91
+#: src/lib/job.cc:97
 msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
@@ -93,64 +93,64 @@ msgstr "音频将被重新采样%1kHz."
 msgid "Audio will not be resampled"
 msgstr "音频不能被重新采样！"
 
-#: src/lib/ffmpeg_content.cc:511
+#: src/lib/ffmpeg_content.cc:513
 msgid "BT1361 extended colour gamut"
 msgstr "色彩范围 BT1361"
 
-#: src/lib/ffmpeg_content.cc:491
+#: src/lib/ffmpeg_content.cc:493
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:535
 msgid "BT2020 constant luminance"
 msgstr "BT2020 恒定亮度"
 
-#: src/lib/ffmpeg_content.cc:513
+#: src/lib/ffmpeg_content.cc:515
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 采样深度为 10-bit"
 
-#: src/lib/ffmpeg_content.cc:514
+#: src/lib/ffmpeg_content.cc:516
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 采样深度为 12 bits"
 
-#: src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:534
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 非恒定亮度"
 
-#: src/lib/ffmpeg_content.cc:487
+#: src/lib/ffmpeg_content.cc:489
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:528
+#: src/lib/ffmpeg_content.cc:530
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:486
+#: src/lib/ffmpeg_content.cc:488
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:483 src/lib/ffmpeg_content.cc:500
-#: src/lib/ffmpeg_content.cc:524
+#: src/lib/ffmpeg_content.cc:485 src/lib/ffmpeg_content.cc:502
+#: src/lib/ffmpeg_content.cc:526
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:542
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/film.cc:1337
+#: src/lib/film.cc:1366
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/film.cc:1338
+#: src/lib/film.cc:1367
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/film.cc:1329
+#: src/lib/film.cc:1358
 msgid "C"
 msgstr "中置"
 
-#: src/lib/job.cc:380
+#: src/lib/job.cc:386
 msgid "Cancelled"
 msgstr "取消"
 
@@ -170,7 +170,7 @@ msgstr "声音通道"
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
-#: src/lib/ffmpeg_content.cc:496
+#: src/lib/ffmpeg_content.cc:498
 msgid "Colour primaries"
 msgstr "原色"
 
@@ -184,17 +184,17 @@ msgstr "原色"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:440 src/lib/ffmpeg_content.cc:447
-#: src/lib/ffmpeg_content.cc:454 src/lib/ffmpeg_content.cc:464
-#: src/lib/ffmpeg_content.cc:469 src/lib/ffmpeg_content.cc:474
+#: src/lib/ffmpeg_content.cc:442 src/lib/ffmpeg_content.cc:449
+#: src/lib/ffmpeg_content.cc:456 src/lib/ffmpeg_content.cc:466
+#: src/lib/ffmpeg_content.cc:471 src/lib/ffmpeg_content.cc:476
 msgid "Colour range"
 msgstr "色彩范围"
 
-#: src/lib/ffmpeg_content.cc:520
+#: src/lib/ffmpeg_content.cc:522
 msgid "Colour transfer characteristic"
 msgstr "彩色传输特性"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:539
 msgid "Colourspace"
 msgstr "色彩空间"
 
@@ -219,7 +219,7 @@ msgstr "内容和DCP需相同的速率。\n"
 msgid "Content audio sample rate"
 msgstr "音频帧率"
 
-#: src/lib/video_content.cc:409
+#: src/lib/video_content.cc:436
 msgid "Content frame rate"
 msgstr "视频帧率"
 
@@ -239,23 +239,23 @@ msgstr "视频和音频的延迟必须相同。"
 msgid "Content to be joined must have the same audio gain."
 msgstr "视频和音频增益必须相同。"
 
-#: src/lib/video_content.cc:160
+#: src/lib/video_content.cc:186
 msgid "Content to be joined must have the same colour conversion."
 msgstr "视频颜色转换必须相同。"
 
-#: src/lib/video_content.cc:152
+#: src/lib/video_content.cc:178
 msgid "Content to be joined must have the same crop."
 msgstr "视频裁剪必须相同。"
 
-#: src/lib/video_content.cc:164
+#: src/lib/video_content.cc:190
 msgid "Content to be joined must have the same fades."
 msgstr "视频衰减必须相同。"
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
 msgstr "视频图像尺寸必须相同。"
 
-#: src/lib/video_content.cc:156
+#: src/lib/video_content.cc:182
 msgid "Content to be joined must have the same scale setting."
 msgstr "视频比例设置必须相同。"
 
@@ -280,7 +280,7 @@ msgstr "字幕Y调整大小必须相同。"
 msgid "Content to be joined must have the same video frame rate"
 msgstr "视频的帧率必须相同。"
 
-#: src/lib/video_content.cc:148
+#: src/lib/video_content.cc:174
 msgid "Content to be joined must have the same video frame type."
 msgstr "帧类型必须相同。"
 
@@ -292,7 +292,7 @@ msgstr "字体必须相同。"
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "字幕流必须相同。"
 
-#: src/lib/video_content.cc:357
+#: src/lib/video_content.cc:384
 msgid "Content video is %1x%2"
 msgstr "内容视频 %1x%2"
 
@@ -326,7 +326,7 @@ msgid ""
 "o-matic is running."
 msgstr "无法监测远程编码服务器。可能DCP-O-MATIC的另一个程序正在运行。"
 
-#: src/lib/job.cc:110 src/lib/job.cc:124
+#: src/lib/job.cc:116 src/lib/job.cc:130
 msgid "Could not open %1"
 msgstr "无法打开%1"
 
@@ -338,8 +338,9 @@ msgstr "无法打开%1并发送"
 msgid "Could not open downloaded ZIP file"
 msgstr "无法打开下载的zip文件"
 
-#: src/lib/dcp_subtitle.cc:50
-msgid "Could not read subtitles"
+#: src/lib/dcp_subtitle.cc:55
+#, fuzzy
+msgid "Could not read subtitles (%1 / %2)"
 msgstr "无法读取字幕"
 
 #: src/lib/scp_uploader.cc:71
@@ -354,7 +355,7 @@ msgstr "无法启动转移"
 msgid "Could not write to remote file (%1)"
 msgstr "无法写入远程文件 (%1)"
 
-#: src/lib/video_content.cc:376
+#: src/lib/video_content.cc:403
 msgid "Cropped to %1x%2"
 msgstr "裁剪为%1x%2"
 
@@ -366,15 +367,15 @@ msgstr "初级D-BOX"
 msgid "D-BOX secondary"
 msgstr "高级D-BOX"
 
-#: src/lib/film.cc:1339
+#: src/lib/film.cc:1368
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1340
+#: src/lib/film.cc:1369
 msgid "DBS"
 msgstr "DBS"
 
-#: src/lib/dcp_subtitle_content.cc:97
+#: src/lib/dcp_subtitle_content.cc:99
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
@@ -390,7 +391,7 @@ msgstr "DCP列队将在速度为 %1%% 下运行.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "将使用隔帧打包DCP.\n"
 
-#: src/lib/job.cc:112 src/lib/job.cc:126
+#: src/lib/job.cc:118 src/lib/job.cc:132
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -405,7 +406,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:514
+#: src/lib/config.cc:517
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -431,7 +432,7 @@ msgstr ""
 "Rov汉化，真心不易，欢迎访问：www.rov8.com (放映员资料库)关注最新汉化，\n"
 "DCP-O-MATIC"
 
-#: src/lib/video_content.cc:370
+#: src/lib/video_content.cc:397
 msgid "Display aspect ratio"
 msgstr "显示宽高比"
 
@@ -467,7 +468,7 @@ msgstr "通过邮件发送BUG"
 msgid "Email problem report for %1"
 msgstr "通过邮件发送BUG%1"
 
-#: src/lib/transcoder.cc:73
+#: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
 msgstr ""
 
@@ -475,15 +476,15 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
-#: src/lib/job.cc:378
+#: src/lib/job.cc:384
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
-#: src/lib/examine_content_job.cc:48
+#: src/lib/examine_content_job.cc:44
 msgid "Examine content"
 msgstr "检查内容"
 
-#: src/lib/ffmpeg_content.cc:527
+#: src/lib/ffmpeg_content.cc:529
 msgid "FCC"
 msgstr "FCC"
 
@@ -504,7 +505,7 @@ msgstr "功能片"
 msgid "Filename"
 msgstr "名字"
 
-#: src/lib/ffmpeg_content.cc:490
+#: src/lib/ffmpeg_content.cc:492
 msgid "Film"
 msgstr "电影"
 
@@ -524,11 +525,11 @@ msgstr "查找字幕"
 msgid "Flat"
 msgstr "遮幅"
 
-#: src/lib/ffmpeg_content.cc:474
+#: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "全幅"
 
-#: src/lib/ffmpeg_content.cc:454
+#: src/lib/ffmpeg_content.cc:456
 msgid "Full (0-%1)"
 msgstr "全幅 (0-%1)"
 
@@ -554,11 +555,11 @@ msgstr "DCP中视频总时长"
 msgid "Full length in video frames at content rate"
 msgstr "视频时长"
 
-#: src/lib/ffmpeg_content.cc:503
+#: src/lib/ffmpeg_content.cc:505
 msgid "Gamma 22 (BT470M)"
 msgstr "伽玛 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:504
+#: src/lib/ffmpeg_content.cc:506
 msgid "Gamma 28 (BT470BG)"
 msgstr "伽玛 28 (BT470BG)"
 
@@ -566,7 +567,7 @@ msgstr "伽玛 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1362
 msgid "HI"
 msgstr "听力障碍"
 
@@ -582,19 +583,19 @@ msgstr "高品质的3D降噪"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:512
+#: src/lib/ffmpeg_content.cc:514
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB o sYCC)"
 
-#: src/lib/ffmpeg_content.cc:510
+#: src/lib/ffmpeg_content.cc:512
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:133 src/lib/job.cc:154 src/lib/job.cc:164
+#: src/lib/job.cc:139 src/lib/job.cc:160 src/lib/job.cc:170
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:237 src/lib/config.cc:511
+#: src/lib/config.cc:240 src/lib/config.cc:514
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -602,11 +603,11 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "去隔行"
 
-#: src/lib/film.cc:1327
+#: src/lib/film.cc:1356
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/film.cc:1335
+#: src/lib/film.cc:1364
 msgid "Lc"
 msgstr "左中"
 
@@ -626,11 +627,11 @@ msgstr "左后环绕"
 msgid "Left surround"
 msgstr "左环绕"
 
-#: src/lib/video_content.cc:422
+#: src/lib/video_content.cc:449
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/film.cc:1330
+#: src/lib/film.cc:1359
 msgid "Lfe"
 msgstr "次低"
 
@@ -638,27 +639,27 @@ msgstr "次低"
 msgid "Lfe (sub)"
 msgstr "次低(子)"
 
-#: src/lib/ffmpeg_content.cc:469
+#: src/lib/ffmpeg_content.cc:471
 msgid "Limited"
 msgstr "限制"
 
-#: src/lib/ffmpeg_content.cc:447
+#: src/lib/ffmpeg_content.cc:449
 msgid "Limited (%1-%2)"
 msgstr "限制 (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:507
+#: src/lib/ffmpeg_content.cc:509
 msgid "Linear"
 msgstr "线性"
 
-#: src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:510
 msgid "Logarithmic (100:1 range)"
 msgstr "对数 (范围 100:1)"
 
-#: src/lib/ffmpeg_content.cc:509
+#: src/lib/ffmpeg_content.cc:511
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/film.cc:1331
+#: src/lib/film.cc:1360
 msgid "Ls"
 msgstr "左环绕"
 
@@ -670,19 +671,19 @@ msgstr "中置解码"
 msgid "Misc"
 msgstr "其他"
 
-#: src/lib/dcp_examiner.cc:99
+#: src/lib/dcp_examiner.cc:100
 msgid "Mismatched audio channel counts in DCP"
 msgstr "音频通道数不匹配。"
 
-#: src/lib/dcp_examiner.cc:105
+#: src/lib/dcp_examiner.cc:106
 msgid "Mismatched audio sample rates in DCP"
 msgstr "音频采样率不符合！"
 
-#: src/lib/dcp_examiner.cc:80
+#: src/lib/dcp_examiner.cc:81
 msgid "Mismatched frame rates in DCP"
 msgstr "帧速率不匹配。"
 
-#: src/lib/dcp_examiner.cc:87
+#: src/lib/dcp_examiner.cc:88
 msgid "Mismatched video sizes in DCP"
 msgstr "视频尺寸不匹配。"
 
@@ -710,7 +711,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/job.cc:376
+#: src/lib/job.cc:382
 msgid "OK (ran for %1)"
 msgstr "确认 (运行 %1)"
 
@@ -722,7 +723,7 @@ msgstr "只有最先一段才可以进行起始裁剪。"
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "最有最后一段才可以进行终止裁剪。"
 
-#: src/lib/job.cc:146
+#: src/lib/job.cc:152
 msgid "Out of memory"
 msgstr "内存不足"
 
@@ -734,7 +735,7 @@ msgstr "小波降噪"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:398
+#: src/lib/video_content.cc:425
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "填充为黑色，以适应打包类型 %1 (%2x%3)"
 
@@ -750,11 +751,11 @@ msgstr "编程错误%1:%2"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/film.cc:1328
+#: src/lib/film.cc:1357
 msgid "R"
 msgstr "右声道"
 
-#: src/lib/ffmpeg_content.cc:523
+#: src/lib/ffmpeg_content.cc:525
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -762,7 +763,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "限级"
 
-#: src/lib/film.cc:1336
+#: src/lib/film.cc:1365
 msgid "Rc"
 msgstr "右中"
 
@@ -784,7 +785,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/dcp_content.cc:377
+#: src/lib/dcp_content.cc:383
 #, fuzzy
 msgid ""
 "Reel lengths in the film differ from those in the DCP; set the reel mode to "
@@ -807,32 +808,32 @@ msgstr "右后环绕"
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/film.cc:1332
+#: src/lib/film.cc:1361
 msgid "Rs"
 msgstr "右环绕"
 
-#: src/lib/ffmpeg_content.cc:488 src/lib/ffmpeg_content.cc:505
+#: src/lib/ffmpeg_content.cc:490 src/lib/ffmpeg_content.cc:507
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:529
+#: src/lib/ffmpeg_content.cc:531
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:489 src/lib/ffmpeg_content.cc:506
-#: src/lib/ffmpeg_content.cc:530
+#: src/lib/ffmpeg_content.cc:491 src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:532
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:515
+#: src/lib/ffmpeg_content.cc:517
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 for 10, 12, 14和16 bit"
 
-#: src/lib/ffmpeg_content.cc:516
+#: src/lib/ffmpeg_content.cc:518
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:492
+#: src/lib/ffmpeg_content.cc:494
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
@@ -840,7 +841,7 @@ msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgid "SSH error (%1)"
 msgstr "错误 SSH (%1)"
 
-#: src/lib/video_content.cc:389
+#: src/lib/video_content.cc:416
 msgid "Scaled to %1x%2"
 msgstr "缩放到 %1x%2"
 
@@ -856,7 +857,7 @@ msgstr "发送电子邮件"
 msgid "Short"
 msgstr "短片"
 
-#: src/lib/video_content.cc:423
+#: src/lib/video_content.cc:450
 msgid "Size"
 msgstr "大小"
 
@@ -884,19 +885,19 @@ msgstr "胶转磁过滤器"
 msgid "Test"
 msgstr "测试片"
 
-#: src/lib/text_subtitle_content.cc:75
+#: src/lib/text_subtitle_content.cc:73
 msgid "Text subtitles"
 msgstr "[文本字幕]"
 
-#: src/lib/dcp_content.cc:403
+#: src/lib/dcp_content.cc:409
 msgid "The DCP does not have sound in all reels."
 msgstr "该DCP的所有卷无声音。"
 
-#: src/lib/dcp_content.cc:417
+#: src/lib/dcp_content.cc:423
 msgid "The DCP does not have subtitles in all reels."
 msgstr "该DCP的所有卷无字幕。"
 
-#: src/lib/dcp_examiner.cc:137
+#: src/lib/dcp_examiner.cc:138
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr "该KDM无法解密该CPL文件。"
@@ -905,46 +906,46 @@ msgstr "该KDM无法解密该CPL文件。"
 msgid "The certificate chain for signing is invalid"
 msgstr "证书进行签名无效！"
 
-#: src/lib/job.cc:97
+#: src/lib/job.cc:103
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
 msgstr "磁盘空间不足！"
 
-#: src/lib/dcp_content.cc:366
+#: src/lib/dcp_content.cc:372
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr ""
 
-#: src/lib/dcp_content.cc:363
+#: src/lib/dcp_content.cc:369
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr ""
 
-#: src/lib/dcp_content.cc:408
+#: src/lib/dcp_content.cc:414
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "音频文件重复，"
 
-#: src/lib/dcp_content.cc:422
+#: src/lib/dcp_content.cc:428
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "字幕文件重复！"
 
-#: src/lib/dcp_content.cc:394
+#: src/lib/dcp_content.cc:400
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "视频文件重复！"
 
-#: src/lib/job.cc:146
+#: src/lib/job.cc:152
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
 "tab of Preferences."
 msgstr "内存不足，若您是32位系统，请重新设置运行线程数量来达到稳定运行。"
 
-#: src/lib/film.cc:395
+#: src/lib/film.cc:398
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件。"
 
-#: src/lib/film.cc:387
+#: src/lib/film.cc:390
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -971,11 +972,11 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "由服务器接收意外的图像类型"
 
-#: src/lib/job.cc:163
+#: src/lib/job.cc:169
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:286
+#: src/lib/ffmpeg_decoder.cc:285
 msgid "Unrecognised audio sample format (%1)"
 msgstr "未确认音频采样格式 (%1)"
 
@@ -983,11 +984,11 @@ msgstr "未确认音频采样格式 (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "USM锐化和高斯模糊"
 
-#: src/lib/ffmpeg_content.cc:440 src/lib/ffmpeg_content.cc:464
-#: src/lib/ffmpeg_content.cc:482 src/lib/ffmpeg_content.cc:484
-#: src/lib/ffmpeg_content.cc:485 src/lib/ffmpeg_content.cc:499
-#: src/lib/ffmpeg_content.cc:501 src/lib/ffmpeg_content.cc:502
-#: src/lib/ffmpeg_content.cc:525 src/lib/ffmpeg_content.cc:526
+#: src/lib/ffmpeg_content.cc:442 src/lib/ffmpeg_content.cc:466
+#: src/lib/ffmpeg_content.cc:484 src/lib/ffmpeg_content.cc:486
+#: src/lib/ffmpeg_content.cc:487 src/lib/ffmpeg_content.cc:501
+#: src/lib/ffmpeg_content.cc:503 src/lib/ffmpeg_content.cc:504
+#: src/lib/ffmpeg_content.cc:527 src/lib/ffmpeg_content.cc:528
 msgid "Unspecified"
 msgstr "未指定"
 
@@ -1007,7 +1008,7 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/film.cc:1334
+#: src/lib/film.cc:1363
 msgid "VI"
 msgstr "视障"
 
@@ -1024,7 +1025,7 @@ msgstr "视障"
 msgid "Waiting"
 msgstr "等候"
 
-#: src/lib/ffmpeg_content.cc:531
+#: src/lib/ffmpeg_content.cc:533
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1032,7 +1033,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:310
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容。"
 
@@ -1044,11 +1045,11 @@ msgstr "[运动图像]"
 msgid "[still]"
 msgstr "[静态图像]"
 
-#: src/lib/dcp_subtitle_content.cc:91 src/lib/text_subtitle_content.cc:69
+#: src/lib/dcp_subtitle_content.cc:93 src/lib/text_subtitle_content.cc:67
 msgid "[subtitles]"
 msgstr "[字幕]"
 
-#: src/lib/film.cc:282
+#: src/lib/film.cc:285
 msgid "cannot contain slashes"
 msgstr "不能包含斜线"
 
@@ -1060,11 +1061,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:306
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:314
 msgid "content type"
 msgstr "打包类型"
 
@@ -1146,17 +1147,17 @@ msgstr "缺少必需的设置%1"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:282 src/lib/film.cc:315
+#: src/lib/film.cc:285 src/lib/film.cc:318
 msgid "name"
 msgstr "名字"
 
-#: src/lib/video_content.cc:366
+#: src/lib/video_content.cc:393
 msgid "pixel aspect ratio"
 msgstr "宽高比"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "remaining"
 msgstr "剩余"
 
@@ -1177,7 +1178,7 @@ msgstr "静止图像"
 msgid "unknown"
 msgstr "未知"
 
-#: src/lib/video_content.cc:422
+#: src/lib/video_content.cc:449
 msgid "video frames"
 msgstr "视频帧"
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-03 21:08+0100\n"
+"POT-Creation-Date: 2016-06-20 17:29+0100\n"
 "PO-Revision-Date: 2016-05-26 19:52+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -20,19 +20,19 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:169
+#: src/lib/dcp_content.cc:174
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:266
+#: src/lib/ffmpeg_content.cc:268
 msgid "%1 [audio]"
 msgstr "%1 [аудіо]"
 
-#: src/lib/ffmpeg_content.cc:262
+#: src/lib/ffmpeg_content.cc:264
 msgid "%1 [movie]"
 msgstr "%1 [відео]"
 
-#: src/lib/ffmpeg_content.cc:264 src/lib/video_mxf_content.cc:89
+#: src/lib/ffmpeg_content.cc:266 src/lib/video_mxf_content.cc:89
 msgid "%1 [video]"
 msgstr "%1 [відео]"
 
@@ -68,7 +68,7 @@ msgstr "Academy (1.33:1)"
 msgid "Advertisement"
 msgstr "ADV (Реклама)"
 
-#: src/lib/job.cc:91
+#: src/lib/job.cc:97
 msgid "An error occurred whilst handling the file %1."
 msgstr "Виникла помилка при зверненні до файлу %1."
 
@@ -88,64 +88,64 @@ msgstr "Аудіо будет ресемпловано в %1kГц"
 msgid "Audio will not be resampled"
 msgstr "Аудіо не буде ресемпловано"
 
-#: src/lib/ffmpeg_content.cc:511
+#: src/lib/ffmpeg_content.cc:513
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 розширена колірна гамма"
 
-#: src/lib/ffmpeg_content.cc:491
+#: src/lib/ffmpeg_content.cc:493
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:535
 msgid "BT2020 constant luminance"
 msgstr "BT2020 постійна яскравість"
 
-#: src/lib/ffmpeg_content.cc:513
+#: src/lib/ffmpeg_content.cc:515
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 для 10-бітної системи"
 
-#: src/lib/ffmpeg_content.cc:514
+#: src/lib/ffmpeg_content.cc:516
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 для 12-бітної системи"
 
-#: src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:534
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 непостійна яскравість"
 
-#: src/lib/ffmpeg_content.cc:487
+#: src/lib/ffmpeg_content.cc:489
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:528
+#: src/lib/ffmpeg_content.cc:530
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:486
+#: src/lib/ffmpeg_content.cc:488
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:483 src/lib/ffmpeg_content.cc:500
-#: src/lib/ffmpeg_content.cc:524
+#: src/lib/ffmpeg_content.cc:485 src/lib/ffmpeg_content.cc:502
+#: src/lib/ffmpeg_content.cc:526
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:542
 msgid "Bits per pixel"
 msgstr "Біт на піксель"
 
-#: src/lib/film.cc:1337
+#: src/lib/film.cc:1366
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1338
+#: src/lib/film.cc:1367
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1329
+#: src/lib/film.cc:1358
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:380
+#: src/lib/job.cc:386
 msgid "Cancelled"
 msgstr "Відмінено"
 
@@ -165,7 +165,7 @@ msgstr "Канали"
 msgid "Checking existing image data"
 msgstr "Перевірка данних зображення"
 
-#: src/lib/ffmpeg_content.cc:496
+#: src/lib/ffmpeg_content.cc:498
 msgid "Colour primaries"
 msgstr "Основні кольори"
 
@@ -179,17 +179,17 @@ msgstr "Основні кольори"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:440 src/lib/ffmpeg_content.cc:447
-#: src/lib/ffmpeg_content.cc:454 src/lib/ffmpeg_content.cc:464
-#: src/lib/ffmpeg_content.cc:469 src/lib/ffmpeg_content.cc:474
+#: src/lib/ffmpeg_content.cc:442 src/lib/ffmpeg_content.cc:449
+#: src/lib/ffmpeg_content.cc:456 src/lib/ffmpeg_content.cc:466
+#: src/lib/ffmpeg_content.cc:471 src/lib/ffmpeg_content.cc:476
 msgid "Colour range"
 msgstr "Колірна гамма"
 
-#: src/lib/ffmpeg_content.cc:520
+#: src/lib/ffmpeg_content.cc:522
 msgid "Colour transfer characteristic"
 msgstr "Характеристика передачі кольору"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:539
 msgid "Colourspace"
 msgstr "Кольорова палітра"
 
@@ -213,7 +213,7 @@ msgstr "У контента та DCP однакова частота кадрі�
 msgid "Content audio sample rate"
 msgstr "Швидкість аудіо-контенту"
 
-#: src/lib/video_content.cc:409
+#: src/lib/video_content.cc:436
 msgid "Content frame rate"
 msgstr "Частота кадрів контента:"
 
@@ -236,23 +236,23 @@ msgstr "Для приєднання контента має бути така с
 msgid "Content to be joined must have the same audio gain."
 msgstr "Для приєднання контента має бути таке саме посилення аудіо."
 
-#: src/lib/video_content.cc:160
+#: src/lib/video_content.cc:186
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Для приєднання контента має бути таке саме перетворення кольору."
 
-#: src/lib/video_content.cc:152
+#: src/lib/video_content.cc:178
 msgid "Content to be joined must have the same crop."
 msgstr "Для приєднання контента має бути таке саме кадрування."
 
-#: src/lib/video_content.cc:164
+#: src/lib/video_content.cc:190
 msgid "Content to be joined must have the same fades."
 msgstr "Для приєднання контента має бути таке саме згасання."
 
-#: src/lib/video_content.cc:144
+#: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
 msgstr "Для приєднання контента має бути такий самий розмір зображення."
 
-#: src/lib/video_content.cc:156
+#: src/lib/video_content.cc:182
 msgid "Content to be joined must have the same scale setting."
 msgstr "Для приєднання контента мають бути такі самі параметри масштабування."
 
@@ -281,7 +281,7 @@ msgstr ""
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Для приєднання контента має бути такою самою частота кадрів відео."
 
-#: src/lib/video_content.cc:148
+#: src/lib/video_content.cc:174
 msgid "Content to be joined must have the same video frame type."
 msgstr "Для приєднання контента має бути такий самий тип відео."
 
@@ -293,7 +293,7 @@ msgstr "Для приєднання контента має бути такий 
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Для приєднання контента необхідно використовувати ті самі субтитри."
 
-#: src/lib/video_content.cc:357
+#: src/lib/video_content.cc:384
 msgid "Content video is %1x%2"
 msgstr "Розмір контенту: %1x%2"
 
@@ -329,7 +329,7 @@ msgstr ""
 "Не вдалося прослухати віддалений сервер кодування. Можливо працює ще одна "
 "копія DCP-o-matic."
 
-#: src/lib/job.cc:110 src/lib/job.cc:124
+#: src/lib/job.cc:116 src/lib/job.cc:130
 msgid "Could not open %1"
 msgstr "Не вдалося відкрити %1"
 
@@ -341,8 +341,9 @@ msgstr "Не вдалося відкрити %1 для відправки"
 msgid "Could not open downloaded ZIP file"
 msgstr "Не вдалося відкрити завантажений ZIP-архів"
 
-#: src/lib/dcp_subtitle.cc:50
-msgid "Could not read subtitles"
+#: src/lib/dcp_subtitle.cc:55
+#, fuzzy
+msgid "Could not read subtitles (%1 / %2)"
 msgstr "Не вдалося прочитати субтитри"
 
 #: src/lib/scp_uploader.cc:71
@@ -357,7 +358,7 @@ msgstr "не вдалося почати передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не вдалося записати в віддалений файл (%1)"
 
-#: src/lib/video_content.cc:376
+#: src/lib/video_content.cc:403
 msgid "Cropped to %1x%2"
 msgstr "Кадровано в %1x%2"
 
@@ -369,15 +370,15 @@ msgstr "D-BOX основний (DBP)"
 msgid "D-BOX secondary"
 msgstr "D-BOX другорядний (DBS)"
 
-#: src/lib/film.cc:1339
+#: src/lib/film.cc:1368
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1340
+#: src/lib/film.cc:1369
 msgid "DBS"
 msgstr "DBS"
 
-#: src/lib/dcp_subtitle_content.cc:97
+#: src/lib/dcp_subtitle_content.cc:99
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитри"
 
@@ -393,7 +394,7 @@ msgstr "DCP буде програватися на %1%% від швидкост�
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP буде використовувати кажний другий кадр контенту.\n"
 
-#: src/lib/job.cc:112 src/lib/job.cc:126
+#: src/lib/job.cc:118 src/lib/job.cc:132
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -410,7 +411,7 @@ msgstr "DCP-o-matic більше не підтримує фильтр `%1', то
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:514
+#: src/lib/config.cc:517
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -436,7 +437,7 @@ msgstr ""
 "Із найкращими побажаннями,\n"
 "DCP-o-matic"
 
-#: src/lib/video_content.cc:370
+#: src/lib/video_content.cc:397
 msgid "Display aspect ratio"
 msgstr "Співвідношення сторін контенту:"
 
@@ -472,7 +473,7 @@ msgstr "Повідомити про проблему"
 msgid "Email problem report for %1"
 msgstr "Помилка відправки ключей %1 по Email"
 
-#: src/lib/transcoder.cc:73
+#: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
 msgstr ""
 
@@ -480,15 +481,15 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Помилка у файлі субтитрів: знайдено %1, однак очікується %2"
 
-#: src/lib/job.cc:378
+#: src/lib/job.cc:384
 msgid "Error: %1"
 msgstr "Помилка: (%1)"
 
-#: src/lib/examine_content_job.cc:48
+#: src/lib/examine_content_job.cc:44
 msgid "Examine content"
 msgstr "Перевірка контенту"
 
-#: src/lib/ffmpeg_content.cc:527
+#: src/lib/ffmpeg_content.cc:529
 msgid "FCC"
 msgstr "FCC"
 
@@ -509,7 +510,7 @@ msgstr "FTR (Фільм)"
 msgid "Filename"
 msgstr "назва"
 
-#: src/lib/ffmpeg_content.cc:490
+#: src/lib/ffmpeg_content.cc:492
 msgid "Film"
 msgstr "Проект"
 
@@ -529,11 +530,11 @@ msgstr "Пошук субтитрів"
 msgid "Flat"
 msgstr "Flat (1998x1080)"
 
-#: src/lib/ffmpeg_content.cc:474
+#: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "Повний"
 
-#: src/lib/ffmpeg_content.cc:454
+#: src/lib/ffmpeg_content.cc:456
 msgid "Full (0-%1)"
 msgstr "Повний (0-%1)"
 
@@ -557,11 +558,11 @@ msgstr "Повна довжина відео-кадрів на швидкост�
 msgid "Full length in video frames at content rate"
 msgstr "Повна довжина відео-кадрів на швидкості контенту"
 
-#: src/lib/ffmpeg_content.cc:503
+#: src/lib/ffmpeg_content.cc:505
 msgid "Gamma 22 (BT470M)"
 msgstr "Гамма 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:504
+#: src/lib/ffmpeg_content.cc:506
 msgid "Gamma 28 (BT470BG)"
 msgstr "Гамма 28 (BT470BG)"
 
@@ -569,7 +570,7 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Розбиття градієнта"
 
-#: src/lib/film.cc:1333
+#: src/lib/film.cc:1362
 msgid "HI"
 msgstr "HI"
 
@@ -585,19 +586,19 @@ msgstr "Високоякісне придушення шуму 3D"
 msgid "Hz"
 msgstr "Гц"
 
-#: src/lib/ffmpeg_content.cc:512
+#: src/lib/ffmpeg_content.cc:514
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB или sYCC)"
 
-#: src/lib/ffmpeg_content.cc:510
+#: src/lib/ffmpeg_content.cc:512
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:133 src/lib/job.cc:154 src/lib/job.cc:164
+#: src/lib/job.cc:139 src/lib/job.cc:160 src/lib/job.cc:170
 msgid "It is not known what caused this error."
 msgstr "Невідомо, що викликало цю помилку."
 
-#: src/lib/config.cc:237 src/lib/config.cc:511
+#: src/lib/config.cc:240 src/lib/config.cc:514
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Призначення KDM: $CPL_NAME"
 
@@ -605,11 +606,11 @@ msgstr "Призначення KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/film.cc:1327
+#: src/lib/film.cc:1356
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1335
+#: src/lib/film.cc:1364
 msgid "Lc"
 msgstr "Lc"
 
@@ -629,11 +630,11 @@ msgstr "Лівий тиловий surround"
 msgid "Left surround"
 msgstr "Лівий surround"
 
-#: src/lib/video_content.cc:422
+#: src/lib/video_content.cc:449
 msgid "Length"
 msgstr "Тривалість"
 
-#: src/lib/film.cc:1330
+#: src/lib/film.cc:1359
 msgid "Lfe"
 msgstr "LFE"
 
@@ -641,27 +642,27 @@ msgstr "LFE"
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
-#: src/lib/ffmpeg_content.cc:469
+#: src/lib/ffmpeg_content.cc:471
 msgid "Limited"
 msgstr "Обмежено"
 
-#: src/lib/ffmpeg_content.cc:447
+#: src/lib/ffmpeg_content.cc:449
 msgid "Limited (%1-%2)"
 msgstr "Обмежено (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:507
+#: src/lib/ffmpeg_content.cc:509
 msgid "Linear"
 msgstr "Лінійний"
 
-#: src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:510
 msgid "Logarithmic (100:1 range)"
 msgstr "Логаріфмічний (діапазон 100:1)"
 
-#: src/lib/ffmpeg_content.cc:509
+#: src/lib/ffmpeg_content.cc:511
 msgid "Logarithmic (316:1 range)"
 msgstr "Логаріфмічний (діапазон 316:1)"
 
-#: src/lib/film.cc:1331
+#: src/lib/film.cc:1360
 msgid "Ls"
 msgstr "Ls"
 
@@ -673,19 +674,19 @@ msgstr "Mid-side декодер"
 msgid "Misc"
 msgstr "Різне"
 
-#: src/lib/dcp_examiner.cc:99
+#: src/lib/dcp_examiner.cc:100
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Невідповідна кількість аудіоканалів в DCP"
 
-#: src/lib/dcp_examiner.cc:105
+#: src/lib/dcp_examiner.cc:106
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Невідповідність частоти дискретизації аудіо в DCP"
 
-#: src/lib/dcp_examiner.cc:80
+#: src/lib/dcp_examiner.cc:81
 msgid "Mismatched frame rates in DCP"
 msgstr "Невідповідність частоти кадрів в DCP"
 
-#: src/lib/dcp_examiner.cc:87
+#: src/lib/dcp_examiner.cc:88
 msgid "Mismatched video sizes in DCP"
 msgstr "Невідповідність розміру відео в DCP"
 
@@ -713,7 +714,7 @@ msgstr "У папці не знайдено відповідних зображ�
 msgid "Noise reduction"
 msgstr "Придушення шуму"
 
-#: src/lib/job.cc:376
+#: src/lib/job.cc:382
 msgid "OK (ran for %1)"
 msgstr "Готово! (виконано за %1)"
 
@@ -725,7 +726,7 @@ msgstr "Тільки перший елемент контенту може ма�
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Тільки останній елемент контенту може мати обрізку з кінця."
 
-#: src/lib/job.cc:146
+#: src/lib/job.cc:152
 msgid "Out of memory"
 msgstr "Недостатньо пам'яті (Out of memory)"
 
@@ -737,7 +738,7 @@ msgstr "Надповне придушення шуму невеликої хви
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/video_content.cc:398
+#: src/lib/video_content.cc:425
 msgid "Padded with black to fit container %1 (%2x%3)"
 msgstr "Заповнено чорним для підгонки контейнера %1 (%2x%3)"
 
@@ -753,11 +754,11 @@ msgstr "Помилка програмування %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Соціальна реклама)"
 
-#: src/lib/film.cc:1328
+#: src/lib/film.cc:1357
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:523
+#: src/lib/ffmpeg_content.cc:525
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -765,7 +766,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/film.cc:1336
+#: src/lib/film.cc:1365
 msgid "Rc"
 msgstr "Rc"
 
@@ -785,7 +786,7 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/dcp_content.cc:377
+#: src/lib/dcp_content.cc:383
 msgid ""
 "Reel lengths in the film differ from those in the DCP; set the reel mode to "
 "'split by video content'."
@@ -809,32 +810,32 @@ msgstr "Правий тиловий surround"
 msgid "Right surround"
 msgstr "Правий surround"
 
-#: src/lib/film.cc:1332
+#: src/lib/film.cc:1361
 msgid "Rs"
 msgstr "Rs"
 
-#: src/lib/ffmpeg_content.cc:488 src/lib/ffmpeg_content.cc:505
+#: src/lib/ffmpeg_content.cc:490 src/lib/ffmpeg_content.cc:507
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:529
+#: src/lib/ffmpeg_content.cc:531
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:489 src/lib/ffmpeg_content.cc:506
-#: src/lib/ffmpeg_content.cc:530
+#: src/lib/ffmpeg_content.cc:491 src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:532
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:515
+#: src/lib/ffmpeg_content.cc:517
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 для 10, 12, 14 та 16-бітних систем"
 
-#: src/lib/ffmpeg_content.cc:516
+#: src/lib/ffmpeg_content.cc:518
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:492
+#: src/lib/ffmpeg_content.cc:494
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
@@ -842,7 +843,7 @@ msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgid "SSH error (%1)"
 msgstr "Помилка SSH (%1)"
 
-#: src/lib/video_content.cc:389
+#: src/lib/video_content.cc:416
 msgid "Scaled to %1x%2"
 msgstr "Масштабовано до %1x%2"
 
@@ -858,7 +859,7 @@ msgstr "Відправка пошти"
 msgid "Short"
 msgstr "SHR (Короткометражний фільм)"
 
-#: src/lib/video_content.cc:423
+#: src/lib/video_content.cc:450
 msgid "Size"
 msgstr "Розмір"
 
@@ -886,19 +887,19 @@ msgstr "Фільтр Telecine"
 msgid "Test"
 msgstr "TST (Тестовий)"
 
-#: src/lib/text_subtitle_content.cc:75
+#: src/lib/text_subtitle_content.cc:73
 msgid "Text subtitles"
 msgstr "Текстові субтитри"
 
-#: src/lib/dcp_content.cc:403
+#: src/lib/dcp_content.cc:409
 msgid "The DCP does not have sound in all reels."
 msgstr "У всіх бобінах даного DCP відсутній звук."
 
-#: src/lib/dcp_content.cc:417
+#: src/lib/dcp_content.cc:423
 msgid "The DCP does not have subtitles in all reels."
 msgstr "У всіх бобінах даного DCP відсутні субтитри."
 
-#: src/lib/dcp_examiner.cc:137
+#: src/lib/dcp_examiner.cc:138
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr ""
@@ -908,7 +909,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr "Ланцюг сертифікатів для підпису невірний"
 
-#: src/lib/job.cc:97
+#: src/lib/job.cc:103
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -916,27 +917,27 @@ msgstr ""
 "На пристрої, на якому зберігається проект, закінчується місце. Звільніть "
 "трохи місця та спробуйте знову."
 
-#: src/lib/dcp_content.cc:366
+#: src/lib/dcp_content.cc:372
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr "Проект встановлений у Interop, а цей DCP є SMPTE."
 
-#: src/lib/dcp_content.cc:363
+#: src/lib/dcp_content.cc:369
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Проект встановлений у SMPTE, а цей DCP є Interop."
 
-#: src/lib/dcp_content.cc:408
+#: src/lib/dcp_content.cc:414
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Присутнє інше аудіо, яке перекриває цей DCP. Приберіть його!"
 
-#: src/lib/dcp_content.cc:422
+#: src/lib/dcp_content.cc:428
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Присутні інші субтитри, які перекривають цей DCP. Приберіть їх!"
 
-#: src/lib/dcp_content.cc:394
+#: src/lib/dcp_content.cc:400
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Присутнє інше відео, яке перекриває цей DCP. Приберіть його!"
 
-#: src/lib/job.cc:146
+#: src/lib/job.cc:152
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -946,7 +947,7 @@ msgstr ""
 "спробуйте зменшити кількість потоків кодування у \"Налаштуваннях\" у вкладці "
 "\"Основні\"."
 
-#: src/lib/film.cc:395
+#: src/lib/film.cc:398
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -954,7 +955,7 @@ msgstr ""
 "Проект був створений більш новою версією DCP-o-matic і не може бути "
 "завантажений цією версією. Вибачте!"
 
-#: src/lib/film.cc:387
+#: src/lib/film.cc:390
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -984,11 +985,11 @@ msgstr "Неочікуваний зміст ZIP-файла"
 msgid "Unexpected image type received by server"
 msgstr "Сервером отриманий неочікуваний тип зображення."
 
-#: src/lib/job.cc:163
+#: src/lib/job.cc:169
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
-#: src/lib/ffmpeg_decoder.cc:286
+#: src/lib/ffmpeg_decoder.cc:285
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Нерозпізнаний формат аудіо (%1)"
 
@@ -996,11 +997,11 @@ msgstr "Нерозпізнаний формат аудіо (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Маска пониження різкості та Гауссово розмиття"
 
-#: src/lib/ffmpeg_content.cc:440 src/lib/ffmpeg_content.cc:464
-#: src/lib/ffmpeg_content.cc:482 src/lib/ffmpeg_content.cc:484
-#: src/lib/ffmpeg_content.cc:485 src/lib/ffmpeg_content.cc:499
-#: src/lib/ffmpeg_content.cc:501 src/lib/ffmpeg_content.cc:502
-#: src/lib/ffmpeg_content.cc:525 src/lib/ffmpeg_content.cc:526
+#: src/lib/ffmpeg_content.cc:442 src/lib/ffmpeg_content.cc:466
+#: src/lib/ffmpeg_content.cc:484 src/lib/ffmpeg_content.cc:486
+#: src/lib/ffmpeg_content.cc:487 src/lib/ffmpeg_content.cc:501
+#: src/lib/ffmpeg_content.cc:503 src/lib/ffmpeg_content.cc:504
+#: src/lib/ffmpeg_content.cc:527 src/lib/ffmpeg_content.cc:528
 msgid "Unspecified"
 msgstr "Не визначено"
 
@@ -1020,7 +1021,7 @@ msgstr "Перевторити Л"
 msgid "Upmix R"
 msgstr "Перевторити П"
 
-#: src/lib/film.cc:1334
+#: src/lib/film.cc:1363
 msgid "VI"
 msgstr "VI"
 
@@ -1037,7 +1038,7 @@ msgstr "Для людей з вадами зору"
 msgid "Waiting"
 msgstr "Очікування"
 
-#: src/lib/ffmpeg_content.cc:531
+#: src/lib/ffmpeg_content.cc:533
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1045,7 +1046,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Ще один фільтр деінтерлейсинга"
 
-#: src/lib/film.cc:307
+#: src/lib/film.cc:310
 msgid "You must add some content to the DCP before creating it"
 msgstr "Додайте контент в проект перед створенням DCP"
 
@@ -1057,11 +1058,11 @@ msgstr "[послідовність]"
 msgid "[still]"
 msgstr "[статичний]"
 
-#: src/lib/dcp_subtitle_content.cc:91 src/lib/text_subtitle_content.cc:69
+#: src/lib/dcp_subtitle_content.cc:93 src/lib/text_subtitle_content.cc:67
 msgid "[subtitles]"
 msgstr "[субтитри]"
 
-#: src/lib/film.cc:282
+#: src/lib/film.cc:285
 msgid "cannot contain slashes"
 msgstr "не може містити розрізи"
 
@@ -1073,11 +1074,11 @@ msgstr "таймаут з'єднання"
 msgid "connecting"
 msgstr "з'єднання"
 
-#: src/lib/film.cc:303
+#: src/lib/film.cc:306
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:311
+#: src/lib/film.cc:314
 msgid "content type"
 msgstr "тип контенту"
 
@@ -1159,17 +1160,17 @@ msgstr "відсутня обов'язкове налаштування: %1"
 msgid "moving"
 msgstr "послідовність"
 
-#: src/lib/film.cc:282 src/lib/film.cc:315
+#: src/lib/film.cc:285 src/lib/film.cc:318
 msgid "name"
 msgstr "назва"
 
-#: src/lib/video_content.cc:366
+#: src/lib/video_content.cc:393
 msgid "pixel aspect ratio"
 msgstr "Співвідношення сторін пікселей"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:373
+#: src/lib/job.cc:379
 msgid "remaining"
 msgstr "залишилось"
 
@@ -1190,7 +1191,7 @@ msgstr "статичний"
 msgid "unknown"
 msgstr "невідомо"
 
-#: src/lib/video_content.cc:422
+#: src/lib/video_content.cc:449
 msgid "video frames"
 msgstr "відеокадри"
 
