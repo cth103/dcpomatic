@@ -1,5 +1,7 @@
 2016-06-20  Carl Hetherington  <cth@carlh.net>
 
+	* Updated pt_BR translation from Max M. Fuhlendorf.
+
 	* Fix various strange crashes with encoding servers.
 
 2016-06-19  Carl Hetherington  <cth@carlh.net>
