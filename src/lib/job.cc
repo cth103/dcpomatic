@@ -62,8 +62,14 @@ Job::~Job ()
 {
 	if (_thread) {
 		_thread->interrupt ();
-		DCPOMATIC_ASSERT (_thread->joinable ());
-		_thread->join ();
+		/* We can't use DCPOMATIC_ASSERT here as it may throw an exception */
+		if (_thread->joinable ()) {
+			try {
+				_thread->join ();
+			} catch (...) {
+				/* Too late to do anything about this */
+			}
+		}
 	}
 
 	delete _thread;
