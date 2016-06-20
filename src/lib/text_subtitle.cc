@@ -69,9 +69,12 @@ TextSubtitle::TextSubtitle (shared_ptr<const TextSubtitleContent> content)
 
 	sub::Reader* reader = 0;
 
-	if (content->path(0).extension() == ".srt" || content->path(0).extension() == ".SRT") {
+	string ext = content->path(0).extension().string();
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+	if (ext == ".srt") {
 		reader = new sub::SubripReader (utf8.get());
-	} else if (content->path(0).extension() == ".ssa" || content->path(0).extension() == ".SSA") {
+	} else if (ext == ".ssa" || ext == ".ass") {
 		reader = new sub::SSAReader (utf8.get());
 	}
 
