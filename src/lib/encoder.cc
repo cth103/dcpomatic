@@ -360,6 +360,10 @@ try
 		_full_condition.notify_all ();
 	}
 }
+catch (boost::thread_interrupted& e) {
+	/* Ignore these and just stop the thread */
+	_full_condition.notify_all ();
+}
 catch (...)
 {
 	store_current ();
