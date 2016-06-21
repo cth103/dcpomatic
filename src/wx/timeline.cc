@@ -150,21 +150,23 @@ Timeline::recreate_views ()
 	_views.push_back (_reels_view);
 	_views.push_back (_labels_view);
 
+	/* XXX: make_shared does not work here on some compilers due to some strange const problem */
+
 	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
 		if (i->video) {
-			_views.push_back (make_shared<TimelineVideoContentView> (*this, i));
+			_views.push_back (shared_ptr<TimelineContentView> (new TimelineVideoContentView (*this, i)));
 		}
 
 		if (i->audio && !i->audio->mapping().mapped_output_channels().empty ()) {
-			_views.push_back (make_shared<TimelineAudioContentView> (*this, i));
+			_views.push_back (shared_ptr<TimelineContentView> (new TimelineAudioContentView (*this, i)));
 		}
 
 		if (i->subtitle) {
-			_views.push_back (make_shared<TimelineSubtitleContentView> (*this, i));
+			_views.push_back (shared_ptr<TimelineContentView> (new TimelineSubtitleContentView (*this, i)));
 		}
 
 		if (dynamic_pointer_cast<AtmosMXFContent> (i)) {
-			_views.push_back (make_shared<TimelineAtmosContentView> (*this, i));
+			_views.push_back (shared_ptr<TimelineContentView> (new TimelineAtmosContentView (*this, i)));
 		}
 	}
 
