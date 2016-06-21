@@ -24,27 +24,25 @@
  *  The output is checked algorithmically using knowledge of the input.
  */
 
-#include "lib/ffmpeg_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
-#include "lib/film.h"
-#include "lib/audio_content.h"
-#include "test.h"
+#include <boost/test/unit_test.hpp>
 #include <dcp/sound_frame.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/reel_sound_asset.h>
-#include <boost/make_shared.hpp>
-#include <boost/test/unit_test.hpp>
+#include "lib/ffmpeg_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
+#include "lib/film.h"
+#include "lib/audio_content.h"
+#include "test.h"
 #include <iostream>
 
 using std::string;
 using std::cout;
 using boost::lexical_cast;
 using boost::shared_ptr;
-using boost::make_shared;
 
 static
 void test_audio_delay (int delay_in_ms)
@@ -57,7 +55,7 @@ void test_audio_delay (int delay_in_ms)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 
-	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/staircase.wav");
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/staircase.wav"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->audio->set_delay (delay_in_ms);

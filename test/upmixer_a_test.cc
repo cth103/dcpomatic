@@ -18,6 +18,8 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
+#include <sndfile.h>
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
@@ -26,12 +28,8 @@
 #include "lib/audio_buffers.h"
 #include "lib/upmixer_a.h"
 #include "test.h"
-#include <sndfile.h>
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
@@ -40,7 +38,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
-	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/white.wav");
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/white.wav"));
 	film->examine_and_add_content (content);
 
 	wait_for_jobs ();
@@ -56,7 +54,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	SNDFILE* Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
 	SNDFILE* Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
 
-	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
 	for (DCPTime t; t < film->length(); t += DCPTime::from_seconds (1)) {
 		shared_ptr<AudioBuffers> b = player->get_audio (t, DCPTime::from_seconds (1), true);
 		sf_write_float (L, b->data(0), b->frames());

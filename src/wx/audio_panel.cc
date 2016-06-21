@@ -33,7 +33,6 @@
 #include "lib/audio_content.h"
 #include <wx/spinctrl.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::vector;
@@ -43,7 +42,6 @@ using std::list;
 using std::pair;
 using boost::dynamic_pointer_cast;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::optional;
 
 AudioPanel::AudioPanel (ContentPanel* p)
@@ -314,10 +312,10 @@ AudioPanel::setup_peak ()
 	if (sel.size() != 1) {
 		_peak->SetLabel (wxT (""));
 	} else {
-		shared_ptr<Playlist> playlist = make_shared<Playlist> ();
+		shared_ptr<Playlist> playlist (new Playlist);
 		playlist->add (sel.front ());
 		try {
-			shared_ptr<AudioAnalysis> analysis = make_shared<AudioAnalysis> (_parent->film()->audio_analysis_path (playlist));
+			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
 			if (analysis->sample_peak ()) {
 				float const peak_dB = 20 * log10 (analysis->sample_peak().get()) + analysis->gain_correction (playlist);
 				if (peak_dB > -3) {

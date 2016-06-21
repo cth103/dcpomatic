@@ -30,7 +30,6 @@
 #include "log.h"
 #include "safe_stringstream.h"
 #include "compose.hpp"
-#include <boost/make_shared.hpp>
 #include <iostream>
 #include <iomanip>
 
@@ -45,7 +44,6 @@ using std::fixed;
 using std::setprecision;
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** @param s Film to use.
  */
@@ -92,7 +90,7 @@ TranscodeJob::run ()
 		_transcoder.reset ();
 
 		if (_film->upload_after_make_dcp ()) {
-			shared_ptr<Job> job = make_shared<UploadJob> (_film);
+			shared_ptr<Job> job (new UploadJob (_film));
 			JobManager::instance()->add (job);
 		}
 

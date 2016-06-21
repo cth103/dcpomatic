@@ -22,19 +22,17 @@
  *  @brief Test some basic reading/writing of film metadata.
  */
 
+#include <boost/test/unit_test.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/date_time.hpp>
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/date_time.hpp>
-#include <boost/make_shared.hpp>
 
 using std::string;
 using std::list;
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
@@ -55,7 +53,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	ignore.push_back ("Key");
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 
-	shared_ptr<Film> g = make_shared<Film> (dir);
+	shared_ptr<Film> g (new Film (dir));
 	g->read_metadata ();
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");

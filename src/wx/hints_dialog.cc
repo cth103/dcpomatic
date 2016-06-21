@@ -29,11 +29,9 @@
 #include <wx/richtext/richtextctrl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 
 using std::max;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
@@ -178,7 +176,7 @@ HintsDialog::film_changed ()
 
 	boost::filesystem::path path = film->audio_analysis_path (film->playlist ());
 	if (boost::filesystem::exists (path)) {
-		shared_ptr<AudioAnalysis> an = make_shared<AudioAnalysis> (path);
+		shared_ptr<AudioAnalysis> an (new AudioAnalysis (path));
 		if (an->sample_peak() || an->true_peak()) {
 			float const peak = max (an->sample_peak().get_value_or(0), an->true_peak().get_value_or(0));
 			float const peak_dB = 20 * log10 (peak) + an->gain_correction (film->playlist ());

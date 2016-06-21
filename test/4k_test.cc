@@ -24,23 +24,21 @@
  *  The output is checked against test/data/4k_test.
  */
 
+#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 #include "lib/ratio.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (fourk_test)
 {
 	shared_ptr<Film> film = new_test_film ("4k_test");
 	film->set_name ("4k_test");
-	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/test.mp4");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->set_resolution (RESOLUTION_4K);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));

@@ -25,17 +25,15 @@
  *  @see test/repeat_frame_test.cc
  */
 
+#include <boost/test/unit_test.hpp>
 #include "test.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (skip_frame_test)
 {
@@ -43,7 +41,7 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 	film->set_name ("skip_frame_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/count300bd48.m2ts");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/count300bd48.m2ts"));
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();

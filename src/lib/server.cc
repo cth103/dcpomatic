@@ -20,12 +20,10 @@
 
 #include "server.h"
 #include "dcpomatic_socket.h"
-#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 Server::Server (int port)
 	: _terminate (false)
@@ -58,7 +56,7 @@ Server::start_accept ()
 		}
 	}
 
-	shared_ptr<Socket> socket = make_shared<Socket> ();
+	shared_ptr<Socket> socket (new Socket);
 	_acceptor.async_accept (socket->socket (), boost::bind (&Server::handle_accept, this, socket, boost::asio::placeholders::error));
 }
 

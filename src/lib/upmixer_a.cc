@@ -21,7 +21,6 @@
 #include "upmixer_a.h"
 #include "audio_buffers.h"
 #include "audio_mapping.h"
-#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
@@ -29,7 +28,6 @@ using std::string;
 using std::min;
 using std::vector;
 using boost::shared_ptr;
-using boost::make_shared;
 
 UpmixerA::UpmixerA (int sampling_rate)
 	: _left (0.02, 1900.0 / sampling_rate, 4800.0 / sampling_rate)
@@ -63,7 +61,7 @@ UpmixerA::out_channels () const
 shared_ptr<AudioProcessor>
 UpmixerA::clone (int sampling_rate) const
 {
-	return make_shared<UpmixerA> (sampling_rate);
+	return shared_ptr<AudioProcessor> (new UpmixerA (sampling_rate));
 }
 
 shared_ptr<AudioBuffers>
@@ -87,7 +85,7 @@ UpmixerA::run (shared_ptr<const AudioBuffers> in, int channels)
 	all_out.push_back (_ls.run (in_L));
 	all_out.push_back (_rs.run (in_R));
 
-	shared_ptr<AudioBuffers> out = make_shared<AudioBuffers> (channels, in->frames ());
+	shared_ptr<AudioBuffers> out (new AudioBuffers (channels, in->frames ()));
 	int const N = min (channels, 6);
 
 	for (int i = 0; i < N; ++i) {

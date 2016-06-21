@@ -28,7 +28,6 @@
 #include "raw_convert.h"
 #include <libcxml/cxml.h>
 #include <boost/lambda/lambda.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -40,7 +39,6 @@ using std::cout;
 using boost::shared_ptr;
 using boost::scoped_array;
 using boost::weak_ptr;
-using boost::make_shared;
 
 EncodeServerFinder* EncodeServerFinder::_instance = 0;
 
@@ -153,7 +151,7 @@ catch (...)
 void
 EncodeServerFinder::start_accept ()
 {
-	shared_ptr<Socket> socket = make_shared<Socket> ();
+	shared_ptr<Socket> socket (new Socket ());
 	_listen_acceptor->async_accept (
 		socket->socket(),
 		boost::bind (&EncodeServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
@@ -176,7 +174,7 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 
 	string s (buffer.get());
-	shared_ptr<cxml::Document> xml = make_shared<cxml::Document> ("ServerAvailable");
+	shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
 	xml->read_string (s);
 
 	string const ip = socket->socket().remote_endpoint().address().to_string ();

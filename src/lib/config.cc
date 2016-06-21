@@ -39,7 +39,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 #include <boost/thread.hpp>
-#include <boost/make_shared.hpp>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -56,7 +55,6 @@ using std::remove;
 using std::exception;
 using std::cerr;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::optional;
 using boost::algorithm::trim;
 
@@ -269,7 +267,7 @@ Config::read ()
 
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
 	if (signer) {
-		shared_ptr<dcp::CertificateChain> c = make_shared<dcp::CertificateChain> ();
+		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		/* Read the signing certificates and private key in from the config file */
 		BOOST_FOREACH (cxml::NodePtr i, signer->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
@@ -283,7 +281,7 @@ Config::read ()
 
 	cxml::NodePtr decryption = f.optional_node_child ("Decryption");
 	if (decryption) {
-		shared_ptr<dcp::CertificateChain> c = make_shared<dcp::CertificateChain> ();
+		shared_ptr<dcp::CertificateChain> c (new dcp::CertificateChain ());
 		BOOST_FOREACH (cxml::NodePtr i, decryption->node_children ("Certificate")) {
 			c->add (dcp::Certificate (i->content ()));
 		}
@@ -561,7 +559,7 @@ Config::read_cinemas (cxml::Document const & f)
 		/* Slightly grotty two-part construction of Cinema here so that we can use
 		   shared_from_this.
 		*/
-		shared_ptr<Cinema> cinema = make_shared<Cinema> (*i);
+		shared_ptr<Cinema> cinema (new Cinema (*i));
 		cinema->read_screens (*i);
 		_cinemas.push_back (cinema);
 	}

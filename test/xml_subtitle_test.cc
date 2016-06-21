@@ -22,19 +22,17 @@
  *  @brief Test creation of XML DCP subtitles.
  */
 
+#include <boost/test/unit_test.hpp>
 #include "lib/text_subtitle_content.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/subtitle_content.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** Build a small DCP with no picture and a single subtitle overlaid onto it */
 BOOST_AUTO_TEST_CASE (xml_subtitle_test)
@@ -43,7 +41,7 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, "test/data/subrip2.srt");
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);
@@ -64,7 +62,7 @@ BOOST_AUTO_TEST_CASE (xml_subtitle_test2)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_sequence (false);
-	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, "test/data/subrip2.srt");
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
 	film->examine_and_add_content (content);

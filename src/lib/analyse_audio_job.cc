@@ -36,7 +36,6 @@ extern "C" {
 #endif
 }
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -47,7 +46,6 @@ using std::min;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using boost::make_shared;
 
 int const AnalyseAudioJob::_num_points = 1024;
 
@@ -92,7 +90,7 @@ AnalyseAudioJob::json_name () const
 void
 AnalyseAudioJob::run ()
 {
-	shared_ptr<Player> player = make_shared<Player> (_film, _playlist);
+	shared_ptr<Player> player (new Player (_film, _playlist));
 	player->set_ignore_video ();
 	player->set_fast ();
 	player->set_play_referenced ();

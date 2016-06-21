@@ -28,7 +28,6 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -38,7 +37,6 @@ using std::vector;
 using std::cout;
 using std::list;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::dynamic_pointer_cast;
 
 int const SubtitleContentProperty::X_OFFSET = 500;
@@ -86,7 +84,6 @@ SubtitleContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version
 		return shared_ptr<SubtitleContent> ();
 	}
 
-	/* Can't use make_shared here as the constructor is private */
 	return shared_ptr<SubtitleContent> (new SubtitleContent (parent, node, version));
 }
 
@@ -133,7 +130,7 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 
 	list<cxml::NodePtr> fonts = node->node_children ("Font");
 	for (list<cxml::NodePtr>::const_iterator i = fonts.begin(); i != fonts.end(); ++i) {
-		_fonts.push_back (make_shared<Font> (*i));
+		_fonts.push_back (shared_ptr<Font> (new Font (*i)));
 	}
 
 	connect_to_fonts ();

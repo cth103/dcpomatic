@@ -29,7 +29,6 @@
 #include "log.h"
 #include <zip.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
@@ -38,7 +37,6 @@ using std::cout;
 using std::string;
 using std::runtime_error;
 using boost::shared_ptr;
-using boost::make_shared;
 
 void
 CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) const
@@ -55,7 +53,7 @@ CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) c
 	list<shared_ptr<string> > kdm_strings;
 
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
-		shared_ptr<string> kdm = boost::make_shared<string> (i.kdm.as_xml ());
+		shared_ptr<string> kdm (new string (i.kdm.as_xml ()));
 		kdm_strings.push_back (kdm);
 
 		struct zip_source* source = zip_source_buffer (zip, kdm->c_str(), kdm->length(), 0);

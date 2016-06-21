@@ -32,7 +32,6 @@ extern "C" {
 #include "util.h"
 #include "safe_stringstream.h"
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -41,7 +40,6 @@ using std::string;
 using std::cout;
 using std::max;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::optional;
 
 /** @param job job that the examiner is operating in, or 0 */
@@ -82,7 +80,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 				);
 
 		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (boost::make_shared<FFmpegSubtitleStream> (subtitle_stream_name (s), s->id));
+			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (subtitle_stream_name (s), s->id)));
 		}
 	}
 

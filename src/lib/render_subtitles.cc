@@ -28,7 +28,6 @@
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::list;
@@ -40,7 +39,6 @@ using std::pair;
 using std::cerr;
 using std::make_pair;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::optional;
 
 static FcConfig* fc_config = 0;
@@ -82,7 +80,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	/* ...and add a bit more for luck */
 	height += target.height / 11;
 
-	shared_ptr<Image> image = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (target.width, height), false);
+	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (target.width, height), false));
 	image->make_black ();
 
 #ifdef DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH

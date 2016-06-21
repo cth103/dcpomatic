@@ -23,21 +23,19 @@
  *  correctly from data/count300bd24.m2ts.
  */
 
+#include <boost/test/unit_test.hpp>
 #include "lib/ffmpeg_examiner.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_examiner_test");
-	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/count300bd24.m2ts");
-	shared_ptr<FFmpegExaminer> examiner = make_shared<FFmpegExaminer> (content);
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (content));
 
 	BOOST_CHECK_EQUAL (examiner->first_video().get(), ContentTime::from_seconds (600));
 	BOOST_CHECK_EQUAL (examiner->audio_streams().size(), 1U);

@@ -23,16 +23,14 @@
  *  to the number of samples it generates.
  */
 
+#include <boost/test/unit_test.hpp>
 #include "lib/audio_buffers.h"
 #include "lib/resampler.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::pair;
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 static void
 resampler_test_one (int from, int to)
@@ -44,7 +42,7 @@ resampler_test_one (int from, int to)
 
 	/* XXX: no longer checks anything */
 	for (int64_t i = 0; i < N; i += 1000) {
-		shared_ptr<AudioBuffers> a = make_shared<AudioBuffers> (1, 1000);
+		shared_ptr<AudioBuffers> a (new AudioBuffers (1, 1000));
 		a->make_silent ();
 		shared_ptr<const AudioBuffers> r = resamp.run (a);
 	}

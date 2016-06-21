@@ -26,7 +26,6 @@
 #include "raw_convert.h"
 #include "subtitle_content.h"
 #include <libxml++/libxml++.h>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -34,7 +33,6 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
@@ -60,7 +58,7 @@ TextSubtitleContent::examine (boost::shared_ptr<Job> job)
 
 	boost::mutex::scoped_lock lm (_mutex);
 	_length = s.length ();
-	subtitle->add_font (make_shared<Font> (TEXT_FONT_ID));
+	subtitle->add_font (shared_ptr<Font> (new Font (TEXT_FONT_ID)));
 }
 
 string

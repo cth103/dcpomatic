@@ -31,7 +31,6 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -40,7 +39,6 @@ using std::string;
 using std::cout;
 using std::list;
 using boost::shared_ptr;
-using boost::make_shared;
 
 ImageContent::ImageContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -121,7 +119,7 @@ ImageContent::examine (shared_ptr<Job> job)
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	shared_ptr<ImageExaminer> examiner = make_shared<ImageExaminer> (film, shared_from_this(), job);
+	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
 	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 }

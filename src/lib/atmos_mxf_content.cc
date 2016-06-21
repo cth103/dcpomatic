@@ -25,14 +25,12 @@
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
-#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
 using std::list;
 using std::string;
 using boost::shared_ptr;
-using boost::make_shared;
 
 AtmosMXFContent::AtmosMXFContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
@@ -50,7 +48,7 @@ bool
 AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 {
 	try {
-		shared_ptr<dcp::AtmosAsset> a = make_shared<dcp::AtmosAsset> (path);
+		shared_ptr<dcp::AtmosAsset> a (new dcp::AtmosAsset (path));
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -66,7 +64,7 @@ AtmosMXFContent::examine (shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 	Content::examine (job);
-	shared_ptr<dcp::AtmosAsset> a = make_shared<dcp::AtmosAsset> (path(0));
+	shared_ptr<dcp::AtmosAsset> a (new dcp::AtmosAsset (path(0)));
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);

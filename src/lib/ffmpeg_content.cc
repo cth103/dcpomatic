@@ -42,7 +42,6 @@ extern "C" {
 }
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -57,7 +56,6 @@ using std::pair;
 using std::make_pair;
 using std::max;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
@@ -80,7 +78,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 	list<cxml::NodePtr> c = node->node_children ("SubtitleStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		_subtitle_streams.push_back (make_shared<FFmpegSubtitleStream> (*i, version));
+		_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (*i, version)));
 		if ((*i)->optional_number_child<int> ("Selected")) {
 			_subtitle_stream = _subtitle_streams.back ();
 		}
@@ -88,7 +86,7 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 	c = node->node_children ("AudioStream");
 	for (list<cxml::NodePtr>::const_iterator i = c.begin(); i != c.end(); ++i) {
-		shared_ptr<FFmpegAudioStream> as = make_shared<FFmpegAudioStream> (*i, version);
+		shared_ptr<FFmpegAudioStream> as (new FFmpegAudioStream (*i, version));
 		audio->add_stream (as);
 		if (version < 11 && !(*i)->optional_node_child ("Selected")) {
 			/* This is an old file and this stream is not selected, so un-map it */
@@ -212,7 +210,7 @@ FFmpegContent::examine (shared_ptr<Job> job)
 
 	Content::examine (job);
 
-	shared_ptr<FFmpegExaminer> examiner = make_shared<FFmpegExaminer> (shared_from_this (), job);
+	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (shared_from_this (), job));
 
 	if (examiner->has_video ()) {
 		video.reset (new VideoContent (this));

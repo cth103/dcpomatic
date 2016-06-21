@@ -27,7 +27,6 @@
 #include "cross.h"
 #include <dcp/util.h>
 #include <libcxml/cxml.h>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -35,17 +34,16 @@
 using std::cout;
 using std::string;
 using boost::shared_ptr;
-using boost::make_shared;
 
 shared_ptr<ImageProxy>
 image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	if (xml->string_child("Type") == N_("Raw")) {
-		return make_shared<RawImageProxy> (xml, socket);
+		return shared_ptr<ImageProxy> (new RawImageProxy (xml, socket));
 	} else if (xml->string_child("Type") == N_("Magick")) {
-		return make_shared<MagickImageProxy> (xml, socket);
+		return shared_ptr<MagickImageProxy> (new MagickImageProxy (xml, socket));
 	} else if (xml->string_child("Type") == N_("J2K")) {
-		return make_shared<J2KImageProxy> (xml, socket);
+		return shared_ptr<J2KImageProxy> (new J2KImageProxy (xml, socket));
 	}
 
 	throw NetworkError (_("Unexpected image type received by server"));

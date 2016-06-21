@@ -30,7 +30,6 @@
 #include <dcp/j2k.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -40,7 +39,6 @@ using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
-using boost::make_shared;
 using dcp::Data;
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
@@ -109,7 +107,7 @@ J2KImageProxy::image (optional<dcp::NoteHandler>) const
 		}
 	}
 
-	shared_ptr<Image> image = make_shared<Image> (pixel_format(), _size, true);
+	shared_ptr<Image> image (new Image (pixel_format(), _size, true));
 
 	/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
 	   the data is 12-bit either way.

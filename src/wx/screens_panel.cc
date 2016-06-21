@@ -26,7 +26,6 @@
 #include "cinema_dialog.h"
 #include "screen_dialog.h"
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 
 using std::list;
 using std::pair;
@@ -35,7 +34,6 @@ using std::map;
 using std::string;
 using std::make_pair;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::optional;
 
 ScreensPanel::ScreensPanel (wxWindow* parent)
@@ -151,7 +149,7 @@ ScreensPanel::add_cinema_clicked ()
 {
 	CinemaDialog* d = new CinemaDialog (this, _("Add Cinema"));
 	if (d->ShowModal () == wxID_OK) {
-		shared_ptr<Cinema> c = boost::make_shared<Cinema> (d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute());
+		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute()));
 		Config::instance()->add_cinema (c);
 		add_cinema (c);
 	}
@@ -210,7 +208,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	shared_ptr<Screen> s = boost::make_shared<Screen> (d->name(), d->recipient(), d->trusted_devices());
+	shared_ptr<Screen> s (new Screen (d->name(), d->recipient(), d->trusted_devices()));
 	c->add_screen (s);
 	optional<wxTreeItemId> id = add_screen (c, s);
 	if (id) {

@@ -27,7 +27,6 @@
 #include "util.h"
 #include "film.h"
 #include "transcode_job.h"
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::string;
@@ -36,7 +35,6 @@ using std::map;
 using std::list;
 using boost::thread;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::dynamic_pointer_cast;
 using boost::asio::ip::tcp;
 
@@ -63,7 +61,7 @@ try
 	tcp::acceptor a (io_service, tcp::endpoint (tcp::v4 (), port));
 	while (true) {
 		try {
-			shared_ptr<tcp::socket> s = make_shared<tcp::socket> (io_service);
+			shared_ptr<tcp::socket> s (new tcp::socket (io_service));
 			a.accept (*s);
 			handle (s);
 		}

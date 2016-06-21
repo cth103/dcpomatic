@@ -25,16 +25,14 @@
  *  @see test/image_test.cc
  */
 
+#include <boost/test/unit_test.hpp>
 #include <dcp/util.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include "lib/image.h"
-#include <boost/make_shared.hpp>
-#include <boost/test/unit_test.hpp>
 
 using std::list;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (make_black_test)
 {
@@ -81,7 +79,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 
 	int N = 0;
 	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
-		boost::shared_ptr<Image> foo = make_shared<Image> (*i, in_size, true);
+		boost::shared_ptr<Image> foo (new Image (*i, in_size, true));
 		foo->make_black ();
 		boost::shared_ptr<Image> bar = foo->scale (out_size, dcp::YUV_TO_RGB_REC601, AV_PIX_FMT_RGB24, true, false);
 

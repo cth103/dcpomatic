@@ -24,25 +24,23 @@
  *  Also a quick test of Film::have_dcp ().
  */
 
+#include <boost/test/unit_test.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_dcp_test");
 	film->set_name ("test_film2");
-	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/test.mp4");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();
@@ -61,7 +59,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 {
 	boost::filesystem::path p = test_film_dir ("ffmpeg_dcp_test");
-	shared_ptr<Film> film = boost::make_shared<Film> (p.string ());
+	shared_ptr<Film> film (new Film (p.string ()));
 	film->read_metadata ();
 	BOOST_CHECK (!film->cpls().empty());
 

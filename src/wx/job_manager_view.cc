@@ -19,7 +19,7 @@
 */
 
 /** @file src/job_manager_view.cc
- *  @brief Class generating a widget to show the progress of jobs.
+ *  @brief Class generating a GTK widget to show the progress of jobs.
  */
 
 #include "job_manager_view.h"
@@ -30,7 +30,6 @@
 #include "lib/util.h"
 #include "lib/exceptions.h"
 #include "lib/compose.hpp"
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::string;
@@ -39,7 +38,6 @@ using std::map;
 using std::min;
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::weak_ptr;
 
 /** Must be called in the GUI thread */
@@ -70,7 +68,7 @@ JobManagerView::job_added (weak_ptr<Job> j)
 {
 	shared_ptr<Job> job = j.lock ();
 	if (job) {
-		_job_records.push_back (make_shared<JobView> (job, this, _panel, _table));
+		_job_records.push_back (shared_ptr<JobView> (new JobView (job, this, _panel, _table)));
 	}
 }
 

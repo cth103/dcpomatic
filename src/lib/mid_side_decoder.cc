@@ -21,7 +21,6 @@
 #include "mid_side_decoder.h"
 #include "audio_buffers.h"
 #include "audio_mapping.h"
-#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
@@ -29,7 +28,6 @@ using std::string;
 using std::min;
 using std::vector;
 using boost::shared_ptr;
-using boost::make_shared;
 
 string
 MidSideDecoder::name () const
@@ -52,14 +50,14 @@ MidSideDecoder::out_channels () const
 shared_ptr<AudioProcessor>
 MidSideDecoder::clone (int) const
 {
-	return make_shared<MidSideDecoder> ();
+	return shared_ptr<AudioProcessor> (new MidSideDecoder ());
 }
 
 shared_ptr<AudioBuffers>
 MidSideDecoder::run (shared_ptr<const AudioBuffers> in, int channels)
 {
 	int const N = min (channels, 3);
-	shared_ptr<AudioBuffers> out = make_shared<AudioBuffers> (channels, in->frames ());
+	shared_ptr<AudioBuffers> out (new AudioBuffers (channels, in->frames ()));
 	for (int i = 0; i < in->frames(); ++i) {
 		float const left = in->data()[0][i];
 		float const right = in->data()[1][i];

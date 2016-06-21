@@ -29,12 +29,10 @@
 #include <libxml++/libxml++.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 {
@@ -111,7 +109,7 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test4)
 		xmlpp::Document out;
 		xmlpp::Element* out_root = out.create_root_node ("Test");
 		i.conversion.as_xml (out_root);
-		shared_ptr<cxml::Document> in = make_shared<cxml::Document> ("Test");
+		shared_ptr<cxml::Document> in (new cxml::Document ("Test"));
 		in->read_string (out.write_to_string ("UTF-8"));
 		BOOST_CHECK (ColourConversion::from_xml (in, Film::current_state_version).get () == i.conversion);
 	}

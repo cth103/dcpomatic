@@ -18,25 +18,23 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
 #include "lib/image_decoder.h"
 #include "lib/image_content.h"
 #include "lib/content_video.h"
 #include "lib/video_decoder.h"
 #include "lib/film.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::list;
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 {
 	shared_ptr<Film> film = new_test_film ("video_decoder_fill_test");
-	shared_ptr<ImageContent> c = make_shared<ImageContent> (film, "test/data/simple_testcard_640x480.png");
+	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	ImageDecoder decoder (c, film->log());
 
 	decoder.video->fill_one_eye (0, 4, EYES_BOTH);
@@ -61,7 +59,7 @@ BOOST_AUTO_TEST_CASE (video_decoder_fill_test1)
 BOOST_AUTO_TEST_CASE (video_decoder_fill_test2)
 {
 	shared_ptr<Film> film = new_test_film ("video_decoder_fill_test");
-	shared_ptr<ImageContent> c = make_shared<ImageContent> (film, "test/data/simple_testcard_640x480.png");
+	shared_ptr<ImageContent> c (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 	ImageDecoder decoder (c, film->log());
 
 	decoder.video->fill_both_eyes (VideoFrame (0, EYES_LEFT), VideoFrame (4, EYES_LEFT));

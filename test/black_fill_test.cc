@@ -18,21 +18,19 @@
 
 */
 
+#include <boost/test/unit_test.hpp>
 #include "lib/image_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 /** @file test/black_fill_test.cc
  *  @brief Test insertion of black frames between separate bits of video content.
  */
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (black_fill_test)
 {
@@ -41,8 +39,8 @@ BOOST_AUTO_TEST_CASE (black_fill_test)
 	film->set_name ("black_fill_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
-	shared_ptr<ImageContent> contentA = make_shared<ImageContent> (film, "test/data/simple_testcard_640x480.png");
-	shared_ptr<ImageContent> contentB = make_shared<ImageContent> (film, "test/data/simple_testcard_640x480.png");
+	shared_ptr<ImageContent> contentA (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> contentB (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);

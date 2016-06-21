@@ -24,18 +24,16 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 
 using std::list;
 using std::string;
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** Test the logic which decides whether a DCP can be referenced or not */
 BOOST_AUTO_TEST_CASE (vf_test1)
 {
 	shared_ptr<Film> film = new_test_film ("vf_test1");
-	shared_ptr<DCPContent> dcp = make_shared<DCPContent> (film, "test/data/reels_test2");
+	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test2"));
 	film->examine_and_add_content (dcp);
 	wait_for_jobs ();
 
@@ -53,7 +51,7 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	/* (but reels_test2 has no subtitles to reference) */
 	BOOST_CHECK (!dcp->can_reference_subtitle(why_not));
 
-	shared_ptr<FFmpegContent> other = make_shared<FFmpegContent> (film, "test/data/test.mp4");
+	shared_ptr<FFmpegContent> other (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (other);
 	wait_for_jobs ();
 

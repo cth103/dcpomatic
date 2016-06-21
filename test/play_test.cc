@@ -88,13 +88,13 @@ BOOST_AUTO_TEST_CASE (play_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("play_test");
 
-	shared_ptr<FFmpegContent> A = make_shared<FFmpegContent> (film, "test/data/red_24.mp4");
+	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/red_24.mp4"));
 	film->examine_and_add_content (A);
 	wait_for_jobs ();
 
 	BOOST_CHECK_EQUAL (A->video_length_after_3d_combine(), 16);
 
-	shared_ptr<FFmpegContent> B = make_shared<FFmpegContent> (film, "test/data/red_30.mp4");
+	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/red_30.mp4"));
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
 
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE (play_test)
 	/* A is 16 frames long at 25 fps */
 	BOOST_CHECK_EQUAL (B->position(), 16 * TIME_HZ / 25);
 
-	shared_ptr<Player> player = make_shared<Player> (film);
+	shared_ptr<Player> player (new Player (film));
 	PlayerWrapper wrap (player);
 	/* Seek and audio don't get on at the moment */
 	player->disable_audio ();

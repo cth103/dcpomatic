@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, "test/data/subrip2.srt");
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	content->set_use_subtitles (true);
 	content->set_burn_subtitles (true);
 	film->examine_and_add_content (content, true);
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_burn_subtitles (true);
-	shared_ptr<DCPSubtitleContent> content = make_shared<DCPSubtitleContent> (film, "test/data/dcp_sub.xml");
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
 	content->set_use_subtitles (true);
 	film->examine_and_add_content (content, true);
 	wait_for_jobs ();

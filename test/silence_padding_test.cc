@@ -35,12 +35,10 @@
 #include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset_reader.h>
 #include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using std::string;
 using boost::lexical_cast;
 using boost::shared_ptr;
-using boost::make_shared;
 
 static void
 test_silence_padding (int channels)
@@ -51,7 +49,7 @@ test_silence_padding (int channels)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name (film_name);
 
-	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/staircase.wav");
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/staircase.wav"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

@@ -21,12 +21,10 @@
 #include "audio_delay.h"
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using boost::shared_ptr;
-using boost::make_shared;
 
 AudioDelay::AudioDelay (int samples)
 	: _samples (samples)
@@ -40,7 +38,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 	/* You can't call this with varying channel counts */
 	DCPOMATIC_ASSERT (!_tail || in->channels() == _tail->channels());
 
-	shared_ptr<AudioBuffers> out = make_shared<AudioBuffers> (in->channels(), in->frames());
+	shared_ptr<AudioBuffers> out (new AudioBuffers (in->channels(), in->frames()));
 
 	if (in->frames() > _samples) {
 

@@ -25,13 +25,11 @@
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::list;
 using std::string;
 using boost::shared_ptr;
-using boost::make_shared;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
@@ -58,7 +56,7 @@ Cinema::read_screens (cxml::ConstNodePtr node)
 {
 	list<cxml::NodePtr> s = node->node_children ("Screen");
 	for (list<cxml::NodePtr>::iterator i = s.begin(); i != s.end(); ++i) {
-		add_screen (make_shared<Screen> (*i));
+		add_screen (shared_ptr<Screen> (new Screen (*i)));
 	}
 }
 

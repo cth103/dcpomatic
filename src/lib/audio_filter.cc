@@ -20,12 +20,10 @@
 
 #include "audio_filter.h"
 #include "audio_buffers.h"
-#include <boost/make_shared.hpp>
 #include <cmath>
 
 using std::min;
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** @return array of floats which the caller must destroy with delete[] */
 float *
@@ -77,7 +75,7 @@ AudioFilter::~AudioFilter ()
 shared_ptr<AudioBuffers>
 AudioFilter::run (shared_ptr<const AudioBuffers> in)
 {
-	shared_ptr<AudioBuffers> out = make_shared<AudioBuffers> (in->channels(), in->frames());
+	shared_ptr<AudioBuffers> out (new AudioBuffers (in->channels(), in->frames()));
 
 	if (!_tail) {
 		_tail.reset (new AudioBuffers (in->channels(), _M + 1));

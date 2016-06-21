@@ -24,11 +24,9 @@
 #include "lib/job_manager.h"
 #include "lib/send_problem_report_job.h"
 #include <wx/sizer.h>
-#include <boost/make_shared.hpp>
 
 using std::string;
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** @param film Film that we are working on, or 0 */
 ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> film)
@@ -105,5 +103,5 @@ ReportProblemDialog::report ()
 		return;
 	}
 
-	JobManager::instance()->add (boost::make_shared<SendProblemReportJob> (_film, wx_to_std (_email->GetValue ()), wx_to_std (_summary->GetValue ())));
+	JobManager::instance()->add (shared_ptr<Job> (new SendProblemReportJob (_film, wx_to_std (_email->GetValue ()), wx_to_std (_summary->GetValue ()))));
 }

@@ -29,11 +29,9 @@
 #include "lib/cross.h"
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using std::vector;
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
 BOOST_AUTO_TEST_CASE (import_dcp_test)
@@ -43,7 +41,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	A->set_name ("frobozz");
 
-	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (A, "test/data/test.mp4");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (A, "test/data/test.mp4"));
 	A->examine_and_add_content (c);
 	A->set_encrypted (true);
 	wait_for_jobs ();
@@ -54,7 +52,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
 	A_dcp.read ();
 
-	Config::instance()->set_decryption_chain (make_shared<dcp::CertificateChain> (openssl_path ()));
+	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
 
 	dcp::EncryptedKDM kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
@@ -70,7 +68,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	B->set_name ("frobozz");
 
-	shared_ptr<DCPContent> d = boost::make_shared<DCPContent> (B, "build/test/import_dcp_test/" + A->dcp_name());
+	shared_ptr<DCPContent> d (new DCPContent (B, "build/test/import_dcp_test/" + A->dcp_name()));
 	d->add_kdm (kdm);
 	B->examine_and_add_content (d);
 	wait_for_jobs ();

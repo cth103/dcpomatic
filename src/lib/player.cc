@@ -52,7 +52,6 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <stdint.h>
 #include <algorithm>
 #include <iostream>
@@ -72,7 +71,6 @@ using std::map;
 using std::make_pair;
 using std::copy;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
@@ -141,7 +139,7 @@ Player::setup_pieces ()
 			decoder->audio->set_ignore ();
 		}
 
-		_pieces.push_back (make_shared<Piece> (i, decoder, frc));
+		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc)));
 	}
 
 	_have_valid_pieces = true;
@@ -280,7 +278,7 @@ Player::black_player_video_frame (DCPTime time) const
 {
 	return shared_ptr<PlayerVideo> (
 		new PlayerVideo (
-			make_shared<RawImageProxy> (_black_image),
+			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
 			time,
 			Crop (),
 			optional<double> (),
@@ -415,7 +413,7 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 	Frame const length_frames = length.frames_round (_film->audio_frame_rate ());
 
-	shared_ptr<AudioBuffers> audio = make_shared<AudioBuffers> (_film->audio_channels(), length_frames);
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
 	audio->make_silent ();
 
 	list<shared_ptr<Piece> > ov = overlaps (time, time + length, has_audio);
@@ -472,13 +470,13 @@ Player::get_audio (DCPTime time, DCPTime length, bool accurate)
 
 			/* Gain */
 			if (i->content->audio->gain() != 0) {
-				shared_ptr<AudioBuffers> gain = make_shared<AudioBuffers> (all.audio);
+				shared_ptr<AudioBuffers> gain (new AudioBuffers (all.audio));
 				gain->apply_gain (i->content->audio->gain ());
 				all.audio = gain;
 			}
 
 			/* Remap channels */
-			shared_ptr<AudioBuffers> dcp_mapped = make_shared<AudioBuffers> (_film->audio_channels(), all.audio->frames());
+			shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), all.audio->frames()));
 			dcp_mapped->make_silent ();
 			AudioMapping map = j->mapping ();
 			for (int i = 0; i < map.input_channels(); ++i) {

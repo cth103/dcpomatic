@@ -62,7 +62,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <boost/regex.hpp>
 #include <unistd.h>
 #include <stdexcept>
@@ -90,7 +89,6 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::is_any_of;
-using boost::make_shared;
 
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
@@ -320,21 +318,21 @@ Film::make_dcp ()
 		throw MissingSettingError (_("name"));
 	}
 
-	JobManager::instance()->add (make_shared<TranscodeJob> (shared_from_this()));
+	JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
 }
 
 /** Start a job to send our DCP to the configured TMS */
 void
 Film::send_dcp_to_tms ()
 {
-	shared_ptr<Job> j = make_shared<UploadJob> (shared_from_this());
+	shared_ptr<Job> j (new UploadJob (shared_from_this()));
 	JobManager::instance()->add (j);
 }
 
 shared_ptr<xmlpp::Document>
 Film::metadata () const
 {
-	shared_ptr<xmlpp::Document> doc = make_shared<xmlpp::Document> ();
+	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
 	xmlpp::Element* root = doc->create_root_node ("Metadata");
 
 	root->add_child("Version")->add_child_text (raw_convert<string> (current_state_version));
@@ -1005,7 +1003,7 @@ Film::content () const
 void
 Film::examine_content (shared_ptr<Content> c)
 {
-	shared_ptr<Job> j = make_shared<ExamineContentJob> (shared_from_this(), c);
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
 	JobManager::instance()->add (j);
 }
 
@@ -1016,7 +1014,7 @@ Film::examine_and_add_content (shared_ptr<Content> c)
 		run_ffprobe (c->path(0), file ("ffprobe.log"), _log);
 	}
 
-	shared_ptr<Job> j = make_shared<ExamineContentJob> (shared_from_this(), c);
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
 
 	_job_connections.push_back (
 		j->Finished.connect (bind (&Film::maybe_add_content, this, weak_ptr<Job> (j), weak_ptr<Content> (c)))
@@ -1040,7 +1038,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 
 	add_content (content);
 	if (Config::instance()->automatic_audio_analysis() && content->audio) {
-		shared_ptr<Playlist> playlist = make_shared<Playlist> ();
+		shared_ptr<Playlist> playlist (new Playlist);
 		playlist->add (content);
 		boost::signals2::connection c;
 		JobManager::instance()->analyse_audio (
@@ -1182,7 +1180,7 @@ Film::make_kdm (
 	dcp::Formulation formulation
 	) const
 {
-	shared_ptr<const dcp::CPL> cpl = make_shared<dcp::CPL> (cpl_file);
+	shared_ptr<const dcp::CPL> cpl (new dcp::CPL (cpl_file));
 	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
 	if (!signer->valid ()) {
 		throw InvalidSignerError ();

@@ -26,17 +26,15 @@
 #include "lib/film.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
-using boost::make_shared;
 
 /** Test the mid-side decoder for analysis and DCP-making */
 BOOST_AUTO_TEST_CASE (audio_processor_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_processor_test");
 	film->set_name ("audio_processor_test");
-	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/white.wav");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/white.wav"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -45,7 +43,7 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 	film->set_audio_processor (AudioProcessor::from_id ("mid-side-decoder"));
 
 	/* Analyse the audio and check it doesn't crash */
-	shared_ptr<AnalyseAudioJob> job = make_shared<AnalyseAudioJob> (film, film->playlist ());
+	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
 

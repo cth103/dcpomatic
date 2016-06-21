@@ -22,6 +22,8 @@
  *  @brief Various tests of Player.
  */
 
+#include <iostream>
+#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
@@ -29,14 +31,10 @@
 #include "lib/audio_buffers.h"
 #include "lib/player.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
-#include <boost/make_shared.hpp>
-#include <iostream>
 
 using std::cout;
 using std::list;
 using boost::shared_ptr;
-using boost::make_shared;
 
 static bool
 valid (Content const *)
@@ -51,9 +49,9 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 	film->set_container (Ratio::from_id ("185"));
 
 	/* This content is 3s long */
-	shared_ptr<FFmpegContent> A = make_shared<FFmpegContent> (film, "test/data/test.mp4");
-	shared_ptr<FFmpegContent> B = make_shared<FFmpegContent> (film, "test/data/test.mp4");
-	shared_ptr<FFmpegContent> C = make_shared<FFmpegContent> (film, "test/data/test.mp4");
+	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> C (new FFmpegContent (film, "test/data/test.mp4"));
 
 	film->examine_and_add_content (A);
 	film->examine_and_add_content (B);
@@ -66,7 +64,7 @@ BOOST_AUTO_TEST_CASE (player_overlaps_test)
 	B->set_position (DCPTime::from_seconds (10));
 	C->set_position (DCPTime::from_seconds (20));
 
-	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
 
 	list<shared_ptr<Piece> > o = player->overlaps (DCPTime::from_seconds (0), DCPTime::from_seconds (5), &valid);
 	BOOST_CHECK_EQUAL (o.size(), 1U);
@@ -94,14 +92,14 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 {
 	shared_ptr<Film> film = new_test_film ("player_silence_padding_test");
 	film->set_name ("player_silence_padding_test");
-	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/test.mp4");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
 	shared_ptr<AudioBuffers> test = player->get_audio (DCPTime (0), DCPTime::from_seconds (1), true);
 	BOOST_CHECK_EQUAL (test->frames(), 48000);
 	BOOST_CHECK_EQUAL (test->channels(), film->audio_channels ());

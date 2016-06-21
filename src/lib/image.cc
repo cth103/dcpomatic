@@ -34,7 +34,6 @@ extern "C" {
 #include <libavutil/pixdesc.h>
 #include <libavutil/frame.h>
 }
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -46,7 +45,6 @@ using std::cerr;
 using std::list;
 using std::runtime_error;
 using boost::shared_ptr;
-using boost::make_shared;
 using dcp::Size;
 
 int
@@ -151,7 +149,7 @@ Image::crop_scale_window (
 	   To get around this, we ask Image to overallocate its buffers by the overrun.
 	*/
 
-	shared_ptr<Image> out = make_shared<Image> (out_format, out_size, out_aligned, (out_size.width - inter_size.width) / 2);
+	shared_ptr<Image> out (new Image (out_format, out_size, out_aligned, (out_size.width - inter_size.width) / 2));
 	out->make_black ();
 
 	/* Size of the image after any crop */
@@ -229,7 +227,7 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	*/
 	DCPOMATIC_ASSERT (aligned ());
 
-	shared_ptr<Image> scaled = make_shared<Image> (out_format, out_size, out_aligned);
+	shared_ptr<Image> scaled (new Image (out_format, out_size, out_aligned));
 
 	struct SwsContext* scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
@@ -821,7 +819,7 @@ merge (list<PositionImage> images)
 		all.extend (dcpomatic::Rect<int> (i->position, i->image->size().width, i->image->size().height));
 	}
 
-	shared_ptr<Image> merged = make_shared<Image> (images.front().image->pixel_format (), dcp::Size (all.width, all.height), true);
+	shared_ptr<Image> merged (new Image (images.front().image->pixel_format (), dcp::Size (all.width, all.height), true));
 	merged->make_transparent ();
 	for (list<PositionImage>::const_iterator i = images.begin(); i != images.end(); ++i) {
 		merged->alpha_blend (i->image, i->position - all.position());

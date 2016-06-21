@@ -37,14 +37,12 @@
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 #include <boost/foreach.hpp>
-#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using std::vector;
 using std::exception;
 using boost::shared_ptr;
-using boost::make_shared;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -161,7 +159,7 @@ ContentMenu::join ()
 	}
 
 	try {
-		shared_ptr<FFmpegContent> joined = boost::make_shared<FFmpegContent> (film, fc);
+		shared_ptr<FFmpegContent> joined (new FFmpegContent (film, fc));
 		BOOST_FOREACH (shared_ptr<Content> i, _content) {
 			film->remove_content (i);
 		}
@@ -266,7 +264,7 @@ ContentMenu::find_missing ()
 		return;
 	}
 
-	shared_ptr<Job> j = make_shared<ExamineContentJob> (film, content);
+	shared_ptr<Job> j (new ExamineContentJob (film, content));
 
 	_job_connection = j->Finished.connect (
 		bind (
