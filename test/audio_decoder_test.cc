@@ -28,6 +28,7 @@
 #include "lib/audio_content.h"
 #include "lib/film.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 #include <cassert>
 #include <iostream>
 
@@ -35,6 +36,7 @@ using std::string;
 using std::cout;
 using std::min;
 using boost::shared_ptr;
+using boost::make_shared;
 
 class TestAudioContent : public Content
 {
@@ -76,7 +78,7 @@ public:
 			_test_audio_content->audio_length() - _position
 			);
 
-		shared_ptr<AudioBuffers> buffers (new AudioBuffers (_test_audio_content->audio->stream()->channels(), N));
+		shared_ptr<AudioBuffers> buffers = make_shared<AudioBuffers> (_test_audio_content->audio->stream()->channels(), N);
 		for (int i = 0; i < _test_audio_content->audio->stream()->channels(); ++i) {
 			for (int j = 0; j < N; ++j) {
 				buffers->data(i)[j] = j + _position;

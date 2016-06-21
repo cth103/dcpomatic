@@ -31,11 +31,13 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/make_shared.hpp>
 #include <list>
 
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** Make a very short DCP with a single subtitle from .srt with no specified fonts */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test)
@@ -44,7 +46,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, "test/data/subrip2.srt");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -64,7 +66,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, "test/data/subrip2.srt");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -89,7 +91,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "Ankoemmling.srt"));
+	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, private_data / "Ankoemmling.srt");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -130,11 +132,11 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 {
 	shared_ptr<Film> film = new_test_film ("subrip_render_test");
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, "test/data/subrip.srt");
 	content->examine (shared_ptr<Job> (), true);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 
-	shared_ptr<SubRipDecoder> decoder (new SubRipDecoder (content));
+	shared_ptr<SubRipDecoder> decoder = make_shared<SubRipDecoder> (content);
 	list<ContentTextSubtitle> cts = decoder->get_text_subtitles (
 		ContentTimePeriod (
 			ContentTime::from_seconds (109), ContentTime::from_seconds (110)

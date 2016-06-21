@@ -23,7 +23,6 @@
  *  confusing things as it might in ffmpeg_seek_test).
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
@@ -35,6 +34,8 @@
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
@@ -42,6 +43,7 @@ using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (seek_zero_test)
 {
@@ -49,7 +51,7 @@ BOOST_AUTO_TEST_CASE (seek_zero_test)
 	film->set_name ("seek_zero_test");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd48.m2ts"));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/count300bd48.m2ts");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("185")));

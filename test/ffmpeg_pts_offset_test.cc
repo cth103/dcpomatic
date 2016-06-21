@@ -22,24 +22,27 @@
  *  @brief Check the computation of _pts_offset in FFmpegDecoder.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_decoder.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/audio_content.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_pts_offset_test");
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
 	content->audio.reset (new AudioContent (content.get()));
+	/* Can't use make_shared here */
 	content->audio->add_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream));
 	content->_video_frame_rate = 24;
 

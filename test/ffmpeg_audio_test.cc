@@ -37,15 +37,17 @@
 #include <dcp/sound_asset_reader.h>
 #include <dcp/reel.h>
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using std::string;
 using boost::shared_ptr;
+using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_test");
 	film->set_name ("ffmpeg_audio_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/staircase.mov"));
+	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/staircase.mov");
 	film->examine_and_add_content (c);
 
 	wait_for_jobs ();

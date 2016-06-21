@@ -31,6 +31,7 @@
 #include "lib/film.h"
 #include "test.h"
 #include <boost/filesystem.hpp>
+#include <boost/make_shared.hpp>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -38,6 +39,7 @@ using std::cout;
 using std::cerr;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::optional;
 
 void
@@ -50,11 +52,11 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	}
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, path);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	shared_ptr<Log> log (new NullLog);
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
+	shared_ptr<Log> log = make_shared<NullLog> ();
+	shared_ptr<FFmpegDecoder> decoder = make_shared<FFmpegDecoder> (content, log, false);
 
 	BOOST_REQUIRE (decoder->video->_content->video_frame_rate());
 	BOOST_CHECK_CLOSE (decoder->video->_content->video_frame_rate().get(), fps, 0.01);

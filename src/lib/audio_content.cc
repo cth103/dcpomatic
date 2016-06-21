@@ -75,6 +75,7 @@ AudioContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		return shared_ptr<AudioContent> ();
 	}
 
+	/* Can't use make_shared here as the constructor is private */
 	return shared_ptr<AudioContent> (new AudioContent (parent, node));
 }
 

@@ -40,6 +40,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 #include <list>
 #include <vector>
 #include <iostream>
@@ -53,6 +54,7 @@ using std::list;
 using std::abs;
 using boost::shared_ptr;
 using boost::scoped_array;
+using boost::make_shared;
 
 boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
@@ -112,7 +114,7 @@ new_test_film (string name)
 		boost::filesystem::remove_all (p);
 	}
 
-	shared_ptr<Film> film = shared_ptr<Film> (new Film (p.string()));
+	shared_ptr<Film> film = boost::make_shared<Film> (p.string());
 	film->write_metadata ();
 	return film;
 }

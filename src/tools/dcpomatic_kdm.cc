@@ -51,6 +51,7 @@
 #endif
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 
 #ifdef check
 #undef check
@@ -61,6 +62,7 @@ using std::list;
 using std::string;
 using std::vector;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::bind;
 
 enum {
@@ -301,13 +303,13 @@ private:
 				if (film_name.empty ()) {
 					film_name = decrypted.content_title_text ();
 				}
-				shared_ptr<Job> job (new SendKDMEmailJob (
-							     film_name,
-							     decrypted.content_title_text(),
-							     _timing->from(), _timing->until(),
-							     CinemaKDMs::collect (screen_kdms),
-							     shared_ptr<Log> ()
-							     ));
+				shared_ptr<Job> job = boost::make_shared<SendKDMEmailJob> (
+					film_name,
+					decrypted.content_title_text(),
+					_timing->from(), _timing->until(),
+					CinemaKDMs::collect (screen_kdms),
+					shared_ptr<Log> ()
+					);
 
 				JobManager::instance()->add (job);
 				if (_job_view) {

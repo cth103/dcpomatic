@@ -22,11 +22,13 @@
  *  @brief Basic tests of audio filters.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/audio_filter.h"
 #include "lib/audio_buffers.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 
 static void
 audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)
@@ -35,7 +37,7 @@ audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)
 
 	for (int i = 0; i < num_blocks; ++i) {
 
-		shared_ptr<AudioBuffers> in (new AudioBuffers (1, block_size));
+		shared_ptr<AudioBuffers> in = make_shared<AudioBuffers> (1, block_size);
 		for (int j = 0; j < block_size; ++j) {
 			in->data()[0][j] = c + j;
 		}
@@ -76,7 +78,7 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_input_test)
 {
 	LowPassAudioFilter lpf (0.02, 0.3);
 
-	shared_ptr<AudioBuffers> in (new AudioBuffers (1, 1751));
+	shared_ptr<AudioBuffers> in = make_shared<AudioBuffers> (1, 1751);
 	in->make_silent ();
 	in->data(0)[0] = 1;
 

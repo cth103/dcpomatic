@@ -31,42 +31,44 @@
 #include "video_mxf_content.h"
 #include "video_mxf_decoder.h"
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::make_shared;
 
 shared_ptr<Decoder>
 decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fast)
 {
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (content);
 	if (fc) {
-		return shared_ptr<Decoder> (new FFmpegDecoder (fc, log, fast));
+		return make_shared<FFmpegDecoder> (fc, log, fast);
 	}
 
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (content);
 	if (dc) {
-		return shared_ptr<Decoder> (new DCPDecoder (dc, log, fast));
+		return make_shared<DCPDecoder> (dc, log, fast);
 	}
 
 	shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (content);
 	if (ic) {
-		return shared_ptr<Decoder> (new ImageDecoder (ic, log));
+		return make_shared<ImageDecoder> (ic, log);
 	}
 
 	shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (content);
 	if (rc) {
-		return shared_ptr<Decoder> (new TextSubtitleDecoder (rc));
+		return make_shared<TextSubtitleDecoder> (rc);
 	}
 
 	shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (content);
 	if (dsc) {
-		return shared_ptr<Decoder> (new DCPSubtitleDecoder (dsc));
+		return make_shared<DCPSubtitleDecoder> (dsc);
 	}
 
 	shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (content);
 	if (vmc) {
-		return shared_ptr<Decoder> (new VideoMXFDecoder (vmc, log));
+		return make_shared<VideoMXFDecoder> (vmc, log);
 	}
 
 	return shared_ptr<Decoder> ();

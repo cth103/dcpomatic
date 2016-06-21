@@ -31,6 +31,7 @@
 #include "lib/video_content.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
+#include <boost/make_shared.hpp>
 #include <getopt.h>
 #include <string>
 #include <iostream>
@@ -43,6 +44,7 @@ using std::cerr;
 using std::list;
 using std::exception;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::dynamic_pointer_cast;
 
 static void
@@ -206,7 +208,7 @@ main (int argc, char* argv[])
 	}
 
 	try {
-		shared_ptr<Film> film (new Film (output, false));
+		shared_ptr<Film> film = make_shared<Film> (output, false);
 		film->set_name (name);
 
 		film->set_container (container_ratio);

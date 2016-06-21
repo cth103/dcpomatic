@@ -24,6 +24,7 @@
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include <samplerate.h>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -33,6 +34,7 @@ using std::pair;
 using std::make_pair;
 using std::runtime_error;
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** @param in Input sampling rate (Hz)
  *  @param out Output sampling rate (Hz)
@@ -62,7 +64,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 	int in_frames = in->frames ();
 	int in_offset = 0;
 	int out_offset = 0;
-	shared_ptr<AudioBuffers> resampled (new AudioBuffers (_channels, 0));
+	shared_ptr<AudioBuffers> resampled = make_shared<AudioBuffers> (_channels, 0);
 
 	while (in_frames > 0) {
 
@@ -136,7 +138,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 shared_ptr<const AudioBuffers>
 Resampler::flush ()
 {
-	shared_ptr<AudioBuffers> out (new AudioBuffers (_channels, 0));
+	shared_ptr<AudioBuffers> out = make_shared<AudioBuffers> (_channels, 0);
 	int out_offset = 0;
 	int64_t const output_size = 65536;
 

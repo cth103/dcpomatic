@@ -28,12 +28,14 @@
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
+#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
 using std::list;
 using std::string;
 using boost::shared_ptr;
+using boost::make_shared;
 
 VideoMXFContent::VideoMXFContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
@@ -51,7 +53,7 @@ bool
 VideoMXFContent::valid_mxf (boost::filesystem::path path)
 {
 	try {
-		shared_ptr<dcp::MonoPictureAsset> mp (new dcp::MonoPictureAsset (path));
+		shared_ptr<dcp::MonoPictureAsset> mp = make_shared<dcp::MonoPictureAsset> (path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -60,7 +62,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 	}
 
 	try {
-		shared_ptr<dcp::StereoPictureAsset> sp (new dcp::StereoPictureAsset (path));
+		shared_ptr<dcp::StereoPictureAsset> sp = make_shared<dcp::StereoPictureAsset> (path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -79,7 +81,7 @@ VideoMXFContent::examine (shared_ptr<Job> job)
 	Content::examine (job);
 
 	video.reset (new VideoContent (this));
-	shared_ptr<VideoMXFExaminer> examiner (new VideoMXFExaminer (shared_from_this ()));
+	shared_ptr<VideoMXFExaminer> examiner = make_shared<VideoMXFExaminer> (shared_from_this ());
 	video->take_from_examiner (examiner);
 }
 

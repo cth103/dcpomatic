@@ -50,6 +50,7 @@ extern "C" {
 }
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/make_shared.hpp>
 #include <vector>
 #include <iomanip>
 #include <iostream>
@@ -71,6 +72,7 @@ using std::pair;
 using std::max;
 using std::map;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::is_any_of;
 using boost::split;
 using dcp::Size;
@@ -175,7 +177,7 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 	*/
 	int const total_samples = size / bytes_per_audio_sample (stream);
 	int const frames = total_samples / stream->channels();
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (stream->channels(), frames));
+	shared_ptr<AudioBuffers> audio = make_shared<AudioBuffers> (stream->channels(), frames);
 
 	switch (audio_sample_format (stream)) {
 	case AV_SAMPLE_FMT_U8:
@@ -452,7 +454,7 @@ FFmpegDecoder::decode_video_packet ()
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
 			video->give (
-				shared_ptr<ImageProxy> (new RawImageProxy (image)),
+				make_shared<RawImageProxy> (image),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
 		} else {
@@ -532,7 +534,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
 	   G, third B, fourth A.
 	*/
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true));
+	shared_ptr<Image> image = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (rect->w, rect->h), true);
 
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 	/* Start of the first line in the subtitle */

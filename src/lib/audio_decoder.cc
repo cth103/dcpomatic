@@ -23,6 +23,7 @@
 #include "audio_decoder_stream.h"
 #include "audio_content.h"
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -30,13 +31,14 @@
 using std::cout;
 using std::map;
 using boost::shared_ptr;
+using boost::make_shared;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, bool fast, shared_ptr<Log> log)
 	: _ignore (false)
 	, _fast (fast)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
-		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, fast, log));
+		_streams[i] = make_shared<AudioDecoderStream> (content, i, parent, fast, log);
 	}
 }
 

@@ -47,6 +47,7 @@
 #include <libxml++/libxml++.h>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
+#include <boost/make_shared.hpp>
 #include <stdint.h>
 #include <iomanip>
 #include <iostream>
@@ -60,6 +61,7 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 using dcp::Size;
 using dcp::Data;
 
@@ -158,7 +160,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
 	boost::asio::ip::tcp::resolver::query query (serv.host_name(), raw_convert<string> (Config::instance()->server_port_base ()));
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<Socket> socket (new Socket (timeout));
+	shared_ptr<Socket> socket = make_shared<Socket> (timeout);
 
 	socket->connect (*endpoint_iterator);
 

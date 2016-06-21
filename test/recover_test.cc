@@ -32,11 +32,13 @@
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using std::string;
 using boost::shared_ptr;
+using boost::make_shared;
 
 static void
 note (dcp::NoteType t, string n)
@@ -53,7 +55,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/count300bd24.m2ts");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -71,8 +73,8 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d/original.mxf"));
-	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
+	shared_ptr<dcp::MonoPictureAsset> A = make_shared<dcp::MonoPictureAsset> ("build/test/recover_test_2d/original.mxf");
+	shared_ptr<dcp::MonoPictureAsset> B = make_shared<dcp::MonoPictureAsset> (video);
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
@@ -86,7 +88,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 	film->set_name ("recover_test");
 	film->set_three_d (true);
 
-	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/3d_test"));
+	shared_ptr<ImageContent> content = make_shared<ImageContent> (film, "test/data/3d_test");
 	content->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -106,8 +108,8 @@ BOOST_AUTO_TEST_CASE (recover_test_3d)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<dcp::StereoPictureAsset> A (new dcp::StereoPictureAsset ("build/test/recover_test_3d/original.mxf"));
-	shared_ptr<dcp::StereoPictureAsset> B (new dcp::StereoPictureAsset (video));
+	shared_ptr<dcp::StereoPictureAsset> A = make_shared<dcp::StereoPictureAsset> ("build/test/recover_test_3d/original.mxf");
+	shared_ptr<dcp::StereoPictureAsset> B = make_shared<dcp::StereoPictureAsset> (video);
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));

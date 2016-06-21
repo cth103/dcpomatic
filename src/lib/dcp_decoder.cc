@@ -43,12 +43,14 @@
 #include <dcp/sound_frame.h>
 #include <dcp/sound_asset_reader.h>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::make_shared;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
 	: _dcp_content (c)
@@ -94,15 +96,15 @@ DCPDecoder::pass (PassReason reason, bool)
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (_mono_reader) {
-			video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame (entry_point + frame), asset->size())), _offset + frame);
+			video->give (make_shared<J2KImageProxy> (_mono_reader->get_frame (entry_point + frame), asset->size()), _offset + frame);
 		} else {
 			video->give (
-				shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
+				make_shared<J2KImageProxy> (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT),
 				_offset + frame
 				);
 
 			video->give (
-				shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
+				make_shared<J2KImageProxy> (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT),
 				_offset + frame
 				);
 		}
@@ -115,7 +117,7 @@ DCPDecoder::pass (PassReason reason, bool)
 
 		int const channels = _dcp_content->audio->stream()->channels ();
 		int const frames = sf->size() / (3 * channels);
-		shared_ptr<AudioBuffers> data (new AudioBuffers (channels, frames));
+		shared_ptr<AudioBuffers> data = make_shared<AudioBuffers> (channels, frames);
 		for (int i = 0; i < frames; ++i) {
 			for (int j = 0; j < channels; ++j) {
 				data->data()[j][i] = static_cast<int> ((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float> (INT_MAX - 256);

@@ -36,12 +36,14 @@
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/wx.h>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::exception;
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::thread;
 using boost::scoped_array;
 
@@ -128,7 +130,7 @@ public:
 	void start_job (boost::filesystem::path path)
 	{
 		try {
-			shared_ptr<Film> film (new Film (path));
+			shared_ptr<Film> film = make_shared<Film> (path);
 			film->read_metadata ();
 			film->make_dcp ();
 		} catch (std::exception& e) {

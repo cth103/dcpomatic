@@ -22,7 +22,6 @@
  *  @brief Check audio analysis code.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/audio_analysis.h"
 #include "lib/analyse_audio_job.h"
 #include "lib/film.h"
@@ -33,8 +32,11 @@
 #include "lib/job_manager.h"
 #include "lib/audio_content.h"
 #include "test.h"
+#include <boost/make_shared.hpp>
+#include <boost/test/unit_test.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 
 static float
 random_float ()
@@ -97,11 +99,11 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->set_name ("audio_analysis_test");
 	boost::filesystem::path p = private_data / "betty_L.wav";
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, p));
+	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, p);
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job = make_shared<AnalyseAudioJob> (film, film->playlist ());
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -112,13 +114,13 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "boon_telly.mkv"));
+	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, private_data / "boon_telly.mkv");
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
 	c->audio->set_delay (-250);
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job = make_shared<AnalyseAudioJob> (film, film->playlist ());
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -129,11 +131,11 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 {
 	shared_ptr<Film> film = new_test_film ("audio_analysis_test2");
 	film->set_name ("audio_analysis_test2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, private_data / "3d_thx_broadway_2010_lossless.m2ts"));
+	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, private_data / "3d_thx_broadway_2010_lossless.m2ts");
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist ()));
+	shared_ptr<AnalyseAudioJob> job = make_shared<AnalyseAudioJob> (film, film->playlist ());
 	job->Finished.connect (boost::bind (&finished));
 	JobManager::instance()->add (job);
 	wait_for_jobs ();
@@ -158,7 +160,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/white.wav"));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/white.wav");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

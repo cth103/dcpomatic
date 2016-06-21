@@ -24,15 +24,17 @@
  *  @see test/make_black_test.cc, test/pixel_formats_test.cc
  */
 
-#include <boost/test/unit_test.hpp>
 #include <Magick++.h>
 #include "lib/image.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::string;
 using std::list;
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
@@ -138,7 +140,7 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 {
 	int const stride = 48 * 4;
 
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
+	shared_ptr<Image> A = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false);
 	A->make_black ();
 	uint8_t* a = A->data()[0];
 
@@ -151,7 +153,7 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 		}
 	}
 
-	shared_ptr<Image> B (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), true));
+	shared_ptr<Image> B = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (48, 48), true);
 	B->make_transparent ();
 	uint8_t* b = B->data()[0];
 
@@ -192,7 +194,7 @@ BOOST_AUTO_TEST_CASE (merge_test1)
 {
 	int const stride = 48 * 4;
 
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
+	shared_ptr<Image> A = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false);
 	A->make_transparent ();
 	uint8_t* a = A->data()[0];
 
@@ -217,7 +219,7 @@ BOOST_AUTO_TEST_CASE (merge_test1)
 /** Test merge (list<PositionImage>) with two images */
 BOOST_AUTO_TEST_CASE (merge_test2)
 {
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false));
+	shared_ptr<Image> A = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false);
 	A->make_transparent ();
 	uint8_t* a = A->data()[0];
 	for (int x = 0; x < 16; ++x) {
@@ -227,7 +229,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 		a[x * 4 + 3] = 255;
 	}
 
-	shared_ptr<Image> B (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false));
+	shared_ptr<Image> B = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (48, 1), false);
 	B->make_transparent ();
 	uint8_t* b = B->data()[0];
 	for (int x = 0; x < 16; ++x) {

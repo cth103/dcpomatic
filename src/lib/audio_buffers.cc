@@ -20,6 +20,7 @@
 
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
+#include <boost/make_shared.hpp>
 #include <cassert>
 #include <cstring>
 #include <cmath>
@@ -27,6 +28,7 @@
 
 using std::bad_alloc;
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** Construct an AudioBuffers.  Audio data is undefined after this constructor.
  *  @param channels Number of channels.
@@ -305,7 +307,7 @@ AudioBuffers::apply_gain (float dB)
 shared_ptr<AudioBuffers>
 AudioBuffers::channel (int c) const
 {
-	shared_ptr<AudioBuffers> o (new AudioBuffers (1, frames ()));
+	shared_ptr<AudioBuffers> o = make_shared<AudioBuffers> (1, frames ());
 	o->copy_channel_from (this, c, 0);
 	return o;
 }
@@ -320,7 +322,7 @@ AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, in
 shared_ptr<AudioBuffers>
 AudioBuffers::clone () const
 {
-	shared_ptr<AudioBuffers> b (new AudioBuffers (channels (), frames ()));
+	shared_ptr<AudioBuffers> b = make_shared<AudioBuffers> (channels (), frames ());
 	b->copy_from (this, frames (), 0, 0);
 	return b;
 }

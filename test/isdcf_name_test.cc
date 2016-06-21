@@ -28,10 +28,12 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
 #include "test.h"
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (isdcf_name_test)
 {
@@ -76,7 +78,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
 
-	shared_ptr<ImageContent> content (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> content = make_shared<ImageContent> (film, "test/data/simple_testcard_640x480.png");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 	content->video->set_scale (VideoContentScale (Ratio::from_id ("133")));
@@ -128,7 +130,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test audio channel markup */
 
 	film->set_audio_channels (6);
-	shared_ptr<FFmpegContent> sound (new FFmpegContent (film, "test/data/sine_440.wav"));
+	shared_ptr<FFmpegContent> sound = make_shared<FFmpegContent> (film, "test/data/sine_440.wav");
 	film->examine_and_add_content (sound);
 	wait_for_jobs ();
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PP_SMPTE_OV");

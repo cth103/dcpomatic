@@ -27,6 +27,7 @@
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <stdint.h>
 #include <cmath>
 #include <cstdio>
@@ -41,6 +42,7 @@ using std::cout;
 using std::max;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::dynamic_pointer_cast;
 
 AudioAnalysis::AudioAnalysis (int channels)
@@ -112,7 +114,7 @@ AudioAnalysis::points (int c) const
 void
 AudioAnalysis::write (boost::filesystem::path filename)
 {
-	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
+	shared_ptr<xmlpp::Document> doc = make_shared<xmlpp::Document> ();
 	xmlpp::Element* root = doc->create_root_node ("AudioAnalysis");
 
 	BOOST_FOREACH (vector<AudioPoint>& i, _data) {

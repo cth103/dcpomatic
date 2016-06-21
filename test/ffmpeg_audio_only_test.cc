@@ -27,8 +27,10 @@
 #include "test.h"
 #include <sndfile.h>
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** Test the FFmpeg code with audio-only content */
 static void
@@ -37,7 +39,7 @@ test (boost::filesystem::path file)
 	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_only_test");
 	film->set_name ("test_film");
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, file));
+	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, file);
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 	film->write_metadata ();
@@ -56,7 +58,7 @@ test (boost::filesystem::path file)
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 	float* ref_buffer = new float[info.samplerate * info.channels];
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
 
 	for (DCPTime t; t < film->length(); t += DCPTime::from_seconds (1)) {
 		int const N = sf_readf_float (ref, ref_buffer, info.samplerate);

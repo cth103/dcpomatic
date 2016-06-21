@@ -18,15 +18,17 @@
 
 */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using std::list;
 using std::string;
 using std::cerr;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::optional;
 
 static
@@ -86,11 +88,11 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 		"<SubtitleYScale>0</SubtitleYScale>"
 		"</Content>";
 
-	shared_ptr<cxml::Document> doc (new cxml::Document ());
+	shared_ptr<cxml::Document> doc = make_shared<cxml::Document> ();
 	doc->read_string(s.str ());
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> vc (new FFmpegContent (film, doc, 10, notes));
+	shared_ptr<FFmpegContent> vc = boost::make_shared<FFmpegContent> (film, doc, 10, notes);
 
 	optional<VideoContentScale> sc;
 	if (ratio) {

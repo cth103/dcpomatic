@@ -27,8 +27,10 @@
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/exceptions.h>
+#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 
 VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, shared_ptr<Log> log)
 	: _content (content)
@@ -77,10 +79,10 @@ VideoMXFDecoder::pass (PassReason, bool)
 	}
 
 	if (_mono_reader) {
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame(frame), _size)), frame);
+		video->give (make_shared<J2KImageProxy> (_mono_reader->get_frame(frame), _size), frame);
 	} else {
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT)), frame);
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT)), frame);
+		video->give (make_shared<J2KImageProxy> (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT), frame);
+		video->give (make_shared<J2KImageProxy> (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT), frame);
 	}
 
 	_next += ContentTime::from_frames (1, vfr);

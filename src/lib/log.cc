@@ -27,6 +27,7 @@
 #include "config.h"
 #include "safe_stringstream.h"
 #include "string_log_entry.h"
+#include <boost/make_shared.hpp>
 #include <time.h>
 #include <cstdio>
 
@@ -35,6 +36,7 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 
 Log::Log ()
 	: _types (0)
@@ -71,7 +73,7 @@ Log::log (string message, int type)
 		return;
 	}
 
-	shared_ptr<StringLogEntry> e (new StringLogEntry (type, message));
+	shared_ptr<StringLogEntry> e = boost::make_shared<StringLogEntry> (type, message);
 
 	do_log (e);
 }
@@ -81,13 +83,13 @@ Log::dcp_log (dcp::NoteType type, string m)
 {
 	switch (type) {
 	case dcp::DCP_PROGRESS:
-		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_GENERAL, m)));
+		do_log (boost::make_shared<const StringLogEntry> (LogEntry::TYPE_GENERAL, m));
 		break;
 	case dcp::DCP_ERROR:
-		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_ERROR, m)));
+		do_log (boost::make_shared<const StringLogEntry> (LogEntry::TYPE_ERROR, m));
 		break;
 	case dcp::DCP_NOTE:
-		do_log (shared_ptr<const LogEntry> (new StringLogEntry (LogEntry::TYPE_WARNING, m)));
+		do_log (boost::make_shared<const StringLogEntry> (LogEntry::TYPE_WARNING, m));
 		break;
 	}
 }

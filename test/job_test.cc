@@ -22,13 +22,15 @@
  *  @brief Basic tests of Job and JobManager.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/cross.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using std::string;
 using boost::shared_ptr;
+using boost::make_shared;
 
 class TestJob : public Job
 {
@@ -70,7 +72,7 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 	shared_ptr<Film> film;
 
 	/* Single job */
-	shared_ptr<TestJob> a (new TestJob (film));
+	shared_ptr<TestJob> a = make_shared<TestJob> (film);
 
 	JobManager::instance()->add (a);
 	dcpomatic_sleep (1);

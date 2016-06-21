@@ -35,6 +35,7 @@
 #include <dcp/reel.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <iterator>
 #include <iostream>
 
@@ -47,6 +48,7 @@ using std::pair;
 using std::vector;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::scoped_ptr;
 using boost::optional;
 using boost::function;
@@ -132,7 +134,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	job->set_progress_unknown ();
 	Content::examine (job);
 
-	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));
+	shared_ptr<DCPExaminer> examiner = make_shared<DCPExaminer> (shared_from_this ());
 	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 

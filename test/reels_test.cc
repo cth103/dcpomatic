@@ -29,18 +29,20 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** Test Film::reels() */
 BOOST_AUTO_TEST_CASE (reels_test1)
 {
 	shared_ptr<Film> film = new_test_film ("reels_test1");
 	film->set_container (Ratio::from_id ("185"));
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> A = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (A);
-	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> B = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
 	BOOST_CHECK_EQUAL (A->full_length(), DCPTime (288000));
@@ -87,21 +89,21 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_red.png"));
+		shared_ptr<ImageContent> c = make_shared<ImageContent> (film, "test/data/flat_red.png");
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
 		c->video->set_length (24);
 	}
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_green.png"));
+		shared_ptr<ImageContent> c = make_shared<ImageContent> (film, "test/data/flat_green.png");
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
 		c->video->set_length (24);
 	}
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_blue.png"));
+		shared_ptr<ImageContent> c = make_shared<ImageContent> (film, "test/data/flat_blue.png");
 		film->examine_and_add_content (c);
 		wait_for_jobs ();
 		c->video->set_length (24);
@@ -121,7 +123,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	film2->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film2->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
-	shared_ptr<DCPContent> c (new DCPContent (film2, film->dir (film->dcp_name ())));
+	shared_ptr<DCPContent> c = make_shared<DCPContent> (film2, film->dir (film->dcp_name ()));
 	film2->examine_and_add_content (c);
 	wait_for_jobs ();
 
@@ -155,9 +157,9 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
-	shared_ptr<Content> dcp (new DCPContent (film, "test/data/reels_test2"));
+	shared_ptr<Content> dcp = make_shared<DCPContent> (film, "test/data/reels_test2");
 	film->examine_and_add_content (dcp);
-	shared_ptr<Content> sub (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	shared_ptr<Content> sub = make_shared<TextSubtitleContent> (film, "test/data/subrip.srt");
 	film->examine_and_add_content (sub);
 	wait_for_jobs ();
 
@@ -197,7 +199,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 		content[i]->video->set_length (24);
 	}
 
-	shared_ptr<TextSubtitleContent> subs (new TextSubtitleContent (film, "test/data/subrip3.srt"));
+	shared_ptr<TextSubtitleContent> subs = make_shared<TextSubtitleContent> (film, "test/data/subrip3.srt");
 	film->examine_and_add_content (subs);
 	wait_for_jobs ();
 

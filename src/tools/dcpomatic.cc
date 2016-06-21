@@ -72,6 +72,7 @@
 #endif
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -93,6 +94,7 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using boost::make_shared;
 
 class FilmChangedDialog : public boost::noncopyable
 {
@@ -275,7 +277,7 @@ public:
 
 	void new_film (boost::filesystem::path path)
 	{
-		shared_ptr<Film> film (new Film (path));
+		shared_ptr<Film> film = make_shared<Film> (path);
 		film->write_metadata ();
 		film->set_name (path.filename().generic_string());
 		set_film (film);
@@ -284,7 +286,7 @@ public:
 	void load_film (boost::filesystem::path file)
 	try
 	{
-		shared_ptr<Film> film (new Film (file));
+		shared_ptr<Film> film = make_shared<Film> (file);
 		list<string> const notes = film->read_metadata ();
 
 		if (film->state_version() == 4) {
@@ -490,14 +492,14 @@ private:
 					);
 			} else {
 				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (
-								 _film->name(),
-								 _film->dcp_name(),
-								 d->from(),
-								 d->until(),
-								 CinemaKDMs::collect (screen_kdms),
-								 _film->log()
-								 ))
+					boost::make_shared<SendKDMEmailJob> (
+						_film->name(),
+						_film->dcp_name(),
+						d->from(),
+						d->until(),
+						CinemaKDMs::collect (screen_kdms),
+						_film->log()
+						)
 					);
 			}
 		} catch (dcp::NotEncryptedError& e) {

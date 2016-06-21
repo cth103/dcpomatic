@@ -25,10 +25,12 @@
 #include "lib/audio_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 
 static string const xml = "<Content>"
 	"<Type>FFmpeg</Type>"
@@ -123,11 +125,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_time_calculation_test");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	shared_ptr<cxml::Document> doc = make_shared<cxml::Document> ();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
+	shared_ptr<FFmpegContent> content = boost::make_shared<FFmpegContent> (film, doc, film->state_version(), notes);
 
 	/* 25fps content, 25fps DCP */
 	film->set_video_frame_rate (25);
@@ -176,15 +178,15 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 {
 	shared_ptr<Film> film = new_test_film ("player_time_calculation_test1");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	shared_ptr<cxml::Document> doc = make_shared<cxml::Document> ();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
+	shared_ptr<FFmpegContent> content = boost::make_shared<FFmpegContent> (film, doc, film->state_version(), notes);
 	film->set_sequence (false);
 	film->add_content (content);
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (DCPTime ());
@@ -381,15 +383,15 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 {
 	shared_ptr<Film> film = new_test_film ("player_time_calculation_test2");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	shared_ptr<cxml::Document> doc = make_shared<cxml::Document> ();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
+	shared_ptr<FFmpegContent> content = boost::make_shared<FFmpegContent> (film, doc, film->state_version(), notes);
 	film->set_sequence (false);
 	film->add_content (content);
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (DCPTime ());
@@ -557,16 +559,16 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 {
 	shared_ptr<Film> film = new_test_film ("player_time_calculation_test3");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	shared_ptr<cxml::Document> doc = make_shared<cxml::Document> ();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, doc, film->state_version(), notes));
+	shared_ptr<FFmpegContent> content = boost::make_shared<FFmpegContent> (film, doc, film->state_version(), notes);
 	AudioStreamPtr stream = content->audio->streams().front();
 	film->set_sequence (false);
 	film->add_content (content);
 
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
 
 	/* Position 0, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (DCPTime ());

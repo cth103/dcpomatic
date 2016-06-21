@@ -41,6 +41,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -63,6 +64,7 @@ using boost::thread;
 using boost::bind;
 using boost::scoped_array;
 using boost::optional;
+using boost::make_shared;
 using dcp::Size;
 using dcp::Data;
 
@@ -108,7 +110,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 
 	string s (buffer.get());
-	shared_ptr<cxml::Document> xml (new cxml::Document ("EncodingRequest"));
+	shared_ptr<cxml::Document> xml = make_shared<cxml::Document> ("EncodingRequest");
 	xml->read_string (s);
 	/* This is a double-check; the server shouldn't even be on the candidate list
 	   if it is the wrong version, but it doesn't hurt to make sure here.
@@ -119,7 +121,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 		return -1;
 	}
 
-	shared_ptr<PlayerVideo> pvf (new PlayerVideo (xml, socket));
+	shared_ptr<PlayerVideo> pvf = make_shared<PlayerVideo> (xml, socket);
 
 	DCPVideo dcp_video_frame (pvf, xml, _log);
 
@@ -264,7 +266,7 @@ EncodeServer::broadcast_received ()
 		if (_verbose) {
 			cout << "Offering services to master " << _broadcast.send_endpoint.address().to_string () << "\n";
 		}
-		shared_ptr<Socket> socket (new Socket);
+		shared_ptr<Socket> socket = make_shared<Socket> ();
 		try {
 			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), Config::instance()->server_port_base() + 1));
 			socket->write (xml.length() + 1);

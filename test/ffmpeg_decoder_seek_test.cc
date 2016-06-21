@@ -35,12 +35,14 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/make_shared.hpp>
 #include <vector>
 
 using std::cerr;
 using std::vector;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::optional;
 
 static void
@@ -62,11 +64,11 @@ test (boost::filesystem::path file, vector<int> frames)
 	}
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, path);
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
-	shared_ptr<Log> log (new NullLog);
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log, false));
+	shared_ptr<Log> log = make_shared<NullLog> ();
+	shared_ptr<FFmpegDecoder> decoder = make_shared<FFmpegDecoder> (content, log, false);
 
 	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
 		check (decoder, *i);

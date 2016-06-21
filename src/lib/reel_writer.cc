@@ -42,6 +42,7 @@
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
@@ -54,6 +55,7 @@ using std::list;
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Data;
@@ -303,7 +305,7 @@ ReelWriter::finish ()
 shared_ptr<dcp::Reel>
 ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr<Font> > const & fonts)
 {
-	shared_ptr<dcp::Reel> reel (new dcp::Reel ());
+	shared_ptr<dcp::Reel> reel = make_shared<dcp::Reel> ();
 
 	shared_ptr<dcp::ReelPictureAsset> reel_picture_asset;
 
@@ -336,7 +338,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 
 	if (_sound_asset) {
 		/* We have made a sound asset of our own.  Put it into the reel */
-		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_asset, 0)));
+		reel->add (make_shared<dcp::ReelSoundAsset> (_sound_asset, 0));
 	} else {
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
 		BOOST_FOREACH (ReferencedReelAsset j, refs) {
@@ -460,13 +462,13 @@ ReelWriter::write (PlayerSubtitles subs)
 			lang = "Unknown";
 		}
 		if (_film->interop ()) {
-			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
+			shared_ptr<dcp::InteropSubtitleAsset> s = make_shared<dcp::InteropSubtitleAsset> ();
 			s->set_movie_title (_film->name ());
 			s->set_language (lang);
 			s->set_reel_number ("1");
 			_subtitle_asset = s;
 		} else {
-			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
+			shared_ptr<dcp::SMPTESubtitleAsset> s = make_shared<dcp::SMPTESubtitleAsset> ();
 			s->set_content_title_text (_film->name ());
 			s->set_language (lang);
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));

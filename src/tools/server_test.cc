@@ -31,6 +31,7 @@
 #include "lib/player.h"
 #include "lib/player_video.h"
 #include "lib/encode_server_description.h"
+#include <boost/make_shared.hpp>
 #include <getopt.h>
 #include <iostream>
 #include <iomanip>
@@ -41,18 +42,19 @@ using std::cerr;
 using std::string;
 using std::pair;
 using boost::shared_ptr;
+using boost::make_shared;
 using dcp::Data;
 
 static shared_ptr<Film> film;
 static EncodeServerDescription* server;
-static shared_ptr<FileLog> log_ (new FileLog ("servomatictest.log"));
+static shared_ptr<FileLog> log_ = make_shared<FileLog> ("servomatictest.log");
 static int frame_count = 0;
 
 void
 process_video (shared_ptr<PlayerVideo> pvf)
 {
-	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
-	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_));
+	shared_ptr<DCPVideo> local = make_shared<DCPVideo> (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_);
+	shared_ptr<DCPVideo> remote = make_shared<DCPVideo> (pvf, frame_count, film->video_frame_rate(), 250000000, RESOLUTION_2K, log_);
 
 	cout << "Frame " << frame_count << ": ";
 	cout.flush ();
@@ -144,7 +146,7 @@ main (int argc, char* argv[])
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 
-		shared_ptr<Player> player (new Player (film, film->playlist ()));
+		shared_ptr<Player> player = make_shared<Player> (film, film->playlist ());
 
 		DCPTime const frame = DCPTime::from_frames (1, film->video_frame_rate ());
 		for (DCPTime t; t < film->length(); t += frame) {

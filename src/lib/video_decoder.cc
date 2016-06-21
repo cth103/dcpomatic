@@ -25,6 +25,7 @@
 #include "log.h"
 #include "compose.hpp"
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -34,6 +35,7 @@ using std::list;
 using std::max;
 using std::back_inserter;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::optional;
 
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared_ptr<Log> log)
@@ -166,7 +168,7 @@ VideoDecoder::fill_one_eye (Frame from, Frame to, Eyes eye)
 	}
 
 	/* Fill with black... */
-	shared_ptr<const ImageProxy> filler_image (new RawImageProxy (_black_image));
+	shared_ptr<const ImageProxy> filler_image = make_shared<RawImageProxy> (_black_image);
 	Part filler_part = PART_WHOLE;
 
 	/* ...unless there's some video we can fill with */
@@ -192,8 +194,8 @@ void
 VideoDecoder::fill_both_eyes (VideoFrame from, VideoFrame to)
 {
 	/* Fill with black... */
-	shared_ptr<const ImageProxy> filler_left_image (new RawImageProxy (_black_image));
-	shared_ptr<const ImageProxy> filler_right_image (new RawImageProxy (_black_image));
+	shared_ptr<const ImageProxy> filler_left_image = make_shared<RawImageProxy> (_black_image);
+	shared_ptr<const ImageProxy> filler_right_image = make_shared<RawImageProxy> (_black_image);
 	Part filler_left_part = PART_WHOLE;
 	Part filler_right_part = PART_WHOLE;
 

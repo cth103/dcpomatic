@@ -28,6 +28,7 @@
 #include "log.h"
 #include "audio_content.h"
 #include "compose.hpp"
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -39,6 +40,7 @@ using std::min;
 using std::max;
 using boost::optional;
 using boost::shared_ptr;
+using boost::make_shared;
 
 AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, AudioStreamPtr stream, Decoder* decoder, bool fast, shared_ptr<Log> log)
 	: _content (content)
@@ -56,7 +58,7 @@ AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, 
 void
 AudioDecoderStream::reset_decoded ()
 {
-	_decoded = ContentAudio (shared_ptr<AudioBuffers> (new AudioBuffers (_stream->channels(), 0)), 0);
+	_decoded = ContentAudio (make_shared<AudioBuffers> (_stream->channels(), 0), 0);
 }
 
 ContentAudio
@@ -118,7 +120,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	Frame const to_return = max ((Frame) 0, min (available, length));
 
 	/* Copy our data to the output */
-	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded.audio->channels(), to_return));
+	shared_ptr<AudioBuffers> out = make_shared<AudioBuffers> (_decoded.audio->channels(), to_return);
 	out->copy_from (_decoded.audio.get(), to_return, decoded_offset, 0);
 
 	Frame const remaining = max ((Frame) 0, available - to_return);
@@ -157,7 +159,7 @@ AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time
 		Frame const delta_frames = delta.frames_round (frame_rate);
 		if (delta_frames > 0) {
 			/* This data comes after the seek time.  Pad the data with some silence. */
-			shared_ptr<AudioBuffers> padded (new AudioBuffers (data->channels(), data->frames() + delta_frames));
+			shared_ptr<AudioBuffers> padded = make_shared<AudioBuffers> (data->channels(), data->frames() + delta_frames);
 			padded->make_silent ();
 			padded->copy_from (data.get(), data->frames(), 0, delta_frames);
 			data = padded;
@@ -172,7 +174,7 @@ AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time
 				*/
 				return;
 			}
-			shared_ptr<AudioBuffers> trimmed (new AudioBuffers (data->channels(), to_keep));
+			shared_ptr<AudioBuffers> trimmed = make_shared<AudioBuffers> (data->channels(), to_keep);
 			trimmed->copy_from (data.get(), to_keep, to_discard, 0);
 			data = trimmed;
 			time += ContentTime::from_frames (to_discard, frame_rate);

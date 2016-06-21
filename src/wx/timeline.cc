@@ -40,6 +40,7 @@
 #include <wx/graphics.h>
 #include <boost/weak_ptr.hpp>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 #include <list>
 #include <iostream>
 
@@ -47,6 +48,7 @@ using std::list;
 using std::cout;
 using std::max;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::bind;
@@ -150,19 +152,19 @@ Timeline::recreate_views ()
 
 	BOOST_FOREACH (shared_ptr<Content> i, film->content ()) {
 		if (i->video) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineVideoContentView (*this, i)));
+			_views.push_back (make_shared<TimelineVideoContentView> (*this, i));
 		}
 
 		if (i->audio && !i->audio->mapping().mapped_output_channels().empty ()) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineAudioContentView (*this, i)));
+			_views.push_back (make_shared<TimelineAudioContentView> (*this, i));
 		}
 
 		if (i->subtitle) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineSubtitleContentView (*this, i)));
+			_views.push_back (make_shared<TimelineSubtitleContentView> (*this, i));
 		}
 
 		if (dynamic_pointer_cast<AtmosMXFContent> (i)) {
-			_views.push_back (shared_ptr<TimelineView> (new TimelineAtmosContentView (*this, i)));
+			_views.push_back (make_shared<TimelineAtmosContentView> (*this, i));
 		}
 	}
 

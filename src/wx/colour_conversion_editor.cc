@@ -27,11 +27,13 @@
 #include <dcp/modified_gamma_transfer_function.h>
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::dynamic_pointer_cast;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
@@ -308,19 +310,15 @@ ColourConversionEditor::get () const
 
 	if (_input_gamma_linearised->GetValue ()) {
 		conversion.set_in (
-			shared_ptr<dcp::ModifiedGammaTransferFunction> (
-				new dcp::ModifiedGammaTransferFunction (
-					_input_power->GetValue (),
-					raw_convert<double> (wx_to_std (_input_threshold->GetValue ())),
-					raw_convert<double> (wx_to_std (_input_A->GetValue ())),
-					raw_convert<double> (wx_to_std (_input_B->GetValue ()))
-					)
+			make_shared<dcp::ModifiedGammaTransferFunction> (
+				_input_power->GetValue (),
+				raw_convert<double> (wx_to_std (_input_threshold->GetValue ())),
+				raw_convert<double> (wx_to_std (_input_A->GetValue ())),
+				raw_convert<double> (wx_to_std (_input_B->GetValue ()))
 				)
 			);
 	} else {
-		conversion.set_in (
-			shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (_input_gamma->GetValue ()))
-			);
+		conversion.set_in (make_shared<dcp::GammaTransferFunction> (_input_gamma->GetValue ()));
 	}
 
 	conversion.set_yuv_to_rgb (static_cast<dcp::YUVToRGB> (_yuv_to_rgb->GetSelection ()));
@@ -349,7 +347,7 @@ ColourConversionEditor::get () const
 		conversion.unset_adjusted_white ();
 	}
 
-	conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (2.6)));
+	conversion.set_out (make_shared<dcp::GammaTransferFunction> (2.6));
 
 	return conversion;
 }

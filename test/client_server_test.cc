@@ -37,9 +37,11 @@
 #include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
+#include <boost/make_shared.hpp>
 
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::thread;
 using boost::optional;
 using dcp::Data;
@@ -56,7 +58,7 @@ do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription descriptio
 
 BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGB24, dcp::Size (1998, 1080), true));
+	shared_ptr<Image> image = make_shared<Image> (AV_PIX_FMT_RGB24, dcp::Size (1998, 1080), true);
 	uint8_t* p = image->data()[0];
 
 	for (int y = 0; y < 1080; ++y) {
@@ -69,7 +71,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		p += image->stride()[0];
 	}
 
-	shared_ptr<Image> sub_image (new Image (AV_PIX_FMT_RGBA, dcp::Size (100, 200), true));
+	shared_ptr<Image> sub_image = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (100, 200), true);
 	p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		uint8_t* q = p;
@@ -82,11 +84,11 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		p += sub_image->stride()[0];
 	}
 
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_rgb.log"));
+	shared_ptr<FileLog> log = make_shared<FileLog> ("build/test/client_server_test_rgb.log");
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
+			make_shared<RawImageProxy> (image),
 			DCPTime (),
 			Crop (),
 			optional<double> (),
@@ -140,7 +142,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
+	shared_ptr<Image> image = make_shared<Image> (AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true);
 
 	for (int i = 0; i < image->planes(); ++i) {
 		uint8_t* p = image->data()[i];
@@ -149,7 +151,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		}
 	}
 
-	shared_ptr<Image> sub_image (new Image (AV_PIX_FMT_RGBA, dcp::Size (100, 200), true));
+	shared_ptr<Image> sub_image = make_shared<Image> (AV_PIX_FMT_RGBA, dcp::Size (100, 200), true);
 	uint8_t* p = sub_image->data()[0];
 	for (int y = 0; y < 200; ++y) {
 		uint8_t* q = p;
@@ -162,11 +164,11 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		p += sub_image->stride()[0];
 	}
 
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_yuv.log"));
+	shared_ptr<FileLog> log = make_shared<FileLog> ("build/test/client_server_test_yuv.log");
 
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
+			make_shared<RawImageProxy> (image),
 			DCPTime (),
 			Crop (),
 			optional<double> (),
@@ -220,7 +222,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true));
+	shared_ptr<Image> image = make_shared<Image> (AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true);
 
 	for (int i = 0; i < image->planes(); ++i) {
 		uint8_t* p = image->data()[i];
@@ -229,11 +231,11 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		}
 	}
 
-	shared_ptr<FileLog> log (new FileLog ("build/test/client_server_test_j2k.log"));
+	shared_ptr<FileLog> log = make_shared<FileLog> ("build/test/client_server_test_j2k.log");
 
 	shared_ptr<PlayerVideo> raw_pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new RawImageProxy (image)),
+			make_shared<RawImageProxy> (image),
 			DCPTime (),
 			Crop (),
 			optional<double> (),
@@ -260,7 +262,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	shared_ptr<PlayerVideo> j2k_pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080))),
+			/* This J2KImageProxy constructor is private, so no make_shared */
+			shared_ptr<J2KImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080))),
 			DCPTime (),
 			Crop (),
 			optional<double> (),

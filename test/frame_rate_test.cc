@@ -23,7 +23,6 @@
  *  frame rate for the DCP.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_content.h"
@@ -33,8 +32,11 @@
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 
 /* Test Playlist::best_dcp_frame_rate and FrameRateChange
    with a single piece of content.
@@ -43,7 +45,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 {
 	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_single");
 	/* Get any piece of content, it doesn't matter what */
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -221,9 +223,9 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 {
 	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_double");
 	/* Get any old content, it doesn't matter what */
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> A = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (A);
-	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> B = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
 
@@ -252,7 +254,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
 	shared_ptr<Film> film = new_test_film ("audio_sampling_rate_test");
 	/* Get any piece of content, it doesn't matter what */
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> content = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -262,7 +264,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	afr.push_back (30);
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
-	shared_ptr<FFmpegAudioStream> stream (new FFmpegAudioStream ("foo", 0, 0, 0, 0));
+	shared_ptr<FFmpegAudioStream> stream = make_shared<FFmpegAudioStream> ("foo", 0, 0, 0, 0);
 	content->audio.reset (new AudioContent (content.get()));
 	content->audio->add_stream (stream);
 	content->_video_frame_rate = 24;

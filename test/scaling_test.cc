@@ -22,16 +22,18 @@
  *  @brief Test scaling and black-padding of images from a still-image source.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/image_content.h"
 #include "lib/ratio.h"
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using std::string;
 using boost::shared_ptr;
+using boost::make_shared;
 
 static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content, string image, string container)
 {
@@ -60,7 +62,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	shared_ptr<Film> film = new_test_film ("scaling_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_name ("scaling_test");
-	shared_ptr<ImageContent> imc (new ImageContent (film, "test/data/simple_testcard_640x480.png"));
+	shared_ptr<ImageContent> imc = make_shared<ImageContent> (film, "test/data/simple_testcard_640x480.png");
 
 	film->examine_and_add_content (imc);
 

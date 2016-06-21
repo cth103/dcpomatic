@@ -83,6 +83,7 @@ VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		return shared_ptr<VideoContent> ();
 	}
 
+	/* Can't use make_shared here as the constructor is private */
 	return shared_ptr<VideoContent> (new VideoContent (parent, node, version));
 }
 

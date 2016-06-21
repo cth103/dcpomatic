@@ -28,6 +28,7 @@
 #include <dcp/interop_load_font_node.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
+#include <boost/make_shared.hpp>
 
 #include "i18n.h"
 
@@ -35,6 +36,7 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::make_shared;
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)
@@ -76,7 +78,7 @@ DCPSubtitleContent::examine (shared_ptr<Job> job)
 	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds ());
 
 	BOOST_FOREACH (shared_ptr<dcp::LoadFontNode> i, sc->load_font_nodes ()) {
-		subtitle->add_font (shared_ptr<Font> (new Font (i->id)));
+		subtitle->add_font (boost::make_shared<Font> (i->id));
 	}
 }
 

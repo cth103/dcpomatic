@@ -26,8 +26,10 @@
 #include "test.h"
 #include <dcp/mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 
 using boost::shared_ptr;
+using boost::make_shared;
 using boost::dynamic_pointer_cast;
 
 static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_a41afbff-e1ad-41c4-9a84-de315b95dd0f.mxf";
@@ -53,9 +55,9 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<dcp::MonoPictureAsset> ref (new dcp::MonoPictureAsset (ref_mxf));
+	shared_ptr<dcp::MonoPictureAsset> ref = make_shared<dcp::MonoPictureAsset> (ref_mxf);
 	boost::filesystem::directory_iterator i ("build/test/video_mxf_content_test/video");
-	shared_ptr<dcp::MonoPictureAsset> comp (new dcp::MonoPictureAsset (*i));
+	shared_ptr<dcp::MonoPictureAsset> comp = make_shared<dcp::MonoPictureAsset> (*i);
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));
 }

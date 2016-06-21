@@ -22,7 +22,6 @@
  *  @brief Test DCP subtitle content in various ways.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/dcp_subtitle_content.h"
 #include "lib/dcp_content.h"
@@ -33,11 +32,14 @@
 #include "lib/content_subtitle.h"
 #include "lib/subtitle_decoder.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** Test pass-through of a very simple DCP subtitle file */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
@@ -46,7 +48,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub.xml"));
+	shared_ptr<DCPSubtitleContent> content = make_shared<DCPSubtitleContent> (film, "test/data/dcp_sub.xml");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
@@ -67,11 +69,11 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<DCPContent> content (new DCPContent (film, private_data / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"));
+	shared_ptr<DCPContent> content = make_shared<DCPContent> (film, private_data / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
+	shared_ptr<DCPDecoder> decoder = make_shared<DCPDecoder> (content, film->log(), false);
 
 	list<ContentTimePeriod> ctp = decoder->text_subtitles_during (
 		ContentTimePeriod (

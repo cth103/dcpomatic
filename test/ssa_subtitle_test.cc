@@ -27,11 +27,13 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/make_shared.hpp>
 #include <list>
 
 using std::string;
 using std::list;
 using boost::shared_ptr;
+using boost::make_shared;
 
 /** Make a DCP with subs from a .ssa file */
 BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
@@ -42,7 +44,7 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
 	film->set_interop (true);
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "DKH_UT_EN20160601def.ssa"));
+	shared_ptr<TextSubtitleContent> content = make_shared<TextSubtitleContent> (film, private_data / "DKH_UT_EN20160601def.ssa");
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

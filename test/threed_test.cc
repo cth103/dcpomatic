@@ -29,16 +29,18 @@
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/video_content.h"
+#include <boost/make_shared.hpp>
 #include <iostream>
 
 using std::cout;
 using boost::shared_ptr;
+using boost::make_shared;
 
 BOOST_AUTO_TEST_CASE (threed_test)
 {
 	shared_ptr<Film> film = new_test_film ("threed_test");
 	film->set_name ("test_film2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	shared_ptr<FFmpegContent> c = make_shared<FFmpegContent> (film, "test/data/test.mp4");
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
