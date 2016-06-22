@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,7 +23,7 @@
 class DirPickerCtrl : public wxPanel
 {
 public:
-	DirPickerCtrl (wxWindow *);
+	DirPickerCtrl (wxWindow *, wxSize size = wxDefaultSize);
 
 	wxString GetPath () const;
 	void SetPath (wxString);
@@ -36,4 +36,3 @@ private:
 	wxString _path;
 	wxSizer* _sizer;
 };
-

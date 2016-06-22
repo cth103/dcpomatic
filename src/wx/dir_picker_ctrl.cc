@@ -28,8 +28,8 @@
 using namespace std;
 using namespace boost;
 
-DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
-	: wxPanel (parent)
+DirPickerCtrl::DirPickerCtrl (wxWindow* parent, wxSize size)
+	: wxPanel (parent, wxID_ANY, wxDefaultPosition, size)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 

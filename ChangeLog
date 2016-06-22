@@ -1,3 +1,7 @@
+2016-06-21  Carl Hetherington  <cth@carlh.net>
+
+	* Make new file dialogue bigger on some platforms (#902).
+
 2016-06-20  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
