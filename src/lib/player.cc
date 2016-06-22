@@ -143,6 +143,11 @@ Player::setup_pieces ()
 			decoder->audio->set_fast ();
 		}
 
+		shared_ptr<DCPDecoder> dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
+		if (dcp && _play_referenced) {
+			dcp->set_decode_referenced ();
+		}
+
 		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc)));
 	}
 

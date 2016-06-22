@@ -44,6 +44,8 @@ public:
 		return _reels;
 	}
 
+	void set_decode_referenced ();
+
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
@@ -69,4 +71,6 @@ private:
 	boost::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
 	/** Reader for current sound asset, if applicable */
 	boost::shared_ptr<dcp::SoundAssetReader> _sound_reader;
+
+	bool _decode_referenced;
 };

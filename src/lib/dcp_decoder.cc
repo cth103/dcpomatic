@@ -52,6 +52,7 @@ using boost::dynamic_pointer_cast;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	: _dcp_content (c)
+	, _decode_referenced (false)
 {
 	video.reset (new VideoDecoder (this, c, log));
 	audio.reset (new AudioDecoder (this, c->audio, log));
@@ -90,7 +91,7 @@ DCPDecoder::pass (PassReason reason, bool)
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
-	if ((_mono_reader || _stereo_reader) && reason != PASS_REASON_SUBTITLE) {
+	if ((_mono_reader || _stereo_reader) && reason != PASS_REASON_SUBTITLE && (_decode_referenced || !_dcp_content->reference_video())) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (_mono_reader) {
@@ -108,7 +109,7 @@ DCPDecoder::pass (PassReason reason, bool)
 		}
 	}
 
-	if (_sound_reader && reason != PASS_REASON_SUBTITLE) {
+	if (_sound_reader && reason != PASS_REASON_SUBTITLE && (_decode_referenced || !_dcp_content->reference_audio())) {
 		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
 		shared_ptr<const dcp::SoundFrame> sf = _sound_reader->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
@@ -127,7 +128,7 @@ DCPDecoder::pass (PassReason reason, bool)
 		audio->give (_dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
 	}
 
-	if ((*_reel)->main_subtitle ()) {
+	if ((*_reel)->main_subtitle() && (_decode_referenced || !_dcp_content->reference_subtitle())) {
 		int64_t const entry_point = (*_reel)->main_subtitle()->entry_point ();
 		list<dcp::SubtitleString> subs = (*_reel)->main_subtitle()->asset()->subtitles_during (
 			dcp::Time (entry_point + frame, vfr, vfr),
@@ -257,4 +258,10 @@ DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) cons
 	}
 
 	return ctp;
+}
+
+void
+DCPDecoder::set_decode_referenced ()
+{
+	_decode_referenced = true;
 }
