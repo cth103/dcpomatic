@@ -279,9 +279,10 @@ AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t read_offset,
 	DCPOMATIC_ASSERT (read_offset >= 0);
 	DCPOMATIC_ASSERT (write_offset >= 0);
 
+	float** from_data = from->data ();
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < frames; ++j) {
-			_data[i][j + write_offset] += from->data()[i][j + read_offset];
+			_data[i][j + write_offset] += from_data[i][j + read_offset];
 		}
 	}
 }
