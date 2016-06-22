@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		/* Sound == video so no offset required */
 		content->_first_video = ContentTime ();
 		content->ffmpeg_audio_streams().front()->first_audio = ContentTime ();
-		FFmpegDecoder decoder (content, film->log(), false);
+		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_EQUAL (decoder._pts_offset, ContentTime ());
 	}
 
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		/* Common offset should be removed */
 		content->_first_video = ContentTime::from_seconds (600);
 		content->ffmpeg_audio_streams().front()->first_audio = ContentTime::from_seconds (600);
-		FFmpegDecoder decoder (content, film->log(), false);
+		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_EQUAL (decoder._pts_offset, ContentTime::from_seconds (-600));
 	}
 
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		/* Video is on a frame boundary */
 		content->_first_video = ContentTime::from_frames (1, 24);
 		content->ffmpeg_audio_streams().front()->first_audio = ContentTime ();
-		FFmpegDecoder decoder (content, film->log(), false);
+		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_EQUAL (decoder._pts_offset, ContentTime ());
 	}
 
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		double const frame = 1.0 / 24.0;
 		content->_first_video = ContentTime::from_seconds (frame + 0.0215);
 		content->ffmpeg_audio_streams().front()->first_audio = ContentTime ();
-		FFmpegDecoder decoder (content, film->log(), false);
+		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_CLOSE (decoder._pts_offset.seconds(), (frame - 0.0215), 0.00001);
 	}
 
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 		double const frame = 1.0 / 24.0;
 		content->_first_video = ContentTime::from_seconds (frame + 0.0215 + 4.1);
 		content->ffmpeg_audio_streams().front()->first_audio = ContentTime::from_seconds (4.1);
-		FFmpegDecoder decoder (content, film->log(), false);
+		FFmpegDecoder decoder (content, film->log());
 		BOOST_CHECK_CLOSE (decoder._pts_offset.seconds(), (frame - 0.0215) - 4.1, 0.1);
 	}
 }

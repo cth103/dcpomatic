@@ -28,11 +28,12 @@ class AudioBuffers;
 class Resampler : public boost::noncopyable
 {
 public:
-	Resampler (int, int, int, bool fast);
+	Resampler (int, int, int);
 	~Resampler ();
 
 	boost::shared_ptr<const AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
 	boost::shared_ptr<const AudioBuffers> flush ();
+	void set_fast ();
 
 private:
 	SRC_STATE* _src;

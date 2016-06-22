@@ -37,16 +37,16 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 shared_ptr<Decoder>
-decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log, bool fast)
+decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log)
 {
 	shared_ptr<const FFmpegContent> fc = dynamic_pointer_cast<const FFmpegContent> (content);
 	if (fc) {
-		return shared_ptr<Decoder> (new FFmpegDecoder (fc, log, fast));
+		return shared_ptr<Decoder> (new FFmpegDecoder (fc, log));
 	}
 
 	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (content);
 	if (dc) {
-		return shared_ptr<Decoder> (new DCPDecoder (dc, log, fast));
+		return shared_ptr<Decoder> (new DCPDecoder (dc, log));
 	}
 
 	shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (content);

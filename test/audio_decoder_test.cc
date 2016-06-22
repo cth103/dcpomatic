@@ -66,7 +66,7 @@ public:
 		: _test_audio_content (content)
 		, _position (0)
 	{
-		audio.reset (new AudioDecoder (this, content->audio, false, log));
+		audio.reset (new AudioDecoder (this, content->audio, log));
 	}
 
 	bool pass (PassReason, bool)

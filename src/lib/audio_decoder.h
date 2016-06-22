@@ -41,7 +41,7 @@ class Log;
 class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>
 {
 public:
-	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent>, bool fast, boost::shared_ptr<Log> log);
+	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent>, boost::shared_ptr<Log> log);
 
 	/** Try to fetch some audio from a specific place in this content.
 	 *  @param frame Frame to start from (after resampling, if applicable)
@@ -52,10 +52,7 @@ public:
 	ContentAudio get (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
 
 	void set_ignore ();
-
-	bool fast () const {
-		return _fast;
-	}
+	void set_fast ();
 
 	void give (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();

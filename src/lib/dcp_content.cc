@@ -332,7 +332,7 @@ DCPContent::reels () const
 	list<DCPTimePeriod> p;
 	scoped_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
+		decoder.reset (new DCPDecoder (shared_from_this(), film()->log()));
 	} catch (...) {
 		/* Could not load the DCP; guess reels */
 		list<DCPTimePeriod> p;
@@ -403,7 +403,7 @@ DCPContent::can_reference_video (list<string>& why_not) const
 bool
 DCPContent::can_reference_audio (list<string>& why_not) const
 {
-        DCPDecoder decoder (shared_from_this(), film()->log(), false);
+        DCPDecoder decoder (shared_from_this(), film()->log());
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
                 if (!i->main_sound()) {
                         why_not.push_back (_("The DCP does not have sound in all reels."));
@@ -417,7 +417,7 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 bool
 DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
-        DCPDecoder decoder (shared_from_this(), film()->log(), false);
+        DCPDecoder decoder (shared_from_this(), film()->log());
         BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
                 if (!i->main_subtitle()) {
                         why_not.push_back (_("The DCP does not have subtitles in all reels."));

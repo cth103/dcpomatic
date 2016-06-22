@@ -75,7 +75,7 @@ using boost::is_any_of;
 using boost::split;
 using dcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
 	: FFmpeg (c)
 	, _log (log)
 {
@@ -87,7 +87,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	}
 
 	if (c->audio) {
-		audio.reset (new AudioDecoder (this, c->audio, fast, log));
+		audio.reset (new AudioDecoder (this, c->audio, log));
 	}
 
 	if (c->subtitle) {

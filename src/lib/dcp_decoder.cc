@@ -50,11 +50,11 @@ using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
-DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, bool fast)
+DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	: _dcp_content (c)
 {
 	video.reset (new VideoDecoder (this, c, log));
-	audio.reset (new AudioDecoder (this, c->audio, fast, log));
+	audio.reset (new AudioDecoder (this, c->audio, log));
 
 	subtitle.reset (
 		new SubtitleDecoder (

@@ -44,7 +44,7 @@ struct ffmpeg_pts_offset_test;
 class FFmpegDecoder : public FFmpeg, public Decoder
 {
 public:
-	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>, bool fast);
+	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>);
 
 private:
 	friend struct ::ffmpeg_pts_offset_test;

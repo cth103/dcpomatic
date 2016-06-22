@@ -35,12 +35,13 @@ class Decoder;
 class AudioDecoderStream
 {
 public:
-	AudioDecoderStream (boost::shared_ptr<const AudioContent>, AudioStreamPtr, Decoder* decoder, bool fast, boost::shared_ptr<Log> log);
+	AudioDecoderStream (boost::shared_ptr<const AudioContent>, AudioStreamPtr, Decoder* decoder, boost::shared_ptr<Log> log);
 
 	ContentAudio get (Frame time, Frame length, bool accurate);
 	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
 	void seek (ContentTime time, bool accurate);
+	void set_fast ();
 
 private:
 

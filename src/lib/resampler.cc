@@ -37,15 +37,14 @@ using boost::shared_ptr;
 /** @param in Input sampling rate (Hz)
  *  @param out Output sampling rate (Hz)
  *  @param channels Number of channels.
- *  @param fast true to be fast rather than good.
  */
-Resampler::Resampler (int in, int out, int channels, bool fast)
+Resampler::Resampler (int in, int out, int channels)
 	: _in_rate (in)
 	, _out_rate (out)
 	, _channels (channels)
 {
 	int error;
-	_src = src_new (fast ? SRC_LINEAR : SRC_SINC_BEST_QUALITY, _channels, &error);
+	_src = src_new (SRC_SINC_BEST_QUALITY, _channels, &error);
 	if (!_src) {
 		throw runtime_error (String::compose (N_("could not create sample-rate converter (%1)"), error));
 	}
@@ -54,6 +53,17 @@ Resampler::Resampler (int in, int out, int channels, bool fast)
 Resampler::~Resampler ()
 {
 	src_delete (_src);
+}
+
+void
+Resampler::set_fast ()
+{
+	src_delete (_src);
+	int error;
+	_src = src_new (SRC_LINEAR, _channels, &error);
+	if (!_src) {
+		throw runtime_error (String::compose (N_("could not create sample-rate converter (%1)"), error));
+	}
 }
 
 shared_ptr<const AudioBuffers>

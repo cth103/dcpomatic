@@ -123,7 +123,7 @@ Player::setup_pieces ()
 			continue;
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log(), _fast);
+		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log());
 		FrameRateChange frc (i->active_video_frame_rate(), _film->video_frame_rate());
 
 		if (!decoder) {
@@ -137,6 +137,10 @@ Player::setup_pieces ()
 
 		if (decoder->audio && _ignore_audio) {
 			decoder->audio->set_ignore ();
+		}
+
+		if (decoder->audio && _fast) {
+			decoder->audio->set_fast ();
 		}
 
 		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc)));
@@ -706,7 +710,7 @@ Player::get_reel_assets ()
 
 		scoped_ptr<DCPDecoder> decoder;
 		try {
-			decoder.reset (new DCPDecoder (j, _film->log(), false));
+			decoder.reset (new DCPDecoder (j, _film->log()));
 		} catch (...) {
 			return a;
 		}
