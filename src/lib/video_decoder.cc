@@ -294,39 +294,45 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 	/* If we've pre-rolled on a seek we may now receive out-of-order frames
 	   (frames before the last seek time) which we can just ignore.
 	*/
-
 	if (from && (*from) > to_push.front().frame) {
 		return;
 	}
 
-	if (from) {
-		switch (_content->video->frame_type ()) {
-		case VIDEO_FRAME_TYPE_2D:
-			fill_one_eye (from->index(), to_push.front().frame.index(), EYES_BOTH);
-			break;
-		case VIDEO_FRAME_TYPE_3D:
-		case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-			fill_both_eyes (from.get(), to_push.front().frame);
-			break;
-		case VIDEO_FRAME_TYPE_3D_LEFT:
-			fill_one_eye (from->index(), to_push.front().frame.index(), EYES_LEFT);
-			break;
-		case VIDEO_FRAME_TYPE_3D_RIGHT:
-			fill_one_eye (from->index(), to_push.front().frame.index(), EYES_RIGHT);
-			break;
-		}
-	}
+	int const max_decoded_size = 96;
 
-	copy (to_push.begin(), to_push.end(), back_inserter (_decoded));
+	/* If _decoded is already `full' there is no point in adding anything more to it,
+	   as the new stuff will just be removed again.
+	*/
+	if (_decoded.size() < max_decoded_size) {
+		if (from) {
+			switch (_content->video->frame_type ()) {
+			case VIDEO_FRAME_TYPE_2D:
+				fill_one_eye (from->index(), to_push.front().frame.index(), EYES_BOTH);
+				break;
+			case VIDEO_FRAME_TYPE_3D:
+			case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+			case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+			case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+				fill_both_eyes (from.get(), to_push.front().frame);
+				break;
+			case VIDEO_FRAME_TYPE_3D_LEFT:
+				fill_one_eye (from->index(), to_push.front().frame.index(), EYES_LEFT);
+				break;
+			case VIDEO_FRAME_TYPE_3D_RIGHT:
+				fill_one_eye (from->index(), to_push.front().frame.index(), EYES_RIGHT);
+				break;
+			}
+		}
+
+		copy (to_push.begin(), to_push.end(), back_inserter (_decoded));
+	}
 
 	/* We can't let this build up too much or we will run out of memory.  There is a
 	   `best' value for the allowed size of _decoded which balances memory use
 	   with decoding efficiency (lack of seeks).  Throwing away video frames here
 	   is not a problem for correctness, so do it.
 	*/
-	while (_decoded.size() > 96) {
+	while (_decoded.size() > max_decoded_size) {
 		_decoded.pop_back ();
 	}
 }
