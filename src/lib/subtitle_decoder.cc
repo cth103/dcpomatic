@@ -195,6 +195,7 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 					string(TEXT_FONT_ID),
 					j.italic,
 					j.bold,
+					j.underline,
 					/* force the colour to whatever is configured */
 					content()->colour(),
 					j.font_size.points (72 * 11),
