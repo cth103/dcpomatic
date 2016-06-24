@@ -28,17 +28,17 @@
 using namespace std;
 using namespace boost;
 
-DirPickerCtrl::DirPickerCtrl (wxWindow* parent, wxSize size)
-	: wxPanel (parent, wxID_ANY, wxDefaultPosition, size)
+DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
+	: wxPanel (parent)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	_folder = new wxStaticText (this, wxID_ANY, wxT ("This is the length of the folder label"));
+	_folder = new wxStaticText (this, wxID_ANY, wxT (""));
 	_sizer->Add (_folder, 1, wxEXPAND | wxALL, 6);
 	_browse = new wxButton (this, wxID_ANY, _("Browse..."));
 	_sizer->Add (_browse, 0);
 
-	SetSizerAndFit (_sizer);
+	SetSizer (_sizer);
 
 	_browse->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DirPickerCtrl::browse_clicked, this));
 }
@@ -58,7 +58,7 @@ DirPickerCtrl::SetPath (wxString p)
 	GetEventHandler()->ProcessEvent (ev);
 
 	_sizer->Layout ();
-	_sizer->SetSizeHints (this);
+	SetMinSize (wxSize (max (400, _sizer->GetSize().GetWidth()), -1));
 }
 
 wxString

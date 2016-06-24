@@ -23,7 +23,7 @@
 class DirPickerCtrl : public wxPanel
 {
 public:
-	DirPickerCtrl (wxWindow *, wxSize size = wxDefaultSize);
+	DirPickerCtrl (wxWindow *);
 
 	wxString GetPath () const;
 	void SetPath (wxString);

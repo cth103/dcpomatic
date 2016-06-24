@@ -1,5 +1,10 @@
 2016-06-24  c.hetherington  <cth@carlh.net>
 
+	* Try again to make new file dialogue bigger on some platforms
+	(#902).
+
+2016-06-24  c.hetherington  <cth@carlh.net>
+
 	* Support underlined subtitles.
 
 2016-06-22  Carl Hetherington  <cth@carlh.net>
