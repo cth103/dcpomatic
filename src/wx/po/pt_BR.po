@@ -508,9 +508,8 @@ msgid "Decrypting DCPs"
 msgstr "Decriptando DCPs"
 
 #: src/wx/config_dialog.cc:435
-#, fuzzy
 msgid "Default DCP audio channels"
-msgstr "Atraso de áudio padrão"
+msgstr ""
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"

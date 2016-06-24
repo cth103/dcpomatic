@@ -499,9 +499,8 @@ msgid "Decrypting DCPs"
 msgstr "解密DCP"
 
 #: src/wx/config_dialog.cc:435
-#, fuzzy
 msgid "Default DCP audio channels"
-msgstr "默认音频延迟"
+msgstr ""
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"

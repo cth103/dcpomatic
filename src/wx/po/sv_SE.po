@@ -507,9 +507,8 @@ msgid "Decrypting DCPs"
 msgstr "Dekrypterar DCP:er"
 
 #: src/wx/config_dialog.cc:435
-#, fuzzy
 msgid "Default DCP audio channels"
-msgstr "Förvald audiofördröjning"
+msgstr ""
 
 # Inte så bra ordflöde
 #: src/wx/config_dialog.cc:423

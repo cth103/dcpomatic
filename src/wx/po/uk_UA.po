@@ -503,9 +503,8 @@ msgid "Decrypting DCPs"
 msgstr "Розшифровка DCP"
 
 #: src/wx/config_dialog.cc:435
-#, fuzzy
 msgid "Default DCP audio channels"
-msgstr "Стандартна затримка аудіо"
+msgstr ""
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"

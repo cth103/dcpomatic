@@ -510,9 +510,8 @@ msgid "Decrypting DCPs"
 msgstr "Dekrypterer DCPere"
 
 #: src/wx/config_dialog.cc:435
-#, fuzzy
 msgid "Default DCP audio channels"
-msgstr "Standardlydforsinkelse"
+msgstr ""
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"
