@@ -46,6 +46,9 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 }
 #include <curl/curl.h>
+#ifdef DCPOMATIC_GRAPHICS_MAGICK
+#include <Magick++.h>
+#endif
 #include <glib.h>
 #include <pangomm/init.h>
 #include <boost/algorithm/string.hpp>
@@ -345,6 +348,10 @@ dcpomatic_setup ()
 	AudioProcessor::setup_audio_processors ();
 
 	curl_global_init (CURL_GLOBAL_ALL);
+
+#ifdef DCPOMATIC_GRAPHICS_MAGICK
+	Magick::InitializeMagick (0);
+#endif
 
 	ui_thread = boost::this_thread::get_id ();
 }

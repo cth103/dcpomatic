@@ -192,7 +192,9 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_IMAGE_MAGICK')
     else:
         image = conf.check_cfg(package='ImageMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=False)
-        graphics = conf.check_cfg(package='GraphicsMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=False)
+        graphics = None
+        if image is None:
+            graphics = conf.check_cfg(package='GraphicsMagick++', args='--cflags --libs', uselib_store='MAGICK', mandatory=False)
         if image is None and graphics is None:
             Logs.pprint('RED', 'Neither ImageMagick++ nor GraphicsMagick++ found: one or the other is required')
         if image is not None:
