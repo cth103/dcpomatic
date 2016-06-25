@@ -305,6 +305,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Elad Saad"));
 	tested_by.Add (wxT ("Karim Senoucci"));
 	tested_by.Add (wxT ("Hordur Valgardsson"));
+	tested_by.Add (wxT ("Xenophon the Vampire"));
 	tested_by.Add (wxT ("Simon Vannarath"));
 	tested_by.Add (wxT ("Igor Voytovich"));
 	tested_by.Add (wxT ("Andrew Walls"));
