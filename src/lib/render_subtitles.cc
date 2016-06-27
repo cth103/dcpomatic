@@ -44,6 +44,54 @@ using boost::optional;
 static FcConfig* fc_config = 0;
 static list<pair<FontFiles, string> > fc_config_fonts;
 
+string
+marked_up (list<dcp::SubtitleString> subtitles)
+{
+	string out;
+	bool italic = false;
+	bool bold = false;
+	bool underline = false;
+	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+		if (i.italic() && !italic) {
+			out += "<i>";
+		}
+		if (i.bold() && !bold) {
+			out += "<b>";
+		}
+		if (i.underline() && !underline) {
+			out += "<u>";
+		}
+
+		out += i.text ();
+
+		if (!i.underline() && underline) {
+			out += "</u>";
+		}
+		if (!i.bold() && bold) {
+			out += "</b>";
+		}
+		if (!i.italic() && italic) {
+			out += "</i>";
+		}
+
+		italic = i.italic ();
+		bold = i.bold ();
+		underline = i.underline ();
+	}
+
+	if (underline) {
+		out += "</u>";
+	}
+	if (bold) {
+		out += "</b>";
+	}
+	if (italic) {
+		out += "</i>";
+	}
+
+	return out;
+}
+
 /** @param subtitles A list of subtitles that are all on the same line */
 static PositionImage
 render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target)
@@ -197,55 +245,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	Pango::FontDescription font (font_name);
 	font.set_absolute_size (subtitles.front().size_in_pixels (target.height) * PANGO_SCALE);
 	layout->set_font_description (font);
-
-	string marked_up;
-	bool italic = false;
-	bool bold = false;
-	bool underline = false;
-	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
-		if (i.italic() != italic) {
-			if (i.italic()) {
-				marked_up += "<i>";
-			} else {
-				marked_up += "</i>";
-			}
-			italic = i.italic ();
-		}
-
-		if (i.bold() != bold) {
-			if (i.bold()) {
-				marked_up += "<b>";
-			} else {
-				marked_up += "</b>";
-			}
-			bold = i.bold ();
-		}
-
-		if (i.underline() != underline) {
-			if (i.underline()) {
-				marked_up += "<u>";
-			} else {
-				marked_up += "</u>";
-			}
-			underline = i.underline ();
-		}
-
-		marked_up += i.text ();
-	}
-
-	if (italic) {
-		marked_up += "</i>";
-	}
-
-	if (bold) {
-		marked_up += "</b>";
-	}
-
-	if (underline) {
-		marked_up += "</u>";
-	}
-
-	layout->set_markup (marked_up);
+	layout->set_markup (marked_up (subtitles));
 
 	/* Compute fade factor */
 	/* XXX */

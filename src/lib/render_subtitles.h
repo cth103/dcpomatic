@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,4 +24,5 @@
 
 class Font;
 
+std::string marked_up (std::list<dcp::SubtitleString> subtitles);
 std::list<PositionImage> render_subtitles (std::list<dcp::SubtitleString>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size);
