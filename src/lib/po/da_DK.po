@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -148,7 +148,7 @@ msgstr ""
 msgid "C"
 msgstr ""
 
-#: src/lib/job.cc:386
+#: src/lib/job.cc:396
 msgid "Cancelled"
 msgstr "Annulleret"
 
@@ -156,7 +156,7 @@ msgstr "Annulleret"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan ikke håndtere pixelformat %1 under %2"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:495
 msgid "Centre"
 msgstr "Center"
 
@@ -365,11 +365,11 @@ msgstr "Kunne ikke skrive til fjernfil. (%1)"
 msgid "Cropped to %1x%2"
 msgstr "Beskåret til %1x%2"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:505
 msgid "D-BOX primary"
 msgstr ""
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:506
 msgid "D-BOX secondary"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr "DCP XML undertekster"
 
 #: src/lib/audio_content.cc:327
 #, fuzzy
-msgid "DCP frame rate"
+msgid "DCP sample rate"
 msgstr "Indholds billedhastighed"
 
 #: src/lib/frame_rate_change.cc:79
@@ -489,7 +489,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr ""
 
-#: src/lib/job.cc:384
+#: src/lib/job.cc:394
 msgid "Error: %1"
 msgstr "Fejl: %1"
 
@@ -539,6 +539,11 @@ msgstr "Finder undertekster"
 msgid "Flat"
 msgstr "Flat"
 
+#: src/lib/content.cc:369
+#, fuzzy
+msgid "Frame rate"
+msgstr "Video billedhastighed"
+
 #: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "Fuld"
@@ -583,7 +588,7 @@ msgstr ""
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:499
 msgid "Hearing impaired"
 msgstr "Hørehæmmede"
 
@@ -623,19 +628,19 @@ msgstr "L"
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:493
 msgid "Left"
 msgstr "Venstre"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:501
 msgid "Left centre"
 msgstr "Venstre center"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:503
 msgid "Left rear surround"
 msgstr "Venstre bag surround"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:497
 msgid "Left surround"
 msgstr "Venstre surround"
 
@@ -647,7 +652,7 @@ msgstr ""
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:489
+#: src/lib/util.cc:496
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -724,7 +729,7 @@ msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 msgid "Noise reduction"
 msgstr "Støjreduktion"
 
-#: src/lib/job.cc:382
+#: src/lib/job.cc:392
 msgid "OK (ran for %1)"
 msgstr "OK (kørte i %1)"
 
@@ -755,6 +760,10 @@ msgstr "Udfyldt med sort for at tilpasse container %1 (%2x%3)"
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "Metode (Policy)"
+
+#: src/lib/content.cc:378
+msgid "Prepared for video frame rate"
+msgstr ""
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -804,19 +813,19 @@ msgid ""
 "'split by video content'."
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:487
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:494
 msgid "Right"
 msgstr "Højre"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:502
 msgid "Right centre"
 msgstr "Højre center"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:504
 msgid "Right rear surround"
 msgstr "Højre bag surround"
 
-#: src/lib/util.cc:491
+#: src/lib/util.cc:498
 msgid "Right surround"
 msgstr "Højre surround"
 
@@ -1020,7 +1029,7 @@ msgstr "Uspecificeret"
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: src/lib/util.cc:500 src/lib/util.cc:501
+#: src/lib/util.cc:507 src/lib/util.cc:508
 msgid "Unused"
 msgstr ""
 
@@ -1036,12 +1045,7 @@ msgstr ""
 msgid "VI"
 msgstr ""
 
-#: src/lib/content.cc:367
-#, fuzzy
-msgid "Video frame rate"
-msgstr "Indholds billedhastighed"
-
-#: src/lib/util.cc:493
+#: src/lib/util.cc:500
 msgid "Visually impaired"
 msgstr "Synshandicappet"
 
@@ -1149,17 +1153,17 @@ msgstr "bps"
 msgid "frames"
 msgstr "billeder"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:371 src/lib/content.cc:380
 msgid "frames per second"
 msgstr "billeder pr. sekund"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:145 src/lib/util.cc:148
+#: src/lib/util.cc:148 src/lib/util.cc:151
 msgid "h"
 msgstr "t"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:160 src/lib/util.cc:163
+#: src/lib/util.cc:163 src/lib/util.cc:166
 msgid "m"
 msgstr "m"
 
@@ -1181,12 +1185,12 @@ msgstr ""
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:379
+#: src/lib/job.cc:389
 msgid "remaining"
 msgstr "mangler"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:174
+#: src/lib/util.cc:177
 msgid "s"
 msgstr "s"
 
@@ -1212,10 +1216,6 @@ msgstr "videobilleder"
 #, fuzzy
 #~ msgid "Video"
 #~ msgstr "Video størrelse"
-
-#, fuzzy
-#~ msgid "Frame rate"
-#~ msgstr "Video billedhastighed"
 
 #~ msgid "could not open audio file for reading"
 #~ msgstr "lydfil kunne ikke indlæses"

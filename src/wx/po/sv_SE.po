@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-04-26 16:41+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -107,9 +107,10 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
+#, fuzzy
 msgid ""
-"<i>Only change this if it the content's frame rate has been read incorrectly."
-"</i>"
+"<i>Only change this if the content's frame rate has been read incorrectly.</"
+"i>"
 msgstr ""
 "<i>Ändra detta endast om innehållets bildhastighet har lästs felaktigt.</i>"
 
@@ -1451,7 +1452,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:314
+#: src/wx/about_dialog.cc:315
 msgid "Tested by"
 msgstr "Testad av"
 

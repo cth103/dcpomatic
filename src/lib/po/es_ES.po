@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-04-26 00:01-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -148,7 +148,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:386
+#: src/lib/job.cc:396
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -156,7 +156,7 @@ msgstr "Cancelado"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "No se puede usar el formato de pixel %1 para %2"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:495
 msgid "Centre"
 msgstr "Centro"
 
@@ -362,11 +362,11 @@ msgstr "No se pudo escribir el fichero remoto (%1)"
 msgid "Cropped to %1x%2"
 msgstr "Recortado a %1x%2"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:505
 msgid "D-BOX primary"
 msgstr "Primario D-BOX"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:506
 msgid "D-BOX secondary"
 msgstr "Secundario D-BOX"
 
@@ -383,7 +383,8 @@ msgid "DCP XML subtitles"
 msgstr "Subtítulos DCP XML"
 
 #: src/lib/audio_content.cc:327
-msgid "DCP frame rate"
+#, fuzzy
+msgid "DCP sample rate"
 msgstr "Velocidad del DCP"
 
 #: src/lib/frame_rate_change.cc:79
@@ -481,7 +482,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Error en el fichero de subtítulos: encontrado %1 cuando se esperaba %2"
 
-#: src/lib/job.cc:384
+#: src/lib/job.cc:394
 msgid "Error: %1"
 msgstr "Error: (%1)"
 
@@ -530,6 +531,10 @@ msgstr "Buscando subtítulos"
 msgid "Flat"
 msgstr "Flat"
 
+#: src/lib/content.cc:369
+msgid "Frame rate"
+msgstr "Velocidad"
+
 #: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "Completo"
@@ -576,7 +581,7 @@ msgstr "Gradient debander"
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:499
 msgid "Hearing impaired"
 msgstr "Sordos"
 
@@ -616,19 +621,19 @@ msgstr "L"
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:493
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:501
 msgid "Left centre"
 msgstr "Centro izquierda"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:503
 msgid "Left rear surround"
 msgstr "Surround trasero izquierda"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:497
 msgid "Left surround"
 msgstr "Surround izquierda"
 
@@ -640,7 +645,7 @@ msgstr "Duración"
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:489
+#: src/lib/util.cc:496
 msgid "Lfe (sub)"
 msgstr "Lfe (bajos)"
 
@@ -716,7 +721,7 @@ msgstr "No se encontraron imágenes válidas en la carpeta."
 msgid "Noise reduction"
 msgstr "Reducción de ruido"
 
-#: src/lib/job.cc:382
+#: src/lib/job.cc:392
 msgid "OK (ran for %1)"
 msgstr "OK (ejecución %1)"
 
@@ -748,6 +753,10 @@ msgstr "Completado con negro para cubrir el contenedor %1 (%2x%3)"
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "Policy"
+
+#: src/lib/content.cc:378
+msgid "Prepared for video frame rate"
+msgstr ""
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -800,19 +809,19 @@ msgstr ""
 "La duración de las bobinas no coincide con la especificada en el DCP; "
 "seleccione el modo de bobinas ‘dividir por contenido’."
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:487
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:494
 msgid "Right"
 msgstr "Derecha"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:502
 msgid "Right centre"
 msgstr "Centro derecha"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:504
 msgid "Right rear surround"
 msgstr "Surround trasero derecha"
 
-#: src/lib/util.cc:491
+#: src/lib/util.cc:498
 msgid "Right surround"
 msgstr "Surround derecha"
 
@@ -1017,7 +1026,7 @@ msgstr "Sin especificar"
 msgid "Untitled"
 msgstr "Sin título"
 
-#: src/lib/util.cc:500 src/lib/util.cc:501
+#: src/lib/util.cc:507 src/lib/util.cc:508
 msgid "Unused"
 msgstr "Sin uso"
 
@@ -1033,12 +1042,7 @@ msgstr "Upmix R"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/content.cc:367
-#, fuzzy
-msgid "Video frame rate"
-msgstr "Velocidad del DCP"
-
-#: src/lib/util.cc:493
+#: src/lib/util.cc:500
 msgid "Visually impaired"
 msgstr "Ciegos"
 
@@ -1146,17 +1150,17 @@ msgstr "fps"
 msgid "frames"
 msgstr "fotogramas"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:371 src/lib/content.cc:380
 msgid "frames per second"
 msgstr "imágenes por segundo"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:145 src/lib/util.cc:148
+#: src/lib/util.cc:148 src/lib/util.cc:151
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:160 src/lib/util.cc:163
+#: src/lib/util.cc:163 src/lib/util.cc:166
 msgid "m"
 msgstr "m"
 
@@ -1178,12 +1182,12 @@ msgstr "proporción de aspecto de pixel"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:379
+#: src/lib/job.cc:389
 msgid "remaining"
 msgstr "pendiente"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:174
+#: src/lib/util.cc:177
 msgid "s"
 msgstr "s"
 
@@ -1211,9 +1215,6 @@ msgstr "fotogramas"
 
 #~ msgid "Video"
 #~ msgstr "Vídeo"
-
-#~ msgid "Frame rate"
-#~ msgstr "Velocidad"
 
 #~ msgid "could not open audio file for reading"
 #~ msgstr "no se pudo abrir el fichero de audio para lectura"

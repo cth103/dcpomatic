@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -113,9 +113,10 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
+#, fuzzy
 msgid ""
-"<i>Only change this if it the content's frame rate has been read incorrectly."
-"</i>"
+"<i>Only change this if the content's frame rate has been read incorrectly.</"
+"i>"
 msgstr "检测到帧率错误。"
 
 #: src/wx/colour_conversion_editor.cc:68
@@ -1443,7 +1444,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:314
+#: src/wx/about_dialog.cc:315
 msgid "Tested by"
 msgstr "测试"
 

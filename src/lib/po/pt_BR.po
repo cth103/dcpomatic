@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-06-20 01:14-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -146,7 +146,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:386
+#: src/lib/job.cc:396
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -154,7 +154,7 @@ msgstr "Cancelado"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossível processar formato de pixel %1 durante %2"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:495
 msgid "Centre"
 msgstr "Central"
 
@@ -365,11 +365,11 @@ msgstr "Impossível modificar arquivo remoto (%1)"
 msgid "Cropped to %1x%2"
 msgstr "Redimensionado para %1x%2"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:505
 msgid "D-BOX primary"
 msgstr "D-BOX primário"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:506
 msgid "D-BOX secondary"
 msgstr "D-BOX secundário"
 
@@ -386,7 +386,8 @@ msgid "DCP XML subtitles"
 msgstr "Legendas XML do DCP"
 
 #: src/lib/audio_content.cc:327
-msgid "DCP frame rate"
+#, fuzzy
+msgid "DCP sample rate"
 msgstr "Taxa de quadros do DCP"
 
 #: src/lib/frame_rate_change.cc:79
@@ -485,7 +486,7 @@ msgstr "Convertendo imagem e som"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Erro no arquivo de legenda:: %1 encontrado quando se esperava %2"
 
-#: src/lib/job.cc:384
+#: src/lib/job.cc:394
 msgid "Error: %1"
 msgstr "Erro: %1"
 
@@ -533,6 +534,11 @@ msgstr "Buscando legendas"
 msgid "Flat"
 msgstr "FLAT"
 
+#: src/lib/content.cc:369
+#, fuzzy
+msgid "Frame rate"
+msgstr "Taxa de quadros do DCP"
+
 #: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "Full"
@@ -577,7 +583,7 @@ msgstr "Removedor de posterização em gradações"
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:499
 msgid "Hearing impaired"
 msgstr "Trilha deficientes auditivos"
 
@@ -617,19 +623,19 @@ msgstr "L"
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:493
 msgid "Left"
 msgstr "Esquerdo"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:501
 msgid "Left centre"
 msgstr "Esquerdo central"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:503
 msgid "Left rear surround"
 msgstr "Surround traseiro esquerdo"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:497
 msgid "Left surround"
 msgstr "Surround esquerdo"
 
@@ -641,7 +647,7 @@ msgstr "Duração"
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:489
+#: src/lib/util.cc:496
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -717,7 +723,7 @@ msgstr "Não foram encontradas imagens válidas na pasta"
 msgid "Noise reduction"
 msgstr "Redução de ruído"
 
-#: src/lib/job.cc:382
+#: src/lib/job.cc:392
 msgid "OK (ran for %1)"
 msgstr "OK (executou por %1)"
 
@@ -751,6 +757,10 @@ msgstr "Padded with black to fit container %1 (%2x%3)"
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "Policy"
+
+#: src/lib/content.cc:378
+msgid "Prepared for video frame rate"
+msgstr ""
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -800,19 +810,19 @@ msgstr ""
 "Duração de rolos no filme diferem da duração no DCP; coloque o modo 'Rolos' "
 "em 'Dividir por arquivo de vídeo'."
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:487
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:494
 msgid "Right"
 msgstr "Direito"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:502
 msgid "Right centre"
 msgstr "Direito central"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:504
 msgid "Right rear surround"
 msgstr "Surround traseiro direito"
 
-#: src/lib/util.cc:491
+#: src/lib/util.cc:498
 msgid "Right surround"
 msgstr "Surround direito"
 
@@ -1016,7 +1026,7 @@ msgstr "Não especificado"
 msgid "Untitled"
 msgstr "Sem_Título"
 
-#: src/lib/util.cc:500 src/lib/util.cc:501
+#: src/lib/util.cc:507 src/lib/util.cc:508
 msgid "Unused"
 msgstr "Sem uso"
 
@@ -1032,11 +1042,7 @@ msgstr "Upmix R"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/content.cc:367
-msgid "Video frame rate"
-msgstr "Taxa de quadros do vídeo"
-
-#: src/lib/util.cc:493
+#: src/lib/util.cc:500
 msgid "Visually impaired"
 msgstr "Trilha descritiva"
 
@@ -1144,17 +1150,17 @@ msgstr "fps"
 msgid "frames"
 msgstr "quadros"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:371 src/lib/content.cc:380
 msgid "frames per second"
 msgstr "quadros por segundo"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:145 src/lib/util.cc:148
+#: src/lib/util.cc:148 src/lib/util.cc:151
 msgid "h"
 msgstr "hr"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:160 src/lib/util.cc:163
+#: src/lib/util.cc:163 src/lib/util.cc:166
 msgid "m"
 msgstr "min"
 
@@ -1176,12 +1182,12 @@ msgstr "aspect ratio do pixel"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:379
+#: src/lib/job.cc:389
 msgid "remaining"
 msgstr "para terminar"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:174
+#: src/lib/util.cc:177
 msgid "s"
 msgstr "seg"
 

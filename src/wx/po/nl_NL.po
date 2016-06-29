@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-06-20 20:48+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -108,9 +108,10 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
+#, fuzzy
 msgid ""
-"<i>Only change this if it the content's frame rate has been read incorrectly."
-"</i>"
+"<i>Only change this if the content's frame rate has been read incorrectly.</"
+"i>"
 msgstr ""
 "<i>Dit alleen wijzigen als de frame rate van de content verkeerd is gelezen."
 "</i>"
@@ -973,8 +974,7 @@ msgstr "Mijn probleem is"
 msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
-#: src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71 src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Naam"
 
@@ -1454,7 +1454,7 @@ msgstr "Gebied (bv. NL)"
 msgid "Test version "
 msgstr "Test-versie"
 
-#: src/wx/about_dialog.cc:314
+#: src/wx/about_dialog.cc:315
 msgid "Tested by"
 msgstr "Getest door"
 

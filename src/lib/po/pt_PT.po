@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -149,7 +149,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:386
+#: src/lib/job.cc:396
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -157,7 +157,7 @@ msgstr "Cancelado"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossível manusear o formato de pixeis %1 durante %2"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:495
 msgid "Centre"
 msgstr "Central"
 
@@ -362,11 +362,11 @@ msgstr "Não foi possível escrever para o ficheiro remoto (%1)"
 msgid "Cropped to %1x%2"
 msgstr "Recortado para %1x%2"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:505
 msgid "D-BOX primary"
 msgstr "D-BOX primário"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:506
 msgid "D-BOX secondary"
 msgstr "D-BOX secundário"
 
@@ -383,7 +383,8 @@ msgid "DCP XML subtitles"
 msgstr "Legendas XML DCP"
 
 #: src/lib/audio_content.cc:327
-msgid "DCP frame rate"
+#, fuzzy
+msgid "DCP sample rate"
 msgstr "Cadência de fotogramas do DCP"
 
 #: src/lib/frame_rate_change.cc:79
@@ -481,7 +482,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Erro no ficheiro de legendas: encontrou %1 mas esperava %2"
 
-#: src/lib/job.cc:384
+#: src/lib/job.cc:394
 msgid "Error: %1"
 msgstr "Erro: %1"
 
@@ -530,6 +531,10 @@ msgstr "À procura das legendas"
 msgid "Flat"
 msgstr "Flat"
 
+#: src/lib/content.cc:369
+msgid "Frame rate"
+msgstr "Cadência de fotogramas"
+
 #: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "Full"
@@ -576,7 +581,7 @@ msgstr "Alterar banda do gradiente"
 msgid "HI"
 msgstr "DA"
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:499
 msgid "Hearing impaired"
 msgstr "Deficientes auditivos"
 
@@ -616,19 +621,19 @@ msgstr "E"
 msgid "Lc"
 msgstr "Ec"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:493
 msgid "Left"
 msgstr "Esquerdo"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:501
 msgid "Left centre"
 msgstr "Esquerdo central"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:503
 msgid "Left rear surround"
 msgstr "Esquerdo traseiro surround"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:497
 msgid "Left surround"
 msgstr "Esquerdo surround"
 
@@ -640,7 +645,7 @@ msgstr "Duração"
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:489
+#: src/lib/util.cc:496
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -716,7 +721,7 @@ msgstr "Não foram encontrados ficheiros de imagem válidos na pasta."
 msgid "Noise reduction"
 msgstr "Redução de ruído"
 
-#: src/lib/job.cc:382
+#: src/lib/job.cc:392
 msgid "OK (ran for %1)"
 msgstr "OK (executado durante %1)"
 
@@ -747,6 +752,10 @@ msgstr "Preenchido com negro para caber no contentor %1 (%2x%3)"
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "Regra"
+
+#: src/lib/content.cc:378
+msgid "Prepared for video frame rate"
+msgstr ""
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -799,19 +808,19 @@ msgstr ""
 "Duração das bobinas do projecto diferente do DCP; defina o parâmetro "
 "'Bobinas' para 'Dividir por conteúdo de vídeo'."
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:487
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:494
 msgid "Right"
 msgstr "Direito"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:502
 msgid "Right centre"
 msgstr "Direita central"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:504
 msgid "Right rear surround"
 msgstr "Direito traseiro surround"
 
-#: src/lib/util.cc:491
+#: src/lib/util.cc:498
 msgid "Right surround"
 msgstr "Direito surround"
 
@@ -1013,7 +1022,7 @@ msgstr "Não especificado"
 msgid "Untitled"
 msgstr "Sem título"
 
-#: src/lib/util.cc:500 src/lib/util.cc:501
+#: src/lib/util.cc:507 src/lib/util.cc:508
 msgid "Unused"
 msgstr "Não utilizado"
 
@@ -1029,12 +1038,7 @@ msgstr "Combinar D"
 msgid "VI"
 msgstr "DV"
 
-#: src/lib/content.cc:367
-#, fuzzy
-msgid "Video frame rate"
-msgstr "Cadência de fotogramas do DCP"
-
-#: src/lib/util.cc:493
+#: src/lib/util.cc:500
 msgid "Visually impaired"
 msgstr "Deficientes Visuais"
 
@@ -1143,17 +1147,17 @@ msgstr "fps"
 msgid "frames"
 msgstr "fotogramas"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:371 src/lib/content.cc:380
 msgid "frames per second"
 msgstr "fotogramas por segundo"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:145 src/lib/util.cc:148
+#: src/lib/util.cc:148 src/lib/util.cc:151
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:160 src/lib/util.cc:163
+#: src/lib/util.cc:163 src/lib/util.cc:166
 msgid "m"
 msgstr "m"
 
@@ -1175,12 +1179,12 @@ msgstr "rácio de pixeis"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:379
+#: src/lib/job.cc:389
 msgid "remaining"
 msgstr "restante"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:174
+#: src/lib/util.cc:177
 msgid "s"
 msgstr "s"
 
@@ -1208,9 +1212,6 @@ msgstr "fotogramas de vídeo"
 
 #~ msgid "Video"
 #~ msgstr "Vídeo"
-
-#~ msgid "Frame rate"
-#~ msgstr "Cadência de fotogramas"
 
 #~ msgid "could not open audio file for reading"
 #~ msgstr "não foi possível abrir o ficheiro de áudio para leitura"

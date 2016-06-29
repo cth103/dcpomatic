@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -110,9 +110,10 @@ msgstr ""
 #.
 #: src/wx/timing_panel.cc:131
 msgid ""
-"<i>Only change this if it the content's frame rate has been read incorrectly."
-"</i>"
-msgstr "<i>Zmień tylko jeśli ilość kl/s została wykryta nieprawidłowo.</i>"
+"<i>Only change this if the content's frame rate has been read incorrectly.</"
+"i>"
+msgstr ""
+"<i>Zmień, tylko jeśli częstotliwość kl/s została odczytana nieprawidłowo.</i>"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "A"
@@ -1472,7 +1473,7 @@ msgstr "Region (e.g. PL)"
 msgid "Test version "
 msgstr "Wersja testowa"
 
-#: src/wx/about_dialog.cc:314
+#: src/wx/about_dialog.cc:315
 msgid "Tested by"
 msgstr "Testerzy"
 
@@ -1892,6 +1893,11 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#~ msgid ""
+#~ "<i>Only change this if it the content's frame rate has been read "
+#~ "incorrectly.</i>"
+#~ msgstr "<i>Zmień tylko jeśli ilość kl/s została wykryta nieprawidłowo.</i>"
+
 #~ msgid "Filename"
 #~ msgstr "Nazwa pliku"
 
@@ -2018,13 +2024,6 @@ msgstr "y"
 
 #~ msgid "1 channel"
 #~ msgstr "1 kanał"
-
-#~ msgid ""
-#~ "<i>Only change this if the content's frame rate has been read incorrectly."
-#~ "</i>"
-#~ msgstr ""
-#~ "<i>Zmień, tylko jeśli częstotliwość kl/s została odczytana nieprawidłowo."
-#~ "</i>"
 
 #~ msgid ""
 #~ "Add a directory of image files which will be used as a moving image "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -108,9 +108,10 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
+#, fuzzy
 msgid ""
-"<i>Only change this if it the content's frame rate has been read incorrectly."
-"</i>"
+"<i>Only change this if the content's frame rate has been read incorrectly.</"
+"i>"
 msgstr "<i>Zmeňte len v prípade, ak frame rate bol zle načítaný.</i>"
 
 #: src/wx/colour_conversion_editor.cc:68
@@ -1450,7 +1451,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:314
+#: src/wx/about_dialog.cc:315
 msgid "Tested by"
 msgstr "Testované"
 

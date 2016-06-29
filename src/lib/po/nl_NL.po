@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:33+0100\n"
+"POT-Creation-Date: 2016-06-29 22:02+0100\n"
 "PO-Revision-Date: 2016-06-20 20:53+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -147,7 +147,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:386
+#: src/lib/job.cc:396
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -155,7 +155,7 @@ msgstr "Geannuleerd"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan pixelformaat %1 niet verwerken tijdens %2"
 
-#: src/lib/util.cc:488
+#: src/lib/util.cc:495
 msgid "Centre"
 msgstr "Midden (C)"
 
@@ -361,11 +361,11 @@ msgstr "Kan extern bestand niet schrijven (%1)"
 msgid "Cropped to %1x%2"
 msgstr "Bijgesneden naar %1x%2"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:505
 msgid "D-BOX primary"
 msgstr "D-BOX primair (DBP)"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:506
 msgid "D-BOX secondary"
 msgstr "D-BOX secundair (DBS)"
 
@@ -382,7 +382,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML ondertitels"
 
 #: src/lib/audio_content.cc:327
-msgid "DCP frame rate"
+#, fuzzy
+msgid "DCP sample rate"
 msgstr "DCP frame rate"
 
 #: src/lib/frame_rate_change.cc:79
@@ -482,7 +483,7 @@ msgstr "Beeld en geluid encoderen"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fout in ondertitel-bestand: %1 gelezen terwijl %2 verwacht werd"
 
-#: src/lib/job.cc:384
+#: src/lib/job.cc:394
 msgid "Error: %1"
 msgstr "Fout: %1"
 
@@ -530,6 +531,11 @@ msgstr "Ondertitels zoeken"
 msgid "Flat"
 msgstr "1,85:1 (Flat)"
 
+#: src/lib/content.cc:369
+#, fuzzy
+msgid "Frame rate"
+msgstr "DCP frame rate"
+
 #: src/lib/ffmpeg_content.cc:476
 msgid "Full"
 msgstr "Volledig"
@@ -574,7 +580,7 @@ msgstr "Gradient debander"
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:499
 msgid "Hearing impaired"
 msgstr "Slechthorenden (HI)"
 
@@ -614,19 +620,19 @@ msgstr "L"
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:486
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:493
 msgid "Left"
 msgstr "Links (L)"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:501
 msgid "Left centre"
 msgstr "Links midden (Lc)"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:503
 msgid "Left rear surround"
 msgstr "Achter surround links (BsL)"
 
-#: src/lib/util.cc:490
+#: src/lib/util.cc:497
 msgid "Left surround"
 msgstr "Links surround (Ls)"
 
@@ -638,7 +644,7 @@ msgstr "Lengte"
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:489
+#: src/lib/util.cc:496
 msgid "Lfe (sub)"
 msgstr "Subwoofer (Lfe)"
 
@@ -714,7 +720,7 @@ msgstr "Geen geldige beeldbestanden gevonden in de map."
 msgid "Noise reduction"
 msgstr "Ruisonderdrukking"
 
-#: src/lib/job.cc:382
+#: src/lib/job.cc:392
 msgid "OK (ran for %1)"
 msgstr "OK (%1 bezig)"
 
@@ -749,6 +755,10 @@ msgstr "Opgevuld met zwart om in container %1 (%2x%3) te passen"
 #: src/lib/dcp_content_type.cc:53
 msgid "Policy"
 msgstr "Policy"
+
+#: src/lib/content.cc:378
+msgid "Prepared for video frame rate"
+msgstr ""
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -798,19 +808,19 @@ msgstr ""
 "Reel-lengtes in de film en die in de DCP verschillen; stel de reel-mode in "
 "op 'splits per video-content'."
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:487
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:494
 msgid "Right"
 msgstr "Rechts (R)"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:502
 msgid "Right centre"
 msgstr "Rechts midden (Rc)"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:504
 msgid "Right rear surround"
 msgstr "Achter surround rechts (Bsr)"
 
-#: src/lib/util.cc:491
+#: src/lib/util.cc:498
 msgid "Right surround"
 msgstr "Rechts surround (Rs)"
 
@@ -1015,7 +1025,7 @@ msgstr "Niet gespecificeerd"
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/lib/util.cc:500 src/lib/util.cc:501
+#: src/lib/util.cc:507 src/lib/util.cc:508
 msgid "Unused"
 msgstr "Ongebruikt"
 
@@ -1031,11 +1041,7 @@ msgstr "Upmix R"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/content.cc:367
-msgid "Video frame rate"
-msgstr "Video frame rate"
-
-#: src/lib/util.cc:493
+#: src/lib/util.cc:500
 msgid "Visually impaired"
 msgstr "Slechtzienden (VI)"
 
@@ -1143,17 +1149,17 @@ msgstr "fps"
 msgid "frames"
 msgstr "frames"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:371 src/lib/content.cc:380
 msgid "frames per second"
 msgstr "frames per seconde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:145 src/lib/util.cc:148
+#: src/lib/util.cc:148 src/lib/util.cc:151
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:160 src/lib/util.cc:163
+#: src/lib/util.cc:163 src/lib/util.cc:166
 msgid "m"
 msgstr "m"
 
@@ -1175,12 +1181,12 @@ msgstr "pixel-beeldverhouding"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:379
+#: src/lib/job.cc:389
 msgid "remaining"
 msgstr "resterend"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:174
+#: src/lib/util.cc:177
 msgid "s"
 msgstr "s"
 
