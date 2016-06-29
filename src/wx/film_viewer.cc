@@ -222,8 +222,28 @@ FilmViewer::get (DCPTime p, bool accurate)
 				pv = all_pv.front ();
 			}
 
+			/* In an ideal world, what we would do here is:
+			 *
+			 * 1. convert to XYZ exactly as we do in the DCP creation path.
+			 * 2. convert back to RGB for the preview display, compensating
+			 *    for the monitor etc. etc.
+			 *
+			 * but this is inefficient if the source is RGB.  Since we don't
+			 * (currently) care too much about the precise accuracy of the preview's
+			 * colour mapping (and we care more about its speed) we try to short-
+			 * circuit this "ideal" situation in some cases.
+			 *
+			 * The content's specified colour conversion indicates the colourspace
+			 * which the content is in (according to the user).
+			 *
+			 * PlayerVideo::image (bound to PlayerVideo::always_rgb) will take the source
+			 * image and convert it (from whatever the user has said it is) to RGB.
+			 */
+
 			_frame = pv->image (
-				bind (&Log::dcp_log, _film->log().get(), _1, _2), bind (&PlayerVideo::always_rgb, _1), false, true
+				bind (&Log::dcp_log, _film->log().get(), _1, _2),
+				bind (&PlayerVideo::always_rgb, _1),
+				false, true
 				);
 
 			ImageChanged (pv);

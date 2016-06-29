@@ -95,15 +95,22 @@ DCPDecoder::pass (PassReason reason, bool)
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (_mono_reader) {
-			video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame (entry_point + frame), asset->size())), _offset + frame);
+			video->give (
+				shared_ptr<ImageProxy> (
+					new J2KImageProxy (_mono_reader->get_frame (entry_point + frame), asset->size(), AV_PIX_FMT_XYZ12LE)
+					),
+				_offset + frame
+				);
 		} else {
 			video->give (
-				shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT)),
+				shared_ptr<ImageProxy> (
+					new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE)),
 				_offset + frame
 				);
 
 			video->give (
-				shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT)),
+				shared_ptr<ImageProxy> (
+					new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE)),
 				_offset + frame
 				);
 		}

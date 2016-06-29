@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	shared_ptr<PlayerVideo> j2k_pvf (
 		new PlayerVideo (
-			shared_ptr<ImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080))),
+			shared_ptr<ImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080), AV_PIX_FMT_XYZ12LE)),
 			DCPTime (),
 			Crop (),
 			optional<double> (),

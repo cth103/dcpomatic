@@ -42,23 +42,26 @@ using boost::dynamic_pointer_cast;
 using dcp::Data;
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
-J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size)
+J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPixelFormat pixel_format)
 	: _data (path)
 	, _size (size)
+	, _pixel_format (pixel_format)
 {
 
 }
 
-J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size)
+J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size, AVPixelFormat pixel_format)
 	: _data (frame->j2k_size ())
 	, _size (size)
+	, _pixel_format (pixel_format)
 {
 	memcpy (_data.data().get(), frame->j2k_data(), _data.size ());
 }
 
-J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye)
+J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye, AVPixelFormat pixel_format)
 	: _size (size)
 	, _eye (eye)
+	, _pixel_format (pixel_format)
 {
 	switch (eye) {
 	case dcp::EYE_LEFT:
@@ -79,6 +82,11 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 		_eye = static_cast<dcp::Eye> (xml->number_child<int> ("Eye"));
 	}
 	_data = Data (xml->number_child<int> ("Size"));
+	/* This only matters when we are using J2KImageProxy for the preview, which
+	   will never use this constructor (which is only used for passing data to
+	   encode servers).  So we can put anything in here.  It's a bit of a hack.
+	*/
+	_pixel_format = AV_PIX_FMT_XYZ12LE;
 	socket->read (_data.data().get (), _data.size ());
 }
 
@@ -107,7 +115,7 @@ J2KImageProxy::image (optional<dcp::NoteHandler>) const
 		}
 	}
 
-	shared_ptr<Image> image (new Image (pixel_format(), _size, true));
+	shared_ptr<Image> image (new Image (_pixel_format, _size, true));
 
 	/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
 	   the data is 12-bit either way.
@@ -160,21 +168,10 @@ J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
 	return memcmp (_data.data().get(), jp->_data.data().get(), _data.size()) == 0;
 }
 
-AVPixelFormat
-J2KImageProxy::pixel_format () const
-{
-	ensure_j2k ();
-
-	if (_j2k->srgb ()) {
-		return AV_PIX_FMT_RGB48LE;
-	}
-
-	return AV_PIX_FMT_XYZ12LE;
-}
-
-J2KImageProxy::J2KImageProxy (Data data, dcp::Size size)
+J2KImageProxy::J2KImageProxy (Data data, dcp::Size size, AVPixelFormat pixel_format)
 	: _data (data)
 	, _size (size)
+	, _pixel_format (pixel_format)
 {
 
 }

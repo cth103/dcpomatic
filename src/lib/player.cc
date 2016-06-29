@@ -173,7 +173,8 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == SubtitleContentProperty::COLOUR ||
 		property == SubtitleContentProperty::OUTLINE ||
 		property == SubtitleContentProperty::OUTLINE_COLOUR ||
-		property == FFmpegContentProperty::SUBTITLE_STREAM
+		property == FFmpegContentProperty::SUBTITLE_STREAM ||
+		property == VideoContentProperty::COLOUR_CONVERSION
 		) {
 
 		_have_valid_pieces = false;
@@ -190,8 +191,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
 		property == VideoContentProperty::FADE_IN ||
-		property == VideoContentProperty::FADE_OUT ||
-		property == VideoContentProperty::COLOUR_CONVERSION
+		property == VideoContentProperty::FADE_OUT
 		) {
 
 		Changed (frequent);

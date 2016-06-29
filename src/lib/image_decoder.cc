@@ -55,10 +55,18 @@ ImageDecoder::pass (PassReason, bool)
 		/* Either we need an image or we are using moving images, so load one */
 		boost::filesystem::path path = _image_content->path (_image_content->still() ? 0 : _video_position);
 		if (valid_j2k_file (path)) {
+			AVPixelFormat pf;
+			if (_image_content->video->colour_conversion()) {
+				/* We have a specified colour conversion: assume the image is RGB */
+				pf = AV_PIX_FMT_RGB48LE;
+			} else {
+				/* No specified colour conversion: assume the image is XYZ */
+				pf = AV_PIX_FMT_XYZ12LE;
+			}
 			/* We can't extract image size from a JPEG2000 codestream without decoding it,
 			   so pass in the image content's size here.
 			*/
-			_image.reset (new J2KImageProxy (path, _image_content->video->size ()));
+			_image.reset (new J2KImageProxy (path, _image_content->video->size(), pf));
 		} else {
 			_image.reset (new MagickImageProxy (path));
 		}

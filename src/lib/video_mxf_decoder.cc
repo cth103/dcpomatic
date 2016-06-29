@@ -77,10 +77,16 @@ VideoMXFDecoder::pass (PassReason, bool)
 	}
 
 	if (_mono_reader) {
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame(frame), _size)), frame);
+		video->give (
+			shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE)), frame
+			);
 	} else {
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT)), frame);
-		video->give (shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT)), frame);
+		video->give (
+			shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE)), frame
+			);
+		video->give (
+			shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE)), frame
+			);
 	}
 
 	_next += ContentTime::from_frames (1, vfr);
