@@ -125,9 +125,10 @@ private:
 	time_t _start_time;
 	std::string _sub_name;
 
-	/** mutex for _progress */
+	/** mutex for _progress and _last_progress_update */
 	mutable boost::mutex _progress_mutex;
 	boost::optional<float> _progress;
+	boost::optional<struct timeval> _last_progress_update;
 
 	/** condition to signal changes to pause/resume so that we know when to wake;
 	    this could be a general _state_change if it made more sense.

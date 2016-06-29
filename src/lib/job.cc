@@ -270,9 +270,19 @@ Job::elapsed_time () const
 void
 Job::set_progress (float p, bool force)
 {
-	if (!force && fabs (p - progress().get_value_or(0)) < 0.01) {
-		/* Calm excessive progress reporting */
-		return;
+	if (!force) {
+		/* Check for excessively frequent progress reporting */
+		boost::mutex::scoped_lock lm (_progress_mutex);
+		struct timeval now;
+		gettimeofday (&now, 0);
+		if (_last_progress_update && _last_progress_update->tv_sec > 0) {
+			double const elapsed = (now.tv_sec + now.tv_usec / 1000000.0)
+				- (_last_progress_update->tv_sec + _last_progress_update->tv_usec / 1000000.0);
+			if (elapsed < 0.5) {
+				return;
+			}
+		}
+		_last_progress_update = now;
 	}
 
 	set_progress_common (p);

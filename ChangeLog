@@ -1,5 +1,8 @@
 2016-06-29  Carl Hetherington  <cth@carlh.net>
 
+	* Increase frequency of progress reporting on long
+	encodes (#900).
+
 	* Obey specified colour conversion when previewing
 	RGB and XYZ JPEG2000 files.
 
