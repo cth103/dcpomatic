@@ -128,7 +128,7 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	 * http://trac.wxwidgets.org/ticket/13389
 	 */
 
-	wxString in = _("<i>Only change this if it the content's frame rate has been read incorrectly.</i>");
+	wxString in = _("<i>Only change this if the content's frame rate has been read incorrectly.</i>");
 	wxString out;
 	int const width = 20;
 	int current = 0;
