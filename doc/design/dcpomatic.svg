@@ -14,7 +14,7 @@
    height="2979.9211"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="dcpomatic.svg">
   <sodipodi:namedview
      id="base"
@@ -23,16 +23,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="756.37867"
-     inkscape:cy="681.04931"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="603.56905"
+     inkscape:cy="2184.453"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="997"
-     inkscape:window-x="1280"
-     inkscape:window-y="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="712"
+     inkscape:window-x="0"
+     inkscape:window-y="1051"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -361,7 +361,7 @@
            y="236.66934"
            id="tspan3009">section of audio from a time range.<tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#008000;font-family:Latin Modern Mono;-inkscape-font-specification:Latin Modern Mono"
-   id="tspan3011"></tspan></tspan><tspan
+   id="tspan3011" /></tspan><tspan
            sodipodi:role="line"
            x="187.10799"
            y="246.66934"
@@ -1192,17 +1192,6 @@
        id="path5263"
        d="m 536.32022,308.03599 c -2.16071,34.6842 -114.75866,17.2772 -114.24126,80.0457"
        style="fill:none;stroke:#ff0000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Mend-31);display:inline" />
-    <text
-       transform="matrix(-1,0,0,-1,1224.1097,462.39809)"
-       xml:space="preserve"
-       style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Latin Modern Mono;-inkscape-font-specification:Latin Modern Mono"
-       id="text3931-3"
-       sodipodi:linespacing="125%"
-       x="509.69517"
-       y="2247.4387"><tspan
-   dy="-3.4053285"
-   dx="10.348748"
-   id="tspan3933-4">has many</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Latin Modern Mono;-inkscape-font-specification:Latin Modern Mono"
