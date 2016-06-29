@@ -67,7 +67,7 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> 
 	h->SetFont (subheading_font);
 	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 
-	_internal = new wxRadioButton (this, wxID_ANY, _("Save to KDM creator tool's list"));
+	_internal = new wxRadioButton (this, wxID_ANY, _("Save to KDM Creator tool's list"));
 	vertical->Add (_internal, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 	wxBoxSizer* w = new wxBoxSizer (wxHORIZONTAL);
