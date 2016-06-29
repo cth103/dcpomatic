@@ -146,6 +146,9 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	t->SetLabelMarkup (out);
 	grid->Add (t, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
 
+	/* Completely speculative fix for #891 */
+	grid->Layout ();
+
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
 	_move_to_start_of_reel->Bind  (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
