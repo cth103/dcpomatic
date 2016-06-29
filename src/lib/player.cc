@@ -181,6 +181,19 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		Changed (frequent);
 
 	} else if (
+		property == SubtitleContentProperty::LINE_SPACING
+		) {
+
+		/* These changes just need the pieces' decoders to be reset.
+		   It's quite possible that other changes could be handled by
+		   this branch rather than the _have_valid_pieces = false branch
+		   above.  This would make things a lot faster.
+		*/
+
+		reset_pieces ();
+		Changed (frequent);
+
+	} else if (
 		property == ContentProperty::VIDEO_FRAME_RATE ||
 		property == SubtitleContentProperty::USE ||
 		property == SubtitleContentProperty::X_OFFSET ||
@@ -774,4 +787,12 @@ Player::overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> va
 	}
 
 	return overlaps;
+}
+
+void
+Player::reset_pieces ()
+{
+	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		i->decoder->reset ();
+	}
 }

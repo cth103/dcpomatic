@@ -64,6 +64,11 @@ public:
 
 	/** @return true if this decoder has already returned all its data and will give no more */
 	virtual bool pass (PassReason, bool accurate) = 0;
+
+	/** Ensure that any future get() calls return data that reflect
+	 *  changes in our content's settings.
+	 */
+	virtual void reset () {}
 };
 
 #endif

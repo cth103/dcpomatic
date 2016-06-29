@@ -103,3 +103,9 @@ TextSubtitleDecoder::content_time_period (sub::Subtitle s) const
 		ContentTime::from_seconds (s.to.all_as_seconds())
 		);
 }
+
+void
+TextSubtitleDecoder::reset ()
+{
+	subtitle->reset ();
+}

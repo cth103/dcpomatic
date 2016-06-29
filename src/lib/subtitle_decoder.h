@@ -51,6 +51,7 @@ public:
 	std::list<ContentTextSubtitle> get_text (ContentTimePeriod period, bool starting, bool accurate);
 
 	void seek (ContentTime, bool);
+	void reset ();
 
 	void give_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void give_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
@@ -61,6 +62,7 @@ public:
 	}
 
 private:
+
 	Decoder* _parent;
 	std::list<ContentImageSubtitle> _decoded_image;
 	std::list<ContentTextSubtitle> _decoded_text;

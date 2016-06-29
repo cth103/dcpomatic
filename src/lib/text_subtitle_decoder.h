@@ -34,6 +34,7 @@ public:
 protected:
 	void seek (ContentTime time, bool accurate);
 	bool pass (PassReason, bool accurate);
+	void reset ();
 
 private:
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;

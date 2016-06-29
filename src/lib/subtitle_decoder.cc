@@ -132,6 +132,12 @@ SubtitleDecoder::get_image (ContentTimePeriod period, bool starting, bool accura
 void
 SubtitleDecoder::seek (ContentTime, bool)
 {
+	reset ();
+}
+
+void
+SubtitleDecoder::reset ()
+{
 	_decoded_text.clear ();
 	_decoded_image.clear ();
 }

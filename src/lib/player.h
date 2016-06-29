@@ -79,6 +79,7 @@ private:
 	friend struct player_time_calculation_test3;
 
 	void setup_pieces ();
+	void reset_pieces ();
 	void flush ();
 	void film_changed (Film::Property);
 	void playlist_changed ();
