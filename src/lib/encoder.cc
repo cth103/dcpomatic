@@ -53,7 +53,7 @@ using boost::weak_ptr;
 using boost::optional;
 using dcp::Data;
 
-int const Encoder::_history_size = 25;
+int const Encoder::_history_size = 200;
 
 /** @param f Film that we are encoding */
 Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)

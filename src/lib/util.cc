@@ -139,8 +139,8 @@ seconds_to_approximate_hms (int s)
 	SafeStringStream ap;
 
 	bool const hours = h > 0;
-	bool const minutes = h < 10 && m > 0;
-	bool const seconds = m < 10 && s > 0;
+	bool const minutes = h < 6 && m > 0;
+	bool const seconds = h == 0 && m < 10 && s > 0;
 
 	if (hours) {
 		if (m > 30 && !minutes) {
@@ -151,7 +151,7 @@ seconds_to_approximate_hms (int s)
 			ap << h << _("h");
 		}
 
-		if (minutes | seconds) {
+		if (minutes || seconds) {
 			ap << N_(" ");
 		}
 	}
