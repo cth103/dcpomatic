@@ -324,7 +324,7 @@ AudioContent::add_properties (list<UserProperty>& p) const
 			);
 	}
 
-	p.push_back (UserProperty (UserProperty::AUDIO, _("DCP frame rate"), resampled_frame_rate (), _("Hz")));
+	p.push_back (UserProperty (UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate (), _("Hz")));
 	p.push_back (UserProperty (UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round (frc.dcp)));
 
 	if (stream) {

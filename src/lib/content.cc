@@ -362,10 +362,24 @@ Content::add_properties (list<UserProperty>& p) const
 	p.push_back (UserProperty (UserProperty::GENERAL, _("Filename"), path(0).string ()));
 
 	if (_video_frame_rate) {
-		p.push_back (
-			UserProperty (
-				UserProperty::GENERAL, _("Video frame rate"), raw_convert<string> (_video_frame_rate.get(), 5), _("frames per second")
-				)
-			);
+		if (video) {
+			p.push_back (
+				UserProperty (
+					UserProperty::VIDEO,
+					_("Frame rate"),
+					raw_convert<string> (_video_frame_rate.get(), 5),
+					_("frames per second")
+					)
+				);
+		} else {
+			p.push_back (
+				UserProperty (
+					UserProperty::GENERAL,
+					_("Prepared for video frame rate"),
+					raw_convert<string> (_video_frame_rate.get(), 5),
+					_("frames per second")
+					)
+				);
+		}
 	}
 }
