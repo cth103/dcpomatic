@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-29 22:02+0100\n"
-"PO-Revision-Date: 2016-06-20 20:48+0200\n"
+"PO-Revision-Date: 2016-06-30 00:16+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -108,7 +108,6 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
-#, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -974,7 +973,8 @@ msgstr "Mijn probleem is"
 msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Naam"
 
@@ -1274,7 +1274,7 @@ msgstr "Sample-piek is %.2fdB op %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM creator tool's list"
-msgstr "Bewaar in lijst van KDM Creator gereedschap"
+msgstr "Bewaar in lijst van KDM Creator tool"
 
 #: src/wx/video_panel.cc:164
 msgid "Scale to"

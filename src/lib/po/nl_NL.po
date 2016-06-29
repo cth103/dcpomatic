@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-29 22:02+0100\n"
-"PO-Revision-Date: 2016-06-20 20:53+0200\n"
+"PO-Revision-Date: 2016-06-30 00:14+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -382,9 +382,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML ondertitels"
 
 #: src/lib/audio_content.cc:327
-#, fuzzy
 msgid "DCP sample rate"
-msgstr "DCP frame rate"
+msgstr "DCP sample rate"
 
 #: src/lib/frame_rate_change.cc:79
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -532,9 +531,8 @@ msgid "Flat"
 msgstr "1,85:1 (Flat)"
 
 #: src/lib/content.cc:369
-#, fuzzy
 msgid "Frame rate"
-msgstr "DCP frame rate"
+msgstr "Frame rate"
 
 #: src/lib/ffmpeg_content.cc:476
 msgid "Full"
@@ -758,7 +756,7 @@ msgstr "Policy"
 
 #: src/lib/content.cc:378
 msgid "Prepared for video frame rate"
-msgstr ""
+msgstr "Voorbereid voor video frame rate"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"

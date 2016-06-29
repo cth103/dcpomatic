@@ -1,5 +1,7 @@
 2016-06-29  Carl Hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Increase frequency of progress reporting on long
 	encodes (#900).
 
