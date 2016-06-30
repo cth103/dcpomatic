@@ -119,22 +119,50 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, cxml::ConstNodePtr no
 
 }
 
-FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<boost::shared_ptr<Content> > c)
+FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 	: Content (film, c)
 {
-	/* XXX: this should look at c to decide which of video/audio/subtitle
-	   get created.
-	*/
-	video.reset (new VideoContent (this, c));
-	audio.reset (new AudioContent (this, c));
-	subtitle.reset (new SubtitleContent (this, c));
+	vector<shared_ptr<Content> >::const_iterator i = c.begin ();
+
+	bool need_video = false;
+	bool need_audio = false;
+	bool need_subtitle = false;
+
+	if (i != c.end ()) {
+		need_video = static_cast<bool> ((*i)->video);
+		need_audio = static_cast<bool> ((*i)->audio);
+		need_subtitle = static_cast<bool> ((*i)->subtitle);
+	}
+
+	while (i != c.end ()) {
+		if (need_video != static_cast<bool> ((*i)->video)) {
+			throw JoinError (_("Content to be joined must all have or not have video"));
+		}
+		if (need_audio != static_cast<bool> ((*i)->audio)) {
+			throw JoinError (_("Content to be joined must all have or not have audio"));
+		}
+		if (need_subtitle != static_cast<bool> ((*i)->subtitle)) {
+			throw JoinError (_("Content to be joined must all have or not have subtitles"));
+		}
+		++i;
+	}
+
+	if (need_video) {
+		video.reset (new VideoContent (this, c));
+	}
+	if (need_audio) {
+		audio.reset (new AudioContent (this, c));
+	}
+	if (need_subtitle) {
+		subtitle.reset (new SubtitleContent (this, c));
+	}
 
 	shared_ptr<FFmpegContent> ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
 	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c[i]);
-		if (fc->subtitle->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
+		if (fc->subtitle && fc->subtitle->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
 			throw JoinError (_("Content to be joined must use the same subtitle stream."));
 		}
 	}
