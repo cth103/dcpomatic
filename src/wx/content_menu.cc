@@ -160,9 +160,7 @@ ContentMenu::join ()
 
 	try {
 		shared_ptr<FFmpegContent> joined (new FFmpegContent (film, fc));
-		BOOST_FOREACH (shared_ptr<Content> i, _content) {
-			film->remove_content (i);
-		}
+		film->remove_content (_content);
 		film->add_content (joined);
 	} catch (JoinError& e) {
 		error_dialog (_parent, std_to_wx (e.what ()));
