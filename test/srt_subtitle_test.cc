@@ -44,6 +44,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
+	film->set_audio_channels (6);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -64,6 +65,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
+	film->set_audio_channels (6);
 	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
@@ -80,25 +82,9 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 	check_dcp ("test/data/srt_subtitle_test2", film->dir (film->dcp_name ()));
 }
 
-/** Make another DCP with a longer .srt file */
-BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
+static void
+check_subtitle_file (shared_ptr<Film> film, boost::filesystem::path ref)
 {
-	shared_ptr<Film> film = new_test_film ("srt_subtitle_test3");
-
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->set_interop (true);
-	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "Ankoemmling.srt"));
-	film->examine_and_add_content (content);
-	wait_for_jobs ();
-
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (false);
-
-	film->make_dcp ();
-	wait_for_jobs ();
-
 	/* Find the subtitle file and check it */
 	for (
 		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory() / film->dcp_name (false));
@@ -114,11 +100,34 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 				if (boost::algorithm::starts_with (j->path().leaf().string(), "sub_")) {
 					list<string> ignore;
 					ignore.push_back ("SubtitleID");
-					check_xml (*j, private_data / "Ankoemmling.xml", ignore);
+					check_xml (*j, ref, ignore);
 				}
 			}
 		}
 	}
+}
+
+/** Make another DCP with a longer .srt file */
+BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
+{
+	shared_ptr<Film> film = new_test_film ("srt_subtitle_test3");
+
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	film->set_interop (true);
+	film->set_audio_channels (6);
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, private_data / "Ankoemmling.srt"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	check_subtitle_file (film, private_data / "Ankoemmling.xml");
 }
 
 #if 0
