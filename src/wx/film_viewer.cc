@@ -122,8 +122,8 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,              boost::bind (&FilmViewer::slider_moved,    this));
 	_play_button->Bind    (wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, boost::bind (&FilmViewer::play_clicked,    this));
 	_timer.Bind           (wxEVT_TIMER,                        boost::bind (&FilmViewer::timer,           this));
-	_back_button->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::back_clicked,    this));
-	_forward_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&FilmViewer::forward_clicked, this));
+	_back_button->Bind    (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::back_clicked,    this, _1));
+	_forward_button->Bind (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::forward_clicked, this, _1));
 
 	set_film (shared_ptr<Film> ());
 
@@ -448,10 +448,26 @@ FilmViewer::active_jobs_changed (optional<string> j)
 	_play_button->Enable (a);
 }
 
-void
-FilmViewer::back_clicked ()
+DCPTime
+FilmViewer::nudge_amount (wxMouseEvent& ev)
 {
-	DCPTime p = _position - DCPTime::from_frames (1, _film->video_frame_rate ());
+	DCPTime amount = DCPTime::from_frames (1, _film->video_frame_rate ());
+
+	if (ev.ShiftDown() && !ev.ControlDown()) {
+		amount = DCPTime::from_seconds (1);
+	} else if (!ev.ShiftDown() && ev.ControlDown()) {
+		amount = DCPTime::from_seconds (10);
+	} else if (ev.ShiftDown() && ev.ControlDown()) {
+		amount = DCPTime::from_seconds (60);
+	}
+
+	return amount;
+}
+
+void
+FilmViewer::back_clicked (wxMouseEvent& ev)
+{
+	DCPTime p = _position - nudge_amount (ev);
 	if (p < DCPTime ()) {
 		p = DCPTime ();
 	}
@@ -459,12 +475,14 @@ FilmViewer::back_clicked ()
 	get (p, true);
 	update_position_label ();
 	update_position_slider ();
+
+	ev.Skip ();
 }
 
 void
-FilmViewer::forward_clicked ()
+FilmViewer::forward_clicked (wxMouseEvent& ev)
 {
-	DCPTime p = _position + DCPTime::from_frames (1, _film->video_frame_rate ());
+	DCPTime p = _position + nudge_amount (ev);
 	if (p >= _film->length ()) {
 		p = _position;
 	}
@@ -472,6 +490,8 @@ FilmViewer::forward_clicked ()
 	get (p, true);
 	update_position_label ();
 	update_position_slider ();
+
+	ev.Skip ();
 }
 
 void

@@ -61,8 +61,8 @@ private:
 	void calculate_sizes ();
 	void check_play_state ();
 	void active_jobs_changed (boost::optional<std::string>);
-	void back_clicked ();
-	void forward_clicked ();
+	void back_clicked (wxMouseEvent &);
+	void forward_clicked (wxMouseEvent &);
 	void player_changed (bool);
 	void update_position_label ();
 	void update_position_slider ();
@@ -70,6 +70,7 @@ private:
 	void refresh_panel ();
 	void setup_sensitivity ();
 	void film_changed (Film::Property);
+	DCPTime nudge_amount (wxMouseEvent &);
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
