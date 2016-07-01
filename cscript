@@ -337,7 +337,10 @@ def package_rpm(target, cpu, version):
     if cpu == "amd64":
         cpu = "x86_64"
     else:
-        cpu = "i686"
+        if target.distro == 'centos' and target.version == '5':
+            cpu = "i386"
+        else:
+            cpu = "i686"
 
     print('Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu))
     for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
