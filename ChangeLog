@@ -1,6 +1,7 @@
 2016-07-01  Carl Hetherington  <cth@carlh.net>
 
-	* Add move-to-position dialog when clicking on the preview timecode.
+	* Add move-to-position dialogs when clicking on the preview timecode
+	or frame number.
 
 2016-06-29  Carl Hetherington  <cth@carlh.net>
 

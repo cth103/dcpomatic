@@ -22,6 +22,10 @@
  *  @brief A wx widget to view a preview of a Film.
  */
 
+#include "film_viewer.h"
+#include "playhead_to_timecode_dialog.h"
+#include "playhead_to_frame_dialog.h"
+#include "wx_util.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -36,9 +40,6 @@
 #include "lib/video_decoder.h"
 #include "lib/timer.h"
 #include "lib/log.h"
-#include "film_viewer.h"
-#include "playhead_to_timecode_dialog.h"
-#include "wx_util.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -125,6 +126,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_timer.Bind           (wxEVT_TIMER,                        boost::bind (&FilmViewer::timer,           this));
 	_back_button->Bind    (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::back_clicked,    this, _1));
 	_forward_button->Bind (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::forward_clicked, this, _1));
+	_frame_number->Bind   (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::frame_number_clicked, this));
 	_timecode->Bind       (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::timecode_clicked, this));
 
 	set_film (shared_ptr<Film> ());
@@ -573,6 +575,16 @@ void
 FilmViewer::timecode_clicked ()
 {
 	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _film->video_frame_rate ());
+	if (dialog->ShowModal() == wxID_OK) {
+		go_to (dialog->get ());
+	}
+	dialog->Destroy ();
+}
+
+void
+FilmViewer::frame_number_clicked ()
+{
+	PlayheadToFrameDialog* dialog = new PlayheadToFrameDialog (this, _film->video_frame_rate ());
 	if (dialog->ShowModal() == wxID_OK) {
 		go_to (dialog->get ());
 	}

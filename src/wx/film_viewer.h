@@ -72,6 +72,7 @@ private:
 	void film_changed (Film::Property);
 	DCPTime nudge_amount (wxMouseEvent &);
 	void timecode_clicked ();
+	void frame_number_clicked ();
 	void go_to (DCPTime t);
 
 	boost::shared_ptr<Film> _film;
