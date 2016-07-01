@@ -37,6 +37,7 @@
 #include "lib/timer.h"
 #include "lib/log.h"
 #include "film_viewer.h"
+#include "playhead_to_timecode_dialog.h"
 #include "wx_util.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
@@ -124,6 +125,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_timer.Bind           (wxEVT_TIMER,                        boost::bind (&FilmViewer::timer,           this));
 	_back_button->Bind    (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::back_clicked,    this, _1));
 	_forward_button->Bind (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::forward_clicked, this, _1));
+	_timecode->Bind       (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::timecode_clicked, this));
 
 	set_film (shared_ptr<Film> ());
 
@@ -465,32 +467,32 @@ FilmViewer::nudge_amount (wxMouseEvent& ev)
 }
 
 void
-FilmViewer::back_clicked (wxMouseEvent& ev)
+FilmViewer::go_to (DCPTime t)
 {
-	DCPTime p = _position - nudge_amount (ev);
-	if (p < DCPTime ()) {
-		p = DCPTime ();
+	if (t < DCPTime ()) {
+		t = DCPTime ();
 	}
 
-	get (p, true);
+	if (t >= _film->length ()) {
+		t = _film->length ();
+	}
+
+	get (t, true);
 	update_position_label ();
 	update_position_slider ();
+}
 
+void
+FilmViewer::back_clicked (wxMouseEvent& ev)
+{
+	go_to (_position - nudge_amount (ev));
 	ev.Skip ();
 }
 
 void
 FilmViewer::forward_clicked (wxMouseEvent& ev)
 {
-	DCPTime p = _position + nudge_amount (ev);
-	if (p >= _film->length ()) {
-		p = _position;
-	}
-
-	get (p, true);
-	update_position_label ();
-	update_position_slider ();
-
+	go_to (_position + nudge_amount (ev));
 	ev.Skip ();
 }
 
@@ -565,4 +567,14 @@ FilmViewer::set_coalesce_player_changes (bool c)
 			player_changed (false);
 		}
 	}
+}
+
+void
+FilmViewer::timecode_clicked ()
+{
+	PlayheadToTimecodeDialog* dialog = new PlayheadToTimecodeDialog (this, _film->video_frame_rate ());
+	if (dialog->ShowModal() == wxID_OK) {
+		go_to (dialog->get ());
+	}
+	dialog->Destroy ();
 }

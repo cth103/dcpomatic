@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,8 +26,9 @@
 using std::string;
 using std::cout;
 
-TimecodeBase::TimecodeBase (wxWindow* parent)
+TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	: wxPanel (parent)
+	, _set_button (0)
 {
 	wxSize const s = TimecodeBase::size (parent);
 
@@ -60,8 +61,10 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
 	_frames->SetMaxLength (2);
 	editable_sizer->Add (_frames);
-	_set_button = new wxButton (_editable, wxID_ANY, _("Set"));
-	editable_sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
+	if (set_button) {
+		_set_button = new wxButton (_editable, wxID_ANY, _("Set"));
+		editable_sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
+	}
 	_editable->SetSizerAndFit (editable_sizer);
 	_sizer->Add (_editable);
 
@@ -71,9 +74,10 @@ TimecodeBase::TimecodeBase (wxWindow* parent)
 	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
 	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
 	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
-	_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimecodeBase::set_clicked, this));
-
-	_set_button->Enable (false);
+	if (_set_button) {
+		_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimecodeBase::set_clicked, this));
+		_set_button->Enable (false);
+	}
 
 	set_editable (true);
 
@@ -93,14 +97,18 @@ TimecodeBase::clear ()
 void
 TimecodeBase::changed ()
 {
-	_set_button->Enable (true);
+	if (_set_button) {
+		_set_button->Enable (true);
+	}
 }
 
 void
 TimecodeBase::set_clicked ()
 {
 	Changed ();
-	_set_button->Enable (false);
+	if (_set_button) {
+		_set_button->Enable (false);
+	}
 }
 
 void

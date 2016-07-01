@@ -69,6 +69,7 @@ sources = """
           make_chain_dialog.cc
           move_to_dialog.cc
           new_film_dialog.cc
+          playhead_to_timecode_dialog.cc
           repeat_dialog.cc
           report_problem_dialog.cc
           rgba_colour_picker.cc

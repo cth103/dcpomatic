@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,7 +30,7 @@
 class TimecodeBase : public wxPanel
 {
 public:
-	TimecodeBase (wxWindow *);
+	TimecodeBase (wxWindow *, bool set_button);
 
 	void clear ();
 
@@ -58,8 +58,8 @@ template <class T>
 class Timecode : public TimecodeBase
 {
 public:
-	Timecode (wxWindow* parent)
-		: TimecodeBase (parent)
+	Timecode (wxWindow* parent, bool set_button = true)
+		: TimecodeBase (parent, set_button)
 	{
 
 	}
