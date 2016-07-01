@@ -120,8 +120,7 @@ public:
 	int best_video_frame_rate () const;
 	FrameRateChange active_frame_rate_change (DCPTime) const;
 
-	dcp::EncryptedKDM
-	make_kdm (
+	dcp::EncryptedKDM make_kdm (
 		dcp::Certificate recipient,
 		std::vector<dcp::Certificate> trusted_devices,
 		boost::filesystem::path cpl_file,
