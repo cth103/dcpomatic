@@ -52,6 +52,7 @@ marked_up (list<dcp::SubtitleString> subtitles)
 	bool bold = false;
 	bool underline = false;
 	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+
 		if (i.italic() && !italic) {
 			out += "<i>";
 		}
@@ -61,9 +62,6 @@ marked_up (list<dcp::SubtitleString> subtitles)
 		if (i.underline() && !underline) {
 			out += "<u>";
 		}
-
-		out += i.text ();
-
 		if (!i.underline() && underline) {
 			out += "</u>";
 		}
@@ -77,6 +75,8 @@ marked_up (list<dcp::SubtitleString> subtitles)
 		italic = i.italic ();
 		bold = i.bold ();
 		underline = i.underline ();
+
+		out += i.text ();
 	}
 
 	if (underline) {

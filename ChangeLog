@@ -1,5 +1,7 @@
 2016-07-02  Carl Hetherington  <cth@carlh.net>
 
+	* Fix problems with markup in subrip/SSA/ASS.
+
 	* Updated ru_RU translation from Igor Voytovich.
 
 	* Updated uk_UA translation from Igor Voytovich.
