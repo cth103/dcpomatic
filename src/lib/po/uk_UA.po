@@ -4,19 +4,18 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-02 10:49+0100\n"
-"PO-Revision-Date: 2016-05-26 19:52+0300\n"
-"Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
+"PO-Revision-Date: 2016-07-02 22:38+0300\n"
+"Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/lib/atmos_mxf_content.cc:78
-#, fuzzy
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
@@ -218,102 +217,99 @@ msgid "Content frame rate"
 msgstr "Частота кадрів контента:"
 
 #: src/lib/ffmpeg_content.cc:142
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "Для приєднання контента має бути таке саме посилення аудіо."
+msgstr ""
+"Для приєднання цього контенту, всі інші мають містити або не містити аудіо"
 
 #: src/lib/ffmpeg_content.cc:145
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles"
 msgstr ""
-"Для приєднання контента має бути таке саме розмір субтитрів по горизонталі."
+"Для приєднання цього контенту, всі інші мають містити або не містити субтитри"
 
 #: src/lib/ffmpeg_content.cc:139
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr "Для приєднання контента має бути таке саме згасання."
+msgstr ""
+"Для приєднання цього контенту, всі інші мають містити або не містити відео"
 
 #: src/lib/subtitle_content.cc:156
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
-"Для приєднання контента мають бути такі самі налаштування \"вшити субтитри\"."
+"Для приєднання контенту мають бути такі самі налаштування \"вшити субтитри\"."
 
 #: src/lib/subtitle_content.cc:152
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
-"Для приєднання контента мають бути такі самі налаштування \"використовувати "
+"Для приєднання контенту мають бути такі самі налаштування \"використовувати "
 "субтитри\"."
 
 #: src/lib/audio_content.cc:106
 msgid "Content to be joined must have the same audio delay."
-msgstr "Для приєднання контента має бути така сама затримка аудіо."
+msgstr "Для приєднання контенту має бути така сама затримка аудіо."
 
 #: src/lib/audio_content.cc:102
 msgid "Content to be joined must have the same audio gain."
-msgstr "Для приєднання контента має бути таке саме посилення аудіо."
+msgstr "Для приєднання контенту має бути таке саме посилення аудіо."
 
 #: src/lib/video_content.cc:186
 msgid "Content to be joined must have the same colour conversion."
-msgstr "Для приєднання контента має бути таке саме перетворення кольору."
+msgstr "Для приєднання контенту має бути таке саме перетворення кольору."
 
 #: src/lib/video_content.cc:178
 msgid "Content to be joined must have the same crop."
-msgstr "Для приєднання контента має бути таке саме кадрування."
+msgstr "Для приєднання контенту має бути таке саме кадрування."
 
 #: src/lib/video_content.cc:190
 msgid "Content to be joined must have the same fades."
-msgstr "Для приєднання контента має бути таке саме згасання."
+msgstr "Для приєднання контенту має бути таке саме згасання."
 
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
-msgstr "Для приєднання контента має бути такий самий розмір зображення."
+msgstr "Для приєднання контенту має бути такий самий розмір зображення."
 
 #: src/lib/video_content.cc:182
 msgid "Content to be joined must have the same scale setting."
-msgstr "Для приєднання контента мають бути такі самі параметри масштабування."
+msgstr "Для приєднання контенту мають бути такі самі параметри масштабування."
 
 #: src/lib/subtitle_content.cc:160
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
-"Для приєднання контента має бути таке саме горизонтальне зміщення субтитрів."
+"Для приєднання контенту має бути таке саме горизонтальне зміщення субтитрів."
 
 #: src/lib/subtitle_content.cc:168
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
-"Для приєднання контента має бути таке саме розмір субтитрів по горизонталі."
+"Для приєднання контенту має бути таке саме розмір субтитрів по горизонталі."
 
 #: src/lib/subtitle_content.cc:164
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
-"Для приєднання контента має бути таке саме вертикальне зміщення субтитрів."
+"Для приєднання контенту має бути таке саме вертикальне зміщення субтитрів."
 
 #: src/lib/subtitle_content.cc:172
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
-"Для приєднання контента має бути таке саме розмір субтитрів по вертикалі."
+"Для приєднання контенту має бути таке саме розмір субтитрів по вертикалі."
 
 #: src/lib/subtitle_content.cc:176
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
-"Для приєднання контента має бути таке саме розмір субтитрів по горизонталі."
+"Для приєднання контенту має бути такий самий інтервал між рядками субтитрів."
 
 #: src/lib/content.cc:122 src/lib/content.cc:126
-#, fuzzy
 msgid "Content to be joined must have the same video frame rate"
-msgstr "Для приєднання контента має бути такою самою частота кадрів відео."
+msgstr "Для приєднання контенту має бути така сама частота кадрів відео"
 
 #: src/lib/video_content.cc:174
 msgid "Content to be joined must have the same video frame type."
-msgstr "Для приєднання контента має бути такий самий тип відео."
+msgstr "Для приєднання контенту має бути такий самий тип відео."
 
 #: src/lib/subtitle_content.cc:181 src/lib/subtitle_content.cc:189
 msgid "Content to be joined must use the same fonts."
-msgstr "Для приєднання контента має бути такий самий шрифт."
+msgstr "Для приєднання контенту має бути такий самий шрифт."
 
 #: src/lib/ffmpeg_content.cc:166
 msgid "Content to be joined must use the same subtitle stream."
-msgstr "Для приєднання контента необхідно використовувати ті самі субтитри."
+msgstr "Для приєднання контенту необхідно використовувати ті самі субтитри."
 
 #: src/lib/video_content.cc:384
 msgid "Content video is %1x%2"
@@ -364,9 +360,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Не вдалося відкрити завантажений ZIP-архів"
 
 #: src/lib/dcp_subtitle.cc:55
-#, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
-msgstr "Не вдалося прочитати субтитри"
+msgstr "Не вдалося прочитати субтитри (%1 / %2)"
 
 #: src/lib/scp_uploader.cc:71
 msgid "Could not start SCP session (%1)"
@@ -405,9 +400,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML субтитри"
 
 #: src/lib/audio_content.cc:327
-#, fuzzy
 msgid "DCP sample rate"
-msgstr "Частота кадрів DCP:"
+msgstr "Частота кадрів DCP"
 
 #: src/lib/frame_rate_change.cc:79
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -498,7 +492,7 @@ msgstr "Помилка відправки ключей %1 по Email"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
-msgstr ""
+msgstr "Кодування зображення та звуку"
 
 #: src/lib/exceptions.cc:68
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -529,9 +523,8 @@ msgid "Feature"
 msgstr "FTR (Фільм)"
 
 #: src/lib/content.cc:362
-#, fuzzy
 msgid "Filename"
-msgstr "назва"
+msgstr "Ім`я файлу"
 
 #: src/lib/ffmpeg_content.cc:520
 msgid "Film"
@@ -775,7 +768,7 @@ msgstr "POL (Стратегічний)"
 
 #: src/lib/content.cc:378
 msgid "Prepared for video frame rate"
-msgstr ""
+msgstr "Підготовлене для частоти кадрів відео"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
