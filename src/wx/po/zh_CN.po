@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 22:02+0100\n"
+"POT-Creation-Date: 2016-07-02 10:49+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -27,6 +27,7 @@ msgstr ""
 #
 #: src/wx/subtitle_panel.cc:73 src/wx/subtitle_panel.cc:83
 #: src/wx/subtitle_panel.cc:93 src/wx/subtitle_panel.cc:103
+#: src/wx/subtitle_panel.cc:113
 msgid "%"
 msgstr "%"
 
@@ -220,7 +221,7 @@ msgstr "允许任何DCP帧速率"
 msgid "Alpha   0"
 msgstr "透明度 0"
 
-#: src/wx/subtitle_panel.cc:125
+#: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
 msgstr "显示"
 
@@ -344,7 +345,7 @@ msgstr "启动时检查更新 "
 msgid "Check for updates on startup"
 msgstr "启动时检查更新"
 
-#: src/wx/content_menu.cc:253
+#: src/wx/content_menu.cc:251
 msgid "Choose a file"
 msgstr "选择一个文件"
 
@@ -352,7 +353,7 @@ msgstr "选择一个文件"
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:248 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -428,16 +429,16 @@ msgstr "对比"
 msgid "Copy as name"
 msgstr "复制名称"
 
-#: src/wx/audio_dialog.cc:230
+#: src/wx/audio_dialog.cc:234
 msgid "Could not analyse audio."
 msgstr "无法分析音频。"
 
-#: src/wx/film_viewer.cc:199
+#: src/wx/film_viewer.cc:203
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "无法获取视频 (%s)"
 
-#: src/wx/content_menu.cc:329
+#: src/wx/content_menu.cc:327
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "无法加载 KDM (%s)"
@@ -479,7 +480,7 @@ msgstr "DCP目录"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:135
+#: src/wx/audio_dialog.cc:139
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic音频"
 
@@ -669,7 +670,7 @@ msgstr "寻找丢失..."
 msgid "Fonts"
 msgstr "字体..."
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/subtitle_panel.cc:133
 msgid "Fonts..."
 msgstr "字体..."
 
@@ -728,6 +729,11 @@ msgstr "普通"
 msgid "Get from file..."
 msgstr "外置字体 "
 
+#: src/wx/playhead_to_timecode_dialog.cc:27
+#: src/wx/playhead_to_frame_dialog.cc:28
+msgid "Go to"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "绿色色度"
@@ -776,7 +782,7 @@ msgstr "伽玛校正"
 msgid "Input power"
 msgstr "功率"
 
-#: src/wx/audio_dialog.cc:335
+#: src/wx/audio_dialog.cc:339
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "平均响度 %.2f LUFS"
@@ -838,7 +844,7 @@ msgstr "键值"
 msgid "Keys"
 msgstr "键值"
 
-#: src/wx/subtitle_panel.cc:108
+#: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "语言"
 
@@ -858,13 +864,17 @@ msgstr "私钥"
 msgid "Left"
 msgstr "左边"
 
-#: src/wx/film_viewer.cc:68
+#: src/wx/film_viewer.cc:70
 #, fuzzy
 msgid "Left eye"
 msgstr "左边"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:109
+msgid "Line spacing"
 msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:51
@@ -883,7 +893,7 @@ msgstr "日志"
 msgid "Log:"
 msgstr "日志:"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:348
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "响度范围 %.2f LU"
@@ -942,8 +952,16 @@ msgstr "移动选择部分之前内容"
 msgid "Move the selected piece of content later in the film."
 msgstr "移动选择部分之后内容"
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+msgid "Move to frame"
+msgstr ""
+
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
+msgstr ""
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Move to timecode"
 msgstr ""
 
 #: src/wx/video_panel.cc:374
@@ -1048,7 +1066,7 @@ msgstr "缩略视图"
 msgid "Outline colour"
 msgstr "缩略视图轮廓颜色"
 
-#: src/wx/film_viewer.cc:67
+#: src/wx/film_viewer.cc:69
 msgid "Outline content"
 msgstr "缩略视图内容"
 
@@ -1064,7 +1082,7 @@ msgstr "密码"
 msgid "Pause"
 msgstr "暂停"
 
-#: src/wx/audio_dialog.cc:99
+#: src/wx/audio_dialog.cc:103
 msgid "Peak"
 msgstr "最佳"
 
@@ -1077,7 +1095,7 @@ msgstr "最佳值 %.2fdB"
 msgid "Peak: unknown"
 msgstr "最佳值: 未知"
 
-#: src/wx/film_viewer.cc:75
+#: src/wx/film_viewer.cc:77
 msgid "Play"
 msgstr "播放"
 
@@ -1119,7 +1137,7 @@ msgstr "协议"
 msgid "RGB to XYZ conversion"
 msgstr "RGB 转换到 XYZ"
 
-#: src/wx/audio_dialog.cc:100
+#: src/wx/audio_dialog.cc:104
 msgid "RMS"
 msgstr "RMS"
 
@@ -1236,7 +1254,7 @@ msgstr "右边"
 msgid "Right click to change gain."
 msgstr "右键单击要更改增益。"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:71
 #, fuzzy
 msgid "Right eye"
 msgstr "右边"
@@ -1257,13 +1275,13 @@ msgstr "SCP (AAM-Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:305
+#: src/wx/audio_dialog.cc:309
 #, c-format
 msgid "Sample peak is %.2fdB at %s"
 msgstr "最佳值 %.2fdB 到 %s "
 
 #: src/wx/self_dkdm_dialog.cc:70
-msgid "Save to KDM creator tool's list"
+msgid "Save to KDM Creator tool's list"
 msgstr ""
 
 #: src/wx/video_panel.cc:164
@@ -1287,7 +1305,7 @@ msgstr "选择CPL文件"
 msgid "Select Certificate File"
 msgstr "选择证书文件"
 
-#: src/wx/content_menu.cc:323
+#: src/wx/content_menu.cc:321
 msgid "Select KDM"
 msgstr "选择KDM"
 
@@ -1323,7 +1341,7 @@ msgstr "服务器"
 msgid "Servers"
 msgstr "服务器"
 
-#: src/wx/timecode.cc:63 src/wx/timing_panel.cc:119
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:119
 msgid "Set"
 msgstr "设置"
 
@@ -1359,7 +1377,7 @@ msgstr "签名DCP和KDM"
 msgid "Single reel"
 msgstr "签名卷"
 
-#: src/wx/audio_dialog.cc:110
+#: src/wx/audio_dialog.cc:114
 msgid "Smoothing"
 msgstr "平滑"
 
@@ -1387,7 +1405,7 @@ msgstr "开始"
 msgid "Start of reel"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:113
+#: src/wx/subtitle_panel.cc:123
 msgid "Stream"
 msgstr "流"
 
@@ -1452,7 +1470,7 @@ msgstr "测试"
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
-#: src/wx/content_menu.cc:309
+#: src/wx/content_menu.cc:307
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1463,7 +1481,7 @@ msgstr "文件不匹配，请删除或添加正确的文件"
 msgid "There are no hints: everything looks good!"
 msgstr "正常!"
 
-#: src/wx/film_viewer.cc:159
+#: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
 msgstr "内存不够！"
 
@@ -1530,12 +1548,12 @@ msgstr "开始裁剪"
 msgid "Trim up to current position"
 msgstr "裁剪至当前位置"
 
-#: src/wx/audio_dialog.cc:321
+#: src/wx/audio_dialog.cc:325
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "最佳值 %.2fdB"
 
-#: src/wx/audio_dialog.cc:93 src/wx/config_dialog.cc:690
+#: src/wx/audio_dialog.cc:97 src/wx/config_dialog.cc:690
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "类型"
@@ -1706,7 +1724,7 @@ msgstr "视频波形"
 msgid "Video frame rate"
 msgstr "视频帧率"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:131
 msgid "View..."
 msgstr "视图窗口"
 

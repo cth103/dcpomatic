@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 22:02+0100\n"
+"POT-Creation-Date: 2016-07-02 10:49+0100\n"
 "PO-Revision-Date: 2016-06-01 09:02+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -21,6 +21,7 @@ msgstr ""
 
 #: src/wx/subtitle_panel.cc:73 src/wx/subtitle_panel.cc:83
 #: src/wx/subtitle_panel.cc:93 src/wx/subtitle_panel.cc:103
+#: src/wx/subtitle_panel.cc:113
 msgid "%"
 msgstr "%"
 
@@ -222,7 +223,7 @@ msgstr "Povolit všechny DCP frame rate"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/subtitle_panel.cc:125
+#: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
 msgstr "Vzhled…"
 
@@ -346,7 +347,7 @@ msgstr "Zkontrolovat testovací aktualizace při startu programu"
 msgid "Check for updates on startup"
 msgstr "Zkontrolovat aktualizace při startu programu "
 
-#: src/wx/content_menu.cc:253
+#: src/wx/content_menu.cc:251
 msgid "Choose a file"
 msgstr "Vyberte soubor"
 
@@ -354,7 +355,7 @@ msgstr "Vyberte soubor"
 msgid "Choose a file or files"
 msgstr "Vyberte soubor nebo soubory"
 
-#: src/wx/content_menu.cc:248 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Vyberte složku"
 
@@ -429,16 +430,16 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopírovat jako název"
 
-#: src/wx/audio_dialog.cc:230
+#: src/wx/audio_dialog.cc:234
 msgid "Could not analyse audio."
 msgstr "Nemůžu analyzovat zvuk."
 
-#: src/wx/film_viewer.cc:199
+#: src/wx/film_viewer.cc:203
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Nemůžu získat náhled z videa (%s)"
 
-#: src/wx/content_menu.cc:329
+#: src/wx/content_menu.cc:327
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Nemůžu načíst KDM (%s)"
@@ -480,7 +481,7 @@ msgstr "DCP adresář"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:135
+#: src/wx/audio_dialog.cc:139
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic zvuk"
 
@@ -670,7 +671,7 @@ msgstr "Najít chybějící…"
 msgid "Fonts"
 msgstr "Písma"
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/subtitle_panel.cc:133
 msgid "Fonts..."
 msgstr "Písma..."
 
@@ -727,6 +728,11 @@ msgstr "Všeobecné"
 msgid "Get from file..."
 msgstr "Získat ze souboru…"
 
+#: src/wx/playhead_to_timecode_dialog.cc:27
+#: src/wx/playhead_to_frame_dialog.cc:28
+msgid "Go to"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Zelená barevnost (Green chromaticity)"
@@ -775,7 +781,7 @@ msgstr "Korekce výstupní gamy"
 msgid "Input power"
 msgstr "Vstupní sila"
 
-#: src/wx/audio_dialog.cc:335
+#: src/wx/audio_dialog.cc:339
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrovaná hlasitost %.2f LUFS"
@@ -837,7 +843,7 @@ msgstr "Klíč"
 msgid "Keys"
 msgstr "Klíče"
 
-#: src/wx/subtitle_panel.cc:108
+#: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "Jazyk"
 
@@ -857,12 +863,16 @@ msgstr "Leaf private key"
 msgid "Left"
 msgstr "Levý"
 
-#: src/wx/film_viewer.cc:68
+#: src/wx/film_viewer.cc:70
 msgid "Left eye"
 msgstr "Levé oko"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
+msgstr ""
+
+#: src/wx/subtitle_panel.cc:109
+msgid "Line spacing"
 msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:51
@@ -881,7 +891,7 @@ msgstr "Log"
 msgid "Log:"
 msgstr "Log:"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:348
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
@@ -940,8 +950,16 @@ msgstr "Přesunout vybrané části obsahu dříve ve filmu."
 msgid "Move the selected piece of content later in the film."
 msgstr "Přesunou vybrané části obsahu později ve filmu."
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+msgid "Move to frame"
+msgstr ""
+
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
+msgstr ""
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Move to timecode"
 msgstr ""
 
 #: src/wx/video_panel.cc:374
@@ -1046,7 +1064,7 @@ msgstr "Orámovaní"
 msgid "Outline colour"
 msgstr "Barva orámování"
 
-#: src/wx/film_viewer.cc:67
+#: src/wx/film_viewer.cc:69
 msgid "Outline content"
 msgstr "Orámovat obsah"
 
@@ -1062,7 +1080,7 @@ msgstr "Heslo"
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/wx/audio_dialog.cc:99
+#: src/wx/audio_dialog.cc:103
 msgid "Peak"
 msgstr "Maximum"
 
@@ -1075,7 +1093,7 @@ msgstr "Maximum: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Maximum: neznámy"
 
-#: src/wx/film_viewer.cc:75
+#: src/wx/film_viewer.cc:77
 msgid "Play"
 msgstr "Přehrát"
 
@@ -1119,7 +1137,7 @@ msgstr "Protokol"
 msgid "RGB to XYZ conversion"
 msgstr "Konverze RGB na XYZ"
 
-#: src/wx/audio_dialog.cc:100
+#: src/wx/audio_dialog.cc:104
 msgid "RMS"
 msgstr "RMS"
 
@@ -1235,7 +1253,7 @@ msgstr "Pravý"
 msgid "Right click to change gain."
 msgstr "Klikněte pravým tlačítkem, abyste změnili hlasitost."
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:71
 msgid "Right eye"
 msgstr "Pravé oko"
 
@@ -1255,13 +1273,13 @@ msgstr "SCP (pre AAM a Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:305
+#: src/wx/audio_dialog.cc:309
 #, c-format
 msgid "Sample peak is %.2fdB at %s"
 msgstr "Nejvyšší vrchol hlasitosti zvuku (sample peak) je %.2fdB na %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
-msgid "Save to KDM creator tool's list"
+msgid "Save to KDM Creator tool's list"
 msgstr ""
 
 #: src/wx/video_panel.cc:164
@@ -1285,7 +1303,7 @@ msgstr "Vybrat CPL XML soubor"
 msgid "Select Certificate File"
 msgstr "Vybrat soubor s certifikátem"
 
-#: src/wx/content_menu.cc:323
+#: src/wx/content_menu.cc:321
 msgid "Select KDM"
 msgstr "Vybrat KDM"
 
@@ -1321,7 +1339,7 @@ msgstr "Server"
 msgid "Servers"
 msgstr "Servery"
 
-#: src/wx/timecode.cc:63 src/wx/timing_panel.cc:119
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:119
 msgid "Set"
 msgstr "Nastavit"
 
@@ -1357,7 +1375,7 @@ msgstr "Podepsané DCP a KDM"
 msgid "Single reel"
 msgstr "Jeden reel"
 
-#: src/wx/audio_dialog.cc:110
+#: src/wx/audio_dialog.cc:114
 msgid "Smoothing"
 msgstr "Vyhlazování"
 
@@ -1385,7 +1403,7 @@ msgstr "Start"
 msgid "Start of reel"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:113
+#: src/wx/subtitle_panel.cc:123
 msgid "Stream"
 msgstr "Stream"
 
@@ -1450,7 +1468,7 @@ msgstr "Testované"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Čas 'do' musí být po čase 'od’."
 
-#: src/wx/content_menu.cc:309
+#: src/wx/content_menu.cc:307
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1463,7 +1481,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Žádné upozornění; všechno vypadá dobře !"
 
-#: src/wx/film_viewer.cc:159
+#: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatek paměti."
 
@@ -1532,12 +1550,12 @@ msgstr "Oříznout od začátku"
 msgid "Trim up to current position"
 msgstr "Oříznout až po aktuální pozici"
 
-#: src/wx/audio_dialog.cc:321
+#: src/wx/audio_dialog.cc:325
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Skutečné maximum je %.2fdB"
 
-#: src/wx/audio_dialog.cc:93 src/wx/config_dialog.cc:690
+#: src/wx/audio_dialog.cc:97 src/wx/config_dialog.cc:690
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Typ"
@@ -1696,7 +1714,7 @@ msgstr "Video Waveform"
 msgid "Video frame rate"
 msgstr "Počet snímků za sekundu (frame rate)"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:131
 msgid "View..."
 msgstr "Zobrazit…"
 

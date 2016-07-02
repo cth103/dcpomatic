@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 22:02+0100\n"
+"POT-Creation-Date: 2016-07-02 10:49+0100\n"
 "PO-Revision-Date: 2016-06-20 01:15-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,6 +19,7 @@ msgstr ""
 
 #: src/wx/subtitle_panel.cc:73 src/wx/subtitle_panel.cc:83
 #: src/wx/subtitle_panel.cc:93 src/wx/subtitle_panel.cc:103
+#: src/wx/subtitle_panel.cc:113
 msgid "%"
 msgstr "%"
 
@@ -226,7 +227,7 @@ msgstr "Permitir qualquer taxa de quadros no DCP"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/subtitle_panel.cc:125
+#: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
 msgstr "Aparência..."
 
@@ -353,7 +354,7 @@ msgstr "Verificar updates de teste ao inicializar"
 msgid "Check for updates on startup"
 msgstr "Verificar updates ao inicializar"
 
-#: src/wx/content_menu.cc:253
+#: src/wx/content_menu.cc:251
 msgid "Choose a file"
 msgstr "Escolher um arquivo"
 
@@ -361,7 +362,7 @@ msgstr "Escolher um arquivo"
 msgid "Choose a file or files"
 msgstr "Escolher um arquivo ou arquivos"
 
-#: src/wx/content_menu.cc:248 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Escolher uma pasta"
 
@@ -437,16 +438,16 @@ msgstr "Contraste"
 msgid "Copy as name"
 msgstr "Copiar com o nome"
 
-#: src/wx/audio_dialog.cc:230
+#: src/wx/audio_dialog.cc:234
 msgid "Could not analyse audio."
 msgstr "Impossível analisar áudio"
 
-#: src/wx/film_viewer.cc:199
+#: src/wx/film_viewer.cc:203
 #, c-format
 msgid "Could not get video for view (%s)"
 msgstr "Impossível conseguir vídeo para exibição (%s)"
 
-#: src/wx/content_menu.cc:329
+#: src/wx/content_menu.cc:327
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Impossível carregar KDM (%s)"
@@ -488,7 +489,7 @@ msgstr "Diretório do DCP"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:135
+#: src/wx/audio_dialog.cc:139
 msgid "DCP-o-matic audio"
 msgstr "Áudio DCP-o-matic"
 
@@ -678,7 +679,7 @@ msgstr "Encontrar faltantes..."
 msgid "Fonts"
 msgstr "Fontes"
 
-#: src/wx/subtitle_panel.cc:123
+#: src/wx/subtitle_panel.cc:133
 msgid "Fonts..."
 msgstr "Fontes..."
 
@@ -736,6 +737,11 @@ msgstr "Geral"
 msgid "Get from file..."
 msgstr "Abrir de um arquivo..."
 
+#: src/wx/playhead_to_timecode_dialog.cc:27
+#: src/wx/playhead_to_frame_dialog.cc:28
+msgid "Go to"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Cromaticidade verde"
@@ -784,7 +790,7 @@ msgstr "Correção do gama de entrada"
 msgid "Input power"
 msgstr "Potência de entrada"
 
-#: src/wx/audio_dialog.cc:335
+#: src/wx/audio_dialog.cc:339
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Amplitude integrada %.2f LUFS"
@@ -846,7 +852,7 @@ msgstr "Chave"
 msgid "Keys"
 msgstr "Chaves"
 
-#: src/wx/subtitle_panel.cc:108
+#: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "Idioma"
 
@@ -866,13 +872,17 @@ msgstr "Chave privada Leaf"
 msgid "Left"
 msgstr "Esquerdo"
 
-#: src/wx/film_viewer.cc:68
+#: src/wx/film_viewer.cc:70
 msgid "Left eye"
 msgstr "Olho esquerdo"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
 msgstr "Duração"
+
+#: src/wx/subtitle_panel.cc:109
+msgid "Line spacing"
+msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -890,7 +900,7 @@ msgstr "Log"
 msgid "Log:"
 msgstr "Log:"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:348
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Faixa de amplitude %.2f LU"
@@ -949,9 +959,18 @@ msgstr "Mover o conteúdo selecionado para antes no filme"
 msgid "Move the selected piece of content later in the film."
 msgstr "Mover o conteúdo selecionado para depois no filme"
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+#, fuzzy
+msgid "Move to frame"
+msgstr "Mover para o início do rolo"
+
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
 msgstr "Mover para o início do rolo"
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Move to timecode"
+msgstr ""
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
@@ -1055,7 +1074,7 @@ msgstr "Borda"
 msgid "Outline colour"
 msgstr "Cor da borda"
 
-#: src/wx/film_viewer.cc:67
+#: src/wx/film_viewer.cc:69
 msgid "Outline content"
 msgstr "Mostrar borda no conteúdo"
 
@@ -1071,7 +1090,7 @@ msgstr "Senha"
 msgid "Pause"
 msgstr "Pausar"
 
-#: src/wx/audio_dialog.cc:99
+#: src/wx/audio_dialog.cc:103
 msgid "Peak"
 msgstr "Pico"
 
@@ -1084,7 +1103,7 @@ msgstr "Pico: %.2fdB"
 msgid "Peak: unknown"
 msgstr "Pico: desconhecido"
 
-#: src/wx/film_viewer.cc:75
+#: src/wx/film_viewer.cc:77
 msgid "Play"
 msgstr "Reproduzir"
 
@@ -1128,7 +1147,7 @@ msgstr "Protocolo"
 msgid "RGB to XYZ conversion"
 msgstr "Conversão RGB para XYZ"
 
-#: src/wx/audio_dialog.cc:100
+#: src/wx/audio_dialog.cc:104
 msgid "RMS"
 msgstr "RMS"
 
@@ -1244,7 +1263,7 @@ msgstr "Direito"
 msgid "Right click to change gain."
 msgstr "Clique com o botão direito para alterar o ganho"
 
-#: src/wx/film_viewer.cc:69
+#: src/wx/film_viewer.cc:71
 msgid "Right eye"
 msgstr "Olho direito"
 
@@ -1264,13 +1283,13 @@ msgstr "SCP (para AAM e Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:305
+#: src/wx/audio_dialog.cc:309
 #, c-format
 msgid "Sample peak is %.2fdB at %s"
 msgstr "Pico da amotra é %.2fdB em %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
-msgid "Save to KDM creator tool's list"
+msgid "Save to KDM Creator tool's list"
 msgstr ""
 
 #: src/wx/video_panel.cc:164
@@ -1294,7 +1313,7 @@ msgstr "Selecionar arquivo CPL XML"
 msgid "Select Certificate File"
 msgstr "Selecionar arquivo de certificado"
 
-#: src/wx/content_menu.cc:323
+#: src/wx/content_menu.cc:321
 msgid "Select KDM"
 msgstr "Selecionar KDM"
 
@@ -1330,7 +1349,7 @@ msgstr "Servidor"
 msgid "Servers"
 msgstr "Servidores"
 
-#: src/wx/timecode.cc:63 src/wx/timing_panel.cc:119
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:119
 msgid "Set"
 msgstr "Definir"
 
@@ -1366,7 +1385,7 @@ msgstr "Assinando DCPs e KDMs"
 msgid "Single reel"
 msgstr "Rolo único"
 
-#: src/wx/audio_dialog.cc:110
+#: src/wx/audio_dialog.cc:114
 msgid "Smoothing"
 msgstr "Amenizar curva"
 
@@ -1394,7 +1413,7 @@ msgstr "Início"
 msgid "Start of reel"
 msgstr ""
 
-#: src/wx/subtitle_panel.cc:113
+#: src/wx/subtitle_panel.cc:123
 msgid "Stream"
 msgstr "Stream"
 
@@ -1459,7 +1478,7 @@ msgstr "Testado por"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "O tempo 'Até' de vir depois do tempo 'De'"
 
-#: src/wx/content_menu.cc:309
+#: src/wx/content_menu.cc:307
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1473,7 +1492,7 @@ msgstr ""
 msgid "There are no hints: everything looks good!"
 msgstr "Não há dicas: tudo parece perfeito!"
 
-#: src/wx/film_viewer.cc:159
+#: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
 msgstr "Não há memória livre suficiente para fazer isso."
 
@@ -1542,12 +1561,12 @@ msgstr "Cortar a partir do começo"
 msgid "Trim up to current position"
 msgstr "Cortar até a posição atual"
 
-#: src/wx/audio_dialog.cc:321
+#: src/wx/audio_dialog.cc:325
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Pico real é %.2fdB"
 
-#: src/wx/audio_dialog.cc:93 src/wx/config_dialog.cc:690
+#: src/wx/audio_dialog.cc:97 src/wx/config_dialog.cc:690
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Tipo"
@@ -1706,7 +1725,7 @@ msgstr "Waveform de vídeo"
 msgid "Video frame rate"
 msgstr "Taxa de quadros do vídeo"
 
-#: src/wx/subtitle_panel.cc:121
+#: src/wx/subtitle_panel.cc:131
 msgid "View..."
 msgstr "Exibir..."
 
