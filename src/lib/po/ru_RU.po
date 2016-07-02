@@ -4,19 +4,18 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-02 10:49+0100\n"
-"PO-Revision-Date: 2016-05-26 19:51+0300\n"
-"Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
+"PO-Revision-Date: 2016-07-02 22:41+0300\n"
+"Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/lib/atmos_mxf_content.cc:78
-#, fuzzy
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
@@ -218,21 +217,19 @@ msgid "Content frame rate"
 msgstr "Частота кадров контента:"
 
 #: src/lib/ffmpeg_content.cc:142
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "Для присоединения контента должно быть одинаковое усиление аудио."
+msgstr ""
+"Для присоединения контента, всё остальное должно иметь либо не иметь аудио"
 
 #: src/lib/ffmpeg_content.cc:145
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles"
 msgstr ""
-"Для присоединения контента должен быть одинаковый размер субтитров по "
-"горизонтали."
+"Для присоединения контента, всё остальное должно иметь либо не иметь субтитры"
 
 #: src/lib/ffmpeg_content.cc:139
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr "Для присоединения контента должно быть одинаковое угасание."
+msgstr ""
+"Для присоединения контента, всё остальное должно иметь либо не иметь видео"
 
 #: src/lib/subtitle_content.cc:156
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -300,17 +297,14 @@ msgstr ""
 "вертикали."
 
 #: src/lib/subtitle_content.cc:176
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
-"Для присоединения контента должен быть одинаковый размер субтитров по "
-"горизонтали."
+"Для присоединения контента должен быть одинаковый интервал между рядами "
+"субтитров."
 
 #: src/lib/content.cc:122 src/lib/content.cc:126
-#, fuzzy
 msgid "Content to be joined must have the same video frame rate"
-msgstr ""
-"Для присоединения контента должна быть одинаковой частота кадров видео."
+msgstr "Для присоединения контента должна быть одинаковой частота кадров видео"
 
 #: src/lib/video_content.cc:174
 msgid "Content to be joined must have the same video frame type."
@@ -373,9 +367,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Не удалось открыть загруженный ZIP-архив"
 
 #: src/lib/dcp_subtitle.cc:55
-#, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
-msgstr "Не удалось прочитать субтитры"
+msgstr "Не удалось прочитать субтитры (%1 / %2)"
 
 #: src/lib/scp_uploader.cc:71
 msgid "Could not start SCP session (%1)"
@@ -414,9 +407,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML субтитры"
 
 #: src/lib/audio_content.cc:327
-#, fuzzy
 msgid "DCP sample rate"
-msgstr "Частота кадров DCP:"
+msgstr "Частота кадров DCP"
 
 #: src/lib/frame_rate_change.cc:79
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -508,7 +500,7 @@ msgstr "Ошибка отправки ключей %1 по Email"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
-msgstr ""
+msgstr "Кодирование изображения и звука"
 
 #: src/lib/exceptions.cc:68
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -539,9 +531,8 @@ msgid "Feature"
 msgstr "FTR (Фильм)"
 
 #: src/lib/content.cc:362
-#, fuzzy
 msgid "Filename"
-msgstr "название"
+msgstr "Имя файла"
 
 #: src/lib/ffmpeg_content.cc:520
 msgid "Film"
@@ -785,7 +776,7 @@ msgstr "POL (Стратегический)"
 
 #: src/lib/content.cc:378
 msgid "Prepared for video frame rate"
-msgstr ""
+msgstr "Подготовлено для частоты кадров видео"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"

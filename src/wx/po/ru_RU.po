@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-02 10:49+0100\n"
-"PO-Revision-Date: 2016-05-26 19:52+0300\n"
-"Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
+"PO-Revision-Date: 2016-07-02 22:45+0300\n"
+"Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -106,7 +106,6 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
-#, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -228,7 +227,7 @@ msgstr "Внешний вид..."
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
-msgstr ""
+msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:47 src/wx/audio_panel.cc:48
 #: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:114
@@ -507,7 +506,7 @@ msgstr "Расшифровка DCP"
 
 #: src/wx/config_dialog.cc:435
 msgid "Default DCP audio channels"
-msgstr ""
+msgstr "Аудиоканалы DCP по умолчанию"
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"
@@ -737,7 +736,7 @@ msgstr "Выбрать из файла..."
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:28
 msgid "Go to"
-msgstr ""
+msgstr "Перейти к"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -875,11 +874,11 @@ msgstr "Левый глаз"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
-msgstr ""
+msgstr "Продолжительность"
 
 #: src/wx/subtitle_panel.cc:109
 msgid "Line spacing"
-msgstr ""
+msgstr "Интервал между рядами"
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -944,9 +943,8 @@ msgid "Mbit/s"
 msgstr "МБит/с"
 
 #: src/wx/move_to_dialog.cc:31
-#, fuzzy
 msgid "Move content"
-msgstr "Очертить контент"
+msgstr "Передвинуть контент"
 
 #: src/wx/content_panel.cc:94
 msgid "Move the selected piece of content earlier in the film."
@@ -958,15 +956,15 @@ msgstr "Переместить выбранный элемент контент�
 
 #: src/wx/playhead_to_frame_dialog.cc:25
 msgid "Move to frame"
-msgstr ""
+msgstr "Передвинуть к кадру"
 
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
+msgstr "Передвинуть к началу катушки"
 
 #: src/wx/playhead_to_timecode_dialog.cc:24
 msgid "Move to timecode"
-msgstr ""
+msgstr "Передвинуть к таймкоду"
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
@@ -1286,7 +1284,7 @@ msgstr "Пиковая громкость %.2fдБ на %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "Сохранить в список инструмента генерации KDM"
 
 #: src/wx/video_panel.cc:164
 msgid "Scale to"
@@ -1407,7 +1405,7 @@ msgstr "Начало"
 
 #: src/wx/move_to_dialog.cc:34
 msgid "Start of reel"
-msgstr ""
+msgstr "Начало катушки"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Stream"
@@ -1829,12 +1827,16 @@ msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
 msgstr ""
+"Уровень вашего аудио очень близок к пикам. Вам необходимо снизить уровень "
+"вашего аудио-контента."
 
 #: src/wx/hints_dialog.cc:185
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
 msgstr ""
+"Уровень вашего аудио очень высокий. Вам необходимо снизить уровень вашего "
+"аудио-контента."
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
