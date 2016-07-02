@@ -89,6 +89,10 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 		_channel_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::channel_clicked, this, _1));
 	}
 
+	for (int i = _channels; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
+		_channel_checkbox[i] = 0;
+	}
+
 	{
 		wxStaticText* m = new wxStaticText (this, wxID_ANY, _("Type"));
 		m->SetFont (subheading_font);
