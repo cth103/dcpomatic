@@ -181,7 +181,8 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		Changed (frequent);
 
 	} else if (
-		property == SubtitleContentProperty::LINE_SPACING
+		property == SubtitleContentProperty::LINE_SPACING ||
+		property == SubtitleContentProperty::Y_SCALE
 		) {
 
 		/* These changes just need the pieces' decoders to be reset.
@@ -199,7 +200,6 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == SubtitleContentProperty::X_OFFSET ||
 		property == SubtitleContentProperty::Y_OFFSET ||
 		property == SubtitleContentProperty::X_SCALE ||
-		property == SubtitleContentProperty::Y_SCALE ||
 		property == SubtitleContentProperty::FONTS ||
 		property == VideoContentProperty::CROP ||
 		property == VideoContentProperty::SCALE ||
