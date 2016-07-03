@@ -158,7 +158,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (1));
 	/* 25fps content, 24fps DCP; length should be increased */
 	film->set_video_frame_rate (24);
-	BOOST_CHECK_SMALL (abs (content->full_length().get() - DCPTime::from_seconds(25.0 / 24).get()), 2);
+	BOOST_CHECK_SMALL (labs (content->full_length().get() - DCPTime::from_seconds(25.0 / 24).get()), 2L);
 	/* 25fps content, 30fps DCP; length should be decreased */
 	film->set_video_frame_rate (30);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (25.0 / 30));
