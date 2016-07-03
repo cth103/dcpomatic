@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-06-01 08:49+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -337,7 +337,7 @@ msgstr "Nemohu dekódovat video soubor (%1)"
 msgid "Could not find pixel format for video."
 msgstr "Nemohu najít formát pixelu pro video."
 
-#: src/lib/encode_server_finder.cc:140
+#: src/lib/encode_server_finder.cc:148
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."

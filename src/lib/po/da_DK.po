@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2015-10-27 20:47+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -344,7 +344,7 @@ msgstr "Kunne ikke afkode billedfil (%1)"
 msgid "Could not find pixel format for video."
 msgstr "kunne ikke finde information om strøm"
 
-#: src/lib/encode_server_finder.cc:140
+#: src/lib/encode_server_finder.cc:148
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-06-20 01:15-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -742,6 +742,15 @@ msgstr "Abrir de um arquivo..."
 msgid "Go to"
 msgstr ""
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+#, fuzzy
+msgid "Go to frame"
+msgstr "Mover para o início do rolo"
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Go to timecode"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Cromaticidade verde"
@@ -959,18 +968,9 @@ msgstr "Mover o conteúdo selecionado para antes no filme"
 msgid "Move the selected piece of content later in the film."
 msgstr "Mover o conteúdo selecionado para depois no filme"
 
-#: src/wx/playhead_to_frame_dialog.cc:25
-#, fuzzy
-msgid "Move to frame"
-msgstr "Mover para o início do rolo"
-
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
 msgstr "Mover para o início do rolo"
-
-#: src/wx/playhead_to_timecode_dialog.cc:24
-msgid "Move to timecode"
-msgstr ""
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"

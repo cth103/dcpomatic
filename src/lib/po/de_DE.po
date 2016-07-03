@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-05-29 15:12+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -355,7 +355,7 @@ msgstr "Fehler beim Dekodieren der Bild-Datei (%1)"
 msgid "Could not find pixel format for video."
 msgstr "Kein Pixelformat erkannt"
 
-#: src/lib/encode_server_finder.cc:140
+#: src/lib/encode_server_finder.cc:148
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."

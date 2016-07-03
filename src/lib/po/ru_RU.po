@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-07-02 22:41+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -346,7 +346,7 @@ msgstr "Не удалось декодировать изображение (%1)
 msgid "Could not find pixel format for video."
 msgstr "Не удалось найти формат пикселя видео."
 
-#: src/lib/encode_server_finder.cc:140
+#: src/lib/encode_server_finder.cc:148
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."

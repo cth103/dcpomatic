@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -737,6 +737,14 @@ msgstr "Získať zo súboru..."
 msgid "Go to"
 msgstr ""
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+msgid "Go to frame"
+msgstr ""
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Go to timecode"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Zelená farebnosť (Green chromaticity)"
@@ -956,16 +964,8 @@ msgstr "Presunúť vybrané časti obsahu skôr vo filme."
 msgid "Move the selected piece of content later in the film."
 msgstr "Presunúť vybrané časti obsahu neskôr vo filme."
 
-#: src/wx/playhead_to_frame_dialog.cc:25
-msgid "Move to frame"
-msgstr ""
-
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
-
-#: src/wx/playhead_to_timecode_dialog.cc:24
-msgid "Move to timecode"
 msgstr ""
 
 #: src/wx/video_panel.cc:374

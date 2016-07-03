@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-04-26 00:21-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -739,6 +739,14 @@ msgstr "Usar del fichero…"
 msgid "Go to"
 msgstr ""
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+msgid "Go to frame"
+msgstr ""
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Go to timecode"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Cromaticidad verde"
@@ -956,16 +964,8 @@ msgstr "Avanzar la selección en la película."
 msgid "Move the selected piece of content later in the film."
 msgstr "Retroceder la selección en la película."
 
-#: src/wx/playhead_to_frame_dialog.cc:25
-msgid "Move to frame"
-msgstr ""
-
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
-
-#: src/wx/playhead_to_timecode_dialog.cc:24
-msgid "Move to timecode"
 msgstr ""
 
 #: src/wx/video_panel.cc:374

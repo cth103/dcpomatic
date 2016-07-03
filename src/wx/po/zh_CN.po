@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-03-27 22:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
@@ -734,6 +734,14 @@ msgstr "外置字体 "
 msgid "Go to"
 msgstr ""
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+msgid "Go to frame"
+msgstr ""
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+msgid "Go to timecode"
+msgstr ""
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "绿色色度"
@@ -952,16 +960,8 @@ msgstr "移动选择部分之前内容"
 msgid "Move the selected piece of content later in the film."
 msgstr "移动选择部分之后内容"
 
-#: src/wx/playhead_to_frame_dialog.cc:25
-msgid "Move to frame"
-msgstr ""
-
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
-
-#: src/wx/playhead_to_timecode_dialog.cc:24
-msgid "Move to timecode"
 msgstr ""
 
 #: src/wx/video_panel.cc:374

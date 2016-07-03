@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-02 10:49+0100\n"
+"POT-Creation-Date: 2016-07-03 20:42+0100\n"
 "PO-Revision-Date: 2016-07-02 22:45+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -738,6 +738,16 @@ msgstr "Выбрать из файла..."
 msgid "Go to"
 msgstr "Перейти к"
 
+#: src/wx/playhead_to_frame_dialog.cc:25
+#, fuzzy
+msgid "Go to frame"
+msgstr "Передвинуть к кадру"
+
+#: src/wx/playhead_to_timecode_dialog.cc:24
+#, fuzzy
+msgid "Go to timecode"
+msgstr "Передвинуть к таймкоду"
+
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
 msgstr "Зеленая цветность"
@@ -954,17 +964,9 @@ msgstr "Переместить выбранный элемент контент�
 msgid "Move the selected piece of content later in the film."
 msgstr "Переместить выбранный элемент контента позднее в проекте."
 
-#: src/wx/playhead_to_frame_dialog.cc:25
-msgid "Move to frame"
-msgstr "Передвинуть к кадру"
-
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
 msgstr "Передвинуть к началу катушки"
-
-#: src/wx/playhead_to_timecode_dialog.cc:24
-msgid "Move to timecode"
-msgstr "Передвинуть к таймкоду"
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
