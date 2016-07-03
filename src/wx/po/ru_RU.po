@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-07-02 22:45+0300\n"
+"PO-Revision-Date: 2016-07-04 00:24+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -739,14 +739,12 @@ msgid "Go to"
 msgstr "Перейти к"
 
 #: src/wx/playhead_to_frame_dialog.cc:25
-#, fuzzy
 msgid "Go to frame"
-msgstr "Передвинуть к кадру"
+msgstr "Перейти к кадру"
 
 #: src/wx/playhead_to_timecode_dialog.cc:24
-#, fuzzy
 msgid "Go to timecode"
-msgstr "Передвинуть к таймкоду"
+msgstr "Перейти к таймкоду"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
