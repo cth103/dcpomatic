@@ -22,7 +22,7 @@
 #include "lib/raw_convert.h"
 
 PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
-	: TableDialog (parent, _("Move to frame"), 2, 1, true)
+	: TableDialog (parent, _("Go to frame"), 2, 1, true)
 	, _fps (fps)
 {
 	add (_("Go to"), true);
