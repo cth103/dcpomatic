@@ -29,6 +29,7 @@
 using std::list;
 using std::cout;
 using std::string;
+using std::min;
 using boost::shared_ptr;
 using boost::optional;
 using boost::function;
@@ -158,6 +159,18 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 		}
 	}
 
+	/* Find the lowest proportional postion */
+	optional<float> lowest_proportional;
+	BOOST_FOREACH (sub::Line i, subtitle.lines) {
+		if (i.vertical_position.proportional) {
+			if (!lowest_proportional) {
+				lowest_proportional = i.vertical_position.proportional;
+			} else {
+				lowest_proportional = min (lowest_proportional.get(), i.vertical_position.proportional.get());
+			}
+		}
+	}
+
 	list<dcp::SubtitleString> out;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
 		BOOST_FOREACH (sub::Block j, i.blocks) {
@@ -183,6 +196,12 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 				DCPOMATIC_ASSERT (i.vertical_position.proportional);
 				DCPOMATIC_ASSERT (i.vertical_position.reference);
 				v_position = i.vertical_position.proportional.get();
+
+				if (lowest_proportional) {
+					/* Adjust line spacing */
+					v_position = ((v_position - lowest_proportional.get()) * content()->line_spacing()) + lowest_proportional.get();
+				}
+
 				switch (i.vertical_position.reference.get()) {
 				case sub::TOP_OF_SCREEN:
 					v_align = dcp::VALIGN_TOP;
