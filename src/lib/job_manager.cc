@@ -63,8 +63,12 @@ JobManager::~JobManager ()
 	}
 
 	if (_scheduler) {
-		DCPOMATIC_ASSERT (_scheduler->joinable ());
-		_scheduler->join ();
+		/* Ideally this would be a DCPOMATIC_ASSERT(_scheduler->joinable()) but we
+		   can't throw exceptions from a destructor.
+		*/
+		if (_scheduler->joinable ()) {
+			_scheduler->join ();
+		}
 	}
 
 	delete _scheduler;

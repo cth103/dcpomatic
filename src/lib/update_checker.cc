@@ -86,8 +86,12 @@ UpdateChecker::~UpdateChecker ()
 
 	_condition.notify_all ();
 	if (_thread) {
-		DCPOMATIC_ASSERT (_thread->joinable ());
-		_thread->join ();
+		/* Ideally this would be a DCPOMATIC_ASSERT(_thread->joinable()) but we
+		   can't throw exceptions from a destructor.
+		*/
+		if (_thread->joinable ()) {
+			_thread->join ();
+		}
 	}
 	delete _thread;
 

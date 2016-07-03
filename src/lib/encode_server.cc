@@ -85,15 +85,23 @@ EncodeServer::~EncodeServer ()
 	}
 
 	BOOST_FOREACH (boost::thread* i, _worker_threads) {
-		DCPOMATIC_ASSERT (i->joinable ());
-		i->join ();
+		/* Ideally this would be a DCPOMATIC_ASSERT(i->joinable()) but we
+		   can't throw exceptions from a destructor.
+		*/
+		if (i->joinable ()) {
+			i->join ();
+		}
 		delete i;
 	}
 
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
-		DCPOMATIC_ASSERT (_broadcast.thread->joinable ());
-		_broadcast.thread->join ();
+		/* Ideally this would be a DCPOMATIC_ASSERT(_broadcast.thread->joinable()) but we
+		   can't throw exceptions from a destructor.
+		*/
+		if (_broadcast.thread->joinable ()) {
+			_broadcast.thread->join ();
+		}
 	}
 }
 

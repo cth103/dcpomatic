@@ -64,14 +64,22 @@ EncodeServerFinder::~EncodeServerFinder ()
 
 	_search_condition.notify_all ();
 	if (_search_thread) {
-		DCPOMATIC_ASSERT (_search_thread->joinable ());
-		_search_thread->join ();
+		/* Ideally this would be a DCPOMATIC_ASSERT(_search_thread->joinable()) but we
+		   can't throw exceptions from a destructor.
+		*/
+		if (_search_thread->joinable ()) {
+			_search_thread->join ();
+		}
 	}
 
 	_listen_io_service.stop ();
 	if (_listen_thread) {
-		DCPOMATIC_ASSERT (_listen_thread->joinable ());
-		_listen_thread->join ();
+		/* Ideally this would be a DCPOMATIC_ASSERT(_listen_thread->joinable()) but we
+		   can't throw exceptions from a destructor.
+		*/
+		if (_listen_thread->joinable ()) {
+			_listen_thread->join ();
+		}
 	}
 }
 
