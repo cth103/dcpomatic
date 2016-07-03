@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-02 10:49+0100\n"
-"PO-Revision-Date: 2016-06-30 00:14+0200\n"
+"PO-Revision-Date: 2016-07-03 02:37+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -220,19 +220,22 @@ msgid "Content frame rate"
 msgstr "Content frame rate"
 
 #: src/lib/ffmpeg_content.cc:142
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "Samen te voegen content moet dezelfde audio-versterking hebben."
+msgstr ""
+"Samen te voegen content moet allemaal wel audio, of allemaal geen audio "
+"hebben."
 
 #: src/lib/ffmpeg_content.cc:145
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles"
-msgstr "Samen te voegen content moet dezelfde ondertitel X-schaling hebben."
+msgstr ""
+"Samen te voegen content moet allemaal wel ondertitels, of allemaal geen "
+"ondertitels hebben."
 
 #: src/lib/ffmpeg_content.cc:139
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr "Samen te voegen content moet dezelfde fade-instelling hebben."
+msgstr ""
+"Samen te voegen content moet allemaal wel video, of allemaal geen video "
+"hebben."
 
 #: src/lib/subtitle_content.cc:156
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -293,9 +296,9 @@ msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Samen te voegen content moet dezelfde ondertitel Y-schaling hebben."
 
 #: src/lib/subtitle_content.cc:176
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
-msgstr "Samen te voegen content moet dezelfde ondertitel X-schaling hebben."
+msgstr ""
+"Samen te voegen content moet dezelfde regelafstand voor ondertitels hebben."
 
 #: src/lib/content.cc:122 src/lib/content.cc:126
 msgid "Content to be joined must have the same video frame rate"
