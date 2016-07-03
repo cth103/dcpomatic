@@ -2,6 +2,8 @@
 
 	* Fix line spacing adjustment of SSA/ASS.
 
+	* Fix underline support in SSA/ASS.
+
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
 2016-07-02  Carl Hetherington  <cth@carlh.net>
