@@ -1,5 +1,7 @@
 2016-07-03  Carl Hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Fix line spacing adjustment of SSA/ASS.
 
 	* Fix underline support in SSA/ASS.
