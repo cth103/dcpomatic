@@ -410,6 +410,7 @@ ContentPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::CONTENT);
 	film_changed (Film::AUDIO_CHANNELS);
 	selection_changed ();
+	setup_sensitivity ();
 }
 
 void

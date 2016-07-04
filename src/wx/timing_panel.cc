@@ -468,6 +468,7 @@ TimingPanel::setup_sensitivity ()
 	bool const e = !_parent->selected().empty ();
 
 	_position->Enable (e);
+	_move_to_start_of_reel->Enable (e);
 	_full_length->Enable (e);
 	_trim_start->Enable (e);
 	_trim_end->Enable (e);

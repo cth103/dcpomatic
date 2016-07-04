@@ -309,7 +309,7 @@ SubtitlePanel::setup_sensitivity ()
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	_subtitle_view_button->Enable (!reference && text_subs == 1);
 	_fonts_dialog_button->Enable (!reference && text_subs == 1);
-	_appearance_dialog_button->Enable (!reference);
+	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use);
 }
 
 void

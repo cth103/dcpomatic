@@ -272,17 +272,19 @@ AudioPanel::setup_sensitivity ()
 	if (_reference->GetValue ()) {
 		_gain->wrapped()->Enable (false);
 		_gain_calculate_button->Enable (false);
+		_show->Enable (true);
 		_peak->Enable (false);
 		_delay->wrapped()->Enable (false);
 		_mapping->Enable (false);
 		_description->Enable (false);
 	} else {
-		_gain->wrapped()->Enable (true);
+		_gain->wrapped()->Enable (sel.size() == 1);
 		_gain_calculate_button->Enable (sel.size() == 1);
-		_peak->Enable (true);
-		_delay->wrapped()->Enable (true);
+		_show->Enable (sel.size() == 1);
+		_peak->Enable (sel.size() == 1);
+		_delay->wrapped()->Enable (sel.size() == 1);
 		_mapping->Enable (sel.size() == 1);
-		_description->Enable (true);
+		_description->Enable (sel.size() == 1);
 	}
 }
 

@@ -1,3 +1,8 @@
+2016-07-04  c.hetherington  <cth@carlh.net>
+
+	* Fix several bugs with the sensitivity
+	of controls in various circumstances.
+
 2016-07-04  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.
