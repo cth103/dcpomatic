@@ -145,7 +145,8 @@ VideoDecoder::get (Frame frame, bool accurate)
 	}
 
 	/* Clean up _decoded; keep the frame we are returning, if any (which may have two images
-	   for 3D), but nothing before that */
+	   for 3D), but nothing before that
+	*/
 	while (!_decoded.empty() && !dec.empty() && _decoded.front().frame.index() < dec.front().frame.index()) {
 		_decoded.pop_front ();
 	}
