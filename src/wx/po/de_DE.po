@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-05-29 15:27+0100\n"
+"PO-Revision-Date: 2016-07-04 02:48+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -109,7 +109,6 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
-#, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
@@ -239,7 +238,7 @@ msgstr "Darstellung..."
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
-msgstr ""
+msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:47 src/wx/audio_panel.cc:48
 #: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:114
@@ -517,7 +516,7 @@ msgstr "Entschlüssele DCPs"
 
 #: src/wx/config_dialog.cc:435
 msgid "Default DCP audio channels"
-msgstr ""
+msgstr "Standard Audiokanäle"
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"
@@ -549,7 +548,7 @@ msgstr "Standard Länge für Standbilder"
 
 #: src/wx/config_dialog.cc:457
 msgid "Default standard"
-msgstr "DCP Standard"
+msgstr "DCP 'Wrapping' Standard"
 
 #: src/wx/config_dialog.cc:389
 msgid "Defaults"
@@ -746,15 +745,15 @@ msgstr "Lade aus Datei..."
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:28
 msgid "Go to"
-msgstr ""
+msgstr "Gehe zu"
 
 #: src/wx/playhead_to_frame_dialog.cc:25
 msgid "Go to frame"
-msgstr ""
+msgstr "Gehe zu Bild"
 
 #: src/wx/playhead_to_timecode_dialog.cc:24
 msgid "Go to timecode"
-msgstr ""
+msgstr "Gehe zu Zeit"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -891,15 +890,15 @@ msgstr "Links"
 
 #: src/wx/film_viewer.cc:70
 msgid "Left eye"
-msgstr "Linkes Auge"
+msgstr "3D: Linkes Auge"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
-msgstr ""
+msgstr "Länge"
 
 #: src/wx/subtitle_panel.cc:109
 msgid "Line spacing"
-msgstr ""
+msgstr "Zeilenabstand"
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -964,9 +963,8 @@ msgid "Mbit/s"
 msgstr "Mbit/s"
 
 #: src/wx/move_to_dialog.cc:31
-#, fuzzy
 msgid "Move content"
-msgstr "Inhalt hervorheben"
+msgstr "Inhalt verschieben..."
 
 #: src/wx/content_panel.cc:94
 msgid "Move the selected piece of content earlier in the film."
@@ -978,7 +976,7 @@ msgstr "Den ausgewählten Inhalt nach hinten rücken."
 
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
+msgstr "Auf Aktbeginn setzen..."
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
@@ -1000,7 +998,8 @@ msgstr "Ich habe folgendes Problem:"
 msgid "NEEDS KDM: "
 msgstr "Benötigt KDM:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Name"
 
@@ -1274,7 +1273,7 @@ msgstr "Rechtsklick für Anpassung."
 
 #: src/wx/film_viewer.cc:71
 msgid "Right eye"
-msgstr "Rechtes Auge"
+msgstr "3D: Rechtes Auge"
 
 #: src/wx/config_dialog.cc:855
 msgid "Root"
@@ -1299,7 +1298,7 @@ msgstr "Spitzenwert (Sample peak): %.2fdB bei %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "Speichern nach KDM Creator Liste"
 
 #: src/wx/video_panel.cc:164
 msgid "Scale to"
@@ -1420,7 +1419,7 @@ msgstr "Start"
 
 #: src/wx/move_to_dialog.cc:34
 msgid "Start of reel"
-msgstr ""
+msgstr "...auf Aktanfang Nr."
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Stream"
@@ -1850,12 +1849,16 @@ msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
 msgstr ""
+"Ihr Tonpegel führt zu Übersteuerungen. Sie sollten die Verstärkung global "
+"oder für einzelne Kanäle reduzieren."
 
 #: src/wx/hints_dialog.cc:185
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
 msgstr ""
+"Ihr Tonpegel ist sehr hoch. Sie sollten die Verstärkung global oder für "
+"einzelne Kanäle reduzieren."
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
