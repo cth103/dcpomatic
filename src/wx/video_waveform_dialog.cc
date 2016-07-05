@@ -35,7 +35,7 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, FilmViewer* viewer)
 		_("Video Waveform"),
 		wxDefaultPosition,
 		wxSize (640, 512),
-		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxSTAY_ON_TOP
+		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
 		)
 	, _viewer (viewer)
 {
