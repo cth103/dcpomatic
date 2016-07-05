@@ -324,6 +324,7 @@ Job::sub (string n)
 	}
 
 	set_progress (0, true);
+	_start_time = time (0);
 }
 
 string

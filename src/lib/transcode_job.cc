@@ -133,9 +133,12 @@ TranscodeJob::remaining_time () const
 	/* _transcoder might be destroyed by the job-runner thread */
 	shared_ptr<Transcoder> t = _transcoder;
 
-	if (!t) {
-		return 0;
+	if (!t || t->finishing()) {
+		/* We aren't doing any actual encoding so just use the job's guess */
+		return Job::remaining_time ();
 	}
+
+	/* We're encoding so guess based on the current encoding rate */
 
 	float fps = t->current_encoding_rate ();
 
