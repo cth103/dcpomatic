@@ -68,8 +68,14 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 
 	Frame const end = frame + length - 1;
 
-	if (frame < _decoded.frame || end > (_decoded.frame + length * 4)) {
-		/* Either we have no decoded data, or what we do have is a long way from what we want: seek */
+	/* If we are less than (about) 5 seconds behind the data that we want we'll
+	   run through it rather than seeking.
+	*/
+	Frame const slack = 5 * 48000;
+
+	if (frame < _decoded.frame || end > (_decoded.frame + _decoded.audio->frames() + slack)) {
+		/* Either we have no decoded data, all our data is after the time that we
+		   want, or what we do have is a long way from what we want: seek */
 		_decoder->seek (ContentTime::from_frames (frame, _content->resampled_frame_rate()), accurate);
 	}
 
@@ -162,20 +168,6 @@ AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time
 			padded->copy_from (data.get(), data->frames(), 0, delta_frames);
 			data = padded;
 			time -= delta;
-		} else if (delta_frames < 0) {
-			/* This data comes before the seek time.  Throw some data away */
-			Frame const to_discard = min (-delta_frames, static_cast<Frame> (data->frames()));
-			Frame const to_keep = data->frames() - to_discard;
-			if (to_keep == 0) {
-				/* We have to throw all this data away, so keep _seek_reference and
-				   try again next time some data arrives.
-				*/
-				return;
-			}
-			shared_ptr<AudioBuffers> trimmed (new AudioBuffers (data->channels(), to_keep));
-			trimmed->copy_from (data.get(), to_keep, to_discard, 0);
-			data = trimmed;
-			time += ContentTime::from_frames (to_discard, frame_rate);
 		}
 		_seek_reference = optional<ContentTime> ();
 	}
