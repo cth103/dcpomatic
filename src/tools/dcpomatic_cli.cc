@@ -315,31 +315,31 @@ main (int argc, char* argv[])
 		int unfinished = 0;
 		int finished_in_error = 0;
 
-		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
+		BOOST_FOREACH (shared_ptr<Job> i, jobs) {
 			if (progress) {
-				cout << (*i)->name() << ": ";
+				cout << i->name() << "; " << i->sub_name() << ": ";
 
-				if ((*i)->progress ()) {
-					cout << (*i)->status() << "			    \n";
+				if (i->progress ()) {
+					cout << i->status() << "			    \n";
 				} else {
 					cout << ": Running	     \n";
 				}
 			}
 
-			if (!(*i)->finished ()) {
+			if (!i->finished ()) {
 				++unfinished;
 			}
 
-			if ((*i)->finished_in_error ()) {
+			if (i->finished_in_error ()) {
 				++finished_in_error;
 				error = true;
 			}
 
-			if (!progress && (*i)->finished_in_error ()) {
+			if (!progress && i->finished_in_error ()) {
 				/* We won't see this error if we haven't been showing progress,
 				   so show it now.
 				*/
-				cout << (*i)->status() << "\n";
+				cout << i->status() << "\n";
 			}
 		}
 
