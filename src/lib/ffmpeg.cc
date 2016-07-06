@@ -201,12 +201,16 @@ FFmpeg::setup_decoders ()
 		AVCodec* codec = avcodec_find_decoder (context->codec_id);
 		if (codec) {
 
+			AVDictionary* options = 0;
 			/* This option disables decoding of DCA frame footers in our patched version
 			   of FFmpeg.  I believe these footers are of no use to us, and they can cause
 			   problems when FFmpeg fails to decode them (mantis #352).
 			*/
-			AVDictionary* options = 0;
 			av_dict_set (&options, "disable_footer", "1", 0);
+			/* This allows decoding of some DNxHR 444 and HQX files; see
+			   https://trac.ffmpeg.org/ticket/5681
+			*/
+			av_dict_set_int (&options, "strict", FF_COMPLIANCE_EXPERIMENTAL, 0);
 
 			if (avcodec_open2 (context, codec, &options) < 0) {
 				throw DecodeError (N_("could not open decoder"));
