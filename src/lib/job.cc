@@ -52,6 +52,7 @@ Job::Job (shared_ptr<const Film> film)
 	, _thread (0)
 	, _state (NEW)
 	, _start_time (0)
+	, _sub_start_time (0)
 	, _progress (0)
 	, _ran_for (0)
 {
@@ -81,6 +82,7 @@ Job::start ()
 {
 	set_state (RUNNING);
 	_start_time = time (0);
+	_sub_start_time = time (0);
 	_thread = new boost::thread (boost::bind (&Job::run_wrapper, this));
 }
 
@@ -242,7 +244,7 @@ Job::set_state (State s)
 		_state = s;
 
 		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
-			_ran_for = elapsed_time ();
+			_ran_for = time(0) - _start_time;
 			finished = true;
 			_sub_name.clear ();
 		}
@@ -255,13 +257,13 @@ Job::set_state (State s)
 
 /** @return DCPTime (in seconds) that this sub-job has been running */
 int
-Job::elapsed_time () const
+Job::elapsed_sub_time () const
 {
-	if (_start_time == 0) {
+	if (_sub_start_time == 0) {
 		return 0;
 	}
 
-	return time (0) - _start_time;
+	return time (0) - _sub_start_time;
 }
 
 /** Set the progress of the current part of the job.
@@ -324,7 +326,7 @@ Job::sub (string n)
 	}
 
 	set_progress (0, true);
-	_start_time = time (0);
+	_sub_start_time = time (0);
 }
 
 string
@@ -371,7 +373,7 @@ string
 Job::status () const
 {
 	optional<float> p = progress ();
-	int const t = elapsed_time ();
+	int const t = elapsed_sub_time ();
 	int const r = remaining_time ();
 
 	SafeStringStream s;
@@ -428,10 +430,10 @@ int
 Job::remaining_time () const
 {
 	if (progress().get_value_or(0) == 0) {
-		return elapsed_time ();
+		return elapsed_sub_time ();
 	}
 
-	return elapsed_time() / progress().get() - elapsed_time();
+	return elapsed_sub_time() / progress().get() - elapsed_sub_time();
 }
 
 void

@@ -65,7 +65,6 @@ public:
 	std::string error_summary () const;
 	std::string error_details () const;
 
-	int elapsed_time () const;
 	virtual std::string status () const;
 	std::string json_status () const;
 	std::string sub_name () const {
@@ -103,6 +102,7 @@ protected:
 
 	void set_state (State);
 	void set_error (std::string s, std::string d);
+	int elapsed_sub_time () const;
 
 	boost::shared_ptr<const Film> _film;
 
@@ -121,8 +121,10 @@ private:
 	std::string _error_summary;
 	std::string _error_details;
 
-	/** time that this sub-job was started */
+	/** time that this job was started */
 	time_t _start_time;
+	/** time that this sub-job was started */
+	time_t _sub_start_time;
 	std::string _sub_name;
 
 	/** mutex for _progress and _last_progress_update */
