@@ -22,6 +22,7 @@
 #include "wx_util.h"
 #include "lib/film.h"
 #include "lib/hints.h"
+#include "lib/config.h"
 #include <wx/richtext/richtextctrl.h>
 #include <boost/foreach.hpp>
 
@@ -32,7 +33,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 
-HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film)
+HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
 	, _film (film)
 {
@@ -40,10 +41,22 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film)
 	_text = new wxRichTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (400, 300), wxRE_READONLY);
 	sizer->Add (_text, 1, wxEXPAND | wxALL, 6);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	if (!ok) {
+		wxCheckBox* b = new wxCheckBox (this, wxID_ANY, _("Don't show hints again"));
+		sizer->Add (b, 0, wxALL, 6);
+		b->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, bind (&HintsDialog::shut_up, this, _1));
 	}
+
+	wxStdDialogButtonSizer* buttons = CreateStdDialogButtonSizer (0);
+	sizer->Add (CreateSeparatedSizer(buttons), wxSizerFlags().Expand().DoubleBorder());
+	if (ok) {
+		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK));
+	} else {
+		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK, _("Make DCP anyway")));
+		buttons->SetNegativeButton (new wxButton (this, wxID_CANCEL, _("Go back")));
+	}
+
+	buttons->Realize ();
 
 	SetSizer (sizer);
 	sizer->Layout ();
@@ -82,4 +95,10 @@ HintsDialog::film_changed ()
 		}
 		_text->EndSymbolBullet ();
 	}
+}
+
+void
+HintsDialog::shut_up (wxCommandEvent& ev)
+{
+	Config::instance()->set_show_hints_before_make_dcp (!ev.IsChecked());
 }

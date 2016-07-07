@@ -1,5 +1,8 @@
 2016-07-08  Carl Hetherington  <cth@carlh.net>
 
+	* Show hints before making DCP / sending to batch
+	converter (#823).
+
 	* Allow import of some more types of DNxHR file.
 
 	* Support shadow in subtitles (#911).

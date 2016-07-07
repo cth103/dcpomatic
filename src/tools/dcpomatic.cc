@@ -58,6 +58,7 @@
 #include "lib/compose.hpp"
 #include "lib/cinema_kdms.h"
 #include "lib/dcpomatic_socket.h"
+#include "lib/hints.h"
 #include <dcp/exceptions.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
@@ -455,6 +456,15 @@ private:
 			}
 		}
 
+		if (!get_hints(_film).empty() && Config::instance()->show_hints_before_make_dcp()) {
+			HintsDialog* hints = new HintsDialog (this, _film, false);
+			int const r = hints->ShowModal();
+			hints->Destroy ();
+			if (r == wxID_CANCEL) {
+				return;
+			}
+		}
+
 		try {
 			/* It seems to make sense to auto-save metadata here, since the make DCP may last
 			   a long time, and crashes/power failures are moderately likely.
@@ -515,6 +525,15 @@ private:
 	{
 		if (!_film) {
 			return;
+		}
+
+		if (!get_hints(_film).empty() && Config::instance()->show_hints_before_make_dcp()) {
+			HintsDialog* hints = new HintsDialog (this, _film, false);
+			int const r = hints->ShowModal();
+			hints->Destroy ();
+			if (r == wxID_CANCEL) {
+				return;
+			}
 		}
 
 		_film->write_metadata ();
@@ -663,7 +682,7 @@ private:
 	void tools_hints ()
 	{
 		if (!_hints_dialog) {
-			_hints_dialog = new HintsDialog (this, _film);
+			_hints_dialog = new HintsDialog (this, _film, true);
 		}
 
 		_hints_dialog->Show ();

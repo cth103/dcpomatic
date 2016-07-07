@@ -28,10 +28,11 @@ class Film;
 class HintsDialog : public wxDialog
 {
 public:
-	HintsDialog (wxWindow* parent, boost::weak_ptr<Film>);
+	HintsDialog (wxWindow* parent, boost::weak_ptr<Film>, bool ok);
 
 private:
 	void film_changed ();
+	void shut_up (wxCommandEvent& ev);
 
 	boost::weak_ptr<Film> _film;
 	wxRichTextCtrl* _text;

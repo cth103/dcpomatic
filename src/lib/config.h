@@ -262,6 +262,10 @@ public:
 		return _cinemas_file;
 	}
 
+	bool show_hints_before_make_dcp () const {
+		return _show_hints_before_make_dcp;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -466,6 +470,10 @@ public:
 
 	void set_cinemas_file (boost::filesystem::path file);
 
+	void set_show_hints_before_make_dcp (bool s) {
+		maybe_set (_show_hints_before_make_dcp, s);
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -572,6 +580,7 @@ private:
 	std::vector<boost::filesystem::path> _history;
 	std::vector<dcp::EncryptedKDM> _dkdms;
 	boost::filesystem::path _cinemas_file;
+	bool _show_hints_before_make_dcp;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

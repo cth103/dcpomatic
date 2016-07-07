@@ -106,6 +106,7 @@ Config::set_defaults ()
 	_win32_console = false;
 #endif
 	_cinemas_file = path ("cinemas.xml");
+	_show_hints_before_make_dcp = true;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -297,6 +298,7 @@ Config::read ()
 	}
 
 	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or (path ("cinemas.xml").string ());
+	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -449,6 +451,7 @@ Config::write_config_xml () const
 	}
 
 	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
+	root->add_child("ShowHintsBeforeMakeDCP")->add_child_text (_show_hints_before_make_dcp ? "1" : "0");
 
 	try {
 		doc.write_to_file_formatted (path("config.xml").string ());
