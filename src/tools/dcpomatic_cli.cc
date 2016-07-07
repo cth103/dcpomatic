@@ -317,7 +317,11 @@ main (int argc, char* argv[])
 
 		BOOST_FOREACH (shared_ptr<Job> i, jobs) {
 			if (progress) {
-				cout << i->name() << "; " << i->sub_name() << ": ";
+				cout << i->name();
+				if (!i->sub_name().empty()) {
+					cout << "; " << i->sub_name();
+				}
+				cout << ": ";
 
 				if (i->progress ()) {
 					cout << i->status() << "			    \n";
