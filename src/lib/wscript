@@ -81,6 +81,7 @@ sources = """
           font.cc
           font_files.cc
           frame_rate_change.cc
+          hints.cc
           internet.cc
           image.cc
           image_content.cc

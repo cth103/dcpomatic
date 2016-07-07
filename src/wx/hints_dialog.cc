@@ -19,18 +19,15 @@
 */
 
 #include "hints_dialog.h"
+#include "wx_util.h"
 #include "lib/film.h"
-#include "lib/ratio.h"
-#include "lib/video_content.h"
-#include "lib/subtitle_content.h"
-#include "lib/font.h"
-#include "lib/content.h"
-#include "lib/audio_analysis.h"
+#include "lib/hints.h"
 #include <wx/richtext/richtextctrl.h>
-#include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 
 using std::max;
+using std::vector;
+using std::string;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -67,134 +64,22 @@ void
 HintsDialog::film_changed ()
 {
 	_text->Clear ();
-	bool hint = false;
 
 	boost::shared_ptr<Film> film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	ContentList content = film->content ();
+	vector<string> hints = get_hints (film);
 
-	_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
-
-	bool big_font_files = false;
-	if (film->interop ()) {
-		BOOST_FOREACH (shared_ptr<Content> i, content) {
-			if (i->subtitle) {
-				BOOST_FOREACH (shared_ptr<Font> j, i->subtitle->fonts ()) {
-					for (int k = 0; k < FontFiles::VARIANTS; ++k) {
-						optional<boost::filesystem::path> const p = j->file (static_cast<FontFiles::Variant> (k));
-						if (p && boost::filesystem::file_size (p.get()) >= (640 * 1024)) {
-							big_font_files = true;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	if (big_font_files) {
-		hint = true;
-		_text->WriteText (_("You have specified a font file which is larger than 640kB.  This is very likely to cause problems on playback."));
-	}
-
-	if (film->audio_channels() < 6) {
-		hint = true;
-		_text->WriteText (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors."));
-		_text->Newline ();
-	}
-
-	int flat_or_narrower = 0;
-	int scope = 0;
-	BOOST_FOREACH (shared_ptr<const Content> i, content) {
-		if (i->video) {
-			Ratio const * r = i->video->scale().ratio ();
-			if (r && r->id() == "239") {
-				++scope;
-			} else if (r && r->id() != "239" && r->id() != "full-frame") {
-				++flat_or_narrower;
-			}
-		}
-	}
-
-	if (scope && !flat_or_narrower && film->container()->id() == "185") {
-		hint = true;
-		_text->WriteText (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
-		_text->Newline ();
-	}
-
-	if (!scope && flat_or_narrower && film->container()->id() == "239") {
-		hint = true;
-		_text->WriteText (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
-		_text->Newline ();
-	}
-
-	if (film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
-		hint = true;
-		_text->WriteText (wxString::Format (_("Your DCP frame rate (%d fps) may cause problems in a few (mostly older) projectors.  Use 24 or 48 frames per second to be on the safe side."), film->video_frame_rate()));
-		_text->Newline ();
-	}
-
-	if (film->j2k_bandwidth() >= 245000000) {
-		hint = true;
-		_text->WriteText (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
-		_text->Newline ();
-	}
-
-	if (film->interop() && film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
-		hint = true;
-		_text->WriteText (_("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised to make a SMPTE DCP instead."));
-		_text->Newline ();
-	}
-
-	int vob = 0;
-	BOOST_FOREACH (shared_ptr<const Content> i, content) {
-		if (boost::algorithm::starts_with (i->path(0).filename().string(), "VTS_")) {
-			++vob;
-		}
-	}
-
-	if (vob > 1) {
-		hint = true;
-		_text->WriteText (wxString::Format (_("You have %d files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
-		_text->Newline ();
-	}
-
-	int three_d = 0;
-	BOOST_FOREACH (shared_ptr<const Content> i, content) {
-		if (i->video && i->video->frame_type() != VIDEO_FRAME_TYPE_2D) {
-			++three_d;
-		}
-	}
-
-	if (three_d > 0 && !film->three_d()) {
-		hint = true;
-		_text->WriteText (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
-		_text->Newline ();
-	}
-
-	boost::filesystem::path path = film->audio_analysis_path (film->playlist ());
-	if (boost::filesystem::exists (path)) {
-		shared_ptr<AudioAnalysis> an (new AudioAnalysis (path));
-		if (an->sample_peak() || an->true_peak()) {
-			float const peak = max (an->sample_peak().get_value_or(0), an->true_peak().get_value_or(0));
-			float const peak_dB = 20 * log10 (peak) + an->gain_correction (film->playlist ());
-			if (peak_dB > -3 && peak_dB < -0.5) {
-				hint = true;
-				_text->WriteText (_("Your audio level is very high.  You should reduce the gain of your audio content."));
-				_text->Newline ();
-			} else if (peak_dB > -0.5) {
-				hint = true;
-				_text->WriteText (_("Your audio level is very close to clipping.  You should reduce the gain of your audio content."));
-				_text->Newline ();
-			}
-		}
-	}
-
-	_text->EndSymbolBullet ();
-
-	if (!hint) {
+	if (hints.empty ()) {
 		_text->WriteText (_("There are no hints: everything looks good!"));
+	} else {
+		_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
+		BOOST_FOREACH (string i, hints) {
+			_text->WriteText (std_to_wx (i));
+			_text->Newline ();
+		}
+		_text->EndSymbolBullet ();
 	}
 }
