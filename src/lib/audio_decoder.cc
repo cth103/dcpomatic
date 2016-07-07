@@ -33,7 +33,6 @@ using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
 	: _ignore (false)
-	, _fast (false)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
 		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, log));

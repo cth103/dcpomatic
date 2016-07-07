@@ -62,7 +62,6 @@ private:
 	/** An AudioDecoderStream object to manage each stream in _audio_content */
 	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
 	bool _ignore;
-	bool _fast;
 };
 
 #endif
