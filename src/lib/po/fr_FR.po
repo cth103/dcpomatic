@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-06-05 16:43+0100\n"
+"PO-Revision-Date: 2016-07-07 22:54+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -219,21 +219,17 @@ msgid "Content frame rate"
 msgstr "Cadence du contenu"
 
 #: src/lib/ffmpeg_content.cc:142
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "Le contenu à ajouter doit avoir le même gain audio"
+msgstr "Les contenus à ajouter doivent tous avoir ou ne pas avoir de son"
 
 #: src/lib/ffmpeg_content.cc:145
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles"
 msgstr ""
-"Le contenu à ajouter doit avoir le même réglage d'échelle horizontale de "
-"sous-titres"
+"Les contenus à ajouter doivent tous avoir ou ne pas avoir de sous-titres"
 
 #: src/lib/ffmpeg_content.cc:139
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr "Le contenu à ajouter doit avoir le même réglage de fondu."
+msgstr "Les contenus à ajouter doivent tous avoir ou ne pas avoir de vidéo"
 
 #: src/lib/subtitle_content.cc:156
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -298,11 +294,9 @@ msgstr ""
 "titres"
 
 #: src/lib/subtitle_content.cc:176
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
-"Le contenu à ajouter doit avoir le même réglage d'échelle horizontale de "
-"sous-titres"
+"Les contenus à ajouter doivent tous avoir le même espacement de lignes."
 
 #: src/lib/content.cc:122 src/lib/content.cc:126
 msgid "Content to be joined must have the same video frame rate"
@@ -369,9 +363,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Ouverture du fichier Zip téléchargé impossible"
 
 #: src/lib/dcp_subtitle.cc:55
-#, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
-msgstr "Ne peut lire les sous-titres"
+msgstr "Ne peut lire les sous-titres (%1 / %2)"
 
 #: src/lib/scp_uploader.cc:71
 msgid "Could not start SCP session (%1)"
@@ -410,9 +403,8 @@ msgid "DCP XML subtitles"
 msgstr "Sous-titres XML du DCP"
 
 #: src/lib/audio_content.cc:327
-#, fuzzy
 msgid "DCP sample rate"
-msgstr "Cadence du DCP"
+msgstr "Cadence DCP"
 
 #: src/lib/frame_rate_change.cc:79
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -780,7 +772,7 @@ msgstr "Policy"
 
 #: src/lib/content.cc:378
 msgid "Prepared for video frame rate"
-msgstr ""
+msgstr "Préparé pour la cadence image"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"

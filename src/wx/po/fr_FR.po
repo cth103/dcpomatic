@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-06-05 16:46+0100\n"
+"PO-Revision-Date: 2016-07-07 22:49+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -109,13 +109,12 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
-#, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
 msgstr ""
-"<i>à modifier seulement si la cadence image du contenu n'a pas été "
-"correctement identifiée.</i>"
+"<i>à modifier seulement si la vitesse image du contenu n'a pas été "
+"correctement lue.</i>"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "A"
@@ -512,7 +511,7 @@ msgstr "Décryptage des DCPs"
 
 #: src/wx/config_dialog.cc:435
 msgid "Default DCP audio channels"
-msgstr ""
+msgstr "Canaux audio du DCP par défaut"
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"
@@ -740,15 +739,15 @@ msgstr "Depuis le fichier..."
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:28
 msgid "Go to"
-msgstr ""
+msgstr "Aller à"
 
 #: src/wx/playhead_to_frame_dialog.cc:25
 msgid "Go to frame"
-msgstr ""
+msgstr "Aller à l'image"
 
 #: src/wx/playhead_to_timecode_dialog.cc:24
 msgid "Go to timecode"
-msgstr ""
+msgstr "Aller au timecode"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -890,7 +889,7 @@ msgstr "Longueur"
 
 #: src/wx/subtitle_panel.cc:109
 msgid "Line spacing"
-msgstr ""
+msgstr "Espacement ligne"
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -955,9 +954,8 @@ msgid "Mbit/s"
 msgstr "Mbit/s"
 
 #: src/wx/move_to_dialog.cc:31
-#, fuzzy
 msgid "Move content"
-msgstr "contours image"
+msgstr "Déplacer le contenu"
 
 #: src/wx/content_panel.cc:94
 msgid "Move the selected piece of content earlier in the film."
@@ -969,7 +967,7 @@ msgstr "Déplacer le contenu sélectionné plus tard dans le film."
 
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
+msgstr "Déplacer au début de la bobine"
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
@@ -991,7 +989,8 @@ msgstr "Mon problème est :"
 msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Nom"
 
@@ -1289,7 +1288,7 @@ msgstr "La crête d'échantillon est de %.2fdB à %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "Enregistrer dans la liste de l'outil de création KDM"
 
 #: src/wx/video_panel.cc:164
 msgid "Scale to"
@@ -1410,7 +1409,7 @@ msgstr "Démarrer"
 
 #: src/wx/move_to_dialog.cc:34
 msgid "Start of reel"
-msgstr ""
+msgstr "Début de bobine"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Stream"
