@@ -1,5 +1,7 @@
 2016-07-08  Carl Hetherington  <cth@carlh.net>
 
+	* Allow import of some more types of DNxHR file.
+
 	* Support shadow in subtitles (#911).
 
 	* Version 2.9.0 released.
@@ -15,8 +17,6 @@
 	* Fix incorrect job running time reports (#912).
 
 2016-07-06  Carl Hetherington  <cth@carlh.net>
-
-	* Allow import of some more types of DNxHR file.
 
 	* Version 2.8.19 released.
 
