@@ -733,7 +733,19 @@ DCPPanel::setup_audio_channels_choice ()
 {
 	vector<pair<string, string> > items;
 	for (int i = minimum_allowed_audio_channels(); i <= 16; i += 2) {
-		items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
+		if (i == 2) {
+			items.push_back (make_pair (wx_to_std (_("2 — stereo")), dcp::raw_convert<string> (i)));
+		} else if (i == 4) {
+			items.push_back (make_pair (wx_to_std (_("4 — L/C/R/Lfe")), dcp::raw_convert<string> (i)));
+		} else if (i == 6) {
+			items.push_back (make_pair (wx_to_std (_("6 — 5.1")), dcp::raw_convert<string> (i)));
+		} else if (i == 8) {
+			items.push_back (make_pair (wx_to_std (_("8 — 5.1/HI/VI")), dcp::raw_convert<string> (i)));
+		} else if (i == 12) {
+			items.push_back (make_pair (wx_to_std (_("12 — 7.1/HI/VI")), dcp::raw_convert<string> (i)));
+		} else {
+			items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
+		}
 	}
 
 	checked_set (_audio_channels, items);
