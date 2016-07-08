@@ -291,7 +291,7 @@ check_xml (boost::filesystem::path ref, boost::filesystem::path test, list<strin
 	check_xml (ref_root, test_root, ignore);
 }
 
-void
+bool
 wait_for_jobs ()
 {
 	JobManager* jm = JobManager::instance ();
@@ -322,7 +322,10 @@ wait_for_jobs ()
 
 	if (jm->errors ()) {
 		JobManager::drop ();
+		return true;
 	}
+
+	return false;
 }
 
 void

@@ -32,6 +32,8 @@
 #include "lib/ratio.h"
 #include "lib/job_manager.h"
 #include "lib/audio_content.h"
+#include "lib/content_factory.h"
+#include "lib/playlist.h"
 #include "test.h"
 
 using boost::shared_ptr;
@@ -167,4 +169,22 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 	JobManager::instance()->analyse_audio (film, film->playlist(), connection, boost::bind (&analysis_finished));
 	wait_for_jobs ();
 	BOOST_CHECK (done);
+}
+
+/** Run an audio analysis that triggered an exception in the audio decoder at one point */
+BOOST_AUTO_TEST_CASE (analyse_audio_test4)
+{
+	shared_ptr<Film> film = new_test_film ("analyse_audio_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	shared_ptr<Content> content = content_factory (film, private_data / "20 The Wedding Convoy Song.m4a");
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	shared_ptr<Playlist> playlist (new Playlist);
+	playlist->add (content);
+	boost::signals2::connection c;
+	JobManager::instance()->analyse_audio (film, playlist, c, boost::bind (&finished));
+	BOOST_CHECK (!wait_for_jobs ());
 }

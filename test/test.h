@@ -25,7 +25,7 @@ class Image;
 
 extern boost::filesystem::path private_data;
 
-extern void wait_for_jobs ();
+extern bool wait_for_jobs ();
 extern boost::shared_ptr<Film> new_test_film (std::string);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
 extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);

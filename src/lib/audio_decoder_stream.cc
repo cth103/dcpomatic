@@ -45,6 +45,10 @@ AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, 
 	, _stream (stream)
 	, _decoder (decoder)
 	, _log (log)
+	  /* We effectively start having done a seek to zero; this allows silence-padding of the first
+	     data that comes out of our decoder.
+	  */
+	, _seek_reference (ContentTime ())
 {
 	if (content->resampled_frame_rate() != _stream->frame_rate() && _stream->channels() > 0) {
 		_resampler.reset (new Resampler (_stream->frame_rate(), content->resampled_frame_rate(), _stream->channels ()));

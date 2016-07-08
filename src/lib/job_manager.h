@@ -32,7 +32,7 @@ class Job;
 class Film;
 class Playlist;
 
-extern void wait_for_jobs ();
+extern bool wait_for_jobs ();
 
 /** @class JobManager
  *  @brief A simple scheduler for jobs.
@@ -61,7 +61,7 @@ public:
 
 private:
 	/* This function is part of the test suite */
-	friend void ::wait_for_jobs ();
+	friend bool ::wait_for_jobs ();
 
 	JobManager ();
 	~JobManager ();
