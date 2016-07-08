@@ -26,6 +26,9 @@
 #include "lib/content.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_content.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ratio.h"
 #include "lib/film.h"
 #include <boost/test/unit_test.hpp>
 #include <cassert>
@@ -148,4 +151,19 @@ BOOST_AUTO_TEST_CASE (audio_decoder_get_audio_test)
 			BOOST_REQUIRE_EQUAL (ca.audio->data(i)[j], j + from);
 		}
 	}
+}
+
+BOOST_AUTO_TEST_CASE (audio_decoder_test)
+{
+	shared_ptr<Film> film = new_test_film ("analyse_audio_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	shared_ptr<Content> content = content_factory (film, private_data / "20 The Wedding Convoy Song.m4a");
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	content->set_trim_start (ContentTime::from_seconds (60));
+	film->make_dcp ();
+	BOOST_CHECK (!wait_for_jobs ());
 }
