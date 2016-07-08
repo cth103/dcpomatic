@@ -49,8 +49,9 @@ int const SubtitleContentProperty::LANGUAGE = 506;
 int const SubtitleContentProperty::FONTS = 507;
 int const SubtitleContentProperty::COLOUR = 508;
 int const SubtitleContentProperty::OUTLINE = 509;
-int const SubtitleContentProperty::OUTLINE_COLOUR = 510;
-int const SubtitleContentProperty::LINE_SPACING = 511;
+int const SubtitleContentProperty::SHADOW = 510;
+int const SubtitleContentProperty::EFFECT_COLOUR = 511;
+int const SubtitleContentProperty::LINE_SPACING = 512;
 
 SubtitleContent::SubtitleContent (Content* parent)
 	: ContentPart (parent)
@@ -62,7 +63,8 @@ SubtitleContent::SubtitleContent (Content* parent)
 	, _y_scale (1)
 	, _colour (255, 255, 255)
 	, _outline (false)
-	, _outline_colour (0, 0, 0)
+	, _shadow (false)
+	, _effect_colour (0, 0, 0)
 	, _line_spacing (1)
 {
 
@@ -103,11 +105,7 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 		node->optional_number_child<int>("Blue").get_value_or(255)
 		)
 	, _outline (node->optional_bool_child("Outline").get_value_or(false))
-	, _outline_colour (
-		node->optional_number_child<int>("OutlineRed").get_value_or(255),
-		node->optional_number_child<int>("OutlineGreen").get_value_or(255),
-		node->optional_number_child<int>("OutlineBlue").get_value_or(255)
-		)
+	, _shadow (node->optional_bool_child("Shadow").get_value_or(false))
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
 {
 	if (version >= 32) {
@@ -127,6 +125,20 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 		_y_scale = node->number_child<double> ("SubtitleYScale");
 	} else {
 		_x_scale = _y_scale = node->number_child<double> ("SubtitleScale");
+	}
+
+	if (version >= 36) {
+		_effect_colour = dcp::Colour (
+			node->optional_number_child<int>("EffectRed").get_value_or(255),
+			node->optional_number_child<int>("EffectGreen").get_value_or(255),
+			node->optional_number_child<int>("EffectBlue").get_value_or(255)
+			);
+	} else {
+		_effect_colour = dcp::Colour (
+			node->optional_number_child<int>("OutlineRed").get_value_or(255),
+			node->optional_number_child<int>("OutlineGreen").get_value_or(255),
+			node->optional_number_child<int>("OutlineBlue").get_value_or(255)
+			);
 	}
 
 	_language = node->optional_string_child ("SubtitleLanguage").get_value_or ("");
@@ -223,9 +235,10 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
 	root->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
 	root->add_child("Outline")->add_child_text (raw_convert<string> (_outline));
-	root->add_child("OutlineRed")->add_child_text (raw_convert<string> (_outline_colour.r));
-	root->add_child("OutlineGreen")->add_child_text (raw_convert<string> (_outline_colour.g));
-	root->add_child("OutlineBlue")->add_child_text (raw_convert<string> (_outline_colour.b));
+	root->add_child("Shadow")->add_child_text (raw_convert<string> (_shadow));
+	root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour.r));
+	root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour.g));
+	root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour.b));
 	root->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
@@ -299,9 +312,15 @@ SubtitleContent::set_outline (bool o)
 }
 
 void
-SubtitleContent::set_outline_colour (dcp::Colour colour)
+SubtitleContent::set_shadow (bool s)
 {
-	maybe_set (_outline_colour, colour, SubtitleContentProperty::OUTLINE_COLOUR);
+	maybe_set (_shadow, s, SubtitleContentProperty::SHADOW);
+}
+
+void
+SubtitleContent::set_effect_colour (dcp::Colour colour)
+{
+	maybe_set (_effect_colour, colour, SubtitleContentProperty::EFFECT_COLOUR);
 }
 
 void

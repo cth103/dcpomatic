@@ -1,5 +1,7 @@
 2016-07-08  Carl Hetherington  <cth@carlh.net>
 
+	* Support shadow in subtitles (#911).
+
 	* Version 2.9.0 released.
 
 2016-07-07  Carl Hetherington  <cth@carlh.net>

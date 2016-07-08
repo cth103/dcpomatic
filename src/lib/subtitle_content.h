@@ -41,7 +41,8 @@ public:
 	static int const FONTS;
 	static int const COLOUR;
 	static int const OUTLINE;
-	static int const OUTLINE_COLOUR;
+	static int const SHADOW;
+	static int const EFFECT_COLOUR;
 	static int const LINE_SPACING;
 };
 
@@ -124,11 +125,18 @@ public:
 		return _outline;
 	}
 
-	void set_outline_colour (dcp::Colour);
+	void set_shadow (bool);
 
-	dcp::Colour outline_colour () const {
+	bool shadow () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _outline_colour;
+		return _shadow;
+	}
+
+	void set_effect_colour (dcp::Colour);
+
+	dcp::Colour effect_colour () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _effect_colour;
 	}
 
 	void set_line_spacing (double s);
@@ -168,7 +176,8 @@ private:
 	std::list<boost::shared_ptr<Font> > _fonts;
 	dcp::Colour _colour;
 	bool _outline;
-	dcp::Colour _outline_colour;
+	bool _shadow;
+	dcp::Colour _effect_colour;
 	std::list<boost::signals2::connection> _font_connections;
 	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
 	double _line_spacing;

@@ -34,20 +34,29 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 	_colour = new wxColourPickerCtrl (this, wxID_ANY);
 	add (_colour);
 
-	_outline = new wxCheckBox (this, wxID_ANY, _("Outline"));
+	wxRadioButton* no_effect = new wxRadioButton (this, wxID_ANY, _("No effect"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	add (no_effect);
+	add_spacer ();
+
+	_outline = new wxRadioButton (this, wxID_ANY, _("Outline"));
 	add (_outline);
 	add_spacer ();
 
-	add (_("Outline colour"), true);
-	_outline_colour = new wxColourPickerCtrl (this, wxID_ANY);
-	add (_outline_colour);
+	_shadow = new wxRadioButton (this, wxID_ANY, _("Shadow"));
+	add (_shadow);
+	add_spacer ();
+
+	add (_("Outline / shadow colour"), true);
+	_effect_colour = new wxColourPickerCtrl (this, wxID_ANY);
+	add (_effect_colour);
 
 	layout ();
 
 	_colour->SetColour (wxColour (_content->colour().r, _content->colour().g, _content->colour().b));
 	_outline->SetValue (_content->outline ());
-	_outline_colour->SetColour (
-		wxColour (_content->outline_colour().r, _content->outline_colour().g, _content->outline_colour().b)
+	_shadow->SetValue (_content->shadow ());
+	_effect_colour->SetColour (
+		wxColour (_content->effect_colour().r, _content->effect_colour().g, _content->effect_colour().b)
 		);
 }
 
@@ -57,6 +66,7 @@ TextSubtitleAppearanceDialog::apply ()
 	wxColour const c = _colour->GetColour ();
 	_content->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
 	_content->set_outline (_outline->GetValue ());
-	wxColour const oc = _outline_colour->GetColour ();
-	_content->set_outline_colour (dcp::Colour (oc.Red(), oc.Green(), oc.Blue()));
+	_content->set_shadow (_shadow->GetValue ());
+	wxColour const ec = _effect_colour->GetColour ();
+	_content->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
 }

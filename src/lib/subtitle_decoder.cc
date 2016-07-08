@@ -218,6 +218,13 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 				}
 			}
 
+			dcp::Effect effect = dcp::NONE;
+			if (content()->outline()) {
+				effect = dcp::BORDER;
+			} else if (content()->shadow()) {
+				effect = dcp::SHADOW;
+			}
+
 			out.push_back (
 				dcp::SubtitleString (
 					string(TEXT_FONT_ID),
@@ -236,8 +243,8 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 					v_align,
 					dcp::DIRECTION_LTR,
 					j.text,
-					content()->outline() ? dcp::BORDER : dcp::NONE,
-					content()->outline_colour(),
+					effect,
+					content()->effect_colour(),
 					dcp::Time (0, 1000),
 					dcp::Time (0, 1000)
 					)

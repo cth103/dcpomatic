@@ -114,8 +114,10 @@ using boost::is_any_of;
  * are present.
  * 34 -> 35
  * VideoFrameType in VideoContent is a string rather than an integer.
+ * 35 -> 36
+ * EffectColour rather than OutlineColour in Subtitle.
  */
-int const Film::current_state_version = 35;
+int const Film::current_state_version = 36;
 
 /** Construct a Film object in a given directory.
  *

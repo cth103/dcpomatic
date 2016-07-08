@@ -21,7 +21,7 @@
 #include "table_dialog.h"
 #include <boost/shared_ptr.hpp>
 
-class wxCheckBox;
+class wxRadioButton;
 class wxColourPickerCtrl;
 class SubtitleContent;
 
@@ -34,8 +34,9 @@ public:
 
 private:
 	wxColourPickerCtrl* _colour;
-	wxCheckBox* _outline;
-	wxColourPickerCtrl* _outline_colour;
+	wxRadioButton* _outline;
+	wxRadioButton* _shadow;
+	wxColourPickerCtrl* _effect_colour;
 
 	boost::shared_ptr<SubtitleContent> _content;
 };

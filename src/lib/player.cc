@@ -172,7 +172,8 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == DCPContentProperty::CAN_BE_PLAYED ||
 		property == SubtitleContentProperty::COLOUR ||
 		property == SubtitleContentProperty::OUTLINE ||
-		property == SubtitleContentProperty::OUTLINE_COLOUR ||
+		property == SubtitleContentProperty::SHADOW ||
+		property == SubtitleContentProperty::EFFECT_COLOUR ||
 		property == FFmpegContentProperty::SUBTITLE_STREAM ||
 		property == VideoContentProperty::COLOUR_CONVERSION
 		) {
