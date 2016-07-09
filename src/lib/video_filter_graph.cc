@@ -99,7 +99,6 @@ VideoFilterGraph::sink_parameters () const
 {
 	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
 	AVPixelFormat* pixel_fmts = new AVPixelFormat[2];
-	pixel_fmts = new AVPixelFormat[2];
 	pixel_fmts[0] = _pixel_format;
 	pixel_fmts[1] = AV_PIX_FMT_NONE;
 	sink_params->pixel_fmts = pixel_fmts;
@@ -117,4 +116,3 @@ VideoFilterGraph::sink_name () const
 {
 	return "buffersink";
 }
-
