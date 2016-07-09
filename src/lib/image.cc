@@ -759,6 +759,7 @@ Image::swap (Image & other)
 	}
 
 	std::swap (_aligned, other._aligned);
+	std::swap (_extra_pixels, other._extra_pixels);
 }
 
 /** Destroy a Image */
