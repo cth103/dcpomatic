@@ -25,8 +25,9 @@
 AudioStream::AudioStream (int frame_rate, Frame length, int channels)
 	: _frame_rate (frame_rate)
 	, _length (length)
+	, _mapping (AudioMapping (channels, MAX_DCP_AUDIO_CHANNELS))
 {
-	_mapping = AudioMapping (channels, MAX_DCP_AUDIO_CHANNELS);
+
 }
 
 AudioStream::AudioStream (int frame_rate, Frame length, AudioMapping mapping)
