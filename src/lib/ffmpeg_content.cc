@@ -543,10 +543,11 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 			_("BT2020 for a 10-bit system"),
 			_("BT2020 for a 12-bit system"),
 			_("SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"),
-			_("SMPTE ST 428-1")
+			_("SMPTE ST 428-1"),
+			_("ARIB STD-B67 ('Hybrid log-gamma')")
 		};
 
-		DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 18);
+		DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 19);
 		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour transfer characteristic"), transfers[_color_trc]));
 
 		char const * spaces[] = {
