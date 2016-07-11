@@ -33,6 +33,9 @@ elif [[ `echo $changes | grep cs_CZ` != "" ]]; then
 elif [[ `echo $changes | grep pt_BR` != "" ]]; then
   language="pt_BR"
   translator="Max M. Fuhlendorf"
+elif [[ `echo $changes | grep zh_CN` != "" ]]; then
+  language="zh_CN"
+  translator="Rov (若文)"
 else
   echo "Unknown language"
   exit 1
