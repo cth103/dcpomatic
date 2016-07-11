@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-03-27 22:12+0800\n"
+"PO-Revision-Date: 2016-07-11 23:30+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
@@ -26,12 +26,12 @@ msgstr "%1文件已存在！"
 #: src/tools/dcpomatic_kdm.cc:294
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM 导出 %s"
 
 #: src/tools/dcpomatic_kdm.cc:294
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDMs 导出 %s"
 
 #: src/tools/dcpomatic_batch.cc:60
 msgid "&Add Film..."
@@ -129,7 +129,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:309
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr ""
+msgstr "DCP-o-matic服务出现未知错误！"
 
 #: src/tools/dcpomatic.cc:508 src/tools/dcpomatic.cc:582
 #: src/tools/dcpomatic.cc:1128 src/tools/dcpomatic_kdm.cc:325
@@ -141,7 +141,7 @@ msgstr "出现未知错误."
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
-msgstr ""
+msgstr "确定要恢复默认设置？该操作后不能返回！"
 
 #: src/tools/dcpomatic.cc:465
 #, c-format
@@ -150,7 +150,7 @@ msgstr "配置错误 %s (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:148
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:504 src/tools/dcpomatic.cc:578
 #: src/tools/dcpomatic_kdm.cc:321
@@ -163,7 +163,7 @@ msgstr "检查更新"
 
 #: src/tools/dcpomatic.cc:112
 msgid "Close without saving film"
-msgstr ""
+msgstr "关闭但不保存！"
 
 #: src/tools/dcpomatic.cc:552
 msgid "Could not find batch converter."
@@ -197,7 +197,7 @@ msgstr "无法显示DCP (无法运行在nautilus出错)"
 
 #: src/tools/dcpomatic_kdm.cc:161
 msgid "Create KDMs"
-msgstr ""
+msgstr "创建KDMs."
 
 #: src/tools/dcpomatic.cc:327 src/tools/dcpomatic.cc:1004
 #: src/tools/dcpomatic.cc:1040
@@ -209,22 +209,20 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic 批量转换"
 
 #: src/tools/dcpomatic_server.cc:141
-#, fuzzy
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic 批量转换"
+msgstr "DCP-o-matic 编码服务"
 
 #: src/tools/dcpomatic_kdm.cc:363 src/tools/dcpomatic_kdm.cc:399
-#, fuzzy
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic KMD 创建。"
 
 #: src/tools/dcpomatic_kdm.cc:143
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:112
 msgid "Don't close"
-msgstr ""
+msgstr "取消"
 
 #: src/tools/dcpomatic.cc:867 src/tools/dcpomatic_batch.cc:75
 msgid "Encoding servers..."
@@ -238,7 +236,7 @@ msgstr "修改工程"
 
 #: src/tools/dcpomatic_server.cc:148
 msgid "Frames per second"
-msgstr ""
+msgstr "帧频"
 
 #: src/tools/dcpomatic.cc:866
 msgid "Hints..."
@@ -262,7 +260,7 @@ msgstr "新建工程\tCtrl+N"
 
 #: src/tools/dcpomatic_kdm.cc:154
 msgid "Output"
-msgstr ""
+msgstr "输出"
 
 #: src/tools/dcpomatic.cc:878 src/tools/dcpomatic_kdm.cc:241
 msgid "Report a problem..."
@@ -283,7 +281,7 @@ msgstr "是否保存 \"%s\" ?"
 
 #: src/tools/dcpomatic.cc:112
 msgid "Save film and close"
-msgstr ""
+msgstr "保存并关闭"
 
 #: src/tools/dcpomatic.cc:854
 msgid "Scale to fit &height"
@@ -295,12 +293,11 @@ msgstr "缩放到合适宽度"
 
 #: src/tools/dcpomatic_kdm.cc:134
 msgid "Screens"
-msgstr ""
+msgstr "服务器"
 
 #: src/tools/dcpomatic_kdm.cc:74
-#, fuzzy
 msgid "Select DKDM file"
-msgstr "选择打开工程文件"
+msgstr "选择DKDM文件"
 
 #: src/tools/dcpomatic.cc:373 src/tools/dcpomatic_batch.cc:214
 msgid "Select film to open"
@@ -308,7 +305,7 @@ msgstr "选择打开工程文件"
 
 #: src/tools/dcpomatic_kdm.cc:317
 msgid "Send KDM emails"
-msgstr ""
+msgstr "发送KDM电子邮件"
 
 #: src/tools/dcpomatic.cc:451
 #, c-format

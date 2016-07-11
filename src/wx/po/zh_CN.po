@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-03-27 22:12+0800\n"
+"PO-Revision-Date: 2016-07-11 23:39+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
@@ -109,16 +109,15 @@ msgstr "<b>原色彩空间</b>"
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
-msgstr ""
+msgstr "<i>请输入一个有效的邮箱地址，否则我们将无法解决您的问题！</i>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:131
-#, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
-msgstr "检测到帧率错误。"
+msgstr "<i>检测到帧率错误。</i>"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "A"
@@ -142,9 +141,8 @@ msgid "About DCP-o-matic"
 msgstr "关于 DCP-o-matic"
 
 #: src/wx/screens_panel.cc:150
-#, fuzzy
 msgid "Add Cinema"
-msgstr "添加影院"
+msgstr "添加 影院"
 
 #: src/wx/screens_panel.cc:57
 msgid "Add Cinema..."
@@ -155,9 +153,8 @@ msgid "Add KDM..."
 msgstr "添加 KDM..."
 
 #: src/wx/screens_panel.cc:206
-#, fuzzy
 msgid "Add Screen"
-msgstr "添加新服务器"
+msgstr "添加服务器"
 
 #: src/wx/screens_panel.cc:59
 msgid "Add Screen..."
@@ -227,7 +224,7 @@ msgstr "显示"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
-msgstr ""
+msgstr "全景声"
 
 #: src/wx/audio_dialog.cc:47 src/wx/audio_panel.cc:48
 #: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:114
@@ -383,9 +380,8 @@ msgstr "色彩转换"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:206
-#, fuzzy
 msgid "Colour|Custom"
-msgstr "色彩空间"
+msgstr "色彩空间|自定义"
 
 #: src/wx/video_waveform_dialog.cc:50
 msgid "Component"
@@ -450,9 +446,9 @@ msgid "Could not read certificate file (%s)"
 msgstr "无法读取证书文件 (%s)"
 
 #: src/wx/config_dialog.cc:948
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr "无法读取密钥文件 (%s)"
+msgstr "无法读取Key文件，因为文件过长 (%s)"
 
 #: src/wx/new_film_dialog.cc:41
 msgid "Create in folder"
@@ -502,7 +498,7 @@ msgstr "解密DCP"
 
 #: src/wx/config_dialog.cc:435
 msgid "Default DCP audio channels"
-msgstr ""
+msgstr "默认DCP音频通道"
 
 #: src/wx/config_dialog.cc:423
 msgid "Default ISDCF name details"
@@ -581,14 +577,12 @@ msgid "Edit Screen..."
 msgstr "编辑服务器..."
 
 #: src/wx/screens_panel.cc:170
-#, fuzzy
 msgid "Edit cinema"
-msgstr "编辑影城..."
+msgstr "编辑影城"
 
 #: src/wx/screens_panel.cc:232
-#, fuzzy
 msgid "Edit screen"
-msgstr "编辑服务器..."
+msgstr "编辑服务器"
 
 #: src/wx/audio_mapping_view.cc:159 src/wx/config_dialog.cc:424
 #: src/wx/dcp_panel.cc:133 src/wx/fonts_dialog.cc:78 src/wx/video_panel.cc:188
@@ -732,15 +726,15 @@ msgstr "外置字体 "
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:28
 msgid "Go to"
-msgstr ""
+msgstr "跳转"
 
 #: src/wx/playhead_to_frame_dialog.cc:25
 msgid "Go to frame"
-msgstr ""
+msgstr "跳转到帧"
 
 #: src/wx/playhead_to_timecode_dialog.cc:24
 msgid "Go to timecode"
-msgstr ""
+msgstr "跳转到时间码"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -873,17 +867,16 @@ msgid "Left"
 msgstr "左边"
 
 #: src/wx/film_viewer.cc:70
-#, fuzzy
 msgid "Left eye"
-msgstr "左边"
+msgstr "左眼"
 
 #: src/wx/content_properties_dialog.cc:80
 msgid "Length"
-msgstr ""
+msgstr "长度"
 
 #: src/wx/subtitle_panel.cc:109
 msgid "Line spacing"
-msgstr ""
+msgstr "行间距"
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -948,9 +941,8 @@ msgid "Mbit/s"
 msgstr "Mbit/s"
 
 #: src/wx/move_to_dialog.cc:31
-#, fuzzy
 msgid "Move content"
-msgstr "缩略视图内容"
+msgstr "分卷内容"
 
 #: src/wx/content_panel.cc:94
 msgid "Move the selected piece of content earlier in the film."
@@ -962,7 +954,7 @@ msgstr "移动选择部分之后内容"
 
 #: src/wx/timing_panel.cc:92
 msgid "Move to start of reel"
-msgstr ""
+msgstr "分卷设置"
 
 #: src/wx/video_panel.cc:374
 msgid "Multiple content selected"
@@ -1024,7 +1016,7 @@ msgstr "普通字体"
 
 #: src/wx/cinema_dialog.cc:60 src/wx/screen_dialog.cc:72
 msgid "Notes"
-msgstr ""
+msgstr "记录"
 
 #: src/wx/audio_mapping_view.cc:156
 msgid "Off"
@@ -1192,9 +1184,8 @@ msgstr "卷"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
 #: src/wx/dcp_panel.cc:185
-#, fuzzy
 msgid "Reel|Custom"
-msgstr "自定义"
+msgstr "分卷|自定义"
 
 #: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:56
 #: src/wx/video_panel.cc:82
@@ -1255,9 +1246,8 @@ msgid "Right click to change gain."
 msgstr "右键单击要更改增益。"
 
 #: src/wx/film_viewer.cc:71
-#, fuzzy
 msgid "Right eye"
-msgstr "右边"
+msgstr "右眼"
 
 #: src/wx/config_dialog.cc:855
 msgid "Root"
@@ -1282,7 +1272,7 @@ msgstr "最佳值 %.2fdB 到 %s "
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "保存到KDM创建的工具列表"
 
 #: src/wx/video_panel.cc:164
 msgid "Scale to"
@@ -1403,7 +1393,7 @@ msgstr "开始"
 
 #: src/wx/move_to_dialog.cc:34
 msgid "Start of reel"
-msgstr ""
+msgstr "分卷数量"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Stream"
@@ -1468,7 +1458,7 @@ msgstr "测试"
 
 #: src/wx/kdm_timing_panel.cc:105
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "结束时间必须大于开始时间！"
 
 #: src/wx/content_menu.cc:307
 msgid ""
@@ -1489,7 +1479,7 @@ msgstr "内存不够！"
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
-msgstr ""
+msgstr "该文件调用多个证书文件，但是只有第一个内使用。"
 
 #: src/wx/kdm_cpl_panel.cc:120
 msgid "This is not a valid CPL file"
@@ -1560,123 +1550,111 @@ msgstr "类型"
 
 #: src/wx/cinema_dialog.cc:99
 msgid "UTC"
-msgstr "UTC"
+msgstr "时区"
 
 #: src/wx/cinema_dialog.cc:55
 msgid "UTC offset (time zone)"
 msgstr "UTC偏差（时区）"
 
 #: src/wx/cinema_dialog.cc:100
-#, fuzzy
 msgid "UTC+1"
-msgstr "UTC+%d"
+msgstr "东1区"
 
 #: src/wx/cinema_dialog.cc:109
-#, fuzzy
 msgid "UTC+10"
-msgstr "UTC+%d"
+msgstr "东10区"
 
 #: src/wx/cinema_dialog.cc:110
-#, fuzzy
 msgid "UTC+11"
-msgstr "UTC+%d"
+msgstr "东11区"
 
 #: src/wx/cinema_dialog.cc:111
-#, fuzzy
 msgid "UTC+12"
-msgstr "UTC+%d"
+msgstr "东12区"
 
 #: src/wx/cinema_dialog.cc:101
-#, fuzzy
 msgid "UTC+2"
-msgstr "UTC+%d"
+msgstr "东2区"
 
 #: src/wx/cinema_dialog.cc:102
-#, fuzzy
 msgid "UTC+3"
-msgstr "UTC+%d"
+msgstr "东3区"
 
 #: src/wx/cinema_dialog.cc:103
-#, fuzzy
 msgid "UTC+4"
-msgstr "UTC+%d"
+msgstr "东4区"
 
 #: src/wx/cinema_dialog.cc:104
-#, fuzzy
 msgid "UTC+5"
-msgstr "UTC+%d"
+msgstr "东5区"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+6"
-msgstr "UTC+%d"
+msgstr "东6区"
 
 #: src/wx/cinema_dialog.cc:106
-#, fuzzy
 msgid "UTC+7"
-msgstr "UTC+%d"
+msgstr "东7区"
 
 #: src/wx/cinema_dialog.cc:107
-#, fuzzy
 msgid "UTC+8"
-msgstr "UTC+%d"
+msgstr "东8区(北京时间)"
 
 #: src/wx/cinema_dialog.cc:108
-#, fuzzy
 msgid "UTC+9"
-msgstr "UTC+%d"
+msgstr "东9区"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC-1"
-msgstr ""
+msgstr "西1区"
 
 #: src/wx/cinema_dialog.cc:87
 msgid "UTC-10"
-msgstr ""
+msgstr "西10区"
 
 #: src/wx/cinema_dialog.cc:86
 msgid "UTC-11"
-msgstr ""
+msgstr "西11区"
 
 #: src/wx/cinema_dialog.cc:97
 msgid "UTC-2"
-msgstr ""
+msgstr "西2区"
 
 #: src/wx/cinema_dialog.cc:96
 msgid "UTC-3"
-msgstr ""
+msgstr "西3区"
 
 #: src/wx/cinema_dialog.cc:95
 msgid "UTC-3:30"
-msgstr ""
+msgstr "西3:30区"
 
 #: src/wx/cinema_dialog.cc:94
 msgid "UTC-4"
-msgstr ""
+msgstr "西4区"
 
 #: src/wx/cinema_dialog.cc:93
 msgid "UTC-4:30"
-msgstr ""
+msgstr "西4:30区"
 
 #: src/wx/cinema_dialog.cc:92
 msgid "UTC-5"
-msgstr ""
+msgstr "西5区"
 
 #: src/wx/cinema_dialog.cc:91
 msgid "UTC-6"
-msgstr ""
+msgstr "西6区"
 
 #: src/wx/cinema_dialog.cc:90
 msgid "UTC-7"
-msgstr ""
+msgstr "西7区"
 
 #: src/wx/cinema_dialog.cc:89
 msgid "UTC-8"
-msgstr ""
+msgstr "西8区"
 
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-9"
-msgstr ""
+msgstr "西9区"
 
 #: src/wx/content_panel.cc:93
 msgid "Up"
@@ -1820,13 +1798,13 @@ msgstr "DCP音频数量少于6个！"
 msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
-msgstr ""
+msgstr "检测到你音频内容增益过大，你需要降低音频的增益。"
 
 #: src/wx/hints_dialog.cc:185
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
-msgstr ""
+msgstr "检测到你音频内容增益过高，你需要降低音频的增益。"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"

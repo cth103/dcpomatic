@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-03-27 22:12+0800\n"
+"PO-Revision-Date: 2016-07-11 23:44+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
@@ -20,9 +20,8 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/lib/atmos_mxf_content.cc:78
-#, fuzzy
 msgid "%1 [Atmos]"
-msgstr "%1 [Atmos]"
+msgstr "%1 [全景声]"
 
 #: src/lib/dcp_content.cc:174
 msgid "%1 [DCP]"
@@ -34,12 +33,11 @@ msgstr "%1 [音频]"
 
 #: src/lib/ffmpeg_content.cc:292
 msgid "%1 [movie]"
-msgstr "%1 [视频]"
+msgstr "%1 [影片]"
 
 #: src/lib/ffmpeg_content.cc:294 src/lib/video_mxf_content.cc:89
-#, fuzzy
 msgid "%1 [video]"
-msgstr "%1 [视频]"
+msgstr "%1[视频]"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"
@@ -215,28 +213,24 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "内容和DCP需相同的速率。\n"
 
 #: src/lib/audio_content.cc:307
-#, fuzzy
 msgid "Content audio sample rate"
-msgstr "音频帧率"
+msgstr "音频采样率"
 
 #: src/lib/video_content.cc:436
 msgid "Content frame rate"
 msgstr "视频帧率"
 
 #: src/lib/ffmpeg_content.cc:142
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "视频和音频增益必须相同。"
+msgstr "要加入的内容必须都有或没有音频"
 
 #: src/lib/ffmpeg_content.cc:145
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles"
-msgstr "字幕X调整大小必须相同。"
+msgstr "要加入的内容必须都有或没有字幕"
 
 #: src/lib/ffmpeg_content.cc:139
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr "视频衰减必须相同。"
+msgstr "要加入的内容必须都有或没有视频"
 
 #: src/lib/subtitle_content.cc:156
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -291,14 +285,12 @@ msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "字幕Y调整大小必须相同。"
 
 #: src/lib/subtitle_content.cc:176
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
-msgstr "字幕X调整大小必须相同。"
+msgstr "合并内容字幕行距必须相同."
 
 #: src/lib/content.cc:122 src/lib/content.cc:126
-#, fuzzy
 msgid "Content to be joined must have the same video frame rate"
-msgstr "视频的帧率必须相同。"
+msgstr "内容合并帧率必须相同."
 
 #: src/lib/video_content.cc:174
 msgid "Content to be joined must have the same video frame type."
@@ -359,9 +351,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "无法打开下载的zip文件"
 
 #: src/lib/dcp_subtitle.cc:55
-#, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
-msgstr "无法读取字幕"
+msgstr "无法读取字幕 (%1 / %2)"
 
 #: src/lib/scp_uploader.cc:71
 msgid "Could not start SCP session (%1)"
@@ -369,7 +360,7 @@ msgstr "无法启动SCP (%1)"
 
 #: src/lib/curl_uploader.cc:49
 msgid "Could not start transfer"
-msgstr "无法启动转移"
+msgstr "无法开始传输"
 
 #: src/lib/curl_uploader.cc:93 src/lib/scp_uploader.cc:118
 msgid "Could not write to remote file (%1)"
@@ -400,9 +391,8 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
 #: src/lib/audio_content.cc:327
-#, fuzzy
 msgid "DCP sample rate"
-msgstr "帧率"
+msgstr "DCP采样率"
 
 #: src/lib/frame_rate_change.cc:79
 msgid "DCP will run at %1%% of the content speed.\n"
@@ -491,7 +481,7 @@ msgstr "通过邮件发送BUG%1"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
-msgstr ""
+msgstr "编码图像和声音"
 
 #: src/lib/exceptions.cc:68
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -522,9 +512,8 @@ msgid "Feature"
 msgstr "功能片"
 
 #: src/lib/content.cc:362
-#, fuzzy
 msgid "Filename"
-msgstr "名字"
+msgstr "文件名字"
 
 #: src/lib/ffmpeg_content.cc:520
 msgid "Film"
@@ -563,14 +552,12 @@ msgid "Full frame"
 msgstr "全画幅"
 
 #: src/lib/audio_content.cc:334
-#, fuzzy
 msgid "Full length in audio samples at DCP rate"
-msgstr "DCP中音频总时长"
+msgstr "DCP中音频采样率总时长"
 
 #: src/lib/audio_content.cc:321
-#, fuzzy
 msgid "Full length in audio samples at content rate"
-msgstr "音频时长"
+msgstr "音频内容采样总时长"
 
 #: src/lib/audio_content.cc:328
 msgid "Full length in video frames at DCP rate"
@@ -662,7 +649,7 @@ msgstr "次低"
 
 #: src/lib/util.cc:496
 msgid "Lfe (sub)"
-msgstr "次低(子)"
+msgstr "次低"
 
 #: src/lib/ffmpeg_content.cc:499
 msgid "Limited"
@@ -770,7 +757,7 @@ msgstr "政策相关"
 
 #: src/lib/content.cc:378
 msgid "Prepared for video frame rate"
-msgstr ""
+msgstr "准备视频帧率"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -797,14 +784,12 @@ msgid "Rc"
 msgstr "右中"
 
 #: src/lib/colour_conversion.cc:268
-#, fuzzy
 msgid "Rec. 1886"
-msgstr "Rec. 601"
+msgstr "Rec. 1886"
 
 #: src/lib/colour_conversion.cc:269
-#, fuzzy
 msgid "Rec. 2020"
-msgstr "Rec. 601"
+msgstr "Rec. 2020"
 
 #: src/lib/colour_conversion.cc:265
 msgid "Rec. 601"
@@ -815,11 +800,10 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/lib/dcp_content.cc:383
-#, fuzzy
 msgid ""
 "Reel lengths in the film differ from those in the DCP; set the reel mode to "
 "'split by video content'."
-msgstr "DCP分卷长度不同;请设置卷轴模式为'分割视频内容“。"
+msgstr "请设置分卷模式来分割影片内容。"
 
 #: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:494
 msgid "Right"
@@ -943,11 +927,11 @@ msgstr "磁盘空间不足！"
 
 #: src/lib/dcp_content.cc:372
 msgid "The film is set to Interop and this DCP is SMPTE."
-msgstr ""
+msgstr "打包内容被设置为Interop类型，而实际类型是 SMPTE。"
 
 #: src/lib/dcp_content.cc:369
 msgid "The film is set to SMPTE and this DCP is Interop."
-msgstr ""
+msgstr "打包内容被设置为SMPTE类型，而实际类型是 Interop。"
 
 #: src/lib/dcp_content.cc:414
 msgid "There is other audio content overlapping this DCP; remove it."
