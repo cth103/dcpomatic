@@ -1006,6 +1006,8 @@ private:
 	{
 		wxInitAllImageHandlers ();
 
+		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
+
 		wxSplashScreen* splash = 0;
 		try {
 			if (!Config::have_existing ("config.xml")) {
@@ -1173,6 +1175,11 @@ private:
 		} catch (exception& e) {
 			error_dialog (0, std_to_wx (e.what ()));
 		}
+	}
+
+	void config_failed_to_load ()
+	{
+		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
 	}
 
 	DOMFrame* _frame;

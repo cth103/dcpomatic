@@ -59,6 +59,7 @@ using boost::optional;
 using boost::algorithm::trim;
 
 Config* Config::_instance = 0;
+boost::signals2::signal<void ()> Config::FailedToLoad;
 
 /** Construct default configuration */
 Config::Config ()
@@ -143,16 +144,8 @@ Config::create_certificate_chain ()
 
 void
 Config::read ()
+try
 {
-	if (!have_existing ("config.xml")) {
-		/* Make a new set of signing certificates and key */
-		_signer_chain = create_certificate_chain ();
-		/* And similar for decryption of KDMs */
-		_decryption_chain = create_certificate_chain ();
-		write ();
-		return;
-	}
-
 	cxml::Document f ("Config");
 	f.read_file (path ("config.xml"));
 	optional<string> c;
@@ -305,6 +298,19 @@ Config::read ()
 		read_cinemas (f);
 	}
 }
+catch (...) {
+	if (have_existing ("config.xml")) {
+		/* We have a config file but it didn't load */
+		FailedToLoad ();
+	}
+	set_defaults ();
+	/* Make a new set of signing certificates and key */
+	_signer_chain = create_certificate_chain ();
+	/* And similar for decryption of KDMs */
+	_decryption_chain = create_certificate_chain ();
+	write ();
+}
+
 
 /** @return Filename to write configuration to */
 boost::filesystem::path

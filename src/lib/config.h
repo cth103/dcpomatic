@@ -483,6 +483,10 @@ public:
 
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
+	/** Emitted if ::read() failed on an existing Config file.  There is nothing
+	    a listener can do about it: this is just for information.
+	*/
+	static boost::signals2::signal<void ()> FailedToLoad;
 
 	void write () const;
 
