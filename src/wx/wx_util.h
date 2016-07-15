@@ -69,6 +69,7 @@ extern void dcpomatic_setup_i18n ();
 extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
 extern wxString time_to_timecode (DCPTime t, double fps);
+extern void setup_audio_channels_choice (wxChoice* choice, int minimum);
 
 extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxSpinCtrl* widget, int value);

@@ -79,7 +79,6 @@ private:
 	void setup_frame_rate_widget ();
 	void setup_container ();
 	void setup_dcp_name ();
-	void setup_audio_channels_choice ();
 
 	int minimum_allowed_audio_channels () const;
 

@@ -43,6 +43,7 @@
 #include "lib/exceptions.h"
 #include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
+#include <dcp/raw_convert.h>
 #include <wx/stdpaths.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
@@ -477,12 +478,7 @@ private:
 			_dcp_content_type->Append (std_to_wx (ct[i]->pretty_name ()));
 		}
 
-		vector<pair<string, string> > items;
-		for (int i = 0; i <= 16; i += 2) {
-			items.push_back (make_pair (raw_convert<string> (i), raw_convert<string> (i)));
-		}
-
-		checked_set (_dcp_audio_channels, items);
+		setup_audio_channels_choice (_dcp_audio_channels, 2);
 
 		_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
 		_dcp_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_audio_channels_changed, this));
@@ -539,7 +535,7 @@ private:
 	{
 		int const s = _dcp_audio_channels->GetSelection ();
 		if (s != wxNOT_FOUND) {
-			Config::instance()->set_default_dcp_audio_channels (s * 2);
+			Config::instance()->set_default_dcp_audio_channels (dcp::raw_convert<int> (string_client_data (_dcp_audio_channels->GetClientObject (s))));
 		}
 	}
 

@@ -404,7 +404,7 @@ DCPPanel::film_changed (int p)
 		} else {
 			checked_set (_audio_processor, 0);
 		}
-		setup_audio_channels_choice ();
+		setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels ());
 		film_changed (Film::AUDIO_CHANNELS);
 		break;
 	case Film::REEL_TYPE:
@@ -728,29 +728,6 @@ DCPPanel::minimum_allowed_audio_channels () const
 	return min;
 }
 
-void
-DCPPanel::setup_audio_channels_choice ()
-{
-	vector<pair<string, string> > items;
-	for (int i = minimum_allowed_audio_channels(); i <= 16; i += 2) {
-		if (i == 2) {
-			items.push_back (make_pair (wx_to_std (_("2 — stereo")), dcp::raw_convert<string> (i)));
-		} else if (i == 4) {
-			items.push_back (make_pair (wx_to_std (_("4 — L/C/R/Lfe")), dcp::raw_convert<string> (i)));
-		} else if (i == 6) {
-			items.push_back (make_pair (wx_to_std (_("6 — 5.1")), dcp::raw_convert<string> (i)));
-		} else if (i == 8) {
-			items.push_back (make_pair (wx_to_std (_("8 — 5.1/HI/VI")), dcp::raw_convert<string> (i)));
-		} else if (i == 12) {
-			items.push_back (make_pair (wx_to_std (_("12 — 7.1/HI/VI")), dcp::raw_convert<string> (i)));
-		} else {
-			items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
-		}
-	}
-
-	checked_set (_audio_channels, items);
-}
-
 wxPanel *
 DCPPanel::make_audio_panel ()
 {
@@ -764,7 +741,7 @@ DCPPanel::make_audio_panel ()
 
 	add_label_to_sizer (grid, panel, _("Channels"), true, wxGBPosition (r, 0));
 	_audio_channels = new wxChoice (panel, wxID_ANY);
-	setup_audio_channels_choice ();
+	setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels ());
 	grid->Add (_audio_channels, wxGBPosition (r, 1));
 	++r;
 

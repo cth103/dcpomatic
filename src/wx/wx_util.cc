@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,7 @@
 #include "file_picker_ctrl.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include <dcp/raw_convert.h>
 #include <wx/spinctrl.h>
 #include <boost/thread.hpp>
 
@@ -356,4 +357,27 @@ time_to_timecode (DCPTime t, double fps)
 	w -= s;
 	int const f = lrint (w * fps);
 	return wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f);
+}
+
+void
+setup_audio_channels_choice (wxChoice* choice, int minimum)
+{
+	vector<pair<string, string> > items;
+	for (int i = minimum; i <= 16; i += 2) {
+		if (i == 2) {
+			items.push_back (make_pair (wx_to_std (_("2 - stereo")), dcp::raw_convert<string> (i)));
+		} else if (i == 4) {
+			items.push_back (make_pair (wx_to_std (_("4 - L/C/R/Lfe")), dcp::raw_convert<string> (i)));
+		} else if (i == 6) {
+			items.push_back (make_pair (wx_to_std (_("6 - 5.1")), dcp::raw_convert<string> (i)));
+		} else if (i == 8) {
+			items.push_back (make_pair (wx_to_std (_("8 - 5.1/HI/VI")), dcp::raw_convert<string> (i)));
+		} else if (i == 12) {
+			items.push_back (make_pair (wx_to_std (_("12 - 7.1/HI/VI")), dcp::raw_convert<string> (i)));
+		} else {
+			items.push_back (make_pair (dcp::raw_convert<string> (i), dcp::raw_convert<string> (i)));
+		}
+	}
+
+	checked_set (choice, items);
 }
