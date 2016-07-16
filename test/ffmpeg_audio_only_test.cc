@@ -36,7 +36,7 @@ test (boost::filesystem::path file)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_only_test");
 	film->set_name ("test_film");
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, file));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();

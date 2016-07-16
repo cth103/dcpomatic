@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 	wait_for_jobs ();
 
 	film->set_audio_channels (6);
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_audio_processor (AudioProcessor::from_id ("mid-side-decoder"));
 
 	/* Analyse the audio and check it doesn't crash */

@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 	shared_ptr<Film> film = new_test_film ("skip_frame_test");
 	film->set_name ("skip_frame_test");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/count300bd48.m2ts"));
 	film->examine_and_add_content (c);
 

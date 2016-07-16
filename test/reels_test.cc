@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	shared_ptr<Film> film = new_test_film ("reels_test2");
 	film->set_name ("reels_test2");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 
 	{
 		shared_ptr<ImageContent> c (new ImageContent (film, "test/data/flat_red.png"));
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	shared_ptr<Film> film2 = new_test_film ("reels_test2b");
 	film2->set_name ("reels_test2b");
 	film2->set_container (Ratio::from_id ("185"));
-	film2->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film2->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film2->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
 	shared_ptr<DCPContent> c (new DCPContent (film2, film->dir (film->dcp_name ())));
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	shared_ptr<Film> film = new_test_film ("reels_test3");
 	film->set_name ("reels_test3");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
 	shared_ptr<Content> dcp (new DCPContent (film, "test/data/reels_test2"));
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	shared_ptr<Film> film = new_test_film ("reels_test4");
 	film->set_name ("reels_test4");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 
 	/* 4 piece of 1s-long content */

@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Test"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->make_dcp ();
 	film->write_metadata ();
 

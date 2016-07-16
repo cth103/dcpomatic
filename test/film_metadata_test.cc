@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	BOOST_CHECK (film->dcp_content_type() == 0);
 
 	film->set_name ("fred");
-	film->set_dcp_content_type (DCPContentType::from_pretty_name ("Short"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("SHR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_j2k_bandwidth (200000000);
 	film->write_metadata ();
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	g->read_metadata ();
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");
-	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_pretty_name ("Short"));
+	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_isdcf_name ("SHR"));
 	BOOST_CHECK_EQUAL (g->container(), Ratio::from_id ("185"));
 
 	g->write_metadata ();

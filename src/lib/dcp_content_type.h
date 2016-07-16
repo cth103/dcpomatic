@@ -50,7 +50,6 @@ public:
 		return _isdcf_name;
 	}
 
-	static DCPContentType const * from_pretty_name (std::string);
 	static DCPContentType const * from_isdcf_name (std::string);
 	static DCPContentType const * from_index (int);
 	static int as_index (DCPContentType const *);

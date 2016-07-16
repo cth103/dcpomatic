@@ -56,18 +56,6 @@ DCPContentType::setup_dcp_content_types ()
 }
 
 DCPContentType const *
-DCPContentType::from_pretty_name (string n)
-{
-	for (vector<DCPContentType const *>::const_iterator i = _dcp_content_types.begin(); i != _dcp_content_types.end(); ++i) {
-		if ((*i)->pretty_name() == n) {
-			return *i;
-		}
-	}
-
-	return 0;
-}
-
-DCPContentType const *
 DCPContentType::from_isdcf_name (string n)
 {
 	for (vector<DCPContentType const *>::const_iterator i = _dcp_content_types.begin(); i != _dcp_content_types.end(); ++i) {
