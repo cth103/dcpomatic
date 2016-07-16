@@ -83,17 +83,6 @@ Image::sample_size (int n) const
 		);
 }
 
-int
-Image::components () const
-{
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
-	if (!d) {
-		throw PixelFormatError ("components()", _pixel_format);
-	}
-
-	return d->nb_components;
-}
-
 /** @return Number of planes */
 int
 Image::planes () const

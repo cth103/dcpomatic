@@ -54,7 +54,6 @@ public:
 	bool aligned () const;
 
 	int planes () const;
-	int components () const;
 	int line_factor (int) const;
 	dcp::Size sample_size (int) const;
 
