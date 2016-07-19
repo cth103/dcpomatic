@@ -586,6 +586,7 @@ void
 DCPPanel::setup_dcp_name ()
 {
 	_dcp_name->SetLabel (std_to_wx (_film->dcp_name (true)));
+	_dcp_name->SetToolTip (std_to_wx (_film->dcp_name (true)));
 }
 
 void
