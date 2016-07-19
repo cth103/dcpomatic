@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -57,7 +57,7 @@ public:
 
 	void finish ();
 	boost::shared_ptr<dcp::Reel> create_reel (std::list<ReferencedReelAsset> const & refs, std::list<boost::shared_ptr<Font> > const & fonts);
-	void calculate_digests (boost::shared_ptr<Job> job);
+	void calculate_digests (boost::function<void (float)> set_progress);
 
 	Frame start () const;
 

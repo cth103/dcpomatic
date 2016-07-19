@@ -58,6 +58,9 @@ using std::pair;
 using std::string;
 using std::list;
 using std::cout;
+using std::map;
+using std::min;
+using std::max;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -456,12 +459,34 @@ Writer::finish ()
 
 	dcp.add (cpl);
 
+	/* Calculate digests for each reel in parallel */
+
+	shared_ptr<Job> job = _job.lock ();
+	job->sub (_("Computing digests"));
+
+	boost::asio::io_service service;
+	boost::thread_group pool;
+
+	shared_ptr<boost::asio::io_service::work> work (new boost::asio::io_service::work (service));
+
+	int const threads = max (1, Config::instance()->num_local_encoding_threads ());
+
+	for (int i = 0; i < threads; ++i) {
+		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
+	}
+
 	BOOST_FOREACH (ReelWriter& i, _reels) {
+		boost::function<void (float)> set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
+		service.post (boost::bind (&ReelWriter::calculate_digests, &i, set_progress));
+	}
 
-		shared_ptr<Job> job = _job.lock ();
-		DCPOMATIC_ASSERT (job);
-		i.calculate_digests (job);
+	work.reset ();
+	pool.join_all ();
+	service.stop ();
 
+	/* Add reels to CPL */
+
+	BOOST_FOREACH (ReelWriter& i, _reels) {
 		cpl->add (i.create_reel (_reel_assets, _fonts));
 	}
 
@@ -596,4 +621,19 @@ Writer::video_reel (int frame) const
 
 	DCPOMATIC_ASSERT (i < _reels.size ());
 	return i;
+}
+
+void
+Writer::set_digest_progress (Job* job, float progress)
+{
+	/* I believe this is thread-safe */
+	_digest_progresses[boost::this_thread::get_id()] = progress;
+
+	boost::mutex::scoped_lock lm (_digest_progresses_mutex);
+	float min_progress = 0;
+	for (map<boost::thread::id, float>::const_iterator i = _digest_progresses.begin(); i != _digest_progresses.end(); ++i) {
+		min_progress = min (min_progress, i->second);
+	}
+
+	job->set_progress (min_progress);
 }

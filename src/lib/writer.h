@@ -113,6 +113,7 @@ private:
 	void terminate_thread (bool);
 	bool have_sequenced_image_at_queue_head ();
 	size_t video_reel (int frame) const;
+	void set_digest_progress (Job* job, float progress);
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;
@@ -149,6 +150,9 @@ private:
 	    due to the limit of frames to be held in memory.
 	*/
 	int _pushed_to_disk;
+
+	boost::mutex _digest_progresses_mutex;
+	std::map<boost::thread::id, float> _digest_progresses;
 
 	std::list<ReferencedReelAsset> _reel_assets;
 

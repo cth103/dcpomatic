@@ -417,16 +417,14 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 }
 
 void
-ReelWriter::calculate_digests (shared_ptr<Job> job)
+ReelWriter::calculate_digests (boost::function<void (float)> set_progress)
 {
-	job->sub (_("Computing image digest"));
 	if (_picture_asset) {
-		_picture_asset->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+		_picture_asset->hash (set_progress);
 	}
 
 	if (_sound_asset) {
-		job->sub (_("Computing audio digest"));
-		_sound_asset->hash (boost::bind (&Job::set_progress, job.get(), _1, false));
+		_sound_asset->hash (set_progress);
 	}
 }
 
