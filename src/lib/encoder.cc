@@ -207,11 +207,13 @@ Encoder::encode (shared_ptr<PlayerVideo> pv)
 
 	boost::mutex::scoped_lock queue_lock (_queue_mutex);
 
-	/* Wait until the queue has gone down a bit */
-	while (_queue.size() >= threads * 2) {
-		LOG_TIMING ("decoder-sleep queue=%1", _queue.size());
+	/* Wait until the queue has gone down a bit.  Allow one thing in the queue even
+	   when there are no threads.
+	*/
+	while (_queue.size() >= (threads * 2) + 1) {
+		LOG_TIMING ("decoder-sleep queue=%1 threads=%2", _queue.size(), threads);
 		_full_condition.wait (queue_lock);
-		LOG_TIMING ("decoder-wake queue=%1", _queue.size());
+		LOG_TIMING ("decoder-wake queue=%1 threads=%2", _queue.size(), threads);
 	}
 
 	_writer->rethrow ();
