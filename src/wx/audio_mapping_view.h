@@ -82,6 +82,7 @@ private:
 	void paint_left_labels ();
 	void paint_top_labels ();
 	void mouse_moved_left_labels (wxMouseEvent &);
+	void setup_sizes ();
 
 	void off ();
 	void full ();

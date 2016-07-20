@@ -272,6 +272,7 @@ AudioMappingView::set_output_channels (vector<string> const & names)
 	}
 
 	update_cells ();
+	setup_sizes ();
 }
 
 void
@@ -346,14 +347,22 @@ AudioMappingView::mouse_moved_grid (wxMouseEvent& ev)
 void
 AudioMappingView::sized (wxSizeEvent& ev)
 {
+	setup_sizes ();
+	ev.Skip ();
+}
+
+void
+AudioMappingView::setup_sizes ()
+{
 	int const top_height = 24;
 
 	_grid->AutoSize ();
 	_left_labels->SetMinSize (wxSize (LEFT_WIDTH, _grid->GetSize().GetHeight()));
 	_top_labels->SetMinSize (wxSize (_grid->GetSize().GetWidth() + LEFT_WIDTH, top_height));
+	/* Try to make the _top_labels 'actua' size respect the minimum we just set */
+	_top_labels->Fit ();
 	_left_labels->Refresh ();
 	_top_labels->Refresh ();
-	ev.Skip ();
 }
 
 void
