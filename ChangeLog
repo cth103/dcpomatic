@@ -1,5 +1,8 @@
 2016-07-20  Carl Hetherington  <cth@carlh.net>
 
+	* Add -t option to dcpomatic2_cli to override the configured
+	local thread count.
+
 	* Version 2.9.4 released.
 
 2016-07-20  Carl Hetherington  <cth@carlh.net>

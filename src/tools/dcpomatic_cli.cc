@@ -59,6 +59,7 @@ help (string n)
 	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress  do not print progress to stdout\n"
 	     << "  -r, --no-remote    do not use any remote servers\n"
+	     << "  -t, --threads      specify number of local encoding threads (overriding configuration)\n"
 	     << "  -j, --json <port>  run a JSON server on the specified port\n"
 	     << "  -k, --keep-going   keep running even when the job is complete\n"
 	     << "  -s, --servers      just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
@@ -175,6 +176,7 @@ main (int argc, char* argv[])
 	string film_dir;
 	bool progress = true;
 	bool no_remote = false;
+	optional<int> threads;
 	optional<int> json_port;
 	bool keep_going = false;
 	bool dump = false;
@@ -189,6 +191,7 @@ main (int argc, char* argv[])
 			{ "flags", no_argument, 0, 'f'},
 			{ "no-progress", no_argument, 0, 'n'},
 			{ "no-remote", no_argument, 0, 'r'},
+			{ "threads", required_argument, 0, 't'},
 			{ "json", required_argument, 0, 'j'},
 			{ "keep-going", no_argument, 0, 'k' },
 			{ "servers", no_argument, 0, 's' },
@@ -198,7 +201,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrj:kAsd", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAsd", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -219,6 +222,9 @@ main (int argc, char* argv[])
 			break;
 		case 'r':
 			no_remote = true;
+			break;
+		case 't':
+			threads = atoi (optarg);
 			break;
 		case 'j':
 			json_port = atoi (optarg);
@@ -261,6 +267,10 @@ main (int argc, char* argv[])
 
 	if (json_port) {
 		new JSONServer (json_port.get ());
+	}
+
+	if (threads) {
+		Config::instance()->set_num_local_encoding_threads (threads.get ());
 	}
 
 	shared_ptr<Film> film;
