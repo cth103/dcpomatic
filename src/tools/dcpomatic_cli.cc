@@ -256,7 +256,7 @@ main (int argc, char* argv[])
 	signal_manager = new SignalManager ();
 
 	if (no_remote) {
-		EncodeServerFinder::instance()->disable ();
+		EncodeServerFinder::instance()->stop ();
 	}
 
 	if (json_port) {

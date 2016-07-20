@@ -43,8 +43,7 @@ using boost::weak_ptr;
 EncodeServerFinder* EncodeServerFinder::_instance = 0;
 
 EncodeServerFinder::EncodeServerFinder ()
-	: _disabled (false)
-	, _search_thread (0)
+	: _search_thread (0)
 	, _listen_thread (0)
 	, _stop (false)
 {
@@ -58,7 +57,14 @@ EncodeServerFinder::start ()
 	_listen_thread = new boost::thread (boost::bind (&EncodeServerFinder::listen_thread, this));
 }
 
+
 EncodeServerFinder::~EncodeServerFinder ()
+{
+	stop ();
+}
+
+void
+EncodeServerFinder::stop ()
 {
 	_stop = true;
 
@@ -71,6 +77,8 @@ EncodeServerFinder::~EncodeServerFinder ()
 			_search_thread->join ();
 		}
 	}
+	delete _search_thread;
+	_search_thread = 0;
 
 	_listen_io_service.stop ();
 	if (_listen_thread) {
@@ -81,6 +89,11 @@ EncodeServerFinder::~EncodeServerFinder ()
 			_listen_thread->join ();
 		}
 	}
+	delete _listen_thread;
+	_listen_thread = 0;
+
+	boost::mutex::scoped_lock lm (_servers_mutex);
+	_servers.clear ();
 }
 
 void

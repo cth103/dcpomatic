@@ -78,12 +78,10 @@ Encoder::~Encoder ()
 void
 Encoder::begin ()
 {
-	if (!EncodeServerFinder::instance()->disabled ()) {
-		weak_ptr<Encoder> wp = shared_from_this ();
-		_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
-			boost::bind (&Encoder::call_servers_list_changed, wp)
-			);
-	}
+	weak_ptr<Encoder> wp = shared_from_this ();
+	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
+		boost::bind (&Encoder::call_servers_list_changed, wp)
+		);
 }
 
 /* We don't want the servers-list-changed callback trying to do things

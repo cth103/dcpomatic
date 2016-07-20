@@ -1,5 +1,7 @@
 2016-07-20  Carl Hetherington  <cth@carlh.net>
 
+	* Try to fix -r option to dcpomatic_cli.
+
 	* Try to fix intermittent hangs with encoding servers.
 
 2016-07-14  Carl Hetherington  <cth@carlh.net>

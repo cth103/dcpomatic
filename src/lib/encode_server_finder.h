@@ -37,13 +37,7 @@ public:
 	static EncodeServerFinder* instance ();
 	static void drop ();
 
-	void disable () {
-		_disabled = true;
-	}
-
-	bool disabled () const {
-		return _disabled;
-	}
+	void stop ();
 
 	std::list<EncodeServerDescription> servers () const;
 
@@ -64,8 +58,6 @@ private:
 	void handle_accept (boost::system::error_code ec, boost::shared_ptr<Socket> socket);
 
 	void config_changed (Config::Property what);
-
-	bool _disabled;
 
 	/** Thread to periodically issue broadcasts and requests to find encoding servers */
 	boost::thread* _search_thread;
