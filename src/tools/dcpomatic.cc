@@ -927,7 +927,7 @@ private:
 		}
 
 		for (size_t i = 0; i < history.size(); ++i) {
-			SafeStringStream s;
+			locked_stringstream s;
 			if (i < 9) {
 				s << "&" << (i + 1) << " ";
 			}

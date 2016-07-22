@@ -26,8 +26,8 @@
 #define DCPOMATIC_TIME_H
 
 #include "frame_rate_change.h"
-#include "safe_stringstream.h"
 #include "dcpomatic_assert.h"
+#include <locked_sstream.h>
 #include <stdint.h>
 #include <cmath>
 #include <ostream>
@@ -181,7 +181,7 @@ public:
 		int f;
 		split (r, h, m, s, f);
 
-		SafeStringStream o;
+		locked_stringstream o;
 		o.width (2);
 		o.fill ('0');
 		o << std::setw(2) << std::setfill('0') << h << ":"

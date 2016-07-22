@@ -191,7 +191,7 @@ private:
 
 	void update_state ()
 	{
-		SafeStringStream s;
+		locked_stringstream s;
 		s << fixed << setprecision(1) << server_log->fps ();
 		_fps->SetLabel (std_to_wx (s.str()));
 	}

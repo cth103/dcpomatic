@@ -34,7 +34,7 @@ void
 test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop crop, Ratio const * ratio, bool scale, dcp::Size correct)
 {
 	shared_ptr<Film> film;
-	SafeStringStream s;
+	locked_stringstream s;
 	s << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 		"<Content>"
 		"<Type>FFmpeg</Type>"

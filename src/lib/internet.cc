@@ -20,8 +20,8 @@
 
 #include "scoped_temporary.h"
 #include "compose.hpp"
-#include "safe_stringstream.h"
 #include "exceptions.h"
+#include <locked_sstream.h>
 #include <curl/curl.h>
 #include <zip.h>
 #include <boost/function.hpp>
@@ -149,7 +149,7 @@ ftp_ls (string url, bool pasv)
 		throw NetworkError (curl_easy_strerror (r));
 	}
 
-	SafeStringStream s (ls_raw);
+	locked_stringstream s (ls_raw);
 	list<string> ls;
 	while (s.good ()) {
 		string line = s.getline ();

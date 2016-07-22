@@ -21,8 +21,8 @@
 #include "video_content_scale.h"
 #include "video_content.h"
 #include "ratio.h"
-#include "safe_stringstream.h"
 #include "util.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/optional.hpp>
@@ -85,7 +85,7 @@ VideoContentScale::as_xml (xmlpp::Node* node) const
 string
 VideoContentScale::id () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 
 	if (_ratio) {
 		s << _ratio->id ();

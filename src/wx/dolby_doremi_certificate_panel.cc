@@ -205,7 +205,7 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 	} else {
 		message->SetLabel (wxT (""));
 
-		SafeStringStream s;
+		locked_stringstream s;
 		BOOST_FOREACH (string e, errors) {
 			s << e << "\n";
 		}

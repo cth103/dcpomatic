@@ -26,8 +26,8 @@
 #include "job.h"
 #include "frame_rate_change.h"
 #include "exceptions.h"
-#include "safe_stringstream.h"
 #include "image_filename_sorter.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -136,7 +136,7 @@ ImageContent::full_length () const
 string
 ImageContent::identifier () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s << Content::identifier();
 	s << "_" << video->identifier ();
 	s << "_" << video->length();

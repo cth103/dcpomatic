@@ -27,10 +27,10 @@
 #include "content_factory.h"
 #include "exceptions.h"
 #include "film.h"
-#include "safe_stringstream.h"
 #include "job.h"
 #include "compose.hpp"
 #include "raw_convert.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/thread/mutex.hpp>
@@ -254,7 +254,7 @@ Content::length_after_trim () const
 string
 Content::identifier () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 
 	s << Content::digest()
 	  << "_" << position().get()

@@ -32,9 +32,9 @@
 #include "log.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
-#include "safe_stringstream.h"
 #include "raw_convert.h"
 #include "subtitle_content.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -388,7 +388,7 @@ FFmpegContent::set_filters (vector<Filter const *> const & filters)
 string
 FFmpegContent::identifier () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 
 	s << Content::identifier();
 

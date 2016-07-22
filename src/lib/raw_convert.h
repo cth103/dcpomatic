@@ -21,7 +21,7 @@
 #ifndef DCPOMATIC_RAW_CONVERT_H
 #define DCPOMATIC_RAW_CONVERT_H
 
-#include "safe_stringstream.h"
+#include <locked_sstream.h>
 #include <iomanip>
 
 /** A sort-of version of boost::lexical_cast that does uses the "C"
@@ -31,7 +31,7 @@ template <typename P, typename Q>
 P
 raw_convert (Q v, int precision = 16)
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s.imbue (std::locale::classic ());
 	s << std::setprecision (precision);
 	s << v;

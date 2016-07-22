@@ -29,7 +29,7 @@
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/emailer.h"
-#include "lib/safe_stringstream.h"
+#include <locked_sstream.h>
 #include <dcp/certificate.h>
 #include <getopt.h>
 #include <iostream>
@@ -82,7 +82,7 @@ time_from_string (string t)
 static boost::posix_time::time_duration
 duration_from_string (string d)
 {
-	SafeStringStream s (d);
+	locked_stringstream s (d);
 	int N;
 	string unit;
 	s >> N >> unit;

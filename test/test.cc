@@ -174,7 +174,7 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	uint8_t* ref_buffer = new uint8_t[buffer_size];
 	uint8_t* check_buffer = new uint8_t[buffer_size];
 
-	SafeStringStream error;
+	locked_stringstream error;
 	error << "File " << check.string() << " differs from reference " << ref.string();
 
 	while (N) {

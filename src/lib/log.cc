@@ -25,8 +25,8 @@
 #include "log.h"
 #include "cross.h"
 #include "config.h"
-#include "safe_stringstream.h"
 #include "string_log_entry.h"
+#include <locked_sstream.h>
 #include <time.h>
 #include <cstdio>
 

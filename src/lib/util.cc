@@ -35,8 +35,8 @@
 #include "rect.h"
 #include "digester.h"
 #include "audio_processor.h"
-#include "safe_stringstream.h"
 #include "compose.hpp"
+#include <locked_sstream.h>
 #include <dcp/util.h>
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
@@ -115,7 +115,7 @@ seconds_to_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	SafeStringStream hms;
+	locked_stringstream hms;
 	hms << h << N_(":");
 	hms.width (2);
 	hms << setfill ('0') << m << N_(":");
@@ -136,7 +136,7 @@ seconds_to_approximate_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	SafeStringStream ap;
+	locked_stringstream ap;
 
 	bool const hours = h > 0;
 	bool const minutes = h < 6 && m > 0;

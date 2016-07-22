@@ -103,7 +103,7 @@ Emailer::send (string server, int port, string user, string password)
 	boost::posix_time::time_duration offset = local_now - utc_now;
 	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), abs (offset.hours()), offset.minutes());
 
-	SafeStringStream email;
+	locked_stringstream email;
 
 	email << "Date: " << date_buffer << "\r\n"
 	      << "To: " << address_list (_to) << "\r\n"

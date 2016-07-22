@@ -31,11 +31,11 @@
 #include "config.h"
 #include "cross.h"
 #include "player_video.h"
-#include "safe_stringstream.h"
 #include "raw_convert.h"
 #include "compose.hpp"
 #include "log.h"
 #include "encoded_log_entry.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>

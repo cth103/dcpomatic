@@ -376,7 +376,7 @@ Job::status () const
 	int const t = elapsed_sub_time ();
 	int const r = remaining_time ();
 
-	SafeStringStream s;
+	locked_stringstream s;
 	if (!finished () && p) {
 		int pc = lrintf (p.get() * 100);
 		if (pc == 100) {

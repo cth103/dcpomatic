@@ -33,10 +33,10 @@
 #ifndef STRING_COMPOSE_H
 #define STRING_COMPOSE_H
 
+#include <locked_sstream.h>
 #include <string>
 #include <list>
 #include <map>			// for multimap
-#include "safe_stringstream.h"
 
 namespace StringPrivate
 {
@@ -56,7 +56,7 @@ namespace StringPrivate
     std::string str() const;
 
   private:
-    SafeStringStream os;
+    locked_stringstream os;
     int arg_no;
 
     // we store the output as a list - when the output string is requested, the
@@ -104,7 +104,7 @@ namespace StringPrivate
     case '8':
     case '9':
       return true;
-    
+
     default:
       return false;
     }
@@ -118,21 +118,21 @@ namespace StringPrivate
     os << obj;
 
     std::string rep = os.str();
-  
+
     if (!rep.empty()) {		// manipulators don't produce output
       for (specification_map::const_iterator i = specs.lower_bound(arg_no),
 	     end = specs.upper_bound(arg_no); i != end; ++i) {
 	output_list::iterator pos = i->second;
 	++pos;
-      
+
 	output.insert(pos, rep);
       }
-    
+
       os.str(std::string());
       //os.clear();
       ++arg_no;
     }
-  
+
     return *this;
   }
 
@@ -140,7 +140,7 @@ namespace StringPrivate
     : arg_no(1)
   {
     std::string::size_type b = 0, i = 0;
-  
+
     // fill in output with the strings between the %1 %2 %3 etc. and
     // fill in specs with the positions
     while (i < fmt.length()) {
@@ -152,7 +152,7 @@ namespace StringPrivate
 	else if (is_number(fmt[i + 1])) { // aha! a spec!
 	  // save string
 	  output.push_back(fmt.substr(b, i - b));
-	
+
 	  int n = 1;		// number of digits
 	  int spec_no = 0;
 
@@ -165,9 +165,9 @@ namespace StringPrivate
 	  spec_no /= 10;
 	  output_list::iterator pos = output.end();
 	  --pos;		// safe since we have just inserted a string>
-	
+
 	  specs.insert(specification_map::value_type(spec_no, pos));
-	
+
 	  // jump over spec string
 	  i += n;
 	  b = i;
@@ -178,7 +178,7 @@ namespace StringPrivate
       else
 	++i;
     }
-  
+
     if (i - b > 0)		// add the rest of the string
       output.push_back(fmt.substr(b, i - b));
   }
@@ -187,17 +187,17 @@ namespace StringPrivate
   {
     // assemble string
     std::string str;
-  
+
     for (output_list::const_iterator i = output.begin(), end = output.end();
 	 i != end; ++i)
       str += *i;
-  
+
     return str;
   }
 }
 
 // now for the real thing(s)
-namespace String 
+namespace String
 {
   // a series of functions which accept a format string on the form "text %1
   // more %2 less %3" and a number of templated parameters and spits out the
@@ -308,7 +308,7 @@ namespace String
       .arg(o10);
     return c.str();
   }
-  
+
   template <typename T1, typename T2, typename T3, typename T4, typename T5,
 	    typename T6, typename T7, typename T8, typename T9, typename T10,
 	    typename T11>

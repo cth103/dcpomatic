@@ -82,7 +82,7 @@ TimePicker::update_text ()
 
 	_hours->SetValue (std_to_wx (raw_convert<string> (_hours_spin->GetValue ())));
 
-	SafeStringStream m;
+	locked_stringstream m;
 	m << setfill('0') << setw(2) << _minutes_spin->GetValue();
 	_minutes->SetValue (std_to_wx (m.str()));
 

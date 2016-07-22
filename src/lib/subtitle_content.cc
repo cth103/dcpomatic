@@ -21,10 +21,10 @@
 #include "subtitle_content.h"
 #include "util.h"
 #include "exceptions.h"
-#include "safe_stringstream.h"
 #include "font.h"
 #include "raw_convert.h"
 #include "content.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -249,7 +249,7 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 string
 SubtitleContent::identifier () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s << raw_convert<string> (x_scale())
 	  << "_" << raw_convert<string> (y_scale())
 	  << "_" << raw_convert<string> (x_offset())

@@ -110,7 +110,6 @@ sources = """
           render_subtitles.cc
           resampler.cc
           rgba.cc
-          safe_stringstream.cc
           scoped_temporary.cc
           scp_uploader.cc
           screen.cc

@@ -19,10 +19,10 @@
 */
 
 #include "lib/colour_conversion.h"
-#include "lib/safe_stringstream.h"
 #include "lib/raw_convert.h"
 #include "wx_util.h"
 #include "colour_conversion_editor.h"
+#include <locked_sstream.h>
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <wx/spinctrl.h>
@@ -247,7 +247,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 
 	_ignore_chromaticity_changed = true;
 
-	SafeStringStream s;
+	locked_stringstream s;
 	s.setf (std::ios::fixed, std::ios::floatfield);
 	s.precision (6);
 
@@ -394,7 +394,7 @@ ColourConversionEditor::update_bradford ()
 	boost::numeric::ublas::matrix<double> m = get().bradford ();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			SafeStringStream s;
+			locked_stringstream s;
 			s.setf (std::ios::fixed, std::ios::floatfield);
 			s.precision (7);
 			s << m (i, j);
@@ -409,7 +409,7 @@ ColourConversionEditor::update_rgb_to_xyz ()
 	boost::numeric::ublas::matrix<double> m = get().rgb_to_xyz ();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			SafeStringStream s;
+			locked_stringstream s;
 			s.setf (std::ios::fixed, std::ios::floatfield);
 			s.precision (7);
 			s << m (i, j);
@@ -442,7 +442,7 @@ ColourConversionEditor::set_spin_ctrl (wxSpinCtrlDouble* control, double value)
 void
 ColourConversionEditor::set_text_ctrl (wxTextCtrl* control, double value)
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s.precision (7);
 	s << value;
 	control->SetValue (std_to_wx (s.str ()));

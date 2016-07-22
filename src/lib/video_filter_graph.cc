@@ -84,7 +84,7 @@ VideoFilterGraph::can_process (dcp::Size s, AVPixelFormat p) const
 string
 VideoFilterGraph::src_parameters () const
 {
-	SafeStringStream a;
+	locked_stringstream a;
 
 	a << "video_size=" << _size.width << "x" << _size.height << ":"
 	  << "pix_fmt=" << _pixel_format << ":"

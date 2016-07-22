@@ -38,7 +38,6 @@
 #include "dcp_content_type.h"
 #include "ratio.h"
 #include "cross.h"
-#include "safe_stringstream.h"
 #include "environment_info.h"
 #include "raw_convert.h"
 #include "audio_processor.h"
@@ -52,6 +51,7 @@
 #include "dcp_content.h"
 #include "screen_kdm.h"
 #include "cinema.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -197,7 +197,7 @@ Film::video_identifier () const
 {
 	DCPOMATIC_ASSERT (container ());
 
-	SafeStringStream s;
+	locked_stringstream s;
 	s.imbue (std::locale::classic ());
 
 	s << container()->id()
@@ -530,7 +530,7 @@ Film::mapped_audio_channels () const
 string
 Film::isdcf_name (bool if_created_now) const
 {
-	SafeStringStream d;
+	locked_stringstream d;
 
 	string raw_name = name ();
 
@@ -922,7 +922,7 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 	p /= "j2c";
 	p /= video_identifier ();
 
-	SafeStringStream s;
+	locked_stringstream s;
 	s.width (8);
 	s << setfill('0') << reel << "_" << frame;
 

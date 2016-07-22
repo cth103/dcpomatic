@@ -19,7 +19,7 @@
 */
 
 #include "encoded_log_entry.h"
-#include "safe_stringstream.h"
+#include <locked_sstream.h>
 
 using std::string;
 using std::fixed;
@@ -38,7 +38,7 @@ EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double e
 string
 EncodedLogEntry::message () const
 {
-	SafeStringStream m;
+	locked_stringstream m;
 	m.precision (2);
 	m << fixed
 	  << "Encoded frame " << _frame << " from " << _ip << ": "

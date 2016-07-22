@@ -239,7 +239,7 @@ DCPContent::full_length () const
 string
 DCPContent::identifier () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s << Content::identifier() << "_" << video->identifier() << "_";
 	if (subtitle) {
 		s << subtitle->identifier () << " ";

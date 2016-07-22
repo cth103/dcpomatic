@@ -169,7 +169,7 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 			float s = data[i];
 			float as = fabsf (s);
 			if (as < 10e-7) {
-				/* SafeStringStream can't serialise and recover inf or -inf, so prevent such
+				/* locked_stringstream can't serialise and recover inf or -inf, so prevent such
 				   values by replacing with this (140dB down) */
 				s = as = 10e-7;
 			}

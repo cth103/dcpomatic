@@ -19,7 +19,7 @@
 */
 
 #include "log_entry.h"
-#include "safe_stringstream.h"
+#include <locked_sstream.h>
 
 #include "i18n.h"
 
@@ -42,7 +42,7 @@ LogEntry::LogEntry (int type)
 string
 LogEntry::get () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	if (_type & TYPE_TIMING) {
 		s << _time.tv_sec << ":" << _time.tv_usec << " ";
 	} else {

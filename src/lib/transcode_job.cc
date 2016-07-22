@@ -28,7 +28,7 @@
 #include "film.h"
 #include "transcoder.h"
 #include "log.h"
-#include "safe_stringstream.h"
+#include <locked_sstream.h>
 #include "compose.hpp"
 #include <iostream>
 #include <iomanip>
@@ -112,7 +112,7 @@ TranscodeJob::status () const
 		return Job::status ();
 	}
 
-	SafeStringStream s;
+	locked_stringstream s;
 
 	s << Job::status ();
 

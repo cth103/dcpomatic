@@ -30,7 +30,7 @@ extern "C" {
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "util.h"
-#include "safe_stringstream.h"
+#include <locked_sstream.h>
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -351,7 +351,7 @@ FFmpegExaminer::sample_aspect_ratio () const
 string
 FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 {
-	SafeStringStream n;
+	locked_stringstream n;
 
 	n << stream_name (s);
 
@@ -365,7 +365,7 @@ FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 string
 FFmpegExaminer::stream_name (AVStream* s) const
 {
-	SafeStringStream n;
+	locked_stringstream n;
 
 	if (s->metadata) {
 		AVDictionaryEntry const * lang = av_dict_get (s->metadata, "language", 0, 0);

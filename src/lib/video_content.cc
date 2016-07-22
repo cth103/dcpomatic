@@ -30,8 +30,8 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "log.h"
-#include "safe_stringstream.h"
 #include "raw_convert.h"
+#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>
 #include <libxml++/libxml++.h>
@@ -264,7 +264,7 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 string
 VideoContent::identifier () const
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s << crop().left
 	  << "_" << crop().right
 	  << "_" << crop().top
@@ -377,7 +377,7 @@ string
 VideoContent::processing_description () const
 {
 	/* stringstream is OK here as this string is just for presentation to the user */
-	SafeStringStream d;
+	locked_stringstream d;
 
 	if (size().width && size().height) {
 		d << String::compose (

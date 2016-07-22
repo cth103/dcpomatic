@@ -19,7 +19,7 @@
 */
 
 #include "string_log_entry.h"
-#include "safe_stringstream.h"
+#include <locked_sstream.h>
 
 #include "i18n.h"
 

@@ -136,9 +136,9 @@ CinemaKDMs::email (
 		i.make_zip_file (film_name, zip_file);
 
 		string subject = config->kdm_subject();
-		SafeStringStream start;
+		locked_stringstream start;
 		start << from.date() << " " << from.time_of_day();
-		SafeStringStream end;
+		locked_stringstream end;
 		end << to.date() << " " << to.time_of_day();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (subject, "$START_TIME", start.str ());
@@ -151,7 +151,7 @@ CinemaKDMs::email (
 		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
-		SafeStringStream screens;
+		locked_stringstream screens;
 		BOOST_FOREACH (ScreenKDM const & j, i.screen_kdms) {
 			screens << j.screen->name << ", ";
 		}

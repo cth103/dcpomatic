@@ -56,7 +56,7 @@ AudioFilterGraph::~AudioFilterGraph()
 string
 AudioFilterGraph::src_parameters () const
 {
-	SafeStringStream a;
+	locked_stringstream a;
 
 	char buffer[64];
 	av_get_channel_layout_string (buffer, sizeof(buffer), 0, _channel_layout);

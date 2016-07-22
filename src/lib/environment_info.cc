@@ -57,7 +57,7 @@ static
 string
 ffmpeg_version_to_string (int v)
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
 	return s.str ();
 }
@@ -68,7 +68,7 @@ static
 string
 dependency_version_summary ()
 {
-	SafeStringStream s;
+	locked_stringstream s;
 	s << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
 	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
 	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")

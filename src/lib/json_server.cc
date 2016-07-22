@@ -151,7 +151,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		action = r["action"];
 	}
 
-	SafeStringStream json;
+	locked_stringstream json;
 	if (action == "status") {
 
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
@@ -187,7 +187,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		}
 	}
 
-	SafeStringStream reply;
+	locked_stringstream reply;
 	reply << "HTTP/1.1 200 OK\r\n"
 	      << "Content-Length: " << json.str().length() << "\r\n"
 	      << "Content-Type: application/json\r\n"
