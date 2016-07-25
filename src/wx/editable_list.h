@@ -54,12 +54,8 @@ public:
 		, _column (column)
 		, _edit (0)
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		SetSizer (s);
-
-		_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		_table->AddGrowableCol (0, 1);
-		s->Add (_table, 1, wxEXPAND);
+		_sizer = new wxBoxSizer (wxHORIZONTAL);
+		SetSizer (_sizer);
 
 		long style = wxLC_REPORT | wxLC_SINGLE_SEL;
 		if (title) {
@@ -75,7 +71,7 @@ public:
 			_list->InsertColumn (i, ip);
 		}
 
-		_table->Add (_list, 1, wxEXPAND | wxALL);
+		_sizer->Add (_list, 1, wxEXPAND);
 
 		{
 			wxSizer* s = new wxBoxSizer (wxVERTICAL);
@@ -87,7 +83,7 @@ public:
 			}
 			_remove = new wxButton (this, wxID_ANY, _("Remove"));
 			s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
-			_table->Add (s, 0);
+			_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
 		_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
@@ -128,7 +124,7 @@ public:
 
 	void layout ()
 	{
-		_table->Layout ();
+		_sizer->Layout ();
 	}
 
 	boost::signals2::signal<void ()> SelectionChanged;
@@ -238,7 +234,7 @@ private:
 	wxButton* _edit;
 	wxButton* _remove;
 	wxListCtrl* _list;
-	wxFlexGridSizer* _table;
+	wxBoxSizer* _sizer;
 };
 
 #endif
