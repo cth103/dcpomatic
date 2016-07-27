@@ -54,6 +54,12 @@ public:
 		return boost::lexical_cast<std::string> (_id);
 	}
 
+	int id () const {
+		return _id;
+	}
+
+	int index (AVFormatContext const * c) const;
+
 	std::string name;
 
 	friend bool operator== (FFmpegStream const & a, FFmpegStream const & b);

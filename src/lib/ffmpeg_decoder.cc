@@ -40,6 +40,7 @@
 #include "audio_decoder.h"
 #include "compose.hpp"
 #include "subtitle_content.h"
+#include "audio_content.h"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
 #include <sub/subtitle.h>
@@ -73,6 +74,8 @@ using std::map;
 using boost::shared_ptr;
 using boost::is_any_of;
 using boost::split;
+using boost::optional;
+using boost::dynamic_pointer_cast;
 using dcp::Size;
 
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
@@ -326,7 +329,18 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	   http://www.mjbshaw.com/2012/04/seeking-in-ffmpeg-know-your-timestamp.html
 	*/
 
-	DCPOMATIC_ASSERT (_video_stream);
+	optional<int> stream;
+
+	if (_video_stream) {
+		stream = _video_stream;
+	} else {
+		shared_ptr<FFmpegAudioStream> s = dynamic_pointer_cast<FFmpegAudioStream> (_ffmpeg_content->audio->stream ());
+		if (s) {
+			stream = s->index (_format_context);
+		}
+	}
+
+	DCPOMATIC_ASSERT (stream);
 
 	ContentTime u = time - _pts_offset;
 	if (u < ContentTime ()) {
@@ -376,7 +390,7 @@ FFmpegDecoder::decode_audio_packet ()
 		if (decode_result < 0) {
 			/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
 			   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
-			   if it overreads the auxiliary data.  ffplay carries on if frame_finished is true,
+			   if it overreads the auxiliary data.	ffplay carries on if frame_finished is true,
 			   even in the face of such an error, so I think we should too.
 
 			   Returning from the method here caused mantis #352.

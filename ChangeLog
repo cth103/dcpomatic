@@ -1,3 +1,7 @@
+2016-07-28  Carl Hetherington  <cth@carlh.net>
+
+	* Fix start-trim of audio-only content (#915).
+
 2016-07-26  Carl Hetherington  <cth@carlh.net>
 
 	* Expand vertical size of servers list in preferences (#913).

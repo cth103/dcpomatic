@@ -62,3 +62,18 @@ FFmpegStream::stream (AVFormatContext const * fc) const
 	DCPOMATIC_ASSERT (false);
 	return 0;
 }
+
+int
+FFmpegStream::index (AVFormatContext const * fc) const
+{
+	size_t i = 0;
+	while (i < fc->nb_streams) {
+		if (fc->streams[i]->id == _id) {
+			return i;
+		}
+		++i;
+	}
+
+	DCPOMATIC_ASSERT (false);
+	return 0;
+}
