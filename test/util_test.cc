@@ -31,7 +31,7 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (digest_test)
+BOOST_AUTO_TEST_CASE (digest_head_tail_test)
 {
 	vector<boost::filesystem::path> p;
 	p.push_back ("test/data/digest.test");
