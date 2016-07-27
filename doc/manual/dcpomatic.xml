@@ -126,6 +126,7 @@ depend on it.
   <listitem>Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;)</listitem>
   <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
   <listitem>Ubuntu 15.10 (&lsquo;Wily Werewolf&rsquo;)</listitem>
+  <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;)</listitem>
 </itemizedlist>
 
 <para>
@@ -152,7 +153,7 @@ pieces and set DCP-o-matic up for you.
 <!-- ============================================================== -->
 <section>
   <title>Centos Linux</title>
-  <para>There are <code>.rpm</code> packages for Centos 6.5 and 7 on
+  <para>There are <code>.rpm</code> packages for Centos 5, 6.5 and 7 on
   <ulink url="http://dcpomatic.com/">http://dcpomatic.com/</ulink>
   </para>
 </section>
