@@ -22,6 +22,7 @@
 #include "lib/image_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/compose.hpp"
+#include "lib/config.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -66,8 +67,10 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	wait_for_jobs ();
 
+	Config::instance()->set_num_local_encoding_threads (4);
 	film->make_dcp ();
 	wait_for_jobs ();
+	Config::instance()->set_num_local_encoding_threads (1);
 
 	dcp::DCP dcp (film->dir (film->dcp_name ()));
 	dcp.read ();
