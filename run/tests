@@ -7,6 +7,9 @@ export DCPOMATIC_LINUX_SHARE_PREFIX=`pwd`
 if [ "$1" == "--debug" ]; then
     shift;
     gdb --args build/test/unit-tests --catch_system_errors=no $*
+elif [ "$1" == "--backtrace" ]; then
+    shift;
+    gdb -batch -ex "run" -ex "thread apply all bt" --args build/test/unit-tests --catch_system_errors=no $*
 elif [ "$1" == "--valgrind" ]; then
     shift;
     valgrind --tool="memcheck" --leak-check=full build/test/unit-tests $*
