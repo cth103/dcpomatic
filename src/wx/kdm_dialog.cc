@@ -72,9 +72,9 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	/* Sub-heading: CPL */
 	h = new wxStaticText (this, wxID_ANY, _("CPL"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
-	vertical->Add (_cpl);
+	vertical->Add (_cpl, 0, wxEXPAND);
 
 	/* Sub-heading: Output */
 	h = new wxStaticText (this, wxID_ANY, _("Output"));
