@@ -224,7 +224,10 @@ FFmpeg::setup_decoders ()
 AVCodecContext *
 FFmpeg::video_codec_context () const
 {
-	DCPOMATIC_ASSERT (_video_stream);
+	if (!_video_stream) {
+		return 0;
+	}
+
 	return _format_context->streams[_video_stream.get()]->codec;
 }
 

@@ -348,12 +348,14 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	}
 	av_seek_frame (
 		_format_context,
-		_video_stream.get(),
-		u.seconds() / av_q2d (_format_context->streams[_video_stream.get()]->time_base),
+		stream.get(),
+		u.seconds() / av_q2d (_format_context->streams[stream.get()]->time_base),
 		AVSEEK_FLAG_BACKWARD
 		);
 
-	avcodec_flush_buffers (video_codec_context());
+	if (video_codec_context ()) {
+		avcodec_flush_buffers (video_codec_context());
+	}
 
 	/* XXX: should be flushing audio buffers? */
 
