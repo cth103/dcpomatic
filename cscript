@@ -381,7 +381,9 @@ def make_manual(target):
 def test(target, test):
     if target.platform != 'windows':
         target.set('LC_ALL', 'C')
-        if test is None:
-            target.command('run/tests')
-        else:
-            target.command('run/tests --run_test=%s' % test)
+        cmd = 'run/tests '
+        if target.debug:
+            cmd += '--backtrace '
+        if test is not None:
+            cmd += '--run_test=%s' % test
+        target.command(cmd)
