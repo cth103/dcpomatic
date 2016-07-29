@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,7 +21,7 @@
 #ifndef DCPOMATIC_SCREEN_KDM_H
 #define DCPOMATIC_SCREEN_KDM_H
 
-#include "kdm_name_format.h"
+#include "kdm_filename_format.h"
 #include <dcp/encrypted_kdm.h>
 #include <boost/shared_ptr.hpp>
 
@@ -38,7 +38,7 @@ public:
 
 	static void write_files (
 		std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory,
-		KDMNameFormat name_format, dcp::NameFormat::Map name_values
+		KDMFilenameFormat name_format, dcp::NameFormat::Map name_values
 		);
 
 	boost::shared_ptr<Screen> screen;

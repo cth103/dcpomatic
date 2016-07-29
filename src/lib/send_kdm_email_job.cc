@@ -33,7 +33,7 @@ using boost::shared_ptr;
 /** @param log Log to write to, or 0 */
 SendKDMEmailJob::SendKDMEmailJob (
 	list<CinemaKDMs> cinema_kdms,
-	KDMNameFormat name_format,
+	KDMFilenameFormat name_format,
 	dcp::NameFormat::Map name_values,
 	string cpl_name,
 	shared_ptr<Log> log

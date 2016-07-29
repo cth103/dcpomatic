@@ -18,16 +18,21 @@
 
 */
 
-#ifndef DCPOMATIC_KDM_NAME_FORMAT
-#define DCPOMATIC_KDM_NAME_FORMAT
+#include "kdm_filename_format.h"
 
-#include <dcp/name_format.h>
+using std::string;
 
-class KDMNameFormat : public dcp::NameFormat
+KDMFilenameFormat::KDMFilenameFormat (string specification)
+	: NameFormat (specification)
 {
-public:
-	KDMNameFormat () {}
-	KDMNameFormat (std::string specification);
-};
-
-#endif
+	/* film name */
+	add ('f');
+	/* cinema */
+	add ('c');
+	/* screen */
+	add ('s');
+	/* from date/time */
+	add ('b');
+	/* to date/time */
+	add ('e');
+}
