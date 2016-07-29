@@ -1413,9 +1413,13 @@ private:
 		dcp::NameFormat::Map titles;
 		titles['t'] = "type (j2c/pcm/sub/cpl/pkl)";
 		titles['i'] = "unique ID";
+		titles['r'] = "reel number";
+		titles['n'] = "number of reels";
 		dcp::NameFormat::Map examples;
 		examples['t'] = "j2c";
 		examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
+		examples['r'] = "1";
+		examples['n'] = "4";
 		_dcp_filename_format = new NameFormatEditor<dcp::FilenameFormat> (_panel, Config::instance()->dcp_filename_format(), titles, examples);
 		table->Add (_dcp_filename_format->panel(), 1, wxEXPAND | wxALL);
 

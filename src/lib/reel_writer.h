@@ -47,7 +47,7 @@ namespace dcp {
 class ReelWriter
 {
 public:
-	ReelWriter (boost::shared_ptr<const Film> film, DCPTimePeriod period, boost::shared_ptr<Job> job);
+	ReelWriter (boost::shared_ptr<const Film> film, DCPTimePeriod period, boost::shared_ptr<Job> job, int reel_index, int reel_count);
 
 	void write (boost::optional<dcp::Data> encoded, Frame frame, Eyes eyes);
 	void fake_write (Frame frame, Eyes eyes, int size);
@@ -102,6 +102,10 @@ private:
 	Eyes _last_written_eyes;
 	/** the number of audio frames that have been written to the reel */
 	int _total_written_audio_frames;
+	/** index of this reel within the DCP (starting from 0) */
+	int _reel_index;
+	/** number of reels in the DCP */
+	int _reel_count;
 
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;

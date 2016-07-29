@@ -74,8 +74,8 @@ extern int stride_round_up (int, int const *, int);
 extern void* wrapped_av_malloc (size_t);
 extern void set_backtrace_file (boost::filesystem::path);
 extern std::map<std::string, std::string> split_get_request (std::string url);
-extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset);
-extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset);
+extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count);
+extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count);
 extern float relaxed_string_to_float (std::string);
 extern bool string_not_empty (std::string);
 

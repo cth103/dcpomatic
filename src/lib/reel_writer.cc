@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -60,13 +60,15 @@ using dcp::Data;
 
 int const ReelWriter::_info_size = 48;
 
-ReelWriter::ReelWriter (shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job)
+ReelWriter::ReelWriter (shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count)
 	: _film (film)
 	, _period (period)
 	, _first_nonexistant_frame (0)
 	, _last_written_video_frame (-1)
 	, _last_written_eyes (EYES_RIGHT)
 	, _total_written_audio_frames (0)
+	, _reel_index (reel_index)
+	, _reel_count (reel_count)
 {
 	/* Create our picture asset in a subdirectory, named according to those
 	   film's parameters which affect the video output.  We will hard-link
@@ -111,7 +113,7 @@ ReelWriter::ReelWriter (shared_ptr<const Film> film, DCPTimePeriod period, share
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
-			_film->directory() / audio_asset_filename (_sound_asset),
+			_film->directory() / audio_asset_filename (_sound_asset, _reel_index, _reel_count),
 			_film->interop() ? dcp::INTEROP : dcp::SMPTE
 			);
 	}
@@ -266,7 +268,7 @@ ReelWriter::finish ()
 		boost::filesystem::path video_from = _picture_asset->file ();
 		boost::filesystem::path video_to;
 		video_to /= _film->dir (_film->dcp_name());
-		video_to /= video_asset_filename (_picture_asset);
+		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count);
 
 		boost::system::error_code ec;
 		boost::filesystem::create_hard_link (video_from, video_to, ec);
@@ -286,13 +288,14 @@ ReelWriter::finish ()
 	if (_sound_asset) {
 		boost::filesystem::path audio_to;
 		audio_to /= _film->dir (_film->dcp_name ());
-		audio_to /= audio_asset_filename (_sound_asset);
+		string const aaf = audio_asset_filename (_sound_asset, _reel_index, _reel_count);
+		audio_to /= aaf;
 
 		boost::system::error_code ec;
-		boost::filesystem::rename (_film->file (audio_asset_filename (_sound_asset)), audio_to, ec);
+		boost::filesystem::rename (_film->file (aaf), audio_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move audio asset into the DCP (%1)"), ec.value ()), audio_asset_filename (_sound_asset)
+				String::compose (_("could not move audio asset into the DCP (%1)"), ec.value ()), aaf
 				);
 		}
 

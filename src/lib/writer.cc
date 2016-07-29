@@ -84,8 +84,10 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	shared_ptr<Job> job = _job.lock ();
 	DCPOMATIC_ASSERT (job);
 
-	BOOST_FOREACH (DCPTimePeriod p, _film->reels ()) {
-		_reels.push_back (ReelWriter (film, p, job));
+	int reel_index = 0;
+	list<DCPTimePeriod> const reels = _film->reels ();
+	BOOST_FOREACH (DCPTimePeriod p, reels) {
+		_reels.push_back (ReelWriter (film, p, job, reel_index++, reels.size()));
 	}
 
 	/* We can keep track of the current audio and subtitle reels easily because audio

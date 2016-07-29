@@ -83,7 +83,7 @@ private:
 		wxString example = wxString::Format (_("e.g. %s"), _name.get (_examples));
 		wxString wrapped;
 		for (size_t i = 0; i < example.Length(); ++i) {
-			if (i > 0 && (i % 30) == 0) {
+			if (i > 0 && (i % 40) == 0) {
 				wrapped += "\n";
 			}
 			wrapped += example[i];
