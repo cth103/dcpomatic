@@ -284,7 +284,7 @@ int main (int argc, char* argv[])
 			output = ".";
 		}
 
-		NameFormat::Map values;
+		dcp::NameFormat::Map values;
 		values["film_name"] = film->name();
 		values["from"] = dcp::LocalTime(valid_from.get()).date() + " " + dcp::LocalTime(valid_from.get()).time_of_day();
 		values["to"] = dcp::LocalTime(valid_to.get()).date() + " " + dcp::LocalTime(valid_to.get()).time_of_day();

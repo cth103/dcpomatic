@@ -33,7 +33,7 @@ public:
 	SendKDMEmailJob (
 		std::list<CinemaKDMs> cinema_kdms,
 		KDMNameFormat name_format,
-		NameFormat::Map name_values,
+		dcp::NameFormat::Map name_values,
 		std::string cpl_name,
 		boost::shared_ptr<Log> log
 		);
@@ -44,7 +44,7 @@ public:
 
 private:
 	KDMNameFormat _name_format;
-	NameFormat::Map _name_values;
+	dcp::NameFormat::Map _name_values;
 	std::string _cpl_name;
 	std::list<CinemaKDMs> _cinema_kdms;
 	boost::shared_ptr<Log> _log;

@@ -512,7 +512,7 @@ Writer::finish ()
 		}
 	}
 
-	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer);
+	dcp.write_xml (_film->interop () ? dcp::INTEROP : dcp::SMPTE, meta, signer, Config::instance()->dcp_filename_format());
 
 	LOG_GENERAL (
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk

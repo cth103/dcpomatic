@@ -21,9 +21,9 @@
 #ifndef DCPOMATIC_KDM_NAME_FORMAT
 #define DCPOMATIC_KDM_NAME_FORMAT
 
-#include "name_format.h"
+#include <dcp/name_format.h>
 
-class KDMNameFormat : public NameFormat
+class KDMNameFormat : public dcp::NameFormat
 {
 public:
 	KDMNameFormat () {}

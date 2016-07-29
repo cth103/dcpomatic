@@ -28,6 +28,7 @@
 #include "isdcf_metadata.h"
 #include "kdm_name_format.h"
 #include "types.h"
+#include <dcp/filename_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/shared_ptr.hpp>
@@ -271,6 +272,10 @@ public:
 		return _kdm_filename_format;
 	}
 
+	dcp::FilenameFormat dcp_filename_format () const {
+		return _dcp_filename_format;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -483,6 +488,10 @@ public:
 		maybe_set (_kdm_filename_format, n);
 	}
 
+	void set_dcp_filename_format (dcp::FilenameFormat n) {
+		maybe_set (_dcp_filename_format, n);
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -595,6 +604,7 @@ private:
 	boost::filesystem::path _cinemas_file;
 	bool _show_hints_before_make_dcp;
 	KDMNameFormat _kdm_filename_format;
+	dcp::FilenameFormat _dcp_filename_format;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

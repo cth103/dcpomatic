@@ -34,7 +34,7 @@ using boost::shared_ptr;
 SendKDMEmailJob::SendKDMEmailJob (
 	list<CinemaKDMs> cinema_kdms,
 	KDMNameFormat name_format,
-	NameFormat::Map name_values,
+	dcp::NameFormat::Map name_values,
 	string cpl_name,
 	shared_ptr<Log> log
 	)
@@ -51,7 +51,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 string
 SendKDMEmailJob::name () const
 {
-	NameFormat::Map::const_iterator i = _name_values.find ("film_name");
+	dcp::NameFormat::Map::const_iterator i = _name_values.find ("film_name");
 	if (i == _name_values.end() || i->second.empty ()) {
 		return _("Email KDMs");
 	}

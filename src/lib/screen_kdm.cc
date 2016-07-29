@@ -35,7 +35,7 @@ operator== (ScreenKDM const & a, ScreenKDM const & b)
 }
 
 void
-ScreenKDM::write_files (list<ScreenKDM> screen_kdms, boost::filesystem::path directory, KDMNameFormat name_format, NameFormat::Map name_values)
+ScreenKDM::write_files (list<ScreenKDM> screen_kdms, boost::filesystem::path directory, KDMNameFormat name_format, dcp::NameFormat::Map name_values)
 {
 	/* Write KDMs to the specified directory */
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {

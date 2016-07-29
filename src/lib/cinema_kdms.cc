@@ -40,7 +40,7 @@ using std::runtime_error;
 using boost::shared_ptr;
 
 void
-CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, KDMNameFormat name_format, NameFormat::Map name_values) const
+CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, KDMNameFormat name_format, dcp::NameFormat::Map name_values) const
 {
 	int error;
 	struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -120,7 +120,7 @@ CinemaKDMs::write_zip_files (
 	list<CinemaKDMs> cinema_kdms,
 	boost::filesystem::path directory,
 	KDMNameFormat name_format,
-	NameFormat::Map name_values
+	dcp::NameFormat::Map name_values
 	)
 {
 	/* No specific screen */
@@ -141,7 +141,7 @@ void
 CinemaKDMs::email (
 	list<CinemaKDMs> cinema_kdms,
 	KDMNameFormat name_format,
-	NameFormat::Map name_values,
+	dcp::NameFormat::Map name_values,
 	string cpl_name,
 	shared_ptr<Log> log
 	)

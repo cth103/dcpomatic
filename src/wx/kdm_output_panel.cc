@@ -57,7 +57,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	}
 
 	_filename_format = new NameFormatEditor<KDMNameFormat> (this, Config::instance()->kdm_filename_format());
-	NameFormat::Map ex;
+	dcp::NameFormat::Map ex;
 	ex["film_name"] = "Bambi";
 	ex["cinema"] = "Lumière";
 	ex["screen"] = "Screen 1";

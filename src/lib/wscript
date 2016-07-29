@@ -99,7 +99,6 @@ sources = """
           log_entry.cc
           magick_image_proxy.cc
           mid_side_decoder.cc
-          name_format.cc
           overlaps.cc
           player.cc
           player_subtitles.cc

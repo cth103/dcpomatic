@@ -619,13 +619,19 @@ split_get_request (string url)
 string
 video_asset_filename (shared_ptr<dcp::PictureAsset> asset)
 {
-	return "j2c_" + asset->id() + ".mxf";
+	dcp::NameFormat::Map values;
+	values["type"] = "j2c";
+	values["id"] = asset->id();
+	return Config::instance()->dcp_filename_format().get(values) + ".mxf";
 }
 
 string
 audio_asset_filename (shared_ptr<dcp::SoundAsset> asset)
 {
-	return "pcm_" + asset->id() + ".mxf";
+	dcp::NameFormat::Map values;
+	values["type"] = "pcm";
+	values["id"] = asset->id();
+	return Config::instance()->dcp_filename_format().get(values) + ".mxf";
 }
 
 float

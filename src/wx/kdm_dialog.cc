@@ -133,7 +133,7 @@ KDMDialog::make_clicked ()
 			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation()
 			);
 
-		NameFormat::Map name_values;
+		dcp::NameFormat::Map name_values;
 		name_values["film_name"] = film->name();
 		name_values["from"] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
 		name_values["to"] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();

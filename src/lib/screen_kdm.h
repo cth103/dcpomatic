@@ -38,7 +38,7 @@ public:
 
 	static void write_files (
 		std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory,
-		KDMNameFormat name_format, NameFormat::Map name_values
+		KDMNameFormat name_format, dcp::NameFormat::Map name_values
 		);
 
 	boost::shared_ptr<Screen> screen;

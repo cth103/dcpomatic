@@ -297,7 +297,7 @@ private:
 				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->recipient.get(), i->trusted_devices, _output->formulation())));
 			}
 
-			NameFormat::Map name_values;
+			dcp::NameFormat::Map name_values;
 			name_values["film_name"] = decrypted.content_title_text();
 			name_values["from"] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
 			name_values["to"] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();

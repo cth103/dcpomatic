@@ -21,8 +21,8 @@
 #ifndef DCPOMATIC_NAME_FORMAT_EDITOR_H
 #define DCPOMATIC_NAME_FORMAT_EDITOR_H
 
-#include "lib/name_format.h"
 #include "lib/compose.hpp"
+#include <dcp/name_format.h>
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
 
@@ -41,7 +41,7 @@ public:
 		_sizer->Add (_example, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		_panel->SetSizer (_sizer);
 
-		BOOST_FOREACH (NameFormat::Component c, name.components ()) {
+		BOOST_FOREACH (dcp::NameFormat::Component c, name.components ()) {
 			wxStaticText* t = new wxStaticText (_panel, wxID_ANY, std_to_wx (String::compose ("%%%1 %2", c.placeholder, c.title)));
 			_sizer->Add (t);
 			wxFont font = t->GetFont();
@@ -52,7 +52,7 @@ public:
 		}
 
 		_specification->SetValue (std_to_wx (_name.specification ()));
-		_specification->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&NameFormatEditor::update_example, this));
+		_specification->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&NameFormatEditor::changed, this));
 
 		update_example ();
 	}
@@ -62,7 +62,7 @@ public:
 		return _panel;
 	}
 
-	void set_example (NameFormat::Map v) {
+	void set_example (dcp::NameFormat::Map v) {
 		_example_values = v;
 		update_example ();
 	}
@@ -71,7 +71,15 @@ public:
 		return _name;
 	}
 
+	boost::signals2::signal<void ()> Changed;
+
 private:
+
+	void changed ()
+	{
+		update_example ();
+		Changed ();
+	}
 
 	virtual void update_example ()
 	{
@@ -95,7 +103,7 @@ private:
 	wxTextCtrl* _specification;
 
 	T _name;
-	NameFormat::Map _example_values;
+	dcp::NameFormat::Map _example_values;
 };
 
 #endif

@@ -32,6 +32,7 @@
 #include "server_dialog.h"
 #include "make_chain_dialog.h"
 #include "email_dialog.h"
+#include "name_format_editor.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -1398,6 +1399,24 @@ private:
 		table->Add (_only_servers_encode, 1, wxEXPAND | wxALL);
 		table->AddSpacer (0);
 
+		{
+			int flags = wxALIGN_TOP | wxTOP | wxLEFT;
+			wxString t = _("DCP filename format");
+#ifdef __WXOSX__
+			flags |= wxALIGN_RIGHT;
+			t += wxT (":");
+#endif
+			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, t);
+			table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+		}
+
+		_dcp_filename_format = new NameFormatEditor<dcp::FilenameFormat> (_panel, Config::instance()->dcp_filename_format());
+		dcp::NameFormat::Map example;
+		example["type"] = "j2c";
+		example["id"] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
+		_dcp_filename_format->set_example (example);
+		table->Add (_dcp_filename_format->panel(), 1, wxEXPAND | wxALL);
+
 #ifdef __WXOSX__
 		wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Log:"));
 		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL | wxALIGN_RIGHT, 6);
@@ -1436,6 +1455,7 @@ private:
 		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
 		_only_servers_encode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
+		_dcp_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_filename_format_changed, this));
 		_log_general->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_warning->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
@@ -1482,6 +1502,11 @@ private:
 		Config::instance()->set_only_servers_encode (_only_servers_encode->GetValue ());
 	}
 
+	void dcp_filename_format_changed ()
+	{
+		Config::instance()->set_dcp_filename_format (_dcp_filename_format->get ());
+	}
+
 	void log_changed ()
 	{
 		int types = 0;
@@ -1519,6 +1544,7 @@ private:
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxCheckBox* _only_servers_encode;
+	NameFormatEditor<dcp::FilenameFormat>* _dcp_filename_format;
 	wxCheckBox* _log_general;
 	wxCheckBox* _log_warning;
 	wxCheckBox* _log_error;
