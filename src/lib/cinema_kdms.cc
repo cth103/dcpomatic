@@ -53,7 +53,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, KDMNameFormat name_
 
 	list<shared_ptr<string> > kdm_strings;
 
-	name_values["cinema"] = cinema->name;
+	name_values['c'] = cinema->name;
 
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
 		shared_ptr<string> kdm (new string (i.kdm.as_xml ()));
@@ -64,7 +64,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, KDMNameFormat name_
 			throw runtime_error ("could not create ZIP source");
 		}
 
-		name_values["screen"] = i.screen->name;
+		name_values['s'] = i.screen->name;
 		string const name = name_format.get(name_values) + ".xml";
 		if (zip_add (zip, name.c_str(), source) == -1) {
 			throw runtime_error ("failed to add KDM to ZIP archive");
@@ -124,11 +124,11 @@ CinemaKDMs::write_zip_files (
 	)
 {
 	/* No specific screen */
-	name_values["screen"] = "";
+	name_values['s'] = "";
 
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
-		name_values["cinema"] = i.cinema->name;
+		name_values['c'] = i.cinema->name;
 		path /= name_format.get(name_values) + ".zip";
 		i.make_zip_file (path, name_format, name_values);
 	}
@@ -153,11 +153,11 @@ CinemaKDMs::email (
 	}
 
 	/* No specific screen */
-	name_values["screen"] = "";
+	name_values['s'] = "";
 
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 
-		name_values["cinema"] = i.cinema->name;
+		name_values['c'] = i.cinema->name;
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 		zip_file /= boost::filesystem::unique_path().string() + ".zip";
@@ -165,14 +165,14 @@ CinemaKDMs::email (
 
 		string subject = config->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (subject, "$START_TIME", name_values["from"]);
-		boost::algorithm::replace_all (subject, "$END_TIME", name_values["to"]);
+		boost::algorithm::replace_all (subject, "$START_TIME", name_values['f']);
+		boost::algorithm::replace_all (subject, "$END_TIME", name_values['t']);
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
 
 		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (body, "$START_TIME", name_values["from"]);
-		boost::algorithm::replace_all (body, "$END_TIME", name_values["to"]);
+		boost::algorithm::replace_all (body, "$START_TIME", name_values['f']);
+		boost::algorithm::replace_all (body, "$END_TIME", name_values['t']);
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
 		locked_stringstream screens;

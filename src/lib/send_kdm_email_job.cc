@@ -51,7 +51,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 string
 SendKDMEmailJob::name () const
 {
-	dcp::NameFormat::Map::const_iterator i = _name_values.find ("film_name");
+	dcp::NameFormat::Map::const_iterator i = _name_values.find ('f');
 	if (i == _name_values.end() || i->second.empty ()) {
 		return _("Email KDMs");
 	}

@@ -620,8 +620,8 @@ string
 video_asset_filename (shared_ptr<dcp::PictureAsset> asset)
 {
 	dcp::NameFormat::Map values;
-	values["type"] = "j2c";
-	values["id"] = asset->id();
+	values['t'] = "j2c";
+	values['i'] = asset->id();
 	return Config::instance()->dcp_filename_format().get(values) + ".mxf";
 }
 
@@ -629,8 +629,8 @@ string
 audio_asset_filename (shared_ptr<dcp::SoundAsset> asset)
 {
 	dcp::NameFormat::Map values;
-	values["type"] = "pcm";
-	values["id"] = asset->id();
+	values['t'] = "pcm";
+	values['i'] = asset->id();
 	return Config::instance()->dcp_filename_format().get(values) + ".mxf";
 }
 

@@ -30,19 +30,20 @@ template <class T>
 class NameFormatEditor
 {
 public:
-	NameFormatEditor (wxWindow* parent, T name)
+	NameFormatEditor (wxWindow* parent, T name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples)
 		: _panel (new wxPanel (parent))
 		, _example (new wxStaticText (_panel, wxID_ANY, ""))
 		, _sizer (new wxBoxSizer (wxVERTICAL))
 		, _specification (new wxTextCtrl (_panel, wxID_ANY, ""))
 		, _name (name)
+		, _examples (examples)
 	{
 		_sizer->Add (_specification, 0, wxEXPAND, DCPOMATIC_SIZER_Y_GAP);
 		_sizer->Add (_example, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		_panel->SetSizer (_sizer);
 
-		BOOST_FOREACH (dcp::NameFormat::Component c, name.components ()) {
-			wxStaticText* t = new wxStaticText (_panel, wxID_ANY, std_to_wx (String::compose ("%%%1 %2", c.placeholder, c.title)));
+		BOOST_FOREACH (char c, name.components ()) {
+			wxStaticText* t = new wxStaticText (_panel, wxID_ANY, std_to_wx (String::compose ("%%%1 %2", c, titles[c])));
 			_sizer->Add (t);
 			wxFont font = t->GetFont();
 			font.SetStyle (wxFONTSTYLE_ITALIC);
@@ -57,14 +58,8 @@ public:
 		update_example ();
 	}
 
-	wxPanel* panel () const
-	{
+	wxPanel* panel () const {
 		return _panel;
-	}
-
-	void set_example (dcp::NameFormat::Map v) {
-		_example_values = v;
-		update_example ();
 	}
 
 	T get () const {
@@ -85,7 +80,7 @@ private:
 	{
 		_name.set_specification (wx_to_std (_specification->GetValue ()));
 
-		wxString example = wxString::Format (_("e.g. %s"), _name.get (_example_values));
+		wxString example = wxString::Format (_("e.g. %s"), _name.get (_examples));
 		wxString wrapped;
 		for (size_t i = 0; i < example.Length(); ++i) {
 			if (i > 0 && (i % 30) == 0) {
@@ -103,7 +98,7 @@ private:
 	wxTextCtrl* _specification;
 
 	T _name;
-	dcp::NameFormat::Map _example_values;
+	dcp::NameFormat::Map _examples;
 };
 
 #endif

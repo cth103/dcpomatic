@@ -25,9 +25,14 @@ using std::string;
 KDMNameFormat::KDMNameFormat (string specification)
 	: NameFormat (specification)
 {
-	add ("film_name", 'f', "film name");
-	add ("cinema", 'c', "cinema");
-	add ("screen", 's', "screen");
-	add ("from", 'b', "from date/time");
-	add ("to", 'e', "to date/time");
+	/* film name */
+	add ('f');
+	/* cinema */
+	add ('c');
+	/* screen */
+	add ('s');
+	/* from date/time */
+	add ('b');
+	/* to date/time */
+	add ('e');
 }

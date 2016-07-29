@@ -298,9 +298,9 @@ private:
 			}
 
 			dcp::NameFormat::Map name_values;
-			name_values["film_name"] = decrypted.content_title_text();
-			name_values["from"] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
-			name_values["to"] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
+			name_values['f'] = decrypted.content_title_text();
+			name_values['b'] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
+			name_values['e'] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
 
 			if (_output->write_to()) {
 				ScreenKDM::write_files (screen_kdms, _output->directory(), _output->name_format(), name_values);

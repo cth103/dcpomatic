@@ -1410,11 +1410,13 @@ private:
 			table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
 		}
 
-		_dcp_filename_format = new NameFormatEditor<dcp::FilenameFormat> (_panel, Config::instance()->dcp_filename_format());
-		dcp::NameFormat::Map example;
-		example["type"] = "j2c";
-		example["id"] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
-		_dcp_filename_format->set_example (example);
+		dcp::NameFormat::Map titles;
+		titles['t'] = "type (j2c/pcm/sub/cpl/pkl)";
+		titles['i'] = "unique ID";
+		dcp::NameFormat::Map examples;
+		examples['t'] = "j2c";
+		examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
+		_dcp_filename_format = new NameFormatEditor<dcp::FilenameFormat> (_panel, Config::instance()->dcp_filename_format(), titles, examples);
 		table->Add (_dcp_filename_format->panel(), 1, wxEXPAND | wxALL);
 
 #ifdef __WXOSX__

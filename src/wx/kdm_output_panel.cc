@@ -46,7 +46,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	_type->SetSelection (0);
 
 	{
-		int flags = wxALIGN_TOP | wxTOP | wxLEFT;
+		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
 		wxString t = _("Filename format");
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
@@ -56,14 +56,19 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	_filename_format = new NameFormatEditor<KDMNameFormat> (this, Config::instance()->kdm_filename_format());
+	dcp::NameFormat::Map titles;
+	titles['f'] = "film name";
+	titles['c'] = "cinema";
+	titles['s'] = "screen";
+	titles['b'] = "from date/time";
+	titles['e'] = "to date/time";
 	dcp::NameFormat::Map ex;
-	ex["film_name"] = "Bambi";
-	ex["cinema"] = "Lumière";
-	ex["screen"] = "Screen 1";
-	ex["from"] = "2012/03/15 12:30";
-	ex["to"] = "2012/03/22 02:30";
-	_filename_format->set_example (ex);
+	ex['f'] = "Bambi";
+	ex['c'] = "Lumière";
+	ex['s'] = "Screen 1";
+	ex['b'] = "2012/03/15 12:30";
+	ex['e'] = "2012/03/22 02:30";
+	_filename_format = new NameFormatEditor<KDMNameFormat> (this, Config::instance()->kdm_filename_format(), titles, ex);
 	table->Add (_filename_format->panel(), 1, wxEXPAND);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
