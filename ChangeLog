@@ -2,6 +2,7 @@
 
 	* Rearrange Make KDM window and replace the
 	confusing OK/Cancel buttons with "Make KDM" (part of #848).
+	Rearrange the KDM Creator window similarly.
 
 	* Allow configuration of KDM filename format.
 

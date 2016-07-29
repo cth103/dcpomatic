@@ -126,42 +126,51 @@ public:
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-		wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
+		wxBoxSizer* horizontal = new wxBoxSizer (wxHORIZONTAL);
+		wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
+		wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
+
+		horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 2);
+		horizontal->Add (right, 1, wxEXPAND);
 
 		wxFont subheading_font (*wxNORMAL_FONT);
 		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
 		wxStaticText* h = new wxStaticText (overall_panel, wxID_ANY, _("Screens"));
 		h->SetFont (subheading_font);
-		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
+		left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		_screens = new ScreensPanel (overall_panel);
-		vertical->Add (_screens, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+		left->Add (_screens, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
+		/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+		h = new wxStaticText (overall_panel, wxID_ANY, S_("KDM|Timing"));
+		h->SetFont (subheading_font);
+		right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 		_timing = new KDMTimingPanel (overall_panel);
-		vertical->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
+		right->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new wxStaticText (overall_panel, wxID_ANY, _("DKDM"));
 		h->SetFont (subheading_font);
-		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("CPL")));
 		_dkdm = new EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper> (
 			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&always_valid), bind (&column, _1), false
 			);
-		vertical->Add (_dkdm, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+		right->Add (_dkdm, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new wxStaticText (overall_panel, wxID_ANY, _("Output"));
 		h->SetFont (subheading_font);
-		vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 		/* XXX: hard-coded non-interop here */
 		_output = new KDMOutputPanel (overall_panel, false);
-		vertical->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
+		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		_create = new wxButton (overall_panel, wxID_ANY, _("Create KDMs"));
-		vertical->Add (_create, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		right->Add (_create, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-		main_sizer->Add (vertical, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
+		main_sizer->Add (horizontal, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
 		overall_panel->SetSizer (main_sizer);
 
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
