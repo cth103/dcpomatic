@@ -170,6 +170,7 @@ public:
 		, _hints_dialog (0)
 		, _servers_list_dialog (0)
 		, _config_dialog (0)
+		, _kdm_dialog (0)
 		, _file_menu (0)
 		, _history_items (0)
 		, _history_position (0)
@@ -484,47 +485,13 @@ private:
 			return;
 		}
 
-		KDMDialog* d = new KDMDialog (this, _film);
-		if (d->ShowModal () != wxID_OK) {
-			d->Destroy ();
-			return;
+		if (_kdm_dialog) {
+			_kdm_dialog->Destroy ();
+			_kdm_dialog = 0;
 		}
 
-		try {
-			list<ScreenKDM> screen_kdms = _film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation());
-
-			NameFormat::Map name_values;
-			name_values["film_name"] = _film->name();
-			name_values["from"] = dcp::LocalTime(d->from()).date() + " " + dcp::LocalTime(d->from()).time_of_day();
-			name_values["to"] = dcp::LocalTime(d->until()).date() + " " + dcp::LocalTime(d->until()).time_of_day();
-
-			if (d->write_to ()) {
-				ScreenKDM::write_files (
-					screen_kdms,
-					d->directory(),
-					d->name_format(),
-					name_values
-					);
-			} else {
-				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (
-								 CinemaKDMs::collect (screen_kdms),
-								 d->name_format(),
-								 name_values,
-								 _film->dcp_name(),
-								 _film->log()
-								 ))
-					);
-			}
-		} catch (dcp::NotEncryptedError& e) {
-			error_dialog (this, _("CPL's content is not encrypted."));
-		} catch (exception& e) {
-			error_dialog (this, e.what ());
-		} catch (...) {
-			error_dialog (this, _("An unknown exception occurred."));
-		}
-
-		d->Destroy ();
+		_kdm_dialog = new KDMDialog (this, _film);
+		_kdm_dialog->Show (this);
 	}
 
 	void jobs_make_dcp_batch ()
@@ -978,6 +945,7 @@ private:
 	HintsDialog* _hints_dialog;
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;
+	KDMDialog* _kdm_dialog;
 	wxMenu* _file_menu;
 	shared_ptr<Film> _film;
 	int _history_items;

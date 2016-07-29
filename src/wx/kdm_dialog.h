@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -38,28 +38,16 @@ struct CPLSummary;
 class KDMDialog : public wxDialog
 {
 public:
-	KDMDialog (wxWindow *, boost::shared_ptr<const Film>);
-
-	std::list<boost::shared_ptr<Screen> > screens () const;
-	/** @return KDM from time in local time; note that ptime has no time zone information */
-	boost::posix_time::ptime from () const;
-	/** @return KDM until time in local time; note that ptime has no time zone information */
-	boost::posix_time::ptime until () const;
-
-	boost::filesystem::path cpl () const;
-
-	boost::filesystem::path directory () const;
-	bool write_to () const;
-	dcp::Formulation formulation () const;
-	KDMNameFormat name_format () const;
-
-	int ShowModal ();
+	KDMDialog (wxWindow *, boost::shared_ptr<const Film> film);
 
 private:
 	void setup_sensitivity ();
+	void make_clicked ();
 
+	boost::weak_ptr<const Film> _film;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
 	KDMCPLPanel* _cpl;
 	KDMOutputPanel* _output;
+	wxButton* _make;
 };

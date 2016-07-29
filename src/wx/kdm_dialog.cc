@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,12 +26,18 @@
 #include "kdm_cpl_panel.h"
 #include "lib/film.h"
 #include "lib/screen.h"
+#include "lib/screen_kdm.h"
+#include "lib/send_kdm_email_job.h"
+#include "lib/job_manager.h"
+#include "lib/cinema_kdms.h"
 #include <libcxml/cxml.h>
+#include <dcp/exceptions.h>
 #include <wx/treectrl.h>
 #include <wx/listctrl.h>
 #include <iostream>
 
 using std::string;
+using std::exception;
 using std::map;
 using std::list;
 using std::pair;
@@ -40,11 +46,17 @@ using std::vector;
 using std::make_pair;
 using boost::shared_ptr;
 
-KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
+KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
+	, _film (film)
 {
-	/* Main sizer */
-	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
+	/* Main sizers */
+	wxBoxSizer* horizontal = new wxBoxSizer (wxHORIZONTAL);
+	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
+	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
+
+	horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 2);
+	horizontal->Add (right, 1, wxEXPAND);
 
 	/* Font for sub-headings */
 	wxFont subheading_font (*wxNORMAL_FONT);
@@ -53,51 +65,45 @@ KDMDialog::KDMDialog (wxWindow* parent, boost::shared_ptr<const Film> film)
 	/* Sub-heading: Screens */
 	wxStaticText* h = new wxStaticText (this, wxID_ANY, _("Screens"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL);
+	left->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 	_screens = new ScreensPanel (this);
-	/* Hack to stop KDM dialogs that are taller than my laptop screen; this
-	   really isn't the right way to fix it...
-	*/
-	_screens->SetMaxSize (wxSize (-1, 280));
-	vertical->Add (_screens, 1, wxEXPAND);
+	left->Add (_screens, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
 	/* Sub-heading: Timing */
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 	h = new wxStaticText (this, wxID_ANY, S_("KDM|Timing"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_timing = new KDMTimingPanel (this);
-	vertical->Add (_timing);
+	right->Add (_timing);
 
 	/* Sub-heading: CPL */
 	h = new wxStaticText (this, wxID_ANY, _("CPL"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
+	right->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP * 2);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
-	vertical->Add (_cpl, 0, wxEXPAND);
+	right->Add (_cpl, 0, wxEXPAND);
 
 	/* Sub-heading: Output */
 	h = new wxStaticText (this, wxID_ANY, _("Output"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
 	_output = new KDMOutputPanel (this, film->interop ());
-	vertical->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
+	right->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
+	_make = new wxButton (this, wxID_ANY, _("Make KDMs"));
+	right->Add (_make, 0, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		vertical->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
-	}
-
-	/* Make an overall sizer to get a nice border, and put some buttons in */
+	/* Make an overall sizer to get a nice border */
 
 	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (vertical, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
+	overall_sizer->Add (horizontal, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
 	/* Bind */
 
 	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 	_timing->TimingChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
+	_make->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMDialog::make_clicked, this));
 
 	setup_sensitivity ();
 
@@ -111,67 +117,50 @@ KDMDialog::setup_sensitivity ()
 {
 	_screens->setup_sensitivity ();
 	_output->setup_sensitivity ();
-
-	bool const sd = _cpl->has_selected ();
-
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
-	if (ok) {
-		ok->Enable (!_screens->screens().empty() && _timing->valid() && sd);
-	}
+	_make->Enable (!_screens->screens().empty() && _timing->valid() && _cpl->has_selected());
 }
 
-boost::filesystem::path
-KDMDialog::cpl () const
+void
+KDMDialog::make_clicked ()
 {
-	return _cpl->cpl ();
-}
+	shared_ptr<const Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
 
-list<shared_ptr<Screen> >
-KDMDialog::screens () const
-{
-	return _screens->screens ();
-}
-
-boost::posix_time::ptime
-KDMDialog::from () const
-{
-	return _timing->from ();
-}
-
-boost::posix_time::ptime
-KDMDialog::until () const
-{
-	return _timing->until ();
-}
-
-boost::filesystem::path
-KDMDialog::directory () const
-{
-	return _output->directory ();
-}
-
-bool
-KDMDialog::write_to () const
-{
-	return _output->write_to ();
-}
-
-dcp::Formulation
-KDMDialog::formulation () const
-{
-	return _output->formulation ();
-}
-
-KDMNameFormat
-KDMDialog::name_format () const
-{
-	return _output->name_format ();
-}
-
-int
-KDMDialog::ShowModal ()
-{
-	int const r = wxDialog::ShowModal ();
 	_output->save_kdm_name_format ();
-	return r;
+
+	try {
+		list<ScreenKDM> screen_kdms = film->make_kdms (
+			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation()
+			);
+
+		NameFormat::Map name_values;
+		name_values["film_name"] = film->name();
+		name_values["from"] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
+		name_values["to"] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
+
+		if (_output->write_to ()) {
+			ScreenKDM::write_files (
+				screen_kdms,
+				_output->directory(),
+				_output->name_format(),
+				name_values
+				);
+		} else {
+			JobManager::instance()->add (
+				shared_ptr<Job> (new SendKDMEmailJob (
+							 CinemaKDMs::collect (screen_kdms),
+							 _output->name_format(),
+							 name_values,
+							 film->dcp_name(),
+							 film->log()
+							 ))
+				);
+		}
+	} catch (dcp::NotEncryptedError& e) {
+		error_dialog (this, _("CPL's content is not encrypted."));
+	} catch (exception& e) {
+		error_dialog (this, e.what ());
+	} catch (...) {
+		error_dialog (this, _("An unknown exception occurred."));
+	}
 }

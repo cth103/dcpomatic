@@ -76,7 +76,17 @@ private:
 	virtual void update_example ()
 	{
 		_name.set_specification (wx_to_std (_specification->GetValue ()));
-		_example->SetLabel (wxString::Format (_("e.g. %s"), _name.get (_example_values)));
+
+		wxString example = wxString::Format (_("e.g. %s"), _name.get (_example_values));
+		wxString wrapped;
+		for (size_t i = 0; i < example.Length(); ++i) {
+			if (i > 0 && (i % 30) == 0) {
+				wrapped += "\n";
+			}
+			wrapped += example[i];
+		}
+
+		_example->SetLabel (wrapped);
 	}
 
 	wxPanel* _panel;

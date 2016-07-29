@@ -52,20 +52,20 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	add_cinemas ();
 
-	wxGridSizer* target_buttons = new wxGridSizer (2, DCPOMATIC_BUTTON_STACK_GAP * 2, DCPOMATIC_SIZER_Y_GAP);
+	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
 
 	_add_cinema = new wxButton (this, wxID_ANY, _("Add Cinema..."));
-	target_buttons->Add (_add_cinema, 1, wxEXPAND);
-	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
-	target_buttons->Add (_add_screen, 1, wxEXPAND);
+	target_buttons->Add (_add_cinema, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	_edit_cinema = new wxButton (this, wxID_ANY, _("Edit Cinema..."));
-	target_buttons->Add (_edit_cinema, 1, wxEXPAND);
-	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
-	target_buttons->Add (_edit_screen, 1, wxEXPAND);
+	target_buttons->Add (_edit_cinema, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	_remove_cinema = new wxButton (this, wxID_ANY, _("Remove Cinema"));
-	target_buttons->Add (_remove_cinema, 1, wxEXPAND);
+	target_buttons->Add (_remove_cinema, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	_add_screen = new wxButton (this, wxID_ANY, _("Add Screen..."));
+	target_buttons->Add (_add_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	_edit_screen = new wxButton (this, wxID_ANY, _("Edit Screen..."));
+	target_buttons->Add (_edit_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	_remove_screen = new wxButton (this, wxID_ANY, _("Remove Screen"));
-	target_buttons->Add (_remove_screen, 1, wxEXPAND);
+	target_buttons->Add (_remove_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
 	targets->Add (target_buttons, 0, 0);
 

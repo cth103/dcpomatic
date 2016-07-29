@@ -1,5 +1,8 @@
 2016-07-29  c.hetherington  <cth@carlh.net>
 
+	* Rearrange Make KDM window and replace the
+	confusing OK/Cancel buttons with "Make KDM" (part of #848).
+
 	* Allow configuration of KDM filename format.
 
 2016-07-28  Carl Hetherington  <cth@carlh.net>
