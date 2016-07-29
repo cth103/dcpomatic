@@ -46,7 +46,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	_type->SetSelection (0);
 
 	{
-		int flags = wxALIGN_TOP | wxTOP;
+		int flags = wxALIGN_TOP | wxTOP | wxLEFT;
 		wxString t = _("Filename format");
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
