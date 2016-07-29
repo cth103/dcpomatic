@@ -19,6 +19,7 @@
 */
 
 #include "job.h"
+#include "kdm_name_format.h"
 #include <dcp/types.h>
 #include <boost/filesystem.hpp>
 
@@ -30,11 +31,10 @@ class SendKDMEmailJob : public Job
 {
 public:
 	SendKDMEmailJob (
-		std::string film_name,
-		std::string cpl_name,
-		boost::posix_time::ptime from,
-		boost::posix_time::ptime to,
 		std::list<CinemaKDMs> cinema_kdms,
+		KDMNameFormat name_format,
+		NameFormat::Map name_values,
+		std::string cpl_name,
 		boost::shared_ptr<Log> log
 		);
 
@@ -43,10 +43,9 @@ public:
 	void run ();
 
 private:
-	std::string _film_name;
+	KDMNameFormat _name_format;
+	NameFormat::Map _name_values;
 	std::string _cpl_name;
-	boost::posix_time::ptime _from;
-	boost::posix_time::ptime _to;
 	std::list<CinemaKDMs> _cinema_kdms;
 	boost::shared_ptr<Log> _log;
 };

@@ -19,6 +19,7 @@
 */
 
 #include "wx_util.h"
+#include "lib/kdm_name_format.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>
@@ -50,6 +51,9 @@ public:
 	boost::filesystem::path directory () const;
 	bool write_to () const;
 	dcp::Formulation formulation () const;
+	KDMNameFormat name_format () const;
+
+	int ShowModal ();
 
 private:
 	void setup_sensitivity ();

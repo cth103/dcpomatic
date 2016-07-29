@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,33 +18,16 @@
 
 */
 
-#ifndef DCPOMATIC_SCREEN_KDM_H
-#define DCPOMATIC_SCREEN_KDM_H
-
 #include "kdm_name_format.h"
-#include <dcp/encrypted_kdm.h>
-#include <boost/shared_ptr.hpp>
 
-class Screen;
+using std::string;
 
-/** Simple class to collect a screen and an encrypted KDM */
-class ScreenKDM
+KDMNameFormat::KDMNameFormat (string specification)
+	: NameFormat (specification)
 {
-public:
-	ScreenKDM (boost::shared_ptr<Screen> s, dcp::EncryptedKDM k)
-		: screen (s)
-		, kdm (k)
-	{}
-
-	static void write_files (
-		std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory,
-		KDMNameFormat name_format, NameFormat::Map name_values
-		);
-
-	boost::shared_ptr<Screen> screen;
-	dcp::EncryptedKDM kdm;
-};
-
-extern bool operator== (ScreenKDM const & a, ScreenKDM const & b);
-
-#endif
+	add ("film_name", 'f', "film name");
+	add ("cinema", 'c', "cinema");
+	add ("screen", 's', "screen");
+	add ("from", 'b', "from date/time");
+	add ("to", 'e', "to date/time");
+}

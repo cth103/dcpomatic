@@ -18,8 +18,10 @@
 
 */
 
+#include "lib/config.h"
 #include "kdm_output_panel.h"
 #include "wx_util.h"
+#include "name_format_editor.h"
 #include <dcp/types.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
@@ -42,6 +44,27 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	}
 	table->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
+
+	{
+		int flags = wxALIGN_TOP | wxTOP;
+		wxString t = _("Filename format");
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+#endif
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
+		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+	}
+
+	_filename_format = new NameFormatEditor<KDMNameFormat> (this, Config::instance()->kdm_filename_format());
+	NameFormat::Map ex;
+	ex["film_name"] = "Bambi";
+	ex["cinema"] = "Lumière";
+	ex["screen"] = "Screen 1";
+	ex["from"] = "2012/03/15 12:30";
+	ex["to"] = "2012/03/22 02:30";
+	_filename_format->set_example (ex);
+	table->Add (_filename_format->panel(), 1, wxEXPAND);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
@@ -90,4 +113,16 @@ dcp::Formulation
 KDMOutputPanel::formulation () const
 {
 	return (dcp::Formulation) reinterpret_cast<intptr_t> (_type->GetClientData (_type->GetSelection()));
+}
+
+void
+KDMOutputPanel::save_kdm_name_format () const
+{
+	Config::instance()->set_kdm_filename_format (name_format ());
+}
+
+KDMNameFormat
+KDMOutputPanel::name_format () const
+{
+	return _filename_format->get ();
 }

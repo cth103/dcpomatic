@@ -27,6 +27,7 @@
 #include "emailer.h"
 #include "compose.hpp"
 #include "log.h"
+#include "kdm_name_format.h"
 #include <zip.h>
 #include <boost/foreach.hpp>
 
@@ -39,7 +40,7 @@ using std::runtime_error;
 using boost::shared_ptr;
 
 void
-CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) const
+CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, KDMNameFormat name_format, NameFormat::Map name_values) const
 {
 	int error;
 	struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -52,6 +53,8 @@ CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) c
 
 	list<shared_ptr<string> > kdm_strings;
 
+	name_values["cinema"] = cinema->name;
+
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
 		shared_ptr<string> kdm (new string (i.kdm.as_xml ()));
 		kdm_strings.push_back (kdm);
@@ -61,7 +64,9 @@ CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) c
 			throw runtime_error ("could not create ZIP source");
 		}
 
-		if (zip_add (zip, i.filename(film_name).c_str(), source) == -1) {
+		name_values["screen"] = i.screen->name;
+		string const name = name_format.get(name_values) + ".xml";
+		if (zip_add (zip, name.c_str(), source) == -1) {
 			throw runtime_error ("failed to add KDM to ZIP archive");
 		}
 	}
@@ -71,6 +76,9 @@ CinemaKDMs::make_zip_file (string film_name, boost::filesystem::path zip_file) c
 	}
 }
 
+/** Collect a list of ScreenKDMs into a list of CinemaKDMs so that each
+ *  CinemaKDM contains the KDMs for its cinema.
+ */
 list<CinemaKDMs>
 CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
 {
@@ -106,21 +114,36 @@ CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
 	return cinema_kdms;
 }
 
+/** Write one ZIP file per cinema into a directory */
 void
-CinemaKDMs::write_zip_files (string film_name, list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory)
+CinemaKDMs::write_zip_files (
+	list<CinemaKDMs> cinema_kdms,
+	boost::filesystem::path directory,
+	KDMNameFormat name_format,
+	NameFormat::Map name_values
+	)
 {
+	/* No specific screen */
+	name_values["screen"] = "";
+
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
-		path /= tidy_for_filename (i.cinema->name) + ".zip";
-		i.make_zip_file (film_name, path);
+		name_values["cinema"] = i.cinema->name;
+		path /= name_format.get(name_values) + ".zip";
+		i.make_zip_file (path, name_format, name_values);
 	}
 }
 
-/** @param log Log to write email session transcript to, or 0 */
-/* XXX: should probably get from/to from the KDMs themselves */
+/** Email one ZIP file per cinema to the cinema.
+ *  @param log Log to write email session transcript to, or 0.
+ */
 void
 CinemaKDMs::email (
-	string film_name, string cpl_name, list<CinemaKDMs> cinema_kdms, dcp::LocalTime from, dcp::LocalTime to, shared_ptr<Log> log
+	list<CinemaKDMs> cinema_kdms,
+	KDMNameFormat name_format,
+	NameFormat::Map name_values,
+	string cpl_name,
+	shared_ptr<Log> log
 	)
 {
 	Config* config = Config::instance ();
@@ -129,26 +152,27 @@ CinemaKDMs::email (
 		throw NetworkError (_("No mail server configured in preferences"));
 	}
 
+	/* No specific screen */
+	name_values["screen"] = "";
+
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+
+		name_values["cinema"] = i.cinema->name;
 
 		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
 		zip_file /= boost::filesystem::unique_path().string() + ".zip";
-		i.make_zip_file (film_name, zip_file);
+		i.make_zip_file (zip_file, name_format, name_values);
 
 		string subject = config->kdm_subject();
-		locked_stringstream start;
-		start << from.date() << " " << from.time_of_day();
-		locked_stringstream end;
-		end << to.date() << " " << to.time_of_day();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (subject, "$START_TIME", start.str ());
-		boost::algorithm::replace_all (subject, "$END_TIME", end.str ());
+		boost::algorithm::replace_all (subject, "$START_TIME", name_values["from"]);
+		boost::algorithm::replace_all (subject, "$END_TIME", name_values["to"]);
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
 
 		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (body, "$START_TIME", start.str ());
-		boost::algorithm::replace_all (body, "$END_TIME", end.str ());
+		boost::algorithm::replace_all (body, "$START_TIME", name_values["from"]);
+		boost::algorithm::replace_all (body, "$END_TIME", name_values["to"]);
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
 		locked_stringstream screens;
@@ -166,8 +190,7 @@ CinemaKDMs::email (
 			email.add_bcc (config->kdm_bcc ());
 		}
 
-		string const name = tidy_for_filename(i.cinema->name) + "_" + tidy_for_filename(film_name) + ".zip";
-		email.add_attachment (zip_file, name, "application/zip");
+		email.add_attachment (zip_file, name_format.get(name_values) + ".zip", "application/zip");
 
 		Config* c = Config::instance ();
 

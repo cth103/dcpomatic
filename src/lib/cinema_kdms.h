@@ -27,16 +27,22 @@ class Log;
 class CinemaKDMs
 {
 public:
-	void make_zip_file (std::string film_name, boost::filesystem::path zip_file) const;
+	void make_zip_file (boost::filesystem::path zip_file, KDMNameFormat name_format, NameFormat::Map name_values) const;
 
 	static std::list<CinemaKDMs> collect (std::list<ScreenKDM> kdms);
-	static void write_zip_files (std::string film_name, std::list<CinemaKDMs> cinema_kdms, boost::filesystem::path directory);
-	static void email (
-		std::string film_name,
-		std::string cpl_name,
+
+	static void write_zip_files (
 		std::list<CinemaKDMs> cinema_kdms,
-		dcp::LocalTime from,
-		dcp::LocalTime to,
+		boost::filesystem::path directory,
+		KDMNameFormat name_format,
+		NameFormat::Map name_values
+		);
+
+	static void email (
+		std::list<CinemaKDMs> cinema_kdms,
+		KDMNameFormat name_format,
+		NameFormat::Map name_values,
+		std::string cpl_name,
 		boost::shared_ptr<Log> log
 		);
 

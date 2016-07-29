@@ -492,20 +492,26 @@ private:
 
 		try {
 			list<ScreenKDM> screen_kdms = _film->make_kdms (d->screens(), d->cpl(), d->from(), d->until(), d->formulation());
+
+			NameFormat::Map name_values;
+			name_values["film_name"] = _film->name();
+			name_values["from"] = dcp::LocalTime(d->from()).date() + " " + dcp::LocalTime(d->from()).time_of_day();
+			name_values["to"] = dcp::LocalTime(d->until()).date() + " " + dcp::LocalTime(d->until()).time_of_day();
+
 			if (d->write_to ()) {
 				ScreenKDM::write_files (
-					_film->name(),
 					screen_kdms,
-					d->directory()
+					d->directory(),
+					d->name_format(),
+					name_values
 					);
 			} else {
 				JobManager::instance()->add (
 					shared_ptr<Job> (new SendKDMEmailJob (
-								 _film->name(),
-								 _film->dcp_name(),
-								 d->from(),
-								 d->until(),
 								 CinemaKDMs::collect (screen_kdms),
+								 d->name_format(),
+								 name_values,
+								 _film->dcp_name(),
 								 _film->log()
 								 ))
 					);

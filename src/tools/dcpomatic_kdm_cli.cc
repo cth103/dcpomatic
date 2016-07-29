@@ -284,19 +284,29 @@ int main (int argc, char* argv[])
 			output = ".";
 		}
 
+		NameFormat::Map values;
+		values["film_name"] = film->name();
+		values["from"] = dcp::LocalTime(valid_from.get()).date() + " " + dcp::LocalTime(valid_from.get()).time_of_day();
+		values["to"] = dcp::LocalTime(valid_to.get()).date() + " " + dcp::LocalTime(valid_to.get()).time_of_day();
+
 		try {
 			list<ScreenKDM> screen_kdms = film->make_kdms (
 				(*i)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
 				);
 
 			if (zip) {
-				CinemaKDMs::write_zip_files (film->name(), CinemaKDMs::collect (screen_kdms), output);
+				CinemaKDMs::write_zip_files (
+					CinemaKDMs::collect (screen_kdms),
+					output,
+					Config::instance()->kdm_filename_format(),
+					values
+					);
 
 				if (verbose) {
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				ScreenKDM::write_files (film->name(), screen_kdms, output);
+				ScreenKDM::write_files (screen_kdms, output, Config::instance()->kdm_filename_format(), values);
 
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";

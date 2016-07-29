@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,6 +26,7 @@
 #define DCPOMATIC_CONFIG_H
 
 #include "isdcf_metadata.h"
+#include "kdm_name_format.h"
 #include "types.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
@@ -266,6 +267,10 @@ public:
 		return _show_hints_before_make_dcp;
 	}
 
+	KDMNameFormat kdm_filename_format () const {
+		return _kdm_filename_format;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -474,6 +479,10 @@ public:
 		maybe_set (_show_hints_before_make_dcp, s);
 	}
 
+	void set_kdm_filename_format (KDMNameFormat n) {
+		maybe_set (_kdm_filename_format, n);
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -585,6 +594,7 @@ private:
 	std::vector<dcp::EncryptedKDM> _dkdms;
 	boost::filesystem::path _cinemas_file;
 	bool _show_hints_before_make_dcp;
+	KDMNameFormat _kdm_filename_format;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

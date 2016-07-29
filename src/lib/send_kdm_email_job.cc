@@ -32,18 +32,16 @@ using boost::shared_ptr;
 
 /** @param log Log to write to, or 0 */
 SendKDMEmailJob::SendKDMEmailJob (
-	string film_name,
-	string cpl_name,
-	boost::posix_time::ptime from,
-	boost::posix_time::ptime to,
 	list<CinemaKDMs> cinema_kdms,
+	KDMNameFormat name_format,
+	NameFormat::Map name_values,
+	string cpl_name,
 	shared_ptr<Log> log
 	)
 	: Job (shared_ptr<Film>())
-	, _film_name (film_name)
+	, _name_format (name_format)
+	, _name_values (name_values)
 	, _cpl_name (cpl_name)
-	, _from (from)
-	, _to (to)
 	, _cinema_kdms (cinema_kdms)
 	, _log (log)
 {
@@ -53,11 +51,12 @@ SendKDMEmailJob::SendKDMEmailJob (
 string
 SendKDMEmailJob::name () const
 {
-	if (_film_name.empty ()) {
+	NameFormat::Map::const_iterator i = _name_values.find ("film_name");
+	if (i == _name_values.end() || i->second.empty ()) {
 		return _("Email KDMs");
 	}
 
-	return String::compose (_("Email KDMs for %1"), _film_name);
+	return String::compose (_("Email KDMs for %1"), i->second);
 }
 
 string
@@ -70,7 +69,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	CinemaKDMs::email (_film_name, _cpl_name, _cinema_kdms,	dcp::LocalTime (_from), dcp::LocalTime (_to), _log);
+	CinemaKDMs::email (_cinema_kdms, _name_format, _name_values, _cpl_name, _log);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

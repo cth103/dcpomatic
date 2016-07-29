@@ -161,3 +161,17 @@ KDMDialog::formulation () const
 {
 	return _output->formulation ();
 }
+
+KDMNameFormat
+KDMDialog::name_format () const
+{
+	return _output->name_format ();
+}
+
+int
+KDMDialog::ShowModal ()
+{
+	int const r = wxDialog::ShowModal ();
+	_output->save_kdm_name_format ();
+	return r;
+}

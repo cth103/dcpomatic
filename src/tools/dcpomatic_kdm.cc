@@ -288,8 +288,13 @@ private:
 				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->recipient.get(), i->trusted_devices, _output->formulation())));
 			}
 
+			NameFormat::Map name_values;
+			name_values["film_name"] = decrypted.content_title_text();
+			name_values["from"] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
+			name_values["to"] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
+
 			if (_output->write_to()) {
-				ScreenKDM::write_files (decrypted.content_title_text(), screen_kdms, _output->directory());
+				ScreenKDM::write_files (screen_kdms, _output->directory(), _output->name_format(), name_values);
 				/* XXX: proper plural form support in wxWidgets? */
 				wxString s = screen_kdms.size() == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
 				message_dialog (
@@ -302,10 +307,10 @@ private:
 					film_name = decrypted.content_title_text ();
 				}
 				shared_ptr<Job> job (new SendKDMEmailJob (
-							     film_name,
-							     decrypted.content_title_text(),
-							     _timing->from(), _timing->until(),
 							     CinemaKDMs::collect (screen_kdms),
+							     _output->name_format(),
+							     name_values,
+							     decrypted.content_title_text(),
 							     shared_ptr<Log> ()
 							     ));
 
