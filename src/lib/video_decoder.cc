@@ -90,7 +90,22 @@ VideoDecoder::get (Frame frame, bool accurate)
 		_parent->seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
 	}
 
-	unsigned int const frames_wanted = _content->video->frame_type() == VIDEO_FRAME_TYPE_2D ? 1 : 2;
+	unsigned int frames_wanted = 0;
+	switch (_content->video->frame_type()) {
+	case VIDEO_FRAME_TYPE_2D:
+	case VIDEO_FRAME_TYPE_3D:
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+	case VIDEO_FRAME_TYPE_3D_LEFT:
+	case VIDEO_FRAME_TYPE_3D_RIGHT:
+		frames_wanted = 1;
+		break;
+	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+		frames_wanted = 2;
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
 
 	list<ContentVideo> dec;
 
@@ -288,8 +303,16 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 			_content->video->frame_type() == VIDEO_FRAME_TYPE_2D ? EYES_BOTH : EYES_LEFT
 			);
 	} else if (!_decoded.empty ()) {
+		/* Get the last frame we have */
 		from = _decoded.back().frame;
+		/* And move onto the first frame we need */
 		++(*from);
+		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_LEFT || _content->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+			/* The previous ++ will increment a 3D-left-eye to the same index right-eye.  If we are dealing with
+			   a single-eye source we need an extra ++ to move back to the same eye.
+			*/
+			++(*from);
+		}
 	}
 
 	/* If we've pre-rolled on a seek we may now receive out-of-order frames

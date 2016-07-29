@@ -1,5 +1,8 @@
 2016-07-29  c.hetherington  <cth@carlh.net>
 
+	* Fix various problems with separate L/R eye
+	content.
+
 	* Rearrange Make KDM window and replace the
 	confusing OK/Cancel buttons with "Make KDM" (part of #848).
 	Rearrange the KDM Creator window similarly.
