@@ -94,7 +94,6 @@ sources = """
           job.cc
           job_manager.cc
           json_server.cc
-          kdm_filename_format.cc
           log.cc
           log_entry.cc
           magick_image_proxy.cc

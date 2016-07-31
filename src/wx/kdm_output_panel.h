@@ -20,7 +20,6 @@
 
 #include "wx_util.h"
 #include "name_format_editor.h"
-#include "lib/kdm_filename_format.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
@@ -36,14 +35,14 @@ public:
 	boost::filesystem::path directory () const;
 	bool write_to () const;
 	dcp::Formulation formulation () const;
-	KDMFilenameFormat name_format () const;
+	dcp::NameFormat name_format () const;
 
 	void setup_sensitivity ();
 	void save_kdm_name_format () const;
 
 private:
 	wxChoice* _type;
-	NameFormatEditor<KDMFilenameFormat>* _filename_format;
+	NameFormatEditor* _filename_format;
 	wxRadioButton* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;

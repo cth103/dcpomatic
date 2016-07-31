@@ -26,9 +26,8 @@
 #define DCPOMATIC_CONFIG_H
 
 #include "isdcf_metadata.h"
-#include "kdm_filename_format.h"
 #include "types.h"
-#include <dcp/filename_format.h>
+#include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
 #include <boost/shared_ptr.hpp>
@@ -268,11 +267,11 @@ public:
 		return _show_hints_before_make_dcp;
 	}
 
-	KDMFilenameFormat kdm_filename_format () const {
+	dcp::NameFormat kdm_filename_format () const {
 		return _kdm_filename_format;
 	}
 
-	dcp::FilenameFormat dcp_filename_format () const {
+	dcp::NameFormat dcp_filename_format () const {
 		return _dcp_filename_format;
 	}
 
@@ -483,11 +482,11 @@ public:
 		maybe_set (_show_hints_before_make_dcp, s);
 	}
 
-	void set_kdm_filename_format (KDMFilenameFormat n) {
+	void set_kdm_filename_format (dcp::NameFormat n) {
 		maybe_set (_kdm_filename_format, n);
 	}
 
-	void set_dcp_filename_format (dcp::FilenameFormat n) {
+	void set_dcp_filename_format (dcp::NameFormat n) {
 		maybe_set (_dcp_filename_format, n);
 	}
 
@@ -602,8 +601,8 @@ private:
 	std::vector<dcp::EncryptedKDM> _dkdms;
 	boost::filesystem::path _cinemas_file;
 	bool _show_hints_before_make_dcp;
-	KDMFilenameFormat _kdm_filename_format;
-	dcp::FilenameFormat _dcp_filename_format;
+	dcp::NameFormat _kdm_filename_format;
+	dcp::NameFormat _dcp_filename_format;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

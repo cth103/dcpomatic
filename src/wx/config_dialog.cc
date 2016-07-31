@@ -1420,7 +1420,7 @@ private:
 		examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
 		examples['r'] = "1";
 		examples['n'] = "4";
-		_dcp_filename_format = new NameFormatEditor<dcp::FilenameFormat> (_panel, Config::instance()->dcp_filename_format(), titles, examples);
+		_dcp_filename_format = new NameFormatEditor (_panel, Config::instance()->dcp_filename_format(), titles, examples);
 		table->Add (_dcp_filename_format->panel(), 1, wxEXPAND | wxALL);
 
 #ifdef __WXOSX__
@@ -1550,7 +1550,7 @@ private:
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxCheckBox* _only_servers_encode;
-	NameFormatEditor<dcp::FilenameFormat>* _dcp_filename_format;
+	NameFormatEditor* _dcp_filename_format;
 	wxCheckBox* _log_general;
 	wxCheckBox* _log_warning;
 	wxCheckBox* _log_error;

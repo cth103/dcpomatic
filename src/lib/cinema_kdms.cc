@@ -27,7 +27,6 @@
 #include "emailer.h"
 #include "compose.hpp"
 #include "log.h"
-#include "kdm_filename_format.h"
 #include <zip.h>
 #include <boost/foreach.hpp>
 
@@ -40,7 +39,7 @@ using std::runtime_error;
 using boost::shared_ptr;
 
 void
-CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, KDMFilenameFormat name_format, dcp::NameFormat::Map name_values) const
+CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const
 {
 	int error;
 	struct zip* zip = zip_open (zip_file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
@@ -119,7 +118,7 @@ void
 CinemaKDMs::write_zip_files (
 	list<CinemaKDMs> cinema_kdms,
 	boost::filesystem::path directory,
-	KDMFilenameFormat name_format,
+	dcp::NameFormat name_format,
 	dcp::NameFormat::Map name_values
 	)
 {
@@ -140,7 +139,7 @@ CinemaKDMs::write_zip_files (
 void
 CinemaKDMs::email (
 	list<CinemaKDMs> cinema_kdms,
-	KDMFilenameFormat name_format,
+	dcp::NameFormat name_format,
 	dcp::NameFormat::Map name_values,
 	string cpl_name,
 	shared_ptr<Log> log

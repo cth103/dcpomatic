@@ -30,8 +30,7 @@
 #include "util.h"
 #include "cross.h"
 #include "raw_convert.h"
-#include "kdm_filename_format.h"
-#include <dcp/filename_format.h>
+#include <dcp/name_format.h>
 #include <dcp/colour_matrix.h>
 #include <dcp/certificate_chain.h>
 #include <libcxml/cxml.h>
@@ -110,8 +109,8 @@ Config::set_defaults ()
 #endif
 	_cinemas_file = path ("cinemas.xml");
 	_show_hints_before_make_dcp = true;
-	_kdm_filename_format = KDMFilenameFormat ("KDM %f %c %s");
-	_dcp_filename_format = dcp::FilenameFormat ("%t_%i");
+	_kdm_filename_format = dcp::NameFormat ("KDM %f %c %s");
+	_dcp_filename_format = dcp::NameFormat ("%t_%i");
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -294,8 +293,8 @@ try
 
 	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or (path ("cinemas.xml").string ());
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
-	_kdm_filename_format = KDMFilenameFormat (f.optional_string_child("KDMFilenameFormat").get_value_or ("KDM %f %c %s"));
-	_dcp_filename_format = dcp::FilenameFormat (f.optional_string_child("DCPFilenameFormat").get_value_or ("%t_%i.mxf"));
+	_kdm_filename_format = dcp::NameFormat (f.optional_string_child("KDMFilenameFormat").get_value_or ("KDM %f %c %s"));
+	_dcp_filename_format = dcp::NameFormat (f.optional_string_child("DCPFilenameFormat").get_value_or ("%t_%i.mxf"));
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {

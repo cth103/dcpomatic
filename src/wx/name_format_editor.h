@@ -25,44 +25,18 @@
 #include <dcp/name_format.h>
 #include <wx/wx.h>
 #include <boost/foreach.hpp>
+#include <boost/signals2.hpp>
 
-template <class T>
 class NameFormatEditor
 {
 public:
-	NameFormatEditor (wxWindow* parent, T name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples)
-		: _panel (new wxPanel (parent))
-		, _example (new wxStaticText (_panel, wxID_ANY, ""))
-		, _sizer (new wxBoxSizer (wxVERTICAL))
-		, _specification (new wxTextCtrl (_panel, wxID_ANY, ""))
-		, _name (name)
-		, _examples (examples)
-	{
-		_sizer->Add (_specification, 0, wxEXPAND, DCPOMATIC_SIZER_Y_GAP);
-		_sizer->Add (_example, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
-		_panel->SetSizer (_sizer);
-
-		BOOST_FOREACH (char c, name.components ()) {
-			wxStaticText* t = new wxStaticText (_panel, wxID_ANY, std_to_wx (String::compose ("%%%1 %2", c, titles[c])));
-			_sizer->Add (t);
-			wxFont font = t->GetFont();
-			font.SetStyle (wxFONTSTYLE_ITALIC);
-			font.SetPointSize (font.GetPointSize() - 1);
-			t->SetFont (font);
-			t->SetForegroundColour (wxColour (0, 0, 204));
-		}
-
-		_specification->SetValue (std_to_wx (_name.specification ()));
-		_specification->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&NameFormatEditor::changed, this));
-
-		update_example ();
-	}
+	NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples);
 
 	wxPanel* panel () const {
 		return _panel;
 	}
 
-	T get () const {
+	dcp::NameFormat get () const {
 		return _name;
 	}
 
@@ -70,34 +44,15 @@ public:
 
 private:
 
-	void changed ()
-	{
-		update_example ();
-		Changed ();
-	}
-
-	virtual void update_example ()
-	{
-		_name.set_specification (wx_to_std (_specification->GetValue ()));
-
-		wxString example = wxString::Format (_("e.g. %s"), _name.get (_examples));
-		wxString wrapped;
-		for (size_t i = 0; i < example.Length(); ++i) {
-			if (i > 0 && (i % 40) == 0) {
-				wrapped += "\n";
-			}
-			wrapped += example[i];
-		}
-
-		_example->SetLabel (wrapped);
-	}
+	void changed ();
+	void update_example ();
 
 	wxPanel* _panel;
 	wxStaticText* _example;
 	wxSizer* _sizer;
 	wxTextCtrl* _specification;
 
-	T _name;
+	dcp::NameFormat _name;
 	dcp::NameFormat::Map _examples;
 };
 

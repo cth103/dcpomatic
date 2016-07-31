@@ -29,8 +29,8 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
-	dcp::FilenameFormat nf ("%c");
-	Config::instance()->set_dcp_filename_format (dcp::FilenameFormat ("%c"));
+	dcp::NameFormat nf ("%c");
+	Config::instance()->set_dcp_filename_format (dcp::NameFormat ("%c"));
 	shared_ptr<Film> film = new_test_film ("file_naming_test");
 	film->set_name ("file_naming_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));

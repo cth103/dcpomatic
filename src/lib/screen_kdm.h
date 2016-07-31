@@ -21,8 +21,8 @@
 #ifndef DCPOMATIC_SCREEN_KDM_H
 #define DCPOMATIC_SCREEN_KDM_H
 
-#include "kdm_filename_format.h"
 #include <dcp/encrypted_kdm.h>
+#include <dcp/name_format.h>
 #include <boost/shared_ptr.hpp>
 
 class Screen;
@@ -38,7 +38,7 @@ public:
 
 	static void write_files (
 		std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory,
-		KDMFilenameFormat name_format, dcp::NameFormat::Map name_values
+		dcp::NameFormat name_format, dcp::NameFormat::Map name_values
 		);
 
 	boost::shared_ptr<Screen> screen;

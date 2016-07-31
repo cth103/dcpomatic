@@ -19,7 +19,6 @@
 */
 
 #include "wx_util.h"
-#include "lib/kdm_filename_format.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/shared_ptr.hpp>

@@ -68,6 +68,7 @@ sources = """
           key_dialog.cc
           make_chain_dialog.cc
           move_to_dialog.cc
+          name_format_editor.cc
           new_film_dialog.cc
           playhead_to_timecode_dialog.cc
           playhead_to_frame_dialog.cc
