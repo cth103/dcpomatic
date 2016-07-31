@@ -472,8 +472,7 @@ public:
 	}
 #endif
 
-	void set_dkdms (std::vector<dcp::EncryptedKDM> dkdms)
-	{
+	void set_dkdms (std::vector<dcp::EncryptedKDM> dkdms) {
 		_dkdms = dkdms;
 		changed ();
 	}
