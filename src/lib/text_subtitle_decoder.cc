@@ -87,7 +87,7 @@ TextSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) 
 
 	for (vector<sub::Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 		ContentTimePeriod t = content_time_period (*i);
-		if ((starting && p.contains (t.from)) || (!starting && p.overlaps (t))) {
+		if ((starting && p.contains (t.from)) || (!starting && p.overlap (t))) {
 			d.push_back (t);
 		}
 	}

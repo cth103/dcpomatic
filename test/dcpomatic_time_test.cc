@@ -55,18 +55,20 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_overlaps_test)
 
 	TimePeriod<DCPTime> a (DCPTime (0), DCPTime (4));
 	TimePeriod<DCPTime> b (DCPTime (4), DCPTime (8));
-	BOOST_CHECK (!a.overlaps (b));
+	BOOST_CHECK (!a.overlap (b));
 
 	/* Some more obvious non-overlaps */
 	a = TimePeriod<DCPTime> (DCPTime (0), DCPTime (4));
 	b = TimePeriod<DCPTime> (DCPTime (5), DCPTime (8));
-	BOOST_CHECK (!a.overlaps (b));
+	BOOST_CHECK (!a.overlap (b));
 
 	/* Some overlaps */
 	a = TimePeriod<DCPTime> (DCPTime (0), DCPTime (4));
 	b = TimePeriod<DCPTime> (DCPTime (3), DCPTime (8));
-	BOOST_CHECK (a.overlaps (b));
+	BOOST_CHECK (a.overlap (b));
+	BOOST_CHECK_EQUAL (a.overlap(b).get(), DCPTimePeriod(DCPTime(3), DCPTime(4)));
 	a = TimePeriod<DCPTime> (DCPTime (1), DCPTime (9));
 	b = TimePeriod<DCPTime> (DCPTime (0), DCPTime (10));
-	BOOST_CHECK (a.overlaps (b));
+	BOOST_CHECK (a.overlap (b));
+	BOOST_CHECK_EQUAL (a.overlap(b).get(), DCPTimePeriod(DCPTime(1), DCPTime(9)));
 }

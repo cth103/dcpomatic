@@ -31,7 +31,7 @@ ContentList overlaps (ContentList cl, function<shared_ptr<ContentPart> (shared_p
 	ContentList overlaps;
 	DCPTimePeriod period (from, to);
 	BOOST_FOREACH (shared_ptr<Content> i, cl) {
-		if (part(i) && DCPTimePeriod(i->position(), i->end()).overlaps (period)) {
+		if (part(i) && DCPTimePeriod(i->position(), i->end()).overlap(period)) {
 			overlaps.push_back (i);
 		}
 	}

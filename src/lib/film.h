@@ -157,8 +157,12 @@ public:
 	}
 
 	std::list<DCPTimePeriod> reels () const;
-
 	std::list<int> mapped_audio_channels () const;
+
+	/** @param A period within the DCP
+	 *  @return Name of the content which most contributes to the given period.
+	 */
+	std::string content_summary (DCPTimePeriod period) const;
 
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.

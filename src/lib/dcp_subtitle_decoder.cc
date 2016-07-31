@@ -98,7 +98,7 @@ DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) c
 
 	for (list<dcp::SubtitleString>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 		ContentTimePeriod period = content_time_period (*i);
-		if ((starting && p.contains (period.from)) || (!starting && p.overlaps (period))) {
+		if ((starting && p.contains(period.from)) || (!starting && p.overlap(period))) {
 			d.push_back (period);
 		}
 	}

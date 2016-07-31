@@ -511,3 +511,28 @@ Playlist::required_disk_space (int j2k_bandwidth, int audio_channels, int audio_
 	/* Add on 64k for bits and pieces (metadata, subs etc) */
 	return video + audio + 65536;
 }
+
+string
+Playlist::content_summary (DCPTimePeriod period) const
+{
+	string best_summary;
+	int best_score = -1;
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		int score = 0;
+		optional<DCPTimePeriod> const o = DCPTimePeriod(i->position(), i->end()).overlap (period);
+		if (o) {
+			score += 100 * o.get().duration().get() / period.duration().get();
+		}
+
+		if (i->video) {
+			score += 100;
+		}
+
+		if (score > best_score) {
+			best_summary = i->path(0).leaf().string();
+			best_score = score;
+		}
+	}
+
+	return best_summary;
+}

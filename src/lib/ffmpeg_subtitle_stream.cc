@@ -157,7 +157,7 @@ FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting,
 
 	/* XXX: inefficient */
 	for (map<string, ContentTimePeriod>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if ((starting && period.contains (i->second.from)) || (!starting && period.overlaps (i->second))) {
+		if ((starting && period.contains(i->second.from)) || (!starting && period.overlap(i->second))) {
 			d.push_back (i->second);
 		}
 	}

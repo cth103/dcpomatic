@@ -1447,3 +1447,9 @@ Film::reels () const
 
 	return p;
 }
+
+string
+Film::content_summary (DCPTimePeriod period) const
+{
+	return _playlist->content_summary (period);
+}

@@ -28,6 +28,7 @@
 #include "frame_rate_change.h"
 #include "dcpomatic_assert.h"
 #include <locked_sstream.h>
+#include <boost/optional.hpp>
 #include <stdint.h>
 #include <cmath>
 #include <ostream>
@@ -261,8 +262,15 @@ public:
 		return TimePeriod<T> (from + o, to + o);
 	}
 
-	bool overlaps (TimePeriod<T> const & other) const {
-		return (from < other.to && to > other.from);
+	boost::optional<TimePeriod<T> > overlap (TimePeriod<T> const & other) {
+		T const max_from = std::max (from, other.from);
+		T const min_to = std::min (to, other.to);
+
+		if (max_from >= min_to) {
+			return boost::optional<TimePeriod<T> > ();
+		}
+
+		return TimePeriod<T> (max_from, min_to);
 	}
 
 	bool contains (T const & other) const {

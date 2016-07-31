@@ -63,6 +63,7 @@ def build(bld):
                  ffmpeg_pts_offset_test.cc
                  file_group_test.cc
                  file_log_test.cc
+                 file_naming_test.cc
                  film_metadata_test.cc
                  frame_rate_test.cc
                  image_filename_sorter_test.cc

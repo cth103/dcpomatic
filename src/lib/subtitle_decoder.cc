@@ -93,7 +93,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	list<T> out;
 	for (typename list<T>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if ((starting && period.contains (i->period().from)) || (!starting && period.overlaps (i->period ()))) {
+		if ((starting && period.contains(i->period().from)) || (!starting && period.overlap(i->period()))) {
 			out.push_back (*i);
 		}
 	}

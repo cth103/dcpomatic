@@ -47,7 +47,14 @@ namespace dcp {
 class ReelWriter
 {
 public:
-	ReelWriter (boost::shared_ptr<const Film> film, DCPTimePeriod period, boost::shared_ptr<Job> job, int reel_index, int reel_count);
+	ReelWriter (
+		boost::shared_ptr<const Film> film,
+		DCPTimePeriod period,
+		boost::shared_ptr<Job> job,
+		int reel_index,
+		int reel_count,
+		boost::optional<std::string> content_summary
+		);
 
 	void write (boost::optional<dcp::Data> encoded, Frame frame, Eyes eyes);
 	void fake_write (Frame frame, Eyes eyes, int size);
@@ -106,6 +113,7 @@ private:
 	int _reel_index;
 	/** number of reels in the DCP */
 	int _reel_count;
+	boost::optional<std::string> _content_summary;
 
 	boost::shared_ptr<dcp::PictureAsset> _picture_asset;
 	boost::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;

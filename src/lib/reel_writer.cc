@@ -60,7 +60,9 @@ using dcp::Data;
 
 int const ReelWriter::_info_size = 48;
 
-ReelWriter::ReelWriter (shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count)
+ReelWriter::ReelWriter (
+	shared_ptr<const Film> film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, optional<string> content_summary
+	)
 	: _film (film)
 	, _period (period)
 	, _first_nonexistant_frame (0)
@@ -69,6 +71,7 @@ ReelWriter::ReelWriter (shared_ptr<const Film> film, DCPTimePeriod period, share
 	, _total_written_audio_frames (0)
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
+	, _content_summary (content_summary)
 {
 	/* Create our picture asset in a subdirectory, named according to those
 	   film's parameters which affect the video output.  We will hard-link
@@ -113,7 +116,7 @@ ReelWriter::ReelWriter (shared_ptr<const Film> film, DCPTimePeriod period, share
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
-			_film->directory() / audio_asset_filename (_sound_asset, _reel_index, _reel_count),
+			_film->directory() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
 			_film->interop() ? dcp::INTEROP : dcp::SMPTE
 			);
 	}
@@ -268,7 +271,7 @@ ReelWriter::finish ()
 		boost::filesystem::path video_from = _picture_asset->file ();
 		boost::filesystem::path video_to;
 		video_to /= _film->dir (_film->dcp_name());
-		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count);
+		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
 
 		boost::system::error_code ec;
 		boost::filesystem::create_hard_link (video_from, video_to, ec);
@@ -288,7 +291,7 @@ ReelWriter::finish ()
 	if (_sound_asset) {
 		boost::filesystem::path audio_to;
 		audio_to /= _film->dir (_film->dcp_name ());
-		string const aaf = audio_asset_filename (_sound_asset, _reel_index, _reel_count);
+		string const aaf = audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary);
 		audio_to /= aaf;
 
 		boost::system::error_code ec;

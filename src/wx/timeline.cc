@@ -262,7 +262,7 @@ Timeline::assign_tracks ()
 				shared_ptr<Content> test_content = test->content();
 
 				if (test && test->track() && test->track().get() == t) {
-					if (content_period.overlaps (DCPTimePeriod(test_content->position(), test_content->end()))) {
+					if (content_period.overlap (DCPTimePeriod(test_content->position(), test_content->end()))) {
 						/* we have an overlap on track `t' */
 						++t;
 						break;
