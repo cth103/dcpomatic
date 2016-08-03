@@ -220,6 +220,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Tito Oliveira"));
 	supported_by.Add (wxT ("Kevin Orman"));
 	supported_by.Add (wxT ("Olov Östlund"));
+	supported_by.Add (wxT ("Vasiliy Popov"));
 	supported_by.Add (wxT ("Rui Pereira"));
 	supported_by.Add (wxT ("Denis Postle"));
 	supported_by.Add (wxT ("Aditya Pratama"));
