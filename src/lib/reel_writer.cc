@@ -334,7 +334,9 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		}
 	}
 
+	DCPOMATIC_ASSERT (reel_picture_asset);
 	reel->add (reel_picture_asset);
+
 	/* If we have a hash for this asset in the CPL, assume that it is correct */
 	if (reel_picture_asset->hash()) {
 		reel_picture_asset->asset_ref()->set_hash (reel_picture_asset->hash().get());

@@ -1376,6 +1376,17 @@ public:
 	{}
 
 private:
+	void add_top_aligned_label_to_sizer (wxSizer* table, wxWindow* parent, wxString text)
+	{
+		int flags = wxALIGN_TOP | wxTOP | wxLEFT;
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		text += wxT (":");
+#endif
+		wxStaticText* m = new wxStaticText (parent, wxID_ANY, text);
+		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+	}
+
 	void setup ()
 	{
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
@@ -1400,40 +1411,39 @@ private:
 		table->AddSpacer (0);
 
 		{
-			int flags = wxALIGN_TOP | wxTOP | wxLEFT;
-			wxString t = _("DCP filename format");
-#ifdef __WXOSX__
-			flags |= wxALIGN_RIGHT;
-			t += wxT (":");
-#endif
-			wxStaticText* m = new wxStaticText (_panel, wxID_ANY, t);
-			table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+			add_top_aligned_label_to_sizer (table, _panel, _("DCP metadata filename format"));
+			dcp::NameFormat::Map titles;
+			titles['t'] = "type (cpl/pkl)";
+			titles['i'] = "unique ID";
+			titles['c'] = "content filename";
+			dcp::NameFormat::Map examples;
+			examples['t'] = "cpl";
+			examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
+			examples['c'] = "myfile.mp4";
+			_dcp_metadata_filename_format = new NameFormatEditor (_panel, Config::instance()->dcp_metadata_filename_format(), titles, examples);
+			table->Add (_dcp_metadata_filename_format->panel(), 1, wxEXPAND | wxALL);
 		}
 
-		dcp::NameFormat::Map titles;
-		titles['t'] = "type (j2c/pcm/sub/cpl/pkl)";
-		titles['i'] = "unique ID";
-		titles['r'] = "reel number";
-		titles['n'] = "number of reels";
-		titles['c'] = "content filename";
-		dcp::NameFormat::Map examples;
-		examples['t'] = "j2c";
-		examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
-		examples['r'] = "1";
-		examples['n'] = "4";
-		examples['c'] = "myfile.mp4";
-		_dcp_filename_format = new NameFormatEditor (_panel, Config::instance()->dcp_filename_format(), titles, examples);
-		table->Add (_dcp_filename_format->panel(), 1, wxEXPAND | wxALL);
-
-#ifdef __WXOSX__
-		wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Log:"));
-		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL | wxALIGN_RIGHT, 6);
-#else
-		wxStaticText* m = new wxStaticText (_panel, wxID_ANY, _("Log"));
-		table->Add (m, 0, wxALIGN_TOP | wxLEFT | wxRIGHT | wxEXPAND | wxALL, 6);
-#endif
+		{
+			add_top_aligned_label_to_sizer (table, _panel, _("DCP asset filename format"));
+			dcp::NameFormat::Map titles;
+			titles['t'] = "type (j2c/pcm/sub)";
+			titles['i'] = "unique ID";
+			titles['r'] = "reel number";
+			titles['n'] = "number of reels";
+			titles['c'] = "content filename";
+			dcp::NameFormat::Map examples;
+			examples['t'] = "j2c";
+			examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
+			examples['r'] = "1";
+			examples['n'] = "4";
+			examples['c'] = "myfile.mp4";
+			_dcp_asset_filename_format = new NameFormatEditor (_panel, Config::instance()->dcp_asset_filename_format(), titles, examples);
+			table->Add (_dcp_asset_filename_format->panel(), 1, wxEXPAND | wxALL);
+		}
 
 		{
+			add_top_aligned_label_to_sizer (table, _panel, _("Log"));
 			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
 			_log_general = new wxCheckBox (_panel, wxID_ANY, _("General"));
 			t->Add (_log_general, 1, wxEXPAND | wxALL);
@@ -1463,7 +1473,8 @@ private:
 		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
 		_only_servers_encode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
-		_dcp_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_filename_format_changed, this));
+		_dcp_metadata_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_metadata_filename_format_changed, this));
+		_dcp_asset_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_asset_filename_format_changed, this));
 		_log_general->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_warning->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
 		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
@@ -1510,9 +1521,14 @@ private:
 		Config::instance()->set_only_servers_encode (_only_servers_encode->GetValue ());
 	}
 
-	void dcp_filename_format_changed ()
+	void dcp_metadata_filename_format_changed ()
 	{
-		Config::instance()->set_dcp_filename_format (_dcp_filename_format->get ());
+		Config::instance()->set_dcp_metadata_filename_format (_dcp_metadata_filename_format->get ());
+	}
+
+	void dcp_asset_filename_format_changed ()
+	{
+		Config::instance()->set_dcp_asset_filename_format (_dcp_asset_filename_format->get ());
 	}
 
 	void log_changed ()
@@ -1552,7 +1568,8 @@ private:
 	wxSpinCtrl* _maximum_j2k_bandwidth;
 	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxCheckBox* _only_servers_encode;
-	NameFormatEditor* _dcp_filename_format;
+	NameFormatEditor* _dcp_metadata_filename_format;
+	NameFormatEditor* _dcp_asset_filename_format;
 	wxCheckBox* _log_general;
 	wxCheckBox* _log_warning;
 	wxCheckBox* _log_error;

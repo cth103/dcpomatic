@@ -271,8 +271,12 @@ public:
 		return _kdm_filename_format;
 	}
 
-	dcp::NameFormat dcp_filename_format () const {
-		return _dcp_filename_format;
+	dcp::NameFormat dcp_metadata_filename_format () const {
+		return _dcp_metadata_filename_format;
+	}
+
+	dcp::NameFormat dcp_asset_filename_format () const {
+		return _dcp_asset_filename_format;
 	}
 
 	/** @param n New number of local encoding threads */
@@ -486,8 +490,12 @@ public:
 		maybe_set (_kdm_filename_format, n);
 	}
 
-	void set_dcp_filename_format (dcp::NameFormat n) {
-		maybe_set (_dcp_filename_format, n);
+	void set_dcp_metadata_filename_format (dcp::NameFormat n) {
+		maybe_set (_dcp_metadata_filename_format, n);
+	}
+
+	void set_dcp_asset_filename_format (dcp::NameFormat n) {
+		maybe_set (_dcp_asset_filename_format, n);
 	}
 
 	void clear_history () {
@@ -602,7 +610,8 @@ private:
 	boost::filesystem::path _cinemas_file;
 	bool _show_hints_before_make_dcp;
 	dcp::NameFormat _kdm_filename_format;
-	dcp::NameFormat _dcp_filename_format;
+	dcp::NameFormat _dcp_metadata_filename_format;
+	dcp::NameFormat _dcp_asset_filename_format;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

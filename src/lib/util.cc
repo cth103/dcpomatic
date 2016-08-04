@@ -627,7 +627,7 @@ video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int r
 	if (summary) {
 		values['c'] = summary.get();
 	}
-	return Config::instance()->dcp_filename_format().get(values) + ".mxf";
+	return Config::instance()->dcp_asset_filename_format().get(values) + ".mxf";
 }
 
 string
@@ -641,7 +641,7 @@ audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int ree
 	if (summary) {
 		values['c'] = summary.get();
 	}
-	return Config::instance()->dcp_filename_format().get(values) + ".mxf";
+	return Config::instance()->dcp_asset_filename_format().get(values) + ".mxf";
 }
 
 float
