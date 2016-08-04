@@ -1,3 +1,7 @@
+2016-08-04  Carl Hetherington  <cth@carlh.net>
+
+	* Add button to export entire DCP decryption chain.
+
 2016-07-31  Carl Hetherington  <cth@carlh.net>
 
 	* Allow configuration of MXF/XML filenames (part of #710).

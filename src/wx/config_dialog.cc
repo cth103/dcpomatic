@@ -732,7 +732,7 @@ public:
 		++r;
 
 		_button_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_remake_certificates = new wxButton (this, wxID_ANY, _("Re-make certificates and key..."));
+		_remake_certificates = new wxButton (this, wxID_ANY, _("Re-make certificates\nand key..."));
 		_button_sizer->Add (_remake_certificates, 1, wxRIGHT, border);
 		table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 		++r;
@@ -760,7 +760,7 @@ public:
 
 	void add_button (wxWindow* button)
 	{
-		_button_sizer->Add (button);
+		_button_sizer->Add (button, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 		_sizer->Layout ();
 	}
 
@@ -1039,10 +1039,13 @@ private:
 
 		_panel->GetSizer()->Add (_decryption);
 
-		_export_decryption_certificate = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption certificate..."));
+		_export_decryption_certificate = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption\ncertificate..."));
 		_decryption->add_button (_export_decryption_certificate);
+		_export_decryption_chain = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption\nchain..."));
+		_decryption->add_button (_export_decryption_chain);
 
 		_export_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_certificate, this));
+		_export_decryption_chain->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_chain, this));
 	}
 
 	void export_decryption_certificate ()
@@ -1065,6 +1068,26 @@ private:
 		d->Destroy ();
 	}
 
+	void export_decryption_chain ()
+	{
+		wxFileDialog* d = new wxFileDialog (
+			_panel, _("Select Chain File"), wxEmptyString, wxEmptyString, wxT ("PEM files (*.pem)|*.pem"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+			);
+
+		if (d->ShowModal () == wxID_OK) {
+			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
+			if (!f) {
+				throw OpenFileError (wx_to_std (d->GetPath ()));
+			}
+
+			string const s = Config::instance()->decryption_chain()->chain();
+			fwrite (s.c_str(), 1, s.length(), f);
+			fclose (f);
+		}
+		d->Destroy ();
+	}
+
 	void config_changed ()
 	{
 		_signer->config_changed ();
@@ -1074,6 +1097,7 @@ private:
 	CertificateChainEditor* _signer;
 	CertificateChainEditor* _decryption;
 	wxButton* _export_decryption_certificate;
+	wxButton* _export_decryption_chain;
 };
 
 class TMSPage : public StandardPage
