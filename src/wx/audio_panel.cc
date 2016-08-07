@@ -143,6 +143,7 @@ AudioPanel::film_changed (Film::Property property)
 	case Film::REEL_TYPE:
 	case Film::INTEROP:
 		setup_sensitivity ();
+		break;
 	default:
 		break;
 	}
