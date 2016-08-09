@@ -254,31 +254,40 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	context->scale (xscale, yscale);
 	layout->update_from_cairo_context (context);
 
+	/* Shuffle the subtitle over very slightly if it has a border so that the left-hand
+	   side of the first character's border is not cut off.
+	*/
+	int const x_offset = subtitles.front().effect() == dcp::BORDER ? (target.width / 600.0) : 0;
+
 	if (subtitles.front().effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
 		dcp::Colour const ec = subtitles.front().effect_colour ();
 		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
-		context->move_to (4, 4);
+		context->move_to (x_offset + 4, 4);
 		layout->add_to_cairo_context (context);
 		context->fill ();
+	}
+
+	if (subtitles.front().effect() == dcp::BORDER) {
+		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
+		dcp::Colour ec = subtitles.front().effect_colour ();
+		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
+		/* This 300.0 is a magic number chosen to make the outline look good */
+		context->set_line_width (target.width / 300.0);
+		context->set_line_join (Cairo::LINE_JOIN_ROUND);
+		context->move_to (x_offset, 0);
+		layout->add_to_cairo_context (context);
+		context->stroke ();
 	}
 
 	/* The actual subtitle */
 
 	dcp::Colour const c = subtitles.front().colour ();
 	context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
-	context->move_to (0, 0);
+	context->set_line_width (0);
+	context->move_to (x_offset, 0);
 	layout->add_to_cairo_context (context);
 	context->fill ();
-
-	if (subtitles.front().effect() == dcp::BORDER) {
-		/* Border effect */
-		dcp::Colour ec = subtitles.front().effect_colour ();
-		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
-		context->move_to (0, 0);
-		layout->add_to_cairo_context (context);
-		context->stroke ();
-	}
 
 	int layout_width;
 	int layout_height;
