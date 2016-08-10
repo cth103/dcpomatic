@@ -22,7 +22,6 @@
 #include "version.h"
 #include "util.h"
 #include "raw_convert.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>

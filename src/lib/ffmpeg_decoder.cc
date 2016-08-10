@@ -137,7 +137,7 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
-			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), buf, r);
+			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), &buf[0], r);
 		}
 
 		flush ();

@@ -22,7 +22,6 @@
 #include "video_content.h"
 #include "ratio.h"
 #include "util.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/optional.hpp>
@@ -85,15 +84,11 @@ VideoContentScale::as_xml (xmlpp::Node* node) const
 string
 VideoContentScale::id () const
 {
-	locked_stringstream s;
-
 	if (_ratio) {
-		s << _ratio->id ();
-	} else {
-		s << (_scale ? "S1" : "S0");
+		return _ratio->id ();
 	}
 
-	return s.str ();
+	return (_scale ? "S1" : "S0");
 }
 
 string

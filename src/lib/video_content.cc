@@ -31,7 +31,6 @@
 #include "frame_rate_change.h"
 #include "log.h"
 #include "raw_convert.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>
 #include <libxml++/libxml++.h>
@@ -264,20 +263,25 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 string
 VideoContent::identifier () const
 {
-	locked_stringstream s;
-	s << crop().left
-	  << "_" << crop().right
-	  << "_" << crop().top
-	  << "_" << crop().bottom
-	  << "_" << scale().id()
-	  << "_" << _fade_in
-	  << "_" << _fade_out;
+	char buffer[256];
+	snprintf (
+		buffer, sizeof(buffer), "%d_%d_%d_%d_%s_%" PRId64 "_%" PRId64,
+		crop().left,
+		crop().right,
+		crop().top,
+		crop().bottom,
+		scale().id().c_str(),
+		_fade_in,
+		_fade_out
+		);
+
+	string s (buffer);
 
 	if (colour_conversion()) {
-		s << "_" << colour_conversion().get().identifier ();
+		s += "_" + colour_conversion().get().identifier ();
 	}
 
-	return s.str ();
+	return s;
 }
 
 string
@@ -376,11 +380,11 @@ VideoContent::fade (Frame f) const
 string
 VideoContent::processing_description () const
 {
-	/* stringstream is OK here as this string is just for presentation to the user */
-	locked_stringstream d;
+	string d;
+	char buffer[256];
 
 	if (size().width && size().height) {
-		d << String::compose (
+		d += String::compose (
 			_("Content video is %1x%2"),
 			size_after_3d_split().width,
 			size_after_3d_split().height
@@ -390,21 +394,24 @@ VideoContent::processing_description () const
 		double ratio = size_after_3d_split().ratio ();
 
 		if (sample_aspect_ratio ()) {
-			d << ", " << _("pixel aspect ratio") << " " << fixed << setprecision(2) << sample_aspect_ratio().get () << ":1";
+			snprintf (buffer, sizeof(buffer), _(", pixel aspect ratio %.2f:1"), sample_aspect_ratio().get());
+			d += buffer;
 			ratio *= sample_aspect_ratio().get ();
 		}
 
-		d << "\n" << _("Display aspect ratio") << " " << fixed << setprecision(2) << ratio << ":1\n";
+		snprintf (buffer, sizeof(buffer), _("\nDisplay aspect ratio %.2f:1"), ratio);
+		d += buffer;
 	}
 
 	if ((crop().left || crop().right || crop().top || crop().bottom) && size() != dcp::Size (0, 0)) {
 		dcp::Size cropped = size_after_crop ();
-		d << String::compose (
+		d += String::compose (
 			_("Cropped to %1x%2"),
 			cropped.width, cropped.height
 			);
 
-		d << " (" << fixed << setprecision(2) << cropped.ratio () << ":1)\n";
+		snprintf (buffer, sizeof(buffer), " (%.2f:1)\n", cropped.ratio());
+		d += buffer;
 	}
 
 	shared_ptr<const Film> film = _parent->film ();
@@ -412,35 +419,37 @@ VideoContent::processing_description () const
 	dcp::Size const scaled = scale().size (shared_from_this(), container_size, container_size);
 
 	if (scaled != size_after_crop ()) {
-		d << String::compose (
+		d += String::compose (
 			_("Scaled to %1x%2"),
 			scaled.width, scaled.height
 			);
 
-		d << " (" << fixed << setprecision(2) << scaled.ratio() << ":1)\n";
+		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)\n"), scaled.ratio());
+		d += buffer;
 	}
 
 	if (scaled != container_size) {
-		d << String::compose (
+		d += String::compose (
 			_("Padded with black to fit container %1 (%2x%3)"),
 			film->container()->nickname (),
 			container_size.width, container_size.height
 			);
 
-		d << " (" << fixed << setprecision(2) << container_size.ratio () << ":1)\n";
+		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)\n"), container_size.ratio());
+		d += buffer;
 	}
 
 	if (_parent->video_frame_rate()) {
 		double const vfr = _parent->video_frame_rate().get ();
 
-		d << _("Content frame rate");
-		d << " " << fixed << setprecision(4) << vfr << "\n";
+		snprintf (buffer, sizeof(buffer), _("Content frame rate %.4f\n"), vfr);
+		d += buffer;
 
 		FrameRateChange frc (vfr, film->video_frame_rate ());
-		d << frc.description () << "\n";
+		d += frc.description () + "\n";
 	}
 
-	return d.str ();
+	return d;
 }
 
 void

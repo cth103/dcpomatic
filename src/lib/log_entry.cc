@@ -19,7 +19,7 @@
 */
 
 #include "log_entry.h"
-#include <locked_sstream.h>
+#include <inttypes.h>
 
 #include "i18n.h"
 
@@ -42,28 +42,30 @@ LogEntry::LogEntry (int type)
 string
 LogEntry::get () const
 {
-	locked_stringstream s;
+	string s;
 	if (_type & TYPE_TIMING) {
-		s << _time.tv_sec << ":" << _time.tv_usec << " ";
+		char buffer[64];
+		snprintf (buffer, sizeof(buffer), "%" PRId64 ":%" PRId64 " ", static_cast<int64_t> (_time.tv_sec), static_cast<int64_t> (_time.tv_usec));
+		s += buffer;
 	} else {
 		char buffer[64];
 		time_t const sec = _time.tv_sec;
 		struct tm* t = localtime (&sec);
 		strftime (buffer, 64, "%c", t);
 		string a (buffer);
-		s << a << N_(": ");
+		s += string(buffer) + N_(": ");
 	}
 
 	if (_type & TYPE_ERROR) {
-		s << "ERROR: ";
+		s += "ERROR: ";
 	}
 
 	if (_type & TYPE_WARNING) {
-		s << "WARNING: ";
+		s += "WARNING: ";
 	}
 
-	s << message ();
-	return s.str ();
+	s += message ();
+	return s;
 }
 
 double

@@ -29,7 +29,6 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
-using std::cout;
 using boost::shared_ptr;
 
 AudioFilterGraph::AudioFilterGraph (int sample_rate, int channels)
@@ -56,16 +55,16 @@ AudioFilterGraph::~AudioFilterGraph()
 string
 AudioFilterGraph::src_parameters () const
 {
-	locked_stringstream a;
+	char layout[64];
+	av_get_channel_layout_string (layout, sizeof(layout), 0, _channel_layout);
 
-	char buffer[64];
-	av_get_channel_layout_string (buffer, sizeof(buffer), 0, _channel_layout);
+	char buffer[256];
+	snprintf (
+		buffer, sizeof(buffer), "time_base=1/1:sample_rate=%d:sample_fmt=%s:channel_layout=%s",
+		_sample_rate, av_get_sample_fmt_name(AV_SAMPLE_FMT_FLTP), layout
+		);
 
-	a << "time_base=1/1:sample_rate=" << _sample_rate << ":"
-	  << "sample_fmt=" << av_get_sample_fmt_name(AV_SAMPLE_FMT_FLTP) << ":"
-	  << "channel_layout=" << buffer;
-
-	return a.str ();
+	return buffer;
 }
 
 void *
@@ -149,7 +148,7 @@ AudioFilterGraph::process (shared_ptr<const AudioBuffers> buffers)
 	if (r < 0) {
 		char buffer[256];
 		av_strerror (r, buffer, sizeof(buffer));
-		throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)"), buffer));
+		throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)"), &buffer[0]));
 	}
 
 	while (true) {

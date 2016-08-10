@@ -84,14 +84,9 @@ VideoFilterGraph::can_process (dcp::Size s, AVPixelFormat p) const
 string
 VideoFilterGraph::src_parameters () const
 {
-	locked_stringstream a;
-
-	a << "video_size=" << _size.width << "x" << _size.height << ":"
-	  << "pix_fmt=" << _pixel_format << ":"
-	  << "time_base=1/1:"
-	  << "pixel_aspect=1/1";
-
-	return a.str ();
+	char buffer[256];
+	snprintf (buffer, sizeof(buffer), "video_size=%dx%d:pix_fmt=%d:time_base=1/1:pixel_aspect=1/1", _size.width, _size.height, _pixel_format);
+	return buffer;
 }
 
 void *

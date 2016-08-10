@@ -304,7 +304,7 @@ try
 
 		LOG_TIMING ("encoder-wake thread=%1 queue=%2", boost::this_thread::get_id(), _queue.size());
 		shared_ptr<DCPVideo> vf = _queue.front ();
-		LOG_TIMING ("encoder-pop thread=%1 frame=%2 eyes=%3", boost::this_thread::get_id(), vf->index(), vf->eyes ());
+		LOG_TIMING ("encoder-pop thread=%1 frame=%2 eyes=%3", boost::this_thread::get_id(), vf->index(), (int) vf->eyes ());
 		_queue.pop_front ();
 
 		lock.unlock ();

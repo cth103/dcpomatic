@@ -21,7 +21,6 @@
 #include "scoped_temporary.h"
 #include "compose.hpp"
 #include "exceptions.h"
-#include <locked_sstream.h>
 #include <curl/curl.h>
 #include <zip.h>
 #include <boost/function.hpp>
@@ -74,7 +73,7 @@ get_from_zip_url (string url, string file, bool pasv, function<void (boost::file
 	temp_zip.close ();
 	curl_easy_cleanup (curl);
 	if (cr != CURLE_OK) {
-		return String::compose (_("Download failed (%1/%2 error %3)"), url, file, cr);
+		return String::compose (_("Download failed (%1/%2 error %3)"), url, file, (int) cr);
 	}
 
 	/* Open the ZIP file and read `file' out of it */
@@ -149,16 +148,19 @@ ftp_ls (string url, bool pasv)
 		throw NetworkError (curl_easy_strerror (r));
 	}
 
-	locked_stringstream s (ls_raw);
 	list<string> ls;
-	while (s.good ()) {
-		string line = s.getline ();
-		trim (line);
-		if (line.length() > 55) {
-			string const file = line.substr (55);
-			if (file != "." && file != "..") {
-				ls.push_back (file);
+	string line;
+	for (size_t i = 0; i < ls_raw.length(); ++i) {
+		line += ls_raw[i];
+		if (ls_raw[i] == '\n') {
+			trim (line);
+			if (line.length() > 55) {
+				string const file = line.substr (55);
+				if (file != "." && file != "..") {
+					ls.push_back (file);
+				}
 			}
+			line = "";
 		}
 	}
 

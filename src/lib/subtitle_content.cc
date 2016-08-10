@@ -24,7 +24,6 @@
 #include "font.h"
 #include "raw_convert.h"
 #include "content.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -249,19 +248,18 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 string
 SubtitleContent::identifier () const
 {
-	locked_stringstream s;
-	s << raw_convert<string> (x_scale())
-	  << "_" << raw_convert<string> (y_scale())
-	  << "_" << raw_convert<string> (x_offset())
-	  << "_" << raw_convert<string> (y_offset())
-	  << "_" << raw_convert<string> (line_spacing());
+	string s = raw_convert<string> (x_scale())
+		+ "_" + raw_convert<string> (y_scale())
+		+ "_" + raw_convert<string> (x_offset())
+		+ "_" + raw_convert<string> (y_offset())
+		+ "_" + raw_convert<string> (line_spacing());
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.
 	*/
 	BOOST_FOREACH (shared_ptr<Font> f, _fonts) {
 		for (int i = 0; i < FontFiles::VARIANTS; ++i) {
-			s << "_" << f->file(static_cast<FontFiles::Variant>(i)).get_value_or ("Default");
+			s += "_" + f->file(static_cast<FontFiles::Variant>(i)).get_value_or("Default").string();
 		}
 	}
 
@@ -269,7 +267,7 @@ SubtitleContent::identifier () const
 	   how this content looks.
 	*/
 
-	return s.str ();
+	return s;
 }
 
 void

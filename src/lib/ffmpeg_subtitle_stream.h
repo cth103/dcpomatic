@@ -21,6 +21,7 @@
 #include "dcpomatic_time.h"
 #include "rgba.h"
 #include "ffmpeg_stream.h"
+#include <map>
 
 class FFmpegSubtitleStream : public FFmpegStream
 {

@@ -239,14 +239,13 @@ DCPContent::full_length () const
 string
 DCPContent::identifier () const
 {
-	locked_stringstream s;
-	s << Content::identifier() << "_" << video->identifier() << "_";
+	string s = Content::identifier() + "_" + video->identifier() + "_";
 	if (subtitle) {
-		s << subtitle->identifier () << " ";
+		s += subtitle->identifier () + " ";
 	}
-	s << (_reference_video ? "1" : "0")
-	  << (_reference_subtitle ? "1" : "0");
-	return s.str ();
+
+	s += string (_reference_video ? "1" : "0") + string (_reference_subtitle ? "1" : "0");
+	return s;
 }
 
 void

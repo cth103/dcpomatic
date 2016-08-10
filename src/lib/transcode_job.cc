@@ -28,7 +28,6 @@
 #include "film.h"
 #include "transcoder.h"
 #include "log.h"
-#include <locked_sstream.h>
 #include "compose.hpp"
 #include <iostream>
 #include <iomanip>
@@ -112,18 +111,21 @@ TranscodeJob::status () const
 		return Job::status ();
 	}
 
-	locked_stringstream s;
-
-	s << Job::status ();
-
-	if (!finished () && !_transcoder->finishing ()) {
+	char buffer[256];
+	if (finished() || _transcoder->finishing()) {
+		strncpy (buffer, Job::status().c_str(), 256);
+	} else {
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
-		s << "; " << _transcoder->video_frames_enqueued() << "/"
-		  << _film->length().frames_round (_film->video_frame_rate ()) << " " << _("frames") << "; "
-		  << fixed << setprecision (1) << fps << " " << _("fps");
+		snprintf (
+			buffer, sizeof(buffer), "%s; %d/%" PRId64 " frames; %.1f fps",
+			Job::status().c_str(),
+			_transcoder->video_frames_enqueued(),
+			_film->length().frames_round (_film->video_frame_rate ()),
+			fps
+			);
 	}
 
-	return s.str ();
+	return buffer;
 }
 
 /** @return Approximate remaining time in seconds */

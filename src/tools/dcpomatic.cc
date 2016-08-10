@@ -75,6 +75,7 @@
 #include <boost/noncopyable.hpp>
 #include <iostream>
 #include <fstream>
+/* This is OK as it's only used with DCPOMATIC_WINDOWS */
 #include <sstream>
 
 #ifdef check
@@ -900,12 +901,13 @@ private:
 		}
 
 		for (size_t i = 0; i < history.size(); ++i) {
-			locked_stringstream s;
+			string s;
 			if (i < 9) {
-				s << "&" << (i + 1) << " ";
+				s = String::compose ("&%1 %2", i + 1, history[i].string());
+			} else {
+				s = history[i].string();
 			}
-			s << history[i].string();
-			_file_menu->Insert (pos++, ID_file_history + i, std_to_wx (s.str ()));
+			_file_menu->Insert (pos++, ID_file_history + i, std_to_wx (s));
 		}
 
 		_history_items = history.size ();

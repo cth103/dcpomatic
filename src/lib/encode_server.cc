@@ -35,7 +35,6 @@
 #include "compose.hpp"
 #include "log.h"
 #include "encoded_log_entry.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>

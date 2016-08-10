@@ -319,9 +319,9 @@ try
 				LOG_WARNING (N_("Finishing writer with a left-over queue of %1:"), _queue.size());
 				for (list<QueueItem>::const_iterator i = _queue.begin(); i != _queue.end(); ++i) {
 					if (i->type == QueueItem::FULL) {
-						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i->frame, i->eyes);
+						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i->frame, (int) i->eyes);
 					} else {
-						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i->size, i->frame, i->eyes);
+						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i->size, i->frame, (int) i->eyes);
 					}
 				}
 			}
@@ -342,7 +342,7 @@ try
 
 			switch (qi.type) {
 			case QueueItem::FULL:
-				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, qi.eyes);
+				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
 					qi.encoded = Data (_film->j2c_path (qi.reel, qi.frame, qi.eyes, false));
 				}

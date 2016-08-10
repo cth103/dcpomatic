@@ -51,7 +51,6 @@
 #include "dcp_content.h"
 #include "screen_kdm.h"
 #include "cinema.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
@@ -197,32 +196,29 @@ Film::video_identifier () const
 {
 	DCPOMATIC_ASSERT (container ());
 
-	locked_stringstream s;
-	s.imbue (std::locale::classic ());
-
-	s << container()->id()
-	  << "_" << resolution_to_string (_resolution)
-	  << "_" << _playlist->video_identifier()
-	  << "_" << _video_frame_rate
-	  << "_" << j2k_bandwidth();
+	string s = container()->id()
+		+ "_" + resolution_to_string (_resolution)
+		+ "_" + _playlist->video_identifier()
+		+ "_" + raw_convert<string>(_video_frame_rate)
+		+ "_" + raw_convert<string>(j2k_bandwidth());
 
 	if (encrypted ()) {
-		s << "_E";
+		s += "_E";
 	} else {
-		s << "_P";
+		s += "_P";
 	}
 
 	if (_interop) {
-		s << "_I";
+		s += "_I";
 	} else {
-		s << "_S";
+		s += "_S";
 	}
 
 	if (_three_d) {
-		s << "_3D";
+		s += "_3D";
 	}
 
-	return s.str ();
+	return s;
 }
 
 /** @return The file to write video frame info to */
@@ -530,7 +526,7 @@ Film::mapped_audio_channels () const
 string
 Film::isdcf_name (bool if_created_now) const
 {
-	locked_stringstream d;
+	string d;
 
 	string raw_name = name ();
 
@@ -573,49 +569,49 @@ Film::isdcf_name (bool if_created_now) const
 		fixed_name = fixed_name.substr (0, 14);
 	}
 
-	d << fixed_name;
+	d += fixed_name;
 
 	if (dcp_content_type()) {
-		d << "_" << dcp_content_type()->isdcf_name();
-		d << "-" << isdcf_metadata().content_version;
+		d += "_" + dcp_content_type()->isdcf_name();
+		d += "-" + raw_convert<string>(isdcf_metadata().content_version);
 	}
 
 	ISDCFMetadata const dm = isdcf_metadata ();
 
 	if (dm.temp_version) {
-		d << "-Temp";
+		d += "-Temp";
 	}
 
 	if (dm.pre_release) {
-		d << "-Pre";
+		d += "-Pre";
 	}
 
 	if (dm.red_band) {
-		d << "-RedBand";
+		d += "-RedBand";
 	}
 
 	if (!dm.chain.empty ()) {
-		d << "-" << dm.chain;
+		d += "-" + dm.chain;
 	}
 
 	if (three_d ()) {
-		d << "-3D";
+		d += "-3D";
 	}
 
 	if (dm.two_d_version_of_three_d) {
-		d << "-2D";
+		d += "-2D";
 	}
 
 	if (!dm.mastered_luminance.empty ()) {
-		d << "-" << dm.mastered_luminance;
+		d += "-" + dm.mastered_luminance;
 	}
 
 	if (video_frame_rate() != 24) {
-		d << "-" << video_frame_rate();
+		d += "-" + raw_convert<string>(video_frame_rate());
 	}
 
 	if (container()) {
-		d << "_" << container()->isdcf_name();
+		d += "_" + container()->isdcf_name();
 	}
 
 	/* XXX: this uses the first bit of content only */
@@ -636,12 +632,12 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		if (content_ratio && content_ratio != container()) {
-			d << "-" << content_ratio->isdcf_name();
+			d += "-" + content_ratio->isdcf_name();
 		}
 	}
 
 	if (!dm.audio_language.empty ()) {
-		d << "_" << dm.audio_language;
+		d += "_" + dm.audio_language;
 		if (!dm.subtitle_language.empty()) {
 
 			bool burnt_in = true;
@@ -662,18 +658,18 @@ Film::isdcf_name (bool if_created_now) const
 				transform (language.begin(), language.end(), language.begin(), ::toupper);
 			}
 
-			d << "-" << language;
+			d += "-" + language;
 		} else {
-			d << "-XX";
+			d += "-XX";
 		}
 	}
 
 	if (!dm.territory.empty ()) {
-		d << "_" << dm.territory;
+		d += "_" + dm.territory;
 		if (dm.rating.empty ()) {
-			d << "-NR";
+			d += "-NR";
 		} else {
-			d << "-" << dm.rating;
+			d += "-" + dm.rating;
 		}
 	}
 
@@ -696,35 +692,35 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	if (non_lfe) {
-		d << "_" << non_lfe << lfe;
+		d += String::compose("_%1%2", non_lfe, lfe);
 	}
 
 	/* XXX: HI/VI */
 
-	d << "_" << resolution_to_string (_resolution);
+	d += "_" + resolution_to_string (_resolution);
 
 	if (!dm.studio.empty ()) {
-		d << "_" << dm.studio;
+		d += "_" + dm.studio;
 	}
 
 	if (if_created_now) {
-		d << "_" << boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
+		d += "_" + boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
 	} else {
-		d << "_" << boost::gregorian::to_iso_string (_isdcf_date);
+		d += "_" + boost::gregorian::to_iso_string (_isdcf_date);
 	}
 
 	if (!dm.facility.empty ()) {
-		d << "_" << dm.facility;
+		d += "_" + dm.facility;
 	}
 
 	if (_interop) {
-		d << "_IOP";
+		d += "_IOP";
 	} else {
-		d << "_SMPTE";
+		d += "_SMPTE";
 	}
 
 	if (three_d ()) {
-		d << "-3D";
+		d += "-3D";
 	}
 
 	bool vf = false;
@@ -736,12 +732,12 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	if (vf) {
-		d << "_VF";
+		d += "_VF";
 	} else {
-		d << "_OV";
+		d += "_OV";
 	}
 
-	return d.str ();
+	return d;
 }
 
 /** @return name to give the DCP */
@@ -922,23 +918,23 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 	p /= "j2c";
 	p /= video_identifier ();
 
-	locked_stringstream s;
-	s.width (8);
-	s << setfill('0') << reel << "_" << frame;
+	char buffer[256];
+	snprintf(buffer, sizeof(buffer), "%08d_%08" PRId64, reel, frame);
+	string s (buffer);
 
 	if (eyes == EYES_LEFT) {
-		s << ".L";
+		s += ".L";
 	} else if (eyes == EYES_RIGHT) {
-		s << ".R";
+		s += ".R";
 	}
 
-	s << ".j2c";
+	s += ".j2c";
 
 	if (tmp) {
-		s << ".tmp";
+		s += ".tmp";
 	}
 
-	p /= s.str();
+	p /= s;
 	return file (p);
 }
 

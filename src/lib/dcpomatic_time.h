@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,7 +27,6 @@
 
 #include "frame_rate_change.h"
 #include "dcpomatic_assert.h"
-#include <locked_sstream.h>
 #include <boost/optional.hpp>
 #include <stdint.h>
 #include <cmath>
@@ -182,14 +181,9 @@ public:
 		int f;
 		split (r, h, m, s, f);
 
-		locked_stringstream o;
-		o.width (2);
-		o.fill ('0');
-		o << std::setw(2) << std::setfill('0') << h << ":"
-		  << std::setw(2) << std::setfill('0') << m << ":"
-		  << std::setw(2) << std::setfill('0') << s << ":"
-		  << std::setw(2) << std::setfill('0') << f;
-		return o.str ();
+		char buffer[128];
+		snprintf (buffer, sizeof (buffer), "%02d:%02d:%02d:%02d", h, m, s, f);
+		return buffer;
 	}
 
 
@@ -289,8 +283,8 @@ DCPTime min (DCPTime a, DCPTime b);
 DCPTime max (DCPTime a, DCPTime b);
 ContentTime min (ContentTime a, ContentTime b);
 ContentTime max (ContentTime a, ContentTime b);
-std::ostream& operator<< (std::ostream& s, ContentTime t);
-std::ostream& operator<< (std::ostream& s, DCPTime t);
-std::ostream& operator<< (std::ostream& s, DCPTimePeriod p);
+std::string to_string (ContentTime t);
+std::string to_string (DCPTime t);
+std::string to_string (DCPTimePeriod p);
 
 #endif

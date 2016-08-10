@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,8 +19,9 @@
 */
 
 #include "dcpomatic_time.h"
+#include <inttypes.h>
 
-using std::ostream;
+using std::string;
 
 template <>
 Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
@@ -76,23 +77,26 @@ max (ContentTime a, ContentTime b)
 	return b;
 }
 
-ostream &
-operator<< (ostream& s, ContentTime t)
+string
+to_string (ContentTime t)
 {
-	s << "[CONT " << t.get() << " " << t.seconds() << "s]";
-	return s;
+	char buffer[64];
+	snprintf (buffer, sizeof(buffer), "[CONT %" PRId64 " %fs]", t.get(), t.seconds());
+	return buffer;
 }
 
-ostream &
-operator<< (ostream& s, DCPTime t)
+string
+to_string (DCPTime t)
 {
-	s << "[DCP " << t.get() << " " << t.seconds() << "s]";
-	return s;
+	char buffer[64];
+	snprintf (buffer, sizeof(buffer), "[DCP %" PRId64 " %fs]", t.get(), t.seconds());
+	return buffer;
 }
 
-ostream &
-operator<< (ostream& s, DCPTimePeriod p)
+string
+to_string (DCPTimePeriod p)
 {
-	s << "[DCP " << p.from.get() << " " << p.from.seconds() << "s -> " << p.to.get() << " " << p.to.seconds() << "s]";
-	return s;
+	char buffer[64];
+	snprintf (buffer, sizeof(buffer), "[DCP %" PRId64 " %fs -> %" PRId64 " %fs]", p.from.get(), p.from.seconds(), p.to.get(), p.to.seconds());
+	return buffer;
 }

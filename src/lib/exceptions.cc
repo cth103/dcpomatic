@@ -59,7 +59,7 @@ MissingSettingError::MissingSettingError (string s)
 }
 
 PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
-	: runtime_error (String::compose (_("Cannot handle pixel format %1 during %2"), f, o))
+	: runtime_error (String::compose (_("Cannot handle pixel format %1 during %2"), (int) f, o))
 {
 
 }

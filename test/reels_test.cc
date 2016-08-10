@@ -43,21 +43,21 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (B);
 	wait_for_jobs ();
-	BOOST_CHECK_EQUAL (A->full_length(), DCPTime (288000));
+	BOOST_CHECK_EQUAL (A->full_length().get(), 288000);
 
 	film->set_reel_type (REELTYPE_SINGLE);
 	list<DCPTimePeriod> r = film->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 1);
-	BOOST_CHECK_EQUAL (r.front().from, DCPTime (0));
-	BOOST_CHECK_EQUAL (r.front().to, DCPTime (288000 * 2));
+	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
+	BOOST_CHECK_EQUAL (r.front().to.get(), 288000 * 2);
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
 	r = film->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 2);
-	BOOST_CHECK_EQUAL (r.front().from, DCPTime (0));
-	BOOST_CHECK_EQUAL (r.front().to, DCPTime (288000));
-	BOOST_CHECK_EQUAL (r.back().from, DCPTime (288000));
-	BOOST_CHECK_EQUAL (r.back().to, DCPTime (288000 * 2));
+	BOOST_CHECK_EQUAL (r.front().from.get(), 0);
+	BOOST_CHECK_EQUAL (r.front().to.get(), 288000);
+	BOOST_CHECK_EQUAL (r.back().from.get(), 288000);
+	BOOST_CHECK_EQUAL (r.back().to.get(), 288000 * 2);
 
 	film->set_j2k_bandwidth (100000000);
 	film->set_reel_type (REELTYPE_BY_LENGTH);
@@ -66,14 +66,14 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 	r = film->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 3);
 	list<DCPTimePeriod>::const_iterator i = r.begin ();
-	BOOST_CHECK_EQUAL (i->from, DCPTime (0));
-	BOOST_CHECK_EQUAL (i->to, DCPTime::from_frames (60, 24));
+	BOOST_CHECK_EQUAL (i->from.get(), 0);
+	BOOST_CHECK_EQUAL (i->to.get(), DCPTime::from_frames(60, 24).get());
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime::from_frames (60, 24));
-	BOOST_CHECK_EQUAL (i->to, DCPTime::from_frames (120, 24));
+	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_frames(60, 24).get());
+	BOOST_CHECK_EQUAL (i->to.get(), DCPTime::from_frames(120, 24).get());
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime::from_frames (120, 24));
-	BOOST_CHECK_EQUAL (i->to, DCPTime::from_frames (144, 24));
+	BOOST_CHECK_EQUAL (i->from.get(), DCPTime::from_frames(120, 24).get());
+	BOOST_CHECK_EQUAL (i->to.get(), DCPTime::from_frames(144, 24).get());
 }
 
 /** Make a short DCP with multi reels split by video content, then import
@@ -128,14 +128,14 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	list<DCPTimePeriod> r = film2->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 3);
 	list<DCPTimePeriod>::const_iterator i = r.begin ();
-	BOOST_CHECK_EQUAL (i->from, DCPTime (0));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000));
+	BOOST_CHECK_EQUAL (i->from.get(), 0);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 2));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 2);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 2));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 3));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 2);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 3);
 
 	c->set_reference_video (true);
 	c->set_reference_audio (true);
@@ -164,17 +164,17 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	list<DCPTimePeriod> reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4);
 	list<DCPTimePeriod>::const_iterator i = reels.begin ();
-	BOOST_CHECK_EQUAL (i->from, DCPTime (0));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000));
+	BOOST_CHECK_EQUAL (i->from.get(), 0);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 2));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 2);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 2));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 3));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 2);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 3);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 3));
-	BOOST_CHECK_EQUAL (i->to, sub->full_length().round_up (film->video_frame_rate()));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 3);
+	BOOST_CHECK_EQUAL (i->to.get(), sub->full_length().round_up(film->video_frame_rate()).get());
 }
 
 /** Check creation of a multi-reel DCP with a single .srt subtitle file;
@@ -204,17 +204,17 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	list<DCPTimePeriod> reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4);
 	list<DCPTimePeriod>::const_iterator i = reels.begin ();
-	BOOST_CHECK_EQUAL (i->from, DCPTime (0));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000));
+	BOOST_CHECK_EQUAL (i->from.get(), 0);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 2));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 2);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 2));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 3));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 2);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 3);
 	++i;
-	BOOST_CHECK_EQUAL (i->from, DCPTime (96000 * 3));
-	BOOST_CHECK_EQUAL (i->to, DCPTime (96000 * 4));
+	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 3);
+	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 4);
 
 	film->make_dcp ();
 	wait_for_jobs ();

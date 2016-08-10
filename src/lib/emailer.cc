@@ -103,18 +103,16 @@ Emailer::send (string server, int port, string user, string password)
 	boost::posix_time::time_duration offset = local_now - utc_now;
 	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), abs (offset.hours()), offset.minutes());
 
-	locked_stringstream email;
-
-	email << "Date: " << date_buffer << "\r\n"
-	      << "To: " << address_list (_to) << "\r\n"
-	      << "From: " << _from << "\r\n";
+	_email = "Date: " + string(date_buffer) + "\r\n"
+		"To: " + address_list (_to) + "\r\n"
+		"From: " + _from + "\r\n";
 
 	if (!_cc.empty ()) {
-		email << "Cc: " << address_list (_cc) << "\r\n";
+		_email += "Cc: " + address_list (_cc) + "\r\n";
 	}
 
 	if (!_bcc.empty ()) {
-		email << "Bcc: " << address_list (_bcc) << "\r\n";
+		_email += "Bcc: " + address_list (_bcc) + "\r\n";
 	}
 
 	string const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -124,26 +122,26 @@ Emailer::send (string server, int port, string user, string password)
 	}
 
 	if (!_attachments.empty ()) {
-		email << "MIME-Version: 1.0\r\n"
-		      << "Content-Type: multipart/mixed; boundary=" << boundary << "\r\n";
+		_email += "MIME-Version: 1.0\r\n"
+			"Content-Type: multipart/mixed; boundary=" + boundary + "\r\n";
 	}
 
-	email << "Subject: " << _subject << "\r\n"
-	      << "User-Agent: DCP-o-matic\r\n"
-	      << "\r\n";
+	_email += "Subject: " + _subject + "\r\n"
+		"User-Agent: DCP-o-matic\r\n"
+		"\r\n";
 
 	if (!_attachments.empty ()) {
-		email << "--" << boundary << "\r\n"
-		      << "Content-Type: text/plain; charset=utf-8\r\n\r\n";
+		_email += "--" + boundary + "\r\n"
+			+ "Content-Type: text/plain; charset=utf-8\r\n\r\n";
 	}
 
-	email << _body;
+	_email += _body;
 
 	BOOST_FOREACH (Attachment i, _attachments) {
-		email << "\r\n\r\n--" << boundary << "\r\n"
-		      << "Content-Type: " << i.mime_type << "; name=" << i.name << "\r\n"
-		      << "Content-Transfer-Encoding: Base64\r\n"
-		      << "Content-Disposition: attachment; filename=" << i.name << "\r\n\r\n";
+		_email += "\r\n\r\n--" + boundary + "\r\n"
+			"Content-Type: " + i.mime_type + "; name=" + i.name + "\r\n"
+			"Content-Transfer-Encoding: Base64\r\n"
+			"Content-Disposition: attachment; filename=" + i.name + "\r\n\r\n";
 
 		BIO* b64 = BIO_new (BIO_f_base64());
 
@@ -156,16 +154,14 @@ Emailer::send (string server, int port, string user, string password)
 
 		char* out;
 		long int bytes = BIO_get_mem_data (bio, &out);
-		email << string (out, bytes);
+		_email += string (out, bytes);
 
 		BIO_free_all (b64);
 	}
 
 	if (!_attachments.empty ()) {
-		email << "\r\n--" << boundary << "--\r\n";
+		_email += "\r\n--" + boundary + "--\r\n";
 	}
-
-	_email = email.str ();
 
 	curl_global_init (CURL_GLOBAL_DEFAULT);
 

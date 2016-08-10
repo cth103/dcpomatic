@@ -57,28 +57,30 @@ static
 string
 ffmpeg_version_to_string (int v)
 {
-	locked_stringstream s;
-	s << ((v & 0xff0000) >> 16) << N_(".") << ((v & 0xff00) >> 8) << N_(".") << (v & 0xff);
-	return s.str ();
+	char buffer[64];
+	snprintf (buffer, sizeof(buffer), "%d.%d.%d", ((v & 0xff0000) >> 16), ((v & 0xff00) >> 8), (v & 0xff));
+	return buffer;
 }
-
 
 /** Return a user-readable string summarising the versions of our dependencies */
 static
 string
 dependency_version_summary ()
 {
-	locked_stringstream s;
-	s << N_("libavcodec ") << ffmpeg_version_to_string (avcodec_version()) << N_(", ")
-	  << N_("libavfilter ") << ffmpeg_version_to_string (avfilter_version()) << N_(", ")
-	  << N_("libavformat ") << ffmpeg_version_to_string (avformat_version()) << N_(", ")
-	  << N_("libavutil ") << ffmpeg_version_to_string (avutil_version()) << N_(", ")
-	  << N_("libswscale ") << ffmpeg_version_to_string (swscale_version()) << N_(", ")
-	  << MagickVersion << N_(", ")
-	  << N_("libssh ") << ssh_version (0) << N_(", ")
-	  << N_("libdcp ") << dcp::version << N_(" git ") << dcp::git_commit;
+	char buffer[512];
+	snprintf (
+		buffer, sizeof(buffer), "libavcodec %s, libavfilter %s, libavformat %s, libavutil %s, libswscale %s, %s, libssh %s, libdcp %s git %s",
+		ffmpeg_version_to_string(avcodec_version()).c_str(),
+		ffmpeg_version_to_string(avfilter_version()).c_str(),
+		ffmpeg_version_to_string(avformat_version()).c_str(),
+		ffmpeg_version_to_string(avutil_version()).c_str(),
+		ffmpeg_version_to_string(swscale_version()).c_str(),
+		MagickVersion,
+		ssh_version(0),
+		dcp::version, dcp::git_commit
+		);
 
-	return s.str ();
+	return buffer;
 }
 
 list<string>
@@ -91,7 +93,7 @@ environment_info ()
 	{
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
-		info.push_back (String::compose ("Host name %1", buffer));
+		info.push_back (String::compose ("Host name %1", &buffer[0]));
 	}
 
 #ifdef DCPOMATIC_DEBUG

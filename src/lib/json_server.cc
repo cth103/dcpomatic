@@ -18,15 +18,16 @@
 
 */
 
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
 #include "json_server.h"
 #include "job_manager.h"
 #include "job.h"
 #include "util.h"
 #include "film.h"
 #include "transcode_job.h"
+#include "raw_convert.h"
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
 #include <iostream>
 
 using std::string;
@@ -151,48 +152,43 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		action = r["action"];
 	}
 
-	locked_stringstream json;
+	string json;
 	if (action == "status") {
 
 		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
 
-		json << "{ \"jobs\": [";
+		json += "{ \"jobs\": [";
 		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
 
-			json << "{ ";
+			json += "{ ";
 
 			if ((*i)->film()) {
-				json << "\"dcp\": \"" << (*i)->film()->dcp_name() << "\", ";
+				json += "\"dcp\": \"" + (*i)->film()->dcp_name() + "\", ";
 			}
 
-			json << "\"name\": \""   << (*i)->json_name() << "\", ";
+			json += "\"name\": \"" + (*i)->json_name() + "\", ";
 			if ((*i)->progress ()) {
-				json << "\"progress\": " << (*i)->progress().get() << ", ";
+				json += "\"progress\": " + raw_convert<string>((*i)->progress().get()) + ", ";
 			} else {
-				json << "\"progress\": unknown, ";
+				json += "\"progress\": unknown, ";
 			}
-			json << "\"status\": \"" << (*i)->json_status() << "\"";
-			json << " }";
+			json += "\"status\": \"" + (*i)->json_status() + "\"";
+			json += " }";
 
 			list<shared_ptr<Job> >::iterator j = i;
 			++j;
 			if (j != jobs.end ()) {
-				json << ", ";
+				json += ", ";
 			}
 		}
-		json << "] }";
-
-		if (json.str().empty ()) {
-			json << "{ }";
-		}
+		json += "] }";
 	}
 
-	locked_stringstream reply;
-	reply << "HTTP/1.1 200 OK\r\n"
-	      << "Content-Length: " << json.str().length() << "\r\n"
-	      << "Content-Type: application/json\r\n"
-			      << "\r\n"
-	      << json.str () << "\r\n";
-	cout << "reply: " << json.str() << "\n";
-	boost::asio::write (*socket, boost::asio::buffer (reply.str().c_str(), reply.str().length()));
+	string reply = "HTTP/1.1 200 OK\r\n"
+		"Content-Length: " + raw_convert<string>(json.length()) + "\r\n"
+		"Content-Type: application/json\r\n"
+		"\r\n"
+		+ json + "\r\n";
+	cout << "reply: " << json << "\n";
+	boost::asio::write (*socket, boost::asio::buffer (reply.c_str(), reply.length()));
 }

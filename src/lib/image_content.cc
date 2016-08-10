@@ -27,7 +27,6 @@
 #include "frame_rate_change.h"
 #include "exceptions.h"
 #include "image_filename_sorter.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -136,11 +135,9 @@ ImageContent::full_length () const
 string
 ImageContent::identifier () const
 {
-	locked_stringstream s;
-	s << Content::identifier();
-	s << "_" << video->identifier ();
-	s << "_" << video->length();
-	return s.str ();
+	char buffer[256];
+	snprintf (buffer, sizeof(buffer), "%s_%s_%" PRId64, Content::identifier().c_str(), video->identifier().c_str(), video->length());
+	return buffer;
 }
 
 bool

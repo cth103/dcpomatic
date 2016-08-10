@@ -18,6 +18,8 @@
 
 */
 
+#include <boost/asio.hpp>
+
 class JSONServer
 {
 public:
@@ -28,5 +30,3 @@ private:
 	void handle (boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
 	void request (std::string url, boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
 };
-
-

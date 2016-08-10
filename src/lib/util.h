@@ -32,6 +32,7 @@
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <string>
+#include <map>
 #include <vector>
 
 #undef check

@@ -376,7 +376,7 @@ Job::status () const
 	int const t = elapsed_sub_time ();
 	int const r = remaining_time ();
 
-	locked_stringstream s;
+	string s;
 	if (!finished () && p) {
 		int pc = lrintf (p.get() * 100);
 		if (pc == 100) {
@@ -384,22 +384,24 @@ Job::status () const
 			pc = 99;
 		}
 
-		s << pc << N_("%");
+		char buffer[64];
+		snprintf (buffer, sizeof(buffer), "%d%%", pc);
+		s += buffer;
 
 		if (t > 10 && r > 0) {
 			/// TRANSLATORS: remaining here follows an amount of time that is remaining
 			/// on an operation.
-			s << "; " << seconds_to_approximate_hms (r) << " " << _("remaining");
+			s += "; " + seconds_to_approximate_hms (r) + " " + _("remaining");
 		}
 	} else if (finished_ok ()) {
-		s << String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
+		s = String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
 	} else if (finished_in_error ()) {
-		s << String::compose (_("Error: %1"), error_summary ());
+		s = String::compose (_("Error: %1"), error_summary ());
 	} else if (finished_cancelled ()) {
-		s << _("Cancelled");
+		s = _("Cancelled");
 	}
 
-	return s.str ();
+	return s;
 }
 
 string

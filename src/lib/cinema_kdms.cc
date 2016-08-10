@@ -174,11 +174,11 @@ CinemaKDMs::email (
 		boost::algorithm::replace_all (body, "$END_TIME", name_values['t']);
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
-		locked_stringstream screens;
+		string screens;
 		BOOST_FOREACH (ScreenKDM const & j, i.screen_kdms) {
-			screens << j.screen->name << ", ";
+			screens += j.screen->name + ", ";
 		}
-		boost::algorithm::replace_all (body, "$SCREENS", screens.str().substr (0, screens.str().length() - 2));
+		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
 		Emailer email (config->kdm_from(), i.cinema->emails, subject, body);
 

@@ -30,7 +30,6 @@
 #include "job.h"
 #include "compose.hpp"
 #include "raw_convert.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/thread/mutex.hpp>
@@ -254,14 +253,12 @@ Content::length_after_trim () const
 string
 Content::identifier () const
 {
-	locked_stringstream s;
-
-	s << Content::digest()
-	  << "_" << position().get()
-	  << "_" << trim_start().get()
-	  << "_" << trim_end().get();
-
-	return s.str ();
+	char buffer[256];
+	snprintf (
+		buffer, sizeof(buffer), "%s_%" PRId64 "_%" PRId64 "_%" PRId64,
+		Content::digest().c_str(), position().get(), trim_start().get(), trim_end().get()
+		);
+	return buffer;
 }
 
 bool

@@ -29,7 +29,6 @@
 #include "lib/config.h"
 #include "lib/exceptions.h"
 #include "lib/emailer.h"
-#include <locked_sstream.h>
 #include <dcp/certificate.h>
 #include <getopt.h>
 #include <iostream>
@@ -82,10 +81,10 @@ time_from_string (string t)
 static boost::posix_time::time_duration
 duration_from_string (string d)
 {
-	locked_stringstream s (d);
 	int N;
-	string unit;
-	s >> N >> unit;
+	char unit_buf[64] = "\0";
+	sscanf (d.c_str(), "%d %64s", &N, unit_buf);
+	string const unit (unit_buf);
 
 	if (N == 0) {
 		cerr << "Could not understand duration \"" << d << "\"\n";

@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds (2));
+	BOOST_CHECK_EQUAL (content->full_length().get(), DCPTime::from_seconds(2).get());
 
 	content->subtitle->set_use (true);
 	content->subtitle->set_burn (false);
@@ -82,10 +82,10 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 		);
 
 	BOOST_REQUIRE_EQUAL (ctp.size(), 2);
-	BOOST_CHECK_EQUAL (ctp.front().from, ContentTime::from_seconds (25 + 12 * 0.04));
-	BOOST_CHECK_EQUAL (ctp.front().to, ContentTime::from_seconds (26 + 4 * 0.04));
-	BOOST_CHECK_EQUAL (ctp.back().from, ContentTime::from_seconds (25 + 12 * 0.04));
-	BOOST_CHECK_EQUAL (ctp.back().to, ContentTime::from_seconds (26 + 4 * 0.04));
+	BOOST_CHECK_EQUAL (ctp.front().from.get(), ContentTime::from_seconds(25 + 12 * 0.04).get());
+	BOOST_CHECK_EQUAL (ctp.front().to.get(), ContentTime::from_seconds(26 + 4 * 0.04).get());
+	BOOST_CHECK_EQUAL (ctp.back().from.get(), ContentTime::from_seconds(25 + 12 * 0.04).get());
+	BOOST_CHECK_EQUAL (ctp.back().to.get(), ContentTime::from_seconds(26 + 4 * 0.04).get());
 
 	list<ContentTextSubtitle> subs = decoder->subtitle->get_text (
 		ContentTimePeriod (

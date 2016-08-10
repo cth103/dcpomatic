@@ -19,7 +19,6 @@
 */
 
 #include "digester.h"
-#include <locked_sstream.h>
 #include <nettle/md5.h>
 #include <iomanip>
 
@@ -57,12 +56,12 @@ Digester::get () const
 		unsigned char digest[MD5_DIGEST_SIZE];
 		md5_digest (&_context, MD5_DIGEST_SIZE, digest);
 
-		locked_stringstream s;
+		char hex[MD5_DIGEST_SIZE * 2 + 1];
 		for (int i = 0; i < MD5_DIGEST_SIZE; ++i) {
-			s << hex << setfill('0') << setw(2) << ((int) digest[i]);
+			sprintf(hex + i * 2, "%02x", digest[i]);
 		}
 
-		_digest = s.str ();
+		_digest = hex;
 	}
 
 	return _digest.get ();

@@ -26,7 +26,6 @@
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
-#include <locked_sstream.h>
 #include "compose.hpp"
 extern "C" {
 #include <libavfilter/avfiltergraph.h>

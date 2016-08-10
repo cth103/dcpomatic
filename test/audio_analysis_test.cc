@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 	BOOST_CHECK (b.sample_peak ());
 	BOOST_CHECK_CLOSE (b.sample_peak().get(), peak, 1);
 	BOOST_CHECK (b.sample_peak_time ());
-	BOOST_CHECK_EQUAL (b.sample_peak_time().get(), peak_time);
+	BOOST_CHECK_EQUAL (b.sample_peak_time().get().get(), peak_time.get());
 }
 
 static void

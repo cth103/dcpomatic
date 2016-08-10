@@ -191,9 +191,7 @@ private:
 
 	void update_state ()
 	{
-		locked_stringstream s;
-		s << fixed << setprecision(1) << server_log->fps ();
-		_fps->SetLabel (std_to_wx (s.str()));
+		_fps->SetLabel (wxString::Format ("%.1f", server_log->fps()));
 	}
 
 	wxTextCtrl* _text;

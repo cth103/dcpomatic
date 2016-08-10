@@ -205,12 +205,12 @@ DolbyDoremiCertificatePanel::finish_download (string serial, wxStaticText* messa
 	} else {
 		message->SetLabel (wxT (""));
 
-		locked_stringstream s;
+		string s;
 		BOOST_FOREACH (string e, errors) {
-			s << e << "\n";
+			s += e + "\n";
 		}
 
-		error_dialog (this, std_to_wx (s.str ()));
+		error_dialog (this, std_to_wx (s));
 	}
 }
 

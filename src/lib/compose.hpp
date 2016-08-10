@@ -1,4 +1,5 @@
-/* Defines String::compose(fmt, arg...) for easy, i18n-friendly
+/* -*- c-basic-offset: 2 -*-
+ * Defines String::compose(fmt, arg...) for easy, i18n-friendly
  * composition of strings.
  *
  * Version 1.0.
@@ -33,10 +34,11 @@
 #ifndef STRING_COMPOSE_H
 #define STRING_COMPOSE_H
 
-#include <locked_sstream.h>
+#include <boost/filesystem.hpp>
 #include <string>
 #include <list>
-#include <map>			// for multimap
+#include <map>
+#include <inttypes.h>
 
 namespace StringPrivate
 {
@@ -56,7 +58,7 @@ namespace StringPrivate
     std::string str() const;
 
   private:
-    locked_stringstream os;
+    std::string os;
     int arg_no;
 
     // we store the output as a list - when the output string is requested, the
@@ -110,26 +112,106 @@ namespace StringPrivate
     }
   }
 
+  template <typename T>
+  inline void write(std::string& s, const T& obj)
+  {
+    /* Assume anything not specialized has a to_string() method */
+    s += to_string (obj);
+  }
+
+  template <>
+  inline void write(std::string& s, const int64_t& obj)
+  {
+    char buffer[64];
+    snprintf(buffer, 64, "%" PRId64, obj);
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, const int& obj)
+  {
+    char buffer[64];
+    snprintf(buffer, 64, "%d", obj);
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, const unsigned int& obj)
+  {
+    char buffer[64];
+    snprintf(buffer, 64, "%ud", obj);
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, const long unsigned int& obj)
+  {
+    char buffer[64];
+    snprintf(buffer, 64, "%lu", obj);
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, const float& obj)
+  {
+    char buffer[64];
+    snprintf(buffer, 64, "%f", obj);
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, const char& obj)
+  {
+    s += obj;
+  }
+
+  template <>
+  inline void write(std::string& s, const double& obj)
+  {
+    char buffer[64];
+    snprintf(buffer, 64, "%f", obj);
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, char const * const & obj)
+  {
+    s += obj;
+  }
+
+  template <>
+  inline void write(std::string& s, char* const & obj)
+  {
+    s += obj;
+  }
+
+  template <>
+  inline void write(std::string& s, const std::string& obj)
+  {
+    s += obj;
+  }
+
+  template <>
+  inline void write(std::string& s, const boost::filesystem::path & obj)
+  {
+    s += obj.string();
+  }
 
   // implementation of class Composition
   template <typename T>
   inline Composition &Composition::arg(const T &obj)
   {
-    os << obj;
+    write(os, obj);
 
-    std::string rep = os.str();
-
-    if (!rep.empty()) {		// manipulators don't produce output
-      for (specification_map::const_iterator i = specs.lower_bound(arg_no),
-	     end = specs.upper_bound(arg_no); i != end; ++i) {
+    if (!os.empty()) {		// manipulators don't produce output
+      for (specification_map::const_iterator i = specs.lower_bound(arg_no), end = specs.upper_bound(arg_no); i != end; ++i) {
 	output_list::iterator pos = i->second;
 	++pos;
 
-	output.insert(pos, rep);
+	output.insert(pos, os);
       }
 
-      os.str(std::string());
-      //os.clear();
+      os = "";
       ++arg_no;
     }
 

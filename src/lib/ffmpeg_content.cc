@@ -34,7 +34,6 @@
 #include "frame_rate_change.h"
 #include "raw_convert.h"
 #include "subtitle_content.h"
-#include <locked_sstream.h>
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -388,29 +387,27 @@ FFmpegContent::set_filters (vector<Filter const *> const & filters)
 string
 FFmpegContent::identifier () const
 {
-	locked_stringstream s;
-
-	s << Content::identifier();
+	string s = Content::identifier();
 
 	if (video) {
-		s << "_" << video->identifier();
+		s += "_" + video->identifier();
 	}
 
 	if (subtitle) {
-		s << "_" << subtitle->identifier();
+		s += "_" + subtitle->identifier();
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_subtitle_stream) {
-		s << "_" << _subtitle_stream->identifier ();
+		s += "_" + _subtitle_stream->identifier ();
 	}
 
 	for (vector<Filter const *>::const_iterator i = _filters.begin(); i != _filters.end(); ++i) {
-		s << "_" << (*i)->id ();
+		s += "_" + (*i)->id ();
 	}
 
-	return s.str ();
+	return s;
 }
 
 list<ContentTimePeriod>

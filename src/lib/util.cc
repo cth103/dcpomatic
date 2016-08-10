@@ -36,7 +36,6 @@
 #include "digester.h"
 #include "audio_processor.h"
 #include "compose.hpp"
-#include <locked_sstream.h>
 #include <dcp/util.h>
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
@@ -115,14 +114,9 @@ seconds_to_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	locked_stringstream hms;
-	hms << h << N_(":");
-	hms.width (2);
-	hms << setfill ('0') << m << N_(":");
-	hms.width (2);
-	hms << setfill ('0') << s;
-
-	return hms.str ();
+	char buffer[64];
+	snprintf (buffer, sizeof(buffer), "%d:%02d:%02d", h, m, s);
+	return buffer;
 }
 
 /** @param s Number of seconds.
@@ -136,7 +130,7 @@ seconds_to_approximate_hms (int s)
 	int h = m / 60;
 	m -= (h * 60);
 
-	locked_stringstream ap;
+	string ap;
 
 	bool const hours = h > 0;
 	bool const minutes = h < 6 && m > 0;
@@ -145,14 +139,14 @@ seconds_to_approximate_hms (int s)
 	if (hours) {
 		if (m > 30 && !minutes) {
 			/// TRANSLATORS: h here is an abbreviation for hours
-			ap << (h + 1) << _("h");
+			ap += raw_convert<string>(h + 1) + _("h");
 		} else {
 			/// TRANSLATORS: h here is an abbreviation for hours
-			ap << h << _("h");
+			ap += raw_convert<string>(h) + _("h");
 		}
 
 		if (minutes || seconds) {
-			ap << N_(" ");
+			ap += N_(" ");
 		}
 	}
 
@@ -160,24 +154,24 @@ seconds_to_approximate_hms (int s)
 		/* Minutes */
 		if (s > 30 && !seconds) {
 			/// TRANSLATORS: m here is an abbreviation for minutes
-			ap << (m + 1) << _("m");
+			ap += raw_convert<string>(m + 1) + _("m");
 		} else {
 			/// TRANSLATORS: m here is an abbreviation for minutes
-			ap << m << _("m");
+			ap += raw_convert<string>(m) + _("m");
 		}
 
 		if (seconds) {
-			ap << N_(" ");
+			ap += N_(" ");
 		}
 	}
 
 	if (seconds) {
 		/* Seconds */
 		/// TRANSLATORS: s here is an abbreviation for seconds
-		ap << s << _("s");
+		ap += raw_convert<string>(s) + _("s");
 	}
 
-	return ap.str ();
+	return ap;
 }
 
 double

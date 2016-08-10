@@ -34,8 +34,7 @@ void
 test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop crop, Ratio const * ratio, bool scale, dcp::Size correct)
 {
 	shared_ptr<Film> film;
-	locked_stringstream s;
-	s << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+	string s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 		"<Content>"
 		"<Type>FFmpeg</Type>"
 		"<Path>/home/c.hetherington/DCP/prophet_clip.mkv</Path>"
@@ -44,26 +43,26 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 		"<TrimStart>0</TrimStart>"
 		"<TrimEnd>0</TrimEnd>"
 		"<VideoLength>2879</VideoLength>"
-		"<VideoWidth>" << content_size.width << "</VideoWidth>"
-		"<VideoHeight>" << content_size.height << "</VideoHeight>"
+		"<VideoWidth>" + raw_convert<string>(content_size.width) + "</VideoWidth>"
+		"<VideoHeight>" + raw_convert<string>(content_size.height) + "</VideoHeight>"
 		"<VideoFrameRate>23.97602462768555</VideoFrameRate>"
 		"<OriginalVideoFrameRate>23.97602462768555</OriginalVideoFrameRate>"
 		"<VideoFrameType>0</VideoFrameType>"
 		"<SampleAspectRatio>1</SampleAspectRatio>"
 		"<BitsPerPixel>12</BitsPerPixel>"
-		"<LeftCrop>" << crop.left << "</LeftCrop>"
-		"<RightCrop>" << crop.right << "</RightCrop>"
-		"<TopCrop>" << crop.top << "</TopCrop>"
-		"<BottomCrop>" << crop.bottom << "</BottomCrop>"
+		"<LeftCrop>" + raw_convert<string>(crop.left) + "</LeftCrop>"
+		"<RightCrop>" + raw_convert<string>(crop.right) + "</RightCrop>"
+		"<TopCrop>" + raw_convert<string>(crop.top) + "</TopCrop>"
+		"<BottomCrop>" + raw_convert<string>(crop.bottom) + "</BottomCrop>"
 		"<Scale>";
 
 	if (ratio) {
-		s << "<Ratio>" << ratio->id() << "</Ratio>";
+		s += "<Ratio>" + ratio->id() + "</Ratio>";
 	} else {
-		s << "<Scale>" << scale << "</Scale>";
+		s += "<Scale>" + string(scale ? "1" : "0") + "</Scale>";
 	}
 
-	s << "</Scale>"
+	s += "</Scale>"
 		"<ColourConversion>"
 		"<InputGamma>2.4</InputGamma>"
 		"<InputGammaLinearised>1</InputGammaLinearised>"
@@ -87,7 +86,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 		"</Content>";
 
 	shared_ptr<cxml::Document> doc (new cxml::Document ());
-	doc->read_string(s.str ());
+	doc->read_string (s);
 
 	list<string> notes;
 	shared_ptr<FFmpegContent> vc (new FFmpegContent (film, doc, 10, notes));

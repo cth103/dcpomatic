@@ -19,10 +19,8 @@
 */
 
 #include "encoded_log_entry.h"
-#include <locked_sstream.h>
 
 using std::string;
-using std::fixed;
 
 EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double encode, double send)
 	: LogEntry (LogEntry::TYPE_GENERAL)
@@ -38,13 +36,7 @@ EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double e
 string
 EncodedLogEntry::message () const
 {
-	locked_stringstream m;
-	m.precision (2);
-	m << fixed
-	  << "Encoded frame " << _frame << " from " << _ip << ": "
-	  << "receive " << _receive << "s "
-	  << "encode " << _encode << "s "
-	  << "send " << _send << "s.";
-
-	return m.str ();
+	char buffer[256];
+	snprintf (buffer, sizeof(buffer), "Encoded frame %d from %s: receive %.2fs encode %.2fs send %.2fs.", _frame, _ip.c_str(), _receive, _encode, _send);
+	return buffer;
 }
