@@ -23,7 +23,7 @@
 #include "image_proxy.h"
 #include "j2k_image_proxy.h"
 #include "film.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -37,6 +37,7 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::function;
 using dcp::Data;
+using dcp::raw_convert;
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,

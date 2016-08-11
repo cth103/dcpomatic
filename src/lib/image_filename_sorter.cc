@@ -18,13 +18,14 @@
 
 */
 
-#include "raw_convert.h"
 #include "image_filename_sorter.h"
+#include <dcp/raw_convert.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
 
 using std::list;
+using dcp::raw_convert;
 
 bool
 ImageFilenameSorter::operator() (boost::filesystem::path a, boost::filesystem::path b)

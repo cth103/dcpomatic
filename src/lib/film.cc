@@ -39,7 +39,6 @@
 #include "ratio.h"
 #include "cross.h"
 #include "environment_info.h"
-#include "raw_convert.h"
 #include "audio_processor.h"
 #include "digester.h"
 #include "compose.hpp"
@@ -57,6 +56,7 @@
 #include <dcp/util.h>
 #include <dcp/local_time.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
@@ -88,6 +88,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::is_any_of;
+using dcp::raw_convert;
 
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);

@@ -21,7 +21,7 @@
 #include "update_checker.h"
 #include "version.h"
 #include "util.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
@@ -36,6 +36,7 @@ using std::string;
 using std::vector;
 using boost::is_any_of;
 using boost::ends_with;
+using dcp::raw_convert;
 
 /** Singleton instance */
 UpdateChecker* UpdateChecker::_instance = 0;

@@ -24,10 +24,10 @@
 
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
-#include "lib/raw_convert.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
 #include "audio_gain_dialog.h"
+#include <dcp/raw_convert.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <wx/renderer.h>
@@ -45,6 +45,7 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 #define INDICATOR_SIZE 16
 #define LEFT_WIDTH 48

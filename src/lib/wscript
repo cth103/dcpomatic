@@ -118,7 +118,6 @@ sources = """
           send_problem_report_job.cc
           server.cc
           string_log_entry.cc
-          raw_convert.cc
           subtitle_content.cc
           subtitle_decoder.cc
           text_subtitle.cc

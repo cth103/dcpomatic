@@ -28,7 +28,6 @@
 #include "types.h"
 #include "signaller.h"
 #include "dcpomatic_time.h"
-#include "raw_convert.h"
 #include "user_property.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>

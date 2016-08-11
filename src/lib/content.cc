@@ -29,7 +29,7 @@
 #include "film.h"
 #include "job.h"
 #include "compose.hpp"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/thread/mutex.hpp>
@@ -44,6 +44,7 @@ using std::vector;
 using std::max;
 using std::pair;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 int const ContentProperty::PATH = 400;
 int const ContentProperty::POSITION = 401;

@@ -21,7 +21,7 @@
 #include "audio_mapping.h"
 #include "util.h"
 #include "digester.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
@@ -36,6 +36,7 @@ using std::vector;
 using std::abs;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 AudioMapping::AudioMapping ()
 	: _input_channels (0)

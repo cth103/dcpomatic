@@ -31,10 +31,10 @@
 #include "config.h"
 #include "cross.h"
 #include "player_video.h"
-#include "raw_convert.h"
 #include "compose.hpp"
 #include "log.h"
 #include "encoded_log_entry.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>
@@ -64,6 +64,7 @@ using boost::scoped_array;
 using boost::optional;
 using dcp::Size;
 using dcp::Data;
+using dcp::raw_convert;
 
 EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose, int num_threads)
 	: Server (Config::instance()->server_port_base())

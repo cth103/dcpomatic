@@ -23,12 +23,12 @@
 #include "film.h"
 #include "exceptions.h"
 #include "util.h"
-#include "raw_convert.h"
 #include "log.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "ffmpeg_audio_stream.h"
 #include "digester.h"
 #include "compose.hpp"
+#include <dcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -46,6 +46,7 @@ using std::cerr;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
+using dcp::raw_convert;
 
 boost::mutex FFmpeg::_mutex;
 boost::weak_ptr<Log> FFmpeg::_ffmpeg_log;

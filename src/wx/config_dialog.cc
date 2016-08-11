@@ -39,12 +39,11 @@
 #include "lib/dcp_content_type.h"
 #include "lib/log.h"
 #include "lib/util.h"
-#include "lib/raw_convert.h"
 #include "lib/cross.h"
 #include "lib/exceptions.h"
+#include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
-#include <dcp/raw_convert.h>
 #include <wx/stdpaths.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
@@ -64,6 +63,7 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::function;
 using boost::optional;
+using dcp::raw_convert;
 
 class Page
 {

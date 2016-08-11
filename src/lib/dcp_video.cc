@@ -37,9 +37,9 @@
 #include "log.h"
 #include "cross.h"
 #include "player_video.h"
-#include "raw_convert.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
+#include <dcp/raw_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/j2k.h>
@@ -62,6 +62,7 @@ using std::cout;
 using boost::shared_ptr;
 using dcp::Size;
 using dcp::Data;
+using dcp::raw_convert;
 
 #define DCI_COEFFICENT (48.0 / 52.37)
 

@@ -24,7 +24,7 @@
 #include "util.h"
 #include "film.h"
 #include "transcode_job.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
@@ -38,6 +38,7 @@ using boost::thread;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::asio::ip::tcp;
+using dcp::raw_convert;
 
 #define MAX_LENGTH 512
 

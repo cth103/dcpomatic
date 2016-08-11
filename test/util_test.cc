@@ -22,10 +22,9 @@
  *  @brief Test various utility methods.
  */
 
-#include <boost/test/unit_test.hpp>
 #include "lib/util.h"
-#include "lib/raw_convert.h"
 #include "lib/exceptions.h"
+#include <boost/test/unit_test.hpp>
 
 using std::string;
 using std::vector;
@@ -86,10 +85,4 @@ BOOST_AUTO_TEST_CASE (seconds_to_approximate_hms_test)
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1 * 3600), "1h");
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (3600 + 40 * 60), "1h 40m");
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14h");
-}
-
-BOOST_AUTO_TEST_CASE (raw_convert_test)
-{
-	BOOST_CHECK_EQUAL (raw_convert<string> ("foo"), "foo");
-	BOOST_CHECK_EQUAL (raw_convert<string> ("foo bar"), "foo bar");
 }

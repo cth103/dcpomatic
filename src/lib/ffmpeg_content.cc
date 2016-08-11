@@ -32,8 +32,8 @@
 #include "log.h"
 #include "exceptions.h"
 #include "frame_rate_change.h"
-#include "raw_convert.h"
 #include "subtitle_content.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavformat/avformat.h>
@@ -57,6 +57,7 @@ using std::max;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using dcp::raw_convert;
 
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;

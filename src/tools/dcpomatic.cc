@@ -95,6 +95,7 @@ using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using dcp::raw_convert;
 
 class FilmChangedDialog : public boost::noncopyable
 {

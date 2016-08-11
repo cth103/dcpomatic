@@ -25,7 +25,7 @@
 #include "cross.h"
 #include "encode_server_description.h"
 #include "dcpomatic_socket.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
@@ -39,6 +39,7 @@ using std::cout;
 using boost::shared_ptr;
 using boost::scoped_array;
 using boost::weak_ptr;
+using dcp::raw_convert;
 
 EncodeServerFinder* EncodeServerFinder::_instance = 0;
 

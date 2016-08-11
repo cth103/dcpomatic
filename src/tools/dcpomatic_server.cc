@@ -25,7 +25,6 @@
 #include "lib/encode_server.h"
 #include "lib/config.h"
 #include "lib/log.h"
-#include "lib/raw_convert.h"
 #include "lib/signaller.h"
 #include "lib/cross.h"
 #include <wx/taskbar.h>

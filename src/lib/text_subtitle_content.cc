@@ -23,8 +23,8 @@
 #include "text_subtitle.h"
 #include "film.h"
 #include "font.h"
-#include "raw_convert.h"
 #include "subtitle_content.h"
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
 
@@ -33,6 +33,7 @@
 using std::string;
 using std::cout;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 TextSubtitleContent::TextSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)

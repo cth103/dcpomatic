@@ -22,8 +22,8 @@
 #include "util.h"
 #include "exceptions.h"
 #include "font.h"
-#include "raw_convert.h"
 #include "content.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -37,6 +37,7 @@ using std::cout;
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 int const SubtitleContentProperty::X_OFFSET = 500;
 int const SubtitleContentProperty::Y_OFFSET = 501;

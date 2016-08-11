@@ -20,7 +20,7 @@
 
 #include "raw_image_proxy.h"
 #include "image.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <dcp/util.h>
 #include <libcxml/cxml.h>
 extern "C" {
@@ -34,6 +34,7 @@ using std::string;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using dcp::raw_convert;
 
 RawImageProxy::RawImageProxy (shared_ptr<Image> image)
 	: _image (image)

@@ -19,7 +19,9 @@
 */
 
 #include "playhead_to_frame_dialog.h"
-#include "lib/raw_convert.h"
+#include <dcp/raw_convert.h>
+
+using dcp::raw_convert;
 
 PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
 	: TableDialog (parent, _("Go to frame"), 2, 1, true)

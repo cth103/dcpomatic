@@ -50,6 +50,7 @@ using boost::shared_ptr;
 using boost::scoped_ptr;
 using boost::optional;
 using boost::function;
+using dcp::raw_convert;
 
 int const DCPContentProperty::CAN_BE_PLAYED      = 600;
 int const DCPContentProperty::REFERENCE_VIDEO    = 601;

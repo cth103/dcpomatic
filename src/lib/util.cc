@@ -91,6 +91,7 @@ using boost::optional;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 using dcp::Size;
+using dcp::raw_convert;
 
 /** Path to our executable, required by the stacktrace stuff and filled
  *  in during App::onInit().

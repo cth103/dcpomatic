@@ -20,10 +20,10 @@
 
 #include "content_properties_dialog.h"
 #include "wx_util.h"
-#include "lib/raw_convert.h"
 #include "lib/content.h"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
+#include <dcp/raw_convert.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 
@@ -33,6 +33,7 @@ using std::pair;
 using std::map;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<Content> content)
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)

@@ -30,7 +30,7 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "log.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>
 #include <libxml++/libxml++.h>
@@ -62,6 +62,7 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 VideoContent::VideoContent (Content* parent)
 	: ContentPart (parent)

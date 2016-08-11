@@ -21,9 +21,9 @@
 #include "audio_analysis.h"
 #include "cross.h"
 #include "util.h"
-#include "raw_convert.h"
 #include "playlist.h"
 #include "audio_content.h"
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
@@ -42,6 +42,7 @@ using std::max;
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 AudioAnalysis::AudioAnalysis (int channels)
 {

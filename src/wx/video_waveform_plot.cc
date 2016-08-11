@@ -22,9 +22,9 @@
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "lib/image.h"
-#include "lib/raw_convert.h"
 #include "lib/dcp_video.h"
 #include <dcp/openjpeg_image.h>
+#include <dcp/raw_convert.h>
 #include <wx/rawbmp.h>
 #include <wx/graphics.h>
 #include <boost/bind.hpp>
@@ -35,6 +35,7 @@ using std::min;
 using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 int const VideoWaveformPlot::_vertical_margin = 8;
 

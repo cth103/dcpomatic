@@ -29,7 +29,7 @@
 #include "cinema.h"
 #include "util.h"
 #include "cross.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <dcp/name_format.h>
 #include <dcp/colour_matrix.h>
 #include <dcp/certificate_chain.h>
@@ -58,6 +58,7 @@ using std::cerr;
 using boost::shared_ptr;
 using boost::optional;
 using boost::algorithm::trim;
+using dcp::raw_convert;
 
 Config* Config::_instance = 0;
 boost::signals2::signal<void ()> Config::FailedToLoad;

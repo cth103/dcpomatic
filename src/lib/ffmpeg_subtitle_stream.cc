@@ -19,7 +19,7 @@
 */
 
 #include "ffmpeg_subtitle_stream.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -29,6 +29,7 @@ using std::map;
 using std::list;
 using std::cout;
 using std::make_pair;
+using dcp::raw_convert;
 
 /** Construct a SubtitleStream from a value returned from to_string().
  *  @param t String returned from to_string().

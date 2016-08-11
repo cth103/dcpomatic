@@ -20,9 +20,9 @@
 
 #include "font.h"
 #include "dcp_subtitle_content.h"
-#include "raw_convert.h"
 #include "film.h"
 #include "subtitle_content.h"
+#include <dcp/raw_convert.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
@@ -35,6 +35,7 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 DCPSubtitleContent::DCPSubtitleContent (shared_ptr<const Film> film, boost::filesystem::path path)
 	: Content (film, path)

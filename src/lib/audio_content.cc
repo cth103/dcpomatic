@@ -23,8 +23,8 @@
 #include "exceptions.h"
 #include "config.h"
 #include "frame_rate_change.h"
-#include "raw_convert.h"
 #include "compose.hpp"
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -42,6 +42,7 @@ using std::setprecision;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using dcp::raw_convert;
 
 /** Something stream-related has changed */
 int const AudioContentProperty::STREAMS = 200;

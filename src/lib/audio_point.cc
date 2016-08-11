@@ -19,10 +19,11 @@
 */
 
 #include "audio_point.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 
 using std::string;
+using dcp::raw_convert;
 
 AudioPoint::AudioPoint ()
 {

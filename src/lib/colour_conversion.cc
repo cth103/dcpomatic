@@ -22,7 +22,7 @@
 #include "colour_conversion.h"
 #include "util.h"
 #include "digester.h"
-#include "raw_convert.h"
+#include <dcp/raw_convert.h>
 #include <dcp/chromaticity.h>
 #include <dcp/colour_matrix.h>
 #include <dcp/gamma_transfer_function.h>
@@ -41,6 +41,7 @@ using std::vector;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
+using dcp::raw_convert;
 
 vector<PresetColourConversion> PresetColourConversion::_presets;
 
