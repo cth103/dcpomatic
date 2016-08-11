@@ -36,7 +36,9 @@
 #include "digester.h"
 #include "audio_processor.h"
 #include "compose.hpp"
+#include "locale_convert.h"
 #include <dcp/util.h>
+#include <dcp/raw_convert.h>
 #include <dcp/picture_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
@@ -140,10 +142,10 @@ seconds_to_approximate_hms (int s)
 	if (hours) {
 		if (m > 30 && !minutes) {
 			/// TRANSLATORS: h here is an abbreviation for hours
-			ap += raw_convert<string>(h + 1) + _("h");
+			ap += locale_convert<string>(h + 1) + _("h");
 		} else {
 			/// TRANSLATORS: h here is an abbreviation for hours
-			ap += raw_convert<string>(h) + _("h");
+			ap += locale_convert<string>(h) + _("h");
 		}
 
 		if (minutes || seconds) {
@@ -155,10 +157,10 @@ seconds_to_approximate_hms (int s)
 		/* Minutes */
 		if (s > 30 && !seconds) {
 			/// TRANSLATORS: m here is an abbreviation for minutes
-			ap += raw_convert<string>(m + 1) + _("m");
+			ap += locale_convert<string>(m + 1) + _("m");
 		} else {
 			/// TRANSLATORS: m here is an abbreviation for minutes
-			ap += raw_convert<string>(m) + _("m");
+			ap += locale_convert<string>(m) + _("m");
 		}
 
 		if (seconds) {
@@ -169,7 +171,7 @@ seconds_to_approximate_hms (int s)
 	if (seconds) {
 		/* Seconds */
 		/// TRANSLATORS: s here is an abbreviation for seconds
-		ap += raw_convert<string>(s) + _("s");
+		ap += locale_convert<string>(s) + _("s");
 	}
 
 	return ap;

@@ -30,6 +30,7 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "log.h"
+#include "locale_convert.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>
@@ -456,8 +457,8 @@ VideoContent::processing_description () const
 void
 VideoContent::add_properties (list<UserProperty>& p) const
 {
-	p.push_back (UserProperty (UserProperty::VIDEO, _("Length"), raw_convert<string> (length ()), _("video frames")));
-	p.push_back (UserProperty (UserProperty::VIDEO, _("Size"), raw_convert<string> (size().width) + "x" + raw_convert<string> (size().height)));
+	p.push_back (UserProperty (UserProperty::VIDEO, _("Length"), length (), _("video frames")));
+	p.push_back (UserProperty (UserProperty::VIDEO, _("Size"), size().width + "x" + size().height));
 }
 
 void

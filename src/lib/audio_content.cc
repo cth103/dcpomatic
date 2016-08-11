@@ -24,6 +24,7 @@
 #include "config.h"
 #include "frame_rate_change.h"
 #include "compose.hpp"
+#include "locale_convert.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>

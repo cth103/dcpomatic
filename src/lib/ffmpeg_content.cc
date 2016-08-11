@@ -33,6 +33,7 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "subtitle_content.h"
+#include "locale_convert.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 extern "C" {
@@ -566,7 +567,7 @@ FFmpegContent::add_properties (list<UserProperty>& p) const
 		p.push_back (UserProperty (UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace]));
 
 		if (_bits_per_pixel) {
-			p.push_back (UserProperty (UserProperty::VIDEO, _("Bits per pixel"), raw_convert<string> (_bits_per_pixel.get ())));
+			p.push_back (UserProperty (UserProperty::VIDEO, _("Bits per pixel"), _bits_per_pixel.get ()));
 		}
 	}
 

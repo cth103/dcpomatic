@@ -41,7 +41,7 @@
 #include "lib/util.h"
 #include "lib/cross.h"
 #include "lib/exceptions.h"
-#include <dcp/raw_convert.h>
+#include "lib/locale_convert.h"
 #include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
 #include <wx/stdpaths.h>
@@ -63,7 +63,6 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::function;
 using boost::optional;
-using dcp::raw_convert;
 
 class Page
 {
@@ -517,7 +516,7 @@ private:
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
-		checked_set (_dcp_audio_channels, raw_convert<string> (config->default_dcp_audio_channels()));
+		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
 	}
@@ -536,7 +535,9 @@ private:
 	{
 		int const s = _dcp_audio_channels->GetSelection ();
 		if (s != wxNOT_FOUND) {
-			Config::instance()->set_default_dcp_audio_channels (dcp::raw_convert<int> (string_client_data (_dcp_audio_channels->GetClientObject (s))));
+			Config::instance()->set_default_dcp_audio_channels (
+				locale_convert<int> (string_client_data (_dcp_audio_channels->GetClientObject (s)))
+				);
 		}
 	}
 

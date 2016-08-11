@@ -36,6 +36,7 @@ using std::cout;
 using std::list;
 using boost::function;
 using boost::optional;
+using dcp::raw_convert;
 
 DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (wxWindow* parent, DownloadCertificateDialog* dialog)
 	: DownloadCertificatePanel (parent, dialog)
@@ -90,7 +91,7 @@ try_ims (list<string>& urls, list<string>& files, string prefix, string serial)
 static void
 try_cat862 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	int const serial_int = dcp::raw_convert<int> (serial);
+	int const serial_int = raw_convert<int> (serial);
 
 	string cat862;
 	if (serial_int <= 510999) {
@@ -109,7 +110,7 @@ try_cat862 (list<string>& urls, list<string>& files, string prefix, string seria
 static void
 try_dsp100 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	int const serial_int = dcp::raw_convert<int> (serial);
+	int const serial_int = raw_convert<int> (serial);
 
 	string dsp100;
 	if (serial_int <= 999) {
@@ -128,7 +129,7 @@ try_dsp100 (list<string>& urls, list<string>& files, string prefix, string seria
 static void
 try_cat745 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	int const serial_int = dcp::raw_convert<int> (serial.substr (1));
+	int const serial_int = raw_convert<int> (serial.substr (1));
 
 	string cat745;
 	if (serial_int <= 999) {
@@ -147,7 +148,7 @@ try_cat745 (list<string>& urls, list<string>& files, string prefix, string seria
 static void
 try_cp850 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	int const serial_int = dcp::raw_convert<int> (serial.substr (1));
+	int const serial_int = raw_convert<int> (serial.substr (1));
 
 	int const lower = serial_int - (serial_int % 1000);
 	urls.push_back (String::compose ("%1CP850_CAT1600_F%2-F%3/cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%4.zip", prefix, lower, lower + 999, serial_int));

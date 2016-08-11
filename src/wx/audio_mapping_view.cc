@@ -22,12 +22,12 @@
  *  @brief AudioMappingView class and helpers.
  */
 
-#include "lib/audio_mapping.h"
-#include "lib/util.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
 #include "audio_gain_dialog.h"
-#include <dcp/raw_convert.h>
+#include "lib/audio_mapping.h"
+#include "lib/util.h"
+#include "lib/locale_convert.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <wx/renderer.h>
@@ -45,7 +45,6 @@ using std::vector;
 using std::pair;
 using std::make_pair;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 #define INDICATOR_SIZE 16
 #define LEFT_WIDTH 48
@@ -86,7 +85,7 @@ public:
 		dc.SetBrush (*wxTheBrushList->FindOrCreateBrush (wxColour (255, 255, 255), wxBRUSHSTYLE_SOLID));
 		dc.DrawRectangle (wxRect (rect.GetLeft() + xo, rect.GetTop() + yo, INDICATOR_SIZE, INDICATOR_SIZE));
 
-		float const value = raw_convert<float> (wx_to_std (grid.GetCellValue (row, col)));
+		float const value = locale_convert<float> (wx_to_std (grid.GetCellValue (row, col)));
 		float const value_dB = 20 * log10 (value);
 		int const range = 18;
 		int height = 0;
@@ -301,7 +300,7 @@ AudioMappingView::update_cells ()
 			_grid->SetCellValue (i, 0, std_to_wx (row_names[i]));
 		}
 		for (int j = 1; j < _grid->GetNumberCols(); ++j) {
-			_grid->SetCellValue (i, j, std_to_wx (raw_convert<string> (_map.get (i, j - 1))));
+			_grid->SetCellValue (i, j, std_to_wx (locale_convert<string> (_map.get (i, j - 1))));
 		}
 	}
 

@@ -20,7 +20,7 @@
 
 #include "time_picker.h"
 #include "wx_util.h"
-#include <dcp/raw_convert.h>
+#include "lib/locale_convert.h"
 #include <wx/spinctrl.h>
 #include <boost/bind.hpp>
 #include <iomanip>
@@ -32,7 +32,6 @@ using std::max;
 using std::string;
 using std::cout;
 using boost::bind;
-using dcp::raw_convert;
 
 TimePicker::TimePicker (wxWindow* parent, wxDateTime time)
 	: wxPanel (parent)
@@ -97,8 +96,8 @@ TimePicker::update_spin ()
 	}
 
 	_block_update = true;
-	_hours_spin->SetValue (raw_convert<int> (wx_to_std (_hours->GetValue())));
-	_minutes_spin->SetValue (raw_convert<int> (wx_to_std (_minutes->GetValue())));
+	_hours_spin->SetValue (locale_convert<int> (wx_to_std (_hours->GetValue())));
+	_minutes_spin->SetValue (locale_convert<int> (wx_to_std (_minutes->GetValue())));
 	_block_update = false;
 
 	Changed ();

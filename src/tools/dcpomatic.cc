@@ -60,6 +60,7 @@
 #include "lib/dcpomatic_socket.h"
 #include "lib/hints.h"
 #include <dcp/exceptions.h>
+#include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/stdpaths.h>
 #include <wx/cmdline.h>

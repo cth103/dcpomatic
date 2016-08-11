@@ -27,6 +27,7 @@
 #include "content_factory.h"
 #include "exceptions.h"
 #include "film.h"
+#include "locale_convert.h"
 #include "job.h"
 #include "compose.hpp"
 #include <dcp/raw_convert.h>
@@ -365,7 +366,7 @@ Content::add_properties (list<UserProperty>& p) const
 				UserProperty (
 					UserProperty::VIDEO,
 					_("Frame rate"),
-					raw_convert<string> (_video_frame_rate.get(), 5),
+					locale_convert<string> (_video_frame_rate.get(), 5),
 					_("frames per second")
 					)
 				);
@@ -374,7 +375,7 @@ Content::add_properties (list<UserProperty>& p) const
 				UserProperty (
 					UserProperty::GENERAL,
 					_("Prepared for video frame rate"),
-					raw_convert<string> (_video_frame_rate.get(), 5),
+					locale_convert<string> (_video_frame_rate.get(), 5),
 					_("frames per second")
 					)
 				);

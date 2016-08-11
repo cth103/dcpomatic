@@ -30,6 +30,7 @@
 using std::list;
 using std::string;
 using boost::shared_ptr;
+using dcp::raw_convert;
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
@@ -71,8 +72,8 @@ Cinema::as_xml (xmlpp::Element* parent) const
 
 	parent->add_child("Notes")->add_child_text (notes);
 
-	parent->add_child("UTCOffsetHour")->add_child_text (dcp::raw_convert<string> (_utc_offset_hour));
-	parent->add_child("UTCOffsetMinute")->add_child_text (dcp::raw_convert<string> (_utc_offset_minute));
+	parent->add_child("UTCOffsetHour")->add_child_text (raw_convert<string> (_utc_offset_hour));
+	parent->add_child("UTCOffsetMinute")->add_child_text (raw_convert<string> (_utc_offset_minute));
 
 	BOOST_FOREACH (shared_ptr<Screen> i, _screens) {
 		i->as_xml (parent->add_child ("Screen"));

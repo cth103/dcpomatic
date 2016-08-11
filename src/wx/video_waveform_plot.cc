@@ -23,8 +23,8 @@
 #include "wx_util.h"
 #include "lib/image.h"
 #include "lib/dcp_video.h"
+#include "lib/locale_convert.h"
 #include <dcp/openjpeg_image.h>
-#include <dcp/raw_convert.h>
 #include <wx/rawbmp.h>
 #include <wx/graphics.h>
 #include <boost/bind.hpp>
@@ -35,7 +35,6 @@ using std::min;
 using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
-using dcp::raw_convert;
 
 int const VideoWaveformPlot::_vertical_margin = 8;
 
@@ -119,7 +118,7 @@ VideoWaveformPlot::paint ()
 		} else if (n < 1000) {
 			x += extra[2];
 		}
-		gc->DrawText (std_to_wx (raw_convert<string> (n)), x, y - (label_height / 2));
+		gc->DrawText (std_to_wx (locale_convert<string> (n)), x, y - (label_height / 2));
 	}
 
 	wxImage waveform (_waveform->size().width, height, _waveform->data()[0], true);

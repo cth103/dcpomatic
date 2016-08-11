@@ -34,8 +34,8 @@
 #include "lib/subtitle_content.h"
 #include "lib/dcp_content.h"
 #include "lib/audio_content.h"
+#include "lib/locale_convert.h"
 #include <dcp/key.h>
-#include <dcp/raw_convert.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/gbsizer.h>
@@ -275,7 +275,7 @@ DCPPanel::audio_channels_changed ()
 		return;
 	}
 
-	_film->set_audio_channels (dcp::raw_convert<int> (string_client_data (_audio_channels->GetClientObject (_audio_channels->GetSelection ()))));
+	_film->set_audio_channels (locale_convert<int> (string_client_data (_audio_channels->GetClientObject (_audio_channels->GetSelection ()))));
 }
 
 void
@@ -386,7 +386,7 @@ DCPPanel::film_changed (int p)
 		if (_film->audio_channels () < minimum_allowed_audio_channels ()) {
 			_film->set_audio_channels (minimum_allowed_audio_channels ());
 		} else {
-			checked_set (_audio_channels, dcp::raw_convert<string> (max (minimum_allowed_audio_channels(), _film->audio_channels ())));
+			checked_set (_audio_channels, locale_convert<string> (max (minimum_allowed_audio_channels(), _film->audio_channels ())));
 			setup_dcp_name ();
 		}
 		break;

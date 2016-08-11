@@ -30,8 +30,8 @@
 #include "lib/dcp_subtitle_content.h"
 #include "lib/audio_content.h"
 #include "lib/text_subtitle_content.h"
+#include "lib/locale_convert.h"
 #include "lib/video_content.h"
-#include <dcp/raw_convert.h>
 #include <boost/foreach.hpp>
 #include <set>
 #include <iostream>
@@ -42,7 +42,6 @@ using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
-using dcp::raw_convert;
 
 TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
@@ -288,7 +287,7 @@ TimingPanel::film_content_changed (int property)
 		bool const single_frame_image_content = content && dynamic_pointer_cast<const ImageContent> (content) && content->number_of_paths() == 1;
 
 		if ((check_vc.size() == 1 || count_ac == 1 || count_sc == 1) && !single_frame_image_content) {
-			checked_set (_video_frame_rate, raw_convert<string> (content->video_frame_rate().get(), 5));
+			checked_set (_video_frame_rate, locale_convert<string> (content->video_frame_rate().get(), 5));
 			_video_frame_rate->Enable (true);
 		} else {
 			checked_set (_video_frame_rate, wxT (""));
@@ -399,7 +398,7 @@ TimingPanel::video_frame_rate_changed ()
 void
 TimingPanel::set_video_frame_rate ()
 {
-	double const fr = raw_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
+	double const fr = locale_convert<double> (wx_to_std (_video_frame_rate->GetValue ()));
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		i->set_video_frame_rate (fr);
 	}

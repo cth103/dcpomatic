@@ -20,9 +20,7 @@
 
 #include "wx_util.h"
 #include "image_sequence_dialog.h"
-#include <dcp/raw_convert.h>
-
-using dcp::raw_convert;
+#include "lib/locale_convert.h"
 
 ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
 	: TableDialog (parent, _("Add image sequence"), 2, 1, true)
@@ -36,7 +34,7 @@ double
 ImageSequenceDialog::frame_rate () const
 {
 	try {
-		return raw_convert<double> (wx_to_std (_frame_rate->GetValue ()));
+		return locale_convert<double> (wx_to_std (_frame_rate->GetValue ()));
 	} catch (...) {
 
 	}

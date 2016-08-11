@@ -30,6 +30,7 @@
 #include "dcp_decoder.h"
 #include "subtitle_content.h"
 #include <dcp/dcp.h>
+#include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel.h>

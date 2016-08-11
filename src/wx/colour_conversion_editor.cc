@@ -18,10 +18,10 @@
 
 */
 
-#include "lib/colour_conversion.h"
 #include "wx_util.h"
 #include "colour_conversion_editor.h"
-#include <dcp/raw_convert.h>
+#include "lib/colour_conversion.h"
+#include "lib/locale_convert.h"
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <wx/spinctrl.h>
@@ -32,7 +32,6 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)
@@ -292,9 +291,9 @@ ColourConversionEditor::get () const
 			shared_ptr<dcp::ModifiedGammaTransferFunction> (
 				new dcp::ModifiedGammaTransferFunction (
 					_input_power->GetValue (),
-					raw_convert<double> (wx_to_std (_input_threshold->GetValue ())),
-					raw_convert<double> (wx_to_std (_input_A->GetValue ())),
-					raw_convert<double> (wx_to_std (_input_B->GetValue ()))
+					locale_convert<double> (wx_to_std (_input_threshold->GetValue ())),
+					locale_convert<double> (wx_to_std (_input_A->GetValue ())),
+					locale_convert<double> (wx_to_std (_input_B->GetValue ()))
 					)
 				)
 			);
@@ -307,23 +306,23 @@ ColourConversionEditor::get () const
 	conversion.set_yuv_to_rgb (static_cast<dcp::YUVToRGB> (_yuv_to_rgb->GetSelection ()));
 
 	conversion.set_red (
-		dcp::Chromaticity (raw_convert<double> (wx_to_std (_red_x->GetValue ())), raw_convert<double> (wx_to_std (_red_y->GetValue ())))
+		dcp::Chromaticity (locale_convert<double> (wx_to_std (_red_x->GetValue ())), locale_convert<double> (wx_to_std (_red_y->GetValue ())))
 		);
 	conversion.set_green (
-		dcp::Chromaticity (raw_convert<double> (wx_to_std (_green_x->GetValue ())), raw_convert<double> (wx_to_std (_green_y->GetValue ())))
+		dcp::Chromaticity (locale_convert<double> (wx_to_std (_green_x->GetValue ())), locale_convert<double> (wx_to_std (_green_y->GetValue ())))
 		);
 	conversion.set_blue (
-		dcp::Chromaticity (raw_convert<double> (wx_to_std (_blue_x->GetValue ())), raw_convert<double> (wx_to_std (_blue_y->GetValue ())))
+		dcp::Chromaticity (locale_convert<double> (wx_to_std (_blue_x->GetValue ())), locale_convert<double> (wx_to_std (_blue_y->GetValue ())))
 		);
 	conversion.set_white (
-		dcp::Chromaticity (raw_convert<double> (wx_to_std (_white_x->GetValue ())), raw_convert<double> (wx_to_std (_white_y->GetValue ())))
+		dcp::Chromaticity (locale_convert<double> (wx_to_std (_white_x->GetValue ())), locale_convert<double> (wx_to_std (_white_y->GetValue ())))
 		);
 
 	if (_adjust_white->GetValue ()) {
 		conversion.set_adjusted_white (
 			dcp::Chromaticity (
-				raw_convert<double> (wx_to_std (_adjusted_white_x->GetValue ())),
-				raw_convert<double> (wx_to_std (_adjusted_white_y->GetValue ()))
+				locale_convert<double> (wx_to_std (_adjusted_white_x->GetValue ())),
+				locale_convert<double> (wx_to_std (_adjusted_white_y->GetValue ()))
 				)
 			);
 	} else {

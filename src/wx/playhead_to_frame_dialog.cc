@@ -19,9 +19,7 @@
 */
 
 #include "playhead_to_frame_dialog.h"
-#include <dcp/raw_convert.h>
-
-using dcp::raw_convert;
+#include "lib/locale_convert.h"
 
 PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
 	: TableDialog (parent, _("Go to frame"), 2, 1, true)
@@ -36,5 +34,5 @@ PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
 DCPTime
 PlayheadToFrameDialog::get () const
 {
-	return DCPTime::from_frames (raw_convert<Frame> (wx_to_std (_frame->GetValue ())) - 1, _fps);
+	return DCPTime::from_frames (locale_convert<Frame> (wx_to_std (_frame->GetValue ())) - 1, _fps);
 }
