@@ -21,6 +21,7 @@
 #include "digester.h"
 #include <nettle/md5.h>
 #include <iomanip>
+#include <cstdio>
 
 using std::string;
 using std::hex;
