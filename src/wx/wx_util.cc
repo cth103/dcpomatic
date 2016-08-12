@@ -26,12 +26,13 @@
 #include "file_picker_ctrl.h"
 #include "lib/config.h"
 #include "lib/util.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
 #include <boost/thread.hpp>
 
 using namespace std;
 using namespace boost;
+using dcp::locale_convert;
 
 /** Add a wxStaticText to a wxSizer, aligning it at vertical centre.
  *  @param s Sizer to add to.

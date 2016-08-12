@@ -33,7 +33,6 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "subtitle_content.h"
-#include "locale_convert.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 extern "C" {
@@ -223,10 +222,10 @@ FFmpegContent::as_xml (xmlpp::Node* node) const
 		node->add_child("FirstVideo")->add_child_text (raw_convert<string> (_first_video.get().get()));
 	}
 
-	node->add_child("ColorRange")->add_child_text (raw_convert<string> (_color_range));
-	node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (_color_primaries));
-	node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (_color_trc));
-	node->add_child("Colorspace")->add_child_text (raw_convert<string> (_colorspace));
+	node->add_child("ColorRange")->add_child_text (raw_convert<string> (static_cast<int> (_color_range)));
+	node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (static_cast<int> (_color_primaries)));
+	node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (static_cast<int> (_color_trc)));
+	node->add_child("Colorspace")->add_child_text (raw_convert<string> (static_cast<int> (_colorspace)));
 	if (_bits_per_pixel) {
 		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (_bits_per_pixel.get ()));
 	}

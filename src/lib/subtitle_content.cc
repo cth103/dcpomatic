@@ -224,8 +224,8 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	root->add_child("UseSubtitles")->add_child_text (raw_convert<string> (_use));
-	root->add_child("BurnSubtitles")->add_child_text (raw_convert<string> (_burn));
+	root->add_child("UseSubtitles")->add_child_text (_use ? "1" : "0");
+	root->add_child("BurnSubtitles")->add_child_text (_burn ? "1" : "0");
 	root->add_child("SubtitleXOffset")->add_child_text (raw_convert<string> (_x_offset));
 	root->add_child("SubtitleYOffset")->add_child_text (raw_convert<string> (_y_offset));
 	root->add_child("SubtitleXScale")->add_child_text (raw_convert<string> (_x_scale));
@@ -234,8 +234,8 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("Red")->add_child_text (raw_convert<string> (_colour.r));
 	root->add_child("Green")->add_child_text (raw_convert<string> (_colour.g));
 	root->add_child("Blue")->add_child_text (raw_convert<string> (_colour.b));
-	root->add_child("Outline")->add_child_text (raw_convert<string> (_outline));
-	root->add_child("Shadow")->add_child_text (raw_convert<string> (_shadow));
+	root->add_child("Outline")->add_child_text (_outline ? "1" : "0");
+	root->add_child("Shadow")->add_child_text (_shadow ? "1" : "0");
 	root->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour.r));
 	root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour.g));
 	root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour.b));

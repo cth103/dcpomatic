@@ -21,7 +21,7 @@
 #ifndef DCPOMATIC_USER_PROPERTY_H
 #define DCPOMATIC_USER_PROPERTY_H
 
-#include "locale_convert.h"
+#include <dcp/locale_convert.h>
 
 class UserProperty
 {
@@ -37,7 +37,7 @@ public:
 	UserProperty (Category category_, std::string key_, T value_, std::string unit_ = "")
 		: category (category_)
 		, key (key_)
-		, value (locale_convert<std::string> (value_))
+		, value (dcp::locale_convert<std::string> (value_))
 		, unit (unit_)
 	{}
 

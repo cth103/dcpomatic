@@ -159,8 +159,8 @@ PlayerVideo::add_metadata (xmlpp::Node* node) const
 	node->add_child("InterHeight")->add_child_text (raw_convert<string> (_inter_size.height));
 	node->add_child("OutWidth")->add_child_text (raw_convert<string> (_out_size.width));
 	node->add_child("OutHeight")->add_child_text (raw_convert<string> (_out_size.height));
-	node->add_child("Eyes")->add_child_text (raw_convert<string> (_eyes));
-	node->add_child("Part")->add_child_text (raw_convert<string> (_part));
+	node->add_child("Eyes")->add_child_text (raw_convert<string> (static_cast<int> (_eyes)));
+	node->add_child("Part")->add_child_text (raw_convert<string> (static_cast<int> (_part)));
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml (node);
 	}

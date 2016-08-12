@@ -361,7 +361,7 @@ Film::metadata () const
 	if (_audio_processor) {
 		root->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
 	}
-	root->add_child("ReelType")->add_child_text (raw_convert<string> (_reel_type));
+	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
 	_playlist->as_xml (root->add_child ("Playlist"));

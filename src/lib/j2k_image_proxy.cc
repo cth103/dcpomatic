@@ -143,7 +143,7 @@ J2KImageProxy::add_metadata (xmlpp::Node* node) const
 	node->add_child("Width")->add_child_text (raw_convert<string> (_size.width));
 	node->add_child("Height")->add_child_text (raw_convert<string> (_size.height));
 	if (_eye) {
-		node->add_child("Eye")->add_child_text (raw_convert<string> (_eye.get ()));
+		node->add_child("Eye")->add_child_text (raw_convert<string> (static_cast<int> (_eye.get ())));
 	}
 	node->add_child("Size")->add_child_text (raw_convert<string> (_data.size ()));
 }

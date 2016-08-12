@@ -23,7 +23,7 @@
 #include "wx_util.h"
 #include "lib/image.h"
 #include "lib/dcp_video.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <wx/rawbmp.h>
 #include <wx/graphics.h>
@@ -35,6 +35,7 @@ using std::min;
 using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
+using dcp::locale_convert;
 
 int const VideoWaveformPlot::_vertical_margin = 8;
 

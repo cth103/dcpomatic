@@ -30,8 +30,8 @@
 #include "lib/dcp_subtitle_content.h"
 #include "lib/audio_content.h"
 #include "lib/text_subtitle_content.h"
-#include "lib/locale_convert.h"
 #include "lib/video_content.h"
+#include <dcp/locale_convert.h>
 #include <boost/foreach.hpp>
 #include <set>
 #include <iostream>
@@ -42,6 +42,7 @@ using std::set;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+using dcp::locale_convert;
 
 TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */

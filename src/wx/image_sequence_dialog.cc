@@ -20,7 +20,9 @@
 
 #include "wx_util.h"
 #include "image_sequence_dialog.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
+
+using dcp::locale_convert;
 
 ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
 	: TableDialog (parent, _("Add image sequence"), 2, 1, true)

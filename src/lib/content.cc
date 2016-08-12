@@ -27,9 +27,9 @@
 #include "content_factory.h"
 #include "exceptions.h"
 #include "film.h"
-#include "locale_convert.h"
 #include "job.h"
 #include "compose.hpp"
+#include <dcp/locale_convert.h>
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -46,6 +46,7 @@ using std::max;
 using std::pair;
 using boost::shared_ptr;
 using dcp::raw_convert;
+using dcp::locale_convert;
 
 int const ContentProperty::PATH = 400;
 int const ContentProperty::POSITION = 401;

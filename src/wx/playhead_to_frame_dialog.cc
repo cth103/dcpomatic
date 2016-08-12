@@ -19,7 +19,9 @@
 */
 
 #include "playhead_to_frame_dialog.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
+
+using dcp::locale_convert;
 
 PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
 	: TableDialog (parent, _("Go to frame"), 2, 1, true)

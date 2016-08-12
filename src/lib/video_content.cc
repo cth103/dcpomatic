@@ -30,7 +30,6 @@
 #include "exceptions.h"
 #include "frame_rate_change.h"
 #include "log.h"
-#include "locale_convert.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <dcp/colour_matrix.h>

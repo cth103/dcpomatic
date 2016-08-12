@@ -36,7 +36,7 @@
 #include "digester.h"
 #include "audio_processor.h"
 #include "compose.hpp"
-#include "locale_convert.h"
+#include <dcp/locale_convert.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
 #include <dcp/picture_asset.h>
@@ -94,6 +94,7 @@ using boost::lexical_cast;
 using boost::bad_lexical_cast;
 using dcp::Size;
 using dcp::raw_convert;
+using dcp::locale_convert;
 
 /** Path to our executable, required by the stacktrace stuff and filled
  *  in during App::onInit().

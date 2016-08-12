@@ -41,7 +41,7 @@
 #include "lib/util.h"
 #include "lib/cross.h"
 #include "lib/exceptions.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
 #include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
 #include <wx/stdpaths.h>
@@ -63,6 +63,7 @@ using boost::bind;
 using boost::shared_ptr;
 using boost::function;
 using boost::optional;
+using dcp::locale_convert;
 
 class Page
 {

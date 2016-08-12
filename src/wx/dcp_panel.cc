@@ -34,7 +34,7 @@
 #include "lib/subtitle_content.h"
 #include "lib/dcp_content.h"
 #include "lib/audio_content.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
 #include <dcp/key.h>
 #include <wx/wx.h>
 #include <wx/notebook.h>
@@ -53,6 +53,7 @@ using std::max;
 using std::make_pair;
 using boost::lexical_cast;
 using boost::shared_ptr;
+using dcp::locale_convert;
 
 DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	: _audio_dialog (0)

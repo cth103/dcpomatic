@@ -380,7 +380,7 @@ Config::write_config_xml () const
 	}
 
 	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
-	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (_tms_protocol));
+	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (static_cast<int> (_tms_protocol)));
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
 	root->add_child("TMSPath")->add_child_text (_tms_path);
 	root->add_child("TMSUser")->add_child_text (_tms_user);

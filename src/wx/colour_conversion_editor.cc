@@ -21,7 +21,7 @@
 #include "wx_util.h"
 #include "colour_conversion_editor.h"
 #include "lib/colour_conversion.h"
-#include "lib/locale_convert.h"
+#include <dcp/locale_convert.h>
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <wx/spinctrl.h>
@@ -32,6 +32,7 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using dcp::locale_convert;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)
