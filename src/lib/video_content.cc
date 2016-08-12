@@ -407,11 +407,11 @@ VideoContent::processing_description () const
 	if ((crop().left || crop().right || crop().top || crop().bottom) && size() != dcp::Size (0, 0)) {
 		dcp::Size cropped = size_after_crop ();
 		d += String::compose (
-			_("Cropped to %1x%2"),
+			_("\nCropped to %1x%2"),
 			cropped.width, cropped.height
 			);
 
-		snprintf (buffer, sizeof(buffer), " (%.2f:1)\n", cropped.ratio());
+		snprintf (buffer, sizeof(buffer), " (%.2f:1)", cropped.ratio());
 		d += buffer;
 	}
 
@@ -421,33 +421,33 @@ VideoContent::processing_description () const
 
 	if (scaled != size_after_crop ()) {
 		d += String::compose (
-			_("Scaled to %1x%2"),
+			_("\nScaled to %1x%2"),
 			scaled.width, scaled.height
 			);
 
-		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)\n"), scaled.ratio());
+		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)"), scaled.ratio());
 		d += buffer;
 	}
 
 	if (scaled != container_size) {
 		d += String::compose (
-			_("Padded with black to fit container %1 (%2x%3)"),
+			_("\nPadded with black to fit container %1 (%2x%3)"),
 			film->container()->nickname (),
 			container_size.width, container_size.height
 			);
 
-		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)\n"), container_size.ratio());
+		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)"), container_size.ratio());
 		d += buffer;
 	}
 
 	if (_parent->video_frame_rate()) {
 		double const vfr = _parent->video_frame_rate().get ();
 
-		snprintf (buffer, sizeof(buffer), _("Content frame rate %.4f\n"), vfr);
+		snprintf (buffer, sizeof(buffer), _("\nContent frame rate %.4f\n"), vfr);
 		d += buffer;
 
 		FrameRateChange frc (vfr, film->video_frame_rate ());
-		d += frc.description () + "\n";
+		d += frc.description ();
 	}
 
 	return d;
