@@ -203,6 +203,14 @@ namespace StringPrivate
   }
 
   template <>
+  inline void write(std::string& s, wchar_t const & obj)
+  {
+    std::wstring ws (&obj);
+    std::string w (ws.begin(), ws.end());
+    s += w;
+  }
+
+  template <>
   inline void write(std::string& s, const std::string& obj)
   {
     s += obj;
