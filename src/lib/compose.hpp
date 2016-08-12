@@ -161,14 +161,6 @@ namespace StringPrivate
   }
 
   template <>
-  inline void write(std::string& s, const long unsigned int& obj)
-  {
-    char buffer[64];
-    snprintf(buffer, 64, "%lu", obj);
-    s += buffer;
-  }
-
-  template <>
   inline void write(std::string& s, const float& obj)
   {
     char buffer[64];
