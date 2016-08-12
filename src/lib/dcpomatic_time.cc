@@ -81,7 +81,11 @@ string
 to_string (ContentTime t)
 {
 	char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+	__mingw_snprintf (buffer, sizeof(buffer), "[CONT %" PRId64 " %fs]", t.get(), t.seconds());
+#else
 	snprintf (buffer, sizeof(buffer), "[CONT %" PRId64 " %fs]", t.get(), t.seconds());
+#endif
 	return buffer;
 }
 
@@ -89,7 +93,11 @@ string
 to_string (DCPTime t)
 {
 	char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+	__mingw_snprintf (buffer, sizeof(buffer), "[DCP %" PRId64 " %fs]", t.get(), t.seconds());
+#else
 	snprintf (buffer, sizeof(buffer), "[DCP %" PRId64 " %fs]", t.get(), t.seconds());
+#endif
 	return buffer;
 }
 
@@ -97,6 +105,10 @@ string
 to_string (DCPTimePeriod p)
 {
 	char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+	__mingw_snprintf (buffer, sizeof(buffer), "[DCP %" PRId64 " %fs -> %" PRId64 " %fs]", p.from.get(), p.from.seconds(), p.to.get(), p.to.seconds());
+#else
 	snprintf (buffer, sizeof(buffer), "[DCP %" PRId64 " %fs -> %" PRId64 " %fs]", p.from.get(), p.from.seconds(), p.to.get(), p.to.seconds());
+#endif
 	return buffer;
 }
