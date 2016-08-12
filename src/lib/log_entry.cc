@@ -20,6 +20,7 @@
 
 #include "log_entry.h"
 #include <inttypes.h>
+#include <cstdio>
 
 #include "i18n.h"
 

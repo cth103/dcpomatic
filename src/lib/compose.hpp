@@ -124,7 +124,11 @@ namespace StringPrivate
   inline void write(std::string& s, const int64_t& obj)
   {
     char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+    __mingw_snprintf(buffer, 64, "%" PRId64, obj);
+#else
     snprintf(buffer, 64, "%" PRId64, obj);
+#endif
     s += buffer;
   }
 
