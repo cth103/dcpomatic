@@ -39,6 +39,7 @@
 #include <list>
 #include <map>
 #include <inttypes.h>
+#include <cstdio>
 
 namespace StringPrivate
 {
