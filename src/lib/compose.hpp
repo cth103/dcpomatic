@@ -121,6 +121,30 @@ namespace StringPrivate
   }
 
   template <>
+  inline void write(std::string& s, const int32_t& obj)
+  {
+    char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+    __mingw_snprintf(buffer, 64, "%" PRId32, obj);
+#else
+    snprintf(buffer, 64, "%" PRId32, obj);
+#endif
+    s += buffer;
+  }
+
+  template <>
+  inline void write(std::string& s, const uint32_t& obj)
+  {
+    char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+    __mingw_snprintf(buffer, 64, "%" PRIu32, obj);
+#else
+    snprintf(buffer, 64, "%" PRIu32, obj);
+#endif
+    s += buffer;
+  }
+
+  template <>
   inline void write(std::string& s, const int64_t& obj)
   {
     char buffer[64];
@@ -141,22 +165,6 @@ namespace StringPrivate
 #else
     snprintf(buffer, 64, "%" PRIu64, obj);
 #endif
-    s += buffer;
-  }
-
-  template <>
-  inline void write(std::string& s, const int& obj)
-  {
-    char buffer[64];
-    snprintf(buffer, 64, "%d", obj);
-    s += buffer;
-  }
-
-  template <>
-  inline void write(std::string& s, const unsigned int& obj)
-  {
-    char buffer[64];
-    snprintf(buffer, 64, "%ud", obj);
     s += buffer;
   }
 
