@@ -32,6 +32,7 @@
 #include <cmath>
 #include <ostream>
 #include <iomanip>
+#include <cstdio>
 
 class dcpomatic_round_up_test;
 
