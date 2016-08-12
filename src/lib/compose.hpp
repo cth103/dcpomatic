@@ -133,6 +133,18 @@ namespace StringPrivate
   }
 
   template <>
+  inline void write(std::string& s, const uint64_t& obj)
+  {
+    char buffer[64];
+#ifdef DCPOMATIC_WINDOWS
+    __mingw_snprintf(buffer, 64, "%" PRud64, obj);
+#else
+    snprintf(buffer, 64, "%" PRIu64, obj);
+#endif
+    s += buffer;
+  }
+
+  template <>
   inline void write(std::string& s, const int& obj)
   {
     char buffer[64];
