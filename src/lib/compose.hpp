@@ -137,7 +137,7 @@ namespace StringPrivate
   {
     char buffer[64];
 #ifdef DCPOMATIC_WINDOWS
-    __mingw_snprintf(buffer, 64, "%" PRud64, obj);
+    __mingw_snprintf(buffer, 64, "%" PRIu64, obj);
 #else
     snprintf(buffer, 64, "%" PRIu64, obj);
 #endif
