@@ -25,6 +25,7 @@
 #include "dcpomatic_assert.h"
 #include <samplerate.h>
 #include <iostream>
+#include <cmath>
 
 #include "i18n.h"
 
