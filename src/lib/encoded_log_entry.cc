@@ -19,6 +19,7 @@
 */
 
 #include "encoded_log_entry.h"
+#include <cstdio>
 
 using std::string;
 
