@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-07-11 23:44+0800\n"
+"PO-Revision-Date: 2016-08-14 20:57+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -37,7 +37,7 @@ msgstr "%1 [影片]"
 
 #: src/lib/ffmpeg_content.cc:294 src/lib/video_mxf_content.cc:89
 msgid "%1 [video]"
-msgstr "%1[视频]"
+msgstr "%1 [视频]"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"
@@ -77,15 +77,15 @@ msgstr "执行错误 %1."
 
 #: src/lib/analyse_audio_job.cc:81
 msgid "Analyse audio"
-msgstr "音频解析"
+msgstr "分析音频"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "音频将重新采样 %1kHz 到 %2kHz."
+msgstr "重新采样音频从 %1kHz 到 %2kHz."
 
 #: src/lib/audio_content.cc:260
 msgid "Audio will be resampled to %1kHz"
-msgstr "音频将被重新采样%1kHz."
+msgstr "音频将被重新采样至 %1kHz."
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
@@ -93,7 +93,7 @@ msgstr "音频不能被重新采样！"
 
 #: src/lib/ffmpeg_content.cc:541
 msgid "BT1361 extended colour gamut"
-msgstr "色彩范围 BT1361"
+msgstr "BT1361扩展"
 
 #: src/lib/ffmpeg_content.cc:521
 msgid "BT2020"
@@ -154,7 +154,7 @@ msgstr "取消"
 
 #: src/lib/exceptions.cc:62
 msgid "Cannot handle pixel format %1 during %2"
-msgstr "在%2不能处理图片格式 %1"
+msgstr "在 %2不能处理图片格式 %1"
 
 #: src/lib/util.cc:495
 msgid "Centre"
@@ -210,35 +210,35 @@ msgstr "计算图像Hash"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
-msgstr "内容和DCP需相同的速率。\n"
+msgstr "源内容和DCP设定帧速率需要一致。\n"
 
 #: src/lib/audio_content.cc:307
 msgid "Content audio sample rate"
-msgstr "音频采样率"
+msgstr "源音频采样率"
 
 #: src/lib/video_content.cc:436
 msgid "Content frame rate"
-msgstr "视频帧率"
+msgstr "源视频帧率"
 
 #: src/lib/ffmpeg_content.cc:142
 msgid "Content to be joined must all have or not have audio"
-msgstr "要加入的内容必须都有或没有音频"
+msgstr "要加入的内容必须都有或都没有音频"
 
 #: src/lib/ffmpeg_content.cc:145
 msgid "Content to be joined must all have or not have subtitles"
-msgstr "要加入的内容必须都有或没有字幕"
+msgstr "要加入的内容必须都有或都没有字幕"
 
 #: src/lib/ffmpeg_content.cc:139
 msgid "Content to be joined must all have or not have video"
-msgstr "要加入的内容必须都有或没有视频"
+msgstr "要加入的内容必须都有或都没有视频"
 
 #: src/lib/subtitle_content.cc:156
 msgid "Content to be joined must have the same 'burn subtitles' setting."
-msgstr "“烧录字幕”设置必须相同。"
+msgstr "所有添加的字幕在“烧录字幕”中的设置必须相同。"
 
 #: src/lib/subtitle_content.cc:152
 msgid "Content to be joined must have the same 'use subtitles' setting."
-msgstr "“use字幕”设置必须相同。"
+msgstr "所有添加的字幕在“所用字幕”中的设置必须相同。"
 
 #: src/lib/audio_content.cc:106
 msgid "Content to be joined must have the same audio delay."
@@ -254,11 +254,11 @@ msgstr "视频颜色转换必须相同。"
 
 #: src/lib/video_content.cc:178
 msgid "Content to be joined must have the same crop."
-msgstr "视频裁剪必须相同。"
+msgstr "视频裁剪设置必须相同。"
 
 #: src/lib/video_content.cc:190
 msgid "Content to be joined must have the same fades."
-msgstr "视频衰减必须相同。"
+msgstr "视频淡入淡出效果必须相同。"
 
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
@@ -306,7 +306,7 @@ msgstr "字幕流必须相同。"
 
 #: src/lib/video_content.cc:384
 msgid "Content video is %1x%2"
-msgstr "内容视频 %1x%2"
+msgstr "源视频分辨率是 %1x%2"
 
 #: src/lib/upload_job.cc:53
 msgid "Copy DCP to TMS"
@@ -336,7 +336,7 @@ msgstr "找不到视频格式"
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
-msgstr "无法监测远程编码服务器。可能DCP-O-MATIC的另一个程序正在运行。"
+msgstr "无法监测远程编码服务器。可能是另一个DCP-O-MATIC程序进程正在运行。"
 
 #: src/lib/job.cc:116 src/lib/job.cc:130
 msgid "Could not open %1"
@@ -372,11 +372,11 @@ msgstr "裁剪为%1x%2"
 
 #: src/lib/util.cc:505
 msgid "D-BOX primary"
-msgstr "初级D-BOX"
+msgstr "一级D-BOX"
 
 #: src/lib/util.cc:506
 msgid "D-BOX secondary"
-msgstr "高级D-BOX"
+msgstr "二级D-BOX"
 
 #: src/lib/film.cc:1368
 msgid "DBP"
@@ -406,7 +406,7 @@ msgstr "将使用隔帧打包DCP.\n"
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
-msgstr "无法打开文件%1。文件不存在或无法识别的格式。"
+msgstr "无法打开文件%1。文件不存在或格式无法识别。"
 
 #: src/lib/ffmpeg_content.cc:103
 msgid ""
@@ -431,7 +431,7 @@ msgid ""
 "Best regards,\n"
 "DCP-o-matic"
 msgstr ""
-"亲爱的放映\n"
+"亲爱的放映员\n"
 "\n"
 "请找到$ CPL_NAME连接KDMS。\n"
 "\n"
@@ -440,7 +440,7 @@ msgstr ""
 "\n"
 "该KDMS的有效期是从$ START_TIME至$ END_TIME有效。\n"
 "\n"
-"Rov汉化，真心不易，欢迎访问：www.rov8.com (放映员资料库)关注最新汉化，\n"
+"翻译者：汉源\n"
 "DCP-O-MATIC"
 
 #: src/lib/video_content.cc:397
@@ -449,7 +449,7 @@ msgstr "显示宽高比"
 
 #: src/lib/dolby_cp750.cc:28
 msgid "Dolby CP650 and CP750"
-msgstr "Dolby CP 650和CP 750"
+msgstr "杜比 CP 650和CP 750"
 
 #: src/lib/internet.cc:77
 msgid "Download failed (%1/%2 error %3)"
@@ -457,19 +457,19 @@ msgstr "下载失败 (%1/%2 error %3)"
 
 #: src/lib/frame_rate_change.cc:72
 msgid "Each content frame will be doubled in the DCP.\n"
-msgstr "该DCP中将每帧序列增加1倍.\n"
+msgstr "该DCP中将每一帧复制为两帧。\n"
 
 #: src/lib/frame_rate_change.cc:74
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "该DCP将在每帧上重复%1次.\n"
+msgstr "该DCP将每帧显示两次\n"
 
 #: src/lib/send_kdm_email_job.cc:57
 msgid "Email KDMs"
-msgstr "Email KDMs"
+msgstr "邮件发送 KDMs"
 
 #: src/lib/send_kdm_email_job.cc:60
 msgid "Email KDMs for %1"
-msgstr "通过Email发送KDMs %1"
+msgstr "邮件发送KDMs给 %1"
 
 #: src/lib/send_problem_report_job.cc:55
 msgid "Email problem report"
@@ -477,11 +477,11 @@ msgstr "通过邮件发送BUG"
 
 #: src/lib/send_problem_report_job.cc:58
 msgid "Email problem report for %1"
-msgstr "通过邮件发送BUG%1"
+msgstr "通过邮件发送BUG给 %1"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
-msgstr "编码图像和声音"
+msgstr "编码图像和声音中……"
 
 #: src/lib/exceptions.cc:68
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -509,11 +509,11 @@ msgstr "发送电子邮件失败"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
-msgstr "功能片"
+msgstr "正片"
 
 #: src/lib/content.cc:362
 msgid "Filename"
-msgstr "文件名字"
+msgstr "文件名"
 
 #: src/lib/ffmpeg_content.cc:520
 msgid "Film"
@@ -521,15 +521,15 @@ msgstr "电影"
 
 #: src/lib/ffmpeg_examiner.cc:101
 msgid "Finding length"
-msgstr "Buscando la duración"
+msgstr "定位长度"
 
 #: src/lib/ffmpeg_examiner.cc:97
 msgid "Finding length and subtitles"
-msgstr "查找长度和字幕"
+msgstr "定位长度和字幕"
 
 #: src/lib/ffmpeg_examiner.cc:99
 msgid "Finding subtitles"
-msgstr "查找字幕"
+msgstr "定位字幕"
 
 #: src/lib/ratio.cc:41
 msgid "Flat"
@@ -537,7 +537,7 @@ msgstr "遮幅"
 
 #: src/lib/content.cc:369
 msgid "Frame rate"
-msgstr "帧率"
+msgstr "帧速率"
 
 #: src/lib/ffmpeg_content.cc:504
 msgid "Full"
@@ -553,11 +553,11 @@ msgstr "全画幅"
 
 #: src/lib/audio_content.cc:334
 msgid "Full length in audio samples at DCP rate"
-msgstr "DCP中音频采样率总时长"
+msgstr "DCP中音频采样率和总时长"
 
 #: src/lib/audio_content.cc:321
 msgid "Full length in audio samples at content rate"
-msgstr "音频内容采样总时长"
+msgstr "源音频内容采样和总时长"
 
 #: src/lib/audio_content.cc:328
 msgid "Full length in video frames at DCP rate"
@@ -565,15 +565,15 @@ msgstr "DCP中视频总时长"
 
 #: src/lib/audio_content.cc:314
 msgid "Full length in video frames at content rate"
-msgstr "视频时长"
+msgstr "源视频时长"
 
 #: src/lib/ffmpeg_content.cc:533
 msgid "Gamma 22 (BT470M)"
-msgstr "伽玛 22 (BT470M)"
+msgstr "伽玛 2.2 (BT470M)"
 
 #: src/lib/ffmpeg_content.cc:534
 msgid "Gamma 28 (BT470BG)"
-msgstr "伽玛 28 (BT470BG)"
+msgstr "伽玛 2.8 (BT470BG)"
 
 #: src/lib/filter.cc:69
 msgid "Gradient debander"
@@ -685,7 +685,7 @@ msgstr "其他"
 
 #: src/lib/dcp_examiner.cc:100
 msgid "Mismatched audio channel counts in DCP"
-msgstr "音频通道数不匹配。"
+msgstr "音频通道数不匹配！"
 
 #: src/lib/dcp_examiner.cc:106
 msgid "Mismatched audio sample rates in DCP"
@@ -701,19 +701,19 @@ msgstr "视频尺寸不匹配。"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
-msgstr "动态补偿去隔行。"
+msgstr "动态去隔行补偿。"
 
 #: src/lib/cinema_kdms.cc:129
 msgid "No mail server configured in preferences"
-msgstr "没有配置偏好邮件服务！"
+msgstr "没有配置偏好的邮件服务！"
 
 #: src/lib/video_content_scale.cc:110
 msgid "No scale"
-msgstr "不调整"
+msgstr "不缩放"
 
 #: src/lib/video_content_scale.cc:107
 msgid "No stretch"
-msgstr "不变形"
+msgstr "不拉伸"
 
 #: src/lib/image_content.cc:58
 msgid "No valid image files were found in the folder."
@@ -761,7 +761,7 @@ msgstr "准备视频帧率"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
-msgstr "编程错误%1:%2"
+msgstr "程序内部错误%1:%2"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -777,7 +777,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 
 #: src/lib/dcp_content_type.cc:51
 msgid "Rating"
-msgstr "限级"
+msgstr "分级"
 
 #: src/lib/film.cc:1365
 msgid "Rc"
@@ -852,7 +852,7 @@ msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
-msgstr "错误 SSH (%1)"
+msgstr "SSH错误 (%1)"
 
 #: src/lib/video_content.cc:416
 msgid "Scaled to %1x%2"
@@ -892,7 +892,7 @@ msgstr "传情片"
 
 #: src/lib/filter.cc:73
 msgid "Telecine filter"
-msgstr "胶转磁过滤器"
+msgstr "胶转磁滤镜"
 
 #: src/lib/dcp_content_type.cc:49
 msgid "Test"
@@ -917,7 +917,7 @@ msgstr "该KDM无法解密该CPL文件。"
 
 #: src/lib/exceptions.cc:74
 msgid "The certificate chain for signing is invalid"
-msgstr "证书进行签名无效！"
+msgstr "证书签名无效！"
 
 #: src/lib/job.cc:103
 msgid ""
@@ -991,7 +991,7 @@ msgstr "未知错误"
 
 #: src/lib/ffmpeg_decoder.cc:285
 msgid "Unrecognised audio sample format (%1)"
-msgstr "未确认音频采样格式 (%1)"
+msgstr "未识别的音频采样格式 (%1)"
 
 #: src/lib/filter.cc:70
 msgid "Unsharp mask and Gaussian blur"
@@ -1023,15 +1023,15 @@ msgstr "右混"
 
 #: src/lib/film.cc:1363
 msgid "VI"
-msgstr "视障"
+msgstr "视力障碍"
 
 #: src/lib/util.cc:500
 msgid "Visually impaired"
-msgstr "视障"
+msgstr "视力障碍"
 
 #: src/lib/upload_job.cc:45
 msgid "Waiting"
-msgstr "等候"
+msgstr "等待中"
 
 #: src/lib/ffmpeg_content.cc:561
 msgid "YCOCG"
@@ -1079,7 +1079,7 @@ msgstr "打包类型"
 
 #: src/lib/uploader.cc:73
 msgid "copying %1"
-msgstr "仿形 %1"
+msgstr "复制中 %1"
 
 #: src/lib/exceptions.cc:38
 msgid "could not create file %1"
@@ -1115,15 +1115,15 @@ msgstr "不能写入文件 (%1)"
 
 #: src/lib/dcpomatic_socket.cc:64
 msgid "error during async_connect (%1)"
-msgstr "在异步连接错误 (%1)"
+msgstr "远程连接错误 (%1)"
 
 #: src/lib/dcpomatic_socket.cc:117
 msgid "error during async_read (%1)"
-msgstr "在异步读取错误 (%1)"
+msgstr "远程读取错误 (%1)"
 
 #: src/lib/dcpomatic_socket.cc:89
 msgid "error during async_write (%1)"
-msgstr "在异步写入错误 (%1)"
+msgstr "远程写入错误 (%1)"
 
 #: src/lib/transcode_job.cc:123
 msgid "fps"
@@ -1161,7 +1161,7 @@ msgstr "名字"
 
 #: src/lib/video_content.cc:393
 msgid "pixel aspect ratio"
-msgstr "宽高比"
+msgstr "像素宽高比"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.

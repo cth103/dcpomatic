@@ -124,7 +124,8 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Marek Skrzelowski"));
 	translated_by.Add (wxT ("Igor Voytovich"));
 	translated_by.Add (wxT ("Rov (若文)"));
-	add_section (_("Translated by"), translated_by);
+	translated_by.Add (wxT ("刘汉源"));
+ 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString with_help_from;
 	with_help_from.Add (wxT ("David Vignoni"));
