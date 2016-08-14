@@ -1,5 +1,7 @@
 2016-08-14  Carl Hetherington  <cth@carlh.net>
 
+	* Support subtitles in imported DCPs.
+
 	* Updated zh_CN translation from 刘汉源.
 
 2016-08-09  Carl Hetherington  <cth@carlh.net>
