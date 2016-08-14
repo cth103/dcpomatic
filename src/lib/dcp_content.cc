@@ -85,7 +85,10 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		AudioStreamPtr (
 			new AudioStream (
 				node->number_child<int> ("AudioFrameRate"),
-				node->number_child<Frame> ("AudioLength"),
+				/* AudioLength was not present in some old metadata versions */
+				node->optional_number_child<Frame>("AudioLength").get_value_or (
+					video->length() * node->number_child<int>("AudioFrameRate") / video_frame_rate().get()
+					),
 				AudioMapping (node->node_child ("AudioMapping"), version)
 				)
 			)
