@@ -397,12 +397,12 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 #endif
 }
 
-int
+uint64_t
 thread_id ()
 {
 #ifdef DCPOMATIC_WINDOWS
-	return (int) GetCurrentThreadId ();
+	return (uint64_t) GetCurrentThreadId ();
 #else
-	return (int) pthread_self ();
+	return (uint64_t) pthread_self ();
 #endif
 }
