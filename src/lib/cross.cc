@@ -400,5 +400,9 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 int
 thread_id ()
 {
+#ifdef DCPOMATIC_WINDOWS
+	return (int) GetCurrentThreadId ();
+#else
 	return (int) pthread_self ();
+#endif
 }
