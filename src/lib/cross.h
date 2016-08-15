@@ -48,7 +48,7 @@ extern boost::filesystem::path shared_path ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
 extern void start_batch_converter (boost::filesystem::path dcpomatic);
-extern int thread_id ();
+extern uint64_t thread_id ();
 
 /** @class Waker
  *  @brief A class which tries to keep the computer awake on various operating systems.
