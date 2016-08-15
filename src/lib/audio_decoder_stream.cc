@@ -153,7 +153,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 void
 AudioDecoderStream::audio (shared_ptr<const AudioBuffers> data, ContentTime time)
 {
-	_log->log (String::compose ("ADS receives %1 %2", time, data->frames ()), LogEntry::TYPE_DEBUG_DECODE);
+	_log->log (String::compose ("ADS receives %1 %2", to_string(time), data->frames ()), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_resampler) {
 		data = _resampler->run (data);

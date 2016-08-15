@@ -396,3 +396,9 @@ start_batch_converter (boost::filesystem::path dcpomatic)
 	CreateProcess (0, cmd, 0, 0, FALSE, 0, 0, 0, &startup_info, &process_info);
 #endif
 }
+
+int
+thread_id ()
+{
+	return (int) pthread_self ();
+}
