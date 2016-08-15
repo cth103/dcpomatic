@@ -256,6 +256,7 @@ SubtitlePanel::setup_sensitivity ()
 		/* These are the content types that could include subtitles */
 		shared_ptr<const FFmpegContent> fc = boost::dynamic_pointer_cast<const FFmpegContent> (i);
 		shared_ptr<const TextSubtitleContent> sc = boost::dynamic_pointer_cast<const TextSubtitleContent> (i);
+		shared_ptr<const DCPContent> dc = boost::dynamic_pointer_cast<const DCPContent> (i);
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (fc->subtitle) {
@@ -269,7 +270,7 @@ SubtitlePanel::setup_sensitivity ()
 				++ffmpeg_subs;
 				++any_subs;
 			}
-		} else if (sc || dsc) {
+		} else if (sc || dc || dsc) {
 			/* XXX: in the future there could be bitmap subs from DCPs */
 			++text_subs;
 			++any_subs;

@@ -400,7 +400,7 @@ VideoContent::processing_description () const
 			ratio *= sample_aspect_ratio().get ();
 		}
 
-		snprintf (buffer, sizeof(buffer), _("\nDisplay aspect ratio %.2f:1"), ratio);
+		snprintf (buffer, sizeof(buffer), _("\nDisplay aspect ratio %.2f:1\n"), ratio);
 		d += buffer;
 	}
 

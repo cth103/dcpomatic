@@ -113,8 +113,8 @@ environment_info ()
 	GetVersionEx (&os_info);
 	info.push_back (
 		String::compose (
-			"Windows version %1.%2.%3 SP %4",
-			os_info.dwMajorVersion, os_info.dwMinorVersion, os_info.dwBuildNumber, os_info.szCSDVersion
+			"Windows version %1.%2.%3",
+			(int) os_info.dwMajorVersion, (int) os_info.dwMinorVersion, (int) os_info.dwBuildNumber
 			)
 		);
 #endif

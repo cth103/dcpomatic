@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-03 20:42+0100\n"
-"PO-Revision-Date: 2016-07-11 23:39+0800\n"
+"PO-Revision-Date: 2016-08-14 21:11+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.8\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
@@ -129,12 +129,12 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
-"高码率打包可能对于有些放映机不支持,我们推荐使用200Mbit/s以内的码率来进行打"
-"包，这种细微的调整肉眼很难分辨的！"
+"高码率打包不支持有些放映机,我们推荐使用200Mbit/s以内的码率来进行打包，这种细"
+"微的调整是肉眼很难分辨的！"
 
 #: src/wx/update_dialog.cc:36
 msgid "A new version of DCP-o-matic is available."
-msgstr "DCP-O-MATIC 新版本"
+msgstr "DCP-O-MATIC 有新版本"
 
 #: src/wx/about_dialog.cc:35
 msgid "About DCP-o-matic"
@@ -142,11 +142,11 @@ msgstr "关于 DCP-o-matic"
 
 #: src/wx/screens_panel.cc:150
 msgid "Add Cinema"
-msgstr "添加 影院"
+msgstr "添加影院"
 
 #: src/wx/screens_panel.cc:57
 msgid "Add Cinema..."
-msgstr "添加影院"
+msgstr "添加影院..."
 
 #: src/wx/content_menu.cc:68
 msgid "Add KDM..."
@@ -154,17 +154,17 @@ msgstr "添加 KDM..."
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
-msgstr "添加服务器"
+msgstr "添加荧幕（放映服务器）"
 
 #: src/wx/screens_panel.cc:59
 msgid "Add Screen..."
-msgstr "添加新服务器"
+msgstr "添加荧幕（放映服务器）..."
 
 #: src/wx/content_panel.cc:86
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a DCP."
-msgstr "添加序列图文件夹或DCP包文件夹"
+msgstr "添加序列帧文件夹或DCP包文件夹"
 
 #: src/wx/content_panel.cc:81
 msgid "Add file(s)..."
@@ -172,11 +172,11 @@ msgstr "添加文件..."
 
 #: src/wx/content_panel.cc:85
 msgid "Add folder..."
-msgstr "添加文件夹"
+msgstr "添加文件夹..."
 
 #: src/wx/image_sequence_dialog.cc:26
 msgid "Add image sequence"
-msgstr "加图像序列"
+msgstr "添加图像序列"
 
 #: src/wx/content_panel.cc:82
 msgid "Add video, image or sound files to the film."
@@ -220,7 +220,7 @@ msgstr "透明度 0"
 
 #: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
-msgstr "显示"
+msgstr "显示..."
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
@@ -251,7 +251,7 @@ msgstr "音频将从 %d 传递到 DCP 通道 %d ，增益 %.1fdB."
 
 #: src/wx/config_dialog.cc:210
 msgid "Automatically analyse content audio"
-msgstr "自动解析内容中的音频"
+msgstr "自动解析源内容中的音频"
 
 #: src/wx/colour_conversion_editor.cc:71
 msgid "B"
@@ -259,7 +259,7 @@ msgstr "B"
 
 #: src/wx/config_dialog.cc:1260
 msgid "BCC address"
-msgstr "密送地址"
+msgstr "抄送地址"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "Blue chromaticity"
@@ -336,7 +336,7 @@ msgstr "通道"
 
 #: src/wx/config_dialog.cc:218
 msgid "Check for testing updates on startup"
-msgstr "启动时检查更新 "
+msgstr "启动时检查更新（包括测试版）"
 
 #: src/wx/config_dialog.cc:214
 msgid "Check for updates on startup"
@@ -364,7 +364,7 @@ msgstr "选择一个字体文件"
 
 #: src/wx/config_dialog.cc:199
 msgid "Cinema and screen database file"
-msgstr "厅和屏幕数据库文件"
+msgstr "放映厅和荧幕数据库文件"
 
 #: src/wx/content_widget.h:76
 msgid "Click the button to set all selected content to the same value."
@@ -385,7 +385,7 @@ msgstr "色彩空间|自定义"
 
 #: src/wx/video_waveform_dialog.cc:50
 msgid "Component"
-msgstr "构成"
+msgstr "结构"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/config_dialog.cc:1422
@@ -419,7 +419,7 @@ msgstr "内容版本"
 
 #: src/wx/video_waveform_dialog.cc:53
 msgid "Contrast"
-msgstr "对比"
+msgstr "对比度"
 
 #: src/wx/dcp_panel.cc:88
 msgid "Copy as name"
@@ -574,7 +574,7 @@ msgstr "编辑影城..."
 
 #: src/wx/screens_panel.cc:63
 msgid "Edit Screen..."
-msgstr "编辑服务器..."
+msgstr "编辑荧幕（放映服务器）..."
 
 #: src/wx/screens_panel.cc:170
 msgid "Edit cinema"
@@ -582,7 +582,7 @@ msgstr "编辑影城"
 
 #: src/wx/screens_panel.cc:232
 msgid "Edit screen"
-msgstr "编辑服务器"
+msgstr "编辑荧幕（放映服务器）"
 
 #: src/wx/audio_mapping_view.cc:159 src/wx/config_dialog.cc:424
 #: src/wx/dcp_panel.cc:133 src/wx/fonts_dialog.cc:78 src/wx/video_panel.cc:188
@@ -678,9 +678,7 @@ msgstr "帧速率"
 
 #: src/wx/about_dialog.cc:66
 msgid "Free, open-source DCP creation from almost anything."
-msgstr ""
-"免费的DCP打包软件。 - Rov 汉化\n"
-"汉化下载：www.rov8.com ( 放映员资料库)"
+msgstr "免费的DCP打包软件。 -汉化：汉源"
 
 #: src/wx/kdm_timing_panel.cc:36
 msgid "From"
@@ -1024,7 +1022,7 @@ msgstr "关闭"
 
 #: src/wx/config_dialog.cc:1401
 msgid "Only servers encode"
-msgstr "仅服务器编码"
+msgstr "仅在编码服务器编码"
 
 #: src/wx/config_dialog.cc:1434
 msgid "Open console window"
@@ -1127,7 +1125,7 @@ msgstr "协议"
 
 #: src/wx/colour_conversion_editor.cc:112
 msgid "RGB to XYZ conversion"
-msgstr "RGB 转换到 XYZ"
+msgstr "转换RGB 到 XYZ"
 
 #: src/wx/audio_dialog.cc:104
 msgid "RMS"
@@ -1203,7 +1201,7 @@ msgstr "移除影院"
 
 #: src/wx/screens_panel.cc:67
 msgid "Remove Screen"
-msgstr "移除服务器"
+msgstr "移除荧幕（放映服务器）"
 
 #: src/wx/content_panel.cc:90
 msgid "Remove the selected piece of content from the film."
@@ -1251,11 +1249,11 @@ msgstr "右眼"
 
 #: src/wx/config_dialog.cc:855
 msgid "Root"
-msgstr "Root"
+msgstr "根"
 
 #: src/wx/make_chain_dialog.cc:56
 msgid "Root common name"
-msgstr "Root名称"
+msgstr "根名称"
 
 #: src/wx/config_dialog.cc:1128
 msgid "SCP (for AAM and Doremi)"
@@ -1465,7 +1463,7 @@ msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
 "missing content."
-msgstr "文件不匹配，请删除或添加正确的文件"
+msgstr "文件不匹配，请删除不规范的文件或添加正确的文件"
 
 #: src/wx/hints_dialog.cc:198
 msgid "There are no hints: everything looks good!"
@@ -1473,17 +1471,17 @@ msgstr "正常!"
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
-msgstr "内存不够！"
+msgstr "内存不足！"
 
 #: src/wx/config_dialog.cc:781
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
-msgstr "该文件调用多个证书文件，但是只有第一个内使用。"
+msgstr "该文件调用多个证书文件，但是只有第一个被使用。"
 
 #: src/wx/kdm_cpl_panel.cc:120
 msgid "This is not a valid CPL file"
-msgstr "不是有效的CPL文件！"
+msgstr "CPL文件无效！"
 
 #: src/wx/servers_list_dialog.cc:51
 msgid "Threads"

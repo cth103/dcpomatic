@@ -479,6 +479,9 @@ ReelWriter::write (PlayerSubtitles subs)
 			s->set_reel_number (1);
 			s->set_time_code_rate (_film->video_frame_rate ());
 			s->set_start_time (dcp::Time ());
+			if (_film->encrypted ()) {
+				s->set_key (_film->key ());
+			}
 			_subtitle_asset = s;
 		}
 	}
