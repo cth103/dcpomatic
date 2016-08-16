@@ -2839,7 +2839,8 @@ operation is interrupted and DCP-o-matic must resume it.</listitem>
 Following this is the DCP itself:
 <code>DCP-TEST_EN-XX_UK-U_51_2K_CSY_20130218_CSY_OV</code>.  This
 contains some small XML files, which describe the DCP, and two large
-MXF files, which contain the DCP's audio and video data.  This folder
+MXF files, which contain the DCP's audio and video data.  It may also
+contain subtitles in either XML or MXF format.  This folder
 (<code>DCP-TEST_EN-XX_...</code>) is what you should ingest, or pass
 to the cinema which is showing your DCP.
 </para>
