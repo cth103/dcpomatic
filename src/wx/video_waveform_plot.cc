@@ -138,37 +138,36 @@ VideoWaveformPlot::create_waveform ()
 		return;
 	}
 
-	dcp::Size const size = _image->size();
-	_waveform.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (size.width, size.height), true));
+	dcp::Size const image_size = _image->size();
+	int const waveform_height = GetSize().GetHeight() - _vertical_margin * 2;
+	_waveform.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (image_size.width, waveform_height), true));
 
-	for (int x = 0; x < size.width; ++x) {
+	for (int x = 0; x < image_size.width; ++x) {
 
 		/* Work out one vertical `slice' of waveform pixels.  Each value in
 		   strip is the number of samples in image with the corresponding group of
 		   values.
 		*/
-		int strip[size.height];
-		for (int i = 0; i < size.height; ++i) {
-			strip[i] = 0;
-		}
+		int strip[waveform_height];
+		memset (strip, 0, waveform_height * sizeof(int));
 
 		int* ip = _image->data (_component) + x;
-		for (int y = 0; y < size.height; ++y) {
-			strip[*ip * size.height / 4096]++;
-			ip += size.width;
+		for (int y = 0; y < image_size.height; ++y) {
+			strip[*ip * waveform_height / 4096]++;
+			ip += image_size.width;
 		}
 
 		/* Copy slice into the waveform */
 		uint8_t* wp = _waveform->data()[0] + x * 3;
-		for (int y = size.height - 1; y >= 0; --y) {
-			wp[0] = wp[1] = wp[2] = min (255, (strip[y] * 255 / size.height) * _contrast);
+		for (int y = waveform_height - 1; y >= 0; --y) {
+			wp[0] = wp[1] = wp[2] = min (255, (strip[y] * 255 / waveform_height) * _contrast);
 			wp += _waveform->stride()[0];
 		}
 	}
 
 	_waveform = _waveform->scale (
-		dcp::Size (GetSize().GetWidth() - 32, GetSize().GetHeight() - _vertical_margin * 2),
-		dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, true
+		dcp::Size (GetSize().GetWidth() - 32, waveform_height),
+		dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false
 		);
 }
 
