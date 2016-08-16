@@ -30,15 +30,13 @@ class Font;
 class PlayerSubtitles
 {
 public:
-	PlayerSubtitles (DCPTime f, DCPTime t)
+	PlayerSubtitles (DCPTime f)
 		: from (f)
-		, to (t)
 	{}
 
 	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
 
 	DCPTime from;
-	DCPTime to;
 	std::list<boost::shared_ptr<Font> > fonts;
 
 	/** ImageSubtitles, with their rectangles transformed as specified by their content */
