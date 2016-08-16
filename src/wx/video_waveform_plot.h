@@ -54,6 +54,7 @@ private:
 	int _contrast;
 
 	static int const _vertical_margin;
+	static int const _x_axis_width;
 
 	boost::signals2::connection _viewer_connection;
 };

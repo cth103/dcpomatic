@@ -38,6 +38,7 @@ using boost::shared_ptr;
 using dcp::locale_convert;
 
 int const VideoWaveformPlot::_vertical_margin = 8;
+int const VideoWaveformPlot::_x_axis_width = 52;
 
 VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, FilmViewer* viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
@@ -78,7 +79,6 @@ VideoWaveformPlot::paint ()
 		return;
 	}
 
-	int const axis_x = 48;
 	int const height = _waveform->size().height;
 
 	gc->SetPen (wxPen (wxColour (255, 255, 255), 1, wxPENSTYLE_SOLID));
@@ -108,7 +108,7 @@ VideoWaveformPlot::paint ()
 		wxGraphicsPath p = gc->CreatePath ();
 		int const y = _vertical_margin + height - (i * height / label_gaps) - 1;
 		p.MoveToPoint (label_width + 8, y);
-		p.AddLineToPoint (axis_x, y);
+		p.AddLineToPoint (_x_axis_width - 4, y);
 		gc->StrokePath (p);
 		int x = 4;
 		int const n = i * 4096 / label_gaps;
@@ -124,7 +124,7 @@ VideoWaveformPlot::paint ()
 
 	wxImage waveform (_waveform->size().width, height, _waveform->data()[0], true);
 	wxBitmap bitmap (waveform);
-	gc->DrawBitmap (bitmap, axis_x + 4, _vertical_margin, _waveform->size().width, height);
+	gc->DrawBitmap (bitmap, _x_axis_width, _vertical_margin, _waveform->size().width, height);
 
 	delete gc;
 }
@@ -166,7 +166,7 @@ VideoWaveformPlot::create_waveform ()
 	}
 
 	_waveform = _waveform->scale (
-		dcp::Size (GetSize().GetWidth() - 32, waveform_height),
+		dcp::Size (GetSize().GetWidth() - _x_axis_width, waveform_height),
 		dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false
 		);
 }
