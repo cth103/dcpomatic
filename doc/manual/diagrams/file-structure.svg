@@ -2659,8 +2659,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3246047"
-     inkscape:cx="293.96583"
-     inkscape:cy="653.18416"
+     inkscape:cx="164.49324"
+     inkscape:cy="651.67428"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -5867,26 +5867,26 @@
        sodipodi:nodetypes="cc" />
     <path
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#8f5902;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 211.49531,157.3527 12.5586,0 0,192.56519 -13.39584,0"
+       d="m 231.12381,157.3527 12.5586,0 0,192.56519 -13.39584,0"
        id="path9382"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
-       x="235.77528"
+       x="255.40378"
        y="241.07671"
        id="text9384"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan9386"
-         x="235.77528"
+         x="255.40378"
          y="241.07671">DCP-o-matic's</tspan><tspan
          sodipodi:role="line"
-         x="235.77528"
+         x="255.40378"
          y="256.07672"
          id="tspan9388">working</tspan><tspan
          sodipodi:role="line"
-         x="235.77528"
+         x="255.40378"
          y="271.07672"
          id="tspan9390">files</tspan></text>
     <path
