@@ -27,8 +27,9 @@
 
 using std::cout;
 using boost::bind;
+using boost::weak_ptr;
 
-VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, FilmViewer* viewer)
+VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, FilmViewer* viewer)
 	: wxDialog (
 		parent,
 		wxID_ANY,
@@ -56,7 +57,18 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, FilmViewer* viewer)
 
 	overall_sizer->Add (controls, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 
-	_plot = new VideoWaveformPlot (this, _viewer);
+	wxBoxSizer* position = new wxBoxSizer (wxHORIZONTAL);
+	add_label_to_sizer (position, this, _("Image X position"), true);
+	_x_position = new wxStaticText (this, wxID_ANY, "");
+	_x_position->SetMinSize (wxSize (64, -1));
+	position->Add (_x_position, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+	add_label_to_sizer (position, this, _("component value"), true);
+	_value = new wxStaticText (this, wxID_ANY, "");
+	_value->SetMinSize (wxSize (64, -1));
+	position->Add (_value, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+	overall_sizer->Add (position, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+
+	_plot = new VideoWaveformPlot (this, film, _viewer);
 	overall_sizer->Add (_plot, 1, wxALL | wxEXPAND, 12);
 
 #ifdef DCPOMATIC_LINUX
@@ -71,8 +83,9 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, FilmViewer* viewer)
 	overall_sizer->SetSizeHints (this);
 
 	Bind (wxEVT_SHOW, bind (&VideoWaveformDialog::shown, this, _1));
-	_component->Bind  (wxEVT_COMMAND_CHOICE_SELECTED, bind (&VideoWaveformDialog::component_changed, this));
+	_component->Bind (wxEVT_COMMAND_CHOICE_SELECTED, bind (&VideoWaveformDialog::component_changed, this));
 	_contrast->Bind (wxEVT_SCROLL_THUMBTRACK, bind (&VideoWaveformDialog::contrast_changed, this));
+	_plot->MouseMoved.connect (bind (&VideoWaveformDialog::mouse_moved, this, _1, _2, _3, _4));
 
 	_component->SetSelection (0);
 	_contrast->SetValue (32);
@@ -100,4 +113,20 @@ void
 VideoWaveformDialog::contrast_changed ()
 {
 	_plot->set_contrast (_contrast->GetValue ());
+}
+
+void
+VideoWaveformDialog::mouse_moved (int x1, int x2, int y1, int y2)
+{
+	if (x1 != x2) {
+		_x_position->SetLabel (wxString::Format ("%d-%d", x1, x2));
+	} else {
+		_x_position->SetLabel (wxString::Format ("%d", x1));
+	}
+
+	if (y1 != y2) {
+		_value->SetLabel (wxString::Format ("%d-%d", y1, y2));
+	} else {
+		_value->SetLabel (wxString::Format ("%d", y1));
+	}
 }

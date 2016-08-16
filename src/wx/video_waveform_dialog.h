@@ -19,22 +19,27 @@
 */
 
 #include <wx/wx.h>
+#include <boost/weak_ptr.hpp>
 
 class VideoWaveformPlot;
 class FilmViewer;
+class Film;
 
 class VideoWaveformDialog : public wxDialog
 {
 public:
-	VideoWaveformDialog (wxWindow* parent, FilmViewer* viewer);
+	VideoWaveformDialog (wxWindow* parent, boost::weak_ptr<const Film> film, FilmViewer* viewer);
 
 private:
 	void shown (wxShowEvent &);
 	void component_changed ();
 	void contrast_changed ();
+	void mouse_moved (int x1, int x2, int y1, int y2);
 
 	FilmViewer* _viewer;
 	VideoWaveformPlot* _plot;
 	wxChoice* _component;
 	wxSlider* _contrast;
+	wxStaticText* _x_position;
+	wxStaticText* _value;
 };

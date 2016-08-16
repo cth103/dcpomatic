@@ -29,23 +29,33 @@ namespace dcp {
 
 class PlayerVideo;
 class Image;
+class Film;
 class FilmViewer;
 
 class VideoWaveformPlot : public wxPanel
 {
 public:
-	VideoWaveformPlot (wxWindow* parent, FilmViewer* viewer);
+	VideoWaveformPlot (wxWindow* parent, boost::weak_ptr<const Film> film, FilmViewer* viewer);
 
 	void set_enabled (bool e);
 	void set_component (int c);
 	void set_contrast (int b);
+
+	/** Emitted when the mouse is moved over the waveform.  The parameters
+	    are:
+	    - (int, int): image x range
+	    - (int, int): component value range
+	*/
+	boost::signals2::signal<void (int, int, int, int)> MouseMoved;
 
 private:
 	void paint ();
 	void sized (wxSizeEvent &);
 	void create_waveform ();
 	void set_image (boost::weak_ptr<PlayerVideo>);
+	void mouse_moved (wxMouseEvent &);
 
+	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<dcp::OpenJPEGImage> _image;
 	boost::shared_ptr<const Image> _waveform;
 	bool _dirty;
@@ -54,6 +64,7 @@ private:
 	int _contrast;
 
 	static int const _vertical_margin;
+	static int const _pixel_values;
 	static int const _x_axis_width;
 
 	boost::signals2::connection _viewer_connection;

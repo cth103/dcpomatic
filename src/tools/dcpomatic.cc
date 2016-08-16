@@ -317,6 +317,8 @@ public:
 		_film = film;
 		_film_viewer->set_film (_film);
 		_film_editor->set_film (_film);
+		delete _video_waveform_dialog;
+		_video_waveform_dialog = 0;
 		set_menu_sensitivity ();
 		Config::instance()->add_to_history (_film->directory ());
 	}
@@ -649,7 +651,7 @@ private:
 	void tools_video_waveform ()
 	{
 		if (!_video_waveform_dialog) {
-			_video_waveform_dialog = new VideoWaveformDialog (this, _film_viewer);
+			_video_waveform_dialog = new VideoWaveformDialog (this, _film, _film_viewer);
 		}
 
 		_video_waveform_dialog->Show ();

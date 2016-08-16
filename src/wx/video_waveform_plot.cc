@@ -32,16 +32,19 @@
 
 using std::cout;
 using std::min;
+using std::max;
 using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
 using dcp::locale_convert;
 
 int const VideoWaveformPlot::_vertical_margin = 8;
+int const VideoWaveformPlot::_pixel_values = 4096;
 int const VideoWaveformPlot::_x_axis_width = 52;
 
-VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, FilmViewer* viewer)
+VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, FilmViewer* viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
+	, _film (film)
 	, _dirty (true)
 	, _enabled (false)
 	, _component (0)
@@ -55,6 +58,7 @@ VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, FilmViewer* viewer)
 
 	Bind (wxEVT_PAINT, boost::bind (&VideoWaveformPlot::paint, this));
 	Bind (wxEVT_SIZE,  boost::bind (&VideoWaveformPlot::sized, this, _1));
+	Bind (wxEVT_MOTION, boost::bind (&VideoWaveformPlot::mouse_moved, this, _1));
 
 	SetMinSize (wxSize (640, 512));
 	SetBackgroundColour (wxColour (0, 0, 0));
@@ -111,7 +115,7 @@ VideoWaveformPlot::paint ()
 		p.AddLineToPoint (_x_axis_width - 4, y);
 		gc->StrokePath (p);
 		int x = 4;
-		int const n = i * 4096 / label_gaps;
+		int const n = i * _pixel_values / label_gaps;
 		if (n < 10) {
 			x += extra[0];
 		} else if (n < 100) {
@@ -153,7 +157,7 @@ VideoWaveformPlot::create_waveform ()
 
 		int* ip = _image->data (_component) + x;
 		for (int y = 0; y < image_size.height; ++y) {
-			strip[*ip * waveform_height / 4096]++;
+			strip[*ip * waveform_height / _pixel_values]++;
 			ip += image_size.width;
 		}
 
@@ -219,4 +223,35 @@ VideoWaveformPlot::set_contrast (int b)
 	_contrast = b;
 	_dirty = true;
 	Refresh ();
+}
+
+void
+VideoWaveformPlot::mouse_moved (wxMouseEvent& ev)
+{
+	if (!_image) {
+		return;
+	}
+
+	if (_dirty) {
+		create_waveform ();
+		_dirty = false;
+	}
+
+	shared_ptr<const Film> film = _film.lock ();
+	if (!film) {
+		return;
+	}
+
+	dcp::Size const full = film->frame_size ();
+
+	double const xs = static_cast<double> (full.width) / _waveform->size().width;
+	int const x1 = max (0, min (full.width - 1, int (floor (ev.GetPosition().x - _x_axis_width - 0.5) * xs)));
+	int const x2 = max (0, min (full.width - 1, int (floor (ev.GetPosition().x - _x_axis_width + 0.5) * xs)));
+
+	double const ys = static_cast<double> (_pixel_values) / _waveform->size().height;
+	int const fy = _waveform->size().height - (ev.GetPosition().y - _vertical_margin);
+	int const y1 = max (0, min (_pixel_values - 1, int (floor (fy - 0.5) * ys)));
+	int const y2 = max (0, min (_pixel_values - 1, int (floor (fy + 0.5) * ys)));
+
+	MouseMoved (x1, x2, y1, y2);
 }
