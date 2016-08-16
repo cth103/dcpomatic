@@ -68,7 +68,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	ex['s'] = "Screen 1";
 	ex['b'] = "2012/03/15 12:30";
 	ex['e'] = "2012/03/22 02:30";
-	_filename_format = new NameFormatEditor (this, Config::instance()->kdm_filename_format(), titles, ex);
+	_filename_format = new NameFormatEditor (this, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
 	table->Add (_filename_format->panel(), 1, wxEXPAND);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));

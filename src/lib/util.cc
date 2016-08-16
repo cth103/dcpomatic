@@ -619,13 +619,12 @@ video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int r
 {
 	dcp::NameFormat::Map values;
 	values['t'] = "j2c";
-	values['i'] = asset->id();
 	values['r'] = raw_convert<string> (reel_index + 1);
 	values['n'] = raw_convert<string> (reel_count);
 	if (summary) {
 		values['c'] = summary.get();
 	}
-	return Config::instance()->dcp_asset_filename_format().get(values) + ".mxf";
+	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
 
 string
@@ -633,13 +632,12 @@ audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int ree
 {
 	dcp::NameFormat::Map values;
 	values['t'] = "pcm";
-	values['i'] = asset->id();
 	values['r'] = raw_convert<string> (reel_index + 1);
 	values['n'] = raw_convert<string> (reel_count);
 	if (summary) {
 		values['c'] = summary.get();
 	}
-	return Config::instance()->dcp_asset_filename_format().get(values) + ".mxf";
+	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
 
 float

@@ -1440,13 +1440,11 @@ private:
 			add_top_aligned_label_to_sizer (table, _panel, _("DCP metadata filename format"));
 			dcp::NameFormat::Map titles;
 			titles['t'] = "type (cpl/pkl)";
-			titles['i'] = "unique ID";
-			titles['c'] = "content filename";
 			dcp::NameFormat::Map examples;
 			examples['t'] = "cpl";
-			examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
-			examples['c'] = "myfile.mp4";
-			_dcp_metadata_filename_format = new NameFormatEditor (_panel, Config::instance()->dcp_metadata_filename_format(), titles, examples);
+			_dcp_metadata_filename_format = new NameFormatEditor (
+				_panel, Config::instance()->dcp_metadata_filename_format(), titles, examples, "_eb1c112c-ca3c-4ae6-9263-c6714ff05d64.xml"
+				);
 			table->Add (_dcp_metadata_filename_format->panel(), 1, wxEXPAND | wxALL);
 		}
 
@@ -1454,17 +1452,17 @@ private:
 			add_top_aligned_label_to_sizer (table, _panel, _("DCP asset filename format"));
 			dcp::NameFormat::Map titles;
 			titles['t'] = "type (j2c/pcm/sub)";
-			titles['i'] = "unique ID";
 			titles['r'] = "reel number";
 			titles['n'] = "number of reels";
 			titles['c'] = "content filename";
 			dcp::NameFormat::Map examples;
 			examples['t'] = "j2c";
-			examples['i'] = "eb1c112c-ca3c-4ae6-9263-c6714ff05d64";
 			examples['r'] = "1";
 			examples['n'] = "4";
 			examples['c'] = "myfile.mp4";
-			_dcp_asset_filename_format = new NameFormatEditor (_panel, Config::instance()->dcp_asset_filename_format(), titles, examples);
+			_dcp_asset_filename_format = new NameFormatEditor (
+				_panel, Config::instance()->dcp_asset_filename_format(), titles, examples, "_eb1c112c-ca3c-4ae6-9263-c6714ff05d64.mxf"
+				);
 			table->Add (_dcp_asset_filename_format->panel(), 1, wxEXPAND | wxALL);
 		}
 

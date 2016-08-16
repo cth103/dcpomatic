@@ -21,13 +21,16 @@
 #include "name_format_editor.h"
 #include "wx_util.h"
 
-NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples)
+using std::string;
+
+NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples, string suffix)
 	: _panel (new wxPanel (parent))
 	, _example (new wxStaticText (_panel, wxID_ANY, ""))
 	, _sizer (new wxBoxSizer (wxVERTICAL))
 	, _specification (new wxTextCtrl (_panel, wxID_ANY, ""))
 	, _name (name)
 	, _examples (examples)
+	, _suffix (suffix)
 {
 	_sizer->Add (_specification, 0, wxEXPAND, DCPOMATIC_SIZER_Y_GAP);
 	_sizer->Add (_example, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
@@ -61,7 +64,7 @@ NameFormatEditor::update_example ()
 {
 	_name.set_specification (wx_to_std (_specification->GetValue ()));
 
-	wxString example = wxString::Format (_("e.g. %s"), _name.get (_examples));
+	wxString example = wxString::Format (_("e.g. %s"), _name.get (_examples, _suffix));
 	wxString wrapped;
 	for (size_t i = 0; i < example.Length(); ++i) {
 		if (i > 0 && (i % 40) == 0) {

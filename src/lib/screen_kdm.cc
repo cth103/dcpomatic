@@ -41,7 +41,7 @@ ScreenKDM::write_files (list<ScreenKDM> screen_kdms, boost::filesystem::path dir
 	BOOST_FOREACH (ScreenKDM const & i, screen_kdms) {
 		name_values['c'] = i.screen->cinema->name;
 		name_values['s'] = i.screen->name;
-		boost::filesystem::path out = directory / (name_format.get(name_values) + ".xml");
+		boost::filesystem::path out = directory / (name_format.get(name_values, ".xml"));
 		i.kdm.as_xml (out);
 	}
 }

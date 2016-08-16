@@ -64,7 +64,7 @@ CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat nam
 		}
 
 		name_values['s'] = i.screen->name;
-		string const name = name_format.get(name_values) + ".xml";
+		string const name = name_format.get(name_values, ".xml");
 		if (zip_add (zip, name.c_str(), source) == -1) {
 			throw runtime_error ("failed to add KDM to ZIP archive");
 		}
@@ -128,7 +128,7 @@ CinemaKDMs::write_zip_files (
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
 		name_values['c'] = i.cinema->name;
-		path /= name_format.get(name_values) + ".zip";
+		path /= name_format.get(name_values, ".zip");
 		i.make_zip_file (path, name_format, name_values);
 	}
 }
@@ -189,7 +189,7 @@ CinemaKDMs::email (
 			email.add_bcc (config->kdm_bcc ());
 		}
 
-		email.add_attachment (zip_file, name_format.get(name_values) + ".zip", "application/zip");
+		email.add_attachment (zip_file, name_format.get(name_values, ".zip"), "application/zip");
 
 		Config* c = Config::instance ();
 

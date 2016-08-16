@@ -30,7 +30,7 @@
 class NameFormatEditor
 {
 public:
-	NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples);
+	NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples, std::string suffix);
 
 	wxPanel* panel () const {
 		return _panel;
@@ -54,6 +54,7 @@ private:
 
 	dcp::NameFormat _name;
 	dcp::NameFormat::Map _examples;
+	std::string _suffix;
 };
 
 #endif

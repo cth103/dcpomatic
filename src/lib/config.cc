@@ -111,8 +111,8 @@ Config::set_defaults ()
 	_cinemas_file = path ("cinemas.xml");
 	_show_hints_before_make_dcp = true;
 	_kdm_filename_format = dcp::NameFormat ("KDM %f %c %s");
-	_dcp_metadata_filename_format = dcp::NameFormat ("%t_%i");
-	_dcp_asset_filename_format = dcp::NameFormat ("%t_%i");
+	_dcp_metadata_filename_format = dcp::NameFormat ("%t");
+	_dcp_asset_filename_format = dcp::NameFormat ("%t");
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
