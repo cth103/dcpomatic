@@ -1,5 +1,7 @@
 2016-08-16  c.hetherington  <cth@carlh.net>
 
+	* Fix error on seeking through imported mulit-reel DCPs.
+
 	* Simple information on mouse position in the video waveform (part of #932).
 
 2016-08-15  Carl Hetherington  <cth@carlh.net>

@@ -216,8 +216,10 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	audio->seek (t, accurate);
 	subtitle->seek (t, accurate);
 
-	_offset = 0;
 	_reel = _reels.begin ();
+	_offset = 0;
+	get_readers ();
+
 	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
 		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
 		next_reel ();
