@@ -71,7 +71,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	_filename_format = new NameFormatEditor (this, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
 	table->Add (_filename_format->panel(), 1, wxEXPAND);
 
-	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
+	_write_to = new wxCheckBox (this, wxID_ANY, _("Write to"));
 	table->Add (_write_to, 1, wxEXPAND);
 
 #ifdef DCPOMATIC_USE_OWN_PICKER
@@ -84,7 +84,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	table->Add (_folder, 1, wxEXPAND);
 
-	_email = new wxRadioButton (this, wxID_ANY, _("Send by email"));
+	_email = new wxCheckBox (this, wxID_ANY, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
 
@@ -112,6 +112,12 @@ bool
 KDMOutputPanel::write_to () const
 {
 	return _write_to->GetValue ();
+}
+
+bool
+KDMOutputPanel::email () const
+{
+	return _email->GetValue ();
 }
 
 dcp::Formulation

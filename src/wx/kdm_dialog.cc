@@ -55,7 +55,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
 	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
 
-	horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 2);
+	horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 4);
 	horizontal->Add (right, 1, wxEXPAND);
 
 	/* Font for sub-headings */
@@ -145,7 +145,9 @@ KDMDialog::make_clicked ()
 				_output->name_format(),
 				name_values
 				);
-		} else {
+		}
+
+		if (_output->email ()) {
 			JobManager::instance()->add (
 				shared_ptr<Job> (new SendKDMEmailJob (
 							 CinemaKDMs::collect (screen_kdms),

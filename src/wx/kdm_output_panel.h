@@ -34,6 +34,7 @@ public:
 
 	boost::filesystem::path directory () const;
 	bool write_to () const;
+	bool email () const;
 	dcp::Formulation formulation () const;
 	dcp::NameFormat name_format () const;
 
@@ -43,11 +44,11 @@ public:
 private:
 	wxChoice* _type;
 	NameFormatEditor* _filename_format;
-	wxRadioButton* _write_to;
+	wxCheckBox* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;
 #endif
-	wxRadioButton* _email;
+	wxCheckBox* _email;
 };
