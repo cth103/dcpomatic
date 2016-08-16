@@ -590,7 +590,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 {
 	list<shared_ptr<Piece> > subs = overlaps (time, time + length, has_subtitle);
 
-	PlayerSubtitles ps (time, length);
+	PlayerSubtitles ps (time);
 
 	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
 		if (!(*j)->content->subtitle->use () || (!_always_burn_subtitles && (burnt != (*j)->content->subtitle->burn ()))) {
