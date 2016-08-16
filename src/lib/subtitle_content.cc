@@ -52,6 +52,8 @@ int const SubtitleContentProperty::OUTLINE = 509;
 int const SubtitleContentProperty::SHADOW = 510;
 int const SubtitleContentProperty::EFFECT_COLOUR = 511;
 int const SubtitleContentProperty::LINE_SPACING = 512;
+int const SubtitleContentProperty::FADE_IN = 513;
+int const SubtitleContentProperty::FADE_OUT = 514;
 
 SubtitleContent::SubtitleContent (Content* parent)
 	: ContentPart (parent)
@@ -107,6 +109,8 @@ SubtitleContent::SubtitleContent (Content* parent, cxml::ConstNodePtr node, int 
 	, _outline (node->optional_bool_child("Outline").get_value_or(false))
 	, _shadow (node->optional_bool_child("Shadow").get_value_or(false))
 	, _line_spacing (node->optional_number_child<double>("LineSpacing").get_value_or (1))
+	, _fade_in (node->optional_number_child<Frame>("SubtitleFadeIn").get_value_or (0))
+	, _fade_out (node->optional_number_child<Frame>("SubtitleFadeOut").get_value_or (0))
 {
 	if (version >= 32) {
 		_use = node->bool_child ("UseSubtitles");
@@ -188,6 +192,10 @@ SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > 
 			throw JoinError (_("Content to be joined must have the same subtitle line spacing."));
 		}
 
+		if ((c[i]->subtitle->fade_in() != ref->fade_in()) || (c[i]->subtitle->fade_out() != ref->fade_out())) {
+			throw JoinError (_("Content to be joined must have the same subtitle fades."));
+		}
+
 		list<shared_ptr<Font> > fonts = c[i]->subtitle->fonts ();
 		if (fonts.size() != ref_fonts.size()) {
 			throw JoinError (_("Content to be joined must use the same fonts."));
@@ -214,6 +222,8 @@ SubtitleContent::SubtitleContent (Content* parent, vector<shared_ptr<Content> > 
 	_language = ref->language ();
 	_fonts = ref_fonts;
 	_line_spacing = ref->line_spacing ();
+	_fade_in = ref->fade_in ();
+	_fade_out = ref->fade_out ();
 
 	connect_to_fonts ();
 }
@@ -240,6 +250,8 @@ SubtitleContent::as_xml (xmlpp::Node* root) const
 	root->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour.g));
 	root->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour.b));
 	root->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
+	root->add_child("SubtitleFadeIn")->add_child_text (raw_convert<string> (_fade_in.get()));
+	root->add_child("SubtitleFadeOut")->add_child_text (raw_convert<string> (_fade_out.get()));
 
 	for (list<shared_ptr<Font> >::const_iterator i = _fonts.begin(); i != _fonts.end(); ++i) {
 		(*i)->as_xml (root->add_child("Font"));
@@ -253,7 +265,9 @@ SubtitleContent::identifier () const
 		+ "_" + raw_convert<string> (y_scale())
 		+ "_" + raw_convert<string> (x_offset())
 		+ "_" + raw_convert<string> (y_offset())
-		+ "_" + raw_convert<string> (line_spacing());
+		+ "_" + raw_convert<string> (line_spacing())
+		+ "_" + raw_convert<string> (fade_in().get())
+		+ "_" + raw_convert<string> (fade_out().get());
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.
@@ -368,4 +382,16 @@ void
 SubtitleContent::set_line_spacing (double s)
 {
 	maybe_set (_line_spacing, s, SubtitleContentProperty::LINE_SPACING);
+}
+
+void
+SubtitleContent::set_fade_in (ContentTime t)
+{
+	maybe_set (_fade_in, t, SubtitleContentProperty::FADE_IN);
+}
+
+void
+SubtitleContent::set_fade_out (ContentTime t)
+{
+	maybe_set (_fade_out, t, SubtitleContentProperty::FADE_OUT);
 }

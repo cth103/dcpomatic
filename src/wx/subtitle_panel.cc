@@ -477,7 +477,7 @@ SubtitlePanel::appearance_dialog_clicked ()
 	}
 
 	if (text) {
-		TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, c.front()->subtitle);
+		TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, c.front());
 		if (d->ShowModal () == wxID_OK) {
 			d->apply ();
 		}

@@ -26,7 +26,7 @@
 
 using boost::shared_ptr;
 
-TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, shared_ptr<SubtitleContent> content)
+TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, shared_ptr<Content> content)
 	: TableDialog (parent, _("Subtitle appearance"), 2, 1, true)
 	, _content (content)
 {
@@ -50,23 +50,35 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 	_effect_colour = new wxColourPickerCtrl (this, wxID_ANY);
 	add (_effect_colour);
 
+	add (_("Fade in time"), true);
+	_fade_in = new Timecode<ContentTime> (this);
+	add (_fade_in);
+
+	add (_("Fade out time"), true);
+	_fade_out = new Timecode<ContentTime> (this);
+	add (_fade_out);
+
 	layout ();
 
-	_colour->SetColour (wxColour (_content->colour().r, _content->colour().g, _content->colour().b));
-	_outline->SetValue (_content->outline ());
-	_shadow->SetValue (_content->shadow ());
+	_colour->SetColour (wxColour (_content->subtitle->colour().r, _content->subtitle->colour().g, _content->subtitle->colour().b));
+	_outline->SetValue (_content->subtitle->outline ());
+	_shadow->SetValue (_content->subtitle->shadow ());
 	_effect_colour->SetColour (
-		wxColour (_content->effect_colour().r, _content->effect_colour().g, _content->effect_colour().b)
+		wxColour (_content->subtitle->effect_colour().r, _content->subtitle->effect_colour().g, _content->subtitle->effect_colour().b)
 		);
+	_fade_in->set (_content->subtitle->fade_in(), _content->active_video_frame_rate ());
+	_fade_out->set (_content->subtitle->fade_out(), _content->active_video_frame_rate ());
 }
 
 void
 TextSubtitleAppearanceDialog::apply ()
 {
 	wxColour const c = _colour->GetColour ();
-	_content->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
-	_content->set_outline (_outline->GetValue ());
-	_content->set_shadow (_shadow->GetValue ());
+	_content->subtitle->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+	_content->subtitle->set_outline (_outline->GetValue ());
+	_content->subtitle->set_shadow (_shadow->GetValue ());
 	wxColour const ec = _effect_colour->GetColour ();
-	_content->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
+	_content->subtitle->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
+	_content->subtitle->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
+	_content->subtitle->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
 }

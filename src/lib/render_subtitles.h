@@ -19,10 +19,13 @@
 */
 
 #include "position_image.h"
+#include "dcpomatic_time.h"
 #include <dcp/subtitle_string.h>
 #include <dcp/util.h>
 
 class Font;
 
 std::string marked_up (std::list<dcp::SubtitleString> subtitles);
-std::list<PositionImage> render_subtitles (std::list<dcp::SubtitleString>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size);
+std::list<PositionImage> render_subtitles (
+	std::list<dcp::SubtitleString>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size, DCPTime
+	);

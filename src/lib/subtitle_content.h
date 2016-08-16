@@ -44,6 +44,8 @@ public:
 	static int const SHADOW;
 	static int const EFFECT_COLOUR;
 	static int const LINE_SPACING;
+	static int const FADE_IN;
+	static int const FADE_OUT;
 };
 
 /** @class SubtitleContent
@@ -70,6 +72,13 @@ public:
 	void set_x_scale (double);
 	void set_y_scale (double);
 	void set_language (std::string language);
+	void set_colour (dcp::Colour);
+	void set_outline (bool);
+	void set_shadow (bool);
+	void set_effect_colour (dcp::Colour);
+	void set_line_spacing (double s);
+	void set_fade_in (ContentTime);
+	void set_fade_out (ContentTime);
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -111,39 +120,39 @@ public:
 		return _language;
 	}
 
-	void set_colour (dcp::Colour);
-
 	dcp::Colour colour () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _colour;
 	}
-
-	void set_outline (bool);
 
 	bool outline () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _outline;
 	}
 
-	void set_shadow (bool);
-
 	bool shadow () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _shadow;
 	}
-
-	void set_effect_colour (dcp::Colour);
 
 	dcp::Colour effect_colour () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _effect_colour;
 	}
 
-	void set_line_spacing (double s);
-
 	double line_spacing () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _line_spacing;
+	}
+
+	ContentTime fade_in () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fade_in;
+	}
+
+	ContentTime fade_out () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fade_out;
 	}
 
 	static boost::shared_ptr<SubtitleContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
@@ -158,6 +167,8 @@ private:
 	SubtitleContent (Content* parent, cxml::ConstNodePtr, int version);
 	void font_changed ();
 	void connect_to_fonts ();
+
+	std::list<boost::signals2::connection> _font_connections;
 
 	bool _use;
 	bool _burn;
@@ -178,9 +189,10 @@ private:
 	bool _outline;
 	bool _shadow;
 	dcp::Colour _effect_colour;
-	std::list<boost::signals2::connection> _font_connections;
 	/** scaling factor for line spacing; 1 is "standard", < 1 is closer together, > 1 is further apart */
 	double _line_spacing;
+	ContentTime _fade_in;
+	ContentTime _fade_out;
 };
 
 #endif

@@ -1,5 +1,7 @@
 2016-08-16  c.hetherington  <cth@carlh.net>
 
+	* Basic support for fading subtitles in and out (#923).
+
 	* Fix error on seeking through imported mulit-reel DCPs.
 
 	* Simple information on mouse position in the video waveform (part of #932).

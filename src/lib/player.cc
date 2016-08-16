@@ -337,7 +337,7 @@ Player::get_video (DCPTime time, bool accurate)
 
 	/* Text subtitles (rendered to an image) */
 	if (!ps.text.empty ()) {
-		list<PositionImage> s = render_subtitles (ps.text, ps.fonts, _video_container_size);
+		list<PositionImage> s = render_subtitles (ps.text, ps.fonts, _video_container_size, time);
 		copy (s.begin (), s.end (), back_inserter (sub_images));
 	}
 

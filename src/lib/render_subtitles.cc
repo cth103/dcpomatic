@@ -92,9 +92,11 @@ marked_up (list<dcp::SubtitleString> subtitles)
 	return out;
 }
 
-/** @param subtitles A list of subtitles that are all on the same line */
+/** @param subtitles A list of subtitles that are all on the same line,
+ *  at the same time and with the same fade in/out.
+ */
 static PositionImage
-render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target)
+render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
@@ -205,7 +207,9 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 			}
 		}
 
-		FcPattern* pattern = FcPatternBuild (0, FC_FILE, FcTypeString, font_files.get(FontFiles::NORMAL).get().string().c_str(), static_cast<char *> (0));
+		FcPattern* pattern = FcPatternBuild (
+			0, FC_FILE, FcTypeString, font_files.get(FontFiles::NORMAL).get().string().c_str(), static_cast<char *> (0)
+			);
 		FcObjectSet* object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
 		FcFontSet* font_set = FcFontList (fc_config, pattern, object_set);
 		if (font_set) {
@@ -248,8 +252,17 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	layout->set_markup (marked_up (subtitles));
 
 	/* Compute fade factor */
-	/* XXX */
 	float fade_factor = 1;
+
+	DCPTime const fade_in_start = DCPTime::from_seconds (subtitles.front().in().as_seconds ());
+	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (subtitles.front().fade_up_time().as_seconds ());
+	DCPTime const fade_out_end =  DCPTime::from_seconds (subtitles.front().out().as_seconds ());
+	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (subtitles.front().fade_down_time().as_seconds ());
+	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
+		fade_factor = DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
+	} else if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
+		fade_factor = 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
+	}
 
 	context->scale (xscale, yscale);
 	layout->update_from_cairo_context (context);
@@ -335,22 +348,23 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 	return PositionImage (image, Position<int> (max (0, x), max (0, y)));
 }
 
+/** @param time Time of the frame that these subtitles are going on */
 list<PositionImage>
-render_subtitles (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target)
+render_subtitles (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
 {
 	list<dcp::SubtitleString> pending;
 	list<PositionImage> images;
 
 	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
 		if (!pending.empty() && fabs (i.v_position() - pending.back().v_position()) > 1e-4) {
-			images.push_back (render_line (pending, fonts, target));
+			images.push_back (render_line (pending, fonts, target, time));
 			pending.clear ();
 		}
 		pending.push_back (i);
 	}
 
 	if (!pending.empty ()) {
-		images.push_back (render_line (pending, fonts, target));
+		images.push_back (render_line (pending, fonts, target, time));
 	}
 
 	return images;

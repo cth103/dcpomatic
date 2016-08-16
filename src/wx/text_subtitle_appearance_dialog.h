@@ -19,16 +19,17 @@
 */
 
 #include "table_dialog.h"
+#include "timecode.h"
 #include <boost/shared_ptr.hpp>
 
 class wxRadioButton;
 class wxColourPickerCtrl;
-class SubtitleContent;
+class Content;
 
 class TextSubtitleAppearanceDialog : public TableDialog
 {
 public:
-	TextSubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<SubtitleContent> content);
+	TextSubtitleAppearanceDialog (wxWindow* parent, boost::shared_ptr<Content> content);
 
 	void apply ();
 
@@ -37,6 +38,8 @@ private:
 	wxRadioButton* _outline;
 	wxRadioButton* _shadow;
 	wxColourPickerCtrl* _effect_colour;
+	Timecode<ContentTime>* _fade_in;
+	Timecode<ContentTime>* _fade_out;
 
-	boost::shared_ptr<SubtitleContent> _content;
+	boost::shared_ptr<Content> _content;
 };

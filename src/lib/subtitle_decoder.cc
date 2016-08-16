@@ -245,8 +245,8 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 					j.text,
 					effect,
 					content()->effect_colour(),
-					dcp::Time (0, 1000),
-					dcp::Time (0, 1000)
+					dcp::Time (content()->fade_in().seconds(), 1000),
+					dcp::Time (content()->fade_out().seconds(), 1000)
 					)
 				);
 		}
