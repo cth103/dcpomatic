@@ -164,6 +164,8 @@ public:
 	 */
 	std::string content_summary (DCPTimePeriod period) const;
 
+	std::list<std::string> fix_conflicting_settings ();
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/

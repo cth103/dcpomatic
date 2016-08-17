@@ -1,5 +1,7 @@
 2016-08-17  c.hetherington  <cth@carlh.net>
 
+	* Spot and "fix" impossible refer-to-DCP settings (#929).
+
 	* Label tweak to clarify how JPEG2000 bandwidth control works (#904).
 
 	* Scroll audio mapping view labels correctly (#919).

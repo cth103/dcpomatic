@@ -1451,3 +1451,39 @@ Film::content_summary (DCPTimePeriod period) const
 {
 	return _playlist->content_summary (period);
 }
+
+list<string>
+Film::fix_conflicting_settings ()
+{
+	list<string> notes;
+
+	list<boost::filesystem::path> was_referencing;
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
+		if (d) {
+			list<string> reasons;
+			bool was = false;
+			if (!d->can_reference_video(reasons) && d->reference_video()) {
+				d->set_reference_video (false);
+				was = true;
+			}
+			if (!d->can_reference_audio(reasons) && d->reference_audio()) {
+				d->set_reference_audio (false);
+				was = true;
+			}
+			if (!d->can_reference_subtitle(reasons) && d->reference_subtitle()) {
+				d->set_reference_subtitle (false);
+				was = true;
+			}
+			if (was) {
+				was_referencing.push_back (d->path(0).parent_path().filename());
+			}
+		}
+	}
+
+	BOOST_FOREACH (boost::filesystem::path d, was_referencing) {
+		notes.push_back (String::compose (_("The DCP %1 was being referred to by this film.  This not now possible because the reel sizes in the film no longer agree with those in the imported DCP.\n\nSetting the 'Reel type' to 'split by video content' will probably help.\n\nAfter doing that you would need to re-tick the appropriate 'refer to existing DCP' checkboxes."), d.string()));
+	}
+
+	return notes;
+}

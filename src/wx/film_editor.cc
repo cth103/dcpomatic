@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,10 +32,12 @@
 #include "content_panel.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::cout;
 using std::string;
+using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -73,6 +75,11 @@ FilmEditor::film_changed (Film::Property p)
 
 	if (!_film) {
 		return;
+	}
+
+	list<string> notes = _film->fix_conflicting_settings ();
+	BOOST_FOREACH (string i, notes) {
+		message_dialog (this, std_to_wx (i));
 	}
 
 	_content_panel->film_changed (p);
