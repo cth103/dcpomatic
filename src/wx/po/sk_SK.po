@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-03 20:42+0100\n"
+"POT-Creation-Date: 2016-08-17 14:44+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -38,13 +38,21 @@ msgstr ""
 msgid "(None)"
 msgstr "(Žiadny)"
 
-#: src/wx/config_dialog.cc:186
+#: src/wx/config_dialog.cc:188
 msgid "(restart DCP-o-matic to see language changes)"
 msgstr "(reštartujte DCP-o-matic, aby sa zmenil jazyk)"
 
-#: src/wx/audio_mapping_view.cc:158
+#: src/wx/audio_mapping_view.cc:167
 msgid "-6dB"
 msgstr "-6dB"
+
+#: src/wx/wx_util.cc:377
+msgid "12 - 7.1/HI/VI"
+msgstr ""
+
+#: src/wx/wx_util.cc:369
+msgid "2 - stereo"
+msgstr ""
 
 #: src/wx/rgba_colour_picker.cc:36
 msgid "255"
@@ -58,11 +66,11 @@ msgstr "2D"
 msgid "2D version of content available in 3D"
 msgstr "2D verzia obsahu dostupná v 3D"
 
-#: src/wx/dcp_panel.cc:710
+#: src/wx/dcp_panel.cc:712
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:668 src/wx/video_panel.cc:235
+#: src/wx/dcp_panel.cc:670 src/wx/video_panel.cc:235
 msgid "3D"
 msgstr "3D DCP"
 
@@ -86,9 +94,21 @@ msgstr "3D len pravé"
 msgid "3D top/bottom"
 msgstr "3D hore/dole (Pod sebou)"
 
-#: src/wx/dcp_panel.cc:711
+#: src/wx/wx_util.cc:371
+msgid "4 - L/C/R/Lfe"
+msgstr ""
+
+#: src/wx/dcp_panel.cc:713
 msgid "4K"
 msgstr "4K"
+
+#: src/wx/wx_util.cc:373
+msgid "6 - 5.1"
+msgstr ""
+
+#: src/wx/wx_util.cc:375
+msgid "8 - 5.1/HI/VI"
+msgstr ""
 
 #: src/wx/image_subtitle_colour_dialog.cc:41
 msgid "<b>New colour</b>"
@@ -108,7 +128,7 @@ msgstr ""
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
-#: src/wx/timing_panel.cc:131
+#: src/wx/timing_panel.cc:132
 #, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
@@ -118,16 +138,6 @@ msgstr "<i>Zmeňte len v prípade, ak frame rate bol zle načítaný.</i>"
 #: src/wx/colour_conversion_editor.cc:68
 msgid "A"
 msgstr "A"
-
-#: src/wx/hints_dialog.cc:141
-msgid ""
-"A few projectors have problems playing back very high bit-rate DCPs.  It is "
-"a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
-"unlikely to have any visible effect on the image."
-msgstr ""
-"Pár projektorov majú problém prehrať veľmi vysoký bit rate DCP. Je dobré, "
-"aby ste nastavili JPEG2000 bandwidth na okolo 200Mbit/s; nebude to mať "
-"žiadnu viditeľnú stratu obrazu. "
 
 #: src/wx/update_dialog.cc:36
 msgid "A new version of DCP-o-matic is available."
@@ -155,7 +165,7 @@ msgstr "Pridať KDM..."
 msgid "Add Screen"
 msgstr "Pridať sálu..."
 
-#: src/wx/screens_panel.cc:59
+#: src/wx/screens_panel.cc:63
 msgid "Add Screen..."
 msgstr "Pridať sálu..."
 
@@ -175,7 +185,7 @@ msgstr "Pridať súbor(y)..."
 msgid "Add folder..."
 msgstr "Pridať priečinok..."
 
-#: src/wx/image_sequence_dialog.cc:26
+#: src/wx/image_sequence_dialog.cc:28
 msgid "Add image sequence"
 msgstr "Pridať sekvenciu obrázkov"
 
@@ -183,11 +193,11 @@ msgstr "Pridať sekvenciu obrázkov"
 msgid "Add video, image or sound files to the film."
 msgstr "Pridať video, obrázok alebo zvukový súbor do filmu."
 
-#: src/wx/config_dialog.cc:712 src/wx/editable_list.h:82
+#: src/wx/config_dialog.cc:711 src/wx/editable_list.h:78
 msgid "Add..."
 msgstr "Pridať..."
 
-#: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1248
+#: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1271
 msgid "Address"
 msgstr "Adresa"
 
@@ -195,34 +205,16 @@ msgstr "Adresa"
 msgid "Adjust white point to"
 msgstr "Nastaviť biely bod na"
 
-#: src/wx/hints_dialog.cc:129
-msgid ""
-"All of your content is at 1.85:1 or narrower but your DCP's container is "
-"Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
-"frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
-"\"DCP\" tab."
-msgstr ""
-"Všetok váš obsah je Flat (1.85:1) alebo menší, ale DCP kontajner je Scope "
-"(2.39:1). Toto upraví váš obsah na Flat (1.85:1). Mali by ste prestaviť DCP "
-"kontajner na Flat (1.85:1) v záložke \"DCP\"."
-
-#: src/wx/hints_dialog.cc:123
-msgid ""
-"All of your content is in Scope (2.39:1) but your DCP's container is Flat "
-"(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
-"You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
-"tab."
-msgstr ""
-"Všetok váš obsah je Scope (2.39:1), ale DCP kontajner je Flat (1.85:1). Toto "
-"upraví váš obsah na Flat (1.85:1). Mali by ste prestaviť DCP kontajner na "
-"Scope (2:39:1) v záložke \"DCP\"."
-
-#: src/wx/config_dialog.cc:1397
+#: src/wx/config_dialog.cc:1431
 msgid "Allow any DCP frame rate"
 msgstr "Povoliť všetky DCP frame rate"
 
 #: src/wx/rgba_colour_picker.cc:33
 msgid "Alpha   0"
+msgstr ""
+
+#: src/wx/kdm_dialog.cc:166
+msgid "An unknown exception occurred."
 msgstr ""
 
 #: src/wx/subtitle_panel.cc:135
@@ -234,7 +226,7 @@ msgid "Atmos"
 msgstr ""
 
 #: src/wx/audio_dialog.cc:47 src/wx/audio_panel.cc:48
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:114
+#: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:115
 #: src/wx/timeline_labels_view.cc:39 src/wx/timeline_labels_view.cc:85
 msgid "Audio"
 msgstr "Zvuk"
@@ -243,20 +235,20 @@ msgstr "Zvuk"
 msgid "Audio Language (e.g. EN)"
 msgstr "Jazyk zvuku (napr. SK)"
 
-#: src/wx/audio_mapping_view.cc:332
+#: src/wx/audio_mapping_view.cc:342
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d unaltered."
 msgstr "Zvuk bude prenesený z kanálu %d do DCP kanálu %d neznemené. "
 
-#: src/wx/audio_mapping_view.cc:335
+#: src/wx/audio_mapping_view.cc:345
 #, c-format
 msgid ""
 "Audio will be passed from content channel %d to DCP channel %d with gain "
 "%.1fdB."
 msgstr "Zvuk bude prenesený z kanálu %d do DCP kanálu %d s hlasitosťou %.1fdB."
 
-#: src/wx/config_dialog.cc:210
+#: src/wx/config_dialog.cc:212
 msgid "Automatically analyse content audio"
 msgstr "Automaticky analyzovať zvuk"
 
@@ -264,7 +256,7 @@ msgstr "Automaticky analyzovať zvuk"
 msgid "B"
 msgstr "B"
 
-#: src/wx/config_dialog.cc:1260
+#: src/wx/config_dialog.cc:1283
 msgid "BCC address"
 msgstr "BCC adresa"
 
@@ -296,12 +288,12 @@ msgstr "Vypáliť titulky do filmu"
 msgid "But I have to use fader"
 msgstr "Ale musím používať fader"
 
-#: src/wx/config_dialog.cc:1249
+#: src/wx/config_dialog.cc:1272
 #, fuzzy
 msgid "CC addresses"
 msgstr "CC adresa"
 
-#: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:73
+#: src/wx/kdm_cpl_panel.cc:35 src/wx/kdm_dialog.cc:81
 #: src/wx/self_dkdm_dialog.cc:59
 msgid "CPL"
 msgstr "CPL"
@@ -313,6 +305,10 @@ msgstr "CPL ID"
 #: src/wx/kdm_cpl_panel.cc:50
 msgid "CPL annotation text"
 msgstr "CPL anotácia textu"
+
+#: src/wx/kdm_dialog.cc:162
+msgid "CPL's content is not encrypted."
+msgstr ""
 
 #: src/wx/audio_panel.cc:78
 msgid "Calculate..."
@@ -326,7 +322,7 @@ msgstr "Zrušiť"
 msgid "Cannot reference this DCP.  "
 msgstr "Nemožno odkazovať na toto DCP."
 
-#: src/wx/dolby_doremi_certificate_panel.cc:203
+#: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
 msgstr "Certifikát stiahnutý"
 
@@ -338,15 +334,15 @@ msgstr "Reťaz"
 msgid "Channel gain"
 msgstr "Sila kanálu"
 
-#: src/wx/audio_dialog.cc:81 src/wx/dcp_panel.cc:753
+#: src/wx/audio_dialog.cc:81 src/wx/dcp_panel.cc:744
 msgid "Channels"
 msgstr "Kanály"
 
-#: src/wx/config_dialog.cc:218
+#: src/wx/config_dialog.cc:220
 msgid "Check for testing updates on startup"
 msgstr "Skontrolovať testing aktualizácie pri spustení programu"
 
-#: src/wx/config_dialog.cc:214
+#: src/wx/config_dialog.cc:216
 msgid "Check for updates on startup"
 msgstr "Skontrolovať aktualizácie pri spustení programu "
 
@@ -370,7 +366,7 @@ msgstr "Vyberte písmo"
 msgid "Choose a font file"
 msgstr "Vyberte súbor s písmom"
 
-#: src/wx/config_dialog.cc:199
+#: src/wx/config_dialog.cc:201
 msgid "Cinema and screen database file"
 msgstr ""
 
@@ -392,12 +388,12 @@ msgstr "Konverzia farieb"
 msgid "Colour|Custom"
 msgstr "Farba"
 
-#: src/wx/video_waveform_dialog.cc:50
+#: src/wx/video_waveform_dialog.cc:51
 msgid "Component"
 msgstr "Súčasť"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/config_dialog.cc:1422
+#: src/wx/config_dialog.cc:1479
 msgid "Config|Timing"
 msgstr "Časovanie"
 
@@ -405,20 +401,20 @@ msgstr "Časovanie"
 msgid "Contact email"
 msgstr "Kontaktný email"
 
-#: src/wx/dcp_panel.cc:643
+#: src/wx/dcp_panel.cc:645
 msgid "Container"
 msgstr "Kontajner"
 
-#: src/wx/audio_mapping_view.cc:415 src/wx/audio_mapping_view.cc:417
+#: src/wx/audio_mapping_view.cc:437 src/wx/audio_mapping_view.cc:439
 #: src/wx/film_editor.cc:52
 msgid "Content"
 msgstr "Obsah"
 
-#: src/wx/content_properties_dialog.cc:38
+#: src/wx/content_properties_dialog.cc:37
 msgid "Content Properties"
 msgstr "Nastavenia obsahu"
 
-#: src/wx/dcp_panel.cc:105
+#: src/wx/dcp_panel.cc:106
 msgid "Content Type"
 msgstr "Typ obsahu"
 
@@ -426,11 +422,11 @@ msgstr "Typ obsahu"
 msgid "Content version"
 msgstr "Verzia obsahu"
 
-#: src/wx/video_waveform_dialog.cc:53
+#: src/wx/video_waveform_dialog.cc:54
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/wx/dcp_panel.cc:88
+#: src/wx/dcp_panel.cc:89
 msgid "Copy as name"
 msgstr "Kopírovať ako názov"
 
@@ -448,13 +444,13 @@ msgstr "Nemôžem získať náhľad z videa (%s)"
 msgid "Could not load KDM (%s)"
 msgstr "Nemôžem načítať kDM (%s)"
 
-#: src/wx/config_dialog.cc:789 src/wx/config_dialog.cc:957
+#: src/wx/config_dialog.cc:788 src/wx/config_dialog.cc:956
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:156
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Nemôžem načítať súbor s certifikátom (%s)"
 
-#: src/wx/config_dialog.cc:948
+#: src/wx/config_dialog.cc:947
 #, fuzzy, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemôžem prečítať súbor s kľúčom (%s)"
@@ -463,7 +459,7 @@ msgstr "Nemôžem prečítať súbor s kľúčom (%s)"
 msgid "Create in folder"
 msgstr "Vytvoriť v priečinku"
 
-#: src/wx/config_dialog.cc:229
+#: src/wx/config_dialog.cc:231
 msgid "Creator"
 msgstr "Tvorca"
 
@@ -471,17 +467,25 @@ msgstr "Tvorca"
 msgid "Crop"
 msgstr "Orezať"
 
-#: src/wx/audio_mapping_view.cc:446 src/wx/audio_mapping_view.cc:448
+#: src/wx/audio_mapping_view.cc:472 src/wx/audio_mapping_view.cc:474
 #: src/wx/film_editor.cc:54
 msgid "DCP"
 msgstr "DCP"
+
+#: src/wx/config_dialog.cc:1452
+msgid "DCP asset filename format"
+msgstr ""
 
 #: src/wx/kdm_cpl_panel.cc:44
 msgid "DCP directory"
 msgstr "DCP adresár"
 
-#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:88 src/wx/wx_util.cc:100
-#: src/wx/wx_util.cc:108
+#: src/wx/config_dialog.cc:1440
+msgid "DCP metadata filename format"
+msgstr ""
+
+#: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
+#: src/wx/wx_util.cc:110
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -489,59 +493,59 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic zvuk"
 
-#: src/wx/config_dialog.cc:1424
+#: src/wx/config_dialog.cc:1481
 msgid "Debug: decode"
 msgstr "Ladenie: dekódovanie"
 
-#: src/wx/config_dialog.cc:1428
+#: src/wx/config_dialog.cc:1485
 msgid "Debug: email sending"
 msgstr "Ladenie: odosielanie emailu"
 
-#: src/wx/config_dialog.cc:1426
+#: src/wx/config_dialog.cc:1483
 msgid "Debug: encode"
 msgstr "Ladenie: enkódovanie"
 
-#: src/wx/config_dialog.cc:1038
+#: src/wx/config_dialog.cc:1037
 msgid "Decrypting DCPs"
 msgstr "Dešifrujem DCP"
 
-#: src/wx/config_dialog.cc:435
+#: src/wx/config_dialog.cc:437
 msgid "Default DCP audio channels"
 msgstr ""
 
-#: src/wx/config_dialog.cc:423
+#: src/wx/config_dialog.cc:425
 msgid "Default ISDCF name details"
 msgstr "Predvolené údaje o názve ISDCF"
 
-#: src/wx/config_dialog.cc:440
+#: src/wx/config_dialog.cc:442
 msgid "Default JPEG2000 bandwidth"
 msgstr "Predvolený JPEG2000 bandwidth (šírka pásma)"
 
-#: src/wx/config_dialog.cc:449
+#: src/wx/config_dialog.cc:451
 msgid "Default audio delay"
 msgstr "Predvolené oneskorenie zvuku"
 
-#: src/wx/config_dialog.cc:427
+#: src/wx/config_dialog.cc:429
 msgid "Default container"
 msgstr "Predvolený kontajner"
 
-#: src/wx/config_dialog.cc:431
+#: src/wx/config_dialog.cc:433
 msgid "Default content type"
 msgstr "Predvolený typ obsahu"
 
-#: src/wx/config_dialog.cc:415
+#: src/wx/config_dialog.cc:417
 msgid "Default directory for new films"
 msgstr "Predvolený adresár pre nové filmy"
 
-#: src/wx/config_dialog.cc:407
+#: src/wx/config_dialog.cc:409
 msgid "Default duration of still images"
 msgstr "Predvolená dĺžka statických snímkov"
 
-#: src/wx/config_dialog.cc:457
+#: src/wx/config_dialog.cc:459
 msgid "Default standard"
 msgstr "DCP štandard"
 
-#: src/wx/config_dialog.cc:389
+#: src/wx/config_dialog.cc:391
 msgid "Defaults"
 msgstr "Predvolené"
 
@@ -549,13 +553,17 @@ msgstr "Predvolené"
 msgid "Delay"
 msgstr "Oneskorenie"
 
-#: src/wx/dcp_panel.cc:86 src/wx/job_view.cc:57
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:57
 msgid "Details..."
 msgstr "Detaily..."
 
 #: src/wx/download_certificate_dialog.cc:37
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
+
+#: src/wx/hints_dialog.cc:45
+msgid "Don't show hints again"
+msgstr ""
 
 #: src/wx/content_panel.cc:97
 msgid "Down"
@@ -573,15 +581,15 @@ msgstr "Stiahnuť certifikát"
 msgid "Download..."
 msgstr "Stiahnuť..."
 
-#: src/wx/dolby_doremi_certificate_panel.cc:55
+#: src/wx/dolby_doremi_certificate_panel.cc:56
 msgid "Downloading certificate"
 msgstr "Sťahujem certifikát"
 
-#: src/wx/screens_panel.cc:61
+#: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
 msgstr "Upraviť kino..."
 
-#: src/wx/screens_panel.cc:63
+#: src/wx/screens_panel.cc:65
 msgid "Edit Screen..."
 msgstr "Upraviť sálu..."
 
@@ -595,9 +603,9 @@ msgstr "Upraviť kino..."
 msgid "Edit screen"
 msgstr "Upraviť sálu..."
 
-#: src/wx/audio_mapping_view.cc:159 src/wx/config_dialog.cc:424
-#: src/wx/dcp_panel.cc:133 src/wx/fonts_dialog.cc:78 src/wx/video_panel.cc:188
-#: src/wx/video_panel.cc:209 src/wx/editable_list.h:85
+#: src/wx/audio_mapping_view.cc:168 src/wx/config_dialog.cc:426
+#: src/wx/dcp_panel.cc:134 src/wx/fonts_dialog.cc:78 src/wx/video_panel.cc:188
+#: src/wx/video_panel.cc:209 src/wx/editable_list.h:81
 msgid "Edit..."
 msgstr "Upraviť..."
 
@@ -613,7 +621,7 @@ msgstr "Emailová adresa pre odoslanie KDM"
 msgid "Encoding Servers"
 msgstr "Enkódovacie servery"
 
-#: src/wx/dcp_panel.cc:120
+#: src/wx/dcp_panel.cc:121
 msgid "Encrypted"
 msgstr "Šifrované"
 
@@ -621,23 +629,33 @@ msgstr "Šifrované"
 msgid "End"
 msgstr "Koniec"
 
-#: src/wx/config_dialog.cc:1419
+#: src/wx/config_dialog.cc:1476
 msgid "Errors"
 msgstr "Chyby"
 
-#: src/wx/config_dialog.cc:716
+#: src/wx/config_dialog.cc:715
 msgid "Export"
 msgstr "Exportovať"
 
-#: src/wx/config_dialog.cc:1045
-msgid "Export DCP decryption certificate..."
+#: src/wx/config_dialog.cc:1044
+#, fuzzy
+msgid ""
+"Export DCP decryption\n"
+"certificate..."
 msgstr "Exportovať DCP dešifrovací certifikát..."
 
-#: src/wx/config_dialog.cc:733
+#: src/wx/config_dialog.cc:1046
+#, fuzzy
+msgid ""
+"Export DCP decryption\n"
+"chain..."
+msgstr "Exportovať DCP dešifrovací certifikát..."
+
+#: src/wx/config_dialog.cc:732
 msgid "Export..."
 msgstr "Exportovať..."
 
-#: src/wx/config_dialog.cc:1129
+#: src/wx/config_dialog.cc:1152
 msgid "FTP (for Dolby)"
 msgstr "FTP (pre Dolby)"
 
@@ -649,9 +667,24 @@ msgstr "Štúdio (napr. DLA)"
 msgid "Fade in"
 msgstr "Postupný nábeh (Fade in)"
 
+#: src/wx/text_subtitle_appearance_dialog.cc:53
+#, fuzzy
+msgid "Fade in time"
+msgstr "Postupný nábeh (Fade in)"
+
 #: src/wx/video_panel.cc:159
 msgid "Fade out"
 msgstr "Postupné stíšenie (Fade out)"
+
+#: src/wx/text_subtitle_appearance_dialog.cc:57
+#, fuzzy
+msgid "Fade out time"
+msgstr "Postupné stíšenie (Fade out)"
+
+#: src/wx/kdm_output_panel.cc:50
+#, fuzzy
+msgid "Filename format"
+msgstr "Názov súboru"
 
 #: src/wx/new_film_dialog.cc:38
 msgid "Film name"
@@ -661,7 +694,7 @@ msgstr "Názov filmu"
 msgid "Filters"
 msgstr "Filtre"
 
-#: src/wx/config_dialog.cc:205
+#: src/wx/config_dialog.cc:207
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
@@ -679,11 +712,11 @@ msgstr "Písma"
 msgid "Fonts..."
 msgstr "Písma..."
 
-#: src/wx/dcp_panel.cc:654
+#: src/wx/dcp_panel.cc:656
 msgid "Frame Rate"
 msgstr "Frekvencia snímok (frame rate)"
 
-#: src/wx/image_sequence_dialog.cc:28
+#: src/wx/image_sequence_dialog.cc:30
 msgid "Frame rate"
 msgstr "Frekvencia snímok (frame rate)"
 
@@ -695,19 +728,19 @@ msgstr "Zadarmo, open-source nástroj pre vytvorenie DCP takmer zo všetkého "
 msgid "From"
 msgstr "Z"
 
-#: src/wx/config_dialog.cc:1243
+#: src/wx/config_dialog.cc:1266
 msgid "From address"
 msgstr "Z adresy"
 
-#: src/wx/audio_mapping_view.cc:157
+#: src/wx/audio_mapping_view.cc:166
 msgid "Full"
 msgstr "Celé"
 
-#: src/wx/timing_panel.cc:95
+#: src/wx/timing_panel.cc:96
 msgid "Full length"
 msgstr "Celá dĺžka"
 
-#: src/wx/dcp_panel.cc:150
+#: src/wx/dcp_panel.cc:151
 msgid "GB"
 msgstr "GB"
 
@@ -724,7 +757,7 @@ msgstr "Vypočítanie hlasitosti"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Zosilniť kanál %d in DCP kanály %d"
 
-#: src/wx/config_dialog.cc:1415 src/wx/content_properties_dialog.cc:71
+#: src/wx/config_dialog.cc:1472 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Všeobecné"
 
@@ -732,12 +765,16 @@ msgstr "Všeobecné"
 msgid "Get from file..."
 msgstr "Získať zo súboru..."
 
+#: src/wx/hints_dialog.cc:56
+msgid "Go back"
+msgstr ""
+
 #: src/wx/playhead_to_timecode_dialog.cc:27
-#: src/wx/playhead_to_frame_dialog.cc:28
+#: src/wx/playhead_to_frame_dialog.cc:30
 msgid "Go to"
 msgstr ""
 
-#: src/wx/playhead_to_frame_dialog.cc:25
+#: src/wx/playhead_to_frame_dialog.cc:27
 msgid "Go to frame"
 msgstr ""
 
@@ -749,7 +786,7 @@ msgstr ""
 msgid "Green chromaticity"
 msgstr "Zelená farebnosť (Green chromaticity)"
 
-#: src/wx/hints_dialog.cc:39
+#: src/wx/hints_dialog.cc:37
 msgid "Hints"
 msgstr "Nápoveda"
 
@@ -769,17 +806,22 @@ msgstr "Chcem prehrávať na faderi na úrovni"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/config_dialog.cc:1112
+#: src/wx/config_dialog.cc:1135
 msgid "IP address"
 msgstr "IP adresa"
 
-#: src/wx/config_dialog.cc:622
+#: src/wx/config_dialog.cc:621
 msgid "IP address / host name"
 msgstr "IP adresa / host name"
 
 #: src/wx/isdcf_metadata_dialog.cc:32
 msgid "ISDCF name"
 msgstr "ISDCF názov"
+
+#: src/wx/video_waveform_dialog.cc:61
+#, fuzzy
+msgid "Image X position"
+msgstr "Odseknúť po aktuálnej pozície"
 
 #: src/wx/colour_conversion_editor.cc:55
 msgid "Input gamma"
@@ -798,7 +840,7 @@ msgstr "Vstupná sila"
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrovaná hlasitosť %.2f LUFS"
 
-#: src/wx/config_dialog.cc:859
+#: src/wx/config_dialog.cc:858
 msgid "Intermediate"
 msgstr "Intermediate"
 
@@ -806,11 +848,11 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/config_dialog.cc:497 src/wx/dcp_panel.cc:190
+#: src/wx/config_dialog.cc:494 src/wx/dcp_panel.cc:191
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:225
+#: src/wx/config_dialog.cc:227
 msgid "Issuer"
 msgstr "Poskytovateľ"
 
@@ -822,24 +864,27 @@ msgstr "Súbor s kurzívou"
 msgid "Italic font"
 msgstr "Kurzíva (typ písma)"
 
-#: src/wx/dcp_panel.cc:678
-msgid "JPEG2000 bandwidth"
+#: src/wx/dcp_panel.cc:680
+#, fuzzy
+msgid ""
+"JPEG2000 bandwidth\n"
+"for newly-encoded data"
 msgstr "JPEG2000 bandwidth (šírka pásma)"
 
 #: src/wx/content_menu.cc:64
 msgid "Join"
 msgstr "Spojiť"
 
-#: src/wx/config_dialog.cc:1202
+#: src/wx/config_dialog.cc:1225
 msgid "KDM Email"
 msgstr "KDM Email"
 
-#: src/wx/kdm_output_panel.cc:36
+#: src/wx/kdm_output_panel.cc:38
 msgid "KDM type"
 msgstr "KDM Typ"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:74
 msgid "KDM|Timing"
 msgstr "Trvanie"
 
@@ -848,11 +893,11 @@ msgstr "Trvanie"
 msgid "Keep video and subtitles in sequence"
 msgstr "Nechať video v sekvencií"
 
-#: src/wx/dcp_panel.cc:129 src/wx/key_dialog.cc:28 src/wx/key_dialog.cc:30
+#: src/wx/dcp_panel.cc:130 src/wx/key_dialog.cc:28 src/wx/key_dialog.cc:30
 msgid "Key"
 msgstr "Kľúč"
 
-#: src/wx/config_dialog.cc:1015
+#: src/wx/config_dialog.cc:1014
 msgid "Keys"
 msgstr "Kľúče"
 
@@ -860,7 +905,7 @@ msgstr "Kľúče"
 msgid "Language"
 msgstr "Jazyk"
 
-#: src/wx/config_dialog.cc:857
+#: src/wx/config_dialog.cc:856
 msgid "Leaf"
 msgstr "Leaf"
 
@@ -868,7 +913,7 @@ msgstr "Leaf"
 msgid "Leaf common name"
 msgstr "Leaf common name"
 
-#: src/wx/config_dialog.cc:725
+#: src/wx/config_dialog.cc:724
 msgid "Leaf private key"
 msgstr "Leaf private key"
 
@@ -881,7 +926,7 @@ msgstr "Ľavý"
 msgid "Left eye"
 msgstr "Ľavý"
 
-#: src/wx/content_properties_dialog.cc:80
+#: src/wx/content_properties_dialog.cc:79
 msgid "Length"
 msgstr ""
 
@@ -893,40 +938,40 @@ msgstr ""
 msgid "Linearise input gamma curve for small values"
 msgstr "Linearizovať vstupnú gama krivku pre malé hodnoty"
 
-#: src/wx/config_dialog.cc:731
+#: src/wx/config_dialog.cc:730
 msgid "Load..."
 msgstr "Načítať..."
 
-#: src/wx/config_dialog.cc:1409
+#: src/wx/config_dialog.cc:1470
 msgid "Log"
 msgstr "Log"
-
-#: src/wx/config_dialog.cc:1406
-msgid "Log:"
-msgstr "Log:"
 
 #: src/wx/audio_dialog.cc:348
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
 
-#: src/wx/content_panel.cc:505
+#: src/wx/content_panel.cc:506
 msgid "MISSING: "
 msgstr "CHÝBAJÚCE:"
 
-#: src/wx/config_dialog.cc:1235
+#: src/wx/config_dialog.cc:1258
 msgid "Mail password"
 msgstr "Heslo k emailu"
 
-#: src/wx/config_dialog.cc:1231
+#: src/wx/config_dialog.cc:1254
 msgid "Mail user name"
 msgstr "Prihlasovacie meno na email"
+
+#: src/wx/hints_dialog.cc:55
+msgid "Make DCP anyway"
+msgstr ""
 
 #: src/wx/self_dkdm_dialog.cc:49
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Vytvoriť DKDM pre DCP-o-matic"
 
-#: src/wx/kdm_dialog.cc:44
+#: src/wx/kdm_dialog.cc:50 src/wx/kdm_dialog.cc:94
 msgid "Make KDMs"
 msgstr "Vytvoriť KDM"
 
@@ -942,12 +987,12 @@ msgstr "Konečný jas (napr. 14fl)"
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/wx/config_dialog.cc:1389
+#: src/wx/config_dialog.cc:1423
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximálna JPEG2000 šírka pásma (bandwidth)"
 
-#: src/wx/config_dialog.cc:444 src/wx/config_dialog.cc:1393
-#: src/wx/dcp_panel.cc:682
+#: src/wx/config_dialog.cc:446 src/wx/config_dialog.cc:1427
+#: src/wx/dcp_panel.cc:684
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
@@ -964,11 +1009,11 @@ msgstr "Presunúť vybrané časti obsahu skôr vo filme."
 msgid "Move the selected piece of content later in the film."
 msgstr "Presunúť vybrané časti obsahu neskôr vo filme."
 
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:93
 msgid "Move to start of reel"
 msgstr ""
 
-#: src/wx/video_panel.cc:374
+#: src/wx/video_panel.cc:375
 msgid "Multiple content selected"
 msgstr "Viacnásobný výber obsahu "
 
@@ -984,11 +1029,11 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Môj problém je"
 
-#: src/wx/content_panel.cc:509
+#: src/wx/content_panel.cc:510
 msgid "NEEDS KDM: "
 msgstr "POTREBNÉ KDM:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:71 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Názov"
 
@@ -1004,7 +1049,7 @@ msgstr "Je k dispozícií nová verzia DCP-o-matic."
 msgid "No DCP selected."
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:330
+#: src/wx/audio_mapping_view.cc:340
 #, c-format
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Žiadne audio nebude prenesený z kanálu %d do DCP kanálu %d."
@@ -1013,8 +1058,12 @@ msgstr "Žiadne audio nebude prenesený z kanálu %d do DCP kanálu %d."
 msgid "No content found in this folder."
 msgstr "Žiadny obsah v priečinku nebol nájdený."
 
-#: src/wx/dcp_panel.cc:761 src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
-#: src/wx/video_panel.cc:303
+#: src/wx/text_subtitle_appearance_dialog.cc:37
+msgid "No effect"
+msgstr ""
+
+#: src/wx/dcp_panel.cc:752 src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
+#: src/wx/video_panel.cc:304
 msgid "None"
 msgstr "Žiadny(e)"
 
@@ -1030,15 +1079,15 @@ msgstr "Normálne písmo"
 msgid "Notes"
 msgstr ""
 
-#: src/wx/audio_mapping_view.cc:156
+#: src/wx/audio_mapping_view.cc:165
 msgid "Off"
 msgstr "Vypnuté"
 
-#: src/wx/config_dialog.cc:1401
+#: src/wx/config_dialog.cc:1435
 msgid "Only servers encode"
 msgstr "Iba enkódovanie cez servery"
 
-#: src/wx/config_dialog.cc:1434
+#: src/wx/config_dialog.cc:1491
 msgid "Open console window"
 msgstr "Tvoriť okno s konzolou"
 
@@ -1058,27 +1107,28 @@ msgstr "Organizačná jednotka"
 msgid "Other trusted devices"
 msgstr "Iné dôveryhodné zariadenia"
 
-#: src/wx/config_dialog.cc:1219
+#: src/wx/config_dialog.cc:1242
 msgid "Outgoing mail server"
 msgstr "Server odchádzajúcej pošty"
 
-#: src/wx/text_subtitle_appearance_dialog.cc:37
+#: src/wx/text_subtitle_appearance_dialog.cc:41
 msgid "Outline"
 msgstr "Orámovanie"
 
-#: src/wx/text_subtitle_appearance_dialog.cc:41
-msgid "Outline colour"
+#: src/wx/text_subtitle_appearance_dialog.cc:49
+#, fuzzy
+msgid "Outline / shadow colour"
 msgstr "Umrissfarbe"
 
 #: src/wx/film_viewer.cc:69
 msgid "Outline content"
 msgstr "Farba orámovania"
 
-#: src/wx/kdm_dialog.cc:80 src/wx/self_dkdm_dialog.cc:66
+#: src/wx/kdm_dialog.cc:88 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Výstup"
 
-#: src/wx/config_dialog.cc:1124
+#: src/wx/config_dialog.cc:1147
 msgid "Password"
 msgstr "Heslo"
 
@@ -1090,12 +1140,12 @@ msgstr "Pauza"
 msgid "Peak"
 msgstr "Maximum"
 
-#: src/wx/audio_panel.cc:324
+#: src/wx/audio_panel.cc:328
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Maximum: %.2fdB"
 
-#: src/wx/audio_panel.cc:326 src/wx/audio_panel.cc:329
+#: src/wx/audio_panel.cc:330 src/wx/audio_panel.cc:333
 msgid "Peak: unknown"
 msgstr "Maximum: neznámy"
 
@@ -1103,7 +1153,7 @@ msgstr "Maximum: neznámy"
 msgid "Play"
 msgstr "Prehrať"
 
-#: src/wx/timing_panel.cc:110
+#: src/wx/timing_panel.cc:111
 msgid "Play length"
 msgstr "Dĺžka prehrávania"
 
@@ -1119,7 +1169,7 @@ msgstr ""
 msgid "Please wait; audio is being analysed..."
 msgstr "Prosím čakajte; zvuk sa analyzuje"
 
-#: src/wx/timing_panel.cc:89
+#: src/wx/timing_panel.cc:90
 msgid "Position"
 msgstr "Pozícia"
 
@@ -1127,7 +1177,7 @@ msgstr "Pozícia"
 msgid "Pre-release"
 msgstr "Predbežné vydanie"
 
-#: src/wx/dcp_panel.cc:759
+#: src/wx/dcp_panel.cc:750
 msgid "Processor"
 msgstr "Procesor"
 
@@ -1135,7 +1185,7 @@ msgstr "Procesor"
 msgid "Properties..."
 msgstr "Nastavenia..."
 
-#: src/wx/config_dialog.cc:1108
+#: src/wx/config_dialog.cc:1131
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -1159,8 +1209,11 @@ msgstr "Prístupnosť (napr. 12)"
 msgid "Re-examine..."
 msgstr "Znovu analyzovať..."
 
-#: src/wx/config_dialog.cc:738
-msgid "Re-make certificates and key..."
+#: src/wx/config_dialog.cc:737
+#, fuzzy
+msgid ""
+"Re-make certificates\n"
+"and key..."
 msgstr "Znovu vytvoriť kľúče a certifikáty..."
 
 #: src/wx/colour_conversion_editor.cc:99
@@ -1188,16 +1241,16 @@ msgstr "Červená farebnosť"
 msgid "Reel %d"
 msgstr "Reel %d"
 
-#: src/wx/dcp_panel.cc:144
+#: src/wx/dcp_panel.cc:145
 msgid "Reel length"
 msgstr "Dĺžka reelu"
 
-#: src/wx/dcp_panel.cc:139
+#: src/wx/dcp_panel.cc:140
 msgid "Reels"
 msgstr "Reels"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-#: src/wx/dcp_panel.cc:185
+#: src/wx/dcp_panel.cc:186
 #, fuzzy
 msgid "Reel|Custom"
 msgstr "Vlastný"
@@ -1207,12 +1260,12 @@ msgstr "Vlastný"
 msgid "Refer to existing DCP"
 msgstr "Odkázať na existujúce DCP"
 
-#: src/wx/config_dialog.cc:714 src/wx/content_menu.cc:70
-#: src/wx/content_panel.cc:89 src/wx/editable_list.h:88
+#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:70
+#: src/wx/content_panel.cc:89 src/wx/editable_list.h:84
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: src/wx/screens_panel.cc:65
+#: src/wx/screens_panel.cc:61
 msgid "Remove Cinema"
 msgstr "Odstrániť kino"
 
@@ -1240,11 +1293,11 @@ msgstr "Opakovať..."
 msgid "Report A Problem"
 msgstr "Nahlásiť problém"
 
-#: src/wx/config_dialog.cc:1267
+#: src/wx/config_dialog.cc:1290
 msgid "Reset to default subject and text"
 msgstr "Obnoviť predvolený predmet a text"
 
-#: src/wx/dcp_panel.cc:672
+#: src/wx/dcp_panel.cc:674
 msgid "Resolution"
 msgstr "Rozlíšenie"
 
@@ -1256,7 +1309,7 @@ msgstr "Pokračovať"
 msgid "Right"
 msgstr "Pravý"
 
-#: src/wx/audio_mapping_view.cc:338
+#: src/wx/audio_mapping_view.cc:348
 msgid "Right click to change gain."
 msgstr "Kliknite prvým tlačidlom aby ste zmenili hlasitosť."
 
@@ -1265,7 +1318,7 @@ msgstr "Kliknite prvým tlačidlom aby ste zmenili hlasitosť."
 msgid "Right eye"
 msgstr "Pravý"
 
-#: src/wx/config_dialog.cc:855
+#: src/wx/config_dialog.cc:854
 msgid "Root"
 msgstr "Root"
 
@@ -1273,11 +1326,11 @@ msgstr "Root"
 msgid "Root common name"
 msgstr "Root common name"
 
-#: src/wx/config_dialog.cc:1128
+#: src/wx/config_dialog.cc:1151
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (pre AAM a Doremi)"
 
-#: src/wx/config_dialog.cc:496 src/wx/dcp_panel.cc:189
+#: src/wx/config_dialog.cc:493 src/wx/dcp_panel.cc:190
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -1294,11 +1347,11 @@ msgstr ""
 msgid "Scale to"
 msgstr "Natiahnuť (scale) na"
 
-#: src/wx/kdm_dialog.cc:54
+#: src/wx/kdm_dialog.cc:66
 msgid "Screens"
 msgstr "Sály"
 
-#: src/wx/config_dialog.cc:618
+#: src/wx/config_dialog.cc:617
 msgid "Search network for servers"
 msgstr "Prehľadať sieť kvôli serverom"
 
@@ -1306,16 +1359,21 @@ msgstr "Prehľadať sieť kvôli serverom"
 msgid "Select CPL XML file"
 msgstr "Vybrať CPL XML súbor"
 
-#: src/wx/config_dialog.cc:773 src/wx/config_dialog.cc:820
-#: src/wx/config_dialog.cc:1054 src/wx/screen_dialog.cc:163
+#: src/wx/config_dialog.cc:772 src/wx/config_dialog.cc:819
+#: src/wx/config_dialog.cc:1056 src/wx/screen_dialog.cc:163
 msgid "Select Certificate File"
 msgstr "Vybrať súbor s certifikátom"
+
+#: src/wx/config_dialog.cc:1076
+#, fuzzy
+msgid "Select Chain File"
+msgstr "Vybrať súbor s kľúčom"
 
 #: src/wx/content_menu.cc:321
 msgid "Select KDM"
 msgstr "Vybrať KDM"
 
-#: src/wx/config_dialog.cc:940 src/wx/config_dialog.cc:974
+#: src/wx/config_dialog.cc:939 src/wx/config_dialog.cc:973
 msgid "Select Key File"
 msgstr "Vybrať súbor s kľúčom"
 
@@ -1323,11 +1381,11 @@ msgstr "Vybrať súbor s kľúčom"
 msgid "Select certificate file"
 msgstr "Select Certificate File"
 
-#: src/wx/config_dialog.cc:200
+#: src/wx/config_dialog.cc:202
 msgid "Select cinema and screen database file"
 msgstr ""
 
-#: src/wx/kdm_output_panel.cc:59
+#: src/wx/kdm_output_panel.cc:87
 msgid "Send by email"
 msgstr "Odoslať emailom"
 
@@ -1335,7 +1393,7 @@ msgstr "Odoslať emailom"
 msgid "Send logs"
 msgstr "Odoslať logy"
 
-#: src/wx/dolby_doremi_certificate_panel.cc:43
+#: src/wx/dolby_doremi_certificate_panel.cc:44
 msgid "Serial number"
 msgstr "Seriennummer"
 
@@ -1343,11 +1401,11 @@ msgstr "Seriennummer"
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/config_dialog.cc:605
+#: src/wx/config_dialog.cc:604
 msgid "Servers"
 msgstr "Servery"
 
-#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:119
+#: src/wx/timecode.cc:65 src/wx/timing_panel.cc:120
 msgid "Set"
 msgstr "Nastaviť"
 
@@ -1359,11 +1417,15 @@ msgstr "Nastaviť zo súboru..."
 msgid "Set from system font..."
 msgstr "Nastaviť zo systémového písma..."
 
-#: src/wx/config_dialog.cc:161
+#: src/wx/config_dialog.cc:163
 msgid "Set language"
 msgstr "Nastaviť jazyk"
 
-#: src/wx/dcp_panel.cc:768
+#: src/wx/text_subtitle_appearance_dialog.cc:45
+msgid "Shadow"
+msgstr ""
+
+#: src/wx/dcp_panel.cc:759
 msgid "Show audio..."
 msgstr "Zobraziť zvuk..."
 
@@ -1371,15 +1433,15 @@ msgstr "Zobraziť zvuk..."
 msgid "Show graph of audio levels..."
 msgstr "Zobraziť graf zvukových hladín..."
 
-#: src/wx/dcp_panel.cc:116
+#: src/wx/dcp_panel.cc:117
 msgid "Signed"
 msgstr "Podpísané"
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 msgid "Signing DCPs and KDMs"
 msgstr "Podpisovanie DCP a KDM"
 
-#: src/wx/dcp_panel.cc:182
+#: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Jeden reel"
 
@@ -1391,7 +1453,7 @@ msgstr "Vyhladzovanie"
 msgid "Snap"
 msgstr "Prichytenie k objektom"
 
-#: src/wx/dcp_panel.cc:183
+#: src/wx/dcp_panel.cc:184
 msgid "Split by video content"
 msgstr "Rozdelenie podľa obsahu videa"
 
@@ -1399,7 +1461,7 @@ msgstr "Rozdelenie podľa obsahu videa"
 msgid "Stable version "
 msgstr "Stabilná verzia"
 
-#: src/wx/dcp_panel.cc:155
+#: src/wx/dcp_panel.cc:156
 msgid "Standard"
 msgstr "Štandard"
 
@@ -1419,7 +1481,7 @@ msgstr "Stream"
 msgid "Studio (e.g. TCF)"
 msgstr "Štúdio (napr. TCF)"
 
-#: src/wx/config_dialog.cc:1239
+#: src/wx/config_dialog.cc:1262
 msgid "Subject"
 msgstr "Predmet"
 
@@ -1445,15 +1507,15 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:260
+#: src/wx/about_dialog.cc:268
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
-#: src/wx/config_dialog.cc:1091
+#: src/wx/config_dialog.cc:1114
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:1116
+#: src/wx/config_dialog.cc:1139
 msgid "Target path"
 msgstr "Cieľová cesta"
 
@@ -1469,7 +1531,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:315
+#: src/wx/about_dialog.cc:323
 msgid "Tested by"
 msgstr "Testované"
 
@@ -1486,7 +1548,7 @@ msgstr ""
 "Súbor(y) s obsahom nie sú rovnaké ako tie, ktoré chýbajú. Buď to skúste to "
 "znovu so správnymi súbormi, alebo odstráňte chýbajúci obsah."
 
-#: src/wx/hints_dialog.cc:198
+#: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
 msgstr "Žiadne upozornenie; všetko vyzerá dobre !"
 
@@ -1494,7 +1556,7 @@ msgstr "Žiadne upozornenie; všetko vyzerá dobre !"
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatok pamäte."
 
-#: src/wx/config_dialog.cc:781
+#: src/wx/config_dialog.cc:780
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -1508,11 +1570,11 @@ msgstr "Nenachádza sa tu platný CPL súbor."
 msgid "Threads"
 msgstr "Threads"
 
-#: src/wx/config_dialog.cc:194
+#: src/wx/config_dialog.cc:196
 msgid "Threads to use for encoding on this host"
 msgstr "Thready na použitie pre enkódovanie na tomto počítači."
 
-#: src/wx/config_dialog.cc:698 src/wx/screen_dialog.cc:101
+#: src/wx/config_dialog.cc:697 src/wx/screen_dialog.cc:101
 msgid "Thumbprint"
 msgstr "Odtlačok (Thumbprint)"
 
@@ -1529,7 +1591,7 @@ msgid "Timeline..."
 msgstr "Časová os..."
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:49
+#: src/wx/timing_panel.cc:50
 msgid "Timing|Timing"
 msgstr "Časovanie"
 
@@ -1537,23 +1599,23 @@ msgstr "Časovanie"
 msgid "Top"
 msgstr "Vrch"
 
-#: src/wx/about_dialog.cc:127
+#: src/wx/about_dialog.cc:128
 msgid "Translated by"
 msgstr "Preložil"
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:108
 msgid "Trim after current position"
 msgstr "Odseknúť po aktuálnej pozície"
 
-#: src/wx/timing_panel.cc:104
+#: src/wx/timing_panel.cc:105
 msgid "Trim from end"
 msgstr "Odseknúť z konca"
 
-#: src/wx/timing_panel.cc:98
+#: src/wx/timing_panel.cc:99
 msgid "Trim from start"
 msgstr "Odseknúť zo začiatku"
 
-#: src/wx/timing_panel.cc:101
+#: src/wx/timing_panel.cc:102
 msgid "Trim up to current position"
 msgstr "Orezať až do súčasnej pozície"
 
@@ -1562,7 +1624,7 @@ msgstr "Orezať až do súčasnej pozície"
 msgid "True peak is %.2fdB"
 msgstr "Skutočné maximum je %.2fdB"
 
-#: src/wx/audio_dialog.cc:97 src/wx/config_dialog.cc:690
+#: src/wx/audio_dialog.cc:97 src/wx/config_dialog.cc:689
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Typ"
@@ -1683,15 +1745,15 @@ msgstr "Hore"
 msgid "Update"
 msgstr "Update"
 
-#: src/wx/dcp_panel.cc:160
+#: src/wx/dcp_panel.cc:161
 msgid "Upload DCP to TMS after it is made"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:81
+#: src/wx/dcp_panel.cc:82
 msgid "Use ISDCF name"
 msgstr "Použiť ISDCF názov"
 
-#: src/wx/dcp_panel.cc:662
+#: src/wx/dcp_panel.cc:664
 msgid "Use best"
 msgstr "Použiť najlepšie"
 
@@ -1703,21 +1765,21 @@ msgstr "Použiť prednastavené"
 msgid "Use subtitles"
 msgstr "Použiť titulky"
 
-#: src/wx/config_dialog.cc:1120
+#: src/wx/config_dialog.cc:1143
 msgid "User name"
 msgstr "Používateľské meno"
 
-#: src/wx/content_properties_dialog.cc:74 src/wx/dcp_panel.cc:113
+#: src/wx/content_properties_dialog.cc:73 src/wx/dcp_panel.cc:114
 #: src/wx/timeline_labels_view.cc:38 src/wx/timeline_labels_view.cc:69
 #: src/wx/video_panel.cc:75
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/video_waveform_dialog.cc:35
+#: src/wx/video_waveform_dialog.cc:36
 msgid "Video Waveform"
 msgstr "Video Waveform"
 
-#: src/wx/timing_panel.cc:115
+#: src/wx/timing_panel.cc:116
 msgid "Video frame rate"
 msgstr "Počet snímok za sekundu (frame rate)"
 
@@ -1725,7 +1787,7 @@ msgstr "Počet snímok za sekundu (frame rate)"
 msgid "View..."
 msgstr "Zobraziť..."
 
-#: src/wx/config_dialog.cc:1417
+#: src/wx/config_dialog.cc:1474
 msgid "Warnings"
 msgstr "Varovania"
 
@@ -1737,11 +1799,11 @@ msgstr "Biely bod"
 msgid "White point adjustment"
 msgstr "Nastavenie bieleho bodu"
 
-#: src/wx/about_dialog.cc:133
+#: src/wx/about_dialog.cc:134
 msgid "With help from"
 msgstr "S pomocou"
 
-#: src/wx/kdm_output_panel.cc:46 src/wx/self_dkdm_dialog.cc:75
+#: src/wx/kdm_output_panel.cc:74 src/wx/self_dkdm_dialog.cc:75
 msgid "Write to"
 msgstr "Napísať"
 
@@ -1773,99 +1835,46 @@ msgstr "Konverzie z YUV na RGB"
 msgid "YUV to RGB matrix"
 msgstr "YUV na RGP matrix"
 
-#: src/wx/hints_dialog.cc:147
-msgid ""
-"You are set up for an Interop DCP at a frame rate which is not officially "
-"supported.  You are advised to make a SMPTE DCP instead."
-msgstr ""
-"Nastavili ste počet snímok za sekundu (frame rate), ktoré nie Interop DCP "
-"nepodporuje. Prosím, nastavte SMPTE DCP."
-
-#: src/wx/hints_dialog.cc:173
-msgid ""
-"You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
-"you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
-msgstr ""
-"Používate 3D obsah ale vaše DCP je nastavené ako 2D. Ak chcete DCP prehrať "
-"na 3D systéme (napr. Real-D, MasterImage, atď.), prestavte DCP na 3D."
-
-#: src/wx/hints_dialog.cc:160
-#, c-format
-msgid ""
-"You have %d files that look like they are VOB files from DVD. You should "
-"join them to ensure smooth joins between the files."
-msgstr ""
-"Máte %d súborov, ktoré vyzerajú ako by boli VOB súbory z DVD. Mali by ste "
-"ich spojiť, aby sa hladko menili."
-
-#: src/wx/hints_dialog.cc:99
-msgid ""
-"You have specified a font file which is larger than 640kB.  This is very "
-"likely to cause problems on playback."
-msgstr ""
-"Vybrali ste súbor s písmom, ktorý je väčší ako 640kB. Môže to spôsobiť "
-"problémy pri prehrávaní."
-
-#: src/wx/hints_dialog.cc:135
-#, c-format
-msgid ""
-"Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
-"projectors.  Use 24 or 48 frames per second to be on the safe side."
-msgstr ""
-"Váš počet obrázkov za sekundu (frame rate) (%d fps), ktorý ste nastavili, "
-"môže spôsobiť problémy na (hlavne starých) projektoroch. Použite 24 alebo 48 "
-"obrázkov za sekundu (frame rate)."
-
-#: src/wx/hints_dialog.cc:104
-msgid ""
-"Your DCP has fewer than 6 audio channels.  This may cause problems on some "
-"projectors."
-msgstr ""
-"Vaše DCP má menej ako 6 audio kanálov. Toto môže spôsobiť problémy pri "
-"prehrávaní."
-
-#: src/wx/hints_dialog.cc:189
-msgid ""
-"Your audio level is very close to clipping.  You should reduce the gain of "
-"your audio content."
-msgstr ""
-
-#: src/wx/hints_dialog.cc:185
-msgid ""
-"Your audio level is very high.  You should reduce the gain of your audio "
-"content."
-msgstr ""
+#: src/wx/video_waveform_dialog.cc:65
+#, fuzzy
+msgid "component value"
+msgstr "Súčasť"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
 msgstr "dB"
 
+#: src/wx/name_format_editor.cc:67
+#, c-format
+msgid "e.g. %s"
+msgstr ""
+
 #. // TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:81
+#: src/wx/timing_panel.cc:82
 msgid "f"
 msgstr "f"
 
 #. // TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:59
+#: src/wx/timing_panel.cc:60
 msgid "h"
 msgstr "h"
 
 #. // TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:67
+#: src/wx/timing_panel.cc:68
 msgid "m"
 msgstr "m"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:94 src/wx/config_dialog.cc:453
+#: src/wx/audio_panel.cc:94 src/wx/config_dialog.cc:455
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/config_dialog.cc:1224
+#: src/wx/config_dialog.cc:1247
 msgid "port"
 msgstr "port"
 
 #. // TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/config_dialog.cc:411 src/wx/timing_panel.cc:74
+#: src/wx/config_dialog.cc:413 src/wx/timing_panel.cc:75
 msgid "s"
 msgstr "s"
 
@@ -1889,8 +1898,81 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
-#~ msgid "Filename"
-#~ msgstr "Názov súboru"
+#~ msgid ""
+#~ "A few projectors have problems playing back very high bit-rate DCPs.  It "
+#~ "is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; "
+#~ "this is unlikely to have any visible effect on the image."
+#~ msgstr ""
+#~ "Pár projektorov majú problém prehrať veľmi vysoký bit rate DCP. Je dobré, "
+#~ "aby ste nastavili JPEG2000 bandwidth na okolo 200Mbit/s; nebude to mať "
+#~ "žiadnu viditeľnú stratu obrazu. "
+
+#~ msgid ""
+#~ "All of your content is at 1.85:1 or narrower but your DCP's container is "
+#~ "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
+#~ "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in "
+#~ "the \"DCP\" tab."
+#~ msgstr ""
+#~ "Všetok váš obsah je Flat (1.85:1) alebo menší, ale DCP kontajner je Scope "
+#~ "(2.39:1). Toto upraví váš obsah na Flat (1.85:1). Mali by ste prestaviť "
+#~ "DCP kontajner na Flat (1.85:1) v záložke \"DCP\"."
+
+#~ msgid ""
+#~ "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
+#~ "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) "
+#~ "frame.  You may prefer to set your DCP's container to Scope (2.39:1) in "
+#~ "the \"DCP\" tab."
+#~ msgstr ""
+#~ "Všetok váš obsah je Scope (2.39:1), ale DCP kontajner je Flat (1.85:1). "
+#~ "Toto upraví váš obsah na Flat (1.85:1). Mali by ste prestaviť DCP "
+#~ "kontajner na Scope (2:39:1) v záložke \"DCP\"."
+
+#~ msgid "Log:"
+#~ msgstr "Log:"
+
+#~ msgid ""
+#~ "You are set up for an Interop DCP at a frame rate which is not officially "
+#~ "supported.  You are advised to make a SMPTE DCP instead."
+#~ msgstr ""
+#~ "Nastavili ste počet snímok za sekundu (frame rate), ktoré nie Interop DCP "
+#~ "nepodporuje. Prosím, nastavte SMPTE DCP."
+
+#~ msgid ""
+#~ "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
+#~ "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
+#~ msgstr ""
+#~ "Používate 3D obsah ale vaše DCP je nastavené ako 2D. Ak chcete DCP "
+#~ "prehrať na 3D systéme (napr. Real-D, MasterImage, atď.), prestavte DCP na "
+#~ "3D."
+
+#~ msgid ""
+#~ "You have %d files that look like they are VOB files from DVD. You should "
+#~ "join them to ensure smooth joins between the files."
+#~ msgstr ""
+#~ "Máte %d súborov, ktoré vyzerajú ako by boli VOB súbory z DVD. Mali by ste "
+#~ "ich spojiť, aby sa hladko menili."
+
+#~ msgid ""
+#~ "You have specified a font file which is larger than 640kB.  This is very "
+#~ "likely to cause problems on playback."
+#~ msgstr ""
+#~ "Vybrali ste súbor s písmom, ktorý je väčší ako 640kB. Môže to spôsobiť "
+#~ "problémy pri prehrávaní."
+
+#~ msgid ""
+#~ "Your DCP frame rate (%d fps) may cause problems in a few (mostly older) "
+#~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
+#~ msgstr ""
+#~ "Váš počet obrázkov za sekundu (frame rate) (%d fps), ktorý ste nastavili, "
+#~ "môže spôsobiť problémy na (hlavne starých) projektoroch. Použite 24 alebo "
+#~ "48 obrázkov za sekundu (frame rate)."
+
+#~ msgid ""
+#~ "Your DCP has fewer than 6 audio channels.  This may cause problems on "
+#~ "some projectors."
+#~ msgstr ""
+#~ "Vaše DCP má menej ako 6 audio kanálov. Toto môže spôsobiť problémy pri "
+#~ "prehrávaní."
 
 #~ msgid "Server serial number"
 #~ msgstr "Sériové číslo servera"
