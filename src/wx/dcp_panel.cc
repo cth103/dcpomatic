@@ -677,7 +677,7 @@ DCPPanel::make_video_panel ()
 	++r;
 
 	{
-		add_label_to_sizer (grid, panel, _("JPEG2000 bandwidth"), true, wxGBPosition (r, 0));
+		add_label_to_sizer (grid, panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true, wxGBPosition (r, 0));
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 		_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
 		s->Add (_j2k_bandwidth, 1);
