@@ -384,7 +384,7 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 	*/
 	BOOST_FOREACH (DCPTimePeriod i, reels()) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
-			why_not.push_back (_("Reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'."));
+			why_not.push_back (_("The reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'."));
 			return false;
 		}
 	}
