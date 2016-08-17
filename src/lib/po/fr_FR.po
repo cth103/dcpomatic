@@ -22,35 +22,35 @@ msgstr ""
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "Cadence du contenu"
+msgstr "\nCadence du contenu %.4f\n"
 
 #: src/lib/video_content.cc:410
 #, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "Rognage de %1x%2"
+msgstr "\nRognage de %1x%2"
 
 #: src/lib/video_content.cc:403
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "Format d'affichage"
+msgstr "\nFormat d'affichage %.2f:1"
 
 #: src/lib/video_content.cc:434
 #, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "Ajout de bandes noires pour remplir le format image %1 (%2x%3)"
+msgstr "\nAjout de bandes noires pour remplir le format image %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
 #, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "Mis à l'échelle de %1x%2"
+msgstr "\nMis à l'échelle de %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
@@ -80,7 +80,7 @@ msgstr "%1 [vidéo]"
 #: src/lib/video_content.cc:398
 #, fuzzy, c-format
 msgid ", pixel aspect ratio %.2f:1"
-msgstr "ratio H L des pixels"
+msgstr ", ratio H L des pixels %.2f:1"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"

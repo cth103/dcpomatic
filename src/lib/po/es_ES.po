@@ -22,35 +22,35 @@ msgstr ""
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "Velocidad del contenido"
+msgstr "\nVelocidad del contenido %.4f\n"
 
 #: src/lib/video_content.cc:410
 #, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "Recortado a %1x%2"
+msgstr "\nRecortado a %1x%2"
 
 #: src/lib/video_content.cc:403
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "Proporción de aspecto mostrada"
+msgstr "\nProporción de aspecto mostrada %.2f:1"
 
 #: src/lib/video_content.cc:434
 #, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "Completado con negro para cubrir el contenedor %1 (%2x%3)"
+msgstr "\nCompletado con negro para cubrir el contenedor %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
 #, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "Redimensionado a %1x%2"
+msgstr "\nRedimensionado a %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
@@ -82,7 +82,7 @@ msgstr "%1 [película]"
 #: src/lib/video_content.cc:398
 #, fuzzy, c-format
 msgid ", pixel aspect ratio %.2f:1"
-msgstr "proporción de aspecto de pixel"
+msgstr ", proporción de aspecto de pixel %.2f:1"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"

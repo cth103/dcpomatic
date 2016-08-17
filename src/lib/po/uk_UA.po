@@ -20,35 +20,35 @@ msgstr ""
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "Частота кадрів контента:"
+msgstr "\nЧастота кадрів контента: %.4f\n"
 
 #: src/lib/video_content.cc:410
 #, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "Кадровано в %1x%2"
+msgstr "\nКадровано в %1x%2"
 
 #: src/lib/video_content.cc:403
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "Співвідношення сторін контенту:"
+msgstr "\nСпіввідношення сторін контенту: %.2f:1"
 
 #: src/lib/video_content.cc:434
 #, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "Заповнено чорним для підгонки контейнера %1 (%2x%3)"
+msgstr "\nЗаповнено чорним для підгонки контейнера %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
 #, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "Масштабовано до %1x%2"
+msgstr "\nМасштабовано до %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
@@ -78,7 +78,7 @@ msgstr "%1 [відео]"
 #: src/lib/video_content.cc:398
 #, fuzzy, c-format
 msgid ", pixel aspect ratio %.2f:1"
-msgstr "Співвідношення сторін пікселей"
+msgstr ", Співвідношення сторін пікселей %.2f:1"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"

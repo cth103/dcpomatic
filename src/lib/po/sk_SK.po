@@ -23,35 +23,35 @@ msgstr ""
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "Snímacia frekvencia obsahu"
+msgstr "\nSnímacia frekvencia obsahu %.4f\n"
 
 #: src/lib/video_content.cc:410
 #, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "Zmenšené na %1x%2"
+msgstr "\nZmenšené na %1x%2"
 
 #: src/lib/video_content.cc:403
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "Pomer strán displeja"
+msgstr "\nPomer strán displeja %.2f:1"
 
 #: src/lib/video_content.cc:434
 #, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "Vyplnené čiernou, aby sa zmestil do kontajnera %1 (%2x%3)"
+msgstr "\nVyplnené čiernou, aby sa zmestil do kontajnera %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
 #, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "Zmenšené na %1x%2"
+msgstr "\nZmenšené na %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
@@ -83,7 +83,7 @@ msgstr "%1 [video]"
 #: src/lib/video_content.cc:398
 #, fuzzy, c-format
 msgid ", pixel aspect ratio %.2f:1"
-msgstr "pomer strán obrazových bodov"
+msgstr ", pomer strán obrazových bodov %.2f:1"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"

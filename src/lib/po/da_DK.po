@@ -22,14 +22,14 @@ msgstr ""
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "Indholds billedhastighed"
+msgstr "\nIndholds billedhastighed %.4f\n"
 
 #: src/lib/video_content.cc:410
 #, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "Beskåret til %1x%2"
+msgstr "\nBeskåret til %1x%2"
 
 #: src/lib/video_content.cc:403
 #, c-format
@@ -43,14 +43,14 @@ msgstr ""
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "Udfyldt med sort for at tilpasse container %1 (%2x%3)"
+msgstr "\nUdfyldt med sort for at tilpasse container %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
 #, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "Skaleret til %1x%2"
+msgstr "\nSkaleret til %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
