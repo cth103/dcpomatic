@@ -151,6 +151,14 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	Bind (wxEVT_GRID_CELL_LEFT_CLICK, boost::bind (&AudioMappingView::left_click, this, _1));
 	Bind (wxEVT_GRID_CELL_RIGHT_CLICK, boost::bind (&AudioMappingView::right_click, this, _1));
 	_grid->GetGridWindow()->Bind (wxEVT_MOTION, boost::bind (&AudioMappingView::mouse_moved_grid, this, _1));
+	_grid->Bind (wxEVT_SCROLLWIN_TOP, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_BOTTOM, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_LINEUP, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_LINEDOWN, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_PAGEUP, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_PAGEDOWN, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind (&AudioMappingView::grid_scrolled, this));
+	_grid->Bind (wxEVT_SCROLLWIN_THUMBRELEASE, boost::bind (&AudioMappingView::grid_scrolled, this));
 	Bind (wxEVT_SIZE, boost::bind (&AudioMappingView::sized, this, _1));
 
 	_menu = new wxMenu;
@@ -376,6 +384,10 @@ AudioMappingView::paint_left_labels ()
 		return;
 	}
 
+	int sx, sy;
+	_grid->CalcUnscrolledPosition (0, 0, &sx, &sy);
+	gc->Translate (0, -sy);
+
 	wxSize const size = dc.GetSize();
 	int const half = size.GetWidth() / 2;
 
@@ -403,7 +415,7 @@ AudioMappingView::paint_left_labels ()
 		dc.DrawRotatedText (
 			j->name,
 			half + (half - label_height) / 2,
-			min (i->second, (i->second + i->first + label_width) / 2),
+			min (i->second, (i->second + i->first + label_width) / 2) - sy,
 			90
 			);
 
@@ -426,7 +438,7 @@ AudioMappingView::paint_left_labels ()
 	dc.DrawRotatedText (
 		_("Content"),
 		(half - overall_label_height) / 2,
-		min (size.GetHeight(), (size.GetHeight() + _grid->GetColLabelSize() + overall_label_width) / 2),
+		min (size.GetHeight(), (size.GetHeight() + _grid->GetColLabelSize() + overall_label_width) / 2 - sy),
 		90
 		);
 
@@ -446,6 +458,10 @@ AudioMappingView::paint_top_labels ()
 		return;
 	}
 
+	int sx, sy;
+	_grid->CalcUnscrolledPosition (0, 0, &sx, &sy);
+	gc->Translate (-sx, 0);
+
 	wxSize const size = dc.GetSize();
 
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
@@ -455,7 +471,7 @@ AudioMappingView::paint_top_labels ()
 	wxCoord label_height;
 	dc.GetTextExtent (_("DCP"), &label_width, &label_height);
 
-	dc.DrawText (_("DCP"), (size.GetWidth() + _grid->GetColSize(0) + LEFT_WIDTH - label_width) / 2, (size.GetHeight() - label_height) / 2);
+	dc.DrawText (_("DCP"), (size.GetWidth() + _grid->GetColSize(0) + LEFT_WIDTH - label_width) / 2 - sx, (size.GetHeight() - label_height) / 2);
 
 	gc->SetPen (wxPen (wxColour (0, 0, 0)));
 	wxGraphicsPath lines = gc->CreatePath();
@@ -496,4 +512,13 @@ AudioMappingView::mouse_moved_left_labels (wxMouseEvent& event)
 	if (!done) {
 		_left_labels->SetToolTip ("");
 	}
+}
+
+void
+AudioMappingView::grid_scrolled ()
+{
+	_left_labels->Refresh ();
+	_left_labels->Update ();
+	_top_labels->Refresh ();
+	_top_labels->Update ();
 }

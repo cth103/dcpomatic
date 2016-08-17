@@ -83,6 +83,7 @@ private:
 	void paint_top_labels ();
 	void mouse_moved_left_labels (wxMouseEvent &);
 	void setup_sizes ();
+	void grid_scrolled ();
 
 	void off ();
 	void full ();
