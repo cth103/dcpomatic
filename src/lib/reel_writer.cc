@@ -180,12 +180,13 @@ void
 ReelWriter::check_existing_picture_asset ()
 {
 	/* Try to open the existing asset */
-	FILE* asset_file = fopen_boost (_picture_asset->file(), "rb");
+	DCPOMATIC_ASSERT (_picture_asset->file());
+	FILE* asset_file = fopen_boost (_picture_asset->file().get(), "rb");
 	if (!asset_file) {
-		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file().string(), errno);
+		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file()->string(), errno);
 		return;
 	} else {
-		LOG_GENERAL ("Opened existing asset at %1", _picture_asset->file().string());
+		LOG_GENERAL ("Opened existing asset at %1", _picture_asset->file()->string());
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
@@ -268,7 +269,8 @@ ReelWriter::finish ()
 
 	/* Hard-link any video asset file into the DCP */
 	if (_picture_asset) {
-		boost::filesystem::path video_from = _picture_asset->file ();
+		DCPOMATIC_ASSERT (_picture_asset->file());
+		boost::filesystem::path video_from = _picture_asset->file().get();
 		boost::filesystem::path video_to;
 		video_to /= _film->dir (_film->dcp_name());
 		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);

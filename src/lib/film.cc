@@ -955,12 +955,13 @@ Film::cpls () const
 			try {
 				dcp::DCP dcp (*i);
 				dcp.read ();
+				DCPOMATIC_ASSERT (dcp.cpls().front()->file());
 				out.push_back (
 					CPLSummary (
 						i->path().leaf().string(),
 						dcp.cpls().front()->id(),
 						dcp.cpls().front()->annotation_text(),
-						dcp.cpls().front()->file()
+						dcp.cpls().front()->file().get()
 						)
 					);
 			} catch (...) {
