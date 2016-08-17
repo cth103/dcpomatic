@@ -360,7 +360,7 @@ AudioMappingView::setup_sizes ()
 	_grid->AutoSize ();
 	_left_labels->SetMinSize (wxSize (LEFT_WIDTH, _grid->GetSize().GetHeight()));
 	_top_labels->SetMinSize (wxSize (_grid->GetSize().GetWidth() + LEFT_WIDTH, top_height));
-	/* Try to make the _top_labels 'actua' size respect the minimum we just set */
+	/* Try to make the _top_labels 'actual' size respect the minimum we just set */
 	_top_labels->Fit ();
 	_left_labels->Refresh ();
 	_top_labels->Refresh ();
