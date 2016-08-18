@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-08-14 20:57+0800\n"
+"PO-Revision-Date: 2016-08-19 02:12+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
@@ -20,44 +20,51 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/lib/video_content.cc:446
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "\n源视频帧率 %.4f\n"
+msgstr ""
+"\n"
+"源视频帧速率 %.4f\n"
 
 #: src/lib/video_content.cc:410
-#, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "\n裁剪为%1x%2"
+msgstr ""
+"\n"
+"裁剪为%1x%2"
 
 #: src/lib/video_content.cc:403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "\n显示宽高比 %.2f:1"
+msgstr ""
+"\n"
+"显示宽高比 %.2f:1"
 
 #: src/lib/video_content.cc:434
-#, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "\n填充为黑色，以适应打包类型 %1 (%2x%3)"
+msgstr ""
+"\n"
+"填充为黑色，以适应打包宽高比 %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "\n缩放到 %1x%2"
+msgstr ""
+"\n"
+"缩放到 %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
 msgid " (%.2f:1)"
-msgstr ""
+msgstr " (%.2f:1)"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -80,7 +87,7 @@ msgid "%1 [video]"
 msgstr "%1 [视频]"
 
 #: src/lib/video_content.cc:398
-#, fuzzy, c-format
+#, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", 像素宽高比 %.2f:1"
 
@@ -114,10 +121,12 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"有些放映机不支持高码率打包,我们推荐使用200Mbit/s以内的码率来进行打包，这种细"
+"微的调整是肉眼很难分辨的！"
 
 #: src/lib/ffmpeg_content.cc:545
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr ""
+msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
 #: src/lib/ratio.cc:38
 msgid "Academy"
@@ -133,7 +142,7 @@ msgid ""
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
-msgstr ""
+msgstr "遮幅(1.85：1)左右去黑边。"
 
 #: src/lib/hints.cc:87
 msgid ""
@@ -141,7 +150,7 @@ msgid ""
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
-msgstr ""
+msgstr "宽幅(2.39：1)上下去黑边。"
 
 #: src/lib/job.cc:99
 msgid "An error occurred whilst handling the file %1."
@@ -270,12 +279,11 @@ msgstr "色彩空间"
 
 #: src/lib/content.cc:158
 msgid "Computing digest"
-msgstr "计算Hash"
+msgstr "计算Hash值中"
 
 #: src/lib/writer.cc:467
-#, fuzzy
 msgid "Computing digests"
-msgstr "计算Hash"
+msgstr "计算Hash值中"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -339,7 +347,7 @@ msgstr "字幕X轴偏移必须相同。"
 
 #: src/lib/subtitle_content.cc:184
 msgid "Content to be joined must have the same subtitle X scale."
-msgstr "字幕X调整大小必须相同。"
+msgstr "字幕X轴缩放大小必须相同。"
 
 #: src/lib/subtitle_content.cc:180
 msgid "Content to be joined must have the same subtitle Y offset."
@@ -347,12 +355,11 @@ msgstr "字幕Y轴偏移必须相同。"
 
 #: src/lib/subtitle_content.cc:188
 msgid "Content to be joined must have the same subtitle Y scale."
-msgstr "字幕Y调整大小必须相同。"
+msgstr "字幕Y轴缩放大小必须相同。"
 
 #: src/lib/subtitle_content.cc:196
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
-msgstr "字幕X调整大小必须相同。"
+msgstr "字幕淡入淡出效果必须相同。"
 
 #: src/lib/subtitle_content.cc:192
 msgid "Content to be joined must have the same subtitle line spacing."
@@ -368,7 +375,7 @@ msgstr "帧类型必须相同。"
 
 #: src/lib/subtitle_content.cc:201 src/lib/subtitle_content.cc:209
 msgid "Content to be joined must use the same fonts."
-msgstr "字体必须相同。"
+msgstr "字幕字体必须相同。"
 
 #: src/lib/ffmpeg_content.cc:166
 msgid "Content to be joined must use the same subtitle stream."
@@ -380,7 +387,7 @@ msgstr "源视频分辨率是 %1x%2"
 
 #: src/lib/upload_job.cc:53
 msgid "Copy DCP to TMS"
-msgstr "复制DCP到TMS"
+msgstr "复制DCP到TMS（影院内容管理系统）"
 
 #: src/lib/scp_uploader.cc:51
 msgid "Could not connect to server %1 (%2)"
@@ -711,7 +718,7 @@ msgstr "次低"
 
 #: src/lib/util.cc:494
 msgid "Lfe (sub)"
-msgstr "次低"
+msgstr "次低（重低音炮）"
 
 #: src/lib/ffmpeg_content.cc:497
 msgid "Limited"
@@ -982,23 +989,22 @@ msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际类型是 Interop。"
 
 #: src/lib/dcp_content.cc:387
-#, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
-msgstr "请设置分卷模式来分割影片内容。"
+msgstr "卷中的影片时长与DCP中的影片时长不一致，请设置分卷模式来分割影片内容。"
 
 #: src/lib/dcp_content.cc:418
 msgid "There is other audio content overlapping this DCP; remove it."
-msgstr "音频文件重复，"
+msgstr "音频文件重复，请删除重复项"
 
 #: src/lib/dcp_content.cc:432
 msgid "There is other subtitle content overlapping this DCP; remove it."
-msgstr "字幕文件重复！"
+msgstr "字幕文件重复，请删除重复项"
 
 #: src/lib/dcp_content.cc:404
 msgid "There is other video content overlapping this DCP; remove it."
-msgstr "视频文件重复！"
+msgstr "视频文件重复，请删除重复项"
 
 #: src/lib/job.cc:154
 msgid ""
@@ -1101,24 +1107,28 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"你所设定的视频帧速率不是国际化（SMPTE）标准支持的，我们建议您制作SMPTE标准的"
+"DCP"
 
 #: src/lib/hints.cc:125
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
-msgstr ""
+msgstr "您添加的内容是3D内容，但是您的DCP包设置为2D模式，请设置到3D模式。"
 
 #: src/lib/hints.cc:114
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
+"否则可能无法正常播放。"
 
 #: src/lib/hints.cc:66
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
-msgstr ""
+msgstr "您添加的字体文件超过了640KB，很有可能不能正常播放。"
 
 #: src/lib/film.cc:309
 msgid "You must add some content to the DCP before creating it"
@@ -1129,24 +1139,26 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"您的DCP帧速率（%1 fps）会使一部分投影机出现错误，请使用24 fps或者48 fps保证正"
+"常放映。"
 
 #: src/lib/hints.cc:70
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
-msgstr ""
+msgstr "您的DCP声道数小于6个，在小部分放映机上可能不能正常播放。"
 
 #: src/lib/hints.cc:137
 msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
-msgstr ""
+msgstr "您的音量已经接近上限，请降低音频增益防止爆音。"
 
 #: src/lib/hints.cc:135
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
-msgstr ""
+msgstr "您的音频增益过大，请降低音频增益。"
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"

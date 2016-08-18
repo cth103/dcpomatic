@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-08-14 20:57+0800\n"
+"PO-Revision-Date: 2016-08-19 02:20+0800\n"
 "Last-Translator: Rov(若文)\n"
 "Language-Team: Rov(若文) <lojy2009@qq.com>\n"
 "Language: zh\n"
@@ -225,7 +225,7 @@ msgstr "取消"
 
 #: src/tools/dcpomatic.cc:864 src/tools/dcpomatic_batch.cc:75
 msgid "Encoding servers..."
-msgstr "编码服务器..."
+msgstr "查看编码服务器..."
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
@@ -244,7 +244,7 @@ msgstr "提示..."
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:146
 msgid "KDM|Timing"
-msgstr ""
+msgstr "时长调整"
 
 #: src/tools/dcpomatic.cc:856
 msgid "Make &KDMs...\tCtrl-K"
@@ -344,7 +344,7 @@ msgstr "目录 %1 已经存在且不为空。确定要使用它？"
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
-msgstr ""
+msgstr "现有配置文件损坏，系统将会使用默认的配置文件，请稍候。"
 
 #: src/tools/dcpomatic.cc:942
 msgid "There are no new versions of DCP-o-matic available."
