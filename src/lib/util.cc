@@ -422,7 +422,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	while (i < int64_t (files.size()) && to_do > 0) {
 		FILE* f = fopen_boost (files[i], "rb");
 		if (!f) {
-			throw OpenFileError (files[i].string());
+			throw OpenFileError (files[i].string(), errno);
 		}
 
 		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
@@ -442,7 +442,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	while (i >= 0 && to_do > 0) {
 		FILE* f = fopen_boost (files[i], "rb");
 		if (!f) {
-			throw OpenFileError (files[i].string());
+			throw OpenFileError (files[i].string(), errno);
 		}
 
 		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));

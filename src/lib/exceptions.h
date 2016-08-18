@@ -96,19 +96,8 @@ class OpenFileError : public FileError
 {
 public:
 	/** @param f File that we were trying to open */
-	OpenFileError (boost::filesystem::path f);
+	OpenFileError (boost::filesystem::path f, int error);
 };
-
-/** @class CreateFileError.
- *  @brief Indicates that some error occurred when trying to create a file.
- */
-class CreateFileError : public FileError
-{
-public:
-	/** @param f File that we were trying to create */
-	CreateFileError (boost::filesystem::path f);
-};
-
 
 /** @class ReadFileError.
  *  @brief Indicates that some error occurred when trying to read from a file

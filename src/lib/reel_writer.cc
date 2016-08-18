@@ -134,7 +134,7 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 		file = fopen_boost (info_file, "wb");
 	}
 	if (!file) {
-		throw OpenFileError (info_file);
+		throw OpenFileError (info_file, errno);
 	}
 	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
 	fwrite (&info.offset, sizeof (info.offset), 1, file);
