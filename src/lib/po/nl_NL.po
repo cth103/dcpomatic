@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-07-03 02:37+0200\n"
+"PO-Revision-Date: 2016-08-18 03:45+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -19,44 +19,51 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:446
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "\nContent frame rate %.4f\n"
+msgstr ""
+"\n"
+"Content frame rate %.4f\n"
 
 #: src/lib/video_content.cc:410
-#, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "\nBijgesneden naar %1x%2"
+msgstr ""
+"\n"
+"Bijgesneden naar %1x%2"
 
 #: src/lib/video_content.cc:403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "\nWeergave-beeldverhouding %.2f:1"
+msgstr ""
+"\n"
+"Weergave-beeldverhouding %.2f:1"
 
 #: src/lib/video_content.cc:434
-#, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "\nOpgevuld met zwart om in container %1 (%2x%3) te passen"
+msgstr ""
+"\n"
+"Opgevuld met zwart om in container %1 (%2x%3) te passen"
 
 #: src/lib/video_content.cc:424
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "\nGeschaald naar %1x%2"
+msgstr ""
+"\n"
+"Geschaald naar %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
 msgid " (%.2f:1)"
-msgstr ""
+msgstr " (%.2f:1)"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -79,7 +86,7 @@ msgid "%1 [video]"
 msgstr "%1 [video]"
 
 #: src/lib/video_content.cc:398
-#, fuzzy, c-format
+#, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", pixel-beeldverhouding %.2f:1"
 
@@ -113,10 +120,14 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"Sommige projectoren hebben afspeelproblemen met DCP's met een hele hoge bit-"
+"rate.  Het is verstandig om de JPEG2000-bandbreedte tot ongeveer 200Mbit/s "
+"terug te brengen; dit heeft vrijwel zeker geen zichtbaar effect op de "
+"beeldkwaliteit."
 
 #: src/lib/ffmpeg_content.cc:545
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr ""
+msgstr "ARIB STD-B67 ('Hybrid Log-Gamma')"
 
 #: src/lib/ratio.cc:38
 msgid "Academy"
@@ -133,6 +144,10 @@ msgid ""
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
 msgstr ""
+"Al uw content is in 1,85:1 of smaller, maar uw DCP-container is Scope "
+"(2,39:1).  Dit heeft tot gevolg dat er links en rechts van het beeld zwarte "
+"balken zullen komen.  Mogelijk wilt u de DCP-container op Flat (1,85:1) "
+"instellen bij de DCP-instellingen."
 
 #: src/lib/hints.cc:87
 msgid ""
@@ -141,6 +156,10 @@ msgid ""
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
+"Al uw content is in Scope (2,39:1) of platter, maar uw DCP-container is Flat "
+"(1,85:1).  Dit heeft tot gevolg dat er onder en boven het beeld zwarte "
+"balken zullen komen.  Mogelijk wilt u de DCP-container op Scope (2,39:1) "
+"instellen bij de DCP-instellingen."
 
 #: src/lib/job.cc:99
 msgid "An error occurred whilst handling the file %1."
@@ -272,9 +291,8 @@ msgid "Computing digest"
 msgstr "Berekenen digest"
 
 #: src/lib/writer.cc:467
-#, fuzzy
 msgid "Computing digests"
-msgstr "Berekenen digest"
+msgstr "Berekenen digests"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -361,9 +379,9 @@ msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Samen te voegen content moet dezelfde ondertitel Y-schaling hebben."
 
 #: src/lib/subtitle_content.cc:196
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
-msgstr "Samen te voegen content moet dezelfde ondertitel X-schaling hebben."
+msgstr ""
+"Samen te voegen content moet dezelfde ondertitel fade-instelling hebben."
 
 #: src/lib/subtitle_content.cc:192
 msgid "Content to be joined must have the same subtitle line spacing."
@@ -1008,13 +1026,12 @@ msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "De film is ingesteld op SMPTE en deze DCP is Interop."
 
 #: src/lib/dcp_content.cc:387
-#, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
-"Reel-lengtes in de film en die in de DCP verschillen; stel de reel-mode in "
-"op 'splits per video-content'."
+"De reel-lengtes in de film en die in de DCP verschillen; stel de reel-mode "
+"in op 'splits per video-content'."
 
 #: src/lib/dcp_content.cc:418
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1138,24 +1155,33 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"U heeft een Interop-DCP ingesteld met een frame rate die niet officieel "
+"ondersteund wordt.  U wordt geadviseerd om in plaats hiervan een SMPTE-DCP "
+"te maken."
 
 #: src/lib/hints.cc:125
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
+"U gebruikt 3D-content, maar uw DCP is op 2D ingesteld.  Stel de DCP in op 3D "
+"als u hem wilt afspelen op een 3D-systeem (bv. Real-D, MasterImage etc.)"
 
 #: src/lib/hints.cc:114
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"U heeft %d bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
+"deze beter samenvoegen om van soepele aansluitingen verzekerd te zijn."
 
 #: src/lib/hints.cc:66
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
+"U heeft een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
+"zal zeer waarschijnlijk problemen bij het afspelen geven."
 
 #: src/lib/film.cc:309
 msgid "You must add some content to the DCP before creating it"
@@ -1166,24 +1192,32 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"Uw DCP frame rate (%d fps) kan problemen veroorzaken met sommige (oudere) "
+"projectoren.  Gebruik 24 of 48 frames per seconde voor zekerheid."
 
 #: src/lib/hints.cc:70
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
+"Uw DCP heeft minder dan 6 audio-kanalen.  Dit kan problemen veroorzaken met "
+"sommige installaties."
 
 #: src/lib/hints.cc:137
 msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
 msgstr ""
+"Uw audio-niveau zit tegen clipping aan.  U kunt beter de versterking van uw "
+"audio-content verminderen."
 
 #: src/lib/hints.cc:135
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
 msgstr ""
+"Uw audio-niveau is zeer hoog.  U kunt beter de versterking van uw audio-"
+"content verminderen."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"

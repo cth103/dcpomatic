@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-07-03 22:42+0200\n"
+"PO-Revision-Date: 2016-08-18 04:52+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -46,11 +46,11 @@ msgstr "-6dB"
 
 #: src/wx/wx_util.cc:377
 msgid "12 - 7.1/HI/VI"
-msgstr ""
+msgstr "12 - 7.1/HI/VI"
 
 #: src/wx/wx_util.cc:369
 msgid "2 - stereo"
-msgstr ""
+msgstr "2 - Stereo"
 
 #: src/wx/rgba_colour_picker.cc:36
 msgid "255"
@@ -94,7 +94,7 @@ msgstr "3D boven/onder"
 
 #: src/wx/wx_util.cc:371
 msgid "4 - L/C/R/Lfe"
-msgstr ""
+msgstr "4 - L/C/R/Lfe"
 
 #: src/wx/dcp_panel.cc:713
 msgid "4K"
@@ -102,11 +102,11 @@ msgstr "4K"
 
 #: src/wx/wx_util.cc:373
 msgid "6 - 5.1"
-msgstr ""
+msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:375
 msgid "8 - 5.1/HI/VI"
-msgstr ""
+msgstr "8 - 5.1/HI/VI"
 
 #: src/wx/image_subtitle_colour_dialog.cc:41
 msgid "<b>New colour</b>"
@@ -214,7 +214,7 @@ msgstr "Alpha   0"
 
 #: src/wx/kdm_dialog.cc:166
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "Er is een onbekende uitzondering opgetreden."
 
 #: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
@@ -310,7 +310,7 @@ msgstr "CPL annotatie-tekst"
 
 #: src/wx/kdm_dialog.cc:162
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "De inhoud van de CPL is niet versleuteld."
 
 #: src/wx/audio_panel.cc:78
 msgid "Calculate..."
@@ -477,7 +477,7 @@ msgstr "DCP"
 
 #: src/wx/config_dialog.cc:1452
 msgid "DCP asset filename format"
-msgstr ""
+msgstr "DCP asset bestandsnaam-formaat"
 
 #: src/wx/kdm_cpl_panel.cc:44
 msgid "DCP directory"
@@ -485,7 +485,7 @@ msgstr "DCP-map"
 
 #: src/wx/config_dialog.cc:1440
 msgid "DCP metadata filename format"
-msgstr ""
+msgstr "DCP metadata bestandsnaam-formaat"
 
 #: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
 #: src/wx/wx_util.cc:110
@@ -566,7 +566,7 @@ msgstr "Dolby / Doremi"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
-msgstr ""
+msgstr "Laat geen hints meer zien"
 
 #: src/wx/content_panel.cc:97
 msgid "Down"
@@ -639,18 +639,20 @@ msgid "Export"
 msgstr "Exporteer"
 
 #: src/wx/config_dialog.cc:1044
-#, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "certificate..."
-msgstr "Exporteer DCP-ontsleutelings-certificaat..."
+msgstr ""
+"Exporteer DCP-\n"
+"ontsleutelings-certificaat..."
 
 #: src/wx/config_dialog.cc:1046
-#, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "chain..."
-msgstr "Exporteer DCP-ontsleutelings-certificaat..."
+msgstr ""
+"Exporteer DCP-\n"
+"ontsleutelings-keten..."
 
 #: src/wx/config_dialog.cc:732
 msgid "Export..."
@@ -669,23 +671,20 @@ msgid "Fade in"
 msgstr "Fade in"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:53
-#, fuzzy
 msgid "Fade in time"
-msgstr "Fade in"
+msgstr "Fade in tijd"
 
 #: src/wx/video_panel.cc:159
 msgid "Fade out"
 msgstr "Fade out"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:57
-#, fuzzy
 msgid "Fade out time"
-msgstr "Fade out"
+msgstr "Fade out tijd"
 
 #: src/wx/kdm_output_panel.cc:50
-#, fuzzy
 msgid "Filename format"
-msgstr "Frame rate"
+msgstr "Bestandsnaam-formaat"
 
 #: src/wx/new_film_dialog.cc:38
 msgid "Film name"
@@ -770,7 +769,7 @@ msgstr "Haal uit bestand..."
 
 #: src/wx/hints_dialog.cc:56
 msgid "Go back"
-msgstr ""
+msgstr "Ga terug"
 
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:30
@@ -822,9 +821,8 @@ msgid "ISDCF name"
 msgstr "ISDCF-naam"
 
 #: src/wx/video_waveform_dialog.cc:61
-#, fuzzy
 msgid "Image X position"
-msgstr "Wegknippen vanaf huidige positie"
+msgstr "Beeld X-positie"
 
 #: src/wx/colour_conversion_editor.cc:55
 msgid "Input gamma"
@@ -868,11 +866,12 @@ msgid "Italic font"
 msgstr "Cursief lettertype"
 
 #: src/wx/dcp_panel.cc:680
-#, fuzzy
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
-msgstr "JPEG2000-bandbreedte"
+msgstr ""
+"JPEG2000-bandbreedte\n"
+"voor nieuw-geëncodeerde data"
 
 #: src/wx/content_menu.cc:64
 msgid "Join"
@@ -966,7 +965,7 @@ msgstr "Mail-gebruikersnaam"
 
 #: src/wx/hints_dialog.cc:55
 msgid "Make DCP anyway"
-msgstr ""
+msgstr "Maak DCP toch"
 
 #: src/wx/self_dkdm_dialog.cc:49
 msgid "Make DKDM for DCP-o-matic"
@@ -1033,7 +1032,8 @@ msgstr "Mijn probleem is"
 msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Naam"
 
@@ -1062,7 +1062,7 @@ msgstr "Geen content gevonden in deze map."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:37
 msgid "No effect"
-msgstr ""
+msgstr "Geen effect"
 
 #: src/wx/dcp_panel.cc:752 src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:304
@@ -1118,9 +1118,8 @@ msgid "Outline"
 msgstr "Omlijn"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:49
-#, fuzzy
 msgid "Outline / shadow colour"
-msgstr "Omlijnings-kleur"
+msgstr "Omlijnings- / schaduwkleur"
 
 #: src/wx/film_viewer.cc:69
 msgid "Outline content"
@@ -1212,11 +1211,12 @@ msgid "Re-examine..."
 msgstr "Onderzoek opnieuw.."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid ""
 "Re-make certificates\n"
 "and key..."
-msgstr "Maak certificaten en sleutel opnieuw..."
+msgstr ""
+"Maak certificaten\n"
+"en sleutel opnieuw..."
 
 #: src/wx/colour_conversion_editor.cc:99
 msgid "Rec. 601"
@@ -1365,9 +1365,8 @@ msgid "Select Certificate File"
 msgstr "Selecteer Certificaat-bestand"
 
 #: src/wx/config_dialog.cc:1076
-#, fuzzy
 msgid "Select Chain File"
-msgstr "Selecteer sleutel-bestand"
+msgstr "Selecteer Keten-Bestand"
 
 #: src/wx/content_menu.cc:321
 msgid "Select KDM"
@@ -1423,7 +1422,7 @@ msgstr "Stel taal in"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:45
 msgid "Shadow"
-msgstr ""
+msgstr "Schaduw"
 
 #: src/wx/dcp_panel.cc:759
 msgid "Show audio..."
@@ -1838,9 +1837,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV naar RGB matrix"
 
 #: src/wx/video_waveform_dialog.cc:65
-#, fuzzy
 msgid "component value"
-msgstr "Component"
+msgstr "componentwaarde"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
@@ -1849,7 +1847,7 @@ msgstr "dB"
 #: src/wx/name_format_editor.cc:67
 #, c-format
 msgid "e.g. %s"
-msgstr ""
+msgstr "bv. %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:82
