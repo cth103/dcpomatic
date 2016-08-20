@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-08-18 03:45+0200\n"
+"PO-Revision-Date: 2016-08-19 02:23+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -418,15 +418,15 @@ msgstr "Kan geen verbinding maken met server %1 (%2)"
 
 #: src/lib/scp_uploader.cc:88
 msgid "Could not create remote directory %1 (%2)"
-msgstr "Kan externe map %1 (%2) niet aanmaken"
+msgstr "Kan externe map %1 niet aanmaken (%2)"
 
 #: src/lib/image_examiner.cc:64
 msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "Kan JPEG2000-bestand %1 (%2) niet decoderen"
+msgstr "Kan JPEG2000-bestand %1 niet decoderen (%2)"
 
 #: src/lib/magick_image_proxy.cc:102
 msgid "Could not decode image file (%1)"
-msgstr "Kan beeldbestand %1 (%2) niet decoderen"
+msgstr "Kan beeldbestand niet decoderen (%1)"
 
 #: src/lib/ffmpeg_examiner.cc:389
 msgid "Could not find pixel format for video."
@@ -1172,7 +1172,7 @@ msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"U heeft %d bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
+"U heeft %1 bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
 "deze beter samenvoegen om van soepele aansluitingen verzekerd te zijn."
 
 #: src/lib/hints.cc:66
@@ -1192,7 +1192,7 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
-"Uw DCP frame rate (%d fps) kan problemen veroorzaken met sommige (oudere) "
+"Uw DCP frame rate (%1 fps) kan problemen veroorzaken met sommige (oudere) "
 "projectoren.  Gebruik 24 of 48 frames per seconde voor zekerheid."
 
 #: src/lib/hints.cc:70
@@ -1351,15 +1351,3 @@ msgstr "onbekend"
 #: src/lib/video_content.cc:459
 msgid "video frames"
 msgstr "video frames"
-
-#~ msgid "Computing audio digest"
-#~ msgstr "Berekenen audio-digest"
-
-#~ msgid "Computing image digest"
-#~ msgstr "Berekenen beeld-digest"
-
-#~ msgid "fps"
-#~ msgstr "fps"
-
-#~ msgid "frames"
-#~ msgstr "frames"

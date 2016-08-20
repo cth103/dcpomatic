@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-08-18 04:02+0200\n"
+"PO-Revision-Date: 2016-08-19 02:34+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -149,7 +149,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:481
 #, c-format
 msgid "Bad setting for %s (%s)"
-msgstr "Verkeerde instelling voor  %s (%s)"
+msgstr "Verkeerde instelling voor %s (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:157
 msgid "CPL"
@@ -173,7 +173,7 @@ msgstr "Kan Batch Converter niet vinden."
 
 #: src/tools/dcpomatic.cc:1053 src/tools/dcpomatic_batch.cc:327
 msgid "Could not load film %1 (%2)"
-msgstr "Kan film %1 (%2) niet laden"
+msgstr "Kan film %1 niet laden (%2)"
 
 #: src/tools/dcpomatic.cc:483
 #, c-format
@@ -183,7 +183,7 @@ msgstr "Kan DCP niet maken: %s"
 #: src/tools/dcpomatic.cc:312 src/tools/dcpomatic_batch.cc:137
 #, c-format
 msgid "Could not open film at %s (%s)"
-msgstr "Kan film niet openen op  %s (%s)"
+msgstr "Kan film niet openen op %s (%s)"
 
 #: src/tools/dcpomatic.cc:646
 msgid "Could not show DCP"
@@ -334,8 +334,9 @@ msgid ""
 "The DCP for this film will take up about %.1f Gb, and the disk that you are "
 "using only has %.1f Gb available.  Do you want to continue anyway?"
 msgstr ""
-"De DCP voor deze film zal ongeveer %.1f GB in beslag nemen, er is echter "
-"maar %.1f GB beschikbaar.  Wilt u toch doorgaan?"
+"De DCP voor deze film zal ongeveer %.1f GB in beslag nemen, en de harde "
+"schijf die gebruikt wordt heeft maar %.1f GB beschikbaar.  Wilt u toch "
+"doorgaan?"
 
 #: src/tools/dcpomatic.cc:940
 msgid "The DCP-o-matic download server could not be contacted."
