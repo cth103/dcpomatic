@@ -24,6 +24,7 @@
 #include <sub/subtitle.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 
 using std::list;
@@ -64,6 +65,16 @@ SubtitleDecoder::give_image (ContentTimePeriod period, shared_ptr<Image> image, 
 void
 SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
 {
+	/* We must escape < and > in strings, otherwise they might confuse our subtitle
+	   renderer (which uses some HTML-esque markup to do bold/italic etc.)
+	*/
+	BOOST_FOREACH (dcp::SubtitleString& i, s) {
+		string t = i.text ();
+		boost::algorithm::replace_all (t, "<", "&lt;");
+		boost::algorithm::replace_all (t, ">", "&gt;");
+		i.set_text (t);
+	}
+
 	_decoded_text.push_back (ContentTextSubtitle (period, s));
 }
 

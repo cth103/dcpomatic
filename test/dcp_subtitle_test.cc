@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,7 @@
 #include "lib/ratio.h"
 #include "lib/dcp_decoder.h"
 #include "lib/dcp_content_type.h"
+#include "lib/dcp_subtitle_decoder.h"
 #include "lib/subtitle_content.h"
 #include "lib/content_subtitle.h"
 #include "lib/subtitle_decoder.h"
@@ -100,4 +101,24 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	BOOST_REQUIRE_EQUAL (subs.front().subs.size(), 2);
 	BOOST_CHECK_EQUAL (subs.front().subs.front().text(), "Noch mal.");
 	BOOST_CHECK_EQUAL (subs.front().subs.back().text(), "Encore une fois.");
+}
+
+/** Test subtitles whose text includes things like &lt;b&gt; */
+BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
+{
+	shared_ptr<Film> film = new_test_film ("dcp_subtitle_test2");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub2.xml"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content));
+	list<ContentTextSubtitle> sub = decoder->subtitle->get_text (
+		ContentTimePeriod (ContentTime::from_seconds(0), ContentTime::from_seconds(2)), true, true
+		);
+	BOOST_REQUIRE_EQUAL (sub.size(), 1);
+	BOOST_REQUIRE_EQUAL (sub.front().subs.size(), 1);
+	BOOST_CHECK_EQUAL (sub.front().subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
 }
