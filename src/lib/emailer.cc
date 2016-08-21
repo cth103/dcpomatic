@@ -41,11 +41,18 @@ Emailer::Emailer (string from, list<string> to, string subject, string body)
 	: _from (from)
 	, _to (to)
 	, _subject (subject)
-	, _body (body)
+	, _body (fix (body))
 	, _offset (0)
 {
-	boost::algorithm::replace_all (_body, "\n", "\r\n");
-	boost::algorithm::replace_all (_body, "\0", " ");
+
+}
+
+string
+Emailer::fix (string s) const
+{
+	boost::algorithm::replace_all (s, "\n", "\r\n");
+	boost::algorithm::replace_all (s, "\0", " ");
+	return s;
 }
 
 void
@@ -154,7 +161,7 @@ Emailer::send (string server, int port, string user, string password)
 
 		char* out;
 		long int bytes = BIO_get_mem_data (bio, &out);
-		_email += string (out, bytes);
+		_email += fix (string (out, bytes));
 
 		BIO_free_all (b64);
 	}

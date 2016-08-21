@@ -1,3 +1,7 @@
+2016-08-21  Carl Hetherington  <cth@carlh.net>
+
+	* Fix problems when sending emails on some servers.
+
 2016-08-20  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.

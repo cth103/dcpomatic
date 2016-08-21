@@ -48,6 +48,8 @@ public:
 
 private:
 
+	std::string fix (std::string s) const;
+
 	std::string _from;
 	std::list<std::string> _to;
 	std::string _subject;
