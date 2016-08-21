@@ -133,7 +133,7 @@ FFmpeg::setup_general ()
 
 	int e = avformat_open_input (&_format_context, 0, 0, &options);
 	if (e < 0) {
-		throw OpenFileError (_ffmpeg_content->path(0).string(), e);
+		throw OpenFileError (_ffmpeg_content->path(0).string(), e, true);
 	}
 
 	if (avformat_find_stream_info (_format_context, 0) < 0) {

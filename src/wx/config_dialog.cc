@@ -829,7 +829,7 @@ private:
 		if (d->ShowModal () == wxID_OK) {
 			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
 			if (!f) {
-				throw OpenFileError (wx_to_std (d->GetPath ()), errno);
+				throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 			}
 
 			string const s = j->certificate (true);
@@ -977,7 +977,7 @@ private:
 		if (d->ShowModal () == wxID_OK) {
 			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
 			if (!f) {
-				throw OpenFileError (wx_to_std (d->GetPath ()), errno);
+				throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 			}
 
 			string const s = _chain->key().get ();
@@ -1060,7 +1060,7 @@ private:
 		if (d->ShowModal () == wxID_OK) {
 			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
 			if (!f) {
-				throw OpenFileError (wx_to_std (d->GetPath ()), errno);
+				throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 			}
 
 			string const s = Config::instance()->decryption_chain()->leaf().certificate (true);
@@ -1080,7 +1080,7 @@ private:
 		if (d->ShowModal () == wxID_OK) {
 			FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "w");
 			if (!f) {
-				throw OpenFileError (wx_to_std (d->GetPath ()), errno);
+				throw OpenFileError (wx_to_std (d->GetPath ()), errno, false);
 			}
 
 			string const s = Config::instance()->decryption_chain()->chain();

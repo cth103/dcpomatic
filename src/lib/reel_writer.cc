@@ -128,13 +128,14 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 {
 	FILE* file = 0;
 	boost::filesystem::path info_file = _film->info_file (_period);
-	if (boost::filesystem::exists (info_file)) {
+	bool const read = boost::filesystem::exists (info_file);
+	if (read) {
 		file = fopen_boost (info_file, "r+b");
 	} else {
 		file = fopen_boost (info_file, "wb");
 	}
 	if (!file) {
-		throw OpenFileError (info_file, errno);
+		throw OpenFileError (info_file, errno, read);
 	}
 	dcpomatic_fseek (file, frame_info_position (frame, eyes), SEEK_SET);
 	fwrite (&info.offset, sizeof (info.offset), 1, file);

@@ -43,7 +43,7 @@ MagickImageProxy::MagickImageProxy (boost::filesystem::path path)
 	boost::uintmax_t const size = boost::filesystem::file_size (path);
 	FILE* f = fopen_boost (path, "rb");
 	if (!f) {
-		throw OpenFileError (path, errno);
+		throw OpenFileError (path, errno, true);
 	}
 
 	uint8_t* data = new uint8_t[size];

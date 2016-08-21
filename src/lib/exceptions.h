@@ -95,8 +95,11 @@ public:
 class OpenFileError : public FileError
 {
 public:
-	/** @param f File that we were trying to open */
-	OpenFileError (boost::filesystem::path f, int error);
+	/** @param f File that we were trying to open.
+	 *  @param error Code of error that occurred.
+	 *  @param reading true if we were opening to read, false if opening to write.
+	 */
+	OpenFileError (boost::filesystem::path f, int error, bool reading);
 };
 
 /** @class ReadFileError.
