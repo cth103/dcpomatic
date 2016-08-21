@@ -27,7 +27,7 @@ import distutils.spawn
 from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
-VERSION = '2.9.14'
+VERSION = '2.9.14devel'
 
 def options(opt):
     opt.load('compiler_cxx')
