@@ -1,3 +1,7 @@
+2016-08-22  Carl Hetherington  <cth@carlh.net>
+
+	* Version 2.9.15 released.
+
 2016-08-22  c.hetherington  <cth@carlh.net>
 
 	* Fix doubled-up subtitles in some cases when importing
