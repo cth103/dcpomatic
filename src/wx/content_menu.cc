@@ -53,6 +53,7 @@ enum {
 	ID_properties,
 	ID_re_examine,
 	ID_kdm,
+	ID_ov,
 	ID_remove
 };
 
@@ -65,7 +66,9 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
 	_properties = _menu->Append (ID_properties, _("Properties..."));
 	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
+	_menu->AppendSeparator ();
 	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
+	_ov = _menu->Append (ID_ov, _("Add OV..."));
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
@@ -75,6 +78,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::properties, this), ID_properties);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::kdm, this), ID_kdm);
+	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
 }
 
@@ -329,6 +333,25 @@ ContentMenu::kdm ()
 			return;
 		}
 
+		shared_ptr<Film> film = _film.lock ();
+		DCPOMATIC_ASSERT (film);
+		film->examine_content (dcp);
+	}
+
+	d->Destroy ();
+}
+
+void
+ContentMenu::ov ()
+{
+	DCPOMATIC_ASSERT (!_content.empty ());
+	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+	DCPOMATIC_ASSERT (dcp);
+
+	wxDirDialog* d = new wxDirDialog (_parent, _("Select OV"));
+
+	if (d->ShowModal() == wxID_OK) {
+		dcp->add_ov (wx_to_std (d->GetPath ()));
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
 		film->examine_content (dcp);

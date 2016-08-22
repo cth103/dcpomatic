@@ -51,7 +51,7 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
-	: _dcp_content (c)
+	: DCP (c)
 	, _decode_referenced (false)
 {
 	video.reset (new VideoDecoder (this, c, log));
@@ -66,13 +66,15 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 			)
 		);
 
-	dcp::DCP dcp (c->directory ());
-	dcp.read (false, 0, true);
-	if (c->kdm ()) {
-		dcp.add (dcp::DecryptedKDM (c->kdm().get (), Config::instance()->decryption_chain()->key().get ()));
+	shared_ptr<dcp::CPL> cpl;
+	BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls ()) {
+		if (_dcp_content->cpl() && i->id() == _dcp_content->cpl().get()) {
+			cpl = i;
+		}
 	}
-	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
-	_reels = dcp.cpls().front()->reels ();
+
+	DCPOMATIC_ASSERT (cpl);
+	_reels = cpl->reels ();
 
 	_reel = _reels.begin ();
 	_offset = 0;
@@ -178,7 +180,7 @@ DCPDecoder::next_reel ()
 void
 DCPDecoder::get_readers ()
 {
-	if (_reel == _reels.end()) {
+	if (_reel == _reels.end() || !_dcp_content->can_be_played ()) {
 		_mono_reader.reset ();
 		_stereo_reader.reset ();
 		_sound_reader.reset ();

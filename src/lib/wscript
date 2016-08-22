@@ -45,6 +45,7 @@ sources = """
           content_factory.cc
           cross.cc
           curl_uploader.cc
+          dcp.cc
           dcp_content.cc
           dcp_content_type.cc
           dcp_decoder.cc

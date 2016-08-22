@@ -498,7 +498,8 @@ ContentPanel::setup ()
 		int const t = _content->GetItemCount ();
 		bool const valid = i->paths_valid ();
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i);
-		bool const needs_kdm = dcp && !dcp->can_be_played ();
+		bool const needs_kdm = dcp && dcp->needs_kdm ();
+		bool const needs_assets = dcp && dcp->needs_assets ();
 
 		string s = i->summary ();
 
@@ -508,6 +509,10 @@ ContentPanel::setup ()
 
 		if (needs_kdm) {
 			s = _("NEEDS KDM: ") + s;
+		}
+
+		if (needs_assets) {
+			s = _("NEEDS OV: ") + s;
 		}
 
 		wxListItem item;
@@ -520,7 +525,7 @@ ContentPanel::setup ()
 			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 		}
 
-		if (!valid || needs_kdm) {
+		if (!valid || needs_kdm || needs_assets) {
 			_content->SetItemTextColour (t, *wxRED);
 		}
 	}

@@ -68,7 +68,7 @@ public:
 	void set_default_colour_conversion ();
 	std::list<DCPTime> reel_split_points () const;
 
-	boost::filesystem::path directory () const;
+	std::vector<boost::filesystem::path> directories () const;
 
 	bool encrypted () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -76,12 +76,15 @@ public:
 	}
 
 	void add_kdm (dcp::EncryptedKDM);
+	void add_ov (boost::filesystem::path ov);
 
 	boost::optional<dcp::EncryptedKDM> kdm () const {
 		return _kdm;
 	}
 
 	bool can_be_played () const;
+	bool needs_kdm () const;
+	bool needs_assets () const;
 
 	void set_reference_video (bool r);
 
@@ -110,6 +113,11 @@ public:
 
 	bool can_reference_subtitle (std::list<std::string> &) const;
 
+	boost::optional<std::string> cpl () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _cpl;
+	}
+
 private:
 	void add_properties (std::list<UserProperty>& p) const;
 
@@ -124,6 +132,8 @@ private:
 	std::string _name;
 	/** true if our DCP is encrypted */
 	bool _encrypted;
+	/** true if this DCP needs more assets before it can be played */
+	bool _needs_assets;
 	boost::optional<dcp::EncryptedKDM> _kdm;
 	/** true if _kdm successfully decrypts the first frame of our DCP */
 	bool _kdm_valid;
@@ -142,6 +152,10 @@ private:
 
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d;
+	/** ID of the CPL to use; older metadata might not specify this: in that case
+	 *  just use the only CPL.
+	 */
+	boost::optional<std::string> _cpl;
 };
 
 #endif

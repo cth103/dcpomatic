@@ -45,6 +45,7 @@ private:
 	void properties ();
 	void re_examine ();
 	void kdm ();
+	void ov ();
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 
@@ -60,6 +61,7 @@ private:
 	wxMenuItem* _properties;
 	wxMenuItem* _re_examine;
 	wxMenuItem* _kdm;
+	wxMenuItem* _ov;
 	wxMenuItem* _remove;
 
 	boost::signals2::scoped_connection _job_connection;

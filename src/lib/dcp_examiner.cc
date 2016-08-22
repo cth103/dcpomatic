@@ -35,7 +35,9 @@
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/stereo_picture_frame.h>
+#include <dcp/reel_subtitle_asset.h>
 #include <dcp/sound_asset.h>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -47,33 +49,67 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
-	: _video_length (0)
+	: DCP (content)
+	, _video_length (0)
 	, _audio_length (0)
 	, _has_subtitles (false)
 	, _encrypted (false)
+	, _needs_assets (false)
 	, _kdm_valid (false)
 	, _three_d (false)
 {
-	dcp::DCP dcp (content->directory ());
-	dcp.read (false, 0, true);
+	shared_ptr<dcp::CPL> cpl;
 
-	if (content->kdm ()) {
-		dcp.add (dcp::DecryptedKDM (content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
+	if (content->cpl ()) {
+		/* Use the CPL that the content was using before */
+		BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls()) {
+			if (i->id() == content->cpl().get()) {
+				cpl = i;
+			}
+		}
+	} else {
+		/* Choose the CPL with the fewest unsatisfied references */
+
+		int least_unsatisfied = INT_MAX;
+
+		BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls()) {
+			int unsatisfied = 0;
+			BOOST_FOREACH (shared_ptr<dcp::Reel> j, i->reels()) {
+				if (j->main_picture() && !j->main_picture()->asset_ref().resolved()) {
+					++unsatisfied;
+				}
+				if (j->main_sound() && !j->main_sound()->asset_ref().resolved()) {
+					++unsatisfied;
+				}
+				if (j->main_subtitle() && !j->main_subtitle()->asset_ref().resolved()) {
+					++unsatisfied;
+				}
+			}
+
+			if (unsatisfied < least_unsatisfied) {
+				least_unsatisfied = unsatisfied;
+				cpl = i;
+			}
+		}
 	}
 
-	if (dcp.cpls().size() == 0) {
+	if (!cpl) {
 		throw DCPError ("No CPLs found in DCP");
-	} else if (dcp.cpls().size() > 1) {
-		throw DCPError ("Multiple CPLs found in DCP");
 	}
 
-	_name = dcp.cpls().front()->content_title_text ();
+	_cpl = cpl->id ();
+	_name = cpl->content_title_text ();
 
-	list<shared_ptr<dcp::Reel> > reels = dcp.cpls().front()->reels ();
-	for (list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin(); i != reels.end(); ++i) {
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
 
-		if ((*i)->main_picture ()) {
-			dcp::Fraction const frac = (*i)->main_picture()->edit_rate ();
+		if (i->main_picture ()) {
+			if (!i->main_picture()->asset_ref().resolved()) {
+				/* We are missing this asset so we can't continue; examination will be repeated later */
+				_needs_assets = true;
+				return;
+			}
+
+			dcp::Fraction const frac = i->main_picture()->edit_rate ();
 			float const fr = float(frac.numerator) / frac.denominator;
 			if (!_video_frame_rate) {
 				_video_frame_rate = fr;
@@ -81,18 +117,24 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched frame rates in DCP"));
 			}
 
-			shared_ptr<dcp::PictureAsset> asset = (*i)->main_picture()->asset ();
+			shared_ptr<dcp::PictureAsset> asset = i->main_picture()->asset ();
 			if (!_video_size) {
 				_video_size = asset->size ();
 			} else if (_video_size.get() != asset->size ()) {
 				throw DCPError (_("Mismatched video sizes in DCP"));
 			}
 
-			_video_length += (*i)->main_picture()->duration();
+			_video_length += i->main_picture()->duration();
 		}
 
-		if ((*i)->main_sound ()) {
-			shared_ptr<dcp::SoundAsset> asset = (*i)->main_sound()->asset ();
+		if (i->main_sound ()) {
+			if (!i->main_sound()->asset_ref().resolved()) {
+				/* We are missing this asset so we can't continue; examination will be repeated later */
+				_needs_assets = true;
+				return;
+			}
+
+			shared_ptr<dcp::SoundAsset> asset = i->main_sound()->asset ();
 
 			if (!_audio_channels) {
 				_audio_channels = asset->channels ();
@@ -106,21 +148,27 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				throw DCPError (_("Mismatched audio sample rates in DCP"));
 			}
 
-			_audio_length += (*i)->main_sound()->duration();
+			_audio_length += i->main_sound()->duration();
 		}
 
-		if ((*i)->main_subtitle ()) {
+		if (i->main_subtitle ()) {
+			if (!i->main_subtitle()->asset_ref().resolved()) {
+				/* We are missing this asset so we can't continue; examination will be repeated later */
+				_needs_assets = true;
+				return;
+			}
+
 			_has_subtitles = true;
 		}
 	}
 
-	_encrypted = dcp.encrypted ();
+	_encrypted = cpl->encrypted ();
 	_kdm_valid = true;
 
 	/* Check that we can read the first picture frame */
 	try {
-		if (!dcp.cpls().empty () && !dcp.cpls().front()->reels().empty ()) {
-			shared_ptr<dcp::PictureAsset> asset = dcp.cpls().front()->reels().front()->main_picture()->asset ();
+		if (!cpl->reels().empty ()) {
+			shared_ptr<dcp::PictureAsset> asset = cpl->reels().front()->main_picture()->asset ();
 			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
 			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
 
@@ -139,7 +187,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		}
 	}
 
-	_standard = dcp.standard ();
-	_three_d = !reels.empty() && reels.front()->main_picture() &&
-		dynamic_pointer_cast<dcp::StereoPictureAsset> (reels.front()->main_picture()->asset());
+	DCPOMATIC_ASSERT (cpl->standard ());
+	_standard = cpl->standard().get();
+	_three_d = !cpl->reels().empty() && cpl->reels().front()->main_picture() &&
+		dynamic_pointer_cast<dcp::StereoPictureAsset> (cpl->reels().front()->main_picture()->asset());
+
+	_cpl = cpl->id ();
 }

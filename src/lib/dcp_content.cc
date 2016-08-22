@@ -61,6 +61,7 @@ int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
 	, _encrypted (false)
+	, _needs_assets (false)
 	, _kdm_valid (false)
 	, _reference_video (false)
 	, _reference_audio (false)
@@ -95,8 +96,8 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		);
 
 	_name = node->string_child ("Name");
-
 	_encrypted = node->bool_child ("Encrypted");
+	_needs_assets = node->bool_child ("NeedsAssets");
 	if (node->optional_node_child ("KDM")) {
 		_kdm = dcp::EncryptedKDM (node->string_child ("KDM"));
 	}
@@ -115,6 +116,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 		}
 	}
 	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
+	_cpl = node->optional_string_child("CPL");
 }
 
 void
@@ -160,9 +162,11 @@ DCPContent::examine (shared_ptr<Job> job)
 			subtitle.reset (new SubtitleContent (this));
 		}
 		_encrypted = examiner->encrypted ();
+		_needs_assets = examiner->needs_assets ();
 		_kdm_valid = examiner->kdm_valid ();
 		_standard = examiner->standard ();
 		_three_d = examiner->three_d ();
+		_cpl = examiner->cpl ();
 	}
 
 	if (could_be_played != can_be_played ()) {
@@ -212,6 +216,7 @@ DCPContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Name")->add_child_text (_name);
 	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
+	node->add_child("NeedsAssets")->add_child_text (_needs_assets ? "1" : "0");
 	if (_kdm) {
 		node->add_child("KDM")->add_child_text (_kdm->as_xml ());
 	}
@@ -232,6 +237,9 @@ DCPContent::as_xml (xmlpp::Node* node) const
 		}
 	}
 	node->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
+	if (_cpl) {
+		node->add_child("CPL")->add_child_text (_cpl.get ());
+	}
 }
 
 DCPTime
@@ -259,27 +267,36 @@ DCPContent::add_kdm (dcp::EncryptedKDM k)
 	_kdm = k;
 }
 
+void
+DCPContent::add_ov (boost::filesystem::path ov)
+{
+	read_directory (ov);
+}
+
 bool
 DCPContent::can_be_played () const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	return !_encrypted || _kdm_valid;
+	return !needs_kdm() && !needs_assets();
 }
 
-boost::filesystem::path
-DCPContent::directory () const
+bool
+DCPContent::needs_kdm () const
 {
-	optional<size_t> smallest;
-	boost::filesystem::path dir;
-	for (size_t i = 0; i < number_of_paths(); ++i) {
-		boost::filesystem::path const p = path (i).parent_path ();
-		size_t const d = distance (p.begin(), p.end());
-		if (!smallest || d < smallest.get ()) {
-			dir = p;
-		}
-	}
+	boost::mutex::scoped_lock lm (_mutex);
+	return _encrypted && !_kdm_valid;
+}
 
-	return dir;
+bool
+DCPContent::needs_assets () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _needs_assets;
+}
+
+vector<boost::filesystem::path>
+DCPContent::directories () const
+{
+	return dcp::DCP::directories_from_files (paths ());
 }
 
 void

@@ -24,10 +24,11 @@
 
 #include "video_examiner.h"
 #include "audio_examiner.h"
+#include "dcp.h"
 
 class DCPContent;
 
-class DCPExaminer : public VideoExaminer, public AudioExaminer
+class DCPExaminer : public DCP, public VideoExaminer, public AudioExaminer
 {
 public:
 	DCPExaminer (boost::shared_ptr<const DCPContent>);
@@ -60,6 +61,10 @@ public:
 		return _encrypted;
 	}
 
+	bool needs_assets () const {
+		return _needs_assets;
+	}
+
 	int audio_channels () const {
 		return _audio_channels.get_value_or (0);
 	}
@@ -84,6 +89,10 @@ public:
 		return _three_d;
 	}
 
+	std::string cpl () const {
+		return _cpl;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -94,7 +103,9 @@ private:
 	std::string _name;
 	bool _has_subtitles;
 	bool _encrypted;
+	bool _needs_assets;
 	bool _kdm_valid;
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d;
+	std::string _cpl;
 };

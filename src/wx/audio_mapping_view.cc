@@ -487,6 +487,10 @@ AudioMappingView::paint_top_labels ()
 void
 AudioMappingView::set_input_groups (vector<Group> const & groups)
 {
+	if (_grid->GetNumberRows() == 0) {
+		return;
+	}
+
 	_input_groups = groups;
 	_input_group_positions.clear ();
 

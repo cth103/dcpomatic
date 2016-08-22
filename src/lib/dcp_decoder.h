@@ -23,6 +23,7 @@
  */
 
 #include "decoder.h"
+#include "dcp.h"
 
 namespace dcp {
 	class Reel;
@@ -35,7 +36,7 @@ class DCPContent;
 class Log;
 struct dcp_subtitle_within_dcp_test;
 
-class DCPDecoder : public Decoder
+class DCPDecoder : public DCP, public Decoder
 {
 public:
 	DCPDecoder (boost::shared_ptr<const DCPContent>, boost::shared_ptr<Log> log);
@@ -57,7 +58,6 @@ private:
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
-	boost::shared_ptr<const DCPContent> _dcp_content;
 	/** Time of next thing to return from pass relative to the start of _reel */
 	ContentTime _next;
 	std::list<boost::shared_ptr<dcp::Reel> > _reels;
