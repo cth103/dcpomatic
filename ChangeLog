@@ -1,5 +1,8 @@
 2016-08-22  c.hetherington  <cth@carlh.net>
 
+	* Fix doubled-up subtitles in some cases when importing
+	DCPs with subtitles.
+
 	* Fix colour tint in subtitles burnt into existing DCP
 	content.
 
