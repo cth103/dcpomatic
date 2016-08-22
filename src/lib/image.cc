@@ -28,6 +28,8 @@
 #include "rect.h"
 #include "util.h"
 #include "dcpomatic_socket.h"
+#include <dcp/rgb_xyz.h>
+#include <dcp/transfer_function.h>
 extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
@@ -40,6 +42,7 @@ extern "C" {
 
 using std::string;
 using std::min;
+using std::max;
 using std::cout;
 using std::cerr;
 using std::list;
@@ -495,25 +498,34 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_XYZ12LE:
 	{
-		boost::numeric::ublas::matrix<double> matrix = dcp::ColourConversion::srgb_to_xyz().rgb_to_xyz();
+		dcp::ColourConversion conv = dcp::ColourConversion::srgb_to_xyz();
+		double fast_matrix[9];
+		dcp::combined_rgb_to_xyz (conv, fast_matrix);
+		double const * lut_in = conv.in()->lut (8, false);
+		double const * lut_out = conv.out()->lut (16, true);
 		int const this_bpp = 6;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
+			uint16_t* tp = reinterpret_cast<uint16_t*> (data()[0] + ty * stride()[0] + start_tx * this_bpp);
 			uint8_t* op = other->data()[0] + oy * other->stride()[0];
 			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
 				float const alpha = float (op[3]) / 255;
 
-				/* Convert sRGB to XYZ; op is BGRA */
-				int const x = matrix(0, 0) * op[2] + matrix(0, 1) * op[1] + matrix(0, 2) * op[0];
-				int const y = matrix(1, 0) * op[2] + matrix(1, 1) * op[1] + matrix(1, 2) * op[0];
-				int const z = matrix(2, 0) * op[2] + matrix(2, 1) * op[1] + matrix(2, 2) * op[0];
+				/* Convert sRGB to XYZ; op is BGRA.  First, input gamma LUT */
+				double const r = lut_in[op[2]];
+				double const g = lut_in[op[1]];
+				double const b = lut_in[op[0]];
 
-				/* Blend high bytes */
-				tp[1] = min (x, 255) * alpha + tp[1] * (1 - alpha);
-				tp[3] = min (y, 255) * alpha + tp[3] * (1 - alpha);
-				tp[5] = min (z, 255) * alpha + tp[5] * (1 - alpha);
+				/* RGB to XYZ, including Bradford transform and DCI companding */
+				double const x = max (0.0, min (65535.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
+				double const y = max (0.0, min (65535.0, r * fast_matrix[3] + g * fast_matrix[4] + b * fast_matrix[5]));
+				double const z = max (0.0, min (65535.0, r * fast_matrix[6] + g * fast_matrix[7] + b * fast_matrix[8]));
 
-				tp += this_bpp;
+				/* Out gamma LUT and blend */
+				tp[0] = lrint(lut_out[lrint(x)] * 65535) * alpha + tp[0] * (1 - alpha);
+				tp[1] = lrint(lut_out[lrint(y)] * 65535) * alpha + tp[1] * (1 - alpha);
+				tp[2] = lrint(lut_out[lrint(z)] * 65535) * alpha + tp[2] * (1 - alpha);
+
+				tp += this_bpp / 2;
 				op += other_bpp;
 			}
 		}
