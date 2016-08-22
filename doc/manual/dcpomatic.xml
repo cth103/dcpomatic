@@ -59,6 +59,20 @@ This manual uses icons from the <ulink url="http://tango.freedesktop.org/">Tango
 </para>
 
 </section>
+
+<!-- ============================================================== -->
+<section>
+<title>This manual</title>
+
+<para>
+This manual presents bits of DCP-o-matic's user interface (such as menu items or buttons) <guilabel>like this</guilabel>.
+</para>
+
+<note>
+Notes of an advanced nature are presented like this.  Ignore them unless you want to know the gory details.
+</note>
+
+</section>
 </chapter>
 
 
@@ -2047,6 +2061,21 @@ want KDMs for and fill in the start and end dates and times.
 You must also select the type of KDM that you want to generate.  If in
 doubt, use <guilabel>Modified Transitional 1</guilabel>.
 </para>
+
+<note>
+The differences between the three KDM types are fairly subtle.
+<guilabel>DCI Specific</guilabel> and <guilabel>DCI Any</guilabel> add
+a <code>&lt;ContentAuthenticator&gt;</code> tag to the KDM which
+allows the exhibitor to check that the DCP and KDM have come from a
+bona-fide source.  In addition, <guilabel>DCI Specific</guilabel> adds
+information on trusted devices to the KDM.  This allows the KDM
+creator to specify devices (such as sound processors) that are allowed
+to use keys delivered by the KDM.  At present it is not clear how
+widely the <guilabel>DCI Specific</guilabel> and <guilabel>DCI
+Any</guilabel> features are supported (or even tolerated) by servers
+so you are advised to use <guilabel>Modified Transitional
+1</guilabel>.
+</note>
 
 <para>
 Finally, choose what you want to do with the KDMs.  They can be

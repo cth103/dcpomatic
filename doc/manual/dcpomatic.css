@@ -27,3 +27,17 @@ span.guilabel {
     padding-left: 3px;
     padding-right: 3px;
 }
+
+div.note {
+    border-width: 1px;
+    border-style: solid;
+    background-color: #FFEBCF;
+    padding-top: 12pt;
+    padding-bottom: 12pt;
+    padding-left: 12pt;
+    padding-right: 12pt;
+    margin-left: 24pt;
+    margin-right: 24pt;
+    margin-top: 18pt;
+    margin-bottom: 18pt;
+}

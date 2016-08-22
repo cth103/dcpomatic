@@ -28,4 +28,18 @@
   <xsl:call-template name="inline.frobozz"/>
 </xsl:template>
 
+<!-- <note> in a box with \dbend -->
+<xsl:template name="note.frobozz">
+  <xsl:param name="content">
+    <xsl:apply-templates/>
+  </xsl:param>
+  <xsl:text>\begin{center}\fbox{\begin{minipage}{0.8\textwidth}\raisebox{10pt}{\dbend}\quad</xsl:text>
+  <xsl:copy-of select="$content"/>
+  <xsl:text>\end{minipage}}\end{center}\par</xsl:text>
+</xsl:template>
+
+<xsl:template match="note">
+  <xsl:call-template name="note.frobozz"/>
+</xsl:template>
+
 </xsl:stylesheet>
