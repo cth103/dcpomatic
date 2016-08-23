@@ -90,11 +90,11 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
 		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_earlier = new wxButton (_panel, wxID_ANY, _("Up"));
+		_earlier = new wxButton (_panel, wxID_ANY, _("Earlier"));
 		_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
 		b->Add (_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_later = new wxButton (_panel, wxID_ANY, _("Down"));
+		_later = new wxButton (_panel, wxID_ANY, _("Later"));
 		_later->SetToolTip (_("Move the selected piece of content later in the film."));
 		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
