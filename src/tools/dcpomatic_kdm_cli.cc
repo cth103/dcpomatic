@@ -83,7 +83,7 @@ duration_from_string (string d)
 {
 	int N;
 	char unit_buf[64] = "\0";
-	sscanf (d.c_str(), "%d %64s", &N, unit_buf);
+	sscanf (d.c_str(), "%d %63s", &N, unit_buf);
 	string const unit (unit_buf);
 
 	if (N == 0) {
