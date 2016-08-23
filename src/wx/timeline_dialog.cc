@@ -32,7 +32,14 @@ using std::cout;
 using boost::shared_ptr;
 
 TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film)
-	: wxDialog (cp->panel(), wxID_ANY, _("Timeline"), wxDefaultPosition, wxSize (640, 512), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE)
+	: wxDialog (
+		cp->panel(),
+		wxID_ANY,
+		_("Timeline"),
+		wxDefaultPosition,
+		wxSize (640, 512),
+		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
+		)
 	, _film (film)
 	, _timeline (this, cp, film)
 {
