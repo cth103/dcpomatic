@@ -2082,8 +2082,8 @@ Finally, choose what you want to do with the KDMs.  They can be
 written to disk, to a location that you can specify by clicking
 <guilabel>Browse</guilabel>.  Alternatively, if you choose
 <guilabel>Send by email</guilabel> the KDMs will be zipped up and
-emailed to the appropriate cinema email addresses.  Click OK to
-generate the KDMs.
+emailed to the appropriate cinema email addresses.  Click
+<guilabel>Make KDMs</guilabel> to generate the KDMs.
 </para>
 
 </section>
@@ -2123,7 +2123,7 @@ select <guilabel>Make DKDM for DCP-o-matic...</guilabel> from the
 <guilabel>Jobs</guilabel> menu.  Select the CPL that you want to make
 the DKDM for and click <guilabel>OK</guilabel>.  This DKDM will then
 be available in the KDM creator.  This is a separate program which you
-can start from the same place that you start the &lsquo;Normal&rsquo;
+can start from the same place that you start the &lsquo;normal&rsquo;
 DCP-o-matic.  Its window is shown in <xref linkend="fig-kdm-creator"/>.
 </para>
 

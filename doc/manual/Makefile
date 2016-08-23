@@ -53,6 +53,9 @@ html/screenshots/export-dialogue.png: screenshots/export-dialogue.png
 html/screenshots/making-dcp.png: screenshots/making-dcp.png
 	mkdir -p html/screenshots
 	convert -resize 75% $< $@
+html/screenshots/kdm-creator.png: screenshots/kdm-creator.png
+	mkdir -p html/screenshots
+	convert -resize 75% $< $@
 
 # For HTML: convert diagrams from SVG to PNG
 diagrams/%.png:	diagrams/%.svg
