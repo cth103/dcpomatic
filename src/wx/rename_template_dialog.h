@@ -20,15 +20,14 @@
 
 #include "table_dialog.h"
 
-class SaveTemplateDialog : public TableDialog
+class RenameTemplateDialog : public TableDialog
 {
 public:
-	SaveTemplateDialog (wxWindow* parent);
+	RenameTemplateDialog (wxWindow* parent);
 
-	std::string name () const;
+	void set (wxString n);
+	wxString get () const;
 
 private:
-	void check (wxCommandEvent& ev);
-
 	wxTextCtrl* _name;
 };

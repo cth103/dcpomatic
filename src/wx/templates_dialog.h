@@ -18,17 +18,28 @@
 
 */
 
-#include "table_dialog.h"
+#include <wx/wx.h>
+#include <wx/listctrl.h>
+#include <boost/signals2.hpp>
 
-class SaveTemplateDialog : public TableDialog
+class TemplatesDialog : public wxDialog
 {
 public:
-	SaveTemplateDialog (wxWindow* parent);
+	TemplatesDialog (wxWindow* parent);
 
-	std::string name () const;
+	void refresh ();
+	void layout ();
 
 private:
-	void check (wxCommandEvent& ev);
+	void selection_changed ();
+	void rename_clicked ();
+	void remove_clicked ();
+	void resized (wxSizeEvent& ev);
 
-	wxTextCtrl* _name;
+	wxButton* _rename;
+	wxButton* _remove;
+	wxListCtrl* _list;
+	wxBoxSizer* _sizer;
+
+	boost::signals2::scoped_connection _config_connection;
 };

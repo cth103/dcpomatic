@@ -18,17 +18,24 @@
 
 */
 
-#include "table_dialog.h"
+#include "rename_template_dialog.h"
 
-class SaveTemplateDialog : public TableDialog
+RenameTemplateDialog::RenameTemplateDialog (wxWindow* parent)
+	: TableDialog (parent, _("Rename template"), 2, 1, true)
 {
-public:
-	SaveTemplateDialog (wxWindow* parent);
+	add (_("New name"), true);
+	_name = add (new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (300, -1)));
+	layout ();
+}
 
-	std::string name () const;
+wxString
+RenameTemplateDialog::get () const
+{
+	return _name->GetValue ();
+}
 
-private:
-	void check (wxCommandEvent& ev);
-
-	wxTextCtrl* _name;
-};
+void
+RenameTemplateDialog::set (wxString s)
+{
+	_name->SetValue (s);
+}

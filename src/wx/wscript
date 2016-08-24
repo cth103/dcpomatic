@@ -74,6 +74,7 @@ sources = """
           playhead_to_frame_dialog.cc
           repeat_dialog.cc
           report_problem_dialog.cc
+          rename_template_dialog.cc
           rgba_colour_picker.cc
           save_template_dialog.cc
           screen_dialog.cc
@@ -85,6 +86,7 @@ sources = """
           subtitle_view.cc
           system_font_dialog.cc
           table_dialog.cc
+          templates_dialog.cc
           text_subtitle_appearance_dialog.cc
           time_picker.cc
           timecode.cc

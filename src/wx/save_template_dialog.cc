@@ -20,6 +20,7 @@
 
 #include "save_template_dialog.h"
 #include "wx_util.h"
+#include "lib/config.h"
 #include <boost/foreach.hpp>
 
 using std::string;
@@ -31,10 +32,30 @@ SaveTemplateDialog::SaveTemplateDialog (wxWindow* parent)
 	_name = add (new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (300, -1)));
 	_name->SetFocus ();
 	layout ();
+
+	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	ok->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&SaveTemplateDialog::check, this, _1));
 }
 
 string
 SaveTemplateDialog::name () const
 {
 	return wx_to_std (_name->GetValue ());
+}
+
+void
+SaveTemplateDialog::check (wxCommandEvent& ev)
+{
+	bool ok = true;
+
+	if (_name->GetValue().IsEmpty()) {
+		error_dialog (this, _("Template names must not be empty."));
+		ok = false;
+	} else if (Config::instance()->existing_template (wx_to_std (_name->GetValue ()))) {
+		ok = confirm_dialog (this, _("There is already a template with this name.  Do you want to overwrite it?"));
+	}
+
+	if (ok) {
+		ev.Skip ();
+	}
 }

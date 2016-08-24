@@ -62,7 +62,7 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	_name->SetFocus ();
 	_template_name->Enable (false);
 
-	BOOST_FOREACH (string i, Config::instance()->template_names ()) {
+	BOOST_FOREACH (string i, Config::instance()->templates ()) {
 		_template_name->Append (std_to_wx (i));
 	}
 

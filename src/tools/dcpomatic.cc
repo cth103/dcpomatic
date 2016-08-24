@@ -39,6 +39,7 @@
 #include "wx/report_problem_dialog.h"
 #include "wx/video_waveform_dialog.h"
 #include "wx/save_template_dialog.h"
+#include "wx/templates_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -158,6 +159,7 @@ enum {
 	ID_tools_video_waveform,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
+	ID_tools_manage_templates,
 	ID_tools_check_for_updates,
 	ID_tools_restore_default_preferences,
 	ID_help_report_a_problem,
@@ -176,6 +178,7 @@ public:
 		, _servers_list_dialog (0)
 		, _config_dialog (0)
 		, _kdm_dialog (0)
+		, _templates_dialog (0)
 		, _file_menu (0)
 		, _history_items (0)
 		, _history_position (0)
@@ -227,6 +230,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_video_waveform, this),    ID_tools_video_waveform);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_manage_templates, this),  ID_tools_manage_templates);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
@@ -417,13 +421,7 @@ private:
 		SaveTemplateDialog* d = new SaveTemplateDialog (this);
 		int const r = d->ShowModal ();
 		if (r == wxID_OK) {
-			bool ok = true;
-			if (Config::instance()->existing_template (d->name ())) {
-				ok = confirm_dialog (d, _("There is already a template with this name.  Do you want to overwrite it?"));
-			}
-			if (ok) {
-				Config::instance()->save_template (_film, d->name ());
-			}
+			Config::instance()->save_template (_film, d->name ());
 		}
 		d->Destroy ();
 	}
@@ -701,6 +699,15 @@ private:
 		_servers_list_dialog->Show ();
 	}
 
+	void tools_manage_templates ()
+	{
+		if (!_templates_dialog) {
+			_templates_dialog = new TemplatesDialog (this);
+		}
+
+		_templates_dialog->Show ();
+	}
+
 	void tools_check_for_updates ()
 	{
 		UpdateChecker::instance()->run ();
@@ -890,6 +897,7 @@ private:
 		add_item (tools, _("Video waveform..."), ID_tools_video_waveform, NEEDS_FILM);
 		add_item (tools, _("Hints..."), ID_tools_hints, 0);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
+		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
 		tools->AppendSeparator ();
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
@@ -980,6 +988,7 @@ private:
 	ServersListDialog* _servers_list_dialog;
 	wxPreferencesEditor* _config_dialog;
 	KDMDialog* _kdm_dialog;
+	TemplatesDialog* _templates_dialog;
 	wxMenu* _file_menu;
 	shared_ptr<Film> _film;
 	int _history_items;

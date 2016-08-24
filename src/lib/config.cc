@@ -597,7 +597,7 @@ Config::save_template (shared_ptr<const Film> film, string name) const
 }
 
 list<string>
-Config::template_names () const
+Config::templates () const
 {
 	list<string> n;
 	for (boost::filesystem::directory_iterator i (path("templates")); i != boost::filesystem::directory_iterator(); ++i) {
@@ -616,4 +616,16 @@ boost::filesystem::path
 Config::template_path (string name) const
 {
 	return path("templates") / tidy_for_filename (name);
+}
+
+void
+Config::rename_template (string old_name, string new_name) const
+{
+	boost::filesystem::rename (template_path (old_name), template_path (new_name));
+}
+
+void
+Config::delete_template (string name) const
+{
+	boost::filesystem::remove (template_path (name));
 }
