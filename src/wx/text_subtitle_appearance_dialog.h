@@ -35,8 +35,7 @@ public:
 
 private:
 	wxColourPickerCtrl* _colour;
-	wxRadioButton* _outline;
-	wxRadioButton* _shadow;
+	wxChoice* _effect;
 	wxColourPickerCtrl* _effect_colour;
 	Timecode<ContentTime>* _fade_in;
 	Timecode<ContentTime>* _fade_out;

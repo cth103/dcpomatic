@@ -34,17 +34,8 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 	_colour = new wxColourPickerCtrl (this, wxID_ANY);
 	add (_colour);
 
-	wxRadioButton* no_effect = new wxRadioButton (this, wxID_ANY, _("No effect"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	add (no_effect);
-	add_spacer ();
-
-	_outline = new wxRadioButton (this, wxID_ANY, _("Outline"));
-	add (_outline);
-	add_spacer ();
-
-	_shadow = new wxRadioButton (this, wxID_ANY, _("Shadow"));
-	add (_shadow);
-	add_spacer ();
+	add (_("Effect"), true);
+	add (_effect = new wxChoice (this, wxID_ANY));
 
 	add (_("Outline / shadow colour"), true);
 	_effect_colour = new wxColourPickerCtrl (this, wxID_ANY);
@@ -60,9 +51,18 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 
 	layout ();
 
+	_effect->Append (_("None"));
+	_effect->Append (_("Outline"));
+	_effect->Append (_("Shadow"));;
+
 	_colour->SetColour (wxColour (_content->subtitle->colour().r, _content->subtitle->colour().g, _content->subtitle->colour().b));
-	_outline->SetValue (_content->subtitle->outline ());
-	_shadow->SetValue (_content->subtitle->shadow ());
+	if (_content->subtitle->outline()) {
+		_effect->SetSelection (1);
+	} else if (_content->subtitle->shadow()) {
+		_effect->SetSelection (2);
+	} else {
+		_effect->SetSelection (0);
+	}
 	_effect_colour->SetColour (
 		wxColour (_content->subtitle->effect_colour().r, _content->subtitle->effect_colour().g, _content->subtitle->effect_colour().b)
 		);
@@ -75,8 +75,8 @@ TextSubtitleAppearanceDialog::apply ()
 {
 	wxColour const c = _colour->GetColour ();
 	_content->subtitle->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
-	_content->subtitle->set_outline (_outline->GetValue ());
-	_content->subtitle->set_shadow (_shadow->GetValue ());
+	_content->subtitle->set_outline (_effect->GetSelection() == 1);
+	_content->subtitle->set_shadow (_effect->GetSelection() == 2);
 	wxColour const ec = _effect_colour->GetColour ();
 	_content->subtitle->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
 	_content->subtitle->set_fade_in (_fade_in->get (_content->active_video_frame_rate ()));
