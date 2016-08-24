@@ -101,6 +101,12 @@ many parallel encoding threads (more than 4) on the 32-bit
 version.
 </para>
 
+<para>
+If you are still using Windows XP, download the specific XP version as
+it should be more stable on your machine than the &lsquo;normal&rsquo;
+Windows version.
+</para>
+
 </section>
 
 
@@ -139,7 +145,6 @@ depend on it.
   <listitem>Debian unstable (&lsquo;sid&rsquo;)</listitem>
   <listitem>Ubuntu 12.04 (&lsquo;Precise Pangolin&rsquo;)</listitem>
   <listitem>Ubuntu 14.04 (&lsquo;Trusty Tahr&rsquo;)</listitem>
-  <listitem>Ubuntu 15.10 (&lsquo;Wily Werewolf&rsquo;)</listitem>
   <listitem>Ubuntu 16.04 (&lsquo;Xenial Xerus&rsquo;)</listitem>
 </itemizedlist>
 
@@ -623,7 +628,7 @@ DCP-o-matic will decode and then re-encode the JPEG2000 data.
 </section>
 
 
-<section>
+<section xml:id="sec-overlay">
 <title>Making overlay files</title>
 
 <para>
@@ -730,7 +735,7 @@ images which should be treated as the frames of a video.
 
 <listitem>Subtitle &mdash; a file containing subtitle which will be
 superimposed on the image of the DCP.  These can be
-<guilabel>.srt</guilabel>, <guilabel>.ssa</guilabel> or <guilabel>.xml</guilabel>
+<guilabel>.srt</guilabel>, <guilabel>.ssa</guilabel>, <guilabel>.ass</guilabel> or <guilabel>.xml</guilabel>
 files.</listitem>
 
 <listitem>DCP &mdash; an existing DCP.</listitem>
@@ -830,10 +835,23 @@ The <guilabel>Video</guilabel> tab controls properties of the image, as shown in
 
 <!-- ============================================================== -->
 <section>
+<title>Refer to existing DCP</title>
+
+<para>
+This option is only applicable if the selected content is an existing
+DCP.  It allows you to get the video content from the existing DCP by
+referencing it (rather than copying).  See <xref
+linkend="sec-overlay"/>.
+</para>
+
+</section>
+
+<!-- ============================================================== -->
+<section>
 <title>Image type</title>
 
 <para>
-The first option on this tab is the &lsquo;type&rsquo; of the video.
+The next option on this tab is the &lsquo;type&rsquo; of the video.
 This specifies how DCP-o-matic should interpret the video's image.
 <guilabel>2D</guilabel> is the default; this just takes the video
 image as a standard 2D frame.  The <guilabel>3D
@@ -1051,7 +1069,6 @@ The <guilabel>Audio</guilabel> tab controls properties of the image, as shown in
   </mediaobject>
 </figure>
 
-
 <!-- ============================================================== -->
 <section>
 <title>The audio map</title>
@@ -1156,7 +1173,20 @@ shows the mapping of a 5.1 source into a 5.1 DCP.
 
 <!-- ============================================================== -->
 <section>
-<title>Other controls</title>
+  <title>Other controls</title>
+
+<para>
+The <guilabel>Refer to existing DCP</guilabel> checkbox isonly
+applicable if the selected content is an existing DCP.  It allows you
+to get the audio content from the existing DCP by referencing it
+(rather than copying).  See <xref linkend="sec-overlay"/>.
+</para>
+
+<para>
+<guilabel>Show graphs of audio levels</guilabel> will analyse the
+audio of the selected content and plot it on a graph.  See <xref
+linkend="sec-show-audio"/> for more details.
+</para>
 
 <para>
 &lsquo;Audio Gain&rsquo; is used to alter the volume of the
@@ -1318,6 +1348,11 @@ scale such subtitles down using these controls.
 </para>
 
 <para>
+The <guilabel>Line spacing</guilabel> control adjusts the line spacing
+of the subtitles.  This only works for non-embedded (text) subtitles.
+</para>
+
+<para>
 The <guilabel>Stream</guilabel> control changes the subtitle stream
 that is used when the content has more than one.
 </para>
@@ -1385,11 +1420,17 @@ should be displayed using this control.
 </para>
 
 <para>
-<guilabel>Trim from start</guilabel> specifies the amount that should be trimmed from the start of the content.
+<guilabel>Trim from start</guilabel> specifies the amount that should
+be trimmed from the start of the content.  You can set this amount to
+trim up to the current preview position by clicking <guilabel>Trim up
+to current position</guilabel>.
 </para>
 
 <para>
-<guilabel>Trim from end</guilabel> specifies the amount that should be trimmed from the end of the content.
+<guilabel>Trim from end</guilabel> specifies the amount that should be
+trimmed from the end of the content.  You can set this amount to trim
+after the current preview position by clicking <guilabel>Trim after to
+current position</guilabel>.
 </para>
 
 <para>
@@ -1804,7 +1845,7 @@ you must specify a reel length in Gb.  Then no file in the DCP will be larger th
 
 
 <!-- ============================================================== -->
-<section>
+<section xml:id="sec-show-audio">
 <title>Show audio</title>
 
 <para>
@@ -2004,7 +2045,7 @@ linkend="fig-kdm"/>.
   <title>KDM dialog</title>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="screenshots/kdm&scs;"/>
+      <imagedata scale="40" fileref="screenshots/kdm&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -2144,7 +2185,7 @@ DCP-o-matic.  Its window is shown in <xref linkend="fig-kdm-creator"/>.
   <title>The KDM creator</title>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="screenshots/kdm-creator&scs;"/>
+      <imagedata scale="35" fileref="screenshots/kdm-creator&scs;"/>
     </imageobject>
   </mediaobject>
 </figure>
@@ -2431,11 +2472,17 @@ be used when targeting a KDM at DCP-o-matic.
 If you want to import an encrypted DCP you will need to give the
 decryption certificate to the distributor of the DCP so that they can
 generate a DKDM for you.  You can save this certificate to disk by
-clicking <guilabel>Export DCP decryption certificate...</guilabel>.  As
-with the signing chain, DCP-o-matic will create a certificate chain
+clicking <guilabel>Export DCP decryption certificate...</guilabel>.
+As with the signing chain, DCP-o-matic will create a certificate chain
 and private key for you.  You can also choose to load your own
 certificates and key or re-make the chain and key with new, random
 values.
+</para>
+
+<para>
+Clicking <guilabel>Export DCP decryption chain...</guilabel> will
+export the whole certificate chain, rather than just the leaf
+certificate.
 </para>
 
 </section>
@@ -2578,6 +2625,14 @@ this unticked for normal use.
 <guilabel>Only servers encode</guilabel> makes DCP-o-matic encode
 JPEG2000 data only on encoding servers and not on the host.  We
 suggest you leave this un-ticked unless you have a good reason to do otherwise.
+</para>
+
+<para>
+With the filename format fields you can adjust the filenames that are
+used for metadata (CPL and PKL files) and assets (MXF and subtitle
+files).  Below each field there is a list of the &lsquo;magic&rsquo;
+values that you can use in the format and an example of a filename
+that you might see with your current settings.
 </para>
 
 <para>
