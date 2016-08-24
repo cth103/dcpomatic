@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-17 14:44+0100\n"
+"POT-Creation-Date: 2016-08-24 16:46+0100\n"
 "PO-Revision-Date: 2016-08-19 02:40+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -159,8 +159,13 @@ msgstr "添加影院"
 msgid "Add Cinema..."
 msgstr "添加影院..."
 
-#: src/wx/content_menu.cc:68
+#: src/wx/content_menu.cc:70
 msgid "Add KDM..."
+msgstr "添加 KDM..."
+
+#: src/wx/content_menu.cc:71
+#, fuzzy
+msgid "Add OV..."
 msgstr "添加 KDM..."
 
 #: src/wx/screens_panel.cc:206
@@ -345,7 +350,7 @@ msgstr "启动时检查更新（包括测试版）"
 msgid "Check for updates on startup"
 msgstr "启动时检查更新"
 
-#: src/wx/content_menu.cc:251
+#: src/wx/content_menu.cc:255
 msgid "Choose a file"
 msgstr "选择一个文件"
 
@@ -353,7 +358,7 @@ msgstr "选择一个文件"
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:250 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -404,7 +409,7 @@ msgid "Container"
 msgstr "格式"
 
 #: src/wx/audio_mapping_view.cc:437 src/wx/audio_mapping_view.cc:439
-#: src/wx/film_editor.cc:52
+#: src/wx/film_editor.cc:54
 msgid "Content"
 msgstr "内容"
 
@@ -437,7 +442,7 @@ msgstr "无法分析音频。"
 msgid "Could not get video for view (%s)"
 msgstr "无法获取视频 (%s)"
 
-#: src/wx/content_menu.cc:327
+#: src/wx/content_menu.cc:331
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "无法加载 KDM (%s)"
@@ -453,7 +458,7 @@ msgstr "无法读取证书文件 (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/new_film_dialog.cc:41
+#: src/wx/new_film_dialog.cc:42
 msgid "Create in folder"
 msgstr "创建文件夹"
 
@@ -466,7 +471,7 @@ msgid "Crop"
 msgstr "裁剪"
 
 #: src/wx/audio_mapping_view.cc:472 src/wx/audio_mapping_view.cc:474
-#: src/wx/film_editor.cc:54
+#: src/wx/film_editor.cc:56
 msgid "DCP"
 msgstr "DCP"
 
@@ -563,10 +568,6 @@ msgstr "杜比 / 哆来咪"
 msgid "Don't show hints again"
 msgstr "不再显示小提示"
 
-#: src/wx/content_panel.cc:97
-msgid "Down"
-msgstr "下移"
-
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
 msgstr "下载"
@@ -582,6 +583,10 @@ msgstr "下载..."
 #: src/wx/dolby_doremi_certificate_panel.cc:56
 msgid "Downloading certificate"
 msgstr "下载证书"
+
+#: src/wx/content_panel.cc:93
+msgid "Earlier"
+msgstr ""
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -677,7 +682,7 @@ msgstr "淡出时间"
 msgid "Filename format"
 msgstr "文件名格式"
 
-#: src/wx/new_film_dialog.cc:38
+#: src/wx/new_film_dialog.cc:39
 msgid "Film name"
 msgstr "工程名称"
 
@@ -690,7 +695,7 @@ msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr "分析音频时，发现综合响度，真实峰值和响度范围！"
 
-#: src/wx/content_menu.cc:65
+#: src/wx/content_menu.cc:66
 msgid "Find missing..."
 msgstr "寻找丢失..."
 
@@ -722,6 +727,10 @@ msgstr "起始"
 #: src/wx/config_dialog.cc:1266
 msgid "From address"
 msgstr "发件人地址"
+
+#: src/wx/new_film_dialog.cc:57
+msgid "From template"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -860,7 +869,7 @@ msgid ""
 "for newly-encoded data"
 msgstr "上次使用的JPEG2000码率"
 
-#: src/wx/content_menu.cc:64
+#: src/wx/content_menu.cc:65
 msgid "Join"
 msgstr "创建"
 
@@ -877,7 +886,7 @@ msgstr "KDM类型"
 msgid "KDM|Timing"
 msgstr "时间窗口"
 
-#: src/wx/timeline_dialog.cc:44
+#: src/wx/timeline_dialog.cc:51
 msgid "Keep video and subtitles in sequence"
 msgstr "保持视频序列和字幕序列"
 
@@ -892,6 +901,10 @@ msgstr "键值"
 #: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "语言"
+
+#: src/wx/content_panel.cc:97
+msgid "Later"
+msgstr ""
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -938,7 +951,7 @@ msgstr "日志"
 msgid "Loudness range %.2f LU"
 msgstr "响度范围 %.2f LU"
 
-#: src/wx/content_panel.cc:506
+#: src/wx/content_panel.cc:507
 msgid "MISSING: "
 msgstr "丢失:"
 
@@ -1015,17 +1028,27 @@ msgstr "我的文档"
 msgid "My problem is"
 msgstr "错误内容"
 
-#: src/wx/content_panel.cc:510
+#: src/wx/content_panel.cc:511
 msgid "NEEDS KDM: "
+msgstr "用KDM:"
+
+#: src/wx/content_panel.cc:515
+#, fuzzy
+msgid "NEEDS OV: "
 msgstr "用KDM:"
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "名称"
 
-#: src/wx/new_film_dialog.cc:36
+#: src/wx/new_film_dialog.cc:37
 msgid "New Film"
 msgstr "新建工程"
+
+#: src/wx/rename_template_dialog.cc:26
+#, fuzzy
+msgid "New name"
+msgstr "用户名"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1164,7 +1187,7 @@ msgstr "预发布(点映版)"
 msgid "Processor"
 msgstr "处理类型"
 
-#: src/wx/content_menu.cc:66
+#: src/wx/content_menu.cc:67
 msgid "Properties..."
 msgstr "属性..."
 
@@ -1188,7 +1211,7 @@ msgstr "随机"
 msgid "Rating (e.g. 15)"
 msgstr "评级 (例如:15)"
 
-#: src/wx/content_menu.cc:67
+#: src/wx/content_menu.cc:68
 msgid "Re-examine..."
 msgstr "重新制作..."
 
@@ -1241,8 +1264,9 @@ msgstr "分卷|自定义"
 msgid "Refer to existing DCP"
 msgstr "参考现有的DCP"
 
-#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:70
-#: src/wx/content_panel.cc:89 src/wx/editable_list.h:84
+#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:73
+#: src/wx/content_panel.cc:89 src/wx/templates_dialog.cc:52
+#: src/wx/editable_list.h:84
 msgid "Remove"
 msgstr "移除"
 
@@ -1258,6 +1282,16 @@ msgstr "移除荧幕（放映服务器）"
 msgid "Remove the selected piece of content from the film."
 msgstr "删除选择工程"
 
+#: src/wx/rename_template_dialog.cc:24
+#, fuzzy
+msgid "Rename template"
+msgstr "文件名格式"
+
+#: src/wx/templates_dialog.cc:50
+#, fuzzy
+msgid "Rename..."
+msgstr "重新制作..."
+
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
 msgstr "重复"
@@ -1266,7 +1300,7 @@ msgstr "重复"
 msgid "Repeat Content"
 msgstr "重复内容"
 
-#: src/wx/content_menu.cc:63
+#: src/wx/content_menu.cc:64
 msgid "Repeat..."
 msgstr "重复..."
 
@@ -1319,6 +1353,10 @@ msgstr "SMPTE"
 msgid "Sample peak is %.2fdB at %s"
 msgstr "最佳值 %.2fdB 到 %s "
 
+#: src/wx/save_template_dialog.cc:29
+msgid "Save template"
+msgstr ""
+
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
 msgstr "保存到KDM创建的工具列表"
@@ -1348,13 +1386,18 @@ msgstr "选择证书文件"
 msgid "Select Chain File"
 msgstr "选择密钥文件"
 
-#: src/wx/content_menu.cc:321
+#: src/wx/content_menu.cc:325
 msgid "Select KDM"
 msgstr "选择KDM"
 
 #: src/wx/config_dialog.cc:939 src/wx/config_dialog.cc:973
 msgid "Select Key File"
 msgstr "选择密钥文件"
+
+#: src/wx/content_menu.cc:351
+#, fuzzy
+msgid "Select OV"
+msgstr "选择KDM"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1428,7 +1471,7 @@ msgstr "签名卷"
 msgid "Smoothing"
 msgstr "平滑"
 
-#: src/wx/timeline_dialog.cc:42
+#: src/wx/timeline_dialog.cc:49
 msgid "Snap"
 msgstr "临时"
 
@@ -1485,7 +1528,7 @@ msgstr "字幕颜色"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:269
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1501,6 +1544,22 @@ msgstr "目标路径"
 msgid "Temp version"
 msgstr "临时版本"
 
+#: src/wx/templates_dialog.cc:42
+msgid "Template"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:31
+msgid "Template name"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
+msgid "Template names must not be empty."
+msgstr ""
+
+#: src/wx/templates_dialog.cc:32
+msgid "Templates"
+msgstr ""
+
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
 msgstr "国别地区(例如:CN)"
@@ -1509,7 +1568,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:323
+#: src/wx/about_dialog.cc:324
 msgid "Tested by"
 msgstr "测试"
 
@@ -1517,7 +1576,7 @@ msgstr "测试"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "结束时间必须大于开始时间！"
 
-#: src/wx/content_menu.cc:307
+#: src/wx/content_menu.cc:311
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1527,6 +1586,11 @@ msgstr "文件不匹配，请删除不规范的文件或添加正确的文件"
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
 msgstr "正常!"
+
+#: src/wx/save_template_dialog.cc:55
+msgid ""
+"There is already a template with this name.  Do you want to overwrite it?"
+msgstr ""
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1558,7 +1622,7 @@ msgstr "指纹"
 msgid "Time"
 msgstr "时间"
 
-#: src/wx/timeline_dialog.cc:35
+#: src/wx/timeline_dialog.cc:38
 msgid "Timeline"
 msgstr "时间线"
 
@@ -1712,10 +1776,6 @@ msgstr "西8区"
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-9"
 msgstr "西9区"
-
-#: src/wx/content_panel.cc:93
-msgid "Up"
-msgstr "上移"
 
 #: src/wx/update_dialog.cc:29
 msgid "Update"
@@ -1872,6 +1932,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Down"
+#~ msgstr "下移"
+
+#~ msgid "Up"
+#~ msgstr "上移"
 
 #~ msgid ""
 #~ "A few projectors have problems playing back very high bit-rate DCPs.  It "

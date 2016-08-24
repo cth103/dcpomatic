@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-17 14:44+0100\n"
+"POT-Creation-Date: 2016-08-24 16:46+0100\n"
 "PO-Revision-Date: 2016-07-04 00:24+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -153,8 +153,13 @@ msgstr "Добавить кинотеатр"
 msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
 
-#: src/wx/content_menu.cc:68
+#: src/wx/content_menu.cc:70
 msgid "Add KDM..."
+msgstr "Добавить KDM..."
+
+#: src/wx/content_menu.cc:71
+#, fuzzy
+msgid "Add OV..."
 msgstr "Добавить KDM..."
 
 #: src/wx/screens_panel.cc:206
@@ -342,7 +347,7 @@ msgstr "Проверять тестовые обновления при запу
 msgid "Check for updates on startup"
 msgstr "Проверять обновления при запуске"
 
-#: src/wx/content_menu.cc:251
+#: src/wx/content_menu.cc:255
 msgid "Choose a file"
 msgstr "Выбрать файл"
 
@@ -350,7 +355,7 @@ msgstr "Выбрать файл"
 msgid "Choose a file or files"
 msgstr "Выбрать файл или файлы"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:250 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Выбрать папку"
 
@@ -403,7 +408,7 @@ msgid "Container"
 msgstr "Контейнер"
 
 #: src/wx/audio_mapping_view.cc:437 src/wx/audio_mapping_view.cc:439
-#: src/wx/film_editor.cc:52
+#: src/wx/film_editor.cc:54
 msgid "Content"
 msgstr "Контент"
 
@@ -436,7 +441,7 @@ msgstr "Не удалось проанализировать аудио."
 msgid "Could not get video for view (%s)"
 msgstr "Не удалось вывести предпросмотр видео (%s)"
 
-#: src/wx/content_menu.cc:327
+#: src/wx/content_menu.cc:331
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Не удалось загрузить KDM (%s)"
@@ -452,7 +457,7 @@ msgstr "Не удалось прочитать файл сертификата (
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не удалось прочитать файл ключа; файл слишком длинный (%s)"
 
-#: src/wx/new_film_dialog.cc:41
+#: src/wx/new_film_dialog.cc:42
 msgid "Create in folder"
 msgstr "Создать в папке"
 
@@ -465,7 +470,7 @@ msgid "Crop"
 msgstr "Кадрирование"
 
 #: src/wx/audio_mapping_view.cc:472 src/wx/audio_mapping_view.cc:474
-#: src/wx/film_editor.cc:54
+#: src/wx/film_editor.cc:56
 msgid "DCP"
 msgstr "DCP"
 
@@ -562,10 +567,6 @@ msgstr "Dolby / Doremi"
 msgid "Don't show hints again"
 msgstr ""
 
-#: src/wx/content_panel.cc:97
-msgid "Down"
-msgstr "Вниз"
-
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
 msgstr "Скачать"
@@ -581,6 +582,10 @@ msgstr "Загрузка..."
 #: src/wx/dolby_doremi_certificate_panel.cc:56
 msgid "Downloading certificate"
 msgstr "Скачивание сертификата"
+
+#: src/wx/content_panel.cc:93
+msgid "Earlier"
+msgstr ""
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -681,7 +686,7 @@ msgstr "Постепенное затухание"
 msgid "Filename format"
 msgstr "Имя файла"
 
-#: src/wx/new_film_dialog.cc:38
+#: src/wx/new_film_dialog.cc:39
 msgid "Film name"
 msgstr "Название проекта"
 
@@ -696,7 +701,7 @@ msgstr ""
 "Искать интегрированную громкость, истинный пик и диапазон громкости при "
 "анализе аудио"
 
-#: src/wx/content_menu.cc:65
+#: src/wx/content_menu.cc:66
 msgid "Find missing..."
 msgstr "Найти отсутствующее..."
 
@@ -730,6 +735,10 @@ msgstr "От"
 #: src/wx/config_dialog.cc:1266
 msgid "From address"
 msgstr "Отправитель"
+
+#: src/wx/new_film_dialog.cc:57
+msgid "From template"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -870,7 +879,7 @@ msgid ""
 "for newly-encoded data"
 msgstr "Пропускная способность JPEG2000"
 
-#: src/wx/content_menu.cc:64
+#: src/wx/content_menu.cc:65
 msgid "Join"
 msgstr "Подсоединить"
 
@@ -887,7 +896,7 @@ msgstr "Тип KDM"
 msgid "KDM|Timing"
 msgstr "Тайминг"
 
-#: src/wx/timeline_dialog.cc:44
+#: src/wx/timeline_dialog.cc:51
 msgid "Keep video and subtitles in sequence"
 msgstr "Хранить видео и субтитры в последовательности"
 
@@ -902,6 +911,10 @@ msgstr "Ключи"
 #: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "Язык"
+
+#: src/wx/content_panel.cc:97
+msgid "Later"
+msgstr ""
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -948,7 +961,7 @@ msgstr "Лог"
 msgid "Loudness range %.2f LU"
 msgstr "Диапазон громкости %.2f LU"
 
-#: src/wx/content_panel.cc:506
+#: src/wx/content_panel.cc:507
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ:"
 
@@ -1025,17 +1038,27 @@ msgstr "Мои документы"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:510
+#: src/wx/content_panel.cc:511
 msgid "NEEDS KDM: "
+msgstr "НЕОБХОДИМ KDM:"
+
+#: src/wx/content_panel.cc:515
+#, fuzzy
+msgid "NEEDS OV: "
 msgstr "НЕОБХОДИМ KDM:"
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Название"
 
-#: src/wx/new_film_dialog.cc:36
+#: src/wx/new_film_dialog.cc:37
 msgid "New Film"
 msgstr "Новый проект"
+
+#: src/wx/rename_template_dialog.cc:26
+#, fuzzy
+msgid "New name"
+msgstr "Имя пользователя"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1177,7 +1200,7 @@ msgstr "Пре-релиз"
 msgid "Processor"
 msgstr "Обработка"
 
-#: src/wx/content_menu.cc:66
+#: src/wx/content_menu.cc:67
 msgid "Properties..."
 msgstr "Свойства..."
 
@@ -1201,7 +1224,7 @@ msgstr "Случайный"
 msgid "Rating (e.g. 15)"
 msgstr "Рейтинг (напр. NR)"
 
-#: src/wx/content_menu.cc:67
+#: src/wx/content_menu.cc:68
 msgid "Re-examine..."
 msgstr "Перепроверить..."
 
@@ -1255,8 +1278,9 @@ msgstr "Пользовательское"
 msgid "Refer to existing DCP"
 msgstr "Ссылаться на существующий DCP"
 
-#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:70
-#: src/wx/content_panel.cc:89 src/wx/editable_list.h:84
+#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:73
+#: src/wx/content_panel.cc:89 src/wx/templates_dialog.cc:52
+#: src/wx/editable_list.h:84
 msgid "Remove"
 msgstr "Убрать"
 
@@ -1272,6 +1296,16 @@ msgstr "Убрать экран"
 msgid "Remove the selected piece of content from the film."
 msgstr "Убрать выбранный элемент контента из проекта."
 
+#: src/wx/rename_template_dialog.cc:24
+#, fuzzy
+msgid "Rename template"
+msgstr "Имя файла"
+
+#: src/wx/templates_dialog.cc:50
+#, fuzzy
+msgid "Rename..."
+msgstr "Перепроверить..."
+
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
 msgstr "Повторить"
@@ -1280,7 +1314,7 @@ msgstr "Повторить"
 msgid "Repeat Content"
 msgstr "Повторить контент"
 
-#: src/wx/content_menu.cc:63
+#: src/wx/content_menu.cc:64
 msgid "Repeat..."
 msgstr "Повторить..."
 
@@ -1333,6 +1367,10 @@ msgstr "SMPTE"
 msgid "Sample peak is %.2fdB at %s"
 msgstr "Пиковая громкость %.2fдБ на %s"
 
+#: src/wx/save_template_dialog.cc:29
+msgid "Save template"
+msgstr ""
+
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
 msgstr "Сохранить в список инструмента генерации KDM"
@@ -1363,13 +1401,18 @@ msgstr "Выберите файл сертификата"
 msgid "Select Chain File"
 msgstr "Выберите файл ключа"
 
-#: src/wx/content_menu.cc:321
+#: src/wx/content_menu.cc:325
 msgid "Select KDM"
 msgstr "Выберите KDM"
 
 #: src/wx/config_dialog.cc:939 src/wx/config_dialog.cc:973
 msgid "Select Key File"
 msgstr "Выберите файл ключа"
+
+#: src/wx/content_menu.cc:351
+#, fuzzy
+msgid "Select OV"
+msgstr "Выберите KDM"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1443,7 +1486,7 @@ msgstr "Одна бобина"
 msgid "Smoothing"
 msgstr "Сглаживание"
 
-#: src/wx/timeline_dialog.cc:42
+#: src/wx/timeline_dialog.cc:49
 msgid "Snap"
 msgstr "Присоединять"
 
@@ -1500,7 +1543,7 @@ msgstr "Цвета субтитров"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:269
 msgid "Supported by"
 msgstr "Финансовая поддержка"
 
@@ -1516,6 +1559,22 @@ msgstr "Целевой путь"
 msgid "Temp version"
 msgstr "Временная версия"
 
+#: src/wx/templates_dialog.cc:42
+msgid "Template"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:31
+msgid "Template name"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
+msgid "Template names must not be empty."
+msgstr ""
+
+#: src/wx/templates_dialog.cc:32
+msgid "Templates"
+msgstr ""
+
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
 msgstr "Территория (напр. UA)"
@@ -1524,7 +1583,7 @@ msgstr "Территория (напр. UA)"
 msgid "Test version "
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:323
+#: src/wx/about_dialog.cc:324
 msgid "Tested by"
 msgstr "Тестирование"
 
@@ -1532,7 +1591,7 @@ msgstr "Тестирование"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Время \"до\" должно быть после времени \"от\""
 
-#: src/wx/content_menu.cc:307
+#: src/wx/content_menu.cc:311
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1544,6 +1603,11 @@ msgstr ""
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
 msgstr "Нет подсказок: похоже всё хорошо!"
+
+#: src/wx/save_template_dialog.cc:55
+msgid ""
+"There is already a template with this name.  Do you want to overwrite it?"
+msgstr ""
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1577,7 +1641,7 @@ msgstr "Отпечаток"
 msgid "Time"
 msgstr "Время"
 
-#: src/wx/timeline_dialog.cc:35
+#: src/wx/timeline_dialog.cc:38
 msgid "Timeline"
 msgstr "Линейка"
 
@@ -1731,10 +1795,6 @@ msgstr "UTC-8"
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-9"
 msgstr "UTC-9"
-
-#: src/wx/content_panel.cc:93
-msgid "Up"
-msgstr "Вверх"
 
 #: src/wx/update_dialog.cc:29
 msgid "Update"
@@ -1892,6 +1952,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Down"
+#~ msgstr "Вниз"
+
+#~ msgid "Up"
+#~ msgstr "Вверх"
 
 #~ msgid ""
 #~ "A few projectors have problems playing back very high bit-rate DCPs.  It "

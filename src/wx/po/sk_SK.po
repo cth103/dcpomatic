@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-17 14:44+0100\n"
+"POT-Creation-Date: 2016-08-24 16:46+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -156,8 +156,13 @@ msgstr "Pridať kino..."
 msgid "Add Cinema..."
 msgstr "Pridať kino..."
 
-#: src/wx/content_menu.cc:68
+#: src/wx/content_menu.cc:70
 msgid "Add KDM..."
+msgstr "Pridať KDM..."
+
+#: src/wx/content_menu.cc:71
+#, fuzzy
+msgid "Add OV..."
 msgstr "Pridať KDM..."
 
 #: src/wx/screens_panel.cc:206
@@ -346,7 +351,7 @@ msgstr "Skontrolovať testing aktualizácie pri spustení programu"
 msgid "Check for updates on startup"
 msgstr "Skontrolovať aktualizácie pri spustení programu "
 
-#: src/wx/content_menu.cc:251
+#: src/wx/content_menu.cc:255
 msgid "Choose a file"
 msgstr "Vyberte súbor"
 
@@ -354,7 +359,7 @@ msgstr "Vyberte súbor"
 msgid "Choose a file or files"
 msgstr "Vyberte súbor alebo súbory"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:250 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Vyberte priečinok"
 
@@ -406,7 +411,7 @@ msgid "Container"
 msgstr "Kontajner"
 
 #: src/wx/audio_mapping_view.cc:437 src/wx/audio_mapping_view.cc:439
-#: src/wx/film_editor.cc:52
+#: src/wx/film_editor.cc:54
 msgid "Content"
 msgstr "Obsah"
 
@@ -439,7 +444,7 @@ msgstr "Nemôžem analyzovať zvuk."
 msgid "Could not get video for view (%s)"
 msgstr "Nemôžem získať náhľad z videa (%s)"
 
-#: src/wx/content_menu.cc:327
+#: src/wx/content_menu.cc:331
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Nemôžem načítať kDM (%s)"
@@ -455,7 +460,7 @@ msgstr "Nemôžem načítať súbor s certifikátom (%s)"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemôžem prečítať súbor s kľúčom (%s)"
 
-#: src/wx/new_film_dialog.cc:41
+#: src/wx/new_film_dialog.cc:42
 msgid "Create in folder"
 msgstr "Vytvoriť v priečinku"
 
@@ -468,7 +473,7 @@ msgid "Crop"
 msgstr "Orezať"
 
 #: src/wx/audio_mapping_view.cc:472 src/wx/audio_mapping_view.cc:474
-#: src/wx/film_editor.cc:54
+#: src/wx/film_editor.cc:56
 msgid "DCP"
 msgstr "DCP"
 
@@ -565,10 +570,6 @@ msgstr "Dolby / Doremi"
 msgid "Don't show hints again"
 msgstr ""
 
-#: src/wx/content_panel.cc:97
-msgid "Down"
-msgstr "Dole"
-
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
 msgstr "Stiahnuť"
@@ -584,6 +585,10 @@ msgstr "Stiahnuť..."
 #: src/wx/dolby_doremi_certificate_panel.cc:56
 msgid "Downloading certificate"
 msgstr "Sťahujem certifikát"
+
+#: src/wx/content_panel.cc:93
+msgid "Earlier"
+msgstr ""
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -686,7 +691,7 @@ msgstr "Postupné stíšenie (Fade out)"
 msgid "Filename format"
 msgstr "Názov súboru"
 
-#: src/wx/new_film_dialog.cc:38
+#: src/wx/new_film_dialog.cc:39
 msgid "Film name"
 msgstr "Názov filmu"
 
@@ -699,7 +704,7 @@ msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
 
-#: src/wx/content_menu.cc:65
+#: src/wx/content_menu.cc:66
 msgid "Find missing..."
 msgstr "Nájsť chýbajúce..."
 
@@ -731,6 +736,10 @@ msgstr "Z"
 #: src/wx/config_dialog.cc:1266
 msgid "From address"
 msgstr "Z adresy"
+
+#: src/wx/new_film_dialog.cc:57
+msgid "From template"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -871,7 +880,7 @@ msgid ""
 "for newly-encoded data"
 msgstr "JPEG2000 bandwidth (šírka pásma)"
 
-#: src/wx/content_menu.cc:64
+#: src/wx/content_menu.cc:65
 msgid "Join"
 msgstr "Spojiť"
 
@@ -888,7 +897,7 @@ msgstr "KDM Typ"
 msgid "KDM|Timing"
 msgstr "Trvanie"
 
-#: src/wx/timeline_dialog.cc:44
+#: src/wx/timeline_dialog.cc:51
 #, fuzzy
 msgid "Keep video and subtitles in sequence"
 msgstr "Nechať video v sekvencií"
@@ -904,6 +913,10 @@ msgstr "Kľúče"
 #: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "Jazyk"
+
+#: src/wx/content_panel.cc:97
+msgid "Later"
+msgstr ""
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -951,7 +964,7 @@ msgstr "Log"
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
 
-#: src/wx/content_panel.cc:506
+#: src/wx/content_panel.cc:507
 msgid "MISSING: "
 msgstr "CHÝBAJÚCE:"
 
@@ -1029,17 +1042,27 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Môj problém je"
 
-#: src/wx/content_panel.cc:510
+#: src/wx/content_panel.cc:511
 msgid "NEEDS KDM: "
+msgstr "POTREBNÉ KDM:"
+
+#: src/wx/content_panel.cc:515
+#, fuzzy
+msgid "NEEDS OV: "
 msgstr "POTREBNÉ KDM:"
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Názov"
 
-#: src/wx/new_film_dialog.cc:36
+#: src/wx/new_film_dialog.cc:37
 msgid "New Film"
 msgstr "Nový film"
+
+#: src/wx/rename_template_dialog.cc:26
+#, fuzzy
+msgid "New name"
+msgstr "Používateľské meno"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1181,7 +1204,7 @@ msgstr "Predbežné vydanie"
 msgid "Processor"
 msgstr "Procesor"
 
-#: src/wx/content_menu.cc:66
+#: src/wx/content_menu.cc:67
 msgid "Properties..."
 msgstr "Nastavenia..."
 
@@ -1205,7 +1228,7 @@ msgstr "Náhodné"
 msgid "Rating (e.g. 15)"
 msgstr "Prístupnosť (napr. 12)"
 
-#: src/wx/content_menu.cc:67
+#: src/wx/content_menu.cc:68
 msgid "Re-examine..."
 msgstr "Znovu analyzovať..."
 
@@ -1260,8 +1283,9 @@ msgstr "Vlastný"
 msgid "Refer to existing DCP"
 msgstr "Odkázať na existujúce DCP"
 
-#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:70
-#: src/wx/content_panel.cc:89 src/wx/editable_list.h:84
+#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:73
+#: src/wx/content_panel.cc:89 src/wx/templates_dialog.cc:52
+#: src/wx/editable_list.h:84
 msgid "Remove"
 msgstr "Odstrániť"
 
@@ -1277,6 +1301,16 @@ msgstr "Odstrániť sálu"
 msgid "Remove the selected piece of content from the film."
 msgstr "Odstrániť vybranú časť obsahu z filmu."
 
+#: src/wx/rename_template_dialog.cc:24
+#, fuzzy
+msgid "Rename template"
+msgstr "Názov súboru"
+
+#: src/wx/templates_dialog.cc:50
+#, fuzzy
+msgid "Rename..."
+msgstr "Znovu analyzovať..."
+
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
 msgstr "Opakovať"
@@ -1285,7 +1319,7 @@ msgstr "Opakovať"
 msgid "Repeat Content"
 msgstr "Opakovať obsah"
 
-#: src/wx/content_menu.cc:63
+#: src/wx/content_menu.cc:64
 msgid "Repeat..."
 msgstr "Opakovať..."
 
@@ -1339,6 +1373,10 @@ msgstr "SMPTE"
 msgid "Sample peak is %.2fdB at %s"
 msgstr "Vzorka najvyššej hlasitosti zvuku (sample peak) je %.2fdB na %s"
 
+#: src/wx/save_template_dialog.cc:29
+msgid "Save template"
+msgstr ""
+
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
 msgstr ""
@@ -1369,13 +1407,18 @@ msgstr "Vybrať súbor s certifikátom"
 msgid "Select Chain File"
 msgstr "Vybrať súbor s kľúčom"
 
-#: src/wx/content_menu.cc:321
+#: src/wx/content_menu.cc:325
 msgid "Select KDM"
 msgstr "Vybrať KDM"
 
 #: src/wx/config_dialog.cc:939 src/wx/config_dialog.cc:973
 msgid "Select Key File"
 msgstr "Vybrať súbor s kľúčom"
+
+#: src/wx/content_menu.cc:351
+#, fuzzy
+msgid "Select OV"
+msgstr "Vybrať KDM"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1449,7 +1492,7 @@ msgstr "Jeden reel"
 msgid "Smoothing"
 msgstr "Vyhladzovanie"
 
-#: src/wx/timeline_dialog.cc:42
+#: src/wx/timeline_dialog.cc:49
 msgid "Snap"
 msgstr "Prichytenie k objektom"
 
@@ -1507,7 +1550,7 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:269
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1523,6 +1566,22 @@ msgstr "Cieľová cesta"
 msgid "Temp version"
 msgstr "Temp verzia"
 
+#: src/wx/templates_dialog.cc:42
+msgid "Template"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:31
+msgid "Template name"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
+msgid "Template names must not be empty."
+msgstr ""
+
+#: src/wx/templates_dialog.cc:32
+msgid "Templates"
+msgstr ""
+
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
 msgstr "Územie (napr. SK)"
@@ -1531,7 +1590,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:323
+#: src/wx/about_dialog.cc:324
 msgid "Tested by"
 msgstr "Testované"
 
@@ -1539,7 +1598,7 @@ msgstr "Testované"
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
-#: src/wx/content_menu.cc:307
+#: src/wx/content_menu.cc:311
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1551,6 +1610,11 @@ msgstr ""
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
 msgstr "Žiadne upozornenie; všetko vyzerá dobre !"
+
+#: src/wx/save_template_dialog.cc:55
+msgid ""
+"There is already a template with this name.  Do you want to overwrite it?"
+msgstr ""
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1582,7 +1646,7 @@ msgstr "Odtlačok (Thumbprint)"
 msgid "Time"
 msgstr "Čas"
 
-#: src/wx/timeline_dialog.cc:35
+#: src/wx/timeline_dialog.cc:38
 msgid "Timeline"
 msgstr "Časová os"
 
@@ -1736,10 +1800,6 @@ msgstr ""
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-9"
 msgstr ""
-
-#: src/wx/content_panel.cc:93
-msgid "Up"
-msgstr "Hore"
 
 #: src/wx/update_dialog.cc:29
 msgid "Update"
@@ -1897,6 +1957,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Down"
+#~ msgstr "Dole"
+
+#~ msgid "Up"
+#~ msgstr "Hore"
 
 #~ msgid ""
 #~ "A few projectors have problems playing back very high bit-rate DCPs.  It "

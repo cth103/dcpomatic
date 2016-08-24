@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-17 14:44+0100\n"
+"POT-Creation-Date: 2016-08-24 16:46+0100\n"
 "PO-Revision-Date: 2016-08-24 17:37+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -156,8 +156,13 @@ msgstr "Ajouter Cinéma"
 msgid "Add Cinema..."
 msgstr "Ajouter cinéma"
 
-#: src/wx/content_menu.cc:68
+#: src/wx/content_menu.cc:70
 msgid "Add KDM..."
+msgstr "Ajouter KDM..."
+
+#: src/wx/content_menu.cc:71
+#, fuzzy
+msgid "Add OV..."
 msgstr "Ajouter KDM..."
 
 #: src/wx/screens_panel.cc:206
@@ -347,7 +352,7 @@ msgstr "Recherche de mises à jour test au démarrage."
 msgid "Check for updates on startup"
 msgstr "Recherche de mises à jour au démarrage."
 
-#: src/wx/content_menu.cc:251
+#: src/wx/content_menu.cc:255
 msgid "Choose a file"
 msgstr "Choisissez un fichier"
 
@@ -355,7 +360,7 @@ msgstr "Choisissez un fichier"
 msgid "Choose a file or files"
 msgstr "Choisissez un ou plusieurs fichiers"
 
-#: src/wx/content_menu.cc:246 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:250 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Choisissez un dossier"
 
@@ -408,7 +413,7 @@ msgid "Container"
 msgstr "Format"
 
 #: src/wx/audio_mapping_view.cc:437 src/wx/audio_mapping_view.cc:439
-#: src/wx/film_editor.cc:52
+#: src/wx/film_editor.cc:54
 msgid "Content"
 msgstr "Contenu"
 
@@ -441,7 +446,7 @@ msgstr "Analyse du son impossible"
 msgid "Could not get video for view (%s)"
 msgstr "aucune vidéo à afficher (%s)"
 
-#: src/wx/content_menu.cc:327
+#: src/wx/content_menu.cc:331
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Chargement KDM impossible (%s)"
@@ -457,7 +462,7 @@ msgstr "Lecture du ficher de certificat (%s) impossible"
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Fichier clé illisible car trop long (%s)"
 
-#: src/wx/new_film_dialog.cc:41
+#: src/wx/new_film_dialog.cc:42
 msgid "Create in folder"
 msgstr "Créer dans le dossier"
 
@@ -470,7 +475,7 @@ msgid "Crop"
 msgstr "Rogner"
 
 #: src/wx/audio_mapping_view.cc:472 src/wx/audio_mapping_view.cc:474
-#: src/wx/film_editor.cc:54
+#: src/wx/film_editor.cc:56
 msgid "DCP"
 msgstr "DCP"
 
@@ -567,10 +572,6 @@ msgstr "Dolby / Doremi"
 msgid "Don't show hints again"
 msgstr "Ne plus montrer ces avertissements."
 
-#: src/wx/content_panel.cc:97
-msgid "Down"
-msgstr "Descendre"
-
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
 msgstr "Télécharger"
@@ -586,6 +587,10 @@ msgstr "Téléchargement..."
 #: src/wx/dolby_doremi_certificate_panel.cc:56
 msgid "Downloading certificate"
 msgstr "Téléchargement Certificat en cours"
+
+#: src/wx/content_panel.cc:93
+msgid "Earlier"
+msgstr ""
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -685,7 +690,7 @@ msgstr "Durée Fondu fin"
 msgid "Filename format"
 msgstr "Format de nom de fichier"
 
-#: src/wx/new_film_dialog.cc:38
+#: src/wx/new_film_dialog.cc:39
 msgid "Film name"
 msgstr "Nom du Film"
 
@@ -700,7 +705,7 @@ msgstr ""
 "Trouver graves intégrées, crête véritable et plage de volume sonore lors de "
 "l'analyse audio"
 
-#: src/wx/content_menu.cc:65
+#: src/wx/content_menu.cc:66
 msgid "Find missing..."
 msgstr "Recherche de l'élément manquant..."
 
@@ -732,6 +737,10 @@ msgstr "À partir du"
 #: src/wx/config_dialog.cc:1266
 msgid "From address"
 msgstr "Adresse source"
+
+#: src/wx/new_film_dialog.cc:57
+msgid "From template"
+msgstr ""
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -872,7 +881,7 @@ msgstr ""
 "Bande passante JPEG2000\n"
 "pour nouvelles données encodées"
 
-#: src/wx/content_menu.cc:64
+#: src/wx/content_menu.cc:65
 msgid "Join"
 msgstr "Ajouter"
 
@@ -889,7 +898,7 @@ msgstr "Type de KDM"
 msgid "KDM|Timing"
 msgstr "Temps"
 
-#: src/wx/timeline_dialog.cc:44
+#: src/wx/timeline_dialog.cc:51
 msgid "Keep video and subtitles in sequence"
 msgstr "Conserver la vidéo et les sous-titres dans la séquence"
 
@@ -904,6 +913,10 @@ msgstr "Clés"
 #: src/wx/subtitle_panel.cc:118
 msgid "Language"
 msgstr "Langue"
+
+#: src/wx/content_panel.cc:97
+msgid "Later"
+msgstr ""
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -950,7 +963,7 @@ msgstr "Rapport"
 msgid "Loudness range %.2f LU"
 msgstr "Plage Basses fréquences %.2f LU"
 
-#: src/wx/content_panel.cc:506
+#: src/wx/content_panel.cc:507
 msgid "MISSING: "
 msgstr "MANQUANT:"
 
@@ -1027,18 +1040,27 @@ msgstr "Mes Documents"
 msgid "My problem is"
 msgstr "Mon problème est :"
 
-#: src/wx/content_panel.cc:510
+#: src/wx/content_panel.cc:511
 msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
-#: src/wx/screen_dialog.cc:67
+#: src/wx/content_panel.cc:515
+#, fuzzy
+msgid "NEEDS OV: "
+msgstr "DEMANDE de KDM:"
+
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Nom"
 
-#: src/wx/new_film_dialog.cc:36
+#: src/wx/new_film_dialog.cc:37
 msgid "New Film"
 msgstr "Nouveau Film"
+
+#: src/wx/rename_template_dialog.cc:26
+#, fuzzy
+msgid "New name"
+msgstr "Nom d'utilisateur"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1179,7 +1201,7 @@ msgstr "Avant sortie"
 msgid "Processor"
 msgstr "Processeur"
 
-#: src/wx/content_menu.cc:66
+#: src/wx/content_menu.cc:67
 msgid "Properties..."
 msgstr "Propriétés..."
 
@@ -1203,7 +1225,7 @@ msgstr "Aléatoire"
 msgid "Rating (e.g. 15)"
 msgstr "Rating (ex. 15)"
 
-#: src/wx/content_menu.cc:67
+#: src/wx/content_menu.cc:68
 msgid "Re-examine..."
 msgstr "Examine à nouveau..."
 
@@ -1258,8 +1280,9 @@ msgstr "Personnalisé"
 msgid "Refer to existing DCP"
 msgstr "Se réferer à DCP existant"
 
-#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:70
-#: src/wx/content_panel.cc:89 src/wx/editable_list.h:84
+#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:73
+#: src/wx/content_panel.cc:89 src/wx/templates_dialog.cc:52
+#: src/wx/editable_list.h:84
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -1275,6 +1298,16 @@ msgstr "Supprimer la salle"
 msgid "Remove the selected piece of content from the film."
 msgstr "Enleve le contenu sélectionné du film."
 
+#: src/wx/rename_template_dialog.cc:24
+#, fuzzy
+msgid "Rename template"
+msgstr "Format de nom de fichier"
+
+#: src/wx/templates_dialog.cc:50
+#, fuzzy
+msgid "Rename..."
+msgstr "Examine à nouveau..."
+
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
 msgstr "Répéter"
@@ -1283,7 +1316,7 @@ msgstr "Répéter"
 msgid "Repeat Content"
 msgstr "Répéter le contenu"
 
-#: src/wx/content_menu.cc:63
+#: src/wx/content_menu.cc:64
 msgid "Repeat..."
 msgstr "Répéter..."
 
@@ -1336,6 +1369,10 @@ msgstr "SMPTE"
 msgid "Sample peak is %.2fdB at %s"
 msgstr "La crête d'échantillon est de %.2fdB à %s"
 
+#: src/wx/save_template_dialog.cc:29
+msgid "Save template"
+msgstr ""
+
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
 msgstr "Enregistrer dans la liste de l'outil de création KDM"
@@ -1366,13 +1403,18 @@ msgstr "Sélectionner le certificat"
 msgid "Select Chain File"
 msgstr "Sélectionner fichier clé"
 
-#: src/wx/content_menu.cc:321
+#: src/wx/content_menu.cc:325
 msgid "Select KDM"
 msgstr "Selectionner KDM"
 
 #: src/wx/config_dialog.cc:939 src/wx/config_dialog.cc:973
 msgid "Select Key File"
 msgstr "Sélectionner fichier clé"
+
+#: src/wx/content_menu.cc:351
+#, fuzzy
+msgid "Select OV"
+msgstr "Selectionner KDM"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1446,7 +1488,7 @@ msgstr "Bobine unique"
 msgid "Smoothing"
 msgstr "Lissage"
 
-#: src/wx/timeline_dialog.cc:42
+#: src/wx/timeline_dialog.cc:49
 msgid "Snap"
 msgstr "Magnetisme"
 
@@ -1503,7 +1545,7 @@ msgstr "Couleur Sous-titres"
 msgid "Subtitles"
 msgstr "Sous-titres"
 
-#: src/wx/about_dialog.cc:268
+#: src/wx/about_dialog.cc:269
 msgid "Supported by"
 msgstr "Soutenu par"
 
@@ -1519,6 +1561,22 @@ msgstr "Chemin cible"
 msgid "Temp version"
 msgstr "Version temporaire"
 
+#: src/wx/templates_dialog.cc:42
+msgid "Template"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:31
+msgid "Template name"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
+msgid "Template names must not be empty."
+msgstr ""
+
+#: src/wx/templates_dialog.cc:32
+msgid "Templates"
+msgstr ""
+
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
 msgstr "Territoire (ex. FR)"
@@ -1527,7 +1585,7 @@ msgstr "Territoire (ex. FR)"
 msgid "Test version "
 msgstr "Version test"
 
-#: src/wx/about_dialog.cc:323
+#: src/wx/about_dialog.cc:324
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -1535,7 +1593,7 @@ msgstr "Testé par"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "la date de fin doit logiquement être plus tardive que la date de début"
 
-#: src/wx/content_menu.cc:307
+#: src/wx/content_menu.cc:311
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1548,6 +1606,11 @@ msgstr ""
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
 msgstr "Il n'y a aucun avertissement: tout semble correct!"
+
+#: src/wx/save_template_dialog.cc:55
+msgid ""
+"There is already a template with this name.  Do you want to overwrite it?"
+msgstr ""
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1581,7 +1644,7 @@ msgstr "Empreinte"
 msgid "Time"
 msgstr "Durée"
 
-#: src/wx/timeline_dialog.cc:35
+#: src/wx/timeline_dialog.cc:38
 msgid "Timeline"
 msgstr "Chronologie"
 
@@ -1735,10 +1798,6 @@ msgstr "UTC-8"
 #: src/wx/cinema_dialog.cc:88
 msgid "UTC-9"
 msgstr "UTC-9"
-
-#: src/wx/content_panel.cc:93
-msgid "Up"
-msgstr "Monter"
 
 #: src/wx/update_dialog.cc:29
 msgid "Update"
@@ -1895,6 +1954,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Down"
+#~ msgstr "Descendre"
+
+#~ msgid "Up"
+#~ msgstr "Monter"
 
 #~ msgid ""
 #~ "A few projectors have problems playing back very high bit-rate DCPs.  It "
