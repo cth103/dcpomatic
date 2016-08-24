@@ -531,6 +531,19 @@ playback will be very slow as decoding of DCPs is almost as
 computationally intensive as encoding them.
 </para>
 
+<para>
+If your DCP is a Version File (VF), in other words it refers to
+another DCP's assets, you should import it as follows:
+</para>
+
+<itemizedlist>
+<listitem>Use <guilabel>Add folder...</guilabel> to import the VF DCP.
+The VF DCP will be added to the content list and marked &ldquo;NEEDS
+OV&rdquo;.</listitem>
+<listitem>Right-click on the VF DCP in the content list and choose <guilabel>Add OV...</guilabel> from the menu.</listitem>
+<listitem>Choose the folder that contains the OV DCP.  The VF will now be playable as normal.</listitem>
+</itemizedlist>
+
 </section>
 
 
