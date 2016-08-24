@@ -1896,6 +1896,43 @@ auditorium, but it can be useful to get levels in the right rough area.
 
 </chapter>
 
+
+<!-- ============================================================== -->
+<chapter xml:id="ch-templates" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Templates</title>
+
+<para>
+If you frequently make DCPs with similar settings you may find it
+useful to use templates.
+</para>
+
+<para>
+Say, for example, you often make 4K feature DCPs from video files in
+&rsquo;scope at 25fps.  You can speed up this process by following
+these steps:
+</para>
+
+<itemizedlist>
+  <listitem>Create a film with any content and set it up how you like;
+  in our example, set the content to scale to DCP, the DCP resolution
+  to 4K, and so on.</listitem>
+  <listitem>Choose <guilabel>Save as template...</guilabel> from the <guilabel>File</guilabel> menu.</listitem>
+  <listitem>Enter a name for your template.</listitem>
+</itemizedlist>
+
+<para>
+Then in the future you can create a new film, tick the
+<guilabel>Template</guilabel> box and choose your previously-saved
+template.  The basic film's settings will come from your template, and
+when you add some content it will take on the settings of the
+first similarly-typed piece of content in your template.
+</para>
+
+</chapter>
+
+
+
+<!-- ============================================================== -->
 <chapter xml:id="ch-encryption" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Encryption</title>
 
