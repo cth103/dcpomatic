@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-06-01 09:02+0200\n"
+"PO-Revision-Date: 2016-08-24 14:07+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
@@ -47,11 +47,11 @@ msgstr "-6dB"
 
 #: src/wx/wx_util.cc:377
 msgid "12 - 7.1/HI/VI"
-msgstr ""
+msgstr "12 - 7.1/HI/VI"
 
 #: src/wx/wx_util.cc:369
 msgid "2 - stereo"
-msgstr ""
+msgstr "2 - stereo"
 
 #: src/wx/rgba_colour_picker.cc:36
 msgid "255"
@@ -95,7 +95,7 @@ msgstr "3D horní/dolní (Pod sebou)"
 
 #: src/wx/wx_util.cc:371
 msgid "4 - L/C/R/Lfe"
-msgstr ""
+msgstr "4 - L/C/R/Lfe"
 
 #: src/wx/dcp_panel.cc:713
 msgid "4K"
@@ -103,11 +103,11 @@ msgstr "4K"
 
 #: src/wx/wx_util.cc:373
 msgid "6 - 5.1"
-msgstr ""
+msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:375
 msgid "8 - 5.1/HI/VI"
-msgstr ""
+msgstr "8 - 5.1/HI/VI"
 
 #: src/wx/image_subtitle_colour_dialog.cc:41
 msgid "<b>New colour</b>"
@@ -130,11 +130,11 @@ msgstr ""
 #. //trac.wxwidgets.org/ticket/13389
 #.
 #: src/wx/timing_panel.cc:132
-#, fuzzy
 msgid ""
 "<i>Only change this if the content's frame rate has been read incorrectly.</"
 "i>"
-msgstr "<i>Změňte jen v případě, pokud byl frame rate špatně načtený.</i>"
+msgstr ""
+"<i>Změňte jen v případě, pokud byla snímková rychlost špatně načtena.</i>"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "A"
@@ -213,7 +213,7 @@ msgstr "Alpha   0"
 
 #: src/wx/kdm_dialog.cc:166
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "Došlo k neznámé výjimce."
 
 #: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
@@ -221,7 +221,7 @@ msgstr "Vzhled…"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
-msgstr ""
+msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:47 src/wx/audio_panel.cc:48
 #: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:115
@@ -305,7 +305,7 @@ msgstr "CPL anotace textu"
 
 #: src/wx/kdm_dialog.cc:162
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "CPL obsah není šifrovaný."
 
 #: src/wx/audio_panel.cc:78
 msgid "Calculate..."
@@ -470,7 +470,7 @@ msgstr "DCP"
 
 #: src/wx/config_dialog.cc:1452
 msgid "DCP asset filename format"
-msgstr ""
+msgstr "Formát názvu souboru DCP"
 
 #: src/wx/kdm_cpl_panel.cc:44
 msgid "DCP directory"
@@ -478,7 +478,7 @@ msgstr "DCP adresář"
 
 #: src/wx/config_dialog.cc:1440
 msgid "DCP metadata filename format"
-msgstr ""
+msgstr "Formát názvu souboru DCP metadat"
 
 #: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
 #: src/wx/wx_util.cc:110
@@ -507,7 +507,7 @@ msgstr "Dešifruji DCP"
 
 #: src/wx/config_dialog.cc:437
 msgid "Default DCP audio channels"
-msgstr ""
+msgstr "Výchozí DCP zvukové kanály"
 
 #: src/wx/config_dialog.cc:425
 msgid "Default ISDCF name details"
@@ -559,7 +559,7 @@ msgstr "Dolby / Doremi"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
-msgstr ""
+msgstr "Již příště nezobrazovat tipy."
 
 #: src/wx/content_panel.cc:97
 msgid "Down"
@@ -632,18 +632,20 @@ msgid "Export"
 msgstr "Exportovat"
 
 #: src/wx/config_dialog.cc:1044
-#, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "certificate..."
-msgstr "Exportovat DCP dešifrovací certifikát..."
+msgstr ""
+"Exportovat DCP dešifrovací\n"
+"certifikát..."
 
 #: src/wx/config_dialog.cc:1046
-#, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "chain..."
-msgstr "Exportovat DCP dešifrovací certifikát..."
+msgstr ""
+"Exportovat DCP dešifrovací\n"
+"chain…"
 
 #: src/wx/config_dialog.cc:732
 msgid "Export..."
@@ -662,23 +664,20 @@ msgid "Fade in"
 msgstr "Postupný náběh (Fade in)"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:53
-#, fuzzy
 msgid "Fade in time"
-msgstr "Postupný náběh (Fade in)"
+msgstr "Postupný náběh v čase (Fade in)"
 
 #: src/wx/video_panel.cc:159
 msgid "Fade out"
-msgstr "Postupné ztišení (Fade out)"
+msgstr "Postupné zeslabení (Fade out)"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:57
-#, fuzzy
 msgid "Fade out time"
-msgstr "Postupné ztišení (Fade out)"
+msgstr "Postupné zeslabení v čase (Fade out)"
 
 #: src/wx/kdm_output_panel.cc:50
-#, fuzzy
 msgid "Filename format"
-msgstr "Název souboru"
+msgstr "Formát nazvu souboru"
 
 #: src/wx/new_film_dialog.cc:38
 msgid "Film name"
@@ -763,20 +762,20 @@ msgstr "Získat ze souboru…"
 
 #: src/wx/hints_dialog.cc:56
 msgid "Go back"
-msgstr ""
+msgstr "Jdi zpět"
 
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:30
 msgid "Go to"
-msgstr ""
+msgstr "Přejdi na"
 
 #: src/wx/playhead_to_frame_dialog.cc:27
 msgid "Go to frame"
-msgstr ""
+msgstr "Přejdi na snímek"
 
 #: src/wx/playhead_to_timecode_dialog.cc:24
 msgid "Go to timecode"
-msgstr ""
+msgstr "Přejdi na časový kód"
 
 #: src/wx/colour_conversion_editor.cc:126
 msgid "Green chromaticity"
@@ -815,9 +814,8 @@ msgid "ISDCF name"
 msgstr "ISDCF název"
 
 #: src/wx/video_waveform_dialog.cc:61
-#, fuzzy
 msgid "Image X position"
-msgstr "Oříznout po aktuální pozici"
+msgstr "Pozice obrázku X"
 
 #: src/wx/colour_conversion_editor.cc:55
 msgid "Input gamma"
@@ -861,11 +859,12 @@ msgid "Italic font"
 msgstr "Kurzíva (typ písma)"
 
 #: src/wx/dcp_panel.cc:680
-#, fuzzy
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
-msgstr "JPEG2000 bandwidth (šířka pásma)"
+msgstr ""
+"JPEG2000 bandwidth (šířka pásma)\n"
+"pro nově kódovaná data"
 
 #: src/wx/content_menu.cc:64
 msgid "Join"
@@ -922,11 +921,11 @@ msgstr "Levé oko"
 
 #: src/wx/content_properties_dialog.cc:79
 msgid "Length"
-msgstr ""
+msgstr "Délka"
 
 #: src/wx/subtitle_panel.cc:109
 msgid "Line spacing"
-msgstr ""
+msgstr "Mezera mezi řádky"
 
 #: src/wx/colour_conversion_editor.cc:51
 msgid "Linearise input gamma curve for small values"
@@ -959,7 +958,7 @@ msgstr "Přihlašovací jméno k emailu"
 
 #: src/wx/hints_dialog.cc:55
 msgid "Make DCP anyway"
-msgstr ""
+msgstr "Přesto vytvořit DCP"
 
 #: src/wx/self_dkdm_dialog.cc:49
 msgid "Make DKDM for DCP-o-matic"
@@ -991,9 +990,8 @@ msgid "Mbit/s"
 msgstr "Mbit/s"
 
 #: src/wx/move_to_dialog.cc:31
-#, fuzzy
 msgid "Move content"
-msgstr "Orámovat obsah"
+msgstr "Přesunout obsah"
 
 #: src/wx/content_panel.cc:94
 msgid "Move the selected piece of content earlier in the film."
@@ -1005,7 +1003,7 @@ msgstr "Přesunou vybrané části obsahu později ve filmu."
 
 #: src/wx/timing_panel.cc:93
 msgid "Move to start of reel"
-msgstr ""
+msgstr "Přesunout na začátek reelu"
 
 #: src/wx/video_panel.cc:375
 msgid "Multiple content selected"
@@ -1029,7 +1027,7 @@ msgstr "POTŘEBNÉ KDM:"
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
-msgstr "Názov"
+msgstr "Název"
 
 #: src/wx/new_film_dialog.cc:36
 msgid "New Film"
@@ -1054,7 +1052,7 @@ msgstr "Žádný obsah nebyl ve složce nalezen."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:37
 msgid "No effect"
-msgstr ""
+msgstr "Bez efektu"
 
 #: src/wx/dcp_panel.cc:752 src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:304
@@ -1110,9 +1108,8 @@ msgid "Outline"
 msgstr "Orámovaní"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:49
-#, fuzzy
 msgid "Outline / shadow colour"
-msgstr "Barva orámování"
+msgstr "Obrys / barva stínu"
 
 #: src/wx/film_viewer.cc:69
 msgid "Outline content"
@@ -1204,11 +1201,12 @@ msgid "Re-examine..."
 msgstr "Znovu analyzovat…"
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid ""
 "Re-make certificates\n"
 "and key..."
-msgstr "Znovuvytvořit klíče a certifikáty..."
+msgstr ""
+"Znovuvytvořit certifikáty\n"
+"a klíče…"
 
 #: src/wx/colour_conversion_editor.cc:99
 msgid "Rec. 601"
@@ -1333,7 +1331,7 @@ msgstr "Nejvyšší vrchol hlasitosti zvuku (sample peak) je %.2fdB na %s"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "Uložit do seznamu KDM tool’s listu"
 
 #: src/wx/video_panel.cc:164
 msgid "Scale to"
@@ -1357,9 +1355,8 @@ msgid "Select Certificate File"
 msgstr "Vybrat soubor s certifikátem"
 
 #: src/wx/config_dialog.cc:1076
-#, fuzzy
 msgid "Select Chain File"
-msgstr "Vybrat soubor s klíčem"
+msgstr "Vybrat Chain soubor"
 
 #: src/wx/content_menu.cc:321
 msgid "Select KDM"
@@ -1415,7 +1412,7 @@ msgstr "Nastavit jazyk"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:45
 msgid "Shadow"
-msgstr ""
+msgstr "Stín"
 
 #: src/wx/dcp_panel.cc:759
 msgid "Show audio..."
@@ -1463,7 +1460,7 @@ msgstr "Start"
 
 #: src/wx/move_to_dialog.cc:34
 msgid "Start of reel"
-msgstr ""
+msgstr "Start od reelu"
 
 #: src/wx/subtitle_panel.cc:123
 msgid "Stream"
@@ -1500,7 +1497,7 @@ msgstr "Titulky"
 
 #: src/wx/about_dialog.cc:268
 msgid "Supported by"
-msgstr "Podporované(ý)"
+msgstr "Podporovatelé"
 
 #: src/wx/config_dialog.cc:1114
 msgid "TMS"
@@ -1524,7 +1521,7 @@ msgstr "Testovací verze"
 
 #: src/wx/about_dialog.cc:323
 msgid "Tested by"
-msgstr "Testované"
+msgstr "Testeři"
 
 #: src/wx/kdm_timing_panel.cc:105
 msgid "The 'until' time must be after the 'from' time."
@@ -1829,9 +1826,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV na RGP matrix"
 
 #: src/wx/video_waveform_dialog.cc:65
-#, fuzzy
 msgid "component value"
-msgstr "Součást"
+msgstr "hodnota komponenty"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
@@ -1840,7 +1836,7 @@ msgstr "dB"
 #: src/wx/name_format_editor.cc:67
 #, c-format
 msgid "e.g. %s"
-msgstr ""
+msgstr "např. %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:82

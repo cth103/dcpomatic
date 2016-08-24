@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-06-01 08:51+0200\n"
+"PO-Revision-Date: 2016-08-24 13:42+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -245,7 +245,7 @@ msgstr "Nápověda\tCtrl-H"
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:146
 msgid "KDM|Timing"
-msgstr ""
+msgstr "KDM|Timing"
 
 #: src/tools/dcpomatic.cc:856
 msgid "Make &KDMs...\tCtrl-K"
@@ -349,6 +349,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"Existující konfigurace se nepodařilo načíst. Místo toho budou použity "
+"výchozí hodnoty. To může chvíli trvat."
 
 #: src/tools/dcpomatic.cc:942
 msgid "There are no new versions of DCP-o-matic available."

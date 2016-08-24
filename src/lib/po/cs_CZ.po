@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-06-01 08:49+0200\n"
+"PO-Revision-Date: 2016-08-24 13:40+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -19,44 +19,51 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:446
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "\nSnímková frekvence obsahu %.4f\n"
+msgstr ""
+"\n"
+"Snímková frekvence obsahu %.4f\n"
 
 #: src/lib/video_content.cc:410
-#, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "\nZmenšit na %1x%2"
+msgstr ""
+"\n"
+"Oříznout na %1x%2"
 
 #: src/lib/video_content.cc:403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "\nPoměr stran displeje %.2f:1"
+msgstr ""
+"\n"
+"Poměr stran displeje %.2f:1"
 
 #: src/lib/video_content.cc:434
-#, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "\nVyplněné černou, aby se zmenšil do kontejneru %1 (%2x%3)"
+msgstr ""
+"\n"
+"Vyplněné černou, aby se zmenšil do kontejneru %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "\nZmenšené na %1x%2"
+msgstr ""
+"\n"
+"Měřítko %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
 msgid " (%.2f:1)"
-msgstr ""
+msgstr " (%.2f:1)"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -79,7 +86,7 @@ msgid "%1 [video]"
 msgstr "%1 [video]"
 
 #: src/lib/video_content.cc:398
-#, fuzzy, c-format
+#, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", poměr stran obrazových bodů %.2f:1"
 
@@ -113,10 +120,14 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"Některé projektory mají problémy s přehráváním s velmi vysokou přenosovou "
+"rychlostí DCPs. Dobrým nápadem může být nastavení šířky pásma JPEG2000 pod "
+"200 MB/s; Je nepravděpodobné, že by toto nastvení mělo viditelný vliv na "
+"kvalitu obrázku."
 
 #: src/lib/ffmpeg_content.cc:545
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr ""
+msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
 #: src/lib/ratio.cc:38
 msgid "Academy"
@@ -133,6 +144,9 @@ msgid ""
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
 msgstr ""
+"Veškerý obsah je v 1.85:1 nebo užší, ale váš DCP kontejner je Scope "
+"(2.39:1). Bude použit pillar-box uvnitř rámečku Flat (1.85:1). Můžete "
+"nastavit DCP kontejner na Flat (1.85:1) v záložce \"DCP\"."
 
 #: src/lib/hints.cc:87
 msgid ""
@@ -141,6 +155,9 @@ msgid ""
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
+"Veškerý obsah je ve Scope (2.39:1), ale váš DCP kontejner je Flat (1.85:1). "
+"Bude použit letter-box uvnitř rámečku Flat (1.85:1). Můžete nastavit DCP "
+"kontejner na Scope (2.39:1) v záložce \"DCP\"."
 
 #: src/lib/job.cc:99
 msgid "An error occurred whilst handling the file %1."
@@ -269,12 +286,11 @@ msgstr "Barevný prostor"
 
 #: src/lib/content.cc:158
 msgid "Computing digest"
-msgstr "Počítám schrnutí"
+msgstr "Výpočet digest"
 
 #: src/lib/writer.cc:467
-#, fuzzy
 msgid "Computing digests"
-msgstr "Počítám schrnutí"
+msgstr "Výpočet digests"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -285,19 +301,16 @@ msgid "Content audio sample rate"
 msgstr "Snímková frekvence audio obsahu"
 
 #: src/lib/ffmpeg_content.cc:142
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "Aby se spojil obsah, musí mít stejné nastavení hlasitosti zvuku."
+msgstr "Veškerý obsah ke sloučení musí mít audio nebo žádné audio"
 
 #: src/lib/ffmpeg_content.cc:145
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles"
-msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko. "
+msgstr "Veškerý obsah ke sloučení musí mít titulky nebo žádné titulky"
 
 #: src/lib/ffmpeg_content.cc:139
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr "Aby se spojil obsah, musí mít stejné nastavení  zeslabení."
+msgstr "Veškerý obsah ke sloučení musí mít video nebo žádné video"
 
 #: src/lib/subtitle_content.cc:172
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -352,20 +365,16 @@ msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků Y měřítko."
 
 #: src/lib/subtitle_content.cc:196
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko. "
+msgstr "Veškerý obsah ke sloučení musí mít stejné zeslabení titulků."
 
 #: src/lib/subtitle_content.cc:192
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko. "
+msgstr "Veškerý obsah ke sloučení musí mít stejné mezery mezi řádky titulků."
 
 #: src/lib/content.cc:124 src/lib/content.cc:128
-#, fuzzy
 msgid "Content to be joined must have the same video frame rate"
-msgstr ""
-"Aby se spojil obsah, musí mít stejné nastavení počtu obrázků za sekundu."
+msgstr "Veškerý obsah ke sloučení musí mít stejnou snímkovou rychlost"
 
 #: src/lib/video_content.cc:174
 msgid "Content to be joined must have the same video frame type."
@@ -428,9 +437,8 @@ msgid "Could not open downloaded ZIP file"
 msgstr "Nemohu otevřít ZIP soubor"
 
 #: src/lib/dcp_subtitle.cc:55
-#, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
-msgstr "Nemohu číst titulky"
+msgstr "Nemohu číst titulky (%1 / %2)"
 
 #: src/lib/scp_uploader.cc:71
 msgid "Could not start SCP session (%1)"
@@ -465,7 +473,6 @@ msgid "DCP XML subtitles"
 msgstr "DCP XML titulky"
 
 #: src/lib/audio_content.cc:327
-#, fuzzy
 msgid "DCP sample rate"
 msgstr "Snímková frekvence DCP"
 
@@ -554,7 +561,7 @@ msgstr "Správa o problému s Emailem pro %1"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding picture and sound"
-msgstr ""
+msgstr "Kódování obrazu a zvuku"
 
 #: src/lib/exceptions.cc:68
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -585,18 +592,16 @@ msgid "Feature"
 msgstr "Feature"
 
 #: src/lib/content.cc:362
-#, fuzzy
 msgid "Filename"
-msgstr "jméno"
+msgstr "Jméno souboru"
 
 #: src/lib/ffmpeg_content.cc:518
 msgid "Film"
 msgstr "Film"
 
 #: src/lib/ffmpeg_examiner.cc:100
-#, fuzzy
 msgid "Finding length"
-msgstr "Délka videa"
+msgstr "Zjištění délky"
 
 #: src/lib/ffmpeg_examiner.cc:96
 msgid "Finding length and subtitles"
@@ -828,7 +833,7 @@ msgstr "Policy"
 
 #: src/lib/content.cc:378
 msgid "Prepared for video frame rate"
-msgstr ""
+msgstr "Příprava pro snímkovou frekvenci videa"
 
 #: src/lib/exceptions.cc:80
 msgid "Programming error at %1:%2"
@@ -997,7 +1002,6 @@ msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Film je nastaven na SMPTE a toto DCP je Interop."
 
 #: src/lib/dcp_content.cc:387
-#, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1125,24 +1129,32 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Nastavení pro Interop DCP se snímkovou rychlostí není oficiálně podporována. "
+"Doporučujeme místo toho SMPTE DCP."
 
 #: src/lib/hints.cc:125
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
+"Používáte 3D obsah, ale váš DCP je nastaven na 2D. Nastavte DCP na 3D, pokud "
+"chcete přehrávat ve 3D systému (např. Real-D, MasterImage atd.)"
 
 #: src/lib/hints.cc:114
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"Máte %1 souborů, které vypadají jako VOB soubory z DVD. Měli byste je "
+"spojit, aby zajistit tak hladké spojení mezi těmito dvěma soubory."
 
 #: src/lib/hints.cc:66
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
+"Zadali jste soubor písma, který je větší než 640kB. Pravděpodobně to může "
+"způsobit problémy při přehrávání."
 
 #: src/lib/film.cc:309
 msgid "You must add some content to the DCP before creating it"
@@ -1153,24 +1165,29 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"Nastavená snímková rychlost (%1 fps) může způsobit u některých projektorů "
+"problémy(převážně starších). Použijte 24 nebo 48 snímků za sekundu."
 
 #: src/lib/hints.cc:70
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
+"Váš DCP má méně než 6 zvukových kanálů. To může způsobit na některých "
+"projektorech problémy."
 
 #: src/lib/hints.cc:137
 msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
 msgstr ""
+"Úroveň zvuku je velmi blízko oříznutí. Snižte zesílení zvukového obsahu."
 
 #: src/lib/hints.cc:135
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
-msgstr ""
+msgstr "Hlasitost zvuku je velmi vysoká. Snižte zesílení zvukového obsahu."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
