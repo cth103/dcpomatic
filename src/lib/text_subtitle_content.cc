@@ -75,10 +75,10 @@ TextSubtitleContent::technical_summary () const
 }
 
 void
-TextSubtitleContent::as_xml (xmlpp::Node* node) const
+TextSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("TextSubtitle");
-	Content::as_xml (node);
+	Content::as_xml (node, with_paths);
 
 	if (subtitle) {
 		subtitle->as_xml (node);

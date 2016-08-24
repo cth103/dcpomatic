@@ -395,3 +395,22 @@ SubtitleContent::set_fade_out (ContentTime t)
 {
 	maybe_set (_fade_out, t, SubtitleContentProperty::FADE_OUT);
 }
+
+void
+SubtitleContent::use_template (shared_ptr<const SubtitleContent> c)
+{
+	_use = c->_use;
+	_burn = c->_burn;
+	_x_offset = c->_x_offset;
+	_y_offset = c->_y_offset;
+	_x_scale = c->_x_scale;
+	_y_scale = c->_y_scale;
+	_fonts = c->_fonts;
+	_colour = c->_colour;
+	_outline = c->_outline;
+	_shadow = c->_shadow;
+	_effect_colour = c->_effect_colour;
+	_line_spacing = c->_line_spacing;
+	_fade_in = c->_fade_in;
+	_fade_out = c->_fade_out;
+}

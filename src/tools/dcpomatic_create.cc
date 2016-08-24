@@ -44,6 +44,7 @@ using std::list;
 using std::exception;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 static void
 syntax (string n)
@@ -52,6 +53,7 @@ syntax (string n)
 	     << "  -v, --version                 show DCP-o-matic version\n"
 	     << "  -h, --help                    show this help\n"
 	     << "  -n, --name <name>             film name\n"
+	     << "  -t, --template <name>         template name\n"
 	     << "  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
 	     << "      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
 	     << "      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
@@ -88,6 +90,7 @@ main (int argc, char* argv[])
 	dcpomatic_setup ();
 
 	string name;
+	optional<string> template_name;
 	DCPContentType const * dcp_content_type = DCPContentType::from_isdcf_name ("TST");
 	Ratio const * container_ratio = 0;
 	Ratio const * content_ratio = 0;
@@ -103,6 +106,7 @@ main (int argc, char* argv[])
 			{ "version", no_argument, 0, 'v'},
 			{ "help", no_argument, 0, 'h'},
 			{ "name", required_argument, 0, 'n'},
+			{ "template", required_argument, 0, 'f'},
 			{ "dcp-content-type", required_argument, 0, 'c'},
 			{ "container-ratio", required_argument, 0, 'A'},
 			{ "content-ratio", required_argument, 0, 'B'},
@@ -114,7 +118,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:c:A:B:C:s:o:DE", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:f:c:A:B:C:s:o:DE", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -128,6 +132,9 @@ main (int argc, char* argv[])
 			exit (EXIT_SUCCESS);
 		case 'n':
 			name = optarg;
+			break;
+		case 't':
+			template_name = optarg;
 			break;
 		case 'c':
 			dcp_content_type = DCPContentType::from_isdcf_name (optarg);
@@ -206,7 +213,10 @@ main (int argc, char* argv[])
 	}
 
 	try {
-		shared_ptr<Film> film (new Film (output, false));
+		shared_ptr<Film> film (new Film (output));
+		if (template_name) {
+			film->use_template (template_name.get());
+		}
 		film->set_name (name);
 
 		film->set_container (container_ratio);

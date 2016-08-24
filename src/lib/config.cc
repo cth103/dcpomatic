@@ -29,6 +29,7 @@
 #include "cinema.h"
 #include "util.h"
 #include "cross.h"
+#include "film.h"
 #include <dcp/raw_convert.h>
 #include <dcp/name_format.h>
 #include <dcp/colour_matrix.h>
@@ -587,4 +588,32 @@ Config::set_cinemas_file (boost::filesystem::path file)
 	}
 
 	changed (OTHER);
+}
+
+void
+Config::save_template (shared_ptr<const Film> film, string name) const
+{
+	film->write_template (template_path (name));
+}
+
+list<string>
+Config::template_names () const
+{
+	list<string> n;
+	for (boost::filesystem::directory_iterator i (path("templates")); i != boost::filesystem::directory_iterator(); ++i) {
+		n.push_back (i->path().filename().string());
+	}
+	return n;
+}
+
+bool
+Config::existing_template (string name) const
+{
+	return boost::filesystem::exists (template_path (name));
+}
+
+boost::filesystem::path
+Config::template_path (string name) const
+{
+	return path("templates") / tidy_for_filename (name);
 }

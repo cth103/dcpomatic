@@ -34,7 +34,7 @@ public:
 	std::string summary () const;
 	std::string technical_summary () const;
 	std::string identifier () const;
-	void as_xml (xmlpp::Node* node) const;
+	void as_xml (xmlpp::Node* node, bool with_paths) const;
 	DCPTime full_length () const;
 	void add_properties (std::list<UserProperty>& p) const;
 	void set_default_colour_conversion ();

@@ -112,7 +112,7 @@ new_test_film (string name)
 		boost::filesystem::remove_all (p);
 	}
 
-	shared_ptr<Film> film = shared_ptr<Film> (new Film (p.string()));
+	shared_ptr<Film> film = shared_ptr<Film> (new Film (p));
 	film->write_metadata ();
 	return film;
 }

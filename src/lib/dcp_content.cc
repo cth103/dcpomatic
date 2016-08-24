@@ -51,6 +51,7 @@ using boost::shared_ptr;
 using boost::scoped_ptr;
 using boost::optional;
 using boost::function;
+using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
 int const DCPContentProperty::CAN_BE_PLAYED      = 600;
@@ -192,11 +193,11 @@ DCPContent::technical_summary () const
 }
 
 void
-DCPContent::as_xml (xmlpp::Node* node) const
+DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("DCP");
 
-	Content::as_xml (node);
+	Content::as_xml (node, with_paths);
 
 	if (video) {
 		video->as_xml (node);
@@ -447,4 +448,15 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
         }
 
         return can_reference (bind (&Content::subtitle, _1), _("There is other subtitle content overlapping this DCP; remove it."), why_not);
+}
+
+void
+DCPContent::use_template (shared_ptr<const Content> c)
+{
+	shared_ptr<const DCPContent> dc = dynamic_pointer_cast<const DCPContent> (c);
+	DCPOMATIC_ASSERT (dc);
+
+	_reference_video = dc->_reference_video;
+	_reference_audio = dc->_reference_audio;
+	_reference_subtitle = dc->_reference_subtitle;
 }

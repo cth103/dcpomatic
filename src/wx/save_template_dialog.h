@@ -18,25 +18,15 @@
 
 */
 
-#include "content.h"
+#include "table_dialog.h"
 
-class AtmosMXFContent : public Content
+class SaveTemplateDialog : public TableDialog
 {
 public:
-	AtmosMXFContent (boost::shared_ptr<const Film> film, boost::filesystem::path path);
-	AtmosMXFContent (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version);
+	SaveTemplateDialog (wxWindow* parent);
 
-	boost::shared_ptr<AtmosMXFContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this ());
-	}
-
-	void examine (boost::shared_ptr<Job> job);
-	std::string summary () const;
-	void as_xml (xmlpp::Node* node, bool with_path) const;
-	DCPTime full_length () const;
-
-	static bool valid_mxf (boost::filesystem::path path);
+	std::string name () const;
 
 private:
-	Frame _length;
+	wxTextCtrl* _name;
 };

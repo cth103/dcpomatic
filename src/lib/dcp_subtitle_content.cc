@@ -101,10 +101,10 @@ DCPSubtitleContent::technical_summary () const
 }
 
 void
-DCPSubtitleContent::as_xml (xmlpp::Node* node) const
+DCPSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	node->add_child("Type")->add_child_text ("DCPSubtitle");
-	Content::as_xml (node);
+	Content::as_xml (node, with_paths);
 
 	if (subtitle) {
 		subtitle->as_xml (node);

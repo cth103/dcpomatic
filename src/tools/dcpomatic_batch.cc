@@ -45,7 +45,7 @@ using boost::shared_ptr;
 using boost::thread;
 using boost::scoped_array;
 
-static std::string film_to_load;
+static boost::optional<boost::filesystem::path> film_to_load;
 
 enum {
 	ID_file_add_film = 1,
@@ -318,13 +318,15 @@ class App : public wxApp
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		shared_ptr<Film> film;
-		if (!film_to_load.empty() && boost::filesystem::is_directory (film_to_load)) {
+		if (film_to_load && boost::filesystem::is_directory (film_to_load.get())) {
 			try {
-				film.reset (new Film (film_to_load));
+				film.reset (new Film (film_to_load.get()));
 				film->read_metadata ();
 				film->make_dcp ();
 			} catch (exception& e) {
-				error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load, e.what())));
+				error_dialog (
+					0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load->string(), e.what()))
+					);
 			}
 		}
 

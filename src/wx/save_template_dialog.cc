@@ -18,25 +18,23 @@
 
 */
 
-#include "content.h"
+#include "save_template_dialog.h"
+#include "wx_util.h"
+#include <boost/foreach.hpp>
 
-class AtmosMXFContent : public Content
+using std::string;
+
+SaveTemplateDialog::SaveTemplateDialog (wxWindow* parent)
+	: TableDialog (parent, _("Save template"), 2, 1, true)
 {
-public:
-	AtmosMXFContent (boost::shared_ptr<const Film> film, boost::filesystem::path path);
-	AtmosMXFContent (boost::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version);
+	add (_("Template name"), true);
+	_name = add (new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (300, -1)));
+	_name->SetFocus ();
+	layout ();
+}
 
-	boost::shared_ptr<AtmosMXFContent> shared_from_this () {
-		return boost::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this ());
-	}
-
-	void examine (boost::shared_ptr<Job> job);
-	std::string summary () const;
-	void as_xml (xmlpp::Node* node, bool with_path) const;
-	DCPTime full_length () const;
-
-	static bool valid_mxf (boost::filesystem::path path);
-
-private:
-	Frame _length;
-};
+string
+SaveTemplateDialog::name () const
+{
+	return wx_to_std (_name->GetValue ());
+}

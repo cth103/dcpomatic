@@ -112,11 +112,13 @@ ReelWriter::ReelWriter (
 			_sound_asset->set_key (_film->key ());
 		}
 
+		DCPOMATIC_ASSERT (_film->directory());
+
 		/* Write the sound asset into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
-			_film->directory() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
+			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
 			_film->interop() ? dcp::INTEROP : dcp::SMPTE
 			);
 	}

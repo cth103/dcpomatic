@@ -173,7 +173,7 @@ show_servers ()
 int
 main (int argc, char* argv[])
 {
-	string film_dir;
+	boost::filesystem::path film_dir;
 	bool progress = true;
 	bool no_remote = false;
 	optional<int> threads;
@@ -278,7 +278,7 @@ main (int argc, char* argv[])
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 	} catch (std::exception& e) {
-		cerr << argv[0] << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
+		cerr << argv[0] << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
 	}
 

@@ -18,14 +18,15 @@
 
 */
 
-#include <boost/filesystem.hpp>
-#include <wx/stdpaths.h>
 #include "lib/config.h"
 #include "new_film_dialog.h"
 #include "wx_util.h"
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #endif
+#include <wx/stdpaths.h>
+#include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 
 using namespace std;
 using namespace boost;
@@ -53,9 +54,27 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	_folder->SetPath (std_to_wx (_directory.get().string()));
 	add (_folder);
 
+	_use_template = new wxCheckBox (this, wxID_ANY, _("From template"));
+	add (_use_template);
+	_template_name = new wxChoice (this, wxID_ANY);
+	add (_template_name);
+
 	_name->SetFocus ();
+	_template_name->Enable (false);
+
+	BOOST_FOREACH (string i, Config::instance()->template_names ()) {
+		_template_name->Append (std_to_wx (i));
+	}
+
+	_use_template->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, bind (&NewFilmDialog::use_template_clicked, this));
 
 	layout ();
+}
+
+void
+NewFilmDialog::use_template_clicked ()
+{
+	_template_name->Enable (_use_template->GetValue ());
 }
 
 NewFilmDialog::~NewFilmDialog ()
@@ -64,10 +83,20 @@ NewFilmDialog::~NewFilmDialog ()
 }
 
 boost::filesystem::path
-NewFilmDialog::get_path () const
+NewFilmDialog::path () const
 {
 	filesystem::path p;
 	p /= wx_to_std (_folder->GetPath ());
 	p /= wx_to_std (_name->GetValue ());
 	return p;
+}
+
+optional<string>
+NewFilmDialog::template_name () const
+{
+	if (!_use_template->GetValue() || _template_name->GetSelection() == -1) {
+		return optional<string> ();
+	}
+
+	return wx_to_std (_template_name->GetString(_template_name->GetSelection()));
 }

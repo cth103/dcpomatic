@@ -124,7 +124,7 @@ int const Film::current_state_version = 36;
  *  @param dir Film directory.
  */
 
-Film::Film (boost::filesystem::path dir, bool log)
+Film::Film (optional<boost::filesystem::path> dir)
 	: _playlist (new Playlist)
 	, _use_isdcf_name (true)
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
@@ -152,27 +152,30 @@ Film::Film (boost::filesystem::path dir, bool log)
 	_playlist_order_changed_connection = _playlist->OrderChanged.connect (bind (&Film::playlist_order_changed, this));
 	_playlist_content_changed_connection = _playlist->ContentChanged.connect (bind (&Film::playlist_content_changed, this, _1, _2, _3));
 
-	/* Make state.directory a complete path without ..s (where possible)
-	   (Code swiped from Adam Bowen on stackoverflow)
-	   XXX: couldn't/shouldn't this just be boost::filesystem::canonical?
-	*/
+	if (dir) {
+		/* Make state.directory a complete path without ..s (where possible)
+		   (Code swiped from Adam Bowen on stackoverflow)
+		   XXX: couldn't/shouldn't this just be boost::filesystem::canonical?
+		*/
 
-	boost::filesystem::path p (boost::filesystem::system_complete (dir));
-	boost::filesystem::path result;
-	for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
-		if (*i == "..") {
-			if (boost::filesystem::is_symlink (result) || result.filename() == "..") {
+		boost::filesystem::path p (boost::filesystem::system_complete (dir.get()));
+		boost::filesystem::path result;
+		for (boost::filesystem::path::iterator i = p.begin(); i != p.end(); ++i) {
+			if (*i == "..") {
+				if (boost::filesystem::is_symlink (result) || result.filename() == "..") {
+					result /= *i;
+				} else {
+					result = result.parent_path ();
+				}
+			} else if (*i != ".") {
 				result /= *i;
-			} else {
-				result = result.parent_path ();
 			}
-		} else if (*i != ".") {
-			result /= *i;
 		}
+
+		set_directory (result.make_preferred ());
 	}
 
-	set_directory (result.make_preferred ());
-	if (log) {
+	if (_directory) {
 		_log.reset (new FileLog (file ("log")));
 	} else {
 		_log.reset (new NullLog);
@@ -329,7 +332,7 @@ Film::send_dcp_to_tms ()
 }
 
 shared_ptr<xmlpp::Document>
-Film::metadata () const
+Film::metadata (bool with_content_paths) const
 {
 	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
 	xmlpp::Element* root = doc->create_root_node ("Metadata");
@@ -364,7 +367,7 @@ Film::metadata () const
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
-	_playlist->as_xml (root->add_child ("Playlist"));
+	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
 }
@@ -373,24 +376,38 @@ Film::metadata () const
 void
 Film::write_metadata () const
 {
-	boost::filesystem::create_directories (directory ());
+	DCPOMATIC_ASSERT (directory());
+	boost::filesystem::create_directories (directory().get());
 	shared_ptr<xmlpp::Document> doc = metadata ();
 	doc->write_to_file_formatted (file("metadata.xml").string ());
 	_dirty = false;
+}
+
+/** Write a template from this film */
+void
+Film::write_template (boost::filesystem::path path) const
+{
+	boost::filesystem::create_directories (path.parent_path());
+	shared_ptr<xmlpp::Document> doc = metadata (false);
+	doc->write_to_file_formatted (path.string ());
 }
 
 /** Read state from our metadata file.
  *  @return Notes about things that the user should know about, or empty.
  */
 list<string>
-Film::read_metadata ()
+Film::read_metadata (optional<boost::filesystem::path> path)
 {
-	if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
-		throw runtime_error (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
+	if (!path) {
+		if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
+			throw runtime_error (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
+		}
+
+		path = file ("metadata.xml");
 	}
 
 	cxml::Document f ("Metadata");
-	f.read_file (file ("metadata.xml"));
+	f.read_file (path.get ());
 
 	_state_version = f.number_child<int> ("Version");
 	if (_state_version > current_state_version) {
@@ -462,7 +479,9 @@ Film::read_metadata ()
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
 	/* Write backtraces to this film's directory, until another film is loaded */
-	set_backtrace_file (file ("backtrace.txt"));
+	if (_directory) {
+		set_backtrace_file (file ("backtrace.txt"));
+	}
 
 	_dirty = false;
 	return notes;
@@ -474,8 +493,10 @@ Film::read_metadata ()
 boost::filesystem::path
 Film::dir (boost::filesystem::path d) const
 {
+	DCPOMATIC_ASSERT (_directory);
+
 	boost::filesystem::path p;
-	p /= _directory;
+	p /= _directory.get();
 	p /= d;
 
 	boost::filesystem::create_directories (p);
@@ -489,8 +510,10 @@ Film::dir (boost::filesystem::path d) const
 boost::filesystem::path
 Film::file (boost::filesystem::path f) const
 {
+	DCPOMATIC_ASSERT (_directory);
+
 	boost::filesystem::path p;
-	p /= _directory;
+	p /= _directory.get();
 	p /= f;
 
 	boost::filesystem::create_directories (p.parent_path ());
@@ -943,9 +966,13 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 vector<CPLSummary>
 Film::cpls () const
 {
+	if (!directory ()) {
+		return vector<CPLSummary> ();
+	}
+
 	vector<CPLSummary> out;
 
-	boost::filesystem::path const dir = directory ();
+	boost::filesystem::path const dir = directory().get();
 	for (boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator(dir); i != boost::filesystem::directory_iterator(); ++i) {
 		if (
 			boost::filesystem::is_directory (*i) &&
@@ -1010,7 +1037,7 @@ Film::examine_content (shared_ptr<Content> c)
 void
 Film::examine_and_add_content (shared_ptr<Content> c)
 {
-	if (dynamic_pointer_cast<FFmpegContent> (c) && !_directory.empty ()) {
+	if (dynamic_pointer_cast<FFmpegContent> (c) && _directory) {
 		run_ffprobe (c->path(0), file ("ffprobe.log"), _log);
 	}
 
@@ -1037,6 +1064,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 	}
 
 	add_content (content);
+
 	if (Config::instance()->automatic_audio_analysis() && content->audio) {
 		shared_ptr<Playlist> playlist (new Playlist);
 		playlist->add (content);
@@ -1056,6 +1084,15 @@ Film::add_content (shared_ptr<Content> c)
 		c->set_position (_playlist->video_end ());
 	} else if (c->subtitle) {
 		c->set_position (_playlist->subtitle_end ());
+	}
+
+	if (_template_film) {
+		/* Take settings from the first piece of content of c's type in _template */
+		BOOST_FOREACH (shared_ptr<Content> i, _template_film->content()) {
+			if (typeid(i.get()) == typeid(c.get())) {
+				c->use_template (i);
+			}
+		}
 	}
 
 	_playlist->add (c);
@@ -1486,4 +1523,27 @@ Film::fix_conflicting_settings ()
 	}
 
 	return notes;
+}
+
+void
+Film::use_template (string name)
+{
+	_template_film.reset (new Film (optional<boost::filesystem::path>()));
+	_template_film->read_metadata (Config::instance()->template_path (name));
+	_use_isdcf_name = _template_film->_use_isdcf_name;
+	_dcp_content_type = _template_film->_dcp_content_type;
+	_container = _template_film->_container;
+	_resolution = _template_film->_resolution;
+	_j2k_bandwidth = _template_film->_j2k_bandwidth;
+	_video_frame_rate = _template_film->_video_frame_rate;
+	_signed = _template_film->_signed;
+	_encrypted = _template_film->_encrypted;
+	_audio_channels = _template_film->_audio_channels;
+	_sequence = _template_film->_sequence;
+	_three_d = _template_film->_three_d;
+	_interop = _template_film->_interop;
+	_audio_processor = _template_film->_audio_processor;
+	_reel_type = _template_film->_reel_type;
+	_reel_length = _template_film->_reel_length;
+	_upload_after_make_dcp = _template_film->_upload_after_make_dcp;
 }

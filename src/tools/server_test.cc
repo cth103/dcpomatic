@@ -41,6 +41,7 @@ using std::cerr;
 using std::string;
 using std::pair;
 using boost::shared_ptr;
+using boost::optional;
 using dcp::Data;
 
 static shared_ptr<Film> film;
@@ -101,7 +102,7 @@ help (string n)
 int
 main (int argc, char* argv[])
 {
-	string film_dir;
+	boost::filesystem::path film_dir;
 	string server_host;
 
 	while (true) {
@@ -132,7 +133,7 @@ main (int argc, char* argv[])
 		}
 	}
 
-	if (server_host.empty() || film_dir.empty()) {
+	if (server_host.empty() || film_dir.string().empty()) {
 		help (argv[0]);
 		exit (EXIT_FAILURE);
 	}

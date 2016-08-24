@@ -39,6 +39,7 @@ using std::cerr;
 using std::list;
 using std::vector;
 using boost::shared_ptr;
+using boost::optional;
 
 static void
 help ()
@@ -217,7 +218,7 @@ int main (int argc, char* argv[])
 		valid_to = valid_from.get() + duration_from_string (duration_string);
 	}
 
-	string const film_dir = argv[optind];
+	boost::filesystem::path const film_dir = argv[optind];
 
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
@@ -230,7 +231,7 @@ int main (int argc, char* argv[])
 			cout << "Read film " << film->name () << "\n";
 		}
 	} catch (std::exception& e) {
-		cerr << program_name << ": error reading film `" << film_dir << "' (" << e.what() << ")\n";
+		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
 	}
 

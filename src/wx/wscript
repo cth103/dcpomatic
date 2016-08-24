@@ -75,6 +75,7 @@ sources = """
           repeat_dialog.cc
           report_problem_dialog.cc
           rgba_colour_picker.cc
+          save_template_dialog.cc
           screen_dialog.cc
           screens_panel.cc
           self_dkdm_dialog.cc

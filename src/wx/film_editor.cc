@@ -127,8 +127,8 @@ FilmEditor::set_film (shared_ptr<Film> film)
 		_film->ContentChanged.connect (bind (&FilmEditor::film_content_changed, this, _2));
 	}
 
-	if (_film) {
-		FileChanged (_film->directory ());
+	if (_film && _film->directory()) {
+		FileChanged (_film->directory().get());
 	} else {
 		FileChanged ("");
 	}

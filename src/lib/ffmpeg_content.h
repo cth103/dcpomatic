@@ -55,9 +55,10 @@ public:
 	}
 
 	void examine (boost::shared_ptr<Job>);
+	void use_template (boost::shared_ptr<const Content> c);
 	std::string summary () const;
 	std::string technical_summary () const;
-	void as_xml (xmlpp::Node *) const;
+	void as_xml (xmlpp::Node *, bool with_paths) const;
 	DCPTime full_length () const;
 
 	std::string identifier () const;

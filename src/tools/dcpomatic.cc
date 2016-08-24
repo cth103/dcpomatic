@@ -38,6 +38,7 @@
 #include "wx/content_panel.h"
 #include "wx/report_problem_dialog.h"
 #include "wx/video_waveform_dialog.h"
+#include "wx/save_template_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -143,6 +144,7 @@ enum {
 	ID_file_new = 1,
 	ID_file_open,
 	ID_file_save,
+	ID_file_save_as_template,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_content_scale_to_fit_width = 100,
@@ -210,6 +212,7 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_new, this),                ID_file_new);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_open, this),               ID_file_open);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_save, this),               ID_file_save);
+		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_save_as_template, this),   ID_file_save_as_template);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
@@ -278,9 +281,12 @@ public:
 		}
 	}
 
-	void new_film (boost::filesystem::path path)
+	void new_film (boost::filesystem::path path, optional<string> template_name)
 	{
 		shared_ptr<Film> film (new Film (path));
+		if (template_name) {
+			film->use_template (template_name.get());
+		}
 		film->write_metadata ();
 		film->set_name (path.filename().generic_string());
 		set_film (film);
@@ -320,7 +326,9 @@ public:
 		delete _video_waveform_dialog;
 		_video_waveform_dialog = 0;
 		set_menu_sensitivity ();
-		Config::instance()->add_to_history (_film->directory ());
+		if (_film->directory()) {
+			Config::instance()->add_to_history (_film->directory().get());
+		}
 	}
 
 	shared_ptr<Film> film () const {
@@ -346,27 +354,27 @@ private:
 
 		if (r == wxID_OK) {
 
-			if (boost::filesystem::is_directory (d->get_path()) && !boost::filesystem::is_empty(d->get_path())) {
+			if (boost::filesystem::is_directory (d->path()) && !boost::filesystem::is_empty(d->path())) {
 				if (!confirm_dialog (
 					    this,
 					    std_to_wx (
 						    String::compose (wx_to_std (_("The directory %1 already exists and is not empty.  "
 										  "Are you sure you want to use it?")),
-								     d->get_path().string().c_str())
+								     d->path().string().c_str())
 						    )
 					    )) {
 					return;
 				}
-			} else if (boost::filesystem::is_regular_file (d->get_path())) {
+			} else if (boost::filesystem::is_regular_file (d->path())) {
 				error_dialog (
 					this,
-					String::compose (wx_to_std (_("%1 already exists as a file, so you cannot use it for a new film.")), d->get_path().c_str())
+					String::compose (wx_to_std (_("%1 already exists as a file, so you cannot use it for a new film.")), d->path().c_str())
 					);
 				return;
 			}
 
 			if (maybe_save_then_delete_film ()) {
-				new_film (d->get_path ());
+				new_film (d->path(), d->template_name());
 			}
 		}
 
@@ -402,6 +410,22 @@ private:
 	void file_save ()
 	{
 		_film->write_metadata ();
+	}
+
+	void file_save_as_template ()
+	{
+		SaveTemplateDialog* d = new SaveTemplateDialog (this);
+		int const r = d->ShowModal ();
+		if (r == wxID_OK) {
+			bool ok = true;
+			if (Config::instance()->existing_template (d->name ())) {
+				ok = confirm_dialog (d, _("There is already a template with this name.  Do you want to overwrite it?"));
+			}
+			if (ok) {
+				Config::instance()->save_template (_film, d->name ());
+			}
+		}
+		d->Destroy ();
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -528,7 +552,8 @@ private:
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 				Socket socket (5);
 				socket.connect (*endpoint_iterator);
-				string s = _film->directory().string ();
+				DCPOMATIC_ASSERT (_film->directory ());
+				string s = _film->directory()->string ();
 				socket.write (s.length() + 1);
 				socket.write ((uint8_t *) s.c_str(), s.length() + 1);
 				/* OK\0 */
@@ -616,6 +641,7 @@ private:
 
 	void jobs_show_dcp ()
 	{
+		DCPOMATIC_ASSERT (_film->directory ());
 #ifdef DCPOMATIC_WINDOWS
 		wstringstream args;
 		args << "/select," << _film->dir (_film->dcp_name(false));
@@ -625,14 +651,14 @@ private:
 #ifdef DCPOMATIC_LINUX
 		int r = system ("which nautilus");
 		if (WEXITSTATUS (r) == 0) {
-			r = system (string ("nautilus " + _film->directory().string()).c_str ());
+			r = system (string ("nautilus " + _film->directory()->string()).c_str ());
 			if (WEXITSTATUS (r)) {
 				error_dialog (this, _("Could not show DCP (could not run nautilus)"));
 			}
 		} else {
 			int r = system ("which konqueror");
 			if (WEXITSTATUS (r) == 0) {
-				r = system (string ("konqueror " + _film->directory().string()).c_str ());
+				r = system (string ("konqueror " + _film->directory()->string()).c_str ());
 				if (WEXITSTATUS (r)) {
 					error_dialog (this, _("Could not show DCP (could not run konqueror)"));
 				}
@@ -826,6 +852,8 @@ private:
 		add_item (_file_menu, _("&Open...\tCtrl-O"), ID_file_open, ALWAYS);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
+		_file_menu->AppendSeparator ();
+		add_item (_file_menu, _("Save as &template..."), ID_file_save_as_template, NEEDS_FILM);
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
@@ -1055,7 +1083,7 @@ private:
 		}
 
 		if (!_film_to_create.empty ()) {
-			_frame->new_film (_film_to_create);
+			_frame->new_film (_film_to_create, optional<string> ());
 			if (!_content_to_add.empty ()) {
 				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add));
 			}

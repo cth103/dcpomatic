@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test)
 {
 	boost::filesystem::path p = test_film_dir ("ffmpeg_dcp_test");
-	shared_ptr<Film> film (new Film (p.string ()));
+	shared_ptr<Film> film (new Film (p));
 	film->read_metadata ();
 	BOOST_CHECK (!film->cpls().empty());
 

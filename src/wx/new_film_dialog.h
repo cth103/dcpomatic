@@ -31,14 +31,19 @@ public:
 	NewFilmDialog (wxWindow *);
 	~NewFilmDialog ();
 
-	boost::filesystem::path get_path () const;
+	boost::filesystem::path path () const;
+	boost::optional<std::string> template_name () const;
 
 private:
+	void use_template_clicked ();
+
 	wxTextCtrl* _name;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;
 #endif
+	wxCheckBox* _use_template;
+	wxChoice* _template_name;
 	static boost::optional<boost::filesystem::path> _directory;
 };

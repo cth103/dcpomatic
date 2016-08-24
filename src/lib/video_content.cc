@@ -525,3 +525,14 @@ VideoContent::set_fade_out (Frame t)
 {
 	maybe_set (_fade_out, t, VideoContentProperty::FADE_OUT);
 }
+
+void
+VideoContent::use_template (shared_ptr<const VideoContent> c)
+{
+	_colour_conversion = c->_colour_conversion;
+	_frame_type = c->_frame_type;
+	_crop = c->_crop;
+	_scale = c->_scale;
+	_fade_in = c->_fade_in;
+	_fade_out = c->_fade_out;
+}

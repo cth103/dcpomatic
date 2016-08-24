@@ -57,6 +57,7 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
 	std::string identifier () const;
+	void use_template (boost::shared_ptr<const VideoContent> c);
 
 	Frame length () const {
 		boost::mutex::scoped_lock lm (_mutex);

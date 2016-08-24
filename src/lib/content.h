@@ -76,6 +76,8 @@ public:
 	 */
 	virtual void examine (boost::shared_ptr<Job> job);
 
+	virtual void use_template (boost::shared_ptr<const Content> c);
+
 	/** @return Quick one-line summary of the content, as will be presented in the
 	 *  film editor.
 	 */
@@ -86,7 +88,7 @@ public:
 	 */
 	virtual std::string technical_summary () const;
 
-	virtual void as_xml (xmlpp::Node *) const;
+	virtual void as_xml (xmlpp::Node *, bool with_paths) const;
 	virtual DCPTime full_length () const = 0;
 	virtual std::string identifier () const;
 	/** @return points at which to split this content when

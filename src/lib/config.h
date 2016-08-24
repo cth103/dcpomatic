@@ -39,6 +39,7 @@ class CinemaSoundProcessor;
 class DCPContentType;
 class Ratio;
 class Cinema;
+class Film;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -513,6 +514,11 @@ public:
 	static boost::signals2::signal<void ()> FailedToLoad;
 
 	void write () const;
+
+	void save_template (boost::shared_ptr<const Film> film, std::string name) const;
+	bool existing_template (std::string name) const;
+	std::list<std::string> template_names () const;
+	boost::filesystem::path template_path (std::string name) const;
 
 	static Config* instance ();
 	static void drop ();

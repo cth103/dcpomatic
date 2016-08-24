@@ -68,7 +68,7 @@ struct isdcf_name_test;
 class Film : public boost::enable_shared_from_this<Film>, public Signaller, public boost::noncopyable
 {
 public:
-	Film (boost::filesystem::path, bool log = true);
+	Film (boost::optional<boost::filesystem::path> dir);
 	~Film ();
 
 	boost::filesystem::path info_file (DCPTimePeriod p) const;
@@ -91,9 +91,11 @@ public:
 	boost::filesystem::path file (boost::filesystem::path f) const;
 	boost::filesystem::path dir (boost::filesystem::path d) const;
 
-	std::list<std::string> read_metadata ();
+	void use_template (std::string name);
+	std::list<std::string> read_metadata (boost::optional<boost::filesystem::path> path = boost::optional<boost::filesystem::path> ());
 	void write_metadata () const;
-	boost::shared_ptr<xmlpp::Document> metadata () const;
+	void write_template (boost::filesystem::path path) const;
+	boost::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
 
 	std::string isdcf_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
@@ -200,7 +202,7 @@ public:
 
 	/* GET */
 
-	boost::filesystem::path directory () const {
+	boost::optional<boost::filesystem::path> directory () const {
 		return _directory;
 	}
 
@@ -341,7 +343,7 @@ private:
 	/** Complete path to directory containing the film metadata;
 	 *  must not be relative.
 	 */
-	boost::filesystem::path _directory;
+	boost::optional<boost::filesystem::path> _directory;
 
 	/** Name for DCP-o-matic */
 	std::string _name;
@@ -382,6 +384,8 @@ private:
 
 	/** true if our state has changed since we last saved it */
 	mutable bool _dirty;
+	/** film being used as a template, or 0 */
+	boost::shared_ptr<Film> _template_film;
 
 	boost::signals2::scoped_connection _playlist_changed_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;

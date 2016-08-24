@@ -379,3 +379,19 @@ AudioContent::set_stream (AudioStreamPtr stream)
 
 	_parent->signal_changed (AudioContentProperty::STREAMS);
 }
+
+void
+AudioContent::use_template (shared_ptr<const AudioContent> c)
+{
+	_gain = c->_gain;
+	_delay = c->_delay;
+
+	size_t i = 0;
+	size_t j = 0;
+
+	while (i < _streams.size() && j < c->_streams.size()) {
+		_streams[i]->set_mapping (c->_streams[j]->mapping());
+		++i;
+		++j;
+	}
+}

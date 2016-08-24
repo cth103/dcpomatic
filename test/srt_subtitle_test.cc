@@ -87,7 +87,7 @@ check_subtitle_file (shared_ptr<Film> film, boost::filesystem::path ref)
 {
 	/* Find the subtitle file and check it */
 	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory() / film->dcp_name (false));
+		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->directory().get() / film->dcp_name (false));
 		i != boost::filesystem::directory_iterator ();
 		++i) {
 

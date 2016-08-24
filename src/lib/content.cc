@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,9 @@
 #include "content.h"
 #include "util.h"
 #include "content_factory.h"
+#include "video_content.h"
+#include "audio_content.h"
+#include "subtitle_content.h"
 #include "exceptions.h"
 #include "film.h"
 #include "job.h"
@@ -135,12 +138,14 @@ Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 }
 
 void
-Content::as_xml (xmlpp::Node* node) const
+Content::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
-		node->add_child("Path")->add_child_text (i->string ());
+	if (with_paths) {
+		for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
+			node->add_child("Path")->add_child_text (i->string ());
+		}
 	}
 	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Position")->add_child_text (raw_convert<string> (_position.get ()));
@@ -231,7 +236,7 @@ Content::clone () const
 	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
 	xmlpp::Document doc;
 	xmlpp::Node* node = doc.create_root_node ("Content");
-	as_xml (node);
+	as_xml (node, true);
 
 	/* notes is unused here (we assume) */
 	list<string> notes;
@@ -381,5 +386,19 @@ Content::add_properties (list<UserProperty>& p) const
 					)
 				);
 		}
+	}
+}
+
+void
+Content::use_template (shared_ptr<const Content> c)
+{
+	if (video && c->video) {
+		video->use_template (c->video);
+	}
+	if (audio && c->audio) {
+		audio->use_template (c->audio);
+	}
+	if (subtitle && c->subtitle) {
+		subtitle->use_template (c->subtitle);
 	}
 }
