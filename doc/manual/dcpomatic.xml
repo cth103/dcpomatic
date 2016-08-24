@@ -2242,15 +2242,10 @@ DCP-o-matic provides a few preferences which can be used to modify its
 behaviour.  This chapter explains those options.
 </para>
 
-
-<!-- ============================================================== -->
-<section>
-<title>The preferences dialogue</title>
-
 <para>
-The preferences dialogue is opened by choosing
+Preferences can be edited by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  The dialogue is split into seven tabs.
+menu.  This opens a dialogue which is split into seven tabs.
 </para>
 
 <!-- ============================================================== -->
@@ -2651,7 +2646,6 @@ that are generated, so in normal use it is best to leave this
 unticked.
 </para>
 
-</section>
 </section>
 </chapter>
 
