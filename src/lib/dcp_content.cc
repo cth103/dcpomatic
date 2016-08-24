@@ -192,7 +192,7 @@ DCPContent::technical_summary () const
 }
 
 void
-DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
+DCPContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("DCP");
 

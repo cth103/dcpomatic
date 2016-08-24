@@ -181,10 +181,10 @@ FFmpegContent::FFmpegContent (shared_ptr<const Film> film, vector<shared_ptr<Con
 }
 
 void
-FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
+FFmpegContent::as_xml (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text ("FFmpeg");
-	Content::as_xml (node, with_paths);
+	Content::as_xml (node);
 
 	if (video) {
 		video->as_xml (node);

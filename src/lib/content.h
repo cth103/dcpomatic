@@ -86,7 +86,7 @@ public:
 	 */
 	virtual std::string technical_summary () const;
 
-	virtual void as_xml (xmlpp::Node *, bool with_paths) const;
+	virtual void as_xml (xmlpp::Node *) const;
 	virtual DCPTime full_length () const = 0;
 	virtual std::string identifier () const;
 	/** @return points at which to split this content when

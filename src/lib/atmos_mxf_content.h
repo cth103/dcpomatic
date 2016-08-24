@@ -32,7 +32,7 @@ public:
 
 	void examine (boost::shared_ptr<Job> job);
 	std::string summary () const;
-	void as_xml (xmlpp::Node* node, bool with_path) const;
+	void as_xml (xmlpp::Node* node) const;
 	DCPTime full_length () const;
 
 	static bool valid_mxf (boost::filesystem::path path);

@@ -62,7 +62,7 @@ public:
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
-	void as_xml (xmlpp::Node *, bool with_paths) const;
+	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
 
 	void set_default_colour_conversion ();

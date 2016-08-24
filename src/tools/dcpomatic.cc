@@ -143,7 +143,6 @@ enum {
 	ID_file_new = 1,
 	ID_file_open,
 	ID_file_save,
-	ID_file_save_as_template,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_content_scale_to_fit_width = 100,
@@ -211,7 +210,6 @@ public:
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_new, this),                ID_file_new);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_open, this),               ID_file_open);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_save, this),               ID_file_save);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_save_as_template, this),   ID_file_save_as_template);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
@@ -341,7 +339,7 @@ private:
 		SetTitle (std_to_wx (s));
 	}
 
-	void file_new (bool from_template)
+	void file_new ()
 	{
 		NewFilmDialog* d = new NewFilmDialog (this);
 		int const r = d->ShowModal ();
@@ -368,7 +366,7 @@ private:
 			}
 
 			if (maybe_save_then_delete_film ()) {
-				new_film (d->get_path(), d->template_name());
+				new_film (d->get_path ());
 			}
 		}
 
@@ -404,22 +402,6 @@ private:
 	void file_save ()
 	{
 		_film->write_metadata ();
-	}
-
-	void file_save_as_template ()
-	{
-		SaveTemplateDialog* td = new SaveTemplateDialog (this);
-		int const r = d->ShowModal ();
-		if (r == wxID_OK) {
-			bool ok = true;
-			if (Config::instance()->existing_template (r->name ())) {
-				ok = confirm_dialog (td, _("There is already a template with this name.  Do you want to overwrite it?"));
-			}
-			if (ok) {
-				Config::instance()->save_template (_film, r->name ());
-			}
-		}
-		d->Destroy ();
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -844,8 +826,6 @@ private:
 		add_item (_file_menu, _("&Open...\tCtrl-O"), ID_file_open, ALWAYS);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
-		_file_menu->AppendSeparator ();
-		add_item (_file_menu, _("&Save as template"), ID_file_save_as_template, NEEDS_FILM);
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 

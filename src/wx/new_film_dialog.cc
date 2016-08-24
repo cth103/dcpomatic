@@ -46,10 +46,6 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
-	_use_template = new wxCheckButton (this, wxID_ANY, _("From template"));
-	add (_use_template);
-	_template_name = new wxChoice (this, wxID_ANY);
-
 	if (!_directory) {
 		_directory = Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()));
 	}
@@ -58,21 +54,8 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 	add (_folder);
 
 	_name->SetFocus ();
-	_template_name->Enable (false);
-
-	BOOST_FOREACH (string i, Config::instance()->template_names ()) {
-		_template_name->Append (std_to_wx (i));
-	}
-
-	_use_template->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, bind (&NewFilmDialog::use_template_clicked, this));
 
 	layout ();
-}
-
-void
-NewFilmDialog::use_template_clicked ()
-{
-	_template_name->Enable (_use_template->GetValue ());
 }
 
 NewFilmDialog::~NewFilmDialog ()
@@ -87,14 +70,4 @@ NewFilmDialog::get_path () const
 	p /= wx_to_std (_folder->GetPath ());
 	p /= wx_to_std (_name->GetValue ());
 	return p;
-}
-
-optional<string>
-NewFilmDialog::template_name () const
-{
-	if (!_use_template->GetValue ()) {
-		return optional<string> ();
-	}
-
-	return wx_to_std (_template_name->GetValue ());
 }

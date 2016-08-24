@@ -329,7 +329,7 @@ Film::send_dcp_to_tms ()
 }
 
 shared_ptr<xmlpp::Document>
-Film::metadata (bool with_content_paths) const
+Film::metadata () const
 {
 	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
 	xmlpp::Element* root = doc->create_root_node ("Metadata");
@@ -364,7 +364,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
-	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
+	_playlist->as_xml (root->add_child ("Playlist"));
 
 	return doc;
 }

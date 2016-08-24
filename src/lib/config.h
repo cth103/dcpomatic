@@ -514,8 +514,6 @@ public:
 
 	void write () const;
 
-	void save_template (boost::shared_ptr<const Film> film, std::string name) const;
-
 	static Config* instance ();
 	static void drop ();
 	static void restore_defaults ();
