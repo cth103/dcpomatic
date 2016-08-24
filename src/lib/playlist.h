@@ -45,7 +45,7 @@ public:
 	Playlist ();
 	~Playlist ();
 
-	void as_xml (xmlpp::Node *);
+	void as_xml (xmlpp::Node *, bool with_content_paths);
 	void set_from_xml (boost::shared_ptr<const Film>, cxml::ConstNodePtr, int, std::list<std::string> &);
 
 	void add (boost::shared_ptr<Content>);

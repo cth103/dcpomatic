@@ -588,3 +588,11 @@ Config::set_cinemas_file (boost::filesystem::path file)
 
 	changed (OTHER);
 }
+
+void
+Config::save_template (shared_ptr<const Film> film, string name) const
+{
+	boost::filesystem::create_directories (path ("templates"));
+	shared_ptr<xmlpp::Document> doc = film->metadata (false);
+	doc->write_to_file_formatted (path("templates") / tidy_for_filename (name));
+}

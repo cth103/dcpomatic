@@ -93,7 +93,7 @@ public:
 
 	std::list<std::string> read_metadata ();
 	void write_metadata () const;
-	boost::shared_ptr<xmlpp::Document> metadata () const;
+	boost::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
 
 	std::string isdcf_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;

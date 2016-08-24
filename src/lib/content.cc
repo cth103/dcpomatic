@@ -135,12 +135,14 @@ Content::Content (shared_ptr<const Film> film, vector<shared_ptr<Content> > c)
 }
 
 void
-Content::as_xml (xmlpp::Node* node) const
+Content::as_xml (xmlpp::Node* node, bool with_paths) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
-		node->add_child("Path")->add_child_text (i->string ());
+	if (with_paths) {
+		for (vector<boost::filesystem::path>::const_iterator i = _paths.begin(); i != _paths.end(); ++i) {
+			node->add_child("Path")->add_child_text (i->string ());
+		}
 	}
 	node->add_child("Digest")->add_child_text (_digest);
 	node->add_child("Position")->add_child_text (raw_convert<string> (_position.get ()));

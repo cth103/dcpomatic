@@ -38,7 +38,7 @@ public:
 	void examine (boost::shared_ptr<Job>);
 	std::string summary () const;
 	std::string technical_summary () const;
-	void as_xml (xmlpp::Node *) const;
+	void as_xml (xmlpp::Node *, bool with_paths) const;
 	DCPTime full_length () const;
 
 private:

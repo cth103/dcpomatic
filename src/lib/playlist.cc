@@ -175,10 +175,10 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 
 /** @param node <Playlist> node */
 void
-Playlist::as_xml (xmlpp::Node* node)
+Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		i->as_xml (node->add_child ("Content"));
+		i->as_xml (node->add_child ("Content"), with_content_paths);
 	}
 }
 
