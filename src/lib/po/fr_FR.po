@@ -8,54 +8,61 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-17 14:44+0100\n"
-"PO-Revision-Date: 2016-07-07 22:54+0100\n"
+"PO-Revision-Date: 2016-08-24 17:26+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/lib/video_content.cc:446
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
-msgstr "\nCadence du contenu %.4f\n"
+msgstr ""
+"\n"
+"Vitesse de défilement du contenu %.4f\n"
 
 #: src/lib/video_content.cc:410
-#, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
-msgstr "\nRognage de %1x%2"
+msgstr ""
+"\n"
+"Rogné à %1x%2"
 
 #: src/lib/video_content.cc:403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
-msgstr "\nFormat d'affichage %.2f:1"
+msgstr ""
+"\n"
+"Ratio Format d'image %.2f:1"
 
 #: src/lib/video_content.cc:434
-#, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
-msgstr "\nAjout de bandes noires pour remplir le format image %1 (%2x%3)"
+msgstr ""
+"\n"
+"Augmenté de bandes noires pour remplir le format image cible %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
-msgstr "\nMis à l'échelle de %1x%2"
+msgstr ""
+"\n"
+"Mis à l'échelle à %1x%2"
 
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
 msgid " (%.2f:1)"
-msgstr ""
+msgstr " (%.2f:1)"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -78,9 +85,9 @@ msgid "%1 [video]"
 msgstr "%1 [vidéo]"
 
 #: src/lib/video_content.cc:398
-#, fuzzy, c-format
+#, c-format
 msgid ", pixel aspect ratio %.2f:1"
-msgstr ", ratio H L des pixels %.2f:1"
+msgstr ", ratio des pixels %.2f:1"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"
@@ -112,10 +119,13 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"Quelques projecteurs ont des difficulté à projeter des DCP de très haut "
+"débit. Ce pourrait être une bonne idée d'abaisser la bande passante JPEG2000 "
+"sous les 200Mbit/s. ceci n'aura pas de conséquence visible sur l'image."
 
 #: src/lib/ffmpeg_content.cc:545
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr ""
+msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
 #: src/lib/ratio.cc:38
 msgid "Academy"
@@ -132,6 +142,10 @@ msgid ""
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
 msgstr ""
+"Tous vos contenus sont au format 1.85:1 ou plus étroits mais votre DCP est "
+"au format Scope (2.39:1). Cela encastrera vos images dans une boite 1.85:1 "
+"avec bordures noires à droite et gauche. Vous pourriez préférer choisir le "
+"format 1.85:1 dans l'onglet \"DCP\"."
 
 #: src/lib/hints.cc:87
 msgid ""
@@ -140,6 +154,10 @@ msgid ""
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
+"Tous vos contenus sont au format Scope 2.35:1 mais votre DCP est au format "
+"Flat (1.85:1). Cela encastrera vos images dans une boite aux lettres avec "
+"bordures noires en haut et en bas. Vous pourriez préférer choisir le format "
+"Scope (2.39:1) dans l'onglet \"DCP\"."
 
 #: src/lib/job.cc:99
 msgid "An error occurred whilst handling the file %1."
@@ -271,9 +289,8 @@ msgid "Computing digest"
 msgstr "fabrication rendu"
 
 #: src/lib/writer.cc:467
-#, fuzzy
 msgid "Computing digests"
-msgstr "fabrication rendu"
+msgstr "sommes de calcul en cours"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -359,11 +376,8 @@ msgstr ""
 "titres"
 
 #: src/lib/subtitle_content.cc:196
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
-msgstr ""
-"Le contenu à ajouter doit avoir le même réglage d'échelle horizontale de "
-"sous-titres"
+msgstr "Le contenu ajouté doit avoir le même réglage de fondu."
 
 #: src/lib/subtitle_content.cc:192
 msgid "Content to be joined must have the same subtitle line spacing."
@@ -1001,13 +1015,12 @@ msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "La sortie film est réglée sur SMPTE mais ce DCP est Interop."
 
 #: src/lib/dcp_content.cc:387
-#, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr ""
-"Les durées de bobines dans le projet diffèrent de celles du DCP; veuillez "
-"scinder en 'bobines par contenu vidéo'. "
+"Les durées de bobines dans le projet diffèrent de celles du DCP; veuillez  "
+"choisir le mode 'découper par contenu vidéo'. "
 
 #: src/lib/dcp_content.cc:418
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1130,24 +1143,34 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Vous êtes sur le point de créer un DCP au format interop à une cadence image "
+"qui n'est pas officiellement supportée. Nous vous conseillons de créer "
+"plutôt un DCP SMPTE."
 
 #: src/lib/hints.cc:125
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
+"Vous utilisez un contenu 3D mais votre DCP est réglé sur 2D. Réglez votre "
+"sortie DCP sur 3D si vous souhaitez le projeter sur un système 3D (par "
+"exemple : Real-D, MasterImage etc.)"
 
 #: src/lib/hints.cc:114
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"Vous avez  %1 fichiers qui ressemblent à des fichiers VOB issus de DVD. Vous "
+"devriez les assembler pour vous assurer des transitions fluides."
 
 #: src/lib/hints.cc:66
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
+"Vous avez choisi un fichier police de caractère qui est plus lourd que 640 "
+"kB. Cela peut poser des problèmes en lecture."
 
 #: src/lib/film.cc:309
 msgid "You must add some content to the DCP before creating it"
@@ -1158,24 +1181,33 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"Votre cadence DCP (%1 ips) peut créer des problèmes avec certains "
+"projecteurs (anciens). Utilisez plutôt une cadence de 24 ou 48 images par "
+"seconde pour les éviter."
 
 #: src/lib/hints.cc:70
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
+"Votre DCP a moins de 6 canaux audio. Cela peut poser des problèmes sur "
+"certains projecteurs."
 
 #: src/lib/hints.cc:137
 msgid ""
 "Your audio level is very close to clipping.  You should reduce the gain of "
 "your audio content."
 msgstr ""
+"Votre volume sonore est proche de la saturation. Vous devriez réduire le "
+"gain de votre contenu audio."
 
 #: src/lib/hints.cc:135
 msgid ""
 "Your audio level is very high.  You should reduce the gain of your audio "
 "content."
 msgstr ""
+"Votre volume sonore est très élevé. Vous devriez réduire le dain de votre "
+"contenu audio."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
