@@ -25,6 +25,7 @@
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include <dcp/exceptions.h>
+#include <dcp/certificate_chain.h>
 #include <wx/filepicker.h>
 #include <wx/validate.h>
 #include <iostream>
@@ -151,7 +152,9 @@ void
 ScreenDialog::load_recipient (boost::filesystem::path file)
 {
 	try {
-		set_recipient (dcp::Certificate (dcp::file_to_string (file)));
+		/* Load this as a chain, in case it is one, and then pick the leaf certificate */
+		dcp::CertificateChain c (dcp::file_to_string (file));
+		set_recipient (c.leaf ());
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), std_to_wx(e.what()).data()));
 	}

@@ -773,8 +773,9 @@ private:
 
 		if (d->ShowModal() == wxID_OK) {
 			try {
-				dcp::Certificate c (dcp::file_to_string (wx_to_std (d->GetPath ())));
-				if (c.extra_data ()) {
+				dcp::Certificate c;
+				string const extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
+				if (!extra.empty ()) {
 					message_dialog (
 						this,
 						_("This file contains other certificates (or other data) after its first certificate. "

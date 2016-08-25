@@ -1,3 +1,8 @@
+2016-08-25  c.hetherington  <cth@carlh.net>
+
+	* Fix silent acceptance of certificate chains where
+	single certificates are required (#937).
+
 2016-08-25  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
