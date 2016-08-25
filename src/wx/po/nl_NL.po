@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-24 16:46+0100\n"
-"PO-Revision-Date: 2016-08-19 02:39+0200\n"
+"PO-Revision-Date: 2016-08-25 02:12+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -161,9 +161,8 @@ msgid "Add KDM..."
 msgstr "Voeg KDM toe..."
 
 #: src/wx/content_menu.cc:71
-#, fuzzy
 msgid "Add OV..."
-msgstr "Voeg KDM toe..."
+msgstr "Voeg OV toe..."
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
@@ -591,7 +590,7 @@ msgstr "Downloaden certificaat"
 
 #: src/wx/content_panel.cc:93
 msgid "Earlier"
-msgstr ""
+msgstr "Vroeger"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -741,7 +740,7 @@ msgstr "From-adres"
 
 #: src/wx/new_film_dialog.cc:57
 msgid "From template"
-msgstr ""
+msgstr "Uit template"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -917,7 +916,7 @@ msgstr "Taal"
 
 #: src/wx/content_panel.cc:97
 msgid "Later"
-msgstr ""
+msgstr "Later"
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -1046,11 +1045,11 @@ msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
 #: src/wx/content_panel.cc:515
-#, fuzzy
 msgid "NEEDS OV: "
-msgstr "HEEFT KDM NODIG: "
+msgstr "HEEFT OV NODIG: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Naam"
 
@@ -1059,9 +1058,8 @@ msgid "New Film"
 msgstr "Nieuwe Film"
 
 #: src/wx/rename_template_dialog.cc:26
-#, fuzzy
 msgid "New name"
-msgstr "Gebruikersnaam"
+msgstr "Nieuwe naam"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1229,7 +1227,7 @@ msgstr "Rating (bv. 15)"
 
 #: src/wx/content_menu.cc:68
 msgid "Re-examine..."
-msgstr "Onderzoek opnieuw.."
+msgstr "Onderzoek opnieuw..."
 
 #: src/wx/config_dialog.cc:737
 msgid ""
@@ -1301,14 +1299,12 @@ msgid "Remove the selected piece of content from the film."
 msgstr "Verwijder het geselecteerde stuk content uit de film."
 
 #: src/wx/rename_template_dialog.cc:24
-#, fuzzy
 msgid "Rename template"
-msgstr "Bestandsnaam-formaat"
+msgstr "Hernoem template"
 
 #: src/wx/templates_dialog.cc:50
-#, fuzzy
 msgid "Rename..."
-msgstr "Onderzoek opnieuw.."
+msgstr "Hernoem..."
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -1373,7 +1369,7 @@ msgstr "Sample-piek is %.2fdB op %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
-msgstr ""
+msgstr "Bewaar template"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
@@ -1413,9 +1409,8 @@ msgid "Select Key File"
 msgstr "Selecteer sleutel-bestand"
 
 #: src/wx/content_menu.cc:351
-#, fuzzy
 msgid "Select OV"
-msgstr "Selecteer KDM"
+msgstr "Selecteer OV"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1564,19 +1559,19 @@ msgstr "Tijdelijke versie"
 
 #: src/wx/templates_dialog.cc:42
 msgid "Template"
-msgstr ""
+msgstr "Template"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Template name"
-msgstr ""
+msgstr "Template-naam"
 
 #: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "Template-namen mogen niet leeg zijn."
 
 #: src/wx/templates_dialog.cc:32
 msgid "Templates"
-msgstr ""
+msgstr "Templates"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
@@ -1611,7 +1606,7 @@ msgstr "Er zijn geen hints, alles ziet er goed uit!"
 #: src/wx/save_template_dialog.cc:55
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Er is al een template met deze naam.  Wilt u hem overschrijven?"
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1955,9 +1950,3 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
-
-#~ msgid "Down"
-#~ msgstr "Omlaag"
-
-#~ msgid "Up"
-#~ msgstr "Omhoog"
