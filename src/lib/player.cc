@@ -183,6 +183,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 
 	} else if (
 		property == SubtitleContentProperty::LINE_SPACING ||
+		property == SubtitleContentProperty::OUTLINE_WIDTH ||
 		property == SubtitleContentProperty::Y_SCALE
 		) {
 
@@ -648,7 +649,7 @@ Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, 
 				}
 				s.set_in (dcp::Time(content_subtitle_to_dcp (*j, ts.period().from).seconds(), 1000));
 				s.set_out (dcp::Time(content_subtitle_to_dcp (*j, ts.period().to).seconds(), 1000));
-				ps.text.push_back (s);
+				ps.text.push_back (SubtitleString (s, (*j)->content->subtitle->outline_width()));
 				ps.add_fonts ((*j)->content->subtitle->fonts ());
 			}
 		}

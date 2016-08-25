@@ -46,6 +46,7 @@ public:
 	static int const LINE_SPACING;
 	static int const FADE_IN;
 	static int const FADE_OUT;
+	static int const OUTLINE_WIDTH;
 };
 
 /** @class SubtitleContent
@@ -80,6 +81,7 @@ public:
 	void set_line_spacing (double s);
 	void set_fade_in (ContentTime);
 	void set_fade_out (ContentTime);
+	void set_outline_width (int);
 
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -156,6 +158,11 @@ public:
 		return _fade_out;
 	}
 
+	int outline_width () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _outline_width;
+	}
+
 	static boost::shared_ptr<SubtitleContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 protected:
@@ -194,6 +201,7 @@ private:
 	double _line_spacing;
 	ContentTime _fade_in;
 	ContentTime _fade_out;
+	int _outline_width;
 };
 
 #endif

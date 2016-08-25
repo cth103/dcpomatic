@@ -23,7 +23,7 @@
 
 #include "image_subtitle.h"
 #include "dcpomatic_time.h"
-#include <dcp/subtitle_string.h>
+#include "subtitle_string.h"
 
 class Font;
 
@@ -41,7 +41,7 @@ public:
 
 	/** ImageSubtitles, with their rectangles transformed as specified by their content */
 	std::list<ImageSubtitle> image;
-	std::list<dcp::SubtitleString> text;
+	std::list<SubtitleString> text;
 };
 
 #endif
