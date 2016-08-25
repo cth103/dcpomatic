@@ -24,6 +24,7 @@
 #include <wx/wx.h>
 #include <wx/clrpicker.h>
 #include <wx/spinctrl.h>
+#include <wx/gbsizer.h>
 
 using boost::shared_ptr;
 using boost::bind;
@@ -33,31 +34,55 @@ int const TextSubtitleAppearanceDialog::OUTLINE = 1;
 int const TextSubtitleAppearanceDialog::SHADOW = 2;
 
 TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, shared_ptr<Content> content)
-	: TableDialog (parent, _("Subtitle appearance"), 2, 1, true)
+	: wxDialog (parent, wxID_ANY, _("Subtitle appearance"))
 	, _content (content)
 {
-	add (_("Colour"), true);
+	wxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (overall_sizer);
+
+	_table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+
+	overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+
+	int r = 0;
+
+	add_label_to_sizer (_table, this, _("Colour"), true, wxGBPosition (r, 0));
 	_colour = new wxColourPickerCtrl (this, wxID_ANY);
-	add (_colour);
+	_table->Add (_colour, wxGBPosition (r, 1));
+	++r;
 
-	add (_("Effect"), true);
-	add (_effect = new wxChoice (this, wxID_ANY));
+	add_label_to_sizer (_table, this, _("Effect"), true, wxGBPosition (r, 0));
+	_effect = new wxChoice (this, wxID_ANY);
+	_table->Add (_effect, wxGBPosition (r, 1));
+	++r;
 
-	add (_("Outline / shadow colour"), true);
-	add (_effect_colour = new wxColourPickerCtrl (this, wxID_ANY));
+	add_label_to_sizer (_table, this, _("Effect colour"), true, wxGBPosition (r, 0));
+	_effect_colour = new wxColourPickerCtrl (this, wxID_ANY);
+	_table->Add (_effect_colour, wxGBPosition (r, 1));
+	++r;
 
-	add (_("Outline width"), true);
-	add (_outline_width = new wxSpinCtrl (this, wxID_ANY));
+	add_label_to_sizer (_table, this, _("Outline width"), true, wxGBPosition (r, 0));
+	_outline_width = new wxSpinCtrl (this, wxID_ANY);
+	_table->Add (_outline_width, wxGBPosition (r, 1));
+	++r;
 
-	add (_("Fade in time"), true);
+	add_label_to_sizer (_table, this, _("Fade in time"), true, wxGBPosition (r, 0));
 	_fade_in = new Timecode<ContentTime> (this);
-	add (_fade_in);
+	_table->Add (_fade_in, wxGBPosition (r, 1));
+	++r;
 
-	add (_("Fade out time"), true);
+	add_label_to_sizer (_table, this, _("Fade out time"), true, wxGBPosition (r, 0));
 	_fade_out = new Timecode<ContentTime> (this);
-	add (_fade_out);
+	_table->Add (_fade_out, wxGBPosition (r, 1));
+	++r;
 
-	layout ();
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	if (buttons) {
+		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
+	overall_sizer->Layout ();
+	overall_sizer->SetSizeHints (this);
 
 	/* Keep these Appends() up to date with NONE/OUTLINE/SHADOW variables */
 	_effect->Append (_("None"));
@@ -107,8 +132,8 @@ TextSubtitleAppearanceDialog::setup_sensitivity ()
 	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _content->subtitle->burn ();
 	_outline_width->Enable (can_outline_width);
 	if (can_outline_width) {
-		_outline_width->SetToolTip (_("Outline width cannot be set unless you are burning in subtitles"));
-	} else {
 		_outline_width->UnsetToolTip ();
+	} else {
+		_outline_width->SetToolTip (_("Outline width cannot be set unless you are burning in subtitles"));
 	}
 }
