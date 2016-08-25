@@ -98,7 +98,7 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 
 	_name = node->string_child ("Name");
 	_encrypted = node->bool_child ("Encrypted");
-	_needs_assets = node->bool_child ("NeedsAssets");
+	_needs_assets = node->optional_bool_child("NeedsAssets").get_value_or (false);
 	if (node->optional_node_child ("KDM")) {
 		_kdm = dcp::EncryptedKDM (node->string_child ("KDM"));
 	}
