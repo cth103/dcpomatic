@@ -485,8 +485,7 @@ audio_channel_name (int c)
 	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
 
 	/// TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
-	/// enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
-	/// VI is the visually-impaired audio track (audio describe).
+	/// enhancement channel (sub-woofer).
 	string const channels[] = {
 		_("Left"),
 		_("Right"),
@@ -508,6 +507,37 @@ audio_channel_name (int c)
 
 	return channels[c];
 }
+
+string
+short_audio_channel_name (int c)
+{
+	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
+
+	/// TRANSLATORS: these are short names of audio channels; Lfe is the low-frequency
+	/// enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
+	/// VI is the visually-impaired audio track (audio describe).
+	string const channels[] = {
+		_("L"),
+		_("R"),
+		_("C"),
+		_("Lfe"),
+		_("Ls"),
+		_("Rs"),
+		_("HI"),
+		_("VI"),
+		_("Lc"),
+		_("Rc"),
+		_("BsL"),
+		_("BsR"),
+		_("DBP"),
+		_("DBPS"),
+		_(""),
+		_("")
+	};
+
+	return channels[c];
+}
+
 
 bool
 valid_image_file (boost::filesystem::path f)

@@ -36,6 +36,7 @@
 #include "lib/playlist.h"
 #include "test.h"
 
+using std::vector;
 using boost::shared_ptr;
 
 static float
@@ -61,9 +62,11 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 		}
 	}
 
-	float const peak = random_float ();
-	DCPTime const peak_time = DCPTime (rand ());
-	a.set_sample_peak (peak, peak_time);
+	vector<AudioAnalysis::PeakTime> peak;
+	for (int i = 0; i < channels; ++i) {
+		peak.push_back (AudioAnalysis::PeakTime (random_float(), DCPTime (rand())));
+	}
+	a.set_sample_peak (peak);
 
 	a.write ("build/test/audio_analysis_serialisation_test");
 
@@ -79,10 +82,11 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 		}
 	}
 
-	BOOST_CHECK (b.sample_peak ());
-	BOOST_CHECK_CLOSE (b.sample_peak().get(), peak, 1);
-	BOOST_CHECK (b.sample_peak_time ());
-	BOOST_CHECK_EQUAL (b.sample_peak_time().get().get(), peak_time.get());
+	BOOST_REQUIRE_EQUAL (b.sample_peak().size(), 3);
+	for (int i = 0; i < channels; ++i) {
+		BOOST_CHECK_CLOSE (b.sample_peak()[i].peak, peak[i].peak, 1);
+		BOOST_CHECK_EQUAL (b.sample_peak()[i].time.get(), peak[i].time.get());
+	}
 }
 
 static void

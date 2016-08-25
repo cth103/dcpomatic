@@ -63,8 +63,8 @@ private:
 	int64_t _samples_per_point;
 	AudioPoint* _current;
 
-	float _sample_peak;
-	Frame _sample_peak_frame;
+	float* _sample_peak;
+	Frame* _sample_peak_frame;
 
 	boost::shared_ptr<AudioAnalysis> _analysis;
 

@@ -320,15 +320,11 @@ AudioPanel::setup_peak ()
 		playlist->add (sel.front ());
 		try {
 			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
-			if (analysis->sample_peak ()) {
-				float const peak_dB = 20 * log10 (analysis->sample_peak().get()) + analysis->gain_correction (playlist);
-				if (peak_dB > -3) {
-					alert = true;
-				}
-				_peak->SetLabel (wxString::Format (_("Peak: %.2fdB"), peak_dB));
-			} else {
-				_peak->SetLabel (_("Peak: unknown"));
+			float const peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction (playlist);
+			if (peak_dB > -3) {
+				alert = true;
 			}
+			_peak->SetLabel (wxString::Format (_("Peak: %.2fdB"), peak_dB));
 		} catch (...) {
 			_peak->SetLabel (_("Peak: unknown"));
 		}

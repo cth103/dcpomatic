@@ -241,4 +241,12 @@ public:
 	{}
 };
 
+class OldFormatError : public std::runtime_error
+{
+public:
+	OldFormatError (std::string s)
+		: std::runtime_error (s)
+	{}
+};
+
 #endif

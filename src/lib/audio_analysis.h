@@ -42,12 +42,21 @@ public:
 
 	void add_point (int c, AudioPoint const & p);
 
-	void set_sample_peak (float peak, DCPTime time) {
+	struct PeakTime {
+		PeakTime (float p, DCPTime t)
+			: peak (p)
+			, time (t)
+		{}
+
+		float peak;
+		DCPTime time;
+	};
+
+	void set_sample_peak (std::vector<PeakTime> peak) {
 		_sample_peak = peak;
-		_sample_peak_time = time;
 	}
 
-	void set_true_peak (float peak) {
+	void set_true_peak (std::vector<float> peak) {
 		_true_peak = peak;
 	}
 
@@ -63,17 +72,17 @@ public:
 	int points (int c) const;
 	int channels () const;
 
-	boost::optional<float> sample_peak () const {
+	std::vector<PeakTime> sample_peak () const {
 		return _sample_peak;
 	}
 
-	boost::optional<DCPTime> sample_peak_time () const {
-		return _sample_peak_time;
-	}
+	std::pair<PeakTime, int> overall_sample_peak () const;
 
-	boost::optional<float> true_peak () const {
+	std::vector<float> true_peak () const {
 		return _true_peak;
 	}
+
+	boost::optional<float> overall_true_peak () const;
 
 	boost::optional<float> integrated_loudness () const {
 		return _integrated_loudness;
@@ -97,9 +106,8 @@ public:
 
 private:
 	std::vector<std::vector<AudioPoint> > _data;
-	boost::optional<float> _sample_peak;
-	boost::optional<DCPTime> _sample_peak_time;
-	boost::optional<float> _true_peak;
+	std::vector<PeakTime> _sample_peak;
+	std::vector<float> _true_peak;
 	boost::optional<float> _integrated_loudness;
 	boost::optional<float> _loudness_range;
 	/** If this analysis was run on a single piece of
@@ -107,6 +115,8 @@ private:
 	 *  happened.
 	 */
 	boost::optional<double> _analysis_gain;
+
+	static int const _current_state_version;
 };
 
 #endif

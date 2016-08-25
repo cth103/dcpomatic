@@ -33,6 +33,8 @@
 
 using std::cout;
 using std::list;
+using std::vector;
+using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
@@ -166,8 +168,12 @@ AudioDialog::try_to_load_analysis ()
 
 	try {
 		_analysis.reset (new AudioAnalysis (path));
+	} catch (OldFormatError& e) {
+		/* An old analysis file: recreate it */
+		JobManager::instance()->analyse_audio (film, _playlist, _analysis_finished_connection, bind (&AudioDialog::analysis_finished, this));
+		return;
 	} catch (xmlpp::exception& e) {
-		/* Probably an old-style analysis file: recreate it */
+		/* Probably a (very) old-style analysis file: recreate it */
 		JobManager::instance()->analyse_audio (film, _playlist, _analysis_finished_connection, bind (&AudioDialog::analysis_finished, this));
 		return;
         }
@@ -300,27 +306,26 @@ AudioDialog::setup_statistics ()
 		return;
 	}
 
-	if (static_cast<bool>(_analysis->sample_peak ())) {
+	pair<AudioAnalysis::PeakTime, int> const peak = _analysis->overall_sample_peak ();
+	float const peak_dB = 20 * log10 (peak.first.peak) + _analysis->gain_correction (_playlist);
+	_sample_peak->SetLabel (
+		wxString::Format (
+			_("Sample peak is %.2fdB at %s on %s"),
+			peak_dB,
+			time_to_timecode (peak.first.time, film->video_frame_rate ()).data (),
+			std_to_wx (short_audio_channel_name (peak.second)).data ()
+			)
+		);
 
-		float const peak_dB = 20 * log10 (_analysis->sample_peak().get()) + _analysis->gain_correction (_playlist);
-
-		_sample_peak->SetLabel (
-			wxString::Format (
-				_("Sample peak is %.2fdB at %s"),
-				peak_dB,
-				time_to_timecode (_analysis->sample_peak_time().get(), film->video_frame_rate ()).data ()
-				)
-			);
-
-		if (peak_dB > -3) {
-			_sample_peak->SetForegroundColour (wxColour (255, 0, 0));
-		} else {
-			_sample_peak->SetForegroundColour (wxColour (0, 0, 0));
-		}
+	if (peak_dB > -3) {
+		_sample_peak->SetForegroundColour (wxColour (255, 0, 0));
+	} else {
+		_sample_peak->SetForegroundColour (wxColour (0, 0, 0));
 	}
 
-	if (static_cast<bool>(_analysis->true_peak ())) {
-		float const peak_dB = 20 * log10 (_analysis->true_peak().get()) + _analysis->gain_correction (_playlist);
+	if (_analysis->overall_true_peak()) {
+		float const peak = _analysis->overall_true_peak().get();
+		float const peak_dB = 20 * log10 (peak) + _analysis->gain_correction (_playlist);
 
 		_true_peak->SetLabel (wxString::Format (_("True peak is %.2fdB"), peak_dB));
 

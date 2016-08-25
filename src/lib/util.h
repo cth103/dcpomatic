@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -64,6 +64,7 @@ extern void dcpomatic_setup_gettext_i18n (std::string);
 extern std::string digest_head_tail (std::vector<boost::filesystem::path>, boost::uintmax_t size);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
+extern std::string short_audio_channel_name (int);
 extern bool valid_image_file (boost::filesystem::path);
 extern bool valid_j2k_file (boost::filesystem::path);
 #ifdef DCPOMATIC_WINDOWS

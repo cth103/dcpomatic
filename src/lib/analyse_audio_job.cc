@@ -41,6 +41,7 @@ extern "C" {
 #include "i18n.h"
 
 using std::string;
+using std::vector;
 using std::max;
 using std::min;
 using std::cout;
@@ -55,8 +56,8 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	, _done (0)
 	, _samples_per_point (1)
 	, _current (0)
-	, _sample_peak (0)
-	, _sample_peak_frame (0)
+	, _sample_peak (new float[film->audio_channels()])
+	, _sample_peak_frame (new Frame[film->audio_channels()])
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	, _ebur128 (new AudioFilterGraph (film->audio_frame_rate(), film->audio_channels()))
 #endif
@@ -73,6 +74,8 @@ AnalyseAudioJob::~AnalyseAudioJob ()
 		delete const_cast<Filter*> (i);
 	}
 	delete[] _current;
+	delete[] _sample_peak;
+	delete[] _sample_peak_frame;
 }
 
 string
@@ -127,14 +130,20 @@ AnalyseAudioJob::run ()
 		}
 	}
 
-	_analysis->set_sample_peak (_sample_peak, DCPTime::from_frames (_sample_peak_frame, _film->audio_frame_rate ()));
+	vector<AudioAnalysis::PeakTime> sample_peak;
+	for (int i = 0; i < _film->audio_channels(); ++i) {
+		sample_peak.push_back (
+			AudioAnalysis::PeakTime (_sample_peak[i], DCPTime::from_frames (_sample_peak_frame[i], _film->audio_frame_rate ()))
+			);
+	}
+	_analysis->set_sample_peak (sample_peak);
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	if (Config::instance()->analyse_ebur128 ()) {
 		void* eb = _ebur128->get("Parsed_ebur128_0")->priv;
-		double true_peak = 0;
+		vector<float> true_peak;
 		for (int i = 0; i < _film->audio_channels(); ++i) {
-			true_peak = max (true_peak, av_ebur128_get_true_peaks(eb)[i]);
+			true_peak.push_back (av_ebur128_get_true_peaks(eb)[i]);
 		}
 		_analysis->set_true_peak (true_peak);
 		_analysis->set_integrated_loudness (av_ebur128_get_integrated_loudness(eb));
@@ -176,9 +185,9 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 			_current[j][AudioPoint::RMS] += pow (s, 2);
 			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], as);
 
-			if (as > _sample_peak) {
-				_sample_peak = as;
-				_sample_peak_frame = _done + i;
+			if (as > _sample_peak[j]) {
+				_sample_peak[j] = as;
+				_sample_peak_frame[j] = _done + i;
 			}
 
 			if (((_done + i) % _samples_per_point) == 0) {

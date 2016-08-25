@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,10 +39,15 @@ using std::string;
 using std::vector;
 using std::cout;
 using std::max;
+using std::pair;
+using std::make_pair;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
+
+int const AudioAnalysis::_current_state_version = 2;
 
 AudioAnalysis::AudioAnalysis (int channels)
 {
@@ -54,6 +59,11 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 	cxml::Document f ("AudioAnalysis");
 	f.read_file (filename);
 
+	if (f.optional_number_child<int>("Version").get_value_or(1) < _current_state_version) {
+		/* Too old.  Throw an exception so that this analysis is re-run. */
+		throw OldFormatError ("Audio analysis file is too old");
+	}
+
 	BOOST_FOREACH (cxml::NodePtr i, f.node_children ("Channel")) {
 		vector<AudioPoint> channel;
 
@@ -64,19 +74,18 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 		_data.push_back (channel);
 	}
 
-	_sample_peak = f.optional_number_child<float> ("Peak");
-	if (!_sample_peak) {
-		/* New key */
-		_sample_peak = f.optional_number_child<float> ("SamplePeak");
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children ("SamplePeak")) {
+		_sample_peak.push_back (
+			PeakTime (
+				dcp::raw_convert<float>(i->content()), DCPTime(i->number_attribute<Frame>("Time"))
+				)
+			);
 	}
 
-	if (f.optional_number_child<DCPTime::Type> ("PeakTime")) {
-		_sample_peak_time = DCPTime (f.number_child<DCPTime::Type> ("PeakTime"));
-	} else if (f.optional_number_child<DCPTime::Type> ("SamplePeakTime")) {
-		_sample_peak_time = DCPTime (f.number_child<DCPTime::Type> ("SamplePeakTime"));
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children ("TruePeak")) {
+		_true_peak.push_back (dcp::raw_convert<float> (i->content ()));
 	}
 
-	_true_peak = f.optional_number_child<float> ("TruePeak");
 	_integrated_loudness = f.optional_number_child<float> ("IntegratedLoudness");
 	_loudness_range = f.optional_number_child<float> ("LoudnessRange");
 
@@ -116,6 +125,8 @@ AudioAnalysis::write (boost::filesystem::path filename)
 	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
 	xmlpp::Element* root = doc->create_root_node ("AudioAnalysis");
 
+	root->add_child("Version")->add_child_text (raw_convert<string> (_current_state_version));
+
 	BOOST_FOREACH (vector<AudioPoint>& i, _data) {
 		xmlpp::Element* channel = root->add_child ("Channel");
 		BOOST_FOREACH (AudioPoint& j, i) {
@@ -123,13 +134,14 @@ AudioAnalysis::write (boost::filesystem::path filename)
 		}
 	}
 
-	if (_sample_peak) {
-		root->add_child("SamplePeak")->add_child_text (raw_convert<string> (_sample_peak.get ()));
-		root->add_child("SamplePeakTime")->add_child_text (raw_convert<string> (_sample_peak_time.get().get ()));
+	for (size_t i = 0; i < _sample_peak.size(); ++i) {
+		xmlpp::Element* n = root->add_child("SamplePeak");
+		n->add_child_text (raw_convert<string> (_sample_peak[i].peak));
+		n->set_attribute ("Time", raw_convert<string> (_sample_peak[i].time.get()));
 	}
 
-	if (_true_peak) {
-		root->add_child("TruePeak")->add_child_text (raw_convert<string> (_true_peak.get ()));
+	BOOST_FOREACH (float i, _true_peak) {
+		root->add_child("TruePeak")->add_child_text (raw_convert<string> (i));
 	}
 
 	if (_integrated_loudness) {
@@ -160,4 +172,35 @@ AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
 	}
 
 	return 0.0f;
+}
+
+/** @return Peak across all channels, and the channel number it is on */
+pair<AudioAnalysis::PeakTime, int>
+AudioAnalysis::overall_sample_peak () const
+{
+	optional<PeakTime> pt;
+	int c;
+
+	for (size_t i = 0; i < _sample_peak.size(); ++i) {
+		if (!pt || _sample_peak[i].peak > pt->peak) {
+			pt = _sample_peak[i];
+			c = i;
+		}
+	}
+
+	return make_pair (pt.get(), c);
+}
+
+optional<float>
+AudioAnalysis::overall_true_peak () const
+{
+	optional<float> p;
+
+	BOOST_FOREACH (float i, _true_peak) {
+		if (!p || i > *p) {
+			p = i;
+		}
+	}
+
+	return p;
 }

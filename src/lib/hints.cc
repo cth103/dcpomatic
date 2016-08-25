@@ -28,6 +28,8 @@
 #include "ratio.h"
 #include "audio_analysis.h"
 #include "compose.hpp"
+#include "util.h"
+#include <dcp/raw_convert.h>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -128,14 +130,29 @@ get_hints (shared_ptr<const Film> film)
 	boost::filesystem::path path = film->audio_analysis_path (film->playlist ());
 	if (boost::filesystem::exists (path)) {
 		shared_ptr<AudioAnalysis> an (new AudioAnalysis (path));
-		if (an->sample_peak() || an->true_peak()) {
-			float const peak = max (an->sample_peak().get_value_or(0), an->true_peak().get_value_or(0));
+
+		string ch;
+
+		vector<AudioAnalysis::PeakTime> sample_peak = an->sample_peak ();
+		vector<float> true_peak = an->true_peak ();
+
+		for (size_t i = 0; i < sample_peak.size(); ++i) {
+			float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
 			float const peak_dB = 20 * log10 (peak) + an->gain_correction (film->playlist ());
-			if (peak_dB > -3 && peak_dB < -0.5) {
-				hints.push_back (_("Your audio level is very high.  You should reduce the gain of your audio content."));
-			} else if (peak_dB > -0.5) {
-				hints.push_back (_("Your audio level is very close to clipping.  You should reduce the gain of your audio content."));
+			if (peak_dB > -3) {
+				ch += dcp::raw_convert<string> (short_audio_channel_name (i)) + ", ";
 			}
+		}
+
+		ch = ch.substr (0, ch.length() - 2);
+
+		if (!ch.empty ()) {
+			hints.push_back (
+				String::compose (
+					_("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
+					ch
+					)
+				);
 		}
 	}
 
