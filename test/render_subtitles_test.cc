@@ -23,29 +23,31 @@
 #include <boost/test/unit_test.hpp>
 
 static void
-add (std::list<dcp::SubtitleString>& s, std::string text, bool italic, bool bold, bool underline)
+add (std::list<SubtitleString>& s, std::string text, bool italic, bool bold, bool underline)
 {
 	s.push_back (
-		dcp::SubtitleString (
-			boost::optional<std::string> (),
-			italic,
-			bold,
-			underline,
-			dcp::Colour (255, 255, 255),
-			42,
-			1,
-			dcp::Time (),
-			dcp::Time (),
-			1,
-			dcp::HALIGN_LEFT,
-			1,
-			dcp::VALIGN_TOP,
-			dcp::DIRECTION_LTR,
-			text,
-			dcp::NONE,
-			dcp::Colour (0, 0, 0),
-			dcp::Time (),
-			dcp::Time ()
+		SubtitleString (
+			dcp::SubtitleString (
+				boost::optional<std::string> (),
+				italic,
+				bold,
+				underline,
+				dcp::Colour (255, 255, 255),
+				42,
+				1,
+				dcp::Time (),
+				dcp::Time (),
+				1,
+				dcp::HALIGN_LEFT,
+				1,
+				dcp::VALIGN_TOP,
+				dcp::DIRECTION_LTR,
+				text,
+				dcp::NONE,
+				dcp::Colour (0, 0, 0),
+				dcp::Time (),
+				dcp::Time ()
+				)
 			)
 		);
 }
@@ -53,7 +55,7 @@ add (std::list<dcp::SubtitleString>& s, std::string text, bool italic, bool bold
 /** Test marked_up() in render_subtitles.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test1)
 {
-	std::list<dcp::SubtitleString> s;
+	std::list<SubtitleString> s;
 	add (s, "Hello", false, false, false);
 	BOOST_CHECK_EQUAL (marked_up (s), "Hello");
 }
@@ -61,7 +63,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test1)
 /** Test marked_up() in render_subtitles.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test2)
 {
-	std::list<dcp::SubtitleString> s;
+	std::list<SubtitleString> s;
 	add (s, "Hello", false, true, false);
 	BOOST_CHECK_EQUAL (marked_up (s), "<b>Hello</b>");
 }
@@ -70,7 +72,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test2)
 /** Test marked_up() in render_subtitles.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test3)
 {
-	std::list<dcp::SubtitleString> s;
+	std::list<SubtitleString> s;
 	add (s, "Hello", true, true, false);
 	BOOST_CHECK_EQUAL (marked_up (s), "<i><b>Hello</b></i>");
 }
@@ -78,7 +80,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test3)
 /** Test marked_up() in render_subtitles.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test4)
 {
-	std::list<dcp::SubtitleString> s;
+	std::list<SubtitleString> s;
 	add (s, "Hello", true, true, true);
 	BOOST_CHECK_EQUAL (marked_up (s), "<i><b><u>Hello</u></b></i>");
 }
@@ -86,7 +88,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test4)
 /** Test marked_up() in render_subtitles.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test5)
 {
-	std::list<dcp::SubtitleString> s;
+	std::list<SubtitleString> s;
 	add (s, "Hello", false, true, false);
 	add (s, " world.", false, false, false);
 	BOOST_CHECK_EQUAL (marked_up (s), "<b>Hello</b> world.");
@@ -95,7 +97,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test5)
 /** Test marked_up() in render_subtitles.cc */
 BOOST_AUTO_TEST_CASE (render_markup_test6)
 {
-	std::list<dcp::SubtitleString> s;
+	std::list<SubtitleString> s;
 	add (s, "Hello", true, false, false);
 	add (s, " world ", false, false, false);
 	add (s, "we are bold.", false, true, false);

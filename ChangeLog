@@ -5,6 +5,8 @@
 
 2016-08-25  Carl Hetherington  <cth@carlh.net>
 
+	* Make burnt-in subtitle outline width configurable (#940).
+
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
 2016-08-24  Carl Hetherington  <cth@carlh.net>

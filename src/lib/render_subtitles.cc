@@ -45,13 +45,13 @@ static FcConfig* fc_config = 0;
 static list<pair<FontFiles, string> > fc_config_fonts;
 
 string
-marked_up (list<dcp::SubtitleString> subtitles)
+marked_up (list<SubtitleString> subtitles)
 {
 	string out;
 	bool italic = false;
 	bool bold = false;
 	bool underline = false;
-	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+	BOOST_FOREACH (SubtitleString const & i, subtitles) {
 
 		if (i.italic() && !italic) {
 			out += "<i>";
@@ -96,7 +96,7 @@ marked_up (list<dcp::SubtitleString> subtitles)
  *  at the same time and with the same fade in/out.
  */
 static PositionImage
-render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
+render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
@@ -285,8 +285,7 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
 		dcp::Colour ec = subtitles.front().effect_colour ();
 		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
-		/* This 300.0 is a magic number chosen to make the outline look good */
-		context->set_line_width (target.width / 300.0);
+		context->set_line_width (subtitles.front().outline_width * target.width / 2048.0);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
 		context->move_to (x_offset, 0);
 		layout->add_to_cairo_context (context);
@@ -350,12 +349,12 @@ render_line (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts,
 
 /** @param time Time of the frame that these subtitles are going on */
 list<PositionImage>
-render_subtitles (list<dcp::SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
+render_subtitles (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time)
 {
-	list<dcp::SubtitleString> pending;
+	list<SubtitleString> pending;
 	list<PositionImage> images;
 
-	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+	BOOST_FOREACH (SubtitleString const & i, subtitles) {
 		if (!pending.empty() && fabs (i.v_position() - pending.back().v_position()) > 1e-4) {
 			images.push_back (render_line (pending, fonts, target, time));
 			pending.clear ();
