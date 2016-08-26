@@ -24,12 +24,15 @@
 #include "kdm_timing_panel.h"
 #include "kdm_output_panel.h"
 #include "kdm_cpl_panel.h"
+#include "confirm_kdm_email_dialog.h"
 #include "lib/film.h"
 #include "lib/screen.h"
 #include "lib/screen_kdm.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/job_manager.h"
 #include "lib/cinema_kdms.h"
+#include "lib/config.h"
+#include "lib/cinema.h"
 #include <libcxml/cxml.h>
 #include <dcp/exceptions.h>
 #include <wx/treectrl.h>
@@ -148,15 +151,36 @@ KDMDialog::make_clicked ()
 		}
 
 		if (_output->email ()) {
-			JobManager::instance()->add (
-				shared_ptr<Job> (new SendKDMEmailJob (
-							 CinemaKDMs::collect (screen_kdms),
-							 _output->name_format(),
-							 name_values,
-							 film->dcp_name(),
-							 film->log()
-							 ))
-				);
+
+			list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
+
+			bool ok = true;
+
+			if (Config::instance()->confirm_kdm_email ()) {
+				list<string> emails;
+				BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
+					BOOST_FOREACH (string j, i.cinema->emails) {
+						emails.push_back (j);
+					}
+				}
+
+				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
+				if (d->ShowModal() == wxID_CANCEL) {
+					ok = false;
+				}
+			}
+
+			if (ok) {
+				JobManager::instance()->add (
+					shared_ptr<Job> (new SendKDMEmailJob (
+								 cinema_kdms,
+								 _output->name_format(),
+								 name_values,
+								 film->dcp_name(),
+								 film->log()
+								 ))
+					);
+			}
 		}
 	} catch (dcp::NotEncryptedError& e) {
 		error_dialog (this, _("CPL's content is not encrypted."));

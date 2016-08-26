@@ -34,6 +34,7 @@ sources = """
           cinema_dialog.cc
           colour_conversion_editor.cc
           config_dialog.cc
+          confirm_kdm_email_dialog.cc
           content_colour_conversion_dialog.cc
           content_menu.cc
           content_panel.cc
