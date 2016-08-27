@@ -164,14 +164,14 @@ CinemaKDMs::email (
 
 		string subject = config->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (subject, "$START_TIME", name_values['f']);
-		boost::algorithm::replace_all (subject, "$END_TIME", name_values['t']);
+		boost::algorithm::replace_all (subject, "$START_TIME", name_values['b']);
+		boost::algorithm::replace_all (subject, "$END_TIME", name_values['e']);
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.cinema->name);
 
 		string body = config->kdm_email().c_str();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (body, "$START_TIME", name_values['f']);
-		boost::algorithm::replace_all (body, "$END_TIME", name_values['t']);
+		boost::algorithm::replace_all (body, "$START_TIME", name_values['b']);
+		boost::algorithm::replace_all (body, "$END_TIME", name_values['e']);
 		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.cinema->name);
 
 		string screens;
