@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/lib/util.cc:534 src/lib/util.cc:535
 msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-24 16:46+0100\n"
+"POT-Creation-Date: 2016-08-27 20:36+0100\n"
 "PO-Revision-Date: 2016-04-26 00:01-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -118,7 +119,7 @@ msgstr "reducción de ruido 3D"
 msgid "4:3"
 msgstr "4:3"
 
-#: src/lib/hints.cc:99
+#: src/lib/hints.cc:101
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -137,7 +138,7 @@ msgstr "Academy"
 msgid "Advertisement"
 msgstr "Publicidad"
 
-#: src/lib/hints.cc:91
+#: src/lib/hints.cc:93
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -145,7 +146,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr ""
 
-#: src/lib/hints.cc:87
+#: src/lib/hints.cc:89
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -157,7 +158,7 @@ msgstr ""
 msgid "An error occurred whilst handling the file %1."
 msgstr "Ha ocurrido un error con el fichero %1."
 
-#: src/lib/analyse_audio_job.cc:81
+#: src/lib/analyse_audio_job.cc:84
 msgid "Analyse audio"
 msgstr "Analizar audio"
 
@@ -218,15 +219,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits por pixel"
 
-#: src/lib/film.cc:1403
+#: src/lib/util.cc:530
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/film.cc:1404
+#: src/lib/util.cc:531
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/film.cc:1395
+#: src/lib/util.cc:522
 msgid "C"
 msgstr "C"
 
@@ -238,7 +239,7 @@ msgstr "Cancelado"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "No se puede usar el formato de pixel %1 para %2"
 
-#: src/lib/util.cc:493
+#: src/lib/util.cc:492
 msgid "Centre"
 msgstr "Centro"
 
@@ -312,11 +313,11 @@ msgstr ""
 msgid "Content to be joined must all have or not have video"
 msgstr "Para unir contenido debe tener los mismos fundidos."
 
-#: src/lib/subtitle_content.cc:172
+#: src/lib/subtitle_content.cc:175
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "Para unir contenido debe tener la misma opción ‘grabar subtítulos’."
 
-#: src/lib/subtitle_content.cc:168
+#: src/lib/subtitle_content.cc:171
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Para unir contenido debe tener la misma opción 'usar subtítulos'."
 
@@ -340,6 +341,12 @@ msgstr "Para unir contenido debe tener el mismo recorte."
 msgid "Content to be joined must have the same fades."
 msgstr "Para unir contenido debe tener los mismos fundidos."
 
+#: src/lib/subtitle_content.cc:203
+#, fuzzy
+msgid "Content to be joined must have the same outline width."
+msgstr ""
+"Para unir contenido debe tener la misma redimensión de subtítulo en  X."
+
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
 msgstr "Para unir contenido debe tener el mismo tamaño de imagen."
@@ -348,32 +355,32 @@ msgstr "Para unir contenido debe tener el mismo tamaño de imagen."
 msgid "Content to be joined must have the same scale setting."
 msgstr "Para unir contenido debe tener la misma redimensión."
 
-#: src/lib/subtitle_content.cc:176
+#: src/lib/subtitle_content.cc:179
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 "Para unir contenido debe tener el mismo desplazamiento de subtítulo en X."
 
-#: src/lib/subtitle_content.cc:184
+#: src/lib/subtitle_content.cc:187
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
 "Para unir contenido debe tener la misma redimensión de subtítulo en  X."
 
-#: src/lib/subtitle_content.cc:180
+#: src/lib/subtitle_content.cc:183
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 "Para unir contenido debe tener el mismo desplazamiento de subtítulo en Y."
 
-#: src/lib/subtitle_content.cc:188
+#: src/lib/subtitle_content.cc:191
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Para unir contenido debe tener la misma redimensión de subtítulo en Y."
 
-#: src/lib/subtitle_content.cc:196
+#: src/lib/subtitle_content.cc:199
 #, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
 "Para unir contenido debe tener la misma redimensión de subtítulo en  X."
 
-#: src/lib/subtitle_content.cc:192
+#: src/lib/subtitle_content.cc:195
 #, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
@@ -388,7 +395,7 @@ msgstr "Para unir contenido debe tener la misma velocidad de imagen."
 msgid "Content to be joined must have the same video frame type."
 msgstr "Para unir contenido debe tener el mismo tamaño de imagen."
 
-#: src/lib/subtitle_content.cc:201 src/lib/subtitle_content.cc:209
+#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
 msgid "Content to be joined must use the same fonts."
 msgstr "Para unir contenido debe usar la misma fuente."
 
@@ -461,21 +468,21 @@ msgstr "No se pudo iniciar la transferencia"
 msgid "Could not write to remote file (%1)"
 msgstr "No se pudo escribir el fichero remoto (%1)"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:502
 msgid "D-BOX primary"
 msgstr "Primario D-BOX"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:503
 msgid "D-BOX secondary"
 msgstr "Secundario D-BOX"
 
-#: src/lib/film.cc:1405
+#: src/lib/util.cc:532
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1406
-msgid "DBS"
-msgstr "DBS"
+#: src/lib/util.cc:533
+msgid "DBPS"
+msgstr ""
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -511,7 +518,7 @@ msgstr "DCP-o-matic ya no ofrece el filtro `%1', así que ha sido desactivado."
 msgid "De-interlacing"
 msgstr "Desentrelazado"
 
-#: src/lib/config.cc:527
+#: src/lib/config.cc:530
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -672,11 +679,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/film.cc:1399
+#: src/lib/util.cc:526
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:496
 msgid "Hearing impaired"
 msgstr "Sordos"
 
@@ -700,7 +707,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Error desconocido."
 
-#: src/lib/config.cc:238 src/lib/config.cc:524
+#: src/lib/config.cc:239 src/lib/config.cc:527
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envío de KDM: $CPL_NAME"
 
@@ -708,27 +715,27 @@ msgstr "Envío de KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/film.cc:1393
+#: src/lib/util.cc:520
 msgid "L"
 msgstr "L"
 
-#: src/lib/film.cc:1401
+#: src/lib/util.cc:528
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:491
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:490
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:498
 msgid "Left centre"
 msgstr "Centro izquierda"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:500
 msgid "Left rear surround"
 msgstr "Surround trasero izquierda"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:494
 msgid "Left surround"
 msgstr "Surround izquierda"
 
@@ -736,11 +743,11 @@ msgstr "Surround izquierda"
 msgid "Length"
 msgstr "Duración"
 
-#: src/lib/film.cc:1396
+#: src/lib/util.cc:523
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:493
 msgid "Lfe (sub)"
 msgstr "Lfe (bajos)"
 
@@ -764,7 +771,7 @@ msgstr "Logarítmico (rango 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarítmico (rango 316:1)"
 
-#: src/lib/film.cc:1397
+#: src/lib/util.cc:524
 msgid "Ls"
 msgstr "Ls"
 
@@ -857,7 +864,7 @@ msgstr "Error de programación en %1:%2"
 msgid "Public Service Announcement"
 msgstr "Anuncio de servicio público"
 
-#: src/lib/film.cc:1394
+#: src/lib/util.cc:521
 msgid "R"
 msgstr "R"
 
@@ -869,7 +876,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Clasificación"
 
-#: src/lib/film.cc:1402
+#: src/lib/util.cc:529
 msgid "Rc"
 msgstr "Rc"
 
@@ -891,23 +898,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:492
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:491
 msgid "Right"
 msgstr "Derecha"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:499
 msgid "Right centre"
 msgstr "Centro derecha"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:501
 msgid "Right rear surround"
 msgstr "Surround trasero derecha"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:495
 msgid "Right surround"
 msgstr "Surround derecha"
 
-#: src/lib/film.cc:1398
+#: src/lib/util.cc:525
 msgid "Rs"
 msgstr "Rs"
 
@@ -984,7 +991,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Subtítulos de texto"
 
-#: src/lib/film.cc:1522
+#: src/lib/film.cc:1510
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1125,7 +1132,7 @@ msgstr "Sin especificar"
 msgid "Untitled"
 msgstr "Sin título"
 
-#: src/lib/util.cc:505 src/lib/util.cc:506
+#: src/lib/util.cc:504 src/lib/util.cc:505
 msgid "Unused"
 msgstr "Sin uso"
 
@@ -1137,11 +1144,11 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/film.cc:1400
+#: src/lib/util.cc:527
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:497
 msgid "Visually impaired"
 msgstr "Ciegos"
 
@@ -1157,25 +1164,25 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/hints.cc:103
+#: src/lib/hints.cc:105
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:127
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
 
-#: src/lib/hints.cc:114
+#: src/lib/hints.cc:116
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/hints.cc:66
+#: src/lib/hints.cc:68
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1185,28 +1192,22 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Tienes que añadir contenido al DCP antes de crearlo."
 
-#: src/lib/hints.cc:95
+#: src/lib/hints.cc:97
 msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
 
-#: src/lib/hints.cc:70
+#: src/lib/hints.cc:72
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
 
-#: src/lib/hints.cc:137
+#: src/lib/hints.cc:152
 msgid ""
-"Your audio level is very close to clipping.  You should reduce the gain of "
-"your audio content."
-msgstr ""
-
-#: src/lib/hints.cc:135
-msgid ""
-"Your audio level is very high.  You should reduce the gain of your audio "
-"content."
+"Your audio level is very high (on %1).  You should reduce the gain of your "
+"audio content."
 msgstr ""
 
 #: src/lib/image_content.cc:81
@@ -1343,6 +1344,9 @@ msgstr "desconocido"
 #: src/lib/video_content.cc:459
 msgid "video frames"
 msgstr "fotogramas"
+
+#~ msgid "DBS"
+#~ msgstr "DBS"
 
 #~ msgid "could not create file %1"
 #~ msgstr "No se pudo crear el fichero (%1)"

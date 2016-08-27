@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/lib/util.cc:534 src/lib/util.cc:535
 msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-24 16:46+0100\n"
+"POT-Creation-Date: 2016-08-27 20:36+0100\n"
 "PO-Revision-Date: 2016-08-27 02:34+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -115,7 +116,7 @@ msgstr "3D降噪"
 msgid "4:3"
 msgstr "4:3"
 
-#: src/lib/hints.cc:99
+#: src/lib/hints.cc:101
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -136,7 +137,7 @@ msgstr "学院模式"
 msgid "Advertisement"
 msgstr "广告片"
 
-#: src/lib/hints.cc:91
+#: src/lib/hints.cc:93
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -144,7 +145,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr "遮幅(1.85：1)左右去黑边。"
 
-#: src/lib/hints.cc:87
+#: src/lib/hints.cc:89
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -156,7 +157,7 @@ msgstr "宽幅(2.39：1)上下去黑边。"
 msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
-#: src/lib/analyse_audio_job.cc:81
+#: src/lib/analyse_audio_job.cc:84
 msgid "Analyse audio"
 msgstr "分析音频"
 
@@ -217,15 +218,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/film.cc:1403
+#: src/lib/util.cc:530
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/film.cc:1404
+#: src/lib/util.cc:531
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/film.cc:1395
+#: src/lib/util.cc:522
 msgid "C"
 msgstr "中置"
 
@@ -237,7 +238,7 @@ msgstr "取消"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/util.cc:493
+#: src/lib/util.cc:492
 msgid "Centre"
 msgstr "中置音"
 
@@ -305,11 +306,11 @@ msgstr "要加入的内容必须都有或都没有字幕"
 msgid "Content to be joined must all have or not have video"
 msgstr "要加入的内容必须都有或都没有视频"
 
-#: src/lib/subtitle_content.cc:172
+#: src/lib/subtitle_content.cc:175
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "所有添加的字幕在“烧录字幕”中的设置必须相同。"
 
-#: src/lib/subtitle_content.cc:168
+#: src/lib/subtitle_content.cc:171
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "所有添加的字幕在“所用字幕”中的设置必须相同。"
 
@@ -333,6 +334,11 @@ msgstr "视频裁剪设置必须相同。"
 msgid "Content to be joined must have the same fades."
 msgstr "视频淡入淡出效果必须相同。"
 
+#: src/lib/subtitle_content.cc:203
+#, fuzzy
+msgid "Content to be joined must have the same outline width."
+msgstr "字幕淡入淡出效果必须相同。"
+
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
 msgstr "视频图像尺寸必须相同。"
@@ -341,27 +347,27 @@ msgstr "视频图像尺寸必须相同。"
 msgid "Content to be joined must have the same scale setting."
 msgstr "视频比例设置必须相同。"
 
-#: src/lib/subtitle_content.cc:176
+#: src/lib/subtitle_content.cc:179
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "字幕X轴偏移必须相同。"
 
-#: src/lib/subtitle_content.cc:184
+#: src/lib/subtitle_content.cc:187
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "字幕X轴缩放大小必须相同。"
 
-#: src/lib/subtitle_content.cc:180
+#: src/lib/subtitle_content.cc:183
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "字幕Y轴偏移必须相同。"
 
-#: src/lib/subtitle_content.cc:188
+#: src/lib/subtitle_content.cc:191
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "字幕Y轴缩放大小必须相同。"
 
-#: src/lib/subtitle_content.cc:196
+#: src/lib/subtitle_content.cc:199
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "字幕淡入淡出效果必须相同。"
 
-#: src/lib/subtitle_content.cc:192
+#: src/lib/subtitle_content.cc:195
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "合并内容字幕行距必须相同."
 
@@ -373,7 +379,7 @@ msgstr "内容合并帧率必须相同."
 msgid "Content to be joined must have the same video frame type."
 msgstr "帧类型必须相同。"
 
-#: src/lib/subtitle_content.cc:201 src/lib/subtitle_content.cc:209
+#: src/lib/subtitle_content.cc:208 src/lib/subtitle_content.cc:216
 msgid "Content to be joined must use the same fonts."
 msgstr "字幕字体必须相同。"
 
@@ -443,21 +449,21 @@ msgstr "无法开始传输"
 msgid "Could not write to remote file (%1)"
 msgstr "无法写入远程文件 (%1)"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:502
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:503
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/film.cc:1405
+#: src/lib/util.cc:532
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1406
-msgid "DBS"
-msgstr "DBS"
+#: src/lib/util.cc:533
+msgid "DBPS"
+msgstr ""
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -490,7 +496,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:527
+#: src/lib/config.cc:530
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -648,11 +654,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/film.cc:1399
+#: src/lib/util.cc:526
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:496
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -676,7 +682,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:238 src/lib/config.cc:524
+#: src/lib/config.cc:239 src/lib/config.cc:527
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -684,27 +690,27 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "去隔行"
 
-#: src/lib/film.cc:1393
+#: src/lib/util.cc:520
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/film.cc:1401
+#: src/lib/util.cc:528
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:491
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:490
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:498
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:500
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:494
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -712,11 +718,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/film.cc:1396
+#: src/lib/util.cc:523
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:493
 msgid "Lfe (sub)"
 msgstr "次低（重低音炮）"
 
@@ -740,7 +746,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/film.cc:1397
+#: src/lib/util.cc:524
 msgid "Ls"
 msgstr "左环绕"
 
@@ -832,7 +838,7 @@ msgstr "程序内部错误%1:%2"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/film.cc:1394
+#: src/lib/util.cc:521
 msgid "R"
 msgstr "右声道"
 
@@ -844,7 +850,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/film.cc:1402
+#: src/lib/util.cc:529
 msgid "Rc"
 msgstr "右中"
 
@@ -864,23 +870,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:492
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:491
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:499
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:501
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:495
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/film.cc:1398
+#: src/lib/util.cc:525
 msgid "Rs"
 msgstr "右环绕"
 
@@ -957,7 +963,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "[文本字幕]"
 
-#: src/lib/film.cc:1522
+#: src/lib/film.cc:1510
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1082,7 +1088,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:505 src/lib/util.cc:506
+#: src/lib/util.cc:504 src/lib/util.cc:505
 msgid "Unused"
 msgstr "未使用"
 
@@ -1094,11 +1100,11 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/film.cc:1400
+#: src/lib/util.cc:527
 msgid "VI"
 msgstr "视力障碍"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:497
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1114,7 +1120,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/hints.cc:103
+#: src/lib/hints.cc:105
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
@@ -1122,13 +1128,13 @@ msgstr ""
 "你所设定的视频帧速率不是国际化（SMPTE）标准支持的，我们建议您制作SMPTE标准的"
 "DCP"
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:127
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr "您添加的内容是3D内容，但是您的DCP包设置为2D模式，请设置到3D模式。"
 
-#: src/lib/hints.cc:114
+#: src/lib/hints.cc:116
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1136,7 +1142,7 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/hints.cc:66
+#: src/lib/hints.cc:68
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1146,7 +1152,7 @@ msgstr "您添加的字体文件超过了640KB，很有可能不能正常播放�
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容。"
 
-#: src/lib/hints.cc:95
+#: src/lib/hints.cc:97
 msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
@@ -1154,22 +1160,17 @@ msgstr ""
 "您的DCP帧速率（%1 fps）会使一部分投影机出现错误，请使用24 fps或者48 fps保证正"
 "常放映。"
 
-#: src/lib/hints.cc:70
+#: src/lib/hints.cc:72
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr "您的DCP声道数小于6个，在小部分放映机上可能不能正常播放。"
 
-#: src/lib/hints.cc:137
+#: src/lib/hints.cc:152
+#, fuzzy
 msgid ""
-"Your audio level is very close to clipping.  You should reduce the gain of "
-"your audio content."
-msgstr "您的音量已经接近上限，请降低音频增益防止爆音。"
-
-#: src/lib/hints.cc:135
-msgid ""
-"Your audio level is very high.  You should reduce the gain of your audio "
-"content."
+"Your audio level is very high (on %1).  You should reduce the gain of your "
+"audio content."
 msgstr "您的音频增益过大，请降低音频增益。"
 
 #: src/lib/image_content.cc:81
@@ -1304,6 +1305,14 @@ msgstr "未知"
 #: src/lib/video_content.cc:459
 msgid "video frames"
 msgstr "视频帧"
+
+#~ msgid "DBS"
+#~ msgstr "DBS"
+
+#~ msgid ""
+#~ "Your audio level is very close to clipping.  You should reduce the gain "
+#~ "of your audio content."
+#~ msgstr "您的音量已经接近上限，请降低音频增益防止爆音。"
 
 #~ msgid "could not create file %1"
 #~ msgstr "无法创建文件 (%1)"
