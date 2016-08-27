@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-24 16:46+0100\n"
-"PO-Revision-Date: 2016-08-19 02:40+0800\n"
+"PO-Revision-Date: 2016-08-27 02:39+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
@@ -164,9 +164,8 @@ msgid "Add KDM..."
 msgstr "添加 KDM..."
 
 #: src/wx/content_menu.cc:71
-#, fuzzy
 msgid "Add OV..."
-msgstr "添加 KDM..."
+msgstr "添加 OV..."
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
@@ -586,7 +585,7 @@ msgstr "下载证书"
 
 #: src/wx/content_panel.cc:93
 msgid "Earlier"
-msgstr ""
+msgstr "以前的"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -730,7 +729,7 @@ msgstr "发件人地址"
 
 #: src/wx/new_film_dialog.cc:57
 msgid "From template"
-msgstr ""
+msgstr "从模板"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -904,7 +903,7 @@ msgstr "语言"
 
 #: src/wx/content_panel.cc:97
 msgid "Later"
-msgstr ""
+msgstr "以后"
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -1033,9 +1032,8 @@ msgid "NEEDS KDM: "
 msgstr "用KDM:"
 
 #: src/wx/content_panel.cc:515
-#, fuzzy
 msgid "NEEDS OV: "
-msgstr "用KDM:"
+msgstr "需要OV:"
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
 msgid "Name"
@@ -1046,9 +1044,8 @@ msgid "New Film"
 msgstr "新建工程"
 
 #: src/wx/rename_template_dialog.cc:26
-#, fuzzy
 msgid "New name"
-msgstr "用户名"
+msgstr "新名称"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1283,14 +1280,12 @@ msgid "Remove the selected piece of content from the film."
 msgstr "删除选择工程"
 
 #: src/wx/rename_template_dialog.cc:24
-#, fuzzy
 msgid "Rename template"
-msgstr "文件名格式"
+msgstr "重命名模板"
 
 #: src/wx/templates_dialog.cc:50
-#, fuzzy
 msgid "Rename..."
-msgstr "重新制作..."
+msgstr "重命名..."
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -1355,7 +1350,7 @@ msgstr "最佳值 %.2fdB 到 %s "
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
-msgstr ""
+msgstr "保存模板"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
@@ -1395,9 +1390,8 @@ msgid "Select Key File"
 msgstr "选择密钥文件"
 
 #: src/wx/content_menu.cc:351
-#, fuzzy
 msgid "Select OV"
-msgstr "选择KDM"
+msgstr "选择OV"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1546,19 +1540,19 @@ msgstr "临时版本"
 
 #: src/wx/templates_dialog.cc:42
 msgid "Template"
-msgstr ""
+msgstr "模板"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Template name"
-msgstr ""
+msgstr "模板名称"
 
 #: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "模板名称不能为空"
 
 #: src/wx/templates_dialog.cc:32
 msgid "Templates"
-msgstr ""
+msgstr "模板"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
@@ -1590,7 +1584,7 @@ msgstr "正常!"
 #: src/wx/save_template_dialog.cc:55
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgstr "已存在同名模板，是否覆盖？"
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."

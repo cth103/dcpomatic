@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-24 16:46+0100\n"
-"PO-Revision-Date: 2016-08-19 02:20+0800\n"
+"PO-Revision-Date: 2016-08-27 02:34+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
@@ -260,7 +260,7 @@ msgstr "制作DCP-o-matic的KDM"
 
 #: src/tools/dcpomatic.cc:900
 msgid "Manage templates..."
-msgstr ""
+msgstr "管理模板"
 
 #: src/tools/dcpomatic.cc:858
 msgid "New...\tCtrl-N"
@@ -284,7 +284,7 @@ msgstr "&查看DCP"
 
 #: src/tools/dcpomatic.cc:863
 msgid "Save as &template..."
-msgstr ""
+msgstr "保存为模板"
 
 #: src/tools/dcpomatic.cc:110
 #, c-format
