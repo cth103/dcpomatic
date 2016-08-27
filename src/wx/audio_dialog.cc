@@ -49,7 +49,14 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 		_("Audio"),
 		wxDefaultPosition,
 		wxSize (640, 512),
+#ifdef DCPOMATIC_OSX
+		/* I can't get wxFRAME_FLOAT_ON_PARENT to work on OS X, and although wxSTAY_ON_TOP keeps
+		   the window above all others (and not just our own) it's better than nothing for now.
+		*/
+		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxSTAY_ON_TOP
+#else
 		wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
+#endif
 		)
 	, _film (film)
 	, _content (content)
