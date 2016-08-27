@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-24 16:46+0100\n"
-"PO-Revision-Date: 2016-08-24 17:37+0100\n"
+"PO-Revision-Date: 2016-08-26 21:51+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/wx/subtitle_panel.cc:73 src/wx/subtitle_panel.cc:83
 #: src/wx/subtitle_panel.cc:93 src/wx/subtitle_panel.cc:103
@@ -161,9 +161,8 @@ msgid "Add KDM..."
 msgstr "Ajouter KDM..."
 
 #: src/wx/content_menu.cc:71
-#, fuzzy
 msgid "Add OV..."
-msgstr "Ajouter KDM..."
+msgstr "Ajouter OV..."
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
@@ -590,7 +589,7 @@ msgstr "Téléchargement Certificat en cours"
 
 #: src/wx/content_panel.cc:93
 msgid "Earlier"
-msgstr ""
+msgstr "Plus tôt"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -740,7 +739,7 @@ msgstr "Adresse source"
 
 #: src/wx/new_film_dialog.cc:57
 msgid "From template"
-msgstr ""
+msgstr "Depuis le modèle"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -916,7 +915,7 @@ msgstr "Langue"
 
 #: src/wx/content_panel.cc:97
 msgid "Later"
-msgstr ""
+msgstr "Plus tard"
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -1045,11 +1044,11 @@ msgid "NEEDS KDM: "
 msgstr "DEMANDE de KDM:"
 
 #: src/wx/content_panel.cc:515
-#, fuzzy
 msgid "NEEDS OV: "
-msgstr "DEMANDE de KDM:"
+msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:67
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:67
 msgid "Name"
 msgstr "Nom"
 
@@ -1058,9 +1057,8 @@ msgid "New Film"
 msgstr "Nouveau Film"
 
 #: src/wx/rename_template_dialog.cc:26
-#, fuzzy
 msgid "New name"
-msgstr "Nom d'utilisateur"
+msgstr "Nouveau nom"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1299,14 +1297,12 @@ msgid "Remove the selected piece of content from the film."
 msgstr "Enleve le contenu sélectionné du film."
 
 #: src/wx/rename_template_dialog.cc:24
-#, fuzzy
 msgid "Rename template"
-msgstr "Format de nom de fichier"
+msgstr "Renommer le modèle"
 
 #: src/wx/templates_dialog.cc:50
-#, fuzzy
 msgid "Rename..."
-msgstr "Examine à nouveau..."
+msgstr "Renommer..."
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -1371,7 +1367,7 @@ msgstr "La crête d'échantillon est de %.2fdB à %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
-msgstr ""
+msgstr "Enregistrer le modèle"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
@@ -1399,9 +1395,8 @@ msgid "Select Certificate File"
 msgstr "Sélectionner le certificat"
 
 #: src/wx/config_dialog.cc:1076
-#, fuzzy
 msgid "Select Chain File"
-msgstr "Sélectionner fichier clé"
+msgstr "Sélectionner fichier chaines"
 
 #: src/wx/content_menu.cc:325
 msgid "Select KDM"
@@ -1412,9 +1407,8 @@ msgid "Select Key File"
 msgstr "Sélectionner fichier clé"
 
 #: src/wx/content_menu.cc:351
-#, fuzzy
 msgid "Select OV"
-msgstr "Selectionner KDM"
+msgstr "Selectionner OV"
 
 #: src/wx/screen_dialog.cc:48
 msgid "Select certificate file"
@@ -1563,19 +1557,19 @@ msgstr "Version temporaire"
 
 #: src/wx/templates_dialog.cc:42
 msgid "Template"
-msgstr ""
+msgstr "Modèle"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Template name"
-msgstr ""
+msgstr "Nom de modèle"
 
 #: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "Le nom de modèle ne doit pas être vide"
 
 #: src/wx/templates_dialog.cc:32
 msgid "Templates"
-msgstr ""
+msgstr "Modèles"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
@@ -1610,7 +1604,7 @@ msgstr "Il n'y a aucun avertissement: tout semble correct!"
 #: src/wx/save_template_dialog.cc:55
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Un modèle existant porte déjà ce nom. Voulez-vous l'écraser?"
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
