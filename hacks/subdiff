@@ -1,0 +1,10 @@
+#!/bin/bash
+
+a=`realpath $1`
+b=`realpath $2`
+tmp=$$
+mkdir -p $tmp
+cd $tmp
+asdcp-unwrap $a
+asdcp-unwrap $b
+diff -u `basename $1 | sed -e "s/\.mxf/_/"` `basename $2 | sed -e "s/\.mxf/_/"`

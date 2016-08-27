@@ -111,6 +111,7 @@ Config::set_defaults ()
 #endif
 	_cinemas_file = path ("cinemas.xml");
 	_show_hints_before_make_dcp = true;
+	_confirm_kdm_email = true;
 	_kdm_filename_format = dcp::NameFormat ("KDM %f %c %s");
 	_dcp_metadata_filename_format = dcp::NameFormat ("%t");
 	_dcp_asset_filename_format = dcp::NameFormat ("%t");
@@ -296,6 +297,7 @@ try
 
 	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or (path ("cinemas.xml").string ());
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
+	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or (true);
 	_kdm_filename_format = dcp::NameFormat (f.optional_string_child("KDMFilenameFormat").get_value_or ("KDM %f %c %s"));
 	_dcp_metadata_filename_format = dcp::NameFormat (f.optional_string_child("DCPMetadataFilenameFormat").get_value_or ("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat (f.optional_string_child("DCPAssetFilenameFormat").get_value_or ("%t"));
@@ -456,6 +458,7 @@ Config::write_config_xml () const
 
 	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
 	root->add_child("ShowHintsBeforeMakeDCP")->add_child_text (_show_hints_before_make_dcp ? "1" : "0");
+	root->add_child("ConfirmKDMEmail")->add_child_text (_confirm_kdm_email ? "1" : "0");
 	root->add_child("KDMFilenameFormat")->add_child_text (_kdm_filename_format.specification ());
 	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
 	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
@@ -599,6 +602,10 @@ Config::save_template (shared_ptr<const Film> film, string name) const
 list<string>
 Config::templates () const
 {
+	if (!boost::filesystem::exists (path ("templates"))) {
+		return list<string> ();
+	}
+
 	list<string> n;
 	for (boost::filesystem::directory_iterator i (path("templates")); i != boost::filesystem::directory_iterator(); ++i) {
 		n.push_back (i->path().filename().string());

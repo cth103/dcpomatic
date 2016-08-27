@@ -73,7 +73,13 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 		}
 	}
 
-	DCPOMATIC_ASSERT (cpl);
+	if (!cpl) {
+		/* No CPL found; probably an old file that doesn't specify it;
+		   just use the first one.
+		*/
+		cpl = cpls().front ();
+	}
+
 	_reels = cpl->reels ();
 
 	_reel = _reels.begin ();

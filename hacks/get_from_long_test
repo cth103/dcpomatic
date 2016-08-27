@@ -1,0 +1,43 @@
+#!/bin/bash
+
+DIR=/var/jenkins/workspace/dcpomatic2-long-test/test/dcpomatic-test/output
+
+test=$1
+frame=$2
+
+if [ "$test" == "" -o "$frame" == "" ]; then
+   echo "Syntax: $0 <test> <frame>"
+   exit 1
+fi
+
+tmp=/tmp/$$.tmp
+mkdir -p $tmp
+
+a=`ls $DIR | head -n 1`
+b=`ls $DIR | tail -n 1`
+
+pushd ~/src/dcpomatic
+if [ `git rev-list $a..HEAD | grep $b` != "" ]; then
+   old=$a
+   new=$b
+else
+   old=$b
+   new=$a
+fi
+popd
+
+echo "old is $old, new is $new"
+echo "working in $tmp"
+
+n=`printf "%06d" $frame`
+
+pushd $tmp
+cp $DIR/$old/$test.xml/video/* old.mxf
+asdcp-unwrap old.mxf
+j2k_to_image -i old_$n.j2c -o old.png
+cp $DIR/$new/$test.xml/video/* new.mxf
+asdcp-unwrap new.mxf
+j2k_to_image -i new_$n.j2c -o new.png
+popd
+
+cp $tmp/old.png $tmp/new.png .
