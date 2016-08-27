@@ -1394,7 +1394,7 @@ msgstr "SMPTE"
 #: src/wx/audio_dialog.cc:313
 #, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr "Пікова гучність %.2fдБ на %s"
+msgstr "Пікова гучність %.2fдБ на %s на %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"

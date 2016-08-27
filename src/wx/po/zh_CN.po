@@ -1379,7 +1379,7 @@ msgstr "SMPTE"
 #: src/wx/audio_dialog.cc:313
 #, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr "最佳值 %.2fdB 到 %s "
+msgstr "最佳值 %.2fdB 到 %s 到 %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
