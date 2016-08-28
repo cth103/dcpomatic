@@ -262,6 +262,8 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 		fade_factor = DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
 	} else if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
 		fade_factor = 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
+	} else if (time < fade_in_start || time > fade_out_end) {
+		fade_factor = 0;
 	}
 
 	context->scale (xscale, yscale);
