@@ -530,7 +530,7 @@ short_audio_channel_name (int c)
 		_("BsL"),
 		_("BsR"),
 		_("DBP"),
-		_("DBPS"),
+		_("DBS"),
 		_(""),
 		_("")
 	};
