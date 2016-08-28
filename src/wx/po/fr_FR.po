@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-08-26 21:51+0100\n"
+"PO-Revision-Date: 2016-08-28 15:40+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -229,6 +229,8 @@ msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"Etes-vous certain de vouloir envoyer des courriels aux adresses suivantes ?\n"
+"\n"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
@@ -410,9 +412,8 @@ msgid "Config|Timing"
 msgstr "Temps"
 
 #: src/wx/confirm_kdm_email_dialog.cc:31
-#, fuzzy
 msgid "Confirm KDM email"
-msgstr "e-mail KDM"
+msgstr "Confirmez l'e-mail KDM"
 
 #: src/wx/report_problem_dialog.cc:66
 msgid "Contact email"
@@ -579,14 +580,12 @@ msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:42
-#, fuzzy
 msgid "Don't ask this again"
-msgstr "Ne plus montrer ces avertissements."
+msgstr "Ne plus me demander"
 
 #: src/wx/confirm_kdm_email_dialog.cc:50
-#, fuzzy
 msgid "Don't send emails"
-msgstr "Envoyer par e-mail"
+msgstr "Ne pas envoyer d'e-mails"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
@@ -635,13 +634,12 @@ msgid "Edit..."
 msgstr "Éditer..."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:54
-#, fuzzy
 msgid "Effect"
-msgstr "Aucun effet"
+msgstr "Effet"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:59
 msgid "Effect colour"
-msgstr ""
+msgstr "Couleur de l'effet"
 
 #: src/wx/email_dialog.cc:28 src/wx/email_dialog.cc:30
 msgid "Email address"
@@ -1077,7 +1075,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
@@ -1166,13 +1165,14 @@ msgid "Outline content"
 msgstr "contours image"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:64
-#, fuzzy
 msgid "Outline width"
-msgstr "Contours"
+msgstr "Taille des contours"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:137
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
+"La taille de contours ne peut pas être réglée si vous ne choisissez pas "
+"d'incruster les sous-titres sans l'image."
 
 #: src/wx/kdm_dialog.cc:91 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
@@ -1393,9 +1393,9 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:313
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr "La crête d'échantillon est de %.2fdB à %s à %s"
+msgstr "La crête d'échantillon est de %.2fdB à %s sur le canal %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
@@ -1455,9 +1455,8 @@ msgid "Send by email"
 msgstr "Envoyer par e-mail"
 
 #: src/wx/confirm_kdm_email_dialog.cc:49
-#, fuzzy
 msgid "Send emails"
-msgstr "Envoyer par e-mail"
+msgstr "Envoyer e-mails"
 
 #: src/wx/report_problem_dialog.cc:61
 msgid "Send logs"
@@ -1763,9 +1762,8 @@ msgid "UTC+5"
 msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+5:30"
-msgstr "UTC+5"
+msgstr "UTC+5:30"
 
 #: src/wx/cinema_dialog.cc:106
 msgid "UTC+6"

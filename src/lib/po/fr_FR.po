@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:534 src/lib/util.cc:535
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-08-26 21:38+0100\n"
+"PO-Revision-Date: 2016-08-28 15:32+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -344,9 +343,8 @@ msgid "Content to be joined must have the same fades."
 msgstr "Le contenu à ajouter doit avoir le même réglage de fondu."
 
 #: src/lib/subtitle_content.cc:203
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
-msgstr "Le contenu ajouté doit avoir le même réglage de fondu."
+msgstr "Le contenu ajouté doit avoir la même taille de contour."
 
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
@@ -484,7 +482,7 @@ msgstr "DBP"
 
 #: src/lib/util.cc:533
 msgid "DBPS"
-msgstr ""
+msgstr "DBPS"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -1220,13 +1218,12 @@ msgstr ""
 "certains projecteurs."
 
 #: src/lib/hints.cc:152
-#, fuzzy
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Votre volume sonore est très élevé. Vous devriez réduire le dain de votre "
-"contenu audio."
+"Votre volume sonore est très élevé (sur %1). Vous devriez réduire le dain de "
+"votre contenu audio."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
