@@ -184,7 +184,9 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 	} else if (
 		property == SubtitleContentProperty::LINE_SPACING ||
 		property == SubtitleContentProperty::OUTLINE_WIDTH ||
-		property == SubtitleContentProperty::Y_SCALE
+		property == SubtitleContentProperty::Y_SCALE ||
+		property == SubtitleContentProperty::FADE_IN ||
+		property == SubtitleContentProperty::FADE_OUT
 		) {
 
 		/* These changes just need the pieces' decoders to be reset.
