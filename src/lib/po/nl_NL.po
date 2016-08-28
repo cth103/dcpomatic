@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:534 src/lib/util.cc:535
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-08-25 01:45+0200\n"
+"PO-Revision-Date: 2016-08-28 01:57+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -354,10 +353,9 @@ msgid "Content to be joined must have the same fades."
 msgstr "Samen te voegen content moet dezelfde fade-instelling hebben."
 
 #: src/lib/subtitle_content.cc:203
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
 msgstr ""
-"Samen te voegen content moet dezelfde ondertitel fade-instelling hebben."
+"Samen te voegen content moet dezelfde ondertitel omlijnings-breedte hebben."
 
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
@@ -489,7 +487,7 @@ msgstr "DBP"
 
 #: src/lib/util.cc:533
 msgid "DBPS"
-msgstr ""
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -610,7 +608,7 @@ msgstr "Authenticatiefout met server (%1)"
 
 #: src/lib/emailer.cc:217
 msgid "Failed to send email (%1)"
-msgstr "Versturen email mislukt (%1)"
+msgstr "Verzenden email mislukt (%1)"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
@@ -959,7 +957,7 @@ msgstr "2,39:1 (Scope)"
 
 #: src/lib/send_problem_report_job.cc:70
 msgid "Sending email"
-msgstr "Email versturen"
+msgstr "Email verzenden"
 
 #: src/lib/dcp_content_type.cc:47
 msgid "Short"
@@ -1232,13 +1230,12 @@ msgstr ""
 "sommige installaties."
 
 #: src/lib/hints.cc:152
-#, fuzzy
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Uw audio-niveau is zeer hoog.  U kunt beter de versterking van uw audio-"
-"content verminderen."
+"Uw audio-niveau is zeer hoog (op %1).  U kunt beter de versterking van uw "
+"audio-content verminderen."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
@@ -1372,13 +1369,3 @@ msgstr "onbekend"
 #: src/lib/video_content.cc:459
 msgid "video frames"
 msgstr "video frames"
-
-#~ msgid "DBS"
-#~ msgstr "DBS"
-
-#~ msgid ""
-#~ "Your audio level is very close to clipping.  You should reduce the gain "
-#~ "of your audio content."
-#~ msgstr ""
-#~ "Uw audio-niveau zit tegen clipping aan.  U kunt beter de versterking van "
-#~ "uw audio-content verminderen."

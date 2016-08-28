@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-08-25 01:51+0200\n"
+"PO-Revision-Date: 2016-08-28 01:53+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -91,7 +91,7 @@ msgstr "&Bewaar\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:893
 msgid "&Send DCP to TMS"
-msgstr "&Verstuur DCP naar TMS"
+msgstr "&Verzend DCP naar TMS"
 
 #: src/tools/dcpomatic.cc:919 src/tools/dcpomatic_batch.cc:84
 msgid "&Tools"
@@ -320,7 +320,7 @@ msgstr "Kies film om te openen"
 
 #: src/tools/dcpomatic_kdm.cc:331
 msgid "Send KDM emails"
-msgstr "Stuur KDM-emails"
+msgstr "Verzend KDM-emails"
 
 #: src/tools/dcpomatic.cc:480
 #, c-format

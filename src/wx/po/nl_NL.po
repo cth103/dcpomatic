@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-08-25 02:12+0200\n"
+"PO-Revision-Date: 2016-08-28 01:58+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -229,6 +229,8 @@ msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"Weet u zeker dat u emails naar de volgende adressen wilt verzenden?\n"
+"\n"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
@@ -411,9 +413,8 @@ msgid "Config|Timing"
 msgstr "Timing"
 
 #: src/wx/confirm_kdm_email_dialog.cc:31
-#, fuzzy
 msgid "Confirm KDM email"
-msgstr "KDM-email"
+msgstr "Bevestig KDM-email"
 
 #: src/wx/report_problem_dialog.cc:66
 msgid "Contact email"
@@ -517,7 +518,7 @@ msgstr "Debug: decoderen"
 
 #: src/wx/config_dialog.cc:1486
 msgid "Debug: email sending"
-msgstr "Debug: email versturen"
+msgstr "Debug: email verzenden"
 
 #: src/wx/config_dialog.cc:1484
 msgid "Debug: encode"
@@ -580,14 +581,12 @@ msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:42
-#, fuzzy
 msgid "Don't ask this again"
-msgstr "Laat geen hints meer zien"
+msgstr "Vraag dit niet opnieuw"
 
 #: src/wx/confirm_kdm_email_dialog.cc:50
-#, fuzzy
 msgid "Don't send emails"
-msgstr "Stuur via email"
+msgstr "Geen emails verzenden"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
@@ -630,19 +629,19 @@ msgid "Edit screen"
 msgstr "Wijzig scherm"
 
 #: src/wx/audio_mapping_view.cc:168 src/wx/config_dialog.cc:426
-#: src/wx/dcp_panel.cc:134 src/wx/fonts_dialog.cc:78 src/wx/video_panel.cc:188
-#: src/wx/video_panel.cc:209 src/wx/editable_list.h:81
+#: src/wx/dcp_panel.cc:134 src/wx/fonts_dialog.cc:78
+#: src/wx/video_panel.cc:188 src/wx/video_panel.cc:209
+#: src/wx/editable_list.h:81
 msgid "Edit..."
 msgstr "Wijzig..."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:54
-#, fuzzy
 msgid "Effect"
-msgstr "Geen effect"
+msgstr "Effect"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:59
 msgid "Effect colour"
-msgstr ""
+msgstr "Effect-kleur"
 
 #: src/wx/email_dialog.cc:28 src/wx/email_dialog.cc:30
 msgid "Email address"
@@ -1078,7 +1077,8 @@ msgstr "HEEFT KDM NODIG: "
 msgid "NEEDS OV: "
 msgstr "HEEFT OV NODIG: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Naam"
 
@@ -1168,13 +1168,13 @@ msgid "Outline content"
 msgstr "Omlijn content"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:64
-#, fuzzy
 msgid "Outline width"
-msgstr "Omlijn"
+msgstr "Omlijnings-breedte"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:137
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
+"Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden"
 
 #: src/wx/kdm_dialog.cc:91 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
@@ -1395,7 +1395,7 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:313
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Sample-piek is %.2fdB op %s op %s"
 
@@ -1454,16 +1454,15 @@ msgstr "Selecteer bioscoop- en scherm-database-bestand"
 
 #: src/wx/kdm_output_panel.cc:87
 msgid "Send by email"
-msgstr "Stuur via email"
+msgstr "Verzend via email"
 
 #: src/wx/confirm_kdm_email_dialog.cc:49
-#, fuzzy
 msgid "Send emails"
-msgstr "Stuur via email"
+msgstr "Verzend emails"
 
 #: src/wx/report_problem_dialog.cc:61
 msgid "Send logs"
-msgstr "Stuur logs"
+msgstr "Verzend logs"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:44
 msgid "Serial number"
@@ -1765,9 +1764,8 @@ msgid "UTC+5"
 msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+5:30"
-msgstr "UTC+5"
+msgstr "UTC+5:30"
 
 #: src/wx/cinema_dialog.cc:106
 msgid "UTC+6"
@@ -1992,6 +1990,3 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
-
-#~ msgid "Outline / shadow colour"
-#~ msgstr "Omlijnings- / schaduwkleur"
