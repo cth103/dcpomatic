@@ -77,7 +77,8 @@ deb_depends['7'].extend(['libboost-filesystem1.49.0',
                              'libcairomm-1.0-1',
                              'libpangomm-1.4-1',
                              'libicu48',
-                             'libnettle4'])
+                             'libnettle4',
+                             'libnotify4'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
