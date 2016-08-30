@@ -28,7 +28,7 @@ deb_build_depends = {'debhelper', 'python', 'g++', 'pkg-config', 'libssh-dev', '
 
 deb_depends = dict()
 
-deb_depends_base = ['libc6', 'libssh-4', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0', 'nettle-dev']
+deb_depends_base = ['libc6', 'libssh-4', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0']
 
 deb_depends['12.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['12.04'].extend(['libboost-filesystem1.48.0',
@@ -38,7 +38,8 @@ deb_depends['12.04'].extend(['libboost-filesystem1.48.0',
                              'libxml++2.6-2',
                              'libboost-date-time1.48.0',
                              'libzip2',
-                             'libicu48'])
+                             'libicu48',
+                             'libnettle4'])
 
 deb_depends['14.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['14.04'].extend(['libboost-filesystem1.54.0',
@@ -50,18 +51,8 @@ deb_depends['14.04'].extend(['libboost-filesystem1.54.0',
                              'libzip2',
                              'libcairomm-1.0-1',
                              'libpangomm-1.4-1',
-                             'libicu52'])
-
-deb_depends['15.10'] = copy.deepcopy(deb_depends_base)
-deb_depends['15.10'].extend(['libboost-filesystem1.58.0',
-                             'libboost-thread1.58.0',
-                             'libboost-regex1.58.0',
-                             'libmagick++-6.q16-5v5',
-                             'libxml++2.6-2v5',
-                             'libboost-date-time1.58.0',
-                             'libzip4',
-                             'libwxgtk3.0-0v5',
-                             'libicu55'])
+                             'libicu52',
+                             'libnettle4'])
 
 deb_depends['16.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
@@ -72,7 +63,8 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libboost-date-time1.58.0',
                              'libzip4',
                              'libwxgtk3.0-0v5',
-                             'libicu55'])
+                             'libicu55',
+                             'libnettle6'])
 
 deb_depends['7'] = copy.deepcopy(deb_depends_base)
 deb_depends['7'].extend(['libboost-filesystem1.49.0',
@@ -84,7 +76,8 @@ deb_depends['7'].extend(['libboost-filesystem1.49.0',
                              'libzip2',
                              'libcairomm-1.0-1',
                              'libpangomm-1.4-1',
-                             'libicu48'])
+                             'libicu48',
+                             'libnettle4'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
@@ -97,7 +90,8 @@ deb_depends['8'].extend(['libboost-filesystem1.55.0',
                          'libwxgtk3.0-0',
                          'libxcb-xfixes0',
                          'libxcb-shape0',
-                         'libicu52'])
+                         'libicu52',
+                         'libnettle4'])
 
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
 deb_depends['unstable'].extend(['libboost-filesystem1.58.0',
@@ -108,7 +102,8 @@ deb_depends['unstable'].extend(['libboost-filesystem1.58.0',
                                 'libgtk2.0-0',
                                 'libboost-date-time1.58.0',
                                 'libzip2',
-                                'libicu52'])
+                                'libicu52',
+                                'libnettle6'])
 
 def packages(name, packages, f):
     s = '%s: ' % name
