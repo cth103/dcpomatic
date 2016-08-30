@@ -28,7 +28,7 @@ deb_build_depends = {'debhelper', 'python', 'g++', 'pkg-config', 'libssh-dev', '
 
 deb_depends = dict()
 
-deb_depends_base = ['libc6', 'libssh-4', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0']
+deb_depends_base = ['libc6', 'libssh-4', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0', 'nettle-dev']
 
 deb_depends['12.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['12.04'].extend(['libboost-filesystem1.48.0',
