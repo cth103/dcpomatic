@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-05-29 15:20+0100\n"
+"PO-Revision-Date: 2016-08-30 01:47+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -249,6 +249,8 @@ msgstr "Hinweise/Warnungen...\tCtrl-H"
 #: src/tools/dcpomatic_kdm.cc:146
 msgid "KDM|Timing"
 msgstr ""
+"Zeitfenster beim Empfänger (nach UTC/GMT Offset/Zeitzone in "
+"Kinoeigenschaften!)"
 
 #: src/tools/dcpomatic.cc:891
 msgid "Make &KDMs...\tCtrl-K"
@@ -264,7 +266,7 @@ msgstr "DKDM für DCP-o-matic erzeugen..."
 
 #: src/tools/dcpomatic.cc:900
 msgid "Manage templates..."
-msgstr ""
+msgstr "Projektvorlagen verwalten"
 
 #: src/tools/dcpomatic.cc:858
 msgid "New...\tCtrl-N"
@@ -288,7 +290,7 @@ msgstr "Z&eige DCP Ordner"
 
 #: src/tools/dcpomatic.cc:863
 msgid "Save as &template..."
-msgstr ""
+msgstr "Speichern als Projektvorlage..."
 
 #: src/tools/dcpomatic.cc:110
 #, c-format
@@ -363,6 +365,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"Die Programmeinstellungen konnten nicht geladen werden. Es werden "
+"Standardeinstellungen wiederhergestellt. Dies kann etwas länger dauern."
 
 #: src/tools/dcpomatic.cc:978
 msgid "There are no new versions of DCP-o-matic available."

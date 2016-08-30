@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:534 src/lib/util.cc:535
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-07-04 02:18+0100\n"
+"PO-Revision-Date: 2016-08-30 02:14+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -20,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:446
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
@@ -29,7 +28,6 @@ msgstr ""
 "Inhalt Bildrate %.4f\n"
 
 #: src/lib/video_content.cc:410
-#, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -38,7 +36,7 @@ msgstr ""
 "Beschnitten zu %1x%2"
 
 #: src/lib/video_content.cc:403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
@@ -47,7 +45,6 @@ msgstr ""
 "Anzeigeseitenverhältnis (DAR) %.2f:1"
 
 #: src/lib/video_content.cc:434
-#, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -56,7 +53,6 @@ msgstr ""
 "Mit Schwarz gefüllt auf Containerformat %1 (%2x%3)"
 
 #: src/lib/video_content.cc:424
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -67,7 +63,7 @@ msgstr ""
 #: src/lib/video_content.cc:428 src/lib/video_content.cc:439
 #, c-format
 msgid " (%.2f:1)"
-msgstr ""
+msgstr " (%.2f:1)"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -90,7 +86,7 @@ msgid "%1 [video]"
 msgstr "%1 [Bild]"
 
 #: src/lib/video_content.cc:398
-#, fuzzy, c-format
+#, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", Pixelseitenverhältnis %.2f:1"
 
@@ -124,10 +120,14 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"Einige Projektionssysteme haben Probleme mit der Wiedergabe von DCPs mit "
+"sehr hohen Bitraten. Sie sollten für Standardanwendungen die J2K Datenrate "
+"nicht wesentlich höher als 230MBit/s einstellen. Dies wird kaum Auswirkungen "
+"auf die sichtbare Bildqualität haben."
 
 #: src/lib/ffmpeg_content.cc:545
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr ""
+msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
 #: src/lib/ratio.cc:38
 msgid "Academy"
@@ -144,6 +144,11 @@ msgid ""
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
 msgstr ""
+"Alle Inhalte weisen ein Seitenverhältnis von 1.85:1 oder weniger auf - der "
+"eingestellte DCP Containertyp ist jedoch Scope (2.39:1). Ihre Inhalte werden "
+"mit seitlichen schwarzen Balken in einem Scope-Bild dargestellt werden "
+"(pillar-boxed). Sofern dies nicht ihre Absicht ist, sollten Sie unter dem "
+"DCP-Reiter den DCI Containertyp auf Flat (1.85:1) einstellen."
 
 #: src/lib/hints.cc:89
 msgid ""
@@ -152,6 +157,12 @@ msgid ""
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
+"Alle Inhalte weisen ein Seitenverhältnis von 2.39:1 auf - der eingestellte "
+"DCP Containertyp ist jedoch Flat (1.85:1). Ihre Inhalte werden mit schwarzen "
+"Balken über/unter dem Bild dargestellt werden ('letter-boxed'). Sofern dies "
+"nicht ihre Absicht ist, sollten Sie unter dem DCP-Reiter den DCI "
+"Containertyp auf Scope (2.39:1) einstellen. Für Scope-Trailer ist diese "
+"'letter-boxed' Darstellung in einem Flat-Vorprogramm jedoch übliche Praxis."
 
 #: src/lib/job.cc:99
 msgid "An error occurred whilst handling the file %1."
@@ -283,9 +294,8 @@ msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
 #: src/lib/writer.cc:467
-#, fuzzy
 msgid "Computing digests"
-msgstr "Zusammenfassung berechnen"
+msgstr "Zusammenfassung ('Hashes') berechnen"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -342,10 +352,8 @@ msgstr ""
 "verwenden."
 
 #: src/lib/subtitle_content.cc:203
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
-msgstr ""
-"Zu verbindende Inhalte müssen die gleiche Untertitel X-Skalierung verwenden."
+msgstr "Zu verbindende Inhalte müssen die gleiche Outline-Stärke verwenden."
 
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
@@ -378,10 +386,9 @@ msgstr ""
 "Zu verbindende Inhalte müssen die gleiche Untertitel Y-Skalierung verwenden."
 
 #: src/lib/subtitle_content.cc:199
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
-"Zu verbindende Inhalte müssen die gleiche Untertitel X-Skalierung verwenden."
+"Zu verbindende Inhalte müssen die gleichen Ein- und Ausblendzeiten aufweisen."
 
 #: src/lib/subtitle_content.cc:195
 msgid "Content to be joined must have the same subtitle line spacing."
@@ -485,7 +492,7 @@ msgstr "DBP"
 
 #: src/lib/util.cc:533
 msgid "DBPS"
-msgstr ""
+msgstr "DBPS"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -1004,6 +1011,15 @@ msgid ""
 "After doing that you would need to re-tick the appropriate 'refer to "
 "existing DCP' checkboxes."
 msgstr ""
+"Das DCP %1 wird in diesem Projekt eingebunden. Dies ist so nicht umsetzbar, "
+"weil die im Projekt eingestellen Aktgrößen ('reel size') nicht mit denen des "
+"eingebundenen DCPs übereinstimmen. Eine Überlagerung unterschiedlicher "
+"Aktgrößen ist nicht möglich.\n"
+"\n"
+"Wenn Sie jedoch bei Aktaufteilung 'An Inhaltsgrenzen aufteilen' auswählen, "
+"werden die Aktgrößen des referenzierten DCPs übernommen.\n"
+"\n"
+"Danach müssen Sie erneut 'Aus bestehendem DCP einbinden' auswählen."
 
 #: src/lib/dcp_content.cc:431
 msgid "The DCP does not have sound in all reels."
@@ -1045,7 +1061,6 @@ msgstr ""
 "ist jedoch in 'INTEROP'. Eine Mischung ist nicht möglich!"
 
 #: src/lib/dcp_content.cc:405
-#, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1181,24 +1196,40 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
+"das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
+"Bei 25fps wird dies zwar von fast allen Projektionssystemen unterstützt "
+"werden - andere Bildraten sollten Sie aber ausschließlich in SMPTE-DCPs "
+"verwenden."
 
 #: src/lib/hints.cc:127
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
+"Sie haben 3D Inhalte eingebunden, jedoch ein 2D-DCP konfiguriert. Sollten "
+"Sie ihre Inhalte in 3D wiedergeben wollen, wählen Sie unter dem DCP-Reiter "
+"'Bild' '3D DCP' aus. "
 
 #: src/lib/hints.cc:116
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"Dieses Projekt verwendet %1 Inhalte, die vermutlich zusammen gehörende VOB "
+"Dateien von einer DVD sind. Sie sollten die Funktion (->Rechtsclick) "
+"'Nahtlos verbinden' verwenden, um Sprünge in der Wiedergabe zu vermeiden."
 
 #: src/lib/hints.cc:68
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
+"Sie haben einen Untertitelzeichensatz mit einer Größe von mehr als 640kB "
+"zugewiesen. Dies wird vermutlich Probleme mit der Wiedergabe der Untertitel "
+"auf etlichen Projektionssystemen verursachen. Sofern Sie auf diesen "
+"speziellen Zeichensatz angewiesen sind, googlen Sie nach 'TI Font "
+"Compressor' und verwenden Sie ggfs. dieses Tool zur Behebung des Problems."
 
 #: src/lib/film.cc:312
 msgid "You must add some content to the DCP before creating it"
@@ -1209,18 +1240,26 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"Ihre gewählte DCP Bildrate (vermutlich resultierend aus Quell-Inhalten mit "
+"dieser Bildrate im Projekt) kann auf älteren Projektionssystemen Probleme "
+"verursachen. Sicherheitshalber sollten Sie 24fps (2D) oder 48fps (3D) "
+"verwenden."
 
 #: src/lib/hints.cc:72
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
+"Ihr DCP ist auf weniger als 6 (5.1) Audiokanäle eingestellt. Dies kann auf "
+"einigen wenigen Projektionssystemen Probleme verursachen."
 
 #: src/lib/hints.cc:152
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
+"Ihr Audiopegel in Kanal %1 ist sehr hoch. Sie sollten die Verstärkung ggfs. "
+"reduzieren."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
@@ -1267,14 +1306,12 @@ msgid "could not move audio asset into the DCP (%1)"
 msgstr "Audio konnte nicht in DCP (%1) kopiert werden"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for reading (%2)"
-msgstr "Datei konnte nicht zum Lesen geöffnet werden."
+msgstr "Datei %1 konnte nicht zum Lesen geöffnet werden. (%2)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for writing (%2)"
-msgstr "Datei konnte nicht zum Lesen geöffnet werden."
+msgstr "Datei %1 konnte nicht zum Schreiben geöffnet werden. (%2)"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-07-04 02:48+0100\n"
+"PO-Revision-Date: 2016-08-30 02:11+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -46,11 +46,11 @@ msgstr "-6dB"
 
 #: src/wx/wx_util.cc:377
 msgid "12 - 7.1/HI/VI"
-msgstr ""
+msgstr "12 - 7.1/HI/VI"
 
 #: src/wx/wx_util.cc:369
 msgid "2 - stereo"
-msgstr ""
+msgstr "2 - Stereo"
 
 #: src/wx/rgba_colour_picker.cc:36
 msgid "255"
@@ -94,7 +94,7 @@ msgstr "3D Oben/Unten (OU)"
 
 #: src/wx/wx_util.cc:371
 msgid "4 - L/C/R/Lfe"
-msgstr ""
+msgstr "4 - L/C/R/SUB"
 
 #: src/wx/dcp_panel.cc:713
 msgid "4K"
@@ -102,11 +102,11 @@ msgstr "4K"
 
 #: src/wx/wx_util.cc:373
 msgid "6 - 5.1"
-msgstr ""
+msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:375
 msgid "8 - 5.1/HI/VI"
-msgstr ""
+msgstr "8 - 5.1/HI/VI"
 
 #: src/wx/image_subtitle_colour_dialog.cc:41
 msgid "<b>New colour</b>"
@@ -162,9 +162,8 @@ msgid "Add KDM..."
 msgstr "KDM hinzufügen..."
 
 #: src/wx/content_menu.cc:71
-#, fuzzy
 msgid "Add OV..."
-msgstr "KDM hinzufügen..."
+msgstr "OV hinzufügen..."
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
@@ -220,7 +219,7 @@ msgstr "Alpha 0"
 
 #: src/wx/kdm_dialog.cc:190
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "Ein unbekannter Fehler ist aufgetreten."
 
 #: src/wx/subtitle_panel.cc:135
 msgid "Appearance..."
@@ -231,6 +230,8 @@ msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"Bitte bestätigen Sie das Versenden von Emails an die folgenden Adressen!\n"
+"\n"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
@@ -322,7 +323,7 @@ msgstr "CPL annotation text"
 
 #: src/wx/kdm_dialog.cc:186
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "Die Mediendaten ('Assets') dieser CPL sind nicht verschlüsselt!"
 
 #: src/wx/audio_panel.cc:78
 msgid "Calculate..."
@@ -411,9 +412,8 @@ msgid "Config|Timing"
 msgstr "Timing"
 
 #: src/wx/confirm_kdm_email_dialog.cc:31
-#, fuzzy
 msgid "Confirm KDM email"
-msgstr "KDM Email"
+msgstr "KDM Emailversand bestätigen"
 
 #: src/wx/report_problem_dialog.cc:66
 msgid "Contact email"
@@ -492,7 +492,7 @@ msgstr "DCP"
 
 #: src/wx/config_dialog.cc:1453
 msgid "DCP asset filename format"
-msgstr ""
+msgstr "Dateinamenformatierung der DCP Medien ('Assets') "
 
 #: src/wx/kdm_cpl_panel.cc:44
 msgid "DCP directory"
@@ -500,7 +500,7 @@ msgstr "DCP Verzeichnis"
 
 #: src/wx/config_dialog.cc:1441
 msgid "DCP metadata filename format"
-msgstr ""
+msgstr "Dateinamenformatierung der DCP Metadaten"
 
 #: src/wx/about_dialog.cc:50 src/wx/wx_util.cc:90 src/wx/wx_util.cc:102
 #: src/wx/wx_util.cc:110
@@ -581,16 +581,15 @@ msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:42
 msgid "Don't ask this again"
-msgstr ""
+msgstr "Nicht erneut fragen."
 
 #: src/wx/confirm_kdm_email_dialog.cc:50
-#, fuzzy
 msgid "Don't send emails"
-msgstr "Per Email senden"
+msgstr "Nicht senden"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
-msgstr ""
+msgstr "Warnungen zukünftig nicht mehr anzeigen."
 
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
@@ -610,7 +609,7 @@ msgstr "Zertifikat wird heruntergeladen..."
 
 #: src/wx/content_panel.cc:93
 msgid "Earlier"
-msgstr ""
+msgstr "Nach oben/früher"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -636,11 +635,11 @@ msgstr "Bearbeiten..."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:54
 msgid "Effect"
-msgstr ""
+msgstr "Schrifteffekt"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:59
 msgid "Effect colour"
-msgstr ""
+msgstr "Effektfarbe"
 
 #: src/wx/email_dialog.cc:28 src/wx/email_dialog.cc:30
 msgid "Email address"
@@ -671,18 +670,16 @@ msgid "Export"
 msgstr "Export"
 
 #: src/wx/config_dialog.cc:1045
-#, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "certificate..."
 msgstr "Exportiere DCP Schlüsselzertifikat..."
 
 #: src/wx/config_dialog.cc:1047
-#, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "chain..."
-msgstr "Exportiere DCP Schlüsselzertifikat..."
+msgstr "Exportiere DCP Schlüsselzertifikatskette..."
 
 #: src/wx/config_dialog.cc:732
 msgid "Export..."
@@ -701,7 +698,6 @@ msgid "Fade in"
 msgstr "Einblenden"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:69
-#, fuzzy
 msgid "Fade in time"
 msgstr "Einblenden"
 
@@ -710,14 +706,12 @@ msgid "Fade out"
 msgstr "Ausblenden"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:74
-#, fuzzy
 msgid "Fade out time"
 msgstr "Ausblenden"
 
 #: src/wx/kdm_output_panel.cc:50
-#, fuzzy
 msgid "Filename format"
-msgstr "Dateiname"
+msgstr "Dateinamenformat"
 
 #: src/wx/new_film_dialog.cc:39
 msgid "Film name"
@@ -770,7 +764,7 @@ msgstr "Absenderadresse"
 
 #: src/wx/new_film_dialog.cc:57
 msgid "From template"
-msgstr ""
+msgstr "Aus Projektvorlage"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -807,7 +801,7 @@ msgstr "Lade aus Datei..."
 
 #: src/wx/hints_dialog.cc:56
 msgid "Go back"
-msgstr ""
+msgstr "Zurück"
 
 #: src/wx/playhead_to_timecode_dialog.cc:27
 #: src/wx/playhead_to_frame_dialog.cc:30
@@ -859,9 +853,8 @@ msgid "ISDCF name"
 msgstr "ISDCF Name - http://isdcf.com/dcnc/"
 
 #: src/wx/video_waveform_dialog.cc:61
-#, fuzzy
 msgid "Image X position"
-msgstr "Beschnitt nach aktueller Vorschauposition (Slider)"
+msgstr "Horizontale Bildposition:"
 
 #: src/wx/colour_conversion_editor.cc:55
 msgid "Input gamma"
@@ -906,7 +899,6 @@ msgid "Italic font"
 msgstr "Kursiver Zeichensatz"
 
 #: src/wx/dcp_panel.cc:680
-#, fuzzy
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -929,7 +921,7 @@ msgstr "KDM Typ"
 msgid "KDM|Timing"
 msgstr ""
 "Zeitfenster beim Empfänger (nach UTC/GMT Offset/Zeitzone in "
-"Kinoeigenschaften)"
+"Kinoeigenschaften!)"
 
 #: src/wx/timeline_dialog.cc:51
 msgid "Keep video and subtitles in sequence"
@@ -949,7 +941,7 @@ msgstr "Sprache"
 
 #: src/wx/content_panel.cc:97
 msgid "Later"
-msgstr ""
+msgstr "Nach unten/später"
 
 #: src/wx/config_dialog.cc:857
 msgid "Leaf"
@@ -1010,7 +1002,7 @@ msgstr "Mail/SMTP Server Benutzername/Login"
 
 #: src/wx/hints_dialog.cc:55
 msgid "Make DCP anyway"
-msgstr ""
+msgstr "Ignorieren"
 
 #: src/wx/self_dkdm_dialog.cc:49
 msgid "Make DKDM for DCP-o-matic"
@@ -1078,11 +1070,11 @@ msgid "NEEDS KDM: "
 msgstr "Benötigt KDM:"
 
 #: src/wx/content_panel.cc:515
-#, fuzzy
 msgid "NEEDS OV: "
-msgstr "Benötigt KDM:"
+msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1091,9 +1083,8 @@ msgid "New Film"
 msgstr "Neues Projekt"
 
 #: src/wx/rename_template_dialog.cc:26
-#, fuzzy
 msgid "New name"
-msgstr "Benutzer Name"
+msgstr "Neuer Name"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1173,13 +1164,14 @@ msgid "Outline content"
 msgstr "Inhalt hervorheben"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:64
-#, fuzzy
 msgid "Outline width"
-msgstr "Umrissdarstellung"
+msgstr "Stärke Umrissdarstellung"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:137
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
+"Die Stärke der Umrissdarstellung kann nur bei fest eingerechneten "
+"Untertiteln ('Burn-In') gewählt werden."
 
 #: src/wx/kdm_dialog.cc:91 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
@@ -1267,7 +1259,6 @@ msgid "Re-examine..."
 msgstr "Analysieren..."
 
 #: src/wx/config_dialog.cc:737
-#, fuzzy
 msgid ""
 "Re-make certificates\n"
 "and key..."
@@ -1335,14 +1326,12 @@ msgid "Remove the selected piece of content from the film."
 msgstr "Den ausgewählten Inhalt entfernen."
 
 #: src/wx/rename_template_dialog.cc:24
-#, fuzzy
 msgid "Rename template"
-msgstr "Dateiname"
+msgstr "Projektvorlage umbenennen"
 
 #: src/wx/templates_dialog.cc:50
-#, fuzzy
 msgid "Rename..."
-msgstr "Analysieren..."
+msgstr "Umbenennen..."
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -1401,13 +1390,13 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:313
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr "Spitzenwert (Sample peak): %.2fdB bei %s bei %s"
+msgstr "Spitzenwert (Sample peak): %.2fdB bei %s in Kanal %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
-msgstr ""
+msgstr "Projektvorlage speichern"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
@@ -1435,9 +1424,8 @@ msgid "Select Certificate File"
 msgstr "Zertifikats-Datei auswählen"
 
 #: src/wx/config_dialog.cc:1077
-#, fuzzy
 msgid "Select Chain File"
-msgstr "Schlüsseldatei auswählen"
+msgstr "Zertifikatskette auswählen"
 
 #: src/wx/content_menu.cc:325
 msgid "Select KDM"
@@ -1448,9 +1436,8 @@ msgid "Select Key File"
 msgstr "Schlüsseldatei auswählen"
 
 #: src/wx/content_menu.cc:351
-#, fuzzy
 msgid "Select OV"
-msgstr "KDM auswählen"
+msgstr "OV auswählen"
 
 #: src/wx/screen_dialog.cc:49
 msgid "Select certificate file"
@@ -1465,7 +1452,6 @@ msgid "Send by email"
 msgstr "Per Email senden"
 
 #: src/wx/confirm_kdm_email_dialog.cc:49
-#, fuzzy
 msgid "Send emails"
 msgstr "Per Email senden"
 
@@ -1503,7 +1489,7 @@ msgstr "Programm-Sprache einstellen"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:90
 msgid "Shadow"
-msgstr ""
+msgstr "Schattendarstellung"
 
 #: src/wx/dcp_panel.cc:759
 msgid "Show audio..."
@@ -1604,19 +1590,19 @@ msgstr "Test Version"
 
 #: src/wx/templates_dialog.cc:42
 msgid "Template"
-msgstr ""
+msgstr "Gespeicherte Vorlagen"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Template name"
-msgstr ""
+msgstr "Name"
 
 #: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "Name der Projektvorlage darf nicht leer sein!"
 
 #: src/wx/templates_dialog.cc:32
 msgid "Templates"
-msgstr ""
+msgstr "Projektvorlagen"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
@@ -1653,6 +1639,8 @@ msgstr "Keine Warnungen: Alles sieht gut aus!"
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr ""
+"Eine Projektvorlage dieses Namens existiert bereits. Wollen Sie sie "
+"überschreiben?"
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1774,9 +1762,8 @@ msgid "UTC+5"
 msgstr "UTC/GMT+5"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+5:30"
-msgstr "UTC/GMT+5"
+msgstr "UTC/GMT+5:30"
 
 #: src/wx/cinema_dialog.cc:106
 msgid "UTC+6"
@@ -1941,9 +1928,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV-RGB Matrix"
 
 #: src/wx/video_waveform_dialog.cc:65
-#, fuzzy
 msgid "component value"
-msgstr "Komponente"
+msgstr "Komponentenwert:"
 
 #: src/wx/audio_gain_dialog.cc:31 src/wx/audio_panel.cc:77
 msgid "dB"
@@ -1952,7 +1938,7 @@ msgstr "dB"
 #: src/wx/name_format_editor.cc:67
 #, c-format
 msgid "e.g. %s"
-msgstr ""
+msgstr "z.B. %s"
 
 #. // TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:82
