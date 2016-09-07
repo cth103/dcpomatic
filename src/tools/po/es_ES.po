@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-27 20:36+0100\n"
-"PO-Revision-Date: 2016-04-26 00:07-0400\n"
+"PO-Revision-Date: 2016-09-01 17:31-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #: src/tools/dcpomatic.cc:375
 msgid "%1 already exists as a file, so you cannot use it for a new film."
@@ -140,6 +140,8 @@ msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
+"¿Estás seguro de que quieres restaurar los valores por defecto? Esta acción "
+"no se puede deshacer."
 
 #: src/tools/dcpomatic.cc:503
 #, c-format
@@ -242,7 +244,7 @@ msgstr "Pistas…"
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:146
 msgid "KDM|Timing"
-msgstr ""
+msgstr "Tiempo"
 
 #: src/tools/dcpomatic.cc:891
 msgid "Make &KDMs...\tCtrl-K"
@@ -258,7 +260,7 @@ msgstr "Producir un DKDM para DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:900
 msgid "Manage templates..."
-msgstr ""
+msgstr "Gestionar plantillas…"
 
 #: src/tools/dcpomatic.cc:858
 msgid "New...\tCtrl-N"
@@ -282,7 +284,7 @@ msgstr "&Mostrar DCP"
 
 #: src/tools/dcpomatic.cc:863
 msgid "Save as &template..."
-msgstr ""
+msgstr "Guardar como &plantilla…"
 
 #: src/tools/dcpomatic.cc:110
 #, c-format
@@ -356,6 +358,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"La configuración existente no pudo cargarse. Los valores por defecto serán "
+"utilizados. Debería ser rápido."
 
 #: src/tools/dcpomatic.cc:978
 msgid "There are no new versions of DCP-o-matic available."
