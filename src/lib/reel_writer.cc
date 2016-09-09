@@ -119,11 +119,7 @@ ReelWriter::ReelWriter (
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
 			_film->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
-			_film->interop() ? dcp::INTEROP : dcp::SMPTE,
-			/* XXX: this could well be wrong, but it's better than nothing; the whole channel assignment
-			   thing needs fixing.
-			*/
-			dcp::CHANNEL_ASSIGNMENT_71
+			_film->interop() ? dcp::INTEROP : dcp::SMPTE
 			);
 	}
 }
