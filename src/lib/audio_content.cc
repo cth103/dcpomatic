@@ -135,9 +135,9 @@ AudioContent::set_delay (int d)
 string
 AudioContent::technical_summary () const
 {
-	string s = "audio :";
+	string s = "audio: ";
 	BOOST_FOREACH (AudioStreamPtr i, streams ()) {
-		s += String::compose ("stream channels %1 rate %2", i->channels(), i->frame_rate());
+		s += String::compose ("stream channels %1 rate %2 ", i->channels(), i->frame_rate());
 	}
 
 	return s;
