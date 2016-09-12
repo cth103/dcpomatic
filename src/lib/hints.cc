@@ -85,12 +85,18 @@ get_hints (shared_ptr<const Film> film)
 		}
 	}
 
-	if (scope && !flat_or_narrower && film->container()->id() == "185") {
+	string const film_container = film->container()->id();
+
+	if (scope && !flat_or_narrower && film_container == "185") {
 		hints.push_back (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
 	}
 
-	if (!scope && flat_or_narrower && film->container()->id() == "239") {
+	if (!scope && flat_or_narrower && film_container == "239") {
 		hints.push_back (_("All of your content is at 1.85:1 or narrower but your DCP's container is Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the \"DCP\" tab."));
+	}
+
+	if (film_container != "185" && film_container != "239" && film_container != "full-frame") {
+		hints.push_back (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
 	}
 
 	if (film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
