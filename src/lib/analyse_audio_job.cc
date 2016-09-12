@@ -66,6 +66,11 @@ AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const 
 	_filters.push_back (new Filter ("ebur128", "ebur128", "audio", "ebur128=peak=true"));
 	_ebur128->setup (_filters);
 #endif
+
+	for (int i = 0; i < film->audio_channels(); ++i) {
+		_sample_peak[i] = 0;
+		_sample_peak_frame[i] = 0;
+	}
 }
 
 AnalyseAudioJob::~AnalyseAudioJob ()
