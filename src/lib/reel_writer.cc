@@ -130,7 +130,16 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 {
 	FILE* file = 0;
 	boost::filesystem::path info_file = _film->info_file (_period);
+
 	bool const read = boost::filesystem::exists (info_file);
+
+#ifdef DCPOMATIC_WINDOWS
+	LOG_GENERAL (
+		"Checked %1 (exists %2) length is %3 perms are %4",
+		info_file, read ? 1 : 0, boost::filesystem::file_size (info_file), int(boost::filesystem::status(info_file).permissions())
+		);
+#endif
+
 	if (read) {
 		file = fopen_boost (info_file, "r+b");
 	} else {

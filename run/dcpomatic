@@ -7,7 +7,7 @@ if [ "$1" == "--debug" ]; then
     gdb --args build/src/tools/dcpomatic2 $*
 elif [ "$1" == "--valgrind" ]; then
     shift
-    valgrind --tool="memcheck" --suppressions=suppressions build/src/tools/dcpomatic2 $*
+    valgrind --tool="memcheck" --suppressions=suppressions --track-fds=yes build/src/tools/dcpomatic2 $*
 elif [ "$1" == "--callgrind" ]; then
     shift
     valgrind --tool="callgrind" build/src/tools/dcpomatic2 $*
