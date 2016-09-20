@@ -739,8 +739,17 @@ Player::get_reel_assets ()
 
 		int64_t offset = 0;
 		BOOST_FOREACH (shared_ptr<dcp::Reel> k, decoder->reels()) {
+
+			DCPOMATIC_ASSERT (j->video_frame_rate ());
+			double const cfr = j->video_frame_rate().get();
+			Frame const trim_start = j->trim_start().frames_round (cfr);
+			Frame const trim_end = j->trim_end().frames_round (cfr);
+
 			DCPTime const from = i->position() + DCPTime::from_frames (offset, _film->video_frame_rate());
 			if (j->reference_video ()) {
+				DCPOMATIC_ASSERT (k->main_picture ());
+				k->main_picture()->set_entry_point (trim_start);
+				k->main_picture()->set_duration (k->main_picture()->intrinsic_duration() - trim_start - trim_end);
 				a.push_back (
 					ReferencedReelAsset (
 						k->main_picture (),
@@ -750,6 +759,9 @@ Player::get_reel_assets ()
 			}
 
 			if (j->reference_audio ()) {
+				DCPOMATIC_ASSERT (k->main_sound ());
+				k->main_sound()->set_entry_point (trim_start);
+				k->main_sound()->set_duration (k->main_sound()->intrinsic_duration() - trim_start - trim_end);
 				a.push_back (
 					ReferencedReelAsset (
 						k->main_sound (),
@@ -760,6 +772,8 @@ Player::get_reel_assets ()
 
 			if (j->reference_subtitle ()) {
 				DCPOMATIC_ASSERT (k->main_subtitle ());
+				k->main_subtitle()->set_entry_point (trim_start);
+				k->main_subtitle()->set_duration (k->main_subtitle()->intrinsic_duration() - trim_start - trim_end);
 				a.push_back (
 					ReferencedReelAsset (
 						k->main_subtitle (),

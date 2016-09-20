@@ -131,3 +131,40 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->id(), sound_id);
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_subtitle());
 }
+
+/** Test creation of a VF using a trimmed OV; the output should have entry point /
+ *  duration altered to effect the trimming.
+ */
+BOOST_AUTO_TEST_CASE (vf_test3)
+{
+	/* Make the OV */
+	shared_ptr<Film> ov = new_test_film ("vf_test3_ov");
+	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	ov->set_name ("vf_test3_ov");
+	shared_ptr<Content> video = content_factory (ov, "test/data/flat_red.png");
+	ov->examine_and_add_content (video);
+	wait_for_jobs ();
+	video->video->set_length (24 * 5);
+	shared_ptr<Content> audio = content_factory (ov, "test/data/white.wav");
+	ov->examine_and_add_content (audio);
+	wait_for_jobs ();
+	ov->make_dcp ();
+	wait_for_jobs ();
+
+	/* Make the VF */
+	shared_ptr<Film> vf = new_test_film ("vf_test3_vf");
+	vf->set_name ("vf_test3_vf");
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (content_factory (vf, ov->dir (ov->dcp_name ())));
+	BOOST_REQUIRE (dcp);
+	dcp->set_trim_start (ContentTime::from_seconds (1));
+	dcp->set_trim_end (ContentTime::from_seconds (1));
+	vf->examine_and_add_content (dcp);
+	wait_for_jobs ();
+	dcp->set_reference_video (true);
+	dcp->set_reference_audio (true);
+	vf->make_dcp ();
+	wait_for_jobs ();
+	vf->write_metadata ();
+}

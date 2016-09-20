@@ -1,3 +1,7 @@
+2016-09-21  Carl Hetherington  <cth@carlh.net>
+
+	* Fix trimming of OV DCPs that are referred to (#956).
+
 2016-09-20  Carl Hetherington  <cth@carlh.net>
 
 	* Give better errors on SubRip parse failures.
