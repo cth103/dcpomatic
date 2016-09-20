@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,8 +30,10 @@
 #include "log.h"
 #include "compose.hpp"
 #include <dcp/exceptions.h>
+#include <sub/exceptions.h>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -148,6 +150,17 @@ Job::run_wrapper ()
 	} catch (boost::thread_interrupted &) {
 
 		set_state (FINISHED_CANCELLED);
+
+	} catch (sub::SubripError& e) {
+
+		string extra = "Error is near:\n";
+		BOOST_FOREACH (string i, e.context()) {
+			extra += i + "\n";
+		}
+
+		set_error (e.what (), extra);
+		set_progress (1);
+		set_state (FINISHED_ERROR);
 
 	} catch (std::bad_alloc& e) {
 
