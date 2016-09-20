@@ -421,7 +421,8 @@ FFmpegDecoder::decode_audio_packet ()
 				ct += ContentTime::from_frames (remove, (*stream)->frame_rate ());
 			}
 
-			if (data->frames() > 0) {
+			/* Give this data provided there is some, and its time is sane */
+			if (ct >= ContentTime() && data->frames() > 0) {
 				audio->give (*stream, data, ct);
 			}
 		}
