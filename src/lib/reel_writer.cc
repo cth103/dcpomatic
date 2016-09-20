@@ -134,10 +134,14 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 	bool const read = boost::filesystem::exists (info_file);
 
 #ifdef DCPOMATIC_WINDOWS
-	LOG_GENERAL (
-		"Checked %1 (exists %2) length is %3 perms are %4",
-		info_file, read ? 1 : 0, boost::filesystem::file_size (info_file), int(boost::filesystem::status(info_file).permissions())
-		);
+	if (read) {
+		LOG_GENERAL (
+			"Checked %1 (which exists) length is %2 perms are %3",
+			info_file, boost::filesystem::file_size (info_file), int(boost::filesystem::status(info_file).permissions())
+			);
+	} else {
+		LOG_GENERAL ("Checked %1 (which does not exist)", info_file);
+	}
 #endif
 
 	if (read) {
