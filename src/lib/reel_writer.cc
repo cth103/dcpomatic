@@ -275,6 +275,7 @@ ReelWriter::finish ()
 {
 	if (!_picture_asset_writer->finalize ()) {
 		/* Nothing was written to the picture asset */
+		LOG_GENERAL ("Nothing was written to reel %1 of %2", _reel_index, _reel_count);
 		_picture_asset.reset ();
 	}
 
@@ -351,6 +352,8 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			}
 		}
 	}
+
+	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	DCPOMATIC_ASSERT (reel_picture_asset);
 	reel->add (reel_picture_asset);
