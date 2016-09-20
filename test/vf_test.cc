@@ -167,4 +167,15 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	vf->make_dcp ();
 	wait_for_jobs ();
 	vf->write_metadata ();
+
+	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
+	vf_c.read ();
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_picture());
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->entry_point(), 24);
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_picture()->duration(), 72);
+	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_sound());
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->entry_point(), 24);
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->duration(), 72);
 }
