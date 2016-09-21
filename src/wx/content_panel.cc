@@ -468,7 +468,7 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 void
 ContentPanel::film_content_changed (int property)
 {
-	if (property == ContentProperty::PATH || property == DCPContentProperty::CAN_BE_PLAYED) {
+	if (property == ContentProperty::PATH || property == DCPContentProperty::NEEDS_ASSETS || property == DCPContentProperty::NEEDS_KDM) {
 		setup ();
 	}
 

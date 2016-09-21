@@ -54,10 +54,11 @@ using boost::function;
 using boost::dynamic_pointer_cast;
 using dcp::raw_convert;
 
-int const DCPContentProperty::CAN_BE_PLAYED      = 600;
-int const DCPContentProperty::REFERENCE_VIDEO    = 601;
-int const DCPContentProperty::REFERENCE_AUDIO    = 602;
-int const DCPContentProperty::REFERENCE_SUBTITLE = 603;
+int const DCPContentProperty::NEEDS_ASSETS       = 600;
+int const DCPContentProperty::NEEDS_KDM          = 601;
+int const DCPContentProperty::REFERENCE_VIDEO    = 602;
+int const DCPContentProperty::REFERENCE_AUDIO    = 603;
+int const DCPContentProperty::REFERENCE_SUBTITLE = 604;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -135,7 +136,8 @@ DCPContent::read_directory (boost::filesystem::path p)
 void
 DCPContent::examine (shared_ptr<Job> job)
 {
-	bool const could_be_played = can_be_played ();
+	bool const needed_assets = needs_assets ();
+	bool const needed_kdm = needs_kdm ();
 
 	job->set_progress_unknown ();
 	Content::examine (job);
@@ -170,8 +172,12 @@ DCPContent::examine (shared_ptr<Job> job)
 		_cpl = examiner->cpl ();
 	}
 
-	if (could_be_played != can_be_played ()) {
-		signal_changed (DCPContentProperty::CAN_BE_PLAYED);
+	if (needed_assets != needs_assets ()) {
+		signal_changed (DCPContentProperty::NEEDS_ASSETS);
+	}
+
+	if (needed_kdm != needs_kdm ()) {
+		signal_changed (DCPContentProperty::NEEDS_KDM);
 	}
 
 	video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);

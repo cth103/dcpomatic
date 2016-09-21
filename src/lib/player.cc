@@ -169,7 +169,8 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == ContentProperty::TRIM_END ||
 		property == ContentProperty::PATH ||
 		property == VideoContentProperty::FRAME_TYPE ||
-		property == DCPContentProperty::CAN_BE_PLAYED ||
+		property == DCPContentProperty::NEEDS_ASSETS ||
+		property == DCPContentProperty::NEEDS_KDM ||
 		property == SubtitleContentProperty::COLOUR ||
 		property == SubtitleContentProperty::OUTLINE ||
 		property == SubtitleContentProperty::SHADOW ||

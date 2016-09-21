@@ -32,7 +32,8 @@
 class DCPContentProperty
 {
 public:
-	static int const CAN_BE_PLAYED;
+	static int const NEEDS_KDM;
+	static int const NEEDS_ASSETS;
 	static int const REFERENCE_VIDEO;
 	static int const REFERENCE_AUDIO;
 	static int const REFERENCE_SUBTITLE;
