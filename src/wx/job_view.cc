@@ -121,7 +121,9 @@ JobView::details_clicked (wxCommandEvent &)
 void
 JobView::cancel_clicked (wxCommandEvent &)
 {
-	_job->cancel ();
+	if (confirm_dialog (_parent, _("Are you sure you want to cancel this job?"))) {
+		_job->cancel ();
+	}
 }
 
 void
