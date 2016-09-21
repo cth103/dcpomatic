@@ -120,6 +120,8 @@ public:
 	}
 
 private:
+	friend class reels_test5;
+
 	void add_properties (std::list<UserProperty>& p) const;
 
 	void read_directory (boost::filesystem::path);

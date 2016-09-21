@@ -362,11 +362,23 @@ DCPContent::reels () const
 		return p;
 	}
 
-	DCPTime from = position ();
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
-		DCPTime const to = from + DCPTime::from_frames (i->main_picture()->duration(), film()->video_frame_rate());
-		p.push_back (DCPTimePeriod (from, to));
-		from = to;
+	/* This content's frame rate must be the same as the output DCP rate, so we can
+	   convert `directly' from ContentTime to DCPTime.
+	*/
+
+	/* The starting point of this content on the timeline */
+	DCPTime pos = position() - DCPTime (trim_start().get());
+
+	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels ()) {
+		/* This reel runs from `pos' to `to' */
+		DCPTime const to = pos + DCPTime::from_frames (i->main_picture()->duration(), film()->video_frame_rate());
+		if (to > position()) {
+			p.push_back (DCPTimePeriod (max(position(), pos), min(end(), to)));
+			if (to > end()) {
+				break;
+			}
+		}
+		pos = to;
 	}
 
 	return p;
@@ -396,7 +408,14 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 		}
 	}
 
+	/* And the same frame rate */
+	if (!video_frame_rate() || (lrint(video_frame_rate().get()) != film()->video_frame_rate())) {
+		why_not.push_back (_("The film has a different frame rate to this DCP."));
+		return false;
+	}
+
 	list<DCPTimePeriod> const fr = film()->reels ();
+
 	/* fr must contain reels().  It can also contain other reels, but it must at
 	   least contain reels().
 	*/

@@ -221,3 +221,55 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 
 	check_dcp ("test/data/reels_test4", film->dir (film->dcp_name()));
 }
+
+BOOST_AUTO_TEST_CASE (reels_test5)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test4");
+	shared_ptr<DCPContent> dcp (new DCPContent (film, "test/data/reels_test4"));
+	film->examine_and_add_content (dcp);
+	wait_for_jobs ();
+
+	dcp->set_position(DCPTime(123));
+
+	{
+		list<DCPTimePeriod> p = dcp->reels ();
+		BOOST_REQUIRE_EQUAL (p.size(), 4);
+		list<DCPTimePeriod>::const_iterator i = p.begin();
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 0), DCPTime(123 + 96000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 96000), DCPTime(123 + 192000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 192000), DCPTime(123 + 288000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 288000), DCPTime(123 + 384000)));
+	}
+
+	{
+		dcp->set_trim_start (ContentTime::from_seconds (0.5));
+		list<DCPTimePeriod> p = dcp->reels ();
+		BOOST_REQUIRE_EQUAL (p.size(), 4);
+		list<DCPTimePeriod>::const_iterator i = p.begin();
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 0), DCPTime(123 + 48000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 48000), DCPTime(123 + 144000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 144000), DCPTime(123 + 240000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 240000), DCPTime(123 + 336000)));
+	}
+
+	{
+		dcp->set_trim_end (ContentTime::from_seconds (0.5));
+		list<DCPTimePeriod> p = dcp->reels ();
+		BOOST_REQUIRE_EQUAL (p.size(), 4);
+		list<DCPTimePeriod>::const_iterator i = p.begin();
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 0), DCPTime(123 + 48000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 48000), DCPTime(123 + 144000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 144000), DCPTime(123 + 240000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 240000), DCPTime(123 + 288000)));
+	}
+
+	{
+		dcp->set_trim_start (ContentTime::from_seconds (1.5));
+		list<DCPTimePeriod> p = dcp->reels ();
+		BOOST_REQUIRE_EQUAL (p.size(), 3);
+		list<DCPTimePeriod>::const_iterator i = p.begin();
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 0), DCPTime(123 + 48000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 48000), DCPTime(123 + 144000)));
+		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 144000), DCPTime(123 + 192000)));
+	}
+}
