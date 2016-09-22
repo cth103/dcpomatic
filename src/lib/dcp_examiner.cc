@@ -35,6 +35,9 @@
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/stereo_picture_frame.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset_reader.h>
+#include <dcp/subtitle_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/sound_asset.h>
 #include <boost/foreach.hpp>
@@ -165,12 +168,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 	_encrypted = cpl->encrypted ();
 	_kdm_valid = true;
 
-	/* Check that we can read the first picture frame */
+	/* Check that we can read the first picture, sound and subtitle frames of each reel */
 	try {
-		if (!cpl->reels().empty ()) {
-			shared_ptr<dcp::PictureAsset> asset = cpl->reels().front()->main_picture()->asset ();
-			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
-			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
+		BOOST_FOREACH (shared_ptr<dcp::Reel> i, cpl->reels()) {
+			shared_ptr<dcp::PictureAsset> pic = i->main_picture()->asset ();
+			shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (pic);
+			shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (pic);
 
 			if (mono) {
 				mono->start_read()->get_frame(0)->xyz_image ();
@@ -178,6 +181,14 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 				stereo->start_read()->get_frame(0)->xyz_image (dcp::EYE_LEFT);
 			}
 
+			if (i->main_sound()) {
+				shared_ptr<dcp::SoundAsset> sound = i->main_sound()->asset ();
+				i->main_sound()->asset()->start_read()->get_frame(0);
+			}
+
+			if (i->main_subtitle()) {
+				i->main_subtitle()->asset()->subtitles ();
+			}
 		}
 	} catch (dcp::DCPReadError& e) {
 		_kdm_valid = false;
