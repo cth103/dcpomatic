@@ -501,7 +501,7 @@ ContentPanel::setup ()
 		bool const needs_kdm = dcp && dcp->needs_kdm ();
 		bool const needs_assets = dcp && dcp->needs_assets ();
 
-		string s = i->summary ();
+		wxString s = std_to_wx (i->summary ());
 
 		if (!valid) {
 			s = _("MISSING: ") + s;
@@ -517,7 +517,7 @@ ContentPanel::setup ()
 
 		wxListItem item;
 		item.SetId (t);
-		item.SetText (std_to_wx (s));
+		item.SetText (s);
 		item.SetData (i.get ());
 		_content->InsertItem (item);
 
