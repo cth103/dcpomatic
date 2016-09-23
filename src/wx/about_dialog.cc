@@ -273,6 +273,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;
+	tested_by.Add (wxT ("Manuel AC"));
 	tested_by.Add (wxT ("Trever Anderson"));
 	tested_by.Add (wxT ("Mike Blakesley"));
 	tested_by.Add (wxT ("David Booty"));
