@@ -251,6 +251,10 @@ def configure_options(target):
             elif target.version == '7':
                 opt += ' --workaround-gssapi --static-xmlpp'
 
+    # Build Windows debug versions with static linking as I think gdb works better then
+    if target.debug and target.platform == 'windows':
+        opt += ' --static-dcpomatic'
+
     return opt
 
 def build(target, options):
