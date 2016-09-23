@@ -158,7 +158,8 @@ File "%cdist_deps%/bin/ffprobe.exe"
 
     if debug:
         print('File "%resources%/gdb_script"', file=f)
-        print('File "%resources%/debug.bat"', file=f)
+        print('File "%resources%/dcpomatic2_debug.bat"', file=f)
+        print('File "%resources%/dcpomatic2_batch_debug.bat"', file=f)
         print('File "%mingw%/gdb.exe"', file=f)
         print('File "%mingw%/addr2line.exe"', file=f)
     else:
@@ -285,8 +286,10 @@ File "%binaries%/src/tools/dcpomatic2_kdm.exe"
     """, file=f)
 
     if debug:
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Debug.lnk" "$INSTDIR\\bin\\debug.bat" ""', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 Debug\\DCP-o-matic 2 Debug.lnk" "$INSTDIR\\bin\\debug.bat"', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 Debug\\DCP-o-matic 2 Debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 Debug\\\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 Debug\\Uninstall DCP-o-matic 2 Debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "DisplayName" "DCP-o-matic 2 Debug (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 Debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
@@ -345,7 +348,8 @@ SectionEnd
 Section "Uninstall"
 RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
-Delete "$DESKTOP\\DCP-o-matic 2 Debug.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk"
 Delete "$SMPROGRAMS\\DCP-o-matic 2 Debug\\*.*"
 RmDir  "$SMPROGRAMS\\DCP-o-matic 2 Debug"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2 Debug"

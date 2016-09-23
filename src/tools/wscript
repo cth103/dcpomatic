@@ -33,7 +33,7 @@ def build(bld):
     uselib += 'ICU NETTLE '
 
     if bld.env.TARGET_WINDOWS:
-        uselib += 'WINSOCK2'
+        uselib += 'WINSOCK2 BFD DBGHELP IBERTY SHLWAPI MSWSOCK BOOST_LOCALE '
 
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']:
         obj = bld(features='cxx cxxprogram')
