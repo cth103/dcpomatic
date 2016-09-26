@@ -515,7 +515,8 @@ short_audio_channel_name (int c)
 
 	/// TRANSLATORS: these are short names of audio channels; Lfe is the low-frequency
 	/// enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
-	/// VI is the visually-impaired audio track (audio describe).
+	/// VI is the visually-impaired audio track (audio describe).  DBP is the D-BOX
+	/// primary channel and DBS is the D-BOX secondary channel.
 	string const channels[] = {
 		_("L"),
 		_("R"),
