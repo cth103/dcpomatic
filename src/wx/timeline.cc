@@ -383,9 +383,9 @@ Timeline::left_up (wxMouseEvent& ev)
 
 	if (_down_view) {
 		_down_view->content()->set_change_signals_frequent (false);
-		_content_panel->set_selection (_down_view->content ());
 	}
 
+	_content_panel->set_selection (selected_content ());
 	set_position_from_event (ev);
 
 	/* Clear up up the stuff we don't do during drag */

@@ -466,6 +466,19 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 }
 
 void
+ContentPanel::set_selection (ContentList cl)
+{
+	ContentList content = _film->content ();
+	for (size_t i = 0; i < content.size(); ++i) {
+		if (find(cl.begin(), cl.end(), content[i]) != cl.end()) {
+			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+		} else {
+			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
+		}
+	}
+}
+
+void
 ContentPanel::film_content_changed (int property)
 {
 	if (property == ContentProperty::PATH || property == DCPContentProperty::NEEDS_ASSETS || property == DCPContentProperty::NEEDS_KDM) {
