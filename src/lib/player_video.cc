@@ -191,7 +191,7 @@ PlayerVideo::has_j2k () const
 		return false;
 	}
 
-	return _crop == Crop () && _inter_size == j2k->size() && !_subtitle && !_fade && !_colour_conversion;
+	return _crop == Crop () && _out_size == j2k->size() && !_subtitle && !_fade && !_colour_conversion;
 }
 
 Data
