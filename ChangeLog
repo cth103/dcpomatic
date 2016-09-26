@@ -1,5 +1,7 @@
 2016-09-26  c.hetherington  <cth@carlh.net>
 
+	* Add option to Windows installer to add desktop shortcuts (#965).
+
 	* Updated zh_CN translation from 刘汉源.
 
 2016-09-26  c.hetherington  <cth@carlh.net>
