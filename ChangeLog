@@ -1,5 +1,9 @@
 2016-09-26  c.hetherington  <cth@carlh.net>
 
+	* Updated zh_CN translation from 刘汉源.
+
+2016-09-26  c.hetherington  <cth@carlh.net>
+
 	* Don't re-use J2K data if it's the wrong size (#964).
 
 2016-09-23  Carl Hetherington  <cth@carlh.net>
