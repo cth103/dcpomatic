@@ -444,6 +444,11 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 bool
 DCPContent::can_reference_video (list<string>& why_not) const
 {
+	if (film()->frame_size() != video->size()) {
+		why_not.push_back (_("The video frame size in the film differs from that in the DCP."));
+		return false;
+	}
+
 	return can_reference (bind (&Content::video, _1), _("There is other video content overlapping this DCP; remove it."), why_not);
 }
 
@@ -458,7 +463,7 @@ DCPContent::can_reference_audio (list<string>& why_not) const
                 }
         }
 
-        return can_reference (bind (&Content::audio, _1),   _("There is other audio content overlapping this DCP; remove it."), why_not);
+        return can_reference (bind (&Content::audio, _1), _("There is other audio content overlapping this DCP; remove it."), why_not);
 }
 
 bool

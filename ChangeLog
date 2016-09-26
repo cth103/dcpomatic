@@ -1,5 +1,7 @@
 2016-09-26  c.hetherington  <cth@carlh.net>
 
+	* Disallow refer-to-DCP if the video frame size is different to that in the project (#963).
+
 	* Fix multi-select in the timeline (#954).
 
 	* Add option to Windows installer to add desktop shortcuts (#965).
