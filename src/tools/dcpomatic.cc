@@ -518,7 +518,7 @@ private:
 		}
 
 		_kdm_dialog = new KDMDialog (this, _film);
-		_kdm_dialog->Show (this);
+		_kdm_dialog->Show ();
 	}
 
 	void jobs_make_dcp_batch ()
