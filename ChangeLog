@@ -1,3 +1,7 @@
+2016-09-27  Carl Hetherington  <cth@carlh.net>
+
+	* Updated ru_RU translation from Igor Voytovich.
+
 2016-09-26  c.hetherington  <cth@carlh.net>
 
 	* Disallow refer-to-DCP if the video frame size is different to that in the project (#963).
