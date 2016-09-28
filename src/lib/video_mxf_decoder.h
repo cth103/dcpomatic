@@ -19,11 +19,8 @@
 */
 
 #include "decoder.h"
-
-namespace dcp {
-	class MonoPictureAssetReader;
-	class StereoPictureAssetReader;
-}
+#include <dcp/mono_picture_asset_reader.h>
+#include <dcp/stereo_picture_asset_reader.h>
 
 class VideoMXFContent;
 class Log;

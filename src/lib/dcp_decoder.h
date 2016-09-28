@@ -24,12 +24,12 @@
 
 #include "decoder.h"
 #include "dcp.h"
+#include <dcp/mono_picture_asset_reader.h>
+#include <dcp/stereo_picture_asset_reader.h>
+#include <dcp/sound_asset_reader.h>
 
 namespace dcp {
 	class Reel;
-	class MonoPictureAssetReader;
-	class StereoPictureAssetReader;
-	class SoundAssetReader;
 }
 
 class DCPContent;
