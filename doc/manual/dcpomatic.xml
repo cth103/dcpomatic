@@ -3009,4 +3009,111 @@ hashes.
 
 </chapter>
 
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Common tasks</title>
+
+<para>
+This chapter describes how to carry out some commonly-required tasks
+with DCP-o-matic.  The full details are elsewhere in the manual: here
+we just discuss different approaches to these tasks and how to carry
+them out.
+</para>
+
+<section>
+<title>Adding subtitles to an existing DCP</title>
+
+<para>
+You have three options:
+</para>
+
+<itemizedlist>
+<listitem>Make a &ldquo;Version File&rdquo; (VF) DCP.</listitem>
+<listitem>Make a complete DCP with projector-added subtitles.</listitem>
+<listitem>Make a complete DCP with burnt-in subtitles.</listitem>
+</itemizedlist>
+
+<para>
+Making a VF DCP is usually the best option.  This will be a very small
+DCP which contains only the subtitles: it refers to your existing DCP
+for the picture and sound.  The projectionist will ingest both the
+existing and VF DCPs and play back the VF.  The advantages of this
+approach are that the VF is very quick to generate, and small in size,
+making it easy to distribute.  This is especially useful if you have
+to make VF DCPs in many different languages.
+</para>
+
+<para>
+Making a complete DCP with projector-added subtitles gives you a new,
+single DCP which the projectionist can ingest and play.  It will be
+the same size as your existing DCP, and fairly quick to create.  This
+approach relies on the projector (or server) to create the subtitles
+and overlay them on the image, which mostly works well but is not
+100&percnt; reliable.
+</para>
+
+<para>
+Making a complete DCP with burnt-in subtitles gives you a new, single DCP
+but with the subtitles rendered by DCP-o-matic and copied into your
+image.  This is slower to create than a DCP with projector-added
+subtitles as every video frame with a subtitle must be re-encoded.
+The advantage of this approach is that it is less likely to go wrong,
+especially if you are using unusual subtitle positioning or character
+sets.
+</para>
+
+</section>
+
+<section>
+<title>Making a VF DCP</title>
+
+<itemizedlist>
+<listitem>Start a new DCP-o-matic film.</listitem>
+<listitem>Click <guilabel>Add folder...</guilabel> and specify your existing DCP's folder.</listitem>
+<listitem>Go to the <guilabel>DCP</guilabel> tab and choose <guilabel>Split by video content</guilabel> for <guilabel>Reel type</guilabel>.</listitem>
+<listitem>Go to the <guilabel>Video</guilabel> and
+<guilabel>Audio</guilabel> tabs in turn and tick the <guilabel>Refer to existing DCP</guilabel> checkboxes.</listitem>
+<listitem>Add your subtitles to the film in whatever format you have.</listitem>
+<listitem>Check the subtitle appearance in the preview; it will be
+slow to respond as it is having to decompress images from the existing
+DCP.</listitem>
+<listitem>Choose <guilabel>Make DCP</guilabel> from the menu.</listitem>
+</itemizedlist>
+
+</section>
+
+<section>
+<title>Making a complete DCP with projector-added subtitles</title>
+
+<itemizedlist>
+<listitem>Start a new DCP-o-matic film.</listitem>
+<listitem>Click <guilabel>Add folder...</guilabel> and specify your existing DCP's folder.</listitem>
+<listitem>Add your subtitles to the film in whatever format you have.</listitem>
+<listitem>Check the subtitle appearance in the preview; it will be
+slow to respond as it is having to decompress images from the existing
+DCP.  Adjust the appearance using controls in the
+<guilabel>Subtitle</guilabel> tab if required.</listitem>
+<listitem>Choose <guilabel>Make DCP</guilabel> from the menu.</listitem>
+</itemizedlist>
+
+</section>
+
+<section>
+<title>Making a complete DCP with burnt-in subtitles</title>
+
+<itemizedlist>
+<listitem>Start a new DCP-o-matic film.</listitem>
+<listitem>Click <guilabel>Add folder...</guilabel> and specify your existing DCP's folder.</listitem>
+<listitem>Add your subtitles to the film in whatever format you have.</listitem>
+<listitem>Go to the <guilabel>Subtitle</guilabel> tab and tick the <guilabel>Burn subtitles into image</guilabel> checkbox.</listitem>
+<listitem>Check the subtitle appearance in the preview; it will be
+slow to respond as it is having to decompress images from the existing
+DCP.  Adjust the appearance using controls in the
+<guilabel>Subtitle</guilabel> tab if required.</listitem>
+<listitem>Choose <guilabel>Make DCP</guilabel> from the menu.</listitem>
+</itemizedlist>
+
+</section>
+
+</chapter>
+
 </book>
