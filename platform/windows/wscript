@@ -160,6 +160,7 @@ File "%cdist_deps%/bin/ffprobe.exe"
         print('File "%resources%/gdb_script"', file=f)
         print('File "%resources%/dcpomatic2_debug.bat"', file=f)
         print('File "%resources%/dcpomatic2_batch_debug.bat"', file=f)
+        print('File "%resources%/dcpomatic2_kdm_debug.bat"', file=f)
         print('File "%mingw%/gdb.exe"', file=f)
         print('File "%mingw%/addr2line.exe"', file=f)
     else:
@@ -287,7 +288,8 @@ File "%binaries%/src/tools/dcpomatic2_kdm.exe"
 
     if debug:
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
         print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "DisplayName" "DCP-o-matic 2 debug (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
@@ -305,6 +307,7 @@ File "%binaries%/src/tools/dcpomatic2_kdm.exe"
         print('Section "DCP-o-matic 2 debug desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk" "$INSTDIR\\bin\\dcpomatic2_batch_debug.bat" ""', file=f)
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 KDM creator debug.lnk" "$INSTDIR\\bin\\dcpomatic2_kdm_debug.bat" ""', file=f)
     else:
         print('Section "DCP-o-matic 2 desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
         print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
@@ -365,6 +368,7 @@ RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
 Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"
 Delete "$DESKTOP\\DCP-o-matic 2 batch converter debug.lnk"
+Delete "$DESKTOP\\DCP-o-matic 2 KDM creator debug.lnk"
 Delete "$SMPROGRAMS\\DCP-o-matic 2 debug\\*.*"
 RmDir  "$SMPROGRAMS\\DCP-o-matic 2 debug"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2 debug"
