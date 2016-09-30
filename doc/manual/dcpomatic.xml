@@ -3061,8 +3061,6 @@ especially if you are using unusual subtitle positioning or character
 sets.
 </para>
 
-</section>
-
 <section>
 <title>Making a VF DCP</title>
 
@@ -3112,6 +3110,7 @@ DCP.  Adjust the appearance using controls in the
 <listitem>Choose <guilabel>Make DCP</guilabel> from the menu.</listitem>
 </itemizedlist>
 
+</section>
 </section>
 
 </chapter>
