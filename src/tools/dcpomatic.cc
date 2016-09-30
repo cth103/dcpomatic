@@ -245,7 +245,7 @@ public:
 
 		_film_viewer = new FilmViewer (overall_panel);
 		_film_editor = new FilmEditor (overall_panel, _film_viewer);
-		JobManagerView* job_manager_view = new JobManagerView (overall_panel);
+		JobManagerView* job_manager_view = new JobManagerView (overall_panel, false);
 
 		wxBoxSizer* right_sizer = new wxBoxSizer (wxVERTICAL);
 		right_sizer->Add (_film_viewer, 2, wxEXPAND | wxALL, 6);

@@ -35,7 +35,7 @@ class wxButton;
 class JobView : public boost::noncopyable
 {
 public:
-	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
+	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table, bool top);
 
 	void maybe_pulse ();
 

@@ -40,9 +40,15 @@ using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
 
-/** Must be called in the GUI thread */
-JobManagerView::JobManagerView (wxWindow* parent)
+/** @param parent Parent window.
+ *  @param latest_at_top true to put the last-added job at the top of the view,
+ *  false to put it at the bottom.
+ *
+ *  Must be called in the GUI thread.
+ */
+JobManagerView::JobManagerView (wxWindow* parent, bool latest_at_top)
 	: wxScrolledWindow (parent)
+	, _latest_at_top (latest_at_top)
 {
 	_panel = new wxPanel (this);
 	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
@@ -68,7 +74,7 @@ JobManagerView::job_added (weak_ptr<Job> j)
 {
 	shared_ptr<Job> job = j.lock ();
 	if (job) {
-		_job_records.push_back (shared_ptr<JobView> (new JobView (job, this, _panel, _table)));
+		_job_records.push_back (shared_ptr<JobView> (new JobView (job, this, _panel, _table, _latest_at_top)));
 	}
 }
 

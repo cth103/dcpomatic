@@ -1,3 +1,7 @@
+2016-09-30  c.hetherington  <cth@carlh.net>
+
+	* Order jobs from first-to-execute to last in the batch converter.
+
 2016-09-28  c.hetherington  <cth@carlh.net>
 
 	* Fix crash on "report a problem" in the KDM creator.

@@ -28,11 +28,12 @@ using std::string;
 using std::min;
 using boost::shared_ptr;
 
-JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
+/** @param top Put this view at the top of table, otherwise put it at the bottom */
+JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table, bool top)
 	: _job (job)
 	, _parent (parent)
 {
-	int n = 0;
+	int n = top ? 0 : (table->GetEffectiveRowsCount() * table->GetEffectiveColsCount());
 
 	_gauge_message = new wxBoxSizer (wxVERTICAL);
 	_gauge = new wxGauge (container, wxID_ANY, 100);
