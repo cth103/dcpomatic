@@ -103,6 +103,7 @@ protected:
 	void set_state (State);
 	void set_error (std::string s, std::string d);
 	int elapsed_sub_time () const;
+	void check_for_interruption_or_pause ();
 
 	boost::shared_ptr<const Film> _film;
 

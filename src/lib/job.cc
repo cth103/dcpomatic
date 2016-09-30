@@ -279,12 +279,27 @@ Job::elapsed_sub_time () const
 	return time (0) - _sub_start_time;
 }
 
+/** Check to see if this job has been interrupted or paused */
+void
+Job::check_for_interruption_or_pause ()
+{
+	boost::this_thread::interruption_point ();
+
+	boost::mutex::scoped_lock lm (_state_mutex);
+	while (_state == PAUSED) {
+		emit (boost::bind (boost::ref (Progress)));
+		_pause_changed.wait (lm);
+	}
+}
+
 /** Set the progress of the current part of the job.
  *  @param p Progress (from 0 to 1)
  */
 void
 Job::set_progress (float p, bool force)
 {
+	check_for_interruption_or_pause ();
+
 	if (!force) {
 		/* Check for excessively frequent progress reporting */
 		boost::mutex::scoped_lock lm (_progress_mutex);
@@ -306,17 +321,10 @@ Job::set_progress (float p, bool force)
 void
 Job::set_progress_common (optional<float> p)
 {
-	boost::mutex::scoped_lock lm (_progress_mutex);
-	_progress = p;
-	boost::this_thread::interruption_point ();
-
-	boost::mutex::scoped_lock lm2 (_state_mutex);
-	while (_state == PAUSED) {
-		_pause_changed.wait (lm2);
+	{
+		boost::mutex::scoped_lock lm (_progress_mutex);
+		_progress = p;
 	}
-
-	lm.unlock ();
-	lm2.unlock ();
 
 	emit (boost::bind (boost::ref (Progress)));
 }
@@ -378,6 +386,7 @@ Job::set_error (string s, string d)
 void
 Job::set_progress_unknown ()
 {
+	check_for_interruption_or_pause ();
 	set_progress_common (optional<float> ());
 }
 
