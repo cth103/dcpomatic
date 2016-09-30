@@ -86,3 +86,11 @@ BOOST_AUTO_TEST_CASE (seconds_to_approximate_hms_test)
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (3600 + 40 * 60), "1h 40m");
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14h");
 }
+
+BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
+{
+	BOOST_CHECK_EQUAL (tidy_for_filename ("fish\\chips"), "fish_chips");
+	BOOST_CHECK_EQUAL (tidy_for_filename ("fish:chips\\"), "fish_chips_");
+	BOOST_CHECK_EQUAL (tidy_for_filename ("fish/chips\\"), "fish_chips_");
+	BOOST_CHECK_EQUAL (tidy_for_filename ("abcdefghï"), "abcdefghï");
+}

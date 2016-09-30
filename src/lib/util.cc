@@ -53,6 +53,7 @@ extern "C" {
 #include <glib.h>
 #include <pangomm/init.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #ifdef DCPOMATIC_WINDOWS
@@ -567,16 +568,8 @@ valid_j2k_file (boost::filesystem::path f)
 string
 tidy_for_filename (string f)
 {
-	string t;
-	for (size_t i = 0; i < f.length(); ++i) {
-		if (isalnum (f[i]) || f[i] == '_' || f[i] == '-') {
-			t += f[i];
-		} else {
-			t += '_';
-		}
-	}
-
-	return t;
+	boost::replace_if (f, boost::is_any_of ("\\/:"), '_');
+	return f;
 }
 
 dcp::Size
