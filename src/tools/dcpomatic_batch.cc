@@ -36,16 +36,18 @@
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/wx.h>
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::exception;
 using std::string;
 using std::cout;
+using std::list;
 using boost::shared_ptr;
 using boost::thread;
 using boost::scoped_array;
 
-static boost::optional<boost::filesystem::path> film_to_load;
+static list<boost::filesystem::path> films_to_load;
 
 enum {
 	ID_file_add_film = 1,
@@ -318,15 +320,22 @@ class App : public wxApp
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		shared_ptr<Film> film;
-		if (film_to_load && boost::filesystem::is_directory (film_to_load.get())) {
-			try {
-				film.reset (new Film (film_to_load.get()));
-				film->read_metadata ();
-				film->make_dcp ();
-			} catch (exception& e) {
-				error_dialog (
-					0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), film_to_load->string(), e.what()))
-					);
+		BOOST_FOREACH (boost::filesystem::path i, films_to_load) {
+			if (boost::filesystem::is_directory (i)) {
+				try {
+					film.reset (new Film (i));
+					film->read_metadata ();
+					film->make_dcp ();
+				} catch (exception& e) {
+					error_dialog (
+						0, std_to_wx (
+							String::compose (
+								wx_to_std (_("Could not load film %1 (%2)")), i.string(),
+								e.what()
+								)
+							)
+						);
+				}
 			}
 		}
 
@@ -346,8 +355,8 @@ class App : public wxApp
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser)
 	{
-		if (parser.GetParamCount() > 0) {
-			film_to_load = wx_to_std (parser.GetParam(0));
+		for (size_t i = 0; i < parser.GetParamCount(); ++i) {
+			films_to_load.push_back (wx_to_std (parser.GetParam(i)));
 		}
 
 		return true;
