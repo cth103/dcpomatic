@@ -76,6 +76,8 @@ JobManagerView::job_added (weak_ptr<Job> j)
 	if (job) {
 		_job_records.push_back (shared_ptr<JobView> (new JobView (job, this, _panel, _table, _latest_at_top)));
 	}
+
+	FitInside();
 }
 
 void
