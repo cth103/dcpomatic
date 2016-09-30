@@ -106,23 +106,25 @@ TranscodeJob::status () const
 		return Job::status ();
 	}
 
-	float const fps = _transcoder->current_encoding_rate ();
-	if (fps == 0) {
-		return Job::status ();
-	}
 
 	char buffer[256];
 	if (finished() || _transcoder->finishing()) {
 		strncpy (buffer, Job::status().c_str(), 256);
 	} else {
-		/// TRANSLATORS: fps here is an abbreviation for frames per second
 		snprintf (
-			buffer, sizeof(buffer), "%s; %d/%" PRId64 " frames; %.1f fps",
+			buffer, sizeof(buffer), "%s; %d/%" PRId64 " frames",
 			Job::status().c_str(),
 			_transcoder->video_frames_enqueued(),
-			_film->length().frames_round (_film->video_frame_rate ()),
-			fps
+			_film->length().frames_round (_film->video_frame_rate ())
 			);
+
+		float const fps = _transcoder->current_encoding_rate ();
+		if (fps) {
+			char fps_buffer[64];
+			/// TRANSLATORS: fps here is an abbreviation for frames per second
+			snprintf (fps_buffer, sizeof(fps_buffer), _("; %.1f fps"), fps);
+			strncat (buffer, fps_buffer, strlen(buffer) - 1);
+		}
 	}
 
 	return buffer;
