@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2016-04-26 16:41+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -224,6 +224,10 @@ msgstr ""
 msgid "Appearance..."
 msgstr "Utseende..."
 
+#: src/wx/job_view.cc:125
+msgid "Are you sure you want to cancel this job?"
+msgstr ""
+
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
@@ -326,7 +330,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Beräkna..."
 
-#: src/wx/job_view.cc:47
+#: src/wx/job_view.cc:48
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -346,7 +350,7 @@ msgstr "Kedja"
 msgid "Channel gain"
 msgstr "Kanalförstärkning"
 
-#: src/wx/audio_dialog.cc:83 src/wx/dcp_panel.cc:744
+#: src/wx/audio_dialog.cc:90 src/wx/dcp_panel.cc:744
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -399,7 +403,7 @@ msgstr "Färgkonvertering"
 msgid "Colour|Custom"
 msgstr "Special"
 
-#: src/wx/video_waveform_dialog.cc:51
+#: src/wx/video_waveform_dialog.cc:58
 msgid "Component"
 msgstr "Komponent"
 
@@ -439,7 +443,7 @@ msgstr "Innehållstyp"
 msgid "Content version"
 msgstr "Innehållsversion"
 
-#: src/wx/video_waveform_dialog.cc:54
+#: src/wx/video_waveform_dialog.cc:61
 msgid "Contrast"
 msgstr "Kontrast"
 
@@ -447,7 +451,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopiera som namn"
 
-#: src/wx/audio_dialog.cc:240
+#: src/wx/audio_dialog.cc:247
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
@@ -506,7 +510,7 @@ msgstr ""
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:141
+#: src/wx/audio_dialog.cc:148
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic audio"
 
@@ -571,7 +575,7 @@ msgstr "Standardval"
 msgid "Delay"
 msgstr "Fördröjning"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:57
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:58
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -856,7 +860,7 @@ msgstr "IP-adress / datornamn"
 msgid "ISDCF name"
 msgstr "ISDCF-namn"
 
-#: src/wx/video_waveform_dialog.cc:61
+#: src/wx/video_waveform_dialog.cc:68
 #, fuzzy
 msgid "Image X position"
 msgstr "Trimma efter nuvarande position"
@@ -873,7 +877,7 @@ msgstr "Input gammakorrigering"
 msgid "Input power"
 msgstr "Input kraft"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:351
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrerad loudness %.2f LUFS"
@@ -927,7 +931,7 @@ msgstr "KDM typ"
 msgid "KDM|Timing"
 msgstr "Tajming"
 
-#: src/wx/timeline_dialog.cc:51
+#: src/wx/timeline_dialog.cc:58
 msgid "Keep video and subtitles in sequence"
 msgstr "Behåll video och undertexter i sekvens"
 
@@ -987,12 +991,12 @@ msgstr "Öppna..."
 msgid "Log"
 msgstr "Logg"
 
-#: src/wx/audio_dialog.cc:353
+#: src/wx/audio_dialog.cc:360
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Loudness-omfång %.2f LU"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:520
 msgid "MISSING: "
 msgstr "SAKNAS:"
 
@@ -1054,7 +1058,7 @@ msgstr "Flytta den valda delen av innehåll senare i filmen."
 msgid "Move to start of reel"
 msgstr ""
 
-#: src/wx/video_panel.cc:375
+#: src/wx/video_panel.cc:378
 msgid "Multiple content selected"
 msgstr "Flera innehåll valda"
 
@@ -1070,11 +1074,11 @@ msgstr "Mina Dokument"
 msgid "My problem is"
 msgstr "Mitt problem är"
 
-#: src/wx/content_panel.cc:511
+#: src/wx/content_panel.cc:524
 msgid "NEEDS KDM: "
 msgstr "BEHÖVER KDM:"
 
-#: src/wx/content_panel.cc:515
+#: src/wx/content_panel.cc:528
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "BEHÖVER KDM:"
@@ -1114,7 +1118,7 @@ msgstr "Inget innehåll hittades i denna folder."
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:752 src/wx/text_subtitle_appearance_dialog.cc:88
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
-#: src/wx/video_panel.cc:304
+#: src/wx/video_panel.cc:307
 msgid "None"
 msgstr "Inget"
 
@@ -1187,11 +1191,11 @@ msgstr "Utdata"
 msgid "Password"
 msgstr "Lösenord"
 
-#: src/wx/job_view.cc:52 src/wx/job_view.cc:132
+#: src/wx/job_view.cc:53 src/wx/job_view.cc:135
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/wx/audio_dialog.cc:105
+#: src/wx/audio_dialog.cc:112
 msgid "Peak"
 msgstr "Topp"
 
@@ -1248,7 +1252,7 @@ msgstr "Protokol"
 msgid "RGB to XYZ conversion"
 msgstr "RGB till XYZ konvertering"
 
-#: src/wx/audio_dialog.cc:106
+#: src/wx/audio_dialog.cc:113
 msgid "RMS"
 msgstr "RMS"
 
@@ -1366,7 +1370,7 @@ msgstr "Återställ till förvald rubrik och text"
 msgid "Resolution"
 msgstr "Upplösning"
 
-#: src/wx/job_view.cc:135
+#: src/wx/job_view.cc:138
 msgid "Resume"
 msgstr "Fortsätt"
 
@@ -1398,7 +1402,7 @@ msgstr "SCP (för AAM och Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:313
+#: src/wx/audio_dialog.cc:320
 #, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Sample-maxvärde är %.2fdB vid %s vid %s"
@@ -1523,11 +1527,11 @@ msgstr "Signerar DCP:er och KDM:er"
 msgid "Single reel"
 msgstr "Enskild rulle"
 
-#: src/wx/audio_dialog.cc:116
+#: src/wx/audio_dialog.cc:123
 msgid "Smoothing"
 msgstr "Utjämning"
 
-#: src/wx/timeline_dialog.cc:49
+#: src/wx/timeline_dialog.cc:56
 msgid "Snap"
 msgstr "Snap"
 
@@ -1584,7 +1588,7 @@ msgstr "Undertext färger"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:270
+#: src/wx/about_dialog.cc:273
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1624,7 +1628,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:325
+#: src/wx/about_dialog.cc:329
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1720,12 +1724,12 @@ msgstr "Trimma från start"
 msgid "Trim up to current position"
 msgstr "Trimma före nuvarande position"
 
-#: src/wx/audio_dialog.cc:330
+#: src/wx/audio_dialog.cc:337
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Maxvärde är %.2fdB"
 
-#: src/wx/audio_dialog.cc:99 src/wx/config_dialog.cc:689
+#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:689
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Typ"
@@ -1937,7 +1941,7 @@ msgstr "YUV till RGB konvertering"
 msgid "YUV to RGB matrix"
 msgstr "YUV till RGB matris"
 
-#: src/wx/video_waveform_dialog.cc:65
+#: src/wx/video_waveform_dialog.cc:72
 #, fuzzy
 msgid "component value"
 msgstr "Komponent"

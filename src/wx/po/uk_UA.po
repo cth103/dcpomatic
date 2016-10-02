@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2016-07-04 00:25+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -220,6 +220,10 @@ msgstr ""
 msgid "Appearance..."
 msgstr "Зовнішній вигляд..."
 
+#: src/wx/job_view.cc:125
+msgid "Are you sure you want to cancel this job?"
+msgstr ""
+
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
@@ -320,7 +324,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Прорахувати..."
 
-#: src/wx/job_view.cc:47
+#: src/wx/job_view.cc:48
 msgid "Cancel"
 msgstr "Відміна"
 
@@ -340,7 +344,7 @@ msgstr "Ланцюг"
 msgid "Channel gain"
 msgstr "Посилення каналу"
 
-#: src/wx/audio_dialog.cc:83 src/wx/dcp_panel.cc:744
+#: src/wx/audio_dialog.cc:90 src/wx/dcp_panel.cc:744
 msgid "Channels"
 msgstr "Канала(ів)"
 
@@ -395,7 +399,7 @@ msgstr "Конвертація кольору"
 msgid "Colour|Custom"
 msgstr "Користувацьке"
 
-#: src/wx/video_waveform_dialog.cc:51
+#: src/wx/video_waveform_dialog.cc:58
 msgid "Component"
 msgstr "Компонент"
 
@@ -434,7 +438,7 @@ msgstr "Тип контенту"
 msgid "Content version"
 msgstr "Версія контенту"
 
-#: src/wx/video_waveform_dialog.cc:54
+#: src/wx/video_waveform_dialog.cc:61
 msgid "Contrast"
 msgstr "Контраст"
 
@@ -442,7 +446,7 @@ msgstr "Контраст"
 msgid "Copy as name"
 msgstr "Копіювати у назву"
 
-#: src/wx/audio_dialog.cc:240
+#: src/wx/audio_dialog.cc:247
 msgid "Could not analyse audio."
 msgstr "Не вдалося проаналізувати аудіо."
 
@@ -501,7 +505,7 @@ msgstr ""
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:141
+#: src/wx/audio_dialog.cc:148
 msgid "DCP-o-matic audio"
 msgstr "Аудіо DCP-o-matic"
 
@@ -565,7 +569,7 @@ msgstr "Стандартні"
 msgid "Delay"
 msgstr "Затримка"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:57
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:58
 msgid "Details..."
 msgstr "Деталі..."
 
@@ -853,7 +857,7 @@ msgstr "IP-адреса / ім'я  хоста"
 msgid "ISDCF name"
 msgstr "Ім'я  ISDCF"
 
-#: src/wx/video_waveform_dialog.cc:61
+#: src/wx/video_waveform_dialog.cc:68
 #, fuzzy
 msgid "Image X position"
 msgstr "Обрізати з поточної позиції"
@@ -870,7 +874,7 @@ msgstr "Корекція вхідної гамми"
 msgid "Input power"
 msgstr "Вхідна потужність"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:351
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Інтегрована гучність %.2f LUFS"
@@ -923,7 +927,7 @@ msgstr "Тип KDM"
 msgid "KDM|Timing"
 msgstr "Таймінг"
 
-#: src/wx/timeline_dialog.cc:51
+#: src/wx/timeline_dialog.cc:58
 msgid "Keep video and subtitles in sequence"
 msgstr "Зберігати відео у послідовності"
 
@@ -983,12 +987,12 @@ msgstr "Завантажити..."
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/audio_dialog.cc:353
+#: src/wx/audio_dialog.cc:360
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Діапазон гучності %.2f LU"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:520
 msgid "MISSING: "
 msgstr "ВІДСУТНЄ:"
 
@@ -1049,7 +1053,7 @@ msgstr "Перемістити обраний елемент контенту п
 msgid "Move to start of reel"
 msgstr "Перемістити до початку катушки"
 
-#: src/wx/video_panel.cc:375
+#: src/wx/video_panel.cc:378
 msgid "Multiple content selected"
 msgstr "Множинне виділення контенту"
 
@@ -1065,11 +1069,11 @@ msgstr "Мої документи"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:511
+#: src/wx/content_panel.cc:524
 msgid "NEEDS KDM: "
 msgstr "НЕОБХІДНИЙ KDM:"
 
-#: src/wx/content_panel.cc:515
+#: src/wx/content_panel.cc:528
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "НЕОБХІДНИЙ KDM:"
@@ -1107,7 +1111,7 @@ msgstr "У даній папці не знайдено контент."
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:752 src/wx/text_subtitle_appearance_dialog.cc:88
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
-#: src/wx/video_panel.cc:304
+#: src/wx/video_panel.cc:307
 msgid "None"
 msgstr "Нічого"
 
@@ -1180,11 +1184,11 @@ msgstr "Вивід"
 msgid "Password"
 msgstr "Пароль"
 
-#: src/wx/job_view.cc:52 src/wx/job_view.cc:132
+#: src/wx/job_view.cc:53 src/wx/job_view.cc:135
 msgid "Pause"
 msgstr "Пазуа"
 
-#: src/wx/audio_dialog.cc:105
+#: src/wx/audio_dialog.cc:112
 msgid "Peak"
 msgstr "Вершина"
 
@@ -1241,7 +1245,7 @@ msgstr "Протокол"
 msgid "RGB to XYZ conversion"
 msgstr "Перетворення RGB в XYZ"
 
-#: src/wx/audio_dialog.cc:106
+#: src/wx/audio_dialog.cc:113
 msgid "RMS"
 msgstr "Rated Maximum Sinusoidal"
 
@@ -1359,7 +1363,7 @@ msgstr "Скинути за замовченням тему та текст"
 msgid "Resolution"
 msgstr "Розширення"
 
-#: src/wx/job_view.cc:135
+#: src/wx/job_view.cc:138
 msgid "Resume"
 msgstr "Продовжити"
 
@@ -1391,7 +1395,7 @@ msgstr "SCP (для AAM и Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:313
+#: src/wx/audio_dialog.cc:320
 #, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Пікова гучність %.2fдБ на %s на %s"
@@ -1516,11 +1520,11 @@ msgstr "Підпис DCP та KDM:"
 msgid "Single reel"
 msgstr "Одна бобіна"
 
-#: src/wx/audio_dialog.cc:116
+#: src/wx/audio_dialog.cc:123
 msgid "Smoothing"
 msgstr "Зглажування"
 
-#: src/wx/timeline_dialog.cc:49
+#: src/wx/timeline_dialog.cc:56
 msgid "Snap"
 msgstr "Приєднати"
 
@@ -1577,7 +1581,7 @@ msgstr "Кольори субтитрів"
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/wx/about_dialog.cc:270
+#: src/wx/about_dialog.cc:273
 msgid "Supported by"
 msgstr "Фінансова підтримка"
 
@@ -1617,7 +1621,7 @@ msgstr "Територія (напр. RU)"
 msgid "Test version "
 msgstr "Тестова версія"
 
-#: src/wx/about_dialog.cc:325
+#: src/wx/about_dialog.cc:329
 msgid "Tested by"
 msgstr "Тестування"
 
@@ -1712,12 +1716,12 @@ msgstr "Обрізати з початку"
 msgid "Trim up to current position"
 msgstr "Обрізати до поточної позиції"
 
-#: src/wx/audio_dialog.cc:330
+#: src/wx/audio_dialog.cc:337
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Пікова гучність %.2fдБ"
 
-#: src/wx/audio_dialog.cc:99 src/wx/config_dialog.cc:689
+#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:689
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Тип"
@@ -1929,7 +1933,7 @@ msgstr "Перетворення YUV в RGB"
 msgid "YUV to RGB matrix"
 msgstr "Матриця YUV в RGB"
 
-#: src/wx/video_waveform_dialog.cc:65
+#: src/wx/video_waveform_dialog.cc:72
 #, fuzzy
 msgid "component value"
 msgstr "Компонент"

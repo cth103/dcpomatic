@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2016-09-26 16:18+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -70,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid "%1 [Atmos]"
 msgstr "%1 [全景声]"
 
-#: src/lib/dcp_content.cc:184
+#: src/lib/dcp_content.cc:190
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -115,7 +116,13 @@ msgstr "3D降噪"
 msgid "4:3"
 msgstr "4:3"
 
-#: src/lib/hints.cc:101
+#. / TRANSLATORS: fps here is an abbreviation for frames per second
+#: src/lib/transcode_job.cc:125
+#, c-format
+msgid "; %.1f fps"
+msgstr ""
+
+#: src/lib/hints.cc:107
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -136,7 +143,7 @@ msgstr "学院模式"
 msgid "Advertisement"
 msgstr "广告片"
 
-#: src/lib/hints.cc:93
+#: src/lib/hints.cc:95
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -144,7 +151,7 @@ msgid ""
 "\"DCP\" tab."
 msgstr "遮幅(1.85：1)左右去黑边。"
 
-#: src/lib/hints.cc:89
+#: src/lib/hints.cc:91
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -152,11 +159,11 @@ msgid ""
 "tab."
 msgstr "宽幅(2.39：1)上下去黑边。"
 
-#: src/lib/job.cc:99
+#: src/lib/job.cc:101
 msgid "An error occurred whilst handling the file %1."
 msgstr "执行错误 %1."
 
-#: src/lib/analyse_audio_job.cc:84
+#: src/lib/analyse_audio_job.cc:89
 msgid "Analyse audio"
 msgstr "分析音频"
 
@@ -217,19 +224,19 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:532
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:533
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:524
 msgid "C"
 msgstr "中置"
 
-#: src/lib/job.cc:401
+#: src/lib/job.cc:423
 msgid "Cancelled"
 msgstr "取消"
 
@@ -237,7 +244,7 @@ msgstr "取消"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/util.cc:492
+#: src/lib/util.cc:493
 msgid "Centre"
 msgstr "中置音"
 
@@ -419,7 +426,7 @@ msgid ""
 "o-matic is running."
 msgstr "无法监测远程编码服务器。可能是另一个DCP-O-MATIC程序进程正在运行。"
 
-#: src/lib/job.cc:118 src/lib/job.cc:132
+#: src/lib/job.cc:120 src/lib/job.cc:134
 msgid "Could not open %1"
 msgstr "无法打开%1"
 
@@ -447,21 +454,21 @@ msgstr "无法开始传输"
 msgid "Could not write to remote file (%1)"
 msgstr "无法写入远程文件 (%1)"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:503
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:504
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:534
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:533
-msgid "DBPS"
-msgstr "二级D-BOX通道"
+#: src/lib/util.cc:535
+msgid "DBS"
+msgstr "DBS"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -479,7 +486,7 @@ msgstr "DCP列队将在速度为 %1%% 下运行.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "将使用隔帧打包DCP.\n"
 
-#: src/lib/job.cc:120 src/lib/job.cc:134
+#: src/lib/job.cc:122 src/lib/job.cc:136
 msgid ""
 "DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
 "an unexpected format."
@@ -560,7 +567,7 @@ msgstr "编码图像和声音中……"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
-#: src/lib/job.cc:399
+#: src/lib/job.cc:421
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
@@ -576,7 +583,7 @@ msgstr "FCC"
 msgid "Failed to authenticate with server (%1)"
 msgstr "无法与服务器进行身份验证 (%1)"
 
-#: src/lib/emailer.cc:217
+#: src/lib/emailer.cc:222
 msgid "Failed to send email (%1)"
 msgstr "发送电子邮件失败"
 
@@ -652,11 +659,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:528
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:497
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -676,7 +683,7 @@ msgstr "IEC61966-2-1 (sRGB o sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:141 src/lib/job.cc:162 src/lib/job.cc:172
+#: src/lib/job.cc:143 src/lib/job.cc:175 src/lib/job.cc:185
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
@@ -688,27 +695,27 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "去隔行"
 
-#: src/lib/util.cc:520
+#: src/lib/util.cc:522
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:530
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:490
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:491
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:499
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:501
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:495
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -716,11 +723,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:525
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:493
+#: src/lib/util.cc:494
 msgid "Lfe (sub)"
 msgstr "次低（重低音炮）"
 
@@ -744,7 +751,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:526
 msgid "Ls"
 msgstr "左环绕"
 
@@ -756,19 +763,19 @@ msgstr "中置解码"
 msgid "Misc"
 msgstr "其他"
 
-#: src/lib/dcp_examiner.cc:142
+#: src/lib/dcp_examiner.cc:145
 msgid "Mismatched audio channel counts in DCP"
 msgstr "音频通道数不匹配！"
 
-#: src/lib/dcp_examiner.cc:148
+#: src/lib/dcp_examiner.cc:151
 msgid "Mismatched audio sample rates in DCP"
 msgstr "音频采样率不符合！"
 
-#: src/lib/dcp_examiner.cc:117
+#: src/lib/dcp_examiner.cc:120
 msgid "Mismatched frame rates in DCP"
 msgstr "帧速率不匹配。"
 
-#: src/lib/dcp_examiner.cc:124
+#: src/lib/dcp_examiner.cc:127
 msgid "Mismatched video sizes in DCP"
 msgstr "视频尺寸不匹配。"
 
@@ -796,7 +803,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/job.cc:397
+#: src/lib/job.cc:419
 msgid "OK (ran for %1)"
 msgstr "确认 (运行 %1)"
 
@@ -808,7 +815,7 @@ msgstr "只有最先一段才可以进行起始裁剪。"
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "最有最后一段才可以进行终止裁剪。"
 
-#: src/lib/job.cc:154
+#: src/lib/job.cc:167
 msgid "Out of memory"
 msgstr "内存不足"
 
@@ -836,7 +843,7 @@ msgstr "程序内部错误%1:%2"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/util.cc:521
+#: src/lib/util.cc:523
 msgid "R"
 msgstr "右声道"
 
@@ -848,7 +855,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:531
 msgid "Rc"
 msgstr "右中"
 
@@ -868,23 +875,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:491
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:492
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:502
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:496
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:527
 msgid "Rs"
 msgstr "右环绕"
 
@@ -973,15 +980,15 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr "DCP中的电影太大，请调整分卷模式为“分割”然后再试一次。"
 
-#: src/lib/dcp_content.cc:431
+#: src/lib/dcp_content.cc:461
 msgid "The DCP does not have sound in all reels."
 msgstr "该DCP的所有卷无声音。"
 
-#: src/lib/dcp_content.cc:445
+#: src/lib/dcp_content.cc:475
 msgid "The DCP does not have subtitles in all reels."
 msgstr "该DCP的所有卷无字幕。"
 
-#: src/lib/dcp_examiner.cc:186
+#: src/lib/dcp_examiner.cc:197
 msgid ""
 "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
 msgstr "该KDM无法解密该CPL文件。"
@@ -990,39 +997,47 @@ msgstr "该KDM无法解密该CPL文件。"
 msgid "The certificate chain for signing is invalid"
 msgstr "证书签名无效！"
 
-#: src/lib/job.cc:105
+#: src/lib/job.cc:107
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
 msgstr "磁盘空间不足！"
 
-#: src/lib/dcp_content.cc:394
+#: src/lib/dcp_content.cc:419
+msgid "The film has a different frame rate to this DCP."
+msgstr ""
+
+#: src/lib/dcp_content.cc:412
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr "打包内容被设置为Interop类型，而实际类型是 SMPTE。"
 
-#: src/lib/dcp_content.cc:391
+#: src/lib/dcp_content.cc:409
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际类型是 Interop。"
 
-#: src/lib/dcp_content.cc:405
+#: src/lib/dcp_content.cc:430
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr "卷中的影片时长与DCP中的影片时长不一致，请设置分卷模式来分割影片内容。"
 
-#: src/lib/dcp_content.cc:436
+#: src/lib/dcp_content.cc:448
+msgid "The video frame size in the film differs from that in the DCP."
+msgstr ""
+
+#: src/lib/dcp_content.cc:466
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "音频文件重复，请删除重复项"
 
-#: src/lib/dcp_content.cc:450
+#: src/lib/dcp_content.cc:480
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "字幕文件重复，请删除重复项"
 
-#: src/lib/dcp_content.cc:422
+#: src/lib/dcp_content.cc:452
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "视频文件重复，请删除重复项"
 
-#: src/lib/job.cc:154
+#: src/lib/job.cc:167
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1062,7 +1077,7 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "由服务器接收意外的图像类型"
 
-#: src/lib/job.cc:171
+#: src/lib/job.cc:184
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -1086,7 +1101,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:504 src/lib/util.cc:505
+#: src/lib/util.cc:505 src/lib/util.cc:506
 msgid "Unused"
 msgstr "未使用"
 
@@ -1098,11 +1113,11 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:529
 msgid "VI"
 msgstr "视力障碍"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1118,7 +1133,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/hints.cc:105
+#: src/lib/hints.cc:111
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
@@ -1126,13 +1141,13 @@ msgstr ""
 "你所设定的视频帧速率不是国际化（SMPTE）标准支持的，我们建议您制作SMPTE标准的"
 "DCP"
 
-#: src/lib/hints.cc:127
+#: src/lib/hints.cc:133
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr "您添加的内容是3D内容，但是您的DCP包设置为2D模式，请设置到3D模式。"
 
-#: src/lib/hints.cc:116
+#: src/lib/hints.cc:122
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1150,7 +1165,7 @@ msgstr "您添加的字体文件超过了640KB，很有可能不能正常播放�
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容。"
 
-#: src/lib/hints.cc:97
+#: src/lib/hints.cc:103
 msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
@@ -1164,7 +1179,13 @@ msgid ""
 "projectors."
 msgstr "您的DCP声道数小于6个，在小部分放映机上可能不能正常播放。"
 
-#: src/lib/hints.cc:152
+#: src/lib/hints.cc:99
+msgid ""
+"Your DCP uses an unusual container ratio.  This may cause problems on some "
+"projectors.  If possible, use Flat or Scope for the DCP container ratio"
+msgstr ""
+
+#: src/lib/hints.cc:158
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1210,7 +1231,7 @@ msgstr "复制中 %1"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:306
+#: src/lib/reel_writer.cc:320
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
@@ -1255,12 +1276,12 @@ msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:146 src/lib/util.cc:149
+#: src/lib/util.cc:147 src/lib/util.cc:150
 msgid "h"
 msgstr "时"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:161 src/lib/util.cc:164
+#: src/lib/util.cc:162 src/lib/util.cc:165
 msgid "m"
 msgstr "分"
 
@@ -1278,12 +1299,12 @@ msgstr "名字"
 
 #. / TRANSLATORS: remaining here follows an amount of time that is remaining
 #. / on an operation.
-#: src/lib/job.cc:394
+#: src/lib/job.cc:416
 msgid "remaining"
 msgstr "剩余"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:175
+#: src/lib/util.cc:176
 msgid "s"
 msgstr "秒"
 
@@ -1303,8 +1324,8 @@ msgstr "未知"
 msgid "video frames"
 msgstr "视频帧"
 
-#~ msgid "DBS"
-#~ msgstr "DBS"
+#~ msgid "DBPS"
+#~ msgstr "二级D-BOX通道"
 
 #~ msgid ""
 #~ "Your audio level is very close to clipping.  You should reduce the gain "

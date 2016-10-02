@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2016-09-01 17:54-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -223,6 +223,13 @@ msgstr "Ha ocurrido un error desconocido."
 msgid "Appearance..."
 msgstr "Apariencia…"
 
+#: src/wx/job_view.cc:125
+#, fuzzy
+msgid "Are you sure you want to cancel this job?"
+msgstr ""
+"¿Estás seguro de que quieres enviar correos a las direcciones siguientes?\n"
+"\n"
+
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
@@ -323,7 +330,7 @@ msgstr "El contenido del CPL no está encriptado."
 msgid "Calculate..."
 msgstr "Calcular..."
 
-#: src/wx/job_view.cc:47
+#: src/wx/job_view.cc:48
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -343,7 +350,7 @@ msgstr "Cadena"
 msgid "Channel gain"
 msgstr "Ganancia del canal"
 
-#: src/wx/audio_dialog.cc:83 src/wx/dcp_panel.cc:744
+#: src/wx/audio_dialog.cc:90 src/wx/dcp_panel.cc:744
 msgid "Channels"
 msgstr "Canales"
 
@@ -397,7 +404,7 @@ msgstr "Conversión de color"
 msgid "Colour|Custom"
 msgstr "Personalizado"
 
-#: src/wx/video_waveform_dialog.cc:51
+#: src/wx/video_waveform_dialog.cc:58
 msgid "Component"
 msgstr "Componente"
 
@@ -435,7 +442,7 @@ msgstr "Tipo de contenido"
 msgid "Content version"
 msgstr "Versión del contenido"
 
-#: src/wx/video_waveform_dialog.cc:54
+#: src/wx/video_waveform_dialog.cc:61
 msgid "Contrast"
 msgstr "Contraste"
 
@@ -443,7 +450,7 @@ msgstr "Contraste"
 msgid "Copy as name"
 msgstr "Copiar como nombre"
 
-#: src/wx/audio_dialog.cc:240
+#: src/wx/audio_dialog.cc:247
 msgid "Could not analyse audio."
 msgstr "No se pudo analizar el audio."
 
@@ -503,7 +510,7 @@ msgstr "Formato del nombre de los ficheros de metadatos del DCP"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:141
+#: src/wx/audio_dialog.cc:148
 msgid "DCP-o-matic audio"
 msgstr "Audio DCP-o-matic"
 
@@ -567,7 +574,7 @@ msgstr "Por defecto"
 msgid "Delay"
 msgstr "Retardo"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:57
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:58
 msgid "Details..."
 msgstr "Detalles..."
 
@@ -852,7 +859,7 @@ msgstr "Dirección IP / nombre"
 msgid "ISDCF name"
 msgstr "Nombre ISDCF"
 
-#: src/wx/video_waveform_dialog.cc:61
+#: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
 msgstr "Posición X de la imagen"
 
@@ -868,7 +875,7 @@ msgstr "Correción de gamma de entrada"
 msgid "Input power"
 msgstr "Potencia de entrada"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:351
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Volumen integrado %.2f LUFS"
@@ -922,7 +929,7 @@ msgstr "Tipo de KDM"
 msgid "KDM|Timing"
 msgstr "Tiempo"
 
-#: src/wx/timeline_dialog.cc:51
+#: src/wx/timeline_dialog.cc:58
 msgid "Keep video and subtitles in sequence"
 msgstr "Mantener el video y los subtítulos sincronizados"
 
@@ -982,12 +989,12 @@ msgstr "Cargar..."
 msgid "Log"
 msgstr "Registro"
 
-#: src/wx/audio_dialog.cc:353
+#: src/wx/audio_dialog.cc:360
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Rango de volumen %.2f LU"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:520
 msgid "MISSING: "
 msgstr "FALTA:"
 
@@ -1048,7 +1055,7 @@ msgstr "Retroceder la selección en la película."
 msgid "Move to start of reel"
 msgstr "Mover al principio de la bobina"
 
-#: src/wx/video_panel.cc:375
+#: src/wx/video_panel.cc:378
 msgid "Multiple content selected"
 msgstr "Varios contenidos seleccionados"
 
@@ -1064,11 +1071,11 @@ msgstr "Mis documentos"
 msgid "My problem is"
 msgstr "Mi problema es"
 
-#: src/wx/content_panel.cc:511
+#: src/wx/content_panel.cc:524
 msgid "NEEDS KDM: "
 msgstr "NECESITA KDM:"
 
-#: src/wx/content_panel.cc:515
+#: src/wx/content_panel.cc:528
 msgid "NEEDS OV: "
 msgstr "NECESITA OV:"
 
@@ -1104,7 +1111,7 @@ msgstr "No se encontró contenido en esta carpeta."
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:752 src/wx/text_subtitle_appearance_dialog.cc:88
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
-#: src/wx/video_panel.cc:304
+#: src/wx/video_panel.cc:307
 msgid "None"
 msgstr "Ninguno"
 
@@ -1178,11 +1185,11 @@ msgstr "Salida"
 msgid "Password"
 msgstr "Clave"
 
-#: src/wx/job_view.cc:52 src/wx/job_view.cc:132
+#: src/wx/job_view.cc:53 src/wx/job_view.cc:135
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/wx/audio_dialog.cc:105
+#: src/wx/audio_dialog.cc:112
 msgid "Peak"
 msgstr "Pico"
 
@@ -1239,7 +1246,7 @@ msgstr "Protocolo"
 msgid "RGB to XYZ conversion"
 msgstr "Conversión RGB a XYZ"
 
-#: src/wx/audio_dialog.cc:106
+#: src/wx/audio_dialog.cc:113
 msgid "RMS"
 msgstr "RMS"
 
@@ -1356,7 +1363,7 @@ msgstr "Restablecer el texto y asunto por defecto"
 msgid "Resolution"
 msgstr "Resolución"
 
-#: src/wx/job_view.cc:135
+#: src/wx/job_view.cc:138
 msgid "Resume"
 msgstr "Continuar"
 
@@ -1388,7 +1395,7 @@ msgstr "SCP (para AAM y Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:313
+#: src/wx/audio_dialog.cc:320
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "El pico de la muestra es %.2fdB en %s en %s"
@@ -1510,11 +1517,11 @@ msgstr "Firmand DCPs y KDMs"
 msgid "Single reel"
 msgstr "Bobina única"
 
-#: src/wx/audio_dialog.cc:116
+#: src/wx/audio_dialog.cc:123
 msgid "Smoothing"
 msgstr "Suavizado"
 
-#: src/wx/timeline_dialog.cc:49
+#: src/wx/timeline_dialog.cc:56
 msgid "Snap"
 msgstr "Acoplar"
 
@@ -1571,7 +1578,7 @@ msgstr "Color de los subtítulos"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/wx/about_dialog.cc:270
+#: src/wx/about_dialog.cc:273
 msgid "Supported by"
 msgstr "Soportado por"
 
@@ -1611,7 +1618,7 @@ msgstr "Territorio (ej. ES)"
 msgid "Test version "
 msgstr "Versión en prueba"
 
-#: src/wx/about_dialog.cc:325
+#: src/wx/about_dialog.cc:329
 msgid "Tested by"
 msgstr "Comprobado por"
 
@@ -1706,12 +1713,12 @@ msgstr "Recortar del inicio"
 msgid "Trim up to current position"
 msgstr "Recortar hasta la posición actual"
 
-#: src/wx/audio_dialog.cc:330
+#: src/wx/audio_dialog.cc:337
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "El pico es %.2fdB"
 
-#: src/wx/audio_dialog.cc:99 src/wx/config_dialog.cc:689
+#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:689
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Tipo"
@@ -1922,7 +1929,7 @@ msgstr "Conversión YUV a RGB"
 msgid "YUV to RGB matrix"
 msgstr "Matriz YUV a RGB"
 
-#: src/wx/video_waveform_dialog.cc:65
+#: src/wx/video_waveform_dialog.cc:72
 msgid "component value"
 msgstr "valor del componente"
 

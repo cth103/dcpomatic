@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -226,6 +226,10 @@ msgstr ""
 msgid "Appearance..."
 msgstr "Vzhľad..."
 
+#: src/wx/job_view.cc:125
+msgid "Are you sure you want to cancel this job?"
+msgstr ""
+
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
@@ -325,7 +329,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Vypočítať..."
 
-#: src/wx/job_view.cc:47
+#: src/wx/job_view.cc:48
 msgid "Cancel"
 msgstr "Zrušiť"
 
@@ -345,7 +349,7 @@ msgstr "Reťaz"
 msgid "Channel gain"
 msgstr "Sila kanálu"
 
-#: src/wx/audio_dialog.cc:83 src/wx/dcp_panel.cc:744
+#: src/wx/audio_dialog.cc:90 src/wx/dcp_panel.cc:744
 msgid "Channels"
 msgstr "Kanály"
 
@@ -399,7 +403,7 @@ msgstr "Konverzia farieb"
 msgid "Colour|Custom"
 msgstr "Farba"
 
-#: src/wx/video_waveform_dialog.cc:51
+#: src/wx/video_waveform_dialog.cc:58
 msgid "Component"
 msgstr "Súčasť"
 
@@ -438,7 +442,7 @@ msgstr "Typ obsahu"
 msgid "Content version"
 msgstr "Verzia obsahu"
 
-#: src/wx/video_waveform_dialog.cc:54
+#: src/wx/video_waveform_dialog.cc:61
 msgid "Contrast"
 msgstr "Kontrast"
 
@@ -446,7 +450,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopírovať ako názov"
 
-#: src/wx/audio_dialog.cc:240
+#: src/wx/audio_dialog.cc:247
 msgid "Could not analyse audio."
 msgstr "Nemôžem analyzovať zvuk."
 
@@ -505,7 +509,7 @@ msgstr ""
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:141
+#: src/wx/audio_dialog.cc:148
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic zvuk"
 
@@ -569,7 +573,7 @@ msgstr "Predvolené"
 msgid "Delay"
 msgstr "Oneskorenie"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:57
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:58
 msgid "Details..."
 msgstr "Detaily..."
 
@@ -855,7 +859,7 @@ msgstr "IP adresa / host name"
 msgid "ISDCF name"
 msgstr "ISDCF názov"
 
-#: src/wx/video_waveform_dialog.cc:61
+#: src/wx/video_waveform_dialog.cc:68
 #, fuzzy
 msgid "Image X position"
 msgstr "Odseknúť po aktuálnej pozície"
@@ -872,7 +876,7 @@ msgstr "Korekcia vstupnej gamy"
 msgid "Input power"
 msgstr "Vstupná sila"
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:351
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrovaná hlasitosť %.2f LUFS"
@@ -925,7 +929,7 @@ msgstr "KDM Typ"
 msgid "KDM|Timing"
 msgstr "Trvanie"
 
-#: src/wx/timeline_dialog.cc:51
+#: src/wx/timeline_dialog.cc:58
 #, fuzzy
 msgid "Keep video and subtitles in sequence"
 msgstr "Nechať video v sekvencií"
@@ -987,12 +991,12 @@ msgstr "Načítať..."
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/audio_dialog.cc:353
+#: src/wx/audio_dialog.cc:360
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:520
 msgid "MISSING: "
 msgstr "CHÝBAJÚCE:"
 
@@ -1054,7 +1058,7 @@ msgstr "Presunúť vybrané časti obsahu neskôr vo filme."
 msgid "Move to start of reel"
 msgstr ""
 
-#: src/wx/video_panel.cc:375
+#: src/wx/video_panel.cc:378
 msgid "Multiple content selected"
 msgstr "Viacnásobný výber obsahu "
 
@@ -1070,11 +1074,11 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Môj problém je"
 
-#: src/wx/content_panel.cc:511
+#: src/wx/content_panel.cc:524
 msgid "NEEDS KDM: "
 msgstr "POTREBNÉ KDM:"
 
-#: src/wx/content_panel.cc:515
+#: src/wx/content_panel.cc:528
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "POTREBNÉ KDM:"
@@ -1112,7 +1116,7 @@ msgstr "Žiadny obsah v priečinku nebol nájdený."
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:752 src/wx/text_subtitle_appearance_dialog.cc:88
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
-#: src/wx/video_panel.cc:304
+#: src/wx/video_panel.cc:307
 msgid "None"
 msgstr "Žiadny(e)"
 
@@ -1185,11 +1189,11 @@ msgstr "Výstup"
 msgid "Password"
 msgstr "Heslo"
 
-#: src/wx/job_view.cc:52 src/wx/job_view.cc:132
+#: src/wx/job_view.cc:53 src/wx/job_view.cc:135
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/wx/audio_dialog.cc:105
+#: src/wx/audio_dialog.cc:112
 msgid "Peak"
 msgstr "Maximum"
 
@@ -1246,7 +1250,7 @@ msgstr "Protokol"
 msgid "RGB to XYZ conversion"
 msgstr "Konverzia RGB na XYZ"
 
-#: src/wx/audio_dialog.cc:106
+#: src/wx/audio_dialog.cc:113
 msgid "RMS"
 msgstr "RMS"
 
@@ -1365,7 +1369,7 @@ msgstr "Obnoviť predvolený predmet a text"
 msgid "Resolution"
 msgstr "Rozlíšenie"
 
-#: src/wx/job_view.cc:135
+#: src/wx/job_view.cc:138
 msgid "Resume"
 msgstr "Pokračovať"
 
@@ -1398,7 +1402,7 @@ msgstr "SCP (pre AAM a Doremi)"
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:313
+#: src/wx/audio_dialog.cc:320
 #, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Vzorka najvyššej hlasitosti zvuku (sample peak) je %.2fdB na %s na %s"
@@ -1523,11 +1527,11 @@ msgstr "Podpisovanie DCP a KDM"
 msgid "Single reel"
 msgstr "Jeden reel"
 
-#: src/wx/audio_dialog.cc:116
+#: src/wx/audio_dialog.cc:123
 msgid "Smoothing"
 msgstr "Vyhladzovanie"
 
-#: src/wx/timeline_dialog.cc:49
+#: src/wx/timeline_dialog.cc:56
 msgid "Snap"
 msgstr "Prichytenie k objektom"
 
@@ -1585,7 +1589,7 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:270
+#: src/wx/about_dialog.cc:273
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1625,7 +1629,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:325
+#: src/wx/about_dialog.cc:329
 msgid "Tested by"
 msgstr "Testované"
 
@@ -1718,12 +1722,12 @@ msgstr "Odseknúť zo začiatku"
 msgid "Trim up to current position"
 msgstr "Orezať až do súčasnej pozície"
 
-#: src/wx/audio_dialog.cc:330
+#: src/wx/audio_dialog.cc:337
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Skutočné maximum je %.2fdB"
 
-#: src/wx/audio_dialog.cc:99 src/wx/config_dialog.cc:689
+#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:689
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Typ"
@@ -1934,7 +1938,7 @@ msgstr "Konverzie z YUV na RGB"
 msgid "YUV to RGB matrix"
 msgstr "YUV na RGP matrix"
 
-#: src/wx/video_waveform_dialog.cc:65
+#: src/wx/video_waveform_dialog.cc:72
 #, fuzzy
 msgid "component value"
 msgstr "Súčasť"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2016-08-24 13:42+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -32,7 +32,7 @@ msgstr "%d KDM zapsat do %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs zapsat do %s"
 
-#: src/tools/dcpomatic_batch.cc:60
+#: src/tools/dcpomatic_batch.cc:62
 msgid "&Add Film..."
 msgstr "&Přidat film…"
 
@@ -40,22 +40,22 @@ msgstr "&Přidat film…"
 msgid "&Content"
 msgstr "&Obsah"
 
-#: src/tools/dcpomatic.cc:915 src/tools/dcpomatic_batch.cc:82
+#: src/tools/dcpomatic.cc:915 src/tools/dcpomatic_batch.cc:84
 #: src/tools/dcpomatic_kdm.cc:254
 msgid "&Edit"
 msgstr "&Upravit"
 
-#: src/tools/dcpomatic.cc:872 src/tools/dcpomatic_batch.cc:62
+#: src/tools/dcpomatic.cc:872 src/tools/dcpomatic_batch.cc:64
 #: src/tools/dcpomatic_kdm.cc:232
 msgid "&Exit"
 msgstr "&Konec"
 
-#: src/tools/dcpomatic.cc:913 src/tools/dcpomatic_batch.cc:80
+#: src/tools/dcpomatic.cc:913 src/tools/dcpomatic_batch.cc:82
 #: src/tools/dcpomatic_kdm.cc:252
 msgid "&File"
 msgstr "&Soubor"
 
-#: src/tools/dcpomatic.cc:920 src/tools/dcpomatic_batch.cc:85
+#: src/tools/dcpomatic.cc:920 src/tools/dcpomatic_batch.cc:87
 #: src/tools/dcpomatic_kdm.cc:256
 msgid "&Help"
 msgstr "&Pomoc"
@@ -73,12 +73,12 @@ msgid "&Open...\tCtrl-O"
 msgstr "&Otevřít…\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:878 src/tools/dcpomatic.cc:881
-#: src/tools/dcpomatic_batch.cc:68 src/tools/dcpomatic_batch.cc:71
+#: src/tools/dcpomatic_batch.cc:70 src/tools/dcpomatic_batch.cc:73
 #: src/tools/dcpomatic_kdm.cc:238 src/tools/dcpomatic_kdm.cc:241
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Nastavení…\tCtrl-P"
 
-#: src/tools/dcpomatic.cc:874 src/tools/dcpomatic_batch.cc:64
+#: src/tools/dcpomatic.cc:874 src/tools/dcpomatic_batch.cc:66
 #: src/tools/dcpomatic_kdm.cc:234
 msgid "&Quit"
 msgstr "&Ukončit"
@@ -91,11 +91,11 @@ msgstr "&Uložit\tCtrl-S"
 msgid "&Send DCP to TMS"
 msgstr "&Odeslat DCP do TMS"
 
-#: src/tools/dcpomatic.cc:919 src/tools/dcpomatic_batch.cc:84
+#: src/tools/dcpomatic.cc:919 src/tools/dcpomatic_batch.cc:86
 msgid "&Tools"
 msgstr "&Nástroje"
 
-#: src/tools/dcpomatic.cc:909 src/tools/dcpomatic_batch.cc:78
+#: src/tools/dcpomatic.cc:909 src/tools/dcpomatic_batch.cc:80
 #: src/tools/dcpomatic_kdm.cc:248
 msgid "About"
 msgstr "O"
@@ -104,7 +104,7 @@ msgstr "O"
 msgid "About DCP-o-matic"
 msgstr "O DCP-o-matic"
 
-#: src/tools/dcpomatic_batch.cc:116
+#: src/tools/dcpomatic_batch.cc:118
 msgid "Add Film..."
 msgstr "Přidat film..."
 
@@ -169,7 +169,7 @@ msgstr "Zavřít bez uložení filmu"
 msgid "Could not find batch converter."
 msgstr "Konvertor nebyl nalezen."
 
-#: src/tools/dcpomatic.cc:1090 src/tools/dcpomatic_batch.cc:328
+#: src/tools/dcpomatic.cc:1090 src/tools/dcpomatic_batch.cc:333
 msgid "Could not load film %1 (%2)"
 msgstr "Nelze načíst film %1 (%2)"
 
@@ -178,7 +178,7 @@ msgstr "Nelze načíst film %1 (%2)"
 msgid "Could not make DCP: %s"
 msgstr "Nemohu vytvořit DCP: %s"
 
-#: src/tools/dcpomatic.cc:322 src/tools/dcpomatic_batch.cc:137
+#: src/tools/dcpomatic.cc:322 src/tools/dcpomatic_batch.cc:139
 #, c-format
 msgid "Could not open film at %s (%s)"
 msgstr "Nemohu otevřít film na %s (%s)"
@@ -204,7 +204,7 @@ msgstr "Vytvořit KDMs"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic_batch.cc:309
+#: src/tools/dcpomatic_batch.cc:281 src/tools/dcpomatic_batch.cc:311
 msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic konvertor"
 
@@ -224,7 +224,7 @@ msgstr "DKDM"
 msgid "Don't close"
 msgstr "Nezavírejte"
 
-#: src/tools/dcpomatic.cc:899 src/tools/dcpomatic_batch.cc:75
+#: src/tools/dcpomatic.cc:899 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
 msgstr "Enkódovací servery…"
 
@@ -312,7 +312,7 @@ msgstr "Obrazovky"
 msgid "Select DKDM file"
 msgstr "Vybrat DKDM soubor"
 
-#: src/tools/dcpomatic.cc:392 src/tools/dcpomatic_batch.cc:214
+#: src/tools/dcpomatic.cc:392 src/tools/dcpomatic_batch.cc:216
 msgid "Select film to open"
 msgstr "Vybrat film k otevření"
 
@@ -364,7 +364,7 @@ msgstr ""
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Žádné nové verze DCP-o-matic nejsou dostupné."
 
-#: src/tools/dcpomatic.cc:741 src/tools/dcpomatic_batch.cc:156
+#: src/tools/dcpomatic.cc:741 src/tools/dcpomatic_batch.cc:158
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Ještě nejsou dokončené úlohy; chcete přestat?"
 
@@ -376,7 +376,7 @@ msgstr ""
 "Tento film byl vytvořený starší verzí DVD-o-matic a nemusí v této verzi "
 "fungovat správně. Prosím, zkontrolujte nastavení filmu."
 
-#: src/tools/dcpomatic.cc:742 src/tools/dcpomatic_batch.cc:157
+#: src/tools/dcpomatic.cc:742 src/tools/dcpomatic_batch.cc:159
 msgid "Unfinished jobs"
 msgstr "Nedokončené úlohy"
 
@@ -384,7 +384,7 @@ msgstr "Nedokončené úlohy"
 msgid "Video waveform..."
 msgstr "Analýza videa..."
 
-#: src/tools/dcpomatic.cc:401 src/tools/dcpomatic_batch.cc:223
+#: src/tools/dcpomatic.cc:401 src/tools/dcpomatic_batch.cc:225
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-27 20:36+0100\n"
+"POT-Creation-Date: 2016-10-03 00:58+0100\n"
 "PO-Revision-Date: 2015-10-27 20:35+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -228,6 +228,10 @@ msgstr ""
 msgid "Appearance..."
 msgstr ""
 
+#: src/wx/job_view.cc:125
+msgid "Are you sure you want to cancel this job?"
+msgstr ""
+
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
@@ -329,7 +333,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Beregn..."
 
-#: src/wx/job_view.cc:47
+#: src/wx/job_view.cc:48
 msgid "Cancel"
 msgstr "Annuller"
 
@@ -349,7 +353,7 @@ msgstr "Kæde"
 msgid "Channel gain"
 msgstr "Kanalgain"
 
-#: src/wx/audio_dialog.cc:83 src/wx/dcp_panel.cc:744
+#: src/wx/audio_dialog.cc:90 src/wx/dcp_panel.cc:744
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -404,7 +408,7 @@ msgstr "Farvekonvertering"
 msgid "Colour|Custom"
 msgstr "Brugerdefineret"
 
-#: src/wx/video_waveform_dialog.cc:51
+#: src/wx/video_waveform_dialog.cc:58
 msgid "Component"
 msgstr ""
 
@@ -443,7 +447,7 @@ msgstr "Indholdstype"
 msgid "Content version"
 msgstr "Indholdsversion"
 
-#: src/wx/video_waveform_dialog.cc:54
+#: src/wx/video_waveform_dialog.cc:61
 msgid "Contrast"
 msgstr "Kontrast"
 
@@ -451,7 +455,7 @@ msgstr "Kontrast"
 msgid "Copy as name"
 msgstr "Kopier som navn"
 
-#: src/wx/audio_dialog.cc:240
+#: src/wx/audio_dialog.cc:247
 msgid "Could not analyse audio."
 msgstr "Kunne ikke analysere lyden."
 
@@ -510,7 +514,7 @@ msgstr ""
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/audio_dialog.cc:141
+#: src/wx/audio_dialog.cc:148
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic lyd"
 
@@ -575,7 +579,7 @@ msgstr "Standardindstillinger"
 msgid "Delay"
 msgstr "Forsinkelse"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:57
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:58
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -864,7 +868,7 @@ msgstr "IP-adresse / værtsnavn"
 msgid "ISDCF name"
 msgstr "ISDCF-navn"
 
-#: src/wx/video_waveform_dialog.cc:61
+#: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
 msgstr ""
 
@@ -880,7 +884,7 @@ msgstr ""
 msgid "Input power"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:344
+#: src/wx/audio_dialog.cc:351
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr ""
@@ -934,7 +938,7 @@ msgstr "KDM-type"
 msgid "KDM|Timing"
 msgstr "Timing"
 
-#: src/wx/timeline_dialog.cc:51
+#: src/wx/timeline_dialog.cc:58
 #, fuzzy
 msgid "Keep video and subtitles in sequence"
 msgstr "Bevar videosekvens"
@@ -996,12 +1000,12 @@ msgstr "Indlæs"
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/audio_dialog.cc:353
+#: src/wx/audio_dialog.cc:360
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:507
+#: src/wx/content_panel.cc:520
 msgid "MISSING: "
 msgstr "MANGLER:"
 
@@ -1064,7 +1068,7 @@ msgstr "Flyt det valgte indhold til senere i filmen."
 msgid "Move to start of reel"
 msgstr ""
 
-#: src/wx/video_panel.cc:375
+#: src/wx/video_panel.cc:378
 msgid "Multiple content selected"
 msgstr "Flere indholdselementer valgt"
 
@@ -1080,11 +1084,11 @@ msgstr "Mine dokumenter"
 msgid "My problem is"
 msgstr "Mit problem er"
 
-#: src/wx/content_panel.cc:511
+#: src/wx/content_panel.cc:524
 msgid "NEEDS KDM: "
 msgstr "HAR BRUG FOR KDM:"
 
-#: src/wx/content_panel.cc:515
+#: src/wx/content_panel.cc:528
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "HAR BRUG FOR KDM:"
@@ -1122,7 +1126,7 @@ msgstr "Fandt intet indhold i denne folder."
 #. /OUTLINE/SHADOW variables
 #: src/wx/dcp_panel.cc:752 src/wx/text_subtitle_appearance_dialog.cc:88
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
-#: src/wx/video_panel.cc:304
+#: src/wx/video_panel.cc:307
 msgid "None"
 msgstr "Ingen"
 
@@ -1195,11 +1199,11 @@ msgstr "Output"
 msgid "Password"
 msgstr "Password"
 
-#: src/wx/job_view.cc:52 src/wx/job_view.cc:132
+#: src/wx/job_view.cc:53 src/wx/job_view.cc:135
 msgid "Pause"
 msgstr "Pause"
 
-#: src/wx/audio_dialog.cc:105
+#: src/wx/audio_dialog.cc:112
 msgid "Peak"
 msgstr ""
 
@@ -1256,7 +1260,7 @@ msgstr "Protokol"
 msgid "RGB to XYZ conversion"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:106
+#: src/wx/audio_dialog.cc:113
 msgid "RMS"
 msgstr ""
 
@@ -1377,7 +1381,7 @@ msgstr "Nulstil til standard tekst"
 msgid "Resolution"
 msgstr "Opløsning"
 
-#: src/wx/job_view.cc:135
+#: src/wx/job_view.cc:138
 msgid "Resume"
 msgstr "Genoptag"
 
@@ -1410,7 +1414,7 @@ msgstr ""
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/audio_dialog.cc:313
+#: src/wx/audio_dialog.cc:320
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr ""
@@ -1536,11 +1540,11 @@ msgstr ""
 msgid "Single reel"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:116
+#: src/wx/audio_dialog.cc:123
 msgid "Smoothing"
 msgstr ""
 
-#: src/wx/timeline_dialog.cc:49
+#: src/wx/timeline_dialog.cc:56
 msgid "Snap"
 msgstr ""
 
@@ -1598,7 +1602,7 @@ msgstr "Undertekster"
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:270
+#: src/wx/about_dialog.cc:273
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1638,7 +1642,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:325
+#: src/wx/about_dialog.cc:329
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -1731,12 +1735,12 @@ msgstr "Trimning fra begyndelse"
 msgid "Trim up to current position"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:330
+#: src/wx/audio_dialog.cc:337
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:99 src/wx/config_dialog.cc:689
+#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:689
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Type"
@@ -1947,7 +1951,7 @@ msgstr ""
 msgid "YUV to RGB matrix"
 msgstr ""
 
-#: src/wx/video_waveform_dialog.cc:65
+#: src/wx/video_waveform_dialog.cc:72
 msgid "component value"
 msgstr ""
 
