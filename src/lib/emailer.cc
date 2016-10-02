@@ -177,7 +177,12 @@ Emailer::send (string server, int port, string user, string password)
 		throw NetworkError ("Could not initialise libcurl");
 	}
 
-	curl_easy_setopt (curl, CURLOPT_URL, String::compose ("smtp://%1:%2", server.c_str(), port).c_str());
+	if (port == 465) {
+		/* "Implicit TLS"; I think curl wants us to use smtps here */
+		curl_easy_setopt (curl, CURLOPT_URL, String::compose ("smtps://%1:465", server).c_str());
+	} else {
+		curl_easy_setopt (curl, CURLOPT_URL, String::compose ("smtp://%1:%2", server, port).c_str());
+	}
 
 	if (!user.empty ()) {
 		curl_easy_setopt (curl, CURLOPT_USERNAME, user.c_str ());
