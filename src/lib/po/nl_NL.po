@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-03 00:58+0100\n"
-"PO-Revision-Date: 2016-08-28 01:57+0200\n"
+"PO-Revision-Date: 2016-10-03 03:10+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -119,7 +118,7 @@ msgstr "1,33:1 (4:3)"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f fps"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -493,7 +492,6 @@ msgid "DBP"
 msgstr "DBP"
 
 #: src/lib/util.cc:535
-#, fuzzy
 msgid "DBS"
 msgstr "DBS"
 
@@ -1053,7 +1051,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:419
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "De film heeft een andere frame rate dan deze DCP."
 
 #: src/lib/dcp_content.cc:412
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1073,7 +1071,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:448
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "De video beeldgrootte in de film verschilt van die in de DCP."
 
 #: src/lib/dcp_content.cc:466
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1234,7 +1232,7 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
-"Uw DCP frame rate (%1 fps) kan problemen veroorzaken met sommige (oudere) "
+"Uw DCP frame rate (%1 fps) kan problemen geven met sommige (oudere) "
 "projectoren.  Gebruik 24 of 48 frames per seconde voor zekerheid."
 
 #: src/lib/hints.cc:72
@@ -1242,7 +1240,7 @@ msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
-"Uw DCP heeft minder dan 6 audio-kanalen.  Dit kan problemen veroorzaken met "
+"Uw DCP heeft minder dan 6 audio-kanalen.  Dit kan problemen geven met "
 "sommige installaties."
 
 #: src/lib/hints.cc:99
@@ -1250,6 +1248,9 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"Uw DCP gebruikt een ongebruikelijke container-beeldverhouding.  Dit kan "
+"problemen geven met sommige projectoren.  Gebruik, indien mogelijk, Flat of "
+"Scope voor de container-beeldverhouding van de DCP."
 
 #: src/lib/hints.cc:158
 msgid ""
