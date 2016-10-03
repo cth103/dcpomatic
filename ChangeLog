@@ -1,5 +1,7 @@
 2016-10-03  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on make DCP if there are old audio analysis files.
+
 	* Updated zh_CN translation from 刘汉源.
 
 2016-10-03  Carl Hetherington  <cth@carlh.net>
