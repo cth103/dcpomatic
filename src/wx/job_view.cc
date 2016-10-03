@@ -42,8 +42,6 @@ JobView::setup ()
 {
 	int n = insert_position ();
 
-	std::cout << "insert @ " << n << "\n";
-
 	_gauge_message = new wxBoxSizer (wxVERTICAL);
 	_gauge = new wxGauge (_container, wxID_ANY, 100);
 	/* This seems to be required to allow the gauge to shrink under OS X */
