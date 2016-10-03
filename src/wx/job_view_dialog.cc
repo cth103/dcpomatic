@@ -19,14 +19,14 @@
 */
 
 #include "job_view_dialog.h"
-#include "job_view.h"
+#include "normal_job_view.h"
 
 using boost::shared_ptr;
 
 JobViewDialog::JobViewDialog (wxWindow* parent, wxString title, shared_ptr<Job> job)
 	: TableDialog (parent, title, 4, 0, false)
 {
-	_view = new JobView (job, this, this, _table, true);
+	_view = new NormalJobView (job, this, this, _table);
 	layout ();
 	SetMinSize (wxSize (960, -1));
 

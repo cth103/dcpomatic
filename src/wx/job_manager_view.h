@@ -35,7 +35,7 @@ class JobView;
 class JobManagerView : public wxScrolledWindow
 {
 public:
-	JobManagerView (wxWindow *, bool latest_at_top);
+	JobManagerView (wxWindow *, bool batch);
 
 private:
 	void job_added (boost::weak_ptr<Job>);
@@ -44,7 +44,7 @@ private:
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
 	boost::shared_ptr<wxTimer> _timer;
-	bool _latest_at_top;
+	bool _batch;
 
 	std::list<boost::shared_ptr<JobView> > _job_records;
 };

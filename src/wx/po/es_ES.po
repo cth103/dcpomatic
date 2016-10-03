@@ -224,11 +224,8 @@ msgid "Appearance..."
 msgstr "Apariencia…"
 
 #: src/wx/job_view.cc:125
-#, fuzzy
 msgid "Are you sure you want to cancel this job?"
 msgstr ""
-"¿Estás seguro de que quieres enviar correos a las direcciones siguientes?\n"
-"\n"
 
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""

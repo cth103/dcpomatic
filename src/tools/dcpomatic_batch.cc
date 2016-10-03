@@ -111,7 +111,7 @@ public:
 		s->Add (panel, 1, wxEXPAND);
 		SetSizer (s);
 
-		JobManagerView* job_manager_view = new JobManagerView (panel, false);
+		JobManagerView* job_manager_view = new JobManagerView (panel, true);
 		_sizer->Add (job_manager_view, 1, wxALL | wxEXPAND, 6);
 
 		wxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);

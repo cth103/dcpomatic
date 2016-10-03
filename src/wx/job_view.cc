@@ -28,45 +28,53 @@ using std::string;
 using std::min;
 using boost::shared_ptr;
 
-/** @param top Put this view at the top of table, otherwise put it at the bottom */
-JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table, bool top)
+JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: _job (job)
+	, _table (table)
 	, _parent (parent)
+	, _container (container)
 {
-	int n = top ? 0 : (table->GetEffectiveRowsCount() * table->GetEffectiveColsCount());
+
+}
+
+void
+JobView::setup ()
+{
+	int n = insert_position ();
+
+	std::cout << "insert @ " << n << "\n";
 
 	_gauge_message = new wxBoxSizer (wxVERTICAL);
-	_gauge = new wxGauge (container, wxID_ANY, 100);
+	_gauge = new wxGauge (_container, wxID_ANY, 100);
 	/* This seems to be required to allow the gauge to shrink under OS X */
 	_gauge->SetMinSize (wxSize (0, -1));
 	_gauge_message->Add (_gauge, 0, wxEXPAND | wxLEFT | wxRIGHT);
-	_message = new wxStaticText (container, wxID_ANY, wxT (" \n "));
+	_message = new wxStaticText (_container, wxID_ANY, wxT (" \n "));
 	_gauge_message->Add (_message, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxALL, 6);
-	table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
+	_table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 	++n;
 
-	_cancel = new wxButton (container, wxID_ANY, _("Cancel"));
+	wxBoxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
+
+	_cancel = new wxButton (_container, wxID_ANY, _("Cancel"));
 	_cancel->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::cancel_clicked, this);
-	table->Insert (n, _cancel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
-	++n;
+	buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL);
 
-	_pause = new wxButton (container, wxID_ANY, _("Pause"));
-	_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::pause_clicked, this);
-	table->Insert (n, _pause, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
-	++n;
-
-	_details = new wxButton (container, wxID_ANY, _("Details..."));
+	_details = new wxButton (_container, wxID_ANY, _("Details..."));
 	_details->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::details_clicked, this);
 	_details->Enable (false);
-	table->Insert (n, _details, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
-	++n;
+	buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL);
 
-	_progress_connection = job->Progress.connect (boost::bind (&JobView::progress, this));
-	_finished_connection = job->Finished.connect (boost::bind (&JobView::finished, this));
+	finish_setup (_container, buttons);
+
+	_table->Insert (n, buttons, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
+
+	_progress_connection = _job->Progress.connect (boost::bind (&JobView::progress, this));
+	_finished_connection = _job->Finished.connect (boost::bind (&JobView::finished, this));
 
 	progress ();
 
-	table->Layout ();
+	_table->Layout ();
 }
 
 void
@@ -105,7 +113,6 @@ JobView::finished ()
 	}
 
 	_cancel->Enable (false);
-	_pause->Enable (false);
 	if (!_job->error_details().empty ()) {
 		_details->Enable (true);
 	}
@@ -124,17 +131,5 @@ JobView::cancel_clicked (wxCommandEvent &)
 {
 	if (confirm_dialog (_parent, _("Are you sure you want to cancel this job?"))) {
 		_job->cancel ();
-	}
-}
-
-void
-JobView::pause_clicked (wxCommandEvent &)
-{
-	if (_job->paused()) {
-		_job->resume ();
-		_pause->SetLabel (_("Pause"));
-	} else {
-		_job->pause ();
-		_pause->SetLabel (_("Resume"));
 	}
 }

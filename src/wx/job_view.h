@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_JOB_VIEW_H
+#define DCPOMATIC_JOB_VIEW_H
+
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
@@ -31,32 +34,44 @@ class wxBoxSizer;
 class wxGauge;
 class wxStaticText;
 class wxButton;
+class wxSizer;
 
 class JobView : public boost::noncopyable
 {
 public:
-	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table, bool top);
+	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
+	virtual ~JobView () {}
+
+	void setup ();
 
 	void maybe_pulse ();
 
-private:
-
-	void progress ();
-	void finished ();
-	void details_clicked (wxCommandEvent &);
-	void cancel_clicked (wxCommandEvent &);
-	void pause_clicked (wxCommandEvent &);
+protected:
+	virtual void finished ();
 
 	boost::shared_ptr<Job> _job;
+	wxFlexGridSizer* _table;
+
+private:
+
+	virtual int insert_position () const = 0;
+	virtual void finish_setup (wxWindow *, wxSizer *) {}
+
+	void progress ();
+	void details_clicked (wxCommandEvent &);
+	void cancel_clicked (wxCommandEvent &);
+
 	wxWindow* _parent;
+	wxWindow* _container;
 	wxBoxSizer* _gauge_message;
 	wxGauge* _gauge;
 	wxStaticText* _message;
 	wxButton* _cancel;
-	wxButton* _pause;
 	wxButton* _details;
 	std::string _last_message;
 
 	boost::signals2::scoped_connection _progress_connection;
 	boost::signals2::scoped_connection _finished_connection;
 };
+
+#endif

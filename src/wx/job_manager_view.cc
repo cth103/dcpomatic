@@ -23,7 +23,8 @@
  */
 
 #include "job_manager_view.h"
-#include "job_view.h"
+#include "batch_job_view.h"
+#include "normal_job_view.h"
 #include "wx_util.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
@@ -41,21 +42,20 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 
 /** @param parent Parent window.
- *  @param latest_at_top true to put the last-added job at the top of the view,
- *  false to put it at the bottom.
+ *  @param batch true to use BatchJobView, false to use NormalJobView.
  *
  *  Must be called in the GUI thread.
  */
-JobManagerView::JobManagerView (wxWindow* parent, bool latest_at_top)
+JobManagerView::JobManagerView (wxWindow* parent, bool batch)
 	: wxScrolledWindow (parent)
-	, _latest_at_top (latest_at_top)
+	, _batch (batch)
 {
 	_panel = new wxPanel (this);
 	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_panel, 1, wxEXPAND);
 	SetSizer (sizer);
 
-	_table = new wxFlexGridSizer (4, 4, 6);
+	_table = new wxFlexGridSizer (2, 6, 6);
 	_table->AddGrowableCol (0, 1);
 	_panel->SetSizer (_table);
 
@@ -74,7 +74,14 @@ JobManagerView::job_added (weak_ptr<Job> j)
 {
 	shared_ptr<Job> job = j.lock ();
 	if (job) {
-		_job_records.push_back (shared_ptr<JobView> (new JobView (job, this, _panel, _table, _latest_at_top)));
+		shared_ptr<JobView> v;
+		if (_batch) {
+			v.reset (new BatchJobView (job, this, _panel, _table));
+		} else {
+			v.reset (new NormalJobView (job, this, _panel, _table));
+		}
+		v->setup ();
+		_job_records.push_back (v);
 	}
 
 	FitInside();
