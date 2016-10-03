@@ -31,7 +31,7 @@ public:
 
 private:
 	int insert_position () const;
-	void add_buttons (wxWindow* parent, wxSizer* sizer);
+	void finish_setup (wxWindow* parent, wxSizer* sizer);
 	void pause_clicked ();
 	void finished ();
 

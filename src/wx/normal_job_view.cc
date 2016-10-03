@@ -32,7 +32,7 @@ NormalJobView::NormalJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* c
 }
 
 void
-NormalJobView::add_buttons (wxWindow* parent, wxSizer* sizer)
+NormalJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
 {
 	_pause = new wxButton (parent, wxID_ANY, _("Pause"));
 	_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&NormalJobView::pause_clicked, this));
