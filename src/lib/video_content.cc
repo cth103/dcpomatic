@@ -457,7 +457,7 @@ void
 VideoContent::add_properties (list<UserProperty>& p) const
 {
 	p.push_back (UserProperty (UserProperty::VIDEO, _("Length"), length (), _("video frames")));
-	p.push_back (UserProperty (UserProperty::VIDEO, _("Size"), size().width + "x" + size().height));
+	p.push_back (UserProperty (UserProperty::VIDEO, _("Size"), String::compose ("%1x%2", size().width, size().height)));
 }
 
 void
