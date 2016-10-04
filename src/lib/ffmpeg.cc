@@ -282,21 +282,27 @@ FFmpeg::subtitle_id (AVSubtitle const & sub)
 	digester.add (sub.pts);
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
 		AVSubtitleRect* rect = sub.rects[i];
-		digester.add (rect->x);
-		digester.add (rect->y);
-		digester.add (rect->w);
-		digester.add (rect->h);
+		if (rect->type == SUBTITLE_BITMAP) {
+			digester.add (rect->x);
+			digester.add (rect->y);
+			digester.add (rect->w);
+			digester.add (rect->h);
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
-		int const line = rect->pict.linesize[0];
-		for (int j = 0; j < rect->h; ++j) {
-			digester.add (rect->pict.data[0] + j * line, line);
-		}
+			int const line = rect->pict.linesize[0];
+			for (int j = 0; j < rect->h; ++j) {
+				digester.add (rect->pict.data[0] + j * line, line);
+			}
 #else
-		int const line = rect->linesize[0];
-		for (int j = 0; j < rect->h; ++j) {
-			digester.add (rect->data[0] + j * line, line);
-		}
+			int const line = rect->linesize[0];
+			for (int j = 0; j < rect->h; ++j) {
+				digester.add (rect->data[0] + j * line, line);
+			}
 #endif
+		} else if (rect->type == SUBTITLE_TEXT) {
+			digester.add (string (rect->text));
+		} else if (rect->type == SUBTITLE_ASS) {
+			digester.add (string (rect->ass));
+		}
 	}
 	return digester.get ();
 }

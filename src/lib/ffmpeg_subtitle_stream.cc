@@ -128,6 +128,7 @@ FFmpegSubtitleStream::add_image_subtitle (string id, ContentTimePeriod period)
 void
 FFmpegSubtitleStream::add_text_subtitle (string id, ContentTimePeriod period)
 {
+	cout << id << " " << to_string(period.from) << " " << to_string(period.to) << "\n";
 	DCPOMATIC_ASSERT (_text_subtitles.find (id) == _text_subtitles.end ());
 	_text_subtitles[id] = period;
 }
