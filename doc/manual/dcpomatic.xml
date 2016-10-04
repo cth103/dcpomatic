@@ -3113,6 +3113,48 @@ DCP.  Adjust the appearance using controls in the
 </section>
 </section>
 
+<section>
+<title>Adding soundtracks or subtitles in different languages</title>
+
+<para>
+If you have a film that is to be dubbed or subtitled in several
+languages, the best approach with DCP-o-matic is as follows:
+</para>
+
+<itemizedlist>
+<listitem>Make a DCP with the common elements (perhaps just the video, or maybe the video and sound); this is known as the Original Version (OV).</listitem>
+<listitem>For each language, make a new Version File (VF) DCP which refers to the OV.</listitem>
+</itemizedlist>
+
+<para>
+Once you have done this, you send the OV DCP to every cinema and then
+the appropriate VF to each cinema depending on what language they want
+to play the film in.  The projectionist ingests both DCPs and then plays the VF.
+</para>
+
+<para>
+The advantage of this approach is that the VF DCPs are much smaller
+than the OV since they only have the language-specific parts.  If you
+are just changing the subtitles you can often ship the OV by normal
+transport means (e.g. a hard drive or high-speed download) and send
+the VF by email.
+</para>
+
+<para>
+The full details of OV and VF files are discussed in <xref linkend="sec-overlay"/>.  The steps can be summarised as follows:
+</para>
+
+<itemizedlist>
+<listitem>Create a new DCP-o-matic project for the OV, as normal, adding video and perhaps sound.  Make the DCP.</listitem>
+<listitem>Create a new DCP-o-matic project for the VF.</listitem>
+<listitem>Use <guilabel>Add folder...</guilabel> to add your OV DCP to the project.</listitem>
+<listitem>Select the video tab and tick <guilabel>Refer to existing DCP</guilabel> (you may need to select <guilabel>By video content</guilabel> for <guilabel>Reel type</guilabel> in the <guilabel>DCP</guilabel> tab).</listitem>
+<listitem>Do the same in the <guilabel>Audio</guilabel> tab if your OV has audio.</listitem>
+<listitem>Add your language-specific audio and/or subtitles and Make DCP.</listitem>
+</itemizedlist>
+
+</section>
+
 </chapter>
 
 </book>
