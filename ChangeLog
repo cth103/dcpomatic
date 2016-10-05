@@ -1,3 +1,7 @@
+2016-10-05  Carl Hetherington  <cth@carlh.net>
+
+	* Updated fr_FR translation from Thierry Journet.
+
 2016-10-04  c.hetherington  <cth@carlh.net>
 
 	* Fix error when examining files with embedded subtitles in some cases (#969).

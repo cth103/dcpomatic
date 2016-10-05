@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-03 00:58+0100\n"
-"PO-Revision-Date: 2016-08-28 15:40+0100\n"
+"PO-Revision-Date: 2016-10-05 22:22+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -194,7 +194,7 @@ msgstr "Ajout séquence images"
 
 #: src/wx/content_panel.cc:82
 msgid "Add video, image or sound files to the film."
-msgstr "Ajout fichiers vidéo, image ou son au projet."
+msgstr "Ajout de fichiers vidéo, images ou sons au projet."
 
 #: src/wx/config_dialog.cc:711 src/wx/editable_list.h:78
 msgid "Add..."
@@ -226,7 +226,7 @@ msgstr "Apparence..."
 
 #: src/wx/job_view.cc:125
 msgid "Are you sure you want to cancel this job?"
-msgstr ""
+msgstr "Etes-vous certain de vouloir annuler cette tâche?"
 
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
@@ -300,7 +300,7 @@ msgstr "Parcourir..."
 
 #: src/wx/subtitle_panel.cc:64
 msgid "Burn subtitles into image"
-msgstr "Graver sous-titres dans l'image"
+msgstr "Graver les sous-titres dans l'image"
 
 #: src/wx/gain_calculator_dialog.cc:31
 msgid "But I have to use fader"
@@ -1079,7 +1079,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 

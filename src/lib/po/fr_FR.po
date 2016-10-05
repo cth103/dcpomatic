@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-03 00:58+0100\n"
-"PO-Revision-Date: 2016-08-28 15:32+0100\n"
+"PO-Revision-Date: 2016-10-05 22:14+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -118,7 +117,7 @@ msgstr "4:3"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f ips"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -737,11 +736,11 @@ msgstr "Centre Gauche"
 
 #: src/lib/util.cc:501
 msgid "Left rear surround"
-msgstr "Surround arrière gauche"
+msgstr "Ambiance arrière gauche"
 
 #: src/lib/util.cc:495
 msgid "Left surround"
-msgstr "Arrière gauche"
+msgstr "Ambiance gauche"
 
 #: src/lib/video_content.cc:459
 msgid "Length"
@@ -901,7 +900,7 @@ msgstr "Rec. 709"
 
 #: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:492
 msgid "Right"
-msgstr "Droite"
+msgstr "Droit"
 
 #: src/lib/util.cc:500
 msgid "Right centre"
@@ -909,11 +908,11 @@ msgstr "Centre Droit"
 
 #: src/lib/util.cc:502
 msgid "Right rear surround"
-msgstr "Surround arrière droite"
+msgstr "Ambiance arrière droite"
 
 #: src/lib/util.cc:496
 msgid "Right surround"
-msgstr "Arrière droite"
+msgstr "Ambiance droite"
 
 #: src/lib/util.cc:527
 msgid "Rs"
@@ -1039,7 +1038,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:419
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "Le film à une vitesse de défilement différente de ce DCP."
 
 #: src/lib/dcp_content.cc:412
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1059,7 +1058,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:448
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "La taille de l'image du film diffère  de celle du DCP"
 
 #: src/lib/dcp_content.cc:466
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1237,6 +1236,9 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"Votre DCP possède un format image inhabituel. Cela pourrait poser des "
+"problèmes sur certains projecteurs. Si possible, utilisez le Flat ou le "
+"Scope comme format image pour le DCP."
 
 #: src/lib/hints.cc:158
 msgid ""
