@@ -180,6 +180,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Film.Ca Inc."));
 	supported_by.Add (wxT ("Denis Ivashvkevych"));
 	supported_by.Add (wxT ("Karl Jacob"));
+	supported_by.Add (wxT ("Tomasz Jagi"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
 	supported_by.Add (wxT ("Mathew Johns"));
 	supported_by.Add (wxT ("Thierry Journet"));
