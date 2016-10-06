@@ -29,12 +29,14 @@ class DCPContent;
 
 class DCP
 {
+public:
+	std::list<boost::shared_ptr<dcp::CPL> > cpls () const;
+
 protected:
 	DCP (boost::shared_ptr<const DCPContent> content)
 		: _dcp_content (content)
 	{}
 
-	std::list<boost::shared_ptr<dcp::CPL> > cpls () const;
 	boost::shared_ptr<const DCPContent> _dcp_content;
 };
 

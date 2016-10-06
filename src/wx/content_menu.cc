@@ -32,8 +32,10 @@
 #include "lib/job_manager.h"
 #include "lib/exceptions.h"
 #include "lib/dcp_content.h"
+#include "lib/dcp_examiner.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
+#include <dcp/cpl.h>
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 #include <boost/foreach.hpp>
@@ -42,18 +44,21 @@
 using std::cout;
 using std::vector;
 using std::exception;
+using std::list;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 enum {
-	ID_repeat = 1,
+	/* Start at 256 so we can have IDs on _cpl_menu from 0 to 255 */
+	ID_repeat = 256,
 	ID_join,
 	ID_find_missing,
 	ID_properties,
 	ID_re_examine,
 	ID_kdm,
 	ID_ov,
+	ID_choose_cpl,
 	ID_remove
 };
 
@@ -69,6 +74,8 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_menu->AppendSeparator ();
 	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
 	_ov = _menu->Append (ID_ov, _("Add OV..."));
+	_cpl_menu = new wxMenu ();
+	_choose_cpl = _menu->Append (ID_choose_cpl, _("Choose CPL..."), _cpl_menu);
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
@@ -80,6 +87,8 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
+
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 0, ID_repeat);
 }
 
 ContentMenu::~ContentMenu ()
@@ -93,6 +102,12 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_film = film;
 	_content = c;
 	_views = v;
+
+	int const N = _cpl_menu->GetMenuItemCount();
+	for (int i = 0; i < N; ++i) {
+		_cpl_menu->Delete (i);
+	}
+
 	_repeat->Enable (!_content.empty ());
 
 	int n = 0;
@@ -110,12 +125,35 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 
 	if (_content.size() == 1) {
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
-		_kdm->Enable (dcp && dcp->encrypted ());
+		if (dcp) {
+			_kdm->Enable (dcp->encrypted ());
+			_ov->Enable (dcp->needs_assets ());
+			DCPExaminer ex (dcp);
+			list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
+			_choose_cpl->Enable (cpls.size() > 1);
+			int id = 0;
+			BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls) {
+				wxMenuItem* item = _cpl_menu->AppendCheckItem (
+					id++,
+					wxString::Format (
+						"%s (%s)",
+						std_to_wx(i->annotation_text()).data(),
+						std_to_wx(i->id()).data()
+						)
+					);
+				item->Check (dcp->cpl() && dcp->cpl() == i->id());
+			}
+		} else {
+			_kdm->Enable (false);
+			_ov->Enable (false);
+			_choose_cpl->Enable (false);
+		}
 	} else {
 		_kdm->Enable (false);
 	}
 
 	_remove->Enable (!_content.empty ());
+
 	_parent->PopupMenu (_menu, p);
 }
 
@@ -366,4 +404,26 @@ ContentMenu::properties ()
 	ContentPropertiesDialog* d = new ContentPropertiesDialog (_parent, _content.front ());
 	d->ShowModal ();
 	d->Destroy ();
+}
+
+void
+ContentMenu::cpl_selected (wxCommandEvent& ev)
+{
+	DCPOMATIC_ASSERT (!_content.empty ());
+	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
+	DCPOMATIC_ASSERT (dcp);
+
+	DCPExaminer ex (dcp);
+	list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
+	DCPOMATIC_ASSERT (ev.GetId() < int (cpls.size()));
+
+	list<shared_ptr<dcp::CPL> >::const_iterator i = cpls.begin ();
+	for (int j = 0; j < ev.GetId(); ++j) {
+		++i;
+	}
+
+	dcp->set_cpl ((*i)->id ());
+	shared_ptr<Film> film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	film->examine_content (dcp);
 }
