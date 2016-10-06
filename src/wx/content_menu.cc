@@ -127,6 +127,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
 		if (dcp) {
 			_kdm->Enable (dcp->encrypted ());
+			_ov->Enable (dcp->needs_assets ());
 			DCPExaminer ex (dcp);
 			list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
 			_choose_cpl->Enable (cpls.size() > 1);
@@ -144,6 +145,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			}
 		} else {
 			_kdm->Enable (false);
+			_ov->Enable (false);
 			_choose_cpl->Enable (false);
 		}
 	} else {
