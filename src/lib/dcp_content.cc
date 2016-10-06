@@ -490,3 +490,10 @@ DCPContent::use_template (shared_ptr<const Content> c)
 	_reference_audio = dc->_reference_audio;
 	_reference_subtitle = dc->_reference_subtitle;
 }
+
+void
+DCPContent::set_cpl (string id)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_cpl = id;
+}

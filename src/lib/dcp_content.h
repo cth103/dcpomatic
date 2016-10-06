@@ -115,6 +115,8 @@ public:
 
 	bool can_reference_subtitle (std::list<std::string> &) const;
 
+	void set_cpl (std::string id);
+
 	boost::optional<std::string> cpl () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _cpl;

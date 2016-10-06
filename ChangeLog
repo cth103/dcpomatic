@@ -1,3 +1,7 @@
+2016-10-06  c.hetherington  <cth@carlh.net>
+
+	* Allow selection of CPL in multi-CPL DCPs (#733).
+
 2016-10-05  Carl Hetherington  <cth@carlh.net>
 
 	* Updated fr_FR translation from Thierry Journet.
