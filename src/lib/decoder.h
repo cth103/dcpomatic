@@ -52,6 +52,20 @@ public:
 		PASS_REASON_SUBTITLE
 	};
 
+	void maybe_seek (ContentTime time, bool accurate);
+
+	/** @return true if this decoder has already returned all its data and will give no more */
+	virtual bool pass (PassReason, bool accurate) = 0;
+
+	/** Ensure that any future get() calls return data that reflect
+	 *  changes in our content's settings.
+	 */
+	virtual void reset () {}
+
+protected:
+	boost::optional<ContentTime> _position;
+
+private:
 	/** Seek so that the next pass() will yield the next thing
 	 *  (video/sound frame, subtitle etc.) at or after the requested
 	 *  time.  Pass accurate = true to try harder to ensure that, at worst,
@@ -61,14 +75,6 @@ public:
 	 *  it may seek to just the right spot.
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
-
-	/** @return true if this decoder has already returned all its data and will give no more */
-	virtual bool pass (PassReason, bool accurate) = 0;
-
-	/** Ensure that any future get() calls return data that reflect
-	 *  changes in our content's settings.
-	 */
-	virtual void reset () {}
 };
 
 #endif

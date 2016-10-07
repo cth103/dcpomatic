@@ -72,6 +72,7 @@ ImageDecoder::pass (PassReason, bool)
 		}
 	}
 
+	_position = ContentTime::from_frames (_video_position, _image_content->active_video_frame_rate ());
 	video->give (_image, _video_position);
 	++_video_position;
 	return false;

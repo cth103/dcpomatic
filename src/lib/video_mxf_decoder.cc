@@ -89,6 +89,7 @@ VideoMXFDecoder::pass (PassReason, bool)
 			);
 	}
 
+	_position = _next;
 	_next += ContentTime::from_frames (1, vfr);
 	return false;
 }

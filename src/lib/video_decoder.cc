@@ -86,7 +86,12 @@ VideoDecoder::get (Frame frame, bool accurate)
 
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
-	if (_decoded.empty() || frame < _decoded.front().frame.index() || frame > (_decoded.back().frame.index() + 1)) {
+	/* See if we have frame, and suggest a seek if not */
+	list<ContentVideo>::const_iterator i = _decoded.begin ();
+	while (i != _decoded.end() && i->frame.index() != frame) {
+		++i;
+	}
+	if (i == _decoded.end()) {
 		Frame seek_frame = frame;
 		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
 			/* 3D alternate is a special case as the frame index in the content is not the same
@@ -94,8 +99,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 			*/
 			seek_frame *= 2;
 		}
-		_log->log (String::compose ("VD seeks to %1", seek_frame), LogEntry::TYPE_DEBUG_DECODE);
-		_parent->seek (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
+		_parent->maybe_seek (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
 	}
 
 	/* Work out the number of frames that we should return; we

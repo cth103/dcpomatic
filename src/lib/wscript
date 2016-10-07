@@ -56,6 +56,7 @@ sources = """
           dcp_video.cc
           dcpomatic_socket.cc
           dcpomatic_time.cc
+          decoder.cc
           decoder_factory.cc
           digester.cc
           dolby_cp750.cc

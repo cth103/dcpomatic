@@ -90,9 +90,21 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 		return list<T> ();
 	}
 
-	/* Seek if what we want is before what we have, or a more than a little bit after */
-	if (subs.empty() || sp.back().to < subs.front().period().from || sp.front().from > (subs.back().period().to + ContentTime::from_seconds (1))) {
-		_parent->seek (sp.front().from, true);
+	/* Find the time of the first subtitle we don't have in subs */
+	optional<ContentTime> missing;
+	BOOST_FOREACH (ContentTimePeriod i, sp) {
+		typename list<T>::const_iterator j = subs.begin();
+		while (j != subs.end() && j->period() != i) {
+			++j;
+		}
+		if (j == subs.end ()) {
+			missing = i.from;
+		}
+	}
+
+	/* Suggest to our parent decoder that it might want to seek if we haven't got what we're being asked for */
+	if (missing) {
+		_parent->maybe_seek (*missing, true);
 	}
 
 	/* Now enough pass() calls will either:

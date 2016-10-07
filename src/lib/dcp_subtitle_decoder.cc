@@ -79,6 +79,7 @@ DCPSubtitleDecoder::pass (PassReason, bool)
 	}
 
 	subtitle->give_text (p, s);
+	_position = p.from;
 
 	return false;
 }

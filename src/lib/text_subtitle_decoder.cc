@@ -66,7 +66,9 @@ TextSubtitleDecoder::pass (PassReason, bool)
 		return true;
 	}
 
-	subtitle->give_text (content_time_period (_subtitles[_next]), _subtitles[_next]);
+	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
+	subtitle->give_text (p, _subtitles[_next]);
+	_position = p.from;
 
 	++_next;
 	return false;

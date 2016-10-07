@@ -70,17 +70,23 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 
 	_log->log (String::compose ("-> ADS has request for %1 %2", frame, length), LogEntry::TYPE_DEBUG_DECODE);
 
-	Frame const end = frame + length - 1;
+	Frame const from = frame;
+	Frame const to = from + length;
+	Frame const have_from = _decoded.frame;
+	Frame const have_to = _decoded.frame + _decoded.audio->frames();
 
-	/* If we are less than (about) 5 seconds behind the data that we want we'll
-	   run through it rather than seeking.
-	*/
-	Frame const slack = 5 * 48000;
+	optional<Frame> missing;
+	if (have_from > from || have_to < to) {
+		/* We need something */
+		if (have_from < from && from < have_to) {
+			missing = have_to;
+		} else {
+			missing = from;
+		}
+	}
 
-	if (frame < _decoded.frame || end > (_decoded.frame + _decoded.audio->frames() + slack)) {
-		/* Either we have no decoded data, all our data is after the time that we
-		   want, or what we do have is a long way from what we want: seek */
-		_decoder->seek (ContentTime::from_frames (frame, _content->resampled_frame_rate()), accurate);
+	if (missing) {
+		_decoder->maybe_seek (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
 	}
 
 	/* Offset of the data that we want from the start of _decoded.audio
@@ -98,7 +104,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	if (accurate) {
 		/* Keep stuffing data into _decoded until we have enough data, or the subclass does not want to give us any more */
 		while (
-			(_decoded.frame > frame || (_decoded.frame + _decoded.audio->frames()) < end) &&
+			(_decoded.frame > frame || (_decoded.frame + _decoded.audio->frames()) <= to) &&
 			!_decoder->pass (Decoder::PASS_REASON_AUDIO, accurate)
 			)
 		{}
@@ -106,7 +112,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 		decoded_offset = frame - _decoded.frame;
 
 		_log->log (
-			String::compose ("Accurate ADS::get has offset %1 from request %2 and available %3", decoded_offset, frame, _decoded.frame),
+			String::compose ("Accurate ADS::get has offset %1 from request %2 and available %3", decoded_offset, frame, have_from),
 			LogEntry::TYPE_DEBUG_DECODE
 			);
 	} else {

@@ -52,6 +52,7 @@ private:
 	bool pass (PassReason, bool accurate);
 	void seek (ContentTime time, bool);
 	void flush ();
+	void update_position (ContentTime p);
 
 	AVSampleFormat audio_sample_format (boost::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (boost::shared_ptr<FFmpegAudioStream> stream) const;
