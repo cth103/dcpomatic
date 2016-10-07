@@ -275,6 +275,10 @@ public:
 	bool operator== (TimePeriod<T> const & other) const {
 		return from == other.from && to == other.to;
 	}
+
+	bool operator!= (TimePeriod<T> const & other) const {
+		return !(*this == other);
+	}
 };
 
 typedef TimePeriod<ContentTime> ContentTimePeriod;

@@ -69,7 +69,7 @@ private:
 	boost::shared_ptr<const SubtitleContent> _content;
 
 	template <class T>
-	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting, bool accurate);
+	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool accurate);
 
 	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _image_during;
 	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _text_during;

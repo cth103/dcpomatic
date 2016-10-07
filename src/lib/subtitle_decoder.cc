@@ -78,13 +78,15 @@ SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> 
 	_decoded_text.push_back (ContentTextSubtitle (period, s));
 }
 
-/** @param sp Full periods of subtitles that are showing or starting during the specified period */
+/** Get the subtitles that correspond to a given list of periods.
+ *  @param subs Subtitles.
+ *  @param sp Periods for which to extract subtitles from subs.
+ */
 template <class T>
 list<T>
-SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool starting, bool accurate)
+SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool accurate)
 {
 	if (sp.empty ()) {
-		/* Nothing in this period */
 		return list<T> ();
 	}
 
@@ -103,9 +105,13 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 	/* XXX: inefficient */
 
 	list<T> out;
-	for (typename list<T>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if ((starting && period.contains(i->period().from)) || (!starting && period.overlap(i->period()))) {
-			out.push_back (*i);
+	BOOST_FOREACH (ContentTimePeriod i, sp) {
+		typename list<T>::const_iterator j = subs.begin();
+		while (j != subs.end() && j->period() != i) {
+			++j;
+		}
+		if (j != subs.end()) {
+			out.push_back (*j);
 		}
 	}
 
@@ -132,13 +138,13 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 list<ContentTextSubtitle>
 SubtitleDecoder::get_text (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentTextSubtitle> (_decoded_text, _text_during (period, starting), period, starting, accurate);
+	return get<ContentTextSubtitle> (_decoded_text, _text_during (period, starting), period, accurate);
 }
 
 list<ContentImageSubtitle>
 SubtitleDecoder::get_image (ContentTimePeriod period, bool starting, bool accurate)
 {
-	return get<ContentImageSubtitle> (_decoded_image, _image_during (period, starting), period, starting, accurate);
+	return get<ContentImageSubtitle> (_decoded_image, _image_during (period, starting), period, accurate);
 }
 
 void
@@ -170,7 +176,7 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 		}
 	}
 
-	/* Find the lowest proportional postion */
+	/* Find the lowest proportional position */
 	optional<float> lowest_proportional;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
 		if (i.vertical_position.proportional) {
@@ -187,7 +193,7 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 		BOOST_FOREACH (sub::Block j, i.blocks) {
 
 			if (!j.font_size.specified()) {
-				/* Fallback default font size if none other has been specified */
+				/* Fallback default font size if no other has been specified */
 				j.font_size.set_points (48);
 			}
 

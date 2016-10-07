@@ -1,3 +1,7 @@
+2016-10-08  Carl Hetherington  <cth@carlh.net>
+
+	* Fix overlapping burnt-in subtitles in some cases (#959).
+
 2016-10-07  Carl Hetherington  <cth@carlh.net>
 
 	* Fix XML subtitle output in some cases.

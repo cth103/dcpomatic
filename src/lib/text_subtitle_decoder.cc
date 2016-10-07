@@ -85,10 +85,20 @@ TextSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) 
 
 	list<ContentTimePeriod> d;
 
+	/* Only take `during' (not starting) subs if they overlap more than half the requested period;
+	   here's the threshold for being significant.
+	*/
+	ContentTime const significant (p.duration().get() / 2);
+
 	for (vector<sub::Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 		ContentTimePeriod t = content_time_period (*i);
-		if ((starting && p.contains (t.from)) || (!starting && p.overlap (t))) {
+		if (starting && p.contains(t.from)) {
 			d.push_back (t);
+		} else if (!starting) {
+			optional<ContentTimePeriod> const o = p.overlap (t);
+			if (o && o->duration() > significant) {
+				d.push_back (t);
+			}
 		}
 	}
 
