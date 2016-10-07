@@ -1,4 +1,6 @@
 \documentclass{article}
+\usepackage[usenames]{xcolor}
+\usepackage{listings}
 \title{Decoder structures}
 \author{}
 \date{}
@@ -54,5 +56,70 @@ These disadvantages suggest that the first approach is better.
 One might think that the logical conclusion is to take streams all the
 way back to the player and resample them there, but the resampling
 must occur on the other side of the get-stuff-at-time API.
+
+
+\section{Going back}
+
+Thinking about this again in October 2016 it feels like the
+get-stuff-at-this-time API is causing problems.  It especially seems
+to be a bad fit for previewing audio.  The API is nice for callers,
+but there is a lot of dancing around behind it to make it work, and it
+seems that it is more `flexible' than necessary; all callers ever do
+is seek or run.
+
+Hence there is a temptation to go back to see-what-comes-out.
+
+There are two operations: make DCP and preview.  Make DCP seems to be
+
+\lstset{language=C++}
+\lstset{basicstyle=\footnotesize\ttfamily,
+        breaklines=true,
+        keywordstyle=\color{blue}\ttfamily,
+        stringstyle=\color{red}\ttfamily,
+        commentstyle=\color{olive}\ttfamily}
+
+\begin{lstlisting}
+  while (!done) {
+    done = player->pass();
+    // pass() causes things to appear which are
+    // sent to encoders / disk
+  }
+\end{lstlisting}
+
+And preview seems to be
+
+\begin{lstlisting}
+  // Thread 1
+  while (!done) {
+    done = player->pass();
+    // pass() causes things to appear which are buffered
+    sleep_until_buffers_empty();
+  }
+
+  // Thread 2
+  while (true) {
+    get_video_and_audio_from_buffers();
+    push_to_output();
+    sleep();
+  }
+\end{lstlisting}
+
+\texttt{Player::pass} must call \texttt{pass()} on its decoders.  They
+will emit stuff which \texttt{Player} must adjust (mixing sound etc.).
+Player then emits the `final cut', which must have properties like no
+gaps in video/audio.
+
+One problem I remember is which decoder to pass() at any given time:
+it must be the one with the earliest last output, presumably.
+Resampling also looks fiddly in the v1 code.
+
+Possible steps:
+\begin{enumerate}
+\item Add signals to \texttt{Player}; remove \texttt{get\_*}
+\item Give player a \texttt{pass()} which calls decoders and sanitises
+  output.
+\item Make transcoder attach to \texttt{Player} and pass output through to encoding.
+\item Make preview attach to \texttt{Player}, buffer the output and then fetch it from a UI thread.
+\end{enumerate}
 
 \end{document}
