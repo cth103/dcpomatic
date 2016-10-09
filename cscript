@@ -364,7 +364,7 @@ def package(target, version):
             return package_rpm(target, cpu, version)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
-        return os.path.abspath(glob.glob('build/platform/osx/DCP-o-matic*.dmg')[0])
+        return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
 
 def make_pot(target):
     target.command('./waf pot')
