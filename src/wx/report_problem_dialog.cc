@@ -63,7 +63,7 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	_table->Add (_send_logs, 1, wxEXPAND);
 	_table->AddSpacer (0);
 
-	add_label_to_sizer (_table, this, _("Contact email"), true);
+	add_label_to_sizer (_table, this, _("Your email address"), true);
 	_email = new wxTextCtrl (this, wxID_ANY, wxT (""));
 	_email->SetValue (std_to_wx (Config::instance()->kdm_from ()));
 	_table->Add (_email, 1, wxEXPAND);
@@ -100,6 +100,11 @@ ReportProblemDialog::report ()
 {
 	if (_email->GetValue().IsEmpty ()) {
 		error_dialog (this, _("Please enter an email address so that we can contact you with any queries about the problem."));
+		return;
+	}
+
+	if (_email->GetValue() == "carl@dcpomatic.com" || _email->GetValue() == "cth@carlh.net") {
+		error_dialog (this, wxString::Format (_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
 		return;
 	}
 
