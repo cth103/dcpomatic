@@ -251,27 +251,32 @@ DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) cons
 	list<ContentTimePeriod> ctp;
 	double const vfr = _dcp_content->active_video_frame_rate ();
 
+	int offset = 0;
+
 	BOOST_FOREACH (shared_ptr<dcp::Reel> r, _reels) {
 		if (!r->main_subtitle ()) {
+			offset += r->main_picture()->duration();
 			continue;
 		}
 
 		int64_t const entry_point = r->main_subtitle()->entry_point ();
 
 		list<dcp::SubtitleString> subs = r->main_subtitle()->asset()->subtitles_during (
-			dcp::Time (period.from.seconds(), 1000) - dcp::Time (entry_point, vfr, vfr),
-			dcp::Time (period.to.seconds(), 1000) - dcp::Time (entry_point, vfr, vfr),
+			dcp::Time (period.from.seconds(), 1000) - dcp::Time (offset - entry_point, vfr, vfr),
+			dcp::Time (period.to.seconds(), 1000) - dcp::Time (offset - entry_point, vfr, vfr),
 			starting
 			);
 
 		BOOST_FOREACH (dcp::SubtitleString const & s, subs) {
 			ctp.push_back (
 				ContentTimePeriod (
-					ContentTime::from_seconds (s.in().as_seconds ()),
-					ContentTime::from_seconds (s.out().as_seconds ())
+					ContentTime::from_seconds (s.in().as_seconds ()) + ContentTime::from_frames (offset - entry_point, vfr),
+					ContentTime::from_seconds (s.out().as_seconds ()) + ContentTime::from_frames (offset - entry_point, vfr)
 					)
 				);
 		}
+
+		offset += r->main_subtitle()->duration();
 	}
 
 	return ctp;
