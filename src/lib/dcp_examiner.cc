@@ -192,10 +192,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 		}
 	} catch (dcp::DCPReadError& e) {
 		_kdm_valid = false;
-		if (_encrypted && content->kdm ()) {
-			/* XXX: maybe don't use an exception for this */
-			throw runtime_error (_("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."));
-		}
 	}
 
 	DCPOMATIC_ASSERT (cpl->standard ());

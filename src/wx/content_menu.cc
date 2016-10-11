@@ -94,6 +94,10 @@ ContentMenu::ContentMenu (wxWindow* p)
 ContentMenu::~ContentMenu ()
 {
 	delete _menu;
+
+	BOOST_FOREACH (boost::signals2::connection& i, _job_connections) {
+		i.disconnect ();
+	}
 }
 
 void
@@ -306,13 +310,15 @@ ContentMenu::find_missing ()
 
 	shared_ptr<Job> j (new ExamineContentJob (film, content));
 
-	_job_connection = j->Finished.connect (
-		bind (
-			&ContentMenu::maybe_found_missing,
-			this,
-			boost::weak_ptr<Job> (j),
-			boost::weak_ptr<Content> (_content.front ()),
-			boost::weak_ptr<Content> (content)
+	_job_connections.push_back (
+		j->Finished.connect (
+			bind (
+				&ContentMenu::maybe_found_missing,
+				this,
+				boost::weak_ptr<Job> (j),
+				boost::weak_ptr<Content> (_content.front ()),
+				boost::weak_ptr<Content> (content)
+				)
 			)
 		);
 
@@ -328,7 +334,7 @@ ContentMenu::re_examine ()
 	}
 
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		film->examine_content (i);
+		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, i)));
 	}
 }
 
@@ -373,10 +379,27 @@ ContentMenu::kdm ()
 
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
-		film->examine_content (dcp);
+		shared_ptr<Job> j (new ExamineContentJob (film, dcp));
+		_job_connections.push_back (
+			j->Finished.connect (bind (&ContentMenu::check_kdm_validity, this, weak_ptr<DCPContent> (dcp)))
+			);
+		JobManager::instance()->add (j);
 	}
 
 	d->Destroy ();
+}
+
+void
+ContentMenu::check_kdm_validity (weak_ptr<DCPContent> wp)
+{
+	shared_ptr<DCPContent> dcp = wp.lock ();
+	if (!dcp) {
+		return;
+	}
+
+	if (dcp->needs_kdm ()) {
+		error_dialog (0, _("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."));
+	}
 }
 
 void
@@ -392,7 +415,7 @@ ContentMenu::ov ()
 		dcp->add_ov (wx_to_std (d->GetPath ()));
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
-		film->examine_content (dcp);
+		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, dcp)));
 	}
 
 	d->Destroy ();
@@ -425,5 +448,5 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 	dcp->set_cpl ((*i)->id ());
 	shared_ptr<Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	film->examine_content (dcp);
+	JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, dcp)));
 }

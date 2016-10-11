@@ -1028,13 +1028,6 @@ Film::content () const
 }
 
 void
-Film::examine_content (shared_ptr<Content> c)
-{
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
-	JobManager::instance()->add (j);
-}
-
-void
 Film::examine_and_add_content (shared_ptr<Content> c)
 {
 	if (dynamic_pointer_cast<FFmpegContent> (c) && _directory) {

@@ -29,6 +29,7 @@
 
 class Film;
 class Job;
+class DCPContent;
 
 class ContentMenu : public boost::noncopyable
 {
@@ -49,6 +50,7 @@ private:
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 	void cpl_selected (wxCommandEvent& ev);
+	void check_kdm_validity (boost::weak_ptr<DCPContent> wp);
 
 	wxMenu* _menu;
 	wxMenu* _cpl_menu;
@@ -67,7 +69,7 @@ private:
 	wxMenuItem* _choose_cpl;
 	wxMenuItem* _remove;
 
-	boost::signals2::scoped_connection _job_connection;
+	std::list<boost::signals2::connection> _job_connections;
 };
 
 #endif
