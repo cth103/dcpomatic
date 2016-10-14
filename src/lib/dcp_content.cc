@@ -59,6 +59,7 @@ int const DCPContentProperty::NEEDS_KDM          = 601;
 int const DCPContentProperty::REFERENCE_VIDEO    = 602;
 int const DCPContentProperty::REFERENCE_AUDIO    = 603;
 int const DCPContentProperty::REFERENCE_SUBTITLE = 604;
+int const DCPContentProperty::NAME               = 605;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -138,6 +139,7 @@ DCPContent::examine (shared_ptr<Job> job)
 {
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
+	string const old_name = name ();
 
 	job->set_progress_unknown ();
 	Content::examine (job);
@@ -178,6 +180,10 @@ DCPContent::examine (shared_ptr<Job> job)
 
 	if (needed_kdm != needs_kdm ()) {
 		signal_changed (DCPContentProperty::NEEDS_KDM);
+	}
+
+	if (old_name != name ()) {
+		signal_changed (DCPContentProperty::NAME);
 	}
 
 	video->set_frame_type (_three_d ? VIDEO_FRAME_TYPE_3D : VIDEO_FRAME_TYPE_2D);

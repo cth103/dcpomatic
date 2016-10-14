@@ -37,6 +37,7 @@ public:
 	static int const REFERENCE_VIDEO;
 	static int const REFERENCE_AUDIO;
 	static int const REFERENCE_SUBTITLE;
+	static int const NAME;
 };
 
 class ContentPart;
@@ -134,6 +135,11 @@ private:
 		std::string overlapping,
 		std::list<std::string>& why_not
 		) const;
+
+	std::string name () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _name;
+	}
 
 	std::string _name;
 	/** true if our DCP is encrypted */

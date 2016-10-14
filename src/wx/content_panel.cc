@@ -481,7 +481,13 @@ ContentPanel::set_selection (ContentList cl)
 void
 ContentPanel::film_content_changed (int property)
 {
-	if (property == ContentProperty::PATH || property == DCPContentProperty::NEEDS_ASSETS || property == DCPContentProperty::NEEDS_KDM) {
+	if (
+		property == ContentProperty::PATH ||
+		property == DCPContentProperty::NEEDS_ASSETS ||
+		property == DCPContentProperty::NEEDS_KDM ||
+		property == DCPContentProperty::NAME
+		) {
+
 		setup ();
 	}
 
