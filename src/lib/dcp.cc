@@ -38,9 +38,6 @@ DCP::cpls () const
 	BOOST_FOREACH (boost::filesystem::path i, _dcp_content->directories()) {
 		shared_ptr<dcp::DCP> dcp (new dcp::DCP (i));
 		dcp->read (false, 0, true);
-		if (_dcp_content->kdm ()) {
-			dcp->add (dcp::DecryptedKDM (_dcp_content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
-		}
 		dcps.push_back (dcp);
 		BOOST_FOREACH (shared_ptr<dcp::CPL> i, dcp->cpls()) {
 			cpls.push_back (i);
@@ -52,6 +49,12 @@ DCP::cpls () const
 			if (i != j) {
 				i->resolve_refs (j->assets ());
 			}
+		}
+	}
+
+	if (_dcp_content->kdm ()) {
+		BOOST_FOREACH (shared_ptr<dcp::DCP> i, dcps) {
+			i->add (dcp::DecryptedKDM (_dcp_content->kdm().get(), Config::instance()->decryption_chain()->key().get ()));
 		}
 	}
 

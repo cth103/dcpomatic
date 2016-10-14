@@ -379,27 +379,10 @@ ContentMenu::kdm ()
 
 		shared_ptr<Film> film = _film.lock ();
 		DCPOMATIC_ASSERT (film);
-		shared_ptr<Job> j (new ExamineContentJob (film, dcp));
-		_job_connections.push_back (
-			j->Finished.connect (bind (&ContentMenu::check_kdm_validity, this, weak_ptr<DCPContent> (dcp)))
-			);
-		JobManager::instance()->add (j);
+		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, dcp)));
 	}
 
 	d->Destroy ();
-}
-
-void
-ContentMenu::check_kdm_validity (weak_ptr<DCPContent> wp)
-{
-	shared_ptr<DCPContent> dcp = wp.lock ();
-	if (!dcp) {
-		return;
-	}
-
-	if (dcp->needs_kdm ()) {
-		error_dialog (0, _("The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."));
-	}
 }
 
 void
