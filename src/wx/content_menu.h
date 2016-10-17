@@ -50,7 +50,6 @@ private:
 	void remove ();
 	void maybe_found_missing (boost::weak_ptr<Job>, boost::weak_ptr<Content>, boost::weak_ptr<Content>);
 	void cpl_selected (wxCommandEvent& ev);
-	void check_kdm_validity (boost::weak_ptr<DCPContent> wp);
 
 	wxMenu* _menu;
 	wxMenu* _cpl_menu;
