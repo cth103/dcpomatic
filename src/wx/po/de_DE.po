@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-03 00:58+0100\n"
-"PO-Revision-Date: 2016-08-30 02:11+0100\n"
+"PO-Revision-Date: 2016-10-09 23:30+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -227,7 +227,7 @@ msgstr "Darstellung..."
 
 #: src/wx/job_view.cc:125
 msgid "Are you sure you want to cancel this job?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie abbrechen möchten?"
 
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
@@ -1077,7 +1077,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-03 00:58+0100\n"
-"PO-Revision-Date: 2016-08-30 02:14+0100\n"
+"PO-Revision-Date: 2016-10-18 01:41+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -119,7 +118,7 @@ msgstr "1.33:1 (4:3)"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f fps"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -1057,7 +1056,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:419
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "Dieses Projekt verwendet eine andere Bildrate als dieses DCP."
 
 #: src/lib/dcp_content.cc:412
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1081,7 +1080,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:448
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
 #: src/lib/dcp_content.cc:466
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1273,6 +1272,9 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"Ihr DCP verwendet ein unübliches Containerformat, dies kann auf manchen "
+"Projektionssystemen Probleme verursachen. Bitte verwenden Sie wann immer "
+"möglich Flat oder Scope Container."
 
 #: src/lib/hints.cc:158
 msgid ""
