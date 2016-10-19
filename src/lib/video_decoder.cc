@@ -90,15 +90,19 @@ VideoDecoder::get (Frame frame, bool accurate)
 		_parent->seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
 	}
 
+	/* Work out the number of frames that we should return; we
+	   must return all frames in our content at the requested `time'
+	   (i.e. frame)
+	*/
 	unsigned int frames_wanted = 0;
 	switch (_content->video->frame_type()) {
 	case VIDEO_FRAME_TYPE_2D:
-	case VIDEO_FRAME_TYPE_3D:
-	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 	case VIDEO_FRAME_TYPE_3D_LEFT:
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
 		frames_wanted = 1;
 		break;
+	case VIDEO_FRAME_TYPE_3D:
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
 		frames_wanted = 2;
@@ -263,15 +267,17 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_BOTH), PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D:
-	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 	{
-		/* We receive the same frame index twice for 3D-alternate; hence we know which
+		/* We receive the same frame index twice for 3D; hence we know which
 		   frame this one is.
 		*/
 		bool const same = (!_decoded.empty() && frame == _decoded.back().frame.index());
 		to_push.push_back (ContentVideo (image, VideoFrame (frame, same ? EYES_RIGHT : EYES_LEFT), PART_WHOLE));
 		break;
 	}
+	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+		to_push.push_back (ContentVideo (image, VideoFrame (frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT), PART_WHOLE));
+		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_LEFT_HALF));
 		to_push.push_back (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_RIGHT_HALF));

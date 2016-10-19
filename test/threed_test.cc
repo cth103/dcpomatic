@@ -34,15 +34,38 @@
 using std::cout;
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (threed_test)
+BOOST_AUTO_TEST_CASE (threed_test1)
 {
-	shared_ptr<Film> film = new_test_film ("threed_test");
+	shared_ptr<Film> film = new_test_film ("threed_test2");
 	film->set_name ("test_film2");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->examine_and_add_content (c);
 	wait_for_jobs ();
 
 	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D_LEFT_RIGHT);
+	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
+
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	film->set_three_d (true);
+	film->make_dcp ();
+	film->write_metadata ();
+
+	wait_for_jobs ();
+}
+
+/** Basic sanity check of 3D-alternate; at the moment this is just to make sure
+ *  that such a transcode completes without error.
+ */
+BOOST_AUTO_TEST_CASE (threed_test2)
+{
+	shared_ptr<Film> film = new_test_film ("threed_test2");
+	film->set_name ("test_film2");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (c);
+	wait_for_jobs ();
+
+	c->video->set_frame_type (VIDEO_FRAME_TYPE_3D_ALTERNATE);
 	c->video->set_scale (VideoContentScale (Ratio::from_id ("185")));
 
 	film->set_container (Ratio::from_id ("185"));
