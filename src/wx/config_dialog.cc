@@ -624,7 +624,6 @@ private:
 			columns,
 			boost::bind (&Config::servers, Config::instance()),
 			boost::bind (&Config::set_servers, Config::instance(), _1),
-			boost::bind (&always_valid),
 			boost::bind (&EncodingServersPage::server_column, this, _1)
 			);
 
@@ -1276,7 +1275,6 @@ private:
 			columns,
 			bind (&Config::kdm_cc, Config::instance()),
 			bind (&Config::set_kdm_cc, Config::instance(), _1),
-			bind (&string_not_empty, _1),
 			bind (&column, _1)
 			);
 		table->Add (_kdm_cc, 1, wxEXPAND | wxALL);

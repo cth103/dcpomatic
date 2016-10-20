@@ -26,7 +26,7 @@ public:
 	ServerDialog (wxWindow *);
 
 	void set (std::string);
-	std::string get () const;
+	boost::optional<std::string> get () const;
 
 private:
 	wxTextCtrl* _host;

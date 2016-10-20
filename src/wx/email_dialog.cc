@@ -23,6 +23,7 @@
 
 using std::string;
 using boost::shared_ptr;
+using boost::optional;
 
 EmailDialog::EmailDialog (wxWindow* parent)
 	: TableDialog (parent, _("Email address"), 2, 1, true)
@@ -39,8 +40,14 @@ EmailDialog::set (string address)
 	_email->SetValue (std_to_wx (address));
 }
 
-string
+optional<string>
 EmailDialog::get () const
 {
-	return wx_to_std (_email->GetValue ());
+	string s = wx_to_std (_email->GetValue ());
+	if (s.empty ()) {
+		/* Invalid email address */
+		return optional<string> ();
+	}
+
+	return s;
 }

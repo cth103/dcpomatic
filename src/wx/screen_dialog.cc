@@ -105,7 +105,6 @@ ScreenDialog::ScreenDialog (
 		columns,
 		bind (&ScreenDialog::trusted_devices, this),
 		bind (&ScreenDialog::set_trusted_devices, this, _1),
-		bind (&always_valid),
 		bind (&column, _1),
 		false
 		);

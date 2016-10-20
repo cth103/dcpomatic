@@ -32,7 +32,7 @@ public:
 
 	void set (T) {}
 
-	T get ()
+	boost::optional<T> get ()
 	{
 		return T (dcp::file_to_string (wx_to_std (_dialog->GetPath ())));
 	}
@@ -49,7 +49,7 @@ public:
 		delete this;
 	}
 
-private:
+protected:
 	wxWindow* _parent;
 	wxFileDialog* _dialog;
 };

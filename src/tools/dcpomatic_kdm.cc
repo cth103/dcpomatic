@@ -62,6 +62,7 @@ using std::string;
 using std::vector;
 using boost::shared_ptr;
 using boost::bind;
+using boost::optional;
 
 enum {
 	ID_help_report_a_problem = 1,
@@ -74,6 +75,17 @@ public:
 		: FileDialogWrapper<dcp::EncryptedKDM> (parent, _("Select DKDM file"))
 	{
 
+	}
+
+	optional<dcp::EncryptedKDM> get ()
+	{
+		try {
+			return dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (_dialog->GetPath ())));
+		} catch (cxml::Error& e) {
+			error_dialog (_parent, wxString::Format ("This file does not look like a KDM (%s)", std_to_wx (e.what()).data()));
+		}
+
+		return optional<dcp::EncryptedKDM> ();
 	}
 };
 
@@ -156,7 +168,7 @@ public:
 		vector<string> columns;
 		columns.push_back (wx_to_std (_("CPL")));
 		_dkdm = new EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper> (
-			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&always_valid), bind (&column, _1), false
+			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&column, _1), false
 			);
 		right->Add (_dkdm, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 

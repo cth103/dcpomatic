@@ -70,7 +70,7 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	vector<string> columns;
 	columns.push_back (wx_to_std (_("Address")));
 	_email_list = new EditableList<string, EmailDialog> (
-		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), bind (&string_not_empty, _1), bind (&column, _1)
+		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), bind (&column, _1)
 		);
 
 	sizer->Add (_email_list, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND);

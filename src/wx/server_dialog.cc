@@ -24,6 +24,7 @@
 
 using std::string;
 using boost::shared_ptr;
+using boost::optional;
 
 ServerDialog::ServerDialog (wxWindow* parent)
 	: TableDialog (parent, _("Server"), 2, 1, true)
@@ -48,7 +49,7 @@ ServerDialog::set (string server)
 	_host->SetValue (std_to_wx (server));
 }
 
-string
+optional<string>
 ServerDialog::get () const
 {
 	return wx_to_std (_host->GetValue ());
