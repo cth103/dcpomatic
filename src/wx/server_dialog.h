@@ -19,6 +19,7 @@
 */
 
 #include "table_dialog.h"
+#include <boost/optional.hpp>
 
 class ServerDialog : public TableDialog
 {
