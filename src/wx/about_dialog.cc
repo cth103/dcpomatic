@@ -180,6 +180,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Film.Ca Inc."));
 	supported_by.Add (wxT ("Denis Ivashvkevych"));
 	supported_by.Add (wxT ("Karl Jacob"));
+	supported_by.Add (wxT ("Henrik Jäger"));
 	supported_by.Add (wxT ("Tomasz Jagi"));
 	supported_by.Add (wxT ("Jonathan Jensen"));
 	supported_by.Add (wxT ("Mathew Johns"));
@@ -191,6 +192,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Erwan Kerzanet"));
 	supported_by.Add (wxT ("Kert Kiima"));
 	supported_by.Add (wxT ("Alabama Kino"));
+	supported_by.Add (wxT ("James Kirst"));
 	supported_by.Add (wxT ("Adam Klotblixt"));
 	supported_by.Add (wxT ("Filip Kovcin"));
 	supported_by.Add (wxT ("Cihan Kulaber"));
