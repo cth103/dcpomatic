@@ -103,6 +103,9 @@ DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) c
 		}
 	}
 
+	d.sort ();
+	d.unique ();
+
 	return d;
 }
 
