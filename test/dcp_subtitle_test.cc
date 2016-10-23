@@ -122,3 +122,37 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	BOOST_REQUIRE_EQUAL (sub.front().subs.size(), 1);
 	BOOST_CHECK_EQUAL (sub.front().subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
 }
+
+/** Test a failure case */
+BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
+{
+	shared_ptr<Film> film = new_test_film ("dcp_subtitle_test3");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	film->set_interop (true);
+	shared_ptr<DCPSubtitleContent> content (new DCPSubtitleContent (film, "test/data/dcp_sub3.xml"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content));
+	list<ContentTextSubtitle> sub = decoder->subtitle->get_text (
+		ContentTimePeriod (ContentTime::from_seconds(0), ContentTime::from_seconds(2)), true, true
+		);
+	BOOST_REQUIRE_EQUAL (sub.size(), 1);
+	BOOST_REQUIRE_EQUAL (sub.front().subs.size(), 3);
+	list<dcp::SubtitleString> s = sub.front().subs;
+	list<dcp::SubtitleString>::const_iterator i = s.begin ();
+	BOOST_CHECK_EQUAL (i->text(), "This");
+	++i;
+	BOOST_REQUIRE (i != s.end ());
+	BOOST_CHECK_EQUAL (i->text(), " is ");
+	++i;
+	BOOST_REQUIRE (i != s.end ());
+	BOOST_CHECK_EQUAL (i->text(), "wrong.");
+	++i;
+	BOOST_REQUIRE (i == s.end ());
+}
