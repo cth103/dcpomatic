@@ -130,6 +130,48 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	check_subtitle_file (film, private_data / "Ankoemmling.xml");
 }
 
+/** Build a small DCP with no picture and a single subtitle overlaid onto it */
+BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
+{
+	shared_ptr<Film> film = new_test_film ("srt_subtitle_test4");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	/* Should be blank video with MXF subtitles */
+	check_dcp ("test/data/xml_subtitle_test", film->dir (film->dcp_name ()));
+}
+
+/** Check the subtitle XML when there are two subtitle files in the project */
+BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
+{
+	shared_ptr<Film> film = new_test_film ("srt_subtitle_test5");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_name ("frobozz");
+	film->set_interop (true);
+	film->set_sequence (false);
+	shared_ptr<TextSubtitleContent> content (new TextSubtitleContent (film, "test/data/subrip2.srt"));
+	content->subtitle->set_use (true);
+	content->subtitle->set_burn (false);
+	film->examine_and_add_content (content);
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+	content->set_position (DCPTime (0));
+	film->make_dcp ();
+	wait_for_jobs ();
+	film->write_metadata ();
+
+	check_dcp ("test/data/xml_subtitle_test2", film->dir (film->dcp_name ()));
+}
+
 #if 0
 /* XXX: this is disabled; there is some difference in font rendering
    between the test machine and others.
