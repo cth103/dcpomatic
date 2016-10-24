@@ -39,6 +39,7 @@
 #include <fstream>
 #include <cerrno>
 #include <iostream>
+#include <cfloat>
 
 #include "i18n.h"
 
