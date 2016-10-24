@@ -87,7 +87,15 @@ VideoDecoder::get (Frame frame, bool accurate)
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	if (_decoded.empty() || frame < _decoded.front().frame.index() || frame > (_decoded.back().frame.index() + 1)) {
-		_parent->seek (ContentTime::from_frames (frame, _content->active_video_frame_rate()), accurate);
+		Frame seek_frame = frame;
+		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
+			/* 3D alternate is a special case as the frame index in the content is not the same
+			   as the frame index we are talking about here.
+			*/
+			seek_frame *= 2;
+		}
+		_log->log (String::compose ("VD seeks to %1", seek_frame), LogEntry::TYPE_DEBUG_DECODE);
+		_parent->seek (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
 	}
 
 	/* Work out the number of frames that we should return; we
@@ -250,7 +258,15 @@ VideoDecoder::fill_both_eyes (VideoFrame from, VideoFrame to)
 	}
 }
 
-/** Called by decoder classes when they have a video frame ready */
+/** Called by decoder classes when they have a video frame ready.
+ *  @param frame Frame index within the content; this does not take into account 3D
+ *  so for 3D_ALTERNATE this value goes:
+ *     0: frame 0 left
+ *     1: frame 0 right
+ *     2: frame 1 left
+ *     3: frame 1 right
+ *  and so on.
+ */
 void
 VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 {
