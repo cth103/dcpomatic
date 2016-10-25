@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-04-26 17:12+0100\n"
+"PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -140,6 +140,8 @@ msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
+"Är du säker att du vill återställa inställningarna till sina "
+"ursprungsvärden? Detta kan inte ångras."
 
 #: src/tools/dcpomatic.cc:503
 #, c-format
@@ -242,7 +244,7 @@ msgstr "Råd...\tCtrl-H"
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "KDM|Timing"
-msgstr ""
+msgstr "Tajming"
 
 #: src/tools/dcpomatic.cc:891
 msgid "Make &KDMs...\tCtrl-K"
@@ -258,7 +260,7 @@ msgstr "Skapa DKDM för DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:900
 msgid "Manage templates..."
-msgstr ""
+msgstr "Hantera mallar..."
 
 #: src/tools/dcpomatic.cc:858
 msgid "New...\tCtrl-N"
@@ -282,7 +284,7 @@ msgstr "&Visa DCP"
 
 #: src/tools/dcpomatic.cc:863
 msgid "Save as &template..."
-msgstr ""
+msgstr "Spara som &mall..."
 
 #: src/tools/dcpomatic.cc:110
 #, c-format
@@ -356,6 +358,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"Den existerande konfigurationen kunde inte laddas. Standardvärden används "
+"istället. Detta kan ta en kort stund att skapa."
 
 #: src/tools/dcpomatic.cc:978
 msgid "There are no new versions of DCP-o-matic available."
