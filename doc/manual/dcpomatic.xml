@@ -1928,6 +1928,40 @@ when you add some content it will take on the settings of the
 first similarly-typed piece of content in your template.
 </para>
 
+<para>
+For example if the template has a piece of video content and some
+subtitles, any video that you add to the new film will take on the
+settings of the video in the template.  Similarly, any subtitles that
+you add will take on the settings of the subtitles from the template.
+</para>
+
+<para>
+The following settings from the <guilabel>DCP</guilabel> tab are saved
+in templates:
+</para>
+
+<itemizedlist>
+  <listitem>&ldquo;Use ISDCF name&rdquo; checkbox</listitem>
+  <listitem>Content type (FTR, TLR etc.)</listitem>
+  <listitem>Container</listitem>
+  <listitem>Resolution</listitem>
+  <listitem>JPEG200 bandwidth</listitem>
+  <listitem>Video frame rate</listitem>
+  <listitem>Signed and encrypted checkboxes</listitem>
+  <listitem>Audio channels</listitem>
+  <listitem>Standard (Interop / SMPTE)</listitem>
+  <listitem>Audio processor</listitem>
+  <listitem>Reel type and length</listitem>
+  <listitem>Upload after make DCP checkbox</listitem>
+</itemizedlist>
+
+<para>
+In addition to this, the settings (but not the filenames) of any
+content in the template are stored, as discussed above.  The status of
+the <guilabel>Keep video and subtitles in sequence</guilabel> checkbox
+from the timeline is also preserved.
+</para>
+
 </chapter>
 
 
