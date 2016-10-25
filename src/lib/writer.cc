@@ -39,6 +39,7 @@
 #include <fstream>
 #include <cerrno>
 #include <iostream>
+#include <cfloat>
 
 #include "i18n.h"
 
@@ -632,7 +633,7 @@ Writer::set_digest_progress (Job* job, float progress)
 	_digest_progresses[boost::this_thread::get_id()] = progress;
 
 	boost::mutex::scoped_lock lm (_digest_progresses_mutex);
-	float min_progress = 0;
+	float min_progress = FLT_MAX;
 	for (map<boost::thread::id, float>::const_iterator i = _digest_progresses.begin(); i != _digest_progresses.end(); ++i) {
 		min_progress = min (min_progress, i->second);
 	}

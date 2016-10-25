@@ -1,7 +1,18 @@
 2016-10-24  Carl Hetherington  <cth@carlh.net>
 
-	* Fix various problems with 3D alternate-frame
+	* Version 2.9.38 released.
+
+2016-10-24  Carl Hetherington  <cth@carlh.net>
+
+	* Fix more problems with 3D alternate-frame
 	sources.
+
+	* Allow creation of >60fps 3D DCPs.
+
+	* Fix over-fussy parsing of times from subtitles
+	files in some cases.
+
+	* Fix repeated subtitles in some cases.
 
 2016-10-19  Carl Hetherington  <cth@carlh.net>
 
@@ -10,7 +21,7 @@
 2016-10-19  Carl Hetherington  <cth@carlh.net>
 
 	* Fix various problems with 3D DCP creation
-	from 3D DCP and 3D-alernate-frame sources.
+	from 3D DCP and 3D-alternate-frame sources.
 
 2016-10-18  Carl Hetherington  <cth@carlh.net>
 
