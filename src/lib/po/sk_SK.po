@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 00:58+0100\n"
+"POT-Creation-Date: 2016-10-25 10:43+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:190
+#: src/lib/dcp_content.cc:196
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -291,7 +291,7 @@ msgstr "Farebný priestor"
 msgid "Computing digest"
 msgstr "Počítam zhrnutie"
 
-#: src/lib/writer.cc:467
+#: src/lib/writer.cc:468
 #, fuzzy
 msgid "Computing digests"
 msgstr "Počítam zhrnutie"
@@ -995,7 +995,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:1510
+#: src/lib/film.cc:1503
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1007,18 +1007,13 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr ""
 
-#: src/lib/dcp_content.cc:461
+#: src/lib/dcp_content.cc:467
 msgid "The DCP does not have sound in all reels."
 msgstr "DCP nemá zvuk vo všetkých reeloch."
 
-#: src/lib/dcp_content.cc:475
+#: src/lib/dcp_content.cc:481
 msgid "The DCP does not have subtitles in all reels."
 msgstr "DCP nemá titulky vo všetkých reeloch."
-
-#: src/lib/dcp_examiner.cc:197
-msgid ""
-"The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
-msgstr "KDM neodšifruje DCP. Možno, že je určený na zlom CPL."
 
 #: src/lib/exceptions.cc:73
 msgid "The certificate chain for signing is invalid"
@@ -1032,19 +1027,19 @@ msgstr ""
 "Disk, na ktorom sa nachádza film už má málo voľného miesta. Niečo vymažte a "
 "skúste to znovu."
 
-#: src/lib/dcp_content.cc:419
+#: src/lib/dcp_content.cc:425
 msgid "The film has a different frame rate to this DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:412
+#: src/lib/dcp_content.cc:418
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr ""
 
-#: src/lib/dcp_content.cc:409
+#: src/lib/dcp_content.cc:415
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr ""
 
-#: src/lib/dcp_content.cc:430
+#: src/lib/dcp_content.cc:436
 #, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
@@ -1053,19 +1048,19 @@ msgstr ""
 "Dĺžka reelu v projekte sa líši od tých v DCP; nastavte reel mod na 'rozdeliť "
 "podľa obsahu videa'."
 
-#: src/lib/dcp_content.cc:448
+#: src/lib/dcp_content.cc:454
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:472
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Už sa tu nachádza iný zvuk, ktorý sa prekrýva s DCP; zmaže ho."
 
-#: src/lib/dcp_content.cc:480
+#: src/lib/dcp_content.cc:486
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Už sa tu nachádzajú iné titulky, ktoré sa prekrývajú s DCP; zmaže ho."
 
-#: src/lib/dcp_content.cc:452
+#: src/lib/dcp_content.cc:458
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Už sa tu nachádza iné video, ktoré sa prekrýva s DCP; zmaže ho."
 
@@ -1218,7 +1213,7 @@ msgid ""
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
 
-#: src/lib/hints.cc:158
+#: src/lib/hints.cc:159
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1358,6 +1353,11 @@ msgstr "neznáme"
 #: src/lib/video_content.cc:459
 msgid "video frames"
 msgstr "video snímky"
+
+#~ msgid ""
+#~ "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong "
+#~ "CPL."
+#~ msgstr "KDM neodšifruje DCP. Možno, že je určený na zlom CPL."
 
 #~ msgid "could not create file %1"
 #~ msgstr "nemôžem vytvoriť súbor %1"

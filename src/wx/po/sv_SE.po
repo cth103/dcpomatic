@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 00:58+0100\n"
+"POT-Creation-Date: 2016-10-25 10:43+0100\n"
 "PO-Revision-Date: 2016-04-26 16:41+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -155,11 +155,11 @@ msgstr "Lägg till Biograf..."
 msgid "Add Cinema..."
 msgstr "Lägg till Biograf..."
 
-#: src/wx/content_menu.cc:70
+#: src/wx/content_menu.cc:75
 msgid "Add KDM..."
 msgstr "Lägg till KDM..."
 
-#: src/wx/content_menu.cc:71
+#: src/wx/content_menu.cc:76
 #, fuzzy
 msgid "Add OV..."
 msgstr "Lägg till KDM..."
@@ -196,11 +196,11 @@ msgstr "Lägg till bildsekvens"
 msgid "Add video, image or sound files to the film."
 msgstr "Lägg till video-, bild- eller audio-filer till filmen."
 
-#: src/wx/config_dialog.cc:711 src/wx/editable_list.h:78
+#: src/wx/config_dialog.cc:710 src/wx/editable_list.h:74
 msgid "Add..."
 msgstr "Lägg till..."
 
-#: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1272
+#: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1271
 msgid "Address"
 msgstr "Adress"
 
@@ -208,7 +208,7 @@ msgstr "Adress"
 msgid "Adjust white point to"
 msgstr "Justera vitpunkten till"
 
-#: src/wx/config_dialog.cc:1432
+#: src/wx/config_dialog.cc:1430
 msgid "Allow any DCP frame rate"
 msgstr "Tillåt valfri DCP bildhastighet"
 
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Appearance..."
 msgstr "Utseende..."
 
-#: src/wx/job_view.cc:125
+#: src/wx/job_view.cc:130
 msgid "Are you sure you want to cancel this job?"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr "Automatisk analys av audio-innehåll"
 msgid "B"
 msgstr "B"
 
-#: src/wx/config_dialog.cc:1284
+#: src/wx/config_dialog.cc:1282
 msgid "BCC address"
 msgstr "BCC adress"
 
@@ -305,7 +305,7 @@ msgstr "Bränn in undertexter i bilden"
 msgid "But I have to use fader"
 msgstr "Men jag måste använda mixervolym"
 
-#: src/wx/config_dialog.cc:1273
+#: src/wx/config_dialog.cc:1272
 msgid "CC addresses"
 msgstr "CC adresser"
 
@@ -330,7 +330,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Beräkna..."
 
-#: src/wx/job_view.cc:48
+#: src/wx/job_view.cc:57
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -362,7 +362,11 @@ msgstr "Sök efter testuppdateringar vid start"
 msgid "Check for updates on startup"
 msgstr "Sök efter uppdateringar vid start"
 
-#: src/wx/content_menu.cc:255
+#: src/wx/content_menu.cc:78
+msgid "Choose CPL..."
+msgstr ""
+
+#: src/wx/content_menu.cc:297
 msgid "Choose a file"
 msgstr "Välj en fil"
 
@@ -370,7 +374,7 @@ msgstr "Välj en fil"
 msgid "Choose a file or files"
 msgstr "Välj en fil eller filer"
 
-#: src/wx/content_menu.cc:250 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:292 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Välj en folder"
 
@@ -409,7 +413,7 @@ msgstr "Komponent"
 
 # Svengelska
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/config_dialog.cc:1480
+#: src/wx/config_dialog.cc:1478
 msgid "Config|Timing"
 msgstr "Tajming"
 
@@ -417,10 +421,6 @@ msgstr "Tajming"
 #, fuzzy
 msgid "Confirm KDM email"
 msgstr "KDM e-post"
-
-#: src/wx/report_problem_dialog.cc:66
-msgid "Contact email"
-msgstr "Kontakt e-post"
 
 #: src/wx/dcp_panel.cc:645
 msgid "Container"
@@ -460,18 +460,18 @@ msgstr "Kunde inte analysera audio."
 msgid "Could not get video for view (%s)"
 msgstr "Kunde inte få video för vy (%s)"
 
-#: src/wx/content_menu.cc:331
+#: src/wx/content_menu.cc:375
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Kunde inte ladda KDM (%s)"
 
-#: src/wx/config_dialog.cc:789 src/wx/config_dialog.cc:957
-#: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:159
+#: src/wx/config_dialog.cc:788 src/wx/config_dialog.cc:956
+#: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
 #, c-format
 msgid "Could not read certificate file (%s)"
 msgstr "Kunde inte läsa certifikatfil (%s)"
 
-#: src/wx/config_dialog.cc:948
+#: src/wx/config_dialog.cc:947
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kunde inte läsa nyckelfil; filen är för lång (%s)"
@@ -493,7 +493,7 @@ msgstr "Beskär"
 msgid "DCP"
 msgstr "DCP"
 
-#: src/wx/config_dialog.cc:1453
+#: src/wx/config_dialog.cc:1451
 msgid "DCP asset filename format"
 msgstr ""
 
@@ -501,7 +501,7 @@ msgstr ""
 msgid "DCP directory"
 msgstr "DCP register"
 
-#: src/wx/config_dialog.cc:1441
+#: src/wx/config_dialog.cc:1439
 msgid "DCP metadata filename format"
 msgstr ""
 
@@ -514,19 +514,19 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic audio"
 msgstr "DCP-o-matic audio"
 
-#: src/wx/config_dialog.cc:1482
+#: src/wx/config_dialog.cc:1480
 msgid "Debug: decode"
 msgstr "Debug: avkodar"
 
-#: src/wx/config_dialog.cc:1486
+#: src/wx/config_dialog.cc:1484
 msgid "Debug: email sending"
 msgstr "Debug: e-post skickas"
 
-#: src/wx/config_dialog.cc:1484
+#: src/wx/config_dialog.cc:1482
 msgid "Debug: encode"
 msgstr "Debug: kodar"
 
-#: src/wx/config_dialog.cc:1038
+#: src/wx/config_dialog.cc:1037
 msgid "Decrypting DCPs"
 msgstr "Dekrypterar DCP:er"
 
@@ -575,7 +575,7 @@ msgstr "Standardval"
 msgid "Delay"
 msgstr "Fördröjning"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:58
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -634,7 +634,7 @@ msgstr "Redigera salong"
 
 #: src/wx/audio_mapping_view.cc:168 src/wx/config_dialog.cc:426
 #: src/wx/dcp_panel.cc:134 src/wx/fonts_dialog.cc:78 src/wx/video_panel.cc:188
-#: src/wx/video_panel.cc:209 src/wx/editable_list.h:81
+#: src/wx/video_panel.cc:209 src/wx/editable_list.h:77
 msgid "Edit..."
 msgstr "Redigera..."
 
@@ -646,7 +646,7 @@ msgstr ""
 msgid "Effect colour"
 msgstr ""
 
-#: src/wx/email_dialog.cc:28 src/wx/email_dialog.cc:30
+#: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
 msgstr "Epostadress"
 
@@ -666,33 +666,38 @@ msgstr "Krypterad"
 msgid "End"
 msgstr "Slut"
 
-#: src/wx/config_dialog.cc:1477
+#: src/wx/report_problem_dialog.cc:107
+#, c-format
+msgid "Enter your email address for the contact, not %s"
+msgstr ""
+
+#: src/wx/config_dialog.cc:1475
 msgid "Errors"
 msgstr "Fel"
 
-#: src/wx/config_dialog.cc:715
+#: src/wx/config_dialog.cc:714
 msgid "Export"
 msgstr "Exportera"
 
-#: src/wx/config_dialog.cc:1045
+#: src/wx/config_dialog.cc:1044
 #, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "certificate..."
 msgstr "Exportera DCP-dekrypteringscertifikat..."
 
-#: src/wx/config_dialog.cc:1047
+#: src/wx/config_dialog.cc:1046
 #, fuzzy
 msgid ""
 "Export DCP decryption\n"
 "chain..."
 msgstr "Exportera DCP-dekrypteringscertifikat..."
 
-#: src/wx/config_dialog.cc:732
+#: src/wx/config_dialog.cc:731
 msgid "Export..."
 msgstr "Exportera..."
 
-#: src/wx/config_dialog.cc:1153
+#: src/wx/config_dialog.cc:1152
 msgid "FTP (for Dolby)"
 msgstr "FTP (för Dolby)"
 
@@ -737,7 +742,7 @@ msgid ""
 msgstr ""
 "Hitta integrerad loudness, true peak och loudness-omfång vid audio-analysen"
 
-#: src/wx/content_menu.cc:66
+#: src/wx/content_menu.cc:71
 msgid "Find missing..."
 msgstr "Hitta saknade..."
 
@@ -766,7 +771,7 @@ msgstr "Fri, öppen-källkods DCP-skapande från nästan vad som helst."
 msgid "From"
 msgstr "Avsändare"
 
-#: src/wx/config_dialog.cc:1267
+#: src/wx/config_dialog.cc:1266
 msgid "From address"
 msgstr "Från-adress"
 
@@ -799,7 +804,7 @@ msgstr "Volym Kalkylator"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Förstärkning för innehållskanal %d i DCP-kanal %d"
 
-#: src/wx/config_dialog.cc:1473 src/wx/content_properties_dialog.cc:70
+#: src/wx/config_dialog.cc:1471 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Generellt"
 
@@ -836,7 +841,7 @@ msgstr "Råd"
 msgid "Host"
 msgstr "Dator"
 
-#: src/wx/server_dialog.cc:39
+#: src/wx/server_dialog.cc:40
 msgid "Host name or IP address"
 msgstr "Datornamn eller IP-adress"
 
@@ -848,7 +853,7 @@ msgstr "Jag vill spela upp detta med mixervolym"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/config_dialog.cc:1136
+#: src/wx/config_dialog.cc:1135
 msgid "IP address"
 msgstr "IP-adress"
 
@@ -882,7 +887,7 @@ msgstr "Input kraft"
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrerad loudness %.2f LUFS"
 
-#: src/wx/config_dialog.cc:859
+#: src/wx/config_dialog.cc:858
 msgid "Intermediate"
 msgstr "Mellanliggande"
 
@@ -913,11 +918,11 @@ msgid ""
 "for newly-encoded data"
 msgstr "JPEG2000-bandbredd"
 
-#: src/wx/content_menu.cc:65
+#: src/wx/content_menu.cc:70
 msgid "Join"
 msgstr "Anslut"
 
-#: src/wx/config_dialog.cc:1226
+#: src/wx/config_dialog.cc:1225
 msgid "KDM Email"
 msgstr "KDM e-post"
 
@@ -939,7 +944,7 @@ msgstr "Behåll video och undertexter i sekvens"
 msgid "Key"
 msgstr "Nyckel"
 
-#: src/wx/config_dialog.cc:1015
+#: src/wx/config_dialog.cc:1014
 msgid "Keys"
 msgstr "Nycklar"
 
@@ -951,7 +956,7 @@ msgstr "Språk"
 msgid "Later"
 msgstr ""
 
-#: src/wx/config_dialog.cc:857
+#: src/wx/config_dialog.cc:856
 msgid "Leaf"
 msgstr "Löv"
 
@@ -959,7 +964,7 @@ msgstr "Löv"
 msgid "Leaf common name"
 msgstr "Löv grundnamn"
 
-#: src/wx/config_dialog.cc:724
+#: src/wx/config_dialog.cc:723
 msgid "Leaf private key"
 msgstr "Löv privat nyckel"
 
@@ -983,11 +988,11 @@ msgstr ""
 msgid "Linearise input gamma curve for small values"
 msgstr "Linjärisera input-gammakurvan för små värden"
 
-#: src/wx/config_dialog.cc:730
+#: src/wx/config_dialog.cc:729
 msgid "Load..."
 msgstr "Öppna..."
 
-#: src/wx/config_dialog.cc:1471
+#: src/wx/config_dialog.cc:1469
 msgid "Log"
 msgstr "Logg"
 
@@ -996,15 +1001,15 @@ msgstr "Logg"
 msgid "Loudness range %.2f LU"
 msgstr "Loudness-omfång %.2f LU"
 
-#: src/wx/content_panel.cc:520
+#: src/wx/content_panel.cc:526
 msgid "MISSING: "
 msgstr "SAKNAS:"
 
-#: src/wx/config_dialog.cc:1259
+#: src/wx/config_dialog.cc:1258
 msgid "Mail password"
 msgstr "Mejl-lösenord"
 
-#: src/wx/config_dialog.cc:1255
+#: src/wx/config_dialog.cc:1254
 msgid "Mail user name"
 msgstr "Mejl-användarnamn"
 
@@ -1032,11 +1037,11 @@ msgstr "Mastrad luminans (t.ex. 14fl)"
 msgid "Matrix"
 msgstr "Matris"
 
-#: src/wx/config_dialog.cc:1424
+#: src/wx/config_dialog.cc:1422
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximal JPEG2000 bandbredd"
 
-#: src/wx/config_dialog.cc:446 src/wx/config_dialog.cc:1428
+#: src/wx/config_dialog.cc:446 src/wx/config_dialog.cc:1426
 #: src/wx/dcp_panel.cc:684
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1074,11 +1079,11 @@ msgstr "Mina Dokument"
 msgid "My problem is"
 msgstr "Mitt problem är"
 
-#: src/wx/content_panel.cc:524
+#: src/wx/content_panel.cc:530
 msgid "NEEDS KDM: "
 msgstr "BEHÖVER KDM:"
 
-#: src/wx/content_panel.cc:528
+#: src/wx/content_panel.cc:534
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "BEHÖVER KDM:"
@@ -1138,11 +1143,11 @@ msgstr ""
 msgid "Off"
 msgstr "Av"
 
-#: src/wx/config_dialog.cc:1436
+#: src/wx/config_dialog.cc:1434
 msgid "Only servers encode"
 msgstr "Endast servrar kodar"
 
-#: src/wx/config_dialog.cc:1492
+#: src/wx/config_dialog.cc:1490
 msgid "Open console window"
 msgstr "Öppna konsolfönster"
 
@@ -1162,7 +1167,7 @@ msgstr "Organisationsenhet"
 msgid "Other trusted devices"
 msgstr "Andra pålitliga enheter"
 
-#: src/wx/config_dialog.cc:1243
+#: src/wx/config_dialog.cc:1242
 msgid "Outgoing mail server"
 msgstr "Utgående mejlserver"
 
@@ -1187,11 +1192,11 @@ msgstr ""
 msgid "Output"
 msgstr "Utdata"
 
-#: src/wx/config_dialog.cc:1148
+#: src/wx/config_dialog.cc:1147
 msgid "Password"
 msgstr "Lösenord"
 
-#: src/wx/job_view.cc:53 src/wx/job_view.cc:135
+#: src/wx/normal_job_view.cc:37 src/wx/normal_job_view.cc:53
 msgid "Pause"
 msgstr "Pausa"
 
@@ -1240,11 +1245,11 @@ msgstr "För-utgåva"
 msgid "Processor"
 msgstr "Processor"
 
-#: src/wx/content_menu.cc:67
+#: src/wx/content_menu.cc:72
 msgid "Properties..."
 msgstr "Egenskaper..."
 
-#: src/wx/config_dialog.cc:1132
+#: src/wx/config_dialog.cc:1131
 msgid "Protocol"
 msgstr "Protokol"
 
@@ -1264,11 +1269,11 @@ msgstr "Slumpmässigt"
 msgid "Rating (e.g. 15)"
 msgstr "Klassificering (ex. 15)"
 
-#: src/wx/content_menu.cc:68
+#: src/wx/content_menu.cc:73
 msgid "Re-examine..."
 msgstr "Undersök på nytt..."
 
-#: src/wx/config_dialog.cc:737
+#: src/wx/config_dialog.cc:736
 #, fuzzy
 msgid ""
 "Re-make certificates\n"
@@ -1318,9 +1323,9 @@ msgstr "Special"
 msgid "Refer to existing DCP"
 msgstr "Referera till existerande DCP"
 
-#: src/wx/config_dialog.cc:713 src/wx/content_menu.cc:73
+#: src/wx/config_dialog.cc:712 src/wx/content_menu.cc:80
 #: src/wx/content_panel.cc:89 src/wx/templates_dialog.cc:52
-#: src/wx/editable_list.h:84
+#: src/wx/editable_list.h:80
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -1354,7 +1359,7 @@ msgstr "Upprepa"
 msgid "Repeat Content"
 msgstr "Repetera Innehåll"
 
-#: src/wx/content_menu.cc:64
+#: src/wx/content_menu.cc:69
 msgid "Repeat..."
 msgstr "Upprepa..."
 
@@ -1362,7 +1367,7 @@ msgstr "Upprepa..."
 msgid "Report A Problem"
 msgstr "Rapportera Ett Problem"
 
-#: src/wx/config_dialog.cc:1291
+#: src/wx/config_dialog.cc:1289
 msgid "Reset to default subject and text"
 msgstr "Återställ till förvald rubrik och text"
 
@@ -1370,7 +1375,7 @@ msgstr "Återställ till förvald rubrik och text"
 msgid "Resolution"
 msgstr "Upplösning"
 
-#: src/wx/job_view.cc:138
+#: src/wx/normal_job_view.cc:56
 msgid "Resume"
 msgstr "Fortsätt"
 
@@ -1386,7 +1391,7 @@ msgstr "Högerklicka för att ändra förstärkning."
 msgid "Right eye"
 msgstr "Höger öga"
 
-#: src/wx/config_dialog.cc:855
+#: src/wx/config_dialog.cc:854
 msgid "Root"
 msgstr "Rot"
 
@@ -1394,7 +1399,7 @@ msgstr "Rot"
 msgid "Root common name"
 msgstr "Rot gemensamt namn"
 
-#: src/wx/config_dialog.cc:1152
+#: src/wx/config_dialog.cc:1151
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (för AAM och Doremi)"
 
@@ -1431,25 +1436,25 @@ msgstr "Sök efter servrar på nätverket"
 msgid "Select CPL XML file"
 msgstr "Välj CPL XML-fil"
 
-#: src/wx/config_dialog.cc:772 src/wx/config_dialog.cc:820
-#: src/wx/config_dialog.cc:1057 src/wx/screen_dialog.cc:166
+#: src/wx/config_dialog.cc:771 src/wx/config_dialog.cc:819
+#: src/wx/config_dialog.cc:1056 src/wx/screen_dialog.cc:165
 msgid "Select Certificate File"
 msgstr "Välj certifikatfil"
 
-#: src/wx/config_dialog.cc:1077
+#: src/wx/config_dialog.cc:1076
 #, fuzzy
 msgid "Select Chain File"
 msgstr "Välj Nyckelfil"
 
-#: src/wx/content_menu.cc:325
+#: src/wx/content_menu.cc:369
 msgid "Select KDM"
 msgstr "Välj KDM"
 
-#: src/wx/config_dialog.cc:940 src/wx/config_dialog.cc:974
+#: src/wx/config_dialog.cc:939 src/wx/config_dialog.cc:973
 msgid "Select Key File"
 msgstr "Välj Nyckelfil"
 
-#: src/wx/content_menu.cc:351
+#: src/wx/content_menu.cc:395
 #, fuzzy
 msgid "Select OV"
 msgstr "Välj KDM"
@@ -1479,7 +1484,7 @@ msgstr "Skicka loggar"
 msgid "Serial number"
 msgstr "Serienummer"
 
-#: src/wx/server_dialog.cc:29
+#: src/wx/server_dialog.cc:30
 msgid "Server"
 msgstr "Server"
 
@@ -1519,7 +1524,7 @@ msgstr "Visa graf över audionivåer..."
 msgid "Signed"
 msgstr "Signerad"
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 msgid "Signing DCPs and KDMs"
 msgstr "Signerar DCP:er och KDM:er"
 
@@ -1563,7 +1568,7 @@ msgstr "Strömma"
 msgid "Studio (e.g. TCF)"
 msgstr "Studio (ex. TCF)"
 
-#: src/wx/config_dialog.cc:1263
+#: src/wx/config_dialog.cc:1262
 msgid "Subject"
 msgstr "Rubrik"
 
@@ -1588,15 +1593,15 @@ msgstr "Undertext färger"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:273
+#: src/wx/about_dialog.cc:279
 msgid "Supported by"
 msgstr "Stöd från"
 
-#: src/wx/config_dialog.cc:1115
+#: src/wx/config_dialog.cc:1114
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/config_dialog.cc:1140
+#: src/wx/config_dialog.cc:1139
 msgid "Target path"
 msgstr "Målsökväg"
 
@@ -1628,7 +1633,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:329
+#: src/wx/about_dialog.cc:335
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1636,7 +1641,7 @@ msgstr "Testad av"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "'tills'-tiden måste vara efter 'från'-tiden."
 
-#: src/wx/content_menu.cc:311
+#: src/wx/content_menu.cc:355
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1658,7 +1663,7 @@ msgstr ""
 msgid "There is not enough free memory to do that."
 msgstr "Det finns inte tillräckligt mycket ledigt minne för att göra det."
 
-#: src/wx/config_dialog.cc:781
+#: src/wx/config_dialog.cc:780
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -1678,7 +1683,7 @@ msgstr "Trådar"
 msgid "Threads to use for encoding on this host"
 msgstr "Antal trådar att använda vid kodning på denna maskin"
 
-#: src/wx/config_dialog.cc:697 src/wx/screen_dialog.cc:102
+#: src/wx/config_dialog.cc:696 src/wx/screen_dialog.cc:102
 msgid "Thumbprint"
 msgstr "Tumavtryck"
 
@@ -1729,7 +1734,7 @@ msgstr "Trimma före nuvarande position"
 msgid "True peak is %.2fdB"
 msgstr "Maxvärde är %.2fdB"
 
-#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:689
+#: src/wx/audio_dialog.cc:106 src/wx/config_dialog.cc:688
 #: src/wx/video_panel.cc:86
 msgid "Type"
 msgstr "Typ"
@@ -1871,7 +1876,7 @@ msgstr "Använd förhandsinställning"
 msgid "Use subtitles"
 msgstr "Använd undertexter"
 
-#: src/wx/config_dialog.cc:1144
+#: src/wx/config_dialog.cc:1143
 msgid "User name"
 msgstr "Användarnamn"
 
@@ -1893,7 +1898,7 @@ msgstr "bildhastighet"
 msgid "View..."
 msgstr "Visa..."
 
-#: src/wx/config_dialog.cc:1475
+#: src/wx/config_dialog.cc:1473
 msgid "Warnings"
 msgstr "Varningar"
 
@@ -1941,6 +1946,11 @@ msgstr "YUV till RGB konvertering"
 msgid "YUV to RGB matrix"
 msgstr "YUV till RGB matris"
 
+#: src/wx/report_problem_dialog.cc:66
+#, fuzzy
+msgid "Your email address"
+msgstr "Epostadress"
+
 #: src/wx/video_waveform_dialog.cc:72
 #, fuzzy
 msgid "component value"
@@ -1975,7 +1985,7 @@ msgstr "m"
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/config_dialog.cc:1248
+#: src/wx/config_dialog.cc:1247
 msgid "port"
 msgstr "port"
 
@@ -2005,6 +2015,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:115
 msgid "y"
 msgstr "y"
+
+#~ msgid "Contact email"
+#~ msgstr "Kontakt e-post"
 
 #, fuzzy
 #~ msgid "Outline / shadow colour"

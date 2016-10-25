@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 00:58+0100\n"
+"POT-Creation-Date: 2016-10-25 10:43+0100\n"
 "PO-Revision-Date: 2016-10-18 01:41+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -69,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:190
+#: src/lib/dcp_content.cc:196
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -299,7 +300,7 @@ msgstr "Farbraum"
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
-#: src/lib/writer.cc:467
+#: src/lib/writer.cc:468
 msgid "Computing digests"
 msgstr "Zusammenfassung ('Hashes') berechnen"
 
@@ -1006,7 +1007,7 @@ msgstr "Test - TST"
 msgid "Text subtitles"
 msgstr "Untertitel (Text)"
 
-#: src/lib/film.cc:1510
+#: src/lib/film.cc:1503
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1027,20 +1028,13 @@ msgstr ""
 "\n"
 "Danach müssen Sie erneut 'Aus bestehendem DCP einbinden' auswählen."
 
-#: src/lib/dcp_content.cc:461
+#: src/lib/dcp_content.cc:467
 msgid "The DCP does not have sound in all reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keinen Ton."
 
-#: src/lib/dcp_content.cc:475
+#: src/lib/dcp_content.cc:481
 msgid "The DCP does not have subtitles in all reels."
 msgstr "Das DCP enthält in einigen Akten ('Reels') keine Untertitel."
-
-#: src/lib/dcp_examiner.cc:197
-msgid ""
-"The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong CPL."
-msgstr ""
-"Mit dieser KDM kann das DCP nicht entschlüsselt werden. Möglicherweise ist "
-"sie einer anderen CPL zugehörig?"
 
 #: src/lib/exceptions.cc:73
 msgid "The certificate chain for signing is invalid"
@@ -1054,23 +1048,23 @@ msgstr ""
 "Das Laufwerk, auf dem der Film gespeichert werden soll, hat zu wenig freien "
 "Speicher. Bitte Speicher freigeben und nochmal versuchen."
 
-#: src/lib/dcp_content.cc:419
+#: src/lib/dcp_content.cc:425
 msgid "The film has a different frame rate to this DCP."
 msgstr "Dieses Projekt verwendet eine andere Bildrate als dieses DCP."
 
-#: src/lib/dcp_content.cc:412
+#: src/lib/dcp_content.cc:418
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr ""
 "Dieses Projekt ist auf 'INTEROP' Standard konfiguriert, das referenzierte "
 "DCP ist jedoch in 'SMPTE'! Eine Mischung ist nicht möglich!"
 
-#: src/lib/dcp_content.cc:409
+#: src/lib/dcp_content.cc:415
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr ""
 "Dieses Projekt ist auf 'SMPTE' Standard konfiguriert, das referenzierte DCP "
 "ist jedoch in 'INTEROP'. Eine Mischung ist nicht möglich!"
 
-#: src/lib/dcp_content.cc:430
+#: src/lib/dcp_content.cc:436
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1078,23 +1072,23 @@ msgstr ""
 "Aktlängen im Projekt unterscheiden sich von DCP; Aktunterteilung wurde daher "
 "auf Inhalts-Segmentgrenzen gesetzt!"
 
-#: src/lib/dcp_content.cc:448
+#: src/lib/dcp_content.cc:454
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
-#: src/lib/dcp_content.cc:466
+#: src/lib/dcp_content.cc:472
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr ""
 "Einige Audioanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
-#: src/lib/dcp_content.cc:480
+#: src/lib/dcp_content.cc:486
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr ""
 "Einige Untertitel überlappen mit diesem DCP, bitte entfernen Sie diese (-"
 ">Zeitleiste)!"
 
-#: src/lib/dcp_content.cc:452
+#: src/lib/dcp_content.cc:458
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr ""
 "Einige Videoanteile überlappen mit diesem DCP, bitte entfernen Sie diese (-"
@@ -1276,7 +1270,7 @@ msgstr ""
 "Projektionssystemen Probleme verursachen. Bitte verwenden Sie wann immer "
 "möglich Flat oder Scope Container."
 
-#: src/lib/hints.cc:158
+#: src/lib/hints.cc:159
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1416,6 +1410,13 @@ msgstr "unbekannt"
 #: src/lib/video_content.cc:459
 msgid "video frames"
 msgstr "Video Bilder"
+
+#~ msgid ""
+#~ "The KDM does not decrypt the DCP.  Perhaps it is targeted at the wrong "
+#~ "CPL."
+#~ msgstr ""
+#~ "Mit dieser KDM kann das DCP nicht entschlüsselt werden. Möglicherweise "
+#~ "ist sie einer anderen CPL zugehörig?"
 
 #~ msgid "DBPS"
 #~ msgstr "DBPS"

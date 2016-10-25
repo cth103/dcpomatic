@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 00:58+0100\n"
+"POT-Creation-Date: 2016-10-25 10:43+0100\n"
 "PO-Revision-Date: 2016-08-27 02:34+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -23,12 +23,12 @@ msgstr ""
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr "%1文件已存在！"
 
-#: src/tools/dcpomatic_kdm.cc:308
+#: src/tools/dcpomatic_kdm.cc:320
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d 导出KDM 到 %s"
 
-#: src/tools/dcpomatic_kdm.cc:308
+#: src/tools/dcpomatic_kdm.cc:320
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d 导出KDMs 到 %s"
@@ -42,22 +42,22 @@ msgid "&Content"
 msgstr "&内容"
 
 #: src/tools/dcpomatic.cc:915 src/tools/dcpomatic_batch.cc:84
-#: src/tools/dcpomatic_kdm.cc:254
+#: src/tools/dcpomatic_kdm.cc:266
 msgid "&Edit"
 msgstr "&编辑"
 
 #: src/tools/dcpomatic.cc:872 src/tools/dcpomatic_batch.cc:64
-#: src/tools/dcpomatic_kdm.cc:232
+#: src/tools/dcpomatic_kdm.cc:244
 msgid "&Exit"
 msgstr "&退出"
 
 #: src/tools/dcpomatic.cc:913 src/tools/dcpomatic_batch.cc:82
-#: src/tools/dcpomatic_kdm.cc:252
+#: src/tools/dcpomatic_kdm.cc:264
 msgid "&File"
 msgstr "&文件"
 
 #: src/tools/dcpomatic.cc:920 src/tools/dcpomatic_batch.cc:87
-#: src/tools/dcpomatic_kdm.cc:256
+#: src/tools/dcpomatic_kdm.cc:268
 msgid "&Help"
 msgstr "&帮助"
 
@@ -75,12 +75,12 @@ msgstr "&打开...\tCtrl+O"
 
 #: src/tools/dcpomatic.cc:878 src/tools/dcpomatic.cc:881
 #: src/tools/dcpomatic_batch.cc:70 src/tools/dcpomatic_batch.cc:73
-#: src/tools/dcpomatic_kdm.cc:238 src/tools/dcpomatic_kdm.cc:241
+#: src/tools/dcpomatic_kdm.cc:250 src/tools/dcpomatic_kdm.cc:253
 msgid "&Preferences...\tCtrl-P"
 msgstr "&设置....\tCtrl+P"
 
 #: src/tools/dcpomatic.cc:874 src/tools/dcpomatic_batch.cc:66
-#: src/tools/dcpomatic_kdm.cc:234
+#: src/tools/dcpomatic_kdm.cc:246
 msgid "&Quit"
 msgstr "&退出"
 
@@ -97,11 +97,11 @@ msgid "&Tools"
 msgstr "&工具"
 
 #: src/tools/dcpomatic.cc:909 src/tools/dcpomatic_batch.cc:80
-#: src/tools/dcpomatic_kdm.cc:248
+#: src/tools/dcpomatic_kdm.cc:260
 msgid "About"
 msgstr "关于"
 
-#: src/tools/dcpomatic.cc:907 src/tools/dcpomatic_kdm.cc:246
+#: src/tools/dcpomatic.cc:907 src/tools/dcpomatic_kdm.cc:258
 msgid "About DCP-o-matic"
 msgstr "关于DCP-o-matic"
 
@@ -109,7 +109,7 @@ msgstr "关于DCP-o-matic"
 msgid "Add Film..."
 msgstr "添加工程"
 
-#: src/tools/dcpomatic.cc:1152 src/tools/dcpomatic_kdm.cc:438
+#: src/tools/dcpomatic.cc:1152 src/tools/dcpomatic_kdm.cc:450
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -118,7 +118,7 @@ msgstr ""
 "出现未知错误: %s (%s).\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1161 src/tools/dcpomatic_kdm.cc:447
+#: src/tools/dcpomatic.cc:1161 src/tools/dcpomatic_kdm.cc:459
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -132,8 +132,8 @@ msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "DCP-o-matic服务出现未知错误！"
 
 #: src/tools/dcpomatic.cc:602 src/tools/dcpomatic.cc:1166
-#: src/tools/dcpomatic_kdm.cc:339 src/tools/dcpomatic_kdm.cc:452
-#: src/tools/dcpomatic_kdm.cc:461
+#: src/tools/dcpomatic_kdm.cc:351 src/tools/dcpomatic_kdm.cc:464
+#: src/tools/dcpomatic_kdm.cc:473
 msgid "An unknown exception occurred."
 msgstr "出现未知错误."
 
@@ -148,11 +148,11 @@ msgstr "确定要恢复默认设置？该操作不能撤销！"
 msgid "Bad setting for %s (%s)"
 msgstr "配置错误 %s (%s)"
 
-#: src/tools/dcpomatic_kdm.cc:157
+#: src/tools/dcpomatic_kdm.cc:169
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:598 src/tools/dcpomatic_kdm.cc:335
+#: src/tools/dcpomatic.cc:598 src/tools/dcpomatic_kdm.cc:347
 msgid "CPL's content is not encrypted."
 msgstr "该CPL未加密."
 
@@ -194,7 +194,7 @@ msgstr "无法显示DCP (无法运行在konqueror出错)"
 msgid "Could not show DCP (could not run nautilus)"
 msgstr "无法显示DCP (无法运行在nautilus出错)"
 
-#: src/tools/dcpomatic_kdm.cc:170
+#: src/tools/dcpomatic_kdm.cc:182
 msgid "Create KDMs"
 msgstr "创建KDMs."
 
@@ -211,11 +211,11 @@ msgstr "DCP-o-matic 批量转换"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic 编码服务器"
 
-#: src/tools/dcpomatic_kdm.cc:377 src/tools/dcpomatic_kdm.cc:413
+#: src/tools/dcpomatic_kdm.cc:389 src/tools/dcpomatic_kdm.cc:425
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic KMD 生成。"
 
-#: src/tools/dcpomatic_kdm.cc:152
+#: src/tools/dcpomatic_kdm.cc:164
 msgid "DKDM"
 msgstr "DKDM"
 
@@ -242,7 +242,7 @@ msgid "Hints..."
 msgstr "提示..."
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/tools/dcpomatic_kdm.cc:146
+#: src/tools/dcpomatic_kdm.cc:158
 msgid "KDM|Timing"
 msgstr "时长调整"
 
@@ -266,11 +266,11 @@ msgstr "管理模板"
 msgid "New...\tCtrl-N"
 msgstr "新建工程\tCtrl+N"
 
-#: src/tools/dcpomatic_kdm.cc:163
+#: src/tools/dcpomatic_kdm.cc:175
 msgid "Output"
 msgstr "输出"
 
-#: src/tools/dcpomatic.cc:911 src/tools/dcpomatic_kdm.cc:250
+#: src/tools/dcpomatic.cc:911 src/tools/dcpomatic_kdm.cc:262
 msgid "Report a problem..."
 msgstr "报告问题"
 
@@ -303,11 +303,11 @@ msgstr "缩放到合适高度"
 msgid "Scale to fit &width"
 msgstr "缩放到合适宽度"
 
-#: src/tools/dcpomatic_kdm.cc:139
+#: src/tools/dcpomatic_kdm.cc:151
 msgid "Screens"
 msgstr "荧幕（服务器）"
 
-#: src/tools/dcpomatic_kdm.cc:74
+#: src/tools/dcpomatic_kdm.cc:75
 msgid "Select DKDM file"
 msgstr "选择DKDM文件"
 
@@ -315,7 +315,7 @@ msgstr "选择DKDM文件"
 msgid "Select film to open"
 msgstr "选择打开工程文件"
 
-#: src/tools/dcpomatic_kdm.cc:331
+#: src/tools/dcpomatic_kdm.cc:343
 msgid "Send KDM emails"
 msgstr "发送KDM电子邮件"
 

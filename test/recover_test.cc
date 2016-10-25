@@ -78,6 +78,39 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
 }
 
+BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted)
+{
+	shared_ptr<Film> film = new_test_film ("recover_test_2d_encrypted");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_name ("recover_test");
+	film->set_encrypted (true);
+
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, "test/data/count300bd24.m2ts"));
+	film->examine_and_add_content (content);
+	wait_for_jobs ();
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	boost::filesystem::path const video = "build/test/recover_test_2d_encrypted/video/185_2K_9284c41c42044ef9b4c14482730cdffe_24_100000000_P_S_0_1200000.mxf";
+	boost::filesystem::copy_file (
+		video,
+		"build/test/recover_test_2d_encrypted/original.mxf"
+		);
+
+	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
+
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d_encrypted/original.mxf"));
+	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
+
+	dcp::EqualityOptions eq;
+	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
+}
+
 BOOST_AUTO_TEST_CASE (recover_test_3d)
 {
 	shared_ptr<Film> film = new_test_film ("recover_test_3d");
