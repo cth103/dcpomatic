@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-10-09 23:30+0100\n"
+"PO-Revision-Date: 2016-10-26 12:58+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -367,7 +367,7 @@ msgstr "Beim Start auf Updates überprüfen."
 
 #: src/wx/content_menu.cc:78
 msgid "Choose CPL..."
-msgstr ""
+msgstr "CPL/Version auswählen..."
 
 #: src/wx/content_menu.cc:297
 msgid "Choose a file"
@@ -647,7 +647,7 @@ msgstr "Effektfarbe"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
-msgstr "Empfängeradresse"
+msgstr "Emailadresse"
 
 #: src/wx/cinema_dialog.cc:65
 msgid "Email addresses for KDM delivery"
@@ -668,7 +668,7 @@ msgstr "Ende"
 #: src/wx/report_problem_dialog.cc:107
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "Geben Sie ihre Emailadresse an, nicht %s"
 
 #: src/wx/config_dialog.cc:1475
 msgid "Errors"
@@ -682,13 +682,17 @@ msgstr "Export"
 msgid ""
 "Export DCP decryption\n"
 "certificate..."
-msgstr "Exportiere DCP Schlüsselzertifikat..."
+msgstr ""
+"Exportiere DCP\n"
+"Schlüsselzertifikat..."
 
 #: src/wx/config_dialog.cc:1046
 msgid ""
 "Export DCP decryption\n"
 "chain..."
-msgstr "Exportiere DCP Schlüsselzertifikatskette..."
+msgstr ""
+"Exportiere DCP\n"
+"Schlüsselzertifikatskette..."
 
 #: src/wx/config_dialog.cc:731
 msgid "Export..."
@@ -1082,7 +1086,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1270,7 +1275,9 @@ msgstr "Analysieren..."
 msgid ""
 "Re-make certificates\n"
 "and key..."
-msgstr "Zertifikate und Schlüssel neu erzeugen..."
+msgstr ""
+"Zertifikate und Schlüssel\n"
+"neu erzeugen..."
 
 #: src/wx/colour_conversion_editor.cc:99
 msgid "Rec. 601"
@@ -1936,9 +1943,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV-RGB Matrix"
 
 #: src/wx/report_problem_dialog.cc:66
-#, fuzzy
 msgid "Your email address"
-msgstr "Empfängeradresse"
+msgstr "Ihre Emailadresse"
 
 #: src/wx/video_waveform_dialog.cc:72
 msgid "component value"
