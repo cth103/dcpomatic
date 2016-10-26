@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-09-01 17:56-0400\n"
+"PO-Revision-Date: 2016-10-26 09:26-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: src/lib/video_content.cc:446
 #, c-format
@@ -118,7 +117,7 @@ msgstr "4:3"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f fps"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -1024,7 +1023,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:425
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "La película tiene una velocidad diferente a este DCP."
 
 #: src/lib/dcp_content.cc:418
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1044,7 +1043,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:454
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "El tamaño de imagen de vídeo en la película es diferente en el DCP."
 
 #: src/lib/dcp_content.cc:472
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1221,6 +1220,8 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"El DCP utiliza un contenedor inusual.  Esto puede causar problemas en "
+"algunos proyectores.  Si es posible, utilice Flat o Scope como contenedor"
 
 #: src/lib/hints.cc:159
 msgid ""
