@@ -88,6 +88,7 @@ ReelWriter::ReelWriter (
 
 	if (_film->encrypted ()) {
 		_picture_asset->set_key (_film->key ());
+		_picture_asset->set_context_id (_film->context_id ());
 	}
 
 	_picture_asset->set_file (

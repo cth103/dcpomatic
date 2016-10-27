@@ -132,6 +132,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _resolution (RESOLUTION_2K)
 	, _signed (true)
 	, _encrypted (false)
+	, _context_id (dcp::make_uuid ())
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
 	, _isdcf_metadata (Config::instance()->default_isdcf_metadata ())
 	, _video_frame_rate (24)
@@ -361,6 +362,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("Signed")->add_child_text (_signed ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	root->add_child("Key")->add_child_text (_key.hex ());
+	root->add_child("ContextID")->add_child_text (_context_id);
 	if (_audio_processor) {
 		root->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
 	}
@@ -463,6 +465,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
 	_key = dcp::Key (f.string_child ("Key"));
+	_context_id = f.optional_string_child("ContextID").get_value_or (dcp::make_uuid ());
 
 	if (f.optional_string_child ("AudioProcessor")) {
 		_audio_processor = AudioProcessor::from_id (f.string_child ("AudioProcessor"));

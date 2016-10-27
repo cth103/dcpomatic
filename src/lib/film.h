@@ -284,6 +284,11 @@ public:
 		return _upload_after_make_dcp;
 	}
 
+	std::string context_id () const {
+		return _context_id;
+	}
+
+
 	/* SET */
 
 	void set_directory (boost::filesystem::path);
@@ -357,6 +362,10 @@ private:
 	bool _signed;
 	bool _encrypted;
 	dcp::Key _key;
+	/** context ID used when encrypting picture assets; we keep it so that we can
+	 *  re-start picture MXF encodes.
+	 */
+	std::string _context_id;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
 	/** ISDCF naming stuff */
