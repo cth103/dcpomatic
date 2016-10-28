@@ -21,8 +21,7 @@
 #include <wx/wx.h>
 #include <boost/signals2.hpp>
 
-class wxTextCtrl;
-class wxSpinButton;
+class wxSpinCtrl;
 
 class TimePicker : public wxPanel
 {
@@ -35,13 +34,8 @@ public:
 	boost::signals2::signal<void ()> Changed;
 
 private:
-	void update_spin ();
-	void update_text ();
+	void spin_changed ();
 
-	wxTextCtrl* _hours;
-	wxSpinButton* _hours_spin;
-	wxTextCtrl* _minutes;
-	wxSpinButton* _minutes_spin;
-
-	bool _block_update;
+	wxSpinCtrl* _hours;
+	wxSpinCtrl* _minutes;
 };
