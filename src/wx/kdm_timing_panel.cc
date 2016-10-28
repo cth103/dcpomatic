@@ -37,18 +37,27 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	wxDateTime from;
 	from.SetToCurrent ();
 	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from);
-	table->Add (_from_date);
+	table->Add (_from_date, 0, wxALIGN_CENTER_VERTICAL);
 	_from_time = new TimePicker (this, from);
-	table->Add (_from_time);
+#ifdef DCPOMATIC_OSX
+	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
+	table->Add (_from_time, 0, wxALIGN_CENTER_VERTICAL | wxTOP, 4);
+#else
+	table->Add (_from_time, 0, wxALIGN_CENTER_VERTICAL);
+#endif
 
 	add_label_to_sizer (table, this, _("until"), true);
 	wxDateTime to = from;
 	/* 1 week from now */
 	to.Add (wxDateSpan (0, 0, 1, 0));
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to);
-	table->Add (_until_date);
+	table->Add (_until_date, 0, wxALIGN_CENTER_VERTICAL);
 	_until_time = new TimePicker (this, to);
-	table->Add (_until_time);
+#ifdef DCPOMATIC_OSX
+	table->Add (_until_time, 0, wxALIGN_CENTER_VERTICAL | wxTOP, 4);
+#else
+	table->Add (_until_time, 0, wxALIGN_CENTER_VERTICAL);
+#endif
 
 	overall_sizer->Add (table);
 

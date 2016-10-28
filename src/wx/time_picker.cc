@@ -43,10 +43,10 @@ TimePicker::TimePicker (wxWindow* parent, wxDateTime time)
 
 	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxSpinCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
-	sizer->Add (_hours, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_hours, 1, wxEXPAND | wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	sizer->Add (new wxStaticText (this, wxID_ANY, wxT (":")), 0, wxALIGN_CENTER_VERTICAL);
 	_minutes = new wxSpinCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, size);
-	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	sizer->Add (_minutes, 1, wxEXPAND | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 
 	SetSizerAndFit (sizer);
 
