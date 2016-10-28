@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-03-10 11:13+0100\n"
+"PO-Revision-Date: 2016-10-28 17:03+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -24,12 +24,12 @@ msgstr "%1 esiste già il file, non è possibile usarlo per un nuovo film"
 #: src/tools/dcpomatic_kdm.cc:320
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM scritta su %s"
 
 #: src/tools/dcpomatic_kdm.cc:320
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM scritte su %s"
 
 #: src/tools/dcpomatic_batch.cc:62
 msgid "&Add Film..."
@@ -127,7 +127,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_server.cc:306
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr ""
+msgstr "Errore sconosciuto sul server di DCP-o-matic."
 
 #: src/tools/dcpomatic.cc:602 src/tools/dcpomatic.cc:1166
 #: src/tools/dcpomatic_kdm.cc:351 src/tools/dcpomatic_kdm.cc:464
@@ -140,6 +140,8 @@ msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
+"Sei sicuro di voler ripristinare le impostazioni ai valori predefiniti? "
+"Questa operazione non può essere annullata."
 
 #: src/tools/dcpomatic.cc:503
 #, c-format
@@ -148,7 +150,7 @@ msgstr "Parametro %s errato  (%s)"
 
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:598 src/tools/dcpomatic_kdm.cc:347
 msgid "CPL's content is not encrypted."
@@ -160,7 +162,7 @@ msgstr "Controlla aggiornamenti"
 
 #: src/tools/dcpomatic.cc:118
 msgid "Close without saving film"
-msgstr ""
+msgstr "Chiudi senza salvare il film"
 
 #: src/tools/dcpomatic.cc:572
 msgid "Could not find batch converter."
@@ -194,7 +196,7 @@ msgstr "Impossibile visualizzare il DCP (impossibile avviare nautilus)"
 
 #: src/tools/dcpomatic_kdm.cc:182
 msgid "Create KDMs"
-msgstr ""
+msgstr "Crea le KDM"
 
 #: src/tools/dcpomatic.cc:346 src/tools/dcpomatic.cc:1042
 #: src/tools/dcpomatic.cc:1078
@@ -206,22 +208,20 @@ msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic Convertitore batch"
 
 #: src/tools/dcpomatic_server.cc:140
-#, fuzzy
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic Convertitore batch"
+msgstr "DCP-o-matic Server per la Codifica"
 
 #: src/tools/dcpomatic_kdm.cc:389 src/tools/dcpomatic_kdm.cc:425
-#, fuzzy
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic"
+msgstr "DCP-o-matic Creazione di KDM"
 
 #: src/tools/dcpomatic_kdm.cc:164
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:118
 msgid "Don't close"
-msgstr ""
+msgstr "Non chiudere"
 
 #: src/tools/dcpomatic.cc:899 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
@@ -235,7 +235,7 @@ msgstr "Film modificato"
 
 #: src/tools/dcpomatic_server.cc:147
 msgid "Frames per second"
-msgstr ""
+msgstr "Frame al secondo"
 
 #: src/tools/dcpomatic.cc:898
 msgid "Hints..."
@@ -244,7 +244,7 @@ msgstr "Suggerimenti..."
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:158
 msgid "KDM|Timing"
-msgstr ""
+msgstr "KDM|Timing"
 
 #: src/tools/dcpomatic.cc:891
 msgid "Make &KDMs...\tCtrl-K"
@@ -260,7 +260,7 @@ msgstr "Crea DKDM per DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:900
 msgid "Manage templates..."
-msgstr ""
+msgstr "Gestione template..."
 
 #: src/tools/dcpomatic.cc:858
 msgid "New...\tCtrl-N"
@@ -268,7 +268,7 @@ msgstr "Nuovo...\tCtrl-N"
 
 #: src/tools/dcpomatic_kdm.cc:175
 msgid "Output"
-msgstr ""
+msgstr "Output"
 
 #: src/tools/dcpomatic.cc:911 src/tools/dcpomatic_kdm.cc:262
 msgid "Report a problem..."
@@ -284,7 +284,7 @@ msgstr "&Mostra DCP"
 
 #: src/tools/dcpomatic.cc:863
 msgid "Save as &template..."
-msgstr ""
+msgstr "Salva come &template..."
 
 #: src/tools/dcpomatic.cc:110
 #, c-format
@@ -293,7 +293,7 @@ msgstr "Salvare i cambiamenti del film \"%s\" prima di chiudere?"
 
 #: src/tools/dcpomatic.cc:118
 msgid "Save film and close"
-msgstr ""
+msgstr "Salva il film e chiudi"
 
 #: src/tools/dcpomatic.cc:886
 msgid "Scale to fit &height"
@@ -305,12 +305,11 @@ msgstr "Adatta alla &larghezza"
 
 #: src/tools/dcpomatic_kdm.cc:151
 msgid "Screens"
-msgstr ""
+msgstr "Schermi"
 
 #: src/tools/dcpomatic_kdm.cc:75
-#, fuzzy
 msgid "Select DKDM file"
-msgstr "Seleziona il film da aprire"
+msgstr "Seleziona il file DKDM"
 
 #: src/tools/dcpomatic.cc:392 src/tools/dcpomatic_batch.cc:216
 msgid "Select film to open"
@@ -318,7 +317,7 @@ msgstr "Seleziona il film da aprire"
 
 #: src/tools/dcpomatic_kdm.cc:343
 msgid "Send KDM emails"
-msgstr ""
+msgstr "Invia email KDM"
 
 #: src/tools/dcpomatic.cc:480
 #, c-format
@@ -357,6 +356,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"La configurazione esistente non è stata caricata. Verranno usati i valori "
+"predefiniti. Potrebbe impiegarci davvero poco."
 
 #: src/tools/dcpomatic.cc:978
 msgid "There are no new versions of DCP-o-matic available."
