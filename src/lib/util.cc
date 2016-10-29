@@ -533,8 +533,8 @@ short_audio_channel_name (int c)
 		_("BsR"),
 		_("DBP"),
 		_("DBS"),
-		_(""),
-		_("")
+		"",
+		""
 	};
 
 	return channels[c];
