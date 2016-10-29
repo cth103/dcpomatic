@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-08-30 01:47+0100\n"
+"PO-Revision-Date: 2016-10-29 03:23+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -165,7 +165,7 @@ msgstr "Auf Updates überprüfen..."
 
 #: src/tools/dcpomatic.cc:118
 msgid "Close without saving film"
-msgstr "Beenden ohne Speichern"
+msgstr "Schließen ohne speichern"
 
 #: src/tools/dcpomatic.cc:572
 msgid "Could not find batch converter."
@@ -225,7 +225,7 @@ msgstr "DKDM"
 
 #: src/tools/dcpomatic.cc:118
 msgid "Don't close"
-msgstr "Nicht beenden"
+msgstr "Nicht schließen"
 
 #: src/tools/dcpomatic.cc:899 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
@@ -299,7 +299,7 @@ msgstr "Änderungen des Projekts \"%s\" vor dem Schließen speichern ?"
 
 #: src/tools/dcpomatic.cc:118
 msgid "Save film and close"
-msgstr "Speichern und beenden"
+msgstr "Speichern und schließen"
 
 #: src/tools/dcpomatic.cc:886
 msgid "Scale to fit &height"
