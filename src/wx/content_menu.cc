@@ -88,7 +88,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
 
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 0, ID_repeat);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 0, ID_repeat - 1);
 }
 
 ContentMenu::~ContentMenu ()
