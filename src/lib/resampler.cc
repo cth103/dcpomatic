@@ -81,11 +81,11 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 		int const max_resampled_frames = ceil ((double) in_frames * _out_rate / _in_rate) + 32;
 
 		SRC_DATA data;
-		data.data_in = new float[in_frames * _channels];
+		float* in_buffer = new float[in_frames * _channels];
 
 		{
 			float** p = in->data ();
-			float* q = data.data_in;
+			float* q = in_buffer;
 			for (int i = 0; i < in_frames; ++i) {
 				for (int j = 0; j < _channels; ++j) {
 					*q++ = p[j][in_offset + i];
@@ -93,6 +93,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 			}
 		}
 
+		data.data_in = in_buffer;
 		data.input_frames = in_frames;
 
 		data.data_out = new float[max_resampled_frames * _channels];
