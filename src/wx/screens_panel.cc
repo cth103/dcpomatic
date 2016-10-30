@@ -147,7 +147,7 @@ ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 void
 ScreensPanel::add_cinema_clicked ()
 {
-	CinemaDialog* d = new CinemaDialog (this, _("Add Cinema"));
+	CinemaDialog* d = new CinemaDialog (GetParent(), _("Add Cinema"));
 	if (d->ShowModal () == wxID_OK) {
 		shared_ptr<Cinema> c (new Cinema (d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute()));
 		Config::instance()->add_cinema (c);
