@@ -254,12 +254,14 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	   side of the first character's border is not cut off.
 	*/
 	int const x_offset = subtitles.front().effect() == dcp::BORDER ? (target.width / 600.0) : 0;
+	/* Move down a bit so that accents on capital letters can be seen */
+	int const y_offset = target.height / 100.0;
 
 	if (subtitles.front().effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
 		dcp::Colour const ec = subtitles.front().effect_colour ();
 		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
-		context->move_to (x_offset + 4, 4);
+		context->move_to (x_offset + 4, y_offset + 4);
 		layout->add_to_cairo_context (context);
 		context->fill ();
 	}
@@ -270,7 +272,7 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
 		context->set_line_width (subtitles.front().outline_width * target.width / 2048.0);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
-		context->move_to (x_offset, 0);
+		context->move_to (x_offset, y_offset);
 		layout->add_to_cairo_context (context);
 		context->stroke ();
 	}
@@ -278,7 +280,7 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	/* The actual subtitle */
 
 	context->set_line_width (0);
-	context->move_to (x_offset, 0);
+	context->move_to (x_offset, y_offset);
 	layout->show_in_cairo_context (context);
 
 	int layout_width;
