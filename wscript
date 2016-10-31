@@ -277,21 +277,21 @@ def configure(conf):
 
     # libdcp
     if conf.options.static_dcp:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.3.4', args='--cflags', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version='1.4.0', args='--cflags', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-cth', 'kumu-cth', 'openjp2']
         conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt']
     else:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.3.4', args='--cflags --libs', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version='1.4.0', args='--cflags --libs', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
     # libsub
     if conf.options.static_sub:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.1.13', args='--cflags', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version='1.2.0', args='--cflags', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
         conf.env.STLIB_SUB = ['sub-1.0']
     else:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.1.13', args='--cflags --libs', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version='1.2.0', args='--cflags --libs', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
     # libxml++
