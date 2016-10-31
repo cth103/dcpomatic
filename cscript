@@ -66,6 +66,18 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libicu55',
                              'libnettle6'])
 
+deb_depends['16.10'] = copy.deepcopy(deb_depends_base)
+deb_depends['16.10'].extend(['libboost-filesystem1.61.0',
+                             'libboost-thread1.61.0',
+                             'libboost-regex1.61.0',
+                             'libmagick++-6.q16-5v5',
+                             'libxml++2.6-2v5',
+                             'libboost-date-time1.61.0',
+                             'libzip4',
+                             'libwxgtk3.0-0v5',
+                             'libicu57',
+                             'libnettle6'])
+
 deb_depends['7'] = copy.deepcopy(deb_depends_base)
 deb_depends['7'].extend(['libboost-filesystem1.49.0',
                              'libboost-thread1.49.0',
