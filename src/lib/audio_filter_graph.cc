@@ -24,6 +24,7 @@
 extern "C" {
 #include <libavfilter/buffersink.h>
 #include <libavfilter/buffersrc.h>
+#include <libavutil/channel_layout.h>
 }
 
 #include "i18n.h"
