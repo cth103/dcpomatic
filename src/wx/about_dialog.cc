@@ -134,7 +134,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	add_section (_("With help from"), with_help_from);
 
 	wxArrayString supported_by;
-	supported_by.Add (wxT ("黄 昭婷"));
 	supported_by.Add (wxT ("Manuel AC"));
 	supported_by.Add (wxT ("Kambiz Afshar"));
 	supported_by.Add (wxT ("Alex Asp"));
