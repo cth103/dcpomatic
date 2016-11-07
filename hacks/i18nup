@@ -36,6 +36,9 @@ elif [[ `echo $changes | grep pt_BR` != "" ]]; then
 elif [[ `echo $changes | grep zh_CN` != "" ]]; then
   language="zh_CN"
   translator="Rov (若文)"
+elif [[ `echo $changes | grep da_DK` != "" ]]; then
+  language="da_DK"
+  translator="Anders Uhl Pedersen"
 else
   echo "Unknown language"
   exit 1
