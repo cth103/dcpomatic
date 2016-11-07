@@ -1,3 +1,7 @@
+2016-11-07  Carl Hetherington  <cth@carlh.net>
+
+	* Updated da_DK translation from Anders Uhl Pedersen.
+
 2016-10-31  c.hetherington  <cth@carlh.net>
 
 	* Fix failure to resume encodes when using encryption (#980).
