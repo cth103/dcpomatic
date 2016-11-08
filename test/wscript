@@ -71,6 +71,7 @@ def build(bld):
                  import_dcp_test.cc
                  interrupt_encoder_test.cc
                  isdcf_name_test.cc
+                 j2k_bandwidth_test.cc
                  job_test.cc
                  make_black_test.cc
                  player_test.cc
