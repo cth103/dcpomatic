@@ -1,3 +1,9 @@
+2016-11-08  c.hetherington  <cth@carlh.net>
+
+	* Fix subtitle rendering when size and colour changes
+	word-by-word or character-by-character.  Fix some cut-off
+	subtitles.
+
 2016-11-07  Carl Hetherington  <cth@carlh.net>
 
 	* Updated da_DK translation from Anders Uhl Pedersen.

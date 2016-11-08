@@ -25,7 +25,7 @@
 
 class Font;
 
-std::string marked_up (std::list<SubtitleString> subtitles);
+std::string marked_up (std::list<SubtitleString> subtitles, int target_height);
 std::list<PositionImage> render_subtitles (
 	std::list<SubtitleString>, std::list<boost::shared_ptr<Font> > fonts, dcp::Size, DCPTime
 	);

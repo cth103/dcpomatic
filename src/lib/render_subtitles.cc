@@ -24,6 +24,7 @@
 #include "cross.h"
 #include "font.h"
 #include "dcpomatic_assert.h"
+#include <dcp/raw_convert.h>
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
@@ -45,48 +46,25 @@ static FcConfig* fc_config = 0;
 static list<pair<FontFiles, string> > fc_config_fonts;
 
 string
-marked_up (list<SubtitleString> subtitles)
+marked_up (list<SubtitleString> subtitles, int target_height)
 {
 	string out;
-	bool italic = false;
-	bool bold = false;
-	bool underline = false;
+
 	BOOST_FOREACH (SubtitleString const & i, subtitles) {
-
-		if (i.italic() && !italic) {
-			out += "<i>";
+		out += "<span ";
+		if (i.italic()) {
+			out += "style=\"italic\" ";
 		}
-		if (i.bold() && !bold) {
-			out += "<b>";
+		if (i.bold()) {
+			out += "weight=\"bold\" ";
 		}
-		if (i.underline() && !underline) {
-			out += "<u>";
+		if (i.underline()) {
+			out += "underline=\"single\" ";
 		}
-		if (!i.underline() && underline) {
-			out += "</u>";
-		}
-		if (!i.bold() && bold) {
-			out += "</b>";
-		}
-		if (!i.italic() && italic) {
-			out += "</i>";
-		}
-
-		italic = i.italic ();
-		bold = i.bold ();
-		underline = i.underline ();
-
+		out += "size=\"" + dcp::raw_convert<string>(i.size_in_pixels(target_height) * 72 * 1024 / 96) + "\" ";
+		out += "color=\"#" + i.colour().to_rgb_string() + "\">";
 		out += i.text ();
-	}
-
-	if (underline) {
-		out += "</u>";
-	}
-	if (bold) {
-		out += "</b>";
-	}
-	if (italic) {
-		out += "</i>";
+		out += "</span>";
 	}
 
 	return out;
@@ -123,8 +101,12 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	   least tall enough for this subtitle.
 	*/
 
+	int largest = 0;
+	BOOST_FOREACH (dcp::SubtitleString const & i, subtitles) {
+		largest = max (largest, i.size());
+	}
 	/* Basic guess on height... */
-	int height = subtitles.front().size() * target.height / (11 * 72);
+	int height = largest * target.height / (11 * 72);
 	/* ...scaled... */
 	height *= yscale;
 	/* ...and add a bit more for luck */
@@ -247,9 +229,8 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	/* Render the subtitle at the top left-hand corner of image */
 
 	Pango::FontDescription font (font_name);
-	font.set_absolute_size (subtitles.front().size_in_pixels (target.height) * PANGO_SCALE);
 	layout->set_font_description (font);
-	layout->set_markup (marked_up (subtitles));
+	layout->set_markup (marked_up (subtitles, target.height));
 
 	/* Compute fade factor */
 	float fade_factor = 1;
@@ -296,12 +277,9 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 
 	/* The actual subtitle */
 
-	dcp::Colour const c = subtitles.front().colour ();
-	context->set_source_rgba (float(c.r) / 255, float(c.g) / 255, float(c.b) / 255, fade_factor);
 	context->set_line_width (0);
 	context->move_to (x_offset, 0);
-	layout->add_to_cairo_context (context);
-	context->fill ();
+	layout->show_in_cairo_context (context);
 
 	int layout_width;
 	int layout_height;
