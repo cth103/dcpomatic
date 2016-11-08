@@ -1,4 +1,4 @@
-2016-11-08  c.hetherington  <cth@carlh.net>
+2016-11-08  Carl Hetherington  <cth@carlh.net>
 
 	* Fix subtitle rendering when size and colour changes
 	word-by-word or character-by-character.  Fix some cut-off
@@ -8,7 +8,7 @@
 
 	* Updated da_DK translation from Anders Uhl Pedersen.
 
-2016-10-31  c.hetherington  <cth@carlh.net>
+2016-10-31  Carl Hetherington  <cth@carlh.net>
 
 	* Fix failure to resume encodes when using encryption (#980).
 
@@ -63,7 +63,7 @@
 
 	* Version 2.9.36 released.
 
-2016-10-17  c.hetherington  <cth@carlh.net>
+2016-10-17  Carl Hetherington  <cth@carlh.net>
 
 	* Bump libdcp for fix to corrupted audio analyses
 	under some locales (#974).
@@ -100,7 +100,7 @@
 
 	* Fix XML subtitle output in some cases.
 
-2016-10-06  c.hetherington  <cth@carlh.net>
+2016-10-06  Carl Hetherington  <cth@carlh.net>
 
 	* Allow selection of CPL in multi-CPL DCPs (#733).
 
@@ -108,7 +108,7 @@
 
 	* Updated fr_FR translation from Thierry Journet.
 
-2016-10-04  c.hetherington  <cth@carlh.net>
+2016-10-04  Carl Hetherington  <cth@carlh.net>
 
 	* Fix error when examining files with embedded subtitles in some cases (#969).
 
@@ -132,11 +132,11 @@
 
 	* Version 2.9.28 released.
 
-2016-09-30  c.hetherington  <cth@carlh.net>
+2016-09-30  Carl Hetherington  <cth@carlh.net>
 
 	* Order jobs from first-to-execute to last in the batch converter.
 
-2016-09-28  c.hetherington  <cth@carlh.net>
+2016-09-28  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on "report a problem" in the KDM creator.
 
@@ -144,7 +144,7 @@
 
 	* Updated ru_RU translation from Igor Voytovich.
 
-2016-09-26  c.hetherington  <cth@carlh.net>
+2016-09-26  Carl Hetherington  <cth@carlh.net>
 
 	* Disallow refer-to-DCP if the video frame size is different to that in the project (#963).
 
@@ -154,7 +154,7 @@
 
 	* Updated zh_CN translation from 刘汉源.
 
-2016-09-26  c.hetherington  <cth@carlh.net>
+2016-09-26  Carl Hetherington  <cth@carlh.net>
 
 	* Don't re-use J2K data if it's the wrong size (#964).
 
@@ -235,7 +235,7 @@
 
 	* Version 2.9.16 released.
 
-2016-08-25  c.hetherington  <cth@carlh.net>
+2016-08-25  Carl Hetherington  <cth@carlh.net>
 
 	* Fix silent acceptance of certificate chains where
 	single certificates are required (#937).
@@ -252,7 +252,7 @@
 
 	* Updated cs_CZ translation from Tomáš Begeni.
 
-2016-08-24  c.hetherington  <cth@carlh.net>
+2016-08-24  Carl Hetherington  <cth@carlh.net>
 
 	* Allow import of OV/VF DCPs (#906).
 
@@ -264,7 +264,7 @@
 
 	* Version 2.9.15 released.
 
-2016-08-22  c.hetherington  <cth@carlh.net>
+2016-08-22  Carl Hetherington  <cth@carlh.net>
 
 	* Fix doubled-up subtitles in some cases when importing
 	DCPs with subtitles.
@@ -294,7 +294,7 @@
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
-2016-08-17  c.hetherington  <cth@carlh.net>
+2016-08-17  Carl Hetherington  <cth@carlh.net>
 
 	* Spot and "fix" impossible refer-to-DCP settings (#929).
 
@@ -302,7 +302,7 @@
 
 	* Scroll audio mapping view labels correctly (#919).
 
-2016-08-16  c.hetherington  <cth@carlh.net>
+2016-08-16  Carl Hetherington  <cth@carlh.net>
 
 	* Basic support for fading subtitles in and out (#923).
 
@@ -348,7 +348,7 @@
 
 	* Version 2.9.8 released.
 
-2016-07-29  c.hetherington  <cth@carlh.net>
+2016-07-29  Carl Hetherington  <cth@carlh.net>
 
 	* Fix various problems with separate L/R eye
 	content.
@@ -430,7 +430,7 @@
 
 	* Version 2.8.20 released.
 
-2016-07-07  c.hetherington  <cth@carlh.net>
+2016-07-07  Carl Hetherington  <cth@carlh.net>
 
 	* Fix incorrect job running time reports (#912).
 
@@ -438,7 +438,7 @@
 
 	* Version 2.8.19 released.
 
-2016-07-05  c.hetherington  <cth@carlh.net>
+2016-07-05  Carl Hetherington  <cth@carlh.net>
 
 	* Fix stay-on-top behaviour of audio/video graphs
 	to only stay on top of other DCP-o-matic windows (#909).
@@ -447,7 +447,7 @@
 
 	* Version 2.8.18 released.
 
-2016-07-04  c.hetherington  <cth@carlh.net>
+2016-07-04  Carl Hetherington  <cth@carlh.net>
 
 	* Fix several bugs with the sensitivity
 	of controls in various circumstances.
@@ -505,12 +505,12 @@
 
 	* Version 2.8.14 released.
 
-2016-06-24  c.hetherington  <cth@carlh.net>
+2016-06-24  Carl Hetherington  <cth@carlh.net>
 
 	* Try again to make new file dialogue bigger on some platforms
 	(#902).
 
-2016-06-24  c.hetherington  <cth@carlh.net>
+2016-06-24  Carl Hetherington  <cth@carlh.net>
 
 	* Support underlined subtitles.
 
@@ -560,7 +560,7 @@
 
 	* Remove seconds from KDM time period specification (#819).
 
-2016-06-14  c.hetherington  <cth@carlh.net>
+2016-06-14  Carl Hetherington  <cth@carlh.net>
 
 	* Basic guessing of audio channels from filenames (#393).
 
@@ -573,7 +573,7 @@
 
 	* Give better error messages when subtitles fail to load.
 
-2016-06-13  c.hetherington  <cth@carlh.net>
+2016-06-13  Carl Hetherington  <cth@carlh.net>
 
 	* Add 3D video frame type for 3D DCP inputs (#806).
 
@@ -583,7 +583,7 @@
 
 	* Version 2.8.9 released.
 
-2016-06-07  c.hetherington  <cth@carlh.net>
+2016-06-07  Carl Hetherington  <cth@carlh.net>
 
 	* Add tooltips over content channel names in the
 	audio mapping view (#888).
@@ -614,7 +614,7 @@
 
 	* Version 2.8.7 released.
 
-2016-06-01  c.hetherington  <cth@carlh.net>
+2016-06-01  Carl Hetherington  <cth@carlh.net>
 
 	* Basics of better audio stream labelling in the audio
 	mapping view (#849).
@@ -670,12 +670,12 @@
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
-2016-05-25  c.hetherington  <cth@carlh.net>
+2016-05-25  Carl Hetherington  <cth@carlh.net>
 
 	* Treat video MXFs better by not transcoding
 	them unless necessary (part of #803).
 
-2016-05-24  c.hetherington  <cth@carlh.net>
+2016-05-24  Carl Hetherington  <cth@carlh.net>
 
 	* Add somewhat speculative Rec 1886 and Rec 2020
 	colour conversion presets (#832).
@@ -683,7 +683,7 @@
 	* Disallow referencing of Interop DCPs in SMPTE
 	films, and vice versa (#804).
 
-2016-05-23  c.hetherington  <cth@carlh.net>
+2016-05-23  Carl Hetherington  <cth@carlh.net>
 
 	* Fix missing words in properties window (#874).
 
@@ -774,7 +774,7 @@
 
 	* Version 2.7.16 released.
 
-2016-04-25  c.hetherington  <cth@carlh.net>
+2016-04-25  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.
 
@@ -794,7 +794,7 @@
 
 	* Move the reel markers to the top of the timeline (#846).
 
-2016-04-22  c.hetherington  <cth@carlh.net>
+2016-04-22  Carl Hetherington  <cth@carlh.net>
 
 	* Arrange buttons to consume less vertical space in the
 	KDM creator (#833).
@@ -813,7 +813,7 @@
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
-2016-04-19  c.hetherington  <cth@carlh.net>
+2016-04-19  Carl Hetherington  <cth@carlh.net>
 
 	* Updated cs_CZ translation from Tomáš Begeni.
 
@@ -915,7 +915,7 @@
 
 	* Version 2.7.6 released.
 
-2016-03-18  c.hetherington  <cth@carlh.net>
+2016-03-18  Carl Hetherington  <cth@carlh.net>
 
 	* Add first part of pt_BR translation from Thiago Andre.
 
@@ -954,7 +954,7 @@
 
 	* Version 2.7.2 released.
 
-2016-03-10  c.hetherington  <cth@carlh.net>
+2016-03-10  Carl Hetherington  <cth@carlh.net>
 
 	* Updated it_IT translation from Fabio "Zak" Belli.
 
@@ -990,7 +990,7 @@
 
 	* Version 2.6.37 released.
 
-2016-03-07  c.hetherington  <cth@carlh.net>
+2016-03-07  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
@@ -1030,7 +1030,7 @@
 
 	* Version 2.6.31 released.
 
-2016-03-02  c.hetherington  <cth@carlh.net>
+2016-03-02  Carl Hetherington  <cth@carlh.net>
 
 	* New uk_UA translation from Igor Voytovich.
 
@@ -1043,7 +1043,7 @@
 
 	* Version 2.6.30 released.
 
-2016-03-01  c.hetherington  <cth@carlh.net>
+2016-03-01  Carl Hetherington  <cth@carlh.net>
 
 	* Fix failure to recognise image sequence directories
 	in some cases.
@@ -1111,7 +1111,7 @@
 
 	* Fix duplicate <LoadFont> nodes in subtitle files.
 
-2016-02-18  c.hetherington  <cth@carlh.net>
+2016-02-18  Carl Hetherington  <cth@carlh.net>
 
 	* Add some more information to the content properties
 	dialogue (#791).
@@ -1139,7 +1139,7 @@
 	* Fix exception when analysing audio of projects with more
 	than 8 DCP channels.
 
-2016-02-15  c.hetherington  <cth@carlh.net>
+2016-02-15  Carl Hetherington  <cth@carlh.net>
 
 	* Support SSA subtitles embedded within FFmpeg files.
 
@@ -1159,7 +1159,7 @@
 
 	* Version 2.6.19 released.
 
-2016-02-05  c.hetherington  <cth@carlh.net>
+2016-02-05  Carl Hetherington  <cth@carlh.net>
 
 	* New cs_CZ translation from Tomáš Begeni.
 
@@ -1185,7 +1185,7 @@
 	* Move the preview to the start of a piece of content
 	when selecting it (suggested by Carsten Kurz).
 
-2016-02-01  c.hetherington  <cth@carlh.net>
+2016-02-01  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.
 
@@ -1237,7 +1237,7 @@
 	* Fix file-not-found errors with dcpomatic_create on Windows
 	in some situations.
 
-2016-01-08  c.hetherington  <cth@carlh.net>
+2016-01-08  Carl Hetherington  <cth@carlh.net>
 
 	* Attempt to make subtitles view resizeable on all platforms (#781).
 
@@ -1247,7 +1247,7 @@
 
 	* Version 2.6.14 released.
 
-2016-01-07  c.hetherington  <cth@carlh.net>
+2016-01-07  Carl Hetherington  <cth@carlh.net>
 
 	* Sort image files added using "Add file(s)..." alphabetically
 	rather than trying to find numbers in the filenames.
@@ -1266,7 +1266,7 @@
 
 	* Version 2.6.11 released.
 
-2016-01-06  c.hetherington  <cth@carlh.net>
+2016-01-06  Carl Hetherington  <cth@carlh.net>
 
 	* New sk_SK translation from Tomáš Hlaváč.
 
@@ -1294,13 +1294,13 @@
 
 	* Version 2.6.8 released.
 
-2015-12-21  c.hetherington  <cth@carlh.net>
+2015-12-21  Carl Hetherington  <cth@carlh.net>
 
 	* Reduce frequency of temporary writes to disk (#748).
 
 	* Use new Dolby website for both Doremi and Dolby certificates (#775).
 
-2015-12-18  c.hetherington  <cth@carlh.net>
+2015-12-18  Carl Hetherington  <cth@carlh.net>
 
 	* Fix double-calculation of DCP hashes.
 
@@ -1388,7 +1388,7 @@
 
 	* Remove insistence on 6-character Doremi serials (#768).
 
-2015-12-01  c.hetherington  <cth@carlh.net>
+2015-12-01  Carl Hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.
 
@@ -1427,7 +1427,7 @@
 
 	* Fix download of some Doremi certificates (#763).
 
-2015-11-27  c.hetherington  <cth@carlh.net>
+2015-11-27  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.
 
@@ -1459,7 +1459,7 @@
 	* Adjust preview subtitle position to better match reality
 	in some cases.
 
-2015-11-19  c.hetherington  <cth@carlh.net>
+2015-11-19  Carl Hetherington  <cth@carlh.net>
 
 	* Add menu option to make a DKDM for DCP-o-matic (#755).
 
@@ -1467,7 +1467,7 @@
 
 	* Version 2.5.6 released.
 
-2015-11-18  c.hetherington  <cth@carlh.net>
+2015-11-18  Carl Hetherington  <cth@carlh.net>
 
 	* Add LUFS / LRA analysis using FFmpeg's ebur128 filter (#368).
 
@@ -1478,7 +1478,7 @@
 
 	* Version 2.5.5 released.
 
-2015-11-17  c.hetherington  <cth@carlh.net>
+2015-11-17  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
@@ -1510,7 +1510,7 @@
 
 	* Version 2.5.3 released.
 
-2015-11-13  c.hetherington  <cth@carlh.net>
+2015-11-13  Carl Hetherington  <cth@carlh.net>
 
 	* Vertically align SubRip subtitles with reference to the bottom
 	of the screen (#744).
@@ -1527,7 +1527,7 @@
 
 	* Extend maximum audio channels to 16 for an experiment.
 
-2015-11-12  c.hetherington  <cth@carlh.net>
+2015-11-12  Carl Hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.
 
@@ -1572,7 +1572,7 @@
 
 	* Sort cinemas in KDM dialog and standalone creator (#726).
 
-2015-11-06  c.hetherington  <cth@carlh.net>
+2015-11-06  Carl Hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.
 
@@ -1585,7 +1585,7 @@
 
 	* Correct time display when previewing multi-reel DCP content.
 
-2015-11-05  c.hetherington  <cth@carlh.net>
+2015-11-05  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.
 
@@ -1625,7 +1625,7 @@
 
 	* Fix incorrect preview rendering of italic subtitles (#728).
 
-2015-10-30  c.hetherington  <cth@carlh.net>
+2015-10-30  Carl Hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.
 
@@ -1738,7 +1738,7 @@
 
 	* Version 2.4.6 released.
 
-2015-10-09  c.hetherington  <cth@carlh.net>
+2015-10-09  Carl Hetherington  <cth@carlh.net>
 
 	* Create certificate chains with nicer default
 	organizational unit etc.
@@ -1810,7 +1810,7 @@
 
 	* Version 2.3.12 released.
 
-2015-09-30  c.hetherington  <cth@carlh.net>
+2015-09-30  Carl Hetherington  <cth@carlh.net>
 
 	* Fix broken video frame rate override control.
 
@@ -1835,7 +1835,7 @@
 
 	* Version 2.3.9 released.
 
-2015-09-28  c.hetherington  <cth@carlh.net>
+2015-09-28  Carl Hetherington  <cth@carlh.net>
 
 	* Fix update of display when changing DCP video rate (#699).
 
@@ -1843,7 +1843,7 @@
 
 	* Version 2.3.8 released.
 
-2015-09-28  c.hetherington  <cth@carlh.net>
+2015-09-28  Carl Hetherington  <cth@carlh.net>
 
 	* Fix problems with audio analysis of some combined
 	video/audio files.
@@ -1902,7 +1902,7 @@
 	* Add config option for default standard
 	(SMPTE / Interop).
 
-2015-09-16  c.hetherington  <cth@carlh.net>
+2015-09-16  Carl Hetherington  <cth@carlh.net>
 
 	* Allow imported DCPs to be referenced rather
 	than re-wrapped (i.e. creation of VF DCPs).
@@ -1912,7 +1912,7 @@
 	* Fix crash on re-making certificate chains
 	after removing all existing certificates (#690).
 
-2015-09-15  c.hetherington  <cth@carlh.net>
+2015-09-15  Carl Hetherington  <cth@carlh.net>
 
 	* Fix failure to display audio analysis
 	in some cases.
@@ -1931,7 +1931,7 @@
 
 	* Version 2.2.1 released.
 
-2015-09-03  c.hetherington  <cth@carlh.net>
+2015-09-03  Carl Hetherington  <cth@carlh.net>
 
 	* Quicker, though slightly less safe,
 	check for existing picture data; go back
@@ -1995,7 +1995,7 @@
 
 	* Version 2.1.59 released.
 
-2015-09-09  c.hetherington  <cth@carlh.net>
+2015-09-09  Carl Hetherington  <cth@carlh.net>
 
 	* Use SRC_LINEAR when resampling for
 	audio analysis to speed things up (#685).
@@ -2013,7 +2013,7 @@
 
 	* Version 2.1.57 released.
 
-2015-09-08  c.hetherington  <cth@carlh.net>
+2015-09-08  Carl Hetherington  <cth@carlh.net>
 
 	* Missing libsamplerate dylib for OS X.
 
@@ -2052,7 +2052,7 @@
 	* Switch to soxr resampler as it seems
 	to have fewer artefacts in some cases (#682, possibly #493).
 
-2015-09-02  c.hetherington  <cth@carlh.net>
+2015-09-02  Carl Hetherington  <cth@carlh.net>
 
 	* Fix problems when changing the number
 	of encoding servers / threads during an
@@ -2088,7 +2088,7 @@
 
 	* Version 2.1.47 released.
 
-2015-08-28  c.hetherington  <cth@carlh.net>
+2015-08-28  Carl Hetherington  <cth@carlh.net>
 
 	* Fix crash on adding a KDM to DCP content
 	(hopefully fixing #645).
@@ -2220,7 +2220,7 @@
 	* Disable "2D version of 3D content" ISDCF metadata
 	checkbutton with 3D content (part of #652).
 
-2015-07-30  c.hetherington  <cth@carlh.net>
+2015-07-30  Carl Hetherington  <cth@carlh.net>
 
 	* Allow recreation of the certificate chain and key
 	used for KDM decryption (#644).
@@ -2236,7 +2236,7 @@
 	* Fix garbled audio from DCP sources when running
 	on Windows.
 
-2015-07-28  c.hetherington  <cth@carlh.net>
+2015-07-28  Carl Hetherington  <cth@carlh.net>
 
 	* Stop forward-frame button going off the end of the film.
 
@@ -2299,7 +2299,7 @@
 
 	* Version 2.1.24 released.
 
-2015-07-17  c.hetherington  <cth@carlh.net>
+2015-07-17  Carl Hetherington  <cth@carlh.net>
 
 	* Support FTP upload to TMS (#639).
 
@@ -2319,11 +2319,11 @@
 
 	* Version 2.1.22 released.
 
-2015-07-16  c.hetherington  <cth@carlh.net>
+2015-07-16  Carl Hetherington  <cth@carlh.net>
 
 	* Updated ru_RU translation from Igor Voytovich.
 
-2015-07-14  c.hetherington  <cth@carlh.net>
+2015-07-14  Carl Hetherington  <cth@carlh.net>
 
 	* Updated fr_FR translation from Thierry Journet.
 
@@ -2354,13 +2354,13 @@
 
 	* Version 2.1.20 released.
 
-2015-07-09  c.hetherington  <cth@carlh.net>
+2015-07-09  Carl Hetherington  <cth@carlh.net>
 
 	* Fix error when using DCP content with no audio channels.
 
 	* Stop Ctrl+A working when the content tab is not visible (#577).
 
-2015-07-08  c.hetherington  <cth@carlh.net>
+2015-07-08  Carl Hetherington  <cth@carlh.net>
 
 	* Remove the (I suspect) rarely used and very limited
 	'properties' dialogue.
@@ -2371,7 +2371,7 @@
 
 	* Version 2.1.19 released.
 
-2015-07-06  c.hetherington  <cth@carlh.net>
+2015-07-06  Carl Hetherington  <cth@carlh.net>
 
 	* Copy pl_PL translation from 1.x.
 
@@ -2379,7 +2379,7 @@
 
 	* Version 2.1.18 released.
 
-2015-07-06  c.hetherington  <cth@carlh.net>
+2015-07-06  Carl Hetherington  <cth@carlh.net>
 
 	* Fix incorrectly formatted KDM emails (#630).
 
@@ -2395,7 +2395,7 @@
 
 	* Version 2.1.15 released.
 
-2015-07-02  c.hetherington  <cth@carlh.net>
+2015-07-02  Carl Hetherington  <cth@carlh.net>
 
 	* Support <font color="#abcdef"> tags in SubRip files.
 
@@ -2416,7 +2416,7 @@
 	* Restore audio analysis button for individual
 	sources (#607 and #622).
 
-2015-06-30  c.hetherington  <cth@carlh.net>
+2015-06-30  Carl Hetherington  <cth@carlh.net>
 
 	* Write FFmpeg messages of AV_LOG_WARNING and
 	below to the project's log file.
@@ -2425,7 +2425,7 @@
 
 	* Version 2.1.12 released.
 
-2015-06-25  c.hetherington  <cth@carlh.net>
+2015-06-25  Carl Hetherington  <cth@carlh.net>
 
 	* Disallow impossible burn settings by manipulating
 	the controls in the subtitle panel (#625).
@@ -2444,7 +2444,7 @@
 
 	* Version 2.1.10 released.
 
-2015-06-25  c.hetherington  <cth@carlh.net>
+2015-06-25  Carl Hetherington  <cth@carlh.net>
 
 	* Add decode debugging option.
 
@@ -2456,7 +2456,7 @@
 
 	* Version 2.1.8 released.
 
-2015-06-24  c.hetherington  <cth@carlh.net>
+2015-06-24  Carl Hetherington  <cth@carlh.net>
 
 	* Bump libdcp for probable fix to various font ID problems (#620).
 
@@ -2488,7 +2488,7 @@
 
 	* Version 2.1.5 released.
 
-2015-06-18  c.hetherington  <cth@carlh.net>
+2015-06-18  Carl Hetherington  <cth@carlh.net>
 
 	* Fix error when copying fonts into subtitles
 	on Windows (#612).
@@ -2508,7 +2508,7 @@
 
 	* Stop playback when we reach the end of the film.
 
-2015-06-16  c.hetherington  <cth@carlh.net>
+2015-06-16  Carl Hetherington  <cth@carlh.net>
 
 	* Prevent selection of fewer DCP channels than
 	are present in the output of an active processor (#611).
@@ -2561,12 +2561,12 @@
 
 	* New ru_RU translation from Igor Voytovich.
 
-2015-06-12  c.hetherington  <cth@carlh.net>
+2015-06-12  Carl Hetherington  <cth@carlh.net>
 
 	* Fix for every audio stream being mapped to the DCP when loading
 	old films.
 
-2015-06-11  c.hetherington  <cth@carlh.net>
+2015-06-11  Carl Hetherington  <cth@carlh.net>
 
 	* Fix massive slowdown of direct J2K->DCP encodes (#599).
 
@@ -2578,7 +2578,7 @@
 
 	* Version 2.0.50 released.
 
-2015-06-10  c.hetherington  <cth@carlh.net>
+2015-06-10  Carl Hetherington  <cth@carlh.net>
 
 	* Skip audio analysis when there is no audio content (#596).
 
@@ -2595,7 +2595,7 @@
 	* Various fixes to subtitle rendering, including independent
 	x and y scale of text subs (#489).
 
-2015-06-02  c.hetherington  <cth@carlh.net>
+2015-06-02  Carl Hetherington  <cth@carlh.net>
 
 	* Allow use of all content audio streams, not just
 	the selected one.
@@ -2632,7 +2632,7 @@
 
 	* Version 2.0.47 released.
 
-2015-05-13  c.hetherington  <cth@carlh.net>
+2015-05-13  Carl Hetherington  <cth@carlh.net>
 
 	* Various fixes to embedded image subtitle
 	handling.
@@ -2705,14 +2705,14 @@
 	* Various fixes to bad timeline drag behaviour when
 	snapping (from master).
 
-2015-04-29  c.hetherington  <cth@carlh.net>
+2015-04-29  Carl Hetherington  <cth@carlh.net>
 
 	* Hand-apply 291179175729b62e17a9c322cd27ae134d1310d9,
 	8d92cce7d2885afa13ee4cb6f546dbf43942124b and
 	c994839239e84a1f62865ed82fdc090900a66b03 from master;
 	stop flickering when dragging in the timeline on OS X.
 
-2015-04-22  c.hetherington  <cth@carlh.net>
+2015-04-22  Carl Hetherington  <cth@carlh.net>
 
 	* Add P3 colour conversion preset.
 
@@ -2734,7 +2734,7 @@
 	* Fix potential OS X crashes due to another incarnation
 	of the bizarre multi-thread stringstream bug.
 
-2015-04-15  c.hetherington  <cth@carlh.net>
+2015-04-15  Carl Hetherington  <cth@carlh.net>
 
 	* Hand-apply 94998e12d117f3f1781dfb1318939debfbf34546 from master;
 	add option to restore the default configuration.
@@ -2781,7 +2781,7 @@
 
 	* Version 2.0.41 released.
 
-2015-02-10  c.hetherington  <cth@carlh.net>
+2015-02-10  Carl Hetherington  <cth@carlh.net>
 
 	* Default to no colour conversion for
 	JPEG2000 and DCP content (#445).
@@ -2833,7 +2833,7 @@
 
 	* Version 2.0.35 released.
 
-2015-01-20  c.hetherington  <cth@carlh.net>
+2015-01-20  Carl Hetherington  <cth@carlh.net>
 
 	* More informative error when failing to decode
 	JPEG2000 files.
@@ -2918,7 +2918,7 @@
 	content images, taking pixel aspect ratio into
 	account where possible.
 
-2014-11-07  c.hetherington  <cth@carlh.net>
+2014-11-07  Carl Hetherington  <cth@carlh.net>
 
 	* Add a hint if there is 3D content in a proposed 2D DCP.
 
@@ -2927,7 +2927,7 @@
 	* Basic support for emailing a report of
 	a problem (#43).
 
-2014-11-05  c.hetherington  <cth@carlh.net>
+2014-11-05  Carl Hetherington  <cth@carlh.net>
 
 	* Add a few more hints.
 
@@ -3022,7 +3022,7 @@
 
 	* Version 1.74.3 released.
 
-2014-10-08  c.hetherington  <cth@carlh.net>
+2014-10-08  Carl Hetherington  <cth@carlh.net>
 
 	* Make server finding more reliable when
 	there are more than a few servers.
