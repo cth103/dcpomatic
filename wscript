@@ -237,18 +237,38 @@ def configure(conf):
     # cairomm
     conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
 
-    # See if we have Cairo::ImageSurface::format_stride_for_width
+    # See if we have Cairo::ImageSurface::format_stride_for_width; Centos 5 does not
     conf.check_cxx(fragment="""
                             #include <cairomm/cairomm.h>
                             int main(void) {
-                                Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB, 1024);\n
+                                Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, 1024);\n
                                 return 0; }\n
                             """,
                        mandatory=False,
+                       cxxflags='-std=c++11',
                        msg='Checking for format_stride_for_width',
                        okmsg='yes',
                        includes=conf.env['INCLUDES_CAIROMM'],
+                       uselib='CAIROMM',
                        define_name='DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH')
+
+    # See if we have Pango::Layout::show_in_cairo_context; Centos 5 does not
+    conf.check_cxx(fragment="""
+                            #include <pangomm.h>
+                            int main(void) {
+                                Cairo::RefPtr<Cairo::Context> context;
+                                Glib::RefPtr<Pango::Layout> layout;
+                                layout->show_in_cairo_context (context);
+                                return 0; }\n
+                            """,
+                       mandatory=False,
+                       msg='Checking for show_in_cairo_context',
+                       cxxflags='-std=c++11',
+                       okmsg='yes',
+                       includes=conf.env['INCLUDES_PANGOMM'],
+                       uselib='PANGOMM',
+                       define_name='DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT')
+
 
     # libcxml
     if conf.options.static_cxml:

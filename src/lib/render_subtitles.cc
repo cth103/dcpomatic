@@ -281,7 +281,11 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 
 	context->set_line_width (0);
 	context->move_to (x_offset, y_offset);
+#ifdef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
 	layout->show_in_cairo_context (context);
+#else
+	pango_cairo_show_layout (context->cobj(), layout->gobj());
+#endif
 
 	int layout_width;
 	int layout_height;
