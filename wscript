@@ -86,6 +86,7 @@ def configure(conf):
     gcc = conf.env['CC_VERSION']
     if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
         conf.env.append_value('CXXFLAGS', ['-Wno-unused-result'])
+    have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
@@ -237,6 +238,10 @@ def configure(conf):
     # cairomm
     conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
 
+    test_cxxflags = ''
+    if have_c11:
+        test_cxxflags = '-std=c++11'
+
     # See if we have Cairo::ImageSurface::format_stride_for_width; Centos 5 does not
     conf.check_cxx(fragment="""
                             #include <cairomm/cairomm.h>
@@ -245,7 +250,7 @@ def configure(conf):
                                 return 0; }\n
                             """,
                        mandatory=False,
-                       cxxflags='-std=c++11',
+                       cxxflags=test_cxxflags,
                        msg='Checking for format_stride_for_width',
                        okmsg='yes',
                        includes=conf.env['INCLUDES_CAIROMM'],
@@ -263,7 +268,7 @@ def configure(conf):
                             """,
                        mandatory=False,
                        msg='Checking for show_in_cairo_context',
-                       cxxflags='-std=c++11',
+                       cxxflags=test_cxxflags,
                        okmsg='yes',
                        includes=conf.env['INCLUDES_PANGOMM'],
                        uselib='PANGOMM',
