@@ -28,6 +28,9 @@
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
 #include <pangomm.h>
+#ifndef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
+#include <pango/pangocairo.h>
+#endif
 #include <boost/foreach.hpp>
 #include <iostream>
 
