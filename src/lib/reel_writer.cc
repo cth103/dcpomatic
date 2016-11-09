@@ -345,9 +345,13 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			reel_picture_asset.reset (new dcp::ReelStereoPictureAsset (stereo, 0));
 		}
 	} else {
+		LOG_GENERAL ("no picture asset of our own; look through %1", refs.size());
 		/* We don't have a picture asset of our own; hopefully we have one to reference */
 		BOOST_FOREACH (ReferencedReelAsset j, refs) {
 			shared_ptr<dcp::ReelPictureAsset> k = dynamic_pointer_cast<dcp::ReelPictureAsset> (j.asset);
+			if (k) {
+				LOG_GENERAL ("candidate picture asset period is %1-%2", j.period.from.get(), j.period.to.get());
+			}
 			if (k && j.period == _period) {
 				reel_picture_asset = k;
 			}
