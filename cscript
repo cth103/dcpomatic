@@ -312,7 +312,7 @@ def package_debian(target, cpu, version):
     target.set('CDIST_CONFIGURE', '"' + configure_options(target) + '"')
     if target.debug:
         target.set('CDIST_DEBUG_PACKAGE', '--dbg-package=dcpomatic-dbg')
-    if target.version in ['15.04', '15.10', '16.04', '16.10', '8']:
+    if target.version in ['15.04', '15.10', '16.04', '16.10', '8', 'unstable']:
         target.set('CDIST_LOCALE_PREFIX', '/usr/share/locale')
     else:
         target.set('CDIST_LOCALE_PREFIX', '/usr/local/share/locale')
