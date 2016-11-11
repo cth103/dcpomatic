@@ -29,6 +29,7 @@
 #include "lib/ratio.h"
 #include "lib/image_content.h"
 #include "lib/video_content.h"
+#include "lib/cross.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <getopt.h>
@@ -235,7 +236,10 @@ main (int argc, char* argv[])
 
 		JobManager* jm = JobManager::instance ();
 
-		while (jm->work_to_do ()) {}
+		while (jm->work_to_do ()) {
+			dcpomatic_sleep (1);
+		}
+
 		while (signal_manager->ui_idle() > 0) {}
 
 		ContentList content = film->content ();
