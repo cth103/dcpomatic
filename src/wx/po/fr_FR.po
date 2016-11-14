@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-10-05 22:22+0100\n"
+"PO-Revision-Date: 2016-11-14 01:09+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -365,7 +365,7 @@ msgstr "Recherche de mises à jour au démarrage."
 
 #: src/wx/content_menu.cc:78
 msgid "Choose CPL..."
-msgstr ""
+msgstr "Sélection CPL..."
 
 #: src/wx/content_menu.cc:297
 msgid "Choose a file"
@@ -668,7 +668,7 @@ msgstr "Fin"
 #: src/wx/report_problem_dialog.cc:107
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "Entrez votre adresse E-mail pour le contact, pas %s"
 
 #: src/wx/config_dialog.cc:1475
 msgid "Errors"
@@ -1084,7 +1084,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
@@ -1936,9 +1937,8 @@ msgid "YUV to RGB matrix"
 msgstr "Matrice YUV vers RGB"
 
 #: src/wx/report_problem_dialog.cc:66
-#, fuzzy
 msgid "Your email address"
-msgstr "Adresse E-mail"
+msgstr "Votre adresse E-mail"
 
 #: src/wx/video_waveform_dialog.cc:72
 msgid "component value"

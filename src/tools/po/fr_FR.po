@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-10-05 22:16+0100\n"
+"PO-Revision-Date: 2016-11-14 01:12+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -291,7 +291,7 @@ msgstr "Enregistrer comme modèle"
 #: src/tools/dcpomatic.cc:110
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
+msgstr "Enregistrer les changements dans le film \"%s\" avant de fermer ?"
 
 #: src/tools/dcpomatic.cc:118
 msgid "Save film and close"
@@ -393,7 +393,7 @@ msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
-"Aucun dossier sélectionné. Selectionnez un dossier avant de cliquer sur "
+"Aucun dossier sélectionné. Sélectionnez un dossier avant de cliquer sur "
 "Ouvrir"
 
 #~ msgid "&Properties..."
