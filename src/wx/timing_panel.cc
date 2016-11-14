@@ -145,6 +145,10 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 
 	t = new wxStaticText (this, wxID_ANY, wxT (""));
 	t->SetLabelMarkup (out);
+#ifdef DCPOMATIC_OSX
+	/* Hack to stop hidden text on some versions of OS X */
+	t->SetMinSize (wxSize (-1, 256));
+#endif
 	grid->Add (t, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, 6);
 
 	/* Completely speculative fix for #891 */
