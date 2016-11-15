@@ -50,7 +50,7 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 enum {
-	/* Start at 256 so we can have IDs on _cpl_menu from 0 to 255 */
+	/* Start at 256 so we can have IDs on _cpl_menu from 1 to 255 */
 	ID_repeat = 256,
 	ID_join,
 	ID_find_missing,
@@ -88,7 +88,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
 
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 0, ID_repeat - 1);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
 }
 
 ContentMenu::~ContentMenu ()
@@ -108,7 +108,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_views = v;
 
 	int const N = _cpl_menu->GetMenuItemCount();
-	for (int i = 0; i < N; ++i) {
+	for (int i = 1; i <= N; ++i) {
 		_cpl_menu->Delete (i);
 	}
 
@@ -135,7 +135,8 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			DCPExaminer ex (dcp);
 			list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
 			_choose_cpl->Enable (cpls.size() > 1);
-			int id = 0;
+			/* We can't have 0 as a menu item ID on OS X */
+			int id = 1;
 			BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls) {
 				wxMenuItem* item = _cpl_menu->AppendCheckItem (
 					id++,
@@ -421,10 +422,11 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 
 	DCPExaminer ex (dcp);
 	list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
-	DCPOMATIC_ASSERT (ev.GetId() < int (cpls.size()));
+	DCPOMATIC_ASSERT (ev.GetId() > 0);
+	DCPOMATIC_ASSERT (ev.GetId() <= int (cpls.size()));
 
 	list<shared_ptr<dcp::CPL> >::const_iterator i = cpls.begin ();
-	for (int j = 0; j < ev.GetId(); ++j) {
+	for (int j = 0; j < ev.GetId() - 1; ++j) {
 		++i;
 	}
 

@@ -1,5 +1,7 @@
 2016-11-15  Carl Hetherington  <cth@carlh.net>
 
+	* Fix error on using the CPL selection menu on OS X.
+
 	* Version 2.10.0 released.
 
 2016-11-14  Carl Hetherington  <cth@carlh.net>
