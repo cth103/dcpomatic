@@ -304,55 +304,65 @@ try
 
 		LOG_TIMING ("encoder-wake thread=%1 queue=%2", thread_id(), _queue.size());
 		shared_ptr<DCPVideo> vf = _queue.front ();
-		LOG_TIMING ("encoder-pop thread=%1 frame=%2 eyes=%3", thread_id(), vf->index(), (int) vf->eyes ());
-		_queue.pop_front ();
 
-		lock.unlock ();
+		/* We're about to commit to either encoding this frame or putting it back onto the queue,
+		   so we must not be interrupted until one or other of these things have happened.  This
+		   block has thread interruption disabled.
+		*/
+		{
+			boost::this_thread::disable_interruption dis;
 
-		optional<Data> encoded;
+			LOG_TIMING ("encoder-pop thread=%1 frame=%2 eyes=%3", thread_id(), vf->index(), (int) vf->eyes ());
+			_queue.pop_front ();
 
-		/* We need to encode this input */
-		if (server) {
-			try {
-				encoded = vf->encode_remotely (server.get ());
-
-				if (remote_backoff > 0) {
-					LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
-				}
-
-				/* This job succeeded, so remove any backoff */
-				remote_backoff = 0;
-
-			} catch (std::exception& e) {
-				if (remote_backoff < 60) {
-					/* back off more */
-					remote_backoff += 10;
-				}
-				LOG_ERROR (
-					N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
-					vf->index(), server->host_name(), e.what(), remote_backoff
-					);
-			}
-
-		} else {
-			try {
-				LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
-				encoded = vf->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
-				LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
-			} catch (std::exception& e) {
-				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
-				throw;
-			}
-		}
-
-		if (encoded) {
-			_writer->write (encoded.get(), vf->index (), vf->eyes ());
-			frame_done ();
-		} else {
-			lock.lock ();
-			LOG_GENERAL (N_("[%1] Encoder thread pushes frame %2 back onto queue after failure"), thread_id(), vf->index());
-			_queue.push_front (vf);
 			lock.unlock ();
+
+			optional<Data> encoded;
+
+			/* We need to encode this input */
+			if (server) {
+				try {
+					encoded = vf->encode_remotely (server.get ());
+
+					if (remote_backoff > 0) {
+						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
+					}
+
+					/* This job succeeded, so remove any backoff */
+					remote_backoff = 0;
+
+				} catch (std::exception& e) {
+					if (remote_backoff < 60) {
+						/* back off more */
+						remote_backoff += 10;
+					}
+					LOG_ERROR (
+						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
+						vf->index(), server->host_name(), e.what(), remote_backoff
+						);
+				}
+
+			} else {
+				try {
+					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
+					encoded = vf->encode_locally (boost::bind (&Log::dcp_log, _film->log().get(), _1, _2));
+					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
+				} catch (std::exception& e) {
+					/* This is very bad, so don't cope with it, just pass it on */
+					LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
+					throw;
+				}
+			}
+
+			if (encoded) {
+				_writer->write (encoded.get(), vf->index (), vf->eyes ());
+				frame_done ();
+			} else {
+				lock.lock ();
+				LOG_GENERAL (N_("[%1] Encoder thread pushes frame %2 back onto queue after failure"), thread_id(), vf->index());
+				_queue.push_front (vf);
+				lock.unlock ();
+			}
 		}
 
 		if (remote_backoff > 0) {
