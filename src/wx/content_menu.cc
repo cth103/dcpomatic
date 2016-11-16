@@ -36,6 +36,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
 #include <dcp/cpl.h>
+#include <dcp/exceptions.h>
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 #include <boost/foreach.hpp>
@@ -132,21 +133,25 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 		if (dcp) {
 			_kdm->Enable (dcp->encrypted ());
 			_ov->Enable (dcp->needs_assets ());
-			DCPExaminer ex (dcp);
-			list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
-			_choose_cpl->Enable (cpls.size() > 1);
-			/* We can't have 0 as a menu item ID on OS X */
-			int id = 1;
-			BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls) {
-				wxMenuItem* item = _cpl_menu->AppendCheckItem (
-					id++,
-					wxString::Format (
-						"%s (%s)",
-						std_to_wx(i->annotation_text()).data(),
-						std_to_wx(i->id()).data()
-						)
-					);
-				item->Check (dcp->cpl() && dcp->cpl() == i->id());
+			try {
+				DCPExaminer ex (dcp);
+				list<shared_ptr<dcp::CPL> > cpls = ex.cpls ();
+				_choose_cpl->Enable (cpls.size() > 1);
+				/* We can't have 0 as a menu item ID on OS X */
+				int id = 1;
+				BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls) {
+					wxMenuItem* item = _cpl_menu->AppendCheckItem (
+						id++,
+						wxString::Format (
+							"%s (%s)",
+							std_to_wx(i->annotation_text()).data(),
+							std_to_wx(i->id()).data()
+							)
+						);
+					item->Check (dcp->cpl() && dcp->cpl() == i->id());
+				}
+			} catch (dcp::DCPReadError) {
+				/* The DCP is probably missing */
 			}
 		} else {
 			_kdm->Enable (false);

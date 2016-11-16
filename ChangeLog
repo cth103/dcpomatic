@@ -1,3 +1,7 @@
+2016-11-16  Carl Hetherington  <cth@carlh.net>
+
+	* Fix various crahes in films with missing DCP content.
+
 2016-11-15  Carl Hetherington  <cth@carlh.net>
 
 	* Fix error on using the CPL selection menu on OS X.

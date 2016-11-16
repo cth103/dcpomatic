@@ -428,10 +428,18 @@ DCPContent::can_reference (function<shared_ptr<ContentPart> (shared_ptr<const Co
 
 	list<DCPTimePeriod> const fr = film()->reels ();
 
+	list<DCPTimePeriod> reel_list;
+	try {
+		reel_list = reels ();
+	} catch (dcp::DCPReadError) {
+		/* We couldn't read the DCP; it's probably missing */
+		return false;
+	}
+
 	/* fr must contain reels().  It can also contain other reels, but it must at
 	   least contain reels().
 	*/
-	BOOST_FOREACH (DCPTimePeriod i, reels()) {
+	BOOST_FOREACH (DCPTimePeriod i, reel_list) {
 		if (find (fr.begin(), fr.end(), i) == fr.end ()) {
 			why_not.push_back (_("The reel lengths in the film differ from those in the DCP; set the reel mode to 'split by video content'."));
 			return false;
@@ -461,8 +469,15 @@ DCPContent::can_reference_video (list<string>& why_not) const
 bool
 DCPContent::can_reference_audio (list<string>& why_not) const
 {
-        DCPDecoder decoder (shared_from_this(), film()->log());
-        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+	shared_ptr<DCPDecoder> decoder;
+	try {
+		decoder.reset (new DCPDecoder (shared_from_this(), film()->log()));
+	} catch (dcp::DCPReadError) {
+		/* We couldn't read the DCP, so it's probably missing */
+		return false;
+	}
+
+        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
                 if (!i->main_sound()) {
                         why_not.push_back (_("The DCP does not have sound in all reels."));
                         return false;
@@ -475,8 +490,15 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 bool
 DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
-        DCPDecoder decoder (shared_from_this(), film()->log());
-        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder.reels()) {
+	shared_ptr<DCPDecoder> decoder;
+	try {
+		decoder.reset (new DCPDecoder (shared_from_this(), film()->log()));
+	} catch (dcp::DCPReadError) {
+		/* We couldn't read the DCP, so it's probably missing */
+		return false;
+	}
+
+        BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels()) {
                 if (!i->main_subtitle()) {
                         why_not.push_back (_("The DCP does not have subtitles in all reels."));
                         return false;
