@@ -93,6 +93,9 @@ JobView::progress ()
 	whole += _job->status ();
 	if (whole != _last_message) {
 		_message->SetLabelMarkup (std_to_wx (whole));
+		/* This hack fixes the size of _message on OS X */
+		_message->InvalidateBestSize ();
+		_message->SetSize (_message->GetBestSize ());
 		_gauge_message->Layout ();
 		_last_message = whole;
 	}
