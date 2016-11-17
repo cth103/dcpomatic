@@ -205,7 +205,21 @@ ScreensPanel::add_screen_clicked ()
 
 	ScreenDialog* d = new ScreenDialog (GetParent(), _("Add Screen"));
 	if (d->ShowModal () != wxID_OK) {
+		d->Destroy ();
 		return;
+	}
+
+	BOOST_FOREACH (shared_ptr<Screen> i, c->screens ()) {
+		if (i->name == d->name()) {
+			error_dialog (
+				GetParent(),
+				wxString::Format (
+					_("You cannot add a screen called '%s' as the cinema already has a screen with this name."),
+					std_to_wx(d->name()).data()
+					)
+				);
+			return;
+		}
 	}
 
 	shared_ptr<Screen> s (new Screen (d->name(), d->recipient(), d->trusted_devices()));
@@ -230,14 +244,31 @@ ScreensPanel::edit_screen_clicked ()
 	pair<wxTreeItemId, shared_ptr<Screen> > s = *_selected_screens.begin();
 
 	ScreenDialog* d = new ScreenDialog (GetParent(), _("Edit screen"), s.second->name, s.second->notes, s.second->recipient, s.second->trusted_devices);
-	if (d->ShowModal () == wxID_OK) {
-		s.second->name = d->name ();
-		s.second->notes = d->notes ();
-		s.second->recipient = d->recipient ();
-		s.second->trusted_devices = d->trusted_devices ();
-		_targets->SetItemText (s.first, std_to_wx (d->name()));
-		Config::instance()->changed ();
+	if (d->ShowModal () != wxID_OK) {
+		d->Destroy ();
+		return;
 	}
+
+	shared_ptr<Cinema> c = s.second->cinema;
+	BOOST_FOREACH (shared_ptr<Screen> i, c->screens ()) {
+		if (i != s.second && i->name == d->name()) {
+			error_dialog (
+				GetParent(),
+				wxString::Format (
+					_("You cannot change this screen's name to '%s' as the cinema already has a screen with this name."),
+					std_to_wx(d->name()).data()
+					)
+				);
+			return;
+		}
+	}
+
+	s.second->name = d->name ();
+	s.second->notes = d->notes ();
+	s.second->recipient = d->recipient ();
+	s.second->trusted_devices = d->trusted_devices ();
+	_targets->SetItemText (s.first, std_to_wx (d->name()));
+	Config::instance()->changed ();
 
 	d->Destroy ();
 }
