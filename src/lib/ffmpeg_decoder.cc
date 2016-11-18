@@ -608,12 +608,13 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		out_p += image->stride()[0] / sizeof (uint32_t);
 	}
 
-	dcp::Size const vs = _ffmpeg_content->video->size ();
+	int const target_width = subtitle_codec_context()->width;
+	int const target_height = subtitle_codec_context()->height;
 	dcpomatic::Rect<double> const scaled_rect (
-		static_cast<double> (rect->x) / vs.width,
-		static_cast<double> (rect->y) / vs.height,
-		static_cast<double> (rect->w) / vs.width,
-		static_cast<double> (rect->h) / vs.height
+		static_cast<double> (rect->x) / target_width,
+		static_cast<double> (rect->y) / target_height,
+		static_cast<double> (rect->w) / target_width,
+		static_cast<double> (rect->h) / target_height
 		);
 
 	subtitle->give_image (period, image, scaled_rect);
