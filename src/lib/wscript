@@ -58,6 +58,7 @@ sources = """
           dcpomatic_time.cc
           decoder.cc
           decoder_factory.cc
+          decoder_part.cc
           digester.cc
           dolby_cp750.cc
           emailer.cc

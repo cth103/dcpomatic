@@ -163,7 +163,9 @@ DCPDecoder::pass (PassReason reason, bool)
 		}
 	}
 
-	_video_position = _audio_position = _subtitle_position = _next;
+	video->set_position (_next);
+	audio->set_position (_next);
+	subtitle->set_position (_next);
 	_next += ContentTime::from_frames (1, vfr);
 
 	if ((*_reel)->main_picture ()) {

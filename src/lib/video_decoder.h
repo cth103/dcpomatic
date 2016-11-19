@@ -29,6 +29,7 @@
 #include "video_content.h"
 #include "util.h"
 #include "content_video.h"
+#include "decoder_part.h"
 #include <boost/signals2.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -40,17 +41,12 @@ class Log;
 /** @class VideoDecoder
  *  @brief Parent for classes which decode video.
  */
-class VideoDecoder
+class VideoDecoder : public DecoderPart
 {
 public:
 	VideoDecoder (Decoder* parent, boost::shared_ptr<const Content> c, boost::shared_ptr<Log> log);
 
 	std::list<ContentVideo> get (Frame frame, bool accurate);
-
-	void set_ignore ();
-	bool ignore () const {
-		return _ignore;
-	}
 
 #ifdef DCPOMATIC_DEBUG
 	int test_gaps;
@@ -70,15 +66,12 @@ private:
 	void fill_one_eye (Frame from, Frame to, Eyes);
 	void fill_both_eyes (VideoFrame from, VideoFrame to);
 
-	Decoder* _parent;
 	boost::shared_ptr<const Content> _content;
 	boost::shared_ptr<Log> _log;
 	std::list<ContentVideo> _decoded;
 	boost::shared_ptr<Image> _black_image;
 	boost::optional<ContentTime> _last_seek_time;
 	bool _last_seek_accurate;
-	/** true if this decoder should ignore all video; i.e. never produce any */
-	bool _ignore;
 	/** if set, this is a frame for which we got no data because the Decoder said
 	 *  it has no more to give.
 	 */

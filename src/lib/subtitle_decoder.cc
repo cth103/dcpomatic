@@ -41,7 +41,7 @@ SubtitleDecoder::SubtitleDecoder (
 	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
 	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
 	)
-	: _parent (parent)
+	: DecoderPart (parent)
 	, _content (c)
 	, _image_during (image_during)
 	, _text_during (text_during)
@@ -104,7 +104,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Suggest to our parent decoder that it might want to seek if we haven't got what we're being asked for */
 	if (missing) {
-		_parent->maybe_seek_subtitle (*missing, true);
+		maybe_seek (*missing, true);
 	}
 
 	/* Now enough pass() calls will either:

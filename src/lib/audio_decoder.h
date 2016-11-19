@@ -28,6 +28,7 @@
 #include "decoder.h"
 #include "content_audio.h"
 #include "audio_stream.h"
+#include "decoder_part.h"
 #include <boost/enable_shared_from_this.hpp>
 
 class AudioBuffers;
@@ -38,7 +39,7 @@ class Log;
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
  */
-class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>
+class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public DecoderPart
 {
 public:
 	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent>, boost::shared_ptr<Log> log);
@@ -51,7 +52,6 @@ public:
 	 */
 	ContentAudio get (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
 
-	void set_ignore ();
 	void set_fast ();
 
 	void give (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
@@ -61,7 +61,6 @@ public:
 private:
 	/** An AudioDecoderStream object to manage each stream in _audio_content */
 	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
-	bool _ignore;
 };
 
 #endif

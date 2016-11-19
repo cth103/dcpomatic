@@ -25,6 +25,7 @@
 #include "rect.h"
 #include "types.h"
 #include "content_subtitle.h"
+#include "decoder_part.h"
 #include <dcp/subtitle_string.h>
 
 namespace sub {
@@ -33,7 +34,7 @@ namespace sub {
 
 class Image;
 
-class SubtitleDecoder
+class SubtitleDecoder : public DecoderPart
 {
 public:
 	/** Second parameter to the _during functions is true if we
@@ -63,7 +64,6 @@ public:
 
 private:
 
-	Decoder* _parent;
 	std::list<ContentImageSubtitle> _decoded_image;
 	std::list<ContentTextSubtitle> _decoded_text;
 	boost::shared_ptr<const SubtitleContent> _content;

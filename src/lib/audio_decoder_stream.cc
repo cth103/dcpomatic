@@ -40,10 +40,13 @@ using std::max;
 using boost::optional;
 using boost::shared_ptr;
 
-AudioDecoderStream::AudioDecoderStream (shared_ptr<const AudioContent> content, AudioStreamPtr stream, Decoder* decoder, shared_ptr<Log> log)
+AudioDecoderStream::AudioDecoderStream (
+	shared_ptr<const AudioContent> content, AudioStreamPtr stream, Decoder* decoder, AudioDecoder* audio_decoder, shared_ptr<Log> log
+	)
 	: _content (content)
 	, _stream (stream)
 	, _decoder (decoder)
+	, _audio_decoder (audio_decoder)
 	, _log (log)
 	  /* We effectively start having done a seek to zero; this allows silence-padding of the first
 	     data that comes out of our decoder.
@@ -86,7 +89,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	}
 
 	if (missing) {
-		_decoder->maybe_seek_audio (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
+		_audio_decoder->maybe_seek (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
 	}
 
 	/* Offset of the data that we want from the start of _decoded.audio

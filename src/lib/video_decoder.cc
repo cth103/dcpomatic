@@ -37,17 +37,13 @@ using boost::shared_ptr;
 using boost::optional;
 
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared_ptr<Log> log)
+	: DecoderPart (parent)
 #ifdef DCPOMATIC_DEBUG
-	: test_gaps (0)
-	, _parent (parent),
-	  _content (c)
-#else
-        : _parent (parent)
-	, _content (c)
+	, test_gaps (0)
 #endif
+	, _content (c)
 	, _log (log)
 	, _last_seek_accurate (true)
-	, _ignore (false)
 {
 	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _content->video->size(), true));
 	_black_image->make_black ();
@@ -99,7 +95,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 			*/
 			seek_frame *= 2;
 		}
-		_parent->maybe_seek_video (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
+		maybe_seek (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
 	}
 
 	/* Work out the number of frames that we should return; we
@@ -274,7 +270,7 @@ VideoDecoder::fill_both_eyes (VideoFrame from, VideoFrame to)
 void
 VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 {
-	if (_ignore) {
+	if (ignore ()) {
 		return;
 	}
 
@@ -393,11 +389,4 @@ VideoDecoder::seek (ContentTime s, bool accurate)
 	_decoded.clear ();
 	_last_seek_time = s;
 	_last_seek_accurate = accurate;
-}
-
-/** Set this decoder never to produce any data */
-void
-VideoDecoder::set_ignore ()
-{
-	_ignore = true;
 }

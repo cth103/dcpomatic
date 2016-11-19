@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,25 +18,18 @@
 
 */
 
+#include "decoder_part.h"
 #include "decoder.h"
-#include <iostream>
 
-using std::cout;
-using boost::optional;
+DecoderPart::DecoderPart (Decoder* parent)
+	: _parent (parent)
+	, _ignore (false)
+{
+
+}
 
 void
-Decoder::maybe_seek (optional<ContentTime>& position, ContentTime time, bool accurate)
+DecoderPart::maybe_seek (ContentTime time, bool accurate)
 {
-	if (!position) {
-		/* A seek has just happened */
-		return;
-	}
-
-	if (time >= *position && time < (*position + ContentTime::from_seconds(1))) {
-		/* No need to seek: caller should just pass() */
-		return;
-	}
-
-	position.reset ();
-	seek (time, accurate);
+	_parent->maybe_seek (_position, time, accurate);
 }
