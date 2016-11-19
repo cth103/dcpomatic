@@ -35,6 +35,7 @@ public:
 	void clear ();
 
 	void set_editable (bool);
+	void set_focus ();
 
 	boost::signals2::signal<void ()> Changed;
 

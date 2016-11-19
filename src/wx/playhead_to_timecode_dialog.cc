@@ -26,6 +26,7 @@ PlayheadToTimecodeDialog::PlayheadToTimecodeDialog (wxWindow* parent, int fps)
 {
 	add (_("Go to"), true);
 	_timecode = add (new Timecode<DCPTime> (this, false));
+	_timecode->set_focus ();
 
 	layout ();
 }

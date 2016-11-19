@@ -85,6 +85,12 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 }
 
 void
+TimecodeBase::set_focus ()
+{
+	_hours->SetFocus ();
+}
+
+void
 TimecodeBase::clear ()
 {
 	checked_set (_hours, wxT (""));
