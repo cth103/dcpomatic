@@ -52,7 +52,9 @@ public:
 		PASS_REASON_SUBTITLE
 	};
 
-	void maybe_seek (ContentTime time, bool accurate);
+	void maybe_seek_video (ContentTime time, bool accurate);
+	void maybe_seek_audio (ContentTime time, bool accurate);
+	void maybe_seek_subtitle (ContentTime time, bool accurate);
 
 	/** @return true if this decoder has already returned all its data and will give no more */
 	virtual bool pass (PassReason, bool accurate) = 0;
@@ -63,7 +65,9 @@ public:
 	virtual void reset () {}
 
 protected:
-	boost::optional<ContentTime> _position;
+	boost::optional<ContentTime> _video_position;
+	boost::optional<ContentTime> _audio_position;
+	boost::optional<ContentTime> _subtitle_position;
 
 private:
 	/** Seek so that the next pass() will yield the next thing
@@ -75,6 +79,7 @@ private:
 	 *  it may seek to just the right spot.
 	 */
 	virtual void seek (ContentTime time, bool accurate) = 0;
+	void maybe_seek (boost::optional<ContentTime>& position, ContentTime time, bool accurate);
 };
 
 #endif

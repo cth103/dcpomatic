@@ -39,7 +39,7 @@ using dcp::Size;
 
 ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> log)
 	: _image_content (c)
-	, _video_position (0)
+	, _frame_video_position (0)
 {
 	video.reset (new VideoDecoder (this, c, log));
 }
@@ -47,13 +47,13 @@ ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> lo
 bool
 ImageDecoder::pass (PassReason, bool)
 {
-	if (_video_position >= _image_content->video->length()) {
+	if (_frame_video_position >= _image_content->video->length()) {
 		return true;
 	}
 
 	if (!_image_content->still() || !_image) {
 		/* Either we need an image or we are using moving images, so load one */
-		boost::filesystem::path path = _image_content->path (_image_content->still() ? 0 : _video_position);
+		boost::filesystem::path path = _image_content->path (_image_content->still() ? 0 : _frame_video_position);
 		if (valid_j2k_file (path)) {
 			AVPixelFormat pf;
 			if (_image_content->video->colour_conversion()) {
@@ -72,9 +72,9 @@ ImageDecoder::pass (PassReason, bool)
 		}
 	}
 
-	_position = ContentTime::from_frames (_video_position, _image_content->active_video_frame_rate ());
-	video->give (_image, _video_position);
-	++_video_position;
+	_video_position = ContentTime::from_frames (_frame_video_position, _image_content->active_video_frame_rate ());
+	video->give (_image, _frame_video_position);
+	++_frame_video_position;
 	return false;
 }
 
@@ -82,5 +82,5 @@ void
 ImageDecoder::seek (ContentTime time, bool accurate)
 {
 	video->seek (time, accurate);
-	_video_position = time.frames_round (_image_content->active_video_frame_rate ());
+	_frame_video_position = time.frames_round (_image_content->active_video_frame_rate ());
 }

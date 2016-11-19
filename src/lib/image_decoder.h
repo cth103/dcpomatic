@@ -39,5 +39,5 @@ private:
 
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::shared_ptr<ImageProxy> _image;
-	Frame _video_position;
+	Frame _frame_video_position;
 };

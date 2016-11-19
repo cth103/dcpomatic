@@ -425,7 +425,7 @@ FFmpegDecoder::decode_audio_packet ()
 				LOG_WARNING ("Crazy timestamp %s", to_string (ct));
 			}
 
-			update_position (ct);
+			update_position (_audio_position, ct);
 
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
@@ -478,7 +478,7 @@ FFmpegDecoder::decode_video_packet ()
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
-			update_position (ContentTime::from_seconds (pts));
+			update_position (_video_position, ContentTime::from_seconds (pts));
 		} else {
 			LOG_WARNING_NC ("Dropping frame without PTS");
 		}
@@ -509,7 +509,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 	FFmpegSubtitlePeriod sub_period = subtitle_period (sub);
 	ContentTimePeriod period;
 	period.from = sub_period.from + _pts_offset;
-	update_position (period.from);
+	update_position (_subtitle_position, period.from);
 	if (sub_period.to) {
 		/* We already know the subtitle period `to' time */
 		period.to = sub_period.to.get() + _pts_offset;
@@ -646,14 +646,14 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 }
 
 void
-FFmpegDecoder::update_position (ContentTime p)
+FFmpegDecoder::update_position (optional<ContentTime>& current, ContentTime p)
 {
-	/* _position should err on the side of being too big, as then there is less
-	   chance that we will erroneously decide not to seek when _position > request.
+	/* current should err on the side of being too big, as then there is less
+	   chance that we will erroneously decide not to seek when current > request.
 	*/
-	if (!_position) {
-		_position = p;
+	if (!current) {
+		current = p;
 	} else {
-		_position = max (*_position, p);
+		current = max (*current, p);
 	}
 }

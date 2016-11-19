@@ -99,7 +99,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 			*/
 			seek_frame *= 2;
 		}
-		_parent->maybe_seek (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
+		_parent->maybe_seek_video (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
 	}
 
 	/* Work out the number of frames that we should return; we

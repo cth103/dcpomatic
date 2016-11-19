@@ -86,7 +86,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	}
 
 	if (missing) {
-		_decoder->maybe_seek (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
+		_decoder->maybe_seek_audio (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
 	}
 
 	/* Offset of the data that we want from the start of _decoded.audio

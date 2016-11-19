@@ -19,20 +19,42 @@
 */
 
 #include "decoder.h"
+#include <iostream>
+
+using std::cout;
+using boost::optional;
 
 void
-Decoder::maybe_seek (ContentTime time, bool accurate)
+Decoder::maybe_seek (optional<ContentTime>& position, ContentTime time, bool accurate)
 {
-	if (!_position) {
+	if (!position) {
 		/* A seek has just happened */
 		return;
 	}
 
-	if (time >= *_position && time < (*_position + ContentTime::from_seconds(1))) {
+	if (time >= *position && time < (*position + ContentTime::from_seconds(1))) {
 		/* No need to seek: caller should just pass() */
 		return;
 	}
 
-	_position.reset ();
+	position.reset ();
 	seek (time, accurate);
+}
+
+void
+Decoder::maybe_seek_video (ContentTime time, bool accurate)
+{
+	maybe_seek (_video_position, time, accurate);
+}
+
+void
+Decoder::maybe_seek_audio (ContentTime time, bool accurate)
+{
+	maybe_seek (_audio_position, time, accurate);
+}
+
+void
+Decoder::maybe_seek_subtitle (ContentTime time, bool accurate)
+{
+	maybe_seek (_subtitle_position, time, accurate);
 }

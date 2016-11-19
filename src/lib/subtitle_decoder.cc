@@ -104,7 +104,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Suggest to our parent decoder that it might want to seek if we haven't got what we're being asked for */
 	if (missing) {
-		_parent->maybe_seek (*missing, true);
+		_parent->maybe_seek_subtitle (*missing, true);
 	}
 
 	/* Now enough pass() calls will either:
