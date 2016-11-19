@@ -47,7 +47,7 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 	}
 
 	_specification->SetValue (std_to_wx (_name.specification ()));
-	_specification->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&NameFormatEditor::changed, this));
+	_specification->Bind (wxEVT_TEXT, boost::bind (&NameFormatEditor::changed, this));
 
 	update_example ();
 }

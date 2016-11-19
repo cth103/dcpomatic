@@ -80,14 +80,14 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::repeat, this), ID_repeat);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::join, this), ID_join);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::properties, this), ID_properties);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::kdm, this), ID_kdm);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::ov, this), ID_ov);
-	_parent->Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&ContentMenu::remove, this), ID_remove);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::repeat, this), ID_repeat);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::join, this), ID_join);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::properties, this), ID_properties);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::remove, this), ID_remove);
 
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
 }

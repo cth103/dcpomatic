@@ -71,23 +71,23 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	sizer->Add (targets, 1, wxEXPAND);
 
-	_search->Bind        (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ScreensPanel::search_changed, this));
-	_targets->Bind       (wxEVT_COMMAND_TREE_SEL_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_search->Bind        (wxEVT_TEXT, boost::bind (&ScreensPanel::search_changed, this));
+	_targets->Bind       (wxEVT_TREE_SEL_CHANGED, &ScreensPanel::selection_changed_shim, this);
 
-	_add_cinema->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::add_cinema_clicked, this));
-	_edit_cinema->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::edit_cinema_clicked, this));
-	_remove_cinema->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::remove_cinema_clicked, this));
+	_add_cinema->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_cinema_clicked, this));
+	_edit_cinema->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_cinema_clicked, this));
+	_remove_cinema->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_cinema_clicked, this));
 
-	_add_screen->Bind    (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::add_screen_clicked, this));
-	_edit_screen->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::edit_screen_clicked, this));
-	_remove_screen->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreensPanel::remove_screen_clicked, this));
+	_add_screen->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_screen_clicked, this));
+	_edit_screen->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_screen_clicked, this));
+	_remove_screen->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_screen_clicked, this));
 
 	SetSizer (sizer);
 }
 
 ScreensPanel::~ScreensPanel ()
 {
-	_targets->Unbind (wxEVT_COMMAND_TREE_SEL_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_targets->Unbind (wxEVT_TREE_SEL_CHANGED, &ScreensPanel::selection_changed_shim, this);
 }
 
 void

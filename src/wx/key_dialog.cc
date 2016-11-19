@@ -49,8 +49,8 @@ KeyDialog::KeyDialog (wxWindow* parent, dcp::Key key)
 
 	_random = add (new wxButton (this, wxID_ANY, _("Random")));
 
-	_key->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KeyDialog::key_changed, this));
-	_random->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeyDialog::random, this));
+	_key->Bind (wxEVT_TEXT, boost::bind (&KeyDialog::key_changed, this));
+	_random->Bind (wxEVT_BUTTON, boost::bind (&KeyDialog::random, this));
 
 	layout ();
 }

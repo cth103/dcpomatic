@@ -34,7 +34,7 @@ SaveTemplateDialog::SaveTemplateDialog (wxWindow* parent)
 	layout ();
 
 	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
-	ok->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&SaveTemplateDialog::check, this, _1));
+	ok->Bind (wxEVT_BUTTON, bind (&SaveTemplateDialog::check, this, _1));
 }
 
 string

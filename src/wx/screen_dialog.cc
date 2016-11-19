@@ -112,9 +112,9 @@ ScreenDialog::ScreenDialog (
 	_sizer->Add (_trusted_device_list, wxGBPosition (r, 0), wxGBSpan (1, 3), wxEXPAND);
 	++r;
 
-	_name->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ScreenDialog::setup_sensitivity, this));
-	_get_recipient_from_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::get_recipient_from_file, this));
-	_download_recipient->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ScreenDialog::download_recipient, this));
+	_name->Bind (wxEVT_TEXT, boost::bind (&ScreenDialog::setup_sensitivity, this));
+	_get_recipient_from_file->Bind (wxEVT_BUTTON, boost::bind (&ScreenDialog::get_recipient_from_file, this));
+	_download_recipient->Bind (wxEVT_BUTTON, boost::bind (&ScreenDialog::download_recipient, this));
 
 	overall_sizer->Add (_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 

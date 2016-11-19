@@ -95,7 +95,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	for (int i = 0; i < _channels; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
 		right->Add (_channel_checkbox[i], 0, wxEXPAND | wxALL, 3);
-		_channel_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::channel_clicked, this, _1));
+		_channel_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::channel_clicked, this, _1));
 	}
 
 	for (int i = _channels; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
@@ -116,7 +116,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		_type_checkbox[i] = new wxCheckBox (this, wxID_ANY, types[i]);
 		right->Add (_type_checkbox[i], 0, wxEXPAND | wxALL, 3);
-		_type_checkbox[i]->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioDialog::type_clicked, this, _1));
+		_type_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::type_clicked, this, _1));
 	}
 
 	{

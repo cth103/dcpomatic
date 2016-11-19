@@ -104,7 +104,7 @@ TextSubtitleAppearanceDialog::TextSubtitleAppearanceDialog (wxWindow* parent, sh
 	_fade_out->set (_content->subtitle->fade_out(), _content->active_video_frame_rate ());
 	_outline_width->SetValue (_content->subtitle->outline_width ());
 
-	_effect->Bind (wxEVT_COMMAND_CHOICE_SELECTED, bind (&TextSubtitleAppearanceDialog::setup_sensitivity, this));
+	_effect->Bind (wxEVT_CHOICE, bind (&TextSubtitleAppearanceDialog::setup_sensitivity, this));
 	_content_connection = _content->Changed.connect (bind (&TextSubtitleAppearanceDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();

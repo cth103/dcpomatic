@@ -215,8 +215,8 @@ public:
 
 		SetIcon (icon, std_to_wx ("DCP-o-matic Encode Server"));
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::status, this), ID_status);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&TaskBarIcon::quit, this), ID_quit);
+		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::status, this), ID_status);
+		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::quit, this), ID_quit);
 	}
 
 	wxMenu* CreatePopupMenu ()

@@ -167,10 +167,10 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_menu->Append (ID_minus6dB, _("-6dB"));
 	_menu->Append (ID_edit, _("Edit..."));
 
-	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::off, this), ID_off);
-	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::full, this), ID_full);
-	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::minus6dB, this), ID_minus6dB);
-	Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&AudioMappingView::edit, this), ID_edit);
+	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::off, this), ID_off);
+	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::full, this), ID_full);
+	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::minus6dB, this), ID_minus6dB);
+	Bind (wxEVT_MENU, boost::bind (&AudioMappingView::edit, this), ID_edit);
 
 	_left_labels->Bind (wxEVT_MOTION, bind (&AudioMappingView::mouse_moved_left_labels, this, _1));
 }

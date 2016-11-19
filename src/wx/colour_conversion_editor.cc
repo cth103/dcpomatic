@@ -193,24 +193,24 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	_input_power->SetDigits (6);
 	_input_power->SetIncrement (0.1);
 
-	_input_gamma->Bind (wxEVT_COMMAND_SPINCTRLDOUBLE_UPDATED, boost::bind (&ColourConversionEditor::changed, this, _input_gamma));
-	_input_gamma_linearised->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ColourConversionEditor::changed, this));
-	_input_power->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
-	_input_threshold->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
-	_input_A->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
-	_input_B->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::changed, this));
-	_red_x->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_red_y->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_green_x->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_green_y->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_blue_x->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_blue_y->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_white_x->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_white_y->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_adjust_white->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
-	_adjusted_white_x->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
-	_adjusted_white_y->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
-	_yuv_to_rgb->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ColourConversionEditor::changed, this));
+	_input_gamma->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind (&ColourConversionEditor::changed, this, _input_gamma));
+	_input_gamma_linearised->Bind (wxEVT_CHECKBOX, boost::bind (&ColourConversionEditor::changed, this));
+	_input_power->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
+	_input_threshold->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
+	_input_A->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
+	_input_B->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
+	_red_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_red_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_green_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_green_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_blue_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_blue_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_white_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_white_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
+	_adjust_white->Bind (wxEVT_CHECKBOX, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_adjusted_white_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_adjusted_white_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_yuv_to_rgb->Bind (wxEVT_CHOICE, boost::bind (&ColourConversionEditor::changed, this));
 }
 
 wxStaticText *

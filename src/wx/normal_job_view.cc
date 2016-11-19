@@ -35,7 +35,7 @@ void
 NormalJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
 {
 	_pause = new wxButton (parent, wxID_ANY, _("Pause"));
-	_pause->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&NormalJobView::pause_clicked, this));
+	_pause->Bind (wxEVT_BUTTON, boost::bind (&NormalJobView::pause_clicked, this));
 	sizer->Add (_pause, 1, wxALIGN_CENTER_VERTICAL);
 }
 

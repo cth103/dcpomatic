@@ -61,11 +61,11 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 		_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	_rename->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&TemplatesDialog::rename_clicked, this));
-	_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&TemplatesDialog::remove_clicked, this));
+	_rename->Bind (wxEVT_BUTTON, bind (&TemplatesDialog::rename_clicked, this));
+	_remove->Bind (wxEVT_BUTTON, bind (&TemplatesDialog::remove_clicked, this));
 
-	_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, bind (&TemplatesDialog::selection_changed, this));
-	_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind (&TemplatesDialog::selection_changed, this));
+	_list->Bind (wxEVT_LIST_ITEM_SELECTED, bind (&TemplatesDialog::selection_changed, this));
+	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, bind (&TemplatesDialog::selection_changed, this));
 	_list->Bind (wxEVT_SIZE, bind (&TemplatesDialog::resized, this, _1));
 	_config_connection = Config::instance()->Changed.connect (bind (&TemplatesDialog::refresh, this));
 

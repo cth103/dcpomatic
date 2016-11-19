@@ -66,7 +66,7 @@ NewFilmDialog::NewFilmDialog (wxWindow* parent)
 		_template_name->Append (std_to_wx (i));
 	}
 
-	_use_template->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, bind (&NewFilmDialog::use_template_clicked, this));
+	_use_template->Bind (wxEVT_CHECKBOX, bind (&NewFilmDialog::use_template_clicked, this));
 
 	layout ();
 }

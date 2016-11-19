@@ -44,7 +44,7 @@ HintsDialog::HintsDialog (wxWindow* parent, boost::weak_ptr<Film> film, bool ok)
 	if (!ok) {
 		wxCheckBox* b = new wxCheckBox (this, wxID_ANY, _("Don't show hints again"));
 		sizer->Add (b, 0, wxALL, 6);
-		b->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, bind (&HintsDialog::shut_up, this, _1));
+		b->Bind (wxEVT_CHECKBOX, bind (&HintsDialog::shut_up, this, _1));
 	}
 
 	wxStdDialogButtonSizer* buttons = CreateStdDialogButtonSizer (0);

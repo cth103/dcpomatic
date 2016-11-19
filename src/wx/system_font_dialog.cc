@@ -73,8 +73,8 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 
 	SetSizerAndFit (sizer);
 
-	_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&SystemFontDialog::setup_sensitivity, this));
-	_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&SystemFontDialog::setup_sensitivity, this));
+	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&SystemFontDialog::setup_sensitivity, this));
+	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&SystemFontDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 }

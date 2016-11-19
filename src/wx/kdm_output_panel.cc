@@ -90,8 +90,8 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	_write_to->SetValue (true);
 
-	_write_to->Bind (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
-	_email->Bind    (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
+	_write_to->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
+	_email->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
 
 	SetSizer (table);
 }

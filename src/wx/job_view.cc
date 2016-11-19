@@ -55,11 +55,11 @@ JobView::setup ()
 	wxBoxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
 
 	_cancel = new wxButton (_container, wxID_ANY, _("Cancel"));
-	_cancel->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::cancel_clicked, this);
+	_cancel->Bind (wxEVT_BUTTON, &JobView::cancel_clicked, this);
 	buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL);
 
 	_details = new wxButton (_container, wxID_ANY, _("Details..."));
-	_details->Bind (wxEVT_COMMAND_BUTTON_CLICKED, &JobView::details_clicked, this);
+	_details->Bind (wxEVT_BUTTON, &JobView::details_clicked, this);
 	_details->Enable (false);
 	buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL);
 

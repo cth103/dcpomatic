@@ -103,8 +103,8 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, boost::shared_ptr<const Film> 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_internal->Bind (wxEVT_COMMAND_RADIOBUTTON_SELECTED, bind (&SelfDKDMDialog::setup_sensitivity, this));
-	_write_to->Bind (wxEVT_COMMAND_RADIOBUTTON_SELECTED, bind (&SelfDKDMDialog::setup_sensitivity, this));
+	_internal->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::setup_sensitivity, this));
+	_write_to->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::setup_sensitivity, this));
 }
 
 void

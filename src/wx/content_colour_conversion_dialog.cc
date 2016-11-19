@@ -59,8 +59,8 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
-	_preset_check->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&ContentColourConversionDialog::preset_check_clicked, this));
-	_preset_choice->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&ContentColourConversionDialog::preset_choice_changed, this));
+	_preset_check->Bind (wxEVT_CHECKBOX, boost::bind (&ContentColourConversionDialog::preset_check_clicked, this));
+	_preset_choice->Bind (wxEVT_CHOICE, boost::bind (&ContentColourConversionDialog::preset_choice_changed, this));
 
 	_editor_connection = _editor->Changed.connect (boost::bind (&ContentColourConversionDialog::check_for_preset, this));
 

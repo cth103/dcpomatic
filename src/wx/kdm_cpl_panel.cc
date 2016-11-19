@@ -54,8 +54,8 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 
 	update_cpl_choice ();
 
-	_cpl->Bind        (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&KDMCPLPanel::update_cpl_summary, this));
-	_cpl_browse->Bind (wxEVT_COMMAND_BUTTON_CLICKED,  boost::bind (&KDMCPLPanel::cpl_browse_clicked, this));
+	_cpl->Bind        (wxEVT_CHOICE, boost::bind (&KDMCPLPanel::update_cpl_summary, this));
+	_cpl_browse->Bind (wxEVT_BUTTON,  boost::bind (&KDMCPLPanel::cpl_browse_clicked, this));
 
 	SetSizerAndFit (vertical);
 }

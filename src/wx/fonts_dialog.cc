@@ -88,9 +88,9 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content)
 
 	SetSizerAndFit (overall_sizer);
 
-	_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FontsDialog::edit_clicked, this));
-	_fonts->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&FontsDialog::selection_changed, this));
-	_fonts->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&FontsDialog::selection_changed, this));
+	_edit->Bind (wxEVT_BUTTON, boost::bind (&FontsDialog::edit_clicked, this));
+	_fonts->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&FontsDialog::selection_changed, this));
+	_fonts->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&FontsDialog::selection_changed, this));
 
 	setup ();
 }

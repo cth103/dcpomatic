@@ -54,7 +54,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	SetSizerAndFit (sizer);
 
 	_notebook->Bind (wxEVT_NOTEBOOK_PAGE_CHANGED, &DownloadCertificateDialog::page_changed, this);
-	_download->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DownloadCertificateDialog::download, this));
+	_download->Bind (wxEVT_BUTTON, boost::bind (&DownloadCertificateDialog::download, this));
 	_download->Enable (false);
 
 	wxNotebookEvent ev;

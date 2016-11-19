@@ -155,15 +155,15 @@ TimingPanel::TimingPanel (ContentPanel* p, FilmViewer* viewer)
 	grid->Layout ();
 
 	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
-	_move_to_start_of_reel->Bind  (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
+	_move_to_start_of_reel->Bind  (wxEVT_BUTTON, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
 	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
 	_trim_start->Changed.connect  (boost::bind (&TimingPanel::trim_start_changed, this));
-	_trim_start_to_playhead->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::trim_start_to_playhead_clicked, this));
+	_trim_start_to_playhead->Bind (wxEVT_BUTTON, boost::bind (&TimingPanel::trim_start_to_playhead_clicked, this));
 	_trim_end->Changed.connect    (boost::bind (&TimingPanel::trim_end_changed, this));
-	_trim_end_to_playhead->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::trim_end_to_playhead_clicked, this));
+	_trim_end_to_playhead->Bind   (wxEVT_BUTTON, boost::bind (&TimingPanel::trim_end_to_playhead_clicked, this));
 	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
-	_video_frame_rate->Bind       (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TimingPanel::video_frame_rate_changed, this));
-	_set_video_frame_rate->Bind   (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimingPanel::set_video_frame_rate, this));
+	_video_frame_rate->Bind       (wxEVT_TEXT, boost::bind (&TimingPanel::video_frame_rate_changed, this));
+	_set_video_frame_rate->Bind   (wxEVT_BUTTON, boost::bind (&TimingPanel::set_video_frame_rate, this));
 
 	_viewer->ImageChanged.connect (boost::bind (&TimingPanel::setup_sensitivity, this));
 

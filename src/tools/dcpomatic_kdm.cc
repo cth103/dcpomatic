@@ -127,10 +127,10 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_exit, this),             wxID_EXIT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this),      wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),            wxID_ABOUT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this),             wxID_EXIT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this),      wxID_PREFERENCES);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),            wxID_ABOUT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -189,7 +189,7 @@ public:
 		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
 
 		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
-		_create->Bind (wxEVT_COMMAND_BUTTON_CLICKED, bind (&DOMFrame::create_kdms, this));
+		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
 		_dkdm->SelectionChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
 
 		setup_sensitivity ();

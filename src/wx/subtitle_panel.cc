@@ -145,19 +145,19 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_y_scale->SetRange (10, 1000);
 	_line_spacing->SetRange (10, 1000);
 
-	_reference->Bind                (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::reference_clicked, this));
-	_use->Bind                      (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::use_toggled, this));
-	_burn->Bind                     (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&SubtitlePanel::burn_toggled, this));
-	_x_offset->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_offset_changed, this));
-	_y_offset->Bind                 (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_offset_changed, this));
-	_x_scale->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::x_scale_changed, this));
-	_y_scale->Bind                  (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::y_scale_changed, this));
-	_line_spacing->Bind             (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&SubtitlePanel::line_spacing_changed, this));
-	_language->Bind                 (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&SubtitlePanel::language_changed, this));
-	_stream->Bind                   (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&SubtitlePanel::stream_changed, this));
-	_subtitle_view_button->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
-	_fonts_dialog_button->Bind      (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
-	_appearance_dialog_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&SubtitlePanel::appearance_dialog_clicked, this));
+	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&SubtitlePanel::reference_clicked, this));
+	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&SubtitlePanel::use_toggled, this));
+	_burn->Bind                     (wxEVT_CHECKBOX, boost::bind (&SubtitlePanel::burn_toggled, this));
+	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::x_offset_changed, this));
+	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::y_offset_changed, this));
+	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::x_scale_changed, this));
+	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::y_scale_changed, this));
+	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::line_spacing_changed, this));
+	_language->Bind                 (wxEVT_TEXT,     boost::bind (&SubtitlePanel::language_changed, this));
+	_stream->Bind                   (wxEVT_CHOICE,  boost::bind (&SubtitlePanel::stream_changed, this));
+	_subtitle_view_button->Bind     (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
+	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
+	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::appearance_dialog_clicked, this));
 }
 
 void

@@ -100,11 +100,11 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_add_film, this),    ID_file_add_film);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::file_quit, this),        wxID_EXIT);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::tools_encoding_servers, this), ID_tools_encoding_servers);
-		Bind (wxEVT_COMMAND_MENU_SELECTED, boost::bind (&DOMFrame::help_about, this),       ID_help_about);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_film, this),    ID_file_add_film);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_quit, this),        wxID_EXIT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this), ID_tools_encoding_servers);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),       ID_help_about);
 
 		wxPanel* panel = new wxPanel (this);
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
@@ -116,7 +116,7 @@ public:
 
 		wxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
 		wxButton* add = new wxButton (panel, wxID_ANY, _("Add Film..."));
-		add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DOMFrame::add_film, this));
+		add->Bind (wxEVT_BUTTON, boost::bind (&DOMFrame::add_film, this));
 		buttons->Add (add, 1, wxALL, 6);
 
 		_sizer->Add (buttons, 0, wxALL, 6);

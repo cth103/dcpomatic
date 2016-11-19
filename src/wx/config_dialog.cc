@@ -235,22 +235,22 @@ private:
 		table->Add (bottom_table, wxGBPosition (r, 0), wxGBSpan (2, 2), wxEXPAND);
 		++r;
 
-		_set_language->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED,   boost::bind (&GeneralPage::set_language_changed, this));
-		_language->Bind     (wxEVT_COMMAND_CHOICE_SELECTED,    boost::bind (&GeneralPage::language_changed,     this));
-		_cinemas_file->Bind (wxEVT_COMMAND_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed, this));
+		_set_language->Bind (wxEVT_CHECKBOX,   boost::bind (&GeneralPage::set_language_changed, this));
+		_language->Bind     (wxEVT_CHOICE,    boost::bind (&GeneralPage::language_changed,     this));
+		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed, this));
 
 		_num_local_encoding_threads->SetRange (1, 128);
-		_num_local_encoding_threads->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
+		_num_local_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-		_analyse_ebur128->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::analyse_ebur128_changed, this));
+		_analyse_ebur128->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::analyse_ebur128_changed, this));
 #endif
-		_automatic_audio_analysis->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::automatic_audio_analysis_changed, this));
-		_check_for_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_updates_changed, this));
-		_check_for_test_updates->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
+		_automatic_audio_analysis->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::automatic_audio_analysis_changed, this));
+		_check_for_updates->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::check_for_updates_changed, this));
+		_check_for_test_updates->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
 
-		_issuer->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::issuer_changed, this));
-		_creator->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&GeneralPage::creator_changed, this));
+		_issuer->Bind (wxEVT_TEXT, boost::bind (&GeneralPage::issuer_changed, this));
+		_creator->Bind (wxEVT_TEXT, boost::bind (&GeneralPage::creator_changed, this));
 	}
 
 	void config_changed ()
@@ -461,18 +461,18 @@ private:
 		table->Add (_standard);
 
 		_still_length->SetRange (1, 3600);
-		_still_length->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::still_length_changed, this));
+		_still_length->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::still_length_changed, this));
 
-		_directory->Bind (wxEVT_COMMAND_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
+		_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 
-		_isdcf_metadata_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this));
+		_isdcf_metadata_button->Bind (wxEVT_BUTTON, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this));
 
 		vector<Ratio const *> ratios = Ratio::all ();
 		for (size_t i = 0; i < ratios.size(); ++i) {
 			_container->Append (std_to_wx (ratios[i]->nickname ()));
 		}
 
-		_container->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::container_changed, this));
+		_container->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::container_changed, this));
 
 		vector<DCPContentType const *> const ct = DCPContentType::all ();
 		for (size_t i = 0; i < ct.size(); ++i) {
@@ -481,18 +481,18 @@ private:
 
 		setup_audio_channels_choice (_dcp_audio_channels, 2);
 
-		_dcp_content_type->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
-		_dcp_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::dcp_audio_channels_changed, this));
+		_dcp_content_type->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
+		_dcp_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::dcp_audio_channels_changed, this));
 
 		_j2k_bandwidth->SetRange (50, 250);
-		_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::j2k_bandwidth_changed, this));
+		_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::j2k_bandwidth_changed, this));
 
 		_audio_delay->SetRange (-1000, 1000);
-		_audio_delay->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DefaultsPage::audio_delay_changed, this));
+		_audio_delay->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::audio_delay_changed, this));
 
 		_standard->Append (_("SMPTE"));
 		_standard->Append (_("Interop"));
-		_standard->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DefaultsPage::standard_changed, this));
+		_standard->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::standard_changed, this));
 	}
 
 	void config_changed ()
@@ -629,7 +629,7 @@ private:
 
 		_panel->GetSizer()->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 
-		_use_any_servers->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
+		_use_any_servers->Bind (wxEVT_CHECKBOX, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
 	}
 
 	void config_changed ()
@@ -738,14 +738,14 @@ public:
 		table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 		++r;
 
-		_add_certificate->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::add_certificate, this));
-		_remove_certificate->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remove_certificate, this));
-		_export_certificate->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::export_certificate, this));
-		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_SELECTED,   boost::bind (&CertificateChainEditor::update_sensitivity, this));
-		_certificates->Bind        (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&CertificateChainEditor::update_sensitivity, this));
-		_remake_certificates->Bind (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::remake_certificates, this));
-		_load_private_key->Bind    (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::load_private_key, this));
-		_export_private_key->Bind  (wxEVT_COMMAND_BUTTON_CLICKED,       boost::bind (&CertificateChainEditor::export_private_key, this));
+		_add_certificate->Bind     (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::add_certificate, this));
+		_remove_certificate->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::remove_certificate, this));
+		_export_certificate->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::export_certificate, this));
+		_certificates->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind (&CertificateChainEditor::update_sensitivity, this));
+		_certificates->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&CertificateChainEditor::update_sensitivity, this));
+		_remake_certificates->Bind (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::remake_certificates, this));
+		_load_private_key->Bind    (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::load_private_key, this));
+		_export_private_key->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::export_private_key, this));
 
 		SetSizerAndFit (_sizer);
 	}
@@ -1046,8 +1046,8 @@ private:
 		_export_decryption_chain = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption\nchain..."));
 		_decryption->add_button (_export_decryption_chain);
 
-		_export_decryption_certificate->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_certificate, this));
-		_export_decryption_chain->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KeysPage::export_decryption_chain, this));
+		_export_decryption_certificate->Bind (wxEVT_BUTTON, boost::bind (&KeysPage::export_decryption_certificate, this));
+		_export_decryption_chain->Bind (wxEVT_BUTTON, boost::bind (&KeysPage::export_decryption_chain, this));
 	}
 
 	void export_decryption_certificate ()
@@ -1151,11 +1151,11 @@ private:
 		_tms_protocol->Append (_("SCP (for AAM and Doremi)"));
 		_tms_protocol->Append (_("FTP (for Dolby)"));
 
-		_tms_protocol->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&TMSPage::tms_protocol_changed, this));
-		_tms_ip->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_ip_changed, this));
-		_tms_path->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_path_changed, this));
-		_tms_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_user_changed, this));
-		_tms_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&TMSPage::tms_password_changed, this));
+		_tms_protocol->Bind (wxEVT_CHOICE, boost::bind (&TMSPage::tms_protocol_changed, this));
+		_tms_ip->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_ip_changed, this));
+		_tms_path->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_path_changed, this));
+		_tms_user->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_user_changed, this));
+		_tms_password->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_password_changed, this));
 	}
 
 	void config_changed ()
@@ -1291,15 +1291,15 @@ private:
 
 		_kdm_cc->layout ();
 
-		_mail_server->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_server_changed, this));
-		_mail_port->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&KDMEmailPage::mail_port_changed, this));
-		_mail_user->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_user_changed, this));
-		_mail_password->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::mail_password_changed, this));
-		_kdm_subject->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
-		_kdm_from->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_from_changed, this));
-		_kdm_bcc->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
-		_kdm_email->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&KDMEmailPage::kdm_email_changed, this));
-		_reset_kdm_email->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&KDMEmailPage::reset_kdm_email, this));
+		_mail_server->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::mail_server_changed, this));
+		_mail_port->Bind (wxEVT_SPINCTRL, boost::bind (&KDMEmailPage::mail_port_changed, this));
+		_mail_user->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::mail_user_changed, this));
+		_mail_password->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::mail_password_changed, this));
+		_kdm_subject->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_subject_changed, this));
+		_kdm_from->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_from_changed, this));
+		_kdm_bcc->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_bcc_changed, this));
+		_kdm_email->Bind (wxEVT_TEXT, boost::bind (&KDMEmailPage::kdm_email_changed, this));
+		_reset_kdm_email->Bind (wxEVT_BUTTON, boost::bind (&KDMEmailPage::reset_kdm_email, this));
 	}
 
 	void config_changed ()
@@ -1493,20 +1493,20 @@ private:
 #endif
 
 		_maximum_j2k_bandwidth->SetRange (1, 1000);
-		_maximum_j2k_bandwidth->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
-		_allow_any_dcp_frame_rate->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
-		_only_servers_encode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
+		_maximum_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
+		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
+		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
 		_dcp_metadata_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_metadata_filename_format_changed, this));
 		_dcp_asset_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_asset_filename_format_changed, this));
-		_log_general->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_warning->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_error->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_timing->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_decode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_encode->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_email->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::log_changed, this));
+		_log_general->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_warning->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_error->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_timing->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_debug_decode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_debug_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_debug_email->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
 #ifdef DCPOMATIC_WINDOWS
-		_win32_console->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AdvancedPage::win32_console_changed, this));
+		_win32_console->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::win32_console_changed, this));
 #endif
 	}
 

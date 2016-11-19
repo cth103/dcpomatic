@@ -162,18 +162,18 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	grid->Add (_upload_after_make_dcp, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	_name->Bind		     (wxEVT_COMMAND_TEXT_UPDATED,     boost::bind (&DCPPanel::name_changed, this));
-	_use_isdcf_name->Bind	     (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
-	_edit_isdcf_button->Bind     (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
-	_copy_isdcf_name_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
-	_dcp_content_type->Bind	     (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_signed->Bind                (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::signed_toggled, this));
-	_encrypted->Bind             (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::encrypted_toggled, this));
-	_edit_key->Bind              (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&DCPPanel::edit_key_clicked, this));
-	_reel_type->Bind             (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&DCPPanel::reel_type_changed, this));
-	_reel_length->Bind           (wxEVT_COMMAND_SPINCTRL_UPDATED, boost::bind (&DCPPanel::reel_length_changed, this));
-	_standard->Bind              (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&DCPPanel::standard_changed, this));
-	_upload_after_make_dcp->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
+	_name->Bind		     (wxEVT_TEXT,     boost::bind (&DCPPanel::name_changed, this));
+	_use_isdcf_name->Bind	     (wxEVT_CHECKBOX, boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
+	_edit_isdcf_button->Bind     (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
+	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
+	_dcp_content_type->Bind	     (wxEVT_CHOICE,  boost::bind (&DCPPanel::dcp_content_type_changed, this));
+	_signed->Bind                (wxEVT_CHECKBOX, boost::bind (&DCPPanel::signed_toggled, this));
+	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind (&DCPPanel::encrypted_toggled, this));
+	_edit_key->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_key_clicked, this));
+	_reel_type->Bind             (wxEVT_CHOICE,  boost::bind (&DCPPanel::reel_type_changed, this));
+	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind (&DCPPanel::reel_length_changed, this));
+	_standard->Bind              (wxEVT_CHOICE,  boost::bind (&DCPPanel::standard_changed, this));
+	_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
 
 	vector<DCPContentType const *> const ct = DCPContentType::all ();
 	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
@@ -686,15 +686,15 @@ DCPPanel::make_video_panel ()
 	}
 	++r;
 
-	_container->Bind	(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::container_changed, this));
-	_frame_rate_choice->Bind(wxEVT_COMMAND_CHOICE_SELECTED,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
-	_frame_rate_spin->Bind  (wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
-	_best_frame_rate->Bind	(wxEVT_COMMAND_BUTTON_CLICKED,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
-	_j2k_bandwidth->Bind	(wxEVT_COMMAND_SPINCTRL_UPDATED,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
-	/* Also listen to wxEVT_COMMAND_TEXT_UPDATED so that typing numbers directly in is always noticed */
-	_j2k_bandwidth->Bind	(wxEVT_COMMAND_TEXT_UPDATED,          boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
-	_resolution->Bind       (wxEVT_COMMAND_CHOICE_SELECTED,       boost::bind (&DCPPanel::resolution_changed, this));
-	_three_d->Bind	 	(wxEVT_COMMAND_CHECKBOX_CLICKED,      boost::bind (&DCPPanel::three_d_changed, this));
+	_container->Bind	(wxEVT_CHOICE,	      boost::bind (&DCPPanel::container_changed, this));
+	_frame_rate_choice->Bind(wxEVT_CHOICE,	      boost::bind (&DCPPanel::frame_rate_choice_changed, this));
+	_frame_rate_spin->Bind  (wxEVT_SPINCTRL,      boost::bind (&DCPPanel::frame_rate_spin_changed, this));
+	_best_frame_rate->Bind	(wxEVT_BUTTON,	      boost::bind (&DCPPanel::best_frame_rate_clicked, this));
+	_j2k_bandwidth->Bind	(wxEVT_SPINCTRL,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
+	/* Also listen to wxEVT_TEXT so that typing numbers directly in is always noticed */
+	_j2k_bandwidth->Bind	(wxEVT_TEXT,          boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
+	_resolution->Bind       (wxEVT_CHOICE,       boost::bind (&DCPPanel::resolution_changed, this));
+	_three_d->Bind	 	(wxEVT_CHECKBOX,      boost::bind (&DCPPanel::three_d_changed, this));
 
 	vector<Ratio const *> const ratio = Ratio::all ();
 	for (vector<Ratio const *>::const_iterator i = ratio.begin(); i != ratio.end(); ++i) {
@@ -760,9 +760,9 @@ DCPPanel::make_audio_panel ()
 	grid->Add (_show_audio, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	_audio_channels->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_channels_changed, this));
-	_audio_processor->Bind (wxEVT_COMMAND_CHOICE_SELECTED, boost::bind (&DCPPanel::audio_processor_changed, this));
-	_show_audio->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DCPPanel::show_audio_clicked, this));
+	_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_channels_changed, this));
+	_audio_processor->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_processor_changed, this));
+	_show_audio->Bind (wxEVT_BUTTON, boost::bind (&DCPPanel::show_audio_clicked, this));
 
 	return panel;
 }

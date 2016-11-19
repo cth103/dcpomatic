@@ -65,7 +65,7 @@ FilterEditor::FilterEditor (wxWindow* parent, vector<Filter const *> const & act
 			bool const a = find (active.begin(), active.end(), *j) != active.end ();
 			b->SetValue (a);
 			_filters[*j] = b;
-			b->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&FilterEditor::filter_toggled, this));
+			b->Bind (wxEVT_CHECKBOX, boost::bind (&FilterEditor::filter_toggled, this));
 			sizer->Add (b);
 		}
 

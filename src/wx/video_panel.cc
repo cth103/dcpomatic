@@ -242,10 +242,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
-	_reference->Bind                     (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&VideoPanel::reference_clicked, this));
-	_filters_button->Bind                (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_filters_clicked, this));
-	_colour_conversion->Bind             (wxEVT_COMMAND_CHOICE_SELECTED,  boost::bind (&VideoPanel::colour_conversion_changed, this));
-	_edit_colour_conversion_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
+	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
+	_filters_button->Bind                (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_filters_clicked, this));
+	_colour_conversion->Bind             (wxEVT_CHOICE,  boost::bind (&VideoPanel::colour_conversion_changed, this));
+	_edit_colour_conversion_button->Bind (wxEVT_BUTTON,   boost::bind (&VideoPanel::edit_colour_conversion_clicked, this));
 }
 
 void

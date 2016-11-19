@@ -114,20 +114,20 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_back_button->SetMinSize (wxSize (32, -1));
 	_forward_button->SetMinSize (wxSize (32, -1));
 
-	_panel->Bind          (wxEVT_PAINT,                        boost::bind (&FilmViewer::paint_panel,     this));
-	_panel->Bind          (wxEVT_SIZE,                         boost::bind (&FilmViewer::panel_sized,     this, _1));
-	_outline_content->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED,     boost::bind (&FilmViewer::refresh_panel,   this));
-	_left_eye->Bind       (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&FilmViewer::refresh,         this));
-	_right_eye->Bind      (wxEVT_COMMAND_RADIOBUTTON_SELECTED, boost::bind (&FilmViewer::refresh,         this));
-	_slider->Bind         (wxEVT_SCROLL_THUMBTRACK,            boost::bind (&FilmViewer::slider_moved,    this));
-	_slider->Bind         (wxEVT_SCROLL_PAGEUP,                boost::bind (&FilmViewer::slider_moved,    this));
-	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,              boost::bind (&FilmViewer::slider_moved,    this));
-	_play_button->Bind    (wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, boost::bind (&FilmViewer::play_clicked,    this));
-	_timer.Bind           (wxEVT_TIMER,                        boost::bind (&FilmViewer::timer,           this));
-	_back_button->Bind    (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::back_clicked,    this, _1));
-	_forward_button->Bind (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::forward_clicked, this, _1));
-	_frame_number->Bind   (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::frame_number_clicked, this));
-	_timecode->Bind       (wxEVT_LEFT_DOWN,                    boost::bind (&FilmViewer::timecode_clicked, this));
+	_panel->Bind          (wxEVT_PAINT,             boost::bind (&FilmViewer::paint_panel,     this));
+	_panel->Bind          (wxEVT_SIZE,              boost::bind (&FilmViewer::panel_sized,     this, _1));
+	_outline_content->Bind(wxEVT_CHECKBOX,          boost::bind (&FilmViewer::refresh_panel,   this));
+	_left_eye->Bind       (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
+	_right_eye->Bind      (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
+	_slider->Bind         (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind         (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind         (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this));
+	_play_button->Bind    (wxEVT_TOGGLEBUTTON,      boost::bind (&FilmViewer::play_clicked,    this));
+	_timer.Bind           (wxEVT_TIMER,             boost::bind (&FilmViewer::timer,           this));
+	_back_button->Bind    (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::back_clicked,    this, _1));
+	_forward_button->Bind (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::forward_clicked, this, _1));
+	_frame_number->Bind   (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::frame_number_clicked, this));
+	_timecode->Bind       (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::timecode_clicked, this));
 
 	set_film (shared_ptr<Film> ());
 

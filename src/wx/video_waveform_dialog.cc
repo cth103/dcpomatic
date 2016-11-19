@@ -90,7 +90,7 @@ VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film>
 	overall_sizer->SetSizeHints (this);
 
 	Bind (wxEVT_SHOW, bind (&VideoWaveformDialog::shown, this, _1));
-	_component->Bind (wxEVT_COMMAND_CHOICE_SELECTED, bind (&VideoWaveformDialog::component_changed, this));
+	_component->Bind (wxEVT_CHOICE, bind (&VideoWaveformDialog::component_changed, this));
 	_contrast->Bind (wxEVT_SCROLL_THUMBTRACK, bind (&VideoWaveformDialog::contrast_changed, this));
 	_plot->MouseMoved.connect (bind (&VideoWaveformDialog::mouse_moved, this, _1, _2, _3, _4));
 

@@ -97,7 +97,7 @@ public:
 		ctrl->SetExpanderColumn (column);
 
 		wxTextCtrl* search = new wxTextCtrl (frame, wxID_ANY);
-		search->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&Model::set_search, model, search));
+		search->Bind (wxEVT_TEXT, boost::bind (&Model::set_search, model, search));
 
 		wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
 		sizer->Add (search);

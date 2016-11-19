@@ -42,7 +42,7 @@ ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> ema
 	wxCheckBox* shut_up = new wxCheckBox (this, wxID_ANY, _("Don't ask this again"));
 	sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	shut_up->Bind (wxEVT_COMMAND_CHECKBOX_CLICKED, bind (&ConfirmKDMEmailDialog::shut_up, this, _1));
+	shut_up->Bind (wxEVT_CHECKBOX, bind (&ConfirmKDMEmailDialog::shut_up, this, _1));
 
 	wxStdDialogButtonSizer* buttons = CreateStdDialogButtonSizer (0);
 	sizer->Add (CreateSeparatedSizer(buttons), wxSizerFlags().Expand().DoubleBorder());

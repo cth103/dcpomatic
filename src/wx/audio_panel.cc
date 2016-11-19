@@ -111,9 +111,9 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_gain->wrapped()->SetIncrement (0.5);
 	_delay->wrapped()->SetRange (-1000, 1000);
 
-	_reference->Bind             (wxEVT_COMMAND_CHECKBOX_CLICKED, boost::bind (&AudioPanel::reference_clicked, this));
-	_show->Bind                  (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::show_clicked, this));
-	_gain_calculate_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
+	_reference->Bind             (wxEVT_CHECKBOX, boost::bind (&AudioPanel::reference_clicked, this));
+	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
+	_gain_calculate_button->Bind (wxEVT_BUTTON,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 

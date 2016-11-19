@@ -57,8 +57,8 @@ TimePicker::TimePicker (wxWindow* parent, wxDateTime time)
 	_minutes->SetValue (time.GetMinute ());
 	_minutes->SetRange (0, 59);
 
-	_hours->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, (bind (&TimePicker::spin_changed, this)));
-	_minutes->Bind (wxEVT_COMMAND_SPINCTRL_UPDATED, (bind (&TimePicker::spin_changed, this)));
+	_hours->Bind (wxEVT_SPINCTRL, (bind (&TimePicker::spin_changed, this)));
+	_minutes->Bind (wxEVT_SPINCTRL, (bind (&TimePicker::spin_changed, this)));
 }
 
 void

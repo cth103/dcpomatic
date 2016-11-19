@@ -40,7 +40,7 @@ DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 
 	SetSizer (_sizer);
 
-	_browse->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&DirPickerCtrl::browse_clicked, this));
+	_browse->Bind (wxEVT_BUTTON, boost::bind (&DirPickerCtrl::browse_clicked, this));
 }
 
 void
@@ -54,7 +54,7 @@ DirPickerCtrl::SetPath (wxString p)
 		_folder->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
 	}
 
-	wxCommandEvent ev (wxEVT_COMMAND_DIRPICKER_CHANGED, wxID_ANY);
+	wxCommandEvent ev (wxEVT_DIRPICKER_CHANGED, wxID_ANY);
 	GetEventHandler()->ProcessEvent (ev);
 
 	_sizer->Layout ();

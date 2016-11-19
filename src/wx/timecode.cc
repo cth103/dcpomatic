@@ -70,12 +70,12 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	_fixed = add_label_to_sizer (_sizer, this, wxT ("42"), false);
 
-	_hours->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
-	_minutes->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
-	_seconds->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
-	_frames->Bind	  (wxEVT_COMMAND_TEXT_UPDATED,   boost::bind (&TimecodeBase::changed, this));
+	_hours->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
+	_minutes->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
+	_seconds->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
+	_frames->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
 	if (_set_button) {
-		_set_button->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&TimecodeBase::set_clicked, this));
+		_set_button->Bind (wxEVT_BUTTON, boost::bind (&TimecodeBase::set_clicked, this));
 		_set_button->Enable (false);
 	}
 

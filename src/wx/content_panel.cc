@@ -119,16 +119,16 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_panels.push_back (_timing_panel);
 
-	_content->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
-	_content->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::selection_changed, this));
-	_content->Bind (wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, boost::bind (&ContentPanel::right_click, this, _1));
+	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::selection_changed, this));
+	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::selection_changed, this));
+	_content->Bind (wxEVT_LIST_ITEM_RIGHT_CLICK, boost::bind (&ContentPanel::right_click, this, _1));
 	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
-	_add_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::add_file_clicked, this));
-	_add_folder->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::add_folder_clicked, this));
-	_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::remove_clicked, this, false));
-	_earlier->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::earlier_clicked, this));
-	_later->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::later_clicked, this));
-	_timeline->Bind	(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&ContentPanel::timeline_clicked, this));
+	_add_file->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_file_clicked, this));
+	_add_folder->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_folder_clicked, this));
+	_remove->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::remove_clicked, this, false));
+	_earlier->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::earlier_clicked, this));
+	_later->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::later_clicked, this));
+	_timeline->Bind	(wxEVT_BUTTON, boost::bind (&ContentPanel::timeline_clicked, this));
 }
 
 ContentList

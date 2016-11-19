@@ -44,7 +44,7 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
 
 	SetSizerAndFit (_sizer);
 
-	_file->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&FilePickerCtrl::browse_clicked, this));
+	_file->Bind (wxEVT_BUTTON, boost::bind (&FilePickerCtrl::browse_clicked, this));
 }
 
 void
@@ -58,7 +58,7 @@ FilePickerCtrl::SetPath (wxString p)
 		_file->SetLabel (_("(None)"));
 	}
 
-	wxCommandEvent ev (wxEVT_COMMAND_FILEPICKER_CHANGED, wxID_ANY);
+	wxCommandEvent ev (wxEVT_FILEPICKER_CHANGED, wxID_ANY);
 	GetEventHandler()->ProcessEvent (ev);
 }
 

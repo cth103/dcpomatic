@@ -45,7 +45,7 @@ DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (wxWindow* parent, Down
 	_serial = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (300, -1));
 	_table->Add (_serial, 1, wxEXPAND);
 
-	_serial->Bind (wxEVT_COMMAND_TEXT_UPDATED, boost::bind (&DownloadCertificateDialog::setup_sensitivity, _dialog));
+	_serial->Bind (wxEVT_TEXT, boost::bind (&DownloadCertificateDialog::setup_sensitivity, _dialog));
 
 	layout ();
 }
