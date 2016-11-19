@@ -75,11 +75,6 @@ VideoDecoder::get (Frame frame, bool accurate)
 		return list<ContentVideo> ();
 	}
 
-	/* At this stage, if we have get_video()ed before, _decoded will contain the last frame that this
-	   method returned (and possibly a few more).  If the requested frame is not in _decoded and it is not the next
-	   one after the end of _decoded we need to seek.
-	*/
-
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	/* See if we have frame, and suggest a seek if not */
