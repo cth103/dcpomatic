@@ -88,17 +88,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::remove, this), ID_remove);
-
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
-}
-
-ContentMenu::~ContentMenu ()
-{
-	delete _menu;
-
-	BOOST_FOREACH (boost::signals2::connection& i, _job_connections) {
-		i.disconnect ();
-	}
 }
 
 void
@@ -316,15 +306,13 @@ ContentMenu::find_missing ()
 
 	shared_ptr<Job> j (new ExamineContentJob (film, content));
 
-	_job_connections.push_back (
-		j->Finished.connect (
-			bind (
-				&ContentMenu::maybe_found_missing,
-				this,
-				boost::weak_ptr<Job> (j),
-				boost::weak_ptr<Content> (_content.front ()),
-				boost::weak_ptr<Content> (content)
-				)
+	j->Finished.connect (
+		bind (
+			&ContentMenu::maybe_found_missing,
+			this,
+			boost::weak_ptr<Job> (j),
+			boost::weak_ptr<Content> (_content.front ()),
+			boost::weak_ptr<Content> (content)
 			)
 		);
 

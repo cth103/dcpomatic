@@ -35,7 +35,6 @@ class ContentMenu : public boost::noncopyable
 {
 public:
 	ContentMenu (wxWindow* p);
-	~ContentMenu ();
 
 	void popup (boost::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
 
@@ -67,8 +66,6 @@ private:
 	wxMenuItem* _ov;
 	wxMenuItem* _choose_cpl;
 	wxMenuItem* _remove;
-
-	std::list<boost::signals2::connection> _job_connections;
 };
 
 #endif
