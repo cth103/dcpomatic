@@ -27,12 +27,7 @@ using boost::optional;
 void
 Decoder::maybe_seek (optional<ContentTime>& position, ContentTime time, bool accurate)
 {
-	if (!position) {
-		/* A seek has just happened */
-		return;
-	}
-
-	if (time >= *position && time < (*position + ContentTime::from_seconds(1))) {
+	if (position && (time >= *position && time < (*position + ContentTime::from_seconds(1)))) {
 		/* No need to seek: caller should just pass() */
 		return;
 	}
