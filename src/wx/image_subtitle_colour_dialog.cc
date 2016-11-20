@@ -20,6 +20,7 @@
 
 #include "image_subtitle_colour_dialog.h"
 #include "rgba_colour_picker.h"
+#include "wx_util.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/ffmpeg_content.h"
 
@@ -28,29 +29,47 @@ using std::cout;
 using boost::shared_ptr;
 
 ImageSubtitleColourDialog::ImageSubtitleColourDialog (wxWindow* parent, shared_ptr<FFmpegContent> content, shared_ptr<FFmpegSubtitleStream> stream)
-	: TableDialog (parent, _("Subtitle colours"), 2, 1, true)
+	: wxDialog (parent, wxID_ANY, _("Subtitle colours"))
 	, _content (content)
 	, _stream (stream)
 {
+	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	SetSizer (overall_sizer);
+
+	wxScrolled<wxPanel>* colours_panel = new wxScrolled<wxPanel> (this);
+	colours_panel->EnableScrolling (false, true);
+	colours_panel->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
+	colours_panel->SetScrollRate (0, 16);
+
+	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	table->AddGrowableCol (1, 1);
+
 	map<RGBA, RGBA> colours = _stream->colours ();
 
-	wxStaticText* t = new wxStaticText (this, wxID_ANY, "");
+	wxStaticText* t = new wxStaticText (colours_panel, wxID_ANY, "");
 	t->SetLabelMarkup (_("<b>Original colour</b>"));
-	add (t);
-	t = new wxStaticText (this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
+	table->Add (t, 1, wxEXPAND);
+	t = new wxStaticText (colours_panel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
 	t->SetLabelMarkup (_("<b>New colour</b>"));
-	add (t, 1, wxALIGN_CENTER);
+	table->Add (t, 1, wxALIGN_CENTER);
 
 	for (map<RGBA, RGBA>::const_iterator i = colours.begin(); i != colours.end(); ++i) {
-		wxPanel* from = new wxPanel (this, wxID_ANY);
+		wxPanel* from = new wxPanel (colours_panel, wxID_ANY);
 		from->SetBackgroundColour (wxColour (i->first.r, i->first.g, i->first.b, i->first.a));
-		add (from);
-		RGBAColourPicker* to = new RGBAColourPicker (this, i->second);
-		add (to);
+		table->Add (from, 1, wxEXPAND);
+		RGBAColourPicker* to = new RGBAColourPicker (colours_panel, i->second);
+		table->Add (to, 1, wxEXPAND);
 		_pickers[i->first] = to;
 	}
 
-	layout ();
+	colours_panel->SetSizer (table);
+
+	overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+
+	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	if (buttons) {
+		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
 }
 
 void

@@ -26,7 +26,7 @@ class RGBAColourPicker;
 class FFmpegContent;
 class FFmpegSubtitleStream;
 
-class ImageSubtitleColourDialog : public TableDialog
+class ImageSubtitleColourDialog : public wxDialog
 {
 public:
 	ImageSubtitleColourDialog (wxWindow* parent, boost::shared_ptr<FFmpegContent> content, boost::shared_ptr<FFmpegSubtitleStream> stream);
