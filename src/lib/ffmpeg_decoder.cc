@@ -510,13 +510,11 @@ FFmpegDecoder::decode_subtitle_packet ()
 	ContentTimePeriod period;
 	period.from = sub_period.from + _pts_offset;
 	subtitle->set_position (period.from);
-	if (sub_period.to) {
-		/* We already know the subtitle period `to' time */
-		period.to = sub_period.to.get() + _pts_offset;
-	} else {
-		/* We have to look up the `to' time in the stream's records */
-		period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (subtitle_id (sub));
-	}
+	/* We can't trust the `to' time from sub_period as there are some decoders which
+	   give a sub_period time for `to' which is subsequently overridden by a `stop' subtitle;
+	   see also FFmpegExaminer.
+	*/
+	period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (subtitle_id (sub));
 
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
 		AVSubtitleRect const * rect = sub.rects[i];

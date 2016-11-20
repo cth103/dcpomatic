@@ -219,3 +219,19 @@ FFmpegSubtitleStream::has_image () const
 {
 	return !_image_subtitles.empty ();
 }
+
+void
+FFmpegSubtitleStream::set_subtitle_to (string id, ContentTime to)
+{
+	PeriodMap::iterator i = _image_subtitles.find (id);
+	if (i != _image_subtitles.end ()) {
+		i->second.to = to;
+	} else {
+		i = _text_subtitles.find (id);
+		if (i != _text_subtitles.end ()) {
+			i->second.to = to;
+		} else {
+			DCPOMATIC_ASSERT (false);
+		}
+	}
+}
