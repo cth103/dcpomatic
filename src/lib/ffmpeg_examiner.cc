@@ -252,7 +252,7 @@ FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubti
 				/* This is just another subtitle, so we start again */
 				_last_subtitle_start[stream] = SubtitleStart (id, starts_image, period.from);
 			}
-		} else if (sub.num_rects == 1) {
+		} else if (sub.num_rects >= 1) {
 			if (period.to) {
 				if (starts_image) {
 					stream->add_image_subtitle (id, ContentTimePeriod (period.from, period.to.get ()));
