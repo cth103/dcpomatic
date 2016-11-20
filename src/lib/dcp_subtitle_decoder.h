@@ -26,7 +26,7 @@ class DCPSubtitleContent;
 class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 {
 public:
-	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>);
+	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>, boost::shared_ptr<Log> log);
 
 protected:
 	bool pass (PassReason, bool accurate);

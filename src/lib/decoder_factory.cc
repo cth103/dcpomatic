@@ -56,12 +56,12 @@ decoder_factory (shared_ptr<const Content> content, shared_ptr<Log> log)
 
 	shared_ptr<const TextSubtitleContent> rc = dynamic_pointer_cast<const TextSubtitleContent> (content);
 	if (rc) {
-		return shared_ptr<Decoder> (new TextSubtitleDecoder (rc));
+		return shared_ptr<Decoder> (new TextSubtitleDecoder (rc, log));
 	}
 
 	shared_ptr<const DCPSubtitleContent> dsc = dynamic_pointer_cast<const DCPSubtitleContent> (content);
 	if (dsc) {
-		return shared_ptr<Decoder> (new DCPSubtitleDecoder (dsc));
+		return shared_ptr<Decoder> (new DCPSubtitleDecoder (dsc, log));
 	}
 
 	shared_ptr<const VideoMXFContent> vmc = dynamic_pointer_cast<const VideoMXFContent> (content);

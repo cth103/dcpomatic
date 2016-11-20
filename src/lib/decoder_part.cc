@@ -21,8 +21,11 @@
 #include "decoder_part.h"
 #include "decoder.h"
 
-DecoderPart::DecoderPart (Decoder* parent)
+using boost::shared_ptr;
+
+DecoderPart::DecoderPart (Decoder* parent, shared_ptr<Log> log)
 	: _parent (parent)
+	, _log (log)
 	, _ignore (false)
 {
 

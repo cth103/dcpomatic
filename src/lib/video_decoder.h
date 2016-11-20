@@ -67,7 +67,6 @@ private:
 	void fill_both_eyes (VideoFrame from, VideoFrame to);
 
 	boost::shared_ptr<const Content> _content;
-	boost::shared_ptr<Log> _log;
 	std::list<ContentVideo> _decoded;
 	boost::shared_ptr<Image> _black_image;
 	boost::optional<ContentTime> _last_seek_time;

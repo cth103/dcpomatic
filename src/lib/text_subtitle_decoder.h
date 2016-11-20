@@ -29,7 +29,7 @@ class TextSubtitleContent;
 class TextSubtitleDecoder : public Decoder, public TextSubtitle
 {
 public:
-	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>);
+	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>, boost::shared_ptr<Log> log);
 
 protected:
 	void seek (ContentTime time, bool accurate);

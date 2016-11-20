@@ -61,6 +61,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 		new SubtitleDecoder (
 			this,
 			c->subtitle,
+			log,
 			bind (&DCPDecoder::image_subtitles_during, this, _1, _2),
 			bind (&DCPDecoder::text_subtitles_during, this, _1, _2)
 			)

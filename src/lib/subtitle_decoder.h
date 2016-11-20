@@ -44,6 +44,7 @@ public:
 	SubtitleDecoder (
 		Decoder* parent,
 		boost::shared_ptr<const SubtitleContent>,
+		boost::shared_ptr<Log> log,
 		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
 		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
 		);

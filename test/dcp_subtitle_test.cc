@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content));
+	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	list<ContentTextSubtitle> sub = decoder->subtitle->get_text (
 		ContentTimePeriod (ContentTime::from_seconds(0), ContentTime::from_seconds(2)), true, true
 		);
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content));
+	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	list<ContentTextSubtitle> sub = decoder->subtitle->get_text (
 		ContentTimePeriod (ContentTime::from_seconds(0), ContentTime::from_seconds(2)), true, true
 		);

@@ -71,7 +71,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 {
 	shared_ptr<ContentAudio> dec;
 
-	_log->log (String::compose ("-> ADS has request for %1 %2", frame, length), LogEntry::TYPE_DEBUG_DECODE);
+	_log->log (String::compose ("ADS has request for %1 %2", frame, length), LogEntry::TYPE_DEBUG_DECODE);
 
 	Frame const from = frame;
 	Frame const to = from + length;
@@ -89,6 +89,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 	}
 
 	if (missing) {
+		_log->log (String::compose ("ADS suggests seek to %1", *missing), LogEntry::TYPE_DEBUG_DECODE);
 		_audio_decoder->maybe_seek (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
 	}
 

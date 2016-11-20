@@ -32,7 +32,7 @@ using std::map;
 using boost::shared_ptr;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
-	: DecoderPart (parent)
+	: DecoderPart (parent, log)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
 		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, this, log));

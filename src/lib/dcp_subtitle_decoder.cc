@@ -28,12 +28,13 @@ using std::cout;
 using boost::shared_ptr;
 using boost::bind;
 
-DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content)
+DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
 {
 	subtitle.reset (
 		new SubtitleDecoder (
 			this,
 			content->subtitle,
+			log,
 			bind (&DCPSubtitleDecoder::image_subtitles_during, this, _1, _2),
 			bind (&DCPSubtitleDecoder::text_subtitles_during, this, _1, _2)
 			)

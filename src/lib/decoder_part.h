@@ -25,11 +25,12 @@
 #include <boost/optional.hpp>
 
 class Decoder;
+class Log;
 
 class DecoderPart
 {
 public:
-	DecoderPart (Decoder* parent);
+	DecoderPart (Decoder* parent, boost::shared_ptr<Log> log);
 
 	void set_ignore () {
 		_ignore = true;
@@ -51,6 +52,7 @@ public:
 
 protected:
 	Decoder* _parent;
+	boost::shared_ptr<Log> _log;
 
 private:
 	bool _ignore;

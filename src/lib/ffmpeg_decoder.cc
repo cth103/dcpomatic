@@ -98,6 +98,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 			new SubtitleDecoder (
 				this,
 				c->subtitle,
+				log,
 				bind (&FFmpegDecoder::image_subtitles_during, this, _1, _2),
 				bind (&FFmpegDecoder::text_subtitles_during, this, _1, _2)
 				)

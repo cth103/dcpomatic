@@ -21,6 +21,8 @@
 #include "subtitle_decoder.h"
 #include "subtitle_content.h"
 #include "util.h"
+#include "log.h"
+#include "compose.hpp"
 #include <sub/subtitle.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
@@ -38,10 +40,11 @@ using boost::function;
 SubtitleDecoder::SubtitleDecoder (
 	Decoder* parent,
 	shared_ptr<const SubtitleContent> c,
+	shared_ptr<Log> log,
 	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
 	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
 	)
-	: DecoderPart (parent)
+	: DecoderPart (parent, log)
 	, _content (c)
 	, _image_during (image_during)
 	, _text_during (text_during)
@@ -104,6 +107,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Suggest to our parent decoder that it might want to seek if we haven't got what we're being asked for */
 	if (missing) {
+		_log->log (String::compose ("SD suggests seek to %1", to_string (*missing)), LogEntry::TYPE_DEBUG_DECODE);
 		maybe_seek (*missing, true);
 	}
 

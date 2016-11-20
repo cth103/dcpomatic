@@ -37,12 +37,11 @@ using boost::shared_ptr;
 using boost::optional;
 
 VideoDecoder::VideoDecoder (Decoder* parent, shared_ptr<const Content> c, shared_ptr<Log> log)
-	: DecoderPart (parent)
+	: DecoderPart (parent, log)
 #ifdef DCPOMATIC_DEBUG
 	, test_gaps (0)
 #endif
 	, _content (c)
-	, _log (log)
 	, _last_seek_accurate (true)
 {
 	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _content->video->size(), true));
@@ -90,6 +89,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 			*/
 			seek_frame *= 2;
 		}
+		_log->log (String::compose ("VD suggests seek to %1", seek_frame), LogEntry::TYPE_DEBUG_DECODE);
 		maybe_seek (ContentTime::from_frames (seek_frame, _content->active_video_frame_rate()), accurate);
 	}
 
