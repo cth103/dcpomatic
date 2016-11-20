@@ -27,6 +27,7 @@
 using std::map;
 using std::cout;
 using boost::shared_ptr;
+using boost::bind;
 
 ImageSubtitleColourDialog::ImageSubtitleColourDialog (wxWindow* parent, shared_ptr<FFmpegContent> content, shared_ptr<FFmpegSubtitleStream> stream)
 	: wxDialog (parent, wxID_ANY, _("Subtitle colours"))
@@ -66,6 +67,10 @@ ImageSubtitleColourDialog::ImageSubtitleColourDialog (wxWindow* parent, shared_p
 
 	overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
+	wxButton* restore = new wxButton (this, wxID_ANY, _("Restore to original colours"));
+	restore->Bind (wxEVT_BUTTON, bind (&ImageSubtitleColourDialog::restore, this));
+	overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
@@ -80,4 +85,12 @@ ImageSubtitleColourDialog::apply ()
 	}
 
 	_content->signal_subtitle_stream_changed ();
+}
+
+void
+ImageSubtitleColourDialog::restore ()
+{
+	for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
+		i->second->set (i->first);
+	}
 }

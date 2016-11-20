@@ -34,6 +34,8 @@ public:
 	void apply ();
 
 private:
+	void restore ();
+
 	boost::shared_ptr<FFmpegContent> _content;
 	boost::shared_ptr<FFmpegSubtitleStream> _stream;
 	std::map<RGBA, RGBAColourPicker*> _pickers;

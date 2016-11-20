@@ -44,3 +44,10 @@ RGBAColourPicker::colour () const
 	wxColour const c = _picker->GetColour ();
 	return RGBA (c.Red(), c.Green(), c.Blue(), _alpha->GetValue());
 }
+
+void
+RGBAColourPicker::set (RGBA colour)
+{
+	_picker->SetColour (wxColour (colour.r, colour.g, colour.b));
+	_alpha->SetValue (colour.a);
+}

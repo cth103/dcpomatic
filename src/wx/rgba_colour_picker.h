@@ -30,6 +30,7 @@ public:
 	RGBAColourPicker (wxWindow* parent, RGBA colour);
 
 	RGBA colour () const;
+	void set (RGBA colour);
 
 private:
 	wxColourPickerCtrl* _picker;
