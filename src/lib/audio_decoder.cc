@@ -22,6 +22,8 @@
 #include "audio_buffers.h"
 #include "audio_decoder_stream.h"
 #include "audio_content.h"
+#include "log.h"
+#include "compose.hpp"
 #include <boost/foreach.hpp>
 #include <iostream>
 
@@ -89,6 +91,7 @@ AudioDecoder::flush ()
 void
 AudioDecoder::seek (ContentTime t, bool accurate)
 {
+	_log->log (String::compose ("AD seek to %1", to_string(t)), LogEntry::TYPE_DEBUG_DECODE);
 	for (map<AudioStreamPtr, shared_ptr<AudioDecoderStream> >::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
 		i->second->seek (t, accurate);
 	}

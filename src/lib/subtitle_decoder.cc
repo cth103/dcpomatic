@@ -164,8 +164,9 @@ SubtitleDecoder::get_image (ContentTimePeriod period, bool starting, bool accura
 }
 
 void
-SubtitleDecoder::seek (ContentTime, bool)
+SubtitleDecoder::seek (ContentTime t, bool)
 {
+	_log->log (String::compose ("SD seek to %1", to_string(t)), LogEntry::TYPE_DEBUG_DECODE);
 	reset ();
 }
 

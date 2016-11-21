@@ -385,6 +385,7 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 void
 VideoDecoder::seek (ContentTime s, bool accurate)
 {
+	_log->log (String::compose ("VD seek to %1", to_string(s)), LogEntry::TYPE_DEBUG_DECODE);
 	_decoded.clear ();
 	_last_seek_time = s;
 	_last_seek_accurate = accurate;
