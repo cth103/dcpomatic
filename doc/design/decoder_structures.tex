@@ -14,7 +14,8 @@ hides a decode-some-and-see-what-comes-out approach.
 
 With most decoders it is quick, easy and reliable to get a particular
 piece of content from a particular timecode.  This applies to the DCP,
-DCP subtitle, Sndfile and Image decoders.  With FFmpeg, however, this is not easy.
+DCP subtitle, Image and Video MXF decoders.  With FFmpeg, however,
+this is not easy.
 
 This suggests that it would make more sense to keep the
 decode-and-see-what-comes-out code within the FFmpeg decoder and not
@@ -22,13 +23,16 @@ use it anywhere else.
 
 However resampling screws this up, as it means all audio requires
 decode-and-see.  I don't think you can't resample in neat blocks as
-there are fractional samples other complications.  You can't postpone
+there are fractional samples and other complications.  You can't postpone
 resampling to the end of the player since different audio may be
 coming in at different rates.
 
 This suggests that decode-and-see is a better match, even if it feels
 a bit ridiculous when most of the decoders have slightly clunky seek
 and pass methods.
+
+Having said that: the only other decoder which produces audio is now
+the DCP one, and maybe that never needs to be resampled.
 
 
 \section{Multiple streams}
@@ -109,17 +113,47 @@ will emit stuff which \texttt{Player} must adjust (mixing sound etc.).
 Player then emits the `final cut', which must have properties like no
 gaps in video/audio.
 
-One problem I remember is which decoder to pass() at any given time:
+Maybe you could have a parent class for simpler get-stuff-at-this-time
+decoders to give them \texttt{pass()} / \texttt{seek()}.
+
+One problem I remember is which decoder to \texttt{pass()} at any given time:
 it must be the one with the earliest last output, presumably.
 Resampling also looks fiddly in the v1 code.
 
-Possible steps:
-\begin{enumerate}
-\item Add signals to \texttt{Player}; remove \texttt{get\_*}
-\item Give player a \texttt{pass()} which calls decoders and sanitises
-  output.
-\item Make transcoder attach to \texttt{Player} and pass output through to encoding.
-\item Make preview attach to \texttt{Player}, buffer the output and then fetch it from a UI thread.
-\end{enumerate}
+
+\section{Having a go}
+
+\begin{lstlisting}
+  class Decoder {
+    virtual void pass() = 0;
+    virtual void seek(ContentTime time, bool accurate) = 0;
+
+    signals2<void (ContentVideo)> Video;
+    signals2<void (ContentAudio, AudioStreamPtr)> Audio;
+    signals2<void (ContentTextSubtitle)> TextSubtitle;
+  };
+\end{lstlisting}
+
+or perhaps
+
+\begin{lstlisting}
+  class Decoder {
+    virtual void pass() = 0;
+    virtual void seek(ContentTime time, bool accurate) = 0;
+
+    shared_ptr<VideoDecoder> video;
+    shared_ptr<AudioDecoder> audio;
+    shared_ptr<SubtitleDecoder> subtitle;
+  };
+
+  class VideoDecoder {
+    signals2<void (ContentVideo)> Data;
+  };
+\end{lstlisting}
+
+Questions:
+\begin{itemize}
+\item Video / audio frame or \texttt{ContentTime}?
+\end{itemize}
 
 \end{document}
