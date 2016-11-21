@@ -77,10 +77,13 @@ VideoDecoder::get (Frame frame, bool accurate)
 	_log->log (String::compose ("VD has request for %1", frame), LogEntry::TYPE_DEBUG_DECODE);
 
 	/* See if we have frame, and suggest a seek if not */
+
 	list<ContentVideo>::const_iterator i = _decoded.begin ();
 	while (i != _decoded.end() && i->frame.index() != frame) {
+		_log->log (String::compose ("VD has stored %1 which is no good", i->frame.index()), LogEntry::TYPE_DEBUG_DECODE);
 		++i;
 	}
+
 	if (i == _decoded.end()) {
 		Frame seek_frame = frame;
 		if (_content->video->frame_type() == VIDEO_FRAME_TYPE_3D_ALTERNATE) {
@@ -170,6 +173,7 @@ VideoDecoder::get (Frame frame, bool accurate)
 	   for 3D), but nothing before that
 	*/
 	while (!_decoded.empty() && !dec.empty() && _decoded.front().frame.index() < dec.front().frame.index()) {
+		_log->log (String::compose ("VD discards %1", _decoded.front().frame.index()), LogEntry::TYPE_DEBUG_DECODE);
 		_decoded.pop_front ();
 	}
 
