@@ -30,6 +30,7 @@
 #include "audio_stream.h"
 #include "decoder_part.h"
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/signals2.hpp>
 
 class AudioBuffers;
 class AudioContent;
@@ -44,19 +45,12 @@ class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public
 public:
 	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent>, boost::shared_ptr<Log> log);
 
-	/** Try to fetch some audio from a specific place in this content.
-	 *  @param frame Frame to start from (after resampling, if applicable)
-	 *  @param length Frames to get (after resampling, if applicable)
-	 *  @param accurate true to try hard to return frames from exactly `frame', false if we don't mind nearby frames.
-	 *  @return Time-stamped audio data which may or may not be from the location (and of the length) requested.
-	 */
-	ContentAudio get (AudioStreamPtr stream, Frame time, Frame length, bool accurate);
-
 	void set_fast ();
-
-	void give (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
-	void seek (ContentTime t, bool accurate);
+
+	void emit (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
+
+	boost::signals2::signal<void (ContentAudio)> Data;
 
 	boost::optional<ContentTime> position () const;
 

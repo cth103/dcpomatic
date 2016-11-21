@@ -148,7 +148,21 @@ Player::setup_pieces ()
 			dcp->set_decode_referenced ();
 		}
 
-		_pieces.push_back (shared_ptr<Piece> (new Piece (i, decoder, frc)));
+		shared_ptr<Piece> piece (new Piece (i, decoder, frc));
+		_pieces.push_back (piece);
+
+		if (decoder->video) {
+			decoder->video->Data.connect (bind (&Player::video, this, weak_ptr<Piece> (piece), _1));
+		}
+
+		if (decoder->audio) {
+			decoder->audio->Data.connect (bind (&Player::audio, this, weak_ptr<Piece> (piece), _1));
+		}
+
+		if (decoder->subtitle) {
+			decoder->subtitle->ImageData.connect (bind (&Player::image_subtitle, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->TextData.connect (bind (&Player::text_subtitle, this, weak_ptr<Piece> (piece), _1));
+		}
 	}
 
 	_have_valid_pieces = true;
@@ -187,19 +201,7 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 		property == SubtitleContentProperty::OUTLINE_WIDTH ||
 		property == SubtitleContentProperty::Y_SCALE ||
 		property == SubtitleContentProperty::FADE_IN ||
-		property == SubtitleContentProperty::FADE_OUT
-		) {
-
-		/* These changes just need the pieces' decoders to be reset.
-		   It's quite possible that other changes could be handled by
-		   this branch rather than the _have_valid_pieces = false branch
-		   above.  This would make things a lot faster.
-		*/
-
-		reset_pieces ();
-		Changed (frequent);
-
-	} else if (
+		property == SubtitleContentProperty::FADE_OUT ||
 		property == ContentProperty::VIDEO_FRAME_RATE ||
 		property == SubtitleContentProperty::USE ||
 		property == SubtitleContentProperty::X_OFFSET ||
@@ -318,225 +320,6 @@ Player::black_player_video_frame (DCPTime time) const
 	);
 }
 
-/** @return All PlayerVideos at the given time.  There may be none if the content
- *  at `time' is a DCP which we are passing through (i.e. referring to by reference)
- *  or 2 if we have 3D.
- */
-list<shared_ptr<PlayerVideo> >
-Player::get_video (DCPTime time, bool accurate)
-{
-	if (!_have_valid_pieces) {
-		setup_pieces ();
-	}
-
-	/* Find subtitles for possible burn-in */
-
-	PlayerSubtitles ps = get_subtitles (time, DCPTime::from_frames (1, _film->video_frame_rate ()), false, true, accurate);
-
-	list<PositionImage> sub_images;
-
-	/* Image subtitles */
-	list<PositionImage> c = transform_image_subtitles (ps.image);
-	copy (c.begin(), c.end(), back_inserter (sub_images));
-
-	/* Text subtitles (rendered to an image) */
-	if (!ps.text.empty ()) {
-		list<PositionImage> s = render_subtitles (ps.text, ps.fonts, _video_container_size, time);
-		copy (s.begin (), s.end (), back_inserter (sub_images));
-	}
-
-	optional<PositionImage> subtitles;
-	if (!sub_images.empty ()) {
-		subtitles = merge (sub_images);
-	}
-
-	/* Find pieces containing video which is happening now */
-
-	list<shared_ptr<Piece> > ov = overlaps (
-		time,
-		time + DCPTime::from_frames (1, _film->video_frame_rate ()),
-		&has_video
-		);
-
-	list<shared_ptr<PlayerVideo> > pvf;
-
-	if (ov.empty ()) {
-		/* No video content at this time */
-		pvf.push_back (black_player_video_frame (time));
-	} else {
-		/* Some video content at this time */
-		shared_ptr<Piece> last = *(ov.rbegin ());
-		VideoFrameType const last_type = last->content->video->frame_type ();
-
-		/* Get video from appropriate piece(s) */
-		BOOST_FOREACH (shared_ptr<Piece> piece, ov) {
-
-			shared_ptr<VideoDecoder> decoder = piece->decoder->video;
-			DCPOMATIC_ASSERT (decoder);
-
-			shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (piece->content);
-			if (dcp_content && dcp_content->reference_video () && !_play_referenced) {
-				continue;
-			}
-
-			bool const use =
-				/* always use the last video */
-				piece == last ||
-				/* with a corresponding L/R eye if appropriate */
-				(last_type == VIDEO_FRAME_TYPE_3D_LEFT && piece->content->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) ||
-				(last_type == VIDEO_FRAME_TYPE_3D_RIGHT && piece->content->video->frame_type() == VIDEO_FRAME_TYPE_3D_LEFT);
-
-			if (use) {
-				/* We want to use this piece */
-				list<ContentVideo> content_video = decoder->get (dcp_to_content_video (piece, time), accurate);
-				if (content_video.empty ()) {
-					pvf.push_back (black_player_video_frame (time));
-				} else {
-					dcp::Size image_size = piece->content->video->scale().size (
-						piece->content->video, _video_container_size, _film->frame_size ()
-						);
-
-					for (list<ContentVideo>::const_iterator i = content_video.begin(); i != content_video.end(); ++i) {
-						pvf.push_back (
-							shared_ptr<PlayerVideo> (
-								new PlayerVideo (
-									i->image,
-									time,
-									piece->content->video->crop (),
-									piece->content->video->fade (i->frame.index()),
-									image_size,
-									_video_container_size,
-									i->frame.eyes(),
-									i->part,
-									piece->content->video->colour_conversion ()
-									)
-								)
-							);
-					}
-				}
-			} else {
-				/* Discard unused video */
-				decoder->get (dcp_to_content_video (piece, time), accurate);
-			}
-		}
-	}
-
-	if (subtitles) {
-		BOOST_FOREACH (shared_ptr<PlayerVideo> p, pvf) {
-			p->set_subtitle (subtitles.get ());
-		}
-	}
-
-	return pvf;
-}
-
-/** @return Audio data or 0 if the only audio data here is referenced DCP data */
-shared_ptr<AudioBuffers>
-Player::get_audio (DCPTime time, DCPTime length, bool accurate)
-{
-	if (!_have_valid_pieces) {
-		setup_pieces ();
-	}
-
-	Frame const length_frames = length.frames_round (_film->audio_frame_rate ());
-
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (_film->audio_channels(), length_frames));
-	audio->make_silent ();
-
-	list<shared_ptr<Piece> > ov = overlaps (time, time + length, has_audio);
-	if (ov.empty ()) {
-		return audio;
-	}
-
-	bool all_referenced = true;
-	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
-		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> (i->content);
-		if (i->content->audio && (!dcp_content || !dcp_content->reference_audio ())) {
-			/* There is audio content which is not from a DCP or not set to be referenced */
-			all_referenced = false;
-		}
-	}
-
-	if (all_referenced && !_play_referenced) {
-		return shared_ptr<AudioBuffers> ();
-	}
-
-	BOOST_FOREACH (shared_ptr<Piece> i, ov) {
-
-		DCPOMATIC_ASSERT (i->content->audio);
-		shared_ptr<AudioDecoder> decoder = i->decoder->audio;
-		DCPOMATIC_ASSERT (decoder);
-
-		/* The time that we should request from the content */
-		DCPTime request = time - DCPTime::from_seconds (i->content->audio->delay() / 1000.0);
-		Frame request_frames = length_frames;
-		DCPTime offset;
-		if (request < DCPTime ()) {
-			/* We went off the start of the content, so we will need to offset
-			   the stuff we get back.
-			*/
-			offset = -request;
-			request_frames += request.frames_round (_film->audio_frame_rate ());
-			if (request_frames < 0) {
-				request_frames = 0;
-			}
-			request = DCPTime ();
-		}
-
-		Frame const content_frame = dcp_to_resampled_audio (i, request);
-
-		BOOST_FOREACH (AudioStreamPtr j, i->content->audio->streams ()) {
-
-			if (j->channels() == 0) {
-				/* Some content (e.g. DCPs) can have streams with no channels */
-				continue;
-			}
-
-			/* Audio from this piece's decoder stream (which might be more or less than what we asked for) */
-			ContentAudio all = decoder->get (j, content_frame, request_frames, accurate);
-
-			/* Gain */
-			if (i->content->audio->gain() != 0) {
-				shared_ptr<AudioBuffers> gain (new AudioBuffers (all.audio));
-				gain->apply_gain (i->content->audio->gain ());
-				all.audio = gain;
-			}
-
-			/* Remap channels */
-			shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), all.audio->frames()));
-			dcp_mapped->make_silent ();
-			AudioMapping map = j->mapping ();
-			for (int i = 0; i < map.input_channels(); ++i) {
-				for (int j = 0; j < _film->audio_channels(); ++j) {
-					if (map.get (i, j) > 0) {
-						dcp_mapped->accumulate_channel (
-							all.audio.get(),
-							i,
-							j,
-							map.get (i, j)
-							);
-					}
-				}
-			}
-
-			if (_audio_processor) {
-				dcp_mapped = _audio_processor->run (dcp_mapped, _film->audio_channels ());
-			}
-
-			all.audio = dcp_mapped;
-
-			audio->accumulate_frames (
-				all.audio.get(),
-				content_frame - all.frame,
-				offset.frames_round (_film->audio_frame_rate()),
-				min (Frame (all.audio->frames()), request_frames)
-				);
-		}
-	}
-
-	return audio;
-}
-
 Frame
 Player::dcp_to_content_video (shared_ptr<const Piece> piece, DCPTime t) const
 {
@@ -583,82 +366,6 @@ DCPTime
 Player::content_subtitle_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 {
 	return max (DCPTime (), DCPTime (t - piece->content->trim_start(), piece->frc) + piece->content->position());
-}
-
-/** @param burnt true to return only subtitles to be burnt, false to return only
- *  subtitles that should not be burnt.  This parameter will be ignored if
- *  _always_burn_subtitles is true; in this case, all subtitles will be returned.
- */
-PlayerSubtitles
-Player::get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, bool accurate)
-{
-	list<shared_ptr<Piece> > subs = overlaps (time, time + length, has_subtitle);
-
-	PlayerSubtitles ps (time);
-
-	for (list<shared_ptr<Piece> >::const_iterator j = subs.begin(); j != subs.end(); ++j) {
-		if (!(*j)->content->subtitle->use () || (!_always_burn_subtitles && (burnt != (*j)->content->subtitle->burn ()))) {
-			continue;
-		}
-
-		shared_ptr<DCPContent> dcp_content = dynamic_pointer_cast<DCPContent> ((*j)->content);
-		if (dcp_content && dcp_content->reference_subtitle () && !_play_referenced) {
-			continue;
-		}
-
-		shared_ptr<SubtitleDecoder> subtitle_decoder = (*j)->decoder->subtitle;
-		ContentTime const from = dcp_to_content_subtitle (*j, time);
-		/* XXX: this video_frame_rate() should be the rate that the subtitle content has been prepared for */
-		ContentTime const to = from + ContentTime::from_frames (1, _film->video_frame_rate ());
-
-		list<ContentImageSubtitle> image = subtitle_decoder->get_image (ContentTimePeriod (from, to), starting, accurate);
-		for (list<ContentImageSubtitle>::iterator i = image.begin(); i != image.end(); ++i) {
-
-			/* Apply content's subtitle offsets */
-			i->sub.rectangle.x += (*j)->content->subtitle->x_offset ();
-			i->sub.rectangle.y += (*j)->content->subtitle->y_offset ();
-
-			/* Apply content's subtitle scale */
-			i->sub.rectangle.width *= (*j)->content->subtitle->x_scale ();
-			i->sub.rectangle.height *= (*j)->content->subtitle->y_scale ();
-
-			/* Apply a corrective translation to keep the subtitle centred after that scale */
-			i->sub.rectangle.x -= i->sub.rectangle.width * ((*j)->content->subtitle->x_scale() - 1);
-			i->sub.rectangle.y -= i->sub.rectangle.height * ((*j)->content->subtitle->y_scale() - 1);
-
-			ps.image.push_back (i->sub);
-		}
-
-		list<ContentTextSubtitle> text = subtitle_decoder->get_text (ContentTimePeriod (from, to), starting, accurate);
-		BOOST_FOREACH (ContentTextSubtitle& ts, text) {
-			BOOST_FOREACH (dcp::SubtitleString s, ts.subs) {
-				s.set_h_position (s.h_position() + (*j)->content->subtitle->x_offset ());
-				s.set_v_position (s.v_position() + (*j)->content->subtitle->y_offset ());
-				float const xs = (*j)->content->subtitle->x_scale();
-				float const ys = (*j)->content->subtitle->y_scale();
-				float size = s.size();
-
-				/* Adjust size to express the common part of the scaling;
-				   e.g. if xs = ys = 0.5 we scale size by 2.
-				*/
-				if (xs > 1e-5 && ys > 1e-5) {
-					size *= 1 / min (1 / xs, 1 / ys);
-				}
-				s.set_size (size);
-
-				/* Then express aspect ratio changes */
-				if (fabs (1.0 - xs / ys) > dcp::ASPECT_ADJUST_EPSILON) {
-					s.set_aspect_adjust (xs / ys);
-				}
-				s.set_in (dcp::Time(content_subtitle_to_dcp (*j, ts.period().from).seconds(), 1000));
-				s.set_out (dcp::Time(content_subtitle_to_dcp (*j, ts.period().to).seconds(), 1000));
-				ps.text.push_back (SubtitleString (s, (*j)->content->subtitle->outline_width()));
-				ps.add_fonts ((*j)->content->subtitle->fonts ());
-			}
-		}
-	}
-
-	return ps;
 }
 
 list<shared_ptr<Font> >
@@ -803,10 +510,83 @@ Player::overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> va
 	return overlaps;
 }
 
-void
-Player::reset_pieces ()
+bool
+Player::pass ()
 {
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+	}
+
+	shared_ptr<Piece> earliest;
+	DCPTime earliest_position;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		i->decoder->reset ();
+		/* Convert i->decoder->position() to DCPTime and work out the earliest */
+	}
+
+	earliest->decoder->pass ();
+
+	/* XXX: collect audio and maybe emit some */
+}
+
+void
+Player::video (weak_ptr<Piece> wp, ContentVideo video)
+{
+	shared_ptr<Piece> piece = wp.lock ();
+	if (!piece) {
+		return;
+	}
+
+	/* Get subs to burn in and burn them in */
+
+
+	/* Fill gaps */
+
+	DCPTime time = content_video_to_dcp (piece, video.frame.index());
+
+	dcp::Size image_size = piece->content->video->scale().size (
+		piece->content->video, _video_container_size, _film->frame_size ()
+		);
+
+	Video (
+		shared_ptr<PlayerVideo> (
+			new PlayerVideo (
+				video.image,
+				time,
+				piece->content->video->crop (),
+				piece->content->video->fade (video.frame.index()),
+				image_size,
+				_video_container_size,
+				video.frame.eyes(),
+				video.part,
+				piece->content->video->colour_conversion ()
+				)
+			)
+		);
+
+}
+
+void
+Player::audio (weak_ptr<Piece> piece, ContentAudio video)
+{
+	/* Put into merge buffer */
+}
+
+void
+Player::image_subtitle (weak_ptr<Piece> piece, ContentImageSubtitle subtitle)
+{
+	/* Store for video to see */
+}
+
+void
+Player::text_subtitle (weak_ptr<Piece> piece, ContentTextSubtitle subtitle)
+{
+	/* Store for video to see, or emit */
+}
+
+void
+Player::seek (DCPTime time, bool accurate)
+{
+	if (accurate) {
+		_last_video = time - DCPTime::from_frames (1, _film->video_frame_rate ());
 	}
 }

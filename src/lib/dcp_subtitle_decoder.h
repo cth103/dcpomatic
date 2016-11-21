@@ -28,13 +28,10 @@ class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 public:
 	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>, boost::shared_ptr<Log> log);
 
-protected:
-	bool pass (PassReason, bool accurate);
+	void pass ();
 	void seek (ContentTime time, bool accurate);
 
 private:
-	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
-	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 	ContentTimePeriod content_time_period (dcp::SubtitleString s) const;
 
 	std::list<dcp::SubtitleString> _subtitles;

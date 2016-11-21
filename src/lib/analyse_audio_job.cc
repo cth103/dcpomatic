@@ -102,6 +102,7 @@ AnalyseAudioJob::run ()
 	player->set_ignore_video ();
 	player->set_fast ();
 	player->set_play_referenced ();
+	player->Audio.connect (bind (&AnalyseAudioJob::analyse, this, _1, _2));
 
 	DCPTime const start = _playlist->start().get_value_or (DCPTime ());
 	DCPTime const length = _playlist->length ();
@@ -122,17 +123,7 @@ AnalyseAudioJob::run ()
 
 	if (has_any_audio) {
 		_done = 0;
-		DCPTime const block = DCPTime::from_seconds (1.0 / 8);
-		for (DCPTime t = start; t < length; t += block) {
-			shared_ptr<const AudioBuffers> audio = player->get_audio (t, block, false);
-#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-			if (Config::instance()->analyse_ebur128 ()) {
-				_ebur128->process (audio);
-			}
-#endif
-			analyse (audio);
-			set_progress ((t.seconds() - start.seconds()) / (length.seconds() - start.seconds()));
-		}
+		while (!player->pass ()) {}
 	}
 
 	vector<AudioAnalysis::PeakTime> sample_peak;
@@ -172,8 +163,14 @@ AnalyseAudioJob::run ()
 }
 
 void
-AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
+AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 {
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
+	if (Config::instance()->analyse_ebur128 ()) {
+		_ebur128->process (b);
+	}
+#endif
+
 	int const frames = b->frames ();
 	int const channels = b->channels ();
 
@@ -204,4 +201,8 @@ AnalyseAudioJob::analyse (shared_ptr<const AudioBuffers> b)
 	}
 
 	_done += frames;
+
+	DCPTime const start = _playlist->start().get_value_or (DCPTime ());
+	DCPTime const length = _playlist->length ();
+	set_progress ((time.seconds() - start.seconds()) / (length.seconds() - start.seconds()));
 }

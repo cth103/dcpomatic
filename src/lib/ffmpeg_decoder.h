@@ -46,11 +46,12 @@ class FFmpegDecoder : public FFmpeg, public Decoder
 public:
 	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>);
 
+	void pass ();
+	void seek (ContentTime time, bool);
+
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
-	bool pass (PassReason, bool accurate);
-	void seek (ContentTime time, bool);
 	void flush ();
 
 	AVSampleFormat audio_sample_format (boost::shared_ptr<FFmpegAudioStream> stream) const;
@@ -65,9 +66,6 @@ private:
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream) const;
-
-	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
-	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
 	boost::shared_ptr<Log> _log;
 

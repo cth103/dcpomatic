@@ -19,6 +19,7 @@
 */
 
 #include "types.h"
+#include "player_subtitles.h"
 #include <boost/weak_ptr.hpp>
 
 class Film;
@@ -26,6 +27,8 @@ class Encoder;
 class Player;
 class Writer;
 class Job;
+class PlayerVideo;
+class AudioBuffers;
 
 /** @class Transcoder */
 class Transcoder : public boost::noncopyable
@@ -44,10 +47,16 @@ public:
 	}
 
 private:
+
+	void video (boost::shared_ptr<PlayerVideo>);
+	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
+	void subtitle (PlayerSubtitles);
+
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
 	boost::shared_ptr<Writer> _writer;
 	boost::shared_ptr<Encoder> _encoder;
 	bool _finishing;
+	bool _non_burnt_subtitles;
 };

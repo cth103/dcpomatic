@@ -30,9 +30,3 @@ DecoderPart::DecoderPart (Decoder* parent, shared_ptr<Log> log)
 {
 
 }
-
-void
-DecoderPart::maybe_seek (ContentTime time, bool accurate)
-{
-	_parent->maybe_seek (position(), time, accurate);
-}

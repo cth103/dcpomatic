@@ -40,14 +40,10 @@ using boost::function;
 SubtitleDecoder::SubtitleDecoder (
 	Decoder* parent,
 	shared_ptr<const SubtitleContent> c,
-	shared_ptr<Log> log,
-	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
-	function<list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
+	shared_ptr<Log> log
 	)
 	: DecoderPart (parent, log)
 	, _content (c)
-	, _image_during (image_during)
-	, _text_during (text_during)
 {
 
 }
@@ -60,14 +56,13 @@ SubtitleDecoder::SubtitleDecoder (
  *  of the video frame)
  */
 void
-SubtitleDecoder::give_image (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
+SubtitleDecoder::emit_image (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
-	_decoded_image.push_back (ContentImageSubtitle (period, image, rect));
-	_position = period.from;
+	ImageData (ContentImageSubtitle (period, image, rect));
 }
 
 void
-SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
+SubtitleDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
 {
 	/* We must escape < and > in strings, otherwise they might confuse our subtitle
 	   renderer (which uses some HTML-esque markup to do bold/italic etc.)
@@ -79,115 +74,11 @@ SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> 
 		i.set_text (t);
 	}
 
-	_decoded_text.push_back (ContentTextSubtitle (period, s));
-	_position = period.to;
-}
-
-/** Get the subtitles that correspond to a given list of periods.
- *  @param subs Subtitles.
- *  @param sp Periods for which to extract subtitles from subs.
- */
-template <class T>
-list<T>
-SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool accurate)
-{
-	if (sp.empty ()) {
-		return list<T> ();
-	}
-
-	/* Find the time of the first subtitle we don't have in subs */
-	optional<ContentTime> missing;
-	BOOST_FOREACH (ContentTimePeriod i, sp) {
-		typename list<T>::const_iterator j = subs.begin();
-		while (j != subs.end() && j->period() != i) {
-			++j;
-		}
-		if (j == subs.end ()) {
-			missing = i.from;
-			break;
-		}
-	}
-
-	/* Suggest to our parent decoder that it might want to seek if we haven't got what we're being asked for */
-	if (missing) {
-		_log->log (
-			String::compose (
-				"SD suggests seek to %1 from %2",
-				to_string (*missing),
-				position() ? to_string(*position()) : "nowhere"),
-			LogEntry::TYPE_DEBUG_DECODE);
-		maybe_seek (*missing, true);
-	}
-
-	/* Now enough pass() calls will either:
-	 *  (a) give us what we want, or
-	 *  (b) hit the end of the decoder.
-	 */
-	while (!_parent->pass(Decoder::PASS_REASON_SUBTITLE, accurate) && (subs.empty() || (subs.back().period().to < sp.back().to))) {}
-
-	/* Now look for what we wanted in the data we have collected */
-	/* XXX: inefficient */
-
-	list<T> out;
-	BOOST_FOREACH (ContentTimePeriod i, sp) {
-		typename list<T>::const_iterator j = subs.begin();
-		while (j != subs.end() && j->period() != i) {
-			++j;
-		}
-		if (j != subs.end()) {
-			out.push_back (*j);
-		}
-	}
-
-	/* Discard anything in _decoded_image_subtitles that is outside 5 seconds either side of period */
-
-	list<ContentImageSubtitle>::iterator i = _decoded_image.begin();
-	while (i != _decoded_image.end()) {
-		list<ContentImageSubtitle>::iterator tmp = i;
-		++tmp;
-
-		if (
-			i->period().to < (period.from - ContentTime::from_seconds (5)) ||
-			i->period().from > (period.to + ContentTime::from_seconds (5))
-			) {
-			_decoded_image.erase (i);
-		}
-
-		i = tmp;
-	}
-
-	return out;
-}
-
-list<ContentTextSubtitle>
-SubtitleDecoder::get_text (ContentTimePeriod period, bool starting, bool accurate)
-{
-	return get<ContentTextSubtitle> (_decoded_text, _text_during (period, starting), period, accurate);
-}
-
-list<ContentImageSubtitle>
-SubtitleDecoder::get_image (ContentTimePeriod period, bool starting, bool accurate)
-{
-	return get<ContentImageSubtitle> (_decoded_image, _image_during (period, starting), period, accurate);
+	TextData (ContentTextSubtitle (period, s));
 }
 
 void
-SubtitleDecoder::seek (ContentTime t, bool)
-{
-	_log->log (String::compose ("SD seek to %1", to_string(t)), LogEntry::TYPE_DEBUG_DECODE);
-	reset ();
-	_position.reset ();
-}
-
-void
-SubtitleDecoder::reset ()
-{
-	_decoded_text.clear ();
-	_decoded_image.clear ();
-}
-
-void
-SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subtitle)
+SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle)
 {
 	/* See if our next subtitle needs to be placed on screen by us */
 	bool needs_placement = false;
@@ -295,5 +186,5 @@ SubtitleDecoder::give_text (ContentTimePeriod period, sub::Subtitle const & subt
 		}
 	}
 
-	give_text (period, out);
+	emit_text (period, out);
 }

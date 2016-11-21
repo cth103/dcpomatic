@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,19 +19,26 @@
 */
 
 #include "decoder.h"
-#include "decoder_part.h"
-#include <iostream>
+#include "video_decoder.h"
+#include "audio_decoder.h"
+#include "subtitle_decoder.h"
 
-using std::cout;
-using boost::optional;
-
-void
-Decoder::maybe_seek (optional<ContentTime> position, ContentTime time, bool accurate)
+ContentTime
+Decoder::position () const
 {
-	if (position && (time >= position.get() && time < (position.get() + ContentTime::from_seconds(1)))) {
-		/* No need to seek: caller should just pass() */
-		return;
+	ContentTime pos;
+
+	if (video && video->position()) {
+		pos = min (pos, video->position().get());
 	}
 
-	seek (time, accurate);
+	if (audio && audio->position()) {
+		pos = min (pos, audio->position().get());
+	}
+
+	if (subtitle && subtitle->position()) {
+		pos = min (pos, subtitle->position().get());
+	}
+
+	return pos;
 }

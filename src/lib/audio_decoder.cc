@@ -42,14 +42,8 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 	}
 }
 
-ContentAudio
-AudioDecoder::get (AudioStreamPtr stream, Frame frame, Frame length, bool accurate)
-{
-	return _streams[stream]->get (frame, length, accurate);
-}
-
 void
-AudioDecoder::give (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
+AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time)
 {
 	if (ignore ()) {
 		return;
@@ -86,15 +80,6 @@ AudioDecoder::flush ()
 {
 	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
 		i->second->flush ();
-	}
-}
-
-void
-AudioDecoder::seek (ContentTime t, bool accurate)
-{
-	_log->log (String::compose ("AD seek to %1", to_string(t)), LogEntry::TYPE_DEBUG_DECODE);
-	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
-		i->second->seek (t, accurate);
 	}
 }
 

@@ -72,7 +72,7 @@ public:
 		audio.reset (new AudioDecoder (this, content->audio, log));
 	}
 
-	bool pass (PassReason, bool)
+	bool pass ()
 	{
 		Frame const N = min (
 			Frame (2000),
@@ -94,7 +94,6 @@ public:
 
 	void seek (ContentTime t, bool accurate)
 	{
-		audio->seek (t, accurate);
 		_position = t.frames_round (_test_audio_content->audio->resampled_frame_rate ());
 	}
 

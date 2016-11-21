@@ -37,10 +37,8 @@ class AudioDecoderStream
 public:
 	AudioDecoderStream (boost::shared_ptr<const AudioContent>, AudioStreamPtr, Decoder* decoder, AudioDecoder* audio_decoder, boost::shared_ptr<Log> log);
 
-	ContentAudio get (Frame time, Frame length, bool accurate);
 	void audio (boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void flush ();
-	void seek (ContentTime time, bool accurate);
 	void set_fast ();
 
 	boost::optional<ContentTime> position () const;

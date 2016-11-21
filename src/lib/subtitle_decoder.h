@@ -27,6 +27,7 @@
 #include "content_subtitle.h"
 #include "decoder_part.h"
 #include <dcp/subtitle_string.h>
+#include <boost/signals2.hpp>
 
 namespace sub {
 	class Subtitle;
@@ -44,46 +45,22 @@ public:
 	SubtitleDecoder (
 		Decoder* parent,
 		boost::shared_ptr<const SubtitleContent>,
-		boost::shared_ptr<Log> log,
-		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> image_during,
-		boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> text_during
+		boost::shared_ptr<Log> log
 		);
 
-	std::list<ContentImageSubtitle> get_image (ContentTimePeriod period, bool starting, bool accurate);
-	std::list<ContentTextSubtitle> get_text (ContentTimePeriod period, bool starting, bool accurate);
-
-	void seek (ContentTime, bool);
-	void reset ();
-
-	void give_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
-	void give_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
-	void give_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
+	void emit_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
+	void emit_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
+	void emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
 
 	boost::shared_ptr<const SubtitleContent> content () const {
 		return _content;
 	}
 
-	boost::optional<ContentTime> position () const {
-		return _position;
-	}
-
-	void reset_position () {
-		_position.reset ();
-	}
+	boost::signals2::signal<void (ContentImageSubtitle)> ImageData;
+	boost::signals2::signal<void (ContentTextSubtitle)> TextData;
 
 private:
-
-	std::list<ContentImageSubtitle> _decoded_image;
-	std::list<ContentTextSubtitle> _decoded_text;
 	boost::shared_ptr<const SubtitleContent> _content;
-
-	template <class T>
-	std::list<T> get (std::list<T> const & subs, std::list<ContentTimePeriod> const & sp, ContentTimePeriod period, bool accurate);
-
-	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _image_during;
-	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _text_during;
-
-	boost::optional<ContentTime> _position;
 };
 
 #endif

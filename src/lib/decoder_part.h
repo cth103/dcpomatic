@@ -43,8 +43,6 @@ public:
 
 	virtual boost::optional<ContentTime> position () const = 0;
 
-	void maybe_seek (ContentTime time, bool accurate);
-
 protected:
 	Decoder* _parent;
 	boost::shared_ptr<Log> _log;

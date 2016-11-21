@@ -67,7 +67,9 @@ private:
 	void player_changed (bool);
 	void update_position_label ();
 	void update_position_slider ();
-	void get (DCPTime, bool);
+	void video (boost::shared_ptr<PlayerVideo>);
+	void get ();
+	void seek (DCPTime t, bool accurate);
 	void refresh_panel ();
 	void setup_sensitivity ();
 	void film_changed (Film::Property);
@@ -105,12 +107,11 @@ private:
 	dcp::Size _out_size;
 	/** Size of the panel that we have available */
 	dcp::Size _panel_size;
-	/** true if the last call to ::get() was specified to be accurate;
+	/** true if the last call to Player::seek() was specified to be accurate;
 	 *  this is used so that when re-fetching the current frame we
 	 *  can get the same one that we got last time.
 	 */
-	bool _last_get_accurate;
-
+	bool _last_seek_accurate;
 	boost::signals2::scoped_connection _film_connection;
 	boost::signals2::scoped_connection _player_connection;
 };

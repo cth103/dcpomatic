@@ -33,9 +33,10 @@ public:
 		return _image_content;
 	}
 
-private:
-	bool pass (Decoder::PassReason, bool);
+	void pass ();
 	void seek (ContentTime, bool);
+
+private:
 
 	boost::shared_ptr<const ImageContent> _image_content;
 	boost::shared_ptr<ImageProxy> _image;

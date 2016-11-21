@@ -66,102 +66,6 @@ AudioDecoderStream::reset_decoded ()
 	_decoded = ContentAudio (shared_ptr<AudioBuffers> (new AudioBuffers (_stream->channels(), 0)), 0);
 }
 
-ContentAudio
-AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
-{
-	shared_ptr<ContentAudio> dec;
-
-	_log->log (
-		String::compose (
-			"ADS has request for %1 %2; has %3 %4",
-			frame, length, _decoded.frame, _decoded.audio->frames()
-			), LogEntry::TYPE_DEBUG_DECODE
-		);
-
-	Frame const from = frame;
-	Frame const to = from + length;
-	Frame const have_from = _decoded.frame;
-	Frame const have_to = _decoded.frame + _decoded.audio->frames();
-
-	optional<Frame> missing;
-	if (have_from > from || have_to < to) {
-		/* We need something */
-		if (have_from <= from && from < have_to) {
-			missing = have_to;
-		} else {
-			missing = from;
-		}
-	}
-
-	if (missing) {
-		optional<ContentTime> pos = _audio_decoder->position ();
-		_log->log (
-			String::compose ("ADS suggests seek to %1 (now at %2)", *missing, pos ? to_string(pos.get()) : "none"),
-			LogEntry::TYPE_DEBUG_DECODE
-			);
-		_audio_decoder->maybe_seek (ContentTime::from_frames (*missing, _content->resampled_frame_rate()), accurate);
-	}
-
-	/* Offset of the data that we want from the start of _decoded.audio
-	   (to be set up shortly)
-	*/
-	Frame decoded_offset = 0;
-
-	/* Now enough pass() calls will either:
-	 *  (a) give us what we want, or
-	 *  (b) hit the end of the decoder.
-	 *
-	 * If we are being accurate, we want the right frames,
-	 * otherwise any frames will do.
-	 */
-	if (accurate) {
-		/* Keep stuffing data into _decoded until we have enough data, or the subclass does not want to give us any more */
-		while (
-			(_decoded.frame > frame || (_decoded.frame + _decoded.audio->frames()) <= to) &&
-			!_decoder->pass (Decoder::PASS_REASON_AUDIO, accurate)
-			)
-		{}
-
-		decoded_offset = frame - _decoded.frame;
-
-		_log->log (
-			String::compose ("Accurate ADS::get has offset %1 from request %2 and available %3", decoded_offset, frame, have_from),
-			LogEntry::TYPE_DEBUG_DECODE
-			);
-	} else {
-		while (
-			_decoded.audio->frames() < length &&
-			!_decoder->pass (Decoder::PASS_REASON_AUDIO, accurate)
-			)
-		{}
-
-		/* Use decoded_offset of 0, as we don't really care what frames we return */
-	}
-
-	/* The amount of data available in _decoded.audio starting from `frame'.  This could be -ve
-	   if pass() returned true before we got enough data.
-	*/
-	Frame const available = _decoded.audio->frames() - decoded_offset;
-
-	/* We will return either that, or the requested amount, whichever is smaller */
-	Frame const to_return = max ((Frame) 0, min (available, length));
-
-	/* Copy our data to the output */
-	shared_ptr<AudioBuffers> out (new AudioBuffers (_decoded.audio->channels(), to_return));
-	out->copy_from (_decoded.audio.get(), to_return, decoded_offset, 0);
-
-	Frame const remaining = max ((Frame) 0, available - to_return);
-
-	/* Clean up decoded; first, move the data after what we just returned to the start of the buffer */
-	_decoded.audio->move (decoded_offset + to_return, 0, remaining);
-	/* And set up the number of frames we have left */
-	_decoded.audio->set_frames (remaining);
-	/* Also bump where those frames are in terms of the content */
-	_decoded.frame += decoded_offset + to_return;
-
-	return ContentAudio (out, frame);
-}
-
 /** Audio timestamping is made hard by many factors, but perhaps the most entertaining is resampling.
  *  We have to assume that we are feeding continuous data into the resampler, and so we get continuous
  *  data out.  Hence we do the timestamping here, post-resampler, just by counting samples.
@@ -252,16 +156,6 @@ AudioDecoderStream::flush ()
 	shared_ptr<const AudioBuffers> b = _resampler->flush ();
 	if (b) {
 		add (b);
-	}
-}
-
-void
-AudioDecoderStream::seek (ContentTime t, bool accurate)
-{
-	_position.reset ();
-	reset_decoded ();
-	if (accurate) {
-		_seek_reference = t;
 	}
 }
 

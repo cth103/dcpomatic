@@ -46,44 +46,18 @@ class VideoDecoder : public DecoderPart
 public:
 	VideoDecoder (Decoder* parent, boost::shared_ptr<const Content> c, boost::shared_ptr<Log> log);
 
-	std::list<ContentVideo> get (Frame frame, bool accurate);
-
-#ifdef DCPOMATIC_DEBUG
-	int test_gaps;
-#endif
-
 	friend struct video_decoder_fill_test1;
 	friend struct video_decoder_fill_test2;
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
-	void seek (ContentTime time, bool accurate);
-	void give (boost::shared_ptr<const ImageProxy>, Frame frame);
+	void emit (boost::shared_ptr<const ImageProxy>, Frame frame);
 
-	boost::optional<ContentTime> position () const {
-		return _position;
-	}
-
-	void reset_position () {
-		_position.reset ();
-	}
+	boost::signals2::signal<void (ContentVideo)> Data;
 
 private:
-
-	std::list<ContentVideo> decoded (Frame frame);
-	void fill_one_eye (Frame from, Frame to, Eyes);
-	void fill_both_eyes (VideoFrame from, VideoFrame to);
-
 	boost::shared_ptr<const Content> _content;
-	std::list<ContentVideo> _decoded;
-	boost::shared_ptr<Image> _black_image;
-	boost::optional<ContentTime> _last_seek_time;
-	bool _last_seek_accurate;
-	/** if set, this is a frame for which we got no data because the Decoder said
-	 *  it has no more to give.
-	 */
-	boost::optional<Frame> _no_data_frame;
-	boost::optional<ContentTime> _position;
+	boost::optional<Frame> _last_emitted;
 };
 
 #endif

@@ -38,73 +38,31 @@ TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> 
 	: TextSubtitle (content)
 	, _next (0)
 {
-	subtitle.reset (
-		new SubtitleDecoder (
-			this,
-			content->subtitle,
-			log,
-			bind (&TextSubtitleDecoder::image_subtitles_during, this, _1, _2),
-			bind (&TextSubtitleDecoder::text_subtitles_during, this, _1, _2)
-			)
-		);
+	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log));
 }
 
 void
-TextSubtitleDecoder::seek (ContentTime time, bool accurate)
+TextSubtitleDecoder::seek (ContentTime time, bool)
 {
-	subtitle->seek (time, accurate);
-
 	_next = 0;
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
 		++_next;
 	}
 }
 
-bool
-TextSubtitleDecoder::pass (PassReason, bool)
+void
+TextSubtitleDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
-		return true;
+		return;
 	}
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
-	subtitle->give_text (p, _subtitles[_next]);
+	subtitle->emit_text (p, _subtitles[_next]);
+	subtitle->set_position (p.from);
 
 	++_next;
-	return false;
-}
-
-list<ContentTimePeriod>
-TextSubtitleDecoder::image_subtitles_during (ContentTimePeriod, bool) const
-{
-	return list<ContentTimePeriod> ();
-}
-
-list<ContentTimePeriod>
-TextSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
-{
-	/* XXX: inefficient */
-
-	list<ContentTimePeriod> d;
-
-	/* Only take `during' (not starting) subs if they overlap more than half the requested period;
-	   here's the threshold for being significant.
-	*/
-	ContentTime const significant (p.duration().get() / 2);
-
-	for (vector<sub::Subtitle>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		ContentTimePeriod t = content_time_period (*i);
-		if (starting && p.contains(t.from)) {
-			d.push_back (t);
-		} else if (!starting) {
-			optional<ContentTimePeriod> const o = p.overlap (t);
-			if (o && o->duration() > significant) {
-				d.push_back (t);
-			}
-		}
-	}
-
-	return d;
+	return;
 }
 
 ContentTimePeriod
@@ -114,10 +72,4 @@ TextSubtitleDecoder::content_time_period (sub::Subtitle s) const
 		ContentTime::from_seconds (s.from.all_as_seconds()),
 		ContentTime::from_seconds (s.to.all_as_seconds())
 		);
-}
-
-void
-TextSubtitleDecoder::reset ()
-{
-	subtitle->reset ();
 }

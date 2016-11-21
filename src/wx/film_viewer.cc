@@ -79,7 +79,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _play_button (new wxToggleButton (this, wxID_ANY, _("Play")))
 	, _coalesce_player_changes (false)
 	, _pending_player_change (false)
-	, _last_get_accurate (true)
+	, _last_seek_accurate (true)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -196,93 +196,56 @@ FilmViewer::refresh_panel ()
 }
 
 void
-FilmViewer::get (DCPTime p, bool accurate)
+FilmViewer::video (shared_ptr<PlayerVideo> pv)
 {
 	if (!_player) {
 		return;
 	}
 
-	list<shared_ptr<PlayerVideo> > all_pv;
-	try {
-		all_pv = _player->get_video (p, accurate);
-	} catch (exception& e) {
-		error_dialog (this, wxString::Format (_("Could not get video for view (%s)"), std_to_wx(e.what()).data()));
-	}
-
-	if (!all_pv.empty ()) {
-		try {
-			shared_ptr<PlayerVideo> pv;
-			if (all_pv.size() == 2) {
-				/* We have 3D; choose the correct eye */
-				if (_left_eye->GetValue()) {
-					if (all_pv.front()->eyes() == EYES_LEFT) {
-						pv = all_pv.front();
-					} else {
-						pv = all_pv.back();
-					}
-				} else {
-					if (all_pv.front()->eyes() == EYES_RIGHT) {
-						pv = all_pv.front();
-					} else {
-						pv = all_pv.back();
-					}
-				}
-			} else {
-				/* 2D; no choice to make */
-				pv = all_pv.front ();
-			}
-
-			/* In an ideal world, what we would do here is:
-			 *
-			 * 1. convert to XYZ exactly as we do in the DCP creation path.
-			 * 2. convert back to RGB for the preview display, compensating
-			 *    for the monitor etc. etc.
-			 *
-			 * but this is inefficient if the source is RGB.  Since we don't
-			 * (currently) care too much about the precise accuracy of the preview's
-			 * colour mapping (and we care more about its speed) we try to short-
-			 * circuit this "ideal" situation in some cases.
-			 *
-			 * The content's specified colour conversion indicates the colourspace
-			 * which the content is in (according to the user).
-			 *
-			 * PlayerVideo::image (bound to PlayerVideo::always_rgb) will take the source
-			 * image and convert it (from whatever the user has said it is) to RGB.
-			 */
-
-			_frame = pv->image (
-				bind (&Log::dcp_log, _film->log().get(), _1, _2),
-				bind (&PlayerVideo::always_rgb, _1),
-				false, true
-				);
-
-			ImageChanged (pv);
-
-			_position = pv->time ();
-			_inter_position = pv->inter_position ();
-			_inter_size = pv->inter_size ();
-		} catch (dcp::DCPReadError& e) {
-			/* This can happen on the following sequence of events:
-			 * - load encrypted DCP
-			 * - add KDM
-			 * - DCP is examined again, which sets its "playable" flag to 1
-			 * - as a side effect of the exam, the viewer is updated using the old pieces
-			 * - the DCPDecoder in the old piece gives us an encrypted frame
-			 * - then, the pieces are re-made (but too late).
-			 *
-			 * I hope there's a better way to handle this ...
-			 */
-			_frame.reset ();
-			_position = p;
+	if (_film->three_d ()) {
+		if ((_left_eye->GetValue() && pv->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && pv->eyes() == EYES_LEFT)) {
+			return;
 		}
-	} else {
-		_frame.reset ();
-		_position = p;
 	}
+
+	/* In an ideal world, what we would do here is:
+	 *
+	 * 1. convert to XYZ exactly as we do in the DCP creation path.
+	 * 2. convert back to RGB for the preview display, compensating
+	 *    for the monitor etc. etc.
+	 *
+	 * but this is inefficient if the source is RGB.  Since we don't
+	 * (currently) care too much about the precise accuracy of the preview's
+	 * colour mapping (and we care more about its speed) we try to short-
+	 * circuit this "ideal" situation in some cases.
+	 *
+	 * The content's specified colour conversion indicates the colourspace
+	 * which the content is in (according to the user).
+	 *
+	 * PlayerVideo::image (bound to PlayerVideo::always_rgb) will take the source
+	 * image and convert it (from whatever the user has said it is) to RGB.
+	 */
+
+	_frame = pv->image (
+		bind (&Log::dcp_log, _film->log().get(), _1, _2),
+		bind (&PlayerVideo::always_rgb, _1),
+		false, true
+		);
+
+	ImageChanged (pv);
+
+	_position = pv->time ();
+	_inter_position = pv->inter_position ();
+	_inter_size = pv->inter_size ();
 
 	refresh_panel ();
+}
 
-	_last_get_accurate = accurate;
+void
+FilmViewer::get ()
+{
+	Image const * current = _frame.get ();
+	while (!_player->pass() && _frame.get() == current) {}
 }
 
 void
@@ -294,7 +257,7 @@ FilmViewer::timer ()
 		_play_button->SetValue (false);
 		check_play_state ();
 	} else {
-		get (_position + frame, true);
+		get ();
 	}
 
 	update_position_label ();
@@ -351,7 +314,7 @@ FilmViewer::slider_moved ()
 	if (t >= _film->length ()) {
 		t = _film->length() - DCPTime::from_frames (1, _film->video_frame_rate ());
 	}
-	get (t, false);
+	seek (t, false);
 	update_position_label ();
 }
 
@@ -485,7 +448,7 @@ FilmViewer::go_to (DCPTime t)
 		t = _film->length ();
 	}
 
-	get (t, true);
+	seek (t, true);
 	update_position_label ();
 	update_position_slider ();
 }
@@ -551,14 +514,14 @@ FilmViewer::film_changed (Film::Property p)
 void
 FilmViewer::refresh ()
 {
-	get (_position, _last_get_accurate);
+	seek (_position, _last_seek_accurate);
 }
 
 void
 FilmViewer::set_position (DCPTime p)
 {
 	_position = p;
-	get (_position, true);
+	seek (p, true);
 	update_position_label ();
 	update_position_slider ();
 }
@@ -601,4 +564,12 @@ void
 FilmViewer::jump_to_selected_clicked ()
 {
 	Config::instance()->set_jump_to_selected (_jump_to_selected->GetValue ());
+}
+
+void
+FilmViewer::seek (DCPTime t, bool accurate)
+{
+	_player->seek (t, accurate);
+	_last_seek_accurate = accurate;
+	get ();
 }

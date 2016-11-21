@@ -66,6 +66,9 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
+#if 0
+	XXX
+
 	list<ContentTextSubtitle> subs = decoder->subtitle->get_text (ContentTimePeriod (ContentTime(), ContentTime::max ()), true, true);
 	FrameRateChange const frc = film->active_frame_rate_change (position);
 	int n = 0;
@@ -81,6 +84,7 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 			++n;
 		}
 	}
+#endif
 
 	SetSizerAndFit (sizer);
 }

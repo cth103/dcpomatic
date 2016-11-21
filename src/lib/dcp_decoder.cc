@@ -56,15 +56,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	video.reset (new VideoDecoder (this, c, log));
 	audio.reset (new AudioDecoder (this, c->audio, log));
 
-	subtitle.reset (
-		new SubtitleDecoder (
-			this,
-			c->subtitle,
-			log,
-			bind (&DCPDecoder::image_subtitles_during, this, _1, _2),
-			bind (&DCPDecoder::text_subtitles_during, this, _1, _2)
-			)
-		);
+	subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
 
 	shared_ptr<dcp::CPL> cpl;
 	BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls ()) {
@@ -87,11 +79,11 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	get_readers ();
 }
 
-bool
-DCPDecoder::pass (PassReason reason, bool)
+void
+DCPDecoder::pass ()
 {
 	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
-		return true;
+		return;
 	}
 
 	double const vfr = _dcp_content->active_video_frame_rate ();
@@ -99,24 +91,24 @@ DCPDecoder::pass (PassReason reason, bool)
 	/* Frame within the (played part of the) reel that is coming up next */
 	int64_t const frame = _next.frames_round (vfr);
 
-	if ((_mono_reader || _stereo_reader) && reason != PASS_REASON_SUBTITLE && (_decode_referenced || !_dcp_content->reference_video())) {
+	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
 		int64_t const entry_point = (*_reel)->main_picture()->entry_point ();
 		if (_mono_reader) {
-			video->give (
+			video->emit (
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (_mono_reader->get_frame (entry_point + frame), asset->size(), AV_PIX_FMT_XYZ12LE)
 					),
 				_offset + frame
 				);
 		} else {
-			video->give (
+			video->emit (
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE)),
 				_offset + frame
 				);
 
-			video->give (
+			video->emit (
 				shared_ptr<ImageProxy> (
 					new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE)),
 				_offset + frame
@@ -124,7 +116,7 @@ DCPDecoder::pass (PassReason reason, bool)
 		}
 	}
 
-	if (_sound_reader && reason != PASS_REASON_SUBTITLE && (_decode_referenced || !_dcp_content->reference_audio())) {
+	if (_sound_reader && (_decode_referenced || !_dcp_content->reference_audio())) {
 		int64_t const entry_point = (*_reel)->main_sound()->entry_point ();
 		shared_ptr<const dcp::SoundFrame> sf = _sound_reader->get_frame (entry_point + frame);
 		uint8_t const * from = sf->data ();
@@ -140,7 +132,7 @@ DCPDecoder::pass (PassReason reason, bool)
 			}
 		}
 
-		audio->give (_dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
+		audio->emit (_dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
 	}
 
 	if ((*_reel)->main_subtitle() && (_decode_referenced || !_dcp_content->reference_subtitle())) {
@@ -153,7 +145,7 @@ DCPDecoder::pass (PassReason reason, bool)
 
 		if (!subs.empty ()) {
 			/* XXX: assuming that all `subs' are at the same time; maybe this is ok */
-			subtitle->give_text (
+			subtitle->emit_text (
 				ContentTimePeriod (
 					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().in().as_seconds ()),
 					ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (subs.front().out().as_seconds ())
@@ -171,8 +163,6 @@ DCPDecoder::pass (PassReason reason, bool)
 			_next = ContentTime ();
 		}
 	}
-
-	return false;
 }
 
 void
@@ -218,12 +208,8 @@ DCPDecoder::get_readers ()
 }
 
 void
-DCPDecoder::seek (ContentTime t, bool accurate)
+DCPDecoder::seek (ContentTime t, bool)
 {
-	video->seek (t, accurate);
-	audio->seek (t, accurate);
-	subtitle->seek (t, accurate);
-
 	_reel = _reels.begin ();
 	_offset = 0;
 	get_readers ();
@@ -234,52 +220,6 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	}
 
 	_next = t;
-}
-
-
-list<ContentTimePeriod>
-DCPDecoder::image_subtitles_during (ContentTimePeriod, bool) const
-{
-	return list<ContentTimePeriod> ();
-}
-
-list<ContentTimePeriod>
-DCPDecoder::text_subtitles_during (ContentTimePeriod period, bool starting) const
-{
-	/* XXX: inefficient */
-
-	list<ContentTimePeriod> ctp;
-	double const vfr = _dcp_content->active_video_frame_rate ();
-
-	int offset = 0;
-
-	BOOST_FOREACH (shared_ptr<dcp::Reel> r, _reels) {
-		if (!r->main_subtitle ()) {
-			offset += r->main_picture()->duration();
-			continue;
-		}
-
-		int64_t const entry_point = r->main_subtitle()->entry_point ();
-
-		list<dcp::SubtitleString> subs = r->main_subtitle()->asset()->subtitles_during (
-			dcp::Time (period.from.seconds(), 1000) - dcp::Time (offset - entry_point, vfr, vfr),
-			dcp::Time (period.to.seconds(), 1000) - dcp::Time (offset - entry_point, vfr, vfr),
-			starting
-			);
-
-		BOOST_FOREACH (dcp::SubtitleString const & s, subs) {
-			ctp.push_back (
-				ContentTimePeriod (
-					ContentTime::from_seconds (s.in().as_seconds ()) + ContentTime::from_frames (offset - entry_point, vfr),
-					ContentTime::from_seconds (s.out().as_seconds ()) + ContentTime::from_frames (offset - entry_point, vfr)
-					)
-				);
-		}
-
-		offset += r->main_subtitle()->duration();
-	}
-
-	return ctp;
 }
 
 void

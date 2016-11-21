@@ -30,9 +30,10 @@ class VideoMXFDecoder : public Decoder
 public:
 	VideoMXFDecoder (boost::shared_ptr<const VideoMXFContent>, boost::shared_ptr<Log> log);
 
-private:
-	bool pass (PassReason, bool accurate);
+	void pass ();
 	void seek (ContentTime t, bool accurate);
+
+private:
 
 	boost::shared_ptr<const VideoMXFContent> _content;
 	/** Time of next thing to return from pass */

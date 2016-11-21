@@ -47,16 +47,14 @@ public:
 
 	void set_decode_referenced ();
 
+	void pass ();
+	void seek (ContentTime t, bool accurate);
+
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
-	bool pass (PassReason, bool accurate);
-	void seek (ContentTime t, bool accurate);
 	void next_reel ();
 	void get_readers ();
-
-	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
-	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	ContentTime _next;

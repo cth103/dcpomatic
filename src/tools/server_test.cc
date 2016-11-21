@@ -42,6 +42,7 @@ using std::string;
 using std::pair;
 using boost::shared_ptr;
 using boost::optional;
+using boost::bind;
 using dcp::Data;
 
 static shared_ptr<Film> film;
@@ -146,11 +147,8 @@ main (int argc, char* argv[])
 		film->read_metadata ();
 
 		shared_ptr<Player> player (new Player (film, film->playlist ()));
-
-		DCPTime const frame = DCPTime::from_frames (1, film->video_frame_rate ());
-		for (DCPTime t; t < film->length(); t += frame) {
-			process_video (player->get_video(t, true).front ());
-		}
+		player->Video.connect (bind (&process_video, _1));
+		while (!player->pass ()) {}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";
 	}

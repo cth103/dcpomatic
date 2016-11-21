@@ -411,28 +411,6 @@ FFmpegContent::identifier () const
 	return s;
 }
 
-list<ContentTimePeriod>
-FFmpegContent::image_subtitles_during (ContentTimePeriod period, bool starting) const
-{
-	shared_ptr<FFmpegSubtitleStream> stream = subtitle_stream ();
-	if (!stream) {
-		return list<ContentTimePeriod> ();
-	}
-
-	return stream->image_subtitles_during (period, starting);
-}
-
-list<ContentTimePeriod>
-FFmpegContent::text_subtitles_during (ContentTimePeriod period, bool starting) const
-{
-	shared_ptr<FFmpegSubtitleStream> stream = subtitle_stream ();
-	if (!stream) {
-		return list<ContentTimePeriod> ();
-	}
-
-	return stream->text_subtitles_during (period, starting);
-}
-
 void
 FFmpegContent::set_default_colour_conversion ()
 {

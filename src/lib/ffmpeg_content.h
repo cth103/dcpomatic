@@ -91,9 +91,6 @@ public:
 		return _first_video;
 	}
 
-	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
-	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
-
 	void signal_subtitle_stream_changed ();
 
 private:

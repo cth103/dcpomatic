@@ -94,15 +94,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	}
 
 	if (c->subtitle) {
-		subtitle.reset (
-			new SubtitleDecoder (
-				this,
-				c->subtitle,
-				log,
-				bind (&FFmpegDecoder::image_subtitles_during, this, _1, _2),
-				bind (&FFmpegDecoder::text_subtitles_during, this, _1, _2)
-				)
-			);
+		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
 	}
 }
 
@@ -124,8 +116,8 @@ FFmpegDecoder::flush ()
 	}
 }
 
-bool
-FFmpegDecoder::pass (PassReason reason, bool accurate)
+void
+FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
 
@@ -142,22 +134,21 @@ FFmpegDecoder::pass (PassReason reason, bool accurate)
 		}
 
 		flush ();
-		return true;
+		return;
 	}
 
 	int const si = _packet.stream_index;
 	shared_ptr<const FFmpegContent> fc = _ffmpeg_content;
 
-	if (_video_stream && si == _video_stream.get() && !video->ignore() && (accurate || reason != PASS_REASON_SUBTITLE)) {
+	if (_video_stream && si == _video_stream.get() && !video->ignore()) {
 		decode_video_packet ();
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
 		decode_subtitle_packet ();
-	} else if (accurate || reason != PASS_REASON_SUBTITLE) {
+	} else {
 		decode_audio_packet ();
 	}
 
 	av_packet_unref (&_packet);
-	return false;
 }
 
 /** @param data pointer to array of pointers to buffers.
@@ -307,18 +298,6 @@ FFmpegDecoder::bytes_per_audio_sample (shared_ptr<FFmpegAudioStream> stream) con
 void
 FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
-	if (video) {
-		video->seek (time, accurate);
-	}
-
-	if (audio) {
-		audio->seek (time, accurate);
-	}
-
-	if (subtitle) {
-		subtitle->seek (time, accurate);
-	}
-
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.
 	*/
@@ -428,7 +407,7 @@ FFmpegDecoder::decode_audio_packet ()
 
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
-				audio->give (*stream, data, ct);
+				audio->emit (*stream, data, ct);
 			}
 		}
 
@@ -473,7 +452,7 @@ FFmpegDecoder::decode_video_packet ()
 
 		if (i->second != AV_NOPTS_VALUE) {
 			double const pts = i->second * av_q2d (_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds ();
-			video->give (
+			video->emit (
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
@@ -532,18 +511,6 @@ FFmpegDecoder::decode_subtitle_packet ()
 	}
 
 	avsubtitle_free (&sub);
-}
-
-list<ContentTimePeriod>
-FFmpegDecoder::image_subtitles_during (ContentTimePeriod p, bool starting) const
-{
-	return _ffmpeg_content->image_subtitles_during (p, starting);
-}
-
-list<ContentTimePeriod>
-FFmpegDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
-{
-	return _ffmpeg_content->text_subtitles_during (p, starting);
 }
 
 void
@@ -616,7 +583,7 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		static_cast<double> (rect->h) / target_height
 		);
 
-	subtitle->give_image (period, image, scaled_rect);
+	subtitle->emit_image (period, image, scaled_rect);
 }
 
 void
@@ -636,6 +603,6 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (base, bits[9]);
 
 	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
-		subtitle->give_text (period, i);
+		subtitle->emit_text (period, i);
 	}
 }

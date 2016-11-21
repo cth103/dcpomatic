@@ -26,6 +26,9 @@
 #include "content.h"
 #include "position_image.h"
 #include "piece.h"
+#include "content_video.h"
+#include "content_audio.h"
+#include "content_subtitle.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
@@ -48,9 +51,9 @@ class Player : public boost::enable_shared_from_this<Player>, public boost::nonc
 public:
 	Player (boost::shared_ptr<const Film>, boost::shared_ptr<const Playlist> playlist);
 
-	std::list<boost::shared_ptr<PlayerVideo> > get_video (DCPTime time, bool accurate);
-	boost::shared_ptr<AudioBuffers> get_audio (DCPTime time, DCPTime length, bool accurate);
-	PlayerSubtitles get_subtitles (DCPTime time, DCPTime length, bool starting, bool burnt, bool accurate);
+	bool pass ();
+	void seek (DCPTime time, bool accurate);
+
 	std::list<boost::shared_ptr<Font> > get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
 
@@ -70,6 +73,10 @@ public:
 	 */
 	boost::signals2::signal<void (bool)> Changed;
 
+	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
+	boost::signals2::signal<void (PlayerSubtitles)> Subtitle;
+
 private:
 	friend class PlayerWrapper;
 	friend class Piece;
@@ -79,7 +86,6 @@ private:
 	friend struct player_time_calculation_test3;
 
 	void setup_pieces ();
-	void reset_pieces ();
 	void flush ();
 	void film_changed (Film::Property);
 	void playlist_changed ();
@@ -93,6 +99,10 @@ private:
 	DCPTime content_subtitle_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
 	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
+	void video (boost::weak_ptr<Piece>, ContentVideo);
+	void audio (boost::weak_ptr<Piece>, ContentAudio);
+	void image_subtitle (boost::weak_ptr<Piece>, ContentImageSubtitle);
+	void text_subtitle (boost::weak_ptr<Piece>, ContentTextSubtitle);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -117,6 +127,8 @@ private:
 	bool _fast;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	bool _play_referenced;
+
+	DCPTime _last_video;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 

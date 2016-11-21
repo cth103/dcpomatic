@@ -132,42 +132,6 @@ FFmpegSubtitleStream::add_text_subtitle (string id, ContentTimePeriod period)
 	_text_subtitles[id] = period;
 }
 
-list<ContentTimePeriod>
-FFmpegSubtitleStream::image_subtitles_during (ContentTimePeriod period, bool starting) const
-{
-	return subtitles_during (period, starting, _image_subtitles);
-}
-
-list<ContentTimePeriod>
-FFmpegSubtitleStream::text_subtitles_during (ContentTimePeriod period, bool starting) const
-{
-	return subtitles_during (period, starting, _text_subtitles);
-}
-
-struct PeriodSorter
-{
-	bool operator() (ContentTimePeriod const & a, ContentTimePeriod const & b) {
-		return a.from < b.from;
-	}
-};
-
-list<ContentTimePeriod>
-FFmpegSubtitleStream::subtitles_during (ContentTimePeriod period, bool starting, PeriodMap const & subs) const
-{
-	list<ContentTimePeriod> d;
-
-	/* XXX: inefficient */
-	for (map<string, ContentTimePeriod>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		if ((starting && period.contains(i->second.from)) || (!starting && period.overlap(i->second))) {
-			d.push_back (i->second);
-		}
-	}
-
-	d.sort (PeriodSorter ());
-
-	return d;
-}
-
 ContentTime
 FFmpegSubtitleStream::find_subtitle_to (string id) const
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -47,32 +47,10 @@ public:
 	boost::shared_ptr<AudioDecoder> audio;
 	boost::shared_ptr<SubtitleDecoder> subtitle;
 
-	enum PassReason {
-		PASS_REASON_VIDEO,
-		PASS_REASON_AUDIO,
-		PASS_REASON_SUBTITLE
-	};
-
-	/** @return true if this decoder has already returned all its data and will give no more */
-	virtual bool pass (PassReason, bool accurate) = 0;
-
-	/** Ensure that any future get() calls return data that reflect
-	 *  changes in our content's settings.
-	 */
-	virtual void reset () {}
-
-	void maybe_seek (boost::optional<ContentTime> position, ContentTime time, bool accurate);
-
-private:
-	/** Seek so that the next pass() will yield the next thing
-	 *  (video/sound frame, subtitle etc.) at or after the requested
-	 *  time.  Pass accurate = true to try harder to ensure that, at worst,
-	 *  the next thing we yield comes before `time'.  This may entail
-	 *  seeking some way before `time' to be on the safe side.
-	 *  Alternatively, if seeking is 100% accurate for this decoder,
-	 *  it may seek to just the right spot.
-	 */
+	virtual void pass () = 0;
 	virtual void seek (ContentTime time, bool accurate) = 0;
+
+	ContentTime position () const;
 };
 
 #endif

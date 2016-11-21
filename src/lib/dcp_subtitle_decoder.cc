@@ -30,15 +30,7 @@ using boost::bind;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
 {
-	subtitle.reset (
-		new SubtitleDecoder (
-			this,
-			content->subtitle,
-			log,
-			bind (&DCPSubtitleDecoder::image_subtitles_during, this, _1, _2),
-			bind (&DCPSubtitleDecoder::text_subtitles_during, this, _1, _2)
-			)
-		);
+	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log));
 
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
@@ -46,10 +38,8 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 }
 
 void
-DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
+DCPSubtitleDecoder::seek (ContentTime time, bool)
 {
-	subtitle->seek (time, accurate);
-
 	_next = _subtitles.begin ();
 	list<dcp::SubtitleString>::const_iterator i = _subtitles.begin ();
 	while (i != _subtitles.end() && ContentTime::from_seconds (_next->in().as_seconds()) < time) {
@@ -57,11 +47,11 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 	}
 }
 
-bool
-DCPSubtitleDecoder::pass (PassReason, bool)
+void
+DCPSubtitleDecoder::pass ()
 {
 	if (_next == _subtitles.end ()) {
-		return true;
+		return;
 	}
 
 	/* Gather all subtitles with the same time period that are next
@@ -79,35 +69,8 @@ DCPSubtitleDecoder::pass (PassReason, bool)
 		++_next;
 	}
 
-	subtitle->give_text (p, s);
-
-	return false;
-}
-
-list<ContentTimePeriod>
-DCPSubtitleDecoder::image_subtitles_during (ContentTimePeriod, bool) const
-{
-	return list<ContentTimePeriod> ();
-}
-
-list<ContentTimePeriod>
-DCPSubtitleDecoder::text_subtitles_during (ContentTimePeriod p, bool starting) const
-{
-	/* XXX: inefficient */
-
-	list<ContentTimePeriod> d;
-
-	for (list<dcp::SubtitleString>::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
-		ContentTimePeriod period = content_time_period (*i);
-		if ((starting && p.contains(period.from)) || (!starting && p.overlap(period))) {
-			d.push_back (period);
-		}
-	}
-
-	d.sort ();
-	d.unique ();
-
-	return d;
+	subtitle->emit_text (p, s);
+	subtitle->set_position (p.from);
 }
 
 ContentTimePeriod

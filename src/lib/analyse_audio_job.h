@@ -25,6 +25,7 @@
 #include "job.h"
 #include "audio_point.h"
 #include "types.h"
+#include "dcpomatic_time.h"
 
 class AudioBuffers;
 class AudioAnalysis;
@@ -55,7 +56,7 @@ public:
 	}
 
 private:
-	void analyse (boost::shared_ptr<const AudioBuffers>);
+	void analyse (boost::shared_ptr<const AudioBuffers>, DCPTime time);
 
 	boost::shared_ptr<const Playlist> _playlist;
 

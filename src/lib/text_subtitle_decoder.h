@@ -31,14 +31,10 @@ class TextSubtitleDecoder : public Decoder, public TextSubtitle
 public:
 	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>, boost::shared_ptr<Log> log);
 
-protected:
 	void seek (ContentTime time, bool accurate);
-	bool pass (PassReason, bool accurate);
-	void reset ();
+	void pass ();
 
 private:
-	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod, bool starting) const;
-	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod, bool starting) const;
 	ContentTimePeriod content_time_period (sub::Subtitle s) const;
 
 	size_t _next;

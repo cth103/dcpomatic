@@ -44,11 +44,11 @@ ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> lo
 	video.reset (new VideoDecoder (this, c, log));
 }
 
-bool
-ImageDecoder::pass (PassReason, bool)
+void
+ImageDecoder::pass ()
 {
 	if (_frame_video_position >= _image_content->video->length()) {
-		return true;
+		return;
 	}
 
 	if (!_image_content->still() || !_image) {
@@ -72,14 +72,14 @@ ImageDecoder::pass (PassReason, bool)
 		}
 	}
 
-	video->give (_image, _frame_video_position);
+	video->set_position (ContentTime::from_frames (_frame_video_position, _image_content->active_video_frame_rate ()));
+	video->emit (_image, _frame_video_position);
 	++_frame_video_position;
-	return false;
+	return;
 }
 
 void
-ImageDecoder::seek (ContentTime time, bool accurate)
+ImageDecoder::seek (ContentTime time, bool)
 {
-	video->seek (time, accurate);
 	_frame_video_position = time.frames_round (_image_content->active_video_frame_rate ());
 }

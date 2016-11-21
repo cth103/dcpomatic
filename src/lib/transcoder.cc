@@ -61,8 +61,17 @@ Transcoder::Transcoder (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _writer (new Writer (film, j))
 	, _encoder (new Encoder (film, _writer))
 	, _finishing (false)
+	, _non_burnt_subtitles (false)
 {
+	_player->Video.connect (bind (&Transcoder::video, this, _1));
+	_player->Audio.connect (bind (&Transcoder::audio, this, _1, _2));
+	_player->Subtitle.connect (bind (&Transcoder::subtitle, this, _1));
 
+	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
+		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
+			_non_burnt_subtitles = true;
+		}
+	}
 }
 
 void
@@ -77,54 +86,11 @@ Transcoder::go ()
 		job->sub (_("Encoding"));
 	}
 
-	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
-	DCPTime const length = _film->length ();
-
-	int burnt_subtitles = 0;
-	int non_burnt_subtitles = 0;
-	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
-		if (c->subtitle && c->subtitle->use()) {
-			if (c->subtitle->burn()) {
-				++burnt_subtitles;
-			} else {
-				++non_burnt_subtitles;
-			}
-		}
-	}
-
-	if (non_burnt_subtitles) {
+	if (_non_burnt_subtitles) {
 		_writer->write (_player->get_subtitle_fonts ());
 	}
 
-	for (DCPTime t; t < length; t += frame) {
-
-		BOOST_FOREACH (shared_ptr<PlayerVideo> i, _player->get_video (t, true)) {
-			if (!_film->three_d()) {
-				/* 2D DCP */
-				if (i->eyes() == EYES_RIGHT) {
-					/* Discard right-eye images */
-					continue;
-				} else if (i->eyes() == EYES_LEFT) {
-					/* Use left-eye images for both eyes */
-					i->set_eyes (EYES_BOTH);
-				}
-			}
-
-			_encoder->encode (i);
-		}
-
-		_writer->write (_player->get_audio (t, frame, true));
-
-		if (non_burnt_subtitles) {
-			_writer->write (_player->get_subtitles (t, frame, true, false, true));
-		}
-
-		{
-			shared_ptr<Job> job = _job.lock ();
-			DCPOMATIC_ASSERT (job);
-			job->set_progress (float(t.get()) / length.get());
-		}
-	}
+	while (!_player->pass ()) {}
 
 	BOOST_FOREACH (ReferencedReelAsset i, _player->get_reel_assets ()) {
 		_writer->write (i);
@@ -133,6 +99,35 @@ Transcoder::go ()
 	_finishing = true;
 	_encoder->end ();
 	_writer->finish ();
+}
+
+void
+Transcoder::video (shared_ptr<PlayerVideo> data)
+{
+	if (!_film->three_d() && data->eyes() == EYES_LEFT) {
+		/* Use left-eye images for both eyes */
+		data->set_eyes (EYES_BOTH);
+	}
+
+	_encoder->encode (data);
+}
+
+void
+Transcoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
+{
+	_writer->write (data);
+
+	shared_ptr<Job> job = _job.lock ();
+	DCPOMATIC_ASSERT (job);
+	job->set_progress (float(time.get()) / _film->length().get());
+}
+
+void
+Transcoder::subtitle (PlayerSubtitles data)
+{
+	if (_non_burnt_subtitles) {
+		_writer->write (data);
+	}
 }
 
 float

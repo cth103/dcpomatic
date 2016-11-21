@@ -66,36 +66,34 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, sha
 	}
 }
 
-bool
-VideoMXFDecoder::pass (PassReason, bool)
+void
+VideoMXFDecoder::pass ()
 {
 	double const vfr = _content->active_video_frame_rate ();
 	int64_t const frame = _next.frames_round (vfr);
 
 	if (frame >= _content->video->length()) {
-		return true;
+		return;
 	}
 
 	if (_mono_reader) {
-		video->give (
+		video->emit (
 			shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE)), frame
 			);
 	} else {
-		video->give (
+		video->emit (
 			shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE)), frame
 			);
-		video->give (
+		video->emit (
 			shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE)), frame
 			);
 	}
 
 	_next += ContentTime::from_frames (1, vfr);
-	return false;
 }
 
 void
-VideoMXFDecoder::seek (ContentTime t, bool accurate)
+VideoMXFDecoder::seek (ContentTime t, bool)
 {
-	video->seek (t, accurate);
 	_next = t;
 }
