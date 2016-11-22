@@ -568,6 +568,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 void
 Player::audio (weak_ptr<Piece> piece, ContentAudio video)
 {
+	/* gain, remap, processor */
 	/* Put into merge buffer */
 }
 
