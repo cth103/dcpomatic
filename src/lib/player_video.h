@@ -92,6 +92,8 @@ public:
 
 	bool same (boost::shared_ptr<const PlayerVideo> other) const;
 
+	boost::shared_ptr<PlayerVideo> clone (DCPTime time) const;
+
 private:
 	boost::shared_ptr<const ImageProxy> _in;
 	DCPTime _time;

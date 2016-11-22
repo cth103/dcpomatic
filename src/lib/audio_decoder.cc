@@ -94,11 +94,18 @@ AudioDecoder::set_fast ()
 optional<ContentTime>
 AudioDecoder::position () const
 {
-	optional<ContentTime> pos;
-	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
-		if (!pos || (i->second->position() && i->second->position().get() < pos.get())) {
-			pos = i->second->position();
+	optional<ContentTime> p;
+	for (map<AudioStreamPtr, ContentTime>::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
+		if (!p || i->second < *p) {
+			p = i->second;
 		}
 	}
-	return pos;
+
+	return p;
+}
+
+void
+AudioDecoder::set_position (AudioStreamPtr stream, ContentTime time)
+{
+	_positions[stream] = time;
 }

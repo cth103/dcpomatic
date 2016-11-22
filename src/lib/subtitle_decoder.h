@@ -48,6 +48,14 @@ public:
 		boost::shared_ptr<Log> log
 		);
 
+	void set_position (ContentTime position) {
+		_position = position;
+	}
+
+	boost::optional<ContentTime> position () const {
+		return _position;
+	}
+
 	void emit_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
 	void emit_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
 	void emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
@@ -61,6 +69,7 @@ public:
 
 private:
 	boost::shared_ptr<const SubtitleContent> _content;
+	boost::optional<ContentTime> _position;
 };
 
 #endif

@@ -536,3 +536,15 @@ Playlist::content_summary (DCPTimePeriod period) const
 
 	return best_summary;
 }
+
+bool
+Playlist::video_content_at (DCPTime time) const
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (i->video && i->position() <= time && time < i->end()) {
+			return true;
+		}
+	}
+
+	return false;
+}

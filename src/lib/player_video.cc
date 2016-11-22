@@ -250,3 +250,11 @@ PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 {
 	return p == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
 }
+
+shared_ptr<PlayerVideo>
+PlayerVideo::clone (DCPTime time) const
+{
+	shared_ptr<PlayerVideo> c (new PlayerVideo (*this));
+	c->_time = time;
+	return c;
+}

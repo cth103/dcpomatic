@@ -29,6 +29,8 @@
 #include "content_video.h"
 #include "content_audio.h"
 #include "content_subtitle.h"
+#include "audio_stream.h"
+#include "audio_merger.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
@@ -95,12 +97,13 @@ private:
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
+	DCPTime resampled_audio_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_subtitle_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
 	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
 	void video (boost::weak_ptr<Piece>, ContentVideo);
-	void audio (boost::weak_ptr<Piece>, ContentAudio);
+	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void image_subtitle (boost::weak_ptr<Piece>, ContentImageSubtitle);
 	void text_subtitle (boost::weak_ptr<Piece>, ContentTextSubtitle);
 
@@ -128,7 +131,10 @@ private:
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	bool _play_referenced;
 
-	DCPTime _last_video;
+	boost::shared_ptr<PlayerVideo> _last_video;
+	DCPTime _last_video_time;
+
+	AudioMerger _audio_merger;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 

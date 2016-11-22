@@ -51,6 +51,14 @@ public:
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
+	void set_position (ContentTime position) {
+		_position = position;
+	}
+
+	boost::optional<ContentTime> position () const {
+		return _position;
+	}
+
 	void emit (boost::shared_ptr<const ImageProxy>, Frame frame);
 
 	boost::signals2::signal<void (ContentVideo)> Data;
@@ -58,6 +66,7 @@ public:
 private:
 	boost::shared_ptr<const Content> _content;
 	boost::optional<Frame> _last_emitted;
+	boost::optional<ContentTime> _position;
 };
 
 #endif

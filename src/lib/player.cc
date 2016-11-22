@@ -103,6 +103,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _always_burn_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
+	, _audio_merger (_film->audio_channels(), _film->audio_frame_rate())
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -156,7 +157,7 @@ Player::setup_pieces ()
 		}
 
 		if (decoder->audio) {
-			decoder->audio->Data.connect (bind (&Player::audio, this, weak_ptr<Piece> (piece), _1));
+			decoder->audio->Data.connect (bind (&Player::audio, this, weak_ptr<Piece> (piece), _1, _2));
 		}
 
 		if (decoder->subtitle) {
@@ -354,6 +355,14 @@ Player::dcp_to_resampled_audio (shared_ptr<const Piece> piece, DCPTime t) const
 	return max (DCPTime (), DCPTime (piece->content->trim_start (), piece->frc) + s).frames_floor (_film->audio_frame_rate ());
 }
 
+DCPTime
+Player::resampled_audio_to_dcp (shared_ptr<const Piece> piece, Frame f) const
+{
+	/* See comment in dcp_to_content_video */
+	DCPTime const d = DCPTime::from_frames (f, _film->audio_frame_rate()) - DCPTime (piece->content->trim_start (), piece->frc);
+	return max (DCPTime (), d + piece->content->position ());
+}
+
 ContentTime
 Player::dcp_to_content_subtitle (shared_ptr<const Piece> piece, DCPTime t) const
 {
@@ -520,7 +529,11 @@ Player::pass ()
 	shared_ptr<Piece> earliest;
 	DCPTime earliest_position;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		/* Convert i->decoder->position() to DCPTime and work out the earliest */
+		DCPTime const t = i->content->position() + DCPTime (i->decoder->position(), i->frc);
+		if (t < earliest_position) {
+			earliest_position = t;
+			earliest = i;
+		}
 	}
 
 	earliest->decoder->pass ();
@@ -536,58 +549,112 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	/* Get subs to burn in and burn them in */
+	/* XXX: get subs to burn in and burn them in */
 
 
 	/* Fill gaps */
 
-	DCPTime time = content_video_to_dcp (piece, video.frame.index());
+	DCPTime const time = content_video_to_dcp (piece, video.frame.index());
 
-	dcp::Size image_size = piece->content->video->scale().size (
-		piece->content->video, _video_container_size, _film->frame_size ()
-		);
+	for (DCPTime i = _last_video_time; i < time; i += DCPTime::from_frames (1, _film->video_frame_rate())) {
+		if (_playlist->video_content_at(i) && _last_video) {
+			Video (_last_video->clone (i));
+		} else {
+			Video (black_player_video_frame (i));
+		}
+	}
 
-	Video (
-		shared_ptr<PlayerVideo> (
-			new PlayerVideo (
-				video.image,
-				time,
-				piece->content->video->crop (),
-				piece->content->video->fade (video.frame.index()),
-				image_size,
-				_video_container_size,
-				video.frame.eyes(),
-				video.part,
-				piece->content->video->colour_conversion ()
-				)
+	_last_video.reset (
+		new PlayerVideo (
+			video.image,
+			time,
+			piece->content->video->crop (),
+			piece->content->video->fade (video.frame.index()),
+			piece->content->video->scale().size (
+				piece->content->video, _video_container_size, _film->frame_size ()
+				),
+			_video_container_size,
+			video.frame.eyes(),
+			video.part,
+			piece->content->video->colour_conversion ()
 			)
 		);
 
+	_last_video_time = time;
+
+	Video (_last_video);
 }
 
 void
-Player::audio (weak_ptr<Piece> piece, ContentAudio video)
+Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
-	/* gain, remap, processor */
-	/* Put into merge buffer */
+	shared_ptr<Piece> piece = wp.lock ();
+	if (!piece) {
+		return;
+	}
+
+	shared_ptr<AudioContent> content = piece->content->audio;
+	DCPOMATIC_ASSERT (content);
+
+	shared_ptr<AudioBuffers> audio = content_audio.audio;
+
+	/* Gain */
+	if (content->gain() != 0) {
+		shared_ptr<AudioBuffers> gain (new AudioBuffers (audio));
+		gain->apply_gain (content->gain ());
+		audio = gain;
+	}
+
+	/* XXX: end-trimming used to be checked here */
+
+	/* Compute time in the DCP */
+	DCPTime const time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000);
+
+	/* Remap channels */
+	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
+	dcp_mapped->make_silent ();
+
+	AudioMapping map = stream->mapping ();
+	for (int i = 0; i < map.input_channels(); ++i) {
+		for (int j = 0; j < dcp_mapped->channels(); ++j) {
+			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
+				dcp_mapped->accumulate_channel (
+					audio.get(),
+					i,
+					static_cast<dcp::Channel> (j),
+					map.get (i, static_cast<dcp::Channel> (j))
+					);
+			}
+		}
+	}
+
+	audio = dcp_mapped;
+
+	if (_audio_processor) {
+		audio = _audio_processor->run (audio, _film->audio_channels ());
+	}
+
+	_audio_merger.push (audio, time);
 }
 
 void
 Player::image_subtitle (weak_ptr<Piece> piece, ContentImageSubtitle subtitle)
 {
-	/* Store for video to see */
+	/* XXX: Store for video to see */
 }
 
 void
 Player::text_subtitle (weak_ptr<Piece> piece, ContentTextSubtitle subtitle)
 {
-	/* Store for video to see, or emit */
+	/* XXX: Store for video to see, or emit */
 }
 
 void
 Player::seek (DCPTime time, bool accurate)
 {
+	/* XXX: seek decoders */
+
 	if (accurate) {
-		_last_video = time - DCPTime::from_frames (1, _film->video_frame_rate ());
+		_last_video_time = time - DCPTime::from_frames (1, _film->video_frame_rate ());
 	}
 }

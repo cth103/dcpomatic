@@ -32,6 +32,7 @@ sources = """
           audio_filter.cc
           audio_filter_graph.cc
           audio_mapping.cc
+          audio_merger.cc
           audio_point.cc
           audio_processor.cc
           audio_stream.cc
