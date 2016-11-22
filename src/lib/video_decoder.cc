@@ -343,7 +343,7 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 		return;
 	}
 
-	int const max_decoded_size = 96;
+	unsigned int const max_decoded_size = 96;
 
 	/* If _decoded is already `full' there is no point in adding anything more to it,
 	   as the new stuff will just be removed again.
