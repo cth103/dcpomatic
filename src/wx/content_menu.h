@@ -56,6 +56,7 @@ private:
 	/** Film that we are working with; set up by popup() */
 	boost::weak_ptr<Film> _film;
 	wxWindow* _parent;
+	bool _pop_up_open;
 	ContentList _content;
 	TimelineContentViewList _views;
 	wxMenuItem* _repeat;
