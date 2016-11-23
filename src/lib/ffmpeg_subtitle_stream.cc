@@ -181,6 +181,23 @@ FFmpegSubtitleStream::find_subtitle_to (string id) const
 	return i->second.to;
 }
 
+/** @param id Subtitle id.
+ *  @return true if the `from' and `to' times for this id are equal, which indicates
+ *  that the `to' time is unknown.
+ */
+bool
+FFmpegSubtitleStream::unknown_to (string id) const
+{
+	PeriodMap::const_iterator i = _image_subtitles.find (id);
+	if (i != _image_subtitles.end ()) {
+		return i->second.from == i->second.to;
+	}
+
+	i = _text_subtitles.find (id);
+	DCPOMATIC_ASSERT (i != _text_subtitles.end ());
+	return i->second.from == i->second.to;
+}
+
 /** Add some offset to all the times in the stream */
 void
 FFmpegSubtitleStream::add_offset (ContentTime offset)

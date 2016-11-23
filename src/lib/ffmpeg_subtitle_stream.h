@@ -37,6 +37,7 @@ public:
 	void add_image_subtitle (std::string id, ContentTimePeriod period);
 	void add_text_subtitle (std::string id, ContentTimePeriod period);
 	void set_subtitle_to (std::string id, ContentTime to);
+	bool unknown_to (std::string id) const;
 	std::list<ContentTimePeriod> image_subtitles_during (ContentTimePeriod period, bool starting) const;
 	std::list<ContentTimePeriod> text_subtitles_during (ContentTimePeriod period, bool starting) const;
 	ContentTime find_subtitle_to (std::string id) const;

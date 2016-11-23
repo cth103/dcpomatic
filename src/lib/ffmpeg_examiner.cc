@@ -160,21 +160,10 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	/* Finish off any hanging subtitles at the end */
 	for (LastSubtitleMap::const_iterator i = _last_subtitle_start.begin(); i != _last_subtitle_start.end(); ++i) {
 		if (i->second) {
-			if (i->second->image) {
-				i->first->add_image_subtitle (
+			if (i->first->unknown_to (i->second->id)) {
+				i->first->set_subtitle_to (
 					i->second->id,
-					ContentTimePeriod (
-						i->second->time,
-						ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
-						)
-					);
-			} else {
-				i->first->add_text_subtitle (
-					i->second->id,
-					ContentTimePeriod (
-						i->second->time,
-						ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
-						)
+					ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
 					);
 			}
 		}
