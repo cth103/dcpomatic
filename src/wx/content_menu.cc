@@ -66,6 +66,7 @@ enum {
 ContentMenu::ContentMenu (wxWindow* p)
 	: _menu (new wxMenu)
 	, _parent (p)
+	, _pop_up_open (false)
 {
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
 	_join = _menu->Append (ID_join, _("Join"));
@@ -154,7 +155,9 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 
 	_remove->Enable (!_content.empty ());
 
+	_pop_up_open = true;
 	_parent->PopupMenu (_menu, p);
+	_pop_up_open = false;
 }
 
 void
@@ -409,6 +412,10 @@ ContentMenu::properties ()
 void
 ContentMenu::cpl_selected (wxCommandEvent& ev)
 {
+	if (!_pop_up_open) {
+		return;
+	}
+
 	DCPOMATIC_ASSERT (!_content.empty ());
 	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (_content.front ());
 	DCPOMATIC_ASSERT (dcp);
