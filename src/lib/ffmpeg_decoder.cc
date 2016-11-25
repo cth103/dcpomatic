@@ -423,7 +423,7 @@ FFmpegDecoder::decode_audio_packet ()
 			}
 
 			if (ct < ContentTime()) {
-				LOG_WARNING ("Crazy timestamp %s", to_string (ct));
+				LOG_WARNING ("Crazy timestamp %1", to_string (ct));
 			}
 
 			audio->set_position (ct);
