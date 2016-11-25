@@ -317,19 +317,21 @@ TimingPanel::film_content_changed (int property)
 void
 TimingPanel::position_changed ()
 {
+	DCPTime const pos = _position->get (_parent->film()->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		i->set_position (_position->get (_parent->film()->video_frame_rate ()));
+		i->set_position (pos);
 	}
 }
 
 void
 TimingPanel::full_length_changed ()
 {
+	int const vfr = _parent->film()->video_frame_rate ();
+	Frame const len = _full_length->get (vfr).frames_round (vfr);
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic && ic->still ()) {
-			int const vfr = _parent->film()->video_frame_rate ();
-			ic->video->set_length (_full_length->get (vfr).frames_round (vfr));
+			ic->video->set_length (len);
 		}
 	}
 }
@@ -344,6 +346,9 @@ TimingPanel::trim_start_changed ()
 	shared_ptr<Content> ref;
 	optional<FrameRateChange> ref_frc;
 	optional<DCPTime> ref_ph;
+
+	ContentTime const trim = _trim_start->get (_parent->film()->video_frame_rate ());
+
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		if (i->position() <= ph && ph < i->end()) {
 			/* The playhead is in i.  Use it as a reference to work out
@@ -355,7 +360,7 @@ TimingPanel::trim_start_changed ()
 			ref_ph = ph - i->position() + DCPTime (i->trim_start(), ref_frc.get());
 		}
 
-		i->set_trim_start (_trim_start->get (_parent->film()->video_frame_rate ()));
+		i->set_trim_start (trim);
 	}
 
 	if (ref) {
@@ -370,8 +375,9 @@ TimingPanel::trim_end_changed ()
 {
 	_viewer->set_coalesce_player_changes (true);
 
+	ContentTime const trim = _trim_end->get (_parent->film()->video_frame_rate ());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
-		i->set_trim_end (_trim_end->get (_parent->film()->video_frame_rate ()));
+		i->set_trim_end (trim);
 	}
 
 	/* XXX: maybe playhead-off-the-end-of-the-film should be handled elsewhere */
@@ -385,11 +391,11 @@ TimingPanel::trim_end_changed ()
 void
 TimingPanel::play_length_changed ()
 {
+	DCPTime const play_length = _play_length->get (_parent->film()->video_frame_rate());
 	BOOST_FOREACH (shared_ptr<Content> i, _parent->selected ()) {
 		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
 		i->set_trim_end (
-			ContentTime (i->full_length() - _play_length->get (_parent->film()->video_frame_rate()), frc)
-			- i->trim_start ()
+			ContentTime (i->full_length() - play_length, frc) - i->trim_start ()
 			);
 	}
 }

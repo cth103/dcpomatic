@@ -397,7 +397,7 @@ ContentPanel::setup_sensitivity ()
 	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
 	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
 	_subtitle_panel->Enable (selection.size() == 1 && selection.front()->subtitle && _generally_sensitive);
-	_timing_panel->Enable	(selection.size() == 1 && _generally_sensitive);
+	_timing_panel->Enable	(_generally_sensitive);
 }
 
 void
