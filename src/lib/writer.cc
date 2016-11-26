@@ -548,7 +548,7 @@ Writer::write (PlayerSubtitles subs)
 		return;
 	}
 
-	if (_subtitle_reel->period().to <= subs.from) {
+	if (_subtitle_reel->period().to <= subs.period.from) {
 		++_subtitle_reel;
 	}
 

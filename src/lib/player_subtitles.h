@@ -27,17 +27,14 @@
 
 class Font;
 
+/** A set of subtitles which span the same time period */
 class PlayerSubtitles
 {
 public:
-	PlayerSubtitles (DCPTime f)
-		: from (f)
-	{}
-
 	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
-
-	DCPTime from;
 	std::list<boost::shared_ptr<Font> > fonts;
+
+	DCPTimePeriod period;
 
 	/** ImageSubtitles, with their rectangles transformed as specified by their content */
 	std::list<ImageSubtitle> image;

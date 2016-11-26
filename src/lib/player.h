@@ -137,6 +137,8 @@ private:
 	AudioMerger _audio_merger;
 	DCPTime _last_audio_time;
 
+	std::list<PlayerSubtitles> _subtitles;
+
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::signals2::scoped_connection _film_changed_connection;

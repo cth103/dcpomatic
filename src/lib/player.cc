@@ -573,10 +573,36 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	/* XXX: get subs to burn in and burn them in */
-
-
+	/* Time and period of the frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame.index());
+	DCPTimePeriod const period (time, time + DCPTime::from_frames (1, _film->video_frame_rate()));
+
+	/* Get any subtitles */
+
+	optional<PositionImage> subtitles;
+
+	BOOST_FOREACH (PlayerSubtitles i, _subtitles) {
+
+		if (!i.period.overlap (period)) {
+			continue;
+		}
+
+		list<PositionImage> sub_images;
+
+		/* Image subtitles */
+		list<PositionImage> c = transform_image_subtitles (i.image);
+		copy (c.begin(), c.end(), back_inserter (sub_images));
+
+		/* Text subtitles (rendered to an image) */
+		if (!i.text.empty ()) {
+			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time);
+			copy (s.begin (), s.end (), back_inserter (sub_images));
+		}
+
+		if (!sub_images.empty ()) {
+			subtitles = merge (sub_images);
+		}
+	}
 
 	/* Fill gaps */
 
@@ -606,10 +632,27 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			)
 		);
 
+	if (subtitles) {
+		_last_video->set_subtitle (subtitles.get ());
+	}
+
 	_last_video_time = time;
 
 	cout << "Video @ " << to_string(_last_video_time.get()) << "\n";
 	Video (_last_video);
+
+	/* Discard any subtitles we no longer need */
+
+	for (list<PlayerSubtitles>::iterator i = _subtitles.begin (); i != _subtitles.end(); ) {
+		list<PlayerSubtitles>::iterator tmp = i;
+		++tmp;
+
+		if (i->period.to < time) {
+			_subtitles.erase (i);
+		}
+
+		i = tmp;
+	}
 }
 
 void
@@ -665,15 +708,79 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 }
 
 void
-Player::image_subtitle (weak_ptr<Piece> piece, ContentImageSubtitle subtitle)
+Player::image_subtitle (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 {
-	/* XXX: Store for video to see */
+	shared_ptr<Piece> piece = wp.lock ();
+	if (!piece) {
+		return;
+	}
+
+	/* Apply content's subtitle offsets */
+	subtitle.sub.rectangle.x += piece->content->subtitle->x_offset ();
+	subtitle.sub.rectangle.y += piece->content->subtitle->y_offset ();
+
+	/* Apply content's subtitle scale */
+	subtitle.sub.rectangle.width *= piece->content->subtitle->x_scale ();
+	subtitle.sub.rectangle.height *= piece->content->subtitle->y_scale ();
+
+	/* Apply a corrective translation to keep the subtitle centred after that scale */
+	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * (piece->content->subtitle->x_scale() - 1);
+	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * (piece->content->subtitle->y_scale() - 1);
+
+	PlayerSubtitles ps;
+	ps.image.push_back (subtitle.sub);
+	ps.period = DCPTimePeriod (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
+
+	if (piece->content->subtitle->use() && (piece->content->subtitle->burn() || _always_burn_subtitles)) {
+		_subtitles.push_back (ps);
+	} else {
+		Subtitle (ps);
+	}
 }
 
 void
-Player::text_subtitle (weak_ptr<Piece> piece, ContentTextSubtitle subtitle)
+Player::text_subtitle (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 {
-	/* XXX: Store for video to see, or emit */
+	shared_ptr<Piece> piece = wp.lock ();
+	if (!piece) {
+		return;
+	}
+
+	PlayerSubtitles ps;
+
+	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
+		s.set_h_position (s.h_position() + piece->content->subtitle->x_offset ());
+		s.set_v_position (s.v_position() + piece->content->subtitle->y_offset ());
+		float const xs = piece->content->subtitle->x_scale();
+		float const ys = piece->content->subtitle->y_scale();
+		float size = s.size();
+
+		/* Adjust size to express the common part of the scaling;
+		   e.g. if xs = ys = 0.5 we scale size by 2.
+		*/
+		if (xs > 1e-5 && ys > 1e-5) {
+			size *= 1 / min (1 / xs, 1 / ys);
+		}
+		s.set_size (size);
+
+		/* Then express aspect ratio changes */
+		if (fabs (1.0 - xs / ys) > dcp::ASPECT_ADJUST_EPSILON) {
+			s.set_aspect_adjust (xs / ys);
+		}
+
+		ps.period = DCPTimePeriod (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
+
+		s.set_in (dcp::Time(ps.period.from.seconds(), 1000));
+		s.set_out (dcp::Time(ps.period.to.seconds(), 1000));
+		ps.text.push_back (SubtitleString (s, piece->content->subtitle->outline_width()));
+		ps.add_fonts (piece->content->subtitle->fonts ());
+	}
+
+	if (piece->content->subtitle->use() && (piece->content->subtitle->burn() || _always_burn_subtitles)) {
+		_subtitles.push_back (ps);
+	} else {
+		Subtitle (ps);
+	}
 }
 
 void
