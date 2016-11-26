@@ -157,4 +157,15 @@ Questions:
 \item Can all the subtitle period notation code go?
 \end{itemize}
 
+\subsection{Steps}
+
+\begin{itemize}
+  \item Remove \texttt{get()}-based loops and replace with \texttt{pass()} and signal connections.
+  \item Remove \texttt{get()} and \texttt{seek()} from decoder parts; add emission signals.
+  \item Put \texttt{AudioMerger} back.
+  \item Remove \texttt{during} stuff from \texttt{SubtitleDecoder} and decoder classes that use it.
+  \item Rename \texttt{give} methods to \texttt{emit}.
+  \item Remove \text{get} methods from \texttt{Player}; replace with \texttt{pass()} and \texttt{seek()}.
+\end{itemize}
+
 \end{document}
