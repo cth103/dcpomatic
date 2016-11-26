@@ -112,6 +112,4 @@ private:
 	 *  can get the same one that we got last time.
 	 */
 	bool _last_seek_accurate;
-	boost::signals2::scoped_connection _film_connection;
-	boost::signals2::scoped_connection _player_connection;
 };

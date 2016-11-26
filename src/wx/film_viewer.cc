@@ -178,9 +178,10 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_ignore_audio ();
 	_player->set_play_referenced ();
 
-	_film_connection = _film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
+	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
-	_player_connection = _player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
+	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
+	_player->Video.connect (boost::bind (&FilmViewer::video, this, _1));
 
 	calculate_sizes ();
 	refresh ();

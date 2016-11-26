@@ -98,8 +98,8 @@ private:
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime resampled_audio_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
-	ContentTime dcp_to_content_subtitle (boost::shared_ptr<const Piece> piece, DCPTime t) const;
-	DCPTime content_subtitle_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
+	ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, DCPTime t) const;
+	DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
 	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
 	void video (boost::weak_ptr<Piece>, ContentVideo);
@@ -132,9 +132,10 @@ private:
 	bool _play_referenced;
 
 	boost::shared_ptr<PlayerVideo> _last_video;
-	DCPTime _last_video_time;
+	boost::optional<DCPTime> _last_video_time;
 
 	AudioMerger _audio_merger;
+	DCPTime _last_audio_time;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
