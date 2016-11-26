@@ -38,6 +38,7 @@ public:
 	void add_text_subtitle (std::string id, ContentTimePeriod period);
 	void set_subtitle_to (std::string id, ContentTime to);
 	ContentTime find_subtitle_to (std::string id) const;
+	bool unknown_to (std::string id) const;
 	void add_offset (ContentTime offset);
 	void set_colour (RGBA from, RGBA to);
 	std::map<RGBA, RGBA> colours () const;
