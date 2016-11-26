@@ -76,24 +76,6 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using boost::scoped_ptr;
 
-static bool
-has_video (Content* c)
-{
-	return static_cast<bool>(c->video);
-}
-
-static bool
-has_audio (Content* c)
-{
-	return static_cast<bool>(c->audio);
-}
-
-static bool
-has_subtitle (Content* c)
-{
-	return static_cast<bool>(c->subtitle);
-}
-
 Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
 	: _film (film)
 	, _playlist (playlist)

@@ -93,7 +93,6 @@ private:
 	void playlist_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool);
 	std::list<PositionImage> transform_image_subtitles (std::list<ImageSubtitle>) const;
-	void update_subtitle_from_text ();
 	Frame dcp_to_content_video (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_video_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	Frame dcp_to_resampled_audio (boost::shared_ptr<const Piece> piece, DCPTime t) const;
