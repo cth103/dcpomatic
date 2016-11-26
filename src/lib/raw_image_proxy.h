@@ -29,7 +29,11 @@ public:
 	RawImageProxy (boost::shared_ptr<Image>);
 	RawImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
-	boost::shared_ptr<Image> image (boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> ()) const;
+	boost::shared_ptr<Image> image (
+		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
+		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
+		) const;
+
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
 	bool same (boost::shared_ptr<const ImageProxy>) const;

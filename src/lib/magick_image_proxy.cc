@@ -67,7 +67,7 @@ MagickImageProxy::MagickImageProxy (shared_ptr<cxml::Node>, shared_ptr<Socket> s
 }
 
 shared_ptr<Image>
-MagickImageProxy::image (optional<dcp::NoteHandler>) const
+MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 

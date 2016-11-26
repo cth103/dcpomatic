@@ -60,8 +60,16 @@ class ImageProxy : public boost::noncopyable
 public:
 	virtual ~ImageProxy () {}
 
-	/** @return Image (which must be aligned) */
-	virtual boost::shared_ptr<Image> image (boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> ()) const = 0;
+	/** @param note Handler for any notes that occur.
+	 *  @param size Size that the returned image will be scaled to, in case this
+	 *  can be used as an optimisation.
+	 *  @return Image (which must be aligned)
+	 */
+	virtual boost::shared_ptr<Image> image (
+		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
+		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
+		) const = 0;
+
 	virtual void add_metadata (xmlpp::Node *) const = 0;
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */

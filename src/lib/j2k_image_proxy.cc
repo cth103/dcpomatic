@@ -30,12 +30,14 @@
 #include <dcp/j2k.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <Magick++.h>
 #include <iostream>
 
 #include "i18n.h"
 
 using std::string;
 using std::cout;
+using std::max;
 using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
@@ -91,46 +93,53 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	socket->read (_data.data().get (), _data.size ());
 }
 
-void
-J2KImageProxy::ensure_j2k () const
-{
-	if (!_j2k) {
-		_j2k = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), 0);
-	}
-}
-
 shared_ptr<Image>
-J2KImageProxy::image (optional<dcp::NoteHandler>) const
+J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_size) const
 {
-	ensure_j2k ();
+	if (!_j2k || target_size != _j2k_target_size) {
+		int reduce = 0;
 
-	if (_j2k->precision(0) < 12) {
-		int const shift = 12 - _j2k->precision (0);
-		for (int c = 0; c < 3; ++c) {
-			int* p = _j2k->data (c);
-			for (int y = 0; y < _j2k->size().height; ++y) {
-				for (int x = 0; x < _j2k->size().width; ++x) {
-					*p++ <<= shift;
+		while (target_size && (_size.width / pow(2, reduce)) > target_size->width && (_size.height / pow(2, reduce)) > target_size->height) {
+			++reduce;
+		}
+
+		--reduce;
+		reduce = max (0, reduce);
+		_j2k = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
+
+		if (_j2k->precision(0) < 12) {
+			int const shift = 12 - _j2k->precision (0);
+			for (int c = 0; c < 3; ++c) {
+				int* p = _j2k->data (c);
+				for (int y = 0; y < _j2k->size().height; ++y) {
+					for (int x = 0; x < _j2k->size().width; ++x) {
+						*p++ <<= shift;
+					}
 				}
 			}
 		}
+
+		_j2k_target_size = target_size;
 	}
 
-	shared_ptr<Image> image (new Image (_pixel_format, _size, true));
+	shared_ptr<Image> image (new Image (_pixel_format, _j2k->size(), true));
 
 	/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
 	   the data is 12-bit either way.
 	*/
 
+	int const width = _j2k->size().width;
+
 	int p = 0;
 	for (int y = 0; y < _j2k->size().height; ++y) {
 		uint16_t* q = (uint16_t *) (image->data()[0] + y * image->stride()[0]);
-		for (int x = 0; x < _j2k->size().width; ++x) {
+		for (int x = 0; x < width; ++x) {
 			for (int c = 0; c < 3; ++c) {
 				*q++ = _j2k->data(c)[p] << 4;
 			}
 			++p;
 		}
+		p += _j2k->factor(0) * width;
 	}
 
 	return image;

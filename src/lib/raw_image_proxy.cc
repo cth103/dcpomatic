@@ -53,7 +53,7 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 }
 
 shared_ptr<Image>
-RawImageProxy::image (optional<dcp::NoteHandler>) const
+RawImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 {
 	return _image;
 }

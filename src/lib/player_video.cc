@@ -106,7 +106,7 @@ PlayerVideo::set_subtitle (PositionImage image)
 shared_ptr<Image>
 PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat)> pixel_format, bool aligned, bool fast) const
 {
-	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note));
+	shared_ptr<Image> im = _in->image (optional<dcp::NoteHandler> (note), _inter_size);
 
 	Crop total_crop = _crop;
 	switch (_part) {

@@ -1,3 +1,8 @@
+2016-11-26  Carl Hetherington  <cth@carlh.net>
+
+	* Speed up preview of exisiting DCPs when the preview size
+	is less than half the full DCP size (#986).
+
 2016-11-25  Carl Hetherington  <cth@carlh.net>
 
 	* Allow multi-edit of content timing details (#1010).

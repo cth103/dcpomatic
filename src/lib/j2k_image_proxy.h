@@ -35,7 +35,11 @@ public:
 	J2KImageProxy (boost::shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size, dcp::Eye, AVPixelFormat pixel_format);
 	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
-	boost::shared_ptr<Image> image (boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> ()) const;
+	boost::shared_ptr<Image> image (
+		boost::optional<dcp::NoteHandler> note = boost::optional<dcp::NoteHandler> (),
+		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
+		) const;
+
 	void add_metadata (xmlpp::Node *) const;
 	void send_binary (boost::shared_ptr<Socket>) const;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
@@ -57,11 +61,11 @@ private:
 
 	/* For tests */
 	J2KImageProxy (dcp::Data data, dcp::Size size, AVPixelFormat pixel_format);
-	void ensure_j2k () const;
 
 	dcp::Data _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;
 	mutable boost::shared_ptr<dcp::OpenJPEGImage> _j2k;
+	mutable boost::optional<dcp::Size> _j2k_target_size;
 	AVPixelFormat _pixel_format;
 };
