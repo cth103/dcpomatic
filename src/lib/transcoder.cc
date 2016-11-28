@@ -63,9 +63,9 @@ Transcoder::Transcoder (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
-	_player->Video.connect (bind (&Transcoder::video, this, _1));
+	_player->Video.connect (bind (&Transcoder::video, this, _1, _2));
 	_player->Audio.connect (bind (&Transcoder::audio, this, _1, _2));
-	_player->Subtitle.connect (bind (&Transcoder::subtitle, this, _1));
+	_player->Subtitle.connect (bind (&Transcoder::subtitle, this, _1, _2));
 
 	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
 		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
@@ -102,14 +102,14 @@ Transcoder::go ()
 }
 
 void
-Transcoder::video (shared_ptr<PlayerVideo> data)
+Transcoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 {
 	if (!_film->three_d() && data->eyes() == EYES_LEFT) {
 		/* Use left-eye images for both eyes */
 		data->set_eyes (EYES_BOTH);
 	}
 
-	_encoder->encode (data);
+	_encoder->encode (data, time);
 }
 
 void
@@ -123,10 +123,10 @@ Transcoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-Transcoder::subtitle (PlayerSubtitles data)
+Transcoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
 {
 	if (_non_burnt_subtitles) {
-		_writer->write (data);
+		_writer->write (data, period);
 	}
 }
 

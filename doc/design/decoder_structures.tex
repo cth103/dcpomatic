@@ -128,9 +128,9 @@ Resampling also looks fiddly in the v1 code.
     virtual void pass() = 0;
     virtual void seek(ContentTime time, bool accurate) = 0;
 
-    signals2<void (ContentVideo)> Video;
-    signals2<void (ContentAudio, AudioStreamPtr)> Audio;
-    signals2<void (ContentTextSubtitle)> TextSubtitle;
+    signal<void (ContentVideo)> Video;
+    signal<void (ContentAudio, AudioStreamPtr)> Audio;
+    signal<void (ContentTextSubtitle)> TextSubtitle;
   };
 \end{lstlisting}
 
@@ -160,12 +160,18 @@ Questions:
 \subsection{Steps}
 
 \begin{itemize}
+\item Add signals to \texttt{Player}.
+  \begin{itemize}
+    \item \texttt{signal<void (shared\_ptr<PlayerVideo>), DCPTime> Video;}
+    \item \texttt{signal<void (shared\_ptr<AudioBuffers>, DCPTime)> Audio;}
+    \item \texttt{signal<void (PlayerSubtitles, DCPTimePeriod)> Subtitle;}
+  \end{itemize}
   \item Remove \texttt{get()}-based loops and replace with \texttt{pass()} and signal connections.
   \item Remove \texttt{get()} and \texttt{seek()} from decoder parts; add emission signals.
   \item Put \texttt{AudioMerger} back.
   \item Remove \texttt{during} stuff from \texttt{SubtitleDecoder} and decoder classes that use it.
   \item Rename \texttt{give} methods to \texttt{emit}.
-  \item Remove \text{get} methods from \texttt{Player}; replace with \texttt{pass()} and \texttt{seek()}.
+  \item Remove \texttt{get} methods from \texttt{Player}; replace with \texttt{pass()} and \texttt{seek()}.
 \end{itemize}
 
 \end{document}

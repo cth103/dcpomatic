@@ -67,7 +67,7 @@ private:
 	void player_changed (bool);
 	void update_position_label ();
 	void update_position_slider ();
-	void video (boost::shared_ptr<PlayerVideo>);
+	void video (boost::shared_ptr<PlayerVideo>, DCPTime time);
 	void get ();
 	void seek (DCPTime t, bool accurate);
 	void refresh_panel ();

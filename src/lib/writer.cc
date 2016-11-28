@@ -542,13 +542,13 @@ Writer::can_fake_write (Frame frame) const
 }
 
 void
-Writer::write (PlayerSubtitles subs)
+Writer::write (PlayerSubtitles subs, DCPTimePeriod period)
 {
 	if (subs.text.empty ()) {
 		return;
 	}
 
-	if (_subtitle_reel->period().to <= subs.period.from) {
+	if (_subtitle_reel->period().to <= period.from) {
 		++_subtitle_reel;
 	}
 

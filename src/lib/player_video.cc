@@ -41,7 +41,6 @@ using dcp::raw_convert;
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
-	DCPTime time,
 	Crop crop,
 	boost::optional<double> fade,
 	dcp::Size inter_size,
@@ -51,7 +50,6 @@ PlayerVideo::PlayerVideo (
 	optional<ColourConversion> colour_conversion
 	)
 	: _in (in)
-	, _time (time)
 	, _crop (crop)
 	, _fade (fade)
 	, _inter_size (inter_size)
@@ -65,7 +63,6 @@ PlayerVideo::PlayerVideo (
 
 PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
 {
-	_time = DCPTime (node->number_child<DCPTime::Type> ("Time"));
 	_crop = Crop (node);
 	_fade = node->optional_number_child<double> ("Fade");
 
@@ -149,7 +146,6 @@ PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat
 void
 PlayerVideo::add_metadata (xmlpp::Node* node) const
 {
-	node->add_child("Time")->add_child_text (raw_convert<string> (_time.get ()));
 	_crop.as_xml (node);
 	if (_fade) {
 		node->add_child("Fade")->add_child_text (raw_convert<string> (_fade.get ()));
@@ -208,9 +204,7 @@ PlayerVideo::inter_position () const
 	return Position<int> ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.height) / 2);
 }
 
-/** @return true if this PlayerVideo is definitely the same as another
- * (apart from _time), false if it is probably not
- */
+/** @return true if this PlayerVideo is definitely the same as another, false if it is probably not */
 bool
 PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 {
@@ -249,12 +243,4 @@ AVPixelFormat
 PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 {
 	return p == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
-}
-
-shared_ptr<PlayerVideo>
-PlayerVideo::clone (DCPTime time) const
-{
-	shared_ptr<PlayerVideo> c (new PlayerVideo (*this));
-	c->_time = time;
-	return c;
 }

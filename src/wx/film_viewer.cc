@@ -181,7 +181,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
-	_player->Video.connect (boost::bind (&FilmViewer::video, this, _1));
+	_player->Video.connect (boost::bind (&FilmViewer::video, this, _1, _2));
 
 	calculate_sizes ();
 	refresh ();
@@ -197,7 +197,7 @@ FilmViewer::refresh_panel ()
 }
 
 void
-FilmViewer::video (shared_ptr<PlayerVideo> pv)
+FilmViewer::video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	if (!_player) {
 		return;
@@ -235,7 +235,7 @@ FilmViewer::video (shared_ptr<PlayerVideo> pv)
 
 	ImageChanged (pv);
 
-	_position = pv->time ();
+	_position = time;
 	_inter_position = pv->inter_position ();
 	_inter_size = pv->inter_size ();
 

@@ -260,7 +260,7 @@ public:
 		return TimePeriod<T> (from + o, to + o);
 	}
 
-	boost::optional<TimePeriod<T> > overlap (TimePeriod<T> const & other) {
+	boost::optional<TimePeriod<T> > overlap (TimePeriod<T> const & other) const {
 		T const max_from = std::max (from, other.from);
 		T const min_to = std::min (to, other.to);
 

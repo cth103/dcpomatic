@@ -34,8 +34,6 @@ public:
 	void add_fonts (std::list<boost::shared_ptr<Font> > fonts_);
 	std::list<boost::shared_ptr<Font> > fonts;
 
-	DCPTimePeriod period;
-
 	/** ImageSubtitles, with their rectangles transformed as specified by their content */
 	std::list<ImageSubtitle> image;
 	std::list<SubtitleString> text;

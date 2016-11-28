@@ -41,7 +41,6 @@ class PlayerVideo
 public:
 	PlayerVideo (
 		boost::shared_ptr<const ImageProxy>,
-		DCPTime,
 		Crop,
 		boost::optional<double>,
 		dcp::Size,
@@ -66,10 +65,6 @@ public:
 	bool has_j2k () const;
 	dcp::Data j2k () const;
 
-	DCPTime time () const {
-		return _time;
-	}
-
 	Eyes eyes () const {
 		return _eyes;
 	}
@@ -92,11 +87,8 @@ public:
 
 	bool same (boost::shared_ptr<const PlayerVideo> other) const;
 
-	boost::shared_ptr<PlayerVideo> clone (DCPTime time) const;
-
 private:
 	boost::shared_ptr<const ImageProxy> _in;
-	DCPTime _time;
 	Crop _crop;
 	boost::optional<double> _fade;
 	dcp::Size _inter_size;

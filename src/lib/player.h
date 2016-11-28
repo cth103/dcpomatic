@@ -75,9 +75,9 @@ public:
 	 */
 	boost::signals2::signal<void (bool)> Changed;
 
-	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>)> Video;
+	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
-	boost::signals2::signal<void (PlayerSubtitles)> Subtitle;
+	boost::signals2::signal<void (PlayerSubtitles, DCPTimePeriod)> Subtitle;
 
 private:
 	friend class PlayerWrapper;
@@ -99,7 +99,7 @@ private:
 	DCPTime resampled_audio_to_dcp (boost::shared_ptr<const Piece> piece, Frame f) const;
 	ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
-	boost::shared_ptr<PlayerVideo> black_player_video_frame (DCPTime) const;
+	boost::shared_ptr<PlayerVideo> black_player_video_frame () const;
 	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
@@ -136,7 +136,7 @@ private:
 	AudioMerger _audio_merger;
 	DCPTime _last_audio_time;
 
-	std::list<PlayerSubtitles> _subtitles;
+	std::list<std::pair<PlayerSubtitles, DCPTimePeriod> > _subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 

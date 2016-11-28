@@ -286,12 +286,11 @@ Player::transform_image_subtitles (list<ImageSubtitle> subs) const
 }
 
 shared_ptr<PlayerVideo>
-Player::black_player_video_frame (DCPTime time) const
+Player::black_player_video_frame () const
 {
 	return shared_ptr<PlayerVideo> (
 		new PlayerVideo (
 			shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)),
-			time,
 			Crop (),
 			optional<double> (),
 			_video_container_size,
@@ -563,21 +562,21 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	optional<PositionImage> subtitles;
 
-	BOOST_FOREACH (PlayerSubtitles i, _subtitles) {
+	for (list<pair<PlayerSubtitles, DCPTimePeriod> >::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
 
-		if (!i.period.overlap (period)) {
+		if (!i->second.overlap (period)) {
 			continue;
 		}
 
 		list<PositionImage> sub_images;
 
 		/* Image subtitles */
-		list<PositionImage> c = transform_image_subtitles (i.image);
+		list<PositionImage> c = transform_image_subtitles (i->first.image);
 		copy (c.begin(), c.end(), back_inserter (sub_images));
 
 		/* Text subtitles (rendered to an image) */
-		if (!i.text.empty ()) {
-			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time);
+		if (!i->first.text.empty ()) {
+			list<PositionImage> s = render_subtitles (i->first.text, i->first.fonts, _video_container_size, time);
 			copy (s.begin (), s.end (), back_inserter (sub_images));
 		}
 
@@ -591,9 +590,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	if (_last_video_time) {
 		for (DCPTime i = _last_video_time.get(); i < time; i += DCPTime::from_frames (1, _film->video_frame_rate())) {
 			if (_playlist->video_content_at(i) && _last_video) {
-				Video (_last_video->clone (i));
+				Video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), i);
 			} else {
-				Video (black_player_video_frame (i));
+				Video (black_player_video_frame (), i);
 			}
 		}
 	}
@@ -601,7 +600,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	_last_video.reset (
 		new PlayerVideo (
 			video.image,
-			time,
 			piece->content->video->crop (),
 			piece->content->video->fade (video.frame.index()),
 			piece->content->video->scale().size (
@@ -621,15 +619,15 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	_last_video_time = time;
 
 	cout << "Video @ " << to_string(_last_video_time.get()) << "\n";
-	Video (_last_video);
+	Video (_last_video, *_last_video_time);
 
 	/* Discard any subtitles we no longer need */
 
-	for (list<PlayerSubtitles>::iterator i = _subtitles.begin (); i != _subtitles.end(); ) {
-		list<PlayerSubtitles>::iterator tmp = i;
+	for (list<pair<PlayerSubtitles, DCPTimePeriod> >::iterator i = _subtitles.begin (); i != _subtitles.end(); ) {
+		list<pair<PlayerSubtitles, DCPTimePeriod> >::iterator tmp = i;
 		++tmp;
 
-		if (i->period.to < time) {
+		if (i->second.to < time) {
 			_subtitles.erase (i);
 		}
 
@@ -711,12 +709,12 @@ Player::image_subtitle (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 
 	PlayerSubtitles ps;
 	ps.image.push_back (subtitle.sub);
-	ps.period = DCPTimePeriod (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
+	DCPTimePeriod period (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
 
 	if (piece->content->subtitle->use() && (piece->content->subtitle->burn() || _always_burn_subtitles)) {
-		_subtitles.push_back (ps);
+		_subtitles.push_back (make_pair (ps, period));
 	} else {
-		Subtitle (ps);
+		Subtitle (ps, period);
 	}
 }
 
@@ -729,6 +727,7 @@ Player::text_subtitle (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 	}
 
 	PlayerSubtitles ps;
+	DCPTimePeriod const period (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
 
 	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
 		s.set_h_position (s.h_position() + piece->content->subtitle->x_offset ());
@@ -750,18 +749,16 @@ Player::text_subtitle (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 			s.set_aspect_adjust (xs / ys);
 		}
 
-		ps.period = DCPTimePeriod (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
-
-		s.set_in (dcp::Time(ps.period.from.seconds(), 1000));
-		s.set_out (dcp::Time(ps.period.to.seconds(), 1000));
+		s.set_in (dcp::Time(period.from.seconds(), 1000));
+		s.set_out (dcp::Time(period.to.seconds(), 1000));
 		ps.text.push_back (SubtitleString (s, piece->content->subtitle->outline_width()));
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 
 	if (piece->content->subtitle->use() && (piece->content->subtitle->burn() || _always_burn_subtitles)) {
-		_subtitles.push_back (ps);
+		_subtitles.push_back (make_pair (ps, period));
 	} else {
-		Subtitle (ps);
+		Subtitle (ps, period);
 	}
 }
 

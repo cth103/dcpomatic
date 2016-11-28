@@ -165,11 +165,11 @@ Encoder::current_encoding_rate () const
 int
 Encoder::video_frames_enqueued () const
 {
-	if (!_last_player_video) {
+	if (!_last_player_video_time) {
 		return 0;
 	}
 
-	return _last_player_video->time().frames_floor (_film->video_frame_rate ());
+	return _last_player_video_time->frames_floor (_film->video_frame_rate ());
 }
 
 /** Should be called when a frame has been encoded successfully.
@@ -194,7 +194,7 @@ Encoder::frame_done ()
  *  for this DCP frame.
  */
 void
-Encoder::encode (shared_ptr<PlayerVideo> pv)
+Encoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	_waker.nudge ();
 
@@ -222,7 +222,7 @@ Encoder::encode (shared_ptr<PlayerVideo> pv)
 	*/
 	rethrow ();
 
-	Frame const position = pv->time().frames_floor(_film->video_frame_rate());
+	Frame const position = time.frames_floor(_film->video_frame_rate());
 
 	if (_writer->can_fake_write (position)) {
 		/* We can fake-write this frame */
@@ -258,6 +258,7 @@ Encoder::encode (shared_ptr<PlayerVideo> pv)
 	}
 
 	_last_player_video = pv;
+	_last_player_video_time = time;
 }
 
 void

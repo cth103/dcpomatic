@@ -48,9 +48,9 @@ public:
 
 private:
 
-	void video (boost::shared_ptr<PlayerVideo>);
+	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
-	void subtitle (PlayerSubtitles);
+	void subtitle (PlayerSubtitles, DCPTimePeriod);
 
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;

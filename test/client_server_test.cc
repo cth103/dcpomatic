@@ -87,7 +87,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
 			shared_ptr<ImageProxy> (new RawImageProxy (image)),
-			DCPTime (),
 			Crop (),
 			optional<double> (),
 			dcp::Size (1998, 1080),
@@ -167,7 +166,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	shared_ptr<PlayerVideo> pvf (
 		new PlayerVideo (
 			shared_ptr<ImageProxy> (new RawImageProxy (image)),
-			DCPTime (),
 			Crop (),
 			optional<double> (),
 			dcp::Size (1998, 1080),
@@ -234,7 +232,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	shared_ptr<PlayerVideo> raw_pvf (
 		new PlayerVideo (
 			shared_ptr<ImageProxy> (new RawImageProxy (image)),
-			DCPTime (),
 			Crop (),
 			optional<double> (),
 			dcp::Size (1998, 1080),
@@ -261,7 +258,6 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	shared_ptr<PlayerVideo> j2k_pvf (
 		new PlayerVideo (
 			shared_ptr<ImageProxy> (new J2KImageProxy (raw_locally_encoded, dcp::Size (1998, 1080), AV_PIX_FMT_XYZ12LE)),
-			DCPTime (),
 			Crop (),
 			optional<double> (),
 			dcp::Size (1998, 1080),
