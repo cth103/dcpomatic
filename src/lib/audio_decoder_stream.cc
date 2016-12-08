@@ -272,3 +272,13 @@ AudioDecoderStream::set_fast ()
 		_resampler->set_fast ();
 	}
 }
+
+optional<ContentTime>
+AudioDecoderStream::position () const
+{
+	if (!_position) {
+		return optional<ContentTime> ();
+	}
+
+	return ContentTime::from_frames (_position.get(), _content->resampled_frame_rate());
+}

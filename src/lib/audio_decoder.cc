@@ -32,6 +32,7 @@
 using std::cout;
 using std::map;
 using boost::shared_ptr;
+using boost::optional;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
 	: DecoderPart (parent, log)
@@ -83,7 +84,7 @@ AudioDecoder::give (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 void
 AudioDecoder::flush ()
 {
-	for (map<AudioStreamPtr, shared_ptr<AudioDecoderStream> >::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
+	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
 		i->second->flush ();
 	}
 }
@@ -92,7 +93,7 @@ void
 AudioDecoder::seek (ContentTime t, bool accurate)
 {
 	_log->log (String::compose ("AD seek to %1", to_string(t)), LogEntry::TYPE_DEBUG_DECODE);
-	for (map<AudioStreamPtr, shared_ptr<AudioDecoderStream> >::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
+	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
 		i->second->seek (t, accurate);
 	}
 }
@@ -100,7 +101,19 @@ AudioDecoder::seek (ContentTime t, bool accurate)
 void
 AudioDecoder::set_fast ()
 {
-	for (map<AudioStreamPtr, shared_ptr<AudioDecoderStream> >::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
+	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
 		i->second->set_fast ();
 	}
+}
+
+optional<ContentTime>
+AudioDecoder::position () const
+{
+	optional<ContentTime> pos;
+	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
+		if (!pos || (i->second->position() && i->second->position().get() < pos.get())) {
+			pos = i->second->position();
+		}
+	}
+	return pos;
 }

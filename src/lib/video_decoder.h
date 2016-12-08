@@ -60,6 +60,14 @@ public:
 	void seek (ContentTime time, bool accurate);
 	void give (boost::shared_ptr<const ImageProxy>, Frame frame);
 
+	boost::optional<ContentTime> position () const {
+		return _position;
+	}
+
+	void reset_position () {
+		_position.reset ();
+	}
+
 private:
 
 	std::list<ContentVideo> decoded (Frame frame);
@@ -75,6 +83,7 @@ private:
 	 *  it has no more to give.
 	 */
 	boost::optional<Frame> _no_data_frame;
+	boost::optional<ContentTime> _position;
 };
 
 #endif

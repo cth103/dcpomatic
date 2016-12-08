@@ -274,6 +274,7 @@ VideoDecoder::give (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 
 	_log->log (String::compose ("VD receives %1", frame), LogEntry::TYPE_DEBUG_DECODE);
+	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate());
 
 	/* Work out what we are going to push into _decoded next */
 	list<ContentVideo> to_push;
@@ -389,4 +390,5 @@ VideoDecoder::seek (ContentTime s, bool accurate)
 	_decoded.clear ();
 	_last_seek_time = s;
 	_last_seek_accurate = accurate;
+	_position.reset ();
 }

@@ -426,8 +426,6 @@ FFmpegDecoder::decode_audio_packet ()
 				LOG_WARNING ("Crazy timestamp %1", to_string (ct));
 			}
 
-			audio->set_position (ct);
-
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
 				audio->give (*stream, data, ct);
@@ -479,7 +477,6 @@ FFmpegDecoder::decode_video_packet ()
 				shared_ptr<ImageProxy> (new RawImageProxy (image)),
 				llrint (pts * _ffmpeg_content->active_video_frame_rate ())
 				);
-			video->set_position (ContentTime::from_seconds (pts));
 		} else {
 			LOG_WARNING_NC ("Dropping frame without PTS");
 		}
@@ -510,7 +507,6 @@ FFmpegDecoder::decode_subtitle_packet ()
 	FFmpegSubtitlePeriod sub_period = subtitle_period (sub);
 	ContentTimePeriod period;
 	period.from = sub_period.from + _pts_offset;
-	subtitle->set_position (period.from);
 	/* We can't trust the `to' time from sub_period as there are some decoders which
 	   give a sub_period time for `to' which is subsequently overridden by a `stop' subtitle;
 	   see also FFmpegExaminer.

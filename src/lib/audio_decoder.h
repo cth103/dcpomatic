@@ -58,9 +58,12 @@ public:
 	void flush ();
 	void seek (ContentTime t, bool accurate);
 
+	boost::optional<ContentTime> position () const;
+
 private:
 	/** An AudioDecoderStream object to manage each stream in _audio_content */
-	std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > _streams;
+	typedef std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > StreamMap;
+	StreamMap _streams;
 };
 
 #endif

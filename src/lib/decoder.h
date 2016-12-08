@@ -33,6 +33,7 @@ class Decoded;
 class VideoDecoder;
 class AudioDecoder;
 class SubtitleDecoder;
+class DecoderPart;
 
 /** @class Decoder.
  *  @brief Parent class for decoders of content.
@@ -60,7 +61,7 @@ public:
 	 */
 	virtual void reset () {}
 
-	void maybe_seek (boost::optional<ContentTime>& position, ContentTime time, bool accurate);
+	void maybe_seek (boost::optional<ContentTime> position, ContentTime time, bool accurate);
 
 private:
 	/** Seek so that the next pass() will yield the next thing
