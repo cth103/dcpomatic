@@ -26,7 +26,7 @@ using std::cout;
 using boost::optional;
 
 void
-Decoder::maybe_seek (opional<ContentTime> position, ContentTime time, bool accurate)
+Decoder::maybe_seek (optional<ContentTime> position, ContentTime time, bool accurate)
 {
 	if (position && (time >= position.get() && time < (position.get() + ContentTime::from_seconds(1)))) {
 		/* No need to seek: caller should just pass() */
