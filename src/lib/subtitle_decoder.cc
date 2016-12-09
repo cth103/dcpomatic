@@ -63,6 +63,7 @@ void
 SubtitleDecoder::give_image (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
 	_decoded_image.push_back (ContentImageSubtitle (period, image, rect));
+	_position = period.from;
 }
 
 void
@@ -79,6 +80,7 @@ SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> 
 	}
 
 	_decoded_text.push_back (ContentTextSubtitle (period, s));
+	_position = period.from;
 }
 
 /** Get the subtitles that correspond to a given list of periods.
@@ -168,6 +170,7 @@ SubtitleDecoder::seek (ContentTime t, bool)
 {
 	_log->log (String::compose ("SD seek to %1", to_string(t)), LogEntry::TYPE_DEBUG_DECODE);
 	reset ();
+	_position.reset ();
 }
 
 void

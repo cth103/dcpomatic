@@ -40,13 +40,7 @@ public:
 		return _ignore;
 	}
 
-	void set_position (ContentTime position) {
-		_position = position;
-	}
-
-	boost::optional<ContentTime> position () const {
-		return _position;
-	}
+	virtual boost::optional<ContentTime> position () const = 0;
 
 	void maybe_seek (ContentTime time, bool accurate);
 
@@ -56,7 +50,6 @@ protected:
 
 private:
 	bool _ignore;
-	boost::optional<ContentTime> _position;
 };
 
 #endif

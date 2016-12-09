@@ -63,6 +63,14 @@ public:
 		return _content;
 	}
 
+	boost::optional<ContentTime> position () const {
+		return _position;
+	}
+
+	void reset_position () {
+		_position.reset ();
+	}
+
 private:
 
 	std::list<ContentImageSubtitle> _decoded_image;
@@ -74,6 +82,8 @@ private:
 
 	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _image_during;
 	boost::function<std::list<ContentTimePeriod> (ContentTimePeriod, bool)> _text_during;
+
+	boost::optional<ContentTime> _position;
 };
 
 #endif

@@ -43,6 +43,8 @@ public:
 	void seek (ContentTime time, bool accurate);
 	void set_fast ();
 
+	boost::optional<ContentTime> position () const;
+
 private:
 
 	void reset_decoded ();
