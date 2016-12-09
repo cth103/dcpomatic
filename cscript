@@ -24,7 +24,22 @@ import shutil
 import os
 import copy
 
-deb_build_depends = {'debhelper', 'python', 'g++', 'pkg-config', 'libssh-dev', 'libsndfile1-dev', 'libgtk2.0-dev'}
+deb_build_depends = dict()
+
+deb_build_depends_base = {'debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev'}
+
+deb_build_depends['12.04'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['12.04'].extend(['libssh-dev'])
+deb_build_depends['14.04'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['14.04'].extend(['libssh-dev'])
+deb_build_depends['16.04'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['16.04'].extend(['libssh-dev'])
+deb_build_depends['16.10'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['16.10'].extend(['libssh-dev'])
+deb_build_depends['7'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['7'].extend(['libssh-dev'])
+deb_build_depends['8'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['8'].extend(['libssh-dev'])
 
 deb_depends = dict()
 
