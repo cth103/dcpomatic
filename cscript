@@ -40,6 +40,7 @@ deb_build_depends['7'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['7'].extend(['libssh-dev'])
 deb_build_depends['8'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['8'].extend(['libssh-dev'])
+deb_build_depends['unstable'] = copy.deepcopy(deb_build_depends_base)
 
 deb_depends = dict()
 
