@@ -26,7 +26,7 @@ import copy
 
 deb_build_depends = dict()
 
-deb_build_depends_base = {'debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev'}
+deb_build_depends_base = ['debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev']
 
 deb_build_depends['12.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['12.04'].extend(['libssh-dev'])
@@ -145,7 +145,7 @@ def make_control(debian_version, bits, filename, debug):
     print('Section: video', file=f)
     print('Priority: extra', file=f)
     print('Maintainer: Carl Hetherington <carl@dcpomatic.com>', file=f)
-    packages('Build-Depends', deb_build_depends, f)
+    packages('Build-Depends', deb_build_depends[debian_version], f)
     print('Standards-Version: 3.9.3', file=f)
     print('Homepage: http://dcpomatic.com/', file=f)
     print('', file=f)
