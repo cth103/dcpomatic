@@ -18,6 +18,7 @@
 
 */
 
+#include "lib/content_subtitle.h"
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
 #include <wx/listctrl.h>
@@ -30,5 +31,9 @@ public:
 	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Decoder>, DCPTime position);
 
 private:
+	void data (ContentTextSubtitle cts);
+
 	wxListCtrl* _list;
+	int _subs;
+	boost::optional<FrameRateChange> _frc;
 };

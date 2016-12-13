@@ -44,11 +44,11 @@ ImageDecoder::ImageDecoder (shared_ptr<const ImageContent> c, shared_ptr<Log> lo
 	video.reset (new VideoDecoder (this, c, log));
 }
 
-void
+bool
 ImageDecoder::pass ()
 {
 	if (_frame_video_position >= _image_content->video->length()) {
-		return;
+		return true;
 	}
 
 	if (!_image_content->still() || !_image) {
@@ -74,7 +74,7 @@ ImageDecoder::pass ()
 
 	video->emit (_image, _frame_video_position);
 	++_frame_video_position;
-	return;
+	return false;
 }
 
 void

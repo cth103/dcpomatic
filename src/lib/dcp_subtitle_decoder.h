@@ -28,7 +28,7 @@ class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 public:
 	DCPSubtitleDecoder (boost::shared_ptr<const DCPSubtitleContent>, boost::shared_ptr<Log> log);
 
-	void pass ();
+	bool pass ();
 	void seek (ContentTime time, bool accurate);
 
 private:

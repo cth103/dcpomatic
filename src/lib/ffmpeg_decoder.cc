@@ -116,7 +116,7 @@ FFmpegDecoder::flush ()
 	}
 }
 
-void
+bool
 FFmpegDecoder::pass ()
 {
 	int r = av_read_frame (_format_context, &_packet);
@@ -134,7 +134,7 @@ FFmpegDecoder::pass ()
 		}
 
 		flush ();
-		return;
+		return true;
 	}
 
 	int const si = _packet.stream_index;
@@ -149,6 +149,7 @@ FFmpegDecoder::pass ()
 	}
 
 	av_packet_unref (&_packet);
+	return false;
 }
 
 /** @param data pointer to array of pointers to buffers.

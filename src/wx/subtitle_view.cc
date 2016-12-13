@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,8 @@
 
 #include "lib/text_subtitle_decoder.h"
 #include "lib/content_subtitle.h"
+#include "lib/video_decoder.h"
+#include "lib/audio_decoder.h"
 #include "lib/film.h"
 #include "lib/text_subtitle_content.h"
 #include "subtitle_view.h"
@@ -67,25 +69,31 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-#if 0
-	XXX
-
-	list<ContentTextSubtitle> subs = decoder->subtitle->get_text (ContentTimePeriod (ContentTime(), ContentTime::max ()), true, true);
-	FrameRateChange const frc = film->active_frame_rate_change (position);
-	int n = 0;
-	for (list<ContentTextSubtitle>::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		for (list<dcp::SubtitleString>::const_iterator j = i->subs.begin(); j != i->subs.end(); ++j) {
-			wxListItem list_item;
-			list_item.SetId (n);
-			_list->InsertItem (list_item);
-			ContentTimePeriod const p = i->period ();
-			_list->SetItem (n, 0, std_to_wx (p.from.timecode (frc.source)));
-			_list->SetItem (n, 1, std_to_wx (p.to.timecode (frc.source)));
-			_list->SetItem (n, 2, std_to_wx (j->text ()));
-			++n;
-		}
+	if (decoder->video) {
+		decoder->video->set_ignore ();
 	}
-#endif
+	if (decoder->audio) {
+		decoder->audio->set_ignore ();
+	}
 
+	_subs = 0;
+	_frc = film->active_frame_rate_change (position);
+	decoder->subtitle->TextData.connect (bind (&SubtitleView::data, this, _1));
+	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
+}
+
+void
+SubtitleView::data (ContentTextSubtitle cts)
+{
+	for (list<dcp::SubtitleString>::const_iterator i = cts.subs.begin(); i != cts.subs.end(); ++i) {
+		wxListItem list_item;
+		list_item.SetId (_subs);
+		_list->InsertItem (list_item);
+		ContentTimePeriod const p = cts.period ();
+		_list->SetItem (_subs, 0, std_to_wx (p.from.timecode (_frc->source)));
+		_list->SetItem (_subs, 1, std_to_wx (p.to.timecode (_frc->source)));
+		_list->SetItem (_subs, 2, std_to_wx (i->text ()));
+		++_subs;
+	}
 }

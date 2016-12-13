@@ -47,11 +47,11 @@ DCPSubtitleDecoder::seek (ContentTime time, bool)
 	}
 }
 
-void
+bool
 DCPSubtitleDecoder::pass ()
 {
 	if (_next == _subtitles.end ()) {
-		return;
+		return true;
 	}
 
 	/* Gather all subtitles with the same time period that are next
@@ -70,6 +70,7 @@ DCPSubtitleDecoder::pass ()
 	}
 
 	subtitle->emit_text (p, s);
+	return false;
 }
 
 ContentTimePeriod

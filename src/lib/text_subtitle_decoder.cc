@@ -50,18 +50,18 @@ TextSubtitleDecoder::seek (ContentTime time, bool)
 	}
 }
 
-void
+bool
 TextSubtitleDecoder::pass ()
 {
 	if (_next >= _subtitles.size ()) {
-		return;
+		return true;
 	}
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
 	subtitle->emit_text (p, _subtitles[_next]);
 
 	++_next;
-	return;
+	return false;
 }
 
 ContentTimePeriod

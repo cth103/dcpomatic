@@ -47,7 +47,8 @@ public:
 	boost::shared_ptr<AudioDecoder> audio;
 	boost::shared_ptr<SubtitleDecoder> subtitle;
 
-	virtual void pass () = 0;
+	/** @return true if there is no more data to come from this decoder */
+	virtual bool pass () = 0;
 	virtual void seek (ContentTime time, bool accurate) = 0;
 
 	ContentTime position () const;

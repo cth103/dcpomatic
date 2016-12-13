@@ -47,7 +47,7 @@ public:
 
 	void set_decode_referenced ();
 
-	void pass ();
+	bool pass ();
 	void seek (ContentTime t, bool accurate);
 
 private:

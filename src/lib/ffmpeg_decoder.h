@@ -46,7 +46,7 @@ class FFmpegDecoder : public FFmpeg, public Decoder
 public:
 	FFmpegDecoder (boost::shared_ptr<const FFmpegContent>, boost::shared_ptr<Log>);
 
-	void pass ();
+	bool pass ();
 	void seek (ContentTime time, bool);
 
 private:

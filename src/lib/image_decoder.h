@@ -33,7 +33,7 @@ public:
 		return _image_content;
 	}
 
-	void pass ();
+	bool pass ();
 	void seek (ContentTime, bool);
 
 private:

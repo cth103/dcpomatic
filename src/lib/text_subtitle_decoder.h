@@ -32,7 +32,7 @@ public:
 	TextSubtitleDecoder (boost::shared_ptr<const TextSubtitleContent>, boost::shared_ptr<Log> log);
 
 	void seek (ContentTime time, bool accurate);
-	void pass ();
+	bool pass ();
 
 private:
 	ContentTimePeriod content_time_period (sub::Subtitle s) const;

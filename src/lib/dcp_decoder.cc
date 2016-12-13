@@ -79,11 +79,11 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	get_readers ();
 }
 
-void
+bool
 DCPDecoder::pass ()
 {
 	if (_reel == _reels.end () || !_dcp_content->can_be_played ()) {
-		return;
+		return true;
 	}
 
 	double const vfr = _dcp_content->active_video_frame_rate ();
@@ -163,6 +163,8 @@ DCPDecoder::pass ()
 			_next = ContentTime ();
 		}
 	}
+
+	return false;
 }
 
 void
