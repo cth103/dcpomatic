@@ -405,8 +405,6 @@ FFmpegDecoder::decode_audio_packet ()
 				LOG_WARNING ("Crazy timestamp %1", to_string (ct));
 			}
 
-			audio->set_position (*stream, ct);
-
 			/* Give this data provided there is some, and its time is sane */
 			if (ct >= ContentTime() && data->frames() > 0) {
 				audio->emit (*stream, data, ct);

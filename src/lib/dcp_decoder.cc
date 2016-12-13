@@ -155,9 +155,6 @@ DCPDecoder::pass ()
 		}
 	}
 
-	video->set_position (_next);
-	audio->set_position (_dcp_content->audio->stream(), _next);
-	subtitle->set_position (_next);
 	_next += ContentTime::from_frames (1, vfr);
 
 	if ((*_reel)->main_picture ()) {

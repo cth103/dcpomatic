@@ -70,7 +70,6 @@ DCPSubtitleDecoder::pass ()
 	}
 
 	subtitle->emit_text (p, s);
-	subtitle->set_position (p.from);
 }
 
 ContentTimePeriod

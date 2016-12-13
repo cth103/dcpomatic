@@ -75,6 +75,7 @@ SubtitleDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> 
 	}
 
 	TextData (ContentTextSubtitle (period, s));
+	_position = period.from;
 }
 
 void

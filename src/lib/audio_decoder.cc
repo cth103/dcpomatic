@@ -73,6 +73,7 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 	}
 
 	_streams[stream]->audio (data, time);
+	_positions[stream] = time;
 }
 
 void
@@ -102,10 +103,4 @@ AudioDecoder::position () const
 	}
 
 	return p;
-}
-
-void
-AudioDecoder::set_position (AudioStreamPtr stream, ContentTime time)
-{
-	_positions[stream] = time;
 }

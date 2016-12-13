@@ -94,4 +94,6 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
+
+	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate ());
 }

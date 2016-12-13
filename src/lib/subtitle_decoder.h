@@ -48,10 +48,6 @@ public:
 		boost::shared_ptr<Log> log
 		);
 
-	void set_position (ContentTime position) {
-		_position = position;
-	}
-
 	boost::optional<ContentTime> position () const {
 		return _position;
 	}

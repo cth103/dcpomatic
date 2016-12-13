@@ -59,7 +59,6 @@ TextSubtitleDecoder::pass ()
 
 	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
 	subtitle->emit_text (p, _subtitles[_next]);
-	subtitle->set_position (p.from);
 
 	++_next;
 	return;
