@@ -27,6 +27,8 @@
 #include <dcp/colour_matrix.h>
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
+#include <dcp/identity_transfer_function.h>
+#include <dcp/s_gamut3_transfer_function.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
@@ -76,6 +78,8 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 					   in_node->number_child<double> ("A"),
 					   in_node->number_child<double> ("B")
 					   ));
+		} else if (in_type == "SGamut3") {
+			_in.reset (new dcp::SGamut3TransferFunction ());
 		}
 
 	} else {
@@ -122,7 +126,12 @@ ColourConversion::ColourConversion (cxml::NodePtr node, int version)
 		}
 	}
 
-	_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
+	optional<double> gamma = node->optional_number_child<double> ("OutputGamma");
+	if (gamma) {
+		_out.reset (new dcp::GammaTransferFunction (node->number_child<double> ("OutputGamma")));
+	} else {
+		_out.reset (new dcp::IdentityTransferFunction ());
+	}
 }
 
 boost::optional<ColourConversion>
@@ -150,6 +159,8 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 		in_node->add_child("Threshold")->add_child_text (raw_convert<string> (tf->threshold ()));
 		in_node->add_child("A")->add_child_text (raw_convert<string> (tf->A ()));
 		in_node->add_child("B")->add_child_text (raw_convert<string> (tf->B ()));
+	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction> (_in)) {
+		in_node->add_child("Type")->add_child_text ("SGamut3");
 	}
 
 	node->add_child("YUVToRGB")->add_child_text (raw_convert<string> (static_cast<int> (_yuv_to_rgb)));
@@ -166,7 +177,10 @@ ColourConversion::as_xml (xmlpp::Node* node) const
 		node->add_child("AdjustedWhiteY")->add_child_text (raw_convert<string> (_adjusted_white.get().y));
 	}
 
-	node->add_child("OutputGamma")->add_child_text (raw_convert<string> (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ()));
+	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)) {
+		shared_ptr<const dcp::GammaTransferFunction> gf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out);
+		node->add_child("OutputGamma")->add_child_text (raw_convert<string> (gf->gamma ()));
+	}
 }
 
 optional<size_t>
@@ -215,7 +229,10 @@ ColourConversion::identifier () const
 		digester.add (_adjusted_white.get().y);
 	}
 
-	digester.add (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)->gamma ());
+	shared_ptr<const dcp::GammaTransferFunction> gf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out);
+	if (gf) {
+		digester.add (gf->gamma ());
+	}
 
 	return digester.get ();
 }
@@ -268,6 +285,7 @@ PresetColourConversion::setup_colour_conversion_presets ()
 	_presets.push_back (PresetColourConversion (_("P3"), "p3", dcp::ColourConversion::p3_to_xyz ()));
 	_presets.push_back (PresetColourConversion (_("Rec. 1886"), "rec1886", dcp::ColourConversion::rec1886_to_xyz ()));
 	_presets.push_back (PresetColourConversion (_("Rec. 2020"), "rec2020", dcp::ColourConversion::rec2020_to_xyz ()));
+	_presets.push_back (PresetColourConversion (_("S-Gamut3/S-Log3"), "sgamut3", dcp::ColourConversion::s_gamut3_to_xyz ()));
 }
 
 PresetColourConversion

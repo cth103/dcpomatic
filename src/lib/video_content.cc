@@ -141,7 +141,6 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		_scale = VideoContentScale (node->node_child ("Scale"));
 	}
 
-
 	if (node->optional_node_child ("ColourConversion")) {
 		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"), version);
 	}

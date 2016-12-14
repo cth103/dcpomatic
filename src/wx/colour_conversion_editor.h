@@ -49,15 +49,19 @@ private:
 	void set_text_ctrl (wxTextCtrl *, double);
 	void set_spin_ctrl (wxSpinCtrlDouble *, double);
 
+	static int const INPUT_GAMMA;
+	static int const INPUT_GAMMA_LINEARISED;
+	static int const INPUT_SGAMUT3;
+
 	std::map<wxSpinCtrlDouble*, double> _last_spin_ctrl_value;
 	bool _ignore_chromaticity_changed;
 
+	wxChoice* _input;
 	wxSpinCtrlDouble* _input_gamma;
 	wxSpinCtrlDouble* _input_power;
 	wxTextCtrl* _input_threshold;
 	wxTextCtrl* _input_A;
 	wxTextCtrl* _input_B;
-	wxCheckBox* _input_gamma_linearised;
 	wxChoice* _yuv_to_rgb;
 	wxTextCtrl* _red_x;
 	wxTextCtrl* _red_y;
@@ -70,6 +74,7 @@ private:
 	wxCheckBox* _adjust_white;
 	wxTextCtrl* _adjusted_white_x;
 	wxTextCtrl* _adjusted_white_y;
+	wxCheckBox* _output;
 	wxStaticText* _rgb_to_xyz[3][3];
 	wxStaticText* _bradford[3][3];
 };

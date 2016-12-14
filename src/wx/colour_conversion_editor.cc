@@ -23,6 +23,8 @@
 #include "lib/colour_conversion.h"
 #include <dcp/locale_convert.h>
 #include <dcp/gamma_transfer_function.h>
+#include <dcp/identity_transfer_function.h>
+#include <dcp/s_gamut3_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
@@ -32,7 +34,12 @@ using std::string;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::bind;
 using dcp::locale_convert;
+
+int const ColourConversionEditor::INPUT_GAMMA = 0;
+int const ColourConversionEditor::INPUT_GAMMA_LINEARISED = 1;
+int const ColourConversionEditor::INPUT_SGAMUT3 = 2;
 
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)
@@ -48,8 +55,12 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	subhead (table, this, _("Input gamma correction"), r);
 
-	_input_gamma_linearised = new wxCheckBox (this, wxID_ANY, _("Linearise input gamma curve for small values"));
-	table->Add (_input_gamma_linearised, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	add_label_to_sizer (table, this, _("Input transfer function"), true, wxGBPosition (r, 0));
+	_input = new wxChoice (this, wxID_ANY);
+	_input->Append (_("Gamma"));
+	_input->Append (_("Gamma, linearised for small values"));
+	_input->Append (_("S-Gamut3"));
+	table->Add (_input, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
 
 	add_label_to_sizer (table, this, _("Input gamma"), true, wxGBPosition (r, 0));
@@ -185,6 +196,12 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 		}
 	}
 	table->Add (bradford_sizer, wxGBPosition (r - 2, 3), wxGBSpan (2, 1));
+	++r;
+
+	/* Output transfer function */
+
+	_output = new wxCheckBox (this, wxID_ANY, _("Inverse 2.6 gamma correction on output"));
+	table->Add (_output, wxGBPosition (r, 0), wxGBSpan (1, 2));
 
 	_input_gamma->SetRange (0.1, 4.0);
 	_input_gamma->SetDigits (2);
@@ -193,24 +210,25 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	_input_power->SetDigits (6);
 	_input_power->SetIncrement (0.1);
 
-	_input_gamma->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind (&ColourConversionEditor::changed, this, _input_gamma));
-	_input_gamma_linearised->Bind (wxEVT_CHECKBOX, boost::bind (&ColourConversionEditor::changed, this));
-	_input_power->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
-	_input_threshold->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
-	_input_A->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
-	_input_B->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::changed, this));
-	_red_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_red_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_green_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_green_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_blue_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_blue_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_white_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_white_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::chromaticity_changed, this));
-	_adjust_white->Bind (wxEVT_CHECKBOX, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
-	_adjusted_white_x->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
-	_adjusted_white_y->Bind (wxEVT_TEXT, boost::bind (&ColourConversionEditor::adjusted_white_changed, this));
-	_yuv_to_rgb->Bind (wxEVT_CHOICE, boost::bind (&ColourConversionEditor::changed, this));
+	_input->Bind (wxEVT_CHOICE, bind (&ColourConversionEditor::changed, this));
+	_input_gamma->Bind (wxEVT_SPINCTRLDOUBLE, bind (&ColourConversionEditor::changed, this, _input_gamma));
+	_input_power->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
+	_input_threshold->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
+	_input_A->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
+	_input_B->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
+	_red_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_red_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_green_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_green_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_blue_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_blue_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_white_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_white_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
+	_adjust_white->Bind (wxEVT_CHECKBOX, bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_adjusted_white_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_adjusted_white_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_yuv_to_rgb->Bind (wxEVT_CHOICE, bind (&ColourConversionEditor::changed, this));
+	_output->Bind (wxEVT_CHECKBOX, bind (&ColourConversionEditor::changed, this));
 }
 
 wxStaticText *
@@ -230,17 +248,19 @@ ColourConversionEditor::set (ColourConversion conversion)
 {
 	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.in ())) {
 		shared_ptr<const dcp::GammaTransferFunction> tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.in ());
-		_input_gamma_linearised->SetValue (false);
+		checked_set (_input, 0);
 		set_spin_ctrl (_input_gamma, tf->gamma ());
 	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (conversion.in ())) {
 		shared_ptr<const dcp::ModifiedGammaTransferFunction> tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (conversion.in ());
+		checked_set (_input, 1);
 		/* Arbitrary default; not used in this case (greyed out) */
 		_input_gamma->SetValue (2.2);
-		_input_gamma_linearised->SetValue (true);
 		set_spin_ctrl (_input_power, tf->power ());
 		set_text_ctrl (_input_threshold, tf->threshold ());
 		set_text_ctrl (_input_A, tf->A ());
 		set_text_ctrl (_input_B, tf->B ());
+	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction> (conversion.in ())) {
+		checked_set (_input, 2);
 	}
 
 	_yuv_to_rgb->SetSelection (conversion.yuv_to_rgb ());
@@ -277,6 +297,8 @@ ColourConversionEditor::set (ColourConversion conversion)
 		_adjust_white->SetValue (false);
 	}
 
+	_output->SetValue (static_cast<bool> (dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.out ())));
+
 	update_rgb_to_xyz ();
 	update_bradford ();
 	changed ();
@@ -287,7 +309,14 @@ ColourConversionEditor::get () const
 {
 	ColourConversion conversion;
 
-	if (_input_gamma_linearised->GetValue ()) {
+	switch (_input->GetSelection ()) {
+	case INPUT_GAMMA:
+		conversion.set_in (
+			shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (_input_gamma->GetValue ()))
+			);
+		break;
+	case INPUT_GAMMA_LINEARISED:
+		/* Linearised gamma */
 		conversion.set_in (
 			shared_ptr<dcp::ModifiedGammaTransferFunction> (
 				new dcp::ModifiedGammaTransferFunction (
@@ -298,10 +327,11 @@ ColourConversionEditor::get () const
 					)
 				)
 			);
-	} else {
-		conversion.set_in (
-			shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (_input_gamma->GetValue ()))
-			);
+		break;
+	case INPUT_SGAMUT3:
+		/* SGamut3 */
+		conversion.set_in (shared_ptr<dcp::SGamut3TransferFunction> (new dcp::SGamut3TransferFunction ()));
+		break;
 	}
 
 	conversion.set_yuv_to_rgb (static_cast<dcp::YUVToRGB> (_yuv_to_rgb->GetSelection ()));
@@ -330,7 +360,11 @@ ColourConversionEditor::get () const
 		conversion.unset_adjusted_white ();
 	}
 
-	conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (2.6)));
+	if (_output->GetValue ()) {
+		conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (2.6)));
+	} else {
+		conversion.set_out (shared_ptr<dcp::IdentityTransferFunction> (new dcp::IdentityTransferFunction ()));
+	}
 
 	return conversion;
 }
@@ -338,12 +372,12 @@ ColourConversionEditor::get () const
 void
 ColourConversionEditor::changed ()
 {
-	bool const lin = _input_gamma_linearised->GetValue ();
-	_input_gamma->Enable (!lin);
-	_input_power->Enable (lin);
-	_input_threshold->Enable (lin);
-	_input_A->Enable (lin);
-	_input_B->Enable (lin);
+	int const in = _input->GetSelection();
+	_input_gamma->Enable (in == INPUT_GAMMA);
+	_input_power->Enable (in == INPUT_GAMMA_LINEARISED);
+	_input_threshold->Enable (in == INPUT_GAMMA_LINEARISED);
+	_input_A->Enable (in == INPUT_GAMMA_LINEARISED);
+	_input_B->Enable (in == INPUT_GAMMA_LINEARISED);
 
 	Changed ();
 }
