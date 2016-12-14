@@ -29,6 +29,7 @@ PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, int fps)
 {
 	add (_("Go to"), true);
 	_frame = add (new wxTextCtrl (this, wxID_ANY, wxT ("")));
+	_frame->SetFocus ();
 
 	layout ();
 }
