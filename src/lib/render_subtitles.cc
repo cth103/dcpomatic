@@ -49,7 +49,7 @@ static FcConfig* fc_config = 0;
 static list<pair<FontFiles, string> > fc_config_fonts;
 
 string
-marked_up (list<SubtitleString> subtitles, int target_height)
+marked_up (list<SubtitleString> subtitles, int target_height, float fade_factor)
 {
 	string out;
 
@@ -65,12 +65,19 @@ marked_up (list<SubtitleString> subtitles, int target_height)
 			out += "underline=\"single\" ";
 		}
 		out += "size=\"" + dcp::raw_convert<string>(i.size_in_pixels(target_height) * 72 * 1024 / 96) + "\" ";
+		out += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65535))) + "\" ";
 		out += "color=\"#" + i.colour().to_rgb_string() + "\">";
 		out += i.text ();
 		out += "</span>";
 	}
 
 	return out;
+}
+
+static void
+set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, float fade_factor)
+{
+	context->set_source_rgba (float(colour.r) / 255, float(colour.g) / 255, float(colour.b) / 255, fade_factor);
 }
 
 /** @param subtitles A list of subtitles that are all on the same line,
@@ -229,12 +236,6 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 
 	context->set_line_width (1);
 
-	/* Render the subtitle at the top left-hand corner of image */
-
-	Pango::FontDescription font (font_name);
-	layout->set_font_description (font);
-	layout->set_markup (marked_up (subtitles, target.height));
-
 	/* Compute fade factor */
 	float fade_factor = 1;
 
@@ -250,6 +251,12 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 		fade_factor = 0;
 	}
 
+	/* Render the subtitle at the top left-hand corner of image */
+
+	Pango::FontDescription font (font_name);
+	layout->set_font_description (font);
+	layout->set_markup (marked_up (subtitles, target.height, fade_factor));
+
 	context->scale (xscale, yscale);
 	layout->update_from_cairo_context (context);
 
@@ -262,17 +269,16 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 
 	if (subtitles.front().effect() == dcp::SHADOW) {
 		/* Drop-shadow effect */
-		dcp::Colour const ec = subtitles.front().effect_colour ();
-		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
+		set_source_rgba (context, subtitles.front().effect_colour(), fade_factor);
 		context->move_to (x_offset + 4, y_offset + 4);
 		layout->add_to_cairo_context (context);
 		context->fill ();
 	}
 
 	if (subtitles.front().effect() == dcp::BORDER) {
+		cout << "border it " << (subtitles.front().outline_width * target.width) << " " << fade_factor << ".\n";
 		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
-		dcp::Colour ec = subtitles.front().effect_colour ();
-		context->set_source_rgba (float(ec.r) / 255, float(ec.g) / 255, float(ec.b) / 255, fade_factor);
+		set_source_rgba (context, subtitles.front().effect_colour(), fade_factor);
 		context->set_line_width (subtitles.front().outline_width * target.width / 2048.0);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
 		context->move_to (x_offset, y_offset);
