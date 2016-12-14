@@ -80,7 +80,7 @@ SubtitleDecoder::give_text (ContentTimePeriod period, list<dcp::SubtitleString> 
 	}
 
 	_decoded_text.push_back (ContentTextSubtitle (period, s));
-	_position = period.from;
+	_position = period.to;
 }
 
 /** Get the subtitles that correspond to a given list of periods.
@@ -109,7 +109,12 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 
 	/* Suggest to our parent decoder that it might want to seek if we haven't got what we're being asked for */
 	if (missing) {
-		_log->log (String::compose ("SD suggests seek to %1", to_string (*missing)), LogEntry::TYPE_DEBUG_DECODE);
+		_log->log (
+			String::compose (
+				"SD suggests seek to %1 from %2",
+				to_string (*missing),
+				position() ? to_string(*position()) : "nowhere"),
+			LogEntry::TYPE_DEBUG_DECODE);
 		maybe_seek (*missing, true);
 	}
 
