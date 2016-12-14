@@ -45,6 +45,7 @@
 #define LOG_GENERAL_NC(...) _film->log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 #define LOG_ERROR(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_ERROR);
 #define LOG_TIMING(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_TIMING);
+#define LOG_DEBUG_ENCODE(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_DEBUG_ENCODE);
 
 using std::list;
 using std::cout;
@@ -225,14 +226,18 @@ Encoder::encode (shared_ptr<PlayerVideo> pv)
 
 	if (_writer->can_fake_write (position)) {
 		/* We can fake-write this frame */
+		LOG_DEBUG_ENCODE("Frame @ %1 FAKE", to_string(pv->time()));
 		_writer->fake_write (position, pv->eyes ());
 		frame_done ();
 	} else if (pv->has_j2k ()) {
+		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(pv->time()));
 		/* This frame already has JPEG2000 data, so just write it */
 		_writer->write (pv->j2k(), position, pv->eyes ());
 	} else if (_last_player_video && _writer->can_repeat(position) && pv->same (_last_player_video)) {
+		LOG_DEBUG_ENCODE("Frame @ %1 REPEAT", to_string(pv->time()));
 		_writer->repeat (position, pv->eyes ());
 	} else {
+		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(pv->time()));
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideo> (
