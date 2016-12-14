@@ -93,6 +93,10 @@ public:
 		return _cpl;
 	}
 
+	std::list<int64_t> reel_lengths () const {
+		return _reel_lengths;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -108,4 +112,5 @@ private:
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d;
 	std::string _cpl;
+	std::list<int64_t> _reel_lengths;
 };

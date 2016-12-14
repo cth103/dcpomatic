@@ -163,6 +163,14 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content)
 
 			_has_subtitles = true;
 		}
+
+		if (i->main_picture()) {
+			_reel_lengths.push_back (i->main_picture()->duration());
+		} else if (i->main_sound()) {
+			_reel_lengths.push_back (i->main_sound()->duration());
+		} else if (i->main_subtitle()) {
+			_reel_lengths.push_back (i->main_subtitle()->duration());
+		}
 	}
 
 	_encrypted = cpl->encrypted ();

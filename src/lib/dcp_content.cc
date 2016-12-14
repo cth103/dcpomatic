@@ -120,6 +120,9 @@ DCPContent::DCPContent (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	}
 	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
 	_cpl = node->optional_string_child("CPL");
+	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("ReelLength")) {
+		_reel_lengths.push_back (raw_convert<int64_t> (i->content ()));
+	}
 }
 
 void
@@ -172,6 +175,7 @@ DCPContent::examine (shared_ptr<Job> job)
 		_standard = examiner->standard ();
 		_three_d = examiner->three_d ();
 		_cpl = examiner->cpl ();
+		_reel_lengths = examiner->reel_lengths ();
 	}
 
 	if (needed_assets != needs_assets ()) {
@@ -252,6 +256,9 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	if (_cpl) {
 		node->add_child("CPL")->add_child_text (_cpl.get ());
+	}
+	BOOST_FOREACH (int64_t i, _reel_lengths) {
+		node->add_child("ReelLength")->add_child_text (raw_convert<string> (i));
 	}
 }
 
@@ -363,16 +370,19 @@ DCPContent::set_reference_subtitle (bool r)
 list<DCPTimePeriod>
 DCPContent::reels () const
 {
-	list<DCPTimePeriod> p;
-	scoped_ptr<DCPDecoder> decoder;
-	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), film()->log()));
-	} catch (...) {
-		/* Could not load the DCP; guess reels */
-		list<DCPTimePeriod> p;
-		p.push_back (DCPTimePeriod (position(), end()));
-		return p;
+	list<int64_t> reel_lengths = _reel_lengths;
+	if (reel_lengths.empty ()) {
+		/* Old metadata with no reel lengths; get them here instead */
+		try {
+			scoped_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this()));
+			reel_lengths = examiner->reel_lengths ();
+		} catch (...) {
+			/* Could not examine the DCP; guess reels */
+			reel_lengths.push_back (length_after_trim().frames_round (film()->video_frame_rate ()));
+		}
 	}
+
+	list<DCPTimePeriod> p;
 
 	/* This content's frame rate must be the same as the output DCP rate, so we can
 	   convert `directly' from ContentTime to DCPTime.
@@ -381,9 +391,9 @@ DCPContent::reels () const
 	/* The starting point of this content on the timeline */
 	DCPTime pos = position() - DCPTime (trim_start().get());
 
-	BOOST_FOREACH (shared_ptr<dcp::Reel> i, decoder->reels ()) {
+	BOOST_FOREACH (int64_t i, reel_lengths) {
 		/* This reel runs from `pos' to `to' */
-		DCPTime const to = pos + DCPTime::from_frames (i->main_picture()->duration(), film()->video_frame_rate());
+		DCPTime const to = pos + DCPTime::from_frames (i, film()->video_frame_rate());
 		if (to > position()) {
 			p.push_back (DCPTimePeriod (max(position(), pos), min(end(), to)));
 			if (to > end()) {

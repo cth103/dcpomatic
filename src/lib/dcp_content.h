@@ -168,6 +168,8 @@ private:
 	 *  just use the only CPL.
 	 */
 	boost::optional<std::string> _cpl;
+	/** List of the lengths of the reels in this DCP */
+	std::list<int64_t> _reel_lengths;
 };
 
 #endif
