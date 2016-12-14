@@ -21,6 +21,9 @@
 #include "content_sub_panel.h"
 #include "content_panel.h"
 #include "wx_util.h"
+#include "lib/dcp_content.h"
+#include "lib/compose.hpp"
+#include "lib/log.h"
 #include <wx/notebook.h>
 #include <boost/foreach.hpp>
 
@@ -40,6 +43,18 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 void
 ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> dcp, bool can_reference, list<string> why_not) const
 {
+	/* XXX: just for debugging */
+	if (dcp) {
+		dcp->film()->log()->log (
+			String::compose (
+				"setup_refer_button for %1; %2 %3",
+				dcp->path(0).string(),
+				int(can_reference),
+				int(why_not.size())),
+			LogEntry::TYPE_GENERAL
+			);
+	}
+
 	button->Enable (can_reference);
 
 	wxString s;
