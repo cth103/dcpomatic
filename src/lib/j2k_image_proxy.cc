@@ -139,7 +139,6 @@ J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_siz
 			}
 			++p;
 		}
-		p += _j2k->factor(0) * width;
 	}
 
 	return image;
