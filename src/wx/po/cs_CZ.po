@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-08-24 14:07+0200\n"
+"PO-Revision-Date: 2016-12-14 12:11+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
@@ -161,9 +161,8 @@ msgid "Add KDM..."
 msgstr "Přidat KDM..."
 
 #: src/wx/content_menu.cc:76
-#, fuzzy
 msgid "Add OV..."
-msgstr "Přidat KDM..."
+msgstr "Přida OV…"
 
 #: src/wx/screens_panel.cc:206
 msgid "Add Screen"
@@ -226,13 +225,15 @@ msgstr "Vzhled…"
 
 #: src/wx/job_view.cc:130
 msgid "Are you sure you want to cancel this job?"
-msgstr ""
+msgstr "Opravdu že chcete zrušit tuto úlohu?"
 
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"Opravdu chcete odeslat e-maily na následující adresy? \n"
+"\n"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
@@ -360,7 +361,7 @@ msgstr "Zkontrolovat aktualizace při startu programu "
 
 #: src/wx/content_menu.cc:78
 msgid "Choose CPL..."
-msgstr ""
+msgstr "Vyberte CPL"
 
 #: src/wx/content_menu.cc:297
 msgid "Choose a file"
@@ -413,9 +414,8 @@ msgid "Config|Timing"
 msgstr "Časování"
 
 #: src/wx/confirm_kdm_email_dialog.cc:31
-#, fuzzy
 msgid "Confirm KDM email"
-msgstr "KDM Email"
+msgstr "Potvrdit KDM email"
 
 #: src/wx/dcp_panel.cc:645
 msgid "Container"
@@ -578,14 +578,12 @@ msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:42
-#, fuzzy
 msgid "Don't ask this again"
-msgstr "Již příště nezobrazovat tipy."
+msgstr "Tento dotaz již nezobrazovat"
 
 #: src/wx/confirm_kdm_email_dialog.cc:50
-#, fuzzy
 msgid "Don't send emails"
-msgstr "Odeslat emailem"
+msgstr "Neodesílat emaily"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
@@ -609,7 +607,7 @@ msgstr "Stahuji certifikát"
 
 #: src/wx/content_panel.cc:93
 msgid "Earlier"
-msgstr ""
+msgstr "Dříve"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -634,13 +632,12 @@ msgid "Edit..."
 msgstr "Upravit…"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:54
-#, fuzzy
 msgid "Effect"
-msgstr "Bez efektu"
+msgstr "Efekt"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:59
 msgid "Effect colour"
-msgstr ""
+msgstr "Barva efektu"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
@@ -665,7 +662,7 @@ msgstr "Konec"
 #: src/wx/report_problem_dialog.cc:107
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "Zadejte vaši e-mailovou adresu kontaktu, nikoli %s"
 
 #: src/wx/config_dialog.cc:1475
 msgid "Errors"
@@ -773,7 +770,7 @@ msgstr "Z adresy"
 
 #: src/wx/new_film_dialog.cc:57
 msgid "From template"
-msgstr ""
+msgstr "Ze šablony"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Full"
@@ -949,7 +946,7 @@ msgstr "Jazyk"
 
 #: src/wx/content_panel.cc:97
 msgid "Later"
-msgstr ""
+msgstr "Později"
 
 #: src/wx/config_dialog.cc:856
 msgid "Leaf"
@@ -1078,9 +1075,8 @@ msgid "NEEDS KDM: "
 msgstr "POTŘEBNÉ KDM:"
 
 #: src/wx/content_panel.cc:534
-#, fuzzy
 msgid "NEEDS OV: "
-msgstr "POTŘEBNÉ KDM:"
+msgstr "POTŘEBNÉ OV:"
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
 msgid "Name"
@@ -1091,9 +1087,8 @@ msgid "New Film"
 msgstr "Nový film"
 
 #: src/wx/rename_template_dialog.cc:26
-#, fuzzy
 msgid "New name"
-msgstr "Uživatelské jméno"
+msgstr "Nové jméno"
 
 #: src/wx/update_dialog.cc:38
 msgid "New versions of DCP-o-matic are available."
@@ -1172,13 +1167,12 @@ msgid "Outline content"
 msgstr "Orámovat obsah"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:64
-#, fuzzy
 msgid "Outline width"
-msgstr "Orámovaní"
+msgstr "Šířka orámování"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:137
 msgid "Outline width cannot be set unless you are burning in subtitles"
-msgstr ""
+msgstr "Orámování nelze nastavit, pokud vypalujete v titulcích"
 
 #: src/wx/kdm_dialog.cc:91 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
@@ -1335,14 +1329,12 @@ msgid "Remove the selected piece of content from the film."
 msgstr "Odstranit vybranou část obsahu z filmu."
 
 #: src/wx/rename_template_dialog.cc:24
-#, fuzzy
 msgid "Rename template"
-msgstr "Formát nazvu souboru"
+msgstr "Přejmenovat šablonu"
 
 #: src/wx/templates_dialog.cc:50
-#, fuzzy
 msgid "Rename..."
-msgstr "Znovu analyzovat…"
+msgstr "Přejmenovat..."
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -1401,13 +1393,13 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/audio_dialog.cc:320
-#, fuzzy, c-format
+#, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr "Nejvyšší vrchol hlasitosti zvuku (sample peak) je %.2fdB na %s na %s"
+msgstr "Nejvyšší vrchol (sample peak) je %.2fdB na %s na %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
-msgstr ""
+msgstr "Uložit šablonu"
 
 #: src/wx/self_dkdm_dialog.cc:70
 msgid "Save to KDM Creator tool's list"
@@ -1447,9 +1439,8 @@ msgid "Select Key File"
 msgstr "Vybrat soubor s klíčem"
 
 #: src/wx/content_menu.cc:395
-#, fuzzy
 msgid "Select OV"
-msgstr "Vybrat KDM"
+msgstr "Vybrat OV"
 
 #: src/wx/screen_dialog.cc:49
 msgid "Select certificate file"
@@ -1464,9 +1455,8 @@ msgid "Send by email"
 msgstr "Odeslat emailem"
 
 #: src/wx/confirm_kdm_email_dialog.cc:49
-#, fuzzy
 msgid "Send emails"
-msgstr "Odeslat emailem"
+msgstr "Odeslat emaily"
 
 #: src/wx/report_problem_dialog.cc:61
 msgid "Send logs"
@@ -1603,19 +1593,19 @@ msgstr "Temp verze"
 
 #: src/wx/templates_dialog.cc:42
 msgid "Template"
-msgstr ""
+msgstr "Šablona"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Template name"
-msgstr ""
+msgstr "Název šablony"
 
 #: src/wx/save_template_dialog.cc:52 src/wx/templates_dialog.cc:125
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "Název šablony nesmí být nevyplněný"
 
 #: src/wx/templates_dialog.cc:32
 msgid "Templates"
-msgstr ""
+msgstr "Šablony"
 
 #: src/wx/isdcf_metadata_dialog.cc:43
 msgid "Territory (e.g. UK)"
@@ -1649,7 +1639,7 @@ msgstr "Žádné upozornění; všechno vypadá dobře !"
 #: src/wx/save_template_dialog.cc:55
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Šablona s tímto názvem již existuje. Chcete jej přepsat?"
 
 #: src/wx/film_viewer.cc:163
 msgid "There is not enough free memory to do that."
@@ -1771,9 +1761,8 @@ msgid "UTC+5"
 msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+5:30"
-msgstr "UTC+5"
+msgstr "UTC+5:30"
 
 #: src/wx/cinema_dialog.cc:106
 msgid "UTC+6"
@@ -1938,9 +1927,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV na RGP matrix"
 
 #: src/wx/report_problem_dialog.cc:66
-#, fuzzy
 msgid "Your email address"
-msgstr "Emailová adresa"
+msgstr "Vaše emailová adresa"
 
 #: src/wx/video_waveform_dialog.cc:72
 msgid "component value"

@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-25 10:43+0100\n"
-"PO-Revision-Date: 2016-08-24 13:40+0200\n"
+"PO-Revision-Date: 2016-12-14 12:00+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:446
@@ -119,7 +118,7 @@ msgstr "1.33:1 (4:3)"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f fps"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -348,9 +347,8 @@ msgid "Content to be joined must have the same fades."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení  zeslabení."
 
 #: src/lib/subtitle_content.cc:203
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
-msgstr "Veškerý obsah ke sloučení musí mít stejné zeslabení titulků."
+msgstr "Připojený obsah musí mít stejnou šířku obrysu."
 
 #: src/lib/video_content.cc:170
 msgid "Content to be joined must have the same picture size."
@@ -991,6 +989,10 @@ msgid ""
 "After doing that you would need to re-tick the appropriate 'refer to "
 "existing DCP' checkboxes."
 msgstr ""
+"DCP% 1 byl uvedený v tomto filmu. Toto není možné z důvodu velikosti reelu "
+"ve filmu, protože nesouhlasí s údaji v importovaném DCP. Nastavení 'Reel "
+"type' na 'rozdělit podle video obsahu' vám pravděpodobně pomůže. Poté budete "
+"muset znovu zaškrtnout příslušný checkboxes \"odkaz na existující DCP '."
 
 #: src/lib/dcp_content.cc:467
 msgid "The DCP does not have sound in all reels."
@@ -1014,7 +1016,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:425
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "Film má jiný frame rate za sekundu než toto DCP."
 
 #: src/lib/dcp_content.cc:418
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1034,7 +1036,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:454
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "Velikost frame size ve filmu se liší od toho v DCP."
 
 #: src/lib/dcp_content.cc:472
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1208,13 +1210,15 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"Váš DCP používá neobvyklý poměr. To může způsobit na některých projektorech "
+"problémy. Pokud je to možné použijte Flat nebo Scope pro poměr kontejneru DCP"
 
 #: src/lib/hints.cc:159
-#, fuzzy
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
-msgstr "Hlasitost zvuku je velmi vysoká. Snižte zesílení zvukového obsahu."
+msgstr ""
+"Hlasitost zvuku je velmi vysoká (na %1). Snižte zesílení zvukového obsahu."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
@@ -1261,14 +1265,12 @@ msgid "could not move audio asset into the DCP (%1)"
 msgstr "nemohu přesunout audio do DCP (%1)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for reading (%2)"
-msgstr "Datei konnte nicht zum Lesen geöffnet werden."
+msgstr "nemohu otevřít soubor % 1 pro čtení (% 2)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for writing (%2)"
-msgstr "Datei konnte nicht zum Lesen geöffnet werden."
+msgstr "nemohu  otevřít soubor % 1 pro zápis (% 2)"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
