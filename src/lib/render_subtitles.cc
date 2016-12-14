@@ -65,7 +65,8 @@ marked_up (list<SubtitleString> subtitles, int target_height, float fade_factor)
 			out += "underline=\"single\" ";
 		}
 		out += "size=\"" + dcp::raw_convert<string>(i.size_in_pixels(target_height) * 72 * 1024 / 96) + "\" ";
-		out += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65535))) + "\" ";
+		/* Between 1-65535 inclusive, apparently... */
+		out += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
 		out += "color=\"#" + i.colour().to_rgb_string() + "\">";
 		out += i.text ();
 		out += "</span>";
