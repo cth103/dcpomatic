@@ -230,7 +230,7 @@ msgstr "Servers di codifica..."
 #: src/tools/dcpomatic_kdm.cc:276
 #, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "La cartella %1 esiste già e non è vuota.  Sei sicuro di volerla usare?"
+msgstr "La cartella %s esiste già e non è vuota.  Sei sicuro di volerla usare?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.

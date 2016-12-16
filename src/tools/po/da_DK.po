@@ -235,7 +235,7 @@ msgstr "Kodnings-servere..."
 #, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
-"Folderen %1 eksisterer allerede og er ikke tom. Er du sikker på, at du vil "
+"Folderen %s eksisterer allerede og er ikke tom. Er du sikker på, at du vil "
 "benytte den?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current

@@ -232,7 +232,7 @@ msgstr "Servidores de codificação..."
 #, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
-"O directório %1 já existe e não se encontra vazio. Tem a certeza que "
+"O directório %s já existe e não se encontra vazio. Tem a certeza que "
 "pretende utilizá-lo?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current

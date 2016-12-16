@@ -727,9 +727,8 @@ msgid "Fade out time"
 msgstr "Tona ut-tid"
 
 #: src/wx/kdm_dialog.cc:132
-#, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "Det finns redan en mall med det namnet. Vill du skriva över den?"
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"

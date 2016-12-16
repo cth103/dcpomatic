@@ -728,11 +728,8 @@ msgid "Fade out time"
 msgstr "Ausblenden"
 
 #: src/wx/kdm_dialog.cc:132
-#, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
-"Eine Projektvorlage dieses Namens existiert bereits. Wollen Sie sie "
-"überschreiben?"
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"

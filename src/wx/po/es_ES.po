@@ -724,9 +724,8 @@ msgid "Fade out time"
 msgstr "Tiempo de fundido de salida"
 
 #: src/wx/kdm_dialog.cc:132
-#, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "Ya existe una plantilla con ese nombre. ¿Quieres sobreescribirla?"
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"

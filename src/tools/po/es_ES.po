@@ -231,7 +231,7 @@ msgstr "Servidores de codificación..."
 #, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
-"El directorio %1 ya existe y no está vacío. ¿Estás seguro de querer usarlo?"
+"El directorio %s ya existe y no está vacío. ¿Estás seguro de querer usarlo?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.

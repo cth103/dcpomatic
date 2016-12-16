@@ -722,9 +722,8 @@ msgid "Fade out time"
 msgstr "Postupné zeslabení v čase (Fade out)"
 
 #: src/wx/kdm_dialog.cc:132
-#, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "Šablona s tímto názvem již existuje. Chcete jej přepsat?"
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"

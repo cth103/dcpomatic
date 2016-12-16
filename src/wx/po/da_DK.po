@@ -720,9 +720,8 @@ msgid "Fade out time"
 msgstr ""
 
 #: src/wx/kdm_dialog.cc:132
-#, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "Der er allerede en skabelon med dette navn. Vil du overskrive den?"
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"

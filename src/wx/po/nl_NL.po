@@ -729,9 +729,8 @@ msgid "Fade out time"
 msgstr "Fade out tijd"
 
 #: src/wx/kdm_dialog.cc:132
-#, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "Er is al een template met deze naam.  Wilt u hem overschrijven?"
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"

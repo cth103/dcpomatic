@@ -235,7 +235,7 @@ msgstr "Encoding Server..."
 #, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
-"Der Ordner %1 existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
+"Der Ordner %s existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
 "benutzen ?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
