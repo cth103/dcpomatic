@@ -1,5 +1,7 @@
 2016-12-16  Carl Hetherington  <cth@carlh.net>
 
+	* Fix crash on opening properties dialogue (#1033).
+
 	* Confirm overwrite of KDMs (#1008).
 
 	* Add preference for default KDM target directory (#1013).
