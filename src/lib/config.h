@@ -56,7 +56,12 @@ public:
 		return _default_directory;
 	}
 
+	boost::optional<boost::filesystem::path> default_kdm_directory () const {
+		return _default_kdm_directory;
+	}
+
 	boost::filesystem::path default_directory_or (boost::filesystem::path a) const;
+	boost::filesystem::path default_kdm_directory_or (boost::filesystem::path a) const;
 
 	enum Property {
 		USE_ANY_SERVERS,
@@ -176,6 +181,14 @@ public:
 
 	bool default_interop () const {
 		return _default_interop;
+	}
+
+	void set_default_kdm_directory (boost::filesystem::path d) {
+		if (_default_kdm_directory && _default_kdm_directory.get() == d) {
+			return;
+		}
+		_default_kdm_directory = d;
+		changed ();
 	}
 
 	std::string mail_server () const {
@@ -549,6 +562,7 @@ private:
 	void write_cinemas_xml () const;
 	void read_cinemas (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
+	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 
 	template <class T>
 	void maybe_set (T& member, T new_value) {
@@ -599,6 +613,10 @@ private:
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	bool _default_interop;
+	/** Default directory to offer to write KDMs to; if it's not set,
+	    the home directory will be offered.
+	*/
+	boost::optional<boost::filesystem::path> _default_kdm_directory;
 	std::list<boost::shared_ptr<Cinema> > _cinemas;
 	std::string _mail_server;
 	int _mail_port;

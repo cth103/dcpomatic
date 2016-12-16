@@ -81,7 +81,12 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
-	_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
+	boost::optional<boost::filesystem::path> path = Config::instance()->default_kdm_directory ();
+	if (path) {
+		_folder->SetPath (std_to_wx (path->string ()));
+	} else {
+		_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
+	}
 
 	table->Add (_folder, 1, wxEXPAND);
 

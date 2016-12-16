@@ -232,6 +232,7 @@ try
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
+	_default_kdm_directory = f.optional_string_child("DefaultKDMDirectory");
 
 	/* Load any cinemas from config.xml */
 	read_cinemas (f);
@@ -416,6 +417,9 @@ Config::write_config_xml () const
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
 	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
+	if (_default_kdm_directory) {
+		root->add_child("DefaultKDMDirectory")->add_child_text (_default_kdm_directory->string ());
+	}
 	root->add_child("MailServer")->add_child_text (_mail_server);
 	root->add_child("MailPort")->add_child_text (raw_convert<string> (_mail_port));
 	root->add_child("MailUser")->add_child_text (_mail_user);
@@ -501,17 +505,29 @@ Config::write_cinemas_xml () const
 boost::filesystem::path
 Config::default_directory_or (boost::filesystem::path a) const
 {
-	if (!_default_directory) {
+	return directory_or (_default_directory, a);
+}
+
+boost::filesystem::path
+Config::default_kdm_directory_or (boost::filesystem::path a) const
+{
+	return directory_or (_default_kdm_directory, a);
+}
+
+boost::filesystem::path
+Config::directory_or (optional<boost::filesystem::path> dir, boost::filesystem::path a) const
+{
+	if (!dir) {
 		return a;
 	}
 
 	boost::system::error_code ec;
-	bool const e = boost::filesystem::exists (*_default_directory, ec);
+	bool const e = boost::filesystem::exists (*dir, ec);
 	if (ec || !e) {
 		return a;
 	}
 
-	return *_default_directory;
+	return *dir;
 }
 
 void

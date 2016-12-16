@@ -460,10 +460,19 @@ private:
 		_standard = new wxChoice (_panel, wxID_ANY);
 		table->Add (_standard);
 
+		add_label_to_sizer (table, _panel, _("Default KDM directory"), true);
+#ifdef DCPOMATIC_USE_OWN_PICKER
+		_kdm_directory = new DirPickerCtrl (_panel);
+#else
+		_kdm_directory = new wxDirPickerCtrl (_panel, wxDD_DIR_MUST_EXIST);
+#endif
+		table->Add (_kdm_directory, 1, wxEXPAND);
+
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::still_length_changed, this));
 
 		_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
+		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::kdm_directory_changed, this));
 
 		_isdcf_metadata_button->Bind (wxEVT_BUTTON, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this));
 
@@ -515,6 +524,7 @@ private:
 
 		checked_set (_still_length, config->default_still_length ());
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
+		_kdm_directory->SetPath (std_to_wx (config->default_kdm_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
@@ -545,6 +555,11 @@ private:
 	void directory_changed ()
 	{
 		Config::instance()->set_default_directory (wx_to_std (_directory->GetPath ()));
+	}
+
+	void kdm_directory_changed ()
+	{
+		Config::instance()->set_default_kdm_directory (wx_to_std (_kdm_directory->GetPath ()));
 	}
 
 	void edit_isdcf_metadata_clicked ()
@@ -583,8 +598,10 @@ private:
 	wxSpinCtrl* _still_length;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _directory;
+	DirPickerCtrl* _kdm_directory;
 #else
 	wxDirPickerCtrl* _directory;
+	wxDirPickerCtrl* _kdm_directory;
 #endif
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
