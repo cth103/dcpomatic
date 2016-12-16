@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-25 10:43+0100\n"
+"POT-Creation-Date: 2016-12-16 16:15+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "%1 already exists as a file, so you cannot use it for a new film."
 msgstr "%1 už existuje ako súbor, takže ho nemôžete použiť pre nový film."
 
-#: src/tools/dcpomatic_kdm.cc:320
+#: src/tools/dcpomatic_kdm.cc:334
 #, c-format
 msgid "%d KDM written to %s"
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:320
+#: src/tools/dcpomatic_kdm.cc:334
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr ""
@@ -41,22 +41,22 @@ msgid "&Content"
 msgstr "&Obsah"
 
 #: src/tools/dcpomatic.cc:915 src/tools/dcpomatic_batch.cc:84
-#: src/tools/dcpomatic_kdm.cc:266
+#: src/tools/dcpomatic_kdm.cc:267
 msgid "&Edit"
 msgstr "&Upraviť"
 
 #: src/tools/dcpomatic.cc:872 src/tools/dcpomatic_batch.cc:64
-#: src/tools/dcpomatic_kdm.cc:244
+#: src/tools/dcpomatic_kdm.cc:245
 msgid "&Exit"
 msgstr "&Koniec"
 
 #: src/tools/dcpomatic.cc:913 src/tools/dcpomatic_batch.cc:82
-#: src/tools/dcpomatic_kdm.cc:264
+#: src/tools/dcpomatic_kdm.cc:265
 msgid "&File"
 msgstr "&Súbor"
 
 #: src/tools/dcpomatic.cc:920 src/tools/dcpomatic_batch.cc:87
-#: src/tools/dcpomatic_kdm.cc:268
+#: src/tools/dcpomatic_kdm.cc:269
 msgid "&Help"
 msgstr "&Pomoc"
 
@@ -74,12 +74,12 @@ msgstr "&Otvoriť...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:878 src/tools/dcpomatic.cc:881
 #: src/tools/dcpomatic_batch.cc:70 src/tools/dcpomatic_batch.cc:73
-#: src/tools/dcpomatic_kdm.cc:250 src/tools/dcpomatic_kdm.cc:253
+#: src/tools/dcpomatic_kdm.cc:251 src/tools/dcpomatic_kdm.cc:254
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Nastavenia...\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:874 src/tools/dcpomatic_batch.cc:66
-#: src/tools/dcpomatic_kdm.cc:246
+#: src/tools/dcpomatic_kdm.cc:247
 msgid "&Quit"
 msgstr "&Ukončiť"
 
@@ -96,11 +96,11 @@ msgid "&Tools"
 msgstr "&Nástroje"
 
 #: src/tools/dcpomatic.cc:909 src/tools/dcpomatic_batch.cc:80
-#: src/tools/dcpomatic_kdm.cc:260
+#: src/tools/dcpomatic_kdm.cc:261
 msgid "About"
 msgstr "O"
 
-#: src/tools/dcpomatic.cc:907 src/tools/dcpomatic_kdm.cc:258
+#: src/tools/dcpomatic.cc:907 src/tools/dcpomatic_kdm.cc:259
 msgid "About DCP-o-matic"
 msgstr "O DCP-o-matic"
 
@@ -108,7 +108,7 @@ msgstr "O DCP-o-matic"
 msgid "Add Film..."
 msgstr "Pridať film..."
 
-#: src/tools/dcpomatic.cc:1152 src/tools/dcpomatic_kdm.cc:450
+#: src/tools/dcpomatic.cc:1152 src/tools/dcpomatic_kdm.cc:465
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -117,7 +117,7 @@ msgstr ""
 "Vyskytol sa problém: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1161 src/tools/dcpomatic_kdm.cc:459
+#: src/tools/dcpomatic.cc:1161 src/tools/dcpomatic_kdm.cc:474
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -131,8 +131,8 @@ msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr ""
 
 #: src/tools/dcpomatic.cc:602 src/tools/dcpomatic.cc:1166
-#: src/tools/dcpomatic_kdm.cc:351 src/tools/dcpomatic_kdm.cc:464
-#: src/tools/dcpomatic_kdm.cc:473
+#: src/tools/dcpomatic_kdm.cc:366 src/tools/dcpomatic_kdm.cc:479
+#: src/tools/dcpomatic_kdm.cc:488
 msgid "An unknown exception occurred."
 msgstr "Vyskytol sa neznámy problém"
 
@@ -147,11 +147,11 @@ msgstr ""
 msgid "Bad setting for %s (%s)"
 msgstr "Zlé nastavenia pre %s (%s)."
 
-#: src/tools/dcpomatic_kdm.cc:169
+#: src/tools/dcpomatic_kdm.cc:170
 msgid "CPL"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:598 src/tools/dcpomatic_kdm.cc:347
+#: src/tools/dcpomatic.cc:598 src/tools/dcpomatic_kdm.cc:362
 msgid "CPL's content is not encrypted."
 msgstr "CPL obsah nie je enkryptovaný."
 
@@ -193,7 +193,7 @@ msgstr "Nemôžem zobraziť DCP (nemôžem spustiť konqueror)"
 msgid "Could not show DCP (could not run nautilus)"
 msgstr "Nemôžem zobraziť DCP (nemôžem spustiť nautilus)"
 
-#: src/tools/dcpomatic_kdm.cc:182
+#: src/tools/dcpomatic_kdm.cc:183
 msgid "Create KDMs"
 msgstr ""
 
@@ -211,12 +211,12 @@ msgstr "DCP-o-matic konvertor"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic konvertor"
 
-#: src/tools/dcpomatic_kdm.cc:389 src/tools/dcpomatic_kdm.cc:425
+#: src/tools/dcpomatic_kdm.cc:404 src/tools/dcpomatic_kdm.cc:440
 #, fuzzy
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic_kdm.cc:164
+#: src/tools/dcpomatic_kdm.cc:165
 msgid "DKDM"
 msgstr ""
 
@@ -227,6 +227,11 @@ msgstr ""
 #: src/tools/dcpomatic.cc:899 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
 msgstr "Enkódovacie servre..."
+
+#: src/tools/dcpomatic_kdm.cc:276
+#, fuzzy, c-format
+msgid "File %s already exists.  Do you want to overwrite it?"
+msgstr "Priečinok %1 už existuje a nie je prázdny. Chcete pokračovať ?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
@@ -243,7 +248,7 @@ msgid "Hints..."
 msgstr "Nápoveda\tCtrl-H"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/tools/dcpomatic_kdm.cc:158
+#: src/tools/dcpomatic_kdm.cc:159
 msgid "KDM|Timing"
 msgstr ""
 
@@ -267,11 +272,11 @@ msgstr ""
 msgid "New...\tCtrl-N"
 msgstr "Nový...\tCtrl-N"
 
-#: src/tools/dcpomatic_kdm.cc:175
+#: src/tools/dcpomatic_kdm.cc:176
 msgid "Output"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:911 src/tools/dcpomatic_kdm.cc:262
+#: src/tools/dcpomatic.cc:911 src/tools/dcpomatic_kdm.cc:263
 msgid "Report a problem..."
 msgstr "Nahlásiť problém..."
 
@@ -304,11 +309,11 @@ msgstr "Prispôsobiť na &výšku"
 msgid "Scale to fit &width"
 msgstr "Prispôsobiť na &šírku"
 
-#: src/tools/dcpomatic_kdm.cc:151
+#: src/tools/dcpomatic_kdm.cc:152
 msgid "Screens"
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:75
+#: src/tools/dcpomatic_kdm.cc:76
 #, fuzzy
 msgid "Select DKDM file"
 msgstr "Vybrať film na otvorenie"
@@ -317,7 +322,7 @@ msgstr "Vybrať film na otvorenie"
 msgid "Select film to open"
 msgstr "Vybrať film na otvorenie"
 
-#: src/tools/dcpomatic_kdm.cc:343
+#: src/tools/dcpomatic_kdm.cc:358
 msgid "Send KDM emails"
 msgstr ""
 

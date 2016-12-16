@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/lib/util.cc:536 src/lib/util.cc:537
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-25 10:43+0100\n"
+"POT-Creation-Date: 2016-12-16 16:15+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -19,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/video_content.cc:446
+#: src/lib/video_content.cc:445
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -28,7 +27,7 @@ msgstr ""
 "\n"
 "Snímacia frekvencia obsahu %.4f\n"
 
-#: src/lib/video_content.cc:410
+#: src/lib/video_content.cc:409
 #, fuzzy
 msgid ""
 "\n"
@@ -37,7 +36,7 @@ msgstr ""
 "\n"
 "Zmenšené na %1x%2"
 
-#: src/lib/video_content.cc:403
+#: src/lib/video_content.cc:402
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -46,7 +45,7 @@ msgstr ""
 "\n"
 "Pomer strán displeja %.2f:1"
 
-#: src/lib/video_content.cc:434
+#: src/lib/video_content.cc:433
 #, fuzzy
 msgid ""
 "\n"
@@ -55,7 +54,7 @@ msgstr ""
 "\n"
 "Vyplnené čiernou, aby sa zmestil do kontajnera %1 (%2x%3)"
 
-#: src/lib/video_content.cc:424
+#: src/lib/video_content.cc:423
 #, fuzzy
 msgid ""
 "\n"
@@ -64,7 +63,7 @@ msgstr ""
 "\n"
 "Zmenšené na %1x%2"
 
-#: src/lib/video_content.cc:428 src/lib/video_content.cc:439
+#: src/lib/video_content.cc:427 src/lib/video_content.cc:438
 #, c-format
 msgid " (%.2f:1)"
 msgstr ""
@@ -74,7 +73,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:196
+#: src/lib/dcp_content.cc:200
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -91,7 +90,7 @@ msgstr "%1 [video]"
 msgid "%1 [video]"
 msgstr "%1 [video]"
 
-#: src/lib/video_content.cc:398
+#: src/lib/video_content.cc:397
 #, fuzzy, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", pomer strán obrazových bodov %.2f:1"
@@ -133,7 +132,7 @@ msgid ""
 "unlikely to have any visible effect on the image."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr ""
 
@@ -181,7 +180,7 @@ msgstr "Zvuk bude re-samplovaný na %1kHz"
 msgid "Audio will not be resampled"
 msgstr "Zvuk nebude resamplovaný"
 
-#: src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:541
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 rozšírený rozsah farieb"
 
@@ -189,19 +188,19 @@ msgstr "BT1361 rozšírený rozsah farieb"
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:564
 msgid "BT2020 constant luminance"
 msgstr "BT2020 konštansta jasu"
 
-#: src/lib/ffmpeg_content.cc:541
+#: src/lib/ffmpeg_content.cc:543
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 pre 10-bit systém"
 
-#: src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:544
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 pre 12-bit systém"
 
-#: src/lib/ffmpeg_content.cc:561
+#: src/lib/ffmpeg_content.cc:563
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 non-constant luminance"
 
@@ -209,7 +208,7 @@ msgstr "BT2020 non-constant luminance"
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:559
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
@@ -217,12 +216,12 @@ msgstr "BT470BG (BT601-6)"
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:528
-#: src/lib/ffmpeg_content.cc:553
+#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:530
+#: src/lib/ffmpeg_content.cc:555
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:569
+#: src/lib/ffmpeg_content.cc:572
 msgid "Bits per pixel"
 msgstr "Bitov na pixel"
 
@@ -255,11 +254,11 @@ msgstr "Center"
 msgid "Channels"
 msgstr "Zvukové kanály"
 
-#: src/lib/reel_writer.cc:97
+#: src/lib/reel_writer.cc:98
 msgid "Checking existing image data"
 msgstr "Kontrolujem existujúce video dáta"
 
-#: src/lib/ffmpeg_content.cc:524
+#: src/lib/ffmpeg_content.cc:526
 msgid "Colour primaries"
 msgstr "Primárne voľby fariem"
 
@@ -279,11 +278,11 @@ msgstr "Primárne voľby fariem"
 msgid "Colour range"
 msgstr "Rozsah farieb"
 
-#: src/lib/ffmpeg_content.cc:549
+#: src/lib/ffmpeg_content.cc:551
 msgid "Colour transfer characteristic"
 msgstr "Charakteristika prenosu farieb"
 
-#: src/lib/ffmpeg_content.cc:566
+#: src/lib/ffmpeg_content.cc:569
 msgid "Colourspace"
 msgstr "Farebný priestor"
 
@@ -336,15 +335,15 @@ msgstr "Aby sa spojil obsah, musí mať to isté oneskorenie zvuku."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Aby sa spojil obsah, musí mať tú istú hlasitosť zvuku."
 
-#: src/lib/video_content.cc:186
+#: src/lib/video_content.cc:185
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Aby sa spojil obsah, musí mať tú istú konverziu farieb."
 
-#: src/lib/video_content.cc:178
+#: src/lib/video_content.cc:177
 msgid "Content to be joined must have the same crop."
 msgstr "Aby sa spojil obsah, musí mať to isté orezanie."
 
-#: src/lib/video_content.cc:190
+#: src/lib/video_content.cc:189
 msgid "Content to be joined must have the same fades."
 msgstr "Aby sa spojil obsah, musí mať rovnaké miznutie."
 
@@ -353,11 +352,11 @@ msgstr "Aby sa spojil obsah, musí mať rovnaké miznutie."
 msgid "Content to be joined must have the same outline width."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 
-#: src/lib/video_content.cc:170
+#: src/lib/video_content.cc:169
 msgid "Content to be joined must have the same picture size."
 msgstr "Aby sa spojil obsah, musí mať rovnakú veľkosť obrazu."
 
-#: src/lib/video_content.cc:182
+#: src/lib/video_content.cc:181
 msgid "Content to be joined must have the same scale setting."
 msgstr "Aby sa spojil obsah, musí mať rovnaké nastavenia orezania."
 
@@ -392,7 +391,7 @@ msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Aby sa spojil obsah, musí mať rovnaký počet obrázkov za sekundu."
 
-#: src/lib/video_content.cc:174
+#: src/lib/video_content.cc:173
 msgid "Content to be joined must have the same video frame type."
 msgstr "Aby sa spojil obsah, musí mať rovnaký typ videa."
 
@@ -404,7 +403,7 @@ msgstr "Aby sa spojil obsah, musí používať rovnaké písma."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Aby sa spojil obsah, musí používať rovnaký titulkový stream."
 
-#: src/lib/video_content.cc:389
+#: src/lib/video_content.cc:388
 msgid "Content video is %1x%2"
 msgstr "Video je %1x%2"
 
@@ -428,7 +427,7 @@ msgstr "Nemôžem dekódovať JPEG2000 súbor %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Nemôžem dekódovať video súbor (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:389
+#: src/lib/ffmpeg_examiner.cc:370
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "nemôžem nájsť informácie o streame"
@@ -520,7 +519,7 @@ msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:530
+#: src/lib/config.cc:552
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -595,7 +594,7 @@ msgstr "Chyba: %1"
 msgid "Examine content"
 msgstr "Vypočítavam obsah"
 
-#: src/lib/ffmpeg_content.cc:556
+#: src/lib/ffmpeg_content.cc:558
 msgid "FCC"
 msgstr "FCC"
 
@@ -671,11 +670,11 @@ msgstr ""
 msgid "Full length in video frames at content rate"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:531
+#: src/lib/ffmpeg_content.cc:533
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:534
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -699,11 +698,11 @@ msgstr "Vysoko kvalitný 3D denoiser"
 msgid "Hz"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:542
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB alebo sYCC)"
 
-#: src/lib/ffmpeg_content.cc:538
+#: src/lib/ffmpeg_content.cc:540
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
@@ -711,7 +710,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Neviem, čo zapríčinilo túto chybu."
 
-#: src/lib/config.cc:239 src/lib/config.cc:527
+#: src/lib/config.cc:244 src/lib/config.cc:549
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM donáška: $CPL_NAME"
 
@@ -743,7 +742,7 @@ msgstr "Left rear surround (Ľavý zadný priestorový)"
 msgid "Left surround"
 msgstr "Left surround (Ľavý zadný)"
 
-#: src/lib/video_content.cc:459
+#: src/lib/video_content.cc:458
 msgid "Length"
 msgstr ""
 
@@ -763,15 +762,15 @@ msgstr "Limitovaný"
 msgid "Limited (%1-%2)"
 msgstr "Limitovaný (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:535
+#: src/lib/ffmpeg_content.cc:537
 msgid "Linear"
 msgstr "Lineárny"
 
-#: src/lib/ffmpeg_content.cc:536
+#: src/lib/ffmpeg_content.cc:538
 msgid "Logarithmic (100:1 range)"
 msgstr "Logarmitmický (rozsah 100:1)"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:539
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarmitmický (rozsah 316:1 )"
 
@@ -847,7 +846,7 @@ msgstr "Málo pamäte"
 msgid "Overcomplete wavelet denoiser"
 msgstr "Overcomplete wavelet denoiser"
 
-#: src/lib/colour_conversion.cc:268
+#: src/lib/colour_conversion.cc:285
 msgid "P3"
 msgstr "P3"
 
@@ -871,7 +870,7 @@ msgstr "Public Service Announcement (Verejné oznámenie služby)"
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:552
+#: src/lib/ffmpeg_content.cc:554
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -883,21 +882,21 @@ msgstr "Prístupnosť"
 msgid "Rc"
 msgstr "Rc"
 
-#: src/lib/colour_conversion.cc:269
+#: src/lib/colour_conversion.cc:286
 #, fuzzy
 msgid "Rec. 1886"
 msgstr "Rec. 601 (SD)"
 
-#: src/lib/colour_conversion.cc:270
+#: src/lib/colour_conversion.cc:287
 #, fuzzy
 msgid "Rec. 2020"
 msgstr "Rec. 601 (SD)"
 
-#: src/lib/colour_conversion.cc:266
+#: src/lib/colour_conversion.cc:283
 msgid "Rec. 601"
 msgstr "Rec. 601 (SD)"
 
-#: src/lib/colour_conversion.cc:267
+#: src/lib/colour_conversion.cc:284
 msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
@@ -921,29 +920,46 @@ msgstr "Right surround (Pravý priestorový)"
 msgid "Rs"
 msgstr "Rs"
 
-#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:533
+#: src/lib/colour_conversion.cc:288
+msgid "S-Gamut3/S-Log3"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:558
+#: src/lib/ffmpeg_content.cc:560
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:534
-#: src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:565
+msgid "SMPTE 2085, Y'D'zD'x"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
+#: src/lib/ffmpeg_content.cc:561
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:543
+#: src/lib/ffmpeg_content.cc:545
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:546
 msgid "SMPTE ST 428-1"
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:520
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
+msgstr ""
+
+#: src/lib/ffmpeg_content.cc:521
+#, fuzzy
+msgid "SMPTE ST 431-2 (2011)"
+msgstr "SMPTE 170M (BT601)"
+
+#: src/lib/ffmpeg_content.cc:522
+msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr ""
 
 #: src/lib/scp_uploader.cc:56
@@ -962,7 +978,7 @@ msgstr "Posielam email"
 msgid "Short"
 msgstr "Short (Krátky film)"
 
-#: src/lib/video_content.cc:460
+#: src/lib/video_content.cc:459
 msgid "Size"
 msgstr ""
 
@@ -995,7 +1011,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:1503
+#: src/lib/film.cc:1506
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1007,11 +1023,11 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr ""
 
-#: src/lib/dcp_content.cc:467
+#: src/lib/dcp_content.cc:492
 msgid "The DCP does not have sound in all reels."
 msgstr "DCP nemá zvuk vo všetkých reeloch."
 
-#: src/lib/dcp_content.cc:481
+#: src/lib/dcp_content.cc:513
 msgid "The DCP does not have subtitles in all reels."
 msgstr "DCP nemá titulky vo všetkých reeloch."
 
@@ -1027,19 +1043,19 @@ msgstr ""
 "Disk, na ktorom sa nachádza film už má málo voľného miesta. Niečo vymažte a "
 "skúste to znovu."
 
-#: src/lib/dcp_content.cc:425
+#: src/lib/dcp_content.cc:435
 msgid "The film has a different frame rate to this DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:418
+#: src/lib/dcp_content.cc:428
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr ""
 
-#: src/lib/dcp_content.cc:415
+#: src/lib/dcp_content.cc:425
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr ""
 
-#: src/lib/dcp_content.cc:436
+#: src/lib/dcp_content.cc:454
 #, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
@@ -1048,19 +1064,19 @@ msgstr ""
 "Dĺžka reelu v projekte sa líši od tých v DCP; nastavte reel mod na 'rozdeliť "
 "podľa obsahu videa'."
 
-#: src/lib/dcp_content.cc:454
+#: src/lib/dcp_content.cc:472
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:472
+#: src/lib/dcp_content.cc:497
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Už sa tu nachádza iný zvuk, ktorý sa prekrýva s DCP; zmaže ho."
 
-#: src/lib/dcp_content.cc:486
+#: src/lib/dcp_content.cc:518
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Už sa tu nachádzajú iné titulky, ktoré sa prekrývajú s DCP; zmaže ho."
 
-#: src/lib/dcp_content.cc:458
+#: src/lib/dcp_content.cc:476
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Už sa tu nachádza iné video, ktoré sa prekrýva s DCP; zmaže ho."
 
@@ -1073,7 +1089,7 @@ msgstr ""
 "Zostáva málo pamäte. Ak je váš operačný system 32-bitový, skúste znížiť "
 "počet enkódovacích threadov v záložke Všeobecné, v nastaveniach."
 
-#: src/lib/film.cc:414
+#: src/lib/film.cc:416
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1081,7 +1097,7 @@ msgstr ""
 "Tento film bol vytvorený novšou verziou DCP-o-matic, a nemôže byť načítaný "
 "touto verziou. Prepáčte !"
 
-#: src/lib/film.cc:403
+#: src/lib/film.cc:405
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1115,7 +1131,7 @@ msgstr "Neočakávaný typ obrazu obdŕžaný od servera "
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/lib/ffmpeg_decoder.cc:288
+#: src/lib/ffmpeg_decoder.cc:289
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nerozpoznaná vzorkovacia frekvencia audia (%1)"
 
@@ -1125,13 +1141,13 @@ msgstr "Doostrenie a Gaussove rozostrenie"
 
 #: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:492
 #: src/lib/ffmpeg_content.cc:510 src/lib/ffmpeg_content.cc:512
-#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:527
-#: src/lib/ffmpeg_content.cc:529 src/lib/ffmpeg_content.cc:530
-#: src/lib/ffmpeg_content.cc:554 src/lib/ffmpeg_content.cc:555
+#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:529
+#: src/lib/ffmpeg_content.cc:531 src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:557
 msgid "Unspecified"
 msgstr "Nešpecifikované"
 
-#: src/lib/colour_conversion.cc:224
+#: src/lib/colour_conversion.cc:241
 msgid "Untitled"
 msgstr "Nepomenované"
 
@@ -1159,7 +1175,7 @@ msgstr "Zrakovo postihnutý(í)"
 msgid "Waiting"
 msgstr "Čakám"
 
-#: src/lib/ffmpeg_content.cc:560
+#: src/lib/ffmpeg_content.cc:562
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1191,7 +1207,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr ""
 
-#: src/lib/film.cc:312
+#: src/lib/film.cc:313
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musíte pridať obsah do DCP pred tým, ako ho vytvoríte"
 
@@ -1231,7 +1247,7 @@ msgstr "[stále]"
 msgid "[subtitles]"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:287
+#: src/lib/film.cc:288
 msgid "cannot contain slashes"
 msgstr "nemôže obsahovať lomky"
 
@@ -1243,11 +1259,11 @@ msgstr "spojenie vypršalo"
 msgid "connecting"
 msgstr "pripájam"
 
-#: src/lib/film.cc:308
+#: src/lib/film.cc:309
 msgid "container"
 msgstr "kontajner"
 
-#: src/lib/film.cc:316
+#: src/lib/film.cc:317
 msgid "content type"
 msgstr "typ obsahu"
 
@@ -1259,7 +1275,7 @@ msgstr "kopírujem %1"
 msgid "could not find stream information"
 msgstr "nemôžem nájsť informácie o streame"
 
-#: src/lib/reel_writer.cc:320
+#: src/lib/reel_writer.cc:321
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "nemôžem presunúť audio do DCP (%1)"
 
@@ -1323,7 +1339,7 @@ msgstr "chýbajúce potrebné nastavenia %1"
 msgid "moving"
 msgstr "presúvam"
 
-#: src/lib/film.cc:287 src/lib/film.cc:320
+#: src/lib/film.cc:288 src/lib/film.cc:321
 msgid "name"
 msgstr "meno"
 
@@ -1338,7 +1354,7 @@ msgstr "ostáva"
 msgid "s"
 msgstr "s"
 
-#: src/lib/colour_conversion.cc:265
+#: src/lib/colour_conversion.cc:282
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -1346,11 +1362,11 @@ msgstr "sRGB"
 msgid "still"
 msgstr "stále"
 
-#: src/lib/ffmpeg_examiner.cc:356
+#: src/lib/ffmpeg_examiner.cc:337
 msgid "unknown"
 msgstr "neznáme"
 
-#: src/lib/video_content.cc:459
+#: src/lib/video_content.cc:458
 msgid "video frames"
 msgstr "video snímky"
 
