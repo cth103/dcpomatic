@@ -367,7 +367,7 @@ ContentMenu::kdm ()
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
-			dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()))));
+			dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
 		} catch (exception& e) {
 			error_dialog (_parent, wxString::Format (_("Could not load KDM (%s)"), e.what ()));
 			d->Destroy ();

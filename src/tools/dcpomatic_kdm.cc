@@ -80,7 +80,7 @@ public:
 	optional<dcp::EncryptedKDM> get ()
 	{
 		try {
-			return dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (_dialog->GetPath ())));
+			return dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (_dialog->GetPath ()), MAX_KDM_SIZE));
 		} catch (cxml::Error& e) {
 			error_dialog (_parent, wxString::Format ("This file does not look like a KDM (%s)", std_to_wx (e.what()).data()));
 		}

@@ -50,6 +50,8 @@ namespace dcp {
 #define HISTORY_SIZE 10
 #define REPORT_PROBLEM _("Please report this problem by using Help -> Report a problem or via email to carl@dcpomatic.com")
 #define TEXT_FONT_ID "font"
+/** Largest KDM size (in bytes) that will be accepted */
+#define MAX_KDM_SIZE (256 * 1024)
 
 extern std::string program_name;
 
