@@ -52,7 +52,7 @@ public:
 		return _num_local_encoding_threads;
 	}
 
-	boost::filesystem::path default_directory () const {
+	boost::optional<boost::filesystem::path> default_directory () const {
 		return _default_directory;
 	}
 
@@ -290,7 +290,11 @@ public:
 	}
 
 	void set_default_directory (boost::filesystem::path d) {
-		maybe_set (_default_directory, d);
+		if (_default_directory && *_default_directory == d) {
+			return;
+		}
+		_default_directory = d;
+		changed ();
 	}
 
 	/** @param p New server port */
@@ -558,7 +562,7 @@ private:
 	/** number of threads to use for J2K encoding on the local machine */
 	int _num_local_encoding_threads;
 	/** default directory to put new films in */
-	boost::filesystem::path _default_directory;
+	boost::optional<boost::filesystem::path> _default_directory;
 	/** base port number to use for J2K encoding servers;
 	 *  this port and the two above it will be used.
 	 */

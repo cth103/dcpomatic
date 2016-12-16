@@ -160,7 +160,11 @@ try
 	optional<int> version = f.optional_number_child<int> ("Version");
 
 	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
-	_default_directory = f.string_child ("DefaultDirectory");
+	_default_directory = f.optional_string_child ("DefaultDirectory");
+	if (_default_directory && _default_directory->empty ()) {
+		/* We used to store an empty value for this to mean "none set" */
+		_default_directory = boost::optional<boost::filesystem::path> ();
+	}
 
 	boost::optional<int> b = f.optional_number_child<int> ("ServerPort");
 	if (!b) {
@@ -374,7 +378,9 @@ Config::write_config_xml () const
 
 	root->add_child("Version")->add_child_text ("2");
 	root->add_child("NumLocalEncodingThreads")->add_child_text (raw_convert<string> (_num_local_encoding_threads));
-	root->add_child("DefaultDirectory")->add_child_text (_default_directory.string ());
+	if (_default_directory) {
+		root->add_child("DefaultDirectory")->add_child_text (_default_directory->string ());
+	}
 	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
 	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
 
@@ -495,17 +501,17 @@ Config::write_cinemas_xml () const
 boost::filesystem::path
 Config::default_directory_or (boost::filesystem::path a) const
 {
-	if (_default_directory.empty()) {
+	if (!_default_directory) {
 		return a;
 	}
 
 	boost::system::error_code ec;
-	bool const e = boost::filesystem::exists (_default_directory, ec);
+	bool const e = boost::filesystem::exists (*_default_directory, ec);
 	if (ec || !e) {
 		return a;
 	}
 
-	return _default_directory;
+	return *_default_directory;
 }
 
 void
