@@ -48,6 +48,7 @@ using std::cout;
 using std::vector;
 using std::make_pair;
 using boost::shared_ptr;
+using boost::bind;
 
 KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make KDMs"))
@@ -123,6 +124,15 @@ KDMDialog::setup_sensitivity ()
 	_make->Enable (!_screens->screens().empty() && _timing->valid() && _cpl->has_selected());
 }
 
+bool
+KDMDialog::confirm_overwrite (boost::filesystem::path path)
+{
+	return confirm_dialog (
+		this,
+		wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
+		);
+}
+
 void
 KDMDialog::make_clicked ()
 {
@@ -146,7 +156,8 @@ KDMDialog::make_clicked ()
 				screen_kdms,
 				_output->directory(),
 				_output->name_format(),
-				name_values
+				name_values,
+				bind (&KDMDialog::confirm_overwrite, this, _1)
 				);
 		}
 

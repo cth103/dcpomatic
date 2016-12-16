@@ -1,5 +1,7 @@
 2016-12-16  Carl Hetherington  <cth@carlh.net>
 
+	* Confirm overwrite of KDMs (#1008).
+
 	* Add preference for default KDM target directory (#1013).
 
 	* Fix failure to write referenced DCPs when they have non-zero

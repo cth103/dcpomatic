@@ -40,6 +40,7 @@ using std::list;
 using std::vector;
 using boost::shared_ptr;
 using boost::optional;
+using boost::bind;
 
 static void
 help ()
@@ -104,6 +105,12 @@ duration_from_string (string d)
 
 	cerr << "Could not understand duration \"" << d << "\"\n";
 	exit (EXIT_FAILURE);
+}
+
+static bool
+always_overwrite ()
+{
+	return true;
 }
 
 int main (int argc, char* argv[])
@@ -306,7 +313,10 @@ int main (int argc, char* argv[])
 					cout << "Wrote ZIP files to " << output << "\n";
 				}
 			} else {
-				ScreenKDM::write_files (screen_kdms, output, Config::instance()->kdm_filename_format(), values);
+				ScreenKDM::write_files (
+					screen_kdms, output, Config::instance()->kdm_filename_format(), values,
+					bind (&always_overwrite)
+					);
 
 				if (verbose) {
 					cout << "Wrote KDM files to " << output << "\n";

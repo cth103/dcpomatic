@@ -36,9 +36,10 @@ public:
 		, kdm (k)
 	{}
 
-	static void write_files (
+	static int write_files (
 		std::list<ScreenKDM> screen_kdms, boost::filesystem::path directory,
-		dcp::NameFormat name_format, dcp::NameFormat::Map name_values
+		dcp::NameFormat name_format, dcp::NameFormat::Map name_values,
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
 	boost::shared_ptr<Screen> screen;

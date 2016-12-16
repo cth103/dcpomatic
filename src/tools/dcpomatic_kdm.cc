@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -63,6 +63,7 @@ using std::vector;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
+using boost::ref;
 
 enum {
 	ID_help_report_a_problem = 1,
@@ -268,6 +269,14 @@ private:
 		m->Append (help, _("&Help"));
 	}
 
+	bool confirm_overwrite (boost::filesystem::path path)
+	{
+		return confirm_dialog (
+			this,
+			wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
+			);
+	}
+
 	void create_kdms ()
 	{
 		try {
@@ -315,13 +324,19 @@ private:
 			name_values['e'] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
 
 			if (_output->write_to()) {
-				ScreenKDM::write_files (screen_kdms, _output->directory(), _output->name_format(), name_values);
-				/* XXX: proper plural form support in wxWidgets? */
-				wxString s = screen_kdms.size() == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
-				message_dialog (
-					this,
-					wxString::Format (s, int(screen_kdms.size()), std_to_wx(_output->directory().string()).data())
+				int written = ScreenKDM::write_files (
+					screen_kdms, _output->directory(), _output->name_format(), name_values,
+					bind (&DOMFrame::confirm_overwrite, this, _1)
 					);
+
+				if (written > 0) {
+					/* XXX: proper plural form support in wxWidgets? */
+					wxString s = written == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
+					message_dialog (
+						this,
+						wxString::Format (s, written, std_to_wx(_output->directory().string()).data())
+						);
+				}
 			} else {
 				string film_name = decrypted.annotation_text().get_value_or ("");
 				if (film_name.empty ()) {
