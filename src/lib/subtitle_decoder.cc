@@ -104,6 +104,7 @@ SubtitleDecoder::get (list<T> const & subs, list<ContentTimePeriod> const & sp, 
 		}
 		if (j == subs.end ()) {
 			missing = i.from;
+			break;
 		}
 	}
 
