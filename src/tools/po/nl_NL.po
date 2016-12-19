@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-08-28 01:53+0200\n"
+"PO-Revision-Date: 2016-12-17 00:47+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -231,9 +231,9 @@ msgid "Encoding servers..."
 msgstr "Encodeer-servers..."
 
 #: src/tools/dcpomatic_kdm.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "De map %s bestaat al en is niet leeg. Wilt u deze toch gebruiken?"
+msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-10-25 15:04+0200\n"
+"PO-Revision-Date: 2016-12-17 01:06+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -545,9 +545,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Standaard JPEG2000-bandbreedte"
 
 #: src/wx/config_dialog.cc:463
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Standaard map voor nieuwe films"
+msgstr "Standaard KDM-map"
 
 #: src/wx/config_dialog.cc:451
 msgid "Default audio delay"
@@ -730,7 +729,7 @@ msgstr "Fade out tijd"
 
 #: src/wx/kdm_dialog.cc:132
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"
@@ -815,12 +814,11 @@ msgstr "Versterking voor content-kanaal %d in DCP-kanaal %d"
 
 #: src/wx/colour_conversion_editor.cc:60
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Gamma, linearised for small values"
-msgstr "Lineariseer input-gammacurve voor kleine waarden"
+msgstr "Gamma, gelineariseerd voor kleine waarden"
 
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
@@ -901,7 +899,7 @@ msgstr "Input-macht"
 
 #: src/wx/colour_conversion_editor.cc:58
 msgid "Input transfer function"
-msgstr ""
+msgstr "Ingang-overdrachtsfunctie"
 
 #: src/wx/audio_dialog.cc:351
 #, c-format
@@ -921,9 +919,8 @@ msgid "Interop"
 msgstr "Interop"
 
 #: src/wx/colour_conversion_editor.cc:203
-#, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
-msgstr "Input-gammacorrectie"
+msgstr "Inverse 2.6 output-gammacorrectie"
 
 #: src/wx/config_dialog.cc:227
 msgid "Issuer"
@@ -1108,7 +1105,8 @@ msgstr "HEEFT KDM NODIG: "
 msgid "NEEDS OV: "
 msgstr "HEEFT OV NODIG: "
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Naam"
 
@@ -1394,7 +1392,7 @@ msgstr "Resolutie"
 
 #: src/wx/image_subtitle_colour_dialog.cc:70
 msgid "Restore to original colours"
-msgstr ""
+msgstr "Herstel naar originele kleuren"
 
 #: src/wx/normal_job_view.cc:56
 msgid "Resume"
@@ -1422,7 +1420,7 @@ msgstr "Root common name"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/config_dialog.cc:1168
 msgid "SCP (for AAM and Doremi)"
@@ -1973,6 +1971,8 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"U kunt geen scherm met de naam '%s' toevoegen omdat de bioscoop al een "
+"scherm met deze naam heeft."
 
 #: src/wx/screens_panel.cc:258
 #, c-format
@@ -1980,6 +1980,8 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
+"U kunt de naam van dit scherm niet in '%s' veranderen omdat de bioscoop al "
+"een scherm met deze naam heeft."
 
 #: src/wx/report_problem_dialog.cc:66
 msgid "Your email address"
@@ -2046,6 +2048,3 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
-
-#~ msgid "Contact email"
-#~ msgstr "Contact email-adres"
