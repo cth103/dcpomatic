@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("video_mxf_content_test");
 
-	shared_ptr<Content> content = content_factory (film, ref_mxf);
+	shared_ptr<Content> content = content_factory(film, ref_mxf).front();
 	shared_ptr<VideoMXFContent> check = dynamic_pointer_cast<VideoMXFContent> (content);
 	BOOST_REQUIRE (check);
 	film->examine_and_add_content (content);

@@ -310,7 +310,7 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	shared_ptr<Content> content;
+	list<shared_ptr<Content> > content;
 
 	try {
 		content = content_factory (_film, path);
@@ -319,26 +319,28 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	if (!content) {
+	if (content.empty ()) {
 		error_dialog (_parent, _("No content found in this folder."));
 		return;
 	}
 
-	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (content);
-	if (ic) {
-		ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
-		r = e->ShowModal ();
-		float const frame_rate = e->frame_rate ();
-		e->Destroy ();
+	BOOST_FOREACH (shared_ptr<Content> i, content) {
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
+		if (ic) {
+			ImageSequenceDialog* e = new ImageSequenceDialog (_panel);
+			r = e->ShowModal ();
+			float const frame_rate = e->frame_rate ();
+			e->Destroy ();
 
-		if (r != wxID_OK) {
-			return;
+			if (r != wxID_OK) {
+				return;
+			}
+
+			ic->set_video_frame_rate (frame_rate);
 		}
 
-		ic->set_video_frame_rate (frame_rate);
+		_film->examine_and_add_content (i);
 	}
-
-	_film->examine_and_add_content (content);
 }
 
 /** @return true if this remove "click" should be ignored */
@@ -583,7 +585,9 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 
 	/* XXX: check for lots of files here and do something */
 
-	for (list<boost::filesystem::path>::const_iterator i = paths.begin(); i != paths.end(); ++i) {
-		_film->examine_and_add_content (content_factory (_film, *i));
+	BOOST_FOREACH (boost::filesystem::path i, paths) {
+		BOOST_FOREACH (shared_ptr<Content> j, content_factory (_film, i)) {
+			_film->examine_and_add_content (j);
+		}
 	}
 }

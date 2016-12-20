@@ -32,6 +32,7 @@
 #include "lib/cross.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 #include <getopt.h>
 #include <string>
 #include <iostream>
@@ -227,11 +228,12 @@ main (int argc, char* argv[])
 		film->set_signed (sign);
 
 		for (int i = optind; i < argc; ++i) {
-			shared_ptr<Content> c = content_factory (film, boost::filesystem::canonical (argv[i]));
-			if (c->video) {
-				c->video->set_scale (VideoContentScale (content_ratio));
+			BOOST_FOREACH (shared_ptr<Content> j, content_factory (film, boost::filesystem::canonical (argv[i]))) {
+				if (j->video) {
+					j->video->set_scale (VideoContentScale (content_ratio));
+				}
+				film->examine_and_add_content (j);
 			}
-			film->examine_and_add_content (c);
 		}
 
 		JobManager* jm = JobManager::instance ();

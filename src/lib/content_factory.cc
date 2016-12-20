@@ -100,22 +100,22 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 	return content;
 }
 
-/** Create a Content object from a file or directory.
+/** Create some Content objects from a file or directory.
  *  @param film Film that the content will be in.
  *  @param path File or directory.
- *  @return Content object.
+ *  @return Content objects.
  */
-shared_ptr<Content>
+list<shared_ptr<Content> >
 content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 {
-	shared_ptr<Content> content;
+	list<shared_ptr<Content> > content;
 
 	if (boost::filesystem::is_directory (path)) {
 
 		LOG_GENERAL ("Look in directory %1", path);
 
 		if (boost::filesystem::is_empty (path)) {
-			return shared_ptr<Content> ();
+			return content;
 		}
 
 		/* Guess if this is a DCP or a set of images: read the first ten filenames and if they
@@ -152,33 +152,37 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		}
 
 		if (is_dcp) {
-			content.reset (new DCPContent (film, path));
+			content.push_back (shared_ptr<Content> (new DCPContent (film, path)));
 		} else {
-			content.reset (new ImageContent (film, path));
+			content.push_back (shared_ptr<Content> (new ImageContent (film, path)));
 		}
 
 	} else {
+
+		shared_ptr<Content> single;
 
 		string ext = path.extension().string ();
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (valid_image_file (path)) {
-			content.reset (new ImageContent (film, path));
+			single.reset (new ImageContent (film, path));
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
-			content.reset (new TextSubtitleContent (film, path));
+			single.reset (new TextSubtitleContent (film, path));
 		} else if (ext == ".xml") {
-			content.reset (new DCPSubtitleContent (film, path));
+			single.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
-			content.reset (new DCPSubtitleContent (film, path));
+			single.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf (path)) {
-			content.reset (new VideoMXFContent (film, path));
+			single.reset (new VideoMXFContent (film, path));
 		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf (path)) {
-			content.reset (new AtmosMXFContent (film, path));
+			single.reset (new AtmosMXFContent (film, path));
 		}
 
-		if (!content) {
-			content.reset (new FFmpegContent (film, path));
+		if (!single) {
+			single.reset (new FFmpegContent (film, path));
 		}
+
+		content.push_back (single);
 	}
 
 	return content;

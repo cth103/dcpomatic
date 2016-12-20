@@ -76,6 +76,7 @@
 #endif
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/foreach.hpp>
 #include <iostream>
 #include <fstream>
 /* This is OK as it's only used with DCPOMATIC_WINDOWS */
@@ -1094,7 +1095,9 @@ private:
 		if (!_film_to_create.empty ()) {
 			_frame->new_film (_film_to_create, optional<string> ());
 			if (!_content_to_add.empty ()) {
-				_frame->film()->examine_and_add_content (content_factory (_frame->film(), _content_to_add));
+				BOOST_FOREACH (shared_ptr<Content> i, content_factory (_frame->film(), _content_to_add)) {
+					_frame->film()->examine_and_add_content (i);
+				}
 			}
 		}
 

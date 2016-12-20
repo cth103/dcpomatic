@@ -278,8 +278,6 @@ ContentMenu::find_missing ()
 		return;
 	}
 
-	shared_ptr<Content> content;
-
 	/* XXX: a bit nasty */
 	shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (_content.front ());
 	shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (_content.front ());
@@ -299,27 +297,31 @@ ContentMenu::find_missing ()
 		d->Destroy ();
 	}
 
+	list<shared_ptr<Content> > content;
+
 	if (r == wxID_OK) {
 		content = content_factory (film, path);
 	}
 
-	if (!content) {
+	if (content.empty ()) {
 		return;
 	}
 
-	shared_ptr<Job> j (new ExamineContentJob (film, content));
+	BOOST_FOREACH (shared_ptr<Content> i, content) {
+		shared_ptr<Job> j (new ExamineContentJob (film, i));
 
-	j->Finished.connect (
-		bind (
-			&ContentMenu::maybe_found_missing,
-			this,
-			boost::weak_ptr<Job> (j),
-			boost::weak_ptr<Content> (_content.front ()),
-			boost::weak_ptr<Content> (content)
-			)
-		);
+		j->Finished.connect (
+			bind (
+				&ContentMenu::maybe_found_missing,
+				this,
+				boost::weak_ptr<Job> (j),
+				boost::weak_ptr<Content> (_content.front ()),
+				boost::weak_ptr<Content> (i)
+				)
+			);
 
-	JobManager::instance()->add (j);
+		JobManager::instance()->add (j);
+	}
 }
 
 void

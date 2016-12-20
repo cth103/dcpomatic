@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE (audio_decoder_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory (film, private_data / "20 The Wedding Convoy Song.m4a");
+	shared_ptr<Content> content = content_factory(film, private_data / "20 The Wedding Convoy Song.m4a").front();
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
