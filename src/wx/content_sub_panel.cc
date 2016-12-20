@@ -68,10 +68,12 @@ ContentSubPanel::setup_refer_button (wxCheckBox* button, shared_ptr<DCPContent> 
 	}
 
 	/* XXX: more debugging */
-	if (!s.IsEmpty()) {
-		dcp->film()->log()->log (String::compose ("setting tooltip to %1", wx_to_std (s)), LogEntry::TYPE_GENERAL);
-	} else {
-		dcp->film()->log()->log ("clearing tooltip", LogEntry::TYPE_GENERAL);
+	if (dcp) {
+		if (!s.IsEmpty()) {
+			dcp->film()->log()->log (String::compose ("setting tooltip to %1", wx_to_std (s)), LogEntry::TYPE_GENERAL);
+		} else {
+			dcp->film()->log()->log ("clearing tooltip", LogEntry::TYPE_GENERAL);
+		}
 	}
 
 	button->SetToolTip (s);
