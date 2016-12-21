@@ -1,5 +1,7 @@
 2016-12-21  Carl Hetherington  <cth@carlh.net>
 
+	* Add approximate finish time to progress on jobs (#927).
+
 	* Version 2.10.5 released.
 
 2016-12-21  Carl Hetherington  <cth@carlh.net>
