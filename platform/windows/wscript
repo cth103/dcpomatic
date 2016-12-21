@@ -167,11 +167,6 @@ File "%cdist_deps%/bin/ffprobe.exe"
         print('File "%binaries%/src/lib/dcpomatic2.dll"', file=f)
 
     print("""
-SetOutPath "$INSTDIR\\lib\\pango\\1.8.0\\modules"
-File "%static_deps%/lib/pango/1.8.0/modules/pango-arabic-lang.dll"
-File "%static_deps%/lib/pango/1.8.0/modules/pango-basic-win32.dll"
-File "%static_deps%/lib/pango/1.8.0/modules/pango-indic-lang.dll"
-
 SetOutPath "$INSTDIR\\bin"
 # I don't know why, but sometimes it seems that
 # delegates.xml must be in with the binaries, and
