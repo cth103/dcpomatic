@@ -128,7 +128,6 @@ File "%static_deps%/bin/ssleay32.dll"
 File "%static_deps%/bin/libzip-2.dll"
 File "%static_deps%/bin/libcairomm-1.0-1.dll"
 File "%static_deps%/bin/libpangomm-1.4-1.dll"
-File "%static_deps%/bin/pango-querymodules.exe"
 File "%static_deps%/bin/libsamplerate-0.dll"
 File "%static_deps%/bin/libnettle-6-2.dll"
 File "%static_deps%/lib/icuuc52.dll"
@@ -257,11 +256,6 @@ File "%resources%/../../fonts/LiberationSans-Regular.ttf"
 File "%resources%/../../fonts/LiberationSans-Italic.ttf"
 File "%resources%/../../fonts/LiberationSans-Bold.ttf"
 File "%graphics%/splash.png"
-
-CreateDirectory "$INSTDIR\etc\pango"
-ReadEnvStr $0 COMSPEC
-SetOutPath "$INSTDIR"
-nsExec::ExecToLog '$0 /C bin\pango-querymodules.exe > etc\pango\pango.modules'
 
 SectionEnd
     """, file=f)
