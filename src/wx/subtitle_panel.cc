@@ -154,7 +154,7 @@ SubtitlePanel::SubtitlePanel (ContentPanel* p)
 	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::y_scale_changed, this));
 	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&SubtitlePanel::line_spacing_changed, this));
 	_language->Bind                 (wxEVT_TEXT,     boost::bind (&SubtitlePanel::language_changed, this));
-	_stream->Bind                   (wxEVT_CHOICE,  boost::bind (&SubtitlePanel::stream_changed, this));
+	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&SubtitlePanel::stream_changed, this));
 	_subtitle_view_button->Bind     (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::subtitle_view_clicked, this));
 	_fonts_dialog_button->Bind      (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::fonts_dialog_clicked, this));
 	_appearance_dialog_button->Bind (wxEVT_BUTTON,   boost::bind (&SubtitlePanel::appearance_dialog_clicked, this));
