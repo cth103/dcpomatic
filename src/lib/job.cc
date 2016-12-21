@@ -34,6 +34,7 @@
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
 
 #include "i18n.h"
@@ -411,9 +412,22 @@ Job::status () const
 		s += buffer;
 
 		if (t > 10 && r > 0) {
-			/// TRANSLATORS: remaining here follows an amount of time that is remaining
-			/// on an operation.
-			s += "; " + seconds_to_approximate_hms (r) + " " + _("remaining");
+			boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+			boost::posix_time::ptime finish = now + boost::posix_time::seconds(r);
+			char finish_string[6];
+			snprintf (finish_string, sizeof(finish_string), "%02d:%02d", finish.time_of_day().hours(), finish.time_of_day().minutes());
+			string day;
+			if (now.date() != finish.date()) {
+				/// TRANSLATORS: the %1 in this string will be filled in with a day of the week
+				/// to say what day a job will finish.
+				day = String::compose (_(" on %1"), finish.date().day_of_week().as_long_string());
+			}
+			/// TRANSLATORS: "remaining; finishing at" here follows an amount of time that is remaining
+			/// on an operation; after it is an estimated wall-clock completion time.
+			s += String::compose(
+				_("; %1 remaining; finishing at %2%3"),
+				seconds_to_approximate_hms(r), finish_string, day
+				);
 		}
 	} else if (finished_ok ()) {
 		s = String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));

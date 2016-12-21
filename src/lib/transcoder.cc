@@ -74,7 +74,7 @@ Transcoder::go ()
 	{
 		shared_ptr<Job> job = _job.lock ();
 		DCPOMATIC_ASSERT (job);
-		job->sub (_("Encoding picture and sound"));
+		job->sub (_("Encoding"));
 	}
 
 	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
