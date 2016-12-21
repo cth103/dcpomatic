@@ -1,3 +1,7 @@
+2016-12-21  Carl Hetherington  <cth@carlh.net>
+
+	* Make "Add folder..." to accept a directory of WAV files (#942).
+
 2016-12-19  Carl Hetherington  <cth@carlh.net>
 
 	* Updated zh_CN translation from Rov (若文).

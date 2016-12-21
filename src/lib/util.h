@@ -68,6 +68,7 @@ extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
 extern std::string short_audio_channel_name (int);
 extern bool valid_image_file (boost::filesystem::path);
+extern bool valid_sound_file (boost::filesystem::path);
 extern bool valid_j2k_file (boost::filesystem::path);
 #ifdef DCPOMATIC_WINDOWS
 extern boost::filesystem::path mo_path ();

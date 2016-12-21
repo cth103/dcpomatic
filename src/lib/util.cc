@@ -558,6 +558,18 @@ valid_image_file (boost::filesystem::path f)
 }
 
 bool
+valid_sound_file (boost::filesystem::path f)
+{
+	if (boost::starts_with (f.leaf().string(), "._")) {
+		return false;
+	}
+
+	string ext = f.extension().string();
+	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	return (ext == ".wav" || ext == ".mp3" || ext == ".aif" || ext == ".aiff");
+}
+
+bool
 valid_j2k_file (boost::filesystem::path f)
 {
 	string ext = f.extension().string();
