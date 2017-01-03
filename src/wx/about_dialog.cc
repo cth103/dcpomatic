@@ -246,6 +246,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Aditya Pratama"));
 	supported_by.Add (wxT ("Ceridwen Productions"));
 	supported_by.Add (wxT ("Ivan Pullman"));
+	supported_by.Add (wxT ("Arts Quest"));
 	supported_by.Add (wxT ("Desiderio Garcia Ramirez"));
 	supported_by.Add (wxT ("Steve Reverand"));
 	supported_by.Add (wxT ("Mark Rolfe"));
