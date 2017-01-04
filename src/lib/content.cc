@@ -327,7 +327,7 @@ Content::reel_split_points () const
 {
 	list<DCPTime> t;
 	/* XXX: this is questionable; perhaps the position itself should be forced to be on a frame boundary */
-	t.push_back (position().round_up (film()->video_frame_rate()));
+	t.push_back (position().ceil (film()->video_frame_rate()));
 	return t;
 }
 

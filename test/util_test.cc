@@ -51,21 +51,21 @@ BOOST_AUTO_TEST_CASE (digest_head_tail_test)
 	BOOST_CHECK_THROW (digest_head_tail (p, 1024), OpenFileError);
 }
 
-/* Straightforward test of DCPTime::round_up */
-BOOST_AUTO_TEST_CASE (dcptime_round_up_test)
+/* Straightforward test of DCPTime::ceil */
+BOOST_AUTO_TEST_CASE (dcptime_ceil_test)
 {
-	BOOST_CHECK_EQUAL (DCPTime(0).round_up(DCPTime::HZ / 2).get(), 0);
-	BOOST_CHECK_EQUAL (DCPTime(1).round_up(DCPTime::HZ / 2).get(), 2);
-	BOOST_CHECK_EQUAL (DCPTime(2).round_up(DCPTime::HZ / 2).get(), 2);
-	BOOST_CHECK_EQUAL (DCPTime(3).round_up(DCPTime::HZ / 2).get(), 4);
+	BOOST_CHECK_EQUAL (DCPTime(0).ceil(DCPTime::HZ / 2).get(), 0);
+	BOOST_CHECK_EQUAL (DCPTime(1).ceil(DCPTime::HZ / 2).get(), 2);
+	BOOST_CHECK_EQUAL (DCPTime(2).ceil(DCPTime::HZ / 2).get(), 2);
+	BOOST_CHECK_EQUAL (DCPTime(3).ceil(DCPTime::HZ / 2).get(), 4);
 
-	BOOST_CHECK_EQUAL (DCPTime(0).round_up(DCPTime::HZ / 42).get(), 0);
-	BOOST_CHECK_EQUAL (DCPTime(1).round_up(DCPTime::HZ / 42).get(), 42);
-	BOOST_CHECK_EQUAL (DCPTime(42).round_up(DCPTime::HZ / 42).get(), 42);
-	BOOST_CHECK_EQUAL (DCPTime(43).round_up(DCPTime::HZ / 42).get(), 84);
+	BOOST_CHECK_EQUAL (DCPTime(0).ceil(DCPTime::HZ / 42).get(), 0);
+	BOOST_CHECK_EQUAL (DCPTime(1).ceil(DCPTime::HZ / 42).get(), 42);
+	BOOST_CHECK_EQUAL (DCPTime(42).ceil(DCPTime::HZ / 42).get(), 42);
+	BOOST_CHECK_EQUAL (DCPTime(43).ceil(DCPTime::HZ / 42).get(), 84);
 
 	/* Check that rounding up to non-integer frame rates works */
-	BOOST_CHECK_EQUAL (DCPTime(45312).round_up(29.976).get(), 48045);
+	BOOST_CHECK_EQUAL (DCPTime(45312).ceil(29.976).get(), 48045);
 }
 
 BOOST_AUTO_TEST_CASE (timecode_test)
