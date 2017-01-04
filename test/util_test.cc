@@ -65,7 +65,24 @@ BOOST_AUTO_TEST_CASE (dcptime_ceil_test)
 	BOOST_CHECK_EQUAL (DCPTime(43).ceil(DCPTime::HZ / 42).get(), 84);
 
 	/* Check that rounding up to non-integer frame rates works */
-	BOOST_CHECK_EQUAL (DCPTime(45312).ceil(29.976).get(), 48045);
+	BOOST_CHECK_EQUAL (DCPTime(45312).ceil(29.976).get(), 48038);
+}
+
+/* Straightforward test of DCPTime::floor */
+BOOST_AUTO_TEST_CASE (dcptime_floor_test)
+{
+	BOOST_CHECK_EQUAL (DCPTime(0).floor(DCPTime::HZ / 2).get(), 0);
+	BOOST_CHECK_EQUAL (DCPTime(1).floor(DCPTime::HZ / 2).get(), 0);
+	BOOST_CHECK_EQUAL (DCPTime(2).floor(DCPTime::HZ / 2).get(), 2);
+	BOOST_CHECK_EQUAL (DCPTime(3).floor(DCPTime::HZ / 2).get(), 2);
+
+	BOOST_CHECK_EQUAL (DCPTime(0).floor(DCPTime::HZ / 42).get(), 0);
+	BOOST_CHECK_EQUAL (DCPTime(1).floor(DCPTime::HZ / 42).get(), 0);
+	BOOST_CHECK_EQUAL (DCPTime(42).floor(DCPTime::HZ / 42.0).get(), 42);
+	BOOST_CHECK_EQUAL (DCPTime(43).floor(DCPTime::HZ / 42.0).get(), 42);
+
+	/* Check that rounding down to non-integer frame rates works */
+	BOOST_CHECK_EQUAL (DCPTime(45312).floor(29.976).get(), 44836);
 }
 
 BOOST_AUTO_TEST_CASE (timecode_test)

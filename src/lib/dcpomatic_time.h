@@ -119,9 +119,11 @@ public:
 	 *  @param r Sampling rate.
 	 */
 	Time<S, O> ceil (float r) const {
-		Type const n = llrintf (HZ / r);
-		Type const a = _t + n - 1;
-		return Time<S, O> (a - (a % n));
+		return Time<S, O> (llrint (HZ * frames_ceil(r) / double(r)));
+	}
+
+	Time<S, O> floor (float r) const {
+		return Time<S, O> (llrint (HZ * frames_floor(r) / double(r)));
 	}
 
 	double seconds () const {
@@ -143,7 +145,7 @@ public:
 
 	template <typename T>
 	int64_t frames_floor (T r) const {
-		return floor (_t * r / HZ);
+		return ::floor (_t * r / HZ);
 	}
 
 	template <typename T>
@@ -212,6 +214,7 @@ public:
 
 private:
 	friend struct dcptime_ceil_test;
+	friend struct dcptime_floor_test;
 
 	Type _t;
 	static const int HZ = 96000;
