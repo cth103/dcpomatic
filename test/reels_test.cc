@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 	BOOST_CHECK_EQUAL (i->to.get(), 96000 * 3);
 	++i;
 	BOOST_CHECK_EQUAL (i->from.get(), 96000 * 3);
-	BOOST_CHECK_EQUAL (i->to.get(), sub->full_length().round_up(film->video_frame_rate()).get());
+	BOOST_CHECK_EQUAL (i->to.get(), sub->full_length().ceil(film->video_frame_rate()).get());
 }
 
 /** Check creation of a multi-reel DCP with a single .srt subtitle file;

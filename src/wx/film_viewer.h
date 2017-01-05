@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -41,6 +41,7 @@ public:
 
 	void set_film (boost::shared_ptr<Film>);
 
+	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	DCPTime position () const {
 		return _position;
 	}

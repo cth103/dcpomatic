@@ -1,3 +1,12 @@
+2017-01-04  Carl Hetherington  <cth@carlh.net>
+
+	* Fix non frame-aligned trims when using the to-playhead
+	buttons.
+
+2016-12-25  Carl Hetherington  <cth@carlh.net>
+
+	* Updated fr_FR translation from Thierry Journet.
+
 2016-12-21  Carl Hetherington  <cth@carlh.net>
 
 	* Add approximate finish time to progress on jobs (#927).

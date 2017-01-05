@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -80,7 +80,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	t = new wxStaticText (
 		this, wxID_ANY,
-		_("(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n Ole Laursen, Brecht Sanders"),
+		_("(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n Ole Laursen, Brecht Sanders"),
 		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 		);
 
@@ -246,6 +246,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Aditya Pratama"));
 	supported_by.Add (wxT ("Ceridwen Productions"));
 	supported_by.Add (wxT ("Ivan Pullman"));
+	supported_by.Add (wxT ("Arts Quest"));
 	supported_by.Add (wxT ("Desiderio Garcia Ramirez"));
 	supported_by.Add (wxT ("Steve Reverand"));
 	supported_by.Add (wxT ("Mark Rolfe"));

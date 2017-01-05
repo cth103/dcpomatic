@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-11-14 01:09+0100\n"
+"PO-Revision-Date: 2016-12-23 11:11+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -920,7 +920,7 @@ msgstr "ArD"
 
 #: src/lib/colour_conversion.cc:288
 msgid "S-Gamut3/S-Log3"
-msgstr ""
+msgstr "S-Gamut3/S-Log3"
 
 #: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
@@ -932,7 +932,7 @@ msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:565
 msgid "SMPTE 2085, Y'D'zD'x"
-msgstr ""
+msgstr "SMPTE 2085, Y'D'zD'x"
 
 #: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
 #: src/lib/ffmpeg_content.cc:561
@@ -952,14 +952,12 @@ msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/ffmpeg_content.cc:521
-#, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 431-2 (2011)"
 
 #: src/lib/ffmpeg_content.cc:522
-#, fuzzy
 msgid "SMPTE ST 432-1 D65 (2010)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
