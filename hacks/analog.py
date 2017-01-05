@@ -19,6 +19,7 @@ parser.add_argument('--encoder-dump', help='dump activity of the specified encod
 parser.add_argument('-e', '--encoder', help='encoder index (from 0)')
 parser.add_argument('--from', help='time in seconds to start at', type=int, dest='from_time')
 parser.add_argument('--to', help='time in seconds to stop at', type=int, dest='to_time')
+parser.add_argument('--max-encoder-threads', help='maximum number of encoder threads to plot with --encoder-threads', type=int, default=None)
 args = parser.parse_args()
 
 def find_nth(haystack, needle, n):
@@ -116,10 +117,13 @@ while True:
             try:
                 T = Time(time.mktime(time.strptime(l[:s], "%d.%m.%Y %H:%M:%S")))
             except:
-                x = l[:s]
-                if not x.endswith('M'):
-                    x += 'M'
-                T = Time(time.mktime(time.strptime(x, "%d/%m/%Y %H:%M:%S %p")))
+                try:
+                    T = Time(time.mktime(time.strptime(l[:s], "%d/%m/%Y %H:%M:%S")))
+                except:
+                    x = l[:s]
+                    if not x.endswith('M'):
+                        x += 'M'
+                    T = Time(time.mktime(time.strptime(x, "%d/%m/%Y %H:%M:%S %p")))
         message = l[s+2:]
 
     # T is elapsed time since the first log message
@@ -160,6 +164,11 @@ elif args.encoder_threads:
     # y=0 thread is sleeping
     # y=1 thread is awake
     # y=2 thread is encoding
+    # y=3 thread is awaiting a remote encode
+
+    if args.max_encoder_threads is not None:
+        encoder_threads = encoder_threads[0:min(args.max_encoder_threads, len(encoder_threads))]
+    
     plt.figure()
     N = len(encoder_threads)
     n = 1
@@ -174,6 +183,8 @@ elif args.encoder_threads:
                 continue
             if args.to_time is not None and e[0].float_seconds() >= args.to_time:
                 continue
+            if e[1] == 'start-remote-send' or e[1] == 'finish-remote-send' or e[1] == 'start-remote-receive' or e[1] == 'finish-remote-receive':
+                continue
             x.append(e[0].float_seconds())
             x.append(e[0].float_seconds())
             y.append(previous)
@@ -184,6 +195,10 @@ elif args.encoder_threads:
             elif e[1] == 'start-local-encode':
                 y.append(2)
             elif e[1] == 'finish-local-encode':
+                y.append(1)
+            elif e[1] == 'start-remote-encode':
+                y.append(3)
+            elif e[1] == 'finish-remote-encode':
                 y.append(1)
             else:
                 print>>sys.stderr,'unknown event %s' % e[1]
