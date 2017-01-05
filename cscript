@@ -400,6 +400,21 @@ def package(target, version):
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
         return [os.path.abspath(x) for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg')]
+    elif target.platform == 'docker':
+        shutil.copyfile(target.deb, 'build/platform/docker')
+        f = open('build/platform/docker/Dockerfile', 'w')
+        print('FROM debian:jessie', file=f)
+        print('MAINTAINER carl@dcpomatic.com', file=f)
+        print('ADD build/platform/docker/dcpomatic_%s-1_amd64.deb /tmp' % (version, version), file=f)
+        print('RUN apt-get -o Acquire:http::Timeout="5" update; exit 0', file=f)
+        print('RUN dpkg -i /tmp/dcpomatic_*.deb; exit 0', file=f)
+        print('RUN apt-get -y -f install', file=f)
+        print('RUN apt-get clean', file=f)
+        print('EXPOSE 6192', file=f)
+        print('CMD ["/usr/bin/dcpomatic2_server_cli", "--verbose"]', file=f)
+        f.close()
+        target.command('docker build build/platform/docker -t dcpomatic-server:%s' % version)
+        target.command('docker save dcpomatic-server:%s -o dcpomatic-server-%s-docker.tar' % (version, version))
 
 def make_pot(target):
     target.command('./waf pot')
