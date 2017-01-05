@@ -188,7 +188,7 @@ Encoder::frame_done ()
 	}
 }
 
-/** Called to start encoding of the next video frame in the DCP.  This is called in order,
+/** Called to request encoding of the next video frame in the DCP.  This is called in order,
  *  so each time the supplied frame is the one after the previous one.
  *  pv represents one video frame, and could be empty if there is nothing to encode
  *  for this DCP frame.
