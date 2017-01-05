@@ -38,6 +38,7 @@ public:
 	static int const REFERENCE_AUDIO;
 	static int const REFERENCE_SUBTITLE;
 	static int const NAME;
+	static int const HAS_SUBTITLES;
 };
 
 class ContentPart;

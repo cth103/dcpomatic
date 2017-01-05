@@ -60,6 +60,7 @@ int const DCPContentProperty::REFERENCE_VIDEO    = 602;
 int const DCPContentProperty::REFERENCE_AUDIO    = 603;
 int const DCPContentProperty::REFERENCE_SUBTITLE = 604;
 int const DCPContentProperty::NAME               = 605;
+int const DCPContentProperty::HAS_SUBTITLES      = 606;
 
 DCPContent::DCPContent (shared_ptr<const Film> film, boost::filesystem::path p)
 	: Content (film)
@@ -143,6 +144,7 @@ DCPContent::examine (shared_ptr<Job> job)
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
 	string const old_name = name ();
+	bool had_subtitles = static_cast<bool> (subtitle);
 
 	job->set_progress_unknown ();
 	Content::examine (job);
@@ -163,12 +165,16 @@ DCPContent::examine (shared_ptr<Job> job)
 
 	signal_changed (AudioContentProperty::STREAMS);
 
+	bool has_subtitles = false;
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_name = examiner->name ();
 		if (examiner->has_subtitles ()) {
 			subtitle.reset (new SubtitleContent (this));
+		} else {
+			subtitle.reset ();
 		}
+		has_subtitles = static_cast<bool> (subtitle);
 		_encrypted = examiner->encrypted ();
 		_needs_assets = examiner->needs_assets ();
 		_kdm_valid = examiner->kdm_valid ();
@@ -176,6 +182,10 @@ DCPContent::examine (shared_ptr<Job> job)
 		_three_d = examiner->three_d ();
 		_cpl = examiner->cpl ();
 		_reel_lengths = examiner->reel_lengths ();
+	}
+
+	if (had_subtitles != has_subtitles) {
+		signal_changed (DCPContentProperty::HAS_SUBTITLES);
 	}
 
 	if (needed_assets != needs_assets ()) {

@@ -225,6 +225,8 @@ SubtitlePanel::film_content_changed (int property)
 		}
 
 		setup_sensitivity ();
+	} else if (property == DCPContentProperty::HAS_SUBTITLES) {
+		setup_sensitivity ();
 	}
 }
 
