@@ -288,6 +288,35 @@ Film::make_dcp ()
 		throw BadSettingError (_("name"), _("cannot contain slashes"));
 	}
 
+	if (container() == 0) {
+		throw MissingSettingError (_("container"));
+	}
+
+	if (content().empty()) {
+		throw runtime_error (_("you must add some content to the DCP before creating it."));
+	}
+
+	if (dcp_content_type() == 0) {
+		throw MissingSettingError (_("content type"));
+	}
+
+	if (name().empty()) {
+		throw MissingSettingError (_("name"));
+	}
+
+	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
+		if (!i->paths_valid()) {
+			throw runtime_error (_("some of your content is missing."));
+		}
+		shared_ptr<const DCPContent> dcp = dynamic_pointer_cast<const DCPContent> (i);
+		if (dcp && dcp->needs_kdm()) {
+			throw runtime_error (_("some of your content needs a KDM."));
+		}
+		if (dcp && dcp->needs_assets()) {
+			throw runtime_error (_("some of your content needs an OV."));
+		}
+	}
+
 	set_isdcf_date_today ();
 
 	BOOST_FOREACH (string i, environment_info ()) {
@@ -304,22 +333,6 @@ Film::make_dcp ()
 		LOG_GENERAL ("%1 threads", Config::instance()->num_local_encoding_threads());
 	}
 	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
-
-	if (container() == 0) {
-		throw MissingSettingError (_("container"));
-	}
-
-	if (content().empty()) {
-		throw runtime_error (_("You must add some content to the DCP before creating it"));
-	}
-
-	if (dcp_content_type() == 0) {
-		throw MissingSettingError (_("content type"));
-	}
-
-	if (name().empty()) {
-		throw MissingSettingError (_("name"));
-	}
 
 	JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
 }
