@@ -250,6 +250,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Desiderio Garcia Ramirez"));
 	supported_by.Add (wxT ("Steve Reverand"));
 	supported_by.Add (wxT ("Mark Rolfe"));
+	supported_by.Add (wxT ("Leigh Rosin"));
 	supported_by.Add (wxT ("David Rozenthal"));
 	supported_by.Add (wxT ("Lasse Salling"));
 	supported_by.Add (wxT ("Jussi Siponen"));
