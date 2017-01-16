@@ -205,10 +205,10 @@ public:
 		: _status (0)
 	{
 #ifdef DCPOMATIC_WINDOWS
-		wxIcon icon (std_to_wx ("taskbar_icon"));
+		wxIcon icon (std_to_wx ("id"));
 #else
 		wxInitAllImageHandlers();
-		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2_server_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif

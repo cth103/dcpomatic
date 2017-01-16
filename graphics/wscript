@@ -24,9 +24,9 @@ def build(bld):
     if bld.env.TARGET_LINUX:
         for r in [16, 22, 32, 48, 64, 128, 256, 512]:
             for p in ['dcpomatic2', 'dcpomatic2_kdm', 'dcpomatic2_server', 'dcpomatic2_batch']:
-                bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), '%d/%s.png' % (r, p))
+                bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), 'linux/%d/%s.png' % (r, p))
 
     # Install stuff for POSIX systems
     if not bld.env.TARGET_WINDOWS:
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'dcpomatic2_server_small.png')
+        bld.install_files('${PREFIX}/share/dcpomatic2', 'linux/16/dcpomatic2.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'splash.png')

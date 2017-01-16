@@ -113,21 +113,21 @@ function copy_libs {
 # @param #1 directory to copy to
 function copy_resources {
     local dest="$1"
-    cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_kdm.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_server.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_batch.icns "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/colour_conversions.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/defaults.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/kdm_email.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/servers.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/tms.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/keys.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_batch.icns "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/colour_conversions.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/defaults.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/kdm_email.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/servers.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/tms.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/keys.png "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/splash.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/dcpomatic2_server_small.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/src/dcpomatic2_server_small.png "$dest"
 
     # i18n: DCP-o-matic .mo files
     for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN; do

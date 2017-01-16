@@ -15,42 +15,59 @@ fi
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
     for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
-	iconutil --convert icns --output $p.icns $p.iconset
+	iconutil --convert icns --output osx/$p.icns osx/$p.iconset
     done
 else
     INKSCAPE="inkscape -z -C -e"
 
     # OS X application icons
+    mkdir -p osx
     for r in 16 32 128 256 512; do
-	for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
-	    mkdir -p $p.iconset
-	    $INKSCAPE $p.iconset/icon_$rx$r.png -w $r -h $r $p.svg
-	    $INKSCAPE $p.iconset/icon_$rx$r@2x.png -w $r -h $r $p.svg
+	for p in dcpomatic2; do
+	    mkdir -p osx/$p.iconset
+	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}.png
+	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}@2x.png
+	done
+	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+	    mkdir -p osx/$p.iconset
+	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
+	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
 	done
     done
 
     # Linux application icons
+    mkdir -p linux
     for r in 16 22 32 48 64 128 256 512; do
-	mkdir -p $r
-	for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
-	    $INKSCAPE $r/$p.png $p.svg -w $r -h $r
+	mkdir -p linux/$r
+	convert src/dcpomatic.png -resize $rx$r linux/$r/dcpomatic2.png
+	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+	    $INKSCAPE linux/$r/$p.png src/$p.svg -w $r -h $r
 	done
     done
 
     # Windows application icons
+    mkdir -p windows
     for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
-	icotool -c -o $p.ico 48/$p.png
+	icotool -c -o windows/$p.ico linux/16/$p.png linux/32/$p.png linux/48/$p.png linux/64/$p.png linux/128/$p.png
     done
-    icotool -c -o dcpomatic2_server_small.ico dcpomatic2_server_small.png
-    $INKSCAPE dcpomatic.png dcpomatic2.svg -w 400 -h 400
-    convert dcpomatic.png dcpomatic.bmp
+    convert src/dcpomatic.png -resize 400x400 windows/dcpomatic.bmp
 
     # OS X preferences icons
     # servers.png does not have an SVG version
+    mkdir -p osx/preferences
     for i in colour_conversions defaults kdm_email keys tms; do
-	$INKSCAPE $i.png $i.svg -w 32 -h 32
+	$INKSCAPE osx/preferences/$i.png src/$i.svg -w 32 -h 32
     done
 
     # Splash screen (all platforms)
-    $INKSCAPE splash.png splash.svg -w 400 -h 300
+    $INKSCAPE splash.png src/splash.svg -w 400 -h 300
+
+    # favicon
+    mkdir -p web
+    convert src/web.png -resize 256x256 -transparent white web/favicon-256x256.png
+    for r in 16 32 64 128; do
+	convert web/favicon-256x256.png -resize $rx$r web/favicon-${r}x${r}.png
+    done
+    convert web/favicon-16x16.png web/favicon-32x32.png web/favicon-64x64.png web/favicon-128x128.png web/favicon-256x256.png web/favicon.ico
+    convert src/web.png -resize 123x123 -transparent white web/logo.png
 fi

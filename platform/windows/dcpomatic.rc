@@ -1,3 +1,2 @@
-id ICON "../../graphics/dcpomatic2.ico"
-taskbar_icon ICON "../../graphics/dcpomatic2_server_small.ico"
+id ICON "../../graphics/windows/dcpomatic2.ico"
 #include "wx-3.0/wx/msw/wx.rc"

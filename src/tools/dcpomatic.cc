@@ -210,6 +210,10 @@ public:
 		setup_menu (bar);
 		SetMenuBar (bar);
 
+#ifdef DCPOMATIC_WINDOWS
+		SetIcon (wxIcon (std_to_wx ("id")));
+#endif
+
 		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
 		config_changed ();
 
