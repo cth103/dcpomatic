@@ -163,7 +163,7 @@ def build(bld):
 
     obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
-    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP '
+    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML '
     if bld.env.TARGET_LINUX:
         obj.uselib += 'GTK '
     if bld.env.TARGET_WINDOWS:
