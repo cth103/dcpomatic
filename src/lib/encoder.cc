@@ -226,18 +226,18 @@ Encoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 
 	if (_writer->can_fake_write (position)) {
 		/* We can fake-write this frame */
-		LOG_DEBUG_ENCODE("Frame @ %1 FAKE", to_string(pv->time()));
+		LOG_DEBUG_ENCODE("Frame @ %1 FAKE", to_string(time));
 		_writer->fake_write (position, pv->eyes ());
 		frame_done ();
 	} else if (pv->has_j2k ()) {
-		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(pv->time()));
+		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(time));
 		/* This frame already has JPEG2000 data, so just write it */
 		_writer->write (pv->j2k(), position, pv->eyes ());
 	} else if (_last_player_video && _writer->can_repeat(position) && pv->same (_last_player_video)) {
-		LOG_DEBUG_ENCODE("Frame @ %1 REPEAT", to_string(pv->time()));
+		LOG_DEBUG_ENCODE("Frame @ %1 REPEAT", to_string(time));
 		_writer->repeat (position, pv->eyes ());
 	} else {
-		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(pv->time()));
+		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
 		_queue.push_back (shared_ptr<DCPVideo> (
