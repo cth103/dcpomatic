@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-09-27 12:57+0300\n"
+"PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -30,7 +30,7 @@ msgid ""
 "Cropped to %1x%2"
 msgstr ""
 "\n"
-"Кадрировано до %1x%2"
+"Размер при кадрировании: %1x%2"
 
 #: src/lib/video_content.cc:402
 #, c-format
@@ -55,7 +55,7 @@ msgid ""
 "Scaled to %1x%2"
 msgstr ""
 "\n"
-"Масштабировано до %1x%2"
+"Размер при масштабировании: %1x%2"
 
 #: src/lib/video_content.cc:427 src/lib/video_content.cc:438
 #, c-format
@@ -115,7 +115,7 @@ msgstr "4:3"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f кадр/сек"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -352,9 +352,8 @@ msgid "Content to be joined must have the same fades."
 msgstr "Для присоединения контента должно быть одинаковое угасание."
 
 #: src/lib/subtitle_content.cc:203
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
-msgstr "Для присоединения контента должно быть одинаковое угасание субтитров."
+msgstr "Для присоединения контента должна быть одинаковая ширина обводки."
 
 #: src/lib/video_content.cc:169
 msgid "Content to be joined must have the same picture size."
@@ -925,7 +924,7 @@ msgstr "Rs"
 
 #: src/lib/colour_conversion.cc:288
 msgid "S-Gamut3/S-Log3"
-msgstr ""
+msgstr "S-Gamut3/S-Log3"
 
 #: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
@@ -937,7 +936,7 @@ msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:565
 msgid "SMPTE 2085, Y'D'zD'x"
-msgstr ""
+msgstr "SMPTE 2085, Y'D'zD'x"
 
 #: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
 #: src/lib/ffmpeg_content.cc:561
@@ -957,14 +956,12 @@ msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/ffmpeg_content.cc:521
-#, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 431-2 (2011)"
 
 #: src/lib/ffmpeg_content.cc:522
-#, fuzzy
 msgid "SMPTE ST 432-1 D65 (2010)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
@@ -1056,7 +1053,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:435
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "Частота кадров проекта отличается от частоты кадров DCP."
 
 #: src/lib/dcp_content.cc:428
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1076,7 +1073,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:472
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "Размер кадра видео в проекте отличается от размера видео DCP."
 
 #: src/lib/dcp_content.cc:497
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1246,7 +1243,7 @@ msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
-"У Вашего DCP меньше 6 аудио каналов. Это может вызвать проблемы на некоторых "
+"У вашего DCP меньше 6 аудио каналов. Это может вызвать проблемы на некоторых "
 "проекторах."
 
 #: src/lib/hints.cc:99
@@ -1254,15 +1251,17 @@ msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"В вашем DCP используется необычное соотношение сторон. Это может привести к "
+"проблемам на некоторых проекторах. Если возможно, используйте соотношения "
+"сторон Flat или Scope для DCP."
 
 #: src/lib/hints.cc:159
-#, fuzzy
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Уровень вашего аудио слишком высок. Вам стоит понизить уровень громкости "
-"вашего аудио-контента."
+"Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
+"громкости вашего аудио-контента."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"

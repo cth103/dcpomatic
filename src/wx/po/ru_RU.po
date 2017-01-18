@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-09-26 13:33+0300\n"
+"PO-Revision-Date: 2017-01-18 12:37+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -91,7 +91,7 @@ msgstr "3D верх/низ"
 
 #: src/wx/wx_util.cc:371
 msgid "4 - L/C/R/Lfe"
-msgstr "4 - L/C/R/Lfe"
+msgstr "4 - Л/Ц/П/НЧ"
 
 #: src/wx/dcp_panel.cc:713
 msgid "4K"
@@ -221,13 +221,15 @@ msgstr "Внешний вид..."
 
 #: src/wx/job_view.cc:133
 msgid "Are you sure you want to cancel this job?"
-msgstr ""
+msgstr "Вы точно хотите отменить эту задачу?"
 
 #: src/wx/confirm_kdm_email_dialog.cc:35
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"Вы точно хотите отправить электронные письма на эти адреса?\n"
+"\n"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
 msgid "Atmos"
@@ -358,7 +360,7 @@ msgstr "Проверять обновления при запуске"
 
 #: src/wx/content_menu.cc:80
 msgid "Choose CPL..."
-msgstr ""
+msgstr "Выберите CPL..."
 
 #: src/wx/content_menu.cc:296
 msgid "Choose a file"
@@ -413,9 +415,8 @@ msgid "Config|Timing"
 msgstr "Тайминг"
 
 #: src/wx/confirm_kdm_email_dialog.cc:31
-#, fuzzy
 msgid "Confirm KDM email"
-msgstr "Почта KDM"
+msgstr "Подтверждение email KDM"
 
 #: src/wx/dcp_panel.cc:645
 msgid "Container"
@@ -538,9 +539,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Стандартная пропускная способность JPEG2000"
 
 #: src/wx/config_dialog.cc:463
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Стандартный издатель"
+msgstr "Стандартный папка KDM"
 
 #: src/wx/config_dialog.cc:451
 msgid "Default audio delay"
@@ -583,14 +583,12 @@ msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:42
-#, fuzzy
 msgid "Don't ask this again"
-msgstr "Больше не показывать подсказки"
+msgstr "Больше не спрашивать"
 
 #: src/wx/confirm_kdm_email_dialog.cc:50
-#, fuzzy
 msgid "Don't send emails"
-msgstr "Отправить по email"
+msgstr "Не отправлять email-ы"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
@@ -614,7 +612,7 @@ msgstr "Скачивание сертификата"
 
 #: src/wx/content_panel.cc:93
 msgid "Earlier"
-msgstr "Раньше"
+msgstr "Выше"
 
 #: src/wx/screens_panel.cc:59
 msgid "Edit Cinema..."
@@ -639,13 +637,12 @@ msgid "Edit..."
 msgstr "Редактировать..."
 
 #: src/wx/text_subtitle_appearance_dialog.cc:54
-#, fuzzy
 msgid "Effect"
-msgstr "Без эффектов"
+msgstr "Эффект"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:59
 msgid "Effect colour"
-msgstr ""
+msgstr "Цвет эффекта"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
@@ -670,7 +667,7 @@ msgstr "Конец"
 #: src/wx/report_problem_dialog.cc:107
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "Введите ваш email для связи, не %s"
 
 #: src/wx/config_dialog.cc:1492
 msgid "Errors"
@@ -684,13 +681,17 @@ msgstr "Экспорт"
 msgid ""
 "Export DCP decryption\n"
 "certificate..."
-msgstr "Экспортировать сертификат расшифровки DCP..."
+msgstr ""
+"Экспортировать сертификат\n"
+"расшифровки DCP..."
 
 #: src/wx/config_dialog.cc:1063
 msgid ""
 "Export DCP decryption\n"
 "chain..."
-msgstr "Экспортировать цепочку расшифровки DCP..."
+msgstr ""
+"Экспортировать цепочку\n"
+"расшифровки DCP..."
 
 #: src/wx/config_dialog.cc:748
 msgid "Export..."
@@ -722,7 +723,7 @@ msgstr "Время постепенного затухания"
 
 #: src/wx/kdm_dialog.cc:132
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Файл %s уже существует. Вы хотите перезаписать его?"
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"
@@ -809,12 +810,11 @@ msgstr "Усиление для канала %d контента в канале
 
 #: src/wx/colour_conversion_editor.cc:60
 msgid "Gamma"
-msgstr ""
+msgstr "Гамма"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Gamma, linearised for small values"
-msgstr "Выровнять входную гамму для малых значений"
+msgstr "Гамма, выровненная для малых значений"
 
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
@@ -895,7 +895,7 @@ msgstr "Входная мощность"
 
 #: src/wx/colour_conversion_editor.cc:58
 msgid "Input transfer function"
-msgstr ""
+msgstr "Входная функция передачи"
 
 #: src/wx/audio_dialog.cc:351
 #, c-format
@@ -915,9 +915,8 @@ msgid "Interop"
 msgstr "Interop"
 
 #: src/wx/colour_conversion_editor.cc:203
-#, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
-msgstr "Коррекция входной гаммы"
+msgstr "Коррекция инверсии 2.6 гаммы на выходе"
 
 #: src/wx/config_dialog.cc:227
 msgid "Issuer"
@@ -974,7 +973,7 @@ msgstr "Язык"
 
 #: src/wx/content_panel.cc:97
 msgid "Later"
-msgstr "Позже"
+msgstr "Ниже"
 
 #: src/wx/config_dialog.cc:873
 msgid "Leaf"
@@ -1191,13 +1190,12 @@ msgid "Outline content"
 msgstr "Очертить контент"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:64
-#, fuzzy
 msgid "Outline width"
-msgstr "Контур"
+msgstr "Ширина обводки"
 
 #: src/wx/text_subtitle_appearance_dialog.cc:137
 msgid "Outline width cannot be set unless you are burning in subtitles"
-msgstr ""
+msgstr "Ширина обводки может быть установлена только для вшитых субтитров"
 
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
@@ -1385,7 +1383,7 @@ msgstr "Разрешение"
 
 #: src/wx/image_subtitle_colour_dialog.cc:70
 msgid "Restore to original colours"
-msgstr ""
+msgstr "Восстановить исходные цвета"
 
 #: src/wx/normal_job_view.cc:56
 msgid "Resume"
@@ -1413,7 +1411,7 @@ msgstr "Root common name"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/config_dialog.cc:1168
 msgid "SCP (for AAM and Doremi)"
@@ -1426,7 +1424,7 @@ msgstr "SMPTE"
 #: src/wx/audio_dialog.cc:320
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr ""
+msgstr "Пиковая громкость сэмпла %.2fдБ в %s на %s"
 
 #: src/wx/save_template_dialog.cc:29
 msgid "Save template"
@@ -1486,9 +1484,8 @@ msgid "Send by email"
 msgstr "Отправить по email"
 
 #: src/wx/confirm_kdm_email_dialog.cc:49
-#, fuzzy
 msgid "Send emails"
-msgstr "Отправить по email"
+msgstr "Отправить email-ы"
 
 #: src/wx/report_problem_dialog.cc:61
 msgid "Send logs"
@@ -1793,9 +1790,8 @@ msgid "UTC+5"
 msgstr "UTC+5"
 
 #: src/wx/cinema_dialog.cc:105
-#, fuzzy
 msgid "UTC+5:30"
-msgstr "UTC+5"
+msgstr "UTC+5:30"
 
 #: src/wx/cinema_dialog.cc:106
 msgid "UTC+6"
@@ -1965,6 +1961,8 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"Вы не можете добавить экран с названием '%s', так как у данного кинотеатра "
+"уже есть экран с таким названием."
 
 #: src/wx/screens_panel.cc:258
 #, c-format
@@ -1972,11 +1970,12 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
+"Вы не можете изменить название экрана на '%s', так как у данного кинотеатра "
+"уже есть экран с таким названием."
 
 #: src/wx/report_problem_dialog.cc:66
-#, fuzzy
 msgid "Your email address"
-msgstr "E-mail адрес"
+msgstr "Ваш e-mail адрес"
 
 #: src/wx/video_waveform_dialog.cc:72
 msgid "component value"
