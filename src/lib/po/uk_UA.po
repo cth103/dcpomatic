@@ -4,46 +4,44 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-07-02 22:38+0300\n"
+"PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/lib/video_content.cc:445
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
 msgstr ""
 "\n"
-"Частота кадрів контента: %.4f\n"
+"Частота кадрів контенту %.4f\n"
 
 #: src/lib/video_content.cc:409
-#, fuzzy
 msgid ""
 "\n"
 "Cropped to %1x%2"
 msgstr ""
 "\n"
-"Кадровано в %1x%2"
+"Розмір при кадруванні: %1x%2"
 
 #: src/lib/video_content.cc:402
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
 msgstr ""
 "\n"
-"Співвідношення сторін контенту: %.2f:1"
+"Співвідношення сторін контенту %.2f:1"
 
 #: src/lib/video_content.cc:433
-#, fuzzy
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -52,18 +50,17 @@ msgstr ""
 "Заповнено чорним для підгонки контейнера %1 (%2x%3)"
 
 #: src/lib/video_content.cc:423
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
 msgstr ""
 "\n"
-"Масштабовано до %1x%2"
+"Розмір при масштабуванні: %1x%2"
 
 #: src/lib/video_content.cc:427 src/lib/video_content.cc:438
 #, c-format
 msgid " (%.2f:1)"
-msgstr ""
+msgstr " (%.2f:1)"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -86,9 +83,9 @@ msgid "%1 [video]"
 msgstr "%1 [відео]"
 
 #: src/lib/video_content.cc:397
-#, fuzzy, c-format
+#, c-format
 msgid ", pixel aspect ratio %.2f:1"
-msgstr ", Співвідношення сторін пікселей %.2f:1"
+msgstr ", співвідношення сторін пікселей %.2f:1"
 
 #: src/lib/ratio.cc:36
 msgid "1.19"
@@ -118,7 +115,7 @@ msgstr "4:3"
 #: src/lib/transcode_job.cc:125
 #, c-format
 msgid "; %.1f fps"
-msgstr ""
+msgstr "; %.1f кадр/сек"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -126,10 +123,13 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
+"Деякі проектори мають проблеми із відтворенням DCP з дуже високим бітрейтом. "
+"Гарною ідеєю було б знизити пропускну здатність JPEG2000 до 200Мбит/с; "
+"навряд чи це призведе до помітних змін зображення."
 
 #: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr ""
+msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
 #: src/lib/ratio.cc:38
 msgid "Academy"
@@ -146,6 +146,10 @@ msgid ""
 "frame.  You may prefer to set your DCP's container to Flat (1.85:1) in the "
 "\"DCP\" tab."
 msgstr ""
+"Весь ваш контент має співвідношення 1.85:1 або близько до того, але ваш DCP "
+"контейнер - SCOPE (2.39:1). Це означає, що у кадрі по бокам вашого контенту "
+"будуть чорні області. Ви можете змінити формат кадра вашого DCP на FLAT "
+"(1.85:1) на вкладці \"DCP\"."
 
 #: src/lib/hints.cc:91
 msgid ""
@@ -154,6 +158,9 @@ msgid ""
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
+"Весь ваш контент в SCOPE (2.39:1), але ваш DCP контейнер -FLAT (1.85:1). Це "
+"означає, що у кадрі зверху та знизу вашого контенту будуть чорні області. Ви "
+"можете змінити формат кадра вашого DCP на SCOPE (2.39:1) на вкладці \"DCP\"."
 
 #: src/lib/job.cc:101
 msgid "An error occurred whilst handling the file %1."
@@ -344,10 +351,8 @@ msgid "Content to be joined must have the same fades."
 msgstr "Для приєднання контенту має бути таке саме згасання."
 
 #: src/lib/subtitle_content.cc:203
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
-msgstr ""
-"Для приєднання контенту має бути таке саме розмір субтитрів по горизонталі."
+msgstr "Для приєднання контенту має бути однакова ширина обводки."
 
 #: src/lib/video_content.cc:169
 msgid "Content to be joined must have the same picture size."
@@ -378,10 +383,8 @@ msgstr ""
 "Для приєднання контенту має бути таке саме розмір субтитрів по вертикалі."
 
 #: src/lib/subtitle_content.cc:199
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
-msgstr ""
-"Для приєднання контенту має бути таке саме розмір субтитрів по горизонталі."
+msgstr "Для приєднання контенту має бути однакове згасання субтитрів."
 
 #: src/lib/subtitle_content.cc:195
 msgid "Content to be joined must have the same subtitle line spacing."
@@ -913,7 +916,7 @@ msgstr "Rs"
 
 #: src/lib/colour_conversion.cc:288
 msgid "S-Gamut3/S-Log3"
-msgstr ""
+msgstr "S-Gamut3/S-Log3"
 
 #: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
@@ -925,7 +928,7 @@ msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:565
 msgid "SMPTE 2085, Y'D'zD'x"
-msgstr ""
+msgstr "SMPTE 2085, Y'D'zD'x"
 
 #: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
 #: src/lib/ffmpeg_content.cc:561
@@ -945,14 +948,12 @@ msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/ffmpeg_content.cc:521
-#, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 431-2 (2011)"
 
 #: src/lib/ffmpeg_content.cc:522
-#, fuzzy
 msgid "SMPTE ST 432-1 D65 (2010)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
@@ -1013,6 +1014,14 @@ msgid ""
 "After doing that you would need to re-tick the appropriate 'refer to "
 "existing DCP' checkboxes."
 msgstr ""
+"Проект посилався на DCP %1. Тепер це неможливо, тому що розміри бобін у "
+"проекті більше не відповідають розмірам бобін імпортованого DCP.\n"
+"\n"
+"Установка режима бобіни \"розділяти по відео-контенту\" можливо допоможе "
+"вам.\n"
+"\n"
+"Зробив це, вам буде потрібно повторно помітити необхідні чекбокси "
+"\"посилатися на\"."
 
 #: src/lib/dcp_content.cc:492
 msgid "The DCP does not have sound in all reels."
@@ -1036,7 +1045,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:435
 msgid "The film has a different frame rate to this DCP."
-msgstr ""
+msgstr "Частота кадрів проекту відрізняється від частоти кадрів DCP."
 
 #: src/lib/dcp_content.cc:428
 msgid "The film is set to Interop and this DCP is SMPTE."
@@ -1047,7 +1056,6 @@ msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Проект встановлений у SMPTE, а цей DCP є Interop."
 
 #: src/lib/dcp_content.cc:454
-#, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1057,7 +1065,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:472
 msgid "The video frame size in the film differs from that in the DCP."
-msgstr ""
+msgstr "Розмір кадра відео у проекті відрізняється від розміра відео DCP."
 
 #: src/lib/dcp_content.cc:497
 msgid "There is other audio content overlapping this DCP; remove it."
@@ -1180,24 +1188,33 @@ msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised to make a SMPTE DCP instead."
 msgstr ""
+"Ви вибрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
+"Радимо замість цього зробити SMPTE DCP."
 
 #: src/lib/hints.cc:133
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
+"Ви використовуєте 3D контент, але тип вашого DCP - 2D. Змінить тип DCP на "
+"3D, якщо хочете відтворити його на 3D-системі (напр. Real-D, MasterImage і т."
+"п.)"
 
 #: src/lib/hints.cc:122
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"У вас %1 файлів, які схожі на VOB-файли з DVD. Вам необхідно об'єднати "
+"(приєднати) їх, щоб гарантувати гладке з'єднання між файлами."
 
 #: src/lib/hints.cc:68
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
+"Вы вибрали шрифт, розмір якого більше 640 кБ. Висока вірогідність, що це "
+"викликає проблеми при відтворенні."
 
 #: src/lib/film.cc:313
 msgid "You must add some content to the DCP before creating it"
@@ -1208,24 +1225,34 @@ msgid ""
 "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
 "projectors.  Use 24 or 48 frames per second to be on the safe side."
 msgstr ""
+"Частота кадрів вашого DCP (%1 fps) може викликати проблеми на деяких (в "
+"основному старих) проекторах. Використовуйте 24 або 48 кадрів в секунду для "
+"повної впевненості."
 
 #: src/lib/hints.cc:72
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
 msgstr ""
+"У вашого DCP менше 6 аудіо каналів. Це може викликати проблеми на деяких "
+"проекторах."
 
 #: src/lib/hints.cc:99
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
 msgstr ""
+"У вашому DCP використовується незвичне співвідношення сторін. Це може "
+"призвести к проблемам на деяких проекторах. Якщо можливо, використовуйте "
+"співвідношення сторін Flat або Scope для DCP."
 
 #: src/lib/hints.cc:159
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr ""
+"Рівень вашого аудіо занадто високий (на %1). Вам варто знизити рівень "
+"гучності вашого аудіо-контенту."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
@@ -1272,14 +1299,12 @@ msgid "could not move audio asset into the DCP (%1)"
 msgstr "не вдалося перемістити аудіо в DCP-пакет (%1)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for reading (%2)"
-msgstr "не удалось открыть файл для чтения"
+msgstr "не вдалося відкрити файл %1 для читання (%2)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for writing (%2)"
-msgstr "не удалось открыть файл для чтения"
+msgstr "не вдалося відкрити файл %1 для запису (%2)"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
