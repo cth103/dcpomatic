@@ -59,7 +59,7 @@ void
 setup_menu (wxMenuBar* m)
 {
 	wxMenu* file = new wxMenu;
-	file->Append (ID_file_add_film, _("&Add Film..."));
+	file->Append (ID_file_add_film, _("&Add Film...\tCtrl-A"));
 #ifdef DCPOMATIC_OSX
 	file->Append (wxID_EXIT, _("&Exit"));
 #else
