@@ -507,7 +507,7 @@ private:
 		} catch (BadSettingError& e) {
 			error_dialog (this, wxString::Format (_("Bad setting for %s (%s)"), std_to_wx(e.setting()).data(), std_to_wx(e.what()).data()));
 		} catch (std::exception& e) {
-			error_dialog (this, wxString::Format (_("Could not make DCP: %s"), std_to_wx(e.what()).data()));
+			error_dialog (this, wxString::Format (_("Could not make DCP: %s."), std_to_wx(e.what()).data()));
 		}
 	}
 

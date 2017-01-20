@@ -293,7 +293,7 @@ Film::make_dcp ()
 	}
 
 	if (content().empty()) {
-		throw runtime_error (_("you must add some content to the DCP before creating it."));
+		throw runtime_error (_("you must add some content to the DCP before creating it"));
 	}
 
 	if (dcp_content_type() == 0) {
@@ -306,14 +306,14 @@ Film::make_dcp ()
 
 	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
 		if (!i->paths_valid()) {
-			throw runtime_error (_("some of your content is missing."));
+			throw runtime_error (_("some of your content is missing"));
 		}
 		shared_ptr<const DCPContent> dcp = dynamic_pointer_cast<const DCPContent> (i);
 		if (dcp && dcp->needs_kdm()) {
-			throw runtime_error (_("some of your content needs a KDM."));
+			throw runtime_error (_("some of your content needs a KDM"));
 		}
 		if (dcp && dcp->needs_assets()) {
-			throw runtime_error (_("some of your content needs an OV."));
+			throw runtime_error (_("some of your content needs an OV"));
 		}
 	}
 
