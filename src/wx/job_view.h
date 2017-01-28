@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -42,19 +42,28 @@ public:
 	JobView (boost::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
 	virtual ~JobView () {}
 
-	void setup ();
+	virtual int insert_position () const = 0;
+	virtual void job_list_changed () {}
 
+	void setup ();
 	void maybe_pulse ();
+	void insert (int pos);
+	void detach ();
+
+	boost::shared_ptr<Job> job () const {
+		return _job;
+	}
 
 protected:
 	virtual void finished ();
 
 	boost::shared_ptr<Job> _job;
 	wxFlexGridSizer* _table;
+	wxBoxSizer* _buttons;
+	wxBoxSizer* _gauge_message;
 
 private:
 
-	virtual int insert_position () const = 0;
 	virtual void finish_setup (wxWindow *, wxSizer *) {}
 
 	void progress ();
@@ -63,7 +72,6 @@ private:
 
 	wxWindow* _parent;
 	wxWindow* _container;
-	wxBoxSizer* _gauge_message;
 	wxGauge* _gauge;
 	wxStaticText* _message;
 	wxButton* _cancel;

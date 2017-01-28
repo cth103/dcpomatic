@@ -40,11 +40,12 @@ extern bool wait_for_jobs ();
 class JobManager : public Signaller, public boost::noncopyable
 {
 public:
-
 	boost::shared_ptr<Job> add (boost::shared_ptr<Job>);
 	std::list<boost::shared_ptr<Job> > get () const;
 	bool work_to_do () const;
 	bool errors () const;
+	void increase_priority (boost::shared_ptr<Job>);
+	void decrease_priority (boost::shared_ptr<Job>);
 
 	void analyse_audio (
 		boost::shared_ptr<const Film> film,
@@ -54,6 +55,7 @@ public:
 		);
 
 	boost::signals2::signal<void (boost::weak_ptr<Job>)> JobAdded;
+	boost::signals2::signal<void ()> JobsReordered;
 	boost::signals2::signal<void (boost::optional<std::string>, boost::optional<std::string>)> ActiveJobsChanged;
 
 	static JobManager* instance ();
@@ -67,8 +69,10 @@ private:
 	~JobManager ();
 	void scheduler ();
 	void start ();
+	void priority_changed ();
 
 	mutable boost::mutex _mutex;
+	/** List of jobs in the order that they will be executed */
 	std::list<boost::shared_ptr<Job> > _jobs;
 	bool _terminate;
 

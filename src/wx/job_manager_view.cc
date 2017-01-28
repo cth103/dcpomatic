@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,6 +31,7 @@
 #include "lib/util.h"
 #include "lib/exceptions.h"
 #include "lib/compose.hpp"
+#include <boost/foreach.hpp>
 #include <iostream>
 
 using std::string;
@@ -40,6 +41,7 @@ using std::min;
 using std::cout;
 using boost::shared_ptr;
 using boost::weak_ptr;
+using boost::bind;
 
 /** @param parent Parent window.
  *  @param batch true to use BatchJobView, false to use NormalJobView.
@@ -67,6 +69,7 @@ JobManagerView::JobManagerView (wxWindow* parent, bool batch)
 	_timer->Start (1000);
 
 	JobManager::instance()->JobAdded.connect (bind (&JobManagerView::job_added, this, _1));
+	JobManager::instance()->JobsReordered.connect (bind (&JobManagerView::replace, this));
 }
 
 void
@@ -85,6 +88,7 @@ JobManagerView::job_added (weak_ptr<Job> j)
 	}
 
 	FitInside();
+	job_list_changed ();
 }
 
 void
@@ -92,5 +96,43 @@ JobManagerView::periodic ()
 {
 	for (list<shared_ptr<JobView> >::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
 		(*i)->maybe_pulse ();
+	}
+}
+
+void
+JobManagerView::replace ()
+{
+	/* Make a new version of _job_records which reflects the order in JobManager's job list */
+
+	list<shared_ptr<JobView> > new_job_records;
+
+	BOOST_FOREACH (shared_ptr<Job> i, JobManager::instance()->get()) {
+		/* Find this job's JobView */
+		BOOST_FOREACH (shared_ptr<JobView> j, _job_records) {
+			if (j->job() == i) {
+				new_job_records.push_back (j);
+				break;
+			}
+		}
+	}
+
+	BOOST_FOREACH (shared_ptr<JobView> i, _job_records) {
+		i->detach ();
+	}
+
+	_job_records = new_job_records;
+
+	BOOST_FOREACH (shared_ptr<JobView> i, _job_records) {
+		i->insert (i->insert_position ());
+	}
+
+	job_list_changed ();
+}
+
+void
+JobManagerView::job_list_changed ()
+{
+	BOOST_FOREACH (shared_ptr<JobView> i, _job_records) {
+		i->job_list_changed ();
 	}
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,4 +27,12 @@ public:
 
 private:
 	int insert_position () const;
+	void job_list_changed ();
+
+	void finish_setup (wxWindow* parent, wxSizer* sizer);
+	void higher_priority_clicked ();
+	void lower_priority_clicked ();
+
+	wxButton* _higher_priority;
+	wxButton* _lower_priority;
 };

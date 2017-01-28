@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,8 +19,11 @@
 */
 
 #include "batch_job_view.h"
+#include "lib/job_manager.h"
 #include <wx/sizer.h>
+#include <wx/button.h>
 
+using std::list;
 using boost::shared_ptr;
 
 BatchJobView::BatchJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
@@ -33,4 +36,45 @@ int
 BatchJobView::insert_position () const
 {
 	return _table->GetEffectiveRowsCount() * _table->GetEffectiveColsCount();
+}
+
+void
+BatchJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
+{
+	_higher_priority = new wxButton (parent, wxID_ANY, _("Higher prioirity"));
+	_higher_priority->Bind (wxEVT_BUTTON, boost::bind (&BatchJobView::higher_priority_clicked, this));
+	sizer->Add (_higher_priority, 1, wxALIGN_CENTER_VERTICAL);
+	_lower_priority = new wxButton (parent, wxID_ANY, _("Lower prioirity"));
+	_lower_priority->Bind (wxEVT_BUTTON, boost::bind (&BatchJobView::lower_priority_clicked, this));
+	sizer->Add (_lower_priority, 1, wxALIGN_CENTER_VERTICAL);
+}
+void
+BatchJobView::higher_priority_clicked ()
+{
+	JobManager::instance()->increase_priority (_job);
+}
+
+void
+BatchJobView::lower_priority_clicked ()
+{
+	JobManager::instance()->decrease_priority (_job);
+}
+
+void
+BatchJobView::job_list_changed ()
+{
+	bool high = false;
+	bool low = false;
+	list<shared_ptr<Job> > jobs = JobManager::instance()->get();
+	if (!jobs.empty ()) {
+		if (_job != jobs.front()) {
+			high = true;
+		}
+		if (_job != jobs.back()) {
+			low = true;
+		}
+	}
+
+	_higher_priority->Enable (high);
+	_lower_priority->Enable (low);
 }

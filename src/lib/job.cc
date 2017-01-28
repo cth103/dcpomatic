@@ -239,10 +239,17 @@ Job::finished_cancelled () const
 }
 
 bool
-Job::paused () const
+Job::paused_by_user () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
-	return _state == PAUSED;
+	return _state == PAUSED_BY_USER;
+}
+
+bool
+Job::paused_by_priority () const
+{
+	boost::mutex::scoped_lock lm (_state_mutex);
+	return _state == PAUSED_BY_PRIORITY;
 }
 
 /** Set the state of this job.
@@ -287,7 +294,7 @@ Job::check_for_interruption_or_pause ()
 	boost::this_thread::interruption_point ();
 
 	boost::mutex::scoped_lock lm (_state_mutex);
-	while (_state == PAUSED) {
+	while (_state == PAUSED_BY_USER || _state == PAUSED_BY_PRIORITY) {
 		emit (boost::bind (boost::ref (Progress)));
 		_pause_changed.wait (lm);
 	}
@@ -450,7 +457,8 @@ Job::json_status () const
 		return N_("new");
 	case RUNNING:
 		return N_("running");
-	case PAUSED:
+	case PAUSED_BY_USER:
+	case PAUSED_BY_PRIORITY:
 		return N_("paused");
 	case FINISHED_OK:
 		return N_("finished_ok");
@@ -481,7 +489,7 @@ Job::cancel ()
 		return;
 	}
 
-	if (paused ()) {
+	if (paused_by_user() || paused_by_priority()) {
 		resume ();
 	}
 
@@ -493,10 +501,19 @@ Job::cancel ()
 }
 
 void
-Job::pause ()
+Job::pause_by_user ()
 {
 	if (running ()) {
-		set_state (PAUSED);
+		set_state (PAUSED_BY_USER);
+		_pause_changed.notify_all ();
+	}
+}
+
+void
+Job::pause_by_priority ()
+{
+	if (running ()) {
+		set_state (PAUSED_BY_PRIORITY);
 		_pause_changed.notify_all ();
 	}
 }
@@ -504,7 +521,7 @@ Job::pause ()
 void
 Job::resume ()
 {
-	if (paused ()) {
+	if (paused_by_user() || paused_by_priority()) {
 		set_state (RUNNING);
 		_pause_changed.notify_all ();
 	}

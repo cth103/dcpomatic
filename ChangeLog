@@ -1,3 +1,7 @@
+2017-01-28  Carl Hetherington  <cth@carlh.net>
+
+	* Add priority control buttons to batch converter (#961).
+
 2017-01-18  Carl Hetherington  <cth@carlh.net>
 
 	* Updated uk_UA translation from Igor Voytovich.
