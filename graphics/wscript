@@ -28,5 +28,5 @@ def build(bld):
 
     # Install stuff for POSIX systems
     if not bld.env.TARGET_WINDOWS:
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'linux/16/dcpomatic2.png')
+        bld.install_as('${PREFIX}/share/dcpomatic2/dcpomatic2_server_small.png', 'linux/16/dcpomatic2.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'splash.png')

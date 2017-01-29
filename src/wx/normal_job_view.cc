@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -48,11 +48,11 @@ NormalJobView::insert_position () const
 void
 NormalJobView::pause_clicked ()
 {
-	if (_job->paused()) {
+	if (_job->paused_by_user()) {
 		_job->resume ();
 		_pause->SetLabel (_("Pause"));
 	} else {
-		_job->pause ();
+		_job->pause_by_user ();
 		_pause->SetLabel (_("Resume"));
 	}
 }

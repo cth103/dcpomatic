@@ -52,20 +52,20 @@ JobView::setup ()
 	_table->Insert (n, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
 	++n;
 
-	wxBoxSizer* buttons = new wxBoxSizer (wxHORIZONTAL);
+	_buttons = new wxBoxSizer (wxHORIZONTAL);
 
 	_cancel = new wxButton (_container, wxID_ANY, _("Cancel"));
 	_cancel->Bind (wxEVT_BUTTON, &JobView::cancel_clicked, this);
-	buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL);
+	_buttons->Add (_cancel, 1, wxALIGN_CENTER_VERTICAL);
 
 	_details = new wxButton (_container, wxID_ANY, _("Details..."));
 	_details->Bind (wxEVT_BUTTON, &JobView::details_clicked, this);
 	_details->Enable (false);
-	buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL);
+	_buttons->Add (_details, 1, wxALIGN_CENTER_VERTICAL);
 
-	finish_setup (_container, buttons);
+	finish_setup (_container, _buttons);
 
-	_table->Insert (n, buttons, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
+	_table->Insert (n, _buttons, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
 
 	_progress_connection = _job->Progress.connect (boost::bind (&JobView::progress, this));
 	_finished_connection = _job->Finished.connect (boost::bind (&JobView::finished, this));
@@ -133,4 +133,19 @@ JobView::cancel_clicked (wxCommandEvent &)
 	if (confirm_dialog (_parent, _("Are you sure you want to cancel this job?"))) {
 		_job->cancel ();
 	}
+}
+
+void
+JobView::insert (int pos)
+{
+	_table->Insert (pos, _gauge_message, 1, wxEXPAND | wxLEFT | wxRIGHT);
+	_table->Insert (pos + 1, _buttons, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3);
+	_table->Layout ();
+}
+
+void
+JobView::detach ()
+{
+	_table->Detach (_gauge_message);
+	_table->Detach (_buttons);
 }

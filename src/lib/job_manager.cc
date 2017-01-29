@@ -210,3 +210,72 @@ JobManager::analyse_audio (
 
 	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
 }
+
+void
+JobManager::increase_priority (shared_ptr<Job> job)
+{
+	bool changed = false;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		list<shared_ptr<Job> >::iterator last = _jobs.end ();
+		for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+			if (*i == job && last != _jobs.end()) {
+				swap (*i, *last);
+				changed = true;
+				break;
+			}
+			last = i;
+		}
+	}
+
+	if (changed) {
+		priority_changed ();
+	}
+}
+
+void
+JobManager::priority_changed ()
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+
+		bool first = true;
+		BOOST_FOREACH (shared_ptr<Job> i, _jobs) {
+			if (first) {
+				if (i->is_new ()) {
+					i->start ();
+				} else if (i->paused_by_priority ()) {
+					i->resume ();
+				}
+				first = false;
+			} else {
+				if (i->running ()) {
+					i->pause_by_priority ();
+				}
+			}
+		}
+	}
+
+	emit (boost::bind (boost::ref (JobsReordered)));
+}
+
+void
+JobManager::decrease_priority (shared_ptr<Job> job)
+{
+	bool changed = false;
+
+ 	for (list<shared_ptr<Job> >::iterator i = _jobs.begin(); i != _jobs.end(); ++i) {
+		list<shared_ptr<Job> >::iterator next = i;
+		++next;
+		if (*i == job && next != _jobs.end()) {
+			swap (*i, *next);
+			changed = true;
+			break;
+		}
+	}
+
+	if (changed) {
+		priority_changed ();
+	}
+}
