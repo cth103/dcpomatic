@@ -340,7 +340,7 @@ def configure(conf):
 
     # FFmpeg
     if conf.options.static_ffmpeg:
-        names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'postproc']
+        names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'postproc', 'swresample']
         for name in names:
             static = subprocess.Popen(shlex.split('pkg-config --static --libs lib%s' % name), stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
             libs = []
@@ -369,6 +369,7 @@ def configure(conf):
         conf.check_cfg(package='libavutil', args='--cflags --libs', uselib_store='AVUTIL', mandatory=True)
         conf.check_cfg(package='libswscale', args='--cflags --libs', uselib_store='SWSCALE', mandatory=True)
         conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=True)
+        conf.check_cfg(package='libswresample', args='--cflags --libs', uselib_store='SWRESAMPLE', mandatory=True)
 
     # Check to see if we have our version of FFmpeg that allows us to get at EBUR128 results
     conf.check_cxx(fragment="""
