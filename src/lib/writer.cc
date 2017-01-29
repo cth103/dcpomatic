@@ -379,6 +379,8 @@ try
 
 			DCPOMATIC_ASSERT (i != _queue.rend());
 			++_pushed_to_disk;
+			/* For the log message below */
+			int const awaiting = _reels[_queue.front().reel].last_written_video_frame();
 			lock.unlock ();
 
 			/* i is valid here, even though we don't hold a lock on the mutex,
@@ -386,7 +388,7 @@ try
 			   thread could erase the last item in the list.
 			*/
 
-			LOG_GENERAL ("Writer full; pushes %1 to disk", i->frame);
+			LOG_GENERAL ("Writer full; pushes %1 to disk while awaiting %2", i->frame, awaiting);
 
 			i->encoded->write_via_temp (
 				_film->j2c_path (i->reel, i->frame, i->eyes, true),
