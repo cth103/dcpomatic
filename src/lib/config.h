@@ -40,6 +40,7 @@ class DCPContentType;
 class Ratio;
 class Cinema;
 class Film;
+class DKDMGroup;
 
 /** @class Config
  *  @brief A singleton class holding configuration.
@@ -281,7 +282,7 @@ public:
 		return _history;
 	}
 
-	std::vector<dcp::EncryptedKDM> dkdms () const {
+	boost::shared_ptr<DKDMGroup> dkdms () const {
 		return _dkdms;
 	}
 
@@ -546,7 +547,7 @@ public:
 	}
 #endif
 
-	void set_dkdms (std::vector<dcp::EncryptedKDM> dkdms) {
+	void set_dkdms (boost::shared_ptr<DKDMGroup> dkdms) {
 		_dkdms = dkdms;
 		changed ();
 	}
@@ -744,7 +745,7 @@ private:
 	bool _win32_console;
 #endif
 	std::vector<boost::filesystem::path> _history;
-	std::vector<dcp::EncryptedKDM> _dkdms;
+	boost::shared_ptr<DKDMGroup> _dkdms;
 	boost::filesystem::path _cinemas_file;
 	bool _show_hints_before_make_dcp;
 	bool _confirm_kdm_email;

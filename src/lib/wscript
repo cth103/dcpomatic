@@ -64,6 +64,7 @@ sources = """
           decoder_factory.cc
           decoder_part.cc
           digester.cc
+          dkdm_wrapper.cc
           dolby_cp750.cc
           emailer.cc
           encoder.cc

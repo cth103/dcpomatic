@@ -30,6 +30,7 @@
 #include "util.h"
 #include "cross.h"
 #include "film.h"
+#include "dkdm_wrapper.h"
 #include <dcp/raw_convert.h>
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
@@ -57,6 +58,7 @@ using std::exception;
 using std::cerr;
 using boost::shared_ptr;
 using boost::optional;
+using boost::dynamic_pointer_cast;
 using boost::algorithm::trim;
 using dcp::raw_convert;
 
@@ -65,6 +67,8 @@ boost::signals2::signal<void ()> Config::FailedToLoad;
 
 /** Construct default configuration */
 Config::Config ()
+        /* DKDMs are not considered a thing to reset on set_defaults() */
+	: _dkdms (new DKDMGroup ("root"))
 {
 	set_defaults ();
 }
@@ -315,11 +319,16 @@ try
 		_decryption_chain = create_certificate_chain ();
 	}
 
-	list<cxml::NodePtr> dkdm = f.node_children ("DKDM");
-	BOOST_FOREACH (cxml::NodePtr i, f.node_children ("DKDM")) {
-		_dkdms.push_back (dcp::EncryptedKDM (i->content ()));
+	if (f.optional_node_child("DKDMGroup")) {
+		/* New-style: all DKDMs in a group */
+		_dkdms = dynamic_pointer_cast<DKDMGroup> (DKDMBase::read (f.node_child("DKDMGroup")));
+	} else {
+		/* Old-style: one or more DKDM nodes */
+		_dkdms.reset (new DKDMGroup ("root"));
+		BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("DKDM")) {
+			_dkdms->add (DKDMBase::read (i));
+		}
 	}
-
 	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or (path ("cinemas.xml").string ());
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
 	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or (true);
@@ -366,7 +375,6 @@ catch (...) {
 	_decryption_chain = create_certificate_chain ();
 	write ();
 }
-
 
 /** @return Filename to write configuration to */
 boost::filesystem::path
@@ -506,9 +514,7 @@ Config::write_config () const
 		root->add_child("History")->add_child_text (i->string ());
 	}
 
-	BOOST_FOREACH (dcp::EncryptedKDM i, _dkdms) {
-		root->add_child("DKDM")->add_child_text (i.as_xml ());
-	}
+	_dkdms->as_xml (root);
 
 	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
 	root->add_child("ShowHintsBeforeMakeDCP")->add_child_text (_show_hints_before_make_dcp ? "1" : "0");

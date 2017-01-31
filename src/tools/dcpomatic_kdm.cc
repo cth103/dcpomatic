@@ -29,6 +29,7 @@
 #include "wx/kdm_output_panel.h"
 #include "wx/job_view_dialog.h"
 #include "wx/file_dialog_wrapper.h"
+#include "wx/new_dkdm_folder_dialog.h"
 #include "wx/editable_list.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -40,6 +41,7 @@
 #include "lib/send_kdm_email_job.h"
 #include "lib/compose.hpp"
 #include "lib/cinema.h"
+#include "lib/dkdm_wrapper.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -61,41 +63,16 @@ using std::list;
 using std::string;
 using std::vector;
 using std::pair;
+using std::map;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
 using boost::ref;
+using boost::dynamic_pointer_cast;
 
 enum {
 	ID_help_report_a_problem = 1,
 };
-
-class KDMFileDialogWrapper : public FileDialogWrapper<dcp::EncryptedKDM>
-{
-public:
-	KDMFileDialogWrapper (wxWindow* parent)
-		: FileDialogWrapper<dcp::EncryptedKDM> (parent, _("Select DKDM file"))
-	{
-
-	}
-
-	optional<dcp::EncryptedKDM> get ()
-	{
-		try {
-			return dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (_dialog->GetPath ()), MAX_KDM_SIZE));
-		} catch (cxml::Error& e) {
-			error_dialog (_parent, wxString::Format ("This file does not look like a KDM (%s)", std_to_wx (e.what()).data()));
-		}
-
-		return optional<dcp::EncryptedKDM> ();
-	}
-};
-
-static string
-column (dcp::EncryptedKDM k)
-{
-	return String::compose ("%1 (%2)", k.content_title_text(), k.cpl_id());
-}
 
 class DOMFrame : public wxFrame
 {
@@ -166,13 +143,23 @@ public:
 		h = new wxStaticText (overall_panel, wxID_ANY, _("DKDM"));
 		h->SetFont (subheading_font);
 		right->Add (h, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		wxBoxSizer* dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_dkdm = new wxTreeCtrl (
+			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT
+		);
+		dkdm_sizer->Add (_dkdm, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+		wxBoxSizer* dkdm_buttons = new wxBoxSizer(wxVERTICAL);
+		_add_dkdm = new wxButton (overall_panel, wxID_ANY, _("Add..."));
+		dkdm_buttons->Add (_add_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		_add_dkdm_folder = new wxButton (overall_panel, wxID_ANY, _("Add folder..."));
+		dkdm_buttons->Add (_add_dkdm_folder, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		_remove_dkdm = new wxButton (overall_panel, wxID_ANY, _("Remove"));
+		dkdm_buttons->Add (_remove_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		right->Add (dkdm_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		vector<string> columns;
-		columns.push_back (wx_to_std (_("CPL")));
-		_dkdm = new EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper> (
-			overall_panel, columns, bind (&DOMFrame::dkdms, this), bind (&DOMFrame::set_dkdms, this, _1), bind (&column, _1), false
-			);
-		right->Add (_dkdm, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+		_dkdm_id[_dkdm->AddRoot("root")] = Config::instance()->dkdms();
+		add_dkdm_view (Config::instance()->dkdms(), shared_ptr<DKDMGroup> ());
 
 		h = new wxStaticText (overall_panel, wxID_ANY, _("Output"));
 		h->SetFont (subheading_font);
@@ -192,22 +179,15 @@ public:
 
 		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
 		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
-		_dkdm->SelectionChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
+		_dkdm->Bind (wxEVT_TREE_SEL_CHANGED, boost::bind (&DOMFrame::setup_sensitivity, this));
+		_add_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_clicked, this));
+		_add_dkdm_folder->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_folder_clicked, this));
+		_remove_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::remove_dkdm_clicked, this));
 
 		setup_sensitivity ();
 	}
 
 private:
-	vector<dcp::EncryptedKDM> dkdms () const
-	{
-		return Config::instance()->dkdms ();
-	}
-
-	void set_dkdms (vector<dcp::EncryptedKDM> dkdms)
-	{
-		Config::instance()->set_dkdms (dkdms);
-	}
-
 	void file_exit ()
 	{
 		/* false here allows the close handler to veto the close request */
@@ -278,15 +258,44 @@ private:
 			);
 	}
 
+	/** @id if not 0 this is filled in with the wxTreeItemId of the selection */
+	shared_ptr<DKDMBase> selected_dkdm (wxTreeItemId* id = 0) const
+	{
+		wxArrayTreeItemIds selections;
+		_dkdm->GetSelections (selections);
+		if (selections.GetCount() != 1) {
+			if (id) {
+				*id = 0;
+			}
+			return shared_ptr<DKDMBase> ();
+		}
+
+		if (id) {
+			*id = selections[0];
+		}
+
+		DKDMMap::const_iterator i = _dkdm_id.find (selections[0]);
+		if (i == _dkdm_id.end()) {
+			return shared_ptr<DKDMBase> ();
+		}
+
+		return i->second;
+	}
+
 	void create_kdms ()
 	{
 		try {
-			if (!_dkdm->selection()) {
+			shared_ptr<DKDMBase> dkdm_base = selected_dkdm ();
+			if (!dkdm_base) {
+				return;
+			}
+			shared_ptr<DKDM> dkdm = boost::dynamic_pointer_cast<DKDM> (dkdm_base);
+			if (!dkdm) {
 				return;
 			}
 
 			/* Decrypt the DKDM */
-			dcp::DecryptedKDM decrypted (_dkdm->selection().get(), Config::instance()->decryption_chain()->key().get());
+			dcp::DecryptedKDM decrypted (dkdm->dkdm(), Config::instance()->decryption_chain()->key().get());
 
 			/* This is the signer for our new KDMs */
 			shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
@@ -354,13 +363,105 @@ private:
 	{
 		_screens->setup_sensitivity ();
 		_output->setup_sensitivity ();
-		_create->Enable (!_screens->screens().empty() && _dkdm->selection());
+		wxArrayTreeItemIds sel;
+		_dkdm->GetSelections (sel);
+		_create->Enable (!_screens->screens().empty() && sel.GetCount() > 0);
+	}
+
+	void add_dkdm_clicked ()
+	{
+		wxFileDialog* d = new wxFileDialog (this, _("Select DKDM file"));
+		if (d->ShowModal() == wxID_OK) {
+			shared_ptr<DKDMBase> new_dkdm (new DKDM (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE))));
+			shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+			if (!group) {
+				group = Config::instance()->dkdms ();
+			}
+			add_dkdm_model (new_dkdm, group);
+			add_dkdm_view (new_dkdm, group);
+		}
+		d->Destroy ();
+	}
+
+	void add_dkdm_folder_clicked ()
+	{
+		NewDKDMFolderDialog* d = new NewDKDMFolderDialog (this);
+		if (d->ShowModal() == wxID_OK) {
+			shared_ptr<DKDMBase> new_dkdm (new DKDMGroup (wx_to_std (d->get ())));
+			shared_ptr<DKDMGroup> parent = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+			if (!parent) {
+				parent = Config::instance()->dkdms ();
+			}
+			add_dkdm_model (new_dkdm, parent);
+			add_dkdm_view (new_dkdm, parent);
+		}
+		d->Destroy ();
+	}
+
+	/** @param dkdm Thing to add.
+	 *  @param parent Parent group, or 0.
+	 */
+	void add_dkdm_view (shared_ptr<DKDMBase> base, shared_ptr<DKDMGroup> parent)
+	{
+		if (!parent) {
+			/* This is the root group */
+			_dkdm_id[_dkdm->AddRoot("root")] = base;
+		} else {
+			/* Add base to the view */
+			_dkdm_id[_dkdm->AppendItem(dkdm_to_id(parent), std_to_wx(base->name()))] = base;
+		}
+
+		/* Add children */
+		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup> (base);
+		if (g) {
+			BOOST_FOREACH (shared_ptr<DKDMBase> i, g->children()) {
+				add_dkdm_view (i, g);
+			}
+		}
+	}
+
+	/** @param group Group to add dkdm to */
+	void add_dkdm_model (shared_ptr<DKDMBase> dkdm, shared_ptr<DKDMGroup> group)
+	{
+		group->add (dkdm);
+		/* We're messing with a Config-owned object here, so tell it that something has changed.
+		   This isn't nice.
+		*/
+		Config::instance()->changed ();
+	}
+
+	wxTreeItemId dkdm_to_id (shared_ptr<DKDMBase> dkdm)
+	{
+		for (DKDMMap::iterator i = _dkdm_id.begin(); i != _dkdm_id.end(); ++i) {
+			if (i->second == dkdm) {
+				return i->first;
+			}
+		}
+		DCPOMATIC_ASSERT (false);
+	}
+
+	void remove_dkdm_clicked ()
+	{
+		shared_ptr<DKDMBase> removed = selected_dkdm ();
+		if (!removed) {
+			return;
+		}
+
+		_dkdm->Delete (dkdm_to_id (removed));
+		shared_ptr<DKDMGroup> dkdms = Config::instance()->dkdms ();
+		dkdms->remove (removed);
+		Config::instance()->changed ();
 	}
 
 	wxPreferencesEditor* _config_dialog;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
-	EditableList<dcp::EncryptedKDM, KDMFileDialogWrapper>* _dkdm;
+	wxTreeCtrl* _dkdm;
+	typedef std::map<wxTreeItemId, boost::shared_ptr<DKDMBase> > DKDMMap;
+	DKDMMap _dkdm_id;
+	wxButton* _add_dkdm;
+	wxButton* _add_dkdm_folder;
+	wxButton* _remove_dkdm;
 	wxButton* _create;
 	KDMOutputPanel* _output;
 	JobViewDialog* _job_view;

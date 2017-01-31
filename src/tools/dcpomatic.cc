@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -66,6 +66,7 @@
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_encoder.h"
 #include "lib/transcode_job.h"
+#include "lib/dkdm_wrapper.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -690,9 +691,9 @@ private:
 
 		if (kdm) {
 			if (d->internal ()) {
-				vector<dcp::EncryptedKDM> dkdms = Config::instance()->dkdms ();
-				dkdms.push_back (kdm.get());
-				Config::instance()->set_dkdms (dkdms);
+				shared_ptr<DKDMGroup> dkdms = Config::instance()->dkdms ();
+				dkdms->add (shared_ptr<DKDM> (new DKDM (kdm.get())));
+				Config::instance()->changed ();
 			} else {
 				boost::filesystem::path path = d->directory() / (_film->dcp_name(false) + "_DKDM.xml");
 				kdm->as_xml (path);
