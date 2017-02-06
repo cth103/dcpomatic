@@ -33,6 +33,7 @@ JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wx
 	, _table (table)
 	, _parent (parent)
 	, _container (container)
+	, _gauge (0)
 {
 
 }
@@ -78,7 +79,7 @@ JobView::setup ()
 void
 JobView::maybe_pulse ()
 {
-	if (_job->running() && !_job->progress ()) {
+	if (_gauge && _job->running() && !_job->progress()) {
 		_gauge->Pulse ();
 	}
 }

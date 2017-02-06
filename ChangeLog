@@ -1,3 +1,8 @@
+2017-02-06  Carl Hetherington  <cth@carlh.net>
+
+	* Fix display of progress meter (and crash) when sending emails
+	from the KDM creator (#1045).
+
 2017-01-28  Carl Hetherington  <cth@carlh.net>
 
 	* Add priority control buttons to batch converter (#961).

@@ -20,6 +20,7 @@
 
 #include "table_dialog.h"
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 
 class JobView;
 class Job;
@@ -34,5 +35,6 @@ private:
 	void periodic ();
 
 	JobView* _view;
+	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<wxTimer> _timer;
 };
