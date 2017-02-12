@@ -102,6 +102,7 @@ def build(bld):
                  video_decoder_fill_test.cc
                  video_frame_test.cc
                  video_mxf_content_test.cc
+                 vf_kdm_test.cc
                  """
 
     # Disabled tests: some difference in font rendering between the test machine
