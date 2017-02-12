@@ -1,5 +1,7 @@
 2017-02-12  Carl Hetherington  <cth@carlh.net>
 
+	* Use CPL's annotation text for ASSETMAP and PKL (#1048).
+
 	* Fix missing keys in VF KDMs (#975).
 
 2017-02-10  Carl Hetherington  <cth@carlh.net>

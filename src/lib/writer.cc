@@ -496,6 +496,7 @@ Writer::finish ()
 	}
 
 	dcp::XMLMetadata meta;
+	meta.annotation_text = cpl->annotation_text ();
 	meta.creator = Config::instance()->dcp_creator ();
 	if (meta.creator.empty ()) {
 		meta.creator = String::compose ("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
