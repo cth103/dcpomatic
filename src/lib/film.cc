@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -57,6 +57,8 @@
 #include <dcp/local_time.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/raw_convert.h>
+#include <dcp/reel_mxf.h>
+#include <dcp/reel_asset.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
@@ -83,6 +85,9 @@ using std::cout;
 using std::list;
 using std::set;
 using std::runtime_error;
+using std::copy;
+using std::back_inserter;
+using std::map;
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
@@ -1232,8 +1237,42 @@ Film::make_kdm (
 		throw InvalidSignerError ();
 	}
 
+	/* Find keys that have been added to imported, encrypted DCP content */
+	list<dcp::DecryptedKDMKey> imported_keys;
+	BOOST_FOREACH (shared_ptr<Content> i, content()) {
+		shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (i);
+		if (d && d->kdm()) {
+			dcp::DecryptedKDM kdm (d->kdm().get(), Config::instance()->decryption_chain()->key().get());
+			list<dcp::DecryptedKDMKey> keys = kdm.keys ();
+			copy (keys.begin(), keys.end(), back_inserter (imported_keys));
+		}
+	}
+
+	map<shared_ptr<const dcp::ReelMXF>, dcp::Key> keys;
+
+	BOOST_FOREACH(shared_ptr<const dcp::ReelAsset> i, cpl->reel_assets ()) {
+		shared_ptr<const dcp::ReelMXF> mxf = boost::dynamic_pointer_cast<const dcp::ReelMXF> (i);
+		if (!mxf || !mxf->key_id()) {
+			continue;
+		}
+
+		/* Get any imported key for this ID */
+		bool done = false;
+		BOOST_FOREACH (dcp::DecryptedKDMKey j, imported_keys) {
+			if (j.id() == mxf->key_id().get()) {
+				keys[mxf] = j.key();
+				done = true;
+			}
+		}
+
+		if (!done) {
+			/* No imported key; it must be an asset that we encrypted */
+			keys[mxf] = key();
+		}
+	}
+
 	return dcp::DecryptedKDM (
-		cpl, key(), from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
+		cpl->id(), keys, from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
 		).encrypt (signer, recipient, trusted_devices, formulation);
 }
 
