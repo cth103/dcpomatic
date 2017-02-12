@@ -33,9 +33,10 @@
 using std::vector;
 using boost::shared_ptr;
 
-/** Make an encrypted DCP, import it and make a new unencrypted DCP */
 BOOST_AUTO_TEST_CASE (vf_kdm_test)
 {
+	/* Make an encrypted DCP from test.mp4 */
+
 	shared_ptr<Film> A = new_test_film ("vf_kdm_test_ov");
 	A->set_container (Ratio::from_id ("185"));
 	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
@@ -48,12 +49,30 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	A->make_dcp ();
 	wait_for_jobs ();
 
+	dcp::DCP A_dcp ("build/test/vf_kdm_test_ov/" + A->dcp_name());
+	A_dcp.read ();
+
+	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
+
+	dcp::EncryptedKDM A_kdm = A->make_kdm (
+		Config::instance()->decryption_chain()->leaf (),
+		vector<dcp::Certificate> (),
+		A_dcp.cpls().front()->file().get(),
+		dcp::LocalTime ("2014-07-21T00:00:00+00:00"),
+		dcp::LocalTime ("2024-07-21T00:00:00+00:00"),
+		dcp::MODIFIED_TRANSITIONAL_1
+		);
+
+	/* Import A into a new project, with the required KDM, and make a VF that refers to it */
+
 	shared_ptr<Film> B = new_test_film ("vf_kdm_test_vf");
 	B->set_container (Ratio::from_id ("185"));
 	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	B->set_name ("frobozz");
 
 	shared_ptr<DCPContent> d (new DCPContent (B, "build/test/vf_kdm_test_ov/" + A->dcp_name()));
+	d->add_kdm (A_kdm);
+	d->set_reference_video (true);
 	B->examine_and_add_content (d);
 	B->set_encrypted (true);
 	wait_for_jobs ();
@@ -63,9 +82,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	dcp::DCP B_dcp ("build/test/vf_kdm_test_vf/" + B->dcp_name());
 	B_dcp.read ();
 
-	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
-
-	dcp::EncryptedKDM kdm = B->make_kdm (
+	dcp::EncryptedKDM B_kdm = B->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
 		vector<dcp::Certificate> (),
 		B_dcp.cpls().front()->file().get(),
@@ -74,13 +91,18 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 		dcp::MODIFIED_TRANSITIONAL_1
 		);
 
+	/* Import the OV and VF into a new project with the KDM that was created for the VF.
+	   This KDM should decrypt assets from the OV too.
+	*/
+
 	shared_ptr<Film> C = new_test_film ("vf_kdm_test_check");
-	B->set_container (Ratio::from_id ("185"));
-	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	B->set_name ("frobozz");
+	C->set_container (Ratio::from_id ("185"));
+	C->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	C->set_name ("frobozz");
 
 	shared_ptr<DCPContent> e (new DCPContent (C, "build/test/vf_kdm_test_vf/" + B->dcp_name()));
-	e->add_kdm (kdm);
+	e->add_kdm (B_kdm);
+	e->add_ov ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	C->examine_and_add_content (e);
 	wait_for_jobs ();
 	C->make_dcp ();
