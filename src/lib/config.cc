@@ -32,7 +32,6 @@
 #include "film.h"
 #include <dcp/raw_convert.h>
 #include <dcp/name_format.h>
-#include <dcp/colour_matrix.h>
 #include <dcp/certificate_chain.h>
 #include <libcxml/cxml.h>
 #include <glib.h>

@@ -32,7 +32,6 @@
 #include "log.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
-#include <dcp/colour_matrix.h>
 #include <libxml++/libxml++.h>
 #include <iomanip>
 #include <iostream>

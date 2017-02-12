@@ -24,7 +24,6 @@
 
 #include "lib/colour_conversion.h"
 #include "lib/film.h"
-#include <dcp/colour_matrix.h>
 #include <dcp/gamma_transfer_function.h>
 #include <libxml++/libxml++.h>
 #include <boost/test/unit_test.hpp>

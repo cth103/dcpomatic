@@ -24,7 +24,6 @@
 #include "digester.h"
 #include <dcp/raw_convert.h>
 #include <dcp/chromaticity.h>
-#include <dcp/colour_matrix.h>
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <dcp/identity_transfer_function.h>
