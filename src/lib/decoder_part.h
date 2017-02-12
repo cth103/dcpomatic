@@ -31,6 +31,7 @@ class DecoderPart
 {
 public:
 	DecoderPart (Decoder* parent, boost::shared_ptr<Log> log);
+	virtual DecoderPart () {}
 
 	void set_ignore () {
 		_ignore = true;
