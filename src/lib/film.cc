@@ -1260,6 +1260,7 @@ Film::make_kdm (
 		bool done = false;
 		BOOST_FOREACH (dcp::DecryptedKDMKey j, imported_keys) {
 			if (j.id() == mxf->key_id().get()) {
+				LOG_GENERAL ("Using imported key for %1", mxf->key_id().get());
 				keys[mxf] = j.key();
 				done = true;
 			}
@@ -1267,6 +1268,7 @@ Film::make_kdm (
 
 		if (!done) {
 			/* No imported key; it must be an asset that we encrypted */
+			LOG_GENERAL ("Using our own key for %1", mxf->key_id().get());
 			keys[mxf] = key();
 		}
 	}
