@@ -130,8 +130,10 @@ private:
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	bool _play_referenced;
 
+	/** Last PlayerVideo that was emitted */
 	boost::shared_ptr<PlayerVideo> _last_video;
-	boost::optional<DCPTime> _last_video_time;
+	/** Time of the last thing we emitted, or the last seek time */
+	boost::optional<DCPTime> _last_time;
 
 	AudioMerger _audio_merger;
 	DCPTime _last_audio_time;

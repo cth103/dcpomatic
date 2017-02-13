@@ -521,7 +521,6 @@ Player::pass ()
 		return true;
 	}
 
-	cout << "Pass " << earliest->content->path(0) << "\n";
 	earliest->decoder->pass ();
 
 	/* Emit any audio that is ready */
@@ -587,8 +586,10 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	/* Fill gaps */
 
-	if (_last_video_time) {
-		for (DCPTime i = _last_video_time.get(); i < time; i += DCPTime::from_frames (1, _film->video_frame_rate())) {
+	if (_last_time) {
+		/* XXX: this may not work for 3D */
+		DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate());
+		for (DCPTime i = _last_time.get() + frame; i < time; i += frame) {
 			if (_playlist->video_content_at(i) && _last_video) {
 				Video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), i);
 			} else {
@@ -616,10 +617,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		_last_video->set_subtitle (subtitles.get ());
 	}
 
-	_last_video_time = time;
+	_last_time = time;
 
-	cout << "Video @ " << to_string(_last_video_time.get()) << "\n";
-	Video (_last_video, *_last_video_time);
+	Video (_last_video, *_last_time);
 
 	/* Discard any subtitles we no longer need */
 
@@ -772,8 +772,8 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	if (accurate) {
-		_last_video_time = time - DCPTime::from_frames (1, _film->video_frame_rate ());
+		_last_time = time - DCPTime::from_frames (1, _film->video_frame_rate ());
 	} else {
-		_last_video_time = optional<DCPTime> ();
+		_last_time = optional<DCPTime> ();
 	}
 }
