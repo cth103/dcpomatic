@@ -200,6 +200,8 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	/* Output transfer function */
 
+	subhead (table, this, _("Output gamma correction"), r);
+
 	_output = new wxCheckBox (this, wxID_ANY, _("Inverse 2.6 gamma correction on output"));
 	table->Add (_output, wxGBPosition (r, 0), wxGBSpan (1, 2));
 
