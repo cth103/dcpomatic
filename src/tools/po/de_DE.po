@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-10-29 03:23+0100\n"
+"PO-Revision-Date: 2017-02-14 15:16+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -232,11 +232,9 @@ msgid "Encoding servers..."
 msgstr "Encoding Server..."
 
 #: src/tools/dcpomatic_kdm.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
-"Der Ordner %s existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
-"benutzen ?"
+msgstr "Die Datei %s existiert bereits. Überschreiben ?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.

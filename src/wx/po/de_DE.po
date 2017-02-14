@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 16:15+0000\n"
-"PO-Revision-Date: 2016-10-26 12:58+0100\n"
+"PO-Revision-Date: 2017-02-14 15:40+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -544,9 +544,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Standard JPEG2000 Datenrate"
 
 #: src/wx/config_dialog.cc:463
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Standard 'creator' (DCI)"
+msgstr "Standard Zielverzeichnis für KDM-Speicherung"
 
 #: src/wx/config_dialog.cc:451
 msgid "Default audio delay"
@@ -729,7 +728,7 @@ msgstr "Ausblenden"
 
 #: src/wx/kdm_dialog.cc:132
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Die Datei %s existiert bereits. Überschreiben?"
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"
@@ -815,12 +814,11 @@ msgstr "Abschwächung des Kanals %d im DCP Kanal %d"
 
 #: src/wx/colour_conversion_editor.cc:60
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Gamma, linearised for small values"
-msgstr "Linearisiere Eingangs Gamma für niedrige Helligkeitswerte"
+msgstr "Lineares Eingangs-Gamma für niedrige Helligkeitswerte"
 
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
@@ -901,7 +899,7 @@ msgstr "Eingangswert"
 
 #: src/wx/colour_conversion_editor.cc:58
 msgid "Input transfer function"
-msgstr ""
+msgstr "Eingangs-Transferfunktion"
 
 #: src/wx/audio_dialog.cc:351
 #, c-format
@@ -922,9 +920,8 @@ msgid "Interop"
 msgstr "Interop"
 
 #: src/wx/colour_conversion_editor.cc:203
-#, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
-msgstr "Eingangs-Gamma Korrektur:"
+msgstr "Inverse (2.6) Ausgangs-Gammakorrektur"
 
 #: src/wx/config_dialog.cc:227
 msgid "Issuer"
@@ -1109,7 +1106,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1396,7 +1394,7 @@ msgstr "Auflösung"
 
 #: src/wx/image_subtitle_colour_dialog.cc:70
 msgid "Restore to original colours"
-msgstr ""
+msgstr "Originalfarben wiederherstellen"
 
 #: src/wx/normal_job_view.cc:56
 msgid "Resume"
@@ -1424,7 +1422,7 @@ msgstr "Root common name"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/config_dialog.cc:1168
 msgid "SCP (for AAM and Doremi)"
@@ -1978,6 +1976,8 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"Dieser Saal/Leinwandname '%s'  existiert bereits in diesem Kino. Alle "
+"Einträge innerhalb eines Kinos müssen eindeutig sein."
 
 #: src/wx/screens_panel.cc:258
 #, c-format
@@ -1985,6 +1985,9 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
+"Sie können diesen Saal/Leinwandnamen nicht in '%s'  umbenennen - er "
+"existiert bereits in diesem Kino. Alle Einträge innerhalb eines Kinos müssen "
+"eindeutig sein."
 
 #: src/wx/report_problem_dialog.cc:66
 msgid "Your email address"
