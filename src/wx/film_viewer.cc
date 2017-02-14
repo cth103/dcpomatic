@@ -570,6 +570,10 @@ FilmViewer::jump_to_selected_clicked ()
 void
 FilmViewer::seek (DCPTime t, bool accurate)
 {
+	if (!_player) {
+		return;
+	}
+
 	_player->seek (t, accurate);
 	_last_seek_accurate = accurate;
 	get ();
