@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 00:11+0000\n"
-"PO-Revision-Date: 2016-12-17 01:06+0100\n"
+"PO-Revision-Date: 2017-02-15 04:45+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:73 src/wx/subtitle_panel.cc:83
@@ -25,12 +25,11 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:42 src/wx/file_picker_ctrl.cc:58
@@ -845,7 +844,7 @@ msgstr "Groen-chromaticiteit"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher prioirity"
-msgstr ""
+msgstr "Hogere prioriteit"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -1020,7 +1019,7 @@ msgstr "Luidheidbereik %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
 msgid "Lower prioirity"
-msgstr ""
+msgstr "Lagere prioriteit"
 
 #: src/wx/content_panel.cc:528
 msgid "MISSING: "
@@ -1210,9 +1209,8 @@ msgid "Output"
 msgstr "Output"
 
 #: src/wx/colour_conversion_editor.cc:203
-#, fuzzy
 msgid "Output gamma correction"
-msgstr "Input-gammacorrectie"
+msgstr "Output-gammacorrectie"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1555,14 +1553,12 @@ msgid "Signing DCPs and KDMs"
 msgstr "Ondertekenen van DCP's en KDM's"
 
 #: src/wx/colour_conversion_editor.cc:60
-#, fuzzy
 msgid "Simple gamma"
-msgstr "Input-gamma"
+msgstr "Eenvoudige gamma"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Simple gamma, linearised for small values"
-msgstr "Gamma, gelineariseerd voor kleine waarden"
+msgstr "Eenvoudige gamma, gelineariseerd voor kleine waarden"
 
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
@@ -2064,6 +2060,3 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
-
-#~ msgid "Gamma"
-#~ msgstr "Gamma"

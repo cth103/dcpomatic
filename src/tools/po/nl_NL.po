@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 00:11+0000\n"
-"PO-Revision-Date: 2016-12-17 00:47+0100\n"
+"PO-Revision-Date: 2017-02-15 04:23+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:380
@@ -35,9 +35,8 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDM's weggeschreven naar %s"
 
 #: src/tools/dcpomatic_batch.cc:62
-#, fuzzy
 msgid "&Add Film...\tCtrl-A"
-msgstr "&Voeg film toe..."
+msgstr "&Voeg film toe...\tCtrl-A"
 
 #: src/tools/dcpomatic.cc:922
 msgid "&Content"
@@ -177,9 +176,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Kan film %1 niet laden (%2)"
 
 #: src/tools/dcpomatic.cc:510
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s."
-msgstr "Kan DCP niet maken: %s"
+msgstr "Kan DCP niet maken: %s."
 
 #: src/tools/dcpomatic.cc:327 src/tools/dcpomatic_batch.cc:139
 #, c-format
