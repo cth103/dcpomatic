@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 16:15+0000\n"
+"POT-Creation-Date: 2017-02-15 00:11+0000\n"
 "PO-Revision-Date: 2017-01-18 12:37+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -22,8 +22,9 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "© 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
@@ -219,7 +220,7 @@ msgstr "Виникла невідома помилка."
 msgid "Appearance..."
 msgstr "Зовнішній вигляд..."
 
-#: src/wx/job_view.cc:133
+#: src/wx/job_view.cc:134
 msgid "Are you sure you want to cancel this job?"
 msgstr "Ви точно хочете відмінити цю задачу?"
 
@@ -325,7 +326,7 @@ msgstr "Зміст CPL-файлу не зашифрований."
 msgid "Calculate..."
 msgstr "Прорахувати..."
 
-#: src/wx/job_view.cc:57
+#: src/wx/job_view.cc:58
 msgid "Cancel"
 msgstr "Відміна"
 
@@ -361,7 +362,7 @@ msgstr "Перевіряти оновлення при запуску"
 msgid "Choose CPL..."
 msgstr "Выберіть CPL..."
 
-#: src/wx/content_menu.cc:296
+#: src/wx/content_menu.cc:294
 msgid "Choose a file"
 msgstr "Обрати файл"
 
@@ -369,7 +370,7 @@ msgstr "Обрати файл"
 msgid "Choose a file or files"
 msgstr "Обрати файл або файли"
 
-#: src/wx/content_menu.cc:291 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Обрати папку"
 
@@ -455,7 +456,7 @@ msgstr "Не вдалося проаналізувати аудіо."
 msgid "Could not get video for view (%s)"
 msgstr "Не вдалося отримати попередній перегляд видео (%s)"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:374
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Не вдалося завантажити KDM (%s)"
@@ -573,7 +574,7 @@ msgstr "Стандартні"
 msgid "Delay"
 msgstr "Затримка"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Деталі..."
 
@@ -808,14 +809,6 @@ msgstr "Калькулятор посилення"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Посилення для каналу %d контенту у каналі %d DCP"
 
-#: src/wx/colour_conversion_editor.cc:60
-msgid "Gamma"
-msgstr "Гамма"
-
-#: src/wx/colour_conversion_editor.cc:61
-msgid "Gamma, linearised for small values"
-msgstr "Гамма, вирівняна для малих значень"
-
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Основні"
@@ -844,6 +837,10 @@ msgstr "Перейти до таймкоду"
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Green chromaticity"
 msgstr "Зелена кольоровість"
+
+#: src/wx/batch_job_view.cc:44
+msgid "Higher prioirity"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -914,7 +911,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Корекція інверсії 2.6 гаммі на виході"
 
@@ -1016,7 +1013,11 @@ msgstr "Лог"
 msgid "Loudness range %.2f LU"
 msgstr "Діапазон гучності %.2f LU"
 
-#: src/wx/content_panel.cc:526
+#: src/wx/batch_job_view.cc:47
+msgid "Lower prioirity"
+msgstr ""
+
+#: src/wx/content_panel.cc:528
 msgid "MISSING: "
 msgstr "ВІДСУТНЄ:"
 
@@ -1093,11 +1094,11 @@ msgstr "Мої документи"
 msgid "My problem is"
 msgstr "Моя проблема"
 
-#: src/wx/content_panel.cc:530
+#: src/wx/content_panel.cc:532
 msgid "NEEDS KDM: "
 msgstr "НЕОБХІДНИЙ KDM:"
 
-#: src/wx/content_panel.cc:534
+#: src/wx/content_panel.cc:536
 msgid "NEEDS OV: "
 msgstr "НЕОБХІДНИЙ OV:"
 
@@ -1200,6 +1201,11 @@ msgstr "Ширина обводки може бути встановлена т�
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Вивід"
+
+#: src/wx/colour_conversion_editor.cc:203
+#, fuzzy
+msgid "Output gamma correction"
+msgstr "Корекція вхідної гамми"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1459,7 +1465,7 @@ msgstr "Оберіть Файл Сертификату"
 msgid "Select Chain File"
 msgstr "Оберіть файл ланцюга"
 
-#: src/wx/content_menu.cc:366
+#: src/wx/content_menu.cc:368
 msgid "Select KDM"
 msgstr "Оберіть KDM"
 
@@ -1467,7 +1473,7 @@ msgstr "Оберіть KDM"
 msgid "Select Key File"
 msgstr "Оберіть файл ключа"
 
-#: src/wx/content_menu.cc:392
+#: src/wx/content_menu.cc:394
 msgid "Select OV"
 msgstr "Оберіть OV"
 
@@ -1539,6 +1545,16 @@ msgstr "Підписаний"
 msgid "Signing DCPs and KDMs"
 msgstr "Підпис DCP та KDM:"
 
+#: src/wx/colour_conversion_editor.cc:60
+#, fuzzy
+msgid "Simple gamma"
+msgstr "Вхідна гамма"
+
+#: src/wx/colour_conversion_editor.cc:61
+#, fuzzy
+msgid "Simple gamma, linearised for small values"
+msgstr "Гамма, вирівняна для малих значень"
+
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Одна бобіна"
@@ -1604,7 +1620,7 @@ msgstr "Кольори субтитрів"
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/wx/about_dialog.cc:284
+#: src/wx/about_dialog.cc:288
 msgid "Supported by"
 msgstr "Фінансова підтримка"
 
@@ -1644,7 +1660,7 @@ msgstr "Територія (напр. RU)"
 msgid "Test version "
 msgstr "Тестова версія"
 
-#: src/wx/about_dialog.cc:341
+#: src/wx/about_dialog.cc:345
 msgid "Tested by"
 msgstr "Тестування"
 
@@ -1652,7 +1668,7 @@ msgstr "Тестування"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Час \"до\" має бути після часу \"від\"."
 
-#: src/wx/content_menu.cc:352
+#: src/wx/content_menu.cc:354
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1919,7 +1935,7 @@ msgstr "Біла точка"
 msgid "White point adjustment"
 msgstr "Регулювання білої точки"
 
-#: src/wx/about_dialog.cc:134
+#: src/wx/about_dialog.cc:135
 msgid "With help from"
 msgstr "Допомога у розробці"
 
@@ -2038,6 +2054,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#~ msgid "Gamma"
+#~ msgstr "Гамма"
 
 #~ msgid "Contact email"
 #~ msgstr "Контактний email"

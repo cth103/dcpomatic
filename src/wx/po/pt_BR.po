@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 16:15+0000\n"
+"POT-Creation-Date: 2017-02-15 00:11+0000\n"
 "PO-Revision-Date: 2016-06-20 01:15-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,8 +24,9 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
@@ -225,7 +226,7 @@ msgstr ""
 msgid "Appearance..."
 msgstr "Aparência..."
 
-#: src/wx/job_view.cc:133
+#: src/wx/job_view.cc:134
 msgid "Are you sure you want to cancel this job?"
 msgstr ""
 
@@ -330,7 +331,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Calcular..."
 
-#: src/wx/job_view.cc:57
+#: src/wx/job_view.cc:58
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -366,7 +367,7 @@ msgstr "Verificar updates ao inicializar"
 msgid "Choose CPL..."
 msgstr ""
 
-#: src/wx/content_menu.cc:296
+#: src/wx/content_menu.cc:294
 msgid "Choose a file"
 msgstr "Escolher um arquivo"
 
@@ -374,7 +375,7 @@ msgstr "Escolher um arquivo"
 msgid "Choose a file or files"
 msgstr "Escolher um arquivo ou arquivos"
 
-#: src/wx/content_menu.cc:291 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Escolher uma pasta"
 
@@ -460,7 +461,7 @@ msgstr "Impossível analisar áudio"
 msgid "Could not get video for view (%s)"
 msgstr "Impossível conseguir vídeo para exibição (%s)"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:374
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Impossível carregar KDM (%s)"
@@ -579,7 +580,7 @@ msgstr "Padrões"
 msgid "Delay"
 msgstr "Atraso"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Detalhes..."
 
@@ -815,15 +816,6 @@ msgstr "Calculador de ganho"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Ganho para canal %d do conteúdo no canal %d do DCP"
 
-#: src/wx/colour_conversion_editor.cc:60
-msgid "Gamma"
-msgstr ""
-
-#: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
-msgid "Gamma, linearised for small values"
-msgstr "Linearizar gama de entrada para valores pequenos"
-
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Geral"
@@ -853,6 +845,10 @@ msgstr ""
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Green chromaticity"
 msgstr "Cromaticidade verde"
+
+#: src/wx/batch_job_view.cc:44
+msgid "Higher prioirity"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -924,7 +920,7 @@ msgstr "Nome comum intermediário"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 #, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Correção do gama de entrada"
@@ -1026,7 +1022,11 @@ msgstr "Log"
 msgid "Loudness range %.2f LU"
 msgstr "Faixa de amplitude %.2f LU"
 
-#: src/wx/content_panel.cc:526
+#: src/wx/batch_job_view.cc:47
+msgid "Lower prioirity"
+msgstr ""
+
+#: src/wx/content_panel.cc:528
 msgid "MISSING: "
 msgstr "FALTANTE:"
 
@@ -1104,11 +1104,11 @@ msgstr "Meus Documentos"
 msgid "My problem is"
 msgstr "Meu problema é"
 
-#: src/wx/content_panel.cc:530
+#: src/wx/content_panel.cc:532
 msgid "NEEDS KDM: "
 msgstr "PRECISA DE KDM:"
 
-#: src/wx/content_panel.cc:534
+#: src/wx/content_panel.cc:536
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "PRECISA DE KDM:"
@@ -1214,6 +1214,11 @@ msgstr ""
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Saída"
+
+#: src/wx/colour_conversion_editor.cc:203
+#, fuzzy
+msgid "Output gamma correction"
+msgstr "Correção do gama de entrada"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1477,7 +1482,7 @@ msgstr "Selecionar arquivo de certificado"
 msgid "Select Chain File"
 msgstr "Selecionar arquivo de chave"
 
-#: src/wx/content_menu.cc:366
+#: src/wx/content_menu.cc:368
 msgid "Select KDM"
 msgstr "Selecionar KDM"
 
@@ -1485,7 +1490,7 @@ msgstr "Selecionar KDM"
 msgid "Select Key File"
 msgstr "Selecionar arquivo de chave"
 
-#: src/wx/content_menu.cc:392
+#: src/wx/content_menu.cc:394
 #, fuzzy
 msgid "Select OV"
 msgstr "Selecionar KDM"
@@ -1559,6 +1564,16 @@ msgstr "Signed (assinado)"
 msgid "Signing DCPs and KDMs"
 msgstr "Assinando DCPs e KDMs"
 
+#: src/wx/colour_conversion_editor.cc:60
+#, fuzzy
+msgid "Simple gamma"
+msgstr "Gama de entrada"
+
+#: src/wx/colour_conversion_editor.cc:61
+#, fuzzy
+msgid "Simple gamma, linearised for small values"
+msgstr "Linearizar gama de entrada para valores pequenos"
+
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Rolo único"
@@ -1624,7 +1639,7 @@ msgstr "Cores da legenda"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:284
+#: src/wx/about_dialog.cc:288
 msgid "Supported by"
 msgstr "Apoiado por"
 
@@ -1664,7 +1679,7 @@ msgstr "Território (ex. UK)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:341
+#: src/wx/about_dialog.cc:345
 msgid "Tested by"
 msgstr "Testado por"
 
@@ -1672,7 +1687,7 @@ msgstr "Testado por"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "O tempo 'Até' de vir depois do tempo 'De'"
 
-#: src/wx/content_menu.cc:352
+#: src/wx/content_menu.cc:354
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1941,7 +1956,7 @@ msgstr "Ponto de branco"
 msgid "White point adjustment"
 msgstr "Ajuste do ponto de branco"
 
-#: src/wx/about_dialog.cc:134
+#: src/wx/about_dialog.cc:135
 msgid "With help from"
 msgstr "Com a ajuda de"
 

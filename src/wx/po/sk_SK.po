@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 16:15+0000\n"
+"POT-Creation-Date: 2017-02-15 00:11+0000\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -28,7 +28,7 @@ msgstr "%"
 #: src/wx/about_dialog.cc:83
 #, fuzzy
 msgid ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Appearance..."
 msgstr "Vzhľad..."
 
-#: src/wx/job_view.cc:133
+#: src/wx/job_view.cc:134
 msgid "Are you sure you want to cancel this job?"
 msgstr ""
 
@@ -329,7 +329,7 @@ msgstr ""
 msgid "Calculate..."
 msgstr "Vypočítať..."
 
-#: src/wx/job_view.cc:57
+#: src/wx/job_view.cc:58
 msgid "Cancel"
 msgstr "Zrušiť"
 
@@ -365,7 +365,7 @@ msgstr "Skontrolovať aktualizácie pri spustení programu "
 msgid "Choose CPL..."
 msgstr ""
 
-#: src/wx/content_menu.cc:296
+#: src/wx/content_menu.cc:294
 msgid "Choose a file"
 msgstr "Vyberte súbor"
 
@@ -373,7 +373,7 @@ msgstr "Vyberte súbor"
 msgid "Choose a file or files"
 msgstr "Vyberte súbor alebo súbory"
 
-#: src/wx/content_menu.cc:291 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Vyberte priečinok"
 
@@ -459,7 +459,7 @@ msgstr "Nemôžem analyzovať zvuk."
 msgid "Could not get video for view (%s)"
 msgstr "Nemôžem získať náhľad z videa (%s)"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:374
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Nemôžem načítať kDM (%s)"
@@ -578,7 +578,7 @@ msgstr "Predvolené"
 msgid "Delay"
 msgstr "Oneskorenie"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Detaily..."
 
@@ -813,15 +813,6 @@ msgstr "Vypočítanie hlasitosti"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Zosilniť kanál %d in DCP kanály %d"
 
-#: src/wx/colour_conversion_editor.cc:60
-msgid "Gamma"
-msgstr ""
-
-#: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
-msgid "Gamma, linearised for small values"
-msgstr "Linearizovať vstupnú gama krivku pre malé hodnoty"
-
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Všeobecné"
@@ -850,6 +841,10 @@ msgstr ""
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Green chromaticity"
 msgstr "Zelená farebnosť (Green chromaticity)"
+
+#: src/wx/batch_job_view.cc:44
+msgid "Higher prioirity"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -921,7 +916,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 #, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Korekcia vstupnej gamy"
@@ -1025,7 +1020,11 @@ msgstr "Log"
 msgid "Loudness range %.2f LU"
 msgstr "Rozsah hlasitosti %.2f LU"
 
-#: src/wx/content_panel.cc:526
+#: src/wx/batch_job_view.cc:47
+msgid "Lower prioirity"
+msgstr ""
+
+#: src/wx/content_panel.cc:528
 msgid "MISSING: "
 msgstr "CHÝBAJÚCE:"
 
@@ -1103,11 +1102,11 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Môj problém je"
 
-#: src/wx/content_panel.cc:530
+#: src/wx/content_panel.cc:532
 msgid "NEEDS KDM: "
 msgstr "POTREBNÉ KDM:"
 
-#: src/wx/content_panel.cc:534
+#: src/wx/content_panel.cc:536
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "POTREBNÉ KDM:"
@@ -1213,6 +1212,10 @@ msgstr ""
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Výstup"
+
+#: src/wx/colour_conversion_editor.cc:203
+msgid "Output gamma correction"
+msgstr "Ziel-Gamma Anpassung"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1478,7 +1481,7 @@ msgstr "Vybrať súbor s certifikátom"
 msgid "Select Chain File"
 msgstr "Vybrať súbor s kľúčom"
 
-#: src/wx/content_menu.cc:366
+#: src/wx/content_menu.cc:368
 msgid "Select KDM"
 msgstr "Vybrať KDM"
 
@@ -1486,7 +1489,7 @@ msgstr "Vybrať KDM"
 msgid "Select Key File"
 msgstr "Vybrať súbor s kľúčom"
 
-#: src/wx/content_menu.cc:392
+#: src/wx/content_menu.cc:394
 #, fuzzy
 msgid "Select OV"
 msgstr "Vybrať KDM"
@@ -1560,6 +1563,16 @@ msgstr "Podpísané"
 msgid "Signing DCPs and KDMs"
 msgstr "Podpisovanie DCP a KDM"
 
+#: src/wx/colour_conversion_editor.cc:60
+#, fuzzy
+msgid "Simple gamma"
+msgstr "Vstupné gama"
+
+#: src/wx/colour_conversion_editor.cc:61
+#, fuzzy
+msgid "Simple gamma, linearised for small values"
+msgstr "Linearizovať vstupnú gama krivku pre malé hodnoty"
+
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Jeden reel"
@@ -1626,7 +1639,7 @@ msgstr "Umrissfarbe"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/wx/about_dialog.cc:284
+#: src/wx/about_dialog.cc:288
 msgid "Supported by"
 msgstr "Podporované(ý)"
 
@@ -1666,7 +1679,7 @@ msgstr "Územie (napr. SK)"
 msgid "Test version "
 msgstr "Test verzia"
 
-#: src/wx/about_dialog.cc:341
+#: src/wx/about_dialog.cc:345
 msgid "Tested by"
 msgstr "Testované"
 
@@ -1674,7 +1687,7 @@ msgstr "Testované"
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
-#: src/wx/content_menu.cc:352
+#: src/wx/content_menu.cc:354
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1939,7 +1952,7 @@ msgstr "Biely bod"
 msgid "White point adjustment"
 msgstr "Nastavenie bieleho bodu"
 
-#: src/wx/about_dialog.cc:134
+#: src/wx/about_dialog.cc:135
 msgid "With help from"
 msgstr "S pomocou"
 
@@ -2256,9 +2269,6 @@ msgstr "y"
 
 #~ msgid "Output gamma"
 #~ msgstr "Ziel Gamma"
-
-#~ msgid "Output gamma correction"
-#~ msgstr "Ziel-Gamma Anpassung"
 
 #~ msgid "Artwork by"
 #~ msgstr "Grafik von"

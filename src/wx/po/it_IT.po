@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 16:15+0000\n"
+"POT-Creation-Date: 2017-02-15 00:11+0000\n"
 "PO-Revision-Date: 2016-10-28 17:22+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -24,8 +24,9 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2015 Carl Hetherington, Terrence Meiczinger\n"
@@ -223,7 +224,7 @@ msgstr "Errore sconosciuto."
 msgid "Appearance..."
 msgstr "Aspetto..."
 
-#: src/wx/job_view.cc:133
+#: src/wx/job_view.cc:134
 msgid "Are you sure you want to cancel this job?"
 msgstr "Sei sicuro di voler annullare questo processo?"
 
@@ -330,7 +331,7 @@ msgstr "Il contenuto del CPL è in chiaro."
 msgid "Calculate..."
 msgstr "Calcola..."
 
-#: src/wx/job_view.cc:57
+#: src/wx/job_view.cc:58
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -366,7 +367,7 @@ msgstr "Controlla gli aggiornamenti all'avvio"
 msgid "Choose CPL..."
 msgstr "Seleziona CPL..."
 
-#: src/wx/content_menu.cc:296
+#: src/wx/content_menu.cc:294
 msgid "Choose a file"
 msgstr "Scegli un file"
 
@@ -374,7 +375,7 @@ msgstr "Scegli un file"
 msgid "Choose a file or files"
 msgstr "Scegli uno o più file"
 
-#: src/wx/content_menu.cc:291 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Scegli una cartella"
 
@@ -458,7 +459,7 @@ msgstr "Non posso analizzare l'audio."
 msgid "Could not get video for view (%s)"
 msgstr "Non posso aprire il file sorgente per visualizzarlo (%s)"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:374
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Non posso caricare la KDM (%s)"
@@ -577,7 +578,7 @@ msgstr "Predefiniti"
 msgid "Delay"
 msgstr "Ritardo"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Dettagli..."
 
@@ -725,6 +726,7 @@ msgid "Fade out time"
 msgstr "Dissolvenza in uscita (tempo)"
 
 #: src/wx/kdm_dialog.cc:132
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
 
@@ -809,15 +811,6 @@ msgstr "Calcolatore del guadagno"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Guadagno per il canale sorgente %d nel canale DCP %d"
 
-#: src/wx/colour_conversion_editor.cc:60
-msgid "Gamma"
-msgstr ""
-
-#: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
-msgid "Gamma, linearised for small values"
-msgstr "Linearizza la curva del gamma in ingresso per piccoli valori"
-
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Generale"
@@ -846,6 +839,10 @@ msgstr "Vai al codice di tempo"
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Green chromaticity"
 msgstr "Cromacità verde"
+
+#: src/wx/batch_job_view.cc:44
+msgid "Higher prioirity"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -916,7 +913,7 @@ msgstr "Nome comune intermedio"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 #, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Inserisci correzione gamma"
@@ -1019,7 +1016,11 @@ msgstr "Log"
 msgid "Loudness range %.2f LU"
 msgstr "Range del volume %.2f LU"
 
-#: src/wx/content_panel.cc:526
+#: src/wx/batch_job_view.cc:47
+msgid "Lower prioirity"
+msgstr ""
+
+#: src/wx/content_panel.cc:528
 msgid "MISSING: "
 msgstr "MANCANTE:"
 
@@ -1098,11 +1099,11 @@ msgstr "Documenti"
 msgid "My problem is"
 msgstr "Il mio problema è"
 
-#: src/wx/content_panel.cc:530
+#: src/wx/content_panel.cc:532
 msgid "NEEDS KDM: "
 msgstr "NECESSITO KDM:"
 
-#: src/wx/content_panel.cc:534
+#: src/wx/content_panel.cc:536
 msgid "NEEDS OV: "
 msgstr "NECESSITO OV:"
 
@@ -1206,6 +1207,11 @@ msgstr ""
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Uscita"
+
+#: src/wx/colour_conversion_editor.cc:203
+#, fuzzy
+msgid "Output gamma correction"
+msgstr "Gamma in uscita"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1467,7 +1473,7 @@ msgstr "Seleziona il file del Certificato"
 msgid "Select Chain File"
 msgstr "Selezione il file con la catena"
 
-#: src/wx/content_menu.cc:366
+#: src/wx/content_menu.cc:368
 msgid "Select KDM"
 msgstr "Seleziona KDM"
 
@@ -1475,7 +1481,7 @@ msgstr "Seleziona KDM"
 msgid "Select Key File"
 msgstr "Seleziona il file della chiave"
 
-#: src/wx/content_menu.cc:392
+#: src/wx/content_menu.cc:394
 msgid "Select OV"
 msgstr "Seleziona OV"
 
@@ -1547,6 +1553,16 @@ msgstr "Firmato"
 msgid "Signing DCPs and KDMs"
 msgstr "Firma dei DCP e delle KDM"
 
+#: src/wx/colour_conversion_editor.cc:60
+#, fuzzy
+msgid "Simple gamma"
+msgstr "Inserisci gamma"
+
+#: src/wx/colour_conversion_editor.cc:61
+#, fuzzy
+msgid "Simple gamma, linearised for small values"
+msgstr "Linearizza la curva del gamma in ingresso per piccoli valori"
+
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Parte singola"
@@ -1612,7 +1628,7 @@ msgstr "Colori dei sottotitoli"
 msgid "Subtitles"
 msgstr "Sottotitoli"
 
-#: src/wx/about_dialog.cc:284
+#: src/wx/about_dialog.cc:288
 msgid "Supported by"
 msgstr "Supportato da"
 
@@ -1652,7 +1668,7 @@ msgstr "Nazione (es. IT)"
 msgid "Test version "
 msgstr "Versione di test"
 
-#: src/wx/about_dialog.cc:341
+#: src/wx/about_dialog.cc:345
 msgid "Tested by"
 msgstr "Testato da"
 
@@ -1660,7 +1676,7 @@ msgstr "Testato da"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Il tempo finale deve essere successivo a quello iniziale."
 
-#: src/wx/content_menu.cc:352
+#: src/wx/content_menu.cc:354
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1927,7 +1943,7 @@ msgstr "Punto di pianco"
 msgid "White point adjustment"
 msgstr "Regolazione del punto di bianco"
 
-#: src/wx/about_dialog.cc:134
+#: src/wx/about_dialog.cc:135
 msgid "With help from"
 msgstr "Con l'aiuto di"
 
@@ -2221,10 +2237,6 @@ msgstr "y"
 #~ msgstr "Gb"
 
 #~ msgid "Output gamma"
-#~ msgstr "Gamma in uscita"
-
-#, fuzzy
-#~ msgid "Output gamma correction"
 #~ msgstr "Gamma in uscita"
 
 #, fuzzy

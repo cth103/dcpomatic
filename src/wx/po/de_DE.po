@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 16:15+0000\n"
+"POT-Creation-Date: 2017-02-15 00:11+0000\n"
 "PO-Revision-Date: 2017-02-14 15:40+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -25,8 +25,9 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
@@ -225,7 +226,7 @@ msgstr "Ein unbekannter Fehler ist aufgetreten."
 msgid "Appearance..."
 msgstr "Darstellung..."
 
-#: src/wx/job_view.cc:133
+#: src/wx/job_view.cc:134
 msgid "Are you sure you want to cancel this job?"
 msgstr "Sind Sie sicher, dass Sie abbrechen möchten?"
 
@@ -333,7 +334,7 @@ msgstr "Die Mediendaten ('Assets') dieser CPL sind nicht verschlüsselt!"
 msgid "Calculate..."
 msgstr "Berechne CP Fader..."
 
-#: src/wx/job_view.cc:57
+#: src/wx/job_view.cc:58
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -369,7 +370,7 @@ msgstr "Beim Start auf Updates überprüfen."
 msgid "Choose CPL..."
 msgstr "CPL/Version auswählen..."
 
-#: src/wx/content_menu.cc:296
+#: src/wx/content_menu.cc:294
 msgid "Choose a file"
 msgstr "Datei auswählen"
 
@@ -377,7 +378,7 @@ msgstr "Datei auswählen"
 msgid "Choose a file or files"
 msgstr "Eine oder mehrere Dateien auswählen"
 
-#: src/wx/content_menu.cc:291 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Ordner mit nummerierter Bildsequenz, oder DCP wählen!"
 
@@ -461,7 +462,7 @@ msgstr "Ton konnte nicht analysiert werden"
 msgid "Could not get video for view (%s)"
 msgstr "Konnte Video nicht anzeigen (%s)"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:374
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Konnte KDM %s nicht laden"
@@ -579,7 +580,7 @@ msgstr "DCP Vorgaben"
 msgid "Delay"
 msgstr "Verzögerung (+/-)"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Details..."
 
@@ -727,6 +728,7 @@ msgid "Fade out time"
 msgstr "Ausblenden"
 
 #: src/wx/kdm_dialog.cc:132
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Die Datei %s existiert bereits. Überschreiben?"
 
@@ -812,14 +814,6 @@ msgstr "Fader Rechner ('Dolby Fader Level')"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Abschwächung des Kanals %d im DCP Kanal %d"
 
-#: src/wx/colour_conversion_editor.cc:60
-msgid "Gamma"
-msgstr "Gamma"
-
-#: src/wx/colour_conversion_editor.cc:61
-msgid "Gamma, linearised for small values"
-msgstr "Lineares Eingangs-Gamma für niedrige Helligkeitswerte"
-
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Allgemein"
@@ -848,6 +842,10 @@ msgstr "Gehe zu Zeit"
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Green chromaticity"
 msgstr "Grün Chromatizität"
+
+#: src/wx/batch_job_view.cc:44
+msgid "Higher prioirity"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -919,7 +917,7 @@ msgstr "Intermediate common name"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Inverse (2.6) Ausgangs-Gammakorrektur"
 
@@ -1021,7 +1019,11 @@ msgstr "In die Log-Datei schreiben:"
 msgid "Loudness range %.2f LU"
 msgstr "LU - Relativer Lautheitsumfang (EBU R128): %.2f LU"
 
-#: src/wx/content_panel.cc:526
+#: src/wx/batch_job_view.cc:47
+msgid "Lower prioirity"
+msgstr ""
+
+#: src/wx/content_panel.cc:528
 msgid "MISSING: "
 msgstr "FEHLT:"
 
@@ -1098,16 +1100,15 @@ msgstr "Meine Dokumente"
 msgid "My problem is"
 msgstr "Ich habe folgendes Problem:"
 
-#: src/wx/content_panel.cc:530
+#: src/wx/content_panel.cc:532
 msgid "NEEDS KDM: "
 msgstr "Benötigt KDM:"
 
-#: src/wx/content_panel.cc:534
+#: src/wx/content_panel.cc:536
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
-#: src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1209,6 +1210,10 @@ msgstr ""
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Ausgabe"
+
+#: src/wx/colour_conversion_editor.cc:203
+msgid "Output gamma correction"
+msgstr "Ziel-Gamma Anpassung"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1470,7 +1475,7 @@ msgstr "Zertifikats-Datei auswählen"
 msgid "Select Chain File"
 msgstr "Zertifikatskette auswählen"
 
-#: src/wx/content_menu.cc:366
+#: src/wx/content_menu.cc:368
 msgid "Select KDM"
 msgstr "KDM auswählen"
 
@@ -1478,7 +1483,7 @@ msgstr "KDM auswählen"
 msgid "Select Key File"
 msgstr "Schlüsseldatei auswählen"
 
-#: src/wx/content_menu.cc:392
+#: src/wx/content_menu.cc:394
 msgid "Select OV"
 msgstr "OV auswählen"
 
@@ -1550,6 +1555,16 @@ msgstr "Signiert"
 msgid "Signing DCPs and KDMs"
 msgstr "DCPs und KDMs signieren"
 
+#: src/wx/colour_conversion_editor.cc:60
+#, fuzzy
+msgid "Simple gamma"
+msgstr "Eingangs Gamma"
+
+#: src/wx/colour_conversion_editor.cc:61
+#, fuzzy
+msgid "Simple gamma, linearised for small values"
+msgstr "Lineares Eingangs-Gamma für niedrige Helligkeitswerte"
+
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Einzelakt (nur eine MXF Datei)"
@@ -1615,7 +1630,7 @@ msgstr "Untertitelfarbe"
 msgid "Subtitles"
 msgstr "Untertitel"
 
-#: src/wx/about_dialog.cc:284
+#: src/wx/about_dialog.cc:288
 msgid "Supported by"
 msgstr "Unterstützt durch"
 
@@ -1655,7 +1670,7 @@ msgstr "Gebiet (z.B. UK)"
 msgid "Test version "
 msgstr "Test Version"
 
-#: src/wx/about_dialog.cc:341
+#: src/wx/about_dialog.cc:345
 msgid "Tested by"
 msgstr "Getestet von"
 
@@ -1665,7 +1680,7 @@ msgstr ""
 "Das Ende des Gültigkeitsfensters muss nach dem Start des Gültigkeitsfensters "
 "liegen ;-)"
 
-#: src/wx/content_menu.cc:352
+#: src/wx/content_menu.cc:354
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1934,7 +1949,7 @@ msgstr "Weisspunkt"
 msgid "White point adjustment"
 msgstr "Weisspunktanpassung:"
 
-#: src/wx/about_dialog.cc:134
+#: src/wx/about_dialog.cc:135
 msgid "With help from"
 msgstr "Mit Hilfe von"
 
@@ -2054,6 +2069,9 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:126
 msgid "y"
 msgstr "y"
+
+#~ msgid "Gamma"
+#~ msgstr "Gamma"
 
 #~ msgid "Contact email"
 #~ msgstr "Email-Kontakt"
@@ -2285,9 +2303,6 @@ msgstr "y"
 
 #~ msgid "Output gamma"
 #~ msgstr "Ziel Gamma"
-
-#~ msgid "Output gamma correction"
-#~ msgstr "Ziel-Gamma Anpassung"
 
 #~ msgid "Artwork by"
 #~ msgstr "Grafik von"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 16:15+0000\n"
+"POT-Creation-Date: 2017-02-15 00:11+0000\n"
 "PO-Revision-Date: 2016-11-07 18:11+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -24,8 +24,9 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
+#, fuzzy
 msgid ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
 "(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
@@ -223,7 +224,7 @@ msgstr "Der er sket en uhåndteret fejl."
 msgid "Appearance..."
 msgstr "Udseende..."
 
-#: src/wx/job_view.cc:133
+#: src/wx/job_view.cc:134
 msgid "Are you sure you want to cancel this job?"
 msgstr "Er du sikker på at du vil annullere denne opgave?"
 
@@ -329,7 +330,7 @@ msgstr "CPL'ens indhold er ikke krypteret."
 msgid "Calculate..."
 msgstr "Beregn..."
 
-#: src/wx/job_view.cc:57
+#: src/wx/job_view.cc:58
 msgid "Cancel"
 msgstr "Annuller"
 
@@ -365,7 +366,7 @@ msgstr "Søg efter opdateringer ved opstart."
 msgid "Choose CPL..."
 msgstr "Vælg CPL..."
 
-#: src/wx/content_menu.cc:296
+#: src/wx/content_menu.cc:294
 msgid "Choose a file"
 msgstr "Vælg en fil"
 
@@ -373,7 +374,7 @@ msgstr "Vælg en fil"
 msgid "Choose a file or files"
 msgstr "Vælg en fil eller filer"
 
-#: src/wx/content_menu.cc:291 src/wx/content_panel.cc:304
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:304
 msgid "Choose a folder"
 msgstr "Vælg en folder"
 
@@ -457,7 +458,7 @@ msgstr "Kunne ikke analysere lyden."
 msgid "Could not get video for view (%s)"
 msgstr "Kunne ikke få video til gennemsyn (%s)"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:374
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Kunne ikke indlæse KDM (%s)"
@@ -576,7 +577,7 @@ msgstr "Standardindstillinger"
 msgid "Delay"
 msgstr "Forsinkelse"
 
-#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:61
+#: src/wx/dcp_panel.cc:87 src/wx/job_view.cc:62
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -720,6 +721,7 @@ msgid "Fade out time"
 msgstr ""
 
 #: src/wx/kdm_dialog.cc:132
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
 
@@ -802,14 +804,6 @@ msgstr "Gainberegner"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain til indholdskanal %d i DCP-kanal %d"
 
-#: src/wx/colour_conversion_editor.cc:60
-msgid "Gamma"
-msgstr ""
-
-#: src/wx/colour_conversion_editor.cc:61
-msgid "Gamma, linearised for small values"
-msgstr ""
-
 #: src/wx/config_dialog.cc:1488 src/wx/content_properties_dialog.cc:70
 msgid "General"
 msgstr "Generelt"
@@ -838,6 +832,10 @@ msgstr "Gå til tidskode"
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Green chromaticity"
 msgstr "Grøn farvetone"
+
+#: src/wx/batch_job_view.cc:44
+msgid "Higher prioirity"
+msgstr ""
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -908,7 +906,7 @@ msgstr ""
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/colour_conversion_editor.cc:203
+#: src/wx/colour_conversion_editor.cc:205
 msgid "Inverse 2.6 gamma correction on output"
 msgstr ""
 
@@ -1011,7 +1009,11 @@ msgstr "Log"
 msgid "Loudness range %.2f LU"
 msgstr ""
 
-#: src/wx/content_panel.cc:526
+#: src/wx/batch_job_view.cc:47
+msgid "Lower prioirity"
+msgstr ""
+
+#: src/wx/content_panel.cc:528
 msgid "MISSING: "
 msgstr "MANGLER:"
 
@@ -1088,11 +1090,11 @@ msgstr "Mine dokumenter"
 msgid "My problem is"
 msgstr "Mit problem er"
 
-#: src/wx/content_panel.cc:530
+#: src/wx/content_panel.cc:532
 msgid "NEEDS KDM: "
 msgstr "HAR BRUG FOR KDM:"
 
-#: src/wx/content_panel.cc:534
+#: src/wx/content_panel.cc:536
 msgid "NEEDS OV: "
 msgstr "HAR BRUG FOR OV:"
 
@@ -1197,6 +1199,10 @@ msgstr ""
 #: src/wx/kdm_dialog.cc:92 src/wx/self_dkdm_dialog.cc:66
 msgid "Output"
 msgstr "Output"
+
+#: src/wx/colour_conversion_editor.cc:203
+msgid "Output gamma correction"
+msgstr ""
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1459,7 +1465,7 @@ msgstr "Vælg certifikatfil"
 msgid "Select Chain File"
 msgstr "Vælg Kæde fil"
 
-#: src/wx/content_menu.cc:366
+#: src/wx/content_menu.cc:368
 msgid "Select KDM"
 msgstr "Vælg KDM"
 
@@ -1467,7 +1473,7 @@ msgstr "Vælg KDM"
 msgid "Select Key File"
 msgstr "Vælg Nøglefil"
 
-#: src/wx/content_menu.cc:392
+#: src/wx/content_menu.cc:394
 msgid "Select OV"
 msgstr "Vælg OV"
 
@@ -1539,6 +1545,14 @@ msgstr "Signeret"
 msgid "Signing DCPs and KDMs"
 msgstr ""
 
+#: src/wx/colour_conversion_editor.cc:60
+msgid "Simple gamma"
+msgstr ""
+
+#: src/wx/colour_conversion_editor.cc:61
+msgid "Simple gamma, linearised for small values"
+msgstr ""
+
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
 msgstr "Enkelt spole"
@@ -1604,7 +1618,7 @@ msgstr "Farve på undertekster"
 msgid "Subtitles"
 msgstr "Undertekster"
 
-#: src/wx/about_dialog.cc:284
+#: src/wx/about_dialog.cc:288
 msgid "Supported by"
 msgstr "Støttet af"
 
@@ -1644,7 +1658,7 @@ msgstr "Område (f.eks. UK)"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:341
+#: src/wx/about_dialog.cc:345
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -1652,7 +1666,7 @@ msgstr "Testet af"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "'Til' tidspunktet skal være efter 'fra' tidspunktet."
 
-#: src/wx/content_menu.cc:352
+#: src/wx/content_menu.cc:354
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1919,7 +1933,7 @@ msgstr "Hvidpunkt"
 msgid "White point adjustment"
 msgstr "Hvidpunktsjustering"
 
-#: src/wx/about_dialog.cc:134
+#: src/wx/about_dialog.cc:135
 msgid "With help from"
 msgstr "Med hjælp fra"
 
