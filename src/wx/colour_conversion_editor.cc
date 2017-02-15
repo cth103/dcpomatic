@@ -57,8 +57,8 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	add_label_to_sizer (table, this, _("Input transfer function"), true, wxGBPosition (r, 0));
 	_input = new wxChoice (this, wxID_ANY);
-	_input->Append (_("Gamma"));
-	_input->Append (_("Gamma, linearised for small values"));
+	_input->Append (_("Simple gamma"));
+	_input->Append (_("Simple gamma, linearised for small values"));
 	_input->Append (_("S-Gamut3"));
 	table->Add (_input, wxGBPosition (r, 1), wxGBSpan (1, 2));
 	++r;
