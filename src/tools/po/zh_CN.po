@@ -231,7 +231,7 @@ msgstr "查看编码服务器..."
 #: src/tools/dcpomatic_kdm.cc:276
 #, fuzzy, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "目录 %1 已经存在且不为空。确定要使用它？"
+msgstr "目录 %s 已经存在且不为空。确定要使用它？"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
