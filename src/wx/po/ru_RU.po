@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 00:11+0000\n"
+"POT-Creation-Date: 2017-02-15 11:18+0000\n"
 "PO-Revision-Date: 2017-01-18 12:37+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -840,7 +840,7 @@ msgid "Green chromaticity"
 msgstr "Зеленая цветность"
 
 #: src/wx/batch_job_view.cc:44
-msgid "Higher prioirity"
+msgid "Higher priority"
 msgstr ""
 
 #: src/wx/hints_dialog.cc:37
@@ -1015,7 +1015,7 @@ msgid "Loudness range %.2f LU"
 msgstr "Диапазон громкости %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
-msgid "Lower prioirity"
+msgid "Lower priority"
 msgstr ""
 
 #: src/wx/content_panel.cc:528

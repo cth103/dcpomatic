@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 00:11+0000\n"
+"POT-Creation-Date: 2017-02-15 11:18+0000\n"
 "PO-Revision-Date: 2016-12-19 22:13+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -721,6 +721,7 @@ msgid "Fade out time"
 msgstr "淡出时间"
 
 #: src/wx/kdm_dialog.cc:132
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr ""
 
@@ -835,7 +836,7 @@ msgid "Green chromaticity"
 msgstr "绿色色度"
 
 #: src/wx/batch_job_view.cc:44
-msgid "Higher prioirity"
+msgid "Higher priority"
 msgstr ""
 
 #: src/wx/hints_dialog.cc:37
@@ -1009,7 +1010,7 @@ msgid "Loudness range %.2f LU"
 msgstr "响度范围 %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
-msgid "Lower prioirity"
+msgid "Lower priority"
 msgstr ""
 
 #: src/wx/content_panel.cc:528

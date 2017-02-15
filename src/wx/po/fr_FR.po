@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 00:11+0000\n"
+"POT-Creation-Date: 2017-02-15 11:18+0000\n"
 "PO-Revision-Date: 2016-12-23 11:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -843,7 +843,7 @@ msgid "Green chromaticity"
 msgstr "Chromaticité du Vert"
 
 #: src/wx/batch_job_view.cc:44
-msgid "Higher prioirity"
+msgid "Higher priority"
 msgstr ""
 
 #: src/wx/hints_dialog.cc:37
@@ -1018,7 +1018,7 @@ msgid "Loudness range %.2f LU"
 msgstr "Plage Basses fréquences %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
-msgid "Lower prioirity"
+msgid "Lower priority"
 msgstr ""
 
 #: src/wx/content_panel.cc:528
