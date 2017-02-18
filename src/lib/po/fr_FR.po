@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 11:18+0000\n"
-"PO-Revision-Date: 2016-12-23 11:11+0100\n"
+"PO-Revision-Date: 2017-02-18 17:27+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: src/lib/video_content.cc:444
 #, c-format
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 #. / to say what day a job will finish.
 #: src/lib/job.cc:430
 msgid " on %1"
-msgstr ""
+msgstr " %1"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -127,7 +127,7 @@ msgstr "; %.1f ips"
 
 #: src/lib/job.cc:435
 msgid "; %1 remaining; finishing at %2%3"
-msgstr ""
+msgstr "; %1 restant; fin prévue à %2%3"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -593,7 +593,7 @@ msgstr "Envoi par mail du rapport de bug pour %1"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding"
-msgstr ""
+msgstr "Encodage"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -1382,15 +1382,15 @@ msgstr "sRGB"
 
 #: src/lib/film.cc:314
 msgid "some of your content is missing"
-msgstr ""
+msgstr "Certains de vos contenus sont manquants"
 
 #: src/lib/film.cc:318
 msgid "some of your content needs a KDM"
-msgstr ""
+msgstr "Certains de vos contenus nécessitent une KDM"
 
 #: src/lib/film.cc:321
 msgid "some of your content needs an OV"
-msgstr ""
+msgstr "Certains de vos contenus nécessitent une OV"
 
 #: src/lib/image_content.cc:94
 msgid "still"
@@ -1405,9 +1405,8 @@ msgid "video frames"
 msgstr "images"
 
 #: src/lib/film.cc:301
-#, fuzzy
 msgid "you must add some content to the DCP before creating it"
-msgstr "Ajoutez un contenu pour créer le DCP"
+msgstr "Vous devez ajouter des contenus pour créer le DCP"
 
 #~ msgid "Encoding picture and sound"
 #~ msgstr "Encodage Image et Son"
