@@ -32,11 +32,12 @@ using std::string;
 using boost::shared_ptr;
 
 ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
-	: wxPanel (p->notebook(), wxID_ANY)
+	: wxScrolledWindow (p->notebook(), wxID_ANY)
 	, _parent (p)
 	, _sizer (new wxBoxSizer (wxVERTICAL))
 {
 	p->notebook()->AddPage (this, name, false);
+	SetScrollRate (-1, 8);
 	SetSizer (_sizer);
 }
 

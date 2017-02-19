@@ -29,7 +29,7 @@ class ContentPanel;
 class Content;
 class DCPContent;
 
-class ContentSubPanel : public wxPanel
+class ContentSubPanel : public wxScrolledWindow
 {
 public:
 	ContentSubPanel (ContentPanel *, wxString);
