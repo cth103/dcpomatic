@@ -118,11 +118,8 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 			return content;
 		}
 
-		/* Guess if this is a DCP, a set of images or a set of sound files: read the first ten filenames
-		   and if they are all valid image/sound files we assume it is not a DCP.
-		*/
+		/* See if this is a set of images or a set of sound files */
 
-		bool is_dcp = false;
 		int image_files = 0;
 		int sound_files = 0;
 		int read = 0;
@@ -142,14 +139,6 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 				continue;
 			}
 
-			if (!valid_image_file (i->path()) && !valid_sound_file (i->path())) {
-				/* We have a normal file which isn't an image; assume we are looking
-				   at a DCP.
-				*/
-				LOG_GENERAL ("It's a DCP because of %1", i->path());
-				is_dcp = true;
-			}
-
 			if (valid_image_file (i->path ())) {
 				++image_files;
 			}
@@ -161,11 +150,9 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 			++read;
 		}
 
-		if (is_dcp) {
-			content.push_back (shared_ptr<Content> (new DCPContent (film, path)));
-		} else if (image_files > 0) {
+		if (image_files > 0 && sound_files == 0)  {
 			content.push_back (shared_ptr<Content> (new ImageContent (film, path)));
-		} else {
+		} else if (image_files == 0 && sound_files > 0) {
 			for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator(); ++i) {
 				content.push_back (shared_ptr<FFmpegContent> (new FFmpegContent (film, i->path())));
 			}

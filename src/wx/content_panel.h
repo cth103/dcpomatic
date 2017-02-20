@@ -73,6 +73,7 @@ public:
 private:
 	void selection_changed ();
 	void add_folder_clicked ();
+	void add_dcp_clicked ();
 	void earlier_clicked ();
 	void later_clicked ();
 	void right_click (wxListEvent &);
@@ -90,6 +91,7 @@ private:
 	wxListCtrl* _content;
 	wxButton* _add_file;
 	wxButton* _add_folder;
+	wxButton* _add_dcp;
 	wxButton* _remove;
 	wxButton* _earlier;
 	wxButton* _later;

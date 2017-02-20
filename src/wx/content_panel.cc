@@ -79,12 +79,16 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 		wxBoxSizer* b = new wxBoxSizer (wxVERTICAL);
 
 		_add_file = new wxButton (_panel, wxID_ANY, _("Add file(s)..."));
-		_add_file->SetToolTip (_("Add video, image or sound files to the film."));
+		_add_file->SetToolTip (_("Add video, image, sound or subtitle files to the film."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_add_folder = new wxButton (_panel, wxID_ANY, _("Add folder..."));
-		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a DCP."));
+		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
 		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+
+		_add_dcp = new wxButton (_panel, wxID_ANY, _("Add DCP..."));
+		_add_dcp->SetToolTip (_("Add a DCP."));
+		b->Add (_add_dcp, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_remove = new wxButton (_panel, wxID_ANY, _("Remove"));
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
@@ -125,6 +129,7 @@ ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmVie
 	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
 	_add_file->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_file_clicked, this));
 	_add_folder->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_folder_clicked, this));
+	_add_dcp->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_dcp_clicked, this));
 	_remove->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::remove_clicked, this, false));
 	_earlier->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::earlier_clicked, this));
 	_later->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::later_clicked, this));
@@ -343,6 +348,25 @@ ContentPanel::add_folder_clicked ()
 	}
 }
 
+void
+ContentPanel::add_dcp_clicked ()
+{
+	wxDirDialog* d = new wxDirDialog (_panel, _("Choose a DCP folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+	int r = d->ShowModal ();
+	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
+	d->Destroy ();
+
+	if (r != wxID_OK) {
+		return;
+	}
+
+	try {
+		_film->examine_and_add_content (shared_ptr<Content> (new DCPContent (_film, path)));
+	} catch (exception& e) {
+		error_dialog (_parent, e.what());
+	}
+}
+
 /** @return true if this remove "click" should be ignored */
 bool
 ContentPanel::remove_clicked (bool hotkey)
@@ -386,6 +410,7 @@ ContentPanel::setup_sensitivity ()
 {
 	_add_file->Enable (_generally_sensitive);
 	_add_folder->Enable (_generally_sensitive);
+	_add_dcp->Enable (_generally_sensitive);
 
 	ContentList selection = selected ();
 	ContentList video_selection = selected_video ();
@@ -423,6 +448,7 @@ ContentPanel::set_general_sensitivity (bool s)
 	_content->Enable (s);
 	_add_file->Enable (s);
 	_add_folder->Enable (s);
+	_add_dcp->Enable (s);
 	_remove->Enable (s);
 	_earlier->Enable (s);
 	_later->Enable (s);
