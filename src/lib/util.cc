@@ -658,7 +658,7 @@ video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int r
 	values['r'] = raw_convert<string> (reel_index + 1);
 	values['n'] = raw_convert<string> (reel_count);
 	if (summary) {
-		values['c'] = summary.get();
+		values['c'] = careful_string_filter (summary.get());
 	}
 	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
@@ -671,7 +671,7 @@ audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int ree
 	values['r'] = raw_convert<string> (reel_index + 1);
 	values['n'] = raw_convert<string> (reel_count);
 	if (summary) {
-		values['c'] = summary.get();
+		values['c'] = careful_string_filter (summary.get());
 	}
 	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
@@ -686,4 +686,23 @@ relaxed_string_to_float (string s)
 		boost::algorithm::replace_all (s, ".", ",");
 		return lexical_cast<float> (s);
 	}
+}
+
+string
+careful_string_filter (string s)
+{
+	/* Filter out `bad' characters which `may' cause problems with some systems (either for DCP name or filename).
+	   There's no apparent list of what really is allowed, so this is a guess.
+	   Safety first and all that.
+	*/
+
+	string out;
+	string const allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_%.";
+	for (size_t i = 0; i < s.size(); ++i) {
+		if (allowed.find (s[i]) != string::npos) {
+			out += s[i];
+		}
+	}
+
+	return out;
 }

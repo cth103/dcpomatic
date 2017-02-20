@@ -24,13 +24,20 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
 #include <boost/test/unit_test.hpp>
+#include <boost/regex.hpp>
 
+using std::string;
 using boost::shared_ptr;
+
+static shared_ptr<Film>
+make_test_film (string name)
+{
+}
 
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
-	dcp::NameFormat nf ("%c");
-	Config::instance()->set_dcp_metadata_filename_format (dcp::NameFormat ("%c"));
+	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
+
 	shared_ptr<Film> film = new_test_film ("file_naming_test");
 	film->set_name ("file_naming_test");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
@@ -46,7 +53,59 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	BOOST_CHECK (boost::filesystem::exists (film->file (film->dcp_name() + "/flat_red.png.mxf")));
-	BOOST_CHECK (boost::filesystem::exists (film->file (film->dcp_name() + "/flat_green.png.mxf")));
-	BOOST_CHECK (boost::filesystem::exists (film->file (film->dcp_name() + "/flat_blue.png.mxf")));
+	int got[3] = { 0, 0, 0 };
+	for (
+		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->file(film->dcp_name()));
+		i != boost::filesystem::directory_iterator();
+		++i) {
+		if (boost::regex_match(i->path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
+			++got[0];
+		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
+			++got[1];
+		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
+			++got[2];
+		}
+	}
+
+	for (int i = 0; i < 3; ++i) {
+		BOOST_CHECK (got[i] == 2);
+	}
+}
+
+BOOST_AUTO_TEST_CASE (file_naming_test2)
+{
+	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
+
+	shared_ptr<Film> film = new_test_film ("file_naming_test2");
+	film->set_name ("file_naming_test2");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
+	shared_ptr<FFmpegContent> r (new FFmpegContent (film, "test/data/flät_red.png"));
+	film->examine_and_add_content (r);
+	shared_ptr<FFmpegContent> g (new FFmpegContent (film, "test/data/flat_green.png"));
+	film->examine_and_add_content (g);
+	shared_ptr<FFmpegContent> b (new FFmpegContent (film, "test/data/flat_blue.png"));
+	film->examine_and_add_content (b);
+	wait_for_jobs ();
+
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->make_dcp ();
+	wait_for_jobs ();
+
+	int got[3] = { 0, 0, 0 };
+	for (
+		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->file(film->dcp_name()));
+		i != boost::filesystem::directory_iterator();
+		++i) {
+		if (boost::regex_match(i->path().string(), boost::regex(".*flt_red\\.png_.*\\.mxf"))) {
+			++got[0];
+		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
+			++got[1];
+		} else if (boost::regex_match(i->path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
+			++got[2];
+		}
+	}
+
+	for (int i = 0; i < 3; ++i) {
+		BOOST_CHECK (got[i] == 2);
+	}
 }

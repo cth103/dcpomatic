@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 #include "name_format_editor.h"
 #include "wx_util.h"
+#include "lib/util.h"
 
 using std::string;
 
@@ -62,7 +63,7 @@ NameFormatEditor::changed ()
 void
 NameFormatEditor::update_example ()
 {
-	_name.set_specification (wx_to_std (_specification->GetValue ()));
+	_name.set_specification (careful_string_filter (wx_to_std (_specification->GetValue ())));
 
 	wxString example = wxString::Format (_("e.g. %s"), std_to_wx (_name.get (_examples, _suffix)));
 	wxString wrapped;
