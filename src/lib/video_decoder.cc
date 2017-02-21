@@ -62,7 +62,7 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 	/* Work out what we are going to emit next */
 	switch (_content->video->frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
-		Data (ContentVideo (image, VideoFrame (frame, EYES_BOTH), PART_WHOLE));
+		Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D:
 	{
@@ -70,26 +70,26 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		   frame this one is.
 		*/
 		bool const same = (_last_emitted && _last_emitted.get() == frame);
-		Data (ContentVideo (image, VideoFrame (frame, same ? EYES_RIGHT : EYES_LEFT), PART_WHOLE));
+		Data (ContentVideo (image, frame, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
 		_last_emitted = frame;
 		break;
 	}
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		Data (ContentVideo (image, VideoFrame (frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT), PART_WHOLE));
+		Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		Data (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_LEFT_HALF));
-		Data (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_RIGHT_HALF));
+		Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
+		Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
 		break;
 	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		Data (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_TOP_HALF));
-		Data (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_BOTTOM_HALF));
+		Data (ContentVideo (image, frame, EYES_LEFT, PART_TOP_HALF));
+		Data (ContentVideo (image, frame, EYES_RIGHT, PART_BOTTOM_HALF));
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT:
-		Data (ContentVideo (image, VideoFrame (frame, EYES_LEFT), PART_WHOLE));
+		Data (ContentVideo (image, frame, EYES_LEFT, PART_WHOLE));
 		break;
 	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		Data (ContentVideo (image, VideoFrame (frame, EYES_RIGHT), PART_WHOLE));
+		Data (ContentVideo (image, frame, EYES_RIGHT, PART_WHOLE));
 		break;
 	default:
 		DCPOMATIC_ASSERT (false);

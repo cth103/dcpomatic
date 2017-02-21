@@ -21,8 +21,6 @@
 #ifndef DCPOMATIC_CONTENT_VIDEO_H
 #define DCPOMATIC_CONTENT_VIDEO_H
 
-#include "video_frame.h"
-
 class ImageProxy;
 
 /** @class ContentVideo
@@ -35,14 +33,16 @@ public:
 		: part (PART_WHOLE)
 	{}
 
-	ContentVideo (boost::shared_ptr<const ImageProxy> i, VideoFrame f, Part p)
+	ContentVideo (boost::shared_ptr<const ImageProxy> i, Frame f, Eyes e, Part p)
 		: image (i)
 		, frame (f)
+		, eyes (e)
 		, part (p)
 	{}
 
 	boost::shared_ptr<const ImageProxy> image;
-	VideoFrame frame;
+	Frame frame;
+	Eyes eyes;
 	Part part;
 };
 

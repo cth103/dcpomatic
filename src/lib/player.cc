@@ -566,7 +566,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	}
 
 	/* Time and period of the frame we will emit */
-	DCPTime const time = content_video_to_dcp (piece, video.frame.index());
+	DCPTime const time = content_video_to_dcp (piece, video.frame);
 	DCPTimePeriod const period (time, time + DCPTime::from_frames (1, _film->video_frame_rate()));
 
 	/* Discard if it's outside the content's period */
@@ -619,12 +619,12 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		new PlayerVideo (
 			video.image,
 			piece->content->video->crop (),
-			piece->content->video->fade (video.frame.index()),
+			piece->content->video->fade (video.frame),
 			piece->content->video->scale().size (
 				piece->content->video, _video_container_size, _film->frame_size ()
 				),
 			_video_container_size,
-			video.frame.eyes(),
+			video.eyes,
 			video.part,
 			piece->content->video->colour_conversion ()
 			)
