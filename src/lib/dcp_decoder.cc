@@ -210,8 +210,10 @@ DCPDecoder::get_readers ()
 }
 
 void
-DCPDecoder::seek (ContentTime t, bool)
+DCPDecoder::seek (ContentTime t, bool accurate)
 {
+	Decoder::seek (t, accurate);
+
 	_reel = _reels.begin ();
 	_offset = 0;
 	get_readers ();

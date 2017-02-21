@@ -19,6 +19,7 @@
 
 #include "audio_merger.h"
 #include "dcpomatic_time.h"
+#include <iostream>
 
 using std::pair;
 using std::min;

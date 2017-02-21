@@ -31,6 +31,9 @@ public:
 	 */
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> pull (DCPTime time);
 	void push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time);
+	DCPTime last_pull () const {
+		return _last_pull;
+	}
 
 private:
 	boost::shared_ptr<AudioBuffers> _buffers;

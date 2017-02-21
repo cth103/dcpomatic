@@ -94,7 +94,8 @@ VideoMXFDecoder::pass ()
 }
 
 void
-VideoMXFDecoder::seek (ContentTime t, bool)
+VideoMXFDecoder::seek (ContentTime t, bool accurate)
 {
+	Decoder::seek (t, accurate);
 	_next = t;
 }

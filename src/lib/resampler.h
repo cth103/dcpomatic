@@ -31,7 +31,7 @@ public:
 	Resampler (int, int, int);
 	~Resampler ();
 
-	boost::shared_ptr<const AudioBuffers> run (boost::shared_ptr<const AudioBuffers>);
+	std::pair<boost::shared_ptr<const AudioBuffers>, Frame> run (boost::shared_ptr<const AudioBuffers>, Frame);
 	boost::shared_ptr<const AudioBuffers> flush ();
 	void set_fast ();
 
@@ -40,4 +40,6 @@ private:
 	int _in_rate;
 	int _out_rate;
 	int _channels;
+	boost::optional<Frame> _next_in;
+	boost::optional<Frame> _next_out;
 };

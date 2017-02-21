@@ -67,9 +67,19 @@ Resampler::set_fast ()
 	}
 }
 
-shared_ptr<const AudioBuffers>
-Resampler::run (shared_ptr<const AudioBuffers> in)
+pair<shared_ptr<const AudioBuffers>, Frame>
+Resampler::run (shared_ptr<const AudioBuffers> in, Frame frame)
 {
+	if (!_next_in || !_next_out || _next_in.get() != frame) {
+		/* Either there was a discontinuity in the input or this is the first input;
+		   reset _next_out.
+		*/
+		_next_out = lrintf (frame * _out_rate / _in_rate);
+	}
+
+	/* Expected next input frame */
+	_next_in = frame + in->frames ();
+
 	int in_frames = in->frames ();
 	int in_offset = 0;
 	int out_offset = 0;
@@ -142,7 +152,12 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 		delete[] data.data_out;
 	}
 
-	return resampled;
+	Frame out_frame = _next_out.get ();
+
+	/* Expected next output frame */
+	_next_out = _next_out.get() + resampled->frames();
+
+	return make_pair (resampled, out_frame);
 }
 
 shared_ptr<const AudioBuffers>

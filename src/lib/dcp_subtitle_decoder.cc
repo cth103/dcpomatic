@@ -38,8 +38,10 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> con
 }
 
 void
-DCPSubtitleDecoder::seek (ContentTime time, bool)
+DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
+	Decoder::seek (time, accurate);
+
 	_next = _subtitles.begin ();
 	list<dcp::SubtitleString>::const_iterator i = _subtitles.begin ();
 	while (i != _subtitles.end() && ContentTime::from_seconds (_next->in().as_seconds()) < time) {

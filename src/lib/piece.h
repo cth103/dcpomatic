@@ -33,11 +33,13 @@ public:
 		: content (c)
 		, decoder (d)
 		, frc (f)
+		, done (false)
 	{}
 
 	boost::shared_ptr<Content> content;
 	boost::shared_ptr<Decoder> decoder;
 	FrameRateChange frc;
+	bool done;
 };
 
 #endif

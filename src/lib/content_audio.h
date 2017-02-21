@@ -39,12 +39,12 @@ public:
 		, frame (0)
 	{}
 
-	ContentAudio (boost::shared_ptr<AudioBuffers> a, Frame f)
+	ContentAudio (boost::shared_ptr<const AudioBuffers> a, Frame f)
 		: audio (a)
 		, frame (f)
 	{}
 
-	boost::shared_ptr<AudioBuffers> audio;
+	boost::shared_ptr<const AudioBuffers> audio;
 	Frame frame;
 };
 

@@ -20,7 +20,6 @@
 
 #include "audio_decoder.h"
 #include "audio_buffers.h"
-#include "audio_decoder_stream.h"
 #include "audio_content.h"
 #include "log.h"
 #include "compose.hpp"
@@ -34,11 +33,11 @@ using std::map;
 using boost::shared_ptr;
 using boost::optional;
 
-AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
+AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<AudioContent> content, shared_ptr<Log> log)
 	: DecoderPart (parent, log)
 {
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
-		_streams[i] = shared_ptr<AudioDecoderStream> (new AudioDecoderStream (content, i, parent, this, log));
+		_positions[i] = 0;
 	}
 }
 
@@ -49,58 +48,32 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 		return;
 	}
 
-	if (_streams.find (stream) == _streams.end ()) {
-
-		/* This method can be called with an unknown stream during the following sequence:
-		   - Add KDM to some DCP content.
-		   - Content gets re-examined.
-		   - SingleStreamAudioContent::take_from_audio_examiner creates a new stream.
-		   - Some content property change signal is delivered so Player::Changed is emitted.
-		   - Film viewer to re-gets the frame.
-		   - Player calls DCPDecoder pass which calls this method on the new stream.
-
-		   At this point the AudioDecoder does not know about the new stream.
-
-		   Then
-		   - Some other property change signal is delivered which marks the player's pieces invalid.
-		   - Film viewer re-gets again.
-		   - Everything is OK.
-
-		   In this situation it is fine for us to silently drop the audio.
-		*/
-
-		return;
+	if (_positions[stream] == 0) {
+		_positions[stream] = time.frames_round (stream->frame_rate ());
 	}
 
-	_streams[stream]->audio (data, time);
-	_positions[stream] = time;
+	Data (stream, ContentAudio (data, _positions[stream]));
+	_positions[stream] += data->frames();
 }
 
-void
-AudioDecoder::flush ()
-{
-	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
-		i->second->flush ();
-	}
-}
-
-void
-AudioDecoder::set_fast ()
-{
-	for (StreamMap::const_iterator i = _streams.begin(); i != _streams.end(); ++i) {
-		i->second->set_fast ();
-	}
-}
-
-optional<ContentTime>
+ContentTime
 AudioDecoder::position () const
 {
 	optional<ContentTime> p;
-	for (map<AudioStreamPtr, ContentTime>::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
-		if (!p || i->second < *p) {
-			p = i->second;
+	for (map<AudioStreamPtr, Frame>::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
+		ContentTime const ct = ContentTime::from_frames (i->second, i->first->frame_rate ());
+		if (!p || ct < *p) {
+			p = ct;
 		}
 	}
 
-	return p;
+	return p.get_value_or(ContentTime());
+}
+
+void
+AudioDecoder::seek ()
+{
+	for (map<AudioStreamPtr, Frame>::iterator i = _positions.begin(); i != _positions.end(); ++i) {
+		i->second = 0;
+	}
 }

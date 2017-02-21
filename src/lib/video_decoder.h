@@ -51,7 +51,7 @@ public:
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
-	boost::optional<ContentTime> position () const {
+	ContentTime position () const {
 		return _position;
 	}
 
@@ -62,7 +62,7 @@ public:
 private:
 	boost::shared_ptr<const Content> _content;
 	boost::optional<Frame> _last_emitted;
-	boost::optional<ContentTime> _position;
+	ContentTime _position;
 };
 
 #endif

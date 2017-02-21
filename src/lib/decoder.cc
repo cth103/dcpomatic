@@ -22,23 +22,36 @@
 #include "video_decoder.h"
 #include "audio_decoder.h"
 #include "subtitle_decoder.h"
+#include <boost/optional.hpp>
+#include <iostream>
+
+using std::cout;
+using boost::optional;
 
 ContentTime
 Decoder::position () const
 {
-	ContentTime pos;
+	optional<ContentTime> pos;
 
-	if (video && video->position()) {
-		pos = min (pos, video->position().get());
+	if (video && (!pos || video->position() < *pos)) {
+		pos = video->position();
 	}
 
-	if (audio && audio->position()) {
-		pos = min (pos, audio->position().get());
+	if (audio && (!pos || audio->position() < *pos)) {
+		pos = audio->position();
 	}
 
-	if (subtitle && subtitle->position()) {
-		pos = min (pos, subtitle->position().get());
+	if (subtitle && (!pos || subtitle->position() < *pos)) {
+		pos = subtitle->position();
 	}
 
-	return pos;
+	return pos.get_value_or(ContentTime());
+}
+
+void
+Decoder::seek (ContentTime time, bool accurate)
+{
+	if (audio) {
+		audio->seek ();
+	}
 }

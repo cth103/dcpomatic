@@ -44,6 +44,7 @@ class Playlist;
 class Font;
 class AudioBuffers;
 class ReferencedReelAsset;
+class Resampler;
 
 /** @class Player
  *  @brief A class which can `play' a Playlist.
@@ -105,6 +106,7 @@ private:
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void image_subtitle (boost::weak_ptr<Piece>, ContentImageSubtitle);
 	void text_subtitle (boost::weak_ptr<Piece>, ContentTextSubtitle);
+	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -141,6 +143,8 @@ private:
 	std::list<std::pair<PlayerSubtitles, DCPTimePeriod> > _subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
+	typedef std::map<std::pair<boost::shared_ptr<const AudioContent>, AudioStreamPtr>, boost::shared_ptr<Resampler> > ResamplerMap;
+	ResamplerMap _resamplers;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_changed_connection;

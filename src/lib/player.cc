@@ -47,6 +47,8 @@
 #include "content_subtitle.h"
 #include "dcp_decoder.h"
 #include "image_decoder.h"
+#include "resampler.h"
+#include "compose.hpp"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
@@ -120,10 +122,6 @@ Player::setup_pieces ()
 
 		if (decoder->audio && _ignore_audio) {
 			decoder->audio->set_ignore ();
-		}
-
-		if (decoder->audio && _fast) {
-			decoder->audio->set_fast ();
 		}
 
 		shared_ptr<DCPDecoder> dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
@@ -508,12 +506,15 @@ Player::pass ()
 	}
 
 	shared_ptr<Piece> earliest;
-	DCPTime earliest_position;
+	DCPTime earliest_content;
+
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		DCPTime const t = i->content->position() + DCPTime (i->decoder->position(), i->frc);
-		if (!earliest || t < earliest_position) {
-			earliest_position = t;
-			earliest = i;
+		if (!i->done) {
+			DCPTime const t = i->content->position() + DCPTime (i->decoder->position(), i->frc);
+			if (!earliest || t < earliest_content) {
+				earliest_content = t;
+				earliest = i;
+			}
 		}
 	}
 
@@ -521,11 +522,21 @@ Player::pass ()
 		return true;
 	}
 
-	earliest->decoder->pass ();
+	earliest->done = earliest->decoder->pass ();
 
 	/* Emit any audio that is ready */
 
-	pair<shared_ptr<AudioBuffers>, DCPTime> audio = _audio_merger.pull (earliest_position);
+	optional<DCPTime> earliest_audio;
+	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		if (i->decoder->audio) {
+			DCPTime const t = i->content->position() + DCPTime (i->decoder->audio->position(), i->frc);
+			if (!earliest_audio || t < *earliest_audio) {
+				earliest_audio = t;
+			}
+		}
+	}
+
+	pair<shared_ptr<AudioBuffers>, DCPTime> audio = _audio_merger.pull (earliest_audio.get_value_or(DCPTime()));
 	if (audio.first->frames() > 0) {
 		DCPOMATIC_ASSERT (audio.second >= _last_audio_time);
 		DCPTime t = _last_audio_time;
@@ -556,6 +567,11 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Time and period of the frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame.index());
 	DCPTimePeriod const period (time, time + DCPTime::from_frames (1, _film->video_frame_rate()));
+
+	/* Discard if it's outside the content's period */
+	if (time < piece->content->position() || time >= piece->content->end()) {
+		return;
+	}
 
 	/* Get any subtitles */
 
@@ -646,22 +662,28 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	shared_ptr<AudioContent> content = piece->content->audio;
 	DCPOMATIC_ASSERT (content);
 
-	shared_ptr<AudioBuffers> audio = content_audio.audio;
-
 	/* Gain */
 	if (content->gain() != 0) {
-		shared_ptr<AudioBuffers> gain (new AudioBuffers (audio));
+		shared_ptr<AudioBuffers> gain (new AudioBuffers (content_audio.audio));
 		gain->apply_gain (content->gain ());
-		audio = gain;
+		content_audio.audio = gain;
+	}
+
+	/* Resample */
+	if (stream->frame_rate() != content->resampled_frame_rate()) {
+		shared_ptr<Resampler> r = resampler (content, stream, true);
+		pair<shared_ptr<const AudioBuffers>, Frame> ro = r->run (content_audio.audio, content_audio.frame);
+		content_audio.audio = ro.first;
+		content_audio.frame = ro.second;
 	}
 
 	/* XXX: end-trimming used to be checked here */
 
 	/* Compute time in the DCP */
-	DCPTime const time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000);
+	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000);
 
 	/* Remap channels */
-	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), audio->frames()));
+	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), content_audio.audio->frames()));
 	dcp_mapped->make_silent ();
 
 	AudioMapping map = stream->mapping ();
@@ -669,7 +691,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		for (int j = 0; j < dcp_mapped->channels(); ++j) {
 			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
 				dcp_mapped->accumulate_channel (
-					audio.get(),
+					content_audio.audio.get(),
 					i,
 					static_cast<dcp::Channel> (j),
 					map.get (i, static_cast<dcp::Channel> (j))
@@ -678,13 +700,23 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		}
 	}
 
-	audio = dcp_mapped;
+	content_audio.audio = dcp_mapped;
 
 	if (_audio_processor) {
-		audio = _audio_processor->run (audio, _film->audio_channels ());
+		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
 	}
 
-	_audio_merger.push (audio, time);
+	/* XXX: this may be nonsense */
+	if (time < _audio_merger.last_pull()) {
+		DCPTime const discard_time = _audio_merger.last_pull() - time;
+		Frame discard_frames = discard_time.frames_round(_film->audio_frame_rate());
+		content_audio.audio.reset (new AudioBuffers (_film->audio_channels(), content_audio.audio->frames() - discard_frames));
+		time += discard_time;
+	}
+
+	if (content_audio.audio->frames() > 0) {
+		_audio_merger.push (content_audio.audio, time);
+	}
 }
 
 void
@@ -768,6 +800,7 @@ Player::seek (DCPTime time, bool accurate)
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (i->content->position() <= time && time < i->content->end()) {
 			i->decoder->seek (dcp_to_content_time (i, time), accurate);
+			i->done = false;
 		}
 	}
 
@@ -776,4 +809,31 @@ Player::seek (DCPTime time, bool accurate)
 	} else {
 		_last_time = optional<DCPTime> ();
 	}
+}
+
+shared_ptr<Resampler>
+Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create)
+{
+	ResamplerMap::const_iterator i = _resamplers.find (make_pair (content, stream));
+	if (i != _resamplers.end ()) {
+		return i->second;
+	}
+
+	if (!create) {
+		return shared_ptr<Resampler> ();
+	}
+
+	LOG_GENERAL (
+		"Creating new resampler from %1 to %2 with %3 channels",
+		stream->frame_rate(),
+		content->resampled_frame_rate(),
+		stream->channels()
+		);
+
+	shared_ptr<Resampler> r (
+		new Resampler (stream->frame_rate(), content->resampled_frame_rate(), stream->channels())
+		);
+
+	_resamplers[make_pair(content, stream)] = r;
+	return r;
 }

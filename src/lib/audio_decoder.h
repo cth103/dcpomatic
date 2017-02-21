@@ -43,22 +43,16 @@ class Log;
 class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public DecoderPart
 {
 public:
-	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent>, boost::shared_ptr<Log> log);
+	AudioDecoder (Decoder* parent, boost::shared_ptr<AudioContent> content, boost::shared_ptr<Log> log);
 
-	boost::optional<ContentTime> position () const;
-
-	void set_fast ();
-	void flush ();
-
+	ContentTime position () const;
 	void emit (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
+	void seek ();
 
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
-	/** An AudioDecoderStream object to manage each stream in _audio_content */
-	typedef std::map<AudioStreamPtr, boost::shared_ptr<AudioDecoderStream> > StreamMap;
-	StreamMap _streams;
-	std::map<AudioStreamPtr, ContentTime> _positions;
+	std::map<AudioStreamPtr, Frame> _positions;
 };
 
 #endif

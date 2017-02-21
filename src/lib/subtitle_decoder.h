@@ -48,7 +48,7 @@ public:
 		boost::shared_ptr<Log> log
 		);
 
-	boost::optional<ContentTime> position () const {
+	ContentTime position () const {
 		return _position;
 	}
 
@@ -65,7 +65,7 @@ public:
 
 private:
 	boost::shared_ptr<const SubtitleContent> _content;
-	boost::optional<ContentTime> _position;
+	ContentTime _position;
 };
 
 #endif

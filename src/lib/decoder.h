@@ -47,9 +47,11 @@ public:
 	boost::shared_ptr<AudioDecoder> audio;
 	boost::shared_ptr<SubtitleDecoder> subtitle;
 
-	/** @return true if there is no more data to come from this decoder */
+	/** Do some decoding and perhaps emit video, audio or subtitle data.
+	 *  @return true if this decoder will emit no more data unless a seek() happens.
+	 */
 	virtual bool pass () = 0;
-	virtual void seek (ContentTime time, bool accurate) = 0;
+	virtual void seek (ContentTime time, bool accurate);
 
 	ContentTime position () const;
 };

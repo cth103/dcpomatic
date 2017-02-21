@@ -42,8 +42,10 @@ TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> 
 }
 
 void
-TextSubtitleDecoder::seek (ContentTime time, bool)
+TextSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
+	Decoder::seek (time, accurate);
+
 	_next = 0;
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
 		++_next;

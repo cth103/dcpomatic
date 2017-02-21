@@ -33,7 +33,7 @@ public:
 	DecoderPart (Decoder* parent, boost::shared_ptr<Log> log);
 	virtual ~DecoderPart () {}
 
-	virtual boost::optional<ContentTime> position () const = 0;
+	virtual ContentTime position () const = 0;
 
 	void set_ignore () {
 		_ignore = true;

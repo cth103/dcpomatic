@@ -44,7 +44,7 @@ resampler_test_one (int from, int to)
 	for (int64_t i = 0; i < N; i += 1000) {
 		shared_ptr<AudioBuffers> a (new AudioBuffers (1, 1000));
 		a->make_silent ();
-		shared_ptr<const AudioBuffers> r = resamp.run (a);
+		pair<shared_ptr<const AudioBuffers>, Frame> r = resamp.run (a, 0);
 	}
 }
 
