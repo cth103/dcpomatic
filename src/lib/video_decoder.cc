@@ -59,7 +59,7 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		return;
 	}
 
-	/* Work out what we are going to push into _decoded next */
+	/* Work out what we are going to emit next */
 	switch (_content->video->frame_type ()) {
 	case VIDEO_FRAME_TYPE_2D:
 		Data (ContentVideo (image, VideoFrame (frame, EYES_BOTH), PART_WHOLE));
