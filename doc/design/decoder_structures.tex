@@ -162,7 +162,7 @@ Questions:
 \begin{itemize}
 \item Add signals to \texttt{Player}.
   \begin{itemize}
-    \item \texttt{signal<void (shared\_ptr<PlayerVideo>), DCPTime> Video;}
+    \item \texttt{signal<void (shared\_ptr<PlayerVideo>), DCPTime)> Video;}
     \item \texttt{signal<void (shared\_ptr<AudioBuffers>, DCPTime)> Audio;}
     \item \texttt{signal<void (PlayerSubtitles, DCPTimePeriod)> Subtitle;}
   \end{itemize}
@@ -173,5 +173,39 @@ Questions:
   \item Rename \texttt{give} methods to \texttt{emit}.
   \item Remove \texttt{get} methods from \texttt{Player}; replace with \texttt{pass()} and \texttt{seek()}.
 \end{itemize}
+
+
+\section{Summary of work done in \texttt{back-to-pass}}
+
+The diff between \texttt{back-to-pass} and \texttt{master} as at 21/2/2017 can be summarised as:
+
+\begin{enumerate}
+\item Remove \texttt{AudioDecoderStream}; no more need to buffer, and resampling is done in \texttt{Player}.
+\item \texttt{AudioDecoder} is simple; basically counting frames.
+\item All subtitles-during stuff is gone; no need to know what happens in a particular period as we just wait and see.
+\item Pass reason stuff gone; not sure what it was for but seems to have been a contortion related to trying to find specific stuff.
+  \item \texttt{Player::pass} back, obviously.
+  \item \texttt{Player::get\_video}, \texttt{get\_audio} and
+    \texttt{get\_subtitle} more-or-less become \texttt{Player}'s
+    handlers for emissions from decoders; lots of buffering crap gone
+    in the process.
+  \item Add \texttt{Decoder::position} stuff so that we know what to \texttt{pass()} in \texttt{Player}.
+  \item Add \texttt{AudioMerger}; necessary as audio arrives at the
+    \texttt{Player} from different streams at different times.  The
+    \texttt{AudioMerger} just accepts data, mixes and spits it out
+    again.
+\item Obvious consumer changes: what was a loop over the playlist
+  length and calls to \texttt{get()} is now calls to \texttt{pass()}.
+  \item Maybe-seek stuff gone.
+  \item Some small \texttt{const}-correctness bits.
+\end{enumerate}
+
+Obvious things to do:
+
+\begin{enumerate}
+\item Ensure AudioMerger is being tested.
+\item Ensure hardest-case in video / audio is being tested.
+\item Look at symmetry of video/audio paths / APIs.
+\end{enumerate}
 
 \end{document}
