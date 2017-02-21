@@ -43,7 +43,7 @@ class Log;
 class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public DecoderPart
 {
 public:
-	AudioDecoder (Decoder* parent, boost::shared_ptr<AudioContent> content, boost::shared_ptr<Log> log);
+	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, boost::shared_ptr<Log> log);
 
 	ContentTime position () const;
 	void emit (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
