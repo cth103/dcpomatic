@@ -519,6 +519,7 @@ Player::pass ()
 	}
 
 	if (!earliest) {
+		/* XXX: fill up to the length of Playlist with black / silence */
 		return true;
 	}
 
