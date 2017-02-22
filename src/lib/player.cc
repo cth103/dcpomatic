@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -519,7 +519,28 @@ Player::pass ()
 	}
 
 	if (!earliest) {
-		/* XXX: fill up to the length of Playlist with black / silence */
+		/* No more content; fill up to the length of our playlist with silent black */
+
+		DCPTime const length = _playlist->length ();
+
+		DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate());
+		DCPTime from;
+		if (_last_time) {
+			from = _last_time.get() + frame;
+		}
+		for (DCPTime i = from; i < length; i += frame) {
+			Video (black_player_video_frame (), i);
+		}
+
+		DCPTime t = _last_audio_time;
+		while (t < length) {
+			DCPTime block = min (DCPTime::from_seconds (0.5), length - t);
+			shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), block.frames_round(_film->audio_frame_rate())));
+			silence->make_silent ();
+			Audio (silence, t);
+			t += block;
+		}
+
 		return true;
 	}
 
@@ -530,7 +551,14 @@ Player::pass ()
 	optional<DCPTime> earliest_audio;
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (i->decoder->audio) {
-			DCPTime const t = i->content->position() + DCPTime (i->decoder->audio->position(), i->frc);
+			DCPTime t = i->content->position()
+				+ DCPTime (i->decoder->audio->position(), i->frc)
+				+ DCPTime::from_seconds (i->content->audio->delay() / 1000.0);
+
+			if (t < DCPTime()) {
+				t = DCPTime();
+			}
+
 			if (!earliest_audio || t < *earliest_audio) {
 				earliest_audio = t;
 			}
@@ -551,7 +579,7 @@ Player::pass ()
 		}
 
 		Audio (audio.first, audio.second);
-		_last_audio_time = audio.second;
+		_last_audio_time = audio.second + DCPTime::from_frames(audio.first->frames(), _film->audio_frame_rate());
 	}
 
 	return false;
@@ -681,7 +709,22 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	/* XXX: end-trimming used to be checked here */
 
 	/* Compute time in the DCP */
-	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000);
+	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
+
+	/* Remove anything that comes before the start of the content */
+	if (time < piece->content->position()) {
+		DCPTime const discard_time = piece->content->position() - time;
+		Frame discard_frames = discard_time.frames_round(_film->audio_frame_rate());
+		Frame remaining_frames = content_audio.audio->frames() - discard_frames;
+		if (remaining_frames <= 0) {
+			/* This audio is entirely discarded */
+			return;
+		}
+		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
+		cut->copy_from (content_audio.audio.get(), remaining_frames, discard_frames, 0);
+		content_audio.audio = cut;
+		time += discard_time;
+	}
 
 	/* Remap channels */
 	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), content_audio.audio->frames()));
@@ -707,17 +750,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
 	}
 
-	/* XXX: this may be nonsense */
-	if (time < _audio_merger.last_pull()) {
-		DCPTime const discard_time = _audio_merger.last_pull() - time;
-		Frame discard_frames = discard_time.frames_round(_film->audio_frame_rate());
-		content_audio.audio.reset (new AudioBuffers (_film->audio_channels(), content_audio.audio->frames() - discard_frames));
-		time += discard_time;
-	}
-
-	if (content_audio.audio->frames() > 0) {
-		_audio_merger.push (content_audio.audio, time);
-	}
+	_audio_merger.push (content_audio.audio, time);
 }
 
 void
