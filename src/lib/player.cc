@@ -95,6 +95,8 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	set_video_container_size (_film->frame_size ());
 
 	film_changed (Film::AUDIO_PROCESSOR);
+
+	seek (DCPTime (), true);
 }
 
 void
