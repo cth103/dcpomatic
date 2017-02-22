@@ -51,6 +51,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	list<string> ignore;
 	ignore.push_back ("Key");
+	ignore.push_back ("ContextID");
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 
 	shared_ptr<Film> g (new Film (dir));
