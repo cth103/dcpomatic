@@ -146,6 +146,14 @@ Player::setup_pieces ()
 		}
 	}
 
+	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		if (i->content->audio) {
+			BOOST_FOREACH (AudioStreamPtr j, i->content->audio->streams()) {
+				_stream_states[j] = StreamState (i, i->content->position ());
+			}
+		}
+	}
+
 	_have_valid_pieces = true;
 }
 
@@ -555,6 +563,7 @@ Player::pass ()
 		}
 	}
 
+//	cout << "PULL " << to_string(pull_from) << "\n";
 	pair<shared_ptr<AudioBuffers>, DCPTime> audio = _audio_merger.pull (pull_from);
 	if (audio.first->frames() > 0) {
 		DCPOMATIC_ASSERT (audio.second >= _last_audio_time);
@@ -740,13 +749,11 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
 	}
 
+//	cout << "PUSH " << content_audio.audio->frames() << " @ " << to_string(time) << "\n";
 	_audio_merger.push (content_audio.audio, time);
 
-	if (_stream_states.find (stream) == _stream_states.end ()) {
-		_stream_states[stream] = StreamState (piece, time);
-	} else {
-		_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
-	}
+	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
+	_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
 }
 
 void

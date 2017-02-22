@@ -115,7 +115,6 @@ Transcoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 void
 Transcoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
-	cout << "tx receives " << data->frames() << " @ " << to_string(time) << "\n";
 	_writer->write (data);
 
 	shared_ptr<Job> job = _job.lock ();
