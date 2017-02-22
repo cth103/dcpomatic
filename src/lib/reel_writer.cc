@@ -480,7 +480,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 		_sound_asset_writer->write (audio->data(), audio->frames());
 	}
 
-	++_total_written_audio_frames;
+	_total_written_audio_frames += audio->frames ();
 }
 
 void

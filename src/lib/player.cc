@@ -548,24 +548,14 @@ Player::pass ()
 
 	/* Emit any audio that is ready */
 
-	optional<DCPTime> earliest_audio;
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		if (i->decoder->audio) {
-			DCPTime t = i->content->position()
-				+ DCPTime (i->decoder->audio->position(), i->frc)
-				+ DCPTime::from_seconds (i->content->audio->delay() / 1000.0);
-
-			if (t < DCPTime()) {
-				t = DCPTime();
-			}
-
-			if (!earliest_audio || t < *earliest_audio) {
-				earliest_audio = t;
-			}
+	DCPTime pull_from = _playlist->length ();
+	for (map<AudioStreamPtr, StreamState>::const_iterator i = _stream_states.begin(); i != _stream_states.end(); ++i) {
+		if (!i->second.piece->done && i->second.last_push_end < pull_from) {
+			pull_from = i->second.last_push_end;
 		}
 	}
 
-	pair<shared_ptr<AudioBuffers>, DCPTime> audio = _audio_merger.pull (earliest_audio.get_value_or(DCPTime()));
+	pair<shared_ptr<AudioBuffers>, DCPTime> audio = _audio_merger.pull (pull_from);
 	if (audio.first->frames() > 0) {
 		DCPOMATIC_ASSERT (audio.second >= _last_audio_time);
 		DCPTime t = _last_audio_time;
@@ -751,6 +741,12 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	}
 
 	_audio_merger.push (content_audio.audio, time);
+
+	if (_stream_states.find (stream) == _stream_states.end ()) {
+		_stream_states[stream] = StreamState (piece, time);
+	} else {
+		_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
+	}
 }
 
 void

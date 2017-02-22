@@ -140,6 +140,20 @@ private:
 	AudioMerger _audio_merger;
 	DCPTime _last_audio_time;
 
+	class StreamState {
+	public:
+		StreamState () {}
+
+		StreamState (boost::shared_ptr<Piece> p, DCPTime l)
+			: piece(p)
+			, last_push_end(l)
+		{}
+
+		boost::shared_ptr<Piece> piece;
+		DCPTime last_push_end;
+	};
+	std::map<AudioStreamPtr, StreamState> _stream_states;
+
 	std::list<std::pair<PlayerSubtitles, DCPTimePeriod> > _subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;

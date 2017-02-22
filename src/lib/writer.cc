@@ -229,7 +229,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	_empty_condition.notify_all ();
 }
 
-/** Write one video frame's worth of audio frames to the DCP.
+/** Write some audio frames to the DCP.
  *  @param audio Audio data or 0 if there is no audio to be written here (i.e. it is referenced).
  *  This method is not thread safe.
  */
@@ -243,8 +243,7 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 
 	_audio_reel->write (audio);
 
-	/* written is in video frames, not audio frames */
-	if (_audio_reel->total_written_audio_frames() >= _audio_reel->period().duration().frames_floor (_film->video_frame_rate())) {
+	if (_audio_reel->total_written_audio_frames() >= _audio_reel->period().duration().frames_floor (_film->audio_frame_rate())) {
 		++_audio_reel;
 	}
 }
