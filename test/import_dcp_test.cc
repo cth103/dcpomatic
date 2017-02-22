@@ -40,7 +40,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	A->set_container (Ratio::from_id ("185"));
 	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	A->set_name ("frobozz");
-	A->set_interop (false);
 
 	shared_ptr<FFmpegContent> c (new FFmpegContent (A, "test/data/test.mp4"));
 	A->examine_and_add_content (c);
@@ -68,7 +67,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	B->set_container (Ratio::from_id ("185"));
 	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	B->set_name ("frobozz");
-	B->set_interop (false);
 
 	shared_ptr<DCPContent> d (new DCPContent (B, "build/test/import_dcp_test/" + A->dcp_name()));
 	d->add_kdm (kdm);

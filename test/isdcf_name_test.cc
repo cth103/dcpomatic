@@ -71,7 +71,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	m.studio = "DI";
 	m.facility = "PP";
 	film->set_isdcf_metadata (m);
-	film->set_interop (false);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* Test interior aspect ratio: shouldn't be shown with trailers */

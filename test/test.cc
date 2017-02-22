@@ -79,6 +79,7 @@ struct TestConfig
 		Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 		Config::instance()->set_default_audio_delay (0);
 		Config::instance()->set_default_j2k_bandwidth (100000000);
+		Config::instance()->set_default_interop (false);
 		Config::instance()->set_log_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
 
 		EncodeServerFinder::instance()->stop ();
