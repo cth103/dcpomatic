@@ -52,6 +52,8 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	/* Should be 32 frames of red */
+	/* Should be 31 frames of red; the last one gets replaced with black rather
+	   than repeated.
+	*/
 	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));
 }
