@@ -545,9 +545,12 @@ Player::pass ()
 		DCPTime t = _last_audio_time;
 		while (t < length) {
 			DCPTime block = min (DCPTime::from_seconds (0.5), length - t);
-			shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), block.frames_round(_film->audio_frame_rate())));
-			silence->make_silent ();
-			Audio (silence, t);
+			Frame const samples = block.frames_round(_film->audio_frame_rate());
+			if (samples) {
+				shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), samples));
+				silence->make_silent ();
+				Audio (silence, t);
+			}
 			t += block;
 		}
 
