@@ -53,6 +53,7 @@ def build(bld):
                  colour_conversion_test.cc
                  dcpomatic_time_test.cc
                  digest_test.cc
+                 ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
                  ffmpeg_examiner_test.cc
@@ -103,7 +104,6 @@ def build(bld):
     # XXX
     # audio_decoder_test.cc
     # dcp_subtitle_test.cc
-    # ffmpeg_audio_only_test.cc
     # ffmpeg_decoder_seek_test.cc
     # ffmpeg_decoder_sequential_test.cc
     # silence_padding_test.cc

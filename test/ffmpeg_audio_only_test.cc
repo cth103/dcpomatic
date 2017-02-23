@@ -30,6 +30,32 @@
 
 using boost::shared_ptr;
 
+static SNDFILE* ref = 0;
+static int ref_buffer_size = 0;
+static float* ref_buffer = 0;
+
+static void
+audio (boost::shared_ptr<AudioBuffers> audio, int channels)
+{
+	/* Check that we have a big enough buffer */
+	BOOST_CHECK (audio->frames() * audio->channels() < ref_buffer_size);
+
+	int const N = sf_readf_float (ref, ref_buffer, audio->frames());
+	for (int i = 0; i < N; ++i) {
+		switch (channels) {
+		case 1:
+			BOOST_CHECK_EQUAL (ref_buffer[i], audio->data(2)[i]);
+			break;
+		case 2:
+			BOOST_CHECK_EQUAL (ref_buffer[i*2 + 0], audio->data(0)[i]);
+			BOOST_CHECK_EQUAL (ref_buffer[i*2 + 1], audio->data(1)[i]);
+			break;
+		default:
+			BOOST_REQUIRE (false);
+		}
+	}
+}
+
 /** Test the FFmpeg code with audio-only content */
 static void
 test (boost::filesystem::path file)
@@ -51,30 +77,16 @@ test (boost::filesystem::path file)
 
 	SF_INFO info;
 	info.format = 0;
-	SNDFILE* ref = sf_open (file.string().c_str(), SFM_READ, &info);
+	ref = sf_open (file.string().c_str(), SFM_READ, &info);
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
-	float* ref_buffer = new float[info.samplerate * info.channels];
+	ref_buffer_size = info.samplerate * info.channels;
+	ref_buffer = new float[ref_buffer_size];
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
 
-	for (DCPTime t; t < film->length(); t += DCPTime::from_seconds (1)) {
-		int const N = sf_readf_float (ref, ref_buffer, info.samplerate);
-		shared_ptr<AudioBuffers> b = player->get_audio (t, DCPTime::from_frames (N, info.samplerate), true);
-		for (int i = 0; i < N; ++i) {
-			switch (info.channels) {
-			case 1:
-				BOOST_CHECK_EQUAL (ref_buffer[i], b->data(2)[i]);
-				break;
-			case 2:
-				BOOST_CHECK_EQUAL (ref_buffer[i*2 + 0], b->data(0)[i]);
-				BOOST_CHECK_EQUAL (ref_buffer[i*2 + 1], b->data(1)[i]);
-				break;
-			default:
-				BOOST_REQUIRE (false);
-			}
-		}
-	}
+	player->Audio.connect (bind (&audio, _1, info.channels));
+	while (!player->pass ()) {}
 
 	sf_close (ref);
 }
