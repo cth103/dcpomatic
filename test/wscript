@@ -78,7 +78,6 @@ def build(bld):
                  reels_test.cc
                  required_disk_space_test.cc
                  render_subtitles_test.cc
-                 resampler_test.cc
                  scaling_test.cc
                  silence_padding_test.cc
                  skip_frame_test.cc
@@ -96,9 +95,10 @@ def build(bld):
                  vf_kdm_test.cc
                  """
 
-    # Disabled tests: some difference in font rendering between the test machine
-    # and others...
+    # Some difference in font rendering between the test machine and others...
     # burnt_subtitle_test.cc
+    # This one doesn't check anything
+    # resampler_test.cc
 
     # XXX
     # audio_decoder_test.cc
