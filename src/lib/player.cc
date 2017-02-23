@@ -597,6 +597,11 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
+	FrameRateChange frc(piece->content->active_video_frame_rate(), _film->video_frame_rate());
+	if (frc.skip && (video.frame % 2) == 1) {
+		return;
+	}
+
 	/* Time and period of the frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
 	DCPTimePeriod const period (time, time + DCPTime::from_frames (1, _film->video_frame_rate()));
