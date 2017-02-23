@@ -236,15 +236,33 @@ Writer::fake_write (Frame frame, Eyes eyes)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio)
 {
-	if (_audio_reel == _reels.end ()) {
-		/* This audio is off the end of the last reel; ignore it */
-		return;
-	}
+	/* The audio we get might span a reel boundary, and if so we have to write it in bits */
 
-	_audio_reel->write (audio);
+	int32_t offset = 0;
+	while (offset < audio->frames ()) {
 
-	if (_audio_reel->total_written_audio_frames() >= _audio_reel->period().duration().frames_floor (_film->audio_frame_rate())) {
-		++_audio_reel;
+		if (_audio_reel == _reels.end ()) {
+			/* This audio is off the end of the last reel; ignore it */
+			return;
+		}
+
+		int32_t const this_time = min (
+			audio->frames() - offset,
+			(int32_t) (_audio_reel->period().duration().frames_floor(_film->audio_frame_rate()) - _audio_reel->total_written_audio_frames())
+			);
+
+		if (this_time == audio->frames()) {
+			/* Easy case: we can write all the audio to this reel */
+			_audio_reel->write (audio);
+		} else {
+			/* Write the part we can */
+			shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), this_time));
+			part->copy_from (audio.get(), this_time, offset, 0);
+			_audio_reel->write (part);
+			++_audio_reel;
+		}
+
+		offset += this_time;
 	}
 }
 
