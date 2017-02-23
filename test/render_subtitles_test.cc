@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test1)
 {
 	std::list<SubtitleString> s;
 	add (s, "Hello", false, false, false);
-	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "Hello");
+	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 /** Test marked_up() in render_subtitles.cc */
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test2)
 {
 	std::list<SubtitleString> s;
 	add (s, "Hello", false, true, false);
-	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<b>Hello</b>");
+	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test3)
 {
 	std::list<SubtitleString> s;
 	add (s, "Hello", true, true, false);
-	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<i><b>Hello</b></i>");
+	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span style=\"italic\" weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 /** Test marked_up() in render_subtitles.cc */
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test4)
 {
 	std::list<SubtitleString> s;
 	add (s, "Hello", true, true, true);
-	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<i><b><u>Hello</u></b></i>");
+	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span style=\"italic\" weight=\"bold\" underline=\"single\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 /** Test marked_up() in render_subtitles.cc */
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test5)
 	std::list<SubtitleString> s;
 	add (s, "Hello", false, true, false);
 	add (s, " world.", false, false, false);
-	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<b>Hello</b> world.");
+	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\"> world.</span>");
 }
 
 /** Test marked_up() in render_subtitles.cc */
@@ -101,5 +101,5 @@ BOOST_AUTO_TEST_CASE (render_markup_test6)
 	add (s, "Hello", true, false, false);
 	add (s, " world ", false, false, false);
 	add (s, "we are bold.", false, true, false);
-	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<i>Hello</i> world <b>we are bold.</b>");
+	BOOST_CHECK_EQUAL (marked_up (s, 1024, 1), "<span style=\"italic\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\"> world </span><span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">we are bold.</span>");
 }
