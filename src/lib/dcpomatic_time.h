@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 #include "frame_rate_change.h"
 #include "dcpomatic_assert.h"
 #include <boost/optional.hpp>
+#include <boost/foreach.hpp>
 #include <stdint.h>
 #include <cmath>
 #include <ostream>
@@ -290,6 +291,45 @@ public:
 		return !(*this == other);
 	}
 };
+
+/** @param B Periods to subtract from `A', must be in ascending order of start time and must not overlap */
+template <class T>
+std::list<TimePeriod<T> > subtract (TimePeriod<T> A, std::list<TimePeriod<T> > const & B)
+{
+	std::list<TimePeriod<T> > result;
+	result.push_back (A);
+
+	BOOST_FOREACH (TimePeriod<T> i, B) {
+		std::list<TimePeriod<T> > new_result;
+		BOOST_FOREACH (TimePeriod<T> j, result) {
+			boost::optional<TimePeriod<T> > ov = i.overlap (j);
+			if (ov) {
+				if (*ov == i) {
+					/* A contains all of B */
+					if (i.from != j.from) {
+						new_result.push_back (TimePeriod<T> (j.from, i.from));
+					}
+					if (i.to != j.to) {
+						new_result.push_back (TimePeriod<T> (i.to, j.to));
+					}
+				} else if (*ov == j) {
+					/* B contains all of A */
+				} else if (i.from < j.from) {
+					/* B overlaps start of A */
+					new_result.push_back (TimePeriod<T> (i.to, j.to));
+				} else if (i.to > j.to) {
+					/* B overlaps end of A */
+					new_result.push_back (TimePeriod<T> (j.from, i.from));
+				}
+			} else {
+				new_result.push_back (j);
+			}
+		}
+		result = new_result;
+	}
+
+	return result;
+}
 
 typedef TimePeriod<ContentTime> ContentTimePeriod;
 typedef TimePeriod<DCPTime> DCPTimePeriod;

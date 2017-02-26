@@ -228,7 +228,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_move)
 	int const to = 666;
 	int const frames = 444;
 
-	buffers.move (from, to, frames);
+	buffers.move (frames, from, to);
 
 	/* Re-seed and check the un-moved parts */
 	srand (84);
@@ -288,7 +288,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_accumulate_frames)
 	AudioBuffers b (3, 256);
 	random_fill (b);
 
-	a.accumulate_frames (&b, 91, 44, 129);
+	a.accumulate_frames (&b, 129, 91, 44);
 
 	srand (38);
 	for (int i = 0; i < 256; ++i) {

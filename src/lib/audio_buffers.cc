@@ -200,7 +200,7 @@ AudioBuffers::copy_from (AudioBuffers const * from, int32_t frames_to_copy, int3
  */
 
 void
-AudioBuffers::move (int32_t from, int32_t to, int32_t frames)
+AudioBuffers::move (int32_t frames, int32_t from, int32_t to)
 {
 	if (frames == 0) {
 		return;
@@ -273,7 +273,7 @@ AudioBuffers::ensure_size (int32_t frames)
 }
 
 void
-AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t read_offset, int32_t write_offset, int32_t frames)
+AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t frames, int32_t read_offset, int32_t write_offset)
 {
 	DCPOMATIC_ASSERT (_channels == from->channels ());
 	DCPOMATIC_ASSERT (read_offset >= 0);
@@ -324,4 +324,20 @@ AudioBuffers::clone () const
 	shared_ptr<AudioBuffers> b (new AudioBuffers (channels (), frames ()));
 	b->copy_from (this, frames (), 0, 0);
 	return b;
+}
+
+void
+AudioBuffers::append (shared_ptr<const AudioBuffers> other)
+{
+	ensure_size (_frames + other->frames());
+	copy_from (other.get(), other->frames(), 0, _frames);
+	_frames += other->frames();
+}
+
+void
+AudioBuffers::trim_start (int32_t frames)
+{
+	DCPOMATIC_ASSERT (frames <= _frames);
+	move (_frames - frames, frames, 0);
+	set_frames (_frames - frames);
 }

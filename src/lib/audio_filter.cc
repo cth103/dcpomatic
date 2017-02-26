@@ -105,7 +105,7 @@ AudioFilter::run (shared_ptr<const AudioBuffers> in)
 
 	int const amount = min (in->frames(), _tail->frames());
 	if (amount < _tail->frames ()) {
-		_tail->move (amount, 0, _tail->frames() - amount);
+		_tail->move (_tail->frames() - amount, amount, 0);
 	}
 	_tail->copy_from (in.get(), amount, in->frames() - amount, _tail->frames () - amount);
 

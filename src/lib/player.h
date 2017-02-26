@@ -107,6 +107,9 @@ private:
 	void image_subtitle (boost::weak_ptr<Piece>, ContentImageSubtitle);
 	void text_subtitle (boost::weak_ptr<Piece>, ContentTextSubtitle);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create);
+	DCPTime one_video_frame () const;
+	void fill_video (DCPTimePeriod period);
+	void fill_audio (DCPTimePeriod period);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -153,6 +156,9 @@ private:
 		DCPTime last_push_end;
 	};
 	std::map<AudioStreamPtr, StreamState> _stream_states;
+
+	std::list<DCPTimePeriod> _no_video;
+	std::list<DCPTimePeriod> _no_audio;
 
 	std::list<std::pair<PlayerSubtitles, DCPTimePeriod> > _subtitles;
 

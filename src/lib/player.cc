@@ -87,7 +87,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _always_burn_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
-	, _audio_merger (_film->audio_channels(), _film->audio_frame_rate())
+	, _audio_merger (_film->audio_frame_rate())
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
 	_playlist_changed_connection = _playlist->Changed.connect (bind (&Player::playlist_changed, this));
@@ -152,6 +152,20 @@ Player::setup_pieces ()
 		if (i->content->audio) {
 			BOOST_FOREACH (AudioStreamPtr j, i->content->audio->streams()) {
 				_stream_states[j] = StreamState (i, i->content->position ());
+			}
+		}
+	}
+
+	if (!_play_referenced) {
+		BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+			shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (i->content);
+			if (dc) {
+				if (dc->reference_video()) {
+					_no_video.push_back (DCPTimePeriod (dc->position(), dc->end()));
+				}
+				if (dc->reference_audio()) {
+					_no_audio.push_back (DCPTimePeriod (dc->position(), dc->end()));
+				}
 			}
 		}
 	}
@@ -529,31 +543,13 @@ Player::pass ()
 	}
 
 	if (!earliest) {
-		/* No more content; fill up to the length of our playlist with silent black */
-
-		DCPTime const length = _playlist->length ();
-
-		DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate());
-		DCPTime from;
+		/* No more content; fill up with silent black */
+		DCPTimePeriod remaining_video (DCPTime(), _playlist->length());
 		if (_last_time) {
-			from = _last_time.get() + frame;
+			remaining_video.from = _last_time.get() + one_video_frame();
 		}
-		for (DCPTime i = from; i < length; i += frame) {
-			Video (black_player_video_frame (), i);
-		}
-
-		DCPTime t = _last_audio_time;
-		while (t < length) {
-			DCPTime block = min (DCPTime::from_seconds (0.5), length - t);
-			Frame const samples = block.frames_round(_film->audio_frame_rate());
-			if (samples) {
-				shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), samples));
-				silence->make_silent ();
-				Audio (silence, t);
-			}
-			t += block;
-		}
-
+		fill_video (remaining_video);
+		fill_audio (DCPTimePeriod (_last_audio_time, _playlist->length()));
 		return true;
 	}
 
@@ -568,22 +564,12 @@ Player::pass ()
 		}
 	}
 
-//	cout << "PULL " << to_string(pull_from) << "\n";
-	pair<shared_ptr<AudioBuffers>, DCPTime> audio = _audio_merger.pull (pull_from);
-	if (audio.first->frames() > 0) {
-		DCPOMATIC_ASSERT (audio.second >= _last_audio_time);
-		DCPTime t = _last_audio_time;
-		while (t < audio.second) {
-			/* Silence up to the time of this new audio */
-			DCPTime block = min (DCPTime::from_seconds (0.5), audio.second - t);
-			shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), block.frames_round(_film->audio_frame_rate())));
-			silence->make_silent ();
-			Audio (silence, t);
-			t += block;
-		}
-
-		Audio (audio.first, audio.second);
-		_last_audio_time = audio.second + DCPTime::from_frames(audio.first->frames(), _film->audio_frame_rate());
+	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_from);
+	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
+		DCPOMATIC_ASSERT (i->second >= _last_audio_time);
+		fill_audio (DCPTimePeriod (_last_audio_time, i->second));
+		Audio (i->first, i->second);
+		_last_audio_time = i->second + DCPTime::from_frames(i->first->frames(), _film->audio_frame_rate());
 	}
 
 	return false;
@@ -604,7 +590,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	/* Time and period of the frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
-	DCPTimePeriod const period (time, time + DCPTime::from_frames (1, _film->video_frame_rate()));
+	DCPTimePeriod const period (time, time + one_video_frame());
 
 	/* Discard if it's outside the content's period */
 	if (time < piece->content->position() || time >= piece->content->end()) {
@@ -641,15 +627,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Fill gaps */
 
 	if (_last_time) {
-		/* XXX: this may not work for 3D */
-		DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate());
-		for (DCPTime i = _last_time.get() + frame; i < time; i += frame) {
-			if (_playlist->video_content_at(i) && _last_video) {
-				Video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), i);
-			} else {
-				Video (black_player_video_frame (), i);
-			}
-		}
+		fill_video (DCPTimePeriod (_last_time.get() + one_video_frame(), time));
 	}
 
 	_last_video.reset (
@@ -759,7 +737,6 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
 	}
 
-//	cout << "PUSH " << content_audio.audio->frames() << " @ " << to_string(time) << "\n";
 	_audio_merger.push (content_audio.audio, time);
 
 	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
@@ -852,7 +829,7 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	if (accurate) {
-		_last_time = time - DCPTime::from_frames (1, _film->video_frame_rate ());
+		_last_time = time - one_video_frame ();
 	} else {
 		_last_time = optional<DCPTime> ();
 	}
@@ -883,4 +860,43 @@ Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream
 
 	_resamplers[make_pair(content, stream)] = r;
 	return r;
+}
+
+void
+Player::fill_video (DCPTimePeriod period)
+{
+	/* XXX: this may not work for 3D */
+	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_video)) {
+		for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
+			if (_playlist->video_content_at(j) && _last_video) {
+				Video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
+			} else {
+				Video (black_player_video_frame(), j);
+			}
+		}
+	}
+}
+
+void
+Player::fill_audio (DCPTimePeriod period)
+{
+	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
+		DCPTime t = i.from;
+		while (t < i.to) {
+			DCPTime block = min (DCPTime::from_seconds (0.5), i.to - t);
+			Frame const samples = block.frames_round(_film->audio_frame_rate());
+			if (samples) {
+				shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), samples));
+				silence->make_silent ();
+				Audio (silence, t);
+			}
+			t += block;
+		}
+	}
+}
+
+DCPTime
+Player::one_video_frame () const
+{
+	return DCPTime::from_frames (1, _film->video_frame_rate ());
 }

@@ -74,9 +74,11 @@ public:
 
 	void copy_from (AudioBuffers const * from, int32_t frames_to_copy, int32_t read_offset, int32_t write_offset);
 	void copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel);
-	void move (int32_t from, int32_t to, int32_t frames);
+	void move (int32_t frames, int32_t from, int32_t to);
 	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
-	void accumulate_frames (AudioBuffers const *, int32_t read_offset, int32_t write_offset, int32_t frames);
+	void accumulate_frames (AudioBuffers const * from, int32_t frames, int32_t read_offset, int32_t write_offset);
+	void append (boost::shared_ptr<const AudioBuffers> other);
+	void trim_start (int32_t frames);
 
 private:
 	void allocate (int channels, int32_t frames);

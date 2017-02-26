@@ -49,7 +49,7 @@ Decoder::position () const
 }
 
 void
-Decoder::seek (ContentTime time, bool accurate)
+Decoder::seek (ContentTime, bool)
 {
 	if (audio) {
 		audio->seek ();

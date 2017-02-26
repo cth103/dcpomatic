@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,19 +24,54 @@
 class AudioMerger
 {
 public:
-	AudioMerger (int channels, int frame_rate);
+	AudioMerger (int frame_rate);
 
 	/** Pull audio up to a given time; after this call, no more data can be pushed
 	 *  before the specified time.
 	 */
-	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> pull (DCPTime time);
+	std::list<std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> > pull (DCPTime time);
 	void push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time);
-	DCPTime last_pull () const {
-		return _last_pull;
-	}
 
 private:
-	boost::shared_ptr<AudioBuffers> _buffers;
+	class Buffer
+	{
+	public:
+		/** @param c Channels
+		 *  @param f Frames
+		 *  @param t Time
+		 *  @param r Frame rate.
+		 */
+		Buffer (int c, int32_t f, DCPTime t, int r)
+			: audio (new AudioBuffers (c, f))
+			, time (t)
+			, frame_rate (r)
+		{}
+
+		Buffer (boost::shared_ptr<AudioBuffers> a, DCPTime t, int r)
+			: audio (a)
+			, time (t)
+			, frame_rate (r)
+		{}
+
+		boost::shared_ptr<AudioBuffers> audio;
+		DCPTime time;
+		int frame_rate;
+
+		DCPTimePeriod period () const {
+			return DCPTimePeriod (time, time + DCPTime::from_frames (audio->frames(), frame_rate));
+		}
+	};
+
+	class BufferComparator
+	{
+	public:
+		bool operator() (AudioMerger::Buffer const & a, AudioMerger::Buffer const & b)
+		{
+			return a.time < b.time;
+		}
+	};
+
+	std::list<Buffer> _buffers;
 	DCPTime _last_pull;
 	int _frame_rate;
 };

@@ -398,7 +398,7 @@ FFmpegDecoder::decode_audio_packet ()
 			if (ct < ContentTime ()) {
 				/* Discard audio data that comes before time 0 */
 				Frame const remove = min (int64_t (data->frames()), (-ct).frames_ceil(double((*stream)->frame_rate ())));
-				data->move (remove, 0, data->frames() - remove);
+				data->move (data->frames() - remove, remove, 0);
 				data->set_frames (data->frames() - remove);
 				ct += ContentTime::from_frames (remove, (*stream)->frame_rate ());
 			}

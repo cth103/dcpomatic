@@ -68,7 +68,7 @@ UpmixerB::run (shared_ptr<const AudioBuffers> in, int channels)
 
 	/* L + R minus 6dB (in terms of amplitude) */
 	shared_ptr<AudioBuffers> in_LR = in->channel(0);
-	in_LR->accumulate_frames (in->channel(1).get(), 0, 0, in->frames());
+	in_LR->accumulate_frames (in->channel(1).get(), in->frames(), 0, 0);
 	in_LR->apply_gain (-6);
 
 	if (channels > 0) {

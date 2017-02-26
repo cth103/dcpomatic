@@ -94,12 +94,14 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	ov->make_dcp ();
 	wait_for_jobs ();
 
+	std::cout << "incoming vf.\n";
+
 	/* Make the VF */
 	shared_ptr<Film> vf = new_test_film ("vf_test2_vf");
 	vf->set_name ("vf_test2_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (content_factory (vf, ov->dir (ov->dcp_name ())).front());
+	shared_ptr<DCPContent> dcp (new DCPContent (vf, ov->dir (ov->dcp_name ())));
 	BOOST_REQUIRE (dcp);
 	vf->examine_and_add_content (dcp);
 	wait_for_jobs ();
@@ -156,7 +158,7 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	vf->set_name ("vf_test3_vf");
 	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (content_factory(vf, ov->dir (ov->dcp_name ())).front());
+	shared_ptr<DCPContent> dcp (new DCPContent (vf, ov->dir (ov->dcp_name ())));
 	BOOST_REQUIRE (dcp);
 	dcp->set_trim_start (ContentTime::from_seconds (1));
 	dcp->set_trim_end (ContentTime::from_seconds (1));

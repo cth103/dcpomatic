@@ -71,7 +71,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 		}
 
 		/* Shuffle the tail down */
-		_tail->move (out->frames(), 0, _tail->frames() - out->frames());
+		_tail->move (_tail->frames() - out->frames(), out->frames(), 0);
 
 		/* Copy input into the tail */
 		_tail->copy_from (in.get(), in->frames(), 0, _tail->frames() - in->frames());

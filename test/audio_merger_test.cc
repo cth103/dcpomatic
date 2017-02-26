@@ -24,8 +24,11 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 #include <boost/signals2.hpp>
+#include <iostream>
 
 using std::pair;
+using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::bind;
 
@@ -33,34 +36,39 @@ static shared_ptr<const AudioBuffers> last_audio;
 
 int const sampling_rate = 48000;
 
+static void
+push (AudioMerger& merger, int from, int to, int at)
+{
+	shared_ptr<AudioBuffers> buffers (new AudioBuffers (1, to - from));
+	for (int i = 0; i < (to - from); ++i) {
+		buffers->data()[0][i] = from + i;
+	}
+	merger.push (buffers, DCPTime(at, sampling_rate));
+}
+
+/* Basic mixing, 2 overlapping pushes */
 BOOST_AUTO_TEST_CASE (audio_merger_test1)
 {
-	AudioMerger merger (1, sampling_rate);
+	AudioMerger merger (sampling_rate);
 
-	/* Push 64 samples, 0 -> 63 at time 0 */
-	shared_ptr<AudioBuffers> buffers (new AudioBuffers (1, 64));
-	for (int i = 0; i < 64; ++i) {
-		buffers->data()[0][i] = i;
-	}
-	merger.push (buffers, DCPTime());
+	push (merger, 0, 64, 0);
+	push (merger, 0, 64, 22);
 
-	/* Push 64 samples, 0 -> 63 at time 22 */
-	merger.push (buffers, DCPTime::from_frames (22, sampling_rate));
-
-	pair<shared_ptr<AudioBuffers>, DCPTime> tb = merger.pull (DCPTime::from_frames (22, sampling_rate));
-	BOOST_CHECK (tb.first != shared_ptr<const AudioBuffers> ());
-	BOOST_CHECK_EQUAL (tb.first->frames(), 22);
-	BOOST_CHECK_EQUAL (tb.second.get(), 0);
+	list<pair<shared_ptr<AudioBuffers>, DCPTime> > tb = merger.pull (DCPTime::from_frames (22, sampling_rate));
+	BOOST_REQUIRE (tb.size() == 1);
+	BOOST_CHECK (tb.front().first != shared_ptr<const AudioBuffers> ());
+	BOOST_CHECK_EQUAL (tb.front().first->frames(), 22);
+	BOOST_CHECK_EQUAL (tb.front().second.get(), 0);
 
 	/* And they should be a staircase */
 	for (int i = 0; i < 22; ++i) {
-		BOOST_CHECK_EQUAL (tb.first->data()[0][i], i);
+		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
 	}
 
 	tb = merger.pull (DCPTime::from_frames (22 + 64, sampling_rate));
-
-	BOOST_CHECK_EQUAL (tb.first->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.second.get(), DCPTime::from_frames(22, sampling_rate).get());
+	BOOST_REQUIRE (tb.size() == 1);
+	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(22, sampling_rate).get());
 
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
@@ -68,36 +76,56 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 		if (i < (64 - 22)) {
 			correct += i + 22;
 		}
-		BOOST_CHECK_EQUAL (tb.first->data()[0][i], correct);
+		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], correct);
 	}
 }
 
+/* Push at non-zero time */
 BOOST_AUTO_TEST_CASE (audio_merger_test2)
 {
-	AudioMerger merger (1, sampling_rate);
+	AudioMerger merger (sampling_rate);
 
-	/* Push 64 samples, 0 -> 63 at time 9 */
-	shared_ptr<AudioBuffers> buffers (new AudioBuffers (1, 64));
-	for (int i = 0; i < 64; ++i) {
-		buffers->data()[0][i] = i;
-	}
-	merger.push (buffers, DCPTime::from_frames (9, sampling_rate));
+	push (merger, 0, 64, 9);
 
-	pair<shared_ptr<AudioBuffers>, DCPTime> tb = merger.pull (DCPTime::from_frames (9, sampling_rate));
-	BOOST_CHECK_EQUAL (tb.first->frames(), 9);
-	BOOST_CHECK_EQUAL (tb.second.get(), 0);
+	/* There's nothing from 0 to 9 */
+	list<pair<shared_ptr<AudioBuffers>, DCPTime> > tb = merger.pull (DCPTime::from_frames (9, sampling_rate));
+	BOOST_CHECK_EQUAL (tb.size(), 0);
 
-	for (int i = 0; i < 9; ++i) {
-		BOOST_CHECK_EQUAL (tb.first->data()[0][i], 0);
-	}
-
+	/* Then there's our data at 9 */
 	tb = merger.pull (DCPTime::from_frames (9 + 64, sampling_rate));
 
-	BOOST_CHECK_EQUAL (tb.first->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.second.get(), DCPTime::from_frames(9, sampling_rate).get());
+	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(9, sampling_rate).get());
 
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
-		BOOST_CHECK_EQUAL (tb.first->data()[0][i], i);
+		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
+	}
+}
+
+/* Push two non contiguous blocks */
+BOOST_AUTO_TEST_CASE (audio_merger_test3)
+{
+	AudioMerger merger (sampling_rate);
+
+	push (merger, 0, 64, 17);
+	push (merger, 0, 64, 114);
+
+	/* Get them back */
+
+	list<pair<shared_ptr<AudioBuffers>, DCPTime> > tb = merger.pull (DCPTime::from_frames (100, sampling_rate));
+	BOOST_REQUIRE (tb.size() == 1);
+	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(17, sampling_rate).get());
+	for (int i = 0; i < 64; ++i) {
+		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
+	}
+
+	tb = merger.pull (DCPTime::from_frames (200, sampling_rate));
+	BOOST_REQUIRE (tb.size() == 1);
+	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(114, sampling_rate).get());
+	for (int i = 0; i < 64; ++i) {
+		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
 	}
 }
