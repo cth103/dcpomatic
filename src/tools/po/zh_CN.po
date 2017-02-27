@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 11:18+0000\n"
-"PO-Revision-Date: 2016-12-19 22:23+0800\n"
+"PO-Revision-Date: 2017-02-24 06:33+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -34,7 +34,6 @@ msgid "%d KDMs written to %s"
 msgstr "%d 导出KDMs 到 %s"
 
 #: src/tools/dcpomatic_batch.cc:62
-#, fuzzy
 msgid "&Add Film...\tCtrl-A"
 msgstr "&添加工程"
 
@@ -174,7 +173,7 @@ msgid "Could not load film %1 (%2)"
 msgstr "无法加载工程 %s (%s)"
 
 #: src/tools/dcpomatic.cc:510
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s."
 msgstr "DCP创建失败: %s"
 
@@ -229,9 +228,9 @@ msgid "Encoding servers..."
 msgstr "查看编码服务器..."
 
 #: src/tools/dcpomatic_kdm.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "目录 %s 已经存在且不为空。确定要使用它？"
+msgstr "已存在文件 %s ，是否覆盖？"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.

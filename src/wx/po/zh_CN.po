@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 11:18+0000\n"
-"PO-Revision-Date: 2016-12-19 22:13+0800\n"
+"PO-Revision-Date: 2017-02-24 06:32+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.12\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
@@ -32,12 +32,11 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:42 src/wx/file_picker_ctrl.cc:58
@@ -541,9 +540,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "默认JPEG2000码率"
 
 #: src/wx/config_dialog.cc:463
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "新工程默认目录"
+msgstr "默认KDM目录"
 
 #: src/wx/config_dialog.cc:451
 msgid "Default audio delay"
@@ -723,7 +721,7 @@ msgstr "淡出时间"
 #: src/wx/kdm_dialog.cc:132
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "已存在文件 %s ，是否覆盖？"
 
 #: src/wx/kdm_output_panel.cc:51
 msgid "Filename format"
@@ -837,7 +835,7 @@ msgstr "绿色色度"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
-msgstr ""
+msgstr "高场优先"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -889,7 +887,7 @@ msgstr "功率"
 
 #: src/wx/colour_conversion_editor.cc:58
 msgid "Input transfer function"
-msgstr ""
+msgstr "输入变换功能"
 
 #: src/wx/audio_dialog.cc:351
 #, c-format
@@ -911,7 +909,7 @@ msgstr "Interop"
 #: src/wx/colour_conversion_editor.cc:205
 #, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
-msgstr "伽玛校正"
+msgstr "输出时添加反转的2.6伽马值"
 
 #: src/wx/config_dialog.cc:227
 msgid "Issuer"
@@ -1011,7 +1009,7 @@ msgstr "响度范围 %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
 msgid "Lower priority"
-msgstr ""
+msgstr "低场优先"
 
 #: src/wx/content_panel.cc:528
 msgid "MISSING: "
@@ -1199,9 +1197,8 @@ msgid "Output"
 msgstr "输出"
 
 #: src/wx/colour_conversion_editor.cc:203
-#, fuzzy
 msgid "Output gamma correction"
-msgstr "伽玛校正"
+msgstr "输出伽玛校正"
 
 #: src/wx/config_dialog.cc:1164
 msgid "Password"
@@ -1383,7 +1380,7 @@ msgstr "解析度"
 
 #: src/wx/image_subtitle_colour_dialog.cc:70
 msgid "Restore to original colours"
-msgstr ""
+msgstr "恢复为原始色彩"
 
 #: src/wx/normal_job_view.cc:56
 msgid "Resume"
@@ -1411,7 +1408,7 @@ msgstr "根名称"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "索尼S-Gamut3"
 
 #: src/wx/config_dialog.cc:1168
 msgid "SCP (for AAM and Doremi)"
@@ -1542,12 +1539,12 @@ msgstr "签名DCP和KDM"
 #: src/wx/colour_conversion_editor.cc:60
 #, fuzzy
 msgid "Simple gamma"
-msgstr "伽马值"
+msgstr "简单伽马值"
 
 #: src/wx/colour_conversion_editor.cc:61
 #, fuzzy
 msgid "Simple gamma, linearised for small values"
-msgstr "对齐低位的伽马值"
+msgstr "简单伽马值，低位对齐"
 
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
@@ -1966,14 +1963,14 @@ msgstr "YUV转换到RGB矩阵(色彩空间)"
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
-msgstr ""
+msgstr "存在同名银幕，不能添加新银幕 '%s' ."
 
 #: src/wx/screens_panel.cc:258
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
-msgstr ""
+msgstr "存在同名银幕！不能将银幕名称设置为 '%s' ."
 
 #: src/wx/report_problem_dialog.cc:66
 msgid "Your email address"
