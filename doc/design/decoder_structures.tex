@@ -194,6 +194,10 @@ The diff between \texttt{back-to-pass} and \texttt{master} as at 21/2/2017 can b
     \texttt{Player} from different streams at different times.  The
     \texttt{AudioMerger} just accepts data, mixes and spits it out
     again.
+\item \texttt{AudioMerger} made aware of periods with no content to
+  allow referenced reels; adds a fair amount of complexity.  Without
+  this the referenced reel gaps are silence-padded which confuses
+  things later on as our VF DCP gets audio data that it does not need.
 \item Obvious consumer changes: what was a loop over the playlist
   length and calls to \texttt{get()} is now calls to \texttt{pass()}.
   \item Maybe-seek stuff gone.
