@@ -51,7 +51,7 @@ AudioMerger::pull (DCPTime time)
 	list<Buffer> new_buffers;
 
 	BOOST_FOREACH (Buffer i, _buffers) {
-		if (i.period().to < time) {
+		if (i.period().to <= time) {
 			/* Completely within the pull period */
 			out.push_back (make_pair (i.audio, i.time));
 		} else if (i.time < time) {

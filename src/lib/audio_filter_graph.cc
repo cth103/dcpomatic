@@ -26,10 +26,12 @@ extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavutil/channel_layout.h>
 }
+#include <iostream>
 
 #include "i18n.h"
 
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 
 AudioFilterGraph::AudioFilterGraph (int sample_rate, int channels)
@@ -105,6 +107,7 @@ AudioFilterGraph::sink_name () const
 void
 AudioFilterGraph::process (shared_ptr<const AudioBuffers> buffers)
 {
+	DCPOMATIC_ASSERT (buffers->frames() > 0);
 	int const process_channels = av_get_channel_layout_nb_channels (_channel_layout);
 	DCPOMATIC_ASSERT (process_channels >= buffers->channels());
 
