@@ -94,8 +94,6 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	ov->make_dcp ();
 	wait_for_jobs ();
 
-	std::cout << "incoming vf.\n";
-
 	/* Make the VF */
 	shared_ptr<Film> vf = new_test_film ("vf_test2_vf");
 	vf->set_name ("vf_test2_vf");
