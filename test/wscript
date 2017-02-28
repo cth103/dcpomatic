@@ -48,7 +48,6 @@ def build(bld):
                  audio_merger_test.cc
                  audio_processor_test.cc
                  audio_processor_delay_test.cc
-                 black_fill_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc
                  dcpomatic_time_test.cc
@@ -72,6 +71,7 @@ def build(bld):
                  job_test.cc
                  make_black_test.cc
                  pixel_formats_test.cc
+                 player_test.cc
                  ratio_test.cc
                  repeat_frame_test.cc
                  recover_test.cc
@@ -107,7 +107,6 @@ def build(bld):
     # ffmpeg_decoder_seek_test.cc
     # ffmpeg_decoder_sequential_test.cc
     # silence_padding_test.cc
-    # player_test.cc
     # seek_zero_test.cc
     # upmixer_a_test.cc
     # video_decoder_fill_test.cc
