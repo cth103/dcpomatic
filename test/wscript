@@ -106,8 +106,6 @@ def build(bld):
     # dcp_subtitle_test.cc
     # ffmpeg_decoder_seek_test.cc
     # ffmpeg_decoder_sequential_test.cc
-    # silence_padding_test.cc
-    # seek_zero_test.cc
     # upmixer_a_test.cc
     # video_decoder_fill_test.cc
 
