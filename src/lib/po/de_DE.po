@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 11:18+0000\n"
-"PO-Revision-Date: 2017-02-14 15:15+0100\n"
+"PO-Revision-Date: 2017-02-23 01:08+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -69,7 +69,7 @@ msgstr " (%.2f:1)"
 #. / to say what day a job will finish.
 #: src/lib/job.cc:430
 msgid " on %1"
-msgstr ""
+msgstr "am %1"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -128,7 +128,7 @@ msgstr "; %.1f fps"
 
 #: src/lib/job.cc:435
 msgid "; %1 remaining; finishing at %2%3"
-msgstr ""
+msgstr "; %1 verbleibend; beendet um %2%3"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -604,7 +604,7 @@ msgstr "Email Sendebericht für %1"
 
 #: src/lib/transcoder.cc:77
 msgid "Encoding"
-msgstr ""
+msgstr "Kodieren"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -1416,15 +1416,15 @@ msgstr "sRGB"
 
 #: src/lib/film.cc:314
 msgid "some of your content is missing"
-msgstr ""
+msgstr "Inhalte fehlen"
 
 #: src/lib/film.cc:318
 msgid "some of your content needs a KDM"
-msgstr ""
+msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine KDM"
 
 #: src/lib/film.cc:321
 msgid "some of your content needs an OV"
-msgstr ""
+msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine OV-CPL"
 
 #: src/lib/image_content.cc:94
 msgid "still"
@@ -1439,7 +1439,6 @@ msgid "video frames"
 msgstr "Video Bilder"
 
 #: src/lib/film.cc:301
-#, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 

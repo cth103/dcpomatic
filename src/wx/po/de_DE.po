@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 11:18+0000\n"
-"PO-Revision-Date: 2017-02-14 15:40+0100\n"
+"PO-Revision-Date: 2017-02-23 01:21+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -25,12 +25,11 @@ msgid "%"
 msgstr "%"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:42 src/wx/file_picker_ctrl.cc:58
@@ -845,7 +844,7 @@ msgstr "Grün Chromatizität"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
-msgstr ""
+msgstr "Höhere Priorität"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -1021,7 +1020,7 @@ msgstr "LU - Relativer Lautheitsumfang (EBU R128): %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
 msgid "Lower priority"
-msgstr ""
+msgstr "Niedrigere Priorität"
 
 #: src/wx/content_panel.cc:528
 msgid "MISSING: "
@@ -1108,7 +1107,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1556,14 +1556,12 @@ msgid "Signing DCPs and KDMs"
 msgstr "DCPs und KDMs signieren"
 
 #: src/wx/colour_conversion_editor.cc:60
-#, fuzzy
 msgid "Simple gamma"
-msgstr "Eingangs Gamma"
+msgstr "Gammafunktion"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Simple gamma, linearised for small values"
-msgstr "Lineares Eingangs-Gamma für niedrige Helligkeitswerte"
+msgstr "Gammafunktion, lineares Segment für niedrige Helligkeitswerte"
 
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"

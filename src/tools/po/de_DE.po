@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 11:18+0000\n"
-"PO-Revision-Date: 2017-02-14 15:16+0100\n"
+"PO-Revision-Date: 2017-02-23 01:16+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -35,9 +35,8 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
 
 #: src/tools/dcpomatic_batch.cc:62
-#, fuzzy
 msgid "&Add Film...\tCtrl-A"
-msgstr "&Projekt hinzufügen"
+msgstr "&Projekt hinzufügen...\tCtrl-A"
 
 #: src/tools/dcpomatic.cc:922
 msgid "&Content"
@@ -177,9 +176,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Film %1 (%2) konnte nicht geladen werden"
 
 #: src/tools/dcpomatic.cc:510
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s."
-msgstr "Konnte DCP: %s nicht erstellen"
+msgstr "Konnte DCP nicht erstellen:  %s"
 
 #: src/tools/dcpomatic.cc:327 src/tools/dcpomatic_batch.cc:139
 #, c-format
