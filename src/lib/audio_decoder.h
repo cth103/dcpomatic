@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,6 +52,7 @@ public:
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
+	/** Frame after the last one that was emitted from Data for each AudioStream */
 	std::map<AudioStreamPtr, Frame> _positions;
 };
 

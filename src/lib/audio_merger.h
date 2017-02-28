@@ -17,22 +17,28 @@
 
 */
 
+/** @file  src/audio_merger.h
+ *  @brief AudioMerger class.
+ */
+
 #include "audio_buffers.h"
 #include "dcpomatic_time.h"
 #include "util.h"
 
+/** @class AudioMerger.
+ *  @brief A class that can merge audio data from many sources.
+ */
 class AudioMerger
 {
 public:
 	AudioMerger (int frame_rate);
 
-	/** Pull audio up to a given time; after this call, no more data can be pushed
-	 *  before the specified time.
-	 */
 	std::list<std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> > pull (DCPTime time);
 	void push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time);
 
 private:
+	Frame frames (DCPTime t) const;
+
 	class Buffer
 	{
 	public:

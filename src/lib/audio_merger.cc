@@ -17,6 +17,10 @@
 
 */
 
+/** @file  src/audio_merger.cc
+ *  @brief AudioMerger class.
+ */
+
 #include "audio_merger.h"
 #include "dcpomatic_time.h"
 #include <iostream>
@@ -31,14 +35,21 @@ using boost::shared_ptr;
 using boost::optional;
 
 AudioMerger::AudioMerger (int frame_rate)
-	: _last_pull (0)
-	, _frame_rate (frame_rate)
+	: _frame_rate (frame_rate)
 {
 
 }
 
+Frame
+AudioMerger::frames (DCPTime t) const
+{
+	return t.frames_floor (_frame_rate);
+}
+
 /** Pull audio up to a given time; after this call, no more data can be pushed
  *  before the specified time.
+ *  @param time Time to pull up to.
+ *  @return Blocks of merged audio up to `time'.
  */
 list<pair<shared_ptr<AudioBuffers>, DCPTime> >
 AudioMerger::pull (DCPTime time)
@@ -56,7 +67,7 @@ AudioMerger::pull (DCPTime time)
 			out.push_back (make_pair (i.audio, i.time));
 		} else if (i.time < time) {
 			/* Overlaps the end of the pull period */
-			shared_ptr<AudioBuffers> audio (new AudioBuffers (i.audio->channels(), DCPTime(time - i.time).frames_floor(_frame_rate)));
+			shared_ptr<AudioBuffers> audio (new AudioBuffers (i.audio->channels(), frames(DCPTime(time - i.time))));
 			audio->copy_from (i.audio.get(), audio->frames(), 0, 0);
 			out.push_back (make_pair (audio, i.time));
 			i.audio->trim_start (audio->frames ());
@@ -72,6 +83,7 @@ AudioMerger::pull (DCPTime time)
 	return out;
 }
 
+/** Push some data into the merger at a given time */
 void
 AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 {
@@ -79,16 +91,16 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 
 	DCPTimePeriod period (time, time + DCPTime::from_frames (audio->frames(), _frame_rate));
 
-	/* Mix any parts of this new block with existing ones */
+	/* Mix any overlapping parts of this new block with existing ones */
 	BOOST_FOREACH (Buffer i, _buffers) {
 		optional<DCPTimePeriod> overlap = i.period().overlap (period);
 		if (overlap) {
-			int32_t const offset = DCPTime(overlap->from - i.time).frames_floor(_frame_rate);
-			int32_t const frames = overlap->duration().frames_floor(_frame_rate);
+			int32_t const offset = frames(DCPTime(overlap->from - i.time));
+			int32_t const frames_to_mix = frames(overlap->duration());
 			if (i.time < time) {
-				i.audio->accumulate_frames(audio.get(), frames, 0, offset);
+				i.audio->accumulate_frames(audio.get(), frames_to_mix, 0, offset);
 			} else {
-				i.audio->accumulate_frames(audio.get(), frames, offset, 0);
+				i.audio->accumulate_frames(audio.get(), frames_to_mix, offset, 0);
 			}
 		}
 	}
@@ -112,8 +124,8 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		}
 
 		/* Get the part of audio that we want to use */
-		shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), i.to.frames_floor(_frame_rate) - i.from.frames_floor(_frame_rate)));
-		part->copy_from (audio.get(), part->frames(), DCPTime(i.from - time).frames_floor(_frame_rate), 0);
+		shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), frames(i.to) - frames(i.from)));
+		part->copy_from (audio.get(), part->frames(), frames(DCPTime(i.from - time)), 0);
 
 		if (before == _buffers.end() && after == _buffers.end()) {
 			/* New buffer */

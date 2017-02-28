@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -36,6 +36,7 @@ using boost::optional;
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
 	: DecoderPart (parent, log)
 {
+	/* Set up _positions so that we have one for each stream */
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
 		_positions[i] = 0;
 	}
@@ -49,6 +50,11 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 	}
 
 	if (_positions[stream] == 0) {
+		/* This is the first data we have received since initialisation or seek.  Set
+		   the position based on the ContentTime that was given.  After this first time
+		   we just count samples, as it seems that ContentTimes are unreliable from
+		   FFmpegDecoder (not quite continuous; perhaps due to some rounding error).
+		*/
 		_positions[stream] = time.frames_round (stream->frame_rate ());
 	}
 

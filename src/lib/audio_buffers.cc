@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -134,7 +134,7 @@ AudioBuffers::set_frames (int32_t f)
 	_frames = f;
 }
 
-/** Make all samples on all channels silent */
+/** Make all frames silent */
 void
 AudioBuffers::make_silent ()
 {
@@ -156,6 +156,10 @@ AudioBuffers::make_silent (int c)
 	}
 }
 
+/** Make some frames.
+ *  @param from Start frame.
+ *  @param frames Number of frames to silence.
+ */
 void
 AudioBuffers::make_silent (int32_t from, int32_t frames)
 {
@@ -198,7 +202,6 @@ AudioBuffers::copy_from (AudioBuffers const * from, int32_t frames_to_copy, int3
  *  @param to Offset to move to.
  *  @param frames Number of frames to move.
  */
-
 void
 AudioBuffers::move (int32_t frames, int32_t from, int32_t to)
 {
@@ -272,6 +275,12 @@ AudioBuffers::ensure_size (int32_t frames)
 	_allocated_frames = frames;
 }
 
+/** Mix some other buffers with these ones.  The AudioBuffers must have the same number of channels.
+ *  @param from Audio buffers to get data from.
+ *  @param frames Number of frames to mix.
+ *  @param read_offset Offset within `from' to read from.
+ *  @param write_offset Offset within this to mix into.
+ */
 void
 AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t frames, int32_t read_offset, int32_t write_offset)
 {
@@ -311,6 +320,11 @@ AudioBuffers::channel (int c) const
 	return o;
 }
 
+/** Copy all the samples from a channel on another AudioBuffers to a channel on this one.
+ *  @param from AudioBuffers to copy from.
+ *  @param from_channel Channel index in `from' to copy from.
+ *  @param to_channel Channel index in this to copy into, overwriting what's already there.
+ */
 void
 AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel)
 {
@@ -318,6 +332,7 @@ AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, in
 	memcpy (data(to_channel), from->data(from_channel), frames() * sizeof (float));
 }
 
+/** Make a copy of these AudioBuffers */
 shared_ptr<AudioBuffers>
 AudioBuffers::clone () const
 {
@@ -326,14 +341,17 @@ AudioBuffers::clone () const
 	return b;
 }
 
+/** Extend these buffers with the data from another.  The AudioBuffers must have the same number of channels. */
 void
 AudioBuffers::append (shared_ptr<const AudioBuffers> other)
 {
+	DCPOMATIC_ASSERT (channels() == other->channels());
 	ensure_size (_frames + other->frames());
 	copy_from (other.get(), other->frames(), 0, _frames);
 	_frames += other->frames();
 }
 
+/** Remove some frames from the start of these AudioBuffers */
 void
 AudioBuffers::trim_start (int32_t frames)
 {
