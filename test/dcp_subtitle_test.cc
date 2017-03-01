@@ -84,10 +84,10 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log()));
 	decoder->subtitle->TextData.connect (bind (store, _1));
 
-	while (!decoder->pass() || !stored) {}
+	stored = optional<ContentTextSubtitle> ();
+	while (!decoder->pass() && !stored) {}
 
 	BOOST_REQUIRE (stored);
-	BOOST_REQUIRE_EQUAL (stored->subs.size(), 1);
 	BOOST_REQUIRE_EQUAL (stored->subs.size(), 2);
 	BOOST_CHECK_EQUAL (stored->subs.front().text(), "Noch mal.");
 	BOOST_CHECK_EQUAL (stored->subs.back().text(), "Encore une fois.");
@@ -107,6 +107,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
 	decoder->subtitle->TextData.connect (bind (store, _1));
 
+	stored = optional<ContentTextSubtitle> ();
 	while (!decoder->pass ()) {
 		if (stored && stored->period().from == ContentTime(0)) {
 			BOOST_CHECK_EQUAL (stored->subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
@@ -130,6 +131,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	wait_for_jobs ();
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
+	stored = optional<ContentTextSubtitle> ();
 	while (!decoder->pass ()) {
 		decoder->subtitle->TextData.connect (bind (store, _1));
 		if (stored && stored->period().from == ContentTime::from_seconds(0.08)) {
