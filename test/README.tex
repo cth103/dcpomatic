@@ -1,0 +1,119 @@
+\documentclass{article}
+\newcommand{\co}[1]{\texttt{#1}}
+\begin{document}
+
+\section{DCP-o-matic unit tests}
+
+The files in this directory can be grouped roughly into the following:
+
+\subsection{Self-contained tests of single classes / method sets}
+
+\begin{tabular}{|l|l|}
+  \hline
+  \textbf{Class / source file} & \textbf{File} \\
+  \hline
+  \co{AudioAnalysis} & \co{audio\_analysis\_test} \\
+  \hline
+  \co{AudioBuffers} & \co{audio\_buffers\_test} \\
+  \hline
+  \co{AudioMapping} & \co{audio\_mapping\_test} \\
+  \hline
+  \co{AudioMerger} & \co{audio\_merger\_test} \\
+  \hline
+  \co{AudioFilter} & \co{audio\_filter\_test} \\
+  \hline
+  \co{ColourConversion} & \co{colour\_conversion\_test} \\
+  \hline
+  \co{FileGroup} & \co{file\_group\_test} \\
+  \hline
+  \co{Image} & \co{image\_test}, \co{pixel\_formats\_test}, \co{make\_black\_test} \\
+  \hline
+  \co{Player} & \co{player\_test} \\
+  \hline
+  \co{Job/JobManager} & \co{job\_test} \\
+  \hline
+  \co{Ratio} & \co{ratio\_test} \\
+  \hline
+  \co{Resampler} & \co{resampler\_test} \\
+  \hline
+  \co{util.cc} & \co{util\_test} \\
+  \hline
+\end{tabular}
+
+\subsection{``Complete'' builds of DCPs with various characteristics, aiming to test broad areas of code}
+
+\begin{itemize}
+  \item \co{4k\_test}
+  \item \co{threed\_test}
+  \item \co{torture\_test}
+\end{itemize}
+
+\subsection{Tests of fairly specific areas}
+
+\begin{tabular}{|l|l|}
+  \hline
+  \textbf{File} & \textbf{Summary} \\
+  \hline
+\item \co{audio\_delay\_test} &
+  \hline
+\item \co{client\_server\_test}
+  \hline
+\item \co{digest\_test}
+  \hline
+\item \co{film\_metadata\_test}
+  \hline
+\item \co{frame\_rate\_test}
+  \hline
+\item \co{recover\_test}
+  \hline
+\item \co{repeat\_frame\_test}
+  \hline
+\item \co{scaling\_test}
+  \hline
+\item \co{silence\_padding\_test}
+  \hline
+\item \co{skip\_frame\_test}
+  \hline
+\end{itemize}
+
+\subsubsection{FFmpeg decoding}
+
+\begin{itemize}
+\item \co{ffmpeg\_audio\_test}
+\item \co{ffmpeg\_dcp\_test}
+\item \co{ffmpeg\_decoder\_seek\_test}
+\item \co{ffmpeg\_decoder\_sequential\_test}
+\item \co{ffmpeg\_examiner\_test}
+\item \co{ffmpeg\_pts\_offset\_test}
+\item \co{stream\_test}
+\end{itemize}
+
+\co{test/audio\_processor\_delay\_test.cc}
+\co{test/audio\_processor\_test.cc}
+\co{test/burnt\_subtitle\_test.cc}
+\co{test/dcpomatic\_time\_test.cc}
+\co{test/dcp\_subtitle\_test.cc}
+\co{test/ffmpeg\_audio\_only\_test.cc}
+\co{test/file\_log\_test.cc}
+\co{test/file\_naming\_test.cc}
+\co{test/image\_filename\_sorter\_test.cc}
+\co{test/import\_dcp\_test.cc}
+\co{test/interrupt\_encoder\_test.cc}
+\co{test/isdcf\_name\_test.cc}
+\co{test/j2k\_bandwidth\_test.cc}
+\co{test/rect\_test.cc}
+\co{test/reels\_test.cc}
+\co{test/render\_subtitles\_test.cc}
+\co{test/required\_disk\_space\_test.cc}
+\co{test/srt\_subtitle\_test.cc}
+\co{test/ssa\_subtitle\_test.cc}
+\co{test/test.cc}
+\co{test/time\_calculation\_test.cc}
+\co{test/update\_checker\_test.cc}
+\co{test/upmixer\_a\_test.cc}
+\co{test/vf\_kdm\_test.cc}
+\co{test/vf\_test.cc}
+\co{test/video\_content\_scale\_test.cc}
+\co{test/video\_mxf\_content\_test.cc}
+
+\end{document}
