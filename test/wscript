@@ -106,7 +106,6 @@ def build(bld):
 
     # XXX
     # upmixer_a_test.cc
-    # video_decoder_fill_test.cc
 
     obj.target = 'unit-tests'
     obj.install_path = ''
