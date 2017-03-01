@@ -102,7 +102,6 @@ def build(bld):
     # resampler_test.cc
 
     # XXX
-    # audio_decoder_test.cc
     # dcp_subtitle_test.cc
     # ffmpeg_decoder_seek_test.cc
     # ffmpeg_decoder_sequential_test.cc
