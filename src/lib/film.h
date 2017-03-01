@@ -47,7 +47,6 @@ namespace xmlpp {
 class DCPContentType;
 class Log;
 class Content;
-class Player;
 class Playlist;
 class AudioContent;
 class Screen;

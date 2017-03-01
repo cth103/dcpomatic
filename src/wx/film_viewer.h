@@ -30,6 +30,7 @@ class FFmpegPlayer;
 class Image;
 class RGBPlusAlphaImage;
 class PlayerVideo;
+class Player;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
