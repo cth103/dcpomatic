@@ -679,7 +679,11 @@ Player::audio_flush (shared_ptr<Piece> piece, AudioStreamPtr stream)
 	shared_ptr<AudioContent> content = piece->content->audio;
 	DCPOMATIC_ASSERT (content);
 
-	shared_ptr<Resampler> r = resampler (content, stream);
+	shared_ptr<Resampler> r = resampler (content, stream, false);
+	if (!r) {
+		return;
+	}
+
 	pair<shared_ptr<const AudioBuffers>, Frame> ro = r->flush ();
 	ContentAudio content_audio;
 	content_audio.audio = ro.first;
@@ -750,7 +754,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 
 	/* Resample */
 	if (stream->frame_rate() != content->resampled_frame_rate()) {
-		shared_ptr<Resampler> r = resampler (content, stream);
+		shared_ptr<Resampler> r = resampler (content, stream, true);
 		pair<shared_ptr<const AudioBuffers>, Frame> ro = r->run (content_audio.audio, content_audio.frame);
 		content_audio.audio = ro.first;
 		content_audio.frame = ro.second;
@@ -876,11 +880,15 @@ Player::seek (DCPTime time, bool accurate)
 }
 
 shared_ptr<Resampler>
-Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream)
+Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create)
 {
 	ResamplerMap::const_iterator i = _resamplers.find (make_pair (content, stream));
 	if (i != _resamplers.end ()) {
 		return i->second;
+	}
+
+	if (!create) {
+		return shared_ptr<Resampler> ();
 	}
 
 	LOG_GENERAL (
