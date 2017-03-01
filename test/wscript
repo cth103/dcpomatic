@@ -51,6 +51,7 @@ def build(bld):
                  client_server_test.cc
                  colour_conversion_test.cc
                  dcpomatic_time_test.cc
+                 dcp_subtitle_test.cc
                  digest_test.cc
                  ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
@@ -102,7 +103,6 @@ def build(bld):
     # resampler_test.cc
 
     # XXX
-    # dcp_subtitle_test.cc
     # ffmpeg_decoder_seek_test.cc
     # ffmpeg_decoder_sequential_test.cc
     # upmixer_a_test.cc

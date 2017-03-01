@@ -39,6 +39,15 @@
 using std::cout;
 using std::list;
 using boost::shared_ptr;
+using boost::optional;
+
+optional<ContentTextSubtitle> stored;
+
+static void
+store (ContentTextSubtitle sub)
+{
+	stored = sub;
+}
 
 /** Test pass-through of a very simple DCP subtitle file */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
@@ -73,34 +82,15 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	wait_for_jobs ();
 
 	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log()));
+	decoder->subtitle->TextData.connect (bind (store, _1));
 
-	list<ContentTimePeriod> ctp = decoder->text_subtitles_during (
-		ContentTimePeriod (
-			ContentTime::from_seconds (25),
-			ContentTime::from_seconds (26)
-			),
-		true
-		);
+	while (!decoder->pass() || !stored) {}
 
-	BOOST_REQUIRE_EQUAL (ctp.size(), 2);
-	BOOST_CHECK_EQUAL (ctp.front().from.get(), ContentTime::from_seconds(25 + 12 * 0.04).get());
-	BOOST_CHECK_EQUAL (ctp.front().to.get(), ContentTime::from_seconds(26 + 4 * 0.04).get());
-	BOOST_CHECK_EQUAL (ctp.back().from.get(), ContentTime::from_seconds(25 + 12 * 0.04).get());
-	BOOST_CHECK_EQUAL (ctp.back().to.get(), ContentTime::from_seconds(26 + 4 * 0.04).get());
-
-	list<ContentTextSubtitle> subs = decoder->subtitle->get_text (
-		ContentTimePeriod (
-			ContentTime::from_seconds (25),
-			ContentTime::from_seconds (26)
-			),
-		true,
-		true
-		);
-
-	BOOST_REQUIRE_EQUAL (subs.size(), 1);
-	BOOST_REQUIRE_EQUAL (subs.front().subs.size(), 2);
-	BOOST_CHECK_EQUAL (subs.front().subs.front().text(), "Noch mal.");
-	BOOST_CHECK_EQUAL (subs.front().subs.back().text(), "Encore une fois.");
+	BOOST_REQUIRE (stored);
+	BOOST_REQUIRE_EQUAL (stored->subs.size(), 1);
+	BOOST_REQUIRE_EQUAL (stored->subs.size(), 2);
+	BOOST_CHECK_EQUAL (stored->subs.front().text(), "Noch mal.");
+	BOOST_CHECK_EQUAL (stored->subs.back().text(), "Encore une fois.");
 }
 
 /** Test subtitles whose text includes things like &lt;b&gt; */
@@ -115,12 +105,13 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 	wait_for_jobs ();
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
-	list<ContentTextSubtitle> sub = decoder->subtitle->get_text (
-		ContentTimePeriod (ContentTime::from_seconds(0), ContentTime::from_seconds(2)), true, true
-		);
-	BOOST_REQUIRE_EQUAL (sub.size(), 1);
-	BOOST_REQUIRE_EQUAL (sub.front().subs.size(), 1);
-	BOOST_CHECK_EQUAL (sub.front().subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
+	decoder->subtitle->TextData.connect (bind (store, _1));
+
+	while (!decoder->pass ()) {
+		if (stored && stored->period().from == ContentTime(0)) {
+			BOOST_CHECK_EQUAL (stored->subs.front().text(), "&lt;b&gt;Hello world!&lt;/b&gt;");
+		}
+	}
 }
 
 /** Test a failure case */
@@ -139,20 +130,20 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	wait_for_jobs ();
 
 	shared_ptr<DCPSubtitleDecoder> decoder (new DCPSubtitleDecoder (content, film->log()));
-	list<ContentTextSubtitle> sub = decoder->subtitle->get_text (
-		ContentTimePeriod (ContentTime::from_seconds(0), ContentTime::from_seconds(2)), true, true
-		);
-	BOOST_REQUIRE_EQUAL (sub.size(), 1);
-	BOOST_REQUIRE_EQUAL (sub.front().subs.size(), 3);
-	list<dcp::SubtitleString> s = sub.front().subs;
-	list<dcp::SubtitleString>::const_iterator i = s.begin ();
-	BOOST_CHECK_EQUAL (i->text(), "This");
-	++i;
-	BOOST_REQUIRE (i != s.end ());
-	BOOST_CHECK_EQUAL (i->text(), " is ");
-	++i;
-	BOOST_REQUIRE (i != s.end ());
-	BOOST_CHECK_EQUAL (i->text(), "wrong.");
-	++i;
-	BOOST_REQUIRE (i == s.end ());
+	while (!decoder->pass ()) {
+		decoder->subtitle->TextData.connect (bind (store, _1));
+		if (stored && stored->period().from == ContentTime::from_seconds(0.08)) {
+			list<dcp::SubtitleString> s = stored->subs;
+			list<dcp::SubtitleString>::const_iterator i = s.begin ();
+			BOOST_CHECK_EQUAL (i->text(), "This");
+			++i;
+			BOOST_REQUIRE (i != s.end ());
+			BOOST_CHECK_EQUAL (i->text(), " is ");
+			++i;
+			BOOST_REQUIRE (i != s.end ());
+			BOOST_CHECK_EQUAL (i->text(), "wrong.");
+			++i;
+			BOOST_REQUIRE (i == s.end ());
+		}
+	}
 }
