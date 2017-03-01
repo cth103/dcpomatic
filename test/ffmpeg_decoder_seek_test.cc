@@ -19,8 +19,7 @@
 */
 
 /** @file  test/ffmpeg_decoder_seek_test.cc
- *  @brief Check that get_video() returns the frame indexes that we ask for
- *  for FFmpegDecoder.
+ *  @brief Check seek() with FFmpegDecoder.
  *
  *  This doesn't check that the contents of those frames are right, which
  *  it probably should.
@@ -36,30 +35,37 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
+#include <iostream>
 
 using std::cerr;
 using std::vector;
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
+
+static optional<ContentVideo> stored;
+static void
+store (ContentVideo v)
+{
+	stored = v;
+}
 
 static void
 check (shared_ptr<FFmpegDecoder> decoder, int frame)
 {
-	list<ContentVideo> v;
-	v = decoder->video->get (frame, true);
-	BOOST_CHECK (v.size() == 1);
-	BOOST_CHECK_EQUAL (v.front().frame.index(), frame);
+	BOOST_REQUIRE (decoder->ffmpeg_content()->video_frame_rate ());
+	decoder->seek (ContentTime::from_frames (frame, decoder->ffmpeg_content()->video_frame_rate().get()), true);
+	stored = optional<ContentVideo> ();
+	while (!decoder->pass() && !stored) {}
+	BOOST_CHECK (stored->frame <= frame);
 }
 
 static void
 test (boost::filesystem::path file, vector<int> frames)
 {
 	boost::filesystem::path path = private_data / file;
-	if (!boost::filesystem::exists (path)) {
-		cerr << "Skipping test: " << path.string() << " not found.\n";
-		return;
-	}
+	BOOST_REQUIRE (boost::filesystem::exists (path));
 
 	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path));
@@ -67,6 +73,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	wait_for_jobs ();
 	shared_ptr<Log> log (new NullLog);
 	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log));
+	decoder->video->Data.connect (bind (&store, _1));
 
 	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
 		check (decoder, *i);
