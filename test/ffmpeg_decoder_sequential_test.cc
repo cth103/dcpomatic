@@ -75,7 +75,6 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	next = DCPTime ();
 	frame = DCPTime::from_frames (1, film->video_frame_rate ());
 	while (!player->pass()) {}
-	cout << to_string(next) << " " << to_string(DCPTime::from_frames (video_length, film->video_frame_rate())) << "\n";
 	BOOST_CHECK (next == DCPTime::from_frames (video_length, film->video_frame_rate()));
 }
 
