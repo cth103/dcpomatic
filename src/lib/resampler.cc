@@ -160,7 +160,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in, Frame frame)
 	return make_pair (resampled, out_frame);
 }
 
-shared_ptr<const AudioBuffers>
+pair<shared_ptr<const AudioBuffers>, Frame>
 Resampler::flush ()
 {
 	shared_ptr<AudioBuffers> out (new AudioBuffers (_channels, 0));
@@ -198,5 +198,5 @@ Resampler::flush ()
 	out->set_frames (out_offset);
 
 	delete[] buffer;
-	return out;
+	return make_pair (out, _next_out.get ());
 }

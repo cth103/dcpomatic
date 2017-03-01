@@ -106,10 +106,12 @@ private:
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void image_subtitle (boost::weak_ptr<Piece>, ContentImageSubtitle);
 	void text_subtitle (boost::weak_ptr<Piece>, ContentTextSubtitle);
-	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create);
+	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream);
 	DCPTime one_video_frame () const;
 	void fill_video (DCPTimePeriod period);
 	void fill_audio (DCPTimePeriod period);
+	void audio_flush (boost::shared_ptr<Piece>, AudioStreamPtr stream);
+	void audio_transform (boost::shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

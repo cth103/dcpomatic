@@ -92,6 +92,7 @@ def build(bld):
                  threed_test.cc
                  time_calculation_test.cc
                  update_checker_test.cc
+                 upmixer_a_test.cc
                  util_test.cc
                  vf_test.cc
                  video_content_scale_test.cc
@@ -103,9 +104,6 @@ def build(bld):
     # burnt_subtitle_test.cc
     # This one doesn't check anything
     # resampler_test.cc
-
-    # XXX
-    # upmixer_a_test.cc
 
     obj.target = 'unit-tests'
     obj.install_path = ''

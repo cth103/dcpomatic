@@ -32,7 +32,7 @@ public:
 	~Resampler ();
 
 	std::pair<boost::shared_ptr<const AudioBuffers>, Frame> run (boost::shared_ptr<const AudioBuffers>, Frame);
-	boost::shared_ptr<const AudioBuffers> flush ();
+	std::pair<boost::shared_ptr<const AudioBuffers>, Frame> flush ();
 	void set_fast ();
 
 private:

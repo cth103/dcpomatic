@@ -31,6 +31,25 @@
 
 using boost::shared_ptr;
 
+static SNDFILE* L;
+static SNDFILE* R;
+static SNDFILE* C;
+static SNDFILE* Lfe;
+static SNDFILE* Ls;
+static SNDFILE* Rs;
+
+static void
+write (shared_ptr<AudioBuffers> b, DCPTime)
+{
+	sf_write_float (L, b->data(0), b->frames());
+	sf_write_float (R, b->data(1), b->frames());
+	sf_write_float (C, b->data(2), b->frames());
+	sf_write_float (Lfe, b->data(3), b->frames());
+	sf_write_float (Ls, b->data(4), b->frames());
+	sf_write_float (Rs, b->data(5), b->frames());
+
+}
+
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
 	shared_ptr<Film> film = new_test_film ("upmixer_a_test");
@@ -47,23 +66,16 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	info.samplerate = 48000;
 	info.channels = 1;
 	info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-	SNDFILE* L = sf_open ("build/test/upmixer_a_test/L.wav", SFM_WRITE, &info);
-	SNDFILE* R = sf_open ("build/test/upmixer_a_test/R.wav", SFM_WRITE, &info);
-	SNDFILE* C = sf_open ("build/test/upmixer_a_test/C.wav", SFM_WRITE, &info);
-	SNDFILE* Lfe = sf_open ("build/test/upmixer_a_test/Lfe.wav", SFM_WRITE, &info);
-	SNDFILE* Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
-	SNDFILE* Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
+	L = sf_open ("build/test/upmixer_a_test/L.wav", SFM_WRITE, &info);
+	R = sf_open ("build/test/upmixer_a_test/R.wav", SFM_WRITE, &info);
+	C = sf_open ("build/test/upmixer_a_test/C.wav", SFM_WRITE, &info);
+	Lfe = sf_open ("build/test/upmixer_a_test/Lfe.wav", SFM_WRITE, &info);
+	Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
+	Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
-	for (DCPTime t; t < film->length(); t += DCPTime::from_seconds (1)) {
-		shared_ptr<AudioBuffers> b = player->get_audio (t, DCPTime::from_seconds (1), true);
-		sf_write_float (L, b->data(0), b->frames());
-		sf_write_float (R, b->data(1), b->frames());
-		sf_write_float (C, b->data(2), b->frames());
-		sf_write_float (Lfe, b->data(3), b->frames());
-		sf_write_float (Ls, b->data(4), b->frames());
-		sf_write_float (Rs, b->data(5), b->frames());
-	}
+	player->Audio.connect (bind (&write, _1, _2));
+	while (!player->pass()) {}
 
 	sf_close (L);
 	sf_close (R);
