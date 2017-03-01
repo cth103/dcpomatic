@@ -19,7 +19,8 @@
 */
 
 /** @file  test/job_test.cc
- *  @brief Basic tests of Job and JobManager.
+ *  @brief Test Job and JobManager.
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

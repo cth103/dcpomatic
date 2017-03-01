@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/audio_merger_test.cc
+ *  @brief Test AudioMerger class.
+ *  @ingroup selfcontained
+ */
+
 #include "lib/audio_merger.h"
 #include "lib/audio_buffers.h"
 #include <boost/test/unit_test.hpp>

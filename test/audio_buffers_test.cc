@@ -19,7 +19,8 @@
 */
 
 /** @file  test/audio_buffers_test.cc
- *  @brief Test AudioBuffers in various ways.
+ *  @brief Test AudioBuffers class.
+ *  @ingroup selfcontained
  */
 
 #include <cmath>

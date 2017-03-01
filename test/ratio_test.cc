@@ -19,7 +19,8 @@
 */
 
 /** @file  test/ratio_test.cc
- *  @brief Test Ratio and fit_ratio_within().
+ *  @brief Test Ratio class and fit_ratio_within().
+ *  @ingroup selfcontained
  */
 
 #include <iostream>
@@ -66,4 +67,3 @@ BOOST_AUTO_TEST_CASE (ratio_test)
 	BOOST_CHECK (r);
 	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080)), dcp::Size (2048, 1080));
 }
-

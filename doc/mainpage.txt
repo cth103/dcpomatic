@@ -4,7 +4,7 @@
  *  video files, or from sets of image files.  It is written in C++
  *  and distributed under the GPL.
  *
- *  Video files are decoded using FFmpeg (http://ffmpeg.org), so any video
+ *  Video and sound files are decoded using FFmpeg (http://ffmpeg.org), so any file
  *  supported by FFmpeg should be usable with DCP-o-matic.  DCP-o-matic's output has been
  *  tested on numerous digital projectors.
  *
@@ -14,19 +14,18 @@
  *  of servers over a network.
  *
  *  DCP-o-matic can also make DCPs from still images, for advertisements and such-like.
- * 
+ *
  *  Parts of DCP-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
  *  written by Terrence Meiczinger.
  *
  *  DCP-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
- *  and libsndfile (http://www.mega-nerd.com/libsndfile/) for WAV file manipulation.  It
- *  also makes heavy use of the boost libraries (http://www.boost.org/).  ImageMagick
- *  (http://www.imagemagick.org/) is used for still-image encoding and decoding, and the GUI is
+ *  and ImageMagick (http://www.imagemagick.org/) for still-image encoding and decoding.
+ *  It also uses the boost libraries (http://www.boost.org/) and the GUI is
  *  built using wxWidgets (http://wxwidgets.org/).
  *
  *  Thanks are due to the authors and communities of all DCP-o-matic's dependencies.
  *
  *  Email correspondance is welcome to carl@dcpomatic.com
  *
- *  More details can be found at http://dcpomatic.com/
+ *  More details can be found at https://dcpomatic.com/
  */

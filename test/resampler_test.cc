@@ -19,8 +19,9 @@
 */
 
 /** @file  test/resampler_test.cc
- *  @brief Check that the timings that come back from the resampler correspond
+ *  @brief Check that the timings that come back from Resampler correspond
  *  to the number of samples it generates.
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

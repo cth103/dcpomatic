@@ -19,9 +19,9 @@
 */
 
 /** @file  test/make_black_test.cc
- *  @brief Check that Image::make_black works, and doesn't use values which crash
+ *  @brief Check that Image::make_black works and doesn't use values which crash
  *  sws_scale().
- *
+ *  @ingroup selfcontained
  *  @see test/image_test.cc
  */
 

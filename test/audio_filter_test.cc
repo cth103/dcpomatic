@@ -19,7 +19,8 @@
 */
 
 /** @file  test/audio_filter_test.cc
- *  @brief Basic tests of audio filters.
+ *  @brief Test AudioFilter, LowPassAudioFilter, HighPassAudioFilter classes.
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

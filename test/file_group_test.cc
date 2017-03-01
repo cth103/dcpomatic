@@ -19,7 +19,8 @@
 */
 
 /** @file  test/file_group_test.cc
- *  @brief Check that FileGroup works.
+ *  @brief Test FileGroup class.
+ *  @ingroup selfcontained
  */
 
 #include <stdint.h>

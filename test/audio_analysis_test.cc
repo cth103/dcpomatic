@@ -18,8 +18,11 @@
 
 */
 
+/** @defgroup selfcontained Self-contained tests of single classes / method sets */
+
 /** @file  test/audio_analysis_test.cc
- *  @brief Check audio analysis code.
+ *  @brief Test AudioAnalysis class.
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

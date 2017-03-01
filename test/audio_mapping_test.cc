@@ -19,7 +19,8 @@
 */
 
 /** @file  test/audio_mapping_test.cc
- *  @brief Basic tests of the AudioMapping class, which itself doesn't really do much.
+ *  @brief Test AudioMapping class.
+ *  @ingroup selfcontained
  */
 
 #include <boost/test/unit_test.hpp>

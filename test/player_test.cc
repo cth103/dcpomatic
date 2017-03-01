@@ -19,7 +19,8 @@
 */
 
 /** @file  test/player_test.cc
- *  @brief Various tests of Player.
+ *  @brief Test Player class.
+ *  @ingroup selfcontained
  */
 
 #include <iostream>

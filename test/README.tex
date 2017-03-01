@@ -50,31 +50,31 @@ The files in this directory can be grouped roughly into the following:
 
 \subsection{Tests of fairly specific areas}
 
-\begin{tabular}{|l|l|}
+\begin{tabular}{|l|p{8cm}|}
   \hline
-  \textbf{File} & \textbf{Summary} \\
+  \textbf{File} & \textbf{Test summary} \\
   \hline
-\item \co{audio\_delay\_test} &
+  \co{audio\_delay\_test} & Some FFmpeg content with audio delays. \\
   \hline
-\item \co{client\_server\_test}
+  \co{client\_server\_test} & An encode server running on \co{localhost}. \\
   \hline
-\item \co{digest\_test}
+  \co{digest\_test} & Computed DCP digests compared to those calculated by the \co{openssl} binary. \\
   \hline
-\item \co{film\_metadata\_test}
+  \co{film\_metadata\_test} & Read/write of \co{Film} metadata. \\
   \hline
-\item \co{frame\_rate\_test}
+  \co{frame\_rate\_test} & Frame rate conversion calculations. \\
   \hline
-\item \co{recover\_test}
+  \co{recover\_test} & Re-making a DCP when a previous run was interrupted. \\
   \hline
-\item \co{repeat\_frame\_test}
+  \co{repeat\_frame\_test} & Repetition of 24fps content in a 48fps DCP. \\
   \hline
-\item \co{scaling\_test}
+  \co{scaling\_test} & Scaling and black-padding of images. \\
   \hline
-\item \co{silence\_padding\_test}
+  \co{silence\_padding\_test} & \\
   \hline
-\item \co{skip\_frame\_test}
+  \co{skip\_frame\_test} & \\
   \hline
-\end{itemize}
+\end{tabular}
 
 \subsubsection{FFmpeg decoding}
 

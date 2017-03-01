@@ -20,6 +20,7 @@
 
 /** @file  test/util_test.cc
  *  @brief Test various utility methods.
+ *  @ingroup selfcontained
  */
 
 #include "lib/util.h"

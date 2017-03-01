@@ -19,8 +19,8 @@
 */
 
 /** @file  test/image_test.cc
- *  @brief Tests of the Image class.
- *
+ *  @brief Test Image class.
+ *  @ingroup selfcontained
  *  @see test/make_black_test.cc, test/pixel_formats_test.cc
  */
 

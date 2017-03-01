@@ -19,7 +19,8 @@
 */
 
 /** @file  test/colour_conversion_test.cc
- *  @brief Various tests of ColourConversion.
+ *  @brief Test ColourConversion class.
+ *  @ingroup selfcontained
  */
 
 #include "lib/colour_conversion.h"

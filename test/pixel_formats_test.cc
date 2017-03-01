@@ -21,7 +21,7 @@
 /** @file  src/pixel_formats_test.cc
  *  @brief Make sure that Image::sample_size() and Image::bytes_per_pixel() return the right
  *  things for various pixel formats.
- *
+ *  @ingroup selfcontained
  *  @see test/image_test.cc
  */
 
