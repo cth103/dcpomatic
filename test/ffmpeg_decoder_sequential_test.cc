@@ -19,8 +19,8 @@
 */
 
 /** @file  test/ffmpeg_decoder_sequential_test.cc
- *  @brief Check that the FFmpeg decoder produces sequential frames without gaps or dropped frames;
- *  (dropped frames being checked by assert() in VideoDecoder).  Also that the decoder picks up frame rates correctly.
+ *  @brief Check that the FFmpeg decoder and Player produce sequential frames without gaps or dropped frames;
+ *  Also that the decoder picks up frame rates correctly.
  */
 
 #include "lib/ffmpeg_content.h"
@@ -29,6 +29,8 @@
 #include "lib/content_video.h"
 #include "lib/video_decoder.h"
 #include "lib/film.h"
+#include "lib/player_video.h"
+#include "lib/player.h"
 #include "test.h"
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
@@ -39,46 +41,47 @@ using std::cerr;
 using std::list;
 using boost::shared_ptr;
 using boost::optional;
+using boost::bind;
+
+static DCPTime next;
+static DCPTime frame;
+
+static void
+check (shared_ptr<PlayerVideo>, DCPTime time)
+{
+	BOOST_CHECK (time == next);
+	next += frame;
+}
 
 void
-ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length)
+ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int video_length)
 {
 	boost::filesystem::path path = private_data / file;
-	if (!boost::filesystem::exists (path)) {
-		cerr << "Skipping test: " << path.string() << " not found.\n";
-		return;
-	}
+	BOOST_REQUIRE (boost::filesystem::exists (path));
 
-	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
+	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_sequential_test_" + file.string());
 	shared_ptr<FFmpegContent> content (new FFmpegContent (film, path));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
+	film->write_metadata ();
 	shared_ptr<Log> log (new NullLog);
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (content, log));
+	shared_ptr<Player> player (new Player (film, film->playlist()));
 
-	BOOST_REQUIRE (decoder->video->_content->video_frame_rate());
-	BOOST_CHECK_CLOSE (decoder->video->_content->video_frame_rate().get(), fps, 0.01);
+	BOOST_REQUIRE (content->video_frame_rate());
+	BOOST_CHECK_CLOSE (content->video_frame_rate().get(), fps, 0.01);
 
-#ifdef DCPOMATIC_DEBUG
-	decoder->video->test_gaps = 0;
-#endif
-	for (Frame i = 0; i < video_length; ++i) {
-		list<ContentVideo> v;
-		v = decoder->video->get (i, true);
-		BOOST_REQUIRE_EQUAL (v.size(), 1U);
-		BOOST_CHECK_EQUAL (v.front().frame.index(), i);
-	}
-#ifdef DCPOMATIC_DEBUG
-	BOOST_CHECK_EQUAL (decoder->video->test_gaps, gaps);
-#endif
+	player->Video.connect (bind (&check, _1, _2));
+
+	next = DCPTime ();
+	frame = DCPTime::from_frames (1, film->video_frame_rate ());
+	while (!player->pass()) {}
+	cout << to_string(next) << " " << to_string(DCPTime::from_frames (video_length, film->video_frame_rate())) << "\n";
+	BOOST_CHECK (next == DCPTime::from_frames (video_length, film->video_frame_rate()));
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {
-	ffmpeg_decoder_sequential_test_one ("boon_telly.mkv", 29.97, 0, 6910);
-	ffmpeg_decoder_sequential_test_one ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 0, 1248);
-	/* The first video frame is 12 here, so VideoDecoder should see 12 gaps
-	   (at the start of the file)
-	*/
-	ffmpeg_decoder_sequential_test_one ("prophet_clip.mkv", 23.976, 12, 2875);
+	ffmpeg_decoder_sequential_test_one ("boon_telly.mkv", 29.97, 6911);
+	ffmpeg_decoder_sequential_test_one ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 1253);
+	ffmpeg_decoder_sequential_test_one ("prophet_clip.mkv", 23.976, 2879);
 }
