@@ -80,13 +80,13 @@ test_silence_padding (int channels)
 
 			if (sound_asset->asset()->channels() > 0) {
 				/* L should be silent */
-				int const sample = d[i + 0] | (d[i + 1] << 8);
+				int const sample = d[i + 1] | (d[i + 2] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
 			if (sound_asset->asset()->channels() > 1) {
 				/* R should be silent */
-				int const sample = d[i + 2] | (d[i + 3] << 8);
+				int const sample = d[i + 4] | (d[i + 5] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
@@ -98,20 +98,20 @@ test_silence_padding (int channels)
 
 			if (sound_asset->asset()->channels() > 3) {
 				/* Lfe should be silent */
-				int const sample = d[i + 9] | (d[i + 10] << 8);
+				int const sample = d[i + 10] | (d[i + 11] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
 			if (sound_asset->asset()->channels() > 4) {
 				/* Ls should be silent */
-				int const sample = d[i + 11] | (d[i + 12] << 8);
+				int const sample = d[i + 13] | (d[i + 14] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
 
 			if (sound_asset->asset()->channels() > 5) {
 				/* Rs should be silent */
-				int const sample = d[i + 13] | (d[i + 14] << 8);
+				int const sample = d[i + 16] | (d[i + 17] << 8);
 				BOOST_CHECK_EQUAL (sample, 0);
 			}
 
