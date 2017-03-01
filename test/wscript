@@ -91,6 +91,7 @@ def build(bld):
                  test.cc
                  threed_test.cc
                  time_calculation_test.cc
+                 torture_test.cc
                  update_checker_test.cc
                  upmixer_a_test.cc
                  util_test.cc
