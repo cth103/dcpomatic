@@ -37,12 +37,12 @@
 using std::list;
 using boost::shared_ptr;
 
-/** Test a fairly complex arrangement of content */
+/** Test start/end trim and positioning of some audio content */
 BOOST_AUTO_TEST_CASE (torture_test1)
 {
-	shared_ptr<Film> film = new_test_film ("torture_test");
+	shared_ptr<Film> film = new_test_film ("torture_test1");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_name ("torture_test");
+	film->set_name ("torture_test1");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_sequence (false);
 
