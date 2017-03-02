@@ -362,7 +362,7 @@ DCPTime
 Player::resampled_audio_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
 	/* See comment in dcp_to_content_video */
-	DCPTime const d = DCPTime::from_frames (f, _film->audio_frame_rate()) - DCPTime (piece->content->trim_start (), piece->frc);
+	DCPTime const d = DCPTime::from_frames (f, _film->audio_frame_rate()) - DCPTime (piece->content->trim_start(), piece->frc);
 	return max (DCPTime (), d + piece->content->position ());
 }
 
@@ -760,12 +760,12 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		content_audio.frame = ro.second;
 	}
 
-	/* XXX: end-trimming used to be checked here */
-
 	/* Compute time in the DCP */
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
+	/* And the end of this block in the DCP */
+	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
 
-	/* Remove anything that comes before the start of the content */
+	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
 		DCPTime const discard_time = piece->content->position() - time;
 		Frame discard_frames = discard_time.frames_round(_film->audio_frame_rate());
@@ -778,6 +778,14 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		cut->copy_from (content_audio.audio.get(), remaining_frames, discard_frames, 0);
 		content_audio.audio = cut;
 		time += discard_time;
+	} else if (time > piece->content->end()) {
+		/* Discard it all */
+		return;
+	} else if (end > piece->content->end()) {
+		Frame const remaining_frames = DCPTime(piece->content->end() - time).frames_round(_film->audio_frame_rate());
+		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
+		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
+		content_audio.audio = cut;
 	}
 
 	audio_transform (content, stream, content_audio, time);
