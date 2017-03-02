@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/isdcf_name_test.cc
+ *  @brief Test creation of ISDCF names.
+ *  @ingroup specific
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ratio.h"

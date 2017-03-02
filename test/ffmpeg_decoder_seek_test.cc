@@ -20,6 +20,7 @@
 
 /** @file  test/ffmpeg_decoder_seek_test.cc
  *  @brief Check seek() with FFmpegDecoder.
+ *  @ingroup specific
  *
  *  This doesn't check that the contents of those frames are right, which
  *  it probably should.

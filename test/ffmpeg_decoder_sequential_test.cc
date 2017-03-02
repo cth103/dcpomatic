@@ -21,6 +21,7 @@
 /** @file  test/ffmpeg_decoder_sequential_test.cc
  *  @brief Check that the FFmpeg decoder and Player produce sequential frames without gaps or dropped frames;
  *  Also that the decoder picks up frame rates correctly.
+ *  @ingroup specific
  */
 
 #include "lib/ffmpeg_content.h"

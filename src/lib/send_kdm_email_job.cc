@@ -30,7 +30,12 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 
-/** @param log Log to write to, or 0 */
+/** @param cinema_kdms KDMs to email.
+ *  @param name_format Format to use for filenames.
+ *  @param name_values Values to substitute into the filenames.
+ *  @param cpl_name Name of the CPL that the KDMs are for.
+ *  @param log Log to write to, or 0.
+ */
 SendKDMEmailJob::SendKDMEmailJob (
 	list<CinemaKDMs> cinema_kdms,
 	dcp::NameFormat name_format,

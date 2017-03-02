@@ -18,8 +18,11 @@
 
 */
 
+/** @defgroup completedcp Complete builds of DCPs with various characteristics, testing broad areas of code */
+
 /** @file  test/4k_test.cc
  *  @brief Run a 4K encode from a simple input.
+ *  @ingroup completedcp
  *
  *  The output is checked against test/data/4k_test.
  */

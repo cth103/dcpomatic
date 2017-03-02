@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/rect_test.cc
+ *  @brief Test Rect class.
+ *  @ingroup selfcontained
+ */
+
 #include "lib/rect.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>

@@ -29,7 +29,7 @@ class Film;
 class ReportProblemDialog : public wxDialog
 {
 public:
-	ReportProblemDialog (wxWindow* parent, boost::shared_ptr<Film>);
+	ReportProblemDialog (wxWindow* parent, boost::shared_ptr<Film> film);
 
 	void report ();
 
@@ -42,4 +42,3 @@ private:
 	wxCheckBox* _send_logs;
 	wxTextCtrl* _email;
 };
-

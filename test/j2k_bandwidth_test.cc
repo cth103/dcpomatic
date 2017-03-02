@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/j2k_bandwidth_test.cc
+ *  @brief Test whether we output whatever J2K bandwidth is requested.
+ *  @ingroup specific
+ */
+
 #include "test.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"

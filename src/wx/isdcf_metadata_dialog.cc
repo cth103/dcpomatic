@@ -27,7 +27,10 @@
 
 using boost::shared_ptr;
 
-/** @param threed true if the film is in 3D */
+/** @param parent Parent window.
+ *  @param dm Initial ISDCF metadata.
+ *  @param threed true if the film is in 3D.
+ */
 ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bool threed)
 	: TableDialog (parent, _("ISDCF name"), 2, 1, true)
 {

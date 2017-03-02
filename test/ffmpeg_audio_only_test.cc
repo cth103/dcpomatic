@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/ffmpeg_audio_only_test.cc
+ *  @brief Test FFmpeg content with audio but no video.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"

@@ -19,7 +19,8 @@
 */
 
 /** @file  test/threed_test.cc
- *  @brief Create a 3D DCP (without comparing the result to anything).
+ *  @brief Create some 3D DCPs (without comparing the results to anything).
+ *  @ingroup completedcp
  */
 
 #include <boost/test/unit_test.hpp>

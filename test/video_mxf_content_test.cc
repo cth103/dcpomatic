@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/video_mxf_content_test.cc
+ *  @brief Test use of Video MXF content.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/video_mxf_content.h"
 #include "lib/content_factory.h"

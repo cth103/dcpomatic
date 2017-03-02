@@ -55,14 +55,14 @@ class PlayerVideo;
 class Encoder : public boost::noncopyable, public ExceptionStore, public boost::enable_shared_from_this<Encoder>
 {
 public:
-	Encoder (boost::shared_ptr<const Film>, boost::shared_ptr<Writer>);
+	Encoder (boost::shared_ptr<const Film> film, boost::shared_ptr<Writer> writer);
 	~Encoder ();
 
 	/** Called to indicate that a processing run is about to begin */
 	void begin ();
 
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
-	void encode (boost::shared_ptr<PlayerVideo> f, DCPTime time);
+	void encode (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 
 	/** Called when a processing run has finished */
 	void end ();

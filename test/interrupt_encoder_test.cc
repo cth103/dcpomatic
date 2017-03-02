@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/interrupt_encoder_test.cc
+ *  @brief Test clean shutdown of threads if a DCP encode is interrupted.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ratio.h"

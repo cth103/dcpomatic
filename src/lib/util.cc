@@ -462,7 +462,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 
 /** Round a number up to the nearest multiple of another number.
  *  @param c Index.
- *  @param s Array of numbers to round, indexed by c.
+ *  @param stride Array of numbers to round, indexed by c.
  *  @param t Multiple to round to.
  *  @return Rounded number.
  */

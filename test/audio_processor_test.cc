@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/audio_processor_test.cc
+ *  @brief Test audio processors.
+ *  @ingroup specific
+ */
+
 #include "lib/audio_processor.h"
 #include "lib/analyse_audio_job.h"
 #include "lib/dcp_content_type.h"

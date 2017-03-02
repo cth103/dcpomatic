@@ -148,6 +148,7 @@ DCPVideo::encode_locally (dcp::NoteHandler note)
 
 /** Send this frame to a remote server for J2K encoding, then read the result.
  *  @param serv Server to send to.
+ *  @param timeout timeout in seconds.
  *  @return Encoded data.
  */
 Data

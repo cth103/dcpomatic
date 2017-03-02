@@ -56,7 +56,9 @@ using dcp::Data;
 
 int const Encoder::_history_size = 200;
 
-/** @param f Film that we are encoding */
+/** @param film Film that we are encoding.
+ *  @param writer Writer that we are using.
+ */
 Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	: _film (film)
 	, _writer (writer)
@@ -172,9 +174,7 @@ Encoder::video_frames_enqueued () const
 	return _last_player_video_time->frames_floor (_film->video_frame_rate ());
 }
 
-/** Should be called when a frame has been encoded successfully.
- *  @param n Source frame index.
- */
+/** Should be called when a frame has been encoded successfully */
 void
 Encoder::frame_done ()
 {
@@ -192,6 +192,9 @@ Encoder::frame_done ()
  *  so each time the supplied frame is the one after the previous one.
  *  pv represents one video frame, and could be empty if there is nothing to encode
  *  for this DCP frame.
+ *
+ *  @param pv PlayerVideo to encode.
+ *  @param time Time of \p pv within the DCP.
  */
 void
 Encoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)

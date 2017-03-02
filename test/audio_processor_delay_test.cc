@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/audio_processor_delay_test.cc
+ *  @brief Test the AudioDelay class.
+ *  @ingroup selfcontained
+ */
+
 #include "lib/audio_delay.h"
 #include "lib/audio_buffers.h"
 #include <boost/test/unit_test.hpp>

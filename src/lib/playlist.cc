@@ -159,7 +159,11 @@ Playlist::video_identifier () const
 	return digester.get ();
 }
 
-/** @param node <Playlist> node */
+/** @param film Film that this Playlist is for.
+ *  @param node &lt;Playlist&gt; node.
+ *  @param version Metadata version number.
+ *  @param notes Output notes about that happened.
+ */
 void
 Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
@@ -173,7 +177,9 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	reconnect ();
 }
 
-/** @param node <Playlist> node */
+/** @param node &lt;Playlist&gt; node.
+ *  @param with_content_paths true to include &lt;Path&gt; nodes in &lt;Content&gt; nodes, false to omit them.
+ */
 void
 Playlist::as_xml (xmlpp::Node* node, bool with_content_paths)
 {

@@ -32,8 +32,8 @@ using std::make_pair;
 using dcp::raw_convert;
 
 /** Construct a SubtitleStream from a value returned from to_string().
- *  @param t String returned from to_string().
- *  @param v State file version.
+ *  @param node String returned from to_string().
+ *  @param version State file version.
  */
 FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)

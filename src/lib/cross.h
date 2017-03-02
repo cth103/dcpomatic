@@ -53,7 +53,7 @@ extern uint64_t thread_id ();
 /** @class Waker
  *  @brief A class which tries to keep the computer awake on various operating systems.
  *
- *  Create a Waker to prevent sleep, and call ::nudge every so often (every minute or so).
+ *  Create a Waker to prevent sleep, and call nudge() every so often (every minute or so).
  *  Destroy the Waker to allow sleep again.
  */
 class Waker

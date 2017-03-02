@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/reels_test.cc
+ *  @brief Check manipulation of reels in various ways.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/ffmpeg_content.h"

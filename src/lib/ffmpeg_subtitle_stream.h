@@ -30,7 +30,7 @@ public:
 		: FFmpegStream (n, i)
 	{}
 
-	FFmpegSubtitleStream (cxml::ConstNodePtr, int version);
+	FFmpegSubtitleStream (cxml::ConstNodePtr node, int version);
 
 	void as_xml (xmlpp::Node *) const;
 

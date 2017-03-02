@@ -47,11 +47,7 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using dcp::Size;
 
-/** Construct a FilterGraph for the settings in a piece of content.
- *  @param content Content.
- *  @param s Size of the images to process.
- *  @param p Pixel format of the images to process.
- */
+/** Construct a FilterGraph for the settings in a piece of content */
 FilterGraph::FilterGraph ()
 	: _graph (0)
 	, _copy (false)

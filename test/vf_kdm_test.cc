@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/vf_kdm_test.cc
+ *  @brief Test encrypted VF creation and import
+ *  @ingroup specific
+ */
+
 #include "test.h"
 #include "lib/film.h"
 #include "lib/dcp_subtitle_content.h"

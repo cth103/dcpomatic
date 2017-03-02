@@ -158,7 +158,13 @@ public:
 		return ::ceil (_t * double(r) / HZ);
 	}
 
-	/** @param r Frames per second */
+	/** Split a time into hours, minutes, seconds and frames.
+	 *  @param r Frames per second.
+	 *  @param h Returned hours.
+	 *  @param m Returned minutes.
+	 *  @param s Returned seconds.
+	 *  @param f Returned frames.
+	 */
 	template <typename T>
 	void split (T r, int& h, int& m, int& s, int& f) const
 	{
@@ -292,7 +298,9 @@ public:
 	}
 };
 
-/** @param B Periods to subtract from `A', must be in ascending order of start time and must not overlap */
+/** @param A Period which is subtracted from.
+ *  @param B Periods to subtract from `A', must be in ascending order of start time and must not overlap.
+ */
 template <class T>
 std::list<TimePeriod<T> > subtract (TimePeriod<T> A, std::list<TimePeriod<T> > const & B)
 {

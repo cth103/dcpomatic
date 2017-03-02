@@ -20,6 +20,7 @@
 
 /** @file  test/film_metadata_test.cc
  *  @brief Test some basic reading/writing of film metadata.
+ *  @ingroup specific
  */
 
 #include <boost/test/unit_test.hpp>

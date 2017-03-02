@@ -40,7 +40,7 @@ class Socket;
 class Image
 {
 public:
-	Image (AVPixelFormat, dcp::Size, bool, int extra_pixels = 0);
+	Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels = 0);
 	Image (AVFrame *);
 	Image (Image const &);
 	Image (boost::shared_ptr<const Image>, bool);
@@ -57,10 +57,10 @@ public:
 	int line_factor (int) const;
 	dcp::Size sample_size (int) const;
 
-	boost::shared_ptr<Image> scale (dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned, bool fast) const;
+	boost::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
 	boost::shared_ptr<Image> crop_scale_window (
-		Crop c, dcp::Size, dcp::Size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat, bool aligned, bool fast)
-		const;
+		Crop crop, dcp::Size inter_size, dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast
+		) const;
 
 	void make_black ();
 	void make_transparent ();

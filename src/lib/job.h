@@ -40,7 +40,7 @@ class Film;
 class Job : public boost::enable_shared_from_this<Job>, public Signaller, public boost::noncopyable
 {
 public:
-	Job (boost::shared_ptr<const Film>);
+	Job (boost::shared_ptr<const Film> film);
 	virtual ~Job ();
 
 	/** @return user-readable name of this job */

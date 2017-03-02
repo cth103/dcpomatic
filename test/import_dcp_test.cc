@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/import_dcp_test.cc
+ *  @brief Test import of encrypted DCPs.
+ *  @ingroup specific
+ */
+
 #include "test.h"
 #include "lib/film.h"
 #include "lib/dcp_subtitle_content.h"

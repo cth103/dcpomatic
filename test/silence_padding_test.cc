@@ -20,6 +20,7 @@
 
 /** @file  test/silence_padding_test.cc
  *  @brief Test the padding (with silence) of a mono source to a 6-channel DCP.
+ *  @ingroup specific
  */
 
 #include "lib/ffmpeg_content.h"

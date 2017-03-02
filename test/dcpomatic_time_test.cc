@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/dcpomatic_time_test.cc
+ *  @brief Test Time and TimePeriod classes.
+ *  @ingroup selfcontained
+ */
+
 #include "lib/dcpomatic_time.h"
 #include <boost/test/unit_test.hpp>
 #include <list>

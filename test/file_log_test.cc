@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/file_log_test.cc
+ *  @brief Test FileLog.
+ *  @ingroup selfcontained
+ */
+
 #include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>

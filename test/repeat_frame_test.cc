@@ -21,6 +21,7 @@
 /** @file  test/repeat_frame_test.cc
  *  @brief Test the repeat of frames by the player when putting a 24fps
  *  source into a 48fps DCP.
+ *  @ingroup specific
  *
  *  @see test/skip_frame_test.cc
  */

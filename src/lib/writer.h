@@ -82,7 +82,7 @@ bool operator== (QueueItem const & a, QueueItem const & b);
  *  or AudioBuffers objects (containing image or sound data respectively)
  *  and writes them to the assets.
  *
- *  ::write() for Data (picture) can be called out of order, and the Writer
+ *  write() for Data (picture) can be called out of order, and the Writer
  *  will sort it out.  write() for AudioBuffers must be called in order.
  */
 

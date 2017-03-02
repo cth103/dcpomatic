@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/render_subtitles_test.cc
+ *  @brief Check markup of subtitles for rendering.
+ *  @ingroup specific
+ */
+
 #include "lib/render_subtitles.h"
 #include <dcp/subtitle_string.h>
 #include <boost/test/unit_test.hpp>

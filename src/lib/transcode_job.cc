@@ -44,8 +44,7 @@ using std::setprecision;
 using std::cout;
 using boost::shared_ptr;
 
-/** @param s Film to use.
- */
+/** @param film Film to use */
 TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 	: Job (film)
 {

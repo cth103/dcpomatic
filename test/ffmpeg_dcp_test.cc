@@ -20,6 +20,7 @@
 
 /** @file test/ffmpeg_dcp_test.cc
  *  @brief Test creation of a very simple DCP from some FFmpegContent (data/test.mp4).
+ *  @ingroup specific
  *
  *  Also a quick test of Film::have_dcp ().
  */

@@ -21,7 +21,7 @@
 #include "scoped_temporary.h"
 
 /** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened
- *  until ::open() is called.
+ *  until open() is called.
  */
 ScopedTemporary::ScopedTemporary ()
 	: _open (0)

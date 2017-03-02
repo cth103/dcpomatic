@@ -36,7 +36,10 @@ using std::string;
 using std::list;
 using boost::shared_ptr;
 
-/** @param film Film thta the problem is with, or 0 */
+/** @param film Film thta the problem is with, or 0.
+ *  @param from Email address to use for From:
+ *  @param summary Summary of the problem.
+ */
 SendProblemReportJob::SendProblemReportJob (
 	shared_ptr<const Film> film,
 	string from,

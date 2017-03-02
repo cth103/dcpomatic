@@ -27,6 +27,7 @@
 
 #include "i18n.h"
 
+/** @param timeout Timeout in seconds */
 Socket::Socket (int timeout)
 	: _deadline (_io_service)
 	, _socket (_io_service)

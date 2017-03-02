@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/ssa_subtitle_test.cc
+ *  @brief Test use of SSA subtitle files.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/dcp_content_type.h"

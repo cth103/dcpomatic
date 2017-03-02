@@ -52,8 +52,8 @@ public:
 		return _position;
 	}
 
-	void emit_image (ContentTimePeriod period, boost::shared_ptr<Image>, dcpomatic::Rect<double>);
-	void emit_text (ContentTimePeriod period, std::list<dcp::SubtitleString>);
+	void emit_image (ContentTimePeriod period, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_text (ContentTimePeriod period, std::list<dcp::SubtitleString> s);
 	void emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
 
 	boost::shared_ptr<const SubtitleContent> content () const {

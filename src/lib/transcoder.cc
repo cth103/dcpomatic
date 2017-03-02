@@ -51,14 +51,14 @@ using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
 /** Construct a transcoder.
- *  @param f Film that we are transcoding.
- *  @param j Job that this transcoder is being used in.
+ *  @param film Film that we are transcoding.
+ *  @param job Job that this transcoder is being used in.
  */
-Transcoder::Transcoder (shared_ptr<const Film> film, weak_ptr<Job> j)
+Transcoder::Transcoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: _film (film)
-	, _job (j)
+	, _job (job)
 	, _player (new Player (film, film->playlist ()))
-	, _writer (new Writer (film, j))
+	, _writer (new Writer (film, job))
 	, _encoder (new Encoder (film, _writer))
 	, _finishing (false)
 	, _non_burnt_subtitles (false)

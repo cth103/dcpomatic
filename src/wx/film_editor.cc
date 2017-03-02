@@ -41,7 +41,6 @@ using std::list;
 using boost::shared_ptr;
 using boost::optional;
 
-/** @param f Film to edit */
 FilmEditor::FilmEditor (wxWindow* parent, FilmViewer* viewer)
 	: wxPanel (parent)
 {

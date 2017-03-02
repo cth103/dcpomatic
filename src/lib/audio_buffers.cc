@@ -224,6 +224,9 @@ AudioBuffers::move (int32_t frames, int32_t from, int32_t to)
 }
 
 /** Add data from from `from', `from_channel' to our channel `to_channel'.
+ *  @param from Buffers to copy data from.
+ *  @param from_channel Channel index to read in \p from.
+ *  @param to_channel Channel index to accumulate into.
  *  @param gain Linear gain to apply to the data before it is added.
  */
 void

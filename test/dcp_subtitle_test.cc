@@ -20,6 +20,7 @@
 
 /** @file  test/dcp_subtitle_test.cc
  *  @brief Test DCP subtitle content in various ways.
+ *  @ingroup specific
  */
 
 #include <boost/test/unit_test.hpp>

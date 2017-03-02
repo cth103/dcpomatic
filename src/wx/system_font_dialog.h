@@ -22,7 +22,7 @@
  *  @brief A dialog box to select one of the "system" fonts on Windows.
  *
  *  This is necessary because wxFileDialog on Windows will not display
- *  the contents of c:\Windows\Fonts, so we need a different way to choose
+ *  the contents of `c:\Windows\Fonts`, so we need a different way to choose
  *  one of those fonts.
  */
 

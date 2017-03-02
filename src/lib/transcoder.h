@@ -34,7 +34,7 @@ class AudioBuffers;
 class Transcoder : public boost::noncopyable
 {
 public:
-	Transcoder (boost::shared_ptr<const Film>, boost::weak_ptr<Job>);
+	Transcoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
 
 	void go ();
 

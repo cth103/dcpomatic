@@ -131,7 +131,7 @@ public:
 		) const;
 
 	std::list<ScreenKDM> make_kdms (
-		std::list<boost::shared_ptr<Screen> >,
+		std::list<boost::shared_ptr<Screen> > screens,
 		boost::filesystem::path cpl_file,
 		boost::posix_time::ptime from,
 		boost::posix_time::ptime until,
@@ -160,9 +160,6 @@ public:
 	std::list<DCPTimePeriod> reels () const;
 	std::list<int> mapped_audio_channels () const;
 
-	/** @param A period within the DCP
-	 *  @return Name of the content which most contributes to the given period.
-	 */
 	std::string content_summary (DCPTimePeriod period) const;
 
 	std::list<std::string> fix_conflicting_settings ();

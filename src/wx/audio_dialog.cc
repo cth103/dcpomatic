@@ -41,7 +41,10 @@ using boost::optional;
 using boost::const_pointer_cast;
 using boost::dynamic_pointer_cast;
 
-/** @param content Content to analyse, or 0 to analyse all of the film's audio */
+/** @param parent Parent window.
+ *  @param film Film we are using.
+ *  @param content Content to analyse, or 0 to analyse all of the film's audio.
+ */
 AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content)
 	: wxDialog (
 		parent,

@@ -19,7 +19,8 @@
 */
 
 /** @file  test/ffmpeg_audio_test.cc
- *  @brief A simple test of reading audio from an FFmpeg file.
+ *  @brief Test reading audio from an FFmpeg file.
+ *  @ingroup specific
  */
 
 #include "lib/ffmpeg_content.h"

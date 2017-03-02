@@ -21,6 +21,7 @@
 /** @file  test/frame_rate_test.cc
  *  @brief Tests for FrameRateChange and the computation of the best
  *  frame rate for the DCP.
+ *  @ingroup specific
  */
 
 #include <boost/test/unit_test.hpp>

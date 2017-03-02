@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/image_filename_sorter_test.cc
+ *  @brief Test ImageFilenameSorter
+ *  @ingroup selfcontained
+ */
+
 #include "lib/image_filename_sorter.h"
 #include <boost/test/unit_test.hpp>
 

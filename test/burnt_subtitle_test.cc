@@ -20,6 +20,7 @@
 
 /** @file  test/burnt_subtitle_test.cc
  *  @brief Test the burning of subtitles into the DCP.
+ *  @ingroup specific
  */
 
 #include "lib/text_subtitle_content.h"

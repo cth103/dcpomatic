@@ -19,7 +19,8 @@
 */
 
 /** @file  test/torture_test.cc
- *  @brief Entire projects that are programmatically created and checked.
+ *  @brief Tricky arrangements of content whose resulting DCPs are checked programmatically.
+ *  @ingroup completedcp
  */
 
 #include "lib/audio_content.h"

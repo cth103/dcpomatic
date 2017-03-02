@@ -302,6 +302,7 @@ Job::check_for_interruption_or_pause ()
 
 /** Set the progress of the current part of the job.
  *  @param p Progress (from 0 to 1)
+ *  @param force Do not ignore this update, even if it hasn't been long since the last one.
  */
 void
 Job::set_progress (float p, bool force)
@@ -374,7 +375,8 @@ Job::error_summary () const
 }
 
 /** Set the current error string.
- *  @param e New error string.
+ *  @param s New error string.
+ *  @param d New error detail string.
  */
 void
 Job::set_error (string s, string d)

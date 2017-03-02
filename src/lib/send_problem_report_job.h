@@ -26,7 +26,7 @@ class SendProblemReportJob : public Job
 {
 public:
 	SendProblemReportJob (
-		boost::shared_ptr<const Film>,
+		boost::shared_ptr<const Film> film,
 		std::string from,
 		std::string summary
 		);

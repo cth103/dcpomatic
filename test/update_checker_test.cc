@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/update_checker_test.cc
+ *  @brief Check UpdateChecker::version_less_than
+ *  @ingroup specific
+ */
+
 #include <boost/test/unit_test.hpp>
 #include "lib/update_checker.h"
 

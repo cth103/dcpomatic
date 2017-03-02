@@ -103,6 +103,12 @@ Image::planes () const
 }
 
 /** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size'.
+ *  @param crop Amount to crop by.
+ *  @param inter_size Size to scale the cropped image to.
+ *  @param out_size Size of output frame; if this is larger than inter_size there will be black padding.
+ *  @param yuv_to_rgb YUV to RGB transformation to use, if required.
+ *  @param out_format Output pixel format.
+ *  @param out_aligned true to make the output image aligned.
  *  @param fast Try to be fast at the possible expense of quality; at present this means using
  *  fast bilinear rather than bicubic scaling.
  */
@@ -208,7 +214,11 @@ Image::crop_scale_window (
 	return out;
 }
 
-/** @param fast Try to be fast at the possible expense of quality; at present this means using
+/** @param out_size Size to scale to.
+ *  @param yuv_to_rgb YUVToRGB transform transform to use, if required.
+ *  @param out_format Output pixel format.
+ *  @param out_aligned true to make an aligned output image.
+ *  @param fast Try to be fast at the possible expense of quality; at present this means using
  *  fast bilinear rather than bicubic scaling.
  */
 shared_ptr<Image>
@@ -628,6 +638,7 @@ Image::bytes_per_pixel (int c) const
  *
  *  @param p Pixel format.
  *  @param s Size in pixels.
+ *  @param aligned true to make each row of this image aligned to a 32-byte boundary.
  *  @param extra_pixels Amount of extra "run-off" memory to allocate at the end of each plane in pixels.
  */
 Image::Image (AVPixelFormat p, dcp::Size s, bool aligned, int extra_pixels)

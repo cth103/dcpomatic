@@ -39,7 +39,7 @@
 class Filter : public boost::noncopyable
 {
 public:
-	Filter (std::string, std::string, std::string, std::string);
+	Filter (std::string i, std::string n, std::string c, std::string f);
 
 	/** @return our id */
 	std::string id () const {
@@ -61,9 +61,9 @@ public:
 	}
 
 	static std::vector<Filter const *> all ();
-	static Filter const * from_id (std::string);
+	static Filter const * from_id (std::string d);
 	static void setup_filters ();
-	static std::string ffmpeg_string (std::vector<Filter const *> const &);
+	static std::string ffmpeg_string (std::vector<Filter const *> const & filters);
 
 private:
 

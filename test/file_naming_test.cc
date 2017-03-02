@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/file_naming_test.cc
+ *  @brief Test how files in DCPs are named.
+ *  @ingroup specific
+ */
+
 #include "test.h"
 #include "lib/config.h"
 #include "lib/film.h"

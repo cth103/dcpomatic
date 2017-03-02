@@ -20,6 +20,7 @@
 
 /** @file  test/recover_test.cc
  *  @brief Test recovery of a DCP transcode after a crash.
+ *  @ingroup specific
  */
 
 #include "test.h"

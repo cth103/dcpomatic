@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/digest_test.cc
+ *  @brief Check computed DCP digests against references calculated by the `openssl` binary.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/dcp_content_type.h"

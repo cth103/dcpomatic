@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/time_calculation_test.cc
+ *  @brief Test calculation of timings when frame rates change.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/video_content.h"

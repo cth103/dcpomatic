@@ -49,8 +49,11 @@ public:
 	/** @param parent Parent window.
 	 *  @param wrapped Control widget that we are wrapping.
 	 *  @param property ContentProperty that the widget is handling.
+	 *  @param part Part of Content that the property is in (e.g. &Content::video)
 	 *  @param model_getter Function on the Content to get the value.
 	 *  @param model_setter Function on the Content to set the value.
+	 *  @param view_to_model Function to convert a view value to a model value.
+	 *  @param model_to_view Function to convert a model value to a view value.
 	 */
 	ContentWidget (
 		wxWindow* parent,

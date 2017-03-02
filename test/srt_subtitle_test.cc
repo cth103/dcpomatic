@@ -20,6 +20,7 @@
 
 /** @file  test/srt_subtitle_test.cc
  *  @brief Test writing DCPs with subtitles from .srt.
+ *  @ingroup specific
  */
 
 #include "lib/film.h"

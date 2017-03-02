@@ -32,7 +32,7 @@
  *  @brief A class to hold multi-channel audio data in float format.
  *
  *  The use of int32_t for frame counts in this class is due to the
- *  round-up to the next power-of-2 code in ::ensure_size; if that
+ *  round-up to the next power-of-2 code in ensure_size(); if that
  *  were changed the frame count could use any integer type.
  */
 class AudioBuffers

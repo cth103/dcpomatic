@@ -1207,8 +1207,12 @@ Film::frame_size () const
 	return fit_ratio_within (container()->ratio(), full_frame ());
 }
 
-/** @param from KDM from time expressed as a local time with an offset from UTC
- *  @param to KDM to time expressed as a local time with an offset from UTC
+/** @param recipient KDM recipient certificate.
+ *  @param trusted_devices Certificates of other trusted devices (can be empty).
+ *  @param cpl_file CPL filename.
+ *  @param from KDM from time expressed as a local time with an offset from UTC.
+ *  @param until KDM to time expressed as a local time with an offset from UTC.
+ *  @param formulation KDM formulation to use.
  */
 dcp::EncryptedKDM
 Film::make_kdm (
@@ -1267,13 +1271,16 @@ Film::make_kdm (
 		).encrypt (signer, recipient, trusted_devices, formulation);
 }
 
-/** @param from KDM from time expressed as a local time in the time zone of the Screen's Cinema.
- *  @param to KDM to time expressed as a local time in the time zone of the Screen's Cinema.
+/** @param screens Screens to make KDMs for.
+ *  @param cpl_file Path to CPL to make KDMs for.
+ *  @param from KDM from time expressed as a local time in the time zone of the Screen's Cinema.
+ *  @param until KDM to time expressed as a local time in the time zone of the Screen's Cinema.
+ *  @param formulation KDM formulation to use.
  */
 list<ScreenKDM>
 Film::make_kdms (
 	list<shared_ptr<Screen> > screens,
-	boost::filesystem::path dcp,
+	boost::filesystem::path cpl_file,
 	boost::posix_time::ptime from,
 	boost::posix_time::ptime until,
 	dcp::Formulation formulation
@@ -1286,7 +1293,7 @@ Film::make_kdms (
 			dcp::EncryptedKDM const kdm = make_kdm (
 				i->recipient.get(),
 				i->trusted_devices,
-				dcp,
+				cpl_file,
 				dcp::LocalTime (from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 				dcp::LocalTime (until, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
 				formulation
@@ -1510,6 +1517,9 @@ Film::reels () const
 	return p;
 }
 
+/** @param period A period within the DCP
+ *  @return Name of the content which most contributes to the given period.
+ */
 string
 Film::content_summary (DCPTimePeriod period) const
 {

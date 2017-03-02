@@ -167,7 +167,9 @@ public:
 class BadSettingError : public SettingError
 {
 public:
-	/** @param s Name of setting that is bad */
+	/** @param s Name of setting that is bad.
+	 *  @param m Error message.
+	 */
 	BadSettingError (std::string s, std::string m)
 		: SettingError (s, m)
 	{}

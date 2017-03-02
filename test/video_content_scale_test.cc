@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/video_content_scale_test.cc
+ *  @brief Test VideoContentScale
+ *  @ingroup selfcontained
+ */
+
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"

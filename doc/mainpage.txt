@@ -1,31 +1,26 @@
 /** @mainpage DCP-o-matic
  *
  *  DCP-o-matic is a tool to create digital cinema packages (DCPs) from
- *  video files, or from sets of image files.  It is written in C++
+ *  video files, sets of image files, sound and subtitle files.  It is written in C++
  *  and distributed under the GPL.
  *
- *  Video and sound files are decoded using FFmpeg (http://ffmpeg.org), so any file
- *  supported by FFmpeg should be usable with DCP-o-matic.  DCP-o-matic's output has been
- *  tested on numerous digital projectors.
- *
- *  DCP-o-matic allows you to crop black borders from movies, scale them to the correct
- *  aspect ratio and apply FFmpeg filters.  The time-consuming encoding of JPEG2000 files
- *  can be parallelised amongst any number of processors on the local host and any number
- *  of servers over a network.
- *
- *  DCP-o-matic can also make DCPs from still images, for advertisements and such-like.
- *
- *  Parts of DCP-o-matic are based on OpenDCP (http://code.google.com/p/opendcp),
- *  written by Terrence Meiczinger.
- *
- *  DCP-o-matic uses libopenjpeg (http://code.google.com/p/openjpeg/) for JPEG2000 encoding
- *  and ImageMagick (http://www.imagemagick.org/) for still-image encoding and decoding.
- *  It also uses the boost libraries (http://www.boost.org/) and the GUI is
- *  built using wxWidgets (http://wxwidgets.org/).
- *
- *  Thanks are due to the authors and communities of all DCP-o-matic's dependencies.
- *
- *  Email correspondance is welcome to carl@dcpomatic.com
- *
  *  More details can be found at https://dcpomatic.com/
+ *
+ *  The source is split into four main parts:
+ *
+ *  Directory   | Description
+ *  ------------|---------------------------------------------------------------------------------------------
+ *  `src/lib`   | &lsquo;backend&rsquo; library with no user interface code.
+ *  `src/wx`    | wxWidgets front end code that is common to all tools.
+ *  `src/tools` | Command line and GUI front-ends for the separate tools (main DCP-o-matic, KDM creator etc.)
+ *  `test`      | Unit tests
+ *
+ * It is build with `waf`, using something like \code
+ *
+ * ./waf configure --enable-debug --prefix=/opt
+ * ./waf -j4
+ * sudo ./waf install
+ *
+ * \endcode
+ *
  */

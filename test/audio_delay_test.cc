@@ -18,8 +18,11 @@
 
 */
 
+/** @defgroup specific Tests of fairly specific areas */
+
 /** @file  test/audio_delay_test.cc
  *  @brief Test encode using some FFmpegContents which have audio delays.
+ *  @ingroup specific
  *
  *  The output is checked algorithmically using knowledge of the input.
  */

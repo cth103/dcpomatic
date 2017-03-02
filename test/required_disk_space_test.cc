@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/required_disk_space_test.cc
+ *  @brief Check Film::required_disk_space
+ *  @ingroup specific
+ */
+
 #include "lib/content_factory.h"
 #include "lib/film.h"
 #include "lib/dcp_content.h"

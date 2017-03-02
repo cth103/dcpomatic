@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/upmixer_a_test.cc
+ *  @brief Check the Upmixer A against some reference sound files.
+ *  @ingroup specific
+ */
+
 #include <boost/test/unit_test.hpp>
 #include <sndfile.h>
 #include "lib/film.h"

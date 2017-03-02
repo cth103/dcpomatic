@@ -18,6 +18,11 @@
 
 */
 
+/** @file  test/vf_Test.cc
+ *  @brief Various VF-related tests.
+ *  @ingroup specific
+ */
+
 #include "lib/film.h"
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"

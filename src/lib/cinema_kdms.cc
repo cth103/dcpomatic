@@ -178,6 +178,10 @@ CinemaKDMs::write_zip_files (
 }
 
 /** Email one ZIP file per cinema to the cinema.
+ *  @param cinema_kdms KDMS to email.
+ *  @param name_format Format of filename to use.
+ *  @param name_values Values to substitute into \p name_format.
+ *  @param cpl_name Name of the CPL that the KDMs are for.
  *  @param log Log to write email session transcript to, or 0.
  */
 void
