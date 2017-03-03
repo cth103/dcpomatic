@@ -61,6 +61,7 @@
 #include "lib/cinema_kdms.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/hints.h"
+#include "lib/dcp_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -1005,7 +1006,8 @@ private:
 
 static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_OPTION, "c", "content", "add content file", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_OPTION, "c", "content", "add content file / directory", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_OPTION, "d", "dcp", "add content DCP", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
@@ -1103,6 +1105,9 @@ private:
 					_frame->film()->examine_and_add_content (i);
 				}
 			}
+			if (!_dcp_to_add.empty ()) {
+				_frame->film()->examine_and_add_content (shared_ptr<DCPContent> (new DCPContent (_frame->film(), _dcp_to_add)));
+			}
 		}
 
 		signal_manager = new wxSignalManager (this);
@@ -1143,6 +1148,11 @@ private:
 		wxString content;
 		if (parser.Found (wxT ("content"), &content)) {
 			_content_to_add = wx_to_std (content);
+		}
+
+		wxString dcp;
+		if (parser.Found (wxT ("dcp"), &dcp)) {
+			_dcp_to_add = wx_to_std (dcp);
 		}
 
 		return true;
@@ -1211,6 +1221,7 @@ private:
 	string _film_to_load;
 	string _film_to_create;
 	string _content_to_add;
+	string _dcp_to_add;
 };
 
 IMPLEMENT_APP (App)
