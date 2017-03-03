@@ -147,4 +147,13 @@ KDMDialog::make_clicked ()
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}
+
+	if (result.second > 0) {
+		/* XXX: proper plural form support in wxWidgets? */
+		wxString s = result.second == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
+		message_dialog (
+			this,
+			wxString::Format (s, result.second, std_to_wx(_output->directory().string()).data())
+			);
+	}
 }

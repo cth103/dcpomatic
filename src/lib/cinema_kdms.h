@@ -31,11 +31,22 @@ public:
 
 	static std::list<CinemaKDMs> collect (std::list<ScreenKDM> kdms);
 
-	static void write_zip_files (
+	static int write_directories (
 		std::list<CinemaKDMs> cinema_kdms,
 		boost::filesystem::path directory,
-		dcp::NameFormat name_format,
-		dcp::NameFormat::Map name_values
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		dcp::NameFormat::Map name_values,
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite
+		);
+
+	static int write_zip_files (
+		std::list<CinemaKDMs> cinema_kdms,
+		boost::filesystem::path directory,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
+		dcp::NameFormat::Map name_values,
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
 	static void email (

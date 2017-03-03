@@ -37,6 +37,7 @@ using std::cout;
 using std::string;
 using std::runtime_error;
 using boost::shared_ptr;
+using boost::function;
 
 void
 CinemaKDMs::make_zip_file (boost::filesystem::path zip_file, dcp::NameFormat name_format, dcp::NameFormat::Map name_values) const
@@ -113,24 +114,67 @@ CinemaKDMs::collect (list<ScreenKDM> screen_kdms)
 	return cinema_kdms;
 }
 
-/** Write one ZIP file per cinema into a directory */
-void
-CinemaKDMs::write_zip_files (
+/** Write one directory per cinema into another directory */
+int
+CinemaKDMs::write_directories (
 	list<CinemaKDMs> cinema_kdms,
 	boost::filesystem::path directory,
-	dcp::NameFormat name_format,
-	dcp::NameFormat::Map name_values
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
+	dcp::NameFormat::Map name_values,
+	function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
 	/* No specific screen */
 	name_values['s'] = "";
 
+	int written = 0;
+
 	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
 		boost::filesystem::path path = directory;
 		name_values['c'] = i.cinema->name;
-		path /= name_format.get(name_values, ".zip");
-		i.make_zip_file (path, name_format, name_values);
+		path /= container_name_format.get(name_values, "");
+		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
+			boost::filesystem::create_directories (path);
+			ScreenKDM::write_files (i.screen_kdms, path, filename_format, name_values, confirm_overwrite);
+		}
+		written += i.screen_kdms.size();
 	}
+
+	return written;
+}
+
+/** Write one ZIP file per cinema into a directory */
+int
+CinemaKDMs::write_zip_files (
+	list<CinemaKDMs> cinema_kdms,
+	boost::filesystem::path directory,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
+	dcp::NameFormat::Map name_values,
+	function<bool (boost::filesystem::path)> confirm_overwrite
+	)
+{
+	/* No specific screen */
+	name_values['s'] = "";
+
+	int written = 0;
+
+	BOOST_FOREACH (CinemaKDMs const & i, cinema_kdms) {
+		boost::filesystem::path path = directory;
+		name_values['c'] = i.cinema->name;
+		path /= container_name_format.get(name_values, ".zip");
+		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
+			if (boost::filesystem::exists (path)) {
+				/* Creating a new zip file over an existing one is an error */
+				boost::filesystem::remove (path);
+			}
+			i.make_zip_file (path, filename_format, name_values);
+			written += i.screen_kdms.size();
+		}
+	}
+
+	return written;
 }
 
 /** Email one ZIP file per cinema to the cinema.

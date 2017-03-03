@@ -62,6 +62,20 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	{
 		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
+		wxString t = _("Folder / ZIP name format");
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+#endif
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
+		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+	}
+
+	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
+	table->Add (_container_name_format->panel(), 1, wxEXPAND);
+
+	{
+		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
 		wxString t = _("Filename format");
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
@@ -104,6 +118,16 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	table->Add (_folder, 1, wxEXPAND);
 
+	wxSizer* write_options = new wxBoxSizer(wxVERTICAL);
+	_write_flat = new wxRadioButton (this, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	write_options->Add (_write_flat);
+	_write_folder = new wxRadioButton (this, wxID_ANY, _("Write a folder for each cinema's KDMs"));
+	write_options->Add (_write_folder);
+	_write_zip = new wxRadioButton (this, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
+	write_options->Add (_write_zip);
+	table->AddSpacer (0);
+	table->Add (write_options);
+
 	_email = new wxCheckBox (this, wxID_ANY, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
@@ -119,7 +143,11 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 void
 KDMOutputPanel::setup_sensitivity ()
 {
-	_folder->Enable (_write_to->GetValue ());
+	bool const write = _write_to->GetValue ();
+	_folder->Enable (write);
+	_write_flat->Enable (write);
+	_write_folder->Enable (write);
+	_write_zip->Enable (write);
 }
 
 pair<shared_ptr<Job>, int>
@@ -138,14 +166,34 @@ KDMOutputPanel::make (
 		name_values['b'] = dcp::LocalTime(timing->from()).date() + " " + dcp::LocalTime(timing->from()).time_of_day();
 		name_values['e'] = dcp::LocalTime(timing->until()).date() + " " + dcp::LocalTime(timing->until()).time_of_day();
 
-		if (_write_to->GetValue ()) {
-			written = ScreenKDM::write_files (
-				screen_kdms,
-				directory(),
-				_filename_format->get(),
-				name_values,
-				confirm_overwrite
-				);
+		if (_write_to->GetValue()) {
+			if (_write_flat->GetValue()) {
+				written = ScreenKDM::write_files (
+					screen_kdms,
+					directory(),
+					_filename_format->get(),
+					name_values,
+					confirm_overwrite
+					);
+			} else if (_write_folder->GetValue()) {
+				written = CinemaKDMs::write_directories (
+					CinemaKDMs::collect (screen_kdms),
+					directory(),
+					_container_name_format->get(),
+					_filename_format->get(),
+					name_values,
+					confirm_overwrite
+					);
+			} else if (_write_zip->GetValue()) {
+				written = CinemaKDMs::write_zip_files (
+					CinemaKDMs::collect (screen_kdms),
+					directory(),
+					_container_name_format->get(),
+					_filename_format->get(),
+					name_values,
+					confirm_overwrite
+					);
+			}
 		}
 
 		if (_email->GetValue ()) {

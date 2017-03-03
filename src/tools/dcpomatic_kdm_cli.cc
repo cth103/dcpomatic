@@ -302,24 +302,26 @@ int main (int argc, char* argv[])
 				);
 
 			if (zip) {
-				CinemaKDMs::write_zip_files (
+				int const N = CinemaKDMs::write_zip_files (
 					CinemaKDMs::collect (screen_kdms),
 					output,
+					Config::instance()->kdm_container_name_format(),
 					Config::instance()->kdm_filename_format(),
-					values
+					values,
+					bind (&always_overwrite)
 					);
 
 				if (verbose) {
-					cout << "Wrote ZIP files to " << output << "\n";
+					cout << "Wrote " << N << " ZIP files to " << output << "\n";
 				}
 			} else {
-				ScreenKDM::write_files (
+				int const N = ScreenKDM::write_files (
 					screen_kdms, output, Config::instance()->kdm_filename_format(), values,
 					bind (&always_overwrite)
 					);
 
 				if (verbose) {
-					cout << "Wrote KDM files to " << output << "\n";
+					cout << "Wrote " << N << " KDM files to " << output << "\n";
 				}
 			}
 		} catch (FileError& e) {

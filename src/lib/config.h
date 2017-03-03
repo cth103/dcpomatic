@@ -285,6 +285,10 @@ public:
 		return _confirm_kdm_email;
 	}
 
+	dcp::NameFormat kdm_container_name_format () const {
+		return _kdm_container_name_format;
+	}
+
 	dcp::NameFormat kdm_filename_format () const {
 		return _kdm_filename_format;
 	}
@@ -512,6 +516,10 @@ public:
 		maybe_set (_confirm_kdm_email, s);
 	}
 
+	void set_kdm_container_name_format (dcp::NameFormat n) {
+		maybe_set (_kdm_container_name_format, n);
+	}
+
 	void set_kdm_filename_format (dcp::NameFormat n) {
 		maybe_set (_kdm_filename_format, n);
 	}
@@ -649,6 +657,7 @@ private:
 	bool _show_hints_before_make_dcp;
 	bool _confirm_kdm_email;
 	dcp::NameFormat _kdm_filename_format;
+	dcp::NameFormat _kdm_container_name_format;
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;
 

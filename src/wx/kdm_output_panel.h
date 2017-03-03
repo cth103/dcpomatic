@@ -25,6 +25,7 @@
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
 
+class wxRadioButton;
 class wxDirPickerCtrl;
 class DirPickerCtrl;
 class KDMTimingPanel;
@@ -51,6 +52,7 @@ public:
 
 private:
 	wxChoice* _type;
+	NameFormatEditor* _container_name_format;
 	NameFormatEditor* _filename_format;
 	wxCheckBox* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
@@ -58,5 +60,8 @@ private:
 #else
 	wxDirPickerCtrl* _folder;
 #endif
+	wxRadioButton* _write_flat;
+	wxRadioButton* _write_folder;
+	wxRadioButton* _write_zip;
 	wxCheckBox* _email;
 };
