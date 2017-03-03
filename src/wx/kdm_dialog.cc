@@ -139,65 +139,12 @@ KDMDialog::make_clicked ()
 	shared_ptr<const Film> film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
-	_output->save_kdm_name_format ();
+	list<ScreenKDM> screen_kdms = film->make_kdms (
+		_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation()
+		);
 
-	try {
-		list<ScreenKDM> screen_kdms = film->make_kdms (
-			_screens->screens(), _cpl->cpl(), _timing->from(), _timing->until(), _output->formulation()
-			);
-
-		dcp::NameFormat::Map name_values;
-		name_values['f'] = film->name();
-		name_values['b'] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
-		name_values['e'] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
-
-		if (_output->write_to ()) {
-			ScreenKDM::write_files (
-				screen_kdms,
-				_output->directory(),
-				_output->name_format(),
-				name_values,
-				bind (&KDMDialog::confirm_overwrite, this, _1)
-				);
-		}
-
-		if (_output->email ()) {
-
-			list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
-
-			bool ok = true;
-
-			if (Config::instance()->confirm_kdm_email ()) {
-				list<string> emails;
-				BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
-					BOOST_FOREACH (string j, i.cinema->emails) {
-						emails.push_back (j);
-					}
-				}
-
-				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
-				if (d->ShowModal() == wxID_CANCEL) {
-					ok = false;
-				}
-			}
-
-			if (ok) {
-				JobManager::instance()->add (
-					shared_ptr<Job> (new SendKDMEmailJob (
-								 cinema_kdms,
-								 _output->name_format(),
-								 name_values,
-								 film->dcp_name(),
-								 film->log()
-								 ))
-					);
-			}
-		}
-	} catch (dcp::NotEncryptedError& e) {
-		error_dialog (this, _("CPL's content is not encrypted."));
-	} catch (exception& e) {
-		error_dialog (this, e.what ());
-	} catch (...) {
-		error_dialog (this, _("An unknown exception occurred."));
+	pair<shared_ptr<Job>, int> result = _output->make (screen_kdms, film->name(), _timing, bind (&KDMDialog::confirm_overwrite, this, _1), film->log());
+	if (result.first) {
+		JobManager::instance()->add (result.first);
 	}
 }

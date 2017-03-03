@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -60,6 +60,7 @@ using std::exception;
 using std::list;
 using std::string;
 using std::vector;
+using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
@@ -318,45 +319,27 @@ private:
 				screen_kdms.push_back (ScreenKDM (i, kdm.encrypt (signer, i->recipient.get(), i->trusted_devices, _output->formulation())));
 			}
 
-			dcp::NameFormat::Map name_values;
-			name_values['f'] = decrypted.content_title_text();
-			name_values['b'] = dcp::LocalTime(_timing->from()).date() + " " + dcp::LocalTime(_timing->from()).time_of_day();
-			name_values['e'] = dcp::LocalTime(_timing->until()).date() + " " + dcp::LocalTime(_timing->until()).time_of_day();
+			pair<shared_ptr<Job>, int> result = _output->make (
+				screen_kdms, decrypted.content_title_text(), _timing, bind (&DOMFrame::confirm_overwrite, this, _1), shared_ptr<Log> ()
+				);
 
-			if (_output->write_to()) {
-				int written = ScreenKDM::write_files (
-					screen_kdms, _output->directory(), _output->name_format(), name_values,
-					bind (&DOMFrame::confirm_overwrite, this, _1)
-					);
-
-				if (written > 0) {
-					/* XXX: proper plural form support in wxWidgets? */
-					wxString s = written == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
-					message_dialog (
-						this,
-						wxString::Format (s, written, std_to_wx(_output->directory().string()).data())
-						);
-				}
-			} else {
-				string film_name = decrypted.annotation_text().get_value_or ("");
-				if (film_name.empty ()) {
-					film_name = decrypted.content_title_text ();
-				}
-				shared_ptr<Job> job (new SendKDMEmailJob (
-							     CinemaKDMs::collect (screen_kdms),
-							     _output->name_format(),
-							     name_values,
-							     decrypted.content_title_text(),
-							     shared_ptr<Log> ()
-							     ));
-
-				JobManager::instance()->add (job);
+			if (result.first) {
+				JobManager::instance()->add (result.first);
 				if (_job_view) {
 					_job_view->Destroy ();
 					_job_view = 0;
 				}
-				_job_view = new JobViewDialog (this, _("Send KDM emails"), job);
+				_job_view = new JobViewDialog (this, _("Send KDM emails"), result.first);
 				_job_view->ShowModal ();
+			}
+
+			if (result.second > 0) {
+				/* XXX: proper plural form support in wxWidgets? */
+				wxString s = result.second == 1 ? _("%d KDM written to %s") : _("%d KDMs written to %s");
+				message_dialog (
+					this,
+					wxString::Format (s, result.second, std_to_wx(_output->directory().string()).data())
+					);
 			}
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));

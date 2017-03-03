@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,9 +19,15 @@
 */
 
 #include "lib/config.h"
+#include "lib/cinema.h"
+#include "lib/cinema_kdms.h"
+#include "lib/send_kdm_email_job.h"
 #include "kdm_output_panel.h"
+#include "kdm_timing_panel.h"
+#include "confirm_kdm_email_dialog.h"
 #include "wx_util.h"
 #include "name_format_editor.h"
+#include <dcp/exceptions.h>
 #include <dcp/types.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
@@ -29,6 +35,14 @@
 #include <wx/filepicker.h>
 #endif
 #include <wx/stdpaths.h>
+
+using std::pair;
+using std::string;
+using std::list;
+using std::exception;
+using std::make_pair;
+using boost::shared_ptr;
+using boost::function;
 
 KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	: wxPanel (parent, wxID_ANY)
@@ -108,22 +122,73 @@ KDMOutputPanel::setup_sensitivity ()
 	_folder->Enable (_write_to->GetValue ());
 }
 
-boost::filesystem::path
-KDMOutputPanel::directory () const
+pair<shared_ptr<Job>, int>
+KDMOutputPanel::make (
+	list<ScreenKDM> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite, shared_ptr<Log> log
+	)
 {
-	return wx_to_std (_folder->GetPath ());
-}
+	Config::instance()->set_kdm_filename_format (_filename_format->get ());
 
-bool
-KDMOutputPanel::write_to () const
-{
-	return _write_to->GetValue ();
-}
+	int written = 0;
+	shared_ptr<Job> job;
 
-bool
-KDMOutputPanel::email () const
-{
-	return _email->GetValue ();
+	try {
+		dcp::NameFormat::Map name_values;
+		name_values['f'] = name;
+		name_values['b'] = dcp::LocalTime(timing->from()).date() + " " + dcp::LocalTime(timing->from()).time_of_day();
+		name_values['e'] = dcp::LocalTime(timing->until()).date() + " " + dcp::LocalTime(timing->until()).time_of_day();
+
+		if (_write_to->GetValue ()) {
+			written = ScreenKDM::write_files (
+				screen_kdms,
+				directory(),
+				_filename_format->get(),
+				name_values,
+				confirm_overwrite
+				);
+		}
+
+		if (_email->GetValue ()) {
+
+			list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
+
+			bool ok = true;
+
+			if (Config::instance()->confirm_kdm_email ()) {
+				list<string> emails;
+				BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
+					BOOST_FOREACH (string j, i.cinema->emails) {
+						emails.push_back (j);
+					}
+				}
+
+				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
+				if (d->ShowModal() == wxID_CANCEL) {
+					ok = false;
+				}
+			}
+
+			if (ok) {
+				job.reset (
+					new SendKDMEmailJob (
+						cinema_kdms,
+						_filename_format->get(),
+						name_values,
+						name,
+						log
+						)
+					);
+			}
+		}
+	} catch (dcp::NotEncryptedError& e) {
+		error_dialog (this, _("CPL's content is not encrypted."));
+	} catch (exception& e) {
+		error_dialog (this, e.what ());
+	} catch (...) {
+		error_dialog (this, _("An unknown exception occurred."));
+	}
+
+	return make_pair (job, written);
 }
 
 dcp::Formulation
@@ -132,14 +197,8 @@ KDMOutputPanel::formulation () const
 	return (dcp::Formulation) reinterpret_cast<intptr_t> (_type->GetClientData (_type->GetSelection()));
 }
 
-void
-KDMOutputPanel::save_kdm_name_format () const
+boost::filesystem::path
+KDMOutputPanel::directory () const
 {
-	Config::instance()->set_kdm_filename_format (name_format ());
-}
-
-dcp::NameFormat
-KDMOutputPanel::name_format () const
-{
-	return _filename_format->get ();
+	return wx_to_std (_folder->GetPath ());
 }

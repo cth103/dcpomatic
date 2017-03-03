@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+#include "lib/screen_kdm.h"
 #include "wx_util.h"
 #include "name_format_editor.h"
 #include <dcp/types.h>
@@ -26,20 +27,27 @@
 
 class wxDirPickerCtrl;
 class DirPickerCtrl;
+class KDMTimingPanel;
+class Job;
+class Log;
 
 class KDMOutputPanel : public wxPanel
 {
 public:
 	KDMOutputPanel (wxWindow* parent, bool interop);
 
-	boost::filesystem::path directory () const;
-	bool write_to () const;
-	bool email () const;
-	dcp::Formulation formulation () const;
-	dcp::NameFormat name_format () const;
-
 	void setup_sensitivity ();
-	void save_kdm_name_format () const;
+
+	boost::filesystem::path directory () const;
+	dcp::Formulation formulation () const;
+
+	std::pair<boost::shared_ptr<Job>, int> make (
+		std::list<ScreenKDM> screen_kdms,
+		std::string name,
+		KDMTimingPanel* timing,
+		boost::function<bool (boost::filesystem::path)> confirm_overwrite,
+		boost::shared_ptr<Log> log
+		);
 
 private:
 	wxChoice* _type;
