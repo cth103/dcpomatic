@@ -39,6 +39,7 @@
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
 #include "lib/timer.h"
+#include "lib/butler.h"
 #include "lib/log.h"
 #include "lib/config.h"
 extern "C" {
@@ -179,14 +180,26 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
-
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
-	_player->Video.connect (boost::bind (&FilmViewer::video, this, _1, _2));
+
+	recreate_butler ();
 
 	calculate_sizes ();
 	refresh ();
 
 	setup_sensitivity ();
+}
+
+void
+FilmViewer::recreate_butler ()
+{
+	_butler.reset ();
+
+	if (!_film) {
+		return;
+	}
+
+	_butler.reset (new Butler (_film, _player));
 }
 
 void
@@ -197,16 +210,15 @@ FilmViewer::refresh_panel ()
 }
 
 void
-FilmViewer::video (shared_ptr<PlayerVideo> pv, DCPTime time)
+FilmViewer::get ()
 {
-	if (!_player) {
-		return;
-	}
+	pair<shared_ptr<PlayerVideo>, DCPTime> video;
+	do {
+		video = _butler->get_video ();
+	} while (_film->three_d() && ((_left_eye->GetValue() && video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && video.first->eyes() == EYES_LEFT)));
 
-	if (_film->three_d ()) {
-		if ((_left_eye->GetValue() && pv->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && pv->eyes() == EYES_LEFT)) {
-			return;
-		}
+	if (!video.first) {
+		return;
 	}
 
 	/* In an ideal world, what we would do here is:
@@ -227,26 +239,19 @@ FilmViewer::video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	 * image and convert it (from whatever the user has said it is) to RGB.
 	 */
 
-	_frame = pv->image (
+	_frame = video.first->image (
 		bind (&Log::dcp_log, _film->log().get(), _1, _2),
 		bind (&PlayerVideo::always_rgb, _1),
 		false, true
 		);
 
-	ImageChanged (pv);
+	ImageChanged (video.first);
 
-	_position = time;
-	_inter_position = pv->inter_position ();
-	_inter_size = pv->inter_size ();
+	_position = video.second;
+	_inter_position = video.first->inter_position ();
+	_inter_size = video.first->inter_size ();
 
 	refresh_panel ();
-}
-
-void
-FilmViewer::get ()
-{
-	Image const * current = _frame.get ();
-	while (!_player->pass() && _frame.get() == current) {}
 }
 
 void
@@ -334,7 +339,7 @@ FilmViewer::panel_sized (wxSizeEvent& ev)
 void
 FilmViewer::calculate_sizes ()
 {
-	if (!_film || !_player) {
+	if (!_film) {
 		return;
 	}
 
@@ -570,11 +575,11 @@ FilmViewer::jump_to_selected_clicked ()
 void
 FilmViewer::seek (DCPTime t, bool accurate)
 {
-	if (!_player) {
+	if (!_butler) {
 		return;
 	}
 
-	_player->seek (t, accurate);
+	_butler->seek (t, accurate);
 	_last_seek_accurate = accurate;
 	get ();
 }

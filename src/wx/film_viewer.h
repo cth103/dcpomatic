@@ -22,8 +22,8 @@
  *  @brief A wx widget to view `thumbnails' of a Film.
  */
 
-#include <wx/wx.h>
 #include "lib/film.h"
+#include <wx/wx.h>
 
 class wxToggleButton;
 class FFmpegPlayer;
@@ -31,6 +31,7 @@ class Image;
 class RGBPlusAlphaImage;
 class PlayerVideo;
 class Player;
+class Butler;
 
 /** @class FilmViewer
  *  @brief A wx widget to view a preview of a Film.
@@ -68,7 +69,6 @@ private:
 	void player_changed (bool);
 	void update_position_label ();
 	void update_position_slider ();
-	void video (boost::shared_ptr<PlayerVideo>, DCPTime time);
 	void get ();
 	void seek (DCPTime t, bool accurate);
 	void refresh_panel ();
@@ -79,6 +79,7 @@ private:
 	void frame_number_clicked ();
 	void go_to (DCPTime t);
 	void jump_to_selected_clicked ();
+	void recreate_butler ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -113,4 +114,6 @@ private:
 	 *  can get the same one that we got last time.
 	 */
 	bool _last_seek_accurate;
+
+	boost::shared_ptr<Butler> _butler;
 };

@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_PLAYER_VIDEO_H
+#define DCPOMATIC_PLAYER_VIDEO_H
+
 #include "types.h"
 #include "position.h"
 #include "dcpomatic_time.h"
@@ -98,3 +101,5 @@ private:
 	boost::optional<ColourConversion> _colour_conversion;
 	boost::optional<PositionImage> _subtitle;
 };
+
+#endif

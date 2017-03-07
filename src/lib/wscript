@@ -35,6 +35,7 @@ sources = """
           audio_point.cc
           audio_processor.cc
           audio_stream.cc
+          butler.cc
           case_insensitive_sorter.cc
           cinema.cc
           cinema_kdms.cc
@@ -144,6 +145,7 @@ sources = """
           video_mxf_content.cc
           video_mxf_decoder.cc
           video_mxf_examiner.cc
+          video_ring_buffers.cc
           writer.cc
           """
 
