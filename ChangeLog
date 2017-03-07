@@ -2,6 +2,11 @@
 
 	* Handle failure to write to cinemas file more nicely.
 
+2017-03-03  Carl Hetherington  <cth@carlh.net>
+
+	* Add option to write KDMs to separate folders
+	or ZIP files.
+
 2017-02-28  Carl Hetherington  <cth@carlh.net>
 
 	* Updated de_DE translation from Carsten Kurz.

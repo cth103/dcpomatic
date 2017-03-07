@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,9 +19,15 @@
 */
 
 #include "lib/config.h"
+#include "lib/cinema.h"
+#include "lib/cinema_kdms.h"
+#include "lib/send_kdm_email_job.h"
 #include "kdm_output_panel.h"
+#include "kdm_timing_panel.h"
+#include "confirm_kdm_email_dialog.h"
 #include "wx_util.h"
 #include "name_format_editor.h"
+#include <dcp/exceptions.h>
 #include <dcp/types.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
@@ -29,6 +35,14 @@
 #include <wx/filepicker.h>
 #endif
 #include <wx/stdpaths.h>
+
+using std::pair;
+using std::string;
+using std::list;
+using std::exception;
+using std::make_pair;
+using boost::shared_ptr;
+using boost::function;
 
 KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	: wxPanel (parent, wxID_ANY)
@@ -45,6 +59,20 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 	}
 	table->Add (_type, 1, wxEXPAND);
 	_type->SetSelection (0);
+
+	{
+		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
+		wxString t = _("Folder / ZIP name format");
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		t += wxT (":");
+#endif
+		wxStaticText* m = new wxStaticText (this, wxID_ANY, t);
+		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+	}
+
+	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
+	table->Add (_container_name_format->panel(), 1, wxEXPAND);
 
 	{
 		int flags = wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT;
@@ -90,6 +118,16 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 
 	table->Add (_folder, 1, wxEXPAND);
 
+	wxSizer* write_options = new wxBoxSizer(wxVERTICAL);
+	_write_flat = new wxRadioButton (this, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	write_options->Add (_write_flat);
+	_write_folder = new wxRadioButton (this, wxID_ANY, _("Write a folder for each cinema's KDMs"));
+	write_options->Add (_write_folder);
+	_write_zip = new wxRadioButton (this, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
+	write_options->Add (_write_zip);
+	table->AddSpacer (0);
+	table->Add (write_options);
+
 	_email = new wxCheckBox (this, wxID_ANY, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
@@ -105,25 +143,100 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 void
 KDMOutputPanel::setup_sensitivity ()
 {
-	_folder->Enable (_write_to->GetValue ());
+	bool const write = _write_to->GetValue ();
+	_folder->Enable (write);
+	_write_flat->Enable (write);
+	_write_folder->Enable (write);
+	_write_zip->Enable (write);
 }
 
-boost::filesystem::path
-KDMOutputPanel::directory () const
+pair<shared_ptr<Job>, int>
+KDMOutputPanel::make (
+	list<ScreenKDM> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite, shared_ptr<Log> log
+	)
 {
-	return wx_to_std (_folder->GetPath ());
-}
+	Config::instance()->set_kdm_filename_format (_filename_format->get ());
 
-bool
-KDMOutputPanel::write_to () const
-{
-	return _write_to->GetValue ();
-}
+	int written = 0;
+	shared_ptr<Job> job;
 
-bool
-KDMOutputPanel::email () const
-{
-	return _email->GetValue ();
+	try {
+		dcp::NameFormat::Map name_values;
+		name_values['f'] = name;
+		name_values['b'] = dcp::LocalTime(timing->from()).date() + " " + dcp::LocalTime(timing->from()).time_of_day();
+		name_values['e'] = dcp::LocalTime(timing->until()).date() + " " + dcp::LocalTime(timing->until()).time_of_day();
+
+		if (_write_to->GetValue()) {
+			if (_write_flat->GetValue()) {
+				written = ScreenKDM::write_files (
+					screen_kdms,
+					directory(),
+					_filename_format->get(),
+					name_values,
+					confirm_overwrite
+					);
+			} else if (_write_folder->GetValue()) {
+				written = CinemaKDMs::write_directories (
+					CinemaKDMs::collect (screen_kdms),
+					directory(),
+					_container_name_format->get(),
+					_filename_format->get(),
+					name_values,
+					confirm_overwrite
+					);
+			} else if (_write_zip->GetValue()) {
+				written = CinemaKDMs::write_zip_files (
+					CinemaKDMs::collect (screen_kdms),
+					directory(),
+					_container_name_format->get(),
+					_filename_format->get(),
+					name_values,
+					confirm_overwrite
+					);
+			}
+		}
+
+		if (_email->GetValue ()) {
+
+			list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
+
+			bool ok = true;
+
+			if (Config::instance()->confirm_kdm_email ()) {
+				list<string> emails;
+				BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
+					BOOST_FOREACH (string j, i.cinema->emails) {
+						emails.push_back (j);
+					}
+				}
+
+				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
+				if (d->ShowModal() == wxID_CANCEL) {
+					ok = false;
+				}
+			}
+
+			if (ok) {
+				job.reset (
+					new SendKDMEmailJob (
+						cinema_kdms,
+						_filename_format->get(),
+						name_values,
+						name,
+						log
+						)
+					);
+			}
+		}
+	} catch (dcp::NotEncryptedError& e) {
+		error_dialog (this, _("CPL's content is not encrypted."));
+	} catch (exception& e) {
+		error_dialog (this, e.what ());
+	} catch (...) {
+		error_dialog (this, _("An unknown exception occurred."));
+	}
+
+	return make_pair (job, written);
 }
 
 dcp::Formulation
@@ -132,14 +245,8 @@ KDMOutputPanel::formulation () const
 	return (dcp::Formulation) reinterpret_cast<intptr_t> (_type->GetClientData (_type->GetSelection()));
 }
 
-void
-KDMOutputPanel::save_kdm_name_format () const
+boost::filesystem::path
+KDMOutputPanel::directory () const
 {
-	Config::instance()->set_kdm_filename_format (name_format ());
-}
-
-dcp::NameFormat
-KDMOutputPanel::name_format () const
-{
-	return _filename_format->get ();
+	return wx_to_std (_folder->GetPath ());
 }

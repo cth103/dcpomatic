@@ -34,7 +34,9 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 	, _suffix (suffix)
 {
 	_sizer->Add (_specification, 0, wxEXPAND, DCPOMATIC_SIZER_Y_GAP);
-	_sizer->Add (_example, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
+	if (!_examples.empty ()) {
+		_sizer->Add (_example, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
+	}
 	_panel->SetSizer (_sizer);
 
 	for (dcp::NameFormat::Map::const_iterator i = titles.begin(); i != titles.end(); ++i) {
@@ -63,6 +65,10 @@ NameFormatEditor::changed ()
 void
 NameFormatEditor::update_example ()
 {
+	if (_examples.empty ()) {
+		return;
+	}
+
 	_name.set_specification (careful_string_filter (wx_to_std (_specification->GetValue ())));
 
 	wxString example = wxString::Format (_("e.g. %s"), std_to_wx (_name.get (_examples, _suffix)));
