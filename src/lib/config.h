@@ -66,6 +66,7 @@ public:
 	enum Property {
 		USE_ANY_SERVERS,
 		SERVERS,
+		CINEMAS,
 		OTHER
 	};
 
@@ -345,12 +346,12 @@ public:
 
 	void add_cinema (boost::shared_ptr<Cinema> c) {
 		_cinemas.push_back (c);
-		changed ();
+		changed (CINEMAS);
 	}
 
 	void remove_cinema (boost::shared_ptr<Cinema> c) {
 		_cinemas.remove (c);
-		changed ();
+		changed (CINEMAS);
 	}
 
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
@@ -539,6 +540,8 @@ public:
 	static boost::signals2::signal<void ()> FailedToLoad;
 
 	void write () const;
+	void write_config () const;
+	void write_cinemas () const;
 
 	void save_template (boost::shared_ptr<const Film> film, std::string name) const;
 	bool existing_template (std::string name) const;
@@ -558,8 +561,6 @@ private:
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
-	void write_config_xml () const;
-	void write_cinemas_xml () const;
 	void read_cinemas (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;

@@ -366,12 +366,12 @@ Config::instance ()
 void
 Config::write () const
 {
-	write_config_xml ();
-	write_cinemas_xml ();
+	write_config ();
+	write_cinemas ();
 }
 
 void
-Config::write_config_xml () const
+Config::write_config () const
 {
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
@@ -482,7 +482,7 @@ Config::write_config_xml () const
 }
 
 void
-Config::write_cinemas_xml () const
+Config::write_cinemas () const
 {
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Cinemas");

@@ -177,7 +177,7 @@ ScreensPanel::edit_cinema_clicked ()
 		c.second->set_utc_offset_hour (d->utc_offset_hour ());
 		c.second->set_utc_offset_minute (d->utc_offset_minute ());
 		_targets->SetItemText (c.first, std_to_wx (d->name()));
-		Config::instance()->changed ();
+		Config::instance()->changed (Config::CINEMAS);
 	}
 
 	d->Destroy ();
@@ -229,7 +229,7 @@ ScreensPanel::add_screen_clicked ()
 		_targets->Expand (id.get ());
 	}
 
-	Config::instance()->changed ();
+	Config::instance()->changed (Config::CINEMAS);
 
 	d->Destroy ();
 }
@@ -268,7 +268,7 @@ ScreensPanel::edit_screen_clicked ()
 	s.second->recipient = d->recipient ();
 	s.second->trusted_devices = d->trusted_devices ();
 	_targets->SetItemText (s.first, std_to_wx (d->name()));
-	Config::instance()->changed ();
+	Config::instance()->changed (Config::CINEMAS);
 
 	d->Destroy ();
 }
@@ -295,7 +295,7 @@ ScreensPanel::remove_screen_clicked ()
 		_targets->Delete (i->first);
 	}
 
-	Config::instance()->changed ();
+	Config::instance()->changed (Config::CINEMAS);
 }
 
 list<shared_ptr<Screen> >

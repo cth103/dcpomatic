@@ -214,8 +214,8 @@ public:
 		SetIcon (wxIcon (std_to_wx ("id")));
 #endif
 
-		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
-		config_changed ();
+		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this, _1));
+		config_changed (Config::OTHER);
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_new, this),                ID_file_new);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this),               ID_file_open);
@@ -276,9 +276,6 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
 		wxAcceleratorTable accel_table (2, accel);
 		SetAcceleratorTable (accel_table);
-
-		/* Instantly save any config changes when using the DCP-o-matic GUI */
-		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
@@ -925,8 +922,35 @@ private:
 		m->Append (help, _("&Help"));
 	}
 
-	void config_changed ()
+	void config_changed (Config::Property what)
 	{
+		/* Instantly save any config changes when using the DCP-o-matic GUI */
+		if (what == Config::CINEMAS) {
+			try {
+				Config::instance()->write_cinemas();
+			} catch (exception& e) {
+				error_dialog (
+					this,
+					wxString::Format (
+						_("Could not write to cinemas file at %s.  Your changes have not been saved."),
+						std_to_wx (Config::instance()->cinemas_file().string()).data()
+						)
+					);
+			}
+		} else {
+			try {
+				Config::instance()->write_config();
+			} catch (exception& e) {
+				error_dialog (
+					this,
+					wxString::Format (
+						_("Could not write to config file at %s.  Your changes have not been saved."),
+						std_to_wx (Config::instance()->cinemas_file().string()).data()
+						)
+					);
+			}
+		}
+
 		for (int i = 0; i < _history_items; ++i) {
 			delete _file_menu->Remove (ID_file_history + i);
 		}
