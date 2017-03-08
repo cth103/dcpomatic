@@ -41,6 +41,7 @@ public:
 private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
+	void player_changed ();
 
 	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -57,4 +58,5 @@ private:
 	bool _finished;
 
 	boost::signals2::scoped_connection _player_video_connection;
+	boost::signals2::scoped_connection _player_changed_connection;
 };

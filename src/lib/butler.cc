@@ -40,7 +40,8 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player)
 	, _pending_seek_accurate (false)
 	, _finished (false)
 {
-	_player->Video.connect (bind (&VideoRingBuffers::put, &_video, _1, _2));
+	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
+	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 }
 
@@ -61,21 +62,30 @@ Butler::thread ()
 	while (true) {
 		boost::mutex::scoped_lock lm (_mutex);
 
-		while (_video.size() > VIDEO_READAHEAD && !_pending_seek_position) {
+		/* Wait until we have something to do */
+		while (_video.size() >= VIDEO_READAHEAD && !_pending_seek_position) {
 			_summon.wait (lm);
 		}
 
+		/* Do any seek that has been requested */
 		if (_pending_seek_position) {
 			_player->seek (*_pending_seek_position, _pending_seek_accurate);
 			_pending_seek_position = optional<DCPTime> ();
 		}
 
-		while (_video.size() < VIDEO_READAHEAD) {
-			_arrived.notify_all ();
+		/* Fill _video.  Don't try to carry on if a pending seek appears
+		   while lm is unlocked, as in that state nothing will be added to
+		   _video.
+		*/
+		while (_video.size() < VIDEO_READAHEAD && !_pending_seek_position) {
+			lm.unlock ();
 			if (_player->pass ()) {
 				_finished = true;
+				_arrived.notify_all ();
 				break;
 			}
+			lm.lock ();
+			_arrived.notify_all ();
 		}
 	}
 }
@@ -84,7 +94,9 @@ pair<shared_ptr<PlayerVideo>, DCPTime>
 Butler::get_video ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	while (_video.size() == 0 && !_finished) {
+
+	/* Wait for data if we have none */
+	while (_video.empty() && !_finished) {
 		_arrived.wait (lm);
 	}
 
@@ -92,20 +104,47 @@ Butler::get_video ()
 		return make_pair (shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
-	return _video.get ();
+	pair<shared_ptr<PlayerVideo>, DCPTime> const r = _video.get ();
+	_summon.notify_all ();
+	return r;
 }
 
 void
 Butler::seek (DCPTime position, bool accurate)
 {
+	boost::mutex::scoped_lock lm (_mutex);
 	_video.clear ();
+	_finished = false;
+	_pending_seek_position = position;
+	_pending_seek_accurate = accurate;
+	_summon.notify_all ();
+}
+
+void
+Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
+{
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_pending_seek_position) {
+			/* Don't store any video while a seek is pending */
+			return;
+		}
+	}
+
+	_video.put (video, time);
+}
+
+void
+Butler::player_changed ()
+{
+	optional<DCPTime> t;
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_finished = false;
-		_pending_seek_position = position;
-		_pending_seek_accurate = accurate;
+		t = _video.earliest ();
 	}
 
-	_summon.notify_all ();
+	if (t) {
+		seek (*t, true);
+	}
 }

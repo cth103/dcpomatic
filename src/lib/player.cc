@@ -226,10 +226,16 @@ Player::playlist_content_changed (weak_ptr<Content> w, int property, bool freque
 void
 Player::set_video_container_size (dcp::Size s)
 {
+	if (s == _video_container_size) {
+		return;
+	}
+
 	_video_container_size = s;
 
 	_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_container_size, true));
 	_black_image->make_black ();
+
+	Changed (false);
 }
 
 void

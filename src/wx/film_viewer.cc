@@ -212,6 +212,8 @@ FilmViewer::refresh_panel ()
 void
 FilmViewer::get ()
 {
+	cout << "get!\n";
+
 	pair<shared_ptr<PlayerVideo>, DCPTime> video;
 	do {
 		video = _butler->get_video ();

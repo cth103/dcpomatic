@@ -60,6 +60,13 @@ VideoRingBuffers::size () const
 	return _data.size ();
 }
 
+bool
+VideoRingBuffers::empty () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _data.empty ();
+}
+
 void
 VideoRingBuffers::clear ()
 {
@@ -68,12 +75,12 @@ VideoRingBuffers::clear ()
 }
 
 optional<DCPTime>
-VideoRingBuffers::latest () const
+VideoRingBuffers::earliest () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	if (_data.empty ()) {
 		return optional<DCPTime> ();
 	}
 
-	return _data.back().second;
+	return _data.front().second;
 }

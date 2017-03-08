@@ -36,8 +36,8 @@ public:
 
 	void clear ();
 	Frame size () const;
-
-	boost::optional<DCPTime> latest () const;
+	bool empty () const;
+	boost::optional<DCPTime> earliest () const;
 
 private:
 	mutable boost::mutex _mutex;
