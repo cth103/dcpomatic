@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export LD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/carl/Environment/64/lib
+export LD_LIBRARY_PATH=build/src/lib:build/src/wx:/home/c.hetherington/lib:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:/carl/Environment/64/lib
 if [ "$1" == "--debug" ]; then
     shift
     gdb --args build/src/tools/dcpomatic2_kdm $*
