@@ -67,6 +67,7 @@ public:
 		USE_ANY_SERVERS,
 		SERVERS,
 		CINEMAS,
+		SOUND_OUTPUT,
 		OTHER
 	};
 
@@ -306,6 +307,10 @@ public:
 		return _jump_to_selected;
 	}
 
+	boost::optional<std::string> sound_output () const {
+		return _sound_output;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -521,6 +526,21 @@ public:
 		maybe_set (_confirm_kdm_email, s);
 	}
 
+	void set_sound_output (std::string o)
+	{
+		maybe_set (_sound_output, o, SOUND_OUTPUT);
+	}
+
+	void unset_sound_output ()
+	{
+		if (!_sound_output) {
+			return;
+		}
+
+		_sound_output = boost::none;
+		changed ();
+	}
+
 	void set_kdm_container_name_format (dcp::NameFormat n) {
 		maybe_set (_kdm_container_name_format, n);
 	}
@@ -582,12 +602,21 @@ private:
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 
 	template <class T>
-	void maybe_set (T& member, T new_value) {
+	void maybe_set (T& member, T new_value, Property prop = OTHER) {
 		if (member == new_value) {
 			return;
 		}
 		member = new_value;
-		changed ();
+		changed (prop);
+	}
+
+	template <class T>
+	void maybe_set (boost::optional<T>& member, T new_value, Property prop = OTHER) {
+		if (member && member.get() == new_value) {
+			return;
+		}
+		member = new_value;
+		changed (prop);
 	}
 
 	/** number of threads to use for J2K encoding on the local machine */
@@ -669,7 +698,12 @@ private:
 	dcp::NameFormat _kdm_container_name_format;
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;
+<<<<<<< 8de6a5d1d054bab25ab0d86bc48442d9d6adb849
 	bool _jump_to_selected;
+=======
+	/** name of a specific sound output stream to use for preview */
+	boost::optional<std::string> _sound_output;
+>>>>>>> First bits of audio support.
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

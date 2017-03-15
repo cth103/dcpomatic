@@ -34,6 +34,7 @@ sources = """
           audio_merger.cc
           audio_point.cc
           audio_processor.cc
+          audio_ring_buffers.cc
           audio_stream.cc
           butler.cc
           case_insensitive_sorter.cc

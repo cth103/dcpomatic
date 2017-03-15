@@ -19,6 +19,8 @@
 */
 
 #include "video_ring_buffers.h"
+#include "audio_ring_buffers.h"
+#include "audio_mapping.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -32,15 +34,17 @@ class PlayerVideo;
 class Butler : public boost::noncopyable
 {
 public:
-	Butler (boost::weak_ptr<const Film> film, boost::shared_ptr<Player> player);
+	Butler (boost::weak_ptr<const Film> film, boost::shared_ptr<Player> player, AudioMapping map, int audio_channels);
 	~Butler ();
 
 	void seek (DCPTime position, bool accurate);
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
+	void get_audio (float* out, Frame frames);
 
 private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
+	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
 	void player_changed ();
 
 	boost::weak_ptr<const Film> _film;
@@ -48,6 +52,7 @@ private:
 	boost::thread* _thread;
 
 	VideoRingBuffers _video;
+	AudioRingBuffers _audio;
 
 	boost::mutex _mutex;
 	boost::condition _summon;
@@ -57,6 +62,10 @@ private:
 
 	bool _finished;
 
+	AudioMapping _audio_mapping;
+	int _audio_channels;
+
 	boost::signals2::scoped_connection _player_video_connection;
+	boost::signals2::scoped_connection _player_audio_connection;
 	boost::signals2::scoped_connection _player_changed_connection;
 };

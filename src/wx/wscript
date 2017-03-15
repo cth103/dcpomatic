@@ -155,15 +155,57 @@ def configure(conf):
     if not wx_version.startswith('3.0.'):
         conf.fatal('wxwidgets version 3.0.x is required; %s found' % wx_version)
 
+    try:
+        conf.check_cfg(msg='Checking for RtAudio using pkg-config',
+                       package='rtaudio',
+                       args='--cflags --libs',
+                       uselib_store='RTAUDIO',
+                       mandatory=True)
+    except:
+        conf.check_cfg(msg='Checking for RtAudio headers using rtaudio-config',
+                       package='',
+                       path='rtaudio-config',
+                       args='--cppflags',
+                       uselib_store='RTAUDIO',
+                       mandatory=True)
+
+        conf.check_cfg(msg='Checking for RtAudio libraries using rtaudio-config',
+                       package='',
+                       path='rtaudio-config',
+                       args='--libs',
+                       uselib_store='RTAUDIO',
+                       mandatory=True)
+
+    # Some rtaudio-configs don't include rtaudio as a link library.  Go figure.
+    conf.env.LIB_RTAUDIO.append('rtaudio')
+    # Don't explicitly link with pthread on Windows
+    if conf.env.TARGET_WINDOWS:
+        print conf.env
+        conf.env.CFLAGS_RTAUDIO.remove('-pthread')
+        conf.env.LINKFLAGS_RTAUDIO.remove('-pthread')
+
+    conf.check_cxx(fragment="""
+                            #include <RtAudio.h>\n
+                            int main() { throw RtError("Hello"); }
+			    """,
+                   msg='Checking for RtError class',
+                   libpath='/usr/local/lib',
+                   lib=['rtaudio'],
+                   uselib_store='',
+                   define_name='DCPOMATIC_USE_RTERROR',
+                   mandatory=False)
+
+
+
 def build(bld):
     if bld.env.STATIC_DCPOMATIC:
-        obj = bld(features = 'cxx cxxstlib')
+        obj = bld(features='cxx cxxstlib')
     else:
-        obj = bld(features = 'cxx cxxshlib')
+        obj = bld(features='cxx cxxshlib')
 
     obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
-    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML '
+    obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML RTAUDIO '
     if bld.env.TARGET_LINUX:
         obj.uselib += 'GTK '
     if bld.env.TARGET_WINDOWS:

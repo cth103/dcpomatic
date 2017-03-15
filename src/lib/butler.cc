@@ -34,13 +34,16 @@ using boost::optional;
 /** Video readahead in frames */
 #define VIDEO_READAHEAD 10
 
-Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player)
+Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMapping audio_mapping, int audio_channels)
 	: _film (film)
 	, _player (player)
 	, _pending_seek_accurate (false)
 	, _finished (false)
+	, _audio_mapping (audio_mapping)
+	, _audio_channels (audio_channels)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
+	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
 	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 }
@@ -135,6 +138,12 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 }
 
 void
+Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+{
+
+}
+
+void
 Butler::player_changed ()
 {
 	optional<DCPTime> t;
@@ -147,4 +156,11 @@ Butler::player_changed ()
 	if (t) {
 		seek (*t, true);
 	}
+}
+
+void
+Butler::get_audio (float* out, Frame frames)
+{
+	_audio.get (reinterpret_cast<float*> (out), _audio_channels, frames);
+	_summon.notify_all ();
 }

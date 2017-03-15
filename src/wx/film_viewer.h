@@ -23,6 +23,8 @@
  */
 
 #include "lib/film.h"
+#include "lib/config.h"
+#include <RtAudio.h>
 #include <wx/wx.h>
 
 class wxToggleButton;
@@ -40,18 +42,21 @@ class FilmViewer : public wxPanel
 {
 public:
 	FilmViewer (wxWindow *);
+	~FilmViewer ();
 
 	void set_film (boost::shared_ptr<Film>);
 
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	DCPTime position () const {
-		return _position;
+		return _video_position;
 	}
 
 	void set_position (DCPTime p);
 	void set_coalesce_player_changes (bool c);
 
 	void refresh ();
+
+	int audio_callback (void* out, unsigned int frames);
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
 
@@ -80,6 +85,10 @@ private:
 	void go_to (DCPTime t);
 	void jump_to_selected_clicked ();
 	void recreate_butler ();
+	void config_changed (Config::Property);
+	DCPTime time () const;
+	void start ();
+	bool stop ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -101,7 +110,7 @@ private:
 	bool _pending_player_change;
 
 	boost::shared_ptr<const Image> _frame;
-	DCPTime _position;
+	DCPTime _video_position;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;
 
@@ -115,5 +124,11 @@ private:
 	 */
 	bool _last_seek_accurate;
 
+	RtAudio _audio;
+	int _audio_channels;
+	unsigned int _audio_block_size;
+	bool _playing;
 	boost::shared_ptr<Butler> _butler;
+
+	boost::signals2::scoped_connection _config_changed_connection;
 };

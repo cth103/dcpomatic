@@ -52,6 +52,16 @@ class wxGridBagSizer;
 #define DCPOMATIC_BUTTON_STACK_GAP 0
 #endif
 
+#ifdef DCPOMATIC_LINUX
+#define DCPOMATIC_RTAUDIO_API RtAudio::LINUX_PULSE
+#endif
+#ifdef DCPOMATIC_WINDOWS
+#define DCPOMATIC_RTAUDIO_API RtAudio::WINDOWS_WASAPI
+#endif
+#ifdef DCPOMATIC_OSX
+#define DCPOMATIC_RTAUDIO_API RtAudio::MACOSX_CORE
+#endif
+
 /** i18n macro to support strings like Context|String
  *  so that `String' can be translated to different things
  *  in different contexts.

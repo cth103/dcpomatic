@@ -65,6 +65,13 @@ using boost::weak_ptr;
 using boost::optional;
 using dcp::Size;
 
+static
+int
+rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamStatus, void* data)
+{
+	return reinterpret_cast<FilmViewer*>(data)->audio_callback (out, frames);
+}
+
 FilmViewer::FilmViewer (wxWindow* p)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
@@ -81,6 +88,10 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _coalesce_player_changes (false)
 	, _pending_player_change (false)
 	, _last_seek_accurate (true)
+	, _audio (DCPOMATIC_RTAUDIO_API)
+	, _audio_channels (0)
+	, _audio_block_size (1024)
+	, _playing (false)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -143,6 +154,14 @@ FilmViewer::FilmViewer (wxWindow* p)
 		);
 
 	setup_sensitivity ();
+
+	_config_changed_connection = Config::instance()->Changed.connect (bind (&FilmViewer::config_changed, this, _1));
+	config_changed (Config::SOUND_OUTPUT);
+}
+
+FilmViewer::~FilmViewer ()
+{
+	stop ();
 }
 
 void
@@ -193,13 +212,34 @@ FilmViewer::set_film (shared_ptr<Film> film)
 void
 FilmViewer::recreate_butler ()
 {
+	bool const was_running = stop ();
 	_butler.reset ();
 
 	if (!_film) {
 		return;
 	}
 
-	_butler.reset (new Butler (_film, _player));
+	AudioMapping map = AudioMapping (_film->audio_channels(), _audio_channels);
+
+	if (_audio_channels != 2 || _film->audio_channels() < 3) {
+		for (int i = 0; i < min (_film->audio_channels(), _audio_channels); ++i) {
+			map.set (i, i, 1);
+		}
+	} else {
+		/* Special case: stereo output, at least 3 channel input, map L+R to L/R and
+		   C to both, all 3dB down.
+		*/
+		map.set (0, 0, 1 / sqrt(2)); // L -> L
+		map.set (1, 1, 1 / sqrt(2)); // R -> R
+		map.set (2, 0, 1 / sqrt(2)); // C -> L
+		map.set (2, 1, 1 / sqrt(2)); // C -> R
+	}
+
+	_butler.reset (new Butler (_film, _player, map, _audio_channels));
+
+	if (was_running) {
+		start ();
+	}
 }
 
 void
@@ -249,7 +289,7 @@ FilmViewer::get ()
 
 	ImageChanged (video.first);
 
-	_position = video.second;
+	_video_position = video.second;
 	_inter_position = video.first->inter_position ();
 	_inter_size = video.first->inter_size ();
 
@@ -259,17 +299,18 @@ FilmViewer::get ()
 void
 FilmViewer::timer ()
 {
-	DCPTime const frame = DCPTime::from_frames (1, _film->video_frame_rate ());
-
-	if ((_position + frame) >= _film->length ()) {
-		_play_button->SetValue (false);
-		check_play_state ();
-	} else {
-		get ();
+	if (!_film) {
+		return;
 	}
 
-	update_position_label ();
-	update_position_slider ();
+	if (_audio.isStreamRunning ()) {
+		DCPTime const now = time().ceil (_film->video_frame_rate ());
+		get ();
+		update_position_label ();
+		update_position_slider ();
+		DCPTime const next = now + DCPTime::from_frames (1, _film->video_frame_rate ());
+		_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 0.0), wxTIMER_ONE_SHOT);
+	}
 }
 
 void
@@ -388,6 +429,34 @@ FilmViewer::check_play_state ()
 }
 
 void
+FilmViewer::start ()
+{
+	if (_audio.isStreamOpen()) {
+		_audio.setStreamTime (_video_position.seconds());
+		_audio.startStream ();
+	}
+
+	_playing = true;
+	_timer.Start (0, wxTIMER_ONE_SHOT);
+}
+
+bool
+FilmViewer::stop ()
+{
+	if (_audio.isStreamRunning()) {
+		/* stop stream and discard any remainig queued samples */
+		_audio.abortStream ();
+	}
+
+	if (!_playing) {
+		return false;
+	}
+
+	_playing = false;
+	return true;
+}
+
+void
 FilmViewer::update_position_slider ()
 {
 	if (!_film) {
@@ -398,7 +467,7 @@ FilmViewer::update_position_slider ()
 	DCPTime const len = _film->length ();
 
 	if (len.get ()) {
-		int const new_slider_position = 4096 * _position.get() / len.get();
+		int const new_slider_position = 4096 * _video_position.get() / len.get();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -416,8 +485,8 @@ FilmViewer::update_position_label ()
 
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_position.seconds() * fps) + 1));
-	_timecode->SetLabel (time_to_timecode (_position, fps));
+	_frame_number->SetLabel (wxString::Format (wxT("%ld"), lrint (_video_position.seconds() * fps) + 1));
+	_timecode->SetLabel (time_to_timecode (_video_position, fps));
 }
 
 void
@@ -464,14 +533,14 @@ FilmViewer::go_to (DCPTime t)
 void
 FilmViewer::back_clicked (wxMouseEvent& ev)
 {
-	go_to (_position - nudge_amount (ev));
+	go_to (_video_position - nudge_amount (ev));
 	ev.Skip ();
 }
 
 void
 FilmViewer::forward_clicked (wxMouseEvent& ev)
 {
-	go_to (_position + nudge_amount (ev));
+	go_to (_video_position + nudge_amount (ev));
 	ev.Skip ();
 }
 
@@ -522,13 +591,13 @@ FilmViewer::film_changed (Film::Property p)
 void
 FilmViewer::refresh ()
 {
-	seek (_position, _last_seek_accurate);
+	seek (_video_position, _last_seek_accurate);
 }
 
 void
 FilmViewer::set_position (DCPTime p)
 {
-	_position = p;
+	_video_position = p;
 	seek (p, true);
 	update_position_label ();
 	update_position_slider ();
@@ -584,4 +653,65 @@ FilmViewer::seek (DCPTime t, bool accurate)
 	_butler->seek (t, accurate);
 	_last_seek_accurate = accurate;
 	get ();
+}
+
+void
+FilmViewer::config_changed (Config::Property p)
+{
+	if (p != Config::SOUND_OUTPUT) {
+		return;
+	}
+
+	if (_audio.isStreamOpen ()) {
+		_audio.closeStream ();
+	}
+
+	unsigned int st = 0;
+	if (Config::instance()->sound_output()) {
+		while (st < _audio.getDeviceCount()) {
+			if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
+				break;
+			}
+			++st;
+		}
+		if (st == _audio.getDeviceCount()) {
+			st = _audio.getDefaultOutputDevice();
+		}
+	} else {
+		st = _audio.getDefaultOutputDevice();
+	}
+
+	_audio_channels = _audio.getDeviceInfo(st).outputChannels;
+	recreate_butler ();
+
+	RtAudio::StreamParameters sp;
+	sp.deviceId = st;
+	sp.nChannels = _audio_channels;
+	sp.firstChannel = 0;
+	try {
+		_audio.openStream (&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
+#ifdef DCPOMATIC_USE_RTERROR
+	} catch (RtError& e) {
+#else
+	} catch (RtAudioError& e) {
+#endif
+		error_dialog (this, wxString::Format (_("Could not set up audio output (%s).  There will be no audio during the preview."), e.what()));
+	}
+}
+
+DCPTime
+FilmViewer::time () const
+{
+	if (_audio.isStreamRunning ()) {
+		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ());
+	}
+
+	return _video_position;
+}
+
+int
+FilmViewer::audio_callback (void* out_p, unsigned int frames)
+{
+	_butler->get_audio (reinterpret_cast<float*> (out_p), frames);
+	return 0;
 }
