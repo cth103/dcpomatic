@@ -180,7 +180,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Gerhard Gruber"));
 	supported_by.Add (wxT ("Flor Guillaume"));
 	supported_by.Add (wxT ("Patrick Haderer"));
-	supported_by.Add (wxT ("Liu Hanyuan"));
+	supported_by.Add (wxT ("刘汉源"));
 	supported_by.Add (wxT ("Jeff Hemingway"));
 	supported_by.Add (wxT ("Antonio Ruiz Hernandez"));
 	supported_by.Add (wxT ("Film.Ca Inc."));
