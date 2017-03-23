@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,6 +27,7 @@
 #include "version.h"
 #include "emailer.h"
 #include "environment_info.h"
+#include <libxml++/libxml++.h>
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
@@ -87,7 +88,10 @@ SendProblemReportJob::run ()
 		body += "---<8----\n\n";
 
 		add_file (body, "ffprobe.log");
-		add_file (body, "metadata.xml");
+
+		body += "---<8----\n";
+		body += _film->metadata()->write_to_string_formatted("UTF-8");
+		body += "---<8----\n";
 	}
 
 	list<string> to;
