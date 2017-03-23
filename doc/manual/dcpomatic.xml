@@ -2844,6 +2844,7 @@ purposes.
 </chapter>
 
 
+<!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" xml:id="ch-servers">
 <title>Encoding servers</title>
 
@@ -3009,6 +3010,124 @@ to the cinema which is showing your DCP.
 
 </chapter>
 
+
+<chapter>
+  <title>Command-line tools</title>
+
+  <para>
+    DCP-o-matic includes some tools which allow DCP creation from the
+    command line or from scripting languages.  This chapter covers the
+    use of those tools.
+  </para>
+
+  <para>
+    There are two command-line tools in DCP-o-matic.
+    <code>dcpomatic2_create</code> creates film directories, with the
+    associated metadata, from a list of content files.  Then
+    <code>dcpomatic2_cli</code> runs the transcode process on these
+    film directories.
+  </para>
+  
+  <para>
+    Some applications will benefit from setting up the films using the
+    main DCP-o-matic GUI and then using <code>dcpomatic2_cli</code> to
+    do the encode.  This allows, for example, setup on a relatively
+    low-powered machine before running the encode on a higher-powered
+    headless server.
+  </para>
+
+  <section>
+    <title><code>dcpomatic2_create</code></title>
+    
+    <para>
+      The syntax for <code>dcpomatic2_create</code> is:
+    </para>
+    
+    <para>
+      <code>dcpomatic2_create [OPTION] [CONTENT] [&lt;CONTENT&gt; ...]</code>
+    </para>
+    
+    <para>
+      <code>[CONTENT]</code> are the files that you want to use in the
+      DCP (e.g. MP4 or MOV files).
+    </para>
+    
+    <para>
+      The options are:
+    </para>
+    
+    <itemizedlist>
+      <listitem><code>-v</code>, <code>--version</code> &#8212; show DCP-o-matic version</listitem>
+      <listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
+      <listitem><code>-n</code>, <code>--name</code> &#8212; &lt;name&gt; film name</listitem>
+      <listitem><code>-t, --template &lt;name&gt;</code> &#8212; template name</listitem>
+      <listitem><code>-c, --dcp-content-type &lt;type&gt;</code> &#8212; FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV</listitem>
+      <listitem><code>--container-ratio &lt;ratio&gt;</code> &#8212; 119, 133, 137, 138, 166, 178, 185 or 239</listitem>
+      <listitem><code>--content-ratio &lt;ratio&gt;</code> &#8212; 119, 133, 137, 138, 166, 178, 185 or 239</listitem>
+      <listitem><code>-s, --still-length &lt;n&gt;</code> &#8212; number of seconds that still content should last</listitem>
+      <listitem><code>--standard &lt;standard&gt;</code> &#8212; SMPTE or interop (default SMPTE)</listitem>
+      <listitem><code>--no-use-isdcf-name&gt;</code> &#8212; do not use an ISDCF name; use the specified name unmodified</listitem>
+      <listitem><code>--no-sign</code>&#8212; do not sign the DCP</listitem>
+      <listitem><code>-o</code>, <code>--output &lt;dir&gt;</code> &#8212; output directory</listitem>
+    </itemizedlist>
+    
+    <para>
+      For example, to setup a film using a MP4 file you might do:
+    </para>
+    
+    <para>
+      <code>dcpomatic2_cli -o my_film --container-ratio 185 --content-ratio 185 -c FTR -n "My Film" Stuff.mp4</code>
+    </para>
+    
+    <para>
+      This will create a folder called <code>my_film</code> which is ready for a DCP to be made by <code>dcpomatic2_cli</code>.
+    </para>
+
+    <para>
+      <code>dcpomatic2_create</code> will use any default settings that you have configured in the main DCP-o-matic preferences.
+    </para>
+  </section>
+
+  <section>
+    <title><code>dcpomatic2_cli</code></title>
+    
+    <para>
+      The syntax for <code>dcpomatic2_cli</code> is:
+    </para>
+    
+    <para>
+      <code>dcpomatic2_cli [OPTION] [FILM]</code>
+    </para>
+
+    <para>
+      <itemizedlist>
+	<listitem><code>-v</code>, <code>--version</code> &#8212; show DCP-o-matic version</listitem>
+	<listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
+	<listitem><code>-f</code>, <code>--flags</code> &#8212; show flags passed to C++ compiler on build</listitem>
+	<listitem><code>-n</code>, <code>--no-progress</code> &#8212; do not print progress to stdout</listitem>
+	<listitem><code>-r</code>, <code>--no-remote</code> &#8212; do not use any remote servers</listitem>
+	<listitem><code>-t</code>, <code>--threads</code> &#8212; specify number of local encoding threads (overriding configuration)</listitem>
+	<listitem><code>-j</code>, <code>--json</code> &lt;port&gt; &#8212; run a JSON server on the specified port</listitem>
+	<listitem><code>-k</code>, <code>--keep-going</code> &#8212; keep running even when the job is complete</listitem>
+	<listitem><code>-s</code>, <code>--servers</code> &#8212; just display a list of encoding servers that DCP-o-matic is configured to use; don't encode</listitem>
+	<listitem><code>-d</code>, <code>--dcp-path</code> &#8212; echo DCP's path to stdout on successful completion (implies -n)</listitem>
+	<listitem><code>--dump</code> &#8212; just dump a summary of the film's settings; don't encode</listitem>
+      </itemizedlist>
+    </para>
+
+    <para>
+      For example, to encode a film called <code>my_film</code> you might do:
+    </para>
+
+    <para>
+      <code>dcpomatic2_cli my_film</code>
+    </para>
+  </section>
+</chapter>
+    
+
+
+<!-- ============================================================== -->
 <chapter>
 <title>Loose ends</title>
 
@@ -3043,6 +3162,7 @@ hashes.
 
 </chapter>
 
+<!-- ============================================================== -->
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
 <title>Common tasks</title>
 
