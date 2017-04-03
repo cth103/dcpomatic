@@ -65,6 +65,8 @@ private:
 	AudioMapping _audio_mapping;
 	int _audio_channels;
 
+	bool _stop_thread;
+
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
 	boost::signals2::scoped_connection _player_changed_connection;

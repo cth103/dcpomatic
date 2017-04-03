@@ -41,6 +41,7 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	, _finished (false)
 	, _audio_mapping (audio_mapping)
 	, _audio_channels (audio_channels)
+	, _stop_thread (false)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
@@ -50,6 +51,7 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 
 Butler::~Butler ()
 {
+	_stop_thread = true;
 	_thread->interrupt ();
 	try {
 		_thread->join ();
@@ -61,12 +63,13 @@ Butler::~Butler ()
 
 void
 Butler::thread ()
+try
 {
 	while (true) {
 		boost::mutex::scoped_lock lm (_mutex);
 
 		/* Wait until we have something to do */
-		while (_video.size() >= VIDEO_READAHEAD && !_pending_seek_position) {
+		while ((_video.size() >= VIDEO_READAHEAD && !_pending_seek_position) || _stop_thread) {
 			_summon.wait (lm);
 		}
 
@@ -80,7 +83,7 @@ Butler::thread ()
 		   while lm is unlocked, as in that state nothing will be added to
 		   _video.
 		*/
-		while (_video.size() < VIDEO_READAHEAD && !_pending_seek_position) {
+		while (_video.size() < VIDEO_READAHEAD && !_pending_seek_position && !_stop_thread) {
 			lm.unlock ();
 			if (_player->pass ()) {
 				_finished = true;
@@ -91,6 +94,8 @@ Butler::thread ()
 			_arrived.notify_all ();
 		}
 	}
+} catch (boost::thread_interrupted) {
+	/* The butler thread is being terminated */
 }
 
 pair<shared_ptr<PlayerVideo>, DCPTime>
