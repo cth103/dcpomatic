@@ -509,10 +509,11 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 }
 
 /** Given a directory name, return its full path within the Film's directory.
- *  The directory (and its parents) will be created if they do not exist.
+ *  @param d directory name within the Filn's directory.
+ *  @param create true to create the directory (and its parents) if they do not exist.
  */
 boost::filesystem::path
-Film::dir (boost::filesystem::path d) const
+Film::dir (boost::filesystem::path d, bool create) const
 {
 	DCPOMATIC_ASSERT (_directory);
 
@@ -520,7 +521,9 @@ Film::dir (boost::filesystem::path d) const
 	p /= _directory.get();
 	p /= d;
 
-	boost::filesystem::create_directories (p);
+	if (create) {
+		boost::filesystem::create_directories (p);
+	}
 
 	return p;
 }

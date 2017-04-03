@@ -79,9 +79,6 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	, _repeat_written (0)
 	, _pushed_to_disk (0)
 {
-	/* Remove any old DCP */
-	boost::filesystem::remove_all (_film->dir (_film->dcp_name ()));
-
 	shared_ptr<Job> job = _job.lock ();
 	DCPOMATIC_ASSERT (job);
 

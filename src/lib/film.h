@@ -89,7 +89,7 @@ public:
 	}
 
 	boost::filesystem::path file (boost::filesystem::path f) const;
-	boost::filesystem::path dir (boost::filesystem::path d) const;
+	boost::filesystem::path dir (boost::filesystem::path d, bool create = true) const;
 
 	void use_template (std::string name);
 	std::list<std::string> read_metadata (boost::optional<boost::filesystem::path> path = boost::optional<boost::filesystem::path> ());

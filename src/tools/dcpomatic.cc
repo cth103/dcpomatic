@@ -496,6 +496,16 @@ private:
 			}
 		}
 
+
+		/* Remove any existing DCP if the user agrees */
+		boost::filesystem::path const dcp_dir = _film->dir (_film->dcp_name(), false);
+		if (boost::filesystem::exists (dcp_dir)) {
+			if (!confirm_dialog (this, wxString::Format (_("Do you want to overwrite the existing DCP %s?"), std_to_wx(dcp_dir.string()).data()))) {
+				return;
+			}
+			boost::filesystem::remove_all (dcp_dir);
+		}
+
 		try {
 			/* It seems to make sense to auto-save metadata here, since the make DCP may last
 			   a long time, and crashes/power failures are moderately likely.
