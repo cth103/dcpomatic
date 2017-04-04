@@ -75,6 +75,12 @@ InvalidSignerError::InvalidSignerError ()
 
 }
 
+InvalidSignerError::InvalidSignerError (string reason)
+	: runtime_error (String::compose (_("The certificate chain for signing is invalid (%1)"), reason))
+{
+
+}
+
 ProgrammingError::ProgrammingError (string file, int line)
 	: runtime_error (String::compose (_("Programming error at %1:%2"), file, line))
 {

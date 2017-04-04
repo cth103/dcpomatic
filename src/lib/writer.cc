@@ -95,8 +95,9 @@ Writer::Writer (shared_ptr<const Film> film, weak_ptr<Job> j)
 	_subtitle_reel = _reels.begin ();
 
 	/* Check that the signer is OK if we need one */
-	if (_film->is_signed() && !Config::instance()->signer_chain()->valid ()) {
-		throw InvalidSignerError ();
+	string reason;
+	if (_film->is_signed() && !Config::instance()->signer_chain()->valid(&reason)) {
+		throw InvalidSignerError (reason);
 	}
 }
 
@@ -510,8 +511,9 @@ Writer::finish ()
 	if (_film->is_signed ()) {
 		signer = Config::instance()->signer_chain ();
 		/* We did check earlier, but check again here to be on the safe side */
-		if (!signer->valid ()) {
-			throw InvalidSignerError ();
+		string reason;
+		if (!signer->valid (&reason)) {
+			throw InvalidSignerError (reason);
 		}
 	}
 

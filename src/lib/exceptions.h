@@ -225,6 +225,7 @@ class InvalidSignerError : public std::runtime_error
 {
 public:
 	InvalidSignerError ();
+	InvalidSignerError (std::string reason);
 };
 
 class ProgrammingError : public std::runtime_error
