@@ -70,7 +70,7 @@ AudioDecoderStream::get (Frame frame, Frame length, bool accurate)
 
 	_log->log (String::compose ("-> ADS has request for %1 %2", frame, length), LogEntry::TYPE_DEBUG_DECODE);
 
-	Frame const end = frame + length - 1;
+	Frame const end = frame + length;
 
 	/* If we are less than (about) 5 seconds behind the data that we want we'll
 	   run through it rather than seeking.
