@@ -28,7 +28,7 @@ deb_build_depends = {'debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-de
 
 deb_depends = dict()
 
-deb_depends_base = ['libc6', 'libssh-4', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0']
+deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0']
 
 deb_depends['12.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['12.04'].extend(['libssh-4',
