@@ -41,3 +41,7 @@ override_dh_auto_install:
 .PHONY: override_dh_strip
 override_dh_strip:
 	dh_strip $(CDIST_DEBUG_PACKAGE)
+
+# We need this to stop complaints about /usr/local/lib/libssh.so.4 on debian unstable 64-bit
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
