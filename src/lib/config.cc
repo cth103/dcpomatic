@@ -478,13 +478,10 @@ Config::write_config () const
 	root->add_child("KDMContainerNameFormat")->add_child_text (_kdm_container_name_format.specification ());
 	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
 	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
-<<<<<<< 8de6a5d1d054bab25ab0d86bc48442d9d6adb849
 	root->add_child("JumpToSelected")->add_child_text (_jump_to_selected ? "1" : "0");
-=======
 	if (_sound_output) {
 		root->add_child("SoundOutput")->add_child_text (_sound_output.get());
 	}
->>>>>>> First bits of audio support.
 
 	try {
 		doc.write_to_file_formatted (path("config.xml").string ());
