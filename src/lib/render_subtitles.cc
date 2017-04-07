@@ -277,7 +277,6 @@ render_line (list<SubtitleString> subtitles, list<shared_ptr<Font> > fonts, dcp:
 	}
 
 	if (subtitles.front().effect() == dcp::BORDER) {
-		cout << "border it " << (subtitles.front().outline_width * target.width) << " " << fade_factor << ".\n";
 		/* Border effect; stroke the subtitle with a large (arbitrarily chosen) line width */
 		set_source_rgba (context, subtitles.front().effect_colour(), fade_factor);
 		context->set_line_width (subtitles.front().outline_width * target.width / 2048.0);
