@@ -1,3 +1,8 @@
+2017-04-07  Carl Hetherington  <cth@carlh.net>
+
+	* Make jump-to-content-start on selection in the content list
+	optional.
+
 2017-04-03  Carl Hetherington  <cth@carlh.net>
 
 	* Confirm overwrite of existing DCPs when making a new one.

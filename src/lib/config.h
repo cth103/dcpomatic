@@ -302,6 +302,10 @@ public:
 		return _dcp_asset_filename_format;
 	}
 
+	bool jump_to_selected () const {
+		return _jump_to_selected;
+	}
+
 	/** @param n New number of local encoding threads */
 	void set_num_local_encoding_threads (int n) {
 		maybe_set (_num_local_encoding_threads, n);
@@ -540,6 +544,10 @@ public:
 
 	void add_to_history (boost::filesystem::path p);
 
+	void set_jump_to_selected (bool j) {
+		maybe_set (_jump_to_selected, j);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if ::read() failed on an existing Config file.  There is nothing
@@ -661,6 +669,7 @@ private:
 	dcp::NameFormat _kdm_container_name_format;
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;
+	bool _jump_to_selected;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

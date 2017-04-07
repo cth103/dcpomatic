@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -115,6 +115,7 @@ Config::set_defaults ()
 	_kdm_filename_format = dcp::NameFormat ("KDM %f %c %s");
 	_dcp_metadata_filename_format = dcp::NameFormat ("%t");
 	_dcp_asset_filename_format = dcp::NameFormat ("%t");
+	_jump_to_selected = true;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -307,6 +308,7 @@ try
 	_kdm_filename_format = dcp::NameFormat (f.optional_string_child("KDMFilenameFormat").get_value_or ("KDM %f %c %s"));
 	_dcp_metadata_filename_format = dcp::NameFormat (f.optional_string_child("DCPMetadataFilenameFormat").get_value_or ("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat (f.optional_string_child("DCPAssetFilenameFormat").get_value_or ("%t"));
+	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or (true);
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -474,6 +476,7 @@ Config::write_config () const
 	root->add_child("KDMContainerNameFormat")->add_child_text (_kdm_container_name_format.specification ());
 	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
 	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
+	root->add_child("JumpToSelected")->add_child_text (_jump_to_selected ? "1" : "0");
 
 	try {
 		doc.write_to_file_formatted (path("config.xml").string ());

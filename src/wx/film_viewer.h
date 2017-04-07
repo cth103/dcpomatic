@@ -75,6 +75,7 @@ private:
 	void timecode_clicked ();
 	void frame_number_clicked ();
 	void go_to (DCPTime t);
+	void jump_to_selected_clicked ();
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -84,6 +85,7 @@ private:
 	wxCheckBox* _outline_content;
 	wxRadioButton* _left_eye;
 	wxRadioButton* _right_eye;
+	wxCheckBox* _jump_to_selected;
 	wxSlider* _slider;
 	wxButton* _back_button;
 	wxButton* _forward_button;

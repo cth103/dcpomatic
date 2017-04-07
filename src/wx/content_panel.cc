@@ -36,6 +36,7 @@
 #include "lib/dcp_content.h"
 #include "lib/case_insensitive_sorter.h"
 #include "lib/playlist.h"
+#include "lib/config.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -254,7 +255,7 @@ ContentPanel::selection_changed ()
 		}
 	}
 
-	if (go_to) {
+	if (go_to && Config::instance()->jump_to_selected ()) {
 		_film_viewer->set_position (go_to.get ());
 	}
 
