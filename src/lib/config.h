@@ -698,12 +698,9 @@ private:
 	dcp::NameFormat _kdm_container_name_format;
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;
-<<<<<<< 8de6a5d1d054bab25ab0d86bc48442d9d6adb849
 	bool _jump_to_selected;
-=======
 	/** name of a specific sound output stream to use for preview */
 	boost::optional<std::string> _sound_output;
->>>>>>> First bits of audio support.
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

@@ -309,11 +309,8 @@ try
 	_kdm_filename_format = dcp::NameFormat (f.optional_string_child("KDMFilenameFormat").get_value_or ("KDM %f %c %s"));
 	_dcp_metadata_filename_format = dcp::NameFormat (f.optional_string_child("DCPMetadataFilenameFormat").get_value_or ("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat (f.optional_string_child("DCPAssetFilenameFormat").get_value_or ("%t"));
-<<<<<<< 8de6a5d1d054bab25ab0d86bc48442d9d6adb849
 	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or (true);
-=======
 	_sound_output = f.optional_string_child("SoundOutput");
->>>>>>> First bits of audio support.
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
