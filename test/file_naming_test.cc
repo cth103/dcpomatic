@@ -29,11 +29,6 @@
 using std::string;
 using boost::shared_ptr;
 
-static shared_ptr<Film>
-make_test_film (string name)
-{
-}
-
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
