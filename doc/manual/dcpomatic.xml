@@ -3027,7 +3027,7 @@ to the cinema which is showing your DCP.
     <code>dcpomatic2_cli</code> runs the transcode process on these
     film directories.
   </para>
-  
+
   <para>
     Some applications will benefit from setting up the films using the
     main DCP-o-matic GUI and then using <code>dcpomatic2_cli</code> to
@@ -3038,24 +3038,24 @@ to the cinema which is showing your DCP.
 
   <section>
     <title><code>dcpomatic2_create</code></title>
-    
+
     <para>
       The syntax for <code>dcpomatic2_create</code> is:
     </para>
-    
+
     <para>
       <code>dcpomatic2_create [OPTION] [CONTENT] [&lt;CONTENT&gt; ...]</code>
     </para>
-    
+
     <para>
       <code>[CONTENT]</code> are the files that you want to use in the
       DCP (e.g. MP4 or MOV files).
     </para>
-    
+
     <para>
       The options are:
     </para>
-    
+
     <itemizedlist>
       <listitem><code>-v</code>, <code>--version</code> &#8212; show DCP-o-matic version</listitem>
       <listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
@@ -3070,15 +3070,15 @@ to the cinema which is showing your DCP.
       <listitem><code>--no-sign</code>&#8212; do not sign the DCP</listitem>
       <listitem><code>-o</code>, <code>--output &lt;dir&gt;</code> &#8212; output directory</listitem>
     </itemizedlist>
-    
+
     <para>
       For example, to setup a film using a MP4 file you might do:
     </para>
-    
+
     <para>
-      <code>dcpomatic2_cli -o my_film --container-ratio 185 --content-ratio 185 -c FTR -n "My Film" Stuff.mp4</code>
+      <code>dcpomatic2_create -o my_film --container-ratio 185 --content-ratio 185 -c FTR -n "My Film" Stuff.mp4</code>
     </para>
-    
+
     <para>
       This will create a folder called <code>my_film</code> which is ready for a DCP to be made by <code>dcpomatic2_cli</code>.
     </para>
@@ -3090,11 +3090,11 @@ to the cinema which is showing your DCP.
 
   <section>
     <title><code>dcpomatic2_cli</code></title>
-    
+
     <para>
       The syntax for <code>dcpomatic2_cli</code> is:
     </para>
-    
+
     <para>
       <code>dcpomatic2_cli [OPTION] [FILM]</code>
     </para>
@@ -3124,7 +3124,7 @@ to the cinema which is showing your DCP.
     </para>
   </section>
 </chapter>
-    
+
 
 
 <!-- ============================================================== -->
