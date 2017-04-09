@@ -34,7 +34,6 @@ using boost::optional;
 void
 VideoRingBuffers::put (shared_ptr<PlayerVideo> frame, DCPTime time)
 {
-	cout << "put " << to_string(time) << "\n";
 	boost::mutex::scoped_lock lm (_mutex);
 	_data.push_back (make_pair (frame, time));
 }
@@ -44,11 +43,9 @@ VideoRingBuffers::get ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	if (_data.empty ()) {
-		cout << "get: no data.\n";
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 	pair<shared_ptr<PlayerVideo>, DCPTime> const r = _data.front ();
-	cout << "get: here we go! " << to_string(r.second) << "\n";
 	_data.pop_front ();
 	return r;
 }

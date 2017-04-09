@@ -33,6 +33,8 @@ using boost::optional;
 
 /** Video readahead in frames */
 #define VIDEO_READAHEAD 10
+/** Audio readahead in frames */
+#define AUDIO_READAHEAD 48000
 
 Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMapping audio_mapping, int audio_channels)
 	: _film (film)
@@ -69,7 +71,7 @@ try
 		boost::mutex::scoped_lock lm (_mutex);
 
 		/* Wait until we have something to do */
-		while ((_video.size() >= VIDEO_READAHEAD && !_pending_seek_position) || _stop_thread) {
+		while ((_video.size() >= VIDEO_READAHEAD && _audio.size() >= AUDIO_READAHEAD && !_pending_seek_position) || _stop_thread) {
 			_summon.wait (lm);
 		}
 
@@ -79,11 +81,11 @@ try
 			_pending_seek_position = optional<DCPTime> ();
 		}
 
-		/* Fill _video.  Don't try to carry on if a pending seek appears
+		/* Fill _video and _audio.  Don't try to carry on if a pending seek appears
 		   while lm is unlocked, as in that state nothing will be added to
-		   _video.
+		   _video/_audio.
 		*/
-		while (_video.size() < VIDEO_READAHEAD && !_pending_seek_position && !_stop_thread) {
+		while ((_video.size() < VIDEO_READAHEAD || _audio.size() < AUDIO_READAHEAD) && !_pending_seek_position && !_stop_thread) {
 			lm.unlock ();
 			if (_player->pass ()) {
 				_finished = true;
@@ -145,7 +147,15 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 void
 Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 {
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		if (_pending_seek_position) {
+			/* Don't store any audio while a seek is pending */
+			return;
+		}
+	}
 
+	_audio.put (audio, time);
 }
 
 void

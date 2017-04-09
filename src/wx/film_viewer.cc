@@ -195,7 +195,6 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	   in the preview.
 	*/
 	_player->set_always_burn_subtitles (true);
-	_player->set_ignore_audio ();
 	_player->set_play_referenced ();
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
@@ -252,8 +251,6 @@ FilmViewer::refresh_panel ()
 void
 FilmViewer::get ()
 {
-	cout << "get!\n";
-
 	pair<shared_ptr<PlayerVideo>, DCPTime> video;
 	do {
 		video = _butler->get_video ();
@@ -422,9 +419,9 @@ FilmViewer::check_play_state ()
 	}
 
 	if (_play_button->GetValue()) {
-		_timer.Start (1000 / _film->video_frame_rate());
+		start ();
 	} else {
-		_timer.Stop ();
+		stop ();
 	}
 }
 

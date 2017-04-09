@@ -551,11 +551,15 @@ Player::pass ()
 	if (!earliest) {
 		/* No more content; fill up with silent black */
 		DCPTimePeriod remaining_video (DCPTime(), _playlist->length());
-		if (_last_time) {
-			remaining_video.from = _last_time.get() + one_video_frame();
+		if (_last_video_time) {
+			remaining_video.from = _last_video_time.get() + one_video_frame();
 		}
 		fill_video (remaining_video);
-		fill_audio (DCPTimePeriod (_last_audio_time, _playlist->length()));
+		DCPTimePeriod remaining_audio (DCPTime(), _playlist->length());
+		if (_last_audio_time) {
+			remaining_audio.from = _last_audio_time.get();
+		}
+		fill_audio (remaining_audio);
 		return true;
 	}
 
@@ -578,8 +582,10 @@ Player::pass ()
 
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_from);
 	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
-		DCPOMATIC_ASSERT (i->second >= _last_audio_time);
-		fill_audio (DCPTimePeriod (_last_audio_time, i->second));
+		DCPOMATIC_ASSERT (!_last_audio_time || i->second >= _last_audio_time.get());
+		if (_last_audio_time) {
+			fill_audio (DCPTimePeriod (_last_audio_time.get(), i->second));
+		}
 		Audio (i->first, i->second);
 		_last_audio_time = i->second + DCPTime::from_frames(i->first->frames(), _film->audio_frame_rate());
 	}
@@ -638,8 +644,8 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	/* Fill gaps */
 
-	if (_last_time) {
-		fill_video (DCPTimePeriod (_last_time.get() + one_video_frame(), time));
+	if (_last_video_time) {
+		fill_video (DCPTimePeriod (_last_video_time.get() + one_video_frame(), time));
 	}
 
 	_last_video.reset (
@@ -661,9 +667,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		_last_video->set_subtitle (subtitles.get ());
 	}
 
-	_last_time = time;
+	_last_video_time = time;
 
-	Video (_last_video, *_last_time);
+	Video (_last_video, *_last_video_time);
 
 	/* Discard any subtitles we no longer need */
 
@@ -887,9 +893,11 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	if (accurate) {
-		_last_time = time - one_video_frame ();
+		_last_video_time = time - one_video_frame ();
+		_last_audio_time = time;
 	} else {
-		_last_time = optional<DCPTime> ();
+		_last_video_time = optional<DCPTime> ();
+		_last_audio_time = optional<DCPTime> ();
 	}
 }
 

@@ -139,11 +139,11 @@ private:
 
 	/** Last PlayerVideo that was emitted */
 	boost::shared_ptr<PlayerVideo> _last_video;
-	/** Time of the last thing we emitted, or the last seek time */
-	boost::optional<DCPTime> _last_time;
+	/** Time of the last video we emitted, or the last seek time */
+	boost::optional<DCPTime> _last_video_time;
 
 	AudioMerger _audio_merger;
-	DCPTime _last_audio_time;
+	boost::optional<DCPTime> _last_audio_time;
 
 	class StreamState {
 	public:
