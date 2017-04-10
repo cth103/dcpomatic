@@ -57,6 +57,7 @@ syntax (string n)
 	     << "  -n, --name <name>             film name\n"
 	     << "  -t, --template <name>         template name\n"
 	     << "  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
+	     << "  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
 	     << "      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
 	     << "      --content-ratio <ratio>   119, 133, 137, 138, 166, 178, 185 or 239\n"
 	     << "  -s, --still-length <n>        number of seconds that still content should last\n"
@@ -94,6 +95,7 @@ main (int argc, char* argv[])
 	string name;
 	optional<string> template_name;
 	DCPContentType const * dcp_content_type = DCPContentType::from_isdcf_name ("TST");
+	optional<int> dcp_frame_rate;
 	Ratio const * container_ratio = 0;
 	Ratio const * content_ratio = 0;
 	int still_length = 10;
@@ -110,6 +112,7 @@ main (int argc, char* argv[])
 			{ "name", required_argument, 0, 'n'},
 			{ "template", required_argument, 0, 'f'},
 			{ "dcp-content-type", required_argument, 0, 'c'},
+			{ "dcp-frame-rate", required_argument, 0, 'f'},
 			{ "container-ratio", required_argument, 0, 'A'},
 			{ "content-ratio", required_argument, 0, 'B'},
 			{ "still-length", required_argument, 0, 's'},
@@ -120,7 +123,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0}
 		};
 
-		int c = getopt_long (argc, argv, "vhn:f:c:A:B:C:s:o:DE", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhn:f:c:f:A:B:C:s:o:DE", long_options, &option_index);
 		if (c == -1) {
 			break;
 		}
@@ -145,6 +148,9 @@ main (int argc, char* argv[])
 				syntax (argv[0]);
 				exit (EXIT_FAILURE);
 			}
+			break;
+		case 'f':
+			dcp_frame_rate = atoi (optarg);
 			break;
 		case 'A':
 			container_ratio = Ratio::from_id (optarg);
@@ -243,6 +249,10 @@ main (int argc, char* argv[])
 		}
 
 		while (signal_manager->ui_idle() > 0) {}
+
+		if (dcp_frame_rate) {
+			film->set_video_frame_rate (*dcp_frame_rate);
+		}
 
 		ContentList content = film->content ();
 		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
