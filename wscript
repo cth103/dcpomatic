@@ -116,6 +116,10 @@ def configure(conf):
         conf.check(lib='iberty', uselib_store='IBERTY', msg="Checking for library iberty")
         conf.check(lib='shlwapi', uselib_store='SHLWAPI', msg="Checking for library shlwapi")
         conf.check(lib='mswsock', uselib_store='MSWSOCK', msg="Checking for library mswsock")
+        conf.check(lib='ole32', uselib_store='OLE32', msg="Checking for library ole32")
+        conf.check(lib='dsound', uselib_store='DSOUND', msg="Checking for library dsound")
+        conf.check(lib='winmm', uselib_store='WINMM', msg="Checking for library winmm")
+        conf.check(lib='ksuser', uselib_store='KSUSER', msg="Checking for library ksuser")
         boost_lib_suffix = '-mt'
         boost_thread = 'boost_thread-mt'
         conf.check_cxx(fragment="""
