@@ -1,0 +1,5 @@
+#!/bin/bash
+
+head -c 1000000 "$1" > /tmp/$$.a
+tail -c 1000000 "$1" > /tmp/$$.b
+cat /tmp/$$.a /tmp/$$.b | md5sum
