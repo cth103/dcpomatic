@@ -98,7 +98,7 @@ main (int argc, char* argv[])
 	Ratio const * content_ratio = 0;
 	int still_length = 10;
 	dcp::Standard standard = dcp::SMPTE;
-	boost::filesystem::path output;
+	optional<boost::filesystem::path> output;
 	bool sign = true;
 	bool use_isdcf_name = true;
 
@@ -263,7 +263,7 @@ main (int argc, char* argv[])
 			exit (EXIT_FAILURE);
 		}
 
-		if (!output.empty ()) {
+		if (output) {
 			film->write_metadata ();
 		} else {
 			film->metadata()->write_to_stream_formatted (cout, "UTF-8");
