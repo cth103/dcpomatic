@@ -170,6 +170,8 @@ Player::setup_pieces ()
 		}
 	}
 
+	_last_video_time = optional<DCPTime> ();
+	_last_audio_time = optional<DCPTime> ();
 	_have_valid_pieces = true;
 }
 
