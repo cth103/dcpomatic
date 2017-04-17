@@ -176,6 +176,6 @@ Butler::player_changed ()
 void
 Butler::get_audio (float* out, Frame frames)
 {
-	_audio.get (reinterpret_cast<float*> (out), _audio_channels, frames);
+	_audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
 }
