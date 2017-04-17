@@ -98,6 +98,8 @@ try
 	}
 } catch (boost::thread_interrupted) {
 	/* The butler thread is being terminated */
+} catch (...) {
+	store_current ();
 }
 
 pair<shared_ptr<PlayerVideo>, DCPTime>

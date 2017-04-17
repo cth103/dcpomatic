@@ -21,6 +21,7 @@
 #include "video_ring_buffers.h"
 #include "audio_ring_buffers.h"
 #include "audio_mapping.h"
+#include "exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread.hpp>
@@ -31,7 +32,7 @@ class Film;
 class Player;
 class PlayerVideo;
 
-class Butler : public boost::noncopyable
+class Butler : public ExceptionStore, public boost::noncopyable
 {
 public:
 	Butler (boost::weak_ptr<const Film> film, boost::shared_ptr<Player> player, AudioMapping map, int audio_channels);

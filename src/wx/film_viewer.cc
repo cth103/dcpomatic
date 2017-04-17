@@ -308,6 +308,10 @@ FilmViewer::timer ()
 		DCPTime const next = now + DCPTime::from_frames (1, _film->video_frame_rate ());
 		_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 0.0), wxTIMER_ONE_SHOT);
 	}
+
+	if (_butler) {
+		_butler->rethrow ();
+	}
 }
 
 void
