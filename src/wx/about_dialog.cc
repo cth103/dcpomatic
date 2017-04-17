@@ -237,6 +237,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Moviemento Kino"));
 	supported_by.Add (wxT ("NT Next"));
 	supported_by.Add (wxT ("David Nedrow"));
+	supported_by.Add (wxT ("Niclas Nornemark"));
 	supported_by.Add (wxT ("Casablanca Nuernberg"));
 	supported_by.Add (wxT ("Pascal Nussbaum"));
 	supported_by.Add (wxT ("Tim O'Brien"));
