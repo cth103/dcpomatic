@@ -34,7 +34,7 @@ using boost::optional;
 /** Video readahead in frames */
 #define VIDEO_READAHEAD 10
 /** Audio readahead in frames */
-#define AUDIO_READAHEAD 48000
+#define AUDIO_READAHEAD (48000*5)
 
 Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMapping audio_mapping, int audio_channels)
 	: _film (film)
