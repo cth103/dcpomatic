@@ -62,9 +62,11 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 			return;
 		}
 
-		int const to_do = min (frames, _buffers.front()->frames() - _used_in_head);
-		float** p = _buffers.front()->data();
-		int const c = min (_buffers.front()->channels(), channels);
+		shared_ptr<const AudioBuffers> front = _buffers.front ();
+
+		int const to_do = min (frames, front->frames() - _used_in_head);
+		float** p = front->data();
+		int const c = min (front->channels(), channels);
 		for (int i = 0; i < to_do; ++i) {
 			for (int j = 0; j < c; ++j) {
 				*out++ = p[j][i + _used_in_head];
@@ -76,7 +78,7 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 		_used_in_head += to_do;
 		frames -= to_do;
 
-		if (_used_in_head == _buffers.front()->frames()) {
+		if (_used_in_head == front->frames()) {
 			_buffers.pop_front ();
 			_used_in_head = 0;
 		}
