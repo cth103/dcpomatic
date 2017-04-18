@@ -69,7 +69,6 @@ Butler::should_run () const
 	return (_video.size() < VIDEO_READAHEAD || _audio.size() < AUDIO_READAHEAD) && !_stop_thread && !_finished;
 }
 
-
 void
 Butler::thread ()
 try
