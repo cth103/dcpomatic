@@ -48,6 +48,7 @@
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
 #include <wx/filepicker.h>
+#include <RtAudio.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include <iostream>
@@ -203,6 +204,11 @@ private:
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		++r;
 
+                add_label_to_sizer (table, _panel, _("Sound output"), true, wxGBPosition (r, 0));
+                _sound_output = new wxChoice (_panel, wxID_ANY);
+                table->Add (_sound_output, wxGBPosition (r, 1));
+                ++r;
+
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128 = new wxCheckBox (_panel, wxID_ANY, _("Find integrated loudness, true peak and loudness range when analysing audio"));
 		table->Add (_analyse_ebur128, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -235,9 +241,18 @@ private:
 		table->Add (bottom_table, wxGBPosition (r, 0), wxGBSpan (2, 2), wxEXPAND);
 		++r;
 
-		_set_language->Bind (wxEVT_CHECKBOX,   boost::bind (&GeneralPage::set_language_changed, this));
-		_language->Bind     (wxEVT_CHOICE,    boost::bind (&GeneralPage::language_changed,     this));
+                RtAudio audio (DCPOMATIC_RTAUDIO_API);
+                for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
+                        RtAudio::DeviceInfo dev = audio.getDeviceInfo (i);
+                        if (dev.probed && dev.outputChannels > 0) {
+                                _sound_output->Append (std_to_wx (dev.name));
+                        }
+                }
+
+		_set_language->Bind (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::set_language_changed, this));
+		_language->Bind     (wxEVT_CHOICE,             boost::bind (&GeneralPage::language_changed,     this));
 		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed, this));
+		_sound_output->Bind (wxEVT_CHOICE,             boost::bind (&GeneralPage::sound_output_changed, this));
 
 		_num_local_encoding_threads->SetRange (1, 128);
 		_num_local_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
@@ -294,8 +309,42 @@ private:
 		checked_set (_creator, config->dcp_creator ());
 		checked_set (_cinemas_file, config->cinemas_file());
 
+                optional<string> const current_so = get_sound_output ();
+                string configured_so;
+
+                if (config->sound_output()) {
+                        configured_so = config->sound_output().get();
+                } else {
+                        /* No configured output means we should use the default */
+                        RtAudio audio (DCPOMATIC_RTAUDIO_API);
+                        configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+                }
+
+                if (!current_so || *current_so != configured_so) {
+                        /* Update _sound_output with the configured value */
+                        unsigned int i = 0;
+                        while (i < _sound_output->GetCount()) {
+                                if (_sound_output->GetString(i) == std_to_wx(configured_so)) {
+                                        _sound_output->SetSelection (i);
+                                        break;
+                                }
+                                ++i;
+                        }
+                }
+
 		setup_sensitivity ();
 	}
+
+        /** @return Currently-selected sound output in the dialogue */
+        optional<string> get_sound_output ()
+        {
+                int const sel = _sound_output->GetSelection ();
+                if (sel == wxNOT_FOUND) {
+                        return optional<string> ();
+                }
+
+                return wx_to_std (_sound_output->GetString (sel));
+        }
 
 	void setup_sensitivity ()
 	{
@@ -365,10 +414,22 @@ private:
 		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
 	}
 
+        void sound_output_changed ()
+        {
+                RtAudio audio (DCPOMATIC_RTAUDIO_API);
+                optional<string> const so = get_sound_output();
+                if (!so || *so == audio.getDeviceInfo(audio.getDefaultOutputDevice()).name) {
+                        Config::instance()->unset_sound_output ();
+                } else {
+                        Config::instance()->set_sound_output (*so);
+                }
+        }
+
 	wxCheckBox* _set_language;
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
 	FilePickerCtrl* _cinemas_file;
+	wxChoice* _sound_output;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	wxCheckBox* _analyse_ebur128;
 #endif
