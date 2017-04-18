@@ -47,6 +47,7 @@ private:
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
 	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
 	void player_changed ();
+	bool should_run () const;
 
 	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<Player> _player;
