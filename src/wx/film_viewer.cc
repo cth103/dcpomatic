@@ -467,6 +467,7 @@ FilmViewer::stop ()
 	}
 
 	_playing = false;
+	_play_button->SetValue (false);
 	return true;
 }
 
