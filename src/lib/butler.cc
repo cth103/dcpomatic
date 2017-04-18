@@ -133,6 +133,7 @@ Butler::seek (DCPTime position, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_video.clear ();
+	_audio.clear ();
 	_finished = false;
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
