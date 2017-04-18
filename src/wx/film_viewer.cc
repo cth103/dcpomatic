@@ -92,6 +92,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	, _audio_channels (0)
 	, _audio_block_size (1024)
 	, _playing (false)
+	, _latency_history_count (0)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -199,6 +200,9 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_film->Changed.connect (boost::bind (&FilmViewer::film_changed, this, _1));
 	_player->Changed.connect (boost::bind (&FilmViewer::player_changed, this, _1));
+
+	/* Keep about 1 second's worth of history samples */
+	_latency_history_count = _film->audio_frame_rate() / _audio_block_size;
 
 	recreate_butler ();
 
@@ -714,7 +718,8 @@ DCPTime
 FilmViewer::time () const
 {
 	if (_audio.isStreamRunning ()) {
-		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ());
+		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
+			DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
 	}
 
 	return _video_position;
@@ -724,5 +729,30 @@ int
 FilmViewer::audio_callback (void* out_p, unsigned int frames)
 {
 	_butler->get_audio (reinterpret_cast<float*> (out_p), frames);
+
+        boost::mutex::scoped_lock lm (_latency_history_mutex, boost::try_to_lock);
+        if (lm) {
+                _latency_history.push_back (_audio.getStreamLatency ());
+                if (_latency_history.size() > static_cast<size_t> (_latency_history_count)) {
+                        _latency_history.pop_front ();
+                }
+        }
+
 	return 0;
+}
+
+Frame
+FilmViewer::average_latency () const
+{
+        boost::mutex::scoped_lock lm (_latency_history_mutex);
+        if (_latency_history.empty()) {
+                return 0;
+        }
+
+        Frame total = 0;
+        BOOST_FOREACH (Frame i, _latency_history) {
+                total += i;
+        }
+
+        return total / _latency_history.size();
 }

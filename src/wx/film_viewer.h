@@ -89,6 +89,7 @@ private:
 	DCPTime time () const;
 	void start ();
 	bool stop ();
+	Frame average_latency () const;
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -129,6 +130,11 @@ private:
 	unsigned int _audio_block_size;
 	bool _playing;
 	boost::shared_ptr<Butler> _butler;
+
+        std::list<Frame> _latency_history;
+        /** Mutex to protect _latency_history */
+        mutable boost::mutex _latency_history_mutex;
+        int _latency_history_count;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };
