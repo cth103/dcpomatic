@@ -306,11 +306,15 @@ FilmViewer::timer ()
 	}
 
 	if (_audio.isStreamRunning ()) {
-		DCPTime const now = time().ceil (_film->video_frame_rate ());
 		get ();
 		update_position_label ();
 		update_position_slider ();
-		DCPTime const next = now + DCPTime::from_frames (1, _film->video_frame_rate ());
+		DCPTime const next = _video_position + DCPTime::from_frames (1, _film->video_frame_rate ());
+
+		if (next >= _film->length()) {
+			stop ();
+		}
+
 		_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 0.0), wxTIMER_ONE_SHOT);
 	}
 
