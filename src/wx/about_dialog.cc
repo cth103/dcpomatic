@@ -261,6 +261,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("David Rozenthal"));
 	supported_by.Add (wxT ("Lasse Salling"));
 	supported_by.Add (wxT ("Jussi Siponen"));
+	supported_by.Add (wxT ("Norman DW Shetler"));
 	supported_by.Add (wxT ("Gregg Smith"));
 	supported_by.Add (wxT ("Marco Spiaggi"));
 	supported_by.Add (wxT ("Peter Sprenger"));
