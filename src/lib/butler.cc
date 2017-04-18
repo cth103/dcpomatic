@@ -63,6 +63,13 @@ Butler::~Butler ()
 	delete _thread;
 }
 
+bool
+Butler::should_run () const
+{
+	return (_video.size() < VIDEO_READAHEAD || _audio.size() < AUDIO_READAHEAD) && !_stop_thread && !_finished;
+}
+
+
 void
 Butler::thread ()
 try
@@ -71,7 +78,7 @@ try
 		boost::mutex::scoped_lock lm (_mutex);
 
 		/* Wait until we have something to do */
-		while ((_video.size() >= VIDEO_READAHEAD && _audio.size() >= AUDIO_READAHEAD && !_pending_seek_position) || _stop_thread) {
+		while (!should_run() && !_pending_seek_position) {
 			_summon.wait (lm);
 		}
 
@@ -85,7 +92,7 @@ try
 		   while lm is unlocked, as in that state nothing will be added to
 		   _video/_audio.
 		*/
-		while ((_video.size() < VIDEO_READAHEAD || _audio.size() < AUDIO_READAHEAD) && !_pending_seek_position && !_stop_thread) {
+		while (should_run() && !_pending_seek_position) {
 			lm.unlock ();
 			if (_player->pass ()) {
 				_finished = true;
