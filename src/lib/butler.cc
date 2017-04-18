@@ -172,6 +172,9 @@ Butler::player_changed ()
 
 	if (t) {
 		seek (*t, true);
+	} else {
+		_video.clear ();
+		_audio.clear ();
 	}
 }
 
