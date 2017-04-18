@@ -37,7 +37,7 @@ public:
 	void get (float* out, int channels, int frames);
 
 	void clear ();
-	Frame size ();
+	Frame size () const;
 
 	DCPTime latest () const {
 		boost::mutex::scoped_lock lm (_mutex);
