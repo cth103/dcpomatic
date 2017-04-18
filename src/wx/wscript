@@ -180,7 +180,6 @@ def configure(conf):
     conf.env.LIB_RTAUDIO.append('rtaudio')
     # Don't explicitly link with pthread on Windows
     if conf.env.TARGET_WINDOWS:
-        print conf.env
         conf.env.CFLAGS_RTAUDIO.remove('-pthread')
         conf.env.LINKFLAGS_RTAUDIO.remove('-pthread')
 
