@@ -254,9 +254,14 @@ FilmViewer::get ()
 	pair<shared_ptr<PlayerVideo>, DCPTime> video;
 	do {
 		video = _butler->get_video ();
-	} while (_film->three_d() && ((_left_eye->GetValue() && video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && video.first->eyes() == EYES_LEFT)));
+	} while (
+		_film->three_d() &&
+		((_left_eye->GetValue() && video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && video.first->eyes() == EYES_LEFT))
+		);
 
 	if (!video.first) {
+		_frame.reset ();
+		refresh_panel ();
 		return;
 	}
 
@@ -575,6 +580,7 @@ FilmViewer::setup_sensitivity ()
 	_outline_content->Enable (c);
 	_frame_number->Enable (c);
 	_timecode->Enable (c);
+	_jump_to_selected->Enable (c);
 
 	_left_eye->Enable (c && _film->three_d ());
 	_right_eye->Enable (c && _film->three_d ());
