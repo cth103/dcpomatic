@@ -95,7 +95,7 @@ AudioRingBuffers::clear ()
 }
 
 Frame
-AudioRingBuffers::size ()
+AudioRingBuffers::size () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	Frame s = 0;
