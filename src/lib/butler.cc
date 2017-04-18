@@ -112,7 +112,7 @@ Butler::get_video ()
 		_arrived.wait (lm);
 	}
 
-	if (_finished) {
+	if (_video.empty() && _finished) {
 		return make_pair (shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
