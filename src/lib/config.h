@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -67,7 +67,8 @@ public:
 		USE_ANY_SERVERS,
 		SERVERS,
 		CINEMAS,
-		SOUND_OUTPUT,
+		PREVIEW_SOUND,
+		PREVIEW_SOUND_OUTPUT,
 		OTHER
 	};
 
@@ -307,8 +308,12 @@ public:
 		return _jump_to_selected;
 	}
 
-	boost::optional<std::string> sound_output () const {
-		return _sound_output;
+	bool preview_sound () const {
+		return _preview_sound;
+	}
+
+	boost::optional<std::string> preview_sound_output () const {
+		return _preview_sound_output;
 	}
 
 	/** @param n New number of local encoding threads */
@@ -526,18 +531,22 @@ public:
 		maybe_set (_confirm_kdm_email, s);
 	}
 
-	void set_sound_output (std::string o)
-	{
-		maybe_set (_sound_output, o, SOUND_OUTPUT);
+	void set_preview_sound (bool s) {
+		maybe_set (_preview_sound, s, PREVIEW_SOUND);
 	}
 
-	void unset_sound_output ()
+	void set_preview_sound_output (std::string o)
 	{
-		if (!_sound_output) {
+		maybe_set (_preview_sound_output, o, PREVIEW_SOUND_OUTPUT);
+	}
+
+	void unset_preview_sound_output ()
+	{
+		if (!_preview_sound_output) {
 			return;
 		}
 
-		_sound_output = boost::none;
+		_preview_sound_output = boost::none;
 		changed ();
 	}
 
@@ -699,8 +708,9 @@ private:
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;
 	bool _jump_to_selected;
-	/** name of a specific sound output stream to use for preview */
-	boost::optional<std::string> _sound_output;
+	bool _preview_sound;
+	/** name of a specific sound output stream to use for preview, or empty to use the default */
+	boost::optional<std::string> _preview_sound_output;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

@@ -157,7 +157,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	setup_sensitivity ();
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind (&FilmViewer::config_changed, this, _1));
-	config_changed (Config::SOUND_OUTPUT);
+	config_changed (Config::PREVIEW_SOUND_OUTPUT);
 }
 
 FilmViewer::~FilmViewer ()
@@ -239,6 +239,9 @@ FilmViewer::recreate_butler ()
 	}
 
 	_butler.reset (new Butler (_film, _player, map, _audio_channels));
+	if (!Config::instance()->preview_sound()) {
+		_butler->disable_audio ();
+	}
 
 	if (was_running) {
 		start ();
@@ -305,22 +308,20 @@ FilmViewer::get ()
 void
 FilmViewer::timer ()
 {
-	if (!_film) {
+	if (!_film || !_playing) {
 		return;
 	}
 
-	if (_audio.isStreamRunning ()) {
-		get ();
-		update_position_label ();
-		update_position_slider ();
-		DCPTime const next = _video_position + DCPTime::from_frames (1, _film->video_frame_rate ());
+	get ();
+	update_position_label ();
+	update_position_slider ();
+	DCPTime const next = _video_position + DCPTime::from_frames (1, _film->video_frame_rate ());
 
-		if (next >= _film->length()) {
-			stop ();
-		}
-
-		_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 0.0), wxTIMER_ONE_SHOT);
+	if (next >= _film->length()) {
+		stop ();
 	}
+
+	_timer.Start (max ((next.seconds() - time().seconds()) * 1000, 0.0), wxTIMER_ONE_SHOT);
 
 	if (_butler) {
 		_butler->rethrow ();
@@ -680,7 +681,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 void
 FilmViewer::config_changed (Config::Property p)
 {
-	if (p != Config::SOUND_OUTPUT) {
+	if (p != Config::PREVIEW_SOUND && p != Config::PREVIEW_SOUND_OUTPUT) {
 		return;
 	}
 
@@ -688,36 +689,46 @@ FilmViewer::config_changed (Config::Property p)
 		_audio.closeStream ();
 	}
 
-	unsigned int st = 0;
-	if (Config::instance()->sound_output()) {
-		while (st < _audio.getDeviceCount()) {
-			if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
-				break;
+	if (Config::instance()->preview_sound()) {
+		unsigned int st = 0;
+		if (Config::instance()->preview_sound_output()) {
+			while (st < _audio.getDeviceCount()) {
+				if (_audio.getDeviceInfo(st).name == Config::instance()->preview_sound_output().get()) {
+					break;
+				}
+				++st;
 			}
-			++st;
-		}
-		if (st == _audio.getDeviceCount()) {
+			if (st == _audio.getDeviceCount()) {
+				st = _audio.getDefaultOutputDevice();
+			}
+		} else {
 			st = _audio.getDefaultOutputDevice();
 		}
-	} else {
-		st = _audio.getDefaultOutputDevice();
-	}
 
-	_audio_channels = _audio.getDeviceInfo(st).outputChannels;
-	recreate_butler ();
+		_audio_channels = _audio.getDeviceInfo(st).outputChannels;
 
-	RtAudio::StreamParameters sp;
-	sp.deviceId = st;
-	sp.nChannels = _audio_channels;
-	sp.firstChannel = 0;
-	try {
-		_audio.openStream (&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
+		recreate_butler ();
+
+		RtAudio::StreamParameters sp;
+		sp.deviceId = st;
+		sp.nChannels = _audio_channels;
+		sp.firstChannel = 0;
+		try {
+			_audio.openStream (&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
 #ifdef DCPOMATIC_USE_RTERROR
-	} catch (RtError& e) {
+		} catch (RtError& e) {
 #else
-	} catch (RtAudioError& e) {
+		} catch (RtAudioError& e) {
 #endif
-		error_dialog (this, wxString::Format (_("Could not set up audio output (%s).  There will be no audio during the preview."), e.what()));
+			error_dialog (
+				this,
+				wxString::Format (_("Could not set up audio output (%s).  There will be no audio during the preview."), e.what())
+				);
+		}
+
+	} else {
+		_audio_channels = 0;
+		recreate_butler ();
 	}
 }
 

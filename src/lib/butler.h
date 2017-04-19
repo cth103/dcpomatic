@@ -42,6 +42,8 @@ public:
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
 	void get_audio (float* out, Frame frames);
 
+	void disable_audio ();
+
 private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
@@ -68,6 +70,7 @@ private:
 	int _audio_channels;
 
 	bool _stop_thread;
+	bool _disable_audio;
 
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;

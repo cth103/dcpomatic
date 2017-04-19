@@ -44,6 +44,7 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	, _audio_mapping (audio_mapping)
 	, _audio_channels (audio_channels)
 	, _stop_thread (false)
+	, _disable_audio (false)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
@@ -158,8 +159,8 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		if (_pending_seek_position) {
-			/* Don't store any audio while a seek is pending */
+		if (_pending_seek_position || _disable_audio) {
+			/* Don't store any audio while a seek is pending, or if audio is disabled */
 			return;
 		}
 	}
@@ -190,4 +191,11 @@ Butler::get_audio (float* out, Frame frames)
 {
 	_audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
+}
+
+void
+Butler::disable_audio ()
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	_disable_audio = true;
 }

@@ -204,9 +204,10 @@ private:
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		++r;
 
-                add_label_to_sizer (table, _panel, _("Sound output"), true, wxGBPosition (r, 0));
-                _sound_output = new wxChoice (_panel, wxID_ANY);
-                table->Add (_sound_output, wxGBPosition (r, 1));
+		_preview_sound = new wxCheckBox (_panel, wxID_ANY, _("Play sound in the preview via"));
+		table->Add (_preview_sound, wxGBPosition (r, 0));
+                _preview_sound_output = new wxChoice (_panel, wxID_ANY);
+                table->Add (_preview_sound_output, wxGBPosition (r, 1));
                 ++r;
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -245,14 +246,15 @@ private:
                 for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
                         RtAudio::DeviceInfo dev = audio.getDeviceInfo (i);
                         if (dev.probed && dev.outputChannels > 0) {
-                                _sound_output->Append (std_to_wx (dev.name));
+                                _preview_sound_output->Append (std_to_wx (dev.name));
                         }
                 }
 
-		_set_language->Bind (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::set_language_changed, this));
-		_language->Bind     (wxEVT_CHOICE,             boost::bind (&GeneralPage::language_changed,     this));
-		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed, this));
-		_sound_output->Bind (wxEVT_CHOICE,             boost::bind (&GeneralPage::sound_output_changed, this));
+		_set_language->Bind         (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::set_language_changed,  this));
+		_language->Bind             (wxEVT_CHOICE,             boost::bind (&GeneralPage::language_changed,      this));
+		_cinemas_file->Bind         (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed,  this));
+		_preview_sound->Bind        (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::preview_sound_changed, this));
+		_preview_sound_output->Bind (wxEVT_CHOICE,             boost::bind (&GeneralPage::preview_sound_output_changed, this));
 
 		_num_local_encoding_threads->SetRange (1, 128);
 		_num_local_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
@@ -308,12 +310,13 @@ private:
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
 		checked_set (_cinemas_file, config->cinemas_file());
+		checked_set (_preview_sound, config->preview_sound());
 
-                optional<string> const current_so = get_sound_output ();
+                optional<string> const current_so = get_preview_sound_output ();
                 string configured_so;
 
-                if (config->sound_output()) {
-                        configured_so = config->sound_output().get();
+                if (config->preview_sound_output()) {
+                        configured_so = config->preview_sound_output().get();
                 } else {
                         /* No configured output means we should use the default */
                         RtAudio audio (DCPOMATIC_RTAUDIO_API);
@@ -321,11 +324,11 @@ private:
                 }
 
                 if (!current_so || *current_so != configured_so) {
-                        /* Update _sound_output with the configured value */
+                        /* Update _preview_sound_output with the configured value */
                         unsigned int i = 0;
-                        while (i < _sound_output->GetCount()) {
-                                if (_sound_output->GetString(i) == std_to_wx(configured_so)) {
-                                        _sound_output->SetSelection (i);
+                        while (i < _preview_sound_output->GetCount()) {
+                                if (_preview_sound_output->GetString(i) == std_to_wx(configured_so)) {
+                                        _preview_sound_output->SetSelection (i);
                                         break;
                                 }
                                 ++i;
@@ -335,21 +338,22 @@ private:
 		setup_sensitivity ();
 	}
 
-        /** @return Currently-selected sound output in the dialogue */
-        optional<string> get_sound_output ()
+        /** @return Currently-selected preview sound output in the dialogue */
+        optional<string> get_preview_sound_output ()
         {
-                int const sel = _sound_output->GetSelection ();
+                int const sel = _preview_sound_output->GetSelection ();
                 if (sel == wxNOT_FOUND) {
                         return optional<string> ();
                 }
 
-                return wx_to_std (_sound_output->GetString (sel));
+                return wx_to_std (_preview_sound_output->GetString (sel));
         }
 
 	void setup_sensitivity ()
 	{
 		_language->Enable (_set_language->GetValue ());
 		_check_for_test_updates->Enable (_check_for_updates->GetValue ());
+		_preview_sound_output->Enable (_preview_sound->GetValue ());
 	}
 
 	void set_language_changed ()
@@ -414,14 +418,19 @@ private:
 		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
 	}
 
-        void sound_output_changed ()
+	void preview_sound_changed ()
+	{
+		Config::instance()->set_preview_sound (_preview_sound->GetValue ());
+	}
+
+        void preview_sound_output_changed ()
         {
                 RtAudio audio (DCPOMATIC_RTAUDIO_API);
-                optional<string> const so = get_sound_output();
+                optional<string> const so = get_preview_sound_output();
                 if (!so || *so == audio.getDeviceInfo(audio.getDefaultOutputDevice()).name) {
-                        Config::instance()->unset_sound_output ();
+                        Config::instance()->unset_preview_sound_output ();
                 } else {
-                        Config::instance()->set_sound_output (*so);
+                        Config::instance()->set_preview_sound_output (*so);
                 }
         }
 
@@ -429,7 +438,8 @@ private:
 	wxChoice* _language;
 	wxSpinCtrl* _num_local_encoding_threads;
 	FilePickerCtrl* _cinemas_file;
-	wxChoice* _sound_output;
+	wxCheckBox* _preview_sound;
+	wxChoice* _preview_sound_output;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	wxCheckBox* _analyse_ebur128;
 #endif
