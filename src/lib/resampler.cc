@@ -128,6 +128,8 @@ Resampler::run (shared_ptr<const AudioBuffers> in, Frame frame)
 		}
 
 		if (data.output_frames_gen == 0) {
+			delete[] data.data_in;
+			delete[] data.data_out;
 			break;
 		}
 
