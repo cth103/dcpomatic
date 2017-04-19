@@ -666,9 +666,15 @@ FilmViewer::seek (DCPTime t, bool accurate)
 		return;
 	}
 
+	bool const was_running = stop ();
+
 	_butler->seek (t, accurate);
 	_last_seek_accurate = accurate;
 	get ();
+
+	if (was_running) {
+		start ();
+	}
 }
 
 void

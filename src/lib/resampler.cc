@@ -200,3 +200,9 @@ Resampler::flush ()
 	delete[] buffer;
 	return make_pair (out, _next_out.get ());
 }
+
+void
+Resampler::reset ()
+{
+	src_reset (_src);
+}

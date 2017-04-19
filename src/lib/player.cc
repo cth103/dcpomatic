@@ -699,6 +699,10 @@ Player::audio_flush (shared_ptr<Piece> piece, AudioStreamPtr stream)
 	}
 
 	pair<shared_ptr<const AudioBuffers>, Frame> ro = r->flush ();
+	if (ro.first->frames() == 0) {
+		return;
+	}
+
 	ContentAudio content_audio;
 	content_audio.audio = ro.first;
 	content_audio.frame = ro.second;
@@ -713,6 +717,8 @@ Player::audio_flush (shared_ptr<Piece> piece, AudioStreamPtr stream)
 void
 Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time)
 {
+	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
+
 	/* Gain */
 
 	if (content->gain() != 0) {
@@ -758,6 +764,8 @@ Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream
 void
 Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
+	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
+
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
 		return;
@@ -770,6 +778,9 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	if (stream->frame_rate() != content->resampled_frame_rate()) {
 		shared_ptr<Resampler> r = resampler (content, stream, true);
 		pair<shared_ptr<const AudioBuffers>, Frame> ro = r->run (content_audio.audio, content_audio.frame);
+		if (ro.first->frames() == 0) {
+			return;
+		}
 		content_audio.audio = ro.first;
 		content_audio.frame = ro.second;
 	}
@@ -797,6 +808,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		return;
 	} else if (end > piece->content->end()) {
 		Frame const remaining_frames = DCPTime(piece->content->end() - time).frames_round(_film->audio_frame_rate());
+		DCPOMATIC_ASSERT (remaining_frames > 0);
 		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
 		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
 		content_audio.audio = cut;
@@ -887,10 +899,15 @@ Player::seek (DCPTime time, bool accurate)
 		_audio_processor->flush ();
 	}
 
+	for (ResamplerMap::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
+		i->second->flush ();
+		i->second->reset ();
+	}
+
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
+		i->done = false;
 		if (i->content->position() <= time && time < i->content->end()) {
 			i->decoder->seek (dcp_to_content_time (i, time), accurate);
-			i->done = false;
 		}
 	}
 

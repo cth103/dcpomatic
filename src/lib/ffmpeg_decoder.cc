@@ -339,7 +339,9 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		avcodec_flush_buffers (video_codec_context());
 	}
 
-	/* XXX: should be flushing audio buffers? */
+	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, ffmpeg_content()->ffmpeg_audio_streams()) {
+		avcodec_flush_buffers (i->stream(_format_context)->codec);
+	}
 
 	if (subtitle_codec_context ()) {
 		avcodec_flush_buffers (subtitle_codec_context ());

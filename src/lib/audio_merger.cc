@@ -64,22 +64,31 @@ AudioMerger::pull (DCPTime time)
 	BOOST_FOREACH (Buffer i, _buffers) {
 		if (i.period().to <= time) {
 			/* Completely within the pull period */
+			DCPOMATIC_ASSERT (i.audio->frames() > 0);
 			out.push_back (make_pair (i.audio, i.time));
 		} else if (i.time < time) {
 			/* Overlaps the end of the pull period */
 			shared_ptr<AudioBuffers> audio (new AudioBuffers (i.audio->channels(), frames(DCPTime(time - i.time))));
 			audio->copy_from (i.audio.get(), audio->frames(), 0, 0);
+			DCPOMATIC_ASSERT (audio->frames() > 0);
 			out.push_back (make_pair (audio, i.time));
 			i.audio->trim_start (audio->frames ());
 			i.time += DCPTime::from_frames(audio->frames(), _frame_rate);
+			DCPOMATIC_ASSERT (i.audio->frames() > 0);
 			new_buffers.push_back (i);
 		} else {
 			/* Not involved */
+			DCPOMATIC_ASSERT (i.audio->frames() > 0);
 			new_buffers.push_back (i);
 		}
 	}
 
 	_buffers = new_buffers;
+
+	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::const_iterator i = out.begin(); i != out.end(); ++i) {
+		DCPOMATIC_ASSERT (i->first->frames() > 0);
+	}
+
 	return out;
 }
 
@@ -88,6 +97,7 @@ void
 AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 {
 	DCPOMATIC_ASSERT (time >= _last_pull);
+	DCPOMATIC_ASSERT (audio->frames() > 0);
 
 	DCPTimePeriod period (time, time + DCPTime::from_frames (audio->frames(), _frame_rate));
 
@@ -129,6 +139,7 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 
 		if (before == _buffers.end() && after == _buffers.end()) {
 			/* New buffer */
+			DCPOMATIC_ASSERT (part->frames() > 0);
 			_buffers.push_back (Buffer (part, time, _frame_rate));
 		} else if (before != _buffers.end() && after == _buffers.end()) {
 			/* We have an existing buffer before this one; append new data to it */

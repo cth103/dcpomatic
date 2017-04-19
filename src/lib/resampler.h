@@ -33,6 +33,7 @@ public:
 
 	std::pair<boost::shared_ptr<const AudioBuffers>, Frame> run (boost::shared_ptr<const AudioBuffers>, Frame);
 	std::pair<boost::shared_ptr<const AudioBuffers>, Frame> flush ();
+	void reset ();
 	void set_fast ();
 
 private:
