@@ -173,6 +173,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Evan Freeze"));
 	supported_by.Add (wxT ("Brett Friedman"));
 	supported_by.Add (wxT ("Stephen Furley"));
+	supported_by.Add (wxT ("Gartenbaukino"));
 	supported_by.Add (wxT ("Silvio Giuliano"));
 	supported_by.Add (wxT ("Alan Gouger"));
 	supported_by.Add (wxT ("Christopher Gray"));
@@ -261,7 +262,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("David Rozenthal"));
 	supported_by.Add (wxT ("Lasse Salling"));
 	supported_by.Add (wxT ("Jussi Siponen"));
-	supported_by.Add (wxT ("Norman DW Shetler"));
 	supported_by.Add (wxT ("Gregg Smith"));
 	supported_by.Add (wxT ("Marco Spiaggi"));
 	supported_by.Add (wxT ("Peter Sprenger"));
