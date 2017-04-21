@@ -107,6 +107,8 @@ try
 	/* The butler thread is being terminated */
 } catch (...) {
 	store_current ();
+	_finished = true;
+	_arrived.notify_all ();
 }
 
 pair<shared_ptr<PlayerVideo>, DCPTime>

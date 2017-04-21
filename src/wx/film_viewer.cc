@@ -258,6 +258,8 @@ FilmViewer::refresh_panel ()
 void
 FilmViewer::get ()
 {
+	DCPOMATIC_ASSERT (_butler);
+
 	pair<shared_ptr<PlayerVideo>, DCPTime> video;
 	do {
 		video = _butler->get_video ();
@@ -265,6 +267,8 @@ FilmViewer::get ()
 		_film->three_d() &&
 		((_left_eye->GetValue() && video.first->eyes() == EYES_RIGHT) || (_right_eye->GetValue() && video.first->eyes() == EYES_LEFT))
 		);
+
+	_butler->rethrow ();
 
 	if (!video.first) {
 		_frame.reset ();
