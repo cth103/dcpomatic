@@ -178,6 +178,8 @@ AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
 pair<AudioAnalysis::PeakTime, int>
 AudioAnalysis::overall_sample_peak () const
 {
+	DCPOMATIC_ASSERT (!_sample_peak.empty ());
+
 	optional<PeakTime> pt;
 	int c;
 
