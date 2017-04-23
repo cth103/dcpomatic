@@ -112,6 +112,7 @@ private:
 	void fill_audio (DCPTimePeriod period);
 	void audio_flush (boost::shared_ptr<Piece>, AudioStreamPtr stream);
 	void audio_transform (boost::shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time);
+	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to) const;
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
