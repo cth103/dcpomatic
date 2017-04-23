@@ -554,7 +554,7 @@ Player::pass ()
 		/* No more content; fill up with silent black */
 		DCPTimePeriod remaining_video (DCPTime(), _playlist->length());
 		if (_last_video_time) {
-			remaining_video.from = _last_video_time.get() + one_video_frame();
+			remaining_video.from = _last_video_time.get();
 		}
 		fill_video (remaining_video);
 		DCPTimePeriod remaining_audio (DCPTime(), _playlist->length());
@@ -624,7 +624,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	DCPTimePeriod const period (time, time + one_video_frame());
 
 	/* Discard if it's outside the content's period or if it's before the last accurate seek */
-	if (time < piece->content->position() || time >= piece->content->end() || (_last_video_time && time <= _last_video_time)) {
+	if (time < piece->content->position() || time >= piece->content->end() || (_last_video_time && time < _last_video_time)) {
 		return;
 	}
 
@@ -658,7 +658,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Fill gaps */
 
 	if (_last_video_time) {
-		fill_video (DCPTimePeriod (_last_video_time.get() + one_video_frame(), time));
+		fill_video (DCPTimePeriod (_last_video_time.get(), time));
 	}
 
 	_last_video.reset (
@@ -680,9 +680,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		_last_video->set_subtitle (subtitles.get ());
 	}
 
-	_last_video_time = time;
+	Video (_last_video, time);
 
-	Video (_last_video, *_last_video_time);
+	_last_video_time = time + one_video_frame ();
 
 	/* Discard any subtitles we no longer need */
 
@@ -920,7 +920,7 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	if (accurate) {
-		_last_video_time = time - one_video_frame ();
+		_last_video_time = time;
 		_last_audio_time = time;
 	} else {
 		_last_video_time = optional<DCPTime> ();
