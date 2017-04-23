@@ -623,8 +623,8 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
 	DCPTimePeriod const period (time, time + one_video_frame());
 
-	/* Discard if it's outside the content's period */
-	if (time < piece->content->position() || time >= piece->content->end()) {
+	/* Discard if it's outside the content's period or if it's before the last accurate seek */
+	if (time < piece->content->position() || time >= piece->content->end() || (_last_video_time && time <= _last_video_time)) {
 		return;
 	}
 
@@ -915,9 +915,8 @@ Player::seek (DCPTime time, bool accurate)
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		i->done = false;
-		if (i->content->position() <= time && time < i->content->end()) {
-			i->decoder->seek (dcp_to_content_time (i, time), accurate);
-		}
+		DCPTime const t = min(max(time, i->content->position()), i->content->end());
+		i->decoder->seek (dcp_to_content_time (i, t), accurate);
 	}
 
 	if (accurate) {
