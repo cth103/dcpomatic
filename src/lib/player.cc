@@ -584,6 +584,9 @@ Player::pass ()
 
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_from);
 	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
+		if (_last_audio_time && i->second < _last_audio_time.get()) {
+			cout << "FAIL " << to_string(i->second) << " " << to_string(_last_audio_time.get()) << "\n";
+		}
 		DCPOMATIC_ASSERT (!_last_audio_time || i->second >= _last_audio_time.get());
 		if (_last_audio_time) {
 			fill_audio (DCPTimePeriod (_last_audio_time.get(), i->second));
@@ -914,9 +917,11 @@ Player::seek (DCPTime time, bool accurate)
 	if (accurate) {
 		_last_video_time = time - one_video_frame ();
 		_last_audio_time = time;
+		cout << "_last_audio_time -> " << to_string(time) << "\n";
 	} else {
 		_last_video_time = optional<DCPTime> ();
 		_last_audio_time = optional<DCPTime> ();
+		cout << "_last_audio_time -> []\n";
 	}
 }
 
