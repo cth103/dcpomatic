@@ -157,3 +157,10 @@ AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		}
 	}
 }
+
+void
+AudioMerger::clear ()
+{
+	_buffers.clear ();
+	_last_pull = DCPTime ();
+}
