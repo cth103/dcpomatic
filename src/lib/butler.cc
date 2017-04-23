@@ -41,6 +41,7 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	, _player (player)
 	, _pending_seek_accurate (false)
 	, _finished (false)
+	, _died (false)
 	, _audio_mapping (audio_mapping)
 	, _audio_channels (audio_channels)
 	, _stop_thread (false)
@@ -67,7 +68,7 @@ Butler::~Butler ()
 bool
 Butler::should_run () const
 {
-	return (_video.size() < VIDEO_READAHEAD || _audio.size() < AUDIO_READAHEAD) && !_stop_thread && !_finished;
+	return (_video.size() < VIDEO_READAHEAD || (!_disable_audio && _audio.size() < AUDIO_READAHEAD)) && !_stop_thread && !_finished && !_died;
 }
 
 void
@@ -94,20 +95,25 @@ try
 		*/
 		while (should_run() && !_pending_seek_position) {
 			lm.unlock ();
-			if (_player->pass ()) {
+			bool const r = _player->pass ();
+			lm.lock ();
+			if (r) {
 				_finished = true;
 				_arrived.notify_all ();
 				break;
 			}
-			lm.lock ();
 			_arrived.notify_all ();
 		}
 	}
 } catch (boost::thread_interrupted) {
 	/* The butler thread is being terminated */
+	boost::mutex::scoped_lock lm (_mutex);
+	_finished = true;
+	_arrived.notify_all ();
 } catch (...) {
 	store_current ();
-	_finished = true;
+	boost::mutex::scoped_lock lm (_mutex);
+	_died = true;
 	_arrived.notify_all ();
 }
 
@@ -117,11 +123,11 @@ Butler::get_video ()
 	boost::mutex::scoped_lock lm (_mutex);
 
 	/* Wait for data if we have none */
-	while (_video.empty() && !_finished) {
+	while (_video.empty() && !_finished && !_died) {
 		_arrived.wait (lm);
 	}
 
-	if (_video.empty() && _finished) {
+	if (_video.empty()) {
 		return make_pair (shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
@@ -134,6 +140,10 @@ void
 Butler::seek (DCPTime position, bool accurate)
 {
 	boost::mutex::scoped_lock lm (_mutex);
+	if (_died) {
+		return;
+	}
+
 	_video.clear ();
 	_audio.clear ();
 	_finished = false;

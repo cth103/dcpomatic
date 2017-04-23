@@ -65,6 +65,7 @@ private:
 	bool _pending_seek_accurate;
 
 	bool _finished;
+	bool _died;
 
 	AudioMapping _audio_mapping;
 	int _audio_channels;
