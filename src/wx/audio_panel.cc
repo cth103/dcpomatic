@@ -311,7 +311,7 @@ void
 AudioPanel::setup_peak ()
 {
 	ContentList sel = _parent->selected_audio ();
-	bool alert = false;
+	optional<float> peak_dB;
 
 	if (sel.size() != 1) {
 		_peak->SetLabel (wxT (""));
@@ -320,11 +320,8 @@ AudioPanel::setup_peak ()
 		playlist->add (sel.front ());
 		try {
 			shared_ptr<AudioAnalysis> analysis (new AudioAnalysis (_parent->film()->audio_analysis_path (playlist)));
-			float const peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction (playlist);
-			if (peak_dB > -3) {
-				alert = true;
-			}
-			_peak->SetLabel (wxString::Format (_("Peak: %.2fdB"), peak_dB));
+			peak_dB = 20 * log10 (analysis->overall_sample_peak().first.peak) + analysis->gain_correction (playlist);
+			_peak->SetLabel (wxString::Format (_("Peak: %.2fdB"), *peak_dB));
 		} catch (...) {
 			_peak->SetLabel (_("Peak: unknown"));
 		}
@@ -332,8 +329,10 @@ AudioPanel::setup_peak ()
 
 	static wxColour normal = _peak->GetForegroundColour ();
 
-	if (alert) {
+	if (peak_dB && *peak_dB > -0.5) {
 		_peak->SetForegroundColour (wxColour (255, 0, 0));
+	} else if (peak_dB && *peak_dB > -3) {
+		_peak->SetForegroundColour (wxColour (186, 120, 0));
 	} else {
 		_peak->SetForegroundColour (normal);
 	}
