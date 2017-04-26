@@ -42,9 +42,9 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	, _pending_seek_accurate (false)
 	, _finished (false)
 	, _died (false)
+	, _stop_thread (false)
 	, _audio_mapping (audio_mapping)
 	, _audio_channels (audio_channels)
-	, _stop_thread (false)
 	, _disable_audio (false)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
@@ -55,7 +55,11 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 
 Butler::~Butler ()
 {
-	_stop_thread = true;
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_stop_thread = true;
+	}
+
 	_thread->interrupt ();
 	try {
 		_thread->join ();
@@ -65,6 +69,7 @@ Butler::~Butler ()
 	delete _thread;
 }
 
+/** Caller must hold a lock on _mutex */
 bool
 Butler::should_run () const
 {
@@ -97,7 +102,8 @@ try
 			lm.unlock ();
 			bool const r = _player->pass ();
 			lm.lock ();
-			if (r) {
+			/* We must check _pending_seek_position again here as it may have been set while lm was unlocked */
+			if (r && !_pending_seek_position) {
 				_finished = true;
 				_arrived.notify_all ();
 				break;

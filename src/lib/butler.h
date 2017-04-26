@@ -58,19 +58,19 @@ private:
 	VideoRingBuffers _video;
 	AudioRingBuffers _audio;
 
+	/** mutex to protect _pending_seek_position, _pending_seek_acurate, _finished, _died, _stop_thread */
 	boost::mutex _mutex;
 	boost::condition _summon;
 	boost::condition _arrived;
 	boost::optional<DCPTime> _pending_seek_position;
 	bool _pending_seek_accurate;
-
 	bool _finished;
 	bool _died;
+	bool _stop_thread;
 
 	AudioMapping _audio_mapping;
 	int _audio_channels;
 
-	bool _stop_thread;
 	bool _disable_audio;
 
 	boost::signals2::scoped_connection _player_video_connection;
