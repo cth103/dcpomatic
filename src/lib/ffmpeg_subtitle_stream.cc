@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -38,54 +38,7 @@ using dcp::raw_convert;
 FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
 {
-	if (version == 32) {
-		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Period")) {
-			/* In version 32 we assumed that from times were unique, so they were
-			   used as identifiers.  All subtitles were image subtitles.
-			*/
-			add_image_subtitle (
-				raw_convert<string> (i->string_child ("From")),
-				ContentTimePeriod (
-					ContentTime (i->number_child<ContentTime::Type> ("From")),
-					ContentTime (i->number_child<ContentTime::Type> ("To"))
-					)
-				);
-		}
-	} else {
-		/* In version 33 we use a hash of various parts of the subtitle as the id.
-		   <Subtitle> was initially used for image subtitles; later we have
-		   <ImageSubtitle> and <TextSubtitle>
-		*/
-		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Subtitle")) {
-			add_image_subtitle (
-				raw_convert<string> (i->string_child ("Id")),
-				ContentTimePeriod (
-					ContentTime (i->number_child<ContentTime::Type> ("From")),
-					ContentTime (i->number_child<ContentTime::Type> ("To"))
-					)
-				);
-		}
-
-		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("ImageSubtitle")) {
-			add_image_subtitle (
-				raw_convert<string> (i->string_child ("Id")),
-				ContentTimePeriod (
-					ContentTime (i->number_child<ContentTime::Type> ("From")),
-					ContentTime (i->number_child<ContentTime::Type> ("To"))
-					)
-				);
-		}
-
-		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("TextSubtitle")) {
-			add_text_subtitle (
-				raw_convert<string> (i->string_child ("Id")),
-				ContentTimePeriod (
-					ContentTime (i->number_child<ContentTime::Type> ("From")),
-					ContentTime (i->number_child<ContentTime::Type> ("To"))
-					)
-				);
-		}
-
+	if (version >= 33) {
 		BOOST_FOREACH (cxml::NodePtr i, node->node_children ("Colour")) {
 			_colours[RGBA(i->node_child("From"))] = RGBA (i->node_child("To"));
 		}
@@ -97,83 +50,10 @@ FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
 
-	as_xml (root, _image_subtitles, "ImageSubtitle");
-	as_xml (root, _text_subtitles, "TextSubtitle");
-
 	for (map<RGBA, RGBA>::const_iterator i = _colours.begin(); i != _colours.end(); ++i) {
 		xmlpp::Node* node = root->add_child("Colour");
 		i->first.as_xml (node->add_child("From"));
 		i->second.as_xml (node->add_child("To"));
-	}
-}
-
-void
-FFmpegSubtitleStream::as_xml (xmlpp::Node* root, PeriodMap const & subs, string node_name) const
-{
-	for (PeriodMap::const_iterator i = subs.begin(); i != subs.end(); ++i) {
-		xmlpp::Node* node = root->add_child (node_name);
-		node->add_child("Id")->add_child_text (i->first);
-		node->add_child("From")->add_child_text (raw_convert<string> (i->second.from.get ()));
-		node->add_child("To")->add_child_text (raw_convert<string> (i->second.to.get ()));
-	}
-}
-
-void
-FFmpegSubtitleStream::add_image_subtitle (string id, ContentTimePeriod period)
-{
-	DCPOMATIC_ASSERT (_image_subtitles.find (id) == _image_subtitles.end ());
-	_image_subtitles[id] = period;
-}
-
-void
-FFmpegSubtitleStream::add_text_subtitle (string id, ContentTimePeriod period)
-{
-	DCPOMATIC_ASSERT (_text_subtitles.find (id) == _text_subtitles.end ());
-	_text_subtitles[id] = period;
-}
-
-ContentTime
-FFmpegSubtitleStream::find_subtitle_to (string id) const
-{
-	PeriodMap::const_iterator i = _image_subtitles.find (id);
-	if (i != _image_subtitles.end ()) {
-		return i->second.to;
-	}
-
-	i = _text_subtitles.find (id);
-	DCPOMATIC_ASSERT (i != _text_subtitles.end ());
-	return i->second.to;
-}
-
-/** @param id Subtitle id.
- *  @return true if the `from' and `to' times for this id are equal, which indicates
- *  that the `to' time is unknown.
- */
-bool
-FFmpegSubtitleStream::unknown_to (string id) const
-{
-	PeriodMap::const_iterator i = _image_subtitles.find (id);
-	if (i != _image_subtitles.end ()) {
-		return i->second.from == i->second.to;
-	}
-
-	i = _text_subtitles.find (id);
-	DCPOMATIC_ASSERT (i != _text_subtitles.end ());
-	return i->second.from == i->second.to;
-}
-
-/** Add some offset to all the times in the stream */
-void
-FFmpegSubtitleStream::add_offset (ContentTime offset)
-{
-	for (PeriodMap::iterator i = _image_subtitles.begin(); i != _image_subtitles.end(); ++i) {
-		i->second.from += offset;
-		i->second.to += offset;
-	}
-
-	for (PeriodMap::iterator i = _text_subtitles.begin(); i != _text_subtitles.end(); ++i) {
-		i->second.from += offset;
-		i->second.to += offset;
 	}
 }
 
@@ -187,32 +67,4 @@ void
 FFmpegSubtitleStream::set_colour (RGBA from, RGBA to)
 {
 	_colours[from] = to;
-}
-
-bool
-FFmpegSubtitleStream::has_text () const
-{
-	return !_text_subtitles.empty ();
-}
-
-bool
-FFmpegSubtitleStream::has_image () const
-{
-	return !_image_subtitles.empty ();
-}
-
-void
-FFmpegSubtitleStream::set_subtitle_to (string id, ContentTime to)
-{
-	PeriodMap::iterator i = _image_subtitles.find (id);
-	if (i != _image_subtitles.end ()) {
-		i->second.to = to;
-	} else {
-		i = _text_subtitles.find (id);
-		if (i != _text_subtitles.end ()) {
-			i->second.to = to;
-		} else {
-			DCPOMATIC_ASSERT (false);
-		}
-	}
 }

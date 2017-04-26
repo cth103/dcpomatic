@@ -32,23 +32,23 @@ class Image;
 class ContentSubtitle
 {
 public:
-	ContentSubtitle (ContentTimePeriod p)
-		: _period (p)
+	ContentSubtitle (ContentTime f)
+		: _from (f)
 	{}
 
-	ContentTimePeriod period () const {
-		return _period;
+	ContentTime from () const {
+		return _from;
 	}
 
 private:
-	ContentTimePeriod _period;
+	ContentTime _from;
 };
 
 class ContentImageSubtitle : public ContentSubtitle
 {
 public:
-	ContentImageSubtitle (ContentTimePeriod p, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
-		: ContentSubtitle (p)
+	ContentImageSubtitle (ContentTime f, boost::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+		: ContentSubtitle (f)
 		, sub (im, r)
 	{}
 
@@ -63,8 +63,8 @@ public:
 class ContentTextSubtitle : public ContentSubtitle
 {
 public:
-	ContentTextSubtitle (ContentTimePeriod p, std::list<dcp::SubtitleString> s)
-		: ContentSubtitle (p)
+	ContentTextSubtitle (ContentTime f, std::list<dcp::SubtitleString> s)
+		: ContentSubtitle (f)
 		, subs (s)
 	{}
 

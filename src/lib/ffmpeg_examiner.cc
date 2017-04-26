@@ -91,24 +91,13 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 	}
 
-	if (job) {
-		if (_need_video_length) {
-			job->sub (_("Finding length and subtitles"));
-		} else if (!_subtitle_streams.empty()) {
-			job->sub (_("Finding subtitles"));
-		} else {
-			job->sub (_("Finding length"));
-		}
+	if (job && _need_video_length) {
+		job->sub (_("Finding length"));
 	}
 
 	/* Run through until we find:
 	 *   - the first video.
 	 *   - the first audio for each stream.
-	 *   - the subtitle periods for each stream.
-	 *
-	 * We have to note subtitle periods as otherwise we have no way of knowing
-	 * where we should look for subtitles (video and audio are always present,
-	 * so they are ok).
 	 */
 
 	int64_t const len = _file_group.length ();
@@ -143,39 +132,11 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			}
 		}
 
-		for (size_t i = 0; i < _subtitle_streams.size(); ++i) {
-			if (_subtitle_streams[i]->uses_index (_format_context, _packet.stream_index)) {
-				subtitle_packet (context, _subtitle_streams[i]);
-			}
-		}
-
 		av_packet_unref (&_packet);
 
-		if (_first_video && got_all_audio && _subtitle_streams.empty ()) {
+		if (_first_video && got_all_audio) {
 			/* All done */
 			break;
-		}
-	}
-
-	/* Finish off any hanging subtitles at the end */
-	for (LastSubtitleMap::const_iterator i = _last_subtitle_start.begin(); i != _last_subtitle_start.end(); ++i) {
-		if (i->second) {
-			if (i->first->unknown_to (i->second->id)) {
-				i->first->set_subtitle_to (
-					i->second->id,
-					ContentTime::from_frames (video_length(), video_frame_rate().get_value_or (24))
-					);
-			}
-		}
-	}
-
-	/* We just added subtitles to our streams without taking the PTS offset into account;
-	   this is because we might not know the PTS offset when the first subtitle is seen.
-	   Now we know the PTS offset so we can apply it to those subtitles.
-	*/
-	if (has_video() && video_frame_rate()) {
-		BOOST_FOREACH (shared_ptr<FFmpegSubtitleStream> i, _subtitle_streams) {
-			i->add_offset (pts_offset (_audio_streams, _first_video, video_frame_rate().get()));
 		}
 	}
 }
@@ -212,70 +173,6 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 	int frame_finished;
 	if (avcodec_decode_audio4 (context, _frame, &frame_finished, &_packet) >= 0 && frame_finished) {
 		stream->first_audio = frame_time (stream->stream (_format_context));
-	}
-}
-
-void
-FFmpegExaminer::subtitle_packet (AVCodecContext* context, shared_ptr<FFmpegSubtitleStream> stream)
-{
-	int frame_finished;
-	AVSubtitle sub;
-	if (avcodec_decode_subtitle2 (context, &sub, &frame_finished, &_packet) >= 0 && frame_finished) {
-		string id = subtitle_id (sub);
-		FFmpegSubtitlePeriod const period = subtitle_period (sub);
-		bool const starts_image = subtitle_starts_image (sub);
-
-		/* Some streams (notably DVB streams) have subtitles which have a specified end time
-		   but which are then stopped earlier than this by a zero-num_rect subtitle.
-		*/
-
-		LastSubtitleMap::iterator last = _last_subtitle_start.find (stream);
-		if (sub.num_rects == 0 && last != _last_subtitle_start.end() && last->second) {
-			/* Set (or fix) the `to' time for the last subtitle */
-			stream->set_subtitle_to (last->second->id, period.from);
-			_last_subtitle_start[stream] = optional<SubtitleStart> ();
-		} else if (sub.num_rects > 0) {
-			/* Add a subtitle; if we don't know the `to' time we set it to the from time and fix it later */
-			if (starts_image) {
-				stream->add_image_subtitle (id, ContentTimePeriod (period.from, period.to.get_value_or (period.from)));
-			} else {
-				stream->add_text_subtitle (id, ContentTimePeriod (period.from, period.to.get_value_or (period.from)));
-			}
-
-			_last_subtitle_start[stream] = SubtitleStart (id, starts_image, period.from);
-		}
-
-		for (unsigned int i = 0; i < sub.num_rects; ++i) {
-			if (sub.rects[i]->type == SUBTITLE_BITMAP) {
-#ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
-				uint32_t* palette = (uint32_t *) sub.rects[i]->pict.data[1];
-				for (int j = 0; j < sub.rects[i]->nb_colors; ++j) {
-					RGBA rgba  (
-						(palette[j] & 0x00ff0000) >> 16,
-						(palette[j] & 0x0000ff00) >> 8,
-						(palette[j] & 0x000000ff) >> 0,
-						(palette[j] & 0xff000000) >> 24
-						);
-
-					stream->set_colour (rgba, rgba);
-				}
-#else
-				uint32_t* palette = (uint32_t *) sub.rects[i]->data[1];
-				for (int j = 0; j < sub.rects[i]->nb_colors; ++j) {
-					RGBA rgba  (
-						(palette[j] & 0x00ff0000) >> 16,
-						(palette[j] & 0x0000ff00) >> 8,
-						(palette[j] & 0x000000ff) >> 0,
-						(palette[j] & 0xff000000) >> 24
-						);
-
-					stream->set_colour (rgba, rgba);
-				}
-#endif
-			}
-		}
-
-		avsubtitle_free (&sub);
 	}
 }
 

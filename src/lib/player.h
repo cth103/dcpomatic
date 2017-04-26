@@ -78,6 +78,9 @@ public:
 
 	boost::signals2::signal<void (boost::shared_ptr<PlayerVideo>, DCPTime)> Video;
 	boost::signals2::signal<void (boost::shared_ptr<AudioBuffers>, DCPTime)> Audio;
+	/** Emitted when a subtitle is ready.  This signal may be emitted considerably
+	 *  after the corresponding Video.
+	 */
 	boost::signals2::signal<void (PlayerSubtitles, DCPTimePeriod)> Subtitle;
 
 private:
@@ -104,15 +107,18 @@ private:
 	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
-	void image_subtitle (boost::weak_ptr<Piece>, ContentImageSubtitle);
-	void text_subtitle (boost::weak_ptr<Piece>, ContentTextSubtitle);
+	void image_subtitle_start (boost::weak_ptr<Piece>, ContentImageSubtitle);
+	void text_subtitle_start (boost::weak_ptr<Piece>, ContentTextSubtitle);
+	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create);
 	DCPTime one_video_frame () const;
 	void fill_video (DCPTimePeriod period);
 	void fill_audio (DCPTimePeriod period);
 	void audio_flush (boost::shared_ptr<Piece>, AudioStreamPtr stream);
 	void audio_transform (boost::shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time);
-	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to) const;
+	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
+		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
+		) const;
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -164,7 +170,8 @@ private:
 	std::list<DCPTimePeriod> _no_video;
 	std::list<DCPTimePeriod> _no_audio;
 
-	std::list<std::pair<PlayerSubtitles, DCPTimePeriod> > _subtitles;
+	typedef std::map<boost::weak_ptr<Piece>, std::pair<PlayerSubtitles, DCPTime> > ActiveSubtitles;
+	ActiveSubtitles _active_subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 	typedef std::map<std::pair<boost::shared_ptr<const AudioContent>, AudioStreamPtr>, boost::shared_ptr<Resampler> > ResamplerMap;

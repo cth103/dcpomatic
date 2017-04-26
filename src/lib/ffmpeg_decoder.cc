@@ -81,6 +81,7 @@ using dcp::Size;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
 	: FFmpeg (c)
 	, _log (log)
+	, _have_current_subtitle (false)
 {
 	if (c->video) {
 		video.reset (new VideoDecoder (this, c, log));
@@ -346,6 +347,8 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	if (subtitle_codec_context ()) {
 		avcodec_flush_buffers (subtitle_codec_context ());
 	}
+
+	_have_current_subtitle = false;
 }
 
 void
@@ -477,10 +480,18 @@ FFmpegDecoder::decode_subtitle_packet ()
 		return;
 	}
 
+	/* Stop any current subtitle, either at the time it was supposed to stop, or now if now is sooner */
+	if (_have_current_subtitle) {
+		if (_current_subtitle_to) {
+			subtitle->emit_stop (min(*_current_subtitle_to, subtitle_period(sub).from + _pts_offset));
+		} else {
+			subtitle->emit_stop (subtitle_period(sub).from + _pts_offset);
+		}
+		_have_current_subtitle = false;
+	}
+
 	if (sub.num_rects <= 0) {
-		/* Sometimes we get an empty AVSubtitle, which is used by some codecs to
-		   indicate that the previous subtitle should stop.  We can ignore it here.
-		*/
+		/* Nothing new in this subtitle */
 		return;
 	}
 
@@ -488,13 +499,12 @@ FFmpegDecoder::decode_subtitle_packet ()
 	   source that we may have chopped off for the DCP).
 	*/
 	FFmpegSubtitlePeriod sub_period = subtitle_period (sub);
-	ContentTimePeriod period;
-	period.from = sub_period.from + _pts_offset;
-	/* We can't trust the `to' time from sub_period as there are some decoders which
-	   give a sub_period time for `to' which is subsequently overridden by a `stop' subtitle;
-	   see also FFmpegExaminer.
-	*/
-	period.to = ffmpeg_content()->subtitle_stream()->find_subtitle_to (subtitle_id (sub));
+	ContentTime from;
+	from = sub_period.from + _pts_offset;
+	_have_current_subtitle = true;
+	if (sub_period.to) {
+		_current_subtitle_to = *sub_period.to + _pts_offset;
+	}
 
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
 		AVSubtitleRect const * rect = sub.rects[i];
@@ -503,13 +513,13 @@ FFmpegDecoder::decode_subtitle_packet ()
 		case SUBTITLE_NONE:
 			break;
 		case SUBTITLE_BITMAP:
-			decode_bitmap_subtitle (rect, period);
+			decode_bitmap_subtitle (rect, from);
 			break;
 		case SUBTITLE_TEXT:
 			cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
 			break;
 		case SUBTITLE_ASS:
-			decode_ass_subtitle (rect->ass, period);
+			decode_ass_subtitle (rect->ass, from);
 			break;
 		}
 	}
@@ -518,7 +528,7 @@ FFmpegDecoder::decode_subtitle_packet ()
 }
 
 void
-FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimePeriod period)
+FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from)
 {
 	/* Note RGBA is expressed little-endian, so the first byte in the word is R, second
 	   G, third B, fourth A.
@@ -587,11 +597,11 @@ FFmpegDecoder::decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimeP
 		static_cast<double> (rect->h) / target_height
 		);
 
-	subtitle->emit_image (period, image, scaled_rect);
+	subtitle->emit_image_start (from, image, scaled_rect);
 }
 
 void
-FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
+FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 {
 	/* We have no styles and no Format: line, so I'm assuming that FFmpeg
 	   produces a single format of Dialogue: lines...
@@ -607,6 +617,6 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTimePeriod period)
 	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (base, bits[9]);
 
 	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
-		subtitle->emit_text (period, i);
+		subtitle->emit_text_start (from, i);
 	}
 }

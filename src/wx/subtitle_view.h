@@ -31,9 +31,11 @@ public:
 	SubtitleView (wxWindow *, boost::shared_ptr<Film>, boost::shared_ptr<Decoder>, DCPTime position);
 
 private:
-	void data (ContentTextSubtitle cts);
+	void data_start (ContentTextSubtitle cts);
+	void data_stop (ContentTime time);
 
 	wxListCtrl* _list;
 	int _subs;
 	boost::optional<FrameRateChange> _frc;
+	boost::optional<int> _last_count;
 };

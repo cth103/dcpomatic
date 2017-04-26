@@ -143,8 +143,9 @@ Player::setup_pieces ()
 		}
 
 		if (decoder->subtitle) {
-			decoder->subtitle->ImageData.connect (bind (&Player::image_subtitle, this, weak_ptr<Piece> (piece), _1));
-			decoder->subtitle->TextData.connect (bind (&Player::text_subtitle, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->ImageStart.connect (bind (&Player::image_subtitle_start, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->TextStart.connect (bind (&Player::text_subtitle_start, this, weak_ptr<Piece> (piece), _1));
+			decoder->subtitle->Stop.connect (bind (&Player::subtitle_stop, this, weak_ptr<Piece> (piece), _1));
 		}
 	}
 
@@ -632,21 +633,28 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	optional<PositionImage> subtitles;
 
-	for (list<pair<PlayerSubtitles, DCPTimePeriod> >::const_iterator i = _subtitles.begin(); i != _subtitles.end(); ++i) {
+	for (ActiveSubtitles::const_iterator i = _active_subtitles.begin(); i != _active_subtitles.end(); ++i) {
 
-		if (!i->second.overlap (period)) {
+		shared_ptr<Piece> sub_piece = i->first.lock ();
+		if (!sub_piece) {
 			continue;
 		}
+
+		if (!sub_piece->content->subtitle->use() || (!_always_burn_subtitles && !piece->content->subtitle->burn())) {
+			continue;
+		}
+
+		pair<PlayerSubtitles, DCPTime> sub = i->second;
 
 		list<PositionImage> sub_images;
 
 		/* Image subtitles */
-		list<PositionImage> c = transform_image_subtitles (i->first.image);
+		list<PositionImage> c = transform_image_subtitles (sub.first.image);
 		copy (c.begin(), c.end(), back_inserter (sub_images));
 
 		/* Text subtitles (rendered to an image) */
-		if (!i->first.text.empty ()) {
-			list<PositionImage> s = render_subtitles (i->first.text, i->first.fonts, _video_container_size, time);
+		if (!sub.first.text.empty ()) {
+			list<PositionImage> s = render_subtitles (sub.first.text, sub.first.fonts, _video_container_size, time);
 			copy (s.begin (), s.end (), back_inserter (sub_images));
 		}
 
@@ -683,19 +691,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	Video (_last_video, time);
 
 	_last_video_time = time + one_video_frame ();
-
-	/* Discard any subtitles we no longer need */
-
-	for (list<pair<PlayerSubtitles, DCPTimePeriod> >::iterator i = _subtitles.begin (); i != _subtitles.end(); ) {
-		list<pair<PlayerSubtitles, DCPTimePeriod> >::iterator tmp = i;
-		++tmp;
-
-		if (i->second.to < time) {
-			_subtitles.erase (i);
-		}
-
-		i = tmp;
-	}
 }
 
 void
@@ -825,7 +820,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 }
 
 void
-Player::image_subtitle (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
+Player::image_subtitle_start (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
@@ -846,17 +841,13 @@ Player::image_subtitle (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 
 	PlayerSubtitles ps;
 	ps.image.push_back (subtitle.sub);
-	DCPTimePeriod period (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
+	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	if (piece->content->subtitle->use() && (piece->content->subtitle->burn() || _always_burn_subtitles)) {
-		_subtitles.push_back (make_pair (ps, period));
-	} else {
-		Subtitle (ps, period);
-	}
+	_active_subtitles[wp] = make_pair (ps, from);
 }
 
 void
-Player::text_subtitle (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
+Player::text_subtitle_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
@@ -864,7 +855,7 @@ Player::text_subtitle (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 	}
 
 	PlayerSubtitles ps;
-	DCPTimePeriod const period (content_time_to_dcp (piece, subtitle.period().from), content_time_to_dcp (piece, subtitle.period().to));
+	DCPTime const from (content_time_to_dcp (piece, subtitle.from()));
 
 	BOOST_FOREACH (dcp::SubtitleString s, subtitle.subs) {
 		s.set_h_position (s.h_position() + piece->content->subtitle->x_offset ());
@@ -886,17 +877,31 @@ Player::text_subtitle (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 			s.set_aspect_adjust (xs / ys);
 		}
 
-		s.set_in (dcp::Time(period.from.seconds(), 1000));
-		s.set_out (dcp::Time(period.to.seconds(), 1000));
+		s.set_in (dcp::Time(from.seconds(), 1000));
 		ps.text.push_back (SubtitleString (s, piece->content->subtitle->outline_width()));
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 
-	if (piece->content->subtitle->use() && (piece->content->subtitle->burn() || _always_burn_subtitles)) {
-		_subtitles.push_back (make_pair (ps, period));
-	} else {
-		Subtitle (ps, period);
+	_active_subtitles[wp] = make_pair (ps, from);
+}
+
+void
+Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
+{
+	if (_active_subtitles.find (wp) == _active_subtitles.end ()) {
+		return;
 	}
+
+	shared_ptr<Piece> piece = wp.lock ();
+	if (!piece) {
+		return;
+	}
+
+	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
+		Subtitle (_active_subtitles[wp].first, DCPTimePeriod (_active_subtitles[wp].second, content_time_to_dcp (piece, to)));
+	}
+
+	_active_subtitles.erase (wp);
 }
 
 void
@@ -912,6 +917,7 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	_audio_merger.clear ();
+	_active_subtitles.clear ();
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		i->done = false;

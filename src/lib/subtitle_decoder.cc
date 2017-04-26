@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -48,21 +48,21 @@ SubtitleDecoder::SubtitleDecoder (
 
 }
 
-/** Called by subclasses when an image subtitle is ready.
- *  @param period Period of the subtitle.
+/** Called by subclasses when an image subtitle is starting.
+ *  @param from From time of the subtitle.
  *  @param image Subtitle image.
  *  @param rect Area expressed as a fraction of the video frame that this subtitle
  *  is for (e.g. a width of 0.5 means the width of the subtitle is half the width
  *  of the video frame)
  */
 void
-SubtitleDecoder::emit_image (ContentTimePeriod period, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
+SubtitleDecoder::emit_image_start (ContentTime from, shared_ptr<Image> image, dcpomatic::Rect<double> rect)
 {
-	ImageData (ContentImageSubtitle (period, image, rect));
+	ImageStart (ContentImageSubtitle (from, image, rect));
 }
 
 void
-SubtitleDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
+SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 {
 	/* We must escape < and > in strings, otherwise they might confuse our subtitle
 	   renderer (which uses some HTML-esque markup to do bold/italic etc.)
@@ -74,12 +74,12 @@ SubtitleDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> 
 		i.set_text (t);
 	}
 
-	TextData (ContentTextSubtitle (period, s));
-	_position = period.from;
+	TextStart (ContentTextSubtitle (from, s));
+	_position = from;
 }
 
 void
-SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle)
+SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
 {
 	/* See if our next subtitle needs to be placed on screen by us */
 	bool needs_placement = false;
@@ -170,8 +170,9 @@ SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & subt
 					content()->colour(),
 					j.font_size.points (72 * 11),
 					1.0,
-					dcp::Time (period.from.seconds(), 1000),
-					dcp::Time (period.to.seconds(), 1000),
+					dcp::Time (from.seconds(), 1000),
+					/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
+					dcp::Time (),
 					0,
 					dcp::HALIGN_CENTER,
 					v_position,
@@ -187,5 +188,25 @@ SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & subt
 		}
 	}
 
-	emit_text (period, out);
+	emit_text_start (from, out);
+}
+
+void
+SubtitleDecoder::emit_stop (ContentTime to)
+{
+	Stop (to);
+}
+
+void
+SubtitleDecoder::emit_text (ContentTimePeriod period, list<dcp::SubtitleString> s)
+{
+	emit_text_start (period.from, s);
+	emit_stop (period.to);
+}
+
+void
+SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & s)
+{
+	emit_text_start (period.from, s);
+	emit_stop (period.to);
 }

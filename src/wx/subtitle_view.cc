@@ -78,22 +78,35 @@ SubtitleView::SubtitleView (wxWindow* parent, shared_ptr<Film> film, shared_ptr<
 
 	_subs = 0;
 	_frc = film->active_frame_rate_change (position);
-	decoder->subtitle->TextData.connect (bind (&SubtitleView::data, this, _1));
+	decoder->subtitle->TextStart.connect (bind (&SubtitleView::data_start, this, _1));
+	decoder->subtitle->Stop.connect (bind (&SubtitleView::data_stop, this, _1));
 	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
 }
 
 void
-SubtitleView::data (ContentTextSubtitle cts)
+SubtitleView::data_start (ContentTextSubtitle cts)
 {
-	for (list<dcp::SubtitleString>::const_iterator i = cts.subs.begin(); i != cts.subs.end(); ++i) {
+	BOOST_FOREACH (dcp::SubtitleString const & i, cts.subs) {
 		wxListItem list_item;
 		list_item.SetId (_subs);
 		_list->InsertItem (list_item);
-		ContentTimePeriod const p = cts.period ();
-		_list->SetItem (_subs, 0, std_to_wx (p.from.timecode (_frc->source)));
-		_list->SetItem (_subs, 1, std_to_wx (p.to.timecode (_frc->source)));
-		_list->SetItem (_subs, 2, std_to_wx (i->text ()));
+		_list->SetItem (_subs, 0, std_to_wx (cts.from().timecode (_frc->source)));
+		_list->SetItem (_subs, 2, std_to_wx (i.text ()));
 		++_subs;
+	}
+
+	_last_count = cts.subs.size ();
+}
+
+void
+SubtitleView::data_stop (ContentTime time)
+{
+	if (!_last_count) {
+		return;
+	}
+
+	for (int i = _subs - *_last_count; i < _subs; ++i) {
+		_list->SetItem (i, 1, std_to_wx (time.timecode (_frc->source)));
 	}
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -74,7 +74,6 @@ public:
 private:
 	void video_packet (AVCodecContext *);
 	void audio_packet (AVCodecContext *, boost::shared_ptr<FFmpegAudioStream>);
-	void subtitle_packet (AVCodecContext *, boost::shared_ptr<FFmpegSubtitleStream>);
 
 	std::string stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;

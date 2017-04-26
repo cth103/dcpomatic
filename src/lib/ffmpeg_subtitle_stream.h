@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -34,25 +34,9 @@ public:
 
 	void as_xml (xmlpp::Node *) const;
 
-	void add_image_subtitle (std::string id, ContentTimePeriod period);
-	void add_text_subtitle (std::string id, ContentTimePeriod period);
-	void set_subtitle_to (std::string id, ContentTime to);
-	ContentTime find_subtitle_to (std::string id) const;
-	bool unknown_to (std::string id) const;
-	void add_offset (ContentTime offset);
 	void set_colour (RGBA from, RGBA to);
 	std::map<RGBA, RGBA> colours () const;
 
-	bool has_text () const;
-	bool has_image () const;
-
 private:
-
-	typedef std::map<std::string, ContentTimePeriod> PeriodMap;
-
-	void as_xml (xmlpp::Node *, PeriodMap const & subs, std::string node) const;
-
-	PeriodMap _image_subtitles;
-	PeriodMap _text_subtitles;
 	std::map<RGBA, RGBA> _colours;
 };

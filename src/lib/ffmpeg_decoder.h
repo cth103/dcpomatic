@@ -61,8 +61,8 @@ private:
 	void decode_audio_packet ();
 	void decode_subtitle_packet ();
 
-	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTimePeriod period);
-	void decode_ass_subtitle (std::string ass, ContentTimePeriod period);
+	void decode_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from);
+	void decode_ass_subtitle (std::string ass, ContentTime from);
 
 	void maybe_add_subtitle ();
 	boost::shared_ptr<AudioBuffers> deinterleave_audio (boost::shared_ptr<FFmpegAudioStream> stream) const;
@@ -73,4 +73,6 @@ private:
 	boost::mutex _filter_graphs_mutex;
 
 	ContentTime _pts_offset;
+	boost::optional<ContentTime> _current_subtitle_to;
+	bool _have_current_subtitle;
 };

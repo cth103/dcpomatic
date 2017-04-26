@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -52,16 +52,20 @@ public:
 		return _position;
 	}
 
-	void emit_image (ContentTimePeriod period, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_image_start (ContentTime from, boost::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_text_start (ContentTime from, std::list<dcp::SubtitleString> s);
+	void emit_text_start (ContentTime from, sub::Subtitle const & subtitle);
 	void emit_text (ContentTimePeriod period, std::list<dcp::SubtitleString> s);
 	void emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
+	void emit_stop (ContentTime to);
 
 	boost::shared_ptr<const SubtitleContent> content () const {
 		return _content;
 	}
 
-	boost::signals2::signal<void (ContentImageSubtitle)> ImageData;
-	boost::signals2::signal<void (ContentTextSubtitle)> TextData;
+	boost::signals2::signal<void (ContentImageSubtitle)> ImageStart;
+	boost::signals2::signal<void (ContentTextSubtitle)> TextStart;
+	boost::signals2::signal<void (ContentTime)> Stop;
 
 private:
 	boost::shared_ptr<const SubtitleContent> _content;

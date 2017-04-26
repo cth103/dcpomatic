@@ -24,8 +24,7 @@
 #include "subtitle_view.h"
 #include "content_panel.h"
 #include "fonts_dialog.h"
-#include "text_subtitle_appearance_dialog.h"
-#include "image_subtitle_colour_dialog.h"
+#include "subtitle_appearance_dialog.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
@@ -251,8 +250,6 @@ SubtitlePanel::setup_sensitivity ()
 {
 	int any_subs = 0;
 	int ffmpeg_subs = 0;
-	int text_subs = 0;
-	int image_subs = 0;
 	ContentList sel = _parent->selected_subtitle ();
 	BOOST_FOREACH (shared_ptr<Content> i, sel) {
 		/* These are the content types that could include subtitles */
@@ -262,27 +259,12 @@ SubtitlePanel::setup_sensitivity ()
 		shared_ptr<const DCPSubtitleContent> dsc = boost::dynamic_pointer_cast<const DCPSubtitleContent> (i);
 		if (fc) {
 			if (fc->subtitle) {
-				DCPOMATIC_ASSERT (fc->subtitle_stream());
-				/* This content has some subtitles; check the selected stream to decide what type */
-				if (fc->subtitle_stream()->has_text()) {
-					++text_subs;
-				} else if (fc->subtitle_stream()->has_image()) {
-					++image_subs;
-				}
 				++ffmpeg_subs;
 				++any_subs;
 			}
 		} else if (sc || dc || dsc) {
 			/* XXX: in the future there could be bitmap subs from DCPs */
-			++text_subs;
 			++any_subs;
-		}
-	}
-
-	if (image_subs) {
-		BOOST_FOREACH (shared_ptr<Content> i, sel) {
-			/* We must burn image subtitles at the moment */
-			i->subtitle->set_burn (true);
 		}
 	}
 
@@ -302,16 +284,16 @@ SubtitlePanel::setup_sensitivity ()
 	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
-	_burn->Enable (!reference && any_subs > 0 && use && image_subs == 0);
+	_burn->Enable (!reference && any_subs > 0 && use);
 	_x_offset->Enable (!reference && any_subs > 0 && use);
 	_y_offset->Enable (!reference && any_subs > 0 && use);
 	_x_scale->Enable (!reference && any_subs > 0 && use);
 	_y_scale->Enable (!reference && any_subs > 0 && use);
-	_line_spacing->Enable (!reference && text_subs > 0 && use);
+	_line_spacing->Enable (!reference && use);
 	_language->Enable (!reference && any_subs > 0 && use);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
-	_subtitle_view_button->Enable (!reference && text_subs == 1);
-	_fonts_dialog_button->Enable (!reference && text_subs == 1);
+	_subtitle_view_button->Enable (!reference);
+	_fonts_dialog_button->Enable (!reference);
 	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use);
 }
 
@@ -458,38 +440,9 @@ SubtitlePanel::appearance_dialog_clicked ()
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	bool text = false;
-	bool image = false;
-
-	if (
-		dynamic_pointer_cast<TextSubtitleContent> (c.front()) ||
-		dynamic_pointer_cast<DCPContent> (c.front()) ||
-		dynamic_pointer_cast<DCPSubtitleContent> (c.front())) {
-
-		text = true;
+	SubtitleAppearanceDialog* d = new SubtitleAppearanceDialog (this, c.front());
+	if (d->ShowModal () == wxID_OK) {
+		d->apply ();
 	}
-
-	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (c.front());
-	if (fc) {
-		if (fc->subtitle_stream()->has_text()) {
-			text = true;
-		} else if (fc->subtitle_stream()->has_image()) {
-			image = true;
-		}
-	}
-
-	if (text) {
-		TextSubtitleAppearanceDialog* d = new TextSubtitleAppearanceDialog (this, c.front());
-		if (d->ShowModal () == wxID_OK) {
-			d->apply ();
-		}
-		d->Destroy ();
-	} else if (image) {
-		DCPOMATIC_ASSERT (fc);
-		ImageSubtitleColourDialog* d = new ImageSubtitleColourDialog (this, fc, fc->subtitle_stream ());
-		if (d->ShowModal() == wxID_OK) {
-			d->apply ();
-		}
-		d->Destroy ();
-	}
+	d->Destroy ();
 }
