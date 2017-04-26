@@ -90,6 +90,9 @@ try
 
 		/* Do any seek that has been requested */
 		if (_pending_seek_position) {
+			_video.clear ();
+			_audio.clear ();
+			_finished = false;
 			_player->seek (*_pending_seek_position, _pending_seek_accurate);
 			_pending_seek_position = optional<DCPTime> ();
 		}
@@ -102,8 +105,7 @@ try
 			lm.unlock ();
 			bool const r = _player->pass ();
 			lm.lock ();
-			/* We must check _pending_seek_position again here as it may have been set while lm was unlocked */
-			if (r && !_pending_seek_position) {
+			if (r) {
 				_finished = true;
 				_arrived.notify_all ();
 				break;
@@ -150,9 +152,6 @@ Butler::seek (DCPTime position, bool accurate)
 		return;
 	}
 
-	_video.clear ();
-	_audio.clear ();
-	_finished = false;
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
 	_summon.notify_all ();
