@@ -1,3 +1,7 @@
+2017-04-26  Carl Hetherington  <cth@carlh.net>
+
+	* Make a copy of the configuration, if it fails to load, before making new defaults.
+
 2017-04-07  Carl Hetherington  <cth@carlh.net>
 
 	* Make jump-to-content-start on selection in the content list
