@@ -36,6 +36,7 @@ Ratio::setup_ratios ()
 	_ratios.push_back (new Ratio (float(1290) / 1080, "119", _("1.19"), "119"));
 	_ratios.push_back (new Ratio (float(1440) / 1080, "133", _("4:3"), "133"));
 	_ratios.push_back (new Ratio (float(1485) / 1080, "138", _("Academy"), "137"));
+	_ratios.push_back (new Ratio (float(1544) / 1080, "143", _("IMAX"), "143"));
 	_ratios.push_back (new Ratio (float(1800) / 1080, "166", _("1.66"), "166"));
 	_ratios.push_back (new Ratio (float(1920) / 1080, "178", _("16:9"), "178"));
 	_ratios.push_back (new Ratio (float(1998) / 1080, "185", _("Flat"), "F"));
