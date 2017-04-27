@@ -70,6 +70,15 @@ namespace xmlpp {
 */
 #define VIDEO_FRAME_RATE_EPSILON (1e-4)
 
+/** Port on which EncodeServer listens for frame encoding requests */
+#define ENCODE_FRAME_PORT (Config::instance()->server_port_base())
+/** Port on which EncodeServer listens for DCPOMATIC_HELLO from masters */
+#define HELLO_PORT (Config::instance()->server_port_base()+1)
+/** Port on which EncodeServerFinder listens for replies to DCPOMATIC_HELLO from servers */
+#define SERVER_PRESENCE_PORT (Config::instance()->server_port_base()+2)
+/** Port on which batch converter listens for job requests */
+#define BATCH_JOB_PORT (Config::instance()->server_port_base()+3)
+
 typedef std::vector<boost::shared_ptr<Content> > ContentList;
 typedef std::vector<boost::shared_ptr<FFmpegContent> > FFmpegContentList;
 

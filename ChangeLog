@@ -1,3 +1,7 @@
+2017-04-27  Carl Hetherington  <cth@carlh.net>
+
+	* Stop master and server instances fighting over ports, allowing them to coexist (#962).
+
 2017-04-26  Carl Hetherington  <cth@carlh.net>
 
 	* Make a copy of the configuration, if it fails to load, before making new defaults.

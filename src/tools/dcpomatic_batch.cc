@@ -252,7 +252,7 @@ class JobServer : public Server
 {
 public:
 	JobServer (DOMFrame* frame)
-		: Server (Config::instance()->server_port_base() + 2)
+		: Server (BATCH_JOB_PORT)
 		, _frame (frame)
 	{}
 

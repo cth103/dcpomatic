@@ -67,7 +67,7 @@ using dcp::Data;
 using dcp::raw_convert;
 
 EncodeServer::EncodeServer (shared_ptr<Log> log, bool verbose, int num_threads)
-	: Server (Config::instance()->server_port_base())
+	: Server (ENCODE_FRAME_PORT)
 	, _log (log)
 	, _verbose (verbose)
 	, _num_threads (num_threads)
@@ -237,7 +237,7 @@ EncodeServer::broadcast_thread ()
 try
 {
 	boost::asio::ip::address address = boost::asio::ip::address_v4::any ();
-	boost::asio::ip::udp::endpoint listen_endpoint (address, Config::instance()->server_port_base() + 1);
+	boost::asio::ip::udp::endpoint listen_endpoint (address, HELLO_PORT);
 
 	_broadcast.socket = new boost::asio::ip::udp::socket (_broadcast.io_service);
 	_broadcast.socket->open (listen_endpoint.protocol ());
@@ -274,7 +274,7 @@ EncodeServer::broadcast_received ()
 		}
 		shared_ptr<Socket> socket (new Socket);
 		try {
-			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), Config::instance()->server_port_base() + 1));
+			socket->connect (boost::asio::ip::tcp::endpoint (_broadcast.send_endpoint.address(), SERVER_PRESENCE_PORT));
 			socket->write (xml.length() + 1);
 			socket->write ((uint8_t *) xml.c_str(), xml.length() + 1);
 		} catch (...) {

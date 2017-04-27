@@ -118,7 +118,7 @@ try
 		if (Config::instance()->use_any_servers ()) {
 			/* Broadcast to look for servers */
 			try {
-				boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), Config::instance()->server_port_base() + 1);
+				boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), HELLO_PORT);
 				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
 			} catch (...) {
 
@@ -134,7 +134,7 @@ try
 			}
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
-				boost::asio::ip::udp::resolver::query query (*i, raw_convert<string> (Config::instance()->server_port_base() + 1));
+				boost::asio::ip::udp::resolver::query query (*i, raw_convert<string> (HELLO_PORT));
 				boost::asio::ip::udp::endpoint end_point (*resolver.resolve (query));
 				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
 			} catch (...) {
@@ -157,7 +157,7 @@ try {
 	using namespace boost::asio::ip;
 
 	try {
-		_listen_acceptor.reset (new tcp::acceptor (_listen_io_service, tcp::endpoint (tcp::v4(), Config::instance()->server_port_base() + 1)));
+		_listen_acceptor.reset (new tcp::acceptor (_listen_io_service, tcp::endpoint (tcp::v4(), SERVER_PRESENCE_PORT)));
 	} catch (...) {
 		boost::throw_exception (NetworkError (_("Could not listen for remote encode servers.  Perhaps another instance of DCP-o-matic is running.")));
 	}
