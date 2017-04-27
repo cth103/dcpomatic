@@ -335,7 +335,7 @@ Film::make_dcp ()
 	if (Config::instance()->only_servers_encode ()) {
 		LOG_GENERAL_NC ("0 threads: ONLY SERVERS SET TO ENCODE");
 	} else {
-		LOG_GENERAL ("%1 threads", Config::instance()->num_local_encoding_threads());
+		LOG_GENERAL ("%1 threads", Config::instance()->master_encoding_threads());
 	}
 	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
 

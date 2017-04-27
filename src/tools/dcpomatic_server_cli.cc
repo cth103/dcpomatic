@@ -64,7 +64,7 @@ main (int argc, char* argv[])
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
-	int num_threads = Config::instance()->num_local_encoding_threads ();
+	int num_threads = Config::instance()->server_encoding_threads ();
 	bool verbose = false;
 	bool write_log = false;
 

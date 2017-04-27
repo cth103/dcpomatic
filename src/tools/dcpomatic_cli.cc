@@ -270,7 +270,7 @@ main (int argc, char* argv[])
 	}
 
 	if (threads) {
-		Config::instance()->set_num_local_encoding_threads (threads.get ());
+		Config::instance()->set_master_encoding_threads (threads.get ());
 	}
 
 	shared_ptr<Film> film;

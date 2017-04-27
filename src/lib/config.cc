@@ -72,7 +72,8 @@ Config::Config ()
 void
 Config::set_defaults ()
 {
-	_num_local_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
+	_master_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
+	_server_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
 	_server_port_base = 6192;
 	_use_any_servers = true;
 	_servers.clear ();
@@ -162,7 +163,13 @@ try
 
 	optional<int> version = f.optional_number_child<int> ("Version");
 
-	_num_local_encoding_threads = f.number_child<int> ("NumLocalEncodingThreads");
+	if (f.optional_number_child<int>("NumLocalEncodingThreads")) {
+		_master_encoding_threads = _server_encoding_threads = f.optional_number_child<int>("NumLocalEncodingThreads").get();
+	} else {
+		_master_encoding_threads = f.number_child<int>("MasterEncodingThreads");
+		_server_encoding_threads = f.number_child<int>("ServerEncodingThreads");
+	}
+
 	_default_directory = f.optional_string_child ("DefaultDirectory");
 	if (_default_directory && _default_directory->empty ()) {
 		/* We used to store an empty value for this to mean "none set" */
@@ -392,7 +399,8 @@ Config::write_config () const
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
 	root->add_child("Version")->add_child_text ("2");
-	root->add_child("NumLocalEncodingThreads")->add_child_text (raw_convert<string> (_num_local_encoding_threads));
+	root->add_child("MasterEncodingThreads")->add_child_text (raw_convert<string> (_master_encoding_threads));
+	root->add_child("ServerEncodingThreads")->add_child_text (raw_convert<string> (_server_encoding_threads));
 	if (_default_directory) {
 		root->add_child("DefaultDirectory")->add_child_text (_default_directory->string ());
 	}

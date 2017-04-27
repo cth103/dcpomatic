@@ -194,9 +194,14 @@ private:
 		restart->SetFont (font);
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Threads to use for encoding on this host"), true, wxGBPosition (r, 0));
-		_num_local_encoding_threads = new wxSpinCtrl (_panel);
-		table->Add (_num_local_encoding_threads, wxGBPosition (r, 1));
+		add_label_to_sizer (table, _panel, _("Number of threads DCP-o-matic should use"), true, wxGBPosition (r, 0));
+		_master_encoding_threads = new wxSpinCtrl (_panel);
+		table->Add (_master_encoding_threads, wxGBPosition (r, 1));
+		++r;
+
+		add_label_to_sizer (table, _panel, _("Number of threads DCP-o-matic encode server should use"), true, wxGBPosition (r, 0));
+		_server_encoding_threads = new wxSpinCtrl (_panel);
+		table->Add (_server_encoding_threads, wxGBPosition (r, 1));
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
@@ -256,8 +261,10 @@ private:
 		_preview_sound->Bind        (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::preview_sound_changed, this));
 		_preview_sound_output->Bind (wxEVT_CHOICE,             boost::bind (&GeneralPage::preview_sound_output_changed, this));
 
-		_num_local_encoding_threads->SetRange (1, 128);
-		_num_local_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::num_local_encoding_threads_changed, this));
+		_master_encoding_threads->SetRange (1, 128);
+		_master_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::master_encoding_threads_changed, this));
+		_server_encoding_threads->SetRange (1, 128);
+		_server_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::server_encoding_threads_changed, this));
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::analyse_ebur128_changed, this));
@@ -300,7 +307,8 @@ private:
 
 		checked_set (_language, lang);
 
-		checked_set (_num_local_encoding_threads, config->num_local_encoding_threads ());
+		checked_set (_master_encoding_threads, config->master_encoding_threads ());
+		checked_set (_server_encoding_threads, config->server_encoding_threads ());
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		checked_set (_analyse_ebur128, config->analyse_ebur128 ());
 #endif
@@ -398,9 +406,14 @@ private:
 		Config::instance()->set_check_for_test_updates (_check_for_test_updates->GetValue ());
 	}
 
-	void num_local_encoding_threads_changed ()
+	void master_encoding_threads_changed ()
 	{
-		Config::instance()->set_num_local_encoding_threads (_num_local_encoding_threads->GetValue ());
+		Config::instance()->set_master_encoding_threads (_master_encoding_threads->GetValue ());
+	}
+
+	void server_encoding_threads_changed ()
+	{
+		Config::instance()->set_server_encoding_threads (_server_encoding_threads->GetValue ());
 	}
 
 	void issuer_changed ()
@@ -436,7 +449,8 @@ private:
 
 	wxCheckBox* _set_language;
 	wxChoice* _language;
-	wxSpinCtrl* _num_local_encoding_threads;
+	wxSpinCtrl* _master_encoding_threads;
+	wxSpinCtrl* _server_encoding_threads;
 	FilePickerCtrl* _cinemas_file;
 	wxCheckBox* _preview_sound;
 	wxChoice* _preview_sound_output;

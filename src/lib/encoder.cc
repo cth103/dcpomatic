@@ -414,7 +414,7 @@ Encoder::servers_list_changed ()
 #endif
 
 	if (!Config::instance()->only_servers_encode ()) {
-		for (int i = 0; i < Config::instance()->num_local_encoding_threads (); ++i) {
+		for (int i = 0; i < Config::instance()->master_encoding_threads (); ++i) {
 			boost::thread* t = new boost::thread (boost::bind (&Encoder::encoder_thread, this, optional<EncodeServerDescription> ()));
 			_threads.push_back (t);
 #ifdef BOOST_THREAD_PLATFORM_WIN32

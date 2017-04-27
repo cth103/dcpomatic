@@ -47,9 +47,14 @@ class Film;
 class Config : public boost::noncopyable
 {
 public:
-	/** @return number of threads to use for J2K encoding on the local machine */
-	int num_local_encoding_threads () const {
-		return _num_local_encoding_threads;
+	/** @return number of threads which a master DoM should use for J2K encoding on the local machine */
+	int master_encoding_threads () const {
+		return _master_encoding_threads;
+	}
+
+	/** @return number of threads which a server should use for J2K encoding on the local machine */
+	int server_encoding_threads () const {
+		return _server_encoding_threads;
 	}
 
 	boost::optional<boost::filesystem::path> default_directory () const {
@@ -316,9 +321,12 @@ public:
 		return _preview_sound_output;
 	}
 
-	/** @param n New number of local encoding threads */
-	void set_num_local_encoding_threads (int n) {
-		maybe_set (_num_local_encoding_threads, n);
+	void set_master_encoding_threads (int n) {
+		maybe_set (_master_encoding_threads, n);
+	}
+
+	void set_server_encoding_threads (int n) {
+		maybe_set (_server_encoding_threads, n);
 	}
 
 	void set_default_directory (boost::filesystem::path d) {
@@ -628,8 +636,10 @@ private:
 		changed (prop);
 	}
 
-	/** number of threads to use for J2K encoding on the local machine */
-	int _num_local_encoding_threads;
+	/** number of threads which a master DoM should use for J2K encoding on the local machine */
+	int _master_encoding_threads;
+	/** number of threads which a server should use for J2K encoding on the local machine */
+	int _server_encoding_threads;
 	/** default directory to put new films in */
 	boost::optional<boost::filesystem::path> _default_directory;
 	/** base port number to use for J2K encoding servers;

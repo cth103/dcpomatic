@@ -72,7 +72,8 @@ struct TestConfig
 	{
 		dcpomatic_setup ();
 
-		Config::instance()->set_num_local_encoding_threads (1);
+		Config::instance()->set_master_encoding_threads (1);
+		Config::instance()->set_server_encoding_threads (1);
 		Config::instance()->set_server_port_base (61921);
 		Config::instance()->set_default_isdcf_metadata (ISDCFMetadata ());
 		Config::instance()->set_default_container (Ratio::from_id ("185"));

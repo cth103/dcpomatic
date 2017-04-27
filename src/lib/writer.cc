@@ -489,7 +489,7 @@ Writer::finish ()
 
 	shared_ptr<boost::asio::io_service::work> work (new boost::asio::io_service::work (service));
 
-	int const threads = max (1, Config::instance()->num_local_encoding_threads ());
+	int const threads = max (1, Config::instance()->master_encoding_threads ());
 
 	for (int i = 0; i < threads; ++i) {
 		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
