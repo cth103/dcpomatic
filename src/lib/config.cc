@@ -326,8 +326,8 @@ catch (...) {
 
 		/* Make a copy of the configuration */
 		try {
-			boost::filesystem::copy (path ("config.xml", false), path ("config.xml.backup", false));
-			boost::filesystem::copy (path ("cinemas.xml", false), path ("cinemas.xml.backup", false));
+			boost::filesystem::copy_file (path ("config.xml", false), path ("config.xml.backup", false));
+			boost::filesystem::copy_file (path ("cinemas.xml", false), path ("cinemas.xml.backup", false));
 		} catch (...) {}
 
 		/* We have a config file but it didn't load */
