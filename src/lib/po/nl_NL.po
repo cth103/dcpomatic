@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-27 11:57+0100\n"
-"PO-Revision-Date: 2017-02-15 04:22+0100\n"
+"PO-Revision-Date: 2017-04-27 15:29+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:444
@@ -716,7 +716,7 @@ msgstr "IEC61966-2-4"
 
 #: src/lib/ratio.cc:39
 msgid "IMAX"
-msgstr ""
+msgstr "1,43:1 (IMAX)"
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
@@ -1046,7 +1046,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:502
 msgid "The DCP does not have sound in all reels."
-msgstr "De DCP heeft niet geluid in alle reels."
+msgstr "De DCP heeft niet audio in alle reels."
 
 #: src/lib/dcp_content.cc:523
 msgid "The DCP does not have subtitles in all reels."
@@ -1057,9 +1057,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "De certificaatketen voor ondertekening is ongeldig"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "De certificaatketen voor ondertekening is ongeldig"
+msgstr "De certificaatketen voor ondertekening is ongeldig (%1)"
 
 #: src/lib/job.cc:108
 msgid ""

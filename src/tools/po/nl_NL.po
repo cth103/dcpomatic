@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-27 11:57+0100\n"
-"PO-Revision-Date: 2017-02-15 04:23+0100\n"
+"PO-Revision-Date: 2017-04-27 14:43+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic.cc:378
@@ -202,12 +202,16 @@ msgstr "Kan DCP niet tonen (kan nautilus niet starten)"
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
 msgstr ""
+"Kan niet naar cinemas-bestand schrijven op %s.  Uw wijzigingen zijn niet "
+"bewaard."
 
 #: src/tools/dcpomatic.cc:958
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
+"Kan niet naar config-bestand schrijven op %s.  Uw wijzigingen zijn niet "
+"bewaard."
 
 #: src/tools/dcpomatic_kdm.cc:184
 msgid "Create KDMs"
@@ -237,7 +241,7 @@ msgstr "DKDM"
 #: src/tools/dcpomatic.cc:503
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr ""
+msgstr "Wilt u de bestaande DCP %s overschrijven?"
 
 #: src/tools/dcpomatic.cc:120
 msgid "Don't close"

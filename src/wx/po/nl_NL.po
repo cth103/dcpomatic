@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-27 11:57+0100\n"
-"PO-Revision-Date: 2017-02-15 16:06+0100\n"
+"PO-Revision-Date: 2017-04-27 15:33+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
@@ -27,12 +27,12 @@ msgstr "%"
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM weggeschreven naar %s"
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM's weggeschreven naar %s"
 
 #: src/wx/about_dialog.cc:83
 msgid ""
@@ -167,9 +167,8 @@ msgid "Add Cinema..."
 msgstr "Voeg Bioscoop toe..."
 
 #: src/wx/content_panel.cc:90
-#, fuzzy
 msgid "Add DCP..."
-msgstr "Voeg KDM toe..."
+msgstr "Voeg DCP toe..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -188,18 +187,16 @@ msgid "Add Screen..."
 msgstr "Voeg Scherm toe..."
 
 #: src/wx/content_panel.cc:91
-#, fuzzy
 msgid "Add a DCP."
-msgstr "Voeg KDM toe..."
+msgstr "Voeg een DCP toe."
 
 #: src/wx/content_panel.cc:87
-#, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 "Voeg een map met beeldbestanden (die als sequentie van bewegende beelden "
-"gebruikt worden) of een DCP toe."
+"gebruikt worden) of een map met audiobestanden toe."
 
 #: src/wx/content_panel.cc:82
 msgid "Add file(s)..."
@@ -214,9 +211,8 @@ msgid "Add image sequence"
 msgstr "Voeg beeldsequentie toe"
 
 #: src/wx/content_panel.cc:83
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
-msgstr "Voeg video-, beeld- of audio-bestanden aan de film toe."
+msgstr "Voeg video-, beeld-, audio-, of ondertitelbestanden aan de film toe."
 
 #: src/wx/config_dialog.cc:812 src/wx/editable_list.h:74
 msgid "Add..."
@@ -391,9 +387,8 @@ msgid "Choose CPL..."
 msgstr "Kies CPL..."
 
 #: src/wx/content_panel.cc:355
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Kies een map"
+msgstr "Kies een DCP-map"
 
 #: src/wx/content_menu.cc:294
 msgid "Choose a file"
@@ -506,6 +501,8 @@ msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
 "preview."
 msgstr ""
+"Kan audio-output niet instellen (%s).  Er zal geen audio zijn tijdens de "
+"preview."
 
 #: src/wx/new_film_dialog.cc:42
 msgid "Create in folder"
@@ -785,9 +782,8 @@ msgid "Find missing..."
 msgstr "Zoek ontbrekende..."
 
 #: src/wx/kdm_output_panel.cc:65
-#, fuzzy
 msgid "Folder / ZIP name format"
-msgstr "Bestandsnaam-formaat"
+msgstr "Map- / ZIP-naam-formaat"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -978,9 +974,8 @@ msgid "Join"
 msgstr "Voeg samen"
 
 #: src/wx/film_viewer.cc:81
-#, fuzzy
 msgid "Jump to selected content"
-msgstr "Omlijn content"
+msgstr "Ga naar geselecteerde content"
 
 #: src/wx/config_dialog.cc:1327
 msgid "KDM Email"
@@ -1196,11 +1191,11 @@ msgstr "Aantekeningen"
 
 #: src/wx/config_dialog.cc:202
 msgid "Number of threads DCP-o-matic encode server should use"
-msgstr ""
+msgstr "Aantal threads dat de DCP-o-matic encodeer-server moet gebruiken"
 
 #: src/wx/config_dialog.cc:197
 msgid "Number of threads DCP-o-matic should use"
-msgstr ""
+msgstr "Aantal threads dat DCP-o-matic moet gebruiken"
 
 #: src/wx/audio_mapping_view.cc:165
 msgid "Off"
@@ -1290,7 +1285,7 @@ msgstr "Afspeelduur"
 
 #: src/wx/config_dialog.cc:212
 msgid "Play sound in the preview via"
-msgstr ""
+msgstr "Speel audio in de preview af via"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1990,15 +1985,15 @@ msgstr "Met hulp van"
 
 #: src/wx/kdm_output_panel.cc:126
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "Schrijf een ZIP-bestand voor de KDM's van elke bioscoop"
 
 #: src/wx/kdm_output_panel.cc:124
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "Schrijf een map voor de KDM's van elke bioscoop"
 
 #: src/wx/kdm_output_panel.cc:122
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "Schrijf alle KDM's naar dezelfde map"
 
 #: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
 msgid "Write to"

@@ -1,5 +1,7 @@
 2017-04-27  Carl Hetherington  <cth@carlh.net>
 
+	* Updated nl_NL translation from Rob van Nieuwkerk.
+
 	* Stop master and server instances fighting over ports, allowing them to coexist (#962).
 
 2017-04-26  Carl Hetherington  <cth@carlh.net>
