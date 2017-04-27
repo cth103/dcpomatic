@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 11:18+0000\n"
+"POT-Creation-Date: 2017-04-27 11:57+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr ""
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:430
+#: src/lib/job.cc:432
 msgid " on %1"
 msgstr ""
 
@@ -105,15 +105,15 @@ msgstr ", pomer strán obrazových bodov %.2f:1"
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/ratio.cc:39
+#: src/lib/ratio.cc:40
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:40
+#: src/lib/ratio.cc:41
 msgid "16:9"
 msgstr "16:9"
 
-#: src/lib/ratio.cc:42
+#: src/lib/ratio.cc:43
 msgid "2.35"
 msgstr ""
 
@@ -126,12 +126,12 @@ msgid "4:3"
 msgstr "1.33:1 (4:3)"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:125
+#: src/lib/transcode_job.cc:124
 #, c-format
 msgid "; %.1f fps"
 msgstr ""
 
-#: src/lib/job.cc:435
+#: src/lib/job.cc:437
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgid ""
 "unlikely to have any visible effect on the image."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:547
+#: src/lib/ffmpeg_content.cc:525
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr ""
 
@@ -190,48 +190,48 @@ msgstr "Zvuk bude re-samplovaný na %1kHz"
 msgid "Audio will not be resampled"
 msgstr "Zvuk nebude resamplovaný"
 
-#: src/lib/ffmpeg_content.cc:541
+#: src/lib/ffmpeg_content.cc:519
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 rozšírený rozsah farieb"
 
-#: src/lib/ffmpeg_content.cc:519
+#: src/lib/ffmpeg_content.cc:497
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:564
+#: src/lib/ffmpeg_content.cc:542
 msgid "BT2020 constant luminance"
 msgstr "BT2020 konštansta jasu"
 
-#: src/lib/ffmpeg_content.cc:543
+#: src/lib/ffmpeg_content.cc:521
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 pre 10-bit systém"
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:522
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 pre 12-bit systém"
 
-#: src/lib/ffmpeg_content.cc:563
+#: src/lib/ffmpeg_content.cc:541
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 non-constant luminance"
 
-#: src/lib/ffmpeg_content.cc:515
+#: src/lib/ffmpeg_content.cc:493
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:537
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:514
+#: src/lib/ffmpeg_content.cc:492
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:530
-#: src/lib/ffmpeg_content.cc:555
+#: src/lib/ffmpeg_content.cc:489 src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:533
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:572
+#: src/lib/ffmpeg_content.cc:550
 msgid "Bits per pixel"
 msgstr "Bitov na pixel"
 
@@ -247,7 +247,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:446
 msgid "Cancelled"
 msgstr "Zrušené"
 
@@ -268,7 +268,7 @@ msgstr "Zvukové kanály"
 msgid "Checking existing image data"
 msgstr "Kontrolujem existujúce video dáta"
 
-#: src/lib/ffmpeg_content.cc:526
+#: src/lib/ffmpeg_content.cc:504
 msgid "Colour primaries"
 msgstr "Primárne voľby fariem"
 
@@ -282,17 +282,17 @@ msgstr "Primárne voľby fariem"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:475
-#: src/lib/ffmpeg_content.cc:482 src/lib/ffmpeg_content.cc:492
-#: src/lib/ffmpeg_content.cc:497 src/lib/ffmpeg_content.cc:502
+#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:453
+#: src/lib/ffmpeg_content.cc:460 src/lib/ffmpeg_content.cc:470
+#: src/lib/ffmpeg_content.cc:475 src/lib/ffmpeg_content.cc:480
 msgid "Colour range"
 msgstr "Rozsah farieb"
 
-#: src/lib/ffmpeg_content.cc:551
+#: src/lib/ffmpeg_content.cc:529
 msgid "Colour transfer characteristic"
 msgstr "Charakteristika prenosu farieb"
 
-#: src/lib/ffmpeg_content.cc:569
+#: src/lib/ffmpeg_content.cc:547
 msgid "Colourspace"
 msgstr "Farebný priestor"
 
@@ -300,7 +300,7 @@ msgstr "Farebný priestor"
 msgid "Computing digest"
 msgstr "Počítam zhrnutie"
 
-#: src/lib/writer.cc:470
+#: src/lib/writer.cc:485
 #, fuzzy
 msgid "Computing digests"
 msgstr "Počítam zhrnutie"
@@ -437,7 +437,7 @@ msgstr "Nemôžem dekódovať JPEG2000 súbor %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Nemôžem dekódovať video súbor (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:370
+#: src/lib/ffmpeg_examiner.cc:267
 #, fuzzy
 msgid "Could not find pixel format for video."
 msgstr "nemôžem nájsť informácie o streame"
@@ -529,7 +529,7 @@ msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:551
+#: src/lib/config.cc:580
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -571,23 +571,23 @@ msgstr "Každý frame bude zdvojený v DCP.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Každý frame bude opakovaný %1 krát v DCP.\n"
 
-#: src/lib/send_kdm_email_job.cc:56
+#: src/lib/send_kdm_email_job.cc:61
 msgid "Email KDMs"
 msgstr "Email KDM"
 
-#: src/lib/send_kdm_email_job.cc:59
+#: src/lib/send_kdm_email_job.cc:64
 msgid "Email KDMs for %1"
 msgstr "Email KDM pre %1"
 
-#: src/lib/send_problem_report_job.cc:55
+#: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
 msgstr "Správa o probléme s Emailom"
 
-#: src/lib/send_problem_report_job.cc:58
+#: src/lib/send_problem_report_job.cc:62
 msgid "Email problem report for %1"
 msgstr "Správa o probléme s Emailom pre %1"
 
-#: src/lib/transcoder.cc:77
+#: src/lib/transcoder.cc:86
 msgid "Encoding"
 msgstr ""
 
@@ -596,7 +596,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Chyba v SubRip súbore: videný %1 a bol očakávaný %2"
 
-#: src/lib/job.cc:442
+#: src/lib/job.cc:444
 msgid "Error: %1"
 msgstr "Chyba: %1"
 
@@ -604,7 +604,7 @@ msgstr "Chyba: %1"
 msgid "Examine content"
 msgstr "Vypočítavam obsah"
 
-#: src/lib/ffmpeg_content.cc:558
+#: src/lib/ffmpeg_content.cc:536
 msgid "FCC"
 msgstr "FCC"
 
@@ -625,24 +625,16 @@ msgstr "Feature"
 msgid "Filename"
 msgstr "meno"
 
-#: src/lib/ffmpeg_content.cc:518
+#: src/lib/ffmpeg_content.cc:496
 msgid "Film"
 msgstr "Film"
 
-#: src/lib/ffmpeg_examiner.cc:100
+#: src/lib/ffmpeg_examiner.cc:95
 #, fuzzy
 msgid "Finding length"
 msgstr "Dĺžka videa"
 
-#: src/lib/ffmpeg_examiner.cc:96
-msgid "Finding length and subtitles"
-msgstr "Hľadám dĺžku a titulky"
-
-#: src/lib/ffmpeg_examiner.cc:98
-msgid "Finding subtitles"
-msgstr "Hľadám titulky"
-
-#: src/lib/ratio.cc:41
+#: src/lib/ratio.cc:42
 msgid "Flat"
 msgstr "Flat"
 
@@ -651,15 +643,15 @@ msgstr "Flat"
 msgid "Frame rate"
 msgstr "Frame rate videa (počet obrázkov za sekundu)"
 
-#: src/lib/ffmpeg_content.cc:502
+#: src/lib/ffmpeg_content.cc:480
 msgid "Full"
 msgstr "Full"
 
-#: src/lib/ffmpeg_content.cc:482
+#: src/lib/ffmpeg_content.cc:460
 msgid "Full (0-%1)"
 msgstr "Full (0-%1)"
 
-#: src/lib/ratio.cc:44
+#: src/lib/ratio.cc:45
 msgid "Full frame"
 msgstr "Full frame (Celý obraz)"
 
@@ -680,11 +672,11 @@ msgstr ""
 msgid "Full length in video frames at content rate"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:511
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:534
+#: src/lib/ffmpeg_content.cc:512
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -708,19 +700,23 @@ msgstr "Vysoko kvalitný 3D denoiser"
 msgid "Hz"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:520
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB alebo sYCC)"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:518
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
+
+#: src/lib/ratio.cc:39
+msgid "IMAX"
+msgstr ""
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
 msgstr "Neviem, čo zapríčinilo túto chybu."
 
-#: src/lib/config.cc:243 src/lib/config.cc:548
+#: src/lib/config.cc:254 src/lib/config.cc:577
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM donáška: $CPL_NAME"
 
@@ -764,23 +760,23 @@ msgstr "Lfe"
 msgid "Lfe (sub)"
 msgstr "Lfe (Subwoofer)"
 
-#: src/lib/ffmpeg_content.cc:497
+#: src/lib/ffmpeg_content.cc:475
 msgid "Limited"
 msgstr "Limitovaný"
 
-#: src/lib/ffmpeg_content.cc:475
+#: src/lib/ffmpeg_content.cc:453
 msgid "Limited (%1-%2)"
 msgstr "Limitovaný (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:515
 msgid "Linear"
 msgstr "Lineárny"
 
-#: src/lib/ffmpeg_content.cc:538
+#: src/lib/ffmpeg_content.cc:516
 msgid "Logarithmic (100:1 range)"
 msgstr "Logarmitmický (rozsah 100:1)"
 
-#: src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:517
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarmitmický (rozsah 316:1 )"
 
@@ -816,7 +812,7 @@ msgstr "Nehoduje sa veľkosť videa v DCO"
 msgid "Motion compensating deinterlacer"
 msgstr "Pohybový kompenzačný odstraňovač"
 
-#: src/lib/cinema_kdms.cc:151
+#: src/lib/cinema_kdms.cc:199
 msgid "No mail server configured in preferences"
 msgstr ""
 
@@ -836,7 +832,7 @@ msgstr "Žiadne platné súbory nebolo nájdené v priečinku."
 msgid "Noise reduction"
 msgstr "Redukcia hluku"
 
-#: src/lib/job.cc:440
+#: src/lib/job.cc:442
 msgid "OK (ran for %1)"
 msgstr "OK (hotovo za %1)"
 
@@ -868,7 +864,7 @@ msgstr "Policy"
 msgid "Prepared for video frame rate"
 msgstr ""
 
-#: src/lib/exceptions.cc:79
+#: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2"
 msgstr "Chyba pri programovaní na %1:%2"
 
@@ -880,7 +876,7 @@ msgstr "Public Service Announcement (Verejné oznámenie služby)"
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:554
+#: src/lib/ffmpeg_content.cc:532
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -934,41 +930,41 @@ msgstr "Rs"
 msgid "S-Gamut3/S-Log3"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
+#: src/lib/ffmpeg_content.cc:494 src/lib/ffmpeg_content.cc:513
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:560
+#: src/lib/ffmpeg_content.cc:538
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:565
+#: src/lib/ffmpeg_content.cc:543
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
-#: src/lib/ffmpeg_content.cc:561
+#: src/lib/ffmpeg_content.cc:495 src/lib/ffmpeg_content.cc:514
+#: src/lib/ffmpeg_content.cc:539
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:523
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:546
+#: src/lib/ffmpeg_content.cc:524
 msgid "SMPTE ST 428-1"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:520
+#: src/lib/ffmpeg_content.cc:498
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:521
+#: src/lib/ffmpeg_content.cc:499
 #, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:522
+#: src/lib/ffmpeg_content.cc:500
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr ""
 
@@ -976,11 +972,11 @@ msgstr ""
 msgid "SSH error (%1)"
 msgstr "SSH chyba (%1)"
 
-#: src/lib/ratio.cc:43
+#: src/lib/ratio.cc:44
 msgid "Scope"
 msgstr "Scope (2.39:1)"
 
-#: src/lib/send_problem_report_job.cc:70
+#: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "Posielam email"
 
@@ -1021,7 +1017,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:1560
+#: src/lib/film.cc:1559
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1043,6 +1039,11 @@ msgstr "DCP nemá titulky vo všetkých reeloch."
 
 #: src/lib/exceptions.cc:73
 msgid "The certificate chain for signing is invalid"
+msgstr "Reťaz certifikátov pre podpisovanie je neplatná"
+
+#: src/lib/exceptions.cc:79
+#, fuzzy
+msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Reťaz certifikátov pre podpisovanie je neplatná"
 
 #: src/lib/job.cc:108
@@ -1121,7 +1122,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:58
+#: src/lib/transcode_job.cc:57
 msgid "Transcode %1"
 msgstr "Transkódovanie %1"
 
@@ -1141,7 +1142,7 @@ msgstr "Neočakávaný typ obrazu obdŕžaný od servera "
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/lib/ffmpeg_decoder.cc:289
+#: src/lib/ffmpeg_decoder.cc:281
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nerozpoznaná vzorkovacia frekvencia audia (%1)"
 
@@ -1149,11 +1150,11 @@ msgstr "Nerozpoznaná vzorkovacia frekvencia audia (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Doostrenie a Gaussove rozostrenie"
 
-#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:492
-#: src/lib/ffmpeg_content.cc:510 src/lib/ffmpeg_content.cc:512
-#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:529
-#: src/lib/ffmpeg_content.cc:531 src/lib/ffmpeg_content.cc:532
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:470
+#: src/lib/ffmpeg_content.cc:488 src/lib/ffmpeg_content.cc:490
+#: src/lib/ffmpeg_content.cc:491 src/lib/ffmpeg_content.cc:507
+#: src/lib/ffmpeg_content.cc:509 src/lib/ffmpeg_content.cc:510
+#: src/lib/ffmpeg_content.cc:534 src/lib/ffmpeg_content.cc:535
 msgid "Unspecified"
 msgstr "Nešpecifikované"
 
@@ -1185,7 +1186,7 @@ msgstr "Zrakovo postihnutý(í)"
 msgid "Waiting"
 msgstr "Čakám"
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:540
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1257,7 +1258,7 @@ msgstr "[titulky]"
 msgid "cannot contain slashes"
 msgstr "nemôže obsahovať lomky"
 
-#: src/lib/dcpomatic_socket.cc:68
+#: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
 msgstr "spojenie vypršalo"
 
@@ -1311,15 +1312,15 @@ msgstr "nemôžem začať SSH session"
 msgid "could not write to file %1 (%2)"
 msgstr "nemôžem zapisovať do súboru %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:64
+#: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"
 msgstr "chyba počas async_connect (%1)"
 
-#: src/lib/dcpomatic_socket.cc:117
+#: src/lib/dcpomatic_socket.cc:118
 msgid "error during async_read (%1)"
 msgstr "chyba počas  async_read (%1)"
 
-#: src/lib/dcpomatic_socket.cc:89
+#: src/lib/dcpomatic_socket.cc:90
 msgid "error during async_write (%1)"
 msgstr "chyba počas  async_write (%1)"
 
@@ -1374,7 +1375,7 @@ msgstr ""
 msgid "still"
 msgstr "stále"
 
-#: src/lib/ffmpeg_examiner.cc:337
+#: src/lib/ffmpeg_examiner.cc:234
 msgid "unknown"
 msgstr "neznáme"
 
@@ -1386,6 +1387,12 @@ msgstr "video snímky"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Musíte pridať obsah do DCP pred tým, ako ho vytvoríte"
+
+#~ msgid "Finding length and subtitles"
+#~ msgstr "Hľadám dĺžku a titulky"
+
+#~ msgid "Finding subtitles"
+#~ msgstr "Hľadám titulky"
 
 #~ msgid "remaining"
 #~ msgstr "ostáva"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 11:18+0000\n"
+"POT-Creation-Date: 2017-04-27 11:57+0100\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr ""
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:430
+#: src/lib/job.cc:432
 msgid " on %1"
 msgstr ""
 
@@ -105,15 +105,15 @@ msgstr ", rácio de pixeis %.2f:1"
 msgid "1.19"
 msgstr "1.19"
 
-#: src/lib/ratio.cc:39
+#: src/lib/ratio.cc:40
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:40
+#: src/lib/ratio.cc:41
 msgid "16:9"
 msgstr "16:9"
 
-#: src/lib/ratio.cc:42
+#: src/lib/ratio.cc:43
 msgid "2.35"
 msgstr ""
 
@@ -126,12 +126,12 @@ msgid "4:3"
 msgstr "4:3"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:125
+#: src/lib/transcode_job.cc:124
 #, c-format
 msgid "; %.1f fps"
 msgstr ""
 
-#: src/lib/job.cc:435
+#: src/lib/job.cc:437
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgid ""
 "unlikely to have any visible effect on the image."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:547
+#: src/lib/ffmpeg_content.cc:525
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr ""
 
@@ -190,48 +190,48 @@ msgstr "A taxa de amostragem será alterada para %1kHz"
 msgid "Audio will not be resampled"
 msgstr "A taxa de amostragem será alterada"
 
-#: src/lib/ffmpeg_content.cc:541
+#: src/lib/ffmpeg_content.cc:519
 msgid "BT1361 extended colour gamut"
 msgstr "Gama de cores ampliada BT1361"
 
-#: src/lib/ffmpeg_content.cc:519
+#: src/lib/ffmpeg_content.cc:497
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:564
+#: src/lib/ffmpeg_content.cc:542
 msgid "BT2020 constant luminance"
 msgstr "Luminância constante BT2020"
 
-#: src/lib/ffmpeg_content.cc:543
+#: src/lib/ffmpeg_content.cc:521
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 para um sistema de 10-bit"
 
-#: src/lib/ffmpeg_content.cc:544
+#: src/lib/ffmpeg_content.cc:522
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 para um sistema de 12-bit"
 
-#: src/lib/ffmpeg_content.cc:563
+#: src/lib/ffmpeg_content.cc:541
 msgid "BT2020 non-constant luminance"
 msgstr "Luminância não constante BT2020"
 
-#: src/lib/ffmpeg_content.cc:515
+#: src/lib/ffmpeg_content.cc:493
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:537
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:514
+#: src/lib/ffmpeg_content.cc:492
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:530
-#: src/lib/ffmpeg_content.cc:555
+#: src/lib/ffmpeg_content.cc:489 src/lib/ffmpeg_content.cc:508
+#: src/lib/ffmpeg_content.cc:533
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:572
+#: src/lib/ffmpeg_content.cc:550
 msgid "Bits per pixel"
 msgstr "Bits por pixel"
 
@@ -247,7 +247,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:446
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -267,7 +267,7 @@ msgstr "Canais"
 msgid "Checking existing image data"
 msgstr "A verificar dados de imagem existentes"
 
-#: src/lib/ffmpeg_content.cc:526
+#: src/lib/ffmpeg_content.cc:504
 msgid "Colour primaries"
 msgstr "Cores preliminares"
 
@@ -281,17 +281,17 @@ msgstr "Cores preliminares"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:475
-#: src/lib/ffmpeg_content.cc:482 src/lib/ffmpeg_content.cc:492
-#: src/lib/ffmpeg_content.cc:497 src/lib/ffmpeg_content.cc:502
+#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:453
+#: src/lib/ffmpeg_content.cc:460 src/lib/ffmpeg_content.cc:470
+#: src/lib/ffmpeg_content.cc:475 src/lib/ffmpeg_content.cc:480
 msgid "Colour range"
 msgstr "Gama de cores"
 
-#: src/lib/ffmpeg_content.cc:551
+#: src/lib/ffmpeg_content.cc:529
 msgid "Colour transfer characteristic"
 msgstr "Característica de transferência de cores"
 
-#: src/lib/ffmpeg_content.cc:569
+#: src/lib/ffmpeg_content.cc:547
 msgid "Colourspace"
 msgstr "Espaço de cor"
 
@@ -299,7 +299,7 @@ msgstr "Espaço de cor"
 msgid "Computing digest"
 msgstr "A processar o resumo"
 
-#: src/lib/writer.cc:470
+#: src/lib/writer.cc:485
 #, fuzzy
 msgid "Computing digests"
 msgstr "A processar o resumo"
@@ -438,7 +438,7 @@ msgstr "Não foi possível descodificar o ficheiro JPEG2000 %1 (%2)"
 msgid "Could not decode image file (%1)"
 msgstr "Não foi possível descodificar a imagem (%1)"
 
-#: src/lib/ffmpeg_examiner.cc:370
+#: src/lib/ffmpeg_examiner.cc:267
 msgid "Could not find pixel format for video."
 msgstr "não foi possível encontrar o formato do pixel para o vídeo"
 
@@ -529,7 +529,7 @@ msgstr "O DCP-o-matic já não suporta o filtro '%1', e este foi desactivado."
 msgid "De-interlacing"
 msgstr "A Desentrelaçar"
 
-#: src/lib/config.cc:551
+#: src/lib/config.cc:580
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -571,23 +571,23 @@ msgstr "Cada fotograma do conteúdo será duplicado no DCP.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Cada fotograma do conteúdo será repetido %1 vezes no DCP.\n"
 
-#: src/lib/send_kdm_email_job.cc:56
+#: src/lib/send_kdm_email_job.cc:61
 msgid "Email KDMs"
 msgstr "Enviar chaves KDM por email para %1"
 
-#: src/lib/send_kdm_email_job.cc:59
+#: src/lib/send_kdm_email_job.cc:64
 msgid "Email KDMs for %1"
 msgstr "Enviar chaves KDM por email para %1"
 
-#: src/lib/send_problem_report_job.cc:55
+#: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
 msgstr "Enviar relatório de problemas para %1"
 
-#: src/lib/send_problem_report_job.cc:58
+#: src/lib/send_problem_report_job.cc:62
 msgid "Email problem report for %1"
 msgstr "Enviar relatório de problemas para %1"
 
-#: src/lib/transcoder.cc:77
+#: src/lib/transcoder.cc:86
 msgid "Encoding"
 msgstr ""
 
@@ -595,7 +595,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Erro no ficheiro de legendas: encontrou %1 mas esperava %2"
 
-#: src/lib/job.cc:442
+#: src/lib/job.cc:444
 msgid "Error: %1"
 msgstr "Erro: %1"
 
@@ -603,7 +603,7 @@ msgstr "Erro: %1"
 msgid "Examine content"
 msgstr "Examinar conteúdo"
 
-#: src/lib/ffmpeg_content.cc:558
+#: src/lib/ffmpeg_content.cc:536
 msgid "FCC"
 msgstr "FCC"
 
@@ -624,23 +624,15 @@ msgstr "Longa-metragem"
 msgid "Filename"
 msgstr "nome"
 
-#: src/lib/ffmpeg_content.cc:518
+#: src/lib/ffmpeg_content.cc:496
 msgid "Film"
 msgstr "Filme"
 
-#: src/lib/ffmpeg_examiner.cc:100
+#: src/lib/ffmpeg_examiner.cc:95
 msgid "Finding length"
 msgstr "À procura da duração"
 
-#: src/lib/ffmpeg_examiner.cc:96
-msgid "Finding length and subtitles"
-msgstr "À procura de duração e legendas"
-
-#: src/lib/ffmpeg_examiner.cc:98
-msgid "Finding subtitles"
-msgstr "À procura das legendas"
-
-#: src/lib/ratio.cc:41
+#: src/lib/ratio.cc:42
 msgid "Flat"
 msgstr "Flat"
 
@@ -648,15 +640,15 @@ msgstr "Flat"
 msgid "Frame rate"
 msgstr "Cadência de fotogramas"
 
-#: src/lib/ffmpeg_content.cc:502
+#: src/lib/ffmpeg_content.cc:480
 msgid "Full"
 msgstr "Full"
 
-#: src/lib/ffmpeg_content.cc:482
+#: src/lib/ffmpeg_content.cc:460
 msgid "Full (0-%1)"
 msgstr "Full (0-%1)"
 
-#: src/lib/ratio.cc:44
+#: src/lib/ratio.cc:45
 msgid "Full frame"
 msgstr "Full frame"
 
@@ -678,11 +670,11 @@ msgstr "Duração total dos fotogramas de vídeo à cadência do DCP"
 msgid "Full length in video frames at content rate"
 msgstr "Duração total dos fotogramas de vídeo à cadência do conteúdo"
 
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:511
 msgid "Gamma 22 (BT470M)"
 msgstr "Gama 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:534
+#: src/lib/ffmpeg_content.cc:512
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gama 28 (BT470BG)"
 
@@ -706,19 +698,23 @@ msgstr "Remoção de ruido 3D de alta qualidade"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:520
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB ou sYCC)"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:518
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
+
+#: src/lib/ratio.cc:39
+msgid "IMAX"
+msgstr ""
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
 msgstr "A causa do erro não é conhecida."
 
-#: src/lib/config.cc:243 src/lib/config.cc:548
+#: src/lib/config.cc:254 src/lib/config.cc:577
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envio de chaves KDM: $CPL_NAME"
 
@@ -762,23 +758,23 @@ msgstr "Lfe"
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
-#: src/lib/ffmpeg_content.cc:497
+#: src/lib/ffmpeg_content.cc:475
 msgid "Limited"
 msgstr "Limitado"
 
-#: src/lib/ffmpeg_content.cc:475
+#: src/lib/ffmpeg_content.cc:453
 msgid "Limited (%1-%2)"
 msgstr "Limitado (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:515
 msgid "Linear"
 msgstr "Linear"
 
-#: src/lib/ffmpeg_content.cc:538
+#: src/lib/ffmpeg_content.cc:516
 msgid "Logarithmic (100:1 range)"
 msgstr "Logarítmico (variação 100:1)"
 
-#: src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:517
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarítmico (Variação 316:1)"
 
@@ -814,7 +810,7 @@ msgstr "Dimensões de vídeo do DCP inválidas"
 msgid "Motion compensating deinterlacer"
 msgstr "Desentrelaçador de compensação de movimento"
 
-#: src/lib/cinema_kdms.cc:151
+#: src/lib/cinema_kdms.cc:199
 msgid "No mail server configured in preferences"
 msgstr "Servidor de correio não configura nas preferências"
 
@@ -834,7 +830,7 @@ msgstr "Não foram encontrados ficheiros de imagem válidos na pasta."
 msgid "Noise reduction"
 msgstr "Redução de ruído"
 
-#: src/lib/job.cc:440
+#: src/lib/job.cc:442
 msgid "OK (ran for %1)"
 msgstr "OK (executado durante %1)"
 
@@ -866,7 +862,7 @@ msgstr "Regra"
 msgid "Prepared for video frame rate"
 msgstr ""
 
-#: src/lib/exceptions.cc:79
+#: src/lib/exceptions.cc:85
 msgid "Programming error at %1:%2"
 msgstr "Erro de programação em %1:%2"
 
@@ -878,7 +874,7 @@ msgstr "Anúncio Público"
 msgid "R"
 msgstr "D"
 
-#: src/lib/ffmpeg_content.cc:554
+#: src/lib/ffmpeg_content.cc:532
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -932,41 +928,41 @@ msgstr "Ds"
 msgid "S-Gamut3/S-Log3"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
+#: src/lib/ffmpeg_content.cc:494 src/lib/ffmpeg_content.cc:513
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:560
+#: src/lib/ffmpeg_content.cc:538
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:565
+#: src/lib/ffmpeg_content.cc:543
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
-#: src/lib/ffmpeg_content.cc:561
+#: src/lib/ffmpeg_content.cc:495 src/lib/ffmpeg_content.cc:514
+#: src/lib/ffmpeg_content.cc:539
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:545
+#: src/lib/ffmpeg_content.cc:523
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:546
+#: src/lib/ffmpeg_content.cc:524
 msgid "SMPTE ST 428-1"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:520
+#: src/lib/ffmpeg_content.cc:498
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:521
+#: src/lib/ffmpeg_content.cc:499
 #, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:522
+#: src/lib/ffmpeg_content.cc:500
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr ""
 
@@ -974,11 +970,11 @@ msgstr ""
 msgid "SSH error (%1)"
 msgstr "Erro de SSH (%1)"
 
-#: src/lib/ratio.cc:43
+#: src/lib/ratio.cc:44
 msgid "Scope"
 msgstr "Scope"
 
-#: src/lib/send_problem_report_job.cc:70
+#: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "A enviar email"
 
@@ -1018,7 +1014,7 @@ msgstr "Teste"
 msgid "Text subtitles"
 msgstr "Legendas de texto"
 
-#: src/lib/film.cc:1560
+#: src/lib/film.cc:1559
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1040,6 +1036,11 @@ msgstr "Não há nenhuma bobina de legendas no DCP"
 
 #: src/lib/exceptions.cc:73
 msgid "The certificate chain for signing is invalid"
+msgstr "A cadeia de certificação para assinatura é inválida"
+
+#: src/lib/exceptions.cc:79
+#, fuzzy
+msgid "The certificate chain for signing is invalid (%1)"
 msgstr "A cadeia de certificação para assinatura é inválida"
 
 #: src/lib/job.cc:108
@@ -1119,7 +1120,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:58
+#: src/lib/transcode_job.cc:57
 msgid "Transcode %1"
 msgstr "Transcodificar %1"
 
@@ -1139,7 +1140,7 @@ msgstr "Tipo de imagem inesperada recebida pelo servidor"
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/lib/ffmpeg_decoder.cc:289
+#: src/lib/ffmpeg_decoder.cc:281
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato de amostragem áudio desconhecido (%1)"
 
@@ -1147,11 +1148,11 @@ msgstr "Formato de amostragem áudio desconhecido (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Máscara de nitidez e desfoque de Gauss"
 
-#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:492
-#: src/lib/ffmpeg_content.cc:510 src/lib/ffmpeg_content.cc:512
-#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:529
-#: src/lib/ffmpeg_content.cc:531 src/lib/ffmpeg_content.cc:532
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:470
+#: src/lib/ffmpeg_content.cc:488 src/lib/ffmpeg_content.cc:490
+#: src/lib/ffmpeg_content.cc:491 src/lib/ffmpeg_content.cc:507
+#: src/lib/ffmpeg_content.cc:509 src/lib/ffmpeg_content.cc:510
+#: src/lib/ffmpeg_content.cc:534 src/lib/ffmpeg_content.cc:535
 msgid "Unspecified"
 msgstr "Não especificado"
 
@@ -1183,7 +1184,7 @@ msgstr "Deficientes Visuais"
 msgid "Waiting"
 msgstr "A aguardar"
 
-#: src/lib/ffmpeg_content.cc:562
+#: src/lib/ffmpeg_content.cc:540
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1256,7 +1257,7 @@ msgstr "[subtitles]"
 msgid "cannot contain slashes"
 msgstr "não pode conter barras"
 
-#: src/lib/dcpomatic_socket.cc:68
+#: src/lib/dcpomatic_socket.cc:69
 msgid "connect timed out"
 msgstr "Ligação expirou"
 
@@ -1310,15 +1311,15 @@ msgstr "não foi possível iniciar a sessão SSH"
 msgid "could not write to file %1 (%2)"
 msgstr "não foi possível escrever para o ficheiro %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:64
+#: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"
 msgstr "erro durante conexão assíncrona (%1)"
 
-#: src/lib/dcpomatic_socket.cc:117
+#: src/lib/dcpomatic_socket.cc:118
 msgid "error during async_read (%1)"
 msgstr "erro durante leitura assíncrona (%1)"
 
-#: src/lib/dcpomatic_socket.cc:89
+#: src/lib/dcpomatic_socket.cc:90
 msgid "error during async_write (%1)"
 msgstr "erro durante escrita assíncrona (%1)"
 
@@ -1373,7 +1374,7 @@ msgstr ""
 msgid "still"
 msgstr "imagem estática"
 
-#: src/lib/ffmpeg_examiner.cc:337
+#: src/lib/ffmpeg_examiner.cc:234
 msgid "unknown"
 msgstr "desconhecido"
 
@@ -1385,6 +1386,12 @@ msgstr "fotogramas de vídeo"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Deve adicionar algum conteúdo ao DCP antes de o criar"
+
+#~ msgid "Finding length and subtitles"
+#~ msgstr "À procura de duração e legendas"
+
+#~ msgid "Finding subtitles"
+#~ msgstr "À procura das legendas"
 
 #~ msgid "remaining"
 #~ msgstr "restante"
