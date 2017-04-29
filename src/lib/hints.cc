@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -32,12 +32,16 @@
 #include <dcp/raw_convert.h>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+#include <iostream>
 
 #include "i18n.h"
 
 using std::vector;
 using std::string;
+using std::pair;
+using std::min;
 using std::max;
+using std::cout;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -99,16 +103,28 @@ get_hints (shared_ptr<const Film> film)
 		hints.push_back (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
 	}
 
-	if (film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
-		hints.push_back (String::compose (_("Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) projectors.  Use 24 or 48 frames per second to be on the safe side."), film->video_frame_rate()));
-	}
-
 	if (film->j2k_bandwidth() >= 245000000) {
 		hints.push_back (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 	}
 
 	if (film->interop() && film->video_frame_rate() != 24 && film->video_frame_rate() != 48) {
-		hints.push_back (_("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised to make a SMPTE DCP instead."));
+		string base = _("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised either to change the frame rate of your DCP or to make a SMPTE DCP instead.");
+		base += "  ";
+		pair<double, double> range24 = film->speed_up_range (24);
+		pair<double, double> range48 = film->speed_up_range (48);
+		pair<double, double> range (max (range24.first, range48.first), min (range24.second, range48.second));
+		string h;
+		if (range.second > (29.0/24)) {
+			h = base;
+			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant speed-up of your content, and SMPTE DCPs are not be supported by all projectors.");
+		} else if (range.first < (24.0/29)) {
+			h = base;
+			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant slowdown of your content, and SMPTE DCPs are not supported by all projectors.");
+		} else {
+			h = _("You are set up for an Interop DCP at a frame rate which is not officially supported.  You are advised either to change the frame rate of your DCP or to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all projectors).");
+		}
+
+		hints.push_back (h);
 	}
 
 	int vob = 0;

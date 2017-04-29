@@ -1,3 +1,7 @@
+2017-04-30  Carl Hetherington  <cth@carlh.net>
+
+	* Try to improve hints when making a DCP which is not 24 or 48fps.
+
 2017-04-27  Carl Hetherington  <cth@carlh.net>
 
 	* Updated nl_NL translation from Rob van Nieuwkerk.

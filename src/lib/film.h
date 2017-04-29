@@ -120,6 +120,7 @@ public:
 	DCPTime length () const;
 	int best_video_frame_rate () const;
 	FrameRateChange active_frame_rate_change (DCPTime) const;
+	std::pair<double, double> speed_up_range (int dcp_frame_rate) const;
 
 	dcp::EncryptedKDM make_kdm (
 		dcp::Certificate recipient,

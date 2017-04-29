@@ -1584,3 +1584,9 @@ Film::use_template (string name)
 	_reel_length = _template_film->_reel_length;
 	_upload_after_make_dcp = _template_film->_upload_after_make_dcp;
 }
+
+pair<double, double>
+Film::speed_up_range (int dcp_frame_rate) const
+{
+	return _playlist->speed_up_range (dcp_frame_rate);
+}

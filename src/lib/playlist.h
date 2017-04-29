@@ -68,6 +68,7 @@ public:
 	DCPTime subtitle_end () const;
 	FrameRateChange active_frame_rate_change (DCPTime, int dcp_frame_rate) const;
 	std::string content_summary (DCPTimePeriod period) const;
+	std::pair<double, double> speed_up_range (int dcp_video_frame_rate) const;
 
 	void set_sequence (bool);
 	void maybe_sequence ();
