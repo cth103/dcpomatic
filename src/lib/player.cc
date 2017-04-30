@@ -417,13 +417,6 @@ Player::set_ignore_video ()
 	_ignore_video = true;
 }
 
-/** Set this player never to produce any audio data */
-void
-Player::set_ignore_audio ()
-{
-	_ignore_audio = true;
-}
-
 /** Set whether or not this player should always burn text subtitles into the image,
  *  regardless of the content settings.
  *  @param burn true to always burn subtitles, false to obey content settings.

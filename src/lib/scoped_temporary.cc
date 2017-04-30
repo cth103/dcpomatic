@@ -50,6 +50,7 @@ ScopedTemporary::c_str () const
 FILE*
 ScopedTemporary::open (char const * params)
 {
+	close ();
 	_open = fopen (c_str(), params);
 	return _open;
 }

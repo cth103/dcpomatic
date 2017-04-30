@@ -30,7 +30,9 @@ class ContentVideo
 {
 public:
 	ContentVideo ()
-		: part (PART_WHOLE)
+		: frame (0)
+		, eyes (EYES_LEFT)
+		, part (PART_WHOLE)
 	{}
 
 	ContentVideo (boost::shared_ptr<const ImageProxy> i, Frame f, Eyes e, Part p)

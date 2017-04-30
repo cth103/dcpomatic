@@ -47,6 +47,9 @@ struct QueueItem
 public:
 	QueueItem ()
 		: size (0)
+		, reel (0)
+		, frame (0)
+		, eyes (EYES_BOTH)
 	{}
 
 	enum Type {
