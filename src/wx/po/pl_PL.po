@@ -994,9 +994,8 @@ msgid "Join"
 msgstr "Przyłącz się"
 
 #: src/wx/film_viewer.cc:81
-#, fuzzy
 msgid "Jump to selected content"
-msgstr "Obrysuj obraz"
+msgstr ""
 
 #: src/wx/config_dialog.cc:1327
 msgid "KDM Email"

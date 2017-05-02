@@ -970,9 +970,8 @@ msgid "Join"
 msgstr "Sammensæt"
 
 #: src/wx/film_viewer.cc:81
-#, fuzzy
 msgid "Jump to selected content"
-msgstr "Indram indhold"
+msgstr ""
 
 #: src/wx/config_dialog.cc:1327
 msgid "KDM Email"

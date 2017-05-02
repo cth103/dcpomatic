@@ -975,9 +975,8 @@ msgid "Join"
 msgstr "Подсоединить"
 
 #: src/wx/film_viewer.cc:81
-#, fuzzy
 msgid "Jump to selected content"
-msgstr "Очертить контент"
+msgstr ""
 
 #: src/wx/config_dialog.cc:1327
 msgid "KDM Email"
