@@ -456,7 +456,7 @@ FilmViewer::start ()
 	}
 
 	_playing = true;
-	_timer.Start (1.0, wxTIMER_ONE_SHOT);
+	timer ();
 }
 
 bool
