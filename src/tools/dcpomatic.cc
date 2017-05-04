@@ -497,6 +497,16 @@ private:
 			}
 		}
 
+		if (_film->encrypted ()) {
+			NagDialog::maybe_nag (
+				this,
+				Config::NAG_ENCRYPTED_METADATA,
+				_("You are making an encrypted DCP.  It will not be possible to make KDMs for this DCP unless you have copies of "
+				  "the <tt>metadata.xml</tt> file within the film and the metadata files within the DCP.\n\n"
+				  "You should ensure that these files are <span weight=\"bold\" size=\"larger\">BACKED UP</span> "
+				  "if you want to make KDMs for this film.")
+				);
+		}
 
 		/* Remove any existing DCP if the user agrees */
 		boost::filesystem::path const dcp_dir = _film->dir (_film->dcp_name(), false);

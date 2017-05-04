@@ -315,6 +315,7 @@ public:
 
 	enum Nag {
 		NAG_DKDM_CONFIG,
+		NAG_ENCRYPTED_METADATA,
 		NAG_COUNT
 	};
 
