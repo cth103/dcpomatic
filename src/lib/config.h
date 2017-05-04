@@ -313,6 +313,15 @@ public:
 		return _jump_to_selected;
 	}
 
+	enum Nag {
+		NAG_DKDM_CONFIG,
+		NAG_COUNT
+	};
+
+	bool nagged (Nag nag) const {
+		return _nagged[nag];
+	}
+
 	bool preview_sound () const {
 		return _preview_sound;
 	}
@@ -585,6 +594,10 @@ public:
 		maybe_set (_jump_to_selected, j);
 	}
 
+	void set_nagged (Nag nag, bool nagged) {
+		maybe_set (_nagged[nag], nagged);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -607,6 +620,7 @@ public:
 	static void drop ();
 	static void restore_defaults ();
 	static bool have_existing (std::string);
+	static boost::filesystem::path config_path ();
 
 private:
 	Config ();
@@ -718,6 +732,7 @@ private:
 	dcp::NameFormat _dcp_metadata_filename_format;
 	dcp::NameFormat _dcp_asset_filename_format;
 	bool _jump_to_selected;
+	bool _nagged[NAG_COUNT];
 	bool _preview_sound;
 	/** name of a specific sound output stream to use for preview, or empty to use the default */
 	boost::optional<std::string> _preview_sound_output;

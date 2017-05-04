@@ -117,6 +117,9 @@ Config::set_defaults ()
 	_dcp_metadata_filename_format = dcp::NameFormat ("%t");
 	_dcp_asset_filename_format = dcp::NameFormat ("%t");
 	_jump_to_selected = true;
+	for (int i = 0; i < NAG_COUNT; ++i) {
+		_nagged[i] = false;
+	}
 	_preview_sound = false;
 	_preview_sound_output = optional<string> ();
 
@@ -318,6 +321,12 @@ try
 	_dcp_metadata_filename_format = dcp::NameFormat (f.optional_string_child("DCPMetadataFilenameFormat").get_value_or ("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat (f.optional_string_child("DCPAssetFilenameFormat").get_value_or ("%t"));
 	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or (true);
+	BOOST_FOREACH (cxml::NodePtr i, f.node_children("Nagged")) {
+		int const id = i->number_attribute<int>("Id");
+		if (id >= 0 && id < NAG_COUNT) {
+			_nagged[id] = raw_convert<int>(i->content());
+		}
+	}
 	_preview_sound = f.optional_bool_child("PreviewSound").get_value_or (false);
 	_preview_sound_output = f.optional_string_child("PreviewSoundOutput");
 
@@ -496,6 +505,11 @@ Config::write_config () const
 	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
 	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
 	root->add_child("JumpToSelected")->add_child_text (_jump_to_selected ? "1" : "0");
+	for (int i = 0; i < NAG_COUNT; ++i) {
+		xmlpp::Element* e = root->add_child ("Nagged");
+		e->set_attribute ("Id", raw_convert<string>(i));
+		e->add_child_text (_nagged[i] ? "1" : "0");
+	}
 	root->add_child("PreviewSound")->add_child_text (_preview_sound ? "1" : "0");
 	if (_preview_sound_output) {
 		root->add_child("PreviewSoundOutput")->add_child_text (_preview_sound_output.get());
@@ -685,4 +699,11 @@ void
 Config::delete_template (string name) const
 {
 	boost::filesystem::remove (template_path (name));
+}
+
+/** @return Path to the config.xml, for telling the user what it is */
+boost::filesystem::path
+Config::config_path ()
+{
+	return path("config.xml", false);
 }
