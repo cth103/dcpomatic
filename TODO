@@ -1,0 +1,4 @@
+subtitles-and-nothing-else case; BlackDecoder? or make fill_black call video() rather than emit Video directly?
+- no because fill_video will never be called, the black has to come out in sync with everything else more or less
+- made tricky by fill_video post inaccurate seek
+- Black/SilenceDecoder?

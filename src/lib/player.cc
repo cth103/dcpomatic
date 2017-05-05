@@ -660,7 +660,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		}
 	}
 
-	/* Fill gaps */
+	/* Fill gaps caused by (the hopefully rare event of) a decoder not emitting contiguous video */
 
 	if (_last_video_time) {
 		fill_video (DCPTimePeriod (_last_video_time.get(), time));
