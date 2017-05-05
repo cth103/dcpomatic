@@ -90,8 +90,6 @@ try
 
 		/* Do any seek that has been requested */
 		if (_pending_seek_position) {
-			_video.clear ();
-			_audio.clear ();
 			_finished = false;
 			_player->seek (*_pending_seek_position, _pending_seek_accurate);
 			_pending_seek_position = optional<DCPTime> ();
@@ -152,6 +150,8 @@ Butler::seek (DCPTime position, bool accurate)
 		return;
 	}
 
+	_video.clear ();
+	_audio.clear ();
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
 	_summon.notify_all ();
