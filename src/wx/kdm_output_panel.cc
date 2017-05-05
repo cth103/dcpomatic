@@ -155,6 +155,54 @@ KDMOutputPanel::make (
 	list<ScreenKDM> screen_kdms, string name, KDMTimingPanel* timing, function<bool (boost::filesystem::path)> confirm_overwrite, shared_ptr<Log> log
 	)
 {
+	list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
+
+	/* Decide whether to proceed */
+
+	bool proceed = true;
+
+	if (_email->GetValue ()) {
+
+		if (Config::instance()->mail_server().empty ()) {
+			proceed = false;
+			error_dialog (this, _("You must set up a mail server in Preferences before you can send emails."));
+		}
+
+		bool cinemas_with_no_email = false;
+		BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
+			if (i.cinema->emails.empty ()) {
+				cinemas_with_no_email = true;
+			}
+		}
+
+		if (proceed && cinemas_with_no_email && !confirm_dialog (
+			    this,
+			    _("You have selected some cinemas that have no configured email address.  Do you want to continue?")
+			    )) {
+			proceed = false;
+		}
+
+		if (proceed && Config::instance()->confirm_kdm_email ()) {
+			list<string> emails;
+			BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
+				BOOST_FOREACH (string j, i.cinema->emails) {
+					emails.push_back (j);
+				}
+			}
+
+			if (!emails.empty ()) {
+				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
+				if (d->ShowModal() == wxID_CANCEL) {
+					proceed = false;
+				}
+			}
+		}
+	}
+
+	if (!proceed) {
+		return make_pair (shared_ptr<Job>(), 0);
+	}
+
 	Config::instance()->set_kdm_filename_format (_filename_format->get ());
 
 	int written = 0;
@@ -197,37 +245,17 @@ KDMOutputPanel::make (
 		}
 
 		if (_email->GetValue ()) {
-
-			list<CinemaKDMs> const cinema_kdms = CinemaKDMs::collect (screen_kdms);
-
-			bool ok = true;
-
-			if (Config::instance()->confirm_kdm_email ()) {
-				list<string> emails;
-				BOOST_FOREACH (CinemaKDMs i, cinema_kdms) {
-					BOOST_FOREACH (string j, i.cinema->emails) {
-						emails.push_back (j);
-					}
-				}
-
-				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
-				if (d->ShowModal() == wxID_CANCEL) {
-					ok = false;
-				}
-			}
-
-			if (ok) {
-				job.reset (
-					new SendKDMEmailJob (
-						cinema_kdms,
-						_filename_format->get(),
-						name_values,
-						name,
-						log
-						)
-					);
-			}
+			job.reset (
+				new SendKDMEmailJob (
+					cinema_kdms,
+					_filename_format->get(),
+					name_values,
+					name,
+					log
+					)
+				);
 		}
+
 	} catch (dcp::NotEncryptedError& e) {
 		error_dialog (this, _("CPL's content is not encrypted."));
 	} catch (exception& e) {

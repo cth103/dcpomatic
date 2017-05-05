@@ -1,3 +1,7 @@
+2017-05-05  Carl Hetherington  <cth@carlh.net>
+
+	* Warn user if they try to send KDM emails without a configured mail server (#1046).
+
 2017-05-04  Carl Hetherington  <cth@carlh.net>
 
 	* Nag users to backup config.xml if they make a DKDM.
