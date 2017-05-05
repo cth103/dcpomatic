@@ -152,7 +152,8 @@ private:
 
 	AudioMerger _audio_merger;
 
-	class StreamState {
+	class StreamState
+	{
 	public:
 		StreamState () {}
 
@@ -169,8 +170,22 @@ private:
 	std::list<DCPTimePeriod> _no_video;
 	std::list<DCPTimePeriod> _no_audio;
 
-	typedef std::map<boost::weak_ptr<Piece>, std::pair<PlayerSubtitles, DCPTime> > ActiveSubtitles;
-	ActiveSubtitles _active_subtitles;
+	class ActiveSubtitles
+	{
+	public:
+		ActiveSubtitles () {}
+
+		ActiveSubtitles (PlayerSubtitles s, DCPTime f)
+			: subs (s)
+			, from (f)
+		{}
+
+		PlayerSubtitles subs;
+		DCPTime from;
+		boost::optional<DCPTime> to;
+	};
+	typedef std::map<boost::weak_ptr<Piece>, ActiveSubtitles> ActiveSubtitlesMap;
+	ActiveSubtitlesMap _active_subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 	typedef std::map<std::pair<boost::shared_ptr<const AudioContent>, AudioStreamPtr>, boost::shared_ptr<Resampler> > ResamplerMap;
