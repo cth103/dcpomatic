@@ -22,6 +22,7 @@
 #define DCPOMATIC_PLAYER_H
 
 #include "player_subtitles.h"
+#include "active_subtitles.h"
 #include "film.h"
 #include "content.h"
 #include "position_image.h"
@@ -170,23 +171,7 @@ private:
 	std::list<DCPTimePeriod> _no_video;
 	std::list<DCPTimePeriod> _no_audio;
 
-	class ActiveSubtitles
-	{
-	public:
-		ActiveSubtitles () {}
-
-		ActiveSubtitles (PlayerSubtitles s, DCPTime f)
-			: subs (s)
-			, from (f)
-		{}
-
-		PlayerSubtitles subs;
-		DCPTime from;
-		boost::optional<DCPTime> to;
-	};
-	typedef std::map<boost::weak_ptr<Piece>, std::list<ActiveSubtitles> > ActiveSubtitlesMap;
-	ActiveSubtitlesMap _active_subtitles;
-
+	ActiveSubtitles _active_subtitles;
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 	typedef std::map<std::pair<boost::shared_ptr<const AudioContent>, AudioStreamPtr>, boost::shared_ptr<Resampler> > ResamplerMap;
 	ResamplerMap _resamplers;

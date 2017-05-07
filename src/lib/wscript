@@ -21,6 +21,7 @@ import os
 import i18n
 
 sources = """
+          active_subtitles.cc
           analyse_audio_job.cc
           atmos_mxf_content.cc
           audio_analysis.cc

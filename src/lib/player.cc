@@ -586,46 +586,26 @@ Player::pass ()
 optional<PositionImage>
 Player::subtitles_for_frame (DCPTime time) const
 {
-	/* Get any subtitles */
+	list<PositionImage> subtitles;
 
-	optional<PositionImage> subtitles;
+	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get(time, _always_burn_subtitles)) {
 
-	for (ActiveSubtitlesMap::const_iterator i = _active_subtitles.begin(); i != _active_subtitles.end(); ++i) {
+		/* Image subtitles */
+		list<PositionImage> c = transform_image_subtitles (i.image);
+		copy (c.begin(), c.end(), back_inserter (subtitles));
 
-		shared_ptr<Piece> sub_piece = i->first.lock ();
-		if (!sub_piece) {
-			continue;
-		}
-
-		if (!sub_piece->content->subtitle->use() || (!_always_burn_subtitles && !sub_piece->content->subtitle->burn())) {
-			continue;
-		}
-
-		BOOST_FOREACH (ActiveSubtitles j, i->second) {
-
-			if (j.from > time || (j.to && j.to.get() <= time)) {
-				continue;
-			}
-
-			list<PositionImage> sub_images;
-
-			/* Image subtitles */
-			list<PositionImage> c = transform_image_subtitles (j.subs.image);
-			copy (c.begin(), c.end(), back_inserter (sub_images));
-
-			/* Text subtitles (rendered to an image) */
-			if (!j.subs.text.empty ()) {
-				list<PositionImage> s = render_subtitles (j.subs.text, j.subs.fonts, _video_container_size, time);
-				copy (s.begin (), s.end (), back_inserter (sub_images));
-			}
-
-			if (!sub_images.empty ()) {
-				subtitles = merge (sub_images);
-			}
+		/* Text subtitles (rendered to an image) */
+		if (!i.text.empty ()) {
+			list<PositionImage> s = render_subtitles (i.text, i.fonts, _video_container_size, time);
+			copy (s.begin(), s.end(), back_inserter (subtitles));
 		}
 	}
 
-	return subtitles;
+	if (subtitles.empty ()) {
+		return optional<PositionImage> ();
+	}
+
+	return merge (subtitles);
 }
 
 void
@@ -681,20 +661,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	_last_video_time = time + one_video_frame ();
 
-	/* Clear any finished _active_subtitles */
-	ActiveSubtitlesMap updated;
-	for (ActiveSubtitlesMap::const_iterator i = _active_subtitles.begin(); i != _active_subtitles.end(); ++i) {
-		list<ActiveSubtitles> as;
-		BOOST_FOREACH (ActiveSubtitles j, i->second) {
-			if (!j.to || j.to.get() >= time) {
-				as.push_back (j);
-			}
-		}
-		if (!as.empty ()) {
-			updated[i->first] = as;
-		}
-	}
-	_active_subtitles = updated;
+	_active_subtitles.clear_before (time);
 }
 
 void
@@ -847,10 +814,7 @@ Player::image_subtitle_start (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	if (_active_subtitles.find(wp) == _active_subtitles.end()) {
-		_active_subtitles[wp] = list<ActiveSubtitles>();
-	}
-	_active_subtitles[wp].push_back (ActiveSubtitles (ps, from));
+	_active_subtitles.add_from (wp, ps, from);
 }
 
 void
@@ -889,16 +853,13 @@ Player::text_subtitle_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 
-	if (_active_subtitles.find(wp) == _active_subtitles.end()) {
-		_active_subtitles[wp] = list<ActiveSubtitles> ();
-	}
-	_active_subtitles[wp].push_back (ActiveSubtitles (ps, from));
+	_active_subtitles.add_from (wp, ps, from);
 }
 
 void
 Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 {
-	if (_active_subtitles.find (wp) == _active_subtitles.end ()) {
+	if (!_active_subtitles.have (wp)) {
 		return;
 	}
 
@@ -909,14 +870,10 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 
 	DCPTime const dcp_to = content_time_to_dcp (piece, to);
 
+	pair<PlayerSubtitles, DCPTime> from = _active_subtitles.add_to (wp, dcp_to);
+
 	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
-		Subtitle (_active_subtitles[wp].back().subs, DCPTimePeriod (_active_subtitles[wp].back().from, dcp_to));
-	}
-
-	_active_subtitles[wp].back().to = dcp_to;
-
-	BOOST_FOREACH (SubtitleString& i, _active_subtitles[wp].back().subs.text) {
-		i.set_out (dcp::Time(dcp_to.seconds(), 1000));
+		Subtitle (from.first, DCPTimePeriod (from.second, dcp_to));
 	}
 }
 
