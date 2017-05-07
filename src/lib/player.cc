@@ -543,8 +543,6 @@ Player::pass ()
 		fill_video (DCPTimePeriod (_last_seek_time.get(), _last_seek_time.get() + one_video_frame ()));
 	}
 
-	/* XXX: fill audio */
-
 	if (!earliest) {
 		return true;
 	}
@@ -572,7 +570,6 @@ Player::pass ()
 		}
 
 		if (_last_audio_time) {
-			/* XXX: does this remain necessary? */
 			fill_audio (DCPTimePeriod (_last_audio_time.get(), i->second));
 		}
 
