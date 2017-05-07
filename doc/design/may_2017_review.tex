@@ -1,0 +1,50 @@
+\documentclass{article}
+\renewcommand{\c}[1]{\texttt{#1}}
+\begin{document}
+
+\section{The butler}
+
+Adding audio to the preview means that we have an audio thread which
+needs real-time access to audio data.  This means that we must have a
+separate decoding thread.
+
+This is implemented by having a \c{Butler} class which runs a
+\c{Player}.  The \c{Butler} keeps ring buffers of video and
+audio data filled by its own thread.  It tries to keep the ring
+buffers full by calling \c{Player::pass()} when necessary.
+
+The \c{Butler} fills its buffers and then waits for the
+\c{Butler::\_summon} condition to be raised, at which point it
+refills the buffers.
+
+\section{Player}
+
+\c{Player} has been returned to an API whereby the \c{Butler} calls
+\c{pass} and then signals are emitted by \c{Player} to give data to \c{Butler}.
+
+Users should call \c{Player::pass} which will call \c{Video},
+\c{Audio} and \c{Subtitle} signals to be emitted.  These emissions
+will happen in no particular order but should be fairly
+closely-related in time (within \c{Butler::VIDEO\_READAHEAD} and
+\c{Butler::AUDIO\_READAHEAD} of each other, I think).
+
+Users may also call \c{Player::seek}.  If \c{accurate} is set to true
+on this call, the following signal emissions will only be at or
+after the seek time.  If \c{accurate} is false the following
+emissions may be at any time after the seek time.
+
+\c{Player} guarantees that emissions will represent continguous data.
+
+\section{Decoders}
+
+\c{Player} will request that \c{Decoder} classes seek as required.
+After seeks \c{Decoder}s can emit whatever data they like, and
+\c{Player} will discard them if they come before the time of an accurate
+seek.
+
+\section{General remarks}
+
+The \c{Player} class should feature very heavily in unit testing as it
+has significant influence.
+
+\end{document}
