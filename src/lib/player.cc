@@ -507,23 +507,6 @@ Player::get_reel_assets ()
 	return a;
 }
 
-list<shared_ptr<Piece> >
-Player::overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid)
-{
-	if (!_have_valid_pieces) {
-		setup_pieces ();
-	}
-
-	list<shared_ptr<Piece> > overlaps;
-	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-		if (valid (i->content.get ()) && i->content->position() < to && i->content->end() > from) {
-			overlaps.push_back (i);
-		}
-	}
-
-	return overlaps;
-}
-
 bool
 Player::pass ()
 {

@@ -40,57 +40,6 @@ using std::list;
 using boost::shared_ptr;
 using boost::bind;
 
-static bool
-valid (Content const *)
-{
-	return true;
-}
-
-/** Player::overlaps */
-BOOST_AUTO_TEST_CASE (player_overlaps_test)
-{
-	shared_ptr<Film> film = new_test_film ("player_overlaps_test");
-	film->set_container (Ratio::from_id ("185"));
-
-	/* This content is 3s long */
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test.mp4"));
-	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/test.mp4"));
-	shared_ptr<FFmpegContent> C (new FFmpegContent (film, "test/data/test.mp4"));
-
-	film->examine_and_add_content (A);
-	film->examine_and_add_content (B);
-	film->examine_and_add_content (C);
-	wait_for_jobs ();
-
-	BOOST_CHECK_EQUAL (A->full_length().get(), 288000);
-
-	A->set_position (DCPTime::from_seconds (0));
-	B->set_position (DCPTime::from_seconds (10));
-	C->set_position (DCPTime::from_seconds (20));
-
-	shared_ptr<Player> player (new Player (film, film->playlist ()));
-
-	list<shared_ptr<Piece> > o = player->overlaps (DCPTime::from_seconds (0), DCPTime::from_seconds (5), &valid);
-	BOOST_CHECK_EQUAL (o.size(), 1U);
-	BOOST_CHECK_EQUAL (o.front()->content, A);
-
-	o = player->overlaps (DCPTime::from_seconds (5), DCPTime::from_seconds (8), &valid);
-	BOOST_CHECK_EQUAL (o.size(), 0U);
-
-	o = player->overlaps (DCPTime::from_seconds (8), DCPTime::from_seconds (12), &valid);
-	BOOST_CHECK_EQUAL (o.size(), 1U);
-	BOOST_CHECK_EQUAL (o.front()->content, B);
-
-	o = player->overlaps (DCPTime::from_seconds (2), DCPTime::from_seconds (12), &valid);
-	BOOST_CHECK_EQUAL (o.size(), 2U);
-	BOOST_CHECK_EQUAL (o.front()->content, A);
-	BOOST_CHECK_EQUAL (o.back()->content, B);
-
-	o = player->overlaps (DCPTime::from_seconds (8), DCPTime::from_seconds (11), &valid);
-	BOOST_CHECK_EQUAL (o.size(), 1U);
-	BOOST_CHECK_EQUAL (o.front()->content, B);
-}
-
 static shared_ptr<AudioBuffers> accumulated;
 
 static void

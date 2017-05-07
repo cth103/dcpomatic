@@ -85,7 +85,6 @@ public:
 private:
 	friend class PlayerWrapper;
 	friend class Piece;
-	friend struct player_overlaps_test;
 	friend struct player_time_calculation_test1;
 	friend struct player_time_calculation_test2;
 	friend struct player_time_calculation_test3;
@@ -103,7 +102,6 @@ private:
 	ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame () const;
-	std::list<boost::shared_ptr<Piece> > overlaps (DCPTime from, DCPTime to, boost::function<bool (Content *)> valid);
 	void video (boost::weak_ptr<Piece>, ContentVideo);
 	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void image_subtitle_start (boost::weak_ptr<Piece>, ContentImageSubtitle);
