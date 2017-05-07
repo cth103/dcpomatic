@@ -527,27 +527,26 @@ Player::pass ()
 		}
 	}
 
-	if (!earliest) {
-		/* No more content; fill up with silent black */
-		DCPTimePeriod remaining_video (DCPTime(), _playlist->length());
-		if (_last_video_time) {
-			remaining_video.from = _last_video_time.get();
+	if (earliest) {
+		earliest->done = earliest->decoder->pass ();
+		if (earliest->done && earliest->content->audio) {
+			/* Flush the Player audio system for this piece */
+			BOOST_FOREACH (AudioStreamPtr i, earliest->content->audio->streams()) {
+				audio_flush (earliest, i);
+			}
 		}
-		fill_video (remaining_video);
-		DCPTimePeriod remaining_audio (DCPTime(), _playlist->length());
-		if (_last_audio_time) {
-			remaining_audio.from = _last_audio_time.get();
-		}
-		fill_audio (remaining_audio);
-		return true;
 	}
 
-	earliest->done = earliest->decoder->pass ();
-	if (earliest->done && earliest->content->audio) {
-		/* Flush the Player audio system for this piece */
-		BOOST_FOREACH (AudioStreamPtr i, earliest->content->audio->streams()) {
-			audio_flush (earliest, i);
-		}
+	if (_last_video_time) {
+		fill_video (DCPTimePeriod (_last_video_time.get(), earliest ? earliest_content : _playlist->length()));
+	} else if (_last_seek_time) {
+		fill_video (DCPTimePeriod (_last_seek_time.get(), _last_seek_time.get() + one_video_frame ()));
+	}
+
+	/* XXX: fill audio */
+
+	if (!earliest) {
+		return true;
 	}
 
 	/* Emit any audio that is ready */
@@ -573,6 +572,7 @@ Player::pass ()
 		}
 
 		if (_last_audio_time) {
+			/* XXX: does this remain necessary? */
 			fill_audio (DCPTimePeriod (_last_audio_time.get(), i->second));
 		}
 
@@ -581,6 +581,51 @@ Player::pass ()
 	}
 
 	return false;
+}
+
+optional<PositionImage>
+Player::subtitles_for_frame (DCPTime time) const
+{
+	/* Get any subtitles */
+
+	optional<PositionImage> subtitles;
+
+	for (ActiveSubtitlesMap::const_iterator i = _active_subtitles.begin(); i != _active_subtitles.end(); ++i) {
+
+		shared_ptr<Piece> sub_piece = i->first.lock ();
+		if (!sub_piece) {
+			continue;
+		}
+
+		if (!sub_piece->content->subtitle->use() || (!_always_burn_subtitles && !sub_piece->content->subtitle->burn())) {
+			continue;
+		}
+
+		BOOST_FOREACH (ActiveSubtitles j, i->second) {
+
+			if (j.from > time || (j.to && j.to.get() <= time)) {
+				continue;
+			}
+
+			list<PositionImage> sub_images;
+
+			/* Image subtitles */
+			list<PositionImage> c = transform_image_subtitles (j.subs.image);
+			copy (c.begin(), c.end(), back_inserter (sub_images));
+
+			/* Text subtitles (rendered to an image) */
+			if (!j.subs.text.empty ()) {
+				list<PositionImage> s = render_subtitles (j.subs.text, j.subs.fonts, _video_container_size, time);
+				copy (s.begin (), s.end (), back_inserter (sub_images));
+			}
+
+			if (!sub_images.empty ()) {
+				subtitles = merge (sub_images);
+			}
+		}
+	}
+
+	return subtitles;
 }
 
 void
@@ -605,46 +650,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	/* Get any subtitles */
-
-	optional<PositionImage> subtitles;
-
-	for (ActiveSubtitlesMap::const_iterator i = _active_subtitles.begin(); i != _active_subtitles.end(); ++i) {
-
-		shared_ptr<Piece> sub_piece = i->first.lock ();
-		if (!sub_piece) {
-			continue;
-		}
-
-		if (!sub_piece->content->subtitle->use() || (!_always_burn_subtitles && !piece->content->subtitle->burn())) {
-			continue;
-		}
-
-		ActiveSubtitles sub = i->second;
-
-		if (sub.from > time || (sub.to && sub.to.get() <= time)) {
-			continue;
-		}
-
-		list<PositionImage> sub_images;
-
-		/* Image subtitles */
-		list<PositionImage> c = transform_image_subtitles (sub.subs.image);
-		copy (c.begin(), c.end(), back_inserter (sub_images));
-
-		/* Text subtitles (rendered to an image) */
-		if (!sub.subs.text.empty ()) {
-			list<PositionImage> s = render_subtitles (sub.subs.text, sub.subs.fonts, _video_container_size, time);
-			copy (s.begin (), s.end (), back_inserter (sub_images));
-		}
-
-		if (!sub_images.empty ()) {
-			subtitles = merge (sub_images);
-		}
-	}
-
 	/* Fill gaps caused by (the hopefully rare event of) a decoder not emitting contiguous video */
 
+	/* XXX: is this necessary? can it be done by the fill in pass? */
 	if (_last_video_time) {
 		fill_video (DCPTimePeriod (_last_video_time.get(), time));
 	}
@@ -664,6 +672,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			)
 		);
 
+	optional<PositionImage> subtitles = subtitles_for_frame (time);
 	if (subtitles) {
 		_last_video->set_subtitle (subtitles.get ());
 	}
@@ -675,8 +684,14 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	/* Clear any finished _active_subtitles */
 	ActiveSubtitlesMap updated;
 	for (ActiveSubtitlesMap::const_iterator i = _active_subtitles.begin(); i != _active_subtitles.end(); ++i) {
-		if (!i->second.to || i->second.to.get() >= time) {
-			updated[i->first] = i->second;
+		list<ActiveSubtitles> as;
+		BOOST_FOREACH (ActiveSubtitles j, i->second) {
+			if (!j.to || j.to.get() >= time) {
+				as.push_back (j);
+			}
+		}
+		if (!as.empty ()) {
+			updated[i->first] = as;
 		}
 	}
 	_active_subtitles = updated;
@@ -832,7 +847,10 @@ Player::image_subtitle_start (weak_ptr<Piece> wp, ContentImageSubtitle subtitle)
 	ps.image.push_back (subtitle.sub);
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
-	_active_subtitles[wp] = ActiveSubtitles (ps, from);
+	if (_active_subtitles.find(wp) == _active_subtitles.end()) {
+		_active_subtitles[wp] = list<ActiveSubtitles>();
+	}
+	_active_subtitles[wp].push_back (ActiveSubtitles (ps, from));
 }
 
 void
@@ -871,7 +889,10 @@ Player::text_subtitle_start (weak_ptr<Piece> wp, ContentTextSubtitle subtitle)
 		ps.add_fonts (piece->content->subtitle->fonts ());
 	}
 
-	_active_subtitles[wp] = ActiveSubtitles (ps, from);
+	if (_active_subtitles.find(wp) == _active_subtitles.end()) {
+		_active_subtitles[wp] = list<ActiveSubtitles> ();
+	}
+	_active_subtitles[wp].push_back (ActiveSubtitles (ps, from));
 }
 
 void
@@ -889,10 +910,14 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 	DCPTime const dcp_to = content_time_to_dcp (piece, to);
 
 	if (piece->content->subtitle->use() && !_always_burn_subtitles && !piece->content->subtitle->burn()) {
-		Subtitle (_active_subtitles[wp].subs, DCPTimePeriod (_active_subtitles[wp].from, dcp_to));
+		Subtitle (_active_subtitles[wp].back().subs, DCPTimePeriod (_active_subtitles[wp].back().from, dcp_to));
 	}
 
-	_active_subtitles[wp].to = dcp_to;
+	_active_subtitles[wp].back().to = dcp_to;
+
+	BOOST_FOREACH (SubtitleString& i, _active_subtitles[wp].back().subs.text) {
+		i.set_out (dcp::Time(dcp_to.seconds(), 1000));
+	}
 }
 
 void
@@ -932,6 +957,8 @@ Player::seek (DCPTime time, bool accurate)
 		_last_video_time = optional<DCPTime> ();
 		_last_audio_time = optional<DCPTime> ();
 	}
+
+	_last_seek_time = time;
 }
 
 shared_ptr<Resampler>
@@ -970,8 +997,14 @@ Player::fill_video (DCPTimePeriod period)
 			if (_playlist->video_content_at(j) && _last_video) {
 				Video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
 			} else {
-				Video (black_player_video_frame(), j);
+				shared_ptr<PlayerVideo> black = black_player_video_frame ();
+				optional<PositionImage> subtitles = subtitles_for_frame (j);
+				if (subtitles) {
+					black->set_subtitle (subtitles.get ());
+				}
+				Video (black, j);
 			}
+			_last_video_time = j;
 		}
 	}
 }

@@ -116,6 +116,7 @@ private:
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
 		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
 		) const;
+	boost::optional<PositionImage> subtitles_for_frame (DCPTime time) const;
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;
@@ -147,6 +148,7 @@ private:
 	boost::optional<DCPTime> _last_video_time;
 	/** Time just after the last audio frame we emitted, or the last seek time */
 	boost::optional<DCPTime> _last_audio_time;
+	boost::optional<DCPTime> _last_seek_time;
 
 	AudioMerger _audio_merger;
 
@@ -182,7 +184,7 @@ private:
 		DCPTime from;
 		boost::optional<DCPTime> to;
 	};
-	typedef std::map<boost::weak_ptr<Piece>, ActiveSubtitles> ActiveSubtitlesMap;
+	typedef std::map<boost::weak_ptr<Piece>, std::list<ActiveSubtitles> > ActiveSubtitlesMap;
 	ActiveSubtitlesMap _active_subtitles;
 
 	boost::shared_ptr<AudioProcessor> _audio_processor;

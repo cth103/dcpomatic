@@ -44,6 +44,11 @@ TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> 
 void
 TextSubtitleDecoder::seek (ContentTime time, bool accurate)
 {
+	time -= ContentTime::from_seconds (5);
+	if (time < ContentTime()) {
+		time = ContentTime();
+	}
+
 	Decoder::seek (time, accurate);
 
 	_next = 0;
