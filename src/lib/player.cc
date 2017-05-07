@@ -630,9 +630,10 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	/* Fill gaps caused by (the hopefully rare event of) a decoder not emitting contiguous video */
+	/* Fill gaps caused by (the hopefully rare event of) a decoder not emitting contiguous video.  We have to do this here
+	   as in the problematic case we are about to emit a frame which is not contiguous with the previous.
+	*/
 
-	/* XXX: is this necessary? can it be done by the fill in pass? */
 	if (_last_video_time) {
 		fill_video (DCPTimePeriod (_last_video_time.get(), time));
 	}
