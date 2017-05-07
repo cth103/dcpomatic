@@ -30,8 +30,12 @@ using std::make_pair;
 using boost::weak_ptr;
 using boost::shared_ptr;
 
+/** Get the subtitles that should be burnt into a frame at a given time.
+ *  @param time Frame time.
+ *  @param always_burn_subtitles Always burn subtitles even if their content is not set to burn.
+ */
 list<PlayerSubtitles>
-ActiveSubtitles::get (DCPTime time, bool always_burn_subtitles) const
+ActiveSubtitles::get_burnt (DCPTime time, bool always_burn_subtitles) const
 {
 	list<PlayerSubtitles> ps;
 
@@ -43,6 +47,7 @@ ActiveSubtitles::get (DCPTime time, bool always_burn_subtitles) const
 		}
 
 		if (!piece->content->subtitle->use() || (!always_burn_subtitles && !piece->content->subtitle->burn())) {
+			/* Not burning this piece */
 			continue;
 		}
 
@@ -56,6 +61,9 @@ ActiveSubtitles::get (DCPTime time, bool always_burn_subtitles) const
 	return ps;
 }
 
+/** Remove subtitles that finish before a given time from our list.
+ *  @param time Time to remove before.
+ */
 void
 ActiveSubtitles::clear_before (DCPTime time)
 {
@@ -74,6 +82,11 @@ ActiveSubtitles::clear_before (DCPTime time)
 	_data = updated;
 }
 
+/** Add a new subtitle with a from time.
+ *  @param piece Piece that the subtitle is from.
+ *  @param ps Subtitles.
+ *  @param from From time for these subtitles.
+ */
 void
 ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerSubtitles ps, DCPTime from)
 {
@@ -83,6 +96,11 @@ ActiveSubtitles::add_from (weak_ptr<Piece> piece, PlayerSubtitles ps, DCPTime fr
 	_data[piece].push_back (Period (ps, from));
 }
 
+/** Add the to time for the last subtitle added from a piece.
+ *  @param piece Piece that the subtitle is from.
+ *  @param to To time for the last subtitle submitted to add_from for this piece.
+ *  @return Return the corresponding subtitles and their from time.
+ */
 pair<PlayerSubtitles, DCPTime>
 ActiveSubtitles::add_to (weak_ptr<Piece> piece, DCPTime to)
 {
@@ -97,6 +115,9 @@ ActiveSubtitles::add_to (weak_ptr<Piece> piece, DCPTime to)
 	return make_pair (_data[piece].back().subs, _data[piece].back().from);
 }
 
+/** @param piece A piece.
+ *  @return true if we have any active subtitles from this piece.
+ */
 bool
 ActiveSubtitles::have (weak_ptr<Piece> piece) const
 {

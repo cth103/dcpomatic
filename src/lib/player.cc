@@ -588,7 +588,7 @@ Player::subtitles_for_frame (DCPTime time) const
 {
 	list<PositionImage> subtitles;
 
-	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get(time, _always_burn_subtitles)) {
+	BOOST_FOREACH (PlayerSubtitles i, _active_subtitles.get_burnt (time, _always_burn_subtitles)) {
 
 		/* Image subtitles */
 		list<PositionImage> c = transform_image_subtitles (i.image);

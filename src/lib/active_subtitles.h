@@ -18,6 +18,10 @@
 
 */
 
+/** @file  src/lib/active_subtitles.h
+ *  @brief ActiveSubtitles class.
+ */
+
 #include "dcpomatic_time.h"
 #include "player_subtitles.h"
 #include <boost/noncopyable.hpp>
@@ -26,10 +30,13 @@
 
 class Piece;
 
+/** @class ActiveSubtitles
+ *  @brief A class to maintain information on active subtitles for Player.
+ */
 class ActiveSubtitles : public boost::noncopyable
 {
 public:
-	std::list<PlayerSubtitles> get (DCPTime time, bool always_burn_subtitles) const;
+	std::list<PlayerSubtitles> get_burnt (DCPTime time, bool always_burn_subtitles) const;
 	void clear_before (DCPTime time);
 	void clear ();
 	void add_from (boost::weak_ptr<Piece> piece, PlayerSubtitles ps, DCPTime from);
