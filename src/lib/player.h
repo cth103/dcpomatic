@@ -118,6 +118,7 @@ private:
 		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
 		) const;
 	boost::optional<PositionImage> subtitles_for_frame (DCPTime time) const;
+	void emit_video (boost::shared_ptr<PlayerVideo> pv, DCPTime time);
 
 	boost::shared_ptr<const Film> _film;
 	boost::shared_ptr<const Playlist> _playlist;

@@ -650,16 +650,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			)
 		);
 
-	optional<PositionImage> subtitles = subtitles_for_frame (time);
-	if (subtitles) {
-		_last_video->set_subtitle (subtitles.get ());
-	}
-
-	Video (_last_video, time);
-
-	_last_video_time = time + one_video_frame ();
-
-	_active_subtitles.clear_before (time);
+	emit_video (_last_video, time);
 }
 
 void
@@ -950,18 +941,24 @@ Player::fill_video (DCPTimePeriod period)
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_video)) {
 		for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
 			if (_playlist->video_content_at(j) && _last_video) {
-				Video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
+				emit_video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
 			} else {
-				shared_ptr<PlayerVideo> black = black_player_video_frame ();
-				optional<PositionImage> subtitles = subtitles_for_frame (j);
-				if (subtitles) {
-					black->set_subtitle (subtitles.get ());
-				}
-				Video (black, j);
+				emit_video (black_player_video_frame(), j);
 			}
-			_last_video_time = j;
 		}
 	}
+}
+
+void
+Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
+{
+	optional<PositionImage> subtitles = subtitles_for_frame (time);
+	if (subtitles) {
+		pv->set_subtitle (subtitles.get ());
+	}
+	Video (pv, time);
+	_last_video_time = time + one_video_frame();
+	_active_subtitles.clear_before (time);
 }
 
 void
