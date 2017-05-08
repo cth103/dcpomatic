@@ -110,7 +110,7 @@ private:
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create);
 	DCPTime one_video_frame () const;
-	void fill_video (DCPTimePeriod period);
+	bool fill_video (DCPTimePeriod period);
 	void fill_audio (DCPTimePeriod period);
 	void audio_flush (boost::shared_ptr<Piece>, AudioStreamPtr stream);
 	void audio_transform (boost::shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time);

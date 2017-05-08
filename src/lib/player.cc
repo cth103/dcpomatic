@@ -537,13 +537,14 @@ Player::pass ()
 		}
 	}
 
+	bool filled = false;
 	if (_last_video_time) {
-		fill_video (DCPTimePeriod (_last_video_time.get(), earliest ? earliest_content : _playlist->length()));
+		filled = fill_video (DCPTimePeriod (_last_video_time.get(), earliest ? earliest_content : _playlist->length()));
 	} else if (_last_seek_time) {
-		fill_video (DCPTimePeriod (_last_seek_time.get(), _last_seek_time.get() + one_video_frame ()));
+		filled = fill_video (DCPTimePeriod (_last_seek_time.get(), _last_seek_time.get() + one_video_frame ()));
 	}
 
-	if (!earliest) {
+	if (!earliest && !filled) {
 		return true;
 	}
 
@@ -934,10 +935,11 @@ Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream
 	return r;
 }
 
-void
+bool
 Player::fill_video (DCPTimePeriod period)
 {
 	/* XXX: this may not work for 3D */
+	bool filled = false;
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_video)) {
 		for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
 			if (_playlist->video_content_at(j) && _last_video) {
@@ -945,8 +947,10 @@ Player::fill_video (DCPTimePeriod period)
 			} else {
 				emit_video (black_player_video_frame(), j);
 			}
+			filled = true;
 		}
 	}
+	return filled;
 }
 
 void
