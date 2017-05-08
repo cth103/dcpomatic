@@ -549,13 +549,16 @@ Player::pass ()
 		fill_from = _last_seek_time;
 	}
 
+	bool filled = false;
 	if (fill_from && ((fill_towards - fill_from.get())) > one_video_frame()) {
 		emit_video (black_player_video_frame(), fill_from.get());
+		filled = true;
 	} else if (_playlist->length() == DCPTime()) {
 		emit_video (black_player_video_frame(), DCPTime());
+		filled = true;
 	}
 
-	if (!earliest && !fill_from) {
+	if (!earliest && !filled) {
 		return true;
 	}
 
