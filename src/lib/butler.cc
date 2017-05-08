@@ -152,6 +152,7 @@ Butler::seek (DCPTime position, bool accurate)
 
 	_video.clear ();
 	_audio.clear ();
+	_finished = false;
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
 	_summon.notify_all ();
