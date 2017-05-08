@@ -87,6 +87,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _always_burn_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
+	, _last_seek_accurate (true)
 	, _audio_merger (_film->audio_frame_rate())
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
@@ -537,14 +538,24 @@ Player::pass ()
 		}
 	}
 
-	bool filled = false;
+	DCPTime fill_towards = earliest ? earliest_content : _playlist->length();
+
+	optional<DCPTime> fill_from;
 	if (_last_video_time) {
-		filled = fill_video (DCPTimePeriod (_last_video_time.get(), earliest ? earliest_content : _playlist->length()));
-	} else if (_last_seek_time) {
-		filled = fill_video (DCPTimePeriod (_last_seek_time.get(), _last_seek_time.get() + one_video_frame ()));
+		/* No seek; fill towards the next thing that might happen (or the end of the playlist) */
+		fill_from = _last_video_time;
+	} else if (_last_seek_time && !_playlist->video_content_at(_last_seek_time.get())) {
+		/* Seek into an empty area; fill from the seek time */
+		fill_from = _last_seek_time;
 	}
 
-	if (!earliest && !filled) {
+	if (fill_from && ((fill_towards - fill_from.get())) > one_video_frame()) {
+		emit_video (black_player_video_frame(), fill_from.get());
+	} else if (_playlist->length() == DCPTime()) {
+		emit_video (black_player_video_frame(), DCPTime());
+	}
+
+	if (!earliest && !fill_from) {
 		return true;
 	}
 
@@ -624,7 +635,10 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	DCPTimePeriod const period (time, time + one_video_frame());
 
 	/* Discard if it's outside the content's period or if it's before the last accurate seek */
-	if (time < piece->content->position() || time >= piece->content->end() || (_last_video_time && time < _last_video_time)) {
+	if (
+		time < piece->content->position() ||
+		time >= piece->content->end() ||
+		(_last_seek_time && _last_seek_accurate && time < _last_seek_time.get())) {
 		return;
 	}
 
@@ -633,7 +647,16 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	*/
 
 	if (_last_video_time) {
-		fill_video (DCPTimePeriod (_last_video_time.get(), time));
+		/* XXX: this may not work for 3D */
+		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (_last_video_time.get(), time), _no_video)) {
+			for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
+				if (_last_video) {
+					emit_video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
+				} else {
+					emit_video (black_player_video_frame(), j);
+				}
+			}
+		}
 	}
 
 	_last_video.reset (
@@ -897,15 +920,10 @@ Player::seek (DCPTime time, bool accurate)
 		}
 	}
 
-	if (accurate) {
-		_last_video_time = time;
-		_last_audio_time = time;
-	} else {
-		_last_video_time = optional<DCPTime> ();
-		_last_audio_time = optional<DCPTime> ();
-	}
-
+	_last_video_time = optional<DCPTime> ();
+	_last_audio_time = optional<DCPTime> ();
 	_last_seek_time = time;
+	_last_seek_accurate = accurate;
 }
 
 shared_ptr<Resampler>
@@ -933,24 +951,6 @@ Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream
 
 	_resamplers[make_pair(content, stream)] = r;
 	return r;
-}
-
-bool
-Player::fill_video (DCPTimePeriod period)
-{
-	/* XXX: this may not work for 3D */
-	bool filled = false;
-	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_video)) {
-		for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
-			if (_playlist->video_content_at(j) && _last_video) {
-				emit_video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
-			} else {
-				emit_video (black_player_video_frame(), j);
-			}
-			filled = true;
-		}
-	}
-	return filled;
 }
 
 void

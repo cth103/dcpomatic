@@ -28,6 +28,7 @@
 using std::cout;
 using boost::optional;
 
+/** @return Earliest time of content that the next pass() will emit */
 ContentTime
 Decoder::position () const
 {

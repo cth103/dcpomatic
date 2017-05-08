@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[usenames]{xcolor}
+\usepackage{listings}
+\title{Servers and ports}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{tabular}{|l|l|l|}
+  \hline
+  \textbf{Port offset} & \textbf{Component} & \textbf{Purpose} \\
+  \hline
+  0 & \texttt{EncodeServer} & Listen for frame encoding requests \\
+  \hline
+  1 & \texttt{EncodeServer} & Listen for \texttt{DCPOMATIC\_HELLO} from masters \\
+  \hline
+  2 & \texttt{EncodeServerFinder} & Listen for replies to \texttt{DCPOMATIC\_HELLO} from servers \\
+  \hline
+  3 & Batch converter & Listen for job requests \\
+  \hline
+\end{tabular}
+
+
+\texttt{EncodeServer} listens on \texttt{server\_port\_base}.
+Receives an XML \texttt{EncodingRequest} and then the video data.
+Sends back the encoded data.
+
+\texttt{EncodeServer} also listens on $\texttt{server\_port\_base} +
+1$.  A main DCP-o-matic instance broadcasts \texttt{DCPOMATIC\_HELLO}
+on this port.  When a server receives this it connects to the main
+DCP-o-matic on $\texttt{server\_port\_base} + 1$ and tells it what it can do.
+
+Batch Converter listens on $\texttt{server\_port\_base} + 2$ for jobs.
+
+\end{document}

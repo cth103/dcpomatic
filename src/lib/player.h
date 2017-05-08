@@ -110,7 +110,6 @@ private:
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
 	boost::shared_ptr<Resampler> resampler (boost::shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create);
 	DCPTime one_video_frame () const;
-	bool fill_video (DCPTimePeriod period);
 	void fill_audio (DCPTimePeriod period);
 	void audio_flush (boost::shared_ptr<Piece>, AudioStreamPtr stream);
 	void audio_transform (boost::shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time);
@@ -146,11 +145,12 @@ private:
 
 	/** Last PlayerVideo that was emitted */
 	boost::shared_ptr<PlayerVideo> _last_video;
-	/** Time just after the last video frame we emitted, or the last seek time */
+	/** Time just after the last video frame we emitted, or empty if we have just seeked */
 	boost::optional<DCPTime> _last_video_time;
-	/** Time just after the last audio frame we emitted, or the last seek time */
+	/** Time just after the last audio frame we emitted, or empty if we have just seeked */
 	boost::optional<DCPTime> _last_audio_time;
 	boost::optional<DCPTime> _last_seek_time;
+	bool _last_seek_accurate;
 
 	AudioMerger _audio_merger;
 

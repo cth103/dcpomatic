@@ -1,0 +1,56 @@
+\documentclass{article}
+\renewcommand{\c}[1]{\texttt{#1}}
+\begin{document}
+
+There are two sources of video gaps:
+
+\begin{enumerate}
+\item Discontiguous outputs from \c{FFmpegDecoder} --- it makes sense
+  to fix these when the frame after the gap is seen, as that's the
+  first time we know about the gap.  For example, it emits frame~1
+  then frame~3; when we see 3 we should emit 2 to fill the gap.
+\item Periods where there is no video content --- these could be long,
+  so you can't just wait for the frame after the gap.
+\end{enumerate}
+
+Two solutions suggest themselves for the period of no video content:
+
+\begin{enumerate}
+\item Create `black' \c{Piece}s to act as dummy content and emit black
+  frames as required.
+\item Fix it in \c{Player::pass()}.
+\end{enumerate}
+
+Dummy pieces feels like a nice solution but quite wordy as you need a
+hierarchy of \c{Piece}s with virtual functions and so on.
+
+If we can trust \c{Decoder::position()} we know the earliest time that
+a decoder will emit data when it is next \c{pass()}ed.  If this is
+more than one frame since the last video frame emitted we know we need
+to emit a black frame.  This much seems straightforward.
+
+Things appear to get harder with seeking.  There are two paths here:
+
+\begin{enumerate}
+\item Seeking into the middle of some video content.
+\item Seeking into some empty space.
+\end{enumerate}
+
+and also differences between accurate and inaccurate seek.
+
+Let's take them case-by-case:
+
+\begin{enumerate}
+  \item \emph{Accurate seek into content} --- we should not fill
+    anything since the correct data will be generated, in time, by
+    \c{pass()}.
+  \item \emph{Accurate seek into space} --- we should fill up to the
+    earliest decoder position.
+  \item \emph{Inaccurate seek into content} --- we should not fill
+    anything since \c{pass()} will generate something at some
+    unknown time.
+  \item \emph{Inaccurate seek into space} --- we should fill up to
+    the earliest decoder position from the seek time.
+\end{enumerate}
+
+\end{document}
