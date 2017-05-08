@@ -794,7 +794,9 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		return;
 	} else if (end > piece->content->end()) {
 		Frame const remaining_frames = DCPTime(piece->content->end() - time).frames_round(_film->audio_frame_rate());
-		DCPOMATIC_ASSERT (remaining_frames > 0);
+		if (remaining_frames == 0) {
+			return;
+		}
 		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
 		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
 		content_audio.audio = cut;
