@@ -31,7 +31,7 @@ using std::max;
 TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 	: TimelineView (tl)
 	, _threed (true)
-	, _subtitle (true)
+	, _subtitle_tracks (0)
 	, _atmos (true)
 {
 	wxString labels[] = {
@@ -69,8 +69,8 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 	gc->DrawText (_("Video"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
 	fy = ty;
 
-	if (_subtitle) {
-		ty = fy + h;
+	if (_subtitle_tracks) {
+		ty = fy + _subtitle_tracks * h;
 		gc->DrawText (_("Subtitles"), 0, _timeline.tracks_position().y + (ty + fy) / 2 - 8);
 		fy = ty;
 	}
@@ -92,9 +92,9 @@ TimelineLabelsView::set_3d (bool s)
 }
 
 void
-TimelineLabelsView::set_subtitle (bool s)
+TimelineLabelsView::set_subtitle_tracks (int n)
 {
-	_subtitle = s;
+	_subtitle_tracks = n;
 }
 
 void

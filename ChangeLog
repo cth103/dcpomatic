@@ -1,5 +1,7 @@
 2017-05-08  Carl Hetherington  <cth@carlh.net>
 
+	* Show multiple tracks in the timeline if there are overlapping subtitles (#941).
+
 	* Various fixes to films with areas of no video content.
 
 2017-05-05  Carl Hetherington  <cth@carlh.net>

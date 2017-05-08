@@ -30,7 +30,7 @@ public:
 	dcpomatic::Rect<int> bbox () const;
 
 	void set_3d (bool s);
-	void set_subtitle (bool s);
+	void set_subtitle_tracks (int n);
 	void set_atmos (bool s);
 
 private:
@@ -38,6 +38,6 @@ private:
 
 	int _width;
 	bool _threed;
-	bool _subtitle;
+	int _subtitle_tracks;
 	bool _atmos;
 };

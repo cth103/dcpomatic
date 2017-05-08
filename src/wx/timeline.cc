@@ -184,18 +184,74 @@ Timeline::film_content_changed (int property, bool frequent)
 	}
 }
 
+template <class T>
+int
+place (TimelineViewList& views, int& tracks)
+{
+	int const base = tracks;
+
+	BOOST_FOREACH (shared_ptr<TimelineView> i, views) {
+		if (!dynamic_pointer_cast<T>(i)) {
+			continue;
+		}
+
+		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (i);
+
+		int t = base;
+
+		shared_ptr<Content> content = cv->content();
+		DCPTimePeriod const content_period (content->position(), content->end());
+
+		while (true) {
+			TimelineViewList::iterator j = views.begin();
+			while (j != views.end()) {
+				shared_ptr<T> test = dynamic_pointer_cast<T> (*j);
+				if (!test) {
+					++j;
+					continue;
+				}
+
+				shared_ptr<Content> test_content = test->content();
+				if (
+					test->track() && test->track().get() == t &&
+					content_period.overlap(DCPTimePeriod(test_content->position(), test_content->end()))) {
+					/* we have an overlap on track `t' */
+					++t;
+					break;
+				}
+
+				++j;
+			}
+
+			if (j == views.end ()) {
+				/* no overlap on `t' */
+				break;
+			}
+		}
+
+		cv->set_track (t);
+		tracks = max (tracks, t + 1);
+	}
+
+	return tracks - base;
+}
+
 void
 Timeline::assign_tracks ()
 {
 	/* Tracks are:
 	   Video (mono or left-eye)
 	   Video (right-eye)
-	   Subtitle
+	   Subtitle 1
+	   Subtitle 2
+	   Subtitle N
 	   Atmos
 	   Audio 1
 	   Audio 2
 	   Audio N
 	*/
+
+	_tracks = 0;
 
 	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<TimelineContentView> c = dynamic_pointer_cast<TimelineContentView> (*i);
@@ -204,93 +260,56 @@ Timeline::assign_tracks ()
 		}
 	}
 
-	/* See if we have any subtitle / atmos / right-eye views */
+	/* Video */
+
 	bool have_3d = false;
-	bool have_subtitle = false;
-	bool have_atmos = false;
 	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
-		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (i);
+		shared_ptr<TimelineVideoContentView> cv = dynamic_pointer_cast<TimelineVideoContentView> (i);
 		if (!cv) {
 			continue;
 		}
 
-		if (dynamic_pointer_cast<TimelineVideoContentView> (i)) {
-			if (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
-				have_3d = true;
-			}
-		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (i)) {
-			have_subtitle = true;
-		} else if (dynamic_pointer_cast<TimelineAtmosContentView> (i)) {
+		/* Video on tracks 0 and maybe 1 (left and right eye) */
+		if (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT) {
+			cv->set_track (1);
+			_tracks = max (_tracks, 2);
+			have_3d = true;
+		} else {
+			cv->set_track (0);
+		}
+	}
+
+	_tracks = max (_tracks, 1);
+
+	/* Subtitle */
+
+	int const subtitle_tracks = place<TimelineSubtitleContentView> (_views, _tracks);
+
+	/* Atmos */
+
+	bool have_atmos = false;
+	BOOST_FOREACH (shared_ptr<TimelineView> i, _views) {
+		shared_ptr<TimelineVideoContentView> cv = dynamic_pointer_cast<TimelineVideoContentView> (i);
+		if (!cv) {
+			continue;
+		}
+		if (dynamic_pointer_cast<TimelineAtmosContentView> (i)) {
+			cv->set_track (_tracks - 1);
 			have_atmos = true;
 		}
 	}
 
-	_labels_view->set_3d (have_3d);
-	_labels_view->set_subtitle (have_subtitle);
-	_labels_view->set_atmos (have_atmos);
-
-	/* Hence decide where to start subtitle, atmos and audio tracks */
-	int const subtitle = have_3d ? 2 : 1;
-	int const atmos = have_subtitle ? subtitle + 1 : subtitle;
-	int const audio = have_atmos ? atmos + 1: atmos;
-
-	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
-		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView> (*i);
-		if (!cv) {
-			continue;
-		}
-
-		if (dynamic_pointer_cast<TimelineVideoContentView> (*i)) {
-			/* Video on tracks 0 and maybe 1 (left and right eye) */
-			cv->set_track (cv->content()->video->frame_type() == VIDEO_FRAME_TYPE_3D_RIGHT ? 1 : 0);
-			_tracks = max (_tracks, have_3d ? 2 : 1);
-			continue;
-		} else if (dynamic_pointer_cast<TimelineSubtitleContentView> (*i)) {
-			cv->set_track (subtitle);
-			_tracks = max (_tracks, subtitle + 1);
-			continue;
-		} else if (dynamic_pointer_cast<TimelineAtmosContentView> (*i)) {
-			cv->set_track (atmos);
-			_tracks = max (_tracks, atmos + 1);
-			continue;
-		}
-
-		int t = audio;
-
-		shared_ptr<Content> content = cv->content();
-		DCPTimePeriod content_period (content->position(), content->end());
-
-		while (true) {
-			TimelineViewList::iterator j = _views.begin();
-			while (j != _views.end()) {
-				shared_ptr<TimelineAudioContentView> test = dynamic_pointer_cast<TimelineAudioContentView> (*j);
-				if (!test) {
-					++j;
-					continue;
-				}
-
-				shared_ptr<Content> test_content = test->content();
-
-				if (test && test->track() && test->track().get() == t) {
-					if (content_period.overlap (DCPTimePeriod(test_content->position(), test_content->end()))) {
-						/* we have an overlap on track `t' */
-						++t;
-						break;
-					}
-				}
-
-				++j;
-			}
-
-			if (j == _views.end ()) {
-				/* no overlap on `t' */
-				break;
-			}
-		}
-
-		cv->set_track (t);
-		_tracks = max (_tracks, t + 1);
+	if (have_atmos) {
+		++_tracks;
 	}
+
+	/* Audio */
+
+	place<TimelineAudioContentView> (_views, _tracks);
+
+	_labels_view->set_3d (have_3d);
+	_labels_view->set_subtitle_tracks (subtitle_tracks);
+	_labels_view->set_atmos (have_atmos);
 
 	_time_axis_view->set_y (tracks() * track_height() + 64);
 	_reels_view->set_y (8);
