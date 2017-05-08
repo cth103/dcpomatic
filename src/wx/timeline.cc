@@ -187,6 +187,16 @@ Timeline::film_content_changed (int property, bool frequent)
 void
 Timeline::assign_tracks ()
 {
+	/* Tracks are:
+	   Video (mono or left-eye)
+	   Video (right-eye)
+	   Subtitle
+	   Atmos
+	   Audio 1
+	   Audio 2
+	   Audio N
+	*/
+
 	for (TimelineViewList::iterator i = _views.begin(); i != _views.end(); ++i) {
 		shared_ptr<TimelineContentView> c = dynamic_pointer_cast<TimelineContentView> (*i);
 		if (c) {
