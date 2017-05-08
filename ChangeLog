@@ -1,3 +1,7 @@
+2017-05-08  Carl Hetherington  <cth@carlh.net>
+
+	* Various fixes to films with areas of no video content.
+
 2017-05-05  Carl Hetherington  <cth@carlh.net>
 
 	* Warn user if they try to send KDM emails without a configured mail server (#1046).
