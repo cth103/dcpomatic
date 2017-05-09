@@ -132,6 +132,7 @@ Config::set_defaults ()
 	_allowed_dcp_frame_rates.push_back (60);
 
 	set_kdm_email_to_default ();
+	set_cover_sheet_to_default ();
 }
 
 void
@@ -329,6 +330,9 @@ try
 	}
 	_preview_sound = f.optional_bool_child("PreviewSound").get_value_or (false);
 	_preview_sound_output = f.optional_string_child("PreviewSoundOutput");
+	if (f.optional_string_child("CoverSheet")) {
+		_cover_sheet = f.optional_string_child("CoverSheet").get();
+	}
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -514,6 +518,7 @@ Config::write_config () const
 	if (_preview_sound_output) {
 		root->add_child("PreviewSoundOutput")->add_child_text (_preview_sound_output.get());
 	}
+	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
 
 	try {
 		doc.write_to_file_formatted (path("config.xml").string ());
@@ -605,6 +610,18 @@ Config::reset_kdm_email ()
 {
 	set_kdm_email_to_default ();
 	changed ();
+}
+
+void
+Config::set_cover_sheet_to_default ()
+{
+	_cover_sheet = _(
+		"$CPL_NAME\n\n"
+		"Type: $TYPE\n"
+		"Format: $CONTAINER\n"
+		"Audio: $AUDIO\n"
+		"Length: $LENGTH\n"
+		);
 }
 
 void
@@ -706,4 +723,11 @@ boost::filesystem::path
 Config::config_path ()
 {
 	return path("config.xml", false);
+}
+
+void
+Config::reset_cover_sheet ()
+{
+	set_cover_sheet_to_default ();
+	changed ();
 }

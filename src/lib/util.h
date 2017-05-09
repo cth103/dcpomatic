@@ -83,5 +83,6 @@ extern std::string video_asset_filename (boost::shared_ptr<dcp::PictureAsset> as
 extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern float relaxed_string_to_float (std::string);
 extern std::string careful_string_filter (std::string);
+extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
 
 #endif

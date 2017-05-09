@@ -88,6 +88,7 @@ using std::pair;
 using std::cout;
 using std::bad_alloc;
 using std::set_terminate;
+using std::make_pair;
 using boost::shared_ptr;
 using boost::thread;
 using boost::optional;
@@ -705,4 +706,30 @@ careful_string_filter (string s)
 	}
 
 	return out;
+}
+
+/** @param mapped List of mapped audio channels from a Film.
+ *  @param channels Total number of channels in the Film.
+ *  @return First: number of non-LFE channels, second: number of LFE channels.
+ */
+pair<int, int>
+audio_channel_types (list<int> mapped, int channels)
+{
+	int non_lfe = 0;
+	int lfe = 0;
+
+	BOOST_FOREACH (int i, mapped) {
+		if (i >= channels) {
+			/* This channel is mapped but is not included in the DCP */
+			continue;
+		}
+
+		if (static_cast<dcp::Channel> (i) == dcp::LFE) {
+			++lfe;
+		} else {
+			++non_lfe;
+		}
+	}
+
+	return make_pair (non_lfe, lfe);
 }

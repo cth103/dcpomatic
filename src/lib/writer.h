@@ -117,6 +117,7 @@ private:
 	bool have_sequenced_image_at_queue_head ();
 	size_t video_reel (int frame) const;
 	void set_digest_progress (Job* job, float progress);
+	void write_cover_sheet ();
 
 	/** our Film */
 	boost::shared_ptr<const Film> _film;

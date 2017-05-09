@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -539,6 +539,51 @@ Writer::finish ()
 	LOG_GENERAL (
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
+
+	write_cover_sheet ();
+}
+
+void
+Writer::write_cover_sheet ()
+{
+	boost::filesystem::path const cover = _film->file ("COVER_SHEET.txt");
+	FILE* f = fopen_boost (cover, "w");
+	if (!f) {
+		throw OpenFileError (cover, errno, false);
+	}
+
+	string text = Config::instance()->cover_sheet ();
+	boost::algorithm::replace_all (text, "$CPL_NAME", _film->name());
+	boost::algorithm::replace_all (text, "$TYPE", _film->dcp_content_type()->pretty_name());
+	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->nickname());
+
+	pair<int, int> ch = audio_channel_types (_film->mapped_audio_channels(), _film->audio_channels());
+	string description = String::compose("%1.%2", ch.first, ch.second);
+
+	if (description == "0.0") {
+		description = _("None");
+	} else if (description == "1.0") {
+		description = _("Mono");
+	} else if (description == "2.0") {
+		description = _("Stereo");
+	}
+	boost::algorithm::replace_all (text, "$AUDIO", description);
+
+	int h, m, s, fr;
+	_film->length().split (_film->video_frame_rate(), h, m, s, fr);
+	string length;
+	if (h == 0 && m == 0) {
+		length = String::compose("%1s", s);
+	} else if (h == 0 && m > 0) {
+		length = String::compose("%1m%2s", m, s);
+	} else if (h > 0 && m > 0) {
+		length = String::compose("%1h%2m%3s", h, m, s);
+	}
+
+	boost::algorithm::replace_all (text, "$LENGTH", length);
+
+	fwrite (text.c_str(), 1, text.length(), f);
+	fclose (f);
 }
 
 /** @param frame Frame index within the whole DCP.

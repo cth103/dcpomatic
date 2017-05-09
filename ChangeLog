@@ -1,3 +1,7 @@
+2017-05-09  Carl Hetherington  <cth@carlh.net>
+
+	* Write a simple cover sheet when making a DCP (#1039).
+
 2017-05-08  Carl Hetherington  <cth@carlh.net>
 
 	* Show multiple tracks in the timeline if there are overlapping subtitles (#941).

@@ -723,24 +723,9 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Count mapped audio channels */
 
-	int non_lfe = 0;
-	int lfe = 0;
-
-	BOOST_FOREACH (int i, mapped_audio_channels ()) {
-		if (i >= audio_channels()) {
-			/* This channel is mapped but is not included in the DCP */
-			continue;
-		}
-
-		if (static_cast<dcp::Channel> (i) == dcp::LFE) {
-			++lfe;
-		} else {
-			++non_lfe;
-		}
-	}
-
-	if (non_lfe) {
-		d += String::compose("_%1%2", non_lfe, lfe);
+	pair<int, int> ch = audio_channel_types (mapped_audio_channels(), audio_channels());
+	if (ch.first) {
+		d += String::compose("_%1%2", ch.first, ch.second);
 	}
 
 	/* XXX: HI/VI */

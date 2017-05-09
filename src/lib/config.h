@@ -327,6 +327,10 @@ public:
 		return _preview_sound;
 	}
 
+	std::string cover_sheet () const {
+		return _cover_sheet;
+	}
+
 	boost::optional<std::string> preview_sound_output () const {
 		return _preview_sound_output;
 	}
@@ -599,6 +603,12 @@ public:
 		maybe_set (_nagged[nag], nagged);
 	}
 
+	void set_cover_sheet (std::string s) {
+		maybe_set (_cover_sheet, s);
+	}
+
+	void reset_cover_sheet ();
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -629,6 +639,7 @@ private:
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
+	void set_cover_sheet_to_default ();
 	void read_cinemas (cxml::Document const & f);
 	boost::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
@@ -737,6 +748,7 @@ private:
 	bool _preview_sound;
 	/** name of a specific sound output stream to use for preview, or empty to use the default */
 	boost::optional<std::string> _preview_sound_output;
+	std::string _cover_sheet;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

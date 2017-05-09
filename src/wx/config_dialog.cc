@@ -1482,6 +1482,71 @@ private:
 	wxButton* _reset_kdm_email;
 };
 
+class CoverSheetPage : public StandardPage
+{
+public:
+
+	CoverSheetPage (wxSize panel_size, int border)
+#ifdef DCPOMATIC_OSX
+		/* We have to force both width and height of this one */
+		: StandardPage (wxSize (480, 128), border)
+#else
+		: StandardPage (panel_size, border)
+#endif
+	{}
+
+	wxString GetName () const
+	{
+		return _("Cover Sheet");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon () const
+	{
+		return wxBitmap ("cover_sheet", wxBITMAP_TYPE_PNG_RESOURCE);
+	}
+#endif
+
+private:
+	void setup ()
+	{
+		_cover_sheet = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
+		_panel->GetSizer()->Add (_cover_sheet, 0, wxEXPAND | wxALL, _border);
+
+		_reset_cover_sheet = new wxButton (_panel, wxID_ANY, _("Reset to default text"));
+		_panel->GetSizer()->Add (_reset_cover_sheet, 0, wxEXPAND | wxALL, _border);
+
+		_cover_sheet->Bind (wxEVT_TEXT, boost::bind (&CoverSheetPage::cover_sheet_changed, this));
+		_reset_cover_sheet->Bind (wxEVT_BUTTON, boost::bind (&CoverSheetPage::reset_cover_sheet, this));
+	}
+
+	void config_changed ()
+	{
+		checked_set (_cover_sheet, Config::instance()->cover_sheet ());
+	}
+
+	void cover_sheet_changed ()
+	{
+		if (_cover_sheet->GetValue().IsEmpty ()) {
+			/* Sometimes we get sent an erroneous notification that the cover sheet
+			   is empty; I don't know why.
+			*/
+			return;
+		}
+		Config::instance()->set_cover_sheet (wx_to_std (_cover_sheet->GetValue ()));
+	}
+
+	void reset_cover_sheet ()
+	{
+		Config::instance()->reset_cover_sheet ();
+		checked_set (_cover_sheet, Config::instance()->cover_sheet ());
+	}
+
+	wxTextCtrl* _cover_sheet;
+	wxButton* _reset_cover_sheet;
+};
+
+
 /** @class AdvancedPage
  *  @brief Advanced page of the preferences dialog.
  */
@@ -1730,6 +1795,7 @@ create_config_dialog ()
 	e->AddPage (new KeysPage (ps, border));
 	e->AddPage (new TMSPage (ps, border));
 	e->AddPage (new KDMEmailPage (ps, border));
+	e->AddPage (new CoverSheetPage (ps, border));
 	e->AddPage (new AdvancedPage (ps, border));
 	return e;
 }
