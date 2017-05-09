@@ -87,8 +87,8 @@ private:
 	dcp::Size _size;
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
 	uint8_t** _data; ///< array of pointers to components
-	int* _line_size; ///< array of sizes of the data in each line, in pixels (without any alignment padding bytes)
-	int* _stride; ///< array of strides for each line (including any alignment padding bytes)
+	int* _line_size; ///< array of sizes of the data in each line, in bytes (without any alignment padding bytes)
+	int* _stride; ///< array of strides for each line, in bytes (including any alignment padding bytes)
 	bool _aligned;
 	int _extra_pixels;
 };
