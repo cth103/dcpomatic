@@ -52,6 +52,7 @@ FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> j
 	case FORMAT_PRORES:
 		_pixel_format = AV_PIX_FMT_YUV422P10;
 		_codec_name = "prores_ks";
+		break;
 	}
 }
 
