@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -26,29 +26,12 @@
  */
 
 #include "transcoder.h"
-#include "encoder.h"
-#include "film.h"
-#include "video_decoder.h"
-#include "audio_decoder.h"
 #include "player.h"
-#include "job.h"
-#include "writer.h"
-#include "compose.hpp"
-#include "referenced_reel_asset.h"
-#include "subtitle_content.h"
-#include "player_video.h"
-#include <boost/signals2.hpp>
-#include <boost/foreach.hpp>
-#include <iostream>
 
 #include "i18n.h"
 
-using std::string;
-using std::cout;
-using std::list;
-using boost::shared_ptr;
 using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
+using boost::shared_ptr;
 
 /** Construct a transcoder.
  *  @param film Film that we are transcoding.
@@ -58,86 +41,8 @@ Transcoder::Transcoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: _film (film)
 	, _job (job)
 	, _player (new Player (film, film->playlist ()))
-	, _writer (new Writer (film, job))
-	, _encoder (new Encoder (film, _writer))
-	, _finishing (false)
-	, _non_burnt_subtitles (false)
 {
 	_player->Video.connect (bind (&Transcoder::video, this, _1, _2));
 	_player->Audio.connect (bind (&Transcoder::audio, this, _1, _2));
 	_player->Subtitle.connect (bind (&Transcoder::subtitle, this, _1, _2));
-
-	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
-		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
-			_non_burnt_subtitles = true;
-		}
-	}
-}
-
-void
-Transcoder::go ()
-{
-	_writer->start ();
-	_encoder->begin ();
-
-	{
-		shared_ptr<Job> job = _job.lock ();
-		DCPOMATIC_ASSERT (job);
-		job->sub (_("Encoding"));
-	}
-
-	if (_non_burnt_subtitles) {
-		_writer->write (_player->get_subtitle_fonts ());
-	}
-
-	while (!_player->pass ()) {}
-
-	BOOST_FOREACH (ReferencedReelAsset i, _player->get_reel_assets ()) {
-		_writer->write (i);
-	}
-
-	_finishing = true;
-	_encoder->end ();
-	_writer->finish ();
-}
-
-void
-Transcoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
-{
-	if (!_film->three_d() && data->eyes() == EYES_LEFT) {
-		/* Use left-eye images for both eyes */
-		data->set_eyes (EYES_BOTH);
-	}
-
-	_encoder->encode (data, time);
-}
-
-void
-Transcoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
-{
-	_writer->write (data);
-
-	shared_ptr<Job> job = _job.lock ();
-	DCPOMATIC_ASSERT (job);
-	job->set_progress (float(time.get()) / _film->length().get());
-}
-
-void
-Transcoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
-{
-	if (_non_burnt_subtitles) {
-		_writer->write (data, period);
-	}
-}
-
-float
-Transcoder::current_encoding_rate () const
-{
-	return _encoder->current_encoding_rate ();
-}
-
-int
-Transcoder::video_frames_enqueued () const
-{
-	return _encoder->video_frames_enqueued ();
 }

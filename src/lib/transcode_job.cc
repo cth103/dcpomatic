@@ -23,6 +23,7 @@
  */
 
 #include "transcode_job.h"
+#include "dcp_transcoder.h"
 #include "upload_job.h"
 #include "job_manager.h"
 #include "film.h"
@@ -71,7 +72,7 @@ TranscodeJob::run ()
 		gettimeofday (&start, 0);
 		LOG_GENERAL_NC (N_("Transcode job starting"));
 
-		_transcoder.reset (new Transcoder (_film, shared_from_this ()));
+		_transcoder.reset (new DCPTranscoder (_film, shared_from_this ()));
 		_transcoder->go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
@@ -134,7 +135,7 @@ int
 TranscodeJob::remaining_time () const
 {
 	/* _transcoder might be destroyed by the job-runner thread */
-	shared_ptr<Transcoder> t = _transcoder;
+	shared_ptr<DCPTranscoder> t = _transcoder;
 
 	if (!t || t->finishing()) {
 		/* We aren't doing any actual encoding so just use the job's guess */

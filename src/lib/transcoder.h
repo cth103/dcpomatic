@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_TRANSCODER_H
+#define DCPOMATIC_TRANSCODER_H
+
 #include "types.h"
 #include "player_subtitles.h"
 #include <boost/weak_ptr.hpp>
@@ -25,7 +28,6 @@
 class Film;
 class Encoder;
 class Player;
-class Writer;
 class Job;
 class PlayerVideo;
 class AudioBuffers;
@@ -35,28 +37,21 @@ class Transcoder : public boost::noncopyable
 {
 public:
 	Transcoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
+	virtual ~Transcoder () {}
 
-	void go ();
+	virtual void go () = 0;
 
-	float current_encoding_rate () const;
-	int video_frames_enqueued () const;
+	virtual float current_encoding_rate () const = 0;
+	virtual int video_frames_enqueued () const = 0;
 
-	/** @return true if we are in the process of calling Encoder::process_end */
-	bool finishing () const {
-		return _finishing;
-	}
-
-private:
-
-	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
-	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
-	void subtitle (PlayerSubtitles, DCPTimePeriod);
+protected:
+	virtual void video (boost::shared_ptr<PlayerVideo>, DCPTime) = 0;
+	virtual void audio (boost::shared_ptr<AudioBuffers>, DCPTime) = 0;
+	virtual void subtitle (PlayerSubtitles, DCPTimePeriod) = 0;
 
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
-	boost::shared_ptr<Writer> _writer;
-	boost::shared_ptr<Encoder> _encoder;
-	bool _finishing;
-	bool _non_burnt_subtitles;
 };
+
+#endif
