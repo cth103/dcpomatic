@@ -43,6 +43,7 @@ public:
 
 	virtual float current_encoding_rate () const = 0;
 	virtual int video_frames_enqueued () const = 0;
+	virtual bool finishing () const = 0;
 
 protected:
 	virtual void video (boost::shared_ptr<PlayerVideo>, DCPTime) = 0;

@@ -19,7 +19,7 @@
 */
 
 /** @file  src/film.cc
- *  @brief A representation of some audio and video content, and details of
+ *  @brief A representation of some audio, video and subtitle content, and details of
  *  how they should be presented in a DCP.
  */
 
@@ -27,6 +27,7 @@
 #include "job.h"
 #include "util.h"
 #include "job_manager.h"
+#include "dcp_transcoder.h"
 #include "transcode_job.h"
 #include "upload_job.h"
 #include "null_log.h"
@@ -341,7 +342,9 @@ Film::make_dcp ()
 	}
 	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
 
-	JobManager::instance()->add (shared_ptr<Job> (new TranscodeJob (shared_from_this())));
+	shared_ptr<TranscodeJob> tj (new TranscodeJob (shared_from_this()));
+	tj->set_transcoder (shared_ptr<Transcoder> (new DCPTranscoder (shared_from_this(), tj)));
+	JobManager::instance()->add (tj);
 }
 
 /** Start a job to send our DCP to the configured TMS */

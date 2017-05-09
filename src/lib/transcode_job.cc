@@ -65,6 +65,12 @@ TranscodeJob::json_name () const
 }
 
 void
+TranscodeJob::set_transcoder (shared_ptr<Transcoder> t)
+{
+	_transcoder = t;
+}
+
+void
 TranscodeJob::run ()
 {
 	try {
@@ -72,7 +78,7 @@ TranscodeJob::run ()
 		gettimeofday (&start, 0);
 		LOG_GENERAL_NC (N_("Transcode job starting"));
 
-		_transcoder.reset (new DCPTranscoder (_film, shared_from_this ()));
+		DCPOMATIC_ASSERT (_transcoder);
 		_transcoder->go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
@@ -88,6 +94,7 @@ TranscodeJob::run ()
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
 		_transcoder.reset ();
 
+		/* XXX: this shouldn't be here */
 		if (_film->upload_after_make_dcp ()) {
 			shared_ptr<Job> job (new UploadJob (_film));
 			JobManager::instance()->add (job);
@@ -135,7 +142,7 @@ int
 TranscodeJob::remaining_time () const
 {
 	/* _transcoder might be destroyed by the job-runner thread */
-	shared_ptr<DCPTranscoder> t = _transcoder;
+	shared_ptr<Transcoder> t = _transcoder;
 
 	if (!t || t->finishing()) {
 		/* We aren't doing any actual encoding so just use the job's guess */
