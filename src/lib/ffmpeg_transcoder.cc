@@ -26,11 +26,13 @@
 #include "log.h"
 #include "image.h"
 #include "compose.hpp"
+#include <iostream>
 
 #include "i18n.h"
 
 using std::string;
 using std::runtime_error;
+using std::cout;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
@@ -44,6 +46,7 @@ force_pixel_format (AVPixelFormat, AVPixelFormat out)
 FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: Transcoder (film, job)
 	, _pixel_format (AV_PIX_FMT_YUV422P10)
+	, _history (1000)
 {
 
 }
@@ -73,7 +76,7 @@ FFmpegTranscoder::go ()
 	_codec_context->flags |= CODEC_FLAG_QSCALE | CODEC_FLAG_GLOBAL_HEADER;
 
 	boost::filesystem::path filename = _film->file(_film->isdcf_name(true) + ".mov");
-	avformat_alloc_output_context2 (&_format_context, 0, 0, filename.string().c_str());
+	avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
 	if (!_format_context) {
 		throw runtime_error ("could not allocate FFmpeg format context");
 	}
@@ -161,7 +164,11 @@ FFmpegTranscoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	frame->width = image->size().width;
 	frame->height = image->size().height;
 	frame->format = _pixel_format;
-	frame->pts = time.frames_round(_film->video_frame_rate()) / (_film->video_frame_rate() * av_q2d (_video_stream->time_base));
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_last_frame = time.frames_round(_film->video_frame_rate());
+		frame->pts = _last_frame / (_film->video_frame_rate() * av_q2d (_video_stream->time_base));
+	}
 
 	AVPacket packet;
 	av_init_packet (&packet);
@@ -181,6 +188,13 @@ FFmpegTranscoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	}
 
 	av_frame_free (&frame);
+
+	_history.event ();
+
+	shared_ptr<Job> job = _job.lock ();
+	if (job) {
+		job->set_progress (float(time.get()) / _film->length().get());
+	}
 }
 
 void
@@ -198,13 +212,12 @@ FFmpegTranscoder::subtitle (PlayerSubtitles subs, DCPTimePeriod period)
 float
 FFmpegTranscoder::current_encoding_rate () const
 {
-	/* XXX */
-	return 1;
+	return _history.rate ();
 }
 
 int
 FFmpegTranscoder::video_frames_enqueued () const
 {
-	/* XXX */
-	return 1;
+	boost::mutex::scoped_lock lm (_mutex);
+	return _last_frame;
 }

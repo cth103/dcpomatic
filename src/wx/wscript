@@ -49,6 +49,7 @@ sources = """
           dolby_doremi_certificate_panel.cc
           download_certificate_dialog.cc
           download_certificate_panel.cc
+          export_dialog.cc
           file_picker_ctrl.cc
           film_editor.cc
           film_name_location_dialog.cc

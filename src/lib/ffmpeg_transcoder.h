@@ -19,6 +19,7 @@
 */
 
 #include "transcoder.h"
+#include "event_history.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -37,6 +38,10 @@ public:
 		return false;
 	}
 
+	void set_output (boost::filesystem::path o) {
+		_output = o;
+	}
+
 private:
 	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
@@ -46,4 +51,11 @@ private:
 	AVFormatContext* _format_context;
 	AVStream* _video_stream;
 	AVPixelFormat _pixel_format;
+
+	mutable boost::mutex _mutex;
+	Frame _last_frame;
+
+	EventHistory _history;
+
+	boost::filesystem::path _output;
 };

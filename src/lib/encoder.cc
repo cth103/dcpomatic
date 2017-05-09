@@ -54,14 +54,13 @@ using boost::weak_ptr;
 using boost::optional;
 using dcp::Data;
 
-int const Encoder::_history_size = 200;
-
 /** @param film Film that we are encoding.
  *  @param writer Writer that we are using.
  */
 Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	: _film (film)
 	, _writer (writer)
+	, _history (200)
 {
 	servers_list_changed ();
 }
@@ -152,15 +151,7 @@ Encoder::end ()
 float
 Encoder::current_encoding_rate () const
 {
-	boost::mutex::scoped_lock lock (_state_mutex);
-	if (int (_time_history.size()) < _history_size) {
-		return 0;
-	}
-
-	struct timeval now;
-	gettimeofday (&now, 0);
-
-	return _history_size / (seconds (now) - seconds (_time_history.back ()));
+	return _history.rate ();
 }
 
 /** @return Number of video frames that have been queued for encoding */
@@ -178,14 +169,7 @@ Encoder::video_frames_enqueued () const
 void
 Encoder::frame_done ()
 {
-	boost::mutex::scoped_lock lock (_state_mutex);
-
-	struct timeval tv;
-	gettimeofday (&tv, 0);
-	_time_history.push_front (tv);
-	if (int (_time_history.size()) > _history_size) {
-		_time_history.pop_back ();
-	}
+	_history.event ();
 }
 
 /** Called to request encoding of the next video frame in the DCP.  This is called in order,

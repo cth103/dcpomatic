@@ -28,10 +28,11 @@
 using namespace std;
 using namespace boost;
 
-FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard)
+FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open)
 	: wxPanel (parent)
 	, _prompt (prompt)
 	, _wildcard (wildcard)
+	, _open (open)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -43,7 +44,6 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
 	_sizer->Add (_file, 1, wxEXPAND, 0);
 
 	SetSizerAndFit (_sizer);
-
 	_file->Bind (wxEVT_BUTTON, boost::bind (&FilePickerCtrl::browse_clicked, this));
 }
 
@@ -71,10 +71,16 @@ FilePickerCtrl::GetPath () const
 void
 FilePickerCtrl::browse_clicked ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _prompt, wxEmptyString, wxEmptyString, _wildcard);
+	wxFileDialog* d = new wxFileDialog (this, _prompt, wxEmptyString, wxEmptyString, _wildcard, _open ? wxFD_OPEN : wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	d->SetPath (_path);
 	if (d->ShowModal () == wxID_OK) {
 		SetPath (d->GetPath ());
 	}
 	d->Destroy ();
+}
+
+void
+FilePickerCtrl::SetWildcard (wxString w)
+{
+	_wildcard = w;
 }

@@ -27,6 +27,7 @@
 
 #include "util.h"
 #include "cross.h"
+#include "event_history.h"
 #include "exception_store.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
@@ -84,14 +85,7 @@ private:
 	/** Film that we are encoding */
 	boost::shared_ptr<const Film> _film;
 
-	/** Mutex for _time_history */
-	mutable boost::mutex _state_mutex;
-	/** List of the times of completion of the last _history_size frames;
-	    first is the most recently completed.
-	*/
-	std::list<struct timeval> _time_history;
-	/** Number of frames that we should keep history for */
-	static int const _history_size;
+	EventHistory _history;
 
 	/** Mutex for _threads */
 	mutable boost::mutex _threads_mutex;

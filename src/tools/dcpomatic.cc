@@ -41,6 +41,7 @@
 #include "wx/save_template_dialog.h"
 #include "wx/templates_dialog.h"
 #include "wx/nag_dialog.h"
+#include "wx/export_dialog.h"
 #include "lib/film.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -63,6 +64,8 @@
 #include "lib/dcpomatic_socket.h"
 #include "lib/hints.h"
 #include "lib/dcp_content.h"
+#include "lib/ffmpeg_transcoder.h"
+#include "lib/transcode_job.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 #include <wx/generic/aboutdlgg.h>
@@ -192,6 +195,7 @@ enum {
 	ID_jobs_make_dcp_batch,
 	ID_jobs_make_kdms,
 	ID_jobs_make_self_dkdm,
+	ID_jobs_export,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
 	ID_tools_video_waveform,
@@ -269,6 +273,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_kdms, this),          ID_jobs_make_kdms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_dcp_batch, this),     ID_jobs_make_dcp_batch);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_make_self_dkdm, this),     ID_jobs_make_self_dkdm);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_export, this),             ID_jobs_export);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_video_waveform, this),    ID_tools_video_waveform);
@@ -697,6 +702,19 @@ private:
 		d->Destroy ();
 	}
 
+	void jobs_export ()
+	{
+		ExportDialog* d = new ExportDialog (this);
+		if (d->ShowModal() == wxID_OK) {
+			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
+			shared_ptr<FFmpegTranscoder> tx (new FFmpegTranscoder (_film, job));
+			tx->set_output (d->path ());
+			job->set_transcoder (tx);
+			JobManager::instance()->add (job);
+		}
+		d->Destroy ();
+	}
+
 	void content_scale_to_fit_width ()
 	{
 		ContentList vc = _film_editor->content_panel()->selected_video ();
@@ -981,8 +999,12 @@ private:
 		wxMenu* jobs_menu = new wxMenu;
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
 		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM);
+		jobs_menu->AppendSeparator ();
+		add_item (jobs_menu, _("Export..."), ID_jobs_export, NEEDS_FILM);
+		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 

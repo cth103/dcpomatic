@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,22 @@
 
 */
 
+#include "table_dialog.h"
 #include <wx/wx.h>
+#include <boost/filesystem.hpp>
 
-class FilePickerCtrl : public wxPanel
+class FilePickerCtrl;
+
+class ExportDialog : public TableDialog
 {
 public:
-	FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open);
+	ExportDialog (wxWindow* parent);
 
-	wxString GetPath () const;
-	void SetPath (wxString);
-	void SetWildcard (wxString);
+	boost::filesystem::path path () const;
 
 private:
-	void browse_clicked ();
+	void format_changed ();
 
-	wxButton* _file;
-	wxString _path;
-	wxSizer* _sizer;
-	wxString _prompt;
-	wxString _wildcard;
-	bool _open;
+	wxChoice* _format;
+	FilePickerCtrl* _file;
 };

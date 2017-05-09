@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,39 @@
 
 */
 
-#include <wx/wx.h>
+#include "event_history.h"
+#include "util.h"
+#include <boost/thread/mutex.hpp>
 
-class FilePickerCtrl : public wxPanel
+EventHistory::EventHistory (int size)
+	: _size (size)
 {
-public:
-	FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open);
 
-	wxString GetPath () const;
-	void SetPath (wxString);
-	void SetWildcard (wxString);
+}
 
-private:
-	void browse_clicked ();
+float
+EventHistory::rate () const
+{
+	boost::mutex::scoped_lock lock (_mutex);
+	if (int (_history.size()) < _size) {
+		return 0;
+	}
 
-	wxButton* _file;
-	wxString _path;
-	wxSizer* _sizer;
-	wxString _prompt;
-	wxString _wildcard;
-	bool _open;
-};
+	struct timeval now;
+	gettimeofday (&now, 0);
+
+	return _size / (seconds (now) - seconds (_history.back ()));
+}
+
+void
+EventHistory::event ()
+{
+	boost::mutex::scoped_lock lock (_mutex);
+
+	struct timeval tv;
+	gettimeofday (&tv, 0);
+	_history.push_front (tv);
+	if (int (_history.size()) > _size) {
+		_history.pop_back ();
+	}
+}

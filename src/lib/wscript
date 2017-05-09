@@ -71,6 +71,7 @@ sources = """
           encode_server_finder.cc
           encoded_log_entry.cc
           environment_info.cc
+          event_history.cc
           examine_content_job.cc
           exceptions.cc
           file_group.cc

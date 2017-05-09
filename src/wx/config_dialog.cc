@@ -205,7 +205,7 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
-		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml");
+		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml", true);
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		++r;
 
