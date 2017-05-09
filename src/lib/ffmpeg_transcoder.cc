@@ -60,7 +60,7 @@ FFmpegTranscoder::go ()
 {
 	AVCodec* codec = avcodec_find_encoder_by_name (_codec_name.c_str());
 	if (!codec) {
-		throw runtime_error (String::compose ("could not find FFmpeg codec %1", _codec_name));
+		throw runtime_error (String::compose ("could not find FFmpeg encoder %1", _codec_name));
 	}
 
 	_codec_context = avcodec_alloc_context3 (codec);
