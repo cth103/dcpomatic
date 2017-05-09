@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_EVENT_HISTORY_H
+#define DCPOMATIC_EVENT_HISTORY_H
+
 #include <boost/thread/mutex.hpp>
 #include <list>
 
@@ -39,3 +42,5 @@ private:
 	/** Number of events that we should keep history for */
 	int const _size;
 };
+
+#endif

@@ -707,8 +707,7 @@ private:
 		ExportDialog* d = new ExportDialog (this);
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
-			shared_ptr<FFmpegTranscoder> tx (new FFmpegTranscoder (_film, job));
-			tx->set_output (d->path ());
+			shared_ptr<FFmpegTranscoder> tx (new FFmpegTranscoder (_film, job, d->path(), d->format()));
 			job->set_transcoder (tx);
 			JobManager::instance()->add (job);
 		}

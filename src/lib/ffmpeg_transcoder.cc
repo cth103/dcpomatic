@@ -43,21 +43,24 @@ force_pixel_format (AVPixelFormat, AVPixelFormat out)
 	return out;
 }
 
-FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> job)
+FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, Format format)
 	: Transcoder (film, job)
-	, _pixel_format (AV_PIX_FMT_YUV422P10)
 	, _history (1000)
+	, _output (output)
 {
-
+	switch (format) {
+	case FORMAT_PRORES:
+		_pixel_format = AV_PIX_FMT_YUV422P10;
+		_codec_name = "prores_ks";
+	}
 }
 
 void
 FFmpegTranscoder::go ()
 {
-	string const codec_name = "prores_ks";
-	AVCodec* codec = avcodec_find_encoder_by_name (codec_name.c_str());
+	AVCodec* codec = avcodec_find_encoder_by_name (_codec_name.c_str());
 	if (!codec) {
-		throw runtime_error (String::compose ("could not find FFmpeg codec %1", codec_name));
+		throw runtime_error (String::compose ("could not find FFmpeg codec %1", _codec_name));
 	}
 
 	_codec_context = avcodec_alloc_context3 (codec);

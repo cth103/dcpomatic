@@ -59,8 +59,8 @@ using dcp::Data;
  */
 Encoder::Encoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	: _film (film)
-	, _writer (writer)
 	, _history (200)
+	, _writer (writer)
 {
 	servers_list_changed ();
 }

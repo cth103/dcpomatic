@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_FFMPEG_TRANSCODER_H
+#define DCPOMATIC_FFMPEG_TRANSCODER_H
+
 #include "transcoder.h"
 #include "event_history.h"
 extern "C" {
@@ -28,7 +31,12 @@ extern "C" {
 class FFmpegTranscoder : public Transcoder
 {
 public:
-	FFmpegTranscoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
+	enum Format
+	{
+		FORMAT_PRORES
+	};
+
+	FFmpegTranscoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format);
 
 	void go ();
 
@@ -36,10 +44,6 @@ public:
 	Frame frames_done () const;
 	bool finishing () const {
 		return false;
-	}
-
-	void set_output (boost::filesystem::path o) {
-		_output = o;
 	}
 
 private:
@@ -51,6 +55,7 @@ private:
 	AVFormatContext* _format_context;
 	AVStream* _video_stream;
 	AVPixelFormat _pixel_format;
+	std::string _codec_name;
 
 	mutable boost::mutex _mutex;
 	DCPTime _last_time;
@@ -59,3 +64,5 @@ private:
 
 	boost::filesystem::path _output;
 };
+
+#endif

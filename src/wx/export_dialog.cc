@@ -25,6 +25,20 @@
 
 using boost::bind;
 
+#define FORMATS 1
+
+wxString format_names[] = {
+	_("ProRes"),
+};
+
+wxString format_filters[] = {
+	_("MOV files (*.mov)|*.mov"),
+};
+
+FFmpegTranscoder::Format formats[] = {
+	FFmpegTranscoder::FORMAT_PRORES,
+};
+
 ExportDialog::ExportDialog (wxWindow* parent)
 	: TableDialog (parent, _("Export film"), 2, 1, true)
 {
@@ -32,10 +46,12 @@ ExportDialog::ExportDialog (wxWindow* parent)
 	_format = new wxChoice (this, wxID_ANY);
 	add (_format);
 	add (_("Output file"), true);
-	_file = new FilePickerCtrl (this, _("Select output file"), _("MOV files (*.mov)|*.mov"), false);
+	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false);
 	add (_file);
 
-	_format->Append (_("ProRes 422"));
+	for (int i = 0; i < FORMATS; ++i) {
+		_format->Append (format_names[i]);
+	}
 	_format->SetSelection (0);
 
 	_format->Bind (wxEVT_CHOICE, bind (&ExportDialog::format_changed, this));
@@ -46,12 +62,8 @@ ExportDialog::ExportDialog (wxWindow* parent)
 void
 ExportDialog::format_changed ()
 {
-	switch (_format->GetSelection()) {
-	case 0:
-		_file->SetWildcard (_("MOV files (*.mov)"));
-		break;
-	}
-
+	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
+	_file->SetWildcard (format_filters[_format->GetSelection()]);
 	_file->SetPath ("");
 }
 
@@ -59,4 +71,11 @@ boost::filesystem::path
 ExportDialog::path () const
 {
 	return wx_to_std (_file->GetPath ());
+}
+
+FFmpegTranscoder::Format
+ExportDialog::format () const
+{
+	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
+	return formats[_format->GetSelection()];
 }

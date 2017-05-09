@@ -19,6 +19,7 @@
 */
 
 #include "table_dialog.h"
+#include "lib/ffmpeg_transcoder.h"
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
 
@@ -30,6 +31,7 @@ public:
 	ExportDialog (wxWindow* parent);
 
 	boost::filesystem::path path () const;
+	FFmpegTranscoder::Format format () const;
 
 private:
 	void format_changed ();
