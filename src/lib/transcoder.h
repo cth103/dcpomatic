@@ -41,8 +41,10 @@ public:
 
 	virtual void go () = 0;
 
-	virtual float current_encoding_rate () const = 0;
-	virtual int video_frames_enqueued () const = 0;
+	/** @return the current frame rate over the last short while */
+	virtual float current_rate () const = 0;
+	/** @return the number of frames that are done */
+	virtual Frame frames_done () const = 0;
 	virtual bool finishing () const = 0;
 
 protected:

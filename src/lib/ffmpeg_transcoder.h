@@ -32,8 +32,8 @@ public:
 
 	void go ();
 
-	float current_encoding_rate () const;
-	int video_frames_enqueued () const;
+	float current_rate () const;
+	Frame frames_done () const;
 	bool finishing () const {
 		return false;
 	}
@@ -53,7 +53,7 @@ private:
 	AVPixelFormat _pixel_format;
 
 	mutable boost::mutex _mutex;
-	Frame _last_frame;
+	DCPTime _last_time;
 
 	EventHistory _history;
 

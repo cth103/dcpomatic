@@ -125,13 +125,13 @@ DCPTranscoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
 }
 
 float
-DCPTranscoder::current_encoding_rate () const
+DCPTranscoder::current_rate () const
 {
 	return _encoder->current_encoding_rate ();
 }
 
-int
-DCPTranscoder::video_frames_enqueued () const
+Frame
+DCPTranscoder::frames_done () const
 {
 	return _encoder->video_frames_enqueued ();
 }

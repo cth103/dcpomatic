@@ -88,7 +88,7 @@ TranscodeJob::run ()
 
 		float fps = 0;
 		if (finish.tv_sec != start.tv_sec) {
-			fps = _transcoder->video_frames_enqueued() / (finish.tv_sec - start.tv_sec);
+			fps = _transcoder->frames_done() / (finish.tv_sec - start.tv_sec);
 		}
 
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
@@ -119,13 +119,13 @@ TranscodeJob::status () const
 		strncpy (buffer, Job::status().c_str(), 256);
 	} else {
 		snprintf (
-			buffer, sizeof(buffer), "%s; %d/%" PRId64 " frames",
+			buffer, sizeof(buffer), "%s; %" PRId64 "/%" PRId64 " frames",
 			Job::status().c_str(),
-			_transcoder->video_frames_enqueued(),
+			_transcoder->frames_done(),
 			_film->length().frames_round (_film->video_frame_rate ())
 			);
 
-		float const fps = _transcoder->current_encoding_rate ();
+		float const fps = _transcoder->current_rate ();
 		if (fps) {
 			char fps_buffer[64];
 			/// TRANSLATORS: fps here is an abbreviation for frames per second
@@ -151,12 +151,12 @@ TranscodeJob::remaining_time () const
 
 	/* We're encoding so guess based on the current encoding rate */
 
-	float fps = t->current_encoding_rate ();
+	float fps = t->current_rate ();
 
 	if (fps == 0) {
 		return 0;
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	return (_film->length().frames_round (_film->video_frame_rate ()) - t->video_frames_enqueued()) / fps;
+	return (_film->length().frames_round (_film->video_frame_rate ()) - t->frames_done()) / fps;
 }

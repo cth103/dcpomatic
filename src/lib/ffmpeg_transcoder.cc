@@ -164,11 +164,7 @@ FFmpegTranscoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	frame->width = image->size().width;
 	frame->height = image->size().height;
 	frame->format = _pixel_format;
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_last_frame = time.frames_round(_film->video_frame_rate());
-		frame->pts = _last_frame / (_film->video_frame_rate() * av_q2d (_video_stream->time_base));
-	}
+	frame->pts = time.seconds() / av_q2d (_video_stream->time_base);
 
 	AVPacket packet;
 	av_init_packet (&packet);
@@ -191,6 +187,11 @@ FFmpegTranscoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 	_history.event ();
 
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_last_time = time;
+	}
+
 	shared_ptr<Job> job = _job.lock ();
 	if (job) {
 		job->set_progress (float(time.get()) / _film->length().get());
@@ -210,14 +211,14 @@ FFmpegTranscoder::subtitle (PlayerSubtitles subs, DCPTimePeriod period)
 }
 
 float
-FFmpegTranscoder::current_encoding_rate () const
+FFmpegTranscoder::current_rate () const
 {
 	return _history.rate ();
 }
 
-int
-FFmpegTranscoder::video_frames_enqueued () const
+Frame
+FFmpegTranscoder::frames_done () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	return _last_frame;
+	return _last_time.frames_round (_film->video_frame_rate ());
 }
