@@ -96,6 +96,8 @@ public:
 	void write_template (boost::filesystem::path path) const;
 	boost::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
 
+	void copy_from (boost::shared_ptr<const Film> film);
+
 	std::string isdcf_name (bool if_created_now) const;
 	std::string dcp_name (bool if_created_now = false) const;
 
@@ -336,6 +338,8 @@ private:
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
 	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
 	void audio_analysis_finished ();
+
+	static std::string const metadata_file;
 
 	/** Log to write to */
 	boost::shared_ptr<Log> _log;

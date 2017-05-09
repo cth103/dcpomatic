@@ -27,7 +27,7 @@
 #include "wx/job_manager_view.h"
 #include "wx/config_dialog.h"
 #include "wx/wx_util.h"
-#include "wx/new_film_dialog.h"
+#include "wx/film_name_location_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/about_dialog.h"
 #include "wx/kdm_dialog.h"
@@ -103,10 +103,10 @@ using boost::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 
-class FilmChangedDialog : public boost::noncopyable
+class FilmChangedClosingDialog : public boost::noncopyable
 {
 public:
-	FilmChangedDialog (string name)
+	FilmChangedClosingDialog (string name)
 	{
 		_dialog = new wxMessageDialog (
 			0,
@@ -122,7 +122,40 @@ public:
 			);
 	}
 
-	~FilmChangedDialog ()
+	~FilmChangedClosingDialog ()
+	{
+		_dialog->Destroy ();
+	}
+
+	int run ()
+	{
+		return _dialog->ShowModal ();
+	}
+
+private:
+	wxMessageDialog* _dialog;
+};
+
+class FilmChangedDuplicatingDialog : public boost::noncopyable
+{
+public:
+	FilmChangedDuplicatingDialog (string name)
+	{
+		_dialog = new wxMessageDialog (
+			0,
+			wxString::Format (_("Save changes to film \"%s\" before duplicating?"), std_to_wx (name).data()),
+			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
+			/// project (Film) has been changed since it was last saved.
+			_("Film changed"),
+			wxYES_NO | wxCANCEL | wxYES_DEFAULT | wxICON_QUESTION
+			);
+
+		_dialog->SetYesNoCancelLabels (
+			_("Save film and duplicate"), _("Duplicate without saving film"), _("Don't duplicate")
+			);
+	}
+
+	~FilmChangedDuplicatingDialog ()
 	{
 		_dialog->Destroy ();
 	}
@@ -149,6 +182,8 @@ enum {
 	ID_file_open,
 	ID_file_save,
 	ID_file_save_as_template,
+	ID_file_duplicate,
+	ID_file_duplicate_and_open,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_content_scale_to_fit_width = 100,
@@ -223,6 +258,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this),               ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_save, this),               ID_file_save);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_save_as_template, this),   ID_file_save_as_template);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_duplicate, this),          ID_file_duplicate);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_duplicate_and_open, this), ID_file_duplicate_and_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_history, this, _1),        ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this),               wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this),        wxID_PREFERENCES);
@@ -295,8 +332,8 @@ public:
 		if (template_name) {
 			film->use_template (template_name.get());
 		}
-		film->write_metadata ();
 		film->set_name (path.filename().generic_string());
+		film->write_metadata ();
 		set_film (film);
 	}
 
@@ -357,33 +394,11 @@ private:
 
 	void file_new ()
 	{
-		NewFilmDialog* d = new NewFilmDialog (this);
+		FilmNameLocationDialog* d = new FilmNameLocationDialog (this, _("New Film"), true);
 		int const r = d->ShowModal ();
 
-		if (r == wxID_OK) {
-
-			if (boost::filesystem::is_directory (d->path()) && !boost::filesystem::is_empty(d->path())) {
-				if (!confirm_dialog (
-					    this,
-					    std_to_wx (
-						    String::compose (wx_to_std (_("The directory %1 already exists and is not empty.  "
-										  "Are you sure you want to use it?")),
-								     d->path().string().c_str())
-						    )
-					    )) {
-					return;
-				}
-			} else if (boost::filesystem::is_regular_file (d->path())) {
-				error_dialog (
-					this,
-					String::compose (wx_to_std (_("%1 already exists as a file, so you cannot use it for a new film.")), d->path().c_str())
-					);
-				return;
-			}
-
-			if (maybe_save_then_delete_film ()) {
-				new_film (d->path(), d->template_name());
-			}
+		if (r == wxID_OK && d->check_path() && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
+			new_film (d->path(), d->template_name());
 		}
 
 		d->Destroy ();
@@ -408,7 +423,7 @@ private:
 			}
 		}
 
-		if (r == wxID_OK && maybe_save_then_delete_film()) {
+		if (r == wxID_OK && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
 			load_film (wx_to_std (c->GetPath ()));
 		}
 
@@ -430,11 +445,42 @@ private:
 		d->Destroy ();
 	}
 
+	void file_duplicate ()
+	{
+		FilmNameLocationDialog* d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
+		int const r = d->ShowModal ();
+
+		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
+			shared_ptr<Film> film (new Film (d->path()));
+			film->copy_from (_film);
+			film->set_name (d->path().filename().generic_string());
+			film->write_metadata ();
+		}
+
+		d->Destroy ();
+	}
+
+	void file_duplicate_and_open ()
+	{
+		FilmNameLocationDialog* d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
+		int const r = d->ShowModal ();
+
+		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
+			shared_ptr<Film> film (new Film (d->path()));
+			film->copy_from (_film);
+			film->set_name (d->path().filename().generic_string());
+			film->write_metadata ();
+			set_film (film);
+		}
+
+		d->Destroy ();
+	}
+
 	void file_history (wxCommandEvent& event)
 	{
 		vector<boost::filesystem::path> history = Config::instance()->history ();
 		int n = event.GetId() - ID_file_history;
-		if (n >= 0 && n < static_cast<int> (history.size ()) && maybe_save_then_delete_film()) {
+		if (n >= 0 && n < static_cast<int> (history.size ()) && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
 			load_film (history[n]);
 		}
 	}
@@ -792,7 +838,7 @@ private:
 
 		if (_film && _film->dirty ()) {
 
-			FilmChangedDialog* dialog = new FilmChangedDialog (_film->name ());
+			FilmChangedClosingDialog* dialog = new FilmChangedClosingDialog (_film->name ());
 			int const r = dialog->run ();
 			delete dialog;
 
@@ -858,27 +904,37 @@ private:
 	/** @return true if the operation that called this method
 	 *  should continue, false to abort it.
 	 */
-	bool maybe_save_then_delete_film ()
+	template <class T>
+	bool maybe_save_film ()
 	{
 		if (!_film) {
 			return true;
 		}
 
 		if (_film->dirty ()) {
-			FilmChangedDialog d (_film->name ());
+			T d (_film->name ());
 			switch (d.run ()) {
 			case wxID_NO:
-				break;
+				return true;
 			case wxID_YES:
 				_film->write_metadata ();
-				break;
+				return true;
 			case wxID_CANCEL:
 				return false;
 			}
 		}
 
-		_film.reset ();
 		return true;
+	}
+
+	template <class T>
+	bool maybe_save_then_delete_film ()
+	{
+		bool const r = maybe_save_film<T> ();
+		if (r) {
+			_film.reset ();
+		}
+		return r;
 	}
 
 	void add_item (wxMenu* menu, wxString text, int id, int sens)
@@ -896,6 +952,8 @@ private:
 		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("Save as &template..."), ID_file_save_as_template, NEEDS_FILM);
+		add_item (_file_menu, _("Duplicate..."), ID_file_duplicate, NEEDS_FILM);
+		add_item (_file_menu, _("Duplicate and open..."), ID_file_duplicate_and_open, NEEDS_FILM);
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 

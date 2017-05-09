@@ -98,6 +98,8 @@ using dcp::raw_convert;
 #define LOG_GENERAL(...) log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...) log()->log (__VA_ARGS__, LogEntry::TYPE_GENERAL);
 
+string const Film::metadata_file = "metadata.xml";
+
 /* 5 -> 6
  * AudioMapping XML changed.
  * 6 -> 7
@@ -399,7 +401,7 @@ Film::write_metadata () const
 	DCPOMATIC_ASSERT (directory());
 	boost::filesystem::create_directories (directory().get());
 	shared_ptr<xmlpp::Document> doc = metadata ();
-	doc->write_to_file_formatted (file("metadata.xml").string ());
+	doc->write_to_file_formatted (file(metadata_file).string ());
 	_dirty = false;
 }
 
@@ -419,11 +421,11 @@ list<string>
 Film::read_metadata (optional<boost::filesystem::path> path)
 {
 	if (!path) {
-		if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file ("metadata.xml"))) {
+		if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file (metadata_file))) {
 			throw runtime_error (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 		}
 
-		path = file ("metadata.xml");
+		path = file (metadata_file);
 	}
 
 	cxml::Document f ("Metadata");
@@ -1574,4 +1576,10 @@ pair<double, double>
 Film::speed_up_range (int dcp_frame_rate) const
 {
 	return _playlist->speed_up_range (dcp_frame_rate);
+}
+
+void
+Film::copy_from (shared_ptr<const Film> film)
+{
+	read_metadata (film->file (metadata_file));
 }

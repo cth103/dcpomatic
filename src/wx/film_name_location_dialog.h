@@ -25,13 +25,14 @@
 
 class DirPickerCtrl;
 
-class NewFilmDialog : public TableDialog
+class FilmNameLocationDialog : public TableDialog
 {
 public:
-	NewFilmDialog (wxWindow *);
-	~NewFilmDialog ();
+	FilmNameLocationDialog (wxWindow *, wxString title, bool offer_templates);
+	~FilmNameLocationDialog ();
 
 	boost::filesystem::path path () const;
+	bool check_path ();
 	boost::optional<std::string> template_name () const;
 
 private:
