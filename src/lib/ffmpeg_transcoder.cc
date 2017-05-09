@@ -79,7 +79,6 @@ FFmpegTranscoder::go ()
 	_codec_context->pix_fmt = _pixel_format;
 	_codec_context->flags |= CODEC_FLAG_QSCALE | CODEC_FLAG_GLOBAL_HEADER;
 
-	boost::filesystem::path filename = _film->file(_film->isdcf_name(true) + ".mov");
 	avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
 	if (!_format_context) {
 		throw runtime_error ("could not allocate FFmpeg format context");
@@ -102,7 +101,7 @@ FFmpegTranscoder::go ()
 		throw runtime_error ("could not open FFmpeg codec");
 	}
 
-	if (avio_open (&_format_context->pb, filename.c_str(), AVIO_FLAG_WRITE) < 0) {
+	if (avio_open (&_format_context->pb, _output.c_str(), AVIO_FLAG_WRITE) < 0) {
 		throw runtime_error ("could not open FFmpeg output file");
 	}
 
