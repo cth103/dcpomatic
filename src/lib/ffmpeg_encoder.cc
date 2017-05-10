@@ -45,6 +45,7 @@ force_pixel_format (AVPixelFormat, AVPixelFormat out)
 
 FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, Format format)
 	: Encoder (film, job)
+	, _options (0)
 	, _history (1000)
 	, _output (output)
 {
@@ -52,6 +53,8 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 	case FORMAT_PRORES:
 		_pixel_format = AV_PIX_FMT_YUV422P10;
 		_codec_name = "prores_ks";
+		av_dict_set (&_options, "profile", "3", 0);
+		av_dict_set (&_options, "threads", "auto", 0);
 		break;
 	case FORMAT_H264:
 		_pixel_format = AV_PIX_FMT_YUV420P;
@@ -97,11 +100,7 @@ FFmpegEncoder::go ()
 	_video_stream->id = 0;
 	_video_stream->codec = _codec_context;
 
-	AVDictionary* options = 0;
-	av_dict_set (&options, "profile", "3", 0);
-	av_dict_set (&options, "threads", "auto", 0);
-
-	if (avcodec_open2 (_codec_context, codec, &options) < 0) {
+	if (avcodec_open2 (_codec_context, codec, &_options) < 0) {
 		throw runtime_error ("could not open FFmpeg codec");
 	}
 
@@ -109,7 +108,7 @@ FFmpegEncoder::go ()
 		throw runtime_error ("could not open FFmpeg output file");
 	}
 
-	if (avformat_write_header (_format_context, &options) < 0) {
+	if (avformat_write_header (_format_context, &_options) < 0) {
 		throw runtime_error ("could not write header to FFmpeg output file");
 	}
 

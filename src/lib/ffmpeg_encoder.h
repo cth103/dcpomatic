@@ -56,6 +56,7 @@ private:
 	AVFormatContext* _format_context;
 	AVStream* _video_stream;
 	AVPixelFormat _pixel_format;
+	AVDictionary* _options;
 	std::string _codec_name;
 
 	mutable boost::mutex _mutex;
