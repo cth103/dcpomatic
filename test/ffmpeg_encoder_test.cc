@@ -40,6 +40,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test)
 	wait_for_jobs ();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test/test.mov", FFmpegEncoder::FORMAT_PRORES);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES);
 	encoder.go ();
 }
