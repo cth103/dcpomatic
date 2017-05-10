@@ -1001,7 +1001,7 @@ private:
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
 		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM);
 		jobs_menu->AppendSeparator ();
-		add_item (jobs_menu, _("Export..."), ID_jobs_export, NEEDS_FILM);
+		add_item (jobs_menu, _("Export...\tCtrl-E"), ID_jobs_export, NEEDS_FILM);
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 		add_item (jobs_menu, _("S&how DCP"), ID_jobs_show_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
