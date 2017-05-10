@@ -63,7 +63,6 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
-	void set_enable_subtitles (bool enable);
 	void set_always_burn_subtitles (bool burn);
 	void set_fast ();
 	void set_play_referenced ();
