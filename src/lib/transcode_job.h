@@ -25,10 +25,10 @@
 #include "job.h"
 #include <boost/shared_ptr.hpp>
 
-class Transcoder;
+class Encoder;
 
 /** @class TranscodeJob
- *  @brief A job which transcodes from one format to another.
+ *  @brief A job which transcodes a Film to another format.
  */
 class TranscodeJob : public Job
 {
@@ -40,10 +40,10 @@ public:
 	void run ();
 	std::string status () const;
 
-	void set_transcoder (boost::shared_ptr<Transcoder> t);
+	void set_encoder (boost::shared_ptr<Encoder> t);
 
 private:
 	int remaining_time () const;
 
-	boost::shared_ptr<Transcoder> _transcoder;
+	boost::shared_ptr<Encoder> _encoder;
 };

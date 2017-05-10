@@ -37,9 +37,9 @@ wxString format_filters[] = {
 	_("MP4 files (*.mp4)|*.mp4"),
 };
 
-FFmpegTranscoder::Format formats[] = {
-	FFmpegTranscoder::FORMAT_PRORES,
-	FFmpegTranscoder::FORMAT_H264,
+FFmpegEncoder::Format formats[] = {
+	FFmpegEncoder::FORMAT_PRORES,
+	FFmpegEncoder::FORMAT_H264,
 };
 
 ExportDialog::ExportDialog (wxWindow* parent)
@@ -76,7 +76,7 @@ ExportDialog::path () const
 	return wx_to_std (_file->GetPath ());
 }
 
-FFmpegTranscoder::Format
+FFmpegEncoder::Format
 ExportDialog::format () const
 {
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);

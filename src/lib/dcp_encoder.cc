@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,15 @@
 
 */
 
-/** @file  src/dcp_transcoder.cc
- *  @brief A class which takes a Film and some Options, then uses those to transcode the film into a DCP.
+/** @file  src/dcp_encoder.cc
+ *  @brief A class which takes a Film and some Options, then uses those to encode the film into a DCP.
  *
  *  A decoder is selected according to the content type, and the encoder can be specified
  *  as a parameter to the constructor.
  */
 
-#include "dcp_transcoder.h"
-#include "encoder.h"
+#include "dcp_encoder.h"
+#include "j2k_encoder.h"
 #include "film.h"
 #include "video_decoder.h"
 #include "audio_decoder.h"
@@ -50,14 +50,14 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 
-/** Construct a DCP transcoder.
- *  @param film Film that we are transcoding.
- *  @param job Job that this transcoder is being used in.
+/** Construct a DCP encoder.
+ *  @param film Film that we are encoding.
+ *  @param job Job that this encoder is being used in.
  */
-DCPTranscoder::DCPTranscoder (shared_ptr<const Film> film, weak_ptr<Job> job)
-	: Transcoder (film, job)
+DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
+	: Encoder (film, job)
 	, _writer (new Writer (film, job))
-	, _encoder (new Encoder (film, _writer))
+	, _j2k_encoder (new J2KEncoder (film, _writer))
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
@@ -69,10 +69,10 @@ DCPTranscoder::DCPTranscoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 }
 
 void
-DCPTranscoder::go ()
+DCPEncoder::go ()
 {
 	_writer->start ();
-	_encoder->begin ();
+	_j2k_encoder->begin ();
 
 	{
 		shared_ptr<Job> job = _job.lock ();
@@ -91,23 +91,23 @@ DCPTranscoder::go ()
 	}
 
 	_finishing = true;
-	_encoder->end ();
+	_j2k_encoder->end ();
 	_writer->finish ();
 }
 
 void
-DCPTranscoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
+DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 {
 	if (!_film->three_d() && data->eyes() == EYES_LEFT) {
 		/* Use left-eye images for both eyes */
 		data->set_eyes (EYES_BOTH);
 	}
 
-	_encoder->encode (data, time);
+	_j2k_encoder->encode (data, time);
 }
 
 void
-DCPTranscoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
+DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	_writer->write (data);
 
@@ -117,7 +117,7 @@ DCPTranscoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-DCPTranscoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
+DCPEncoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
 {
 	if (_non_burnt_subtitles) {
 		_writer->write (data, period);
@@ -125,13 +125,13 @@ DCPTranscoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
 }
 
 float
-DCPTranscoder::current_rate () const
+DCPEncoder::current_rate () const
 {
-	return _encoder->current_encoding_rate ();
+	return _j2k_encoder->current_encoding_rate ();
 }
 
 Frame
-DCPTranscoder::frames_done () const
+DCPEncoder::frames_done () const
 {
-	return _encoder->video_frames_enqueued ();
+	return _j2k_encoder->video_frames_enqueued ();
 }

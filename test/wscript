@@ -58,9 +58,9 @@ def build(bld):
                  ffmpeg_dcp_test.cc
                  ffmpeg_decoder_seek_test.cc
                  ffmpeg_decoder_sequential_test.cc
+                 ffmpeg_encoder_test.cc
                  ffmpeg_examiner_test.cc
                  ffmpeg_pts_offset_test.cc
-                 ffmpeg_transcoder_test.cc
                  file_group_test.cc
                  file_log_test.cc
                  file_naming_test.cc

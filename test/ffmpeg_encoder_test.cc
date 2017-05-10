@@ -18,7 +18,7 @@
 
 */
 
-#include "lib/ffmpeg_transcoder.h"
+#include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
@@ -40,6 +40,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_transcoder_basic_test)
 	wait_for_jobs ();
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegTranscoder transcoder (film, job, "build/test/ffmpeg_transcoder_basic_test/test.mov", FFmpegTranscoder::FORMAT_PRORES);
-	transcoder.go ();
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test/test.mov", FFmpegEncoder::FORMAT_PRORES);
+	encoder.go ();
 }

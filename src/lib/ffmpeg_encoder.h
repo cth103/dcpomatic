@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,43 +18,52 @@
 
 */
 
-#include "types.h"
-#include "player_subtitles.h"
-#include "transcoder.h"
-#include <boost/weak_ptr.hpp>
+#ifndef DCPOMATIC_FFMPEG_ENCODER_H
+#define DCPOMATIC_FFMPEG_ENCODER_H
 
-class Film;
-class Encoder;
-class Player;
-class Writer;
-class Job;
-class PlayerVideo;
-class AudioBuffers;
+#include "encoder.h"
+#include "event_history.h"
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+}
 
-/** @class DCPTranscoder */
-class DCPTranscoder : public Transcoder
+class FFmpegEncoder : public Encoder
 {
 public:
-	DCPTranscoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
+	enum Format
+	{
+		FORMAT_PRORES,
+		FORMAT_H264
+	};
+
+	FFmpegEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format);
 
 	void go ();
 
 	float current_rate () const;
 	Frame frames_done () const;
-
-	/** @return true if we are in the process of calling Encoder::process_end */
 	bool finishing () const {
-		return _finishing;
+		return false;
 	}
 
 private:
-
 	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
 	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
 	void subtitle (PlayerSubtitles, DCPTimePeriod);
 
-	boost::shared_ptr<Writer> _writer;
-	boost::shared_ptr<Encoder> _encoder;
-	bool _finishing;
-	bool _non_burnt_subtitles;
+	AVCodecContext* _codec_context;
+	AVFormatContext* _format_context;
+	AVStream* _video_stream;
+	AVPixelFormat _pixel_format;
+	std::string _codec_name;
+
+	mutable boost::mutex _mutex;
+	DCPTime _last_time;
+
+	EventHistory _history;
+
+	boost::filesystem::path _output;
 };
+
+#endif

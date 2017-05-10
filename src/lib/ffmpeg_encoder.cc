@@ -18,7 +18,7 @@
 
 */
 
-#include "ffmpeg_transcoder.h"
+#include "ffmpeg_encoder.h"
 #include "film.h"
 #include "job.h"
 #include "player.h"
@@ -43,8 +43,8 @@ force_pixel_format (AVPixelFormat, AVPixelFormat out)
 	return out;
 }
 
-FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, Format format)
-	: Transcoder (film, job)
+FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, boost::filesystem::path output, Format format)
+	: Encoder (film, job)
 	, _history (1000)
 	, _output (output)
 {
@@ -61,7 +61,7 @@ FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> j
 }
 
 void
-FFmpegTranscoder::go ()
+FFmpegEncoder::go ()
 {
 	AVCodec* codec = avcodec_find_encoder_by_name (_codec_name.c_str());
 	if (!codec) {
@@ -146,7 +146,7 @@ FFmpegTranscoder::go ()
 }
 
 void
-FFmpegTranscoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
+FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	shared_ptr<Image> image = video->image (
 		bind (&Log::dcp_log, _film->log().get(), _1, _2),
@@ -206,25 +206,25 @@ FFmpegTranscoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 }
 
 void
-FFmpegTranscoder::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 {
 
 }
 
 void
-FFmpegTranscoder::subtitle (PlayerSubtitles subs, DCPTimePeriod period)
+FFmpegEncoder::subtitle (PlayerSubtitles subs, DCPTimePeriod period)
 {
 
 }
 
 float
-FFmpegTranscoder::current_rate () const
+FFmpegEncoder::current_rate () const
 {
 	return _history.rate ();
 }
 
 Frame
-FFmpegTranscoder::frames_done () const
+FFmpegEncoder::frames_done () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	return _last_time.frames_round (_film->video_frame_rate ());

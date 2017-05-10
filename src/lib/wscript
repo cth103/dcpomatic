@@ -52,11 +52,11 @@ sources = """
           dcp_content.cc
           dcp_content_type.cc
           dcp_decoder.cc
+          dcp_encoder.cc
           dcp_examiner.cc
           dcp_subtitle.cc
           dcp_subtitle_content.cc
           dcp_subtitle_decoder.cc
-          dcp_transcoder.cc
           dcp_video.cc
           dcpomatic_socket.cc
           dcpomatic_time.cc
@@ -81,10 +81,10 @@ sources = """
           ffmpeg_audio_stream.cc
           ffmpeg_content.cc
           ffmpeg_decoder.cc
+          ffmpeg_encoder.cc
           ffmpeg_examiner.cc
           ffmpeg_stream.cc
           ffmpeg_subtitle_stream.cc
-          ffmpeg_transcoder.cc
           film.cc
           filter.cc
           font.cc
@@ -102,6 +102,7 @@ sources = """
           j2k_image_proxy.cc
           job.cc
           job_manager.cc
+          j2k_encoder.cc
           json_server.cc
           log.cc
           log_entry.cc
@@ -134,7 +135,6 @@ sources = """
           text_subtitle_decoder.cc
           timer.cc
           transcode_job.cc
-          transcoder.cc
           types.cc
           signal_manager.cc
           update_checker.cc

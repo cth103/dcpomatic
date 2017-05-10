@@ -18,43 +18,43 @@
 
 */
 
-#ifndef DCPOMATIC_TRANSCODER_H
-#define DCPOMATIC_TRANSCODER_H
-
 #include "types.h"
 #include "player_subtitles.h"
+#include "encoder.h"
 #include <boost/weak_ptr.hpp>
 
 class Film;
-class Encoder;
+class J2KEncoder;
 class Player;
+class Writer;
 class Job;
 class PlayerVideo;
 class AudioBuffers;
 
-/** @class Transcoder */
-class Transcoder : public boost::noncopyable
+/** @class DCPEncoder */
+class DCPEncoder : public Encoder
 {
 public:
-	Transcoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
-	virtual ~Transcoder () {}
+	DCPEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
 
-	virtual void go () = 0;
+	void go ();
 
-	/** @return the current frame rate over the last short while */
-	virtual float current_rate () const = 0;
-	/** @return the number of frames that are done */
-	virtual Frame frames_done () const = 0;
-	virtual bool finishing () const = 0;
+	float current_rate () const;
+	Frame frames_done () const;
 
-protected:
-	virtual void video (boost::shared_ptr<PlayerVideo>, DCPTime) = 0;
-	virtual void audio (boost::shared_ptr<AudioBuffers>, DCPTime) = 0;
-	virtual void subtitle (PlayerSubtitles, DCPTimePeriod) = 0;
+	/** @return true if we are in the process of calling Encoder::process_end */
+	bool finishing () const {
+		return _finishing;
+	}
 
-	boost::shared_ptr<const Film> _film;
-	boost::weak_ptr<Job> _job;
-	boost::shared_ptr<Player> _player;
+private:
+
+	void video (boost::shared_ptr<PlayerVideo>, DCPTime);
+	void audio (boost::shared_ptr<AudioBuffers>, DCPTime);
+	void subtitle (PlayerSubtitles, DCPTimePeriod);
+
+	boost::shared_ptr<Writer> _writer;
+	boost::shared_ptr<J2KEncoder> _j2k_encoder;
+	bool _finishing;
+	bool _non_burnt_subtitles;
 };
-
-#endif

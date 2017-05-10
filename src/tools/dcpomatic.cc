@@ -64,7 +64,7 @@
 #include "lib/dcpomatic_socket.h"
 #include "lib/hints.h"
 #include "lib/dcp_content.h"
-#include "lib/ffmpeg_transcoder.h"
+#include "lib/ffmpeg_encoder.h"
 #include "lib/transcode_job.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
@@ -707,8 +707,7 @@ private:
 		ExportDialog* d = new ExportDialog (this);
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
-			shared_ptr<FFmpegTranscoder> tx (new FFmpegTranscoder (_film, job, d->path(), d->format()));
-			job->set_transcoder (tx);
+			job->set_encoder (shared_ptr<FFmpegEncoder> (new FFmpegEncoder (_film, job, d->path(), d->format())));
 			JobManager::instance()->add (job);
 		}
 		d->Destroy ();

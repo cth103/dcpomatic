@@ -23,11 +23,11 @@
  */
 
 #include "transcode_job.h"
-#include "dcp_transcoder.h"
+#include "dcp_encoder.h"
 #include "upload_job.h"
 #include "job_manager.h"
 #include "film.h"
-#include "transcoder.h"
+#include "encoder.h"
 #include "log.h"
 #include "compose.hpp"
 #include <iostream>
@@ -65,9 +65,9 @@ TranscodeJob::json_name () const
 }
 
 void
-TranscodeJob::set_transcoder (shared_ptr<Transcoder> t)
+TranscodeJob::set_encoder (shared_ptr<Encoder> e)
 {
-	_transcoder = t;
+	_encoder = e;
 }
 
 void
@@ -78,8 +78,8 @@ TranscodeJob::run ()
 		gettimeofday (&start, 0);
 		LOG_GENERAL_NC (N_("Transcode job starting"));
 
-		DCPOMATIC_ASSERT (_transcoder);
-		_transcoder->go ();
+		DCPOMATIC_ASSERT (_encoder);
+		_encoder->go ();
 		set_progress (1);
 		set_state (FINISHED_OK);
 
@@ -88,11 +88,11 @@ TranscodeJob::run ()
 
 		float fps = 0;
 		if (finish.tv_sec != start.tv_sec) {
-			fps = _transcoder->frames_done() / (finish.tv_sec - start.tv_sec);
+			fps = _encoder->frames_done() / (finish.tv_sec - start.tv_sec);
 		}
 
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
-		_transcoder.reset ();
+		_encoder.reset ();
 
 		/* XXX: this shouldn't be here */
 		if (_film->upload_after_make_dcp ()) {
@@ -101,7 +101,7 @@ TranscodeJob::run ()
 		}
 
 	} catch (...) {
-		_transcoder.reset ();
+		_encoder.reset ();
 		throw;
 	}
 }
@@ -109,23 +109,23 @@ TranscodeJob::run ()
 string
 TranscodeJob::status () const
 {
-	if (!_transcoder) {
+	if (!_encoder) {
 		return Job::status ();
 	}
 
 
 	char buffer[256];
-	if (finished() || _transcoder->finishing()) {
+	if (finished() || _encoder->finishing()) {
 		strncpy (buffer, Job::status().c_str(), 256);
 	} else {
 		snprintf (
 			buffer, sizeof(buffer), "%s; %" PRId64 "/%" PRId64 " frames",
 			Job::status().c_str(),
-			_transcoder->frames_done(),
+			_encoder->frames_done(),
 			_film->length().frames_round (_film->video_frame_rate ())
 			);
 
-		float const fps = _transcoder->current_rate ();
+		float const fps = _encoder->current_rate ();
 		if (fps) {
 			char fps_buffer[64];
 			/// TRANSLATORS: fps here is an abbreviation for frames per second
@@ -141,22 +141,22 @@ TranscodeJob::status () const
 int
 TranscodeJob::remaining_time () const
 {
-	/* _transcoder might be destroyed by the job-runner thread */
-	shared_ptr<Transcoder> t = _transcoder;
+	/* _encoder might be destroyed by the job-runner thread */
+	shared_ptr<Encoder> e = _encoder;
 
-	if (!t || t->finishing()) {
+	if (!e || e->finishing()) {
 		/* We aren't doing any actual encoding so just use the job's guess */
 		return Job::remaining_time ();
 	}
 
 	/* We're encoding so guess based on the current encoding rate */
 
-	float fps = t->current_rate ();
+	float fps = e->current_rate ();
 
 	if (fps == 0) {
 		return 0;
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	return (_film->length().frames_round (_film->video_frame_rate ()) - t->frames_done()) / fps;
+	return (_film->length().frames_round (_film->video_frame_rate ()) - e->frames_done()) / fps;
 }
