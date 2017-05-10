@@ -44,6 +44,7 @@
 #include <dcp/subtitle_asset.h>
 extern "C" {
 #include <libavfilter/avfilter.h>
+#include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
 }
 #include <curl/curl.h>
@@ -323,6 +324,7 @@ dcpomatic_setup ()
 	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
+	av_register_all ();
 	avfilter_register_all ();
 
 #ifdef DCPOMATIC_OSX

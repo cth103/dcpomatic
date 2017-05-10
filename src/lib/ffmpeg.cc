@@ -110,8 +110,6 @@ FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
 void
 FFmpeg::setup_general ()
 {
-	av_register_all ();
-
 	/* This might not work too well in some cases of multiple FFmpeg decoders,
 	   but it's probably good enough.
 	*/
