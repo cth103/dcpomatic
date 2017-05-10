@@ -53,6 +53,10 @@ FFmpegTranscoder::FFmpegTranscoder (shared_ptr<const Film> film, weak_ptr<Job> j
 		_pixel_format = AV_PIX_FMT_YUV422P10;
 		_codec_name = "prores_ks";
 		break;
+	case FORMAT_H264:
+		_pixel_format = AV_PIX_FMT_YUV420P;
+		_codec_name = "libx264";
+		break;
 	}
 }
 

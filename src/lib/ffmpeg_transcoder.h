@@ -33,7 +33,8 @@ class FFmpegTranscoder : public Transcoder
 public:
 	enum Format
 	{
-		FORMAT_PRORES
+		FORMAT_PRORES,
+		FORMAT_H264
 	};
 
 	FFmpegTranscoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format);

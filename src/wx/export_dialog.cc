@@ -25,18 +25,21 @@
 
 using boost::bind;
 
-#define FORMATS 1
+#define FORMATS 2
 
 wxString format_names[] = {
 	_("ProRes"),
+	_("H.264")
 };
 
 wxString format_filters[] = {
 	_("MOV files (*.mov)|*.mov"),
+	_("MP4 files (*.mp4)|*.mp4"),
 };
 
 FFmpegTranscoder::Format formats[] = {
 	FFmpegTranscoder::FORMAT_PRORES,
+	FFmpegTranscoder::FORMAT_H264,
 };
 
 ExportDialog::ExportDialog (wxWindow* parent)
