@@ -28,7 +28,7 @@
 
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (ffmpeg_transcoder_basic_test)
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test");
 	film->set_name ("ffmpeg_transcoder_basic_test");
