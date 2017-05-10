@@ -69,6 +69,9 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 		_audio_codec_name = "aac";
 		break;
 	}
+
+	_player->set_always_burn_subtitles (true);
+	_player->set_play_referenced ();
 }
 
 void
@@ -281,7 +284,7 @@ FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 }
 
 void
-FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio, DCPTime)
 {
 	_pending_audio->append (audio);
 
@@ -356,7 +359,7 @@ FFmpegEncoder::audio_frame (int size)
 }
 
 void
-FFmpegEncoder::subtitle (PlayerSubtitles subs, DCPTimePeriod period)
+FFmpegEncoder::subtitle (PlayerSubtitles, DCPTimePeriod)
 {
 
 }
