@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 #
-#    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+#    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 #
 #    This file is part of DCP-o-matic.
 #
@@ -26,7 +26,7 @@ import copy
 
 deb_build_depends = dict()
 
-deb_build_depends_base = ['debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev']
+deb_build_depends_base = ['debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev', 'libx264-dev']
 
 deb_build_depends['12.04'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['12.04'].extend(['libssh-dev'])
@@ -48,18 +48,6 @@ deb_depends = dict()
 
 deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libcurl3', 'libgtk2.0-0']
 
-deb_depends['12.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['12.04'].extend(['libboost-filesystem1.48.0',
-                             'libboost-thread1.48.0',
-                             'libboost-regex1.48.0',
-                             'libmagick++4',
-                             'libxml++2.6-2',
-                             'libboost-date-time1.48.0',
-                             'libzip2',
-                             'libicu48',
-                             'libnettle4',
-                             'libssh-4'])
-
 deb_depends['14.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['14.04'].extend(['libboost-filesystem1.54.0',
                              'libboost-thread1.54.0',
@@ -72,7 +60,8 @@ deb_depends['14.04'].extend(['libboost-filesystem1.54.0',
                              'libpangomm-1.4-1,'
                              'libicu52',
                              'libnettle4',
-                             'libssh-4'])
+                             'libssh-4',
+                             'libx264-142'])
 
 deb_depends['16.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
@@ -87,7 +76,8 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libwxgtk3.0-0v5',
                              'libicu55',
                              'libnettle6',
-                             'libssh-4'])
+                             'libssh-4',
+                             'libx264-148'])
 
 deb_depends['16.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['16.10'].extend(['libboost-filesystem1.61.0',
@@ -100,7 +90,8 @@ deb_depends['16.10'].extend(['libboost-filesystem1.61.0',
                              'libwxgtk3.0-0v5',
                              'libicu57',
                              'libnettle6',
-                             'libssh-4'])
+                             'libssh-4',
+                             'libx264-148'])
 
 deb_depends['17.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['17.04'].extend(['libboost-filesystem1.62.0',
@@ -113,7 +104,8 @@ deb_depends['17.04'].extend(['libboost-filesystem1.62.0',
                              'libwxgtk3.0-0v5',
                              'libicu57',
                              'libnettle6',
-                             'libssh-4'])
+                             'libssh-4',
+                             'libx264-148'])
 
 deb_depends['7'] = copy.deepcopy(deb_depends_base)
 deb_depends['7'].extend(['libboost-filesystem1.49.0',
@@ -127,7 +119,8 @@ deb_depends['7'].extend(['libboost-filesystem1.49.0',
                              'libpangomm-1.4-1',
                              'libicu48',
                              'libnettle4',
-                             'libnotify4'])
+                             'libnotify4',
+                             'libx264-123'])
 
 deb_depends['8'] = copy.deepcopy(deb_depends_base)
 deb_depends['8'].extend(['libboost-filesystem1.55.0',
@@ -144,7 +137,8 @@ deb_depends['8'].extend(['libboost-filesystem1.55.0',
                          'libxcb-shape0',
                          'libicu52',
                          'libnettle4',
-                         'libssh-4'])
+                         'libssh-4',
+                         'libx264-142'])
 
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
 deb_depends['unstable'].extend(['libboost-filesystem1.58.0',
@@ -156,7 +150,8 @@ deb_depends['unstable'].extend(['libboost-filesystem1.58.0',
                                 'libboost-date-time1.58.0',
                                 'libzip2',
                                 'libicu52',
-                                'libnettle6'])
+                                'libnettle6',
+                                'libx264-148'])
 
 def packages(name, packages, f):
     s = '%s: ' % name
