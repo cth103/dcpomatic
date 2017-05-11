@@ -1,3 +1,7 @@
+2017-05-11  Carl Hetherington  <cth@carlh.net>
+
+	* Add basic export option (#1070).
+
 2017-05-09  Carl Hetherington  <cth@carlh.net>
 
 	* Basic save-as (duplicate) feature (#746).
