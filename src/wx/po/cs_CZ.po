@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-27 11:57+0100\n"
-"PO-Revision-Date: 2016-12-14 12:11+0100\n"
+"PO-Revision-Date: 2017-05-10 15:22+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
@@ -28,20 +28,19 @@ msgstr "%"
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM zapsán do %s"
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDMs zapsány do %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:42 src/wx/file_picker_ctrl.cc:58
@@ -168,9 +167,8 @@ msgid "Add Cinema..."
 msgstr "Přidat kino…"
 
 #: src/wx/content_panel.cc:90
-#, fuzzy
 msgid "Add DCP..."
-msgstr "Přidat KDM..."
+msgstr "Přidat DCP..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -189,17 +187,16 @@ msgid "Add Screen..."
 msgstr "Přidat obraz…"
 
 #: src/wx/content_panel.cc:91
-#, fuzzy
 msgid "Add a DCP."
-msgstr "Přidat KDM..."
+msgstr "Přidat DCP..."
 
 #: src/wx/content_panel.cc:87
-#, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
-"Přidat složku s obrázky (která bude použita jako video sekvence) čili DCP."
+"Přidat složku s obrázky (která bude použita jako video sekvence) nebo složku "
+"se zvukovými soubory."
 
 #: src/wx/content_panel.cc:82
 msgid "Add file(s)..."
@@ -214,9 +211,8 @@ msgid "Add image sequence"
 msgstr "Přidat sekvenci obrázků"
 
 #: src/wx/content_panel.cc:83
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
-msgstr "Přidat video, obrázek nebo zvukový soubor do filmu."
+msgstr "Přidat video, obrázek zvuk nebo titulky do filmu."
 
 #: src/wx/config_dialog.cc:812 src/wx/editable_list.h:74
 msgid "Add..."
@@ -387,9 +383,8 @@ msgid "Choose CPL..."
 msgstr "Vyberte CPL"
 
 #: src/wx/content_panel.cc:355
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Vyberte složku"
+msgstr "Vyberte DCP složku"
 
 #: src/wx/content_menu.cc:294
 msgid "Choose a file"
@@ -500,6 +495,7 @@ msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
 "preview."
 msgstr ""
+"Nelze nastavit výstup zvuku (%s).  Během přehrávání nebude slyšet zvuk."
 
 #: src/wx/new_film_dialog.cc:42
 msgid "Create in folder"
@@ -568,9 +564,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Předvolený JPEG2000 bandwidth (šířka pásma)"
 
 #: src/wx/config_dialog.cc:548
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Standard 'creator' (DCI)"
+msgstr "Výchozí složka KDM"
 
 #: src/wx/config_dialog.cc:536
 msgid "Default audio delay"
@@ -754,7 +749,7 @@ msgstr "Postupné zeslabení v čase (Fade out)"
 #: src/wx/kdm_dialog.cc:132
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "Soubor %s již existuje.  Přejete si ho přepsat?"
 
 #: src/wx/kdm_output_panel.cc:79
 msgid "Filename format"
@@ -780,9 +775,8 @@ msgid "Find missing..."
 msgstr "Najít chybějící…"
 
 #: src/wx/kdm_output_panel.cc:65
-#, fuzzy
 msgid "Folder / ZIP name format"
-msgstr "Formát nazvu souboru"
+msgstr "Složka / ZIP name format"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -873,7 +867,7 @@ msgstr "Zelená barevnost (Green chromaticity)"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
-msgstr ""
+msgstr "Vyšší priorita"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -925,7 +919,7 @@ msgstr "Vstupní sila"
 
 #: src/wx/colour_conversion_editor.cc:58
 msgid "Input transfer function"
-msgstr ""
+msgstr "Funkce přenosu vstupů"
 
 #: src/wx/audio_dialog.cc:354
 #, c-format
@@ -945,9 +939,8 @@ msgid "Interop"
 msgstr "Interop"
 
 #: src/wx/colour_conversion_editor.cc:205
-#, fuzzy
 msgid "Inverse 2.6 gamma correction on output"
-msgstr "Korekce výstupní gamy"
+msgstr "Inverzní 2,6 gama korekce na výstupu"
 
 #: src/wx/config_dialog.cc:239
 msgid "Issuer"
@@ -975,7 +968,7 @@ msgstr "Spojit"
 
 #: src/wx/film_viewer.cc:81
 msgid "Jump to selected content"
-msgstr ""
+msgstr "Přeskočit na vybraný obsah"
 
 #: src/wx/config_dialog.cc:1327
 msgid "KDM Email"
@@ -1053,7 +1046,7 @@ msgstr "Rozsah hlasitosti %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
 msgid "Lower priority"
-msgstr ""
+msgstr "Nižší priorita"
 
 #: src/wx/content_panel.cc:555
 msgid "MISSING: "
@@ -1190,11 +1183,11 @@ msgstr "Poznámky"
 
 #: src/wx/config_dialog.cc:202
 msgid "Number of threads DCP-o-matic encode server should use"
-msgstr ""
+msgstr "Počet vláken , které má server DCP-o-matic použít ke kódování"
 
 #: src/wx/config_dialog.cc:197
 msgid "Number of threads DCP-o-matic should use"
-msgstr ""
+msgstr "Počet vláken, které má DCP-o-matic použít"
 
 #: src/wx/audio_mapping_view.cc:165
 msgid "Off"
@@ -1283,7 +1276,7 @@ msgstr "Délka přehrávání"
 
 #: src/wx/config_dialog.cc:212
 msgid "Play sound in the preview via"
-msgstr ""
+msgstr "Přehrávejte zvuk v náhledu přes"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1440,7 +1433,7 @@ msgstr "Rozlišení"
 
 #: src/wx/subtitle_appearance_dialog.cc:114
 msgid "Restore to original colours"
-msgstr ""
+msgstr "Obnovit na originální barvy"
 
 #: src/wx/normal_job_view.cc:56
 msgid "Resume"
@@ -1468,7 +1461,7 @@ msgstr "Root common name"
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/config_dialog.cc:1253
 msgid "SCP (for AAM and Doremi)"
@@ -1597,12 +1590,10 @@ msgid "Signing DCPs and KDMs"
 msgstr "Podepsané DCP a KDM"
 
 #: src/wx/colour_conversion_editor.cc:60
-#, fuzzy
 msgid "Simple gamma"
 msgstr "Vstupní gama"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Simple gamma, linearised for small values"
 msgstr "Linearizovat vstupní gama křivku pro malé hodnoty"
 
@@ -1984,15 +1975,15 @@ msgstr "S pomocí"
 
 #: src/wx/kdm_output_panel.cc:126
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "Zadejte ZIP soubor pro každé kino KDMs"
 
 #: src/wx/kdm_output_panel.cc:124
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "Zadejte složku pro každé kino KDMs"
 
 #: src/wx/kdm_output_panel.cc:122
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "Zadejte všechny KDMs pro každou složku"
 
 #: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
 msgid "Write to"
@@ -2032,6 +2023,8 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"Nemůžete přidat obraz s názvem '% s', protože kino již obsahuje obraz s "
+"tímto názvem."
 
 #: src/wx/screens_panel.cc:258
 #, c-format
@@ -2039,6 +2032,8 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
+"Nemůžete změnit obraz s názvem '% s', protože kino již obsahuje obraz s "
+"tímto názvem."
 
 #: src/wx/report_problem_dialog.cc:68
 msgid "Your email address"
