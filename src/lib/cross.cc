@@ -22,6 +22,9 @@
 #include "compose.hpp"
 #include "log.h"
 #include "exceptions.h"
+extern "C" {
+#include <libavformat/avio.h>
+}
 #include <boost/algorithm/string.hpp>
 #ifdef DCPOMATIC_LINUX
 #include <unistd.h>
@@ -404,5 +407,20 @@ thread_id ()
 	return (uint64_t) GetCurrentThreadId ();
 #else
 	return (uint64_t) pthread_self ();
+#endif
+}
+
+int
+avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
+{
+#ifdef DCPOMATIC_WINDOWS
+	int const length = (file.length() + 1) * 2;
+	char* utf8 = new char[length];
+	WideCharToMultibyte (CP_UTF8, 0, file.c_str(), -1, utf8, length, 0, 0);
+	int const r = avio_open_boost (s, file.c_str(), flags);
+	delete[] utf8;
+	return r;
+#else
+	return avio_open_boost (s, file.c_str(), flags);
 #endif
 }

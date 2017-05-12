@@ -25,6 +25,7 @@
 #include "player_video.h"
 #include "log.h"
 #include "image.h"
+#include "cross.h"
 #include "compose.hpp"
 #include <iostream>
 
@@ -159,7 +160,7 @@ FFmpegEncoder::go ()
 		throw runtime_error (String::compose ("could not open FFmpeg audio codec (%1)", buffer));
 	}
 
-	if (avio_open (&_format_context->pb, _output.c_str(), AVIO_FLAG_WRITE) < 0) {
+	if (avio_open_boost (&_format_context->pb, _output, AVIO_FLAG_WRITE) < 0) {
 		throw runtime_error ("could not open FFmpeg output file");
 	}
 
