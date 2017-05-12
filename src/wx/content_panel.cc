@@ -270,7 +270,7 @@ ContentPanel::add_file_clicked ()
 	/* This method is also called when Ctrl-A is pressed, so check that our notebook page
 	   is visible.
 	*/
-	if (_parent->GetCurrentPage() != _panel) {
+	if (_parent->GetCurrentPage() != _panel || !_film) {
 		return;
 	}
 
