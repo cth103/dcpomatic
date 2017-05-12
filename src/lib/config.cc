@@ -88,6 +88,7 @@ Config::set_defaults ()
 	_language = optional<string> ();
 	_default_still_length = 10;
 	_default_container = Ratio::from_id ("185");
+	_default_scale_to = 0;
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_dcp_audio_channels = 6;
 	_default_j2k_bandwidth = 100000000;
@@ -219,6 +220,11 @@ try
 	c = f.optional_string_child ("DefaultContainer");
 	if (c) {
 		_default_container = Ratio::from_id (c.get ());
+	}
+
+	c = f.optional_string_child ("DefaultScaleTo");
+	if (c) {
+		_default_scale_to = Ratio::from_id (c.get ());
 	}
 
 	c = f.optional_string_child ("DefaultDCPContentType");
@@ -438,6 +444,9 @@ Config::write_config () const
 	}
 	if (_default_container) {
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
+	}
+	if (_default_scale_to) {
+		root->add_child("DefaultScaleTo")->add_child_text (_default_scale_to->id ());
 	}
 	if (_default_dcp_content_type) {
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());

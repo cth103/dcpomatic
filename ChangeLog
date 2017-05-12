@@ -1,3 +1,7 @@
+2017-05-12  Carl Hetherington  <cth@carlh.net>
+
+	* Add option for default scale-to (#664).
+
 2017-05-11  Carl Hetherington  <cth@carlh.net>
 
 	* Updated cs_CZ translation from Tomáš Begeni.

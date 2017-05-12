@@ -241,10 +241,14 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 		_sample_aspect_ratio = ar;
 		_yuv = yuv;
 
-		/* Guess correct scale from size and sample aspect ratio */
-		_scale = VideoContentScale (
-			Ratio::nearest_from_ratio (double (_size.width) * ar.get_value_or (1) / _size.height)
-			);
+		if (Config::instance()->default_scale_to ()) {
+			_scale = VideoContentScale (Config::instance()->default_scale_to ());
+		} else {
+			/* Guess correct scale from size and sample aspect ratio */
+			_scale = VideoContentScale (
+				Ratio::nearest_from_ratio (double (_size.width) * ar.get_value_or (1) / _size.height)
+				);
+		}
 	}
 
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);
