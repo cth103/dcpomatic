@@ -69,13 +69,15 @@ AudioMerger::pull (DCPTime time)
 		} else if (i.time < time) {
 			/* Overlaps the end of the pull period */
 			shared_ptr<AudioBuffers> audio (new AudioBuffers (i.audio->channels(), frames(DCPTime(time - i.time))));
-			audio->copy_from (i.audio.get(), audio->frames(), 0, 0);
-			DCPOMATIC_ASSERT (audio->frames() > 0);
-			out.push_back (make_pair (audio, i.time));
-			i.audio->trim_start (audio->frames ());
-			i.time += DCPTime::from_frames(audio->frames(), _frame_rate);
-			DCPOMATIC_ASSERT (i.audio->frames() > 0);
-			new_buffers.push_back (i);
+			/* Though time > i.time, audio->frames() could be 0 if the difference in time is less than one frame */
+			if (audio->frames() > 0) {
+				audio->copy_from (i.audio.get(), audio->frames(), 0, 0);
+				out.push_back (make_pair (audio, i.time));
+				i.audio->trim_start (audio->frames ());
+				i.time += DCPTime::from_frames(audio->frames(), _frame_rate);
+				DCPOMATIC_ASSERT (i.audio->frames() > 0);
+				new_buffers.push_back (i);
+			}
 		} else {
 			/* Not involved */
 			DCPOMATIC_ASSERT (i.audio->frames() > 0);
