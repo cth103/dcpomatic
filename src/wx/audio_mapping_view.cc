@@ -138,6 +138,7 @@ AudioMappingView::AudioMappingView (wxWindow* parent)
 	_grid->EnableEditing (false);
 	_grid->SetCellHighlightPenWidth (0);
 	_grid->SetDefaultRenderer (new NoSelectionStringRenderer);
+	_grid->EnableScrolling (true, true);
 	_grid->AutoSize ();
 
 	wxSizer* vertical_sizer = new wxBoxSizer (wxVERTICAL);
@@ -271,7 +272,7 @@ AudioMappingView::set_output_channels (vector<string> const & names)
 	if (o < _grid->GetNumberCols ()) {
 		_grid->DeleteCols (o, _grid->GetNumberCols() - o);
 	} else if (o > _grid->GetNumberCols ()) {
-		_grid->InsertCols (_grid->GetNumberCols(), o - _grid->GetNumberCols());
+		_grid->AppendCols (o - _grid->GetNumberCols());
 	}
 
 	_grid->SetColLabelValue (0, wxT (""));
@@ -282,6 +283,8 @@ AudioMappingView::set_output_channels (vector<string> const & names)
 
 	update_cells ();
 	setup_sizes ();
+
+	Layout ();
 }
 
 void
