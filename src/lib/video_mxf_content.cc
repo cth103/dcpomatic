@@ -81,6 +81,7 @@ VideoMXFContent::examine (shared_ptr<Job> job)
 	video.reset (new VideoContent (this));
 	shared_ptr<VideoMXFExaminer> examiner (new VideoMXFExaminer (shared_from_this ()));
 	video->take_from_examiner (examiner);
+	video->unset_colour_conversion ();
 }
 
 string
@@ -120,10 +121,4 @@ void
 VideoMXFContent::add_properties (list<UserProperty>& p) const
 {
 	video->add_properties (p);
-}
-
-void
-VideoMXFContent::set_default_colour_conversion ()
-{
-	video->unset_colour_conversion ();
 }
