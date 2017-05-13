@@ -417,10 +417,10 @@ avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
 	int const length = (file.string().length() + 1) * 2;
 	char* utf8 = new char[length];
 	WideCharToMultiByte (CP_UTF8, 0, file.c_str(), -1, utf8, length, 0, 0);
-	int const r = avio_open_boost (s, file.c_str(), flags);
+	int const r = avio_open (s, file.c_str(), flags);
 	delete[] utf8;
 	return r;
 #else
-	return avio_open_boost (s, file.c_str(), flags);
+	return avio_open (s, file.c_str(), flags);
 #endif
 }
