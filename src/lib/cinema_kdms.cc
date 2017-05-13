@@ -179,15 +179,17 @@ CinemaKDMs::write_zip_files (
 
 /** Email one ZIP file per cinema to the cinema.
  *  @param cinema_kdms KDMS to email.
- *  @param name_format Format of filename to use.
- *  @param name_values Values to substitute into \p name_format.
+ *  @param container_name_format Format of folder / ZIP to use.
+ *  @param filename_format Format of filenames to use.
+ *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
  *  @param log Log to write email session transcript to, or 0.
  */
 void
 CinemaKDMs::email (
 	list<CinemaKDMs> cinema_kdms,
-	dcp::NameFormat name_format,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
 	dcp::NameFormat::Map name_values,
 	string cpl_name,
 	shared_ptr<Log> log
@@ -206,9 +208,9 @@ CinemaKDMs::email (
 
 		name_values['c'] = i.cinema->name;
 
-		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path ();
-		zip_file /= boost::filesystem::unique_path().string() + ".zip";
-		i.make_zip_file (zip_file, name_format, name_values);
+		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path();
+		zip_file /= container_name_format.get(name_values, ".zip");
+		i.make_zip_file (zip_file, filename_format, name_values);
 
 		string subject = config->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
@@ -237,7 +239,7 @@ CinemaKDMs::email (
 			email.add_bcc (config->kdm_bcc ());
 		}
 
-		email.add_attachment (zip_file, name_format.get(name_values, ".zip"), "application/zip");
+		email.add_attachment (zip_file, container_name_format.get(name_values, ".zip"), "application/zip");
 
 		Config* c = Config::instance ();
 

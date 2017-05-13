@@ -31,20 +31,23 @@ using std::list;
 using boost::shared_ptr;
 
 /** @param cinema_kdms KDMs to email.
- *  @param name_format Format to use for filenames.
- *  @param name_values Values to substitute into the filenames.
+ *  @param container_name_format Format to ues for folders / ZIP files.
+ *  @param filename_format Format to use for filenames.
+ *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
  *  @param log Log to write to, or 0.
  */
 SendKDMEmailJob::SendKDMEmailJob (
 	list<CinemaKDMs> cinema_kdms,
-	dcp::NameFormat name_format,
+	dcp::NameFormat container_name_format,
+	dcp::NameFormat filename_format,
 	dcp::NameFormat::Map name_values,
 	string cpl_name,
 	shared_ptr<Log> log
 	)
 	: Job (shared_ptr<Film>())
-	, _name_format (name_format)
+	, _container_name_format (container_name_format)
+	, _filename_format (filename_format)
 	, _name_values (name_values)
 	, _cpl_name (cpl_name)
 	, _cinema_kdms (cinema_kdms)
@@ -74,7 +77,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	CinemaKDMs::email (_cinema_kdms, _name_format, _name_values, _cpl_name, _log);
+	CinemaKDMs::email (_cinema_kdms, _container_name_format, _filename_format, _name_values, _cpl_name, _log);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

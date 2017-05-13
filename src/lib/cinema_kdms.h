@@ -51,7 +51,8 @@ public:
 
 	static void email (
 		std::list<CinemaKDMs> cinema_kdms,
-		dcp::NameFormat name_format,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
 		dcp::NameFormat::Map name_values,
 		std::string cpl_name,
 		boost::shared_ptr<Log> log

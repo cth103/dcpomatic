@@ -32,7 +32,8 @@ class SendKDMEmailJob : public Job
 public:
 	SendKDMEmailJob (
 		std::list<CinemaKDMs> cinema_kdms,
-		dcp::NameFormat name_format,
+		dcp::NameFormat container_name_format,
+		dcp::NameFormat filename_format,
 		dcp::NameFormat::Map name_values,
 		std::string cpl_name,
 		boost::shared_ptr<Log> log
@@ -43,7 +44,8 @@ public:
 	void run ();
 
 private:
-	dcp::NameFormat _name_format;
+	dcp::NameFormat _container_name_format;
+	dcp::NameFormat _filename_format;
 	dcp::NameFormat::Map _name_values;
 	std::string _cpl_name;
 	std::list<CinemaKDMs> _cinema_kdms;

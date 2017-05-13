@@ -248,6 +248,7 @@ KDMOutputPanel::make (
 			job.reset (
 				new SendKDMEmailJob (
 					cinema_kdms,
+					_container_name_format->get(),
 					_filename_format->get(),
 					name_values,
 					name,
