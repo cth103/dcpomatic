@@ -252,4 +252,10 @@ public:
 	{}
 };
 
+class KDMAsContentError : public std::runtime_error
+{
+public:
+	KDMAsContentError ();
+};
+
 #endif

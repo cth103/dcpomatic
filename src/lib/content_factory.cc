@@ -170,6 +170,11 @@ content_factory (shared_ptr<const Film> film, boost::filesystem::path path)
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass") {
 			single.reset (new TextSubtitleContent (film, path));
 		} else if (ext == ".xml") {
+			cxml::Document doc;
+			doc.read_file (path);
+			if (doc.root_name() == "DCinemaSecurityMessage") {
+				throw KDMAsContentError ();
+			}
 			single.reset (new DCPSubtitleContent (film, path));
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
 			single.reset (new DCPSubtitleContent (film, path));

@@ -612,9 +612,13 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 
 	/* XXX: check for lots of files here and do something */
 
-	BOOST_FOREACH (boost::filesystem::path i, paths) {
-		BOOST_FOREACH (shared_ptr<Content> j, content_factory (_film, i)) {
-			_film->examine_and_add_content (j);
+	try {
+		BOOST_FOREACH (boost::filesystem::path i, paths) {
+			BOOST_FOREACH (shared_ptr<Content> j, content_factory (_film, i)) {
+				_film->examine_and_add_content (j);
+			}
 		}
+	} catch (exception& e) {
+		error_dialog (_parent, e.what());
 	}
 }
