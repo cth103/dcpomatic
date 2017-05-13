@@ -555,6 +555,18 @@ Playlist::video_content_at (DCPTime time) const
 	return false;
 }
 
+bool
+Playlist::audio_content_at (DCPTime time) const
+{
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (i->audio && i->position() <= time && time < i->end()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 pair<double, double>
 Playlist::speed_up_range (int dcp_video_frame_rate) const
 {

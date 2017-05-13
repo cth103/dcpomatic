@@ -538,23 +538,47 @@ Player::pass ()
 		}
 	}
 
+	/* Fill towards the next thing that might happen (or the end of the playlist).  This is to fill gaps between content,
+	   NOT to fill gaps within content (the latter is done in ::video())
+	*/
 	DCPTime fill_towards = earliest ? earliest_content : _playlist->length();
 
-	optional<DCPTime> fill_from;
-	if (_last_video_time) {
+	/* Work out where to fill video from */
+	optional<DCPTime> video_fill_from;
+	if (_last_video_time && !_playlist->video_content_at(_last_video_time.get())) {
 		/* No seek; fill towards the next thing that might happen (or the end of the playlist) */
-		fill_from = _last_video_time;
+		video_fill_from = _last_video_time;
 	} else if (_last_seek_time && !_playlist->video_content_at(_last_seek_time.get())) {
 		/* Seek into an empty area; fill from the seek time */
-		fill_from = _last_seek_time;
+		video_fill_from = _last_seek_time;
 	}
 
 	bool filled = false;
-	if (fill_from && ((fill_towards - fill_from.get())) > one_video_frame()) {
-		emit_video (black_player_video_frame(), fill_from.get());
+
+	if (video_fill_from && ((fill_towards - video_fill_from.get())) > one_video_frame()) {
+		emit_video (black_player_video_frame(), video_fill_from.get());
 		filled = true;
 	} else if (_playlist->length() == DCPTime()) {
+		/* Special case of an empty Film; just give one black frame */
 		emit_video (black_player_video_frame(), DCPTime());
+		filled = true;
+	}
+
+	optional<DCPTime> audio_fill_from;
+	if (_last_audio_time && !_playlist->audio_content_at(_last_audio_time.get())) {
+		/* No seek; fill from the last thing that happened */
+		audio_fill_from = _last_audio_time;
+	} else if (_last_seek_time && !_playlist->audio_content_at(_last_seek_time.get())) {
+		/* Seek into an empty area; fill from the seek time */
+		audio_fill_from = _last_seek_time;
+	}
+
+	if (audio_fill_from && audio_fill_from < fill_towards) {
+		DCPTimePeriod period (audio_fill_from.get(), fill_towards);
+		if (period.duration() > one_video_frame()) {
+			period.to = period.from + one_video_frame();
+		}
+		fill_audio (period);
 		filled = true;
 	}
 
@@ -588,8 +612,7 @@ Player::pass ()
 			fill_audio (DCPTimePeriod (_last_audio_time.get(), i->second));
 		}
 
-		Audio (i->first, i->second);
-		_last_audio_time = i->second + DCPTime::from_frames(i->first->frames(), _film->audio_frame_rate());
+		emit_audio (i->first, i->second);
 	}
 
 	return false;
@@ -971,6 +994,13 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 }
 
 void
+Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
+{
+	Audio (data, time);
+	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate ());
+}
+
+void
 Player::fill_audio (DCPTimePeriod period)
 {
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
@@ -981,7 +1011,7 @@ Player::fill_audio (DCPTimePeriod period)
 			if (samples) {
 				shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), samples));
 				silence->make_silent ();
-				Audio (silence, t);
+				emit_audio (silence, t);
 			}
 			t += block;
 		}

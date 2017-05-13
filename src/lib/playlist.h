@@ -56,6 +56,7 @@ public:
 
 	ContentList content () const;
 	bool video_content_at (DCPTime time) const;
+	bool audio_content_at (DCPTime time) const;
 
 	std::string video_identifier () const;
 
