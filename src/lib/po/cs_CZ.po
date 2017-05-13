@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-27 11:57+0100\n"
+"POT-Creation-Date: 2017-05-13 21:50+0100\n"
 "PO-Revision-Date: 2017-05-10 14:55+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:448
 #, c-format
 msgid ""
 "\n"
@@ -27,7 +27,7 @@ msgstr ""
 "\n"
 "Snímková frekvence obsahu %.4f\n"
 
-#: src/lib/video_content.cc:408
+#: src/lib/video_content.cc:412
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -35,7 +35,7 @@ msgstr ""
 "\n"
 "Oříznout na %1x%2"
 
-#: src/lib/video_content.cc:401
+#: src/lib/video_content.cc:405
 #, c-format
 msgid ""
 "\n"
@@ -44,7 +44,7 @@ msgstr ""
 "\n"
 "Poměr stran displeje %.2f:1"
 
-#: src/lib/video_content.cc:432
+#: src/lib/video_content.cc:436
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -52,7 +52,7 @@ msgstr ""
 "\n"
 "Vyplněné černou, aby se zmenšil do kontejneru %1 (%2x%3)"
 
-#: src/lib/video_content.cc:422
+#: src/lib/video_content.cc:426
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -60,7 +60,7 @@ msgstr ""
 "\n"
 "Měřítko %1x%2"
 
-#: src/lib/video_content.cc:426 src/lib/video_content.cc:437
+#: src/lib/video_content.cc:430 src/lib/video_content.cc:441
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -71,6 +71,16 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr "na %1"
 
+#: src/lib/config.cc:628
+msgid ""
+"$CPL_NAME\n"
+"\n"
+"Type: $TYPE\n"
+"Format: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Length: $LENGTH\n"
+msgstr ""
+
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
@@ -79,19 +89,19 @@ msgstr "%1 [Atmos]"
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:296
+#: src/lib/ffmpeg_content.cc:299
 msgid "%1 [audio]"
 msgstr "%1 [zvuk]"
 
-#: src/lib/ffmpeg_content.cc:292
+#: src/lib/ffmpeg_content.cc:295
 msgid "%1 [movie]"
 msgstr "%1 [video]"
 
-#: src/lib/ffmpeg_content.cc:294 src/lib/video_mxf_content.cc:89
+#: src/lib/ffmpeg_content.cc:297 src/lib/video_mxf_content.cc:90
 msgid "%1 [video]"
 msgstr "%1 [video]"
 
-#: src/lib/video_content.cc:396
+#: src/lib/video_content.cc:400
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", poměr stran obrazových bodů %.2f:1"
@@ -121,7 +131,7 @@ msgid "4:3"
 msgstr "1.33:1 (4:3)"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:124
+#: src/lib/transcode_job.cc:132
 #, c-format
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
@@ -141,7 +151,7 @@ msgstr ""
 "200 MB/s; Je nepravděpodobné, že by toto nastvení mělo viditelný vliv na "
 "kvalitu obrázku."
 
-#: src/lib/ffmpeg_content.cc:525
+#: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
@@ -153,7 +163,7 @@ msgstr "1.375:1 (Academy)"
 msgid "Advertisement"
 msgstr "Reklama"
 
-#: src/lib/hints.cc:95
+#: src/lib/hints.cc:99
 msgid ""
 "All of your content is at 1.85:1 or narrower but your DCP's container is "
 "Scope (2.39:1).  This will pillar-box your content inside a Flat (1.85:1) "
@@ -164,7 +174,7 @@ msgstr ""
 "(2.39:1). Bude použit pillar-box uvnitř rámečku Flat (1.85:1). Můžete "
 "nastavit DCP kontejner na Flat (1.85:1) v záložce \"DCP\"."
 
-#: src/lib/hints.cc:91
+#: src/lib/hints.cc:95
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -195,60 +205,60 @@ msgstr "Zvuk bude re-samplovaný na %1kHz"
 msgid "Audio will not be resampled"
 msgstr "Zvuk nebude resamplovaný"
 
-#: src/lib/ffmpeg_content.cc:519
+#: src/lib/ffmpeg_content.cc:541
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 rozšířený rozsah barev"
 
-#: src/lib/ffmpeg_content.cc:497
+#: src/lib/ffmpeg_content.cc:519
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:542
+#: src/lib/ffmpeg_content.cc:564
 msgid "BT2020 constant luminance"
 msgstr "BT2020 konstanta jasu"
 
-#: src/lib/ffmpeg_content.cc:521
+#: src/lib/ffmpeg_content.cc:543
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 pro 10-bit systém"
 
-#: src/lib/ffmpeg_content.cc:522
+#: src/lib/ffmpeg_content.cc:544
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 pro 12-bit systém"
 
-#: src/lib/ffmpeg_content.cc:541
+#: src/lib/ffmpeg_content.cc:563
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 non-constant luminance"
 
-#: src/lib/ffmpeg_content.cc:493
+#: src/lib/ffmpeg_content.cc:515
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:537
+#: src/lib/ffmpeg_content.cc:559
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:492
+#: src/lib/ffmpeg_content.cc:514
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:489 src/lib/ffmpeg_content.cc:508
-#: src/lib/ffmpeg_content.cc:533
+#: src/lib/ffmpeg_content.cc:511 src/lib/ffmpeg_content.cc:530
+#: src/lib/ffmpeg_content.cc:555
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:550
+#: src/lib/ffmpeg_content.cc:572
 msgid "Bits per pixel"
 msgstr "Bitů na pixel"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:535
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:536
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:524
+#: src/lib/util.cc:527
 msgid "C"
 msgstr "C"
 
@@ -260,7 +270,7 @@ msgstr "Zrušené"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nemužu zpracovat formát pixelu %1 během %2"
 
-#: src/lib/util.cc:493
+#: src/lib/util.cc:496
 msgid "Centre"
 msgstr "Center"
 
@@ -272,7 +282,7 @@ msgstr "Kanály"
 msgid "Checking existing image data"
 msgstr "Kontroluji existující video data"
 
-#: src/lib/ffmpeg_content.cc:504
+#: src/lib/ffmpeg_content.cc:526
 msgid "Colour primaries"
 msgstr "Primární volby barev"
 
@@ -286,17 +296,17 @@ msgstr "Primární volby barev"
 #. / file is limited, so that not all possible values are valid.
 #. / TRANSLATORS: this means that the range of pixel values used in this
 #. / file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:453
-#: src/lib/ffmpeg_content.cc:460 src/lib/ffmpeg_content.cc:470
-#: src/lib/ffmpeg_content.cc:475 src/lib/ffmpeg_content.cc:480
+#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:475
+#: src/lib/ffmpeg_content.cc:482 src/lib/ffmpeg_content.cc:492
+#: src/lib/ffmpeg_content.cc:497 src/lib/ffmpeg_content.cc:502
 msgid "Colour range"
 msgstr "Rozsah barev"
 
-#: src/lib/ffmpeg_content.cc:529
+#: src/lib/ffmpeg_content.cc:551
 msgid "Colour transfer characteristic"
 msgstr "Charakteristika přenosu barev"
 
-#: src/lib/ffmpeg_content.cc:547
+#: src/lib/ffmpeg_content.cc:569
 msgid "Colourspace"
 msgstr "Barevný prostor"
 
@@ -408,7 +418,7 @@ msgstr "Aby se spojil obsah, musí mít stejné nastavení písma."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulkového streamu."
 
-#: src/lib/video_content.cc:387
+#: src/lib/video_content.cc:391
 msgid "Content video is %1x%2"
 msgstr "Video je %1x%2"
 
@@ -472,19 +482,19 @@ msgstr "Nemohu začít přenos"
 msgid "Could not write to remote file (%1)"
 msgstr "Nemohu zapisovat do vzdáleného souboru (%1)"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:506
 msgid "D-BOX primary"
 msgstr "D-BOX primární"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:507
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundární"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:537
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:538
 msgid "DBS"
 msgstr "DBS"
 
@@ -521,7 +531,7 @@ msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:580
+#: src/lib/config.cc:608
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -563,11 +573,11 @@ msgstr "Každý frame bude zdvojený v DCP.\n"
 msgid "Each content frame will be repeated %1 more times in the DCP.\n"
 msgstr "Každý frame bude opakovaný %1 krát v DCP.\n"
 
-#: src/lib/send_kdm_email_job.cc:61
+#: src/lib/send_kdm_email_job.cc:64
 msgid "Email KDMs"
 msgstr "Email KDM"
 
-#: src/lib/send_kdm_email_job.cc:64
+#: src/lib/send_kdm_email_job.cc:67
 msgid "Email KDMs for %1"
 msgstr "Email KDM pro %1"
 
@@ -579,7 +589,7 @@ msgstr "Správa o problému s Emailem"
 msgid "Email problem report for %1"
 msgstr "Správa o problému s Emailem pro %1"
 
-#: src/lib/transcoder.cc:86
+#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr "Kódování"
 
@@ -595,7 +605,7 @@ msgstr "Chyba: %1"
 msgid "Examine content"
 msgstr "Vypočítávám obsah"
 
-#: src/lib/ffmpeg_content.cc:536
+#: src/lib/ffmpeg_content.cc:558
 msgid "FCC"
 msgstr "FCC"
 
@@ -615,7 +625,7 @@ msgstr "Feature"
 msgid "Filename"
 msgstr "Jméno souboru"
 
-#: src/lib/ffmpeg_content.cc:496
+#: src/lib/ffmpeg_content.cc:518
 msgid "Film"
 msgstr "Film"
 
@@ -631,11 +641,11 @@ msgstr "Flat"
 msgid "Frame rate"
 msgstr "Snímková frekvence"
 
-#: src/lib/ffmpeg_content.cc:480
+#: src/lib/ffmpeg_content.cc:502
 msgid "Full"
 msgstr "Full"
 
-#: src/lib/ffmpeg_content.cc:460
+#: src/lib/ffmpeg_content.cc:482
 msgid "Full (0-%1)"
 msgstr "Full (0-%1)"
 
@@ -659,11 +669,11 @@ msgstr "Plná délka video snímků v DCP rychlosti"
 msgid "Full length in video frames at content rate"
 msgstr "Plná délka video snímků v rychlosti obsahu"
 
-#: src/lib/ffmpeg_content.cc:511
+#: src/lib/ffmpeg_content.cc:533
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:512
+#: src/lib/ffmpeg_content.cc:534
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -671,11 +681,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:531
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:500
 msgid "Hearing impaired"
 msgstr "Sluchově postižený(í)"
 
@@ -683,15 +693,28 @@ msgstr "Sluchově postižený(í)"
 msgid "High quality 3D denoiser"
 msgstr "Vysoká kvalita 3D denoiser"
 
+#: src/lib/hints.cc:122
+msgid ""
+"However, setting your DCP frame rate to 24 or 48 will cause a significant "
+"slowdown of your content, and SMPTE DCPs are not supported by all projectors."
+msgstr ""
+
+#: src/lib/hints.cc:119
+msgid ""
+"However, setting your DCP frame rate to 24 or 48 will cause a significant "
+"speed-up of your content, and SMPTE DCPs are not be supported by all "
+"projectors."
+msgstr ""
+
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:520
+#: src/lib/ffmpeg_content.cc:542
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB nebo sYCC)"
 
-#: src/lib/ffmpeg_content.cc:518
+#: src/lib/ffmpeg_content.cc:540
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
@@ -703,7 +726,7 @@ msgstr "IMAX"
 msgid "It is not known what caused this error."
 msgstr "Nevím, co zapříčinilo tuto chybu."
 
-#: src/lib/config.cc:254 src/lib/config.cc:577
+#: src/lib/config.cc:264 src/lib/config.cc:605
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM doručení: $CPL_NAME"
 
@@ -711,63 +734,63 @@ msgstr "KDM doručení: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/util.cc:522
+#: src/lib/util.cc:525
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:533
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:491
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:494
 msgid "Left"
 msgstr "Left (Levý)"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:502
 msgid "Left centre"
 msgstr "Left centre (Levý střed)"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:504
 msgid "Left rear surround"
 msgstr "Left rear surround (Levý zadní surround)"
 
-#: src/lib/util.cc:495
+#: src/lib/util.cc:498
 msgid "Left surround"
 msgstr "Left surround (Levý surround)"
 
-#: src/lib/video_content.cc:457
+#: src/lib/video_content.cc:461
 msgid "Length"
 msgstr "Délka"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:528
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:494
+#: src/lib/util.cc:497
 msgid "Lfe (sub)"
 msgstr "Lfe (Subwoofer)"
 
-#: src/lib/ffmpeg_content.cc:475
+#: src/lib/ffmpeg_content.cc:497
 msgid "Limited"
 msgstr "Limitovaný"
 
-#: src/lib/ffmpeg_content.cc:453
+#: src/lib/ffmpeg_content.cc:475
 msgid "Limited (%1-%2)"
 msgstr "Limitovaný (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:515
+#: src/lib/ffmpeg_content.cc:537
 msgid "Linear"
 msgstr "Lineární"
 
-#: src/lib/ffmpeg_content.cc:516
+#: src/lib/ffmpeg_content.cc:538
 msgid "Logarithmic (100:1 range)"
 msgstr "Logarmitmický (rozsah 100:1)"
 
-#: src/lib/ffmpeg_content.cc:517
+#: src/lib/ffmpeg_content.cc:539
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarmitmický (rozsah 316:1 )"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:529
 msgid "Ls"
 msgstr "Ls"
 
@@ -795,11 +818,15 @@ msgstr "V DPC se neschoduje počet obrázků za sekundu "
 msgid "Mismatched video sizes in DCP"
 msgstr "V DCP se neshoduje velikost videa"
 
+#: src/lib/writer.cc:566
+msgid "Mono"
+msgstr ""
+
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
 msgstr "Pohybový kompenzační odstraňovač"
 
-#: src/lib/cinema_kdms.cc:199
+#: src/lib/cinema_kdms.cc:201
 msgid "No mail server configured in preferences"
 msgstr "V konfiguraci není nastaven emailový server"
 
@@ -818,6 +845,10 @@ msgstr "Ve složce nebyly nalezeny žádné platné soubory."
 #: src/lib/filter.cc:71 src/lib/filter.cc:72 src/lib/filter.cc:74
 msgid "Noise reduction"
 msgstr "Redukce hluku"
+
+#: src/lib/writer.cc:564
+msgid "None"
+msgstr ""
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -859,11 +890,11 @@ msgstr "Chyba při programovaní na %1:%2"
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement (Veřejné oznámení služby)"
 
-#: src/lib/util.cc:523
+#: src/lib/util.cc:526
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:554
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -871,7 +902,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Přístupnost"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:534
 msgid "Rc"
 msgstr "Rc"
 
@@ -891,23 +922,23 @@ msgstr "Rec. 601 (SD)"
 msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:492
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:495
 msgid "Right"
 msgstr "Right (Pravý)"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:503
 msgid "Right centre"
 msgstr "Right centre (Pravý střed)"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:505
 msgid "Right rear surround"
 msgstr "Right rear surround (Pravý zadní surround)"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:499
 msgid "Right surround"
 msgstr "Right surround (Pravý surround)"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:530
 msgid "Rs"
 msgstr "Rs"
 
@@ -915,40 +946,40 @@ msgstr "Rs"
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:494 src/lib/ffmpeg_content.cc:513
+#: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:538
+#: src/lib/ffmpeg_content.cc:560
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:543
+#: src/lib/ffmpeg_content.cc:565
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:495 src/lib/ffmpeg_content.cc:514
-#: src/lib/ffmpeg_content.cc:539
+#: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
+#: src/lib/ffmpeg_content.cc:561
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/ffmpeg_content.cc:523
+#: src/lib/ffmpeg_content.cc:545
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 
-#: src/lib/ffmpeg_content.cc:524
+#: src/lib/ffmpeg_content.cc:546
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:498
+#: src/lib/ffmpeg_content.cc:520
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:499
+#: src/lib/ffmpeg_content.cc:521
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:500
+#: src/lib/ffmpeg_content.cc:522
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
@@ -968,13 +999,17 @@ msgstr "Posílám email"
 msgid "Short"
 msgstr "Short (Krátky film)"
 
-#: src/lib/video_content.cc:458
+#: src/lib/video_content.cc:462
 msgid "Size"
 msgstr "Velikost"
 
 #: src/lib/audio_content.cc:253
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Některé audio bude převzorkované na %1kHz"
+
+#: src/lib/writer.cc:568
+msgid "Stereo"
+msgstr ""
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1000,7 +1035,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Text titulků"
 
-#: src/lib/film.cc:1559
+#: src/lib/film.cc:1549
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1085,7 +1120,13 @@ msgstr ""
 "Zbývá málo paměti. Pokud je váš systém 32-bitový, zkuste snížit počet "
 "enkódovacích threadov v záložce Všeobecné, v nastavení."
 
-#: src/lib/film.cc:434
+#: src/lib/exceptions.cc:91
+msgid ""
+"This file is a KDM.  KDMs should be added to DCP content by right-clicking "
+"the content and choosing \"Add KDM\"."
+msgstr ""
+
+#: src/lib/film.cc:439
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1093,7 +1134,7 @@ msgstr ""
 "Tento film byl vytvořený novější verzí DCP-o-matic, a nemůže být načtený "
 "touto verzí. Omlouváme se !"
 
-#: src/lib/film.cc:423
+#: src/lib/film.cc:428
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1107,7 +1148,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:57
+#: src/lib/transcode_job.cc:58
 msgid "Transcode %1"
 msgstr "Transkódování %1"
 
@@ -1135,11 +1176,11 @@ msgstr "Nerozpoznaná vzorkovací frekvence audia (%1)"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Doostření a Gaussovské rozostření"
 
-#: src/lib/ffmpeg_content.cc:446 src/lib/ffmpeg_content.cc:470
-#: src/lib/ffmpeg_content.cc:488 src/lib/ffmpeg_content.cc:490
-#: src/lib/ffmpeg_content.cc:491 src/lib/ffmpeg_content.cc:507
-#: src/lib/ffmpeg_content.cc:509 src/lib/ffmpeg_content.cc:510
-#: src/lib/ffmpeg_content.cc:534 src/lib/ffmpeg_content.cc:535
+#: src/lib/ffmpeg_content.cc:468 src/lib/ffmpeg_content.cc:492
+#: src/lib/ffmpeg_content.cc:510 src/lib/ffmpeg_content.cc:512
+#: src/lib/ffmpeg_content.cc:513 src/lib/ffmpeg_content.cc:529
+#: src/lib/ffmpeg_content.cc:531 src/lib/ffmpeg_content.cc:532
+#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:557
 msgid "Unspecified"
 msgstr "Nespecifikované"
 
@@ -1147,7 +1188,7 @@ msgstr "Nespecifikované"
 msgid "Untitled"
 msgstr "Nepojmenované"
 
-#: src/lib/util.cc:505 src/lib/util.cc:506
+#: src/lib/util.cc:508 src/lib/util.cc:509
 msgid "Unused"
 msgstr "Nepoužité"
 
@@ -1159,11 +1200,11 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:532
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:501
 msgid "Visually impaired"
 msgstr "Zrakově postižený(í)"
 
@@ -1171,7 +1212,7 @@ msgstr "Zrakově postižený(í)"
 msgid "Waiting"
 msgstr "Čekám"
 
-#: src/lib/ffmpeg_content.cc:540
+#: src/lib/ffmpeg_content.cc:562
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1179,15 +1220,28 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Ještě další deinterlacing filter"
 
-#: src/lib/hints.cc:111
+#: src/lib/hints.cc:124
+#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
-"supported.  You are advised to make a SMPTE DCP instead."
+"supported.  You are advised either to change the frame rate of your DCP or "
+"to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all "
+"projectors)."
 msgstr ""
 "Nastavení pro Interop DCP se snímkovou rychlostí není oficiálně podporována. "
 "Doporučujeme místo toho SMPTE DCP."
 
-#: src/lib/hints.cc:133
+#: src/lib/hints.cc:111
+#, fuzzy
+msgid ""
+"You are set up for an Interop DCP at a frame rate which is not officially "
+"supported.  You are advised either to change the frame rate of your DCP or "
+"to make a SMPTE DCP instead."
+msgstr ""
+"Nastavení pro Interop DCP se snímkovou rychlostí není oficiálně podporována. "
+"Doporučujeme místo toho SMPTE DCP."
+
+#: src/lib/hints.cc:149
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1195,7 +1249,7 @@ msgstr ""
 "Používáte 3D obsah, ale váš DCP je nastaven na 2D. Nastavte DCP na 3D, pokud "
 "chcete přehrávat ve 3D systému (např. Real-D, MasterImage atd.)"
 
-#: src/lib/hints.cc:122
+#: src/lib/hints.cc:138
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1203,7 +1257,7 @@ msgstr ""
 "Máte %1 souborů, které vypadají jako VOB soubory z DVD. Měli byste je "
 "spojit, aby zajistit tak hladké spojení mezi těmito dvěma soubory."
 
-#: src/lib/hints.cc:68
+#: src/lib/hints.cc:72
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1211,15 +1265,7 @@ msgstr ""
 "Zadali jste soubor písma, který je větší než 640kB. Pravděpodobně to může "
 "způsobit problémy při přehrávání."
 
-#: src/lib/hints.cc:103
-msgid ""
-"Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
-"projectors.  Use 24 or 48 frames per second to be on the safe side."
-msgstr ""
-"Nastavená snímková rychlost (%1 fps) může způsobit u některých projektorů "
-"problémy(převážně starších). Použijte 24 nebo 48 snímků za sekundu."
-
-#: src/lib/hints.cc:72
+#: src/lib/hints.cc:76
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors."
@@ -1227,7 +1273,7 @@ msgstr ""
 "Váš DCP má méně než 6 zvukových kanálů. To může způsobit na některých "
 "projektorech problémy."
 
-#: src/lib/hints.cc:99
+#: src/lib/hints.cc:103
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio"
@@ -1235,7 +1281,7 @@ msgstr ""
 "Váš DCP používá neobvyklý poměr. To může způsobit na některých projektorech "
 "problémy. Pokud je to možné použijte Flat nebo Scope pro poměr kontejneru DCP"
 
-#: src/lib/hints.cc:159
+#: src/lib/hints.cc:175
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1254,7 +1300,7 @@ msgstr "[stále]"
 msgid "[subtitles]"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:293
+#: src/lib/film.cc:296
 msgid "cannot contain slashes"
 msgstr "nemůže obsahovat lomítka"
 
@@ -1266,11 +1312,11 @@ msgstr "spojení vypršelo"
 msgid "connecting"
 msgstr "připojuji"
 
-#: src/lib/film.cc:297
+#: src/lib/film.cc:300
 msgid "container"
 msgstr "kontejner"
 
-#: src/lib/film.cc:305
+#: src/lib/film.cc:308
 msgid "content type"
 msgstr "typ obsahu"
 
@@ -1278,7 +1324,7 @@ msgstr "typ obsahu"
 msgid "copying %1"
 msgstr "kopíruji %1"
 
-#: src/lib/ffmpeg.cc:140
+#: src/lib/ffmpeg.cc:138
 msgid "could not find stream information"
 msgstr "nemohu najít informace o streamu"
 
@@ -1327,12 +1373,12 @@ msgid "frames per second"
 msgstr "snímky za sekundu"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:147 src/lib/util.cc:150
+#: src/lib/util.cc:149 src/lib/util.cc:152
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:162 src/lib/util.cc:165
+#: src/lib/util.cc:164 src/lib/util.cc:167
 msgid "m"
 msgstr "m"
 
@@ -1344,12 +1390,12 @@ msgstr "chybí potřebná nastavení %1"
 msgid "moving"
 msgstr "přesouvám"
 
-#: src/lib/film.cc:293 src/lib/film.cc:309
+#: src/lib/film.cc:296 src/lib/film.cc:312
 msgid "name"
 msgstr "jméno"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:176
+#: src/lib/util.cc:178
 msgid "s"
 msgstr "s"
 
@@ -1357,15 +1403,15 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:314
+#: src/lib/film.cc:317
 msgid "some of your content is missing"
 msgstr "část obsahu chybí"
 
-#: src/lib/film.cc:318
+#: src/lib/film.cc:321
 msgid "some of your content needs a KDM"
 msgstr "část obsahu potřebuje KDM"
 
-#: src/lib/film.cc:321
+#: src/lib/film.cc:324
 msgid "some of your content needs an OV"
 msgstr "část obsahu potřebuje OV"
 
@@ -1377,13 +1423,20 @@ msgstr "stále"
 msgid "unknown"
 msgstr "neznáme"
 
-#: src/lib/video_content.cc:457
+#: src/lib/video_content.cc:461
 msgid "video frames"
 msgstr "video snímky"
 
-#: src/lib/film.cc:301
+#: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "Musíte přidat obsah do DCP před tím než ho vytvoříte"
+
+#~ msgid ""
+#~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
+#~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
+#~ msgstr ""
+#~ "Nastavená snímková rychlost (%1 fps) může způsobit u některých projektorů "
+#~ "problémy(převážně starších). Použijte 24 nebo 48 snímků za sekundu."
 
 #~ msgid "Finding length and subtitles"
 #~ msgstr "Hledám délku a titulky"
