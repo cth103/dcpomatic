@@ -243,7 +243,6 @@ FFmpegContent::examine (shared_ptr<Job> job)
 	if (examiner->has_video ()) {
 		video.reset (new VideoContent (this));
 		video->take_from_examiner (examiner);
-		set_default_colour_conversion ();
 	}
 
 	boost::filesystem::path first_path = path (0);
@@ -279,6 +278,10 @@ FFmpegContent::examine (shared_ptr<Job> job)
 			_subtitle_stream = _subtitle_streams.front ();
 		}
 
+	}
+
+	if (examiner->has_video ()) {
+		set_default_colour_conversion ();
 	}
 
 	signal_changed (FFmpegContentProperty::SUBTITLE_STREAMS);
@@ -420,10 +423,29 @@ FFmpegContent::set_default_colour_conversion ()
 
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (s.width < 1080) {
-		video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
-	} else {
+	switch (_colorspace) {
+	case AVCOL_SPC_RGB:
+		video->set_colour_conversion (PresetColourConversion::from_id ("srgb").conversion);
+		break;
+	case AVCOL_SPC_BT709:
 		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
+		break;
+	case AVCOL_SPC_BT470BG:
+	case AVCOL_SPC_SMPTE170M:
+	case AVCOL_SPC_SMPTE240M:
+		video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
+		break;
+	case AVCOL_SPC_BT2020_CL:
+	case AVCOL_SPC_BT2020_NCL:
+		video->set_colour_conversion (PresetColourConversion::from_id ("rec2020").conversion);
+		break;
+	default:
+		if (s.width < 1080) {
+			video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
+		} else {
+			video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
+		}
+		break;
 	}
 }
 

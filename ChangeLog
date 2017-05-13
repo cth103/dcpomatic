@@ -1,3 +1,8 @@
+2017-05-13  Carl Hetherington  <cth@carlh.net>
+
+	* Start off video content using the colour conversion
+	from their header, if present (#993).
+
 2017-05-12  Carl Hetherington  <cth@carlh.net>
 
 	* Add option for default scale-to (#664).
