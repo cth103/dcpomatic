@@ -42,6 +42,11 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	: wxDialog (parent, wxID_ANY, _("Subtitle appearance"))
 	, _content (content)
 {
+	shared_ptr<FFmpegContent> ff = dynamic_pointer_cast<FFmpegContent> (content);
+	if (ff) {
+		_stream = ff->subtitle_stream ();
+	}
+
 	wxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
@@ -89,31 +94,33 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
-	map<RGBA, RGBA> colours = _stream->colours ();
+	if (_stream) {
+		map<RGBA, RGBA> colours = _stream->colours ();
 
-	wxStaticText* t = new wxStaticText (colours_panel, wxID_ANY, "");
-	t->SetLabelMarkup (_("<b>Original colour</b>"));
-	table->Add (t, 1, wxEXPAND);
-	t = new wxStaticText (colours_panel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
-	t->SetLabelMarkup (_("<b>New colour</b>"));
-	table->Add (t, 1, wxALIGN_CENTER);
+		wxStaticText* t = new wxStaticText (colours_panel, wxID_ANY, "");
+		t->SetLabelMarkup (_("<b>Original colour</b>"));
+		table->Add (t, 1, wxEXPAND);
+		t = new wxStaticText (colours_panel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
+		t->SetLabelMarkup (_("<b>New colour</b>"));
+		table->Add (t, 1, wxALIGN_CENTER);
 
-	for (map<RGBA, RGBA>::const_iterator i = colours.begin(); i != colours.end(); ++i) {
-		wxPanel* from = new wxPanel (colours_panel, wxID_ANY);
-		from->SetBackgroundColour (wxColour (i->first.r, i->first.g, i->first.b, i->first.a));
-		table->Add (from, 1, wxEXPAND);
-		RGBAColourPicker* to = new RGBAColourPicker (colours_panel, i->second);
-		table->Add (to, 1, wxEXPAND);
-		_pickers[i->first] = to;
+		for (map<RGBA, RGBA>::const_iterator i = colours.begin(); i != colours.end(); ++i) {
+			wxPanel* from = new wxPanel (colours_panel, wxID_ANY);
+			from->SetBackgroundColour (wxColour (i->first.r, i->first.g, i->first.b, i->first.a));
+			table->Add (from, 1, wxEXPAND);
+			RGBAColourPicker* to = new RGBAColourPicker (colours_panel, i->second);
+			table->Add (to, 1, wxEXPAND);
+			_pickers[i->first] = to;
+		}
+
+		colours_panel->SetSizer (table);
+
+		overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+
+		wxButton* restore = new wxButton (this, wxID_ANY, _("Restore to original colours"));
+		restore->Bind (wxEVT_BUTTON, bind (&SubtitleAppearanceDialog::restore, this));
+		overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	}
-
-	colours_panel->SetSizer (table);
-
-	overall_sizer->Add (colours_panel, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-
-	wxButton* restore = new wxButton (this, wxID_ANY, _("Restore to original colours"));
-	restore->Bind (wxEVT_BUTTON, bind (&SubtitleAppearanceDialog::restore, this));
-	overall_sizer->Add (restore, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 
 	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
@@ -162,8 +169,10 @@ SubtitleAppearanceDialog::apply ()
 	_content->subtitle->set_fade_out (_fade_out->get (_content->active_video_frame_rate ()));
 	_content->subtitle->set_outline_width (_outline_width->GetValue ());
 
-	for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
-		_stream->set_colour (i->first, i->second->colour ());
+	if (_stream) {
+		for (map<RGBA, RGBAColourPicker*>::const_iterator i = _pickers.begin(); i != _pickers.end(); ++i) {
+			_stream->set_colour (i->first, i->second->colour ());
+		}
 	}
 
 	shared_ptr<FFmpegContent> fc = dynamic_pointer_cast<FFmpegContent> (_content);
