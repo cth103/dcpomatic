@@ -116,7 +116,7 @@ get_hints (shared_ptr<const Film> film)
 		string h;
 		if (range.second > (29.0/24)) {
 			h = base;
-			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant speed-up of your content, and SMPTE DCPs are not be supported by all projectors.");
+			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant speed-up of your content, and SMPTE DCPs are not supported by all projectors.");
 		} else if (range.first < (24.0/29)) {
 			h = base;
 			h += _("However, setting your DCP frame rate to 24 or 48 will cause a significant slowdown of your content, and SMPTE DCPs are not supported by all projectors.");
