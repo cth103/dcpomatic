@@ -86,15 +86,15 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_table->Add (_fade_out, wxGBPosition (r, 1));
 	++r;
 
-	wxScrolled<wxPanel>* colours_panel = new wxScrolled<wxPanel> (this);
-	colours_panel->EnableScrolling (false, true);
-	colours_panel->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
-	colours_panel->SetScrollRate (0, 16);
-
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	table->AddGrowableCol (1, 1);
-
 	if (_stream) {
+		wxScrolled<wxPanel>* colours_panel = new wxScrolled<wxPanel> (this);
+		colours_panel->EnableScrolling (false, true);
+		colours_panel->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
+		colours_panel->SetScrollRate (0, 16);
+
+		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol (1, 1);
+
 		map<RGBA, RGBA> colours = _stream->colours ();
 
 		wxStaticText* t = new wxStaticText (colours_panel, wxID_ANY, "");
