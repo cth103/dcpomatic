@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-13 21:50+0100\n"
-"PO-Revision-Date: 2017-04-27 15:33+0200\n"
+"PO-Revision-Date: 2017-05-14 03:55+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -27,6 +27,8 @@ msgstr "%"
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
+"%1 bestaat al als bestand, daarom kunt u het niet gebruiken voor een nieuwe "
+"film."
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
@@ -137,8 +139,8 @@ msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
-"<i>Het is belangrijk dat u hier een geldig email-adres invoert, anders kan "
-"ik u niet om meer details over uw probleem vragen.</i>"
+"<i>Het is belangrijk dat u hier een geldig e-mailadres invult, anders kan ik "
+"u niet om meer details over uw probleem vragen.</i>"
 
 #. //trac.wxwidgets.org/ticket/13389
 #.
@@ -255,7 +257,7 @@ msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
-"Weet u zeker dat u emails naar de volgende adressen wilt verzenden?\n"
+"Weet u zeker dat u e-mails naar de volgende adressen wilt verzenden?\n"
 "\n"
 
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:80
@@ -448,7 +450,7 @@ msgstr "Timing"
 
 #: src/wx/confirm_kdm_email_dialog.cc:31
 msgid "Confirm KDM email"
-msgstr "Bevestig KDM-email"
+msgstr "Bevestig KDM e-mail"
 
 #: src/wx/dcp_panel.cc:645
 msgid "Container"
@@ -510,7 +512,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:1531
 msgid "Cover Sheet"
-msgstr ""
+msgstr "Voorblad"
 
 #: src/wx/film_name_location_dialog.cc:43
 msgid "Create in folder"
@@ -556,7 +558,7 @@ msgstr "Debug: decoderen"
 
 #: src/wx/config_dialog.cc:1682
 msgid "Debug: email sending"
-msgstr "Debug: email verzenden"
+msgstr "Debug: e-mail verzenden"
 
 #: src/wx/config_dialog.cc:1680
 msgid "Debug: encode"
@@ -603,9 +605,8 @@ msgid "Default duration of still images"
 msgstr "Standaard duur van stilstaand beeld"
 
 #: src/wx/config_dialog.cc:518
-#, fuzzy
 msgid "Default scale-to"
-msgstr "Standaard container"
+msgstr "Standaard schaal-naar"
 
 #: src/wx/config_dialog.cc:548
 msgid "Default standard"
@@ -633,16 +634,15 @@ msgstr "Vraag dit niet opnieuw"
 
 #: src/wx/confirm_kdm_email_dialog.cc:50
 msgid "Don't send emails"
-msgstr "Geen emails verzenden"
+msgstr "Geen e-mails verzenden"
 
 #: src/wx/hints_dialog.cc:45
 msgid "Don't show hints again"
 msgstr "Laat geen hints meer zien"
 
 #: src/wx/nag_dialog.cc:36
-#, fuzzy
 msgid "Don't show this message again"
-msgstr "Laat geen hints meer zien"
+msgstr "Laat dit bericht niet meer zien"
 
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
@@ -696,11 +696,11 @@ msgstr "Effect-kleur"
 
 #: src/wx/email_dialog.cc:29 src/wx/email_dialog.cc:31
 msgid "Email address"
-msgstr "Email-adres"
+msgstr "E-mailadres"
 
 #: src/wx/cinema_dialog.cc:65
 msgid "Email addresses for KDM delivery"
-msgstr "Email-adressen voor KDM-levering"
+msgstr "E-mailadressen voor KDM-levering"
 
 #: src/wx/servers_list_dialog.cc:33
 msgid "Encoding Servers"
@@ -717,7 +717,7 @@ msgstr "Einde"
 #: src/wx/report_problem_dialog.cc:109
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr "Voer uw email-adres in voor het contact, niet %s"
+msgstr "Vul uw e-mailadres in voor het contact, niet %s"
 
 #: src/wx/config_dialog.cc:1673
 msgid "Errors"
@@ -744,9 +744,8 @@ msgstr ""
 "ontsleutelings-keten..."
 
 #: src/wx/export_dialog.cc:46
-#, fuzzy
 msgid "Export film"
-msgstr "Exporteer"
+msgstr "Exporteer film"
 
 #: src/wx/config_dialog.cc:864
 msgid "Export..."
@@ -819,7 +818,7 @@ msgstr "Lettertypen..."
 
 #: src/wx/export_dialog.cc:48
 msgid "Format"
-msgstr ""
+msgstr "Formaat"
 
 #: src/wx/dcp_panel.cc:656
 msgid "Frame Rate"
@@ -900,13 +899,12 @@ msgid "Green chromaticity"
 msgstr "Groen-chromaticiteit"
 
 #: src/wx/config_dialog.cc:575
-#, fuzzy
 msgid "Guess from content"
-msgstr "Omlijn content"
+msgstr "Raad van content"
 
 #: src/wx/export_dialog.cc:32
 msgid "H.264"
-msgstr ""
+msgstr "H.264"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
@@ -950,7 +948,7 @@ msgstr "Beeld X-positie"
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
-msgstr ""
+msgstr "Belangrijke mededeling"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input gamma"
@@ -1019,7 +1017,7 @@ msgstr "Ga naar geselecteerde content"
 
 #: src/wx/config_dialog.cc:1358
 msgid "KDM Email"
-msgstr "KDM-email"
+msgstr "KDM E-mail"
 
 #: src/wx/kdm_output_panel.cc:52
 msgid "KDM type"
@@ -1101,11 +1099,11 @@ msgstr "ONTBREKEND:"
 
 #: src/wx/export_dialog.cc:36
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV-bestanden (*.mov)|*.mov"
 
 #: src/wx/export_dialog.cc:37
 msgid "MP4 files (*.mp4)|*.mp4"
-msgstr ""
+msgstr "MP4-bestanden (*.mp4)|*.mp4"
 
 #: src/wx/config_dialog.cc:1391
 msgid "Mail password"
@@ -1295,9 +1293,8 @@ msgid "Output"
 msgstr "Output"
 
 #: src/wx/export_dialog.cc:51
-#, fuzzy
 msgid "Output file"
-msgstr "Output"
+msgstr "Output-bestand"
 
 #: src/wx/colour_conversion_editor.cc:203
 msgid "Output gamma correction"
@@ -1341,7 +1338,7 @@ msgid ""
 "Please enter an email address so that we can contact you with any queries "
 "about the problem."
 msgstr ""
-"Voer a.u.b. een email-adres in zodat we contact op kunnen nemen voor "
+"Vul a.u.b. een e-mailadres in zodat we contact op kunnen nemen voor "
 "eventuele vragen over het probleem."
 
 #: src/wx/audio_plot.cc:93
@@ -1358,7 +1355,7 @@ msgstr "Pre-release"
 
 #: src/wx/export_dialog.cc:31
 msgid "ProRes"
-msgstr ""
+msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:750
 msgid "Processor"
@@ -1490,9 +1487,8 @@ msgid "Reset to default subject and text"
 msgstr "Stel standaard onderwerp en tekst opnieuw in"
 
 #: src/wx/config_dialog.cc:1547
-#, fuzzy
 msgid "Reset to default text"
-msgstr "Stel standaard onderwerp en tekst opnieuw in"
+msgstr "Stel standaard tekst opnieuw in"
 
 #: src/wx/dcp_panel.cc:674
 msgid "Resolution"
@@ -1597,17 +1593,16 @@ msgid "Select cinema and screen database file"
 msgstr "Selecteer bioscoop- en scherm-database-bestand"
 
 #: src/wx/export_dialog.cc:52
-#, fuzzy
 msgid "Select output file"
-msgstr "Selecteer certificaat-bestand"
+msgstr "Selecteer output-bestand"
 
 #: src/wx/kdm_output_panel.cc:131
 msgid "Send by email"
-msgstr "Verzend via email"
+msgstr "Verzend via e-mail"
 
 #: src/wx/confirm_kdm_email_dialog.cc:49
 msgid "Send emails"
-msgstr "Verzend emails"
+msgstr "Verzend e-mails"
 
 #: src/wx/report_problem_dialog.cc:63
 msgid "Send logs"
@@ -1789,11 +1784,10 @@ msgstr ""
 "bestand(en) of verwijder de ontbrekende content."
 
 #: src/wx/film_name_location_dialog.cc:120
-#, fuzzy
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
+msgstr "De map %1 bestaat al en is niet leeg.  Wilt u deze toch gebruiken?"
 
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
@@ -2120,15 +2114,19 @@ msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr ""
+"U heeft een aantal bioscopen geselecteerd die geen geconfigureerd e-"
+"mailadres hebben.  Wilt u doorgaan?"
 
 #: src/wx/kdm_output_panel.cc:168
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
+"U moet een e-mailserver instellen bij Voorkeuren voordat u e-mails kunt "
+"verzenden."
 
 #: src/wx/report_problem_dialog.cc:68
 msgid "Your email address"
-msgstr "Uw email-adres"
+msgstr "Uw e-mailadres"
 
 #: src/wx/video_waveform_dialog.cc:72
 msgid "component value"

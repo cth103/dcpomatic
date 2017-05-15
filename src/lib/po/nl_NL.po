@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-13 21:50+0100\n"
-"PO-Revision-Date: 2017-04-27 15:29+0200\n"
+"PO-Revision-Date: 2017-05-14 03:39+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -80,6 +80,12 @@ msgid ""
 "Audio: $AUDIO\n"
 "Length: $LENGTH\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Type: $TYPE\n"
+"Formaat: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Lengte: $LENGTH\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -594,19 +600,19 @@ msgstr "Elk content frame zal %1 keer herhaald worden in de DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:64
 msgid "Email KDMs"
-msgstr "Email KDM's"
+msgstr "E-mail KDM's"
 
 #: src/lib/send_kdm_email_job.cc:67
 msgid "Email KDMs for %1"
-msgstr "Email KDM's voor %1"
+msgstr "E-mail KDM's voor %1"
 
 #: src/lib/send_problem_report_job.cc:59
 msgid "Email problem report"
-msgstr "Email probleemmelding"
+msgstr "E-mail probleemrapport"
 
 #: src/lib/send_problem_report_job.cc:62
 msgid "Email problem report for %1"
-msgstr "Email probleemmelding voor %1"
+msgstr "E-mail probleemrapport voor %1"
 
 #: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
@@ -634,7 +640,7 @@ msgstr "Authenticatiefout met server (%1)"
 
 #: src/lib/emailer.cc:222
 msgid "Failed to send email (%1)"
-msgstr "Verzenden email mislukt (%1)"
+msgstr "Verzenden e-mail mislukt (%1)"
 
 #: src/lib/dcp_content_type.cc:46
 msgid "Feature"
@@ -717,6 +723,9 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Het instellen van uw DCP frame rate op 24 of 48 zal echter een aanzienlijke "
+"vertraging van uw content veroorzaken, en SMPTE-DCP's worden niet door alle "
+"projectoren ondersteund."
 
 #: src/lib/hints.cc:119
 msgid ""
@@ -724,6 +733,9 @@ msgid ""
 "speed-up of your content, and SMPTE DCPs are not be supported by all "
 "projectors."
 msgstr ""
+"Het instellen van uw DCP frame rate op 24 of 48 zal echter een aanzienlijke "
+"versnelling van uw content veroorzaken, en SMPTE-DCP's worden niet door alle "
+"projectoren ondersteund."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -839,7 +851,7 @@ msgstr "Ongelijke beeldgroottes in DCP"
 
 #: src/lib/writer.cc:566
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -867,7 +879,7 @@ msgstr "Ruisonderdrukking"
 
 #: src/lib/writer.cc:564
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -1016,7 +1028,7 @@ msgstr "2,39:1 (Scope)"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
-msgstr "Email verzenden"
+msgstr "E-mail verzenden"
 
 #: src/lib/dcp_content_type.cc:47
 msgid "Short"
@@ -1032,7 +1044,7 @@ msgstr "Sommige audio wordt geresampled naar %1kHz"
 
 #: src/lib/writer.cc:568
 msgid "Stereo"
-msgstr ""
+msgstr "Stereo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1155,6 +1167,9 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Dit bestand is een KDM.  KDM's kunnen toegevoegd worden aan DCP-content door "
+"met de rechtermuisknop op de content te klikken en \"Voeg KDM toe\" te "
+"kiezen."
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1251,7 +1266,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1259,19 +1273,19 @@ msgid ""
 "projectors)."
 msgstr ""
 "U heeft een Interop-DCP ingesteld met een frame rate die niet officieel "
-"ondersteund wordt.  U wordt geadviseerd om in plaats hiervan een SMPTE-DCP "
-"te maken."
+"ondersteund wordt.  U wordt geadviseerd om ofwel de frame rate te wijzigen "
+"of om in plaats hiervan een SMPTE-DCP te maken (hoewel SMPTE-DCP's niet door "
+"alle projectoren worden ondersteund)."
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
 "U heeft een Interop-DCP ingesteld met een frame rate die niet officieel "
-"ondersteund wordt.  U wordt geadviseerd om in plaats hiervan een SMPTE-DCP "
-"te maken."
+"ondersteund wordt.  U wordt geadviseerd om ofwel de frame rate te wijzigen "
+"of om in plaats hiervan een SMPTE-DCP te maken."
 
 #: src/lib/hints.cc:149
 msgid ""

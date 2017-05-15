@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-13 21:50+0100\n"
-"PO-Revision-Date: 2017-04-27 14:43+0200\n"
+"PO-Revision-Date: 2017-05-14 03:40+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -242,35 +242,32 @@ msgid "Don't close"
 msgstr "Sluit niet"
 
 #: src/tools/dcpomatic.cc:157
-#, fuzzy
 msgid "Don't duplicate"
-msgstr "Sluit niet"
+msgstr "Dupliceer niet"
 
 #: src/tools/dcpomatic.cc:455 src/tools/dcpomatic.cc:470
 msgid "Duplicate Film"
-msgstr ""
+msgstr "Dupliceer Film"
 
 #: src/tools/dcpomatic.cc:972
 msgid "Duplicate and open..."
-msgstr ""
+msgstr "Dupliceer en open..."
 
 #: src/tools/dcpomatic.cc:157
-#, fuzzy
 msgid "Duplicate without saving film"
-msgstr "Sluit zonder film te bewaren"
+msgstr "Dupliceer zonder film te bewaren"
 
 #: src/tools/dcpomatic.cc:971
 msgid "Duplicate..."
-msgstr ""
+msgstr "Dupliceer..."
 
 #: src/tools/dcpomatic.cc:1012 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
 msgstr "Encodeer-servers..."
 
 #: src/tools/dcpomatic.cc:1004
-#, fuzzy
 msgid "Export...\tCtrl-E"
-msgstr "&Open...\tCtrl-O"
+msgstr "Exporteer...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:277
 #, c-format
@@ -314,7 +311,7 @@ msgstr "Beheer templates..."
 
 #: src/tools/dcpomatic.cc:402
 msgid "New Film"
-msgstr ""
+msgstr "Nieuwe Film"
 
 #: src/tools/dcpomatic.cc:965
 msgid "New...\tCtrl-N"
@@ -346,18 +343,17 @@ msgid "Save changes to film \"%s\" before closing?"
 msgstr "Wijzigingen in film \"%s\" bewaren voor het sluiten?"
 
 #: src/tools/dcpomatic.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr "Wijzigingen in film \"%s\" bewaren voor het sluiten?"
+msgstr "Wijzigingen in film \"%s\" bewaren voor het dupliceren?"
 
 #: src/tools/dcpomatic.cc:124
 msgid "Save film and close"
 msgstr "Bewaar film en sluit"
 
 #: src/tools/dcpomatic.cc:157
-#, fuzzy
 msgid "Save film and duplicate"
-msgstr "Bewaar film en sluit"
+msgstr "Bewaar film en dupliceer"
 
 #: src/tools/dcpomatic.cc:995
 msgid "Scale to fit &height"
@@ -381,7 +377,7 @@ msgstr "Kies film om te openen"
 
 #: src/tools/dcpomatic_kdm.cc:332
 msgid "Send KDM emails"
-msgstr "Verzend KDM-emails"
+msgstr "Verzend KDM e-mails"
 
 #: src/tools/dcpomatic.cc:535
 #, c-format
@@ -455,6 +451,14 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"U maakt een DKDM die is versleuteld met een privé-sleutel uit\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"Het is <span weight=\"bold\" size=\"larger\">UITERMATE BELANGRIJK</span> dat "
+"u <span weight=\"bold\" size=\"larger\">EEN BACK-UP VAN DIT BESTAND MAAKT</"
+"span> omdat verlies ervan uw DKDM's (en de DCP's die ze beschermen) "
+"nutteloos maakt."
 
 #: src/tools/dcpomatic.cc:555
 msgid ""
@@ -465,6 +469,13 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" size=\"larger"
 "\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"U maakt een versleutelde DCP.  Het is niet mogelijk om KDM's voor deze DCP "
+"te maken, tenzij u kopieën heeft van het bestand <tt>metadata.xml</tt> file "
+"in de film en de metadata-bestanden in the DCP.\n"
+"\n"
+"U moet ervoor zorgen dat er van deze bestanden <span weight=\"bold\" size="
+"\"larger\">BACK-UPS GEMAAKT ZIJN</span> als u KDM's voor deze film wilt "
+"maken."
 
 #: src/tools/dcpomatic.cc:425 src/tools/dcpomatic_batch.cc:225
 msgid ""
@@ -473,13 +484,3 @@ msgid ""
 msgstr ""
 "U heeft geen map geselecteerd.  Zorg ervoor dat er een map geselecteerd is "
 "voordat u op Open klikt."
-
-#~ msgid "%1 already exists as a file, so you cannot use it for a new film."
-#~ msgstr ""
-#~ "%1 bestaat al als bestand, daarom kunt u het niet gebruiken voor een "
-#~ "nieuwe film."
-
-#~ msgid ""
-#~ "The directory %1 already exists and is not empty.  Are you sure you want "
-#~ "to use it?"
-#~ msgstr "De map %1 bestaat al en is niet leeg. Wilt u deze toch gebruiken?"
