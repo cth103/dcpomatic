@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 21:50+0100\n"
+"POT-Creation-Date: 2017-05-15 12:18+0100\n"
 "PO-Revision-Date: 2017-05-10 15:22+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -123,11 +123,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:98
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>New colour</b>"
 msgstr "<b>Nová barva</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "<b>Original colour</b>"
 msgstr "<b>Původní barva</b>"
 
@@ -418,7 +418,7 @@ msgstr "Soubor databáze filmu a obrazovky"
 msgid "Click the button to set all selected content to the same value."
 msgstr "Kliknutím na tlačítko nastavíte veškerý obsah na stejné hodnoty."
 
-#: src/wx/subtitle_appearance_dialog.cc:54
+#: src/wx/subtitle_appearance_dialog.cc:59
 msgid "Colour"
 msgstr "Barva"
 
@@ -679,11 +679,11 @@ msgstr "Upravit obraz"
 msgid "Edit..."
 msgstr "Upravit…"
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:64
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Effect colour"
 msgstr "Barva efektu"
 
@@ -757,7 +757,7 @@ msgstr "Studio (např. DLA)"
 msgid "Fade in"
 msgstr "Postupný náběh (Fade in)"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade in time"
 msgstr "Postupný náběh v čase (Fade in)"
 
@@ -765,7 +765,7 @@ msgstr "Postupný náběh v čase (Fade in)"
 msgid "Fade out"
 msgstr "Postupné zeslabení (Fade out)"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Fade out time"
 msgstr "Postupné zeslabení v čase (Fade out)"
 
@@ -1207,7 +1207,7 @@ msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:127
+#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:134
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1265,7 +1265,7 @@ msgstr "Jiné důvěryhodné zařízení"
 msgid "Outgoing mail server"
 msgstr "Server odchozí pošty"
 
-#: src/wx/subtitle_appearance_dialog.cc:128
+#: src/wx/subtitle_appearance_dialog.cc:135
 msgid "Outline"
 msgstr "Orámovaní"
 
@@ -1273,11 +1273,11 @@ msgstr "Orámovaní"
 msgid "Outline content"
 msgstr "Orámovat obsah"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Outline width"
 msgstr "Šířka orámování"
 
-#: src/wx/subtitle_appearance_dialog.cc:193
+#: src/wx/subtitle_appearance_dialog.cc:202
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "Orámování nelze nastavit, pokud vypalujete v titulcích"
 
@@ -1489,7 +1489,7 @@ msgstr "Obnovit předvolený předmět a text"
 msgid "Resolution"
 msgstr "Rozlišení"
 
-#: src/wx/subtitle_appearance_dialog.cc:114
+#: src/wx/subtitle_appearance_dialog.cc:120
 msgid "Restore to original colours"
 msgstr "Obnovit na originální barvy"
 
@@ -1632,7 +1632,7 @@ msgstr "Nastavit ze systémového písma"
 msgid "Set language"
 msgstr "Nastavit jazyk"
 
-#: src/wx/subtitle_appearance_dialog.cc:129
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Shadow"
 msgstr "Stín"
 

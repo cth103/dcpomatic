@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 21:50+0100\n"
+"POT-Creation-Date: 2017-05-15 12:18+0100\n"
 "PO-Revision-Date: 2016-10-26 09:27-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -122,11 +122,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:98
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>New colour</b>"
 msgstr "<b>Nuevo color</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "<b>Original colour</b>"
 msgstr "<b>Color original</b>"
 
@@ -424,7 +424,7 @@ msgid "Click the button to set all selected content to the same value."
 msgstr ""
 "Pulsar el botón para poner todo el contenido seleccionado al mismo valor."
 
-#: src/wx/subtitle_appearance_dialog.cc:54
+#: src/wx/subtitle_appearance_dialog.cc:59
 msgid "Colour"
 msgstr "Color"
 
@@ -686,11 +686,11 @@ msgstr "Editar pantalla"
 msgid "Edit..."
 msgstr "Editar..."
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:64
 msgid "Effect"
 msgstr "Efecto"
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Effect colour"
 msgstr "Color del efecto"
 
@@ -764,7 +764,7 @@ msgstr "Compañía (ej. DLA)"
 msgid "Fade in"
 msgstr "Fundido de entrada"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade in time"
 msgstr "Tiempo de fundido de entrada"
 
@@ -772,7 +772,7 @@ msgstr "Tiempo de fundido de entrada"
 msgid "Fade out"
 msgstr "Fundido de salida"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Fade out time"
 msgstr "Tiempo de fundido de salida"
 
@@ -1217,7 +1217,7 @@ msgid "No content found in this folder."
 msgstr "No se encontró contenido en esta carpeta."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:127
+#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:134
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1275,7 +1275,7 @@ msgstr "Otros dispositivos seguros"
 msgid "Outgoing mail server"
 msgstr "Servidor de salida de correo"
 
-#: src/wx/subtitle_appearance_dialog.cc:128
+#: src/wx/subtitle_appearance_dialog.cc:135
 msgid "Outline"
 msgstr "Contorno"
 
@@ -1283,11 +1283,11 @@ msgstr "Contorno"
 msgid "Outline content"
 msgstr "Resaltar contenido"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Outline width"
 msgstr "Anchura del contorno"
 
-#: src/wx/subtitle_appearance_dialog.cc:193
+#: src/wx/subtitle_appearance_dialog.cc:202
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 "La anchura del contorno no pude seleccionarse salvo para incrustar los "
@@ -1502,7 +1502,7 @@ msgstr "Restablecer el texto y asunto por defecto"
 msgid "Resolution"
 msgstr "Resolución"
 
-#: src/wx/subtitle_appearance_dialog.cc:114
+#: src/wx/subtitle_appearance_dialog.cc:120
 msgid "Restore to original colours"
 msgstr ""
 
@@ -1645,7 +1645,7 @@ msgstr "Usar la fuente del sistema…"
 msgid "Set language"
 msgstr "Seleccionar idioma"
 
-#: src/wx/subtitle_appearance_dialog.cc:129
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Shadow"
 msgstr "Sombra"
 

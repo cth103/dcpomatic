@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 21:50+0100\n"
+"POT-Creation-Date: 2017-05-15 12:18+0100\n"
 "PO-Revision-Date: 2017-05-14 03:55+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -124,11 +124,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:98
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>New colour</b>"
 msgstr "<b>Nieuwe kleur</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "<b>Original colour</b>"
 msgstr "<b>Originele kleur</b>"
 
@@ -426,7 +426,7 @@ msgstr ""
 "Klik op de knop om alle geselecteerde content op dezelfde waarde in te "
 "stellen."
 
-#: src/wx/subtitle_appearance_dialog.cc:54
+#: src/wx/subtitle_appearance_dialog.cc:59
 msgid "Colour"
 msgstr "Kleur"
 
@@ -686,11 +686,11 @@ msgstr "Wijzig scherm"
 msgid "Edit..."
 msgstr "Wijzig..."
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:64
 msgid "Effect"
 msgstr "Effect"
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Effect colour"
 msgstr "Effect-kleur"
 
@@ -763,7 +763,7 @@ msgstr "Lab (bv. DLA)"
 msgid "Fade in"
 msgstr "Fade in"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade in time"
 msgstr "Fade in tijd"
 
@@ -771,7 +771,7 @@ msgstr "Fade in tijd"
 msgid "Fade out"
 msgstr "Fade out"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Fade out time"
 msgstr "Fade out tijd"
 
@@ -1213,7 +1213,7 @@ msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:127
+#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:134
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1271,7 +1271,7 @@ msgstr "Andere 'trusted devices'"
 msgid "Outgoing mail server"
 msgstr "Uitgaande mailserver"
 
-#: src/wx/subtitle_appearance_dialog.cc:128
+#: src/wx/subtitle_appearance_dialog.cc:135
 msgid "Outline"
 msgstr "Omlijn"
 
@@ -1279,11 +1279,11 @@ msgstr "Omlijn"
 msgid "Outline content"
 msgstr "Omlijn content"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Outline width"
 msgstr "Omlijnings-breedte"
 
-#: src/wx/subtitle_appearance_dialog.cc:193
+#: src/wx/subtitle_appearance_dialog.cc:202
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr ""
 "Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden"
@@ -1494,7 +1494,7 @@ msgstr "Stel standaard tekst opnieuw in"
 msgid "Resolution"
 msgstr "Resolutie"
 
-#: src/wx/subtitle_appearance_dialog.cc:114
+#: src/wx/subtitle_appearance_dialog.cc:120
 msgid "Restore to original colours"
 msgstr "Herstel naar originele kleuren"
 
@@ -1636,7 +1636,7 @@ msgstr "Stel in uit syteem-lettertype..."
 msgid "Set language"
 msgstr "Stel taal in"
 
-#: src/wx/subtitle_appearance_dialog.cc:129
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Shadow"
 msgstr "Schaduw"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 21:50+0100\n"
+"POT-Creation-Date: 2017-05-15 12:18+0100\n"
 "PO-Revision-Date: 2016-10-26 09:26-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -704,8 +704,7 @@ msgstr ""
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
-"speed-up of your content, and SMPTE DCPs are not be supported by all "
-"projectors."
+"speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327

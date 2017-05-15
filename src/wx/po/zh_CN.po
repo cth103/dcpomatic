@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 21:50+0100\n"
+"POT-Creation-Date: 2017-05-15 12:18+0100\n"
 "PO-Revision-Date: 2017-02-24 06:32+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -129,11 +129,11 @@ msgstr "6声道—5.1声道"
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/subtitle_appearance_dialog.cc:98
+#: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>New colour</b>"
 msgstr "<b>新色彩空间</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "<b>Original colour</b>"
 msgstr "<b>原色彩空间</b>"
 
@@ -424,7 +424,7 @@ msgstr "放映厅和银幕数据库文件"
 msgid "Click the button to set all selected content to the same value."
 msgstr "单击该按钮可将所有选定的内容为相同的值。"
 
-#: src/wx/subtitle_appearance_dialog.cc:54
+#: src/wx/subtitle_appearance_dialog.cc:59
 msgid "Colour"
 msgstr "色彩空间"
 
@@ -684,11 +684,11 @@ msgstr "编辑放映厅服务器（证书）"
 msgid "Edit..."
 msgstr "编辑..."
 
-#: src/wx/subtitle_appearance_dialog.cc:59
+#: src/wx/subtitle_appearance_dialog.cc:64
 msgid "Effect"
 msgstr "效果"
 
-#: src/wx/subtitle_appearance_dialog.cc:64
+#: src/wx/subtitle_appearance_dialog.cc:69
 msgid "Effect colour"
 msgstr "效果颜色"
 
@@ -758,7 +758,7 @@ msgstr "设备(例如:DLA)"
 msgid "Fade in"
 msgstr "淡入"
 
-#: src/wx/subtitle_appearance_dialog.cc:74
+#: src/wx/subtitle_appearance_dialog.cc:79
 msgid "Fade in time"
 msgstr "淡入时间"
 
@@ -766,7 +766,7 @@ msgstr "淡入时间"
 msgid "Fade out"
 msgstr "淡出"
 
-#: src/wx/subtitle_appearance_dialog.cc:79
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Fade out time"
 msgstr "淡出时间"
 
@@ -1208,7 +1208,7 @@ msgid "No content found in this folder."
 msgstr "没有找到文件！"
 
 #. /OUTLINE/SHADOW variables
-#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:127
+#: src/wx/dcp_panel.cc:752 src/wx/subtitle_appearance_dialog.cc:134
 #: src/wx/video_panel.cc:186 src/wx/video_panel.cc:200
 #: src/wx/video_panel.cc:307
 msgid "None"
@@ -1266,7 +1266,7 @@ msgstr "其它可信设备(服务器设备)"
 msgid "Outgoing mail server"
 msgstr "发送邮件服务器地址"
 
-#: src/wx/subtitle_appearance_dialog.cc:128
+#: src/wx/subtitle_appearance_dialog.cc:135
 msgid "Outline"
 msgstr "缩略视图"
 
@@ -1274,11 +1274,11 @@ msgstr "缩略视图"
 msgid "Outline content"
 msgstr "缩略视图内容"
 
-#: src/wx/subtitle_appearance_dialog.cc:69
+#: src/wx/subtitle_appearance_dialog.cc:74
 msgid "Outline width"
 msgstr "轮廓线宽度"
 
-#: src/wx/subtitle_appearance_dialog.cc:193
+#: src/wx/subtitle_appearance_dialog.cc:202
 msgid "Outline width cannot be set unless you are burning in subtitles"
 msgstr "只有选择烧录字幕才能显示轮廓线！"
 
@@ -1486,7 +1486,7 @@ msgstr "恢复到默认"
 msgid "Resolution"
 msgstr "解析度"
 
-#: src/wx/subtitle_appearance_dialog.cc:114
+#: src/wx/subtitle_appearance_dialog.cc:120
 msgid "Restore to original colours"
 msgstr "恢复为原始色彩"
 
@@ -1629,7 +1629,7 @@ msgstr "系统字体"
 msgid "Set language"
 msgstr "设置语言"
 
-#: src/wx/subtitle_appearance_dialog.cc:129
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Shadow"
 msgstr "字幕阴影"
 
