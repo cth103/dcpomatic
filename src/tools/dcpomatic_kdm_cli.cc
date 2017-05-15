@@ -293,8 +293,8 @@ int main (int argc, char* argv[])
 
 		dcp::NameFormat::Map values;
 		values['f'] = film->name();
-		values['b'] = dcp::LocalTime(valid_from.get()).date() + " " + dcp::LocalTime(valid_from.get()).time_of_day();
-		values['e'] = dcp::LocalTime(valid_to.get()).date() + " " + dcp::LocalTime(valid_to.get()).time_of_day();
+		values['b'] = dcp::LocalTime(valid_from.get()).date() + " " + dcp::LocalTime(valid_from.get()).time_of_day(true, false);
+		values['e'] = dcp::LocalTime(valid_to.get()).date() + " " + dcp::LocalTime(valid_to.get()).time_of_day(true, false);
 
 		try {
 			list<ScreenKDM> screen_kdms = film->make_kdms (
