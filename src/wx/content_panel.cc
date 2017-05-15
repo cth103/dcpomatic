@@ -37,6 +37,8 @@
 #include "lib/case_insensitive_sorter.h"
 #include "lib/playlist.h"
 #include "lib/config.h"
+#include "lib/log.h"
+#include "lib/compose.hpp"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -53,6 +55,8 @@ using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
+
+#define LOG_GENERAL(...) _film->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
 
 ContentPanel::ContentPanel (wxNotebook* n, boost::shared_ptr<Film> film, FilmViewer* viewer)
 	: _timeline_dialog (0)
@@ -545,6 +549,12 @@ ContentPanel::setup ()
 	BOOST_FOREACH (shared_ptr<Content> i, content) {
 		int const t = _content->GetItemCount ();
 		bool const valid = i->paths_valid ();
+
+		/* Temporary debugging for Igor */
+		BOOST_FOREACH (boost::filesystem::path j, i->paths()) {
+			LOG_GENERAL ("Check %1 %2 answer %3", j.string(), boost::filesystem::exists(j) ? "yes" : "no", valid ? "yes" : "no");
+		}
+
 		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i);
 		bool const needs_kdm = dcp && dcp->needs_kdm ();
 		bool const needs_assets = dcp && dcp->needs_assets ();
