@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-13 21:50+0100\n"
-"PO-Revision-Date: 2017-01-18 11:28+0200\n"
+"PO-Revision-Date: 2017-05-14 22:05+0300\n"
 "Last-Translator: Igor Voytovich <dcp@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -26,9 +26,8 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDM-ключи записаны в %s"
 
 #: src/tools/dcpomatic_batch.cc:62
-#, fuzzy
 msgid "&Add Film...\tCtrl-A"
-msgstr "&Добавить проект..."
+msgstr "&Добавить проект...\tCtrl-A"
 
 #: src/tools/dcpomatic.cc:1030
 msgid "&Content"
@@ -168,9 +167,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Не удалось загрузить проект %1 (%2)"
 
 #: src/tools/dcpomatic.cc:580
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s."
-msgstr "Не удалось сделать DCP: %s"
+msgstr "Не удалось сделать DCP: %s."
 
 #: src/tools/dcpomatic.cc:368 src/tools/dcpomatic_batch.cc:139
 #, c-format
@@ -194,12 +193,16 @@ msgstr "Не удалось открыть каталог DCP (не удалос
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
 msgstr ""
+"Не удалось записать в файл базы кинотеатров - %s. Ваши изменения не были "
+"сохранены."
 
 #: src/tools/dcpomatic.cc:1058
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
+"Не удалось записать в файл кионфгигурации - %s. Ваши изменения не были "
+"сохранены."
 
 #: src/tools/dcpomatic_kdm.cc:184
 msgid "Create KDMs"
@@ -229,42 +232,39 @@ msgstr "DKDM (Distribution KDM)"
 #: src/tools/dcpomatic.cc:565
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr ""
+msgstr "Вы хотите перезаписать существующий DCP %s?"
 
 #: src/tools/dcpomatic.cc:124
 msgid "Don't close"
 msgstr "Не закрывать"
 
 #: src/tools/dcpomatic.cc:157
-#, fuzzy
 msgid "Don't duplicate"
-msgstr "Не закрывать"
+msgstr "Не дублировать"
 
 #: src/tools/dcpomatic.cc:455 src/tools/dcpomatic.cc:470
 msgid "Duplicate Film"
-msgstr ""
+msgstr "Дублировать проект"
 
 #: src/tools/dcpomatic.cc:972
 msgid "Duplicate and open..."
-msgstr ""
+msgstr "Дублировать и открыть"
 
 #: src/tools/dcpomatic.cc:157
-#, fuzzy
 msgid "Duplicate without saving film"
-msgstr "Закрыть без сохранения проекта"
+msgstr "Дублировать без сохранения проекта"
 
 #: src/tools/dcpomatic.cc:971
 msgid "Duplicate..."
-msgstr ""
+msgstr "Дублировать..."
 
 #: src/tools/dcpomatic.cc:1012 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
 msgstr "Сервера кодирования..."
 
 #: src/tools/dcpomatic.cc:1004
-#, fuzzy
 msgid "Export...\tCtrl-E"
-msgstr "&Открыть...\tCtrl-O"
+msgstr "Экспортировать...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:277
 #, c-format
@@ -308,7 +308,7 @@ msgstr "Управление шаблонами..."
 
 #: src/tools/dcpomatic.cc:402
 msgid "New Film"
-msgstr ""
+msgstr "Новый проект"
 
 #: src/tools/dcpomatic.cc:965
 msgid "New...\tCtrl-N"
@@ -340,18 +340,17 @@ msgid "Save changes to film \"%s\" before closing?"
 msgstr "Сохранить изменения \"%s\" перед закрытием?"
 
 #: src/tools/dcpomatic.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr "Сохранить изменения \"%s\" перед закрытием?"
+msgstr "Сохранить изменения в проекте \"%s\" перед его дублированием?"
 
 #: src/tools/dcpomatic.cc:124
 msgid "Save film and close"
 msgstr "Сохранить проект и закрыть"
 
 #: src/tools/dcpomatic.cc:157
-#, fuzzy
 msgid "Save film and duplicate"
-msgstr "Сохранить проект и закрыть"
+msgstr "Сохранить проект и дублировать"
 
 #: src/tools/dcpomatic.cc:995
 msgid "Scale to fit &height"
@@ -447,6 +446,13 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"Вы делаете DKDM, который зашифрован приватным ключом, содержащимся в\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"<span weight=\"bold\" size=\"larger\">ЧРЕЗВЫЧАЙНО ВАЖНО СДЕЛАТЬ РЕЗЕРВНУЮ "
+"КОПИЮ ЭТОГО ФАЙЛА</span>, т.к. если он будет утерян, ваши DKDM (и DCP, "
+"которые ими защищены) станут бесполезными."
 
 #: src/tools/dcpomatic.cc:555
 msgid ""
@@ -457,6 +463,13 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" size=\"larger"
 "\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"Вы делаете зашифрованный DCP.  Если у вас нет копии файла <tt>metadata.xml</"
+"tt> в проекте и файлов метаданных в DCP, невозможно будет создать KDM для "
+"данного DCP.\n"
+"\n"
+"Вам следует убедиться, что есть <span weight=\"bold\" size=\"larger"
+"\">РЕЗЕРВНЫЕ КОПИИ</span> этих файлов, если вы хотите сделать KDM для "
+"данного проекта."
 
 #: src/tools/dcpomatic.cc:425 src/tools/dcpomatic_batch.cc:225
 msgid ""

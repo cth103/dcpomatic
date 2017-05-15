@@ -4,14 +4,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-13 21:50+0100\n"
-"PO-Revision-Date: 2017-01-18 12:37+0200\n"
+"PO-Revision-Date: 2017-05-14 22:41+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -24,24 +24,24 @@ msgstr "%"
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
+"%1 уже существует как файл, поэтому вы не можете использовать его в проекте."
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM записан в %s"
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM записаны в %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"© 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
@@ -169,9 +169,8 @@ msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
 
 #: src/wx/content_panel.cc:90
-#, fuzzy
 msgid "Add DCP..."
-msgstr "Добавить KDM..."
+msgstr "Добавить DCP..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -190,16 +189,15 @@ msgid "Add Screen..."
 msgstr "Добавить экран..."
 
 #: src/wx/content_panel.cc:91
-#, fuzzy
 msgid "Add a DCP."
-msgstr "Добавить KDM..."
+msgstr "Добавить DCP."
 
 #: src/wx/content_panel.cc:87
-#, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
-msgstr "Добавить папку последовательности изображений или DCP."
+msgstr ""
+"Добавить папку последовательности изображений или папку звуковых файлов."
 
 #: src/wx/content_panel.cc:82
 msgid "Add file(s)..."
@@ -214,9 +212,8 @@ msgid "Add image sequence"
 msgstr "Добавить последовательность изображений"
 
 #: src/wx/content_panel.cc:83
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
-msgstr "Добавить видео, изображение или звук в проект."
+msgstr "Добавить видео, изображение, звук или субтитры в проект."
 
 #: src/wx/config_dialog.cc:843 src/wx/editable_list.h:74
 msgid "Add..."
@@ -375,7 +372,7 @@ msgstr "Усиление канала"
 
 #: src/wx/audio_dialog.cc:93 src/wx/dcp_panel.cc:744
 msgid "Channels"
-msgstr "Канала(ов)"
+msgstr "Каналы"
 
 #: src/wx/config_dialog.cc:232
 msgid "Check for testing updates on startup"
@@ -390,9 +387,8 @@ msgid "Choose CPL..."
 msgstr "Выберите CPL..."
 
 #: src/wx/content_panel.cc:355
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Выбрать папку"
+msgstr "Выбрать папку DCP"
 
 #: src/wx/content_menu.cc:294
 msgid "Choose a file"
@@ -505,10 +501,12 @@ msgid ""
 "Could not set up audio output (%s).  There will be no audio during the "
 "preview."
 msgstr ""
+"Не удалось настроить вывод аудио (%s).  При предпросмотре не будет звука."
 
 #: src/wx/config_dialog.cc:1531
+#, fuzzy
 msgid "Cover Sheet"
-msgstr ""
+msgstr "Обложка"
 
 #: src/wx/film_name_location_dialog.cc:43
 msgid "Create in folder"
@@ -570,7 +568,7 @@ msgstr "Аудиоканалы DCP по умолчанию"
 
 #: src/wx/config_dialog.cc:510
 msgid "Default ISDCF name details"
-msgstr "Стандартные поля ISDCF (Inter-Society Digital Cinema Forum)"
+msgstr "Значения ISDCF по умолчанию"
 
 #: src/wx/config_dialog.cc:531
 msgid "Default JPEG2000 bandwidth"
@@ -601,9 +599,8 @@ msgid "Default duration of still images"
 msgstr "Стандартная длительность статичного изображения"
 
 #: src/wx/config_dialog.cc:518
-#, fuzzy
 msgid "Default scale-to"
-msgstr "Стандартный формат кадра"
+msgstr "Стандартное масштабирование"
 
 #: src/wx/config_dialog.cc:548
 msgid "Default standard"
@@ -638,9 +635,8 @@ msgid "Don't show hints again"
 msgstr "Больше не показывать подсказки"
 
 #: src/wx/nag_dialog.cc:36
-#, fuzzy
 msgid "Don't show this message again"
-msgstr "Больше не показывать подсказки"
+msgstr "Больше не показывать это сообщение"
 
 #: src/wx/download_certificate_dialog.cc:39
 msgid "Download"
@@ -698,7 +694,7 @@ msgstr "E-mail адрес"
 
 #: src/wx/cinema_dialog.cc:65
 msgid "Email addresses for KDM delivery"
-msgstr "Email адреса для доставки ключей (KDM)"
+msgstr "Email адреса для доставки KDM"
 
 #: src/wx/servers_list_dialog.cc:33
 msgid "Encoding Servers"
@@ -742,9 +738,8 @@ msgstr ""
 "расшифровки DCP..."
 
 #: src/wx/export_dialog.cc:46
-#, fuzzy
 msgid "Export film"
-msgstr "Экспорт"
+msgstr "Экспортировать проект"
 
 #: src/wx/config_dialog.cc:864
 msgid "Export..."
@@ -803,9 +798,8 @@ msgid "Find missing..."
 msgstr "Найти отсутствующее..."
 
 #: src/wx/kdm_output_panel.cc:65
-#, fuzzy
 msgid "Folder / ZIP name format"
-msgstr "Формат названия файла"
+msgstr "Формат именования Папки / ZIP-файла"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -818,7 +812,7 @@ msgstr "Шрифты..."
 
 #: src/wx/export_dialog.cc:48
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: src/wx/dcp_panel.cc:656
 msgid "Frame Rate"
@@ -907,11 +901,11 @@ msgstr "Очертить контент"
 
 #: src/wx/export_dialog.cc:32
 msgid "H.264"
-msgstr ""
+msgstr "H.264"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
-msgstr ""
+msgstr "Более высокий приоритет"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -951,7 +945,7 @@ msgstr "Горизонтальное положение изображения"
 
 #: src/wx/nag_dialog.cc:29
 msgid "Important notice"
-msgstr ""
+msgstr "Важное замечание"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input gamma"
@@ -1016,7 +1010,7 @@ msgstr "Подсоединить"
 
 #: src/wx/film_viewer.cc:81
 msgid "Jump to selected content"
-msgstr ""
+msgstr "Перейти к выбранному контенту"
 
 #: src/wx/config_dialog.cc:1358
 msgid "KDM Email"
@@ -1094,19 +1088,19 @@ msgstr "Диапазон громкости %.2f LU"
 
 #: src/wx/batch_job_view.cc:47
 msgid "Lower priority"
-msgstr ""
+msgstr "Более низкий приоритет"
 
 #: src/wx/content_panel.cc:555
 msgid "MISSING: "
-msgstr "ОТСУТСТВУЕТ:"
+msgstr "ОТСУТСТВУЕТ: "
 
 #: src/wx/export_dialog.cc:36
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV файлы (*.mov)|*.mov"
 
 #: src/wx/export_dialog.cc:37
 msgid "MP4 files (*.mp4)|*.mp4"
-msgstr ""
+msgstr "MP4 файлы  (*.mp4)|*.mp4"
 
 #: src/wx/config_dialog.cc:1391
 msgid "Mail password"
@@ -1183,11 +1177,11 @@ msgstr "Моя проблема"
 
 #: src/wx/content_panel.cc:559
 msgid "NEEDS KDM: "
-msgstr "НЕОБХОДИМ KDM:"
+msgstr "НЕОБХОДИМ KDM: "
 
 #: src/wx/content_panel.cc:563
 msgid "NEEDS OV: "
-msgstr "НЕОБХОДИМ OV:"
+msgstr "НЕОБХОДИМ OV: "
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
 msgid "Name"
@@ -1236,10 +1230,12 @@ msgstr "Заметки"
 #: src/wx/config_dialog.cc:202
 msgid "Number of threads DCP-o-matic encode server should use"
 msgstr ""
+"Количество потоков, которое должен использовать сервер кодирования DCP-o-"
+"matic"
 
 #: src/wx/config_dialog.cc:197
 msgid "Number of threads DCP-o-matic should use"
-msgstr ""
+msgstr "Количество потоков, которое должен использовать DCP-o-matic"
 
 #: src/wx/audio_mapping_view.cc:166
 msgid "Off"
@@ -1294,9 +1290,8 @@ msgid "Output"
 msgstr "Вывод"
 
 #: src/wx/export_dialog.cc:51
-#, fuzzy
 msgid "Output file"
-msgstr "Вывод"
+msgstr "Выходной файл"
 
 #: src/wx/colour_conversion_editor.cc:203
 #, fuzzy
@@ -1334,7 +1329,7 @@ msgstr "Длительность воспроизведения"
 
 #: src/wx/config_dialog.cc:212
 msgid "Play sound in the preview via"
-msgstr ""
+msgstr "Вопроизводить звук в предпросмотре через"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
@@ -1358,7 +1353,7 @@ msgstr "Пре-релиз"
 
 #: src/wx/export_dialog.cc:31
 msgid "ProRes"
-msgstr ""
+msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:750
 msgid "Processor"
@@ -1488,9 +1483,8 @@ msgid "Reset to default subject and text"
 msgstr "Сбросить по умолчанию тему и текст"
 
 #: src/wx/config_dialog.cc:1547
-#, fuzzy
 msgid "Reset to default text"
-msgstr "Сбросить по умолчанию тему и текст"
+msgstr "Сбросить по умолчанию текст"
 
 #: src/wx/dcp_panel.cc:674
 msgid "Resolution"
@@ -1510,7 +1504,7 @@ msgstr "Справа"
 
 #: src/wx/audio_mapping_view.cc:351
 msgid "Right click to change gain."
-msgstr "Правый клик для изменения усиления"
+msgstr "Правый клик для изменения усиления."
 
 #: src/wx/film_viewer.cc:80
 msgid "Right eye"
@@ -1595,9 +1589,8 @@ msgid "Select cinema and screen database file"
 msgstr "Выберите файл БД кинотеатров и залов"
 
 #: src/wx/export_dialog.cc:52
-#, fuzzy
 msgid "Select output file"
-msgstr "Выберите файл сертификата"
+msgstr "Выберите выходной файл"
 
 #: src/wx/kdm_output_panel.cc:131
 msgid "Send by email"
@@ -1633,7 +1626,7 @@ msgstr "Выбрать из файла..."
 
 #: src/wx/font_files_dialog.cc:54
 msgid "Set from system font..."
-msgstr "Выбрать системный шрифт"
+msgstr "Выбрать системный шрифт..."
 
 #: src/wx/config_dialog.cc:164
 msgid "Set language"
@@ -1657,17 +1650,15 @@ msgstr "Подписанный"
 
 #: src/wx/config_dialog.cc:1162
 msgid "Signing DCPs and KDMs"
-msgstr "Подпись DCP и KDM:"
+msgstr "Подписывание DCP и KDM"
 
 #: src/wx/colour_conversion_editor.cc:60
-#, fuzzy
 msgid "Simple gamma"
-msgstr "Входная гамма"
+msgstr "Простая гамма"
 
 #: src/wx/colour_conversion_editor.cc:61
-#, fuzzy
 msgid "Simple gamma, linearised for small values"
-msgstr "Гамма, выровненная для малых значений"
+msgstr "Простая гамма, выровненная для малых значений"
 
 #: src/wx/dcp_panel.cc:183
 msgid "Single reel"
@@ -1687,7 +1678,7 @@ msgstr "Разделять по видео-контенту"
 
 #: src/wx/update_dialog.cc:46
 msgid "Stable version "
-msgstr "Стабильная версия"
+msgstr "Стабильная версия "
 
 #: src/wx/dcp_panel.cc:156
 msgid "Standard"
@@ -1768,7 +1759,7 @@ msgstr "Территория (напр. UA)"
 
 #: src/wx/update_dialog.cc:52
 msgid "Test version "
-msgstr "Тестовая версия"
+msgstr "Тестовая версия "
 
 #: src/wx/about_dialog.cc:356
 msgid "Tested by"
@@ -1776,7 +1767,7 @@ msgstr "Тестирование"
 
 #: src/wx/kdm_timing_panel.cc:114
 msgid "The 'until' time must be after the 'from' time."
-msgstr "Время \"до\" должно быть после времени \"от\""
+msgstr "Время \"до\" должно быть после времени \"от\"."
 
 #: src/wx/content_menu.cc:354
 msgid ""
@@ -1788,11 +1779,10 @@ msgstr ""
 "снова, выбрав правильные файлы, либо удалите отсутствующий контент."
 
 #: src/wx/film_name_location_dialog.cc:120
-#, fuzzy
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Файл %s уже существует. Вы хотите перезаписать его?"
+msgstr "Папка %s уже существует и не пуста. Вы точно хотите использовать её?"
 
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
@@ -2054,19 +2044,19 @@ msgstr "Помощь в разработке"
 
 #: src/wx/kdm_output_panel.cc:126
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "Создать zip-файл для каждого KDM кинотеатра"
 
 #: src/wx/kdm_output_panel.cc:124
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "Создать папку для каждого KDM кинотеатра"
 
 #: src/wx/kdm_output_panel.cc:122
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "Записать все KDM в одну папку"
 
 #: src/wx/kdm_output_panel.cc:103 src/wx/self_dkdm_dialog.cc:75
 msgid "Write to"
-msgstr "Сохранить в..."
+msgstr "Сохранить в"
 
 #: src/wx/about_dialog.cc:97
 msgid "Written by"
@@ -2119,11 +2109,15 @@ msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr ""
+"Вы выбрали некоторые кинотеатры, у которых не настроен email-адрес. Вы "
+"хотите продолжить?"
 
 #: src/wx/kdm_output_panel.cc:168
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
+"Вы должны настроить почтовый сервер в Настройках прежде чем вы сможете "
+"отправлять письма."
 
 #: src/wx/report_problem_dialog.cc:68
 msgid "Your email address"
