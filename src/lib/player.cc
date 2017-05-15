@@ -545,18 +545,20 @@ Player::pass ()
 
 	/* Work out where to fill video from */
 	optional<DCPTime> video_fill_from;
-	if (_last_video_time && !_playlist->video_content_at(_last_video_time.get())) {
-		/* No seek; fill towards the next thing that might happen (or the end of the playlist) */
+	if (_last_video_time && !_playlist->video_content_at(*_last_video_time)) {
+		/* No seek; fill from the last video time */
 		video_fill_from = _last_video_time;
-	} else if (_last_seek_time && !_playlist->video_content_at(_last_seek_time.get())) {
+	} else if (_last_seek_time && !_playlist->video_content_at(*_last_seek_time)) {
 		/* Seek into an empty area; fill from the seek time */
 		video_fill_from = _last_seek_time;
 	}
 
 	bool filled = false;
-
-	if (video_fill_from && ((fill_towards - video_fill_from.get())) > one_video_frame()) {
-		emit_video (black_player_video_frame(), video_fill_from.get());
+	/* Fill some black if we would emit before the earliest piece of content.  This is so we act like a phantom
+	   Piece which emits black in spaces (we only emit if we are the earliest thing)
+	*/
+	if (earliest && video_fill_from && *video_fill_from < earliest_content && ((fill_towards - *video_fill_from)) > one_video_frame()) {
+		emit_video (black_player_video_frame(), *video_fill_from);
 		filled = true;
 	} else if (_playlist->length() == DCPTime()) {
 		/* Special case of an empty Film; just give one black frame */
@@ -565,16 +567,16 @@ Player::pass ()
 	}
 
 	optional<DCPTime> audio_fill_from;
-	if (_last_audio_time && !_playlist->audio_content_at(_last_audio_time.get())) {
+	if (_last_audio_time && !_playlist->audio_content_at(*_last_audio_time)) {
 		/* No seek; fill from the last thing that happened */
 		audio_fill_from = _last_audio_time;
-	} else if (_last_seek_time && !_playlist->audio_content_at(_last_seek_time.get())) {
+	} else if (_last_seek_time && !_playlist->audio_content_at(*_last_seek_time)) {
 		/* Seek into an empty area; fill from the seek time */
 		audio_fill_from = _last_seek_time;
 	}
 
 	if (audio_fill_from && audio_fill_from < fill_towards) {
-		DCPTimePeriod period (audio_fill_from.get(), fill_towards);
+		DCPTimePeriod period (*audio_fill_from, fill_towards);
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
 		}
@@ -597,7 +599,7 @@ Player::pass ()
 
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_from);
 	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
-		if (_last_audio_time && i->second < _last_audio_time.get()) {
+		if (_last_audio_time && i->second < *_last_audio_time) {
 			/* There has been an accurate seek and we have received some audio before the seek time;
 			   discard it.
 			*/
@@ -609,7 +611,7 @@ Player::pass ()
 		}
 
 		if (_last_audio_time) {
-			fill_audio (DCPTimePeriod (_last_audio_time.get(), i->second));
+			fill_audio (DCPTimePeriod (*_last_audio_time, i->second));
 		}
 
 		emit_audio (i->first, i->second);
@@ -664,7 +666,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	if (
 		time < piece->content->position() ||
 		time >= piece->content->end() ||
-		(_last_seek_time && _last_seek_accurate && time < _last_seek_time.get())) {
+		(_last_seek_time && _last_seek_accurate && time < *_last_seek_time)) {
 		return;
 	}
 
@@ -674,7 +676,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	if (_last_video_time) {
 		/* XXX: this may not work for 3D */
-		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (_last_video_time.get(), time), _no_video)) {
+		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (*_last_video_time, time), _no_video)) {
 			for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
 				if (_last_video) {
 					emit_video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);

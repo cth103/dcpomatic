@@ -210,3 +210,9 @@ SubtitleDecoder::emit_text (ContentTimePeriod period, sub::Subtitle const & s)
 	emit_text_start (period.from, s);
 	emit_stop (period.to);
 }
+
+void
+SubtitleDecoder::seek ()
+{
+	_position = ContentTime ();
+}

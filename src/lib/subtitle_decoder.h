@@ -59,6 +59,8 @@ public:
 	void emit_text (ContentTimePeriod period, sub::Subtitle const & subtitle);
 	void emit_stop (ContentTime to);
 
+	void seek ();
+
 	boost::shared_ptr<const SubtitleContent> content () const {
 		return _content;
 	}

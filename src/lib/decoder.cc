@@ -55,4 +55,7 @@ Decoder::seek (ContentTime, bool)
 	if (audio) {
 		audio->seek ();
 	}
+	if (subtitle) {
+		subtitle->seek ();
+	}
 }
