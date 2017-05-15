@@ -300,7 +300,10 @@ FFmpegEncoder::audio_frame (int size)
 	AVFrame* frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);
 
+	DCPOMATIC_ASSERT (size);
+
 	int const channels = _audio_codec_context->channels;
+	DCPOMATIC_ASSERT (channels);
 
 	int const buffer_size = av_samples_get_buffer_size (0, channels, size, _audio_codec_context->sample_fmt, 0);
 	DCPOMATIC_ASSERT (buffer_size >= 0);
