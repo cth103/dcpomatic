@@ -79,6 +79,5 @@ private:
 	};
 
 	std::list<Buffer> _buffers;
-	DCPTime _last_pull;
 	int _frame_rate;
 };

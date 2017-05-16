@@ -56,11 +56,9 @@ AudioMerger::pull (DCPTime time)
 {
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > out;
 
-	DCPTimePeriod period (_last_pull, time);
-	_buffers.sort (AudioMerger::BufferComparator());
-
 	list<Buffer> new_buffers;
 
+	_buffers.sort (AudioMerger::BufferComparator());
 	BOOST_FOREACH (Buffer i, _buffers) {
 		if (i.period().to <= time) {
 			/* Completely within the pull period */
@@ -98,7 +96,6 @@ AudioMerger::pull (DCPTime time)
 void
 AudioMerger::push (boost::shared_ptr<const AudioBuffers> audio, DCPTime time)
 {
-	DCPOMATIC_ASSERT (time >= _last_pull);
 	DCPOMATIC_ASSERT (audio->frames() > 0);
 
 	DCPTimePeriod period (time, time + DCPTime::from_frames (audio->frames(), _frame_rate));
@@ -164,5 +161,4 @@ void
 AudioMerger::clear ()
 {
 	_buffers.clear ();
-	_last_pull = DCPTime ();
 }
