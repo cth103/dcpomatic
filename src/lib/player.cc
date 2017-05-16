@@ -584,20 +584,16 @@ Player::pass ()
 		filled = true;
 	}
 
-	if (!earliest && !filled) {
-		return true;
-	}
-
 	/* Emit any audio that is ready */
 
-	DCPTime pull_from = _playlist->length ();
+	DCPTime pull_to = _playlist->length ();
 	for (map<AudioStreamPtr, StreamState>::const_iterator i = _stream_states.begin(); i != _stream_states.end(); ++i) {
-		if (!i->second.piece->done && i->second.last_push_end < pull_from) {
-			pull_from = i->second.last_push_end;
+		if (!i->second.piece->done && i->second.last_push_end < pull_to) {
+			pull_to = i->second.last_push_end;
 		}
 	}
 
-	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_from);
+	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_to);
 	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
 		if (_last_audio_time && i->second < *_last_audio_time) {
 			/* There has been an accurate seek and we have received some audio before the seek time;
@@ -617,7 +613,7 @@ Player::pass ()
 		emit_audio (i->first, i->second);
 	}
 
-	return false;
+	return !earliest && !filled;
 }
 
 optional<PositionImage>
@@ -807,6 +803,13 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
 	/* And the end of this block in the DCP */
 	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
+
+	/* Pad any gap which may be caused by audio delay */
+	if (_last_audio_time) {
+		fill_audio (DCPTimePeriod (*_last_audio_time, time));
+	} else if (_last_seek_time && _last_seek_accurate) {
+		fill_audio (DCPTimePeriod (*_last_seek_time, time));
+	}
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
