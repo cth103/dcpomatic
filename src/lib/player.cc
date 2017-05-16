@@ -87,7 +87,6 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _always_burn_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
-	, _last_seek_accurate (true)
 	, _audio_merger (_film->audio_frame_rate())
 {
 	_film_changed_connection = _film->Changed.connect (bind (&Player::film_changed, this, _1));
@@ -172,8 +171,8 @@ Player::setup_pieces ()
 		}
 	}
 
-	_last_video_time = optional<DCPTime> ();
-	_last_audio_time = optional<DCPTime> ();
+	_last_video_time = DCPTime ();
+	_last_audio_time = DCPTime ();
 	_have_valid_pieces = true;
 }
 
@@ -546,17 +545,15 @@ Player::pass ()
 	/* Work out where to fill video from */
 	optional<DCPTime> video_fill_from;
 	if (_last_video_time && !_playlist->video_content_at(*_last_video_time)) {
-		/* No seek; fill from the last video time */
+		/* Fill from the last video or seek time */
 		video_fill_from = _last_video_time;
-	} else if (_last_seek_time && !_playlist->video_content_at(*_last_seek_time)) {
-		/* Seek into an empty area; fill from the seek time */
-		video_fill_from = _last_seek_time;
 	}
 
 	bool filled = false;
 	/* Fill some black if we would emit before the earliest piece of content.  This is so we act like a phantom
 	   Piece which emits black in spaces (we only emit if we are the earliest thing)
 	*/
+	/* XXX: this should take _no_video into account */
 	if (earliest && video_fill_from && *video_fill_from < earliest_content && ((fill_towards - *video_fill_from)) >= one_video_frame()) {
 		emit_video (black_player_video_frame(), *video_fill_from);
 		filled = true;
@@ -568,13 +565,11 @@ Player::pass ()
 
 	optional<DCPTime> audio_fill_from;
 	if (_last_audio_time && !_playlist->audio_content_at(*_last_audio_time)) {
-		/* No seek; fill from the last thing that happened */
+		/* Fill from the last audio or seek time */
 		audio_fill_from = _last_audio_time;
-	} else if (_last_seek_time && !_playlist->audio_content_at(*_last_seek_time)) {
-		/* Seek into an empty area; fill from the seek time */
-		audio_fill_from = _last_seek_time;
 	}
 
+	/* XXX: _no_audio */
 	if (audio_fill_from && audio_fill_from < fill_towards) {
 		DCPTimePeriod period (*audio_fill_from, fill_towards);
 		if (period.duration() > one_video_frame()) {
@@ -662,27 +657,24 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	if (
 		time < piece->content->position() ||
 		time >= piece->content->end() ||
-		(_last_seek_time && _last_seek_accurate && time < *_last_seek_time)) {
+		(_last_video_time && time < *_last_video_time)) {
 		return;
 	}
 
-	/* Fill gaps caused by (the hopefully rare event of) a decoder not emitting contiguous video.  We have to do this here
-	   as in the problematic case we are about to emit a frame which is not contiguous with the previous.
-	*/
+	/* Fill gaps that we discover now that we have some video which needs to be emitted */
 
 	optional<DCPTime> fill_to;
 	if (_last_video_time) {
 		fill_to = _last_video_time;
-	} else if (_last_seek_time && _last_seek_accurate) {
-		fill_to = _last_seek_time;
 	}
 
 	if (fill_to) {
 		/* XXX: this may not work for 3D */
 		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (*fill_to, time), _no_video)) {
 			for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
-				if (_last_video) {
-					emit_video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);
+				LastVideoMap::const_iterator k = _last_video.find (wp);
+				if (k != _last_video.end ()) {
+					emit_video (k->second, j);
 				} else {
 					emit_video (black_player_video_frame(), j);
 				}
@@ -690,7 +682,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		}
 	}
 
-	_last_video.reset (
+	_last_video[wp].reset (
 		new PlayerVideo (
 			video.image,
 			piece->content->video->crop (),
@@ -705,7 +697,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			)
 		);
 
-	emit_video (_last_video, time);
+	emit_video (_last_video[wp], time);
 }
 
 void
@@ -814,8 +806,6 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	/* Pad any gap which may be caused by audio delay */
 	if (_last_audio_time) {
 		fill_audio (DCPTimePeriod (*_last_audio_time, time));
-	} else if (_last_seek_time && _last_seek_accurate) {
-		fill_audio (DCPTimePeriod (*_last_seek_time, time));
 	}
 
 	/* Remove anything that comes before the start or after the end of the content */
@@ -960,10 +950,13 @@ Player::seek (DCPTime time, bool accurate)
 		}
 	}
 
-	_last_video_time = optional<DCPTime> ();
-	_last_audio_time = optional<DCPTime> ();
-	_last_seek_time = time;
-	_last_seek_accurate = accurate;
+	if (accurate) {
+		_last_video_time = time;
+		_last_audio_time = time;
+	} else {
+		_last_video_time = optional<DCPTime>();
+		_last_audio_time = optional<DCPTime>();
+	}
 }
 
 shared_ptr<Resampler>

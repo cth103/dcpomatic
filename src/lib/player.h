@@ -143,14 +143,13 @@ private:
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	bool _play_referenced;
 
-	/** Last PlayerVideo that was emitted */
-	boost::shared_ptr<PlayerVideo> _last_video;
-	/** Time just after the last video frame we emitted, or empty if we have just seeked */
+	/** Time just after the last video frame we emitted, or the time of the last accurate seek */
 	boost::optional<DCPTime> _last_video_time;
-	/** Time just after the last audio frame we emitted, or empty if we have just seeked */
+	/** Time just after the last audio frame we emitted, or the time of the last accurate seek */
 	boost::optional<DCPTime> _last_audio_time;
-	boost::optional<DCPTime> _last_seek_time;
-	bool _last_seek_accurate;
+
+	typedef std::map<boost::weak_ptr<Piece>, boost::shared_ptr<PlayerVideo> > LastVideoMap;
+	LastVideoMap _last_video;
 
 	AudioMerger _audio_merger;
 
