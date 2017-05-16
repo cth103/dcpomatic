@@ -205,7 +205,7 @@ FFmpegEncoder::go ()
 		packet.data = 0;
 		packet.size = 0;
 
-		avcodec_encode_audio2 (_video_codec_context, &packet, 0, &got_packet);
+		avcodec_encode_audio2 (_audio_codec_context, &packet, 0, &got_packet);
 		if (got_packet) {
 			packet.stream_index = 0;
 			av_interleaved_write_frame (_format_context, &packet);
@@ -284,23 +284,30 @@ FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	}
 }
 
+/** Called when the player gives us some audio */
 void
 FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio, DCPTime)
 {
 	_pending_audio->append (audio);
 
-	while (_pending_audio->frames() >= _audio_codec_context->frame_size) {
-		audio_frame (_audio_codec_context->frame_size);
+	int frame_size = _audio_codec_context->frame_size;
+	if (frame_size == 0) {
+		/* codec has AV_CODEC_CAP_VARIABLE_FRAME_SIZE */
+		frame_size = 2000;
+	}
+
+	while (_pending_audio->frames() >= frame_size) {
+		audio_frame (frame_size);
 	}
 }
 
 void
 FFmpegEncoder::audio_frame (int size)
 {
+	DCPOMATIC_ASSERT (size);
+
 	AVFrame* frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);
-
-	DCPOMATIC_ASSERT (size);
 
 	int const channels = _audio_codec_context->channels;
 	DCPOMATIC_ASSERT (channels);
@@ -321,7 +328,7 @@ FFmpegEncoder::audio_frame (int size)
 	{
 		int16_t* q = reinterpret_cast<int16_t*> (samples);
 		for (int i = 0; i < size; ++i) {
-			for (int j = 0; j < channels; ++i) {
+			for (int j = 0; j < channels; ++j) {
 				*q++ = p[j][i] * 32767;
 			}
 		}
