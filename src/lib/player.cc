@@ -993,9 +993,13 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	if (subtitles) {
 		pv->set_subtitle (subtitles.get ());
 	}
+
 	Video (pv, time);
-	_last_video_time = time + one_video_frame();
-	_active_subtitles.clear_before (time);
+
+	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
+		_last_video_time = time + one_video_frame();
+		_active_subtitles.clear_before (time);
+	}
 }
 
 void
