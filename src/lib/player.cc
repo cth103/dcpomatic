@@ -554,7 +554,7 @@ Player::pass ()
 	   Piece which emits black in spaces (we only emit if we are the earliest thing)
 	*/
 	/* XXX: this should take _no_video into account */
-	if (earliest && video_fill_from && *video_fill_from < earliest_content && ((fill_towards - *video_fill_from)) >= one_video_frame()) {
+	if (video_fill_from && (!earliest || *video_fill_from < earliest_content) && ((fill_towards - *video_fill_from)) >= one_video_frame()) {
 		emit_video (black_player_video_frame(), *video_fill_from);
 		filled = true;
 	} else if (_playlist->length() == DCPTime()) {
