@@ -670,9 +670,16 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	   as in the problematic case we are about to emit a frame which is not contiguous with the previous.
 	*/
 
+	optional<DCPTime> fill_to;
 	if (_last_video_time) {
+		fill_to = _last_video_time;
+	} else if (_last_seek_time && _last_seek_accurate) {
+		fill_to = _last_seek_time;
+	}
+
+	if (fill_to) {
 		/* XXX: this may not work for 3D */
-		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (*_last_video_time, time), _no_video)) {
+		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (*fill_to, time), _no_video)) {
 			for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
 				if (_last_video) {
 					emit_video (shared_ptr<PlayerVideo> (new PlayerVideo (*_last_video)), j);

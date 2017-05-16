@@ -50,7 +50,7 @@ static DCPTime frame;
 static void
 check (shared_ptr<PlayerVideo>, DCPTime time)
 {
-	BOOST_CHECK (time == next);
+	BOOST_REQUIRE (time == next);
 	next += frame;
 }
 
@@ -76,12 +76,12 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	next = DCPTime ();
 	frame = DCPTime::from_frames (1, film->video_frame_rate ());
 	while (!player->pass()) {}
-	BOOST_CHECK (next == DCPTime::from_frames (video_length, film->video_frame_rate()));
+	BOOST_REQUIRE (next == DCPTime::from_frames (video_length, film->video_frame_rate()));
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {
-	ffmpeg_decoder_sequential_test_one ("boon_telly.mkv", 29.97, 6911);
+	ffmpeg_decoder_sequential_test_one ("boon_telly.mkv", 29.97, 6912);
 	ffmpeg_decoder_sequential_test_one ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 1253);
 	ffmpeg_decoder_sequential_test_one ("prophet_clip.mkv", 23.976, 2879);
 }
