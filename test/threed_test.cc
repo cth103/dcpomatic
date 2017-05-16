@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 	film->make_dcp ();
 	film->write_metadata ();
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 }
 
 /** Basic sanity check of 3D-alternate; at the moment this is just to make sure
@@ -75,5 +75,5 @@ BOOST_AUTO_TEST_CASE (threed_test2)
 	film->make_dcp ();
 	film->write_metadata ();
 
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 }
