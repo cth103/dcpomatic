@@ -557,7 +557,7 @@ Player::pass ()
 	/* Fill some black if we would emit before the earliest piece of content.  This is so we act like a phantom
 	   Piece which emits black in spaces (we only emit if we are the earliest thing)
 	*/
-	if (earliest && video_fill_from && *video_fill_from < earliest_content && ((fill_towards - *video_fill_from)) > one_video_frame()) {
+	if (earliest && video_fill_from && *video_fill_from < earliest_content && ((fill_towards - *video_fill_from)) >= one_video_frame()) {
 		emit_video (black_player_video_frame(), *video_fill_from);
 		filled = true;
 	} else if (_playlist->length() == DCPTime()) {
