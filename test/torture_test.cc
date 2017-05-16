@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	film->make_dcp ();
 	wait_for_jobs ();
 
-	dcp::DCP dcp ("build/test/torture_test/" + film->dcp_name(false));
+	dcp::DCP dcp ("build/test/torture_test1/" + film->dcp_name(false));
 	dcp.read ();
 
 	list<shared_ptr<dcp::CPL> > cpls = dcp.cpls ();
