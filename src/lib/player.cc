@@ -564,7 +564,7 @@ Player::pass ()
 	}
 
 	optional<DCPTime> audio_fill_from;
-	if (_last_audio_time && !_playlist->audio_content_at(*_last_audio_time)) {
+	if (_last_audio_time) {
 		/* Fill from the last audio or seek time */
 		audio_fill_from = _last_audio_time;
 	}
