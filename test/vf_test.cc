@@ -112,8 +112,9 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	dcp->set_reference_audio (true);
 	shared_ptr<Content> sub = content_factory(vf, "test/data/subrip4.srt").front();
 	vf->examine_and_add_content (sub);
+	DCPOMATIC_ASSERT (!wait_for_jobs ());
 	vf->make_dcp ();
-	wait_for_jobs ();
+	DCPOMATIC_ASSERT (!wait_for_jobs ());
 	vf->write_metadata ();
 
 	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
