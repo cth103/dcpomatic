@@ -361,6 +361,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	DCPOMATIC_ASSERT (reel_picture_asset);
+	DCPOMATIC_ASSERT (reel_picture_asset->intrinsic_duration() == _period.duration().frames_round (_film->video_frame_rate ()));
 	reel->add (reel_picture_asset);
 
 	/* If we have a hash for this asset in the CPL, assume that it is correct */
@@ -368,15 +369,17 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 		reel_picture_asset->asset_ref()->set_hash (reel_picture_asset->hash().get());
 	}
 
+	shared_ptr<dcp::ReelSoundAsset> reel_sound_asset;
+
 	if (_sound_asset) {
 		/* We have made a sound asset of our own.  Put it into the reel */
-		reel->add (shared_ptr<dcp::ReelSoundAsset> (new dcp::ReelSoundAsset (_sound_asset, 0)));
+		reel_sound_asset.reset (new dcp::ReelSoundAsset (_sound_asset, 0));
 	} else {
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
 		BOOST_FOREACH (ReferencedReelAsset j, refs) {
 			shared_ptr<dcp::ReelSoundAsset> k = dynamic_pointer_cast<dcp::ReelSoundAsset> (j.asset);
 			if (k && j.period == _period) {
-				reel->add (k);
+				reel_sound_asset = k;
 				/* If we have a hash for this asset in the CPL, assume that it is correct */
 				if (k->hash()) {
 					k->asset_ref()->set_hash (k->hash().get());
@@ -384,6 +387,12 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 			}
 		}
 	}
+
+	DCPOMATIC_ASSERT (reel_sound_asset);
+	DCPOMATIC_ASSERT (reel_sound_asset->intrinsic_duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+	reel->add (reel_sound_asset);
+
+	shared_ptr<dcp::ReelSubtitleAsset> reel_subtitle_asset;
 
 	if (_subtitle_asset) {
 
@@ -425,26 +434,31 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 				);
 		}
 
-		reel->add (shared_ptr<dcp::ReelSubtitleAsset> (
-				   new dcp::ReelSubtitleAsset (
-					   _subtitle_asset,
-					   dcp::Fraction (_film->video_frame_rate(), 1),
-					   reel_picture_asset->intrinsic_duration (),
-					   0
-					   )
-				   ));
+		reel_subtitle_asset.reset (
+			new dcp::ReelSubtitleAsset (
+				_subtitle_asset,
+				dcp::Fraction (_film->video_frame_rate(), 1),
+				reel_picture_asset->intrinsic_duration (),
+				0
+				)
+			);
 	} else {
 		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
 		BOOST_FOREACH (ReferencedReelAsset j, refs) {
 			shared_ptr<dcp::ReelSubtitleAsset> k = dynamic_pointer_cast<dcp::ReelSubtitleAsset> (j.asset);
 			if (k && j.period == _period) {
-				reel->add (k);
+				reel_subtitle_asset = k;
 				/* If we have a hash for this asset in the CPL, assume that it is correct */
 				if (k->hash()) {
 					k->asset_ref()->set_hash (k->hash().get());
 				}
 			}
 		}
+	}
+
+	if (reel_subtitle_asset) {
+		DCPOMATIC_ASSERT (reel_subtitle_asset->intrinsic_duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+		reel->add (reel_subtitle_asset);
 	}
 
 	return reel;
