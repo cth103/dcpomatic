@@ -553,10 +553,12 @@ Player::pass ()
 	/* Fill some black if we would emit before the earliest piece of content.  This is so we act like a phantom
 	   Piece which emits black in spaces (we only emit if we are the earliest thing)
 	*/
-	/* XXX: this should take _no_video into account */
 	if (video_fill_from && (!earliest || *video_fill_from < earliest_content) && ((fill_towards - *video_fill_from)) >= one_video_frame()) {
-		emit_video (black_player_video_frame(), *video_fill_from);
-		filled = true;
+		list<DCPTimePeriod> p = subtract(DCPTimePeriod(*video_fill_from, *video_fill_from + one_video_frame()), _no_video);
+		if (!p.empty ()) {
+			emit_video (black_player_video_frame(), p.front().from);
+			filled = true;
+		}
 	} else if (_playlist->length() == DCPTime()) {
 		/* Special case of an empty Film; just give one black frame */
 		emit_video (black_player_video_frame(), DCPTime());
@@ -575,7 +577,10 @@ Player::pass ()
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
 		}
-		fill_audio (period);
+		list<DCPTimePeriod> p = subtract(period, _no_video);
+		if (!p.empty ()) {
+			fill_audio (period);
+		}
 		filled = true;
 	}
 
