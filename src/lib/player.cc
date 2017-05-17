@@ -767,6 +767,12 @@ Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream
 		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
 	}
 
+	/* Pad any gap which may be caused by audio delay */
+
+	if (_last_audio_time) {
+		fill_audio (DCPTimePeriod (*_last_audio_time, time));
+	}
+
 	/* Push */
 
 	_audio_merger.push (content_audio.audio, time);
@@ -802,11 +808,6 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
 	/* And the end of this block in the DCP */
 	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
-
-	/* Pad any gap which may be caused by audio delay */
-	if (_last_audio_time) {
-		fill_audio (DCPTimePeriod (*_last_audio_time, time));
-	}
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
