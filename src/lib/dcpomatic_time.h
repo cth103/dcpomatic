@@ -35,8 +35,6 @@
 #include <iomanip>
 #include <cstdio>
 
-class dcpomatic_round_up_test;
-
 /** A time in seconds, expressed as a number scaled up by Time::HZ.  We want two different
  *  versions of this class, ContentTime and DCPTime, and we want it to be impossible to
  *  convert implicitly between the two.  Hence there's this template hack.  I'm not
