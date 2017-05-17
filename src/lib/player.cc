@@ -544,7 +544,7 @@ Player::pass ()
 
 	/* Work out where to fill video from */
 	optional<DCPTime> video_fill_from;
-	if (_last_video_time && !_playlist->video_content_at(*_last_video_time)) {
+	if (_last_video_time) {
 		/* Fill from the last video or seek time */
 		video_fill_from = _last_video_time;
 	}
