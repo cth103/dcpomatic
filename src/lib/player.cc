@@ -541,6 +541,7 @@ Player::pass ()
 	   NOT to fill gaps within content (the latter is done in ::video())
 	*/
 	DCPTime fill_towards = earliest ? earliest_content : _playlist->length();
+	fill_towards = fill_towards.ceil (_film->video_frame_rate ());
 
 	/* Work out where to fill video from */
 	optional<DCPTime> video_fill_from;
@@ -579,7 +580,7 @@ Player::pass ()
 		}
 		list<DCPTimePeriod> p = subtract(period, _no_video);
 		if (!p.empty ()) {
-			fill_audio (period);
+			fill_audio (p.front());
 		}
 		filled = true;
 	}
