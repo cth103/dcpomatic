@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 
 	shared_ptr<DCPContent> c (new DCPContent (film2, film->dir (film->dcp_name ())));
 	film2->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	list<DCPTimePeriod> r = film2->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 3);
