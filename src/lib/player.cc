@@ -527,21 +527,10 @@ Player::pass ()
 		}
 	}
 
-	if (earliest) {
-		earliest->done = earliest->decoder->pass ();
-		if (earliest->done && earliest->content->audio) {
-			/* Flush the Player audio system for this piece */
-			BOOST_FOREACH (AudioStreamPtr i, earliest->content->audio->streams()) {
-				audio_flush (earliest, i);
-			}
-		}
-	}
-
 	/* Fill towards the next thing that might happen (or the end of the playlist).  This is to fill gaps between content,
 	   NOT to fill gaps within content (the latter is done in ::video())
 	*/
-	DCPTime fill_towards = earliest ? earliest_content : _playlist->length();
-	fill_towards = fill_towards.ceil (_film->video_frame_rate ());
+	DCPTime fill_towards = earliest ? earliest_content : _playlist->length().ceil(_film->video_frame_rate());
 
 	/* Work out where to fill video from */
 	optional<DCPTime> video_fill_from;
@@ -572,17 +561,26 @@ Player::pass ()
 		audio_fill_from = _last_audio_time;
 	}
 
-	/* XXX: _no_audio */
 	if (audio_fill_from && audio_fill_from < fill_towards) {
 		DCPTimePeriod period (*audio_fill_from, fill_towards);
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
 		}
-		list<DCPTimePeriod> p = subtract(period, _no_video);
+		list<DCPTimePeriod> p = subtract(period, _no_audio);
 		if (!p.empty ()) {
 			fill_audio (p.front());
 		}
 		filled = true;
+	}
+
+	if (earliest) {
+		earliest->done = earliest->decoder->pass ();
+		if (earliest->done && earliest->content->audio) {
+			/* Flush the Player audio system for this piece */
+			BOOST_FOREACH (AudioStreamPtr i, earliest->content->audio->streams()) {
+				audio_flush (earliest, i);
+			}
+		}
 	}
 
 	/* Emit any audio that is ready */
@@ -1019,6 +1017,10 @@ Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 void
 Player::fill_audio (DCPTimePeriod period)
 {
+	if (period.from == period.to) {
+		return;
+	}
+
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
 		DCPTime t = i.from;
 		while (t < i.to) {
