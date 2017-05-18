@@ -45,7 +45,6 @@ static shared_ptr<AudioBuffers> accumulated;
 static void
 accumulate (shared_ptr<AudioBuffers> audio, DCPTime t)
 {
-	cout << "got " << audio->frames() << " @ " << to_string(t) << "\n";
 	BOOST_REQUIRE (accumulated);
 	accumulated->append (audio);
 }
