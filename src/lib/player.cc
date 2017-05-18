@@ -519,7 +519,7 @@ Player::pass ()
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (!i->done) {
-			DCPTime const t = i->content->position() + DCPTime (i->decoder->position(), i->frc);
+			DCPTime const t = content_time_to_dcp (i, i->decoder->position());
 			if (!earliest || t < earliest_content) {
 				earliest_content = t;
 				earliest = i;
@@ -561,8 +561,13 @@ Player::pass ()
 		audio_fill_from = _last_audio_time;
 	}
 
-	if (audio_fill_from && audio_fill_from < fill_towards) {
-		DCPTimePeriod period (*audio_fill_from, fill_towards);
+	DCPTime audio_fill_towards = fill_towards;
+	if (earliest && earliest->content->audio) {
+		audio_fill_towards += DCPTime::from_seconds (earliest->content->audio->delay() / 1000.0);
+	}
+
+	if (audio_fill_from && audio_fill_from < audio_fill_towards) {
+		DCPTimePeriod period (*audio_fill_from, audio_fill_towards);
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
 		}
