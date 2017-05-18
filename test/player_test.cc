@@ -43,7 +43,7 @@ using boost::bind;
 static shared_ptr<AudioBuffers> accumulated;
 
 static void
-accumulate (shared_ptr<AudioBuffers> audio, DCPTime t)
+accumulate (shared_ptr<AudioBuffers> audio, DCPTime)
 {
 	BOOST_REQUIRE (accumulated);
 	accumulated->append (audio);
