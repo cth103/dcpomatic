@@ -574,8 +574,8 @@ Player::pass ()
 		list<DCPTimePeriod> p = subtract(period, _no_audio);
 		if (!p.empty ()) {
 			fill_audio (p.front());
+			filled = true;
 		}
-		filled = true;
 	}
 
 	if (earliest) {
