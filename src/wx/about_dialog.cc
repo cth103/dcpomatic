@@ -298,6 +298,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Frechen-Film e.V."));
 	supported_by.Add (wxT ("Mobiles Kino e.V."));
 	supported_by.Add (wxT ("Kino Völkerfreundschaft"));
+	supported_by.Add (wxT ("Ernst Zimmerman"));
 	add_section (_("Supported by"), supported_by);
 
 	wxArrayString tested_by;
