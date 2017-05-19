@@ -361,7 +361,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	DCPOMATIC_ASSERT (reel_picture_asset);
-	DCPOMATIC_ASSERT (reel_picture_asset->intrinsic_duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+	DCPOMATIC_ASSERT (reel_picture_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
 	reel->add (reel_picture_asset);
 
 	/* If we have a hash for this asset in the CPL, assume that it is correct */
@@ -389,7 +389,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	DCPOMATIC_ASSERT (reel_sound_asset);
-	DCPOMATIC_ASSERT (reel_sound_asset->intrinsic_duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+	DCPOMATIC_ASSERT (reel_sound_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
 	reel->add (reel_sound_asset);
 
 	shared_ptr<dcp::ReelSubtitleAsset> reel_subtitle_asset;
@@ -457,7 +457,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	if (reel_subtitle_asset) {
-		DCPOMATIC_ASSERT (reel_subtitle_asset->intrinsic_duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+		DCPOMATIC_ASSERT (reel_subtitle_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
 		reel->add (reel_subtitle_asset);
 	}
 
