@@ -113,6 +113,7 @@ FFmpegDecoder::flush ()
 
 	if (audio) {
 		decode_audio_packet ();
+		audio->flush ();
 	}
 }
 

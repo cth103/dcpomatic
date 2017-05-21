@@ -47,7 +47,6 @@
 #include "content_subtitle.h"
 #include "dcp_decoder.h"
 #include "image_decoder.h"
-#include "resampler.h"
 #include "compose.hpp"
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
@@ -580,12 +579,6 @@ Player::pass ()
 
 	if (earliest) {
 		earliest->done = earliest->decoder->pass ();
-		if (earliest->done && earliest->content->audio) {
-			/* Flush the Player audio system for this piece */
-			BOOST_FOREACH (AudioStreamPtr i, earliest->content->audio->streams()) {
-				audio_flush (earliest, i);
-			}
-		}
 	}
 
 	/* Emit any audio that is ready */
@@ -709,32 +702,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	emit_video (_last_video[wp], time);
 }
 
-void
-Player::audio_flush (shared_ptr<Piece> piece, AudioStreamPtr stream)
-{
-	shared_ptr<AudioContent> content = piece->content->audio;
-	DCPOMATIC_ASSERT (content);
-
-	shared_ptr<Resampler> r = resampler (content, stream, false);
-	if (!r) {
-		return;
-	}
-
-	pair<shared_ptr<const AudioBuffers>, Frame> ro = r->flush ();
-	if (ro.first->frames() == 0) {
-		return;
-	}
-
-	ContentAudio content_audio;
-	content_audio.audio = ro.first;
-	content_audio.frame = ro.second;
-
-	/* Compute time in the DCP */
-	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
-
-	audio_transform (content, stream, content_audio, time);
-}
-
 /** Do our common processing on some audio */
 void
 Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time)
@@ -801,17 +768,6 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 
 	shared_ptr<AudioContent> content = piece->content->audio;
 	DCPOMATIC_ASSERT (content);
-
-	/* Resample */
-	if (stream->frame_rate() != content->resampled_frame_rate()) {
-		shared_ptr<Resampler> r = resampler (content, stream, true);
-		pair<shared_ptr<const AudioBuffers>, Frame> ro = r->run (content_audio.audio, content_audio.frame);
-		if (ro.first->frames() == 0) {
-			return;
-		}
-		content_audio.audio = ro.first;
-		content_audio.frame = ro.second;
-	}
 
 	/* Compute time in the DCP */
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
@@ -937,11 +893,6 @@ Player::seek (DCPTime time, bool accurate)
 		_audio_processor->flush ();
 	}
 
-	for (ResamplerMap::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
-		i->second->flush ();
-		i->second->reset ();
-	}
-
 	_audio_merger.clear ();
 	_active_subtitles.clear ();
 
@@ -967,33 +918,6 @@ Player::seek (DCPTime time, bool accurate)
 		_last_video_time = optional<DCPTime>();
 		_last_audio_time = optional<DCPTime>();
 	}
-}
-
-shared_ptr<Resampler>
-Player::resampler (shared_ptr<const AudioContent> content, AudioStreamPtr stream, bool create)
-{
-	ResamplerMap::const_iterator i = _resamplers.find (make_pair (content, stream));
-	if (i != _resamplers.end ()) {
-		return i->second;
-	}
-
-	if (!create) {
-		return shared_ptr<Resampler> ();
-	}
-
-	LOG_GENERAL (
-		"Creating new resampler from %1 to %2 with %3 channels",
-		stream->frame_rate(),
-		content->resampled_frame_rate(),
-		stream->channels()
-		);
-
-	shared_ptr<Resampler> r (
-		new Resampler (stream->frame_rate(), content->resampled_frame_rate(), stream->channels())
-		);
-
-	_resamplers[make_pair(content, stream)] = r;
-	return r;
 }
 
 void
@@ -1026,6 +950,7 @@ Player::fill_audio (DCPTimePeriod period)
 		return;
 	}
 
+	cout << "fillin " << to_string(period.from) << " to " << to_string(period.to) << "\n";
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
 		DCPTime t = i.from;
 		while (t < i.to) {

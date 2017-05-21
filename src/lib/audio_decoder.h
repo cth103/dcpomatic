@@ -36,6 +36,7 @@ class AudioBuffers;
 class AudioContent;
 class AudioDecoderStream;
 class Log;
+class Resampler;
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
@@ -48,12 +49,15 @@ public:
 	ContentTime position () const;
 	void emit (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
 	void seek ();
+	void flush ();
 
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
+	boost::shared_ptr<const AudioContent> _content;
 	/** Frame after the last one that was emitted from Data for each AudioStream */
 	std::map<AudioStreamPtr, Frame> _positions;
+	std::map<AudioStreamPtr, boost::shared_ptr<Resampler> > _resamplers;
 };
 
 #endif

@@ -22,19 +22,24 @@
 #include "audio_buffers.h"
 #include "audio_content.h"
 #include "log.h"
+#include "resampler.h"
 #include "compose.hpp"
 #include <boost/foreach.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
+#define LOG_GENERAL(...) _log->log (String::compose (__VA_ARGS__), LogEntry::TYPE_GENERAL);
+
 using std::cout;
 using std::map;
+using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
 	: DecoderPart (parent, log)
+	, _content (content)
 {
 	/* Set up _positions so that we have one for each stream */
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
@@ -58,6 +63,32 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 		_positions[stream] = time.frames_round (stream->frame_rate ());
 	}
 
+	shared_ptr<Resampler> resampler;
+	map<AudioStreamPtr, shared_ptr<Resampler> >::iterator i = _resamplers.find(stream);
+	if (i != _resamplers.end ()) {
+		resampler = i->second;
+	} else {
+		if (stream->frame_rate() != _content->resampled_frame_rate()) {
+			LOG_GENERAL (
+				"Creating new resampler from %1 to %2 with %3 channels",
+				stream->frame_rate(),
+				_content->resampled_frame_rate(),
+				stream->channels()
+				);
+
+			resampler.reset (new Resampler (stream->frame_rate(), _content->resampled_frame_rate(), stream->channels()));
+			_resamplers[stream] = resampler;
+		}
+	}
+
+	if (resampler) {
+		shared_ptr<const AudioBuffers> ro = resampler->run (data);
+		if (ro->frames() == 0) {
+			return;
+		}
+		data = ro;
+	}
+
 	Data (stream, ContentAudio (data, _positions[stream]));
 	_positions[stream] += data->frames();
 }
@@ -67,7 +98,7 @@ AudioDecoder::position () const
 {
 	optional<ContentTime> p;
 	for (map<AudioStreamPtr, Frame>::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
-		ContentTime const ct = ContentTime::from_frames (i->second, i->first->frame_rate ());
+		ContentTime const ct = ContentTime::from_frames (i->second, _content->resampled_frame_rate());
 		if (!p || ct < *p) {
 			p = ct;
 		}
@@ -79,7 +110,24 @@ AudioDecoder::position () const
 void
 AudioDecoder::seek ()
 {
+	for (map<AudioStreamPtr, shared_ptr<Resampler> >::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
+		i->second->flush ();
+		i->second->reset ();
+	}
+
 	for (map<AudioStreamPtr, Frame>::iterator i = _positions.begin(); i != _positions.end(); ++i) {
 		i->second = 0;
+	}
+}
+
+void
+AudioDecoder::flush ()
+{
+	for (map<AudioStreamPtr, shared_ptr<Resampler> >::iterator i = _resamplers.begin(); i != _resamplers.end(); ++i) {
+		shared_ptr<const AudioBuffers> ro = i->second->flush ();
+		if (ro->frames() > 0) {
+			Data (i->first, ContentAudio (ro, _positions[i->first]));
+			_positions[i->first] += ro->frames();
+		}
 	}
 }
