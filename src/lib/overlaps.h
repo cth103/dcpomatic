@@ -24,8 +24,9 @@
 class ContentPart;
 
 /** @return Pieces of content with a given part (video, audio,
- * subtitle) that overlap a specified time range in the given
- * ContentList */
+ *  subtitle) that overlap a specified time range in the given
+ *  ContentList
+ */
 ContentList overlaps (
 	ContentList cl, boost::function<boost::shared_ptr<ContentPart> (boost::shared_ptr<const Content>)> part, DCPTime from, DCPTime to
 	);
