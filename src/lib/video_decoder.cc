@@ -76,6 +76,7 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 	}
 	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
 		Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
+		frame /= 2;
 		break;
 	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
 		Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
