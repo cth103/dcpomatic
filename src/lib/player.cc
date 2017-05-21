@@ -950,7 +950,6 @@ Player::fill_audio (DCPTimePeriod period)
 		return;
 	}
 
-	cout << "fillin " << to_string(period.from) << " to " << to_string(period.to) << "\n";
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
 		DCPTime t = i.from;
 		while (t < i.to) {
