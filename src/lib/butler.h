@@ -47,7 +47,7 @@ public:
 private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
-	void audio (boost::shared_ptr<AudioBuffers> audio, DCPTime time);
+	void audio (boost::shared_ptr<AudioBuffers> audio);
 	void player_changed ();
 	bool should_run () const;
 

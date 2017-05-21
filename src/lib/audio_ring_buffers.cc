@@ -34,7 +34,7 @@ AudioRingBuffers::AudioRingBuffers ()
 }
 
 void
-AudioRingBuffers::put (shared_ptr<const AudioBuffers> data, DCPTime time)
+AudioRingBuffers::put (shared_ptr<const AudioBuffers> data)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -43,7 +43,6 @@ AudioRingBuffers::put (shared_ptr<const AudioBuffers> data, DCPTime time)
 	}
 
 	_buffers.push_back (data);
-	_latest = time;
 }
 
 void
@@ -91,7 +90,6 @@ AudioRingBuffers::clear ()
 	boost::mutex::scoped_lock lm (_mutex);
 	_buffers.clear ();
 	_used_in_head = 0;
-	_latest = DCPTime ();
 }
 
 Frame

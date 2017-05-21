@@ -33,21 +33,15 @@ class AudioRingBuffers : public boost::noncopyable
 public:
 	AudioRingBuffers ();
 
-	void put (boost::shared_ptr<const AudioBuffers> data, DCPTime time);
+	void put (boost::shared_ptr<const AudioBuffers> data);
 	void get (float* out, int channels, int frames);
 
 	void clear ();
 	Frame size () const;
 
-	DCPTime latest () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _latest;
-	}
-
 private:
 	mutable boost::mutex _mutex;
 	std::list<boost::shared_ptr<const AudioBuffers> > _buffers;
-	DCPTime _latest;
 	int _used_in_head;
 };
 

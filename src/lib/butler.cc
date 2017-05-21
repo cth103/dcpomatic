@@ -48,7 +48,7 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	, _disable_audio (false)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
-	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2));
+	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1));
 	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 }
@@ -173,7 +173,7 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 }
 
 void
-Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+Butler::audio (shared_ptr<AudioBuffers> audio)
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
@@ -183,7 +183,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
 		}
 	}
 
-	_audio.put (audio, time);
+	_audio.put (audio);
 }
 
 void
