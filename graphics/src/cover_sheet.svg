@@ -14,63 +14,13 @@
    viewBox="0 0 48 48"
    sodipodi:version="0.32"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92+devel 15537"
    sodipodi:docname="cover_sheet.svg"
-   version="1.1">
+   version="1.1"
+   width="51.200001"
+   height="51.200001">
   <defs
      id="defs3">
-    <radialGradient
-       id="radialGradient6719"
-       xlink:href="#linearGradient5060"
-       gradientUnits="userSpaceOnUse"
-       cy="486.65"
-       cx="605.71"
-       gradientTransform="matrix(-2.7744,0,0,1.9697,112.76,-872.89)"
-       r="117.14"
-       inkscape:collect="always" />
-    <linearGradient
-       id="linearGradient5060"
-       inkscape:collect="always">
-      <stop
-         id="stop5062"
-         style="stop-color:black"
-         offset="0" />
-      <stop
-         id="stop5064"
-         style="stop-color:black;stop-opacity:0"
-         offset="1" />
-    </linearGradient>
-    <radialGradient
-       id="radialGradient6717"
-       xlink:href="#linearGradient5060"
-       gradientUnits="userSpaceOnUse"
-       cy="486.65"
-       cx="605.71"
-       gradientTransform="matrix(2.7744,0,0,1.9697,-1891.6,-872.89)"
-       r="117.14"
-       inkscape:collect="always" />
-    <linearGradient
-       id="linearGradient6715"
-       y2="609.51"
-       gradientUnits="userSpaceOnUse"
-       x2="302.86"
-       gradientTransform="matrix(2.7744,0,0,1.9697,-1892.2,-872.89)"
-       y1="366.65"
-       x1="302.86"
-       inkscape:collect="always">
-      <stop
-         id="stop5050"
-         style="stop-color:black;stop-opacity:0"
-         offset="0" />
-      <stop
-         id="stop5056"
-         style="stop-color:black"
-         offset=".5" />
-      <stop
-         id="stop5052"
-         style="stop-color:black;stop-opacity:0"
-         offset="1" />
-    </linearGradient>
     <linearGradient
        id="linearGradient2152">
       <stop
@@ -87,9 +37,9 @@
        y2="15.257"
        gradientUnits="userSpaceOnUse"
        y1="15.257"
-       gradientTransform="matrix(1.3435 0 0 1.4179 2.8795 .31460)"
+       gradientTransform="matrix(1.3435,0,0,1.4179,2.8795,0.3146)"
        x2="30.6"
-       x1="2.0619"
+       x1="2.0618999"
        inkscape:collect="always">
       <stop
          id="stop2138"
@@ -106,55 +56,118 @@
        id="linearGradient8193"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.8693657,0,0,0.80274289,29.209849,80.26044)"
-       x1="2.0619"
+       x1="2.0618999"
        y1="15.257"
        x2="30.6"
        y2="15.257" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6715"
+       id="linearGradient5048"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.7744,0,0,1.9697,-1892.2,-872.89)"
+       x1="302.85999"
+       y1="366.64999"
+       x2="302.85999"
+       y2="609.51001" />
+    <linearGradient
+       id="linearGradient6715"
+       y2="609.51001"
+       gradientUnits="userSpaceOnUse"
+       x2="302.85999"
+       gradientTransform="matrix(2.7744,0,0,1.9697,-1892.2,-872.89)"
+       y1="366.64999"
+       x1="302.85999"
+       inkscape:collect="always">
+      <stop
+         id="stop5050"
+         style="stop-color:black;stop-opacity:0"
+         offset="0" />
+      <stop
+         id="stop5056"
+         style="stop-color:black"
+         offset=".5" />
+      <stop
+         id="stop5052"
+         style="stop-color:black;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       id="radialGradient6717-3"
+       xlink:href="#linearGradient5060"
+       gradientUnits="userSpaceOnUse"
+       cy="486.64999"
+       cx="605.71002"
+       gradientTransform="matrix(2.7744,0,0,1.9697,-1891.6,-872.89)"
+       r="117.14"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient5060"
+       inkscape:collect="always">
+      <stop
+         id="stop5062"
+         style="stop-color:black"
+         offset="0" />
+      <stop
+         id="stop5064"
+         style="stop-color:black;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       id="radialGradient6719-6"
+       xlink:href="#linearGradient5060"
+       gradientUnits="userSpaceOnUse"
+       cy="486.64999"
+       cx="605.71002"
+       gradientTransform="matrix(-2.7744,0,0,1.9697,112.76,-872.89)"
+       r="117.14"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      id="base"
      bordercolor="#666666"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-x="-253"
+     inkscape:window-y="111"
      pagecolor="#ffffff"
      inkscape:grid-bbox="true"
-     inkscape:zoom="4"
+     inkscape:zoom="8"
      inkscape:pageshadow="2"
      showgrid="false"
      borderopacity="1.0"
      inkscape:current-layer="layer1"
-     inkscape:cx="4.3829084"
-     inkscape:cy="-18.515601"
-     inkscape:window-width="1280"
+     inkscape:cx="31.507908"
+     inkscape:cy="11.484399"
+     inkscape:window-width="1024"
      inkscape:pageopacity="0.0"
-     inkscape:window-height="968"
+     inkscape:window-height="518"
      inkscape:document-units="px"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0"
+     inkscape:document-rotation="0" />
   <g
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
     <g
-       id="g6707"
-       transform="matrix(0.0227,0,0,0.022979,44.190742,39.034)">
+       id="g6707-2"
+       transform="matrix(0.0227,0,0,0.022979,44.196764,40.599668)">
       <rect
-         id="rect6709"
-         style="color:#000000;opacity:0.40206;fill:url(#linearGradient6715)"
+         id="rect6709-6"
+         style="color:#000000;opacity:0.40206;fill:url(#linearGradient5048)"
          height="478.35999"
          width="1339.6"
          y="-150.7"
          x="-1559.3" />
       <path
-         id="path6711"
+         id="path6711-1"
          sodipodi:nodetypes="cccc"
-         style="color:#000000;opacity:0.40206;fill:url(#radialGradient6717)"
-         d="m -219.62,-150.68 0,478.33 c 142.88,0.9 345.4,-107.17 345.4,-239.2 0,-132.02 -159.44,-239.13 -345.4,-239.13 z"
+         style="color:#000000;opacity:0.40206;fill:url(#radialGradient6717-3)"
+         d="m -219.62,-150.68 v 478.33 c 142.88,0.9 345.4,-107.17 345.4,-239.2 0,-132.02 -159.44,-239.13 -345.4,-239.13 z"
          inkscape:connector-curvature="0" />
       <path
-         id="path6713"
+         id="path6713-8"
          sodipodi:nodetypes="cccc"
-         style="color:#000000;opacity:0.40206;fill:url(#radialGradient6719)"
-         d="m -1559.3,-150.68 0,478.33 c -142.8,0.9 -345.4,-107.17 -345.4,-239.2 0,-132.02 159.5,-239.13 345.4,-239.13 z"
+         style="color:#000000;opacity:0.40206;fill:url(#radialGradient6719-6)"
+         d="m -1559.3,-150.68 v 478.33 c -142.8,0.9 -345.4,-107.17 -345.4,-239.2 0,-132.02 159.5,-239.13 345.4,-239.13 z"
          inkscape:connector-curvature="0" />
     </g>
     <g
@@ -170,37 +183,37 @@
       <path
          inkscape:connector-curvature="0"
          id="path8167"
-         d="m 11.232107,112.40472 13.7113,0"
+         d="m 11.232107,112.40472 h 13.7113"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path8169"
-         d="m 11.232107,115.77542 17.367647,0"
+         d="M 11.232107,115.77542 H 28.599754"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path8171"
-         d="m 11.232107,119.14611 5.598781,0"
+         d="m 11.232107,119.14611 h 5.598781"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path8173"
-         d="m 11.232107,122.51681 11.083301,0"
+         d="M 11.232107,122.51681 H 22.315408"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path8175"
-         d="m 11.232107,125.8875 21.82382,0"
+         d="m 11.232107,125.8875 h 21.82382"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path8177"
-         d="m 11.232107,129.2582 9.940693,0"
+         d="M 11.232107,129.2582 H 21.1728"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path8179"
-         d="m 11.232107,132.62889 16.453561,0"
+         d="M 11.232107,132.62889 H 27.685668"
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.64635694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
   </g>
@@ -221,7 +234,9 @@
         </dc:publisher>
         <dc:title>tango internet mail</dc:title>
         <dc:date>2010-03-29T08:04:16</dc:date>
-        <dc:description>&quot;E-mail&quot; icon from &lt;a href=&quot;http://tango.freedesktop.org/Tango_Desktop_Project&quot;&gt; Tango Project &lt;/a&gt; \n&lt;br&gt;&lt;br&gt;\nSince version 0.8.90 Tango Project icons are Public Domain: &lt;a href=&quot;http://tango.freedesktop.org/Frequently_Asked_Questions#Terms_of_Use.3F&quot;&gt; Tango Project FAQ &lt;/a&gt;</dc:description>
+        <dc:description>&quot;E-mail&quot; icon from &lt;a href=&quot;http://tango.freedesktop.org/Tango_Desktop_Project&quot;&gt; Tango Project &lt;/a&gt; 
+\n&lt;br&gt;&lt;br&gt;
+\nSince version 0.8.90 Tango Project icons are Public Domain: &lt;a href=&quot;http://tango.freedesktop.org/Frequently_Asked_Questions#Terms_of_Use.3F&quot;&gt; Tango Project FAQ &lt;/a&gt;</dc:description>
         <dc:source>https://openclipart.org/detail/35215/tango-internet-mail-by-warszawianka</dc:source>
         <dc:creator>
           <cc:Agent>
