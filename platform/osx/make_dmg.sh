@@ -123,11 +123,11 @@ function copy_resources {
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/servers.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/tms.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/keys.png "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/cover_sheet.png "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Regular.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Italic.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/fonts/LiberationSans-Bold.ttf "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/splash.png "$dest"
-    cp $ROOT/32/src/dcpomatic/graphics/src/dcpomatic2_server_small.png "$dest"
 
     # i18n: DCP-o-matic .mo files
     for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN; do
