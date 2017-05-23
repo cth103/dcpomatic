@@ -130,10 +130,10 @@ void
 DCPContent::read_directory (boost::filesystem::path p)
 {
 	for (boost::filesystem::directory_iterator i(p); i != boost::filesystem::directory_iterator(); ++i) {
-		if (boost::filesystem::is_regular_file (i->path ())) {
-			_paths.push_back (i->path ());
+		if (boost::filesystem::is_regular_file (i->path())) {
+			_paths.push_back (i->path());
 		} else if (boost::filesystem::is_directory (i->path ())) {
-			read_directory (i->path ());
+			read_directory (i->path());
 		}
 	}
 }
@@ -326,7 +326,7 @@ DCPContent::needs_assets () const
 vector<boost::filesystem::path>
 DCPContent::directories () const
 {
-	return dcp::DCP::directories_from_files (paths ());
+	return dcp::DCP::directories_from_files (paths());
 }
 
 void
