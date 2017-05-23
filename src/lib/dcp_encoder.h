@@ -36,6 +36,7 @@ class DCPEncoder : public Encoder
 {
 public:
 	DCPEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job);
+	~DCPEncoder ();
 
 	void go ();
 

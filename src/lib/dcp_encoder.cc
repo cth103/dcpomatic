@@ -68,6 +68,14 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	}
 }
 
+DCPEncoder::~DCPEncoder ()
+{
+	/* We must stop receiving more video data before we die */
+	_player_video_connection.release ();
+	_player_audio_connection.release ();
+	_player_subtitle_connection.release ();
+}
+
 void
 DCPEncoder::go ()
 {

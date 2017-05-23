@@ -24,6 +24,7 @@
 #include "types.h"
 #include "player_subtitles.h"
 #include <boost/weak_ptr.hpp>
+#include <boost/signals2.hpp>
 
 class Film;
 class Encoder;
@@ -55,6 +56,10 @@ protected:
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
+
+	boost::signals2::scoped_connection _player_video_connection;
+	boost::signals2::scoped_connection _player_audio_connection;
+	boost::signals2::scoped_connection _player_subtitle_connection;
 };
 
 #endif
