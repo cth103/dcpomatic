@@ -300,7 +300,11 @@ ContentMenu::find_missing ()
 	list<shared_ptr<Content> > content;
 
 	if (r == wxID_OK) {
-		content = content_factory (film, path);
+		if (dc) {
+			content.push_back (shared_ptr<DCPContent> (new DCPContent (film, path)));
+		} else {
+			content = content_factory (film, path);
+		}
 	}
 
 	if (content.empty ()) {
@@ -355,7 +359,7 @@ ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_pt
 		return;
 	}
 
-	old_content->set_path (new_content->path (0));
+	old_content->set_paths (new_content->paths());
 }
 
 void
