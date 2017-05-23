@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,6 +30,8 @@
 #include "lib/image_content.h"
 #include "lib/video_content.h"
 #include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
@@ -234,7 +236,16 @@ main (int argc, char* argv[])
 		film->set_signed (sign);
 
 		for (int i = optind; i < argc; ++i) {
-			BOOST_FOREACH (shared_ptr<Content> j, content_factory (film, boost::filesystem::canonical (argv[i]))) {
+			boost::filesystem::path const can = boost::filesystem::canonical (argv[i]);
+			list<shared_ptr<Content> > content;
+			try {
+				content.push_back (shared_ptr<DCPContent> (new DCPContent (film, can)));
+			} catch (dcp::DCPReadError& e) {
+				/* I guess it's not a DCP */
+				content = content_factory (film, can);
+			}
+
+			BOOST_FOREACH (shared_ptr<Content> j, content) {
 				if (j->video) {
 					j->video->set_scale (VideoContentScale (content_ratio));
 				}
