@@ -542,7 +542,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	}
 	default:
-		DCPOMATIC_ASSERT (false);
+		throw PixelFormatError ("alpha_blend()", _pixel_format);
 	}
 }
 
