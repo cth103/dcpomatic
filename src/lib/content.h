@@ -99,6 +99,7 @@ public:
 	boost::shared_ptr<Content> clone () const;
 
 	void set_path (boost::filesystem::path);
+	void set_paths (std::vector<boost::filesystem::path> paths);
 
 	std::string path_summary () const;
 

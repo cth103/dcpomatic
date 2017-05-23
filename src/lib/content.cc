@@ -289,6 +289,13 @@ Content::set_path (boost::filesystem::path path)
 	signal_changed (ContentProperty::PATH);
 }
 
+void
+Content::set_paths (vector<boost::filesystem::path> paths)
+{
+	_paths = paths;
+	signal_changed (ContentProperty::PATH);
+}
+
 string
 Content::path_summary () const
 {
