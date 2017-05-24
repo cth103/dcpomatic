@@ -579,41 +579,17 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	case AV_PIX_FMT_YUV420P:
 	{
 		shared_ptr<Image> yuv = other->scale (other->size(), dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
-
-		for (int i = 0; i < 3; ++i) {
-			dcp::Size const tsize = sample_size(i);
-			dcp::Size const osize = yuv->sample_size(i);
-			int const tbpp = ceil (bytes_per_pixel(i) / horizontal_factor(i));
-			int const obpp = ceil (yuv->bytes_per_pixel(i) / yuv->horizontal_factor(i));
-			int const abpp = other->bytes_per_pixel(0);
-			start_tx /= horizontal_factor (i);
-			start_ty /= vertical_factor (i);
-			start_ox /= yuv->horizontal_factor (i);
-			start_oy /= yuv->vertical_factor (i);
-			for (int ty = start_ty, oy = start_oy; ty < tsize.height && oy < osize.height; ++ty, ++oy) {
-				/* this image */
-				uint8_t* tp = data()[i] + ty * stride()[i] + start_tx * tbpp;
-				/* overlay image */
-				uint8_t* op = yuv->data()[i] + oy * yuv->stride()[i];
-				/* original RGBA for alpha channel */
-				uint8_t* ap = other->data()[0] + oy * other->stride()[0];
-				for (int tx = start_tx, ox = start_ox; tx < tsize.width && ox < osize.width; ++tx, ++ox) {
-					float const alpha = float (ap[3]) / 255;
-					*tp = *op * alpha + *tp * (1 - alpha);
-					tp += tbpp;
-					op += obpp;
-					ap += abpp;
-				}
-			}
-		}
+		component<uint8_t> (0, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		component<uint8_t> (1, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		component<uint8_t> (2, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
 		shared_ptr<Image> yuv = other->scale (other->size(), dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
 		component<uint16_t> (0, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
-		component<uint8_t> (1, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
-		component<uint8_t> (2, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		component<uint8_t>  (1, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		component<uint8_t>  (2, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
 		break;
 	}
 	default:
