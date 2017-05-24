@@ -1,5 +1,7 @@
 2017-05-24  Carl Hetherington  <cth@carlh.net>
 
+	* Arrange DKDMs in folders in the UI (#1012).
+
 	* Version 2.11.7 released.
 
 2017-05-23  Carl Hetherington  <cth@carlh.net>
