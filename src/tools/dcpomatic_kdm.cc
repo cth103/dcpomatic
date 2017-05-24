@@ -395,7 +395,7 @@ private:
 
 		_dkdm->Delete (from->first);
 		_dkdm_id.erase (from->first);
-		add_dkdm_view (from->second);
+		add_dkdm_view (from->second, dynamic_pointer_cast<DKDM>(to->second) ? to->first : optional<wxTreeItemId>());
 	}
 
 	void add_dkdm_clicked ()
@@ -446,14 +446,20 @@ private:
 	/** @param dkdm Thing to add.
 	 *  @param parent Parent group, or 0.
 	 */
-	void add_dkdm_view (shared_ptr<DKDMBase> base)
+	void add_dkdm_view (shared_ptr<DKDMBase> base, optional<wxTreeItemId> previous = optional<wxTreeItemId>())
 	{
 		if (!base->parent()) {
 			/* This is the root group */
 			_dkdm_id[_dkdm->AddRoot("root")] = base;
 		} else {
 			/* Add base to the view */
-			_dkdm_id[_dkdm->AppendItem(dkdm_to_id(base->parent()), std_to_wx(base->name()))] = base;
+			wxTreeItemId added;
+			if (previous) {
+				added = _dkdm->InsertItem(dkdm_to_id(base->parent()), *previous, std_to_wx(base->name()));
+			} else {
+				added = _dkdm->AppendItem(dkdm_to_id(base->parent()), std_to_wx(base->name()));
+			}
+			_dkdm_id[added] = base;
 		}
 
 		/* Add children */
