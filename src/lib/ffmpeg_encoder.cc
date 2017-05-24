@@ -237,7 +237,7 @@ FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	DCPOMATIC_ASSERT (frame);
 
 	for (int i = 0; i < 3; ++i) {
-		size_t const size = image->stride()[i] * image->size().height;
+		size_t const size = image->stride()[i] * image->sample_size(i).height;
 		AVBufferRef* buffer = av_buffer_alloc (size);
 		DCPOMATIC_ASSERT (buffer);
 		/* XXX: inefficient */
