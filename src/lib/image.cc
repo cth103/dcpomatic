@@ -51,7 +51,7 @@ using boost::shared_ptr;
 using dcp::Size;
 
 int
-Image::line_factor (int n) const
+Image::vertical_factor (int n) const
 {
 	if (n == 0) {
 		return 1;
@@ -65,11 +65,8 @@ Image::line_factor (int n) const
 	return pow (2.0f, d->log2_chroma_h);
 }
 
-/** @param n Component index.
- *  @return Number of samples (i.e. pixels, unless sub-sampled) in each direction for this component.
- */
-dcp::Size
-Image::sample_size (int n) const
+int
+Image::horizontal_factor (int n) const
 {
 	int horizontal_factor = 1;
 	if (n > 0) {
@@ -79,10 +76,18 @@ Image::sample_size (int n) const
 		}
 		horizontal_factor = pow (2.0f, d->log2_chroma_w);
 	}
+	return horizontal_factor;
+}
 
+/** @param n Component index.
+ *  @return Number of samples (i.e. pixels, unless sub-sampled) in each direction for this component.
+ */
+dcp::Size
+Image::sample_size (int n) const
+{
 	return dcp::Size (
-		lrint (ceil (static_cast<double>(size().width) / horizontal_factor)),
-		lrint (ceil (static_cast<double>(size().height) / line_factor (n)))
+		lrint (ceil (static_cast<double>(size().width) / horizontal_factor (n))),
+		lrint (ceil (static_cast<double>(size().height) / vertical_factor (n)))
 		);
 }
 
@@ -191,7 +196,7 @@ Image::crop_scale_window (
 		   we've cropped all of its Y-channel pixels.
 		*/
 		int const x = lrintf (bytes_per_pixel(c) * crop.left) & ~ ((int) desc->log2_chroma_w);
-		scale_in_data[c] = data()[c] + x + stride()[c] * (crop.top / line_factor(c));
+		scale_in_data[c] = data()[c] + x + stride()[c] * (crop.top / vertical_factor(c));
 	}
 
 	/* Corner of the image within out_size */
@@ -537,6 +542,39 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 
 				tp += this_bpp / 2;
 				op += other_bpp;
+			}
+		}
+		break;
+	}
+	case AV_PIX_FMT_YUV420P:
+	case AV_PIX_FMT_YUV420P10:
+	{
+		shared_ptr<Image> yuv = other->scale (other->size(), dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
+
+		for (int i = 0; i < 3; ++i) {
+			dcp::Size const tsize = sample_size(i);
+			dcp::Size const osize = yuv->sample_size(i);
+			int const tbpp = ceil (bytes_per_pixel(i) / horizontal_factor(i));
+			int const obpp = ceil (yuv->bytes_per_pixel(i) / yuv->horizontal_factor(i));
+			int const abpp = other->bytes_per_pixel(0);
+			start_tx /= horizontal_factor (i);
+			start_ty /= vertical_factor (i);
+			start_ox /= yuv->horizontal_factor (i);
+			start_oy /= yuv->vertical_factor (i);
+			for (int ty = start_ty, oy = start_oy; ty < tsize.height && oy < osize.height; ++ty, ++oy) {
+				/* this image */
+				uint8_t* tp = data()[i] + ty * stride()[i] + start_tx * tbpp;
+				/* overlay image */
+				uint8_t* op = yuv->data()[i] + oy * yuv->stride()[i];
+				/* original RGBA for alpha channel */
+				uint8_t* ap = other->data()[0] + oy * other->stride()[0];
+				for (int tx = start_tx, ox = start_ox; tx < tsize.width && ox < osize.width; ++tx, ++ox) {
+					float const alpha = float (ap[3]) / 255;
+					*tp = *op * alpha + *tp * (1 - alpha);
+					tp += tbpp;
+					op += obpp;
+					ap += abpp;
+				}
 			}
 		}
 		break;

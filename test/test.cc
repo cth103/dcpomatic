@@ -163,6 +163,22 @@ check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 }
 
 void
+check_image (boost::filesystem::path ref, boost::filesystem::path check)
+{
+#ifdef DCPOMATIC_IMAGE_MAGICK
+	using namespace MagickCore;
+#else
+	using namespace MagickLib;
+#endif
+
+	Magick::Image ref_image;
+	ref_image.read (ref.string ());
+	Magick::Image check_image;
+	check_image.read (check.string ());
+	DCPOMATIC_ASSERT (ref_image.compare (check_image));
+}
+
+void
 check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	uintmax_t N = boost::filesystem::file_size (ref);
@@ -333,7 +349,7 @@ wait_for_jobs ()
 }
 
 void
-write_image (shared_ptr<const Image> image, boost::filesystem::path file)
+write_image (shared_ptr<const Image> image, boost::filesystem::path file, string format)
 {
 #ifdef DCPOMATIC_IMAGE_MAGICK
 		using namespace MagickCore;
@@ -341,6 +357,6 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 		using namespace MagickLib;
 #endif
 
-	Magick::Image m (image->size().width, image->size().height, "ARGB", CharPixel, (void *) image->data()[0]);
+	Magick::Image m (image->size().width, image->size().height, format.c_str(), CharPixel, (void *) image->data()[0]);
 	m.write (file.string ());
 }

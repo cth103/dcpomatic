@@ -54,7 +54,8 @@ public:
 	bool aligned () const;
 
 	int planes () const;
-	int line_factor (int) const;
+	int vertical_factor (int) const;
+	int horizontal_factor (int) const;
 	dcp::Size sample_size (int) const;
 
 	boost::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;

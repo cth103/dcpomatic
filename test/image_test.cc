@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,9 +24,11 @@
  *  @see test/make_black_test.cc, test/pixel_formats_test.cc
  */
 
-#include <boost/test/unit_test.hpp>
-#include <Magick++.h>
 #include "lib/image.h"
+#include "lib/magick_image_proxy.h"
+#include "test.h"
+#include <Magick++.h>
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 
 using std::string;
@@ -133,58 +135,53 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	delete u;
 }
 
-/** Test Image::alpha_blend */
-BOOST_AUTO_TEST_CASE (alpha_blend_test)
+void
+alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
-	int const stride = 48 * 4;
+	shared_ptr<MagickImageProxy> proxy (new MagickImageProxy (private_data / "prophet_frame.tiff"));
+	shared_ptr<Image> raw = proxy->image();
+	shared_ptr<Image> background = raw->scale (raw->size(), dcp::YUV_TO_RGB_REC709, format, true, false);
 
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), false));
-	A->make_black ();
-	uint8_t* a = A->data()[0];
+	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_RGBA, raw->size(), true));
+	overlay->make_transparent ();
 
-	for (int y = 0; y < 48; ++y) {
-		uint8_t* p = a + y * stride;
-		for (int x = 0; x < 16; ++x) {
+	for (int y = 0; y < 128; ++y) {
+		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
+		for (int x = 0; x < 128; ++x) {
 			p[x * 4] = 255;
-			p[(x + 16) * 4 + 1] = 255;
-			p[(x + 32) * 4 + 2] = 255;
+			p[x * 4 + 3] = 255;
 		}
 	}
 
-	shared_ptr<Image> B (new Image (AV_PIX_FMT_RGBA, dcp::Size (48, 48), true));
-	B->make_transparent ();
-	uint8_t* b = B->data()[0];
-
-	for (int y = 32; y < 48; ++y) {
-		uint8_t* p = b + y * stride;
-		for (int x = 0; x < 48; ++x) {
-			p[x * 4] = 255;
+	for (int y = 128; y < 256; ++y) {
+		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
+		for (int x = 0; x < 128; ++x) {
 			p[x * 4 + 1] = 255;
+			p[x * 4 + 3] = 255;
+		}
+	}
+
+	for (int y = 256; y < 384; ++y) {
+		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
+		for (int x = 0; x < 128; ++x) {
 			p[x * 4 + 2] = 255;
 			p[x * 4 + 3] = 255;
 		}
 	}
 
-	A->alpha_blend (B, Position<int> (0, 0));
+	background->alpha_blend (overlay, Position<int> (0, 0));
 
-	for (int y = 0; y < 32; ++y) {
-		uint8_t* p = a + y * stride;
-		for (int x = 0; x < 16; ++x) {
-			BOOST_CHECK_EQUAL (p[x * 4], 255);
-			BOOST_CHECK_EQUAL (p[(x + 16) * 4 + 1], 255);
-			BOOST_CHECK_EQUAL (p[(x + 32) * 4 + 2], 255);
-		}
-	}
+	shared_ptr<Image> save = background->scale (background->size(), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
 
-	for (int y = 32; y < 48; ++y) {
-		uint8_t* p = a + y * stride;
-		for (int x = 0; x < 48; ++x) {
-			BOOST_CHECK_EQUAL (p[x * 4], 255);
-			BOOST_CHECK_EQUAL (p[x * 4 + 1], 255);
-			BOOST_CHECK_EQUAL (p[x * 4 + 2], 255);
-			BOOST_CHECK_EQUAL (p[x * 4 + 3], 255);
-		}
-	}
+	write_image (save, "build/test/image_test_" + suffix + ".png", "RGB");
+	check_image ("build/test/image_test_" + suffix + ".png", private_data / ("image_test_" + suffix + ".png"));
+}
+
+/** Test Image::alpha_blend */
+BOOST_AUTO_TEST_CASE (alpha_blend_test)
+{
+	alpha_blend_test_one (AV_PIX_FMT_RGBA, "rgba");
+	alpha_blend_test_one (AV_PIX_FMT_YUV420P, "yuv420p");
 }
 
 /** Test merge (list<PositionImage>) with a single image */
