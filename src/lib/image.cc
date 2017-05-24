@@ -429,6 +429,36 @@ Image::make_transparent ()
 	memset (data()[0], 0, sample_size(0).height * stride()[0]);
 }
 
+template <class T>
+void
+component (
+	int n,
+	Image* base,
+	shared_ptr<const Image> other,
+	shared_ptr<const Image> rgba,
+	int start_base_x, int start_base_y,
+	int start_other_x, int start_other_y
+	)
+{
+	dcp::Size const base_size = base->sample_size(n);
+	dcp::Size const other_size = other->sample_size(n);
+	for (int by = start_base_y, oy = start_other_y; by < base_size.height && oy < other_size.height; ++by, ++oy) {
+		/* base image */
+		T* bp = ((T*) (base->data()[n] + by * base->stride()[n])) + start_base_x;
+		/* overlay image */
+		T* op = ((T*) (other->data()[n] + oy * other->stride()[n]));
+		/* original RGBA for alpha channel */
+		uint8_t* rp = rgba->data()[0] + oy * rgba->stride()[0];
+		for (int bx = start_base_x, ox = start_other_x; bx < base_size.width && ox < other_size.width; ++bx, ++ox) {
+			float const alpha = float (rp[3]) / 255;
+			*bp = *op * alpha + *bp * (1 - alpha);
+			++bp;
+			++op;
+			rp += 4;
+		}
+	}
+}
+
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
@@ -547,7 +577,6 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	}
 	case AV_PIX_FMT_YUV420P:
-	case AV_PIX_FMT_YUV420P10:
 	{
 		shared_ptr<Image> yuv = other->scale (other->size(), dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
 
@@ -577,6 +606,14 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 				}
 			}
 		}
+		break;
+	}
+	case AV_PIX_FMT_YUV420P10:
+	{
+		shared_ptr<Image> yuv = other->scale (other->size(), dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
+		component<uint16_t> (0, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		component<uint8_t> (1, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
+		component<uint8_t> (2, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
 		break;
 	}
 	default:

@@ -57,6 +57,7 @@ public:
 	int vertical_factor (int) const;
 	int horizontal_factor (int) const;
 	dcp::Size sample_size (int) const;
+	float bytes_per_pixel (int) const;
 
 	boost::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
 	boost::shared_ptr<Image> crop_scale_window (
@@ -81,7 +82,6 @@ private:
 
 	void allocate ();
 	void swap (Image &);
-	float bytes_per_pixel (int) const;
 	void yuv_16_black (uint16_t, bool);
 	static uint16_t swap_16 (uint16_t);
 

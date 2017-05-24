@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -175,7 +175,7 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check)
 	ref_image.read (ref.string ());
 	Magick::Image check_image;
 	check_image.read (check.string ());
-	DCPOMATIC_ASSERT (ref_image.compare (check_image));
+	BOOST_CHECK_MESSAGE (ref_image.compare (check_image), ref << " differs from " << check);
 }
 
 void
