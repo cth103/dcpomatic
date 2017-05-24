@@ -391,7 +391,7 @@ private:
 		DCPOMATIC_ASSERT (from->second->parent ());
 
 		from->second->parent()->remove (from->second);
-		add_dkdm_model (from->second, group);
+		add_dkdm_model (from->second, group, dynamic_pointer_cast<DKDM>(to->second));
 
 		_dkdm->Delete (from->first);
 		_dkdm_id.erase (from->first);
@@ -472,9 +472,9 @@ private:
 	}
 
 	/** @param group Group to add dkdm to */
-	void add_dkdm_model (shared_ptr<DKDMBase> dkdm, shared_ptr<DKDMGroup> group)
+	void add_dkdm_model (shared_ptr<DKDMBase> dkdm, shared_ptr<DKDMGroup> group, shared_ptr<DKDM> previous = shared_ptr<DKDM> ())
 	{
-		group->add (dkdm);
+		group->add (dkdm, previous);
 		/* We're messing with a Config-owned object here, so tell it that something has changed.
 		   This isn't nice.
 		*/

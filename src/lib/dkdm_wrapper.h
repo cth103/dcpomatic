@@ -83,7 +83,7 @@ public:
 		return _children;
 	}
 
-	void add (boost::shared_ptr<DKDMBase> child);
+	void add (boost::shared_ptr<DKDMBase> child, boost::shared_ptr<DKDM> previous = boost::shared_ptr<DKDM> ());
         void remove (boost::shared_ptr<DKDMBase> child);
 
 private:

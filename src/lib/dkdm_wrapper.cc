@@ -71,10 +71,18 @@ DKDMGroup::as_xml (xmlpp::Element* node) const
 }
 
 void
-DKDMGroup::add (shared_ptr<DKDMBase> child)
+DKDMGroup::add (shared_ptr<DKDMBase> child, shared_ptr<DKDM> previous)
 {
 	DCPOMATIC_ASSERT (child);
-	_children.push_back (child);
+	if (previous) {
+		list<shared_ptr<DKDMBase> >::iterator i = find (_children.begin(), _children.end(), previous);
+		if (i != _children.end ()) {
+			++i;
+		}
+		_children.insert (i, child);
+	} else {
+		_children.push_back (child);
+	}
 	child->set_parent (dynamic_pointer_cast<DKDMGroup> (shared_from_this ()));
 }
 
