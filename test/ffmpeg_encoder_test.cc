@@ -28,7 +28,7 @@
 
 using boost::shared_ptr;
 
-BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test)
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mov)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test");
 	film->set_name ("ffmpeg_transcoder_basic_test");
@@ -41,5 +41,21 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test)
 
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES);
+	encoder.go ();
+}
+
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mp4)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test");
+	film->set_name ("ffmpeg_transcoder_basic_test");
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	film->examine_and_add_content (c);
+	wait_for_jobs ();
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mp4", FFmpegEncoder::FORMAT_H264);
 	encoder.go ();
 }
