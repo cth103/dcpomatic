@@ -113,6 +113,7 @@ function copy_libs {
 # @param #1 directory to copy to
 function copy_resources {
     local dest="$1"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"
