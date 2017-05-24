@@ -75,6 +75,7 @@ DKDMGroup::add (shared_ptr<DKDMBase> child)
 {
 	DCPOMATIC_ASSERT (child);
 	_children.push_back (child);
+	child->set_parent (dynamic_pointer_cast<DKDMGroup> (shared_from_this ()));
 }
 
 void
@@ -83,6 +84,7 @@ DKDMGroup::remove (shared_ptr<DKDMBase> child)
 	for (list<shared_ptr<DKDMBase> >::iterator i = _children.begin(); i != _children.end(); ++i) {
 		if (*i == child) {
 			_children.erase (i);
+			child->set_parent (shared_ptr<DKDMGroup> ());
 			return;
 		}
 		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup> (*i);

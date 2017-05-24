@@ -20,18 +20,32 @@
 
 #include <dcp/encrypted_kdm.h>
 #include <libcxml/cxml.h>
+#include <boost/enable_shared_from_this.hpp>
 
 namespace xmlpp {
 	class Element;
 }
 
-class DKDMBase
+class DKDMGroup;
+
+class DKDMBase : public boost::enable_shared_from_this<DKDMBase>
 {
 public:
 	virtual std::string name () const = 0;
 	virtual void as_xml (xmlpp::Element *) const = 0;
 
 	static boost::shared_ptr<DKDMBase> read (cxml::ConstNodePtr node);
+
+	boost::shared_ptr<DKDMGroup> parent () const {
+		return _parent;
+	}
+
+	void set_parent (boost::shared_ptr<DKDMGroup> parent) {
+		_parent = parent;
+	}
+
+private:
+	boost::shared_ptr<DKDMGroup> _parent;
 };
 
 class DKDM : public DKDMBase

@@ -158,7 +158,7 @@ public:
 		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 		right->Add (dkdm_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		add_dkdm_view (Config::instance()->dkdms(), shared_ptr<DKDMGroup> ());
+		add_dkdm_view (Config::instance()->dkdms());
 
 		h = new wxStaticText (overall_panel, wxID_ANY, _("Output"));
 		h->SetFont (subheading_font);
@@ -179,6 +179,8 @@ public:
 		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
 		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
 		_dkdm->Bind (wxEVT_TREE_SEL_CHANGED, boost::bind (&DOMFrame::setup_sensitivity, this));
+		_dkdm->Bind (wxEVT_TREE_BEGIN_DRAG, boost::bind (&DOMFrame::dkdm_begin_drag, this, _1));
+		_dkdm->Bind (wxEVT_TREE_END_DRAG, boost::bind (&DOMFrame::dkdm_end_drag, this, _1));
 		_add_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_clicked, this));
 		_add_dkdm_folder->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_folder_clicked, this));
 		_remove_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::remove_dkdm_clicked, this));
@@ -367,6 +369,35 @@ private:
 		_create->Enable (!_screens->screens().empty() && sel.GetCount() > 0);
 	}
 
+	void dkdm_begin_drag (wxTreeEvent& ev)
+	{
+		ev.Allow ();
+	}
+
+	void dkdm_end_drag (wxTreeEvent& ev)
+	{
+		DKDMMap::iterator from = _dkdm_id.find (_dkdm->GetSelection ());
+		DKDMMap::iterator to = _dkdm_id.find (ev.GetItem ());
+		if (from == _dkdm_id.end() || to == _dkdm_id.end()) {
+			return;
+		}
+
+		shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (to->second);
+		if (!group) {
+			group = to->second->parent();
+		}
+
+		DCPOMATIC_ASSERT (group);
+		DCPOMATIC_ASSERT (from->second->parent ());
+
+		from->second->parent()->remove (from->second);
+		add_dkdm_model (from->second, group);
+
+		_dkdm->Delete (from->first);
+		_dkdm_id.erase (from->first);
+		add_dkdm_view (from->second);
+	}
+
 	void add_dkdm_clicked ()
 	{
 		wxFileDialog* d = new wxFileDialog (this, _("Select DKDM file"));
@@ -392,7 +423,7 @@ private:
 				group = Config::instance()->dkdms ();
 			}
 			add_dkdm_model (new_dkdm, group);
-			add_dkdm_view (new_dkdm, group);
+			add_dkdm_view (new_dkdm);
 		}
 		d->Destroy ();
 	}
@@ -407,7 +438,7 @@ private:
 				parent = Config::instance()->dkdms ();
 			}
 			add_dkdm_model (new_dkdm, parent);
-			add_dkdm_view (new_dkdm, parent);
+			add_dkdm_view (new_dkdm);
 		}
 		d->Destroy ();
 	}
@@ -415,21 +446,21 @@ private:
 	/** @param dkdm Thing to add.
 	 *  @param parent Parent group, or 0.
 	 */
-	void add_dkdm_view (shared_ptr<DKDMBase> base, shared_ptr<DKDMGroup> parent)
+	void add_dkdm_view (shared_ptr<DKDMBase> base)
 	{
-		if (!parent) {
+		if (!base->parent()) {
 			/* This is the root group */
 			_dkdm_id[_dkdm->AddRoot("root")] = base;
 		} else {
 			/* Add base to the view */
-			_dkdm_id[_dkdm->AppendItem(dkdm_to_id(parent), std_to_wx(base->name()))] = base;
+			_dkdm_id[_dkdm->AppendItem(dkdm_to_id(base->parent()), std_to_wx(base->name()))] = base;
 		}
 
 		/* Add children */
 		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup> (base);
 		if (g) {
 			BOOST_FOREACH (shared_ptr<DKDMBase> i, g->children()) {
-				add_dkdm_view (i, g);
+				add_dkdm_view (i);
 			}
 		}
 	}
