@@ -158,7 +158,6 @@ public:
 		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 		right->Add (dkdm_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 
-		_dkdm_id[_dkdm->AddRoot("root")] = Config::instance()->dkdms();
 		add_dkdm_view (Config::instance()->dkdms(), shared_ptr<DKDMGroup> ());
 
 		h = new wxStaticText (overall_panel, wxID_ANY, _("Output"));
@@ -372,7 +371,22 @@ private:
 	{
 		wxFileDialog* d = new wxFileDialog (this, _("Select DKDM file"));
 		if (d->ShowModal() == wxID_OK) {
-			shared_ptr<DKDMBase> new_dkdm (new DKDM (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE))));
+			shared_ptr<DKDMBase> new_dkdm;
+			try {
+				new_dkdm.reset (
+					new DKDM (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)))
+					);
+			} catch (dcp::KDMFormatError& e) {
+				error_dialog (
+					this,
+					wxString::Format (
+						_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all.\n\n%s"),
+						std_to_wx(e.what()).data()
+						)
+					);
+				return;
+			}
+
 			shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
 			if (!group) {
 				group = Config::instance()->dkdms ();
