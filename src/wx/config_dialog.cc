@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -33,6 +33,7 @@
 #include "make_chain_dialog.h"
 #include "email_dialog.h"
 #include "name_format_editor.h"
+#include "nag_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -65,6 +66,13 @@ using boost::shared_ptr;
 using boost::function;
 using boost::optional;
 using dcp::locale_convert;
+
+static
+void
+do_nothing ()
+{
+
+}
 
 class Page
 {
@@ -793,11 +801,13 @@ public:
 		wxString title,
 		int border,
 		function<void (shared_ptr<dcp::CertificateChain>)> set,
-		function<shared_ptr<const dcp::CertificateChain> (void)> get
+		function<shared_ptr<const dcp::CertificateChain> (void)> get,
+		function<void (void)> nag_remake
 		)
 		: wxPanel (parent)
 		, _set (set)
 		, _get (get)
+		, _nag_remake (nag_remake)
 	{
 		wxFont subheading_font (*wxNORMAL_FONT);
 		subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
@@ -1026,6 +1036,8 @@ private:
 			intermediate_common_name = i->subject_common_name ();
 		}
 
+		_nag_remake ();
+
 		MakeChainDialog* d = new MakeChainDialog (
 			this,
 			subject_organization_name,
@@ -1133,6 +1145,7 @@ private:
 	shared_ptr<dcp::CertificateChain> _chain;
 	boost::function<void (shared_ptr<dcp::CertificateChain>)> _set;
 	boost::function<shared_ptr<const dcp::CertificateChain> (void)> _get;
+	boost::function<void (void)> _nag_remake;
 };
 
 class KeysPage : public StandardPage
@@ -1161,7 +1174,8 @@ private:
 		_signer = new CertificateChainEditor (
 			_panel, _("Signing DCPs and KDMs"), _border,
 			boost::bind (&Config::set_signer_chain, Config::instance (), _1),
-			boost::bind (&Config::signer_chain, Config::instance ())
+			boost::bind (&Config::signer_chain, Config::instance ()),
+			boost::bind (&do_nothing)
 			);
 
 		_panel->GetSizer()->Add (_signer);
@@ -1169,7 +1183,8 @@ private:
 		_decryption = new CertificateChainEditor (
 			_panel, _("Decrypting KDMs"), _border,
 			boost::bind (&Config::set_decryption_chain, Config::instance (), _1),
-			boost::bind (&Config::decryption_chain, Config::instance ())
+			boost::bind (&Config::decryption_chain, Config::instance ()),
+			boost::bind (&KeysPage::nag_remake_decryption_chain, this)
 			);
 
 		_panel->GetSizer()->Add (_decryption);
@@ -1227,6 +1242,15 @@ private:
 	{
 		_signer->config_changed ();
 		_decryption->config_changed ();
+	}
+
+	void nag_remake_decryption_chain ()
+	{
+		NagDialog::maybe_nag (
+			_panel,
+			Config::NAG_REMAKE_DECRYPTION_CHAIN,
+			_("If you continue with this operation you will no longer be able to use any DKDMs that you have created.  Also, any KDMs that have been sent to you will become useless.  Proceed with caution!")
+			);
 	}
 
 	CertificateChainEditor* _signer;
