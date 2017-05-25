@@ -22,8 +22,8 @@ else
 
     # OS X application icons
     mkdir -p osx
+    convert src/dcpomatic.png -resize 32x32 osx/dcpomatic2.png
     for r in 16 32 128 256 512; do
-	convert src/dcpomatic.png -resize 32x32 osx/dcpomatic2.png
 	for p in dcpomatic2; do
 	    mkdir -p osx/$p.iconset
 	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}.png
