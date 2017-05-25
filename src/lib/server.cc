@@ -36,6 +36,7 @@ Server::~Server ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_terminate = true;
+	_acceptor.close ();
 	_io_service.stop ();
 }
 
