@@ -60,7 +60,7 @@ else
     done
 
     # OS X menu bar icon for the server
-    $INKSCAPE osx/dcpomatic_small.png -w 22 -h 22 src/dcpomatic_small.svg
+    $INKSCAPE osx/dcpomatic_small.png -w 64 -h 64 src/dcpomatic_small.svg
 
     # Splash screen (all platforms)
     $INKSCAPE splash.png src/splash.svg -w 400 -h 300
