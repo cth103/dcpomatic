@@ -208,7 +208,12 @@ public:
 		wxIcon icon (std_to_wx ("id"));
 #else
 		wxInitAllImageHandlers();
+#ifdef DCPOMATIC_LINUX
 		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic2.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+#endif
+#ifdef DCPOMATIC_OSX
+		wxBitmap bitmap (wxString::Format (wxT ("%s/dcpomatic_small.png"), std_to_wx (shared_path().string())), wxBITMAP_TYPE_PNG);
+#endif
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif

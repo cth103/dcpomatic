@@ -22,7 +22,6 @@ else
 
     # OS X application icons
     mkdir -p osx
-    convert src/dcpomatic.png -resize 32x32 osx/dcpomatic2.png
     for r in 16 32 128 256 512; do
 	for p in dcpomatic2; do
 	    mkdir -p osx/$p.iconset
@@ -59,6 +58,9 @@ else
     for i in colour_conversions defaults kdm_email cover_sheet keys tms; do
 	$INKSCAPE osx/preferences/$i.png src/$i.svg -w 32 -h 32
     done
+
+    # OS X menu bar icon for the server
+    $INKSCAPE osx/dcpomatic_small.png -w 22 -h 22 src/dcpomatic_small.svg
 
     # Splash screen (all platforms)
     $INKSCAPE splash.png src/splash.svg -w 400 -h 300
