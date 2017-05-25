@@ -1167,16 +1167,16 @@ private:
 		_panel->GetSizer()->Add (_signer);
 
 		_decryption = new CertificateChainEditor (
-			_panel, _("Decrypting DCPs"), _border,
+			_panel, _("Decrypting KDMs"), _border,
 			boost::bind (&Config::set_decryption_chain, Config::instance (), _1),
 			boost::bind (&Config::decryption_chain, Config::instance ())
 			);
 
 		_panel->GetSizer()->Add (_decryption);
 
-		_export_decryption_certificate = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption\ncertificate..."));
+		_export_decryption_certificate = new wxButton (_decryption, wxID_ANY, _("Export KDM decryption\ncertificate..."));
 		_decryption->add_button (_export_decryption_certificate);
-		_export_decryption_chain = new wxButton (_decryption, wxID_ANY, _("Export DCP decryption\nchain..."));
+		_export_decryption_chain = new wxButton (_decryption, wxID_ANY, _("Export KDM decryption\nchain..."));
 		_decryption->add_button (_export_decryption_chain);
 
 		_export_decryption_certificate->Bind (wxEVT_BUTTON, boost::bind (&KeysPage::export_decryption_certificate, this));
