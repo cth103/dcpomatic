@@ -278,6 +278,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Christian Suhren"));
 	supported_by.Add (wxT ("Bruce Taylor"));
 	supported_by.Add (wxT ("OpsCenter Technologies, Inc."));
+	supported_by.Add (wxT ("Texas Theatre"));
 	supported_by.Add (wxT ("Lawrence Towers"));
 	supported_by.Add (wxT ("Petter Trønsdal"));
 	supported_by.Add (wxT ("Richard Turner"));
