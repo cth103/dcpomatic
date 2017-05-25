@@ -31,6 +31,7 @@ class DKDMGroup;
 class DKDMBase : public boost::enable_shared_from_this<DKDMBase>
 {
 public:
+	virtual ~DKDMBase () {}
 	virtual std::string name () const = 0;
 	virtual void as_xml (xmlpp::Element *) const = 0;
 
