@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -169,10 +169,15 @@ msgstr "Lägg till Biograf..."
 msgid "Add Cinema..."
 msgstr "Lägg till Biograf..."
 
-#: src/wx/content_panel.cc:90
+#: src/wx/content_panel.cc:94
 #, fuzzy
 msgid "Add DCP..."
 msgstr "Lägg till KDM..."
+
+#: src/wx/new_dkdm_folder_dialog.cc:24
+#, fuzzy
+msgid "Add DKDM folder"
+msgstr "Lägg till folder..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -190,12 +195,12 @@ msgstr "Lägg till Salong..."
 msgid "Add Screen..."
 msgstr "Lägg till Salong..."
 
-#: src/wx/content_panel.cc:91
+#: src/wx/content_panel.cc:95
 #, fuzzy
 msgid "Add a DCP."
 msgstr "Lägg till KDM..."
 
-#: src/wx/content_panel.cc:87
+#: src/wx/content_panel.cc:91
 #, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
@@ -204,11 +209,11 @@ msgstr ""
 "Lägg till en folder med bildfiler (som används som en rörlig bildsekvens) "
 "eller en DCP."
 
-#: src/wx/content_panel.cc:82
+#: src/wx/content_panel.cc:86
 msgid "Add file(s)..."
 msgstr "Lägg till fil(er)..."
 
-#: src/wx/content_panel.cc:86
+#: src/wx/content_panel.cc:90
 msgid "Add folder..."
 msgstr "Lägg till folder..."
 
@@ -216,7 +221,7 @@ msgstr "Lägg till folder..."
 msgid "Add image sequence"
 msgstr "Lägg till bildsekvens"
 
-#: src/wx/content_panel.cc:83
+#: src/wx/content_panel.cc:87
 #, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Lägg till video-, bild- eller audio-filer till filmen."
@@ -393,7 +398,7 @@ msgstr "Sök efter uppdateringar vid start"
 msgid "Choose CPL..."
 msgstr "Välj CPL..."
 
-#: src/wx/content_panel.cc:355
+#: src/wx/content_panel.cc:359
 #, fuzzy
 msgid "Choose a DCP folder"
 msgstr "Välj en folder"
@@ -402,11 +407,11 @@ msgstr "Välj en folder"
 msgid "Choose a file"
 msgstr "Välj en fil"
 
-#: src/wx/content_panel.cc:282
+#: src/wx/content_panel.cc:286
 msgid "Choose a file or files"
 msgstr "Välj en fil eller filer"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:310
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
 msgid "Choose a folder"
 msgstr "Välj en folder"
 
@@ -486,7 +491,7 @@ msgstr "Kopiera som namn"
 msgid "Could not analyse audio."
 msgstr "Kunde inte analysera audio."
 
-#: src/wx/content_menu.cc:374
+#: src/wx/content_menu.cc:378
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Kunde inte ladda KDM (%s)"
@@ -564,7 +569,8 @@ msgid "Debug: encode"
 msgstr "Debug: kodar"
 
 #: src/wx/config_dialog.cc:1170
-msgid "Decrypting DCPs"
+#, fuzzy
+msgid "Decrypting KDMs"
 msgstr "Dekrypterar DCP:er"
 
 #: src/wx/config_dialog.cc:526
@@ -663,7 +669,7 @@ msgstr "Ladda ner..."
 msgid "Downloading certificate"
 msgstr "Laddar ner certifikat"
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:102
 msgid "Earlier"
 msgstr "Tidigare"
 
@@ -731,16 +737,18 @@ msgid "Export"
 msgstr "Exportera"
 
 #: src/wx/config_dialog.cc:1177
+#, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "certificate..."
 msgstr ""
 "Exportera DCP-\n"
 "dekrypteringscertifikat..."
 
 #: src/wx/config_dialog.cc:1179
+#, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "chain..."
 msgstr ""
 "Exportera DCP-\n"
@@ -810,6 +818,11 @@ msgstr "Hitta saknade..."
 #, fuzzy
 msgid "Folder / ZIP name format"
 msgstr "Filnamnsformat"
+
+#: src/wx/new_dkdm_folder_dialog.cc:26
+#, fuzzy
+msgid "Folder name"
+msgstr "Användarnamn"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -1051,7 +1064,7 @@ msgstr "Nycklar"
 msgid "Language"
 msgstr "Språk"
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:106
 msgid "Later"
 msgstr "Senare"
 
@@ -1100,7 +1113,7 @@ msgstr "Loudness-omfång %.2f LU"
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/content_panel.cc:555
+#: src/wx/content_panel.cc:565
 msgid "MISSING: "
 msgstr "SAKNAS:"
 
@@ -1157,11 +1170,11 @@ msgstr "Mbit/s"
 msgid "Move content"
 msgstr "Flytta innehåll"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:103
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Flytta den valda delen av innehåll tidigare i filmen."
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:107
 msgid "Move the selected piece of content later in the film."
 msgstr "Flytta den valda delen av innehåll senare i filmen."
 
@@ -1185,11 +1198,11 @@ msgstr "Mina Dokument"
 msgid "My problem is"
 msgstr "Mitt problem är"
 
-#: src/wx/content_panel.cc:559
+#: src/wx/content_panel.cc:569
 msgid "NEEDS KDM: "
 msgstr "BEHÖVER KDM:"
 
-#: src/wx/content_panel.cc:563
+#: src/wx/content_panel.cc:573
 msgid "NEEDS OV: "
 msgstr "BEHÖVER OV:"
 
@@ -1216,7 +1229,7 @@ msgstr ""
 "Ingen audio kommer att överföras från innehållskanalen %d till DCP-kanalen "
 "%d."
 
-#: src/wx/content_panel.cc:329
+#: src/wx/content_panel.cc:333
 msgid "No content found in this folder."
 msgstr "Inget innehåll hittades i denna folder."
 
@@ -1259,7 +1272,7 @@ msgstr "Endast servrar kodar"
 msgid "Open console window"
 msgstr "Öppna konsolfönster"
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:111
 msgid "Open the timeline for the film."
 msgstr "Öppna en tidslinje för filmen"
 
@@ -1450,7 +1463,7 @@ msgid "Refer to existing DCP"
 msgstr "Referera till existerande DCP"
 
 #: src/wx/config_dialog.cc:845 src/wx/content_menu.cc:82
-#: src/wx/content_panel.cc:94 src/wx/templates_dialog.cc:52
+#: src/wx/content_panel.cc:98 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
 msgid "Remove"
 msgstr "Ta bort"
@@ -1463,7 +1476,7 @@ msgstr "Ta bort Biograf"
 msgid "Remove Screen"
 msgstr "Ta bort Salong"
 
-#: src/wx/content_panel.cc:95
+#: src/wx/content_panel.cc:99
 msgid "Remove the selected piece of content from the film."
 msgstr "Ta bort det valda innehållet från filmen."
 
@@ -1582,7 +1595,7 @@ msgstr "Välj certifikatfil"
 msgid "Select Chain File"
 msgstr "Välj Kedjefil"
 
-#: src/wx/content_menu.cc:368
+#: src/wx/content_menu.cc:372
 msgid "Select KDM"
 msgstr "Välj KDM"
 
@@ -1590,7 +1603,7 @@ msgstr "Välj KDM"
 msgid "Select Key File"
 msgstr "Välj Nyckelfil"
 
-#: src/wx/content_menu.cc:394
+#: src/wx/content_menu.cc:398
 msgid "Select OV"
 msgstr "Välj OV"
 
@@ -1738,7 +1751,7 @@ msgstr "Undertext utseende"
 msgid "Subtitles"
 msgstr "Undertexter"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:303
 msgid "Supported by"
 msgstr "Stöd från"
 
@@ -1778,7 +1791,7 @@ msgstr "Område (ex. SV)"
 msgid "Test version "
 msgstr "Testversion"
 
-#: src/wx/about_dialog.cc:356
+#: src/wx/about_dialog.cc:360
 msgid "Tested by"
 msgstr "Testad av"
 
@@ -1786,7 +1799,7 @@ msgstr "Testad av"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "'tills'-tiden måste vara efter 'från'-tiden."
 
-#: src/wx/content_menu.cc:354
+#: src/wx/content_menu.cc:358
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1842,7 +1855,7 @@ msgstr "Tid"
 msgid "Timeline"
 msgstr "Tidslinje"
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:110
 msgid "Timeline..."
 msgstr "Tidslinje..."
 

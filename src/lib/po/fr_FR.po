@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2017-02-18 17:27+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " %1"
 
-#: src/lib/config.cc:628
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -543,7 +543,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:608
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -601,7 +601,7 @@ msgstr "Rapport de bug email"
 msgid "Email problem report for %1"
 msgstr "Envoi par mail du rapport de bug pour %1"
 
-#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr "Encodage"
 
@@ -634,7 +634,7 @@ msgstr "Echec d'envoi email (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:374
 msgid "Filename"
 msgstr "Nom de Fichier"
 
@@ -650,7 +650,7 @@ msgstr "Recherche durée"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "Cadence"
 
@@ -738,7 +738,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
 
-#: src/lib/config.cc:264 src/lib/config.cc:605
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envoi KDM: $CPL_NAME"
 
@@ -890,7 +890,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Policy"
 
-#: src/lib/content.cc:383
+#: src/lib/content.cc:390
 msgid "Prepared for video frame rate"
 msgstr "Préparé pour la cadence image"
 
@@ -1186,7 +1186,7 @@ msgstr "Type d'image non conforme reçu par le serveur"
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
-#: src/lib/ffmpeg_decoder.cc:281
+#: src/lib/ffmpeg_decoder.cc:282
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Échantillonnage audio (%1) inconnu"
 
@@ -1391,7 +1391,7 @@ msgstr "erreur pendant async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "erreur pendant async_write (%1)"
 
-#: src/lib/content.cc:376 src/lib/content.cc:385
+#: src/lib/content.cc:383 src/lib/content.cc:392
 msgid "frames per second"
 msgstr "images par seconde"
 

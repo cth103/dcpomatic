@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:628
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -539,7 +539,7 @@ msgstr "O DCP-o-matic já não suporta o filtro '%1', e este foi desactivado."
 msgid "De-interlacing"
 msgstr "A Desentrelaçar"
 
-#: src/lib/config.cc:608
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -597,7 +597,7 @@ msgstr "Enviar relatório de problemas para %1"
 msgid "Email problem report for %1"
 msgstr "Enviar relatório de problemas para %1"
 
-#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr ""
 
@@ -629,7 +629,7 @@ msgstr "Falha no envio de email (%1)"
 msgid "Feature"
 msgstr "Longa-metragem"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:374
 #, fuzzy
 msgid "Filename"
 msgstr "nome"
@@ -646,7 +646,7 @@ msgstr "À procura da duração"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "Cadência de fotogramas"
 
@@ -736,7 +736,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "A causa do erro não é conhecida."
 
-#: src/lib/config.cc:264 src/lib/config.cc:605
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envio de chaves KDM: $CPL_NAME"
 
@@ -888,7 +888,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Regra"
 
-#: src/lib/content.cc:383
+#: src/lib/content.cc:390
 msgid "Prepared for video frame rate"
 msgstr ""
 
@@ -1180,7 +1180,7 @@ msgstr "Tipo de imagem inesperada recebida pelo servidor"
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/lib/ffmpeg_decoder.cc:281
+#: src/lib/ffmpeg_decoder.cc:282
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato de amostragem áudio desconhecido (%1)"
 
@@ -1366,7 +1366,7 @@ msgstr "erro durante leitura assíncrona (%1)"
 msgid "error during async_write (%1)"
 msgstr "erro durante escrita assíncrona (%1)"
 
-#: src/lib/content.cc:376 src/lib/content.cc:385
+#: src/lib/content.cc:383 src/lib/content.cc:392
 msgid "frames per second"
 msgstr "fotogramas por segundo"
 

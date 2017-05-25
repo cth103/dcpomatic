@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:628
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -540,7 +540,7 @@ msgstr "DCP-o-matic більше не підтримує фильтр `%1', то
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:608
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -598,7 +598,7 @@ msgstr "Повідомити про проблему"
 msgid "Email problem report for %1"
 msgstr "Помилка відправки ключей %1 по Email"
 
-#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr ""
 
@@ -630,7 +630,7 @@ msgstr "Помилка відправки email (%1)"
 msgid "Feature"
 msgstr "FTR (Фільм)"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:374
 msgid "Filename"
 msgstr "Ім`я файлу"
 
@@ -646,7 +646,7 @@ msgstr "Расчет длительности"
 msgid "Flat"
 msgstr "Flat (1998x1080)"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "Частота кадрів"
 
@@ -734,7 +734,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Невідомо, що викликало цю помилку."
 
-#: src/lib/config.cc:264 src/lib/config.cc:605
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Призначення KDM: $CPL_NAME"
 
@@ -886,7 +886,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "POL (Стратегічний)"
 
-#: src/lib/content.cc:383
+#: src/lib/content.cc:390
 msgid "Prepared for video frame rate"
 msgstr "Підготовлене для частоти кадрів відео"
 
@@ -1182,7 +1182,7 @@ msgstr "Сервером отриманий неочікуваний тип зо
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
-#: src/lib/ffmpeg_decoder.cc:281
+#: src/lib/ffmpeg_decoder.cc:282
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Нерозпізнаний формат аудіо (%1)"
 
@@ -1385,7 +1385,7 @@ msgstr "помилка під час async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "помилка під час async_write (%1)"
 
-#: src/lib/content.cc:376 src/lib/content.cc:385
+#: src/lib/content.cc:383 src/lib/content.cc:392
 msgid "frames per second"
 msgstr "кадра(ів) в секунду"
 

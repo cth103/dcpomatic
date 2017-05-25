@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:628
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -543,7 +543,7 @@ msgstr "DCP-o-matic stödjer inte längre '%1'-filter, så det har stängts av."
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:608
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -602,7 +602,7 @@ msgstr "E-posta problemrapport"
 msgid "Email problem report for %1"
 msgstr "E-posta problemrapport för %1"
 
-#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr ""
 
@@ -634,7 +634,7 @@ msgstr "Misslyckades att skicka epost (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:374
 msgid "Filename"
 msgstr "Filnamn"
 
@@ -650,7 +650,7 @@ msgstr "Söker längd"
 msgid "Flat"
 msgstr "Flat"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
@@ -741,7 +741,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Det är inte känt vad som orsakade detta fel."
 
-#: src/lib/config.cc:264 src/lib/config.cc:605
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 
@@ -894,7 +894,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Policy"
 
-#: src/lib/content.cc:383
+#: src/lib/content.cc:390
 msgid "Prepared for video frame rate"
 msgstr "Förberedd för videobildshastighet"
 
@@ -1193,7 +1193,7 @@ msgstr "Oväntad bildtyp mottogs av server"
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: src/lib/ffmpeg_decoder.cc:281
+#: src/lib/ffmpeg_decoder.cc:282
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Okänt ljudformat (%1)"
 
@@ -1396,7 +1396,7 @@ msgstr "fel vid async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
-#: src/lib/content.cc:376 src/lib/content.cc:385
+#: src/lib/content.cc:383 src/lib/content.cc:392
 msgid "frames per second"
 msgstr "bilder per sekund"
 

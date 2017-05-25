@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2017-02-24 06:32+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -173,10 +173,15 @@ msgstr "添加影院"
 msgid "Add Cinema..."
 msgstr "添加影院..."
 
-#: src/wx/content_panel.cc:90
+#: src/wx/content_panel.cc:94
 #, fuzzy
 msgid "Add DCP..."
 msgstr "添加 KDM..."
+
+#: src/wx/new_dkdm_folder_dialog.cc:24
+#, fuzzy
+msgid "Add DKDM folder"
+msgstr "添加文件夹..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -194,23 +199,23 @@ msgstr "添加银幕（放映服务器）"
 msgid "Add Screen..."
 msgstr "添加银幕（放映服务器）..."
 
-#: src/wx/content_panel.cc:91
+#: src/wx/content_panel.cc:95
 #, fuzzy
 msgid "Add a DCP."
 msgstr "添加 KDM..."
 
-#: src/wx/content_panel.cc:87
+#: src/wx/content_panel.cc:91
 #, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr "添加序列帧文件夹或DCP包文件夹"
 
-#: src/wx/content_panel.cc:82
+#: src/wx/content_panel.cc:86
 msgid "Add file(s)..."
 msgstr "添加文件..."
 
-#: src/wx/content_panel.cc:86
+#: src/wx/content_panel.cc:90
 msgid "Add folder..."
 msgstr "添加文件夹..."
 
@@ -218,7 +223,7 @@ msgstr "添加文件夹..."
 msgid "Add image sequence"
 msgstr "添加图像序列"
 
-#: src/wx/content_panel.cc:83
+#: src/wx/content_panel.cc:87
 #, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "添加视频、图片或音频文件"
@@ -391,7 +396,7 @@ msgstr "启动时检查软件更新"
 msgid "Choose CPL..."
 msgstr "选择CPL"
 
-#: src/wx/content_panel.cc:355
+#: src/wx/content_panel.cc:359
 #, fuzzy
 msgid "Choose a DCP folder"
 msgstr "选择一个文件夹"
@@ -400,11 +405,11 @@ msgstr "选择一个文件夹"
 msgid "Choose a file"
 msgstr "选择一个文件"
 
-#: src/wx/content_panel.cc:282
+#: src/wx/content_panel.cc:286
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:310
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -483,7 +488,7 @@ msgstr "复制名称"
 msgid "Could not analyse audio."
 msgstr "无法分析音频。"
 
-#: src/wx/content_menu.cc:374
+#: src/wx/content_menu.cc:378
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "无法加载 KDM (%s)"
@@ -561,7 +566,8 @@ msgid "Debug: encode"
 msgstr "编码"
 
 #: src/wx/config_dialog.cc:1170
-msgid "Decrypting DCPs"
+#, fuzzy
+msgid "Decrypting KDMs"
 msgstr "解密DCP"
 
 #: src/wx/config_dialog.cc:526
@@ -658,7 +664,7 @@ msgstr "下载..."
 msgid "Downloading certificate"
 msgstr "下载证书"
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:102
 msgid "Earlier"
 msgstr "上移"
 
@@ -726,14 +732,16 @@ msgid "Export"
 msgstr "导出"
 
 #: src/wx/config_dialog.cc:1177
+#, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "certificate..."
 msgstr "导出DCP证书"
 
 #: src/wx/config_dialog.cc:1179
+#, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "chain..."
 msgstr "导出DCP密匙"
 
@@ -800,6 +808,11 @@ msgstr "查询失败..."
 #, fuzzy
 msgid "Folder / ZIP name format"
 msgstr "文件名格式"
+
+#: src/wx/new_dkdm_folder_dialog.cc:26
+#, fuzzy
+msgid "Folder name"
+msgstr "用户名"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -1040,7 +1053,7 @@ msgstr "键值"
 msgid "Language"
 msgstr "语言"
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:106
 msgid "Later"
 msgstr "下移"
 
@@ -1089,7 +1102,7 @@ msgstr "响度范围 %.2f LU"
 msgid "Lower priority"
 msgstr "低场优先"
 
-#: src/wx/content_panel.cc:555
+#: src/wx/content_panel.cc:565
 msgid "MISSING: "
 msgstr "丢失:"
 
@@ -1146,11 +1159,11 @@ msgstr "Mbit/s"
 msgid "Move content"
 msgstr "分卷内容"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:103
 msgid "Move the selected piece of content earlier in the film."
 msgstr "上移选择内容"
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:107
 msgid "Move the selected piece of content later in the film."
 msgstr "下移选择内容"
 
@@ -1174,11 +1187,11 @@ msgstr "我的文档"
 msgid "My problem is"
 msgstr "错误内容"
 
-#: src/wx/content_panel.cc:559
+#: src/wx/content_panel.cc:569
 msgid "NEEDS KDM: "
 msgstr "需要KDM:"
 
-#: src/wx/content_panel.cc:563
+#: src/wx/content_panel.cc:573
 msgid "NEEDS OV: "
 msgstr "需要OV:"
 
@@ -1203,7 +1216,7 @@ msgstr "没有选择DCP"
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "视频中没有音频，从 %d 到 %d 通道的DCP."
 
-#: src/wx/content_panel.cc:329
+#: src/wx/content_panel.cc:333
 msgid "No content found in this folder."
 msgstr "没有找到文件！"
 
@@ -1246,7 +1259,7 @@ msgstr "仅在编码服务器编码"
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:111
 msgid "Open the timeline for the film."
 msgstr "打开工程时间表"
 
@@ -1432,7 +1445,7 @@ msgid "Refer to existing DCP"
 msgstr "参考现有的DCP"
 
 #: src/wx/config_dialog.cc:845 src/wx/content_menu.cc:82
-#: src/wx/content_panel.cc:94 src/wx/templates_dialog.cc:52
+#: src/wx/content_panel.cc:98 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
 msgid "Remove"
 msgstr "移除"
@@ -1445,7 +1458,7 @@ msgstr "移除影院"
 msgid "Remove Screen"
 msgstr "移除厅放映服务器（证书）"
 
-#: src/wx/content_panel.cc:95
+#: src/wx/content_panel.cc:99
 msgid "Remove the selected piece of content from the film."
 msgstr "删除选择工程"
 
@@ -1564,7 +1577,7 @@ msgstr "选择证书文件"
 msgid "Select Chain File"
 msgstr "选择私钥文件"
 
-#: src/wx/content_menu.cc:368
+#: src/wx/content_menu.cc:372
 msgid "Select KDM"
 msgstr "选择KDM"
 
@@ -1572,7 +1585,7 @@ msgstr "选择KDM"
 msgid "Select Key File"
 msgstr "选择密钥文件"
 
-#: src/wx/content_menu.cc:394
+#: src/wx/content_menu.cc:398
 msgid "Select OV"
 msgstr "选择OV"
 
@@ -1720,7 +1733,7 @@ msgstr "字幕外观"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:303
 msgid "Supported by"
 msgstr "技术支持"
 
@@ -1760,7 +1773,7 @@ msgstr "国别地区(例如:CN)"
 msgid "Test version "
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:356
+#: src/wx/about_dialog.cc:360
 msgid "Tested by"
 msgstr "测试"
 
@@ -1768,7 +1781,7 @@ msgstr "测试"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "结束时间必须大于开始时间！"
 
-#: src/wx/content_menu.cc:354
+#: src/wx/content_menu.cc:358
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1821,7 +1834,7 @@ msgstr "时间"
 msgid "Timeline"
 msgstr "时间线"
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:110
 msgid "Timeline..."
 msgstr "时间线"
 

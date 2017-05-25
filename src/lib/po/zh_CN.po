@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2017-02-24 06:37+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:628
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -520,7 +520,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:608
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -579,7 +579,7 @@ msgstr "通过邮件发送BUG"
 msgid "Email problem report for %1"
 msgstr "通过邮件发送BUG给 %1"
 
-#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr "编码中"
 
@@ -611,7 +611,7 @@ msgstr "发送电子邮件失败"
 msgid "Feature"
 msgstr "正片"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:374
 msgid "Filename"
 msgstr "文件名"
 
@@ -627,7 +627,7 @@ msgstr "定位长度"
 msgid "Flat"
 msgstr "Flat(遮幅/1.77/1.78/1.85)"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "帧率"
 
@@ -715,7 +715,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:264 src/lib/config.cc:605
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -867,7 +867,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "政策相关"
 
-#: src/lib/content.cc:383
+#: src/lib/content.cc:390
 msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
@@ -1143,7 +1143,7 @@ msgstr "服务器接收到意外的图像类型！"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:281
+#: src/lib/ffmpeg_decoder.cc:282
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1336,7 +1336,7 @@ msgstr "异步读取错误 (%1)"
 msgid "error during async_write (%1)"
 msgstr "异步写入错误 (%1)"
 
-#: src/lib/content.cc:376 src/lib/content.cc:385
+#: src/lib/content.cc:383 src/lib/content.cc:392
 msgid "frames per second"
 msgstr "每秒帧数"
 

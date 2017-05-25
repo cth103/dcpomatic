@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2015-10-10 20:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -171,10 +171,15 @@ msgstr "Dodaj Kino"
 msgid "Add Cinema..."
 msgstr "Dodaj Kino"
 
-#: src/wx/content_panel.cc:90
+#: src/wx/content_panel.cc:94
 #, fuzzy
 msgid "Add DCP..."
 msgstr "Dodaj KDM"
+
+#: src/wx/new_dkdm_folder_dialog.cc:24
+#, fuzzy
+msgid "Add DKDM folder"
+msgstr "Dodaj folder"
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -194,23 +199,23 @@ msgstr "Dodaj Salę"
 msgid "Add Screen..."
 msgstr "Dodaj Salę"
 
-#: src/wx/content_panel.cc:91
+#: src/wx/content_panel.cc:95
 #, fuzzy
 msgid "Add a DCP."
 msgstr "Dodaj KDM"
 
-#: src/wx/content_panel.cc:87
+#: src/wx/content_panel.cc:91
 #, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr "Dodaj folder z sekwencją obrazów lub DCP."
 
-#: src/wx/content_panel.cc:82
+#: src/wx/content_panel.cc:86
 msgid "Add file(s)..."
 msgstr "Dodaj plik(i)"
 
-#: src/wx/content_panel.cc:86
+#: src/wx/content_panel.cc:90
 msgid "Add folder..."
 msgstr "Dodaj folder"
 
@@ -218,7 +223,7 @@ msgstr "Dodaj folder"
 msgid "Add image sequence"
 msgstr "Dodaj sekwencję obrazów"
 
-#: src/wx/content_panel.cc:83
+#: src/wx/content_panel.cc:87
 #, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Dodaj plik wideo, audio lub obraz do filmu."
@@ -397,7 +402,7 @@ msgstr "Sprawdź aktualizacje przy starcie programu"
 msgid "Choose CPL..."
 msgstr ""
 
-#: src/wx/content_panel.cc:355
+#: src/wx/content_panel.cc:359
 #, fuzzy
 msgid "Choose a DCP folder"
 msgstr "Wybierz folder"
@@ -406,11 +411,11 @@ msgstr "Wybierz folder"
 msgid "Choose a file"
 msgstr "Wybierz plik"
 
-#: src/wx/content_panel.cc:282
+#: src/wx/content_panel.cc:286
 msgid "Choose a file or files"
 msgstr "Wybierz plik lub pliki"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:310
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
 msgid "Choose a folder"
 msgstr "Wybierz folder"
 
@@ -491,7 +496,7 @@ msgstr "Kopiuj jako"
 msgid "Could not analyse audio."
 msgstr "Nie udało się przeanalizować dźwięku."
 
-#: src/wx/content_menu.cc:374
+#: src/wx/content_menu.cc:378
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Nie udało się załadować KDM (%s)"
@@ -570,7 +575,8 @@ msgid "Debug: encode"
 msgstr "Debug: kodowanie"
 
 #: src/wx/config_dialog.cc:1170
-msgid "Decrypting DCPs"
+#, fuzzy
+msgid "Decrypting KDMs"
 msgstr "Odszyfrowuję DCP"
 
 #: src/wx/config_dialog.cc:526
@@ -669,7 +675,7 @@ msgstr "Pobierz"
 msgid "Downloading certificate"
 msgstr "Pobieranie certyfikatu"
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:102
 msgid "Earlier"
 msgstr ""
 
@@ -743,14 +749,14 @@ msgstr "Eksportuj"
 #: src/wx/config_dialog.cc:1177
 #, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "certificate..."
 msgstr "Eksportuj certyfikat DCP"
 
 #: src/wx/config_dialog.cc:1179
 #, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "chain..."
 msgstr "Eksportuj certyfikat DCP"
 
@@ -821,6 +827,11 @@ msgstr "Znajdź brakujące"
 #, fuzzy
 msgid "Folder / ZIP name format"
 msgstr "Nazwa pliku"
+
+#: src/wx/new_dkdm_folder_dialog.cc:26
+#, fuzzy
+msgid "Folder name"
+msgstr "Nazwa użytkownika"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -1066,7 +1077,7 @@ msgstr "Klucze"
 msgid "Language"
 msgstr "Język"
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:106
 msgid "Later"
 msgstr ""
 
@@ -1116,7 +1127,7 @@ msgstr ""
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/content_panel.cc:555
+#: src/wx/content_panel.cc:565
 msgid "MISSING: "
 msgstr "BRAKUJĄCE:"
 
@@ -1175,11 +1186,11 @@ msgstr "Mbit/s"
 msgid "Move content"
 msgstr "Obrysuj obraz"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:103
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Przenieś zaznaczony fragment wcześniej."
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:107
 msgid "Move the selected piece of content later in the film."
 msgstr "Przenieś zaznaczony fragment później."
 
@@ -1203,11 +1214,11 @@ msgstr "Moje dokumenty"
 msgid "My problem is"
 msgstr "Odkryłem błąd"
 
-#: src/wx/content_panel.cc:559
+#: src/wx/content_panel.cc:569
 msgid "NEEDS KDM: "
 msgstr "WYMAGA KDM:"
 
-#: src/wx/content_panel.cc:563
+#: src/wx/content_panel.cc:573
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "WYMAGA KDM:"
@@ -1235,7 +1246,7 @@ msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr ""
 "Żadna ścieżka dźwiękowa nie będzie przeniesiona z kanału %d to %d kanału DCP."
 
-#: src/wx/content_panel.cc:329
+#: src/wx/content_panel.cc:333
 msgid "No content found in this folder."
 msgstr "W tym folderze brakuje plików."
 
@@ -1279,7 +1290,7 @@ msgstr "Koduj tylko na serwerach"
 msgid "Open console window"
 msgstr "Otwórz konsolę"
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:111
 msgid "Open the timeline for the film."
 msgstr "Otwórz oś czasu dla filmu."
 
@@ -1471,7 +1482,7 @@ msgid "Refer to existing DCP"
 msgstr "Użyj istniejące DCP"
 
 #: src/wx/config_dialog.cc:845 src/wx/content_menu.cc:82
-#: src/wx/content_panel.cc:94 src/wx/templates_dialog.cc:52
+#: src/wx/content_panel.cc:98 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
 msgid "Remove"
 msgstr "Usuń"
@@ -1484,7 +1495,7 @@ msgstr "Usuń Kino"
 msgid "Remove Screen"
 msgstr "Usuń Sala"
 
-#: src/wx/content_panel.cc:95
+#: src/wx/content_panel.cc:99
 msgid "Remove the selected piece of content from the film."
 msgstr "Usuń zazanczony fragment z filmu."
 
@@ -1608,7 +1619,7 @@ msgstr "Wybierz plik certyfikatu"
 msgid "Select Chain File"
 msgstr "Wybierz plik klucza"
 
-#: src/wx/content_menu.cc:368
+#: src/wx/content_menu.cc:372
 msgid "Select KDM"
 msgstr "Wybierz KDM"
 
@@ -1616,7 +1627,7 @@ msgstr "Wybierz KDM"
 msgid "Select Key File"
 msgstr "Wybierz plik klucza"
 
-#: src/wx/content_menu.cc:394
+#: src/wx/content_menu.cc:398
 #, fuzzy
 msgid "Select OV"
 msgstr "Wybierz KDM"
@@ -1768,7 +1779,7 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Napisy"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:303
 msgid "Supported by"
 msgstr "Wsparli"
 
@@ -1808,7 +1819,7 @@ msgstr "Region (e.g. PL)"
 msgid "Test version "
 msgstr "Wersja testowa"
 
-#: src/wx/about_dialog.cc:356
+#: src/wx/about_dialog.cc:360
 msgid "Tested by"
 msgstr "Testerzy"
 
@@ -1816,7 +1827,7 @@ msgstr "Testerzy"
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
-#: src/wx/content_menu.cc:354
+#: src/wx/content_menu.cc:358
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1870,7 +1881,7 @@ msgstr "Czas"
 msgid "Timeline"
 msgstr "Oś czasu"
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:110
 msgid "Timeline..."
 msgstr "Oś czasu"
 

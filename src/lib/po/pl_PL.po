@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2015-10-10 19:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:628
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -542,7 +542,7 @@ msgstr "DCP-o-matic nie używa już filtru `%1', więc został on wyłączony."
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
-#: src/lib/config.cc:608
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -602,7 +602,7 @@ msgstr "Wyślij raport błędu do %1"
 msgid "Email problem report for %1"
 msgstr "Wyślij raport błędu do %1"
 
-#: src/lib/dcp_encoder.cc:80 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr ""
 
@@ -635,7 +635,7 @@ msgstr ""
 msgid "Feature"
 msgstr "Pełnometrażowy"
 
-#: src/lib/content.cc:367
+#: src/lib/content.cc:374
 #, fuzzy
 msgid "Filename"
 msgstr "nazwa"
@@ -652,7 +652,7 @@ msgstr "Szukanie czasu trwania"
 msgid "Flat"
 msgstr "1.85"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 #, fuzzy
 msgid "Frame rate"
 msgstr "Prękość kl/s"
@@ -742,7 +742,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Nieznany błąd"
 
-#: src/lib/config.cc:264 src/lib/config.cc:605
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
@@ -895,7 +895,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "Umowa"
 
-#: src/lib/content.cc:383
+#: src/lib/content.cc:390
 msgid "Prepared for video frame rate"
 msgstr ""
 
@@ -1184,7 +1184,7 @@ msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
-#: src/lib/ffmpeg_decoder.cc:281
+#: src/lib/ffmpeg_decoder.cc:282
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nieznany rodzaj pliku audio (%1)"
 
@@ -1369,7 +1369,7 @@ msgstr "Nastąpił błąd podczas async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "Nastąpił błąd podczas async_write (%1)"
 
-#: src/lib/content.cc:376 src/lib/content.cc:385
+#: src/lib/content.cc:383 src/lib/content.cc:392
 msgid "frames per second"
 msgstr "klatek na sekundę"
 

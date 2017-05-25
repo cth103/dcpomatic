@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-15 12:18+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -171,10 +171,15 @@ msgstr "Adicionar Cinema..."
 msgid "Add Cinema..."
 msgstr "Adicionar Cinema..."
 
-#: src/wx/content_panel.cc:90
+#: src/wx/content_panel.cc:94
 #, fuzzy
 msgid "Add DCP..."
 msgstr "Adicionar KDM..."
+
+#: src/wx/new_dkdm_folder_dialog.cc:24
+#, fuzzy
+msgid "Add DKDM folder"
+msgstr "Adicionar pasta..."
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -194,12 +199,12 @@ msgstr "Adicionar Ecrã..."
 msgid "Add Screen..."
 msgstr "Adicionar Ecrã..."
 
-#: src/wx/content_panel.cc:91
+#: src/wx/content_panel.cc:95
 #, fuzzy
 msgid "Add a DCP."
 msgstr "Adicionar KDM..."
 
-#: src/wx/content_panel.cc:87
+#: src/wx/content_panel.cc:91
 #, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
@@ -208,11 +213,11 @@ msgstr ""
 "Adicionar uma pasta com ficheiros de imagem (que serão usadas como uma "
 "sequência de imagens) ou DCP."
 
-#: src/wx/content_panel.cc:82
+#: src/wx/content_panel.cc:86
 msgid "Add file(s)..."
 msgstr "Adicionar ficheiro(s)..."
 
-#: src/wx/content_panel.cc:86
+#: src/wx/content_panel.cc:90
 msgid "Add folder..."
 msgstr "Adicionar pasta..."
 
@@ -220,7 +225,7 @@ msgstr "Adicionar pasta..."
 msgid "Add image sequence"
 msgstr "Adicionar sequência de imagens"
 
-#: src/wx/content_panel.cc:83
+#: src/wx/content_panel.cc:87
 #, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
 msgstr "Adicionar ficheiros de video, imagem ou som ao filme."
@@ -394,7 +399,7 @@ msgstr "Pesquisar por actualizações no arranque"
 msgid "Choose CPL..."
 msgstr ""
 
-#: src/wx/content_panel.cc:355
+#: src/wx/content_panel.cc:359
 #, fuzzy
 msgid "Choose a DCP folder"
 msgstr "Seleccionar pasta"
@@ -403,11 +408,11 @@ msgstr "Seleccionar pasta"
 msgid "Choose a file"
 msgstr "Seleccionar ficheiro"
 
-#: src/wx/content_panel.cc:282
+#: src/wx/content_panel.cc:286
 msgid "Choose a file or files"
 msgstr "Seleccionar ficheiro(s)"
 
-#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:310
+#: src/wx/content_menu.cc:289 src/wx/content_panel.cc:314
 msgid "Choose a folder"
 msgstr "Seleccionar pasta"
 
@@ -489,7 +494,7 @@ msgstr "Copiar como nome"
 msgid "Could not analyse audio."
 msgstr "Não foi possível analizar audio."
 
-#: src/wx/content_menu.cc:374
+#: src/wx/content_menu.cc:378
 #, c-format
 msgid "Could not load KDM (%s)"
 msgstr "Não foi possível carregar a KDM (%s)"
@@ -567,7 +572,8 @@ msgid "Debug: encode"
 msgstr "Depuração: codificação"
 
 #: src/wx/config_dialog.cc:1170
-msgid "Decrypting DCPs"
+#, fuzzy
+msgid "Decrypting KDMs"
 msgstr "A desencriptar DCP"
 
 #: src/wx/config_dialog.cc:526
@@ -665,7 +671,7 @@ msgstr "Transferir..."
 msgid "Downloading certificate"
 msgstr "A transferir certificado"
 
-#: src/wx/content_panel.cc:98
+#: src/wx/content_panel.cc:102
 msgid "Earlier"
 msgstr ""
 
@@ -737,14 +743,14 @@ msgstr "Exportar"
 #: src/wx/config_dialog.cc:1177
 #, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "certificate..."
 msgstr "Exportar certificado de desencriptação DCP..."
 
 #: src/wx/config_dialog.cc:1179
 #, fuzzy
 msgid ""
-"Export DCP decryption\n"
+"Export KDM decryption\n"
 "chain..."
 msgstr "Exportar certificado de desencriptação DCP..."
 
@@ -816,6 +822,11 @@ msgstr "A procurar em falta..."
 #, fuzzy
 msgid "Folder / ZIP name format"
 msgstr "Nome do ficheiro"
+
+#: src/wx/new_dkdm_folder_dialog.cc:26
+#, fuzzy
+msgid "Folder name"
+msgstr "Nome de utilizador"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -1057,7 +1068,7 @@ msgstr "Chaves"
 msgid "Language"
 msgstr "Língua"
 
-#: src/wx/content_panel.cc:102
+#: src/wx/content_panel.cc:106
 msgid "Later"
 msgstr ""
 
@@ -1107,7 +1118,7 @@ msgstr "Variação de intensidade sonora %.2f LU"
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/content_panel.cc:555
+#: src/wx/content_panel.cc:565
 msgid "MISSING: "
 msgstr "EM FALTA:"
 
@@ -1165,12 +1176,12 @@ msgstr "Mbit/s"
 msgid "Move content"
 msgstr "Contornar conteúdo"
 
-#: src/wx/content_panel.cc:99
+#: src/wx/content_panel.cc:103
 msgid "Move the selected piece of content earlier in the film."
 msgstr ""
 "Mover o fragmento de conteúdo seleccionado para o um ponto anterior do filme."
 
-#: src/wx/content_panel.cc:103
+#: src/wx/content_panel.cc:107
 msgid "Move the selected piece of content later in the film."
 msgstr ""
 "Mover o fragmento de conteúdo seleccionado para o um ponto posterior do "
@@ -1196,11 +1207,11 @@ msgstr "Os meus documentos"
 msgid "My problem is"
 msgstr "O meu problema é"
 
-#: src/wx/content_panel.cc:559
+#: src/wx/content_panel.cc:569
 msgid "NEEDS KDM: "
 msgstr "NECESSITA DE KDM:"
 
-#: src/wx/content_panel.cc:563
+#: src/wx/content_panel.cc:573
 #, fuzzy
 msgid "NEEDS OV: "
 msgstr "NECESSITA DE KDM:"
@@ -1227,7 +1238,7 @@ msgstr "Nenhum DCP seleccionado."
 msgid "No audio will be passed from content channel %d to DCP channel %d."
 msgstr "Não será passado audio do canal de conteúdo %d para o canal DCP %d."
 
-#: src/wx/content_panel.cc:329
+#: src/wx/content_panel.cc:333
 msgid "No content found in this folder."
 msgstr "Não foi encontrado conteúdo nesta pasta."
 
@@ -1270,7 +1281,7 @@ msgstr "Apenas os servidores codificam"
 msgid "Open console window"
 msgstr "Abrir janela da consola"
 
-#: src/wx/content_panel.cc:107
+#: src/wx/content_panel.cc:111
 msgid "Open the timeline for the film."
 msgstr "Abrir linha de tempo do filme."
 
@@ -1462,7 +1473,7 @@ msgid "Refer to existing DCP"
 msgstr "Referido no DCP presente"
 
 #: src/wx/config_dialog.cc:845 src/wx/content_menu.cc:82
-#: src/wx/content_panel.cc:94 src/wx/templates_dialog.cc:52
+#: src/wx/content_panel.cc:98 src/wx/templates_dialog.cc:52
 #: src/wx/editable_list.h:80
 msgid "Remove"
 msgstr "Remover"
@@ -1475,7 +1486,7 @@ msgstr "Remover Cinema"
 msgid "Remove Screen"
 msgstr "Remover Ecrã"
 
-#: src/wx/content_panel.cc:95
+#: src/wx/content_panel.cc:99
 msgid "Remove the selected piece of content from the film."
 msgstr "Remover o fragmento de conteúdo seleccionado do filme."
 
@@ -1598,7 +1609,7 @@ msgstr "Seleccionar Ficheiro do Certificado"
 msgid "Select Chain File"
 msgstr "Seleccionar Ficheiro da Chave"
 
-#: src/wx/content_menu.cc:368
+#: src/wx/content_menu.cc:372
 msgid "Select KDM"
 msgstr "Seleccionar KDM"
 
@@ -1606,7 +1617,7 @@ msgstr "Seleccionar KDM"
 msgid "Select Key File"
 msgstr "Seleccionar Ficheiro da Chave"
 
-#: src/wx/content_menu.cc:394
+#: src/wx/content_menu.cc:398
 #, fuzzy
 msgid "Select OV"
 msgstr "Seleccionar KDM"
@@ -1756,7 +1767,7 @@ msgstr "Aparência da legenda"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/wx/about_dialog.cc:299
+#: src/wx/about_dialog.cc:303
 msgid "Supported by"
 msgstr "Apoiado por "
 
@@ -1796,7 +1807,7 @@ msgstr "Território (e.g. PT)"
 msgid "Test version "
 msgstr "Versão de teste"
 
-#: src/wx/about_dialog.cc:356
+#: src/wx/about_dialog.cc:360
 msgid "Tested by"
 msgstr "Testado por"
 
@@ -1804,7 +1815,7 @@ msgstr "Testado por"
 msgid "The 'until' time must be after the 'from' time."
 msgstr ""
 
-#: src/wx/content_menu.cc:354
+#: src/wx/content_menu.cc:358
 msgid ""
 "The content file(s) you specified are not the same as those that are "
 "missing.  Either try again with the correct content file or remove the "
@@ -1858,7 +1869,7 @@ msgstr "Duração"
 msgid "Timeline"
 msgstr "Linha de tempo"
 
-#: src/wx/content_panel.cc:106
+#: src/wx/content_panel.cc:110
 msgid "Timeline..."
 msgstr "Linha de tempo..."
 
