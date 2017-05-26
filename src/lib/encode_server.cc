@@ -94,6 +94,8 @@ EncodeServer::~EncodeServer ()
 		delete i;
 	}
 
+	_broadcast.socket->close ();
+	delete _broadcast.socket;
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
 		/* Ideally this would be a DCPOMATIC_ASSERT(_broadcast.thread->joinable()) but we
@@ -102,6 +104,7 @@ EncodeServer::~EncodeServer ()
 		if (_broadcast.thread->joinable ()) {
 			_broadcast.thread->join ();
 		}
+		delete _broadcast.thread;
 	}
 }
 
