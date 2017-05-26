@@ -94,7 +94,9 @@ EncodeServer::~EncodeServer ()
 		delete i;
 	}
 
-	_broadcast.socket->close ();
+	if (_broadcast.socket) {
+		_broadcast.socket->close ();
+	}
 	delete _broadcast.socket;
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
