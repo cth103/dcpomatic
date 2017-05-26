@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	EncodeServer* server = new EncodeServer (log, true, 2);
 
-	new thread (boost::bind (&EncodeServer::run, server));
+	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
@@ -134,6 +134,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		delete *i;
 	}
+
+	server_thread->join ();
+	delete server_thread;
 
 	delete server;
 }
@@ -194,7 +197,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	EncodeServer* server = new EncodeServer (log, true, 2);
 
-	new thread (boost::bind (&EncodeServer::run, server));
+	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
@@ -213,6 +216,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		delete *i;
 	}
+
+	server_thread->join ();
+	delete server_thread;
 
 	delete server;
 }
@@ -284,7 +290,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	EncodeServer* server = new EncodeServer (log, true, 2);
 
-	new thread (boost::bind (&EncodeServer::run, server));
+	thread* server_thread = new thread (boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
@@ -303,6 +309,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	for (list<thread*>::iterator i = threads.begin(); i != threads.end(); ++i) {
 		delete *i;
 	}
+
+	server_thread->join ();
+	delete server_thread;
 
 	delete server;
 }
