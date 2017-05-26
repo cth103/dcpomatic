@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-25 09:55+0100\n"
-"PO-Revision-Date: 2017-05-15 15:44+0200\n"
+"PO-Revision-Date: 2017-05-25 17:56+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -320,11 +320,11 @@ msgstr "Kleurruimte"
 
 #: src/lib/content.cc:163
 msgid "Computing digest"
-msgstr "Berekenen digest"
+msgstr "Berekenen samenvatting"
 
 #: src/lib/writer.cc:485
 msgid "Computing digests"
-msgstr "Berekenen digests"
+msgstr "Berekenen samenvattingen"
 
 #: src/lib/frame_rate_change.cc:67
 msgid "Content and DCP have the same rate.\n"
@@ -474,8 +474,8 @@ msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
 msgstr ""
-"Kan niet luisteren naar externe encodeer-servers.  Wellicht draait er al een "
-"andere instantie van DCP-o-matic."
+"Kan niet luisteren naar externe encodeer-servers.  Misschien draait er al "
+"een andere instantie van DCP-o-matic."
 
 #: src/lib/job.cc:121 src/lib/job.cc:135
 msgid "Could not open %1"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-25 09:55+0100\n"
-"PO-Revision-Date: 2017-05-14 03:55+0200\n"
+"PO-Revision-Date: 2017-05-25 18:00+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -177,9 +177,8 @@ msgid "Add DCP..."
 msgstr "Voeg DCP toe..."
 
 #: src/wx/new_dkdm_folder_dialog.cc:24
-#, fuzzy
 msgid "Add DKDM folder"
-msgstr "Voeg map toe..."
+msgstr "Voeg DKDM-map toe"
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -570,9 +569,8 @@ msgid "Debug: encode"
 msgstr "Debug: encoderen"
 
 #: src/wx/config_dialog.cc:1170
-#, fuzzy
 msgid "Decrypting KDMs"
-msgstr "DCP's ontsleutelen"
+msgstr "KDM's ontsleutelen"
 
 #: src/wx/config_dialog.cc:526
 msgid "Default DCP audio channels"
@@ -734,21 +732,19 @@ msgid "Export"
 msgstr "Exporteer"
 
 #: src/wx/config_dialog.cc:1177
-#, fuzzy
 msgid ""
 "Export KDM decryption\n"
 "certificate..."
 msgstr ""
-"Exporteer DCP-\n"
+"Exporteer KDM-\n"
 "ontsleutelings-certificaat..."
 
 #: src/wx/config_dialog.cc:1179
-#, fuzzy
 msgid ""
 "Export KDM decryption\n"
 "chain..."
 msgstr ""
-"Exporteer DCP-\n"
+"Exporteer KDM-\n"
 "ontsleutelings-keten..."
 
 #: src/wx/export_dialog.cc:46
@@ -816,9 +812,8 @@ msgid "Folder / ZIP name format"
 msgstr "Map- / ZIP-naam-formaat"
 
 #: src/wx/new_dkdm_folder_dialog.cc:26
-#, fuzzy
 msgid "Folder name"
-msgstr "Gebruikersnaam"
+msgstr "Mapnaam"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
