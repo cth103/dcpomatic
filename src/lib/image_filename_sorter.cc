@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,71 +19,46 @@
 */
 
 #include "image_filename_sorter.h"
-#include <dcp/raw_convert.h>
+#include <dcp/locale_convert.h>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
+#include <boost/optional.hpp>
 #include <iostream>
 
 using std::list;
-using dcp::raw_convert;
+using std::string;
+using dcp::locale_convert;
+using boost::optional;
 
 bool
 ImageFilenameSorter::operator() (boost::filesystem::path a, boost::filesystem::path b)
 {
-	std::list<int> na = extract_numbers (a);
-	std::list<int> nb = extract_numbers (b);
-	if (na.empty() || nb.empty()) {
+	optional<int> na = extract_numbers (a);
+	optional<int> nb = extract_numbers (b);
+	if (!na || !nb) {
 		return a.string() < b.string();
 	}
 
-	if (na.size() != nb.size()) {
-		/* Just use the first one */
-		return na.front() < nb.front();
-	}
-
-	std::list<int>::const_iterator i = na.begin ();
-	std::list<int>::const_iterator j = nb.begin ();
-
-	while (i != na.end()) {
-		if (*i != *j) {
-			return *i < *j;
-		}
-		++i;
-		++j;
-	}
-
-	/* All the same */
-	return false;
-
+	return *na < *nb;
 }
 
-list<int>
+optional<int>
 ImageFilenameSorter::extract_numbers (boost::filesystem::path p)
 {
-	p = p.leaf ();
-
-	std::list<std::string> numbers;
-
-	std::string current;
-	for (size_t i = 0; i < p.string().size(); ++i) {
-		if (isdigit (p.string()[i])) {
-			current += p.string()[i];
-		} else {
-			if (!current.empty ()) {
-				numbers.push_back (current);
-				current.clear ();
-			}
+	string numbers;
+	string const ps = p.leaf().string();
+	for (size_t i = 0; i < ps.size(); ++i) {
+		if (isdigit (ps[i])) {
+			numbers += ps[i];
 		}
 	}
 
-	if (!current.empty ()) {
-		numbers.push_back (current);
+	if (numbers.empty ()) {
+		return optional<int> ();
 	}
 
-	std::list<int> numbers_as_int;
-	BOOST_FOREACH (std::string i, numbers) {
-		numbers_as_int.push_back (raw_convert<int> (i));
-	}
-
-	return numbers_as_int;
+	/* locale_convert is quicker than raw_convert and numbers can only contain
+	   things which are isdigit() so locale_convert is fine to use.
+	*/
+	return locale_convert<int> (numbers);
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,9 +24,14 @@
  */
 
 #include "lib/image_filename_sorter.h"
+#include "lib/compose.hpp"
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE (image_filename_sorter_test)
+using std::random_shuffle;
+using std::sort;
+using std::vector;
+
+BOOST_AUTO_TEST_CASE (image_filename_sorter_test1)
 {
 	ImageFilenameSorter x;
 	BOOST_CHECK (x ("abc0000000001", "abc0000000002"));
@@ -48,4 +53,18 @@ BOOST_AUTO_TEST_CASE (image_filename_sorter_test)
 	BOOST_CHECK (!x ("1_02.tif", "1_01.tif"));
 	BOOST_CHECK (!x ("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000000.j2c"));
 	BOOST_CHECK (!x ("EWS_DCP_092815_000100.j2c", "EWS_DCP_092815_000000.j2c"));
+}
+
+/** Test a sort of a lot of paths.  Mostly useful for profiling. */
+BOOST_AUTO_TEST_CASE (image_filename_sorter_test2)
+{
+	vector<boost::filesystem::path> paths;
+	for (int i = 0; i < 100000; ++i) {
+		paths.push_back(String::compose("some.filename.with.%1.number.tiff", i));
+	}
+	random_shuffle (paths.begin(), paths.end());
+	sort (paths.begin(), paths.end(), ImageFilenameSorter());
+	for (int i = 0; i < 100000; ++i) {
+		BOOST_CHECK_EQUAL(paths[i].string(), String::compose("some.filename.with.%1.number.tiff", i));
+	}
 }

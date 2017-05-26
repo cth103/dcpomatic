@@ -19,6 +19,7 @@
 */
 
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 
 class ImageFilenameSorter
 {
@@ -26,5 +27,5 @@ public:
 	bool operator() (boost::filesystem::path a, boost::filesystem::path b);
 
 private:
-	std::list<int> extract_numbers (boost::filesystem::path p);
+	boost::optional<int> extract_numbers (boost::filesystem::path p);
 };
