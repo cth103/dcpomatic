@@ -50,6 +50,7 @@ def build(bld):
                  audio_processor_delay_test.cc
                  client_server_test.cc
                  colour_conversion_test.cc
+                 content_test.cc
                  dcpomatic_time_test.cc
                  dcp_subtitle_test.cc
                  digest_test.cc
