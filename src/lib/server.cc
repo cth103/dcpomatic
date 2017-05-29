@@ -40,7 +40,7 @@ Server::~Server ()
 	}
 
 	_acceptor.close ();
-	_io_service.stop ();
+	stop ();
 }
 
 void
@@ -73,4 +73,10 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 
 	handle (socket);
 	start_accept ();
+}
+
+void
+Server::stop ()
+{
+	_io_service.stop ();
 }

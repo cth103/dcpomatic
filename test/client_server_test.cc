@@ -135,9 +135,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		delete *i;
 	}
 
+	server->stop ();
 	server_thread->join ();
 	delete server_thread;
-
 	delete server;
 }
 
@@ -310,8 +310,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		delete *i;
 	}
 
+	server->stop ();
 	server_thread->join ();
 	delete server_thread;
-
 	delete server;
 }

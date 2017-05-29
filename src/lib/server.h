@@ -35,6 +35,7 @@ public:
 	virtual ~Server ();
 
 	virtual void run ();
+	void stop ();
 
 protected:
 	boost::mutex _mutex;
