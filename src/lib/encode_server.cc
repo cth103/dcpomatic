@@ -97,7 +97,6 @@ EncodeServer::~EncodeServer ()
 	if (_broadcast.socket) {
 		_broadcast.socket->close ();
 	}
-	delete _broadcast.socket;
 	_broadcast.io_service.stop ();
 	if (_broadcast.thread) {
 		/* Ideally this would be a DCPOMATIC_ASSERT(_broadcast.thread->joinable()) but we
