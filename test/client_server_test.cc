@@ -217,9 +217,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		delete *i;
 	}
 
+	server->stop ();
 	server_thread->join ();
 	delete server_thread;
-
 	delete server;
 }
 
