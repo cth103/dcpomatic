@@ -120,7 +120,7 @@ new_test_film (string name)
 }
 
 void
-check_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
+check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	SF_INFO ref_info;
 	ref_info.format = 0;
