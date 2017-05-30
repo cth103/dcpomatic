@@ -743,12 +743,6 @@ Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream
 		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
 	}
 
-	/* Pad any gap which may be caused by audio delay */
-
-	if (_last_audio_time) {
-		fill_audio (DCPTimePeriod (*_last_audio_time, time));
-	}
-
 	/* Push */
 
 	_audio_merger.push (content_audio.audio, time);
@@ -949,6 +943,8 @@ Player::fill_audio (DCPTimePeriod period)
 	if (period.from == period.to) {
 		return;
 	}
+
+	DCPOMATIC_ASSERT (period.from < period.to);
 
 	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
 		DCPTime t = i.from;
