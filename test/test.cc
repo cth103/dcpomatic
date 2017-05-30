@@ -34,6 +34,7 @@
 #include "lib/ratio.h"
 #include "lib/log_entry.h"
 #include <dcp/dcp.h>
+#include <asdcp/AS_DCP.h>
 #include <sndfile.h>
 #include <libxml++/libxml++.h>
 #include <Magick++.h>
@@ -159,6 +160,32 @@ check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
 		}
 
 		N -= this_time;
+	}
+}
+
+void
+check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
+{
+	ASDCP::PCM::MXFReader ref_reader;
+	BOOST_REQUIRE (!ASDCP_FAILURE (ref_reader.OpenRead (ref.string().c_str())));
+
+	ASDCP::PCM::AudioDescriptor ref_desc;
+	BOOST_REQUIRE (!ASDCP_FAILURE (ref_reader.FillAudioDescriptor (ref_desc)));
+
+	ASDCP::PCM::MXFReader check_reader;
+	BOOST_REQUIRE (!ASDCP_FAILURE (check_reader.OpenRead (check.string().c_str())));
+
+	ASDCP::PCM::AudioDescriptor check_desc;
+	BOOST_REQUIRE (!ASDCP_FAILURE (check_reader.FillAudioDescriptor (check_desc)));
+
+	BOOST_REQUIRE_EQUAL (ref_desc.ContainerDuration, check_desc.ContainerDuration);
+
+	ASDCP::PCM::FrameBuffer ref_buffer (Kumu::Megabyte);
+	ASDCP::PCM::FrameBuffer check_buffer (Kumu::Megabyte);
+	for (size_t i = 0; i < ref_desc.ContainerDuration; ++i) {
+		ref_reader.ReadFrame (i, ref_buffer, 0);
+		check_reader.ReadFrame (i, check_buffer, 0);
+		BOOST_REQUIRE (memcmp(ref_buffer.RoData(), check_buffer.RoData(), ref_buffer.Size()) == 0);
 	}
 }
 

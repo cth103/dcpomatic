@@ -45,4 +45,18 @@ BOOST_AUTO_TEST_CASE (content_test1)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
+
+	boost::filesystem::path check;
+
+	for (
+		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator("build/test/content_test1/" + film->dcp_name());
+		i != boost::filesystem::directory_iterator();
+		++i) {
+
+		if (i->path().leaf().string().substr(0, 4) == "pcm_") {
+			check = *i;
+		}
+	}
+
+	check_mxf_audio_file ("test/data/content_test1.mxf", check);
 }

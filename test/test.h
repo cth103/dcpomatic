@@ -30,6 +30,7 @@ extern boost::shared_ptr<Film> new_test_film (std::string);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
 extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_wav_file (boost::filesystem::path ref, boost::filesystem::path check);
+extern void check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_xml (boost::filesystem::path, boost::filesystem::path, std::list<std::string>);
 extern void check_file (boost::filesystem::path, boost::filesystem::path);
 extern void check_image (boost::filesystem::path, boost::filesystem::path);
