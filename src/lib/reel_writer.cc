@@ -389,7 +389,14 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	DCPOMATIC_ASSERT (reel_sound_asset);
-	DCPOMATIC_ASSERT (reel_sound_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+	if (reel_sound_asset->duration() != _period.duration().frames_round (_film->video_frame_rate ())) {
+		LOG_ERROR (
+			"Reel sound asset has length %1 but reel period is %2",
+			to_string(reel_sound_asset->duration()),
+			to_string(_period.duration().frames_round(_film->video_frame_rate()))
+			);
+		DCPOMATIC_ASSERT (reel_sound_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+	}
 	reel->add (reel_sound_asset);
 
 	shared_ptr<dcp::ReelSubtitleAsset> reel_subtitle_asset;
