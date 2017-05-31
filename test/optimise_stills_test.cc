@@ -46,7 +46,8 @@ void
 check (string name, int check_full, int check_repeat)
 {
 	/* The encoder will have been destroyed so parse the logs */
-	ifstream log ("build/test/" + name + "/log");
+	string log_file = "build/test/" + name + "/log";
+	ifstream log (log_file.c_str());
 	string line;
 	int repeat = 0;
 	int full = 0;
