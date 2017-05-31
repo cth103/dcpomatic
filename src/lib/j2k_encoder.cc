@@ -220,7 +220,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(time));
 		/* This frame already has J2K data, so just write it */
 		_writer->write (pv->j2k(), position, pv->eyes ());
-	} else if (_last_player_video && _writer->can_repeat(position) && pv->same (_last_player_video)) {
+	} else if (_last_player_video[pv->eyes()] && _writer->can_repeat(position) && pv->same (_last_player_video[pv->eyes()])) {
 		LOG_DEBUG_ENCODE("Frame @ %1 REPEAT", to_string(time));
 		_writer->repeat (position, pv->eyes ());
 	} else {
@@ -244,7 +244,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 		_empty_condition.notify_all ();
 	}
 
-	_last_player_video = pv;
+	_last_player_video[pv->eyes()] = pv;
 	_last_player_video_time = time;
 }
 

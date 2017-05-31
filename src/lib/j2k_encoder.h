@@ -100,7 +100,7 @@ private:
 	boost::shared_ptr<Writer> _writer;
 	Waker _waker;
 
-	boost::shared_ptr<PlayerVideo> _last_player_video;
+	boost::shared_ptr<PlayerVideo> _last_player_video[EYES_COUNT];
 	boost::optional<DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;
