@@ -895,6 +895,8 @@ Player::seek (DCPTime time, bool accurate)
 		_last_video_time = optional<DCPTime>();
 		_last_audio_time = optional<DCPTime>();
 	}
+
+	_last_video.clear ();
 }
 
 void
