@@ -208,7 +208,8 @@ CinemaKDMs::email (
 
 		name_values['c'] = i.cinema->name;
 
-		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path();
+		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+		boost::filesystem::create_directories (zip_file);
 		zip_file /= container_name_format.get(name_values, ".zip");
 		i.make_zip_file (zip_file, filename_format, name_values);
 
