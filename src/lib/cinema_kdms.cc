@@ -246,6 +246,7 @@ CinemaKDMs::email (
 		try {
 			email.send (c->mail_server(), c->mail_port(), c->mail_user(), c->mail_password());
 		} catch (...) {
+			boost::filesystem::remove (zip_file);
 			if (log) {
 				log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
 				log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
@@ -254,6 +255,8 @@ CinemaKDMs::email (
 			}
 			throw;
 		}
+
+		boost::filesystem::remove (zip_file);
 
 		if (log) {
 			log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
