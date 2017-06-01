@@ -233,7 +233,7 @@ public:
 class ProgrammingError : public std::runtime_error
 {
 public:
-	ProgrammingError (std::string file, int line);
+	ProgrammingError (std::string file, int line, std::string message = "");
 };
 
 class TextEncodingError : public std::runtime_error

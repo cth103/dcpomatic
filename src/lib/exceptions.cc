@@ -81,8 +81,8 @@ InvalidSignerError::InvalidSignerError (string reason)
 
 }
 
-ProgrammingError::ProgrammingError (string file, int line)
-	: runtime_error (String::compose (_("Programming error at %1:%2"), file, line))
+ProgrammingError::ProgrammingError (string file, int line, string message)
+	: runtime_error (String::compose (_("Programming error at %1:%2 %3"), file, line, message))
 {
 
 }

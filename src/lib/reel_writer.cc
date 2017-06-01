@@ -361,7 +361,12 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	DCPOMATIC_ASSERT (reel_picture_asset);
-	DCPOMATIC_ASSERT (reel_picture_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+	if (reel_picture_asset->duration() != _period.duration().frames_round (_film->video_frame_rate ())) {
+		throw ProgrammingError (
+			__FILE__, __LINE__,
+			String::compose ("%1 vs %2", reel_picture_asset->duration(), _period.duration().frames_round (_film->video_frame_rate ()))
+			);
+	}
 	reel->add (reel_picture_asset);
 
 	/* If we have a hash for this asset in the CPL, assume that it is correct */
