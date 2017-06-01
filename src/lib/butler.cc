@@ -20,6 +20,7 @@
 
 #include "butler.h"
 #include "player.h"
+#include "util.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -183,7 +184,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio)
 		}
 	}
 
-	_audio.put (audio);
+	_audio.put (remap (audio, _audio_channels, _audio_mapping));
 }
 
 void

@@ -718,24 +718,7 @@ Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream
 
 	/* Remap */
 
-	shared_ptr<AudioBuffers> dcp_mapped (new AudioBuffers (_film->audio_channels(), content_audio.audio->frames()));
-	dcp_mapped->make_silent ();
-
-	AudioMapping map = stream->mapping ();
-	for (int i = 0; i < map.input_channels(); ++i) {
-		for (int j = 0; j < dcp_mapped->channels(); ++j) {
-			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
-				dcp_mapped->accumulate_channel (
-					content_audio.audio.get(),
-					i,
-					static_cast<dcp::Channel> (j),
-					map.get (i, static_cast<dcp::Channel> (j))
-					);
-			}
-		}
-	}
-
-	content_audio.audio = dcp_mapped;
+	content_audio.audio = remap (content_audio.audio, _film->audio_channels(), stream->mapping());
 
 	/* Process */
 

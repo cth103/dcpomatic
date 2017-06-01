@@ -36,6 +36,7 @@
 #include "digester.h"
 #include "audio_processor.h"
 #include "compose.hpp"
+#include "audio_buffers.h"
 #include <dcp/locale_convert.h>
 #include <dcp/util.h>
 #include <dcp/raw_convert.h>
@@ -734,4 +735,26 @@ audio_channel_types (list<int> mapped, int channels)
 	}
 
 	return make_pair (non_lfe, lfe);
+}
+
+shared_ptr<AudioBuffers>
+remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map)
+{
+	shared_ptr<AudioBuffers> mapped (new AudioBuffers (output_channels, input->frames()));
+	mapped->make_silent ();
+
+	for (int i = 0; i < map.input_channels(); ++i) {
+		for (int j = 0; j < mapped->channels(); ++j) {
+			if (map.get (i, static_cast<dcp::Channel> (j)) > 0) {
+				mapped->accumulate_channel (
+					input.get(),
+					i,
+					static_cast<dcp::Channel> (j),
+					map.get (i, static_cast<dcp::Channel> (j))
+					);
+			}
+		}
+	}
+
+	return mapped;
 }

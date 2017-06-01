@@ -27,6 +27,7 @@
 
 #include "types.h"
 #include "dcpomatic_time.h"
+#include "audio_mapping.h"
 #include <dcp/util.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/optional.hpp>
@@ -56,6 +57,7 @@ namespace dcp {
 extern std::string program_name;
 
 struct AVSubtitle;
+class AudioBuffers;
 
 extern std::string seconds_to_hms (int);
 extern std::string seconds_to_approximate_hms (int);
@@ -84,5 +86,6 @@ extern std::string audio_asset_filename (boost::shared_ptr<dcp::SoundAsset> asse
 extern float relaxed_string_to_float (std::string);
 extern std::string careful_string_filter (std::string);
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
+extern boost::shared_ptr<AudioBuffers> remap (boost::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
 
 #endif
