@@ -881,6 +881,13 @@ public:
 		table->Add (_button_sizer, wxGBPosition (r, 0), wxGBSpan (1, 4));
 		++r;
 
+		_private_key_bad = new wxStaticText (this, wxID_ANY, _("Leaf private key does not match leaf certificate!"));
+	        font = *wxSMALL_FONT;
+		font.SetWeight (wxFONTWEIGHT_BOLD);
+		_private_key_bad->SetFont (font);
+		table->Add (_private_key_bad, wxGBPosition (r, 0), wxGBSpan (1, 3));
+		++r;
+
 		_add_certificate->Bind     (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::add_certificate, this));
 		_remove_certificate->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::remove_certificate, this));
 		_export_certificate->Bind  (wxEVT_BUTTON,       boost::bind (&CertificateChainEditor::export_certificate, this));
@@ -916,7 +923,15 @@ private:
 		if (d->ShowModal() == wxID_OK) {
 			try {
 				dcp::Certificate c;
-				string const extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
+				string extra;
+				try {
+					extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
+				} catch (boost::filesystem::filesystem_error& e) {
+					error_dialog (this, wxString::Format (_("Could not load certificate (%s)"), d->GetPath().data()));
+					d->Destroy ();
+					return;
+				}
+
 				if (!extra.empty ()) {
 					message_dialog (
 						this,
@@ -925,8 +940,17 @@ private:
 						);
 				}
 				_chain->add (c);
-				_set (_chain);
-				update_certificate_list ();
+				if (!_chain->chain_valid ()) {
+					error_dialog (
+						this,
+						_("Adding this certificate would make the chain inconsistent, so it will not be added. "
+						  "Add certificates in order from root to intermediate to leaf.")
+						);
+					_chain->remove (c);
+				} else {
+					_set (_chain);
+					update_certificate_list ();
+				}
 			} catch (dcp::MiscError& e) {
 				error_dialog (this, wxString::Format (_("Could not read certificate file (%s)"), e.what ()));
 			}
@@ -1003,6 +1027,16 @@ private:
 
 			++n;
 		}
+
+		static wxColour normal = _private_key_bad->GetForegroundColour ();
+
+		if (_chain->private_key_valid ()) {
+			_private_key_bad->Hide ();
+			_private_key_bad->SetForegroundColour (normal);
+		} else {
+			_private_key_bad->Show ();
+			_private_key_bad->SetForegroundColour (wxColour (255, 0, 0));
+		}
 	}
 
 	void remake_certificates ()
@@ -1069,7 +1103,8 @@ private:
 
 	void update_sensitivity ()
 	{
-		_remove_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
+		/* We can only remove the leaf certificate */
+		_remove_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) == (_certificates->GetItemCount() - 1));
 		_export_certificate->Enable (_certificates->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
 	}
 
@@ -1140,6 +1175,7 @@ private:
 	wxStaticText* _private_key;
 	wxButton* _load_private_key;
 	wxButton* _export_private_key;
+	wxStaticText* _private_key_bad;
 	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
 	shared_ptr<dcp::CertificateChain> _chain;

@@ -194,12 +194,11 @@ try
 	boost::optional<bool> u = f.optional_bool_child ("UseAnyServers");
 	_use_any_servers = u.get_value_or (true);
 
-	list<cxml::NodePtr> servers = f.node_children ("Server");
-	for (list<cxml::NodePtr>::iterator i = servers.begin(); i != servers.end(); ++i) {
-		if ((*i)->node_children("HostName").size() == 1) {
-			_servers.push_back ((*i)->string_child ("HostName"));
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Server")) {
+		if (i->node_children("HostName").size() == 1) {
+			_servers.push_back (i->string_child ("HostName"));
 		} else {
-			_servers.push_back ((*i)->content ());
+			_servers.push_back (i->content ());
 		}
 	}
 
@@ -289,8 +288,8 @@ try
 #endif
 
 	list<cxml::NodePtr> his = f.node_children ("History");
-	for (list<cxml::NodePtr>::const_iterator i = his.begin(); i != his.end(); ++i) {
-		_history.push_back ((*i)->content ());
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("History")) {
+		_history.push_back (i->content ());
 	}
 
 	cxml::NodePtr signer = f.optional_node_child ("Signer");
@@ -434,8 +433,8 @@ Config::write_config () const
 	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
 	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
 
-	for (vector<string>::const_iterator i = _servers.begin(); i != _servers.end(); ++i) {
-		root->add_child("Server")->add_child_text (*i);
+	BOOST_FOREACH (string i, _servers) {
+		root->add_child("Server")->add_child_text (i);
 	}
 
 	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
@@ -498,20 +497,20 @@ Config::write_config () const
 
 	xmlpp::Element* signer = root->add_child ("Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
-	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->root_to_leaf ()) {
+	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
 		signer->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 
 	xmlpp::Element* decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
-	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->root_to_leaf ()) {
+	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->unordered()) {
 		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
 	}
 	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
 
-	for (vector<boost::filesystem::path>::const_iterator i = _history.begin(); i != _history.end(); ++i) {
-		root->add_child("History")->add_child_text (i->string ());
+	BOOST_FOREACH (boost::filesystem::path i, _history) {
+		root->add_child("History")->add_child_text (i.string ());
 	}
 
 	_dkdms->as_xml (root);
@@ -551,8 +550,8 @@ Config::write_cinemas () const
 	xmlpp::Element* root = doc.create_root_node ("Cinemas");
 	root->add_child("Version")->add_child_text ("1");
 
-	for (list<shared_ptr<Cinema> >::const_iterator i = _cinemas.begin(); i != _cinemas.end(); ++i) {
-		(*i)->as_xml (root->add_child ("Cinema"));
+	BOOST_FOREACH (shared_ptr<Cinema> i, _cinemas) {
+		i->as_xml (root->add_child ("Cinema"));
 	}
 
 	try {
@@ -664,12 +663,12 @@ Config::read_cinemas (cxml::Document const & f)
 {
 	_cinemas.clear ();
 	list<cxml::NodePtr> cin = f.node_children ("Cinema");
-	for (list<cxml::NodePtr>::iterator i = cin.begin(); i != cin.end(); ++i) {
+	BOOST_FOREACH (cxml::ConstNodePtr i, f.node_children("Cinema")) {
 		/* Slightly grotty two-part construction of Cinema here so that we can use
 		   shared_from_this.
 		*/
-		shared_ptr<Cinema> cinema (new Cinema (*i));
-		cinema->read_screens (*i);
+		shared_ptr<Cinema> cinema (new Cinema (i));
+		cinema->read_screens (i);
 		_cinemas.push_back (cinema);
 	}
 }
