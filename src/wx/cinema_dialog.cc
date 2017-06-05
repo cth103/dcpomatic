@@ -107,6 +107,7 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	_offsets.push_back (Offset (_("UTC+7"),     7,  0));
 	_offsets.push_back (Offset (_("UTC+8"),     8,  0));
 	_offsets.push_back (Offset (_("UTC+9"),     9,  0));
+	_offsets.push_back (Offset (_("UTC+9:30"),  9, 30));
 	_offsets.push_back (Offset (_("UTC+10"),   10,  0));
 	_offsets.push_back (Offset (_("UTC+11"),   11,  0));
 	_offsets.push_back (Offset (_("UTC+12"),   12,  0));
