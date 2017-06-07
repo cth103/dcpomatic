@@ -32,10 +32,12 @@ public:
 
 	boost::filesystem::path path () const;
 	FFmpegEncoder::Format format () const;
+	bool mixdown_to_stereo () const;
 
 private:
 	void format_changed ();
 
 	wxChoice* _format;
+	wxCheckBox* _mixdown;
 	FilePickerCtrl* _file;
 };

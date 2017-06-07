@@ -23,6 +23,7 @@
 
 #include "encoder.h"
 #include "event_history.h"
+#include "audio_mapping.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -37,7 +38,7 @@ public:
 		FORMAT_H264
 	};
 
-	FFmpegEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format);
+	FFmpegEncoder (boost::shared_ptr<const Film> film, boost::weak_ptr<Job> job, boost::filesystem::path output, Format format, bool mixdown_to_stereo);
 
 	void go ();
 
@@ -69,6 +70,7 @@ private:
 	AVDictionary* _video_options;
 	std::string _video_codec_name;
 	std::string _audio_codec_name;
+	AudioMapping _audio_mapping;
 
 	mutable boost::mutex _mutex;
 	DCPTime _last_time;

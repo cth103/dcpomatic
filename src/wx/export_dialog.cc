@@ -48,6 +48,9 @@ ExportDialog::ExportDialog (wxWindow* parent)
 	add (_("Format"), true);
 	_format = new wxChoice (this, wxID_ANY);
 	add (_format);
+	add_spacer ();
+	_mixdown = new wxCheckBox (this, wxID_ANY, _("Mix audio down to stereo"));
+	add (_mixdown, false);
 	add (_("Output file"), true);
 	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false);
 	add (_file);
@@ -81,4 +84,10 @@ ExportDialog::format () const
 {
 	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
 	return formats[_format->GetSelection()];
+}
+
+bool
+ExportDialog::mixdown_to_stereo () const
+{
+	return _mixdown->GetValue ();
 }

@@ -21,6 +21,7 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/text_subtitle_content.h"
 #include "lib/ratio.h"
 #include "lib/transcode_job.h"
 #include "test.h"
@@ -30,32 +31,52 @@ using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mov)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_mov");
 	film->set_name ("ffmpeg_transcoder_basic_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES, true);
 	encoder.go ();
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mp4)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test");
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_mp4");
 	film->set_name ("ffmpeg_transcoder_basic_test");
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
 	film->examine_and_add_content (c);
-	wait_for_jobs ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mp4", FFmpegEncoder::FORMAT_H264);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mp4", FFmpegEncoder::FORMAT_H264, false);
+	encoder.go ();
+}
+
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs");
+	film->set_name ("ffmpeg_transcoder_basic_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mp4", FFmpegEncoder::FORMAT_H264, true);
 	encoder.go ();
 }

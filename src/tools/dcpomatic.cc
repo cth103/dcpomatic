@@ -708,7 +708,7 @@ private:
 		ExportDialog* d = new ExportDialog (this);
 		if (d->ShowModal() == wxID_OK) {
 			shared_ptr<TranscodeJob> job (new TranscodeJob (_film));
-			job->set_encoder (shared_ptr<FFmpegEncoder> (new FFmpegEncoder (_film, job, d->path(), d->format())));
+			job->set_encoder (shared_ptr<FFmpegEncoder> (new FFmpegEncoder (_film, job, d->path(), d->format(), d->mixdown_to_stereo())));
 			JobManager::instance()->add (job);
 		}
 		d->Destroy ();
