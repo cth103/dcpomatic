@@ -77,6 +77,8 @@ public:
 		return _pixel_format;
 	}
 
+	static boost::shared_ptr<Image> ensure_aligned (boost::shared_ptr<Image> image);
+
 private:
 	friend struct pixel_formats_test;
 

@@ -135,7 +135,7 @@ PlayerVideo::image (dcp::NoteHandler note, function<AVPixelFormat (AVPixelFormat
 		);
 
 	if (_subtitle) {
-		out->alpha_blend (_subtitle->image, _subtitle->position);
+		out->alpha_blend (Image::ensure_aligned (_subtitle->image), _subtitle->position);
 	}
 
 	if (_fade) {

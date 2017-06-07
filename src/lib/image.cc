@@ -1035,3 +1035,13 @@ Image::fade (float f)
 		throw PixelFormatError ("fade()", _pixel_format);
 	}
 }
+
+shared_ptr<Image>
+Image::ensure_aligned (shared_ptr<Image> image)
+{
+	if (image->aligned()) {
+		return image;
+	}
+
+	return shared_ptr<Image> (new Image (image, true));
+}
