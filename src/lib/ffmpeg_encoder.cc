@@ -84,7 +84,7 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 		_audio_mapping.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
 		_audio_mapping.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
 		_audio_mapping.set (dcp::LS,     0, overall_gain);
-		_audio_mapping.set (dcp::RS,     0, overall_gain);
+		_audio_mapping.set (dcp::RS,     1, overall_gain);
 		_pending_audio.reset (new AudioBuffers (2, 0));
 	} else {
 		_audio_mapping = AudioMapping (ch, ch);
