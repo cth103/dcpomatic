@@ -41,6 +41,7 @@
 #include <dcp/certificate_chain.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
+#include <dcp/raw_convert.h>
 #include <boost/foreach.hpp>
 
 #include "i18n.h"
@@ -57,6 +58,7 @@ using boost::shared_ptr;
 using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Data;
+using dcp::raw_convert;
 
 int const ReelWriter::_info_size = 48;
 
@@ -521,14 +523,14 @@ ReelWriter::write (PlayerSubtitles subs)
 			shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset ());
 			s->set_movie_title (_film->name ());
 			s->set_language (lang);
-			s->set_reel_number ("1");
+			s->set_reel_number (raw_convert<string> (_reel_index + 1));
 			_subtitle_asset = s;
 		} else {
 			shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset ());
 			s->set_content_title_text (_film->name ());
 			s->set_language (lang);
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate (), 1));
-			s->set_reel_number (1);
+			s->set_reel_number (_reel_index + 1);
 			s->set_time_code_rate (_film->video_frame_rate ());
 			s->set_start_time (dcp::Time ());
 			if (_film->encrypted ()) {
