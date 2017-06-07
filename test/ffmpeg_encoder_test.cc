@@ -21,6 +21,7 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/audio_content.h"
 #include "lib/text_subtitle_content.h"
 #include "lib/ratio.h"
 #include "lib/transcode_job.h"
@@ -41,7 +42,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mov)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES, true);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test.mov", FFmpegEncoder::FORMAT_PRORES, false);
 	encoder.go ();
 }
 
@@ -77,6 +78,61 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<Job> job (new TranscodeJob (film));
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mp4", FFmpegEncoder::FORMAT_H264, true);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mp4", FFmpegEncoder::FORMAT_H264, false);
 	encoder.go ();
+}
+
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_mixdown");
+	film->set_name ("ffmpeg_transcoder_basic_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<FFmpegContent> L (new FFmpegContent (film, "test/data/L.wav"));
+	film->examine_and_add_content (L);
+	shared_ptr<FFmpegContent> R (new FFmpegContent (film, "test/data/R.wav"));
+	film->examine_and_add_content (R);
+	shared_ptr<FFmpegContent> C (new FFmpegContent (film, "test/data/C.wav"));
+	film->examine_and_add_content (C);
+	shared_ptr<FFmpegContent> Ls (new FFmpegContent (film, "test/data/Ls.wav"));
+	film->examine_and_add_content (Ls);
+	shared_ptr<FFmpegContent> Rs (new FFmpegContent (film, "test/data/Rs.wav"));
+	film->examine_and_add_content (Rs);
+	shared_ptr<FFmpegContent> Lfe (new FFmpegContent (film, "test/data/Lfe.wav"));
+	film->examine_and_add_content (Lfe);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	AudioMapping map (1, MAX_DCP_AUDIO_CHANNELS);
+
+	L->set_position (DCPTime::from_seconds (0));
+	map.make_zero ();
+	map.set (0, 0, 1);
+	L->audio->set_mapping (map);
+	R->set_position (DCPTime::from_seconds (1));
+	map.make_zero ();
+	map.set (0, 1, 1);
+	R->audio->set_mapping (map);
+	C->set_position (DCPTime::from_seconds (2));
+	map.make_zero ();
+	map.set (0, 2, 1);
+	C->audio->set_mapping (map);
+	Lfe->set_position (DCPTime::from_seconds (3));
+	map.make_zero ();
+	map.set (0, 3, 1);
+	Lfe->audio->set_mapping (map);
+	Ls->set_position (DCPTime::from_seconds (4));
+	map.make_zero ();
+	map.set (0, 4, 1);
+	Ls->audio->set_mapping (map);
+	Rs->set_position (DCPTime::from_seconds (5));
+	map.make_zero ();
+	map.set (0, 5, 1);
+	Rs->audio->set_mapping (map);
+
+	shared_ptr<Job> job (new TranscodeJob (film));
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_mixdown.mp4", FFmpegEncoder::FORMAT_H264, true);
+	encoder.go ();
+
+	check_file ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4");
 }
