@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-25 09:55+0100\n"
-"PO-Revision-Date: 2017-02-23 01:08+0100\n"
+"PO-Revision-Date: 2017-06-08 02:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -80,6 +80,12 @@ msgid ""
 "Audio: $AUDIO\n"
 "Length: $LENGTH\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Typ: $TYPE\n"
+"Format: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Länge: $LENGTH\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -721,12 +727,18 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Das DCP mit 24 oder 48 fps zu erstellen wird es gegenüber der "
+"Originalwiedergabe stark verlangsamen. SMPTE DCPs werden nicht von allen "
+"Projektionssystemen unterstützt."
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Das DCP mit 24 oder 48 fps zu erstellen wird es gegenüber der "
+"Originalwiedergabe stark beschleunigen. SMPTE DCPs werden nicht von allen "
+"Projektionssystemen unterstützt."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -742,7 +754,7 @@ msgstr "IEC61966-2-4"
 
 #: src/lib/ratio.cc:39
 msgid "IMAX"
-msgstr ""
+msgstr "IMAX"
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
@@ -842,7 +854,7 @@ msgstr "Unterschiedliche Auflösungen im DCP"
 
 #: src/lib/writer.cc:566
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -871,7 +883,7 @@ msgstr "Rauschunterdrückung"
 
 #: src/lib/writer.cc:564
 msgid "None"
-msgstr ""
+msgstr "Kein"
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -1036,7 +1048,7 @@ msgstr "Einige Audioanteile werden in der Abtastrate geändert auf %1kHz"
 
 #: src/lib/writer.cc:568
 msgid "Stereo"
-msgstr ""
+msgstr "Stereo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1096,9 +1108,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "Die Zertifikatskette für die Signatur ist ungültig"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "Die Zertifikatskette für die Signatur ist ungültig"
+msgstr "Die Zertifikatskette für Signaturen ist ungültig (%1)"
 
 #: src/lib/job.cc:108
 msgid ""
@@ -1169,6 +1180,9 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Diese Datei ist eine KDM und kann nicht direkt geladen werden. Weisen Sie "
+"eine KDM einem verschlüsselten DCP zu, indem sie im Inhaltsfenster ein "
+"geladenes DCP selektieren und mit <RechtsClick> \"KDM zuweisen\" ausführen!"
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1266,7 +1280,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer ('YADIF')"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1275,12 +1288,13 @@ msgid ""
 msgstr ""
 "Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
 "das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
-"Bei 25fps wird dies zwar von fast allen Projektionssystemen unterstützt "
-"werden - andere Bildraten sollten Sie aber ausschließlich in SMPTE-DCPs "
-"verwenden."
+"Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
+"unterstützt werden - andere Bildraten sollten Sie aber ausschließlich in "
+"SMPTE-DCPs verwenden. Bedenken Sie ggfs. dass auch SMPTE DCPs gegenwärtig "
+"noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
+"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1288,9 +1302,11 @@ msgid ""
 msgstr ""
 "Sie haben als DCP/Wrapping Typ 'Interop' gewählt, jedoch eine Bildrate für "
 "das DCP eingestellt, die nicht offiziell in Interop-DCPs unterstützt wird. "
-"Bei 25fps wird dies zwar von fast allen Projektionssystemen unterstützt "
-"werden - andere Bildraten sollten Sie aber ausschließlich in SMPTE-DCPs "
-"verwenden."
+"Im Falle von 25fps wird dies zwar von fast allen Projektionssystemen "
+"unterstützt werden - andere Bildraten sollten Sie aber ausschließlich in "
+"SMPTE-DCPs verwenden. Bedenken Sie ggfs. dass auch SMPTE DCPs gegenwärtig "
+"noch nicht von allen Projektionssystemen unterstützt werden. Wählen Sie "
+"Bildraten abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
 
 #: src/lib/hints.cc:149
 msgid ""
