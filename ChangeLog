@@ -1,5 +1,7 @@
 2017-06-08  Carl Hetherington  <cth@carlh.net>
 
+	* Add size and audio/subtitle languages to cover sheet (#1081).
+
 	* Updated de_DE translation from Carsten Kurz.
 
 2017-06-05  Carl Hetherington  <cth@carlh.net>

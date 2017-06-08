@@ -35,6 +35,7 @@
 #include "util.h"
 #include "reel_writer.h"
 #include <dcp/cpl.h>
+#include <dcp/locale_convert.h>
 #include <boost/foreach.hpp>
 #include <fstream>
 #include <cerrno>
@@ -556,6 +557,22 @@ Writer::write_cover_sheet ()
 	boost::algorithm::replace_all (text, "$CPL_NAME", _film->name());
 	boost::algorithm::replace_all (text, "$TYPE", _film->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->nickname());
+	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _film->isdcf_metadata().audio_language);
+	boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", _film->isdcf_metadata().subtitle_language);
+
+	boost::uintmax_t size = 0;
+	for (
+		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(_film->dir(_film->dcp_name()));
+		i != boost::filesystem::recursive_directory_iterator();
+		++i) {
+		size += boost::filesystem::file_size (i->path ());
+	}
+
+	if (size > (1000000000L)) {
+		boost::algorithm::replace_all (text, "$SIZE", String::compose ("%1GB", dcp::locale_convert<string> (size / 1000000000.0, 1, true)));
+	} else {
+		boost::algorithm::replace_all (text, "$SIZE", String::compose ("%1MB", dcp::locale_convert<string> (size / 1000000.0, 1, true)));
+	}
 
 	pair<int, int> ch = audio_channel_types (_film->mapped_audio_channels(), _film->audio_channels());
 	string description = String::compose("%1.%2", ch.first, ch.second);

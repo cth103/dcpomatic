@@ -634,7 +634,10 @@ Config::set_cover_sheet_to_default ()
 		"Type: $TYPE\n"
 		"Format: $CONTAINER\n"
 		"Audio: $AUDIO\n"
+		"Audio Language: $AUDIO_LANGUAGE\n"
+		"Subtitle Language: $SUBTITLE_LANGUAGE\n"
 		"Length: $LENGTH\n"
+		"Size: $SIZE\n"
 		);
 }
 
