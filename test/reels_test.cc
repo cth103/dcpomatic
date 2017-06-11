@@ -278,3 +278,22 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 		BOOST_CHECK (*i++ == DCPTimePeriod (DCPTime(123 + 144000), DCPTime(123 + 192000)));
 	}
 }
+
+/** Check reel split with a muxed video/audio source */
+BOOST_AUTO_TEST_CASE (reels_test6)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test6");
+	film->set_name ("reels_test6");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test2.mp4"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	film->set_j2k_bandwidth (100000000);
+	film->set_reel_type (REELTYPE_BY_LENGTH);
+	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
+	film->set_reel_length (31253154);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
+}

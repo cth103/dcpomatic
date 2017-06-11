@@ -247,23 +247,21 @@ Writer::write (shared_ptr<const AudioBuffers> audio)
 			return;
 		}
 
-		int32_t const this_time = min (
-			audio->frames() - offset,
-			(int32_t) (_audio_reel->period().duration().frames_floor(_film->audio_frame_rate()) - _audio_reel->total_written_audio_frames())
-			);
+		int32_t const remaining = audio->frames() - offset;
+		int32_t const reel_space = _audio_reel->period().duration().frames_floor(_film->audio_frame_rate()) - _audio_reel->total_written_audio_frames();
 
-		if (this_time == audio->frames()) {
+		if (remaining <= reel_space) {
 			/* Easy case: we can write all the audio to this reel */
 			_audio_reel->write (audio);
+			offset += remaining;
 		} else {
 			/* Write the part we can */
-			shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), this_time));
-			part->copy_from (audio.get(), this_time, offset, 0);
+			shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), reel_space));
+			part->copy_from (audio.get(), reel_space, offset, 0);
 			_audio_reel->write (part);
 			++_audio_reel;
+			offset += reel_space;
 		}
-
-		offset += this_time;
 	}
 }
 
