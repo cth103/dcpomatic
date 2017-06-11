@@ -21,6 +21,8 @@
 #include "butler.h"
 #include "player.h"
 #include "util.h"
+#include "log.h"
+#include "compose.hpp"
 #include <boost/weak_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -32,10 +34,16 @@ using boost::shared_ptr;
 using boost::bind;
 using boost::optional;
 
-/** Video readahead in frames */
-#define VIDEO_READAHEAD 10
-/** Audio readahead in frames */
-#define AUDIO_READAHEAD (48000*5)
+/** Minimum video readahead in frames */
+#define MINIMUM_VIDEO_READAHEAD 10
+/** Maximum video readahead in frames; should never be reached unless there are bugs in Player */
+#define MAXIMUM_VIDEO_READAHEAD 240
+/** Minimum audio readahead in frames */
+#define MINIMUM_AUDIO_READAHEAD (48000*5)
+/** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
+#define MAXIMUM_AUDIO_READAHEAD (48000*60)
+
+#define LOG_WARNING(...) _film.lock()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_WARNING);
 
 Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMapping audio_mapping, int audio_channels)
 	: _film (film)
@@ -74,7 +82,20 @@ Butler::~Butler ()
 bool
 Butler::should_run () const
 {
-	return (_video.size() < VIDEO_READAHEAD || (!_disable_audio && _audio.size() < AUDIO_READAHEAD)) && !_stop_thread && !_finished && !_died;
+	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD) {
+		LOG_WARNING ("Butler video buffers reached %1 frames", _video.size());
+	}
+
+	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD) {
+		LOG_WARNING ("Butler audio buffers reached %1 frames", _audio.size());
+	}
+
+	return (_video.size() < MINIMUM_VIDEO_READAHEAD || (!_disable_audio && _audio.size() < MINIMUM_AUDIO_READAHEAD))
+		&& (_video.size() < MAXIMUM_VIDEO_READAHEAD)
+		&& (_audio.size() < MAXIMUM_AUDIO_READAHEAD)
+		&& !_stop_thread
+		&& !_finished
+		&& !_died;
 }
 
 void
