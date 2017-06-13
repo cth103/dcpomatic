@@ -84,12 +84,18 @@ BOOST_AUTO_TEST_CASE (digest_test)
 
 	list<shared_ptr<dcp::Reel> >::const_iterator i = reels.begin ();
 	BOOST_REQUIRE (i != reels.end ());
+	BOOST_REQUIRE ((*i)->main_picture()->hash());
+	BOOST_REQUIRE ((*i)->main_picture()->asset()->file());
 	BOOST_CHECK_EQUAL ((*i)->main_picture()->hash().get(), openssl_hash ((*i)->main_picture()->asset()->file().get()));
 	++i;
 	BOOST_REQUIRE (i != reels.end ());
+	BOOST_REQUIRE ((*i)->main_picture()->hash());
+	BOOST_REQUIRE ((*i)->main_picture()->asset()->file());
 	BOOST_CHECK_EQUAL ((*i)->main_picture()->hash().get(), openssl_hash ((*i)->main_picture()->asset()->file().get()));
 	++i;
 	BOOST_REQUIRE (i != reels.end ());
+	BOOST_REQUIRE ((*i)->main_picture()->hash());
+	BOOST_REQUIRE ((*i)->main_picture()->asset()->file());
 	BOOST_CHECK_EQUAL ((*i)->main_picture()->hash().get(), openssl_hash ((*i)->main_picture()->asset()->file().get()));
 	++i;
 	BOOST_REQUIRE (i == reels.end ());
