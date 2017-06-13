@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-25 09:55+0100\n"
+"POT-Creation-Date: 2017-06-14 00:18+0100\n"
 "PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -68,14 +68,17 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:634
+#: src/lib/config.cc:633
 msgid ""
 "$CPL_NAME\n"
 "\n"
 "Type: $TYPE\n"
 "Format: $CONTAINER\n"
 "Audio: $AUDIO\n"
+"Audio Language: $AUDIO_LANGUAGE\n"
+"Subtitle Language: $SUBTITLE_LANGUAGE\n"
 "Length: $LENGTH\n"
+"Size: $SIZE\n"
 msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:78
@@ -247,15 +250,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Біт на піксель"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:536
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:537
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:528
 msgid "C"
 msgstr "C"
 
@@ -267,7 +270,7 @@ msgstr "Відмінено"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Неможливо обробити формат пікселя %1 під час %2"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:497
 msgid "Centre"
 msgstr "Центральний"
 
@@ -275,7 +278,7 @@ msgstr "Центральний"
 msgid "Channels"
 msgstr "Канали"
 
-#: src/lib/reel_writer.cc:98
+#: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
 msgstr "Перевірка данних зображення"
 
@@ -311,7 +314,7 @@ msgstr "Кольорова палітра"
 msgid "Computing digest"
 msgstr "Рендеринг"
 
-#: src/lib/writer.cc:485
+#: src/lib/writer.cc:484
 #, fuzzy
 msgid "Computing digests"
 msgstr "Рендеринг"
@@ -491,19 +494,19 @@ msgstr "не вдалося почати передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не вдалося записати в віддалений файл (%1)"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:507
 msgid "D-BOX primary"
 msgstr "D-BOX основний (DBP)"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:508
 msgid "D-BOX secondary"
 msgstr "D-BOX другорядний (DBS)"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:538
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:539
 msgid "DBS"
 msgstr "DBS"
 
@@ -540,7 +543,7 @@ msgstr "DCP-o-matic більше не підтримує фильтр `%1', то
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:614
+#: src/lib/config.cc:613
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -598,7 +601,7 @@ msgstr "Повідомити про проблему"
 msgid "Email problem report for %1"
 msgstr "Помилка відправки ключей %1 по Email"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
 msgid "Encoding"
 msgstr ""
 
@@ -690,11 +693,11 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Розбиття градієнта"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:532
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:501
 msgid "Hearing impaired"
 msgstr "Для людей з вадами слуху"
 
@@ -734,7 +737,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "Невідомо, що викликало цю помилку."
 
-#: src/lib/config.cc:268 src/lib/config.cc:611
+#: src/lib/config.cc:267 src/lib/config.cc:610
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Призначення KDM: $CPL_NAME"
 
@@ -742,27 +745,27 @@ msgstr "Призначення KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:526
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:534
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:494
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
 msgid "Left"
 msgstr "Лівий"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:503
 msgid "Left centre"
 msgstr "Лівий центральний"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:505
 msgid "Left rear surround"
 msgstr "Лівий тиловий surround"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:499
 msgid "Left surround"
 msgstr "Лівий surround"
 
@@ -770,11 +773,11 @@ msgstr "Лівий surround"
 msgid "Length"
 msgstr "Тривалість"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:529
 msgid "Lfe"
 msgstr "LFE"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
@@ -798,7 +801,7 @@ msgstr "Логаріфмічний (діапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логаріфмічний (діапазон 316:1)"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:530
 msgid "Ls"
 msgstr "Ls"
 
@@ -826,7 +829,7 @@ msgstr "Невідповідність частоти кадрів в DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Невідповідність розміру відео в DCP"
 
-#: src/lib/writer.cc:566
+#: src/lib/writer.cc:581
 msgid "Mono"
 msgstr ""
 
@@ -854,7 +857,7 @@ msgstr "У папці не знайдено відповідних зображ�
 msgid "Noise reduction"
 msgstr "Придушення шуму"
 
-#: src/lib/writer.cc:564
+#: src/lib/writer.cc:579
 msgid "None"
 msgstr ""
 
@@ -891,14 +894,15 @@ msgid "Prepared for video frame rate"
 msgstr "Підготовлене для частоти кадрів відео"
 
 #: src/lib/exceptions.cc:85
-msgid "Programming error at %1:%2"
+#, fuzzy
+msgid "Programming error at %1:%2 %3"
 msgstr "Помилка програмування %1:%2"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
 msgstr "PSA (Соціальна реклама)"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:527
 msgid "R"
 msgstr "R"
 
@@ -910,7 +914,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:535
 msgid "Rc"
 msgstr "Rc"
 
@@ -930,23 +934,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
 msgid "Right"
 msgstr "Правий"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:504
 msgid "Right centre"
 msgstr "Правий центральний"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:506
 msgid "Right rear surround"
 msgstr "Правий тиловий surround"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Right surround"
 msgstr "Правий surround"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:531
 msgid "Rs"
 msgstr "Rs"
 
@@ -1015,7 +1019,7 @@ msgstr "Розмір"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Деяке аудіо будет ресемпловано в %1kГц"
 
-#: src/lib/writer.cc:568
+#: src/lib/writer.cc:583
 msgid "Stereo"
 msgstr ""
 
@@ -1202,7 +1206,7 @@ msgstr "Не визначено"
 msgid "Untitled"
 msgstr "Безіменний"
 
-#: src/lib/util.cc:508 src/lib/util.cc:509
+#: src/lib/util.cc:509 src/lib/util.cc:510
 msgid "Unused"
 msgstr "Не використовується"
 
@@ -1214,11 +1218,11 @@ msgstr "Перевторити Л"
 msgid "Upmix R"
 msgstr "Перевторити П"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:533
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:502
 msgid "Visually impaired"
 msgstr "Для людей з вадами зору"
 
@@ -1345,7 +1349,7 @@ msgstr "копіювання %1"
 msgid "could not find stream information"
 msgstr "не вдалося знайти інформацію про поток"
 
-#: src/lib/reel_writer.cc:321
+#: src/lib/reel_writer.cc:323
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "не вдалося перемістити аудіо в DCP-пакет (%1)"
 
@@ -1390,12 +1394,12 @@ msgid "frames per second"
 msgstr "кадра(ів) в секунду"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:149 src/lib/util.cc:152
+#: src/lib/util.cc:150 src/lib/util.cc:153
 msgid "h"
 msgstr "г"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:164 src/lib/util.cc:167
+#: src/lib/util.cc:165 src/lib/util.cc:168
 msgid "m"
 msgstr "м"
 
@@ -1412,7 +1416,7 @@ msgid "name"
 msgstr "назва"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:178
+#: src/lib/util.cc:179
 msgid "s"
 msgstr "с"
 

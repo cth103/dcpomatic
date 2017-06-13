@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-25 09:55+0100\n"
+"POT-Creation-Date: 2017-06-14 00:18+0100\n"
 "PO-Revision-Date: 2017-06-08 02:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -71,14 +71,18 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr "am %1"
 
-#: src/lib/config.cc:634
+#: src/lib/config.cc:633
+#, fuzzy
 msgid ""
 "$CPL_NAME\n"
 "\n"
 "Type: $TYPE\n"
 "Format: $CONTAINER\n"
 "Audio: $AUDIO\n"
+"Audio Language: $AUDIO_LANGUAGE\n"
+"Subtitle Language: $SUBTITLE_LANGUAGE\n"
 "Length: $LENGTH\n"
+"Size: $SIZE\n"
 msgstr ""
 "$CPL_NAME\n"
 "\n"
@@ -261,15 +265,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits pro pixel"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:536
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:537
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:528
 msgid "C"
 msgstr "C"
 
@@ -281,7 +285,7 @@ msgstr "Abbruch"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kann dieses Pixelformat %1 während %2 nicht bearbeiten"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:497
 msgid "Centre"
 msgstr "Center"
 
@@ -289,7 +293,7 @@ msgstr "Center"
 msgid "Channels"
 msgstr "Audio Kanäle"
 
-#: src/lib/reel_writer.cc:98
+#: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
 msgstr "Überprüfe bestehende Bilddateien"
 
@@ -325,7 +329,7 @@ msgstr "Farbraum"
 msgid "Computing digest"
 msgstr "Zusammenfassung berechnen"
 
-#: src/lib/writer.cc:485
+#: src/lib/writer.cc:484
 msgid "Computing digests"
 msgstr "Zusammenfassung ('Hashes') berechnen"
 
@@ -510,19 +514,19 @@ msgstr "Fehler beim Start der Übertragung"
 msgid "Could not write to remote file (%1)"
 msgstr "Entfernte Datei (%1) konnte nicht gespeichert werden"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:507
 msgid "D-BOX primary"
 msgstr "D-Box primärer TC"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:508
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundärer TC"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:538
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:539
 msgid "DBS"
 msgstr "DBS"
 
@@ -560,7 +564,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-Interlacer"
 
-#: src/lib/config.cc:614
+#: src/lib/config.cc:613
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -618,7 +622,7 @@ msgstr "Email Sendebericht"
 msgid "Email problem report for %1"
 msgstr "Email Sendebericht für %1"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
 msgid "Encoding"
 msgstr "Kodieren"
 
@@ -710,11 +714,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient Glätter"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:532
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:501
 msgid "Hearing impaired"
 msgstr "HI"
 
@@ -760,7 +764,7 @@ msgstr "IMAX"
 msgid "It is not known what caused this error."
 msgstr "Ein unbekannter Fehler ist aufgetreten."
 
-#: src/lib/config.cc:268 src/lib/config.cc:611
+#: src/lib/config.cc:267 src/lib/config.cc:610
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM Zustellung: $CPL_NAME"
 
@@ -768,27 +772,27 @@ msgstr "KDM Zustellung: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel De-Interlacer"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:526
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:534
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:494
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
 msgid "Left"
 msgstr "Links"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:503
 msgid "Left centre"
 msgstr "Center links"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:505
 msgid "Left rear surround"
 msgstr "Surround hinten links"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:499
 msgid "Left surround"
 msgstr "Surround links"
 
@@ -796,11 +800,11 @@ msgstr "Surround links"
 msgid "Length"
 msgstr "Länge"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:529
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "Lfe (sub)"
 msgstr "LFE (Subwoofer)"
 
@@ -824,7 +828,7 @@ msgstr "Logarithmisch (Bereich 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmisch  (Bereich 316:1 )"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:530
 msgid "Ls"
 msgstr "Ls"
 
@@ -852,7 +856,7 @@ msgstr "Unterschiedliche Bildraten im DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Unterschiedliche Auflösungen im DCP"
 
-#: src/lib/writer.cc:566
+#: src/lib/writer.cc:581
 msgid "Mono"
 msgstr "Mono"
 
@@ -881,7 +885,7 @@ msgstr "Keine gültigen Bilddaten gefunden."
 msgid "Noise reduction"
 msgstr "Rauschunterdrückung"
 
-#: src/lib/writer.cc:564
+#: src/lib/writer.cc:579
 msgid "None"
 msgstr "Kein"
 
@@ -922,14 +926,15 @@ msgid "Prepared for video frame rate"
 msgstr "Angelegt für Bildrate"
 
 #: src/lib/exceptions.cc:85
-msgid "Programming error at %1:%2"
+#, fuzzy
+msgid "Programming error at %1:%2 %3"
 msgstr "Programmfehler bei %1:%2"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
 msgstr "Hinweis - PSA"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:527
 msgid "R"
 msgstr "R"
 
@@ -941,7 +946,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Freigabehinweis - RTG"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:535
 msgid "Rc"
 msgstr "Rc"
 
@@ -961,23 +966,23 @@ msgstr "Rec. 601 (SD)"
 msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
 msgid "Right"
 msgstr "Rechts"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:504
 msgid "Right centre"
 msgstr "Center rechts"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:506
 msgid "Right rear surround"
 msgstr "Surround hinten rechts"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Right surround"
 msgstr "Surround rechts"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:531
 msgid "Rs"
 msgstr "Rs"
 
@@ -1046,7 +1051,7 @@ msgstr "Größe"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Einige Audioanteile werden in der Abtastrate geändert auf %1kHz"
 
-#: src/lib/writer.cc:568
+#: src/lib/writer.cc:583
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1247,7 +1252,7 @@ msgstr "Unbestimmt"
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: src/lib/util.cc:508 src/lib/util.cc:509
+#: src/lib/util.cc:509 src/lib/util.cc:510
 msgid "Unused"
 msgstr "Ungenutzt"
 
@@ -1259,11 +1264,11 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:533
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:502
 msgid "Visually impaired"
 msgstr "VI"
 
@@ -1402,7 +1407,7 @@ msgstr "kopiere %1"
 msgid "could not find stream information"
 msgstr "Keine Spur-Information gefunden"
 
-#: src/lib/reel_writer.cc:321
+#: src/lib/reel_writer.cc:323
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "Audio konnte nicht in DCP (%1) kopiert werden"
 
@@ -1447,12 +1452,12 @@ msgid "frames per second"
 msgstr "Bilder pro Sekunde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:149 src/lib/util.cc:152
+#: src/lib/util.cc:150 src/lib/util.cc:153
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:164 src/lib/util.cc:167
+#: src/lib/util.cc:165 src/lib/util.cc:168
 msgid "m"
 msgstr "m"
 
@@ -1469,7 +1474,7 @@ msgid "name"
 msgstr "Name"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:178
+#: src/lib/util.cc:179
 msgid "s"
 msgstr "s"
 

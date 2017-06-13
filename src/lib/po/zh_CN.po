@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-25 09:55+0100\n"
+"POT-Creation-Date: 2017-06-14 00:18+0100\n"
 "PO-Revision-Date: 2017-02-24 06:37+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,14 +72,17 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:634
+#: src/lib/config.cc:633
 msgid ""
 "$CPL_NAME\n"
 "\n"
 "Type: $TYPE\n"
 "Format: $CONTAINER\n"
 "Audio: $AUDIO\n"
+"Audio Language: $AUDIO_LANGUAGE\n"
+"Subtitle Language: $SUBTITLE_LANGUAGE\n"
 "Length: $LENGTH\n"
+"Size: $SIZE\n"
 msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:78
@@ -243,15 +246,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:536
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:537
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:528
 msgid "C"
 msgstr "中置"
 
@@ -263,7 +266,7 @@ msgstr "取消"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:497
 msgid "Centre"
 msgstr "中置音"
 
@@ -271,7 +274,7 @@ msgstr "中置音"
 msgid "Channels"
 msgstr "声音通道"
 
-#: src/lib/reel_writer.cc:98
+#: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
@@ -307,7 +310,7 @@ msgstr "色彩空间"
 msgid "Computing digest"
 msgstr "计算Hash值中..."
 
-#: src/lib/writer.cc:485
+#: src/lib/writer.cc:484
 msgid "Computing digests"
 msgstr "计算Hash值中..."
 
@@ -473,19 +476,19 @@ msgstr "传输失败！"
 msgid "Could not write to remote file (%1)"
 msgstr "写入远程文件 (%1)失败！"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:507
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:508
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:538
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:539
 msgid "DBS"
 msgstr "DBS"
 
@@ -520,7 +523,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:614
+#: src/lib/config.cc:613
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -579,7 +582,7 @@ msgstr "通过邮件发送BUG"
 msgid "Email problem report for %1"
 msgstr "通过邮件发送BUG给 %1"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
 msgid "Encoding"
 msgstr "编码中"
 
@@ -671,11 +674,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:532
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:501
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -715,7 +718,7 @@ msgstr ""
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:268 src/lib/config.cc:611
+#: src/lib/config.cc:267 src/lib/config.cc:610
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -723,27 +726,27 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:526
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:534
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:494
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:503
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:505
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:499
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -751,11 +754,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:529
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "Lfe (sub)"
 msgstr "次低（重低音）"
 
@@ -779,7 +782,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:530
 msgid "Ls"
 msgstr "左环绕"
 
@@ -807,7 +810,7 @@ msgstr "DCP中的帧率不匹配。"
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配。"
 
-#: src/lib/writer.cc:566
+#: src/lib/writer.cc:581
 msgid "Mono"
 msgstr ""
 
@@ -835,7 +838,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:564
+#: src/lib/writer.cc:579
 msgid "None"
 msgstr ""
 
@@ -872,14 +875,15 @@ msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
 #: src/lib/exceptions.cc:85
-msgid "Programming error at %1:%2"
+#, fuzzy
+msgid "Programming error at %1:%2 %3"
 msgstr "程序内部错误%1:%2"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:527
 msgid "R"
 msgstr "右声道"
 
@@ -891,7 +895,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:535
 msgid "Rc"
 msgstr "右中"
 
@@ -911,23 +915,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:504
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:506
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:531
 msgid "Rs"
 msgstr "右环绕"
 
@@ -996,7 +1000,7 @@ msgstr "大小"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "部分音频将被重新采样到%1kHz"
 
-#: src/lib/writer.cc:568
+#: src/lib/writer.cc:583
 msgid "Stereo"
 msgstr ""
 
@@ -1163,7 +1167,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:508 src/lib/util.cc:509
+#: src/lib/util.cc:509 src/lib/util.cc:510
 msgid "Unused"
 msgstr "未使用"
 
@@ -1175,11 +1179,11 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:533
 msgid "VI"
 msgstr "视力障碍"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:502
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1296,7 +1300,7 @@ msgstr "复制中... %1"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:321
+#: src/lib/reel_writer.cc:323
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
@@ -1341,12 +1345,12 @@ msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:149 src/lib/util.cc:152
+#: src/lib/util.cc:150 src/lib/util.cc:153
 msgid "h"
 msgstr "时"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:164 src/lib/util.cc:167
+#: src/lib/util.cc:165 src/lib/util.cc:168
 msgid "m"
 msgstr "分"
 
@@ -1363,7 +1367,7 @@ msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:178
+#: src/lib/util.cc:179
 msgid "s"
 msgstr "秒"
 

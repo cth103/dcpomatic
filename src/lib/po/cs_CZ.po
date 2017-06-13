@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-25 09:55+0100\n"
+"POT-Creation-Date: 2017-06-14 00:18+0100\n"
 "PO-Revision-Date: 2017-05-10 14:55+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -71,14 +71,17 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr "na %1"
 
-#: src/lib/config.cc:634
+#: src/lib/config.cc:633
 msgid ""
 "$CPL_NAME\n"
 "\n"
 "Type: $TYPE\n"
 "Format: $CONTAINER\n"
 "Audio: $AUDIO\n"
+"Audio Language: $AUDIO_LANGUAGE\n"
+"Subtitle Language: $SUBTITLE_LANGUAGE\n"
 "Length: $LENGTH\n"
+"Size: $SIZE\n"
 msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:78
@@ -250,15 +253,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitů na pixel"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:536
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:537
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:528
 msgid "C"
 msgstr "C"
 
@@ -270,7 +273,7 @@ msgstr "Zrušené"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nemužu zpracovat formát pixelu %1 během %2"
 
-#: src/lib/util.cc:496
+#: src/lib/util.cc:497
 msgid "Centre"
 msgstr "Center"
 
@@ -278,7 +281,7 @@ msgstr "Center"
 msgid "Channels"
 msgstr "Kanály"
 
-#: src/lib/reel_writer.cc:98
+#: src/lib/reel_writer.cc:100
 msgid "Checking existing image data"
 msgstr "Kontroluji existující video data"
 
@@ -314,7 +317,7 @@ msgstr "Barevný prostor"
 msgid "Computing digest"
 msgstr "Výpočet digest"
 
-#: src/lib/writer.cc:485
+#: src/lib/writer.cc:484
 msgid "Computing digests"
 msgstr "Výpočet digests"
 
@@ -482,19 +485,19 @@ msgstr "Nemohu začít přenos"
 msgid "Could not write to remote file (%1)"
 msgstr "Nemohu zapisovat do vzdáleného souboru (%1)"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:507
 msgid "D-BOX primary"
 msgstr "D-BOX primární"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:508
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundární"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:538
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:539
 msgid "DBS"
 msgstr "DBS"
 
@@ -531,7 +534,7 @@ msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:614
+#: src/lib/config.cc:613
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -589,7 +592,7 @@ msgstr "Správa o problému s Emailem"
 msgid "Email problem report for %1"
 msgstr "Správa o problému s Emailem pro %1"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
 msgid "Encoding"
 msgstr "Kódování"
 
@@ -681,11 +684,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:532
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:501
 msgid "Hearing impaired"
 msgstr "Sluchově postižený(í)"
 
@@ -725,7 +728,7 @@ msgstr "IMAX"
 msgid "It is not known what caused this error."
 msgstr "Nevím, co zapříčinilo tuto chybu."
 
-#: src/lib/config.cc:268 src/lib/config.cc:611
+#: src/lib/config.cc:267 src/lib/config.cc:610
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM doručení: $CPL_NAME"
 
@@ -733,27 +736,27 @@ msgstr "KDM doručení: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/util.cc:525
+#: src/lib/util.cc:526
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:534
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:494
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
 msgid "Left"
 msgstr "Left (Levý)"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:503
 msgid "Left centre"
 msgstr "Left centre (Levý střed)"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:505
 msgid "Left rear surround"
 msgstr "Left rear surround (Levý zadní surround)"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:499
 msgid "Left surround"
 msgstr "Left surround (Levý surround)"
 
@@ -761,11 +764,11 @@ msgstr "Left surround (Levý surround)"
 msgid "Length"
 msgstr "Délka"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:529
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:498
 msgid "Lfe (sub)"
 msgstr "Lfe (Subwoofer)"
 
@@ -789,7 +792,7 @@ msgstr "Logarmitmický (rozsah 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarmitmický (rozsah 316:1 )"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:530
 msgid "Ls"
 msgstr "Ls"
 
@@ -817,7 +820,7 @@ msgstr "V DPC se neschoduje počet obrázků za sekundu "
 msgid "Mismatched video sizes in DCP"
 msgstr "V DCP se neshoduje velikost videa"
 
-#: src/lib/writer.cc:566
+#: src/lib/writer.cc:581
 msgid "Mono"
 msgstr ""
 
@@ -845,7 +848,7 @@ msgstr "Ve složce nebyly nalezeny žádné platné soubory."
 msgid "Noise reduction"
 msgstr "Redukce hluku"
 
-#: src/lib/writer.cc:564
+#: src/lib/writer.cc:579
 msgid "None"
 msgstr ""
 
@@ -882,14 +885,15 @@ msgid "Prepared for video frame rate"
 msgstr "Příprava pro snímkovou frekvenci videa"
 
 #: src/lib/exceptions.cc:85
-msgid "Programming error at %1:%2"
+#, fuzzy
+msgid "Programming error at %1:%2 %3"
 msgstr "Chyba při programovaní na %1:%2"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement (Veřejné oznámení služby)"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:527
 msgid "R"
 msgstr "R"
 
@@ -901,7 +905,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Přístupnost"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:535
 msgid "Rc"
 msgstr "Rc"
 
@@ -921,23 +925,23 @@ msgstr "Rec. 601 (SD)"
 msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
 msgid "Right"
 msgstr "Right (Pravý)"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:504
 msgid "Right centre"
 msgstr "Right centre (Pravý střed)"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:506
 msgid "Right rear surround"
 msgstr "Right rear surround (Pravý zadní surround)"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:500
 msgid "Right surround"
 msgstr "Right surround (Pravý surround)"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:531
 msgid "Rs"
 msgstr "Rs"
 
@@ -1006,7 +1010,7 @@ msgstr "Velikost"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Některé audio bude převzorkované na %1kHz"
 
-#: src/lib/writer.cc:568
+#: src/lib/writer.cc:583
 msgid "Stereo"
 msgstr ""
 
@@ -1187,7 +1191,7 @@ msgstr "Nespecifikované"
 msgid "Untitled"
 msgstr "Nepojmenované"
 
-#: src/lib/util.cc:508 src/lib/util.cc:509
+#: src/lib/util.cc:509 src/lib/util.cc:510
 msgid "Unused"
 msgstr "Nepoužité"
 
@@ -1199,11 +1203,11 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:533
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:502
 msgid "Visually impaired"
 msgstr "Zrakově postižený(í)"
 
@@ -1327,7 +1331,7 @@ msgstr "kopíruji %1"
 msgid "could not find stream information"
 msgstr "nemohu najít informace o streamu"
 
-#: src/lib/reel_writer.cc:321
+#: src/lib/reel_writer.cc:323
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "nemohu přesunout audio do DCP (%1)"
 
@@ -1372,12 +1376,12 @@ msgid "frames per second"
 msgstr "snímky za sekundu"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:149 src/lib/util.cc:152
+#: src/lib/util.cc:150 src/lib/util.cc:153
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:164 src/lib/util.cc:167
+#: src/lib/util.cc:165 src/lib/util.cc:168
 msgid "m"
 msgstr "m"
 
@@ -1394,7 +1398,7 @@ msgid "name"
 msgstr "jméno"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:178
+#: src/lib/util.cc:179
 msgid "s"
 msgstr "s"
 
