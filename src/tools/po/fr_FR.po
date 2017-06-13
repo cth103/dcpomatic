@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 00:18+0100\n"
-"PO-Revision-Date: 2017-02-18 17:29+0100\n"
+"POT-Creation-Date: 2017-05-25 09:56+0100\n"
+"PO-Revision-Date: 2017-06-12 23:04+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/tools/dcpomatic_kdm.cc:348
 #, c-format
@@ -104,13 +104,12 @@ msgid "Add Film..."
 msgstr "Ajouter Film..."
 
 #: src/tools/dcpomatic_kdm.cc:154
-#, fuzzy
 msgid "Add folder..."
-msgstr "Ajouter Film..."
+msgstr "Ajouter dossier.."
 
 #: src/tools/dcpomatic_kdm.cc:152
 msgid "Add..."
-msgstr ""
+msgstr "Ajouter..."
 
 #: src/tools/dcpomatic.cc:1304 src/tools/dcpomatic_kdm.cc:600
 #, c-format
@@ -191,6 +190,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Lecture du fichier KDM impossible. Peut-être est il mal formaté ou peut-être "
+"ne s'agit il pas du tout d'une KDM.\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:768
 msgid "Could not show DCP"
@@ -209,12 +212,16 @@ msgstr "Ouverture du DCP impossible (nautilus est introuvable)"
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
 msgstr ""
+"Ecriture dans le fichier cinemas à %s impossible. Vos modifications n'ont pu "
+"être sauvegardées."
 
 #: src/tools/dcpomatic.cc:1059
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
+"Ecriture dans le fichier de configuration à %s impossible. Vos modifications "
+"n'ont pu être sauvegardées."
 
 #: src/tools/dcpomatic_kdm.cc:170
 msgid "Create KDMs"
@@ -244,42 +251,39 @@ msgstr "DKDM"
 #: src/tools/dcpomatic.cc:566
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr ""
+msgstr "Voulez vous écraser le DCP existant %s?"
 
 #: src/tools/dcpomatic.cc:125
 msgid "Don't close"
 msgstr "Ne pas fermer"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Don't duplicate"
-msgstr "Ne pas fermer"
+msgstr "Ne pas dupliquer"
 
 #: src/tools/dcpomatic.cc:456 src/tools/dcpomatic.cc:471
 msgid "Duplicate Film"
-msgstr ""
+msgstr "Dupliquer le Projet"
 
 #: src/tools/dcpomatic.cc:973
 msgid "Duplicate and open..."
-msgstr ""
+msgstr "Dupliquer et ouvrir..."
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Duplicate without saving film"
-msgstr "Fermer sans sauvegarder le film"
+msgstr "Dupliquer sans sauvegarder le film"
 
 #: src/tools/dcpomatic.cc:972
 msgid "Duplicate..."
-msgstr ""
+msgstr "Dupliquer..."
 
 #: src/tools/dcpomatic.cc:1013 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
 msgstr "Serveurs d'encodage"
 
 #: src/tools/dcpomatic.cc:1005
-#, fuzzy
 msgid "Export...\tCtrl-E"
-msgstr "&Ouvrir...\tCtrl-O"
+msgstr "Exporter...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:258
 #, c-format
@@ -323,7 +327,7 @@ msgstr "Gérer les modèles..."
 
 #: src/tools/dcpomatic.cc:403
 msgid "New Film"
-msgstr ""
+msgstr "Nouveau projet"
 
 #: src/tools/dcpomatic.cc:966
 msgid "New...\tCtrl-N"
@@ -335,7 +339,7 @@ msgstr "Sortie"
 
 #: src/tools/dcpomatic_kdm.cc:156
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 #: src/tools/dcpomatic.cc:1025 src/tools/dcpomatic_kdm.cc:245
 msgid "Report a problem..."
@@ -359,18 +363,17 @@ msgid "Save changes to film \"%s\" before closing?"
 msgstr "Enregistrer les changements dans le film \"%s\" avant de fermer ?"
 
 #: src/tools/dcpomatic.cc:150
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr "Enregistrer les changements dans le film \"%s\" avant de fermer ?"
+msgstr "Enregistrer les changements dans le projet \"%s\" avant de dupliquer ?"
 
 #: src/tools/dcpomatic.cc:125
 msgid "Save film and close"
 msgstr "Enregistrer le film et fermer"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Save film and duplicate"
-msgstr "Enregistrer le film et fermer"
+msgstr "Enregistrer le projet et dupliquer"
 
 #: src/tools/dcpomatic.cc:996
 msgid "Scale to fit &height"
@@ -466,6 +469,14 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"Vous êtes en train de créer un DKDM qui est crypté par une clé privée "
+"contenue dans\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"Il est <span weight=\"bold\" size=\"larger\">TRES IMPORTANT</span> de <span "
+"weight=\"bold\" size=\"larger\">SAUVEGARDER CE FICHIER</span> car si vous le "
+"perdez, votre DKDM (et les DCPs qu'il protège) seront inutilisables."
 
 #: src/tools/dcpomatic.cc:556
 msgid ""
@@ -476,6 +487,12 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" size=\"larger"
 "\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"Vous êtes en train de créer un DCP crypté. IL sera impossible de créer des "
+"KDMs pour ce DCP sans avoir de copie du fichier <tt>metadata.xml</tt> à "
+"l'intérieur du projet et une copie des fichiers metadata dans le DCP.\n"
+"\n"
+"Assurez vous que ces fichiers sont <span weight=\"bold\" size=\"larger"
+"\">SAUVEGARDES</span>  si vous souhaitez créer des KDMs pour ce projet."
 
 #: src/tools/dcpomatic.cc:426 src/tools/dcpomatic_batch.cc:225
 msgid ""

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 00:18+0100\n"
-"PO-Revision-Date: 2017-02-18 17:27+0100\n"
+"POT-Creation-Date: 2017-05-25 09:55+0100\n"
+"PO-Revision-Date: 2017-06-12 22:48+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.6.3\n"
 
 #: src/lib/video_content.cc:448
 #, c-format
@@ -70,18 +70,21 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " %1"
 
-#: src/lib/config.cc:633
+#: src/lib/config.cc:634
 msgid ""
 "$CPL_NAME\n"
 "\n"
 "Type: $TYPE\n"
 "Format: $CONTAINER\n"
 "Audio: $AUDIO\n"
-"Audio Language: $AUDIO_LANGUAGE\n"
-"Subtitle Language: $SUBTITLE_LANGUAGE\n"
 "Length: $LENGTH\n"
-"Size: $SIZE\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Type: $TYPE\n"
+"Format: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Durée: $LENGTH\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -253,15 +256,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "bits par pixel"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:535
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:536
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:527
 msgid "C"
 msgstr "C"
 
@@ -273,7 +276,7 @@ msgstr "Annulé"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Format du pixel %1 non géré par %2"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:496
 msgid "Centre"
 msgstr "Centre"
 
@@ -281,7 +284,7 @@ msgstr "Centre"
 msgid "Channels"
 msgstr "Canaux"
 
-#: src/lib/reel_writer.cc:100
+#: src/lib/reel_writer.cc:98
 msgid "Checking existing image data"
 msgstr "Recherche de données images existantes"
 
@@ -317,7 +320,7 @@ msgstr "Espace colorimétrique"
 msgid "Computing digest"
 msgstr "fabrication rendu"
 
-#: src/lib/writer.cc:484
+#: src/lib/writer.cc:485
 msgid "Computing digests"
 msgstr "sommes de calcul en cours"
 
@@ -497,19 +500,19 @@ msgstr "Transfert de fichier impossible"
 msgid "Could not write to remote file (%1)"
 msgstr "Écriture vers fichier distant (%1) impossible"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:506
 msgid "D-BOX primary"
 msgstr "D-BOX primaire"
 
-#: src/lib/util.cc:508
+#: src/lib/util.cc:507
 msgid "D-BOX secondary"
 msgstr "D-BOX secondaire"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:537
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:538
 msgid "DBS"
 msgstr "DBS"
 
@@ -546,7 +549,7 @@ msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:613
+#: src/lib/config.cc:614
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -604,7 +607,7 @@ msgstr "Rapport de bug email"
 msgid "Email problem report for %1"
 msgstr "Envoi par mail du rapport de bug pour %1"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
+#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:174
 msgid "Encoding"
 msgstr "Encodage"
 
@@ -697,11 +700,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Corrections des bandes par dégradé"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:531
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:500
 msgid "Hearing impaired"
 msgstr "Déficients Auditifs"
 
@@ -714,12 +717,18 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Cependant, régler la cadence de votre DCP à 24 ou 48 images par seconde "
+"provoquera un ralentissement significatif de votre contenu source, et les "
+"DCPs SMPTE ne sont pas acceptés par tous les projecteurs."
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Cependant, régler la cadence de votre DCP à 24 ou 48 images par seconde "
+"provoquera une accélération significative de votre contenu source, et les "
+"DCPs SMPTE ne sont pas acceptés par tous les projecteurs."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -735,13 +744,13 @@ msgstr "IEC61966-2-4"
 
 #: src/lib/ratio.cc:39
 msgid "IMAX"
-msgstr ""
+msgstr "IMAX"
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
 msgstr "Erreur indéterminée."
 
-#: src/lib/config.cc:267 src/lib/config.cc:610
+#: src/lib/config.cc:268 src/lib/config.cc:611
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envoi KDM: $CPL_NAME"
 
@@ -749,27 +758,27 @@ msgstr "Envoi KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Désentrelaceur noyau"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:525
 msgid "L"
 msgstr "G"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:533
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:494
 msgid "Left"
 msgstr "Gauche"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:502
 msgid "Left centre"
 msgstr "Centre Gauche"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:504
 msgid "Left rear surround"
 msgstr "Ambiance arrière gauche"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:498
 msgid "Left surround"
 msgstr "Ambiance gauche"
 
@@ -777,11 +786,11 @@ msgstr "Ambiance gauche"
 msgid "Length"
 msgstr "Durée"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:528
 msgid "Lfe"
 msgstr "Bf"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:497
 msgid "Lfe (sub)"
 msgstr "Basses fréquences"
 
@@ -805,7 +814,7 @@ msgstr "Logarithmique (plage 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmique (plage 316:1)"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:529
 msgid "Ls"
 msgstr "ArG"
 
@@ -833,9 +842,9 @@ msgstr "Problème de cadence image dans le DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Problème de taille d'images dans le DCP"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:566
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -861,9 +870,9 @@ msgstr "Aucun fichier image valide dans ce dossier."
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
 
-#: src/lib/writer.cc:579
+#: src/lib/writer.cc:564
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -898,15 +907,14 @@ msgid "Prepared for video frame rate"
 msgstr "Préparé pour la cadence image"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
-msgid "Programming error at %1:%2 %3"
+msgid "Programming error at %1:%2"
 msgstr "Erreur de programme à %1:%2"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:526
 msgid "R"
 msgstr "D"
 
@@ -918,7 +926,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classification"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:534
 msgid "Rc"
 msgstr "Rc"
 
@@ -938,23 +946,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:495
 msgid "Right"
 msgstr "Droit"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:503
 msgid "Right centre"
 msgstr "Centre Droit"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:505
 msgid "Right rear surround"
 msgstr "Ambiance arrière droite"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:499
 msgid "Right surround"
 msgstr "Ambiance droite"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:530
 msgid "Rs"
 msgstr "ArD"
 
@@ -1023,9 +1031,9 @@ msgstr "Taille"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Certains sons seront ré-échantillonné à %1kHz"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:568
 msgid "Stereo"
-msgstr ""
+msgstr "Stéréo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1084,9 +1092,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "Le certificat pour la signature est invalide"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "Le certificat pour la signature est invalide"
+msgstr "La chaîne du certificat pour la signature est invalide (%1)"
 
 #: src/lib/job.cc:108
 msgid ""
@@ -1147,6 +1154,8 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Ce fichier est une KDM. Les KDM doivent être ajoutées au contenu du DCP en "
+"cliquant droit sur le contenu et en sélectionnant \"Add KDM\"."
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1210,7 +1219,7 @@ msgstr "Non-spécifié"
 msgid "Untitled"
 msgstr "Sans titre"
 
-#: src/lib/util.cc:509 src/lib/util.cc:510
+#: src/lib/util.cc:508 src/lib/util.cc:509
 msgid "Unused"
 msgstr "Non-utilisé"
 
@@ -1222,11 +1231,11 @@ msgstr "Gauche sur-mixé"
 msgid "Upmix R"
 msgstr "Droit sur-mixé"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:532
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:501
 msgid "Visually impaired"
 msgstr "Déficients Visuels"
 
@@ -1243,7 +1252,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Un autre filtre de désentrelacement"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1251,19 +1259,19 @@ msgid ""
 "projectors)."
 msgstr ""
 "Vous êtes sur le point de créer un DCP au format interop à une cadence image "
-"qui n'est pas officiellement supportée. Nous vous conseillons de créer "
-"plutôt un DCP SMPTE."
+"qui n'est pas officiellement supportée. Nous vous conseillons de modifier la "
+"cadence de votre DCP ou de créer plutôt un DCP SMPTE. (Cependant, les DCPs "
+"SMPTE ne sont pas acceptés par tous les projecteurs.)"
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
 "Vous êtes sur le point de créer un DCP au format interop à une cadence image "
-"qui n'est pas officiellement supportée. Nous vous conseillons de créer "
-"plutôt un DCP SMPTE."
+"qui n'est pas officiellement supportée. Nous vous conseillons de modifier la "
+"cadence de votre DCP ou de créer plutôt un DCP SMPTE."
 
 #: src/lib/hints.cc:149
 msgid ""
@@ -1355,7 +1363,7 @@ msgstr "copie de %1"
 msgid "could not find stream information"
 msgstr "information du flux introuvable"
 
-#: src/lib/reel_writer.cc:323
+#: src/lib/reel_writer.cc:321
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "ne peut pas transférer l'asset audio dans le DCP (%1)"
 
@@ -1400,12 +1408,12 @@ msgid "frames per second"
 msgstr "images par seconde"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:150 src/lib/util.cc:153
+#: src/lib/util.cc:149 src/lib/util.cc:152
 msgid "h"
 msgstr "h"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:165 src/lib/util.cc:168
+#: src/lib/util.cc:164 src/lib/util.cc:167
 msgid "m"
 msgstr "m"
 
@@ -1422,7 +1430,7 @@ msgid "name"
 msgstr "nom"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:179
+#: src/lib/util.cc:178
 msgid "s"
 msgstr "s"
 
