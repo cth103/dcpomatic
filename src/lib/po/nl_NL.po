@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-14 00:32+0100\n"
-"PO-Revision-Date: 2017-05-25 17:56+0200\n"
+"PO-Revision-Date: 2017-06-14 14:48+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -72,7 +72,6 @@ msgid " on %1"
 msgstr " op %1"
 
 #: src/lib/config.cc:633
-#, fuzzy
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -89,7 +88,10 @@ msgstr ""
 "Type: $TYPE\n"
 "Formaat: $CONTAINER\n"
 "Audio: $AUDIO\n"
+"Audio Taal: $AUDIO_LANGUAGE\n"
+"Ondertiteling Taal: $SUBTITLE_LANGUAGE\n"
 "Lengte: $LENGTH\n"
+"Grootte: $SIZE\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -921,9 +923,8 @@ msgid "Prepared for video frame rate"
 msgstr "Voorbereid voor video frame rate"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Programmeerfout op %1:%2"
+msgstr "Programmeerfout op %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"

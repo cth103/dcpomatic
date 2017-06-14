@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-14 00:32+0100\n"
-"PO-Revision-Date: 2017-05-25 18:00+0200\n"
+"PO-Revision-Date: 2017-06-14 15:23+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -233,6 +233,9 @@ msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
+"Het toevoegen van dit certificaat zou de keten inconsistent maken, dus het "
+"wordt niet toegevoegd.  Voeg certificaten toe in volgorde van root naar "
+"intermediate naar leaf."
 
 #: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1464
 msgid "Address"
@@ -501,9 +504,9 @@ msgid "Could not load KDM (%s)"
 msgstr "Kan KDM niet laden (%s)"
 
 #: src/wx/config_dialog.cc:930
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certificate (%s)"
-msgstr "Kan certificaat-bestand niet lezen (%s)"
+msgstr "Kan certificaat niet laden (%s)"
 
 #: src/wx/config_dialog.cc:955 src/wx/config_dialog.cc:1136
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
@@ -967,6 +970,9 @@ msgid ""
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
 "become useless.  Proceed with caution!"
 msgstr ""
+"Als u doorgaat met deze operatie, kunt u geen DKDM's meer gebruiken die u "
+"hebt aangemaakt.  Ook zullen alle KDM's die naar u zijn verzonden nutteloos "
+"worden.  Ga voorzichtig verder!"
 
 #: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
@@ -1084,11 +1090,11 @@ msgstr "Leaf common name"
 
 #: src/wx/config_dialog.cc:866
 msgid "Leaf private key"
-msgstr "Leaf private key"
+msgstr "Leaf privé-sleutel"
 
 #: src/wx/config_dialog.cc:884
 msgid "Leaf private key does not match leaf certificate!"
-msgstr ""
+msgstr "Leaf privé-sleutel komt niet overeen met leaf certificaat!"
 
 #: src/wx/video_panel.cc:105
 msgid "Left"
@@ -1178,7 +1184,7 @@ msgstr "Mbit/s"
 
 #: src/wx/export_dialog.cc:52
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "Mix audio down naar stereo"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1600,11 +1606,11 @@ msgstr "Selecteer CPL XML-bestand"
 #: src/wx/config_dialog.cc:921 src/wx/config_dialog.cc:986
 #: src/wx/config_dialog.cc:1240 src/wx/screen_dialog.cc:165
 msgid "Select Certificate File"
-msgstr "Selecteer Certificaat-bestand"
+msgstr "Selecteer certificaat-bestand"
 
 #: src/wx/config_dialog.cc:1260
 msgid "Select Chain File"
-msgstr "Selecteer Keten-Bestand"
+msgstr "Selecteer keten-bestand"
 
 #: src/wx/content_menu.cc:372
 msgid "Select KDM"
@@ -1968,9 +1974,8 @@ msgid "UTC+9"
 msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:110
-#, fuzzy
 msgid "UTC+9:30"
-msgstr "UTC+5:30"
+msgstr "UTC+9:30"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC-1"
