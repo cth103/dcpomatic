@@ -141,6 +141,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Alex Asp"));
 	supported_by.Add (wxT ("Georges Asmar"));
 	supported_by.Add (wxT ("Eric Audurier"));
+	supported_by.Add (wxT ("Kenneth Beals"));
 	supported_by.Add (wxT ("Jean-Pierre Beauviala"));
 	supported_by.Add (wxT ("Louis Belloisy"));
 	supported_by.Add (wxT ("Mike Blakesley"));
