@@ -565,7 +565,7 @@ Player::pass ()
 		audio_fill_towards += DCPTime::from_seconds (earliest->content->audio->delay() / 1000.0);
 	}
 
-	if (audio_fill_from && audio_fill_from < audio_fill_towards) {
+	if (audio_fill_from && audio_fill_from < audio_fill_towards && ((audio_fill_towards - *audio_fill_from) >= one_video_frame())) {
 		DCPTimePeriod period (*audio_fill_from, audio_fill_towards);
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
@@ -919,7 +919,7 @@ void
 Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	Audio (data, time);
-	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate ());
+	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
 }
 
 void
