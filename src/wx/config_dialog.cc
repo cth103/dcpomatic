@@ -329,21 +329,25 @@ private:
 		checked_set (_preview_sound, config->preview_sound());
 
                 optional<string> const current_so = get_preview_sound_output ();
-                string configured_so;
+                optional<string> configured_so;
 
                 if (config->preview_sound_output()) {
                         configured_so = config->preview_sound_output().get();
                 } else {
                         /* No configured output means we should use the default */
                         RtAudio audio (DCPOMATIC_RTAUDIO_API);
-                        configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+			try {
+				configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+			} catch (RtAudioError& e) {
+				/* Probably no audio devices at all */
+			}
                 }
 
-                if (!current_so || *current_so != configured_so) {
+                if (configured_so && current_so != configured_so) {
                         /* Update _preview_sound_output with the configured value */
                         unsigned int i = 0;
                         while (i < _preview_sound_output->GetCount()) {
-                                if (_preview_sound_output->GetString(i) == std_to_wx(configured_so)) {
+                                if (_preview_sound_output->GetString(i) == std_to_wx(*configured_so)) {
                                         _preview_sound_output->SetSelection (i);
                                         break;
                                 }
