@@ -563,7 +563,9 @@ Writer::write_cover_sheet ()
 		boost::filesystem::recursive_directory_iterator i = boost::filesystem::recursive_directory_iterator(_film->dir(_film->dcp_name()));
 		i != boost::filesystem::recursive_directory_iterator();
 		++i) {
-		size += boost::filesystem::file_size (i->path ());
+		if (boost::filesystem::is_regular_file (i->path ())) {
+			size += boost::filesystem::file_size (i->path ());
+		}
 	}
 
 	if (size > (1000000000L)) {
