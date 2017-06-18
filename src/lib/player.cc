@@ -531,19 +531,12 @@ Player::pass ()
 	*/
 	DCPTime fill_towards = earliest ? earliest_content : _playlist->length().ceil(_film->video_frame_rate());
 
-	/* Work out where to fill video from */
-	optional<DCPTime> video_fill_from;
-	if (_last_video_time) {
-		/* Fill from the last video or seek time */
-		video_fill_from = _last_video_time;
-	}
-
 	bool filled = false;
 	/* Fill some black if we would emit before the earliest piece of content.  This is so we act like a phantom
 	   Piece which emits black in spaces (we only emit if we are the earliest thing)
 	*/
-	if (video_fill_from && (!earliest || *video_fill_from < earliest_content) && ((fill_towards - *video_fill_from)) >= one_video_frame()) {
-		list<DCPTimePeriod> p = subtract(DCPTimePeriod(*video_fill_from, *video_fill_from + one_video_frame()), _no_video);
+	if (_last_video_time && (!earliest || *_last_video_time < earliest_content) && ((fill_towards - *_last_video_time)) >= one_video_frame()) {
+		list<DCPTimePeriod> p = subtract(DCPTimePeriod(*_last_video_time, *_last_video_time + one_video_frame()), _no_video);
 		if (!p.empty ()) {
 			emit_video (black_player_video_frame(), p.front().from);
 			filled = true;
