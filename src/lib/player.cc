@@ -528,6 +528,8 @@ Player::pass ()
 
 	/* Fill towards the next thing that might happen (or the end of the playlist).  This is to fill gaps between content,
 	   NOT to fill gaps within content (the latter is done in ::video())
+
+	   XXX: can't we just look at content position/end and fill based on that?
 	*/
 	DCPTime fill_towards = earliest ? earliest_content : _playlist->length().ceil(_film->video_frame_rate());
 
