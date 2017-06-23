@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -39,6 +39,7 @@
 
 using std::list;
 using std::string;
+using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
@@ -184,4 +185,62 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	BOOST_REQUIRE (vf_c.cpls().front()->reels().front()->main_sound());
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->entry_point(), 24);
 	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().front()->main_sound()->duration(), 72);
+}
+
+/** Make a OV with video and audio and a VF referencing the OV and adding some more video */
+BOOST_AUTO_TEST_CASE (vf_test4)
+{
+	/* Make the OV */
+	shared_ptr<Film> ov = new_test_film ("vf_test4_ov");
+	ov->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	ov->set_name ("vf_test4_ov");
+	shared_ptr<Content> video = content_factory (ov, "test/data/flat_red.png").front();
+	ov->examine_and_add_content (video);
+	wait_for_jobs ();
+	video->video->set_length (24 * 5);
+	shared_ptr<Content> audio = content_factory(ov, "test/data/white.wav").front();
+	ov->examine_and_add_content (audio);
+	wait_for_jobs ();
+	ov->make_dcp ();
+	wait_for_jobs ();
+
+	/* Make the VF */
+	shared_ptr<Film> vf = new_test_film ("vf_test4_vf");
+	vf->set_name ("vf_test4_vf");
+	vf->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	vf->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	vf->set_sequence (false);
+	shared_ptr<DCPContent> dcp (new DCPContent (vf, ov->dir (ov->dcp_name ())));
+	BOOST_REQUIRE (dcp);
+	vf->examine_and_add_content (dcp);
+	wait_for_jobs ();
+	dcp->set_position(DCPTime::from_seconds(10));
+	dcp->set_reference_video (true);
+	dcp->set_reference_audio (true);
+	shared_ptr<Content> more_video = content_factory(vf, "test/data/flat_red.png").front();
+	vf->examine_and_add_content (more_video);
+	DCPOMATIC_ASSERT (!wait_for_jobs ());
+	more_video->set_position (DCPTime ());
+	vf->write_metadata ();
+	vf->make_dcp ();
+	DCPOMATIC_ASSERT (!wait_for_jobs ());
+
+	dcp::DCP ov_c (ov->dir (ov->dcp_name ()));
+	ov_c.read ();
+	BOOST_REQUIRE_EQUAL (ov_c.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (ov_c.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_picture());
+	string const pic_id = ov_c.cpls().front()->reels().front()->main_picture()->id();
+	BOOST_REQUIRE (ov_c.cpls().front()->reels().front()->main_sound());
+	string const sound_id = ov_c.cpls().front()->reels().front()->main_sound()->id();
+	BOOST_REQUIRE (!ov_c.cpls().front()->reels().front()->main_subtitle());
+
+	dcp::DCP vf_c (vf->dir (vf->dcp_name ()));
+	vf_c.read ();
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().size(), 1);
+	BOOST_REQUIRE_EQUAL (vf_c.cpls().front()->reels().size(), 2);
+	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_picture());
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().back()->main_picture()->id(), pic_id);
+	BOOST_REQUIRE (vf_c.cpls().front()->reels().back()->main_sound());
+	BOOST_CHECK_EQUAL (vf_c.cpls().front()->reels().back()->main_sound()->id(), sound_id);
 }

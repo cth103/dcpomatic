@@ -156,20 +156,6 @@ Player::setup_pieces ()
 		}
 	}
 
-	if (!_play_referenced) {
-		BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
-			shared_ptr<DCPContent> dc = dynamic_pointer_cast<DCPContent> (i->content);
-			if (dc) {
-				if (dc->reference_video()) {
-					_no_video.push_back (DCPTimePeriod (dc->position(), dc->end()));
-				}
-				if (dc->reference_audio()) {
-					_no_audio.push_back (DCPTimePeriod (dc->position(), dc->end()));
-				}
-			}
-		}
-	}
-
 	_last_video_time = DCPTime ();
 	_last_audio_time = DCPTime ();
 	_have_valid_pieces = true;
@@ -582,6 +568,9 @@ Player::pass ()
 		}
 
 		if (_last_audio_time) {
+			/* Fill in the gap before delayed audio; this doesn't need to take into account
+			   periods with no audio as it should only occur in delayed audio case.
+			*/
 			fill_audio (DCPTimePeriod (*_last_audio_time, i->second));
 		}
 
@@ -635,21 +624,15 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	/* Fill gaps that we discover now that we have some video which needs to be emitted */
 
-	optional<DCPTime> fill_to;
 	if (_last_video_time) {
-		fill_to = _last_video_time;
-	}
-
-	if (fill_to) {
 		/* XXX: this may not work for 3D */
-		BOOST_FOREACH (DCPTimePeriod i, subtract(DCPTimePeriod (*fill_to, time), _no_video)) {
-			for (DCPTime j = i.from; j < i.to; j += one_video_frame()) {
-				LastVideoMap::const_iterator k = _last_video.find (wp);
-				if (k != _last_video.end ()) {
-					emit_video (k->second, j);
-				} else {
-					emit_video (black_player_video_frame(), j);
-				}
+		DCPTime fill_from = max (*_last_video_time, piece->content->position());
+		for (DCPTime j = fill_from; j < time; j += one_video_frame()) {
+			LastVideoMap::const_iterator k = _last_video.find (wp);
+			if (k != _last_video.end ()) {
+				emit_video (k->second, j);
+			} else {
+				emit_video (black_player_video_frame(), j);
 			}
 		}
 	}
@@ -909,18 +892,16 @@ Player::fill_audio (DCPTimePeriod period)
 
 	DCPOMATIC_ASSERT (period.from < period.to);
 
-	BOOST_FOREACH (DCPTimePeriod i, subtract(period, _no_audio)) {
-		DCPTime t = i.from;
-		while (t < i.to) {
-			DCPTime block = min (DCPTime::from_seconds (0.5), i.to - t);
-			Frame const samples = block.frames_round(_film->audio_frame_rate());
-			if (samples) {
-				shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), samples));
-				silence->make_silent ();
-				emit_audio (silence, t);
-			}
-			t += block;
+	DCPTime t = period.from;
+	while (t < period.to) {
+		DCPTime block = min (DCPTime::from_seconds (0.5), period.to - t);
+		Frame const samples = block.frames_round(_film->audio_frame_rate());
+		if (samples) {
+			shared_ptr<AudioBuffers> silence (new AudioBuffers (_film->audio_channels(), samples));
+			silence->make_silent ();
+			emit_audio (silence, t);
 		}
+		t += block;
 	}
 }
 

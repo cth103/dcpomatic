@@ -165,9 +165,6 @@ private:
 	};
 	std::map<AudioStreamPtr, StreamState> _stream_states;
 
-	std::list<DCPTimePeriod> _no_video;
-	std::list<DCPTimePeriod> _no_audio;
-
 	ActiveSubtitles _active_subtitles;
 	boost::shared_ptr<AudioProcessor> _audio_processor;
 
