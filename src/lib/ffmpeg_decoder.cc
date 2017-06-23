@@ -86,6 +86,9 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	if (c->video) {
 		video.reset (new VideoDecoder (this, c, log));
 		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate());
+		/* It doesn't matter what size or pixel format this is, it just needs to be black */
+		_black_image.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (128, 128), true));
+		_black_image->make_black ();
 	} else {
 		_pts_offset = ContentTime ();
 	}
@@ -113,6 +116,35 @@ FFmpegDecoder::flush ()
 
 	if (audio) {
 		decode_audio_packet ();
+	}
+
+	/* Make sure all streams are the same length and round up to the next video frame */
+
+	FrameRateChange const frc = _ffmpeg_content->film()->active_frame_rate_change(_ffmpeg_content->position());
+	ContentTime full_length (_ffmpeg_content->full_length(), frc);
+	full_length = full_length.ceil (frc.source);
+	if (video) {
+		double const vfr = _ffmpeg_content->video_frame_rate().get();
+		Frame const f = full_length.frames_round (vfr);
+		Frame v = video->position().frames_round (vfr);
+		while (v < f) {
+			video->emit (shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)), v);
+			++v;
+		}
+	}
+
+	BOOST_FOREACH (shared_ptr<FFmpegAudioStream> i, _ffmpeg_content->ffmpeg_audio_streams ()) {
+		ContentTime a = audio->stream_position(i);
+		while (a < full_length) {
+			ContentTime to_do = min (full_length - a, ContentTime::from_seconds (0.1));
+			shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), to_do.frames_ceil (i->frame_rate())));
+			silence->make_silent ();
+			audio->emit (i, silence, a);
+			a += to_do;
+		}
+	}
+
+	if (audio) {
 		audio->flush ();
 	}
 }

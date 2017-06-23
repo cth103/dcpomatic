@@ -93,12 +93,21 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 	_positions[stream] += data->frames();
 }
 
+/** @return Time just after the last thing that was emitted from a given stream */
+ContentTime
+AudioDecoder::stream_position (AudioStreamPtr stream) const
+{
+	map<AudioStreamPtr, Frame>::const_iterator i = _positions.find (stream);
+	DCPOMATIC_ASSERT (i != _positions.end ());
+	return ContentTime::from_frames (i->second, _content->resampled_frame_rate());
+}
+
 ContentTime
 AudioDecoder::position () const
 {
 	optional<ContentTime> p;
 	for (map<AudioStreamPtr, Frame>::const_iterator i = _positions.begin(); i != _positions.end(); ++i) {
-		ContentTime const ct = ContentTime::from_frames (i->second, _content->resampled_frame_rate());
+		ContentTime const ct = stream_position (i->first);
 		if (!p || ct < *p) {
 			p = ct;
 		}

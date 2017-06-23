@@ -513,6 +513,35 @@ Player::pass ()
 		setup_pieces ();
 	}
 
+	bool filled = false;
+
+	if (_last_video_time && !_playlist->video_content_at(*_last_video_time) && *_last_video_time < _playlist->length()) {
+		/* _last_video_time is the time just after the last video we emitted, and there is no video content
+		   at this time so we need to emit some black.
+		*/
+		emit_video (black_player_video_frame(), *_last_video_time);
+		filled = true;
+	} else if (_playlist->length() == DCPTime()) {
+		/* Special case of an empty Film; just give one black frame */
+		emit_video (black_player_video_frame(), DCPTime());
+		filled = true;
+	}
+
+	if (_last_audio_time && !_playlist->audio_content_at(*_last_audio_time) && *_last_audio_time < _playlist->length()) {
+		/* _last_audio_time is the time just after the last audio we emitted.  There is no audio here
+		   so we need to emit some silence.
+		*/
+		shared_ptr<Content> next = _playlist->next_audio_content(*_last_audio_time);
+		DCPTimePeriod period (*_last_audio_time, next ? next->position() : _playlist->length());
+		if (period.duration() > one_video_frame()) {
+			period = DCPTimePeriod (*_last_audio_time, *_last_audio_time + one_video_frame());
+		}
+		fill_audio (period);
+		filled = true;
+	}
+
+	/* Now pass() the decoder which is farthest behind where we are */
+
 	shared_ptr<Piece> earliest;
 	DCPTime earliest_content;
 
@@ -526,53 +555,7 @@ Player::pass ()
 		}
 	}
 
-	/* Fill towards the next thing that might happen (or the end of the playlist).  This is to fill gaps between content,
-	   NOT to fill gaps within content (the latter is done in ::video())
-
-	   XXX: can't we just look at content position/end and fill based on that?
-	*/
-	DCPTime fill_towards = earliest ? earliest_content : _playlist->length().ceil(_film->video_frame_rate());
-
-	bool filled = false;
-	/* Fill some black if we would emit before the earliest piece of content.  This is so we act like a phantom
-	   Piece which emits black in spaces (we only emit if we are the earliest thing)
-	*/
-	if (_last_video_time && (!earliest || *_last_video_time < earliest_content) && ((fill_towards - *_last_video_time)) >= one_video_frame()) {
-		list<DCPTimePeriod> p = subtract(DCPTimePeriod(*_last_video_time, *_last_video_time + one_video_frame()), _no_video);
-		if (!p.empty ()) {
-			emit_video (black_player_video_frame(), p.front().from);
-			filled = true;
-		}
-	} else if (_playlist->length() == DCPTime()) {
-		/* Special case of an empty Film; just give one black frame */
-		emit_video (black_player_video_frame(), DCPTime());
-		filled = true;
-	}
-
-	optional<DCPTime> audio_fill_from;
-	if (_last_audio_time) {
-		/* Fill from the last audio or seek time */
-		audio_fill_from = _last_audio_time;
-	}
-
-	DCPTime audio_fill_towards = fill_towards;
-	if (earliest && earliest->content->audio) {
-		audio_fill_towards += DCPTime::from_seconds (earliest->content->audio->delay() / 1000.0);
-	}
-
-	if (audio_fill_from && audio_fill_from < audio_fill_towards && ((audio_fill_towards - *audio_fill_from) >= one_video_frame())) {
-		DCPTimePeriod period (*audio_fill_from, audio_fill_towards);
-		if (period.duration() > one_video_frame()) {
-			period.to = period.from + one_video_frame();
-		}
-		list<DCPTimePeriod> p = subtract(period, _no_audio);
-		if (!p.empty ()) {
-			fill_audio (p.front());
-			filled = true;
-		}
-	}
-
-	if (earliest) {
+	if (!filled && earliest) {
 		earliest->done = earliest->decoder->pass ();
 	}
 
@@ -650,14 +633,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
 	DCPTimePeriod const period (time, time + one_video_frame());
 
-	/* Discard if it's outside the content's period or if it's before the last accurate seek */
-	if (
-		time < piece->content->position() ||
-		time >= piece->content->end() ||
-		(_last_video_time && time < *_last_video_time)) {
-		return;
-	}
-
 	/* Fill gaps that we discover now that we have some video which needs to be emitted */
 
 	optional<DCPTime> fill_to;
@@ -677,6 +652,14 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 				}
 			}
 		}
+	}
+
+	/* Discard if it's outside the content's period or if it's before the last accurate seek */
+	if (
+		time < piece->content->position() ||
+		time >= piece->content->end() ||
+		(_last_video_time && time < *_last_video_time)) {
+		return;
 	}
 
 	_last_video[wp].reset (
@@ -902,6 +885,7 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 		pv->set_subtitle (subtitles.get ());
 	}
 
+	cout << "Player emit @ " << to_string(time) << "\n";
 	Video (pv, time);
 
 	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {

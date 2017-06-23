@@ -59,41 +59,45 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		return;
 	}
 
-	/* Work out what we are going to emit next */
-	switch (_content->video->frame_type ()) {
-	case VIDEO_FRAME_TYPE_2D:
-		Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
-		break;
-	case VIDEO_FRAME_TYPE_3D:
-	{
-		/* We receive the same frame index twice for 3D; hence we know which
-		   frame this one is.
-		*/
-		bool const same = (_last_emitted && _last_emitted.get() == frame);
-		Data (ContentVideo (image, frame, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
-		_last_emitted = frame;
-		break;
-	}
-	case VIDEO_FRAME_TYPE_3D_ALTERNATE:
-		Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
-		frame /= 2;
-		break;
-	case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
-		Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
-		Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
-		break;
-	case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
-		Data (ContentVideo (image, frame, EYES_LEFT, PART_TOP_HALF));
-		Data (ContentVideo (image, frame, EYES_RIGHT, PART_BOTTOM_HALF));
-		break;
-	case VIDEO_FRAME_TYPE_3D_LEFT:
-		Data (ContentVideo (image, frame, EYES_LEFT, PART_WHOLE));
-		break;
-	case VIDEO_FRAME_TYPE_3D_RIGHT:
-		Data (ContentVideo (image, frame, EYES_RIGHT, PART_WHOLE));
-		break;
-	default:
-		DCPOMATIC_ASSERT (false);
+	FrameRateChange const frc = _content->film()->active_frame_rate_change (_content->position());
+	for (int i = 0; i < frc.repeat; ++i) {
+		switch (_content->video->frame_type ()) {
+		case VIDEO_FRAME_TYPE_2D:
+			Data (ContentVideo (image, frame, EYES_BOTH, PART_WHOLE));
+			break;
+		case VIDEO_FRAME_TYPE_3D:
+		{
+			/* We receive the same frame index twice for 3D; hence we know which
+			   frame this one is.
+			*/
+			bool const same = (_last_emitted && _last_emitted.get() == frame);
+			Data (ContentVideo (image, frame, same ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
+			_last_emitted = frame;
+			break;
+		}
+		case VIDEO_FRAME_TYPE_3D_ALTERNATE:
+			Data (ContentVideo (image, frame / 2, (frame % 2) ? EYES_RIGHT : EYES_LEFT, PART_WHOLE));
+			frame /= 2;
+			break;
+		case VIDEO_FRAME_TYPE_3D_LEFT_RIGHT:
+			Data (ContentVideo (image, frame, EYES_LEFT, PART_LEFT_HALF));
+			Data (ContentVideo (image, frame, EYES_RIGHT, PART_RIGHT_HALF));
+			break;
+		case VIDEO_FRAME_TYPE_3D_TOP_BOTTOM:
+			Data (ContentVideo (image, frame, EYES_LEFT, PART_TOP_HALF));
+			Data (ContentVideo (image, frame, EYES_RIGHT, PART_BOTTOM_HALF));
+			break;
+		case VIDEO_FRAME_TYPE_3D_LEFT:
+			Data (ContentVideo (image, frame, EYES_LEFT, PART_WHOLE));
+			break;
+		case VIDEO_FRAME_TYPE_3D_RIGHT:
+			Data (ContentVideo (image, frame, EYES_RIGHT, PART_WHOLE));
+			break;
+		default:
+			DCPOMATIC_ASSERT (false);
+		}
+
+		++frame;
 	}
 
 	_position = ContentTime::from_frames (frame, _content->active_video_frame_rate ());

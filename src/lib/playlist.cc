@@ -24,6 +24,7 @@
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_content.h"
 #include "image_decoder.h"
+#include "audio_content.h"
 #include "content_factory.h"
 #include "dcp_content.h"
 #include "job.h"
@@ -559,12 +560,37 @@ bool
 Playlist::audio_content_at (DCPTime time) const
 {
 	BOOST_FOREACH (shared_ptr<Content> i, _content) {
-		if (i->audio && i->position() <= time && time < i->end()) {
+		if (!i->audio) {
+			continue;
+		}
+		DCPTime end = i->end ();
+		if (i->audio->delay() < 0) {
+			end += DCPTime::from_seconds (i->audio->delay() / 1000.0);
+		}
+		if (i->position() <= time && time < end) {
 			return true;
 		}
 	}
 
 	return false;
+}
+
+shared_ptr<Content>
+Playlist::next_audio_content (DCPTime time) const
+{
+	shared_ptr<Content> next;
+	DCPTime next_position;
+	BOOST_FOREACH (shared_ptr<Content> i, _content) {
+		if (!i->audio) {
+			continue;
+		}
+		if (i->position() >= time && (!next || i->position() < next_position)) {
+			next = i;
+			next_position = i->position();
+		}
+	}
+
+	return next;
 }
 
 pair<double, double>

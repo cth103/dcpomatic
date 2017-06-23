@@ -51,6 +51,8 @@ public:
 	void seek ();
 	void flush ();
 
+	ContentTime stream_position (AudioStreamPtr stream) const;
+
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:

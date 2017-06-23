@@ -36,6 +36,7 @@ class Log;
 class VideoFilterGraph;
 class FFmpegAudioStream;
 class AudioBuffers;
+class Image;
 struct ffmpeg_pts_offset_test;
 
 /** @class FFmpegDecoder
@@ -75,4 +76,6 @@ private:
 	ContentTime _pts_offset;
 	boost::optional<ContentTime> _current_subtitle_to;
 	bool _have_current_subtitle;
+
+	boost::shared_ptr<Image> _black_image;
 };

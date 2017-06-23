@@ -109,7 +109,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 			note
 			);
 	} else {
-		xyz = dcp::xyz_to_xyz (image->data()[0], image->size(), image->stride()[0]);
+		xyz.reset (new dcp::OpenJPEGImage (image->data()[0], image->size(), image->stride()[0]));
 	}
 
 	return xyz;
