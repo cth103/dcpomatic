@@ -747,14 +747,14 @@ private:
 #ifdef DCPOMATIC_LINUX
 		int r = system ("which nautilus");
 		if (WEXITSTATUS (r) == 0) {
-			r = system (string ("nautilus " + _film->directory()->string()).c_str ());
+			r = system (String::compose("nautilus \"%1\"", _film->directory()->string()).c_str());
 			if (WEXITSTATUS (r)) {
 				error_dialog (this, _("Could not show DCP (could not run nautilus)"));
 			}
 		} else {
 			int r = system ("which konqueror");
 			if (WEXITSTATUS (r) == 0) {
-				r = system (string ("konqueror " + _film->directory()->string()).c_str ());
+				r = system (String::compose ("konqueror \"%1\"", _film->directory()->string()).c_str());
 				if (WEXITSTATUS (r)) {
 					error_dialog (this, _("Could not show DCP (could not run konqueror)"));
 				}
@@ -763,7 +763,7 @@ private:
 #endif
 
 #ifdef DCPOMATIC_OSX
-		int r = system (string ("open -R " + _film->dir (_film->dcp_name (false)).string ()).c_str ());
+		int r = system (String::compose ("open -R \"%1\"", _film->dir (_film->dcp_name(false)).string()).c_str());
 		if (WEXITSTATUS (r)) {
 			error_dialog (this, _("Could not show DCP"));
 		}
