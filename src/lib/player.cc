@@ -885,7 +885,6 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 		pv->set_subtitle (subtitles.get ());
 	}
 
-	cout << "Player emit @ " << to_string(time) << "\n";
 	Video (pv, time);
 
 	if (pv->eyes() == EYES_BOTH || pv->eyes() == EYES_RIGHT) {
