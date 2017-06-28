@@ -175,9 +175,8 @@ DCPPanel::DCPPanel (wxNotebook* n, boost::shared_ptr<Film> film)
 	_standard->Bind              (wxEVT_CHOICE,  boost::bind (&DCPPanel::standard_changed, this));
 	_upload_after_make_dcp->Bind (wxEVT_CHECKBOX, boost::bind (&DCPPanel::upload_after_make_dcp_changed, this));
 
-	vector<DCPContentType const *> const ct = DCPContentType::all ();
-	for (vector<DCPContentType const *>::const_iterator i = ct.begin(); i != ct.end(); ++i) {
-		_dcp_content_type->Append (std_to_wx ((*i)->pretty_name ()));
+	BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
+		_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
 	}
 
 	_reel_type->Append (_("Single reel"));
@@ -445,7 +444,7 @@ void
 DCPPanel::setup_container ()
 {
 	int n = 0;
-	vector<Ratio const *> ratios = Ratio::all ();
+	vector<Ratio const *> ratios = Ratio::containers ();
 	vector<Ratio const *>::iterator i = ratios.begin ();
 	while (i != ratios.end() && *i != _film->container ()) {
 		++i;
@@ -474,7 +473,7 @@ DCPPanel::container_changed ()
 
 	int const n = _container->GetSelection ();
 	if (n >= 0) {
-		vector<Ratio const *> ratios = Ratio::all ();
+		vector<Ratio const *> ratios = Ratio::containers ();
 		DCPOMATIC_ASSERT (n < int (ratios.size()));
 		_film->set_container (ratios[n]);
 	}
@@ -653,6 +652,11 @@ DCPPanel::make_video_panel ()
 		++r;
 	}
 
+	add_label_to_sizer (grid, panel, _("Resolution"), true, wxGBPosition (r, 0));
+	_resolution = new wxChoice (panel, wxID_ANY);
+	grid->Add (_resolution, wxGBPosition (r, 1));
+	++r;
+
 	add_label_to_sizer (grid, panel, _("Frame Rate"), true, wxGBPosition (r, 0));
 	{
 		_frame_rate_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -669,11 +673,6 @@ DCPPanel::make_video_panel ()
 
 	_three_d = new wxCheckBox (panel, wxID_ANY, _("3D"));
 	grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
-	++r;
-
-	add_label_to_sizer (grid, panel, _("Resolution"), true, wxGBPosition (r, 0));
-	_resolution = new wxChoice (panel, wxID_ANY);
-	grid->Add (_resolution, wxGBPosition (r, 1));
 	++r;
 
 	{
@@ -696,14 +695,12 @@ DCPPanel::make_video_panel ()
 	_resolution->Bind       (wxEVT_CHOICE,       boost::bind (&DCPPanel::resolution_changed, this));
 	_three_d->Bind	 	(wxEVT_CHECKBOX,      boost::bind (&DCPPanel::three_d_changed, this));
 
-	vector<Ratio const *> const ratio = Ratio::all ();
-	for (vector<Ratio const *>::const_iterator i = ratio.begin(); i != ratio.end(); ++i) {
-		_container->Append (std_to_wx ((*i)->nickname ()));
+	BOOST_FOREACH (Ratio const * i, Ratio::containers()) {
+		_container->Append (std_to_wx(i->container_nickname()));
 	}
 
-	list<int> const dfr = Config::instance()->allowed_dcp_frame_rates ();
-	for (list<int>::const_iterator i = dfr.begin(); i != dfr.end(); ++i) {
-		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (*i)));
+	BOOST_FOREACH (int i, Config::instance()->allowed_dcp_frame_rates()) {
+		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (i)));
 	}
 
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);

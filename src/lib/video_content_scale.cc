@@ -95,7 +95,7 @@ string
 VideoContentScale::name () const
 {
 	if (_ratio) {
-		return _ratio->nickname ();
+		return _ratio->image_nickname ();
 	}
 
 	if (_scale) {

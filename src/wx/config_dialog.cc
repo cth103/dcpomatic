@@ -577,24 +577,22 @@ private:
 
 		_isdcf_metadata_button->Bind (wxEVT_BUTTON, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this));
 
-		vector<Ratio const *> ratios = Ratio::all ();
-		for (size_t i = 0; i < ratios.size(); ++i) {
-			_container->Append (std_to_wx (ratios[i]->nickname ()));
+		BOOST_FOREACH (Ratio const * i, Ratio::containers()) {
+			_container->Append (std_to_wx(i->container_nickname()));
 		}
 
 		_container->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::container_changed, this));
 
 		_scale_to->Append (_("Guess from content"));
 
-		for (size_t i = 0; i < ratios.size(); ++i) {
-			_scale_to->Append (std_to_wx (ratios[i]->nickname ()));
+		BOOST_FOREACH (Ratio const * i, Ratio::all()) {
+			_scale_to->Append (std_to_wx(i->image_nickname()));
 		}
 
 		_scale_to->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::scale_to_changed, this));
 
-		vector<DCPContentType const *> const ct = DCPContentType::all ();
-		for (size_t i = 0; i < ct.size(); ++i) {
-			_dcp_content_type->Append (std_to_wx (ct[i]->pretty_name ()));
+		BOOST_FOREACH (DCPContentType const * i, DCPContentType::all()) {
+			_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
 		}
 
 		setup_audio_channels_choice (_dcp_audio_channels, 2);

@@ -28,10 +28,11 @@
 class Ratio : public boost::noncopyable
 {
 public:
-	Ratio (float ratio, std::string id, std::string n, std::string d)
+	Ratio (float ratio, std::string id, std::string in, boost::optional<std::string> cn, std::string d)
 		: _ratio (ratio)
 		, _id (id)
-		, _nickname (n)
+		, _image_nickname (in)
+		, _container_nickname (cn)
 		, _isdcf_name (d)
 	{}
 
@@ -39,9 +40,11 @@ public:
 		return _id;
 	}
 
-	std::string nickname () const {
-		return _nickname;
+	std::string image_nickname () const {
+		return _image_nickname;
 	}
+
+	std::string container_nickname () const;
 
 	std::string isdcf_name () const {
 		return _isdcf_name;
@@ -55,16 +58,21 @@ public:
 	static Ratio const * from_id (std::string i);
 	static Ratio const * from_ratio (float r);
 	static Ratio const * nearest_from_ratio (float r);
+
 	static std::vector<Ratio const *> all () {
 		return _ratios;
 	}
+
+	static std::vector<Ratio const *> containers ();
 
 private:
 	float _ratio;
 	/** id for use in metadata */
 	std::string _id;
-	/** nickname (e.g. Flat, Scope) */
-	std::string _nickname;
+	/** nickname when used to describe an image ratio (e.g. Flat, Scope) */
+	std::string _image_nickname;
+	/** nickname when used to describe a container ratio */
+	boost::optional<std::string> _container_nickname;
 	std::string _isdcf_name;
 
 	static std::vector<Ratio const *> _ratios;

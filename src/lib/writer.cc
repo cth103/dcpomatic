@@ -554,7 +554,7 @@ Writer::write_cover_sheet ()
 	string text = Config::instance()->cover_sheet ();
 	boost::algorithm::replace_all (text, "$CPL_NAME", _film->name());
 	boost::algorithm::replace_all (text, "$TYPE", _film->dcp_content_type()->pretty_name());
-	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->nickname());
+	boost::algorithm::replace_all (text, "$CONTAINER", _film->container()->container_nickname());
 	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _film->isdcf_metadata().audio_language);
 	boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", _film->isdcf_metadata().subtitle_language);
 

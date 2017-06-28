@@ -33,8 +33,8 @@ class wxSpinCtrl;
 class wxSizer;
 
 class AudioDialog;
-
 class Film;
+class Ratio;
 
 class DCPPanel : public boost::noncopyable
 {
