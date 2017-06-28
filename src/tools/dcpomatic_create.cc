@@ -240,7 +240,10 @@ main (int argc, char* argv[])
 			list<shared_ptr<Content> > content;
 			try {
 				content.push_back (shared_ptr<DCPContent> (new DCPContent (film, can)));
-			} catch (dcp::DCPReadError& e) {
+			} catch (dcp::DCPReadError) {
+				/* I guess it's not a DCP */
+				content = content_factory (film, can);
+			} catch (boost::filesystem::filesystem_error) {
 				/* I guess it's not a DCP */
 				content = content_factory (film, can);
 			}
