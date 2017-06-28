@@ -692,7 +692,7 @@ DCPPanel::make_video_panel ()
 	_j2k_bandwidth->Bind	(wxEVT_SPINCTRL,      boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
 	/* Also listen to wxEVT_TEXT so that typing numbers directly in is always noticed */
 	_j2k_bandwidth->Bind	(wxEVT_TEXT,          boost::bind (&DCPPanel::j2k_bandwidth_changed, this));
-	_resolution->Bind       (wxEVT_CHOICE,       boost::bind (&DCPPanel::resolution_changed, this));
+	_resolution->Bind       (wxEVT_CHOICE,        boost::bind (&DCPPanel::resolution_changed, this));
 	_three_d->Bind	 	(wxEVT_CHECKBOX,      boost::bind (&DCPPanel::three_d_changed, this));
 
 	BOOST_FOREACH (Ratio const * i, Ratio::containers()) {
