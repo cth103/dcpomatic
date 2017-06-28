@@ -32,6 +32,7 @@
 #include "content_subtitle.h"
 #include "audio_stream.h"
 #include "audio_merger.h"
+#include "empty.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <list>
@@ -108,7 +109,6 @@ private:
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);
 	DCPTime one_video_frame () const;
 	void fill_audio (DCPTimePeriod period);
-	void audio_transform (boost::shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time);
 	std::pair<boost::shared_ptr<AudioBuffers>, DCPTime> discard_audio (
 		boost::shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTime discard_to
 		) const;
@@ -164,6 +164,9 @@ private:
 		DCPTime last_push_end;
 	};
 	std::map<AudioStreamPtr, StreamState> _stream_states;
+
+	Empty _black;
+	Empty _silent;
 
 	ActiveSubtitles _active_subtitles;
 	boost::shared_ptr<AudioProcessor> _audio_processor;

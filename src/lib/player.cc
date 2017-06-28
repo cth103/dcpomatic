@@ -156,6 +156,9 @@ Player::setup_pieces ()
 		}
 	}
 
+	_black = Empty (_playlist, bind(&Content::video, _1));
+	_silent = Empty (_playlist, bind(&Content::audio, _1));
+
 	_last_video_time = DCPTime ();
 	_last_audio_time = DCPTime ();
 	_have_valid_pieces = true;
@@ -356,8 +359,9 @@ DCPTime
 Player::resampled_audio_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
 	/* See comment in dcp_to_content_video */
-	DCPTime const d = DCPTime::from_frames (f, _film->audio_frame_rate()) - DCPTime (piece->content->trim_start(), piece->frc);
-	return max (DCPTime (), d + piece->content->position ());
+	return DCPTime::from_frames (f, _film->audio_frame_rate())
+		- DCPTime (piece->content->trim_start(), piece->frc)
+		+ piece->content->position();
 }
 
 ContentTime
@@ -499,34 +503,7 @@ Player::pass ()
 		setup_pieces ();
 	}
 
-	bool filled = false;
-
-	if (_last_video_time && !_playlist->video_content_at(*_last_video_time) && *_last_video_time < _playlist->length()) {
-		/* _last_video_time is the time just after the last video we emitted, and there is no video content
-		   at this time so we need to emit some black.
-		*/
-		emit_video (black_player_video_frame(), *_last_video_time);
-		filled = true;
-	} else if (_playlist->length() == DCPTime()) {
-		/* Special case of an empty Film; just give one black frame */
-		emit_video (black_player_video_frame(), DCPTime());
-		filled = true;
-	}
-
-	if (_last_audio_time && !_playlist->audio_content_at(*_last_audio_time) && *_last_audio_time < _playlist->length()) {
-		/* _last_audio_time is the time just after the last audio we emitted.  There is no audio here
-		   so we need to emit some silence.
-		*/
-		shared_ptr<Content> next = _playlist->next_audio_content(*_last_audio_time);
-		DCPTimePeriod period (*_last_audio_time, next ? next->position() : _playlist->length());
-		if (period.duration() > one_video_frame()) {
-			period = DCPTimePeriod (*_last_audio_time, *_last_audio_time + one_video_frame());
-		}
-		fill_audio (period);
-		filled = true;
-	}
-
-	/* Now pass() the decoder which is farthest behind where we are */
+	/* Find the decoder or empty which is farthest behind where we are and make it emit some data */
 
 	shared_ptr<Piece> earliest;
 	DCPTime earliest_content;
@@ -541,8 +518,27 @@ Player::pass ()
 		}
 	}
 
-	if (!filled && earliest) {
+	bool done = false;
+
+	if (!_black.done() && (!earliest ||_black.position() < earliest_content)) {
+		/* There is some black that must be emitted */
+		emit_video (black_player_video_frame(), _black.position());
+		_black.set_position (_black.position() + one_video_frame());
+	} else if (!_silent.done() && (!earliest || _silent.position() < earliest_content)) {
+		/* There is some silence that must be emitted */
+		DCPTimePeriod period (_silent.period_at_position());
+		if (period.duration() > one_video_frame()) {
+			period.to = period.from + one_video_frame();
+		}
+		fill_audio (period);
+		_silent.set_position (period.to);
+	} else if (_playlist->length() == DCPTime()) {
+		/* Special case of an empty Film; just give one black frame */
+		emit_video (black_player_video_frame(), DCPTime());
+	} else if (earliest) {
 		earliest->done = earliest->decoder->pass ();
+	} else {
+		done = true;
 	}
 
 	/* Emit any audio that is ready */
@@ -567,17 +563,10 @@ Player::pass ()
 			*i = cut;
 		}
 
-		if (_last_audio_time) {
-			/* Fill in the gap before delayed audio; this doesn't need to take into account
-			   periods with no audio as it should only occur in delayed audio case.
-			*/
-			fill_audio (DCPTimePeriod (*_last_audio_time, i->second));
-		}
-
 		emit_audio (i->first, i->second);
 	}
 
-	return !earliest && !filled;
+	return done;
 }
 
 optional<PositionImage>
@@ -663,37 +652,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	emit_video (_last_video[wp], time);
 }
 
-/** Do our common processing on some audio */
-void
-Player::audio_transform (shared_ptr<AudioContent> content, AudioStreamPtr stream, ContentAudio content_audio, DCPTime time)
-{
-	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
-
-	/* Gain */
-
-	if (content->gain() != 0) {
-		shared_ptr<AudioBuffers> gain (new AudioBuffers (content_audio.audio));
-		gain->apply_gain (content->gain ());
-		content_audio.audio = gain;
-	}
-
-	/* Remap */
-
-	content_audio.audio = remap (content_audio.audio, _film->audio_channels(), stream->mapping());
-
-	/* Process */
-
-	if (_audio_processor) {
-		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
-	}
-
-	/* Push */
-
-	_audio_merger.push (content_audio.audio, time);
-	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
-	_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
-}
-
 void
 Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
@@ -708,7 +666,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	DCPOMATIC_ASSERT (content);
 
 	/* Compute time in the DCP */
-	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame) + DCPTime::from_seconds (content->delay() / 1000.0);
+	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame);
 	/* And the end of this block in the DCP */
 	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
 
@@ -734,7 +692,31 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		content_audio.audio = cut;
 	}
 
-	audio_transform (content, stream, content_audio, time);
+	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
+
+	/* Gain */
+
+	if (content->gain() != 0) {
+		shared_ptr<AudioBuffers> gain (new AudioBuffers (content_audio.audio));
+		gain->apply_gain (content->gain ());
+		content_audio.audio = gain;
+	}
+
+	/* Remap */
+
+	content_audio.audio = remap (content_audio.audio, _film->audio_channels(), stream->mapping());
+
+	/* Process */
+
+	if (_audio_processor) {
+		content_audio.audio = _audio_processor->run (content_audio.audio, _film->audio_channels ());
+	}
+
+	/* Push */
+
+	_audio_merger.push (content_audio.audio, time);
+	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
+	_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
 }
 
 void
@@ -856,6 +838,9 @@ Player::seek (DCPTime time, bool accurate)
 		_last_video_time = optional<DCPTime>();
 		_last_audio_time = optional<DCPTime>();
 	}
+
+	_black.set_position (time);
+	_silent.set_position (time);
 
 	_last_video.clear ();
 }

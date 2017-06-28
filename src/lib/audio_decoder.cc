@@ -60,6 +60,11 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 		   we just count samples, as it seems that ContentTimes are unreliable from
 		   FFmpegDecoder (not quite continuous; perhaps due to some rounding error).
 		*/
+		if (_content->delay() > 0) {
+			/* Insert silence to give the delay */
+			silence (_content->delay ());
+		}
+		time += ContentTime::from_seconds (_content->delay() / 1000.0);
 		_positions[stream] = time.frames_round (stream->frame_rate ());
 	}
 
@@ -138,5 +143,21 @@ AudioDecoder::flush ()
 			Data (i->first, ContentAudio (ro, _positions[i->first]));
 			_positions[i->first] += ro->frames();
 		}
+	}
+
+	if (_content->delay() < 0) {
+		/* Finish off with the gap caused by the delay */
+		silence (-_content->delay ());
+	}
+}
+
+void
+AudioDecoder::silence (int milliseconds)
+{
+	BOOST_FOREACH (AudioStreamPtr i, _content->streams ()) {
+		int const samples = ContentTime::from_seconds(milliseconds / 1000.0).frames_round(i->frame_rate());
+		shared_ptr<AudioBuffers> silence (new AudioBuffers (i->channels(), samples));
+		silence->make_silent ();
+		Data (i, ContentAudio (silence, _positions[i]));
 	}
 }

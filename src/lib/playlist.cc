@@ -563,11 +563,7 @@ Playlist::audio_content_at (DCPTime time) const
 		if (!i->audio) {
 			continue;
 		}
-		DCPTime end = i->end ();
-		if (i->audio->delay() < 0) {
-			end += DCPTime::from_seconds (i->audio->delay() / 1000.0);
-		}
-		if (i->position() <= time && time < end) {
+		if (i->position() <= time && time < i->end()) {
 			return true;
 		}
 	}

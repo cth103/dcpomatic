@@ -24,10 +24,13 @@
  */
 
 #include "lib/dcpomatic_time.h"
+#include "lib/dcpomatic_time_coalesce.h"
 #include <boost/test/unit_test.hpp>
 #include <list>
+#include <iostream>
 
 using std::list;
+using std::cout;
 
 BOOST_AUTO_TEST_CASE (dcpomatic_time_test)
 {
@@ -213,4 +216,87 @@ BOOST_AUTO_TEST_CASE (dcpomatic_time_period_subtract_test7)
 	BOOST_CHECK (i->to == DCPTime (356));
 	++i;
 	BOOST_REQUIRE (i == r.end ());
+}
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_subtract_test8)
+{
+	DCPTimePeriod A (DCPTime(0), DCPTime(32000));
+	list<DCPTimePeriod> B;
+	B.push_back (DCPTimePeriod (DCPTime(8000), DCPTime(20000)));
+	B.push_back (DCPTimePeriod (DCPTime(28000), DCPTime(32000)));
+	list<DCPTimePeriod> r = subtract (A, B);
+	list<DCPTimePeriod>::const_iterator i = r.begin ();
+	BOOST_REQUIRE (i != r.end ());
+	BOOST_CHECK (*i == DCPTimePeriod(DCPTime(0), DCPTime(8000)));
+	++i;
+	BOOST_REQUIRE (i != r.end ());
+	BOOST_CHECK (*i == DCPTimePeriod(DCPTime(20000), DCPTime(28000)));
+	++i;
+	BOOST_REQUIRE (i == r.end ());
+}
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test1)
+{
+	DCPTimePeriod A (DCPTime(14), DCPTime(29));
+	DCPTimePeriod B (DCPTime(45), DCPTime(91));
+	list<DCPTimePeriod> p;
+	p.push_back (A);
+	p.push_back (B);
+	list<DCPTimePeriod> q = coalesce (p);
+	BOOST_REQUIRE_EQUAL (q.size(), 2);
+	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(29)));
+	BOOST_CHECK (q.back () == DCPTimePeriod(DCPTime(45), DCPTime(91)));
+}
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test2)
+{
+	DCPTimePeriod A (DCPTime(14), DCPTime(29));
+	DCPTimePeriod B (DCPTime(26), DCPTime(91));
+	list<DCPTimePeriod> p;
+	p.push_back (A);
+	p.push_back (B);
+	list<DCPTimePeriod> q = coalesce (p);
+	BOOST_REQUIRE_EQUAL (q.size(), 1);
+	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(91)));
+}
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test3)
+{
+	DCPTimePeriod A (DCPTime(14), DCPTime(29));
+	DCPTimePeriod B (DCPTime(29), DCPTime(91));
+	list<DCPTimePeriod> p;
+	p.push_back (A);
+	p.push_back (B);
+	list<DCPTimePeriod> q = coalesce (p);
+	BOOST_REQUIRE_EQUAL (q.size(), 1);
+	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(91)));
+}
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test4)
+{
+	DCPTimePeriod A (DCPTime(14), DCPTime(29));
+	DCPTimePeriod B (DCPTime(20), DCPTime(91));
+	DCPTimePeriod C (DCPTime(35), DCPTime(106));
+	list<DCPTimePeriod> p;
+	p.push_back (A);
+	p.push_back (B);
+	p.push_back (C);
+	list<DCPTimePeriod> q = coalesce (p);
+	BOOST_REQUIRE_EQUAL (q.size(), 1);
+	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(106)));
+}
+
+BOOST_AUTO_TEST_CASE (dcpomatic_time_period_coalesce_test5)
+{
+	DCPTimePeriod A (DCPTime(14), DCPTime(29));
+	DCPTimePeriod B (DCPTime(20), DCPTime(91));
+	DCPTimePeriod C (DCPTime(100), DCPTime(106));
+	list<DCPTimePeriod> p;
+	p.push_back (A);
+	p.push_back (B);
+	p.push_back (C);
+	list<DCPTimePeriod> q = coalesce (p);
+	BOOST_REQUIRE_EQUAL (q.size(), 2);
+	BOOST_CHECK (q.front() == DCPTimePeriod(DCPTime(14), DCPTime(91)));
+	BOOST_CHECK (q.back()  == DCPTimePeriod(DCPTime(100), DCPTime(106)));
 }

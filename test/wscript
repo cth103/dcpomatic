@@ -54,6 +54,7 @@ def build(bld):
                  dcpomatic_time_test.cc
                  dcp_subtitle_test.cc
                  digest_test.cc
+                 empty_test.cc
                  ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
