@@ -615,11 +615,15 @@ private:
 	{
 		Config* config = Config::instance ();
 
-		vector<Ratio const *> ratios = Ratio::all ();
-		for (size_t i = 0; i < ratios.size(); ++i) {
-			if (ratios[i] == config->default_container ()) {
+		vector<Ratio const *> containers = Ratio::containers ();
+		for (size_t i = 0; i < containers.size(); ++i) {
+			if (containers[i] == config->default_container ()) {
 				_container->SetSelection (i);
 			}
+		}
+
+		vector<Ratio const *> ratios = Ratio::all ();
+		for (size_t i = 0; i < ratios.size(); ++i) {
 			if (ratios[i] == config->default_scale_to ()) {
 				_scale_to->SetSelection (i + 1);
 			}
@@ -691,7 +695,7 @@ private:
 
 	void container_changed ()
 	{
-		vector<Ratio const *> ratio = Ratio::all ();
+		vector<Ratio const *> ratio = Ratio::containers ();
 		Config::instance()->set_default_container (ratio[_container->GetSelection()]);
 	}
 
