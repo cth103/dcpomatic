@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 00:32+0100\n"
+"POT-Creation-Date: 2017-06-29 11:37+0100\n"
 "PO-Revision-Date: 2017-02-24 06:37+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -110,29 +110,51 @@ msgstr "%1 [视频]"
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", 像素宽高比 %.2f:1"
 
-#: src/lib/ratio.cc:36
+#: src/lib/ratio.cc:37
 msgid "1.19"
 msgstr "1.19"
 
+#: src/lib/ratio.cc:38
+msgid "1.33 (4:3)"
+msgstr ""
+
+#: src/lib/ratio.cc:39
+#, fuzzy
+msgid "1.38 (Academy)"
+msgstr "学院模式"
+
 #: src/lib/ratio.cc:40
+msgid "1.43 (IMAX)"
+msgstr ""
+
+#: src/lib/ratio.cc:41
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:41
-msgid "16:9"
-msgstr "16:9"
+#: src/lib/ratio.cc:42
+msgid "1.78 (16:9 or HD)"
+msgstr ""
 
 #: src/lib/ratio.cc:43
+msgid "1.85 (Flat)"
+msgstr ""
+
+#: src/lib/ratio.cc:46
+#, fuzzy
+msgid "1.90 (Full frame)"
+msgstr "Full(全幅/1.90)"
+
+#: src/lib/ratio.cc:44
 msgid "2.35"
 msgstr "2.35"
+
+#: src/lib/ratio.cc:45
+msgid "2.39 (Scope)"
+msgstr ""
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
 msgstr "3D 降噪"
-
-#: src/lib/ratio.cc:37
-msgid "4:3"
-msgstr "4:3"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:132
@@ -156,10 +178,6 @@ msgstr ""
 #: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 (HDR-HLG)"
-
-#: src/lib/ratio.cc:38
-msgid "Academy"
-msgstr "学院模式"
 
 #: src/lib/dcp_content_type.cc:55
 msgid "Advertisement"
@@ -492,6 +510,16 @@ msgstr "一级D-BOX通道"
 msgid "DBS"
 msgstr "DBS"
 
+#: src/lib/ratio.cc:43
+#, fuzzy
+msgid "DCI Flat"
+msgstr "Flat(遮幅/1.77/1.78/1.85)"
+
+#: src/lib/ratio.cc:45
+#, fuzzy
+msgid "DCI Scope"
+msgstr "Scope(宽银幕/2.35/2.39)"
+
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
@@ -626,10 +654,6 @@ msgstr "电影"
 msgid "Finding length"
 msgstr "定位长度"
 
-#: src/lib/ratio.cc:42
-msgid "Flat"
-msgstr "Flat(遮幅/1.77/1.78/1.85)"
-
 #: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "帧率"
@@ -642,7 +666,7 @@ msgstr "Full(全幅/1.90)"
 msgid "Full (0-%1)"
 msgstr "全幅 (0-%1)"
 
-#: src/lib/ratio.cc:45
+#: src/lib/ratio.cc:46
 msgid "Full frame"
 msgstr "Full(全幅/1.90)"
 
@@ -709,10 +733,6 @@ msgstr "IEC61966-2-1 (sRGB或sYCC)"
 #: src/lib/ffmpeg_content.cc:540
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
-
-#: src/lib/ratio.cc:39
-msgid "IMAX"
-msgstr ""
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
@@ -810,7 +830,7 @@ msgstr "DCP中的帧率不匹配。"
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配。"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:583
 msgid "Mono"
 msgstr ""
 
@@ -838,7 +858,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:579
+#: src/lib/writer.cc:581
 msgid "None"
 msgstr ""
 
@@ -980,10 +1000,6 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH错误 (%1)"
 
-#: src/lib/ratio.cc:44
-msgid "Scope"
-msgstr "Scope(宽银幕/2.35/2.39)"
-
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "发送电子邮件"
@@ -1000,7 +1016,7 @@ msgstr "大小"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "部分音频将被重新采样到%1kHz"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:585
 msgid "Stereo"
 msgstr ""
 
@@ -1147,7 +1163,7 @@ msgstr "服务器接收到意外的图像类型！"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:282
+#: src/lib/ffmpeg_decoder.cc:314
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1403,6 +1419,12 @@ msgstr "视频帧"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容。"
+
+#~ msgid "16:9"
+#~ msgstr "16:9"
+
+#~ msgid "4:3"
+#~ msgstr "4:3"
 
 #~ msgid ""
 #~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "

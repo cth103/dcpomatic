@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 00:32+0100\n"
+"POT-Creation-Date: 2017-06-29 11:37+0100\n"
 "PO-Revision-Date: 2017-06-08 02:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -116,29 +116,51 @@ msgstr "%1 [Bild]"
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", Pixelseitenverhältnis %.2f:1"
 
-#: src/lib/ratio.cc:36
+#: src/lib/ratio.cc:37
 msgid "1.19"
 msgstr "1.19:1"
 
+#: src/lib/ratio.cc:38
+msgid "1.33 (4:3)"
+msgstr ""
+
+#: src/lib/ratio.cc:39
+#, fuzzy
+msgid "1.38 (Academy)"
+msgstr "1.375:1 (Academy)"
+
 #: src/lib/ratio.cc:40
+msgid "1.43 (IMAX)"
+msgstr ""
+
+#: src/lib/ratio.cc:41
 msgid "1.66"
 msgstr "1.66:1"
 
-#: src/lib/ratio.cc:41
-msgid "16:9"
-msgstr "1.78:1 (16:9/HD)"
+#: src/lib/ratio.cc:42
+msgid "1.78 (16:9 or HD)"
+msgstr ""
 
 #: src/lib/ratio.cc:43
+msgid "1.85 (Flat)"
+msgstr ""
+
+#: src/lib/ratio.cc:46
+#, fuzzy
+msgid "1.90 (Full frame)"
+msgstr "Full Container (DCI)"
+
+#: src/lib/ratio.cc:44
 msgid "2.35"
 msgstr "2.35:1 (35mm Scope)"
+
+#: src/lib/ratio.cc:45
+msgid "2.39 (Scope)"
+msgstr ""
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
 msgstr "3D Rauschunterdrückung"
-
-#: src/lib/ratio.cc:37
-msgid "4:3"
-msgstr "1.33:1 (4:3)"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:132
@@ -164,10 +186,6 @@ msgstr ""
 #: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
-
-#: src/lib/ratio.cc:38
-msgid "Academy"
-msgstr "1.375:1 (Academy)"
 
 #: src/lib/dcp_content_type.cc:55
 msgid "Advertisement"
@@ -530,6 +548,16 @@ msgstr "DBP"
 msgid "DBS"
 msgstr "DBS"
 
+#: src/lib/ratio.cc:43
+#, fuzzy
+msgid "DCI Flat"
+msgstr "1.85:1 (Flat/BW)"
+
+#: src/lib/ratio.cc:45
+#, fuzzy
+msgid "DCI Scope"
+msgstr "2.39:1 (DCI Scope)"
+
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
 msgstr "DCP XML Untertitel"
@@ -666,10 +694,6 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Ermittle Länge"
 
-#: src/lib/ratio.cc:42
-msgid "Flat"
-msgstr "1.85:1 (Flat/BW)"
-
 #: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "Bildrate"
@@ -682,7 +706,7 @@ msgstr "Voll"
 msgid "Full (0-%1)"
 msgstr "Voll (0-%1)"
 
-#: src/lib/ratio.cc:45
+#: src/lib/ratio.cc:46
 msgid "Full frame"
 msgstr "Full Container (DCI)"
 
@@ -755,10 +779,6 @@ msgstr "IEC61966-2-1 (sRGB or sYCC)"
 #: src/lib/ffmpeg_content.cc:540
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
-
-#: src/lib/ratio.cc:39
-msgid "IMAX"
-msgstr "IMAX"
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
@@ -856,7 +876,7 @@ msgstr "Unterschiedliche Bildraten im DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Unterschiedliche Auflösungen im DCP"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:583
 msgid "Mono"
 msgstr "Mono"
 
@@ -885,7 +905,7 @@ msgstr "Keine gültigen Bilddaten gefunden."
 msgid "Noise reduction"
 msgstr "Rauschunterdrückung"
 
-#: src/lib/writer.cc:579
+#: src/lib/writer.cc:581
 msgid "None"
 msgstr "Kein"
 
@@ -1031,10 +1051,6 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "SSH Fehler (%1)"
 
-#: src/lib/ratio.cc:44
-msgid "Scope"
-msgstr "2.39:1 (DCI Scope)"
-
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "Sende Email"
@@ -1051,7 +1067,7 @@ msgstr "Größe"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Einige Audioanteile werden in der Abtastrate geändert auf %1kHz"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:585
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1232,7 +1248,7 @@ msgstr "Ungültiges Bildformat vom Server erhalten"
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: src/lib/ffmpeg_decoder.cc:282
+#: src/lib/ffmpeg_decoder.cc:314
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Audio Sample Format (%1) nicht erkannt."
 
@@ -1509,6 +1525,15 @@ msgstr "Video Bilder"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
+
+#~ msgid "16:9"
+#~ msgstr "1.78:1 (16:9/HD)"
+
+#~ msgid "4:3"
+#~ msgstr "1.33:1 (4:3)"
+
+#~ msgid "IMAX"
+#~ msgstr "IMAX"
 
 #~ msgid ""
 #~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "

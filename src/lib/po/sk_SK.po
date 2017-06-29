@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 00:32+0100\n"
+"POT-Creation-Date: 2017-06-29 11:37+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -114,29 +114,51 @@ msgstr "%1 [video]"
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", pomer strán obrazových bodov %.2f:1"
 
-#: src/lib/ratio.cc:36
+#: src/lib/ratio.cc:37
 msgid "1.19"
 msgstr "1.19"
 
+#: src/lib/ratio.cc:38
+msgid "1.33 (4:3)"
+msgstr ""
+
+#: src/lib/ratio.cc:39
+#, fuzzy
+msgid "1.38 (Academy)"
+msgstr "1.375:1 (Academy)"
+
 #: src/lib/ratio.cc:40
+msgid "1.43 (IMAX)"
+msgstr ""
+
+#: src/lib/ratio.cc:41
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:41
-msgid "16:9"
-msgstr "16:9"
+#: src/lib/ratio.cc:42
+msgid "1.78 (16:9 or HD)"
+msgstr ""
 
 #: src/lib/ratio.cc:43
+msgid "1.85 (Flat)"
+msgstr ""
+
+#: src/lib/ratio.cc:46
+#, fuzzy
+msgid "1.90 (Full frame)"
+msgstr "Full frame (Celý obraz)"
+
+#: src/lib/ratio.cc:44
 msgid "2.35"
+msgstr ""
+
+#: src/lib/ratio.cc:45
+msgid "2.39 (Scope)"
 msgstr ""
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
 msgstr "3D denoiser"
-
-#: src/lib/ratio.cc:37
-msgid "4:3"
-msgstr "1.33:1 (4:3)"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:132
@@ -158,10 +180,6 @@ msgstr ""
 #: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr ""
-
-#: src/lib/ratio.cc:38
-msgid "Academy"
-msgstr "1.375:1 (Academy)"
 
 #: src/lib/dcp_content_type.cc:55
 msgid "Advertisement"
@@ -508,6 +526,16 @@ msgstr "DBP"
 msgid "DBS"
 msgstr "DBS"
 
+#: src/lib/ratio.cc:43
+#, fuzzy
+msgid "DCI Flat"
+msgstr "Flat"
+
+#: src/lib/ratio.cc:45
+#, fuzzy
+msgid "DCI Scope"
+msgstr "Scope (2.39:1)"
+
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
 msgstr "DCP XML titulky"
@@ -647,10 +675,6 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Dĺžka videa"
 
-#: src/lib/ratio.cc:42
-msgid "Flat"
-msgstr "Flat"
-
 #: src/lib/content.cc:381
 #, fuzzy
 msgid "Frame rate"
@@ -664,7 +688,7 @@ msgstr "Full"
 msgid "Full (0-%1)"
 msgstr "Full (0-%1)"
 
-#: src/lib/ratio.cc:45
+#: src/lib/ratio.cc:46
 msgid "Full frame"
 msgstr "Full frame (Celý obraz)"
 
@@ -732,10 +756,6 @@ msgstr "IEC61966-2-1 (sRGB alebo sYCC)"
 #: src/lib/ffmpeg_content.cc:540
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
-
-#: src/lib/ratio.cc:39
-msgid "IMAX"
-msgstr ""
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
@@ -833,7 +853,7 @@ msgstr "Nezhoduje sa počet obrázkov za sekundu v DPC"
 msgid "Mismatched video sizes in DCP"
 msgstr "Nehoduje sa veľkosť videa v DCO"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:583
 msgid "Mono"
 msgstr ""
 
@@ -861,7 +881,7 @@ msgstr "Žiadne platné súbory nebolo nájdené v priečinku."
 msgid "Noise reduction"
 msgstr "Redukcia hluku"
 
-#: src/lib/writer.cc:579
+#: src/lib/writer.cc:581
 msgid "None"
 msgstr ""
 
@@ -1006,10 +1026,6 @@ msgstr ""
 msgid "SSH error (%1)"
 msgstr "SSH chyba (%1)"
 
-#: src/lib/ratio.cc:44
-msgid "Scope"
-msgstr "Scope (2.39:1)"
-
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "Posielam email"
@@ -1026,7 +1042,7 @@ msgstr ""
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Nejaké audio bude prevzorkované na %1kHz"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:585
 msgid "Stereo"
 msgstr ""
 
@@ -1186,7 +1202,7 @@ msgstr "Neočakávaný typ obrazu obdŕžaný od servera "
 msgid "Unknown error"
 msgstr "Neznáma chyba"
 
-#: src/lib/ffmpeg_decoder.cc:282
+#: src/lib/ffmpeg_decoder.cc:314
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nerozpoznaná vzorkovacia frekvencia audia (%1)"
 
@@ -1434,6 +1450,12 @@ msgstr "video snímky"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Musíte pridať obsah do DCP pred tým, ako ho vytvoríte"
+
+#~ msgid "16:9"
+#~ msgstr "16:9"
+
+#~ msgid "4:3"
+#~ msgstr "1.33:1 (4:3)"
 
 #~ msgid "Finding length and subtitles"
 #~ msgstr "Hľadám dĺžku a titulky"

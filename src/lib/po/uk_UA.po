@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 00:32+0100\n"
+"POT-Creation-Date: 2017-06-29 11:37+0100\n"
 "PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -106,29 +106,51 @@ msgstr "%1 [відео]"
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", співвідношення сторін пікселей %.2f:1"
 
-#: src/lib/ratio.cc:36
+#: src/lib/ratio.cc:37
 msgid "1.19"
 msgstr "1.19"
 
+#: src/lib/ratio.cc:38
+msgid "1.33 (4:3)"
+msgstr ""
+
+#: src/lib/ratio.cc:39
+#, fuzzy
+msgid "1.38 (Academy)"
+msgstr "Academy (1.33:1)"
+
 #: src/lib/ratio.cc:40
+msgid "1.43 (IMAX)"
+msgstr ""
+
+#: src/lib/ratio.cc:41
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:41
-msgid "16:9"
-msgstr "16:9"
+#: src/lib/ratio.cc:42
+msgid "1.78 (16:9 or HD)"
+msgstr ""
 
 #: src/lib/ratio.cc:43
+msgid "1.85 (Flat)"
+msgstr ""
+
+#: src/lib/ratio.cc:46
+#, fuzzy
+msgid "1.90 (Full frame)"
+msgstr "FULL (2048x1080)"
+
+#: src/lib/ratio.cc:44
 msgid "2.35"
 msgstr "2.35"
+
+#: src/lib/ratio.cc:45
+msgid "2.39 (Scope)"
+msgstr ""
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
 msgstr "Придушення шуму 3D"
-
-#: src/lib/ratio.cc:37
-msgid "4:3"
-msgstr "4:3"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:132
@@ -153,10 +175,6 @@ msgstr ""
 #: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
-
-#: src/lib/ratio.cc:38
-msgid "Academy"
-msgstr "Academy (1.33:1)"
 
 #: src/lib/dcp_content_type.cc:55
 msgid "Advertisement"
@@ -510,6 +528,16 @@ msgstr "DBP"
 msgid "DBS"
 msgstr "DBS"
 
+#: src/lib/ratio.cc:43
+#, fuzzy
+msgid "DCI Flat"
+msgstr "Flat (1998x1080)"
+
+#: src/lib/ratio.cc:45
+#, fuzzy
+msgid "DCI Scope"
+msgstr "Scope (2048x858)"
+
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитри"
@@ -645,10 +673,6 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчет длительности"
 
-#: src/lib/ratio.cc:42
-msgid "Flat"
-msgstr "Flat (1998x1080)"
-
 #: src/lib/content.cc:381
 msgid "Frame rate"
 msgstr "Частота кадрів"
@@ -661,7 +685,7 @@ msgstr "Повний"
 msgid "Full (0-%1)"
 msgstr "Повний (0-%1)"
 
-#: src/lib/ratio.cc:45
+#: src/lib/ratio.cc:46
 msgid "Full frame"
 msgstr "FULL (2048x1080)"
 
@@ -728,10 +752,6 @@ msgstr "IEC61966-2-1 (sRGB или sYCC)"
 #: src/lib/ffmpeg_content.cc:540
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
-
-#: src/lib/ratio.cc:39
-msgid "IMAX"
-msgstr ""
 
 #: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
 msgid "It is not known what caused this error."
@@ -829,7 +849,7 @@ msgstr "Невідповідність частоти кадрів в DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Невідповідність розміру відео в DCP"
 
-#: src/lib/writer.cc:581
+#: src/lib/writer.cc:583
 msgid "Mono"
 msgstr ""
 
@@ -857,7 +877,7 @@ msgstr "У папці не знайдено відповідних зображ�
 msgid "Noise reduction"
 msgstr "Придушення шуму"
 
-#: src/lib/writer.cc:579
+#: src/lib/writer.cc:581
 msgid "None"
 msgstr ""
 
@@ -999,10 +1019,6 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 msgid "SSH error (%1)"
 msgstr "Помилка SSH (%1)"
 
-#: src/lib/ratio.cc:44
-msgid "Scope"
-msgstr "Scope (2048x858)"
-
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
 msgstr "Відправка пошти"
@@ -1019,7 +1035,7 @@ msgstr "Розмір"
 msgid "Some audio will be resampled to %1kHz"
 msgstr "Деяке аудіо будет ресемпловано в %1kГц"
 
-#: src/lib/writer.cc:583
+#: src/lib/writer.cc:585
 msgid "Stereo"
 msgstr ""
 
@@ -1186,7 +1202,7 @@ msgstr "Сервером отриманий неочікуваний тип зо
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
-#: src/lib/ffmpeg_decoder.cc:282
+#: src/lib/ffmpeg_decoder.cc:314
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Нерозпізнаний формат аудіо (%1)"
 
@@ -1452,6 +1468,12 @@ msgstr "відеокадри"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Додайте контент в проект перед створенням DCP"
+
+#~ msgid "16:9"
+#~ msgstr "16:9"
+
+#~ msgid "4:3"
+#~ msgstr "4:3"
 
 #~ msgid ""
 #~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
