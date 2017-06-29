@@ -41,7 +41,7 @@ Ratio::setup_ratios ()
 	_ratios.push_back (new Ratio (float(1800) / 1080, "166",        _("1.66"),              optional<string>(),      "166"));
 	_ratios.push_back (new Ratio (float(1920) / 1080, "178",        _("1.78 (16:9 or HD)"), optional<string>(),      "178"));
 	_ratios.push_back (new Ratio (float(1998) / 1080, "185",        _("1.85 (Flat)"),       string(_("DCI Flat")),   "F"));
-	_ratios.push_back (new Ratio (float(2048) /  872, "235",        _("2.35"),              optional<string>(),      "S"));
+	_ratios.push_back (new Ratio (float(2048) /  872, "235",        _("2.35 (35mm Scope)"), optional<string>(),      "S"));
 	_ratios.push_back (new Ratio (float(2048) /  858, "239",        _("2.39 (Scope)"),      string(_("DCI Scope")),  "S"));
 	_ratios.push_back (new Ratio (float(2048) / 1080, "full-frame", _("1.90 (Full frame)"), string(_("Full frame")), "C"));
 }

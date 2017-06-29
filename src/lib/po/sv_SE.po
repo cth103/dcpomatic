@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2016-10-25 17:57+0100\n"
 "Last-Translator: Adam Klotblixt <adam.klotblixt@gmail.com>\n"
 "Language-Team: \n"
@@ -143,8 +143,8 @@ msgid "1.90 (Full frame)"
 msgstr "Full frame"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2,35"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1480,6 +1480,9 @@ msgstr "bildrutor"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Du måste lägga till något innehåll till DCP:n innan du skapar den"
+
+#~ msgid "2.35"
+#~ msgstr "2,35"
 
 #~ msgid "16:9"
 #~ msgstr "16:9"

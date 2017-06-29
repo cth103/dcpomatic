@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2016-10-26 09:26-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -143,8 +143,8 @@ msgid "1.90 (Full frame)"
 msgstr "Frame completo"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2.35"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1463,6 +1463,9 @@ msgstr "fotogramas"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Tienes que añadir contenido al DCP antes de crearlo."
+
+#~ msgid "2.35"
+#~ msgstr "2.35"
 
 #~ msgid "16:9"
 #~ msgstr "16:9"

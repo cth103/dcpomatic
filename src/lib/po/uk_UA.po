@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2017-01-18 12:15+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -141,8 +141,8 @@ msgid "1.90 (Full frame)"
 msgstr "FULL (2048x1080)"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2.35"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1468,6 +1468,9 @@ msgstr "відеокадри"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Додайте контент в проект перед створенням DCP"
+
+#~ msgid "2.35"
+#~ msgstr "2.35"
 
 #~ msgid "16:9"
 #~ msgstr "16:9"

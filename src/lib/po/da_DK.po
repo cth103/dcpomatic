@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2016-11-07 21:38+0100\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -143,8 +143,8 @@ msgid "1.90 (Full frame)"
 msgstr "Fuldt billede"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2.35"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1472,6 +1472,9 @@ msgstr "videobilleder"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Du er nødt til at tilføje indhold til DCP'en før du kan danne den"
+
+#~ msgid "2.35"
+#~ msgstr "2.35"
 
 #~ msgid "16:9"
 #~ msgstr "16:9"

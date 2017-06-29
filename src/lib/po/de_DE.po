@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2017-06-08 02:29+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -151,8 +151,8 @@ msgid "1.90 (Full frame)"
 msgstr "Full Container (DCI)"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2.35:1 (35mm Scope)"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1525,6 +1525,9 @@ msgstr "Video Bilder"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
+
+#~ msgid "2.35"
+#~ msgstr "2.35:1 (35mm Scope)"
 
 #~ msgid "16:9"
 #~ msgstr "1.78:1 (16:9/HD)"

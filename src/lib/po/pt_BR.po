@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2016-06-20 01:14-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -146,8 +146,8 @@ msgid "1.90 (Full frame)"
 msgstr "Tela cheia"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2.35"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1462,6 +1462,9 @@ msgstr "quadros de vídeo"
 #, fuzzy
 msgid "you must add some content to the DCP before creating it"
 msgstr "Você precisa adicionar conteúdo ao DCP antes de criá-lo"
+
+#~ msgid "2.35"
+#~ msgstr "2.35"
 
 #~ msgid "16:9"
 #~ msgstr "16:9"

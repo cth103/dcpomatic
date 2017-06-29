@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:37+0100\n"
+"POT-Creation-Date: 2017-06-29 11:43+0100\n"
 "PO-Revision-Date: 2017-02-24 06:37+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -145,8 +145,8 @@ msgid "1.90 (Full frame)"
 msgstr "Full(全幅/1.90)"
 
 #: src/lib/ratio.cc:44
-msgid "2.35"
-msgstr "2.35"
+msgid "2.35 (35mm Scope)"
+msgstr ""
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
@@ -1419,6 +1419,9 @@ msgstr "视频帧"
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容。"
+
+#~ msgid "2.35"
+#~ msgstr "2.35"
 
 #~ msgid "16:9"
 #~ msgstr "16:9"
