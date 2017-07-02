@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-29 11:43+0100\n"
-"PO-Revision-Date: 2017-06-12 23:20+0100\n"
+"PO-Revision-Date: 2017-06-30 23:01+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -233,6 +233,8 @@ msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
+"L'ajout de ce certificat rendrait la chaîne incohérente, aussi ne sera-t-il "
+"pas ajouté. Ajouter des certificats dans l'ordre depuis la racine."
 
 #: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1466
 msgid "Address"
@@ -500,9 +502,9 @@ msgid "Could not load KDM (%s)"
 msgstr "Chargement KDM impossible (%s)"
 
 #: src/wx/config_dialog.cc:932
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certificate (%s)"
-msgstr "Lecture du ficher de certificat (%s) impossible"
+msgstr "Chargement impossible du certificat (%s)"
 
 #: src/wx/config_dialog.cc:957 src/wx/config_dialog.cc:1138
 #: src/wx/download_certificate_panel.cc:56 src/wx/screen_dialog.cc:158
@@ -966,6 +968,9 @@ msgid ""
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
 "become useless.  Proceed with caution!"
 msgstr ""
+"Si vous continuez cette opération, vous ne pourrez plus utiliser aucune des "
+"DKDMs que vous avez créées. Ansi, les KDMs qui vous ont été envoyées "
+"deviendront inutilisables. Soyez prudent !"
 
 #: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
@@ -1087,7 +1092,7 @@ msgstr "Page de clé privée"
 
 #: src/wx/config_dialog.cc:886
 msgid "Leaf private key does not match leaf certificate!"
-msgstr ""
+msgstr "La page de clé privée ne correspond pas au certificat de la page !"
 
 #: src/wx/video_panel.cc:105
 msgid "Left"
@@ -1177,7 +1182,7 @@ msgstr "Mbit/s"
 
 #: src/wx/export_dialog.cc:52
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "Mixer le son en stéréo."
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1219,7 +1224,8 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
@@ -1970,9 +1976,8 @@ msgid "UTC+9"
 msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:110
-#, fuzzy
 msgid "UTC+9:30"
-msgstr "UTC+5:30"
+msgstr "UTC+9:30"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC-1"
