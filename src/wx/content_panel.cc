@@ -421,14 +421,14 @@ ContentPanel::setup_sensitivity ()
 	ContentList video_selection = selected_video ();
 	ContentList audio_selection = selected_audio ();
 
-	_remove->Enable   (!selection.empty() && _generally_sensitive);
-	_earlier->Enable  (selection.size() == 1 && _generally_sensitive);
-	_later->Enable    (selection.size() == 1 && _generally_sensitive);
-	_timeline->Enable (!_film->content().empty() && _generally_sensitive);
+	_remove->Enable   (_generally_sensitive && !selection.empty());
+	_earlier->Enable  (_generally_sensitive && selection.size() == 1);
+	_later->Enable    (_generally_sensitive && selection.size() == 1);
+	_timeline->Enable (_generally_sensitive && _film && !_film->content().empty());
 
-	_video_panel->Enable	(video_selection.size() > 0 && _generally_sensitive);
-	_audio_panel->Enable	(audio_selection.size() > 0 && _generally_sensitive);
-	_subtitle_panel->Enable (selection.size() == 1 && selection.front()->subtitle && _generally_sensitive);
+	_video_panel->Enable	(_generally_sensitive && video_selection.size() > 0);
+	_audio_panel->Enable	(_generally_sensitive && audio_selection.size() > 0);
+	_subtitle_panel->Enable (_generally_sensitive && selection.size() == 1 && selection.front()->subtitle);
 	_timing_panel->Enable	(_generally_sensitive);
 }
 
@@ -449,20 +449,7 @@ void
 ContentPanel::set_general_sensitivity (bool s)
 {
 	_generally_sensitive = s;
-
-	_content->Enable (s);
-	_add_file->Enable (s);
-	_add_folder->Enable (s);
-	_add_dcp->Enable (s);
-	_remove->Enable (s);
-	_earlier->Enable (s);
-	_later->Enable (s);
-	_timeline->Enable (s);
-
-	/* Set the panels in the content notebook */
-	BOOST_FOREACH (ContentSubPanel* i, _panels) {
-		i->Enable (s);
-	}
+	setup_sensitivity ();
 }
 
 void
@@ -592,6 +579,8 @@ ContentPanel::setup ()
 		/* Select the item of content if none was selected before */
 		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
+
+	setup_sensitivity ();
 }
 
 void
