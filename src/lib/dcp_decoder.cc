@@ -54,9 +54,12 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	, _decode_referenced (false)
 {
 	video.reset (new VideoDecoder (this, c, log));
-	audio.reset (new AudioDecoder (this, c->audio, log));
-
-	subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
+	if (c->audio) {
+		audio.reset (new AudioDecoder (this, c->audio, log));
+	}
+	if (c->subtitle) {
+		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
+	}
 
 	shared_ptr<dcp::CPL> cpl;
 	BOOST_FOREACH (shared_ptr<dcp::CPL> i, cpls ()) {
