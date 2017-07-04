@@ -102,6 +102,10 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 		throw DecodeError (String::compose (_("Could not decode image file (%1)"), error));
 	}
 
+	if (magick_image->colorSpace() == Magick::LogColorspace) {
+		magick_image->colorSpace(Magick::RGBColorspace);
+	}
+
 	dcp::Size size (magick_image->columns(), magick_image->rows());
 
 	_image.reset (new Image (AV_PIX_FMT_RGB24, size, true));
