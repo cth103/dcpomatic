@@ -140,16 +140,29 @@ deb_depends['8'].extend(['libboost-filesystem1.55.0',
                          'libssh-4',
                          'libx264-142'])
 
+deb_depends['9'] = copy.deepcopy(deb_depends_base)
+deb_depends['9'].extend(['libboost-filesystem1.62.0',
+                         'libboost-thread1.62.0',
+                         'libboost-regex1.62.0',
+                         'libboost-date-time1.62.0',
+                         'libmagick++-6.q16-7',
+                         'libxml++2.6-2v5',
+                         'libgtk2.0-0',
+                         'libzip4',
+                         'libicu57',
+                         'libnettle6',
+                         'libx264-148'])
+
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
-deb_depends['unstable'].extend(['libboost-filesystem1.58.0',
-                                'libboost-thread1.58.0',
-                                'libboost-regex1.58.0',
-                                'libmagick++-6.q16-5v5',
+deb_depends['unstable'].extend(['libboost-filesystem1.62.0',
+                                'libboost-thread1.62.0',
+                                'libboost-regex1.62.0',
+                                'libboost-date-time1.62.0',
+                                'libmagick++-6.q16-7',
                                 'libxml++2.6-2v5',
                                 'libgtk2.0-0',
-                                'libboost-date-time1.58.0',
-                                'libzip2',
-                                'libicu52',
+                                'libzip4',
+                                'libicu57',
                                 'libnettle6',
                                 'libx264-148'])
 
