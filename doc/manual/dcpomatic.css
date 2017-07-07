@@ -41,3 +41,7 @@ div.note {
     margin-top: 18pt;
     margin-bottom: 18pt;
 }
+
+code.code {
+    font-size: 125%;
+}
