@@ -3048,8 +3048,14 @@ to the cinema which is showing your DCP.
     </para>
 
     <para>
-      <code>[CONTENT]</code> are the files that you want to use in the
-      DCP (e.g. MP4 or MOV files).
+      <code>[CONTENT]</code> are the files or folders that you want to use in the
+      DCP. They can be:
+      <itemizedlist>
+	<listitem>&lsquo;Movie&rsquo; files in almost any common format (e.g. MP4, MOV, MKV, etc.)</listitem>
+	<listitem>A folder containing and image sequence in almost any common format (e.g. TIFF, DPX etc.)</listitem>
+	<listitem>Sound files (e.g. WAV, MP3, AIFF)</listitem>
+	<listitem>Subtitles files (e.g. <code>.srt</code>, DCP XML, <code>.ssa</code> etc.)</listitem>
+      </itemizedlist>
     </para>
 
     <para>
