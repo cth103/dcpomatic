@@ -269,7 +269,7 @@ main (int argc, char* argv[])
 		ContentList content = film->content ();
 		for (ContentList::iterator i = content.begin(); i != content.end(); ++i) {
 			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (*i);
-			if (ic) {
+			if (ic && ic->still()) {
 				ic->video->set_length (still_length * 24);
 			}
 		}
