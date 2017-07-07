@@ -238,12 +238,10 @@ main (int argc, char* argv[])
 		for (int i = optind; i < argc; ++i) {
 			boost::filesystem::path const can = boost::filesystem::canonical (argv[i]);
 			list<shared_ptr<Content> > content;
-			try {
+
+			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
 				content.push_back (shared_ptr<DCPContent> (new DCPContent (film, can)));
-			} catch (dcp::DCPReadError) {
-				/* I guess it's not a DCP */
-				content = content_factory (film, can);
-			} catch (boost::filesystem::filesystem_error) {
+			} else {
 				/* I guess it's not a DCP */
 				content = content_factory (film, can);
 			}
