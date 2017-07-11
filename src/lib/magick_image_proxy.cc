@@ -102,9 +102,17 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 		throw DecodeError (String::compose (_("Could not decode image file (%1)"), error));
 	}
 
+#ifdef DCPOMATIC_IMAGE_MAGICK
 	if (magick_image->colorSpace() == Magick::LogColorspace) {
 		magick_image->colorSpace(Magick::RGBColorspace);
 	}
+#endif
+#ifdef DCPOMATIC_GRAPHICS_MAGICK
+	if (magick_image->colorSpace() == Magick::CineonLogRGBColorspace) {
+		magick_image->colorSpace(Magick::RGBColorspace);
+	}
+
+#endif
 
 	dcp::Size size (magick_image->columns(), magick_image->rows());
 
