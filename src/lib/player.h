@@ -63,6 +63,7 @@ public:
 
 	void set_video_container_size (dcp::Size);
 	void set_ignore_video ();
+	void set_ignore_subtitle ();
 	void set_always_burn_subtitles (bool burn);
 	void set_fast ();
 	void set_play_referenced ();
@@ -130,7 +131,7 @@ private:
 	/** true if the player should ignore all video; i.e. never produce any */
 	bool _ignore_video;
 	/** true if the player should ignore all audio; i.e. never produce any */
-	bool _ignore_audio;
+	bool _ignore_subtitle;
 	/** true if the player should always burn subtitles into the video regardless
 	    of content settings
 	*/

@@ -82,7 +82,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _playlist (playlist)
 	, _have_valid_pieces (false)
 	, _ignore_video (false)
-	, _ignore_audio (false)
+	, _ignore_subtitle (false)
 	, _always_burn_subtitles (false)
 	, _fast (false)
 	, _play_referenced (false)
@@ -121,8 +121,8 @@ Player::setup_pieces ()
 			decoder->video->set_ignore ();
 		}
 
-		if (decoder->audio && _ignore_audio) {
-			decoder->audio->set_ignore ();
+		if (decoder->subtitle && _ignore_subtitle) {
+			decoder->subtitle->set_ignore ();
 		}
 
 		shared_ptr<DCPDecoder> dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
@@ -404,6 +404,12 @@ void
 Player::set_ignore_video ()
 {
 	_ignore_video = true;
+}
+
+void
+Player::set_ignore_subtitle ()
+{
+	_ignore_subtitle = true;
 }
 
 /** Set whether or not this player should always burn text subtitles into the image,

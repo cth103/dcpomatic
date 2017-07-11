@@ -34,15 +34,15 @@ Decoder::position () const
 {
 	optional<ContentTime> pos;
 
-	if (video && (!pos || video->position() < *pos)) {
+	if (video && !video->ignore() && (!pos || video->position() < *pos)) {
 		pos = video->position();
 	}
 
-	if (audio && (!pos || audio->position() < *pos)) {
+	if (audio && !audio->ignore() && (!pos || audio->position() < *pos)) {
 		pos = audio->position();
 	}
 
-	if (subtitle && (!pos || subtitle->position() < *pos)) {
+	if (subtitle && !subtitle->ignore() && (!pos || subtitle->position() < *pos)) {
 		pos = subtitle->position();
 	}
 

@@ -175,7 +175,7 @@ FFmpegDecoder::pass ()
 
 	if (_video_stream && si == _video_stream.get() && !video->ignore()) {
 		decode_video_packet ();
-	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index (_format_context, si)) {
+	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !subtitle->ignore()) {
 		decode_subtitle_packet ();
 	} else {
 		decode_audio_packet ();
