@@ -297,3 +297,24 @@ BOOST_AUTO_TEST_CASE (reels_test6)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
+
+/** Check the case where the last bit of audio hangs over the end of the video
+ *  and we are using REELTYPE_BY_VIDEO_CONTENT.
+ */
+BOOST_AUTO_TEST_CASE (reels_test7)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test7");
+	film->set_name ("reels_test7");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/flat_red.png"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/awkward_length.wav"));
+	film->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
+}
