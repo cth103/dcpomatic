@@ -511,7 +511,10 @@ Player::pass ()
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (!i->done) {
 			DCPTime const t = content_time_to_dcp (i, i->decoder->position());
-			if (!earliest || t < earliest_content) {
+			/* Given two choices at the same time, pick the one with a subtitle so we see it before
+			   the video.
+			*/
+			if (!earliest || t < earliest_content || (t == earliest_content && i->decoder->subtitle)) {
 				earliest_content = t;
 				earliest = i;
 			}
@@ -520,7 +523,7 @@ Player::pass ()
 
 	bool done = false;
 
-	if (!_black.done() && (!earliest ||_black.position() < earliest_content)) {
+	if (!_black.done() && (!earliest || _black.position() < earliest_content)) {
 		/* There is some black that must be emitted */
 		emit_video (black_player_video_frame(), _black.position());
 		_black.set_position (_black.position() + one_video_frame());
