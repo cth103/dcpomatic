@@ -19,6 +19,7 @@
 */
 
 #include "empty.h"
+#include "film.h"
 #include "playlist.h"
 #include "content.h"
 #include "content_part.h"
@@ -33,16 +34,20 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::function;
 
-Empty::Empty (shared_ptr<const Playlist> playlist, function<shared_ptr<ContentPart> (Content *)> part)
+Empty::Empty (shared_ptr<const Film> film, function<shared_ptr<ContentPart> (Content *)> part)
 {
 	list<DCPTimePeriod> full;
-	BOOST_FOREACH (shared_ptr<Content> i, playlist->content()) {
+	BOOST_FOREACH (shared_ptr<Content> i, film->content()) {
 		if (part (i.get())) {
 			full.push_back (DCPTimePeriod (i->position(), i->end()));
 		}
 	}
 
-	_periods = subtract (DCPTimePeriod(DCPTime(), playlist->length()), coalesce(full));
+	_periods = subtract (DCPTimePeriod(DCPTime(), film->length()), coalesce(full));
+
+	if (!_periods.empty ()) {
+		_position = _periods.front().from;
+	}
 }
 
 void
@@ -79,11 +84,10 @@ Empty::period_at_position () const
 bool
 Empty::done () const
 {
+	DCPTime latest;
 	BOOST_FOREACH (DCPTimePeriod i, _periods) {
-		if (i.contains(_position)) {
-			return false;
-		}
+		latest = max (latest, i.to);
 	}
 
-	return true;
+	return _position >= latest;
 }

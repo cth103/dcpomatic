@@ -24,12 +24,14 @@
 #include <list>
 
 struct empty_test1;
+struct empty_test2;
+struct player_subframe_test;
 
 class Empty
 {
 public:
 	Empty () {}
-	Empty (boost::shared_ptr<const Playlist> playlist, boost::function<boost::shared_ptr<ContentPart> (Content *)> part);
+	Empty (boost::shared_ptr<const Film> film, boost::function<boost::shared_ptr<ContentPart> (Content *)> part);
 
 	DCPTime position () const {
 		return _position;
@@ -43,6 +45,8 @@ public:
 
 private:
 	friend struct ::empty_test1;
+	friend struct ::empty_test2;
+	friend struct ::player_subframe_test;
 
 	std::list<DCPTimePeriod> _periods;
 	DCPTime _position;
