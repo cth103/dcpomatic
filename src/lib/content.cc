@@ -190,6 +190,11 @@ Content::signal_changed (int p)
 void
 Content::set_position (DCPTime p)
 {
+	/* video content can modify its position */
+	if (video) {
+		video->modify_position (p);
+	}
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		if (p == _position) {
@@ -333,8 +338,10 @@ list<DCPTime>
 Content::reel_split_points () const
 {
 	list<DCPTime> t;
-	/* XXX: this is questionable; perhaps the position itself should be forced to be on a frame boundary */
-	t.push_back (position().ceil (film()->video_frame_rate()));
+	/* This is only called for video content and such content has its position forced
+	   to start on a frame boundary.
+	*/
+	t.push_back (position());
 	return t;
 }
 
