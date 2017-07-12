@@ -1113,7 +1113,7 @@ Film::move_content_later (shared_ptr<Content> c)
 DCPTime
 Film::length () const
 {
-	return _playlist->length ();
+	return _playlist->length().ceil(video_frame_rate());
 }
 
 int
@@ -1456,7 +1456,7 @@ list<DCPTimePeriod>
 Film::reels () const
 {
 	list<DCPTimePeriod> p;
-	DCPTime const len = length().ceil (video_frame_rate ());
+	DCPTime const len = length();
 
 	switch (reel_type ()) {
 	case REELTYPE_SINGLE:
