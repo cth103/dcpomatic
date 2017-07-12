@@ -226,11 +226,16 @@ Butler::player_changed ()
 	}
 }
 
-void
+/** Try to get `frames' frames of audio and copy it into `out'.  Silence
+ *  will be filled if no audio is available.
+ *  @return true if there was a buffer underrun, otherwise false.
+ */
+bool
 Butler::get_audio (float* out, Frame frames)
 {
-	_audio.get (out, _audio_channels, frames);
+	bool const underrun = _audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
+	return underrun;
 }
 
 void

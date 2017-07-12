@@ -40,7 +40,7 @@ public:
 
 	void seek (DCPTime position, bool accurate);
 	std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> get_video ();
-	void get_audio (float* out, Frame frames);
+	bool get_audio (float* out, Frame frames);
 
 	void disable_audio ();
 
