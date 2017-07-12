@@ -45,7 +45,8 @@ AudioRingBuffers::put (shared_ptr<const AudioBuffers> data)
 	_buffers.push_back (data);
 }
 
-void
+/** @return true if there was an underrun, otherwise false */
+bool
 AudioRingBuffers::get (float* out, int channels, int frames)
 {
 	boost::mutex::scoped_lock lm (_mutex);
@@ -58,7 +59,7 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 				}
 			}
 			cout << "audio underrun; missing " << frames << "!\n";
-			return;
+			return true;
 		}
 
 		shared_ptr<const AudioBuffers> front = _buffers.front ();
@@ -82,6 +83,8 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 			_used_in_head = 0;
 		}
 	}
+
+	return false;
 }
 
 void

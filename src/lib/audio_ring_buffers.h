@@ -34,7 +34,7 @@ public:
 	AudioRingBuffers ();
 
 	void put (boost::shared_ptr<const AudioBuffers> data);
-	void get (float* out, int channels, int frames);
+	bool get (float* out, int channels, int frames);
 
 	void clear ();
 	Frame size () const;
