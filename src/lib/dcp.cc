@@ -47,7 +47,7 @@ DCP::cpls () const
 	BOOST_FOREACH (shared_ptr<dcp::DCP> i, dcps) {
 		BOOST_FOREACH (shared_ptr<dcp::DCP> j, dcps) {
 			if (i != j) {
-				i->resolve_refs (j->assets ());
+				i->resolve_refs (j->assets (true));
 			}
 		}
 	}
