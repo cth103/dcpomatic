@@ -620,6 +620,14 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
 	DCPTimePeriod const period (time, time + one_video_frame());
 
+	/* Discard if it's outside the content's period or if it's before the last accurate seek */
+	if (
+		time < piece->content->position() ||
+		time >= piece->content->end() ||
+		(_last_video_time && time < *_last_video_time)) {
+		return;
+	}
+
 	/* Fill gaps that we discover now that we have some video which needs to be emitted */
 
 	if (_last_video_time) {
@@ -633,14 +641,6 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 				emit_video (black_player_video_frame(), j);
 			}
 		}
-	}
-
-	/* Discard if it's outside the content's period or if it's before the last accurate seek */
-	if (
-		time < piece->content->position() ||
-		time >= piece->content->end() ||
-		(_last_video_time && time < *_last_video_time)) {
-		return;
 	}
 
 	_last_video[wp].reset (

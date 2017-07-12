@@ -326,3 +326,20 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
+
+/** Check a reels-related error; make_dcp() would raise a ProgrammingError */
+BOOST_AUTO_TEST_CASE (reels_test8)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test8");
+	film->set_name ("reels_test8");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/test2.mp4"));
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	A->set_trim_end (ContentTime::from_seconds (1));
+	cout << to_string(A->length_after_trim()) << "\n";
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
+}
