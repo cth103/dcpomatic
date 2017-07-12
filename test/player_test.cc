@@ -23,8 +23,6 @@
  *  @ingroup selfcontained
  */
 
-#include <iostream>
-#include <boost/test/unit_test.hpp>
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
@@ -33,7 +31,10 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/image_content.h"
+#include "lib/content_factory.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
+#include <iostream>
 
 using std::cout;
 using std::list;
@@ -114,4 +115,33 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 	check /= film->dcp_name();
 
 	check_dcp (ref.string(), check.string());
+}
+
+/** Check behaviour with an awkward playlist whose data does not end on a video frame start */
+BOOST_AUTO_TEST_CASE (player_subframe_test)
+{
+	shared_ptr<Film> film = new_test_film ("reels_test7");
+	film->set_name ("reels_test7");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	shared_ptr<Content> A = content_factory(film, "test/data/flat_red.png").front();
+	film->examine_and_add_content (A);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	shared_ptr<Content> B = content_factory(film, "test/data/awkward_length.wav").front();
+	film->examine_and_add_content (B);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	film->set_video_frame_rate (24);
+	A->video->set_length (3 * 24);
+
+	BOOST_CHECK (A->full_length() == DCPTime::from_frames(3 * 24, 24));
+	BOOST_CHECK (B->full_length() == DCPTime(289920));
+	/* Length should be rounded up from B's length to the next video frame */
+	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
+
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	player->setup_pieces ();
+	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1);
+	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
+	BOOST_REQUIRE_EQUAL (player->_silent._periods.size(), 1);
+	BOOST_CHECK (player->_silent._periods.front() == DCPTimePeriod(DCPTime(289920), DCPTime::from_frames(3 * 24 + 1, 24)));
 }

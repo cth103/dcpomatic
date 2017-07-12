@@ -156,8 +156,8 @@ Player::setup_pieces ()
 		}
 	}
 
-	_black = Empty (_playlist, bind(&Content::video, _1));
-	_silent = Empty (_playlist, bind(&Content::audio, _1));
+	_black = Empty (_film, bind(&Content::video, _1));
+	_silent = Empty (_film, bind(&Content::audio, _1));
 
 	_last_video_time = DCPTime ();
 	_last_audio_time = DCPTime ();
@@ -552,7 +552,7 @@ Player::pass ()
 
 	/* Emit any audio that is ready */
 
-	DCPTime pull_to = _playlist->length ();
+	DCPTime pull_to = _film->length ();
 	for (map<AudioStreamPtr, StreamState>::const_iterator i = _stream_states.begin(); i != _stream_states.end(); ++i) {
 		if (!i->second.piece->done && i->second.last_push_end < pull_to) {
 			pull_to = i->second.last_push_end;

@@ -31,11 +31,13 @@
 #include "lib/dcp_content.h"
 #include "lib/video_content.h"
 #include "lib/text_subtitle_content.h"
+#include "lib/content_factory.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 
 /** Test Film::reels() */
@@ -307,14 +309,20 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 	film->set_name ("reels_test7");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	shared_ptr<FFmpegContent> A (new FFmpegContent (film, "test/data/flat_red.png"));
+	shared_ptr<Content> A = content_factory(film, "test/data/flat_red.png").front();
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs ());
-	shared_ptr<FFmpegContent> B (new FFmpegContent (film, "test/data/awkward_length.wav"));
+	shared_ptr<Content> B = content_factory(film, "test/data/awkward_length.wav").front();
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs ());
+	film->set_video_frame_rate (24);
+	A->video->set_length (3 * 24);
 
 	film->set_reel_type (REELTYPE_BY_VIDEO_CONTENT);
+	BOOST_REQUIRE_EQUAL (film->reels().size(), 2);
+	BOOST_CHECK (film->reels().front() == DCPTimePeriod(DCPTime(0), DCPTime::from_frames(3 * 24, 24)));
+	BOOST_CHECK (film->reels().back() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
+
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 }

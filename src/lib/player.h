@@ -89,6 +89,7 @@ private:
 	friend struct player_time_calculation_test1;
 	friend struct player_time_calculation_test2;
 	friend struct player_time_calculation_test3;
+	friend struct player_subframe_test;
 
 	void setup_pieces ();
 	void flush ();

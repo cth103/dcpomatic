@@ -538,3 +538,9 @@ VideoContent::use_template (shared_ptr<const VideoContent> c)
 	_fade_in = c->_fade_in;
 	_fade_out = c->_fade_out;
 }
+
+void
+VideoContent::modify_position (DCPTime& pos) const
+{
+	pos = pos.ceil (_parent->film()->video_frame_rate());
+}

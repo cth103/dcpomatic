@@ -168,6 +168,8 @@ public:
 	void take_from_examiner (boost::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
+	void modify_position (DCPTime& pos) const;
+
 	static boost::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr, int);
 
 private:
