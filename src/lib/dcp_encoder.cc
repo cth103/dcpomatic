@@ -56,12 +56,12 @@ using boost::dynamic_pointer_cast;
  */
 DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: Encoder (film, job)
-	, _writer (new Writer (film, job))
-	, _j2k_encoder (new J2KEncoder (film, _writer))
+	, _film (film)
+	, _job (job)
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
-	BOOST_FOREACH (shared_ptr<const Content> c, _film->content ()) {
+	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
 		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
 			_non_burnt_subtitles = true;
 		}
@@ -79,7 +79,10 @@ DCPEncoder::~DCPEncoder ()
 void
 DCPEncoder::go ()
 {
+	_writer.reset (new Writer (_film, _job));
 	_writer->start ();
+
+	_j2k_encoder.reset (new J2KEncoder (_film, _writer));
 	_j2k_encoder->begin ();
 
 	{
@@ -135,11 +138,19 @@ DCPEncoder::subtitle (PlayerSubtitles data, DCPTimePeriod period)
 float
 DCPEncoder::current_rate () const
 {
+	if (!_j2k_encoder) {
+		return 0;
+	}
+
 	return _j2k_encoder->current_encoding_rate ();
 }
 
 Frame
 DCPEncoder::frames_done () const
 {
+	if (!_j2k_encoder) {
+		return 0;
+	}
+
 	return _j2k_encoder->video_frames_enqueued ();
 }
