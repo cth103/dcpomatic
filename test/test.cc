@@ -284,7 +284,7 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 
 	xmlpp::Element::NodeList ref_children = ref->get_children ();
 	xmlpp::Element::NodeList test_children = test->get_children ();
-	BOOST_CHECK_MESSAGE (
+	BOOST_REQUIRE_MESSAGE (
 		ref_children.size() == test_children.size(),
 		ref->get_name() << " has " << ref_children.size() << " or " << test_children.size() << " children"
 		);
