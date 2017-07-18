@@ -44,14 +44,28 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	film->set_audio_channels (6);
+
+	/* This is the map of the player output (5.1) to the butler output (also 5.1) */
 	AudioMapping map = AudioMapping (6, 6);
+	for (int i = 0; i < 6; ++i) {
+		map.set (i, i, 1);
+	}
 
 	Butler butler (film, shared_ptr<Player>(new Player(film, film->playlist())), map, 6);
 
 	BOOST_CHECK (butler.get_video().second == DCPTime());
 	BOOST_CHECK (butler.get_video().second == DCPTime::from_frames(1, 24));
 	BOOST_CHECK (butler.get_video().second == DCPTime::from_frames(2, 24));
+	/* XXX: check the frame contents */
 
 	float buffer[256 * 6];
-	butler.get_audio(buffer, 256);
+	BOOST_REQUIRE (!butler.get_audio (buffer, 256));
+	for (int i = 0; i < 256; ++i) {
+		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 0], 0);
+		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 1], 0);
+		BOOST_REQUIRE_CLOSE (buffer[i * 6 + 2], i / 32768.0f, 0.1);
+		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 3], 0);
+		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 4], 0);
+		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 5], 0);
+	}
 }
