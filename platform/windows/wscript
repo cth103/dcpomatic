@@ -168,12 +168,6 @@ File "%cdist_deps%/bin/ffprobe.exe"
 
     print("""
 SetOutPath "$INSTDIR\\bin"
-# I don't know why, but sometimes it seems that
-# delegates.xml must be in with the binaries, and
-# sometimes in the $PROFILE.  Meh.
-File "%static_deps%/etc/ImageMagick-6/delegates.xml"
-SetOutPath "$PROFILE\\.magick"
-File "%static_deps%/etc/ImageMagick-6/delegates.xml"
 
 SetOutPath "$INSTDIR\\locale\\fr\\LC_MESSAGES"
 File "%binaries%/src/lib/mo/fr_FR/libdcpomatic2.mo"
