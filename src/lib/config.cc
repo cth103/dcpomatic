@@ -162,13 +162,25 @@ Config::create_certificate_chain ()
 		);
 }
 
+boost::filesystem::path
+Config::target (boost::filesystem::path file)
+{
+	cxml::Document f ("Config");
+	f.read_file (file);
+	optional<string> link = f.optional_string_child ("Link");
+	if (link) {
+		return target (*link);
+	}
+
+	return file;
+}
+
 void
 Config::read ()
 try
 {
 	cxml::Document f ("Config");
-	f.read_file (path ("config.xml"));
-	optional<string> c;
+	f.read_file (target(path("config.xml")));
 
 	optional<int> version = f.optional_number_child<int> ("Version");
 
@@ -209,6 +221,7 @@ try
 	_tms_user = f.string_child ("TMSUser");
 	_tms_password = f.string_child ("TMSPassword");
 
+	optional<string> c;
 	c = f.optional_string_child ("SoundProcessor");
 	if (c) {
 		_cinema_sound_processor = CinemaSoundProcessor::from_id (c.get ());
@@ -535,7 +548,7 @@ Config::write_config () const
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
 
 	try {
-		doc.write_to_file_formatted (path("config.xml").string ());
+		doc.write_to_file_formatted (target(path("config.xml")).string ());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
