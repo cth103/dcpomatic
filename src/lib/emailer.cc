@@ -101,7 +101,7 @@ Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 void
 Emailer::send (string server, int port, string user, string password)
 {
-	char date_buffer[32];
+	char date_buffer[128];
 	time_t now = time (0);
 	strftime (date_buffer, sizeof(date_buffer), "%a, %d %b %Y %H:%M:%S ", localtime (&now));
 
