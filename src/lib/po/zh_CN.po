@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-29 11:43+0100\n"
-"PO-Revision-Date: 2017-02-24 06:37+0800\n"
+"PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -84,6 +84,15 @@ msgid ""
 "Length: $LENGTH\n"
 "Size: $SIZE\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"类型: $TYPE\n"
+"格式: $CONTAINER\n"
+"音轨: $AUDIO\n"
+"对白语言: $AUDIO_LANGUAGE\n"
+"字幕语言: $SUBTITLE_LANGUAGE\n"
+"长度: $LENGTH\n"
+"大小: $SIZE\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -116,16 +125,15 @@ msgstr "1.19"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "学院模式"
+msgstr "1.38 (Academy学院)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -133,24 +141,23 @@ msgstr "1.66"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78 (16:9 or HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85 (Flat)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
 msgstr "Full(全幅/1.90)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35 (35mm Scope)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39 (Scope)"
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
@@ -173,7 +180,7 @@ msgid ""
 "unlikely to have any visible effect on the image."
 msgstr ""
 "有些放映设备不支持高码率DCP,我们推荐使用200Mbit/s以内的码率来进行打包，这种细"
-"微的调整是肉眼很难分辨的！"
+"微的调整是肉眼很难分辨的。"
 
 #: src/lib/ffmpeg_content.cc:547
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -209,7 +216,7 @@ msgstr "分析音频"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "重新采样音频从 %1kHz 到 %2kHz."
+msgstr "音频重新采样频率设置为 %1kHz 到 %2kHz"
 
 #: src/lib/audio_content.cc:260
 msgid "Audio will be resampled to %1kHz"
@@ -511,14 +518,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat(遮幅/1.77/1.78/1.85)"
+msgstr "DCI Flat(遮幅/1.77/1.78/1.85) "
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope(宽银幕/2.35/2.39)"
+msgstr "DCI Scope(宽银幕/2.35/2.39) "
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -715,12 +720,16 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"然而，将帧速率设置在24-48fps会在DCP包中声明高帧率，这不是每个放映机都能支持的"
+"格式。"
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"然而，将帧速率设置在24-48fps会在DCP包中声明高帧率，这不是每个放映机都能支持的"
+"格式。"
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -832,7 +841,7 @@ msgstr "DCP中的视频分辨率不匹配。"
 
 #: src/lib/writer.cc:583
 msgid "Mono"
-msgstr ""
+msgstr "单声道"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -860,7 +869,7 @@ msgstr "降噪"
 
 #: src/lib/writer.cc:581
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -895,9 +904,8 @@ msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "程序内部错误%1:%2"
+msgstr "程序内部错误 %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1018,7 +1026,7 @@ msgstr "部分音频将被重新采样到%1kHz"
 
 #: src/lib/writer.cc:585
 msgid "Stereo"
-msgstr ""
+msgstr "双声道"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1069,9 +1077,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "证书签名无效！"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "证书签名无效！"
+msgstr "证书签名无效(%1)"
 
 #: src/lib/job.cc:108
 msgid ""
@@ -1125,6 +1132,8 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
+"加到DCP中。"
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1216,18 +1225,16 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all "
 "projectors)."
 msgstr ""
-"你所设定的视频帧率不是DCI标准（SMPTE）支持的，我们建议您制作DCI标准（SMPTE）"
-"的DCP。"
+"你所设定的视频帧率不是SMPTE标准支持的，我们建议您制作SMPTE标准的DCP。（虽然"
+"SMPTE标准的DCP也不是每个放映机都能放映）"
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
@@ -1400,9 +1407,8 @@ msgid "some of your content needs a KDM"
 msgstr "内容需要KDM密匙"
 
 #: src/lib/film.cc:324
-#, fuzzy
 msgid "some of your content needs an OV"
-msgstr "内容需要OV"
+msgstr "内容需要声明原创OV"
 
 #: src/lib/image_content.cc:94
 msgid "still"
