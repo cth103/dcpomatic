@@ -33,7 +33,7 @@ def build(bld):
     uselib += 'MAGICK SNDFILE SAMPLERATE BOOST_REGEX ICU NETTLE RTAUDIO '
 
     if bld.env.TARGET_WINDOWS:
-        uselib += 'WINSOCK2 BFD DBGHELP IBERTY SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER '
+        uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER '
 
     for t in ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']:
         obj = bld(features='cxx cxxprogram')
