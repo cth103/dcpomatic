@@ -1,5 +1,7 @@
 2017-07-24  Carl Hetherington  <cth@carlh.net>
 
+	* Update ISDCF name when DCP frame rate changes (#1102).
+
  	* Updated zh_CN translation from 刘汉源.
 
 2017-07-18  Carl Hetherington  <cth@carlh.net>

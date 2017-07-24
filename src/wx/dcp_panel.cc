@@ -380,6 +380,7 @@ DCPPanel::film_changed (int p)
 		checked_set (_frame_rate_spin, _film->video_frame_rate ());
 
 		_best_frame_rate->Enable (_film->best_video_frame_rate () != _film->video_frame_rate ());
+		setup_dcp_name ();
 		break;
 	}
 	case Film::AUDIO_CHANNELS:
