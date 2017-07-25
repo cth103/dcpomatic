@@ -667,7 +667,7 @@ private:
 				_("You are making a DKDM which is encrypted by a private key held in"
 				  "\n\n<tt>%s</tt>\n\nIt is <span weight=\"bold\" size=\"larger\">VITALLY IMPORTANT</span> "
 				  "that you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if it is lost "
-				  "your DKDMs (and the DCPs they protect) will become useless."), std_to_wx(Config::config_path().string()).data()
+				  "your DKDMs (and the DCPs they protect) will become useless."), std_to_wx(Config::config_file().string()).data()
 				)
 			);
 

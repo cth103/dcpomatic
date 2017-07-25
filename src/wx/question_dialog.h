@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,16 @@
 
 */
 
-#include "question_dialog.h"
 #include <wx/wx.h>
-#include <list>
 
-class ConfirmKDMEmailDialog : public QuestionDialog
+class QuestionDialog : public wxDialog
 {
 public:
-	ConfirmKDMEmailDialog (wxWindow* parent, std::list<std::string> addresses);
+	QuestionDialog (wxWindow* parent, wxString title, wxString affirmative, wxString negative);
 
-private:
-	void shut_up (wxCommandEvent& ev);
+protected:
+	void layout ();
+	wxSizer* _sizer;
+	wxString _affirmative;
+	wxString _negative;
 };

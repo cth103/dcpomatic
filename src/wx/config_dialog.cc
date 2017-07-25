@@ -34,6 +34,7 @@
 #include "email_dialog.h"
 #include "name_format_editor.h"
 #include "nag_dialog.h"
+#include "config_move_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -212,6 +213,11 @@ private:
 		table->Add (_server_encoding_threads, wxGBPosition (r, 1));
 		++r;
 
+		add_label_to_sizer (table, _panel, _("Configuration file"), true, wxGBPosition (r, 0));
+		_config_file = new FilePickerCtrl (_panel, _("Select configuration file"), "*.xml", true);
+		table->Add (_config_file, wxGBPosition (r, 1));
+		++r;
+
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
 		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml", true);
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
@@ -265,6 +271,7 @@ private:
 
 		_set_language->Bind         (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::set_language_changed,  this));
 		_language->Bind             (wxEVT_CHOICE,             boost::bind (&GeneralPage::language_changed,      this));
+		_config_file->Bind          (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::config_file_changed,   this));
 		_cinemas_file->Bind         (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed,  this));
 		_preview_sound->Bind        (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::preview_sound_changed, this));
 		_preview_sound_output->Bind (wxEVT_CHOICE,             boost::bind (&GeneralPage::preview_sound_output_changed, this));
@@ -325,6 +332,7 @@ private:
 		checked_set (_check_for_test_updates, config->check_for_test_updates ());
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
+		checked_set (_config_file, config->config_file());
 		checked_set (_cinemas_file, config->cinemas_file());
 		checked_set (_preview_sound, config->preview_sound());
 
@@ -438,6 +446,32 @@ private:
 		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
 	}
 
+	void config_file_changed ()
+	{
+		Config* config = Config::instance();
+		boost::filesystem::path new_file = wx_to_std(_config_file->GetPath());
+		if (new_file == config->config_file()) {
+			return;
+		}
+		bool copy_and_link = true;
+		if (boost::filesystem::exists(new_file)) {
+			ConfigMoveDialog* d = new ConfigMoveDialog (_panel, new_file);
+			if (d->ShowModal() == wxID_OK) {
+				copy_and_link = false;
+			}
+			d->Destroy ();
+		}
+
+		if (copy_and_link) {
+			config->write ();
+			if (new_file != config->config_file()) {
+				config->copy_and_link (new_file);
+			}
+		} else {
+			config->link (new_file);
+		}
+	}
+
 	void cinemas_file_changed ()
 	{
 		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
@@ -463,6 +497,7 @@ private:
 	wxChoice* _language;
 	wxSpinCtrl* _master_encoding_threads;
 	wxSpinCtrl* _server_encoding_threads;
+	FilePickerCtrl* _config_file;
 	FilePickerCtrl* _cinemas_file;
 	wxCheckBox* _preview_sound;
 	wxChoice* _preview_sound_output;

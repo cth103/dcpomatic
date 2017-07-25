@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,14 +19,10 @@
 */
 
 #include "question_dialog.h"
-#include <wx/wx.h>
-#include <list>
+#include <boost/filesystem.hpp>
 
-class ConfirmKDMEmailDialog : public QuestionDialog
+class ConfigMoveDialog : public QuestionDialog
 {
 public:
-	ConfirmKDMEmailDialog (wxWindow* parent, std::list<std::string> addresses);
-
-private:
-	void shut_up (wxCommandEvent& ev);
+	ConfigMoveDialog (wxWindow* parent, boost::filesystem::path new_file);
 };

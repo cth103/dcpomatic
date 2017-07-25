@@ -1,3 +1,7 @@
+2017-07-25  Carl Hetherington  <cth@carlh.net>
+
+	* Configurable config.xml location (#780, #1100).
+
 2017-07-24  Carl Hetherington  <cth@carlh.net>
 
 	* Update ISDCF name when DCP frame rate changes (#1102).

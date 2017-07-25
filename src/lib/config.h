@@ -629,6 +629,8 @@ public:
 	void write () const;
 	void write_config () const;
 	void write_cinemas () const;
+	void link (boost::filesystem::path new_file) const;
+	void copy_and_link (boost::filesystem::path new_file) const;
 
 	void save_template (boost::shared_ptr<const Film> film, std::string name) const;
 	bool existing_template (std::string name) const;
@@ -641,12 +643,11 @@ public:
 	static void drop ();
 	static void restore_defaults ();
 	static bool have_existing (std::string);
-	static boost::filesystem::path config_path ();
+	static boost::filesystem::path config_file ();
 
 private:
 	Config ();
 	static boost::filesystem::path path (std::string file, bool create_directories = true);
-	static boost::filesystem::path target (boost::filesystem::path file);
 	void read ();
 	void set_defaults ();
 	void set_kdm_email_to_default ();

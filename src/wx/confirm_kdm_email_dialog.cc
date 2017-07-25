@@ -28,31 +28,21 @@ using std::list;
 using std::string;
 
 ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> emails)
-	: wxDialog (parent, wxID_ANY, _("Confirm KDM email"))
+	: QuestionDialog (parent, _("Confirm KDM email"), _("Send emails"), _("Don't send emails"))
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-
 	wxString message = _("Are you sure you want to send emails to the following addresses?\n\n");
 	BOOST_FOREACH (string i, emails) {
 		message += "\t" + std_to_wx (i) + "\n";
 	}
 
-	sizer->Add (new wxStaticText (this, wxID_ANY, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_sizer->Add (new wxStaticText (this, wxID_ANY, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	wxCheckBox* shut_up = new wxCheckBox (this, wxID_ANY, _("Don't ask this again"));
-	sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
+	_sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	shut_up->Bind (wxEVT_CHECKBOX, bind (&ConfirmKDMEmailDialog::shut_up, this, _1));
 
-	wxStdDialogButtonSizer* buttons = CreateStdDialogButtonSizer (0);
-	sizer->Add (CreateSeparatedSizer(buttons), wxSizerFlags().Expand().DoubleBorder());
-	buttons->SetAffirmativeButton (new wxButton (this, wxID_OK, _("Send emails")));
-	buttons->SetNegativeButton (new wxButton (this, wxID_CANCEL, _("Don't send emails")));
-	buttons->Realize ();
-
-	SetSizer (sizer);
-	sizer->Layout ();
-	sizer->SetSizeHints (this);
+	layout ();
 }
 
 void

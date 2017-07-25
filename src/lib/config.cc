@@ -162,25 +162,12 @@ Config::create_certificate_chain ()
 		);
 }
 
-boost::filesystem::path
-Config::target (boost::filesystem::path file)
-{
-	cxml::Document f ("Config");
-	f.read_file (file);
-	optional<string> link = f.optional_string_child ("Link");
-	if (link) {
-		return target (*link);
-	}
-
-	return file;
-}
-
 void
 Config::read ()
 try
 {
 	cxml::Document f ("Config");
-	f.read_file (target(path("config.xml")));
+	f.read_file (config_file());
 
 	optional<int> version = f.optional_number_child<int> ("Version");
 
@@ -548,7 +535,7 @@ Config::write_config () const
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
 
 	try {
-		doc.write_to_file_formatted (target(path("config.xml")).string ());
+		doc.write_to_file_formatted(config_file().string());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
@@ -748,11 +735,19 @@ Config::delete_template (string name) const
 	boost::filesystem::remove (template_path (name));
 }
 
-/** @return Path to the config.xml, for telling the user what it is */
+/** @return Path to the config.xml containing the actual settings, following a link if required */
 boost::filesystem::path
-Config::config_path ()
+Config::config_file ()
 {
-	return path("config.xml", false);
+	cxml::Document f ("Config");
+	boost::filesystem::path main = path("config.xml", false);
+	f.read_file (main);
+	optional<string> link = f.optional_string_child("Link");
+	if (link) {
+		return *link;
+	}
+
+	return main;
 }
 
 void
@@ -760,4 +755,26 @@ Config::reset_cover_sheet ()
 {
 	set_cover_sheet_to_default ();
 	changed ();
+}
+
+void
+Config::link (boost::filesystem::path new_file) const
+{
+	xmlpp::Document doc;
+	doc.create_root_node("Config")->add_child("Link")->add_child_text(new_file.string());
+	try {
+		doc.write_to_file_formatted(path("config.xml", true).string());
+	} catch (xmlpp::exception& e) {
+		string s = e.what ();
+		trim (s);
+		throw FileError (s, path("config.xml"));
+	}
+}
+
+void
+Config::copy_and_link (boost::filesystem::path new_file) const
+{
+	write ();
+	boost::filesystem::copy_file (config_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
+	link (new_file);
 }
