@@ -80,7 +80,14 @@ File "%static_deps%/bin/libboost_date_time-mt.dll"
 File "%static_deps%/bin/libboost_locale-mt.dll"
 File "%static_deps%/bin/libboost_regex-mt.dll"
 File "%static_deps%/bin/libeay32.dll"
-File "%static_deps%/bin/libgcc_s_seh-1.dll"
+""", file=f)
+
+    if bits == 32:
+        print('File "%static_deps%/bin/libgcc_s_sjlj-1.dll"', file=f)
+    else:
+        print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
+
+    print("""
 File "%static_deps%/bin/libgio-2.0-0.dll"
 File "%static_deps%/bin/libglib-2.0-0.dll"
 File "%static_deps%/bin/libgobject-2.0-0.dll"
@@ -146,7 +153,14 @@ File "%static_deps%/bin/libidn2-0.dll"
 File "%static_deps%/bin/libunistring-2.dll"
 File "%static_deps%/bin/libssh2-1.dll"
 File "%static_deps%/bin/libgcrypt-20.dll"
-File "%static_deps%/bin/libgpg-error6-0.dll"
+""", file=f)
+    
+    if bits == 32:
+        print('File "%static_deps%/bin/libgpg-error-0.dll"', file=f)
+    else:
+        print('File "%static_deps%/bin/libgpg-error6-0.dll"', file=f)
+
+    print("""
 File "%static_deps%/bin/libpangoft2-1.0-0.dll"
 File "%static_deps%/bin/libx264-148.dll"
 
