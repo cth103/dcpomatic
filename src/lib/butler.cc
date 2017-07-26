@@ -65,7 +65,7 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
 	   multi-thread JPEG2000 decoding.
 	*/
-	for (int i = 0; i < boost::thread::hardware_concurrency(); ++i) {
+	for (size_t i = 0; i < boost::thread::hardware_concurrency(); ++i) {
 		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
 	}
 }
