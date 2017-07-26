@@ -60,4 +60,8 @@ private:
 	boost::shared_ptr<J2KEncoder> _j2k_encoder;
 	bool _finishing;
 	bool _non_burnt_subtitles;
+
+	boost::signals2::scoped_connection _player_video_connection;
+	boost::signals2::scoped_connection _player_audio_connection;
+	boost::signals2::scoped_connection _player_subtitle_connection;
 };

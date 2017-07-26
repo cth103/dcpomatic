@@ -61,6 +61,10 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
+	_player_video_connection = _player->Video.connect (bind (&DCPEncoder::video, this, _1, _2));
+	_player_audio_connection = _player->Audio.connect (bind (&DCPEncoder::audio, this, _1, _2));
+	_player_subtitle_connection = _player->Subtitle.connect (bind (&DCPEncoder::subtitle, this, _1, _2));
+
 	BOOST_FOREACH (shared_ptr<const Content> c, film->content ()) {
 		if (c->subtitle && c->subtitle->use() && !c->subtitle->burn()) {
 			_non_burnt_subtitles = true;

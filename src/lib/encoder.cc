@@ -43,7 +43,5 @@ Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	, _job (job)
 	, _player (new Player (film, film->playlist ()))
 {
-	_player_video_connection = _player->Video.connect (bind (&Encoder::video, this, _1, _2));
-	_player_audio_connection = _player->Audio.connect (bind (&Encoder::audio, this, _1, _2));
-	_player_subtitle_connection = _player->Subtitle.connect (bind (&Encoder::subtitle, this, _1, _2));
+
 }

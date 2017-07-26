@@ -26,6 +26,7 @@
 #include "log.h"
 #include "image.h"
 #include "cross.h"
+#include "butler.h"
 #include "compose.hpp"
 #include <iostream>
 
@@ -34,6 +35,7 @@
 using std::string;
 using std::runtime_error;
 using std::cout;
+using std::pair;
 using boost::shared_ptr;
 using boost::bind;
 using boost::weak_ptr;
@@ -75,24 +77,29 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 
 	int const ch = film->audio_channels ();
 
+	AudioMapping map;
 	if (mixdown_to_stereo) {
-		_audio_mapping = AudioMapping (ch, 2);
+		_output_audio_channels = 2;
+		map = AudioMapping (ch, 2);
 		float const overall_gain = 2 / (4 + sqrt(2));
 		float const minus_3dB = 1 / sqrt(2);
-		_audio_mapping.set (dcp::LEFT,   0, overall_gain);
-		_audio_mapping.set (dcp::RIGHT,  1, overall_gain);
-		_audio_mapping.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
-		_audio_mapping.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
-		_audio_mapping.set (dcp::LS,     0, overall_gain);
-		_audio_mapping.set (dcp::RS,     1, overall_gain);
+		map.set (dcp::LEFT,   0, overall_gain);
+		map.set (dcp::RIGHT,  1, overall_gain);
+		map.set (dcp::CENTRE, 0, overall_gain * minus_3dB);
+		map.set (dcp::CENTRE, 1, overall_gain * minus_3dB);
+		map.set (dcp::LS,     0, overall_gain);
+		map.set (dcp::RS,     1, overall_gain);
 		_pending_audio.reset (new AudioBuffers (2, 0));
 	} else {
-		_audio_mapping = AudioMapping (ch, ch);
+		_output_audio_channels = ch;
+		map = AudioMapping (ch, ch);
 		_pending_audio.reset (new AudioBuffers (ch, 0));
 		for (int i = 0; i < ch; ++i) {
-			_audio_mapping.set (i, i, 1);
+			map.set (i, i, 1);
 		}
 	}
+
+	_butler.reset (new Butler (film, _player, map, _output_audio_channels));
 }
 
 void
@@ -138,8 +145,8 @@ FFmpegEncoder::setup_audio ()
 	_audio_codec_context->bit_rate = 256 * 1024;
 	_audio_codec_context->sample_fmt = _sample_format;
 	_audio_codec_context->sample_rate = _film->audio_frame_rate ();
-	_audio_codec_context->channel_layout = av_get_default_channel_layout (_audio_mapping.output_channels ());
-	_audio_codec_context->channels = _audio_mapping.output_channels ();
+	_audio_codec_context->channel_layout = av_get_default_channel_layout (_output_audio_channels);
+	_audio_codec_context->channels = _output_audio_channels;
 }
 
 void
@@ -194,7 +201,24 @@ FFmpegEncoder::go ()
 		job->sub (_("Encoding"));
 	}
 
-	while (!_player->pass ()) {}
+	DCPTime const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
+	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
+	float* interleaved = new float[_output_audio_channels * audio_frames];
+	shared_ptr<AudioBuffers> deinterleaved (new AudioBuffers (_output_audio_channels, audio_frames));
+	for (DCPTime i; i < _film->length(); i += video_frame) {
+		pair<shared_ptr<PlayerVideo>, DCPTime> v = _butler->get_video ();
+		video (v.first, v.second);
+		_butler->get_audio (interleaved, audio_frames);
+		/* XXX: inefficient; butler interleaves and we deinterleave again */
+		float* p = interleaved;
+		for (int i = 0; i < audio_frames; ++i) {
+			for (int j = 0; j < _output_audio_channels; ++j) {
+				deinterleaved->data(j)[i] = *p++;
+			}
+		}
+		audio (deinterleaved, i);
+	}
+	delete[] interleaved;
 
 	if (_pending_audio->frames() > 0) {
 		audio_frame (_pending_audio->frames ());
@@ -308,7 +332,7 @@ FFmpegEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 void
 FFmpegEncoder::audio (shared_ptr<AudioBuffers> audio, DCPTime)
 {
-	_pending_audio->append (remap (audio, _audio_mapping.output_channels(), _audio_mapping));
+	_pending_audio->append (audio);
 
 	int frame_size = _audio_codec_context->frame_size;
 	if (frame_size == 0) {

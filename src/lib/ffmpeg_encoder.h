@@ -28,6 +28,9 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
+#include <boost/thread/condition.hpp>
+
+class Butler;
 
 class FFmpegEncoder : public Encoder
 {
@@ -70,7 +73,7 @@ private:
 	AVDictionary* _video_options;
 	std::string _video_codec_name;
 	std::string _audio_codec_name;
-	AudioMapping _audio_mapping;
+	int _output_audio_channels;
 
 	mutable boost::mutex _mutex;
 	DCPTime _last_time;
@@ -80,6 +83,12 @@ private:
 	boost::filesystem::path _output;
 
 	boost::shared_ptr<AudioBuffers> _pending_audio;
+
+	mutable boost::mutex _queue_mutex;
+	boost::condition _queue_full;
+	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _queue;
+
+	boost::shared_ptr<Butler> _butler;
 
 	static int _video_stream_index;
 	static int _audio_stream_index;

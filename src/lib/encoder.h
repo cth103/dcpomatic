@@ -49,17 +49,9 @@ public:
 	virtual bool finishing () const = 0;
 
 protected:
-	virtual void video (boost::shared_ptr<PlayerVideo>, DCPTime) = 0;
-	virtual void audio (boost::shared_ptr<AudioBuffers>, DCPTime) = 0;
-	virtual void subtitle (PlayerSubtitles, DCPTimePeriod) = 0;
-
 	boost::shared_ptr<const Film> _film;
 	boost::weak_ptr<Job> _job;
 	boost::shared_ptr<Player> _player;
-
-	boost::signals2::scoped_connection _player_video_connection;
-	boost::signals2::scoped_connection _player_audio_connection;
-	boost::signals2::scoped_connection _player_subtitle_connection;
 };
 
 #endif
