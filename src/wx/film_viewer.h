@@ -63,7 +63,7 @@ public:
 private:
 	void paint_panel ();
 	void panel_sized (wxSizeEvent &);
-	void slider_moved ();
+	void slider_moved (bool update_slider);
 	void play_clicked ();
 	void timer ();
 	void calculate_sizes ();
