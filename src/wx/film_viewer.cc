@@ -135,9 +135,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_outline_content->Bind  (wxEVT_CHECKBOX,          boost::bind (&FilmViewer::refresh_panel,   this));
 	_left_eye->Bind         (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
 	_right_eye->Bind        (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
-	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this));
-	_slider->Bind           (wxEVT_SCROLL_PAGEUP,     boost::bind (&FilmViewer::slider_moved,    this));
-	_slider->Bind           (wxEVT_SCROLL_PAGEDOWN,   boost::bind (&FilmViewer::slider_moved,    this));
+	_slider->Bind           (wxEVT_SCROLL_CHANGED,    boost::bind (&FilmViewer::slider_moved,    this));
 	_play_button->Bind      (wxEVT_TOGGLEBUTTON,      boost::bind (&FilmViewer::play_clicked,    this));
 	_timer.Bind             (wxEVT_TIMER,             boost::bind (&FilmViewer::timer,           this));
 	_back_button->Bind      (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::back_clicked,    this, _1));
@@ -384,6 +382,7 @@ FilmViewer::slider_moved ()
 	}
 	seek (t, false);
 	update_position_label ();
+	update_position_slider ();
 }
 
 void
