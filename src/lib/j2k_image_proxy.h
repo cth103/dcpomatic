@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,6 +21,7 @@
 #include "image_proxy.h"
 #include <dcp/util.h>
 #include <dcp/data.h>
+#include <boost/thread/mutex.hpp>
 
 namespace dcp {
 	class MonoPictureFrame;
@@ -44,6 +45,7 @@ public:
 	void send_binary (boost::shared_ptr<Socket>) const;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	bool same (boost::shared_ptr<const ImageProxy>) const;
+	void prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
 	AVPixelFormat pixel_format () const {
 		return _pixel_format;
 	}
@@ -68,4 +70,5 @@ private:
 	mutable boost::shared_ptr<dcp::OpenJPEGImage> _decompressed;
 	mutable boost::optional<dcp::Size> _target_size;
 	AVPixelFormat _pixel_format;
+	mutable boost::mutex _mutex;
 };

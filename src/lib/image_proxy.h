@@ -74,6 +74,10 @@ public:
 	virtual void send_binary (boost::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	virtual bool same (boost::shared_ptr<const ImageProxy>) const = 0;
+	/** Do any useful work that would speed up a subsequent call to ::image().
+	 *  This method may be called in a different thread to image().
+	 */
+	virtual void prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const {}
 	virtual AVPixelFormat pixel_format () const = 0;
 };
 

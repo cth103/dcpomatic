@@ -48,6 +48,7 @@ using boost::optional;
 Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMapping audio_mapping, int audio_channels)
 	: _film (film)
 	, _player (player)
+	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
 	, _pending_seek_accurate (false)
 	, _finished (false)
 	, _died (false)
@@ -60,6 +61,13 @@ Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMappi
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1));
 	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this));
 	_thread = new boost::thread (bind (&Butler::thread, this));
+
+	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
+	   multi-thread JPEG2000 decoding.
+	*/
+	for (int i = 0; i < boost::thread::hardware_concurrency(); ++i) {
+		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
+	}
 }
 
 Butler::~Butler ()
@@ -68,6 +76,10 @@ Butler::~Butler ()
 		boost::mutex::scoped_lock lm (_mutex);
 		_stop_thread = true;
 	}
+
+	_prepare_work.reset ();
+	_prepare_pool.join_all ();
+	_prepare_service.stop ();
 
 	_thread->interrupt ();
 	try {
@@ -181,6 +193,16 @@ Butler::seek (DCPTime position, bool accurate)
 }
 
 void
+Butler::prepare (weak_ptr<PlayerVideo> weak_video) const
+{
+	shared_ptr<PlayerVideo> video = weak_video.lock ();
+	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
+	if (video) {
+		video->prepare ();
+	}
+}
+
+void
 Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	{
@@ -191,6 +213,7 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 		}
 	}
 
+	_prepare_service.post (bind (&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
 	_video.put (video, time);
 }
 

@@ -27,6 +27,7 @@
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/signals2.hpp>
+#include <boost/asio.hpp>
 
 class Film;
 class Player;
@@ -50,6 +51,7 @@ private:
 	void audio (boost::shared_ptr<AudioBuffers> audio);
 	void player_changed ();
 	bool should_run () const;
+	void prepare (boost::weak_ptr<PlayerVideo> video) const;
 
 	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -57,6 +59,10 @@ private:
 
 	VideoRingBuffers _video;
 	AudioRingBuffers _audio;
+
+	boost::thread_group _prepare_pool;
+	boost::asio::io_service _prepare_service;
+	boost::shared_ptr<boost::asio::io_service::work> _prepare_work;
 
 	/** mutex to protect _pending_seek_position, _pending_seek_acurate, _finished, _died, _stop_thread */
 	boost::mutex _mutex;

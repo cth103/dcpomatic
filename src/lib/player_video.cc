@@ -246,3 +246,9 @@ PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 {
 	return p == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
 }
+
+void
+PlayerVideo::prepare ()
+{
+	_in->prepare (_inter_size);
+}

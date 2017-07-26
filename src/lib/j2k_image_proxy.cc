@@ -93,34 +93,44 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	socket->read (_data.data().get (), _data.size ());
 }
 
-shared_ptr<Image>
-J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_size) const
+void
+J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 {
-	if (!_decompressed || target_size != _target_size) {
-		int reduce = 0;
+	boost::mutex::scoped_lock lm (_mutex);
 
-		while (target_size && (_size.width / pow(2, reduce)) > target_size->width && (_size.height / pow(2, reduce)) > target_size->height) {
-			++reduce;
-		}
+	if (_decompressed && target_size == _target_size) {
+		return;
+	}
 
-		--reduce;
-		reduce = max (0, reduce);
-		_decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
+	int reduce = 0;
 
-		if (_decompressed->precision(0) < 12) {
-			int const shift = 12 - _decompressed->precision (0);
-			for (int c = 0; c < 3; ++c) {
-				int* p = _decompressed->data (c);
-				for (int y = 0; y < _decompressed->size().height; ++y) {
-					for (int x = 0; x < _decompressed->size().width; ++x) {
-						*p++ <<= shift;
-					}
+	while (target_size && (_size.width / pow(2, reduce)) > target_size->width && (_size.height / pow(2, reduce)) > target_size->height) {
+		++reduce;
+	}
+
+	--reduce;
+	reduce = max (0, reduce);
+	_decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
+
+	if (_decompressed->precision(0) < 12) {
+		int const shift = 12 - _decompressed->precision (0);
+		for (int c = 0; c < 3; ++c) {
+			int* p = _decompressed->data (c);
+			for (int y = 0; y < _decompressed->size().height; ++y) {
+				for (int x = 0; x < _decompressed->size().width; ++x) {
+					*p++ <<= shift;
 				}
 			}
 		}
-
-		_target_size = target_size;
 	}
+
+	_target_size = target_size;
+}
+
+shared_ptr<Image>
+J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_size) const
+{
+	prepare (target_size);
 
 	shared_ptr<Image> image (new Image (_pixel_format, _decompressed->size(), true));
 
