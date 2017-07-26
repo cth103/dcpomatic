@@ -65,7 +65,7 @@ private:
 	dcp::Data _data;
 	dcp::Size _size;
 	boost::optional<dcp::Eye> _eye;
-	mutable boost::shared_ptr<dcp::OpenJPEGImage> _j2k;
-	mutable boost::optional<dcp::Size> _j2k_target_size;
+	mutable boost::shared_ptr<dcp::OpenJPEGImage> _decompressed;
+	mutable boost::optional<dcp::Size> _target_size;
 	AVPixelFormat _pixel_format;
 };

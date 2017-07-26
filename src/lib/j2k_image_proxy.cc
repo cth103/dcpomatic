@@ -96,7 +96,7 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 shared_ptr<Image>
 J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_size) const
 {
-	if (!_j2k || target_size != _j2k_target_size) {
+	if (!_decompressed || target_size != _target_size) {
 		int reduce = 0;
 
 		while (target_size && (_size.width / pow(2, reduce)) > target_size->width && (_size.height / pow(2, reduce)) > target_size->height) {
@@ -105,37 +105,37 @@ J2KImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size> target_siz
 
 		--reduce;
 		reduce = max (0, reduce);
-		_j2k = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
+		_decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
 
-		if (_j2k->precision(0) < 12) {
-			int const shift = 12 - _j2k->precision (0);
+		if (_decompressed->precision(0) < 12) {
+			int const shift = 12 - _decompressed->precision (0);
 			for (int c = 0; c < 3; ++c) {
-				int* p = _j2k->data (c);
-				for (int y = 0; y < _j2k->size().height; ++y) {
-					for (int x = 0; x < _j2k->size().width; ++x) {
+				int* p = _decompressed->data (c);
+				for (int y = 0; y < _decompressed->size().height; ++y) {
+					for (int x = 0; x < _decompressed->size().width; ++x) {
 						*p++ <<= shift;
 					}
 				}
 			}
 		}
 
-		_j2k_target_size = target_size;
+		_target_size = target_size;
 	}
 
-	shared_ptr<Image> image (new Image (_pixel_format, _j2k->size(), true));
+	shared_ptr<Image> image (new Image (_pixel_format, _decompressed->size(), true));
 
 	/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
 	   the data is 12-bit either way.
 	*/
 
-	int const width = _j2k->size().width;
+	int const width = _decompressed->size().width;
 
 	int p = 0;
-	for (int y = 0; y < _j2k->size().height; ++y) {
+	for (int y = 0; y < _decompressed->size().height; ++y) {
 		uint16_t* q = (uint16_t *) (image->data()[0] + y * image->stride()[0]);
 		for (int x = 0; x < width; ++x) {
 			for (int c = 0; c < 3; ++c) {
-				*q++ = _j2k->data(c)[p] << 4;
+				*q++ = _decompressed->data(c)[p] << 4;
 			}
 			++p;
 		}
