@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -62,7 +62,7 @@ help (string n)
 	     << "  -t, --threads      specify number of local encoding threads (overriding configuration)\n"
 	     << "  -j, --json <port>  run a JSON server on the specified port\n"
 	     << "  -k, --keep-going   keep running even when the job is complete\n"
-	     << "  -s, --servers      just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
+	     << "  -l, --list-servers just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
 	     << "  -d, --dcp-path     echo DCP's path to stdout on successful completion (implies -n)\n"
 	     << "      --dump         just dump a summary of the film's settings; don't encode\n"
 	     << "\n"
@@ -116,7 +116,7 @@ print_dump (shared_ptr<Film> film)
 }
 
 static void
-show_servers ()
+list_servers ()
 {
 	while (true) {
 		int N = 0;
@@ -187,7 +187,7 @@ main (int argc, char* argv[])
 	optional<int> json_port;
 	bool keep_going = false;
 	bool dump = false;
-	bool servers = false;
+	bool list_servers_ = false;
 	bool dcp_path = false;
 
 	int option_index = 0;
@@ -201,14 +201,14 @@ main (int argc, char* argv[])
 			{ "threads", required_argument, 0, 't'},
 			{ "json", required_argument, 0, 'j'},
 			{ "keep-going", no_argument, 0, 'k' },
-			{ "servers", no_argument, 0, 's' },
+			{ "list-servers", no_argument, 0, 'l' },
 			{ "dcp-path", no_argument, 0, 'd' },
 			/* Just using A, B, C ... from here on */
 			{ "dump", no_argument, 0, 'A' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAsd", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAld", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -242,8 +242,8 @@ main (int argc, char* argv[])
 		case 'A':
 			dump = true;
 			break;
-		case 's':
-			servers = true;
+		case 'l':
+			list_servers_ = true;
 			break;
 		case 'd':
 			dcp_path = true;
@@ -252,8 +252,8 @@ main (int argc, char* argv[])
 		}
 	}
 
-	if (servers) {
-		show_servers ();
+	if (list_servers_) {
+		list_servers ();
 		exit (EXIT_SUCCESS);
 	}
 
