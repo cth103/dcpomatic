@@ -65,11 +65,14 @@ diagrams/%.png:	diagrams/%.svg
 diagrams/%.pdf:	diagrams/%.svg
 	inkscape -z -f $< --export-pdf $@ --export-area-drawing
 
+config.xml:	../../src/lib/config.cc config.py
+	python config.py ../../src/lib/config.cc > config.xml
+
 #
 # HTML
 #
 
-html:	$(XML) dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
+html:	$(XML) config.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 	$(addprefix html/screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
 
@@ -89,7 +92,7 @@ html:	$(XML) dcpomatic-html.xsl extensions-html.ent dcpomatic.css \
 # PDF
 #
 
-pdf:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent \
+pdf:	$(XML) config.xml dcpomatic-pdf.xsl extensions-pdf.ent \
 	$(addprefix screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
 
@@ -106,7 +109,7 @@ pdf:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent \
 # LaTeX (handy for debugging)
 #
 
-tex:	$(XML) dcpomatic-pdf.xsl extensions-pdf.ent
+tex:	$(XML) config.xml dcpomatic-pdf.xsl extensions-pdf.ent
 
 # 	The DocBook needs to know what file extensions to look for
 # 	for screenshots and diagrams; use the correct file to tell it.

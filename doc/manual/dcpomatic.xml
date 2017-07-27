@@ -3317,4 +3317,22 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 
 </chapter>
 
+<!-- ============================================================== -->
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+<title>Configuration files</title>
+
+<para>Most of DCP-o-matic's configuration is stored in an XML file called <code>config.xml</code>.  This is stored in different places depending on your operating system:</para>
+
+<itemizedlist>
+  <listitem>Windows: <code>c:\Users\your_user_name\AppData\Local\dcpomatic</code></listitem>
+  <listitem>OS X: <code>/Users/your_user_Name/Library/Preferences/com.dcpomatic/2</code></listitem>
+  <listitem>Linux: <code>~/.config/dcpomatic2</code></listitem>
+</itemizedlist>
+
+<para>Possible XML tags are as follows:</para>
+
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="config.xml"/>
+
+</chapter>
+
 </book>

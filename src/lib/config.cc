@@ -424,77 +424,148 @@ Config::write_config () const
 	xmlpp::Document doc;
 	xmlpp::Element* root = doc.create_root_node ("Config");
 
+	/* [XML] Version The version number of the configuration file format; currently 2. */
 	root->add_child("Version")->add_child_text ("2");
+	/* [XML] MasterEncodingThreads Number of encoding threads to use when running as master. */
 	root->add_child("MasterEncodingThreads")->add_child_text (raw_convert<string> (_master_encoding_threads));
+	/* [XML] ServerEncodingThreads Number of encoding threads to use when running as server. */
 	root->add_child("ServerEncodingThreads")->add_child_text (raw_convert<string> (_server_encoding_threads));
 	if (_default_directory) {
+		/* [XML:opt] DefaultDirectory Default directory when creating a new film in the GUI. */
 		root->add_child("DefaultDirectory")->add_child_text (_default_directory->string ());
 	}
+	/* [XML] ServerPortBase Port number to use for frame encoding requests.  <code>ServerPortBase</code> + 1 and
+	   <code>ServerPortBase</code> + 2 are used for querying servers.  <code>ServerPortBase</code> + 3 is used
+	   by the batch converter to listen for job requests.
+	*/
 	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
+	/* [XML] UseAnyServers 1 to broadcast to look for encoding servers to use, 0 to use only those configured. */
 	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
 
 	BOOST_FOREACH (string i, _servers) {
+		/* [XML:opt] Server IP address or hostname of an encoding server to use; you can use as many of these tags
+		   as you like.
+		*/
 		root->add_child("Server")->add_child_text (i);
 	}
 
+	/* [XML] OnlyServersEncode 1 to set the master to do decoding of source content no JPEG2000 encoding; all encoding
+	   is done by the encoding servers.  0 to set the master to do some encoding as well as coordinating the job.
+	*/
 	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
+	/* [XML] TMSProtocol Protocol to use to copy files to a TMS; 0 to use SCP, 1 for FTP. */
 	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (static_cast<int> (_tms_protocol)));
+	/* [XML] TMSIP IP address of TMS */
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
+	/* [XML] TMSPath Path on the TMS to copy files to */
 	root->add_child("TMSPath")->add_child_text (_tms_path);
+	/* [XML] TMSUser Username to log into the TMS with */
 	root->add_child("TMSUser")->add_child_text (_tms_user);
+	/* [XML] TMSPassword Password to log into the TMS with */
 	root->add_child("TMSPassword")->add_child_text (_tms_password);
 	if (_cinema_sound_processor) {
+		/* [XML:opt] CinemaSoundProcessor Identifier of the type of cinema sound processor to use when calculating
+		   gain changes from fader positions.  Currently can only be <code>dolby_cp750</code>.
+		*/
 		root->add_child("CinemaSoundProcessor")->add_child_text (_cinema_sound_processor->id ());
 	}
 	if (_language) {
+		/* [XML:opt] Language Language to use in the GUI e.g. <code>fr_FR</code>. */
 		root->add_child("Language")->add_child_text (_language.get());
 	}
 	if (_default_container) {
+		/* [XML:opt] DefaultContainer ID of default container to use when creating new films (<code>119</code>, <code>133</code>,
+		   <code>138</code>, <code>143</code>, <code>166</code>, <code>178</code>, <code>185</code>, <code>235</code>,
+		   <code>239</code> or <code>full-frame</code>).
+		*/
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
 	if (_default_scale_to) {
+		/* [XML:opt] DefaultScaleTo ID of default ratio to scale content to when creating new films
+		   (see <code>DefaultContainer</code> for IDs).
+		*/
 		root->add_child("DefaultScaleTo")->add_child_text (_default_scale_to->id ());
 	}
 	if (_default_dcp_content_type) {
+		/* [XML:opt] DefaultDCPContentType Default content type ot use when creating new films (<code>FTR</code>, <code>SHR</code>,
+		   <code>TLR</code>, <code>TST</code>, <code>XSN</code>, <code>RTG</code>, <code>TSR</code>, <code>POL</code>,
+		   <code>PSA</code> or <code>ADV</code>). */
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
 	}
+	/* [XML] DefaultDCPAudioChannels Default number of audio channels to use when creating new films. */
 	root->add_child("DefaultDCPAudioChannels")->add_child_text (raw_convert<string> (_default_dcp_audio_channels));
+	/* [XML] DCPIssuer Issuer text to write into CPL files. */
 	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
+	/* [XML] DCPIssuer Creator text to write into CPL files. */
 	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
 
+	/* [XML] ISDCFMetadata Default ISDCF metadata to use for new films; child tags are <code>&lt;ContentVersion&gt;</code>,
+	   <code>&lt;AudioLanguage&gt;</code>, <code>&lt;SubtitleLanguage&gt;</code>, <code>&lt;Territory&gt;</code>,
+	   <code>&lt;Rating&gt;</code>, <code>&lt;Studio&gt;</code>, <code>&lt;Facility&gt;</code>, <code>&lt;TempVersion&gt;</code>,
+	   <code>&lt;PreRelease&gt;</code>, <code>&lt;RedBand&gt;</code>, <code>&lt;Chain&gt;</code>, <code>&lt;TwoDVersionOFThreeD&gt;</code>,
+	   <code>&lt;MasteredLuminance&gt;</code>.
+	*/
 	_default_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 
+	/* [XML] DefaultStillLength Default length (in seconds) for still images in new films. */
 	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
+	/* [XML] DefaultJ2KBandwidth Default bitrate (in bits per second) for JPEG2000 data in new films. */
 	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
+	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
+	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */
 	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
 	if (_default_kdm_directory) {
+		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
 		root->add_child("DefaultKDMDirectory")->add_child_text (_default_kdm_directory->string ());
 	}
+	/* [XML] MailServer Hostname of SMTP server to use. */
 	root->add_child("MailServer")->add_child_text (_mail_server);
+	/* [XML] MailPort Port number to use on SMTP server. */
 	root->add_child("MailPort")->add_child_text (raw_convert<string> (_mail_port));
+	/* [XML] MailUser Username to use on SMTP server. */
 	root->add_child("MailUser")->add_child_text (_mail_user);
+	/* [XML] MailPassword Password to use on SMTP server. */
 	root->add_child("MailPassword")->add_child_text (_mail_password);
+	/* [XML] KDMSubject Subject to use for KDM emails. */
 	root->add_child("KDMSubject")->add_child_text (_kdm_subject);
+	/* [XML] KDMFrom From address to use for KDM emails. */
 	root->add_child("KDMFrom")->add_child_text (_kdm_from);
 	BOOST_FOREACH (string i, _kdm_cc) {
+		/* [XML] KDMCC CC address to use for KDM emails; you can use as many of these tags as you like. */
 		root->add_child("KDMCC")->add_child_text (i);
 	}
+	/* [XML] KDMBCC BCC address to use for KDM emails */
 	root->add_child("KDMBCC")->add_child_text (_kdm_bcc);
+	/* [XML] KDMEmail Text of KDM email */
 	root->add_child("KDMEmail")->add_child_text (_kdm_email);
 
+	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new versions, 0 to check only on request */
 	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
+	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request */
 	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
 
+	/* [XML] MaximumJ2KBandwidth Maximum J2K bandwidth (in bits per second) that can be specified in the GUI */
 	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
+	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates */
 	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
+	/* [XML] LogTypes Types of logging to write; a bitfield where 1 is general notes, 2 warnings, 4 errors, 8 debug information related
+	   to encoding, 16 debug information related to encoding, 32 debug information for timing purposes, 64 debug information related
+	   to sending email.
+	*/
 	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
+	/* [XML] AnalyseEBUR128 1 to do EBUR128 analyses when analysing audio, otherwise 0. */
 	root->add_child("AnalyseEBUR128")->add_child_text (_analyse_ebur128 ? "1" : "0");
+	/* [XML] AutomaticAudioAnalysis 1 to run audio analysis automatically when audio content is added to the film, otherwise 0. */
 	root->add_child("AutomaticAudioAnalysis")->add_child_text (_automatic_audio_analysis ? "1" : "0");
 #ifdef DCPOMATIC_WINDOWS
+	/* [XML] Win32Console 1 to open a console when running on Windows, otherwise 0. */
 	root->add_child("Win32Console")->add_child_text (_win32_console ? "1" : "0");
 #endif
 
+	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
+	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
+	*/
 	xmlpp::Element* signer = root->add_child ("Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
@@ -502,6 +573,7 @@ Config::write_config () const
 	}
 	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
 
+	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	xmlpp::Element* decryption = root->add_child ("Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
 	BOOST_FOREACH (dcp::Certificate const & i, _decryption_chain->unordered()) {
@@ -509,29 +581,48 @@ Config::write_config () const
 	}
 	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
 
+	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the GUI; there can be more than one
+	   of these tags.
+	*/
 	BOOST_FOREACH (boost::filesystem::path i, _history) {
 		root->add_child("History")->add_child_text (i.string ());
 	}
 
+	/* [XML] DKDMGroup A group of DKDMs, each with a <code>Name</code> attribute, containing other <code>&lt;DKDMGroup&gt;</code>
+	   or <code>&lt;DKDM&gt;</code> tags.
+	*/
+	/* [XML] DKDM A DKDM as XML */
 	_dkdms->as_xml (root);
 
+	/* [XML] CinemasFile Filename of cinemas list file */
 	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
+	/* [XML] ShowHintsBeforeMakeDCP 1 to show hints in the GUI before making a DCP, otherwise 0 */
 	root->add_child("ShowHintsBeforeMakeDCP")->add_child_text (_show_hints_before_make_dcp ? "1" : "0");
+	/* [XML] ConfirmKDMEmail 1 to confirm before sending KDM emails in the GUI, otherwise 0 */
 	root->add_child("ConfirmKDMEmail")->add_child_text (_confirm_kdm_email ? "1" : "0");
+	/* [XML] KDMFilenameFormat Format for KDM filenames */
 	root->add_child("KDMFilenameFormat")->add_child_text (_kdm_filename_format.specification ());
+	/* [XML] KDMContainerNameFormat Format for KDM containers (directories or ZIP files) */
 	root->add_child("KDMContainerNameFormat")->add_child_text (_kdm_container_name_format.specification ());
+	/* [XML] DCPMetadataFilenameFormat Format for DCP metadata filenames */
 	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
+	/* [XML] DCPAssetFilenameFormat Format for DCP asset filenames */
 	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
+	/* [XML] JumpToSelected 1 to make the GUI jump to the start of content when it is selected, otherwise 0 */
 	root->add_child("JumpToSelected")->add_child_text (_jump_to_selected ? "1" : "0");
+	/* [XML] Nagged 1 if a particular nag screen has been shown and should not be shown again, otherwise 0 */
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		xmlpp::Element* e = root->add_child ("Nagged");
 		e->set_attribute ("Id", raw_convert<string>(i));
 		e->add_child_text (_nagged[i] ? "1" : "0");
 	}
+	/* [XML] PreviewSound 1 to use sound in the GUI preview, otherwise 0 */
 	root->add_child("PreviewSound")->add_child_text (_preview_sound ? "1" : "0");
 	if (_preview_sound_output) {
+		/* [XML:opt] PreviewSoundOutput Name of the audio output to use */
 		root->add_child("PreviewSoundOutput")->add_child_text (_preview_sound_output.get());
 	}
+	/* [XML] CoverSheet Text of the cover sheet to write when making DCPs */
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
 
 	try {
