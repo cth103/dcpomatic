@@ -156,6 +156,9 @@ Player::setup_pieces ()
 		}
 	}
 
+	_black = Empty (_film, bind(&Content::video, _1));
+	_silent = Empty (_film, bind(&Content::audio, _1));
+
 	_last_video_time = DCPTime ();
 	_last_audio_time = DCPTime ();
 	_have_valid_pieces = true;
