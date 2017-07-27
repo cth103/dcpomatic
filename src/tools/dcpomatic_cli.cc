@@ -54,17 +54,18 @@ static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION] [<FILM>]\n"
-	     << "  -v, --version      show DCP-o-matic version\n"
-	     << "  -h, --help         show this help\n"
-	     << "  -f, --flags        show flags passed to C++ compiler on build\n"
-	     << "  -n, --no-progress  do not print progress to stdout\n"
-	     << "  -r, --no-remote    do not use any remote servers\n"
-	     << "  -t, --threads      specify number of local encoding threads (overriding configuration)\n"
-	     << "  -j, --json <port>  run a JSON server on the specified port\n"
-	     << "  -k, --keep-going   keep running even when the job is complete\n"
-	     << "  -l, --list-servers just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
-	     << "  -d, --dcp-path     echo DCP's path to stdout on successful completion (implies -n)\n"
-	     << "      --dump         just dump a summary of the film's settings; don't encode\n"
+	     << "  -v, --version        show DCP-o-matic version\n"
+	     << "  -h, --help           show this help\n"
+	     << "  -f, --flags          show flags passed to C++ compiler on build\n"
+	     << "  -n, --no-progress    do not print progress to stdout\n"
+	     << "  -r, --no-remote      do not use any remote servers\n"
+	     << "  -t, --threads        specify number of local encoding threads (overriding configuration)\n"
+	     << "  -j, --json <port>    run a JSON server on the specified port\n"
+	     << "  -k, --keep-going     keep running even when the job is complete\n"
+	     << "  -s, --servers <file> specify servers to use in a text file\n"
+	     << "  -l, --list-servers   just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
+	     << "  -d, --dcp-path       echo DCP's path to stdout on successful completion (implies -n)\n"
+	     << "      --dump           just dump a summary of the film's settings; don't encode\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
@@ -187,6 +188,7 @@ main (int argc, char* argv[])
 	optional<int> json_port;
 	bool keep_going = false;
 	bool dump = false;
+	optional<boost::filesystem::path> servers;
 	bool list_servers_ = false;
 	bool dcp_path = false;
 
@@ -201,6 +203,7 @@ main (int argc, char* argv[])
 			{ "threads", required_argument, 0, 't'},
 			{ "json", required_argument, 0, 'j'},
 			{ "keep-going", no_argument, 0, 'k' },
+			{ "servers", required_argument, 0, 's' },
 			{ "list-servers", no_argument, 0, 'l' },
 			{ "dcp-path", no_argument, 0, 'd' },
 			/* Just using A, B, C ... from here on */
@@ -208,7 +211,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAld", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ld", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -242,6 +245,9 @@ main (int argc, char* argv[])
 		case 'A':
 			dump = true;
 			break;
+		case 's':
+			servers = optarg;
+			break;
 		case 'l':
 			list_servers_ = true;
 			break;
@@ -250,6 +256,23 @@ main (int argc, char* argv[])
 			progress = false;
 			break;
 		}
+	}
+
+	if (servers) {
+		FILE* f = fopen_boost (*servers, "r");
+		if (!f) {
+			cerr << "Could not open servers list file " << *servers << "\n";
+			exit (EXIT_FAILURE);
+		}
+		vector<string> servers;
+		while (!feof (f)) {
+			char buffer[128];
+			if (fscanf (f, "%s.127", buffer) == 1) {
+				servers.push_back (buffer);
+			}
+		}
+		fclose (f);
+		Config::instance()->set_servers (servers);
 	}
 
 	if (list_servers_) {
