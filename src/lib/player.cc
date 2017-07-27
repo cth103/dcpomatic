@@ -156,9 +156,6 @@ Player::setup_pieces ()
 		}
 	}
 
-	_black = Empty (_film, bind(&Content::video, _1));
-	_silent = Empty (_film, bind(&Content::audio, _1));
-
 	_last_video_time = DCPTime ();
 	_last_audio_time = DCPTime ();
 	_have_valid_pieces = true;
@@ -509,10 +506,16 @@ Player::pass ()
 		setup_pieces ();
 	}
 
+	if (_playlist->length() == DCPTime()) {
+		/* Special case of an empty Film; just give one black frame */
+		emit_video (black_player_video_frame(), DCPTime());
+		return true;
+	}
+
 	/* Find the decoder or empty which is farthest behind where we are and make it emit some data */
 
-	shared_ptr<Piece> earliest;
-	DCPTime earliest_content;
+	shared_ptr<Piece> earliest_content;
+	optional<DCPTime> earliest_time;
 
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (!i->done) {
@@ -520,34 +523,57 @@ Player::pass ()
 			/* Given two choices at the same time, pick the one with a subtitle so we see it before
 			   the video.
 			*/
-			if (!earliest || t < earliest_content || (t == earliest_content && i->decoder->subtitle)) {
-				earliest_content = t;
-				earliest = i;
+			if (!earliest_time || t < *earliest_time || (t == *earliest_time && i->decoder->subtitle)) {
+				earliest_time = t;
+				earliest_content = i;
 			}
 		}
 	}
 
 	bool done = false;
 
-	if (!_black.done() && (!earliest || _black.position() < earliest_content)) {
-		/* There is some black that must be emitted */
+	enum {
+		NONE,
+		CONTENT,
+		BLACK,
+		SILENT
+	} which = NONE;
+
+	if (earliest_content) {
+		which = CONTENT;
+	}
+
+	if (!_black.done() && (!earliest_time || _black.position() < *earliest_time)) {
+		earliest_time = _black.position ();
+		which = BLACK;
+	}
+
+	if (!_silent.done() && (!earliest_time || _silent.position() < *earliest_time)) {
+		earliest_time = _silent.position ();
+		which = SILENT;
+	}
+
+	switch (which) {
+	case CONTENT:
+		earliest_content->done = earliest_content->decoder->pass ();
+		break;
+	case BLACK:
 		emit_video (black_player_video_frame(), _black.position());
 		_black.set_position (_black.position() + one_video_frame());
-	} else if (!_silent.done() && (!earliest || _silent.position() < earliest_content)) {
-		/* There is some silence that must be emitted */
+		break;
+	case SILENT:
+	{
 		DCPTimePeriod period (_silent.period_at_position());
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
 		}
 		fill_audio (period);
 		_silent.set_position (period.to);
-	} else if (_playlist->length() == DCPTime()) {
-		/* Special case of an empty Film; just give one black frame */
-		emit_video (black_player_video_frame(), DCPTime());
-	} else if (earliest) {
-		earliest->done = earliest->decoder->pass ();
-	} else {
+		break;
+	}
+	case NONE:
 		done = true;
+		break;
 	}
 
 	/* Emit any audio that is ready */
