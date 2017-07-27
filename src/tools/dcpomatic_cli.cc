@@ -122,44 +122,51 @@ show_servers ()
 		int N = 0;
 		list<EncodeServerDescription> servers = EncodeServerFinder::instance()->servers ();
 
-		if (Config::instance()->use_any_servers ()) {
-			if (servers.empty ()) {
-				cout << "No encoding servers found.\n";
-				++N;
-			} else {
-				cout << std::left << setw(24) << "Host" << " Threads\n";
-				++N;
-				BOOST_FOREACH (EncodeServerDescription const & i, servers) {
-					cout << std::left << setw(24) << i.host_name() << " " << i.threads() << "\n";
-					++N;
-				}
-			}
+		/* This is a bit fiddly because we want to list configured servers that are down as well
+		   as all those (configured and found by broadcast) that are up.
+		*/
+
+		if (servers.empty() && Config::instance()->servers().empty()) {
+			cout << "No encoding servers found or configured.\n";
+			++N;
 		} else {
-			vector<string> configured_servers = Config::instance()->servers();
-			if (configured_servers.empty()) {
-				cout << "No configured servers, and DCP-o-matic is not set to search for any server.\n";
-				++N;
-			} else {
-				cout << std::left << setw(24) << "Host" << " Status Threads\n";
-				++N;
-				BOOST_FOREACH (string const & i, Config::instance()->servers()) {
-					cout << std::left << setw(24) << i << " ";
-					optional<int> threads;
-					BOOST_FOREACH (EncodeServerDescription const & j, servers) {
-						if (i == j.host_name()) {
-							threads = j.threads();
-						}
-					}
-					if (static_cast<bool>(threads)) {
-						cout << "UP     " << threads.get() << "\n";
+			cout << std::left << setw(24) << "Host" << " Status Threads\n";
+			++N;
+
+			/* Report the state of configured servers */
+			BOOST_FOREACH (string i, Config::instance()->servers()) {
+				cout << std::left << setw(24) << i << " ";
+
+				/* See if this server is on the active list; if so, remove it and note
+				   the number of threads it is offering.
+				*/
+				optional<int> threads;
+				list<EncodeServerDescription>::iterator j = servers.begin ();
+				while (j != servers.end ()) {
+					if (i == j->host_name()) {
+						threads = j->threads();
+						list<EncodeServerDescription>::iterator tmp = j;
+						++tmp;
+						servers.erase (j);
+						j = tmp;
 					} else {
-						cout << "DOWN\n";
+						++j;
 					}
-					++N;
 				}
+				if (static_cast<bool>(threads)) {
+					cout << "UP     " << threads.get() << "\n";
+				} else {
+					cout << "DOWN\n";
+				}
+				++N;
+			}
+
+			/* Now report any left that have been found by broadcast */
+			BOOST_FOREACH (EncodeServerDescription const & i, servers) {
+				cout << std::left << setw(24) << i.host_name() << " UP     " << i.threads() << "\n";
+				++N;
 			}
 		}
-
 
 		dcpomatic_sleep (1);
 
