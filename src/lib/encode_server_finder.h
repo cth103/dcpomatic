@@ -31,6 +31,15 @@
 
 class Socket;
 
+/** @class EncodeServerFinder
+ *  @brief Locater of encoding servers.
+ *
+ *  This class finds active (i.e. responding) encode servers.  Depending on
+ *  configuration it finds servers by:
+ *
+ *  1. broadcasting a request to the local subnet and
+ *  2. checking to see if any of the configured server hosts are up.
+ */
 class EncodeServerFinder : public Signaller, public ExceptionStore
 {
 public:
