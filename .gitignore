@@ -13,6 +13,7 @@ sync
 doc/manual/html
 doc/manual/pdf
 doc/manual/extensions.ent
+doc/manual/config.xml
 doc/design/*.pdf
 doc/design/*.log
 doc/design/*.aux
