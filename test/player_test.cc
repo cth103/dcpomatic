@@ -31,6 +31,7 @@
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "lib/image_content.h"
+#include "lib/text_subtitle_content.h"
 #include "lib/content_factory.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -144,4 +145,44 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
 	BOOST_REQUIRE_EQUAL (player->_silent._periods.size(), 1);
 	BOOST_CHECK (player->_silent._periods.front() == DCPTimePeriod(DCPTime(289920), DCPTime::from_frames(3 * 24 + 1, 24)));
+}
+
+static Frame video_frames;
+static Frame audio_frames;
+
+static void
+video (shared_ptr<PlayerVideo>, DCPTime)
+{
+	++video_frames;
+}
+
+static void
+audio (shared_ptr<AudioBuffers> audio, DCPTime)
+{
+	audio_frames += audio->frames();
+}
+
+/** Check with a video-only file that the video and audio emissions happen more-or-less together */
+BOOST_AUTO_TEST_CASE (player_interleave_test)
+{
+	shared_ptr<Film> film = new_test_film ("ffmpeg_transcoder_basic_test_subs");
+	film->set_name ("ffmpeg_transcoder_basic_test");
+	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels (6);
+
+	shared_ptr<FFmpegContent> c (new FFmpegContent (film, "test/data/test.mp4"));
+	film->examine_and_add_content (c);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<TextSubtitleContent> s (new TextSubtitleContent (film, "test/data/subrip.srt"));
+	film->examine_and_add_content (s);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<Player> player (new Player(film, film->playlist()));
+	player->Video.connect (bind (&video, _1, _2));
+	player->Audio.connect (bind (&audio, _1, _2));
+	video_frames = audio_frames = 0;
+	while (!player->pass ()) {
+		BOOST_CHECK (abs(video_frames - (audio_frames / 2000)) < 8);
+	}
 }
