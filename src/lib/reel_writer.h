@@ -94,13 +94,13 @@ private:
 
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;
-	void check_existing_picture_asset ();
-	bool existing_picture_frame_ok (FILE* asset_file, FILE* info_file) const;
+	Frame check_existing_picture_asset ();
+	bool existing_picture_frame_ok (FILE* asset_file, FILE* info_file, Frame frame) const;
 
 	boost::shared_ptr<const Film> _film;
 
 	DCPTimePeriod _period;
-	/** the first frame index that does not already exist in our MXF */
+	/** the first picture frame index that does not already exist in our MXF */
 	int _first_nonexistant_frame;
 	/** the data of the last written frame, if there is one */
 	boost::optional<dcp::Data> _last_written[EYES_COUNT];

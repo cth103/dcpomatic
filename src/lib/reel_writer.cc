@@ -67,7 +67,6 @@ ReelWriter::ReelWriter (
 	)
 	: _film (film)
 	, _period (period)
-	, _first_nonexistant_frame (0)
 	, _last_written_video_frame (-1)
 	, _last_written_eyes (EYES_RIGHT)
 	, _total_written_audio_frames (0)
@@ -98,7 +97,7 @@ ReelWriter::ReelWriter (
 		);
 
 	job->sub (_("Checking existing image data"));
-	check_existing_picture_asset ();
+	_first_nonexistant_frame = check_existing_picture_asset ();
 
 	_picture_asset_writer = _picture_asset->start_write (
 		_film->internal_video_asset_dir() / _film->internal_video_asset_filename(_period),
@@ -195,7 +194,7 @@ ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 	DCPOMATIC_ASSERT (false);
 }
 
-void
+Frame
 ReelWriter::check_existing_picture_asset ()
 {
 	/* Try to open the existing asset */
@@ -203,7 +202,7 @@ ReelWriter::check_existing_picture_asset ()
 	FILE* asset_file = fopen_boost (_picture_asset->file().get(), "rb");
 	if (!asset_file) {
 		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file()->string(), errno);
-		return;
+		return 0;
 	} else {
 		LOG_GENERAL ("Opened existing asset at %1", _picture_asset->file()->string());
 	}
@@ -216,31 +215,34 @@ ReelWriter::check_existing_picture_asset ()
 	if (!info_file) {
 		LOG_GENERAL_NC ("Could not open film info file");
 		fclose (asset_file);
-		return;
+		return 0;
 	}
 
+	Frame first_nonexistant_frame;
 	if (_film->three_d ()) {
 		/* Start looking at the last left frame */
-		_first_nonexistant_frame = n / 2;
+		first_nonexistant_frame = n / 2;
 	} else {
-		_first_nonexistant_frame = n;
+		first_nonexistant_frame = n;
 	}
 
-	while (!existing_picture_frame_ok(asset_file, info_file) && _first_nonexistant_frame > 0) {
-		--_first_nonexistant_frame;
+	while (!existing_picture_frame_ok(asset_file, info_file, first_nonexistant_frame) && first_nonexistant_frame > 0) {
+		--first_nonexistant_frame;
 	}
 
-	if (!_film->three_d() && _first_nonexistant_frame > 0) {
+	if (!_film->three_d() && first_nonexistant_frame > 0) {
 		/* If we are doing 3D we might have found a good L frame with no R, so only
 		   do this if we're in 2D and we've just found a good B(oth) frame.
 		*/
-		++_first_nonexistant_frame;
+		++first_nonexistant_frame;
 	}
 
-	LOG_GENERAL ("Proceeding with first nonexistant frame %1", _first_nonexistant_frame);
+	LOG_GENERAL ("Proceeding with first nonexistant frame %1", first_nonexistant_frame);
 
 	fclose (asset_file);
 	fclose (info_file);
+
+	return first_nonexistant_frame;
 }
 
 void
@@ -548,14 +550,14 @@ ReelWriter::write (PlayerSubtitles subs)
 }
 
 bool
-ReelWriter::existing_picture_frame_ok (FILE* asset_file, FILE* info_file) const
+ReelWriter::existing_picture_frame_ok (FILE* asset_file, FILE* info_file, Frame frame) const
 {
-	LOG_GENERAL ("Checking existing picture frame %1", _first_nonexistant_frame);
+	LOG_GENERAL ("Checking existing picture frame %1", frame);
 
 	/* Read the data from the info file; for 3D we just check the left
 	   frames until we find a good one.
 	*/
-	dcp::FrameInfo const info = read_frame_info (info_file, _first_nonexistant_frame, _film->three_d () ? EYES_LEFT : EYES_BOTH);
+	dcp::FrameInfo const info = read_frame_info (info_file, frame, _film->three_d () ? EYES_LEFT : EYES_BOTH);
 
 	bool ok = true;
 
@@ -565,14 +567,14 @@ ReelWriter::existing_picture_frame_ok (FILE* asset_file, FILE* info_file) const
 	size_t const read = fread (data.data().get(), 1, data.size(), asset_file);
 	LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
 	if (read != static_cast<size_t> (data.size ())) {
-		LOG_GENERAL ("Existing frame %1 is incomplete", _first_nonexistant_frame);
+		LOG_GENERAL ("Existing frame %1 is incomplete", frame);
 		ok = false;
 	} else {
 		Digester digester;
 		digester.add (data.data().get(), data.size());
 		LOG_GENERAL ("Hash %1 vs %2", digester.get(), info.hash);
 		if (digester.get() != info.hash) {
-			LOG_GENERAL ("Existing frame %1 failed hash check", _first_nonexistant_frame);
+			LOG_GENERAL ("Existing frame %1 failed hash check", frame);
 			ok = false;
 		}
 	}
