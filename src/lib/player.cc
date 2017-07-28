@@ -645,9 +645,8 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		return;
 	}
 
-	/* Time and period of the frame we will emit */
+	/* Time of the first frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
-	DCPTimePeriod const period (time, time + one_video_frame());
 
 	/* Discard if it's outside the content's period or if it's before the last accurate seek */
 	if (
@@ -687,7 +686,11 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 			)
 		);
 
-	emit_video (_last_video[wp], time);
+	DCPTime t = time;
+	for (int i = 0; i < frc.repeat; ++i) {
+		emit_video (_last_video[wp], t);
+		t += one_video_frame ();
+	}
 }
 
 void
