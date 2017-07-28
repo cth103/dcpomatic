@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-29 11:43+0100\n"
-"PO-Revision-Date: 2017-06-08 03:23+0100\n"
+"PO-Revision-Date: 2017-07-28 14:47+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -236,6 +236,10 @@ msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
+"Das Hinzufügen dieser Zertifikatsdatei würde ihre Zertifikatskette ungültig "
+"machen, der Vorgang wurde daher nicht ausgeführt.\n"
+"Wenn Sie Zertifikate hinzufügen, beachten Sie grundsätzlich die Reihenfolge "
+"root->intermediate(s)->leaf!"
 
 #: src/wx/cinema_dialog.cc:71 src/wx/config_dialog.cc:1466
 msgid "Address"
@@ -502,7 +506,7 @@ msgid "Could not load KDM (%s)"
 msgstr "Konnte KDM %s nicht laden"
 
 #: src/wx/config_dialog.cc:932
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certificate (%s)"
 msgstr "Konnte die Zertifikatsdatei (%s) nicht lesen."
 
@@ -524,8 +528,8 @@ msgid ""
 "preview."
 msgstr ""
 "Konnte Audioausgang (%s) nicht konfigurieren. Die Wiedergabe der Vorschau "
-"wird stumm sein. /nPrüfen sie ihre Audiogeräte bzw. konfigurieren sie ein "
-"anderes Gerät!"
+"wird stumm sein. \n"
+"Prüfen sie ihre Audiogeräte bzw. konfigurieren sie ein anderes Gerät!"
 
 #: src/wx/config_dialog.cc:1593
 msgid "Cover Sheet"
@@ -922,7 +926,7 @@ msgstr "Grün Chromatizität"
 
 #: src/wx/config_dialog.cc:586
 msgid "Guess from content"
-msgstr "Aus Inhalt ermitteln"
+msgstr "Aus Inhalt ermitteln (empfohlen)"
 
 #: src/wx/export_dialog.cc:32
 msgid "H.264"
@@ -970,6 +974,13 @@ msgid ""
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
 "become useless.  Proceed with caution!"
 msgstr ""
+"Wenn Sie fort fahren, werden von Ihnen früher erzeugte DKDMs für diese "
+"Installation ungültig, ebenso KDMs/DKDMs die ihnen von anderen für diese "
+"Installation ausgestellt wurden. \n"
+"Sichern Sie vorsichtshalber zuerst ihre existierenden Zertifikate und "
+"Schlüssel, damit Sie ggfs. noch einmal auf sie zurück greifen können! \n"
+"Wenn Sie auf diesem System noch nie vorher mit KDMs oder verschlüsselten "
+"DCPs gearbeitet haben, können Sie diesen Hinweis ggfs. ignorieren."
 
 #: src/wx/video_waveform_dialog.cc:68
 msgid "Image X position"
@@ -1093,6 +1104,8 @@ msgstr "Leaf private key"
 #: src/wx/config_dialog.cc:886
 msgid "Leaf private key does not match leaf certificate!"
 msgstr ""
+"Der private ('leaf') Schlüssel passt nicht zum Zertifikat! Prüfen Sie "
+"Schlüssel und Zertifikat, oder erzeugen Sie beides neu!"
 
 #: src/wx/video_panel.cc:105
 msgid "Left"
@@ -1173,7 +1186,7 @@ msgstr "Resultierende Matrix:"
 
 #: src/wx/config_dialog.cc:1682
 msgid "Maximum JPEG2000 bandwidth"
-msgstr "Maximale JPEG2000 Datenrate (>250 - Vorsicht!)"
+msgstr "Maximale JPEG2000 Datenrate (>240MBit/s - Vorsicht!)"
 
 #: src/wx/config_dialog.cc:547 src/wx/config_dialog.cc:1686
 #: src/wx/dcp_panel.cc:683
@@ -1182,7 +1195,7 @@ msgstr "Mbit/s"
 
 #: src/wx/export_dialog.cc:52
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "Mehrkanalaudio zu Stereo heruntermischen"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1224,7 +1237,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1978,9 +1992,8 @@ msgid "UTC+9"
 msgstr "UTC/GMT+9"
 
 #: src/wx/cinema_dialog.cc:110
-#, fuzzy
 msgid "UTC+9:30"
-msgstr "UTC/GMT+5:30"
+msgstr "UTC/GMT+9:30"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC-1"

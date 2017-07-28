@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-29 11:43+0100\n"
-"PO-Revision-Date: 2017-06-08 02:29+0100\n"
+"PO-Revision-Date: 2017-07-28 15:27+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -72,7 +72,6 @@ msgid " on %1"
 msgstr "am %1"
 
 #: src/lib/config.cc:633
-#, fuzzy
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -84,12 +83,16 @@ msgid ""
 "Length: $LENGTH\n"
 "Size: $SIZE\n"
 msgstr ""
-"$CPL_NAME\n"
+"Begleitzettel für: $CPL_NAME\n"
 "\n"
 "Typ: $TYPE\n"
 "Format: $CONTAINER\n"
 "Audio: $AUDIO\n"
+"Audio Sprache: $AUDIO_LANGUAGE\n"
+"Untertitel Sprache: $SUBTITLE_LANGUAGE\n"
 "Länge: $LENGTH\n"
+"Größe: $SIZE\n"
+"Bei Problemen mit diesem DCP kontaktieren Sie bitte:\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -122,16 +125,15 @@ msgstr "1.19:1"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33:1 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
 msgstr "1.375:1 (Academy)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43:1 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -139,24 +141,23 @@ msgstr "1.66:1"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78:1 (16:9 / HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85:1 (Flat / BW)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "Full Container (DCI)"
+msgstr "1.90:1 Full Container (DCI)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35:1 (35mm Scope)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39:1 (DCI Scope)"
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
@@ -549,14 +550,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "1.85:1 (Flat/BW)"
+msgstr "DCI Flat"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "2.39:1 (DCI Scope)"
+msgstr "DCI Scope"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -708,7 +707,7 @@ msgstr "Voll (0-%1)"
 
 #: src/lib/ratio.cc:46
 msgid "Full frame"
-msgstr "Full Container (DCI)"
+msgstr "DCI Full Container"
 
 #: src/lib/audio_content.cc:334
 msgid "Full length in audio samples at DCP rate"
@@ -946,9 +945,8 @@ msgid "Prepared for video frame rate"
 msgstr "Angelegt für Bildrate"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Programmfehler bei %1:%2"
+msgstr "Programmfehler bei %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
