@@ -38,6 +38,9 @@
 #include <sndfile.h>
 #include <libxml++/libxml++.h>
 #include <Magick++.h>
+extern "C" {
+#include <libavformat/avformat.h>
+}
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
@@ -387,4 +390,55 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file, string
 
 	Magick::Image m (image->size().width, image->size().height, format.c_str(), CharPixel, (void *) image->data()[0]);
 	m.write (file.string ());
+}
+
+class Reader
+{
+public:
+	Reader (boost::filesystem::path file)
+	{
+		format_context = avformat_alloc_context ();
+		BOOST_REQUIRE (format_context);
+		BOOST_REQUIRE (avformat_open_input (&format_context, file.string().c_str(), 0, 0) >= 0);
+		BOOST_REQUIRE (avformat_find_stream_info (format_context, 0) >= 0);
+	}
+
+	~Reader ()
+	{
+		avformat_close_input (&format_context);
+	}
+
+	AVFormatContext* format_context;
+};
+
+
+void
+check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int skip_packet_stream)
+{
+	Reader ref_r (ref);
+	Reader check_r (check);
+
+	BOOST_REQUIRE_EQUAL (ref_r.format_context->nb_streams, check_r.format_context->nb_streams);
+
+	AVPacket ref_p;
+	AVPacket check_p;
+
+	bool skipped = false;
+
+	while (true) {
+		int p = av_read_frame (ref_r.format_context, &ref_p);
+		int q = av_read_frame (check_r.format_context, &check_p);
+		if (ref_p.stream_index == skip_packet_stream && check_p.stream_index == skip_packet_stream && !skipped) {
+			skipped = true;
+			continue;
+		}
+		BOOST_REQUIRE_EQUAL (p, q);
+		BOOST_REQUIRE (p == 0 || p == AVERROR_EOF);
+		if (p == AVERROR_EOF) {
+			break;
+		}
+
+		BOOST_REQUIRE_EQUAL (ref_p.buf->size, check_p.buf->size);
+		BOOST_REQUIRE_EQUAL (memcmp (ref_p.buf->data, check_p.buf->data, ref_p.buf->size), 0);
+	}
 }

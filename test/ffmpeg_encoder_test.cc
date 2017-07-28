@@ -134,5 +134,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_mixdown.mp4", FFmpegEncoder::FORMAT_H264, true);
 	encoder.go ();
 
-	check_file ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4");
+	/* Skip the first video packet when checking as it contains x264 options which can vary between machines
+	   (e.g. number of threads used for encoding).
+	*/
+	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4", 0);
 }
