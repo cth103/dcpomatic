@@ -81,7 +81,7 @@ SubtitleDecoder::emit_text_start (ContentTime from, list<dcp::SubtitleString> s)
 void
 SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtitle)
 {
-	/* See if our next subtitle needs to be placed on screen by us */
+	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
 	optional<int> bottom_line;
 	BOOST_FOREACH (sub::Line i, subtitle.lines) {
@@ -141,7 +141,7 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 				case sub::TOP_OF_SCREEN:
 					v_align = dcp::VALIGN_TOP;
 					break;
-				case sub::CENTRE_OF_SCREEN:
+				case sub::VERTICAL_CENTRE_OF_SCREEN:
 					v_align = dcp::VALIGN_CENTER;
 					break;
 				case sub::BOTTOM_OF_SCREEN:
@@ -160,6 +160,19 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 				effect = dcp::SHADOW;
 			}
 
+			dcp::HAlign h_align;
+			switch (i.horizontal_position.reference) {
+			case sub::LEFT_OF_SCREEN:
+				h_align = dcp::HALIGN_LEFT;
+				break;
+			case sub::HORIZONTAL_CENTRE_OF_SCREEN:
+				h_align = dcp::HALIGN_CENTER;
+				break;
+			case sub::RIGHT_OF_SCREEN:
+				h_align = dcp::HALIGN_RIGHT;
+				break;
+			}
+
 			out.push_back (
 				dcp::SubtitleString (
 					string(TEXT_FONT_ID),
@@ -173,8 +186,8 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 					dcp::Time (from.seconds(), 1000),
 					/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
 					dcp::Time (),
-					0,
-					dcp::HALIGN_CENTER,
+					i.horizontal_position.proportional,
+					h_align,
 					v_position,
 					v_align,
 					dcp::DIRECTION_LTR,

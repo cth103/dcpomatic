@@ -647,7 +647,12 @@ FFmpegDecoder::decode_ass_subtitle (string ass, ContentTime from)
 	}
 
 	sub::RawSubtitle base;
-	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (base, bits[9]);
+	list<sub::RawSubtitle> raw = sub::SSAReader::parse_line (
+		base,
+		bits[9],
+		_ffmpeg_content->video->size().width,
+		_ffmpeg_content->video->size().height
+		);
 
 	BOOST_FOREACH (sub::Subtitle const & i, sub::collect<list<sub::Subtitle> > (raw)) {
 		subtitle->emit_text_start (from, i);
