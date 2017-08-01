@@ -309,7 +309,7 @@ Film::make_dcp ()
 	}
 
 	if (name().empty()) {
-		throw MissingSettingError (_("name"));
+		_name = "DCP";
 	}
 
 	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
