@@ -309,7 +309,7 @@ Film::make_dcp ()
 	}
 
 	if (name().empty()) {
-		_name = "DCP";
+		set_name ("DCP");
 	}
 
 	BOOST_FOREACH (shared_ptr<const Content> i, content ()) {
