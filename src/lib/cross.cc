@@ -36,6 +36,7 @@ extern "C" {
 #undef DATADIR
 #include <shlwapi.h>
 #include <shellapi.h>
+#include <fcntl.h>
 #endif
 #ifdef DCPOMATIC_OSX
 #include <sys/sysctl.h>
