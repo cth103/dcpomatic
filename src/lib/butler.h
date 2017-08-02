@@ -29,14 +29,14 @@
 #include <boost/signals2.hpp>
 #include <boost/asio.hpp>
 
-class Film;
 class Player;
 class PlayerVideo;
+class Log;
 
 class Butler : public ExceptionStore, public boost::noncopyable
 {
 public:
-	Butler (boost::weak_ptr<const Film> film, boost::shared_ptr<Player> player, AudioMapping map, int audio_channels);
+	Butler (boost::shared_ptr<Player> player, boost::shared_ptr<Log> log, AudioMapping map, int audio_channels);
 	~Butler ();
 
 	void seek (DCPTime position, bool accurate);
@@ -53,8 +53,8 @@ private:
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
 
-	boost::weak_ptr<const Film> _film;
 	boost::shared_ptr<Player> _player;
+	boost::shared_ptr<Log> _log;
 	boost::thread* _thread;
 
 	VideoRingBuffers _video;

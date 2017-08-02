@@ -99,7 +99,7 @@ FFmpegEncoder::FFmpegEncoder (shared_ptr<const Film> film, weak_ptr<Job> job, bo
 		}
 	}
 
-	_butler.reset (new Butler (film, _player, map, _output_audio_channels));
+	_butler.reset (new Butler (_player, film->log(), map, _output_audio_channels));
 }
 
 void

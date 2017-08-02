@@ -239,7 +239,7 @@ FilmViewer::recreate_butler ()
 		map.set (2, 1, 1 / sqrt(2)); // C -> R
 	}
 
-	_butler.reset (new Butler (_film, _player, map, _audio_channels));
+	_butler.reset (new Butler (_player, _film->log(), map, _audio_channels));
 	if (!Config::instance()->preview_sound()) {
 		_butler->disable_audio ();
 	}

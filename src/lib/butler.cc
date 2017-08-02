@@ -43,11 +43,11 @@ using boost::optional;
 /** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
 #define MAXIMUM_AUDIO_READAHEAD (48000*60)
 
-#define LOG_WARNING(...) _film.lock()->log()->log (String::compose (__VA_ARGS__), LogEntry::TYPE_WARNING);
+#define LOG_WARNING(...) _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_WARNING);
 
-Butler::Butler (weak_ptr<const Film> film, shared_ptr<Player> player, AudioMapping audio_mapping, int audio_channels)
-	: _film (film)
-	, _player (player)
+Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping audio_mapping, int audio_channels)
+	: _player (player)
+	, _log (log)
 	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
 	, _pending_seek_accurate (false)
 	, _finished (false)
