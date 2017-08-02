@@ -21,6 +21,7 @@
 #include "cross.h"
 #include "compose.hpp"
 #include "log.h"
+#include "config.h"
 #include "exceptions.h"
 extern "C" {
 #include <libavformat/avio.h>
@@ -34,6 +35,7 @@ extern "C" {
 #include <windows.h>
 #undef DATADIR
 #include <shlwapi.h>
+#include <shellapi.h>
 #endif
 #ifdef DCPOMATIC_OSX
 #include <sys/sysctl.h>
