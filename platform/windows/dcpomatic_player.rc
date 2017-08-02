@@ -1,0 +1,2 @@
+id ICON "../../graphics/windows/dcpomatic2_player.ico"
+#include "wx-3.0/wx/msw/wx.rc"
