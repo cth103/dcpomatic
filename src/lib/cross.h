@@ -45,6 +45,9 @@ extern boost::filesystem::path openssl_path ();
 #ifdef DCPOMATIC_OSX
 extern boost::filesystem::path app_contents ();
 #endif
+#ifdef DCPOMATIC_WINDOWS
+extern void maybe_open_console ();
+#endif
 extern boost::filesystem::path shared_path ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);

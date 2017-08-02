@@ -72,7 +72,7 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 	return reinterpret_cast<FilmViewer*>(data)->audio_callback (out, frames);
 }
 
-FilmViewer::FilmViewer (wxWindow* p)
+FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
 	, _outline_content (new wxCheckBox (this, wxID_ANY, _("Outline content")))
@@ -106,10 +106,14 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_v_sizer->Add (_panel, 1, wxEXPAND);
 
 	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
-	view_options->Add (_outline_content, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+	if (outline_content) {
+		view_options->Add (_outline_content, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+	}
 	view_options->Add (_left_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	view_options->Add (_right_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
-	view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	if (jump_to_selected) {
+		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	}
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 	wxBoxSizer* h_sizer = new wxBoxSizer (wxHORIZONTAL);

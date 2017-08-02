@@ -41,7 +41,7 @@ class Butler;
 class FilmViewer : public wxPanel
 {
 public:
-	FilmViewer (wxWindow *);
+	FilmViewer (wxWindow *, bool outline_content = true, bool jump_to_selected = true);
 	~FilmViewer ();
 
 	void set_film (boost::shared_ptr<Film>);

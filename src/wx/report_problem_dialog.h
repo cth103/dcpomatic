@@ -29,7 +29,7 @@ class Film;
 class ReportProblemDialog : public wxDialog
 {
 public:
-	ReportProblemDialog (wxWindow* parent, boost::shared_ptr<Film> film);
+	ReportProblemDialog (wxWindow* parent, boost::shared_ptr<Film> film = boost::shared_ptr<Film>());
 
 	void report ();
 

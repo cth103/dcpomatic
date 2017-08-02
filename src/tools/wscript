@@ -46,7 +46,7 @@ def build(bld):
             obj.install_path = None
 
     if not bld.env.DISABLE_GUI:
-        for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm']:
+        for t in ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player']:
             obj = bld(features='cxx cxxprogram')
             obj.uselib = uselib
             if bld.env.BUILD_STATIC or bld.env.TARGET_LINUX:
