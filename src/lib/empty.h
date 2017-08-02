@@ -31,7 +31,7 @@ class Empty
 {
 public:
 	Empty () {}
-	Empty (boost::shared_ptr<const Film> film, boost::function<boost::shared_ptr<ContentPart> (Content *)> part);
+	Empty (ContentList content, DCPTime length, boost::function<boost::shared_ptr<ContentPart> (Content *)> part);
 
 	DCPTime position () const {
 		return _position;

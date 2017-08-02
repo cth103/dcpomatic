@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	contentB->video->set_length (1);
 	contentB->set_position (DCPTime::from_frames (7, vfr));
 
-	Empty black (film, bind(&Content::video, _1));
+	Empty black (film->content(), film->length(), bind(&Content::video, _1));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 2);
 	BOOST_CHECK (black._periods.front().from == DCPTime());
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(2, vfr));
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	contentB->video->set_length (1);
 	contentB->set_position (DCPTime::from_frames (7, vfr));
 
-	Empty black (film, bind(&Content::video, _1));
+	Empty black (film->content(), film->length(), bind(&Content::video, _1));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 1);
 	BOOST_CHECK (black._periods.front().from == DCPTime::from_frames(3, vfr));
 	BOOST_CHECK (black._periods.front().to == DCPTime::from_frames(7, vfr));

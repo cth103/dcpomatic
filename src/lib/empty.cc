@@ -34,16 +34,16 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::function;
 
-Empty::Empty (shared_ptr<const Film> film, function<shared_ptr<ContentPart> (Content *)> part)
+Empty::Empty (ContentList content, DCPTime length, function<shared_ptr<ContentPart> (Content *)> part)
 {
 	list<DCPTimePeriod> full;
-	BOOST_FOREACH (shared_ptr<Content> i, film->content()) {
+	BOOST_FOREACH (shared_ptr<Content> i, content) {
 		if (part (i.get())) {
 			full.push_back (DCPTimePeriod (i->position(), i->end()));
 		}
 	}
 
-	_periods = subtract (DCPTimePeriod(DCPTime(), film->length()), coalesce(full));
+	_periods = subtract (DCPTimePeriod(DCPTime(), length), coalesce(full));
 
 	if (!_periods.empty ()) {
 		_position = _periods.front().from;
