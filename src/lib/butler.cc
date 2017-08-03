@@ -236,6 +236,7 @@ Butler::player_changed ()
 {
 	_video.clear ();
 	_audio.clear ();
+	_summon.notify_all ();
 }
 
 /** Try to get `frames' frames of audio and copy it into `out'.  Silence
