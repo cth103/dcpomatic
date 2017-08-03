@@ -87,9 +87,9 @@ public:
 
 		_viewer = new FilmViewer (overall_panel, false, false);
 		_info = new PlayerInformation (overall_panel, _viewer);
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
+		wxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
 		main_sizer->Add (_viewer, 1, wxEXPAND | wxALL, 6);
-		main_sizer->Add (_info, 0, wxALL, 6);
+		main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
 		overall_panel->SetSizer (main_sizer);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
