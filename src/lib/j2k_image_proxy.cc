@@ -53,18 +53,31 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPi
 
 }
 
-J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size size, AVPixelFormat pixel_format)
+J2KImageProxy::J2KImageProxy (
+	shared_ptr<const dcp::MonoPictureFrame> frame,
+	dcp::Size size,
+	AVPixelFormat pixel_format,
+	optional<int> forced_reduction
+	)
 	: _data (frame->j2k_size ())
 	, _size (size)
 	, _pixel_format (pixel_format)
+	, _forced_reduction (forced_reduction)
 {
 	memcpy (_data.data().get(), frame->j2k_data(), _data.size ());
 }
 
-J2KImageProxy::J2KImageProxy (shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size size, dcp::Eye eye, AVPixelFormat pixel_format)
+J2KImageProxy::J2KImageProxy (
+	shared_ptr<const dcp::StereoPictureFrame> frame,
+	dcp::Size size,
+	dcp::Eye eye,
+	AVPixelFormat pixel_format,
+	optional<int> forced_reduction
+	)
 	: _size (size)
 	, _eye (eye)
 	, _pixel_format (pixel_format)
+	, _forced_reduction (forced_reduction)
 {
 	switch (eye) {
 	case dcp::EYE_LEFT:
@@ -104,12 +117,17 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 
 	int reduce = 0;
 
-	while (target_size && (_size.width / pow(2, reduce)) > target_size->width && (_size.height / pow(2, reduce)) > target_size->height) {
-		++reduce;
+	if (_forced_reduction) {
+		reduce = *_forced_reduction;
+	} else {
+		while (target_size && (_size.width / pow(2, reduce)) > target_size->width && (_size.height / pow(2, reduce)) > target_size->height) {
+			++reduce;
+		}
+
+		--reduce;
+		reduce = max (0, reduce);
 	}
 
-	--reduce;
-	reduce = max (0, reduce);
 	_decompressed = dcp::decompress_j2k (const_cast<uint8_t*> (_data.data().get()), _data.size (), reduce);
 
 	if (_decompressed->precision(0) < 12) {

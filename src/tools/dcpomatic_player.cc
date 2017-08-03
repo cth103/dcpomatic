@@ -50,6 +50,10 @@ using boost::optional;
 
 enum {
 	ID_file_open = 1,
+	ID_view_scale_appropriate,
+	ID_view_scale_full,
+	ID_view_scale_half,
+	ID_view_scale_quarter,
 	ID_help_report_a_problem,
 	ID_tools_check_for_updates,
 };
@@ -77,6 +81,10 @@ public:
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>()), ID_view_scale_appropriate);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(2)), ID_view_scale_quarter);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
@@ -94,6 +102,11 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+	}
+
+	void set_decode_reduction (optional<int> reduction)
+	{
+		_viewer->set_dcp_decode_reduction (reduction);
 	}
 
 	void load_dcp (boost::filesystem::path dir)
@@ -146,6 +159,12 @@ private:
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
+		wxMenu* view = new wxMenu;
+		view->AppendRadioItem (ID_view_scale_appropriate, _("Set decode resolution to match display"));
+		view->AppendRadioItem (ID_view_scale_full, _("Decode at full resolution"));
+		view->AppendRadioItem (ID_view_scale_half, _("Decode at half resolution"));
+		view->AppendRadioItem (ID_view_scale_quarter, _("Decode at quarter resolution"));
+
 		wxMenu* tools = new wxMenu;
 		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
 
@@ -158,6 +177,10 @@ private:
 		help->Append (ID_help_report_a_problem, _("Report a problem..."));
 
 		m->Append (file, _("&File"));
+#ifndef __WXOSX__
+		m->Append (edit, _("&Edit"));
+#endif
+		m->Append (view, _("&View"));
 		m->Append (tools, _("&Tools"));
 		m->Append (help, _("&Help"));
 	}

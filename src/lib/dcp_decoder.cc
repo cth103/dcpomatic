@@ -48,6 +48,7 @@ using std::list;
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log)
 	: DCP (c)
@@ -100,20 +101,39 @@ DCPDecoder::pass ()
 		if (_mono_reader) {
 			video->emit (
 				shared_ptr<ImageProxy> (
-					new J2KImageProxy (_mono_reader->get_frame (entry_point + frame), asset->size(), AV_PIX_FMT_XYZ12LE)
+					new J2KImageProxy (
+						_mono_reader->get_frame (entry_point + frame),
+						asset->size(),
+						AV_PIX_FMT_XYZ12LE,
+						_forced_reduction
+						)
 					),
 				_offset + frame
 				);
 		} else {
 			video->emit (
 				shared_ptr<ImageProxy> (
-					new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE)),
+					new J2KImageProxy (
+						_stereo_reader->get_frame (entry_point + frame),
+						asset->size(),
+						dcp::EYE_LEFT,
+						AV_PIX_FMT_XYZ12LE,
+						_forced_reduction
+						)
+					),
 				_offset + frame
 				);
 
 			video->emit (
 				shared_ptr<ImageProxy> (
-					new J2KImageProxy (_stereo_reader->get_frame (entry_point + frame), asset->size(), dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE)),
+					new J2KImageProxy (
+						_stereo_reader->get_frame (entry_point + frame),
+						asset->size(),
+						dcp::EYE_RIGHT,
+						AV_PIX_FMT_XYZ12LE,
+						_forced_reduction
+						)
+					),
 				_offset + frame
 				);
 		}
@@ -233,4 +253,10 @@ void
 DCPDecoder::set_decode_referenced ()
 {
 	_decode_referenced = true;
+}
+
+void
+DCPDecoder::set_forced_reduction (optional<int> reduction)
+{
+	_forced_reduction = reduction;
 }

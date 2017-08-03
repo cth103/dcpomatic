@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -29,6 +29,7 @@
 #include <dcp/exceptions.h>
 
 using boost::shared_ptr;
+using boost::optional;
 
 VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const VideoMXFContent> content, shared_ptr<Log> log)
 	: _content (content)
@@ -78,14 +79,23 @@ VideoMXFDecoder::pass ()
 
 	if (_mono_reader) {
 		video->emit (
-			shared_ptr<ImageProxy> (new J2KImageProxy (_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE)), frame
+			shared_ptr<ImageProxy> (
+				new J2KImageProxy (_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE, optional<int>())
+				),
+			frame
 			);
 	} else {
 		video->emit (
-			shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE)), frame
+			shared_ptr<ImageProxy> (
+				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_LEFT, AV_PIX_FMT_XYZ12LE, optional<int>())
+				),
+			frame
 			);
 		video->emit (
-			shared_ptr<ImageProxy> (new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE)), frame
+			shared_ptr<ImageProxy> (
+				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::EYE_RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>())
+				),
+			frame
 			);
 	}
 

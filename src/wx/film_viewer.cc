@@ -786,3 +786,9 @@ FilmViewer::average_latency () const
 
         return total / _latency_history.size();
 }
+
+void
+FilmViewer::set_dcp_decode_reduction (optional<int> reduction)
+{
+	_player->set_dcp_decode_reduction (reduction);
+}

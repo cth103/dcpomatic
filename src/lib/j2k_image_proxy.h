@@ -32,8 +32,22 @@ class J2KImageProxy : public ImageProxy
 {
 public:
 	J2KImageProxy (boost::filesystem::path path, dcp::Size, AVPixelFormat pixel_format);
-	J2KImageProxy (boost::shared_ptr<const dcp::MonoPictureFrame> frame, dcp::Size, AVPixelFormat pixel_format);
-	J2KImageProxy (boost::shared_ptr<const dcp::StereoPictureFrame> frame, dcp::Size, dcp::Eye, AVPixelFormat pixel_format);
+
+	J2KImageProxy (
+		boost::shared_ptr<const dcp::MonoPictureFrame> frame,
+		dcp::Size,
+		AVPixelFormat pixel_format,
+		boost::optional<int> forced_reduction
+		);
+
+	J2KImageProxy (
+		boost::shared_ptr<const dcp::StereoPictureFrame> frame,
+		dcp::Size,
+		dcp::Eye,
+		AVPixelFormat pixel_format,
+		boost::optional<int> forced_reduction
+		);
+
 	J2KImageProxy (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);
 
 	boost::shared_ptr<Image> image (
@@ -71,4 +85,5 @@ private:
 	mutable boost::optional<dcp::Size> _target_size;
 	AVPixelFormat _pixel_format;
 	mutable boost::mutex _mutex;
+	boost::optional<int> _forced_reduction;
 };

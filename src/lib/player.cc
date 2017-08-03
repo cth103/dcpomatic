@@ -127,7 +127,10 @@ Player::setup_pieces ()
 
 		shared_ptr<DCPDecoder> dcp = dynamic_pointer_cast<DCPDecoder> (decoder);
 		if (dcp && _play_referenced) {
-			dcp->set_decode_referenced ();
+			if (_play_referenced) {
+				dcp->set_decode_referenced ();
+			}
+			dcp->set_forced_reduction (_dcp_decode_reduction);
 		}
 
 		shared_ptr<Piece> piece (new Piece (i, decoder, frc));
@@ -850,6 +853,10 @@ Player::subtitle_stop (weak_ptr<Piece> wp, ContentTime to)
 void
 Player::seek (DCPTime time, bool accurate)
 {
+	if (!_have_valid_pieces) {
+		setup_pieces ();
+	}
+
 	if (_audio_processor) {
 		_audio_processor->flush ();
 	}
@@ -949,4 +956,16 @@ Player::discard_audio (shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTi
 	shared_ptr<AudioBuffers> cut (new AudioBuffers (audio->channels(), remaining_frames));
 	cut->copy_from (audio.get(), remaining_frames, discard_frames, 0);
 	return make_pair(cut, time + discard_time);
+}
+
+void
+Player::set_dcp_decode_reduction (optional<int> reduction)
+{
+	if (reduction == _dcp_decode_reduction) {
+		return;
+	}
+
+	_dcp_decode_reduction = reduction;
+	_have_valid_pieces = false;
+	Changed (false);
 }

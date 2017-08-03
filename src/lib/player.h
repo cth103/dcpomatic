@@ -67,6 +67,7 @@ public:
 	void set_always_burn_subtitles (bool burn);
 	void set_fast ();
 	void set_play_referenced ();
+	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
 	/** Emitted when something has changed such that if we went back and emitted
 	 *  the last frame again it would look different.  This is not emitted after
@@ -146,6 +147,8 @@ private:
 	boost::optional<DCPTime> _last_video_time;
 	/** Time just after the last audio frame we emitted, or the time of the last accurate seek */
 	boost::optional<DCPTime> _last_audio_time;
+
+	boost::optional<int> _dcp_decode_reduction;
 
 	typedef std::map<boost::weak_ptr<Piece>, boost::shared_ptr<PlayerVideo> > LastVideoMap;
 	LastVideoMap _last_video;

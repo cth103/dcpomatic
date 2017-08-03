@@ -46,6 +46,7 @@ public:
 	}
 
 	void set_decode_referenced ();
+	void set_forced_reduction (boost::optional<int> reduction);
 
 	bool pass ();
 	void seek (ContentTime t, bool accurate);
@@ -71,4 +72,5 @@ private:
 	boost::shared_ptr<dcp::SoundAssetReader> _sound_reader;
 
 	bool _decode_referenced;
+	boost::optional<int> _forced_reduction;
 };
