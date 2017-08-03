@@ -117,6 +117,7 @@ function copy_resources {
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"
+    cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_player.icns "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/dcpomatic2_batch.icns "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/colour_conversions.png "$dest"
     cp $ROOT/32/src/dcpomatic/graphics/osx/preferences/defaults.png "$dest"
@@ -267,3 +268,11 @@ cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$appro
 rl=("$approot/MacOS/dcpomatic2_batch" "$approot/lib/"*.dylib)
 relink "${rl[@]}"
 make_dmg "$appdir" "DCP-o-matic Batch Converter"
+
+# DCP-o-matic Player
+setup "DCP-o-matic 2 Player.app"
+universal_copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
+cp $ROOT/32/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
+rl=("$approot/MacOS/dcpomatic2_player" "$approot/lib/"*.dylib)
+relink "${rl[@]}"
+make_dmg "$appdir" "DCP-o-matic Player"

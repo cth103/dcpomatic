@@ -3,3 +3,4 @@ def build(bld):
     obj = bld(features='subst', source='dcpomatic2_kdm.Info.plist.in', target='dcpomatic2_kdm.Info.plist', version=bld.env.VERSION)
     obj = bld(features='subst', source='dcpomatic2_server.Info.plist.in', target='dcpomatic2_server.Info.plist', version=bld.env.VERSION)
     obj = bld(features='subst', source='dcpomatic2_batch.Info.plist.in', target='dcpomatic2_batch.Info.plist', version=bld.env.VERSION)
+    obj = bld(features='subst', source='dcpomatic2_player.Info.plist.in', target='dcpomatic2_player.Info.plist', version=bld.env.VERSION)
