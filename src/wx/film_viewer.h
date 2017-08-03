@@ -98,6 +98,7 @@ private:
 	boost::shared_ptr<Player> _player;
 
 	wxSizer* _v_sizer;
+	/** The area that we put our image in */
 	wxPanel* _panel;
 	wxCheckBox* _outline_content;
 	wxRadioButton* _left_eye;

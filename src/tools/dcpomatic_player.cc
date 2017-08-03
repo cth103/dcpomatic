@@ -27,6 +27,7 @@
 #include "lib/dcp_content.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
+#include "lib/video_content.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"

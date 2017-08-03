@@ -105,6 +105,15 @@ BOOST_AUTO_TEST_CASE (seconds_to_approximate_hms_test)
 	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14h");
 }
 
+BOOST_AUTO_TEST_CASE (time_to_hmsf_test)
+{
+	BOOST_CHECK_EQUAL (time_to_hmsf(DCPTime::from_frames(12, 24), 24), "0:00:00.12");
+	BOOST_CHECK_EQUAL (time_to_hmsf(DCPTime::from_frames(24, 24), 24), "0:00:01.0");
+	BOOST_CHECK_EQUAL (time_to_hmsf(DCPTime::from_frames(32, 24), 24), "0:00:01.8");
+	BOOST_CHECK_EQUAL (time_to_hmsf(DCPTime::from_seconds(92), 24), "0:01:32.0");
+	BOOST_CHECK_EQUAL (time_to_hmsf(DCPTime::from_seconds(2 * 60 * 60 + 92), 24), "2:01:32.0");
+}
+
 BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
 {
 	BOOST_CHECK_EQUAL (tidy_for_filename ("fish\\chips"), "fish_chips");

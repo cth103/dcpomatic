@@ -22,11 +22,13 @@
 #include "wx_util.h"
 #include "film_viewer.h"
 #include "lib/playlist.h"
+#include "lib/video_content.h"
 #include "lib/dcp_content.h"
 
 using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
+using boost::optional;
 
 PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 	: wxPanel (parent)
@@ -40,13 +42,14 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
 		_cpl_name = add_label_to_sizer(s, this, wxT(""), false, 0);
+		_size = add_label_to_sizer(s, this, wxT(""), false, 0);
+		_length = add_label_to_sizer(s, this, wxT(""), false, 0);
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
-		_decoded_fps = add_label_to_sizer(s, this, wxT(""), false, 0);
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
@@ -58,16 +61,35 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 void
 PlayerInformation::update ()
 {
-	wxString cpl_name;
+	shared_ptr<DCPContent> dcp;
 	if (_viewer->film()) {
 		ContentList content = _viewer->film()->content();
 		if (content.size() == 1) {
-			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(content.front());
-			if (dcp) {
-				cpl_name = std_to_wx (dcp->name());
-			}
+			dcp = dynamic_pointer_cast<DCPContent>(content.front());
 		}
 	}
 
-	checked_set (_cpl_name, cpl_name);
+	if (!dcp) {
+		checked_set (_cpl_name, _("No DCP loaded."));
+		checked_set (_size, wxT(""));
+		checked_set (_length, wxT(""));
+		return;
+	}
+
+	DCPOMATIC_ASSERT (dcp->video);
+
+	checked_set (_cpl_name, std_to_wx(dcp->name()));
+	checked_set (_size, wxString::Format(_("Size: %dx%d"), dcp->video->size().width, dcp->video->size().height));
+
+	optional<double> vfr;
+	vfr = dcp->video_frame_rate ();
+	DCPOMATIC_ASSERT (vfr);
+	checked_set (
+		_length,
+		wxString::Format(
+			_("Length: %s (%ld frames)"),
+			std_to_wx(time_to_hmsf(dcp->full_length(), lrint(*vfr))).data(),
+			dcp->full_length().frames_round(*vfr)
+			)
+		);
 }

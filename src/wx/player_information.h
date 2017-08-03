@@ -34,5 +34,6 @@ private:
 	FilmViewer* _viewer;
 	wxSizer* _sizer;
 	wxStaticText* _cpl_name;
-	wxStaticText* _decoded_fps;
+	wxStaticText* _size;
+	wxStaticText* _length;
 };

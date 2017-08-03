@@ -60,6 +60,7 @@ struct AVSubtitle;
 class AudioBuffers;
 
 extern std::string seconds_to_hms (int);
+extern std::string time_to_hmsf (DCPTime time, Frame rate);
 extern std::string seconds_to_approximate_hms (int);
 extern double seconds (struct timeval);
 extern void dcpomatic_setup ();
