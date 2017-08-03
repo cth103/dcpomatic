@@ -234,19 +234,8 @@ Butler::audio (shared_ptr<AudioBuffers> audio)
 void
 Butler::player_changed ()
 {
-	optional<DCPTime> t;
-
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		t = _video.earliest ();
-	}
-
-	if (t) {
-		seek (*t, true);
-	} else {
-		_video.clear ();
-		_audio.clear ();
-	}
+	_video.clear ();
+	_audio.clear ();
 }
 
 /** Try to get `frames' frames of audio and copy it into `out'.  Silence
