@@ -14,7 +14,7 @@ fi
 
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
-    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
 	iconutil --convert icns --output osx/$p.icns osx/$p.iconset
     done
 else
@@ -28,7 +28,7 @@ else
 	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}.png
 	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}@2x.png
 	done
-	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
 	    mkdir -p osx/$p.iconset
 	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
 	    $INKSCAPE osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
@@ -40,14 +40,14 @@ else
     for r in 16 22 32 48 64 128 256 512; do
 	mkdir -p linux/$r
 	convert src/dcpomatic.png -resize $rx$r linux/$r/dcpomatic2.png
-	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+	for p in dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
 	    $INKSCAPE linux/$r/$p.png src/$p.svg -w $r -h $r
 	done
     done
 
     # Windows application icons
     mkdir -p windows
-    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch; do
+    for p in dcpomatic2 dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player; do
 	icotool -c -o windows/$p.ico linux/16/$p.png linux/32/$p.png linux/48/$p.png linux/64/$p.png linux/128/$p.png
     done
     convert src/dcpomatic.png -resize 400x400 windows/dcpomatic.bmp

@@ -23,7 +23,7 @@ def build(bld):
     # Linux application icons
     if bld.env.TARGET_LINUX:
         for r in [16, 22, 32, 48, 64, 128, 256, 512]:
-            for p in ['dcpomatic2', 'dcpomatic2_kdm', 'dcpomatic2_server', 'dcpomatic2_batch']:
+            for p in ['dcpomatic2', 'dcpomatic2_kdm', 'dcpomatic2_server', 'dcpomatic2_batch', 'dcpomatic2_player']:
                 bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), 'linux/%d/%s.png' % (r, p))
 
     # Install stuff for POSIX systems
