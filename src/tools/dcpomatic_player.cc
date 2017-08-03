@@ -26,19 +26,23 @@
 #include "lib/encode_server_finder.h"
 #include "lib/dcp_content.h"
 #include "lib/job_manager.h"
+#include "lib/job.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
 #include "wx/report_problem_dialog.h"
 #include "wx/film_viewer.h"
+#include "wx/player_information.h"
 #include "wx/update_dialog.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
 #include <wx/cmdline.h>
 #include <boost/bind.hpp>
+#include <iostream>
 
 using std::string;
+using std::cout;
 using std::exception;
 using boost::shared_ptr;
 using boost::optional;
@@ -82,8 +86,10 @@ public:
 		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
 
 		_viewer = new FilmViewer (overall_panel, false, false);
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
+		_info = new PlayerInformation (overall_panel, _viewer);
+		wxBoxSizer* main_sizer = new wxBoxSizer (wxVERTICAL);
 		main_sizer->Add (_viewer, 1, wxEXPAND | wxALL, 6);
+		main_sizer->Add (_info, 0, wxALL, 6);
 		overall_panel->SetSizer (main_sizer);
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
@@ -102,9 +108,21 @@ public:
 			dcpomatic_sleep (1);
 		}
 
-		/* XXX: report errors */
+		while (signal_manager->ui_idle ()) {}
+
+		if (jm->errors ()) {
+			wxString errors;
+			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
+				if (i->finished_in_error()) {
+					errors += std_to_wx (i->error_summary()) + "\n";
+				}
+			}
+			error_dialog (this, errors);
+			return;
+		}
 
 		_viewer->set_film (_film);
+		_info->update ();
 	}
 
 private:
@@ -113,10 +131,6 @@ private:
 	{
 		wxMenu* file = new wxMenu;
 		file->Append (ID_file_open, _("&Open...\tCtrl-O"));
-
-#ifndef __WXOSX__
-		file->AppendSeparator ();
-#endif
 
 #ifdef __WXOSX__
 		file->Append (wxID_EXIT, _("&Exit"));
@@ -229,6 +243,7 @@ private:
 	}
 
 	bool _update_news_requested;
+	PlayerInformation* _info;
 	FilmViewer* _viewer;
 	boost::shared_ptr<Film> _film;
 };
@@ -316,6 +331,8 @@ private:
 		}
 		_frame->Show ();
 
+		signal_manager = new wxSignalManager (this);
+
 		if (!_dcp_to_load.empty() && boost::filesystem::is_directory (_dcp_to_load)) {
 			try {
 				_frame->load_dcp (_dcp_to_load);
@@ -324,7 +341,6 @@ private:
 			}
 		}
 
-		signal_manager = new wxSignalManager (this);
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
 		Bind (wxEVT_TIMER, boost::bind (&App::check, this));

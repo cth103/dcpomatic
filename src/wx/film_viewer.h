@@ -45,6 +45,9 @@ public:
 	~FilmViewer ();
 
 	void set_film (boost::shared_ptr<Film>);
+	boost::shared_ptr<Film> film () const {
+		return _film;
+	}
 
 	/** @return our `playhead' position; this may not lie exactly on a frame boundary */
 	DCPTime position () const {

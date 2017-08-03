@@ -124,6 +124,11 @@ public:
 		return _cpl;
 	}
 
+	std::string name () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _name;
+	}
+
 private:
 	friend class reels_test5;
 
@@ -136,11 +141,6 @@ private:
 		std::string overlapping,
 		std::list<std::string>& why_not
 		) const;
-
-	std::string name () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _name;
-	}
 
 	std::string _name;
 	/** true if our DCP is encrypted */
