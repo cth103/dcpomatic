@@ -49,7 +49,6 @@ private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);
 	void audio (boost::shared_ptr<AudioBuffers> audio);
-	void player_changed ();
 	bool should_run () const;
 	void prepare (boost::weak_ptr<PlayerVideo> video) const;
 
@@ -81,5 +80,4 @@ private:
 
 	boost::signals2::scoped_connection _player_video_connection;
 	boost::signals2::scoped_connection _player_audio_connection;
-	boost::signals2::scoped_connection _player_changed_connection;
 };

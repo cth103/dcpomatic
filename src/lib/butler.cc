@@ -59,7 +59,6 @@ Butler::Butler (shared_ptr<Player> player, shared_ptr<Log> log, AudioMapping aud
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1));
-	_player_changed_connection = _player->Changed.connect (bind (&Butler::player_changed, this));
 	_thread = new boost::thread (bind (&Butler::thread, this));
 
 	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
@@ -229,14 +228,6 @@ Butler::audio (shared_ptr<AudioBuffers> audio)
 	}
 
 	_audio.put (remap (audio, _audio_channels, _audio_mapping));
-}
-
-void
-Butler::player_changed ()
-{
-	_video.clear ();
-	_audio.clear ();
-	_summon.notify_all ();
 }
 
 /** Try to get `frames' frames of audio and copy it into `out'.  Silence
