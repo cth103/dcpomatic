@@ -94,6 +94,7 @@ private:
 	void start ();
 	bool stop ();
 	Frame average_latency () const;
+	DCPTime one_video_frame () const;
 
 	boost::shared_ptr<Film> _film;
 	boost::shared_ptr<Player> _player;
@@ -136,10 +137,10 @@ private:
 	bool _playing;
 	boost::shared_ptr<Butler> _butler;
 
-        std::list<Frame> _latency_history;
-        /** Mutex to protect _latency_history */
-        mutable boost::mutex _latency_history_mutex;
-        int _latency_history_count;
+	std::list<Frame> _latency_history;
+	/** Mutex to protect _latency_history */
+	mutable boost::mutex _latency_history_mutex;
+	int _latency_history_count;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

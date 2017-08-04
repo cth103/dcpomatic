@@ -281,6 +281,14 @@ FilmViewer::get ()
 		return;
 	}
 
+	if ((time() - video.second) > one_video_frame()) {
+		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
+		   part if this frame is J2K).
+		*/
+		_video_position = video.second;
+		return;
+	}
+
 	/* In an ideal world, what we would do here is:
 	 *
 	 * 1. convert to XYZ exactly as we do in the DCP creation path.
@@ -324,7 +332,7 @@ FilmViewer::timer ()
 	get ();
 	update_position_label ();
 	update_position_slider ();
-	DCPTime const next = _video_position + DCPTime::from_frames (1, _film->video_frame_rate ());
+	DCPTime const next = _video_position + one_video_frame();
 
 	if (next >= _film->length()) {
 		stop ();
@@ -382,10 +390,11 @@ FilmViewer::slider_moved (bool update_slider)
 		return;
 	}
 
+
 	DCPTime t (_slider->GetValue() * _film->length().get() / 4096);
 	/* Ensure that we hit the end of the film at the end of the slider */
 	if (t >= _film->length ()) {
-		t = _film->length() - DCPTime::from_frames (1, _film->video_frame_rate ());
+		t = _film->length() - one_video_frame();
 	}
 	seek (t, false);
 	update_position_label ();
@@ -529,7 +538,7 @@ FilmViewer::active_jobs_changed (optional<string> j)
 DCPTime
 FilmViewer::nudge_amount (wxMouseEvent& ev)
 {
-	DCPTime amount = DCPTime::from_frames (1, _film->video_frame_rate ());
+	DCPTime amount = one_video_frame ();
 
 	if (ev.ShiftDown() && !ev.ControlDown()) {
 		amount = DCPTime::from_seconds (1);
@@ -791,4 +800,10 @@ void
 FilmViewer::set_dcp_decode_reduction (optional<int> reduction)
 {
 	_player->set_dcp_decode_reduction (reduction);
+}
+
+DCPTime
+FilmViewer::one_video_frame () const
+{
+	return DCPTime::from_frames (1, _film->video_frame_rate());
 }
