@@ -166,8 +166,13 @@ void
 Config::read ()
 try
 {
+	boost::filesystem::path const config_path = config_file ();
+	if (!boost::filesystem::exists (config_path)) {
+		return;
+	}
+
 	cxml::Document f ("Config");
-	f.read_file (config_file());
+	f.read_file (config_path);
 
 	optional<int> version = f.optional_number_child<int> ("Version");
 
@@ -832,6 +837,12 @@ Config::config_file ()
 {
 	cxml::Document f ("Config");
 	boost::filesystem::path main = path("config.xml", false);
+	if (!boost::filesystem::exists (main)) {
+		/* It doesn't exist, so there can't be any links; just return it */
+		return main;
+	}
+
+	/* See if there's a link */
 	f.read_file (main);
 	optional<string> link = f.optional_string_child("Link");
 	if (link) {
