@@ -125,8 +125,8 @@ Config::set_defaults ()
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		_nagged[i] = false;
 	}
-	_preview_sound = false;
-	_preview_sound_output = optional<string> ();
+	_sound = false;
+	_sound_output = optional<string> ();
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -342,8 +342,9 @@ try
 			_nagged[id] = raw_convert<int>(i->content());
 		}
 	}
-	_preview_sound = f.optional_bool_child("PreviewSound").get_value_or (false);
-	_preview_sound_output = f.optional_string_child("PreviewSoundOutput");
+	/* The variable was renamed but not the XML tag */
+	_sound = f.optional_bool_child("PreviewSound").get_value_or (false);
+	_sound_output = f.optional_string_child("PreviewSoundOutput");
 	if (f.optional_string_child("CoverSheet")) {
 		_cover_sheet = f.optional_string_child("CoverSheet").get();
 	}
@@ -616,11 +617,11 @@ Config::write_config () const
 		e->set_attribute ("Id", raw_convert<string>(i));
 		e->add_child_text (_nagged[i] ? "1" : "0");
 	}
-	/* [XML] PreviewSound 1 to use sound in the GUI preview, otherwise 0 */
-	root->add_child("PreviewSound")->add_child_text (_preview_sound ? "1" : "0");
-	if (_preview_sound_output) {
+	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0 */
+	root->add_child("PreviewSound")->add_child_text (_sound ? "1" : "0");
+	if (_sound_output) {
 		/* [XML:opt] PreviewSoundOutput Name of the audio output to use */
-		root->add_child("PreviewSoundOutput")->add_child_text (_preview_sound_output.get());
+		root->add_child("PreviewSoundOutput")->add_child_text (_sound_output.get());
 	}
 	/* [XML] CoverSheet Text of the cover sheet to write when making DCPs */
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);

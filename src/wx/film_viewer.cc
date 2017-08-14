@@ -163,7 +163,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	setup_sensitivity ();
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind (&FilmViewer::config_changed, this, _1));
-	config_changed (Config::PREVIEW_SOUND_OUTPUT);
+	config_changed (Config::SOUND_OUTPUT);
 }
 
 FilmViewer::~FilmViewer ()
@@ -245,7 +245,7 @@ FilmViewer::recreate_butler ()
 	}
 
 	_butler.reset (new Butler (_player, _film->log(), map, _audio_channels));
-	if (!Config::instance()->preview_sound()) {
+	if (!Config::instance()->sound()) {
 		_butler->disable_audio ();
 	}
 
@@ -705,7 +705,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 void
 FilmViewer::config_changed (Config::Property p)
 {
-	if (p != Config::PREVIEW_SOUND && p != Config::PREVIEW_SOUND_OUTPUT) {
+	if (p != Config::SOUND && p != Config::SOUND_OUTPUT) {
 		return;
 	}
 
@@ -713,11 +713,11 @@ FilmViewer::config_changed (Config::Property p)
 		_audio.closeStream ();
 	}
 
-	if (Config::instance()->preview_sound()) {
+	if (Config::instance()->sound()) {
 		unsigned int st = 0;
-		if (Config::instance()->preview_sound_output()) {
+		if (Config::instance()->sound_output()) {
 			while (st < _audio.getDeviceCount()) {
-				if (_audio.getDeviceInfo(st).name == Config::instance()->preview_sound_output().get()) {
+				if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
 					break;
 				}
 				++st;

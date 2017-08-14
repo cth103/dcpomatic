@@ -35,6 +35,7 @@
 #include "name_format_editor.h"
 #include "nag_dialog.h"
 #include "config_move_dialog.h"
+#include "config_dialog.h"
 #include "lib/config.h"
 #include "lib/ratio.h"
 #include "lib/filter.h"
@@ -75,92 +76,11 @@ do_nothing ()
 
 }
 
-class Page
+class FullGeneralPage : public GeneralPage
 {
 public:
-	Page (wxSize panel_size, int border)
-		: _border (border)
-		, _panel (0)
-		, _panel_size (panel_size)
-		, _window_exists (false)
-	{
-		_config_connection = Config::instance()->Changed.connect (boost::bind (&Page::config_changed_wrapper, this));
-	}
-
-	virtual ~Page () {}
-
-protected:
-	wxWindow* create_window (wxWindow* parent)
-	{
-		_panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-		wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
-		_panel->SetSizer (s);
-
-		setup ();
-		_window_exists = true;
-		config_changed ();
-
-		_panel->Bind (wxEVT_DESTROY, boost::bind (&Page::window_destroyed, this));
-
-		return _panel;
-	}
-
-	int _border;
-	wxPanel* _panel;
-
-private:
-	virtual void config_changed () = 0;
-	virtual void setup () = 0;
-
-	void config_changed_wrapper ()
-	{
-		if (_window_exists) {
-			config_changed ();
-		}
-	}
-
-	void window_destroyed ()
-	{
-		_window_exists = false;
-	}
-
-	wxSize _panel_size;
-	boost::signals2::scoped_connection _config_connection;
-	bool _window_exists;
-};
-
-class StockPage : public wxStockPreferencesPage, public Page
-{
-public:
-	StockPage (Kind kind, wxSize panel_size, int border)
-		: wxStockPreferencesPage (kind)
-		, Page (panel_size, border)
-	{}
-
-	wxWindow* CreateWindow (wxWindow* parent)
-	{
-		return create_window (parent);
-	}
-};
-
-class StandardPage : public wxPreferencesPage, public Page
-{
-public:
-	StandardPage (wxSize panel_size, int border)
-		: Page (panel_size, border)
-	{}
-
-	wxWindow* CreateWindow (wxWindow* parent)
-	{
-		return create_window (parent);
-	}
-};
-
-class GeneralPage : public StockPage
-{
-public:
-	GeneralPage (wxSize panel_size, int border)
-		: StockPage (Kind_General, panel_size, border)
+	FullGeneralPage (wxSize panel_size, int border)
+		: GeneralPage (panel_size, border)
 	{}
 
 private:
@@ -170,38 +90,7 @@ private:
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		int r = 0;
-		_set_language = new wxCheckBox (_panel, wxID_ANY, _("Set language"));
-		table->Add (_set_language, wxGBPosition (r, 0));
-		_language = new wxChoice (_panel, wxID_ANY);
-		vector<pair<string, string> > languages;
-		languages.push_back (make_pair ("Čeština", "cs_CZ"));
-		languages.push_back (make_pair ("汉语/漢語", "zh_CN"));
-		languages.push_back (make_pair ("Dansk", "da_DK"));
-		languages.push_back (make_pair ("Deutsch", "de_DE"));
-		languages.push_back (make_pair ("English", "en_GB"));
-		languages.push_back (make_pair ("Español", "es_ES"));
-		languages.push_back (make_pair ("Français", "fr_FR"));
-		languages.push_back (make_pair ("Italiano", "it_IT"));
-		languages.push_back (make_pair ("Nederlands", "nl_NL"));
-		languages.push_back (make_pair ("Русский", "ru_RU"));
-		languages.push_back (make_pair ("Polski", "pl_PL"));
-		languages.push_back (make_pair ("Português europeu", "pt_PT"));
-		languages.push_back (make_pair ("Português do Brasil", "pt_BR"));
-		languages.push_back (make_pair ("Svenska", "sv_SE"));
-		languages.push_back (make_pair ("Slovenský jazyk", "sk_SK"));
-		languages.push_back (make_pair ("українська мова", "uk_UA"));
-		checked_set (_language, languages);
-		table->Add (_language, wxGBPosition (r, 1));
-		++r;
-
-		wxStaticText* restart = add_label_to_sizer (
-			table, _panel, _("(restart DCP-o-matic to see language changes)"), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
-			);
-		wxFont font = restart->GetFont();
-		font.SetStyle (wxFONTSTYLE_ITALIC);
-		font.SetPointSize (font.GetPointSize() - 1);
-		restart->SetFont (font);
-		++r;
+		add_language_controls (table, r);
 
 		add_label_to_sizer (table, _panel, _("Number of threads DCP-o-matic should use"), true, wxGBPosition (r, 0));
 		_master_encoding_threads = new wxSpinCtrl (_panel);
@@ -223,11 +112,7 @@ private:
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		++r;
 
-		_preview_sound = new wxCheckBox (_panel, wxID_ANY, _("Play sound in the preview via"));
-		table->Add (_preview_sound, wxGBPosition (r, 0));
-                _preview_sound_output = new wxChoice (_panel, wxID_ANY);
-                table->Add (_preview_sound_output, wxGBPosition (r, 1));
-                ++r;
+		add_play_sound_controls (table, r);
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128 = new wxCheckBox (_panel, wxID_ANY, _("Find integrated loudness, true peak and loudness range when analysing audio"));
@@ -239,13 +124,7 @@ private:
 		table->Add (_automatic_audio_analysis, wxGBPosition (r, 0), wxGBSpan (1, 2));
 		++r;
 
-		_check_for_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for updates on startup"));
-		table->Add (_check_for_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
-		++r;
-
-		_check_for_test_updates = new wxCheckBox (_panel, wxID_ANY, _("Check for testing updates on startup"));
-		table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
-		++r;
+		add_update_controls (table, r);
 
 		wxFlexGridSizer* bottom_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		bottom_table->AddGrowableCol (1, 1);
@@ -261,66 +140,26 @@ private:
 		table->Add (bottom_table, wxGBPosition (r, 0), wxGBSpan (2, 2), wxEXPAND);
 		++r;
 
-                RtAudio audio (DCPOMATIC_RTAUDIO_API);
-                for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-                        RtAudio::DeviceInfo dev = audio.getDeviceInfo (i);
-                        if (dev.probed && dev.outputChannels > 0) {
-                                _preview_sound_output->Append (std_to_wx (dev.name));
-                        }
-                }
-
-		_set_language->Bind         (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::set_language_changed,  this));
-		_language->Bind             (wxEVT_CHOICE,             boost::bind (&GeneralPage::language_changed,      this));
-		_config_file->Bind          (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::config_file_changed,   this));
-		_cinemas_file->Bind         (wxEVT_FILEPICKER_CHANGED, boost::bind (&GeneralPage::cinemas_file_changed,  this));
-		_preview_sound->Bind        (wxEVT_CHECKBOX,           boost::bind (&GeneralPage::preview_sound_changed, this));
-		_preview_sound_output->Bind (wxEVT_CHOICE,             boost::bind (&GeneralPage::preview_sound_output_changed, this));
+		_config_file->Bind  (wxEVT_FILEPICKER_CHANGED, boost::bind (&FullGeneralPage::config_file_changed,   this));
+		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind (&FullGeneralPage::cinemas_file_changed,  this));
 
 		_master_encoding_threads->SetRange (1, 128);
-		_master_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::master_encoding_threads_changed, this));
+		_master_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::master_encoding_threads_changed, this));
 		_server_encoding_threads->SetRange (1, 128);
-		_server_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&GeneralPage::server_encoding_threads_changed, this));
+		_server_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::server_encoding_threads_changed, this));
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-		_analyse_ebur128->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::analyse_ebur128_changed, this));
+		_analyse_ebur128->Bind (wxEVT_CHECKBOX, boost::bind (&FullGeneralPage::analyse_ebur128_changed, this));
 #endif
-		_automatic_audio_analysis->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::automatic_audio_analysis_changed, this));
-		_check_for_updates->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::check_for_updates_changed, this));
-		_check_for_test_updates->Bind (wxEVT_CHECKBOX, boost::bind (&GeneralPage::check_for_test_updates_changed, this));
+		_automatic_audio_analysis->Bind (wxEVT_CHECKBOX, boost::bind (&FullGeneralPage::automatic_audio_analysis_changed, this));
 
-		_issuer->Bind (wxEVT_TEXT, boost::bind (&GeneralPage::issuer_changed, this));
-		_creator->Bind (wxEVT_TEXT, boost::bind (&GeneralPage::creator_changed, this));
+		_issuer->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::issuer_changed, this));
+		_creator->Bind (wxEVT_TEXT, boost::bind (&FullGeneralPage::creator_changed, this));
 	}
 
 	void config_changed ()
 	{
 		Config* config = Config::instance ();
-
-		checked_set (_set_language, static_cast<bool>(config->language()));
-
-		/* Backwards compatibility of config file */
-
-		map<string, string> compat_map;
-		compat_map["fr"] = "fr_FR";
-		compat_map["it"] = "it_IT";
-		compat_map["es"] = "es_ES";
-		compat_map["sv"] = "sv_SE";
-		compat_map["de"] = "de_DE";
-		compat_map["nl"] = "nl_NL";
-		compat_map["ru"] = "ru_RU";
-		compat_map["pl"] = "pl_PL";
-		compat_map["da"] = "da_DK";
-		compat_map["pt"] = "pt_PT";
-		compat_map["sk"] = "sk_SK";
-		compat_map["cs"] = "cs_CZ";
-		compat_map["uk"] = "uk_UA";
-
-		string lang = config->language().get_value_or ("en_GB");
-		if (compat_map.find (lang) != compat_map.end ()) {
-			lang = compat_map[lang];
-		}
-
-		checked_set (_language, lang);
 
 		checked_set (_master_encoding_threads, config->master_encoding_threads ());
 		checked_set (_server_encoding_threads, config->server_encoding_threads ());
@@ -328,81 +167,14 @@ private:
 		checked_set (_analyse_ebur128, config->analyse_ebur128 ());
 #endif
 		checked_set (_automatic_audio_analysis, config->automatic_audio_analysis ());
-		checked_set (_check_for_updates, config->check_for_updates ());
-		checked_set (_check_for_test_updates, config->check_for_test_updates ());
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
 		checked_set (_config_file, config->config_file());
 		checked_set (_cinemas_file, config->cinemas_file());
-		checked_set (_preview_sound, config->preview_sound());
 
-                optional<string> const current_so = get_preview_sound_output ();
-                optional<string> configured_so;
-
-                if (config->preview_sound_output()) {
-                        configured_so = config->preview_sound_output().get();
-                } else {
-                        /* No configured output means we should use the default */
-                        RtAudio audio (DCPOMATIC_RTAUDIO_API);
-			try {
-				configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-			} catch (RtAudioError& e) {
-				/* Probably no audio devices at all */
-			}
-                }
-
-                if (configured_so && current_so != configured_so) {
-                        /* Update _preview_sound_output with the configured value */
-                        unsigned int i = 0;
-                        while (i < _preview_sound_output->GetCount()) {
-                                if (_preview_sound_output->GetString(i) == std_to_wx(*configured_so)) {
-                                        _preview_sound_output->SetSelection (i);
-                                        break;
-                                }
-                                ++i;
-                        }
-                }
-
-		setup_sensitivity ();
+		GeneralPage::config_changed ();
 	}
 
-        /** @return Currently-selected preview sound output in the dialogue */
-        optional<string> get_preview_sound_output ()
-        {
-                int const sel = _preview_sound_output->GetSelection ();
-                if (sel == wxNOT_FOUND) {
-                        return optional<string> ();
-                }
-
-                return wx_to_std (_preview_sound_output->GetString (sel));
-        }
-
-	void setup_sensitivity ()
-	{
-		_language->Enable (_set_language->GetValue ());
-		_check_for_test_updates->Enable (_check_for_updates->GetValue ());
-		_preview_sound_output->Enable (_preview_sound->GetValue ());
-	}
-
-	void set_language_changed ()
-	{
-		setup_sensitivity ();
-		if (_set_language->GetValue ()) {
-			language_changed ();
-		} else {
-			Config::instance()->unset_language ();
-		}
-	}
-
-	void language_changed ()
-	{
-		int const sel = _language->GetSelection ();
-		if (sel != -1) {
-			Config::instance()->set_language (string_client_data (_language->GetClientObject (sel)));
-		} else {
-			Config::instance()->unset_language ();
-		}
-	}
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	void analyse_ebur128_changed ()
@@ -414,16 +186,6 @@ private:
 	void automatic_audio_analysis_changed ()
 	{
 		Config::instance()->set_automatic_audio_analysis (_automatic_audio_analysis->GetValue ());
-	}
-
-	void check_for_updates_changed ()
-	{
-		Config::instance()->set_check_for_updates (_check_for_updates->GetValue ());
-	}
-
-	void check_for_test_updates_changed ()
-	{
-		Config::instance()->set_check_for_test_updates (_check_for_test_updates->GetValue ());
 	}
 
 	void master_encoding_threads_changed ()
@@ -477,36 +239,14 @@ private:
 		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
 	}
 
-	void preview_sound_changed ()
-	{
-		Config::instance()->set_preview_sound (_preview_sound->GetValue ());
-	}
-
-        void preview_sound_output_changed ()
-        {
-                RtAudio audio (DCPOMATIC_RTAUDIO_API);
-                optional<string> const so = get_preview_sound_output();
-                if (!so || *so == audio.getDeviceInfo(audio.getDefaultOutputDevice()).name) {
-                        Config::instance()->unset_preview_sound_output ();
-                } else {
-                        Config::instance()->set_preview_sound_output (*so);
-                }
-        }
-
-	wxCheckBox* _set_language;
-	wxChoice* _language;
 	wxSpinCtrl* _master_encoding_threads;
 	wxSpinCtrl* _server_encoding_threads;
 	FilePickerCtrl* _config_file;
 	FilePickerCtrl* _cinemas_file;
-	wxCheckBox* _preview_sound;
-	wxChoice* _preview_sound_output;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	wxCheckBox* _analyse_ebur128;
 #endif
 	wxCheckBox* _automatic_audio_analysis;
-	wxCheckBox* _check_for_updates;
-	wxCheckBox* _check_for_test_updates;
 	wxTextCtrl* _issuer;
 	wxTextCtrl* _creator;
 };
@@ -1921,7 +1661,7 @@ create_full_config_dialog ()
 	int const border = 8;
 #endif
 
-	e->AddPage (new GeneralPage (ps, border));
+	e->AddPage (new FullGeneralPage (ps, border));
 	e->AddPage (new DefaultsPage (ps, border));
 	e->AddPage (new EncodingServersPage (ps, border));
 	e->AddPage (new KeysPage (ps, border));

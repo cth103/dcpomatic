@@ -73,8 +73,8 @@ public:
 		USE_ANY_SERVERS,
 		SERVERS,
 		CINEMAS,
-		PREVIEW_SOUND,
-		PREVIEW_SOUND_OUTPUT,
+		SOUND,
+		SOUND_OUTPUT,
 		OTHER
 	};
 
@@ -329,16 +329,16 @@ public:
 		return _nagged[nag];
 	}
 
-	bool preview_sound () const {
-		return _preview_sound;
+	bool sound () const {
+		return _sound;
 	}
 
 	std::string cover_sheet () const {
 		return _cover_sheet;
 	}
 
-	boost::optional<std::string> preview_sound_output () const {
-		return _preview_sound_output;
+	boost::optional<std::string> sound_output () const {
+		return _sound_output;
 	}
 
 	void set_master_encoding_threads (int n) {
@@ -563,22 +563,22 @@ public:
 		maybe_set (_confirm_kdm_email, s);
 	}
 
-	void set_preview_sound (bool s) {
-		maybe_set (_preview_sound, s, PREVIEW_SOUND);
+	void set_sound (bool s) {
+		maybe_set (_sound, s, SOUND);
 	}
 
-	void set_preview_sound_output (std::string o)
+	void set_sound_output (std::string o)
 	{
-		maybe_set (_preview_sound_output, o, PREVIEW_SOUND_OUTPUT);
+		maybe_set (_sound_output, o, SOUND_OUTPUT);
 	}
 
-	void unset_preview_sound_output ()
+	void unset_sound_output ()
 	{
-		if (!_preview_sound_output) {
+		if (!_sound_output) {
 			return;
 		}
 
-		_preview_sound_output = boost::none;
+		_sound_output = boost::none;
 		changed ();
 	}
 
@@ -758,9 +758,9 @@ private:
 	dcp::NameFormat _dcp_asset_filename_format;
 	bool _jump_to_selected;
 	bool _nagged[NAG_COUNT];
-	bool _preview_sound;
-	/** name of a specific sound output stream to use for preview, or empty to use the default */
-	boost::optional<std::string> _preview_sound_output;
+	bool _sound;
+	/** name of a specific sound output stream to use, or empty to use the default */
+	boost::optional<std::string> _sound_output;
 	std::string _cover_sheet;
 
 	/** Singleton instance, or 0 */

@@ -35,7 +35,7 @@
 #include "wx/film_viewer.h"
 #include "wx/player_information.h"
 #include "wx/update_dialog.h"
-#include "wx/full_config_dialog.h"
+#include "wx/player_config_dialog.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
@@ -227,7 +227,7 @@ private:
 	void edit_preferences ()
 	{
 		if (!_config_dialog) {
-			_config_dialog = create_full_config_dialog ();
+			_config_dialog = create_player_config_dialog ();
 		}
 		_config_dialog->Show (this);
 	}
