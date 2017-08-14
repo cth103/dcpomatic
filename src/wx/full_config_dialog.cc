@@ -18,11 +18,11 @@
 
 */
 
-/** @file src/config_dialog.cc
- *  @brief A dialogue to edit DCP-o-matic configuration.
+/** @file src/full_config_dialog.cc
+ *  @brief A dialogue to edit all DCP-o-matic configuration.
  */
 
-#include "config_dialog.h"
+#include "full_config_dialog.h"
 #include "wx_util.h"
 #include "editable_list.h"
 #include "filter_dialog.h"

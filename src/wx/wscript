@@ -34,7 +34,6 @@ sources = """
           batch_job_view.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
-          config_dialog.cc
           config_move_dialog.cc
           confirm_kdm_email_dialog.cc
           content_colour_conversion_dialog.cc
@@ -59,6 +58,7 @@ sources = """
           filter_editor.cc
           fonts_dialog.cc
           font_files_dialog.cc
+          full_config_dialog.cc
           gain_calculator_dialog.cc
           hints_dialog.cc
           job_view.cc

@@ -25,7 +25,7 @@
 #include "wx/film_viewer.h"
 #include "wx/film_editor.h"
 #include "wx/job_manager_view.h"
-#include "wx/config_dialog.h"
+#include "wx/full_config_dialog.h"
 #include "wx/wx_util.h"
 #include "wx/film_name_location_dialog.h"
 #include "wx/wx_signal_manager.h"
@@ -500,7 +500,7 @@ private:
 	void edit_preferences ()
 	{
 		if (!_config_dialog) {
-			_config_dialog = create_config_dialog ();
+			_config_dialog = create_full_config_dialog ();
 		}
 		_config_dialog->Show (this);
 	}

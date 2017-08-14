@@ -18,7 +18,7 @@
 
 */
 
-#include "wx/config_dialog.h"
+#include "wx/full_config_dialog.h"
 #include "wx/about_dialog.h"
 #include "wx/report_problem_dialog.h"
 #include "wx/file_picker_ctrl.h"
@@ -198,7 +198,7 @@ private:
 	void edit_preferences ()
 	{
 		if (!_config_dialog) {
-			_config_dialog = create_config_dialog ();
+			_config_dialog = create_full_config_dialog ();
 		}
 		_config_dialog->Show (this);
 	}

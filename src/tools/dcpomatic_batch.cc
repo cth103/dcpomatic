@@ -22,7 +22,7 @@
 #include "wx/about_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/job_manager_view.h"
-#include "wx/config_dialog.h"
+#include "wx/full_config_dialog.h"
 #include "wx/servers_list_dialog.h"
 #include "lib/version.h"
 #include "lib/compose.hpp"
@@ -190,7 +190,7 @@ private:
 	void edit_preferences ()
 	{
 		if (!_config_dialog) {
-			_config_dialog = create_config_dialog ();
+			_config_dialog = create_full_config_dialog ();
 		}
 		_config_dialog->Show (this);
 	}
