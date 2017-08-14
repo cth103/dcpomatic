@@ -35,10 +35,12 @@
 #include "wx/film_viewer.h"
 #include "wx/player_information.h"
 #include "wx/update_dialog.h"
+#include "wx/config_dialog.h"
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 #include <wx/splash.h>
 #include <wx/cmdline.h>
+#include <wx/preferences.h>
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -64,6 +66,9 @@ public:
 	DOMFrame ()
 		: wxFrame (0, -1, _("DCP-o-matic Player"))
 		, _update_news_requested (false)
+		, _info (0)
+		, _config_dialog (0)
+		, _viewer (0)
 	{
 
 #if defined(DCPOMATIC_WINDOWS)
@@ -81,6 +86,7 @@ public:
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>()), ID_view_scale_appropriate);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
@@ -136,7 +142,7 @@ public:
 		}
 
 		_viewer->set_film (_film);
-		_info->update ();
+		_info->triggered_update ();
 	}
 
 private:
@@ -216,6 +222,14 @@ private:
 		Close ();
 	}
 
+	void edit_preferences ()
+	{
+		if (!_config_dialog) {
+			_config_dialog = create_config_dialog ();
+		}
+		_config_dialog->Show (this);
+	}
+
 	void tools_check_for_updates ()
 	{
 		UpdateChecker::instance()->run ();
@@ -268,6 +282,7 @@ private:
 
 	bool _update_news_requested;
 	PlayerInformation* _info;
+	wxPreferencesEditor* _config_dialog;
 	FilmViewer* _viewer;
 	boost::shared_ptr<Film> _film;
 };

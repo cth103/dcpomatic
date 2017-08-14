@@ -50,16 +50,27 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
+		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
 	SetSizerAndFit (_sizer);
 
-	update ();
+	triggered_update ();
+
+	Bind (wxEVT_TIMER, boost::bind (&PlayerInformation::periodic_update, this));
+	_timer.reset (new wxTimer (this));
+	_timer->Start (500);
 }
 
 void
-PlayerInformation::update ()
+PlayerInformation::periodic_update ()
+{
+	checked_set (_dropped, wxString::Format(_("Dropped frames: %d"), _viewer->dropped()));
+}
+
+void
+PlayerInformation::triggered_update ()
 {
 	shared_ptr<DCPContent> dcp;
 	if (_viewer->film()) {

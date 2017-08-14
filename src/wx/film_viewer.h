@@ -60,6 +60,10 @@ public:
 
 	void refresh ();
 
+	int dropped () const {
+		return _dropped;
+	}
+
 	int audio_callback (void* out, unsigned int frames);
 
 	boost::signals2::signal<void (boost::weak_ptr<PlayerVideo>)> ImageChanged;
@@ -141,6 +145,8 @@ private:
 	/** Mutex to protect _latency_history */
 	mutable boost::mutex _latency_history_mutex;
 	int _latency_history_count;
+
+	int _dropped;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

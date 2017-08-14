@@ -19,6 +19,7 @@
 */
 
 #include <wx/wx.h>
+#include <boost/scoped_ptr.hpp>
 
 class FilmViewer;
 
@@ -27,13 +28,17 @@ class PlayerInformation : public wxPanel
 public:
 	PlayerInformation (wxWindow* parent, FilmViewer* viewer);
 
-	void update ();
+	void triggered_update ();
 
 private:
+
+	void periodic_update ();
 
 	FilmViewer* _viewer;
 	wxSizer* _sizer;
 	wxStaticText* _cpl_name;
 	wxStaticText* _size;
 	wxStaticText* _length;
+	wxStaticText* _dropped;
+	boost::scoped_ptr<wxTimer> _timer;
 };

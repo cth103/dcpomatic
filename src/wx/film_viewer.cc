@@ -93,6 +93,7 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	, _audio_block_size (1024)
 	, _playing (false)
 	, _latency_history_count (0)
+	, _dropped (0)
 {
 #ifndef __WXOSX__
 	_panel->SetDoubleBuffered (true);
@@ -286,6 +287,7 @@ FilmViewer::get ()
 		   part if this frame is J2K).
 		*/
 		_video_position = video.second;
+		++_dropped;
 		return;
 	}
 
@@ -473,6 +475,7 @@ FilmViewer::start ()
 	}
 
 	_playing = true;
+	_dropped = 0;
 	timer ();
 }
 
