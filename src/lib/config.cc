@@ -166,13 +166,8 @@ void
 Config::read ()
 try
 {
-	boost::filesystem::path const config_path = config_file ();
-	if (!boost::filesystem::exists (config_path)) {
-		return;
-	}
-
 	cxml::Document f ("Config");
-	f.read_file (config_path);
+	f.read_file (config_file ());
 
 	optional<int> version = f.optional_number_child<int> ("Version");
 
