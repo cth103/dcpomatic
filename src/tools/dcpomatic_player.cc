@@ -84,6 +84,8 @@ public:
 		SetIcon (wxIcon (std_to_wx ("id")));
 #endif
 
+		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
+
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
@@ -280,11 +282,28 @@ private:
 		_update_news_requested = false;
 	}
 
+	void config_changed ()
+	{
+		/* Instantly save any config changes when using the player GUI */
+		try {
+			Config::instance()->write_config();
+		} catch (exception& e) {
+			error_dialog (
+				this,
+				wxString::Format (
+					_("Could not write to config file at %s.  Your changes have not been saved."),
+					std_to_wx (Config::instance()->cinemas_file().string()).data()
+					)
+				);
+		}
+	}
+
 	bool _update_news_requested;
 	PlayerInformation* _info;
 	wxPreferencesEditor* _config_dialog;
 	FilmViewer* _viewer;
 	boost::shared_ptr<Film> _film;
+	boost::signals2::scoped_connection _config_changed_connection;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
