@@ -41,6 +41,9 @@
 #include <wx/splash.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
+#ifdef __WXOSX__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 #include <boost/bind.hpp>
 #include <iostream>
 
