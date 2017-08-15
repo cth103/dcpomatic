@@ -47,6 +47,10 @@
 #include <boost/bind.hpp>
 #include <iostream>
 
+#ifdef check
+#undef check
+#endif
+
 using std::string;
 using std::cout;
 using std::exception;
