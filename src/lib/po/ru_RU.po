@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:43+0100\n"
+"POT-Creation-Date: 2017-08-15 15:22+0100\n"
 "PO-Revision-Date: 2017-05-14 22:22+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:633
+#: src/lib/config.cc:725
 #, fuzzy
 msgid ""
 "$CPL_NAME\n"
@@ -275,15 +275,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Бит на пиксель"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:552
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:553
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:544
 msgid "C"
 msgstr "C"
 
@@ -295,7 +295,7 @@ msgstr "Отменено"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:513
 msgid "Centre"
 msgstr "Центральный"
 
@@ -303,7 +303,7 @@ msgstr "Центральный"
 msgid "Channels"
 msgstr "Каналы"
 
-#: src/lib/reel_writer.cc:100
+#: src/lib/reel_writer.cc:99
 msgid "Checking existing image data"
 msgstr "Проверка данных изображения"
 
@@ -526,19 +526,19 @@ msgstr "не удалось начать передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:523
 msgid "D-BOX primary"
 msgstr "D-BOX основной (DBP)"
 
-#: src/lib/util.cc:508
+#: src/lib/util.cc:524
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:554
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:555
 msgid "DBS"
 msgstr "DBS"
 
@@ -586,7 +586,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:613
+#: src/lib/config.cc:705
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -644,7 +644,7 @@ msgstr "Сообщить о проблеме"
 msgid "Email problem report for %1"
 msgstr "Ошибка отправки ключей %1 по Email"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
+#: src/lib/dcp_encoder.cc:95 src/lib/ffmpeg_encoder.cc:201
 msgid "Encoding"
 msgstr "Кодирование"
 
@@ -676,7 +676,7 @@ msgstr "Ошибка отправки email (%1)"
 msgid "Feature"
 msgstr "FTR (Фильм)"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Filename"
 msgstr "Имя файла"
 
@@ -688,7 +688,7 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчет длительности"
 
-#: src/lib/content.cc:381
+#: src/lib/content.cc:388
 msgid "Frame rate"
 msgstr "Частота кадров"
 
@@ -732,11 +732,11 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:548
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:517
 msgid "Hearing impaired"
 msgstr "Для слабослышащих"
 
@@ -772,7 +772,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:267 src/lib/config.cc:610
+#: src/lib/config.cc:267 src/lib/config.cc:702
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -780,27 +780,27 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:542
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:550
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:511
 msgid "Left"
 msgstr "Левый"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:519
 msgid "Left centre"
 msgstr "Левый центральный"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:521
 msgid "Left rear surround"
 msgstr "Левый тыловой surround"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:515
 msgid "Left surround"
 msgstr "Левый surround"
 
@@ -808,11 +808,11 @@ msgstr "Левый surround"
 msgid "Length"
 msgstr "Длительность"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:545
 msgid "Lfe"
 msgstr "LFE"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:514
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
@@ -836,7 +836,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:546
 msgid "Ls"
 msgstr "Ls"
 
@@ -924,7 +924,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "POL (Стратегический)"
 
-#: src/lib/content.cc:390
+#: src/lib/content.cc:397
 msgid "Prepared for video frame rate"
 msgstr "Подготовлено для частоты кадров видео"
 
@@ -937,7 +937,7 @@ msgstr "Ошибка програмиирования %1:%2"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:543
 msgid "R"
 msgstr "R"
 
@@ -949,7 +949,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:551
 msgid "Rc"
 msgstr "Rc"
 
@@ -969,23 +969,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:512
 msgid "Right"
 msgstr "Правый"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:520
 msgid "Right centre"
 msgstr "Правый центральный"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:522
 msgid "Right rear surround"
 msgstr "Правый тыловой surround"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:516
 msgid "Right surround"
 msgstr "Правый surround"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:547
 msgid "Rs"
 msgstr "Rs"
 
@@ -1238,7 +1238,7 @@ msgstr "Не определено"
 msgid "Untitled"
 msgstr "Безымянный"
 
-#: src/lib/util.cc:509 src/lib/util.cc:510
+#: src/lib/util.cc:525 src/lib/util.cc:526
 msgid "Unused"
 msgstr "Не используется"
 
@@ -1250,11 +1250,11 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:549
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:518
 msgid "Visually impaired"
 msgstr "Для слабовидящих"
 
@@ -1383,7 +1383,7 @@ msgstr "копирование %1"
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
-#: src/lib/reel_writer.cc:323
+#: src/lib/reel_writer.cc:325
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "не удалось переместить аудио в DCP-пакет (%1)"
 
@@ -1423,17 +1423,17 @@ msgstr "ошибка во время async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
-#: src/lib/content.cc:383 src/lib/content.cc:392
+#: src/lib/content.cc:390 src/lib/content.cc:399
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:150 src/lib/util.cc:153
+#: src/lib/util.cc:166 src/lib/util.cc:169
 msgid "h"
 msgstr "ч"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:165 src/lib/util.cc:168
+#: src/lib/util.cc:181 src/lib/util.cc:184
 msgid "m"
 msgstr "м"
 
@@ -1445,12 +1445,12 @@ msgstr "отсутствует обязательная настройка: %1"
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:296 src/lib/film.cc:312
+#: src/lib/film.cc:296
 msgid "name"
 msgstr "название"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:179
+#: src/lib/util.cc:195
 msgid "s"
 msgstr "с"
 

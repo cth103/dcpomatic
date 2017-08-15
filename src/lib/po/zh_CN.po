@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-29 11:43+0100\n"
+"POT-Creation-Date: 2017-08-15 15:22+0100\n"
 "PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:633
+#: src/lib/config.cc:725
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -271,15 +271,15 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/util.cc:536
+#: src/lib/util.cc:552
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:537
+#: src/lib/util.cc:553
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:528
+#: src/lib/util.cc:544
 msgid "C"
 msgstr "中置"
 
@@ -291,7 +291,7 @@ msgstr "取消"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2不能处理图片格式 %1"
 
-#: src/lib/util.cc:497
+#: src/lib/util.cc:513
 msgid "Centre"
 msgstr "中置音"
 
@@ -299,7 +299,7 @@ msgstr "中置音"
 msgid "Channels"
 msgstr "声音通道"
 
-#: src/lib/reel_writer.cc:100
+#: src/lib/reel_writer.cc:99
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
@@ -501,19 +501,19 @@ msgstr "传输失败！"
 msgid "Could not write to remote file (%1)"
 msgstr "写入远程文件 (%1)失败！"
 
-#: src/lib/util.cc:507
+#: src/lib/util.cc:523
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:508
+#: src/lib/util.cc:524
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:538
+#: src/lib/util.cc:554
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:539
+#: src/lib/util.cc:555
 msgid "DBS"
 msgstr "DBS"
 
@@ -556,7 +556,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:613
+#: src/lib/config.cc:705
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -615,7 +615,7 @@ msgstr "通过邮件发送BUG"
 msgid "Email problem report for %1"
 msgstr "通过邮件发送BUG给 %1"
 
-#: src/lib/dcp_encoder.cc:88 src/lib/ffmpeg_encoder.cc:194
+#: src/lib/dcp_encoder.cc:95 src/lib/ffmpeg_encoder.cc:201
 msgid "Encoding"
 msgstr "编码中"
 
@@ -647,7 +647,7 @@ msgstr "发送电子邮件失败"
 msgid "Feature"
 msgstr "正片"
 
-#: src/lib/content.cc:374
+#: src/lib/content.cc:381
 msgid "Filename"
 msgstr "文件名"
 
@@ -659,7 +659,7 @@ msgstr "电影"
 msgid "Finding length"
 msgstr "定位长度"
 
-#: src/lib/content.cc:381
+#: src/lib/content.cc:388
 msgid "Frame rate"
 msgstr "帧率"
 
@@ -703,11 +703,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:532
+#: src/lib/util.cc:548
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:501
+#: src/lib/util.cc:517
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -747,7 +747,7 @@ msgstr "IEC61966-2-4"
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:267 src/lib/config.cc:610
+#: src/lib/config.cc:267 src/lib/config.cc:702
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -755,27 +755,27 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/util.cc:526
+#: src/lib/util.cc:542
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:534
+#: src/lib/util.cc:550
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:495
+#: src/lib/mid_side_decoder.cc:98 src/lib/util.cc:511
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:503
+#: src/lib/util.cc:519
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:505
+#: src/lib/util.cc:521
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:499
+#: src/lib/util.cc:515
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -783,11 +783,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:529
+#: src/lib/util.cc:545
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:498
+#: src/lib/util.cc:514
 msgid "Lfe (sub)"
 msgstr "次低（重低音）"
 
@@ -811,7 +811,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/util.cc:530
+#: src/lib/util.cc:546
 msgid "Ls"
 msgstr "左环绕"
 
@@ -899,7 +899,7 @@ msgstr "P3"
 msgid "Policy"
 msgstr "政策相关"
 
-#: src/lib/content.cc:390
+#: src/lib/content.cc:397
 msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
@@ -911,7 +911,7 @@ msgstr "程序内部错误 %1:%2 %3"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/util.cc:527
+#: src/lib/util.cc:543
 msgid "R"
 msgstr "右声道"
 
@@ -923,7 +923,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:535
+#: src/lib/util.cc:551
 msgid "Rc"
 msgstr "右中"
 
@@ -943,23 +943,23 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:496
+#: src/lib/mid_side_decoder.cc:99 src/lib/util.cc:512
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:504
+#: src/lib/util.cc:520
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:506
+#: src/lib/util.cc:522
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:500
+#: src/lib/util.cc:516
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/util.cc:531
+#: src/lib/util.cc:547
 msgid "Rs"
 msgstr "右环绕"
 
@@ -1192,7 +1192,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:509 src/lib/util.cc:510
+#: src/lib/util.cc:525 src/lib/util.cc:526
 msgid "Unused"
 msgstr "未使用"
 
@@ -1204,11 +1204,11 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:533
+#: src/lib/util.cc:549
 msgid "VI"
 msgstr "视力障碍"
 
-#: src/lib/util.cc:502
+#: src/lib/util.cc:518
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1323,7 +1323,7 @@ msgstr "复制中... %1"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:323
+#: src/lib/reel_writer.cc:325
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
@@ -1363,17 +1363,17 @@ msgstr "异步读取错误 (%1)"
 msgid "error during async_write (%1)"
 msgstr "异步写入错误 (%1)"
 
-#: src/lib/content.cc:383 src/lib/content.cc:392
+#: src/lib/content.cc:390 src/lib/content.cc:399
 msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:150 src/lib/util.cc:153
+#: src/lib/util.cc:166 src/lib/util.cc:169
 msgid "h"
 msgstr "时"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:165 src/lib/util.cc:168
+#: src/lib/util.cc:181 src/lib/util.cc:184
 msgid "m"
 msgstr "分"
 
@@ -1385,12 +1385,12 @@ msgstr "缺少必需的设置%1"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:296 src/lib/film.cc:312
+#: src/lib/film.cc:296
 msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:179
+#: src/lib/util.cc:195
 msgid "s"
 msgstr "秒"
 
