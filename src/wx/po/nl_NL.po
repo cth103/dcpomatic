@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2017-06-14 15:23+0200\n"
+"PO-Revision-Date: 2017-08-16 02:15+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -446,7 +446,7 @@ msgstr "Component"
 
 #: src/wx/full_config_dialog.cc:105
 msgid "Configuration file"
-msgstr ""
+msgstr "Configuratiebestand"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1517
@@ -673,7 +673,7 @@ msgstr "Downloaden certificaat"
 #: src/wx/player_information.cc:69
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "Dropped frames: %d"
 
 #: src/wx/content_panel.cc:102
 msgid "Earlier"
@@ -1109,7 +1109,7 @@ msgstr "Lengte"
 #: src/wx/player_information.cc:101
 #, c-format
 msgid "Length: %s (%ld frames)"
-msgstr ""
+msgstr "Lengte: %s (%ld frames)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1190,9 +1190,8 @@ msgid "Mix audio down to stereo"
 msgstr "Mix audio down naar stereo"
 
 #: src/wx/config_move_dialog.cc:28
-#, fuzzy
 msgid "Move configuration"
-msgstr "Verplaats content"
+msgstr "Verplaats configuratie"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1247,9 +1246,8 @@ msgid "New versions of DCP-o-matic are available."
 msgstr "Er zijn nieuwe versies van DCP-o-matic beschikbaar."
 
 #: src/wx/player_information.cc:84
-#, fuzzy
 msgid "No DCP loaded."
-msgstr "Geen DCP geselecteerd."
+msgstr "Geen DCP geladen."
 
 #: src/wx/content_sub_panel.cc:63
 msgid "No DCP selected."
@@ -1355,7 +1353,7 @@ msgstr "Output-gammacorrectie"
 
 #: src/wx/config_move_dialog.cc:30
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "Overschrijf dit bestand met huidige configuratie"
 
 #: src/wx/full_config_dialog.cc:1121
 msgid "Password"
@@ -1380,7 +1378,7 @@ msgstr "Piek: onbekend"
 
 #: src/wx/player_information.cc:52
 msgid "Performance"
-msgstr ""
+msgstr "Prestaties"
 
 #: src/wx/film_viewer.cc:87
 msgid "Play"
@@ -1650,9 +1648,8 @@ msgid "Select cinema and screen database file"
 msgstr "Selecteer bioscoop- en scherm-database-bestand"
 
 #: src/wx/full_config_dialog.cc:106
-#, fuzzy
 msgid "Select configuration file"
-msgstr "Selecteer certificaat-bestand"
+msgstr "Selecteer configuratiebestand"
 
 #: src/wx/export_dialog.cc:55
 msgid "Select output file"
@@ -1729,7 +1726,7 @@ msgstr "Enkele reel"
 #: src/wx/player_information.cc:93
 #, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "Grootte: %dx%d"
 
 #: src/wx/audio_dialog.cc:126
 msgid "Smoothing"
@@ -1858,6 +1855,8 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr ""
+"Het bestand %s bestaat al.  Wilt u het als uw nieuwe configuratie gebruiken "
+"of wilt u het met uw huidige configuratie overschrijven?"
 
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
@@ -2085,7 +2084,7 @@ msgstr "Gebruik ondertitels"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "Gebruik dit bestand als nieuwe configuratie"
 
 #: src/wx/full_config_dialog.cc:1117
 msgid "User name"
