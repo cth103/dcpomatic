@@ -75,10 +75,10 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected)
 	: wxPanel (p)
 	, _panel (new wxPanel (this))
-	, _outline_content (new wxCheckBox (this, wxID_ANY, _("Outline content")))
+	, _outline_content (0)
 	, _left_eye (new wxRadioButton (this, wxID_ANY, _("Left eye"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP))
 	, _right_eye (new wxRadioButton (this, wxID_ANY, _("Right eye")))
-	, _jump_to_selected (new wxCheckBox (this, wxID_ANY, _("Jump to selected content")))
+	, _jump_to_selected (0)
 	, _slider (new wxSlider (this, wxID_ANY, 0, 0, 4096))
 	, _back_button (new wxButton (this, wxID_ANY, wxT("<")))
 	, _forward_button (new wxButton (this, wxID_ANY, wxT(">")))
@@ -108,11 +108,13 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 
 	wxBoxSizer* view_options = new wxBoxSizer (wxHORIZONTAL);
 	if (outline_content) {
+		_outline_content = new wxCheckBox (this, wxID_ANY, _("Outline content"));
 		view_options->Add (_outline_content, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
 	}
 	view_options->Add (_left_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	view_options->Add (_right_eye, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	if (jump_to_selected) {
+		_jump_to_selected = new wxCheckBox (this, wxID_ANY, _("Jump to selected content"));
 		view_options->Add (_jump_to_selected, 0, wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	}
 	_v_sizer->Add (view_options, 0, wxALL, DCPOMATIC_SIZER_GAP);
@@ -137,7 +139,9 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 
 	_panel->Bind            (wxEVT_PAINT,             boost::bind (&FilmViewer::paint_panel,     this));
 	_panel->Bind            (wxEVT_SIZE,              boost::bind (&FilmViewer::panel_sized,     this, _1));
-	_outline_content->Bind  (wxEVT_CHECKBOX,          boost::bind (&FilmViewer::refresh_panel,   this));
+	if (_outline_content) {
+		_outline_content->Bind  (wxEVT_CHECKBOX, boost::bind (&FilmViewer::refresh_panel,   this));
+	}
 	_left_eye->Bind         (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
 	_right_eye->Bind        (wxEVT_RADIOBUTTON,       boost::bind (&FilmViewer::refresh,         this));
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK, boost::bind (&FilmViewer::slider_moved,    this, false));
@@ -150,9 +154,10 @@ FilmViewer::FilmViewer (wxWindow* p, bool outline_content, bool jump_to_selected
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::forward_clicked, this, _1));
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::frame_number_clicked, this));
 	_timecode->Bind         (wxEVT_LEFT_DOWN,         boost::bind (&FilmViewer::timecode_clicked, this));
-	_jump_to_selected->Bind (wxEVT_CHECKBOX,          boost::bind (&FilmViewer::jump_to_selected_clicked, this));
-
-	_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
+	if (_jump_to_selected) {
+		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&FilmViewer::jump_to_selected_clicked, this));
+		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
+	}
 
 	set_film (shared_ptr<Film> ());
 
@@ -377,7 +382,7 @@ FilmViewer::paint_panel ()
 		dc.DrawRectangle (0, _out_size.height, _panel_size.width, _panel_size.height - _out_size.height);
 	}
 
-	if (_outline_content->GetValue ()) {
+	if (_outline_content && _outline_content->GetValue ()) {
 		wxPen p (wxColour (255, 0, 0), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
@@ -611,10 +616,14 @@ FilmViewer::setup_sensitivity ()
 	_back_button->Enable (c);
 	_forward_button->Enable (c);
 	_play_button->Enable (c);
-	_outline_content->Enable (c);
+	if (_outline_content) {
+		_outline_content->Enable (c);
+	}
 	_frame_number->Enable (c);
 	_timecode->Enable (c);
-	_jump_to_selected->Enable (c);
+	if (_jump_to_selected) {
+		_jump_to_selected->Enable (c);
+	}
 
 	_left_eye->Enable (c && _film->three_d ());
 	_right_eye->Enable (c && _film->three_d ());
