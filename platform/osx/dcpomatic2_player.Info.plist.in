@@ -5,17 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>dcpomatic2_kdm</string>
+	<string>dcpomatic2_player</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP-o-matic 2 KDM creator</string>
+	<string>DCP-o-matic 2 Player</string>
 	<key>CFBundleIconFile</key>
-	<string>dcpomatic2_kdm.icns</string>
+	<string>dcpomatic2_player.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.dcpomatic.kdm</string>
+	<string>com.dcpomatic.player</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DCP-o-matic 2 KDM Creator</string>
+	<string>DCP-o-matic 2 Player</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersions</key>
