@@ -391,7 +391,7 @@ def package_rpm(target, cpu, version):
         )
 
     make_spec('build/platform/linux/dcpomatic2.spec', version, target)
-    cmd = 'rpmbuild --define \'_topdir %s\' -bb build/platform/linux/dcpomatic2.spec' % topdir
+    cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
     if target.distro == 'centos' and target.version == '5':
         cmd += ' --buildroot %s/BUILD/dcpomatic-%s/BUILDROOT' % (topdir, version)
     target.command(cmd)
