@@ -46,6 +46,10 @@ public:
 
 	std::string container_nickname () const;
 
+	bool used_for_container () const {
+		return static_cast<bool> (_container_nickname);
+	}
+
 	std::string isdcf_name () const {
 		return _isdcf_name;
 	}

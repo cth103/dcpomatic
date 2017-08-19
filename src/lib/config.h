@@ -625,6 +625,8 @@ public:
 	    a listener can do about it: this is just for information.
 	*/
 	static boost::signals2::signal<void ()> FailedToLoad;
+	/** Emitted if read() issued a warning which the user might want to know about */
+	static boost::signals2::signal<void (std::string)> Warning;
 
 	void write () const;
 	void write_config () const;

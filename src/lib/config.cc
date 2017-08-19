@@ -64,6 +64,7 @@ using dcp::raw_convert;
 
 Config* Config::_instance = 0;
 boost::signals2::signal<void ()> Config::FailedToLoad;
+boost::signals2::signal<void (string)> Config::Warning;
 
 /** Construct default configuration */
 Config::Config ()
@@ -223,6 +224,11 @@ try
 	c = f.optional_string_child ("DefaultContainer");
 	if (c) {
 		_default_container = Ratio::from_id (c.get ());
+	}
+
+	if (_default_container && !_default_container->used_for_container()) {
+		Warning (_("Your default container is not valid and has been changed to Flat (1.85:1)"));
+		_default_container = Ratio::from_id ("185");
 	}
 
 	c = f.optional_string_child ("DefaultScaleTo");
@@ -475,9 +481,9 @@ Config::write_config () const
 		root->add_child("Language")->add_child_text (_language.get());
 	}
 	if (_default_container) {
-		/* [XML:opt] DefaultContainer ID of default container to use when creating new films (<code>119</code>, <code>133</code>,
-		   <code>138</code>, <code>143</code>, <code>166</code>, <code>178</code>, <code>185</code>, <code>235</code>,
-		   <code>239</code> or <code>full-frame</code>).
+		/* [XML:opt] DefaultContainer ID of default container
+		 * to use when creating new films (<code>185</code>,<code>239</code> or
+		 * <code>full-frame</code>).
 		*/
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
