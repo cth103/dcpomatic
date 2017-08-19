@@ -197,6 +197,9 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	try {
 		_player.reset (new Player (_film, _film->playlist ()));
 		_player->set_fast ();
+		if (_dcp_decode_reduction) {
+			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
+		}
 	} catch (bad_alloc) {
 		error_dialog (this, _("There is not enough free memory to do that."));
 		_film.reset ();
@@ -811,7 +814,10 @@ FilmViewer::average_latency () const
 void
 FilmViewer::set_dcp_decode_reduction (optional<int> reduction)
 {
-	_player->set_dcp_decode_reduction (reduction);
+	_dcp_decode_reduction = reduction;
+	if (_player) {
+		_player->set_dcp_decode_reduction (reduction);
+	}
 }
 
 DCPTime
