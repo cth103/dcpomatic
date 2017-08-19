@@ -147,6 +147,7 @@ private:
 	int _latency_history_count;
 
 	int _dropped;
+	boost::optional<int> _dcp_decode_reduction;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };
