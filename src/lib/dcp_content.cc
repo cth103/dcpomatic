@@ -146,7 +146,9 @@ DCPContent::examine (shared_ptr<Job> job)
 	string const old_name = name ();
 	bool had_subtitles = static_cast<bool> (subtitle);
 
-	job->set_progress_unknown ();
+	if (job) {
+		job->set_progress_unknown ();
+	}
 	Content::examine (job);
 
 	shared_ptr<DCPExaminer> examiner (new DCPExaminer (shared_from_this ()));

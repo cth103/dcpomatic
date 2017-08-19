@@ -36,9 +36,7 @@ private:
 
 	FilmViewer* _viewer;
 	wxSizer* _sizer;
-	wxStaticText* _cpl_name;
-	wxStaticText* _size;
-	wxStaticText* _length;
+	wxStaticText** _dcp;
 	wxStaticText* _dropped;
 	boost::scoped_ptr<wxTimer> _timer;
 };

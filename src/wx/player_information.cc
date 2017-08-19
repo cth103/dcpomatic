@@ -30,6 +30,8 @@ using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 using boost::optional;
 
+static int const dcp_lines = 4;
+
 PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 	: wxPanel (parent)
 	, _viewer (viewer)
@@ -38,12 +40,14 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 	wxFont title_font (*wxNORMAL_FONT);
 	title_font.SetWeight (wxFONTWEIGHT_BOLD);
 
+	_dcp = new wxStaticText*[dcp_lines];
+
 	{
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
-		_cpl_name = add_label_to_sizer(s, this, wxT(""), false, 0);
-		_size = add_label_to_sizer(s, this, wxT(""), false, 0);
-		_length = add_label_to_sizer(s, this, wxT(""), false, 0);
+		for (int i = 0; i < dcp_lines; ++i) {
+			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
+		}
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
@@ -81,22 +85,35 @@ PlayerInformation::triggered_update ()
 	}
 
 	if (!dcp) {
-		checked_set (_cpl_name, _("No DCP loaded."));
-		checked_set (_size, wxT(""));
-		checked_set (_length, wxT(""));
+		checked_set (_dcp[0], _("No DCP loaded."));
+		for (int r = 1; r < dcp_lines; ++r) {
+			checked_set (_dcp[r], wxT(""));
+		}
+		return;
+	}
+
+	int r = 0;
+	checked_set (_dcp[r++], std_to_wx(dcp->name()));
+
+	if (dcp->needs_assets()) {
+		checked_set (_dcp[r], _("Needs OV"));
+		return;
+	}
+
+	if (dcp->needs_kdm()) {
+		checked_set (_dcp[r], _("Needs KDM"));
 		return;
 	}
 
 	DCPOMATIC_ASSERT (dcp->video);
 
-	checked_set (_cpl_name, std_to_wx(dcp->name()));
-	checked_set (_size, wxString::Format(_("Size: %dx%d"), dcp->video->size().width, dcp->video->size().height));
+	checked_set (_dcp[r++], wxString::Format(_("Size: %dx%d"), dcp->video->size().width, dcp->video->size().height));
 
 	optional<double> vfr;
 	vfr = dcp->video_frame_rate ();
 	DCPOMATIC_ASSERT (vfr);
 	checked_set (
-		_length,
+		_dcp[r++],
 		wxString::Format(
 			_("Length: %s (%ld frames)"),
 			std_to_wx(time_to_hmsf(dcp->full_length(), lrint(*vfr))).data(),

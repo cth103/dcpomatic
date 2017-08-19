@@ -59,6 +59,8 @@ using boost::optional;
 
 enum {
 	ID_file_open = 1,
+	ID_file_add_ov,
+	ID_file_add_kdm,
 	ID_view_scale_appropriate,
 	ID_view_scale_full,
 	ID_view_scale_half,
@@ -94,6 +96,8 @@ public:
 		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this));
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_kdm, this), ID_file_add_kdm);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>()), ID_view_scale_appropriate);
@@ -160,6 +164,8 @@ private:
 	{
 		wxMenu* file = new wxMenu;
 		file->Append (ID_file_open, _("&Open...\tCtrl-O"));
+		file->Append (ID_file_add_ov, _("&Add OV..."));
+		file->Append (ID_file_add_kdm, _("&Add KDM..."));
 
 #ifdef __WXOSX__
 		file->Append (wxID_EXIT, _("&Exit"));
@@ -224,6 +230,58 @@ private:
 		}
 
 		c->Destroy ();
+	}
+
+	void file_add_ov ()
+	{
+		wxDirDialog* c = new wxDirDialog (
+			this,
+			_("Select DCP to open as OV"),
+			wxStandardPaths::Get().GetDocumentsDir(),
+			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
+			);
+
+		int r;
+		while (true) {
+			r = c->ShowModal ();
+			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
+			} else {
+				break;
+			}
+		}
+
+		if (r == wxID_OK) {
+			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+			DCPOMATIC_ASSERT (dcp);
+			dcp->add_ov (wx_to_std(c->GetPath()));
+			dcp->examine (shared_ptr<Job>());
+		}
+
+		c->Destroy ();
+		_info->triggered_update ();
+	}
+
+	void file_add_kdm ()
+	{
+		wxFileDialog* d = new wxFileDialog (this, _("Select KDM"));
+
+		if (d->ShowModal() == wxID_OK) {
+			shared_ptr<DCPContent> dcp = boost::dynamic_pointer_cast<DCPContent>(_film->content().front());
+			DCPOMATIC_ASSERT (dcp);
+			try {
+				dcp->add_kdm (dcp::EncryptedKDM (dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE)));
+			} catch (exception& e) {
+				error_dialog (this, wxString::Format (_("Could not load KDM (%s)"), e.what ()));
+				d->Destroy ();
+				return;
+			}
+
+			dcp->examine (shared_ptr<Job>());
+		}
+
+		d->Destroy ();
+		_info->triggered_update ();
 	}
 
 	void file_exit ()
