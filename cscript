@@ -265,13 +265,8 @@ def make_spec(filename, version, target):
     print('cd dcpomatic-%s' % version, file=f)
     print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig' % (target.directory, target.directory), file=f)
 
-    if target.distro == 'centos' and target.version == '5':
-        prefix = 'BUILDROOT/usr'
-    else:
-        prefix = '%{buildroot}/usr'
-
-    print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%s --install-prefix=/usr %s' %
-          (target.directory, target.directory, prefix, configure_options(target)), file=f)
+    print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%{buildroot}/usr --install-prefix=/usr %s' %
+          (target.directory, target.directory, configure_options(target)), file=f)
     print('./waf', file=f)
     print('%install', file=f)
     print('cd dcpomatic-%s' % version, file=f)
@@ -379,6 +374,7 @@ def package_debian(target, cpu, version):
     return debs
 
 def package_rpm(target, cpu, version):
+    print('package_rpm %s %s %s' % (target, cpu, version))
     topdir = os.path.realpath('build/rpmbuild')
     os.makedirs('%s/BUILD' % topdir)
     os.makedirs('%s/RPMS' % topdir)
@@ -394,18 +390,13 @@ def package_rpm(target, cpu, version):
 
     make_spec('build/platform/linux/dcpomatic2.spec', version, target)
     cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
-    if target.distro == 'centos' and target.version == '5':
-        cmd += ' --buildroot %s/BUILD/dcpomatic-%s/BUILDROOT' % (topdir, version)
     target.command(cmd)
     rpms = []
 
     if cpu == "amd64":
         cpu = "x86_64"
     else:
-        if target.distro == 'centos' and target.version == '5':
-            cpu = "i386"
-        else:
-            cpu = "i686"
+        cpu = "i686"
 
     print('Looking in %s/RPMS/%s/*.rpm' % (topdir, cpu))
     for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
