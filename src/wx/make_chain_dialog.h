@@ -18,6 +18,9 @@
 
 */
 
+#ifndef DCPOMATIC_MAKE_CHAIN_DIALOG_H
+#define DCPOMATIC_MAKE_CHAIN_DIALOG_H
+
 #include "table_dialog.h"
 #include "wx_util.h"
 
@@ -61,3 +64,5 @@ private:
 	wxTextCtrl* _intermediate_common_name;
 	wxTextCtrl* _leaf_common_name;
 };
+
+#endif

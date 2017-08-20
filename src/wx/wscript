@@ -34,6 +34,7 @@ sources = """
           batch_job_view.cc
           cinema_dialog.cc
           colour_conversion_editor.cc
+          config_dialog.cc
           config_move_dialog.cc
           confirm_kdm_email_dialog.cc
           content_colour_conversion_dialog.cc
