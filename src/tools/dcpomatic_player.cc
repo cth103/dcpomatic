@@ -28,6 +28,7 @@
 #include "lib/job_manager.h"
 #include "lib/job.h"
 #include "lib/video_content.h"
+#include "lib/subtitle_content.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/about_dialog.h"
@@ -152,6 +153,10 @@ public:
 			}
 			error_dialog (this, errors);
 			return;
+		}
+
+		if (dcp->subtitle) {
+			dcp->subtitle->set_use (true);
 		}
 
 		_viewer->set_film (_film);
