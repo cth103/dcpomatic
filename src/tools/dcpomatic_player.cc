@@ -148,7 +148,7 @@ public:
 			wxString errors;
 			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
 				if (i->finished_in_error()) {
-					errors += std_to_wx (i->error_summary()) + "\n";
+					errors += std_to_wx (i->error_summary()) + ".\n";
 				}
 			}
 			error_dialog (this, errors);
