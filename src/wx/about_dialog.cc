@@ -240,6 +240,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Gordon McLeod"));
 	supported_by.Add (wxT ("P. Meijer"));
 	supported_by.Add (wxT ("Brian Mendelssohn"));
+	supported_by.Add (wxT ("Olaf Merker"));
 	supported_by.Add (wxT ("Kjarten Michaelsen"));
 	supported_by.Add (wxT ("Aldo Midali"));
 	supported_by.Add (wxT ("Sylvain Mielle"));
