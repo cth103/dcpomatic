@@ -144,14 +144,11 @@ public:
 
 		while (signal_manager->ui_idle ()) {}
 
-		if (jm->errors ()) {
-			wxString errors;
-			BOOST_FOREACH (shared_ptr<Job> i, jm->get()) {
-				if (i->finished_in_error()) {
-					errors += std_to_wx (i->error_summary()) + ".\n";
-				}
-			}
-			error_dialog (this, errors);
+		DCPOMATIC_ASSERT (!jm->get().empty());
+
+		shared_ptr<Job> last = jm->get().back();
+		if (last->finished_in_error()) {
+			error_dialog (this, std_to_wx (last->error_summary()) + ".\n");
 			return;
 		}
 
