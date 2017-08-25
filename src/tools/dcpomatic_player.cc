@@ -23,7 +23,6 @@
 #include "lib/util.h"
 #include "lib/update_checker.h"
 #include "lib/compose.hpp"
-#include "lib/encode_server_finder.h"
 #include "lib/dcp_content.h"
 #include "lib/job_manager.h"
 #include "lib/job.h"
@@ -468,10 +467,6 @@ private:
 
 		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
 
-		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
-		_timer.reset (new wxTimer (this));
-		_timer->Start (1000);
-
 		if (Config::instance()->check_for_updates ()) {
 			UpdateChecker::instance()->run ();
 		}
@@ -543,22 +538,12 @@ private:
 		signal_manager->ui_idle ();
 	}
 
-	void check ()
-	{
-		try {
-			EncodeServerFinder::instance()->rethrow ();
-		} catch (exception& e) {
-			error_dialog (0, std_to_wx (e.what ()));
-		}
-	}
-
 	void config_failed_to_load ()
 	{
 		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
 	}
 
 	DOMFrame* _frame;
-	shared_ptr<wxTimer> _timer;
 	string _dcp_to_load;
 };
 
