@@ -514,7 +514,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 }
 
 /** Given a directory name, return its full path within the Film's directory.
- *  @param d directory name within the Filn's directory.
+ *  @param d directory name within the Film's directory.
  *  @param create true to create the directory (and its parents) if they do not exist.
  */
 boost::filesystem::path
