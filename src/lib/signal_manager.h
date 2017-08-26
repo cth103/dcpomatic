@@ -47,7 +47,9 @@ public:
 		_service.post (f);
 	}
 
-	/** Call this in the UI when it is idle */
+	/** Call this in the UI when it is idle.
+	 *  @return Number of idle handlers that were executed.
+	 */
 	size_t ui_idle () {
 		/* This executes one of the functors that has been post()ed to _service */
 		return _service.poll_one ();
