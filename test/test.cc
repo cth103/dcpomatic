@@ -32,6 +32,7 @@
 #include "lib/encode_server_finder.h"
 #include "lib/image.h"
 #include "lib/ratio.h"
+#include "lib/dcp_content_type.h"
 #include "lib/log_entry.h"
 #include <dcp/dcp.h>
 #include <asdcp/AS_DCP.h>
@@ -87,6 +88,7 @@ struct TestConfig
 		Config::instance()->set_default_interop (false);
 		Config::instance()->set_default_still_length (10);
 		Config::instance()->set_log_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
+		Config::instance()->set_automatic_audio_analysis (false);
 
 		EncodeServerFinder::instance()->stop ();
 
@@ -120,6 +122,21 @@ new_test_film (string name)
 	}
 
 	shared_ptr<Film> film = shared_ptr<Film> (new Film (p));
+	film->write_metadata ();
+	return film;
+}
+
+shared_ptr<Film>
+new_test_film2 (string name)
+{
+	boost::filesystem::path p = test_film_dir (name);
+	if (boost::filesystem::exists (p)) {
+		boost::filesystem::remove_all (p);
+	}
+
+	shared_ptr<Film> film = shared_ptr<Film> (new Film (p));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
+	film->set_container (Ratio::from_id ("185"));
 	film->write_metadata ();
 	return film;
 }
