@@ -1027,24 +1027,27 @@ Film::content () const
 	return _playlist->content ();
 }
 
+/** @param content Content to add.
+ *  @param disable_audio_analysis true to never do automatic audio analysis, even if it is enabled in configuration.
+ */
 void
-Film::examine_and_add_content (shared_ptr<Content> c)
+Film::examine_and_add_content (shared_ptr<Content> content, bool disable_audio_analysis)
 {
-	if (dynamic_pointer_cast<FFmpegContent> (c) && _directory) {
-		run_ffprobe (c->path(0), file ("ffprobe.log"), _log);
+	if (dynamic_pointer_cast<FFmpegContent> (content) && _directory) {
+		run_ffprobe (content->path(0), file ("ffprobe.log"), _log);
 	}
 
-	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), c));
+	shared_ptr<Job> j (new ExamineContentJob (shared_from_this(), content));
 
 	_job_connections.push_back (
-		j->Finished.connect (bind (&Film::maybe_add_content, this, weak_ptr<Job> (j), weak_ptr<Content> (c)))
+		j->Finished.connect (bind (&Film::maybe_add_content, this, weak_ptr<Job>(j), weak_ptr<Content>(content), disable_audio_analysis))
 		);
 
 	JobManager::instance()->add (j);
 }
 
 void
-Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
+Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audio_analysis)
 {
 	shared_ptr<Job> job = j.lock ();
 	if (!job || !job->finished_ok ()) {
@@ -1058,7 +1061,7 @@ Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c)
 
 	add_content (content);
 
-	if (Config::instance()->automatic_audio_analysis() && content->audio) {
+	if (Config::instance()->automatic_audio_analysis() && content->audio && !disable_audio_analysis) {
 		shared_ptr<Playlist> playlist (new Playlist);
 		playlist->add (content);
 		boost::signals2::connection c;

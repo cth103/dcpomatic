@@ -293,7 +293,7 @@ public:
 	void set_directory (boost::filesystem::path);
 	void set_name (std::string);
 	void set_use_isdcf_name (bool);
-	void examine_and_add_content (boost::shared_ptr<Content>);
+	void examine_and_add_content (boost::shared_ptr<Content> content, bool disable_audio_analysis = false);
 	void add_content (boost::shared_ptr<Content>);
 	void remove_content (boost::shared_ptr<Content>);
 	void remove_content (ContentList);
@@ -336,7 +336,7 @@ private:
 	void playlist_changed ();
 	void playlist_order_changed ();
 	void playlist_content_changed (boost::weak_ptr<Content>, int, bool frequent);
-	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>);
+	void maybe_add_content (boost::weak_ptr<Job>, boost::weak_ptr<Content>, bool disable_audio_analysis);
 	void audio_analysis_finished ();
 
 	static std::string const metadata_file;

@@ -132,16 +132,14 @@ public:
 	{
 		_film.reset (new Film (optional<boost::filesystem::path>()));
 		shared_ptr<DCPContent> dcp (new DCPContent (_film, dir));
-		_film->examine_and_add_content (dcp);
+		_film->examine_and_add_content (dcp, true);
 
 		JobManager* jm = JobManager::instance ();
-		while (jm->work_to_do ()) {
+
+		while (jm->work_to_do() || signal_manager->ui_idle()) {
 			/* XXX: progress dialog */
-			while (signal_manager->ui_idle ()) {}
 			dcpomatic_sleep (1);
 		}
-
-		while (signal_manager->ui_idle ()) {}
 
 		DCPOMATIC_ASSERT (!jm->get().empty());
 
