@@ -93,6 +93,12 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("XSN"));
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-133_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
 
+	/* And it should always be numeric */
+
+	content->video->set_scale (VideoContentScale (Ratio::from_id ("239")));
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-239_DE-fr_US-R_4K_DI_20140704_PP_SMPTE_OV");
+	content->video->set_scale (VideoContentScale (Ratio::from_id ("133")));
+
 	/* Test 3D */
 
 	film->set_three_d (true);

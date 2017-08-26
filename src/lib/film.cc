@@ -669,7 +669,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* XXX: this uses the first bit of content only */
 
-	/* The standard says we don't do this for trailers, for some strange reason */
+	/* Interior aspect ratio.  The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::TRAILER) {
 		Ratio const * content_ratio = 0;
 		BOOST_FOREACH (shared_ptr<Content> i, content ()) {
@@ -685,7 +685,8 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		if (content_ratio && content_ratio != container()) {
-			d += "-" + content_ratio->isdcf_name();
+			/* This needs to be the numeric version of the ratio, and ::id() is close enough */
+			d += "-" + content_ratio->id();
 		}
 	}
 
