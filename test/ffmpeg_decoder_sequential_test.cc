@@ -83,5 +83,5 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {
 	ffmpeg_decoder_sequential_test_one ("boon_telly.mkv", 29.97, 6912);
 	ffmpeg_decoder_sequential_test_one ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", 24, 1253);
-	ffmpeg_decoder_sequential_test_one ("prophet_clip.mkv", 23.976, 2879);
+	ffmpeg_decoder_sequential_test_one ("prophet_long_clip.mkv", 23.976, 2879);
 }

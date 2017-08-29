@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("interrupt_encoder_test");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent (film, private_data / "prophet_clip.mkv"));
+	shared_ptr<FFmpegContent> content (new FFmpegContent (film, private_data / "prophet_long_clip.mkv"));
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 

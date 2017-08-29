@@ -46,10 +46,11 @@ using boost::shared_ptr;
 using boost::optional;
 
 static optional<ContentVideo> stored;
-static void
+static bool
 store (ContentVideo v)
 {
 	stored = v;
+	return true;
 }
 
 static void
@@ -100,5 +101,5 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 	frames.push_back (999);
 	frames.push_back (15);
 
-	test ("prophet_clip.mkv", frames);
+	test ("prophet_long_clip.mkv", frames);
 }

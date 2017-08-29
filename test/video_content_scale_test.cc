@@ -44,7 +44,7 @@ test (dcp::Size content_size, dcp::Size display_size, dcp::Size film_size, Crop 
 	string s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 		"<Content>"
 		"<Type>FFmpeg</Type>"
-		"<Path>/home/c.hetherington/DCP/prophet_clip.mkv</Path>"
+		"<Path>/home/c.hetherington/DCP/prophet_long_clip.mkv</Path>"
 		"<Digest>f3f23663da5bef6d2cbaa0db066f3351314142710</Digest>"
 		"<Position>0</Position>"
 		"<TrimStart>0</TrimStart>"
