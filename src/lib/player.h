@@ -105,8 +105,8 @@ private:
 	ContentTime dcp_to_content_time (boost::shared_ptr<const Piece> piece, DCPTime t) const;
 	DCPTime content_time_to_dcp (boost::shared_ptr<const Piece> piece, ContentTime t) const;
 	boost::shared_ptr<PlayerVideo> black_player_video_frame () const;
-	void video (boost::weak_ptr<Piece>, ContentVideo);
-	void audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
+	bool video (boost::weak_ptr<Piece>, ContentVideo);
+	Frame audio (boost::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void image_subtitle_start (boost::weak_ptr<Piece>, ContentImageSubtitle);
 	void text_subtitle_start (boost::weak_ptr<Piece>, ContentTextSubtitle);
 	void subtitle_stop (boost::weak_ptr<Piece>, ContentTime);

@@ -53,7 +53,8 @@ public:
 
 	ContentTime stream_position (AudioStreamPtr stream) const;
 
-	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
+	/** @return Number of frames of data that were accepted */
+	boost::signals2::signal<Frame (AudioStreamPtr, ContentAudio)> Data;
 
 private:
 	void silence (int milliseconds);

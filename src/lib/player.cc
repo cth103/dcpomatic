@@ -594,14 +594,15 @@ Player::pass ()
 	list<pair<shared_ptr<AudioBuffers>, DCPTime> > audio = _audio_merger.pull (pull_to);
 	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::iterator i = audio.begin(); i != audio.end(); ++i) {
 		if (_last_audio_time && i->second < *_last_audio_time) {
-			/* There has been an accurate seek and we have received some audio before the seek time;
-			   discard it.
-			*/
+			/* This new data comes before the last we emitted (or the last seek); discard it */
 			pair<shared_ptr<AudioBuffers>, DCPTime> cut = discard_audio (i->first, i->second, *_last_audio_time);
 			if (!cut.first) {
 				continue;
 			}
 			*i = cut;
+		} else if (_last_audio_time && i->second > *_last_audio_time) {
+			/* There's a gap between this data and the last we emitted; fill with silence */
+			fill_audio (DCPTimePeriod (*_last_audio_time, i->second));
 		}
 
 		emit_audio (i->first, i->second);
@@ -635,17 +636,17 @@ Player::subtitles_for_frame (DCPTime time) const
 	return merge (subtitles);
 }
 
-void
+bool
 Player::video (weak_ptr<Piece> wp, ContentVideo video)
 {
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
-		return;
+		return false;
 	}
 
 	FrameRateChange frc(piece->content->active_video_frame_rate(), _film->video_frame_rate());
 	if (frc.skip && (video.frame % 2) == 1) {
-		return;
+		return false;
 	}
 
 	/* Time of the first frame we will emit */
@@ -656,7 +657,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		time < piece->content->position() ||
 		time >= piece->content->end() ||
 		(_last_video_time && time < *_last_video_time)) {
-		return;
+		return false;
 	}
 
 	/* Fill gaps that we discover now that we have some video which needs to be emitted */
@@ -694,16 +695,18 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		emit_video (_last_video[wp], t);
 		t += one_video_frame ();
 	}
+
+	return true;
 }
 
-void
+Frame
 Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
 
 	shared_ptr<Piece> piece = wp.lock ();
 	if (!piece) {
-		return;
+		return 0;
 	}
 
 	shared_ptr<AudioContent> content = piece->content->audio;
@@ -719,17 +722,17 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		pair<shared_ptr<AudioBuffers>, DCPTime> cut = discard_audio (content_audio.audio, time, piece->content->position());
 		if (!cut.first) {
 			/* This audio is entirely discarded */
-			return;
+			return 0;
 		}
 		content_audio.audio = cut.first;
 		time = cut.second;
 	} else if (time > piece->content->end()) {
 		/* Discard it all */
-		return;
+		return 0;
 	} else if (end > piece->content->end()) {
 		Frame const remaining_frames = DCPTime(piece->content->end() - time).frames_round(_film->audio_frame_rate());
 		if (remaining_frames == 0) {
-			return;
+			return 0;
 		}
 		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
 		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
@@ -761,6 +764,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	_audio_merger.push (content_audio.audio, time);
 	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
 	_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
+	return content_audio.audio->frames();
 }
 
 void

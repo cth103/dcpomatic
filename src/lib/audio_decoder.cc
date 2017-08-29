@@ -94,8 +94,7 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 		data = ro;
 	}
 
-	Data (stream, ContentAudio (data, _positions[stream]));
-	_positions[stream] += data->frames();
+	_positions[stream] += Data(stream, ContentAudio (data, _positions[stream])).get_value_or(0);
 }
 
 /** @return Time just after the last thing that was emitted from a given stream */

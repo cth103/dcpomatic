@@ -364,11 +364,13 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 
 	LOG_GENERAL ("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
+	Frame const period_duration = _period.duration().frames_round(_film->video_frame_rate());
+
 	DCPOMATIC_ASSERT (reel_picture_asset);
-	if (reel_picture_asset->duration() != _period.duration().frames_round (_film->video_frame_rate ())) {
+	if (reel_picture_asset->duration() != period_duration) {
 		throw ProgrammingError (
 			__FILE__, __LINE__,
-			String::compose ("%1 vs %2", reel_picture_asset->duration(), _period.duration().frames_round (_film->video_frame_rate ()))
+			String::compose ("%1 vs %2", reel_picture_asset->duration(), period_duration)
 			);
 	}
 	reel->add (reel_picture_asset);
@@ -398,13 +400,19 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	DCPOMATIC_ASSERT (reel_sound_asset);
-	if (reel_sound_asset->duration() != _period.duration().frames_round (_film->video_frame_rate ())) {
+	if (reel_sound_asset->duration() != period_duration) {
 		LOG_ERROR (
 			"Reel sound asset has length %1 but reel period is %2",
 			reel_sound_asset->duration(),
-			_period.duration().frames_round(_film->video_frame_rate())
+			period_duration
 			);
-		DCPOMATIC_ASSERT (reel_sound_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+		if (reel_sound_asset->duration() != period_duration) {
+			throw ProgrammingError (
+				__FILE__, __LINE__,
+				String::compose ("%1 vs %2", reel_sound_asset->duration(), period_duration)
+				);
+		}
+
 	}
 	reel->add (reel_sound_asset);
 
@@ -473,7 +481,7 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	if (reel_subtitle_asset) {
-		DCPOMATIC_ASSERT (reel_subtitle_asset->duration() == _period.duration().frames_round (_film->video_frame_rate ()));
+		DCPOMATIC_ASSERT (reel_subtitle_asset->duration() == period_duration);
 		reel->add (reel_subtitle_asset);
 	}
 

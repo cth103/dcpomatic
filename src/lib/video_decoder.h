@@ -57,7 +57,8 @@ public:
 
 	void emit (boost::shared_ptr<const ImageProxy>, Frame frame);
 
-	boost::signals2::signal<void (ContentVideo)> Data;
+	/** @return true if the emitted data was accepted, false if not */
+	boost::signals2::signal<bool (ContentVideo)> Data;
 
 private:
 	boost::shared_ptr<const Content> _content;
