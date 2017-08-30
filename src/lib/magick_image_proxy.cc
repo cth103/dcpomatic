@@ -102,17 +102,17 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 		throw DecodeError (String::compose (_("Could not decode image file (%1)"), error));
 	}
 
-#ifdef DCPOMATIC_IMAGE_MAGICK
-	if (magick_image->colorSpace() == Magick::LogColorspace) {
-		magick_image->colorSpace(Magick::RGBColorspace);
-	}
-#endif
-#ifdef DCPOMATIC_GRAPHICS_MAGICK
-	if (magick_image->colorSpace() == Magick::CineonLogRGBColorspace) {
-		magick_image->colorSpace(Magick::RGBColorspace);
+	unsigned char const * data = static_cast<unsigned char const *>(_blob.data());
+	if (data[801] == 1) {
+		/* The transfer characteristic in this file is "printing density"; in this case ImageMagick sets the colour space
+		   to LogColorspace.  Empirically we find that if we subsequently call colorSpace(Magick::RGBColorspace) the colours
+		   are very wrong.  To prevent this, set the image colour space to RGB to stop the ::colorSpace call below doing
+		   anything.  See #1123 and others.
+		*/
+		SetImageColorspace(magick_image->image(), Magick::RGBColorspace);
 	}
 
-#endif
+	magick_image->colorSpace(Magick::RGBColorspace);
 
 	dcp::Size size (magick_image->columns(), magick_image->rows());
 
