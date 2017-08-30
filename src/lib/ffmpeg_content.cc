@@ -397,7 +397,7 @@ FFmpegContent::identifier () const
 		s += "_" + video->identifier();
 	}
 
-	if (subtitle) {
+	if (subtitle && subtitle->use() && subtitle->burn()) {
 		s += "_" + subtitle->identifier();
 	}
 

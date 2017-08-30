@@ -1,3 +1,7 @@
+2017-08-31  Carl Hetherington  <cth@carlh.net>
+
+	* Fix erroneous re-use of video files after turning off burnt subtitles (#1113).
+
 2017-08-30  Carl Hetherington  <cth@carlh.net>
 
 	* Updated es_ES translation from Manuel AC.
