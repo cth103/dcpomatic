@@ -44,4 +44,7 @@ BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 	content->subtitle->set_use (false);
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
+
+	/* Nothing is being checked here so this test is not complete */
+	DCPOMATIC_ASSERT (false);
 }
