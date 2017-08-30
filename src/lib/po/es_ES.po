@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2016-10-26 09:26-0400\n"
+"PO-Revision-Date: 2017-08-25 23:10-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: src/lib/video_content.cc:448
 #, c-format
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 #. / to say what day a job will finish.
 #: src/lib/job.cc:432
 msgid " on %1"
-msgstr ""
+msgstr " el %1"
 
 #: src/lib/config.cc:725
 msgid ""
@@ -82,6 +82,15 @@ msgid ""
 "Length: $LENGTH\n"
 "Size: $SIZE\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Tipo: $TYPE\n"
+"Formato: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Idioma del audio: $AUDIO_LANGUAGE\n"
+"Idioma de los subtítulos: $SUBTITLE_LANGUAGE\n"
+"Longitud: $LENGTH\n"
+"Tamaño: $SIZE\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -114,16 +123,15 @@ msgstr "1.19"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "Academy"
+msgstr "1.38 (Academia)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -131,24 +139,23 @@ msgstr "1.66"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78 (16:9 o HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85 (Flat)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "Frame completo"
+msgstr "1.90 (Frame completo)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35 (Scope 35mm)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39 (Scope)"
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
@@ -162,7 +169,7 @@ msgstr "; %.1f fps"
 
 #: src/lib/job.cc:437
 msgid "; %1 remaining; finishing at %2%3"
-msgstr ""
+msgstr "; faltan %1 ; terminará a las %2%3"
 
 #: src/lib/hints.cc:107
 msgid ""
@@ -214,15 +221,15 @@ msgstr "Analizar audio"
 
 #: src/lib/audio_content.cc:258
 msgid "Audio will be resampled from %1kHz to %2kHz"
-msgstr "EL audio será remuestreado de %1kHz a %2kHz."
+msgstr "EL audio será remuestreado de %1kHz a %2kHz"
 
 #: src/lib/audio_content.cc:260
 msgid "Audio will be resampled to %1kHz"
-msgstr "EL audio será remuestreado a %1kHz."
+msgstr "EL audio será remuestreado a %1kHz"
 
 #: src/lib/audio_content.cc:249
 msgid "Audio will not be resampled"
-msgstr "El audio no será remuestreado."
+msgstr "El audio no será remuestreado"
 
 #: src/lib/ffmpeg_content.cc:541
 msgid "BT1361 extended colour gamut"
@@ -347,15 +354,15 @@ msgstr "Velocidad del contenido de audio"
 
 #: src/lib/ffmpeg_content.cc:142
 msgid "Content to be joined must all have or not have audio"
-msgstr "Para unir contenido deben tener audio todos o ninguno."
+msgstr "Para unir contenido deben tener audio todos o ninguno"
 
 #: src/lib/ffmpeg_content.cc:145
 msgid "Content to be joined must all have or not have subtitles"
-msgstr "Para unir contenido deben tener subtítulos todos o ninguno."
+msgstr "Para unir contenido deben tener subtítulos todos o ninguno"
 
 #: src/lib/ffmpeg_content.cc:139
 msgid "Content to be joined must all have or not have video"
-msgstr "Para unir contenido deben tener vídeo todos o ninguno."
+msgstr "Para unir contenido deben tener vídeo todos o ninguno"
 
 #: src/lib/subtitle_content.cc:175
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -427,7 +434,7 @@ msgstr ""
 
 #: src/lib/content.cc:127 src/lib/content.cc:131
 msgid "Content to be joined must have the same video frame rate"
-msgstr "Para unir contenido debe tener la misma velocidad de imagen."
+msgstr "Para unir contenido debe tener la misma velocidad de imagen"
 
 #: src/lib/video_content.cc:172
 msgid "Content to be joined must have the same video frame type."
@@ -522,14 +529,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat"
+msgstr "Flat DCI"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope"
+msgstr "Scope DCI"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -624,7 +629,7 @@ msgstr "Enviar por correo el problema para %1"
 
 #: src/lib/dcp_encoder.cc:95 src/lib/ffmpeg_encoder.cc:201
 msgid "Encoding"
-msgstr ""
+msgstr "Codificando"
 
 #: src/lib/exceptions.cc:67
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -632,7 +637,7 @@ msgstr "Error en el fichero de subtítulos: encontrado %1 cuando se esperaba %2"
 
 #: src/lib/job.cc:444
 msgid "Error: %1"
-msgstr "Error: (%1)"
+msgstr "Error: %1"
 
 #: src/lib/examine_content_job.cc:44
 msgid "Examine content"
@@ -727,12 +732,18 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Sin embargo, ajustando la velocidad de su DCP a 24 o 48 causará una "
+"deceleración importante de su contenido, y los DCP SMPTE no son reconocidos "
+"por algunos proyectores."
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Sin embargo, ajustando la velocidad de su DCP a 24 o 48 causará una "
+"aceleración importante de su contenido, y los DCP SMPTE no son reconocidos "
+"por algunos proyectores."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -844,7 +855,7 @@ msgstr "El tamaño de los vídeos no coincide en el DCP"
 
 #: src/lib/writer.cc:583
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -872,7 +883,7 @@ msgstr "Reducción de ruido"
 
 #: src/lib/writer.cc:581
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -908,9 +919,8 @@ msgid "Prepared for video frame rate"
 msgstr "Preparado para velocidad de vídeo"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Error de programación en %1:%2"
+msgstr "Error de programación en %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -970,7 +980,7 @@ msgstr "Rs"
 
 #: src/lib/colour_conversion.cc:287
 msgid "S-Gamut3/S-Log3"
-msgstr ""
+msgstr "S-Gamut3/S-Log3"
 
 #: src/lib/ffmpeg_content.cc:516 src/lib/ffmpeg_content.cc:535
 msgid "SMPTE 170M (BT601)"
@@ -982,7 +992,7 @@ msgstr "SMPTE 170M (BT601-6)"
 
 #: src/lib/ffmpeg_content.cc:565
 msgid "SMPTE 2085, Y'D'zD'x"
-msgstr ""
+msgstr "SMPTE 2085, Y’D’zD’x"
 
 #: src/lib/ffmpeg_content.cc:517 src/lib/ffmpeg_content.cc:536
 #: src/lib/ffmpeg_content.cc:561
@@ -1002,18 +1012,16 @@ msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
 #: src/lib/ffmpeg_content.cc:521
-#, fuzzy
 msgid "SMPTE ST 431-2 (2011)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 431-2 (2011)"
 
 #: src/lib/ffmpeg_content.cc:522
-#, fuzzy
 msgid "SMPTE ST 432-1 D65 (2010)"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:56
 msgid "SSH error (%1)"
-msgstr "error SSH (%1)"
+msgstr "Error SSH (%1)"
 
 #: src/lib/send_problem_report_job.cc:74
 msgid "Sending email"
@@ -1033,7 +1041,7 @@ msgstr "El audio será remuestreado a %1kHz"
 
 #: src/lib/writer.cc:585
 msgid "Stereo"
-msgstr ""
+msgstr "Estéreo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1092,9 +1100,8 @@ msgid "The certificate chain for signing is invalid"
 msgstr "La cadena de certificados para firmar no es válida"
 
 #: src/lib/exceptions.cc:79
-#, fuzzy
 msgid "The certificate chain for signing is invalid (%1)"
-msgstr "La cadena de certificados para firmar no es válida"
+msgstr "La cadena de certificados para firmar no es válida (%1)"
 
 #: src/lib/job.cc:108
 msgid ""
@@ -1155,6 +1162,8 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Este fichero es una KDM. Las KDM pueden añadirse al DCP pinchando con el "
+"botón derecho sobre el contenido y eligiendo “Añadir KDM”"
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1252,24 +1261,22 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all "
 "projectors)."
 msgstr ""
-"Ha seleccionado un DCP Interop con una velocidad que no estés permitida "
+"Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
-"Ha seleccionado un DCP Interop con una velocidad que no estés permitida "
+"Intenta hacer un DCP Interop con una velocidad que no está permitida "
 "oficialmente. Le recomendamos hacer un DCP SMPTE en su lugar."
 
 #: src/lib/hints.cc:149
@@ -1374,7 +1381,7 @@ msgstr "no se pudo abrir el fichero %1 para escritura (%2)"
 
 #: src/lib/exceptions.cc:43
 msgid "could not read from file %1 (%2)"
-msgstr "No se pudo leer del fichero %1 (%2)"
+msgstr "no se pudo leer del fichero %1 (%2)"
 
 #: src/lib/scp_uploader.cc:66
 msgid "could not start SCP session (%1)"
@@ -1386,7 +1393,7 @@ msgstr "no se pudo abrir la sesión SSH"
 
 #: src/lib/exceptions.cc:49
 msgid "could not write to file %1 (%2)"
-msgstr "No se pudo escribir en el fichero (%1)"
+msgstr "no se pudo escribir en el fichero (%1)"
 
 #: src/lib/dcpomatic_socket.cc:65
 msgid "error during async_connect (%1)"
@@ -1437,15 +1444,15 @@ msgstr "sRGB"
 
 #: src/lib/film.cc:317
 msgid "some of your content is missing"
-msgstr ""
+msgstr "falta parte de su contenido"
 
 #: src/lib/film.cc:321
 msgid "some of your content needs a KDM"
-msgstr ""
+msgstr "parte de su contenido necesita una KDM"
 
 #: src/lib/film.cc:324
 msgid "some of your content needs an OV"
-msgstr ""
+msgstr "parte de su contenido necesita una OV"
 
 #: src/lib/image_content.cc:94
 msgid "still"
@@ -1460,9 +1467,8 @@ msgid "video frames"
 msgstr "fotogramas"
 
 #: src/lib/film.cc:304
-#, fuzzy
 msgid "you must add some content to the DCP before creating it"
-msgstr "Tienes que añadir contenido al DCP antes de crearlo."
+msgstr "tiene que añadir contenido al DCP antes de crearlo"
 
 #~ msgid "2.35"
 #~ msgstr "2.35"
