@@ -180,6 +180,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Brett Friedman"));
 	supported_by.Add (wxT ("Stephen Furley"));
 	supported_by.Add (wxT ("filmtechniek.nl"));
+	supported_by.Add (wxT ("Jose Delio Ares Garcia"));
 	supported_by.Add (wxT ("Gartenbaukino"));
 	supported_by.Add (wxT ("Silvio Giuliano"));
 	supported_by.Add (wxT ("Alan Gouger"));
