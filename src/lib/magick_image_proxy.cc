@@ -109,7 +109,7 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 		   are very wrong.  To prevent this, set the image colour space to RGB to stop the ::colorSpace call below doing
 		   anything.  See #1123 and others.
 		*/
-		SetImageColorspace(magick_image->image(), Magick::RGBColorspace);
+		magick_image->image()->colorspace = Magick::RGBColorspace;
 	}
 
 	magick_image->colorSpace(Magick::RGBColorspace);
