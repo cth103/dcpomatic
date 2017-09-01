@@ -35,6 +35,12 @@
 #include "lib/dcp_content_type.h"
 #include "lib/log_entry.h"
 #include <dcp/dcp.h>
+#include <dcp/cpl.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_picture_asset.h>
+#include <dcp/openjpeg_image.h>
 #include <asdcp/AS_DCP.h>
 #include <sndfile.h>
 #include <libxml++/libxml++.h>
@@ -45,6 +51,7 @@ extern "C" {
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
 #include <boost/test/unit_test.hpp>
+#include <boost/algorithm/string.hpp>
 #include <list>
 #include <vector>
 #include <iostream>
@@ -58,6 +65,7 @@ using std::list;
 using std::abs;
 using boost::shared_ptr;
 using boost::scoped_array;
+using boost::dynamic_pointer_cast;
 
 boost::filesystem::path private_data = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
 
@@ -458,4 +466,39 @@ check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int sk
 		BOOST_REQUIRE_EQUAL (ref_p.buf->size, check_p.buf->size);
 		BOOST_REQUIRE_EQUAL (memcmp (ref_p.buf->data, check_p.buf->data, ref_p.buf->size), 0);
 	}
+}
+
+void
+check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesystem::path ref)
+{
+	dcp::DCP dcp (dcp_dir);
+	dcp.read ();
+	shared_ptr<dcp::MonoPictureAsset> asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
+	BOOST_REQUIRE (asset);
+	shared_ptr<const dcp::MonoPictureFrame> frame = asset->start_read()->get_frame(index);
+
+	boost::uintmax_t const ref_size = boost::filesystem::file_size(ref);
+	BOOST_CHECK_EQUAL (frame->j2k_size(), ref_size);
+
+	FILE* ref_file = fopen_boost(ref, "rb");
+	BOOST_REQUIRE (ref_file);
+
+	uint8_t* ref_data = new uint8_t[ref_size];
+	fread (ref_data, ref_size, 1, ref_file);
+	fclose (ref_file);
+
+	BOOST_CHECK (memcmp(ref_data, frame->j2k_data(), ref_size) == 0);
+	delete[] ref_data;
+}
+
+boost::filesystem::path
+video_file (shared_ptr<const Film> film)
+{
+	boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->dir(film->dcp_name()));
+	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with (i->path().leaf().string(), "j2c")) {
+		++i;
+	}
+
+	BOOST_REQUIRE (i != boost::filesystem::directory_iterator());
+	return i->path();
 }

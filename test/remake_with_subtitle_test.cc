@@ -28,6 +28,9 @@
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 
+/** Check that if we remake a DCP having turned off subtitles the code notices
+ *  and doesn't re-use the old video data.
+ */
 BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 {
 	shared_ptr<Film> film = new_test_film2 ("remake_with_subtitle_test");
@@ -45,6 +48,5 @@ BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	/* Nothing is being checked here so this test is not complete */
-	DCPOMATIC_ASSERT (false);
+	check_one_frame (film->dir(film->dcp_name()), 325, private_data / "prophet_frame_325_no_subs.j2c");
 }
