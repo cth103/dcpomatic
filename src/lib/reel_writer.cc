@@ -197,14 +197,26 @@ ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 Frame
 ReelWriter::check_existing_picture_asset ()
 {
-	/* Try to open the existing asset */
 	DCPOMATIC_ASSERT (_picture_asset->file());
-	FILE* asset_file = fopen_boost (_picture_asset->file().get(), "rb");
+	boost::filesystem::path asset = _picture_asset->file().get();
+
+	/* If there is an existing asset, break any hard links to it as we are about to change its contents
+	   (if only by changing the IDs); see #1126.
+	*/
+
+	if (boost::filesystem::exists(asset) && boost::filesystem::hard_link_count(asset) > 1) {
+		boost::filesystem::copy_file (asset, asset.string() + ".tmp");
+		boost::filesystem::remove (asset);
+		boost::filesystem::rename (asset.string() + ".tmp", asset);
+	}
+
+	/* Try to open the existing asset */
+	FILE* asset_file = fopen_boost (asset, "rb");
 	if (!asset_file) {
-		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", _picture_asset->file()->string(), errno);
+		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", asset.string(), errno);
 		return 0;
 	} else {
-		LOG_GENERAL ("Opened existing asset at %1", _picture_asset->file()->string());
+		LOG_GENERAL ("Opened existing asset at %1", asset.string());
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */

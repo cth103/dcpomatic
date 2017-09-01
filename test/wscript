@@ -87,6 +87,7 @@ def build(bld):
                  rect_test.cc
                  reels_test.cc
                  required_disk_space_test.cc
+                 remake_id_test.cc
                  remake_with_subtitle_test.cc
                  render_subtitles_test.cc
                  scaling_test.cc
