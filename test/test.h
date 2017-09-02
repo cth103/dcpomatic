@@ -38,5 +38,5 @@ extern void check_ffmpeg (boost::filesystem::path, boost::filesystem::path, int 
 extern void check_image (boost::filesystem::path, boost::filesystem::path);
 extern boost::filesystem::path test_film_dir (std::string);
 extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file, std::string format);
-boost::filesystem::path video_file (boost::shared_ptr<const Film> film);
+boost::filesystem::path dcp_file (boost::shared_ptr<const Film> film, std::string prefix);
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,9 +30,13 @@
 #include "lib/job_manager.h"
 #include "lib/audio_buffers.h"
 #include "test.h"
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset_reader.h>
 #include <sndfile.h>
 #include <boost/test/unit_test.hpp>
+#include <iostream>
 
+using std::min;
 using boost::shared_ptr;
 
 static SNDFILE* ref = 0;
@@ -62,7 +66,7 @@ audio (boost::shared_ptr<AudioBuffers> audio, int channels)
 }
 
 /** Test the FFmpeg code with audio-only content */
-static void
+static shared_ptr<Film>
 test (boost::filesystem::path file)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_audio_only_test");
@@ -78,7 +82,7 @@ test (boost::filesystem::path file)
 	wait_for_jobs ();
 	BOOST_CHECK (!JobManager::instance()->errors());
 
-	/* Compare the audio data we read with what libsndfile reads */
+	/* Compare the audio data player reads with what libsndfile reads */
 
 	SF_INFO info;
 	info.format = 0;
@@ -94,22 +98,105 @@ test (boost::filesystem::path file)
 	while (!player->pass ()) {}
 
 	sf_close (ref);
+	delete[] ref_buffer;
+
+	return film;
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test1)
 {
 	/* S16 */
-	test ("test/data/staircase.wav");
+	shared_ptr<Film> film = test ("test/data/staircase.wav");
+
+	/* Compare the audio data in the DCP with what libsndfile reads */
+
+	SF_INFO info;
+	info.format = 0;
+	ref = sf_open ("test/data/staircase.wav", SFM_READ, &info);
+	/* We don't want to test anything that requires resampling */
+	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
+
+	int16_t* buffer = new int16_t[info.channels * 2000];
+
+	dcp::SoundAsset asset (dcp_file(film, "pcm"));
+	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
+	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
+		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
+		sf_count_t this_time = min (info.frames, 2000L);
+		sf_readf_short (ref, buffer, this_time);
+		for (int j = 0; j < this_time; ++j) {
+			BOOST_REQUIRE_EQUAL (frame->get(2, j) >> 8, buffer[j]);
+		}
+		info.frames -= this_time;
+	}
+
+	delete[] buffer;
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 {
 	/* S32 1 channel */
-	test ("test/data/sine_440.wav");
+	shared_ptr<Film> film = test ("test/data/sine_440.wav");
+
+	/* Compare the audio data in the DCP with what libsndfile reads */
+
+	SF_INFO info;
+	info.format = 0;
+	ref = sf_open ("test/data/sine_440.wav", SFM_READ, &info);
+	/* We don't want to test anything that requires resampling */
+	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
+
+	int32_t* buffer = new int32_t[info.channels * 2000];
+
+	dcp::SoundAsset asset (dcp_file(film, "pcm"));
+	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
+	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
+		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
+		sf_count_t this_time = min (info.frames, 2000L);
+		sf_readf_int (ref, buffer, this_time);
+		for (int j = 0; j < this_time; ++j) {
+			int32_t s = frame->get(2, j);
+			if (s > (1 << 23)) {
+				s -= (1 << 24);
+			}
+			BOOST_REQUIRE_MESSAGE (abs(s - (buffer[j] / 256)) <= 1, "failed on asset frame " << i << " sample " << j);
+		}
+		info.frames -= this_time;
+	}
+
+	delete[] buffer;
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
 {
 	/* S24 1 channel */
-	test ("test/data/sine_24_48_440.wav");
+	shared_ptr<Film> film = test ("test/data/sine_24_48_440.wav");
+
+	/* Compare the audio data in the DCP with what libsndfile reads */
+
+	SF_INFO info;
+	info.format = 0;
+	ref = sf_open ("test/data/sine_24_48_440.wav", SFM_READ, &info);
+	/* We don't want to test anything that requires resampling */
+	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
+
+	int32_t* buffer = new int32_t[info.channels * 2000];
+
+	dcp::SoundAsset asset (dcp_file(film, "pcm"));
+	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
+	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
+		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
+		sf_count_t this_time = min (info.frames, 2000L);
+		sf_readf_int (ref, buffer, this_time);
+		for (int j = 0; j < this_time; ++j) {
+			int32_t s = frame->get(2, j);
+			if (s > (1 << 23)) {
+				s -= (1 << 24);
+			}
+			BOOST_REQUIRE_MESSAGE (abs(s - buffer[j] /256) <= 1, "failed on asset frame " << i << " sample " << j);
+		}
+		info.frames -= this_time;
+	}
+
+	delete[] buffer;
 }

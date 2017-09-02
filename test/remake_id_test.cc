@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	/* Copy the video file */
-	boost::filesystem::path first_video = video_file(film);
+	boost::filesystem::path first_video = dcp_file(film, "j2c");
 	boost::filesystem::copy_file (first_video, first_video.string() + ".copy");
 
 	/* Make a new DCP with the same video file */

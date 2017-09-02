@@ -492,10 +492,10 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 }
 
 boost::filesystem::path
-video_file (shared_ptr<const Film> film)
+dcp_file (shared_ptr<const Film> film, string prefix)
 {
 	boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (film->dir(film->dcp_name()));
-	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with (i->path().leaf().string(), "j2c")) {
+	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with (i->path().leaf().string(), prefix)) {
 		++i;
 	}
 
