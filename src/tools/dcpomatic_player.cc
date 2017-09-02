@@ -41,6 +41,7 @@
 #include <wx/splash.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
+#include <wx/progdlg.h>
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
@@ -136,10 +137,14 @@ public:
 
 		JobManager* jm = JobManager::instance ();
 
+		wxProgressDialog* progress = new wxProgressDialog (_("DCP-o-matic Player"), _("Loading DCP"));
+
 		while (jm->work_to_do() || signal_manager->ui_idle()) {
-			/* XXX: progress dialog */
 			dcpomatic_sleep (1);
+			progress->Pulse ();
 		}
+
+		progress->Destroy ();
 
 		DCPOMATIC_ASSERT (!jm->get().empty());
 
