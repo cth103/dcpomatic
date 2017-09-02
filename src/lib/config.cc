@@ -354,6 +354,7 @@ try
 	if (f.optional_string_child("CoverSheet")) {
 		_cover_sheet = f.optional_string_child("CoverSheet").get();
 	}
+	_last_player_load_directory = f.optional_string_child("LastPlayerLoadDirectory");
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -631,6 +632,9 @@ Config::write_config () const
 	}
 	/* [XML] CoverSheet Text of the cover sheet to write when making DCPs */
 	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
+	if (_last_player_load_directory) {
+		root->add_child("LastPlayerLoadDirectory")->add_child_text(_last_player_load_directory->string());
+	}
 
 	try {
 		doc.write_to_file_formatted(config_file().string());

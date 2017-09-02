@@ -1,5 +1,7 @@
 2017-09-02  Carl Hetherington  <cth@carlh.net>
 
+	* Remember the last directory used when opening DCPs in the player (#1121).
+
 	* Build with a version of libopenjpeg derived from 2.2.0.
 
 2017-09-01  Carl Hetherington  <cth@carlh.net>

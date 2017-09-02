@@ -341,6 +341,10 @@ public:
 		return _sound_output;
 	}
 
+	boost::optional<boost::filesystem::path> last_player_load_directory () const {
+		return _last_player_load_directory;
+	}
+
 	void set_master_encoding_threads (int n) {
 		maybe_set (_master_encoding_threads, n);
 	}
@@ -567,13 +571,15 @@ public:
 		maybe_set (_sound, s, SOUND);
 	}
 
-	void set_sound_output (std::string o)
-	{
+	void set_sound_output (std::string o) {
 		maybe_set (_sound_output, o, SOUND_OUTPUT);
 	}
 
-	void unset_sound_output ()
-	{
+	void set_last_player_load_directory (boost::filesystem::path d) {
+		maybe_set (_last_player_load_directory, d);
+	}
+
+	void unset_sound_output () {
 		if (!_sound_output) {
 			return;
 		}
@@ -764,6 +770,7 @@ private:
 	/** name of a specific sound output stream to use, or empty to use the default */
 	boost::optional<std::string> _sound_output;
 	std::string _cover_sheet;
+	boost::optional<boost::filesystem::path> _last_player_load_directory;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;

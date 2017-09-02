@@ -207,12 +207,12 @@ private:
 
 	void file_open ()
 	{
-		wxDirDialog* c = new wxDirDialog (
-			this,
-			_("Select DCP to open"),
-			wxStandardPaths::Get().GetDocumentsDir(),
-			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
-			);
+		wxString d = wxStandardPaths::Get().GetDocumentsDir();
+		if (Config::instance()->last_player_load_directory()) {
+			d = std_to_wx (Config::instance()->last_player_load_directory()->string());
+		}
+
+		wxDirDialog* c = new wxDirDialog (this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 
 		int r;
 		while (true) {
@@ -225,7 +225,9 @@ private:
 		}
 
 		if (r == wxID_OK) {
-			load_dcp (wx_to_std (c->GetPath ()));
+			boost::filesystem::path const dcp (wx_to_std (c->GetPath ()));
+			load_dcp (dcp);
+			Config::instance()->set_last_player_load_directory (dcp.parent_path());
 		}
 
 		c->Destroy ();
