@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test1)
 	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
 		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
-		sf_count_t this_time = min (info.frames, 2000L);
+		sf_count_t this_time = min (info.frames, sf_count_t(2000));
 		sf_readf_short (ref, buffer, this_time);
 		for (int j = 0; j < this_time; ++j) {
 			BOOST_REQUIRE_EQUAL (frame->get(2, j) >> 8, buffer[j]);
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
 		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
-		sf_count_t this_time = min (info.frames, 2000L);
+		sf_count_t this_time = min (info.frames, sf_count_t(2000));
 		sf_readf_int (ref, buffer, this_time);
 		for (int j = 0; j < this_time; ++j) {
 			int32_t s = frame->get(2, j);
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
 	shared_ptr<dcp::SoundAssetReader> reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
 		shared_ptr<const dcp::SoundFrame> frame = reader->get_frame(i);
-		sf_count_t this_time = min (info.frames, 2000L);
+		sf_count_t this_time = min (info.frames, sf_count_t(2000));
 		sf_readf_int (ref, buffer, this_time);
 		for (int j = 0; j < this_time; ++j) {
 			int32_t s = frame->get(2, j);
