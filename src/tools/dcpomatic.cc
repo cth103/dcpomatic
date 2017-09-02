@@ -314,13 +314,22 @@ public:
 
 		overall_panel->SetSizer (main_sizer);
 
-		wxAcceleratorEntry accel[2];
+#ifdef __WXOSX__
+		int accelerators = 3;
+#else
+		int accelerators = 2;
+#endif
+		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
 		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
+#ifdef __WXOSX__
+		accel[2].Set (wxACCEL_CTRL, static_cast<int>('W'), wxID_EXIT);
+#endif
 		Bind (wxEVT_MENU, boost::bind (&ContentPanel::add_file_clicked, _film_editor->content_panel()), ID_add_file);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::remove_clicked, this, _1), ID_remove);
-		wxAcceleratorTable accel_table (2, accel);
+		wxAcceleratorTable accel_table (accelerators, accel);
 		SetAcceleratorTable (accel_table);
+		delete[] accel;
 
 		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
 	}
