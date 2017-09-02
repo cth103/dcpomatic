@@ -107,3 +107,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 	/* S32 1 channel */
 	test ("test/data/sine_440.wav");
 }
+
+BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
+{
+	/* S24 1 channel */
+	test ("test/data/sine_24_48_440.wav");
+}
