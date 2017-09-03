@@ -205,8 +205,10 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 	   of the block that do not form a complete sample or frame they will be dropped.
 	*/
 	int const total_samples = size / bytes_per_audio_sample (stream);
-	int const frames = total_samples / stream->channels();
-	shared_ptr<AudioBuffers> audio (new AudioBuffers (stream->channels(), frames));
+	int const channels = stream->channels();
+	int const frames = total_samples / channels;
+	shared_ptr<AudioBuffers> audio (new AudioBuffers (channels, frames));
+	float** data = audio->data();
 
 	switch (audio_sample_format (stream)) {
 	case AV_SAMPLE_FMT_U8:
@@ -215,10 +217,10 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = float(*p++) / (1 << 23);
+			data[channel][sample] = float(*p++) / (1 << 23);
 
 			++channel;
-			if (channel == stream->channels()) {
+			if (channel == channels) {
 				channel = 0;
 				++sample;
 			}
@@ -232,10 +234,10 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = float(*p++) / (1 << 15);
+			data[channel][sample] = float(*p++) / (1 << 15);
 
 			++channel;
-			if (channel == stream->channels()) {
+			if (channel == channels) {
 				channel = 0;
 				++sample;
 			}
@@ -246,9 +248,9 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 	case AV_SAMPLE_FMT_S16P:
 	{
 		int16_t** p = reinterpret_cast<int16_t **> (_frame->data);
-		for (int i = 0; i < stream->channels(); ++i) {
+		for (int i = 0; i < channels; ++i) {
 			for (int j = 0; j < frames; ++j) {
-				audio->data(i)[j] = static_cast<float>(p[i][j]) / (1 << 15);
+				data[i][j] = static_cast<float>(p[i][j]) / (1 << 15);
 			}
 		}
 	}
@@ -260,10 +262,10 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = static_cast<float>(*p++) / 2147483648;
+			data[channel][sample] = static_cast<float>(*p++) / 2147483648;
 
 			++channel;
-			if (channel == stream->channels()) {
+			if (channel == channels) {
 				channel = 0;
 				++sample;
 			}
@@ -274,9 +276,9 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 	case AV_SAMPLE_FMT_S32P:
 	{
 		int32_t** p = reinterpret_cast<int32_t **> (_frame->data);
-		for (int i = 0; i < stream->channels(); ++i) {
+		for (int i = 0; i < channels; ++i) {
 			for (int j = 0; j < frames; ++j) {
-				audio->data(i)[j] = static_cast<float>(p[i][j]) / 2147483648;
+				data[i][j] = static_cast<float>(p[i][j]) / 2147483648;
 			}
 		}
 	}
@@ -288,10 +290,10 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
-			audio->data(channel)[sample] = *p++;
+			data[channel][sample] = *p++;
 
 			++channel;
-			if (channel == stream->channels()) {
+			if (channel == channels) {
 				channel = 0;
 				++sample;
 			}
@@ -304,9 +306,9 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 		float** p = reinterpret_cast<float**> (_frame->data);
 		/* Sometimes there aren't as many channels in the _frame as in the stream */
 		for (int i = 0; i < _frame->channels; ++i) {
-			memcpy (audio->data(i), p[i], frames * sizeof(float));
+			memcpy (data[i], p[i], frames * sizeof(float));
 		}
-		for (int i = _frame->channels; i < stream->channels(); ++i) {
+		for (int i = _frame->channels; i < channels; ++i) {
 			audio->make_silent (i);
 		}
 	}
