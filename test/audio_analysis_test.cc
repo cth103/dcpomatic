@@ -38,6 +38,7 @@
 #include "lib/content_factory.h"
 #include "lib/playlist.h"
 #include "test.h"
+#include <iostream>
 
 using std::vector;
 using boost::shared_ptr;
@@ -104,6 +105,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("audio_analysis_test");
+	std::cout << "HELLO! " << geteuid() << "\n";
 	boost::filesystem::path p = private_data / "betty_L.wav";
 
 	shared_ptr<FFmpegContent> c (new FFmpegContent (film, p));
