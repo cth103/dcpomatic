@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	}
 }
 
-/** Decode a file containing truehd so we can profile it */
+/** Decode a file containing truehd so we can profile it; this is with the player set to normal */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 {
 	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test2");
@@ -135,5 +135,18 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	while (!player->pass ()) {}
+}
+
+/** Decode a file containing truehd so we can profile it; this is with the player set to fast */
+BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
+{
+	shared_ptr<Film> film = new_test_film2 ("ffmpeg_audio_test2");
+	shared_ptr<Content> content = content_factory(film, private_data / "wayne.mkv").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs ());
+
+	shared_ptr<Player> player (new Player (film, film->playlist ()));
+	player->set_fast ();
 	while (!player->pass ()) {}
 }
