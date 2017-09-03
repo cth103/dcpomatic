@@ -395,7 +395,7 @@ SubtitlePanel::subtitle_view_clicked ()
 	ContentList c = _parent->selected_subtitle ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log());
+	shared_ptr<Decoder> decoder = decoder_factory (c.front(), _parent->film()->log(), false);
 
 	if (decoder) {
 		_subtitle_view = new SubtitleView (this, _parent->film(), decoder, c.front()->position ());

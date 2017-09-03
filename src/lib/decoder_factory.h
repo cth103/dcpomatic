@@ -22,5 +22,6 @@ class ImageDecoder;
 
 extern boost::shared_ptr<Decoder> decoder_factory (
 	boost::shared_ptr<const Content> content,
-	boost::shared_ptr<Log> log
+	boost::shared_ptr<Log> log,
+	bool fast
 	);

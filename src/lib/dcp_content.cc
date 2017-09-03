@@ -493,7 +493,7 @@ DCPContent::can_reference_audio (list<string>& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), film()->log()));
+		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
@@ -514,7 +514,7 @@ DCPContent::can_reference_subtitle (list<string>& why_not) const
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (shared_from_this(), film()->log()));
+		decoder.reset (new DCPDecoder (shared_from_this(), film()->log(), false));
 	} catch (dcp::DCPReadError) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;

@@ -109,7 +109,7 @@ Player::setup_pieces ()
 			continue;
 		}
 
-		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log());
+		shared_ptr<Decoder> decoder = decoder_factory (i, _film->log(), _fast);
 		FrameRateChange frc (i->active_video_frame_rate(), _film->video_frame_rate());
 
 		if (!decoder) {
@@ -425,6 +425,7 @@ Player::set_always_burn_subtitles (bool burn)
 	_always_burn_subtitles = burn;
 }
 
+/** Sets up the player to be faster, possibly at the expense of quality */
 void
 Player::set_fast ()
 {
@@ -452,7 +453,7 @@ Player::get_reel_assets ()
 
 		scoped_ptr<DCPDecoder> decoder;
 		try {
-			decoder.reset (new DCPDecoder (j, _film->log()));
+			decoder.reset (new DCPDecoder (j, _film->log(), false));
 		} catch (...) {
 			return a;
 		}

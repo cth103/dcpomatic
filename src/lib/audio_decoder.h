@@ -44,7 +44,7 @@ class Resampler;
 class AudioDecoder : public boost::enable_shared_from_this<AudioDecoder>, public DecoderPart
 {
 public:
-	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, boost::shared_ptr<Log> log);
+	AudioDecoder (Decoder* parent, boost::shared_ptr<const AudioContent> content, boost::shared_ptr<Log> log, bool fast);
 
 	ContentTime position () const;
 	void emit (AudioStreamPtr stream, boost::shared_ptr<const AudioBuffers>, ContentTime);
@@ -63,6 +63,8 @@ private:
 	/** Frame after the last one that was emitted from Data for each AudioStream */
 	std::map<AudioStreamPtr, Frame> _positions;
 	std::map<AudioStreamPtr, boost::shared_ptr<Resampler> > _resamplers;
+
+	bool _fast;
 };
 
 #endif

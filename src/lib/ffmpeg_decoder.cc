@@ -78,7 +78,7 @@ using boost::optional;
 using boost::dynamic_pointer_cast;
 using dcp::Size;
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log)
+FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log> log, bool fast)
 	: FFmpeg (c)
 	, _log (log)
 	, _have_current_subtitle (false)
@@ -94,7 +94,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	}
 
 	if (c->audio) {
-		audio.reset (new AudioDecoder (this, c->audio, log));
+		audio.reset (new AudioDecoder (this, c->audio, log, fast));
 	}
 
 	if (c->subtitle) {

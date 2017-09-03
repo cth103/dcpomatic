@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 	film->examine_and_add_content (content);
 	wait_for_jobs ();
 
-	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log()));
+	shared_ptr<DCPDecoder> decoder (new DCPDecoder (content, film->log(), false));
 	decoder->subtitle->TextStart.connect (bind (store, _1));
 
 	stored = optional<ContentTextSubtitle> ();

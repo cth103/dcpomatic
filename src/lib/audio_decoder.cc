@@ -37,9 +37,10 @@ using std::pair;
 using boost::shared_ptr;
 using boost::optional;
 
-AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log)
+AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, shared_ptr<Log> log, bool fast)
 	: DecoderPart (parent, log)
 	, _content (content)
+	, _fast (fast)
 {
 	/* Set up _positions so that we have one for each stream */
 	BOOST_FOREACH (AudioStreamPtr i, content->streams ()) {
@@ -82,6 +83,9 @@ AudioDecoder::emit (AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, 
 				);
 
 			resampler.reset (new Resampler (stream->frame_rate(), _content->resampled_frame_rate(), stream->channels()));
+			if (_fast) {
+				resampler->set_fast ();
+			}
 			_resamplers[stream] = resampler;
 		}
 	}
