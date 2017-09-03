@@ -101,6 +101,11 @@ struct TestConfig
 		EncodeServerFinder::instance()->stop ();
 
 		signal_manager = new TestSignalManager ();
+
+		char* env_private = getenv("DCPOMATIC_TEST_PRIVATE");
+		if (env_private) {
+			private_data = env_private;
+		}
 	}
 
 	~TestConfig ()
