@@ -78,4 +78,6 @@ private:
 	bool _have_current_subtitle;
 
 	boost::shared_ptr<Image> _black_image;
+
+	std::vector<boost::optional<ContentTime> > _next_time;
 };

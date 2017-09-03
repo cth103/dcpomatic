@@ -100,6 +100,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	if (c->subtitle) {
 		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
 	}
+
+	_next_time.resize (_format_context->nb_streams);
 }
 
 void
@@ -392,11 +394,12 @@ FFmpegDecoder::decode_audio_packet ()
 	*/
 
 	AVPacket copy_packet = _packet;
+	int const stream_index = copy_packet.stream_index;
 
 	/* XXX: inefficient */
 	vector<shared_ptr<FFmpegAudioStream> > streams = ffmpeg_content()->ffmpeg_audio_streams ();
 	vector<shared_ptr<FFmpegAudioStream> >::const_iterator stream = streams.begin ();
-	while (stream != streams.end () && !(*stream)->uses_index (_format_context, copy_packet.stream_index)) {
+	while (stream != streams.end () && !(*stream)->uses_index (_format_context, stream_index)) {
 		++stream;
 	}
 
@@ -426,12 +429,23 @@ FFmpegDecoder::decode_audio_packet ()
 		}
 
 		if (frame_finished) {
-			ContentTime ct = ContentTime::from_seconds (
-				av_frame_get_best_effort_timestamp (_frame) *
-				av_q2d ((*stream)->stream (_format_context)->time_base))
-				+ _pts_offset;
-
 			shared_ptr<AudioBuffers> data = deinterleave_audio (*stream);
+
+			ContentTime ct;
+			if (_frame->pts == AV_NOPTS_VALUE && _next_time[stream_index]) {
+				/* In some streams we see not every frame coming through with a timestamp; for those
+				   that have AV_NOPTS_VALUE we need to work out the timestamp ourselves.  This is
+				   particularly noticeable with TrueHD streams (see #1111).
+				*/
+				ct = *_next_time[stream_index];
+			} else {
+				ct = ContentTime::from_seconds (
+					av_frame_get_best_effort_timestamp (_frame) *
+					av_q2d ((*stream)->stream (_format_context)->time_base))
+					+ _pts_offset;
+			}
+
+			_next_time[stream_index] = ct + ContentTime::from_frames(data->frames(), (*stream)->frame_rate());
 
 			if (ct < ContentTime ()) {
 				/* Discard audio data that comes before time 0 */
@@ -442,7 +456,16 @@ FFmpegDecoder::decode_audio_packet ()
 			}
 
 			if (ct < ContentTime()) {
-				LOG_WARNING ("Crazy timestamp %1", to_string (ct));
+				LOG_WARNING (
+					"Crazy timestamp %1 for %2 samples in stream %3 packet pts %4 (ts=%5 tb=%6, off=%7)",
+					to_string(ct),
+					data->frames(),
+					copy_packet.stream_index,
+					copy_packet.pts,
+					av_frame_get_best_effort_timestamp(_frame),
+					av_q2d((*stream)->stream(_format_context)->time_base),
+					to_string(_pts_offset)
+					);
 			}
 
 			/* Give this data provided there is some, and its time is sane */
