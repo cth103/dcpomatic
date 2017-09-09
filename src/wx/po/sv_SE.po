@@ -168,12 +168,12 @@ msgstr "Lägg till Biograf..."
 #: src/wx/content_panel.cc:94
 #, fuzzy
 msgid "Add DCP..."
-msgstr "Lägg till KDM..."
+msgstr ""
 
 #: src/wx/new_dkdm_folder_dialog.cc:24
 #, fuzzy
 msgid "Add DKDM folder"
-msgstr "Lägg till folder..."
+msgstr ""
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -194,7 +194,7 @@ msgstr "Lägg till Salong..."
 #: src/wx/content_panel.cc:95
 #, fuzzy
 msgid "Add a DCP."
-msgstr "Lägg till KDM..."
+msgstr ""
 
 #: src/wx/content_panel.cc:91
 #, fuzzy
