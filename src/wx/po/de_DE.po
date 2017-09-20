@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2017-07-28 14:47+0100\n"
+"PO-Revision-Date: 2017-09-12 18:03+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: de\n"
@@ -448,7 +448,7 @@ msgstr "Komponente"
 
 #: src/wx/full_config_dialog.cc:105
 msgid "Configuration file"
-msgstr ""
+msgstr "Konfigurationsdatei"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1517
@@ -676,7 +676,7 @@ msgstr "Zertifikat wird heruntergeladen..."
 #: src/wx/player_information.cc:69
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "Übersprungene Bilder: %d"
 
 #: src/wx/content_panel.cc:102
 msgid "Earlier"
@@ -1120,7 +1120,7 @@ msgstr "Länge"
 #: src/wx/player_information.cc:101
 #, c-format
 msgid "Length: %s (%ld frames)"
-msgstr ""
+msgstr "Länge: %s (%ld Bilder)"
 
 #: src/wx/subtitle_panel.cc:108
 msgid "Line spacing"
@@ -1201,9 +1201,8 @@ msgid "Mix audio down to stereo"
 msgstr "Mehrkanalaudio zu Stereo heruntermischen"
 
 #: src/wx/config_move_dialog.cc:28
-#, fuzzy
 msgid "Move configuration"
-msgstr "Inhalt verschieben..."
+msgstr "Konfigurationsdatei verschieben"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1245,7 +1244,8 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Name"
 
@@ -1258,9 +1258,8 @@ msgid "New versions of DCP-o-matic are available."
 msgstr "Eine neue Version von DCP-o-matic ist verfügbar."
 
 #: src/wx/player_information.cc:84
-#, fuzzy
 msgid "No DCP loaded."
-msgstr "Kein DCP ausgewählt."
+msgstr "Kein DCP ausgewählt"
 
 #: src/wx/content_sub_panel.cc:63
 msgid "No DCP selected."
@@ -1368,7 +1367,7 @@ msgstr "Ziel-Gamma Anpassung"
 
 #: src/wx/config_move_dialog.cc:30
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "Diese Datei mit der aktuellen Konfiguration überschreiben"
 
 #: src/wx/full_config_dialog.cc:1121
 msgid "Password"
@@ -1393,7 +1392,7 @@ msgstr "Spitzenwert: Unbekannt"
 
 #: src/wx/player_information.cc:52
 msgid "Performance"
-msgstr ""
+msgstr "Wiedergabeleistung"
 
 #: src/wx/film_viewer.cc:87
 msgid "Play"
@@ -1663,9 +1662,8 @@ msgid "Select cinema and screen database file"
 msgstr "Ort der Kino- und Saaldatenbank (für KDM Erstellung)"
 
 #: src/wx/full_config_dialog.cc:106
-#, fuzzy
 msgid "Select configuration file"
-msgstr "Zertifikats-Datei auswählen"
+msgstr "Konfigurations-Datei auswählen"
 
 #: src/wx/export_dialog.cc:55
 msgid "Select output file"
@@ -1742,7 +1740,7 @@ msgstr "Einzelakt (nur eine MXF Datei)"
 #: src/wx/player_information.cc:93
 #, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "Größe: %dx%d"
 
 #: src/wx/audio_dialog.cc:126
 msgid "Smoothing"
@@ -1873,6 +1871,9 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr ""
+"Die Datei %s existiert hier bereits. Möchten Sie diese bestehende "
+"Konfigurationsdatei verwenden, oder soll sie mit der aktuellen Konfiguration "
+"überschrieben werden?"
 
 #: src/wx/hints_dialog.cc:89
 msgid "There are no hints: everything looks good!"
@@ -2102,7 +2103,7 @@ msgstr "Untertitel verwenden"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "Die bestehende Datei zur Konfiguration verwenden"
 
 #: src/wx/full_config_dialog.cc:1117
 msgid "User name"
