@@ -585,6 +585,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
+	case AV_PIX_FMT_YUV422P10LE:
 	{
 		shared_ptr<Image> yuv = other->scale (other->size(), dcp::YUV_TO_RGB_REC709, _pixel_format, false, false);
 		component<uint16_t> (0, this, yuv, other, start_tx, start_ty, start_ox, start_oy);
