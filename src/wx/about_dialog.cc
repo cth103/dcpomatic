@@ -249,6 +249,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Sylvain Mielle"));
 	supported_by.Add (wxT ("Jill Mobley"));
 	supported_by.Add (wxT ("Michal Moc"));
+	supported_by.Add (wxT ("Bobby Moloney"));
 	supported_by.Add (wxT ("Howard Molton"));
 	supported_by.Add (wxT ("Lindsay Morris"));
 	supported_by.Add (wxT ("Moviemento Kino"));
