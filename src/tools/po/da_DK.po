@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2016-11-07 16:55+0100\n"
+"PO-Revision-Date: 2017-10-04 21:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-Basepath: R:/Servershares/AUPHOME/DCP-o-matic\n"
 
 #: src/tools/dcpomatic_kdm.cc:348
@@ -30,9 +30,8 @@ msgid "%d KDMs written to %s"
 msgstr "%d KDMer skrevet til %s"
 
 #: src/tools/dcpomatic_batch.cc:62
-#, fuzzy
 msgid "&Add Film...\tCtrl-A"
-msgstr "&Tilføj film..."
+msgstr "&Tilføj film...\tCtrl-A"
 
 #: src/tools/dcpomatic.cc:1031
 msgid "&Content"
@@ -107,13 +106,12 @@ msgid "Add Film..."
 msgstr "Tilføj film..."
 
 #: src/tools/dcpomatic_kdm.cc:154
-#, fuzzy
 msgid "Add folder..."
-msgstr "Tilføj film..."
+msgstr "Tilføj folder..."
 
 #: src/tools/dcpomatic_kdm.cc:152
 msgid "Add..."
-msgstr ""
+msgstr "Tilføj..."
 
 #: src/tools/dcpomatic.cc:1304 src/tools/dcpomatic_kdm.cc:600
 #, c-format
@@ -177,9 +175,9 @@ msgid "Could not load film %1 (%2)"
 msgstr "Kunne ikke indlæse film %1 (%2)"
 
 #: src/tools/dcpomatic.cc:581
-#, fuzzy, c-format
+#, c-format
 msgid "Could not make DCP: %s."
-msgstr "Kunne ikke fremstille DCP: %s"
+msgstr "Kunne ikke danne DCP: %s."
 
 #: src/tools/dcpomatic.cc:369 src/tools/dcpomatic_batch.cc:139
 #, c-format
@@ -194,6 +192,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Kunne ikke genkende filen som en KDM. Måske er der fejl i formatet, eller "
+"også er den ikke en KDM.\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:768
 msgid "Could not show DCP"
@@ -212,12 +214,14 @@ msgstr "Kunne ikke vise DCP (kunne ikke køre nautilus)"
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
 msgstr ""
+"Kunne ikke skrive til cinemas filen i %s. Dine ændringer er ikke blevet gemt."
 
 #: src/tools/dcpomatic.cc:1059
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
+"Kunne ikke skrive til config filen i %s. Dine ændringer er ikke blevet gemt."
 
 #: src/tools/dcpomatic_kdm.cc:170
 msgid "Create KDMs"
@@ -247,16 +251,15 @@ msgstr "DKDM"
 #: src/tools/dcpomatic.cc:566
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr ""
+msgstr "Vil du overskrive den eksisterende DCP %s?"
 
 #: src/tools/dcpomatic.cc:125
 msgid "Don't close"
 msgstr "Luk ikke"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Don't duplicate"
-msgstr "Luk ikke"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:456 src/tools/dcpomatic.cc:471
 msgid "Duplicate Film"
@@ -267,9 +270,8 @@ msgid "Duplicate and open..."
 msgstr ""
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Duplicate without saving film"
-msgstr "Afslut uden at gemme film"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:972
 msgid "Duplicate..."
@@ -280,16 +282,13 @@ msgid "Encoding servers..."
 msgstr "Kodnings-servere..."
 
 #: src/tools/dcpomatic.cc:1005
-#, fuzzy
 msgid "Export...\tCtrl-E"
-msgstr "&Åbn...\tCtrl-O"
+msgstr "Eksporter...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:258
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
-"Folderen %s eksisterer allerede og er ikke tom. Er du sikker på, at du vil "
-"benytte den?"
+msgstr "Filen %s eksisterer allerede. Vil du overskrive den?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
@@ -328,7 +327,7 @@ msgstr "Håndter skabeloner..."
 
 #: src/tools/dcpomatic.cc:403
 msgid "New Film"
-msgstr ""
+msgstr "Ny film"
 
 #: src/tools/dcpomatic.cc:966
 msgid "New...\tCtrl-N"
@@ -340,7 +339,7 @@ msgstr "Output"
 
 #: src/tools/dcpomatic_kdm.cc:156
 msgid "Remove"
-msgstr ""
+msgstr "Fjern"
 
 #: src/tools/dcpomatic.cc:1025 src/tools/dcpomatic_kdm.cc:245
 msgid "Report a problem..."
@@ -364,18 +363,17 @@ msgid "Save changes to film \"%s\" before closing?"
 msgstr "Gem ændringer til filmen \"%s\" før programmet lukkes?"
 
 #: src/tools/dcpomatic.cc:150
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr "Gem ændringer til filmen \"%s\" før programmet lukkes?"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:125
 msgid "Save film and close"
 msgstr "Gem film og luk"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Save film and duplicate"
-msgstr "Gem film og luk"
+msgstr ""
 
 #: src/tools/dcpomatic.cc:996
 msgid "Scale to fit &height"
@@ -471,6 +469,14 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"Du er ved at danne en DKDM der er krypteret via en privat nøgle i \n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"Det er <span weight=\"bold\" size=\"larger\">AFGØRENDE VIGTIGT</span> at du "
+"<span weight=\"bold\" size=\"larger\">TAGER EN BACKUP AF DENNE FIL</span> da "
+"dine DKDMer (og de DCPer de beskytter) vil blive ubrugelige hvis denne fil "
+"går tabt."
 
 #: src/tools/dcpomatic.cc:556
 msgid ""
@@ -481,6 +487,12 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" size=\"larger"
 "\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"Du er ved at danne en krypteret DCP. Det vil ikke være muligt at generere "
+"KDMer til denne DCP medmindre du har kopier af <tt>metadata.xml</tt> filen i "
+"filmen and metadata filerne i DCPen.\n"
+"\n"
+"Du bør sikre at der er <span weight=\"bold\" size=\"larger\">BACKUP</span> "
+"af disse filer, hvis du vil generere KDMer til denne film."
 
 #: src/tools/dcpomatic.cc:426 src/tools/dcpomatic_batch.cc:225
 msgid ""

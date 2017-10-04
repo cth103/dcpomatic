@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2016-11-07 18:11+0100\n"
+"PO-Revision-Date: 2017-10-04 22:06+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/wx/subtitle_panel.cc:72 src/wx/subtitle_panel.cc:82
@@ -26,24 +26,24 @@ msgstr "%"
 #: src/wx/film_name_location_dialog.cc:130
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
+"%1 eksisterer allerede som en fil, så du kan ikke bruge det til en film."
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM skrevet til %s"
 
 #: src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDMer skrevet til %s"
 
 #: src/wx/about_dialog.cc:83
-#, fuzzy
 msgid ""
 "(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 msgstr ""
-"(C) 2012-2016 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2017 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
 #: src/wx/file_picker_ctrl.cc:43 src/wx/file_picker_ctrl.cc:58
@@ -56,7 +56,7 @@ msgstr "-6dB"
 
 #: src/wx/wx_util.cc:377
 msgid "12 - 7.1/HI/VI"
-msgstr ""
+msgstr "12 - 7.1/HH/VI"
 
 #: src/wx/wx_util.cc:369
 msgid "2 - stereo"
@@ -104,7 +104,7 @@ msgstr "3D, top/bund"
 
 #: src/wx/wx_util.cc:371
 msgid "4 - L/C/R/Lfe"
-msgstr ""
+msgstr "4 - V/C/H/Sub"
 
 #: src/wx/dcp_panel.cc:711
 msgid "4K"
@@ -116,7 +116,7 @@ msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:375
 msgid "8 - 5.1/HI/VI"
-msgstr ""
+msgstr "8 - 5.1/HH/VI"
 
 #: src/wx/subtitle_appearance_dialog.cc:104
 msgid "<b>New colour</b>"
@@ -167,14 +167,12 @@ msgid "Add Cinema..."
 msgstr "Tilføj biograf..."
 
 #: src/wx/content_panel.cc:94
-#, fuzzy
 msgid "Add DCP..."
-msgstr "Tilføj KDM..."
+msgstr "Tilføj DCP..."
 
 #: src/wx/new_dkdm_folder_dialog.cc:24
-#, fuzzy
 msgid "Add DKDM folder"
-msgstr "Tilføj folder..."
+msgstr "Tilføj DKDM folder"
 
 #: src/wx/content_menu.cc:77
 msgid "Add KDM..."
@@ -193,18 +191,16 @@ msgid "Add Screen..."
 msgstr "Tilføj sal..."
 
 #: src/wx/content_panel.cc:95
-#, fuzzy
 msgid "Add a DCP."
-msgstr "Tilføj KDM..."
+msgstr "Tilføj en DCP."
 
 #: src/wx/content_panel.cc:91
-#, fuzzy
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
 "Tilføj folder med billedfiler (der vil blive brugt som sekvens af levende "
-"billeder) eller en DCP."
+"billeder) eller en DCP eller en folder med lydfiler."
 
 #: src/wx/content_panel.cc:86
 msgid "Add file(s)..."
@@ -219,9 +215,8 @@ msgid "Add image sequence"
 msgstr "Tilføj billedsekvens"
 
 #: src/wx/content_panel.cc:87
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film."
-msgstr "Tilføj video-, billed- eller lydfiler til filmen."
+msgstr "Tilføj video-, billed-, lyd- eller undertekstfiler til filmen."
 
 #: src/wx/full_config_dialog.cc:634 src/wx/editable_list.h:74
 msgid "Add..."
@@ -239,7 +234,7 @@ msgstr "Adresse"
 
 #: src/wx/colour_conversion_editor.cc:177
 msgid "Adjust white point to"
-msgstr "Juster hvidpunkt til "
+msgstr "Juster hvidpunkt til"
 
 #: src/wx/full_config_dialog.cc:1469
 msgid "Allow any DCP frame rate"
@@ -314,9 +309,8 @@ msgid "Blue chromaticity"
 msgstr "Blå farvetone"
 
 #: src/wx/fonts_dialog.cc:70
-#, fuzzy
 msgid "Bold file"
-msgstr "Skrifttype fil"
+msgstr "Fed fil"
 
 #: src/wx/font_files_dialog.cc:37
 msgid "Bold font"
@@ -369,7 +363,7 @@ msgstr "Annuller"
 
 #: src/wx/content_sub_panel.cc:65
 msgid "Cannot reference this DCP.  "
-msgstr "Kan ikke referere til denne DCP."
+msgstr "Kan ikke referere til denne DCP.  "
 
 #: src/wx/dolby_doremi_certificate_panel.cc:204
 msgid "Certificate downloaded"
@@ -392,9 +386,8 @@ msgid "Choose CPL..."
 msgstr "Vælg CPL..."
 
 #: src/wx/content_panel.cc:359
-#, fuzzy
 msgid "Choose a DCP folder"
-msgstr "Vælg en folder"
+msgstr "Vælg en DCP folder"
 
 #: src/wx/content_menu.cc:294
 msgid "Choose a file"
@@ -493,9 +486,9 @@ msgid "Could not load KDM (%s)"
 msgstr "Kunne ikke indlæse KDM (%s)"
 
 #: src/wx/full_config_dialog.cc:711
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certificate (%s)"
-msgstr "Kunne ikke læse certifikatfil (%s)"
+msgstr "Kunne ikke læse certifikat (%s)"
 
 #: src/wx/download_certificate_panel.cc:56 src/wx/full_config_dialog.cc:736
 #: src/wx/full_config_dialog.cc:917 src/wx/screen_dialog.cc:158
@@ -570,9 +563,8 @@ msgid "Debug: encode"
 msgstr "Debug: encode"
 
 #: src/wx/full_config_dialog.cc:1001
-#, fuzzy
 msgid "Decrypting KDMs"
-msgstr "Dekrypterer DCPere"
+msgstr "Dekrypterer KDMere"
 
 #: src/wx/full_config_dialog.cc:313
 msgid "Default DCP audio channels"
@@ -587,9 +579,8 @@ msgid "Default JPEG2000 bandwidth"
 msgstr "Standard JPEG2000-båndbredde"
 
 #: src/wx/full_config_dialog.cc:339
-#, fuzzy
 msgid "Default KDM directory"
-msgstr "Standardudgiver"
+msgstr ""
 
 #: src/wx/full_config_dialog.cc:327
 msgid "Default audio delay"
@@ -612,9 +603,8 @@ msgid "Default duration of still images"
 msgstr "Standardvarighed af stillbilleder"
 
 #: src/wx/full_config_dialog.cc:305
-#, fuzzy
 msgid "Default scale-to"
-msgstr "Standardcontainer"
+msgstr ""
 
 #: src/wx/full_config_dialog.cc:335
 msgid "Default standard"
@@ -742,23 +732,20 @@ msgid "Export"
 msgstr "Eksporter"
 
 #: src/wx/full_config_dialog.cc:1009
-#, fuzzy
 msgid ""
 "Export KDM decryption\n"
 "certificate..."
-msgstr "Eksporter DCPens dekrypteringscertifikat..."
+msgstr "Eksporter KDMens dekrypteringscertifikat..."
 
 #: src/wx/full_config_dialog.cc:1011
-#, fuzzy
 msgid ""
 "Export KDM decryption\n"
 "chain..."
-msgstr "Eksporter DCPens dekrypteringskæde..."
+msgstr "Eksporter KDMens dekrypteringskæde..."
 
 #: src/wx/export_dialog.cc:46
-#, fuzzy
 msgid "Export film"
-msgstr "Eksporter"
+msgstr "Eksporter film"
 
 #: src/wx/full_config_dialog.cc:655
 msgid "Export..."
@@ -815,14 +802,12 @@ msgid "Find missing..."
 msgstr "Find manglende..."
 
 #: src/wx/kdm_output_panel.cc:65
-#, fuzzy
 msgid "Folder / ZIP name format"
-msgstr "Filnavn format"
+msgstr ""
 
 #: src/wx/new_dkdm_folder_dialog.cc:26
-#, fuzzy
 msgid "Folder name"
-msgstr "Brugernavn"
+msgstr "Folder navn"
 
 #: src/wx/fonts_dialog.cc:38 src/wx/font_files_dialog.cc:28
 #: src/wx/font_files_dialog.cc:30
@@ -835,7 +820,7 @@ msgstr "Skrifttyper..."
 
 #: src/wx/export_dialog.cc:48
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: src/wx/dcp_panel.cc:661
 msgid "Frame Rate"
@@ -916,17 +901,16 @@ msgid "Green chromaticity"
 msgstr "Grøn farvetone"
 
 #: src/wx/full_config_dialog.cc:361
-#, fuzzy
 msgid "Guess from content"
-msgstr "Indram indhold"
+msgstr "Gæt udfra indhold"
 
 #: src/wx/export_dialog.cc:32
 msgid "H.264"
-msgstr ""
+msgstr "H.264"
 
 #: src/wx/batch_job_view.cc:44
 msgid "Higher priority"
-msgstr ""
+msgstr "Højere prioritet"
 
 #: src/wx/hints_dialog.cc:37
 msgid "Hints"
@@ -1017,9 +1001,8 @@ msgid "Issuer"
 msgstr "Udsteder"
 
 #: src/wx/fonts_dialog.cc:62
-#, fuzzy
 msgid "Italic file"
-msgstr "Skrifttype fil"
+msgstr "Kursiv fil"
 
 #: src/wx/font_files_dialog.cc:36
 msgid "Italic font"
@@ -1072,7 +1055,7 @@ msgstr "Sprog"
 
 #: src/wx/content_panel.cc:106
 msgid "Later"
-msgstr ""
+msgstr "Senere"
 
 #: src/wx/full_config_dialog.cc:804
 msgid "Leaf"
@@ -1113,7 +1096,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:653
 msgid "Load..."
-msgstr "Indlæs"
+msgstr "Indlæs..."
 
 #: src/wx/full_config_dialog.cc:1508
 msgid "Log"
@@ -1130,15 +1113,15 @@ msgstr ""
 
 #: src/wx/content_panel.cc:552
 msgid "MISSING: "
-msgstr "MANGLER:"
+msgstr "MANGLER: "
 
 #: src/wx/export_dialog.cc:36
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV filer (*.mov)|*.mov"
 
 #: src/wx/export_dialog.cc:37
 msgid "MP4 files (*.mp4)|*.mp4"
-msgstr ""
+msgstr "MP4 filer (*.mp4)|*.mp4"
 
 #: src/wx/full_config_dialog.cc:1232
 msgid "Mail password"
@@ -1150,7 +1133,7 @@ msgstr "Mail brugernavn"
 
 #: src/wx/hints_dialog.cc:55
 msgid "Make DCP anyway"
-msgstr ""
+msgstr "Generer DCP alligevel"
 
 #: src/wx/self_dkdm_dialog.cc:49
 msgid "Make DKDM for DCP-o-matic"
@@ -1186,9 +1169,8 @@ msgid "Mix audio down to stereo"
 msgstr ""
 
 #: src/wx/config_move_dialog.cc:28
-#, fuzzy
 msgid "Move configuration"
-msgstr "Flyt indhold"
+msgstr "Flyt konfiguration"
 
 #: src/wx/move_to_dialog.cc:31
 msgid "Move content"
@@ -1224,11 +1206,11 @@ msgstr "Mit problem er"
 
 #: src/wx/content_panel.cc:556
 msgid "NEEDS KDM: "
-msgstr "HAR BRUG FOR KDM:"
+msgstr "HAR BRUG FOR KDM: "
 
 #: src/wx/content_panel.cc:560
 msgid "NEEDS OV: "
-msgstr "HAR BRUG FOR OV:"
+msgstr "HAR BRUG FOR OV: "
 
 #: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
 msgid "Name"
@@ -1243,13 +1225,12 @@ msgid "New versions of DCP-o-matic are available."
 msgstr "Nye versioner af DCP-o-matic er tilgængelige."
 
 #: src/wx/player_information.cc:84
-#, fuzzy
 msgid "No DCP loaded."
-msgstr "Ingen DCP valgt"
+msgstr "Ingen DCP indlæst."
 
 #: src/wx/content_sub_panel.cc:63
 msgid "No DCP selected."
-msgstr "Ingen DCP valgt"
+msgstr "Ingen DCP valgt."
 
 #: src/wx/audio_mapping_view.cc:343
 #, c-format
@@ -1342,7 +1323,6 @@ msgid "Output"
 msgstr "Output"
 
 #: src/wx/export_dialog.cc:54
-#, fuzzy
 msgid "Output file"
 msgstr "Output"
 
@@ -1429,7 +1409,7 @@ msgstr "Konvertering, RGB til XYZ"
 
 #: src/wx/audio_dialog.cc:116
 msgid "RMS"
-msgstr ""
+msgstr "RMS"
 
 #: src/wx/key_dialog.cc:50
 msgid "Random"
@@ -1441,7 +1421,7 @@ msgstr "Censur (f.eks. 15)"
 
 #: src/wx/content_menu.cc:75
 msgid "Re-examine..."
-msgstr "Gen-undersøg"
+msgstr "Gen-undersøg..."
 
 #: src/wx/full_config_dialog.cc:660
 msgid ""
@@ -1486,9 +1466,8 @@ msgstr "Spoler"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
 #: src/wx/dcp_panel.cc:185
-#, fuzzy
 msgid "Reel|Custom"
-msgstr "Brugerdefineret"
+msgstr "Spole|Brugerdefineret"
 
 #: src/wx/audio_panel.cc:56 src/wx/subtitle_panel.cc:55
 #: src/wx/video_panel.cc:82
@@ -1542,9 +1521,8 @@ msgid "Reset to default subject and text"
 msgstr "Nulstil til standard emne og tekst"
 
 #: src/wx/full_config_dialog.cc:1388
-#, fuzzy
 msgid "Reset to default text"
-msgstr "Nulstil til standard emne og tekst"
+msgstr "Nulstil til standard tekst"
 
 #: src/wx/dcp_panel.cc:656
 msgid "Resolution"
@@ -1580,7 +1558,7 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:62
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/full_config_dialog.cc:1125
 msgid "SCP (for AAM and Doremi)"
@@ -1649,14 +1627,12 @@ msgid "Select cinema and screen database file"
 msgstr "Vælg biograf- og sals-database"
 
 #: src/wx/full_config_dialog.cc:106
-#, fuzzy
 msgid "Select configuration file"
-msgstr "Vælg certifikatfil"
+msgstr "Vælg konfigurationsfil"
 
 #: src/wx/export_dialog.cc:55
-#, fuzzy
 msgid "Select output file"
-msgstr "Vælg certifikatfil"
+msgstr ""
 
 #: src/wx/kdm_output_panel.cc:131
 msgid "Send by email"
@@ -1745,7 +1721,7 @@ msgstr "Opdel efter video indhold"
 
 #: src/wx/update_dialog.cc:46
 msgid "Stable version "
-msgstr "Stabil version"
+msgstr "Stabil version "
 
 #: src/wx/dcp_panel.cc:156
 msgid "Standard"
@@ -2003,9 +1979,8 @@ msgid "UTC+9"
 msgstr "UTC+9"
 
 #: src/wx/cinema_dialog.cc:110
-#, fuzzy
 msgid "UTC+9:30"
-msgstr "UTC+5:30"
+msgstr "UTC+9:30"
 
 #: src/wx/cinema_dialog.cc:98
 msgid "UTC-1"
@@ -2099,7 +2074,7 @@ msgstr "Video"
 
 #: src/wx/video_waveform_dialog.cc:36
 msgid "Video Waveform"
-msgstr "Video bølgeform..."
+msgstr "Video bølgeform"
 
 #: src/wx/timing_panel.cc:116
 msgid "Video frame rate"
