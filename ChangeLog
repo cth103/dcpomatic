@@ -1,3 +1,8 @@
+2017-10-05  Carl Hetherington  <cth@carlh.net>
+
+	* Add config option to control writer's
+	maximum_frames_in_memory.
+
 2017-10-04  Carl Hetherington  <cth@carlh.net>
 
 	* Updated da_DK translation from Anders Uhl Pedersen.

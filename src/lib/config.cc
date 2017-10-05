@@ -129,6 +129,17 @@ Config::set_defaults ()
 	_sound = false;
 	_sound_output = optional<string> ();
 
+	/* I think the scaling factor here should be the ratio of the longest frame
+	   encode time to the shortest; if the thread count is T, longest time is L
+	   and the shortest time S we could encode L/S frames per thread whilst waiting
+	   for the L frame to encode so we might have to store LT/S frames.
+
+	   However we don't want to use too much memory, so keep it a bit lower than we'd
+	   perhaps like.  A J2K frame is typically about 1Mb so 3 here will mean we could
+	   use about 240Mb with 72 encoding threads.
+	*/
+	_frames_in_memory_multiplier = 3;
+
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
 	_allowed_dcp_frame_rates.push_back (25);
@@ -355,6 +366,7 @@ try
 		_cover_sheet = f.optional_string_child("CoverSheet").get();
 	}
 	_last_player_load_directory = f.optional_string_child("LastPlayerLoadDirectory");
+	_frames_in_memory_multiplier = f.optional_number_child<int>("FramesInMemoryMultiplier").get_value_or(3);
 
 	/* Replace any cinemas from config.xml with those from the configured file */
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -635,6 +647,10 @@ Config::write_config () const
 	if (_last_player_load_directory) {
 		root->add_child("LastPlayerLoadDirectory")->add_child_text(_last_player_load_directory->string());
 	}
+	/* [XML] FramesInMemoryMultiplier value to multiply the encoding threads count by to get the maximum number of
+	   frames to be held in memory at once.
+	*/
+	root->add_child("FramesInMemoryMultiplier")->add_child_text(raw_convert<string>(_frames_in_memory_multiplier));
 
 	try {
 		doc.write_to_file_formatted(config_file().string());

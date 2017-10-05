@@ -966,6 +966,14 @@ private:
 		table->AddSpacer (0);
 
 		{
+			add_label_to_sizer (table, _panel, _("Maximum number of frames to store per thread"), true);
+			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			_frames_in_memory_multiplier = new wxSpinCtrl (_panel);
+			s->Add (_frames_in_memory_multiplier, 1);
+			table->Add (s, 1);
+		}
+
+		{
 			add_top_aligned_label_to_sizer (table, _panel, _("DCP metadata filename format"));
 			dcp::NameFormat::Map titles;
 			titles['t'] = "type (cpl/pkl)";
@@ -1026,6 +1034,7 @@ private:
 		_maximum_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
 		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
+		_frames_in_memory_multiplier->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::frames_in_memory_multiplier_changed, this));
 		_dcp_metadata_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_metadata_filename_format_changed, this));
 		_dcp_asset_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_asset_filename_format_changed, this));
 		_log_general->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
@@ -1054,6 +1063,7 @@ private:
 		checked_set (_log_debug_decode, config->log_types() & LogEntry::TYPE_DEBUG_DECODE);
 		checked_set (_log_debug_encode, config->log_types() & LogEntry::TYPE_DEBUG_ENCODE);
 		checked_set (_log_debug_email, config->log_types() & LogEntry::TYPE_DEBUG_EMAIL);
+		checked_set (_frames_in_memory_multiplier, config->frames_in_memory_multiplier());
 #ifdef DCPOMATIC_WINDOWS
 		checked_set (_win32_console, config->win32_console());
 #endif
@@ -1062,6 +1072,11 @@ private:
 	void maximum_j2k_bandwidth_changed ()
 	{
 		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
+	}
+
+	void frames_in_memory_multiplier_changed ()
+	{
+		Config::instance()->set_frames_in_memory_multiplier (_frames_in_memory_multiplier->GetValue());
 	}
 
 	void allow_any_dcp_frame_rate_changed ()
@@ -1119,6 +1134,7 @@ private:
 #endif
 
 	wxSpinCtrl* _maximum_j2k_bandwidth;
+	wxSpinCtrl* _frames_in_memory_multiplier;
 	wxCheckBox* _allow_any_dcp_frame_rate;
 	wxCheckBox* _only_servers_encode;
 	NameFormatEditor* _dcp_metadata_filename_format;

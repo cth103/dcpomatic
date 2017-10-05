@@ -345,6 +345,10 @@ public:
 		return _last_player_load_directory;
 	}
 
+	int frames_in_memory_multiplier () const {
+		return _frames_in_memory_multiplier;
+	}
+
 	void set_master_encoding_threads (int n) {
 		maybe_set (_master_encoding_threads, n);
 	}
@@ -604,6 +608,10 @@ public:
 		maybe_set (_dcp_asset_filename_format, n);
 	}
 
+	void set_frames_in_memory_multiplier (int m) {
+		maybe_set (_frames_in_memory_multiplier, m);
+	}
+
 	void clear_history () {
 		_history.clear ();
 		changed ();
@@ -771,6 +779,7 @@ private:
 	boost::optional<std::string> _sound_output;
 	std::string _cover_sheet;
 	boost::optional<boost::filesystem::path> _last_player_load_directory;
+	int _frames_in_memory_multiplier;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;
