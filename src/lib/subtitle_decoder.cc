@@ -171,6 +171,9 @@ SubtitleDecoder::emit_text_start (ContentTime from, sub::Subtitle const & subtit
 			case sub::RIGHT_OF_SCREEN:
 				h_align = dcp::HALIGN_RIGHT;
 				break;
+			default:
+				h_align = dcp::HALIGN_CENTER;
+				break;
 			}
 
 			out.push_back (

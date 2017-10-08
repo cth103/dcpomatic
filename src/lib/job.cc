@@ -425,8 +425,8 @@ Job::status () const
 		if (t > 10 && r > 0) {
 			boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 			boost::posix_time::ptime finish = now + boost::posix_time::seconds(r);
-			char finish_string[6];
-			snprintf (finish_string, sizeof(finish_string), "%02d:%02d", finish.time_of_day().hours(), finish.time_of_day().minutes());
+			char finish_string[16];
+			snprintf (finish_string, sizeof(finish_string), "%02d:%02d", int(finish.time_of_day().hours()), int(finish.time_of_day().minutes()));
 			string day;
 			if (now.date() != finish.date()) {
 				/// TRANSLATORS: the %1 in this string will be filled in with a day of the week

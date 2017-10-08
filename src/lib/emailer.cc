@@ -108,7 +108,7 @@ Emailer::send (string server, int port, string user, string password)
 	boost::posix_time::ptime const utc_now = boost::posix_time::second_clock::universal_time ();
 	boost::posix_time::ptime const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
 	boost::posix_time::time_duration offset = local_now - utc_now;
-	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), abs (offset.hours()), offset.minutes());
+	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), int(abs(offset.hours())), int(offset.minutes()));
 
 	_email = "Date: " + string(date_buffer) + "\r\n"
 		"To: " + address_list (_to) + "\r\n"
