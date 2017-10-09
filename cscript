@@ -416,7 +416,7 @@ def package(target, version):
 
         if target.distro == 'debian' or target.distro == 'ubuntu':
             return package_debian(target, cpu, version)
-        elif target.distro == 'centos' or target.distro == 'fedora':
+        elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
             return package_rpm(target, cpu, version)
     elif target.platform == 'osx':
         target.command('bash platform/osx/make_dmg.sh %s' % target.directory)
