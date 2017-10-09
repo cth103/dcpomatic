@@ -39,8 +39,10 @@
 #include <dcp/mono_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <boost/test/unit_test.hpp>
+#include <iostream>
 
 using std::list;
+using std::cout;
 using boost::shared_ptr;
 using boost::dynamic_pointer_cast;
 

@@ -700,6 +700,9 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	return true;
 }
 
+/** @return Number of input frames that were `accepted'.  This is the number of frames passed in
+ *  unless some were discarded at the end of the block.
+ */
 Frame
 Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
@@ -717,6 +720,12 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	DCPTime time = resampled_audio_to_dcp (piece, content_audio.frame);
 	/* And the end of this block in the DCP */
 	DCPTime end = time + DCPTime::from_frames(content_audio.audio->frames(), content->resampled_frame_rate());
+
+	/* We consider frames trimmed off the beginning to nevertheless be `accepted'; it's only frames trimmed
+	   off the end that are considered as discarded.  This logic is necessary to ensure correct reel lengths,
+	   although the precise details escape me at the moment.
+	*/
+	Frame accepted = content_audio.audio->frames();
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
@@ -738,6 +747,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		shared_ptr<AudioBuffers> cut (new AudioBuffers (content_audio.audio->channels(), remaining_frames));
 		cut->copy_from (content_audio.audio.get(), remaining_frames, 0, 0);
 		content_audio.audio = cut;
+		accepted = content_audio.audio->frames();
 	}
 
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
@@ -765,7 +775,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 	_audio_merger.push (content_audio.audio, time);
 	DCPOMATIC_ASSERT (_stream_states.find (stream) != _stream_states.end ());
 	_stream_states[stream].last_push_end = time + DCPTime::from_frames (content_audio.audio->frames(), _film->audio_frame_rate());
-	return content_audio.audio->frames();
+	return accepted;
 }
 
 void
