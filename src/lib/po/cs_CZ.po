@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2017-05-10 14:55+0200\n"
+"PO-Revision-Date: 2017-10-09 11:16+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:448
@@ -69,7 +69,7 @@ msgstr " (%.2f:1)"
 #. / to say what day a job will finish.
 #: src/lib/job.cc:432
 msgid " on %1"
-msgstr "na %1"
+msgstr " na %1"
 
 #: src/lib/config.cc:725
 msgid ""
@@ -83,6 +83,15 @@ msgid ""
 "Length: $LENGTH\n"
 "Size: $SIZE\n"
 msgstr ""
+"$CPL_NAME\n"
+"\n"
+"Typ: $TYPE\n"
+"Formát: $CONTAINER\n"
+"Audio: $AUDIO\n"
+"Jazyk audio: $AUDIO_LANGUAGE\n"
+"Jazyk titulky: $SUBTITLE_LANGUAGE\n"
+"Délka: $LENGTH\n"
+"Velikost: $SIZE\n"
 
 #: src/lib/atmos_mxf_content.cc:78
 msgid "%1 [Atmos]"
@@ -115,16 +124,15 @@ msgstr "1.19"
 
 #: src/lib/ratio.cc:38
 msgid "1.33 (4:3)"
-msgstr ""
+msgstr "1.33 (4:3)"
 
 #: src/lib/ratio.cc:39
-#, fuzzy
 msgid "1.38 (Academy)"
-msgstr "1.375:1 (Academy)"
+msgstr "1.38 (Academy)"
 
 #: src/lib/ratio.cc:40
 msgid "1.43 (IMAX)"
-msgstr ""
+msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:41
 msgid "1.66"
@@ -132,24 +140,23 @@ msgstr "1.66"
 
 #: src/lib/ratio.cc:42
 msgid "1.78 (16:9 or HD)"
-msgstr ""
+msgstr "1.78 (16:9 nebo HD)"
 
 #: src/lib/ratio.cc:43
 msgid "1.85 (Flat)"
-msgstr ""
+msgstr "1.85 (Flat)"
 
 #: src/lib/ratio.cc:46
-#, fuzzy
 msgid "1.90 (Full frame)"
-msgstr "Full frame (Celý obraz)"
+msgstr "1.90 (Full frame)"
 
 #: src/lib/ratio.cc:44
 msgid "2.35 (35mm Scope)"
-msgstr ""
+msgstr "2.35 (35mm Scope)"
 
 #: src/lib/ratio.cc:45
 msgid "2.39 (Scope)"
-msgstr ""
+msgstr "2.39 (Scope)"
 
 #: src/lib/filter.cc:71
 msgid "3D denoiser"
@@ -401,11 +408,11 @@ msgstr "Aby se spojil obsah, musí mít stejné nastavení měřítka."
 
 #: src/lib/subtitle_content.cc:179
 msgid "Content to be joined must have the same subtitle X offset."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků X offset. "
+msgstr "Aby se spojil obsah, musí mít stejné nastavení titulků X offset."
 
 #: src/lib/subtitle_content.cc:187
 msgid "Content to be joined must have the same subtitle X scale."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko. "
+msgstr "Aby se spojil obsah, musí mít stejné nastavení titulky X měřítko."
 
 #: src/lib/subtitle_content.cc:183
 msgid "Content to be joined must have the same subtitle Y offset."
@@ -520,14 +527,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:43
-#, fuzzy
 msgid "DCI Flat"
-msgstr "Flat"
+msgstr "DCI Flat"
 
 #: src/lib/ratio.cc:45
-#, fuzzy
 msgid "DCI Scope"
-msgstr "Scope (2.39:1)"
+msgstr "DCI Scope"
 
 #: src/lib/dcp_subtitle_content.cc:100
 msgid "DCP XML subtitles"
@@ -725,12 +730,16 @@ msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "slowdown of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Avšak nastavení rychlosti snímků DCP na 24 nebo 48 způsobí významné "
+"zpomalení vašeho obsahu a všechny projektory nepodporují DCPs SMPTE."
 
 #: src/lib/hints.cc:119
 msgid ""
 "However, setting your DCP frame rate to 24 or 48 will cause a significant "
 "speed-up of your content, and SMPTE DCPs are not supported by all projectors."
 msgstr ""
+"Avšak nastavení rychlosti snímků DCP na hodnotu 24 nebo 48 způsobí značné "
+"zrychlení vašeho obsahu a všechny DC projektory SMPTE DCP nejsou podporovány."
 
 #: src/lib/audio_content.cc:307 src/lib/audio_content.cc:327
 msgid "Hz"
@@ -834,7 +843,7 @@ msgstr "Vzorkovací kmitočet zvuku v DCP neschoduje"
 
 #: src/lib/dcp_examiner.cc:120
 msgid "Mismatched frame rates in DCP"
-msgstr "V DPC se neschoduje počet obrázků za sekundu "
+msgstr "V DPC se neschoduje počet obrázků za sekundu"
 
 #: src/lib/dcp_examiner.cc:127
 msgid "Mismatched video sizes in DCP"
@@ -842,7 +851,7 @@ msgstr "V DCP se neshoduje velikost videa"
 
 #: src/lib/writer.cc:583
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/lib/filter.cc:66
 msgid "Motion compensating deinterlacer"
@@ -870,7 +879,7 @@ msgstr "Redukce hluku"
 
 #: src/lib/writer.cc:581
 msgid "None"
-msgstr ""
+msgstr "Žádný"
 
 #: src/lib/job.cc:442
 msgid "OK (ran for %1)"
@@ -905,9 +914,8 @@ msgid "Prepared for video frame rate"
 msgstr "Příprava pro snímkovou frekvenci videa"
 
 #: src/lib/exceptions.cc:85
-#, fuzzy
 msgid "Programming error at %1:%2 %3"
-msgstr "Chyba při programovaní na %1:%2"
+msgstr "Chyba při programovaní na %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Public Service Announcement"
@@ -1028,7 +1036,7 @@ msgstr "Některé audio bude převzorkované na %1kHz"
 
 #: src/lib/writer.cc:585
 msgid "Stereo"
-msgstr ""
+msgstr "Stereo"
 
 #: src/lib/upmixer_a.cc:46
 msgid "Stereo to 5.1 up-mixer A"
@@ -1144,6 +1152,8 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"Tento soubor je KDM. KDM by měly být přidány do obsahu DCP klepnutím pravým "
+"tlačítkem myši na obsah a výběrem možnosti “Přidat KDM”."
 
 #: src/lib/film.cc:439
 msgid ""
@@ -1161,7 +1171,7 @@ msgid ""
 msgstr ""
 "Tento film bol vytvořený starší verzí DCP-o-matic, a bohužel nemůže být "
 "načtený do do této verze. Budete muset vytvořit nový Film, znovu přidat váš "
-"obsah a znovu provést nastavení."
+"obsah a znovu provést nastavení. Omlouváme se!"
 
 #: src/lib/dcp_content_type.cc:48
 msgid "Trailer"
@@ -1240,25 +1250,26 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Ještě další deinterlacing filter"
 
 #: src/lib/hints.cc:124
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead (although SMPTE DCPs are not supported by all "
 "projectors)."
 msgstr ""
-"Nastavení pro Interop DCP se snímkovou rychlostí není oficiálně podporována. "
-"Doporučujeme místo toho SMPTE DCP."
+"Nastavili jste Interop DCP s frekvencí snímků, která není oficiálně "
+"podporována. Doporučuje se, abyste buď změnili frekvenci snímků vašeho DCP "
+"nebo namísto toho vytvořili SMPTE DCP (ačkoli všechny projektory SMPTE DCP "
+"nejsou podporovány)."
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "You are set up for an Interop DCP at a frame rate which is not officially "
 "supported.  You are advised either to change the frame rate of your DCP or "
 "to make a SMPTE DCP instead."
 msgstr ""
-"Nastavení pro Interop DCP se snímkovou rychlostí není oficiálně podporována. "
-"Doporučujeme místo toho SMPTE DCP."
+"Nastavili jste Interop DCP s frekvencí snímků, která není oficiálně "
+"podporována. Doporučuje se buď změnit měřítko snímků vašeho DCP nebo namísto "
+"toho vytvořit SMPTE DCP."
 
 #: src/lib/hints.cc:149
 msgid ""
@@ -1448,7 +1459,7 @@ msgstr "video snímky"
 
 #: src/lib/film.cc:304
 msgid "you must add some content to the DCP before creating it"
-msgstr "Musíte přidat obsah do DCP před tím než ho vytvoříte"
+msgstr "musíte přidat obsah do DCP před tím než ho vytvoříte"
 
 #~ msgid "2.35"
 #~ msgstr "2.35"

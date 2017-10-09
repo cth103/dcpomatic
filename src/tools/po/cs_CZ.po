@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-15 15:22+0100\n"
-"PO-Revision-Date: 2017-05-10 15:00+0200\n"
+"PO-Revision-Date: 2017-10-09 11:33+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:348
@@ -105,13 +105,12 @@ msgid "Add Film..."
 msgstr "Přidat film..."
 
 #: src/tools/dcpomatic_kdm.cc:154
-#, fuzzy
 msgid "Add folder..."
-msgstr "Přidat film..."
+msgstr "Přidat složku…"
 
 #: src/tools/dcpomatic_kdm.cc:152
 msgid "Add..."
-msgstr ""
+msgstr "Přidat…"
 
 #: src/tools/dcpomatic.cc:1304 src/tools/dcpomatic_kdm.cc:600
 #, c-format
@@ -192,6 +191,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Nelze číst soubor jako KDM. Možná je špatně formátovaný, nebo vůbec není "
+"KDM.\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:768
 msgid "Could not show DCP"
@@ -253,35 +256,32 @@ msgid "Don't close"
 msgstr "Nezavírejte"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Don't duplicate"
-msgstr "Nezavírejte"
+msgstr "Neduplikujte"
 
 #: src/tools/dcpomatic.cc:456 src/tools/dcpomatic.cc:471
 msgid "Duplicate Film"
-msgstr ""
+msgstr "Duplicitní film"
 
 #: src/tools/dcpomatic.cc:973
 msgid "Duplicate and open..."
-msgstr ""
+msgstr "Duplikovat a otevřít…"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Duplicate without saving film"
-msgstr "Zavřít bez uložení filmu"
+msgstr "Duplikovat bez uložení filmu"
 
 #: src/tools/dcpomatic.cc:972
 msgid "Duplicate..."
-msgstr ""
+msgstr "Duplikovat…"
 
 #: src/tools/dcpomatic.cc:1013 src/tools/dcpomatic_batch.cc:77
 msgid "Encoding servers..."
 msgstr "Enkódovací servery…"
 
 #: src/tools/dcpomatic.cc:1005
-#, fuzzy
 msgid "Export...\tCtrl-E"
-msgstr "&Otevřít…\tCtrl-O"
+msgstr "Export…\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:258
 #, c-format
@@ -325,7 +325,7 @@ msgstr "Správa šablon..."
 
 #: src/tools/dcpomatic.cc:403
 msgid "New Film"
-msgstr ""
+msgstr "Nový film"
 
 #: src/tools/dcpomatic.cc:966
 msgid "New...\tCtrl-N"
@@ -337,7 +337,7 @@ msgstr "Výstup"
 
 #: src/tools/dcpomatic_kdm.cc:156
 msgid "Remove"
-msgstr ""
+msgstr "Vyjmout"
 
 #: src/tools/dcpomatic.cc:1025 src/tools/dcpomatic_kdm.cc:245
 msgid "Report a problem..."
@@ -361,18 +361,17 @@ msgid "Save changes to film \"%s\" before closing?"
 msgstr "Uložit změny do filmu před ukončením \"%s\" ?"
 
 #: src/tools/dcpomatic.cc:150
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr "Uložit změny do filmu před ukončením \"%s\" ?"
+msgstr "Uložit změny do filmu “%s” před duplikováním?"
 
 #: src/tools/dcpomatic.cc:125
 msgid "Save film and close"
 msgstr "Uložit film a zavřít"
 
 #: src/tools/dcpomatic.cc:158
-#, fuzzy
 msgid "Save film and duplicate"
-msgstr "Uložit film a zavřít"
+msgstr "Uložit film a duplikovat"
 
 #: src/tools/dcpomatic.cc:996
 msgid "Scale to fit &height"
@@ -467,6 +466,13 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"Vytváříte DKDM, které je zašifrované soukromým klíčem\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"To je <span weight=“bold” size=“larger”>VITALLY DŮLEŽITÉ</span> že ty <span "
+"weight=“bold” size=“larger”>ZÁLOHOVAT TENTO SOUBOR</span> protože pokud se "
+"ztratí vaše DKDM (a DCPs, které chrání) bude zbytečné."
 
 #: src/tools/dcpomatic.cc:556
 msgid ""
@@ -477,6 +483,12 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" size=\"larger"
 "\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"Vytváříte zašifrovaný DCP. Nebude možné vytvořit KDM pro tento DCP, pokud "
+"nemáte kopie <tt>metadata.xml</tt> soubor ve filmu a soubory metadat v rámci "
+"DCP.\n"
+"\n"
+"Měli byste se ujistit, že jsou tyto soubory <span weight=“bold” "
+"size=“larger”>ZAZÁLOHOVÁNY</span> pokud chcete vytvořit KDM pro tento film."
 
 #: src/tools/dcpomatic.cc:426 src/tools/dcpomatic_batch.cc:225
 msgid ""
