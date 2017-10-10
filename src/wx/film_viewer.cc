@@ -290,7 +290,7 @@ FilmViewer::get ()
 		return;
 	}
 
-	if ((time() - video.second) > one_video_frame()) {
+	if (_playing && (time() - video.second) > one_video_frame()) {
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
