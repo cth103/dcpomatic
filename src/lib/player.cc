@@ -732,7 +732,7 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 		pair<shared_ptr<AudioBuffers>, DCPTime> cut = discard_audio (content_audio.audio, time, piece->content->position());
 		if (!cut.first) {
 			/* This audio is entirely discarded */
-			return 0;
+			return accepted;
 		}
 		content_audio.audio = cut.first;
 		time = cut.second;
