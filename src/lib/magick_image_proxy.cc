@@ -103,9 +103,13 @@ MagickImageProxy::image (optional<dcp::NoteHandler>, optional<dcp::Size>) const
 	}
 
 	unsigned char const * data = static_cast<unsigned char const *>(_blob.data());
-	if (data[801] == 1) {
-		/* The transfer characteristic in this file is "printing density"; in this case ImageMagick sets the colour space
-		   to LogColorspace.  Empirically we find that if we subsequently call colorSpace(Magick::RGBColorspace) the colours
+	if (data[801] == 1 || magick_image->image()->colorspace == Magick::sRGBColorspace) {
+		/* Either:
+		   1.  The transfer characteristic in this file is "printing density"; in this case ImageMagick sets the colour space
+		       to LogColorspace, or
+		   2.  The file is sRGB.
+
+		   Empirically we find that in these cases if we subsequently call colorSpace(Magick::RGBColorspace) the colours
 		   are very wrong.  To prevent this, set the image colour space to RGB to stop the ::colorSpace call below doing
 		   anything.  See #1123 and others.
 		*/
