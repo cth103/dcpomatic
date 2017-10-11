@@ -230,6 +230,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Marco Löber"));
 	supported_by.Add (wxT ("Juan Marin Lorenzo"));
 	supported_by.Add (wxT ("Cinéma Le Louxor"));
+	supported_by.Add (wxT ("Michael Luce"));
 	supported_by.Add (wxT ("Mandorla"));
 	supported_by.Add (wxT ("Andrea Maguolo"));
 	supported_by.Add (wxT ("Gerard Manshanden"));
