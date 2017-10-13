@@ -97,6 +97,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, shared_ptr<Co
 
 	for (int i = 0; i < _channels; ++i) {
 		_channel_checkbox[i] = new wxCheckBox (this, wxID_ANY, std_to_wx (audio_channel_name (i)));
+		_channel_checkbox[i]->SetForegroundColour(wxColour(_plot->colour(i)));
 		right->Add (_channel_checkbox[i], 0, wxEXPAND | wxALL, 3);
 		_channel_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::channel_clicked, this, _1));
 	}

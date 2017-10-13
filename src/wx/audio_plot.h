@@ -38,6 +38,8 @@ public:
 	void set_message (wxString);
 	void set_gain_correction (double gain);
 
+	wxColour colour (int n) const;
+
 	static const int max_smoothing;
 
 private:

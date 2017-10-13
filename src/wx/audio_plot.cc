@@ -319,3 +319,13 @@ AudioPlot::get_point (int channel, int point) const
 
 	return p;
 }
+
+/** @param n Channel index.
+ *  @return Colour used by that channel in the plot.
+ */
+wxColour
+AudioPlot::colour (int n) const
+{
+	DCPOMATIC_ASSERT (n < int(_colours.size()));
+	return _colours[n];
+}
