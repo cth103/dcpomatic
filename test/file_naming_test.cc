@@ -34,8 +34,26 @@
 using std::string;
 using boost::shared_ptr;
 
+class Keep
+{
+public:
+	Keep ()
+	{
+		_format = Config::instance()->dcp_asset_filename_format ();
+	}
+
+	~Keep ()
+	{
+		Config::instance()->set_dcp_asset_filename_format (_format);
+	}
+
+private:
+	dcp::NameFormat _format;
+};
+
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
+	Keep k;
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
 
 	shared_ptr<Film> film = new_test_film ("file_naming_test");
@@ -74,6 +92,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 
 BOOST_AUTO_TEST_CASE (file_naming_test2)
 {
+	Keep k;
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
 
 	shared_ptr<Film> film = new_test_film ("file_naming_test2");
