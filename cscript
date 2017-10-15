@@ -452,11 +452,9 @@ def make_manual(target):
 def test(target, test):
     if target.platform != 'windows':
         target.set('LC_ALL', 'C')
-        base = 'run/tests '
-        if test is not None:
-            base += '--run_test=%s' % test
+        cmd = 'run/tests '
         if target.debug:
-            cmd = 'gdb -batch -ex "run" -ex "bt" "%s" 2>&1 | grep -v ^"No stack."' % base
-        else:
-            cmd = base
+            cmd += '--backtrace '
+        if test is not None:
+            cmd += '--run_test=%s' % test
         target.command(cmd)
