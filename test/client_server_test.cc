@@ -49,7 +49,7 @@ void
 do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, Data locally_encoded)
 {
 	Data remotely_encoded;
-	BOOST_CHECK_NO_THROW (remotely_encoded = frame->encode_remotely (description, 60));
+	BOOST_REQUIRE_NO_THROW (remotely_encoded = frame->encode_remotely (description, 60));
 
 	BOOST_REQUIRE_EQUAL (locally_encoded.size(), remotely_encoded.size());
 	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data().get(), remotely_encoded.data().get(), locally_encoded.size()), 0);
@@ -120,7 +120,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	EncodeServerDescription description ("localhost", 2);
+	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
+	EncodeServerDescription description ("127.0.0.1", 1);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
@@ -202,7 +203,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	EncodeServerDescription description ("localhost", 2);
+	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
+	EncodeServerDescription description ("127.0.0.1", 2);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
@@ -295,7 +297,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	/* Let the server get itself ready */
 	dcpomatic_sleep (1);
 
-	EncodeServerDescription description ("localhost", 2);
+	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
+	EncodeServerDescription description ("127.0.0.1", 2);
 
 	list<thread*> threads;
 	for (int i = 0; i < 8; ++i) {
