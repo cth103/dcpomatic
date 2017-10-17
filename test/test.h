@@ -34,7 +34,7 @@ extern void check_wav_file (boost::filesystem::path ref, boost::filesystem::path
 extern void check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_xml (boost::filesystem::path, boost::filesystem::path, std::list<std::string>);
 extern void check_file (boost::filesystem::path, boost::filesystem::path);
-extern void check_ffmpeg (boost::filesystem::path, boost::filesystem::path, int skip_packet_stream);
+extern void check_ffmpeg (boost::filesystem::path, boost::filesystem::path);
 extern void check_image (boost::filesystem::path, boost::filesystem::path);
 extern boost::filesystem::path test_film_dir (std::string);
 extern void write_image (boost::shared_ptr<const Image> image, boost::filesystem::path file, std::string format);

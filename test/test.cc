@@ -442,7 +442,7 @@ check_ffmpeg_stream (boost::filesystem::path ref, boost::filesystem::path check,
 }
 
 void
-check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int skip_packet_stream)
+check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	check_ffmpeg_stream (ref, check, "v");
 	check_ffmpeg_stream (ref, check, "a");

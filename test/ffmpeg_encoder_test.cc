@@ -137,5 +137,5 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
 	/* Skip the first video packet when checking as it contains x264 options which can vary between machines
 	   (e.g. number of threads used for encoding).
 	*/
-	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4", 0);
+	check_ffmpeg ("build/test/ffmpeg_encoder_basic_test_mixdown.mp4", "test/data/ffmpeg_encoder_basic_test_mixdown.mp4");
 }
