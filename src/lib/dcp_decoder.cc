@@ -158,6 +158,27 @@ DCPDecoder::pass ()
 		audio->emit (_dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
 	}
 
+	pass_subtitles (_next);
+
+	_next += ContentTime::from_frames (1, vfr);
+
+	if ((*_reel)->main_picture ()) {
+		if (_next.frames_round (vfr) >= (*_reel)->main_picture()->duration()) {
+			next_reel ();
+			_next = ContentTime ();
+		}
+	}
+
+	return false;
+}
+
+void
+DCPDecoder::pass_subtitles (ContentTime next)
+{
+	double const vfr = _dcp_content->active_video_frame_rate ();
+	/* Frame within the (played part of the) reel that is coming up next */
+	int64_t const frame = next.frames_round (vfr);
+
 	if ((*_reel)->main_subtitle() && (_decode_referenced || !_dcp_content->reference_subtitle())) {
 		int64_t const entry_point = (*_reel)->main_subtitle()->entry_point ();
 		list<dcp::SubtitleString> subs = (*_reel)->main_subtitle()->asset()->subtitles_during (
@@ -177,17 +198,6 @@ DCPDecoder::pass ()
 				);
 		}
 	}
-
-	_next += ContentTime::from_frames (1, vfr);
-
-	if ((*_reel)->main_picture ()) {
-		if (_next.frames_round (vfr) >= (*_reel)->main_picture()->duration()) {
-			next_reel ();
-			_next = ContentTime ();
-		}
-	}
-
-	return false;
 }
 
 void
@@ -240,6 +250,34 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	_reel = _reels.begin ();
 	_offset = 0;
 	get_readers ();
+
+	if (accurate) {
+		int const pre_roll_seconds = 2;
+
+		/* Pre-roll for subs */
+
+		ContentTime pre = t - ContentTime::from_seconds (pre_roll_seconds);
+		if (pre < ContentTime()) {
+			pre = ContentTime ();
+		}
+
+		/* Seek to pre-roll position */
+
+		while (_reel != _reels.end() && pre >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
+			pre -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());
+			next_reel ();
+		}
+
+		/* Pass subtitles in the pre-roll */
+
+		double const vfr = _dcp_content->active_video_frame_rate ();
+		for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
+			pass_subtitles (pre);
+			pre += ContentTime::from_frames (1, vfr);
+		}
+	}
+
+	/* Seek to correct position */
 
 	while (_reel != _reels.end() && t >= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ())) {
 		t -= ContentTime::from_frames ((*_reel)->main_picture()->duration(), _dcp_content->active_video_frame_rate ());

@@ -56,6 +56,7 @@ private:
 
 	void next_reel ();
 	void get_readers ();
+	void pass_subtitles (ContentTime next);
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	ContentTime _next;
