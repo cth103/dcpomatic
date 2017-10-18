@@ -169,6 +169,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Yohann Dedy"));
 	supported_by.Add (wxT ("Alexey Derevyanko"));
 	supported_by.Add (wxT ("Thomas Dickens"));
+	supported_by.Add (wxt ("e22.digital"));
 	supported_by.Add (wxT ("Unwana Essien"));
 	supported_by.Add (wxT ("Maxime Estoppey"));
 	supported_by.Add (wxT ("Peter Ericson"));
