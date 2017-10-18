@@ -184,7 +184,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 
 		_filters = new wxStaticText (this, wxID_ANY, _("None"), wxDefaultPosition, size);
-		s->Add (_filters, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		s->Add (_filters, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		_filters_button = new wxButton (this, wxID_ANY, _("Edit..."));
 		s->Add (_filters_button, 0, wxALIGN_CENTER_VERTICAL);
 
@@ -204,7 +204,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 
 		/// TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 		_colour_conversion->Append (S_("Colour|Custom"));
-		s->Add (_colour_conversion, 1, wxEXPAND | wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		s->Add (_colour_conversion, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 
 		_edit_colour_conversion_button = new wxButton (this, wxID_ANY, _("Edit..."));
 		s->Add (_edit_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
