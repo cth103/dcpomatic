@@ -21,5 +21,5 @@ elif [ "$1" == "--perf" ]; then
     shift
     perf record build/src/tools/dcpomatic2 $*
 else
-    ldd build/src/tools/dcpomatic2 $*
+    build/src/tools/dcpomatic2 $*
 fi
