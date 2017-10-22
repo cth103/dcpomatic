@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-15 15:22+0100\n"
+"POT-Creation-Date: 2017-10-22 20:34+0100\n"
 "PO-Revision-Date: 2017-07-23 09:54+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -68,11 +68,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:432
+#: src/lib/job.cc:434
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:725
+#: src/lib/config.cc:751
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -98,7 +98,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [全景声]"
 
-#: src/lib/dcp_content.cc:210
+#: src/lib/dcp_content.cc:212
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -169,7 +169,7 @@ msgstr "3D 降噪"
 msgid "; %.1f fps"
 msgstr "; %.1f fps"
 
-#: src/lib/job.cc:437
+#: src/lib/job.cc:439
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; 剩余 %1 ; 完成于 %2%3"
 
@@ -283,7 +283,7 @@ msgstr "右后环绕"
 msgid "C"
 msgstr "中置"
 
-#: src/lib/job.cc:446
+#: src/lib/job.cc:448
 msgid "Cancelled"
 msgstr "取消"
 
@@ -473,7 +473,7 @@ msgid ""
 "o-matic is running."
 msgstr "无法监测远程编码服务器。可能是另一个DCP-O-MATIC程序进程正在运行。"
 
-#: src/lib/job.cc:121 src/lib/job.cc:135
+#: src/lib/job.cc:121 src/lib/job.cc:136
 msgid "Could not open %1"
 msgstr "无法打开%1"
 
@@ -541,10 +541,11 @@ msgstr "DCP列队将在速度为 %1%% 下运行.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "将使用隔帧打包DCP.\n"
 
-#: src/lib/job.cc:123 src/lib/job.cc:137
+#: src/lib/job.cc:123 src/lib/job.cc:138
+#, fuzzy
 msgid ""
-"DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
-"an unexpected format."
+"DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
+"is in an unexpected format."
 msgstr "无法打开文件%1。文件不存在或格式无法识别。"
 
 #: src/lib/ffmpeg_content.cc:103
@@ -556,7 +557,7 @@ msgstr "不支持的格式`%1'。"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:705
+#: src/lib/config.cc:731
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -623,7 +624,7 @@ msgstr "编码中"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:446
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
@@ -743,11 +744,11 @@ msgstr "IEC61966-2-1 (sRGB或sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
+#: src/lib/job.cc:146 src/lib/job.cc:178 src/lib/job.cc:188
 msgid "It is not known what caused this error."
 msgstr "未知错误！"
 
-#: src/lib/config.cc:267 src/lib/config.cc:702
+#: src/lib/config.cc:284 src/lib/config.cc:728
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -871,7 +872,7 @@ msgstr "降噪"
 msgid "None"
 msgstr "无"
 
-#: src/lib/job.cc:442
+#: src/lib/job.cc:444
 msgid "OK (ran for %1)"
 msgstr "确认 (运行 %1)"
 
@@ -883,7 +884,7 @@ msgstr "只有第一段才可以进行开始裁剪。"
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "只有最后一段才可以进行结束裁剪。"
 
-#: src/lib/job.cc:168
+#: src/lib/job.cc:170
 msgid "Out of memory"
 msgstr "内存不足"
 
@@ -1052,7 +1053,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "文本字幕"
 
-#: src/lib/film.cc:1549
+#: src/lib/film.cc:1553
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1064,11 +1065,11 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr "DCP中的电影内容太大，请使用 【 分卷模式 】后再试一次。"
 
-#: src/lib/dcp_content.cc:502
+#: src/lib/dcp_content.cc:504
 msgid "The DCP does not have sound in all reels."
 msgstr "该DCP的所有分卷无声音。"
 
-#: src/lib/dcp_content.cc:523
+#: src/lib/dcp_content.cc:525
 msgid "The DCP does not have subtitles in all reels."
 msgstr "该DCP的所有分卷无字幕。"
 
@@ -1086,41 +1087,41 @@ msgid ""
 "space and try again."
 msgstr "磁盘空间不足！"
 
-#: src/lib/dcp_content.cc:445
+#: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr "影片与DCP的帧速率不一致"
 
-#: src/lib/dcp_content.cc:438
+#: src/lib/dcp_content.cc:440
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
-#: src/lib/dcp_content.cc:435
+#: src/lib/dcp_content.cc:437
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际打包类型是 Interop。"
 
-#: src/lib/dcp_content.cc:464
+#: src/lib/dcp_content.cc:466
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
 msgstr "影片时长与DCP中的分卷时长不一致，请设置 【 分卷模式 】 来分割该内容。"
 
-#: src/lib/dcp_content.cc:482
+#: src/lib/dcp_content.cc:484
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "视频帧大小与DCP不一致。"
 
-#: src/lib/dcp_content.cc:507
+#: src/lib/dcp_content.cc:509
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "音频文件重复，请删除重复项"
 
-#: src/lib/dcp_content.cc:528
+#: src/lib/dcp_content.cc:530
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "字幕文件重复，请删除重复项"
 
-#: src/lib/dcp_content.cc:486
+#: src/lib/dcp_content.cc:488
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "视频文件重复，请删除重复项"
 
-#: src/lib/job.cc:168
+#: src/lib/job.cc:170
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1168,11 +1169,11 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "服务器接收到意外的图像类型！"
 
-#: src/lib/job.cc:185
+#: src/lib/job.cc:187
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:314
+#: src/lib/ffmpeg_decoder.cc:318
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1283,6 +1284,11 @@ msgid ""
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
+#: src/lib/config.cc:241
+msgid ""
+"Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
 msgstr "[动态图像]"
@@ -1323,7 +1329,7 @@ msgstr "复制中... %1"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:325
+#: src/lib/reel_writer.cc:337
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 

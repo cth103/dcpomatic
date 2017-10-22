@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-15 15:22+0100\n"
+"POT-Creation-Date: 2017-10-22 20:34+0100\n"
 "PO-Revision-Date: 2016-06-20 01:14-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -69,11 +69,11 @@ msgstr ""
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:432
+#: src/lib/job.cc:434
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:725
+#: src/lib/config.cc:751
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -90,7 +90,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "[Dolby Atmos]"
 
-#: src/lib/dcp_content.cc:210
+#: src/lib/dcp_content.cc:212
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -163,7 +163,7 @@ msgstr "Redutor de ruído 3D"
 msgid "; %.1f fps"
 msgstr ""
 
-#: src/lib/job.cc:437
+#: src/lib/job.cc:439
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ""
 
@@ -275,7 +275,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:446
+#: src/lib/job.cc:448
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -492,7 +492,7 @@ msgstr ""
 "Impossível buscar servidores de codificação remotos.  Talvez haja outra "
 "instância de DCP-o-matic aberta."
 
-#: src/lib/job.cc:121 src/lib/job.cc:135
+#: src/lib/job.cc:121 src/lib/job.cc:136
 msgid "Could not open %1"
 msgstr "Impossível abrir %1"
 
@@ -564,10 +564,11 @@ msgstr "O DCP vai ser exibido a %1%% da velocidade do vídeo\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "O DCP vai utilizar um frame em cada dois do vídeo.\n"
 
-#: src/lib/job.cc:123 src/lib/job.cc:137
+#: src/lib/job.cc:123 src/lib/job.cc:138
+#, fuzzy
 msgid ""
-"DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
-"an unexpected format."
+"DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
+"is in an unexpected format."
 msgstr ""
 "O DCP-o-matic não pôde abrir o arquivo %1.  Talvez o arquivo não exista ou "
 "tenha um formato não esperado."
@@ -582,7 +583,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Desentrelaçamento de vídeo"
 
-#: src/lib/config.cc:705
+#: src/lib/config.cc:731
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -648,7 +649,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Erro no arquivo de legenda:: %1 encontrado quando se esperava %2"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:446
 msgid "Error: %1"
 msgstr "Erro: %1"
 
@@ -765,11 +766,11 @@ msgstr "IEC61966-2-1 (sRGB ou sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
+#: src/lib/job.cc:146 src/lib/job.cc:178 src/lib/job.cc:188
 msgid "It is not known what caused this error."
 msgstr "Erro desconhecido."
 
-#: src/lib/config.cc:267 src/lib/config.cc:702
+#: src/lib/config.cc:284 src/lib/config.cc:728
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Entrega de KDM: $CPL_NAME"
 
@@ -893,7 +894,7 @@ msgstr "Redução de ruído"
 msgid "None"
 msgstr ""
 
-#: src/lib/job.cc:442
+#: src/lib/job.cc:444
 msgid "OK (ran for %1)"
 msgstr "OK (executou por %1)"
 
@@ -908,7 +909,7 @@ msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "Apenas o último pedaço de conteúdo a ser concatenado pode ter um corte de fim"
 
-#: src/lib/job.cc:168
+#: src/lib/job.cc:170
 msgid "Out of memory"
 msgstr "Sem memória"
 
@@ -1080,7 +1081,7 @@ msgstr "Teste"
 msgid "Text subtitles"
 msgstr "Legendas texto"
 
-#: src/lib/film.cc:1549
+#: src/lib/film.cc:1553
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1092,11 +1093,11 @@ msgid ""
 "existing DCP' checkboxes."
 msgstr ""
 
-#: src/lib/dcp_content.cc:502
+#: src/lib/dcp_content.cc:504
 msgid "The DCP does not have sound in all reels."
 msgstr "O DCP não tem som em todos os rolos"
 
-#: src/lib/dcp_content.cc:523
+#: src/lib/dcp_content.cc:525
 msgid "The DCP does not have subtitles in all reels."
 msgstr "O DCP não tem legendas em todos os rolos"
 
@@ -1117,19 +1118,19 @@ msgstr ""
 "O drive que contém o filme está com pouco espaço. Libere espaço e tente "
 "novamente."
 
-#: src/lib/dcp_content.cc:445
+#: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:438
+#: src/lib/dcp_content.cc:440
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr "O filme está configurado como Interop e este DCP é SMPTE"
 
-#: src/lib/dcp_content.cc:435
+#: src/lib/dcp_content.cc:437
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "O filme está configurado como SMPTE e este DCP é Interop"
 
-#: src/lib/dcp_content.cc:464
+#: src/lib/dcp_content.cc:466
 #, fuzzy
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
@@ -1138,23 +1139,23 @@ msgstr ""
 "Duração de rolos no filme diferem da duração no DCP; coloque o modo 'Rolos' "
 "em 'Dividir por arquivo de vídeo'."
 
-#: src/lib/dcp_content.cc:482
+#: src/lib/dcp_content.cc:484
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr ""
 
-#: src/lib/dcp_content.cc:507
+#: src/lib/dcp_content.cc:509
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Há outros conteúdos de áudio sobrepostos neste DCP. Remova-os."
 
-#: src/lib/dcp_content.cc:528
+#: src/lib/dcp_content.cc:530
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Há outros conteúdos de legenda sobrepostos neste DCP. Remova-os."
 
-#: src/lib/dcp_content.cc:486
+#: src/lib/dcp_content.cc:488
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Há outros conteúdos de vídeo sobrepostos neste DCP. Remova-os."
 
-#: src/lib/job.cc:168
+#: src/lib/job.cc:170
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1210,11 +1211,11 @@ msgstr "Conteúdo inesperado no arquivo ZIP"
 msgid "Unexpected image type received by server"
 msgstr "Tipo de imagem inesperada recebida pelo servidor"
 
-#: src/lib/job.cc:185
+#: src/lib/job.cc:187
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/lib/ffmpeg_decoder.cc:314
+#: src/lib/ffmpeg_decoder.cc:318
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Formato de amostragem de áudio desconhecido (%1)"
 
@@ -1317,6 +1318,11 @@ msgid ""
 "audio content."
 msgstr ""
 
+#: src/lib/config.cc:241
+msgid ""
+"Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
 msgstr "[imagens em movimento]"
@@ -1357,7 +1363,7 @@ msgstr "copiando %1"
 msgid "could not find stream information"
 msgstr "não foi possível encontrar informação do stream"
 
-#: src/lib/reel_writer.cc:325
+#: src/lib/reel_writer.cc:337
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "não foi possível mover asset de áudio no DCP (%1)"
 

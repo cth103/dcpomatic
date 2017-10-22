@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-15 15:22+0100\n"
+"POT-Creation-Date: 2017-10-22 20:34+0100\n"
 "PO-Revision-Date: 2017-05-14 22:22+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -64,11 +64,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:432
+#: src/lib/job.cc:434
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:725
+#: src/lib/config.cc:751
 #, fuzzy
 msgid ""
 "$CPL_NAME\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:210
+#: src/lib/dcp_content.cc:212
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -165,7 +165,7 @@ msgstr "Подавитель шума 3D"
 msgid "; %.1f fps"
 msgstr "; %.1f кадр/сек"
 
-#: src/lib/job.cc:437
+#: src/lib/job.cc:439
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 осталось; время завершения %2%3"
 
@@ -287,7 +287,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:446
+#: src/lib/job.cc:448
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -498,7 +498,7 @@ msgstr ""
 "Не удалось достучаться до удалённого сервера кодирования. Возможно работает "
 "ещё одна копия DCP-o-matic."
 
-#: src/lib/job.cc:121 src/lib/job.cc:135
+#: src/lib/job.cc:121 src/lib/job.cc:136
 msgid "Could not open %1"
 msgstr "Не удалось открыть %1"
 
@@ -568,10 +568,11 @@ msgstr "DCP будет воспроизводиться на %1%% от скор�
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP будет использовать каждый второй кадр контента.\n"
 
-#: src/lib/job.cc:123 src/lib/job.cc:137
+#: src/lib/job.cc:123 src/lib/job.cc:138
+#, fuzzy
 msgid ""
-"DCP-o-matic could not open the file %1.  Perhaps it does not exist or is in "
-"an unexpected format."
+"DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
+"is in an unexpected format."
 msgstr ""
 "DCP-o-matic не удалось открыть файл %1. Возможно он не существует или имеет "
 "неожиданный формат."
@@ -586,7 +587,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:705
+#: src/lib/config.cc:731
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -652,7 +653,7 @@ msgstr "Кодирование"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Ошибка в файле субтитров: найдено %1, в то время как ожидается %2"
 
-#: src/lib/job.cc:444
+#: src/lib/job.cc:446
 msgid "Error: %1"
 msgstr "Ошибка: (%1)"
 
@@ -768,11 +769,11 @@ msgstr "IEC61966-2-1 (sRGB или sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/job.cc:144 src/lib/job.cc:176 src/lib/job.cc:186
+#: src/lib/job.cc:146 src/lib/job.cc:178 src/lib/job.cc:188
 msgid "It is not known what caused this error."
 msgstr "Неизвестно, что вызвало эту ошибку."
 
-#: src/lib/config.cc:267 src/lib/config.cc:702
+#: src/lib/config.cc:284 src/lib/config.cc:728
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -896,7 +897,7 @@ msgstr "Подавление шума"
 msgid "None"
 msgstr "Ничего"
 
-#: src/lib/job.cc:442
+#: src/lib/job.cc:444
 msgid "OK (ran for %1)"
 msgstr "Готово! (выполнено за %1)"
 
@@ -908,7 +909,7 @@ msgstr "Только первый элемент контента может и�
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Только последний элемент контента может иметь обрезку с конца."
 
-#: src/lib/job.cc:168
+#: src/lib/job.cc:170
 msgid "Out of memory"
 msgstr "Недостаточно памяти (Out of memory)"
 
@@ -1078,7 +1079,7 @@ msgstr "TST (Тестовый)"
 msgid "Text subtitles"
 msgstr "Текстовые субтитры"
 
-#: src/lib/film.cc:1549
+#: src/lib/film.cc:1553
 msgid ""
 "The DCP %1 was being referred to by this film.  This not now possible "
 "because the reel sizes in the film no longer agree with those in the "
@@ -1098,11 +1099,11 @@ msgstr ""
 "Сделав это, вам потребуется повторно отметить необходимые чекбоксы "
 "\"ссылаться на\"."
 
-#: src/lib/dcp_content.cc:502
+#: src/lib/dcp_content.cc:504
 msgid "The DCP does not have sound in all reels."
 msgstr "Во всех бобинах данного DCP отсутствует звук."
 
-#: src/lib/dcp_content.cc:523
+#: src/lib/dcp_content.cc:525
 msgid "The DCP does not have subtitles in all reels."
 msgstr "Во всех бобинах данного DCP отсутствуют субтитры."
 
@@ -1122,19 +1123,19 @@ msgstr ""
 "На устройство, на котором хранится проект, заканчивается место. Освободите "
 "немного места и попробуйте снова."
 
-#: src/lib/dcp_content.cc:445
+#: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr "Частота кадров проекта отличается от частоты кадров DCP."
 
-#: src/lib/dcp_content.cc:438
+#: src/lib/dcp_content.cc:440
 msgid "The film is set to Interop and this DCP is SMPTE."
 msgstr "Проект установлен в Interop , а этот DCP является SMPTE."
 
-#: src/lib/dcp_content.cc:435
+#: src/lib/dcp_content.cc:437
 msgid "The film is set to SMPTE and this DCP is Interop."
 msgstr "Проект установлен в SMPTE, а этот DCP является Interop."
 
-#: src/lib/dcp_content.cc:464
+#: src/lib/dcp_content.cc:466
 msgid ""
 "The reel lengths in the film differ from those in the DCP; set the reel mode "
 "to 'split by video content'."
@@ -1142,23 +1143,23 @@ msgstr ""
 "Длительности бобин в проекте отличаются от таковых в DCP; установите режим "
 "бобины \"Разделять по видео-контенту\"."
 
-#: src/lib/dcp_content.cc:482
+#: src/lib/dcp_content.cc:484
 msgid "The video frame size in the film differs from that in the DCP."
 msgstr "Размер кадра видео в проекте отличается от размера видео DCP."
 
-#: src/lib/dcp_content.cc:507
+#: src/lib/dcp_content.cc:509
 msgid "There is other audio content overlapping this DCP; remove it."
 msgstr "Присутствует другое аудио, перекрывающее этот DCP. Уберите его!"
 
-#: src/lib/dcp_content.cc:528
+#: src/lib/dcp_content.cc:530
 msgid "There is other subtitle content overlapping this DCP; remove it."
 msgstr "Присутствуют другие субтитрі, перекрывающие этот DCP. Уберите их!"
 
-#: src/lib/dcp_content.cc:486
+#: src/lib/dcp_content.cc:488
 msgid "There is other video content overlapping this DCP; remove it."
 msgstr "Присутствует другое видео, перекрывающее этот DCP. Уберите его!"
 
-#: src/lib/job.cc:168
+#: src/lib/job.cc:170
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1214,11 +1215,11 @@ msgstr "Неожиданное содержимое ZIP-файла"
 msgid "Unexpected image type received by server"
 msgstr "Сервером получен неожиданный тип изображения."
 
-#: src/lib/job.cc:185
+#: src/lib/job.cc:187
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: src/lib/ffmpeg_decoder.cc:314
+#: src/lib/ffmpeg_decoder.cc:318
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Нераспознанный формат аудио (%1)"
 
@@ -1343,6 +1344,11 @@ msgstr ""
 "Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
 "громкости вашего аудио-контента."
 
+#: src/lib/config.cc:241
+msgid ""
+"Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
 msgstr "[последовательность]"
@@ -1383,7 +1389,7 @@ msgstr "копирование %1"
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
-#: src/lib/reel_writer.cc:325
+#: src/lib/reel_writer.cc:337
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "не удалось переместить аудио в DCP-пакет (%1)"
 
