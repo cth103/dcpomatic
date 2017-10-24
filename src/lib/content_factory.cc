@@ -40,6 +40,8 @@
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/algorithm/string.hpp>
 
+#include "i18n.h"
+
 using std::string;
 using std::list;
 using boost::shared_ptr;
@@ -95,6 +97,26 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		content.reset (new VideoMXFContent (film, node, version));
 	} else if (type == "AtmosMXF") {
 		content.reset (new AtmosMXFContent (film, node, version));
+	}
+
+	/* See if this content should be nudged to start on a video frame */
+	DCPTime const old_pos = content->position();
+	content->set_position(old_pos);
+	if (old_pos != content->position()) {
+		string note = _("Your project contains video content that was not aligned to a frame boundary.");
+		note += "  ";
+		if (old_pos < content->position()) {
+			note += String::compose(
+				_("The file %1 has been moved %2 milliseconds later."),
+				content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
+				);
+		} else {
+			note += String::compose(
+				_("The file %1 has been moved %2 milliseconds earlier."),
+				content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
+				);
+		}
+		notes.push_back (note);
 	}
 
 	return content;
