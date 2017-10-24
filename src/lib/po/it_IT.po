@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-22 20:34+0100\n"
+"POT-Creation-Date: 2017-10-24 21:11+0100\n"
 "PO-Revision-Date: 2016-10-28 15:19+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -1108,6 +1108,14 @@ msgstr ""
 "Sul disco dove è memorizzato il film non c'è abbastanza spazio. Liberare "
 "altro spazio e riprovare."
 
+#: src/lib/content_factory.cc:115
+msgid "The file %1 has been moved %2 milliseconds earlier."
+msgstr ""
+
+#: src/lib/content_factory.cc:110
+msgid "The file %1 has been moved %2 milliseconds later."
+msgstr ""
+
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr "Il film ha un frame rate diverso rispetto a questo DCP."
@@ -1329,6 +1337,11 @@ msgstr ""
 #: src/lib/config.cc:241
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
+#: src/lib/content_factory.cc:106
+msgid ""
+"Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
 #: src/lib/image_content.cc:81

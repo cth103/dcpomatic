@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-22 20:34+0100\n"
+"POT-Creation-Date: 2017-10-24 21:11+0100\n"
 "PO-Revision-Date: 2017-10-09 11:16+0200\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -1103,6 +1103,14 @@ msgstr ""
 "Disk, na kterém se nachází film už má málo volného místa. Uvolněte místo a "
 "zkuste to znovu."
 
+#: src/lib/content_factory.cc:115
+msgid "The file %1 has been moved %2 milliseconds earlier."
+msgstr ""
+
+#: src/lib/content_factory.cc:110
+msgid "The file %1 has been moved %2 milliseconds later."
+msgstr ""
+
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr "Film má jiný frame rate za sekundu než toto DCP."
@@ -1322,6 +1330,11 @@ msgstr ""
 #: src/lib/config.cc:241
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
+#: src/lib/content_factory.cc:106
+msgid ""
+"Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
 #: src/lib/image_content.cc:81

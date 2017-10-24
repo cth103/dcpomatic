@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-22 20:34+0100\n"
+"POT-Creation-Date: 2017-10-24 21:11+0100\n"
 "PO-Revision-Date: 2017-06-30 06:26+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -1133,6 +1133,14 @@ msgstr ""
 "De harddisk waarop de film is opgeslagen heeft te weinig vrije ruimte.  Maak "
 "meer ruimte vrij en probeer opnieuw."
 
+#: src/lib/content_factory.cc:115
+msgid "The file %1 has been moved %2 milliseconds earlier."
+msgstr ""
+
+#: src/lib/content_factory.cc:110
+msgid "The file %1 has been moved %2 milliseconds later."
+msgstr ""
+
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr "De film heeft een andere frame rate dan deze DCP."
@@ -1357,6 +1365,11 @@ msgstr ""
 #: src/lib/config.cc:241
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
+#: src/lib/content_factory.cc:106
+msgid ""
+"Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
 #: src/lib/image_content.cc:81

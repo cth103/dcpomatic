@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-22 20:34+0100\n"
+"POT-Creation-Date: 2017-10-24 21:11+0100\n"
 "PO-Revision-Date: 2017-08-25 23:10-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -1112,6 +1112,14 @@ msgstr ""
 "En el dispositivo donde se encuentra la película queda poco espacio. Libere "
 "espacio en el disco y pruebe de nuevo."
 
+#: src/lib/content_factory.cc:115
+msgid "The file %1 has been moved %2 milliseconds earlier."
+msgstr ""
+
+#: src/lib/content_factory.cc:110
+msgid "The file %1 has been moved %2 milliseconds later."
+msgstr ""
+
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
 msgstr "La película tiene una velocidad diferente a este DCP."
@@ -1331,6 +1339,11 @@ msgstr ""
 #: src/lib/config.cc:241
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
+msgstr ""
+
+#: src/lib/content_factory.cc:106
+msgid ""
+"Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
 
 #: src/lib/image_content.cc:81
