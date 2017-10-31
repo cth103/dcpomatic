@@ -422,25 +422,6 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file, string
 	m.write (file.string ());
 }
 
-static
-void
-check_ffmpeg_stream (boost::filesystem::path ref, boost::filesystem::path check, string stream)
-{
-	FILE* ref_file = popen(string("ffmpeg -loglevel error -i " + ref.string() + " -map 0:" + stream + " -f md5 -").c_str(), "r");
-	BOOST_REQUIRE (ref_file);
-	char ref_md5[64];
-	fscanf (ref_file, "%63s", ref_md5);
-	pclose (ref_file);
-
-	FILE* check_file = popen(string("ffmpeg -loglevel error -i " + check.string() + " -map 0:" + stream + " -f md5 -").c_str(), "r");
-	BOOST_REQUIRE (check_file);
-	char check_md5[64];
-	fscanf (check_file, "%63s", check_md5);
-	pclose (check_file);
-
-	BOOST_REQUIRE_EQUAL (strcmp(ref_md5, check_md5), 0);
-}
-
 void
 check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check)
 {
