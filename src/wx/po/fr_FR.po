@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-24 21:11+0100\n"
-"PO-Revision-Date: 2017-08-16 15:02+0100\n"
+"PO-Revision-Date: 2017-11-07 23:37+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -1192,7 +1192,7 @@ msgstr "Qualité JPEG2000 Maxi"
 
 #: src/wx/full_config_dialog.cc:969
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "Nombre maximum d'images à gérer par processus"
 
 #: src/wx/dcp_panel.cc:684 src/wx/full_config_dialog.cc:315
 #: src/wx/full_config_dialog.cc:956
@@ -1247,18 +1247,18 @@ msgstr "DEMANDE de KDM:"
 msgid "NEEDS OV: "
 msgstr "OV Nécessaire:"
 
-#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72 src/wx/screen_dialog.cc:68
+#: src/wx/cinema_dialog.cc:50 src/wx/dcp_panel.cc:72
+#: src/wx/screen_dialog.cc:68
 msgid "Name"
 msgstr "Nom"
 
 #: src/wx/player_information.cc:104
-#, fuzzy
 msgid "Needs KDM"
-msgstr "Selectionner KDM"
+msgstr "Nécessite une KDM"
 
 #: src/wx/player_information.cc:99
 msgid "Needs OV"
-msgstr ""
+msgstr "Nécessite une OV"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "New name"
@@ -1413,9 +1413,8 @@ msgid "Play length"
 msgstr "Durée finale"
 
 #: src/wx/config_dialog.cc:147
-#, fuzzy
 msgid "Play sound via"
-msgstr "Lire le son lors de la prévisualisation par "
+msgstr "Lire le son par"
 
 #: src/wx/report_problem_dialog.cc:104
 msgid ""
