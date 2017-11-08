@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-24 21:11+0100\n"
-"PO-Revision-Date: 2017-06-30 06:26+0200\n"
+"PO-Revision-Date: 2017-11-04 14:03+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -568,13 +568,12 @@ msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP zal om het andere frame van de content gebruiken.\n"
 
 #: src/lib/job.cc:123 src/lib/job.cc:138
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic kan het bestand %1 niet openen.  Misschien bestaat het niet of "
-"wordt het formaat niet ondersteund."
+"DCP-o-matic kan het bestand %1 (%2) niet openen.  Misschien bestaat het niet "
+"of wordt het formaat niet ondersteund."
 
 #: src/lib/ffmpeg_content.cc:103
 msgid ""
@@ -1135,11 +1134,11 @@ msgstr ""
 
 #: src/lib/content_factory.cc:115
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr ""
+msgstr "Het bestand %1 is naar %2 milliseconden eerder verplaatst."
 
 #: src/lib/content_factory.cc:110
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr ""
+msgstr "Het bestand %1 is naar %2 milliseconden later verplaatst."
 
 #: src/lib/dcp_content.cc:447
 msgid "The film has a different frame rate to this DCP."
@@ -1365,12 +1364,13 @@ msgstr ""
 #: src/lib/config.cc:241
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
-msgstr ""
+msgstr "Uw standaardcontainer is niet geldig en is gewijzigd in Flat (1,85:1)"
 
 #: src/lib/content_factory.cc:106
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr ""
+"Uw project bevat video-content die niet was uitgelijnd op een framegrens."
 
 #: src/lib/image_content.cc:81
 msgid "[moving images]"
