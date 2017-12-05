@@ -274,6 +274,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	supported_by.Add (wxT ("Andrea Pieri"));
 	supported_by.Add (wxT ("Denis Postle"));
 	supported_by.Add (wxT ("Aditya Pratama"));
+	supported_by.Add (wxT ("ProCinema GmbH"));
 	supported_by.Add (wxT ("Ceridwen Productions"));
 	supported_by.Add (wxT ("Ivan Pullman"));
 	supported_by.Add (wxT ("Arts Quest"));
