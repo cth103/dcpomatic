@@ -143,7 +143,7 @@ File "%static_deps%/bin/icuin56.dll"
 File "%static_deps%/bin/liblzma-5.dll"
 File "%static_deps%/bin/libpcre-1.dll"
 File "%static_deps%/bin/libharfbuzz-0.dll"
-File "%static_deps%/bin/libjasper-1.dll"
+File "%static_deps%/bin/libjasper.dll"
 File "%static_deps%/bin/liblcms2-2.dll"
 File "%static_deps%/bin/libwinpthread-1.dll"
 File "%static_deps%/bin/libgnutls-30.dll"
@@ -154,7 +154,7 @@ File "%static_deps%/bin/libunistring-2.dll"
 File "%static_deps%/bin/libssh2-1.dll"
 File "%static_deps%/bin/libgcrypt-20.dll"
 """, file=f)
-    
+
     if bits == 32:
         print('File "%static_deps%/bin/libgpg-error-0.dll"', file=f)
     else:
