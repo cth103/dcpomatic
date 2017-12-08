@@ -43,6 +43,10 @@ namespace dcp {
 	class SoundAsset;
 }
 
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
+
 /** The maximum number of audio channels that we can have in a DCP */
 #define MAX_DCP_AUDIO_CHANNELS 16
 /** Message broadcast to find possible encoding servers */
