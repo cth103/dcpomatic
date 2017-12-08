@@ -162,7 +162,7 @@ File "%static_deps%/bin/libgcrypt-20.dll"
 
     print("""
 File "%static_deps%/bin/libpangoft2-1.0-0.dll"
-File "%static_deps%/bin/libx264-148.dll"
+File "%static_deps%/bin/libx264-152.dll"
 
 File "%cdist_deps%/bin/asdcp-cth.dll"
 File "%cdist_deps%/bin/kumu-cth.dll"
