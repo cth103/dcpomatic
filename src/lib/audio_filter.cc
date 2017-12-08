@@ -20,6 +20,7 @@
 
 #include "audio_filter.h"
 #include "audio_buffers.h"
+#include "util.h"
 #include <cmath>
 
 using std::min;
