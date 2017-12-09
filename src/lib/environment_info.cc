@@ -117,6 +117,21 @@ environment_info ()
 			(int) os_info.dwMajorVersion, (int) os_info.dwMinorVersion, (int) os_info.dwBuildNumber
 			)
 		);
+	if (os_info.dwMajorVersion == 5 && os_info.dwMinorVersion == 0) {
+		info.push_back ("Windows 2000");
+	} else if (os_info.dwMajorVersion == 5 && os_info.dwMinorVersion == 1) {
+		info.push_back ("Windows XP");
+	} else if (os_info.dwMajorVersion == 5 && os_info.dwMinorVersion == 2) {
+		info.push_back ("Windows XP 64-bit or Windows Server 2003");
+	} else if (os_info.dwMajorVersion == 6 && os_info.dwMinorVersion == 0) {
+		info.push_back ("Windows Vista or Windows Server 2008");
+	} else if (os_info.dwMajorVersion == 6 && os_info.dwMinorVersion == 1) {
+		info.push_back ("Windows 7 or Windows Server 2008");
+	} else if (os_info.dwMajorVersion == 6 && (os_info.dwMinorVersion == 2 || os_info.dwMinorVersion == 3)) {
+		info.push_back ("Windows 8 or Windows Server 2012");
+	} else if (os_info.dwMajorVersion == 10 && os_info.dwMinorVersion == 0) {
+		info.push_back ("Windows 10 or Windows Server 2016");
+	}
 #endif
 
 #if __GNUC__
