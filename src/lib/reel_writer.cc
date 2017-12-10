@@ -493,7 +493,12 @@ ReelWriter::create_reel (list<ReferencedReelAsset> const & refs, list<shared_ptr
 	}
 
 	if (reel_subtitle_asset) {
-		DCPOMATIC_ASSERT (reel_subtitle_asset->duration() == period_duration);
+		if (reel_subtitle_asset->duration() != period_duration) {
+			throw ProgrammingError (
+				__FILE__, __LINE__,
+				String::compose ("%1 vs %2", reel_subtitle_asset->duration(), period_duration)
+				);
+		}
 		reel->add (reel_subtitle_asset);
 	}
 
