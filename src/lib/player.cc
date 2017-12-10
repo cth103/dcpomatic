@@ -151,6 +151,7 @@ Player::setup_pieces ()
 		}
 	}
 
+	_stream_states.clear ();
 	BOOST_FOREACH (shared_ptr<Piece> i, _pieces) {
 		if (i->content->audio) {
 			BOOST_FOREACH (AudioStreamPtr j, i->content->audio->streams()) {
