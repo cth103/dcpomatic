@@ -210,6 +210,11 @@ Content::set_position (DCPTime p)
 void
 Content::set_trim_start (ContentTime t)
 {
+	/* video content can modify its start trim */
+	if (video) {
+		video->modify_trim_start (t);
+	}
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_trim_start = t;

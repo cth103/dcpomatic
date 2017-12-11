@@ -544,3 +544,9 @@ VideoContent::modify_position (DCPTime& pos) const
 {
 	pos = pos.ceil (_parent->film()->video_frame_rate());
 }
+
+void
+VideoContent::modify_trim_start (ContentTime& trim) const
+{
+	trim = trim.ceil (_parent->video_frame_rate().get());
+}

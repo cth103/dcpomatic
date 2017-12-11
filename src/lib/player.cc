@@ -346,8 +346,8 @@ DCPTime
 Player::content_video_to_dcp (shared_ptr<const Piece> piece, Frame f) const
 {
 	/* See comment in dcp_to_content_video */
-	DCPTime const d = DCPTime::from_frames (f * piece->frc.factor(), piece->frc.dcp) - DCPTime (piece->content->trim_start (), piece->frc);
-	return max (DCPTime (), d + piece->content->position ());
+	DCPTime const d = DCPTime::from_frames (f * piece->frc.factor(), piece->frc.dcp) - DCPTime(piece->content->trim_start(), piece->frc);
+	return d + piece->content->position();
 }
 
 Frame

@@ -119,6 +119,26 @@ content_factory (shared_ptr<const Film> film, cxml::NodePtr node, int version, l
 		notes.push_back (note);
 	}
 
+	/* ...or have a start trim which is an integer number of frames */
+	ContentTime const old_trim = content->trim_start();
+	content->set_trim_start(old_trim);
+	if (old_trim != content->trim_start()) {
+		string note = _("Your project contains video content whose trim was not aligned to a frame boundary.");
+		note += "  ";
+		if (old_trim < content->trim_start()) {
+			note += String::compose(
+				_("The file %1 has been trimmed by %2 milliseconds more."),
+				content->path_summary(), ContentTime(content->trim_start() - old_trim).seconds() * 1000
+				);
+		} else {
+			note += String::compose(
+				_("The file %1 has been trimmed by %2 milliseconds less."),
+				content->path_summary(), ContentTime(old_trim - content->trim_start()).seconds() * 1000
+				);
+		}
+		notes.push_back (note);
+	}
+
 	return content;
 }
 
