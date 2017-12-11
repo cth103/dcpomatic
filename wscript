@@ -50,6 +50,7 @@ def options(opt):
     opt.add_option('--static-sub',        action='store_true', default=False, help='link statically to libsub')
     opt.add_option('--static-curl',       action='store_true', default=False, help='link statically to libcurl')
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
+    opt.add_option('--force-cpp11',       action='store_true', default=False, help='force use of C++11')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -82,6 +83,9 @@ def configure(conf):
                                        # Remove auto_ptr warnings from libxml++-2.6
                                        '-Wno-deprecated-declarations',
                                        '-D_FILE_OFFSET_BITS=64'])
+
+    if conf.options.force_cpp11:
+        conf.env.append_value('CXXFLAGS', ['-std=c++11', '-DBOOST_NO_CXX11_SCOPED_ENUMS'])
 
     gcc = conf.env['CC_VERSION']
     if int(gcc[0]) >= 4 and int(gcc[1]) > 1:
