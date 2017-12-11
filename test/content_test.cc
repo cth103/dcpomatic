@@ -26,6 +26,7 @@
 #include "lib/film.h"
 #include "lib/dcp_content_type.h"
 #include "lib/content_factory.h"
+#include "lib/content.h"
 #include "lib/ratio.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -59,4 +60,19 @@ BOOST_AUTO_TEST_CASE (content_test1)
 	}
 
 	check_mxf_audio_file ("test/data/content_test1.mxf", check);
+}
+
+/** Taking some 23.976fps content and trimming 0.5s (in content time) from the start
+ *  has failed in the past; ensure that this is fixed.
+ */
+BOOST_AUTO_TEST_CASE (content_test2)
+{
+	shared_ptr<Film> film = new_test_film2 ("content_test2");
+
+	shared_ptr<Content> content = content_factory(film, "test/data/red_23976.mp4").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs ());
+	content->set_trim_start(ContentTime::from_seconds(0.5));
+	film->make_dcp ();
+	BOOST_REQUIRE (!wait_for_jobs ());
 }
