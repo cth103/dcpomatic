@@ -253,7 +253,7 @@ FilmViewer::recreate_butler ()
 	}
 
 	_butler.reset (new Butler (_player, _film->log(), map, _audio_channels));
-	if (!Config::instance()->sound()) {
+	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
 		_butler->disable_audio ();
 	}
 
@@ -743,8 +743,6 @@ FilmViewer::config_changed (Config::Property p)
 
 		_audio_channels = _audio.getDeviceInfo(st).outputChannels;
 
-		recreate_butler ();
-
 		RtAudio::StreamParameters sp;
 		sp.deviceId = st;
 		sp.nChannels = _audio_channels;
@@ -761,6 +759,7 @@ FilmViewer::config_changed (Config::Property p)
 				wxString::Format (_("Could not set up audio output (%s).  There will be no audio during the preview."), e.what())
 				);
 		}
+		recreate_butler ();
 
 	} else {
 		_audio_channels = 0;
