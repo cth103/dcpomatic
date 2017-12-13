@@ -101,12 +101,18 @@ Butler::should_run () const
 		LOG_WARNING ("Butler audio buffers reached %1 frames", _audio.size());
 	}
 
-	return (_video.size() < MINIMUM_VIDEO_READAHEAD || (!_disable_audio && _audio.size() < MINIMUM_AUDIO_READAHEAD))
-		&& (_video.size() < MAXIMUM_VIDEO_READAHEAD)
-		&& (_audio.size() < MAXIMUM_AUDIO_READAHEAD)
-		&& !_stop_thread
-		&& !_finished
-		&& !_died;
+	if (_stop_thread || _finished || _died) {
+		/* Definitely do not run */
+		return false;
+	}
+
+	if (_video.size() < MINIMUM_VIDEO_READAHEAD || (!_disable_audio && _audio.size() < MINIMUM_AUDIO_READAHEAD)) {
+		/* Definitely do run: we need data */
+		return true;
+	}
+
+	/* Run if we aren't full of video or audio */
+	return (_video.size() < MAXIMUM_VIDEO_READAHEAD) && (_audio.size() < MAXIMUM_AUDIO_READAHEAD);
 }
 
 void
