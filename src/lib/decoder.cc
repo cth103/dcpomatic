@@ -52,6 +52,9 @@ Decoder::position () const
 void
 Decoder::seek (ContentTime, bool)
 {
+	if (video) {
+		video->seek ();
+	}
 	if (audio) {
 		audio->seek ();
 	}

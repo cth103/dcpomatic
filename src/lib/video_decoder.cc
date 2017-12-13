@@ -101,3 +101,10 @@ VideoDecoder::emit (shared_ptr<const ImageProxy> image, Frame frame)
 		_position = ContentTime::from_frames (frame, _content->active_video_frame_rate ());
 	}
 }
+
+void
+VideoDecoder::seek ()
+{
+	_position = ContentTime();
+	_last_emitted.reset ();
+}
