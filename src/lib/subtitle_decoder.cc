@@ -40,10 +40,12 @@ using boost::function;
 SubtitleDecoder::SubtitleDecoder (
 	Decoder* parent,
 	shared_ptr<const SubtitleContent> c,
-	shared_ptr<Log> log
+	shared_ptr<Log> log,
+	ContentTime first
 	)
 	: DecoderPart (parent, log)
 	, _content (c)
+	, _position (first)
 {
 
 }

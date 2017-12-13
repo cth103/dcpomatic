@@ -30,11 +30,15 @@ using boost::bind;
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const DCPSubtitleContent> content, shared_ptr<Log> log)
 {
-	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log));
-
 	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
+
+	ContentTime first;
+	if (_next != _subtitles.end()) {
+		first = content_time_period(*_next).from;
+	}
+	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log, first));
 }
 
 void

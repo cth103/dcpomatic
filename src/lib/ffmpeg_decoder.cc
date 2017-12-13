@@ -98,7 +98,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const FFmpegContent> c, shared_ptr<Log>
 	}
 
 	if (c->subtitle) {
-		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
+		/* XXX: this time here should be the time of the first subtitle, not 0 */
+		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log, ContentTime()));
 	}
 
 	_next_time.resize (_format_context->nb_streams);

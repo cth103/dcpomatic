@@ -38,14 +38,11 @@ class Image;
 class SubtitleDecoder : public DecoderPart
 {
 public:
-	/** Second parameter to the _during functions is true if we
-	 *  want only subtitles that start during the period,
-	 *  otherwise we want subtitles that overlap the period.
-	 */
 	SubtitleDecoder (
 		Decoder* parent,
 		boost::shared_ptr<const SubtitleContent>,
-		boost::shared_ptr<Log> log
+		boost::shared_ptr<Log> log,
+		ContentTime first
 		);
 
 	ContentTime position () const {

@@ -38,7 +38,11 @@ TextSubtitleDecoder::TextSubtitleDecoder (shared_ptr<const TextSubtitleContent> 
 	: TextSubtitle (content)
 	, _next (0)
 {
-	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log));
+	ContentTime first;
+	if (!_subtitles.empty()) {
+		first = content_time_period(_subtitles[0]).from;
+	}
+	subtitle.reset (new SubtitleDecoder (this, content->subtitle, log, first));
 }
 
 void

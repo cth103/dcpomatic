@@ -59,7 +59,8 @@ DCPDecoder::DCPDecoder (shared_ptr<const DCPContent> c, shared_ptr<Log> log, boo
 		audio.reset (new AudioDecoder (this, c->audio, log, fast));
 	}
 	if (c->subtitle) {
-		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log));
+		/* XXX: this time here should be the time of the first subtitle, not 0 */
+		subtitle.reset (new SubtitleDecoder (this, c->subtitle, log, ContentTime()));
 	}
 
 	shared_ptr<dcp::CPL> cpl;
