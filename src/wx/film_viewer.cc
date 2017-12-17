@@ -191,6 +191,10 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	update_position_label ();
 
 	if (!_film) {
+		_player.reset ();
+		recreate_butler ();
+		_frame.reset ();
+		refresh_panel ();
 		return;
 	}
 

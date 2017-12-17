@@ -90,6 +90,7 @@ PlayerInformation::triggered_update ()
 		for (int r = 1; r < dcp_lines; ++r) {
 			checked_set (_dcp[r], wxT(""));
 		}
+		checked_set (_decode_resolution, wxT(""));
 		return;
 	}
 

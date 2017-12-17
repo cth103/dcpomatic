@@ -1,5 +1,7 @@
 2017-12-17  Carl Hetherington  <cth@carlh.net>
 
+	* Add Close option to player.
+
 	* Display decode resolution in the player.
 
 2017-12-13  Carl Hetherington  <cth@carlh.net>

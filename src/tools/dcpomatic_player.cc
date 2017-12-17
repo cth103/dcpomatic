@@ -62,6 +62,7 @@ enum {
 	ID_file_open = 1,
 	ID_file_add_ov,
 	ID_file_add_kdm,
+	ID_file_close,
 	ID_view_scale_appropriate,
 	ID_view_scale_full,
 	ID_view_scale_half,
@@ -99,6 +100,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_kdm, this), ID_file_add_kdm);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>()), ID_view_scale_appropriate);
@@ -171,6 +173,9 @@ private:
 		file->Append (ID_file_open, _("&Open...\tCtrl-O"));
 		file->Append (ID_file_add_ov, _("&Add OV..."));
 		file->Append (ID_file_add_kdm, _("&Add KDM..."));
+		file->AppendSeparator ();
+		file->Append (ID_file_close, _("&Close"));
+		file->AppendSeparator ();
 
 #ifdef __WXOSX__
 		file->Append (wxID_EXIT, _("&Exit"));
@@ -288,6 +293,12 @@ private:
 		}
 
 		d->Destroy ();
+		_info->triggered_update ();
+	}
+
+	void file_close ()
+	{
+		_viewer->set_film (shared_ptr<Film>());
 		_info->triggered_update ();
 	}
 
