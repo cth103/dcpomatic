@@ -127,6 +127,7 @@ public:
 	void set_decode_reduction (optional<int> reduction)
 	{
 		_viewer->set_dcp_decode_reduction (reduction);
+		_info->triggered_update ();
 	}
 
 	void load_dcp (boost::filesystem::path dir)

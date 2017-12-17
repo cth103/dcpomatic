@@ -38,5 +38,6 @@ private:
 	wxSizer* _sizer;
 	wxStaticText** _dcp;
 	wxStaticText* _dropped;
+	wxStaticText* _decode_resolution;
 	boost::scoped_ptr<wxTimer> _timer;
 };

@@ -57,6 +57,7 @@ public:
 	void set_position (DCPTime p);
 	void set_coalesce_player_changes (bool c);
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
+	boost::optional<int> dcp_decode_reduction () const;
 
 	void refresh ();
 

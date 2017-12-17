@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -817,6 +817,12 @@ FilmViewer::set_dcp_decode_reduction (optional<int> reduction)
 	if (_player) {
 		_player->set_dcp_decode_reduction (reduction);
 	}
+}
+
+optional<int>
+FilmViewer::dcp_decode_reduction () const
+{
+	return _dcp_decode_reduction;
 }
 
 DCPTime

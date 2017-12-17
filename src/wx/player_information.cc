@@ -55,6 +55,7 @@ PlayerInformation::PlayerInformation (wxWindow* parent, FilmViewer* viewer)
 		wxSizer* s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
 		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
+		_decode_resolution = add_label_to_sizer(s, this, wxT(""), false, 0);
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
@@ -120,4 +121,13 @@ PlayerInformation::triggered_update ()
 			dcp->full_length().frames_round(*vfr)
 			)
 		);
+
+	dcp::Size decode = dcp->video->size();
+	optional<int> reduction = _viewer->dcp_decode_reduction();
+	if (reduction) {
+		decode.width /= pow(2, *reduction);
+		decode.height /= pow(2, *reduction);
+	}
+
+	checked_set (_decode_resolution, wxString::Format(_("Decode resolution: %dx%d"), decode.width, decode.height));
 }
