@@ -28,15 +28,17 @@
 /* ImageMagick */
 #ifdef DCPOMATIC_MAGICKCORE_MAGICK
 #include <magick/MagickCore.h>
+#include <magick/version.h>
 #else
 #include <MagickCore/MagickCore.h>
+#include <MagickCore/version.h>
 #endif
 #else
 /* GraphicsMagick */
 #include <magick/common.h>
 #include <magick/magick_config.h>
-#endif
 #include <magick/version.h>
+#endif
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
