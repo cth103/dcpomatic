@@ -233,6 +233,29 @@ def configure(conf):
                    includes=conf.env['INCLUDES_MAGICK'],
                    define_name='DCPOMATIC_HAVE_MAGICKLIB_NAMESPACE')
 
+    # See where MagickCore.h is
+    conf.check_cxx(fragment="""
+                            #include <magick/MagickCore.h>\n
+                            int main() { return 0; }\n
+                            """,
+                   mandatory=False,
+                   msg='Checking for MagickCore.h location',
+                   okmsg='magick',
+                   errmsg='not magick',
+                   includes=conf.env['INCLUDES_MAGICK'],
+                   define_name='DCPOMATIC_MAGICKCORE_MAGICK')
+
+    conf.check_cxx(fragment="""
+                            #include <MagickCore/MagickCore.h>\n
+                            int main() { return 0; }\n
+                            """,
+                   mandatory=False,
+                   msg='Checking for MagickCore.h location',
+                   okmsg='MagickCore',
+                   errmsg='not MagickCore',
+                   includes=conf.env['INCLUDES_MAGICK'],
+                   define_name='DCPOMATIC_MAGICKCORE_MAGICKCORE')
+
     # libzip
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
 

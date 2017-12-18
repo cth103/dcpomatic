@@ -25,8 +25,14 @@
 #include <dcp/version.h>
 #include <libssh/libssh.h>
 #ifdef DCPOMATIC_IMAGE_MAGICK
+/* ImageMagick */
+#ifdef DCPOMATIC_MAGICKCORE_MAGICK
 #include <magick/MagickCore.h>
 #else
+#include <MagickCore/MagickCore.h>
+#endif
+#else
+/* GraphicsMagick */
 #include <magick/common.h>
 #include <magick/magick_config.h>
 #endif
