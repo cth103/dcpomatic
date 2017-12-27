@@ -344,3 +344,27 @@ BOOST_AUTO_TEST_CASE (reels_test8)
 	film->make_dcp ();
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
+
+/** Check another reels-wrleated error; make_dcp() would raise a ProgrammingError */
+BOOST_AUTO_TEST_CASE (reels_test9)
+{
+	shared_ptr<Film> film = new_test_film2("reels_test9a");
+	shared_ptr<FFmpegContent> A(new FFmpegContent(film, "test/data/flat_red.png"));
+	film->examine_and_add_content(A);
+	BOOST_REQUIRE(!wait_for_jobs());
+	A->video->set_length(5 * 24);
+	film->make_dcp();
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	shared_ptr<Film> film2 = new_test_film2("reels_test9b");
+	shared_ptr<DCPContent> B(new DCPContent(film2, film->dir(film->dcp_name())));
+	film2->examine_and_add_content(B);
+	film2->examine_and_add_content(content_factory(film, "test/data/dcp_sub4.xml").front());
+	B->set_reference_video(true);
+	B->set_reference_audio(true);
+	BOOST_REQUIRE(!wait_for_jobs());
+	film2->set_reel_type(REELTYPE_BY_VIDEO_CONTENT);
+	film2->write_metadata();
+	film2->make_dcp();
+	BOOST_REQUIRE(!wait_for_jobs());
+}
