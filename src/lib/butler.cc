@@ -37,7 +37,7 @@ using boost::optional;
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10
 /** Maximum video readahead in frames; should never be reached unless there are bugs in Player */
-#define MAXIMUM_VIDEO_READAHEAD 240
+#define MAXIMUM_VIDEO_READAHEAD 24
 /** Minimum audio readahead in frames */
 #define MINIMUM_AUDIO_READAHEAD (48000*5)
 /** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
