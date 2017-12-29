@@ -345,7 +345,7 @@ BOOST_AUTO_TEST_CASE (reels_test8)
 	BOOST_REQUIRE (!wait_for_jobs ());
 }
 
-/** Check another reels-wrleated error; make_dcp() would raise a ProgrammingError */
+/** Check another reels-related error; make_dcp() would raise a ProgrammingError */
 BOOST_AUTO_TEST_CASE (reels_test9)
 {
 	shared_ptr<Film> film = new_test_film2("reels_test9a");
