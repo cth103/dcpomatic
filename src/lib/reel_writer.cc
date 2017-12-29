@@ -530,9 +530,8 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 		return;
 	}
 
-	if (audio) {
-		_sound_asset_writer->write (audio->data(), audio->frames());
-	}
+	DCPOMATIC_ASSERT (audio);
+	_sound_asset_writer->write (audio->data(), audio->frames());
 }
 
 void
