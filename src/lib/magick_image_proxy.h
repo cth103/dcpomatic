@@ -38,6 +38,7 @@ public:
 	void send_binary (boost::shared_ptr<Socket>) const;
 	bool same (boost::shared_ptr<const ImageProxy> other) const;
 	AVPixelFormat pixel_format () const;
+	size_t memory_used () const;
 
 private:
 	Magick::Blob _blob;

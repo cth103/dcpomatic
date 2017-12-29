@@ -91,6 +91,8 @@ public:
 
 	bool same (boost::shared_ptr<const PlayerVideo> other) const;
 
+	size_t memory_used () const;
+
 private:
 	boost::shared_ptr<const ImageProxy> _in;
 	Crop _crop;

@@ -20,6 +20,7 @@
 
 #include "video_ring_buffers.h"
 #include "player_video.h"
+#include "compose.hpp"
 #include <boost/foreach.hpp>
 #include <list>
 #include <iostream>
@@ -28,6 +29,7 @@ using std::list;
 using std::make_pair;
 using std::cout;
 using std::pair;
+using std::string;
 using boost::shared_ptr;
 using boost::optional;
 
@@ -80,4 +82,14 @@ VideoRingBuffers::earliest () const
 	}
 
 	return _data.front().second;
+}
+
+pair<size_t, string>
+VideoRingBuffers::memory_used () const
+{
+	size_t m = 0;
+	for (list<pair<shared_ptr<PlayerVideo>, DCPTime> >::const_iterator i = _data.begin(); i != _data.end(); ++i) {
+		m += i->first->memory_used();
+	}
+	return make_pair(m, String::compose("%1 frames", _data.size()));
 }

@@ -212,3 +212,14 @@ J2KImageProxy::J2KImageProxy (Data data, dcp::Size size, AVPixelFormat pixel_for
 {
 
 }
+
+size_t
+J2KImageProxy::memory_used () const
+{
+	size_t m = _data.size();
+	if (_decompressed) {
+		/* 3 components, 16-bits per pixel */
+		m += 3 * 2 * _decompressed->size().width * _decompressed->size().height;
+	}
+	return m;
+}

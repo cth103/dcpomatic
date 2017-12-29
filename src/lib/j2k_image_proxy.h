@@ -72,6 +72,8 @@ public:
 		return _size;
 	}
 
+	size_t memory_used () const;
+
 private:
 	friend struct client_server_test_j2k;
 

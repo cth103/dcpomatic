@@ -45,6 +45,8 @@ public:
 
 	void disable_audio ();
 
+	std::pair<size_t, std::string> memory_used () const;
+
 private:
 	void thread ();
 	void video (boost::shared_ptr<PlayerVideo> video, DCPTime time);

@@ -39,6 +39,8 @@ public:
 	bool empty () const;
 	boost::optional<DCPTime> earliest () const;
 
+	std::pair<size_t, std::string> memory_used () const;
+
 private:
 	mutable boost::mutex _mutex;
 	std::list<std::pair<boost::shared_ptr<PlayerVideo>, DCPTime> > _data;

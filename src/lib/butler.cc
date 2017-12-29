@@ -29,6 +29,7 @@
 using std::cout;
 using std::pair;
 using std::make_pair;
+using std::string;
 using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::bind;
@@ -39,9 +40,9 @@ using boost::optional;
 /** Maximum video readahead in frames; should never be reached unless there are bugs in Player */
 #define MAXIMUM_VIDEO_READAHEAD 24
 /** Minimum audio readahead in frames */
-#define MINIMUM_AUDIO_READAHEAD (48000*5)
+#define MINIMUM_AUDIO_READAHEAD (48000 * MINIMUM_VIDEO_READAHEAD / 24)
 /** Minimum audio readahead in frames; should never be reached unless there are bugs in Player */
-#define MAXIMUM_AUDIO_READAHEAD (48000*60)
+#define MAXIMUM_AUDIO_READAHEAD (48000 * MAXIMUM_VIDEO_READAHEAD / 24)
 
 #define LOG_WARNING(...) _log->log (String::compose(__VA_ARGS__), LogEntry::TYPE_WARNING);
 
@@ -253,4 +254,11 @@ Butler::disable_audio ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_disable_audio = true;
+}
+
+pair<size_t, string>
+Butler::memory_used () const
+{
+	/* XXX: should also look at _audio.memory_used() */
+	return _video.memory_used();
 }

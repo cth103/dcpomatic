@@ -79,6 +79,7 @@ public:
 	 */
 	virtual void prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const {}
 	virtual AVPixelFormat pixel_format () const = 0;
+	virtual size_t memory_used () const = 0;
 };
 
 boost::shared_ptr<ImageProxy> image_proxy_factory (boost::shared_ptr<cxml::Node> xml, boost::shared_ptr<Socket> socket);

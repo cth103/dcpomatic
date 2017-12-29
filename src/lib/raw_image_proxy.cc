@@ -89,3 +89,9 @@ RawImageProxy::pixel_format () const
 {
 	return _image->pixel_format ();
 }
+
+size_t
+RawImageProxy::memory_used () const
+{
+	return _image->memory_used ();
+}

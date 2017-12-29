@@ -252,3 +252,9 @@ PlayerVideo::prepare ()
 {
 	_in->prepare (_inter_size);
 }
+
+size_t
+PlayerVideo::memory_used () const
+{
+	return _in->memory_used();
+}

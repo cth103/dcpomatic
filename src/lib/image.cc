@@ -1046,3 +1046,13 @@ Image::ensure_aligned (shared_ptr<Image> image)
 
 	return shared_ptr<Image> (new Image (image, true));
 }
+
+size_t
+Image::memory_used () const
+{
+	size_t m = 0;
+	for (int i = 0; i < planes(); ++i) {
+		m += _stride[i] * sample_size(i).height;
+	}
+	return m;
+}

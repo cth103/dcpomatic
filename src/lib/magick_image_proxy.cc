@@ -173,3 +173,13 @@ MagickImageProxy::pixel_format () const
 {
 	return AV_PIX_FMT_RGB24;
 }
+
+size_t
+MagickImageProxy::memory_used () const
+{
+	size_t m = _blob.length();
+	if (_image) {
+		m += _image->memory_used();
+	}
+	return m;
+}

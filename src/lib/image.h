@@ -77,6 +77,8 @@ public:
 		return _pixel_format;
 	}
 
+	size_t memory_used () const;
+
 	static boost::shared_ptr<Image> ensure_aligned (boost::shared_ptr<Image> image);
 
 private:
