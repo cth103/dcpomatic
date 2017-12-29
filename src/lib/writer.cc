@@ -259,16 +259,33 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 			_audio_reel->write (audio);
 			t = end;
 		} else {
-			/* Write the part we can */
-			DCPTime const this_reel = _audio_reel->period().to - t;
-			Frame const this_reel_frames = this_reel.frames_ceil(afr);
-			if (this_reel_frames) {
-				shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), this_reel_frames));
-				part->copy_from (audio.get(), this_reel_frames, DCPTime(t - time).frames_ceil(afr), 0);
+			/* Split the audio into two and write the first part */
+			DCPTime part_lengths[2] = {
+				_audio_reel->period().to - t,
+				end - _audio_reel->period().to
+			};
+
+			Frame part_frames[2] = {
+				part_lengths[0].frames_ceil(afr),
+				part_lengths[1].frames_ceil(afr)
+			};
+
+			if (part_frames[0]) {
+				shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), part_frames[0]));
+				part->copy_from (audio.get(), part_frames[0], 0, 0);
 				_audio_reel->write (part);
 			}
+
+			if (part_frames[1]) {
+				shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), part_frames[1]));
+				part->copy_from (audio.get(), part_frames[1], part_frames[0], 0);
+				audio = part;
+			} else {
+				audio.reset ();
+			}
+
 			++_audio_reel;
-			t += this_reel;
+			t += part_lengths[0];
 		}
 	}
 }
