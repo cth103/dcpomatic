@@ -25,6 +25,7 @@
 #include "lib/text_subtitle_content.h"
 #include "lib/ratio.h"
 #include "lib/transcode_job.h"
+#include "lib/dcp_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -80,6 +81,20 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_subs)
 	shared_ptr<Job> job (new TranscodeJob (film));
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_basic_test_subs.mp4", FFmpegEncoder::FORMAT_H264, false);
 	encoder.go ();
+}
+
+/** Test a bug with export of scope-in-flat DCP content */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_bug_test_scope)
+{
+	shared_ptr<Film> film = new_test_film2("ffmpeg_encoder_bug_test_scope");
+	film->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(film, "test/data/scope_dcp")));
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	film->set_container(Ratio::from_id("185"));
+
+	shared_ptr<Job> job(new TranscodeJob(film));
+	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_bug_test_scope.mp4", FFmpegEncoder::FORMAT_H264, false);
+	encoder.go();
 }
 
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_basic_test_mixdown)
