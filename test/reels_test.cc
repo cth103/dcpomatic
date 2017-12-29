@@ -353,6 +353,7 @@ BOOST_AUTO_TEST_CASE (reels_test9)
 	film->examine_and_add_content(A);
 	BOOST_REQUIRE(!wait_for_jobs());
 	A->video->set_length(5 * 24);
+	film->set_video_frame_rate(24);
 	film->make_dcp();
 	BOOST_REQUIRE(!wait_for_jobs());
 
