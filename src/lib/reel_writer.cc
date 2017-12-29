@@ -69,7 +69,6 @@ ReelWriter::ReelWriter (
 	, _period (period)
 	, _last_written_video_frame (-1)
 	, _last_written_eyes (EYES_RIGHT)
-	, _total_written_audio_frames (0)
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
 	, _content_summary (content_summary)
@@ -534,8 +533,6 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 	if (audio) {
 		_sound_asset_writer->write (audio->data(), audio->frames());
 	}
-
-	_total_written_audio_frames += audio->frames ();
 }
 
 void

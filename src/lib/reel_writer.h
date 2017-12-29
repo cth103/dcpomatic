@@ -72,10 +72,6 @@ public:
 		return _period;
 	}
 
-	int total_written_audio_frames () const {
-		return _total_written_audio_frames;
-	}
-
 	int last_written_video_frame () const {
 		return _last_written_video_frame;
 	}
@@ -107,8 +103,6 @@ private:
 	/** the index of the last written video frame within the reel */
 	int _last_written_video_frame;
 	Eyes _last_written_eyes;
-	/** the number of audio frames that have been written to the reel */
-	int _total_written_audio_frames;
 	/** index of this reel within the DCP (starting from 0) */
 	int _reel_index;
 	/** number of reels in the DCP */

@@ -121,11 +121,10 @@ DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 	_j2k_encoder->encode (data, time);
 }
 
-/** The audio data passed into this method must be contiguous and start from the last accurate seek time */
 void
 DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
-	_writer->write (data);
+	_writer->write (data, time);
 
 	shared_ptr<Job> job = _job.lock ();
 	DCPOMATIC_ASSERT (job);

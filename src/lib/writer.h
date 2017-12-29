@@ -103,7 +103,7 @@ public:
 	void fake_write (Frame, Eyes);
 	bool can_repeat (Frame) const;
 	void repeat (Frame, Eyes);
-	void write (boost::shared_ptr<const AudioBuffers>);
+	void write (boost::shared_ptr<const AudioBuffers>, DCPTime time);
 	void write (PlayerSubtitles subs, DCPTimePeriod period);
 	void write (std::list<boost::shared_ptr<Font> > fonts);
 	void write (ReferencedReelAsset asset);

@@ -231,36 +231,44 @@ Writer::fake_write (Frame frame, Eyes eyes)
 }
 
 /** Write some audio frames to the DCP.
- *  @param audio Audio data or 0 if there is no audio to be written here (i.e. it is referenced).
+ *  @param audio Audio data.
+ *  @param time Time of this data within the DCP.
  *  This method is not thread safe.
  */
 void
-Writer::write (shared_ptr<const AudioBuffers> audio)
+Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 {
+	DCPOMATIC_ASSERT (audio);
+
+	int const afr = _film->audio_frame_rate();
+
+	DCPTime const end = time + DCPTime::from_frames(audio->frames(), afr);
+
 	/* The audio we get might span a reel boundary, and if so we have to write it in bits */
 
-	int32_t offset = 0;
-	while (offset < audio->frames ()) {
+	DCPTime t = time;
+	while (t < end) {
 
 		if (_audio_reel == _reels.end ()) {
 			/* This audio is off the end of the last reel; ignore it */
 			return;
 		}
 
-		int32_t const remaining = audio->frames() - offset;
-		int32_t const reel_space = _audio_reel->period().duration().frames_floor(_film->audio_frame_rate()) - _audio_reel->total_written_audio_frames();
-
-		if (remaining <= reel_space) {
+		if (end <= _audio_reel->period().to) {
 			/* Easy case: we can write all the audio to this reel */
 			_audio_reel->write (audio);
-			offset += remaining;
+			t = end;
 		} else {
 			/* Write the part we can */
-			shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), reel_space));
-			part->copy_from (audio.get(), reel_space, offset, 0);
-			_audio_reel->write (part);
+			DCPTime const this_reel = _audio_reel->period().to - t;
+			Frame const this_reel_frames = this_reel.frames_ceil(afr);
+			if (this_reel_frames) {
+				shared_ptr<AudioBuffers> part (new AudioBuffers (audio->channels(), this_reel_frames));
+				part->copy_from (audio.get(), this_reel_frames, DCPTime(t - time).frames_ceil(afr), 0);
+				_audio_reel->write (part);
+			}
 			++_audio_reel;
-			offset += reel_space;
+			t += this_reel;
 		}
 	}
 }
