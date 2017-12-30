@@ -141,6 +141,27 @@ write_files (list<ScreenKDM> screen_kdms, bool zip, boost::filesystem::path outp
 	}
 }
 
+shared_ptr<Cinema>
+find_cinema (string cinema_name)
+{
+	list<shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
+	list<shared_ptr<Cinema> >::const_iterator i = cinemas.begin();
+	while (
+		i != cinemas.end() &&
+		(*i)->name != cinema_name &&
+		find ((*i)->emails.begin(), (*i)->emails.end(), cinema_name) == (*i)->emails.end()) {
+
+		++i;
+	}
+
+	if (i == cinemas.end ()) {
+		cerr << program_name << ": could not find cinema \"" << cinema_name << "\"\n";
+		exit (EXIT_FAILURE);
+	}
+
+	return *i;
+}
+
 int main (int argc, char* argv[])
 {
 	boost::filesystem::path output;
@@ -300,21 +321,6 @@ int main (int argc, char* argv[])
 		}
 	} else {
 
-		list<shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
-		list<shared_ptr<Cinema> >::const_iterator i = cinemas.begin();
-		while (
-			i != cinemas.end() &&
-			(*i)->name != cinema_name &&
-			find ((*i)->emails.begin(), (*i)->emails.end(), cinema_name) == (*i)->emails.end()) {
-
-			++i;
-		}
-
-		if (i == cinemas.end ()) {
-			cerr << program_name << ": could not find cinema \"" << cinema_name << "\"\n";
-			exit (EXIT_FAILURE);
-		}
-
 		if (output.empty ()) {
 			output = ".";
 		}
@@ -326,7 +332,7 @@ int main (int argc, char* argv[])
 
 		try {
 			list<ScreenKDM> screen_kdms = film->make_kdms (
-				(*i)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
+				find_cinema(cinema_name)->screens(), cpl, valid_from.get(), valid_to.get(), formulation
 				);
 
 			write_files (screen_kdms, zip, output, values, verbose);
