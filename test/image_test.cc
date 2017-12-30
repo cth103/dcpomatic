@@ -255,3 +255,14 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 		BOOST_CHECK_EQUAL (m[(x + 32) * 4 + 3], 255);
 	}
 }
+
+/** Test Image::crop_scale_window with YUV420P and some windowing */
+BOOST_AUTO_TEST_CASE (crop_scale_window_test)
+{
+	shared_ptr<MagickImageProxy> proxy(new MagickImageProxy("test/data/flat_red.png"));
+	shared_ptr<Image> raw = proxy->image();
+	shared_ptr<Image> out = raw->crop_scale_window(Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_YUV420P, true, false);
+	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUV_TO_RGB_REC709, AV_PIX_FMT_RGB24, false, false);
+	write_image(save, "build/test/crop_scale_window_test.png", "RGB");
+	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png");
+}
