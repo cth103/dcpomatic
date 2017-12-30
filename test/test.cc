@@ -236,7 +236,11 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check)
 	ref_image.read (ref.string ());
 	Magick::Image check_image;
 	check_image.read (check.string ());
-	BOOST_CHECK_MESSAGE (ref_image.compare (check_image), ref << " differs from " << check);
+	BOOST_CHECK_MESSAGE (
+		!ref_image.compare(check_image),
+		ref << " differs from " << check << " "
+		    << ref_image.meanErrorPerPixel() << " " << ref_image.normalizedMaxError() << " " << ref_image.normalizedMeanError()
+		);
 }
 
 void
