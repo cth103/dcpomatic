@@ -68,15 +68,16 @@ Image::vertical_factor (int n) const
 int
 Image::horizontal_factor (int n) const
 {
-	int horizontal_factor = 1;
-	if (n > 0) {
-		AVPixFmtDescriptor const * d = av_pix_fmt_desc_get (_pixel_format);
-		if (!d) {
-			throw PixelFormatError ("sample_size()", _pixel_format);
-		}
-		horizontal_factor = pow (2.0f, d->log2_chroma_w);
+	if (n == 0) {
+		return 1;
 	}
-	return horizontal_factor;
+
+	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get(_pixel_format);
+	if (!d) {
+		throw PixelFormatError ("sample_size()", _pixel_format);
+	}
+
+	return pow (2.0f, d->log2_chroma_w);
 }
 
 /** @param n Component index.
